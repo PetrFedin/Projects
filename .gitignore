@@ -1,0 +1,10 @@
+# Backups and logs
+*.bak.tsx
+*.old
+*.tmp
+*.log
+
+# Build artifacts (if not already present)
+.next/
+out/
+build/

@@ -1,0 +1,14 @@
+# Monster and backup files
+synth-1/messages-os.bak.tsx
+synth-1/src/components/home/_fixtures/b2b-data.ts
+synth-1/src/components/syntha-product-card.tsx
+
+# Duplicates
+synth-1/src/components/project-info/product-display/
+synth-1/src/app/b/[brandId]/_components/tabs/ProductsTab.tsx
+
+# General junk
+**/*.bak.*
+**/*.old
+**/*.tmp
+**/*.log
