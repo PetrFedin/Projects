@@ -1,5 +1,17 @@
-# No monsters
+# No monsters & Token Efficiency
 
 - Не увеличивай размер существующих файлов сверх 300 строк.
 - Если файл уже >300 строк — любые новые фичи добавляй только через вынос в новые модули.
 - Если изменение требует правок в большом файле — работай только с диапазонами строк, указанными пользователем.
+- **NEVER read files >500 lines entirely.** Use `grep` or `read_file` with `offset`/`limit`.
+- **STRICTLY PROHIBITED from reading the following files without specific reason:**
+  - `b2b-data.ts`
+  - `syntha-product-card.tsx`
+  - `StylistPanel.tsx`
+  - `ProcurementSection.tsx`
+  - `InteractionMatrix.tsx`
+  - `DashboardTab.tsx`
+  - `ProductsTab.tsx`
+  - `matrix/page.tsx`
+- **Use semantic search (`codebase_search`) FIRST** to find relevant code snippets instead of manually exploring large files.
+- **Prefer `grep` for finding symbol usages** over reading the files where they are used.
