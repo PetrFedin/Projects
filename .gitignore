@@ -3,8 +3,16 @@
 *.old
 *.tmp
 *.log
+dev_server.log
+brace_balance.txt
 
 # Build artifacts (if not already present)
 .next/
 out/
 build/
+
+# pw-demo generated
+pw-demo/playwright-report/
+pw-demo/screenshots/
+pw-demo/scraped-data/
+pw-demo/test-results/

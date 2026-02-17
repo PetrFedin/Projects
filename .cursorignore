@@ -12,3 +12,27 @@ synth-1/src/app/b/[brandId]/_components/tabs/ProductsTab.tsx
 **/*.old
 **/*.tmp
 **/*.log
+
+# Build and generated (no AI context needed)
+synth-1/src/lib/product-attributes.ts
+synth-1/.next/
+**/*.tsbuildinfo
+synth-1/package-lock.json
+
+# Transcripts, dumps, temp (synth-1)
+synth-1/*.txt
+synth-1/*.log
+synth-1/src/components/user/*_temp_*.txt
+
+# Docs and large data (not needed for build/typecheck)
+synth-1/docs/
+synth-1/public/data/*.json
+synth-1/src/data/*.json
+
+# Separate project
+pw-demo/
+
+# Root scripts and junk
+*.py
+dev_server.log
+brace_balance.txt
