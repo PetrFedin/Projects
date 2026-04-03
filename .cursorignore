@@ -1,53 +1,76 @@
-# Monster and backup files
-synth-1/messages-os.bak.tsx
-synth-1/src/components/home/_fixtures/b2b-data.ts
-synth-1/src/components/syntha-product-card.tsx
+# ============================================================
+# Root .cursorignore — минимизация расхода токенов
+# ============================================================
 
-# Duplicates
-synth-1/src/components/project-info/product-display/
-synth-1/src/app/b/[brandId]/_components/tabs/ProductsTab.tsx
-
-# General junk
+# ── Стандартное ──
+**/node_modules/
+.venv/
+.git
+dist
+build
+coverage
+logs
+tmp
+cache
+*.log
+*.csv
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.mp4
+*.zip
 **/*.bak.*
 **/*.old
 **/*.tmp
-**/*.log
+*.txt
 
-# Build and generated (no AI context needed)
-synth-1/src/lib/product-attributes.ts
+# ── Сборка Next.js / фронт-кэши (не исходники) ──
 synth-1/.next/
+**/.next/
+**/out/
+**/.turbo/
+**/.swc/
+**/.vercel/
 **/*.tsbuildinfo
-synth-1/package-lock.json
 
-# Transcripts, dumps, temp (synth-1)
-synth-1/*.txt
-synth-1/*.log
-synth-1/src/components/user/*_temp_*.txt
+# ── Тесты, линтер, отчёты (только артефакты) ──
+**/playwright-report/
+**/test-results/
+**/coverage/
+**/.eslintcache
+**/.parcel-cache/
+**/storybook-static/
 
-# Docs and large data (not needed for build/typecheck)
-synth-1/docs/
-synth-1/public/data/*.json
-synth-1/src/data/*.json
+# ── БД (бинарные файлы, бесполезны для AI) ──
+*.db
 
-# Separate project
-pw-demo/
+# ── AI-артефакты ──
+.ai_context/
+.ai_reports/
 
-# Root scripts and junk
-*.py
-dev_server.log
-brace_balance.txt
-synth-1/src/components/project-info/product-display/page.tsx
-synth-1/src/components/home/sections/ProcurementSection.tsx
-synth-1/src/components/team/interaction/InteractionMatrix.tsx
-synth-1/src/components/ai/StylistPanel.tsx
-synth-1/src/app/project-info/page.tsx
-synth-1/src/app/shop/b2b/matrix/page.tsx
-synth-1/src/app/look-builder/page.tsx
-synth-1/src/app/brands/page.tsx
-synth-1/src/app/u/_components/DashboardTab.tsx
-synth-1/src/components/brand/widget-detail-sheet.tsx
-synth-1/src/components/ai/LookResultCard.tsx
-synth-1/src/components/brand/margin-analysis-dialog.tsx
-synth-1/src/app/b/[brandId]/_components/ProductsTab.tsx
-synth-1/src/app/shop/b2b/margin-analysis/page.tsx
-synth-1/src/components/shop/b2b/margin-analysis/page.tsx
+# ── Пустые MD-файлы (0 строк, только шум) ──
+DEVELOPMENT_PLAN.md
+SESSION_PROTOCOL.md
+CODE_QUALITY_RULES.md
+SELF_IMPROVEMENT.md
+REVIEW_CHECKLIST.md
+MODULE_TEMPLATE.md
+PROMPT_RULES.md
+
+# ── GitHub / CI ──
+.github/
+.pre-commit-config.yaml
+
+# ── Дополнительно: Python/JS артефакты ──
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.mypy_cache
+.ruff_cache
+
+# ── Разовые скрипты ──
+fix_*.py
+move_*.py
+restore_*.py
+replace_*.py

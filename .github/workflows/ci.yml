@@ -1,0 +1,65 @@
+name: Synth-1 CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry ruff mypy pytest pytest-cov
+        poetry install
+
+    - name: Run Ruff
+      run: ruff check app
+
+    - name: Check formatting
+      run: ruff format --check app
+
+    - name: Run Mypy
+      run: mypy app
+
+    - name: Run Tests
+      run: pytest --cov=app tests/
+
+    - name: Pip audit
+      run: pip audit
+
+  synth-1:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: synth-1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: synth-1/package-lock.json
+      - name: Install npm dependencies
+        run: npm ci
+      - name: Regenerate category catalog snapshot
+        run: npm run gen:category-catalog
+      - name: Regenerate TZ leaf requirements matrix
+        run: npm run gen:tz-leaf-requirements
+      - name: Validate category handbook snapshot
+        run: npm run validate:category-handbook
+      - name: Validate JSON Schemas
+        run: npm run schemas:validate
+      - name: Validate schema examples (ajv)
+        run: npm run schemas:validate:examples

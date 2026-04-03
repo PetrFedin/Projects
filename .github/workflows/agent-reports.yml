@@ -1,0 +1,27 @@
+name: Agent Reports (Weekly)
+
+on:
+  schedule:
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+
+jobs:
+  agent-reports:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+      - name: Install
+        run: |
+          pip install poetry radon
+          poetry install --no-interaction
+      - name: Run Agent Runner
+        run: python -m app.agents.agent_runner
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ai-reports
+          path: .ai_reports/
+          retention-days: 30

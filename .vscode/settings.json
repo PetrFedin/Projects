@@ -1,0 +1,40 @@
+{
+  "files.exclude": {
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/out": true,
+    "**/build": true,
+    "**/dist": true,
+    "**/*.db": true,
+    "**/*.log": true,
+    "pw-demo/playwright-report": true,
+    "pw-demo/test-results": true,
+    "pw-demo/screenshots": true
+  },
+  "search.exclude": {
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/out": true,
+    "**/build": true,
+    "**/dist": true,
+    "**/*.db": true,
+    "**/*.log": true,
+    "pw-demo/playwright-report": true,
+    "pw-demo/test-results": true,
+    "pw-demo/screenshots": true
+  },
+  "files.watcherExclude": {
+    "**/.next/**": true,
+    "**/node_modules/**": true,
+    "**/out/**": true,
+    "**/build/**": true,
+    "**/dist/**": true,
+    "**/.turbo/**": true,
+    "**/.swc/**": true,
+    "**/coverage/**": true,
+    "**/playwright-report/**": true,
+    "**/test-results/**": true,
+    "**/.eslintcache": true,
+    "**/.venv/**": true
+  }
+}

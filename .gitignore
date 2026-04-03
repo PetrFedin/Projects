@@ -16,3 +16,21 @@ pw-demo/playwright-report/
 pw-demo/screenshots/
 pw-demo/scraped-data/
 pw-demo/test-results/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+.Python
+
+# Generated / AI artifacts
+.ai_reports/
+.ai_context/
+node_modules/
+
+# Local secrets and dev DB (do not commit)
+.env
+.env.local
+synth1.db
+
