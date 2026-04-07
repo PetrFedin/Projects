@@ -1,0 +1,38 @@
+name: synth-1 CI
+
+on:
+  push:
+    paths:
+      - '**'
+  pull_request:
+    paths:
+      - '**'
+
+defaults:
+  run:
+    working-directory: .
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - name: Regenerate category catalog snapshot
+        run: npm run gen:category-catalog
+      - name: Regenerate TZ leaf requirements matrix
+        run: npm run gen:tz-leaf-requirements
+      - name: Validate category handbook snapshot
+        run: npm run validate:category-handbook
+      - name: Typecheck
+        run: npm run typecheck
+        continue-on-error: true
+      - name: Production build
+        run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: '1'

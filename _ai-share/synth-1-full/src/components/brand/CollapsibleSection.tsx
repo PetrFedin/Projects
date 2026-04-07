@@ -1,0 +1,155 @@
+'use client';
+
+import React, { useState, useEffect, useCallback } from 'react';
+import { ChevronDown, ChevronRight, Pin, PinOff } from 'lucide-react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+
+const STORAGE_KEY = 'brand-section-state';
+
+type SectionState = { pinned: boolean; open: boolean };
+
+function getStoredState(sectionId: string, defaultPinned = true, defaultOpen = true): SectionState {
+  if (typeof window === 'undefined') return { pinned: defaultPinned, open: defaultOpen };
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const all: Record<string, SectionState> = raw ? JSON.parse(raw) : {};
+    const stored = all[sectionId];
+    if (stored) {
+      // Если снят гвоздик — по умолчанию сворачиваем
+      return stored.pinned ? stored : { ...stored, open: false };
+    }
+    return { pinned: defaultPinned, open: defaultOpen };
+  } catch {
+    return { pinned: defaultPinned, open: defaultOpen };
+  }
+}
+
+function saveState(sectionId: string, state: SectionState) {
+  if (typeof window === 'undefined') return;
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const all: Record<string, SectionState> = raw ? JSON.parse(raw) : {};
+    all[sectionId] = state;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+  } catch {
+    // ignore
+  }
+}
+
+export function CollapsibleSection({
+  id,
+  title,
+  barColor = 'bg-indigo-600',
+  children,
+  defaultPinned = true,
+  defaultOpen = true,
+  className,
+  fillHeight = false,
+}: {
+  id: string;
+  title: string;
+  barColor?: string;
+  children: React.ReactNode;
+  defaultPinned?: boolean;
+  defaultOpen?: boolean;
+  className?: string;
+  fillHeight?: boolean;
+}) {
+  const [mounted, setMounted] = useState(false);
+  const [state, setState] = useState<SectionState>(() => 
+    getStoredState(id, defaultPinned, defaultOpen)
+  );
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      setState(getStoredState(id, defaultPinned, defaultOpen));
+    }
+  }, [id, mounted, defaultPinned, defaultOpen]);
+
+  const updateState = useCallback((patch: Partial<SectionState>) => {
+    setState(prev => {
+      const next = { ...prev, ...patch };
+      if (mounted) saveState(id, next);
+      return next;
+    });
+  }, [id, mounted]);
+
+  const toggleOpen = useCallback(() => {
+    updateState({ open: !state.open });
+  }, [state.open, updateState]);
+
+  const togglePin = useCallback(() => {
+    const newPinned = !state.pinned;
+    updateState({
+      pinned: newPinned,
+      // При снятии гвоздика — сворачиваем; при закреплении — оставляем текущее
+      open: newPinned ? state.open : false,
+    });
+  }, [state.pinned, state.open, updateState]);
+
+  const isOpen = state.open;
+  const isPinned = state.pinned;
+
+  return (
+    <Collapsible open={isOpen} onOpenChange={open => updateState({ open })} className={cn(fillHeight ? 'flex flex-col h-full min-h-0' : 'space-y-3', className)}>
+      <div className="flex items-center justify-between gap-3 shrink-0">
+        <CollapsibleTrigger asChild>
+          <button
+            type="button"
+            className="flex items-center gap-2 group hover:opacity-80 transition-opacity text-left min-w-0"
+          >
+            <div className={cn('h-3.5 w-1 rounded-full shrink-0', barColor)} />
+            <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 truncate">
+              {title}
+            </h2>
+            {isOpen ? (
+              <ChevronDown className="h-4 w-4 text-slate-400 shrink-0 ml-1" />
+            ) : (
+              <ChevronRight className="h-4 w-4 text-slate-400 shrink-0 ml-1" />
+            )}
+          </button>
+        </CollapsibleTrigger>
+        <div className="flex items-center gap-1 shrink-0">
+          <Button
+            variant="ghost"
+            size="icon"
+            className={cn(
+              'h-7 w-7 rounded-lg',
+              isPinned ? 'text-indigo-600 hover:text-indigo-700' : 'text-slate-300 hover:text-slate-500'
+            )}
+            onClick={e => {
+              e.preventDefault();
+              e.stopPropagation();
+              togglePin();
+            }}
+            title={isPinned ? 'Закреплено — состояние сохраняется' : 'Закрепить — показывать по умолчанию'}
+          >
+            {isPinned ? <Pin className="h-3.5 w-3.5" /> : <PinOff className="h-3.5 w-3.5" />}
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7 rounded-lg text-slate-400 hover:text-slate-600"
+            onClick={e => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleOpen();
+            }}
+            title={isOpen ? 'Свернуть' : 'Развернуть'}
+          >
+            {isOpen ? <ChevronDown className="h-3.5 w-3.5" /> : <ChevronRight className="h-3.5 w-3.5" />}
+          </Button>
+        </div>
+      </div>
+      <CollapsibleContent className={cn(fillHeight && 'flex-1 min-h-0 flex flex-col')}>
+        <div className={cn('pt-1', fillHeight && 'flex-1 min-h-0 flex flex-col')}>{children}</div>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+}

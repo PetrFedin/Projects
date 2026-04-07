@@ -1,0 +1,167 @@
+'use client';
+
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { ROUTES } from '@/lib/routes';
+
+const BADGE_CLASS = 'text-[9px] h-7';
+
+/** Одна CTA-кнопка в блоках SectionInfoCard. Единый стиль для всех разделов бренда. */
+export function SectionBadgeLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Button variant="outline" size="sm" className={BADGE_CLASS} asChild>
+      <Link href={href}>{children}</Link>
+    </Button>
+  );
+}
+
+/** B2B Заказы, Партнёры, Дистрибьюторы — для Territory и общих B2B-разделов */
+export function B2BOrdersPartnersDistributorsBadges() {
+  return (
+    <>
+      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>B2B Заказы</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.retailers}>Партнёры</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.distributors}>Дистрибьюторы</SectionBadgeLink>
+    </>
+  );
+}
+
+/** Партнёры, Финансы, Дистрибьюторы — для комиссий и финансового контекста */
+export function PartnersFinanceDistributorsBadges() {
+  return (
+    <>
+      <SectionBadgeLink href={ROUTES.brand.retailers}>Партнёры</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.finance}>Финансы</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.distributors}>Дистрибьюторы</SectionBadgeLink>
+    </>
+  );
+}
+
+/** Production, GANTT — для страниц цеха (nesting, worker-skills, daily-output) */
+export function ProductionGanttBadges() {
+  return (
+    <>
+      <SectionBadgeLink href={ROUTES.brand.production}>Production</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.productionGantt}>GANTT</SectionBadgeLink>
+    </>
+  );
+}
+
+/** Шоурум, B2B Заказы, Партнёры, Заявки байеров — для выставок и онбординга */
+export function B2BShowroomPartnersBuyersBadges() {
+  return (
+    <>
+      <SectionBadgeLink href={ROUTES.brand.showroom}>Шоурум</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>B2B Заказы</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.retailers}>Партнёры</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.buyerApplications}>Заявки байеров</SectionBadgeLink>
+    </>
+  );
+}
+
+/** Финансы, Production, B2B Заказы, План vs Факт — для аналитики Phase 2 */
+export function FinanceProductionB2BBudgetBadges() {
+  return (
+    <>
+      <SectionBadgeLink href={ROUTES.brand.finance}>Финансы</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.production}>Production</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>B2B Заказы</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.budgetActual}>План vs Факт</SectionBadgeLink>
+    </>
+  );
+}
+
+/** BI Hub, Финансы — для План vs Факт и аналитики */
+export function FinanceBiHubBadges() {
+  return (
+    <>
+      <SectionBadgeLink href={ROUTES.brand.analyticsBi}>BI Hub</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.finance}>Финансы</SectionBadgeLink>
+    </>
+  );
+}
+
+/** B2B Заказы, Заявки на изменение, Финансы — для согласования заказов */
+export function B2BOrdersAmendmentsFinanceBadges() {
+  return (
+    <>
+      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>B2B Заказы</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.orderAmendments}>Заявки на изменение</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.finance}>Финансы</SectionBadgeLink>
+    </>
+  );
+}
+
+/** B2B Заказы, Согласование заказов — для заявок на изменение */
+export function B2BOrdersApprovalBadges() {
+  return (
+    <>
+      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>B2B Заказы</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.orderApprovalWorkflow}>Согласование заказов</SectionBadgeLink>
+    </>
+  );
+}
+
+/** Поставщики, Финансы — для субподряда и закупок */
+export function ProductionSuppliersFinanceBadges() {
+  return (
+    <>
+      <SectionBadgeLink href={ROUTES.brand.suppliers}>Поставщики</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.finance}>Финансы</SectionBadgeLink>
+    </>
+  );
+}
+
+/** Production, B2B Заказы, Отчёты смен — для GANTT-страницы */
+export function ProductionGanttDailyBadges() {
+  return (
+    <>
+      <SectionBadgeLink href={ROUTES.brand.production}>Production</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>B2B Заказы</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.productionDailyOutput}>Отчёты смен</SectionBadgeLink>
+    </>
+  );
+}
+
+/** Materials, Поставщики — для Supplier RFQ */
+export function MaterialsSuppliersBadges() {
+  return (
+    <>
+      <SectionBadgeLink href={ROUTES.brand.materials}>Materials</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.suppliers}>Поставщики</SectionBadgeLink>
+    </>
+  );
+}
+
+/** Pre-order, B2B Заказы, Планирование — для Pre-Order Quota */
+export function PreOrderQuotaBadges() {
+  return (
+    <>
+      <SectionBadgeLink href={ROUTES.shop.b2bPreOrder}>Pre-order</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>B2B Заказы</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.planning}>Планирование</SectionBadgeLink>
+    </>
+  );
+}
+
+/** BOPIS в магазине, Склад, Возвраты — для BOPIS-хаба */
+export function BopisBadges() {
+  return (
+    <>
+      <SectionBadgeLink href={ROUTES.shop.bopis}>BOPIS в магазине</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.warehouse}>Склад</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.returnsClaims}>Возвраты</SectionBadgeLink>
+    </>
+  );
+}
+
+/** CRM, Заказы, Контент — для Style-Me Upsell */
+export function StyleMeUpsellBadges() {
+  return (
+    <>
+      <SectionBadgeLink href={ROUTES.brand.customerIntelligence}>CRM</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.preOrders}>Заказы</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.contentHub}>Контент</SectionBadgeLink>
+    </>
+  );
+}

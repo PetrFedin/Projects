@@ -1,0 +1,29 @@
+
+[
+  {
+    "id": "upd_urban_shell_fw25_01",
+    "campaignId": "camp_urban_shell_fw25",
+    "authorBrandUserId": "user_001",
+    "title": "Тесты ткани завершены",
+    "body": "Мы получили финальные образцы ткани и протестировали их на водоотталкивание и воздухопроницаемость. Результат — выше ожидаемого, производство стартует по плану.",
+    "media": [
+      {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1591047139829-d919b5ca2332?w=800"
+      }
+    ],
+    "createdAt": "2025-11-15T11:30:00Z",
+    "forBackersOnly": true
+  },
+  {
+    "id": "upd_merino_rollneck_fw25_02",
+    "campaignId": "camp_merino_rollneck_fw25",
+    "authorBrandUserId": "user_002",
+    "title": "Производство на 70%",
+    "body": "Большая часть тиража уже связана и проходит финальный контроль качества. Отгрузку планируем начать после 10 декабря.",
+    "media": [],
+    "createdAt": "2025-11-30T09:45:00Z"
+  }
+]
+
+    

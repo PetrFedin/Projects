@@ -1,0 +1,393 @@
+/**
+ * @file Firestore Security Rules
+ * @description This ruleset enforces a strict user-ownership model for private data,
+ *              allows public read access to certain collections, and restricts
+ *              write access based on user authentication and role.
+ *
+ * Data Structure:
+ * - /users/{userId}: User profiles, accessible only to the user and admins.
+ * - /users/{userId}/cart/{productId}: Cart items, accessible only to the user.
+ * - /users/{userId}/wishlist/{productId}: Wishlist items, accessible only to the user.
+ * - /brands/{brandId}: Brand profiles, accessible to the brand.
+ * - /brands/{brandId}/products/{productId}: Products owned by a brand, accessible to the brand.
+ * - /users/{userId}/orders/{orderId}: Orders placed by a user, accessible only to the user and admins.
+ * - /users/{userId}/lookboards/{lookboardId}: Lookboards created by a user, accessible only to the user.
+ * - /users/{userId}/looks/{lookId}: Looks created by a user, accessible only to the user.
+ * - /dictionaries/sustainability_badges/{sustainabilityBadgeId}: Sustainability badges, publicly accessible.
+ * - /b2b/linesheets/{linesheetId}: B2B linesheets, accessible by the brand and authorized shops.
+ * - /b2b/preorders/{preOrderId}: B2B pre-orders, accessible by the brand, shop, and platform admins.
+ * - /shops/{shopId}: Shop profiles, accessible to the shop.
+ * - /promos/{promoId}: Promotions, publicly accessible, but creation is restricted to admins and brands.
+ * - /roles_admin/{userId}: Admin roles, the existence of this document grants admin privileges to the user.
+ * - /brands/{brandId}/linesheets/{linesheetId}: Linesheets owned by a brand, accessible to the brand and authorized shops.
+ * - /community/looks/{lookId}: Community looks, publicly accessible for viewing, but creation is restricted.
+ *
+ * Key Security Decisions:
+ * - User listing is disallowed to protect user privacy.
+ * - Public read access is granted to the "sustainability_badges", "promos", and "community/looks" collections.
+ * - Strict ownership is enforced for user-specific data.
+ *
+ * Denormalization for Authorization: N/A, the document mentions that denormalization should not be needed, since the path usually provides the ID to secure.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Grants access to user profiles based on ownership.
+     * @path /users/{userId}
+     * @allow (read, write) if the user is the owner of the profile (i.e., request.auth.uid == userId).
+     * @deny (read, write) if the user is not the owner of the profile.
+     * @principle Enforces document ownership for reads and writes.
+     */
+    match /users/{userId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isSignedIn() && request.auth.uid == userId;
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
+
+    /**
+     * @description Grants access to cart items based on ownership.
+     * @path /users/{userId}/cart/{productId}
+     * @allow (read, write) if the user is the owner of the cart (i.e., request.auth.uid == userId).
+     * @deny (read, write) if the user is not the owner of the cart.
+     * @principle Enforces document ownership for reads and writes.
+     */
+    match /users/{userId}/cart/{productId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
+
+    /**
+     * @description Grants access to wishlist items based on ownership.
+     * @path /users/{userId}/wishlist/{productId}
+     * @allow (read, write) if the user is the owner of the wishlist (i.e., request.auth.uid == userId).
+     * @deny (read, write) if the user is not the owner of the wishlist.
+     * @principle Enforces document ownership for reads and writes.
+     */
+    match /users/{userId}/wishlist/{productId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
+
+    /**
+     * @description Grants access to brand profiles based on ownership.
+     * @path /brands/{brandId}
+     * @allow (read, write) if the user is the owner of the brand profile.
+     * @deny (read, write) if the user is not the owner of the brand profile.
+     * @principle Enforces document ownership for reads and writes.
+     */
+    match /brands/{brandId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      //Modify isOwner to ensure auth.uid equals the brandId
+      function isOwner(brandId) {
+        return isSignedIn() && request.auth.uid == brandId;
+      }
+
+      allow get: if true;
+      allow list: if false;
+      allow create: if isSignedIn() && request.resource.data.owner_uid == request.auth.uid; // TODO: Add brand creation logic
+      allow update: if isOwner(brandId); // TODO: Add brand ownership check and update logic
+      allow delete: if isOwner(brandId); // TODO: Add brand ownership check and delete logic
+    }
+
+     /**
+      * @description Grants access to products associated with a brand based on brand ownership.
+      * @path /brands/{brandId}/products/{productId}
+      * @allow (read) if the user is the owner of the brand.
+      * @allow (create, update, delete) if the user is the owner of the brand.
+      * @deny (read, create, update, delete) if the user is not the owner of the brand.
+      * @principle Enforces brand ownership for product management.
+      */
+    match /brands/{brandId}/products/{productId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(brandId) {
+        return isSignedIn() && request.auth.uid == brandId;
+      }
+
+      allow get: if true;
+      allow list: if true;
+      allow create: if isOwner(brandId);
+      allow update: if isOwner(brandId);
+      allow delete: if isOwner(brandId);
+    }
+
+    /**
+     * @description Grants access to user orders based on ownership.
+     * @path /users/{userId}/orders/{orderId}
+     * @allow (read, write) if the user is the owner of the order (i.e., request.auth.uid == userId).
+     * @deny (read, write) if the user is not the owner of the order.
+     * @principle Enforces document ownership for reads and writes.
+     */
+    match /users/{userId}/orders/{orderId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
+
+    /**
+     * @description Grants access to lookboards based on ownership.
+     * @path /users/{userId}/lookboards/{lookboardId}
+     * @allow (read, write) if the user is the owner of the lookboard (i.e., request.auth.uid == userId).
+     * @deny (read, write) if the user is not the owner of the lookboard.
+     * @principle Enforces document ownership for reads and writes.
+     */
+    match /users/{userId}/lookboards/{lookboardId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
+
+    /**
+     * @description Grants access to looks based on ownership.
+     * @path /users/{userId}/looks/{lookId}
+     * @allow (read, write) if the user is the owner of the look (i.e., request.auth.uid == userId).
+     * @deny (read, write) if the user is not the owner of the look.
+     * @principle Enforces document ownership for reads and writes.
+     */
+    match /users/{userId}/looks/{lookId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
+
+    /**
+     * @description Grants public read access to sustainability badges.
+     * @path /dictionaries/sustainability_badges/{sustainabilityBadgeId}
+     * @allow (read) to everyone.
+     * @deny (create, update, delete) to everyone.
+     * @principle Allows public read access.
+     */
+    match /dictionaries/sustainability_badges/{sustainabilityBadgeId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Grants access to B2B linesheets based on brand ownership and authorized shops.
+     * @path /b2b/linesheets/{linesheetId}
+     * @allow (read, write) if the user is the owner of the brand or an authorized shop.
+     * @deny (read, write) if the user is not the owner of the brand or an authorized shop.
+     */
+    match /b2b/linesheets/{linesheetId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      //Modify isOwner to ensure auth.uid equals the brandId
+      function isBrandOwner() {
+        return isSignedIn() && request.auth.uid == request.resource.data.brandId; //Check that the user id is equal to brandID
+      }
+
+      allow get: if isBrandOwner();
+      allow list: if false;
+      allow create: if isBrandOwner(); // TODO: Determine create permissions
+      allow update: if isBrandOwner(); // TODO: Determine update permissions
+      allow delete: if isBrandOwner(); // TODO: Determine delete permissions
+    }
+
+    /**
+     * @description Grants access to B2B pre-orders based on brand, shop, and admin roles.
+     * @path /b2b/preorders/{preOrderId}
+     */
+    match /b2b/preorders/{preOrderId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      //Modify isOwner to ensure auth.uid equals the brandId
+      function isBrandOwner() {
+        return isSignedIn() && request.auth.uid == request.resource.data.brandId; //Check that the user id is equal to brandID
+      }
+
+        function isAdmin() {
+        return exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
+      }
+
+
+      allow get: if isBrandOwner() || isAdmin();
+      allow list: if false;
+      allow create: if isBrandOwner() || isAdmin(); // TODO: Determine create permissions
+      allow update: if isBrandOwner() || isAdmin(); // TODO: Determine update permissions
+      allow delete: if isBrandOwner() || isAdmin(); // TODO: Determine delete permissions
+    }
+
+    /**
+     * @description Grants access to shop profiles based on ownership.
+     * @path /shops/{shopId}
+     * @allow (read, write) if the user is the owner of the shop profile.
+     * @deny (read, write) if the user is not the owner of the shop profile.
+     * @principle Enforces document ownership for reads and writes.
+     */
+    match /shops/{shopId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      //Modify isOwner to ensure auth.uid equals the brandId
+      function isOwner(shopId) {
+        return isSignedIn() && request.auth.uid == shopId;
+      }
+
+      allow get: if true;
+      allow list: if false;
+      allow create: if isSignedIn() && request.resource.data.owner_uid == request.auth.uid; // TODO: Determine create permissions
+      allow update: if isOwner(shopId); // TODO: Determine update permissions
+      allow delete: if isOwner(shopId); // TODO: Determine delete permissions
+    }
+
+    /**
+     * @description Grants public read access to promotions, restricts creation to admins and brands.
+     * @path /promos/{promoId}
+     * @allow (read) to everyone.
+     * @deny (create, update, delete) to everyone except admins and brands.
+     * @principle Allows public read access, restricts write access.
+     */
+    match /promos/{promoId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isAdmin() {
+        return exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
+      }
+
+       function isBrandOwner() {
+        return isSignedIn() && request.auth.uid == request.resource.data.brandId;
+      }
+
+      allow get: if true;
+      allow list: if true;
+      allow create: if isAdmin() || isBrandOwner(); // TODO: refine with brand rule if needed.
+      allow update: if false; // TODO: Determine update permissions
+      allow delete: if false; // TODO: Determine delete permissions
+    }
+
+    /**
+     * @description Grants admin privileges based on the existence of the admin role document.
+     * @path /roles_admin/{userId}
+     * @allow (read, write) if the user is an admin.
+     * @deny (read, write) if the user is not an admin.
+     */
+    match /roles_admin/{userId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+       allow get: if isOwner(userId);
+       allow list: if false;
+       allow create: if request.auth.uid == userId;
+       allow update: if isOwner(userId);
+       allow delete: if isOwner(userId);
+    }
+
+    /**
+     * @description Grants access to linesheets specific to a brand.
+     * @path /brands/{brandId}/linesheets/{linesheetId}
+     */
+    match /brands/{brandId}/linesheets/{linesheetId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(brandId) {
+        return isSignedIn() && request.auth.uid == brandId; // TODO: Determine Brand ownership or use the brandId in the path.
+      }
+
+      allow get: if isOwner(brandId);
+      allow list: if false;
+      allow create: if isOwner(brandId);
+      allow update: if isOwner(brandId);
+      allow delete: if isOwner(brandId);
+    }
+
+    /**
+     * @description Grants public read access to community looks.
+     * @path /community/looks/{lookId}
+     */
+    match /community/looks/{lookId} {
+       function isAdmin() {
+        return exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
+      }
+      allow get: if true;
+      allow list: if true;
+      allow create: if isAdmin(); // TODO: Determine who can create community looks
+      allow update: if false; // TODO: Determine who can update community looks
+      allow delete: if false; // TODO: Determine who can delete community looks
+    }
+  }
+}

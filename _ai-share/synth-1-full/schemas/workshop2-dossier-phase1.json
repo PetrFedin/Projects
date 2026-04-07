@@ -1,0 +1,598 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://synth-1.local/schemas/workshop2-dossier-phase1.json",
+  "title": "Workshop2 Dossier — Phase 1 (описание позиции)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "assignments"],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1,
+      "description": "Версия формата; увеличивать при несовместимых изменениях."
+    },
+    "optionalNote": {
+      "type": "string",
+      "maxLength": 4000,
+      "description": "Дополнительный текст; не заменяет атрибуты."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC."
+    },
+    "updatedBy": {
+      "type": "string",
+      "maxLength": 256,
+      "description": "Пользователь (id или displayName)."
+    },
+    "assignments": {
+      "type": "array",
+      "description": "Одна строка на канонический атрибут; custom_proposed отдельно.",
+      "items": { "$ref": "#/$defs/attributeAssignment" }
+    },
+    "visualReferences": {
+      "type": "array",
+      "maxItems": 15,
+      "description": "Визуальные референсы до согласования ТЗ.",
+      "items": { "$ref": "#/$defs/visualReference" }
+    },
+    "canonicalMainPhotoRefId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Главное фото модели (refId из visualReferences)."
+    },
+    "canonicalMainSketchTarget": {
+      "$ref": "#/$defs/canonicalMainSketchTarget",
+      "description": "Утверждённый скетч: master или лист."
+    },
+    "currentVisualVersionLabel": {
+      "type": "string",
+      "maxLength": 64,
+      "description": "Подпись версии визуала (v3, дата-handoff…)."
+    },
+    "visualVersionLog": {
+      "type": "array",
+      "maxItems": 80,
+      "items": { "$ref": "#/$defs/visualVersionLogEntry" }
+    },
+    "designerIntent": {
+      "$ref": "#/$defs/designerIntentBlock",
+      "description": "Структурированный замысел (mood + тезисы)."
+    },
+    "visualReadinessChecklist": {
+      "$ref": "#/$defs/visualReadinessChecklist",
+      "description": "Чеклист готовности раздела «Визуал»."
+    },
+    "passportVisualSource": {
+      "type": "string",
+      "enum": ["sketch", "reference", "generated"],
+      "description": "Превью в паспорте карточки: эскизы, референсы или сгенерированные фото."
+    },
+    "passportGeneratedImageDataUrls": {
+      "type": "array",
+      "maxItems": 12,
+      "description": "Data URL сгенерированных изображений для паспорта.",
+      "items": { "type": "string" }
+    },
+    "categorySketchImageDataUrl": {
+      "type": "string",
+      "description": "Подложка доски вместо типового скетча (data URL)."
+    },
+    "categorySketchImageFileName": { "type": "string", "maxLength": 512 },
+    "categorySketchAnnotations": {
+      "type": "array",
+      "maxItems": 40,
+      "items": { "$ref": "#/$defs/categorySketchAnnotation" }
+    },
+    "sketchSheets": {
+      "type": "array",
+      "maxItems": 12,
+      "description": "Дополнительные скетч-листы (фас, спина, деталь, фото): подложка и метки.",
+      "items": { "$ref": "#/$defs/sketchSheet" }
+    },
+    "sketchLabelSnapshots": {
+      "type": "array",
+      "maxItems": 20,
+      "description": "История снимков меток (master + листы).",
+      "items": { "$ref": "#/$defs/sketchLabelsSnapshot" }
+    },
+    "sketchPinTemplates": {
+      "type": "array",
+      "maxItems": 24,
+      "description": "Шаблоны наборов меток для повторного применения.",
+      "items": { "$ref": "#/$defs/sketchPinTemplate" }
+    },
+    "isUnisex": {
+      "type": "boolean",
+      "description": "Унисекс-модель в паспорте артикула; по умолчанию false / отсутствует."
+    },
+    "passportProductionBrief": {
+      "$ref": "#/$defs/passportProductionBrief",
+      "description": "Сроки образца/пилота, MOQ, владелец карточки ТЗ, тип запуска и регион пошива (шаг 1 паспорта)."
+    },
+    "sampleProductionChainMode": {
+      "type": "string",
+      "enum": ["rf_sewn", "rf_import_materials", "import_finished", "eaeu_mixed", "non_eaeu"],
+      "description": "Режим цепочки производства для гейта приёмки сэмпла (вкладка Fit)."
+    },
+    "sampleIntakeRelease": {
+      "$ref": "#/$defs/sampleIntakeRelease",
+      "description": "Финальные комплаенс-поля после образца, перед включением в коллекцию."
+    },
+    "sampleBasePerSizePieceQty": {
+      "type": "object",
+      "description": "Количество шт по parameterId строки базового размера.",
+      "additionalProperties": { "type": "integer", "minimum": 0, "maximum": 10000000 }
+    },
+    "materialAlternativeDrafts": {
+      "type": "array",
+      "maxItems": 80,
+      "description": "Черновики альтернатив материала / узла BOM (локально).",
+      "items": { "$ref": "#/$defs/materialAlternativeDraft" }
+    },
+    "bomLineDeltaDrafts": {
+      "type": "array",
+      "maxItems": 120,
+      "description": "Дельта BOM по строкам.",
+      "items": { "$ref": "#/$defs/bomLineDeltaDraft" }
+    },
+    "bomLineCostingHints": {
+      "type": "array",
+      "maxItems": 200,
+      "description": "Costing-подсказки по lineRef.",
+      "items": { "$ref": "#/$defs/bomLineCostingHint" }
+    }
+  },
+  "$defs": {
+    "passportProductionBrief": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "targetSampleOrPilotDate": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Целевая дата образца или пилотной партии (часто YYYY-MM-DD)."
+        },
+        "moqTargetNote": {
+          "type": "string",
+          "maxLength": 512,
+          "description": "Ориентир MOQ или объёма первого запуска."
+        },
+        "moqTargetMaxPieces": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000,
+          "description": "Лимит шт; сумма количеств по строкам табеля базового размера не превышает это значение."
+        },
+        "deadlineCriticality": {
+          "type": "string",
+          "enum": ["hard", "flexible", "tbd"],
+          "description": "Жёсткий дедлайн, гибкий ориентир или пока не определено."
+        },
+        "articleCardOwnerRole": {
+          "type": "string",
+          "enum": ["designer", "product", "technologist", "shared"]
+        },
+        "articleCardOwnerName": { "type": "string", "maxLength": 256 },
+        "plannedLaunchType": {
+          "type": "string",
+          "enum": ["own_floor", "cmt", "mixed", "undecided"],
+          "description": "Своё производство, КНП/подряд, смешанный или ещё не решено."
+        },
+        "sewingRegionPlanNote": {
+          "type": "string",
+          "maxLength": 1024,
+          "description": "Регион или контур пошива для снабжения; не страна происхождения товара."
+        }
+      }
+    },
+    "sampleIntakeRelease": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sewnInRussiaConfirmed": { "type": "boolean" },
+        "countryOfOriginActual": { "type": "string", "maxLength": 512 },
+        "finalTnvedCode": { "type": "string", "maxLength": 64 },
+        "declarationOrCertificateRef": { "type": "string", "maxLength": 1024 },
+        "eanOrBatchCode": { "type": "string", "maxLength": 256 },
+        "markingTraceabilityNote": { "type": "string", "maxLength": 4000 },
+        "technicalRegulationRef": { "type": "string", "maxLength": 1024 },
+        "okpd2Note": { "type": "string", "maxLength": 512 },
+        "actualCompositionNote": { "type": "string", "maxLength": 4000 }
+      }
+    },
+    "tzPanelSectionId": {
+      "type": "string",
+      "enum": ["general", "visuals", "material", "measurements", "construction", "packaging"]
+    },
+    "tzSignoffRouteStageId": {
+      "type": "string",
+      "enum": ["tz", "sample", "supply", "fit", "plan", "release", "qc"]
+    },
+    "visualRefTakeawayAspect": {
+      "type": "string",
+      "enum": ["silhouette", "color", "hardware", "fit", "fabric", "mood", "other"]
+    },
+    "designerIntentBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mood": { "type": "string", "maxLength": 400 },
+        "bullets": {
+          "type": "array",
+          "maxItems": 5,
+          "items": { "type": "string", "maxLength": 500 }
+        }
+      }
+    },
+    "visualReadinessChecklist": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "refsAttached": { "type": "boolean" },
+        "sketchWithPins": { "type": "boolean" },
+        "floorReferenceReady": { "type": "boolean" },
+        "refThreadsResolved": { "type": "boolean" },
+        "canonicalArtifactSet": { "type": "boolean" },
+        "designerIntentFilled": { "type": "boolean" },
+        "versionOrSnapshotRecorded": { "type": "boolean" }
+      }
+    },
+    "visualVersionLogEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entryId", "at", "by", "versionLabel", "changeSummary"],
+      "properties": {
+        "entryId": { "type": "string", "format": "uuid" },
+        "at": { "type": "string", "format": "date-time" },
+        "by": { "type": "string", "maxLength": 256 },
+        "versionLabel": { "type": "string", "maxLength": 120 },
+        "changeSummary": { "type": "string", "maxLength": 4000 }
+      }
+    },
+    "canonicalMainSketchTarget": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind"],
+          "properties": { "kind": { "type": "string", "const": "master" } }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "sheetId"],
+          "properties": {
+            "kind": { "type": "string", "const": "sheet" },
+            "sheetId": { "type": "string", "format": "uuid" }
+          }
+        }
+      ]
+    },
+    "categorySketchAnnotation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["annotationId", "categoryLeafId", "xPct", "yPct", "text"],
+      "properties": {
+        "annotationId": { "type": "string", "format": "uuid" },
+        "categoryLeafId": { "type": "string", "maxLength": 128 },
+        "xPct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "yPct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "text": { "type": "string", "maxLength": 2000 },
+        "linkedTzSectionKey": { "$ref": "#/$defs/tzPanelSectionId" },
+        "linkedRouteStageId": { "$ref": "#/$defs/tzSignoffRouteStageId" },
+        "linkedBomLineRef": { "type": "string", "maxLength": 256 },
+        "linkedMaterialNote": { "type": "string", "maxLength": 2000 }
+      }
+    },
+    "sketchSheet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sheetId", "annotations"],
+      "properties": {
+        "sheetId": { "type": "string", "format": "uuid" },
+        "title": { "type": "string", "maxLength": 256 },
+        "viewKind": {
+          "type": "string",
+          "enum": ["front", "back", "side", "detail", "flat", "photo", "other"]
+        },
+        "imageDataUrl": { "type": "string" },
+        "imageFileName": { "type": "string", "maxLength": 512 },
+        "annotations": {
+          "type": "array",
+          "maxItems": 24,
+          "items": { "$ref": "#/$defs/categorySketchAnnotation" }
+        },
+        "workshopTaskNote": { "type": "string", "maxLength": 4000 },
+        "sheetComment": { "type": "string", "maxLength": 4000 },
+        "sheetWorkflowStatus": {
+          "type": "string",
+          "enum": ["draft", "review", "approved"]
+        },
+        "sheetChecklist": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "substrateConfirmed": { "type": "boolean" },
+            "qcPinsConfirmed": { "type": "boolean" },
+            "workshopTaskConfirmed": { "type": "boolean" }
+          }
+        },
+        "referenceMotionVideoUrl": {
+          "type": "string",
+          "maxLength": 2000,
+          "description": "URL видео-референса; при API — заменяется на media asset id."
+        },
+        "referenceMotionVideoNote": { "type": "string", "maxLength": 2000 }
+      }
+    },
+    "sketchLabelsSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["snapshotId", "at", "by"],
+      "properties": {
+        "snapshotId": { "type": "string", "format": "uuid" },
+        "at": { "type": "string", "format": "date-time" },
+        "by": { "type": "string", "maxLength": 200 },
+        "label": { "type": "string", "maxLength": 200 },
+        "masterAnnotations": {
+          "type": "array",
+          "maxItems": 40,
+          "items": { "$ref": "#/$defs/categorySketchAnnotation" }
+        },
+        "sheets": {
+          "type": "array",
+          "maxItems": 12,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["sheetId", "annotations"],
+            "properties": {
+              "sheetId": { "type": "string", "format": "uuid" },
+              "title": { "type": "string", "maxLength": 256 },
+              "viewKind": {
+                "type": "string",
+                "enum": ["front", "back", "side", "detail", "flat", "photo", "other"]
+              },
+              "annotations": {
+                "type": "array",
+                "maxItems": 24,
+                "items": { "$ref": "#/$defs/categorySketchAnnotation" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "sketchPinTemplate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["templateId", "name", "createdAt", "annotations"],
+      "properties": {
+        "templateId": { "type": "string", "format": "uuid" },
+        "name": { "type": "string", "maxLength": 120 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "viewKind": {
+          "type": "string",
+          "enum": ["front", "back", "side", "detail", "flat", "photo", "other"]
+        },
+        "annotations": {
+          "type": "array",
+          "maxItems": 40,
+          "items": { "$ref": "#/$defs/categorySketchAnnotation" }
+        }
+      }
+    },
+    "visualRefCommentReaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["by", "type"],
+      "properties": {
+        "by": { "type": "string", "maxLength": 256 },
+        "type": { "type": "string", "enum": ["like", "dislike"] }
+      }
+    },
+    "visualRefComment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commentId", "by", "at", "text"],
+      "properties": {
+        "commentId": { "type": "string", "format": "uuid" },
+        "by": { "type": "string", "maxLength": 256 },
+        "at": { "type": "string", "format": "date-time" },
+        "text": { "type": "string", "maxLength": 4000 },
+        "resolved": { "type": "boolean", "description": "Тред по сообщению закрыт командой." },
+        "reactions": {
+          "type": "array",
+          "maxItems": 64,
+          "items": { "$ref": "#/$defs/visualRefCommentReaction" }
+        }
+      }
+    },
+    "visualReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["refId", "title"],
+      "properties": {
+        "refId": { "type": "string", "format": "uuid" },
+        "title": { "type": "string", "maxLength": 256 },
+        "description": { "type": "string", "maxLength": 4000 },
+        "externalUrl": { "type": "string", "maxLength": 2000 },
+        "fileName": { "type": "string", "maxLength": 512 },
+        "mimeType": { "type": "string", "maxLength": 128 },
+        "previewDataUrl": {
+          "type": "string",
+          "description": "data: URL при сохранении в браузере; может отсутствовать если файл слишком большой."
+        },
+        "comments": {
+          "type": "array",
+          "maxItems": 200,
+          "items": { "$ref": "#/$defs/visualRefComment" }
+        },
+        "takeawayAspects": {
+          "type": "array",
+          "maxItems": 8,
+          "items": { "$ref": "#/$defs/visualRefTakeawayAspect" }
+        },
+        "takeawayNote": { "type": "string", "maxLength": 2000 }
+      }
+    },
+    "valueSource": {
+      "type": "string",
+      "enum": ["handbook_parameter", "free_text", "numeric"]
+    },
+    "attributeValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["valueId", "valueSource", "displayLabel"],
+      "properties": {
+        "valueId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Уникален в пределах assignment."
+        },
+        "valueSource": { "$ref": "#/$defs/valueSource" },
+        "parameterId": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Обязателен при handbook_parameter."
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 2000,
+          "description": "При free_text."
+        },
+        "number": {
+          "type": "number",
+          "description": "При numeric."
+        },
+        "displayLabel": {
+          "type": "string",
+          "maxLength": 512,
+          "description": "Снимок подписи для ТЗ и отчётов."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "valueSource": { "const": "handbook_parameter" } },
+            "required": ["valueSource"]
+          },
+          "then": { "required": ["parameterId"] }
+        },
+        {
+          "if": {
+            "properties": { "valueSource": { "const": "free_text" } },
+            "required": ["valueSource"]
+          },
+          "then": { "required": ["text"] }
+        },
+        {
+          "if": {
+            "properties": { "valueSource": { "const": "numeric" } },
+            "required": ["valueSource"]
+          },
+          "then": { "required": ["number"] }
+        }
+      ]
+    },
+    "materialAlternativeDraft": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["altId", "baseLabel", "proposedLabel", "status"],
+      "properties": {
+        "altId": { "type": "string", "maxLength": 64 },
+        "baseLabel": { "type": "string", "maxLength": 512 },
+        "proposedLabel": { "type": "string", "maxLength": 512 },
+        "reason": { "type": "string", "maxLength": 2000 },
+        "status": {
+          "type": "string",
+          "enum": ["proposed", "approved", "rejected", "superseded"]
+        },
+        "decidedAt": { "type": "string", "format": "date-time" },
+        "decidedBy": { "type": "string", "maxLength": 256 }
+      }
+    },
+    "bomLineDeltaDraft": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deltaId", "kind", "lineRef", "field", "beforeLabel", "afterLabel", "at"],
+      "properties": {
+        "deltaId": { "type": "string", "maxLength": 64 },
+        "kind": {
+          "type": "string",
+          "enum": ["tz_baseline", "sample_actual", "production_series"]
+        },
+        "lineRef": { "type": "string", "maxLength": 256 },
+        "field": {
+          "type": "string",
+          "enum": ["material", "qty", "supplier", "color", "other"]
+        },
+        "beforeLabel": { "type": "string", "maxLength": 1024 },
+        "afterLabel": { "type": "string", "maxLength": 1024 },
+        "note": { "type": "string", "maxLength": 2000 },
+        "at": { "type": "string", "format": "date-time" },
+        "by": { "type": "string", "maxLength": 256 }
+      }
+    },
+    "bomLineCostingHint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lineRef"],
+      "properties": {
+        "lineRef": { "type": "string", "maxLength": 256 },
+        "unitHint": { "type": "string", "maxLength": 64 },
+        "qtyPerGarment": { "type": "number", "minimum": 0 },
+        "financeNote": { "type": "string", "maxLength": 2000 }
+      }
+    },
+    "attributeAssignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assignmentId", "kind", "values"],
+      "properties": {
+        "assignmentId": { "type": "string", "format": "uuid" },
+        "kind": {
+          "type": "string",
+          "enum": ["canonical", "custom_proposed"]
+        },
+        "attributeId": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Канонический id из attribute-catalog."
+        },
+        "customProposed": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["label"],
+          "properties": {
+            "label": { "type": "string", "maxLength": 256 },
+            "note": { "type": "string", "maxLength": 2000 }
+          }
+        },
+        "values": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/attributeValue" }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "kind": { "const": "canonical" } },
+            "required": ["kind"]
+          },
+          "then": { "required": ["attributeId"] }
+        },
+        {
+          "if": {
+            "properties": { "kind": { "const": "custom_proposed" } },
+            "required": ["kind"]
+          },
+          "then": { "required": ["customProposed"] }
+        }
+      ]
+    }
+  }
+}

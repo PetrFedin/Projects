@@ -1,0 +1,219 @@
+import { Chat, ChatMessage, Product } from '../types';
+import { buildCalendarUrl } from './calendar-events';
+
+export const initialConversations: Chat[] = [
+    { 
+        id: 'chat_podium', 
+        title: 'Podium', 
+        subtitle: 'Заказ B2B-0012 согласован. Согласование с байером.', 
+        time: '15:35', 
+        participantsCount: 3, 
+        type: 'b2b_orders', 
+        avatar: 'https://picsum.photos/seed/podium-logo/40/40', 
+        isPinned: true,
+        creatorId: 'user_petr',
+        linkOrderId: 'ORD-4521',
+        partnerProfile: 'shop',
+        calendarHref: buildCalendarUrl({ partner: 'Podium', layers: 'orders' }),
+        participants: [
+            { id: 'user_petr', name: 'Petr', role: 'brand', isOnline: true, isAdmin: true },
+            { id: 'user_elena', name: 'Елена (Байер)', role: 'shop', isOnline: true },
+            { id: 'user_anna', name: 'Анна (Менеджер)', role: 'shop', isOnline: false }
+        ]
+    },
+    { 
+        id: 'chat_syntha_support', 
+        title: 'Поддержка Syntha', 
+        subtitle: 'Ваш запрос на продвижение одобрен.', 
+        time: '10:05', 
+        participantsCount: 1, 
+        type: 'admin', 
+        avatar: '/logo_placeholder.svg',
+        creatorId: 'system',
+        participants: [
+            { id: 'system', name: 'Support', role: 'admin', isOnline: true, isAdmin: true }
+        ]
+    },
+    { 
+        id: 'chat_anna_novikova', 
+        title: 'Анна Новикова', 
+        subtitle: 'Спасибо за быструю доставку!', 
+        time: 'вчера', 
+        participantsCount: 1, 
+        type: 'client', 
+        avatar: 'https://picsum.photos/seed/user1/40/40',
+        creatorId: 'user_anna_n',
+        participants: [
+            { id: 'user_anna_n', name: 'Анна Новикова', role: 'client', isOnline: true, isAdmin: true }
+        ]
+    },
+    { 
+        id: 'chat_design_team', 
+        title: 'Команда Дизайна', 
+        subtitle: 'Лекала по новому платью готовы...', 
+        time: 'вчера', 
+        participantsCount: 4, 
+        type: 'team', 
+        avatar: ['https://picsum.photos/seed/team1/40/40', 'https://picsum.photos/seed/team2/40/40'],
+        creatorId: 'user_petr',
+        participants: [
+            { id: 'user_petr', name: 'Petr', role: 'brand', isOnline: true, isAdmin: true },
+            { id: 'user_igor', name: 'Игорь (Дизайнер)', role: 'brand', isOnline: true, isCoAdmin: true },
+            { id: 'user_olga', name: 'Ольга', role: 'brand', isOnline: false },
+            { id: 'user_maxim', name: 'Максим', role: 'brand', isOnline: true }
+        ]
+    },
+    { 
+        id: 'chat_marketing', 
+        title: 'Отдел маркетинга', 
+        subtitle: 'Нужны креативы для новой кампании...', 
+        time: '2 д. назад', 
+        participantsCount: 2, 
+        type: 'team', 
+        avatar: ['https://picsum.photos/seed/marketing-team/40/40', 'https://picsum.photos/seed/marketing-team2/40/40'], 
+        isStarred: true,
+        creatorId: 'user_petr',
+        participants: [
+            { id: 'user_petr', name: 'Petr', role: 'brand', isOnline: true, isAdmin: true },
+            { id: 'user_kate', name: 'Катя', role: 'brand', isOnline: false }
+        ]
+    },
+    { 
+        id: 'chat_fabric_supply', 
+        title: 'Silk Road (Поставка шелка)', 
+        subtitle: 'Контейнер прибыл на таможню.', 
+        time: '12:20', 
+        participantsCount: 2, 
+        type: 'supplier', 
+        avatar: 'https://picsum.photos/seed/silk-road/40/40',
+        creatorId: 'user_sergey',
+        participants: [
+            { id: 'user_sergey', name: 'Сергей (Поставщик)', role: 'supplier', isOnline: true },
+            { id: 'user_andrey', name: 'Андрей (Производство)', role: 'manufacturer', isOnline: true }
+        ]
+    },
+    { 
+        id: 'chat_production_line', 
+        title: 'Цех #4 (Линия 1)', 
+        subtitle: 'Партия Urban Jacket запущена. Согласование с фабрикой.', 
+        time: '11:45', 
+        participantsCount: 3, 
+        type: 'production', 
+        avatar: 'https://picsum.photos/seed/factory/40/40',
+        creatorId: 'user_andrey',
+        linkCollectionId: 'SS26',
+        partnerProfile: 'manufacturer',
+        calendarHref: buildCalendarUrl({ partner: 'Фабрика #4', layers: 'production' }),
+        participants: [
+            { id: 'user_andrey', name: 'Андрей (Мастер)', role: 'manufacturer', isOnline: true },
+            { id: 'user_petr', name: 'Petr', role: 'brand', isOnline: true }
+        ]
+    },
+    { 
+        id: 'chat_ss26_collection', 
+        title: 'Коллекция SS26', 
+        subtitle: 'Обсуждение лекал и сэмплов. Роли: дизайнер, технолог, байер.', 
+        time: '09:20', 
+        participantsCount: 4, 
+        type: 'collections', 
+        avatar: ['https://picsum.photos/seed/ss26/40/40', 'https://picsum.photos/seed/ss26b/40/40'],
+        creatorId: 'user_petr',
+        linkCollectionId: 'SS26',
+        calendarHref: buildCalendarUrl({ collection: 'SS26', layers: 'tasks,content' }),
+        participants: [
+            { id: 'user_petr', name: 'Petr', role: 'brand', isOnline: true, isAdmin: true },
+            { id: 'user_igor', name: 'Игорь (Дизайнер)', role: 'brand', isOnline: true, isCoAdmin: true },
+            { id: 'user_olga', name: 'Ольга (Технолог)', role: 'brand', isOnline: false },
+            { id: 'user_elena', name: 'Елена (Байер Podium)', role: 'shop', isOnline: true }
+        ]
+    },
+    { 
+        id: 'chat_tsum_order', 
+        title: 'ЦУМ — ORD-4420', 
+        subtitle: 'Согласование оплаты Escrow. Срок отгрузки 20.03.', 
+        time: '14:10', 
+        participantsCount: 2, 
+        type: 'b2b_orders', 
+        avatar: 'https://picsum.photos/seed/tsum/40/40',
+        creatorId: 'user_petr',
+        linkOrderId: 'ORD-4420',
+        partnerProfile: 'shop',
+        calendarHref: buildCalendarUrl({ partner: 'ЦУМ', layers: 'finance,orders' }),
+        participants: [
+            { id: 'user_petr', name: 'Petr', role: 'brand', isOnline: true, isAdmin: true },
+            { id: 'user_maria', name: 'Мария (Байер ЦУМ)', role: 'shop', isOnline: true }
+        ]
+    },
+];
+
+export const mockChatHistories: Record<string, ChatMessage[]> = {
+    'chat_podium': [
+        { id: 1, chatId: 'chat_podium', user: 'user_elena', text: 'Здравствуйте! Заказ B2B-0012 получен. Все позиции в наличии для производства. Сроки подтверждаем.', time: '14:30', createdAt: Date.now() - 3600000 * 2, likes: 1, dislikes: 0 },
+        { id: 2, chatId: 'chat_podium', user: 'user_petr', text: 'Спасибо! Подскажите, сможем ли мы получить поставку до 15 сентября?', time: '14:32', createdAt: Date.now() - 3600000 * 1.8, likes: 0, dislikes: 0 },
+        { id: 3, chatId: 'chat_podium', user: 'user_anna', text: 'Да, конечно. Планируем отгрузку на 10 сентября, так что к 15-му все будет у вас.', time: '14:35', createdAt: Date.now() - 3600000 * 1.5, likes: 2, dislikes: 0 },
+        { 
+            id: 4, 
+            chatId: 'chat_podium', 
+            user: 'user_petr', 
+            text: 'Прошу подготовить финальный вариант контракта к завтрашнему дню и проверить качество образцов.', 
+            time: '14:36', 
+            createdAt: Date.now() - 3600000 * 1.4, 
+            type: 'task', 
+            status: 'pending', 
+            priority: 'medium',
+            assignees: ['user_anna'],
+            deadline: new Date(Date.now() + 86400000),
+            widgetTags: ['contract_status', 'qc_summary'],
+            entityId: '4521',
+            entityType: 'order'
+        }
+    ],
+    'chat_syntha_support': [
+        { id: 5, chatId: 'chat_syntha_support', user: 'system', text: 'Здравствуйте! Ваша кампания "Летняя распродажа" прошла модерацию.', time: '10:00', createdAt: Date.now() - 3600000 * 5, likes: 1, dislikes: 0 },
+        {
+            id: 51,
+            chatId: 'chat_syntha_support',
+            user: 'user_petr',
+            text: 'Уточнить статус по маркетингу и анализу спроса.',
+            time: '10:05',
+            createdAt: Date.now() - 3600000 * 4.8,
+            type: 'task',
+            status: 'pending',
+            priority: 'low',
+            widgetTags: ['marketing_roi', 'ai_context']
+        }
+    ],
+    'chat_design_team': [
+        { id: 6, chatId: 'chat_design_team', user: 'user_igor', text: 'Коллеги, посмотрите эскизы.', time: '11:00', createdAt: Date.now() - 86400000, likes: 3, dislikes: 0 },
+        {
+            id: 61,
+            chatId: 'chat_design_team',
+            user: 'user_petr',
+            text: 'Запустить производство первой партии и проверить логистику.',
+            time: '11:05',
+            createdAt: Date.now() - 86400000 + 300000,
+            type: 'task',
+            deadline: new Date(Date.now() + 86400000),
+            widgetTags: ['production_timeline', 'logistics_tracker']
+        }
+    ],
+    'chat_fabric_supply': [
+        { id: 71, chatId: 'chat_fabric_supply', user: 'user_sergey', text: 'Андрей, шелк (артикул SR-22) прошел таможню. Завтра будет на вашем складе.', time: '12:00', createdAt: Date.now() - 3600000 },
+        { id: 72, chatId: 'chat_fabric_supply', user: 'user_andrey', text: 'Отлично, Сергей. Сразу запускаем в раскрой.', time: '12:05', createdAt: Date.now() - 3600000 + 300000 }
+    ],
+    'chat_production_line': [
+        { id: 81, chatId: 'chat_production_line', user: 'user_andrey', text: 'Petr, первая партия Urban Jacket (500 ед) готова на 40%.', time: '11:40', createdAt: Date.now() - 3600000 * 2 },
+        { id: 82, chatId: 'chat_production_line', user: 'user_petr', text: 'Пришлите фото швов и фурнитуры для контроля.', time: '11:45', createdAt: Date.now() - 3600000 * 2 + 300000 }
+    ],
+    'chat_ss26_collection': [
+        { id: 91, chatId: 'chat_ss26_collection', user: 'user_igor', text: 'Лекала Graphene Parka готовы. Отправляю на технолог. ревью.', time: '09:15', createdAt: Date.now() - 3600000 * 3 },
+        { id: 90, chatId: 'chat_ss26_collection', user: 'user_olga', text: 'Предлагаю обсудить этот образец для Podium — фасон и ткань подходят под их линейку.', time: '09:10', createdAt: Date.now() - 3600000 * 3.5, attachedProduct: { id: 'p-graphene', name: 'Graphene Parka SS26', sku: 'SYN-GP-001', slug: 'graphene-parka-ss26', brand: 'Syntha', price: 45000, description: '', category: 'Outerwear', color: 'Black', season: 'SS26', images: [{ id: 'img-1', url: 'https://picsum.photos/seed/graphene/120/160', alt: 'Graphene Parka', hint: 'product', isCover: true }], tags: [] } as Product },
+        { id: 92, chatId: 'chat_ss26_collection', user: 'user_olga', text: 'Размерная сетка согласована. Елена, нужен фидбек по длине рукава для байер-версии.', time: '09:20', createdAt: Date.now() - 3600000 * 2.8 },
+        { id: 93, chatId: 'chat_ss26_collection', user: 'user_elena', text: 'Для Podium предлагаю +2 см к рукаву в размерах M–L. Тренд на oversize держится.', time: '09:25', createdAt: Date.now() - 3600000 * 2.5 }
+    ],
+    'chat_tsum_order': [
+        { id: 101, chatId: 'chat_tsum_order', user: 'user_maria', text: 'Добрый день! Готовы подтвердить оплату через Escrow. Milestone 1 — 30% сегодня.', time: '14:00', createdAt: Date.now() - 3600000, entityId: '4420', entityType: 'escrow' },
+        { id: 102, chatId: 'chat_tsum_order', user: 'user_petr', text: 'Мария, отлично. Мы запускаем производство сразу после подтверждения депозита. Отгрузка 20.03.', time: '14:10', createdAt: Date.now() - 3600000 + 600000 }
+    ]
+};
+

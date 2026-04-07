@@ -1,0 +1,152 @@
+
+[
+  {
+    "id": "brand_syntha_lab",
+    "slug": "syntha-lab",
+    "name": "Syntha Lab",
+    "logo": {
+        "url": "https://picsum.photos/seed/syntha-lab/200/200",
+        "alt": "Syntha Lab Logo",
+        "hint": "abstract logo"
+    },
+    "description": "Нишевый бренд технологичной городской одежды с акцентом на устойчивые материалы и AI-дизайн.",
+    "fullDescription": "Syntha Lab — это лаборатория стиля, где технологии встречаются с высокой модой. Мы создаем одежду будущего, используя инновационные ткани и алгоритмы искусственного интеллекта для идеальной посадки. Каждая вещь в нашей коллекции — это манифест устойчивого развития и функционального минимализма.",
+    "foundedYear": 2023,
+    "countryOfOrigin": "Россия",
+    "city": "Москва",
+    "segment": "Premium / Contemporary",
+    "priceRange": [8000, 95000],
+    "website": "https://www.syntha-lab.ai",
+    "contact": {
+        "publicEmail": "hello@syntha-lab.ai",
+        "phone": "+7 495 123-45-67"
+    },
+    "socials": {
+        "instagram": "https://instagram.com/syntha.lab",
+        "telegram": "https://t.me/syntha_lab",
+        "youtube": "https://youtube.com/syntha_lab"
+    },
+    "tags": ["AI-Design", "Techwear", "Eco-friendly", "Innovation"],
+    "ownerUserId": "user_001",
+    "followers": 15200,
+    "createdAt": "2025-11-01T10:15:00Z",
+    "updatedAt": "2025-11-10T12:00:00Z",
+    "storefrontSettings": {
+        "showPhilosophy": true,
+        "showTechnology": true,
+        "showESG": true,
+        "showReviews": true,
+        "showBehindTheScenes": true,
+        "showBlog": true,
+        "showEvents": true,
+        "showSocialMentions": true,
+        "showLiveShopping": true,
+        "showActivePromo": true
+    },
+    "behindTheScenes": [
+        { "type": "sketch", "imageUrl": "https://images.unsplash.com/photo-1542037104857-e6e23e20e153?w=800", "title": "AI-генерация первых эскизов" },
+        { "type": "fabric", "imageUrl": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800", "title": "Лабораторные тесты мембраны" },
+        { "type": "production", "imageUrl": "https://images.unsplash.com/photo-1534685342213-94268015516a?w=800", "title": "Автоматизированный раскрой" }
+    ],
+    "events": [
+        { "title": "Презентация коллекции Cyber-Zen", "date": "2024-12-05T18:00:00Z", "type": "Прямой эфир" },
+        { "title": "Pop-up в универмаге «Цветной»", "date": "2024-12-15T12:00:00Z", "type": "Офлайн-событие" }
+    ],
+    "activePromo": {
+        "code": "SYNTHA_AI",
+        "description": "Скидка 10% на новинки",
+        "expiry": "до 31.12.2024"
+    },
+    "articles": [
+        { "title": "Как AI помогает создавать идеальные лекала", "date": "2 дня назад", "imageUrl": "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=2072", "type": "blog" },
+        { "title": "Syntha Lab в списке Forbes 'Brand to watch'", "date": "1 неделю назад", "imageUrl": "https://images.unsplash.com/photo-1542037104857-e6e23e20e153?q=80&w=2074", "type": "press" }
+    ],
+    "team": [
+        {
+            "name": "Анна Сергеева",
+            "role": "Основатель и Креативный директор",
+            "bio": "Анна имеет более 10 лет опыта в fashion-индустрии. Она основала Syntha Lab с целью переосмыслить подход к созданию одежды через призму технологий.",
+            "imageUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800",
+            "quote": "Наша миссия — объединить традиции русского ремесла с технологиями будущего."
+        },
+        {
+            "name": "Михаил Волков",
+            "role": "Технический директор (CTO)",
+            "bio": "Михаил отвечает за разработку AI-алгоритмов, которые помогают нам оптимизировать лекала и минимизировать отходы производства.",
+            "imageUrl": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800",
+            "quote": "Технологии должны служить устойчивому развитию моды."
+        }
+    ]
+  },
+  {
+    "id": "brand_nordic_wool",
+    "slug": "nordic-wool",
+    "name": "Nordic Wool",
+    "logo": {
+        "url": "https://picsum.photos/seed/nordic-wool/200/200",
+        "alt": "Nordic Wool Logo",
+        "hint": "wool logo"
+    },
+    "description": "Премиальный российский трикотаж из мериноса и альпаки, вдохновленный эстетикой Русского Севера.",
+    "fullDescription": "Nordic Wool — российский бренд, воспевающий эстетику северного уюта и бескомпромиссного качества. Мы черпаем вдохновение в суровой природе Русского Севера, используя только лучшие натуральные материалы. Наш трикотаж — это тихая роскошь, созданная мастерами в России, которая согревает и служит десятилетиями.",
+    "foundedYear": 2021,
+    "countryOfOrigin": "Россия",
+    "city": "Санкт-Петербург",
+    "segment": "Luxury Heritage",
+    "priceRange": [12000, 120000],
+    "website": "https://www.nordic-wool.com",
+    "contact": {
+        "publicEmail": "care@nordic-wool.com",
+        "phone": "+7 495 765-43-21"
+    },
+    "socials": {
+        "instagram": "https://instagram.com/nordic.wool",
+        "telegram": "https://t.me/nordic_wool"
+    },
+    "tags": ["Merino", "Handmade", "Heritage", "Slow Fashion"],
+    "ownerUserId": "user_002",
+    "followers": 8750,
+    "createdAt": "2025-09-15T09:00:00Z",
+    "updatedAt": "2025-10-01T18:20:00Z",
+    "storefrontSettings": {
+        "showPhilosophy": true,
+        "showTechnology": false,
+        "showESG": true,
+        "showReviews": true,
+        "showBehindTheScenes": true,
+        "showBlog": true,
+        "showEvents": false,
+        "showSocialMentions": true,
+        "showLiveShopping": false,
+        "showActivePromo": true
+    },
+    "behindTheScenes": [
+        { "type": "origin", "imageUrl": "https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?w=800", "title": "Ферма в Исландии" },
+        { "type": "craft", "imageUrl": "https://images.unsplash.com/photo-1584992236310-6edddc08acff?w=800", "title": "Ручная вязка" }
+    ],
+    "activePromo": {
+        "code": "NORDIC_WINTER",
+        "description": "Скидка 15% на первый заказ кашемира",
+        "expiry": "до 15.01.2025"
+    },
+    "articles": [
+        { "title": "История исландской шерсти лопи", "date": "1 месяц назад", "imageUrl": "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?q=80&w=2070", "type": "blog" }
+    ],
+    "team": [
+        {
+            "name": "Елена Морозова",
+            "role": "Основатель и Главный дизайнер",
+            "bio": "Елена выросла в Мурманске и с детства была очарована красотой северной природы. Nordic Wool стал воплощением её мечты о качественной и теплой одежде.",
+            "imageUrl": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800",
+            "quote": "Тихая роскошь Русского Севера в каждой детали."
+        },
+        {
+            "name": "Иван Петров",
+            "role": "Ведущий технолог",
+            "bio": "Иван — эксперт в области натуральных волокон. Он лично контролирует процесс отбора шерсти на фермах и запуск каждой новой коллекции.",
+            "imageUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800",
+            "quote": "Мы не идем на компромиссы в вопросах качества материалов."
+        }
+    ]
+  }
+]

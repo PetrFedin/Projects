@@ -1,0 +1,651 @@
+'use client';
+
+import { ROUTES } from '@/lib/routes';
+import { Handshake, BarChart2, MessageSquare, Users, Briefcase, Edit, 
+    FileText, Percent, RefreshCcw, Calendar, Sigma, Star, DollarSign, 
+    BookText, Store, TrendingUp, Target, Building2, CreditCard, 
+    ShoppingBag, Archive, PlusCircle, Zap, LayoutGrid, Calculator, Map,
+    Search, ShieldAlert, Camera, LayoutDashboard, ShoppingCart, Package,
+    ListOrdered, Settings, Truck, UserPlus, CalendarDays, Ruler, Layers, UserCircle,
+    Gavel, FileSearch, Sparkles
+} from 'lucide-react';
+
+/**
+ * Normalized Shop/Retailer Cabinet Navigation Structure
+ * Based on JOOR/NuOrder logic with clear B2C/B2B separation
+ */
+
+export const shopNavGroups = [
+    {
+        id: 'overview',
+        label: 'Обзор',
+        icon: LayoutDashboard,
+        links: [
+            { 
+                href: ROUTES.shop.home, 
+                value: 'dashboard', 
+                label: 'Дашборд', 
+                icon: LayoutDashboard,
+                description: 'Общая панель управления магазином'
+            },
+        ]
+    },
+    {
+        id: 'retail',
+        label: 'Розничные продажи (B2C)',
+        icon: ShoppingCart,
+        links: [
+            { 
+href: ROUTES.shop.orders,
+                value: 'orders',
+                label: 'Заказы клиентов', 
+                icon: ShoppingCart,
+                description: 'Управление розничными заказами',
+                subsections: [
+                    { href: ROUTES.shop.orders, label: 'Все заказы', value: 'all' },
+                    { href: `${ROUTES.shop.orders}?status=pending`, label: 'В обработке', value: 'pending' },
+                    { href: `${ROUTES.shop.orders}?status=shipped`, label: 'Отправлено', value: 'shipped' },
+                    { href: `${ROUTES.shop.orders}?status=completed`, label: 'Завершено', value: 'completed' }
+                ]
+            },
+            { 
+href: ROUTES.shop.inventory,
+                value: 'inventory',
+                label: 'Склад и остатки', 
+                icon: Package,
+                description: 'Управление складскими остатками',
+                subsections: [
+                    { href: ROUTES.shop.inventory, label: 'Текущие остатки', value: 'current' },
+                    { href: ROUTES.shop.inventoryArchive, label: 'Архив', value: 'archive' }
+                ]
+            },
+            { 
+                href: ROUTES.shop.promotions, 
+                value: 'promotions', 
+                label: 'Акции и скидки', 
+                icon: Percent,
+                description: 'Управление промо-акциями'
+            },
+            { 
+                href: ROUTES.shop.clienteling, 
+                value: 'clienteling', 
+                label: 'Клиентинг', 
+                icon: Users,
+                description: 'CRM для работы с клиентами'
+            },
+            { 
+href: ROUTES.shop.bopis,
+                value: 'bopis',
+                label: 'BOPIS (самовывоз)', 
+                icon: Package,
+                description: 'Выдача интернет-заказов в магазине, ЭДО и маркировка (РФ)'
+            },
+            { 
+                href: ROUTES.shop.stylistTablet, 
+                value: 'stylist-tablet', 
+                label: 'Endless Stylist Tablet', 
+                icon: LayoutGrid,
+                description: 'Сборка образа из каталога на планшете продавца'
+            },
+            { 
+                href: ROUTES.shop.bnpl, 
+                value: 'bnpl', 
+                label: 'Рассрочка на кассе (BNPL)', 
+                icon: CreditCard,
+                description: 'Тинькофф, Сбер и др. на кассе'
+            },
+            { 
+                href: ROUTES.shop.cycleCounting, 
+                value: 'cycle-counting', 
+                label: 'Cycle Counting', 
+                icon: Camera,
+                description: 'Инвентаризация склада через камеру смартфона (~15 мин)'
+            },
+            { 
+                href: ROUTES.shop.localInventoryAds, 
+                value: 'lia', 
+                label: 'Local Inventory Ads', 
+                icon: Map,
+                description: 'Наличие в Google / Yandex Maps'
+            },
+            { 
+                href: ROUTES.shop.endlessAisle, 
+                value: 'endless-aisle', 
+                label: 'Endless Aisle POS', 
+                icon: Package,
+                description: 'Заказ отсутствующего размера со склада бренда из примерочной'
+            },
+            { 
+                href: ROUTES.shop.shipFromStore, 
+                value: 'ship-from-store', 
+                label: 'Ship-from-Store', 
+                icon: Truck,
+                description: 'Отправка онлайн-заказа из ближайшей точки (омниканал)'
+            },
+        ]
+    },
+    {
+        id: 'b2b',
+        label: 'Оптовые закупки (B2B)',
+        icon: Briefcase,
+        links: [
+            { 
+                href: ROUTES.shop.b2bApply, 
+                value: 'b2b-apply', 
+                label: 'Подать заявку', 
+                icon: UserPlus,
+                description: 'Заявка на партнёрство с брендом (JOOR-style Buyer Onboarding)'
+            },
+            {
+                href: ROUTES.shop.b2bTradeShows,
+                value: 'trade-shows',
+                label: 'Мои выставки',
+                icon: CalendarDays,
+                description: 'Виртуальные выставки брендов, на которые вы приглашены',
+                subsections: [
+                    { href: ROUTES.shop.b2bTradeShows, label: 'Календарь', value: 'calendar' },
+                    { href: ROUTES.shop.b2bTradeShowAppointments, label: 'Запись на встречи', value: 'appointments' }
+                ]
+            },
+            { 
+                href: ROUTES.shop.b2bPassport, 
+                value: 'passport', 
+                label: 'Passport выставки', 
+                icon: FileText,
+                description: 'JOOR: портал события — каталог, заказы с выставки'
+            },
+            { 
+                href: ROUTES.shop.b2bDiscover, 
+                value: 'discover', 
+                label: 'Discover (маркетплейс)', 
+                icon: Search,
+                description: 'JOOR: каталог брендов, поиск, запрос доступа'
+            },
+            { 
+                href: ROUTES.shop.b2bPayment, 
+                value: 'payment', 
+                label: 'Оплата заказов', 
+                icon: CreditCard,
+                description: 'JOOR Pay: оплата внутри платформы, по этапам'
+            },
+            { 
+                href: ROUTES.shop.b2b, 
+                value: 'showroom', 
+                label: 'B2B Шоурум', 
+                icon: Store,
+                description: 'Просмотр коллекций брендов'
+            },
+            { 
+                href: ROUTES.shop.b2bOrderMode, 
+                value: 'order-mode', 
+                label: 'Режим заказа (Buy Now / Reorder / Pre-order)', 
+                icon: Zap,
+                description: 'NuOrder-style: один экран выбора типа заказа'
+            },
+            { 
+                href: ROUTES.shop.b2bCreateOrder, 
+                value: 'create-order', 
+                label: 'Написание заказа по коллекции', 
+                icon: Edit,
+                description: 'JOOR: сезон, бренд, коллекция → матрица'
+            },
+            { 
+                href: ROUTES.shop.b2bQuickOrder, 
+                value: 'quick-order', 
+                label: 'Быстрый заказ по артикулам', 
+                icon: Zap,
+                description: 'NuOrder/JOOR: ввод по стилю, размеру, qty → матрица'
+            },
+            { 
+                href: ROUTES.shop.b2bOrderByCollection, 
+                value: 'order-by-collection', 
+                label: 'Заказ по коллекции / лукбуку', 
+                icon: Package,
+                description: 'JOOR: выбор коллекции бренда, затем писать заказ'
+            },
+            { 
+                href: ROUTES.shop.b2bOrderTemplates, 
+                value: 'order-templates', 
+                label: 'Шаблоны заказов', 
+                icon: FileText,
+                description: 'JOOR: сохранённые наборы позиций по коллекции'
+            },
+            { 
+                href: ROUTES.shop.b2bCollaborativeOrder, 
+                value: 'collaborative-order', 
+                label: 'Коллективный заказ', 
+                icon: Users,
+                description: 'JOOR: общий черновик заказа для команды магазина'
+            },
+            { 
+                href: ROUTES.shop.b2bOrderDrafts, 
+                value: 'order-drafts', 
+                label: 'Черновики заказов', 
+                icon: Edit,
+                description: 'JOOR: личные черновики по коллекциям'
+            },
+            { 
+                href: ROUTES.shop.b2bCollectionTerms, 
+                value: 'collection-terms', 
+                label: 'Условия по коллекциям', 
+                icon: Calendar,
+                description: 'JOOR: дедлайны, MOQ, мин. сумма'
+            },
+            { 
+                href: ROUTES.shop.b2bReorder, 
+                value: 'reorder', 
+                label: 'Reorder from history', 
+                icon: RefreshCcw,
+                description: 'Повтор заказа из прошлого сезона (копия + правки)'
+            },
+            { 
+                href: ROUTES.shop.b2bAssortmentPlanning, 
+                value: 'assortment-planning', 
+                label: 'Планирование ассортимента', 
+                icon: LayoutGrid,
+                description: 'Планирование по категориям и бюджету до заказа'
+            },
+            { 
+                href: ROUTES.shop.b2bSelectionBuilder, 
+                value: 'selection-builder', 
+                label: 'Формирование селекции', 
+                icon: Layers,
+                description: 'Сток, бренд-сезон, кросс-бренд — образы, аналитика, AI'
+            },
+            { 
+                href: ROUTES.shop.b2bCatalog, 
+                value: 'catalog', 
+                label: 'Каталог', 
+                icon: Package,
+                description: 'Каталог для оптовых закупок'
+            },
+            { 
+                href: ROUTES.shop.b2bEzOrder, 
+                value: 'ez-order', 
+                label: 'EZ Order (One-Click)', 
+                icon: Zap,
+                description: 'NuOrder: лайншит = форма заказа без матрицы'
+            },
+            { 
+                href: ROUTES.shop.b2bCustomAssortments, 
+                value: 'custom-assortments', 
+                label: 'Custom Assortments', 
+                icon: Layers,
+                description: 'RepSpark: персональный ассортимент под ритейлера'
+            },
+            { 
+                href: ROUTES.shop.b2bSalesRepPortal, 
+                value: 'sales-rep-portal', 
+                label: 'Sales Rep Portal', 
+                icon: UserCircle,
+                description: 'Shopify/Candid: портал для репов и showroom'
+            },
+            { 
+                href: ROUTES.shop.b2bQuoteToOrder, 
+                value: 'quote-to-order', 
+                label: 'Quote-to-Order', 
+                icon: FileText,
+                description: 'NetSuite/BigCommerce: переход от КП к заказу'
+            },
+            { 
+                href: ROUTES.shop.b2bGridOrdering, 
+                value: 'grid-ordering', 
+                label: 'Grid Ordering', 
+                icon: LayoutGrid,
+                description: 'NetSuite: массовое занесение позиций (таблица)'
+            },
+            { 
+                href: ROUTES.shop.b2bWorkingOrder, 
+                value: 'working-order', 
+                label: 'Working Order', 
+                icon: FileText,
+                description: 'NuOrder: экспорт/импорт заказа Excel'
+            },
+            { 
+                href: ROUTES.shop.b2bMatrix, 
+                value: 'matrix', 
+                label: 'Матрица заказов', 
+                icon: Edit,
+                description: 'Быстрое создание заказов'
+            },
+            { 
+                href: ROUTES.shop.b2bWhiteboard, 
+                value: 'whiteboard', 
+                label: 'Визуальная доска', 
+                icon: LayoutGrid,
+                description: 'Визуальное планирование ассортимента'
+            },
+            { 
+                href: ROUTES.shop.b2bLandedCost, 
+                value: 'landed-cost', 
+                label: 'Себестоимость', 
+                icon: Calculator,
+                description: 'Расчет пошлин и логистики'
+            },
+            { 
+                href: ROUTES.shop.b2bPartnersDiscover, 
+                value: 'partners-discover', 
+                label: 'Discovery Radar', 
+                icon: Search,
+                description: 'AI поиск новых брендов'
+            },
+            { 
+                href: ROUTES.shop.b2bStockMap, 
+                value: 'stock-map', 
+                label: 'Global Stock', 
+                icon: Map,
+                description: 'Карта остатков по миру'
+            },
+            { 
+                href: ROUTES.shop.b2bClaims, 
+                value: 'claims', 
+                label: 'RMA & Рекламации', 
+                icon: ShieldAlert,
+                description: 'Управление возвратами'
+            },
+            { 
+                href: ROUTES.shop.b2bOrders, 
+                value: 'b2b-orders', 
+                label: 'B2B Заказы', 
+                icon: ListOrdered,
+                description: 'Оптовые заказы у брендов',
+                subsections: [
+                    { href: ROUTES.shop.b2bOrders, label: 'Все заказы', value: 'all' },
+                    { href: `${ROUTES.shop.b2bOrders}?status=draft`, label: 'Черновики', value: 'draft' },
+                    { href: `${ROUTES.shop.b2bOrders}?status=pending`, label: 'На согласовании', value: 'pending' },
+                    { href: `${ROUTES.shop.b2bOrders}?status=confirmed`, label: 'Подтвержденные', value: 'confirmed' },
+                    { href: `${ROUTES.shop.b2bOrders}?status=shipped`, label: 'В пути', value: 'shipped' }
+                ]
+            },
+            { 
+                href: ROUTES.shop.b2bReplenishment, 
+                value: 'replenishment', 
+                label: 'Автопополнение', 
+                icon: RefreshCcw,
+                description: 'Автоматическое пополнение остатков'
+            },
+            { 
+                href: ROUTES.shop.b2bOrderAnalytics, 
+                value: 'order-analytics', 
+                label: 'Аналитика заказов', 
+                icon: BarChart2,
+                description: 'NuOrder: топ стилей, тренды, сравнение с сезоном'
+            },
+            { 
+                href: ROUTES.shop.b2bFulfillmentDashboard, 
+                value: 'fulfillment-dashboard', 
+                label: 'Fulfillment (ZEOS)', 
+                icon: Truck,
+                description: 'Zalando: каналы исполнения, Replenishment AI'
+            },
+            { 
+                href: ROUTES.shop.b2bMarginReport, 
+                value: 'margin-report', 
+                label: 'Маржа по брендам', 
+                icon: DollarSign,
+                description: 'ASOS: маржа и оборачиваемость'
+            },
+            { 
+                href: ROUTES.shop.b2bSizeMapping, 
+                value: 'size-mapping', 
+                label: 'Маппинг размеров', 
+                icon: Ruler,
+                description: 'ASOS: размер бренда → ритейл'
+            },
+            { 
+                href: ROUTES.shop.b2bMarginCalculator, 
+                value: 'margin-calculator', 
+                label: 'Калькулятор маржи', 
+                icon: Calculator,
+                description: 'NuOrder: маржа в корзине и по заказу'
+            },
+            { 
+                href: ROUTES.shop.b2bMultiCurrency, 
+                value: 'multi-currency', 
+                label: 'Мультивалюта', 
+                icon: DollarSign,
+                description: 'B2B-Center: валюты и курсы (РФ)'
+            },
+            { 
+                href: ROUTES.shop.b2bTenders, 
+                value: 'tenders', 
+                label: 'Тендеры / аукционы', 
+                icon: Gavel,
+                description: 'B2B-Center: закупки через торги (РФ)'
+            },
+            { 
+                href: ROUTES.shop.b2bRfq, 
+                value: 'rfq', 
+                label: 'Запрос котировок (RFQ)', 
+                icon: FileSearch,
+                description: 'Alibaba/OroCommerce: запрос цен у поставщиков'
+            },
+            { 
+                href: ROUTES.shop.b2bSupplierDiscovery, 
+                value: 'supplier-discovery', 
+                label: 'Поиск поставщиков', 
+                icon: Search,
+                description: 'Supl.biz: реестр по гео и категориям (РФ)'
+            },
+            { 
+                href: ROUTES.shop.b2bAiSearch, 
+                value: 'ai-search', 
+                label: 'AI-поиск и рекомендации', 
+                icon: Sparkles,
+                description: 'WizCommerce/Brandboom: персонализация, допродажи'
+            },
+            { 
+                href: ROUTES.shop.b2bAiSmartOrder, 
+                value: 'ai-smart-order', 
+                label: 'AI SmartOrder', 
+                icon: Zap,
+                description: 'OroCommerce: черновик заказа из PDF/email PO'
+            },
+            { 
+                href: ROUTES.shop.b2bVideoConsultation, 
+                value: 'video-consultation', 
+                label: 'Видео-консультация', 
+                icon: MessageSquare,
+                description: 'TSUM/Farfetch: слоты со стилистом, Zoom/Teams'
+            },
+            { 
+                href: ROUTES.shop.b2bVipRoomBooking, 
+                value: 'vip-room-booking', 
+                label: 'VIP Шоурум', 
+                icon: CalendarDays,
+                description: 'TSUM: бронирование приватного шоурума'
+            },
+            { 
+                href: '/s/prive/syntha-fw26-elite', 
+                value: 'le-prive', 
+                label: 'Le Privé (VIP URL)', 
+                icon: Store,
+                description: 'Le New Black: приватный showroom по ссылке'
+            },
+            { 
+                href: ROUTES.shop.b2bScanner, 
+                value: 'scanner', 
+                label: 'Sales App / Сканер', 
+                icon: Camera,
+                description: 'Colect/Le New Black: iPad/телефон — показ и приём заказов'
+            },
+            { 
+                href: ROUTES.shop.b2bDealerCabinet, 
+                value: 'dealer-cabinet', 
+                label: 'Личный кабинет дилера', 
+                icon: LayoutDashboard,
+                description: 'Sellty/Compo: документы, отчёты, аналитика'
+            },
+            { 
+                href: ROUTES.shop.b2bShopifySync, 
+                value: 'shopify-sync', 
+                label: 'Синхронизация (Shopify / 1С)', 
+                icon: Package,
+                description: 'JOOR/NuOrder: заказы и каталог. РФ: 1С, Мой Склад, ЭДО в планах'
+            },
+            { 
+                href: ROUTES.shop.b2bSocialFeed, 
+                value: 'social-feed', 
+                label: 'Лента брендов', 
+                icon: MessageSquare,
+                description: 'Новости коллекций, посты, подписка'
+            },
+            { 
+                href: ROUTES.shop.b2bGamification, 
+                value: 'gamification', 
+                label: 'Челленджи и бейджи', 
+                icon: Star,
+                description: 'Баллы, достижения, скидки для байеров'
+            },
+            { 
+                href: ROUTES.shop.b2bPartnerOnboarding, 
+                value: 'partner-onboarding', 
+                label: 'Онбординг партнёра', 
+                icon: UserPlus,
+                description: 'Zalando: пошаговое подключение к бренду, ИНН, ЭДО'
+            },
+            { 
+                href: ROUTES.storeLocator, 
+                value: 'store-locator', 
+                label: 'Карта магазинов', 
+                icon: Map,
+                description: 'Наличие в точках, часы работы, маршрут (2GIS/Яндекс)'
+            },
+            { 
+                href: ROUTES.shop.b2bTracking, 
+                value: 'tracking', 
+                label: 'Карта поставок', 
+                icon: Map,
+                description: 'Отслеживание грузов на карте'
+            },
+            { 
+                href: ROUTES.shop.b2bBudget, 
+                value: 'budget', 
+                label: 'OTB Бюджет', 
+                icon: DollarSign,
+                description: 'Планирование закупочного бюджета',
+                subsections: [
+                    { href: ROUTES.shop.b2bBudget, label: 'Все сезоны', value: 'all' },
+                    { href: `${ROUTES.shop.b2bBudget}/FW26`, label: 'FW26', value: 'fw26' },
+                    { href: `${ROUTES.shop.b2bBudget}/SS27`, label: 'SS27', value: 'ss27' }
+                ]
+            },
+        ]
+    },
+    {
+        id: 'partners',
+        label: 'Партнеры-бренды',
+        icon: Handshake,
+        links: [
+            { 
+                href: ROUTES.shop.b2bPartners, 
+                value: 'partners', 
+                label: 'Мои бренды', 
+                icon: Handshake,
+                description: 'Управление партнерствами с брендами',
+                subsections: [
+                    { href: ROUTES.shop.b2bPartners, label: 'Все партнеры', value: 'all' },
+                    { href: `${ROUTES.shop.b2bPartners}?status=active`, label: 'Активные', value: 'active' },
+                    { href: ROUTES.shop.b2bPartnersDiscover, label: 'Поиск брендов', value: 'discover' }
+                ]
+            },
+            { 
+                href: ROUTES.shop.b2bContracts, 
+                value: 'contracts', 
+                label: 'Контракты', 
+                icon: FileText,
+                description: 'Договоры с брендами'
+            },
+            { 
+                href: ROUTES.shop.b2bRating, 
+                value: 'rating', 
+                label: 'Рейтинг брендов', 
+                icon: Star,
+                description: 'Оценка и отзывы о брендах'
+            },
+            { 
+                href: ROUTES.shop.b2bDocuments, 
+                value: 'documents', 
+                label: 'Документы', 
+                icon: BookText,
+                description: 'Лайншиты, прайсы, сертификаты'
+            },
+        ]
+    },
+    {
+        id: 'analytics',
+        label: 'Аналитика',
+        icon: BarChart2,
+        links: [
+            { 
+                href: ROUTES.shop.analytics, 
+                value: 'retail-analytics', 
+                label: 'Продажи B2C', 
+                icon: BarChart2,
+                description: 'Аналитика розничных продаж'
+            },
+            { 
+                href: ROUTES.shop.b2bAnalytics, 
+                value: 'b2b-analytics', 
+                label: 'Закупки B2B', 
+                icon: Sigma,
+                description: 'Аналитика оптовых закупок'
+            },
+            { 
+                href: ROUTES.shop.b2bMarginAnalysis, 
+                value: 'margin', 
+                label: 'Анализ маржи', 
+                icon: TrendingUp,
+                description: 'Маржинальность по брендам и категориям'
+            },
+        ]
+    },
+    {
+        id: 'management',
+        label: 'Управление',
+        icon: Settings,
+        links: [
+            { 
+                href: ROUTES.shop.calendar, 
+                value: 'calendar', 
+                label: 'Календарь', 
+                icon: Calendar,
+                description: 'События, дедлайны, поставки'
+            },
+            { 
+                href: ROUTES.shop.messages, 
+                value: 'messages', 
+                label: 'Сообщения', 
+                icon: MessageSquare,
+                description: 'Коммуникация с брендами'
+            },
+            { 
+                href: ROUTES.shop.staff, 
+                value: 'staff', 
+                label: 'Команда', 
+                icon: Users,
+                description: 'Управление сотрудниками'
+            },
+            { 
+                href: ROUTES.shop.b2bSettings, 
+                value: 'settings', 
+                label: 'Настройки', 
+                icon: Settings,
+                description: 'Настройки магазина'
+            },
+        ]
+    },
+];
+
+export const mainShopNavLinks = shopNavGroups.flatMap(g => g.links);
+
+// Helper functions
+export function findShopSubsection(sectionValue: string, subsectionValue: string) {
+    const section = mainShopNavLinks.find(link => link.value === sectionValue);
+    return section?.subsections?.find(sub => sub.value === subsectionValue);
+}
+
+export function getShopSubsections(sectionValue: string) {
+    const section = mainShopNavLinks.find(link => link.value === sectionValue);
+    return section?.subsections || [];
+}

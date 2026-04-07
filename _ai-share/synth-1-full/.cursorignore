@@ -1,0 +1,88 @@
+# ============================================================
+# .cursorignore — Оптимизация расхода токенов
+# Файлы здесь НЕ удаляются, но Cursor не индексирует их.
+# Если нужно поработать с файлом — временно закомментируйте строку.
+# ============================================================
+
+# ── Зависимости и сборка ──
+node_modules/
+.npm/
+.next/
+out/
+build/
+dist/
+.cache/
+.turbo/
+**/.swc/
+**/.eslintcache
+**/playwright-report/
+**/test-results/
+**/coverage/
+tsconfig.tsbuildinfo
+
+# ── Логи и артефакты ──
+*.log
+**/*.bak.*
+**/*.old
+**/*.tmp
+*.txt
+*.bak.tsx
+docs/
+
+# ── Секреты ──
+.env*
+*.pem
+*.key
+
+# ── Системные ──
+.DS_Store
+.idx/
+backup_duplicates/
+
+# ── Данные и БД ──
+*.db
+**/data/*.json
+src/lib/product-attributes.ts
+src/components/home/_fixtures/
+
+# ── AI-контексты ──
+.ai_context/
+.ai_reports/
+
+# ── Старые / неиспользуемые ──
+messages-os.bak.tsx
+
+# ══════════════════════════════════════════════════════════════
+# МОНСТР-ФАЙЛЫ (>800 строк) — редко нужны целиком.
+# Раскомментируйте строку, когда работаете с файлом.
+# ══════════════════════════════════════════════════════════════
+
+# --- 1000+ строк ---
+src/components/syntha-product-card.tsx
+src/components/home/sections/ProcurementSection.tsx
+src/components/team/interaction/InteractionMatrix.tsx
+src/components/ai/StylistPanel.tsx
+src/app/project-info/page.tsx
+src/app/project-info/product-display/page.tsx
+
+# --- 800-1000 строк ---
+src/providers/b2b-state.tsx
+src/app/shop/b2b/matrix/page.tsx
+src/app/academy/page.tsx
+src/app/brands/page.tsx
+src/app/look-builder/page.tsx
+src/components/showroom/ShowroomGrid.tsx
+src/components/brand/widget-detail-sheet.tsx
+src/components/brand/margin-analysis-dialog.tsx
+src/components/ai/LookResultCard.tsx
+src/app/u/_components/DashboardTab.tsx
+src/app/shop/b2b/margin-analysis/page.tsx
+src/components/brand/ceo-report-sheet.tsx
+src/components/brand/blog/BlogManagementPro.tsx
+src/app/brand/kickstarter/[campaignId]/edit/page.tsx
+
+# --- Крупные компоненты home ---
+src/components/home/_components/MediaHubSection.tsx
+src/components/home/_components/EcosystemSection.tsx
+src/components/home/_components/ProductionSection.tsx
+src/components/home/sections/ClientBrandsSection.tsx

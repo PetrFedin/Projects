@@ -1,0 +1,36 @@
+import { Achievement, StaffLeaderboardEntry, Challenge, StaffMemberGamification } from '../types/gamification';
+
+export const MOCK_ACHIEVEMENTS: Achievement[] = [
+  { id: 'a1', title: 'Top Closer', description: 'Закрыл более 50 сделок за месяц', icon: 'Trophy', type: 'sales', points: 500, unlockedAt: '2024-02-15' },
+  { id: 'a2', title: 'Service Master', description: 'Получил 10 отзывов с оценкой 5.0', icon: 'Star', type: 'service', points: 300, unlockedAt: '2024-02-20' },
+  { id: 'a3', title: 'AI Expert', description: 'Прошел курс обучения работе с AI-ассистентом', icon: 'Brain', type: 'training', points: 200 },
+  { id: 'a4', title: 'Team Player', description: 'Помог коллеге завершить сложную продажу', icon: 'Users', type: 'social', points: 150 },
+  { id: 'a5', title: 'Upsell King', description: 'Средний чек на 30% выше среднего по магазину', icon: 'TrendingUp', type: 'sales', points: 400 },
+];
+
+export const MOCK_LEADERBOARD: StaffLeaderboardEntry[] = [
+  { id: 's1', name: 'Анна Кузнецова', avatar: 'https://i.pravatar.cc/150?u=s1', position: 'Старший продавец', points: 2450, salesVolume: 1250000, conversionRate: 18.5, rank: 1, trend: 'up' },
+  { id: 's2', name: 'Игорь Денисов', avatar: 'https://i.pravatar.cc/150?u=s2', position: 'Менеджер зала', points: 2100, salesVolume: 980000, conversionRate: 15.2, rank: 2, trend: 'stable' },
+  { id: 's3', name: 'Мария Сидорова', avatar: 'https://i.pravatar.cc/150?u=s3', position: 'Продавец-консультант', points: 1850, salesVolume: 850000, conversionRate: 14.8, rank: 3, trend: 'up' },
+  { id: 's4', name: 'Павел Волков', avatar: 'https://i.pravatar.cc/150?u=s4', position: 'Продавец-консультант', points: 1200, salesVolume: 620000, conversionRate: 12.1, rank: 4, trend: 'down' },
+];
+
+export const MOCK_CHALLENGES: Challenge[] = [
+  { id: 'c1', title: 'Запуск SS26', description: 'Продать 20 единиц из новой коллекции', target: 20, current: 12, rewardPoints: 1000, endsAt: '2024-03-31', category: 'personal' },
+  { id: 'c2', title: 'Командный дух', description: 'Достичь общего плана продаж магазина на 100%', target: 100, current: 85, rewardPoints: 5000, endsAt: '2024-03-31', category: 'team' },
+  { id: 'c3', title: 'Мастер аксессуаров', description: 'Добавить аксессуар к каждому второму чеку', target: 50, current: 38, rewardPoints: 600, endsAt: '2024-03-15', category: 'personal' },
+];
+
+export const MOCK_STAFF_GAMIFICATION: StaffMemberGamification = {
+  staffId: 's1',
+  totalPoints: 2450,
+  level: 12,
+  nextLevelProgress: 75,
+  achievements: MOCK_ACHIEVEMENTS.slice(0, 3),
+  activeChallenges: MOCK_CHALLENGES.slice(0, 2),
+  history: [
+    { id: 'h1', action: 'Бонус за продажу ORD-4421', points: 50, date: '2024-03-07 14:20' },
+    { id: 'h2', action: 'Достижение "Service Master"', points: 300, date: '2024-03-06 11:15' },
+    { id: 'h3', action: 'Ежедневный вход в систему', points: 10, date: '2024-03-07 09:00' },
+  ]
+};

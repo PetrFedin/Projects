@@ -1,0 +1,30 @@
+node_modules
+.next
+out
+.firebase
+
+.env
+.env.local
+.env.*.local
+
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+.DS_Store
+.vscode
+.idea
+
+# temp / notes / backups
+backup_duplicates/
+*.txt
+*.bak.tsx
+*.old
+*.tmp
+*.log
+temp_*
+tsconfig.tsbuildinfo
+
+# локальные метрики досье Workshop2 (NDJSON)
+data/workshop2-dossier-metrics.ndjson
+data/w2-metrics-archive-state.json

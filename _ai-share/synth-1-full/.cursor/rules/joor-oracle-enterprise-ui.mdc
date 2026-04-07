@@ -1,0 +1,23 @@
+---
+description: JOOR + Oracle enterprise fashion B2B UI — wholesale, planning, dense dashboards.
+globs: ["**/app/**/*.tsx", "**/components/**/*.tsx", "**/design/**/*.md", "**/design/**/*.json"]
+---
+
+# Enterprise fashion UI (JOOR + Oracle)
+
+**Full brief:** `src/design/JOOR_ORACLE_ENTERPRISE_UI.md`  
+**Primitives:** `@/components/design-system` + `src/design/tokens.json`, `STYLE_GUIDE.md`
+
+## Must
+
+- **Dense, operational, restrained** — not playful startup UI. Wholesale (JOOR): clean showroom/linesheet/buyer flows. Dashboards (Oracle): compact KPI, dense tables, planning panels.
+- **Additive only:** preserve routes, navigation, pages, workflows. No redesign from scratch, no random one-off cards.
+- **Stack:** shadcn/ui, Radix, Tailwind, `@tanstack/react-table`, **recharts**, **lucide-react**.
+
+## Layout / components
+
+Use: `PageContainer`, `PageHeader`, `SectionContainer`, `SectionHeader`, `DashboardGrid`, `KPIWidget` / `MetricCard`, `AnalyticsCard`, `ChartCard`, `HistogramCard`, `DataPanel`, `DataTableContainer`, `PlanningPanel` / `PlanningCard`, `CommercePanel`, `FilterToolbar`, `StatusBadge`, `InsightPanel`, `EmptyState`, `LoadingState`, `ErrorState`.
+
+## Short follow-up (apply mentally)
+
+Premium enterprise B2B: compact dashboards, dense analytics tables, planning panels, polished showroom cards, clean KPI widgets — **standardize existing UI**, do not replace the app.

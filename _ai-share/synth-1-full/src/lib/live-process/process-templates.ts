@@ -1,0 +1,140 @@
+import { ROUTES } from '@/lib/routes';
+import type { LiveProcessDefinition, ProcessIndustry, ProcessBusinessType } from './types';
+
+/** Библиотека шаблонов процессов по индустриям и типам бизнеса */
+export const PROCESS_TEMPLATES: Array<{
+  id: string;
+  industry: ProcessIndustry;
+  businessType: ProcessBusinessType;
+  definition: LiveProcessDefinition;
+}> = [
+  {
+    id: 'fast-fashion-production',
+    industry: 'fast_fashion',
+    businessType: 'production',
+    definition: {
+      id: 'fast-fashion-production',
+      name: 'Fast Fashion: производство',
+      description: 'Быстрые циклы, большие объёмы, минимум сэмплов.',
+      contextKey: 'collectionId',
+      stages: [
+        { id: 'brief', title: 'Бриф сезона', description: 'Тренды, объёмы, целевая цена.', area: 'Ассортимент', mandatory: true, dependsOn: [], order: 0, sla: { maxDays: 14, description: 'до 2 недель' } },
+        { id: 'assortment', title: 'Ассортимент и матрица', description: 'SKU, категории, объёмы.', area: 'Ассортимент', mandatory: true, dependsOn: ['brief'], order: 1 },
+        { id: 'tech-pack', title: 'Tech Pack (упрощённый)', description: 'Быстрый техпак без градации.', area: 'Производство', mandatory: true, dependsOn: ['assortment'], order: 2, sla: { maxDays: 5 } },
+        { id: 'samples', title: 'Сэмпл-цикл (Proto → Production)', description: 'Один цикл сэмплов.', area: 'Производство', mandatory: true, dependsOn: ['tech-pack'], order: 3 },
+        { id: 'po', title: 'PO и производство', description: 'Разнарядка, массовое производство.', area: 'Производство', mandatory: true, dependsOn: ['samples'], order: 4, href: ROUTES.brand.productionGantt },
+        { id: 'qc-inline', title: 'In-line QC', description: 'Контроль в процессе производства.', area: 'QC', mandatory: true, dependsOn: ['po'], order: 5 },
+        { id: 'receipt', title: 'Приёмка на склад', description: 'Массовая приёмка.', area: 'Производство', mandatory: true, dependsOn: ['qc-inline'], order: 6 },
+      ],
+      meta: { industry: 'fast_fashion', businessType: 'production', isTemplate: true },
+    },
+  },
+  {
+    id: 'luxury-production',
+    industry: 'luxury',
+    businessType: 'production',
+    definition: {
+      id: 'luxury-production',
+      name: 'Luxury: производство',
+      description: 'Множество сэмплов, ручная работа, Gold Sample.',
+      contextKey: 'collectionId',
+      stages: [
+        { id: 'concept', title: 'Концепция и ДНК', description: 'ДНК бренда, наследие.', area: 'Ассортимент', mandatory: true, dependsOn: [], order: 0 },
+        { id: 'assortment', title: 'Ассортиментная карта', description: 'Капсулы, Limited Edition.', area: 'Ассортимент', mandatory: true, dependsOn: ['concept'], order: 1 },
+        { id: 'costing', title: 'Себестоимость luxury', description: 'Премиальные материалы, маржа.', area: 'Финансы', mandatory: true, dependsOn: ['assortment'], order: 2 },
+        { id: 'tech-pack', title: 'Tech Pack (полный)', description: 'Градация, ручные операции.', area: 'Производство', mandatory: true, dependsOn: ['assortment'], order: 3 },
+        { id: 'proto', title: 'Proto Sample', description: 'Первый образец.', area: 'Производство', mandatory: true, dependsOn: ['tech-pack'], order: 4 },
+        { id: 'fit', title: 'Fit Sample', description: 'Проверка посадки.', area: 'Производство', mandatory: true, dependsOn: ['proto'], order: 5 },
+        { id: 'gold', title: 'Gold Sample', description: 'Эталон для производства.', area: 'Производство', mandatory: true, dependsOn: ['fit'], order: 6, href: ROUTES.brand.productionGoldSample },
+        { id: 'po', title: 'PO', description: 'Заказ на производство.', area: 'Производство', mandatory: true, dependsOn: ['gold', 'costing'], order: 7 },
+        { id: 'qc', title: 'QC (AQL 2.5)', description: 'Строгий контроль.', area: 'QC', mandatory: true, dependsOn: ['po'], order: 8 },
+        { id: 'receipt', title: 'Приёмка', description: 'Приёмка на склад.', area: 'Производство', mandatory: true, dependsOn: ['qc'], order: 9 },
+      ],
+      meta: { industry: 'luxury', businessType: 'production', isTemplate: true },
+    },
+  },
+  {
+    id: 'made-to-order',
+    industry: 'made_to_order',
+    businessType: 'production',
+    definition: {
+      id: 'made-to-order',
+      name: 'Made-to-Order: производство',
+      description: 'Производство под заказ, индивидуальные размеры.',
+      contextKey: 'orderId',
+      stages: [
+        { id: 'order-received', title: 'Заказ принят', description: 'Получение заказа с размерами.', area: 'B2B', mandatory: true, dependsOn: [], order: 0 },
+        { id: 'pattern', title: 'Раскрой по меркам', description: 'Индивидуальная выкройка.', area: 'Производство', mandatory: true, dependsOn: ['order-received'], order: 1 },
+        { id: 'production', title: 'Пошив', description: 'Производство единицы.', area: 'Производство', mandatory: true, dependsOn: ['pattern'], order: 2 },
+        { id: 'qc', title: 'Контроль качества', description: 'Проверка единицы.', area: 'QC', mandatory: true, dependsOn: ['production'], order: 3 },
+        { id: 'shipping', title: 'Отгрузка', description: 'Доставка заказчику.', area: 'Логистика', mandatory: true, dependsOn: ['qc'], order: 4 },
+      ],
+      meta: { industry: 'made_to_order', businessType: 'production', isTemplate: true },
+    },
+  },
+  {
+    id: 'qc-with-branches',
+    industry: 'generic',
+    businessType: 'qc',
+    definition: {
+      id: 'qc-with-branches',
+      name: 'QC с ветвлениями',
+      description: 'QC провален → возврат на исправление.',
+      contextKey: 'orderId',
+      stages: [
+        { id: 'inspection-plan', title: 'План инспекций', description: 'AQL, точки проверки.', area: 'QC', mandatory: true, dependsOn: [], order: 0 },
+        { id: 'final-inspection', title: 'Финальная инспекция', description: 'Проверка партии.', area: 'QC', mandatory: true, dependsOn: ['inspection-plan'], order: 1 },
+        { id: 'protocol', title: 'Протокол', description: 'Оформление результата.', area: 'QC', mandatory: true, dependsOn: ['final-inspection'], order: 2 },
+        {
+          id: 'acceptance-decision',
+          title: 'Приёмка / рекламация',
+          description: 'Решение по результату QC.',
+          area: 'QC',
+          mandatory: true,
+          dependsOn: ['protocol'],
+          order: 3,
+          branches: [
+            { condition: 'qc_passed', targetStageId: 'done', label: 'Принято' },
+            { condition: 'qc_failed', targetStageId: 'fix', label: 'На исправление' },
+          ],
+        },
+        { id: 'fix', title: 'Исправление', description: 'Устранение дефектов.', area: 'Производство', mandatory: true, dependsOn: ['acceptance-decision'], order: 4 },
+        { id: 're-inspection', title: 'Повторная инспекция', description: 'Проверка после исправления.', area: 'QC', mandatory: true, dependsOn: ['fix'], order: 5 },
+        { id: 'done', title: 'Завершено', description: 'Партия принята.', area: 'QC', mandatory: true, dependsOn: ['acceptance-decision', 're-inspection'], order: 6 },
+      ],
+      meta: { industry: 'generic', businessType: 'qc', isTemplate: true },
+    },
+  },
+];
+
+export const INDUSTRY_LABELS: Record<ProcessIndustry, string> = {
+  fast_fashion: 'Fast Fashion',
+  luxury: 'Luxury',
+  made_to_order: 'Made-to-Order',
+  sportswear: 'Sportswear',
+  accessories: 'Accessories',
+  multi_brand: 'Multi-Brand',
+  wholesale: 'Wholesale',
+  generic: 'Универсальный',
+};
+
+export const BUSINESS_TYPE_LABELS: Record<ProcessBusinessType, string> = {
+  production: 'Производство',
+  b2b: 'B2B',
+  logistics: 'Логистика',
+  sourcing: 'Закупки',
+  qc: 'QC',
+  finance: 'Финансы',
+  compliance: 'ЭДО/Маркировка',
+  approval: 'Согласование',
+};
+
+export function getTemplatesByIndustry(industry?: ProcessIndustry): LiveProcessDefinition[] {
+  return PROCESS_TEMPLATES
+    .filter((t) => !industry || t.industry === industry)
+    .map((t) => t.definition);
+}
+
+export function getTemplateById(id: string): LiveProcessDefinition | null {
+  return PROCESS_TEMPLATES.find((t) => t.definition.id === id)?.definition ?? null;
+}

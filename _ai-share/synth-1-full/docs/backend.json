@@ -1,0 +1,471 @@
+
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user of the Syntha AI platform.",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Unique identifier for the user (from Firebase Auth)."
+        },
+        "email": {
+          "type": "string",
+          "description": "User's email address.",
+          "format": "email"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User's display name."
+        },
+        "photoURL": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the user's profile picture."
+        },
+        "isAnonymous": {
+          "type": "boolean"
+        },
+        "roles": {
+          "type": "array",
+          "description": "User's roles (e.g., client, brand, shop, admin, analyst). Managed via Admin Console.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "uid",
+        "email"
+      ]
+    },
+    "Brand": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Brand",
+      "type": "object",
+      "description": "Represents a brand on the Syntha AI platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the brand."
+        },
+        "slug": {
+          "type": "string",
+          "description": "URL-friendly version of the brand name."
+        },
+        "name": {
+          "type": "string",
+          "description": "Brand's name."
+        },
+        "description": {
+          "type": "string",
+          "description": "Brand's description."
+        },
+        "logo": {
+          "type": "object",
+          "properties": {
+            "url": { "type": "string", "format": "uri" },
+            "alt": { "type": "string" },
+            "hint": { "type": "string" }
+          },
+          "required": ["url", "alt"]
+        },
+        "followers": {
+            "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "slug",
+        "name",
+        "description",
+        "logo",
+        "followers"
+      ]
+    },
+    "Product": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Product",
+      "type": "object",
+      "description": "Represents a product in the catalog. Can be a top-level product or a sub-collection under a brand.",
+      "properties": {
+        "id": { "type": "string" },
+        "slug": { "type": "string" },
+        "name": { "type": "string" },
+        "brand": { "type": "string" },
+        "price": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "description": { "type": "string" },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "url": { "type": "string" },
+              "alt": { "type": "string" },
+              "hint": { "type": "string" }
+            },
+            "required": ["id", "url", "alt"]
+          }
+        },
+        "category": { "type": "string" },
+        "sustainability": { "type": "array", "items": { "type": "string" } },
+        "outlet": { "type": "boolean" }
+      },
+      "required": ["id", "slug", "name", "brand", "price", "description", "images", "category"]
+    },
+    "Order": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Order",
+      "type": "object",
+      "description": "Represents a customer order.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the order."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N Order)"
+        },
+        "orderDate": {
+          "type": "string",
+          "description": "Date the order was placed.",
+          "format": "date-time"
+        },
+        "totalAmount": {
+          "type": "number",
+          "description": "Total amount of the order."
+        },
+        "status": {
+          "type": "string",
+          "description": "Order status (e.g., pending, processing, shipped, delivered)."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "orderDate",
+        "totalAmount",
+        "status"
+      ]
+    },
+    "CartItem": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "CartItem",
+      "type": "object",
+      "description": "Represents a single item within a user's shopping cart. It's a denormalized copy of the Product with an added quantity field.",
+      "allOf": [{ "$ref": "#/entities/Product" }],
+      "properties": {
+        "quantity": {
+          "type": "number",
+          "description": "The quantity of the product."
+        }
+      },
+      "required": ["quantity"]
+    },
+    "WishlistItem": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "WishlistItem",
+      "type": "object",
+      "description": "Represents a single item in a user's wishlist. It's a denormalized copy of the Product.",
+      "allOf": [{ "$ref": "#/entities/Product" }]
+    },
+    "Lookboard": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Lookboard",
+      "type": "object",
+      "description": "Represents a user-created lookboard.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the lookboard."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N Lookboard)"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the lookboard."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the lookboard."
+        },
+        "lookIds": {
+          "type": "array",
+          "description": "References to Looks within the lookboard.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "title"
+      ]
+    },
+    "Look": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Look",
+      "type": "object",
+      "description": "Represents a styled outfit or look.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the look."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N Look)"
+        },
+        "productIds": {
+          "type": "array",
+          "description": "References to Products included in the look.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the look's image.",
+          "format": "uri"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the look"
+        }
+      },
+      "required": [
+        "id",
+        "userId"
+      ]
+    },
+    "SustainabilityBadge": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SustainabilityBadge",
+      "type": "object",
+      "description": "Represents a sustainability badge or eco-label.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the sustainability badge."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the sustainability badge (e.g., Organic, Recycled)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the sustainability badge."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the badge's image.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description"
+      ]
+    },
+    "KickstarterCampaign": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "KickstarterCampaign",
+      "type": "object",
+      "description": "Represents a Kickstarter-like campaign for pre-ordering a product.",
+      "properties": {
+        "id": { "type": "string" },
+        "brandId": { "type": "string" },
+        "productId": { "type": "string" },
+        "title": { "type": "string" },
+        "status": { "type": "string", "enum": ["draft", "upcoming", "live", "successful", "failed", "production", "fulfilled", "cancelled"] },
+        "minQuantity": { "type": "number" },
+        "targetQuantity": { "type": "number" },
+        "currentQuantity": { "type": "number" },
+        "currentRevenue": { "type": "number" },
+        "retailPrice": { "type": "number" },
+        "preorderPrice": { "type": "number" },
+        "earlyBirdPrice": { "type": "number" },
+        "earlyBirdLimit": { "type": "number" },
+        "startAt": { "type": "string", "format": "date-time" },
+        "endAt": { "type": "string", "format": "date-time" },
+        "productionStartAt": { "type": "string", "format": "date-time" },
+        "productionEndEstAt": { "type": "string", "format": "date-time" },
+        "description": { "type": "string" },
+        "media": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string", "enum": ["image", "video"] },
+              "url": { "type": "string", "format": "uri" }
+            }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "brandId", "productId", "title", "status", "minQuantity", "targetQuantity", "retailPrice", "preorderPrice", "startAt", "endAt"]
+    },
+    "KickstarterPledge": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "KickstarterPledge",
+      "type": "object",
+      "description": "Represents a single pre-order (pledge) in a campaign.",
+      "properties": {
+        "id": { "type": "string" },
+        "campaignId": { "type": "string" },
+        "userId": { "type": "string" },
+        "brandId": { "type": "string" },
+        "productId": { "type": "string" },
+        "variant": {
+          "type": "object",
+          "properties": {
+            "size": { "type": "string" },
+            "color": { "type": "string" }
+          },
+          "required": ["size", "color"]
+        },
+        "quantity": { "type": "number" },
+        "unitPrice": { "type": "number" },
+        "totalPrice": { "type": "number" },
+        "tier": { "type": "string", "enum": ["early_bird", "preorder", "other"] },
+        "paymentStatus": { "type": "string", "enum": ["pending", "paid", "refunded", "failed"] },
+        "fulfillmentStatus": { "type": "string", "enum": ["pending", "in_production", "shipped", "delivered", "cancelled"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "campaignId", "userId", "productId", "variant", "quantity", "totalPrice", "tier", "paymentStatus", "fulfillmentStatus"]
+    },
+    "KickstarterUpdate": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "KickstarterUpdate",
+      "type": "object",
+      "description": "Represents an update or post for a campaign.",
+      "properties": {
+        "id": { "type": "string" },
+        "campaignId": { "type": "string" },
+        "authorBrandUserId": { "type": "string" },
+        "title": { "type": "string" },
+        "body": { "type": "string" },
+        "media": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string", "enum": ["image", "video"] },
+              "url": { "type": "string", "format": "uri" }
+            }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "campaignId", "authorBrandUserId", "title", "body"]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous",
+      "google.com"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/entities/User"
+          },
+          "description": "Stores user profiles. User data is private and only accessible by the user themselves, and admins.",
+          "subcollections": [
+            {
+              "path": "cart",
+              "entityName": "CartItem",
+              "schema": {
+                "$ref": "#/entities/CartItem"
+              },
+              "description": "Stores individual items in a user's shopping cart."
+            },
+            {
+              "path": "wishlist",
+              "entityName": "WishlistItem",
+              "schema": {
+                "$ref": "#/entities/WishlistItem"
+              },
+              "description": "Stores individual items in a user's wishlist."
+            },
+             {
+              "path": "kickstarterPledges",
+              "entityName": "KickstarterPledge",
+              "schema": {
+                "$ref": "#/entities/KickstarterPledge"
+              },
+              "description": "Stores a user's pre-orders/pledges for Kickstarter campaigns."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/brands/{brandId}",
+        "definition": {
+          "entityName": "Brand",
+          "schema": {
+            "$ref": "#/entities/Brand"
+          },
+          "description": "Stores brand profiles. Brands can manage their profile data."
+        }
+      },
+       {
+        "path": "/products/{productId}",
+        "definition": {
+          "entityName": "Product",
+          "schema": {
+            "$ref": "#/entities/Product"
+          },
+          "description": "Top-level collection for all products, allowing for easier cross-brand queries."
+        }
+      },
+      {
+        "path": "/community/looks/{lookId}",
+        "definition": {
+          "entityName": "Look",
+          "schema": {
+            "$ref": "#/entities/Look"
+          },
+          "description": "Stores community looks. Publicly accessible for viewing, but creation is restricted."
+        }
+      },
+      {
+        "path": "/kickstarterCampaigns/{campaignId}",
+        "definition": {
+          "entityName": "KickstarterCampaign",
+          "schema": {
+            "$ref": "#/entities/KickstarterCampaign"
+          },
+          "description": "Stores all Kickstarter campaigns.",
+          "subcollections": [
+             {
+              "path": "updates",
+              "entityName": "KickstarterUpdate",
+              "schema": {
+                "$ref": "#/entities/KickstarterUpdate"
+              },
+              "description": "Updates posted by the brand for a specific campaign."
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+    

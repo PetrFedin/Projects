@@ -1,0 +1,93 @@
+{
+  "note": "Backup of external image URLs from original placeholder-images.json",
+  "created": "2026-01-06",
+  "placeholderImages": [
+    {
+      "id": "hero-1",
+      "description": "A stylish woman in a modern outfit posing against a minimalist background.",
+      "imageUrl": "https://images.unsplash.com/photo-1613915617430-8ab0fd7c6baf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmYXNoaW9uJTIwbW9kZWx8ZW58MHx8fHwxNzYwNzMxMzIzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fashion model"
+    },
+    {
+      "id": "story-1",
+      "description": "Стиль дня",
+      "imageUrl": "https://images.unsplash.com/photo-1542630994-f2d8bed7de65?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwb3J0cmFpdCUyMHBlcnNvbnxlbnwwfHx8fDE3NjA3MzMwMDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "portrait person",
+      "category": "Новинки"
+    },
+    {
+      "id": "story-2",
+      "description": "Новинки недели",
+      "imageUrl": "https://images.unsplash.com/photo-1708426238272-994fcddabca4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwb3J0cmFpdCUyMHBlcnNvbnxlbnwwfHx8fDE3NjA3MzMwMDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "portrait person",
+      "category": "Новинки"
+    },
+    {
+      "id": "story-3",
+      "description": "За кулисами",
+      "imageUrl": "https://images.unsplash.com/photo-1580893472468-01373fe4c97e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwb3J0cmFpdCUyMHBlcnNvbnxlbnwwfHx8fDE3NjA3MzMwMDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "portrait person",
+      "category": "Интервью"
+    },
+    {
+      "id": "story-4",
+      "description": "Образ от @anna_looks",
+      "imageUrl": "https://images.unsplash.com/photo-1597811815738-7e9e6175a21b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxwb3J0cmFpdCUyMHBlcnNvbnxlbnwwfHx8fDE3NjA3MzMwMDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "portrait person",
+      "category": "Мастер-классы"
+    },
+    {
+      "id": "story-5",
+      "description": "Коллаборация",
+      "imageUrl": "https://images.unsplash.com/photo-1653914900849-beb53df7f5ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwb3J0cmFpdCUyMHBlcnNvbnxlbnwwfHx8fDE3NjA3MzMwMDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "portrait person",
+      "category": "Коллекции"
+    },
+    {
+      "id": "story-6",
+      "description": "Тренды сезона",
+      "imageUrl": "https://images.unsplash.com/photo-1593628525442-f94a810619e0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cG9ydHJhaXQlMjBwZXJzb258ZW58MHx8fHwxNzYwNzMzMDAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "portrait person",
+      "category": "Мастер-классы"
+    },
+    {
+      "id": "live-1",
+      "description": "Презентация новой коллекции",
+      "imageUrl": "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "live shopping",
+      "category": "Новинки"
+    },
+    {
+      "id": "live-2",
+      "description": "Эксклюзивный дроп",
+      "imageUrl": "https://images.unsplash.com/photo-1524638431109-93d95c968f03?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "fashion boutique",
+      "category": "Коллекции"
+    },
+    {
+      "id": "live-3",
+      "description": "Беседы о стиле",
+      "imageUrl": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "fashion model",
+      "category": "Интервью"
+    },
+    {
+      "id": "live-4",
+      "description": "За кулисами съемки",
+      "imageUrl": "https://images.unsplash.com/photo-1575792265055-d499939a3c9b?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "fashion backstage",
+      "category": "Мастер-классы"
+    },
+    {
+      "id": "banner-1",
+      "description": "Promotional Banner",
+      "imageUrl": "https://images.unsplash.com/photo-1603001088226-17762b4ea534?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxzdXN0YWluYWJsZSUyMGZhc2hpb258ZW58MHx8fHwxNzYwNzY2NDA0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "sustainable fashion"
+    }
+  ]
+}
+
+
+
+
+

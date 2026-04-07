@@ -1,0 +1,31 @@
+# Token Economy & AI Safety Rules
+
+## Context Management
+- NEVER rely on automatically opened tabs or "open editors" as your source of truth.
+- ALWAYS explicitly read the files you need using `read_file`.
+- DO NOT analyze or read files that are not directly relevant to the current task.
+- **NEVER read "Monster files" (>500 lines) entirely. Use `grep` or `codebase_search` instead.**
+- **STRICTLY PROHIBITED from reading: `b2b-data.ts`, `syntha-product-card.tsx`, `StylistPanel.tsx`, `ProcurementSection.tsx`, `InteractionMatrix.tsx`.**
+- When searching, use specific `grep` or `Glob` patterns instead of listing huge directories.
+- **NEW: Use @Symbols instead of @Files when possible to reference specific functions/classes rather than entire files.**
+- **NEW: If you need to understand a large file, use `grep` to find specific parts instead of reading the whole file.**
+
+## AI Implementation Rules
+- ALWAYS use `withTokenAudit` wrapper for any new AI flows in `src/ai/flows/`.
+- ALWAYS set `maxOutputTokens` in `ai.definePrompt`.
+- ALWAYS implement input truncation for user-provided strings (use `truncateInput`).
+- ALWAYS limit history/context arrays to a maximum of 5-10 items.
+- NEVER send full stacktraces or database dumps to LLM prompts.
+- Use `summarizeList` for long arrays of data (logs, reviews, products).
+
+## Development Workflow
+- BREAK large tasks into sub-tasks (max 3 files per step).
+- PREFER exact string replacements (`StrReplace`) over full file rewrites.
+- AVOID calling LLM in loops; prefer batch processing or single-call aggregations.
+- If a flow fails, use local fallbacks where possible instead of infinite retries.
+- **NEW: Before implementing a new helper, search if it already exists to avoid duplication and redundant code analysis.**
+
+## Token Usage Monitoring
+- Check console logs for `[TOKEN_AUDIT]` to identify expensive operations.
+- Payload limit: 50KB per request.
+- Default model: `googleai/gemini-1.5-flash` (unless high reasoning/vision is required).

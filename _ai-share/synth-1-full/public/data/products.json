@@ -1,0 +1,293 @@
+[
+  {
+    "id": "1",
+    "slug": "cashmere-crewneck-sweater",
+    "name": "Кашемировый свитер с круглым вырезом",
+    "brand": "Nordic Wool",
+    "price": 24500,
+    "sku": "SYN-K001-BLK",
+    "color": "Черный",
+    "season": "FW24",
+    "tags": [
+      "carryover"
+    ],
+    "description": "Роскошно мягкий свитер из кашемира класса А.",
+    "images": [
+      {
+        "id": "product-1-1",
+        "url": "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80",
+        "alt": "Вязаный свитер"
+      }
+    ],
+    "category": "Трикотаж",
+    "subcategory": "Свитеры",
+    "sizes": [
+      {
+        "name": "XS"
+      },
+      {
+        "name": "S"
+      },
+      {
+        "name": "M"
+      },
+      {
+        "name": "L"
+      },
+      {
+        "name": "XL"
+      }
+    ],
+    "sustainability": [
+      "Переработанные материалы"
+    ],
+    "outlet": false,
+    "hasAR": true,
+    "audience": "Женский",
+    "category_group": "Одежда"
+  },
+  {
+    "id": "2",
+    "slug": "performance-work-pant",
+    "name": "Классические рабочие брюки",
+    "brand": "Syntha Lab",
+    "price": 18500,
+    "sku": "SYN-P002-GRY",
+    "color": "Серый",
+    "season": "FW24",
+    "tags": [
+      "newSeason"
+    ],
+    "description": "Брюки индивидуального покроя из эластичной шерсти.",
+    "images": [
+      {
+        "id": "product-2-1",
+        "url": "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=800&q=80",
+        "alt": "Брюки"
+      }
+    ],
+    "category": "Брюки",
+    "subcategory": "Классические",
+    "sizes": [
+      {
+        "name": "44"
+      },
+      {
+        "name": "46"
+      },
+      {
+        "name": "48"
+      },
+      {
+        "name": "50"
+      },
+      {
+        "name": "52"
+      }
+    ],
+    "sustainability": [
+      "Экологичная ткань"
+    ],
+    "outlet": false,
+    "audience": "Мужской",
+    "category_group": "Одежда"
+  },
+  {
+    "id": "3",
+    "slug": "minimalist-tote-bag",
+    "name": "Минималистичная сумка-тоут",
+    "brand": "Syntha Lab",
+    "price": 14500,
+    "originalPrice": 24500,
+    "sku": "SYN-A003-BRN",
+    "color": "Коричневый",
+    "season": "SS24",
+    "tags": [],
+    "description": "Сумка-тоут из итальянской кожи.",
+    "images": [
+      {
+        "id": "product-3-1",
+        "url": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&q=80",
+        "alt": "Сумка"
+      }
+    ],
+    "category": "Сумки",
+    "outlet": true,
+    "audience": "Женский",
+    "category_group": "Сумки"
+  },
+  {
+    "id": "4",
+    "slug": "silk-midi-dress",
+    "name": "Шелковое платье-миди",
+    "brand": "Nordic Wool",
+    "price": 32500,
+    "sku": "SYN-D004-PNK",
+    "color": "Розовый",
+    "season": "SS24",
+    "tags": [
+      "newSeason"
+    ],
+    "description": "Изящное платье из натурального шелка.",
+    "images": [
+      {
+        "id": "p4-1",
+        "url": "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80",
+        "alt": "Платье"
+      }
+    ],
+    "category": "Платья",
+    "outlet": false,
+    "audience": "Женский",
+    "category_group": "Одежда"
+  },
+  {
+    "id": "5",
+    "slug": "oversized-hoodie-women",
+    "name": "Объемное худи оверсайз",
+    "brand": "Syntha Lab",
+    "price": 8900,
+    "originalPrice": 12900,
+    "sku": "SYN-H005-GRY",
+    "color": "Серый",
+    "season": "All",
+    "tags": [
+      "newSeason"
+    ],
+    "description": "Удобное базовое худи из плотного хлопка.",
+    "images": [
+      {
+        "id": "p5-1",
+        "url": "https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?q=80&w=800",
+        "alt": "Худи"
+      }
+    ],
+    "category": "Трикотаж",
+    "outlet": true,
+    "audience": "Женский",
+    "category_group": "Одежда"
+  },
+  {
+    "id": "6",
+    "slug": "tech-anorak-men",
+    "name": "Технологичный анорак",
+    "brand": "Syntha Lab",
+    "price": 28000,
+    "originalPrice": 42000,
+    "sku": "SYN-J006-BLK",
+    "color": "Черный",
+    "season": "FW24",
+    "tags": [
+      "newSeason"
+    ],
+    "description": "Водонепроницаемый анорак для городских условий.",
+    "images": [
+      {
+        "id": "p6-1",
+        "url": "https://images.unsplash.com/photo-1504191467641-2815d8593e07?q=80&w=800",
+        "alt": "Анорак"
+      }
+    ],
+    "category": "Верхняя одежда",
+    "outlet": true,
+    "audience": "Мужской",
+    "category_group": "Одежда"
+  },
+  {
+    "id": "7",
+    "slug": "kids-tech-hoodie",
+    "name": "Детское технологичное худи",
+    "brand": "Syntha Lab",
+    "price": 6500,
+    "sku": "SYN-K007-BLU",
+    "color": "Синий",
+    "season": "All",
+    "tags": [
+      "newSeason"
+    ],
+    "description": "Теплое и прочное худи для активных детей.",
+    "images": [
+      {
+        "id": "p7-1",
+        "url": "https://images.unsplash.com/photo-1519457431-7571f018274b?w=800&q=80",
+        "alt": "Детское худи"
+      }
+    ],
+    "category": "Детям",
+    "outlet": false,
+    "audience": "Детский",
+    "category_group": "Одежда"
+  },
+  {
+    "id": "8",
+    "slug": "acetate-sunglasses-tortoise",
+    "name": "Солнцезащитные очки ацетат",
+    "brand": "Syntha Atelier",
+    "price": 12900,
+    "sku": "SYN-E008-TOR",
+    "color": "Черепаховый",
+    "season": "SS24",
+    "tags": [
+      "newSeason"
+    ],
+    "description": "Классическая оправа из ацетата с поляризационными линзами.",
+    "images": [
+      {
+        "id": "p8-1",
+        "url": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800&q=80",
+        "alt": "Очки"
+      }
+    ],
+    "category": "Аксессуары",
+    "subcategory": "Очки",
+    "sizes": [
+      {
+        "name": "One Size"
+      }
+    ],
+    "sustainability": [],
+    "outlet": false,
+    "audience": "Унисекс",
+    "category_group": "Аксессуары",
+    "eyewearFrameUrl": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&q=80"
+  },
+  {
+    "id": "9",
+    "slug": "urban-sneakers-wool",
+    "name": "Кроссовки городские шерсть",
+    "brand": "Syntha Sport",
+    "price": 18900,
+    "sku": "SYN-S009-GRY",
+    "color": "Серый",
+    "season": "FW24",
+    "tags": [],
+    "description": "Городские кроссовки с верхом из шерстяного трикотажа.",
+    "images": [
+      {
+        "id": "p9-1",
+        "url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80",
+        "alt": "Кроссовки"
+      }
+    ],
+    "category": "Кроссовки",
+    "subcategory": "Город",
+    "sizes": [
+      {
+        "name": "40"
+      },
+      {
+        "name": "41"
+      },
+      {
+        "name": "42"
+      },
+      {
+        "name": "43"
+      }
+    ],
+    "sustainability": [],
+    "outlet": false,
+    "audience": "Мужской",
+    "category_group": "Обувь"
+  }
+]

@@ -1,0 +1,5 @@
+# Thin pages rule
+
+- src/app/**/page.tsx должен оставаться тонким (layout + composition).
+- Любая логика UI/handlers/state/hooks выносится в _components или hooks.
+- Если page.tsx > 300 строк — продолжай декомпозицию.

@@ -1,0 +1,24 @@
+{
+  "description": "Краткая enterprise-шкала для агентов. Полная палитра и метаданные — в src/design/tokens.json",
+  "canonicalTokensPath": "src/design/tokens.json",
+  "spacingPx": [4, 8, 12, 16, 20, 24, 32, 40, 48],
+  "radiusPx": [8, 12, 16],
+  "typographyRoles": {
+    "pageTitle": "text-2xl sm:text-3xl font-bold tracking-tight text-slate-900",
+    "sectionTitle": "text-base font-semibold text-slate-900",
+    "cardTitle": "text-sm font-semibold text-slate-900",
+    "body": "text-sm text-slate-600",
+    "caption": "text-xs text-slate-500",
+    "kpi": "text-2xl font-bold tabular-nums text-slate-900",
+    "labelCaps": "text-[10px] font-bold uppercase tracking-widest text-slate-500"
+  },
+  "charts": {
+    "library": "recharts",
+    "rules": "Ось и легенда компактные; без декоративных эффектов; цвета из dataViz в canonical tokens"
+  },
+  "tables": {
+    "library": "@tanstack/react-table",
+    "density": "compact",
+    "wrapper": "DataTableContainer из @/components/design-system"
+  }
+}

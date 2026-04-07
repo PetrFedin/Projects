@@ -1,0 +1,94 @@
+'use client';
+
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { PartnerDemoExportBar } from '@/components/brand/partner-demo-export-bar';
+import { ROUTES } from '@/lib/routes';
+import { PARTNER_ASSORTMENT_MATRIX_ROWS } from '@/lib/platform/partner-demo-data';
+import { ArrowLeft, Grid3x3, Factory, Plug } from 'lucide-react';
+
+export default function AssortmentMatrixPage() {
+  return (
+    <div className="container max-w-5xl mx-auto px-4 py-6 space-y-6 pb-24">
+      <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.brand.growthHub}>
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+          <div>
+            <h1 className="text-xl font-bold flex items-center gap-2">
+              <Grid3x3 className="h-6 w-6" />
+              Совместная матрица ассортимента
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Канал × SKU × цвет × размеры × статус × sell-through. Данные:{' '}
+              <code className="text-[10px] bg-muted px-1 rounded">lib/platform/partner-demo-data</code> → позже GET/PUT API.
+            </p>
+          </div>
+        </div>
+        <PartnerDemoExportBar />
+      </div>
+
+      <div className="flex flex-wrap gap-2 text-[11px]">
+        <Button variant="secondary" size="sm" asChild>
+          <Link href={ROUTES.brand.production}>
+            <Factory className="h-3.5 w-3.5 mr-2" />
+            Production
+          </Link>
+        </Button>
+        <Button variant="secondary" size="sm" asChild>
+          <Link href={ROUTES.brand.integrations}>
+            <Plug className="h-3.5 w-3.5 mr-2" />
+            Интеграции
+          </Link>
+        </Button>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Матрица</CardTitle>
+          <CardDescription>Одно окно правды для байера и бренда; в проде — права, версии и аудит.</CardDescription>
+        </CardHeader>
+        <CardContent className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Канал</TableHead>
+                <TableHead>SKU</TableHead>
+                <TableHead>Цвет</TableHead>
+                <TableHead>Размеры</TableHead>
+                <TableHead>Сезон</TableHead>
+                <TableHead>Синхр.</TableHead>
+                <TableHead>Статус</TableHead>
+                <TableHead>Sell-through</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {PARTNER_ASSORTMENT_MATRIX_ROWS.map((r, i) => (
+                <TableRow key={`${r.sku}-${r.channel}-${i}`}>
+                  <TableCell className="font-medium">{r.channel}</TableCell>
+                  <TableCell className="font-mono text-xs">{r.sku}</TableCell>
+                  <TableCell>{r.color}</TableCell>
+                  <TableCell>{r.sizes}</TableCell>
+                  <TableCell className="text-muted-foreground text-xs">{r.season ?? '—'}</TableCell>
+                  <TableCell className="text-muted-foreground text-xs whitespace-nowrap">{r.lastSync ?? '—'}</TableCell>
+                  <TableCell>
+                    <Badge variant="outline" className="text-[10px]">
+                      {r.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>{r.sellThrough}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

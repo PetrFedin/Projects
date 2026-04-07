@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://synth-1.local/schemas/attribute-catalog.json",
+  "title": "Канонический каталог атрибутов (группы, параметры, привязка к листам L3)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "groups", "attributes"],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Версия формата файла каталога."
+    },
+    "catalogVersion": {
+      "type": "string",
+      "maxLength": 64,
+      "description": "Семантическая версия содержимого, напр. 2026.03.1."
+    },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "groups": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/attributeGroup" }
+    },
+    "attributes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/canonicalAttribute" }
+    },
+    "globalAttributeIds": {
+      "type": "array",
+      "items": { "type": "string", "maxLength": 128 },
+      "description": "Атрибуты, доступные любой позиции (цвет, сезон, …)."
+    },
+    "phase1CoreOrder": {
+      "type": "array",
+      "items": { "type": "string", "maxLength": 128 },
+      "description": "Порядок ключевых глобальных атрибутов на экране фазы 1 (страна → сезон → цвет → …)."
+    },
+    "leafBindings": {
+      "type": "object",
+      "description": "Ключ = id листа категории (L3). Значение = порядок attributeId для UI по умолчанию.",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string", "maxLength": 128 }
+      }
+    }
+  },
+  "$defs": {
+    "attributeGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["groupId", "label", "sortOrder", "scope"],
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "maxLength": 64,
+          "pattern": "^[a-z0-9][a-z0-9-]*$",
+          "description": "Стабильный id группы."
+        },
+        "label": { "type": "string", "maxLength": 128 },
+        "descriptionHint": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Подсказка в UI для группы."
+        },
+        "sortOrder": { "type": "integer", "minimum": 0 },
+        "scope": {
+          "type": "string",
+          "enum": ["leaf", "global", "both"]
+        },
+        "phase1HintExamples": {
+          "type": "array",
+          "items": { "type": "string", "maxLength": 200 },
+          "description": "Примеры формулировок для ТЗ (фаза 1), подсказка под «свой атрибут»."
+        }
+      }
+    },
+    "parameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parameterId", "label", "sortOrder"],
+      "properties": {
+        "parameterId": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Уникален в пределах атрибута (совпадает с id значения в phase1 при handbook_parameter)."
+        },
+        "label": { "type": "string", "maxLength": 256 },
+        "aliases": {
+          "type": "array",
+          "items": { "type": "string", "maxLength": 128 },
+          "description": "Строки для поиска в UI."
+        },
+        "sortOrder": { "type": "integer", "minimum": 0 },
+        "deprecated": { "type": "boolean", "default": false },
+        "replacedByParameterId": { "type": "string", "maxLength": 128 },
+        "colorHex": {
+          "type": "string",
+          "maxLength": 9,
+          "pattern": "^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$",
+          "description": "Сплошной цвет для UI-кружка (sRGB hex)."
+        },
+        "gradientCss": {
+          "type": "string",
+          "maxLength": 400,
+          "description": "CSS background для пресета градиента (linear-gradient(...))."
+        }
+      }
+    },
+    "canonicalAttribute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attributeId",
+        "groupId",
+        "name",
+        "type",
+        "sortOrder",
+        "parameters",
+        "allowFreeText",
+        "allowMultipleDistinct"
+      ],
+      "properties": {
+        "attributeId": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Совпадает с CategoryAttribute.id в TS / ключ в leafBindings."
+        },
+        "groupId": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 256 },
+        "type": {
+          "type": "string",
+          "enum": ["select", "multiselect", "text", "number"],
+          "description": "Имена как в src/lib/data/category-handbook.ts (CategoryAttribute.type)."
+        },
+        "sortOrder": { "type": "integer", "minimum": 0 },
+        "parameters": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/parameter" },
+          "description": "Для select/multiselect — варианты; для text/number может быть пустым."
+        },
+        "allowFreeText": {
+          "type": "boolean",
+          "description": "Разрешить free_text наряду с параметрами справочника."
+        },
+        "allowMultipleDistinct": {
+          "type": "boolean",
+          "description": "true для multiselect; false для select."
+        },
+        "requiredForPhase1": {
+          "type": "boolean",
+          "default": false,
+          "description": "Резерв для будущей политики обязательности."
+        },
+        "uiPlaceholder": { "type": "string", "maxLength": 256 },
+        "workflowPhases": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 1, "maximum": 3 },
+          "minItems": 1,
+          "description": "В каких фазах Цеха 2 атрибут заполняется (1 — описание/TЗ, 2 — углубление, 3 — производство/QC)."
+        },
+        "uiPresentation": {
+          "type": "string",
+          "enum": ["default", "color_palette"],
+          "description": "default — select+текст; color_palette — кружки палитры, градиенты, color input."
+        },
+        "retiredFromWorkshop": {
+          "type": "boolean",
+          "description": "Не подключать атрибут к мастеру ТЗ Цеха 2; старые значения в досье допустимы."
+        },
+        "dossierSection": {
+          "type": "string",
+          "enum": ["general", "visuals", "material", "measurements", "construction", "packaging"],
+          "description": "Секция панели ТЗ; если нет — fallback по groupId."
+        },
+        "passportCommon": {
+          "type": "boolean",
+          "description": "Общий регуляторный/идентификационный слой паспорта (справочник L1–L3)."
+        },
+        "passportApplicableLevels": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["l1", "l2", "l3"] },
+          "minItems": 1,
+          "maxItems": 3,
+          "description": "Уровни ветки каталога, на которых атрибут актуален."
+        },
+        "sketchHighlightForPinTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "construction",
+              "material",
+              "fit",
+              "finishing",
+              "hardware",
+              "labeling",
+              "qc"
+            ]
+          },
+          "uniqueItems": true,
+          "description": "Типы меток скетча: при выборе метки такого типа поле подсвечивается в «Визуальных осях каталога» и в быстрых ссылках инспектора (дополняет workshop2-sketch-tz-matrix)."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "type": { "const": "select" } },
+            "required": ["type"]
+          },
+          "then": {
+            "properties": { "allowMultipleDistinct": { "const": false } }
+          }
+        },
+        {
+          "if": {
+            "properties": { "type": { "const": "multiselect" } },
+            "required": ["type"]
+          },
+          "then": {
+            "properties": { "allowMultipleDistinct": { "const": true } }
+          }
+        }
+      ]
+    }
+  }
+}

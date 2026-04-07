@@ -1,0 +1,77 @@
+'use client';
+
+import Link from 'next/link';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { ChevronRight } from 'lucide-react';
+import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
+import { getBrandSectionMeta } from '@/lib/data/brand-navigation';
+import { cn } from '@/lib/utils';
+
+type BrandSectionHeaderProps = {
+  /** Переопределить pathname (если не из usePathname) */
+  pathname?: string;
+  /** Дополнительные badges для SectionInfoCard */
+  badges?: React.ReactNode;
+  /** Дополнительный контент в карточке */
+  children?: React.ReactNode;
+  /** Дополнительные className для breadcrumb */
+  breadcrumbClassName?: string;
+};
+
+/**
+ * Единый блок: SectionInfoCard + Breadcrumb из brand-navigation.
+ * Используется во всех разделах Brand Center по аналогии с Организация / Профиль бренда.
+ */
+export function BrandSectionHeader({
+  pathname: pathOverride,
+  badges,
+  children,
+  breadcrumbClassName,
+}: BrandSectionHeaderProps) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const path = pathOverride ?? pathname ?? '';
+  const meta = getBrandSectionMeta(path, searchParams?.toString());
+
+  if (!meta) return null;
+
+  const Icon = meta.icon;
+
+  return (
+    <>
+      <SectionInfoCard
+        title={meta.sectionLabel}
+        description={meta.description}
+        icon={Icon}
+        iconBg="bg-indigo-100"
+        iconColor="text-indigo-600"
+        badges={badges}
+      >
+        {children}
+      </SectionInfoCard>
+      <div
+        className={cn(
+          'flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest text-slate-400 mb-4',
+          breadcrumbClassName
+        )}
+      >
+        <Link
+          href={meta.groupHref}
+          className="hover:text-indigo-600 transition-colors"
+        >
+          {meta.groupLabel}
+        </Link>
+        <ChevronRight className="h-3 w-3" />
+        {meta.subsectionLabel ? (
+          <>
+            <Link href={meta.sectionHref} className="hover:text-indigo-600 transition-colors">{meta.sectionLabel}</Link>
+            <ChevronRight className="h-3 w-3" />
+            <span className="text-indigo-600">{meta.subsectionLabel}</span>
+          </>
+        ) : (
+          <span className="text-indigo-600">{meta.sectionLabel}</span>
+        )}
+      </div>
+    </>
+  );
+}

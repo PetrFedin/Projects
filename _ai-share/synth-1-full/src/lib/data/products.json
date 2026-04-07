@@ -1,0 +1,52 @@
+
+[
+  {
+    "id": "prod_urban_shell_001",
+    "brandId": "brand_syntha_lab",
+    "name": "Urban Shell Parka",
+    "category": "outerwear",
+    "season": "FW25",
+    "basePrice": 42000,
+    "images": [
+      "https://images.unsplash.com/photo-1591047139829-d919b5ca2332?w=800"
+    ],
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "colorways": [
+      {
+        "code": "blk",
+        "name": "Deep Black",
+        "previewImage": "https://picsum.photos/seed/deep-black/200/200"
+      },
+      {
+        "code": "olv",
+        "name": "Urban Olive",
+        "previewImage": "https://picsum.photos/seed/urban-olive/200/200"
+      }
+    ],
+    "materials": [
+      "100% recycled nylon shell",
+      "Insulation: 80% recycled polyester, 20% merino wool"
+    ],
+    "createdAt": "2025-11-05T08:30:00Z",
+    "updatedAt": "2025-11-05T08:30:00Z"
+  },
+  {
+    "id": "prod_merino_rollneck_100",
+    "brandId": "brand_nordic_wool",
+    "name": "Merino Rollneck Sweater",
+    "category": "knitwear",
+    "season": "FW25",
+    "basePrice": 28000,
+    "images": [
+      "https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?w=800"
+    ],
+    "sizes": ["XS", "S", "M", "L"],
+    "colorways": [
+      { "code": "crm", "name": "Cream" },
+      { "code": "nav", "name": "Navy" }
+    ],
+    "materials": ["100% extra-fine merino wool"],
+    "createdAt": "2025-10-20T14:00:00Z",
+    "updatedAt": "2025-11-01T16:45:00Z"
+  }
+]

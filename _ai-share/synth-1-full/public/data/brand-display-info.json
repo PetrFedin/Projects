@@ -1,0 +1,367 @@
+{
+  "views": [
+    {
+      "id": "grid",
+      "name": "Сетка"
+    },
+    {
+      "id": "list",
+      "name": "Список"
+    },
+    {
+      "id": "store",
+      "name": "Страница бренда"
+    }
+  ],
+  "parameters": [
+    {
+      "group": "Основная информация",
+      "items": [
+        {
+          "id": "logo",
+          "name": "Логотип",
+          "grid": true,
+          "list": true,
+          "store": true
+        },
+        {
+          "id": "name",
+          "name": "Название (оригинал)",
+          "grid": true,
+          "list": true,
+          "store": true
+        },
+        {
+          "id": "nameRU",
+          "name": "Название (RU)",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "description",
+          "name": "Краткое описание",
+          "grid": true,
+          "list": true,
+          "store": true
+        },
+        {
+          "id": "full_description",
+          "name": "Полное описание (История бренда)",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "founded_year",
+          "name": "Год основания",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "country",
+          "name": "Страна",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "segment",
+          "name": "Ценовой сегмент",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "priceRange",
+          "name": "Диапазон цен",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "startDate",
+          "name": "На платформе с",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "subscriptionTier",
+          "name": "Тарифный план",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        }
+      ]
+    },
+    {
+      "group": "Метрики",
+      "items": [
+        {
+          "id": "followers",
+          "name": "Подписчики",
+          "grid": true,
+          "list": true,
+          "store": false,
+          "disabled": {
+            "store": true
+          }
+        },
+        {
+          "id": "products",
+          "name": "Количество товаров",
+          "grid": true,
+          "list": true,
+          "store": false,
+          "disabled": {
+            "store": true
+          }
+        }
+      ]
+    },
+    {
+      "group": "Контактная информация",
+      "items": [
+        {
+          "id": "website",
+          "name": "Веб-сайт",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "public_email",
+          "name": "Публичный Email",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "phone",
+          "name": "Телефон",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "social_links",
+          "name": "Иконки соцсетей (блок)",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "instagram",
+          "name": "Instagram",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          },
+          "dependsOn": "social_links"
+        },
+        {
+          "id": "telegram",
+          "name": "Telegram",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          },
+          "dependsOn": "social_links"
+        },
+        {
+          "id": "youtube",
+          "name": "Youtube",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          },
+          "dependsOn": "social_links"
+        }
+      ]
+    },
+    {
+      "group": "Информационные блоки",
+      "items": [
+        {
+          "id": "locations",
+          "name": "Локации (офлайн-точки)",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "key_people",
+          "name": "Ключевые фигуры",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "press_mentions",
+          "name": "Упоминания в прессе",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "esg_info",
+          "name": "ESG-информация",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "b2b_info",
+          "name": "B2B-информация",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "legal_info",
+          "name": "Юридическая информация",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "active_promotions_section",
+          "name": "Акции и предложения",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "brand_articles_section",
+          "name": "Статьи бренда",
+          "grid": false,
+          "list": false,
+          "store": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        }
+      ]
+    },
+    {
+      "group": "Кнопки",
+      "items": [
+        {
+          "id": "store_button",
+          "name": "Перейти в магазин",
+          "grid": true,
+          "list": true,
+          "store": false,
+          "disabled": {
+            "store": true
+          }
+        },
+        {
+          "id": "action_button",
+          "name": "Подписаться",
+          "grid": true,
+          "list": true,
+          "store": true
+        },
+        {
+          "id": "request_partnership_button",
+          "name": "Запросить партнерство",
+          "grid": true,
+          "list": true,
+          "store": false,
+          "disabled": {
+            "store": true
+          }
+        }
+      ]
+    }
+  ]
+}

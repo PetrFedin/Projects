@@ -1,0 +1,24 @@
+{
+  "ignorePatterns": [
+    ".next/**",
+    "node_modules/**",
+    "out/**",
+    "backup_duplicates/**",
+    "coverage/**",
+    "playwright-report/**"
+  ],
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript",
+    "plugin:tailwindcss/recommended"
+  ],
+  "rules": {
+    "tailwindcss/no-custom-classname": "off",
+    "tailwindcss/no-arbitrary-value": "off"
+  },
+  "settings": {
+    "tailwindcss": {
+      "callees": ["cn", "clsx", "cva", "twMerge"]
+    }
+  }
+}

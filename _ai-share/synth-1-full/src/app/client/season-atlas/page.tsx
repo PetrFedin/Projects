@@ -1,0 +1,108 @@
+'use client';
+
+import { useMemo, useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { PlatformDataBanner } from '@/components/client/platform-data-banner';
+import { ROUTES } from '@/lib/routes';
+import { products } from '@/lib/products';
+import { parseFashionSeasonLabel, seasonBucketKey, seasonBucketLabel } from '@/lib/fashion/season-parse';
+import { ArrowLeft, CalendarRange } from 'lucide-react';
+
+export default function SeasonAtlasPage() {
+  const [only, setOnly] = useState<'all' | 'carryover'>('all');
+
+  const buckets = useMemo(() => {
+    const m = new Map<string, typeof products>();
+    for (const p of products) {
+      if (!p.images?.length) continue;
+      const key = seasonBucketKey(p);
+      if (only === 'carryover' && key !== 'carryover') continue;
+      if (!m.has(key)) m.set(key, []);
+      m.get(key)!.push(p);
+    }
+    const keys = [...m.keys()].sort((x, y) => {
+      if (x === 'carryover') return -1;
+      if (y === 'carryover') return 1;
+      if (x === 'unsorted') return 1;
+      if (y === 'unsorted') return -1;
+      return y.localeCompare(x);
+    });
+    return { m, keys };
+  }, [only]);
+
+  return (
+    <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6 pb-24">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.client.home}>
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+          <div>
+            <h1 className="text-xl font-bold flex items-center gap-2">
+              <CalendarRange className="h-6 w-6" />
+              Сезонный атлас
+            </h1>
+            <p className="text-sm text-muted-foreground mt-0.5">
+              Корзины SS/FW + год и carryover из тегов. Парсер: <code className="text-[10px] bg-muted px-1 rounded">season-parse</code>.
+            </p>
+          </div>
+        </div>
+        <PlatformDataBanner />
+      </div>
+
+      <div className="flex gap-2">
+        <Button size="sm" variant={only === 'all' ? 'default' : 'outline'} onClick={() => setOnly('all')}>
+          Все сезоны
+        </Button>
+        <Button size="sm" variant={only === 'carryover' ? 'default' : 'outline'} onClick={() => setOnly('carryover')}>
+          Только carryover
+        </Button>
+      </div>
+
+      <div className="space-y-8">
+        {buckets.keys.length === 0 && (
+          <p className="text-sm text-muted-foreground border border-dashed rounded-lg p-8 text-center">Нет товаров в выбранном фильтре.</p>
+        )}
+        {buckets.keys.map((key) => {
+          const list = buckets.m.get(key) ?? [];
+          if (!list.length) return null;
+          return (
+            <div key={key}>
+              <div className="flex items-center gap-2 mb-3">
+                <h2 className="text-sm font-semibold">{seasonBucketLabel(key)}</h2>
+                <Badge variant="secondary">{list.length}</Badge>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {list.slice(0, 8).map((p) => {
+                  const meta = parseFashionSeasonLabel(p.season, p.tags);
+                  return (
+                    <Link key={p.id} href={`/products/${p.slug}`} className="group rounded-lg border overflow-hidden bg-card">
+                      <div className="relative aspect-[3/4]">
+                        <Image src={p.images[0]?.url || '/placeholder.jpg'} alt="" fill className="object-cover" sizes="150px" />
+                      </div>
+                      <div className="p-2 space-y-1">
+                        <p className="text-[11px] font-medium line-clamp-2 group-hover:text-primary">{p.name}</p>
+                        <p className="text-[9px] text-muted-foreground font-mono">{p.sku}</p>
+                        {meta.isCarryover && (
+                          <Badge variant="outline" className="text-[8px]">
+                            carryover
+                          </Badge>
+                        )}
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}

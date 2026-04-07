@@ -1,0 +1,810 @@
+"use client";
+
+import * as React from "react";
+import { useState, useEffect, useMemo } from "react";
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Brain,
+  Zap,
+  ArrowRight,
+  Sparkles,
+  LayoutGrid,
+  Maximize2,
+  ChevronRight,
+  Activity,
+  Layers,
+  Users,
+  Gavel,
+  TrendingUp,
+  Heart,
+  Clock,
+  ShoppingBag,
+  Plus,
+  Star,
+  Check,
+  Baby,
+  Scissors,
+  Home as HomeIcon,
+  Venus,
+  Mars,
+  Store,
+  ShieldCheck,
+  Factory,
+  Truck,
+  Briefcase,
+  Calendar,
+  MessageSquare,
+  BarChart3,
+  Package,
+  FileText,
+  Database,
+  Globe2,
+  CreditCard,
+  Flame,
+  Building2,
+  CalendarRange,
+  Handshake,
+  MapPin,
+  Globe,
+  MessageCircle,
+  Video,
+  LineChart,
+  Wallet,
+  Smartphone,
+  PlayCircle,
+  Settings2,
+  Ruler,
+  Coins,
+  PieChart,
+  AlertCircle,
+  CheckCircle,
+  Eye,
+} from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useToast } from "@/hooks/use-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+import { cn } from "@/lib/utils";
+import { useUIState } from "@/providers/ui-state";
+import { useB2BState } from "@/providers/b2b-state";
+import { useAuth } from "@/providers/auth-provider";
+import { repo } from "@/lib/repo";
+import type { CmsHomeConfig } from "@/data/cms.home.default";
+import { DEFAULT_HOME_CMS } from "@/data/cms.home.default";
+import type { Product, GlobalCategory } from "@/lib/types";
+import { brands } from "@/lib/placeholder-data";
+
+import { HomeLiveStrip } from "@/components/cms/HomeLiveStrip";
+import WeeklyLooks from "@/components/weekly-looks";
+import KickstarterSection from "@/components/kickstarter-section";
+import { PrivateAccess } from "@/components/home/sections/PrivateAccess";
+import { SynthaEdit } from "@/components/home/sections/SynthaEdit";
+import { AsSeenOnLive } from "@/components/home/sections/AsSeenOnLive";
+const B2BControlCenter = dynamic(
+  () => import("@/components/admin/B2BControlCenter").then((m) => ({ default: m.B2BControlCenter })),
+  { ssr: false, loading: () => <div className="min-h-[240px] rounded-xl border border-dashed border-slate-200 bg-slate-50/60" aria-hidden /> }
+);
+const StylistPanel = dynamic(
+  () => import("@/components/ai/StylistPanel").then((m) => ({ default: m.StylistPanel })),
+  { ssr: false }
+);
+const SynthaProductCard = dynamic(
+  () => import("@/components/syntha-product-card").then((m) => ({ default: m.SynthaProductCard })),
+  { ssr: false }
+);
+const MerchandisingDashboard = dynamic(
+  () => import("@/components/showroom/MerchandisingDashboard").then((m) => ({ default: m.MerchandisingDashboard })),
+  { ssr: false, loading: () => <div className="min-h-[200px] rounded-xl bg-slate-50 animate-pulse" aria-hidden /> }
+);
+const PlanningDashboard = dynamic(
+  () => import("@/components/showroom/PlanningDashboard").then((m) => ({ default: m.PlanningDashboard })),
+  { ssr: false, loading: () => <div className="min-h-[200px] rounded-xl bg-slate-50 animate-pulse" aria-hidden /> }
+);
+import { ShowroomNavigation } from "@/components/showroom/ShowroomNavigation";
+import { ShowroomGrid } from "@/components/showroom/ShowroomGrid";
+import { AdvertisingSection } from "@/components/home/AdvertisingSection";
+import { B2BPresentationSections } from "@/components/home/B2BPresentationSections";
+import { GlobalCategorySelector } from "@/components/home/GlobalCategorySelector";
+import { B2BUpdatesSection } from "@/components/home/B2BUpdatesSection";
+
+import { ClientBrandsSection } from "@/components/home/sections/ClientBrandsSection";
+import { ShowroomSection } from "@/components/home/sections/ShowroomSection";
+import { B2BNavigation } from "@/components/home/B2BNavigation";
+import { LookDetailsDialog } from "@/components/home/dialogs/LookDetailsDialog";
+import { AuditTrailDialog } from "@/components/home/dialogs/AuditTrailDialog";
+import { SmartCheckoutDialog } from "@/components/home/dialogs/SmartCheckoutDialog";
+import { globalCategories, totalLookCards, b2bSections } from "@/components/home/_fixtures/home-data";
+
+
+export function HomePageClient() {
+  const { toast } = useToast();
+  const router = useRouter();
+  const {
+    wishlist,
+    addWishlistItem,
+    removeWishlistItem,
+    addCartItem,
+    globalCategory,
+    setGlobalCategory,
+    viewRole,
+    isFlowMapOpen,
+    setIsFlowMapOpen,
+    isCalendarOpen,
+    isMediaRadarOpen,
+    isConstellationOpen,
+    followedBrands,
+  } = useUIState();
+  const { b2bCart, setB2bCart } = useB2BState();
+  const isDropsUnlocked = followedBrands.length >= 2 || viewRole === 'admin';
+  const auth = useAuth();
+  const [cfg, setCfg] = React.useState<CmsHomeConfig>(DEFAULT_HOME_CMS);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [products, setProducts] = useState<Product[]>([]);
+  const [showroomTab, setShowroomTab] = useState<string>("all");
+  const [showroomViewMode, setShowroomViewMode] = useState<"products" | "looks" | "collections" | "my_orders">("products");
+  const [laboratoryTab, setLaboratoryTab] = useState<"laboratory" | "private">("laboratory");
+  const [brandsTab, setBrandsTab] = useState<string>("selection");
+  const [selectedLook, setSelectedLook] = useState<any>(null);
+  const [isLookDetailsOpen, setIsLookDetailsOpen] = useState(false);
+  const [currency, setCurrency] = useState<"RUB" | "USD" | "EUR">("RUB");
+  const [atsEnabled, setAtsEnabled] = useState(true);
+  const [isScrolledDown, setIsScrolledDown] = useState(false);
+  const [landedCostEnabled, setLandedCostEnabled] = useState(false);
+  const [isAuditTrailOpen, setIsAuditTrailOpen] = useState(false);
+  const [activeB2BSection, setActiveB2BSection] = useState<string>("PRODUCTION_b2b");
+  const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
+  const [isLinesheetMode, setIsLinesheetMode] = useState(false);
+  const [selectedLinesheetItems, setSelectedLinesheetItems] = useState<string[]>([]);
+  const [merchStatus, setMerchStatus] = useState<"draft" | "ready" | "sent">("draft");
+  const [isCustomerPov, setIsCustomerPov] = useState(false);
+
+  const activeMerchBrand = useMemo(() => {
+    if (b2bCart && b2bCart.length > 0) {
+      return b2bCart[0].brand || 'Syntha Lab';
+    }
+    return 'Syntha Lab';
+  }, [b2bCart]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Если пролистали больше 300px от верха, считаем, что мы "внизу"
+      setIsScrolledDown(window.scrollY > 300);
+
+      // Определяем активный раздел для подсветки кнопок
+      const b2bSectionsList = [
+        { id: "PRODUCTION_b2b" },
+        { id: "WORKPLACE_b2b" },
+        { id: "ECOSYSTEM_b2b" },
+        { id: "PARTNERS_b2b" },
+        { id: "CALENDAR_b2b" },
+        { id: "MEDIA_ECOSYSTEM_b2b" },
+        { id: "PROCUREMENT_b2b" },
+        { id: "SHOWCASE_b2b" },
+      ];
+      
+      const scrollPosition = window.scrollY + 200;
+      for (let i = b2bSectionsList.length - 1; i >= 0; i--) {
+        const section = document.getElementById(b2bSectionsList[i].id);
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveB2BSection(b2bSectionsList[i].id);
+          break;
+        }
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  React.useEffect(() => {
+    (async () => {
+      const data = await repo.cms.getHome();
+      setCfg(data);
+    })();
+  }, []);
+
+  useEffect(() => {
+    let raf = 0;
+    let latest = { x: 0, y: 0 };
+    const handleMouseMove = (e: MouseEvent) => {
+      latest = { x: e.clientX, y: e.clientY };
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        setMousePos(latest);
+      });
+    };
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const response = await fetch("/data/products.json");
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const allProducts: Product[] = await response.json();
+        if (Array.isArray(allProducts)) {
+          setProducts(allProducts);
+        }
+      } catch (error) {
+        console.warn("Failed to fetch products for home page:", error);
+        setProducts([]);
+      }
+    }
+    fetchProducts();
+  }, []);
+
+  const allProductsData = useMemo(() => products, [products]);
+
+  const getFilteredShowroomProducts = () => {
+    let filteredByGlobal = allProductsData;
+    if (globalCategory !== "all") {
+      filteredByGlobal = allProductsData.filter((p) => {
+        if (globalCategory === "women") return p.audience === "Женский" || p.audience === "Унисекс";
+        if (globalCategory === "men") return p.audience === "Мужской" || p.audience === "Унисекс";
+        if (globalCategory === "kids") return p.audience === "Детский" || p.audience === "Мальчики" || p.audience === "Девочки" || p.audience === "Новорожденные" || p.category === "Детям" || p.category === "Kids";
+        if (globalCategory === "beauty") return p.category === "Beauty" || p.category === "Красота";
+        if (globalCategory === "home") return p.category === "Home" || p.category === "Дом";
+        return true;
+      });
+    }
+
+    const otherCarouselSlugs = cfg.carousels.flatMap((c) => c.productSlugs);
+
+    if (showroomTab === "all") {
+      return filteredByGlobal.filter(p => !p.outlet && !(p.originalPrice && p.originalPrice > p.price));
+    }
+
+    if (showroomTab === "outlet") {
+      return filteredByGlobal.filter(p => p.outlet || (p.originalPrice && p.originalPrice > p.price));
+    }
+
+    const carousel = cfg.carousels.find((c) => c.id === showroomTab);
+    if (!carousel) return filteredByGlobal;
+
+    const filtered = filteredByGlobal.filter(
+      (p) => carousel.productSlugs.includes(p.slug) || carousel.productSlugs.includes(p.sku),
+    );
+
+    if (filtered.length === 0) {
+      if (carousel.title === "Новинки") return filteredByGlobal.slice(0, 4);
+      if (carousel.title === "Хиты продаж") return filteredByGlobal.slice(4, 8);
+      return filteredByGlobal;
+    }
+
+    return filtered;
+  };
+
+  const filteredShowroomProducts = getFilteredShowroomProducts();
+
+  const scrollToTopOrBottom = () => {
+    if (isScrolledDown) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
+    }
+  };
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const yOffset = -135;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  };
+
+  return (
+    <div className="flex flex-col bg-[#f8fafc] relative font-sans">
+      <AdvertisingSection />
+
+      {/* Admin Control Hub - Only visible for admins */}
+      {viewRole === 'admin' && (
+        <section id="ADMIN_HUB" className="section-spacing pt-24 bg-transparent relative">
+          <div className="container mx-auto px-4 relative">
+            <B2BControlCenter />
+          </div>
+        </section>
+      )}
+
+      {/* Global Navigation - Only visible if not in high-level AI overlays */}
+      <div className={cn(
+        "fixed top-[var(--header-height,64px)] left-0 right-0 z-[100] transition-all duration-500",
+        (isFlowMapOpen || isCalendarOpen || isMediaRadarOpen || isConstellationOpen) && "opacity-0 pointer-events-none -translate-y-full"
+      )}>
+        {viewRole === "b2b" ? (
+          <B2BNavigation 
+            viewRole={viewRole} 
+            activeB2BSection={activeB2BSection} 
+            onSectionChange={setActiveB2BSection}
+            isScrolledDown={isScrolledDown} 
+          />
+        ) : (
+          <GlobalCategorySelector
+            categories={globalCategories}
+            activeCategory={globalCategory}
+            onChange={setGlobalCategory}
+          />
+        )}
+      </div>
+
+      <div className={cn(
+        "flex flex-col",
+        (isFlowMapOpen || isCalendarOpen || isMediaRadarOpen || isConstellationOpen) && "hidden"
+      )}>
+        {/* B2B Presentation Sections */}
+        <div className={cn(
+          viewRole === "b2b" && "pt-20 transition-all duration-300",
+          isFlowMapOpen && "pt-0"
+        )}>
+          <B2BPresentationSections isVisible={viewRole === "b2b"} />
+        </div>
+
+        {/* Brands Section */}
+        {viewRole === "client" && (
+          <div className="pt-20">
+            <ClientBrandsSection
+              viewRole={viewRole}
+              brandsTab={brandsTab}
+              setBrandsTab={setBrandsTab}
+              isLinesheetMode={isLinesheetMode}
+              setIsLinesheetMode={setIsLinesheetMode}
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Background Decor */}
+      <div
+        className="fixed inset-0 pointer-events-none z-0 opacity-10"
+        style={{
+          background: `radial-gradient(1000px circle at ${mousePos.x}px ${mousePos.y}px, rgba(148, 163, 184, 0.15), transparent)`,
+        }}
+      />
+
+      {/* Showroom Section */}
+      <div id={viewRole === "b2b" ? "SHOWCASE_b2b" : "SHOWCASE_b2c"}>
+        <ShowroomSection 
+          viewRole={viewRole}
+          showroomTab={showroomTab}
+          setShowroomTab={setShowroomTab}
+          showroomViewMode={showroomViewMode}
+          setShowroomViewMode={setShowroomViewMode}
+          toast={toast}
+          carousels={cfg.carousels}
+          filteredShowroomProducts={filteredShowroomProducts}
+          totalLookCards={totalLookCards}
+          isLinesheetMode={isLinesheetMode}
+          selectedLinesheetItems={selectedLinesheetItems}
+          setSelectedLinesheetItems={setSelectedLinesheetItems}
+          setSelectedLook={setSelectedLook}
+          setIsLookDetailsOpen={setIsLookDetailsOpen}
+          router={router}
+          currency={currency}
+        />
+      </div>
+
+      {/* Kickstarter Section for B2C */}
+      {viewRole === "client" && (
+        <section id="LABORATORY_b2c" className="section-spacing bg-transparent relative scroll-mt-24">
+          <div className="container mx-auto px-4 relative">
+            <Card className="bg-white border-none rounded-xl shadow-2xl shadow-slate-200/50 overflow-hidden relative border border-slate-100">
+              <CardContent className="p-4 relative z-10">
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-8">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="h-8 w-8 rounded-xl bg-slate-100 flex items-center justify-center">
+                        <Zap className="h-4 w-4 text-black" />
+                      </div>
+                      <Badge
+                        variant="outline"
+                        className="text-xs border-slate-200 text-slate-900 uppercase font-semibold tracking-wide px-2 py-0.5"
+                      >
+                        {laboratoryTab === 'laboratory' ? 'LABORATORY_B2C' : 'PRIVATE_ACCESS'}
+                      </Badge>
+                    </div>
+                    <div className="space-y-1">
+                      <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-tight text-slate-900 leading-tight">
+                        {laboratoryTab === 'laboratory' ? 'ЛАБОРАТОРИЯ' : 'ЭКСКЛЮЗИВ'}
+                      </h2>
+                      <p className="text-slate-500 text-sm max-w-xl">
+                        {laboratoryTab === 'laboratory' 
+                          ? 'Площадка для реализации самых смелых fashion-идей.' 
+                          : 'Закрытый доступ к прототипам и лимитированным сериям.'}
+                      </p>
+                    </div>
+
+                    {/* Tab Switcher - Moved here below description */}
+                    <div className="flex items-center gap-1.5 p-1 bg-slate-50 rounded-2xl border border-slate-100 w-fit">
+                      {[
+                        { id: 'laboratory', title: 'Лаборатория' },
+                        { id: 'private', title: 'Эксклюзив' }
+                      ].map((tab) => (
+                        <button
+                          key={tab.id}
+                          onClick={() => setLaboratoryTab(tab.id as any)}
+                          className={cn(
+                            "btn-tab min-w-[140px] snap-start",
+                            laboratoryTab === tab.id ? "btn-tab-active" : "btn-tab-inactive"
+                          )}
+                        >
+                          {tab.title}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Scroll Arrows - Matching Showroom style */}
+                  <div className="flex items-center gap-3">
+                    <button
+                      className="text-slate-400 hover:text-slate-900 transition-colors p-1"
+                      onClick={() =>
+                        document
+                          .getElementById(laboratoryTab === 'laboratory' ? "laboratory-scroll" : "private-access-scroll")
+                          ?.scrollBy({ left: -400, behavior: "smooth" })
+                      }
+                    >
+                      <ArrowRight className="h-5 w-5 rotate-180" />
+                    </button>
+                    <button
+                      className="text-slate-400 hover:text-slate-900 transition-colors p-1"
+                      onClick={() =>
+                        document
+                          .getElementById(laboratoryTab === 'laboratory' ? "laboratory-scroll" : "private-access-scroll")
+                          ?.scrollBy({ left: 400, behavior: "smooth" })
+                      }
+                    >
+                      <ArrowRight className="h-5 w-5" />
+                    </button>
+                  </div>
+                </div>
+
+                <AnimatePresence mode="wait">
+                  {laboratoryTab === 'laboratory' ? (
+                    <motion.div
+                      key="laboratory"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                    >
+                      <KickstarterSection />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="private"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                    >
+                      <PrivateAccess />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <Card className="mt-12 bg-slate-900 border-none rounded-xl overflow-hidden relative min-h-[300px] flex items-center shadow-2xl group/banner w-full">
+                  <div className="absolute inset-0 opacity-40 transition-transform duration-1000 group-hover/banner:scale-105">
+                    <img 
+                      src={laboratoryTab === 'laboratory' 
+                        ? "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000"
+                        : "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=2000"
+                      } 
+                      alt="Laboratory Banner" 
+                      className="w-full h-full object-cover grayscale"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent" />
+                  <CardContent className="relative z-10 p-4 space-y-4 max-w-4xl text-white w-full text-left">
+                    <div className="overflow-hidden whitespace-nowrap mb-4 py-2 border-y border-white/10 relative group/marquee">
+                      <motion.div 
+                        animate={{ x: ["0%", "-50%"] }} 
+                        transition={{ duration: 120, repeat: Infinity, ease: "linear" }} 
+                        className="flex items-center gap-3 w-fit"
+                      >
+                        {[1, 2].map((i) => (
+                          <div key={i} className="flex items-center gap-3 shrink-0">
+                            {laboratoryTab === 'laboratory' ? (
+                              <>
+                                <span className="text-[10px] font-medium uppercase tracking-wider text-white/60">• Краудфандинг</span>
+                                <span className="text-[10px] font-medium uppercase tracking-wider text-white/60">• Предзаказ</span>
+                                <span className="text-[10px] font-medium uppercase tracking-wider text-white/60">• Лимитированный тираж</span>
+                                <span className="text-[10px] font-medium uppercase tracking-wider text-white/60">• Дизайн-лаборатория</span>
+                                <span className="text-[10px] font-medium uppercase tracking-wider text-white/60">• Прототип</span>
+                              </>
+                            ) : (
+                              <>
+                                <span className="text-[10px] font-medium uppercase tracking-wider text-white/60">• Эксклюзивный доступ</span>
+                                <span className="text-[10px] font-medium uppercase tracking-wider text-white/60">• VIP Прототипы</span>
+                                <span className="text-[10px] font-medium uppercase tracking-wider text-white/60">• Style Icon Only</span>
+                                <span className="text-[10px] font-medium uppercase tracking-wider text-white/60">• Private Drop</span>
+                                <span className="text-[10px] font-medium uppercase tracking-wider text-white/60">• Ранний доступ</span>
+                              </>
+                            )}
+                          </div>
+                        ))}
+                      </motion.div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h2 className="text-xl md:text-3xl font-bold uppercase tracking-tight leading-tight">
+                        {laboratoryTab === 'laboratory' ? 'КРАУДФАНДИНГ' : 'ПРОВЕРИТЬ МОЙ СТАТУС'}
+                      </h2>
+                      <p className="text-slate-300 text-sm font-medium border-l-2 border-indigo-500/50 pl-6">
+                        {laboratoryTab === 'laboratory' 
+                          ? '"Площадка для реализации самых смелых fashion-идей."' 
+                          : '"Пользователи с уровнем лояльности \'Style Icon\' получают доступ к дропам на 48 часов раньше всех."'}
+                      </p>
+                      <div className="pt-4 flex">
+                        <Button
+                          asChild
+                          variant="cta"
+                          size="ctaLg"
+                          className="min-w-[200px] w-fit"
+                        >
+                          <Link href={laboratoryTab === 'laboratory' ? "/kickstarter" : "/loyalty"} className="flex items-center gap-2">
+                            {laboratoryTab === 'laboratory' ? 'Все проекты' : 'Повысить статус'}
+                            <ArrowRight className="h-3.5 w-3.5" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+      )}
+
+      {/* Hidden "Drops" Section - Unlocked with 5+ brand follows or Admin role */}
+      <AnimatePresence>
+        {(viewRole === "client" || viewRole === "admin") && isDropsUnlocked && (
+          <motion.section
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="section-spacing bg-slate-950 relative overflow-hidden py-24"
+          >
+            {/* Background elements */}
+            <div className="absolute inset-0 opacity-20">
+              <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_-20%,#4f46e5,transparent)]" />
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
+            </div>
+
+            <div className="container mx-auto px-4 relative z-10">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 mb-16">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="h-8 w-8 rounded-xl bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30">
+                      <Flame className="h-4 w-4 text-indigo-400" />
+                    </div>
+                    <Badge className="bg-indigo-500 text-white border-none font-bold text-[10px] uppercase px-2 py-0.5 tracking-wide shadow-[0_0_15px_rgba(79,70,229,0.5)]">
+                      LOCKED_CONTENT_UNLOCKED
+                    </Badge>
+                  </div>
+                  <div className="space-y-2">
+                    <h2 className="text-2xl md:text-4xl font-bold text-white uppercase tracking-tight">
+                      DROPS<span className="text-indigo-500">.</span>
+                    </h2>
+                    <p className="text-slate-400 text-sm max-w-lg font-medium">
+                      Эксклюзивный доступ к лимитированным коллекциям для активных участников сообщества. Только 48 часов до общего релиза.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-3">
+                  <div className="text-right hidden md:block">
+                    <p className="text-[10px] font-bold text-indigo-500 uppercase tracking-wider mb-1">Следующий дроп через</p>
+                    <div className="flex gap-3">
+                      {[
+                        { val: "02", label: "дни" },
+                        { val: "14", label: "час" },
+                        { val: "35", label: "мин" }
+                      ].map(t => (
+                        <div key={t.label} className="flex flex-col items-center">
+                          <span className="text-sm font-bold text-white tabular-nums">{t.val}</span>
+                          <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wide">{t.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <Button variant="ctaOutline" size="ctaLg" className="group">
+                    Смотреть все дропы <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {[
+                  {
+                    id: "drop-1",
+                    name: "Cyber-Organic Hoodie",
+                    brand: "Nordic Wool",
+                    price: "18,900 ₽",
+                    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800",
+                    stock: "12/50"
+                  },
+                  {
+                    id: "drop-2",
+                    name: "Ghost Shell Parka",
+                    brand: "Syntha Lab",
+                    price: "42,000 ₽",
+                    image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=800",
+                    stock: "3/20"
+                  },
+                  {
+                    id: "drop-3",
+                    name: "Zero-G Sneakers",
+                    brand: "Syntha Lab",
+                    price: "24,500 ₽",
+                    image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800",
+                    stock: "Sold Out"
+                  }
+                ].map((drop) => (
+                  <Card key={drop.id} className="bg-slate-900/50 border-slate-800 rounded-xl overflow-hidden group/drop hover:border-indigo-500/50 transition-all duration-500">
+                    <div className="relative aspect-[4/5] overflow-hidden">
+                      <img src={drop.image} alt={drop.name} className="w-full h-full object-cover transition-transform duration-700 group-hover/drop:scale-110" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60" />
+                      <div className="absolute top-4 left-6">
+                        <Badge className="bg-black/80 backdrop-blur-md text-white border-white/10 font-bold text-[10px] uppercase px-3 py-1 rounded-full">
+                          {drop.stock === "Sold Out" ? "SOLD OUT" : `STOCK: ${drop.stock}`}
+                        </Badge>
+                      </div>
+                      <div className="absolute bottom-6 left-6 right-6">
+                        <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-wide mb-1">{drop.brand}</p>
+                        <h3 className="text-sm font-bold text-white uppercase tracking-tight leading-tight">{drop.name}</h3>
+                      </div>
+                    </div>
+                    <CardContent className="p-4 flex items-center justify-between">
+                      <span className="text-sm font-bold text-white">{drop.price}</span>
+                      <Button size="sm" variant="ghost" className="text-white hover:text-indigo-400 hover:bg-transparent p-0 h-auto text-xs font-bold uppercase tracking-wide">
+                        Забронировать <ArrowRight className="ml-2 h-3 w-3" />
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </motion.section>
+        )}
+      </AnimatePresence>
+
+      {/* AI Stylist Section — те же отступы и структура, что у SHOWCASE_b2c */}
+      {viewRole === "client" && (
+        <section id="AI_STYLIST_b2c" className="section-spacing bg-transparent relative scroll-mt-24">
+          <div className="container mx-auto px-4 relative">
+            <Card className="bg-white border-none rounded-xl shadow-2xl shadow-slate-200/50 overflow-hidden relative border border-slate-100">
+              <CardContent className="p-4 pt-4 pb-4 relative z-10">
+                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-2">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="h-8 w-8 rounded-xl bg-slate-100 flex items-center justify-center">
+                        <Brain className="h-4 w-4 text-black" />
+                      </div>
+                      <Badge
+                        variant="outline"
+                        className="text-xs border-slate-200 text-slate-900 uppercase font-semibold tracking-wide px-2 py-0.5"
+                      >
+                        ALGORITHM_B2C
+                      </Badge>
+                    </div>
+                    <div className="space-y-1">
+                      <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-tight text-slate-900 leading-tight">
+                        AI-стилист
+                      </h2>
+                      <p className="text-slate-500 text-sm max-w-xl">
+                        Создавайте уникальные комбинации в один клик.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <StylistPanel viewRole={viewRole} />
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+      )}
+
+      {/* Weekly Looks — те же отступы и структура, что у SHOWCASE_b2c */}
+      {viewRole === "client" && (
+        <section id="WEEKLY_LOOKS_b2c" className="section-spacing bg-transparent relative scroll-mt-24">
+          <div className="container mx-auto px-4 relative">
+            <Card className="bg-white border-none rounded-xl shadow-2xl shadow-slate-200/50 overflow-hidden relative border border-slate-100">
+              <CardContent className="p-4 relative z-10">
+                <WeeklyLooks
+                  viewRole={viewRole}
+                  productPreviews={totalLookCards.flatMap((l) => (l as { products?: { id: string; name: string; image: string; brand: string; price: number }[] }).products ?? []).slice(0, 6)}
+                  showroomAnchor="SHOWCASE_b2b"
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+      )}
+
+      {/* Available Media — те же отступы и структура, что у SHOWCASE_b2c */}
+      {viewRole === "client" && (
+        <section id="MEDIA_b2c" className="section-spacing bg-transparent relative scroll-mt-24">
+          <div className="container mx-auto px-4 relative">
+            <Card className="bg-white border-none rounded-xl shadow-2xl shadow-slate-200/50 overflow-hidden relative border border-slate-100">
+              <CardContent className="p-4 relative z-10">
+                <HomeLiveStrip live={cfg.live} />
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+      )}
+
+      {/* New Editorial & Social Sections for B2C */}
+      {viewRole === "client" && (
+        <>
+          <section id="SOCIAL_SYNC_b2c" className="section-spacing bg-transparent relative scroll-mt-24">
+            <div className="container mx-auto px-4 relative">
+              <Card className="bg-white border-none rounded-xl shadow-2xl shadow-slate-200/50 overflow-hidden relative border border-slate-100">
+                <CardContent className="p-4 relative z-10">
+                  <AsSeenOnLive />
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          <section id="EDITORIAL_b2c" className="section-spacing bg-transparent relative scroll-mt-24">
+            <div className="container mx-auto px-4 relative">
+              <Card className="bg-white border-none rounded-xl shadow-2xl shadow-slate-200/50 overflow-hidden relative border border-slate-100">
+                <CardContent className="p-4 relative z-10">
+                  <SynthaEdit />
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+        </>
+      )}
+
+      {/* Bottom B2B News / Platform Updates Section with multiple slots */}
+      <B2BUpdatesSection />
+
+      {/* Look Details Dialog */}
+      <LookDetailsDialog 
+        isOpen={isLookDetailsOpen}
+        onOpenChange={setIsLookDetailsOpen}
+        selectedLook={selectedLook}
+        viewRole={viewRole}
+        setShowroomViewMode={setShowroomViewMode}
+      />
+      {/* Audit Trail Dialog */}
+      <AuditTrailDialog 
+        isOpen={isAuditTrailOpen}
+        onOpenChange={setIsAuditTrailOpen}
+      />
+
+      {/* Smart Checkout Modal */}
+      <SmartCheckoutDialog 
+        isOpen={isCheckoutModalOpen}
+        onOpenChange={setIsCheckoutModalOpen}
+        toast={toast}
+      />
+    </div>
+  );
+}

@@ -1,0 +1,722 @@
+/**
+ * B2B Workplace Matrix Data
+ * Оформлено в стиле ПРОИЗВОДСТВЕННОЙ МАТРИЦЫ
+ * Синхронизировано с WorkplaceSection.tsx
+ * Все пути через ROUTES для связности с платформой.
+ */
+
+import { ROUTES } from '@/lib/routes';
+
+export type WorkspaceTabId = 'ops' | 'commercial' | 'supply' | 'intelligence';
+export type B2BUserRole = 'retailer' | 'brand' | 'buyer' | 'sales_rep' | 'merchandiser' | 'finance_manager' | 'distributor';
+export type DigitalFlowId = 'ops' | 'commercial' | 'supply' | 'intelligence';
+
+export interface WorkspaceTab {
+  id: WorkspaceTabId;
+  label: string;
+  description: string;
+  flow: DigitalFlowId;
+}
+
+export interface WorkspaceItem {
+  id: string;
+  category: string;
+  title: string;
+  description: string;
+  icon: string;
+  roles: string[]; 
+  tabId: WorkspaceTabId;
+  flow: DigitalFlowId;
+  buttonText: string;
+  priority?: 'standard' | 'critical';
+  badge?: string;
+  teaser?: {
+    subtitle: string;
+    image: string;
+    features: string[];
+  };
+}
+
+export const WORKSPACE_TABS: WorkspaceTab[] = [
+  { id: 'intelligence', label: 'ИНТЕЛЛЕКТ И АНАЛИТИКА', description: 'AI-инсайты и прогнозирование спроса.', flow: 'intelligence' },
+  { id: 'ops', label: 'ОПЕРАЦИИ И КОЛЛАБОРАЦИЯ', description: 'Управление внутренними процессами и данными.', flow: 'ops' },
+  { id: 'commercial', label: 'КОММЕРЦИЯ И ПРОДАЖИ', description: 'Инструменты для роста продаж и маркетинга.', flow: 'commercial' },
+  { id: 'supply', label: 'ЦЕПОЧКИ ПОСТАВОК', description: 'Контроль производства и логистики.', flow: 'supply' }
+];
+
+export const WORKSPACE_ITEMS: WorkspaceItem[] = [
+  // === ИНТЕЛЛЕКТ И АНАЛИТИКА (intelligence) ===
+  {
+    id: 'market-intelligence',
+    category: 'AI_INSIGHTS',
+    title: 'MARKET INTELLIGENCE',
+    description: 'Персонализированные рекомендации и анализ трендов на основе ваших закупок.',
+    icon: 'Sparkles',
+    roles: ['buyer', 'retailer', 'brand'],
+    tabId: 'intelligence',
+    flow: 'intelligence',
+    buttonText: 'СМОТРЕТЬ ИНСАЙТЫ',
+    badge: 'AI',
+    teaser: {
+      subtitle: "Predictive Analytics 2.0",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2000",
+      features: ["Прогноз спроса SKU", "Анализ визуальных трендов", "Оптимизация бюджета"]
+    }
+  },
+  // === ОПЕРАЦИИ И КОЛЛАБОРАЦИЯ (ops) ===
+  {
+    id: 'collab',
+    category: 'КОЛЛАБОРАЦИЯ',
+    title: 'ЦЕНТР КОЛЛАБОРАЦИИ',
+    description: 'Единая среда для общения команд, управления задачами и календарем проектов.',
+    icon: 'MessageSquare',
+    roles: ['brand', 'retailer', 'distributor'],
+    tabId: 'ops',
+    flow: 'ops',
+    buttonText: 'ОТКРЫТЬ ЦЕНТР',
+    badge: 'CORE',
+    teaser: {
+      subtitle: "Командное взаимодействие 2.0",
+      image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2000",
+      features: ["Групповые чаты по заказам", "Общий календарь поставок", "Канбан-доски задач"]
+    }
+  },
+  {
+    id: 'pim',
+    category: 'ДАННЫЕ',
+    title: 'СИСТЕМА PIM',
+    description: 'Централизованное управление мастер-данными товаров, описаниями и медиа-контентом.',
+    icon: 'Database',
+    roles: ['brand'],
+    tabId: 'ops',
+    flow: 'ops',
+    buttonText: 'УПРАВЛЯТЬ ДАННЫМИ',
+    badge: 'DATA',
+    teaser: {
+      subtitle: "Product Information Management",
+      image: "https://images.unsplash.com/photo-1551288049-bbbda536339a?q=80&w=2000",
+      features: ["Единый источник правды", "Авто-экспорт в маркетплейсы", "Валидация атрибутов"]
+    }
+  },
+  {
+    id: 'claims',
+    category: 'СЕРВИС',
+    title: 'ПОРТАЛ ПРЕТЕНЗИЙ',
+    description: 'Автоматизированная обработка рекламаций, возвратов и споров между партнерами.',
+    icon: 'ShieldAlert',
+    roles: ['brand', 'retailer'],
+    tabId: 'ops',
+    flow: 'ops',
+    buttonText: 'РЕЕСТР ПРЕТЕНЗИЙ',
+    teaser: {
+      subtitle: "Service Level Management",
+      image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2000",
+      features: ["Фото-фиксация брака", "История решений", "Авто-расчет компенсаций"]
+    }
+  },
+  {
+    id: 'dms',
+    category: 'ДОКУМЕНТЫ',
+    title: 'DMS ХРАНИЛИЩЕ',
+    description: 'Безопасный архив и система управления электронным документооборотом (ЭДО).',
+    icon: 'FolderOpen',
+    roles: ['brand', 'retailer'],
+    tabId: 'ops',
+    flow: 'ops',
+    buttonText: 'АРХИВ ЭДО',
+    teaser: {
+      subtitle: "Document Management System",
+      image: "https://images.unsplash.com/photo-1562564055-71e051d33c19?q=80&w=2000",
+      features: ["Юридически значимый ЭДО", "Поиск по метаданным", "Контроль версий контрактов"]
+    }
+  },
+  {
+    id: 'crm',
+    category: 'АНАЛИТИКА',
+    title: 'PARTNER CRM',
+    description: 'Глубокая аналитика вовлеченности партнеров и мониторинг их бизнес-показателей.',
+    icon: 'BarChart3',
+    roles: ['brand', 'distributor'],
+    tabId: 'ops',
+    flow: 'ops',
+    buttonText: 'АНАЛИЗ ПАРТНЕРОВ',
+    teaser: {
+      subtitle: "Relationship Management",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2000",
+      features: ["Сегментация байеров", "Воронка партнерства", "Прогноз лояльности"]
+    }
+  },
+
+  // === КОММЕРЦИЯ И ПРОДАЖИ (commercial) ===
+  {
+    id: 'leads',
+    category: 'ПРОДАЖИ',
+    title: 'LEAD SCORING',
+    description: 'AI-алгоритмы поиска и оценки потенциальных ретейлеров для расширения сети.',
+    icon: 'Target',
+    roles: ['brand'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'ПОИСК ПАРТНЕРОВ',
+    badge: 'AI',
+    teaser: {
+      subtitle: "Smart Sales Expansion",
+      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2000",
+      features: ["Предиктивный поиск", "Оценка надежности", "Авто-рассылка предложений"]
+    }
+  },
+  {
+    id: 'showroom-360',
+    category: 'ВИЗУАЛИЗАЦИЯ',
+    title: 'ШОУРУМ 360°',
+    description: 'Виртуальное пространство для презентации коллекций в высоком разрешении.',
+    icon: 'Scan',
+    roles: ['brand', 'retailer'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'В ШОУРУМ',
+    teaser: {
+      subtitle: "Immersive Presentation",
+      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2000",
+      features: ["360-градусный обзор", "Интерактивные теги", "Мгновенный заказ из сцены"]
+    }
+  },
+  {
+    id: 'collab-buying',
+    category: 'БАЙИНГ',
+    title: 'КОМАНДНЫЕ ЗАКУПКИ',
+    description: 'Совместный отбор ассортимента и коллективное голосование за байинг-лист.',
+    icon: 'Users',
+    roles: ['retailer', 'distributor'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'НАЧАТЬ ОТБОР',
+    teaser: {
+      subtitle: "Collaborative Merchandising",
+      image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2000",
+      features: ["Голосование за артикулы", "Общий бюджет закупок", "Чат внутри коллекции"]
+    }
+  },
+  {
+    id: 'marketing',
+    category: 'МАРКЕТИНГ',
+    title: 'ASSET CLOUD',
+    description: 'Облачное хранилище маркетинговых материалов и контента для партнеров.',
+    icon: 'Cloud',
+    roles: ['brand', 'retailer'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'СКАЧАТЬ АССЕТЫ',
+    teaser: {
+      subtitle: "Content Distribution",
+      image: "https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=2000",
+      features: ["Готовые посты для соцсетей", "Бренд-буки и гайды", "Прес-паки коллекций"]
+    }
+  },
+  {
+    id: 'lookbook',
+    category: 'КОНТЕНТ',
+    title: 'VISUAL HUB',
+    description: 'Интерактивные цифровые лукбуки с возможностью быстрого заказа образов.',
+    icon: 'BookOpen',
+    roles: ['brand', 'retailer'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'СМОТРЕТЬ ЛУКБУК',
+    teaser: {
+      subtitle: "Interactive Storytelling",
+      image: "https://images.unsplash.com/photo-1537832816519-689ad163238b?q=80&w=2000",
+      features: ["Shop-the-look механика", "Видео-лукбуки", "Печатные версии в PDF"]
+    }
+  },
+  {
+    id: 'academy',
+    category: 'ОБУЧЕНИЕ',
+    title: 'АКАДЕМИЯ БРЕНДА',
+    description: 'Обучение по купленным коллекциям: product knowledge, мерчандайзинг, скрипты продаж, база знаний бренда.',
+    icon: 'GraduationCap',
+    roles: ['retailer', 'buyer'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'В АКАДЕМИЮ',
+    teaser: {
+      subtitle: "Brand Training Portal",
+      image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=2000",
+      features: ["Обучение по коллекциям", "База знаний бренда", "Материалы для продавцов"]
+    }
+  },
+  {
+    id: 'financing',
+    category: 'ФИНАНСЫ',
+    title: 'ФИНАНСИРОВАНИЕ',
+    description: 'Интегрированные решения B2B BNPL и кредитные линии для закупок.',
+    icon: 'Landmark',
+    roles: ['retailer', 'distributor'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'УСЛОВИЯ ОПЛАТЫ',
+    teaser: {
+      subtitle: "B2B Payment Solutions",
+      image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2000",
+      features: ["Рассрочка платежа", "Кредитный лимит", "Факторинг"]
+    }
+  },
+  {
+    id: 'merch',
+    category: 'МЕРЧАНДАЙЗИНГ',
+    title: 'DIGITAL RACK',
+    description: 'Инструменты цифрового мерчандайзинга и создания планограмм магазинов.',
+    icon: 'ShoppingBag',
+    roles: ['retailer', 'brand'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'МАТРИЦА ВЫКЛАДКИ',
+    teaser: {
+      subtitle: "Visual Merchandising",
+      image: "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?q=80&w=2000",
+      features: ["Виртуальные рейлы", "Планограммы выкладки", "Анализ эффективности полки"]
+    }
+  },
+  {
+    id: 'planning',
+    category: 'ПЛАНИРОВАНИЕ',
+    title: 'AI SKU PLANNER',
+    description: 'Предиктивное планирование ассортиментной матрицы и бюджета на базе AI.',
+    icon: 'PieChart',
+    roles: ['retailer', 'brand'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'ПЛАН ЗАКУПОК',
+    badge: 'AI',
+    teaser: {
+      subtitle: "Assortment Optimization",
+      image: "https://images.unsplash.com/photo-1543286386-713bdd548da4?q=80&w=2000",
+      features: ["Прогноз спроса", "Оптимизация SKU-микса", "Бюджетирование"]
+    }
+  },
+
+  // === ЦЕПОЧКИ ПОСТАВОК (supply) ===
+  {
+    id: 'prod-pulse',
+    category: 'ПРОИЗВОДСТВО',
+    title: 'PRODUCTION PULSE',
+    description: 'IoT-мониторинг производственных этапов на фабриках в реальном времени.',
+    icon: 'Activity',
+    roles: ['brand'],
+    tabId: 'supply',
+    flow: 'supply',
+    buttonText: 'ПУЛЬС ФАБРИК',
+    badge: 'IOT',
+    teaser: {
+      subtitle: "Real-time Manufacturing",
+      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2000",
+      features: ["Статус пошива онлайн", "Контроль мощностей", "Уведомления о задержках"]
+    }
+  },
+  {
+    id: 'ats',
+    category: 'СКЛАД',
+    title: 'ATS ИНВЕНТАРЬ',
+    description: 'Матрица свободных остатков для мгновенного дозаказа (Available to Sell).',
+    icon: 'Database',
+    roles: ['brand', 'distributor'],
+    tabId: 'supply',
+    flow: 'supply',
+    buttonText: 'ПРОВЕРИТЬ STOCK',
+    teaser: {
+      subtitle: "Inventory Visibility",
+      image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2000",
+      features: ["Мгновенные стоки", "Резервирование", "Синхронизация ERP"]
+    }
+  },
+  {
+    id: 'logistics',
+    category: 'ЛОГИСТИКА',
+    title: 'ТРЕКИНГ ЗАКАЗОВ',
+    description: 'Сквозной мониторинг логистических этапов от отгрузки до двери.',
+    icon: 'Truck',
+    roles: ['brand', 'retailer'],
+    tabId: 'supply',
+    flow: 'supply',
+    buttonText: 'ГДЕ ГРУЗ?',
+    teaser: {
+      subtitle: "Last-mile Monitoring",
+      image: "https://images.unsplash.com/photo-1580674271209-40da4bc35dfe?q=80&w=2000",
+      features: ["Трекинг на карте", "Документы в пути", "ETA-прогнозы"]
+    }
+  },
+  {
+    id: 'landed-cost',
+    category: 'РАСЧЕТЫ',
+    title: 'LANDED COST',
+    description: 'Калькулятор полной себестоимости импорта с учетом всех пошлин и логистики.',
+    icon: 'Calculator',
+    roles: ['retailer', 'distributor'],
+    tabId: 'supply',
+    flow: 'supply',
+    buttonText: 'КАЛЬКУЛЯТОР',
+    teaser: {
+      subtitle: "Financial Logistics",
+      image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2000",
+      features: ["Расчет пошлин", "Логистические затраты", "Итоговая маржа"]
+    }
+  },
+  {
+    id: 'contracts',
+    category: 'ПРАВО',
+    title: 'ЮРИДИЧЕСКИЙ ХАБ',
+    description: 'Цифровое подписание и хранение международных контрактов и соглашений.',
+    icon: 'PenTool',
+    roles: ['brand', 'retailer'],
+    tabId: 'supply',
+    flow: 'supply',
+    buttonText: 'ПОДПИСАТЬ',
+    teaser: {
+      subtitle: "Legal Compliance",
+      image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2000",
+      features: ["Смарт-контракты", "Шаблоны документов", "Электронная подпись"]
+    }
+  },
+
+  // === НОВЫЕ ИНТЕГРАЦИИ (JOOR / NuOrder / TSUM / Farfetch и др.) ===
+  {
+    id: 'video-consultation',
+    category: 'СЕРВИС',
+    title: 'ВИДЕО-КОНСУЛЬТАЦИЯ',
+    description: 'Бронирование видеозвонков со стилистом или мерчандайзером (Zoom/Teams).',
+    icon: 'Video',
+    roles: ['buyer', 'retailer', 'brand'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'ЗАБРОНИРОВАТЬ',
+    badge: 'NEW',
+    teaser: {
+      subtitle: "TSUM / Farfetch style",
+      image: "https://images.unsplash.com/photo-1577563908411-5077b6dc7624?q=80&w=2000",
+      features: ["Слоты экспертов", "Напоминания", "Запись встречи"]
+    }
+  },
+  {
+    id: 'vip-room-booking',
+    category: 'ШОУРУМ',
+    title: 'VIP ШОУРУМ',
+    description: 'Бронирование приватного шоурума по слотам для персональной презентации.',
+    icon: 'CalendarCheck',
+    roles: ['buyer', 'retailer', 'brand'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'ВЫБРАТЬ СЛОТ',
+    badge: 'NEW',
+    teaser: {
+      subtitle: "TSUM style",
+      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2000",
+      features: ["Календарь слотов", "Подтверждение", "Напоминания"]
+    }
+  },
+  {
+    id: 'store-locator',
+    category: 'РИТЕЙЛ',
+    title: 'КАРТА МАГАЗИНОВ',
+    description: 'Магазины и бутики с наличием в реальном времени (Farfetch style).',
+    icon: 'MapPin',
+    roles: ['retailer', 'buyer', 'brand'],
+    tabId: 'intelligence',
+    flow: 'intelligence',
+    buttonText: 'ОТКРЫТЬ КАРТУ',
+    badge: 'NEW',
+    teaser: {
+      subtitle: "Store Locator + Stock",
+      image: "https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2000",
+      features: ["Остатки в точках", "Часы работы", "Маршрут"]
+    }
+  },
+  {
+    id: 'margin-calculator',
+    category: 'ФИНАНСЫ',
+    title: 'КАЛЬКУЛЯТОР МАРЖИ',
+    description: 'Расчёт маржинальности прямо в корзине и по заказу (NuOrder style).',
+    icon: 'Calculator',
+    roles: ['buyer', 'retailer', 'distributor'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'ПОСЧИТАТЬ МАРЖУ',
+    badge: 'NEW',
+    teaser: {
+      subtitle: "Margin at Checkout",
+      image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2000",
+      features: ["Розница vs опт", "Скидки", "Итоговая маржа"]
+    }
+  },
+  {
+    id: 'multi-currency',
+    category: 'ОПЛАТА',
+    title: 'МУЛЬТИВАЛЮТА',
+    description: 'Выбор валюты заказа и отображение курсов (JOOR: 135+ валют).',
+    icon: 'Globe',
+    roles: ['buyer', 'retailer', 'brand'],
+    tabId: 'supply',
+    flow: 'supply',
+    buttonText: 'НАСТРОИТЬ',
+    badge: 'NEW',
+    teaser: {
+      subtitle: "Multi-Currency",
+      image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=2000",
+      features: ["Курсы в реальном времени", "Сохранение валюты", "Суммы в выбранной валюте"]
+    }
+  },
+  {
+    id: 'order-modes',
+    category: 'ЗАКУПКИ',
+    title: 'РЕЖИМЫ ЗАКАЗА',
+    description: 'Buy Now / Reorder / Pre-order в одном потоке (NuOrder style).',
+    icon: 'ShoppingCart',
+    roles: ['buyer', 'retailer'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'ВЫБРАТЬ РЕЖИМ',
+    badge: 'NEW',
+    teaser: {
+      subtitle: "Buy Now · Reorder · Pre-order",
+      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2000",
+      features: ["Мгновенная отгрузка", "Повтор прошлого заказа", "Предзаказ коллекции"]
+    }
+  },
+  {
+    id: 'order-drafts',
+    category: 'ЗАКУПКИ',
+    title: 'ЧЕРНОВИКИ ЗАКАЗОВ',
+    description: 'Незавершённые заказы по коллекциям. Продолжить написание в матрице (JOOR).',
+    icon: 'FileEdit',
+    roles: ['buyer', 'retailer'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'МОИ ЧЕРНОВИКИ',
+    teaser: {
+      subtitle: "Order Drafts",
+      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2000",
+      features: ["Продолжить заказ", "Удалить черновик", "Связка с матрицей"]
+    }
+  },
+  {
+    id: 'b2b-orders',
+    category: 'ЗАКУПКИ',
+    title: 'МОИ ЗАКАЗЫ',
+    description: 'Единый дашборд заказов по статусам: черновики, на согласовании, согласованные (JOOR).',
+    icon: 'ClipboardList',
+    roles: ['buyer', 'retailer'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'ОТКРЫТЬ ЗАКАЗЫ',
+    teaser: {
+      subtitle: "Orders Dashboard",
+      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2000",
+      features: ["Фильтр по бренду", "Экспорт в CSV", "Детали заказа"]
+    }
+  },
+  {
+    id: 'collection-terms',
+    category: 'ЗАКУПКИ',
+    title: 'УСЛОВИЯ ПО КОЛЛЕКЦИЯМ',
+    description: 'Дедлайны заказа, MOQ, MOV по брендам и коллекциям (NuOrder style).',
+    icon: 'CalendarClock',
+    roles: ['buyer', 'retailer'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'СМОТРЕТЬ УСЛОВИЯ',
+    teaser: {
+      subtitle: "Deadlines & MOQ",
+      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2000",
+      features: ["Дедлайн заказа", "Минимум по стилю", "Минимальная сумма"]
+    }
+  },
+  {
+    id: 'delivery-calendar',
+    category: 'ПОСТАВКИ',
+    title: 'КАЛЕНДАРЬ ПОСТАВОК',
+    description: 'Drop dates по брендам и коллекциям — окна доставки (NuOrder/JOOR).',
+    icon: 'Truck',
+    roles: ['buyer', 'retailer'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'ОТКРЫТЬ КАЛЕНДАРЬ',
+    teaser: {
+      subtitle: "Drop Dates",
+      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2000",
+      features: ["План. даты отгрузки", "Окна доставки", "По коллекциям"]
+    }
+  },
+  {
+    id: 'lookbook-share',
+    category: 'КОНТЕНТ',
+    title: 'ПОДЕЛИТЬСЯ ЛУКБУКОМ',
+    description: 'Ссылка на коллекцию с истечением срока и паролем (JOOR/Colect).',
+    icon: 'Share2',
+    roles: ['buyer', 'retailer'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'СОЗДАТЬ ССЫЛКУ',
+    teaser: {
+      subtitle: "Share Lookbook",
+      image: "https://images.unsplash.com/photo-1537832816519-689ad163238b?q=80&w=2000",
+      features: ["Срок действия", "Пароль", "Заказ по ссылке"]
+    }
+  },
+  {
+    id: 'shopify-sync',
+    category: 'ИНТЕГРАЦИИ',
+    title: 'SHOPIFY SYNC',
+    description: 'Синхронизация заказов и каталога с Shopify (JOOR/NuOrder для ритейлеров).',
+    icon: 'Plug',
+    roles: ['retailer', 'brand'],
+    tabId: 'ops',
+    flow: 'ops',
+    buttonText: 'ПОДКЛЮЧИТЬ',
+    badge: 'NEW',
+    teaser: {
+      subtitle: "E-commerce Sync",
+      image: "https://images.unsplash.com/photo-1556742044-3c52e6e82719?q=80&w=2000",
+      features: ["Экспорт заказов", "Синхронизация остатков", "Webhooks"]
+    }
+  },
+  {
+    id: 'partner-onboarding',
+    category: 'ПАРТНЁРЫ',
+    title: 'ОНБОРДИНГ ПАРТНЁРА',
+    description: 'Пошаговый мастер подключения нового магазина (Zalando style).',
+    icon: 'UserPlus',
+    roles: ['brand', 'distributor'],
+    tabId: 'ops',
+    flow: 'ops',
+    buttonText: 'НАЧАТЬ',
+    badge: 'NEW',
+    teaser: {
+      subtitle: "Partner Onboarding Wizard",
+      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2000",
+      features: ["Пошаговая форма", "Верификация", "Первый заказ"]
+    }
+  },
+  {
+    id: 'social-feed',
+    category: 'СОЦИАЛЬНОЕ',
+    title: 'ЛЕНТА БРЕНДОВ',
+    description: 'Посты брендов, новости коллекций и активность (Depop/TSUM style).',
+    icon: 'Rss',
+    roles: ['buyer', 'retailer'],
+    tabId: 'intelligence',
+    flow: 'intelligence',
+    buttonText: 'СМОТРЕТЬ ЛЕНТУ',
+    badge: 'NEW',
+    teaser: {
+      subtitle: "Social Feed",
+      image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=2000",
+      features: ["Новые коллекции", "Лайки и комментарии", "Подписка на бренды"]
+    }
+  },
+  {
+    id: 'gamification',
+    category: 'ЛОЯЛЬНОСТЬ',
+    title: 'ЧЕЛЛЕНДЖИ И БЕЙДЖИ',
+    description: 'Задания, лидерборд и награды для байеров (Shein style).',
+    icon: 'Trophy',
+    roles: ['buyer', 'retailer'],
+    tabId: 'intelligence',
+    flow: 'intelligence',
+    buttonText: 'МОИ ДОСТИЖЕНИЯ',
+    badge: 'NEW',
+    teaser: {
+      subtitle: "Gamification",
+      image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=2000",
+      features: ["Ежедневные челленджи", "Бейджи", "Обмен очков на скидки"]
+    }
+  },
+  {
+    id: 'flash-deals',
+    category: 'ПРОДАЖИ',
+    title: 'FLASH B2B DEALS',
+    description: 'Ограниченные по времени офферы и расширенный Last Call с таймером.',
+    icon: 'Zap',
+    roles: ['buyer', 'retailer', 'brand'],
+    tabId: 'commercial',
+    flow: 'commercial',
+    buttonText: 'СМОТРЕТЬ ОФФЕРЫ',
+    badge: 'NEW',
+    teaser: {
+      subtitle: "Flash Deals",
+      image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=2000",
+      features: ["Таймер окончания", "Лимит по количеству", "Уведомления"]
+    }
+  }
+];
+
+/** Пути для перехода с карточек B2B Workspace (id → path). Бренд/магазин выбирается по контексту. */
+export const WORKSPACE_ITEM_PATHS: Record<string, string> = {
+  'market-intelligence': ROUTES.shop.b2b,
+  'collab': ROUTES.brand.team,
+  'pim': ROUTES.brand.inventory,
+  'claims': ROUTES.brand.returnsClaims,
+  'dms': ROUTES.brand.documents,
+  'crm': ROUTES.brand.retailers,
+  'leads': ROUTES.brand.retailers,
+  'showroom-360': ROUTES.brand.showroom,
+  'collab-buying': ROUTES.shop.b2bMatrix,
+  'marketing': ROUTES.brand.contentHub,
+  'lookbook': ROUTES.brand.b2bLinesheets,
+  'financing': ROUTES.shop.b2bBudget,
+  'merch': ROUTES.shop.b2bMatrix,
+  'planning': ROUTES.brand.planning,
+  'prod-pulse': ROUTES.brand.production,
+  'ats': ROUTES.shop.b2bCatalog,
+  'logistics': ROUTES.shop.b2bTracking,
+  'landed-cost': ROUTES.shop.b2bLandedCost,
+  'contracts': ROUTES.shop.b2bContracts,
+  'video-consultation': ROUTES.shop.b2bVideoConsultation,
+  'vip-room-booking': ROUTES.shop.b2bVipRoomBooking,
+  'store-locator': ROUTES.storeLocator,
+  'margin-calculator': ROUTES.shop.b2bMarginCalculator,
+  'multi-currency': ROUTES.shop.b2bMultiCurrency,
+  'order-modes': ROUTES.shop.b2bOrderMode,
+  'shopify-sync': ROUTES.shop.b2bShopifySync,
+  'partner-onboarding': ROUTES.shop.b2bPartnerOnboarding,
+  'social-feed': ROUTES.shop.b2bSocialFeed,
+  'gamification': ROUTES.shop.b2bGamification,
+  'flash-deals': ROUTES.brand.lastCall,
+  'order-drafts': ROUTES.shop.b2bOrderDrafts,
+  'b2b-orders': ROUTES.shop.b2bOrders,
+  'collection-terms': ROUTES.shop.b2bCollectionTerms,
+  'create-order': ROUTES.shop.b2bCreateOrder,
+  'order-by-collection': ROUTES.shop.b2bOrderByCollection,
+  'delivery-calendar': ROUTES.shop.b2bDeliveryCalendar,
+  'lookbook-share': ROUTES.shop.b2bLookbookShare,
+  'academy': ROUTES.shop.b2bAcademy,
+};
+
+export const DIGITAL_WORKSPACE_CONNECTIONS = [
+  { from: 'pim', to: 'showroom-360', label: 'ДАННЫЕ -> 3D', desc: 'Автоматическая синхронизация характеристик товара с 3D-шоурумом.' },
+  { from: 'pim', to: 'merch', label: 'PIM -> RACK', desc: 'Наполнение цифровых рейлов актуальными данными из PIM-системы.' },
+  { from: 'planning', to: 'collab-buying', label: 'ПЛАН -> ЗАКУПКИ', desc: 'Передача утвержденной матрицы планирования в среду командного отбора.' },
+  { from: 'prod-pulse', to: 'logistics', label: 'ЗАВОД -> ТРЕКИНГ', desc: 'Автоматическое создание логистической заявки при выходе партии из производства.' },
+  { from: 'ats', to: 'merch', label: 'СТОК -> RACK', desc: 'Отображение доступности товаров на цифровых витринах в реальном времени.' },
+  { from: 'financing', to: 'contracts', label: 'ОПЛАТА -> ПРАВО', desc: 'Генерация финансовых соглашений при одобрении кредитной линии.' },
+  { from: 'leads', to: 'crm', label: 'ЛИДЫ -> CRM', desc: 'Автоматическая конвертация успешных лидов в карточки партнеров в CRM.' }
+];
+
+export const FLOW_CONFIG: Record<DigitalFlowId, { label: string; color: string; bgColor: string }> = {
+  intelligence: { label: 'Интеллект и Аналитика', color: 'text-purple-600', bgColor: 'bg-purple-50' },
+  ops: { label: 'Операции и Коллаборация', color: 'text-blue-600', bgColor: 'bg-blue-50' },
+  commercial: { label: 'Коммерция и Продажи', color: 'text-indigo-600', bgColor: 'bg-indigo-50' },
+  supply: { label: 'Цепочки Поставок', color: 'text-emerald-600', bgColor: 'bg-emerald-50' }
+};
+
+export const ROLE_CONFIG: Record<string, { label: string; icon: string; color: string; bgColor: string }> = {
+  retailer: { label: 'РЕТЕЙЛЕР', icon: 'Store', color: 'text-blue-500', bgColor: 'bg-blue-50' },
+  brand: { label: 'БРЕНД', icon: 'Tag', color: 'text-emerald-500', bgColor: 'bg-emerald-50' },
+  buyer: { label: 'БАЙЕР', icon: 'ShoppingBag', color: 'text-indigo-500', bgColor: 'bg-indigo-50' },
+  distributor: { label: 'ДИСТРИБЬЮТОР', icon: 'Briefcase', color: 'text-amber-500', bgColor: 'bg-amber-50' }
+};
+
+export const ROLE_PERMISSIONS: Record<string, string[]> = {
+  retailer: ['market-intelligence', 'collab', 'claims', 'dms', 'showroom-360', 'collab-buying', 'marketing', 'lookbook', 'academy', 'financing', 'merch', 'planning', 'logistics', 'landed-cost', 'contracts', 'video-consultation', 'vip-room-booking', 'store-locator', 'margin-calculator', 'multi-currency', 'order-modes', 'order-drafts', 'b2b-orders', 'collection-terms', 'delivery-calendar', 'lookbook-share', 'shopify-sync', 'social-feed', 'gamification', 'flash-deals'],
+  brand: ['market-intelligence', 'collab', 'pim', 'claims', 'dms', 'crm', 'leads', 'showroom-360', 'marketing', 'lookbook', 'merch', 'planning', 'prod-pulse', 'ats', 'logistics', 'contracts', 'video-consultation', 'vip-room-booking', 'store-locator', 'shopify-sync', 'partner-onboarding', 'flash-deals'],
+  distributor: ['market-intelligence', 'collab', 'crm', 'collab-buying', 'financing', 'ats', 'landed-cost', 'margin-calculator', 'multi-currency', 'partner-onboarding', 'flash-deals'],
+  buyer: ['market-intelligence', 'collab-buying', 'lookbook', 'academy', 'financing', 'logistics', 'video-consultation', 'vip-room-booking', 'store-locator', 'margin-calculator', 'order-modes', 'order-drafts', 'b2b-orders', 'collection-terms', 'delivery-calendar', 'lookbook-share', 'social-feed', 'gamification', 'flash-deals']
+};

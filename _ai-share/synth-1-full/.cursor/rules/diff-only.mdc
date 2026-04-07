@@ -1,0 +1,12 @@
+---
+description: enforce diff-only edits for code files
+globs: **/*.{ts,tsx,js,jsx,css,html}
+---
+
+# Diff-Only Editing Rules
+
+- NEVER overwrite a file entirely.
+- ALWAYS use string replacement or partial edits (diff) to apply changes.
+- If a change requires modifying more than 30 lines, YOU MUST first propose a plan to break it down into smaller, logical steps.
+- Preserve existing indentation and coding style exactly.
+- Do not add comments or change code that is not directly related to the task.

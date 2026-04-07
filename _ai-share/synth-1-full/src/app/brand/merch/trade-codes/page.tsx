@@ -1,0 +1,107 @@
+'use client';
+
+import Link from 'next/link';
+import { useMemo } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { ROUTES } from '@/lib/routes';
+import { products } from '@/lib/products';
+import { buildTradeCodeRows, tradeCodeRowsToCsv } from '@/lib/fashion/trade-code-rollup';
+import { ArrowLeft, FileSpreadsheet } from 'lucide-react';
+
+export default function TradeCodesPage() {
+  const rows = useMemo(() => buildTradeCodeRows(products), []);
+  const stats = useMemo(() => {
+    const full = rows.filter((r) => r.completeness === 'full').length;
+    const partial = rows.filter((r) => r.completeness === 'partial').length;
+    const empty = rows.filter((r) => r.completeness === 'empty').length;
+    return { full, partial, empty };
+  }, [rows]);
+
+  const downloadCsv = () => {
+    const csv = tradeCodeRowsToCsv(rows);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `trade-codes-${Date.now()}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <div className="container max-w-6xl mx-auto px-4 py-6 space-y-6 pb-24">
+      <div className="flex items-center gap-3">
+        <Button variant="ghost" size="icon" asChild>
+          <Link href={ROUTES.brand.growthHub}>
+            <ArrowLeft className="h-4 w-4" />
+          </Link>
+        </Button>
+        <div>
+          <h1 className="text-xl font-bold flex items-center gap-2">
+            <FileSpreadsheet className="h-6 w-6" />
+            Таможня и маркировка
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Поля <code className="text-[10px] bg-muted px-1 rounded">hsCode</code>, <code className="text-[10px] bg-muted px-1 rounded">eac</code>, страна происхождения — заготовка под выгрузку в compliance и логистику.
+          </p>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-2 items-center">
+        <Button type="button" onClick={downloadCsv}>
+          CSV по SKU
+        </Button>
+        <span className="text-xs text-muted-foreground">
+          Полных: {stats.full} · частичных: {stats.partial} · пустых: {stats.empty}
+        </span>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.brand.attributeHealth}>Здоровье атрибутов</Link>
+        </Button>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Таблица</CardTitle>
+          <CardDescription>{rows.length} строк</CardDescription>
+        </CardHeader>
+        <CardContent className="overflow-x-auto max-h-[min(70vh,720px)] overflow-y-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>SKU</TableHead>
+                <TableHead>Название</TableHead>
+                <TableHead>ТН ВЭД / HS</TableHead>
+                <TableHead>ЕАС</TableHead>
+                <TableHead>Происхождение</TableHead>
+                <TableHead>Статус</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {rows.map((r) => (
+                <TableRow key={r.sku}>
+                  <TableCell className="font-mono text-xs whitespace-nowrap">{r.sku}</TableCell>
+                  <TableCell className="text-xs max-w-[180px]">
+                    <Link href={`/products/${r.slug}`} className="hover:underline line-clamp-2">
+                      {r.name}
+                    </Link>
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">{r.hsCode || '—'}</TableCell>
+                  <TableCell className="text-xs">{r.eacMark || '—'}</TableCell>
+                  <TableCell className="text-xs">{r.origin || '—'}</TableCell>
+                  <TableCell>
+                    <Badge variant={r.completeness === 'full' ? 'default' : r.completeness === 'partial' ? 'secondary' : 'outline'} className="text-[10px]">
+                      {r.completeness}
+                    </Badge>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

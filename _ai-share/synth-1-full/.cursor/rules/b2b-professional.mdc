@@ -1,0 +1,31 @@
+# B2B Professional Features (JOOR/NuOrder Level)
+
+## Core Philosophy
+- B2B is about **Assortment Matrices**, not just individual SKU lists.
+- Deals are **Collaborative Drafts** that go through versions.
+- Trust is built through **Audit Trails** and **Attachments**.
+
+## Assortment Planning Grid
+- Use a spreadsheet-like layout for planning.
+- Columns: Category, SKU, Size Run (Matrix), Qty, Wholesale Price, Retail Price, Margin %, Budget.
+- Support "Prepack" logic (suggesting optimal size distributions).
+
+## Order Lifecycle
+- Statuses: Draft -> Submitted -> Review -> Confirmed -> In Production -> Shipped -> Completed.
+- Every change to Qty or Price must be logged in a "Change Log" or "Audit Trail".
+- Support "Versions" of an order (v1, v2, etc.).
+
+## Collaboration
+- SKU-level comments (threads) for negotiation.
+- Role-based actions: 
+  - Buyer: Edit Qty, Submit.
+  - Brand: Edit Price, Confirm.
+  - Category Manager: Review, Comment.
+
+## Attachments
+- Every Deal/Order must have a "Documents" section.
+- Support links to Tech Packs, Size Charts, and Invoices.
+
+## Calendar
+- Appointments should be linked to specific Linesheets or Orders.
+- Support "Market Weeks" as special calendar events.

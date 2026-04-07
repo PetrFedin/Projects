@@ -1,0 +1,91 @@
+{
+  "contractVersion": 1,
+  "presets": [
+    {
+      "id": "coat-wool",
+      "label": "Пальто шерстяное",
+      "l2Match": ["Верхняя одежда"],
+      "l3Match": ["Пальто", "Тренчи", "Плащи", "Шубы"],
+      "sortOrder": 10,
+      "rows": [
+        { "parameterId": "wool", "label": "Шерсть", "pct": 80 },
+        { "parameterId": "polyester", "label": "Полиэстер", "pct": 20 }
+      ]
+    },
+    {
+      "id": "puffer-nylon",
+      "label": "Пуховик / оболочка нейлон",
+      "l2Match": ["Верхняя одежда"],
+      "l3Match": ["Пуховики", "Парки", "Подстёжки", "Лайнеры"],
+      "sortOrder": 11,
+      "rows": [{ "parameterId": "nylon", "label": "Нейлон", "pct": 100 }]
+    },
+    {
+      "id": "outer-softshell",
+      "label": "Softshell (полиэстер + эластан)",
+      "l2Match": ["Верхняя одежда"],
+      "sortOrder": 20,
+      "rows": [
+        { "parameterId": "polyester", "label": "Полиэстер", "pct": 88 },
+        { "parameterId": "elastane", "label": "Эластан", "pct": 12 }
+      ]
+    },
+    {
+      "id": "outer-cotton-shell",
+      "label": "Куртка хлопок (оболочка)",
+      "l2Match": ["Верхняя одежда"],
+      "sortOrder": 21,
+      "rows": [
+        { "parameterId": "cotton", "label": "Хлопок", "pct": 97 },
+        { "parameterId": "elastane", "label": "Эластан", "pct": 3 }
+      ]
+    },
+    {
+      "id": "outer-fleece-poly",
+      "label": "Флис / микрофлис",
+      "l2Match": ["Верхняя одежда"],
+      "sortOrder": 22,
+      "rows": [{ "parameterId": "polyester", "label": "Полиэстер", "pct": 100 }]
+    },
+    {
+      "id": "dress-viscose",
+      "label": "Платье вискозное",
+      "l2Match": ["Платья и сарафаны"],
+      "sortOrder": 30,
+      "rows": [
+        { "parameterId": "viscose", "label": "Вискоза", "pct": 95 },
+        { "parameterId": "elastane", "label": "Эластан", "pct": 5 }
+      ]
+    },
+    {
+      "id": "pants-cotton",
+      "label": "Брюки хлопок",
+      "l2Match": ["Брюки", "Джинсы"],
+      "sortOrder": 40,
+      "rows": [
+        { "parameterId": "cotton", "label": "Хлопок", "pct": 98 },
+        { "parameterId": "elastane", "label": "Эластан", "pct": 2 }
+      ]
+    },
+    {
+      "id": "shirt-cotton-blend",
+      "label": "Рубашка хлопок-полиэстер",
+      "l2Match": ["Рубашки и блузы", "Топы и футболки"],
+      "sortOrder": 50,
+      "rows": [
+        { "parameterId": "cotton", "label": "Хлопок", "pct": 65 },
+        { "parameterId": "polyester", "label": "Полиэстер", "pct": 35 }
+      ]
+    },
+    {
+      "id": "knit-wool-acrylic",
+      "label": "Трикотаж шерсть-акрил",
+      "l2Match": ["Трикотаж"],
+      "sortOrder": 60,
+      "rows": [
+        { "parameterId": "wool", "label": "Шерсть", "pct": 50 },
+        { "parameterId": "acrylic", "label": "Акрил", "pct": 50 }
+      ]
+    }
+  ]
+}

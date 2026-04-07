@@ -1,0 +1,1618 @@
+{
+  "competitiveAnalysis": [
+    {
+      "title": "🩵 1. CORE / Общие функции",
+      "headers": [
+        "Функция",
+        "Syntha",
+        "Lamoda",
+        "TSUM",
+        "Farfetch",
+        "Mytheresa",
+        "Zalando",
+        "ASOS",
+        "Wildberries",
+        "Shein",
+        "Depop",
+        "Vestiaire",
+        "RealReal",
+        "JOOR"
+      ],
+      "rows": [
+        {
+          "Функция": "Multi-роль (бренд / магазин / клиент / B2B)",
+          "Syntha": "✔",
+          "Lamoda": "≈",
+          "TSUM": "≈",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "≈",
+          "Shein": "≈",
+          "Depop": "✔",
+          "Vestiaire": "✔",
+          "RealReal": "✔",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "Marketplace (B2C)",
+          "Syntha": "✔",
+          "Lamoda": "✔",
+          "TSUM": "✔",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "✔",
+          "Shein": "✔",
+          "Depop": "✔",
+          "Vestiaire": "✔",
+          "RealReal": "✔",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "B2B wholesale / pre-order",
+          "Syntha": "✔",
+          "Lamoda": "≈",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "≈",
+          "Zalando": "✔",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "Resale / Second Life",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "—",
+          "Zalando": "—",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "✔",
+          "Vestiaire": "✔",
+          "RealReal": "✔",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "Try-Before-Pay",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "Click-&-Collect / Pickup",
+          "Syntha": "✔",
+          "Lamoda": "✔",
+          "TSUM": "✔",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "✔",
+          "Shein": "✔",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "—"
+        }
+      ]
+    },
+    {
+      "title": "🤖 2. AI-TECH / Персонализация и интеллектуальные модули",
+      "headers": [
+        "Функция",
+        "Syntha",
+        "Lamoda",
+        "TSUM",
+        "Farfetch",
+        "Mytheresa",
+        "Zalando",
+        "ASOS",
+        "Wildberries",
+        "Shein",
+        "Depop",
+        "Vestiaire",
+        "RealReal",
+        "JOOR"
+      ],
+      "rows": [
+        {
+          "Функция": "AI-Stylist / генерация луков",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "≈",
+          "Mytheresa": "—",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "AI-Size Predictor",
+          "Syntha": "✔",
+          "Lamoda": "≈",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "—",
+          "Shein": "✔",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "Visual Search (по фото)",
+          "Syntha": "✔",
+          "Lamoda": "✔",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "≈",
+          "Shein": "✔",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "AI-Trend Forecast / Demand Prediction",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "AI-Moodboard / Outfit Generator",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "—",
+          "Mytheresa": "—",
+          "Zalando": "—",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "AI-Brand Story / Content Automation",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "—",
+          "Mytheresa": "—",
+          "Zalando": "—",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "—"
+        }
+      ]
+    },
+    {
+      "title": "🕶 3. AR / UX / Digital Experience",
+      "headers": [
+        "Функция",
+        "Syntha",
+        "Lamoda",
+        "TSUM",
+        "Farfetch",
+        "Mytheresa",
+        "Zalando",
+        "ASOS",
+        "Wildberries",
+        "Shein",
+        "Depop",
+        "Vestiaire",
+        "RealReal",
+        "JOOR"
+      ],
+      "rows": [
+        {
+          "Функция": "AR-примерка / 3D Preview",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "≈",
+          "Mytheresa": "—",
+          "Zalando": "≈",
+          "ASOS": "≈",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "Виртуальные рейлы коллекций",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "—",
+          "Mytheresa": "—",
+          "Zalando": "—",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "QR-пакеты коллекций",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "—",
+          "Mytheresa": "—",
+          "Zalando": "—",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "Shoppable Video / интерактивное видео",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "—",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "✔",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "Live-Shopping / Runway",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "—",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "✔",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "Phygital-капсулы (цифровой двойник вещи)",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "—",
+          "Zalando": "—",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "—"
+        }
+      ]
+    },
+    {
+      "title": "🧵 4. B2B / Wholesale & Retail",
+      "headers": [
+        "Функция",
+        "Syntha",
+        "Lamoda",
+        "TSUM",
+        "Farfetch",
+        "Mytheresa",
+        "Zalando",
+        "ASOS",
+        "Wildberries",
+        "Shein",
+        "Depop",
+        "Vestiaire",
+        "RealReal",
+        "JOOR"
+      ],
+      "rows": [
+        {
+          "Функция": "Linesheet / Digital Showroom",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "—",
+          "Zalando": "✔",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "MOQ / Prepack Templates",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "—",
+          "Zalando": "—",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "Private VR Showrooms",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "—",
+          "Zalando": "—",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "Unified Multi-brand Order",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "—",
+          "Mytheresa": "—",
+          "Zalando": "—",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "E-Contracts / Digital Signature",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "—",
+          "Zalando": "—",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "Dynamic Linesheet Sharing",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "—",
+          "Zalando": "—",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        }
+      ]
+    },
+    {
+      "title": "🌱 5. Sustainability / ESG / Upcycling",
+      "headers": [
+        "Функция",
+        "Syntha",
+        "Lamoda",
+        "TSUM",
+        "Farfetch",
+        "Mytheresa",
+        "Zalando",
+        "ASOS",
+        "Wildberries",
+        "Shein",
+        "Depop",
+        "Vestiaire",
+        "RealReal",
+        "JOOR"
+      ],
+      "rows": [
+        {
+          "Функция": "Eco-rating / Conscious label",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "—",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "✔",
+          "RealReal": "✔",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "CO₂ Offset API",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "✔",
+          "RealReal": "✔",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "Upcycling / Repair Programs",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "—",
+          "Zalando": "—",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "Sustainability Index (бренд)",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "✔",
+          "RealReal": "✔",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "Carbon Impact per Order",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "—"
+        }
+      ]
+    },
+    {
+      "title": "💬 6. Community / Engagement",
+      "headers": [
+        "Функция",
+        "Syntha",
+        "Lamoda",
+        "TSUM",
+        "Farfetch",
+        "Mytheresa",
+        "Zalando",
+        "ASOS",
+        "Wildberries",
+        "Shein",
+        "Depop",
+        "Vestiaire",
+        "RealReal",
+        "JOOR"
+      ],
+      "rows": [
+        {
+          "Функция": "Социальные профили / подписки",
+          "Syntha": "✔",
+          "Lamoda": "≈",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "—",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "≈",
+          "Shein": "✔",
+          "Depop": "✔",
+          "Vestiaire": "✔",
+          "RealReal": "✔",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "UGC / Looks / Reels",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "—",
+          "Shein": "✔",
+          "Depop": "✔",
+          "Vestiaire": "✔",
+          "RealReal": "✔",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "Gamification / Missions",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "—",
+          "Mytheresa": "—",
+          "Zalando": "✔",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "✔",
+          "Depop": "✔",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "Referral System",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "—",
+          "Mytheresa": "—",
+          "Zalando": "—",
+          "ASOS": "✔",
+          "Wildberries": "—",
+          "Shein": "✔",
+          "Depop": "✔",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "Reviews & Ratings",
+          "Syntha": "✔",
+          "Lamoda": "✔",
+          "TSUM": "✔",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "✔",
+          "Shein": "✔",
+          "Depop": "✔",
+          "Vestiaire": "✔",
+          "RealReal": "✔",
+          "JOOR": "—"
+        }
+      ]
+    },
+    {
+      "title": "📊 7. Analytics / BI / AI Insights",
+      "headers": [
+        "Функция",
+        "Syntha",
+        "Lamoda",
+        "TSUM",
+        "Farfetch",
+        "Mytheresa",
+        "Zalando",
+        "ASOS",
+        "Wildberries",
+        "Shein",
+        "Depop",
+        "Vestiaire",
+        "RealReal",
+        "JOOR"
+      ],
+      "rows": [
+        {
+          "Функция": "Brand Insights Dashboard",
+          "Syntha": "✔",
+          "Lamoda": "✔",
+          "TSUM": "✔",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "✔",
+          "Shein": "✔",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "✔",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "Customer 360 (LTV, CLV)",
+          "Syntha": "✔",
+          "Lamoda": "≈",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "≈",
+          "Shein": "✔",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "Heatmaps / Geo Analytics",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "—",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "Predictive Analytics",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "—",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "A/B-Testing Suite",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "—",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        }
+      ]
+    },
+    {
+      "title": "🧩 8. Infrastructure / Governance",
+      "headers": [
+        "Функция",
+        "Syntha",
+        "Lamoda",
+        "TSUM",
+        "Farfetch",
+        "Mytheresa",
+        "Zalando",
+        "ASOS",
+        "Wildberries",
+        "Shein",
+        "Depop",
+        "Vestiaire",
+        "RealReal",
+        "JOOR"
+      ],
+      "rows": [
+        {
+          "Функция": "Multi-Currency / Duty-Free",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "—",
+          "Shein": "✔",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "—"
+        },
+        {
+          "Функция": "Centralized Fulfillment",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "✔",
+          "Shein": "✔",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "API / SDK Marketplace",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "ERP / CRM Integration",
+          "Syntha": "✔",
+          "Lamoda": "≈",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "≈",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "E-Contracts / Legal Vault",
+          "Syntha": "✔",
+          "Lamoda": "—",
+          "TSUM": "—",
+          "Farfetch": "✔",
+          "Mytheresa": "—",
+          "Zalando": "—",
+          "ASOS": "—",
+          "Wildberries": "—",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        },
+        {
+          "Функция": "Fraud / Trust Hub",
+          "Syntha": "✔",
+          "Lamoda": "≈",
+          "TSUM": "≈",
+          "Farfetch": "✔",
+          "Mytheresa": "✔",
+          "Zalando": "✔",
+          "ASOS": "✔",
+          "Wildberries": "≈",
+          "Shein": "—",
+          "Depop": "—",
+          "Vestiaire": "—",
+          "RealReal": "—",
+          "JOOR": "✔"
+        }
+      ]
+    },
+    {
+      "title": "🩶 ИТОГОВОЕ СРАВНЕНИЕ (по блокам)",
+      "headers": [
+        "Блок",
+        "Syntha",
+        "Лучший аналог сейчас"
+      ],
+      "rows": [
+        {
+          "Блок": "Core / eCommerce",
+          "Syntha": "✔ Полный",
+          "Лучший аналог сейчас": "Farfetch / Zalando"
+        },
+        {
+          "Блок": "AI & Personalization",
+          "Syntha": "✔ Лидер",
+          "Лучший аналог сейчас": "Zalando"
+        },
+        {
+          "Блок": "AR / UX",
+          "Syntha": "✔ Уникальный",
+          "Лучший аналог сейчас": "Farfetch (частично)"
+        },
+        {
+          "Блок": "B2B / Wholesale",
+          "Syntha": "✔ Конкурент JOOR",
+          "Лучший аналог сейчас": "JOOR"
+        },
+        {
+          "Блок": "Sustainability / ESG",
+          "Syntha": "✔ Лидер",
+          "Лучший аналог сейчас": "Farfetch / Zalando"
+        },
+        {
+          "Блок": "Community",
+          "Syntha": "✔ Лидер",
+          "Лучший аналог сейчас": "Depop / Shein"
+        },
+        {
+          "Блок": "Analytics / BI",
+          "Syntha": "✔ На уровне Zalando",
+          "Лучший аналог сейчас": "Zalando"
+        },
+        {
+          "Блок": "Infrastructure / Global",
+          "Syntha": "✔ Шире всех",
+          "Лучший аналог сейчас": "Farfetch / Zalando"
+        }
+      ]
+    }
+  ],
+  "monetizationData": [
+    {
+      "flow": "1. Комиссия с продаж (B2C)",
+      "mechanic": "10–20% с заказа (мин. 99 ₽)",
+      "description": "Продажи digital/физических товаров через клиентское приложение Syntha. Средний чек — 18 000 ₽, комиссия ~1 800–3 600 ₽.",
+      "comments": "Аналог Lamoda/Farfetch. Возможна скидка 1–2 п.п. для Brand PRO."
+    },
+    {
+      "flow": "2. Комиссия с B2B заказов (Market Room)",
+      "mechanic": "2–5% от ордера (мин. 9 900 ₽)",
+      "description": "Онлайн-заказы байеров и сетей. Средний ордер ~700 000 ₽ → комиссия 14 000–35 000 ₽.",
+      "comments": "Аналог JOOR/NuOrder. Основной доход в баинговые сезоны."
+    },
+    {
+      "flow": "3. Подписка Brand PRO",
+      "mechanic": "35 000 ₽/мес",
+      "description": "Аналитика интереса, AI Copywriter, Merch Advisor, витрины, 5 сидов, до 10 000 ассетов.",
+      "comments": "200 брендов × 35 000 ₽ = 7 млн ₽/мес."
+    },
+    {
+      "flow": "4. Подписка Shop+ (ритейлеры / байеры)",
+      "mechanic": "14 000 ₽/мес",
+      "description": "Ордер-листы, Data Insights, ERP-интеграции, RFM-анализ.",
+      "comments": "300 магазинов × 14 000 ₽ = 4,2 млн ₽/мес."
+    },
+    {
+      "flow": "5. Подписка Creator+ (стилисты / креаторы)",
+      "mechanic": "4 900 ₽/мес",
+      "description": "AI Stylist, Look Generator, 100 рендеров/мес.",
+      "comments": "1 000 пользователей = 4,9 млн ₽/мес."
+    },
+    {
+      "flow": "6. Продвижение коллекций (B2C)",
+      "mechanic": "2 000–5 000 ₽ / кампания",
+      "description": "Размещение в ленте, баннерах и подборках.",
+      "comments": "500 кампаний/мес × 3 000 ₽ = 1,5 млн ₽."
+    },
+    {
+      "flow": "7. Продвижение B2B (Highlight)",
+      "mechanic": "10 000 ₽/нед",
+      "description": "Приоритет в Market Room, рассылки байерам.",
+      "comments": "100 брендов × 10 000 ₽ = 1 млн ₽/мес."
+    },
+    {
+      "flow": "8. AI-сервисы (Usage-based)",
+      "mechanic": "от 1,5 ₽ / вызов API",
+      "description": "Look Generator, Trend Engine, Merch Advisor, Copywriter.",
+      "comments": "1 млн вызовов/мес = 1,5 млн ₽."
+    },
+    {
+      "flow": "9. Data Insights (B2B)",
+      "mechanic": "29 000–300 000 ₽",
+      "description": "Отчёты по трендам и категориям, кастомная аналитика.",
+      "comments": "20 отчётов/мес = 2 млн ₽."
+    },
+    {
+      "flow": "10. Digital Showrooms / VR-залы",
+      "mechanic": "50 000–150 000 ₽ / сезон",
+      "description": "Аренда виртуальных павильонов брендами.",
+      "comments": "30 × 100 000 ₽ = 3 млн ₽/сезон."
+    },
+    {
+      "flow": "11. NFT / Digital Twin паспорта",
+      "mechanic": "300–1 000 ₽ / вещь",
+      "description": "Цифровой паспорт изделия с provenance и правами.",
+      "comments": "10 000 NFT = 3–10 млн ₽."
+    },
+    {
+      "flow": "12. Комиссия с подписок и дропов",
+      "mechanic": "10–15%",
+      "description": "Digital-дропы, платные капсулы, предметы.",
+      "comments": "При 10 млн ₽/мес — 1,2 млн ₽ комиссии."
+    },
+    {
+      "flow": "13. White-label решения",
+      "mechanic": "150 000–300 000 ₽ / лицензия",
+      "description": "Собственная витрина бренда/ритейлера.",
+      "comments": "50 клиентов × 200 000 ₽ = 10 млн ₽/год."
+    },
+    {
+      "flow": "14. Consulting / AI Fashion Lab",
+      "mechanic": "300 000–1,5 млн ₽ / проект",
+      "description": "Индивидуальные исследования, кастомные AI-модели.",
+      "comments": "10 проектов/год = 5–10 млн ₽."
+    },
+    {
+      "flow": "15. API Licensing (white-label)",
+      "mechanic": "20 000–200 000 ₽ / мес",
+      "description": "Доступ к AI Stylist / Trend Engine по API.",
+      "comments": "20 клиентов × 100 000 ₽ = 2 млн ₽/мес."
+    }
+  ],
+  "subscriptionTiersData": [
+    {
+      "plan": "Brand FREE",
+      "audience": "начинающие бренды",
+      "price": "0 ₽",
+      "features": "до 20 SKU, 1 коллекция"
+    },
+    {
+      "plan": "Brand PRO",
+      "audience": "активные бренды",
+      "price": "35 000 ₽",
+      "features": "до 10 000 ассетов, 5 сидов, аналитика, AI Copywriter"
+    },
+    {
+      "plan": "Brand ELITE",
+      "audience": "крупные дома",
+      "price": "75 000 ₽",
+      "features": "30 000 ассетов, VR-зал, сниженные комиссии"
+    },
+    {
+      "plan": "Shop BASIC",
+      "audience": "бутики/байеры",
+      "price": "9 900 ₽",
+      "features": "до 3 брендов, базовая аналитика"
+    },
+    {
+      "plan": "Shop+",
+      "audience": "сети/ритейлеры",
+      "price": "14 000 ₽",
+      "features": "10 брендов, white-label, ERP-интеграция"
+    },
+    {
+      "plan": "Creator+",
+      "audience": "стилисты/креаторы",
+      "price": "4 900 ₽",
+      "features": "AI Stylist, Look Generator, 100 рендеров"
+    }
+  ],
+  "aiApiPricingData": [
+    {
+      "service": "AI Stylist / Look Generator",
+      "price": "1,5 ₽ / вызов",
+      "comments": "подбор образа или капсулы"
+    },
+    {
+      "service": "Trend API",
+      "price": "10 ₽ / запрос",
+      "comments": "анализ трендов по категории"
+    },
+    {
+      "service": "Copywriter",
+      "price": "30 ₽ / описание",
+      "comments": "текст карточки товара"
+    },
+    {
+      "service": "Visual Generator",
+      "price": "100 ₽ / рендер",
+      "comments": "изображение до 1024×1024 px"
+    },
+    {
+      "service": "Merch Advisor / Insights",
+      "price": "200 ₽ / SKU",
+      "comments": "AI-анализ продаж и ассортимента"
+    },
+    {
+      "service": "Forecasting",
+      "price": "300 ₽ / SKU",
+      "comments": "прогноз спроса"
+    },
+    {
+      "service": "AR-MAU пакет",
+      "price": "от 9 900 ₽/мес",
+      "comments": "до 100 000 активных пользователей"
+    }
+  ],
+  "transactionFeesData": [
+    {
+      "type": "B2C комиссия",
+      "details": "10–15% (мин. 99 ₽)",
+      "note": "от категории товара"
+    },
+    {
+      "type": "B2B комиссия",
+      "details": "2–5% (мин. 9 900 ₽)",
+      "note": "от суммы ордера"
+    },
+    {
+      "type": "Вывод средств (payout)",
+      "details": "0,5–1% (мин. 49 ₽)",
+      "note": "покрытие платёжных расходов"
+    },
+    {
+      "type": "Экспресс-выплата (T+1)",
+      "details": "+0,5%",
+      "note": "опция, иначе стандарт T+7"
+    },
+    {
+      "type": "Chargeback / арбитраж",
+      "details": "590 ₽ / кейс",
+      "note": "с проигравшей стороны"
+    },
+    {
+      "type": "Escrow сервис (B2B)",
+      "details": "0,5–1% сделки",
+      "note": "защита обеих сторон"
+    }
+  ],
+  "dataInsightsData": [
+    {
+      "Пакет": "Insight Basic",
+      "Стоимость": "29 000 ₽/мес",
+      "Содержание": "просмотры, вовлечённость, конверсии"
+    },
+    {
+      "Пакет": "Insight Pro",
+      "Стоимость": "100 000–300 000 ₽",
+      "Содержание": "отчёты по категориям, регионам, сегментам"
+    },
+    {
+      "Пакет": "Custom Study",
+      "Стоимость": "500 000–2 000 000 ₽",
+      "Содержание": "глубокий анализ трендов и прогнозов"
+    },
+    {
+      "Пакет": "Data Co-op",
+      "Стоимость": "–30% скидка",
+      "Содержание": "обмен обезличенными данными участников"
+    }
+  ],
+  "additionalStreamsData": [
+    {
+      "item": "VR-шоурумы / Digital павильоны",
+      "price": "50 000–150 000 ₽ / сезон",
+      "description": "виртуальные залы, showroom в метавселенной"
+    },
+    {
+      "item": "Промо / баннеры (аукцион)",
+      "price": "CPM 120–240 ₽ / CPC 12–24 ₽",
+      "description": "реклама в ленте и Market Room"
+    },
+    {
+      "item": "Пакет “Премьера коллекции”",
+      "price": "49 000 ₽",
+      "description": "Featured + рассылка + Live Room"
+    },
+    {
+      "item": "Event-комиссии",
+      "price": "10–15%",
+      "description": "Fashion Weeks, Capsule Show, pop-up"
+    },
+    {
+      "item": "Академия SYNTHA",
+      "price": "9 900–29 000 ₽ / курс",
+      "description": "курсы по AI и fashion-tech"
+    },
+    {
+      "item": "Affiliate-программа",
+      "price": "10% комиссии",
+      "description": "партнёрские реферальные выплаты"
+    },
+    {
+      "item": "Сертификация “Syntha-ready”",
+      "price": "49 000 ₽",
+      "description": "проверка ассетов и 3D-качества"
+    },
+    {
+      "item": "Обучение / аккредитация",
+      "price": "19 000 ₽ / слот",
+      "description": "обучение команд брендов"
+    },
+    {
+      "item": "Премиум SLA / Support+",
+      "price": "+25–40% к тарифу",
+      "description": "персональный менеджер и 99,9% аптайм"
+    }
+  ],
+  "annualForecastData": [
+    {
+      "flow": "Комиссии (B2C + B2B)",
+      "monthly": "≈ 8–10 млн ₽",
+      "annual": "≈ 110 млн ₽"
+    },
+    {
+      "flow": "Подписки (Brand, Shop, Creator)",
+      "monthly": "≈ 18–20 млн ₽",
+      "annual": "≈ 220 млн ₽"
+    },
+    {
+      "flow": "Продвижение / реклама",
+      "monthly": "≈ 3–4 млн ₽",
+      "annual": "≈ 45 млн ₽"
+    },
+    {
+      "flow": "AI / API usage",
+      "monthly": "≈ 2,5–3,5 млн ₽",
+      "annual": "≈ 36 млн ₽"
+    },
+    {
+      "flow": "Data Insights / аналитика",
+      "monthly": "≈ 2–3 млн ₽",
+      "annual": "≈ 30 млн ₽"
+    },
+    {
+      "flow": "White-label / консалтинг / сертификация",
+      "monthly": "≈ 2–3 млн ₽",
+      "annual": "≈ 30 млн ₽"
+    }
+  ],
+  "financialIncentivesData": [
+    {
+      "mechanism": "Годовая предоплата",
+      "description": "–17% (2 мес бесплатно)"
+    },
+    {
+      "mechanism": "Bundle PRO + Ads + Insights",
+      "description": "–20% при комплексной покупке"
+    },
+    {
+      "mechanism": "Refer-a-Brand",
+      "description": "–30% на 1 мес за приведённого клиента"
+    },
+    {
+      "mechanism": "Trial 30 дней",
+      "description": "переход с FREE на PRO"
+    },
+    {
+      "mechanism": "ELITE Loyalty",
+      "description": "каждые 10 млн ₽ GMV → –1 п.п. комиссии"
+    },
+    {
+      "mechanism": "Data Co-op скидка",
+      "description": "–30% за участие в обмене данными"
+    }
+  ],
+  "revenueStructureData": [
+    {
+      "source": "Комиссии + Подписки (Core Platform)",
+      "share": "≈70%"
+    },
+    {
+      "source": "AI / Data / API (Intelligence Layer)",
+      "share": "≈20%"
+    },
+    {
+      "source": "VR / NFT / Events / Академия",
+      "share": "≈10%"
+    }
+  ],
+  "scalingScenariosData": [
+    {
+      "scenario": "Base (2027)",
+      "drivers": "150 брендов, 300 байеров, 2 000 B2C продаж/мес",
+      "revenue": "~380 млн ₽"
+    },
+    {
+      "scenario": "Pro (2028)",
+      "drivers": "300 брендов, 800 байеров, 5 000 продаж/мес",
+      "revenue": "~650 млн ₽"
+    },
+    {
+      "scenario": "Enterprise (2029)",
+      "drivers": "500 брендов, 1 500 байеров, 10 000 продаж/мес + API",
+      "revenue": "~1 млрд ₽"
+    }
+  ],
+  "unitEconomicsData": [
+    {
+      "Показатель": "Средний доход / месяц (ARPU)",
+      "Бренд (B2B)": "₽35 000",
+      "Магазин (B2B)": "₽22 000",
+      "Клиент (B2C)": "₽450",
+      "Комментарий": "Подписки, транзакционные комиссии, аналитика"
+    },
+    {
+      "Показатель": "CAC (стоимость привлечения)",
+      "Бренд (B2B)": "₽12 000",
+      "Магазин (B2B)": "₽9 000",
+      "Клиент (B2C)": "₽350",
+      "Комментарий": "Digital-реклама, B2B outreach, performance"
+    },
+    {
+      "Показатель": "LTV (жизненный цикл клиента)",
+      "Бренд (B2B)": "₽420 000",
+      "Магазин (B2B)": "₽264 000",
+      "Клиент (B2C)": "₽6 000",
+      "Комментарий": "12–18 мес. удержания"
+    },
+    {
+      "Показатель": "Маржинальность сервиса",
+      "Бренд (B2B)": "65%",
+      "Магазин (B2B)": "70%",
+      "Клиент (B2C)": "55%",
+      "Комментарий": "После комиссий платёжных шлюзов и хранения"
+    },
+    {
+      "Показатель": "Средняя комиссия с продаж (GMV Fee)",
+      "Бренд (B2B)": "10–15%",
+      "Магазин (B2B)": "3–5%",
+      "Клиент (B2C)": "—",
+      "Комментарий": "В зависимости от категории"
+    },
+    {
+      "Показатель": "Подписка (PRO / Enterprise)",
+      "Бренд (B2B)": "₽49 000 / ₽149 000",
+      "Магазин (B2B)": "₽29 000 / ₽99 000",
+      "Клиент (B2C)": "₽490 / ₽1 490",
+      "Комментарий": "Месячная плата за премиум-функции"
+    },
+    {
+      "Показатель": "Cost to Serve (инфра + AI)",
+      "Бренд (B2B)": "₽6 500",
+      "Магазин (B2B)": "₽4 200",
+      "Клиент (B2C)": "₽70",
+      "Комментарий": "Хостинг, Firestore, Genkit API usage"
+    },
+    {
+      "Показатель": "Payback Period (окупаемость)",
+      "Бренд (B2B)": "~3 мес.",
+      "Магазин (B2B)": "~2,5 мес.",
+      "Клиент (B2C)": "~1,5 мес.",
+      "Комментарий": "При сохранении ARPU и текущих CAC"
+    },
+    {
+      "Показатель": "Retention 6 мес.",
+      "Бренд (B2B)": "82%",
+      "Магазин (B2B)": "88%",
+      "Клиент (B2C)": "63%",
+      "Комментарий": "B2B сегменты удерживаются стабильнее"
+    },
+    {
+      "Показатель": "Churn (отток)",
+      "Бренд (B2B)": "18%",
+      "Магазин (B2B)": "12%",
+      "Клиент (B2C)": "37%",
+      "Комментарий": "Снижается при внедрении лояльности и AI-стилиста"
+    }
+  ],
+  "growthScenariosData": [
+    {
+      "Пакет": "Base",
+      "Для кого": "Стартап-бренды, малые бутики",
+      "Месячная подписка": "₽0 – ₽9 900",
+      "Включено": "Размещение, базовая аналитика, каталог",
+      "Ориентир MRR на 1 клиента": "₽9 900",
+      "Growth-фактор": "1×"
+    },
+    {
+      "Пакет": "Pro",
+      "Для кого": "Средние бренды / сети",
+      "Месячная подписка": "₽49 000",
+      "Включено": "Расширенная аналитика, AI-рекомендации, B2B-linesheets, стримы",
+      "Ориентир MRR на 1 клиента": "₽49 000",
+      "Growth-фактор": "2.8×"
+    },
+    {
+      "Пакет": "Enterprise",
+      "Для кого": "Группы брендов, дистрибьюторы",
+      "Месячная подписка": "₽149 000",
+      "Включено": "SaaS-интеграции (ERP, CRM), white-label, API, ESG-модуль",
+      "Ориентир MRR на 1 клиента": "₽149 000",
+      "Growth-фактор": "5×"
+    }
+  ],
+  "revenueForecastData": [
+    {
+      "Период": "Год 1",
+      "Активных брендов": 120,
+      "Активных магазинов": 180,
+      "Активных клиентов": 25000,
+      "Средний MRR (₽)": 22000,
+      "Прогноз выручки / мес (₽)": "≈ 14,5 млн",
+      "LTV совокупный (₽)": "96 млн"
+    },
+    {
+      "Период": "Год 2",
+      "Активных брендов": 420,
+      "Активных магазинов": 600,
+      "Активных клиентов": 95000,
+      "Средний MRR (₽)": 31000,
+      "Прогноз выручки / мес (₽)": "≈ 51 млн",
+      "LTV совокупный (₽)": "410 млн"
+    },
+    {
+      "Период": "Год 3",
+      "Активных брендов": 1200,
+      "Активных магазинов": 1200,
+      "Активных клиентов": 280000,
+      "Средний MRR (₽)": 47000,
+      "Прогноз выручки / мес (₽)": "≈ 141 млн",
+      "LTV совокупный (₽)": "1,2 млрд"
+    }
+  ],
+  "financialScenariosData": [
+    {
+      "Сценарий": "Conservative",
+      "ARPU (₽)": 25000,
+      "Активные платные пользователи": 400,
+      "MRR (₽/мес)": "10 000 000",
+      "ARR (₽/год)": "120 000 000"
+    },
+    {
+      "Сценарий": "Balanced (реалистичный)",
+      "ARPU (₽)": 35000,
+      "Активные платные пользователи": 800,
+      "MRR (₽/мес)": "28 000 000",
+      "ARR (₽/год)": "336 000 000"
+    },
+    {
+      "Сценарий": "Aggressive (рост 3×)",
+      "ARPU (₽)": 45000,
+      "Активные платные пользователи": 1600,
+      "MRR (₽/мес)": "72 000 000",
+      "ARR (₽/год)": "864 000 000"
+    }
+  ],
+  "monetizationModelData": [
+    {
+      "Раздел": "Digital Fashion Lab",
+      "Механика монетизации": "Платные AI-рендеры, дизайн-ассистент",
+      "Ориентир дохода": "₽10–15 млн/год",
+      "Формат": "Usage-based"
+    },
+    {
+      "Раздел": "Market Room (B2B)",
+      "Механика монетизации": "Подписки + комиссии с ордеров",
+      "Ориентир дохода": "₽60–80 млн/год",
+      "Формат": "SaaS + Transactional"
+    },
+    {
+      "Раздел": "Client Space (B2C)",
+      "Механика монетизации": "Комиссия с продаж + Premium",
+      "Ориентир дохода": "₽40–50 млн/год",
+      "Формат": "Marketplace"
+    },
+    {
+      "Раздел": "Analytics & Intelligence",
+      "Механика монетизации": "Продажа отчётов и API",
+      "Ориентир дохода": "₽15–20 млн/год",
+      "Формат": "Data-as-a-Service"
+    },
+    {
+      "Раздел": "Media / Streams / AR",
+      "Механика монетизации": "Реклама, featured-витрины",
+      "Ориентир дохода": "₽20–30 млн/год",
+      "Формат": "AdTech"
+    },
+    {
+      "Раздел": "Sustainability / ESG",
+      "Механика монетизации": "Eco-бонусы, offset-комиссии",
+      "Ориентир дохода": "₽5–10 млн/год",
+      "Формат": "Impact revenue"
+    }
+  ],
+  "kpiData": [
+    {
+      "Показатель": "CAC Payback",
+      "Значение": "2,5 месяца",
+      "Комментарий": "высокая маржа B2B"
+    },
+    {
+      "Показатель": "Gross Margin",
+      "Значение": "65%",
+      "Комментарий": "при Firestore + AI Usage Optimization"
+    },
+    {
+      "Показатель": "LTV:CAC Ratio",
+      "Значение": "8.5×",
+      "Комментарий": "устойчивый рост"
+    },
+    {
+      "Показатель": "Churn Rate (средн.)",
+      "Значение": "15%",
+      "Комментарий": "снижается за счёт интеграций"
+    },
+    {
+      "Показатель": "ROI на 3 год",
+      "Значение": "320%",
+      "Комментарий": "после масштабирования"
+    },
+    {
+      "Показатель": "Breakeven point",
+      "Значение": "14–16 месяцев",
+      "Комментарий": "при достижении 300+ брендов"
+    }
+  ],
+  "aiCoreData": [
+    {
+      "agent": "AI Stylist",
+      "func": "Персональные образы, подбор капсул, компаньоны к SKU, анализ гардероба клиента",
+      "tech": "Embeddings (pgvector / Qdrant) + Genkit как промпт-оркестратор; taste-векторы в Firestore / PostgreSQL; inference через FastAPI / Uvicorn"
+    },
+    {
+      "agent": "AI Trend Analyst",
+      "func": "Анализ трендов, соцсетей и сезонных паттернов; nowcast интереса по категориям",
+      "tech": "Событийный поток + парсеры (Instagram, Pinterest, Telegram, TikTok); агрегаты в BigQuery / DuckDB; модели в Vertex AI или локально (Python + sklearn)"
+    },
+    {
+      "agent": "AI Merchandising Advisor",
+      "func": "Оптимизация ассортимента, цен и спроса; прогноз margin / sell-through",
+      "tech": "Фичи из витрин dbt / Parquet; ML-модели (LightGBM, Logistic Regression); бизнес-правила и эвристики по ценовым диапазонам"
+    },
+    {
+      "agent": "AI Copywriter",
+      "func": "Описания товаров, кампании, баннеры, e-mail-контент",
+      "tech": "Gemini / GPT-4 через API-провайдеров; бренд-гайд + product facts в контексте; контроль длины, тона и языка"
+    },
+    {
+      "agent": "AI Sustainability Scorer",
+      "func": "Эко-оценка брендов и коллекций; расчёт углеродного следа и доли цифровых прототипов",
+      "tech": "Python API к внутренним метрикам + ESG-базы партнёров (Sustainable Apparel Coalition, Fashion Transparency Index); собственные весовые формулы"
+    },
+    {
+      "agent": "AI Visual Generator",
+      "func": "Генерация fashion-луков, рекламных визуалов и lookbook-сцен",
+      "tech": "Stable Diffusion / Runway / Replicate через очереди (Celery / Redis); контроль seed / prompt; пост-обработка в Pillow / FFmpeg"
+    },
+    {
+      "agent": "AI Concierge",
+      "func": "Диалоговый ассистент клиента: подбор образов, Q&A, навигация по витрине",
+      "tech": "Gemini / Dialogflow CX или RAG на FastAPI + embeddings; taste-персонализация и history-контекст"
+    },
+    {
+      "agent": "AI Fraud Monitor",
+      "func": "Поведенческая биометрия, защита аккаунтов, антифрод-скоринг",
+      "tech": "Логи событий → Vertex anomaly detection или PyOD / IsolationForest; правила блокировок / алертов"
+    },
+    {
+      "agent": "AI Demand Forecaster",
+      "func": "Прогноз спроса и sell-through по SKU / категории / региону",
+      "tech": "Временные ряды (Prophet, LightGBM, XGBoost), тренды продаж, маркетинговые события; обучается на истории B2B и B2C"
+    },
+    {
+      "agent": "AI Creative Director",
+      "func": "Автоматическая генерация концепций кампаний, moodboard’ов, сценографии",
+      "tech": "Genkit + GPT-4 + SDXL; анализ бренд-ДНК, цветовых палитр и исторических кампаний; предлагает стили и визуальные концепты"
+    }
+  ],
+  "architectureData": [
+    {
+      "level": "AI & Data Layer",
+      "modules": "AI Stylist, Trend Engine, Merchandising Advisor, Visual Generator, Sustainability Scorer, AI Demand Forecast, Price Optimizer, Sentiment Parser",
+      "functionality": "Подбор образов и капсул, краткосрочные тренд-сигналы, рекомендации по ассортименту и ценообразованию, генерация контента, анализ тональности отзывов, ESG/eco scoring."
+    },
+    {
+      "level": "Business Layer",
+      "modules": "Brand Console, Shop Console, B2B Hub, Linesheet Builder, Contract Manager, Payments & Invoicing, Tax/VAT Handler",
+      "functionality": "Управление коллекциями, Digital Showroom, ордер-листы, коммерческие условия, e-contracts, генерация счетов, учёт НДС/долей платформы, интеграция с ERP."
+    },
+    {
+      "level": "Experience Layer (B2C UX)",
+      "modules": "Client App, AR Viewer, Virtual Rail, Live Room, Video Shopping, Smart Calendar, Wishlist & Closet, Smart Checkout, Syntha Pay (BNPL)",
+      "functionality": "Покупка, предзаказ, AR-примерка, рейл коллекций, стримы, AI-гардероб, бонусная система, отложенные платежи, покупка “одним свайпом”."
+    },
+    {
+      "level": "Community Layer (Social & Creators)",
+      "modules": "Looks Feed, Moodboards, Challenges, Subscriptions, Influencer Hub, Collaboration Space, UGC Moderation",
+      "functionality": "Публикации образов, мудборды, AI-подсказки, челленджи, подписки на бренды/амбассадоров, геймификация, коллаборации брендов и клиентов."
+    },
+    {
+      "level": "Operational Layer (Admin & Ops)",
+      "modules": "Admin Console, Security Hub, Monitoring & SLA, Audit Log, Compliance Center (GDPR, 152-ФЗ)",
+      "functionality": "Управление ролями (RBAC/ABAC), модерация контента, антифрод, аудит, SLA-мониторинг, резервное копирование, соответствие законам."
+    },
+    {
+      "level": "Revenue Layer (Monetization)",
+      "modules": "Subscriptions, Commissions, Data Insights, Media Placements, API Access, Ad Manager",
+      "functionality": "Подписки брендов/магазинов, комиссии, продажа аналитики, платные витрины, API-доступ, спонсорские интеграции."
+    },
+    {
+      "level": "API & Integration Layer",
+      "modules": "SDKs, GraphQL / REST, Webhooks, Integration Bus, Partner Portal",
+      "functionality": "Интеграции ERP/CRM (1С, SAP, Odoo), логистики, платёжных шлюзов, видео/CDN, AI-провайдеров; внешние партнёрские подключения."
+    },
+    {
+      "level": "Intelligence Layer",
+      "modules": "Analytics Engine, ML Pipelines, BigQuery / Vertex AI / Looker",
+      "functionality": "Централизованный анализ данных, тренды продаж и поведения, машинное обучение, прогнозирование спроса, визуальные дашборды."
+    },
+    {
+      "level": "Core Infrastructure & Trust Layer",
+      "modules": "Auth / Roles, Storage / CDN, Firestore / Cloud Run / Genkit, Audit Ledger (blockchain / append-only)",
+      "functionality": "Аутентификация, хранение, безопасность, масштабируемость, контроль доступа, журнал действий, стабильность и отказоустойчивость."
+    }
+  ]
+}

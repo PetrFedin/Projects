@@ -1,0 +1,285 @@
+'use client';
+
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  Database, 
+  Plus, 
+  Search, 
+  ImageIcon, 
+  FileText, 
+  Zap, 
+  Layers,
+  History,
+  Maximize2,
+  Trash2,
+  Copy,
+  ExternalLink,
+  UploadCloud,
+  FileSpreadsheet,
+  Compass,
+  Droplets
+} from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useB2BState } from '@/providers/b2b-state';
+import { cn } from '@/lib/cn';
+
+// Sub-components
+import { PIMInfoTab } from './pim/PIMInfoTab';
+import { PIMVariantsTab } from './pim/PIMVariantsTab';
+import { PIMMediaTab } from './pim/PIMMediaTab';
+import { PIMSpecsTab } from './pim/PIMSpecsTab';
+
+export function ProductInformationManager() {
+  const { b2bProducts } = useB2BState();
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [activeTab, setActiveTab] = useState<'info' | 'media' | 'specs' | 'history' | 'variants' | 'sustainability'>('info');
+  const [isBulkImportOpen, setIsBulkImportOpen] = useState(false);
+
+  // We'll map context products to PIM structure if needed, 
+  // but for now let's use context data to ensure isolation
+  const displayProducts = b2bProducts.length > 0 ? b2bProducts : [
+    { 
+      id: 'pim-1', 
+      name: 'Cyber Tech Parka v2', 
+      sku: 'CTP-26-001', 
+      category: 'Outerwear', 
+      status: 'ready', 
+      completeness: 95, 
+      lastEdit: '2h ago',
+      composition: [
+        { material: 'Graphene Nylon', percent: 80 },
+        { material: 'Recycled Poly', percent: 20 }
+      ],
+      certs: ['OEKO-TEX', 'GRS'],
+      variants: [
+        { color: 'Obsidian', hex: '#000000', sizes: { 'XS': 12, 'S': 45, 'M': 82, 'L': 34, 'XL': 12 } },
+        { color: 'Ghost White', hex: '#f8fafc', sizes: { 'XS': 5, 'S': 22, 'M': 45, 'L': 12, 'XL': 8 } }
+      ]
+    }
+  ];
+
+  const renderBulkImport = () => (
+    <Dialog open={isBulkImportOpen} onOpenChange={setIsBulkImportOpen}>
+      <DialogContent className="max-w-2xl bg-white border-none rounded-xl p-3 shadow-2xl">
+        <DialogHeader className="mb-8">
+          <div className="flex items-center gap-3">
+            <div className="h-12 w-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+              <UploadCloud className="h-6 w-6" />
+            </div>
+            <div>
+              <DialogTitle className="text-sm font-black uppercase tracking-tight">Bulk Import Styles</DialogTitle>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Supports CSV, XLSX and Direct Shopify Sync</p>
+            </div>
+          </div>
+        </DialogHeader>
+        
+        <div className="space-y-4">
+          <div className="border-4 border-dashed border-slate-100 rounded-xl p-4 flex flex-col items-center justify-center gap-3 hover:border-indigo-200 hover:bg-slate-50 transition-all cursor-pointer group">
+            <div className="h-12 w-12 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
+              <FileSpreadsheet className="h-8 w-8" />
+            </div>
+            <div className="text-center space-y-1">
+              <p className="text-sm font-black uppercase text-slate-900">Drop your file here</p>
+              <p className="text-[10px] font-medium text-slate-400 uppercase">Max file size: 25MB • Up to 500 SKUs</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <Card className="border-none shadow-sm bg-slate-50 p-4 space-y-3 hover:bg-indigo-50 transition-all cursor-pointer">
+              <h4 className="text-[10px] font-black uppercase text-slate-900">Download Template</h4>
+              <p className="text-[9px] text-slate-400 font-medium">Standard PIM structure with variant mapping</p>
+              <Button variant="ghost" className="p-0 h-auto text-[9px] font-black uppercase text-indigo-600">Get XLSX</Button>
+            </Card>
+            <Card className="border-none shadow-sm bg-slate-50 p-4 space-y-3 hover:bg-indigo-50 transition-all cursor-pointer">
+              <h4 className="text-[10px] font-black uppercase text-slate-900">Integrations</h4>
+              <p className="text-[9px] text-slate-400 font-medium">Auto-sync from Shopify, Centric or Lectra</p>
+              <Button variant="ghost" className="p-0 h-auto text-[9px] font-black uppercase text-indigo-600">Manage API</Button>
+            </Card>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+
+  return (
+    <div className="space-y-4 p-4 bg-slate-50 min-h-screen text-left">
+      {renderBulkImport()}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
+        <div className="space-y-2">
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-8 rounded-xl bg-indigo-600 flex items-center justify-center">
+              <Database className="h-4 w-4 text-white" />
+            </div>
+            <Badge variant="outline" className="border-indigo-100 text-indigo-600 uppercase font-black tracking-widest text-[9px]">
+              PIM_SYSTEM_v6.2
+            </Badge>
+          </div>
+          <h2 className="text-sm md:text-sm font-black uppercase tracking-tighter text-slate-900 leading-none">
+            Product Content<br/>Manager
+          </h2>
+          <p className="text-slate-400 font-medium text-xs max-w-md">
+            Centralized hub for product data, media assets, and technical specifications. Sync data across all channels and partners instantly.
+          </p>
+        </div>
+
+        <div className="flex gap-3">
+           <Button variant="outline" onClick={() => setIsBulkImportOpen(true)} className="h-10 rounded-2xl border-slate-200 px-6 font-black uppercase text-[10px] tracking-widest gap-2 bg-white">
+              <Layers className="h-4 w-4" /> Bulk Import (CSV/XLS)
+           </Button>
+           <Button className="h-10 bg-slate-900 text-white rounded-2xl px-8 font-black uppercase text-[10px] tracking-widest gap-2 shadow-xl shadow-slate-200">
+              <Plus className="h-4 w-4" /> New Master Style
+           </Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
+        <div className="lg:col-span-4 space-y-6">
+           <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <Input placeholder="Search catalog..." className="pl-12 h-10 rounded-2xl border-none shadow-sm bg-white" />
+           </div>
+
+           <div className="space-y-4">
+              {displayProducts.map((p) => (
+                <Card 
+                  key={p.id}
+                  onClick={() => setSelectedProduct(p)}
+                  className={cn(
+                    "group border-none shadow-xl shadow-slate-200/50 rounded-xl cursor-pointer transition-all overflow-hidden",
+                    selectedProduct?.id === p.id ? "bg-slate-900 text-white" : "bg-white hover:bg-slate-50"
+                  )}
+                >
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between mb-6">
+                       <div className="flex items-center gap-3">
+                          <div className="h-12 w-12 rounded-2xl bg-slate-100 overflow-hidden flex items-center justify-center">
+                             <img src={p.images?.[0]?.url || `https://placehold.co/100x100/f1f5f9/94a3b8?text=${p.sku?.split('-')[0]}`} className="w-full h-full object-cover" />
+                          </div>
+                          <div>
+                             <h4 className="font-black uppercase tracking-tight text-sm">{p.name}</h4>
+                             <p className={cn("text-[9px] font-black uppercase tracking-widest", selectedProduct?.id === p.id ? "text-white/40" : "text-slate-400")}>{p.sku}</p>
+                          </div>
+                       </div>
+                       <Badge className={cn(
+                         "text-[8px] font-black px-2 py-0.5 border-none",
+                         (p as any).status === 'ready' ? "bg-emerald-50 text-emerald-600" :
+                         (p as any).status === 'review' ? "bg-amber-50 text-amber-600" : "bg-slate-100 text-slate-400"
+                       )}>{(p as any).status || 'active'}</Badge>
+                    </div>
+                    <div className="space-y-2">
+                       <div className="flex justify-between text-[8px] font-black uppercase tracking-widest opacity-50">
+                          <span>Data Completeness</span>
+                          <span>{(p as any).completeness || 100}%</span>
+                       </div>
+                       <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                          <motion.div initial={{ width: 0 }} animate={{ width: `${(p as any).completeness || 100}%` }} className={cn("h-full", ((p as any).completeness || 100) > 90 ? "bg-emerald-500" : "bg-indigo-500")} />
+                       </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+           </div>
+        </div>
+
+        <div className="lg:col-span-8">
+           <AnimatePresence mode="wait">
+             {selectedProduct ? (
+               <motion.div key={selectedProduct.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
+                  <Card className="border-none shadow-2xl shadow-slate-200/50 rounded-xl bg-white p-3">
+                     <div className="flex items-center justify-between mb-10">
+                        <div className="flex flex-col">
+                           <h3 className="text-base font-black uppercase tracking-tight text-slate-900">{selectedProduct.name}</h3>
+                           <div className="flex items-center gap-3">
+                              <span className="text-[10px] font-black uppercase text-indigo-600 tracking-widest">{selectedProduct.sku}</span>
+                              <span className="h-1 w-1 rounded-full bg-slate-200" />
+                              <span className="text-[10px] font-bold text-slate-400 uppercase">Last updated: {selectedProduct.lastEdit}</span>
+                           </div>
+                        </div>
+                        <div className="flex gap-2">
+                           <Button variant="outline" size="icon" className="h-12 w-12 rounded-xl border-slate-100"><Copy className="h-5 w-5 text-slate-400" /></Button>
+                           <Button variant="outline" size="icon" className="h-12 w-12 rounded-xl border-slate-100"><ExternalLink className="h-5 w-5 text-slate-400" /></Button>
+                           <Button className="h-12 bg-slate-900 text-white rounded-xl px-6 font-black uppercase text-[10px] tracking-widest gap-2">Save Changes</Button>
+                        </div>
+                     </div>
+
+                     <div className="flex items-center gap-2 p-1 bg-slate-100 rounded-2xl mb-10">
+                        {[
+                          { id: 'info', label: 'Basic Info', icon: FileText },
+                          { id: 'variants', label: 'Variants & ATS', icon: Layers },
+                          { id: 'media', label: 'Media & 3D', icon: ImageIcon },
+                          { id: 'specs', label: 'Tech Specs', icon: Zap },
+                          { id: 'sustainability', label: 'Eco Ledger', icon: Droplets },
+                          { id: 'history', label: 'Versioning', icon: History }
+                        ].map(tab => (
+                          <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={cn("flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all", activeTab === tab.id ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600")}>
+                            <tab.icon className="h-3.5 w-3.5" /> {tab.label}
+                          </button>
+                        ))}
+                     </div>
+
+                     <div className="min-h-[400px]">
+                        {activeTab === 'info' && <PIMInfoTab selectedProduct={selectedProduct} />}
+                        {activeTab === 'variants' && <PIMVariantsTab selectedProduct={selectedProduct} />}
+                        {activeTab === 'media' && <PIMMediaTab selectedProduct={selectedProduct} />}
+                        {activeTab === 'specs' && <PIMSpecsTab selectedProduct={selectedProduct} />}
+                        {activeTab === 'sustainability' && (
+                          <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 text-left">
+                             <div className="grid grid-cols-2 gap-3">
+                                <div className="space-y-6">
+                                   <h4 className="text-base font-black uppercase tracking-tight text-slate-900">Traceability Map</h4>
+                                   <div className="space-y-4">
+                                      {[
+                                        { node: 'Raw Graphene', loc: 'Seoul, KR', type: 'Origin' },
+                                        { node: 'Membrane Weaving', loc: 'Osaka, JP', type: 'Processing' },
+                                        { node: 'Final Assembly', loc: 'Milan, IT', type: 'Production' }
+                                      ].map((step, i) => (
+                                        <div key={i} className="flex items-center gap-3 p-4 rounded-2xl bg-white border border-slate-100 shadow-sm">
+                                           <div className="h-8 w-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-[10px] font-black">{i+1}</div>
+                                           <div className="flex-1">
+                                              <p className="text-[10px] font-black text-slate-900 uppercase">{step.node}</p>
+                                              <p className="text-[8px] font-bold text-slate-400 uppercase">{step.loc}</p>
+                                           </div>
+                                           <Badge variant="outline" className="text-[7px] border-emerald-100 text-emerald-600">{step.type}</Badge>
+                                        </div>
+                                      ))}
+                                   </div>
+                                </div>
+                                <Card className="border-none shadow-xl bg-emerald-900 text-white p-3 rounded-xl space-y-6 relative overflow-hidden">
+                                   <div className="absolute bottom-0 right-0 p-4 opacity-10"><Droplets className="h-32 w-32" /></div>
+                                   <div className="relative z-10 space-y-4">
+                                      <h4 className="text-sm font-black uppercase tracking-tight leading-none text-emerald-400">Digital Eco-Passport</h4>
+                                      <p className="text-[10px] font-medium text-emerald-100/60 leading-relaxed uppercase tracking-widest">Verified data for ESG reporting and consumer transparency.</p>
+                                      <div className="space-y-3 pt-4 border-t border-emerald-800">
+                                         {[{ l: 'Carbon Footprint', v: '4.2 kg CO2e' }, { l: 'Water Recycled', v: '85%' }, { l: 'Circular Score', v: 'A+' }].map((s, i) => (
+                                           <div key={i} className="flex justify-between items-center text-[10px] font-black uppercase"><span className="text-emerald-400">{s.l}</span><span>{s.v}</span></div>
+                                         ))}
+                                      </div>
+                                      <Button className="w-full h-12 bg-white text-emerald-900 rounded-2xl font-black uppercase text-[10px] tracking-widest mt-4 shadow-xl">Generate ESG Report</Button>
+                                   </div>
+                                </Card>
+                             </div>
+                          </div>
+                        )}
+                     </div>
+                  </Card>
+               </motion.div>
+             ) : (
+               <div className="h-full flex flex-col items-center justify-center text-center p-20 space-y-6 bg-white rounded-xl border border-dashed border-slate-200">
+                  <div className="h-20 w-20 rounded-full bg-slate-50 flex items-center justify-center"><Database className="h-10 w-10 text-slate-200" /></div>
+                  <div className="space-y-2">
+                     <h3 className="text-base font-black uppercase tracking-tight text-slate-400">Select Style node</h3>
+                     <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Choose a product to manage its content and technical data</p>
+                  </div>
+               </div>
+             )}
+           </AnimatePresence>
+        </div>
+      </div>
+    </div>
+  );
+}

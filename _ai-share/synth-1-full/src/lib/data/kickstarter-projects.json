@@ -1,0 +1,115 @@
+
+[
+    {
+      "id": "camp_urban_shell_fw25",
+      "brandId": "brand_syntha_lab",
+      "productId": "prod_urban_shell_001",
+      "creator": "Syntha Lab",
+      "title": "Urban Shell Parka — Preseason FW25",
+      "status": "live",
+      "minQuantity": 80,
+      "targetQuantity": 150,
+      "currentQuantity": 92,
+      "currentRevenue": 2760000,
+      "retailPrice": 42000,
+      "preorderPrice": 30000,
+      "productionCost": 15000,
+      "wholesalePrice": 21000,
+      "moqWholesale": 20,
+      "startAt": "2025-11-10T09:00:00Z",
+      "endAt": "2025-11-25T23:59:59Z",
+      "productionStartAt": "2025-12-05T10:00:00Z",
+      "productionEndEstAt": "2026-01-20T18:00:00Z",
+      "description": "Технологичная городская парка для тёплой зимы: лёгкая, водоустойчивая, с утеплением из переработанных материалов. Идеальна для европейской зимы и активного образа жизни. Создана с применением AI-оптимизации лекал для идеальной посадки.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1591047139829-d919b5ca2332?w=800"
+        }
+      ],
+      "tags": ["outerwear", "urban", "techwear", "fw25"],
+      "createdAt": "2025-11-05T10:00:00Z",
+      "updatedAt": "2025-11-18T12:30:00Z",
+      "tiers": [
+        {
+          "id": "tier_early_bird",
+          "name": "Early Bird",
+          "price": 26000,
+          "description": "Специальная цена для первых 40 поддержавших. Полный комплект со всеми бонусами.",
+          "rewards": ["Парка Urban Shell", "Доступ в закрытый чат", "Цифровой арт-постер"],
+          "limit": 40
+        },
+        {
+          "id": "tier_standard",
+          "name": "Standard Preorder",
+          "price": 30000,
+          "description": "Стандартный предзаказ. Вы получаете парку по цене ниже ритейла и помогаете проекту состояться.",
+          "rewards": ["Парка Urban Shell"],
+          "limit": null
+        },
+        {
+            "id": "tier_vip",
+            "name": "VIP Edition",
+            "price": 50000,
+            "description": "Для настоящих ценителей. Включает парку, персональный скетч от дизайнера и приглашение на онлайн-презентацию.",
+            "rewards": ["Парка Urban Shell", "Доступ в закрытый чат", "Цифровой арт-постер", "Скетч с автографом", "Приглашение на онлайн-презентацию"],
+            "limit": 10
+        }
+      ],
+      "stretchGoals": [
+        { "id": "sg1", "target": 100, "description": "Все спонсоры получат фирменный стикер-пак.", "achieved": false },
+        { "id": "sg2", "target": 120, "description": "Мы добавим дополнительный внутренний карман для гаджетов.", "achieved": false },
+        { "id": "sg3", "target": 150, "description": "Кампания успешна! Начинаем производство.", "achieved": false }
+      ],
+       "faqs": [
+        { "id": "faq1", "question": "Какие размеры будут доступны?", "answer": "Мы планируем выпустить размеры от XS до XXL. Более точная размерная сетка будет опубликована в обновлениях." },
+        { "id": "faq2", "question": "Когда я получу свой заказ?", "answer": "Ориентировочная дата отгрузки — 20 января 2026 года. Мы будем держать вас в курсе на всех этапах производства." }
+      ]
+    },
+    {
+      "id": "camp_merino_rollneck_fw25",
+      "brandId": "brand_nordic_wool",
+      "productId": "prod_merino_rollneck_100",
+      "creator": "Nordic Wool",
+      "title": "Merino Rollneck — Limited FW25 Drop",
+      "status": "production",
+      "minQuantity": 60,
+      "targetQuantity": 100,
+      "currentQuantity": 95,
+      "currentRevenue": 2375000,
+      "retailPrice": 28000,
+      "preorderPrice": 25000,
+      "earlyBirdPrice": null,
+      "earlyBirdLimit": null,
+      "startAt": "2025-10-25T09:00:00Z",
+      "endAt": "2025-11-05T23:59:59Z",
+      "productionStartAt": "2025-11-10T08:00:00Z",
+      "productionEndEstAt": "2025-12-15T18:00:00Z",
+      "description": "Тёплый, но лёгкий свитер из экстратонкого мериноса. Сделан маленькой серией для тех, кто успел в предзаказ.",
+       "media": [
+        {
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?w=800"
+        }
+      ],
+      "tags": ["knitwear", "merino", "fw25"],
+      "createdAt": "2025-10-20T12:00:00Z",
+      "updatedAt": "2025-11-06T09:30:00Z",
+       "tiers": [
+        {
+          "id": "tier_standard_merino",
+          "name": "Standard Preorder",
+          "price": 25000,
+          "description": "Стандартный предзаказ на лимитированный свитер из мериноса.",
+          "rewards": ["Свитер Merino Rollneck"],
+          "limit": 100
+        }
+      ],
+      "stretchGoals": [
+        { "id": "sg4", "target": 80, "description": "Кампания успешна! Производство запущено.", "achieved": true },
+        { "id": "sg5", "target": 100, "description": "Полная цель! Все спонсоры получат набор для ухода за шерстью.", "achieved": false }
+      ]
+    }
+]
+
+    

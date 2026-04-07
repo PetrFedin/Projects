@@ -1,0 +1,431 @@
+import { TeamMember, Organization } from '@/lib/types';
+
+/**
+ * Multi-Tenant Demo Data: Hundreds of profiles could exist here
+ */
+export const organizations: Record<string, Organization> = {
+  'org-hq-001': {
+    id: 'org-hq-001',
+    name: 'Syntha Global HQ',
+    type: 'admin',
+    logo: '/logo_placeholder.svg',
+    ownerId: 'admin-001',
+    participantsLimit: 100,
+    isVerified: true,
+    visibility: 'restricted',
+    stats: {
+      activeUsers: 85,
+      totalRevenue: 12500000,
+      orderVolume: 450,
+      complianceScore: 98,
+      lastActivity: new Date().toISOString()
+    }
+  },
+  'org-brand-001': {
+    id: 'org-brand-001',
+    name: 'Syntha Lab',
+    type: 'brand',
+    logo: 'https://picsum.photos/seed/brand1/40/40',
+    ownerId: 'brand-001',
+    participantsLimit: 10,
+    isVerified: true,
+    visibility: 'public',
+    linkedPartners: ['org-factory-001'],
+    subscription: {
+      plan: 'Enterprise Global',
+      status: 'active',
+      expiresAt: '2027-01-01T00:00:00Z',
+      features: ['f1', 'f2', 'f5', 'f9', 'f17', 'f52'],
+      loyalty: {
+        points: 125000,
+        level: 'Diamond Partner',
+        benefits: ['0% Factoring Fee', 'AI Design Priority', 'Global Logistics Concierge']
+      }
+    },
+    stats: {
+      activeUsers: 8,
+      totalRevenue: 4200000,
+      orderVolume: 120,
+      complianceScore: 92,
+      lastActivity: new Date().toISOString()
+    }
+  },
+  'org-brand-002': {
+    id: 'org-brand-002',
+    name: 'Nordic Wool',
+    type: 'brand',
+    logo: 'https://picsum.photos/seed/brand2/40/40',
+    ownerId: 'nordic-001',
+    participantsLimit: 5,
+    isVerified: true,
+    visibility: 'public',
+    subscription: {
+      plan: 'Business Pro',
+      status: 'active',
+      expiresAt: '2026-08-15T00:00:00Z',
+      features: ['f1', 'f5', 'f17', 'f19'],
+      loyalty: {
+        points: 45000,
+        level: 'Gold Brand',
+        benefits: ['Reduced 1C Sync Latency', 'Wholesale Portal Access']
+      }
+    },
+    stats: {
+      activeUsers: 4,
+      totalRevenue: 1800000,
+      orderVolume: 45,
+      complianceScore: 95,
+      lastActivity: new Date().toISOString()
+    }
+  },
+  'org-factory-001': {
+    id: 'org-factory-001',
+    name: 'Nord Tex Production',
+    type: 'manufacturer',
+    logo: 'https://picsum.photos/seed/factory1/40/40',
+    ownerId: 'factory-001',
+    participantsLimit: 50,
+    isVerified: true,
+    visibility: 'restricted',
+    subscription: {
+      plan: 'Industrial Gold',
+      status: 'active',
+      expiresAt: '2026-12-31T00:00:00Z',
+      features: ['f9', 'f11', 'f30', 'f42'],
+      loyalty: {
+        points: 88000,
+        level: 'Top Manufacturer',
+        benefits: ['SCF Factoring Priority', 'Equipment Lease Discount', 'Worker Recruitment Credits']
+      }
+    },
+    stats: {
+      activeUsers: 42,
+      totalRevenue: 8500000,
+      orderVolume: 85,
+      complianceScore: 88,
+      lastActivity: new Date().toISOString()
+    }
+  },
+  'org-brand-003': {
+    id: 'org-brand-003',
+    name: 'Silk Road Atelier',
+    type: 'brand',
+    logo: 'https://picsum.photos/seed/brand3/40/40',
+    ownerId: 'silk-001',
+    participantsLimit: 15,
+    isVerified: true,
+    visibility: 'public',
+    subscription: {
+      plan: 'Comfort Growth',
+      status: 'active',
+      expiresAt: '2026-05-20T00:00:00Z',
+      features: ['f1', 'f17', 'f44'],
+      loyalty: {
+        points: 12000,
+        level: 'Rising Star',
+        benefits: ['Showroom Credits', 'B2B Academy Access']
+      }
+    },
+    stats: {
+      activeUsers: 12,
+      totalRevenue: 2300000,
+      orderVolume: 65,
+      complianceScore: 90,
+      lastActivity: new Date().toISOString()
+    }
+  },
+  'org-factory-002': {
+    id: 'org-factory-002',
+    name: 'Southern Stitch',
+    type: 'manufacturer',
+    logo: 'https://picsum.photos/seed/factory2/40/40',
+    ownerId: 'factory-002',
+    participantsLimit: 100,
+    isVerified: false,
+    visibility: 'restricted',
+    subscription: {
+      plan: 'Standard Industrial',
+      status: 'active',
+      expiresAt: '2026-03-10T00:00:00Z',
+      features: ['f9', 'f11'],
+      loyalty: {
+        points: 5000,
+        level: 'New Producer',
+        benefits: ['Basic SCF Factoring']
+      }
+    },
+    stats: {
+      activeUsers: 15,
+      totalRevenue: 500000,
+      orderVolume: 12,
+      complianceScore: 75,
+      lastActivity: new Date().toISOString()
+    }
+  },
+  'org-dist-001': {
+    id: 'org-dist-001',
+    name: 'Global Logistix',
+    type: 'distributor',
+    logo: 'https://picsum.photos/seed/dist1/40/40',
+    ownerId: 'dist-001',
+    participantsLimit: 30,
+    isVerified: true,
+    visibility: 'restricted',
+    subscription: {
+      plan: 'Logistics Prime',
+      status: 'active',
+      expiresAt: '2027-02-01T00:00:00Z',
+      features: ['f13', 'f43', 'f32', 'f51'],
+      loyalty: {
+        points: 95000,
+        level: 'Logistic Master',
+        benefits: ['Cross-docking Priority', 'Multi-currency Gateway', 'Route Optimizer Pro']
+      }
+    },
+    stats: {
+      activeUsers: 18,
+      totalRevenue: 3100000,
+      orderVolume: 320,
+      complianceScore: 94,
+      lastActivity: new Date().toISOString()
+    }
+  },
+  'org-supplier-001': {
+    id: 'org-supplier-001',
+    name: 'Silk Road Materials',
+    type: 'supplier',
+    logo: 'https://picsum.photos/seed/supp1/40/40',
+    ownerId: 'supplier-001',
+    participantsLimit: 10,
+    isVerified: true,
+    visibility: 'public',
+    subscription: {
+      plan: 'Supplier Pro',
+      status: 'active',
+      expiresAt: '2026-09-12T00:00:00Z',
+      features: ['f42', 'f44'],
+      loyalty: {
+        points: 25000,
+        level: 'Preferred Supplier',
+        benefits: ['Fast Payouts', 'Bulk Order Matching']
+      }
+    },
+    stats: {
+      activeUsers: 5,
+      totalRevenue: 1200000,
+      orderVolume: 45,
+      complianceScore: 90,
+      lastActivity: new Date().toISOString()
+    }
+  },
+  'org-shop-001': {
+    id: 'org-shop-001',
+    name: 'Tsvetnoy Central Market',
+    type: 'shop',
+    logo: 'https://picsum.photos/seed/shop1/40/40',
+    ownerId: 'shop-001',
+    participantsLimit: 20,
+    isVerified: true,
+    visibility: 'public',
+    subscription: {
+      plan: 'Retail Enterprise',
+      status: 'active',
+      expiresAt: '2027-01-15T00:00:00Z',
+      features: ['f1', 'f17', 'f19', 'f55'],
+      loyalty: {
+        points: 450000,
+        level: 'Diamond Retailer',
+        benefits: ['VMI Priority', 'Exclusive Drops', 'Custom CRM Integration']
+      }
+    },
+    stats: {
+      activeUsers: 15,
+      totalRevenue: 45000000,
+      orderVolume: 1200,
+      complianceScore: 98,
+      lastActivity: new Date().toISOString()
+    }
+  }
+};
+
+import { ActivityLog } from '@/lib/types';
+
+export const activityLogs: ActivityLog[] = [
+  {
+    id: 'log-1',
+    timestamp: new Date().toISOString(),
+    userId: 'admin-001',
+    userName: 'Александр Волков',
+    organizationId: 'org-hq-001',
+    action: 'login',
+    targetType: 'member',
+    targetId: 'admin-001',
+    description: 'Вход в систему (Global Admin)'
+  },
+  {
+    id: 'log-2',
+    timestamp: new Date(Date.now() - 1000 * 60 * 15).toISOString(),
+    userId: 'brand-001',
+    userName: 'Виктория Белова',
+    organizationId: 'org-brand-001',
+    action: 'update',
+    targetType: 'plm',
+    targetId: 'sku-urban-001',
+    description: 'Обновление спецификации: Urban Jacket SS26'
+  },
+  {
+    id: 'log-3',
+    timestamp: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
+    userId: 'factory-001',
+    userName: 'Андрей Кузнецов',
+    organizationId: 'org-factory-001',
+    action: 'create',
+    targetType: 'order',
+    targetId: 'ord-9921',
+    description: 'Создан заказ на производство: партия 500 ед.'
+  }
+];
+
+export const partnerTeams: Record<string, TeamMember[]> = {
+  'org-hq-001': [
+    {
+      id: 'admin-001', firstName: 'Александр', lastName: 'Волков', nickname: 'aleksandr_volkov',
+      email: 'admin@syntha.ai', role: 'Chief System Architect', status: 'admin', department: 'Management',
+      organizationId: 'org-hq-001',
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop',
+      isOnline: true, joinedAt: '2024-01-01T00:00:00Z', workload: 45, liveAction: 'Мониторинг всей сети',
+      skills: ['System Design', 'Security', 'Management'],
+      privacySettings: {
+        showCalendar: true,
+        showTasks: true,
+        showMessages: false,
+        showFinancials: true,
+        showActivity: true
+      },
+      kpiMetrics: { 'SystemUptime': { value: 99.9, label: 'Uptime', trend: 'up' } }
+    },
+    {
+      id: 'admin-002', firstName: 'Дмитрий', lastName: 'Соколов', nickname: 'dmitry_sokolov',
+      email: 'dmitry@syntha.ai', role: 'Technical Director', status: 'admin', department: 'IT / Development',
+      organizationId: 'org-hq-001',
+      avatar: 'https://images.unsplash.com/photo-1519085360753-afdab827c52f?w=400&h=400&fit=crop',
+      isOnline: true, joinedAt: '2024-02-15T00:00:00Z', workload: 85, liveAction: 'Оптимизация Core',
+      skills: ['Architecture', 'DevOps'],
+      privacySettings: {
+        showCalendar: false,
+        showTasks: false,
+        showMessages: false,
+        showFinancials: false,
+        showActivity: true
+      },
+      kpiMetrics: { 'ResponseTime': { value: 45, label: 'Latancy', trend: 'up' } }
+    }
+  ],
+  'org-brand-001': [
+    { 
+      id: 'brand-001', firstName: 'Виктория', lastName: 'Белова', nickname: 'viktoria_belova',
+      email: 'brand@syntha.ai', role: 'Креативный директор', status: 'admin', department: 'Дизайн',
+      organizationId: 'org-brand-001',
+      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop', 
+      isOnline: true, joinedAt: '2025-03-10T00:00:00Z', workload: 92, liveAction: 'Редактирует: Line-list Urban 26',
+      skills: ['Дизайн', 'Аналитика', 'Управление'],
+      kpiMetrics: { 'DesignReady': { value: 85, label: 'Готовность', trend: 'up' } }
+    },
+    { 
+      id: 'brand-002', firstName: 'Артем', lastName: 'Новиков', nickname: 'artem_novikov',
+      email: 'artem@synthalab.com', role: 'Ведущий дизайнер', status: 'member', department: '3D / Дизайн',
+      organizationId: 'org-brand-001',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop', 
+      isOnline: true, joinedAt: '2025-04-01T00:00:00Z', workload: 45, liveAction: 'Загрузка 3D моделей',
+      skills: ['Blender 3D', 'CLO 3D'],
+      kpiMetrics: { 'RenderSpeed': { value: 12, label: 'Рендеров/день', trend: 'up' } }
+    }
+  ],
+  'org-brand-002': [
+    { 
+      id: 'nordic-001', firstName: 'Эрик', lastName: 'Норд', nickname: 'erik_nord',
+      email: 'nordic@syntha.ai', role: 'Основатель бренда', status: 'admin', department: 'Management',
+      organizationId: 'org-brand-002',
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop', 
+      isOnline: true, joinedAt: '2025-01-15T00:00:00Z', workload: 35, liveAction: 'Анализ заказов',
+      skills: ['Business Development', 'Sourcing'],
+      kpiMetrics: { 'OrderGrowth': { value: 24, label: 'Growth', trend: 'up' } }
+    }
+  ],
+  'org-brand-003': [
+    { 
+      id: 'silk-001', firstName: 'Лейла', lastName: 'Саиди', nickname: 'leila_silk',
+      email: 'silk@syntha.ai', role: 'Директор ателье', status: 'admin', department: 'Management',
+      organizationId: 'org-brand-003',
+      avatar: 'https://images.unsplash.com/photo-1589156280159-27698a70f29e?w=400&h=400&fit=crop', 
+      isOnline: true, joinedAt: '2025-02-10T00:00:00Z', workload: 25, liveAction: 'Проверка тканей',
+      skills: ['Luxury Design', 'Sourcing'],
+      kpiMetrics: { 'QualityScore': { value: 98, label: 'Quality', trend: 'up' } }
+    }
+  ],
+  'org-factory-001': [
+    { 
+      id: 'factory-001', firstName: 'Андрей', lastName: 'Кузнецов', nickname: 'andrey_kuznetsov',
+      email: 'factory@syntha.ai', role: 'Руководитель производства', status: 'admin', department: 'Production',
+      organizationId: 'org-factory-001',
+      avatar: 'https://images.unsplash.com/photo-1552058544-f2b08422138a?w=400&h=400&fit=crop', 
+      isOnline: true, joinedAt: '2025-01-05T00:00:00Z', workload: 88, liveAction: 'Настройка плана цехов',
+      skills: ['Manufacturing', 'Efficiency'],
+      kpiMetrics: { 'DefectRate': { value: 0.8, label: 'Bugs', trend: 'down' } }
+    }
+  ],
+  'org-factory-002': [
+    { 
+      id: 'factory-002', firstName: 'Михаил', lastName: 'Петров', nickname: 'mikhail_stitch',
+      email: 'southern@syntha.ai', role: 'Завпроизводством', status: 'admin', department: 'Production',
+      organizationId: 'org-factory-002',
+      avatar: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=400&h=400&fit=crop', 
+      isOnline: false, joinedAt: '2025-03-15T00:00:00Z', workload: 60, liveAction: 'Оффлайн',
+      skills: ['Production Planning', 'QC'],
+      kpiMetrics: { 'Throughput': { value: 450, label: 'Units/Day', trend: 'neutral' } }
+    }
+  ],
+  'org-dist-001': [
+    { 
+      id: 'dist-001', firstName: 'Игорь', lastName: 'Степанов', nickname: 'igor_stepanov',
+      email: 'dist@syntha.ai', role: 'Директор по логистике', status: 'admin', department: 'Logistics',
+      organizationId: 'org-dist-001',
+      avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop', 
+      isOnline: true, joinedAt: '2025-02-20T00:00:00Z', workload: 65, liveAction: 'Оптимизация маршрутов',
+      skills: ['Logistics', 'Supply Chain'],
+      kpiMetrics: { 'DeliveryAccuracy': { value: 98, label: 'Accuracy', trend: 'up' } }
+    }
+  ],
+  'org-supplier-001': [
+    { 
+      id: 'supplier-001', firstName: 'Сергей', lastName: 'Васильев', nickname: 'sergey_vasiliev',
+      email: 'supplier@syntha.ai', role: 'Глава отдела закупок', status: 'admin', department: 'Procurement',
+      organizationId: 'org-supplier-001',
+      avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&h=400&fit=crop', 
+      isOnline: true, joinedAt: '2025-03-01T00:00:00Z', workload: 55, liveAction: 'Обновление стока',
+      skills: ['Procurement', 'Negotiation'],
+      kpiMetrics: { 'OTIF': { value: 92, label: 'OTIF', trend: 'up' } }
+    }
+  ],
+  'org-shop-001': [
+    { 
+      id: 'shop-001', firstName: 'Ольга', lastName: 'Лебедева', nickname: 'olga_lebedeva',
+      email: 'shop@syntha.ai', role: 'Владелец бутика', status: 'admin', department: 'Strategy',
+      organizationId: 'org-shop-001',
+      avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop', 
+      isOnline: true, joinedAt: '2025-01-20T00:00:00Z', workload: 30, liveAction: 'Анализ продаж',
+      skills: ['Retail', 'Curation'],
+      kpiMetrics: { 'Conversion': { value: 3.2, label: 'Conv', trend: 'up' } }
+    },
+    { 
+      id: 'shop-002', firstName: 'Наталья', lastName: 'Котова', nickname: 'natalia_kotova',
+      email: 'natalia@tsvetnoy.ru', role: 'Управляющая магазином', status: 'co-admin', department: 'Operations',
+      organizationId: 'org-shop-001',
+      avatar: 'https://images.unsplash.com/photo-1598550874175-4d0fe4a24424?w=400&h=400&fit=crop', 
+      isOnline: true, joinedAt: '2025-02-01T00:00:00Z', workload: 78, liveAction: 'Планирование развеску',
+      skills: ['Visual Merchandising', 'Store Management'],
+      kpiMetrics: { 'StockTurnover': { value: 1.8, label: 'Turnover', trend: 'neutral' } }
+    }
+  ],
+  // ... more members can be added
+};

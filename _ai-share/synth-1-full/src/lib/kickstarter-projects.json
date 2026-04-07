@@ -1,0 +1,63 @@
+
+[
+    {
+      "id": "camp_urban_shell_fw25",
+      "brandId": "brand_syntha_lab",
+      "productId": "prod_urban_shell_001",
+      "creator": "Syntha Lab",
+      "title": "Urban Shell Parka — Preseason FW25",
+      "status": "live",
+      "minQuantity": 80,
+      "targetQuantity": 150,
+      "currentQuantity": 92,
+      "currentRevenue": 2760000,
+      "retailPrice": 42000,
+      "preorderPrice": 30000,
+      "earlyBirdPrice": 26000,
+      "earlyBirdLimit": 40,
+      "startAt": "2025-11-10T09:00:00Z",
+      "endAt": "2025-11-25T23:59:59Z",
+      "productionStartAt": "2025-12-05T10:00:00Z",
+      "productionEndEstAt": "2026-01-20T18:00:00Z",
+      "description": "Технологичная городская парка для тёплой зимы: лёгкая, водоустойчивая, с утеплением из переработанных материалов.",
+      "media": [
+        {
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1591047139829-d919b5ca2332?w=800"
+        }
+      ],
+      "tags": ["outerwear", "urban", "techwear", "fw25"],
+      "createdAt": "2025-11-05T10:00:00Z",
+      "updatedAt": "2025-11-18T12:30:00Z"
+    },
+    {
+      "id": "camp_merino_rollneck_fw25",
+      "brandId": "brand_nordic_wool",
+      "productId": "prod_merino_rollneck_100",
+      "creator": "Nordic Wool",
+      "title": "Merino Rollneck — Limited FW25 Drop",
+      "status": "production",
+      "minQuantity": 60,
+      "targetQuantity": 100,
+      "currentQuantity": 95,
+      "currentRevenue": 2375000,
+      "retailPrice": 28000,
+      "preorderPrice": 25000,
+      "earlyBirdPrice": null,
+      "earlyBirdLimit": null,
+      "startAt": "2025-10-25T09:00:00Z",
+      "endAt": "2025-11-05T23:59:59Z",
+      "productionStartAt": "2025-11-10T08:00:00Z",
+      "productionEndEstAt": "2025-12-15T18:00:00Z",
+      "description": "Тёплый, но лёгкий свитер из экстратонкого мериноса. Сделан маленькой серией для тех, кто успел в предзаказ.",
+       "media": [
+        {
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?w=800"
+        }
+      ],
+      "tags": ["knitwear", "merino", "fw25"],
+      "createdAt": "2025-10-20T12:00:00Z",
+      "updatedAt": "2025-11-06T09:30:00Z"
+    }
+]

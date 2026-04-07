@@ -1,0 +1,81 @@
+'use client';
+
+import Link from 'next/link';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { TrendingUp, ArrowLeft, BarChart3, Target } from 'lucide-react';
+import { ROUTES } from '@/lib/routes';
+import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { getAnalyticsLinks } from '@/lib/data/entity-links';
+
+/** Network Sell-Through BI: анонимизированное сравнение своих продаж со средними по индустрии. */
+const MOCK = {
+  yourSellThrough: 72,
+  industryAvg: 67,
+  topQuartile: 78,
+  byCategory: [
+    { category: 'Верхняя одежда', yours: 78, industry: 72 },
+    { category: 'Трикотаж', yours: 68, industry: 65 },
+    { category: 'Брюки', yours: 74, industry: 70 },
+  ],
+};
+
+export default function SellThroughBIPage() {
+  return (
+    <div className="container mx-auto px-4 py-6 space-y-6 max-w-4xl pb-24">
+      <div className="flex items-center gap-3">
+        <Button variant="ghost" size="icon" asChild>
+          <Link href={ROUTES.brand.analyticsBi}><ArrowLeft className="h-4 w-4" /></Link>
+        </Button>
+        <div>
+          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2">
+            <TrendingUp className="h-6 w-6" /> Sell-Through BI
+          </h1>
+          <p className="text-slate-500 text-sm mt-0.5">Сравнение вашего sell-through со средними показателями индустрии по категориям и регионам.</p>
+        </div>
+      </div>
+
+      <Card className="border-indigo-100 bg-indigo-50/30">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2"><Target className="h-5 w-5" /> Benchmark</CardTitle>
+          <CardDescription>Анонимные агрегированные данные. Подключите импорт из 1С/Мой Склад для актуализации.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="p-4 rounded-xl bg-white border">
+              <p className="text-[10px] font-bold uppercase text-slate-500">Ваш Sell-Through</p>
+              <p className="text-2xl font-black text-indigo-600">{MOCK.yourSellThrough}%</p>
+              <p className="text-[10px] text-emerald-600 mt-1">+5% vs индустрия</p>
+            </div>
+            <div className="p-4 rounded-xl bg-white border">
+              <p className="text-[10px] font-bold uppercase text-slate-500">Среднее по индустрии</p>
+              <p className="text-2xl font-black">{MOCK.industryAvg}%</p>
+              <p className="text-[10px] text-slate-500 mt-1">Fashion, premium</p>
+            </div>
+            <div className="p-4 rounded-xl bg-white border">
+              <p className="text-[10px] font-bold uppercase text-slate-500">Топ-25% брендов</p>
+              <p className="text-2xl font-black">{MOCK.topQuartile}%</p>
+              <p className="text-[10px] text-slate-500 mt-1">Потенциал</p>
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-slate-600 mb-2">По категориям</p>
+            <ul className="space-y-2">
+              {MOCK.byCategory.map((row, i) => (
+                <li key={i} className="flex items-center justify-between p-2 rounded-lg bg-white border">
+                  <span className="text-sm font-medium">{row.category}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-bold text-indigo-600">Вы: {row.yours}%</span>
+                    <span className="text-xs text-slate-500">Индустрия: {row.industry}%</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </CardContent>
+      </Card>
+
+      <RelatedModulesBlock links={getAnalyticsLinks()} />
+    </div>
+  );
+}

@@ -1,0 +1,25 @@
+[
+  {
+    "id": "camp_urban_shell_fw25_2025-11-16",
+    "campaignId": "camp_urban_shell_fw25",
+    "date": "2025-11-16",
+    "views": 820,
+    "uniqueVisitors": 545,
+    "addToCart": 130,
+    "orders": 42,
+    "conversionRate": 0.077,
+    "ordersBySize": {
+      "XS": 2,
+      "S": 8,
+      "M": 18,
+      "L": 10,
+      "XL": 4
+    },
+    "ordersByRegion": {
+      "RU": 30,
+      "KZ": 5,
+      "AE": 4,
+      "EU": 3
+    }
+  }
+]

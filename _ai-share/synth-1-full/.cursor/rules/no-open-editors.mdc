@@ -1,0 +1,11 @@
+---
+description: enforce explicit file reading and ignore open editors context
+globs: **/*
+---
+
+# No Open Editors Auto-Context
+
+- NEVER rely on automatically opened tabs or "open editors" as your source of truth.
+- ALWAYS explicitly read the files you need using filesystem tools (read_file).
+- If you have not explicitly read a file in the current turn, DO NOT make assumptions about its contents or state.
+- This ensures you are always working with the most up-to-date version of the code and prevents context leakage.

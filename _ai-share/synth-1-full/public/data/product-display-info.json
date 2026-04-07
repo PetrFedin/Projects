@@ -1,0 +1,382 @@
+{
+  "views": [
+    {
+      "id": "grid",
+      "name": "Сетка"
+    },
+    {
+      "id": "list",
+      "name": "Список"
+    },
+    {
+      "id": "detail",
+      "name": "Карточка товара"
+    }
+  ],
+  "parameters": [
+    {
+      "group": "Основные элементы",
+      "items": [
+        {
+          "id": "image",
+          "name": "Изображение",
+          "grid": true,
+          "list": true,
+          "detail": true
+        },
+        {
+          "id": "brand",
+          "name": "Бренд",
+          "grid": true,
+          "list": true,
+          "detail": true
+        },
+        {
+          "id": "product_name",
+          "name": "Название товара",
+          "grid": true,
+          "list": true,
+          "detail": true
+        },
+        {
+          "id": "sku",
+          "name": "Артикул (SKU)",
+          "grid": false,
+          "list": true,
+          "detail": true,
+          "disabled": {
+            "grid": true
+          }
+        },
+        {
+          "id": "description",
+          "name": "Краткое описание",
+          "grid": false,
+          "list": true,
+          "detail": false,
+          "disabled": {
+            "grid": true,
+            "detail": true
+          }
+        },
+        {
+          "id": "full_description",
+          "name": "Полное описание",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "composition",
+          "name": "Состав",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        }
+      ]
+    },
+    {
+      "group": "Цена и наличие",
+      "items": [
+        {
+          "id": "price",
+          "name": "Цена",
+          "grid": true,
+          "list": true,
+          "detail": true
+        },
+        {
+          "id": "old_price",
+          "name": "Цена до скидки",
+          "grid": true,
+          "list": true,
+          "detail": true,
+          "comment": "Только для Аутлет"
+        },
+        {
+          "id": "discount_badge",
+          "name": "Скидка (%)",
+          "grid": true,
+          "list": true,
+          "detail": true,
+          "comment": "Только для Аутлет",
+          "dependsOn": "old_price"
+        },
+        {
+          "id": "promo_badge",
+          "name": "Промо-значок",
+          "grid": true,
+          "list": true,
+          "detail": true
+        },
+        {
+          "id": "availability_status",
+          "name": "Статус наличия",
+          "grid": true,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "list": true
+          },
+          "comment": "В сетке - только в Quick View"
+        },
+        {
+          "id": "color_swatches",
+          "name": "Варианты цвета",
+          "grid": true,
+          "list": true,
+          "detail": true
+        },
+        {
+          "id": "size_selector",
+          "name": "Выбор размера",
+          "grid": true,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "list": true
+          },
+          "comment": "В сетке - только в Quick View"
+        },
+        {
+          "id": "available_sizes",
+          "name": "Доступные размеры (текст)",
+          "grid": false,
+          "list": true,
+          "detail": false,
+          "disabled": {
+            "grid": true,
+            "detail": true
+          }
+        }
+      ]
+    },
+    {
+      "group": "Кнопки и действия",
+      "items": [
+        {
+          "id": "add_to_cart_button",
+          "name": "В корзину",
+          "grid": true,
+          "list": true,
+          "detail": true
+        },
+        {
+          "id": "wishlist_button",
+          "name": "В избранное",
+          "grid": true,
+          "list": true,
+          "detail": true
+        },
+        {
+          "id": "compare_button",
+          "name": "К сравнению",
+          "grid": true,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "list": true
+          }
+        },
+        {
+          "id": "quick_view_button",
+          "name": "Быстрый просмотр",
+          "grid": true,
+          "list": false,
+          "detail": false,
+          "disabled": {
+            "list": true,
+            "detail": true
+          }
+        },
+        {
+          "id": "notify_button",
+          "name": "Сообщить о наличии",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "share_button",
+          "name": "Поделиться",
+          "grid": true,
+          "list": false,
+          "detail": true
+        }
+      ]
+    },
+    {
+      "group": "AI и Персонализация",
+      "items": [
+        {
+          "id": "ai_stylist_recommendation",
+          "name": "AI-стилист: \"С чем носить\"",
+          "grid": false,
+          "list": true,
+          "detail": true,
+          "disabled": {
+            "grid": true
+          }
+        },
+        {
+          "id": "wardrobe_compatibility",
+          "name": "Совместимость с гардеробом",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "ai_similar_products",
+          "name": "AI-поиск похожих товаров",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        }
+      ]
+    },
+    {
+      "group": "Дополнительные атрибуты и блоки",
+      "items": [
+        {
+          "id": "sustainability_badge",
+          "name": "Значок устойчивости",
+          "grid": false,
+          "list": true,
+          "detail": true,
+          "disabled": {
+            "grid": true
+          }
+        },
+        {
+          "id": "ar_badge",
+          "name": "Значок AR",
+          "grid": false,
+          "list": false,
+          "detail": false,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "ar_button",
+          "name": "Кнопка AR-примерки",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "3d_viewer_button",
+          "name": "Кнопка 3D-просмотра",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "rating",
+          "name": "Рейтинг (звезды)",
+          "grid": false,
+          "list": true,
+          "detail": true,
+          "disabled": {
+            "grid": true
+          }
+        },
+        {
+          "id": "care_info",
+          "name": "Информация по уходу",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "video_review",
+          "name": "Видеообзор",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "community_looks",
+          "name": "'Образы от сообщества'",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "price_comparison",
+          "name": "'Сравнение цен'",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "recommendations",
+          "name": "'С этим покупают'",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "reviews_block",
+          "name": "Блок с отзывами",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        }
+      ]
+    }
+  ]
+}

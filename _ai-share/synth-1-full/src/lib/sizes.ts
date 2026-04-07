@@ -1,0 +1,93 @@
+function parseRange(s: string): [number, number] | null {
+  const m = String(s)
+    .replace(/–/g, '-')
+    .match(/(\d+(?:[.,]\d+)?)\s*-\s*(\d+(?:[.,]\d+)?)/);
+  if (!m) return null;
+  return [parseFloat(m[1].replace(',', '.')), parseFloat(m[2].replace(',', '.'))];
+}
+
+function fmt(lo: number, hi: number): string {
+  const a = Math.round(lo);
+  const b = Math.round(hi);
+  return a <= b ? `${a}–${b}` : `${b}–${a}`;
+}
+
+function mid(r: [number, number]): number {
+  return (r[0] + r[1]) / 2;
+}
+
+/** Доп. мерки для ТЗ (как в size-chart-tops.json). */
+function shirtTzFields(row: {
+  bust: string;
+  armCircumference: string;
+}): Record<string, string> {
+  const b = parseRange(row.bust);
+  if (!b) return {};
+  const ac = parseRange(row.armCircumference);
+  return {
+    neckCircumference: fmt(b[0] * 0.405 - 1, b[1] * 0.412 + 0.5),
+    armholeDepth: fmt(b[0] * 0.22, b[1] * 0.26),
+    bicepsCircumference: ac ? fmt(ac[0] + 4, ac[1] + 6) : fmt(b[0] * 0.35, b[1] * 0.39),
+    wristCircumference: fmt(b[0] * 0.185, b[1] * 0.2),
+    cuffOpening: ac ? fmt(mid(ac) * 0.88, mid(ac) * 0.95) : fmt(b[0] * 0.31, b[1] * 0.34),
+  };
+}
+
+/** Женские рубашки/блузы: смешанная EU/IT/RU; RU у разных брендов может не совпадать с ½ обхвата. */
+/** Шкалы как у платьев; рукав/длина/окружность рука — типовые для блузы. */
+const rawShirtRowsWomen = [
+  { IT: '36', FR: '32', EU: '30', US: '0', RU: '42', Alpha: 'XXS', height: '162–166', bust: '80–84', waist: '60–64', hips: '86–90', shoulder: '36–37', sleeve: '57–59', armCircumference: '26–27', length: '60–62' },
+  { IT: '38', FR: '34', EU: '32', US: '2', RU: '44', Alpha: 'XS', height: '163–167', bust: '84–88', waist: '64–68', hips: '90–94', shoulder: '37–38', sleeve: '58–60', armCircumference: '27–28', length: '62–64' },
+  { IT: '40', FR: '36', EU: '34', US: '4', RU: '46', Alpha: 'S', height: '164–168', bust: '88–92', waist: '68–72', hips: '94–98', shoulder: '38–39', sleeve: '59–61', armCircumference: '28–29', length: '63–65' },
+  { IT: '42', FR: '38', EU: '36', US: '6', RU: '48', Alpha: 'M', height: '165–169', bust: '92–96', waist: '72–76', hips: '98–102', shoulder: '39–40', sleeve: '60–62', armCircumference: '29–30', length: '64–66' },
+  { IT: '44', FR: '40', EU: '38', US: '8', RU: '50', Alpha: 'M/L', height: '166–170', bust: '96–100', waist: '76–80', hips: '102–106', shoulder: '40–41', sleeve: '61–63', armCircumference: '30–31', length: '65–68' },
+  { IT: '46', FR: '42', EU: '40', US: '10', RU: '52', Alpha: 'L', height: '167–171', bust: '100–104', waist: '80–84', hips: '106–110', shoulder: '41–42', sleeve: '62–64', armCircumference: '31–32', length: '66–70' },
+  { IT: '48', FR: '44', EU: '42', US: '12', RU: '54', Alpha: 'XL', height: '168–172', bust: '104–108', waist: '84–88', hips: '110–114', shoulder: '42–43', sleeve: '63–65', armCircumference: '32–33', length: '67–72' },
+  { IT: '50', FR: '46', EU: '44', US: '14', RU: '56', Alpha: 'XXL', height: '169–173', bust: '108–112', waist: '88–92', hips: '114–118', shoulder: '43–44', sleeve: '64–66', armCircumference: '33–34', length: '68–74' },
+  { IT: '52', FR: '48', EU: '46', US: '16', RU: '58', Alpha: 'XL+', height: '170–174', bust: '112–116', waist: '92–96', hips: '118–122', shoulder: '44–45', sleeve: '65–67', armCircumference: '34–35', length: '69–76' },
+  { IT: '54', FR: '50', EU: '48', US: '18', RU: '60', Alpha: 'XXL+', height: '171–175', bust: '116–120', waist: '96–100', hips: '122–126', shoulder: '45–46', sleeve: '66–68', armCircumference: '35–36', length: '70–78' },
+  { IT: '56', FR: '52', EU: '50', US: '20', RU: '62', Alpha: 'XXL+/3XL', height: '172–176', bust: '120–124', waist: '100–106', hips: '126–130', shoulder: '46–47', sleeve: '67–69', armCircumference: '36–37', length: '72–80' },
+  { IT: '58', FR: '54', EU: '52', US: '22', RU: '64', Alpha: '3XL', height: '172–177', bust: '124–128', waist: '106–112', hips: '130–134', shoulder: '47–48', sleeve: '68–70', armCircumference: '37–38', length: '74–82' },
+  { IT: '60', FR: '56', EU: '54', US: '24', RU: '66', Alpha: '3XL+/4XL', height: '173–178', bust: '128–132', waist: '112–118', hips: '134–138', shoulder: '48–49', sleeve: '69–71', armCircumference: '38–39', length: '76–84' },
+  { IT: '62', FR: '58', EU: '56', US: '26', RU: '68', Alpha: '4XL', height: '174–179', bust: '132–136', waist: '118–124', hips: '138–142', shoulder: '49–50', sleeve: '70–72', armCircumference: '39–40', length: '78–86' },
+  { IT: '64', FR: '60', EU: '58', US: '28', RU: '70', Alpha: '4XL+/5XL', height: '175–180', bust: '136–140', waist: '124–130', hips: '142–146', shoulder: '50–51', sleeve: '71–73', armCircumference: '40–41', length: '80–88' },
+  { IT: '66', FR: '62', EU: '60', US: '30', RU: '72', Alpha: '5XL', height: '175–181', bust: '140–144', waist: '130–136', hips: '146–150', shoulder: '51–52', sleeve: '72–74', armCircumference: '41–42', length: '82–90' },
+] as const;
+
+/**
+ * Мужская рубашка/верх: RU ≈ ½ обхвата груди (см); XL = RU 52 (не путать с «EU 52» в других таблицах).
+ * Колонка EU здесь — внутренняя шкала в паре с IT (как в `size-chart-outerwear-men.json`), не размер этикетки «EU 50».
+ * Две строки с RU 50 (M/L и L) — разный охват груди на одном номере; уточнять по лекалу.
+ * RU 54 = XL+ (увеличенный ряд), RU 56 = XXL; плюс-сайз 3XL и далее без «провала» между соседними RU (`size-chart-outerwear-men.json`).
+ */
+const rawShirtRowsMen = [
+  { IT: '36', FR: '32', EU: '30', US: '0', RU: '42', Alpha: 'XXS', height: '162–166', bust: '82–86', waist: '62–66', hips: '86–90', shoulder: '36–37', sleeve: '57–59', armCircumference: '26–27', length: '60–62' },
+  { IT: '38', FR: '34', EU: '32', US: '2', RU: '44', Alpha: 'XS', height: '163–167', bust: '86–90', waist: '66–70', hips: '90–94', shoulder: '37–38', sleeve: '58–60', armCircumference: '27–28', length: '62–64' },
+  { IT: '40', FR: '36', EU: '34', US: '4', RU: '46', Alpha: 'S', height: '164–168', bust: '90–94', waist: '70–74', hips: '94–98', shoulder: '38–39', sleeve: '59–61', armCircumference: '28–29', length: '63–65' },
+  { IT: '42', FR: '38', EU: '36', US: '6', RU: '48', Alpha: 'M', height: '165–169', bust: '94–98', waist: '74–78', hips: '98–102', shoulder: '39–40', sleeve: '60–62', armCircumference: '29–30', length: '64–66' },
+  { IT: '44', FR: '40', EU: '38', US: '8', RU: '50', Alpha: 'M/L', height: '166–170', bust: '98–102', waist: '78–82', hips: '102–106', shoulder: '40–41', sleeve: '61–63', armCircumference: '30–31', length: '65–68' },
+  { IT: '46', FR: '42', EU: '40', US: '10', RU: '50', Alpha: 'L', height: '167–171', bust: '100–104', waist: '82–86', hips: '106–110', shoulder: '41–42', sleeve: '62–64', armCircumference: '31–32', length: '66–70' },
+  { IT: '48', FR: '44', EU: '42', US: '12', RU: '52', Alpha: 'XL', height: '168–172', bust: '104–108', waist: '86–90', hips: '110–114', shoulder: '42–43', sleeve: '63–65', armCircumference: '32–33', length: '67–72' },
+  { IT: '50', FR: '46', EU: '44', US: '14', RU: '54', Alpha: 'XL+', height: '169–173', bust: '108–112', waist: '90–94', hips: '114–118', shoulder: '40–41', sleeve: '61–62', armCircumference: '33–34', length: '68–74' },
+  { IT: '52', FR: '48', EU: '46', US: '16', RU: '56', Alpha: 'XXL', height: '170–174', bust: '112–116', waist: '94–98', hips: '118–122', shoulder: '41–42', sleeve: '62–64', armCircumference: '34–35', length: '69–76' },
+  { IT: '54', FR: '50', EU: '48', US: '18', RU: '58', Alpha: '3XL', height: '171–175', bust: '116–120', waist: '98–102', hips: '122–126', shoulder: '41–42', sleeve: '63–65', armCircumference: '35–36', length: '70–78' },
+  { IT: '56', FR: '52', EU: '50', US: '20', RU: '60', Alpha: '4XL', height: '172–176', bust: '120–124', waist: '102–106', hips: '126–130', shoulder: '42–43', sleeve: '64–66', armCircumference: '36–37', length: '72–80' },
+  { IT: '58', FR: '54', EU: '52', US: '22', RU: '62', Alpha: '5XL', height: '172–177', bust: '124–128', waist: '106–110', hips: '130–134', shoulder: '42–43', sleeve: '65–67', armCircumference: '37–38', length: '74–82' },
+  { IT: '60', FR: '56', EU: '54', US: '24', RU: '64', Alpha: '6XL', height: '173–178', bust: '128–132', waist: '110–114', hips: '134–138', shoulder: '43–44', sleeve: '66–68', armCircumference: '38–39', length: '76–84' },
+  { IT: '62', FR: '58', EU: '56', US: '26', RU: '66', Alpha: '7XL', height: '173–179', bust: '132–136', waist: '114–118', hips: '138–142', shoulder: '44–45', sleeve: '67–69', armCircumference: '39–40', length: '78–86' },
+  { IT: '64', FR: '60', EU: '58', US: '28', RU: '68', Alpha: '8XL', height: '174–180', bust: '136–140', waist: '118–122', hips: '142–146', shoulder: '45–46', sleeve: '68–70', armCircumference: '40–41', length: '80–88' },
+  { IT: '66', FR: '62', EU: '60', US: '30', RU: '70', Alpha: '9XL', height: '175–181', bust: '140–144', waist: '122–126', hips: '146–150', shoulder: '46–47', sleeve: '69–71', armCircumference: '41–42', length: '82–90' },
+] as const;
+
+export const sizeChartDataShirtsWomen = rawShirtRowsWomen.map((row) => ({
+  ...row,
+  ...shirtTzFields(row),
+}));
+
+export const sizeChartDataShirtsMen = rawShirtRowsMen.map((row) => ({
+  ...row,
+  ...shirtTzFields(row),
+}));
+
+/** @deprecated Используйте sizeChartDataShirtsWomen / sizeChartDataShirtsMen по полу. */
+export const sizeChartDataShirts = sizeChartDataShirtsWomen;

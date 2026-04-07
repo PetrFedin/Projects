@@ -1,0 +1,77 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "live-shopping-1",
+      "description": "Презентация новой коллекции",
+      "imageUrl": "https://images.unsplash.com/photo-1551966584-06927f3b8e72?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "live shopping"
+    },
+    {
+      "id": "live-shopping-2",
+      "description": "Эксклюзивный дроп",
+      "imageUrl": "https://images.unsplash.com/photo-1524638431109-93d95c968f03?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "fashion boutique"
+    },
+    {
+      "id": "live-shopping-3",
+      "description": "Беседы о стиле",
+      "imageUrl": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "fashion model"
+    },
+    {
+      "id": "story-1",
+      "description": "Стиль дня",
+      "imageUrl": "https://picsum.photos/seed/story1/200/200",
+      "imageHint": "fashion model"
+    },
+    {
+      "id": "story-2",
+      "description": "Новинки недели",
+      "imageUrl": "https://picsum.photos/seed/story2/200/200",
+      "imageHint": "clothing rack"
+    },
+    {
+      "id": "story-3",
+      "description": "За кулисами",
+      "imageUrl": "https://picsum.photos/seed/story3/200/200",
+      "imageHint": "sewing machine"
+    },
+    {
+      "id": "story-4",
+      "description": "Образ от @anna_looks",
+      "imageUrl": "https://picsum.photos/seed/story4/200/200",
+      "imageHint": "street style"
+    },
+    {
+      "id": "story-5",
+      "description": "Коллаборация",
+      "imageUrl": "https://picsum.photos/seed/story5/200/200",
+      "imageHint": "fashion design"
+    },
+    {
+      "id": "avatar-3d",
+      "description": "3D Avatar",
+      "imageUrl": "https://storage.googleapis.com/studio-hosting-assets/DLS_ALL_06_18_24_AVATAR.png",
+      "imageHint": "3d model"
+    },
+    {
+        "id": "nft-1",
+        "description": "Цифровая куртка 'Киберпанк'",
+        "imageUrl": "https://storage.googleapis.com/studio-hosting-assets/DLS_ALL_06_18_24_NFT_1.png",
+        "imageHint": "digital fashion"
+    },
+    {
+        "id": "nft-2",
+        "description": "Кроссовки 'Гравитация'",
+        "imageUrl": "https://storage.googleapis.com/studio-hosting-assets/DLS_ALL_06_18_24_NFT_2.png",
+        "imageHint": "sci-fi sneakers"
+    },
+    {
+        "id": "nft-3",
+        "description": "Голографический визор",
+        "imageUrl": "https://storage.googleapis.com/studio-hosting-assets/DLS_ALL_06_18_24_NFT_3.png",
+        "imageHint": "holographic glasses"
+    }
+  ]
+}

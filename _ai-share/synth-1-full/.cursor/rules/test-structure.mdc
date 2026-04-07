@@ -1,0 +1,13 @@
+---
+description: enforce standard test project structure
+globs: tests/**/*
+---
+
+# Test Project Structure Rules
+
+- All test scenarios (specs) MUST reside in `tests/e2e`.
+- Page Object classes MUST reside in `tests/pages`.
+- Shared helper functions and utility modules MUST reside in `tests/helpers`.
+- Test data, constants, and mock data MUST reside in `tests/fixtures`.
+- If a test file (`.spec.ts`) exceeds 200 lines, you MUST extract logic into Page Objects or helpers.
+- Use meaningful names for files and directories that reflect their purpose.

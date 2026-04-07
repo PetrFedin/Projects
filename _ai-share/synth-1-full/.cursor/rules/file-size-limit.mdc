@@ -1,0 +1,13 @@
+---
+description: enforce file size limits and modularization
+globs: **/*.{ts,tsx,js,jsx}
+---
+
+# File Size Limit & Modularization Rules
+
+- If a file exceeds 300 lines, you MUST NOT edit it without first identifying parts to extract into separate modules.
+- Before editing a large file, propose which parts (e.g., Page Objects, helpers, fixtures, types) should be moved to dedicated files.
+- Aim for small, focused files that are easier to maintain and consume fewer tokens.
+- When refactoring, maintain the same functionality while improving structure.
+- **NEVER create new files >300 lines.**
+- **If you find a "monster" (>500 lines) and need to work with it, you MUST first plan its decomposition.**

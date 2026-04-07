@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://synth-1.local/schemas/workshop2-visual-handoff-v1.json",
+  "title": "Workshop2 Visual handoff v1",
+  "description": "Пакет визуала для интеграций (buildVisualHandoffExportPayload).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "exportedAt", "visualQuickSummary", "references", "masterPinCount", "sheetPinCountTotal"],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "workshop2-visual-handoff-v1"
+    },
+    "exportedAt": { "type": "string", "format": "date-time" },
+    "articleSku": { "type": "string", "maxLength": 256 },
+    "visualRouteGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allClear", "openMessages"],
+      "properties": {
+        "allClear": { "type": "boolean" },
+        "openMessages": {
+          "type": "array",
+          "items": { "type": "string", "maxLength": 2000 }
+        }
+      }
+    },
+    "visualQuickSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checklistDone",
+        "checklistTotal",
+        "referenceCount",
+        "sketchPinTotal",
+        "sketchHasSubstrate",
+        "intentOrNotesFilled",
+        "canonicalPhotoAndSketchSet"
+      ],
+      "properties": {
+        "checklistDone": { "type": "integer", "minimum": 0 },
+        "checklistTotal": { "type": "integer", "minimum": 0 },
+        "referenceCount": { "type": "integer", "minimum": 0 },
+        "sketchPinTotal": { "type": "integer", "minimum": 0 },
+        "sketchHasSubstrate": { "type": "boolean" },
+        "intentOrNotesFilled": { "type": "boolean" },
+        "canonicalPhotoAndSketchSet": { "type": "boolean" }
+      }
+    },
+    "designerIntent": { "type": "object" },
+    "canonicalMainPhotoRefId": { "type": "string", "format": "uuid" },
+    "canonicalMainSketchTarget": { "type": "object" },
+    "currentVisualVersionLabel": { "type": "string", "maxLength": 120 },
+    "visualVersionLog": { "type": "array" },
+    "visualReadinessChecklist": { "type": "object" },
+    "passportVisualSource": {
+      "type": "string",
+      "enum": ["sketch", "reference", "generated"]
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["refId", "title"],
+        "properties": {
+          "refId": { "type": "string", "format": "uuid" },
+          "title": { "type": "string", "maxLength": 256 },
+          "takeawayAspects": { "type": "array" },
+          "takeawayNote": { "type": "string", "maxLength": 2000 },
+          "externalUrl": { "type": "string", "maxLength": 2000 }
+        }
+      }
+    },
+    "masterPinCount": { "type": "integer", "minimum": 0 },
+    "sheetPinCountTotal": { "type": "integer", "minimum": 0 }
+  }
+}

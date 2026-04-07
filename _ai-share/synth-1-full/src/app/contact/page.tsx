@@ -1,0 +1,118 @@
+
+'use client';
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Bot, MessageSquare, Send, Phone, Mail, Building, Handshake } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+
+export default function SupportCenterPage() {
+  return (
+    <div className="container mx-auto px-4 py-12">
+      <header className="mb-8">
+        <h1 className="text-sm md:text-sm font-headline font-bold flex items-center gap-3">
+            <MessageSquare className="h-10 w-10" />
+            Центр поддержки
+        </h1>
+      </header>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+        {/* AI Assistant */}
+        <div className="lg:col-span-2">
+            <Card className="h-full flex flex-col">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                        <Bot className="h-5 w-5" />
+                        AI-ассистент
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="flex-grow flex flex-col items-center justify-center text-center text-muted-foreground p-4">
+                    <p>Задайте свой вопрос, и наш AI-помощник ответит вам.</p>
+                    <p className="text-sm">Например: "Как отследить мой заказ?"</p>
+                </CardContent>
+                <CardFooter>
+                    <div className="relative w-full">
+                        <Input placeholder="Ваш вопрос..." className="pr-12 h-12" />
+                        <Button size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-9 w-9">
+                            <Send className="h-4 w-4" />
+                        </Button>
+                    </div>
+                </CardFooter>
+            </Card>
+        </div>
+
+        {/* Context */}
+        <div className="lg:col-span-1">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Контекст</CardTitle>
+                    <CardDescription>
+                        Укажите ID, если ваш вопрос касается конкретного заказа или подписки. Это поможет AI дать более точный ответ.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="order-id">ID Заказа</Label>
+                        <Input id="order-id" placeholder="Например, 12345" />
+                    </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="subscription-id">ID Подписки</Label>
+                        <Input id="subscription-id" placeholder="Например, sub_abcde" />
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+      </div>
+
+       <Separator className="my-12" />
+
+        <div className="text-center">
+            <h2 className="text-base font-bold font-headline">Связаться с нами</h2>
+            <p className="mt-2 text-muted-foreground">Если вы не нашли ответ или хотите обсудить сотрудничество.</p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-8">
+            <Card>
+                <CardHeader className="flex flex-row items-center gap-3">
+                    <Phone className="h-8 w-8 text-accent" />
+                    <CardTitle>Служба поддержки</CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm">
+                    <p>support@syntha.ai</p>
+                    <p>+7 (495) 000-00-00</p>
+                </CardContent>
+            </Card>
+             <Card>
+                <CardHeader className="flex flex-row items-center gap-3">
+                    <Mail className="h-8 w-8 text-accent" />
+                    <CardTitle>Для прессы</CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm">
+                    <p>press@syntha.ai</p>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader className="flex flex-row items-center gap-3">
+                    <Handshake className="h-8 w-8 text-accent" />
+                    <CardTitle>Партнерство</CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm">
+                    <p>partners@syntha.ai</p>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader className="flex flex-row items-center gap-3">
+                    <Building className="h-8 w-8 text-accent" />
+                    <CardTitle>Офис</CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm">
+                    <p>Москва, ул. Тверская, 1</p>
+                </CardContent>
+            </Card>
+        </div>
+
+    </div>
+  );
+}

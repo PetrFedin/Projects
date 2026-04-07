@@ -1,0 +1,1254 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-03-30T13:49:10.324Z",
+  "source": "src/lib/data/category-handbook.ts",
+  "audiences": [
+    {
+      "id": "catalog",
+      "name": "Каталог"
+    }
+  ],
+  "leaves": [
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g0-l0",
+      "l1Name": "Одежда",
+      "l2Name": "Верхняя одежда",
+      "l3Name": "Пальто",
+      "pathLabel": "Одежда › Верхняя одежда › Пальто"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g0-l1",
+      "l1Name": "Одежда",
+      "l2Name": "Верхняя одежда",
+      "l3Name": "Тренчи",
+      "pathLabel": "Одежда › Верхняя одежда › Тренчи"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g0-l2",
+      "l1Name": "Одежда",
+      "l2Name": "Верхняя одежда",
+      "l3Name": "Парки",
+      "pathLabel": "Одежда › Верхняя одежда › Парки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g0-l3",
+      "l1Name": "Одежда",
+      "l2Name": "Верхняя одежда",
+      "l3Name": "Пуховики",
+      "pathLabel": "Одежда › Верхняя одежда › Пуховики"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g0-l4",
+      "l1Name": "Одежда",
+      "l2Name": "Верхняя одежда",
+      "l3Name": "Куртки",
+      "pathLabel": "Одежда › Верхняя одежда › Куртки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g0-l5",
+      "l1Name": "Одежда",
+      "l2Name": "Верхняя одежда",
+      "l3Name": "Бомберы",
+      "pathLabel": "Одежда › Верхняя одежда › Бомберы"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g0-l6",
+      "l1Name": "Одежда",
+      "l2Name": "Верхняя одежда",
+      "l3Name": "Ветровки",
+      "pathLabel": "Одежда › Верхняя одежда › Ветровки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g0-l7",
+      "l1Name": "Одежда",
+      "l2Name": "Верхняя одежда",
+      "l3Name": "Жилеты",
+      "pathLabel": "Одежда › Верхняя одежда › Жилеты"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g0-l8",
+      "l1Name": "Одежда",
+      "l2Name": "Верхняя одежда",
+      "l3Name": "Плащи",
+      "pathLabel": "Одежда › Верхняя одежда › Плащи"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g0-l9",
+      "l1Name": "Одежда",
+      "l2Name": "Верхняя одежда",
+      "l3Name": "Дождевики",
+      "pathLabel": "Одежда › Верхняя одежда › Дождевики"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g0-l10",
+      "l1Name": "Одежда",
+      "l2Name": "Верхняя одежда",
+      "l3Name": "Пончо",
+      "pathLabel": "Одежда › Верхняя одежда › Пончо"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g0-l11",
+      "l1Name": "Одежда",
+      "l2Name": "Верхняя одежда",
+      "l3Name": "Шубы",
+      "pathLabel": "Одежда › Верхняя одежда › Шубы"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g0-l12",
+      "l1Name": "Одежда",
+      "l2Name": "Верхняя одежда",
+      "l3Name": "Лайнеры",
+      "pathLabel": "Одежда › Верхняя одежда › Лайнеры"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g0-l13",
+      "l1Name": "Одежда",
+      "l2Name": "Верхняя одежда",
+      "l3Name": "Подстёжки",
+      "pathLabel": "Одежда › Верхняя одежда › Подстёжки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g0-l14",
+      "l1Name": "Одежда",
+      "l2Name": "Верхняя одежда",
+      "l3Name": "Комбинезоны",
+      "pathLabel": "Одежда › Верхняя одежда › Комбинезоны"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g1-l0",
+      "l1Name": "Одежда",
+      "l2Name": "Костюмы и жакеты",
+      "l3Name": "Костюмы",
+      "pathLabel": "Одежда › Костюмы и жакеты › Костюмы"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g1-l1",
+      "l1Name": "Одежда",
+      "l2Name": "Костюмы и жакеты",
+      "l3Name": "Блейзеры",
+      "pathLabel": "Одежда › Костюмы и жакеты › Блейзеры"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g1-l2",
+      "l1Name": "Одежда",
+      "l2Name": "Костюмы и жакеты",
+      "l3Name": "Смокинги",
+      "pathLabel": "Одежда › Костюмы и жакеты › Смокинги"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g1-l3",
+      "l1Name": "Одежда",
+      "l2Name": "Костюмы и жакеты",
+      "l3Name": "Фраки",
+      "pathLabel": "Одежда › Костюмы и жакеты › Фраки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g1-l4",
+      "l1Name": "Одежда",
+      "l2Name": "Костюмы и жакеты",
+      "l3Name": "Пиджаки",
+      "pathLabel": "Одежда › Костюмы и жакеты › Пиджаки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g1-l5",
+      "l1Name": "Одежда",
+      "l2Name": "Костюмы и жакеты",
+      "l3Name": "Жилеты",
+      "pathLabel": "Одежда › Костюмы и жакеты › Жилеты"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g2-l0",
+      "l1Name": "Одежда",
+      "l2Name": "Платья и сарафаны",
+      "l3Name": "Платья",
+      "pathLabel": "Одежда › Платья и сарафаны › Платья"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g2-l1",
+      "l1Name": "Одежда",
+      "l2Name": "Платья и сарафаны",
+      "l3Name": "Сарафаны",
+      "pathLabel": "Одежда › Платья и сарафаны › Сарафаны"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g3-l0",
+      "l1Name": "Одежда",
+      "l2Name": "Юбки",
+      "l3Name": "—",
+      "pathLabel": "Одежда › Юбки › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g4-l0",
+      "l1Name": "Одежда",
+      "l2Name": "Рубашки и блузы",
+      "l3Name": "Рубашки",
+      "pathLabel": "Одежда › Рубашки и блузы › Рубашки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g4-l1",
+      "l1Name": "Одежда",
+      "l2Name": "Рубашки и блузы",
+      "l3Name": "Блузы",
+      "pathLabel": "Одежда › Рубашки и блузы › Блузы"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g5-l0",
+      "l1Name": "Одежда",
+      "l2Name": "Топы и футболки",
+      "l3Name": "Топы",
+      "pathLabel": "Одежда › Топы и футболки › Топы"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g5-l1",
+      "l1Name": "Одежда",
+      "l2Name": "Топы и футболки",
+      "l3Name": "Футболки",
+      "pathLabel": "Одежда › Топы и футболки › Футболки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g5-l2",
+      "l1Name": "Одежда",
+      "l2Name": "Топы и футболки",
+      "l3Name": "Поло",
+      "pathLabel": "Одежда › Топы и футболки › Поло"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g5-l3",
+      "l1Name": "Одежда",
+      "l2Name": "Топы и футболки",
+      "l3Name": "Майки",
+      "pathLabel": "Одежда › Топы и футболки › Майки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g5-l4",
+      "l1Name": "Одежда",
+      "l2Name": "Топы и футболки",
+      "l3Name": "Кроп-топы",
+      "pathLabel": "Одежда › Топы и футболки › Кроп-топы"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g6-l0",
+      "l1Name": "Одежда",
+      "l2Name": "Джинсы",
+      "l3Name": "—",
+      "pathLabel": "Одежда › Джинсы › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g7-l0",
+      "l1Name": "Одежда",
+      "l2Name": "Брюки",
+      "l3Name": "Классические",
+      "pathLabel": "Одежда › Брюки › Классические"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g7-l1",
+      "l1Name": "Одежда",
+      "l2Name": "Брюки",
+      "l3Name": "Чиносы",
+      "pathLabel": "Одежда › Брюки › Чиносы"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g7-l2",
+      "l1Name": "Одежда",
+      "l2Name": "Брюки",
+      "l3Name": "Спортивные",
+      "pathLabel": "Одежда › Брюки › Спортивные"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g7-l3",
+      "l1Name": "Одежда",
+      "l2Name": "Брюки",
+      "l3Name": "Джоггеры",
+      "pathLabel": "Одежда › Брюки › Джоггеры"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g7-l4",
+      "l1Name": "Одежда",
+      "l2Name": "Брюки",
+      "l3Name": "Карго",
+      "pathLabel": "Одежда › Брюки › Карго"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g8-l0",
+      "l1Name": "Одежда",
+      "l2Name": "Трикотаж",
+      "l3Name": "Свитеры",
+      "pathLabel": "Одежда › Трикотаж › Свитеры"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g8-l1",
+      "l1Name": "Одежда",
+      "l2Name": "Трикотаж",
+      "l3Name": "Худи",
+      "pathLabel": "Одежда › Трикотаж › Худи"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g8-l2",
+      "l1Name": "Одежда",
+      "l2Name": "Трикотаж",
+      "l3Name": "Кардиганы",
+      "pathLabel": "Одежда › Трикотаж › Кардиганы"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g8-l3",
+      "l1Name": "Одежда",
+      "l2Name": "Трикотаж",
+      "l3Name": "Водолазки",
+      "pathLabel": "Одежда › Трикотаж › Водолазки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g8-l4",
+      "l1Name": "Одежда",
+      "l2Name": "Трикотаж",
+      "l3Name": "Юбки",
+      "pathLabel": "Одежда › Трикотаж › Юбки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g9-l0",
+      "l1Name": "Одежда",
+      "l2Name": "Нижнее бельё",
+      "l3Name": "—",
+      "pathLabel": "Одежда › Нижнее бельё › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g10-l0",
+      "l1Name": "Одежда",
+      "l2Name": "Спортивная одежда",
+      "l3Name": "—",
+      "pathLabel": "Одежда › Спортивная одежда › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g11-l0",
+      "l1Name": "Одежда",
+      "l2Name": "Пляжная мода",
+      "l3Name": "—",
+      "pathLabel": "Одежда › Пляжная мода › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g12-l0",
+      "l1Name": "Одежда",
+      "l2Name": "Пижамы и домашняя одежда",
+      "l3Name": "Халаты",
+      "pathLabel": "Одежда › Пижамы и домашняя одежда › Халаты"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g12-l1",
+      "l1Name": "Одежда",
+      "l2Name": "Пижамы и домашняя одежда",
+      "l3Name": "Лонгсливы",
+      "pathLabel": "Одежда › Пижамы и домашняя одежда › Лонгсливы"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-apparel-g12-l2",
+      "l1Name": "Одежда",
+      "l2Name": "Пижамы и домашняя одежда",
+      "l3Name": "Комплекты",
+      "pathLabel": "Одежда › Пижамы и домашняя одежда › Комплекты"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g0-l0",
+      "l1Name": "Обувь",
+      "l2Name": "Кроссовки",
+      "l3Name": "—",
+      "pathLabel": "Обувь › Кроссовки › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g1-l0",
+      "l1Name": "Обувь",
+      "l2Name": "Туфли",
+      "l3Name": "Классические / лодочки",
+      "pathLabel": "Обувь › Туфли › Классические / лодочки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g1-l1",
+      "l1Name": "Обувь",
+      "l2Name": "Туфли",
+      "l3Name": "Балетки",
+      "pathLabel": "Обувь › Туфли › Балетки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g2-l0",
+      "l1Name": "Обувь",
+      "l2Name": "Ботинки",
+      "l3Name": "—",
+      "pathLabel": "Обувь › Ботинки › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g3-l0",
+      "l1Name": "Обувь",
+      "l2Name": "Сандалии и шлёпанцы",
+      "l3Name": "Сандалии",
+      "pathLabel": "Обувь › Сандалии и шлёпанцы › Сандалии"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g3-l1",
+      "l1Name": "Обувь",
+      "l2Name": "Сандалии и шлёпанцы",
+      "l3Name": "Шлепанцы",
+      "pathLabel": "Обувь › Сандалии и шлёпанцы › Шлепанцы"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g3-l2",
+      "l1Name": "Обувь",
+      "l2Name": "Сандалии и шлёпанцы",
+      "l3Name": "Босоножки",
+      "pathLabel": "Обувь › Сандалии и шлёпанцы › Босоножки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g4-l0",
+      "l1Name": "Обувь",
+      "l2Name": "Сапоги",
+      "l3Name": "—",
+      "pathLabel": "Обувь › Сапоги › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g5-l0",
+      "l1Name": "Обувь",
+      "l2Name": "Мокасины и топсайдеры",
+      "l3Name": "Мокасины",
+      "pathLabel": "Обувь › Мокасины и топсайдеры › Мокасины"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g5-l1",
+      "l1Name": "Обувь",
+      "l2Name": "Мокасины и топсайдеры",
+      "l3Name": "Топсайдеры",
+      "pathLabel": "Обувь › Мокасины и топсайдеры › Топсайдеры"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g6-l0",
+      "l1Name": "Обувь",
+      "l2Name": "Угги и унты",
+      "l3Name": "Валенки",
+      "pathLabel": "Обувь › Угги и унты › Валенки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g6-l1",
+      "l1Name": "Обувь",
+      "l2Name": "Угги и унты",
+      "l3Name": "Угги",
+      "pathLabel": "Обувь › Угги и унты › Угги"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g6-l2",
+      "l1Name": "Обувь",
+      "l2Name": "Угги и унты",
+      "l3Name": "Унты",
+      "pathLabel": "Обувь › Угги и унты › Унты"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g7-l0",
+      "l1Name": "Обувь",
+      "l2Name": "Слипоны",
+      "l3Name": "—",
+      "pathLabel": "Обувь › Слипоны › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g8-l0",
+      "l1Name": "Обувь",
+      "l2Name": "Эспадрильи",
+      "l3Name": "—",
+      "pathLabel": "Обувь › Эспадрильи › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g9-l0",
+      "l1Name": "Обувь",
+      "l2Name": "Мюли",
+      "l3Name": "—",
+      "pathLabel": "Обувь › Мюли › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g10-l0",
+      "l1Name": "Обувь",
+      "l2Name": "Сабо",
+      "l3Name": "—",
+      "pathLabel": "Обувь › Сабо › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g11-l0",
+      "l1Name": "Обувь",
+      "l2Name": "Домашняя обувь",
+      "l3Name": "—",
+      "pathLabel": "Обувь › Домашняя обувь › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-shoes-g12-l0",
+      "l1Name": "Обувь",
+      "l2Name": "Спортивная",
+      "l3Name": "—",
+      "pathLabel": "Обувь › Спортивная › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-bags-g0-l0",
+      "l1Name": "Сумки",
+      "l2Name": "Повседневные",
+      "l3Name": "Тот",
+      "pathLabel": "Сумки › Повседневные › Тот"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-bags-g0-l1",
+      "l1Name": "Сумки",
+      "l2Name": "Повседневные",
+      "l3Name": "Шоппер",
+      "pathLabel": "Сумки › Повседневные › Шоппер"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-bags-g0-l2",
+      "l1Name": "Сумки",
+      "l2Name": "Повседневные",
+      "l3Name": "Кросс-боди",
+      "pathLabel": "Сумки › Повседневные › Кросс-боди"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-bags-g0-l3",
+      "l1Name": "Сумки",
+      "l2Name": "Повседневные",
+      "l3Name": "Рюкзак",
+      "pathLabel": "Сумки › Повседневные › Рюкзак"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-bags-g0-l4",
+      "l1Name": "Сумки",
+      "l2Name": "Повседневные",
+      "l3Name": "Клатч",
+      "pathLabel": "Сумки › Повседневные › Клатч"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-bags-g0-l5",
+      "l1Name": "Сумки",
+      "l2Name": "Повседневные",
+      "l3Name": "Поясная",
+      "pathLabel": "Сумки › Повседневные › Поясная"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-bags-g1-l0",
+      "l1Name": "Сумки",
+      "l2Name": "Вечерние",
+      "l3Name": "—",
+      "pathLabel": "Сумки › Вечерние › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-bags-g2-l0",
+      "l1Name": "Сумки",
+      "l2Name": "Чемоданы",
+      "l3Name": "—",
+      "pathLabel": "Сумки › Чемоданы › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-bags-g3-l0",
+      "l1Name": "Сумки",
+      "l2Name": "Рабочие",
+      "l3Name": "Для ноутбука",
+      "pathLabel": "Сумки › Рабочие › Для ноутбука"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-bags-g3-l1",
+      "l1Name": "Сумки",
+      "l2Name": "Рабочие",
+      "l3Name": "Портфель",
+      "pathLabel": "Сумки › Рабочие › Портфель"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-bags-g4-l0",
+      "l1Name": "Сумки",
+      "l2Name": "Спортивные и дорожные",
+      "l3Name": "Спортивные сумки",
+      "pathLabel": "Сумки › Спортивные и дорожные › Спортивные сумки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-bags-g4-l1",
+      "l1Name": "Сумки",
+      "l2Name": "Спортивные и дорожные",
+      "l3Name": "Дорожные сумки",
+      "pathLabel": "Сумки › Спортивные и дорожные › Дорожные сумки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-bags-g5-l0",
+      "l1Name": "Сумки",
+      "l2Name": "Косметички",
+      "l3Name": "Несессеры",
+      "pathLabel": "Сумки › Косметички › Несессеры"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-accessories-g0-l0",
+      "l1Name": "Аксессуары",
+      "l2Name": "Очки",
+      "l3Name": "—",
+      "pathLabel": "Аксессуары › Очки › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-accessories-g1-l0",
+      "l1Name": "Аксессуары",
+      "l2Name": "Ремни и подтяжки",
+      "l3Name": "Ремни",
+      "pathLabel": "Аксессуары › Ремни и подтяжки › Ремни"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-accessories-g1-l1",
+      "l1Name": "Аксессуары",
+      "l2Name": "Ремни и подтяжки",
+      "l3Name": "Подтяжки",
+      "pathLabel": "Аксессуары › Ремни и подтяжки › Подтяжки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-accessories-g2-l0",
+      "l1Name": "Аксессуары",
+      "l2Name": "Перчатки и варежки",
+      "l3Name": "Перчатки",
+      "pathLabel": "Аксессуары › Перчатки и варежки › Перчатки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-accessories-g2-l1",
+      "l1Name": "Аксессуары",
+      "l2Name": "Перчатки и варежки",
+      "l3Name": "Варежки",
+      "pathLabel": "Аксессуары › Перчатки и варежки › Варежки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-accessories-g3-l0",
+      "l1Name": "Аксессуары",
+      "l2Name": "Шарфы",
+      "l3Name": "—",
+      "pathLabel": "Аксессуары › Шарфы › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-accessories-g4-l0",
+      "l1Name": "Аксессуары",
+      "l2Name": "Галстуки и бабочки",
+      "l3Name": "Галстуки",
+      "pathLabel": "Аксессуары › Галстуки и бабочки › Галстуки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-accessories-g4-l1",
+      "l1Name": "Аксессуары",
+      "l2Name": "Галстуки и бабочки",
+      "l3Name": "Бабочки",
+      "pathLabel": "Аксессуары › Галстуки и бабочки › Бабочки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-accessories-g5-l0",
+      "l1Name": "Аксессуары",
+      "l2Name": "Платки",
+      "l3Name": "—",
+      "pathLabel": "Аксессуары › Платки › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-accessories-g6-l0",
+      "l1Name": "Аксессуары",
+      "l2Name": "Украшения",
+      "l3Name": "—",
+      "pathLabel": "Аксессуары › Украшения › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-accessories-g7-l0",
+      "l1Name": "Аксессуары",
+      "l2Name": "Кожгалантерея мелкая",
+      "l3Name": "—",
+      "pathLabel": "Аксессуары › Кожгалантерея мелкая › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-accessories-g8-l0",
+      "l1Name": "Аксессуары",
+      "l2Name": "Зонты",
+      "l3Name": "—",
+      "pathLabel": "Аксессуары › Зонты › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-accessories-g9-l0",
+      "l1Name": "Аксессуары",
+      "l2Name": "Тех-аксессуары",
+      "l3Name": "—",
+      "pathLabel": "Аксессуары › Тех-аксессуары › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-accessories-g10-l0",
+      "l1Name": "Аксессуары",
+      "l2Name": "Маски и бафы",
+      "l3Name": "Маски",
+      "pathLabel": "Аксессуары › Маски и бафы › Маски"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-accessories-g10-l1",
+      "l1Name": "Аксессуары",
+      "l2Name": "Маски и бафы",
+      "l3Name": "Балаклавы",
+      "pathLabel": "Аксессуары › Маски и бафы › Балаклавы"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-accessories-g10-l2",
+      "l1Name": "Аксессуары",
+      "l2Name": "Маски и бафы",
+      "l3Name": "Бафы",
+      "pathLabel": "Аксессуары › Маски и бафы › Бафы"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-headwear-g0-l0",
+      "l1Name": "Головные уборы",
+      "l2Name": "Кепки",
+      "l3Name": "—",
+      "pathLabel": "Головные уборы › Кепки › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-headwear-g1-l0",
+      "l1Name": "Головные уборы",
+      "l2Name": "Панамы",
+      "l3Name": "—",
+      "pathLabel": "Головные уборы › Панамы › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-headwear-g2-l0",
+      "l1Name": "Головные уборы",
+      "l2Name": "Шляпы",
+      "l3Name": "—",
+      "pathLabel": "Головные уборы › Шляпы › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-headwear-g3-l0",
+      "l1Name": "Головные уборы",
+      "l2Name": "Береты",
+      "l3Name": "—",
+      "pathLabel": "Головные уборы › Береты › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-headwear-g4-l0",
+      "l1Name": "Головные уборы",
+      "l2Name": "Шапки",
+      "l3Name": "—",
+      "pathLabel": "Головные уборы › Шапки › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-hosiery-g0-l0",
+      "l1Name": "Носочно-чулочные",
+      "l2Name": "Носки",
+      "l3Name": "—",
+      "pathLabel": "Носочно-чулочные › Носки › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-hosiery-g1-l0",
+      "l1Name": "Носочно-чулочные",
+      "l2Name": "Колготки",
+      "l3Name": "—",
+      "pathLabel": "Носочно-чулочные › Колготки › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-hosiery-g2-l0",
+      "l1Name": "Носочно-чулочные",
+      "l2Name": "Чулки",
+      "l3Name": "—",
+      "pathLabel": "Носочно-чулочные › Чулки › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-hosiery-g3-l0",
+      "l1Name": "Носочно-чулочные",
+      "l2Name": "Гольфы",
+      "l3Name": "—",
+      "pathLabel": "Носочно-чулочные › Гольфы › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-hosiery-g4-l0",
+      "l1Name": "Носочно-чулочные",
+      "l2Name": "Гетры",
+      "l3Name": "—",
+      "pathLabel": "Носочно-чулочные › Гетры › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-beauty-g0-l0",
+      "l1Name": "Красота и уход",
+      "l2Name": "Парфюмерия",
+      "l3Name": "—",
+      "pathLabel": "Красота и уход › Парфюмерия › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-beauty-g1-l0",
+      "l1Name": "Красота и уход",
+      "l2Name": "Косметика",
+      "l3Name": "—",
+      "pathLabel": "Красота и уход › Косметика › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-beauty-g2-l0",
+      "l1Name": "Красота и уход",
+      "l2Name": "Уход",
+      "l3Name": "—",
+      "pathLabel": "Красота и уход › Уход › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-home-g0-l0",
+      "l1Name": "Дом и стиль жизни",
+      "l2Name": "Текстиль",
+      "l3Name": "Пледы",
+      "pathLabel": "Дом и стиль жизни › Текстиль › Пледы"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-home-g0-l1",
+      "l1Name": "Дом и стиль жизни",
+      "l2Name": "Текстиль",
+      "l3Name": "Скатерти",
+      "pathLabel": "Дом и стиль жизни › Текстиль › Скатерти"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-home-g0-l2",
+      "l1Name": "Дом и стиль жизни",
+      "l2Name": "Текстиль",
+      "l3Name": "Постельное",
+      "pathLabel": "Дом и стиль жизни › Текстиль › Постельное"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-home-g0-l3",
+      "l1Name": "Дом и стиль жизни",
+      "l2Name": "Текстиль",
+      "l3Name": "Полотенца",
+      "pathLabel": "Дом и стиль жизни › Текстиль › Полотенца"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-home-g0-l4",
+      "l1Name": "Дом и стиль жизни",
+      "l2Name": "Текстиль",
+      "l3Name": "Коврики для ванной",
+      "pathLabel": "Дом и стиль жизни › Текстиль › Коврики для ванной"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-home-g0-l5",
+      "l1Name": "Дом и стиль жизни",
+      "l2Name": "Текстиль",
+      "l3Name": "Шторы",
+      "pathLabel": "Дом и стиль жизни › Текстиль › Шторы"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-home-g1-l0",
+      "l1Name": "Дом и стиль жизни",
+      "l2Name": "Декор",
+      "l3Name": "—",
+      "pathLabel": "Дом и стиль жизни › Декор › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-home-g2-l0",
+      "l1Name": "Дом и стиль жизни",
+      "l2Name": "Аксессуары",
+      "l3Name": "—",
+      "pathLabel": "Дом и стиль жизни › Аксессуары › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-home-g3-l0",
+      "l1Name": "Дом и стиль жизни",
+      "l2Name": "Питомцы",
+      "l3Name": "Одежда",
+      "pathLabel": "Дом и стиль жизни › Питомцы › Одежда"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-home-g3-l1",
+      "l1Name": "Дом и стиль жизни",
+      "l2Name": "Питомцы",
+      "l3Name": "Лежанки",
+      "pathLabel": "Дом и стиль жизни › Питомцы › Лежанки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-home-g3-l2",
+      "l1Name": "Дом и стиль жизни",
+      "l2Name": "Питомцы",
+      "l3Name": "Переноски",
+      "pathLabel": "Дом и стиль жизни › Питомцы › Переноски"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-home-g3-l3",
+      "l1Name": "Дом и стиль жизни",
+      "l2Name": "Питомцы",
+      "l3Name": "Поводки",
+      "pathLabel": "Дом и стиль жизни › Питомцы › Поводки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-home-g4-l0",
+      "l1Name": "Дом и стиль жизни",
+      "l2Name": "Lifestyle-гаджеты",
+      "l3Name": "—",
+      "pathLabel": "Дом и стиль жизни › Lifestyle-гаджеты › —"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-newborn-g0-l0",
+      "l1Name": "Аксессуары для новорождённых",
+      "l2Name": "Коляски",
+      "l3Name": "Коляски",
+      "pathLabel": "Аксессуары для новорождённых › Коляски › Коляски"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-newborn-g0-l1",
+      "l1Name": "Аксессуары для новорождённых",
+      "l2Name": "Коляски",
+      "l3Name": "Аксессуары для колясок",
+      "pathLabel": "Аксессуары для новорождённых › Коляски › Аксессуары для колясок"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-newborn-g1-l0",
+      "l1Name": "Аксессуары для новорождённых",
+      "l2Name": "Аксессуары",
+      "l3Name": "Пелёнки",
+      "pathLabel": "Аксессуары для новорождённых › Аксессуары › Пелёнки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-newborn-g1-l1",
+      "l1Name": "Аксессуары для новорождённых",
+      "l2Name": "Аксессуары",
+      "l3Name": "Бутылочки",
+      "pathLabel": "Аксессуары для новорождённых › Аксессуары › Бутылочки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-newborn-g1-l2",
+      "l1Name": "Аксессуары для новорождённых",
+      "l2Name": "Аксессуары",
+      "l3Name": "Соски и пустышки",
+      "pathLabel": "Аксессуары для новорождённых › Аксессуары › Соски и пустышки"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-newborn-g1-l3",
+      "l1Name": "Аксессуары для новорождённых",
+      "l2Name": "Аксессуары",
+      "l3Name": "Подгузники",
+      "pathLabel": "Аксессуары для новорождённых › Аксессуары › Подгузники"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-newborn-g1-l4",
+      "l1Name": "Аксессуары для новорождённых",
+      "l2Name": "Аксессуары",
+      "l3Name": "Поильники",
+      "pathLabel": "Аксессуары для новорождённых › Аксессуары › Поильники"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-newborn-g1-l5",
+      "l1Name": "Аксессуары для новорождённых",
+      "l2Name": "Аксессуары",
+      "l3Name": "Гигиена и купание",
+      "pathLabel": "Аксессуары для новорождённых › Аксессуары › Гигиена и купание"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-newborn-g1-l6",
+      "l1Name": "Аксессуары для новорождённых",
+      "l2Name": "Аксессуары",
+      "l3Name": "Переноски и слинги",
+      "pathLabel": "Аксессуары для новорождённых › Аксессуары › Переноски и слинги"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-newborn-g1-l7",
+      "l1Name": "Аксессуары для новорождённых",
+      "l2Name": "Аксессуары",
+      "l3Name": "Прочее",
+      "pathLabel": "Аксессуары для новорождённых › Аксессуары › Прочее"
+    },
+    {
+      "audienceId": "catalog",
+      "audienceName": "Каталог",
+      "leafId": "catalog-toys-g0-l0",
+      "l1Name": "Игрушки (детские)",
+      "l2Name": "—",
+      "l3Name": "—",
+      "pathLabel": "Игрушки (детские) › — › —"
+    }
+  ],
+  "taxonomyAliases": [
+    {
+      "fromLeafId": "catalog-apparel-outerwear-palto",
+      "toLeafId": "catalog-apparel-g0-l0",
+      "since": "2026-01-15",
+      "note": "Словесный slug → индекс g/l (Пальто)"
+    },
+    {
+      "fromLeafId": "catalog-shoes-sneakers",
+      "toLeafId": "catalog-shoes-g0-l0",
+      "since": "2026-01-15",
+      "note": "EN slug → лист «Кроссовки»"
+    },
+    {
+      "fromLeafId": "catalog-bags-cosmetic-pouch",
+      "toLeafId": "catalog-bags-g5-l0",
+      "since": "2026-02-01",
+      "note": "Косметички / несессеры"
+    },
+    {
+      "fromLeafId": "catalog-beauty-parfum-legacy",
+      "toLeafId": "catalog-beauty-g0-l0",
+      "since": "2026-02-05",
+      "note": "Парфюмерия: прежний id ветки"
+    },
+    {
+      "fromLeafId": "catalog-newborn-stroller-legacy",
+      "toLeafId": "catalog-newborn-g0-l0",
+      "since": "2026-02-08",
+      "note": "Коляски: единый лист"
+    },
+    {
+      "fromLeafId": "catalog-prefill-v0-toys",
+      "toLeafId": "catalog-prefill-v1-toys",
+      "since": "2026-02-10",
+      "note": "Промежуточный id (цепочка на catalog-toys-g0-l0)"
+    },
+    {
+      "fromLeafId": "catalog-prefill-v1-toys",
+      "toLeafId": "catalog-toys-g0-l0",
+      "since": "2026-02-11",
+      "note": "Игрушки (детские): финальный лист"
+    }
+  ]
+}

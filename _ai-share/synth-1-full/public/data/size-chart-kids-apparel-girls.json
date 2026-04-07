@@ -1,0 +1,101 @@
+[
+  {
+    "ageBand": "1–2 г",
+    "height": "86–92",
+    "bust": "52–54",
+    "waist": "50–52",
+    "hips": "54–56",
+    "length": "32–36",
+    "sleeve": "28–32",
+    "skirtLength": "24–28",
+    "dressLength": "38–44"
+  },
+  {
+    "ageBand": "2–3 г",
+    "height": "98",
+    "bust": "54–56",
+    "waist": "52–54",
+    "hips": "56–58",
+    "length": "36–40",
+    "sleeve": "32–35",
+    "skirtLength": "26–30",
+    "dressLength": "42–48"
+  },
+  {
+    "ageBand": "3–4 г",
+    "height": "104",
+    "bust": "56–58",
+    "waist": "54–56",
+    "hips": "58–60",
+    "length": "40–44",
+    "sleeve": "35–38",
+    "skirtLength": "28–32",
+    "dressLength": "46–52"
+  },
+  {
+    "ageBand": "4–5 г",
+    "height": "110",
+    "bust": "58–60",
+    "waist": "56–58",
+    "hips": "60–63",
+    "length": "44–48",
+    "sleeve": "38–41",
+    "skirtLength": "30–34",
+    "dressLength": "50–56"
+  },
+  {
+    "ageBand": "5–6 г",
+    "height": "116",
+    "bust": "60–62",
+    "waist": "58–60",
+    "hips": "62–65",
+    "length": "48–52",
+    "sleeve": "41–44",
+    "skirtLength": "32–36",
+    "dressLength": "54–60"
+  },
+  {
+    "ageBand": "6–7 г",
+    "height": "122",
+    "bust": "62–64",
+    "waist": "60–62",
+    "hips": "65–68",
+    "length": "50–54",
+    "sleeve": "44–47",
+    "skirtLength": "34–38",
+    "dressLength": "58–64"
+  },
+  {
+    "ageBand": "7–8 г",
+    "height": "128",
+    "bust": "64–66",
+    "waist": "62–64",
+    "hips": "67–71",
+    "length": "52–56",
+    "sleeve": "47–50",
+    "skirtLength": "36–40",
+    "dressLength": "62–70"
+  },
+  {
+    "ageBand": "8–10 г",
+    "height": "134–140",
+    "bust": "66–72",
+    "waist": "64–68",
+    "hips": "72–80",
+    "length": "54–60",
+    "sleeve": "50–56",
+    "skirtLength": "38–44",
+    "dressLength": "68–78"
+  },
+  {
+    "ageBand": "10–12 г",
+    "height": "146–152",
+    "bust": "72–78",
+    "waist": "68–72",
+    "hips": "80–90",
+    "length": "58–64",
+    "sleeve": "54–60",
+    "skirtLength": "40–48",
+    "dressLength": "72–85"
+  }
+]

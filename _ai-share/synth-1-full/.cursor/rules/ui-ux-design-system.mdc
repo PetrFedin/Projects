@@ -1,0 +1,38 @@
+---
+description: Design system — tokens, Tailwind, components. Use for all UI/UX.
+globs: ["**/*.tsx", "**/*.jsx", "**/*.css", "**/tailwind.config.*", "**/tokens.json", "**/design/**"]
+---
+
+# Synth-1 Design System
+
+**Source of truth:** `STYLE_GUIDE.md` + `design-system/synth-1-fashion-os/MASTER.md`. Tokens: `src/design/tokens.json`, `design-tokens.json`, `src/design/UI_RULES.md`.
+
+**Layout primitives (dashboard / analytics):** `@/components/design-system` — `PageContainer`, `PageHeader`, `SectionContainer`, `DashboardGrid`, `MetricCard`, `AnalyticsCard`, `WidgetContainer`, `ChartCard`, `HistogramCard` (Recharts), `DataTableContainer`, `FilterToolbar`, `EmptyState`, `LoadingState`, `StatusBadge`. Prefer these over one-off card layouts.
+
+## Tailwind (STYLE_GUIDE — JOOR B2B)
+
+| Use | Class |
+|-----|-------|
+| Page title | `text-2xl sm:text-3xl font-bold text-slate-900` |
+| Section title | `text-base font-semibold text-slate-900` |
+| Block label | `text-[10px] font-bold uppercase tracking-widest text-slate-500` |
+| Body | `text-sm text-slate-600` |
+| Caption | `text-xs text-slate-500` |
+| Card | `rounded-xl border border-slate-200/80 bg-white shadow-sm p-5` |
+| Primary btn | `bg-slate-900 text-white hover:bg-slate-800 rounded-lg` |
+| Secondary btn | `border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-lg` |
+| Stat card | `rounded-xl border border-slate-100 p-4` |
+| Table container | `rounded-xl border border-slate-200 overflow-x-auto` |
+| Input | `rounded-lg border-slate-200 h-11` |
+
+Colors: slate-900 primary, indigo-600 accent. Icons: Lucide only, no emojis. Use `@/components/ui`: SectionHeader, StatCard, WidgetCard, EmptyStateB2B. Drawers: `vaul`. Responsive: `@container` (container-queries).
+
+## Tokens & fonts
+
+- `tokens.json` → Tailwind (bg-canvas, text-primary, accent-primary, etc.)
+- Fonts: Fira Sans (body), Fira Code (headings). Layout loads them.
+- Stack: Next.js + Tailwind + shadcn. Icons: Lucide.
+
+## Checklist
+
+cursor-pointer on clickables, hover 150–300ms, contrast ≥4.5:1, focus states, responsive 375/768/1024.

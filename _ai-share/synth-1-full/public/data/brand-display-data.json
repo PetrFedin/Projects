@@ -1,0 +1,294 @@
+{
+  "views": [
+    {
+      "id": "grid",
+      "name": "Сетка (карточка)"
+    },
+    {
+      "id": "list",
+      "name": "Список (карточка)"
+    },
+    {
+      "id": "detail",
+      "name": "Страница бренда"
+    }
+  ],
+  "parameters": [
+    {
+      "group": "Основные элементы",
+      "items": [
+        {
+          "id": "logo",
+          "name": "Логотип",
+          "grid": true,
+          "list": true,
+          "detail": true
+        },
+        {
+          "id": "name",
+          "name": "Название",
+          "grid": true,
+          "list": true,
+          "detail": true
+        },
+        {
+          "id": "nameRU",
+          "name": "Название (RU)",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "description",
+          "name": "Краткое описание",
+          "grid": true,
+          "list": true,
+          "detail": true
+        },
+        {
+          "id": "action_button",
+          "name": "Кнопка 'Подписаться'",
+          "grid": true,
+          "list": true,
+          "detail": true
+        },
+        {
+          "id": "request_partnership_button",
+          "name": "Кнопка 'Запросить партнерство'",
+          "grid": true,
+          "list": true,
+          "detail": false,
+          "disabled": {
+            "detail": true
+          },
+          "comment": "На странице /shop/b2b/partners/discover"
+        },
+        {
+          "id": "store_button",
+          "name": "Кнопка 'В магазин'",
+          "grid": true,
+          "list": true,
+          "detail": false,
+          "disabled": {
+            "detail": true
+          }
+        }
+      ]
+    },
+    {
+      "group": "Информационные блоки (Страница бренда)",
+      "items": [
+        {
+          "id": "full_description",
+          "name": "Полное описание (История)",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "founded_year",
+          "name": "Год основания",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "country",
+          "name": "Страна",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "segment",
+          "name": "Сегмент",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "priceRange",
+          "name": "Ценовой диапазон",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "startDate",
+          "name": "Дата начала на платформе",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        },
+        {
+          "id": "subscriptionTier",
+          "name": "Тарифный план",
+          "grid": false,
+          "list": false,
+          "detail": true,
+          "disabled": {
+            "grid": true,
+            "list": true
+          }
+        }
+      ]
+    },
+    {
+      "group": "Контакты и Соцсети",
+      "items": [
+        {
+          "id": "website",
+          "name": "Сайт",
+          "grid": false,
+          "list": false,
+          "detail": true
+        },
+        {
+          "id": "public_email",
+          "name": "Email",
+          "grid": false,
+          "list": false,
+          "detail": true
+        },
+        {
+          "id": "phone",
+          "name": "Телефон",
+          "grid": false,
+          "list": false,
+          "detail": true
+        },
+        {
+          "id": "social_links",
+          "name": "Ссылки на соцсети (все)",
+          "grid": false,
+          "list": false,
+          "detail": true
+        }
+      ]
+    },
+    {
+      "group": "Дополнительные блоки (Страница бренда)",
+      "items": [
+        {
+          "id": "locations",
+          "name": "Локации",
+          "grid": false,
+          "list": false,
+          "detail": true
+        },
+        {
+          "id": "key_people",
+          "name": "Ключевые фигуры",
+          "grid": false,
+          "list": false,
+          "detail": true
+        },
+        {
+          "id": "esg_info",
+          "name": "ESG-информация",
+          "grid": false,
+          "list": false,
+          "detail": true
+        },
+        {
+          "id": "b2b_info",
+          "name": "B2B-информация",
+          "grid": false,
+          "list": false,
+          "detail": true
+        },
+        {
+          "id": "legal_info",
+          "name": "Юр. информация",
+          "grid": false,
+          "list": false,
+          "detail": true
+        },
+        {
+          "id": "press_mentions",
+          "name": "Упоминания в прессе",
+          "grid": false,
+          "list": false,
+          "detail": true
+        },
+        {
+          "id": "brand_stories_section",
+          "name": "Сторис",
+          "grid": false,
+          "list": false,
+          "detail": true
+        },
+        {
+          "id": "brand_videos_section",
+          "name": "Видео",
+          "grid": false,
+          "list": false,
+          "detail": true
+        },
+        {
+          "id": "active_promotions_section",
+          "name": "Акции и предложения",
+          "grid": false,
+          "list": false,
+          "detail": true
+        },
+        {
+          "id": "social_mentions_section",
+          "name": "Нас отмечают",
+          "grid": false,
+          "list": false,
+          "detail": true
+        },
+        {
+          "id": "events_section",
+          "name": "События",
+          "grid": false,
+          "list": false,
+          "detail": true
+        },
+        {
+          "id": "community_looks_section",
+          "name": "Образы от сообщества",
+          "grid": false,
+          "list": false,
+          "detail": true
+        },
+        {
+          "id": "brand_articles_section",
+          "name": "Блог и новости",
+          "grid": false,
+          "list": false,
+          "detail": true
+        }
+      ]
+    }
+  ]
+}

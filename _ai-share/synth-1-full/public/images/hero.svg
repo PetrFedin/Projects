@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="hero-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000"/>
+      <stop offset="100%" style="stop-color:#434343"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#hero-gradient)"/>
+  <text x="960" y="500" font-family="Arial, sans-serif" font-size="120" fill="#ffffff" text-anchor="middle" opacity="0.15" font-weight="300" letter-spacing="20">SYNTHA</text>
+  <text x="960" y="600" font-family="Arial, sans-serif" font-size="32" fill="#ffffff" text-anchor="middle" opacity="0.4" font-weight="300">Фэшн-платформа будущего</text>
+</svg>
+
+
+
+
+
