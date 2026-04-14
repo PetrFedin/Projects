@@ -24,7 +24,21 @@ backup_duplicates/
 *.log
 temp_*
 tsconfig.tsbuildinfo
+tsconfig.*.tsbuildinfo
+
+# Playwright (локальные прогоны; не версионировать)
+playwright-report/
+test-results/
 
 # локальные метрики досье Workshop2 (NDJSON)
 data/workshop2-dossier-metrics.ndjson
 data/w2-metrics-archive-state.json
+
+# персистентность процессов (dev / PROCESS_PERSISTENCE)
+.data/
+
+# локальный operational pilot (реальные данные; example остаётся в scripts/)
+/pilot-real-bundle.json
+/pilot-real-snapshot.json
+/pilot-real-report/
+/pilot-review-ratings.json
