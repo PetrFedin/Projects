@@ -1,3 +1,4 @@
+import { dispatchInventoryBalanceChangedForProduct } from '@/lib/control-adapters/control-invalidation-targets';
 import { InventoryGrain, StockState } from './inventory-ledger';
 import { canManageStock } from './stock-integration';
 import { StockSyncAgreement } from '@/lib/types/marketplace';
@@ -173,6 +174,8 @@ export function allocateStock(params: {
     });
   }
 
+  dispatchInventoryBalanceChangedForProduct(request.productId);
+
   return { success: true, updatedGrains };
 }
 
@@ -317,6 +320,15 @@ export function releaseExpiredReservations(params: {
     });
   });
 
+  const seenProducts = new Set<string>();
+  for (const eg of expiredGrains) {
+    const pid = eg.productId?.trim();
+    if (pid && pid !== 'unknown' && !seenProducts.has(pid)) {
+      seenProducts.add(pid);
+      dispatchInventoryBalanceChangedForProduct(pid);
+    }
+  }
+
   return { success: true, updatedGrains, releasedCount: expiredGrains.length };
 }
 
@@ -401,6 +413,8 @@ export function allocateBackToBack(params: {
       tenantId
     }
   });
+
+  dispatchInventoryBalanceChangedForProduct(parentGrain.productId);
 
   return { success: true, updatedGrains };
 }

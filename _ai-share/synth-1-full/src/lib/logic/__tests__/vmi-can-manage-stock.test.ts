@@ -1,26 +1,31 @@
-import { canManageStock, StockSyncAgreement } from '../stock-integration';
+import type { StockSyncAgreement } from '@/lib/types/marketplace';
+import { canManageStock } from '../stock-integration';
 
 describe('canManageStock VMI logic', () => {
   const brandId = 'brand-1';
   const shopId = 'shop-1';
-  
+
   const activeVmi: StockSyncAgreement = {
     id: 'vmi-1',
     brandId,
     retailerId: shopId,
     status: 'active',
-    type: 'vmi',
+    scope: { allProducts: true },
     terms: {
       fulfillmentResponsibility: 'brand',
       autoRebalanceEnabled: true,
-      syncFrequency: 'realtime'
+      syncFrequency: 'realtime',
+      minimumStock: 0,
+      autoReserve: false,
     },
-    metadata: { createdAt: '', updatedAt: '', version: 1 }
+    startDate: '2026-01-01',
+    createdAt: '',
+    updatedAt: '',
   };
 
   const inactiveVmi: StockSyncAgreement = {
     ...activeVmi,
-    status: 'expired'
+    status: 'terminated',
   };
 
   it('Brand can manage its own stock on brand warehouse without VMI', () => {
@@ -33,9 +38,9 @@ describe('canManageStock VMI logic', () => {
         locationName: 'WH 1',
         available: 100,
         reserved: 0,
-        ownerId: brandId
+        ownerId: brandId,
       },
-      targetProductId: 'p1'
+      targetProductId: 'p1',
     });
     expect(res.allowed).toBe(true);
   });
@@ -50,9 +55,9 @@ describe('canManageStock VMI logic', () => {
         locationName: 'WH 1',
         available: 100,
         reserved: 0,
-        ownerId: shopId // Shop owns it
+        ownerId: shopId,
       },
-      targetProductId: 'p1'
+      targetProductId: 'p1',
     });
     expect(res.allowed).toBe(false);
     expect(res.reason).toContain('Brand does not own this grain');
@@ -68,10 +73,10 @@ describe('canManageStock VMI logic', () => {
         locationName: 'WH 1',
         available: 100,
         reserved: 0,
-        ownerId: shopId
+        ownerId: shopId,
       },
       targetProductId: 'p1',
-      agreement: activeVmi
+      agreement: activeVmi,
     });
     expect(res.allowed).toBe(true);
   });
@@ -86,10 +91,10 @@ describe('canManageStock VMI logic', () => {
         locationName: 'WH 1',
         available: 100,
         reserved: 0,
-        ownerId: shopId
+        ownerId: shopId,
       },
       targetProductId: 'p1',
-      agreement: inactiveVmi
+      agreement: inactiveVmi,
     });
     expect(res.allowed).toBe(false);
     expect(res.reason).toContain('no active VMI');

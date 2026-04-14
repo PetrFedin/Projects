@@ -166,6 +166,19 @@ export function dispatchControlInvalidation(
   return targets;
 }
 
+/**
+ * Ledger → Control: пересчёт article_control при изменении остатков по продукту (ATP).
+ * В демо `productId` на грануле часто совпадает с `entity_id` артикула; `unknown` / пустое — пропуск.
+ */
+export function dispatchInventoryBalanceChangedForProduct(productId: string | undefined): ControlRecomputeTarget[] {
+  const id = productId?.trim();
+  if (!id || id === 'unknown') return [];
+  return dispatchControlInvalidation({
+    event: ControlInvalidationEventTypes.inventoryBalanceChanged,
+    entity_ref: { entity_type: 'article', entity_id: id },
+  });
+}
+
 /** Thin seam for call sites: `article.changed` with an article anchor. */
 export function dispatchArticleChanged(articleId: string): ControlRecomputeTarget[] {
   const id = articleId?.trim();

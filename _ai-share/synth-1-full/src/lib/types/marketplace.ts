@@ -196,7 +196,10 @@ export interface StockSyncAgreement {
     syncFrequency: 'realtime' | 'hourly' | 'daily';
     minimumStock: number;
     autoReserve: boolean;
+    autoRebalanceEnabled?: boolean;
     commissionPercent?: number;
+    revenueSharePercent?: number;
+    currency?: string;
     fulfillmentResponsibility: 'retailer' | 'brand' | 'shared';
   };
   startDate: string;
