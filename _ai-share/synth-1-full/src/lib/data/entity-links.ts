@@ -3,13 +3,22 @@
  * Используется в RelatedModulesBlock на страницах disputes, compliance, production и др.
  */
 import { ROUTES } from '@/lib/routes';
+import { EntityLink } from '@/lib/types';
 
-export type EntityLink = { label: string; href: string };
+export type { EntityLink };
+
+/** Убирает прямые ссылки на списки B2B-заказов из «связанных модулей», чтобы не дублировать реестр (карточки/навигация). */
+function filterB2B(links: EntityLink[]): EntityLink[] {
+  return links.filter(
+    (l) =>
+      (l.href as string) !== ROUTES.brand.b2bOrders &&
+      (l.href as string) !== ROUTES.shop.b2bOrders
+  );
+}
 
 /** Ссылки для Dispute Hub — арбитраж, претензии, Escrow */
 export function getArbitrationLinks(): EntityLink[] {
-  return [
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
+  return filterB2B([
     { label: 'Заявки на изменение', href: ROUTES.brand.orderAmendments },
     { label: 'Возвраты', href: ROUTES.brand.returnsClaims },
     { label: 'Escrow', href: ROUTES.brand.financeEscrow },
@@ -18,42 +27,46 @@ export function getArbitrationLinks(): EntityLink[] {
     { label: 'ЭДО и Compliance', href: ROUTES.brand.compliance },
     { label: 'Сообщения', href: ROUTES.brand.messages },
     { label: 'Production', href: ROUTES.brand.production },
+    { label: 'Матрица остатков', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Финансы', href: ROUTES.brand.finance },
-  ];
+  ]);
 }
 
 /** Ссылки для Compliance — ЭДО, маркировка, сертификация */
 export function getComplianceLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Production', href: ROUTES.brand.production },
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
     { label: 'LIVE Compliance', href: ROUTES.brand.processLiveCompliance },
     { label: 'Склад', href: ROUTES.brand.warehouse },
     { label: 'Склад КИЗ', href: ROUTES.brand.complianceStock },
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Логистика', href: ROUTES.brand.logistics },
     { label: 'Документы', href: ROUTES.brand.documents },
     { label: 'Dispute Hub', href: ROUTES.brand.disputes },
     { label: 'Gold Sample', href: ROUTES.brand.productionGoldSample },
-  ];
+  ]);
 }
 
 /** Ссылки для Production — цех, сэмплы, PO, QC */
 export function getProductionLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'LIVE Production', href: ROUTES.brand.processLiveProduction },
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
     { label: 'ЭДО и Compliance', href: ROUTES.brand.compliance },
     { label: 'Gold Sample', href: ROUTES.brand.productionGoldSample },
     { label: 'Склад', href: ROUTES.brand.warehouse },
+    { label: 'Матрица остатков', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Календарь', href: ROUTES.brand.calendar },
     { label: 'Фабрики', href: ROUTES.brand.factories },
     { label: 'Рост платформы (демо)', href: ROUTES.brand.growthHub },
-  ];
+  ]);
 }
 
 /** Ссылки для Академии — курсы, база знаний, клиенты, материалы */
 export function getAcademyLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Курсы', href: ROUTES.brand.academy },
     { label: 'База знаний', href: ROUTES.brand.academyKnowledge },
     { label: 'Команда', href: ROUTES.brand.academyTeam },
@@ -62,28 +75,33 @@ export function getAcademyLinks(): EntityLink[] {
     { label: 'Академия платформы', href: ROUTES.brand.academyPlatform },
     { label: 'Команда бренда', href: ROUTES.brand.team },
     { label: 'Compliance', href: ROUTES.brand.compliance },
-  ];
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
+  ]);
 }
 
 /** Ссылки для Финансов — P&L, Escrow, факторинг */
 export function getFinanceLinks(): EntityLink[] {
-  return [
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
+  return filterB2B([
     { label: 'Escrow', href: ROUTES.brand.financeEscrow },
     { label: 'Landed Cost', href: ROUTES.brand.financeLandedCost },
     { label: 'ЭДО и Compliance', href: ROUTES.brand.compliance },
     { label: 'Production', href: ROUTES.brand.production },
     { label: 'Логистика', href: ROUTES.brand.logistics },
+    { label: 'Матрица остатков', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Dispute Hub', href: ROUTES.brand.disputes },
     { label: 'Документы', href: ROUTES.brand.documents },
-  ];
+  ]);
 }
 
 /** Ссылки для PIM/Products — коллекции, контент, compliance */
 export function getProductLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Коллекции', href: ROUTES.brand.collections },
     { label: 'Матрица ассортимента', href: ROUTES.brand.productsMatrix },
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Content Factory', href: ROUTES.brand.marketingContentFactory },
     { label: 'Media & DAM', href: ROUTES.brand.media },
     { label: 'ЭДО и Compliance', href: ROUTES.brand.compliance },
@@ -92,13 +110,12 @@ export function getProductLinks(): EntityLink[] {
     { label: 'Production', href: ROUTES.brand.production },
     { label: 'Поставщики', href: ROUTES.brand.suppliers },
     { label: 'Рост платформы (демо)', href: ROUTES.brand.growthHub },
-  ];
+  ]);
 }
 
 /** Ссылки для B2B заказов — FEATURE_BENCHMARK: ship windows, price lists, RFQ, credit */
 export function getB2BLinks(): EntityLink[] {
-  return [
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
+  return filterB2B([
     { label: 'Предзаказы', href: ROUTES.brand.preOrders },
     { label: 'Прайс-листы', href: ROUTES.brand.priceLists },
     { label: 'RFQ поставщиков', href: ROUTES.brand.suppliersRfq },
@@ -110,47 +127,48 @@ export function getB2BLinks(): EntityLink[] {
     { label: 'ЭДО и Compliance', href: ROUTES.brand.compliance },
     { label: 'Склад', href: ROUTES.brand.warehouse },
     { label: 'Логистика', href: ROUTES.brand.logistics },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Финансы', href: ROUTES.brand.finance },
     { label: 'Dispute Hub', href: ROUTES.brand.disputes },
     { label: 'Сообщения', href: ROUTES.brand.messages },
     { label: 'Календарь', href: ROUTES.brand.calendar },
     { label: 'Выставки', href: ROUTES.brand.tradeShows },
     { label: 'Партнёры', href: ROUTES.brand.retailers },
-  ];
+  ]);
 }
 
 /** Ссылки для Логистики — B2B, склад, compliance */
 export function getLogisticsLinks(): EntityLink[] {
-  return [
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
+  return filterB2B([
     { label: 'ЭДО и маркировка', href: ROUTES.brand.compliance },
     { label: 'Документы', href: ROUTES.brand.documents },
     { label: 'Возвраты', href: ROUTES.brand.returnsClaims },
     { label: 'Production', href: ROUTES.brand.production },
     { label: 'Склад', href: ROUTES.brand.warehouse },
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Интеграции', href: ROUTES.brand.integrations },
-  ];
+  ]);
 }
 
 /** Ссылки для Интеграций — compliance, documents, team */
 export function getIntegrationsLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Compliance', href: ROUTES.brand.compliance },
     { label: 'Документы', href: ROUTES.brand.documents },
     { label: 'Команда', href: ROUTES.brand.team },
-    { label: 'Production', href: ROUTES.brand.production },
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
-    { label: 'Логистика', href: ROUTES.brand.logistics },
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
-    { label: 'Тендеры', href: ROUTES.shop.b2bTenders },
-    { label: 'Поиск поставщиков', href: ROUTES.shop.b2bSupplierDiscovery },
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков (CSV)', href: ROUTES.shop.inventory },
+    // Тендеры и поиск поставщиков — в секции «Встроенные B2B-фичи» на `/brand/integrations` (без дубля в RelatedModules).
     { label: 'Рост платформы (демо)', href: ROUTES.brand.growthHub },
-  ];
+    { label: 'Логистика', href: ROUTES.brand.logistics },
+    { label: 'Производство', href: ROUTES.brand.production },
+  ]);
 }
 
 /** Перекрёстные ссылки с хаба роста — без дублирования вкладок страницы */
 export function getGrowthPlatformCrossLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Контроль-центр', href: ROUTES.brand.controlCenter },
     { label: 'PIM / товары', href: ROUTES.brand.products },
     { label: 'Состав и уход (CSV)', href: ROUTES.brand.fabricPassportRollup },
@@ -170,33 +188,13 @@ export function getGrowthPlatformCrossLinks(): EntityLink[] {
     { label: 'Права и кредиты (DAM)', href: ROUTES.brand.assetRights },
     { label: 'Предзаказ (B2B PO)', href: ROUTES.brand.wholesalePreorder },
     { label: 'Балансировка остатков', href: ROUTES.brand.inventoryBalance },
+    { label: 'Матрица остатков', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'B2B Финансы и лимиты', href: ROUTES.brand.b2bFinance },
     { label: 'Анализ пересечения SKU', href: ROUTES.brand.assortmentOverlap },
     { label: 'Здоровье ассортимента', href: ROUTES.brand.assortmentHealth },
     { label: 'KPI поставщиков', href: ROUTES.brand.supplierScorecard },
-    { label: 'Калькулятор маржи', href: ROUTES.brand.marginSimulator },
-    { label: 'Аналитика возвратов', href: ROUTES.brand.returnIntelligence },
-    { label: 'Markdown стратегия', href: ROUTES.brand.markdownPredict },
-    { label: 'Календарь байеров', href: ROUTES.brand.showroomAppointments },
-    { label: 'A/B тесты дизайна', href: ROUTES.brand.digitalTwinTesting },
-    { label: 'OTB Планирование', href: ROUTES.brand.assortmentMixPlanner },
-    { label: 'План подсортировки', href: ROUTES.brand.replenishment },
-    { label: 'QA Контента (МП)', href: ROUTES.brand.assetCompliance },
-    { label: 'Версии B2B кампаний', href: ROUTES.brand.campaignVersions },
-    { label: 'Сводный LCA-отчет', href: ROUTES.brand.collectionLca },
-    { label: 'Анализ пробелов (Gaps)', href: ROUTES.brand.assortmentGaps },
-    { label: 'Ценовая лестница', href: ROUTES.brand.priceLadder },
-    { label: 'Визуальная сетка (Merch)', href: ROUTES.brand.visualGrid },
-    { label: 'Каннибализация (Overlap)', href: ROUTES.brand.assortmentOverlap },
-    { label: 'Маркетплейсы (Mapping)', href: ROUTES.brand.marketplaceMapping },
-    { label: 'Здоровье карточек (MP)', href: ROUTES.brand.marketplaceHealth },
-    { label: 'Шоурум Планировщик', href: ROUTES.brand.showroomPlanner },
-    { label: 'Сессия Шоурума (Live)', href: ROUTES.brand.showroomSession('SH-2026-01') },
-    { label: 'Карта спроса (Heatmap)', href: ROUTES.brand.regionalDemand },
-    { label: 'Генератор Line Sheets', href: ROUTES.brand.lineSheetGenerator },
-    { label: 'Здоровье ассортимента', href: ROUTES.brand.assortmentHealth },
     { label: 'Видимость в поиске (SEO)', href: ROUTES.brand.visibilityIndex },
-    { label: 'Карта спроса (Heatmap)', href: ROUTES.brand.regionalDemand },
     { label: 'Локальный сорсинг (СНГ)', href: ROUTES.brand.cisSourcing },
     { label: 'B2B Кампании (V-Control)', href: ROUTES.brand.b2bCampaigns },
     { label: 'Комплаенс и ЭДО (РФ)', href: ROUTES.brand.localCompliance },
@@ -205,12 +203,12 @@ export function getGrowthPlatformCrossLinks(): EntityLink[] {
     { label: 'Цифровой двойник (демо)', href: ROUTES.brand.productsDigitalTwinTesting },
     { label: 'AI-инструменты', href: ROUTES.brand.aiTools },
     { label: 'Интеграции', href: ROUTES.brand.integrations },
-  ];
+  ]);
 }
 
 /** Ссылки для Команды — сообщения, календарь, задачи */
 export function getTeamLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Сообщения', href: ROUTES.brand.messages },
     { label: 'Календарь', href: ROUTES.brand.calendar },
     { label: 'Задачи', href: ROUTES.brand.tasks },
@@ -218,57 +216,66 @@ export function getTeamLinks(): EntityLink[] {
     { label: 'Контроль-центр', href: ROUTES.brand.controlCenter },
     { label: 'Настройки', href: ROUTES.brand.settings },
     { label: 'Академия', href: ROUTES.brand.academy },
-  ];
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
+  ]);
 }
 
 /** Ссылки для Настроек — документы, безопасность, подписка */
 export function getSettingsLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Документы', href: ROUTES.brand.documents },
     { label: 'Безопасность', href: ROUTES.brand.security },
     { label: 'Подписка', href: ROUTES.brand.subscription },
     { label: 'Интеграции', href: ROUTES.brand.integrations },
     { label: 'Команда', href: ROUTES.brand.team },
-  ];
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
+  ]);
 }
 
 /** Ссылки для Подписки — финансы, документы */
 export function getSubscriptionLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Финансы', href: ROUTES.brand.finance },
     { label: 'Документы', href: ROUTES.brand.documents },
     { label: 'Настройки', href: ROUTES.brand.settings },
     { label: 'Команда', href: ROUTES.brand.team },
-  ];
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
+  ]);
 }
 
 /** Ссылки для ESG — Production, Compliance, поставщики, Академия */
 export function getEsgLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Production & BOM', href: ROUTES.brand.production },
     { label: 'ЭДО и Compliance', href: ROUTES.brand.compliance },
     { label: 'Поставщики', href: ROUTES.brand.suppliers },
     { label: 'Фабрики', href: ROUTES.brand.factories },
     { label: 'Materials', href: ROUTES.brand.materials },
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Gold Sample', href: ROUTES.brand.productionGoldSample },
     { label: 'Академия', href: ROUTES.brand.academy },
     { label: 'Документы', href: ROUTES.brand.documents },
     { label: 'Команда', href: ROUTES.brand.team },
-  ];
+  ]);
 }
 
 /** Ссылки для аналитики — BI, план/факт, продажи */
 export function getAnalyticsLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'B2B Analytics Hub', href: ROUTES.brand.analyticsBi },
     { label: 'План vs Факт', href: ROUTES.brand.budgetActual },
     { label: 'AI Прогнозы', href: ROUTES.brand.analytics },
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
     { label: 'Production', href: ROUTES.brand.production },
     { label: 'Финансы', href: ROUTES.brand.finance },
     { label: 'Партнёры', href: ROUTES.brand.retailers },
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Compliance', href: ROUTES.brand.compliance },
-  ];
+  ]);
 }
 
 /** Ссылки для Analytics Phase 2 */
@@ -283,74 +290,79 @@ export function getBudgetActualLinks(): EntityLink[] {
 
 /** Ссылки для аукционов — закупки, поставщики */
 export function getAuctionLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Поставщики', href: ROUTES.brand.suppliers },
     { label: 'Supplier RFQ', href: ROUTES.brand.suppliersRfq },
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
     { label: 'Тендеры', href: ROUTES.shop.b2bTenders },
     { label: 'Production', href: ROUTES.brand.production },
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Финансы', href: ROUTES.brand.finance },
-  ];
+  ]);
 }
 
 /** Ссылки для BOPIS — склад, заказы */
 export function getBopisLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Склад', href: ROUTES.brand.warehouse },
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
     { label: 'ЭДО и Compliance', href: ROUTES.brand.compliance },
     { label: 'Логистика', href: ROUTES.brand.logistics },
     { label: 'Инвентарь', href: ROUTES.brand.inventory },
-  ];
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
+  ]);
 }
 
 /** Ссылки для BNPL (рассрочка) */
 export function getBnplLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Финансы', href: ROUTES.brand.finance },
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
     { label: 'Escrow', href: ROUTES.brand.financeEscrow },
-  ];
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
+  ]);
 }
 
 /** Ссылки для Buyer Onboarding */
 export function getBuyerOnboardingLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Партнёры', href: ROUTES.brand.retailers },
     { label: 'Заявки байеров', href: ROUTES.brand.buyerApplications },
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Выставки', href: ROUTES.brand.tradeShows },
-  ];
+  ]);
 }
 
 /** Ссылки для Client Allergy (аллергии клиентов) */
 export function getClientAllergyLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Клиентская база', href: ROUTES.brand.customers },
     { label: 'CRM', href: ROUTES.brand.customerIntelligence },
     { label: 'Digital Wardrobe', href: ROUTES.client.wardrobe },
-  ];
+  ]);
 }
 
 /** Ссылки для Client Service Booking */
 export function getClientServiceBookingLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Календарь', href: ROUTES.brand.calendar },
     { label: 'Клиентская база', href: ROUTES.brand.customers },
     { label: 'CRM', href: ROUTES.brand.customerIntelligence },
-  ];
+  ]);
 }
 
 /** Ссылки для коллекций */
 export function getCollectionLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'PIM-центр', href: ROUTES.brand.products },
     { label: 'Матрица ассортимента', href: ROUTES.brand.productsMatrix },
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Content Hub', href: ROUTES.brand.contentHub },
     { label: 'Лайншиты', href: ROUTES.brand.b2bLinesheets },
     { label: 'Production', href: ROUTES.brand.production },
     { label: 'B2B Шоурум', href: ROUTES.brand.showroom },
-  ];
+  ]);
 }
 
 /** Ссылки для коммуникаций */
@@ -360,135 +372,145 @@ export function getCommLinks(): EntityLink[] {
 
 /** Ссылки для Cycle Counting */
 export function getCycleCountingLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Склад', href: ROUTES.brand.warehouse },
     { label: 'Инвентарь', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Логистика', href: ROUTES.brand.logistics },
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
-  ];
+  ]);
 }
 
 /** Ссылки для Digital Twin Testing */
 export function getDigitalTwinTestingLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'PIM-центр', href: ROUTES.brand.products },
     { label: 'Коллекции', href: ROUTES.brand.collections },
     { label: 'Production', href: ROUTES.brand.production },
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Gold Sample', href: ROUTES.brand.productionGoldSample },
-  ];
+  ]);
 }
 
 /** Ссылки для Digital Wardrobe */
 export function getDigitalWardrobeLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Клиентская база', href: ROUTES.brand.customers },
     { label: 'CRM', href: ROUTES.brand.customerIntelligence },
     { label: 'Try Before You Buy', href: ROUTES.client.tryBeforeYouBuy },
-  ];
+  ]);
 }
 
 /** Ссылки для дистрибьюторов */
 export function getDistributorLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Territory Protection', href: ROUTES.brand.distributor.territory },
     { label: 'Pre-Order Quota', href: ROUTES.brand.distributor.preOrderQuota },
     { label: 'Sub-Agent Commission', href: ROUTES.brand.distributor.commissions },
     { label: 'Партнёры', href: ROUTES.brand.retailers },
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
-  ];
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
+  ]);
 }
 
 /** Ссылки для документов */
 export function getDocumentsLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Compliance', href: ROUTES.brand.compliance },
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
     { label: 'Production', href: ROUTES.brand.production },
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Интеграции', href: ROUTES.brand.integrations },
     { label: 'Команда', href: ROUTES.brand.team },
-  ];
+  ]);
 }
 
 /** Ссылки для Endless Aisle */
 export function getEndlessAisleLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Инвентарь', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: остатки (upload)', href: ROUTES.shop.inventory },
     { label: 'Склад', href: ROUTES.brand.warehouse },
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
     { label: 'Логистика', href: ROUTES.brand.logistics },
-  ];
+  ]);
 }
 
 /** Ссылки для Endless Stylist */
 export function getEndlessStylistLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'PIM-центр', href: ROUTES.brand.products },
     { label: 'Коллекции', href: ROUTES.brand.collections },
     { label: 'CRM', href: ROUTES.brand.customerIntelligence },
-  ];
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
+  ]);
 }
 
 /** Ссылки для Gift Registry */
 export function getGiftRegistryLinks(): EntityLink[] {
-  return [
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
+  return filterB2B([
     { label: 'Клиентская база', href: ROUTES.brand.customers },
     { label: 'CRM', href: ROUTES.brand.customerIntelligence },
-  ];
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
+  ]);
 }
 
 /** Ссылки для HR Hub */
 export function getHRHubLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Команда', href: ROUTES.brand.team },
     { label: 'Академия', href: ROUTES.brand.academy },
     { label: 'Вакансии', href: ROUTES.shop.career },
-  ];
-}
-
-/** Ссылки для Integrations (alias) */
-export function getIntegrationLinks(): EntityLink[] {
-  return getIntegrationsLinks();
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
+  ]);
 }
 
 /** Ссылки для LIA (Local Inventory Ads) */
 export function getLiaLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Промо', href: ROUTES.brand.promotions },
     { label: 'Инвентарь', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'PIM-центр', href: ROUTES.brand.products },
-  ];
+  ]);
 }
 
 /** Ссылки для Linesheet Campaigns */
 export function getLinesheetCampaignsLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Лайншиты', href: ROUTES.brand.b2bLinesheets },
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Выставки', href: ROUTES.brand.tradeShows },
     { label: 'Партнёры', href: ROUTES.brand.retailers },
-  ];
+  ]);
 }
 
 /** Ссылки для маркетинга */
 export function getMarketingLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Content Hub', href: ROUTES.brand.contentHub },
     { label: 'Content Factory', href: ROUTES.brand.marketingContentFactory },
     { label: 'Media & DAM', href: ROUTES.brand.media },
     { label: 'Промо', href: ROUTES.brand.promotions },
     { label: 'Коллекции', href: ROUTES.brand.collections },
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'B2B Шоурум', href: ROUTES.brand.showroom },
-  ];
+  ]);
 }
 
 /** Ссылки для Маркетрума */
 export function getMarketroomLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Каталог', href: ROUTES.catalog },
     { label: 'Коллекции', href: ROUTES.brand.collections },
     { label: 'PIM-центр', href: ROUTES.brand.products },
-  ];
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
+  ]);
 }
 
 /** Ссылки для B2B заказа (детали заказа) */
@@ -498,12 +520,13 @@ export function getOrderLinks(): EntityLink[] {
 
 /** Ссылки для партнёров */
 export function getPartnerLinks(): EntityLink[] {
-  return [
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
+  return filterB2B([
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Выставки', href: ROUTES.brand.tradeShows },
     { label: 'Заявки байеров', href: ROUTES.brand.buyerApplications },
     { label: 'Дистрибьюторы', href: ROUTES.brand.distributors },
-  ];
+  ]);
 }
 
 /** Ссылки для Pre-Order Quota */
@@ -513,19 +536,80 @@ export function getPreOrderQuotaLinks(): EntityLink[] {
 
 /** Ссылки для Ship From Store */
 export function getShipFromStoreLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Склад', href: ROUTES.brand.warehouse },
     { label: 'Инвентарь', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Логистика', href: ROUTES.brand.logistics },
-  ];
+  ]);
 }
 
 /** Ссылки для Shop B2B Hub — Фазы 1–4: РФ-специфика, коммерция, AI, удобство байеров */
 export function getShopB2BHubLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Каталог', href: ROUTES.shop.b2bCatalog },
+    { label: 'Виртуальный шоурум', href: ROUTES.shop.b2bShowroom },
     { label: 'Заказы', href: ROUTES.shop.b2bOrders },
+    { label: 'Финансы партнёра', href: ROUTES.shop.b2bFinance },
+    { label: 'JOOR Pay / оплата', href: ROUTES.shop.b2bPayment },
+    { label: 'Документы B2B', href: ROUTES.shop.b2bDocuments },
+    { label: 'Контракты B2B', href: ROUTES.shop.b2bContracts },
+    { label: 'Аналитика закупок', href: ROUTES.shop.b2bAnalytics },
+    { label: 'Аналитика по заказам', href: ROUTES.shop.b2bOrderAnalytics },
+    { label: 'Fulfillment Dashboard', href: ROUTES.shop.b2bFulfillmentDashboard },
+    { label: 'Replenishment', href: ROUTES.shop.b2bReplenishment },
+    { label: 'Трекинг заказов', href: ROUTES.shop.b2bTracking },
+    { label: 'Календарь поставок', href: ROUTES.shop.b2bDeliveryCalendar },
+    { label: 'Рекламации (RMA)', href: ROUTES.shop.b2bClaims },
+    { label: 'Отчёты партнёра', href: ROUTES.shop.b2bReports },
+    { label: 'Landed Cost', href: ROUTES.shop.b2bLandedCost },
+    { label: 'Карта стока', href: ROUTES.shop.b2bStockMap },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
+    { label: 'Доска ассортимента', href: ROUTES.shop.b2bWhiteboard },
+    { label: 'Академия B2B', href: ROUTES.shop.b2bAcademy },
+    { label: 'Календарь закупок', href: ROUTES.shop.b2bPurchaseCalendar },
+    { label: 'Условия по коллекциям', href: ROUTES.shop.b2bCollectionTerms },
+    { label: 'Заказ по коллекции', href: ROUTES.shop.b2bOrderByCollection },
+    { label: 'Шаблоны заказов', href: ROUTES.shop.b2bOrderTemplates },
+    { label: 'Черновики заказов', href: ROUTES.shop.b2bOrderDrafts },
+    { label: 'Быстрый заказ', href: ROUTES.shop.b2bQuickOrder },
+    { label: 'Reorder', href: ROUTES.shop.b2bReorder },
+    { label: 'Pre-order', href: ROUTES.shop.b2bPreOrder },
+    { label: 'Маржа по брендам', href: ROUTES.shop.b2bMarginReport },
+    { label: 'Режим заказа', href: ROUTES.shop.b2bOrderMode },
+    { label: 'Working Order', href: ROUTES.shop.b2bWorkingOrder },
+    { label: 'Лукбуки', href: ROUTES.shop.b2bLookbooks },
+    { label: 'Кабинет агента', href: ROUTES.shop.b2bAgentCabinet },
+    { label: 'Сводный заказ агента', href: ROUTES.shop.b2bAgentConsolidatedOrder },
+    { label: 'Grid Ordering', href: ROUTES.shop.b2bGridOrdering },
+    { label: 'Quote-to-Order', href: ROUTES.shop.b2bQuoteToOrder },
+    { label: 'Синхронизация Shopify', href: ROUTES.shop.b2bShopifySync },
+    { label: 'Режимы заказа (список)', href: ROUTES.shop.b2bOrderModes },
+    { label: 'EZ Order', href: ROUTES.shop.b2bEzOrder },
+    { label: 'AI Smart Order', href: ROUTES.shop.b2bAiSmartOrder },
+    { label: 'Sales Rep Portal', href: ROUTES.shop.b2bSalesRepPortal },
+    { label: 'Онбординг партнёра', href: ROUTES.shop.b2bPartnerOnboarding },
+    { label: 'Мультивалютность', href: ROUTES.shop.b2bMultiCurrency },
+    { label: 'Маппинг размеров', href: ROUTES.shop.b2bSizeMapping },
+    { label: 'Custom assortments', href: ROUTES.shop.b2bCustomAssortments },
+    { label: 'Подбор размера', href: ROUTES.shop.b2bSizeFinder },
+    { label: 'Рейтинг брендов', href: ROUTES.shop.b2bRating },
+    { label: 'Челленджи и бейджи', href: ROUTES.shop.b2bGamification },
+    { label: 'Лента брендов', href: ROUTES.shop.b2bSocialFeed },
+    { label: 'Видео-консультация', href: ROUTES.shop.b2bVideoConsultation },
+    { label: 'VIP шоурум', href: ROUTES.shop.b2bVipRoomBooking },
+    { label: 'Шаринг лукбука', href: ROUTES.shop.b2bLookbookShare },
+    { label: 'Планирование ассортимента', href: ROUTES.shop.b2bAssortmentPlanning },
+    { label: 'OTB бюджет', href: ROUTES.shop.b2bBudget },
+    { label: 'Анализ маржи', href: ROUTES.shop.b2bMarginAnalysis },
+    { label: 'Shoppable lookbook', href: ROUTES.shop.shoppableLookbook('lb-fw26-1') },
+    { label: 'Настройки B2B', href: ROUTES.shop.b2bSettings },
+    { label: 'Checkout B2B', href: ROUTES.shop.b2bCheckout },
+    { label: 'Passport выставки', href: ROUTES.shop.b2bPassport },
     { label: 'Партнёры', href: ROUTES.shop.b2bPartners },
+    { label: 'Discover брендов', href: ROUTES.shop.b2bDiscover },
+    { label: 'AI Discovery Radar', href: ROUTES.shop.b2bPartnersDiscover },
+    { label: 'Заявка на партнёрство', href: ROUTES.shop.b2bApply },
     { label: 'Тендеры B2B', href: ROUTES.shop.b2bTenders },
     { label: 'Поиск поставщиков', href: ROUTES.shop.b2bSupplierDiscovery },
     { label: 'Collaborative Order', href: ROUTES.shop.b2bCollaborativeOrder },
@@ -534,8 +618,10 @@ export function getShopB2BHubLinks(): EntityLink[] {
     { label: 'Формирование селекции', href: ROUTES.shop.b2bSelectionBuilder },
     { label: 'Sales App', href: ROUTES.shop.b2bScanner },
     { label: 'Личный кабинет дилера', href: ROUTES.shop.b2bDealerCabinet },
-    { label: 'Выставки', href: ROUTES.brand.tradeShows },
-  ];
+    { label: 'Мои выставки', href: ROUTES.shop.b2bTradeShows },
+    { label: 'Запись на встречи', href: ROUTES.shop.b2bTradeShowAppointments },
+    { label: 'Выставки (бренд)', href: ROUTES.brand.tradeShows },
+  ]);
 }
 
 /** Ссылки для Shop B2B Orders */
@@ -555,14 +641,15 @@ export function getSubAgentCommissionLinks(): EntityLink[] {
 
 /** Ссылки для поставщиков */
 export function getSupplierLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Supplier RFQ', href: ROUTES.brand.suppliersRfq },
     { label: 'Production', href: ROUTES.brand.production },
     { label: 'Materials', href: ROUTES.brand.materials },
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Тендеры', href: ROUTES.shop.b2bTenders },
     { label: 'Поиск поставщиков', href: ROUTES.shop.b2bSupplierDiscovery },
-  ];
+  ]);
 }
 
 /** Ссылки для задач */
@@ -572,11 +659,12 @@ export function getTaskLinks(): EntityLink[] {
 
 /** Ссылки для Try Before You Buy (B2C) */
 export function getTbybB2CLinks(): EntityLink[] {
-  return [
+  return filterB2B([
     { label: 'Digital Wardrobe', href: ROUTES.client.wardrobe },
     { label: 'Клиентская база', href: ROUTES.brand.customers },
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
-  ];
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
+  ]);
 }
 
 /** Ссылки для Territory Protection */
@@ -586,13 +674,14 @@ export function getTerritoryProtectionLinks(): EntityLink[] {
 
 /** Ссылки для выставок */
 export function getTradeShowLinks(): EntityLink[] {
-  return [
-    { label: 'B2B Заказы', href: ROUTES.brand.b2bOrders },
+  return filterB2B([
     { label: 'Шоурум', href: ROUTES.brand.showroom },
     { label: 'Заявки байеров', href: ROUTES.brand.buyerApplications },
     { label: 'Партнёры', href: ROUTES.brand.retailers },
+    { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
+    { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Лайншиты', href: ROUTES.brand.b2bLinesheets },
-  ];
+  ]);
 }
 
 /** Элемент сетки модулей в Control Center (`/brand/control-center`) */
@@ -607,25 +696,146 @@ export type ModuleHub = {
 
 /** Модульные хабы — сетка «Все модули» */
 export const MODULE_HUBS: ModuleHub[] = [
-  { id: 'organization', label: 'Профиль бренда', href: `${ROUTES.brand.profile}?group=profile&tab=brand`, desc: 'Контакты, ДНК, пресс-кит', icon: 'Building2' },
-  { id: 'dashboard', label: 'Дашборд', href: ROUTES.brand.dashboard, desc: 'Операционный пульс', icon: 'LayoutDashboard' },
-  { id: 'team', label: 'Команда', href: ROUTES.brand.team, desc: 'Участники и доступы', icon: 'Users' },
-  { id: 'integrations', label: 'Интеграции', href: ROUTES.brand.integrations, desc: '1С, маркетплейсы, API', icon: 'Zap' },
-  { id: 'documents', label: 'Документы и ЭДО', href: ROUTES.brand.documents, desc: 'Договоры, ЭДО, КИЗ', icon: 'FileText' },
-  { id: 'settings', label: 'Настройки', href: ROUTES.brand.settings, desc: 'Безопасность, подписка', icon: 'Settings' },
-  { id: 'collections', label: 'Коллекции', href: ROUTES.brand.collections, desc: 'Сезоны и коллекции', icon: 'Layers' },
-  { id: 'products', label: 'PIM-центр', href: ROUTES.brand.products, desc: 'Карточки и данные SKU', icon: 'Box' },
-  { id: 'production', label: 'Производство', href: ROUTES.brand.production, desc: 'Цех и выпуск', icon: 'Factory' },
-  { id: 'logistics', label: 'Логистика', href: ROUTES.brand.logistics, desc: 'Перевозки и склады', icon: 'Truck' },
-  { id: 'b2b', label: 'Заказы B2B', href: ROUTES.brand.b2bOrders, desc: 'PO, отгрузки, согласования', icon: 'ShoppingCart' },
-  { id: 'showroom', label: 'B2B Шоурум', href: ROUTES.brand.showroom, desc: 'Витрина для байеров', icon: 'Globe' },
-  { id: 'analytics', label: 'Аналитика 360', href: ROUTES.brand.analytics360, desc: 'Сводная аналитика', icon: 'BarChart3' },
-  { id: 'finance', label: 'Финансы', href: ROUTES.brand.finance, desc: 'P&L, Cash Flow', icon: 'DollarSign' },
-  { id: 'compliance', label: 'ЭДО и маркировка', href: ROUTES.brand.compliance, desc: 'Compliance, Честный ЗНАК', icon: 'ShieldCheck' },
-  { id: 'disputes', label: 'Арбитраж', href: ROUTES.brand.disputes, desc: 'Споры и претензии', icon: 'Gavel' },
-  { id: 'messages', label: 'Сообщения', href: ROUTES.brand.messages, desc: 'Чаты команды и партнёров', icon: 'MessageSquare' },
-  { id: 'academy', label: 'Академия', href: ROUTES.brand.academy, desc: 'Обучение и база знаний', icon: 'GraduationCap' },
-  { id: 'esg', label: 'ESG', href: ROUTES.brand.esg, desc: 'Устойчивое развитие', icon: 'TrendingUp' },
+  {
+    id: 'organization',
+    label: 'Профиль бренда',
+    href: `${ROUTES.brand.profile}?group=profile&tab=brand`,
+    desc: 'Контакты, ДНК, пресс-кит',
+    icon: 'Building2',
+  },
+  {
+    id: 'dashboard',
+    label: 'Дашборд',
+    href: ROUTES.brand.dashboard,
+    desc: 'Операционный пульс',
+    icon: 'LayoutDashboard',
+  },
+  {
+    id: 'team',
+    label: 'Команда',
+    href: ROUTES.brand.team,
+    desc: 'Участники и доступы',
+    icon: 'Users',
+  },
+  {
+    id: 'integrations',
+    label: 'Интеграции',
+    href: ROUTES.brand.integrations,
+    desc: '1С, маркетплейсы, API',
+    icon: 'Zap',
+  },
+  {
+    id: 'documents',
+    label: 'Документы и ЭДО',
+    href: ROUTES.brand.documents,
+    desc: 'Договоры, ЭДО, КИЗ',
+    icon: 'FileText',
+  },
+  {
+    id: 'settings',
+    label: 'Настройки',
+    href: ROUTES.brand.settings,
+    desc: 'Безопасность, подписка',
+    icon: 'Settings',
+  },
+  {
+    id: 'collections',
+    label: 'Коллекции',
+    href: ROUTES.brand.collections,
+    desc: 'Сезоны и коллекции',
+    icon: 'Layers',
+  },
+  {
+    id: 'products',
+    label: 'PIM-центр',
+    href: ROUTES.brand.products,
+    desc: 'Карточки и данные SKU',
+    icon: 'Box',
+  },
+  {
+    id: 'production',
+    label: 'Производство',
+    href: ROUTES.brand.production,
+    desc: 'Цех и выпуск',
+    icon: 'Factory',
+  },
+  {
+    id: 'logistics',
+    label: 'Логистика',
+    href: ROUTES.brand.logistics,
+    desc: 'Перевозки и склады',
+    icon: 'Truck',
+  },
+  {
+    id: 'inventory',
+    label: 'Инвентарь и сток',
+    href: ROUTES.brand.inventory,
+    desc: 'Матрица остатков; загрузка CSV — с экрана матрицы и логистики',
+    icon: 'Package',
+  },
+  {
+    id: 'b2b',
+    label: 'Заказы B2B',
+    href: ROUTES.brand.b2bOrders,
+    desc: 'PO, отгрузки, согласования',
+    icon: 'ShoppingCart',
+  },
+  {
+    id: 'showroom',
+    label: 'B2B Шоурум',
+    href: ROUTES.brand.showroom,
+    desc: 'Витрина для байеров',
+    icon: 'Globe',
+  },
+  {
+    id: 'analytics',
+    label: 'Аналитика 360',
+    href: ROUTES.brand.analytics360,
+    desc: 'Сводная аналитика',
+    icon: 'BarChart3',
+  },
+  {
+    id: 'finance',
+    label: 'Финансы',
+    href: ROUTES.brand.finance,
+    desc: 'P&L, Cash Flow',
+    icon: 'DollarSign',
+  },
+  {
+    id: 'compliance',
+    label: 'ЭДО и маркировка',
+    href: ROUTES.brand.compliance,
+    desc: 'Compliance, Честный ЗНАК',
+    icon: 'ShieldCheck',
+  },
+  {
+    id: 'disputes',
+    label: 'Арбитраж',
+    href: ROUTES.brand.disputes,
+    desc: 'Споры и претензии',
+    icon: 'Gavel',
+  },
+  {
+    id: 'messages',
+    label: 'Сообщения',
+    href: ROUTES.brand.messages,
+    desc: 'Чаты команды и партнёров',
+    icon: 'MessageSquare',
+  },
+  {
+    id: 'academy',
+    label: 'Академия',
+    href: ROUTES.brand.academy,
+    desc: 'Обучение и база знаний',
+    icon: 'GraduationCap',
+  },
+  {
+    id: 'esg',
+    label: 'ESG',
+    href: ROUTES.brand.esg,
+    desc: 'Устойчивое развитие',
+    icon: 'TrendingUp',
+  },
   {
     id: 'platform-growth',
     label: 'Рост платформы',
