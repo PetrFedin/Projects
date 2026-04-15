@@ -128,7 +128,7 @@ export function AdvertisingSection() {
               <img
                 src={currentAd.imageUrl}
                 alt={currentAd.title}
-                className="w-full h-full object-cover transition-transform duration-[30s] group-hover/card:scale-105"
+                className="w-full h-full object-cover transition-transform [transition-duration:30s] group-hover/card:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent" />
             </motion.div>

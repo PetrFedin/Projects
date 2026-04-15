@@ -41,22 +41,26 @@ import {
 import { cn } from "@/lib/utils";
 import { MOCK_CUSTOM_ORDERS, getStatusLabel, getStatusColor } from '@/lib/logic/customization-utils';
 import Link from 'next/link';
+import { ROUTES } from '@/lib/routes';
+import { registryFeedLayout } from '@/lib/ui/registry-feed-layout';
 
 export default function BrandCustomizationPage() {
   const [searchTerm, setSearchTerm] = useState('');
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl animate-in fade-in duration-700">
+    <div className={cn(registryFeedLayout.pageShell, 'animate-in fade-in duration-700 space-y-6')}>
       {/* Breadcrumb Navigation */}
-      <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
-        <Link href="/brand" className="hover:text-indigo-600 transition-colors">Бренд-офис</Link>
+      <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+        <Link href={ROUTES.brand.home} className="hover:text-indigo-600 transition-colors">
+          Бренд-офис
+        </Link>
         <ChevronRight className="h-3 w-3" />
         <span className="text-slate-900">Customization Hub</span>
       </div>
 
       {/* Hero Header */}
       <div className="bg-slate-900 rounded-2xl p-4 md:p-3 text-white relative overflow-hidden shadow-xl border border-slate-800 group">
-        <div className="absolute top-0 right-0 p-4 opacity-[0.05] rotate-12 scale-150 group-hover:scale-[1.6] transition-transform duration-[1.5s]">
+        <div className="absolute top-0 right-0 p-4 opacity-[0.05] rotate-12 scale-150 group-hover:scale-[1.6] transition-transform [transition-duration:1500ms]">
           <Scissors className="h-64 w-64" />
         </div>
         <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-3">

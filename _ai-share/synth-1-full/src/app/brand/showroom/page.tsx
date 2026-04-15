@@ -7,13 +7,13 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
-import { 
-  Eye, 
-  Box, 
-  Layers, 
-  Layout, 
-  Share2, 
-  ArrowUpRight, 
+import {
+  Eye,
+  Box,
+  Layers,
+  Layout,
+  Share2,
+  ArrowUpRight,
   ShoppingBag,
   Package,
   Users,
@@ -23,6 +23,7 @@ import {
   Globe,
   Monitor
 } from 'lucide-react';
+import { RegistryPageShell } from '@/components/design-system';
 import Image from 'next/image';
 import { VirtualShowroom } from '@/components/brand/virtual-showroom';
 const TradeShowsContent = dynamic(() => import('@/app/brand/b2b/trade-shows/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
@@ -95,7 +96,7 @@ export default function BrandShowroomPage() {
         <TabsTrigger value="ai-search" className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5">AI-поиск</TabsTrigger>
       </TabsList>
       <TabsContent value="showroom" className="mt-4">
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl animate-in fade-in duration-700">
+    <RegistryPageShell className="space-y-6 animate-in fade-in duration-700">
       {/* Control Panel: Executive Style */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
         <div className="flex items-center gap-3">
@@ -135,7 +136,7 @@ export default function BrandShowroomPage() {
               src="https://images.unsplash.com/photo-1633167606207-d840b5070fc2?q=80&w=1200"
               alt="Virtual Showroom"
               fill
-              className="object-cover transition-transform group-hover:scale-105 duration-[2000ms]"
+              className="object-cover transition-transform group-hover:scale-105 [transition-duration:2000ms]"
             />
             <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 backdrop-blur-[2px]">
               <div className="space-y-4 text-center">
@@ -233,7 +234,7 @@ export default function BrandShowroomPage() {
           </Card>
         ))}
       </div>
-    </div>
+    </RegistryPageShell>
       </TabsContent>
       <TabsContent value="trade-shows" className="mt-4">{tab === 'trade-shows' && <TradeShowsContent />}</TabsContent>
       <TabsContent value="passport" className="mt-4">{tab === 'passport' && <PassportContent />}</TabsContent>

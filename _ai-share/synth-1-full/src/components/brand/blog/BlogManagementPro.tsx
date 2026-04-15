@@ -644,7 +644,7 @@ export default function BlogManagementPro() {
               </div>
 
               <div className="flex-1 bg-white/5 rounded-[40px] border border-white/10 relative group overflow-hidden flex items-center justify-center">
-                <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/bg/1200/800')] opacity-40 grayscale group-hover:scale-105 transition-transform duration-[2000ms]" />
+                <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/bg/1200/800')] opacity-40 grayscale group-hover:scale-105 transition-transform [transition-duration:2000ms]" />
                 <div className="relative z-10 text-center space-y-6 max-w-md">
                   <div className="h-24 w-24 bg-white rounded-3xl mx-auto flex items-center justify-center shadow-2xl">
                     <ImageIcon className="h-10 w-10 text-slate-900" />

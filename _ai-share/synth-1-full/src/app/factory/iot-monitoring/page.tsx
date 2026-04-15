@@ -1,5 +1,6 @@
 'use client';
 
+import { RegistryPageShell } from '@/components/design-system';
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -30,12 +31,12 @@ import { cn } from '@/lib/utils';
  */
 
 export default function MachineMonitoringPage() {
-  const [lines] = useState(MOCK_LINES) as [ProductionLine[]];
-  const [machines] = useState(MOCK_MACHINES) as [MachineKPI[]];
+  const [lines] = useState<ProductionLine[]>(MOCK_LINES);
+  const [machines] = useState<MachineKPI[]>(MOCK_MACHINES);
 
   return (
     <>
-      <div className="container mx-auto px-4 py-6 space-y-6 max-w-6xl animate-in fade-in duration-700">
+      <RegistryPageShell className="max-w-6xl space-y-6 animate-in fade-in duration-700">
       <header className="flex flex-col md:flex-row justify-between md:items-end gap-3 border-b border-slate-100 pb-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-indigo-600">
@@ -203,7 +204,7 @@ export default function MachineMonitoringPage() {
          {/* Maintenance & Intelligence */}
          <div className="space-y-6">
             <Card className="border border-indigo-500 shadow-xl rounded-xl bg-indigo-900 text-white p-4 relative overflow-hidden group">
-               <div className="absolute -right-10 -bottom-10 opacity-10 group-hover:scale-110 transition-transform duration-[1.5s]">
+               <div className="absolute -right-10 -bottom-10 opacity-10 group-hover:scale-110 transition-transform [transition-duration:1500ms]">
                   <Cpu className="w-40 h-40 text-indigo-400" />
                </div>
                <div className="flex items-center gap-3 mb-6 relative z-10">
@@ -245,7 +246,7 @@ export default function MachineMonitoringPage() {
             </Card>
          </div>
       </div>
-    </div>
+    </RegistryPageShell>
     </>
   );
 }

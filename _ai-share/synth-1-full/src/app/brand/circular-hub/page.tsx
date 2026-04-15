@@ -32,6 +32,8 @@ import { cn } from "@/lib/utils";
 import { MOCK_MATERIAL_LISTINGS, getConditionLabel, getConditionColor } from '@/lib/logic/circular-economy-utils';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ROUTES } from '@/lib/routes';
+import { registryFeedLayout } from '@/lib/ui/registry-feed-layout';
 
 export default function CircularEconomyHubPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -43,10 +45,12 @@ export default function CircularEconomyHubPage() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl animate-in fade-in duration-700">
+    <div className={cn(registryFeedLayout.pageShell, 'animate-in fade-in duration-700 space-y-6')}>
       {/* Breadcrumb Navigation */}
-      <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
-        <Link href="/brand" className="hover:text-emerald-600 transition-colors">Бренд-офис</Link>
+      <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+        <Link href={ROUTES.brand.home} className="hover:text-emerald-600 transition-colors">
+          Бренд-офис
+        </Link>
         <ChevronRight className="h-3 w-3" />
         <span className="text-slate-900">Circular Economy Hub</span>
       </div>
@@ -183,7 +187,7 @@ export default function CircularEconomyHubPage() {
                         <img 
                           src={listing.images[0]} 
                           alt={listing.materialName}
-                          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-[1.5s]"
+                          className="object-cover w-full h-full group-hover:scale-105 transition-transform [transition-duration:1500ms]"
                         />
                         <div className="absolute top-3 left-3 flex gap-1.5">
                            <Badge className={cn("border-none text-[9px] font-bold uppercase px-2 h-5 shadow-md", getConditionColor(listing.condition))}>
