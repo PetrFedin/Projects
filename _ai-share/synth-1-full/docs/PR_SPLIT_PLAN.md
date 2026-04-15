@@ -73,6 +73,13 @@
 - Случайные IDE/runtime артефакты.
 - Нерелевантные массовые UI-правки, не относящиеся к цели PR.
 
+**Исключение (монорепо GitHub Actions):** workflow для Next-пакета должен лежать в **корневом** `.github/workflows/` (например `synth-1-full-ci.yml` с `working-directory: _ai-share/synth-1-full`). GitHub не подхватывает файлы из `_ai-share/synth-1-full/.github/workflows/` как отдельный корень репозитория — локальный `ci.yml` в подпапке полезен для **standalone-клона** пакета, но для CI монорепо нужен root-workflow.
+
+## 5b) База ветки для PR (размер диффа)
+
+- Если цель — только партии **page-контракты + tsconfig + CI/docs/tailwind** поверх уже смерженной/открытой ветки с domain-events: открывай PR **в ту базовую ветку** (например `feat/domain-events-health-contract-hardening`), тогда в compare попадут **~5 последних коммитов**, а не весь хвост от `main`.
+- PR **в `main`** покажет все коммиты, которых ещё нет в `main` (часто десятки файлов) — это нормально только если ты сознательно ведёшь один большой merge.
+
 ## 6) Проверка legacy удаления `src/pages/_app.tsx` и `src/pages/_document.tsx`
 
 - В `src/` отсутствует директория `pages/`.
