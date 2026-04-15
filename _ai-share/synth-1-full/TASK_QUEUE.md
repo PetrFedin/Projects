@@ -37,6 +37,8 @@
 
 ## 🏗️ ТЕКУЩИЕ / В ПРОЦЕССЕ (IN PROGRESS)
 - [in_progress] **Unified Ecosystem Verification**: Финальная проверка интеграции всех функций во все профили.
+  - Подпункты приёмки (закрыть перед снятием флага): **`npm run check:contracts`**; на PR — **`npm run test:e2e:light`**; перед релизом или при смене hot paths — **`npm run test:e2e:verification`** и при необходимости **`npm run test:e2e:api`** (см. **`docs/UNIFIED_ECOSYSTEM_VERIFICATION.md`**, **`INTEGRATION_MAP.md` §6**); локально **`nvm use`** по **`_ai-share/synth-1-full/.nvmrc`**.
+  - Матрица: заголовки **`test('…')`** в **`e2e/unified-ecosystem-smoke.spec.ts`** ↔ строки в **`docs/UNIFIED_ECOSYSTEM_VERIFICATION.md`** (порядок serial / не serial не ломать).
 
 ## 📦 OPEN-SOURCE INTEGRATION (см. OPEN_SOURCE_INTEGRATION.md, FASHION_PLATFORM_OSS.md)
 - [completed] **Testing foundation**: Jest + RTL + jsdom + next/jest; компонентные тесты (Button) в составе `npm test`.
