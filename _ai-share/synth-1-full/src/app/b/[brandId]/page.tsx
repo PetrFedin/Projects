@@ -7,6 +7,7 @@ import { useProductFilters } from './hooks/use-product-filters';
 import { measurementLabels, brandMediaData, capsuleCollections } from './_fixtures/mock-data';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { RegistryPageShell } from '@/components/design-system';
 
 // Components
 import { BrandHeader } from './_components/BrandHeader';
@@ -33,12 +34,12 @@ import type { ImagePlaceholder } from '@/lib/types';
 
 interface BrandProfilePageProps {
   params: Promise<{ brandId: string }>;
-  isPreview?: boolean;
-  displaySettings?: Record<string, boolean>;
 }
 
-export default function BrandProfilePage({ params: paramsPromise, isPreview = false, displaySettings: initialDisplaySettings }: BrandProfilePageProps) {
-  const params = React.use(paramsPromise);
+export default function BrandProfilePage({ params }: BrandProfilePageProps) {
+  const resolvedParams = React.use(params);
+  const isPreview = false;
+  const initialDisplaySettings: Record<string, boolean> | undefined = undefined;
   const {
     brand,
     brandProducts,
@@ -145,7 +146,7 @@ export default function BrandProfilePage({ params: paramsPromise, isPreview = fa
     setIsUpgradeRequested,
     user,
     purchasedProducts,
-  } = useBrandProfile(params, isPreview, initialDisplaySettings);
+  } = useBrandProfile(resolvedParams, isPreview, initialDisplaySettings);
 
   const {
     activeAudience,
@@ -181,7 +182,7 @@ export default function BrandProfilePage({ params: paramsPromise, isPreview = fa
 
   if (loading && !isPreview) {
     return (
-      <div className="container mx-auto px-4 py-4 md:py-4">
+      <RegistryPageShell className="max-w-6xl py-4 md:py-4">
         <header className="mb-12 flex flex-col md:flex-row items-center gap-3">
           <Skeleton className="h-32 w-32 rounded-full" />
           <div className="space-y-3">
@@ -200,7 +201,7 @@ export default function BrandProfilePage({ params: paramsPromise, isPreview = fa
             ))}
           </div>
         </div>
-      </div>
+      </RegistryPageShell>
     );
   }
 

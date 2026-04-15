@@ -1,6 +1,7 @@
 
 'use client';
 
+import { RegistryPageShell } from '@/components/design-system';
 import { useState, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -21,23 +22,7 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useRouter } from 'next/navigation';
 import { Tooltip, TooltipProvider, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-
-export const mockPromotions: Promotion[] = [
-    { id: 'promo1', productName: 'Кашемировый свитер с круглым вырезом', productId: '1', targetType: 'products', brandName: 'Syntha', type: 'catalog_boost', startDate: '2024-08-01', endDate: '2024-08-08', budget: {value: 5000, model: 'cpm', bid: 300}, status: 'active', source: 'brand', metrics: { views: 12500, engagement: 18.2, ctr: 4.5, roi: 250 } },
-    { id: 'promo2', productName: 'Вся коллекция FW24', productId: '2', targetType: 'categories', brandName: 'Syntha', type: 'homepage_banner', startDate: '2024-08-05', endDate: '2024-08-12', budget: {value: 10000, model: 'cpc', bid: 50}, status: 'pending', source: 'brand', metrics: { views: 0, engagement: 0, ctr: 0, roi: 0 } },
-    { id: 'promo3', productName: 'Легендарный тренч', productId: '4', targetType: 'products', brandName: 'Syntha', type: 'catalog_boost', startDate: '2024-07-15', endDate: '2024-07-22', budget: {value: 7000, model: 'cpm', bid: 300}, status: 'archived', source: 'system', metrics: { views: 8200, engagement: 12.1, ctr: 2.1, roi: 80 }, evaluation: {
-        aiSummary: 'Кампания показала высокий CTR (+25%), но низкую конверсию в покупки (ROAS 80%). Вероятно, цена оказалась выше ожиданий аудитории.',
-        brandRating: [
-            { metric: 'Рост просмотров', score: 5 },
-            { metric: 'Вовлеченность', score: 4 },
-            { metric: 'Продажи', score: 2 },
-        ]
-    }},
-    { id: 'promo4', productName: 'Классическая джинсовая куртка', productId: '8', targetType: 'products', brandName: 'Syntha', type: 'outlet_boost', startDate: '2024-08-10', endDate: '2024-08-17', budget: {value: 2000, model: 'fixed'}, status: 'rejected', source: 'admin', metrics: { views: 0, engagement: 0, ctr: 0, roi: 0 } },
-    { id: 'promo5', productName: 'Шелковое платье-миди', productId: '12', targetType: 'products', brandName: 'Syntha', type: 'stories_feature', startDate: '2024-06-01', endDate: '2024-06-08', budget: {value: 5000, model: 'fixed'}, status: 'unpublished', source: 'brand', metrics: { views: 25000, engagement: 25.0, ctr: 8.0, roi: 450 } },
-    { id: 'promo6', productName: 'A.P.C. Весь бренд', productId: 'brand_apc', targetType: 'brand', brandName: 'A.P.C.', type: 'email_blast', startDate: '2024-08-10', endDate: '2024-08-20', budget: {value: 4000, model: 'fixed'}, status: 'frozen', source: 'admin', metrics: { views: 1500, engagement: 5.0, ctr: 1.5, roi: 120 } },
-    { id: 'promo7', productName: 'Льняная рубашка', productId: '9', targetType: 'products', brandName: 'Syntha', type: 'catalog_boost', startDate: '2024-08-12', endDate: '2024-08-19', budget: {value: 3000, model: 'cpm', bid: 250}, status: 'appealed', source: 'brand', metrics: { views: 0, engagement: 0, ctr: 0, roi: 0 } },
-];
+import { mockPromotions } from '@/lib/data/mock-promotions';
 
 const statusConfig: Record<PromotionStatus, { label: string; variant: any; className?: string }> = {
     active: { label: 'Активна', variant: 'default', className: 'bg-green-500/80' },
@@ -59,6 +44,7 @@ const typeConfig: Record<PromotionType, string> = {
     shop_the_look: 'Продвижение образа',
     live_shopping_event: 'Live Shopping',
     ugc_sponsorship: 'Спонсорство UGC',
+    kickstarter_boost: 'Kickstarter / предзаказ',
     outlet_boost: 'Буст в аутлете',
 };
 
@@ -68,7 +54,8 @@ const brandOptions = [...new Set(mockPromotions.map(p => p.brandName))].map(bran
 const typeOptions = Object.entries(typeConfig).map(([key, value]) => ({ value: key, label: value }));
 
 
-export default function PromotionsPage({ isBrandView = false }: { isBrandView?: boolean }) {
+export default function PromotionsPage() {
+    const isBrandView = false;
     const router = useRouter();
     const [promotions, setPromotions] = useState(isBrandView ? mockPromotions.filter(p => p.brandName === 'Syntha') : mockPromotions);
     const [searchQuery, setSearchQuery] = useState('');
@@ -131,7 +118,7 @@ export default function PromotionsPage({ isBrandView = false }: { isBrandView?: 
 
     return (
         <TooltipProvider>
-            <div className="container mx-auto px-4 py-4 space-y-4 max-w-5xl animate-in fade-in duration-700 pb-24">
+            <RegistryPageShell className="max-w-5xl py-4 space-y-4 animate-in fade-in duration-700">
                 {!isBrandView && (
                      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-3 border-b border-slate-100 pb-3">
                         <div className="space-y-0.5">
@@ -338,7 +325,7 @@ export default function PromotionsPage({ isBrandView = false }: { isBrandView?: 
                         </div>
                     </Card>
                 </div>
-            </div>
+            </RegistryPageShell>
             {selectedPromotionForAnalytics && (
                 <PromotionAnalyticsDialog 
                     promotion={selectedPromotionForAnalytics}

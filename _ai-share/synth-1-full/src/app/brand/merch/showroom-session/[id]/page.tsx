@@ -5,21 +5,19 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Play, Pause, ChevronRight, ShoppingBag, Heart, Trash2, Save, Send, Eye, Package, ShieldCheck, Zap, Layers, Info, AlertTriangle, FileCheck, Scan, Shirt as ShirtIcon, Star, FileText, Activity, Download, ExternalLink, MousePointer2, Share2, MessageSquare, CheckCircle2, Users, UserPlus, Info as InfoIcon, Target, Wallet, Layers as LayersIcon, ArrowRightLeft, Quote, Truck, Award, Smartphone, MapPin, Map, Layout, BarChart3, DoorOpen, GraduationCap, RefreshCw, Scissors, ScanLine, Flame, UserCheck, CalendarDays, Leaf, Landmark, Coins, Wrench, Rocket, Scale, BookOpen, CreditCard, Box, Footprints } from 'lucide-react';
 import { products } from '@/lib/products';
+import { calculateTieredPrice } from '@/lib/fashion/tiered-pricing';
 import { getActiveSession, saveSessionState } from '@/lib/fashion/showroom-session';
 import { detectOrderAnomalies } from '@/lib/fashion/order-anomaly';
 import { getHonestMarkStatus } from '@/lib/fashion/honest-mark-compliance';
-import { getShowroomLooks } from '@/lib/fashion/showroom-looks';
 import { generateB2BContract } from '@/lib/fashion/b2b-contract-generator';
 import { getFulfillmentRisk } from '@/lib/fashion/fulfillment-risk';
 import { getShowroomEngagement } from '@/lib/fashion/showroom-engagement';
-import { getTieredWholesale, calculateTieredPrice } from '@/lib/fashion/tiered-pricing';
 import { getEdiDocuments, getEdiOperatorLink } from '@/lib/fashion/edi-tracking';
 import { getPartnerContentPacks } from '@/lib/fashion/partner-content';
 import { analyzeAssortmentGaps } from '@/lib/fashion/assortment-gaps';
 import { getSessionParticipants } from '@/lib/fashion/session-presence';
 import { calculateEaeuCustomsValue } from '@/lib/fashion/eaeu-customs-calc';
 import { getPaymentMilestones } from '@/lib/fashion/payment-milestones';
-import { recommendCapsules } from '@/lib/fashion/assortment-capsule';
 import { getStockExchangeOffers } from '@/lib/fashion/stock-exchange';
 import { getMarketplaceSentiment } from '@/lib/fashion/marketplace-sentiment';
 import { getSampleTraffic } from '@/lib/fashion/sample-traffic';
@@ -36,7 +34,6 @@ import { getDynamicMarkdown } from '@/lib/fashion/markdown-optimizer';
 import { getLatestRFIDScan } from '@/lib/fashion/rfid-scanner';
 import { getStoreZoneHeatmap } from '@/lib/fashion/store-zone-heatmap';
 import { getB2BClientelingData } from '@/lib/fashion/clienteling-hub';
-import { getStaffScheduleOptimization } from '@/lib/fashion/staff-schedule-optimizer';
 import { getSustainabilityLedger } from '@/lib/fashion/sustainability-ledger';
 import { getPartnerCreditScore } from '@/lib/fashion/partner-credit-score';
 import { getStaffCommissionScheme } from '@/lib/fashion/staff-commissions';
@@ -51,8 +48,9 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 
-export default function ShowroomSessionPage({ params }: { params: { id: string } }) {
-  const session = getActiveSession(params.id);
+export default function ShowroomSessionPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = React.use(params);
+  const session = getActiveSession(id);
   const [activeSku, setActiveSku] = useState(session?.activeSkus[0] || 'SKU-101');
   const [orderDraft, setOrderDraft] = useState(session?.orderDraft || []);
   const [viewMode, setViewMode] = useState<'sku' | 'look'>('sku');
@@ -98,7 +96,7 @@ export default function ShowroomSessionPage({ params }: { params: { id: string }
           </div>
           <div className="flex items-center gap-6">
             <p className="text-slate-400 font-bold uppercase text-[10px] tracking-widest">
-              ID: {params.id} • Mode: Advanced B2B Logistics
+              ID: {id} • Mode: Advanced B2B Logistics
             </p>
             {/* Financing HUD */}
             <div className="flex gap-2">
@@ -204,7 +202,7 @@ export default function ShowroomSessionPage({ params }: { params: { id: string }
            {/* Focus Product View */}
            <div className="absolute inset-0 flex flex-col items-center justify-center p-12">
               <div className="w-[450px] aspect-[3/4] bg-slate-700 rounded-2xl shadow-2xl relative overflow-hidden ring-4 ring-indigo-500/20 group-hover:scale-[1.02] transition-transform duration-500">
-                 <img src={currentProduct.image} alt={currentProduct.name} className="w-full h-full object-cover" />
+                 <img src={currentProduct.images?.[0]?.url ?? ""} alt={currentProduct.name} className="w-full h-full object-cover" />
                  
                  <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                     <div className="p-4 bg-black/60 backdrop-blur-md rounded-xl border border-white/10 text-white">
@@ -229,7 +227,7 @@ export default function ShowroomSessionPage({ params }: { params: { id: string }
                     return (
                       <div key={item.sku} className="flex gap-3 items-center group relative border-b border-slate-700 pb-3">
                          <div className="w-10 h-14 bg-slate-700 rounded overflow-hidden">
-                            <img src={p?.image} className="w-full h-full object-cover" />
+                            <img src={p?.images?.[0]?.url ?? ""} className="w-full h-full object-cover" />
                          </div>
                          <div className="flex-1 min-w-0">
                             <div className="truncate text-slate-300">{p?.name}</div>
