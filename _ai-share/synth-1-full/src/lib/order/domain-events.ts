@@ -1,12 +1,48 @@
 import { DomainEvent } from '../production/execution-linkage';
 import { DomainEventTypes } from './domain-event-catalog';
+import { logObservability } from '@/lib/logger';
 
 export type { DomainEvent };
+
+export type DomainEventBusHealthSnapshot = {
+  dlqSize: number;
+  eventStoreSize: number;
+  circuitOpen: boolean;
+  dedupeCacheSize: number;
+  subscriberEventTypeCount: number;
+  /**
+   * Consecutive handler failures counted toward the in-bus circuit breaker.
+   * Increments across failed attempts; reset to 0 only after a fully successful `publish` (all handlers OK).
+   */
+  recentFailureCount: number;
+  /**
+   * ISO time when the bus circuit breaker last **tripped** (opened). `null` until the first trip.
+   * Not updated on every failed retry alone — see `DomainEventBus.publish` / `DOMAIN_EVENT_BUS_CIRCUIT_FAILURE_THRESHOLD`.
+   * Cleared (back to `null`) after a fully successful `publish` while the breaker is closed (stable recovery).
+   */
+  lastFailureAt: string | null;
+};
+
+/** Default handler retry attempts in {@link DomainEventBus.publish} before giving up on that handler. */
+export const DOMAIN_EVENT_BUS_PUBLISH_DEFAULT_MAX_RETRIES = 3 as const;
+
+/** Consecutive handler failures that trip the in-memory bus circuit (opens + sets {@link DomainEventBusHealthSnapshot.lastFailureAt}). */
+export const DOMAIN_EVENT_BUS_CIRCUIT_FAILURE_THRESHOLD = 5 as const;
+
+/** Half-open / recovery window for `circuitOpen` in {@link DomainEventBus.publish} (ms). */
+export const DOMAIN_EVENT_BUS_CIRCUIT_RESET_TIMEOUT_MS = 30_000 as const;
 
 /**
  * [Phase 2 — Domain Events]
  * Базовая инфраструктура для событий домена.
  * Позволяет decoupled-модулям (напр. Control Layer) реагировать на изменения.
+ *
+ * Поля `correlationId` / `dedupeKey` на базовом `DomainEvent` (см. execution-linkage)
+ * задаются в фабриках domain-event-factories при необходимости трассировки и идемпотентных подписчиков
+ * (пример: **`order.b2b_platform_export_result`** из B2B-экспорта на platform — публикация через **`domain-event-outbox`**:
+ * сначала запись на диск, затем dispatch в шину; см. `processPendingDomainEventOutbox` в bootstrap).
+ *
+ * При повторной **`publish`** с тем же **`dedupeKey`** после **успешной** доставки шина не вызывает подписчиков повторно (in-memory LRU; ключ фиксируется только после успеха, чтобы outbox retry не терялся при падении handler).
  */
 
 export type QCUpdatedEvent = DomainEvent & {
@@ -25,6 +61,8 @@ export type RiskAlertEvent = DomainEvent & {
   payload: {
     riskLevel: string;
     factors: string[];
+    /** Если true, InteractionLinkageService может авто-создать чат/задачу по сигналу. */
+    autoCreateInteraction?: boolean;
   };
 };
 
@@ -62,6 +100,19 @@ export type OrderConfirmedEvent = DomainEvent & {
     currency: string;
     exchangeRate?: number;
     tenantId?: string;
+  };
+};
+
+export type OrderB2bPlatformExportResultEvent = DomainEvent & {
+  aggregateType: 'order';
+  type: typeof DomainEventTypes.order.b2bPlatformExportResult;
+  payload: {
+    orderId: string;
+    exportJobId: string;
+    provider: 'platform';
+    success: boolean;
+    status: 'accepted' | 'rejected';
+    error?: string;
   };
 };
 
@@ -256,6 +307,17 @@ export type InventorySnapshotCreatedEvent = DomainEvent & {
   };
 };
 
+export type InventoryShopStockFileIngestedEvent = DomainEvent & {
+  aggregateType: 'inventory';
+  type: typeof DomainEventTypes.inventory.shopStockFileIngested;
+  payload: {
+    fileName: string;
+    clientKey: string;
+    acceptedAt: string;
+    channel: 'b2c_shop_stock_upload_demo';
+  };
+};
+
 /**
  * Простая шина событий для использования внутри приложения (in-memory).
  * [Phase 3] Добавлена поддержка RetryPolicy и Dead Letter Queue (DLQ).
@@ -273,8 +335,8 @@ class DomainEventBus {
   private circuitOpen = false;
   private failureCount = 0;
   private lastFailureTime = 0;
-  private readonly FAILURE_THRESHOLD = 5;
-  private readonly RESET_TIMEOUT_MS = 30000; // 30 seconds
+  private readonly FAILURE_THRESHOLD = DOMAIN_EVENT_BUS_CIRCUIT_FAILURE_THRESHOLD;
+  private readonly RESET_TIMEOUT_MS = DOMAIN_EVENT_BUS_CIRCUIT_RESET_TIMEOUT_MS;
 
   // [Phase 51] Пакетная обработка событий (Event Batching)
   private batchQueue: DomainEvent[] = [];
@@ -285,7 +347,30 @@ class DomainEventBus {
   // [Phase 57] Глобальные перехватчики (для Anomaly Engine)
   private globalInterceptors: ((event: DomainEvent) => void)[] = [];
 
+  /** In-memory: повтор того же dedupeKey не доходит до подписчиков (at-least-once / redelivery). */
+  private dedupeLRU: string[] = [];
+  private dedupeSeen = new Set<string>();
+  private readonly MAX_DEDUPE_KEYS = 1500;
+
   private constructor() {}
+
+  private logBusMetric(event: string, fields: Record<string, unknown> = {}): void {
+    logObservability(event, {
+      ...fields,
+      dlqSize: this.dlq.length,
+      eventStoreSize: this.eventStore.length,
+      circuitOpen: this.circuitOpen,
+    });
+  }
+
+  private isDebugLoggingEnabled(): boolean {
+    return process.env.NODE_ENV !== 'test' || process.env.DOMAIN_EVENT_BUS_DEBUG === '1';
+  }
+
+  private debugLog(level: 'log' | 'warn' | 'error', ...args: unknown[]): void {
+    if (!this.isDebugLoggingEnabled()) return;
+    console[level](...args);
+  }
 
   public static getInstance(): DomainEventBus {
     if (!DomainEventBus.instance) {
@@ -300,7 +385,7 @@ class DomainEventBus {
    */
   public publishBatched(event: DomainEvent): void {
     if (!this.validateEvent(event)) {
-      console.error(`[DomainEventBus] CRITICAL: Invalid event structure rejected in batch:`, event);
+      this.debugLog('error', `[DomainEventBus] CRITICAL: Invalid event structure rejected in batch:`, event);
       this.addToDLQ(event, 'Validation Failed: Invalid Event Structure');
       return;
     }
@@ -328,7 +413,7 @@ class DomainEventBus {
     const batch = [...this.batchQueue];
     this.batchQueue = [];
 
-    console.log(`[DomainEventBus] Flushing batch of ${batch.length} events...`);
+    this.debugLog('log', `[DomainEventBus] Flushing batch of ${batch.length} events...`);
     
     // Публикуем события параллельно для скорости, но с учетом Circuit Breaker
     await Promise.allSettled(batch.map(event => this.publish(event)));
@@ -348,6 +433,42 @@ class DomainEventBus {
     return true;
   }
 
+  private normalizeDedupeKey(event: DomainEvent): string | null {
+    const raw = event.dedupeKey;
+    if (typeof raw !== 'string') return null;
+    const k = raw.trim();
+    return k ? k : null;
+  }
+
+  /** Уже успешно обработано ранее — повторный вызов (redelivery) можно пропустить. */
+  private wasDedupeKeySuccessfullyProcessed(key: string): boolean {
+    return this.dedupeSeen.has(key);
+  }
+
+  /** Вызывать только после полного успеха всех подписчиков для этого события. */
+  private rememberDedupeKeySuccess(key: string): void {
+    if (this.dedupeSeen.has(key)) return;
+    this.dedupeSeen.add(key);
+    this.dedupeLRU.push(key);
+    while (this.dedupeLRU.length > this.MAX_DEDUPE_KEYS) {
+      const old = this.dedupeLRU.shift();
+      if (old) this.dedupeSeen.delete(old);
+    }
+  }
+
+  /** @internal тесты — сброс кэша dedupe между кейсами. */
+  public resetDedupeCacheForTests(): void {
+    this.dedupeLRU = [];
+    this.dedupeSeen.clear();
+  }
+
+  /** @internal тесты — сброс circuit breaker (изолированные сценарии с падающими handlers). */
+  public resetCircuitStateForTests(): void {
+    this.circuitOpen = false;
+    this.failureCount = 0;
+    this.lastFailureTime = 0;
+  }
+
   /** Запись в store и глобальные перехватчики — общий префикс для publish / publishUrgent. */
   private persistAndRunInterceptors(event: DomainEvent): void {
     this.persistEvent(event);
@@ -355,7 +476,7 @@ class DomainEventBus {
       try {
         interceptor(event);
       } catch (e) {
-        console.error('Interceptor error:', e);
+        this.debugLog('error', 'Interceptor error:', e);
       }
     });
   }
@@ -380,8 +501,14 @@ class DomainEventBus {
    */
   public async publishUrgent(event: DomainEvent): Promise<void> {
     if (!this.validateEvent(event)) {
-      console.error(`[DomainEventBus] CRITICAL: Invalid urgent event structure rejected:`, event);
+      this.debugLog('error', `[DomainEventBus] CRITICAL: Invalid urgent event structure rejected:`, event);
       this.addToDLQ(event, 'Validation Failed: Invalid Event Structure');
+      return;
+    }
+
+    const dkUrgent = this.normalizeDedupeKey(event);
+    if (dkUrgent && this.wasDedupeKeySuccessfullyProcessed(dkUrgent)) {
+      this.debugLog('log', `[DomainEventBus] Dedupe skip (urgent): ${dkUrgent} ${this.resolveEventType(event)}`);
       return;
     }
 
@@ -389,20 +516,54 @@ class DomainEventBus {
     const eventType = this.resolveEventType(event);
     const allHandlers = this.collectHandlers(eventType, event.aggregateType);
 
-    console.warn(`[DomainEventBus] URGENT PUBLISH: ${eventType}`, event);
+    this.debugLog('warn', `[DomainEventBus] URGENT PUBLISH: ${eventType}`, event);
 
     // Выполняем немедленно, игнорируя Circuit Breaker и Retry Policy (чтобы не блокировать поток)
-    await Promise.allSettled(allHandlers.map(handler => handler(event)));
+    const settled = await Promise.allSettled(allHandlers.map((handler) => handler(event)));
+    const rejected = settled.filter((r) => r.status === 'rejected');
+    const allOk = rejected.length === 0;
+    if (!allOk) {
+      const first = rejected[0];
+      const reason =
+        first && first.status === 'rejected'
+          ? first.reason instanceof Error
+            ? first.reason.message
+            : String(first.reason)
+          : 'Urgent handler failed';
+      this.addToDLQ(event, `Urgent publish failed: ${reason}`);
+      this.logBusMetric('domain_event_bus.urgent_failed', {
+        type: eventType,
+        dedupeKey: dkUrgent,
+      });
+    }
+    if (allOk && dkUrgent) {
+      this.rememberDedupeKeySuccess(dkUrgent);
+    }
+    if (allOk) {
+      this.logBusMetric('domain_event_bus.urgent_published', {
+        type: eventType,
+        dedupeKey: dkUrgent,
+      });
+    }
   }
 
   /**
    * Публикует событие с механизмом повторных попыток (RetryPolicy) и Circuit Breaker.
    */
-  public async publish(event: DomainEvent, maxRetries: number = 3): Promise<void> {
+  public async publish(
+    event: DomainEvent,
+    maxRetries: number = DOMAIN_EVENT_BUS_PUBLISH_DEFAULT_MAX_RETRIES
+  ): Promise<void> {
     // [Phase 45] Валидация события перед публикацией
     if (!this.validateEvent(event)) {
-      console.error(`[DomainEventBus] CRITICAL: Invalid event structure rejected:`, event);
+      this.debugLog('error', `[DomainEventBus] CRITICAL: Invalid event structure rejected:`, event);
       this.addToDLQ(event, 'Validation Failed: Invalid Event Structure');
+      return;
+    }
+
+    const dk = this.normalizeDedupeKey(event);
+    if (dk && this.wasDedupeKeySuccessfullyProcessed(dk)) {
+      this.debugLog('log', `[DomainEventBus] Dedupe skip: ${dk} ${this.resolveEventType(event)}`);
       return;
     }
 
@@ -412,10 +573,10 @@ class DomainEventBus {
     // [Phase 17] Circuit Breaker Check
     if (this.circuitOpen) {
       if (Date.now() - this.lastFailureTime > this.RESET_TIMEOUT_MS) {
-        console.log(`[DomainEventBus] Circuit half-open. Attempting recovery for ${eventType}...`);
+        this.debugLog('log', `[DomainEventBus] Circuit half-open. Attempting recovery for ${eventType}...`);
         this.circuitOpen = false; // Half-open
       } else {
-        console.warn(`[DomainEventBus] Circuit is OPEN. Fast-failing event ${eventType} to DLQ.`);
+        this.debugLog('warn', `[DomainEventBus] Circuit is OPEN. Fast-failing event ${eventType} to DLQ.`);
         this.addToDLQ(event, 'Circuit Breaker Open');
         return;
       }
@@ -423,7 +584,9 @@ class DomainEventBus {
 
     const allHandlers = this.collectHandlers(eventType, event.aggregateType);
 
-    console.log(`[DomainEventBus] Publishing: ${eventType}`, event);
+    this.debugLog('log', `[DomainEventBus] Publishing: ${eventType}`, event);
+
+    let anyHandlerFailed = false;
 
     for (const handler of allHandlers) {
       let attempts = 0;
@@ -433,22 +596,22 @@ class DomainEventBus {
         try {
           await handler(event);
           success = true;
-          this.failureCount = 0; // Reset on success
         } catch (error) {
           attempts++;
           this.failureCount++;
-          console.warn(`[DomainEventBus] Handler failed for ${eventType}, attempt ${attempts}/${maxRetries}`, error);
+          this.debugLog('warn', `[DomainEventBus] Handler failed for ${eventType}, attempt ${attempts}/${maxRetries}`, error);
           
           // Trip the breaker if too many consecutive failures
           if (this.failureCount >= this.FAILURE_THRESHOLD) {
-            console.error(`[DomainEventBus] Circuit Breaker TRIPPED after ${this.failureCount} failures.`);
+            this.debugLog('error', `[DomainEventBus] Circuit Breaker TRIPPED after ${this.failureCount} failures.`);
             this.circuitOpen = true;
             this.lastFailureTime = Date.now();
           }
 
           if (attempts >= maxRetries || this.circuitOpen) {
-            console.error(`[DomainEventBus] Event moved to DLQ: ${eventType}`);
+            this.debugLog('error', `[DomainEventBus] Event moved to DLQ: ${eventType}`);
             this.addToDLQ(event, error instanceof Error ? error.message : String(error));
+            anyHandlerFailed = true;
             break; // Stop retrying this handler
           } else {
             // Exponential backoff: 100ms, 200ms, 400ms...
@@ -456,7 +619,25 @@ class DomainEventBus {
           }
         }
       }
+
+      if (!success) {
+        anyHandlerFailed = true;
+      }
     }
+
+    if (!anyHandlerFailed && dk) {
+      this.rememberDedupeKeySuccess(dk);
+    }
+    if (!anyHandlerFailed) {
+      this.failureCount = 0;
+      if (!this.circuitOpen) {
+        this.lastFailureTime = 0;
+      }
+    }
+    this.logBusMetric(anyHandlerFailed ? 'domain_event_bus.publish_failed' : 'domain_event_bus.published', {
+      type: eventType,
+      dedupeKey: dk,
+    });
   }
 
   private addToDLQ(event: DomainEvent, error: string) {
@@ -467,6 +648,11 @@ class DomainEventBus {
       event,
       error,
       failedAt: new Date().toISOString()
+    });
+    this.logBusMetric('domain_event_bus.dlq_added', {
+      type: this.resolveEventType(event),
+      dedupeKey: event.dedupeKey,
+      error,
     });
   }
 
@@ -483,7 +669,7 @@ class DomainEventBus {
   public async retryDLQ(): Promise<void> {
     const eventsToRetry = [...this.dlq];
     this.dlq = [];
-    console.log(`[DomainEventBus] Retrying ${eventsToRetry.length} events from DLQ...`);
+    this.debugLog('log', `[DomainEventBus] Retrying ${eventsToRetry.length} events from DLQ...`);
     for (const item of eventsToRetry) {
       await this.publish(item.event);
     }
@@ -526,9 +712,35 @@ class DomainEventBus {
   public getDeadLetterQueue() {
     return this.dlq;
   }
+
+  public getHealthSnapshot(): DomainEventBusHealthSnapshot {
+    return {
+      dlqSize: this.dlq.length,
+      eventStoreSize: this.eventStore.length,
+      circuitOpen: this.circuitOpen,
+      dedupeCacheSize: this.dedupeSeen.size,
+      subscriberEventTypeCount: this.subscribers.size,
+      recentFailureCount: this.failureCount,
+      lastFailureAt: this.lastFailureTime > 0 ? new Date(this.lastFailureTime).toISOString() : null,
+    };
+  }
 }
 
 export const eventBus = DomainEventBus.getInstance();
+
+/** Сброс кэша dedupe у шины (только Jest / изолированные прогоны). */
+export function __resetDomainEventBusDedupeForTests(): void {
+  DomainEventBus.getInstance().resetDedupeCacheForTests();
+}
+
+/** Сброс circuit breaker шины (только Jest). */
+export function __resetDomainEventBusCircuitForTests(): void {
+  DomainEventBus.getInstance().resetCircuitStateForTests();
+}
+
+export function getDomainEventBusHealthSnapshot(): DomainEventBusHealthSnapshot {
+  return DomainEventBus.getInstance().getHealthSnapshot();
+}
 
 /** [Phase 62] Каталог типов и фабрики публикации (Zod) — единая точка импорта. */
 export { DomainEventTypes };
