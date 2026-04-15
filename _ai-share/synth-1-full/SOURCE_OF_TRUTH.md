@@ -129,6 +129,10 @@ AI boundary (client-safe): клиентские компоненты не выз
 
 Для проверки Next app-router page-контрактов используем отдельный шаг: **`npm run typecheck:next-pages`** (строит `.next-isolated` и валидирует `.next-isolated/types/**/*.ts`).
 
+Known warnings сборки:
+- `@sentry/*` / OpenTelemetry (`require-in-the-middle`, `Critical dependency`) — ожидаемые warnings инструментирования серверного рантайма.
+- Tailwind ambiguous `duration-[...]` — не блокер; чистится отдельно.
+
 ## Продукт / prod (вне demo-матрицы)
 
 - **Brand vs shop inventory (tenant / owner)** и границы агрегата **Order** — **`TASK_QUEUE.md`**, **`docs/domain-model/*`**; не сводится к копированию UI.
