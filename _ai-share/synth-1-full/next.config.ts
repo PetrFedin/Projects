@@ -2,6 +2,8 @@
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
+  /** Изолированная сборка: `NEXT_DIST_DIR=.next-isolated npm run build` (не пересекается с `next dev` в `.next`). */
+  ...(process.env.NEXT_DIST_DIR ? { distDir: process.env.NEXT_DIST_DIR } : {}),
   experimental: {
     /** Меньше модулей в dev/SSR — ниже RAM и время компиляции */
     optimizePackageImports: [
@@ -24,8 +26,6 @@ const nextConfig: NextConfig = {
       { source: '/syntha', destination: '/brand/organization', permanent: false },
     ];
   },
-  // Standalone только для production build
-  ...(process.env.NODE_ENV === 'production' && { output: 'standalone' }),
   // Пока `npm run typecheck` не зелёный, Next не валит сборку. CI: synth-1/.github/workflows/ci.yml.
   // Когда ошибок tsc не останется — поставьте ignoreBuildErrors: false.
   typescript: {
@@ -33,17 +33,6 @@ const nextConfig: NextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true,
-  },
-  // Стабильные ID чанков — deterministic вместо named для совместимости с dev
-  webpack: (config, { dev }) => {
-    if (!dev) {
-      config.optimization = {
-        ...config.optimization,
-        moduleIds: 'deterministic',
-        chunkIds: 'deterministic',
-      };
-    }
-    return config;
   },
   images: {
     unoptimized: true,

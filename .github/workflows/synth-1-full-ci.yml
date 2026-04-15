@@ -1,0 +1,85 @@
+# Next app: _ai-share/synth-1-full (монорепозиторий Projects).
+# Ворота D/E: `synth-1/` и `Projects/src/` не удаляются из репо до фиксации «только full» (см. AGENTS.md, docs/MONOREPO_INTEGRATION.md).
+# ci-fast — каждый push/PR по paths; ci-heavy — лейбл `ci-heavy` на PR, еженедельный schedule или workflow_dispatch.
+# Скрипты — только из `_ai-share/synth-1-full/package.json`.
+# Standalone-клон пакета (без heavy): `_ai-share/synth-1-full/.github/workflows/ci.yml`.
+name: synth-1-full CI
+
+on:
+  push:
+    paths:
+      - '_ai-share/synth-1-full/**'
+      - '.github/workflows/synth-1-full-ci.yml'
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+    paths:
+      - '_ai-share/synth-1-full/**'
+      - '.github/workflows/synth-1-full-ci.yml'
+  schedule:
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: synth-1-full-ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: _ai-share/synth-1-full
+
+jobs:
+  ci-fast:
+    name: ci-fast (format, lint, unit, typecheck soft, build, e2e light)
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      NEXT_TELEMETRY_DISABLED: '1'
+      NEXT_PUBLIC_USE_B2C_SHOP_API: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: _ai-share/synth-1-full/package-lock.json
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm run lint
+      - name: Legacy archive API guard
+        if: github.event_name == 'pull_request'
+        run: npm run check:legacy-archive-api
+      - run: npm test
+      - name: TypeScript (полное дерево, не блокирует — техдолг SOURCE_OF_TRUTH)
+        run: npm run typecheck
+        continue-on-error: true
+      - run: npm run build:isolated
+      - run: npx playwright install chromium --with-deps
+      - name: Playwright light smoke
+        run: npm run test:e2e:light
+
+  ci-heavy:
+    name: ci-heavy (unified verification + API e2e)
+    needs: ci-fast
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'schedule' ||
+      (github.event_name == 'pull_request' &&
+        contains(github.event.pull_request.labels.*.name, 'ci-heavy'))
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      NEXT_TELEMETRY_DISABLED: '1'
+      NEXT_PUBLIC_USE_B2C_SHOP_API: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: _ai-share/synth-1-full/package-lock.json
+      - run: npm ci
+      - run: npx playwright install chromium --with-deps
+      - name: Unified ecosystem verification
+        run: npm run test:e2e:verification
+      - name: API Playwright bundle (subset)
+        run: npm run test:e2e:api

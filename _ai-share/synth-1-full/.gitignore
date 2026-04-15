@@ -1,5 +1,6 @@
 node_modules
 .next
+.next-isolated
 out
 .firebase
 
@@ -33,6 +34,8 @@ test-results/
 # локальные метрики досье Workshop2 (NDJSON)
 data/workshop2-dossier-metrics.ndjson
 data/w2-metrics-archive-state.json
+data/integration-export-jobs.json
+data/domain-event-outbox.json
 
 # персистентность процессов (dev / PROCESS_PERSISTENCE)
 .data/

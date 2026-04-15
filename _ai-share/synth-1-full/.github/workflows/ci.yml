@@ -1,38 +1,42 @@
-name: synth-1 CI
+# Standalone clone / CI в подпапке репозитория.
+# В монорепо Projects основной контур: `.github/workflows/synth-1-full-ci.yml` (ci-fast всегда; ci-heavy — лейбл, schedule, dispatch).
+# Здесь без heavy: полный verification + API — локально `npm run test:e2e:heavy` или PR с лейблом в монорепо.
+name: synth-1-full (local package)
 
 on:
   push:
-    paths:
-      - '**'
   pull_request:
-    paths:
-      - '**'
 
-defaults:
-  run:
-    working-directory: .
+concurrency:
+  group: synth-1-full-package-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  CI: true
+  NEXT_TELEMETRY_DISABLED: '1'
+  NEXT_PUBLIC_USE_B2C_SHOP_API: 'true'
 
 jobs:
-  check:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+          cache: npm
           cache-dependency-path: package-lock.json
       - run: npm ci
-      - name: Regenerate category catalog snapshot
-        run: npm run gen:category-catalog
-      - name: Regenerate TZ leaf requirements matrix
-        run: npm run gen:tz-leaf-requirements
-      - name: Validate category handbook snapshot
-        run: npm run validate:category-handbook
-      - name: Typecheck
+      - run: npm run format:check
+      - run: npm run lint
+      - name: Legacy archive API guard
+        if: github.event_name == 'pull_request'
+        run: npm run check:legacy-archive-api
+      - run: npm test
+      - name: TypeScript (полное дерево)
         run: npm run typecheck
         continue-on-error: true
-      - name: Production build
-        run: npm run build
-        env:
-          NEXT_TELEMETRY_DISABLED: '1'
+      - run: npm run build:isolated
+      - run: npx playwright install chromium --with-deps
+      - name: E2E light
+        run: npm run test:e2e:light
