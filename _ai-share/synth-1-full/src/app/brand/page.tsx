@@ -40,6 +40,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/providers/auth-provider';
 import { useRbac } from '@/hooks/useRbac';
@@ -54,13 +55,13 @@ import { ROUTES } from '@/lib/routes';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SectionBlock } from '@/components/brand/SectionBlock';
-import { Breadcrumb } from '@/components/ui/breadcrumb';
 import { OrganizationOverviewEmbed } from '@/app/brand/organization/organization-overview-embed';
 import { SUBSCRIPTION_PLANS, getPlanById, formatPrice, type PlanId } from '@/lib/data/subscription-plans';
 import { MediaAssetsViewer, type AssetTypeId, type MediaAssetItem } from '@/components/brand/MediaAssetsViewer';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { OnlineStorePickerDialog } from '@/components/brand/OnlineStorePickerDialog';
 import { PROFILE_SECTION_META, formatHoursCompact } from './brand-profile-page-utils';
+import { RegistryPageShell } from '@/components/design-system';
 
 export default function BrandProfilePage() {
     const searchParams = useSearchParams();
@@ -403,31 +404,17 @@ export default function BrandProfilePage() {
     };
 
     return (
-        <div className="space-y-6 max-w-7xl mx-auto pb-20 pl-1 pr-4 md:pl-2 md:pr-6">
-            {/* Profile Hub header — в стиле Участники: breadcrumb + иконка + название + описание */}
+        <RegistryPageShell className="max-w-7xl space-y-6">
+            {/* Заголовок раздела: иконка + название + действия (крошки — в layout, CabinetHubSectionBar) */}
             <div className="space-y-4">
-                <Breadcrumb
-                    items={
-                        activeGroup === 'profile'
-                            ? [
-                                { label: 'Syntha Lab', href: '/' },
-                                { label: 'Профиль' },
-                            ]
-                            : [
-                                { label: 'Syntha Lab', href: '/' },
-                                { label: 'Профиль', href: '/brand' },
-                                { label: 'B2B & Коммерция' },
-                            ]
-                    }
-                />
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                     <div className="flex items-start gap-4 min-w-0">
-                        <div className="h-10 w-10 rounded-xl flex items-center justify-center shrink-0 bg-slate-100 text-slate-600">
+                        <div className="h-10 w-10 rounded-xl flex items-center justify-center shrink-0 bg-bg-surface2 text-text-secondary">
                             <User className="h-5 w-5" />
                             </div>
                         <div className="min-w-0">
-                            <h2 className="text-base sm:text-lg font-black uppercase tracking-tight text-slate-900">ПРОФИЛЬ</h2>
-                            <p className="mt-1 text-[11px] text-slate-500 font-medium leading-relaxed">
+                            <h2 className="text-base sm:text-lg font-black uppercase tracking-tight text-text-primary">ПРОФИЛЬ</h2>
+                            <p className="mt-1 text-[11px] text-text-secondary font-medium leading-relaxed">
                                 {activeGroup === 'b2b' ? 'Коммерческие условия B2B' : 'Бренд, юр. данные, сертификаты, Press Kit'}
                             </p>
                         </div>
@@ -439,7 +426,7 @@ export default function BrandProfilePage() {
                             <Button
                                 variant={isEditing ? "default" : "outline"}
                                 size="sm"
-                                className={cn("text-[9px] h-7", isEditing ? "bg-indigo-600 text-white" : "")}
+                                className={cn("text-[9px] h-7", isEditing ? "bg-accent-primary text-white" : "")}
                                 onClick={() => {
                                     const wasEditing = isEditing;
                                     setIsEditing(!isEditing);
@@ -453,14 +440,14 @@ export default function BrandProfilePage() {
                             )}
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <Button variant="outline" size="sm" className="h-7 px-2 rounded-[4px] text-[9px] font-black uppercase text-slate-500 shrink-0">
+                                    <Button variant="outline" size="sm" className="h-7 px-2 rounded-[4px] text-[9px] font-black uppercase text-text-secondary shrink-0">
                                         <MoreHorizontal className="h-3.5 w-3.5" />
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" className="w-48">
                                     <DropdownMenuItem onClick={async () => { const r = await sync(); if (r.success) toast({ title: 'Синхронизация', description: 'Данные обновлены' }); else toast({ title: 'Ошибка', description: r.error, variant: 'destructive' }); }} disabled={syncLoading} className="text-[10px] gap-2">
                                         <RefreshCcw className={cn("h-3.5 w-3.5", syncLoading && "animate-spin")} /> Синхронизация
-                                        {lastSynced && <span className="text-slate-400 ml-auto text-[9px]">{lastSynced.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}</span>}
+                                        {lastSynced && <span className="text-text-muted ml-auto text-[9px]">{lastSynced.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}</span>}
                                     </DropdownMenuItem>
                                     <DropdownMenuItem onClick={() => setShowChangelogDialog(true)} className="text-[10px] gap-2">
                                         <History className="h-3.5 w-3.5" /> История изменений
@@ -477,23 +464,23 @@ export default function BrandProfilePage() {
                         </div>
                         <div className="flex items-center gap-2 flex-wrap justify-end">
                             {!canEditProfile && (
-                            <Badge variant="outline" className="text-[9px] font-bold border-slate-200 text-slate-500 bg-slate-50">
+                            <Badge variant="outline" className="text-[9px] font-bold border-border-default text-text-secondary bg-bg-surface2">
                                 Только просмотр
                             </Badge>
                             )}
                             <Badge variant="outline" className="text-[9px] font-bold border-emerald-200 text-emerald-600 bg-emerald-50">
                                 <Check className="h-3 w-3 mr-1" /> Верифицирован
                             </Badge>
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 flex items-center gap-1">
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-text-secondary flex items-center gap-1">
                                 <Calendar className="h-3 w-3" /> Осн. {brand.foundedYear}
                             </span>
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 flex items-center gap-1">
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-text-secondary flex items-center gap-1">
                                 <Globe className="h-3 w-3" /> {brand.countryOfOrigin}
                             </span>
                             <TooltipProvider delayDuration={200}>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
-                                        <span className="inline-flex cursor-help text-slate-400 hover:text-slate-600 transition-colors">
+                                        <span className="inline-flex cursor-help text-text-muted hover:text-text-secondary transition-colors">
                                             <Info className="h-3.5 w-3.5" />
                                         </span>
                                     </TooltipTrigger>
@@ -502,7 +489,7 @@ export default function BrandProfilePage() {
                                     </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>
-                            <Link href={ROUTES.brand.customerActivity} className="text-[10px] font-bold uppercase tracking-widest text-indigo-600 hover:text-indigo-700 flex items-center gap-1 transition-colors cursor-pointer">
+                            <Link href={ROUTES.brand.customerActivity} className="text-[10px] font-bold uppercase tracking-widest text-accent-primary hover:text-accent-primary flex items-center gap-1 transition-colors cursor-pointer">
                                 <Users className="h-3 w-3" /> {(brand.followers || 0).toLocaleString('ru-RU')} подписчиков
                     </Link>
                     </div>
@@ -511,14 +498,14 @@ export default function BrandProfilePage() {
                     </div>
 
             {/* Main Tabs Group Selection */}
-            <div className="flex items-center gap-1 p-1 bg-slate-100 border border-slate-200 shadow-inner rounded-xl w-fit">
+            <div className="flex items-center gap-1 p-1 bg-bg-surface2 border border-border-default shadow-inner rounded-xl w-fit">
                 <Button 
                     variant={activeGroup === 'profile' ? 'default' : 'ghost'} 
                     size="sm"
                     onClick={() => { setActiveGroup('profile'); setActiveTab('brand'); }}
                     className={cn(
                         "h-7 px-4 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all",
-                        activeGroup === 'profile' ? "bg-white text-slate-900 shadow-sm border border-slate-200" : "text-slate-500 hover:text-slate-900"
+                        activeGroup === 'profile' ? "bg-white text-text-primary shadow-sm border border-border-default" : "text-text-secondary hover:text-text-primary"
                     )}
                 >
                     Профиль
@@ -530,7 +517,7 @@ export default function BrandProfilePage() {
                     onClick={() => { setActiveGroup('b2b'); setActiveTab('commerce'); }}
                     className={cn(
                         "h-7 px-4 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all",
-                        activeGroup === 'b2b' ? "bg-white text-slate-900 shadow-sm border border-slate-200" : "text-slate-500 hover:text-slate-900"
+                        activeGroup === 'b2b' ? "bg-white text-text-primary shadow-sm border border-border-default" : "text-text-secondary hover:text-text-primary"
                     )}
                 >
                     B2B & Продажи
@@ -540,9 +527,10 @@ export default function BrandProfilePage() {
 
             {/* Tabs профиля (Обзор — первый подтаб) */}
             <SectionBlock title="Разделы профиля" meta={PROFILE_SECTION_META.tabs} accentColor="indigo" className="min-w-0">
-            <Card className="rounded-xl border border-slate-200 shadow-sm bg-white p-4 md:p-5">
+            <Card className="rounded-xl border border-border-default shadow-sm bg-white p-4 md:p-5">
             <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="space-y-4">
-                <TabsList className="bg-slate-100/80 p-1.5 rounded-xl h-auto border border-slate-200 w-full justify-start overflow-x-auto scrollbar-hide gap-1 flex-wrap">
+                {/* cabinetSurface v1 */}
+                <TabsList className={cn(cabinetSurface.tabsList, 'overflow-x-auto scrollbar-hide flex-wrap')}>
                     <AnimatePresence mode="wait">
                         {activeGroup === 'profile' && (
                             <motion.div 
@@ -552,16 +540,16 @@ export default function BrandProfilePage() {
                                 exit={{ opacity: 0, x: 4 }}
                                 className="flex items-center gap-1.5 flex-wrap"
                             >
-                                <TabsTrigger value="brand" className="rounded-lg h-10 px-5 data-[state=active]:bg-slate-900 data-[state=active]:text-white data-[state=active]:shadow-md text-[11px] font-bold uppercase gap-2 transition-all tracking-wide border-2 border-slate-200 data-[state=active]:border-slate-900 data-[state=inactive]:text-slate-600 data-[state=inactive]:bg-white data-[state=inactive]:hover:bg-slate-50 data-[state=inactive]:hover:border-slate-300">
+                                <TabsTrigger value="brand" className={cn(cabinetSurface.tabsTrigger, 'h-10 min-h-10 gap-2 px-4 text-[11px] font-bold normal-case tracking-wide')}>
                                     <Building2 className="h-4 w-4 shrink-0" /> Бренд
                                 </TabsTrigger>
-                                <TabsTrigger value="legal" className="rounded-lg h-10 px-5 data-[state=active]:bg-slate-900 data-[state=active]:text-white data-[state=active]:shadow-md text-[11px] font-bold uppercase gap-2 transition-all tracking-wide border-2 border-slate-200 data-[state=active]:border-slate-900 data-[state=inactive]:text-slate-600 data-[state=inactive]:bg-white data-[state=inactive]:hover:bg-slate-50 data-[state=inactive]:hover:border-slate-300">
+                                <TabsTrigger value="legal" className={cn(cabinetSurface.tabsTrigger, 'h-10 min-h-10 gap-2 px-4 text-[11px] font-bold normal-case tracking-wide')}>
                                     <FileText className="h-4 w-4 shrink-0" /> Юр. данные
                                 </TabsTrigger>
-                                <TabsTrigger value="certificates" className="rounded-lg h-10 px-5 data-[state=active]:bg-slate-900 data-[state=active]:text-white data-[state=active]:shadow-md text-[11px] font-bold uppercase gap-2 transition-all tracking-wide border-2 border-slate-200 data-[state=active]:border-slate-900 data-[state=inactive]:text-slate-600 data-[state=inactive]:bg-white data-[state=inactive]:hover:bg-slate-50 data-[state=inactive]:hover:border-slate-300">
+                                <TabsTrigger value="certificates" className={cn(cabinetSurface.tabsTrigger, 'h-10 min-h-10 gap-2 px-4 text-[11px] font-bold normal-case tracking-wide')}>
                                     <Award className="h-4 w-4 shrink-0" /> Сертификаты
                                 </TabsTrigger>
-                                <TabsTrigger value="presskit" className="rounded-lg h-10 px-5 data-[state=active]:bg-slate-900 data-[state=active]:text-white data-[state=active]:shadow-md text-[11px] font-bold uppercase gap-2 transition-all tracking-wide border-2 border-slate-200 data-[state=active]:border-slate-900 data-[state=inactive]:text-slate-600 data-[state=inactive]:bg-white data-[state=inactive]:hover:bg-slate-50 data-[state=inactive]:hover:border-slate-300">
+                                <TabsTrigger value="presskit" className={cn(cabinetSurface.tabsTrigger, 'h-10 min-h-10 gap-2 px-4 text-[11px] font-bold normal-case tracking-wide')}>
                                     <Newspaper className="h-4 w-4 shrink-0" /> Press Kit
                                 </TabsTrigger>
                             </motion.div>
@@ -575,7 +563,7 @@ export default function BrandProfilePage() {
                                 exit={{ opacity: 0, y: -2 }}
                                 className="flex items-center gap-1.5 flex-wrap"
                             >
-                                <TabsTrigger value="commerce" className="rounded-lg h-10 px-5 data-[state=active]:bg-slate-900 data-[state=active]:text-white data-[state=active]:shadow-md text-[11px] font-bold uppercase gap-2 transition-all border-2 border-slate-200 data-[state=active]:border-slate-900 data-[state=inactive]:text-slate-600 data-[state=inactive]:bg-white hover:bg-slate-50 hover:border-slate-300">
+                                <TabsTrigger value="commerce" className={cn(cabinetSurface.tabsTrigger, 'h-10 min-h-10 gap-2 px-4 text-[11px] font-bold normal-case tracking-wide')}>
                                     <Package className="h-4 w-4 shrink-0" /> Коммерция
                                 </TabsTrigger></motion.div>
                         )}
@@ -591,10 +579,10 @@ export default function BrandProfilePage() {
                         <div className="flex items-center justify-between px-1">
                             <div className="flex flex-col gap-0.5">
                                 <div className="flex items-center gap-1.5">
-                                    <div className="h-1 w-5 bg-indigo-600 rounded-full shrink-0" />
-                                    <h2 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Информация о бренде</h2>
+                                    <div className="h-1 w-5 bg-accent-primary rounded-full shrink-0" />
+                                    <h2 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Информация о бренде</h2>
                                     </div>
-                                <p className="text-[9px] text-slate-500 pl-6">Название, лого, шоурум, адреса, сайт и соцсети</p>
+                                <p className="text-[9px] text-text-secondary pl-6">Название, лого, шоурум, адреса, сайт и соцсети</p>
                                     </div>
                             {canEditProfile && (
                             <Button variant="outline" size="sm" className="h-7 text-[9px] font-bold uppercase gap-1" onClick={() => setIsEditing(!isEditing)}>
@@ -602,23 +590,23 @@ export default function BrandProfilePage() {
                             </Button>
                             )}
                                     </div>
-                        <Card className="p-4 border border-slate-100 shadow-sm bg-white rounded-xl space-y-4">
+                        <Card className="p-4 border border-border-subtle shadow-sm bg-white rounded-xl space-y-4">
                             {/* Название + Логотипы (несколько, основной отмечен) */}
                             <div className="flex flex-wrap items-start gap-4">
                                 <div>
-                                    <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400 mb-1">Название</p>
+                                    <p className="text-[8px] font-bold uppercase tracking-widest text-text-muted mb-1">Название</p>
                                     {isEditing ? (
                                         <Input value={brand.nameRU || brand.name} onChange={(e) => setBrand(prev => ({ ...prev, nameRU: e.target.value }))} className="h-8 text-sm font-bold w-48" />
                                     ) : (
-                                        <p className="text-base font-bold text-slate-900">{brand.nameRU || brand.name}</p>
+                                        <p className="text-base font-bold text-text-primary">{brand.nameRU || brand.name}</p>
                                     )}
                                     </div>
                                 <div className="flex items-center gap-3">
                                     {brandInfo.logos.filter((l) => l.url).map((logo) => (
                                         <div key={logo.id} className="relative">
                                             <div className={cn(
-                                                "h-16 w-16 rounded-xl border-2 overflow-hidden bg-slate-50",
-                                                logo.isMain ? "border-indigo-400 ring-2 ring-indigo-100" : "border-slate-200"
+                                                "h-16 w-16 rounded-xl border-2 overflow-hidden bg-bg-surface2",
+                                                logo.isMain ? "border-accent-primary/40 ring-2 ring-accent-primary/20" : "border-border-default"
                                             )}>
                                                 <Image src={logo.url} alt="Logo" width={64} height={64} className="object-cover w-full h-full" />
                                     </div>
@@ -631,8 +619,8 @@ export default function BrandProfilePage() {
                                     </div>
                                     ))}
                                     {brandInfo.logos.some((l) => !l.url) && (
-                                        <div className="h-16 w-16 rounded-xl border-2 border-dashed border-slate-200 flex items-center justify-center bg-slate-50 cursor-pointer hover:border-indigo-300">
-                                            <span className="text-[9px] font-bold text-slate-400">+ Лого</span>
+                                        <div className="h-16 w-16 rounded-xl border-2 border-dashed border-border-default flex items-center justify-center bg-bg-surface2 cursor-pointer hover:border-accent-primary/30">
+                                            <span className="text-[9px] font-bold text-text-muted">+ Лого</span>
                                     </div>
                                     )}
                                 {isEditing && (
@@ -645,12 +633,12 @@ export default function BrandProfilePage() {
 
                             {/* Шоурум: полный адрес, название, центр — карта, справа — телефон, сайт, график */}
                             {brandInfo.showroom.hasShowroom && (
-                                <div className="pt-3 border-t border-slate-100 space-y-2">
-                                    <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Шоурум</p>
-                                    <p className="text-[9px] text-slate-500 mb-2">Адрес, контакты, график работы</p>
-                                    <div className="flex flex-wrap items-center gap-3 p-3 rounded-lg border border-slate-100 bg-slate-50/50">
+                                <div className="pt-3 border-t border-border-subtle space-y-2">
+                                    <p className="text-[8px] font-bold uppercase tracking-widest text-text-muted mb-0.5">Шоурум</p>
+                                    <p className="text-[9px] text-text-secondary mb-2">Адрес, контакты, график работы</p>
+                                    <div className="flex flex-wrap items-center gap-3 p-3 rounded-lg border border-border-subtle bg-bg-surface2/80">
                                         <div className="flex-1 min-w-[180px]">
-                                            <p className="text-[11px] font-bold text-slate-900">{(brandInfo.showroom as Record<string, unknown>).name as string || 'Шоурум'}</p>
+                                            <p className="text-[11px] font-bold text-text-primary">{(brandInfo.showroom as Record<string, unknown>).name as string || 'Шоурум'}</p>
                                 {isEditing ? (
                                                 <div className="space-y-1 mt-1">
                                                     <Input value={(brandInfo.showroom as Record<string, unknown>).name as string} onChange={(e) => setBrandInfo(prev => ({ ...prev, showroom: { ...prev.showroom, name: e.target.value } }))} placeholder="Название" className="h-7 text-[11px]" />
@@ -660,7 +648,7 @@ export default function BrandProfilePage() {
                                                     <Input value={(brandInfo.showroom as Record<string, unknown>).yandexMapUrl as string} onChange={(e) => setBrandInfo(prev => ({ ...prev, showroom: { ...prev.showroom, yandexMapUrl: e.target.value } }))} placeholder="Ссылка на карту" className="h-7 text-[11px]" />
                                                 </div>
                                             ) : (
-                                                <p className="text-[11px] text-slate-700 mt-0.5">{brandInfo.showroom.address}</p>
+                                                <p className="text-[11px] text-text-primary mt-0.5">{brandInfo.showroom.address}</p>
                                             )}
                         </div>
                                         <div className="flex items-center gap-2 shrink-0">
@@ -704,11 +692,11 @@ export default function BrandProfilePage() {
                                     {isEditing && (
                                         <div className="flex flex-wrap gap-3 text-[11px] pl-3">
                                             <div className="flex items-center gap-1.5">
-                                                <span className="text-slate-500">Основан:</span>
+                                                <span className="text-text-secondary">Основан:</span>
                                                 <Input type="number" value={brand.foundedYear} onChange={(e) => setBrand(prev => ({ ...prev, foundedYear: parseInt(e.target.value, 10) || prev.foundedYear }))} className="h-6 w-14 text-[11px]" />
                                     </div>
                                             <div className="flex items-center gap-1.5">
-                                                <span className="text-slate-500">Страна:</span>
+                                                <span className="text-text-secondary">Страна:</span>
                                                 <Input value={brand.countryOfOrigin} onChange={(e) => setBrand(prev => ({ ...prev, countryOfOrigin: e.target.value }))} className="h-6 w-24 text-[11px]" />
                             </div>
                         </div>
@@ -717,24 +705,24 @@ export default function BrandProfilePage() {
                             )}
 
                             {/* Сайт, соцсети — после шоурума, до точек продаж */}
-                            <div className="pt-3 border-t border-slate-100 space-y-2">
-                                <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400 mb-1">Сайт и соцсети</p>
+                            <div className="pt-3 border-t border-border-subtle space-y-2">
+                                <p className="text-[8px] font-bold uppercase tracking-widest text-text-muted mb-1">Сайт и соцсети</p>
                                 {contacts.isSocialSync && (
                                     <div className="flex items-center gap-2 text-[9px] text-emerald-600 font-medium mb-2">
                                         <span className="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-100 shrink-0">
                                             <CheckCircle2 className="h-2.5 w-2.5 text-emerald-600" />
                                         </span>
-                                        <span className="text-slate-500">Ссылки на сайт и соцсети, синхронизированы с профилем</span>
+                                        <span className="text-text-secondary">Ссылки на сайт и соцсети, синхронизированы с профилем</span>
                                         <RefreshCcw className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
                                     </div>
                                 )}
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                 <div>
-                                    <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400 mb-1">Сайт</p>
+                                    <p className="text-[8px] font-bold uppercase tracking-widest text-text-muted mb-1">Сайт</p>
                                     {isEditing ? (
                                         <Input value={contacts.website} onChange={(e) => setContacts(prev => ({ ...prev, website: e.target.value }))} className="h-8 text-[11px]" />
                                     ) : (
-                                        <a href={contacts.website} target="_blank" rel="noopener noreferrer" className="text-[11px] font-medium text-indigo-600 hover:underline">{contacts.website}</a>
+                                        <a href={contacts.website} target="_blank" rel="noopener noreferrer" className="text-[11px] font-medium text-accent-primary hover:underline">{contacts.website}</a>
                                     )}
                                 </div>
                                 {[
@@ -744,11 +732,11 @@ export default function BrandProfilePage() {
                                     { key: 'youtube', label: 'YouTube', value: (contacts as Record<string, string>).youtube || '', icon: Video }
                                 ].filter((item) => isEditing || item.value).map((item) => (
                                     <div key={item.key}>
-                                        <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400 mb-1">{item.label}</p>
+                                        <p className="text-[8px] font-bold uppercase tracking-widest text-text-muted mb-1">{item.label}</p>
                                     {isEditing ? (
                                             <Input value={item.value} onChange={(e) => setContacts(prev => ({ ...prev, [item.key]: e.target.value }))} className="h-8 text-[11px]" />
                                     ) : (
-                                            <p className="text-[11px] font-medium text-slate-700">{item.value}</p>
+                                            <p className="text-[11px] font-medium text-text-primary">{item.value}</p>
                                     )}
                             </div>
                         ))}
@@ -756,22 +744,22 @@ export default function BrandProfilePage() {
                     </div>
 
                             {/* Адреса магазинов: полный адрес, название, центр — карта, справа — телефон, сайт, график (синхр. с профилем магазина) */}
-                            <div className="pt-3 border-t border-slate-100">
+                            <div className="pt-3 border-t border-border-subtle">
                                 <div className="flex items-center justify-between mb-2">
                                     <div>
-                                        <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Адреса магазинов</p>
-                                        <p className="text-[9px] text-slate-500">Филиалы и точки продаж. График, сайт, соцсети — магазины добавляют после синхронизации и подтверждения, что бренд там продаётся.</p>
+                                        <p className="text-[8px] font-bold uppercase tracking-widest text-text-muted mb-0.5">Адреса магазинов</p>
+                                        <p className="text-[9px] text-text-secondary">Филиалы и точки продаж. График, сайт, соцсети — магазины добавляют после синхронизации и подтверждения, что бренд там продаётся.</p>
                                 </div>
                                     <Button variant="outline" size="sm" className="h-7 text-[9px] font-bold gap-1 shrink-0" onClick={() => setBrandInfo(prev => ({ ...prev, storeAddresses: [...prev.storeAddresses, { id: `addr-${Date.now()}`, name: 'Новый магазин', fullAddress: '', phone: '', site: '', yandexMapUrl: '', workingHours: { mon: '', tue: '', wed: '', thu: '', fri: '', sat: '', sun: '' }, isSynced: false }] }))}>
                                         <Plus className="h-3 w-3" /> Добавить магазины
                                 </Button>
                             </div>
-                                <div className="mb-3 p-2.5 rounded-lg bg-indigo-50/80 border border-indigo-100 text-[9px] text-slate-600 space-y-1">
+                                <div className="mb-3 p-2.5 rounded-lg bg-accent-primary/15 border border-accent-primary/20 text-[9px] text-text-secondary space-y-1">
                                     <p><strong>Синхронизация стоков:</strong> сток бренда + сток магазина = суммарно в наличии. В карточке товара показывается наличие, отметка «выбранный размер есть в [магазин] — можно примерить».</p>
                                         </div>
                                 <div className={cn("space-y-3", brandInfo.storeAddresses.length > 2 && "max-h-[320px] overflow-y-auto pr-1 scrollbar-hide")}>
                                     {brandInfo.storeAddresses.map((addr) => (
-                                        <div key={addr.id} className="flex flex-wrap items-center gap-3 p-3 rounded-lg border border-slate-100 bg-slate-50/50">
+                                        <div key={addr.id} className="flex flex-wrap items-center gap-3 p-3 rounded-lg border border-border-subtle bg-bg-surface2/80">
                                             <div className="flex-1 min-w-[180px]">
                                         {isEditing ? (
                                                     <div className="space-y-1">
@@ -783,8 +771,8 @@ export default function BrandProfilePage() {
                                                     </div>
                                                 ) : (
                                                     <>
-                                                        <p className="text-[11px] font-bold text-slate-900">{addr.name}</p>
-                                                        <p className="text-[11px] text-slate-700 mt-0.5">{addr.fullAddress}</p>
+                                                        <p className="text-[11px] font-bold text-text-primary">{addr.name}</p>
+                                                        <p className="text-[11px] text-text-primary mt-0.5">{addr.fullAddress}</p>
                                                         {addr.isSynced && (
                                                             <span className="inline-flex items-center gap-1 mt-1.5 text-[9px] text-emerald-600">
                                                                 <CheckCircle2 className="h-3 w-3" /> Синхронизировано с профилем магазина
@@ -841,19 +829,19 @@ export default function BrandProfilePage() {
                     </div>
 
                             {/* Интернет-магазины: где продаётся бренд, ссылки на товар, парсинг цен */}
-                            <div className="pt-3 border-t border-slate-100">
+                            <div className="pt-3 border-t border-border-subtle">
                                 <div className="flex items-center justify-between mb-2">
                                 <div>
-                                        <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Интернет-магазины</p>
-                                        <p className="text-[9px] text-slate-500">Выберите из участников платформы или добавьте вручную. Магазин сможет подтвердить связь после регистрации. Парсинг цен, суммарный сток.</p>
+                                        <p className="text-[8px] font-bold uppercase tracking-widest text-text-muted mb-0.5">Интернет-магазины</p>
+                                        <p className="text-[9px] text-text-secondary">Выберите из участников платформы или добавьте вручную. Магазин сможет подтвердить связь после регистрации. Парсинг цен, суммарный сток.</p>
                                 </div>
-                                    <Button asChild variant="ghost" size="sm" className="h-7 text-[9px] font-bold text-indigo-600">
+                                    <Button asChild variant="ghost" size="sm" className="h-7 text-[9px] font-bold text-accent-primary">
                                         <Link href={ROUTES.brand.pricingPriceComparison}>Сравнение цен →</Link>
                             </Button>
                             </div>
                                 <div className="space-y-2">
                                     {brandInfo.onlineStores.map((store) => (
-                                        <div key={store.id} className="flex flex-wrap items-center gap-3 p-3 rounded-lg border border-slate-100 bg-slate-50/50">
+                                        <div key={store.id} className="flex flex-wrap items-center gap-3 p-3 rounded-lg border border-border-subtle bg-bg-surface2/80">
                                             <div className="flex-1 min-w-[120px]">
                                                 {isEditing ? (
                                                     <div className="space-y-1">
@@ -863,7 +851,7 @@ export default function BrandProfilePage() {
                                                 ) : (
                                                     <>
                                                         <div className="flex items-center gap-1.5 flex-wrap">
-                                                            <p className="text-[11px] font-bold text-slate-900">{store.name}</p>
+                                                            <p className="text-[11px] font-bold text-text-primary">{store.name}</p>
                                                             {store.platformShopId && (store.syncStatus === 'confirmed' ? (
                                                                 <Badge variant="outline" className="text-[8px] h-4 px-1 bg-emerald-50 text-emerald-700 border-emerald-200">
                                                                     <CheckCircle2 className="h-2.5 w-2.5 mr-0.5" /> Синхр.
@@ -874,7 +862,7 @@ export default function BrandProfilePage() {
                                                                 </Badge>
                                                             ))}
                                                         </div>
-                                                        <a href={store.productUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] text-indigo-600 hover:underline truncate block mt-0.5 max-w-[280px]">
+                                                        <a href={store.productUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] text-accent-primary hover:underline truncate block mt-0.5 max-w-[280px]">
                                                             {store.productUrl}
                                                         </a>
                                                     </>
@@ -891,7 +879,7 @@ export default function BrandProfilePage() {
                                                 <Badge variant={store.parsingEnabled ? 'default' : 'secondary'} className="text-[9px] h-6">
                                                     {store.parsingEnabled ? 'Парсинг вкл.' : 'Парсинг выкл.'}
                                                 </Badge>
-                                                <Button variant="ghost" size="sm" className="h-8 text-[10px] text-slate-600" onClick={() => { const s = brandInfo.onlineStores.find(x => x.id === store.id); if (s) { const upd = brandInfo.onlineStores.map(x => x.id === store.id ? { ...x, parsingEnabled: !x.parsingEnabled } : x); setBrandInfo(prev => ({ ...prev, onlineStores: upd })); toast({ title: s.parsingEnabled ? 'Парсинг выключен' : 'Парсинг включён' }); } }}>
+                                                <Button variant="ghost" size="sm" className="h-8 text-[10px] text-text-secondary" onClick={() => { const s = brandInfo.onlineStores.find(x => x.id === store.id); if (s) { const upd = brandInfo.onlineStores.map(x => x.id === store.id ? { ...x, parsingEnabled: !x.parsingEnabled } : x); setBrandInfo(prev => ({ ...prev, onlineStores: upd })); toast({ title: s.parsingEnabled ? 'Парсинг выключен' : 'Парсинг включён' }); } }}>
                                                     {store.parsingEnabled ? 'Выкл.' : 'Вкл.'}
                             </Button>
                                                 {isEditing && (
@@ -950,8 +938,8 @@ export default function BrandProfilePage() {
                             <div className="flex items-center gap-1.5">
                                 <div className="h-1 w-5 bg-emerald-600 rounded-full" />
                                 <div>
-                                    <h2 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Контакты и доступ</h2>
-                                    <p className="text-[9px] text-slate-500 mt-0.5">Почта, телефон, Telegram, WhatsApp</p>
+                                    <h2 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Контакты и доступ</h2>
+                                    <p className="text-[9px] text-text-secondary mt-0.5">Почта, телефон, Telegram, WhatsApp</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-2">
@@ -967,28 +955,28 @@ export default function BrandProfilePage() {
                                 )}
                             </div>
                                 </div>
-                        <Card className="p-4 border border-slate-100 shadow-sm bg-white rounded-xl space-y-4">
+                        <Card className="p-4 border border-border-subtle shadow-sm bg-white rounded-xl space-y-4">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400">Почта в проекте</p>
-                                    <div className="flex items-center gap-2 p-2 bg-slate-50 rounded-lg">
-                                        <Mail className="h-4 w-4 text-indigo-600" />
-                                        <span className="text-[12px] font-bold text-slate-900">{(brand.slug || brand.name?.toLowerCase().replace(/\s/g, '_') || 'brand')}@syntha.pro</span>
+                                    <p className="text-[8px] font-bold uppercase tracking-widest text-text-muted">Почта в проекте</p>
+                                    <div className="flex items-center gap-2 p-2 bg-bg-surface2 rounded-lg">
+                                        <Mail className="h-4 w-4 text-accent-primary" />
+                                        <span className="text-[12px] font-bold text-text-primary">{(brand.slug || brand.name?.toLowerCase().replace(/\s/g, '_') || 'brand')}@syntha.pro</span>
                                 </div>
                             </div>
                                 <div className="space-y-2">
-                                    <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400">Логин на портале</p>
+                                    <p className="text-[8px] font-bold uppercase tracking-widest text-text-muted">Логин на портале</p>
                                     {isEditing ? (
                                         <Input value={brandInfo.portalLogin} onChange={(e) => setBrandInfo(prev => ({ ...prev, portalLogin: e.target.value }))} className="h-9 font-mono" />
                                     ) : (
-                                        <p className="text-[12px] font-bold text-slate-900 font-mono">{brandInfo.portalLogin}</p>
+                                        <p className="text-[12px] font-bold text-text-primary font-mono">{brandInfo.portalLogin}</p>
                                     )}
                             </div>
                                 </div>
-                            <div className="pt-3 border-t border-slate-100 space-y-3">
+                            <div className="pt-3 border-t border-border-subtle space-y-3">
                                 <div>
-                                    <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400 mb-1">Контакты — подпись что за канал, для чего</p>
-                                    <p className="text-[9px] text-slate-500">У каждого номера/почты укажите назначение: Пресса, B2B, Поддержка, Общий, Маркетинг и т.д.</p>
+                                    <p className="text-[8px] font-bold uppercase tracking-widest text-text-muted mb-1">Контакты — подпись что за канал, для чего</p>
+                                    <p className="text-[9px] text-text-secondary">У каждого номера/почты укажите назначение: Пресса, B2B, Поддержка, Общий, Маркетинг и т.д.</p>
                                     {isEditing && (
                                         <div className="flex flex-wrap gap-1 mt-2">
                                             <Button variant="outline" size="sm" className="h-6 text-[8px] font-bold gap-1" onClick={() => setBrandContacts(prev => ({ ...prev, emails: [...prev.emails, { value: '', label: 'Общий' }] }))}><Plus className="h-2.5 w-2.5" /> Почта</Button>
@@ -1000,9 +988,9 @@ export default function BrandProfilePage() {
                                 </div>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     {brandContacts.telegrams.map((item, i) => (
-                                        <div key={`tg-${i}`} className="flex flex-col gap-1.5 p-3 bg-slate-50 rounded-lg">
+                                        <div key={`tg-${i}`} className="flex flex-col gap-1.5 p-3 bg-bg-surface2 rounded-lg">
                                             <div className="flex items-center gap-2">
-                                                <MessageSquare className="h-4 w-4 text-slate-500 shrink-0" />
+                                                <MessageSquare className="h-4 w-4 text-text-secondary shrink-0" />
                                                 {isEditing ? (
                                                     <>
                                                         <Input value={item.label} onChange={(e) => setBrandContacts(prev => ({ ...prev, telegrams: prev.telegrams.map((x, j) => j === i ? { ...x, label: e.target.value } : x) }))} placeholder="Напр. Пресса, B2B" className="h-7 text-[10px] w-24 shrink-0" />
@@ -1010,22 +998,22 @@ export default function BrandProfilePage() {
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <span className="text-[9px] font-bold text-slate-500 uppercase">{item.label}</span>
+                                                        <span className="text-[9px] font-bold text-text-secondary uppercase">{item.label}</span>
                                                         {item.value ? (
                                                             <a href={`https://t.me/${item.value.replace(/^@/, '')}`} target="_blank" rel="noopener noreferrer" className="text-[11px] font-medium truncate text-blue-600 hover:underline">{item.value}</a>
                                                         ) : (
-                                                            <p className="text-[11px] font-medium truncate text-slate-400">—</p>
+                                                            <p className="text-[11px] font-medium truncate text-text-muted">—</p>
                                                         )}
                                                     </>
                                                 )}
                                             </div>
-                                            {isEditing && <button type="button" onClick={() => setBrandContacts(prev => ({ ...prev, telegrams: prev.telegrams.filter((_, j) => j !== i) }))} className="text-slate-400 hover:text-rose-500 text-[9px] self-start"><X className="h-3 w-3 inline" /> Удалить</button>}
+                                            {isEditing && <button type="button" onClick={() => setBrandContacts(prev => ({ ...prev, telegrams: prev.telegrams.filter((_, j) => j !== i) }))} className="text-text-muted hover:text-rose-500 text-[9px] self-start"><X className="h-3 w-3 inline" /> Удалить</button>}
                                         </div>
                                     ))}
                                     {brandContacts.whatsapps.map((item, i) => (
-                                        <div key={`wa-${i}`} className="flex flex-col gap-1.5 p-3 bg-slate-50 rounded-lg">
+                                        <div key={`wa-${i}`} className="flex flex-col gap-1.5 p-3 bg-bg-surface2 rounded-lg">
                                             <div className="flex items-center gap-2">
-                                                <Phone className="h-4 w-4 text-slate-500 shrink-0" />
+                                                <Phone className="h-4 w-4 text-text-secondary shrink-0" />
                                                 {isEditing ? (
                                                     <>
                                                         <Input value={item.label} onChange={(e) => setBrandContacts(prev => ({ ...prev, whatsapps: prev.whatsapps.map((x, j) => j === i ? { ...x, label: e.target.value } : x) }))} placeholder="Напр. B2B, Пресса" className="h-7 text-[10px] w-24 shrink-0" />
@@ -1033,22 +1021,22 @@ export default function BrandProfilePage() {
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <span className="text-[9px] font-bold text-slate-500 uppercase">{item.label}</span>
+                                                        <span className="text-[9px] font-bold text-text-secondary uppercase">{item.label}</span>
                                                         {item.value ? (
                                                             <a href={`https://wa.me/${item.value.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-[11px] font-medium truncate text-green-600 hover:underline">{item.value}</a>
                                                         ) : (
-                                                            <p className="text-[11px] font-medium truncate text-slate-400">—</p>
+                                                            <p className="text-[11px] font-medium truncate text-text-muted">—</p>
                                                         )}
                                                     </>
                                                 )}
                                             </div>
-                                            {isEditing && <button type="button" onClick={() => setBrandContacts(prev => ({ ...prev, whatsapps: prev.whatsapps.filter((_, j) => j !== i) }))} className="text-slate-400 hover:text-rose-500 text-[9px] self-start"><X className="h-3 w-3 inline" /> Удалить</button>}
+                                            {isEditing && <button type="button" onClick={() => setBrandContacts(prev => ({ ...prev, whatsapps: prev.whatsapps.filter((_, j) => j !== i) }))} className="text-text-muted hover:text-rose-500 text-[9px] self-start"><X className="h-3 w-3 inline" /> Удалить</button>}
                                         </div>
                                     ))}
                                     {brandContacts.emails.map((item, i) => (
-                                        <div key={`em-${i}`} className="flex flex-col gap-1.5 p-3 bg-slate-50 rounded-lg">
+                                        <div key={`em-${i}`} className="flex flex-col gap-1.5 p-3 bg-bg-surface2 rounded-lg">
                                             <div className="flex items-center gap-2">
-                                                <Mail className="h-4 w-4 text-slate-500 shrink-0" />
+                                                <Mail className="h-4 w-4 text-text-secondary shrink-0" />
                                                 {isEditing ? (
                                                     <>
                                                         <Input value={item.label} onChange={(e) => setBrandContacts(prev => ({ ...prev, emails: prev.emails.map((x, j) => j === i ? { ...x, label: e.target.value } : x) }))} placeholder="Напр. Общий" className="h-7 text-[10px] w-24 shrink-0" />
@@ -1056,22 +1044,22 @@ export default function BrandProfilePage() {
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <span className="text-[9px] font-bold text-slate-500 uppercase">{item.label}</span>
+                                                        <span className="text-[9px] font-bold text-text-secondary uppercase">{item.label}</span>
                                                         {item.value ? (
                                                             <a href={`mailto:${item.value}`} className="text-[11px] font-medium truncate text-blue-600 hover:underline">{item.value}</a>
                                                         ) : (
-                                                            <p className="text-[11px] font-medium truncate text-slate-400">—</p>
+                                                            <p className="text-[11px] font-medium truncate text-text-muted">—</p>
                                                         )}
                                                     </>
                                                 )}
                                             </div>
-                                            {isEditing && <button type="button" onClick={() => setBrandContacts(prev => ({ ...prev, emails: prev.emails.filter((_, j) => j !== i) }))} className="text-slate-400 hover:text-rose-500 text-[9px] self-start"><X className="h-3 w-3 inline" /> Удалить</button>}
+                                            {isEditing && <button type="button" onClick={() => setBrandContacts(prev => ({ ...prev, emails: prev.emails.filter((_, j) => j !== i) }))} className="text-text-muted hover:text-rose-500 text-[9px] self-start"><X className="h-3 w-3 inline" /> Удалить</button>}
                                         </div>
                                     ))}
                                     {brandContacts.phones.map((item, i) => (
-                                        <div key={`ph-${i}`} className="flex flex-col gap-1.5 p-3 bg-slate-50 rounded-lg">
+                                        <div key={`ph-${i}`} className="flex flex-col gap-1.5 p-3 bg-bg-surface2 rounded-lg">
                                             <div className="flex items-center gap-2">
-                                                <Phone className="h-4 w-4 text-slate-500 shrink-0" />
+                                                <Phone className="h-4 w-4 text-text-secondary shrink-0" />
                                                 {isEditing ? (
                                                     <>
                                                         <Input value={item.label} onChange={(e) => setBrandContacts(prev => ({ ...prev, phones: prev.phones.map((x, j) => j === i ? { ...x, label: e.target.value } : x) }))} placeholder="Напр. Пресса, B2B" className="h-7 text-[10px] w-24 shrink-0" />
@@ -1079,22 +1067,22 @@ export default function BrandProfilePage() {
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <span className="text-[9px] font-bold text-slate-500 uppercase">{item.label}</span>
+                                                        <span className="text-[9px] font-bold text-text-secondary uppercase">{item.label}</span>
                                                         {item.value ? (
                                                             <a href={`tel:${item.value.replace(/\D/g, '')}`} className="text-[11px] font-medium truncate text-blue-600 hover:underline">{item.value}</a>
                                                         ) : (
-                                                            <p className="text-[11px] font-medium truncate text-slate-400">—</p>
+                                                            <p className="text-[11px] font-medium truncate text-text-muted">—</p>
                                                         )}
                                                     </>
                                                 )}
                                             </div>
-                                            {isEditing && <button type="button" onClick={() => setBrandContacts(prev => ({ ...prev, phones: prev.phones.filter((_, j) => j !== i) }))} className="text-slate-400 hover:text-rose-500 text-[9px] self-start"><X className="h-3 w-3 inline" /> Удалить</button>}
+                                            {isEditing && <button type="button" onClick={() => setBrandContacts(prev => ({ ...prev, phones: prev.phones.filter((_, j) => j !== i) }))} className="text-text-muted hover:text-rose-500 text-[9px] self-start"><X className="h-3 w-3 inline" /> Удалить</button>}
                                         </div>
                                     ))}
                                     {brandContacts.externalEmails.map((item, i) => (
-                                        <div key={`ext-${i}`} className="flex flex-col gap-1.5 p-3 bg-slate-50 rounded-lg">
+                                        <div key={`ext-${i}`} className="flex flex-col gap-1.5 p-3 bg-bg-surface2 rounded-lg">
                                             <div className="flex items-center gap-2">
-                                                <Mail className="h-4 w-4 text-slate-500 shrink-0" />
+                                                <Mail className="h-4 w-4 text-text-secondary shrink-0" />
                                                 {isEditing ? (
                                                     <>
                                                         <Input value={item.label} onChange={(e) => setBrandContacts(prev => ({ ...prev, externalEmails: prev.externalEmails.map((x, j) => j === i ? { ...x, label: e.target.value } : x) }))} placeholder="Напр. Пресса, B2B" className="h-7 text-[10px] w-24 shrink-0" />
@@ -1102,16 +1090,16 @@ export default function BrandProfilePage() {
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <span className="text-[9px] font-bold text-slate-500 uppercase">{item.label}</span>
+                                                        <span className="text-[9px] font-bold text-text-secondary uppercase">{item.label}</span>
                                                         {item.value ? (
                                                             <a href={`mailto:${item.value}`} className="text-[11px] font-medium truncate text-blue-600 hover:underline">{item.value}</a>
                                                         ) : (
-                                                            <p className="text-[11px] font-medium truncate text-slate-400">—</p>
+                                                            <p className="text-[11px] font-medium truncate text-text-muted">—</p>
                                                         )}
                                                     </>
                                                 )}
                                             </div>
-                                            {isEditing && <button type="button" onClick={() => setBrandContacts(prev => ({ ...prev, externalEmails: prev.externalEmails.filter((_, j) => j !== i) }))} className="text-slate-400 hover:text-rose-500 text-[9px] self-start"><X className="h-3 w-3 inline" /> Удалить</button>}
+                                            {isEditing && <button type="button" onClick={() => setBrandContacts(prev => ({ ...prev, externalEmails: prev.externalEmails.filter((_, j) => j !== i) }))} className="text-text-muted hover:text-rose-500 text-[9px] self-start"><X className="h-3 w-3 inline" /> Удалить</button>}
                                         </div>
                                     ))}
                                 </div>
@@ -1129,29 +1117,29 @@ export default function BrandProfilePage() {
                 <TabsContent value="commerce" className="space-y-4 outline-none">
                     <div className="space-y-2">
                         <div className="flex items-center gap-1.5 px-1">
-                            <div className="h-1 w-5 bg-indigo-600 rounded-full" />
-                            <h2 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Условия оптовой торговли</h2>
+                            <div className="h-1 w-5 bg-accent-primary rounded-full" />
+                            <h2 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Условия оптовой торговли</h2>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                             {[
-                                { key: 'moq', label: 'Мин. заказ (MOQ)', icon: Package, color: 'bg-indigo-50', text: 'text-indigo-600' },
+                                { key: 'moq', label: 'Мин. заказ (MOQ)', icon: Package, color: 'bg-accent-primary/10', text: 'text-accent-primary' },
                                 { key: 'leadTime', label: 'Срок производства', icon: Clock, color: 'bg-amber-50', text: 'text-amber-600' },
                                 { key: 'currency', label: 'Валюта оплаты', icon: DollarSign, color: 'bg-emerald-50', text: 'text-emerald-600' },
                                 { key: 'shipping', label: 'Условия доставки', icon: Truck, color: 'bg-blue-50', text: 'text-blue-600' },
-                                { key: 'productionCapacity', label: 'Мощность производства', icon: Zap, color: 'bg-purple-50', text: 'text-purple-600' },
+                                { key: 'productionCapacity', label: 'Мощность производства', icon: Zap, color: 'bg-accent-primary/10', text: 'text-accent-primary' },
                                 { key: 'sampleDevelopment', label: 'Срок изготовления сэмпла', icon: Palette, color: 'bg-rose-50', text: 'text-rose-600' }
                             ].map((item, i) => (
-                                <Card key={i} className="rounded-xl border border-slate-100 shadow-sm bg-white p-4 group hover:border-indigo-100 transition-all">
+                                <Card key={i} className="rounded-xl border border-border-subtle shadow-sm bg-white p-4 group hover:border-accent-primary/20 transition-all">
                                     <div className="flex items-center gap-3 mb-3">
                                         <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm border border-transparent", item.color, item.text)}>
                                             <item.icon className="h-4 w-4" />
                                         </div>
-                                        <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">{item.label}</span>
+                                        <span className="text-[9px] font-bold uppercase tracking-widest text-text-muted">{item.label}</span>
                                     </div>
                                     {isEditing ? (
-                                        <Input value={(commerceTerms as any)[item.key]} onChange={(e) => setCommerceTerms(prev => ({ ...prev, [item.key]: e.target.value }))} className="h-8 rounded-lg text-[13px] font-bold uppercase bg-slate-50 border-none shadow-inner" />
+                                        <Input value={(commerceTerms as any)[item.key]} onChange={(e) => setCommerceTerms(prev => ({ ...prev, [item.key]: e.target.value }))} className="h-8 rounded-lg text-[13px] font-bold uppercase bg-bg-surface2 border-none shadow-inner" />
                                     ) : (
-                                        <p className="text-base font-bold text-slate-900 tracking-tight">{(commerceTerms as any)[item.key]}</p>
+                                        <p className="text-base font-bold text-text-primary tracking-tight">{(commerceTerms as any)[item.key]}</p>
                                     )}
                                 </Card>
                             ))}
@@ -1160,21 +1148,21 @@ export default function BrandProfilePage() {
                     <div className="space-y-2 mt-4">
                         <div className="flex items-center justify-between px-1">
                             <div className="h-1 w-5 bg-emerald-600 rounded-full" />
-                            <h2 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Условия по тирам партнёров</h2>
-                            <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold text-indigo-600">
+                            <h2 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Условия по тирам партнёров</h2>
+                            <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold text-accent-primary">
                                 <Link href={ROUTES.brand.pricing}>Прайсинг <ArrowUpRight className="h-2.5 w-2.5 inline" /></Link>
                             </Button>
                         </div>
-                        <Card className="rounded-xl border border-slate-100 p-4 bg-gradient-to-br from-slate-50 to-white">
+                        <Card className="rounded-xl border border-border-subtle p-4 bg-gradient-to-br from-bg-surface2 to-bg-surface">
                             <div className="grid grid-cols-3 gap-3">
                                 {[
                                     { label: 'VIP', discount: '45%', color: 'bg-amber-50 border-amber-100' },
-                                    { label: 'Retail', discount: '40%', color: 'bg-indigo-50 border-indigo-100' },
-                                    { label: 'Market', discount: '50%', color: 'bg-slate-50 border-slate-100' },
+                                    { label: 'Retail', discount: '40%', color: 'bg-accent-primary/10 border-accent-primary/20' },
+                                    { label: 'Market', discount: '50%', color: 'bg-bg-surface2 border-border-subtle' },
                                 ].map((t) => (
                                     <div key={t.label} className={cn("p-3 rounded-lg border", t.color)}>
-                                        <p className="text-[9px] font-bold uppercase text-slate-500">{t.label}</p>
-                                        <p className="text-sm font-black text-slate-900">{t.discount}</p>
+                                        <p className="text-[9px] font-bold uppercase text-text-secondary">{t.label}</p>
+                                        <p className="text-sm font-black text-text-primary">{t.discount}</p>
                                     </div>
                                 ))}
                             </div>
@@ -1189,8 +1177,8 @@ export default function BrandProfilePage() {
                         <div className="space-y-2">
                             <div className="flex items-center justify-between px-1">
                                 <div className="flex items-center gap-1.5">
-                                    <div className="h-1 w-5 bg-indigo-600 rounded-full" />
-                                    <h2 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Регистрация компании</h2>
+                                    <div className="h-1 w-5 bg-accent-primary rounded-full" />
+                                    <h2 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Регистрация компании</h2>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     {legalData.isVerified ? (
@@ -1204,7 +1192,7 @@ export default function BrandProfilePage() {
                                     )}
                                 </div>
                             </div>
-                            <Card className="rounded-xl border border-slate-100 shadow-sm bg-white p-4 space-y-2">
+                            <Card className="rounded-xl border border-border-subtle shadow-sm bg-white p-4 space-y-2">
                                 {[
                                     { key: 'legalName', label: 'Наименование', value: legalData.legalName, icon: Building2 },
                                     { key: 'inn', label: 'ИНН', value: legalData.inn, icon: FileText },
@@ -1216,17 +1204,17 @@ export default function BrandProfilePage() {
                                     { key: 'okvedDesc', label: 'ОКВЭД (описание)', value: legalData.okvedDesc, icon: FileText },
                                     { key: 'foundingDate', label: 'Дата регистрации', value: legalData.foundingDate, icon: Calendar }
                                 ].map((item, i) => (
-                                    <div key={i} className="flex justify-between items-center bg-slate-50 p-2.5 rounded-lg border border-slate-100/50 hover:bg-slate-100 transition-colors group">
+                                    <div key={i} className="flex justify-between items-center bg-bg-surface2 p-2.5 rounded-lg border border-border-subtle/50 hover:bg-bg-surface2 transition-colors group">
                                         <div className="flex items-center gap-2.5">
-                                            <div className="h-7 w-7 rounded-lg bg-white flex items-center justify-center border border-slate-100 shadow-sm group-hover:scale-105 transition-transform">
-                                                <item.icon className="h-3.5 w-3.5 text-indigo-600" />
+                                            <div className="h-7 w-7 rounded-lg bg-white flex items-center justify-center border border-border-subtle shadow-sm group-hover:scale-105 transition-transform">
+                                                <item.icon className="h-3.5 w-3.5 text-accent-primary" />
                                             </div>
-                                            <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">{item.label}</span>
+                                            <span className="text-[9px] font-bold uppercase tracking-widest text-text-muted">{item.label}</span>
                                         </div>
                                         {isEditing ? (
-                                            <Input value={item.value} onChange={(e) => setLegalData(prev => ({ ...prev, [item.key]: e.target.value }))} className="h-7 w-48 bg-white border-slate-200 text-[11px] font-bold uppercase text-right rounded-md" />
+                                            <Input value={item.value} onChange={(e) => setLegalData(prev => ({ ...prev, [item.key]: e.target.value }))} className="h-7 w-48 bg-white border-border-default text-[11px] font-bold uppercase text-right rounded-md" />
                                         ) : (
-                                            <span className="text-[11px] font-bold uppercase text-slate-900 tracking-tight">{item.value}</span>
+                                            <span className="text-[11px] font-bold uppercase text-text-primary tracking-tight">{item.value}</span>
                                         )}
                                     </div>
                                 ))}
@@ -1237,9 +1225,9 @@ export default function BrandProfilePage() {
                         <div className="space-y-2">
                             <div className="flex items-center gap-1.5 px-1">
                                 <div className="h-1 w-5 bg-emerald-600 rounded-full" />
-                                <h2 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Руководство и полномочия</h2>
+                                <h2 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Руководство и полномочия</h2>
                             </div>
-                            <Card className="rounded-xl border border-slate-100 shadow-sm bg-white p-4 space-y-2 h-full flex flex-col justify-center">
+                            <Card className="rounded-xl border border-border-subtle shadow-sm bg-white p-4 space-y-2 h-full flex flex-col justify-center">
                                 {[
                                     { key: 'ceo', label: 'CEO', value: legalData.ceo, icon: Users },
                                     { key: 'ceoPosition', label: 'Должность', value: legalData.ceoPosition, icon: Briefcase },
@@ -1247,17 +1235,17 @@ export default function BrandProfilePage() {
                                     { key: 'taxRegime', label: 'Налоговый режим', value: legalData.taxRegime, icon: CreditCard },
                                     { key: 'authorizedCapital', label: 'Уставной капитал', value: legalData.authorizedCapital, icon: DollarSign }
                                 ].map((item, i) => (
-                                    <div key={i} className="flex justify-between items-center bg-slate-50 p-2.5 rounded-lg border border-slate-100/50 hover:bg-slate-100 transition-colors group">
+                                    <div key={i} className="flex justify-between items-center bg-bg-surface2 p-2.5 rounded-lg border border-border-subtle/50 hover:bg-bg-surface2 transition-colors group">
                                         <div className="flex items-center gap-2.5">
-                                            <div className="h-7 w-7 rounded-lg bg-white flex items-center justify-center border border-slate-100 shadow-sm group-hover:scale-105 transition-transform">
+                                            <div className="h-7 w-7 rounded-lg bg-white flex items-center justify-center border border-border-subtle shadow-sm group-hover:scale-105 transition-transform">
                                                 <item.icon className="h-3.5 w-3.5 text-emerald-600" />
                                             </div>
-                                            <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">{item.label}</span>
+                                            <span className="text-[9px] font-bold uppercase tracking-widest text-text-muted">{item.label}</span>
                                         </div>
                                         {isEditing ? (
-                                            <Input value={item.value} onChange={(e) => setLegalData(prev => ({ ...prev, [item.key]: e.target.value }))} className="h-7 w-48 bg-white border-slate-200 text-[11px] font-bold uppercase text-right rounded-md" />
+                                            <Input value={item.value} onChange={(e) => setLegalData(prev => ({ ...prev, [item.key]: e.target.value }))} className="h-7 w-48 bg-white border-border-default text-[11px] font-bold uppercase text-right rounded-md" />
                                         ) : (
-                                            <span className="text-[10px] font-bold uppercase text-slate-900 truncate max-w-[200px] text-right tracking-tight">{item.value}</span>
+                                            <span className="text-[10px] font-bold uppercase text-text-primary truncate max-w-[200px] text-right tracking-tight">{item.value}</span>
                                         )}
                                     </div>
                                 ))}
@@ -1270,9 +1258,9 @@ export default function BrandProfilePage() {
                         <div className="space-y-2">
                             <div className="flex items-center gap-1.5 px-1">
                                 <div className="h-1 w-5 bg-blue-600 rounded-full" />
-                                <h2 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Адреса</h2>
+                                <h2 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Адреса</h2>
                             </div>
-                            <Card className="rounded-xl border border-slate-100 shadow-sm bg-white p-4 space-y-3">
+                            <Card className="rounded-xl border border-border-subtle shadow-sm bg-white p-4 space-y-3">
                                 {[
                                     { key: 'legalAddress', label: 'Юридический адрес', value: legalData.legalAddress },
                                     { key: 'actualAddress', label: 'Фактический адрес', value: legalData.actualAddress }
@@ -1280,12 +1268,12 @@ export default function BrandProfilePage() {
                                     <div key={i} className="space-y-1.5">
                                         <div className="flex items-center gap-2">
                                             <MapPin className="h-3 w-3 text-blue-600" />
-                                            <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">{item.label}</span>
+                                            <span className="text-[9px] font-bold uppercase tracking-widest text-text-muted">{item.label}</span>
                                         </div>
                                         {isEditing ? (
-                                            <Textarea value={item.value} onChange={(e) => setLegalData(prev => ({ ...prev, [item.key]: e.target.value }))} className="min-h-[60px] text-[11px] font-medium bg-slate-50 border-slate-200 rounded-lg p-2" />
+                                            <Textarea value={item.value} onChange={(e) => setLegalData(prev => ({ ...prev, [item.key]: e.target.value }))} className="min-h-[60px] text-[11px] font-medium bg-bg-surface2 border-border-default rounded-lg p-2" />
                                         ) : (
-                                            <p className="text-[12px] font-medium text-slate-700 bg-slate-50 p-2.5 rounded-lg border border-slate-100/50">{item.value}</p>
+                                            <p className="text-[12px] font-medium text-text-primary bg-bg-surface2 p-2.5 rounded-lg border border-border-subtle/50">{item.value}</p>
                                         )}
                                     </div>
                                 ))}
@@ -1296,9 +1284,9 @@ export default function BrandProfilePage() {
                         <div className="space-y-2">
                             <div className="flex items-center gap-1.5 px-1">
                                 <div className="h-1 w-5 bg-amber-600 rounded-full" />
-                                <h2 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Банковские реквизиты</h2>
+                                <h2 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Банковские реквизиты</h2>
                             </div>
-                            <Card className="rounded-xl border border-slate-100 shadow-sm bg-white p-4 h-full flex flex-col justify-center">
+                            <Card className="rounded-xl border border-border-subtle shadow-sm bg-white p-4 h-full flex flex-col justify-center">
                                 <div className="space-y-2">
                                     {[
                                         { key: 'bankName', label: 'Банк', value: legalData.bankName },
@@ -1306,12 +1294,12 @@ export default function BrandProfilePage() {
                                         { key: 'corrAccount', label: 'Корр. счет', value: legalData.corrAccount },
                                         { key: 'paymentAccount', label: 'Р/С', value: legalData.paymentAccount }
                                     ].map((item, i) => (
-                                        <div key={i} className="flex justify-between items-center border-b border-slate-50 pb-2 last:border-0 last:pb-0">
-                                            <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">{item.label}</span>
+                                        <div key={i} className="flex justify-between items-center border-b border-border-subtle pb-2 last:border-0 last:pb-0">
+                                            <span className="text-[9px] font-bold uppercase tracking-widest text-text-muted">{item.label}</span>
                                             {isEditing ? (
-                                                <Input value={item.value} onChange={(e) => setLegalData(prev => ({ ...prev, [item.key]: e.target.value }))} className="h-6 w-48 text-[10px] font-mono font-bold text-right bg-slate-50 border-none rounded-md" />
+                                                <Input value={item.value} onChange={(e) => setLegalData(prev => ({ ...prev, [item.key]: e.target.value }))} className="h-6 w-48 text-[10px] font-mono font-bold text-right bg-bg-surface2 border-none rounded-md" />
                                             ) : (
-                                                <span className="text-[11px] font-mono font-bold text-slate-900 tracking-tight">{item.value}</span>
+                                                <span className="text-[11px] font-mono font-bold text-text-primary tracking-tight">{item.value}</span>
                                             )}
                                         </div>
                                     ))}
@@ -1322,37 +1310,37 @@ export default function BrandProfilePage() {
 
                     {/* Доп. юр. информация: лицензии, доверенности, страхование */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mt-6">
-                        <Card className="rounded-xl border border-slate-100 shadow-sm bg-white p-4">
+                        <Card className="rounded-xl border border-border-subtle shadow-sm bg-white p-4">
                             <div className="flex items-center gap-2 mb-3">
-                                <ShieldCheck className="h-4 w-4 text-indigo-600" />
-                                <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Лицензии</h3>
+                                <ShieldCheck className="h-4 w-4 text-accent-primary" />
+                                <h3 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Лицензии</h3>
                                             </div>
                                             {isEditing ? (
                                 <Textarea value={legalData.licenses} onChange={(e) => setLegalData(prev => ({ ...prev, licenses: e.target.value }))} className="min-h-[60px] text-[11px]" placeholder="При необходимости" />
                                             ) : (
-                                <p className="text-[11px] font-medium text-slate-700">{legalData.licenses}</p>
+                                <p className="text-[11px] font-medium text-text-primary">{legalData.licenses}</p>
                                             )}
                             </Card>
-                        <Card className="rounded-xl border border-slate-100 shadow-sm bg-white p-4">
+                        <Card className="rounded-xl border border-border-subtle shadow-sm bg-white p-4">
                             <div className="flex items-center gap-2 mb-3">
                                 <FileText className="h-4 w-4 text-emerald-600" />
-                                <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Доверенности</h3>
+                                <h3 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Доверенности</h3>
                         </div>
                                             {isEditing ? (
                                 <Textarea value={legalData.powersOfAttorney} onChange={(e) => setLegalData(prev => ({ ...prev, powersOfAttorney: e.target.value }))} className="min-h-[60px] text-[11px]" placeholder="Ген. доверенность, спец. доверенность" />
                                             ) : (
-                                <p className="text-[11px] font-medium text-slate-700">{legalData.powersOfAttorney}</p>
+                                <p className="text-[11px] font-medium text-text-primary">{legalData.powersOfAttorney}</p>
                                             )}
                             </Card>
-                        <Card className="rounded-xl border border-slate-100 shadow-sm bg-white p-4">
+                        <Card className="rounded-xl border border-border-subtle shadow-sm bg-white p-4">
                             <div className="flex items-center gap-2 mb-3">
                                 <Shield className="h-4 w-4 text-amber-600" />
-                                <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Страхование</h3>
+                                <h3 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Страхование</h3>
                         </div>
                                                 {isEditing ? (
                                 <Input value={legalData.insurance} onChange={(e) => setLegalData(prev => ({ ...prev, insurance: e.target.value }))} className="h-8 text-[11px]" placeholder="ОСАГО, ДМС, КАСКО" />
                             ) : (
-                                <p className="text-[11px] font-medium text-slate-700">{legalData.insurance}</p>
+                                <p className="text-[11px] font-medium text-text-primary">{legalData.insurance}</p>
                             )}
                             </Card>
                     </div>
@@ -1360,23 +1348,23 @@ export default function BrandProfilePage() {
 
                 {/* Certificates Tab */}
                 <TabsContent value="certificates" className="space-y-4 outline-none">
-                    <div className="flex flex-wrap items-center gap-2 p-2 rounded-xl bg-slate-50 border border-slate-100 mb-4">
-                        <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mr-1">GOTS, Oeko-Tex, EAC → ESG и сертификация:</span>
-                        <Button asChild variant="outline" size="sm" className="h-7 rounded-lg text-[9px] font-bold uppercase gap-1 border-slate-200">
+                    <div className="flex flex-wrap items-center gap-2 p-2 rounded-xl bg-bg-surface2 border border-border-subtle mb-4">
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-text-muted mr-1">GOTS, Oeko-Tex, EAC → ESG и сертификация:</span>
+                        <Button asChild variant="outline" size="sm" className="h-7 rounded-lg text-[9px] font-bold uppercase gap-1 border-border-default">
                             <Link href={ROUTES.brand.esg}><Globe className="h-3 w-3" /> ESG</Link>
                         </Button>
-                        <Button asChild variant="outline" size="sm" className="h-7 rounded-lg text-[9px] font-bold uppercase gap-1 border-slate-200">
+                        <Button asChild variant="outline" size="sm" className="h-7 rounded-lg text-[9px] font-bold uppercase gap-1 border-border-default">
                             <Link href={ROUTES.brand.compliance}><ShieldCheck className="h-3 w-3" /> EAC & Честный ЗНАК</Link>
                         </Button>
-                        <Button asChild variant="outline" size="sm" className="h-7 rounded-lg text-[9px] font-bold uppercase gap-1 border-slate-200">
+                        <Button asChild variant="outline" size="sm" className="h-7 rounded-lg text-[9px] font-bold uppercase gap-1 border-border-default">
                             <Link href={ROUTES.brand.complianceStock}><Database className="h-3 w-3" /> Складской учёт КИЗ</Link>
                         </Button>
                     </div>
                     <div className="space-y-2">
                         <div className="flex items-center justify-between px-1">
                             <div className="flex items-center gap-1.5">
-                                <div className="h-1 w-5 bg-indigo-600 rounded-full" />
-                                <h2 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Соответствие и сертификаты</h2>
+                                <div className="h-1 w-5 bg-accent-primary rounded-full" />
+                                <h2 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Соответствие и сертификаты</h2>
                             </div>
                             <div className="flex items-center gap-2">
                                 {canEditProfile && (
@@ -1385,7 +1373,7 @@ export default function BrandProfilePage() {
                                 </Button>
                                 )}
                             {isEditing && canEditProfile && (
-                                    <Button size="sm" className="h-7 px-3 rounded-lg text-[8px] font-bold uppercase bg-indigo-600 text-white gap-2 shadow-md hover:bg-indigo-700 transition-all" onClick={() => setShowCertificateDialog(true)}>
+                                    <Button size="sm" className="h-7 px-3 rounded-lg text-[8px] font-bold uppercase bg-accent-primary text-white gap-2 shadow-md hover:bg-accent-primary transition-all" onClick={() => setShowCertificateDialog(true)}>
                                         <Plus className="h-3 w-3" /> Добавить сертификат
                                 </Button>
                             )}
@@ -1396,7 +1384,7 @@ export default function BrandProfilePage() {
                             {certificates.map((cert) => (
                                 <Card key={cert.id} className={cn(
                                     "rounded-xl border shadow-sm p-4 transition-all group hover:shadow-md",
-                                    cert.status === 'active' ? 'bg-white border-slate-100' :
+                                    cert.status === 'active' ? 'bg-white border-border-subtle' :
                                     cert.status === 'expiring' ? 'bg-amber-50/50 border-amber-200' :
                                     'bg-rose-50/50 border-rose-200'
                                 )}>
@@ -1413,7 +1401,7 @@ export default function BrandProfilePage() {
                                             <div className="flex items-center gap-2 mb-0.5">
                                                 <h3 className={cn(
                                                     "text-[12px] font-bold uppercase tracking-tight truncate",
-                                                    cert.status === 'active' ? 'text-slate-900' :
+                                                    cert.status === 'active' ? 'text-text-primary' :
                                                     cert.status === 'expiring' ? 'text-amber-900' : 'text-rose-900'
                                                 )}>{cert.name}</h3>
                                                 <Badge className={cn(
@@ -1425,14 +1413,14 @@ export default function BrandProfilePage() {
                                                     {cert.status === 'active' ? 'Активен' : cert.status === 'expiring' ? 'Истекает' : 'Истек'}
                                                 </Badge>
                                             </div>
-                                            <p className="text-[10px] text-slate-500 font-medium mb-2">{cert.type}</p>
+                                            <p className="text-[10px] text-text-secondary font-medium mb-2">{cert.type}</p>
                                             {(cert as { certNumber?: string }).certNumber && (
-                                                <p className="text-[9px] font-mono text-slate-600 mb-2">№ {(cert as { certNumber?: string }).certNumber}</p>
+                                                <p className="text-[9px] font-mono text-text-secondary mb-2">№ {(cert as { certNumber?: string }).certNumber}</p>
                                             )}
                                             <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-2">
-                                                <div className="bg-slate-50 p-2 rounded-lg border border-slate-100/50">
-                                                    <p className="text-[7px] font-bold uppercase text-slate-400 mb-0.5">Выдан</p>
-                                                    <p className="text-[9px] font-bold text-slate-900">{cert.issueDate}</p>
+                                                <div className="bg-bg-surface2 p-2 rounded-lg border border-border-subtle/50">
+                                                    <p className="text-[7px] font-bold uppercase text-text-muted mb-0.5">Выдан</p>
+                                                    <p className="text-[9px] font-bold text-text-primary">{cert.issueDate}</p>
                                                 </div>
                                                 <div className={cn(
                                                     "p-2 rounded-lg border",
@@ -1440,7 +1428,7 @@ export default function BrandProfilePage() {
                                                     cert.status === 'expiring' ? 'bg-amber-50 border-amber-100' :
                                                     'bg-rose-50 border-rose-100'
                                                 )}>
-                                                    <p className="text-[7px] font-bold uppercase text-slate-400 mb-0.5">Истекает</p>
+                                                    <p className="text-[7px] font-bold uppercase text-text-muted mb-0.5">Истекает</p>
                                                     <p className={cn(
                                                         "text-[9px] font-bold",
                                                         cert.status === 'active' ? 'text-emerald-600' :
@@ -1449,29 +1437,29 @@ export default function BrandProfilePage() {
                                                     )}>{cert.expiryDate}</p>
                                                 </div>
                                                 {(cert as { issuingBody?: string }).issuingBody && (
-                                                    <div className="bg-slate-50 p-2 rounded-lg border border-slate-100/50 col-span-2">
-                                                        <p className="text-[7px] font-bold uppercase text-slate-400 mb-0.5">Орган сертификации</p>
-                                                        <p className="text-[9px] font-bold text-slate-900">{(cert as { issuingBody?: string }).issuingBody}</p>
+                                                    <div className="bg-bg-surface2 p-2 rounded-lg border border-border-subtle/50 col-span-2">
+                                                        <p className="text-[7px] font-bold uppercase text-text-muted mb-0.5">Орган сертификации</p>
+                                                        <p className="text-[9px] font-bold text-text-primary">{(cert as { issuingBody?: string }).issuingBody}</p>
                                             </div>
                                                 )}
                                             </div>
                                             <div className="flex flex-wrap gap-2 mb-3">
                                                 {(cert as { scope?: string }).scope && (
-                                                    <Badge variant="outline" className="text-[8px] font-medium border-slate-200">Область: {(cert as { scope?: string }).scope}</Badge>
+                                                    <Badge variant="outline" className="text-[8px] font-medium border-border-default">Область: {(cert as { scope?: string }).scope}</Badge>
                                                 )}
                                                 {(cert as { trTs?: string }).trTs && (
-                                                    <Badge variant="outline" className="text-[8px] font-medium border-indigo-200 text-indigo-600">{(cert as { trTs?: string }).trTs}</Badge>
+                                                    <Badge variant="outline" className="text-[8px] font-medium border-accent-primary/30 text-accent-primary">{(cert as { trTs?: string }).trTs}</Badge>
                                                 )}
                                             </div>
                                             {(cert as { notes?: string }).notes && (
-                                                <p className="text-[9px] text-slate-500 italic mb-3">{(cert as { notes?: string }).notes}</p>
+                                                <p className="text-[9px] text-text-secondary italic mb-3">{(cert as { notes?: string }).notes}</p>
                                             )}
                                             <div className="flex items-center gap-2">
-                                                <Button variant="outline" size="sm" className="h-7 rounded-lg text-[7px] font-bold uppercase border-slate-200 hover:bg-slate-50 gap-2 shadow-sm">
+                                                <Button variant="outline" size="sm" className="h-7 rounded-lg text-[7px] font-bold uppercase border-border-default hover:bg-bg-surface2 gap-2 shadow-sm">
                                                     <Download className="h-3 w-3" /> Скачать PDF
                                                 </Button>
                                                 {cert.status === 'active' && (
-                                                    <Button variant="outline" size="sm" className="h-7 rounded-lg text-[7px] font-bold uppercase border-slate-200 hover:bg-slate-50 gap-2 shadow-sm">
+                                                    <Button variant="outline" size="sm" className="h-7 rounded-lg text-[7px] font-bold uppercase border-border-default hover:bg-bg-surface2 gap-2 shadow-sm">
                                                         <ExternalLink className="h-3 w-3" /> Верифицировать
                                                     </Button>
                                                 )}
@@ -1482,7 +1470,7 @@ export default function BrandProfilePage() {
                                                             setUploadingCertificate(cert.id);
                                                         }}
                                                         size="sm" 
-                                                        className="h-7 rounded-lg text-[7px] font-bold uppercase bg-indigo-600 text-white hover:bg-indigo-700 gap-2 shadow-md"
+                                                        className="h-7 rounded-lg text-[7px] font-bold uppercase bg-accent-primary text-white hover:bg-accent-primary gap-2 shadow-md"
                                                     >
                                                         <Upload className="h-3 w-3" /> Обновить
                                                     </Button>
@@ -1500,14 +1488,14 @@ export default function BrandProfilePage() {
                         <div className="flex items-center justify-between px-1">
                             <div className="flex items-center gap-1.5">
                                 <div className="h-1 w-5 bg-blue-600 rounded-full" />
-                                <h2 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Декларации ТР ТС / EAC</h2>
+                                <h2 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Декларации ТР ТС / EAC</h2>
                             </div>
-                            <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold text-indigo-600">
+                            <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold text-accent-primary">
                                 <Link href={ROUTES.brand.compliance}>Compliance <ArrowUpRight className="h-2.5 w-2.5 inline" /></Link>
                             </Button>
                         </div>
-                        <Card className="rounded-xl border border-slate-100 p-4 bg-slate-50/50">
-                            <p className="text-[11px] text-slate-600 mb-3">Декларации о соответствии техническим регламентам (ТР ТС 017/2011, ТР ТС 019/2011 и др.) управляются в разделе Compliance. Связь с Честный ЗНАК и маркировкой КИЗ.</p>
+                        <Card className="rounded-xl border border-border-subtle p-4 bg-bg-surface2/80">
+                            <p className="text-[11px] text-text-secondary mb-3">Декларации о соответствии техническим регламентам (ТР ТС 017/2011, ТР ТС 019/2011 и др.) управляются в разделе Compliance. Связь с Честный ЗНАК и маркировкой КИЗ.</p>
                             <div className="flex flex-wrap gap-2">
                                 <Badge variant="outline" className="text-[9px]">ТР ТС 017/2011 — Безопасность продукции лёгкой промышленности</Badge>
                                 <Badge variant="outline" className="text-[9px]">ТР ТС 019/2011 — Безопасность СИЗ</Badge>
@@ -1519,7 +1507,7 @@ export default function BrandProfilePage() {
                         <div className="flex items-center justify-between px-1">
                             <div className="flex items-center gap-1.5">
                                 <div className="h-1 w-5 bg-emerald-600 rounded-full" />
-                                <h2 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Устойчивое развитие (ESG)</h2>
+                                <h2 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Устойчивое развитие (ESG)</h2>
                             </div>
                             <div className="flex items-center gap-1">
                                 <Button asChild variant="ghost" size="sm" className="h-6 px-2 text-[8px] font-bold uppercase text-emerald-600 hover:bg-emerald-50 rounded-lg gap-1">
@@ -1538,14 +1526,14 @@ export default function BrandProfilePage() {
                                         <div className="flex items-center gap-3 mb-3">
                                             <div className={cn(
                                                 "h-9 w-9 rounded-lg flex items-center justify-center border shadow-inner transition-transform group-hover:scale-105",
-                                                goal.achieved ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-slate-50 text-slate-400 border-slate-100'
+                                                goal.achieved ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-bg-surface2 text-text-muted border-border-subtle'
                                             )}>
                                                 <goal.icon className="h-4.5 w-4.5" />
                                             </div>
                                             {goal.achieved && <Badge className="bg-emerald-500 text-white border-none h-4 px-1.5 rounded-md"><Check className="h-2.5 w-2.5" /></Badge>}
                                         </div>
-                                        <h4 className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-1">{goal.label}</h4>
-                                        <p className="text-base font-bold text-slate-900 tracking-tight">{goal.value}</p>
+                                        <h4 className="text-[9px] font-bold uppercase tracking-widest text-text-muted mb-1">{goal.label}</h4>
+                                        <p className="text-base font-bold text-text-primary tracking-tight">{goal.value}</p>
                                     </div>
                                 ))}
                             </div>
@@ -1555,15 +1543,15 @@ export default function BrandProfilePage() {
 
                 {/* Press Kit Tab */}
                 <TabsContent value="presskit" className="space-y-4 outline-none">
-                    <div className="flex flex-wrap items-center gap-2 p-2 rounded-xl bg-slate-50 border border-slate-100 mb-4">
-                        <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mr-1">Активы и контент:</span>
-                        <Button asChild variant="outline" size="sm" className="h-7 rounded-lg text-[9px] font-bold uppercase gap-1 border-slate-200">
+                    <div className="flex flex-wrap items-center gap-2 p-2 rounded-xl bg-bg-surface2 border border-border-subtle mb-4">
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-text-muted mr-1">Активы и контент:</span>
+                        <Button asChild variant="outline" size="sm" className="h-7 rounded-lg text-[9px] font-bold uppercase gap-1 border-border-default">
                             <Link href={ROUTES.brand.media}><ImageIcon className="h-3 w-3" /> DAM-активы</Link>
                         </Button>
-                        <Button asChild variant="outline" size="sm" className="h-7 rounded-lg text-[9px] font-bold uppercase gap-1 border-slate-200">
+                        <Button asChild variant="outline" size="sm" className="h-7 rounded-lg text-[9px] font-bold uppercase gap-1 border-border-default">
                             <Link href={ROUTES.brand.marketingContentFactory}><Sparkles className="h-3 w-3" /> Content Factory</Link>
                         </Button>
-                        <Button asChild variant="outline" size="sm" className="h-7 rounded-lg text-[9px] font-bold uppercase gap-1 border-slate-200">
+                        <Button asChild variant="outline" size="sm" className="h-7 rounded-lg text-[9px] font-bold uppercase gap-1 border-border-default">
                             <Link href={ROUTES.brand.aiTools}><Bot className="h-3 w-3" /> AI Creator</Link>
                         </Button>
                     </div>
@@ -1571,10 +1559,10 @@ export default function BrandProfilePage() {
                         <div className="flex flex-wrap items-center justify-between gap-3 px-1">
                             <div>
                                 <div className="flex items-center gap-1.5 mb-1">
-                                <div className="h-1 w-5 bg-indigo-600 rounded-full" />
-                                <h2 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Медиа-материалы и Press Kit</h2>
+                                <div className="h-1 w-5 bg-accent-primary rounded-full" />
+                                <h2 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Медиа-материалы и Press Kit</h2>
                             </div>
-                                <p className="text-[9px] text-slate-500">Назначение: Live, каталог, работа с партнёрами. Рассылки — партнёры получают уведомления в своих профилях.</p>
+                                <p className="text-[9px] text-text-secondary">Назначение: Live, каталог, работа с партнёрами. Рассылки — партнёры получают уведомления в своих профилях.</p>
                             </div>
                             <div className="flex flex-wrap gap-2">
                                 <Button size="sm" variant="outline" className="h-7 px-3 rounded-lg text-[8px] font-bold uppercase gap-1.5" onClick={() => toast({ title: 'Переслать партнёру', description: 'Выберите партнёра для отправки материалов' })}>
@@ -1583,7 +1571,7 @@ export default function BrandProfilePage() {
                                 <Button size="sm" variant="outline" className="h-7 px-3 rounded-lg text-[8px] font-bold uppercase gap-1.5" onClick={() => toast({ title: 'Рассылка всем', description: 'Уведомление отправлено всем партнёрам (магазины, дистрибуторы)' })}>
                                     <UserPlus className="h-3 w-3" /> Рассылка всем партнёрам
                                 </Button>
-                                <Button size="sm" className="h-7 px-3 rounded-lg text-[8px] font-bold uppercase gap-2 bg-slate-900 text-white shadow-md hover:bg-indigo-600" onClick={() => { exportBrandProfilePDF(); toast({ title: 'Brand Book', description: 'Используйте печать для сохранения PDF' }); }}>
+                                <Button size="sm" className="h-7 px-3 rounded-lg text-[8px] font-bold uppercase gap-2 bg-text-primary text-white shadow-md hover:bg-accent-primary" onClick={() => { exportBrandProfilePDF(); toast({ title: 'Brand Book', description: 'Используйте печать для сохранения PDF' }); }}>
                                 <Download className="h-3 w-3" /> Brand Book PDF
                             </Button>
                                 <Button size="sm" variant="outline" className="h-7 px-3 rounded-lg text-[8px] font-bold uppercase gap-2" onClick={() => toast({ title: 'Press Kit', description: 'Полный архив — DAM' })}>
@@ -1592,22 +1580,22 @@ export default function BrandProfilePage() {
                             </div>
                         </div>
 
-                        <div className="flex flex-wrap gap-2 p-2 rounded-lg bg-slate-50 border border-slate-100 text-[9px]">
-                            <span className="font-bold text-slate-500 uppercase">Назначение:</span>
+                        <div className="flex flex-wrap gap-2 p-2 rounded-lg bg-bg-surface2 border border-border-subtle text-[9px]">
+                            <span className="font-bold text-text-secondary uppercase">Назначение:</span>
                             <span className="flex items-center gap-1"><Globe className="h-3 w-3 text-emerald-600" /> Публичное — Live</span>
                             <span className="flex items-center gap-1"><Lock className="h-3 w-3 text-amber-600" /> Внутреннее — дистрибуторы, магазины</span>
-                            <span className="flex items-center gap-1"><Store className="h-3 w-3 text-indigo-600" /> Каталог, шоурум</span>
-                            <span className="flex items-center gap-1"><UserPlus className="h-3 w-3 text-slate-600" /> Индивидуально — настройки по партнёру</span>
+                            <span className="flex items-center gap-1"><Store className="h-3 w-3 text-accent-primary" /> Каталог, шоурум</span>
+                            <span className="flex items-center gap-1"><UserPlus className="h-3 w-3 text-text-secondary" /> Индивидуально — настройки по партнёру</span>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                             {([
-                                { id: 'brand-identity' as const, title: 'Айдентика', desc: 'Логотипы, цвета, шрифты', icon: Palette, color: 'bg-indigo-50 text-indigo-600', usage: ['public', 'catalog'] as const },
+                                { id: 'brand-identity' as const, title: 'Айдентика', desc: 'Логотипы, цвета, шрифты', icon: Palette, color: 'bg-accent-primary/10 text-accent-primary', usage: ['public', 'catalog'] as const },
                                 { id: 'lookbooks' as const, title: 'Лукбуки', desc: 'Коллекции SS26 и FW25', icon: ImageIcon, color: 'bg-emerald-50 text-emerald-600', usage: ['public', 'internal', 'catalog', 'individual'] as const },
                                 { id: 'press-releases' as const, title: 'Пресс-релизы', desc: 'Новости бренда', icon: Newspaper, color: 'bg-amber-50 text-amber-600', usage: ['public', 'internal'] as const },
                                 { id: 'brand-video' as const, title: 'Видео бренда', desc: 'Манифест и показы', icon: Video, color: 'bg-rose-50 text-rose-600', usage: ['public', 'catalog'] as const },
                                 { id: 'team-bios' as const, title: 'О команде', desc: 'Профили руководства', icon: Users, color: 'bg-blue-50 text-blue-600', usage: ['internal', 'individual'] as const },
-                                { id: 'store-photos' as const, title: 'Фото магазинов', desc: 'Торговые пространства', icon: Building2, color: 'bg-purple-50 text-purple-600', usage: ['catalog', 'internal', 'individual'] as const },
+                                { id: 'store-photos' as const, title: 'Фото магазинов', desc: 'Торговые пространства', icon: Building2, color: 'bg-accent-primary/10 text-accent-primary', usage: ['catalog', 'internal', 'individual'] as const },
                             ] as { id: AssetTypeId; title: string; desc: string; icon: React.ComponentType<{ className?: string }>; color: string; usage: readonly ('public' | 'internal' | 'catalog' | 'individual')[] }[]).map((asset) => {
                                 const items = pressKitAssets[asset.id] || [];
                                 const activeCount = items.filter((i) => !i.archived).length;
@@ -1615,7 +1603,7 @@ export default function BrandProfilePage() {
                                 return (
                                     <Card
                                         key={asset.id}
-                                        className="rounded-xl border border-slate-100 shadow-sm bg-white p-4 group hover:border-indigo-200 hover:shadow-md transition-all flex items-start gap-3 cursor-pointer"
+                                        className="rounded-xl border border-border-subtle shadow-sm bg-white p-4 group hover:border-accent-primary/30 hover:shadow-md transition-all flex items-start gap-3 cursor-pointer"
                                         onClick={() => { setMediaViewerType(asset.id); setMediaViewerOpen(true); }}
                                     >
                                     <div className={cn("h-10 w-10 rounded-lg flex items-center justify-center flex-shrink-0 border shadow-inner transition-transform group-hover:scale-105", asset.color, asset.color.replace('text-', 'border-').replace('50', '100'))}>
@@ -1623,17 +1611,17 @@ export default function BrandProfilePage() {
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <div className="flex justify-between items-start mb-0.5">
-                                            <h3 className="text-[12px] font-bold uppercase tracking-tight text-slate-900 truncate">{asset.title}</h3>
-                                                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{activeCount} активных{archivedCount > 0 ? ` · ${archivedCount} в архиве` : ''}</span>
+                                            <h3 className="text-[12px] font-bold uppercase tracking-tight text-text-primary truncate">{asset.title}</h3>
+                                                <span className="text-[9px] font-bold text-text-muted uppercase tracking-widest">{activeCount} активных{archivedCount > 0 ? ` · ${archivedCount} в архиве` : ''}</span>
                                         </div>
-                                            <p className="text-[11px] text-slate-500 font-medium leading-tight mb-2 truncate">{asset.desc}</p>
+                                            <p className="text-[11px] text-text-secondary font-medium leading-tight mb-2 truncate">{asset.desc}</p>
                                             <div className="flex flex-wrap gap-1 mb-2">
                                                 {asset.usage?.includes('public') && <Badge variant="outline" className="h-5 px-1.5 text-[7px] font-bold border-emerald-200 text-emerald-700 bg-emerald-50"><Globe className="h-2.5 w-2.5 mr-0.5" /> Live</Badge>}
                                                 {asset.usage?.includes('internal') && <Badge variant="outline" className="h-5 px-1.5 text-[7px] font-bold border-amber-200 text-amber-700 bg-amber-50"><Lock className="h-2.5 w-2.5 mr-0.5" /> Внутр.</Badge>}
-                                                {asset.usage?.includes('catalog') && <Badge variant="outline" className="h-5 px-1.5 text-[7px] font-bold border-indigo-200 text-indigo-700 bg-indigo-50"><Store className="h-2.5 w-2.5 mr-0.5" /> Каталог</Badge>}
-                                                {asset.usage?.includes('individual') && <Badge variant="outline" className="h-5 px-1.5 text-[7px] font-bold border-slate-200 text-slate-600 bg-slate-50"><UserPlus className="h-2.5 w-2.5 mr-0.5" /> Индив.</Badge>}
+                                                {asset.usage?.includes('catalog') && <Badge variant="outline" className="h-5 px-1.5 text-[7px] font-bold border-accent-primary/30 text-accent-primary bg-accent-primary/10"><Store className="h-2.5 w-2.5 mr-0.5" /> Каталог</Badge>}
+                                                {asset.usage?.includes('individual') && <Badge variant="outline" className="h-5 px-1.5 text-[7px] font-bold border-border-default text-text-secondary bg-bg-surface2"><UserPlus className="h-2.5 w-2.5 mr-0.5" /> Индив.</Badge>}
                                             </div>
-                                            <span className="inline-flex items-center gap-1 text-[8px] font-bold uppercase text-indigo-600 group-hover:text-indigo-700">
+                                            <span className="inline-flex items-center gap-1 text-[8px] font-bold uppercase text-accent-primary group-hover:text-accent-primary">
                                                 Открыть для просмотра <ChevronRight className="h-3 w-3" />
                                             </span>
                                     </div>
@@ -1655,22 +1643,22 @@ export default function BrandProfilePage() {
                     <div className="space-y-2 mt-6">
                         <div className="flex items-center gap-1.5 px-1">
                             <div className="h-1 w-5 bg-emerald-600 rounded-full" />
-                            <h2 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">История бренда</h2>
+                            <h2 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">История бренда</h2>
                         </div>
-                        <Card className="rounded-xl border border-slate-100 shadow-sm bg-gradient-to-br from-slate-50 to-indigo-50 p-3">
+                        <Card className="rounded-xl border border-border-subtle shadow-sm bg-gradient-to-br from-bg-surface2 to-accent-primary/10 p-3">
                             <div className="space-y-4">
                                 {isEditing ? (
                                     <Textarea 
                                         defaultValue="Syntha — российский бренд технологичной одежды, основанный в 2022 году. Мы создаем функциональный гардероб для жизни в мегаполисе, объединяя традиционное мастерство с инновационными материалами. Наша философия — Cyber-Heritage."
-                                        className="min-h-[100px] text-[13px] font-medium text-slate-700 bg-white border-slate-200 rounded-lg p-3"
+                                        className="min-h-[100px] text-[13px] font-medium text-text-primary bg-white border-border-default rounded-lg p-3"
                                     />
                                 ) : (
-                                    <p className="text-[13px] font-medium text-slate-700 leading-relaxed italic">
+                                    <p className="text-[13px] font-medium text-text-primary leading-relaxed italic">
                                         "Syntha — российский бренд технологичной одежды, основанный в 2022 году. Мы создаем функциональный гардероб для жизни в мегаполисе, объединяя традиционное мастерство с инновационными материалами. Наша философия — Cyber-Heritage."
                                     </p>
                                 )}
                                 
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-4 border-t border-slate-200/60">
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-4 border-t border-border-default/60">
                                     {[
                                         { label: 'Основан', value: brand.foundedYear },
                                         { label: 'Страна', value: brand.countryOfOrigin },
@@ -1678,20 +1666,20 @@ export default function BrandProfilePage() {
                                         { label: 'Категория', value: 'Luxury Tech' }
                                     ].map((stat, i) => (
                                         <div key={i} className="space-y-0.5">
-                                            <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400">{stat.label}</p>
-                                            <p className="text-sm font-bold text-slate-900 tracking-tight">{stat.value}</p>
+                                            <p className="text-[8px] font-bold uppercase tracking-widest text-text-muted">{stat.label}</p>
+                                            <p className="text-sm font-bold text-text-primary tracking-tight">{stat.value}</p>
                                         </div>
                                     ))}
                                 </div>
 
-                                <div className="pt-4 border-t border-slate-200/60 flex flex-wrap gap-3">
-                                    <div className="flex items-center gap-2 p-2 px-3 bg-white rounded-lg border border-slate-100 shadow-sm">
-                                        <Mail className="h-3.5 w-3.5 text-indigo-600" />
-                                        <span className="text-[10px] font-bold text-slate-900 tracking-tight uppercase">press@syntha.ru</span>
+                                <div className="pt-4 border-t border-border-default/60 flex flex-wrap gap-3">
+                                    <div className="flex items-center gap-2 p-2 px-3 bg-white rounded-lg border border-border-subtle shadow-sm">
+                                        <Mail className="h-3.5 w-3.5 text-accent-primary" />
+                                        <span className="text-[10px] font-bold text-text-primary tracking-tight uppercase">press@syntha.ru</span>
                                     </div>
-                                    <div className="flex items-center gap-2 p-2 px-3 bg-white rounded-lg border border-slate-100 shadow-sm">
-                                        <Phone className="h-3.5 w-3.5 text-indigo-600" />
-                                        <span className="text-[10px] font-bold text-slate-900 tracking-tight uppercase">+7 (495) 123-45-67</span>
+                                    <div className="flex items-center gap-2 p-2 px-3 bg-white rounded-lg border border-border-subtle shadow-sm">
+                                        <Phone className="h-3.5 w-3.5 text-accent-primary" />
+                                        <span className="text-[10px] font-bold text-text-primary tracking-tight uppercase">+7 (495) 123-45-67</span>
                                     </div>
                                 </div>
                             </div>
@@ -1725,14 +1713,14 @@ export default function BrandProfilePage() {
             <>
             {/* Completeness score + Profile pulse */}
             <SectionBlock title="Сводка" meta={PROFILE_SECTION_META.summary} accentColor="indigo" className="min-w-0">
-            <Card className="rounded-xl border border-slate-200 shadow-sm bg-white p-4 md:p-5">
+            <Card className="rounded-xl border border-border-default shadow-sm bg-white p-4 md:p-5">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <Card className="rounded-xl border border-slate-200 bg-white p-3 flex flex-row md:flex-col items-center md:items-start gap-3">
+                <Card className="rounded-xl border border-border-default bg-white p-3 flex flex-row md:flex-col items-center md:items-start gap-3">
                     <div className="flex items-center gap-3">
                         <div className={cn("h-12 w-12 rounded-xl flex items-center justify-center font-black text-lg", completenessScore >= 80 ? "bg-emerald-100 text-emerald-600" : completenessScore >= 50 ? "bg-amber-100 text-amber-600" : "bg-rose-100 text-rose-600")}>{completenessScore}%</div>
                         <div>
-                            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Полнота</p>
-                            <p className="text-[11px] text-slate-600 font-medium">Полнота профиля</p>
+                            <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Полнота</p>
+                            <p className="text-[11px] text-text-secondary font-medium">Полнота профиля</p>
                         </div>
                     </div>
                     {incompleteBlocks.length > 0 && (
@@ -1747,16 +1735,16 @@ export default function BrandProfilePage() {
                         </div>
                     )}
                 </Card>
-                <Card className="rounded-xl border border-slate-200 bg-white p-3 md:col-span-2">
+                <Card className="rounded-xl border border-border-default bg-white p-3 md:col-span-2">
                     <button type="button" onClick={() => setShowChangelogDialog(true)} className="w-full text-left">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-1"><Activity className="h-3 w-3" /> Пульс профиля <ChevronRight className="h-3 w-3 text-slate-300 ml-auto" /></p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted mb-2 flex items-center gap-1"><Activity className="h-3 w-3" /> Пульс профиля <ChevronRight className="h-3 w-3 text-text-muted ml-auto" /></p>
                         <div className="space-y-1.5">
                             {profilePulse.map((p, i) => (
-                                <div key={i} className="flex items-center gap-2 text-[11px] text-slate-600">
-                                    <span className="text-slate-400 font-mono">{p.date}</span>
+                                <div key={i} className="flex items-center gap-2 text-[11px] text-text-secondary">
+                                    <span className="text-text-muted font-mono">{p.date}</span>
                                     <span className="font-medium">{p.user}</span>
                                     <span>{p.action}</span>
-                                    <span className="text-slate-400">— {p.field}</span>
+                                    <span className="text-text-muted">— {p.field}</span>
                                 </div>
                             ))}
                         </div>
@@ -1769,12 +1757,12 @@ export default function BrandProfilePage() {
             
             {/* Интеграции, Подписка, API Hub, Команда, Календарь, Сообщения */}
             <SectionBlock title="Интеграции и сервисы" meta={PROFILE_SECTION_META.tools} accentColor="slate" className="min-w-0">
-            <Card className="rounded-xl border border-slate-200 shadow-sm bg-white p-4 md:p-5">
+            <Card className="rounded-xl border border-border-default shadow-sm bg-white p-4 md:p-5">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                <Card className="rounded-xl border border-slate-200 shadow-sm bg-white p-4">
+                <Card className="rounded-xl border border-border-default shadow-sm bg-white p-4">
                     <div className="flex items-center justify-between mb-3">
-                        <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Интеграции</h3>
-                        <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold uppercase text-indigo-600 -mr-2">
+                        <h3 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Интеграции</h3>
+                        <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold uppercase text-accent-primary -mr-2">
                             <Link href={ROUTES.brand.integrations}>Все <ArrowUpRight className="h-2.5 w-2.5 inline" /></Link>
                         </Button>
                     </div>
@@ -1794,7 +1782,7 @@ export default function BrandProfilePage() {
                                     </div>
                                 </button>
                             ) : (
-                                <Link key={k} href="/brand/settings/api-hub" className="flex justify-between items-center p-2 rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors">
+                                <Link key={k} href="/brand/settings/api-hub" className="flex justify-between items-center p-2 rounded-lg bg-bg-surface2 hover:bg-bg-surface2 transition-colors">
                                     <span className="text-[11px] font-bold uppercase">{k === 'c1c' ? '1С' : k.toUpperCase()}</span>
                                     <div className="flex items-center gap-2">
                                         <span className="h-2 w-2 rounded-full shrink-0 bg-emerald-500" />
@@ -1803,97 +1791,97 @@ export default function BrandProfilePage() {
                                 </Link>
                             )
                         ))}
-                        <Link href="/admin/integrations" className="block p-2 rounded-lg border border-dashed border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/30 text-[10px] font-bold uppercase text-slate-500 text-center">+ Добавить</Link>
+                        <Link href="/admin/integrations" className="block p-2 rounded-lg border border-dashed border-border-default hover:border-accent-primary/30 hover:bg-accent-primary/10 text-[10px] font-bold uppercase text-text-secondary text-center">+ Добавить</Link>
                     </div>
                 </Card>
-                <Card className="rounded-xl border border-slate-200 shadow-sm bg-white p-4">
+                <Card className="rounded-xl border border-border-default shadow-sm bg-white p-4">
                     <div className="flex items-center justify-between mb-3">
-                        <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Подписка & API</h3>
+                        <h3 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Подписка & API</h3>
                         <div className="flex gap-1">
-                            <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold uppercase text-indigo-600">
+                            <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold uppercase text-accent-primary">
                                 <Link href={ROUTES.brand.subscription}>Тариф</Link>
                             </Button>
-                            <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold uppercase text-indigo-600 -mr-2">
+                            <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold uppercase text-accent-primary -mr-2">
                                 <Link href={`${ROUTES.brand.settings}/api-hub`}>API Hub</Link>
                             </Button>
                         </div>
                     </div>
                     <div className="space-y-2">
-                        <div className="flex justify-between items-center p-2 rounded-lg bg-indigo-50">
+                        <div className="flex justify-between items-center p-2 rounded-lg bg-accent-primary/10">
                             <span className="text-[11px] font-medium">Тариф</span>
-                            <Badge className="bg-indigo-600 text-white text-[9px]">{subscriptionData.tier}</Badge>
+                            <Badge className="bg-accent-primary text-white text-[9px]">{subscriptionData.tier}</Badge>
                         </div>
-                        <div className="flex justify-between items-center p-2 rounded-lg bg-slate-50">
+                        <div className="flex justify-between items-center p-2 rounded-lg bg-bg-surface2">
                             <span className="text-[11px] font-medium">API ключи</span>
                             <span className="text-sm font-bold tabular-nums">{apiHubData.apiKeys}</span>
                         </div>
                     </div>
                 </Card>
-                <Card className="rounded-xl border border-slate-200 shadow-sm bg-white p-4">
+                <Card className="rounded-xl border border-border-default shadow-sm bg-white p-4">
                     <div className="flex items-center justify-between mb-3">
-                        <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Команда ↔ Key People</h3>
-                        <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold uppercase text-indigo-600 -mr-2">
+                        <h3 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Команда ↔ Key People</h3>
+                        <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold uppercase text-accent-primary -mr-2">
                             <Link href={ROUTES.brand.team}>Команда <ArrowUpRight className="h-2.5 w-2.5 inline" /></Link>
                         </Button>
                     </div>
                     <div className="space-y-2">
                         {teamMembers.map((m) => (
-                            <Link key={m.id} href={m.href} className="flex justify-between items-center p-2 rounded-lg hover:bg-slate-50 transition-colors">
-                                <span className="text-[11px] font-bold text-slate-900">{m.name}</span>
-                                <span className="text-[9px] font-bold text-slate-500 uppercase">{m.role}</span>
+                            <Link key={m.id} href={m.href} className="flex justify-between items-center p-2 rounded-lg hover:bg-bg-surface2 transition-colors">
+                                <span className="text-[11px] font-bold text-text-primary">{m.name}</span>
+                                <span className="text-[9px] font-bold text-text-secondary uppercase">{m.role}</span>
                             </Link>
                         ))}
                     </div>
                 </Card>
-                <Card className="rounded-xl border border-slate-200 shadow-sm bg-white p-4">
+                <Card className="rounded-xl border border-border-default shadow-sm bg-white p-4">
                     <div className="flex items-center justify-between mb-3">
-                        <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Календарь</h3>
-                        <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold uppercase text-indigo-600 -mr-2">
+                        <h3 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Календарь</h3>
+                        <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold uppercase text-accent-primary -mr-2">
                             <Link href={ROUTES.brand.calendar}>События <ArrowUpRight className="h-2.5 w-2.5 inline" /></Link>
                         </Button>
                     </div>
                     <div className="space-y-2">
                         {calendarEvents.map((e, i) => (
-                            <Link key={i} href={e.href} className="block p-2 rounded-lg hover:bg-slate-50 transition-colors">
-                                <p className="text-[11px] font-bold text-slate-900">{e.title}</p>
-                                <p className="text-[10px] text-slate-500">{e.date}</p>
+                            <Link key={i} href={e.href} className="block p-2 rounded-lg hover:bg-bg-surface2 transition-colors">
+                                <p className="text-[11px] font-bold text-text-primary">{e.title}</p>
+                                <p className="text-[10px] text-text-secondary">{e.date}</p>
                             </Link>
                         ))}
                     </div>
                 </Card>
-                <Card className="rounded-xl border border-slate-200 shadow-sm bg-white p-4">
+                <Card className="rounded-xl border border-border-default shadow-sm bg-white p-4">
                     <div className="flex items-center justify-between mb-3">
-                        <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Сообщения</h3>
-                        <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold uppercase text-indigo-600 -mr-2">
+                        <h3 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Сообщения</h3>
+                        <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold uppercase text-accent-primary -mr-2">
                             <Link href={ROUTES.brand.messages}>Открыть <ArrowUpRight className="h-2.5 w-2.5 inline" /></Link>
                         </Button>
                     </div>
-                    <div className="p-2 rounded-lg bg-slate-50">
+                    <div className="p-2 rounded-lg bg-bg-surface2">
                         {messagesData.unread > 0 && (
                             <Badge className="bg-rose-500 text-white text-[9px] mb-2">{messagesData.unread} новых</Badge>
                         )}
-                        <p className="text-[11px] text-slate-600 truncate">{messagesData.lastPreview}</p>
+                        <p className="text-[11px] text-text-secondary truncate">{messagesData.lastPreview}</p>
                     </div>
                 </Card>
-                <Card className="rounded-xl border border-slate-200 shadow-sm bg-white p-4">
+                <Card className="rounded-xl border border-border-default shadow-sm bg-white p-4">
                     <div className="flex items-center justify-between mb-3">
-                        <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">CRM & Финансы</h3>
+                        <h3 className="text-[10px] font-bold uppercase tracking-widest text-text-muted">CRM & Финансы</h3>
                         <div className="flex gap-1">
-                            <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold uppercase text-indigo-600">
+                            <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold uppercase text-accent-primary">
                                 <Link href={ROUTES.brand.customerIntelligence}>CRM <ArrowUpRight className="h-2.5 w-2.5 inline" /></Link>
                             </Button>
-                            <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold uppercase text-indigo-600 -mr-2">
+                            <Button asChild variant="ghost" size="sm" className="h-6 text-[8px] font-bold uppercase text-accent-primary -mr-2">
                                 <Link href={ROUTES.brand.finance}>Финансы <ArrowUpRight className="h-2.5 w-2.5 inline" /></Link>
                             </Button>
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-2">
-                        <Link href={ROUTES.brand.customerIntelligence} className="p-2 rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors block">
-                            <p className="text-[9px] text-slate-500 font-bold uppercase">Сегменты</p>
+                        <Link href={ROUTES.brand.customerIntelligence} className="p-2 rounded-lg bg-bg-surface2 hover:bg-bg-surface2 transition-colors block">
+                            <p className="text-[9px] text-text-secondary font-bold uppercase">Сегменты</p>
                             <p className="text-sm font-black tabular-nums">{crmData.segments}</p>
                         </Link>
-                        <Link href={ROUTES.brand.customerIntelligence} className="p-2 rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors block">
-                            <p className="text-[9px] text-slate-500 font-bold uppercase">LTV</p>
+                        <Link href={ROUTES.brand.customerIntelligence} className="p-2 rounded-lg bg-bg-surface2 hover:bg-bg-surface2 transition-colors block">
+                            <p className="text-[9px] text-text-secondary font-bold uppercase">LTV</p>
                             <p className="text-sm font-black tabular-nums">{crmData.ltv}</p>
                         </Link>
                         <Link href={ROUTES.brand.finance} className="p-2 rounded-lg bg-emerald-50 hover:bg-emerald-100 transition-colors block col-span-2">
@@ -1911,42 +1899,42 @@ export default function BrandProfilePage() {
 
             {/* Certificate Upload Dialog */}
             <Dialog open={showCertificateDialog} onOpenChange={setShowCertificateDialog}>
-                <DialogContent className="sm:max-w-[450px] rounded-xl border-slate-200">
+                <DialogContent className="sm:max-w-[450px] rounded-xl border-border-default">
                     <DialogHeader>
-                        <DialogTitle className="text-base font-bold uppercase tracking-tight text-slate-900 flex items-center gap-2">
-                            <Upload className="h-4 w-4 text-indigo-600" />
+                        <DialogTitle className="text-base font-bold uppercase tracking-tight text-text-primary flex items-center gap-2">
+                            <Upload className="h-4 w-4 text-accent-primary" />
                             Обновить сертификат
                         </DialogTitle>
-                        <DialogDescription className="text-[11px] text-slate-500 font-medium">
+                        <DialogDescription className="text-[11px] text-text-secondary font-medium">
                             Загрузите актуальный документ для верификации статуса
                         </DialogDescription>
                     </DialogHeader>
                     
                     <div className="space-y-4 py-2">
                         <div className="space-y-2">
-                            <Label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                            <Label className="text-[10px] font-bold uppercase tracking-widest text-text-muted">
                                 Файл сертификата <span className="text-rose-500">*</span>
                             </Label>
-                            <div className="border-2 border-dashed border-slate-100 rounded-xl p-4 text-center hover:border-indigo-400 hover:bg-indigo-50/30 transition-all cursor-pointer group">
-                                <Upload className="h-8 w-8 text-slate-300 mx-auto mb-2 group-hover:text-indigo-500 transition-colors" />
-                                <p className="text-[12px] font-bold text-slate-900 uppercase mb-0.5">Загрузите файл</p>
-                                <p className="text-[9px] text-slate-400 font-medium">PDF, JPG или PNG до 5MB</p>
+                            <div className="border-2 border-dashed border-border-subtle rounded-xl p-4 text-center hover:border-accent-primary/40 hover:bg-accent-primary/10 transition-all cursor-pointer group">
+                                <Upload className="h-8 w-8 text-text-muted mx-auto mb-2 group-hover:text-accent-primary transition-colors" />
+                                <p className="text-[12px] font-bold text-text-primary uppercase mb-0.5">Загрузите файл</p>
+                                <p className="text-[9px] text-text-muted font-medium">PDF, JPG или PNG до 5MB</p>
                             </div>
                         </div>
 
                         <div className="space-y-1.5">
-                            <Label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Номер сертификата</Label>
-                            <Input className="h-9 rounded-lg text-[13px] bg-slate-50 border-slate-200" placeholder="Напр. ISO-9001-2024" />
+                            <Label className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Номер сертификата</Label>
+                            <Input className="h-9 rounded-lg text-[13px] bg-bg-surface2 border-border-default" placeholder="Напр. ISO-9001-2024" />
                         </div>
 
                         <div className="grid grid-cols-2 gap-3">
                             <div className="space-y-1.5">
-                                <Label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Дата выдачи</Label>
-                                <Input type="date" className="h-9 rounded-lg text-[13px] bg-slate-50 border-slate-200" />
+                                <Label className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Дата выдачи</Label>
+                                <Input type="date" className="h-9 rounded-lg text-[13px] bg-bg-surface2 border-border-default" />
                             </div>
                             <div className="space-y-1.5">
-                                <Label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Срок действия</Label>
-                                <Input type="date" className="h-9 rounded-lg text-[13px] bg-slate-50 border-slate-200" />
+                                <Label className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Срок действия</Label>
+                                <Input type="date" className="h-9 rounded-lg text-[13px] bg-bg-surface2 border-border-default" />
                             </div>
                         </div>
 
@@ -1968,13 +1956,13 @@ export default function BrandProfilePage() {
                         <Button 
                             variant="ghost" 
                             onClick={() => setShowCertificateDialog(false)}
-                            className="h-8 rounded-lg text-[10px] font-bold uppercase tracking-widest text-slate-500"
+                            className="h-8 rounded-lg text-[10px] font-bold uppercase tracking-widest text-text-secondary"
                         >
                             Отмена
                         </Button>
                         <Button 
                             onClick={() => uploadingCertificate && handleUploadCertificate(uploadingCertificate)}
-                            className="h-8 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] font-bold uppercase tracking-widest px-6 shadow-lg shadow-indigo-200"
+                            className="h-8 rounded-lg bg-accent-primary hover:bg-accent-primary text-white text-[10px] font-bold uppercase tracking-widest px-6 shadow-lg shadow-accent-primary/15"
                             disabled={uploadingCertificate === null}
                         >
                             {uploadingCertificate ? (
@@ -1995,20 +1983,20 @@ export default function BrandProfilePage() {
 
             {/* Changelog Dialog */}
             <Dialog open={showChangelogDialog} onOpenChange={setShowChangelogDialog}>
-                <DialogContent className="sm:max-w-[650px] max-h-[85vh] rounded-xl border-slate-200">
-                    <DialogHeader className="border-b border-slate-100 pb-4">
-                        <DialogTitle className="text-base font-bold uppercase tracking-tight flex items-center gap-2 text-slate-900">
-                            <History className="h-4.5 w-4.5 text-indigo-600" />
+                <DialogContent className="sm:max-w-[650px] max-h-[85vh] rounded-xl border-border-default">
+                    <DialogHeader className="border-b border-border-subtle pb-4">
+                        <DialogTitle className="text-base font-bold uppercase tracking-tight flex items-center gap-2 text-text-primary">
+                            <History className="h-4.5 w-4.5 text-accent-primary" />
                             История изменений профиля
                         </DialogTitle>
-                        <DialogDescription className="text-[11px] text-slate-500 font-medium">
+                        <DialogDescription className="text-[11px] text-text-secondary font-medium">
                             Архив действий — фильтр по полю, экспорт CSV, откат
                         </DialogDescription>
                         <div className="flex flex-wrap gap-2 pt-3">
-                            <div className="flex bg-slate-100 p-1 rounded-lg">
-                                <button onClick={() => setChangelogFilter('all')} className={cn("px-2 py-1 rounded text-[9px] font-bold uppercase", changelogFilter === 'all' ? 'bg-white shadow' : 'text-slate-500')}>Все</button>
+                            <div className="flex bg-bg-surface2 p-1 rounded-lg">
+                                <button onClick={() => setChangelogFilter('all')} className={cn("px-2 py-1 rounded text-[9px] font-bold uppercase", changelogFilter === 'all' ? 'bg-white shadow' : 'text-text-secondary')}>Все</button>
                                 {changelogFields.map((f) => (
-                                    <button key={f} onClick={() => setChangelogFilter(f)} className={cn("px-2 py-1 rounded text-[9px] font-bold uppercase", changelogFilter === f ? 'bg-white shadow' : 'text-slate-500')}>{f}</button>
+                                    <button key={f} onClick={() => setChangelogFilter(f)} className={cn("px-2 py-1 rounded text-[9px] font-bold uppercase", changelogFilter === f ? 'bg-white shadow' : 'text-text-secondary')}>{f}</button>
                                 ))}
                             </div>
                         </div>
@@ -2021,39 +2009,39 @@ export default function BrandProfilePage() {
                                 initial={{ opacity: 0, y: 4 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: i * 0.03 }}
-                                className="flex gap-3 p-3 rounded-xl bg-slate-50/50 border border-slate-100 hover:bg-white hover:border-indigo-100 transition-all group"
+                                className="flex gap-3 p-3 rounded-xl bg-bg-surface2/80 border border-border-subtle hover:bg-white hover:border-accent-primary/20 transition-all group"
                             >
                                 <div className="flex flex-col items-center gap-2 flex-shrink-0 pt-1">
-                                    <div className="h-8 w-8 rounded-lg bg-white border border-slate-100 text-slate-400 flex items-center justify-center shadow-sm group-hover:text-indigo-600 transition-colors">
+                                    <div className="h-8 w-8 rounded-lg bg-white border border-border-subtle text-text-muted flex items-center justify-center shadow-sm group-hover:text-accent-primary transition-colors">
                                         <History className="h-4 w-4" />
                                     </div>
-                                    <div className="h-full w-px bg-slate-200/60" />
+                                    <div className="h-full w-px bg-border-subtle/60" />
                                 </div>
                                 
                                 <div className="flex-1 space-y-2">
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-2">
-                                            <p className="text-[11px] font-bold uppercase text-slate-900 tracking-tight">{entry.user}</p>
-                                            <Badge variant="outline" className="bg-white text-slate-500 border-slate-200 text-[8px] font-bold uppercase px-1.5 h-4 rounded-md">
+                                            <p className="text-[11px] font-bold uppercase text-text-primary tracking-tight">{entry.user}</p>
+                                            <Badge variant="outline" className="bg-white text-text-secondary border-border-default text-[8px] font-bold uppercase px-1.5 h-4 rounded-md">
                                                 {entry.field}
                                             </Badge>
                                         </div>
-                                        <span className="text-[9px] text-slate-400 font-bold tabular-nums uppercase">{entry.date}</span>
+                                        <span className="text-[9px] text-text-muted font-bold tabular-nums uppercase">{entry.date}</span>
                                     </div>
                                     
-                                    <p className="text-[11px] text-slate-600 font-medium">{entry.action}</p>
+                                    <p className="text-[11px] text-text-secondary font-medium">{entry.action}</p>
                                     
                                     {entry.oldValue && (
                                         <div className="grid grid-cols-2 gap-2 pt-2">
                                             <div className="space-y-1">
-                                                <p className="text-[7px] font-bold uppercase text-slate-400 tracking-widest px-1">Было</p>
-                                                <div className="text-[10px] text-slate-500 bg-rose-50/50 border border-rose-100/50 px-2.5 py-1.5 rounded-lg italic truncate leading-tight">
+                                                <p className="text-[7px] font-bold uppercase text-text-muted tracking-widest px-1">Было</p>
+                                                <div className="text-[10px] text-text-secondary bg-rose-50/50 border border-rose-100/50 px-2.5 py-1.5 rounded-lg italic truncate leading-tight">
                                                     {entry.oldValue}
                                                 </div>
                                             </div>
                                             <div className="space-y-1">
-                                                <p className="text-[7px] font-bold uppercase text-slate-400 tracking-widest px-1">Стало</p>
-                                                <div className="text-[10px] text-slate-900 bg-emerald-50/50 border border-emerald-100/50 px-2.5 py-1.5 rounded-lg font-bold truncate leading-tight">
+                                                <p className="text-[7px] font-bold uppercase text-text-muted tracking-widest px-1">Стало</p>
+                                                <div className="text-[10px] text-text-primary bg-emerald-50/50 border border-emerald-100/50 px-2.5 py-1.5 rounded-lg font-bold truncate leading-tight">
                                                     {entry.newValue}
                                                 </div>
                                             </div>
@@ -2061,8 +2049,8 @@ export default function BrandProfilePage() {
                                     )}
                                     {!entry.oldValue && entry.newValue && (
                                         <div className="pt-2">
-                                            <p className="text-[7px] font-bold uppercase text-slate-400 tracking-widest px-1 mb-1">Добавлено</p>
-                                            <div className="text-[10px] text-slate-900 bg-indigo-50/50 border border-indigo-100/50 px-2.5 py-1.5 rounded-lg font-bold leading-tight">
+                                            <p className="text-[7px] font-bold uppercase text-text-muted tracking-widest px-1 mb-1">Добавлено</p>
+                                            <div className="text-[10px] text-text-primary bg-accent-primary/10 border border-accent-primary/20 px-2.5 py-1.5 rounded-lg font-bold leading-tight">
                                                 {entry.newValue}
                                             </div>
                                         </div>
@@ -2077,10 +2065,10 @@ export default function BrandProfilePage() {
                         ))}
                     </div>
 
-                    <DialogFooter className="border-t border-slate-100 pt-4 gap-2">
+                    <DialogFooter className="border-t border-border-subtle pt-4 gap-2">
                         <Button 
                             variant="ghost" 
-                            className="h-8 rounded-lg text-[9px] font-bold uppercase tracking-widest text-slate-500 hover:bg-slate-50"
+                            className="h-8 rounded-lg text-[9px] font-bold uppercase tracking-widest text-text-secondary hover:bg-bg-surface2"
                             onClick={() => { exportToCSV(filteredChangelog.map(e => ({ user: e.user, field: e.field, action: e.action, oldValue: e.oldValue || '', newValue: e.newValue || '', date: e.date })), [{ key: 'user', label: 'Пользователь' }, { key: 'field', label: 'Поле' }, { key: 'action', label: 'Действие' }, { key: 'oldValue', label: 'Было' }, { key: 'newValue', label: 'Стало' }, { key: 'date', label: 'Дата' }], 'changelog'); toast({ title: 'Экспорт', description: 'История экспортирована в CSV' }); }}
                         >
                             <Download className="h-3.5 w-3.5 mr-1.5" />
@@ -2088,14 +2076,14 @@ export default function BrandProfilePage() {
                         </Button>
                         <Button 
                             onClick={() => setShowChangelogDialog(false)}
-                            className="h-8 rounded-lg bg-slate-900 text-white text-[9px] font-bold uppercase tracking-widest px-6"
+                            className="h-8 rounded-lg bg-text-primary text-white text-[9px] font-bold uppercase tracking-widest px-6"
                         >
                             Закрыть
                         </Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-        </div>
+        </RegistryPageShell>
     );
 }
 
