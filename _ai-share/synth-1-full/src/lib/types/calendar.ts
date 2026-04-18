@@ -1,10 +1,29 @@
-export type View = "month" | "week" | "agenda";
-export type Layer = "production" | "buying" | "events" | "drops" | "content" | "logistics" | "orders" | "communications" | "market" | "spam" | "trends";
-export type Visibility = "personal" | "internal" | "partial" | "public";
-export type EventType = "event" | "task" | "livestream" | "delivery" | "call" | "podcast" | "reminder" | "appointment";
-export type InvitationStatus = "pending" | "accepted" | "rejected";
+export type View = 'month' | 'week' | 'agenda';
+export type Layer =
+  | 'production'
+  | 'buying'
+  | 'events'
+  | 'drops'
+  | 'content'
+  | 'logistics'
+  | 'orders'
+  | 'communications'
+  | 'market'
+  | 'spam'
+  | 'trends';
+export type Visibility = 'personal' | 'internal' | 'partial' | 'public';
+export type EventType =
+  | 'event'
+  | 'task'
+  | 'livestream'
+  | 'delivery'
+  | 'call'
+  | 'podcast'
+  | 'reminder'
+  | 'appointment';
+export type InvitationStatus = 'pending' | 'accepted' | 'rejected';
 
-import { UserRole } from "@/lib/types";
+import { UserRole } from '@/lib/types';
 
 export interface Participant {
   uid: string;

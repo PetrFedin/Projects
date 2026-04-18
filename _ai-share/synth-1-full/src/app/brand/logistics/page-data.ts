@@ -24,7 +24,8 @@ import type { SectionMeta } from '@/components/brand/SectionBlock';
 
 export const SECTION_META: Record<string, SectionMeta> = {
   overview: {
-    description: 'Ключевые показатели логистики бренда: отгрузки, грузы в пути, склады, подключённые перевозчики.',
+    description:
+      'Ключевые показатели логистики бренда: отгрузки, грузы в пути, склады, подключённые перевозчики.',
     purpose: 'Быстро оценить объём и статус логистических операций.',
     functionality: [
       'Отгрузки за период',
@@ -35,7 +36,8 @@ export const SECTION_META: Record<string, SectionMeta> = {
     importance: 9,
   },
   warehouses: {
-    description: 'Складской учёт, остатки, приёмка и отгрузка. Интеграция с маркировкой (Честный ЗНАК, КИЗ).',
+    description:
+      'Складской учёт, остатки, приёмка и отгрузка. Интеграция с маркировкой (Честный ЗНАК, КИЗ).',
     purpose: 'Контроль остатков по складам и корректность отгрузок с учётом маркировки.',
     functionality: [
       'Остатки по складам и SKU',
@@ -46,8 +48,10 @@ export const SECTION_META: Record<string, SectionMeta> = {
     importance: 9,
   },
   carriers: {
-    description: 'Перевозчики и службы доставки: СДЭК, Боксберри, ПЭК, ДПД, Почта России, международные.',
-    purpose: 'Управление договорами, тарифами и интеграциями с курьерскими службами и транспортными компаниями.',
+    description:
+      'Перевозчики и службы доставки: СДЭК, Боксберри, ПЭК, ДПД, Почта России, международные.',
+    purpose:
+      'Управление договорами, тарифами и интеграциями с курьерскими службами и транспортными компаниями.',
     functionality: [
       'Подключённые СДЭК, Боксберри, ПЭК',
       'Тарифы и зоны доставки',
@@ -68,7 +72,8 @@ export const SECTION_META: Record<string, SectionMeta> = {
     importance: 8,
   },
   customs: {
-    description: 'Таможня и пошлины: ЕАЭС, декларации, расчёт полной себестоимости (DDP, landed cost).',
+    description:
+      'Таможня и пошлины: ЕАЭС, декларации, расчёт полной себестоимости (DDP, landed cost).',
     purpose: 'Корректное таможенное оформление и учёт пошлин при импорте/экспорте.',
     functionality: [
       'Расчёт пошлин и налогов (DDP)',
@@ -134,7 +139,8 @@ export const SECTION_META: Record<string, SectionMeta> = {
     importance: 8,
   },
   modules: {
-    description: 'Все подразделы логистики: склады, перевозчики, документы, таможня, трекинг, регионы, возвраты, 3PL.',
+    description:
+      'Все подразделы логистики: склады, перевозчики, документы, таможня, трекинг, регионы, возвраты, 3PL.',
     purpose: 'Быстрый переход к нужному модулю управления логистикой бренда.',
     functionality: [
       'Складской учёт и Inventory',
@@ -178,6 +184,17 @@ export const LOGISTICS_NAV_CARDS = [
     stats: { label: 'SKU', value: '2 840', status: 'active' as const },
   },
   {
+    title: 'Ритейл: загрузка остатков',
+    description: 'Кабинет магазина — CSV/Excel, демо cross-cabinet shop inventory.',
+    icon: Package,
+    href: '/shop/inventory',
+    navTestId: 'brand-logistics-shop-stock-upload-link',
+    color: 'text-accent-primary',
+    bg: 'bg-accent-primary/10',
+    badge: 'Retail',
+    stats: { label: 'Контур', value: 'demo', status: 'active' as const },
+  },
+  {
     title: 'Перевозчики и доставка',
     description: 'СДЭК, Боксберри, ПЭК, ДПД, Почта России. Тарифы и интеграции.',
     icon: Truck,
@@ -192,8 +209,8 @@ export const LOGISTICS_NAV_CARDS = [
     description: 'Товарно-транспортные накладные, CMR, электронная ТрН, УПД для ЭДО.',
     icon: FileText,
     href: '/brand/documents',
-    color: 'text-purple-600',
-    bg: 'bg-purple-50',
+    color: 'text-accent-primary',
+    bg: 'bg-accent-primary/10',
     badge: 'Документы',
     stats: { label: 'За месяц', value: '312', status: 'success' as const },
   },
@@ -222,8 +239,8 @@ export const LOGISTICS_NAV_CARDS = [
     description: 'Зоны доставки РФ и СНГ, сроки, условия Ex-Works, DDP, до двери.',
     icon: MapPin,
     href: '/brand/logistics/regions',
-    color: 'text-indigo-600',
-    bg: 'bg-indigo-50',
+    color: 'text-accent-primary',
+    bg: 'bg-accent-primary/10',
     badge: 'Регионы',
     stats: { label: 'Регионов', value: '85', status: 'success' as const },
   },
@@ -252,8 +269,8 @@ export const LOGISTICS_NAV_CARDS = [
     description: 'Продажа товаров в пути: учёт и резервирование до поступления на склад.',
     icon: Package,
     href: '/brand/logistics/shadow-inventory',
-    color: 'text-violet-600',
-    bg: 'bg-violet-50',
+    color: 'text-accent-primary',
+    bg: 'bg-accent-primary/10',
     badge: 'В пути',
     stats: { label: 'Позиций', value: '156', status: 'active' as const },
   },
@@ -262,8 +279,8 @@ export const LOGISTICS_NAV_CARDS = [
     description: 'Честный ЗНАК, синхронизация КИЗ при отгрузке, ЭДО для накладных.',
     icon: ShieldCheck,
     href: '/brand/compliance',
-    color: 'text-indigo-600',
-    bg: 'bg-indigo-50',
+    color: 'text-accent-primary',
+    bg: 'bg-accent-primary/10',
     badge: 'Compliance',
     stats: { label: 'Статус', value: 'OK', status: 'success' as const },
   },

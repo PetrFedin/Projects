@@ -26,7 +26,7 @@ export function B2BIntegrationStatusWidget({ settingsHref }: B2BIntegrationStatu
 
   useEffect(() => {
     fetch('/api/b2b/integrations/status')
-      .then((res) => res.ok ? res.json() : [])
+      .then((res) => (res.ok ? res.json() : []))
       .then((data: B2BIntegrationStatusItem[]) => setItems(Array.isArray(data) ? data : []))
       .catch(() => setItems([]))
       .finally(() => setLoading(false));
@@ -41,17 +41,17 @@ export function B2BIntegrationStatusWidget({ settingsHref }: B2BIntegrationStatu
   return (
     <Card className="border-dashed">
       <CardHeader className="py-3">
-        <CardTitle className="text-sm font-bold flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-sm font-bold">
           <Zap className="h-4 w-4 text-amber-500" /> B2B интеграции
         </CardTitle>
         <CardDescription>Подключённые платформы для заказов, каталога и прайсов.</CardDescription>
       </CardHeader>
-      <CardContent className="pt-0 flex flex-wrap gap-2">
+      <CardContent className="flex flex-wrap gap-2 pt-0">
         {configured.map((i) => (
           <Badge
             key={i.id}
             variant="secondary"
-            className="text-xs font-medium cursor-default"
+            className="cursor-default text-xs font-medium"
             title={i.description}
           >
             {i.name}
@@ -60,7 +60,7 @@ export function B2BIntegrationStatusWidget({ settingsHref }: B2BIntegrationStatu
         {settingsHref && (
           <Link
             href={settingsHref}
-            className="text-xs text-muted-foreground hover:underline inline-flex items-center gap-1 ml-1"
+            className="ml-1 inline-flex items-center gap-1 text-xs text-muted-foreground hover:underline"
           >
             Настройки <ExternalLink className="h-3 w-3" />
           </Link>

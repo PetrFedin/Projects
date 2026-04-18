@@ -3,10 +3,11 @@
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, ArrowLeft, BarChart3, Target } from 'lucide-react';
+import { ArrowLeft, Target } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getAnalyticsLinks } from '@/lib/data/entity-links';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 /** Network Sell-Through BI: анонимизированное сравнение своих продаж со средними по индустрии. */
 const MOCK = {
@@ -22,51 +23,62 @@ const MOCK = {
 
 export default function SellThroughBIPage() {
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-4xl pb-24">
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href={ROUTES.brand.analyticsBi}><ArrowLeft className="h-4 w-4" /></Link>
-        </Button>
-        <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2">
-            <TrendingUp className="h-6 w-6" /> Sell-Through BI
-          </h1>
-          <p className="text-slate-500 text-sm mt-0.5">Сравнение вашего sell-through со средними показателями индустрии по категориям и регионам.</p>
-        </div>
-      </div>
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Sell-Through BI"
+        leadPlain="Сравнение вашего sell-through со средними показателями индустрии по категориям и регионам."
+        eyebrow={
+          <Button variant="ghost" size="icon" className="-ml-2 shrink-0" asChild>
+            <Link href={ROUTES.brand.analyticsBi} aria-label="Назад к BI">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+      />
 
-      <Card className="border-indigo-100 bg-indigo-50/30">
+      <Card className="border-accent-primary/20 bg-accent-primary/10">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2"><Target className="h-5 w-5" /> Benchmark</CardTitle>
-          <CardDescription>Анонимные агрегированные данные. Подключите импорт из 1С/Мой Склад для актуализации.</CardDescription>
+          <CardTitle className="flex items-center gap-2">
+            <Target className="h-5 w-5" /> Benchmark
+          </CardTitle>
+          <CardDescription>
+            Анонимные агрегированные данные. Подключите импорт из 1С/Мой Склад для актуализации.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="p-4 rounded-xl bg-white border">
-              <p className="text-[10px] font-bold uppercase text-slate-500">Ваш Sell-Through</p>
-              <p className="text-2xl font-black text-indigo-600">{MOCK.yourSellThrough}%</p>
-              <p className="text-[10px] text-emerald-600 mt-1">+5% vs индустрия</p>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="rounded-xl border bg-white p-4">
+              <p className="text-text-secondary text-[10px] font-bold uppercase">
+                Ваш Sell-Through
+              </p>
+              <p className="text-accent-primary text-2xl font-black">{MOCK.yourSellThrough}%</p>
+              <p className="mt-1 text-[10px] text-emerald-600">+5% vs индустрия</p>
             </div>
-            <div className="p-4 rounded-xl bg-white border">
-              <p className="text-[10px] font-bold uppercase text-slate-500">Среднее по индустрии</p>
+            <div className="rounded-xl border bg-white p-4">
+              <p className="text-text-secondary text-[10px] font-bold uppercase">
+                Среднее по индустрии
+              </p>
               <p className="text-2xl font-black">{MOCK.industryAvg}%</p>
-              <p className="text-[10px] text-slate-500 mt-1">Fashion, premium</p>
+              <p className="text-text-secondary mt-1 text-[10px]">Fashion, premium</p>
             </div>
-            <div className="p-4 rounded-xl bg-white border">
-              <p className="text-[10px] font-bold uppercase text-slate-500">Топ-25% брендов</p>
+            <div className="rounded-xl border bg-white p-4">
+              <p className="text-text-secondary text-[10px] font-bold uppercase">Топ-25% брендов</p>
               <p className="text-2xl font-black">{MOCK.topQuartile}%</p>
-              <p className="text-[10px] text-slate-500 mt-1">Потенциал</p>
+              <p className="text-text-secondary mt-1 text-[10px]">Потенциал</p>
             </div>
           </div>
           <div>
-            <p className="text-xs font-semibold text-slate-600 mb-2">По категориям</p>
+            <p className="text-text-secondary mb-2 text-xs font-semibold">По категориям</p>
             <ul className="space-y-2">
               {MOCK.byCategory.map((row, i) => (
-                <li key={i} className="flex items-center justify-between p-2 rounded-lg bg-white border">
+                <li
+                  key={i}
+                  className="flex items-center justify-between rounded-lg border bg-white p-2"
+                >
                   <span className="text-sm font-medium">{row.category}</span>
                   <div className="flex items-center gap-3">
-                    <span className="text-sm font-bold text-indigo-600">Вы: {row.yours}%</span>
-                    <span className="text-xs text-slate-500">Индустрия: {row.industry}%</span>
+                    <span className="text-accent-primary text-sm font-bold">Вы: {row.yours}%</span>
+                    <span className="text-text-secondary text-xs">Индустрия: {row.industry}%</span>
                   </div>
                 </li>
               ))}
@@ -76,6 +88,6 @@ export default function SellThroughBIPage() {
       </Card>
 
       <RelatedModulesBlock links={getAnalyticsLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

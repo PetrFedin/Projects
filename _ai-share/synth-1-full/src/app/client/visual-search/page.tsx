@@ -9,20 +9,20 @@ import { PlatformDataBanner } from '@/components/client/platform-data-banner';
 import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import {
-  downloadJsonFile,
   exportVisualSearchSession,
   getVisualSearchTransport,
   loadVisualSearchSession,
   parseVisualSearchImport,
-  readJsonFromFile,
   runVisualSearch,
   saveVisualSearchSession,
   type VisualSearchHit,
   type VisualSearchSessionV1,
 } from '@/lib/platform/visual-search';
+import { downloadJsonFile, readJsonFromFile } from '@/lib/platform/json-io';
 import { VISUAL_SEARCH_EXPORT_VERSION } from '@/lib/platform/types';
 import { Camera, ArrowLeft, Sparkles, Download, Upload, Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
 export default function ClientVisualSearchPage() {
   const { toast } = useToast();
@@ -111,8 +111,8 @@ export default function ClientVisualSearchPage() {
   };
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6 pb-24">
-      <div className="flex flex-wrap items-center gap-3 justify-between">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
             <Link href={ROUTES.client.home}>
@@ -120,13 +120,14 @@ export default function ClientVisualSearchPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
+            <h1 className="flex items-center gap-2 text-xl font-bold">
               <Camera className="h-6 w-6" />
               Визуальный поиск
             </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
-              Референс → похожие SKU. В режиме API ожидается POST{' '}
-              <code className="text-[10px] bg-muted px-1 rounded">/v1/client/visual-search</code>.
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              Референс → похожие <AcronymWithTooltip abbr="SKU" />. В режиме{' '}
+              <AcronymWithTooltip abbr="API" /> ожидается POST{' '}
+              <code className="rounded bg-muted px-1 text-[10px]">/v1/client/visual-search</code>.
             </p>
           </div>
         </div>
@@ -155,20 +156,31 @@ export default function ClientVisualSearchPage() {
           {apiError && <p className="text-xs text-destructive">{apiError}</p>}
           <div className="flex flex-wrap gap-2">
             <Button type="button" onClick={runSearch} disabled={busy || !preview}>
-              <Sparkles className="h-4 w-4 mr-2" />
+              <Sparkles className="mr-2 h-4 w-4" />
               {busy ? 'Ищем…' : transport === 'local' ? 'Найти похожие' : 'Найти (API)'}
             </Button>
-            <Button type="button" variant="outline" size="sm" onClick={exportSession} disabled={!hits.length && !preview}>
-              <Download className="h-4 w-4 mr-2" />
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={exportSession}
+              disabled={!hits.length && !preview}
+            >
+              <Download className="mr-2 h-4 w-4" />
               Экспорт JSON
             </Button>
             <label className="inline-flex cursor-pointer items-center justify-center rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent">
-              <Upload className="h-4 w-4 mr-2" />
+              <Upload className="mr-2 h-4 w-4" />
               Импорт JSON
-              <input type="file" accept="application/json,.json" className="sr-only" onChange={importSession} />
+              <input
+                type="file"
+                accept="application/json,.json"
+                className="sr-only"
+                onChange={importSession}
+              />
             </label>
             <Button type="button" variant="ghost" size="sm" onClick={clearSession}>
-              <Trash2 className="h-4 w-4 mr-2" />
+              <Trash2 className="mr-2 h-4 w-4" />
               Сброс
             </Button>
           </div>
@@ -176,19 +188,31 @@ export default function ClientVisualSearchPage() {
       </Card>
 
       <div>
-        <h2 className="text-sm font-semibold mb-3">Выдача (последний запуск)</h2>
+        <h2 className="mb-3 text-sm font-semibold">Выдача (последний запуск)</h2>
         {hits.length === 0 ? (
-          <p className="text-sm text-muted-foreground border border-dashed rounded-lg p-6">
+          <p className="rounded-lg border border-dashed p-6 text-sm text-muted-foreground">
             Пока нет результатов. Запустите поиск или импортируйте сессию.
           </p>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {hits.map((h) => (
-              <Link key={h.productId} href={`/products/${h.slug}`} className="group rounded-lg border overflow-hidden bg-card">
+              <Link
+                key={h.productId}
+                href={`/products/${h.slug}`}
+                className="group overflow-hidden rounded-lg border bg-card"
+              >
                 <div className="relative aspect-[3/4]">
-                  <Image src={h.imageUrl} alt={h.name} fill className="object-cover" sizes="200px" />
+                  <Image
+                    src={h.imageUrl}
+                    alt={h.name}
+                    fill
+                    className="object-cover"
+                    sizes="200px"
+                  />
                 </div>
-                <p className="p-2 text-xs font-medium line-clamp-2 group-hover:text-primary">{h.name}</p>
+                <p className="line-clamp-2 p-2 text-xs font-medium group-hover:text-primary">
+                  {h.name}
+                </p>
                 {h.score != null && (
                   <p className="px-2 pb-2 text-[10px] text-muted-foreground">score {h.score}</p>
                 )}

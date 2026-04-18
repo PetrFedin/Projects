@@ -11,50 +11,66 @@ export function ProductMarketplaceSentimentBlock({ product }: { product: Product
   const sentiment = getMarketplaceSentiment(product.sku);
 
   return (
-    <Card className="p-4 border-2 border-fuchsia-50 bg-fuchsia-50/10 shadow-sm my-4 relative overflow-hidden">
-      <div className="absolute top-0 right-0 p-4 opacity-5 rotate-12 pointer-events-none">
-         <Quote className="w-16 h-16 text-fuchsia-600" />
+    <Card className="border-accent-primary/15 bg-accent-primary/10 relative my-4 overflow-hidden border-2 p-4 shadow-sm">
+      <div className="pointer-events-none absolute right-0 top-0 rotate-12 p-4 opacity-5">
+        <Quote className="text-accent-primary h-16 w-16" />
       </div>
 
-      <div className="flex items-center justify-between mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Quote className="w-4 h-4 text-fuchsia-600" />
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">Marketplace Sentiment Mirror</h4>
+          <Quote className="text-accent-primary h-4 w-4" />
+          <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+            Marketplace Sentiment Mirror
+          </h4>
         </div>
         <div className="flex gap-1">
-           <Badge className="bg-indigo-600 text-white text-[8px] font-black border-none uppercase">WB {sentiment.wbRating}</Badge>
-           <Badge className="bg-blue-600 text-white text-[8px] font-black border-none uppercase">OZON {sentiment.ozonRating}</Badge>
+          <Badge className="bg-accent-primary border-none text-[8px] font-black uppercase text-white">
+            WB {sentiment.wbRating}
+          </Badge>
+          <Badge className="border-none bg-blue-600 text-[8px] font-black uppercase text-white">
+            OZON {sentiment.ozonRating}
+          </Badge>
         </div>
       </div>
 
       <div className="space-y-3">
-         <p className="text-[11px] font-bold text-slate-600 italic leading-tight">
-            "{sentiment.summarySentiment}"
-         </p>
-         
-         <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-               <div className="text-[8px] font-black text-emerald-600 uppercase tracking-tight">Positive Signals</div>
-               {sentiment.topPositiveTraits.map((t, i) => (
-                 <div key={i} className="text-[9px] font-bold text-slate-500 flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3 h-3 text-emerald-500" /> {t}
-                 </div>
-               ))}
+        <p className="text-text-secondary text-[11px] font-bold italic leading-tight">
+          "{sentiment.summarySentiment}"
+        </p>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <div className="text-[8px] font-black uppercase tracking-tight text-emerald-600">
+              Positive Signals
             </div>
-            <div className="space-y-1.5">
-               <div className="text-[8px] font-black text-rose-600 uppercase tracking-tight">Watch Outs</div>
-               {sentiment.topNegativeTraits.map((t, i) => (
-                 <div key={i} className="text-[9px] font-bold text-slate-500 flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-rose-400" /> {t}
-                 </div>
-               ))}
+            {sentiment.topPositiveTraits.map((t, i) => (
+              <div
+                key={i}
+                className="text-text-secondary flex items-center gap-1.5 text-[9px] font-bold"
+              >
+                <CheckCircle2 className="h-3 w-3 text-emerald-500" /> {t}
+              </div>
+            ))}
+          </div>
+          <div className="space-y-1.5">
+            <div className="text-[8px] font-black uppercase tracking-tight text-rose-600">
+              Watch Outs
             </div>
-         </div>
+            {sentiment.topNegativeTraits.map((t, i) => (
+              <div
+                key={i}
+                className="text-text-secondary flex items-center gap-1.5 text-[9px] font-bold"
+              >
+                <div className="h-1.5 w-1.5 rounded-full bg-rose-400" /> {t}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
-      <div className="mt-4 pt-4 border-t border-fuchsia-100 flex justify-between items-center text-[8px] font-black text-slate-400 uppercase">
-         <span>Source: AI Review Aggregator</span>
-         <span>{sentiment.reviewCountTotal.toLocaleString()} Reviews</span>
+      <div className="border-accent-primary/20 text-text-muted mt-4 flex items-center justify-between border-t pt-4 text-[8px] font-black uppercase">
+        <span>Source: AI Review Aggregator</span>
+        <span>{sentiment.reviewCountTotal.toLocaleString()} Reviews</span>
       </div>
     </Card>
   );

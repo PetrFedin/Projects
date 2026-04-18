@@ -24,6 +24,6 @@ export function getSocialAttribution(product: Product): SocialAttributionV1[] {
       conversionRate: 0.012,
       promoCode: `VK-MARKET`,
       activeStatus: false,
-    }
+    },
   ];
 }

@@ -2,23 +2,39 @@
 
 import Link from 'next/link';
 import BlogManagementPro from '@/components/brand/blog/BlogManagementPro';
-import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { FileText, Megaphone, Package } from 'lucide-react';
+import { FileText, Megaphone } from 'lucide-react';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { ROUTES } from '@/lib/routes';
 
 export default function BrandBlogPage() {
-    return (
-        <div className="space-y-4">
-            <SectionInfoCard
-                title="Блог"
-                description="Публикации, редакция, контент. Связь с Media (DAM), Marketing и Products."
-                icon={FileText}
-                iconBg="bg-slate-100"
-                iconColor="text-slate-600"
-                badges={<><Badge variant="outline" className="text-[9px]">Media</Badge><Badge variant="outline" className="text-[9px]">Marketing</Badge><Button variant="outline" size="sm" className="text-[9px] h-7 ml-1" asChild><Link href="/brand/media">Media</Link></Button><Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href="/brand/marketing/samples"><Megaphone className="h-3 w-3 mr-1" /> PR Samples</Link></Button></>}
-            />
-            <BlogManagementPro />
-        </div>
-    );
+  return (
+    <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+      <RegistryPageHeader
+        title="Блог"
+        leadPlain="Публикации, редакция, контент. Связь с Media (DAM), Marketing и Products."
+        actions={
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <FileText className="size-6 shrink-0 text-muted-foreground" aria-hidden />
+            <Badge variant="outline" className="text-[9px]">
+              Media
+            </Badge>
+            <Badge variant="outline" className="text-[9px]">
+              Marketing
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.media}>Media</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.marketingSamples}>
+                <Megaphone className="mr-1 size-3" /> PR Samples
+              </Link>
+            </Button>
+          </div>
+        }
+      />
+      <BlogManagementPro />
+    </RegistryPageShell>
+  );
 }

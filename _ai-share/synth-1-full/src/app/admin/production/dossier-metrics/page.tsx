@@ -2,7 +2,16 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
 import { BarChart2, Download, Loader2, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,12 +25,14 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useRbac } from '@/hooks/useRbac';
+import { ROUTES } from '@/lib/routes';
 import type {
   W2DossierMetricsAggregate,
   W2DossierMetricsDedupAggregate,
   W2DossierMetricsOrgAggregate,
   W2DossierMetricsTeamAggregate,
 } from '@/lib/server/workshop2-dossier-metrics-store';
+import { RegistryPageShell } from '@/components/design-system';
 
 type TimeFilterMeta = {
   sinceMs: number | null;
@@ -51,7 +62,17 @@ function csvCell(v: string | number): string {
 function buildDedupAndTeamCsv(d: ApiOk): string {
   const lines: string[] = [
     '# dedup by collection',
-    ['collectionId', 'articles', 'passport100', 'visualGate0', 'sampleReady', 'avgTabMin', 'avgPersist'].map(csvCell).join(','),
+    [
+      'collectionId',
+      'articles',
+      'passport100',
+      'visualGate0',
+      'sampleReady',
+      'avgTabMin',
+      'avgPersist',
+    ]
+      .map(csvCell)
+      .join(','),
   ];
   for (const r of d.aggregateDedupLatest.byCollection) {
     lines.push(
@@ -139,7 +160,9 @@ export default function AdminDossierMetricsPage() {
 
   const chartRows =
     data?.aggregate.byCollection.slice(0, 14).map((c) => {
-      const d = data.aggregateDedupLatest.byCollection.find((x) => x.collectionId === c.collectionId);
+      const d = data.aggregateDedupLatest.byCollection.find(
+        (x) => x.collectionId === c.collectionId
+      );
       return {
         label: c.collectionId.length > 14 ? `${c.collectionId.slice(0, 12)}…` : c.collectionId,
         events: c.events,
@@ -150,48 +173,58 @@ export default function AdminDossierMetricsPage() {
 
   if (role !== 'admin') {
     return (
-      <div className="container mx-auto max-w-3xl px-4 py-10">
-        <p className="text-sm text-slate-600">Раздел доступен только роли администратора.</p>
+      <RegistryPageShell className="max-w-3xl py-10">
+        <p className="text-text-secondary text-sm">Раздел доступен только роли администратора.</p>
         <Button variant="outline" className="mt-4" asChild>
-          <Link href="/admin">Назад</Link>
+          <Link href={ROUTES.admin.home}>Назад</Link>
         </Button>
-      </div>
+      </RegistryPageShell>
     );
   }
 
   return (
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
+    <RegistryPageShell className="max-w-6xl space-y-6 pb-16">
       <header className="flex flex-wrap items-start justify-between gap-4 space-y-1">
         <div>
-          <h1 className="flex items-center gap-2 text-xl font-black uppercase tracking-tight text-slate-900">
+          <h1 className="text-text-primary flex items-center gap-2 text-xl font-black uppercase tracking-tight">
             <BarChart2 className="h-7 w-7 text-amber-600" />
             Метрики досье ТЗ (Workshop2)
           </h1>
-          <p className="text-sm text-slate-500">
-            События с клиента: сессия вкладки, сохранения, вехи контура. Хранение: Upstash/KV или локальный NDJSON.{' '}
-            <Link href="/admin/production/dossier-metrics/ops" className="font-medium text-amber-700 underline-offset-2 hover:underline">
+          <p className="text-text-secondary text-sm">
+            События с клиента: сессия вкладки, сохранения, вехи контура. Хранение: Upstash/KV или
+            локальный NDJSON.{' '}
+            <Link
+              href={ROUTES.admin.productionDossierMetricsOps}
+              className="font-medium text-amber-700 underline-offset-2 hover:underline"
+            >
               Операции и воронка
             </Link>
           </p>
         </div>
       </header>
 
-      <Card className="border-slate-200 shadow-sm">
+      <Card className="border-border-default shadow-sm">
         <CardHeader className="pb-3">
           <CardTitle className="text-sm">Фильтры</CardTitle>
           <CardDescription>
-            Клиент шлёт <code className="rounded bg-slate-100 px-1">clientActorId</code>, опционально{' '}
-            <code className="rounded bg-slate-100 px-1">teamTag</code> (localStorage), при входе в аккаунт —{' '}
-            <code className="rounded bg-slate-100 px-1">appUserUid</code> и{' '}
-            <code className="rounded bg-slate-100 px-1">orgId</code> (тенант). Без email/ФИО. Отключить uid/org на
-            клиенте: <code className="rounded bg-slate-100 px-1">NEXT_PUBLIC_W2_DOSSIER_METRICS_DISABLE_USER_CONTEXT=1</code>
+            Клиент шлёт <code className="bg-bg-surface2 rounded px-1">clientActorId</code>,
+            опционально <code className="bg-bg-surface2 rounded px-1">teamTag</code> (localStorage),
+            при входе в аккаунт — <code className="bg-bg-surface2 rounded px-1">appUserUid</code> и{' '}
+            <code className="bg-bg-surface2 rounded px-1">orgId</code> (тенант). Без email/ФИО.
+            Отключить uid/org на клиенте:{' '}
+            <code className="bg-bg-surface2 rounded px-1">
+              NEXT_PUBLIC_W2_DOSSIER_METRICS_DISABLE_USER_CONTEXT=1
+            </code>
             ; на сервере не писать их в хранилище:{' '}
-            <code className="rounded bg-slate-100 px-1">W2_DOSSIER_METRICS_STRIP_USER_IDS=1</code>.
+            <code className="bg-bg-surface2 rounded px-1">W2_DOSSIER_METRICS_STRIP_USER_IDS=1</code>
+            .
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
           <div className="space-y-1">
-            <label className="text-[10px] font-bold uppercase text-slate-400">Коллекции (через запятую)</label>
+            <label className="text-text-muted text-[10px] font-bold uppercase">
+              Коллекции (через запятую)
+            </label>
             <Input
               value={collections}
               onChange={(e) => setCollections(e.target.value)}
@@ -200,8 +233,13 @@ export default function AdminDossierMetricsPage() {
             />
           </div>
           <div className="space-y-1">
-            <label className="text-[10px] font-bold uppercase text-slate-400">Окно по времени (capturedAt)</label>
-            <Select value={sinceHours || 'all'} onValueChange={(v) => setSinceHours(v === 'all' ? '' : v)}>
+            <label className="text-text-muted text-[10px] font-bold uppercase">
+              Окно по времени (capturedAt)
+            </label>
+            <Select
+              value={sinceHours || 'all'}
+              onValueChange={(v) => setSinceHours(v === 'all' ? '' : v)}
+            >
               <SelectTrigger className="h-9 w-[200px] text-sm">
                 <SelectValue placeholder="Весь хвост" />
               </SelectTrigger>
@@ -214,7 +252,7 @@ export default function AdminDossierMetricsPage() {
             </Select>
           </div>
           <div className="space-y-1">
-            <label className="text-[10px] font-bold uppercase text-slate-400">
+            <label className="text-text-muted text-[10px] font-bold uppercase">
               Секрет API (если задан в .env: READ или ADMIN — достаточно одного)
             </label>
             <Input
@@ -226,19 +264,27 @@ export default function AdminDossierMetricsPage() {
               autoComplete="off"
             />
           </div>
-          <Button type="button" variant="secondary" className="h-9 gap-2" onClick={() => void load()} disabled={loading}>
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
+          <Button
+            type="button"
+            variant="secondary"
+            className="h-9 gap-2"
+            onClick={() => void load()}
+            disabled={loading}
+          >
+            {loading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <RefreshCw className="h-4 w-4" />
+            )}
             Обновить
           </Button>
         </CardContent>
       </Card>
 
-      {err ? (
-        <p className="text-sm font-medium text-red-600">Ошибка загрузки: {err}</p>
-      ) : null}
+      {err ? <p className="text-sm font-medium text-red-600">Ошибка загрузки: {err}</p> : null}
 
       {data ? (
-        <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
+        <div className="text-text-secondary flex flex-wrap items-center gap-2 text-xs">
           <Badge variant="outline">backend: {data.storage}</Badge>
           <Badge variant="outline">после времени: {data.rowsLoaded}</Badge>
           {typeof data.rowsRead === 'number' ? (
@@ -246,8 +292,8 @@ export default function AdminDossierMetricsPage() {
           ) : null}
           {data.timeFilter?.sinceMs != null ? (
             <Badge variant="secondary">
-              с {new Date(data.timeFilter.sinceMs).toLocaleString('ru-RU')} · было {data.timeFilter.rowsBeforeFilter} →{' '}
-              {data.timeFilter.rowsAfterFilter}
+              с {new Date(data.timeFilter.sinceMs).toLocaleString('ru-RU')} · было{' '}
+              {data.timeFilter.rowsBeforeFilter} → {data.timeFilter.rowsAfterFilter}
             </Badge>
           ) : (
             <Badge variant="outline">время: весь хвост</Badge>
@@ -258,7 +304,13 @@ export default function AdminDossierMetricsPage() {
             size="sm"
             className="h-8 gap-1 text-xs"
             disabled={!data}
-            onClick={() => downloadBlob(`w2-dossier-metrics-${Date.now()}.json`, JSON.stringify(data, null, 2), 'application/json')}
+            onClick={() =>
+              downloadBlob(
+                `w2-dossier-metrics-${Date.now()}.json`,
+                JSON.stringify(data, null, 2),
+                'application/json'
+              )
+            }
           >
             <Download className="h-3.5 w-3.5" />
             JSON
@@ -270,39 +322,71 @@ export default function AdminDossierMetricsPage() {
             className="h-8 gap-1 text-xs"
             disabled={!data}
             onClick={() =>
-              downloadBlob(`w2-dossier-metrics-${Date.now()}.csv`, buildDedupAndTeamCsv(data), 'text/csv;charset=utf-8')
+              downloadBlob(
+                `w2-dossier-metrics-${Date.now()}.csv`,
+                buildDedupAndTeamCsv(data),
+                'text/csv;charset=utf-8'
+              )
             }
           >
             <Download className="h-3.5 w-3.5" />
             CSV
           </Button>
-          <span className="text-[10px] text-slate-400">файл (fallback): {data.fileFallbackPath}</span>
+          <span className="text-text-muted text-[10px]">
+            файл (fallback): {data.fileFallbackPath}
+          </span>
         </div>
       ) : null}
 
       {data && chartRows.length > 0 ? (
-        <Card className="border-slate-200 shadow-sm">
+        <Card className="border-border-default shadow-sm">
           <CardHeader>
-            <CardTitle className="text-sm">События vs уникальные SKU (последний снимок в окне)</CardTitle>
+            <CardTitle className="text-sm">
+              События vs уникальные SKU (последний снимок в окне)
+            </CardTitle>
             <CardDescription>
-              Синие столбцы — все POST в окне; зелёный — число артикулов по последнему снимку; фиолетовый — из них с вехой
-              паспорта 100%.
+              Синие столбцы — все POST в окне; зелёный — число артикулов по последнему снимку;
+              фиолетовый — из них с вехой паспорта 100%.
             </CardDescription>
           </CardHeader>
           <CardContent className="h-[320px] w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartRows} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200" />
-                <XAxis dataKey="label" tick={{ fontSize: 10 }} interval={0} angle={-25} textAnchor="end" height={70} />
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border-subtle" />
+                <XAxis
+                  dataKey="label"
+                  tick={{ fontSize: 10 }}
+                  interval={0}
+                  angle={-25}
+                  textAnchor="end"
+                  height={70}
+                />
                 <YAxis tick={{ fontSize: 10 }} allowDecimals={false} />
                 <Tooltip
                   contentStyle={{ fontSize: 12 }}
-                  formatter={(v: number, name: string) => [v, name === 'events' ? 'События' : name === 'articles' ? 'SKU (последн.)' : 'Паспорт 100%']}
+                  formatter={(v: number, name: string) => [
+                    v,
+                    name === 'events'
+                      ? 'События'
+                      : name === 'articles'
+                        ? 'SKU (последн.)'
+                        : 'Паспорт 100%',
+                  ]}
                 />
                 <Legend />
                 <Bar dataKey="events" name="События" fill="#6366f1" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="articles" name="SKU последн. снимок" fill="#10b981" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="p100" name="Паспорт 100% (последн.)" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+                <Bar
+                  dataKey="articles"
+                  name="SKU последн. снимок"
+                  fill="#10b981"
+                  radius={[4, 4, 0, 0]}
+                />
+                <Bar
+                  dataKey="p100"
+                  name="Паспорт 100% (последн.)"
+                  fill="#8b5cf6"
+                  radius={[4, 4, 0, 0]}
+                />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -311,7 +395,7 @@ export default function AdminDossierMetricsPage() {
 
       {data ? (
         <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
-          <Card className="border-slate-200 shadow-sm">
+          <Card className="border-border-default shadow-sm">
             <CardHeader>
               <CardTitle className="text-sm">По коллекциям (dedup)</CardTitle>
               <CardDescription>Одна строка на артикул — последнее состояние в окне</CardDescription>
@@ -319,7 +403,7 @@ export default function AdminDossierMetricsPage() {
             <CardContent className="max-h-[360px] overflow-auto text-sm">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-200 text-[10px] uppercase text-slate-500">
+                  <tr className="border-border-default text-text-secondary border-b text-[10px] uppercase">
                     <th className="py-2 pr-2">Коллекция</th>
                     <th className="py-2 pr-2">SKU</th>
                     <th className="py-2 pr-2">П100</th>
@@ -329,7 +413,7 @@ export default function AdminDossierMetricsPage() {
                 </thead>
                 <tbody>
                   {data.aggregateDedupLatest.byCollection.map((r) => (
-                    <tr key={r.collectionId} className="border-b border-slate-100">
+                    <tr key={r.collectionId} className="border-border-subtle border-b">
                       <td className="py-1.5 pr-2 font-mono">{r.collectionId}</td>
                       <td className="py-1.5 pr-2 tabular-nums">{r.articles}</td>
                       <td className="py-1.5 pr-2 tabular-nums">{r.articlesPassport100}</td>
@@ -342,17 +426,17 @@ export default function AdminDossierMetricsPage() {
             </CardContent>
           </Card>
 
-          <Card className="border-slate-200 shadow-sm">
+          <Card className="border-border-default shadow-sm">
             <CardHeader>
               <CardTitle className="text-sm">По teamTag (последний снимок)</CardTitle>
               <CardDescription>
-                Без тега — строка <code className="rounded bg-slate-100 px-1">__none__</code>
+                Без тега — строка <code className="bg-bg-surface2 rounded px-1">__none__</code>
               </CardDescription>
             </CardHeader>
             <CardContent className="max-h-[360px] overflow-auto text-sm">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-200 text-[10px] uppercase text-slate-500">
+                  <tr className="border-border-default text-text-secondary border-b text-[10px] uppercase">
                     <th className="py-2 pr-2">Команда / тег</th>
                     <th className="py-2 pr-2">Акторов</th>
                     <th className="py-2">SKU</th>
@@ -360,8 +444,11 @@ export default function AdminDossierMetricsPage() {
                 </thead>
                 <tbody>
                   {data.teamLatest.byTeam.map((r) => (
-                    <tr key={r.teamTag} className="border-b border-slate-100">
-                      <td className="max-w-[200px] truncate py-1.5 pr-2 font-mono" title={r.teamTag}>
+                    <tr key={r.teamTag} className="border-border-subtle border-b">
+                      <td
+                        className="max-w-[200px] truncate py-1.5 pr-2 font-mono"
+                        title={r.teamTag}
+                      >
                         {r.teamTag}
                       </td>
                       <td className="py-1.5 pr-2 tabular-nums">{r.uniqueActors}</td>
@@ -373,17 +460,18 @@ export default function AdminDossierMetricsPage() {
             </CardContent>
           </Card>
 
-          <Card className="border-slate-200 shadow-sm lg:col-span-2 xl:col-span-1">
+          <Card className="border-border-default shadow-sm lg:col-span-2 xl:col-span-1">
             <CardHeader>
               <CardTitle className="text-sm">По организации (orgId)</CardTitle>
               <CardDescription>
-                Последний снимок на артикул; без org — <code className="rounded bg-slate-100 px-1">__none__</code>
+                Последний снимок на артикул; без org —{' '}
+                <code className="bg-bg-surface2 rounded px-1">__none__</code>
               </CardDescription>
             </CardHeader>
             <CardContent className="max-h-[360px] overflow-auto text-sm">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-200 text-[10px] uppercase text-slate-500">
+                  <tr className="border-border-default text-text-secondary border-b text-[10px] uppercase">
                     <th className="py-2 pr-2">orgId</th>
                     <th className="py-2 pr-2">Брауз. акторов</th>
                     <th className="py-2 pr-2">Профилей</th>
@@ -392,7 +480,7 @@ export default function AdminDossierMetricsPage() {
                 </thead>
                 <tbody>
                   {data.orgLatest.byOrg.map((r) => (
-                    <tr key={r.orgId} className="border-b border-slate-100">
+                    <tr key={r.orgId} className="border-border-subtle border-b">
                       <td className="max-w-[180px] truncate py-1.5 pr-2 font-mono" title={r.orgId}>
                         {r.orgId}
                       </td>
@@ -409,8 +497,8 @@ export default function AdminDossierMetricsPage() {
       ) : null}
 
       <Button variant="outline" size="sm" asChild>
-        <Link href="/admin">В админку</Link>
+        <Link href={ROUTES.admin.home}>В админку</Link>
       </Button>
-    </div>
+    </RegistryPageShell>
   );
 }

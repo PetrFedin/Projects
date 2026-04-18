@@ -44,7 +44,7 @@ export class TenantManager {
    */
   public static applyRLS<T extends { tenantId?: string }>(data: T[]): T[] {
     const ctx = this.getContext();
-    return data.filter(item => !item.tenantId || item.tenantId === ctx.tenantId);
+    return data.filter((item) => !item.tenantId || item.tenantId === ctx.tenantId);
   }
 
   /**

@@ -8,7 +8,7 @@ export function summarizeCollectionLca(products: Product[]): CollectionLcaSummar
   let water = 0;
   let scoreSum = 0;
 
-  products.forEach(p => {
+  products.forEach((p) => {
     const lca = calculateLcaScore(p);
     co2 += lca.co2Kg;
     water += lca.waterLiters;

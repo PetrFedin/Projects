@@ -10,11 +10,15 @@ export function useMessageActions(
   const { toast } = useToast();
 
   const toggleStar = (messageId: number) => {
-    setMessages((prev) => prev.map((m) => (m.id === messageId ? { ...m, isStarred: !m.isStarred } : m)));
+    setMessages((prev) =>
+      prev.map((m) => (m.id === messageId ? { ...m, isStarred: !m.isStarred } : m))
+    );
   };
 
   const togglePin = (messageId: number) => {
-    setMessages((prev) => prev.map((m) => (m.id === messageId ? { ...m, isPinned: !m.isPinned } : m)));
+    setMessages((prev) =>
+      prev.map((m) => (m.id === messageId ? { ...m, isPinned: !m.isPinned } : m))
+    );
   };
 
   const deleteMessage = (messageId: number) => {
@@ -23,13 +27,15 @@ export function useMessageActions(
   };
 
   const addReaction = (messageId: number, reaction: string) => {
-    setMessages((prev) => prev.map((m) => m.id === messageId ? { ...m, userReaction: reaction as any } : m));
+    setMessages((prev) =>
+      prev.map((m) => (m.id === messageId ? { ...m, userReaction: reaction as any } : m))
+    );
   };
 
   return {
     toggleStar,
     togglePin,
     deleteMessage,
-    addReaction
+    addReaction,
   };
 }

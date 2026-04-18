@@ -93,5 +93,10 @@ export async function POST(request: Request) {
   const ttl = getW2MetricsStampTtlSec();
   const exp = Math.floor(Date.now() / 1000) + ttl;
   const stamp = signW2MetricsStamp({ uid, orgId, exp }, secret);
-  return NextResponse.json({ ok: true, stamp, expiresAt: new Date(exp * 1000).toISOString(), ttlSec: ttl });
+  return NextResponse.json({
+    ok: true,
+    stamp,
+    expiresAt: new Date(exp * 1000).toISOString(),
+    ttlSec: ttl,
+  });
 }

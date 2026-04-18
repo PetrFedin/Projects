@@ -39,7 +39,7 @@ export class GenerativePackagingEngine {
 
     let totalVolumeMm3 = 0;
     let totalWeightGram = 0;
-    
+
     let maxL = 0;
     let maxW = 0;
     let maxH = 0;
@@ -64,14 +64,14 @@ export class GenerativePackagingEngine {
 
     // Эвристика: идеальный объем + 15% на зазоры и упаковочный материал
     const requiredVolumeMm3 = totalVolumeMm3 * 1.15;
-    
+
     // Подгоняем габариты коробки под требуемый объем, начиная с минимально возможных
     let boxL = maxL;
     let boxW = maxW;
     let boxH = maxH;
-    
+
     let currentBoxVolMm3 = boxL * boxW * boxH;
-    
+
     // Равномерно увеличиваем габариты, пока не достигнем нужного объема
     // (Упрощенная модель генеративного дизайна коробки)
     while (currentBoxVolMm3 < requiredVolumeMm3) {
@@ -88,17 +88,17 @@ export class GenerativePackagingEngine {
 
     const finalBoxVolCm3 = (boxL * boxW * boxH) / 1000;
     const itemsVolCm3 = totalVolumeMm3 / 1000;
-    
+
     const voidFillVolumeCm3 = Math.max(0, finalBoxVolCm3 - itemsVolCm3);
     const voidFillPercentage = (voidFillVolumeCm3 / finalBoxVolCm3) * 100;
 
     // Расчет экономии (по сравнению со стандартной коробкой)
-    const optimalBoxSurfaceAreaCm2 = 2 * ((boxL*boxW) + (boxH*boxW) + (boxH*boxL)) / 100;
-    const standardBoxSurfaceAreaCm2 = 2 * ((500*400) + (300*400) + (300*500)) / 100;
-    
+    const optimalBoxSurfaceAreaCm2 = (2 * (boxL * boxW + boxH * boxW + boxH * boxL)) / 100;
+    const standardBoxSurfaceAreaCm2 = (2 * (500 * 400 + 300 * 400 + 300 * 500)) / 100;
+
     const optimalCardboardKg = optimalBoxSurfaceAreaCm2 * this.CARDBOARD_KG_PER_CM2;
     const standardCardboardKg = standardBoxSurfaceAreaCm2 * this.CARDBOARD_KG_PER_CM2;
-    
+
     const cardboardSavedKg = Math.max(0, standardCardboardKg - optimalCardboardKg);
     const carbonSavedKg = cardboardSavedKg * this.CARBON_KG_PER_CARDBOARD_KG;
 
@@ -110,7 +110,7 @@ export class GenerativePackagingEngine {
       voidFillPercentage: Number(voidFillPercentage.toFixed(2)),
       cardboardSavedKg: Number(cardboardSavedKg.toFixed(3)),
       carbonSavedKg: Number(carbonSavedKg.toFixed(3)),
-      instructions: `Cut custom box: ${boxL}x${boxW}x${boxH}mm. Void fill: ${voidFillPercentage.toFixed(1)}%. Saved ${carbonSavedKg.toFixed(2)}kg CO2.`
+      instructions: `Cut custom box: ${boxL}x${boxW}x${boxH}mm. Void fill: ${voidFillPercentage.toFixed(1)}%. Saved ${carbonSavedKg.toFixed(2)}kg CO2.`,
     };
   }
 }

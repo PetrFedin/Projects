@@ -20,12 +20,14 @@ export default function AllergyPage() {
   const [tags, setTags] = useState<string[]>(MOCK_ALLERGIES);
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
       <header>
-        <h1 className="text-xl font-black uppercase tracking-tight flex items-center gap-2">
+        <h1 className="flex items-center gap-2 text-xl font-black uppercase tracking-tight">
           <AlertTriangle className="h-6 w-6 text-amber-600" /> Allergy & Material Alerts
         </h1>
-        <p className="text-sm text-slate-500 mt-1">Персональные фильтры по составу ткани. Отметки на товарах.</p>
+        <p className="text-text-secondary mt-1 text-sm">
+          Персональные фильтры по составу ткани. Отметки на товарах.
+        </p>
       </header>
 
       <Card className="rounded-xl border border-amber-200 bg-amber-50/30">
@@ -37,20 +39,28 @@ export default function AllergyPage() {
           <div className="flex flex-wrap gap-2">
             {tags.map((t) => (
               <Badge key={t} variant="secondary" className="gap-1">
-                {t} <span className="cursor-pointer" onClick={() => setTags((s) => s.filter((x) => x !== t))}>×</span>
+                {t}{' '}
+                <span
+                  className="cursor-pointer"
+                  onClick={() => setTags((s) => s.filter((x) => x !== t))}
+                >
+                  ×
+                </span>
               </Badge>
             ))}
           </div>
-          <div className="flex gap-2 mt-3">
-            <Input placeholder="Добавить материал..." className="rounded-lg max-w-xs" />
-            <Button size="sm" className="rounded-lg">Добавить</Button>
+          <div className="mt-3 flex gap-2">
+            <Input placeholder="Добавить материал..." className="max-w-xs rounded-lg" />
+            <Button size="sm" className="rounded-lg">
+              Добавить
+            </Button>
           </div>
         </CardContent>
       </Card>
 
-      <Card className="rounded-xl border border-slate-200 shadow-sm">
+      <Card className="border-border-default rounded-xl border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-sm flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-sm">
             <Tag className="h-4 w-4" /> Пример товаров
           </CardTitle>
           <CardDescription>Бейдж «Безопасно» или предупреждение по составу</CardDescription>
@@ -58,10 +68,13 @@ export default function AllergyPage() {
         <CardContent>
           <ul className="space-y-2">
             {MOCK_PRODUCTS.map((p) => (
-              <li key={p.id} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200">
+              <li
+                key={p.id}
+                className="bg-bg-surface2 border-border-default flex items-center justify-between rounded-xl border p-3"
+              >
                 <div>
                   <p className="font-medium">{p.name}</p>
-                  <p className="text-[11px] text-slate-500">{p.composition}</p>
+                  <p className="text-text-secondary text-[11px]">{p.composition}</p>
                 </div>
                 {p.safe ? (
                   <Badge className="bg-emerald-100 text-emerald-800">Безопасно</Badge>

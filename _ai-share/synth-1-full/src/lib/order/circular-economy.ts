@@ -18,7 +18,7 @@ export interface TradeInResult {
 /**
  * [Phase 12 — Circular Economy & Re-commerce]
  * Управление жизненным циклом товара после продажи (Trade-in, Resale, Recycle).
- * Позволяет брендам принимать старые вещи от клиентов в обмен на скидку, 
+ * Позволяет брендам принимать старые вещи от клиентов в обмен на скидку,
  * восстанавливать их и продавать как "Pre-loved" (секонд-хенд) или отправлять в переработку.
  */
 export class CircularEconomyEngine {
@@ -35,49 +35,52 @@ export class CircularEconomyEngine {
     if (declaredCondition === 'end_of_life') {
       // Вещь не подлежит восстановлению -> Переработка (Recycle)
       // Даем символический кредит (5% от оригинала) за экологичность
-      return { 
-        accepted: true, 
-        creditAmount: Math.round(originalPrice * 0.05), 
+      return {
+        accepted: true,
+        creditAmount: Math.round(originalPrice * 0.05),
         nextLifecycleStage: 'recycle',
-        reasoning: 'Item is at end of life. Routing to textile recycling partner. Issued 5% eco-credit.'
+        reasoning:
+          'Item is at end of life. Routing to textile recycling partner. Issued 5% eco-credit.',
       };
     }
 
     if (declaredCondition === 'damaged') {
       // Вещь повреждена, но можно починить -> Восстановление (Refurbish)
       // Стоимость ремонта вычитается из остаточной стоимости (например, 20% от оригинала)
-      const repairCost = originalPrice * 0.20;
+      const repairCost = originalPrice * 0.2;
       const credit = Math.max(originalPrice * 0.05, depreciatedValue - repairCost);
-      
-      return { 
-        accepted: true, 
-        creditAmount: Math.round(credit), 
+
+      return {
+        accepted: true,
+        creditAmount: Math.round(credit),
         nextLifecycleStage: 'refurbish',
-        reasoning: `Item requires repair (est. cost $${repairCost}). Routing to refurbish center. Issued trade-in credit.`
+        reasoning: `Item requires repair (est. cost $${repairCost}). Routing to refurbish center. Issued trade-in credit.`,
       };
     }
 
     if (declaredCondition === 'minor_wear') {
       // Вещь с легким износом -> Химчистка и перепродажа (Resale)
       // Кредит 30% от остаточной стоимости
-      const credit = depreciatedValue * 0.30;
-      
-      return { 
-        accepted: true, 
-        creditAmount: Math.round(credit), 
+      const credit = depreciatedValue * 0.3;
+
+      return {
+        accepted: true,
+        creditAmount: Math.round(credit),
         nextLifecycleStage: 'resale',
-        reasoning: 'Item has minor wear. Routing to "Pre-loved" resale channel after basic cleaning.'
+        reasoning:
+          'Item has minor wear. Routing to "Pre-loved" resale channel after basic cleaning.',
       };
     }
 
     // Идеальное состояние (pristine) -> Сразу в перепродажу
     // Кредит 50% от остаточной стоимости
-    const credit = depreciatedValue * 0.50;
-    return { 
-      accepted: true, 
-      creditAmount: Math.round(credit), 
+    const credit = depreciatedValue * 0.5;
+    return {
+      accepted: true,
+      creditAmount: Math.round(credit),
       nextLifecycleStage: 'resale',
-      reasoning: 'Item is in pristine condition. Routing directly to premium "Pre-loved" resale channel.'
+      reasoning:
+        'Item is in pristine condition. Routing directly to premium "Pre-loved" resale channel.',
     };
   }
 }

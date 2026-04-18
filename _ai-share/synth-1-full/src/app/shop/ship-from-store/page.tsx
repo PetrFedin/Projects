@@ -9,6 +9,8 @@ import { Truck, ArrowLeft, MapPin } from 'lucide-react';
 import { getShipFromStoreLinks } from '@/lib/data/entity-links';
 import { listShipFromStoreAssignments } from '@/lib/api';
 import type { ShipFromStoreAssignment } from '@/lib/shop/ship-from-store';
+import { RegistryPageShell } from '@/components/design-system';
+import { ROUTES } from '@/lib/routes';
 
 const statusLabels: Record<ShipFromStoreAssignment['status'], string> = {
   eligible: 'Доступен',
@@ -27,12 +29,18 @@ export default function ShipFromStorePage() {
   }, []);
 
   return (
-    <div className="container max-w-4xl py-6 space-y-6 pb-24">
+    <RegistryPageShell className="max-w-4xl space-y-6">
       <div className="flex items-center gap-3">
-        <Link href="/shop/orders"><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+        <Link href={ROUTES.shop.orders}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Ship-from-Store</h1>
-          <p className="text-slate-500 text-sm">Отправка онлайн-заказа из ближайшей точки (омниканал). Заказы, склад, логистика, BOPIS.</p>
+          <p className="text-text-secondary text-sm">
+            Отправка онлайн-заказа из ближайшей точки (омниканал). Заказы, склад, логистика, BOPIS.
+          </p>
         </div>
       </div>
 
@@ -46,15 +54,31 @@ export default function ShipFromStorePage() {
         </CardHeader>
         <CardContent className="space-y-2">
           {assignments.map((a) => (
-            <div key={a.id} className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            <div
+              key={a.id}
+              className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3"
+            >
               <div>
-                <p className="text-sm font-medium">{a.orderId} → {a.storeName}</p>
-                <p className="text-xs text-slate-500">{a.trackingNumber ? `Трек ${a.trackingNumber}` : a.assignedAt.slice(0, 16).replace('T', ' ')}</p>
+                <p className="text-sm font-medium">
+                  {a.orderId} → {a.storeName}
+                </p>
+                <p className="text-text-secondary text-xs">
+                  {a.trackingNumber
+                    ? `Трек ${a.trackingNumber}`
+                    : a.assignedAt.slice(0, 16).replace('T', ' ')}
+                </p>
               </div>
-              <Badge variant={a.status === 'shipped' ? 'default' : 'secondary'} className="text-[10px]">{statusLabels[a.status]}</Badge>
+              <Badge
+                variant={a.status === 'shipped' ? 'default' : 'secondary'}
+                className="text-[10px]"
+              >
+                {statusLabels[a.status]}
+              </Badge>
             </div>
           ))}
-          <p className="text-xs text-slate-400 mt-3">API: SHIP_FROM_STORE_API — eligible stores, assign, ship. Омниканал.</p>
+          <p className="text-text-muted mt-3 text-xs">
+            API: SHIP_FROM_STORE_API — eligible stores, assign, ship. Омниканал.
+          </p>
         </CardContent>
       </Card>
 
@@ -66,11 +90,15 @@ export default function ShipFromStorePage() {
         <CardContent>
           <ul className="flex flex-wrap gap-2">
             {links.map((l) => (
-              <li key={l.href}><Button variant="outline" size="sm" className="text-xs" asChild><Link href={l.href}>{l.label}</Link></Button></li>
+              <li key={l.href}>
+                <Button variant="outline" size="sm" className="text-xs" asChild>
+                  <Link href={l.href}>{l.label}</Link>
+                </Button>
+              </li>
             ))}
           </ul>
         </CardContent>
       </Card>
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -24,9 +24,12 @@ export interface SecurityDecision {
  */
 export class ZeroTrustSecurityEngine {
   // Мок базы доверенных узлов и их последних известных локаций
-  private static knownNodes = new Map<string, { lastLat: number; lastLng: number; baseTrust: number }>([
-    ['truck-01', { lastLat: 40.7128, lastLng: -74.0060, baseTrust: 95 }], // NYC
-    ['factory-vn', { lastLat: 21.0285, lastLng: 105.8542, baseTrust: 90 }] // Hanoi
+  private static knownNodes = new Map<
+    string,
+    { lastLat: number; lastLng: number; baseTrust: number }
+  >([
+    ['truck-01', { lastLat: 40.7128, lastLng: -74.006, baseTrust: 95 }], // NYC
+    ['factory-vn', { lastLat: 21.0285, lastLng: 105.8542, baseTrust: 90 }], // Hanoi
   ]);
 
   /**
@@ -46,7 +49,7 @@ export class ZeroTrustSecurityEngine {
         isAuthorized: false,
         assignedTrustScore: 0,
         requiredMfa: false,
-        reasoning: 'CRITICAL: Invalid or missing quantum-resistant signature. Access denied.'
+        reasoning: 'CRITICAL: Invalid or missing quantum-resistant signature. Access denied.',
       };
     }
 
@@ -56,16 +59,23 @@ export class ZeroTrustSecurityEngine {
       // Вычисляем примерное расстояние от последней известной точки
       const distance = Math.sqrt(
         Math.pow(knownNode.lastLat - request.location.lat, 2) +
-        Math.pow(knownNode.lastLng - request.location.lng, 2)
+          Math.pow(knownNode.lastLng - request.location.lng, 2)
       );
 
       // Если грузовик "телепортировался" на 1000 км за секунду — это взлом (GPS Spoofing)
-      if (distance > 10 && request.nodeType !== 'factory_server') { // Сервера не двигаются
+      if (distance > 10 && request.nodeType !== 'factory_server') {
+        // Сервера не двигаются
         assignedTrustScore = 10;
         reasoning = `SECURITY ALERT: Impossible travel detected for node ${request.nodeId}. Distance anomaly: ${distance.toFixed(2)}. Suspected GPS spoofing or node hijacking.`;
-        return { nodeId: request.nodeId, isAuthorized: false, assignedTrustScore, requiredMfa: true, reasoning };
+        return {
+          nodeId: request.nodeId,
+          isAuthorized: false,
+          assignedTrustScore,
+          requiredMfa: true,
+          reasoning,
+        };
       }
-      
+
       assignedTrustScore = knownNode.baseTrust;
     } else {
       // Неизвестный узел (New Device)
@@ -96,7 +106,9 @@ export class ZeroTrustSecurityEngine {
       // Чтение данных (Read-only)
       isAuthorized = assignedTrustScore >= 30;
       requiredMfa = false;
-      reasoning = isAuthorized ? 'Read access granted.' : 'Trust score too low even for read access.';
+      reasoning = isAuthorized
+        ? 'Read access granted.'
+        : 'Trust score too low even for read access.';
     }
 
     return {
@@ -104,7 +116,7 @@ export class ZeroTrustSecurityEngine {
       isAuthorized,
       assignedTrustScore,
       requiredMfa,
-      reasoning
+      reasoning,
     };
   }
 }

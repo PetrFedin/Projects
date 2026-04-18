@@ -11,6 +11,8 @@ import { StyleMeUpsellBadges } from '@/components/brand/SectionBadgeCta';
 import { getStyleMeUpsellLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { listCampaigns, type StyleMeCampaign } from '@/lib/marketing/style-me-upsell';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
 
 const statusLabels: Record<StyleMeCampaign['status'], string> = {
   draft: 'Черновик',
@@ -27,17 +29,21 @@ export default function StyleMeUpsellPage() {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
       <SectionInfoCard
         title="Post-Purchase Style-Me Upsell"
         description="Персональные подборки в мессенджер через 2 дня после покупки. Связь с CRM, заказами и контентом. При API — триггер по событию заказа + шаблоны подборок."
         icon={MessageSquare}
-        iconBg="bg-violet-100"
-        iconColor="text-violet-600"
+        iconBg="bg-accent-primary/15"
+        iconColor="text-accent-primary"
         badges={<StyleMeUpsellBadges />}
       />
       <div className="flex items-center gap-3">
-        <Link href="/brand/kickstarter"><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+        <Link href={ROUTES.brand.kickstarter}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
         <h1 className="text-2xl font-bold uppercase">Style-Me Upsell</h1>
       </div>
 
@@ -46,24 +52,38 @@ export default function StyleMeUpsellPage() {
           <CardTitle className="flex items-center gap-2">
             <Send className="h-5 w-5" /> Кампании подборок
           </CardTitle>
-          <CardDescription>Отправка персональных подборок в Telegram / WhatsApp через N дней после покупки.</CardDescription>
+          <CardDescription>
+            Отправка персональных подборок в Telegram / WhatsApp через N дней после покупки.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <ul className="space-y-3">
             {campaigns.map((c) => (
-              <li key={c.id} className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+              <li
+                key={c.id}
+                className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"
+              >
                 <div>
                   <p className="font-medium">{c.name}</p>
-                  <p className="text-xs text-slate-500">Через {c.daysAfterPurchase} дн. · {c.channel}</p>
+                  <p className="text-text-secondary text-xs">
+                    Через {c.daysAfterPurchase} дн. · {c.channel}
+                  </p>
                 </div>
-                <Badge variant={c.status === 'active' ? 'default' : 'outline'} className="text-[10px]">{statusLabels[c.status]}</Badge>
+                <Badge
+                  variant={c.status === 'active' ? 'default' : 'outline'}
+                  className="text-[10px]"
+                >
+                  {statusLabels[c.status]}
+                </Badge>
               </li>
             ))}
           </ul>
-          <p className="text-xs text-slate-400 mt-3">API: STYLE_ME_UPSELL_API — кампании, триггер по заказу, шаблоны.</p>
+          <p className="text-text-muted mt-3 text-xs">
+            API: STYLE_ME_UPSELL_API — кампании, триггер по заказу, шаблоны.
+          </p>
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getStyleMeUpsellLinks()} title="CRM, заказы, контент" />
-    </div>
+    </RegistryPageShell>
   );
 }

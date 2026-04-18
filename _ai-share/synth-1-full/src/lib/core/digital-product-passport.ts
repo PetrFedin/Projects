@@ -45,29 +45,32 @@ export class DPPGenerator {
 
     // 1. Формирование инструкций по переработке на основе состава
     let recyclingInstructions = 'Standard textile recycling.';
-    const hasPolyester = bom.some(m => m.materialName.toLowerCase().includes('polyester'));
-    const hasCotton = bom.some(m => m.materialName.toLowerCase().includes('cotton'));
+    const hasPolyester = bom.some((m) => m.materialName.toLowerCase().includes('polyester'));
+    const hasCotton = bom.some((m) => m.materialName.toLowerCase().includes('cotton'));
 
     if (hasPolyester && hasCotton) {
-      recyclingInstructions = 'Complex blend (Poly-Cotton). Requires chemical separation before recycling. Do not compost.';
-    } else if (hasCotton && bom.every(m => m.percentage > 95)) {
-      recyclingInstructions = '100% Cotton. Fully biodegradable and suitable for mechanical recycling into new yarn.';
-    } else if (bom.every(m => m.isRecycled)) {
-      recyclingInstructions = 'Made from 100% recycled materials. Please return to a certified circular economy drop-off point.';
+      recyclingInstructions =
+        'Complex blend (Poly-Cotton). Requires chemical separation before recycling. Do not compost.';
+    } else if (hasCotton && bom.every((m) => m.percentage > 95)) {
+      recyclingInstructions =
+        '100% Cotton. Fully biodegradable and suitable for mechanical recycling into new yarn.';
+    } else if (bom.every((m) => m.isRecycled)) {
+      recyclingInstructions =
+        'Made from 100% recycled materials. Please return to a certified circular economy drop-off point.';
     }
 
     // 2. Сборка паспорта
     const passport: DigitalProductPassport = {
       dppId,
       articleId: article.id,
-      brandName: 'Syntha', // Mock brand
+      brandName: 'Syntha Lab',
       manufacturingDate,
       assemblyFactoryId,
       assemblyCountry,
       billOfMaterials: bom,
       carbonFootprintKg,
       recyclingInstructions,
-      blockchainHash: '' // Будет заполнено ниже
+      blockchainHash: '', // Будет заполнено ниже
     };
 
     // 3. Запись в Blockchain (Immutable Audit Trail) для гарантии подлинности
@@ -81,7 +84,9 @@ export class DPPGenerator {
     // Привязываем хэш транзакции к паспорту
     passport.blockchainHash = record.hash;
 
-    console.log(`[DPP Generator] Created Digital Product Passport ${dppId} for Article ${article.id}. Hash: ${record.hash}`);
+    console.log(
+      `[DPP Generator] Created Digital Product Passport ${dppId} for Article ${article.id}. Hash: ${record.hash}`
+    );
 
     return passport;
   }

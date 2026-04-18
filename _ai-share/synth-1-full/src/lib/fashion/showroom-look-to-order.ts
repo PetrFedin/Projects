@@ -18,6 +18,6 @@ export function getDraftLooksForPartner(partnerId: string): ShowroomLookToOrderV
       skus: ['SKU-101', 'SKU-202', 'SKU-303'],
       totalWholesaleValue: 37500,
       conversionStatus: 'draft',
-    }
+    },
   ];
 }

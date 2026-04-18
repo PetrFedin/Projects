@@ -17,36 +17,55 @@ export function ProductAssortmentClashBlock({ product }: { product: Product }) {
   };
 
   return (
-    <Card className="p-4 border-2 border-slate-100 bg-slate-50/10 shadow-sm my-4 relative overflow-hidden">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2 text-slate-600">
-          <MapPin className="w-4 h-4" />
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">Assortment Clash Detection</h4>
+    <Card className="border-border-subtle bg-bg-surface2/10 relative my-4 overflow-hidden border-2 p-4 shadow-sm">
+      <div className="mb-4 flex items-center justify-between">
+        <div className="text-text-secondary flex items-center gap-2">
+          <MapPin className="h-4 w-4" />
+          <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+            Assortment Clash Detection
+          </h4>
         </div>
-        <Badge className={`${statusColors[clash.clashIntensity]} border-none uppercase text-[8px] font-black`}>
+        <Badge
+          className={`${statusColors[clash.clashIntensity]} border-none text-[8px] font-black uppercase`}
+        >
           {clash.clashIntensity} risk
         </Badge>
       </div>
 
-      <div className="flex items-center gap-4 mb-4 relative z-10">
-         <div className="w-12 h-12 bg-white rounded-xl border border-slate-100 flex items-center justify-center shadow-sm">
-            <Layers className={`w-6 h-6 ${clash.clashIntensity === 'high' ? 'text-rose-500' : 'text-indigo-500'}`} />
-         </div>
-         <div className="flex-1">
-            <div className="text-[11px] font-black text-slate-800 leading-tight">Nearby Multi-brand Stores: {clash.nearbyCompetitorStores}</div>
-            <div className="text-[8px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Scan Radius: {clash.radiusKm}km</div>
-         </div>
+      <div className="relative z-10 mb-4 flex items-center gap-4">
+        <div className="border-border-subtle flex h-12 w-12 items-center justify-center rounded-xl border bg-white shadow-sm">
+          <Layers
+            className={`h-6 w-6 ${clash.clashIntensity === 'high' ? 'text-rose-500' : 'text-accent-primary'}`}
+          />
+        </div>
+        <div className="flex-1">
+          <div className="text-text-primary text-[11px] font-black leading-tight">
+            Nearby Multi-brand Stores: {clash.nearbyCompetitorStores}
+          </div>
+          <div className="text-text-muted mt-0.5 text-[8px] font-bold uppercase tracking-widest">
+            Scan Radius: {clash.radiusKm}km
+          </div>
+        </div>
       </div>
 
-      <div className={`p-3 rounded-xl border flex items-center gap-3 ${clash.suggestedAction === 'skip' ? 'bg-rose-50 border-rose-100 text-rose-700' : 'bg-indigo-50 border-indigo-100 text-indigo-700'}`}>
-         {clash.suggestedAction === 'skip' ? <AlertCircle className="w-4 h-4 shrink-0" /> : <CheckCircle2 className="w-4 h-4 shrink-0" />}
-         <div className="text-[10px] font-bold leading-tight">
-            <b>Action:</b> {clash.suggestedAction === 'skip' ? 'High overlap in neighborhood. Skip this SKU.' : 'Unique style for this location. Proceed.'}
-         </div>
+      <div
+        className={`flex items-center gap-3 rounded-xl border p-3 ${clash.suggestedAction === 'skip' ? 'border-rose-100 bg-rose-50 text-rose-700' : 'bg-accent-primary/10 border-accent-primary/20 text-accent-primary'}`}
+      >
+        {clash.suggestedAction === 'skip' ? (
+          <AlertCircle className="h-4 w-4 shrink-0" />
+        ) : (
+          <CheckCircle2 className="h-4 w-4 shrink-0" />
+        )}
+        <div className="text-[10px] font-bold leading-tight">
+          <b>Action:</b>{' '}
+          {clash.suggestedAction === 'skip'
+            ? 'High overlap in neighborhood. Skip this SKU.'
+            : 'Unique style for this location. Proceed.'}
+        </div>
       </div>
 
-      <div className="mt-3 flex items-center gap-1.5 text-[8px] font-black text-slate-400 uppercase tracking-widest italic opacity-60">
-         <Navigation className="w-3 h-3" /> Geospatial B2B Analysis Enabled
+      <div className="text-text-muted mt-3 flex items-center gap-1.5 text-[8px] font-black uppercase italic tracking-widest opacity-60">
+        <Navigation className="h-3 w-3" /> Geospatial B2B Analysis Enabled
       </div>
     </Card>
   );

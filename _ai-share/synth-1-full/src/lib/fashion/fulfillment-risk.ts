@@ -4,7 +4,7 @@ import type { FulfillmentRiskV1 } from './types';
 export function getFulfillmentRisk(sku: string): FulfillmentRiskV1 {
   const seed = sku.split('-')[1] || '100';
   const numSeed = parseInt(seed, 10);
-  
+
   const logisticRisk = (numSeed % 10) * 5 + 10;
   const productionRisk = (numSeed % 5) * 10 + 5;
   const overallScore = (logisticRisk + productionRisk) / 2;

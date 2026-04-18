@@ -4,39 +4,46 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { PartnerDemoExportBar } from '@/components/brand/partner-demo-export-bar';
 import { ROUTES } from '@/lib/routes';
 import { PARTNER_MARKETPLACE_ISSUES } from '@/lib/platform/partner-demo-data';
 import { ArrowLeft, Store, Boxes } from 'lucide-react';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
 export default function MarketplaceCardHealthPage() {
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6 pb-24">
-      <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
-        <div className="flex items-center gap-3">
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Здоровье карточек на МП"
+        leadPlain="Ошибки атрибутов по регионам. Тип: PartnerMarketplaceIssue."
+        eyebrow={
           <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.brand.integrations}>
+            <Link href={ROUTES.brand.integrations} aria-label="Назад к интеграциям">
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
-          <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
-              <Store className="h-6 w-6" />
-              Здоровье карточек на МП
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Ошибки атрибутов по регионам. Тип: <code className="text-[10px] bg-muted px-1 rounded">PartnerMarketplaceIssue</code>.
-            </p>
+        }
+        actions={
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <Store className="size-6 shrink-0 text-muted-foreground" aria-hidden />
+            <PartnerDemoExportBar />
           </div>
-        </div>
-        <PartnerDemoExportBar />
-      </div>
+        }
+      />
 
       <Button variant="secondary" size="sm" asChild>
         <Link href={ROUTES.brand.products}>
-          <Boxes className="h-3.5 w-3.5 mr-2" />
-          PIM / товары
+          <Boxes className="mr-2 h-3.5 w-3.5" />
+          <AcronymWithTooltip abbr="PIM" /> / товары
         </Link>
       </Button>
 
@@ -51,7 +58,9 @@ export default function MarketplaceCardHealthPage() {
               <TableRow>
                 <TableHead>МП</TableHead>
                 <TableHead>Регион</TableHead>
-                <TableHead>SKU</TableHead>
+                <TableHead>
+                  <AcronymWithTooltip abbr="SKU" />
+                </TableHead>
                 <TableHead>Серьёзность</TableHead>
                 <TableHead>Проблема</TableHead>
                 <TableHead>Подсказка</TableHead>
@@ -60,16 +69,21 @@ export default function MarketplaceCardHealthPage() {
             <TableBody>
               {PARTNER_MARKETPLACE_ISSUES.map((x) => (
                 <TableRow key={`${x.marketplace}-${x.sku}-${x.region}`}>
-                  <TableCell className="font-medium text-sm">{x.marketplace}</TableCell>
+                  <TableCell className="text-sm font-medium">{x.marketplace}</TableCell>
                   <TableCell className="text-xs">{x.region}</TableCell>
                   <TableCell className="font-mono text-xs">{x.sku}</TableCell>
                   <TableCell>
-                    <Badge variant={x.severity === 'high' ? 'destructive' : 'secondary'} className="text-[10px]">
+                    <Badge
+                      variant={x.severity === 'high' ? 'destructive' : 'secondary'}
+                      className="text-[10px]"
+                    >
                       {x.severity}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-sm max-w-[200px]">{x.problem}</TableCell>
-                  <TableCell className="text-xs text-muted-foreground max-w-[220px]">{x.fixHint ?? '—'}</TableCell>
+                  <TableCell className="max-w-[200px] text-sm">{x.problem}</TableCell>
+                  <TableCell className="max-w-[220px] text-xs text-muted-foreground">
+                    {x.fixHint ?? '—'}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -85,7 +99,10 @@ export default function MarketplaceCardHealthPage() {
                 <CardTitle className="text-sm">
                   {x.marketplace} · {x.region}
                 </CardTitle>
-                <Badge variant={x.severity === 'high' ? 'destructive' : 'secondary'} className="text-[10px]">
+                <Badge
+                  variant={x.severity === 'high' ? 'destructive' : 'secondary'}
+                  className="text-[10px]"
+                >
                   {x.severity}
                 </Badge>
               </div>
@@ -98,6 +115,6 @@ export default function MarketplaceCardHealthPage() {
           </Card>
         ))}
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

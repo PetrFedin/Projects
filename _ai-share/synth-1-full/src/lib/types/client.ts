@@ -9,29 +9,29 @@ export interface BodyMeasurements {
   unit: 'cm' | 'in';
   height: number;
   weight?: number;
-  
+
   // Core circumferences
   neck?: number;
   chest: number;
   waist: number;
   hips: number;
-  
+
   // Shoulders and arms
   shoulderWidth?: number;
   armLength?: number;
   bicep?: number;
   wrist?: number;
-  
+
   // Legs
   insideLeg?: number;
   thigh?: number;
   calf?: number;
   ankle?: number;
-  
+
   // Specialized
   bust?: number; // for women's wear
   underBust?: number;
-  
+
   // Metadata
   scannedAt: string;
   scanMethod: 'ai_vision' | 'manual' | 'import';

@@ -9,6 +9,9 @@ import { MapPin, ArrowLeft, Map } from 'lucide-react';
 import { getLiaLinks } from '@/lib/data/entity-links';
 import { listLiaFeeds } from '@/lib/api';
 import type { LiaStoreFeed } from '@/lib/shop/local-inventory-ads';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { RegistryPageShell } from '@/components/design-system';
+import { ROUTES } from '@/lib/routes';
 
 const statusLabels: Record<LiaStoreFeed['status'], string> = {
   active: 'Активен',
@@ -25,14 +28,18 @@ export default function ShopLocalInventoryAdsPage() {
   }, []);
 
   return (
-    <div className="container max-w-4xl py-6 space-y-6 pb-24">
+    <RegistryPageShell className="max-w-4xl space-y-6">
       <div className="flex items-center gap-3">
-        <Link href="/shop/inventory">
-          <Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button>
+        <Link href={ROUTES.shop.inventory}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Local Inventory Ads (LIA)</h1>
-          <p className="text-slate-500 text-sm">Передача наличия в Google / Yandex Maps. Связь со складом, маркетингом и BOPIS.</p>
+          <p className="text-text-secondary text-sm">
+            Передача наличия в Google / Yandex Maps. Связь со складом, маркетингом и BOPIS.
+          </p>
         </div>
       </div>
 
@@ -42,19 +49,33 @@ export default function ShopLocalInventoryAdsPage() {
             <Map className="h-4 w-4 text-amber-600" />
             Фиды этого магазина
           </CardTitle>
-          <CardDescription>Наличие передаётся в карты для локальной рекламы и «Где купить»</CardDescription>
+          <CardDescription>
+            Наличие передаётся в карты для локальной рекламы и «Где купить»
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
           {feeds.map((feed) => (
-            <div key={`${feed.storeId}-${feed.channel}`} className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            <div
+              key={`${feed.storeId}-${feed.channel}`}
+              className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3"
+            >
               <div>
-                <p className="text-sm font-medium">{feed.storeName} · {feed.channel === 'google' ? 'Google' : 'Yandex'}</p>
-                <p className="text-xs text-slate-500">{feed.itemCount} SKU · обновлено {feed.lastSyncAt?.slice(0, 16).replace('T', ' ')}</p>
+                <p className="text-sm font-medium">
+                  {feed.storeName} · {feed.channel === 'google' ? 'Google' : 'Yandex'}
+                </p>
+                <p className="text-text-secondary text-xs">
+                  {feed.itemCount} <AcronymWithTooltip abbr="SKU" /> · обновлено{' '}
+                  {feed.lastSyncAt?.slice(0, 16).replace('T', ' ')}
+                </p>
               </div>
-              <Badge variant="default" className="text-[10px]">{statusLabels[feed.status]}</Badge>
+              <Badge variant="default" className="text-[10px]">
+                {statusLabels[feed.status]}
+              </Badge>
             </div>
           ))}
-          <p className="text-xs text-slate-400 mt-3">Настройка фидов: бренд → Маркетинг → Local Inventory Ads. API: LOCAL_INVENTORY_ADS_API.</p>
+          <p className="text-text-muted mt-3 text-xs">
+            Настройка фидов: бренд → Маркетинг → Local Inventory Ads. API: LOCAL_INVENTORY_ADS_API.
+          </p>
         </CardContent>
       </Card>
 
@@ -67,12 +88,14 @@ export default function ShopLocalInventoryAdsPage() {
           <ul className="flex flex-wrap gap-2">
             {links.map((l) => (
               <li key={l.href}>
-                <Button variant="outline" size="sm" className="text-xs" asChild><Link href={l.href}>{l.label}</Link></Button>
+                <Button variant="outline" size="sm" className="text-xs" asChild>
+                  <Link href={l.href}>{l.label}</Link>
+                </Button>
               </li>
             ))}
           </ul>
         </CardContent>
       </Card>
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -12,7 +12,10 @@ import { getAqlPlan, AqlLevel } from '@/lib/production/aql-standards';
 import { W2_ARTICLE_SECTION_DOM } from '@/lib/production/workshop2-url';
 import { Textarea } from '@/components/ui/textarea';
 import type { ArticleWorkspaceBundle } from '@/lib/production/article-workspace/types';
-import type { Workshop2DossierPhase1, Workshop2SampleProductionChainMode } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2SampleProductionChainMode,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import {
   emptyWorkshop2DossierPhase1,
   getWorkshop2Phase1Dossier,
@@ -31,7 +34,7 @@ function newRowId(): string {
 }
 
 const field =
-  'flex h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-[12px] text-slate-800 shadow-sm placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-400';
+  'flex h-8 w-full rounded-md border border-border-default bg-white px-2 text-[12px] text-text-primary shadow-sm placeholder:text-text-muted focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-primary';
 
 function PanelShell({
   title,
@@ -53,14 +56,14 @@ function PanelShell({
   children: ReactNode;
 }) {
   return (
-    <Card className="border-slate-200">
-      <CardContent className="space-y-4 pt-4 pb-4">
+    <Card className="border-border-default">
+      <CardContent className="space-y-4 pb-4 pt-4">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <div className="space-y-1">
-            <p className="text-[12px] font-semibold text-slate-900">{title}</p>
+            <p className="text-text-primary text-[12px] font-semibold">{title}</p>
             <CardDescription className="text-[11px]">{hint}</CardDescription>
           </div>
-          <span className="rounded border border-slate-200 bg-slate-50 px-1.5 py-0.5 font-mono text-[9px] text-slate-500">
+          <span className="border-border-default bg-bg-surface2 text-text-secondary rounded border px-1.5 py-0.5 font-mono text-[9px]">
             {dataMode === 'http' ? 'API' : 'local'}
           </span>
         </div>
@@ -68,26 +71,34 @@ function PanelShell({
           <div className="min-w-0">{children}</div>
           <aside className="space-y-3">
             {summary ? (
-              <div className="rounded-lg border border-slate-200 bg-slate-50/70 p-3">
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Суть этапа</p>
-                <p className="mt-1 text-[11px] text-slate-700">{summary}</p>
+              <div className="border-border-default bg-bg-surface2/70 rounded-lg border p-3">
+                <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                  Суть этапа
+                </p>
+                <p className="text-text-primary mt-1 text-[11px]">{summary}</p>
               </div>
             ) : null}
             {readiness ? (
-              <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Готовность</p>
-                <p className="mt-1 text-[11px] font-semibold text-slate-800">{readiness}</p>
+              <div className="border-border-default rounded-lg border bg-white p-3">
+                <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                  Готовность
+                </p>
+                <p className="text-text-primary mt-1 text-[11px] font-semibold">{readiness}</p>
               </div>
             ) : null}
             {nextAction ? (
-              <div className="rounded-lg border border-indigo-100 bg-indigo-50/50 p-3">
-                <p className="text-[9px] font-black uppercase tracking-widest text-indigo-400">Следующее действие</p>
-                <p className="mt-1 text-[11px] font-semibold text-indigo-900">{nextAction}</p>
+              <div className="border-accent-primary/20 bg-accent-primary/10 rounded-lg border p-3">
+                <p className="text-accent-primary text-[9px] font-black uppercase tracking-widest">
+                  Следующее действие
+                </p>
+                <p className="text-accent-primary mt-1 text-[11px] font-semibold">{nextAction}</p>
               </div>
             ) : null}
             {blockers && blockers.length > 0 ? (
               <div className="rounded-lg border border-amber-100 bg-amber-50/60 p-3">
-                <p className="text-[9px] font-black uppercase tracking-widest text-amber-500">Что мешает</p>
+                <p className="text-[9px] font-black uppercase tracking-widest text-amber-500">
+                  Что мешает
+                </p>
                 <ul className="mt-1 space-y-1">
                   {blockers.map((blocker) => (
                     <li key={blocker} className="text-[11px] text-amber-900">
@@ -107,10 +118,13 @@ function PanelShell({
 export function Workshop2ArticleSupplyPanel() {
   const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
   if (loading || !bundle) {
-    return <p className="text-[12px] text-slate-500">Загрузка…</p>;
+    return <p className="text-text-secondary text-[12px]">Загрузка…</p>;
   }
   const supply = bundle.supply!;
-  const totalCost = supply.lines.reduce((acc, line) => acc + (line.qty || 0) * (line.costPerUnit || 0), 0);
+  const totalCost = supply.lines.reduce(
+    (acc, line) => acc + (line.qty || 0) * (line.costPerUnit || 0),
+    0
+  );
 
   return (
     <PanelShell
@@ -131,24 +145,32 @@ export function Workshop2ArticleSupplyPanel() {
           .filter((line) => line.status === 'ordered' && (line.leadTimeDays ?? 0) > 14)
           .map((line) => `Срок поставки > 14 дней: ${line.label || 'без названия'}`),
       ]}
-      nextAction={supply.lines.length === 0 ? 'Добавить основные материалы из ТЗ.' : 'Подтвердить поставщика и срок поставки для критичных строк.'}
+      nextAction={
+        supply.lines.length === 0
+          ? 'Добавить основные материалы из ТЗ.'
+          : 'Подтвердить поставщика и срок поставки для критичных строк.'
+      }
     >
       <div className="space-y-2">
-        <div className="flex justify-between items-center mb-1">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Спецификация материалов</p>
+        <div className="mb-1 flex items-center justify-between">
+          <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+            Спецификация материалов
+          </p>
           <div className="text-right">
-            <span className="text-[10px] text-slate-400 uppercase font-bold">Итого (BOM): </span>
-            <span className="text-[12px] font-black text-indigo-700">{totalCost.toLocaleString()} ₽</span>
+            <span className="text-text-muted text-[10px] font-bold uppercase">Итого (BOM): </span>
+            <span className="text-accent-primary text-[12px] font-black">
+              {totalCost.toLocaleString()} ₽
+            </span>
           </div>
         </div>
         {supply.lines.length === 0 ? (
-          <p className="text-[11px] text-slate-500">Пока нет строк — добавьте черновик.</p>
+          <p className="text-text-secondary text-[11px]">Пока нет строк — добавьте черновик.</p>
         ) : (
           <ul className="space-y-2">
             {supply.lines.map((line) => (
               <li
                 key={line.id}
-                className="grid gap-2 rounded-md border border-slate-100 bg-slate-50/80 p-2 sm:grid-cols-[1fr_minmax(0,100px)_minmax(0,120px)_auto]"
+                className="border-border-subtle bg-bg-surface2/80 grid gap-2 rounded-md border p-2 sm:grid-cols-[1fr_minmax(0,100px)_minmax(0,120px)_auto]"
               >
                 <div className="space-y-1">
                   <Input
@@ -167,7 +189,7 @@ export function Workshop2ArticleSupplyPanel() {
                   />
                   <div className="flex gap-2">
                     <Input
-                      className="h-7 text-[10px] w-20"
+                      className="h-7 w-20 text-[10px]"
                       value={line.qty != null ? String(line.qty) : ''}
                       onChange={(e) => {
                         const v = e.target.value.trim();
@@ -175,14 +197,18 @@ export function Workshop2ArticleSupplyPanel() {
                         void mergeBundle({
                           supply: {
                             ...supply,
-                            lines: supply.lines.map((l) => (l.id === line.id ? { ...l, qty: !Number.isNaN(qty) ? qty : undefined } : l)),
+                            lines: supply.lines.map((l) =>
+                              l.id === line.id
+                                ? { ...l, qty: !Number.isNaN(qty) ? qty : undefined }
+                                : l
+                            ),
                           },
                         });
                       }}
                       placeholder="Кол-во"
                     />
                     <Input
-                      className="h-7 text-[10px] w-12"
+                      className="h-7 w-12 text-[10px]"
                       value={line.unit ?? ''}
                       onChange={(e) => {
                         const unit = e.target.value;
@@ -196,7 +222,7 @@ export function Workshop2ArticleSupplyPanel() {
                       placeholder="Ед"
                     />
                     <Input
-                      className="h-7 text-[10px] w-20"
+                      className="h-7 w-20 text-[10px]"
                       value={line.costPerUnit != null ? String(line.costPerUnit) : ''}
                       onChange={(e) => {
                         const v = e.target.value.trim();
@@ -204,14 +230,23 @@ export function Workshop2ArticleSupplyPanel() {
                         void mergeBundle({
                           supply: {
                             ...supply,
-                            lines: supply.lines.map((l) => (l.id === line.id ? { ...l, costPerUnit: !Number.isNaN(costPerUnit) ? costPerUnit : undefined } : l)),
+                            lines: supply.lines.map((l) =>
+                              l.id === line.id
+                                ? {
+                                    ...l,
+                                    costPerUnit: !Number.isNaN(costPerUnit)
+                                      ? costPerUnit
+                                      : undefined,
+                                  }
+                                : l
+                            ),
                           },
                         });
                       }}
                       placeholder="Цена ед."
                     />
                     <Input
-                      className="h-7 text-[10px] w-16"
+                      className="h-7 w-16 text-[10px]"
                       value={line.leadTimeDays != null ? String(line.leadTimeDays) : ''}
                       onChange={(e) => {
                         const v = e.target.value.trim();
@@ -219,17 +254,28 @@ export function Workshop2ArticleSupplyPanel() {
                         void mergeBundle({
                           supply: {
                             ...supply,
-                            lines: supply.lines.map((l) => (l.id === line.id ? { ...l, leadTimeDays: !Number.isNaN(leadTimeDays) ? leadTimeDays : undefined } : l)),
+                            lines: supply.lines.map((l) =>
+                              l.id === line.id
+                                ? {
+                                    ...l,
+                                    leadTimeDays: !Number.isNaN(leadTimeDays)
+                                      ? leadTimeDays
+                                      : undefined,
+                                  }
+                                : l
+                            ),
                           },
                         });
                       }}
                       placeholder="Срок, дн."
                     />
-                    {line.leadTimeDays != null && line.status === 'ordered' && line.leadTimeDays > 14 && (
-                      <div className="flex items-center gap-1 text-[9px] font-black text-rose-500 uppercase tracking-tighter">
-                        <LucideIcons.AlertTriangle className="w-2.5 h-2.5" /> Высокий риск
-                      </div>
-                    )}
+                    {line.leadTimeDays != null &&
+                      line.status === 'ordered' &&
+                      line.leadTimeDays > 14 && (
+                        <div className="flex items-center gap-1 text-[9px] font-black uppercase tracking-tighter text-rose-500">
+                          <LucideIcons.AlertTriangle className="h-2.5 w-2.5" /> Высокий риск
+                        </div>
+                      )}
                   </div>
                 </div>
                 <select
@@ -279,10 +325,7 @@ export function Workshop2ArticleSupplyPanel() {
               void mergeBundle({
                 supply: {
                   ...supply,
-                  lines: [
-                    ...supply.lines,
-                    { id: newRowId(), label: '', status: 'draft' as const },
-                  ],
+                  lines: [...supply.lines, { id: newRowId(), label: '', status: 'draft' as const }],
                 },
               })
             }
@@ -291,7 +334,7 @@ export function Workshop2ArticleSupplyPanel() {
           </Button>
         </div>
         <label className="block space-y-1">
-          <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+          <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
             Заметка
           </span>
           <textarea
@@ -375,7 +418,9 @@ function Workshop2ArticleSampleIntakeStockSection({
     >
       <div className="space-y-4">
         <div className="space-y-2">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Режим цепочки производства</p>
+          <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+            Режим цепочки производства
+          </p>
           <select
             className={cn(field, 'py-1.5')}
             value={mode ?? ''}
@@ -387,7 +432,9 @@ function Workshop2ArticleSampleIntakeStockSection({
             }}
           >
             <option value="">Выберите…</option>
-            {(Object.keys(SAMPLE_PRODUCTION_CHAIN_LABELS) as Workshop2SampleProductionChainMode[]).map((k) => (
+            {(
+              Object.keys(SAMPLE_PRODUCTION_CHAIN_LABELS) as Workshop2SampleProductionChainMode[]
+            ).map((k) => (
               <option key={k} value={k}>
                 {SAMPLE_PRODUCTION_CHAIN_LABELS[k]}
               </option>
@@ -396,12 +443,12 @@ function Workshop2ArticleSampleIntakeStockSection({
         </div>
 
         {needSewnRf ? (
-          <label className="flex items-center gap-2 text-[12px] font-semibold text-slate-700">
+          <label className="text-text-primary flex items-center gap-2 text-[12px] font-semibold">
             <input
               type="checkbox"
               checked={Boolean(r.sewnInRussiaConfirmed)}
               onChange={(e) => setReleaseField('sewnInRussiaConfirmed', e.target.checked)}
-              className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+              className="border-border-default text-accent-primary focus:ring-accent-primary h-4 w-4 rounded"
             />
             Пошив / изготовление в РФ подтверждены
           </label>
@@ -409,7 +456,7 @@ function Workshop2ArticleSampleIntakeStockSection({
 
         <div className="grid gap-3 sm:grid-cols-2">
           <label className="block space-y-1 sm:col-span-2">
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
               Страна происхождения товара (факт после образца)
             </span>
             <Input
@@ -420,7 +467,9 @@ function Workshop2ArticleSampleIntakeStockSection({
             />
           </label>
           <label className="block space-y-1">
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">ТН ВЭД под отгрузку</span>
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
+              ТН ВЭД под отгрузку
+            </span>
             <Input
               className={field}
               value={r.finalTnvedCode ?? ''}
@@ -429,7 +478,9 @@ function Workshop2ArticleSampleIntakeStockSection({
             />
           </label>
           <label className="block space-y-1">
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">EAN / GTIN или код партии</span>
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
+              EAN / GTIN или код партии
+            </span>
             <Input
               className={field}
               value={r.eanOrBatchCode ?? ''}
@@ -437,7 +488,9 @@ function Workshop2ArticleSampleIntakeStockSection({
             />
           </label>
           <label className="block space-y-1 sm:col-span-2">
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Маркировка и прослеживаемость (итог)</span>
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
+              Маркировка и прослеживаемость (итог)
+            </span>
             <Textarea
               className={cn(field, 'min-h-[64px] py-2')}
               value={r.markingTraceabilityNote ?? ''}
@@ -445,7 +498,9 @@ function Workshop2ArticleSampleIntakeStockSection({
             />
           </label>
           <label className="block space-y-1 sm:col-span-2">
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">ТР ТС / ЕАЭС — реквизит или ссылка</span>
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
+              ТР ТС / ЕАЭС — реквизит или ссылка
+            </span>
             <Input
               className={field}
               value={r.technicalRegulationRef ?? ''}
@@ -453,7 +508,9 @@ function Workshop2ArticleSampleIntakeStockSection({
             />
           </label>
           <label className="block space-y-1 sm:col-span-2">
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">ОКПД2 / отраслевой код (примечание)</span>
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
+              ОКПД2 / отраслевой код (примечание)
+            </span>
             <Input
               className={field}
               value={r.okpd2Note ?? ''}
@@ -461,9 +518,11 @@ function Workshop2ArticleSampleIntakeStockSection({
             />
           </label>
           <label className="block space-y-1 sm:col-span-2">
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
               Декларация соответствия / сертификат (реквизиты){' '}
-              <span className="font-normal normal-case text-slate-400">— для импорта / вне ЕАЭС / смешанной цепочки</span>
+              <span className="text-text-muted font-normal normal-case">
+                — для импорта / вне ЕАЭС / смешанной цепочки
+              </span>
             </span>
             <Input
               className={field}
@@ -472,7 +531,7 @@ function Workshop2ArticleSampleIntakeStockSection({
             />
           </label>
           <label className="block space-y-1 sm:col-span-2">
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
               Итоговый состав (если менялся на образце)
             </span>
             <Textarea
@@ -484,7 +543,7 @@ function Workshop2ArticleSampleIntakeStockSection({
           </label>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 border-t border-slate-100 pt-3">
+        <div className="border-border-subtle flex flex-wrap items-center gap-3 border-t pt-3">
           <Button
             type="button"
             disabled={!intake.ok || fg.goldApproved}
@@ -504,7 +563,9 @@ function Workshop2ArticleSampleIntakeStockSection({
           {fg.goldApproved ? (
             <span className="text-[11px] font-medium text-emerald-700">Сэмпл уже принят.</span>
           ) : !intake.ok ? (
-            <span className="text-[11px] text-slate-500">Кнопка активна после закрытия гейта приёмки.</span>
+            <span className="text-text-secondary text-[11px]">
+              Кнопка активна после закрытия гейта приёмки.
+            </span>
           ) : null}
         </div>
       </div>
@@ -515,7 +576,7 @@ function Workshop2ArticleSampleIntakeStockSection({
 export function Workshop2ArticleFitGoldPanel() {
   const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
 
-  if (loading || !bundle) return <p className="text-[12px] text-slate-500">Загрузка…</p>;
+  if (loading || !bundle) return <p className="text-text-secondary text-[12px]">Загрузка…</p>;
   const fg = bundle.fitGold!;
   const hasComments = fg.fitComments.length > 0;
 
@@ -539,49 +600,67 @@ export function Workshop2ArticleFitGoldPanel() {
           : 'Откройте «Склад», заполните приёмку сэмпла и нажмите «Принять сэмпл в коллекцию».'
       }
     >
-      <div className="mb-4 flex flex-wrap items-center gap-3 border-b border-slate-100 pb-4">
+      <div className="border-border-subtle mb-4 flex flex-wrap items-center gap-3 border-b pb-4">
         {fg.virtualFitScore != null ? (
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Virtual Fit Score:</span>
-            <Badge className="h-5 border-emerald-100 bg-emerald-50 text-[10px] text-emerald-700">{fg.virtualFitScore}%</Badge>
+            <span className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+              Virtual Fit Score:
+            </span>
+            <Badge className="h-5 border-emerald-100 bg-emerald-50 text-[10px] text-emerald-700">
+              {fg.virtualFitScore}%
+            </Badge>
           </div>
         ) : (
-          <p className="text-[11px] text-slate-500">Оценка Virtual Fit ещё не рассчитана.</p>
+          <p className="text-text-secondary text-[11px]">Оценка Virtual Fit ещё не рассчитана.</p>
         )}
       </div>
 
       <div className="space-y-3">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Журнал комментариев</p>
+        <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+          Журнал комментариев
+        </p>
         {fg.fitComments.length === 0 ? (
-          <p className="text-[11px] text-slate-500 italic">Комментариев пока нет.</p>
+          <p className="text-text-secondary text-[11px] italic">Комментариев пока нет.</p>
         ) : (
           <ul className="space-y-2">
             {fg.fitComments.map((c) => (
-              <li key={c.id} className="rounded-xl border border-slate-100 bg-white p-3 shadow-sm group hover:border-indigo-100 transition-colors">
-                <div className="flex justify-between items-start mb-1">
+              <li
+                key={c.id}
+                className="border-border-subtle hover:border-accent-primary/20 group rounded-xl border bg-white p-3 shadow-sm transition-colors"
+              >
+                <div className="mb-1 flex items-start justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-[9px] font-black text-slate-500">
+                    <div className="bg-bg-surface2 text-text-secondary flex h-6 w-6 items-center justify-center rounded-full text-[9px] font-black">
                       {c.by?.[0] || 'U'}
                     </div>
-                    <span className="text-[10px] font-black text-slate-800">{c.by || 'Пользователь'}</span>
-                    <Badge variant="outline" className="text-[7px] h-3.5 uppercase bg-slate-50 border-slate-200">
-                      {c.role === 'designer' ? 'Дизайнер' : c.role === 'technologist' ? 'Технолог' : 'Бренд-менеджер'}
+                    <span className="text-text-primary text-[10px] font-black">
+                      {c.by || 'Пользователь'}
+                    </span>
+                    <Badge
+                      variant="outline"
+                      className="bg-bg-surface2 border-border-default h-3.5 text-[7px] uppercase"
+                    >
+                      {c.role === 'designer'
+                        ? 'Дизайнер'
+                        : c.role === 'technologist'
+                          ? 'Технолог'
+                          : 'Бренд-менеджер'}
                     </Badge>
                   </div>
-                  <span className="text-[9px] text-slate-400 font-mono">{c.at.split('T')[0]}</span>
+                  <span className="text-text-muted font-mono text-[9px]">{c.at.split('T')[0]}</span>
                 </div>
-                <p className="text-[11px] text-slate-600 leading-relaxed">{c.text}</p>
+                <p className="text-text-secondary text-[11px] leading-relaxed">{c.text}</p>
               </li>
             ))}
           </ul>
         )}
-        
+
         <div className="flex flex-wrap gap-2 pt-2">
           <Button
             type="button"
             variant="outline"
             size="sm"
-            className="h-8 text-xs gap-1.5"
+            className="h-8 gap-1.5 text-xs"
             onClick={() => {
               const text = window.prompt('Комментарий дизайнера');
               if (text == null || !text.trim()) return;
@@ -590,19 +669,25 @@ export function Workshop2ArticleFitGoldPanel() {
                   ...fg,
                   fitComments: [
                     ...fg.fitComments,
-                    { id: newRowId(), text: text.trim(), at: new Date().toISOString(), role: 'designer', by: 'D. Designer' },
+                    {
+                      id: newRowId(),
+                      text: text.trim(),
+                      at: new Date().toISOString(),
+                      role: 'designer',
+                      by: 'D. Designer',
+                    },
                   ],
                 },
               });
             }}
           >
-            <LucideIcons.Plus className="w-3 h-3" /> Дизайнер
+            <LucideIcons.Plus className="h-3 w-3" /> Дизайнер
           </Button>
           <Button
             type="button"
             variant="outline"
             size="sm"
-            className="h-8 text-xs gap-1.5"
+            className="h-8 gap-1.5 text-xs"
             onClick={() => {
               const text = window.prompt('Комментарий технолога');
               if (text == null || !text.trim()) return;
@@ -611,13 +696,19 @@ export function Workshop2ArticleFitGoldPanel() {
                   ...fg,
                   fitComments: [
                     ...fg.fitComments,
-                    { id: newRowId(), text: text.trim(), at: new Date().toISOString(), role: 'technologist', by: 'T. Tech' },
+                    {
+                      id: newRowId(),
+                      text: text.trim(),
+                      at: new Date().toISOString(),
+                      role: 'technologist',
+                      by: 'T. Tech',
+                    },
                   ],
                 },
               });
             }}
           >
-            <LucideIcons.Plus className="w-3 h-3" /> Технолог
+            <LucideIcons.Plus className="h-3 w-3" /> Технолог
           </Button>
         </div>
       </div>
@@ -627,7 +718,7 @@ export function Workshop2ArticleFitGoldPanel() {
 
 export function Workshop2ArticlePlanPoPanel() {
   const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
-  if (loading || !bundle) return <p className="text-[12px] text-slate-500">Загрузка…</p>;
+  if (loading || !bundle) return <p className="text-text-secondary text-[12px]">Загрузка…</p>;
   const plan = bundle.planPo!;
 
   return (
@@ -645,14 +736,21 @@ export function Workshop2ArticlePlanPoPanel() {
               : 'Не начато'
         }
         blockers={plan.purchaseOrders.length === 0 ? ['Нет ни одного PO.'] : []}
-        nextAction={plan.purchaseOrders.length === 0 ? 'Создать первый PO и due date.' : 'Подтвердить PO и запустить подготовку к release.'}
+        nextAction={
+          plan.purchaseOrders.length === 0
+            ? 'Создать первый PO и due date.'
+            : 'Подтвердить PO и запустить подготовку к release.'
+        }
       >
         {plan.purchaseOrders.length === 0 ? (
-          <p className="text-[11px] text-slate-500 italic">Нет строк PO.</p>
+          <p className="text-text-secondary text-[11px] italic">Нет строк PO.</p>
         ) : (
           <ul className="space-y-2">
             {plan.purchaseOrders.map((po) => (
-              <li key={po.id} className="grid gap-2 sm:grid-cols-2 bg-slate-50 p-2 rounded-xl border border-slate-100 shadow-sm group">
+              <li
+                key={po.id}
+                className="bg-bg-surface2 border-border-subtle group grid gap-2 rounded-xl border p-2 shadow-sm sm:grid-cols-2"
+              >
                 <div className="space-y-1">
                   <Input
                     className="h-8 text-[11px] font-bold"
@@ -671,7 +769,7 @@ export function Workshop2ArticlePlanPoPanel() {
                   />
                   <div className="flex gap-2">
                     <Input
-                      className="h-7 text-[10px] w-20"
+                      className="h-7 w-20 text-[10px]"
                       placeholder="Кол-во"
                       value={po.qty || ''}
                       onChange={(e) => {
@@ -687,7 +785,7 @@ export function Workshop2ArticlePlanPoPanel() {
                       }}
                     />
                     <Input
-                      className="h-7 text-[10px] flex-1"
+                      className="h-7 flex-1 text-[10px]"
                       placeholder="Срок (due date)"
                       value={po.dueNote || ''}
                       onChange={(e) => {
@@ -729,7 +827,7 @@ export function Workshop2ArticlePlanPoPanel() {
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="h-7 text-[9px] text-red-500 hover:bg-red-50 uppercase font-black"
+                    className="h-7 text-[9px] font-black uppercase text-red-500 hover:bg-red-50"
                     onClick={() => {
                       void mergeBundle({
                         planPo: {
@@ -750,7 +848,7 @@ export function Workshop2ArticlePlanPoPanel() {
           type="button"
           variant="outline"
           size="sm"
-          className="h-8 text-xs gap-1.5"
+          className="h-8 gap-1.5 text-xs"
           onClick={() =>
             void mergeBundle({
               planPo: {
@@ -763,41 +861,54 @@ export function Workshop2ArticlePlanPoPanel() {
             })
           }
         >
-          <LucideIcons.Plus className="w-3 h-3" /> Добавить PO
+          <LucideIcons.Plus className="h-3 w-3" /> Добавить PO
         </Button>
       </PanelShell>
 
-      <Card className="border-indigo-100 bg-indigo-50/20 shadow-sm relative overflow-hidden group">
-        <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none group-hover:scale-110 transition-transform">
-          <LucideIcons.Zap className="w-16 h-16 text-indigo-600" />
+      <Card className="border-accent-primary/20 bg-accent-primary/10 group relative overflow-hidden shadow-sm">
+        <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-5 transition-transform group-hover:scale-110">
+          <LucideIcons.Zap className="text-accent-primary h-16 w-16" />
         </div>
-        <CardContent className="p-4 space-y-3">
-          <div className="flex justify-between items-center">
+        <CardContent className="space-y-3 p-4">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <LucideIcons.Zap className="w-4 h-4 text-indigo-600" />
-              <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">Nesting AI Optimizer</h4>
+              <LucideIcons.Zap className="text-accent-primary h-4 w-4" />
+              <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+                Nesting AI Optimizer
+              </h4>
             </div>
-            <Badge className="bg-indigo-600 text-white border-none text-[8px] h-4 font-black">AI ACTIVE</Badge>
+            <Badge className="bg-accent-primary h-4 border-none text-[8px] font-black text-white">
+              AI ACTIVE
+            </Badge>
           </div>
-          
+
           {plan.nestingAiOptimization ? (
             <div className="space-y-2">
-              <div className="flex justify-between items-end">
-                <span className="text-[18px] font-black text-slate-900">+{plan.nestingAiOptimization.efficiencyGainPct}% <span className="text-[10px] text-slate-400 font-bold uppercase">Efficiency</span></span>
-                <span className="text-[9px] text-slate-400 uppercase font-bold tracking-tighter">Last Run: {plan.nestingAiOptimization.lastRunAt.split('T')[0]}</span>
+              <div className="flex items-end justify-between">
+                <span className="text-text-primary text-[18px] font-black">
+                  +{plan.nestingAiOptimization.efficiencyGainPct}%{' '}
+                  <span className="text-text-muted text-[10px] font-bold uppercase">
+                    Efficiency
+                  </span>
+                </span>
+                <span className="text-text-muted text-[9px] font-bold uppercase tracking-tighter">
+                  Last Run: {plan.nestingAiOptimization.lastRunAt.split('T')[0]}
+                </span>
               </div>
-              <div className="p-2 bg-white rounded-lg border border-indigo-100 text-[9px] text-slate-600 leading-tight">
+              <div className="border-accent-primary/20 text-text-secondary rounded-lg border bg-white p-2 text-[9px] leading-tight">
                 Optimized markers for: {plan.nestingAiOptimization.fabricsOptimized.join(', ')}
               </div>
             </div>
           ) : (
-            <p className="text-[11px] text-slate-500 italic">AI-оптимизация раскладки еще не запускалась.</p>
+            <p className="text-text-secondary text-[11px] italic">
+              AI-оптимизация раскладки еще не запускалась.
+            </p>
           )}
 
-          <Button 
-            variant="default" 
-            size="sm" 
-            className="w-full h-8 bg-indigo-600 hover:bg-indigo-700 text-[9px] font-black uppercase tracking-widest gap-2 shadow-lg shadow-indigo-100"
+          <Button
+            variant="default"
+            size="sm"
+            className="bg-accent-primary hover:bg-accent-primary shadow-accent-primary/10 h-8 w-full gap-2 text-[9px] font-black uppercase tracking-widest shadow-lg"
             onClick={() => {
               void mergeBundle({
                 planPo: {
@@ -805,13 +916,13 @@ export function Workshop2ArticlePlanPoPanel() {
                   nestingAiOptimization: {
                     lastRunAt: new Date().toISOString(),
                     efficiencyGainPct: 12.4,
-                    fabricsOptimized: ['Main Shell (Wool)', 'Lining (Silk)']
-                  }
-                }
+                    fabricsOptimized: ['Main Shell (Wool)', 'Lining (Silk)'],
+                  },
+                },
               });
             }}
           >
-            <LucideIcons.RefreshCw className="w-3 h-3 animate-spin-slow" /> Run AI Nesting Analysis
+            <LucideIcons.RefreshCw className="animate-spin-slow h-3 w-3" /> Run AI Nesting Analysis
           </Button>
         </CardContent>
       </Card>
@@ -821,7 +932,7 @@ export function Workshop2ArticlePlanPoPanel() {
 
 export function Workshop2ArticleNestingPanel() {
   const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
-  if (loading || !bundle) return <p className="text-[12px] text-slate-500">Загрузка…</p>;
+  if (loading || !bundle) return <p className="text-text-secondary text-[12px]">Загрузка…</p>;
   const nesting = bundle.nesting!;
 
   return (
@@ -832,14 +943,18 @@ export function Workshop2ArticleNestingPanel() {
       summary={`Artifacts: ${nesting.artifacts.length}`}
       readiness={nesting.artifacts.length > 0 ? 'Есть раскладки и артефакты' : 'Не начато'}
       blockers={nesting.artifacts.length === 0 ? ['Нет артефактов раскладки.'] : []}
-      nextAction={nesting.artifacts.length === 0 ? 'Добавить первый artifact / marker result.' : 'Проверить эффективность и привязку к PO.'}
+      nextAction={
+        nesting.artifacts.length === 0
+          ? 'Добавить первый artifact / marker result.'
+          : 'Проверить эффективность и привязку к PO.'
+      }
     >
       {nesting.artifacts.length === 0 ? (
-        <p className="text-[11px] text-slate-500">Нет вложений раскладки.</p>
+        <p className="text-text-secondary text-[11px]">Нет вложений раскладки.</p>
       ) : (
         <ul className="space-y-2">
           {nesting.artifacts.map((a) => (
-            <li key={a.id} className="space-y-1 rounded border border-slate-100 p-2">
+            <li key={a.id} className="border-border-subtle space-y-1 rounded border p-2">
               <Input
                 className="h-8 text-[11px]"
                 value={a.title}
@@ -910,7 +1025,7 @@ export function Workshop2ArticleNestingPanel() {
 
 export function Workshop2ArticleReleasePanel() {
   const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
-  if (loading || !bundle) return <p className="text-[12px] text-slate-500">Загрузка…</p>;
+  if (loading || !bundle) return <p className="text-text-secondary text-[12px]">Загрузка…</p>;
   const rel = bundle.release ?? { note: '', shiftNote: '', subcontractNote: '', operations: [] };
   const operations = rel.operations ?? [];
   const totalSewingCostPerUnit = operations.reduce((acc, op) => acc + (op.costPerUnit || 0), 0);
@@ -922,32 +1037,52 @@ export function Workshop2ArticleReleasePanel() {
       hint="Смены, субподряд и перечень швейных операций (SASH/стоимость)."
       dataMode={dataMode}
       summary={`Операции: ${operations.length} · SASH: ${totalSASH.toFixed(2)} мин · ${totalSewingCostPerUnit.toLocaleString()} ₽/ед`}
-      readiness={operations.some((op) => op.status === 'completed') ? 'Выпуск активен' : operations.length > 0 ? 'Маршрут задан' : 'Не начато'}
+      readiness={
+        operations.some((op) => op.status === 'completed')
+          ? 'Выпуск активен'
+          : operations.length > 0
+            ? 'Маршрут задан'
+            : 'Не начато'
+      }
       blockers={operations.length === 0 ? ['Нет техопераций для запуска.'] : []}
-      nextAction={operations.length === 0 ? 'Собрать маршрут операций по SKU.' : 'Отслеживать bottlenecks и подтверждать completed ops.'}
+      nextAction={
+        operations.length === 0
+          ? 'Собрать маршрут операций по SKU.'
+          : 'Отслеживать bottlenecks и подтверждать completed ops.'
+      }
     >
       <div className="space-y-4">
         <div className="space-y-2">
-          <div className="flex justify-between items-center mb-1">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Технологические операции</p>
+          <div className="mb-1 flex items-center justify-between">
+            <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+              Технологические операции
+            </p>
             <div className="flex gap-4 text-right">
               <div>
-                <span className="text-[9px] text-slate-400 uppercase font-bold">Общее время: </span>
-                <span className="text-[11px] font-black text-slate-800">{totalSASH.toFixed(2)} мин</span>
+                <span className="text-text-muted text-[9px] font-bold uppercase">
+                  Общее время:{' '}
+                </span>
+                <span className="text-text-primary text-[11px] font-black">
+                  {totalSASH.toFixed(2)} мин
+                </span>
               </div>
               <div>
-                <span className="text-[9px] text-slate-400 uppercase font-bold">Итого (пошив): </span>
-                <span className="text-[11px] font-black text-indigo-700">{totalSewingCostPerUnit.toLocaleString()} ₽/ед</span>
+                <span className="text-text-muted text-[9px] font-bold uppercase">
+                  Итого (пошив):{' '}
+                </span>
+                <span className="text-accent-primary text-[11px] font-black">
+                  {totalSewingCostPerUnit.toLocaleString()} ₽/ед
+                </span>
               </div>
             </div>
           </div>
           {operations.length === 0 ? (
-            <p className="text-[11px] text-slate-500 italic">Операции не заданы.</p>
+            <p className="text-text-secondary text-[11px] italic">Операции не заданы.</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-[11px]">
                 <thead>
-                  <tr className="border-b border-slate-100 text-left text-slate-400">
+                  <tr className="border-border-subtle text-text-muted border-b text-left">
                     <th className="pb-1 font-semibold">Название</th>
                     <th className="pb-1 font-semibold">SASH (мин)</th>
                     <th className="pb-1 font-semibold">Цена (₽)</th>
@@ -955,19 +1090,21 @@ export function Workshop2ArticleReleasePanel() {
                     <th className="pb-1"></th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-50">
+                <tbody className="divide-border-subtle divide-y">
                   {operations.map((op) => (
                     <tr key={op.id}>
                       <td className="py-2">
                         <Input
-                          className="h-7 text-[11px] border-none bg-transparent focus:bg-white"
+                          className="h-7 border-none bg-transparent text-[11px] focus:bg-white"
                           value={op.name}
                           onChange={(e) => {
                             const name = e.target.value;
                             void mergeBundle({
                               release: {
                                 ...rel,
-                                operations: operations.map((o) => (o.id === op.id ? { ...o, name } : o)),
+                                operations: operations.map((o) =>
+                                  o.id === op.id ? { ...o, name } : o
+                                ),
                               },
                             });
                           }}
@@ -975,7 +1112,7 @@ export function Workshop2ArticleReleasePanel() {
                       </td>
                       <td className="py-2">
                         <Input
-                          className="h-7 w-16 text-[11px] border-none bg-transparent focus:bg-white"
+                          className="h-7 w-16 border-none bg-transparent text-[11px] focus:bg-white"
                           value={op.sash}
                           type="number"
                           onChange={(e) => {
@@ -983,7 +1120,9 @@ export function Workshop2ArticleReleasePanel() {
                             void mergeBundle({
                               release: {
                                 ...rel,
-                                operations: operations.map((o) => (o.id === op.id ? { ...o, sash } : o)),
+                                operations: operations.map((o) =>
+                                  o.id === op.id ? { ...o, sash } : o
+                                ),
                               },
                             });
                           }}
@@ -991,7 +1130,7 @@ export function Workshop2ArticleReleasePanel() {
                       </td>
                       <td className="py-2">
                         <Input
-                          className="h-7 w-16 text-[11px] border-none bg-transparent focus:bg-white"
+                          className="h-7 w-16 border-none bg-transparent text-[11px] focus:bg-white"
                           value={op.costPerUnit}
                           type="number"
                           onChange={(e) => {
@@ -999,7 +1138,9 @@ export function Workshop2ArticleReleasePanel() {
                             void mergeBundle({
                               release: {
                                 ...rel,
-                                operations: operations.map((o) => (o.id === op.id ? { ...o, costPerUnit } : o)),
+                                operations: operations.map((o) =>
+                                  o.id === op.id ? { ...o, costPerUnit } : o
+                                ),
                               },
                             });
                           }}
@@ -1014,7 +1155,9 @@ export function Workshop2ArticleReleasePanel() {
                             void mergeBundle({
                               release: {
                                 ...rel,
-                                operations: operations.map((o) => (o.id === op.id ? { ...o, status } : o)),
+                                operations: operations.map((o) =>
+                                  o.id === op.id ? { ...o, status } : o
+                                ),
                               },
                             });
                           }}
@@ -1028,7 +1171,7 @@ export function Workshop2ArticleReleasePanel() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="h-6 w-6 p-0 text-slate-300 hover:text-red-500"
+                          className="text-text-muted h-6 w-6 p-0 hover:text-red-500"
                           onClick={() => {
                             void mergeBundle({
                               release: {
@@ -1051,14 +1194,20 @@ export function Workshop2ArticleReleasePanel() {
             type="button"
             variant="outline"
             size="sm"
-            className="h-7 text-[10px] uppercase tracking-wider font-bold"
+            className="h-7 text-[10px] font-bold uppercase tracking-wider"
             onClick={() => {
               void mergeBundle({
                 release: {
                   ...rel,
                   operations: [
                     ...operations,
-                    { id: newRowId(), name: 'Новая операция', sash: 0, costPerUnit: 0, status: 'pending' },
+                    {
+                      id: newRowId(),
+                      name: 'Новая операция',
+                      sash: 0,
+                      costPerUnit: 0,
+                      status: 'pending',
+                    },
                   ],
                 },
               });
@@ -1070,7 +1219,7 @@ export function Workshop2ArticleReleasePanel() {
 
         <div className="grid gap-3 sm:grid-cols-2">
           <label className="block space-y-1">
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
               Смены
             </span>
             <textarea
@@ -1081,7 +1230,7 @@ export function Workshop2ArticleReleasePanel() {
             />
           </label>
           <label className="block space-y-1">
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
               Субподряд
             </span>
             <textarea
@@ -1096,7 +1245,7 @@ export function Workshop2ArticleReleasePanel() {
         </div>
 
         <label className="block space-y-1">
-          <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+          <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
             Общая заметка
           </span>
           <textarea
@@ -1113,7 +1262,7 @@ export function Workshop2ArticleReleasePanel() {
 
 export function Workshop2ArticleQcPanel() {
   const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
-  if (loading || !bundle) return <p className="text-[12px] text-slate-500">Загрузка…</p>;
+  if (loading || !bundle) return <p className="text-text-secondary text-[12px]">Загрузка…</p>;
   const qc = bundle.qc!;
 
   return (
@@ -1130,27 +1279,33 @@ export function Workshop2ArticleQcPanel() {
               ? 'QC в работе'
               : 'Не начато'
         }
-        blockers={qc.batches.filter((batch) => batch.status === 'failed').map((batch) => `Партия ${batch.label}: failed`)}
-        nextAction={qc.batches.length === 0 ? 'Добавить batch и завести AQL-проверку.' : 'Разобрать failed/rework batch и закрыть corrective loop.'}
+        blockers={qc.batches
+          .filter((batch) => batch.status === 'failed')
+          .map((batch) => `Партия ${batch.label}: failed`)}
+        nextAction={
+          qc.batches.length === 0
+            ? 'Добавить batch и завести AQL-проверку.'
+            : 'Разобрать failed/rework batch и закрыть corrective loop.'
+        }
       >
         {qc.batches.length === 0 ? (
-          <p className="text-[11px] text-slate-500 italic">Нет партий для инспекции.</p>
+          <p className="text-text-secondary text-[11px] italic">Нет партий для инспекции.</p>
         ) : (
           <ul className="space-y-3">
             {qc.batches.map((b) => {
               const aql = b.batchSize ? getAqlPlan(b.batchSize, '2.5') : null;
               const isAqlFail = aql && b.majorDefects != null && b.majorDefects >= aql.rejectLimit;
-              
+
               return (
                 <li
                   key={b.id}
-                  className="rounded-2xl border border-slate-100 bg-white p-3 shadow-sm group hover:border-indigo-100 transition-all"
+                  className="border-border-subtle hover:border-accent-primary/20 group rounded-2xl border bg-white p-3 shadow-sm transition-all"
                 >
                   <div className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center justify-between">
+                    <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
                       <div className="flex-1 space-y-1">
                         <Input
-                          className="h-8 text-[11px] font-black uppercase tracking-tight border-none bg-slate-50 focus:bg-white"
+                          className="bg-bg-surface2 h-8 border-none text-[11px] font-black uppercase tracking-tight focus:bg-white"
                           value={b.label}
                           onChange={(e) =>
                             void mergeBundle({
@@ -1164,18 +1319,26 @@ export function Workshop2ArticleQcPanel() {
                           }
                         />
                         <div className="flex items-center gap-3">
-                          <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">{b.at?.split('T')[0]}</span>
+                          <span className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+                            {b.at?.split('T')[0]}
+                          </span>
                           {b.defectPhotosCount != null && b.defectPhotosCount > 0 && (
                             <div className="flex items-center gap-1">
-                              <LucideIcons.Image className="w-2.5 h-2.5 text-indigo-400" />
-                              <span className="text-[9px] font-black text-indigo-600">{b.defectPhotosCount} photos</span>
+                              <LucideIcons.Image className="text-accent-primary h-2.5 w-2.5" />
+                              <span className="text-accent-primary text-[9px] font-black">
+                                {b.defectPhotosCount} photos
+                              </span>
                             </div>
                           )}
                           {isAqlFail && (
-                            <Badge className="bg-rose-500 text-white border-none text-[8px] h-4 font-black">AQL REJECT</Badge>
+                            <Badge className="h-4 border-none bg-rose-500 text-[8px] font-black text-white">
+                              AQL REJECT
+                            </Badge>
                           )}
                           {!isAqlFail && aql && b.majorDefects != null && (
-                            <Badge className="bg-emerald-500 text-white border-none text-[8px] h-4 font-black">AQL PASS</Badge>
+                            <Badge className="h-4 border-none bg-emerald-500 text-[8px] font-black text-white">
+                              AQL PASS
+                            </Badge>
                           )}
                         </div>
                       </div>
@@ -1203,7 +1366,7 @@ export function Workshop2ArticleQcPanel() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="h-8 w-8 p-0 text-slate-300 hover:text-red-500"
+                          className="text-text-muted h-8 w-8 p-0 hover:text-red-500"
                           onClick={() => {
                             void mergeBundle({
                               qc: {
@@ -1218,9 +1381,11 @@ export function Workshop2ArticleQcPanel() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-2 bg-slate-50/50 rounded-xl border border-slate-100">
+                    <div className="bg-bg-surface2/80 border-border-subtle grid grid-cols-2 gap-3 rounded-xl border p-2 sm:grid-cols-4">
                       <div className="space-y-1">
-                        <p className="text-[8px] font-black uppercase text-slate-400">Партия (ед)</p>
+                        <p className="text-text-muted text-[8px] font-black uppercase">
+                          Партия (ед)
+                        </p>
                         <Input
                           type="number"
                           className="h-7 text-[10px]"
@@ -1231,20 +1396,26 @@ export function Workshop2ArticleQcPanel() {
                             void mergeBundle({
                               qc: {
                                 ...qc,
-                                batches: qc.batches.map((x) => x.id === b.id ? { ...x, batchSize: v } : x),
+                                batches: qc.batches.map((x) =>
+                                  x.id === b.id ? { ...x, batchSize: v } : x
+                                ),
                               },
                             });
                           }}
                         />
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[8px] font-black uppercase text-slate-400">Выборка (AQL)</p>
-                        <div className="h-7 flex items-center px-2 bg-white border border-slate-200 rounded-md text-[10px] font-bold text-slate-600">
+                        <p className="text-text-muted text-[8px] font-black uppercase">
+                          Выборка (AQL)
+                        </p>
+                        <div className="border-border-default text-text-secondary flex h-7 items-center rounded-md border bg-white px-2 text-[10px] font-bold">
                           {aql ? `${aql.sampleSize} ед.` : '—'}
                         </div>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[8px] font-black uppercase text-slate-400">Крит. брак</p>
+                        <p className="text-text-muted text-[8px] font-black uppercase">
+                          Крит. брак
+                        </p>
                         <Input
                           type="number"
                           className="h-7 text-[10px]"
@@ -1255,18 +1426,26 @@ export function Workshop2ArticleQcPanel() {
                             void mergeBundle({
                               qc: {
                                 ...qc,
-                                batches: qc.batches.map((x) => x.id === b.id ? { ...x, majorDefects: v } : x),
+                                batches: qc.batches.map((x) =>
+                                  x.id === b.id ? { ...x, majorDefects: v } : x
+                                ),
                               },
                             });
                           }}
                         />
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[8px] font-black uppercase text-slate-400">Порог (Re)</p>
-                        <div className={cn(
-                          "h-7 flex items-center px-2 rounded-md text-[10px] font-bold",
-                          aql ? "bg-white border border-slate-200 text-slate-600" : "text-slate-300"
-                        )}>
+                        <p className="text-text-muted text-[8px] font-black uppercase">
+                          Порог (Re)
+                        </p>
+                        <div
+                          className={cn(
+                            'flex h-7 items-center rounded-md px-2 text-[10px] font-bold',
+                            aql
+                              ? 'border-border-default text-text-secondary border bg-white'
+                              : 'text-text-muted'
+                          )}
+                        >
                           {aql ? `≥ ${aql.rejectLimit} ед.` : '—'}
                         </div>
                       </div>
@@ -1281,7 +1460,7 @@ export function Workshop2ArticleQcPanel() {
           type="button"
           variant="outline"
           size="sm"
-          className="h-8 text-xs gap-1.5"
+          className="h-8 gap-1.5 text-xs"
           onClick={() =>
             void mergeBundle({
               qc: {
@@ -1300,26 +1479,34 @@ export function Workshop2ArticleQcPanel() {
             })
           }
         >
-          <LucideIcons.Plus className="w-3 h-3" /> Добавить партию
+          <LucideIcons.Plus className="h-3 w-3" /> Добавить партию
         </Button>
       </PanelShell>
 
-      <Card className="border-indigo-100 bg-indigo-50/10 shadow-sm overflow-hidden relative group">
-        <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none group-hover:scale-110 transition-transform">
-          <LucideIcons.Smartphone className="w-16 h-16 text-indigo-600" />
+      <Card className="border-accent-primary/20 bg-accent-primary/10 group relative overflow-hidden shadow-sm">
+        <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-5 transition-transform group-hover:scale-110">
+          <LucideIcons.Smartphone className="text-accent-primary h-16 w-16" />
         </div>
-        <CardContent className="p-4 flex items-center justify-between">
+        <CardContent className="flex items-center justify-between p-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white border border-indigo-100 flex items-center justify-center shadow-sm">
-              <LucideIcons.Scan className="w-5 h-5 text-indigo-600" />
+            <div className="border-accent-primary/20 flex h-10 w-10 items-center justify-center rounded-xl border bg-white shadow-sm">
+              <LucideIcons.Scan className="text-accent-primary h-5 w-5" />
             </div>
             <div>
-              <h4 className="text-[11px] font-black uppercase tracking-tight text-slate-800 leading-tight">Mobile QC Inspector</h4>
-              <p className="text-[9px] text-slate-500 font-medium">Link with factory-floor mobile devices for photo defect logging.</p>
+              <h4 className="text-text-primary text-[11px] font-black uppercase leading-tight tracking-tight">
+                Mobile QC Inspector
+              </h4>
+              <p className="text-text-secondary text-[9px] font-medium">
+                Link with factory-floor mobile devices for photo defect logging.
+              </p>
             </div>
           </div>
-          <Button variant="outline" size="sm" className="h-8 text-[9px] font-black uppercase tracking-widest border-indigo-200 text-indigo-700 hover:bg-indigo-50">
-            Open App Mock <LucideIcons.ArrowRight className="ml-1 w-2.5 h-2.5" />
+          <Button
+            variant="outline"
+            size="sm"
+            className="border-accent-primary/30 text-accent-primary hover:bg-accent-primary/10 h-8 text-[9px] font-black uppercase tracking-widest"
+          >
+            Open App Mock <LucideIcons.ArrowRight className="ml-1 h-2.5 w-2.5" />
           </Button>
         </CardContent>
       </Card>
@@ -1329,7 +1516,7 @@ export function Workshop2ArticleQcPanel() {
 
 export function Workshop2ArticleStockPanel() {
   const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
-  if (loading || !bundle) return <p className="text-[12px] text-slate-500">Загрузка…</p>;
+  if (loading || !bundle) return <p className="text-text-secondary text-[12px]">Загрузка…</p>;
   const stock = bundle.stock!;
 
   const totalQtyOnHand = stock.movements.reduce((acc, m) => {
@@ -1338,37 +1525,51 @@ export function Workshop2ArticleStockPanel() {
     return acc;
   }, 0);
 
-  const avgUnitCost = stock.movements.length > 0 
-    ? stock.movements.reduce((acc, m) => acc + m.unitCostRub, 0) / stock.movements.length
-    : 0;
+  const avgUnitCost =
+    stock.movements.length > 0
+      ? stock.movements.reduce((acc, m) => acc + m.unitCostRub, 0) / stock.movements.length
+      : 0;
 
   return (
     <div className="space-y-3">
       <Workshop2ArticleSampleIntakeStockSection mergeBundle={mergeBundle} dataMode={dataMode} />
       <div className="grid gap-3 sm:grid-cols-2">
-        <Card className="p-4 bg-white border-slate-200 shadow-sm flex items-center justify-between">
+        <Card className="border-border-default flex items-center justify-between bg-white p-4 shadow-sm">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
-              <LucideIcons.Boxes className="w-5 h-5 text-slate-500" />
+            <div className="bg-bg-surface2 flex h-10 w-10 items-center justify-center rounded-xl">
+              <LucideIcons.Boxes className="text-text-secondary h-5 w-5" />
             </div>
             <div>
-              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Текущий остаток</p>
-              <p className="text-xl font-black text-slate-900">{totalQtyOnHand.toLocaleString()} ед.</p>
+              <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+                Текущий остаток
+              </p>
+              <p className="text-text-primary text-xl font-black">
+                {totalQtyOnHand.toLocaleString()} ед.
+              </p>
             </div>
           </div>
-          <Badge variant="outline" className="bg-slate-50 text-slate-600 border-slate-200 uppercase text-[8px] h-5 font-black">Live Inventory</Badge>
+          <Badge
+            variant="outline"
+            className="bg-bg-surface2 text-text-secondary border-border-default h-5 text-[8px] font-black uppercase"
+          >
+            Live Inventory
+          </Badge>
         </Card>
-        <Card className="p-4 bg-white border-slate-200 shadow-sm flex items-center justify-between">
+        <Card className="border-border-default flex items-center justify-between bg-white p-4 shadow-sm">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
-              <LucideIcons.CircleDollarSign className="w-5 h-5 text-indigo-600" />
+            <div className="bg-accent-primary/10 flex h-10 w-10 items-center justify-center rounded-xl">
+              <LucideIcons.CircleDollarSign className="text-accent-primary h-5 w-5" />
             </div>
             <div>
-              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Средняя себестоимость</p>
-              <p className="text-xl font-black text-slate-900">{avgUnitCost.toLocaleString()} ₽/ед</p>
+              <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+                Средняя себестоимость
+              </p>
+              <p className="text-text-primary text-xl font-black">
+                {avgUnitCost.toLocaleString()} ₽/ед
+              </p>
             </div>
           </div>
-          <LucideIcons.TrendingUp className="w-4 h-4 text-emerald-500" />
+          <LucideIcons.TrendingUp className="h-4 w-4 text-emerald-500" />
         </Card>
       </div>
 
@@ -1379,15 +1580,21 @@ export function Workshop2ArticleStockPanel() {
         summary={`Движения: ${stock.movements.length} · Остаток: ${totalQtyOnHand.toLocaleString()} ед.`}
         readiness={stock.movements.length > 0 ? 'Есть движения по ГП' : 'Не начато'}
         blockers={stock.movements.length === 0 ? ['Нет приемки / движений по складу.'] : []}
-        nextAction={stock.movements.length === 0 ? 'Зафиксировать первую приемку или движение.' : 'Проверить blocked units / release to ship.'}
+        nextAction={
+          stock.movements.length === 0
+            ? 'Зафиксировать первую приемку или движение.'
+            : 'Проверить blocked units / release to ship.'
+        }
       >
         {stock.movements.length === 0 ? (
-          <p className="text-[11px] text-slate-500 italic">Движений по складу не зафиксировано.</p>
+          <p className="text-text-secondary text-[11px] italic">
+            Движений по складу не зафиксировано.
+          </p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-[11px]">
               <thead>
-                <tr className="border-b border-slate-100 text-left text-slate-400 uppercase tracking-tighter">
+                <tr className="border-border-subtle text-text-muted border-b text-left uppercase tracking-tighter">
                   <th className="pb-2 font-bold">Операция</th>
                   <th className="pb-2 font-bold">Тип</th>
                   <th className="pb-2 font-bold">Кол-во</th>
@@ -1396,12 +1603,12 @@ export function Workshop2ArticleStockPanel() {
                   <th className="pb-2"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-50">
+              <tbody className="divide-border-subtle divide-y">
                 {stock.movements.map((m) => (
-                  <tr key={m.id} className="group hover:bg-slate-50/50 transition-colors">
+                  <tr key={m.id} className="hover:bg-bg-surface2/80 group transition-colors">
                     <td className="py-2.5">
                       <Input
-                        className="h-7 text-[11px] border-none bg-transparent focus:bg-white font-bold"
+                        className="h-7 border-none bg-transparent text-[11px] font-bold focus:bg-white"
                         value={m.label}
                         onChange={(e) =>
                           void mergeBundle({
@@ -1438,7 +1645,7 @@ export function Workshop2ArticleStockPanel() {
                     </td>
                     <td className="py-2.5">
                       <Input
-                        className="h-7 w-16 text-[11px] border-none bg-transparent focus:bg-white text-right"
+                        className="h-7 w-16 border-none bg-transparent text-right text-[11px] focus:bg-white"
                         type="number"
                         value={m.qty}
                         onChange={(e) => {
@@ -1456,7 +1663,7 @@ export function Workshop2ArticleStockPanel() {
                     </td>
                     <td className="py-2.5">
                       <Input
-                        className="h-7 w-20 text-[11px] border-none bg-transparent focus:bg-white text-right text-indigo-600 font-black"
+                        className="text-accent-primary h-7 w-20 border-none bg-transparent text-right text-[11px] font-black focus:bg-white"
                         type="number"
                         value={m.unitCostRub}
                         onChange={(e) => {
@@ -1472,12 +1679,14 @@ export function Workshop2ArticleStockPanel() {
                         }}
                       />
                     </td>
-                    <td className="py-2.5 text-slate-400 font-mono text-[9px]">{m.at.split('T')[0]}</td>
+                    <td className="text-text-muted py-2.5 font-mono text-[9px]">
+                      {m.at.split('T')[0]}
+                    </td>
                     <td className="py-2.5 text-right">
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="h-6 w-6 p-0 text-slate-300 hover:text-red-500"
+                        className="text-text-muted h-6 w-6 p-0 hover:text-red-500"
                         onClick={() => {
                           void mergeBundle({
                             stock: {
@@ -1500,7 +1709,7 @@ export function Workshop2ArticleStockPanel() {
           type="button"
           variant="outline"
           size="sm"
-          className="h-8 text-xs gap-1.5"
+          className="h-8 gap-1.5 text-xs"
           onClick={() =>
             void mergeBundle({
               stock: {
@@ -1520,7 +1729,7 @@ export function Workshop2ArticleStockPanel() {
             })
           }
         >
-          <LucideIcons.Plus className="w-3 h-3" /> Добавить операцию
+          <LucideIcons.Plus className="h-3 w-3" /> Добавить операцию
         </Button>
       </PanelShell>
     </div>
@@ -1535,8 +1744,7 @@ export type Workshop2ArticleWorkspaceMainTab =
   | 'qc'
   | 'stock';
 
-const W2_SECTION_FLASH_CLASS =
-  'rounded-xl transition-[box-shadow] duration-300';
+const W2_SECTION_FLASH_CLASS = 'rounded-xl transition-[box-shadow] duration-300';
 
 function SectionFlashWrap({
   id,
@@ -1552,7 +1760,7 @@ function SectionFlashWrap({
       id={id}
       className={cn(
         W2_SECTION_FLASH_CLASS,
-        flashSectionId === id && 'ring-4 ring-indigo-400 ring-offset-2 ring-offset-slate-50'
+        flashSectionId === id && 'ring-accent-primary ring-offset-bg-surface2 ring-4 ring-offset-2'
       )}
     >
       {children}

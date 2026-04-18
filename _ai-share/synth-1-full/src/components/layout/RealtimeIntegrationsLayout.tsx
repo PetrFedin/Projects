@@ -8,11 +8,7 @@ import { RealtimeFallbackBridge } from '@/components/realtime/realtime-fallback-
  * otherwise polling /api/notifications/feed.
  * Must be inside NotificationsProvider.
  */
-export function RealtimeIntegrationsLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function RealtimeIntegrationsLayout({ children }: { children: React.ReactNode }) {
   return (
     <WebSocketProvider>
       <RealtimeFallbackBridge />

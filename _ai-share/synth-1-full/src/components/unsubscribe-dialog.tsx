@@ -1,4 +1,3 @@
-
 'use client';
 
 import {
@@ -10,8 +9,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import type { Product } from "@/lib/types";
+} from '@/components/ui/alert-dialog';
+import type { Product } from '@/lib/types';
 
 interface UnsubscribeDialogProps {
   product: Product;
@@ -21,14 +20,21 @@ interface UnsubscribeDialogProps {
   onConfirm: () => void;
 }
 
-export function UnsubscribeDialog({ product, size, isOpen, onOpenChange, onConfirm }: UnsubscribeDialogProps) {
+export function UnsubscribeDialog({
+  product,
+  size,
+  isOpen,
+  onOpenChange,
+  onConfirm,
+}: UnsubscribeDialogProps) {
   return (
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Отказаться от ожидания?</AlertDialogTitle>
           <AlertDialogDescription>
-            Вы уверены, что хотите отписаться от уведомлений о поступлении товара "{product.name}" в размере <span className="font-semibold">{size}</span>?
+            Вы уверены, что хотите отписаться от уведомлений о поступлении товара "{product.name}" в
+            размере <span className="font-semibold">{size}</span>?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -37,5 +43,5 @@ export function UnsubscribeDialog({ product, size, isOpen, onOpenChange, onConfi
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }

@@ -15,16 +15,21 @@ import type { Order } from '@/lib/types';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
+import { RegistryPageShell } from '@/components/design-system';
 
 const statusConfig = {
   pending: { label: 'В ожидании', icon: Clock, color: 'bg-yellow-100 text-yellow-800' },
   processing: { label: 'Обработка', icon: Package, color: 'bg-blue-100 text-blue-800' },
-  shipped: { label: 'Отправлен', icon: Truck, color: 'bg-purple-100 text-purple-800' },
+  shipped: { label: 'Отправлен', icon: Truck, color: 'bg-accent-primary/15 text-text-primary' },
   delivered: { label: 'Доставлен', icon: CheckCircle, color: 'bg-green-100 text-green-800' },
   cancelled: { label: 'Отменен', icon: Clock, color: 'bg-red-100 text-red-800' },
 };
 
-export default function OrderConfirmationPage({ params: paramsPromise }: { params: Promise<{ orderId: string }> }) {
+export default function OrderConfirmationPage({
+  params: paramsPromise,
+}: {
+  params: Promise<{ orderId: string }>;
+}) {
   const params = use(paramsPromise);
   const router = useRouter();
   const { user } = useAuth();
@@ -57,9 +62,9 @@ export default function OrderConfirmationPage({ params: paramsPromise }: { param
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-12">
+      <RegistryPageShell className="py-12 pb-16">
         <div className="text-center">Загрузка...</div>
-      </div>
+      </RegistryPageShell>
     );
   }
 
@@ -70,8 +75,8 @@ export default function OrderConfirmationPage({ params: paramsPromise }: { param
   const statusInfo = statusConfig[order.status];
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="max-w-4xl mx-auto space-y-4">
+    <RegistryPageShell className="py-12 pb-16">
+      <div className="mx-auto max-w-4xl space-y-4">
         {/* Header */}
         <div className="flex items-center gap-3">
           <Button variant="outline" size="icon" asChild>
@@ -80,21 +85,19 @@ export default function OrderConfirmationPage({ params: paramsPromise }: { param
             </Link>
           </Button>
           <div className="flex-1">
-            <h1 className="text-base font-headline font-bold">Заказ оформлен!</h1>
-            <p className="text-muted-foreground mt-1">
+            <h1 className="font-headline text-base font-bold">Заказ оформлен!</h1>
+            <p className="mt-1 text-muted-foreground">
               Номер заказа: <span className="font-mono">{order.id}</span>
             </p>
           </div>
-          <Badge className={cn('text-sm', statusInfo.color)}>
-            {statusInfo.label}
-          </Badge>
+          <Badge className={cn('text-sm', statusInfo.color)}>{statusInfo.label}</Badge>
         </div>
 
         {/* Success Message */}
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
-              <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
                 <CheckCircle className="h-6 w-6 text-green-600" />
               </div>
               <div>
@@ -108,7 +111,7 @@ export default function OrderConfirmationPage({ params: paramsPromise }: { param
         </Card>
 
         {/* Order Details */}
-        <div className="grid md:grid-cols-2 gap-3">
+        <div className="grid gap-3 md:grid-cols-2">
           {/* Items */}
           <Card>
             <CardHeader>
@@ -117,7 +120,7 @@ export default function OrderConfirmationPage({ params: paramsPromise }: { param
             <CardContent className="space-y-4">
               {order.items.map((item) => (
                 <div key={`${item.id}-${item.selectedSize}`} className="flex gap-3">
-                  <div className="relative aspect-square w-20 rounded-md overflow-hidden flex-shrink-0">
+                  <div className="relative aspect-square w-20 flex-shrink-0 overflow-hidden rounded-md">
                     <Image
                       src={item.images[0].url}
                       alt={item.images[0].alt}
@@ -157,7 +160,9 @@ export default function OrderConfirmationPage({ params: paramsPromise }: { param
               <Separator />
               <div>
                 <p className="text-sm text-muted-foreground">Контактная информация</p>
-                <p className="font-medium">{order.shippingAddress.firstName} {order.shippingAddress.lastName}</p>
+                <p className="font-medium">
+                  {order.shippingAddress.firstName} {order.shippingAddress.lastName}
+                </p>
                 <p className="text-sm text-muted-foreground">{order.shippingAddress.email}</p>
                 <p className="text-sm text-muted-foreground">{order.shippingAddress.phone}</p>
               </div>
@@ -194,7 +199,7 @@ export default function OrderConfirmationPage({ params: paramsPromise }: { param
                 </div>
               )}
               <Separator />
-              <div className="flex justify-between font-bold text-sm">
+              <div className="flex justify-between text-sm font-bold">
                 <span>Итого</span>
                 <span>{order.total.toLocaleString('ru-RU')} ₽</span>
               </div>
@@ -211,15 +216,10 @@ export default function OrderConfirmationPage({ params: paramsPromise }: { param
             <Link href="/">Продолжить покупки</Link>
           </Button>
           <Button asChild className="flex-1">
-            <Link href="/u/payments">Мои заказы</Link>
+            <Link href="/client/me/payments">Мои заказы</Link>
           </Button>
         </div>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }
-
-
-
-
-

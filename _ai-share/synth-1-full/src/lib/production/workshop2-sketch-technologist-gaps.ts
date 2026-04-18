@@ -9,8 +9,13 @@ function pinMissingAttrOrBom(a: Workshop2Phase1CategorySketchAnnotation): boolea
   return !attr && !bom;
 }
 
-function collectAllPins(dossier: Workshop2DossierPhase1, leafId: string): Workshop2Phase1CategorySketchAnnotation[] {
-  const master = (dossier.categorySketchAnnotations ?? []).filter((x) => x.categoryLeafId === leafId);
+function collectAllPins(
+  dossier: Workshop2DossierPhase1,
+  leafId: string
+): Workshop2Phase1CategorySketchAnnotation[] {
+  const master = (dossier.categorySketchAnnotations ?? []).filter(
+    (x) => x.categoryLeafId === leafId
+  );
   const fromSheets = (dossier.sketchSheets ?? []).flatMap((s) => s.annotations ?? []);
   return [...master, ...fromSheets];
 }

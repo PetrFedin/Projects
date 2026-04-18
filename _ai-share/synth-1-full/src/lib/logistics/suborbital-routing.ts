@@ -43,7 +43,8 @@ export class SubOrbitalRoutingEngine {
     let estimatedTransitTimeHours = 24; // Стандартная авиадоставка
     let totalCostUSD = cargo.totalWeightKg * 5; // $5/kg для авиа
     let carbonEmissionsKg = cargo.totalWeightKg * 2.5; // Авиация грязная
-    let reasoning = 'Standard terrestrial air freight selected due to budget or urgency constraints. ';
+    let reasoning =
+      'Standard terrestrial air freight selected due to budget or urgency constraints. ';
     let departureSpaceportId: string | undefined = undefined;
     let arrivalSpaceportId: string | undefined = undefined;
 
@@ -52,8 +53,12 @@ export class SubOrbitalRoutingEngine {
       // Ищем ближайшие космодромы к точке отправления и назначения
       // В реальной системе здесь сложная гео-математика (Haversine formula)
       // Для мока берем первые попавшиеся с достаточной грузоподъемностью
-      const originPort = spaceports.find(p => p.location.region === cargo.origin.region && p.launchCapacityTons * 1000 >= cargo.totalWeightKg);
-      const destPort = spaceports.find(p => p.location.region === cargo.destination.region);
+      const originPort = spaceports.find(
+        (p) =>
+          p.location.region === cargo.origin.region &&
+          p.launchCapacityTons * 1000 >= cargo.totalWeightKg
+      );
+      const destPort = spaceports.find((p) => p.location.region === cargo.destination.region);
 
       if (originPort && destPort) {
         // Рассчитываем стоимость суборбитального прыжка
@@ -64,14 +69,14 @@ export class SubOrbitalRoutingEngine {
           routeType = 'sub_orbital_point_to_point';
           departureSpaceportId = originPort.portId;
           arrivalSpaceportId = destPort.portId;
-          
+
           // Суборбитальный прыжок занимает ~45-90 минут в любую точку Земли
           // Плюс логистика до/от космодрома (допустим 2 часа)
-          estimatedTransitTimeHours = 3.5; 
+          estimatedTransitTimeHours = 3.5;
           totalCostUSD = subOrbitalCost;
-          
+
           // Если ракеты летают на синтетическом метане (как Starship), выбросы могут быть нулевыми (Zero-Carbon)
-          carbonEmissionsKg = 0; 
+          carbonEmissionsKg = 0;
 
           reasoning = `Mission-critical urgency detected. Sub-orbital point-to-point flight selected from ${originPort.portId} to ${destPort.portId}. Transit time reduced from 24h to ${estimatedTransitTimeHours}h. Cost: $${totalCostUSD.toLocaleString()}. Zero net carbon emissions (Synthetic Methane). `;
         } else {
@@ -90,7 +95,7 @@ export class SubOrbitalRoutingEngine {
       estimatedTransitTimeHours,
       totalCostUSD,
       carbonEmissionsKg,
-      reasoning
+      reasoning,
     };
   }
 }

@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, MapPin } from 'lucide-react';
-import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { ROUTES } from '@/lib/routes';
 import { getRelatedLinks } from '@/lib/data/integration-modules';
@@ -15,18 +15,20 @@ export default function BrandB2BTradeShowsPage() {
   const links = getRelatedLinks('trade-show').map((l) => ({ label: l.label, href: l.href }));
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-4xl animate-in fade-in duration-700">
-      <SectionInfoCard
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16 duration-700 animate-in fade-in">
+      <RegistryPageHeader
         title="Market Week / Trade Show"
-        description="CPM, МФН и др. события. Календарь выставок, инвайты байерам, заказы с события."
-        icon={Calendar}
-        iconBg="bg-amber-100"
-        iconColor="text-amber-600"
-        badges={
-          <>
-            <Badge variant="outline" className="text-[9px]">JOOR</Badge>
-            <Badge variant="outline" className="text-[9px]">FashionGo</Badge>
-          </>
+        leadPlain="CPM, МФН и др. события. Календарь выставок, инвайты байерам, заказы с события."
+        actions={
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <Calendar className="size-6 shrink-0 text-muted-foreground" aria-hidden />
+            <Badge variant="outline" className="text-[9px]">
+              JOOR
+            </Badge>
+            <Badge variant="outline" className="text-[9px]">
+              FashionGo
+            </Badge>
+          </div>
         }
       />
       <Card>
@@ -36,8 +38,8 @@ export default function BrandB2BTradeShowsPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-2 text-sm">
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-slate-50 border border-slate-100">
-              <MapPin className="h-4 w-4 text-slate-400" />
+            <div className="border-border-subtle bg-bg-surface2 flex items-center gap-2 rounded-lg border p-3">
+              <MapPin className="text-text-muted size-4" />
               <span>CPM Moscow — 15–18.04.2026</span>
             </div>
           </div>
@@ -47,6 +49,6 @@ export default function BrandB2BTradeShowsPage() {
         </CardContent>
       </Card>
       <RelatedModulesBlock links={links} title="Связанные модули" />
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -20,13 +20,39 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { RegistryPageShell } from '@/components/design-system';
 
-const SUB_DEFAULT = {
-  v: 1 as const,
+const SUB_DEFAULT: { v: 1; orders: SubcontractOrder[] } = {
+  v: 1,
   orders: [
-    { id: 's1', subcontractorId: 'sc1', subcontractorName: 'Ателье «Стиль»', orderId: 'PO-201', workType: 'sewing', workTypeLabel: 'Пошив', quantity: 500, unit: 'шт', status: 'in_progress' as const, requestedAt: '2026-03-05T10:00:00Z' },
-    { id: 's2', subcontractorId: 'sc2', subcontractorName: 'Раскройный цех №2', orderId: 'PO-202', workType: 'cutting', workTypeLabel: 'Раскрой', quantity: 1200, unit: 'шт', status: 'completed' as const, requestedAt: '2026-03-01T08:00:00Z', completedAt: '2026-03-08T17:00:00Z', actNumber: 'АКТ-2026-014' },
-  ] satisfies SubcontractOrder[],
+    {
+      id: 's1',
+      subcontractorId: 'sc1',
+      subcontractorName: 'Ателье «Стиль»',
+      orderId: 'PO-201',
+      workType: 'sewing',
+      workTypeLabel: 'Пошив',
+      quantity: 500,
+      unit: 'шт',
+      status: 'in_progress',
+      requestedAt: '2026-03-05T10:00:00Z',
+    },
+    {
+      id: 's2',
+      subcontractorId: 'sc2',
+      subcontractorName: 'Раскройный цех №2',
+      orderId: 'PO-202',
+      workType: 'cutting',
+      workTypeLabel: 'Раскрой',
+      quantity: 1200,
+      unit: 'шт',
+      status: 'completed',
+      requestedAt: '2026-03-01T08:00:00Z',
+      completedAt: '2026-03-08T17:00:00Z',
+      actNumber: 'АКТ-2026-014',
+    },
+  ],
 };
 
 const statusLabels: Record<SubcontractOrder['status'], string> = {
@@ -49,19 +75,28 @@ export default function SubcontractorPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
       <SectionInfoCard
-        title="Subcontractor Hub"
-        description="Заказы на сторону — floor-tab: subcontractor."
+        title="Кабинет субподряда"
+        description={
+          <>
+            Заказы на сторону — floor-tab: subcontractor. Контроль статусов по{' '}
+            <AcronymWithTooltip abbr="PO" /> и актам.
+          </>
+        }
         icon={Building2}
-        iconBg="bg-slate-100"
-        iconColor="text-slate-600"
+        iconBg="bg-bg-surface2"
+        iconColor="text-text-secondary"
         badges={<ProductionSuppliersFinanceBadges />}
       />
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <Link href={ROUTES.brand.production}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
-          <h1 className="text-2xl font-bold uppercase">Subcontractor Hub</h1>
+          <Link href={ROUTES.brand.production}>
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          </Link>
+          <h1 className="text-2xl font-bold uppercase">Кабинет субподряда</h1>
         </div>
         <Button
           size="sm"
@@ -86,19 +121,32 @@ export default function SubcontractorPage() {
         <CardContent>
           <ul className="space-y-3">
             {data.orders.map((o, i) => (
-              <li key={o.id} className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+              <li
+                key={o.id}
+                className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"
+              >
                 <div>
                   <p className="font-medium">{o.subcontractorName}</p>
-                  <p className="text-xs text-slate-500">{o.workTypeLabel} · {o.orderId} · {o.quantity} {o.unit}</p>
-                  {o.actNumber && <p className="text-xs text-slate-500 mt-1">Акт: {o.actNumber}</p>}
+                  <p className="text-text-secondary text-xs">
+                    {o.workTypeLabel} · <AcronymWithTooltip abbr="PO" /> {o.orderId} · {o.quantity}{' '}
+                    {o.unit}
+                  </p>
+                  {o.actNumber && (
+                    <p className="text-text-secondary mt-1 text-xs">Акт: {o.actNumber}</p>
+                  )}
                 </div>
-                <Select value={o.status} onValueChange={(v) => setOrder(i, { status: v as SubcontractOrder['status'] })}>
+                <Select
+                  value={o.status}
+                  onValueChange={(v) => setOrder(i, { status: v as SubcontractOrder['status'] })}
+                >
                   <SelectTrigger className="h-8 w-[130px] text-[10px]">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     {(Object.keys(statusLabels) as SubcontractOrder['status'][]).map((s) => (
-                      <SelectItem key={s} value={s} className="text-xs">{statusLabels[s]}</SelectItem>
+                      <SelectItem key={s} value={s} className="text-xs">
+                        {statusLabels[s]}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -108,6 +156,6 @@ export default function SubcontractorPage() {
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getProductionLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -9,6 +9,7 @@ export const DomainEventTypes = {
     shipped: 'order.shipped',
     claimResolved: 'order.claim_resolved',
     shipmentCreated: 'order.shipment_created',
+    b2bPlatformExportResult: 'order.b2b_platform_export_result',
   },
   inventory: {
     customerReturnProcessed: 'inventory.customer_return_processed',
@@ -24,6 +25,7 @@ export const DomainEventTypes = {
     reservationExpired: 'inventory.reservation_expired',
     b2b2cAllocationCompleted: 'inventory.b2b2c_allocation_completed',
     overstockDetected: 'inventory.overstock_detected',
+    shopStockFileIngested: 'inventory.shop_stock_file_ingested',
   },
   production: {
     qcUpdated: 'production.qc_updated',

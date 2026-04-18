@@ -4,7 +4,14 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
@@ -16,14 +23,14 @@ export default function SalesVelocityPage() {
 
   const stats = useMemo(() => {
     return {
-      best: rows.filter(r => r.status === 'bestseller').length,
-      slow: rows.filter(r => r.status === 'slow-mover').length,
-      critical: rows.filter(r => r.status === 'critical').length,
+      best: rows.filter((r) => r.status === 'bestseller').length,
+      slow: rows.filter((r) => r.status === 'slow-mover').length,
+      critical: rows.filter((r) => r.status === 'critical').length,
     };
   }, [rows]);
 
   return (
-    <div className="container max-w-6xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -31,7 +38,7 @@ export default function SalesVelocityPage() {
           </Link>
         </Button>
         <div>
-          <h1 className="text-xl font-bold flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-xl font-bold">
             <TrendingUp className="h-6 w-6" />
             Скорость продаж и остатки
           </h1>
@@ -41,7 +48,7 @@ export default function SalesVelocityPage() {
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-3 gap-4">
+      <div className="grid gap-4 sm:grid-cols-3">
         <Card className="border-emerald-200 bg-emerald-50/20">
           <CardHeader className="py-3">
             <CardDescription className="text-xs">Бестселлеры</CardDescription>
@@ -82,29 +89,42 @@ export default function SalesVelocityPage() {
               {rows.map((r) => (
                 <TableRow key={r.sku}>
                   <TableCell className="max-w-[200px]">
-                    <p className="font-medium text-xs truncate">{r.name}</p>
-                    <p className="font-mono text-[10px] text-muted-foreground uppercase">{r.category}</p>
+                    <p className="truncate text-xs font-medium">{r.name}</p>
+                    <p className="font-mono text-[10px] uppercase text-muted-foreground">
+                      {r.category}
+                    </p>
                   </TableCell>
-                  <TableCell className="text-right font-bold text-xs">{r.unitsSold} шт</TableCell>
+                  <TableCell className="text-right text-xs font-bold">{r.unitsSold} шт</TableCell>
                   <TableCell className="text-right text-xs">{r.inventoryLevel} шт</TableCell>
-                  <TableCell className="text-right text-xs font-mono">
+                  <TableCell className="text-right font-mono text-xs">
                     {r.daysToOOS === null ? '∞' : `${r.daysToOOS} дн.`}
                   </TableCell>
                   <TableCell className="text-center">
-                    <Badge variant={
-                      r.status === 'critical' ? 'destructive' : 
-                      r.status === 'bestseller' ? 'default' : 
-                      r.status === 'slow-mover' ? 'secondary' : 'outline'
-                    } className="text-[9px]">
+                    <Badge
+                      variant={
+                        r.status === 'critical'
+                          ? 'destructive'
+                          : r.status === 'bestseller'
+                            ? 'default'
+                            : r.status === 'slow-mover'
+                              ? 'secondary'
+                              : 'outline'
+                      }
+                      className="text-[9px]"
+                    >
                       {r.status}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
                     {r.status === 'critical' && (
-                      <Button size="sm" className="h-7 text-[10px] bg-rose-600">Re-order</Button>
+                      <Button size="sm" className="h-7 bg-rose-600 text-[10px]">
+                        Re-order
+                      </Button>
                     )}
                     {r.status === 'slow-mover' && (
-                      <Button size="sm" variant="outline" className="h-7 text-[10px]">Markdown</Button>
+                      <Button size="sm" variant="outline" className="h-7 text-[10px]">
+                        Markdown
+                      </Button>
                     )}
                   </TableCell>
                 </TableRow>

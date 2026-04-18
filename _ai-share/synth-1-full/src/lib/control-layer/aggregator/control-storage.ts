@@ -23,12 +23,14 @@ export class ControlSignalStorage {
   public save(output: ControlOutput): void {
     const entityId = output.entity_ref.entity_id;
     const versions = this.store.get(entityId) || [];
-    
+
     // Ограничиваем историю последних 10 снимков
     const updatedVersions = [output, ...versions].slice(0, 10);
     this.store.set(entityId, updatedVersions);
-    
-    console.log(`[ControlStorage] Saved version for ${entityId}. Total versions: ${updatedVersions.length}`);
+
+    console.log(
+      `[ControlStorage] Saved version for ${entityId}. Total versions: ${updatedVersions.length}`
+    );
   }
 
   /**

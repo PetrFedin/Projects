@@ -4,66 +4,92 @@ import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import DynamicPricingEngine from '@/components/brand/pricing/DynamicPricingEngine';
 import { CommercialTermsMatrix } from '@/components/brand/commercial-terms-matrix';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 import { DollarSign, Handshake, BarChart3, TrendingDown, Percent } from 'lucide-react';
 
-const PriceComparisonContent = dynamic(() => import('@/app/brand/pricing/price-comparison/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const ElasticityContent = dynamic(() => import('@/app/brand/pricing/elasticity/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const MarkdownContent = dynamic(() => import('@/app/brand/pricing/markdown/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
+const PriceComparisonContent = dynamic(
+  () => import('@/app/brand/pricing/price-comparison/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const ElasticityContent = dynamic(
+  () => import('@/app/brand/pricing/elasticity/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const MarkdownContent = dynamic(
+  () => import('@/app/brand/pricing/markdown/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
 
 export default function BrandPricingPage() {
-    const [tab, setTab] = useState('pricing');
-    return (
-        <div className="container mx-auto px-4 py-4 space-y-4">
-            <Tabs value={tab} onValueChange={setTab} className="space-y-4">
-                <TabsList className="bg-slate-100/80 border border-slate-200 h-9 px-1 gap-0.5 flex-wrap">
-                    <TabsTrigger value="pricing" className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5">
-                        <DollarSign className="h-3 w-3 shrink-0" /> Ценообразование
-                    </TabsTrigger>
-                    <TabsTrigger value="price-comparison" className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5">
-                        <BarChart3 className="h-3 w-3 shrink-0" /> Сравнение цен
-                    </TabsTrigger>
-                    <TabsTrigger value="elasticity" className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5">
-                        <TrendingDown className="h-3 w-3 shrink-0" /> Эластичность
-                    </TabsTrigger>
-                    <TabsTrigger value="markdown" className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5">
-                        <Percent className="h-3 w-3 shrink-0" /> Оптимизация скидок
-                    </TabsTrigger>
-                </TabsList>
+  const [tab, setTab] = useState('pricing');
+  return (
+    <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+      <RegistryPageHeader
+        title="Ценообразование"
+        leadPlain="Динамические цены B2C, коммерческие условия B2B, сравнение каналов и markdown."
+      />
+      <Tabs value={tab} onValueChange={setTab} className="space-y-4">
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'flex-wrap')}>
+          <TabsTrigger value="pricing" className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}>
+            <DollarSign className="h-3 w-3 shrink-0" /> Ценообразование
+          </TabsTrigger>
+          <TabsTrigger
+            value="price-comparison"
+            className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}
+          >
+            <BarChart3 className="h-3 w-3 shrink-0" /> Сравнение цен
+          </TabsTrigger>
+          <TabsTrigger value="elasticity" className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}>
+            <TrendingDown className="h-3 w-3 shrink-0" /> Эластичность
+          </TabsTrigger>
+          <TabsTrigger value="markdown" className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}>
+            <Percent className="h-3 w-3 shrink-0" /> Оптимизация скидок
+          </TabsTrigger>
+        </TabsList>
 
-                <TabsContent value="pricing" className="mt-0">
-                    <Tabs defaultValue="dynamic" className="space-y-4">
-                        <TabsList className="bg-slate-100 p-1 rounded-2xl border border-slate-200 h-10">
-                            <TabsTrigger value="dynamic" className="rounded-xl h-12 px-8 font-black uppercase text-[10px] tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                                <DollarSign className="mr-2 h-4 w-4" /> B2C Dynamic Pricing
-                            </TabsTrigger>
-                            <TabsTrigger value="wholesale" className="rounded-xl h-12 px-8 font-black uppercase text-[10px] tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                                <Handshake className="mr-2 h-4 w-4" /> B2B Commercial Terms
-                            </TabsTrigger>
-                        </TabsList>
+        <TabsContent value="pricing" className="mt-0">
+          <Tabs defaultValue="dynamic" className="space-y-4">
+            <TabsList className={cn(cabinetSurface.tabsList, 'w-fit flex-wrap')}>
+              <TabsTrigger
+                value="dynamic"
+                className={cn(cabinetSurface.tabsTrigger, 'h-9 gap-2 px-4')}
+              >
+                <DollarSign className="h-4 w-4 shrink-0" /> B2C Dynamic Pricing
+              </TabsTrigger>
+              <TabsTrigger
+                value="wholesale"
+                className={cn(cabinetSurface.tabsTrigger, 'h-9 gap-2 px-4')}
+              >
+                <Handshake className="h-4 w-4 shrink-0" /> B2B Commercial Terms
+              </TabsTrigger>
+            </TabsList>
 
-                        <TabsContent value="dynamic" className="mt-0">
-                            <DynamicPricingEngine />
-                        </TabsContent>
+            <TabsContent value="dynamic" className="mt-0">
+              <DynamicPricingEngine />
+            </TabsContent>
 
-                        <TabsContent value="wholesale" className="mt-0">
-                            <CommercialTermsMatrix />
-                        </TabsContent>
-                    </Tabs>
-                </TabsContent>
+            <TabsContent value="wholesale" className="mt-0">
+              <CommercialTermsMatrix />
+            </TabsContent>
+          </Tabs>
+        </TabsContent>
 
-                <TabsContent value="price-comparison" className="mt-0">
-                    {tab === 'price-comparison' && <PriceComparisonContent />}
-                </TabsContent>
+        <TabsContent value="price-comparison" className="mt-0">
+          {tab === 'price-comparison' && <PriceComparisonContent />}
+        </TabsContent>
 
-                <TabsContent value="elasticity" className="mt-0">
-                    {tab === 'elasticity' && <ElasticityContent />}
-                </TabsContent>
+        <TabsContent value="elasticity" className="mt-0">
+          {tab === 'elasticity' && <ElasticityContent />}
+        </TabsContent>
 
-                <TabsContent value="markdown" className="mt-0">
-                    {tab === 'markdown' && <MarkdownContent />}
-                </TabsContent>
-            </Tabs>
-        </div>
-    );
+        <TabsContent value="markdown" className="mt-0">
+          {tab === 'markdown' && <MarkdownContent />}
+        </TabsContent>
+      </Tabs>
+    </RegistryPageShell>
+  );
 }

@@ -3,16 +3,33 @@
  * Используется в RelatedModulesBlock на страницах disputes, compliance, production и др.
  */
 import { ROUTES } from '@/lib/routes';
-import { EntityLink } from '@/lib/types';
 
-export type { EntityLink };
+/** Связанный модуль: подпись + href (RelatedModulesBlock, дашборды). */
+export type EntityLink = { label: string; href: string };
+
+/** Схлопывает одинаковый хаб по каноническому href (редирект `/shop/b2b-orders` → `/shop/b2b/orders`). */
+export function dedupeEntityLinksByHref(links: EntityLink[]): EntityLink[] {
+  const legacy = ROUTES.shop.b2bOrdersLegacy;
+  const canonical = ROUTES.shop.b2bOrders;
+  const byNorm = new Map<string, EntityLink>();
+  for (const link of links) {
+    const href = link.href as string;
+    const norm = href === legacy ? canonical : href;
+    byNorm.set(norm, href === legacy ? { ...link, href: canonical } : link);
+  }
+  return [...byNorm.values()];
+}
+
+/** Связанные модули: без дублей хаба B2B заказов (legacy + canonical). */
+export function finalizeRelatedModuleLinks(links: EntityLink[]): EntityLink[] {
+  return dedupeEntityLinksByHref(links);
+}
 
 /** Убирает прямые ссылки на списки B2B-заказов из «связанных модулей», чтобы не дублировать реестр (карточки/навигация). */
 function filterB2B(links: EntityLink[]): EntityLink[] {
   return links.filter(
     (l) =>
-      (l.href as string) !== ROUTES.brand.b2bOrders &&
-      (l.href as string) !== ROUTES.shop.b2bOrders
+      (l.href as string) !== ROUTES.brand.b2bOrders && (l.href as string) !== ROUTES.shop.b2bOrders
   );
 }
 
@@ -135,6 +152,228 @@ export function getB2BLinks(): EntityLink[] {
     { label: 'Выставки', href: ROUTES.brand.tradeShows },
     { label: 'Партнёры', href: ROUTES.brand.retailers },
   ]);
+}
+
+/**
+ * Рёбра B2B-заказа между ролями (без `ROUTES.factory.productionOrders` — тот же реестр, что и у бренда).
+ * Склеивается с `getB2BLinks()` через `dedupeEntityLinksByHref` + `finalizeRelatedModuleLinks`.
+ */
+export function getBrandB2bOrdersCrossRoleLinks(): EntityLink[] {
+  return [
+    { label: 'Заказы байера (ритейл)', href: ROUTES.shop.b2bOrders },
+    { label: 'Производственный хаб (factory)', href: ROUTES.factory.production },
+  ];
+}
+
+/** Те же рёбра с экрана заказов ритейла — исполнитель и factory shell. */
+export function getShopB2bOrdersCrossRoleLinks(): EntityLink[] {
+  return [
+    { label: 'Заказы бренда (исполнение)', href: ROUTES.brand.b2bOrders },
+    { label: 'Производственный хаб (factory)', href: ROUTES.factory.production },
+  ];
+}
+
+/** Дашборд ритейла: связь с исполнителем, качеством каталога и цехом. */
+export function getShopB2bDashboardCrossRoleLinks(): EntityLink[] {
+  return dedupeEntityLinksByHref([
+    { label: 'Карта процессов B2B', href: ROUTES.shop.b2bWorkspaceMap },
+    { label: 'Fulfillment (SLA)', href: ROUTES.shop.b2bFulfillmentDashboard },
+    { label: 'RFQ и тендеры (витрина)', href: ROUTES.shop.b2bRfq },
+    { label: 'Аналитика розницы', href: ROUTES.shop.analytics },
+    { label: 'Трафик по зонам (footfall)', href: ROUTES.shop.analyticsFootfall },
+    { label: 'Хаб маржи (B2B)', href: ROUTES.shop.b2bMarginAnalysis },
+    { label: 'Landed cost', href: ROUTES.shop.b2bLandedCost },
+    { label: 'Финансы партнёра', href: ROUTES.shop.b2bFinance },
+    { label: 'Календарь поставок (ритейл)', href: ROUTES.shop.b2bDeliveryCalendar },
+    { label: 'Заказы бренда (исполнение)', href: ROUTES.brand.b2bOrders },
+    { label: 'RFQ материалов (бренд)', href: ROUTES.brand.suppliersRfq },
+    { label: 'Качество B2B-каталога', href: ROUTES.brand.catalogQuality },
+    { label: 'Синдикация (бренд)', href: ROUTES.brand.contentSyndication },
+    { label: 'Производственный хаб (factory)', href: ROUTES.factory.production },
+    { label: 'Discover брендов', href: ROUTES.shop.b2bDiscover },
+  ]);
+}
+
+/** Бренд: как партнёр видит ритейла (байерский контур). */
+export function getBrandPartnerRetailCrossRoleLinks(): EntityLink[] {
+  return dedupeEntityLinksByHref([
+    { label: 'Кабинет магазина', href: ROUTES.shop.home },
+    { label: 'Карта процессов B2B (ритейл)', href: ROUTES.shop.b2bWorkspaceMap },
+    { label: 'Fulfillment (ритейл)', href: ROUTES.shop.b2bFulfillmentDashboard },
+    { label: 'RFQ витрина (ритейл)', href: ROUTES.shop.b2bRfq },
+    { label: 'Discover байеров', href: ROUTES.shop.b2bDiscover },
+    { label: 'B2B каталог закупки', href: ROUTES.shop.b2bCatalog },
+  ]);
+}
+
+/** Factory: связь с брендом и ритейлом при исполнении. */
+export function getFactoryHubCrossRoleLinks(): EntityLink[] {
+  return dedupeEntityLinksByHref([
+    { label: 'Карта B2B (ритейл)', href: ROUTES.shop.b2bWorkspaceMap },
+    { label: 'RFQ витрина (байер)', href: ROUTES.shop.b2bRfq },
+    { label: 'Тендеры B2B (площадка)', href: ROUTES.shop.b2bTenders },
+    { label: 'RFQ материалов (бренд)', href: ROUTES.brand.suppliersRfq },
+    { label: 'B2B заказы бренда', href: ROUTES.brand.b2bOrders },
+    { label: 'Качество каталога (бренд)', href: ROUTES.brand.catalogQuality },
+    { label: 'Discover (ритейл)', href: ROUTES.shop.b2bDiscover },
+    { label: 'Кабинет магазина', href: ROUTES.shop.home },
+  ]);
+}
+
+/** Дистрибьютор: ритейл, бренд-исполнение, производство. */
+export function getDistributorCrossRoleLinks(): EntityLink[] {
+  return dedupeEntityLinksByHref([
+    { label: 'Карта процессов B2B', href: ROUTES.shop.b2bWorkspaceMap },
+    { label: 'Fulfillment', href: ROUTES.shop.b2bFulfillmentDashboard },
+    { label: 'RFQ', href: ROUTES.shop.b2bRfq },
+    { label: 'Кабинет магазина', href: ROUTES.shop.home },
+    { label: 'Discover байеров', href: ROUTES.shop.b2bDiscover },
+    { label: 'B2B каталог', href: ROUTES.shop.b2bCatalog },
+    { label: 'Заказы бренда (исполнение)', href: ROUTES.brand.b2bOrders },
+    { label: 'Производственный хаб', href: ROUTES.factory.production },
+  ]);
+}
+
+/** `/shop/b2b/fulfillment-dashboard` — SLA ритейла ↔ исполнение бренда, factory, трекинг. */
+export function getFulfillmentDashboardCrossRoleLinks(): EntityLink[] {
+  return dedupeEntityLinksByHref([
+    { label: 'Заказы B2B (ритейл)', href: ROUTES.shop.b2bOrders },
+    { label: 'Трекинг поставок', href: ROUTES.shop.b2bTracking },
+    { label: 'Заказы бренда (исполнение)', href: ROUTES.brand.b2bOrders },
+    { label: 'Производство (бренд)', href: ROUTES.brand.production },
+    { label: 'Производственный хаб (factory)', href: ROUTES.factory.production },
+    { label: 'Рекламации', href: ROUTES.shop.b2bClaims },
+    { label: 'Карта процессов B2B', href: ROUTES.shop.b2bWorkspaceMap },
+  ]);
+}
+
+/** `/shop/b2b/rfq` — витрина байера ↔ RFQ материалов и поставщики в кабинете бренда. */
+export function getShopB2bRfqCrossRoleLinks(): EntityLink[] {
+  return dedupeEntityLinksByHref([
+    { label: 'Поиск поставщиков', href: ROUTES.shop.b2bSupplierDiscovery },
+    { label: 'Тендеры B2B', href: ROUTES.shop.b2bTenders },
+    { label: 'RFQ материалов (бренд)', href: ROUTES.brand.suppliersRfq },
+    { label: 'Реестр поставщиков (бренд)', href: ROUTES.brand.suppliers },
+    { label: 'Материалы (бренд)', href: ROUTES.brand.materials },
+    { label: 'Производственный хаб', href: ROUTES.factory.production },
+    { label: 'Заказы бренда', href: ROUTES.brand.b2bOrders },
+  ]);
+}
+
+/** `/shop/b2b/tenders` — торги площадки ↔ RFQ, бренд, исполнение. */
+export function getShopB2bTendersCrossRoleLinks(): EntityLink[] {
+  return dedupeEntityLinksByHref([
+    { label: 'RFQ', href: ROUTES.shop.b2bRfq },
+    { label: 'Поиск поставщиков', href: ROUTES.shop.b2bSupplierDiscovery },
+    { label: 'Fulfillment', href: ROUTES.shop.b2bFulfillmentDashboard },
+    { label: 'RFQ материалов (бренд)', href: ROUTES.brand.suppliersRfq },
+    { label: 'Поставщики (бренд)', href: ROUTES.brand.suppliers },
+    { label: 'Производственный хаб', href: ROUTES.factory.production },
+    { label: 'Карта B2B', href: ROUTES.shop.b2bWorkspaceMap },
+  ]);
+}
+
+/** `/shop/b2b/supplier-discovery` — матчинг → RFQ/тендер и контур бренда. */
+export function getShopB2bSupplierDiscoveryCrossRoleLinks(): EntityLink[] {
+  return dedupeEntityLinksByHref([
+    { label: 'RFQ', href: ROUTES.shop.b2bRfq },
+    { label: 'Тендеры B2B', href: ROUTES.shop.b2bTenders },
+    { label: 'RFQ материалов (бренд)', href: ROUTES.brand.suppliersRfq },
+    { label: 'Материалы (бренд)', href: ROUTES.brand.materials },
+    { label: 'Fulfillment', href: ROUTES.shop.b2bFulfillmentDashboard },
+    { label: 'Производственный хаб', href: ROUTES.factory.production },
+    { label: 'Карта B2B', href: ROUTES.shop.b2bWorkspaceMap },
+  ]);
+}
+
+/** Срез shop B2B для страницы каталога — без полного `getShopB2BHubLinks()` и без ссылки на сам каталог. */
+const SHOP_B2B_CATALOG_RELATED_HUB_HREFS = new Set<string>([
+  ROUTES.shop.b2bShowroom,
+  ROUTES.shop.b2bMatrix,
+  ROUTES.shop.b2bWhiteboard,
+  ROUTES.shop.inventory,
+  ROUTES.shop.b2bFinance,
+  ROUTES.shop.b2bReplenishment,
+  ROUTES.shop.b2bDocuments,
+  ROUTES.shop.b2bFulfillmentDashboard,
+]);
+
+/** Рёбра PIM / исполнение / factory вокруг каталога закупки. */
+export function getShopB2bCatalogCrossRoleLinks(): EntityLink[] {
+  return [
+    { label: 'Создать заказ', href: ROUTES.shop.b2bCreateOrder },
+    { label: 'Заказы B2B', href: ROUTES.shop.b2bOrders },
+    { label: 'PIM / товары (бренд)', href: ROUTES.brand.products },
+    { label: 'Качество B2B-каталога', href: ROUTES.brand.catalogQuality },
+    { label: 'Лайншиты (бренд)', href: ROUTES.brand.b2bLinesheets },
+    { label: 'Производственный хаб (factory)', href: ROUTES.factory.production },
+    { label: 'Discover брендов', href: ROUTES.shop.b2bDiscover },
+  ];
+}
+
+export function getShopB2bCatalogRelatedLinks(): EntityLink[] {
+  const hubSlice = getShopB2BHubLinks().filter((l) => {
+    const h = String(l.href);
+    return SHOP_B2B_CATALOG_RELATED_HUB_HREFS.has(h) && h !== ROUTES.shop.b2bCatalog;
+  });
+  return finalizeRelatedModuleLinks(
+    dedupeEntityLinksByHref([...hubSlice, ...getShopB2bCatalogCrossRoleLinks()])
+  );
+}
+
+/** Три входа в shop B2B для поставщика / circular hub (единый источник с `getSupplierLinks`). */
+export function getSupplierShopB2bPlatformLinks(): EntityLink[] {
+  return [
+    { label: 'Ритейл-центр (дашборд)', href: ROUTES.shop.home },
+    { label: 'Discover (маркетплейс)', href: ROUTES.shop.b2bDiscover },
+    { label: 'Карта процессов B2B', href: ROUTES.shop.b2bWorkspaceMap },
+    { label: 'Тендеры B2B', href: ROUTES.shop.b2bTenders },
+    { label: 'Поиск поставщиков', href: ROUTES.shop.b2bSupplierDiscovery },
+  ];
+}
+
+export type AdminB2bLifecycleItem = { href: string; label: string; desc: string };
+
+/** Секция HQ-дашборда: жизненный цикл B2B без дубля с factory handoff (канонические href). */
+export function getAdminB2bLifecycleOverviewItems(): AdminB2bLifecycleItem[] {
+  return [
+    {
+      href: ROUTES.shop.b2bOrders,
+      label: 'Заказы (ритейл)',
+      desc: 'Кабинет магазина — операционные B2B-заказы',
+    },
+    {
+      href: ROUTES.brand.b2bOrders,
+      label: 'Заказы (бренд)',
+      desc: 'Исполнение и согласования со стороны бренда',
+    },
+    {
+      href: ROUTES.factory.production,
+      label: 'Производственный хаб',
+      desc: 'Shell цеха и поставщика материалов',
+    },
+    {
+      href: ROUTES.brand.production,
+      label: 'Производство (бренд)',
+      desc: 'Операции, смены, маршруты в кабинете бренда',
+    },
+    {
+      href: ROUTES.admin.integrations,
+      label: 'Интеграции HQ',
+      desc: 'Коннекторы и обмен с внешними B2B-системами',
+    },
+    { href: ROUTES.admin.disputes, label: 'Споры B2B', desc: 'Арбитраж и эскалации' },
+    {
+      href: ROUTES.shop.b2bFulfillmentDashboard,
+      label: 'Fulfillment (ритейл)',
+      desc: 'Сводка исполнения заказов и логистических SLA',
+    },
+    {
+      href: ROUTES.shop.b2bWorkspaceMap,
+      label: 'Карта B2B (ритейл)',
+      desc: 'Сквозная визуализация модулей закупок и ролей',
+    },
+  ];
 }
 
 /** Ссылки для Логистики — B2B, склад, compliance */
@@ -647,8 +886,7 @@ export function getSupplierLinks(): EntityLink[] {
     { label: 'Materials', href: ROUTES.brand.materials },
     { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
     { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
-    { label: 'Тендеры', href: ROUTES.shop.b2bTenders },
-    { label: 'Поиск поставщиков', href: ROUTES.shop.b2bSupplierDiscovery },
+    ...getSupplierShopB2bPlatformLinks(),
   ]);
 }
 

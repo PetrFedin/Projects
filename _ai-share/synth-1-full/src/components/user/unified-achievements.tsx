@@ -6,13 +6,36 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { 
-  Trophy, Star, Zap, Target, Award, Gift, Crown, Flame, TrendingUp, 
-  Eye, Heart, ShoppingBag, Search, Clock, Filter, Calendar, 
-  BarChart3, PieChart, LineChart, ArrowRight
+import {
+  Trophy,
+  Star,
+  Zap,
+  Target,
+  Award,
+  Gift,
+  Crown,
+  Flame,
+  TrendingUp,
+  Eye,
+  Heart,
+  ShoppingBag,
+  Search,
+  Clock,
+  Filter,
+  Calendar,
+  BarChart3,
+  PieChart,
+  LineChart,
+  ArrowRight,
 } from 'lucide-react';
 import { useAuth } from '@/providers/auth-provider';
 import { useUIState } from '@/providers/ui-state';
@@ -20,23 +43,40 @@ import { useUserOrders } from '@/hooks/use-user-orders';
 import { useUserActivity } from '@/hooks/use-user-activity';
 import { achievements as allAchievements } from '@/lib/achievements';
 import { cn } from '@/lib/utils';
-import { format, subDays, subWeeks, subMonths, startOfDay, endOfDay, eachDayOfInterval, eachWeekOfInterval, eachMonthOfInterval, startOfWeek, endOfWeek, startOfMonth, endOfMonth, startOfYear, endOfYear } from 'date-fns';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+import {
+  format,
+  subDays,
+  subWeeks,
+  subMonths,
+  startOfDay,
+  endOfDay,
+  eachDayOfInterval,
+  eachWeekOfInterval,
+  eachMonthOfInterval,
+  startOfWeek,
+  endOfWeek,
+  startOfMonth,
+  endOfMonth,
+  startOfYear,
+  endOfYear,
+} from 'date-fns';
 import { ru } from 'date-fns/locale';
 import Link from 'next/link';
-import { 
-  LineChart as RechartsLineChart, 
-  BarChart as RechartsBarChart, 
+import {
+  LineChart as RechartsLineChart,
+  BarChart as RechartsBarChart,
   PieChart as RechartsPieChart,
-  Line, 
-  Bar, 
-  Pie, 
-  Cell, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  Legend, 
-  ResponsiveContainer 
+  Line,
+  Bar,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
 } from 'recharts';
 
 interface Activity {
@@ -67,7 +107,7 @@ function DetailModal({ isOpen, onClose, title, data, period, onPeriodChange }: D
     // Filter data by custom date range if selected
     let filteredData = data;
     if (dateRange.from && dateRange.to) {
-      filteredData = data.filter(item => {
+      filteredData = data.filter((item) => {
         const itemDate = new Date(item.timestamp || item.date || item.createdAt);
         return itemDate >= dateRange.from! && itemDate <= dateRange.to!;
       });
@@ -76,83 +116,116 @@ function DetailModal({ isOpen, onClose, title, data, period, onPeriodChange }: D
     const now = new Date();
     let dates: Date[] = [];
     let dateFormat: string;
-    
+
     switch (period) {
       case 'week':
-        dates = eachDayOfInterval({ 
-          start: startOfWeek(subDays(now, 7), { weekStartsOn: 1 }), 
-          end: endOfWeek(now, { weekStartsOn: 1 })
+        dates = eachDayOfInterval({
+          start: startOfWeek(subDays(now, 7), { weekStartsOn: 1 }),
+          end: endOfWeek(now, { weekStartsOn: 1 }),
         });
         dateFormat = 'dd MMM';
         break;
       case 'month':
-        dates = eachDayOfInterval({ 
-          start: startOfMonth(subMonths(now, 1)), 
-          end: endOfMonth(now)
+        dates = eachDayOfInterval({
+          start: startOfMonth(subMonths(now, 1)),
+          end: endOfMonth(now),
         });
         dateFormat = 'dd MMM';
         break;
       case 'year':
-        dates = eachMonthOfInterval({ 
-          start: startOfYear(subMonths(now, 12)), 
-          end: endOfMonth(now)
+        dates = eachMonthOfInterval({
+          start: startOfYear(subMonths(now, 12)),
+          end: endOfMonth(now),
         });
         dateFormat = 'MMM yyyy';
         break;
       default:
-        dates = eachMonthOfInterval({ 
-          start: startOfYear(subMonths(now, 12)), 
-          end: endOfMonth(now)
+        dates = eachMonthOfInterval({
+          start: startOfYear(subMonths(now, 12)),
+          end: endOfMonth(now),
         });
         dateFormat = 'MMM yyyy';
     }
 
-    return dates.map(date => {
-      const dateStr = format(date, dateFormat, { locale: ru });
-      const count = filteredData.filter(item => {
-        if (!item.timestamp && !item.date && !item.createdAt) return false;
-        try {
-          const itemDate = new Date(item.timestamp || item.date || item.createdAt);
-          const itemDateStr = format(itemDate, dateFormat, { locale: ru });
-          return itemDateStr === dateStr;
-        } catch {
-          return false;
-        }
-      }).length;
-      
-      return { date: dateStr, value: count, name: dateStr };
-    }).filter(d => period === 'all' || d.value > 0);
+    return dates
+      .map((date) => {
+        const dateStr = format(date, dateFormat, { locale: ru });
+        const count = filteredData.filter((item) => {
+          if (!item.timestamp && !item.date && !item.createdAt) return false;
+          try {
+            const itemDate = new Date(item.timestamp || item.date || item.createdAt);
+            const itemDateStr = format(itemDate, dateFormat, { locale: ru });
+            return itemDateStr === dateStr;
+          } catch {
+            return false;
+          }
+        }).length;
+
+        return { date: dateStr, value: count, name: dateStr };
+      })
+      .filter((d) => period === 'all' || d.value > 0);
   }, [data, period, dateRange]);
 
   const COLORS = ['#3E82F7', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-6xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-sm font-headline">{title}</DialogTitle>
-          <DialogDescription>
-            Детальная аналитика с возможностью выбора периода
-          </DialogDescription>
+          <DialogTitle className="font-headline text-sm">{title}</DialogTitle>
+          <DialogDescription>Детальная аналитика с возможностью выбора периода</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
           {/* Period Selector */}
-          <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <Tabs value={period} onValueChange={(v) => onPeriodChange(v as Period)}>
-              <TabsList>
-                <TabsTrigger value="week">Неделя</TabsTrigger>
-                <TabsTrigger value="month">Месяц</TabsTrigger>
-                <TabsTrigger value="year">Год</TabsTrigger>
-                <TabsTrigger value="all">Все время</TabsTrigger>
+              {/* cabinetSurface v1 */}
+              <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
+                <TabsTrigger
+                  value="week"
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'text-xs font-semibold normal-case tracking-normal'
+                  )}
+                >
+                  Неделя
+                </TabsTrigger>
+                <TabsTrigger
+                  value="month"
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'text-xs font-semibold normal-case tracking-normal'
+                  )}
+                >
+                  Месяц
+                </TabsTrigger>
+                <TabsTrigger
+                  value="year"
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'text-xs font-semibold normal-case tracking-normal'
+                  )}
+                >
+                  Год
+                </TabsTrigger>
+                <TabsTrigger
+                  value="all"
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'text-xs font-semibold normal-case tracking-normal'
+                  )}
+                >
+                  Все время
+                </TabsTrigger>
               </TabsList>
             </Tabs>
-            
+
             {/* Custom Date Range Picker */}
             <Popover>
               <PopoverTrigger asChild>
                 <Button variant="outline" size="sm">
-                  <Calendar className="h-4 w-4 mr-2" />
+                  <Calendar className="mr-2 h-4 w-4" />
                   {dateRange.from && dateRange.to
                     ? `${format(dateRange.from, 'dd MMM', { locale: ru })} - ${format(dateRange.to, 'dd MMM', { locale: ru })}`
                     : 'Выбрать период'}
@@ -180,7 +253,7 @@ function DetailModal({ isOpen, onClose, title, data, period, onPeriodChange }: D
               size="sm"
               onClick={() => setSelectedChart('line')}
             >
-              <LineChart className="h-4 w-4 mr-2" />
+              <LineChart className="mr-2 h-4 w-4" />
               Линейный
             </Button>
             <Button
@@ -188,7 +261,7 @@ function DetailModal({ isOpen, onClose, title, data, period, onPeriodChange }: D
               size="sm"
               onClick={() => setSelectedChart('bar')}
             >
-              <BarChart3 className="h-4 w-4 mr-2" />
+              <BarChart3 className="mr-2 h-4 w-4" />
               Столбчатый
             </Button>
             <Button
@@ -196,7 +269,7 @@ function DetailModal({ isOpen, onClose, title, data, period, onPeriodChange }: D
               size="sm"
               onClick={() => setSelectedChart('pie')}
             >
-              <PieChart className="h-4 w-4 mr-2" />
+              <PieChart className="mr-2 h-4 w-4" />
               Круговой
             </Button>
           </div>
@@ -249,7 +322,7 @@ function DetailModal({ isOpen, onClose, title, data, period, onPeriodChange }: D
 
           {/* Statistics */}
           <div className="grid grid-cols-3 gap-3">
-            <Card className="cursor-pointer hover:border-accent transition-colors">
+            <Card className="cursor-pointer transition-colors hover:border-accent">
               <CardContent className="pt-4">
                 <div className="text-center">
                   <p className="text-sm font-bold">{data.length}</p>
@@ -257,24 +330,40 @@ function DetailModal({ isOpen, onClose, title, data, period, onPeriodChange }: D
                 </div>
               </CardContent>
             </Card>
-            <Card className="cursor-pointer hover:border-accent transition-colors">
+            <Card className="cursor-pointer transition-colors hover:border-accent">
               <CardContent className="pt-4">
                 <div className="text-center">
                   <p className="text-sm font-bold">
-                    {data.length > 0 
-                      ? Math.max(1, Math.round(data.length / (period === 'week' ? 7 : period === 'month' ? 30 : period === 'year' ? 365 : 365)))
+                    {data.length > 0
+                      ? Math.max(
+                          1,
+                          Math.round(
+                            data.length /
+                              (period === 'week'
+                                ? 7
+                                : period === 'month'
+                                  ? 30
+                                  : period === 'year'
+                                    ? 365
+                                    : 365)
+                          )
+                        )
                       : 0}
                   </p>
                   <p className="text-xs text-muted-foreground">В день (среднее)</p>
                 </div>
               </CardContent>
             </Card>
-            <Card className="cursor-pointer hover:border-accent transition-colors">
+            <Card className="cursor-pointer transition-colors hover:border-accent">
               <CardContent className="pt-4">
                 <div className="text-center">
                   <p className="text-sm font-bold">
                     {data.length > 0 && (data[0]?.timestamp || data[0]?.date || data[0]?.createdAt)
-                      ? format(new Date(data[0].timestamp || data[0].date || data[0].createdAt), 'dd MMM', { locale: ru })
+                      ? format(
+                          new Date(data[0].timestamp || data[0].date || data[0].createdAt),
+                          'dd MMM',
+                          { locale: ru }
+                        )
                       : '—'}
                   </p>
                   <p className="text-xs text-muted-foreground">Последняя активность</p>
@@ -312,7 +401,7 @@ export default function UnifiedAchievements() {
     if (!user) return;
 
     // Update achievements
-    const updatedAchievements = achievements.map(ach => {
+    const updatedAchievements = achievements.map((ach) => {
       if (ach.id === 'stylist' && lookboards.length >= 5) {
         return { ...ach, achieved: true };
       }
@@ -324,7 +413,7 @@ export default function UnifiedAchievements() {
     const generatedActivities: Activity[] = [];
 
     // Recent orders
-    orders.slice(0, 5).forEach(order => {
+    orders.slice(0, 5).forEach((order) => {
       generatedActivities.push({
         id: `order-${order.id}`,
         type: 'purchase',
@@ -336,16 +425,18 @@ export default function UnifiedAchievements() {
     });
 
     // Achievements unlocked
-    updatedAchievements.filter(a => a.achieved).forEach(ach => {
-      generatedActivities.push({
-        id: `achievement-${ach.id}`,
-        type: 'achievement',
-        title: `Достижение: ${ach.title}`,
-        description: ach.description,
-        timestamp: new Date(),
-        metadata: { achievementId: ach.id },
+    updatedAchievements
+      .filter((a) => a.achieved)
+      .forEach((ach) => {
+        generatedActivities.push({
+          id: `achievement-${ach.id}`,
+          type: 'achievement',
+          title: `Достижение: ${ach.title}`,
+          description: ach.description,
+          timestamp: new Date(),
+          metadata: { achievementId: ach.id },
+        });
       });
-    });
 
     // Cart activity
     if (cart.length > 0) {
@@ -384,9 +475,9 @@ export default function UnifiedAchievements() {
     setActivities(generatedActivities);
   }, [user, orders, cart.length, wishlist.length, lookboards.length]);
 
-  const unlockedAchievements = achievements.filter(a => a.achieved).length;
+  const unlockedAchievements = achievements.filter((a) => a.achieved).length;
   const activityStats = {
-    totalViews: activities.filter(a => a.type === 'view').length,
+    totalViews: activities.filter((a) => a.type === 'view').length,
     totalPurchases: orders.length,
     totalWishlist: wishlist.length,
     cartItems: cart.length,
@@ -395,84 +486,116 @@ export default function UnifiedAchievements() {
 
   const getActivityIcon = (type: Activity['type']) => {
     switch (type) {
-      case 'view': return <Eye className="h-4 w-4" />;
-      case 'wishlist': return <Star className="h-4 w-4" />;
-      case 'cart': return <ShoppingBag className="h-4 w-4" />;
-      case 'purchase': return <ShoppingBag className="h-4 w-4" />;
-      case 'search': return <Search className="h-4 w-4" />;
-      case 'comparison': return <Filter className="h-4 w-4" />;
-      case 'achievement': return <Trophy className="h-4 w-4" />;
-      default: return <Clock className="h-4 w-4" />;
+      case 'view':
+        return <Eye className="h-4 w-4" />;
+      case 'wishlist':
+        return <Star className="h-4 w-4" />;
+      case 'cart':
+        return <ShoppingBag className="h-4 w-4" />;
+      case 'purchase':
+        return <ShoppingBag className="h-4 w-4" />;
+      case 'search':
+        return <Search className="h-4 w-4" />;
+      case 'comparison':
+        return <Filter className="h-4 w-4" />;
+      case 'achievement':
+        return <Trophy className="h-4 w-4" />;
+      default:
+        return <Clock className="h-4 w-4" />;
     }
   };
 
   const getActivityColor = (type: Activity['type']) => {
     switch (type) {
-      case 'purchase': return 'text-green-600 bg-green-100 dark:bg-green-950';
-      case 'cart': return 'text-blue-600 bg-blue-100 dark:bg-blue-950';
-      case 'wishlist': return 'text-pink-600 bg-pink-100 dark:bg-pink-950';
-      case 'view': return 'text-gray-600 bg-gray-100 dark:bg-gray-800';
-      case 'search': return 'text-purple-600 bg-purple-100 dark:bg-purple-950';
-      case 'comparison': return 'text-orange-600 bg-orange-100 dark:bg-orange-950';
-      case 'achievement': return 'text-yellow-600 bg-yellow-100 dark:bg-yellow-950';
-      default: return 'text-gray-600 bg-gray-100 dark:bg-gray-800';
+      case 'purchase':
+        return 'text-green-600 bg-green-100 dark:bg-green-950';
+      case 'cart':
+        return 'text-blue-600 bg-blue-100 dark:bg-blue-950';
+      case 'wishlist':
+        return 'text-accent-primary bg-accent-primary/15 dark:bg-bg-surface2';
+      case 'view':
+        return 'text-gray-600 bg-gray-100 dark:bg-gray-800';
+      case 'search':
+        return 'text-accent-primary bg-accent-primary/15 dark:bg-bg-surface2';
+      case 'comparison':
+        return 'text-orange-600 bg-orange-100 dark:bg-orange-950';
+      case 'achievement':
+        return 'text-yellow-600 bg-yellow-100 dark:bg-yellow-950';
+      default:
+        return 'text-gray-600 bg-gray-100 dark:bg-gray-800';
     }
   };
 
-  const openDetailModal = (title: string, data: any[], type: 'activity' | 'achievements' | 'stats') => {
+  const openDetailModal = (
+    title: string,
+    data: any[],
+    type: 'activity' | 'achievements' | 'stats'
+  ) => {
     setDetailModal({ isOpen: true, title, data, type });
   };
 
   return (
     <div className="space-y-6">
       {/* Header Stats - Clickable */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-        <Card 
-          className="cursor-pointer hover:border-accent transition-colors"
-          onClick={() => openDetailModal('Просмотры товаров', activities.filter(a => a.type === 'view'), 'activity')}
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+        <Card
+          className="cursor-pointer transition-colors hover:border-accent"
+          onClick={() =>
+            openDetailModal(
+              'Просмотры товаров',
+              activities.filter((a) => a.type === 'view'),
+              'activity'
+            )
+          }
         >
           <CardContent className="p-4 text-center">
-            <Eye className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
+            <Eye className="mx-auto mb-2 h-6 w-6 text-muted-foreground" />
             <p className="text-sm font-bold">{activityStats.totalViews}</p>
             <p className="text-xs text-muted-foreground">Просмотров</p>
           </CardContent>
         </Card>
-        <Card 
-          className="cursor-pointer hover:border-accent transition-colors"
+        <Card
+          className="cursor-pointer transition-colors hover:border-accent"
           onClick={() => openDetailModal('Покупки', orders, 'activity')}
         >
           <CardContent className="p-4 text-center">
-            <ShoppingBag className="h-6 w-6 mx-auto mb-2 text-green-600" />
+            <ShoppingBag className="mx-auto mb-2 h-6 w-6 text-green-600" />
             <p className="text-sm font-bold">{activityStats.totalPurchases}</p>
             <p className="text-xs text-muted-foreground">Покупок</p>
           </CardContent>
         </Card>
-        <Card 
-          className="cursor-pointer hover:border-accent transition-colors"
-          onClick={() => openDetailModal('Избранное', activities.filter(a => a.type === 'wishlist'), 'activity')}
+        <Card
+          className="cursor-pointer transition-colors hover:border-accent"
+          onClick={() =>
+            openDetailModal(
+              'Избранное',
+              activities.filter((a) => a.type === 'wishlist'),
+              'activity'
+            )
+          }
         >
           <CardContent className="p-4 text-center">
-            <Heart className="h-6 w-6 mx-auto mb-2 text-pink-600" />
+            <Heart className="text-accent-primary mx-auto mb-2 h-6 w-6" />
             <p className="text-sm font-bold">{activityStats.totalWishlist}</p>
             <p className="text-xs text-muted-foreground">В избранном</p>
           </CardContent>
         </Card>
-        <Card 
-          className="cursor-pointer hover:border-accent transition-colors"
+        <Card
+          className="cursor-pointer transition-colors hover:border-accent"
           onClick={() => openDetailModal('Достижения', achievements, 'achievements')}
         >
           <CardContent className="p-4 text-center">
-            <Trophy className="h-6 w-6 mx-auto mb-2 text-yellow-600" />
+            <Trophy className="mx-auto mb-2 h-6 w-6 text-yellow-600" />
             <p className="text-sm font-bold">{unlockedAchievements}</p>
             <p className="text-xs text-muted-foreground">Достижений</p>
           </CardContent>
         </Card>
-        <Card 
-          className="cursor-pointer hover:border-accent transition-colors"
+        <Card
+          className="cursor-pointer transition-colors hover:border-accent"
           onClick={() => openDetailModal('Статистика активности', activities, 'stats')}
         >
           <CardContent className="p-4 text-center">
-            <TrendingUp className="h-6 w-6 mx-auto mb-2 text-accent" />
+            <TrendingUp className="mx-auto mb-2 h-6 w-6 text-accent" />
             <p className="text-sm font-bold">{activities.length}</p>
             <p className="text-xs text-muted-foreground">Всего действий</p>
           </CardContent>
@@ -480,23 +603,42 @@ export default function UnifiedAchievements() {
       </div>
 
       <Tabs defaultValue="achievements" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="achievements">
-            <Trophy className="h-4 w-4 mr-2" />
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'grid w-full grid-cols-3')}>
+          <TabsTrigger
+            value="achievements"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 gap-2 text-sm font-medium normal-case tracking-normal'
+            )}
+          >
+            <Trophy className="h-4 w-4 shrink-0" />
             Достижения
           </TabsTrigger>
-          <TabsTrigger value="activity">
-            <Clock className="h-4 w-4 mr-2" />
+          <TabsTrigger
+            value="activity"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 gap-2 text-sm font-medium normal-case tracking-normal'
+            )}
+          >
+            <Clock className="h-4 w-4 shrink-0" />
             Активность
           </TabsTrigger>
-          <TabsTrigger value="stats">
-            <BarChart3 className="h-4 w-4 mr-2" />
+          <TabsTrigger
+            value="stats"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 gap-2 text-sm font-medium normal-case tracking-normal'
+            )}
+          >
+            <BarChart3 className="h-4 w-4 shrink-0" />
             Статистика
           </TabsTrigger>
         </TabsList>
 
         {/* Achievements Tab */}
-        <TabsContent value="achievements" className="space-y-6 mt-6">
+        <TabsContent value="achievements" className="mt-6 space-y-6">
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
@@ -509,45 +651,53 @@ export default function UnifiedAchievements() {
                     {unlockedAchievements} из {achievements.length} разблокировано
                   </CardDescription>
                 </div>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   size="sm"
                   onClick={() => openDetailModal('Все достижения', achievements, 'achievements')}
                 >
-                  <BarChart3 className="h-4 w-4 mr-2" />
+                  <BarChart3 className="mr-2 h-4 w-4" />
                   Детализация
                 </Button>
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                {achievements.map(ach => (
-                  <Card 
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+                {achievements.map((ach) => (
+                  <Card
                     key={ach.id}
                     className={cn(
-                      "cursor-pointer transition-all hover:shadow-lg",
-                      ach.achieved 
-                        ? "border-yellow-200 dark:border-yellow-800 bg-yellow-50/50 dark:bg-yellow-950/20" 
-                        : "opacity-60 hover:opacity-100"
+                      'cursor-pointer transition-all hover:shadow-lg',
+                      ach.achieved
+                        ? 'border-yellow-200 bg-yellow-50/50 dark:border-yellow-800 dark:bg-yellow-950/20'
+                        : 'opacity-60 hover:opacity-100'
                     )}
                     onClick={() => openDetailModal(ach.title, [ach], 'achievements')}
                   >
                     <CardContent className="p-4">
                       <div className="flex items-start gap-3">
-                        <div className={cn(
-                          "flex h-12 w-12 items-center justify-center rounded-lg flex-shrink-0",
-                          ach.achieved ? "bg-yellow-100 dark:bg-yellow-900 text-yellow-600" : "bg-muted text-muted-foreground"
-                        )}>
+                        <div
+                          className={cn(
+                            'flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg',
+                            ach.achieved
+                              ? 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900'
+                              : 'bg-muted text-muted-foreground'
+                          )}
+                        >
                           <ach.icon className="h-6 w-6" />
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between mb-1">
-                            <p className="font-semibold text-sm">{ach.title}</p>
+                        <div className="min-w-0 flex-1">
+                          <div className="mb-1 flex items-center justify-between">
+                            <p className="text-sm font-semibold">{ach.title}</p>
                             {ach.achieved && (
-                              <Badge variant="default" className="bg-yellow-600">Получено</Badge>
+                              <Badge variant="default" className="bg-yellow-600">
+                                Получено
+                              </Badge>
                             )}
                           </div>
-                          <p className="text-xs text-muted-foreground line-clamp-2">{ach.description}</p>
+                          <p className="line-clamp-2 text-xs text-muted-foreground">
+                            {ach.description}
+                          </p>
                         </div>
                       </div>
                     </CardContent>
@@ -559,7 +709,7 @@ export default function UnifiedAchievements() {
         </TabsContent>
 
         {/* Activity Tab */}
-        <TabsContent value="activity" className="space-y-6 mt-6">
+        <TabsContent value="activity" className="mt-6 space-y-6">
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
@@ -568,47 +718,50 @@ export default function UnifiedAchievements() {
                     <Clock className="h-5 w-5" />
                     История активности
                   </CardTitle>
-                  <CardDescription>
-                    Все ваши действия на платформе
-                  </CardDescription>
+                  <CardDescription>Все ваши действия на платформе</CardDescription>
                 </div>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   size="sm"
                   onClick={() => openDetailModal('Активность', activities, 'activity')}
                 >
-                  <BarChart3 className="h-4 w-4 mr-2" />
+                  <BarChart3 className="mr-2 h-4 w-4" />
                   График
                 </Button>
               </div>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3 max-h-96 overflow-y-auto">
+              <div className="max-h-96 space-y-3 overflow-y-auto">
                 {activities.slice(0, 20).map((activity) => (
                   <div
                     key={activity.id}
-                    className="flex items-start gap-3 p-3 rounded-lg border hover:bg-muted/50 transition-colors cursor-pointer"
+                    className="flex cursor-pointer items-start gap-3 rounded-lg border p-3 transition-colors hover:bg-muted/50"
                     onClick={() => openDetailModal(activity.title, [activity], 'activity')}
                   >
-                    <div className={cn("p-2 rounded-lg", getActivityColor(activity.type))}>
+                    <div className={cn('rounded-lg p-2', getActivityColor(activity.type))}>
                       {getActivityIcon(activity.type)}
                     </div>
-                    <div className="flex-1 min-w-0">
+                    <div className="min-w-0 flex-1">
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex-1">
-                          <p className="font-medium text-sm">{activity.title}</p>
-                          <p className="text-xs text-muted-foreground mt-0.5">
+                          <p className="text-sm font-medium">{activity.title}</p>
+                          <p className="mt-0.5 text-xs text-muted-foreground">
                             {activity.description}
                           </p>
                         </div>
-                        <div className="text-xs text-muted-foreground whitespace-nowrap">
+                        <div className="whitespace-nowrap text-xs text-muted-foreground">
                           {format(activity.timestamp, 'dd MMM, HH:mm', { locale: ru })}
                         </div>
                       </div>
                       {activity.metadata?.orderId && (
-                        <Button variant="link" size="sm" className="mt-2 p-0 h-auto text-xs" asChild>
+                        <Button
+                          variant="link"
+                          size="sm"
+                          className="mt-2 h-auto p-0 text-xs"
+                          asChild
+                        >
                           <Link href={`/orders/${activity.metadata.orderId}`}>
-                            Посмотреть заказ <ArrowRight className="h-3 w-3 ml-1 inline" />
+                            Посмотреть заказ <ArrowRight className="ml-1 inline h-3 w-3" />
                           </Link>
                         </Button>
                       )}
@@ -616,9 +769,7 @@ export default function UnifiedAchievements() {
                   </div>
                 ))}
                 {activities.length === 0 && (
-                  <div className="text-center py-4 text-muted-foreground">
-                    Пока нет активности
-                  </div>
+                  <div className="py-4 text-center text-muted-foreground">Пока нет активности</div>
                 )}
               </div>
             </CardContent>
@@ -626,9 +777,12 @@ export default function UnifiedAchievements() {
         </TabsContent>
 
         {/* Stats Tab */}
-        <TabsContent value="stats" className="space-y-6 mt-6">
-          <div className="grid md:grid-cols-2 gap-3">
-            <Card className="cursor-pointer hover:border-accent transition-colors" onClick={() => openDetailModal('Распределение активности', activities, 'stats')}>
+        <TabsContent value="stats" className="mt-6 space-y-6">
+          <div className="grid gap-3 md:grid-cols-2">
+            <Card
+              className="cursor-pointer transition-colors hover:border-accent"
+              onClick={() => openDetailModal('Распределение активности', activities, 'stats')}
+            >
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>Распределение активности</CardTitle>
@@ -665,7 +819,10 @@ export default function UnifiedAchievements() {
               </CardContent>
             </Card>
 
-            <Card className="cursor-pointer hover:border-accent transition-colors" onClick={() => openDetailModal('Тренд активности', activities, 'activity')}>
+            <Card
+              className="cursor-pointer transition-colors hover:border-accent"
+              onClick={() => openDetailModal('Тренд активности', activities, 'activity')}
+            >
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>Тренд активности</CardTitle>
@@ -676,10 +833,12 @@ export default function UnifiedAchievements() {
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
-                  <RechartsLineChart data={activities.slice(0, 7).map((a, i) => ({
-                    day: format(a.timestamp, 'dd MMM', { locale: ru }),
-                    value: i + 1,
-                  }))}>
+                  <RechartsLineChart
+                    data={activities.slice(0, 7).map((a, i) => ({
+                      day: format(a.timestamp, 'dd MMM', { locale: ru }),
+                      value: i + 1,
+                    }))}
+                  >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="day" />
                     <YAxis />
@@ -705,4 +864,3 @@ export default function UnifiedAchievements() {
     </div>
   );
 }
-

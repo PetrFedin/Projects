@@ -3,6 +3,21 @@
  * Использовать вместо строковых литералов в навигации, entity-links и ссылках.
  */
 
+/** Карточка B2B-заказа в кабинете бренда (`/brand/b2b-orders/[orderId]`). Отдельный экспорт — стабильная ссылка для демо-данных и чанков. */
+export function brandB2bOrderHref(orderId: string): string {
+  return `/brand/b2b-orders/${encodeURIComponent(orderId)}`;
+}
+
+/** Карточка B2B-заказа в кабинете байера (`/shop/b2b/orders/[orderId]`). */
+export function shopB2bOrderHref(orderId: string): string {
+  return `/shop/b2b/orders/${encodeURIComponent(orderId)}`;
+}
+
+/** Публичный профиль клиента по id/handle (`/client/{id}`). Кабинет «я» — `ROUTES.client.profile` (`/client/me`). */
+export function clientPublicProfileHref(clientId: string): string {
+  return `/client/${encodeURIComponent(clientId)}`;
+}
+
 // —— Client (клиент) ——
 export const ROUTES = {
   client: {
@@ -12,6 +27,9 @@ export const ROUTES = {
     orders: '/orders',
     returns: '/client/returns',
     giftRegistry: '/client/gift-registry',
+    resale: '/client/resale',
+    services: '/client/services',
+    allergy: '/client/allergy',
     wishlist: '/client/wishlist',
     /** Сохранённые образы из корзины: состав, сумма, загрузка в корзину */
     myOutfits: '/client/my-outfits',
@@ -55,7 +73,16 @@ export const ROUTES = {
     /** Справочник пиктограмм ухода (библиотека + контекст PDP) */
     careSymbols: '/client/care-symbols',
     scanner: '/client/scanner',
-    profile: '/u',
+    /** Личный профиль текущего клиента (номер/ид в URL: `/client/me`). */
+    profile: '/client/me',
+    /** Вкладки UI профиля (`?tab=`). */
+    profileWithTab: (tab: string) => `/client/me?tab=${encodeURIComponent(tab)}`,
+    profileCollections: '/client/me/collections',
+    profilePayments: '/client/me/payments',
+    /** Гардероб внутри профиля `/client/me/wardrobe` */
+    profileWardrobe: '/client/me/wardrobe',
+    /** Продление подписок / офферов в профиле */
+    profileOffersRenewal: '/client/me/offers/renewal',
     /** Хаб паспортов (без захардкоженного ID); конкретный паспорт: passportById(id) */
     passport: '/client/passport',
   },
@@ -63,6 +90,12 @@ export const ROUTES = {
   brand: {
     home: '/brand',
     organization: '/brand?group=organization',
+    /** Редирект на стратегию/обзор (`app/brand/organization/page.tsx`) */
+    organizationPage: '/brand/organization',
+    /** Хлебные крошки «Организация» → подразделы */
+    organizationOverview: '/brand?group=organization',
+    /** Стратегия → обзор (совпадает с редиректом `/brand/organization`) */
+    strategyOverview: '/brand?group=strategy&tab=overview',
     /** Профиль бренда: юр. данные, Brand DNA, история */
     profile: '/brand',
     team: '/brand/team',
@@ -85,7 +118,12 @@ export const ROUTES = {
     integrationsZedonk: '/brand/integrations/archive/zedonk',
     subscription: '/brand/subscription',
     documents: '/brand/documents',
+    quality: '/brand/quality',
+    reviews: '/brand/reviews',
+    cms: '/brand/cms',
+    ipLedger: '/brand/ip-ledger',
     settings: '/brand/settings',
+    settingsApiHub: '/brand/settings/api-hub',
     security: '/brand/security',
     logistics: '/brand/logistics',
     warehouse: '/brand/warehouse',
@@ -93,21 +131,28 @@ export const ROUTES = {
     logisticsDutyCalculator: '/brand/logistics/duty-calculator',
     logisticsConsolidation: '/brand/logistics/consolidation',
     logisticsShadowInventory: '/brand/logistics/shadow-inventory',
+    logisticsRegions: '/brand/logistics/regions',
     compliance: '/brand/compliance',
     complianceStock: '/brand/compliance/stock',
     controlCenter: '/brand/control-center',
     dashboard: '/brand/dashboard',
     products: '/brand/products',
+    /** Карточка товара в PIM бренда */
+    productsCard: (productId: string) => `/brand/products/${encodeURIComponent(productId)}`,
+    /** Создание карточки товара (wizard) */
+    productsNew: '/brand/products/new',
     productsCreateReady: '/brand/products/create-ready',
     productsMatrix: '/brand/products/matrix',
     colors: '/brand/colors',
     planning: '/brand/planning',
     rangePlanner: '/brand/range-planner',
+    merchandising: '/brand/merchandising',
     productsDigitalTwinTesting: '/brand/products/digital-twin-testing',
     /** Обувь: 360° ракурсы, GLB после скана, пресеты «с чем носить» */
     footwear360: '/brand/products/footwear-360',
     weatherCollections: '/brand/weather-collections',
     showroom: '/brand/showroom',
+    showroomVr: '/brand/showroom/vr',
     /** JOOR-style: виртуальные выставки по сезонам (SS26, FW26), инвайты байерам */
     tradeShows: '/brand/b2b/trade-shows',
     /** JOOR Passport: единый портал выставки — нетворкинг, каталоги, заказы с события */
@@ -123,6 +168,8 @@ export const ROUTES = {
     /** NuOrder: версии лайншита Early Bird / VIP / Outlet / Stock Lot */
     b2bLinesheetVersions: '/brand/b2b/linesheet-versions',
     b2bOrders: '/brand/b2b-orders',
+    /** Карточка B2B-заказа бренда: `/brand/b2b-orders/[orderId]` */
+    b2bOrder: brandB2bOrderHref,
     /** JOOR/NuOrder: генерация/загрузка PO, привязка к заказу */
     purchaseOrder: '/brand/b2b/po',
     /** JOOR/Zalando: ASN, статусы отгрузок (бренд) */
@@ -186,7 +233,8 @@ export const ROUTES = {
     /** Вкладка цеха на /brand/production (floorTab) */
     productionFloorTab: (tab: string) => `/brand/production?floorTab=${encodeURIComponent(tab)}`,
     /** Tech pack по id стиля (карточка артикула); для черновика можно передать new или SKU */
-    productionTechPackStyle: (styleId: string) => `/brand/production/tech-pack/${encodeURIComponent(styleId)}`,
+    productionTechPackStyle: (styleId: string) =>
+      `/brand/production/tech-pack/${encodeURIComponent(styleId)}`,
     suppliersRfq: '/brand/suppliers/rfq',
     kickstarter: '/brand/kickstarter',
     promotions: '/brand/promotions',
@@ -199,6 +247,7 @@ export const ROUTES = {
     contentHub: '/brand/content-hub',
     marketingContentFactory: '/brand/marketing/content-factory',
     media: '/brand/media',
+    mediaVideoSpecs: '/brand/media/video-specs',
     blog: '/brand/blog',
     live: '/brand/live',
     /** LIVE process: хаб поэтапных схем */
@@ -227,7 +276,6 @@ export const ROUTES = {
     analyticsSellThrough: '/brand/analytics/sell-through',
     /** Geo-Demand Heatmap: карта спроса по регионам */
     analyticsGeoDemand: '/brand/analytics/geo-demand',
-    integrationsErpPlm: '/brand/integrations/erp-plm',
     pricing: '/brand/pricing',
     pricingPriceComparison: '/brand/pricing/price-comparison',
     pricingElasticity: '/brand/pricing/elasticity',
@@ -239,8 +287,10 @@ export const ROUTES = {
     disputes: '/brand/disputes',
     returnsClaims: '/brand/returns-claims',
     auctions: '/brand/auctions',
+    auctionsNew: '/brand/auctions/new',
     circularHub: '/brand/circular-hub',
     customization: '/brand/customization',
+    customizationPatterns: '/brand/customization/patterns',
     aiDesign: '/brand/ai-design',
     aiTools: '/brand/ai-tools',
     /** Хаб: клиентские фичи, партнёрский рост, демо-маркетинг (ссылки внутрь) */
@@ -315,8 +365,6 @@ export const ROUTES = {
     priceLadder: '/brand/merch/price-ladder',
     /** Оптимизация визуальной сетки витрины */
     visualGrid: '/brand/merch/visual-grid',
-    /** Анализ каннибализации ассортимента */
-    assortmentOverlap: '/brand/merch/assortment-overlap',
     /** Управление B2B кампаниями */
     b2bCampaigns: '/brand/marketing/campaigns',
     /** Комплаенс и ЭДО (РФ) */
@@ -335,12 +383,8 @@ export const ROUTES = {
     regionalDemand: '/brand/merch/regional-demand',
     /** Генератор лайт-шитов */
     lineSheetGenerator: '/brand/merch/linesheet-generator',
-    /** Анализ здоровья ассортимента */
-    assortmentHealth: '/brand/merch/assortment-health',
     /** Индекс видимости в поиске МП */
     visibilityIndex: '/brand/merch/visibility-index',
-    /** Карта регионального спроса (Heatmap) */
-    regionalDemand: '/brand/merch/regional-demand',
     /** Реестр локальных поставщиков (СНГ) */
     cisSourcing: '/brand/merch/cis-sourcing',
     /** Совместная матрица ассортимента: канал × размер × цвет */
@@ -398,7 +442,12 @@ export const ROUTES = {
   shop: {
     home: '/shop',
     orders: '/shop/orders',
+    /** Карточка розничного заказа: `/shop/orders/[orderId]` */
+    order: (orderId: string) => `/shop/orders/${encodeURIComponent(orderId)}`,
+    /** PDP в кабинете магазина */
+    product: (productId: string) => `/shop/product/${encodeURIComponent(productId)}`,
     inventory: '/shop/inventory',
+    inventoryHistorySku: (skuId: string) => `/shop/inventory/history/${encodeURIComponent(skuId)}`,
     inventoryArchive: '/shop/inventory/archive',
     promotions: '/shop/promotions',
     clienteling: '/shop/clienteling',
@@ -409,11 +458,13 @@ export const ROUTES = {
     localInventoryAds: '/shop/local-inventory-ads',
     endlessAisle: '/shop/endless-aisle',
     shipFromStore: '/shop/ship-from-store',
+    /** Корень B2B байера: редирект на `/shop` (`app/shop/b2b/page.tsx`). */
     b2b: '/shop/b2b',
     b2bCatalog: '/shop/b2b/catalog',
     b2bMatrix: '/shop/b2b/matrix',
     b2bWhiteboard: '/shop/b2b/whiteboard',
     b2bLandedCost: '/shop/b2b/landed-cost',
+    /** AI Discovery Radar / свайп-поиск брендов (`/shop/b2b/partners/discover`). Не путать с легаси `b2bDiscover`. */
     b2bPartnersDiscover: '/shop/b2b/partners/discover',
     /** Для байера: подать заявку на партнёрство с брендом (JOOR-style) */
     b2bApply: '/shop/b2b/apply',
@@ -422,7 +473,10 @@ export const ROUTES = {
     /** JOOR Pay: оплата внутри платформы для байера */
     b2bPayment: '/shop/b2b/payment',
     /** JOOR Discover: каталог брендов, поиск, запрос доступа */
+    /** Легаси-маршрут маркетплейса (`/shop/b2b/discover`); карточный radar — `b2bPartnersDiscover`. */
     b2bDiscover: '/shop/b2b/discover',
+    /** Полноэкранная карта модулей B2B (DigitalWorkplaceMap) в кабинете ритейла. */
+    b2bWorkspaceMap: '/shop/b2b/workspace-map',
     /** Для байера: выставки, на которые приглашён */
     b2bTradeShows: '/shop/b2b/trade-shows',
     /** Запись на визиты и встречи на выставке */
@@ -434,13 +488,25 @@ export const ROUTES = {
     b2bStockMap: '/shop/b2b/stock-map',
     b2bClaims: '/shop/b2b/claims',
     b2bOrders: '/shop/b2b/orders',
+    /** Карточка B2B-заказа (байер): `/shop/b2b/orders/[orderId]` */
+    b2bOrder: shopB2bOrderHref,
+    /** Легаси-путь до редиректа на `b2bOrders` (RelatedModules / тесты дедупликации). */
+    b2bOrdersLegacy: '/shop/b2b-orders',
     /** Единый дашборд: заказы по статусам, лимит, ожидает оплаты, оплачено, ссылки на оплату и документы */
     b2bFinance: '/shop/b2b/finance',
+    /** Запрос увеличения кредитного лимита (демо-страница под финансы B2B) */
+    b2bFinanceIncreaseLimit: '/shop/b2b/finance/increase-limit',
     b2bReplenishment: '/shop/b2b/replenishment',
     b2bTracking: '/shop/b2b/tracking',
     b2bBudget: '/shop/b2b/budget',
+    b2bBudgetSeason: (seasonSlug: string) => `/shop/b2b/budget/${encodeURIComponent(seasonSlug)}`,
     b2bPartners: '/shop/b2b/partners',
+    b2bPartnerRetailer: (slug: string) => `/shop/b2b/partners/${encodeURIComponent(slug)}`,
     b2bContracts: '/shop/b2b/contracts',
+    b2bContract: (contractId: string) => `/shop/b2b/contracts/${encodeURIComponent(contractId)}`,
+    b2bProduct: (productId: string) => `/shop/b2b/products/${encodeURIComponent(productId)}`,
+    b2bKickstarterProject: (projectId: string) =>
+      `/shop/b2b/kickstarter/${encodeURIComponent(projectId)}`,
     b2bRating: '/shop/b2b/rating',
     b2bDocuments: '/shop/b2b/documents',
     b2bShopifySync: '/shop/b2b/shopify-sync',
@@ -462,6 +528,10 @@ export const ROUTES = {
     b2bCollectionTerms: '/shop/b2b/collection-terms',
     /** NuOrder: календарь поставок / drop dates по брендам и коллекциям */
     b2bDeliveryCalendar: '/shop/b2b/delivery-calendar',
+    /** Календарь B2B в кабинете ритейла (шоурум / встречи) */
+    b2bCalendar: '/shop/b2b/calendar',
+    /** Календарь закупок (отдельный экран от operational calendar) */
+    b2bPurchaseCalendar: '/shop/b2b/purchase-calendar',
     /** JOOR/Colect: шаринг лукбука/коллекции — ссылка с истечением срока, пароль */
     b2bLookbookShare: '/shop/b2b/lookbook-share',
     /** Виртуальный шоурум: коллекции по бренду/сезону, лайншиты, заказ из лукбука */
@@ -513,6 +583,7 @@ export const ROUTES = {
     b2bTenders: '/shop/b2b/tenders',
     /** Alibaba/OroCommerce: RFQ — запрос котировок от поставщиков (покупатель) */
     b2bRfq: '/shop/b2b/rfq',
+    b2bRfqCreate: '/shop/b2b/rfq/create',
     /** Supl.biz: Поиск поставщиков — реестр по гео и категориям (РФ) */
     b2bSupplierDiscovery: '/shop/b2b/supplier-discovery',
     /** Sellty/Compo: Личный кабинет дилера — документы, отчёты, индивидуальные цены */
@@ -551,10 +622,77 @@ export const ROUTES = {
     b2bSizeFinder: '/shop/b2b/size-finder',
     b2bSettings: '/shop/b2b/settings',
     analytics: '/shop/analytics',
+    /** Розница: трафик по зонам / footfall (срез внутри `/shop/analytics/*`) */
+    analyticsFootfall: '/shop/analytics/footfall',
     calendar: '/shop/calendar',
     messages: '/shop/messages',
     staff: '/shop/staff',
     career: '/shop/career',
+  },
+  // —— Admin (платформа) —— не путать с `brand.*` / `shop.*`
+  admin: {
+    home: '/admin',
+    activity: '/admin/activity',
+    audit: '/admin/audit',
+    productionDossierMetrics: '/admin/production/dossier-metrics',
+    productionDossierMetricsOps: '/admin/production/dossier-metrics/ops',
+    users: '/admin/users',
+    brands: '/admin/brands',
+    attributes: '/admin/attributes',
+    staff: '/admin/staff',
+    appeals: '/admin/appeals',
+    billing: '/admin/billing',
+    bpiMatrix: '/admin/bpi-matrix',
+    promotions: '/admin/promotions',
+    promotionsCalendar: '/admin/promotions/calendar',
+    /** CMS главной витрины (не путать с `admin.home`) */
+    cmsHome: '/admin/home',
+    quality: '/admin/quality',
+    auctions: '/admin/auctions',
+    messages: '/admin/messages',
+    calendar: '/admin/calendar',
+    integrations: '/admin/integrations',
+    settings: '/admin/settings',
+    disputes: '/admin/disputes',
+  },
+  // —— Дистрибьютор: standalone `/distributor/*` —— не путать с `brand.distributor.*`
+  distributor: {
+    home: '/distributor',
+    orders: '/distributor/orders',
+    order: (orderId: string) => `/distributor/orders/${encodeURIComponent(orderId)}`,
+    retailers: '/distributor/retailers',
+    commissions: '/distributor/commissions',
+    analytics: '/distributor/analytics',
+    brands: '/distributor/brands',
+    matrix: '/distributor/matrix',
+    calendar: '/distributor/calendar',
+    contracts: '/distributor/contracts',
+    settings: '/distributor/settings',
+    territory: '/distributor/territory',
+    staff: '/distributor/staff',
+    showrooms: '/distributor/showrooms',
+    finance: '/distributor/finance',
+    messages: '/distributor/messages',
+    vmi: '/distributor/vmi',
+  },
+  // —— Factory (цех / поставщик) ——
+  factory: {
+    home: '/factory',
+    production: '/factory/production',
+    supplier: '/factory/supplier',
+    supplierCircularHub: '/factory/supplier/circular-hub',
+    productionMaterials: '/factory/production/materials',
+    productionCalendar: '/factory/production/calendar',
+    productionCatalog: '/factory/production/catalog',
+    productionOrders: '/factory/production/orders',
+    productionBrands: '/factory/production/brands',
+    productionFinance: '/factory/production/finance',
+    productionCustomization: '/factory/production/customization',
+    productionIotMonitoring: '/factory/production/iot-monitoring',
+    productionInventoryRfidGates: '/factory/production/inventory/rfid-gates',
+    /** Демо-лендинг; отдельного `page` может не быть */
+    qc: '/factory/qc',
+    live: '/factory/live',
   },
   // —— Общие / публичные ——
   home: '/',
@@ -566,7 +704,7 @@ export const ROUTES = {
   marketroomTrendRadar: '/marketroom#trend-radar',
   storeLocator: '/store-locator',
   academyPlatform: '/academy',
-} as const;
+};
 
 /** URL паспорта по ID (Digital Product Passport) */
 export function passportById(id: string): string {

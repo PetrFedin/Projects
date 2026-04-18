@@ -1,8 +1,4 @@
-import {
-  UnifiedStockView,
-  StockSource,
-  type StockSyncAgreement,
-} from '@/lib/types/marketplace';
+import { UnifiedStockView, StockSource, type StockSyncAgreement } from '@/lib/types/marketplace';
 import type { InventoryGrain } from './inventory-ledger';
 
 export type { StockSyncAgreement };
@@ -152,8 +148,7 @@ export function calculateSettlementImpact(params: {
   type: 'vmi_sale' | 'channel_transfer';
 }): { amount: number; currency: string; recipientId: string } {
   const { quantity, unitPrice, agreement, type } = params;
-  const commission =
-    agreement.terms.revenueSharePercent ?? agreement.terms.commissionPercent ?? 0;
+  const commission = agreement.terms.revenueSharePercent ?? agreement.terms.commissionPercent ?? 0;
   const amount =
     type === 'vmi_sale' ? quantity * unitPrice * (1 - commission / 100) : quantity * unitPrice;
 
@@ -193,5 +188,6 @@ export function shopStockFileIngestIntegrationPreview(params: {
     pipelineStage: 'accepted_file',
     nextStage: 'parse_then_prepareExternalStockSync_per_sku',
     acceptedAt: params.acceptedAt,
+    domainEventType: 'inventory.shop_stock_file_ingested',
   };
 }

@@ -120,16 +120,23 @@ export async function registerDefectType(data: {
 }
 
 export async function createPPSSample(batchId: number, skuId: string) {
-  const res = await fetch(`${API}/plm/production/batches/${batchId}/pps?sku_id=${encodeURIComponent(skuId)}`, {
-    method: 'POST',
-    headers: authHeaders(),
-  });
+  const res = await fetch(
+    `${API}/plm/production/batches/${batchId}/pps?sku_id=${encodeURIComponent(skuId)}`,
+    {
+      method: 'POST',
+      headers: authHeaders(),
+    }
+  );
   const json = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(json.detail || 'Failed to create PPS');
   return json.data ?? json;
 }
 
-export async function getProductionMessages(params?: { batch_id?: string; sku_id?: string; limit?: number }) {
+export async function getProductionMessages(params?: {
+  batch_id?: string;
+  sku_id?: string;
+  limit?: number;
+}) {
   const sp = new URLSearchParams();
   if (params?.batch_id) sp.set('batch_id', params.batch_id);
   if (params?.sku_id) sp.set('sku_id', params.sku_id);
@@ -141,7 +148,13 @@ export async function getProductionMessages(params?: { batch_id?: string; sku_id
   return json.data ?? json ?? [];
 }
 
-export async function sendProductionMessage(data: { text: string; batch_id?: string; sku_id?: string; entity_type?: string; entity_id?: string }) {
+export async function sendProductionMessage(data: {
+  text: string;
+  batch_id?: string;
+  sku_id?: string;
+  entity_type?: string;
+  entity_id?: string;
+}) {
   const res = await fetch(`${API}/plm/messages`, {
     method: 'POST',
     headers: authHeaders(),

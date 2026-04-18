@@ -9,13 +9,25 @@
 
 export const DEMO_DROPS = [
   { id: 1, drop_name: 'SS26 Main', season: 'SS26', status: 'active', scheduled_date: '2026-03-15' },
-  { id: 2, drop_name: 'SS26 Pre-collection', season: 'SS26', status: 'active', scheduled_date: '2026-02-28' },
-  { id: 3, drop_name: 'FW25 Core', season: 'FW25', status: 'completed', scheduled_date: '2025-09-01' },
+  {
+    id: 2,
+    drop_name: 'SS26 Pre-collection',
+    season: 'SS26',
+    status: 'active',
+    scheduled_date: '2026-02-28',
+  },
+  {
+    id: 3,
+    drop_name: 'FW25 Core',
+    season: 'FW25',
+    status: 'completed',
+    scheduled_date: '2025-09-01',
+  },
 ];
 
 export const DEMO_ORG = {
   id: 'syntha-1',
-  name: 'Syntha',
+  name: 'Syntha Lab',
   legal: { inn: '7707123456', kpp: '770701001', address: 'Москва, ул. Тверская, 1' },
   contacts: { email: 'brand@syntha.ru', phone: '+7 (495) 123-45-67' },
   subscription: { plan: 'Business', expires: '2026-12-31', users: 15 },
@@ -24,7 +36,12 @@ export const DEMO_ORG = {
 export const DEMO_INTEGRATIONS = {
   c1c: { status: 'ok' as const, lastSync: '2026-03-11T10:00:00Z', name: '1С:Предприятие' },
   cdek: { status: 'ok' as const, lastSync: '2026-03-11T09:45:00Z', name: 'СДЭК' },
-  ozon: { status: 'error' as const, lastSync: null, name: 'Ozon Seller', error: 'Требуется обновление токена' },
+  ozon: {
+    status: 'error' as const,
+    lastSync: null,
+    name: 'Ozon Seller',
+    error: 'Требуется обновление токена',
+  },
   znak: { status: 'ok' as const, lastSync: '2026-03-11T09:12:00Z', name: 'Честный ЗНАК' },
 };
 

@@ -19,7 +19,8 @@ interface ShipWindowBadgeProps {
 
 /** Badge для отображения ship window (Pre-order / At-Once / Re-order). */
 export function ShipWindowBadge({ orderMode, shipWindowType, className }: ShipWindowBadgeProps) {
-  const type: ShipWindowType | undefined = shipWindowType ?? (orderMode ? ORDER_MODE_TO_SHIP[orderMode] : undefined);
+  const type: ShipWindowType | undefined =
+    shipWindowType ?? (orderMode ? ORDER_MODE_TO_SHIP[orderMode] : undefined);
   if (!type || !SHIP_WINDOWS[type]) return null;
   const config = SHIP_WINDOWS[type];
   return (

@@ -1,0 +1,6 @@
+# B2B integrations — граница client / server
+
+- **`src/lib/b2b/integrations/index.ts`** — только **client-safe** экспорты (сейчас: `joor-delivery-mocks`). Без `fs`, без `pg`, без `server-only`.
+- **`b2b-integration-service`**, **`integration-export-persistence`**, **`domain-event-outbox`** и любые модули с **`import 'server-only'`** — импорт **напрямую** из `@/lib/b2b/integrations/<файл>` или `@/lib/order/domain-event-outbox` только из **Route Handler**, **Server Actions** и **серверных** компонентов (без `'use client'` в цепочке импорта).
+- **Не** добавлять реэкспорт серверных модулей в barrel, который может подтянуть клиентская страница — Next/Webpack выдаст ошибку `server-only` или затянет Node API в бандл.
+- Новые публичные контракты (Zod, типы ответов API) — в отдельных файлах без side effects; сервис остаётся за `server-only`.

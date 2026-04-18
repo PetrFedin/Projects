@@ -5,7 +5,24 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { Sparkles, TrendingUp, TrendingDown, Brain, Zap, Target, Award, ShoppingBag, Heart, Eye, Clock, ArrowRight, Gift, Star, BarChart3, Lightbulb } from 'lucide-react';
+import {
+  Sparkles,
+  TrendingUp,
+  TrendingDown,
+  Brain,
+  Zap,
+  Target,
+  Award,
+  ShoppingBag,
+  Heart,
+  Eye,
+  Clock,
+  ArrowRight,
+  Gift,
+  Star,
+  BarChart3,
+  Lightbulb,
+} from 'lucide-react';
 import { useAuth } from '@/providers/auth-provider';
 import { useUIState } from '@/providers/ui-state';
 import { useUserOrders } from '@/hooks/use-user-orders';
@@ -15,6 +32,7 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { QuickStatsCard } from './shared/quick-stats-card';
 import UnifiedAchievements from './unified-achievements';
 import AIStyleAnalyzer from './ai-style-analyzer';
@@ -31,7 +49,7 @@ import VirtualWardrobe from './virtual-wardrobe';
 import StyleCalendar from './style-calendar';
 import AutomatedInsightsPanel from './automated-insights-panel';
 import PredictiveAnalytics from './predictive-analytics';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface AIInsight {
   type: 'recommendation' | 'warning' | 'opportunity' | 'achievement';
@@ -53,26 +71,30 @@ export default function AIDashboard() {
     if (!ordersLoading && orders.length >= 0) {
       // Generate AI insights
       const generatedInsights = generateAIInsights(
-        orders, 
-        activity.cartCount, 
-        activity.wishlistCount, 
+        orders,
+        activity.cartCount,
+        activity.wishlistCount,
         activity.lookboardsCount
       );
       setInsights(generatedInsights);
     }
   }, [orders, activity.cartCount, activity.wishlistCount, activity.lookboardsCount, ordersLoading]);
 
-  const pointsToNextLevel = activity.loyaltyPoints ? Math.max(0, 2000 - (activity.loyaltyPoints % 2000)) : 0;
-  const pointsProgress = activity.loyaltyPoints ? ((activity.loyaltyPoints % 2000) / 2000) * 100 : 0;
+  const pointsToNextLevel = activity.loyaltyPoints
+    ? Math.max(0, 2000 - (activity.loyaltyPoints % 2000))
+    : 0;
+  const pointsProgress = activity.loyaltyPoints
+    ? ((activity.loyaltyPoints % 2000) / 2000) * 100
+    : 0;
 
   if (ordersLoading) {
-    return <div className="text-center py-12">Загрузка аналитики...</div>;
+    return <div className="py-12 text-center">Загрузка аналитики...</div>;
   }
 
   return (
     <div className="space-y-6">
       {/* Quick Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
         <QuickStatsCard
           label="Всего потрачено"
           value={`${orderStats.totalSpent.toLocaleString('ru-RU')} ₽`}
@@ -80,14 +102,14 @@ export default function AIDashboard() {
           iconColor="text-green-600"
           trend={{ value: '+12% к прошлому месяцу', isPositive: true }}
         />
-        
+
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium text-muted-foreground">Заказов</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-sm font-bold">{orderStats.totalOrders}</div>
-            <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
+            <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
               <ShoppingBag className="h-3 w-3" />
               <span>Средний чек: {orderStats.avgOrderValue.toLocaleString('ru-RU')} ₽</span>
             </div>
@@ -96,13 +118,17 @@ export default function AIDashboard() {
 
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Бонусные баллы</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Бонусные баллы
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-sm font-bold">{activity.loyaltyPoints.toLocaleString('ru-RU')}</div>
+            <div className="text-sm font-bold">
+              {activity.loyaltyPoints.toLocaleString('ru-RU')}
+            </div>
             <div className="mt-2">
               <Progress value={pointsProgress} className="h-2" />
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="mt-1 text-xs text-muted-foreground">
                 До следующего уровня: {pointsToNextLevel} баллов
               </p>
             </div>
@@ -113,23 +139,77 @@ export default function AIDashboard() {
           label="Активность"
           value={activity.totalActivity}
           icon={Heart}
-          iconColor="text-purple-500/60"
+          iconColor="text-accent-primary/60"
         />
       </div>
 
       {/* Dashboard Tabs - Organized Analytics Sections */}
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 lg:grid-cols-6">
-          <TabsTrigger value="overview">Обзор</TabsTrigger>
-          <TabsTrigger value="analytics">Аналитика</TabsTrigger>
-          <TabsTrigger value="ai-insights">AI Инсайты</TabsTrigger>
-          <TabsTrigger value="activity">Активность</TabsTrigger>
-          <TabsTrigger value="recommendations">Рекомендации</TabsTrigger>
-          <TabsTrigger value="quick-actions">Действия</TabsTrigger>
+        {/* cabinetSurface v1 */}
+        <TabsList
+          className={cn(
+            cabinetSurface.tabsList,
+            'grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-6'
+          )}
+        >
+          <TabsTrigger
+            value="overview"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 text-xs font-medium normal-case tracking-normal'
+            )}
+          >
+            Обзор
+          </TabsTrigger>
+          <TabsTrigger
+            value="analytics"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 text-xs font-medium normal-case tracking-normal'
+            )}
+          >
+            Аналитика
+          </TabsTrigger>
+          <TabsTrigger
+            value="ai-insights"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 text-xs font-medium normal-case tracking-normal'
+            )}
+          >
+            AI Инсайты
+          </TabsTrigger>
+          <TabsTrigger
+            value="activity"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 text-xs font-medium normal-case tracking-normal'
+            )}
+          >
+            Активность
+          </TabsTrigger>
+          <TabsTrigger
+            value="recommendations"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 text-xs font-medium normal-case tracking-normal'
+            )}
+          >
+            Рекомендации
+          </TabsTrigger>
+          <TabsTrigger
+            value="quick-actions"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 text-xs font-medium normal-case tracking-normal'
+            )}
+          >
+            Действия
+          </TabsTrigger>
         </TabsList>
 
         {/* Overview Tab - Key Stats and Quick Info */}
-        <TabsContent value="overview" className="space-y-6 mt-6">
+        <TabsContent value="overview" className="mt-6 space-y-6">
           {/* Smart Notifications - Top Priority */}
           <SmartNotifications />
 
@@ -143,11 +223,11 @@ export default function AIDashboard() {
           <RecentlyViewed />
 
           {/* Quick Actions */}
-          <QuickActionsPanel /> 
+          <QuickActionsPanel />
         </TabsContent>
 
         {/* Analytics Tab - Detailed Analytics */}
-        <TabsContent value="analytics" className="space-y-6 mt-6">
+        <TabsContent value="analytics" className="mt-6 space-y-6">
           {/* Predictive Analytics - Forecasts and Trends */}
           <PredictiveAnalytics />
 
@@ -155,7 +235,7 @@ export default function AIDashboard() {
           <AIStyleAnalyzer />
 
           {/* Social Insights & Budget */}
-          <div className="grid md:grid-cols-2 gap-3">
+          <div className="grid gap-3 md:grid-cols-2">
             <AISocialInsights />
             <AIBudgetOptimizer />
           </div>
@@ -165,7 +245,7 @@ export default function AIDashboard() {
         </TabsContent>
 
         {/* AI Insights Tab - AI-powered Analysis */}
-        <TabsContent value="ai-insights" className="space-y-6 mt-6">
+        <TabsContent value="ai-insights" className="mt-6 space-y-6">
           {/* AI Wardrobe Planner */}
           <AIWardrobePlanner />
 
@@ -174,13 +254,13 @@ export default function AIDashboard() {
         </TabsContent>
 
         {/* Activity Tab - User Activity and Engagement */}
-        <TabsContent value="activity" className="space-y-6 mt-6">
+        <TabsContent value="activity" className="mt-6 space-y-6">
           {/* Unified Achievements and Activity */}
           <UnifiedAchievements />
         </TabsContent>
 
         {/* Recommendations Tab - Personalized Suggestions */}
-        <TabsContent value="recommendations" className="space-y-6 mt-6">
+        <TabsContent value="recommendations" className="mt-6 space-y-6">
           {/* Smart Recommendations */}
           <SmartRecommendations />
 
@@ -192,35 +272,35 @@ export default function AIDashboard() {
         </TabsContent>
 
         {/* Quick Actions Tab - Fast Access */}
-        <TabsContent value="quick-actions" className="space-y-6 mt-6">
+        <TabsContent value="quick-actions" className="mt-6 space-y-6">
           <QuickActionsPanel />
           <Card>
             <CardHeader>
               <CardTitle>Быстрые действия</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
                 <Button variant="outline" className="h-auto flex-col py-4" asChild>
                   <Link href="/search">
-                    <ShoppingBag className="h-5 w-5 mb-2" />
+                    <ShoppingBag className="mb-2 h-5 w-5" />
                     <span className="text-xs">Каталог</span>
                   </Link>
                 </Button>
                 <Button variant="outline" className="h-auto flex-col py-4" asChild>
-                  <Link href="/u?tab=wardrobe">
-                    <Heart className="h-5 w-5 mb-2" />
+                  <Link href="/client/me?tab=wardrobe">
+                    <Heart className="mb-2 h-5 w-5" />
                     <span className="text-xs">Избранное</span>
                   </Link>
                 </Button>
                 <Button variant="outline" className="h-auto flex-col py-4" asChild>
                   <Link href="/orders">
-                    <Clock className="h-5 w-5 mb-2" />
+                    <Clock className="mb-2 h-5 w-5" />
                     <span className="text-xs">Заказы</span>
                   </Link>
                 </Button>
                 <Button variant="outline" className="h-auto flex-col py-4" asChild>
-                  <Link href="/u?tab=payments">
-                    <Gift className="h-5 w-5 mb-2" />
+                  <Link href="/client/me?tab=payments">
+                    <Gift className="mb-2 h-5 w-5" />
                     <span className="text-xs">Бонусы</span>
                   </Link>
                 </Button>
@@ -237,9 +317,7 @@ export default function AIDashboard() {
             <Lightbulb className="h-5 w-5 text-accent" />
             Персональные инсайты
           </CardTitle>
-          <CardDescription>
-            Мгновенные советы на основе текущих действий
-          </CardDescription>
+          <CardDescription>Мгновенные советы на основе текущих действий</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
@@ -247,30 +325,39 @@ export default function AIDashboard() {
               <div
                 key={index}
                 className={cn(
-                  "p-4 rounded-lg border",
-                  insight.type === 'recommendation' && "bg-accent/10 border-accent/30",
-                  insight.type === 'warning' && "bg-yellow-50 dark:bg-yellow-950/20 border-yellow-200 dark:border-yellow-800",
-                  insight.type === 'opportunity' && "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800",
-                  insight.type === 'achievement' && "bg-purple-50 dark:bg-purple-950/20 border-purple-200 dark:border-purple-800"
+                  'rounded-lg border p-4',
+                  insight.type === 'recommendation' && 'border-accent/30 bg-accent/10',
+                  insight.type === 'warning' &&
+                    'border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950/20',
+                  insight.type === 'opportunity' &&
+                    'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/20',
+                  insight.type === 'achievement' &&
+                    'bg-accent-primary/10 dark:bg-bg-surface2/80 border-accent-primary/25 dark:border-border-default'
                 )}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
+                    <div className="mb-1 flex items-center gap-2">
                       {insight.type === 'recommendation' && <Zap className="h-4 w-4 text-accent" />}
                       {insight.type === 'warning' && <Target className="h-4 w-4 text-yellow-600" />}
-                      {insight.type === 'opportunity' && <TrendingUp className="h-4 w-4 text-green-600" />}
-                      {insight.type === 'achievement' && <Award className="h-4 w-4 text-purple-600" />}
-                      <h4 className="font-semibold text-sm">{insight.title}</h4>
+                      {insight.type === 'opportunity' && (
+                        <TrendingUp className="h-4 w-4 text-green-600" />
+                      )}
+                      {insight.type === 'achievement' && (
+                        <Award className="text-accent-primary h-4 w-4" />
+                      )}
+                      <h4 className="text-sm font-semibold">{insight.title}</h4>
                       {insight.priority === 'high' && (
-                        <Badge variant="destructive" className="text-xs">Важно</Badge>
+                        <Badge variant="destructive" className="text-xs">
+                          Важно
+                        </Badge>
                       )}
                     </div>
                     <p className="text-sm text-muted-foreground">{insight.description}</p>
                     {insight.action && insight.actionLink && (
-                      <Button variant="link" size="sm" className="mt-2 p-0 h-auto" asChild>
+                      <Button variant="link" size="sm" className="mt-2 h-auto p-0" asChild>
                         <Link href={insight.actionLink}>
-                          {insight.action} <ArrowRight className="h-3 w-3 ml-1" />
+                          {insight.action} <ArrowRight className="ml-1 h-3 w-3" />
                         </Link>
                       </Button>
                     )}
@@ -283,7 +370,7 @@ export default function AIDashboard() {
       </Card>
 
       {/* Activity Timeline */}
-      <div className="grid md:grid-cols-2 gap-3">
+      <div className="grid gap-3 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -294,7 +381,10 @@ export default function AIDashboard() {
           <CardContent>
             <div className="space-y-4">
               {orderStats.recentOrders.slice(0, 5).map((order) => (
-                <div key={order.id} className="flex items-center justify-between pb-4 border-b last:border-0">
+                <div
+                  key={order.id}
+                  className="flex items-center justify-between border-b pb-4 last:border-0"
+                >
                   <div>
                     <p className="font-medium">Заказ #{order.id.split('-')[1]}</p>
                     <p className="text-sm text-muted-foreground">
@@ -304,21 +394,23 @@ export default function AIDashboard() {
                   <div className="text-right">
                     <p className="font-semibold">{order.total.toLocaleString('ru-RU')} ₽</p>
                     <Badge variant="outline" className="text-xs">
-                      {order.status === 'delivered' ? 'Доставлен' : 
-                       order.status === 'shipped' ? 'Отправлен' :
-                       order.status === 'processing' ? 'Обработка' : 'Ожидание'}
+                      {order.status === 'delivered'
+                        ? 'Доставлен'
+                        : order.status === 'shipped'
+                          ? 'Отправлен'
+                          : order.status === 'processing'
+                            ? 'Обработка'
+                            : 'Ожидание'}
                     </Badge>
                   </div>
                 </div>
               ))}
               {orders.length === 0 && (
-                <p className="text-center text-muted-foreground py-4">
-                  Пока нет заказов
-                </p>
+                <p className="py-4 text-center text-muted-foreground">Пока нет заказов</p>
               )}
             </div>
             {orders.length > 0 && (
-              <Button variant="outline" className="w-full mt-4" asChild>
+              <Button variant="outline" className="mt-4 w-full" asChild>
                 <Link href="/orders">Все заказы</Link>
               </Button>
             )}
@@ -362,13 +454,11 @@ export default function AIDashboard() {
                 </div>
                 <span className="font-semibold">{activity.lookboardsCount}</span>
               </div>
-              <div className="pt-4 border-t">
-                <p className="text-xs text-muted-foreground mb-2">Уровень вовлеченности</p>
+              <div className="border-t pt-4">
+                <p className="mb-2 text-xs text-muted-foreground">Уровень вовлеченности</p>
                 <div className="flex items-center gap-2">
                   <Progress value={activity.engagementLevel} className="flex-1" />
-                  <span className="text-sm font-semibold">
-                    {activity.engagementLevel}%
-                  </span>
+                  <span className="text-sm font-semibold">{activity.engagementLevel}%</span>
                 </div>
               </div>
             </div>
@@ -406,7 +496,7 @@ function generateAIInsights(
       title: 'Начните с избранного',
       description: `У вас ${wishlistItems} ${wishlistItems === 1 ? 'товар' : 'товаров'} в избранном. Сделайте первую покупку!`,
       action: 'Посмотреть избранное',
-      actionLink: '/u?tab=wardrobe',
+      actionLink: '/client/me?tab=wardrobe',
       priority: 'medium',
     });
   }
@@ -430,7 +520,7 @@ function generateAIInsights(
       title: 'Создайте свой первый лукборд',
       description: 'Сохраняйте любимые образы и делитесь ими с сообществом.',
       action: 'Создать лукборд',
-      actionLink: '/u?tab=looks',
+      actionLink: '/client/me?tab=looks',
       priority: 'low',
     });
   }
@@ -447,4 +537,3 @@ function generateAIInsights(
 
   return insights.slice(0, 5); // Limit to 5 insights
 }
-

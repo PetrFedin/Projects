@@ -2,10 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import type { Product } from '@/lib/types';
-import {
-  isEyewearCategory,
-  resolveEyewearFrameUrl,
-} from '@/lib/product-experience/resolvers';
+import { isEyewearCategory, resolveEyewearFrameUrl } from '@/lib/product-experience/resolvers';
 import { DEMO_GLASSES_DATA_URL } from '@/components/virtual-tryon/glasses-virtual-try-on';
 import {
   Dialog,
@@ -18,7 +15,10 @@ import {
 const GlassesVirtualTryOn = dynamic(
   () =>
     import('@/components/virtual-tryon/glasses-virtual-try-on').then((m) => m.GlassesVirtualTryOn),
-  { ssr: false, loading: () => <p className="text-sm text-muted-foreground py-6">Загрузка примерки…</p> }
+  {
+    ssr: false,
+    loading: () => <p className="py-6 text-sm text-muted-foreground">Загрузка примерки…</p>,
+  }
 );
 
 type Props = {
@@ -34,11 +34,12 @@ export function ProductGlassesTryOnDialog({ product, open, onOpenChange }: Props
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg max-h-[92vh] overflow-y-auto">
+      <DialogContent className="max-h-[92vh] max-w-lg overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Виртуальная примерка оправы</DialogTitle>
           <DialogDescription className="text-xs leading-relaxed">
-            {product.name} — камера или фото лица. Для строгого CSP/офлайна модель MediaPipe можно self-host.
+            {product.name} — камера или фото лица. Для строгого CSP/офлайна модель MediaPipe можно
+            self-host.
           </DialogDescription>
         </DialogHeader>
         {open ? <GlassesVirtualTryOn initialGlassesUrl={frameUrl} /> : null}

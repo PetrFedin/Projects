@@ -12,16 +12,14 @@ export class MockPaymentRepository implements PaymentRepository {
     metadata?: Record<string, any>
   ): Promise<{ clientSecret: string; paymentIntentId: string }> {
     // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     const paymentIntentId = `pi_mock_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const clientSecret = `mock_client_secret_${paymentIntentId}`;
 
     // Store payment intent in localStorage for confirmation
     if (typeof window !== 'undefined') {
-      const paymentIntents = JSON.parse(
-        localStorage.getItem('syntha_payment_intents') || '[]'
-      );
+      const paymentIntents = JSON.parse(localStorage.getItem('syntha_payment_intents') || '[]');
       paymentIntents.push({
         id: paymentIntentId,
         amount,
@@ -38,12 +36,10 @@ export class MockPaymentRepository implements PaymentRepository {
 
   async confirmPayment(paymentIntentId: string): Promise<{ success: boolean; orderId?: string }> {
     // Simulate payment processing delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise((resolve) => setTimeout(resolve, 1500));
 
     if (typeof window !== 'undefined') {
-      const paymentIntents = JSON.parse(
-        localStorage.getItem('syntha_payment_intents') || '[]'
-      );
+      const paymentIntents = JSON.parse(localStorage.getItem('syntha_payment_intents') || '[]');
       const intent = paymentIntents.find((pi: any) => pi.id === paymentIntentId);
 
       if (!intent) {
@@ -52,7 +48,7 @@ export class MockPaymentRepository implements PaymentRepository {
 
       // Simulate 95% success rate
       const success = Math.random() > 0.05;
-      
+
       if (success) {
         intent.status = 'succeeded';
         intent.confirmedAt = new Date().toISOString();
@@ -71,8 +67,3 @@ export class MockPaymentRepository implements PaymentRepository {
 }
 
 export const mockPaymentRepository = new MockPaymentRepository();
-
-
-
-
-

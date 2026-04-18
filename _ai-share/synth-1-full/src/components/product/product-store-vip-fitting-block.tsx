@@ -6,59 +6,79 @@ import { Badge } from '@/components/ui/badge';
 import { UserCheck, Star, Clock, Calendar, MoveRight, ShoppingBag, Sparkles } from 'lucide-react';
 import { getStoreVipFittings } from '@/lib/fashion/store-vip-fittings';
 import type { Product } from '@/lib/types';
+import { cn } from '@/lib/utils';
 
 export function ProductStoreVipFittingBlock({ product }: { product: Product }) {
   const appointments = getStoreVipFittings('STORE-MSK-MAIN');
 
   return (
-    <Card className="p-4 border-2 border-indigo-100 bg-indigo-50/10 shadow-sm my-4 relative overflow-hidden">
-      <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-         <Star className="w-16 h-16 text-indigo-600" />
+    <Card className="border-accent-primary/20 bg-accent-primary/10 relative my-4 overflow-hidden border-2 p-4 shadow-sm">
+      <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-5">
+        <Star className="text-accent-primary h-16 w-16" />
       </div>
 
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2 text-indigo-600">
-          <Star className="w-4 h-4 fill-indigo-600" />
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">VIP In-Store Appointments</h4>
+      <div className="mb-4 flex items-center justify-between">
+        <div className="text-accent-primary flex items-center gap-2">
+          <Star className="fill-accent-primary h-4 w-4" />
+          <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+            VIP In-Store Appointments
+          </h4>
         </div>
-        <Badge className="bg-indigo-100 text-indigo-700 border-none uppercase text-[8px] font-black">Today's Schedule</Badge>
+        <Badge className="bg-accent-primary/15 text-accent-primary border-none text-[8px] font-black uppercase">
+          Today's Schedule
+        </Badge>
       </div>
 
-      <div className="space-y-3 mb-4">
-         {appointments.map((app) => (
-           <div key={app.appointmentId} className="p-3 bg-white rounded-xl border border-indigo-50 shadow-sm flex items-center justify-between group">
-              <div className="flex items-center gap-3">
-                 <div className="w-9 h-9 rounded-full bg-slate-100 border-2 border-white flex items-center justify-center text-[10px] font-black text-slate-400">
-                    {app.clientId[0]}
-                 </div>
-                 <div>
-                    <div className="text-[10px] font-black text-slate-800">{app.clientId}</div>
-                    <div className="flex items-center gap-1.5 text-[8px] font-bold text-slate-400 uppercase">
-                       <Clock className="w-2.5 h-2.5" /> {app.timeSlot.split(' ')[1]}
-                    </div>
-                 </div>
+      <div className="mb-4 space-y-3">
+        {appointments.map((app) => (
+          <div
+            key={app.appointmentId}
+            className="border-accent-primary/15 group flex items-center justify-between rounded-xl border bg-white p-3 shadow-sm"
+          >
+            <div className="flex items-center gap-3">
+              <div className="bg-bg-surface2 text-text-muted flex h-9 w-9 items-center justify-center rounded-full border-2 border-white text-[10px] font-black">
+                {app.clientId[0]}
               </div>
-              
-              <div className="text-right">
-                 <Badge className={app.status === 'active' ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-500'} variant="outline" className="border-none text-[7px] h-4 font-black uppercase px-1">
-                   {app.status}
-                 </Badge>
-                 <div className="text-[8px] font-black text-indigo-600 mt-1 uppercase tracking-tighter">Stylist: {app.stylistId.split('-')[1]}</div>
+              <div>
+                <div className="text-text-primary text-[10px] font-black">{app.clientId}</div>
+                <div className="text-text-muted flex items-center gap-1.5 text-[8px] font-bold uppercase">
+                  <Clock className="h-2.5 w-2.5" /> {app.timeSlot.split(' ')[1]}
+                </div>
               </div>
-           </div>
-         ))}
+            </div>
+
+            <div className="text-right">
+              <Badge
+                variant="outline"
+                className={cn(
+                  app.status === 'active'
+                    ? 'bg-emerald-500 text-white'
+                    : 'bg-bg-surface2 text-text-secondary',
+                  'h-4 border-none px-1 text-[7px] font-black uppercase'
+                )}
+              >
+                {app.status}
+              </Badge>
+              <div className="text-accent-primary mt-1 text-[8px] font-black uppercase tracking-tighter">
+                Stylist: {app.stylistId.split('-')[1]}
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
-      <div className="p-3 bg-white rounded-xl border border-indigo-100 mb-2 flex items-center justify-between group cursor-pointer hover:bg-indigo-50 transition-colors">
-         <div className="flex items-center gap-2">
-            <ShoppingBag className="w-4 h-4 text-indigo-500" />
-            <div className="text-[10px] font-bold text-slate-700">Pre-selected for items: 2 SKU</div>
-         </div>
-         <MoveRight className="w-3.5 h-3.5 text-indigo-400 group-hover:translate-x-0.5 transition-transform" />
+      <div className="border-accent-primary/20 hover:bg-accent-primary/10 group mb-2 flex cursor-pointer items-center justify-between rounded-xl border bg-white p-3 transition-colors">
+        <div className="flex items-center gap-2">
+          <ShoppingBag className="text-accent-primary h-4 w-4" />
+          <div className="text-text-primary text-[10px] font-bold">
+            Pre-selected for items: 2 SKU
+          </div>
+        </div>
+        <MoveRight className="text-accent-primary h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
       </div>
 
-      <div className="mt-2 flex items-center gap-1.5 text-[8px] font-black text-slate-400 uppercase justify-center tracking-widest italic">
-         <Sparkles className="w-3 h-3 text-indigo-400" /> Stylist hub sync active
+      <div className="text-text-muted mt-2 flex items-center justify-center gap-1.5 text-[8px] font-black uppercase italic tracking-widest">
+        <Sparkles className="text-accent-primary h-3 w-3" /> Stylist hub sync active
       </div>
     </Card>
   );

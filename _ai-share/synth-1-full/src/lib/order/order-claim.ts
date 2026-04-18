@@ -14,7 +14,7 @@ export type ClaimStatus = 'open' | 'under_review' | 'approved' | 'rejected' | 'r
 export interface OrderClaim {
   id: string;
   orderId: string;
-  
+
   /** Кто инициатор (обычно ритейлер) */
   requestedBy: {
     userId: string;
@@ -75,10 +75,13 @@ export function canOpenClaim(orderStatus: string): boolean {
 /**
  * Рассчитывает общую сумму претензии по линиям.
  */
-export function calculateClaimAmount(claim: OrderClaim, linePrices: Record<string, number>): number {
+export function calculateClaimAmount(
+  claim: OrderClaim,
+  linePrices: Record<string, number>
+): number {
   return claim.affectedLines.reduce((acc, line) => {
     const price = linePrices[line.lineId] || 0;
-    return acc + (price * line.quantity);
+    return acc + price * line.quantity;
   }, 0);
 }
 
@@ -103,13 +106,13 @@ export function resolveClaim(params: {
       approvedAmount,
       resolvedAt: new Date().toISOString(),
       resolvedBy: actorId,
-      comment
+      comment,
     },
     metadata: {
       ...claim.metadata,
       updatedAt: new Date().toISOString(),
-      version: claim.metadata.version + 1
-    }
+      version: claim.metadata.version + 1,
+    },
   };
 
   // Применяем эффекты к заказу
@@ -119,18 +122,26 @@ export function resolveClaim(params: {
   if (action === 'discount' || action === 'refund') {
     const currentFinancials = calculateOrderFinancials(updatedOrder);
     const adjustment = approvedAmount || 0;
-    
+
     updatedOrder = {
       ...updatedOrder,
       projections: {
         ...updatedOrder.projections,
-        financialImpact: updatedOrder.projections.financialImpact ? {
-          ...updatedOrder.projections.financialImpact,
-          totalAmountBase: (currentFinancials.totalAmount - adjustment) / (updatedOrder.terms.exchangeRate || 1.0),
-          discountAmount: (updatedOrder.projections.financialImpact.discountAmount || 0) + (action === 'discount' ? adjustment : 0),
-          refundAmount: (updatedOrder.projections.financialImpact.refundAmount || 0) + (action === 'refund' ? adjustment : 0)
-        } : undefined
-      }
+        financialImpact: updatedOrder.projections.financialImpact
+          ? {
+              ...updatedOrder.projections.financialImpact,
+              totalAmountBase:
+                (currentFinancials.totalAmount - adjustment) /
+                (updatedOrder.terms.exchangeRate || 1.0),
+              discountAmount:
+                (updatedOrder.projections.financialImpact.discountAmount || 0) +
+                (action === 'discount' ? adjustment : 0),
+              refundAmount:
+                (updatedOrder.projections.financialImpact.refundAmount || 0) +
+                (action === 'refund' ? adjustment : 0),
+            }
+          : undefined,
+      },
     };
   }
 
@@ -142,8 +153,8 @@ export function resolveClaim(params: {
       action,
       approvedAmount,
       actorId,
-      tenantId: order.participants.tenantId
-    }
+      tenantId: order.participants.tenantId,
+    },
   });
 
   return { updatedOrder, updatedClaim };
@@ -159,20 +170,22 @@ export function applyClaimEffects(order: OrderAggregate, claim: OrderClaim): Ord
       ...order,
       projections: {
         ...order.projections,
-        dispute: claim.status === 'rejected' ? 'none' : 'open'
-      }
+        dispute: claim.status === 'rejected' ? 'none' : 'open',
+      },
     };
   }
 
   const newOrder = { ...order };
   newOrder.projections = {
     ...order.projections,
-    dispute: claim.status === 'resolved' ? 'resolved' : 'open'
+    dispute: claim.status === 'resolved' ? 'resolved' : 'open',
   };
 
   // Если одобрен возврат (refund), помечаем проекцию оплаты
-  if ((claim.status === 'approved' || claim.status === 'resolved') && 
-      (claim.resolutionRequest?.action === 'refund' || claim.resolution?.action === 'refund')) {
+  if (
+    (claim.status === 'approved' || claim.status === 'resolved') &&
+    (claim.resolutionRequest?.action === 'refund' || claim.resolution?.action === 'refund')
+  ) {
     newOrder.projections.payment = 'refunded';
   }
 
@@ -183,12 +196,14 @@ export function applyClaimEffects(order: OrderAggregate, claim: OrderClaim): Ord
  * [Phase 2 Prod] Автоматическое создание финансовой корректировки на основе спора.
  * Генерирует объект корректировки для Ledger/ERP.
  */
-export function createFinancialAdjustment(params: {
-  claim: OrderClaim;
-  order: OrderAggregate;
-}): { adjustmentId: string; amount: number; currency: string; type: 'credit_note' | 'debit_note' } {
+export function createFinancialAdjustment(params: { claim: OrderClaim; order: OrderAggregate }): {
+  adjustmentId: string;
+  amount: number;
+  currency: string;
+  type: 'credit_note' | 'debit_note';
+} {
   const { claim, order } = params;
-  
+
   if (claim.status !== 'resolved' || !claim.resolution) {
     throw new Error('Claim must be resolved to create financial adjustment');
   }
@@ -200,6 +215,6 @@ export function createFinancialAdjustment(params: {
     adjustmentId: `adj-${claim.id}-${Date.now()}`,
     amount,
     currency: order.terms.currency,
-    type: isRefund ? 'credit_note' : 'debit_note'
+    type: isRefund ? 'credit_note' : 'debit_note',
   };
 }

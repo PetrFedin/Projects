@@ -1,34 +1,26 @@
 'use client';
 
+import { RegistryPageShell } from '@/components/design-system';
+import { tid } from '@/lib/ui/test-ids';
+
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Truck, ArrowLeft } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { mockB2BOrders } from '@/lib/order-data';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
+import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
 
 export default function B2BTrackingPage() {
   const ordersWithTracking = mockB2BOrders.filter((o) => o.status !== 'Черновик').slice(0, 8);
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2">
-            <Truck className="h-6 w-6" /> Трекинг заказов
-          </h1>
-          <p className="text-slate-500 text-sm mt-0.5">
-            Сквозной мониторинг отгрузок. JOOR ASN, статусы доставки и ссылки на трекинг перевозчика.
-          </p>
-        </div>
-      </div>
+    <RegistryPageShell className="max-w-4xl space-y-6" data-testid={tid.page('shop-b2b-tracking')}>
+      <ShopB2bContentHeader lead="Сквозной мониторинг отгрузок: JOOR ASN, статусы доставки и ссылки на трекинг перевозчика." />
+      <ShopAnalyticsSegmentErpStrip />
 
       <Card className="mb-6">
         <CardHeader>
@@ -37,19 +29,28 @@ export default function B2BTrackingPage() {
         </CardHeader>
         <CardContent className="space-y-3">
           {ordersWithTracking.length === 0 ? (
-            <p className="text-slate-500 text-sm">Нет заказов с отгрузкой. После отгрузки здесь появится трекинг.</p>
+            <p className="text-text-secondary text-sm">
+              Нет заказов с отгрузкой. После отгрузки здесь появится трекинг.
+            </p>
           ) : (
             ordersWithTracking.map((o) => (
               <div
                 key={o.order}
-                className="flex items-center justify-between gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50/50"
+                className="border-border-subtle bg-bg-surface2/80 flex items-center justify-between gap-3 rounded-xl border p-4"
               >
                 <div>
-                  <p className="font-bold text-slate-900">{o.order}</p>
-                  <p className="text-xs text-slate-500">{o.brand} · {o.shop} · {o.deliveryDate}</p>
+                  <p className="text-text-primary font-bold">{o.order}</p>
+                  <p className="text-text-secondary text-xs">
+                    {o.brand} · {o.shop} · {o.deliveryDate}
+                  </p>
                 </div>
-                <Button variant="outline" size="sm" className="rounded-lg text-[10px] font-black uppercase" asChild>
-                  <Link href={`${ROUTES.shop.b2bOrders}/${o.order}`}>Детали и трекинг</Link>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="rounded-lg text-[10px] font-black uppercase"
+                  asChild
+                >
+                  <Link href={ROUTES.shop.b2bOrder(o.order)}>Детали и трекинг</Link>
                 </Button>
               </div>
             ))
@@ -57,12 +58,29 @@ export default function B2BTrackingPage() {
         </CardContent>
       </Card>
 
+      <div className="border-border-subtle flex flex-wrap items-center gap-2 border-t pt-4">
+        <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+          См. также
+        </span>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link href={ROUTES.shop.analytics} data-testid="shop-b2b-tracking-retail-link">
+            Розничная аналитика
+          </Link>
+        </Button>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link href={ROUTES.shop.analyticsFootfall} data-testid="shop-b2b-tracking-footfall-link">
+            Трафик по зонам
+          </Link>
+        </Button>
+        <B2bMarginAnalysisHubButton />
+      </div>
+
       <RelatedModulesBlock
         title="Связанные разделы"
-        links={getShopB2BHubLinks().filter((l) =>
-          [ROUTES.shop.b2bOrders, ROUTES.shop.b2bDeliveryCalendar].includes(l.href as string)
+        links={getShopB2BHubLinks().filter(
+          (l) => l.href === ROUTES.shop.b2bOrders || l.href === ROUTES.shop.b2bDeliveryCalendar
         )}
       />
-    </div>
+    </RegistryPageShell>
   );
 }

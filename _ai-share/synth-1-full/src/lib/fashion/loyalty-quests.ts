@@ -27,7 +27,7 @@ export function getB2BLoyaltyQuests(partnerId: string): B2BLoyaltyQuestV1[] {
       rewardPoints: 1500,
       progressPercent: 100,
       status: 'completed',
-    }
+    },
   ];
 }
 
@@ -54,7 +54,7 @@ export function getAvailableQuests(product: Product): LoyaltyQuestV1[] {
       description: 'Создайте образ с этим товаром в Лукбуке.',
       rewardPoints: 200,
       status: 'available',
-    }
+    },
   ];
 
   return quests;

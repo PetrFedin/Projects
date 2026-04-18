@@ -1,14 +1,19 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('B2B Catalog', () => {
-  test('catalog page loads', async ({ page }) => {
-    await page.goto('/shop/b2b/catalog');
-    await expect(page.locator('h1')).toContainText('B2B Каталог');
-  });
+const gotoOpts = { waitUntil: 'load' as const, timeout: 90_000 };
 
-  test('search filters products', async ({ page }) => {
-    await page.goto('/shop/b2b/catalog');
-    await page.fill('input[placeholder*="Поиск"]', 'Midnight');
-    await expect(page.locator('text=Платье Midnight')).toBeVisible();
+test.describe('B2B Catalog', () => {
+  test.describe.configure({ mode: 'serial', timeout: 120_000 });
+
+  /** Один goto: повторная навигация после тяжёлых API-тестов иногда ловит деградированный dev (webpack cache). */
+  test('catalog loads and search filters products', async ({ page }) => {
+    await page.goto('/shop/b2b/catalog', gotoOpts);
+    const root = page.getByTestId('page-shop-b2b-catalog');
+    await expect(root).toBeVisible({ timeout: 60_000 });
+    await expect(root.getByRole('heading', { name: 'B2B Каталог' }).first()).toBeVisible();
+    const search = page.getByTestId('shop-b2b-catalog-search');
+    await expect(search).toBeVisible({ timeout: 30_000 });
+    await search.fill('Кашемировый');
+    await expect(root.getByText('Кашемировый лонгслив').first()).toBeVisible({ timeout: 15_000 });
   });
 });

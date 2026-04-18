@@ -4,7 +4,14 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
@@ -15,7 +22,7 @@ export default function MarkdownPredictPage() {
   const rows = useMemo(() => buildMarkdownRecommendations(products), []);
 
   return (
-    <div className="container max-w-6xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -23,11 +30,13 @@ export default function MarkdownPredictPage() {
           </Link>
         </Button>
         <div>
-          <h1 className="text-xl font-bold flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-xl font-bold">
             <ArrowDownRight className="h-6 w-6" />
             Markdown Strategy Engine
           </h1>
-          <p className="text-sm text-muted-foreground">Оптимизация остатков через умную уценку на основе возраста SKU.</p>
+          <p className="text-sm text-muted-foreground">
+            Оптимизация остатков через умную уценку на основе возраста SKU.
+          </p>
         </div>
       </div>
 
@@ -53,16 +62,22 @@ export default function MarkdownPredictPage() {
               {rows.map((r) => (
                 <TableRow key={r.sku}>
                   <TableCell className="max-w-[200px]">
-                    <p className="font-medium text-xs truncate">{r.sku}</p>
-                    <p className="text-[10px] text-muted-foreground truncate">{r.sku}</p>
+                    <p className="truncate text-xs font-medium">{r.sku}</p>
+                    <p className="truncate text-[10px] text-muted-foreground">{r.sku}</p>
                   </TableCell>
-                  <TableCell className="text-right text-xs">{r.currentPrice.toLocaleString()}</TableCell>
+                  <TableCell className="text-right text-xs">
+                    {r.currentPrice.toLocaleString()}
+                  </TableCell>
                   <TableCell className="text-center">
-                    <Badge variant="destructive" className="font-mono">-{r.suggestedDiscount}%</Badge>
+                    <Badge variant="destructive" className="font-mono">
+                      -{r.suggestedDiscount}%
+                    </Badge>
                   </TableCell>
                   <TableCell className="text-[11px] font-medium">{r.reason}</TableCell>
                   <TableCell className="text-right">
-                    <Button size="sm" variant="outline" className="h-7 text-[10px]">Apply Markdown</Button>
+                    <Button size="sm" variant="outline" className="h-7 text-[10px]">
+                      Apply Markdown
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}

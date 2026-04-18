@@ -37,9 +37,14 @@ export function categoryPriceStatsToCsv(rows: CategoryPriceStat[]): string {
   const lines = [h.join(',')];
   for (const r of rows) {
     lines.push(
-      [`"${r.category.replace(/"/g, '""')}"`, String(r.count), String(r.min), String(r.max), String(r.avg), String(r.median)].join(
-        ',',
-      ),
+      [
+        `"${r.category.replace(/"/g, '""')}"`,
+        String(r.count),
+        String(r.min),
+        String(r.max),
+        String(r.avg),
+        String(r.median),
+      ].join(',')
     );
   }
   return lines.join('\n');

@@ -12,6 +12,8 @@ import { getProductionLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { useFloorTabDraftState } from '@/hooks/use-floor-tab-draft';
 import { useToast } from '@/hooks/use-toast';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { RegistryPageShell } from '@/components/design-system';
 
 type WorkerRow = { id: string; name: string; operations: string[]; level: number };
 
@@ -36,17 +38,22 @@ export default function WorkerSkillsPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-4xl pb-24">
+    <RegistryPageShell className="max-w-4xl space-y-6 pb-16">
       <SectionInfoCard
-        title="Worker Skill Matrix"
-        description="Уровни компетенций — floor-tab: worker-skills."
+        title="Матрица навыков сотрудников"
+        description={
+          <>
+            Уровни компетенций — floor-tab: worker-skills. Используется для производственных{' '}
+            <AcronymWithTooltip abbr="KPI" /> по сменам.
+          </>
+        }
         icon={Users}
-        iconBg="bg-violet-100"
-        iconColor="text-violet-600"
+        iconBg="bg-accent-primary/15"
+        iconColor="text-accent-primary"
         badges={<ProductionGanttBadges />}
       />
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold uppercase">Worker Skill Matrix</h1>
+        <h1 className="text-2xl font-bold uppercase">Матрица навыков сотрудников</h1>
         <Button
           size="sm"
           className="gap-1.5"
@@ -60,9 +67,9 @@ export default function WorkerSkillsPage() {
         </Button>
       </div>
 
-      <Card className="rounded-xl border border-slate-200 shadow-sm">
+      <Card className="border-border-default rounded-xl border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-sm flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-sm">
             <Layers className="h-4 w-4" /> Сотрудники и компетенции
           </CardTitle>
           <CardDescription>Уровень 1–5 по операциям</CardDescription>
@@ -70,13 +77,16 @@ export default function WorkerSkillsPage() {
         <CardContent>
           <ul className="space-y-3">
             {data.workers.map((w, i) => (
-              <li key={w.id} className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <li
+                key={w.id}
+                className="bg-bg-surface2 border-border-default flex flex-wrap items-center justify-between gap-3 rounded-xl border p-4"
+              >
                 <div>
                   <p className="font-bold">{w.name}</p>
-                  <p className="text-[11px] text-slate-500">{w.operations.join(', ')}</p>
+                  <p className="text-text-secondary text-[11px]">{w.operations.join(', ')}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] text-slate-500">Уровень</span>
+                  <span className="text-text-secondary text-[10px]">Уровень</span>
                   <Input
                     type="number"
                     min={1}
@@ -94,6 +104,6 @@ export default function WorkerSkillsPage() {
       </Card>
 
       <RelatedModulesBlock links={getProductionLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

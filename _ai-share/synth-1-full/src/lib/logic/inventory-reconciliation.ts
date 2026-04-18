@@ -43,14 +43,14 @@ export class InventoryReconciliationService {
         actorId: actorId,
         actorType: 'brand', // Сверяем от лица бренда
         tenantId, // [Phase 2 Prod] Изоляция
-        strictIsolation: true // [Phase 2 Prod] Строгий режим
+        strictIsolation: true, // [Phase 2 Prod] Строгий режим
       });
 
       const diff = ledgerATP - merch.plannedQuantity;
 
       if (diff !== 0) {
         const severity = this.calculateSeverity(diff, merch.plannedQuantity);
-        
+
         const report: DiscrepancyReport = {
           sku: merch.sku,
           channelId: merch.channelId,
@@ -58,7 +58,7 @@ export class InventoryReconciliationService {
           ledgerQuantity: ledgerATP,
           diff,
           severity,
-          actionRequired: severity !== 'low'
+          actionRequired: severity !== 'low',
         };
 
         reports.push(report);

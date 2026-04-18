@@ -22,8 +22,13 @@ export type SketchCriticalWebhookPayload = {
 };
 
 /** POST JSON на URL из NEXT_PUBLIC_SKETCH_CRITICAL_WEBHOOK_URL (проксируйте через свой API при CORS). */
-export async function postCriticalPinsWebhook(payload: SketchCriticalWebhookPayload): Promise<{ ok: boolean; message?: string }> {
-  const url = typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_SKETCH_CRITICAL_WEBHOOK_URL : undefined;
+export async function postCriticalPinsWebhook(
+  payload: SketchCriticalWebhookPayload
+): Promise<{ ok: boolean; message?: string }> {
+  const url =
+    typeof process !== 'undefined'
+      ? process.env.NEXT_PUBLIC_SKETCH_CRITICAL_WEBHOOK_URL
+      : undefined;
   if (!url?.trim()) {
     return { ok: false, message: 'URL не задан (NEXT_PUBLIC_SKETCH_CRITICAL_WEBHOOK_URL).' };
   }

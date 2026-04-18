@@ -9,6 +9,11 @@ import { Badge } from '@/components/ui/badge';
 import { Lock, ArrowRight, ShoppingBag } from 'lucide-react';
 import { getVipShowroomBySlug } from '@/lib/ux/vip-showroom';
 import allProducts from '@/lib/products';
+import { tid } from '@/lib/ui/test-ids';
+import { format } from 'date-fns';
+import { ru } from 'date-fns/locale';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { ROUTES } from '@/lib/routes';
 
 /** Le New Black: Le Privé / VIP-шоурум — приватный showroom с отдельным URL */
 export default function VipShowroomPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -20,14 +25,21 @@ export default function VipShowroomPage({ params }: { params: Promise<{ slug: st
 
   if (!room) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-900 p-4">
-        <Card className="max-w-md border-slate-700 bg-slate-800 text-white">
+      <div
+        className="bg-text-primary flex min-h-screen items-center justify-center p-4"
+        data-testid={tid.page('vip-showroom')}
+      >
+        <Card className="border-text-primary/25 bg-text-primary/90 max-w-md text-white">
           <CardHeader>
             <CardTitle>Шоурум не найден</CardTitle>
-            <CardDescription className="text-slate-400">Ссылка истекла или некорректна.</CardDescription>
+            <CardDescription className="text-text-muted">
+              Ссылка истекла или некорректна.
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <Button variant="outline" asChild><Link href="/">На главную</Link></Button>
+            <Button variant="outline" asChild>
+              <Link href="/">На главную</Link>
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -41,51 +53,105 @@ export default function VipShowroomPage({ params }: { params: Promise<{ slug: st
 
   if (needsPassword) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-900 p-4">
-        <Card className="max-w-md border-slate-700 bg-slate-800 text-white">
+      <div
+        className="bg-text-primary flex min-h-screen items-center justify-center p-4"
+        data-testid={tid.page('vip-showroom')}
+      >
+        <Card className="border-text-primary/25 bg-text-primary/90 max-w-md text-white">
           <CardHeader>
-            <div className="flex items-center gap-2"><Lock className="h-5 w-5" /><CardTitle>Le Privé</CardTitle></div>
-            <CardDescription className="text-slate-400">{room.name}</CardDescription>
+            <div className="flex items-center gap-2">
+              <Lock className="size-5" />
+              <CardTitle>Le Privé</CardTitle>
+            </div>
+            <CardDescription className="text-text-muted">{room.name}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <input
               type="password"
               placeholder="Пароль"
-              className="w-full rounded-lg border border-slate-600 bg-slate-700 px-4 py-2 text-white placeholder:text-slate-400"
+              className="border-text-secondary bg-text-primary/75 placeholder:text-text-muted w-full rounded-lg border px-4 py-2 text-white"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Button className="w-full" onClick={() => setUnlocked(true)}>Войти</Button>
+            <Button className="w-full" onClick={() => setUnlocked(true)}>
+              Войти
+            </Button>
           </CardContent>
         </Card>
       </div>
     );
   }
 
-  return (
-    <div className="min-h-screen bg-slate-900 text-white">
-      <div className="container max-w-5xl mx-auto px-4 py-8">
-        <header className="mb-8 text-center">
-          <Badge className="mb-2 bg-amber-500/20 text-amber-400 border-amber-500/30">Le Privé</Badge>
-          <h1 className="text-3xl font-bold tracking-tight">{room.name}</h1>
-          {room.description && <p className="text-slate-400 mt-2">{room.description}</p>}
-        </header>
+  const validLabel = format(new Date(room.validUntil), 'd MMMM yyyy, HH:mm', { locale: ru });
+  const matrixHref =
+    products.length > 0
+      ? `${ROUTES.shop.b2bMatrix}?${products.map((p) => `add=${encodeURIComponent(p.id)}`).join('&')}`
+      : ROUTES.shop.b2bMatrix;
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  return (
+    <div className="bg-text-primary min-h-screen text-white" data-testid={tid.page('vip-showroom')}>
+      <RegistryPageShell className="max-w-5xl space-y-6 py-8">
+        <RegistryPageHeader
+          className="border-text-primary/25 [&_p]:!text-text-muted pb-4 text-white [&_h1]:!text-white"
+          eyebrow={
+            <div className="flex flex-wrap justify-center gap-2 sm:justify-start">
+              <Badge className="border-emerald-500/40 bg-emerald-500/15 text-emerald-200">
+                Доступ открыт
+              </Badge>
+              <Badge className="border-amber-500/30 bg-amber-500/20 text-amber-400">Le Privé</Badge>
+            </div>
+          }
+          title={room.name}
+          leadPlain={`Приватный шоурум · ${room.brandName} · ссылка действует до ${validLabel}`}
+          actions={
+            <>
+              <Button
+                size="sm"
+                className="text-text-primary h-8 bg-amber-500 hover:bg-amber-400"
+                asChild
+              >
+                <Link href={matrixHref}>Добавить всё в черновик B2B</Link>
+              </Button>
+              <Button size="sm" variant="outline" className="border-text-secondary h-8" asChild>
+                <Link href={ROUTES.shop.b2bPartners}>Открыть B2B</Link>
+              </Button>
+            </>
+          }
+        />
+        {room.description && (
+          <p className="text-text-muted -mt-2 text-center text-sm">{room.description}</p>
+        )}
+        <div className="border-text-primary/25 bg-text-primary/90 text-text-muted rounded-lg border px-4 py-3 text-sm">
+          <p>
+            <span className="text-text-muted font-medium">Владелец подборки:</span> {room.brandName}{' '}
+            · <span className="text-text-muted font-medium">Обновлено:</span> демо-данные (статично)
+            · <span className="text-text-muted font-medium">Срок ссылки:</span> до {validLabel}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((p) => (
-            <Card key={p.id} className="overflow-hidden border-slate-700 bg-slate-800">
-              <div className="relative aspect-[4/5] bg-slate-700">
+            <Card key={p.id} className="border-text-primary/25 bg-text-primary/90 overflow-hidden">
+              <div className="bg-text-primary/75 relative aspect-[4/5]">
                 {p.images?.[0]?.url && (
-                  <Image src={p.images[0].url} alt={p.name} fill className="object-cover" sizes="300px" />
+                  <Image
+                    src={p.images[0].url}
+                    alt={p.name}
+                    fill
+                    className="object-cover"
+                    sizes="300px"
+                  />
                 )}
               </div>
               <CardContent className="p-4">
-                <p className="text-xs text-slate-400 uppercase">{p.brand}</p>
+                <p className="text-text-muted text-xs uppercase">{p.brand}</p>
                 <h3 className="font-semibold">{p.name}</h3>
-                <p className="text-amber-400 font-medium mt-1">{p.price.toLocaleString('ru-RU')} ₽</p>
+                <p className="mt-1 font-medium text-amber-400">
+                  {p.price.toLocaleString('ru-RU')} ₽
+                </p>
                 <Button size="sm" className="mt-3 w-full" asChild>
-                  <Link href={`/shop/b2b/matrix?add=${p.id}`}>
-                    <ShoppingBag className="h-4 w-4 mr-2" /> В заказ
+                  <Link href={`${ROUTES.shop.b2bMatrix}?add=${encodeURIComponent(p.id)}`}>
+                    <ShoppingBag className="mr-2 size-4" /> В заказ
                   </Link>
                 </Button>
               </CardContent>
@@ -93,14 +159,17 @@ export default function VipShowroomPage({ params }: { params: Promise<{ slug: st
           ))}
         </div>
 
-        <div className="mt-12 text-center">
-          <Button variant="outline" className="border-slate-600" asChild>
-            <Link href="/shop/b2b">
-              Перейти в B2B <ArrowRight className="h-4 w-4 ml-2" />
+        <div className="mt-12 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <Button className="text-text-primary bg-amber-500 hover:bg-amber-400" asChild>
+            <Link href={matrixHref}>
+              Ускорить закупку: вся подборка в матрицу <ArrowRight className="ml-2 size-4" />
             </Link>
           </Button>
+          <Button variant="outline" className="border-text-secondary" asChild>
+            <Link href={ROUTES.shop.b2bPartners}>Перейти в B2B</Link>
+          </Button>
         </div>
-      </div>
+      </RegistryPageShell>
     </div>
   );
 }

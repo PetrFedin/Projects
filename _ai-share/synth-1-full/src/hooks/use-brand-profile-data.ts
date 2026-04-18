@@ -73,10 +73,10 @@ function mergeDashboard(
     markingLastSync: (api.markingLastSync as string) ?? d.markingLastSync,
     linesheetsActive: (api.linesheetsActive as number) ?? d.linesheetsActive,
     linesheetsCollections: Array.isArray(api.linesheetsCollections)
-      ? api.linesheetsCollections as string[]
+      ? (api.linesheetsCollections as string[])
       : d.linesheetsCollections,
     topRetailers: Array.isArray(api.topRetailers)
-      ? api.topRetailers as { name: string; volume: string; lastOrder: string }[]
+      ? (api.topRetailers as { name: string; volume: string; lastOrder: string }[])
       : d.topRetailers,
   };
 }

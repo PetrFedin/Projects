@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { DEFAULT_HOME_CMS, CmsHomeConfig } from "@/data/cms.home.default";
+import { NextRequest, NextResponse } from 'next/server';
+import { DEFAULT_HOME_CMS, CmsHomeConfig } from '@/data/cms.home.default';
 
 /**
  * MVP: “сервер” отдаёт дефолт.
@@ -18,6 +18,6 @@ export async function POST(req: NextRequest) {
     // Возвращаем то, что пришло — UI сохранит локально.
     return NextResponse.json({ ...body, updatedAtISO: new Date().toISOString() });
   } catch (e) {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
   }
 }

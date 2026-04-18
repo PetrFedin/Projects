@@ -14,6 +14,8 @@ import { getProductionLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { useFloorTabDraftState } from '@/hooks/use-floor-tab-draft';
 import { useToast } from '@/hooks/use-toast';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
 
 const GOLD_DEFAULT = {
   v: 1 as const,
@@ -29,14 +31,26 @@ export default function GoldSamplePage() {
   const { data, setData, save, hydrated } = useFloorTabDraftState('gold-sample', GOLD_DEFAULT);
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
       <SectionInfoCard
         title="Gold Sample Approval"
         description="Маршрут и заметки сохраняются локально (floor-tab: gold-sample). После API — ЭДО и подписи в HttpProductionDataPort."
         icon={ShieldCheck}
         iconBg="bg-emerald-100"
         iconColor="text-emerald-600"
-        badges={<><Badge variant="outline" className="text-[9px]">ЭДО</Badge><Badge variant="outline" className="text-[9px]">ЭЦП</Badge><Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href="/brand/compliance">Compliance</Link></Button></>}
+        badges={
+          <>
+            <Badge variant="outline" className="text-[9px]">
+              ЭДО
+            </Badge>
+            <Badge variant="outline" className="text-[9px]">
+              ЭЦП
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.compliance}>Compliance</Link>
+            </Button>
+          </>
+        }
       />
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-bold uppercase">Gold Sample Approval</h1>
@@ -60,7 +74,7 @@ export default function GoldSamplePage() {
           <CardDescription>Отметьте шаги маршрута и комментарии до подключения ЭЦП</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid sm:grid-cols-2 gap-3">
+          <div className="grid gap-3 sm:grid-cols-2">
             {(
               [
                 ['designerOk', 'Дизайнер согласовал'] as const,
@@ -69,7 +83,7 @@ export default function GoldSamplePage() {
                 ['edoSigned', 'ЭДО / ЭЦП (плейсхолдер)'] as const,
               ] as const
             ).map(([key, label]) => (
-              <label key={key} className="flex items-center gap-2 text-sm cursor-pointer">
+              <label key={key} className="flex cursor-pointer items-center gap-2 text-sm">
                 <Checkbox
                   checked={Boolean(data[key])}
                   onCheckedChange={(c) => setData((prev) => ({ ...prev, [key]: Boolean(c) }))}
@@ -90,6 +104,6 @@ export default function GoldSamplePage() {
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getProductionLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

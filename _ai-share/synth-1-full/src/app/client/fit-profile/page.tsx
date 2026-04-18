@@ -37,11 +37,14 @@ export default function FitProfilePage() {
       height: height ? parseFloat(height) : undefined,
     };
     saveBodyProfile(profile);
-    toast({ title: 'Профиль сохранён', description: 'Теперь на PDP будет отображаться процент соответствия размера.' });
+    toast({
+      title: 'Профиль сохранён',
+      description: 'Теперь на PDP будет отображаться процент соответствия размера.',
+    });
   };
 
   return (
-    <div className="container max-w-lg mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-lg space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.client.home}>
@@ -49,11 +52,11 @@ export default function FitProfilePage() {
           </Link>
         </Button>
         <div>
-          <h1 className="text-xl font-bold flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-xl font-bold">
             <UserCheck className="h-6 w-6 text-emerald-600" />
             Ваши мерки (Fit Profile)
           </h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
+          <p className="mt-0.5 text-sm text-muted-foreground">
             Укажите свои параметры в см для автоматического сравнения с изделием. Хранится локально.
           </p>
         </div>
@@ -62,38 +65,66 @@ export default function FitProfilePage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Параметры тела</CardTitle>
-          <CardDescription>Используются для расчета комфортной посадки (ease allowance).</CardDescription>
+          <CardDescription>
+            Используются для расчета комфортной посадки (ease allowance).
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="chest">Обхват груди, см</Label>
-              <Input id="chest" inputMode="decimal" value={chest} onChange={(e) => setChest(e.target.value)} placeholder="92" />
+              <Input
+                id="chest"
+                inputMode="decimal"
+                value={chest}
+                onChange={(e) => setChest(e.target.value)}
+                placeholder="92"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="waist">Обхват талии, см</Label>
-              <Input id="waist" inputMode="decimal" value={waist} onChange={(e) => setWaist(e.target.value)} placeholder="74" />
+              <Input
+                id="waist"
+                inputMode="decimal"
+                value={waist}
+                onChange={(e) => setWaist(e.target.value)}
+                placeholder="74"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="hips">Обхват бёдер, см</Label>
-              <Input id="hips" inputMode="decimal" value={hips} onChange={(e) => setHips(e.target.value)} placeholder="100" />
+              <Input
+                id="hips"
+                inputMode="decimal"
+                value={hips}
+                onChange={(e) => setHips(e.target.value)}
+                placeholder="100"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="height">Рост, см</Label>
-              <Input id="height" inputMode="decimal" value={height} onChange={(e) => setHeight(e.target.value)} placeholder="176" />
+              <Input
+                id="height"
+                inputMode="decimal"
+                value={height}
+                onChange={(e) => setHeight(e.target.value)}
+                placeholder="176"
+              />
             </div>
           </div>
-          <Button className="w-full mt-4 bg-emerald-600 hover:bg-emerald-700" onClick={handleSave}>
+          <Button className="mt-4 w-full bg-emerald-600 hover:bg-emerald-700" onClick={handleSave}>
             Сохранить профиль
           </Button>
         </CardContent>
       </Card>
 
-      <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-100 flex items-start gap-3">
-        <Ruler className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
-        <div className="text-xs text-emerald-800 leading-relaxed">
-          <p className="font-semibold mb-1">Как мы считаем?</p>
-          Мы берем физические замеры изделия (chest, waist, hips) и сравниваем их с вашими. Для комфортной носки мы закладываем "прибавку на свободу облегания" (2-8 см в зависимости от типа вещи).
+      <div className="flex items-start gap-3 rounded-lg border border-emerald-100 bg-emerald-50 p-4">
+        <Ruler className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+        <div className="text-xs leading-relaxed text-emerald-800">
+          <p className="mb-1 font-semibold">Как мы считаем?</p>
+          Мы берем физические замеры изделия (chest, waist, hips) и сравниваем их с вашими. Для
+          комфортной носки мы закладываем "прибавку на свободу облегания" (2-8 см в зависимости от
+          типа вещи).
         </div>
       </div>
     </div>

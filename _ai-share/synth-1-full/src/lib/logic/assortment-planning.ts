@@ -33,7 +33,7 @@ export class AssortmentPlanningEngine {
     const allocations: AssortmentAllocation[] = [];
 
     // 1. Оценка потенциала каждого магазина (Scoring)
-    const storeScores = stores.map(store => {
+    const storeScores = stores.map((store) => {
       let score = store.historicalSalesVelocity * 10; // Базовый вес — история продаж
 
       // Климатический фактор
@@ -60,7 +60,11 @@ export class AssortmentPlanningEngine {
     const totalScore = storeScores.reduce((sum, s) => sum + s.score, 0);
 
     if (totalScore === 0) {
-      return stores.map(s => ({ storeId: s.storeId, allocatedQuantity: 0, reasoning: 'No demand potential detected.' }));
+      return stores.map((s) => ({
+        storeId: s.storeId,
+        allocatedQuantity: 0,
+        reasoning: 'No demand potential detected.',
+      }));
     }
 
     // 3. Пропорциональное распределение (Allocation)
@@ -75,7 +79,7 @@ export class AssortmentPlanningEngine {
       allocations.push({
         storeId: store.storeId,
         allocatedQuantity: allocated,
-        reasoning: `Allocated ${(share * 100).toFixed(1)}% based on local climate (${store.climateZone}, ${store.currentWeatherForecast}) and income level (${store.averageIncomeLevel}).`
+        reasoning: `Allocated ${(share * 100).toFixed(1)}% based on local climate (${store.climateZone}, ${store.currentWeatherForecast}) and income level (${store.averageIncomeLevel}).`,
       });
     }
 

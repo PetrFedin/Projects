@@ -96,9 +96,11 @@ function InspirationBoardInner() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Название доски</CardTitle>
-          <CardDescription>Хранение в localStorage; экспорт для шаринга или API мудбордов.</CardDescription>
+          <CardDescription>
+            Хранение в localStorage; экспорт для шаринга или API мудбордов.
+          </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col sm:flex-row gap-4 sm:items-end">
+        <CardContent className="flex flex-col gap-4 sm:flex-row sm:items-end">
           <div className="flex-1 space-y-2">
             <Label htmlFor="title">Заголовок</Label>
             <Input
@@ -108,41 +110,62 @@ function InspirationBoardInner() {
             />
           </div>
           <div className="flex flex-wrap gap-2">
-            <Button type="button" variant="outline" size="sm" onClick={() => downloadJsonFile('synth-inspiration-board.json', board)}>
-              <Download className="h-4 w-4 mr-2" />
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => downloadJsonFile('synth-inspiration-board.json', board)}
+            >
+              <Download className="mr-2 h-4 w-4" />
               Экспорт
             </Button>
-            <label className="inline-flex cursor-pointer items-center justify-center rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent h-9">
-              <Upload className="h-4 w-4 mr-2" />
+            <label className="inline-flex h-9 cursor-pointer items-center justify-center rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent">
+              <Upload className="mr-2 h-4 w-4" />
               Импорт
-              <input type="file" accept="application/json,.json" className="sr-only" onChange={importJson} />
+              <input
+                type="file"
+                accept="application/json,.json"
+                className="sr-only"
+                onChange={importJson}
+              />
             </label>
           </div>
         </CardContent>
       </Card>
 
       <div>
-        <h2 className="text-sm font-semibold mb-3">Пины ({board.pins.length})</h2>
+        <h2 className="mb-3 text-sm font-semibold">Пины ({board.pins.length})</h2>
         {pinProducts.length === 0 ? (
-          <p className="text-sm text-muted-foreground border border-dashed rounded-lg p-8">Добавьте товары из сетки или с PDP (кнопка «На доску»).</p>
+          <p className="rounded-lg border border-dashed p-8 text-sm text-muted-foreground">
+            Добавьте товары из сетки или с PDP (кнопка «На доску»).
+          </p>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             {board.pins.map((pin) => {
               const p = byId.get(pin.productId);
               if (!p) return null;
               return (
-                <div key={pin.productId} className="relative rounded-lg border overflow-hidden group">
+                <div
+                  key={pin.productId}
+                  className="group relative overflow-hidden rounded-lg border"
+                >
                   <Link href={`/products/${p.slug}`} className="block">
                     <div className="relative aspect-square">
-                      <Image src={p.images[0]?.url || '/placeholder.jpg'} alt="" fill className="object-cover" sizes="150px" />
+                      <Image
+                        src={p.images[0]?.url || '/placeholder.jpg'}
+                        alt=""
+                        fill
+                        className="object-cover"
+                        sizes="150px"
+                      />
                     </div>
-                    <p className="p-2 text-[11px] line-clamp-2">{p.name}</p>
+                    <p className="line-clamp-2 p-2 text-[11px]">{p.name}</p>
                   </Link>
                   <Button
                     type="button"
                     size="icon"
                     variant="destructive"
-                    className="absolute top-2 right-2 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute right-2 top-2 h-8 w-8 opacity-0 transition-opacity group-hover:opacity-100"
                     onClick={() => persist((prev) => removePin(prev, pin.productId))}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -159,18 +182,24 @@ function InspirationBoardInner() {
           <CardTitle className="text-base">Каталог</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 max-h-96 overflow-y-auto">
+          <div className="grid max-h-96 grid-cols-2 gap-2 overflow-y-auto sm:grid-cols-4">
             {catalog.slice(0, 48).map((p) => (
               <button
                 key={p.id}
                 type="button"
-                className="text-left rounded-md border p-1 hover:border-primary"
+                className="rounded-md border p-1 text-left hover:border-primary"
                 onClick={() => persist((prev) => addPin(prev, p))}
               >
-                <div className="relative aspect-square rounded overflow-hidden">
-                  <Image src={p.images[0]?.url || '/placeholder.jpg'} alt="" fill className="object-cover" sizes="100px" />
+                <div className="relative aspect-square overflow-hidden rounded">
+                  <Image
+                    src={p.images[0]?.url || '/placeholder.jpg'}
+                    alt=""
+                    fill
+                    className="object-cover"
+                    sizes="100px"
+                  />
                 </div>
-                <p className="text-[10px] mt-1 line-clamp-2">{p.name}</p>
+                <p className="mt-1 line-clamp-2 text-[10px]">{p.name}</p>
               </button>
             ))}
           </div>
@@ -182,7 +211,7 @@ function InspirationBoardInner() {
 
 export default function InspirationBoardPage() {
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
@@ -191,11 +220,11 @@ export default function InspirationBoardPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
+            <h1 className="flex items-center gap-2 text-xl font-bold">
               <LayoutGrid className="h-6 w-6" />
               Доска вдохновения
             </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
+            <p className="mt-0.5 text-sm text-muted-foreground">
               Пины SKU + версионный JSON. Позже: совместное редактирование и импорт из лукбуков.
             </p>
           </div>

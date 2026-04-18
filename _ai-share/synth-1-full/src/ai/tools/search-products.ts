@@ -4,8 +4,8 @@
  * Genkit tool для поиска товаров по запросу.
  */
 
-import { ai } from "@/ai/genkit";
-import { z } from "zod";
+import { ai } from '@/ai/genkit';
+import { z } from 'zod';
 
 const ProductSummarySchema = z.object({
   id: z.string(),
@@ -17,10 +17,15 @@ const ProductSummarySchema = z.object({
 
 export const searchProducts = ai.defineTool(
   {
-    name: "searchProducts",
-    description: "Search for products in the catalog by query (color, category, style, keyword). Returns up to 5 matching products.",
+    name: 'searchProducts',
+    description:
+      'Search for products in the catalog by query (color, category, style, keyword). Returns up to 5 matching products.',
     inputSchema: z.object({
-      query: z.string().describe("Search query: color, category, product type, e.g. 'синие брюки', 'кашемир', 'тренч'"),
+      query: z
+        .string()
+        .describe(
+          "Search query: color, category, product type, e.g. 'синие брюки', 'кашемир', 'тренч'"
+        ),
     }),
     outputSchema: z.object({
       products: z.array(ProductSummarySchema),
@@ -28,7 +33,7 @@ export const searchProducts = ai.defineTool(
   },
   async ({ query }) => {
     try {
-      const base = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+      const base = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
       const res = await fetch(`${base}/data/products.json`);
       if (!res.ok) return { products: [] };
       const products: any[] = await res.json();
@@ -36,7 +41,8 @@ export const searchProducts = ai.defineTool(
       const terms = q.split(/\s+/).filter(Boolean);
       const scored = products
         .map((p) => {
-          const hay = `${p.name || ""} ${p.brand || ""} ${p.category || ""} ${p.color || ""} ${(p.tags || []).join(" ")}`.toLowerCase();
+          const hay =
+            `${p.name || ''} ${p.brand || ''} ${p.category || ''} ${p.color || ''} ${(p.tags || []).join(' ')}`.toLowerCase();
           let score = 0;
           for (const t of terms) {
             if (hay.includes(t)) score += 2;

@@ -4,19 +4,33 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
-import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 import { getGrowthPlatformCrossLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { Rocket, Users, Megaphone } from 'lucide-react';
 
 const consumer = [
-  { href: ROUTES.client.visualSearch, title: 'Визуальный поиск', desc: 'Фото → похожие в каталоге' },
+  {
+    href: ROUTES.client.visualSearch,
+    title: 'Визуальный поиск',
+    desc: 'Фото → похожие в каталоге',
+  },
   { href: ROUTES.client.capsules, title: 'Капсулы / луки', desc: '3 вещи = образ' },
   { href: ROUTES.client.forYou, title: 'Персональная лента', desc: 'Размеры, бренды, похожие' },
   { href: ROUTES.client.colorStudio, title: 'Цвет и сочетания', desc: 'Эвристики палитры' },
   { href: ROUTES.client.fitAdvisor, title: 'Посадка и размер', desc: 'SKU + голоса + профиль' },
-  { href: ROUTES.client.outfitBuilder, title: 'Конструктор образа', desc: 'Слоты, таксономия, пробелы' },
-  { href: ROUTES.shop.b2bSizeFinder, title: 'Подбор размера + сетка', desc: 'B2B; на PDP — фидбек посадки' },
+  {
+    href: ROUTES.client.outfitBuilder,
+    title: 'Конструктор образа',
+    desc: 'Слоты, таксономия, пробелы',
+  },
+  {
+    href: ROUTES.shop.b2bSizeFinder,
+    title: 'Подбор размера + сетка',
+    desc: 'B2B; на PDP — фидбек посадки',
+  },
   { href: ROUTES.client.passport, title: 'Digital Passport', desc: 'Происхождение, цепочка' },
   { href: ROUTES.client.sustainabilityExplorer, title: 'Eco-каталог', desc: 'Фильтр по скорингу' },
   { href: ROUTES.client.inspirationBoard, title: 'Доска вдохновения', desc: 'Пины, экспорт JSON' },
@@ -26,71 +40,215 @@ const consumer = [
   { href: ROUTES.client.priceWatch, title: 'Слежение за ценой', desc: 'Снимок vs каталог' },
   { href: ROUTES.client.sizeConverter, title: 'Конвертер размеров', desc: 'Одежда и обувь' },
   { href: ROUTES.client.skuAlternatives, title: 'Похожие SKU', desc: 'Смежные артикулы' },
-    { href: ROUTES.client.careSymbols, title: 'Пиктограммы ухода', desc: 'Справочник для поддержки' },
-    { href: ROUTES.client.waitlist, title: 'Лист ожидания', desc: 'Упущенный спрос' },
-    { href: ROUTES.client.fitProfile, title: 'Мой Fit Profile', desc: 'Мерки для авто-подбора' },
-  ];
+  { href: ROUTES.client.careSymbols, title: 'Пиктограммы ухода', desc: 'Справочник для поддержки' },
+  { href: ROUTES.client.waitlist, title: 'Лист ожидания', desc: 'Упущенный спрос' },
+  { href: ROUTES.client.fitProfile, title: 'Мой Fit Profile', desc: 'Мерки для авто-подбора' },
+];
 
-  const partners = [
-    { href: ROUTES.brand.fabricPassportRollup, title: 'Состав и уход (CSV)', desc: 'Выгрузка для PIM / МП' },
-    { href: ROUTES.brand.attributeHealth, title: 'Здоровье атрибутов', desc: 'Пробелы по SKU' },
-    { href: ROUTES.brand.launchReadiness, title: 'Готовность к запуску', desc: 'Чек-лист дропа' },
-    { href: ROUTES.brand.mediaGalleryHealth, title: 'Медиа галерея SKU', desc: 'Кадры и мета ширины' },
-    { href: ROUTES.brand.assortmentMix, title: 'Микс ассортимента', desc: 'Доли категорий' },
-    { href: ROUTES.brand.packRules, title: 'MOQ и короба', desc: 'B2B-поля SKU' },
-    { href: ROUTES.brand.categoryPricing, title: 'Цены по категориям', desc: 'min/max/медиана, CSV' },
-    { href: ROUTES.brand.colorwayCoverage, title: 'Цветовые ряды', desc: 'SKU на color' },
-    { href: ROUTES.brand.tradeCodes, title: 'ТН ВЭД и ЕАС', desc: 'Покрытие по SKU' },
-    { href: ROUTES.brand.bundles, title: 'Бандлы и сеты', desc: 'Buy the Look / Bundle pricing' },
-    { href: ROUTES.brand.demandForecast, title: 'Упущенный спрос', desc: 'Анализ Waitlist' },
-    { href: ROUTES.brand.linesheet, title: 'Оптовый лайншит', desc: 'Wholesale B2B Catalog' },
-    { href: ROUTES.brand.linesheet, title: 'Оптовый лайншит', desc: 'Wholesale B2B Catalog' },
-    { href: ROUTES.brand.salesVelocity, title: 'Скорость продаж', desc: 'Анализ Sell-through' },
+const partners = [
+  {
+    href: ROUTES.brand.fabricPassportRollup,
+    title: 'Состав и уход (CSV)',
+    desc: 'Выгрузка для PIM / МП',
+  },
+  { href: ROUTES.brand.attributeHealth, title: 'Здоровье атрибутов', desc: 'Пробелы по SKU' },
+  { href: ROUTES.brand.launchReadiness, title: 'Готовность к запуску', desc: 'Чек-лист дропа' },
+  {
+    href: ROUTES.brand.mediaGalleryHealth,
+    title: 'Медиа галерея SKU',
+    desc: 'Кадры и мета ширины',
+  },
+  { href: ROUTES.brand.assortmentMix, title: 'Микс ассортимента', desc: 'Доли категорий' },
+  { href: ROUTES.brand.packRules, title: 'MOQ и короба', desc: 'B2B-поля SKU' },
+  { href: ROUTES.brand.categoryPricing, title: 'Цены по категориям', desc: 'min/max/медиана, CSV' },
+  { href: ROUTES.brand.colorwayCoverage, title: 'Цветовые ряды', desc: 'SKU на color' },
+  { href: ROUTES.brand.tradeCodes, title: 'ТН ВЭД и ЕАС', desc: 'Покрытие по SKU' },
+  { href: ROUTES.brand.bundles, title: 'Бандлы и сеты', desc: 'Buy the Look / Bundle pricing' },
+  { href: ROUTES.brand.demandForecast, title: 'Упущенный спрос', desc: 'Анализ Waitlist' },
+  { href: ROUTES.brand.linesheet, title: 'Оптовый лайншит', desc: 'Wholesale B2B Catalog' },
+  { href: ROUTES.brand.linesheet, title: 'Оптовый лайншит', desc: 'Wholesale B2B Catalog' },
+  { href: ROUTES.brand.salesVelocity, title: 'Скорость продаж', desc: 'Анализ Sell-through' },
   { href: ROUTES.brand.lcaReport, title: 'Эко-след (LCA)', desc: 'Environmental Footprint' },
   { href: ROUTES.brand.assetRights, title: 'Права и кредиты (DAM)', desc: 'Talent & Usage Rights' },
   { href: ROUTES.brand.wholesalePreorder, title: 'Предзаказ (B2B PO)', desc: 'Matrix Order Entry' },
-  { href: ROUTES.brand.inventoryBalance, title: 'Балансировка остатков', desc: 'Stock Transfer proposals' },
+  {
+    href: ROUTES.brand.inventoryBalance,
+    title: 'Балансировка остатков',
+    desc: 'Stock Transfer proposals',
+  },
   { href: ROUTES.brand.b2bFinance, title: 'B2B Финансы', desc: 'Credit Limits & Payment Terms' },
-  { href: ROUTES.brand.assortmentOverlap, title: 'Пересечение SKU', desc: 'Cannibalization analysis' },
-  { href: ROUTES.brand.assortmentHealth, title: 'Здоровье ассортимента', desc: 'Catalog-wide health index' },
-  { href: ROUTES.brand.supplierScorecard, title: 'KPI поставщиков', desc: 'Compliance & Performance' },
-  { href: ROUTES.brand.marginSimulator, title: 'Калькулятор маржи', desc: 'Markup & Profit simulator' },
-  { href: ROUTES.brand.returnIntelligence, title: 'Аналитика возвратов', desc: 'Return reasons & Fit sentiment' },
-  { href: ROUTES.brand.markdownPredict, title: 'Markdown стратегия', desc: 'Price optimization & Liquidation' },
-  { href: ROUTES.brand.showroomAppointments, title: 'Календарь байеров', desc: 'Showroom & virtual visits' },
-  { href: ROUTES.brand.digitalTwinTesting, title: 'A/B тесты дизайна', desc: 'Virtual Twin pre-launch testing' },
-  { href: ROUTES.brand.assortmentMixPlanner, title: 'OTB Планирование', desc: 'Collection category balance' },
+  {
+    href: ROUTES.brand.assortmentOverlap,
+    title: 'Пересечение SKU',
+    desc: 'Cannibalization analysis',
+  },
+  {
+    href: ROUTES.brand.assortmentHealth,
+    title: 'Здоровье ассортимента',
+    desc: 'Catalog-wide health index',
+  },
+  {
+    href: ROUTES.brand.supplierScorecard,
+    title: 'KPI поставщиков',
+    desc: 'Compliance & Performance',
+  },
+  {
+    href: ROUTES.brand.marginSimulator,
+    title: 'Калькулятор маржи',
+    desc: 'Markup & Profit simulator',
+  },
+  {
+    href: ROUTES.brand.returnIntelligence,
+    title: 'Аналитика возвратов',
+    desc: 'Return reasons & Fit sentiment',
+  },
+  {
+    href: ROUTES.brand.markdownPredict,
+    title: 'Markdown стратегия',
+    desc: 'Price optimization & Liquidation',
+  },
+  {
+    href: ROUTES.brand.showroomAppointments,
+    title: 'Календарь байеров',
+    desc: 'Showroom & virtual visits',
+  },
+  {
+    href: ROUTES.brand.digitalTwinTesting,
+    title: 'A/B тесты дизайна',
+    desc: 'Virtual Twin pre-launch testing',
+  },
+  {
+    href: ROUTES.brand.assortmentMixPlanner,
+    title: 'OTB Планирование',
+    desc: 'Collection category balance',
+  },
   { href: ROUTES.brand.replenishment, title: 'План подсортировки', desc: 'Smart Restock planning' },
-  { href: ROUTES.brand.assetCompliance, title: 'QA Контента (МП)', desc: 'Asset Compliance for WB/Ozon' },
-  { href: ROUTES.brand.campaignVersions, title: 'B2B Кампании', desc: 'Catalog tiers & Early Bird access' },
-  { href: ROUTES.brand.collectionLca, title: 'Сводный LCA-отчет', desc: 'Sustainability Rollup dashboard' },
-  { href: ROUTES.brand.assortmentGaps, title: 'Анализ пробелов (Gaps)', desc: 'Category-level gap discovery' },
-      { href: ROUTES.brand.priceLadder, title: 'Ценовая лестница', desc: 'Price architecture visualization' },
-      { href: ROUTES.brand.visualGrid, title: 'Визуальная сетка (Merch)', desc: 'AI-optimized storefront layout' },
-      { href: ROUTES.brand.assortmentOverlap, title: 'Анализ нахлеста (Overlap)', desc: 'Detect SKU cannibalization risk' },
-      { href: ROUTES.brand.marketplaceMapping, title: 'Маркетплейсы (Sync)', desc: 'WB/Ozon SKU Mapping Tool' },
-      { href: ROUTES.brand.marketplaceHealth, title: 'Здоровье карточек (MP)', desc: 'Buybox & Buyback analytics' },
-      { href: ROUTES.brand.showroomPlanner, title: 'B2B Шоурумы', desc: 'Manage wholesale appointments' },
-      { href: ROUTES.brand.showroomSession('SH-2026-01'), title: 'Live Сессия', desc: 'Interactive B2B presenter' },
-      { href: ROUTES.brand.regionalDemand, title: 'Карта спроса (Heatmap)', desc: 'Regional RF demand analytics' },
-      { href: ROUTES.brand.lineSheetGenerator, title: 'Генератор Line Sheets', desc: 'Automatic B2B catalog creation' },
-      { href: ROUTES.brand.assortmentHealth, title: 'Здоровье ассортимента', desc: 'Assortment balance scorecard' },
-      { href: ROUTES.brand.visibilityIndex, title: 'Видимость в поиске', desc: 'WB/Ozon SEO Rank Tracker' },
-      { href: ROUTES.brand.regionalDemand, title: 'Карта спроса (Heatmap)', desc: 'Regional RF demand analytics' },
-      { href: ROUTES.brand.cisSourcing, title: 'Локальный сорсинг (СНГ)', desc: 'RF/CIS Supplier Registry' },
-      { href: ROUTES.brand.b2bCampaigns, title: 'B2B Кампании', desc: 'Marketing campaign versioning' },
-      { href: ROUTES.brand.localCompliance, title: 'Compliance & ЭДО (РФ)', desc: 'Honest Mark & Russian Legal Ops' },
-      { href: ROUTES.brand.weatherTraffic, title: 'Трафик и Погода', desc: 'Weather impact on retail footfall' },
-      { href: ROUTES.brand.factoryQc, title: 'Контроль ОТК', desc: 'Factory QC Portal & Check-lists' },
-  { href: ROUTES.brand.partnerAssortmentMatrix, title: 'Матрица ассортимента', desc: 'Канал × размер × цвет, статусы' },
-  { href: ROUTES.brand.partnerMarkdownPredict, title: 'Распродажа / markdown', desc: 'Правила и заготовка ML' },
-  { href: ROUTES.brand.damContentRights, title: 'DAM и права', desc: 'Lookbook, watermark, лицензии' },
-    { href: ROUTES.brand.factoryPortal, title: 'Портал фабрики', desc: 'Образцы, QC, tech pack' },
-    { href: ROUTES.brand.marketplaceCardHealth, title: 'Карточки на МП', desc: 'Ошибки атрибутов, регионы' },
-    { href: ROUTES.brand.showroomPlanner, title: 'B2B Showroom Look-to-Order', desc: 'Draft wholesale orders from visual looks' },
-    { href: '#', title: 'RFID Inventory Hub', desc: 'Real-time retail store stock sync' },
-    { href: '#', title: 'Supplier QC ОТК', desc: 'Batch inspection reports & pass rates' },
-    { href: '#', title: 'National Price Ladder', desc: 'Price architecture across RU regions' },
+  {
+    href: ROUTES.brand.assetCompliance,
+    title: 'QA Контента (МП)',
+    desc: 'Asset Compliance for WB/Ozon',
+  },
+  {
+    href: ROUTES.brand.campaignVersions,
+    title: 'B2B Кампании',
+    desc: 'Catalog tiers & Early Bird access',
+  },
+  {
+    href: ROUTES.brand.collectionLca,
+    title: 'Сводный LCA-отчет',
+    desc: 'Sustainability Rollup dashboard',
+  },
+  {
+    href: ROUTES.brand.assortmentGaps,
+    title: 'Анализ пробелов (Gaps)',
+    desc: 'Category-level gap discovery',
+  },
+  {
+    href: ROUTES.brand.priceLadder,
+    title: 'Ценовая лестница',
+    desc: 'Price architecture visualization',
+  },
+  {
+    href: ROUTES.brand.visualGrid,
+    title: 'Визуальная сетка (Merch)',
+    desc: 'AI-optimized storefront layout',
+  },
+  {
+    href: ROUTES.brand.assortmentOverlap,
+    title: 'Анализ нахлеста (Overlap)',
+    desc: 'Detect SKU cannibalization risk',
+  },
+  {
+    href: ROUTES.brand.marketplaceMapping,
+    title: 'Маркетплейсы (Sync)',
+    desc: 'WB/Ozon SKU Mapping Tool',
+  },
+  {
+    href: ROUTES.brand.marketplaceHealth,
+    title: 'Здоровье карточек (MP)',
+    desc: 'Buybox & Buyback analytics',
+  },
+  {
+    href: ROUTES.brand.showroomPlanner,
+    title: 'B2B Шоурумы',
+    desc: 'Manage wholesale appointments',
+  },
+  {
+    href: ROUTES.brand.showroomSession('SH-2026-01'),
+    title: 'Live Сессия',
+    desc: 'Interactive B2B presenter',
+  },
+  {
+    href: ROUTES.brand.regionalDemand,
+    title: 'Карта спроса (Heatmap)',
+    desc: 'Regional RF demand analytics',
+  },
+  {
+    href: ROUTES.brand.lineSheetGenerator,
+    title: 'Генератор Line Sheets',
+    desc: 'Automatic B2B catalog creation',
+  },
+  {
+    href: ROUTES.brand.assortmentHealth,
+    title: 'Здоровье ассортимента',
+    desc: 'Assortment balance scorecard',
+  },
+  {
+    href: ROUTES.brand.visibilityIndex,
+    title: 'Видимость в поиске',
+    desc: 'WB/Ozon SEO Rank Tracker',
+  },
+  {
+    href: ROUTES.brand.regionalDemand,
+    title: 'Карта спроса (Heatmap)',
+    desc: 'Regional RF demand analytics',
+  },
+  {
+    href: ROUTES.brand.cisSourcing,
+    title: 'Локальный сорсинг (СНГ)',
+    desc: 'RF/CIS Supplier Registry',
+  },
+  { href: ROUTES.brand.b2bCampaigns, title: 'B2B Кампании', desc: 'Marketing campaign versioning' },
+  {
+    href: ROUTES.brand.localCompliance,
+    title: 'Compliance & ЭДО (РФ)',
+    desc: 'Honest Mark & Russian Legal Ops',
+  },
+  {
+    href: ROUTES.brand.weatherTraffic,
+    title: 'Трафик и Погода',
+    desc: 'Weather impact on retail footfall',
+  },
+  { href: ROUTES.brand.factoryQc, title: 'Контроль ОТК', desc: 'Factory QC Portal & Check-lists' },
+  {
+    href: ROUTES.brand.partnerAssortmentMatrix,
+    title: 'Матрица ассортимента',
+    desc: 'Канал × размер × цвет, статусы',
+  },
+  {
+    href: ROUTES.brand.partnerMarkdownPredict,
+    title: 'Распродажа / markdown',
+    desc: 'Правила и заготовка ML',
+  },
+  {
+    href: ROUTES.brand.damContentRights,
+    title: 'DAM и права',
+    desc: 'Lookbook, watermark, лицензии',
+  },
+  { href: ROUTES.brand.factoryPortal, title: 'Портал фабрики', desc: 'Образцы, QC, tech pack' },
+  {
+    href: ROUTES.brand.marketplaceCardHealth,
+    title: 'Карточки на МП',
+    desc: 'Ошибки атрибутов, регионы',
+  },
+  {
+    href: ROUTES.brand.showroomPlanner,
+    title: 'B2B Showroom Look-to-Order',
+    desc: 'Draft wholesale orders from visual looks',
+  },
+  { href: '#', title: 'RFID Inventory Hub', desc: 'Real-time retail store stock sync' },
+  { href: '#', title: 'Supplier QC ОТК', desc: 'Batch inspection reports & pass rates' },
+  { href: '#', title: 'National Price Ladder', desc: 'Price architecture across RU regions' },
 ];
 
 const wow = [
@@ -162,7 +320,11 @@ const distribution = [
   { href: '#', title: 'Logistics Routing', desc: 'Оптимизация middle-mile маршрутов' },
   { href: '#', title: 'Pre-Order Allocation', desc: 'Аллокация стока для VIP-байеров' },
   { href: '#', title: 'EAEU Customs Calc', desc: 'Расчет пошлин и логистики СНГ' },
-  { href: '#', title: 'Local Courier Dispatch', desc: 'Управление последней милей (CDEK/Boxberry)' },
+  {
+    href: '#',
+    title: 'Local Courier Dispatch',
+    desc: 'Управление последней милей (CDEK/Boxberry)',
+  },
   { href: '#', title: 'Stock Swap Tracking', desc: 'Трекинг перемещений между магазинами' },
   { href: '#', title: 'Ship-to-Store Splitter', desc: 'Распределение заказа по точкам' },
   { href: '#', title: 'EAEU Export Estimator', desc: 'Расчет налогов и пошлин ЕАЭС' },
@@ -191,13 +353,13 @@ function LinkGrid({ items }: { items: { href: string; title: string; desc: strin
     <div className="grid gap-3 sm:grid-cols-2">
       {items.map((x) => (
         <Link key={x.href} href={x.href}>
-          <Card className="h-full hover:border-violet-200 transition-colors">
+          <Card className="hover:border-accent-primary/25 h-full transition-colors">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">{x.title}</CardTitle>
               <CardDescription className="text-xs">{x.desc}</CardDescription>
             </CardHeader>
             <CardContent className="pt-0">
-              <span className="text-[10px] font-mono text-muted-foreground">{x.href}</span>
+              <span className="font-mono text-[10px] text-muted-foreground">{x.href}</span>
             </CardContent>
           </Card>
         </Link>
@@ -208,52 +370,51 @@ function LinkGrid({ items }: { items: { href: string; title: string; desc: strin
 
 export default function BrandGrowthHubPage() {
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-6 space-y-6 pb-24">
-      <SectionInfoCard
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
         title="Платформа: рост и вау-сценарии"
-        description="Единая точка входа: клиентские фичи (B2C/байер), инструменты партнёров и демо для маркетинга."
-        icon={Rocket}
-        iconBg="bg-violet-100"
-        iconColor="text-violet-700"
+        leadPlain="Единая точка входа: клиентские фичи (B2C/байер), инструменты партнёров и демо для маркетинга."
+        actions={<Rocket className="text-accent-primary size-6 shrink-0" aria-hidden />}
       />
 
       <Tabs defaultValue="consumer">
-        <TabsList className="flex-wrap h-auto gap-1">
-          <TabsTrigger value="consumer" className="text-xs gap-1">
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'flex-wrap')}>
+          <TabsTrigger value="consumer" className={cn(cabinetSurface.tabsTrigger, 'h-8 gap-1')}>
             <Users className="h-3.5 w-3.5" />
             Клиенты
           </TabsTrigger>
-          <TabsTrigger value="partners" className="text-xs">
+          <TabsTrigger value="partners" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Партнёры
           </TabsTrigger>
-          <TabsTrigger value="store" className="text-xs">
+          <TabsTrigger value="store" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Магазины
           </TabsTrigger>
-          <TabsTrigger value="production" className="text-xs">
+          <TabsTrigger value="production" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Производство
           </TabsTrigger>
-          <TabsTrigger value="sustainability" className="text-xs">
+          <TabsTrigger value="sustainability" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Экология
           </TabsTrigger>
-          <TabsTrigger value="distribution" className="text-xs">
+          <TabsTrigger value="distribution" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Дистрибуция
           </TabsTrigger>
-          <TabsTrigger value="b2b_advanced" className="text-xs">
+          <TabsTrigger value="b2b_advanced" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             B2B Pro
           </TabsTrigger>
-          <TabsTrigger value="operations" className="text-xs">
+          <TabsTrigger value="operations" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Операции & CRM
           </TabsTrigger>
-          <TabsTrigger value="compliance" className="text-xs">
+          <TabsTrigger value="compliance" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Комплаенс
           </TabsTrigger>
-          <TabsTrigger value="fintech" className="text-xs">
+          <TabsTrigger value="fintech" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Финтех
           </TabsTrigger>
-          <TabsTrigger value="admin" className="text-xs">
+          <TabsTrigger value="admin" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Админ
           </TabsTrigger>
-          <TabsTrigger value="wow" className="text-xs gap-1">
+          <TabsTrigger value="wow" className={cn(cabinetSurface.tabsTrigger, 'h-8 gap-1')}>
             <Megaphone className="h-3.5 w-3.5" />
             Демо
           </TabsTrigger>
@@ -296,7 +457,11 @@ export default function BrandGrowthHubPage() {
         </TabsContent>
       </Tabs>
 
-      <RelatedModulesBlock links={getGrowthPlatformCrossLinks()} title="Связанные разделы" className="mt-2" />
-    </div>
+      <RelatedModulesBlock
+        links={getGrowthPlatformCrossLinks()}
+        title="Связанные разделы"
+        className="mt-2"
+      />
+    </RegistryPageShell>
   );
 }

@@ -28,8 +28,9 @@ export function ProcessContextSelector({
   const instances = getInstancesForProcess(processId);
   const contexts = getContextsByType(contextKey);
 
-  const currentContext = instances.find((i) => i.contextId === contextId)?.context
-    ?? contexts.find((c) => c.id === contextId);
+  const currentContext =
+    instances.find((i) => i.contextId === contextId)?.context ??
+    contexts.find((c) => c.id === contextId);
 
   const displayLabel = currentContext
     ? currentContext.label
@@ -48,11 +49,8 @@ export function ProcessContextSelector({
       <DropdownMenuContent align="start" className="w-72">
         <DropdownMenuLabel>Параллельные инстансы</DropdownMenuLabel>
         {instances.map((inst) => (
-          <DropdownMenuItem
-            key={inst.id}
-            onClick={() => onContextChange(inst.contextId)}
-          >
-            <Layers className="h-4 w-4 mr-2 text-slate-400" />
+          <DropdownMenuItem key={inst.id} onClick={() => onContextChange(inst.contextId)}>
+            <Layers className="text-text-muted mr-2 h-4 w-4" />
             {inst.context.label}
           </DropdownMenuItem>
         ))}
@@ -65,7 +63,7 @@ export function ProcessContextSelector({
         ))}
         <DropdownMenuSeparator />
         <DropdownMenuItem disabled>
-          <Plus className="h-4 w-4 mr-2" />
+          <Plus className="mr-2 h-4 w-4" />
           Создать новый инстанс (скоро)
         </DropdownMenuItem>
       </DropdownMenuContent>

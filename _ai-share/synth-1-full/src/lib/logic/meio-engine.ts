@@ -27,7 +27,7 @@ export class MEIOEngine {
     '0.90': 1.28,
     '0.95': 1.64,
     '0.98': 2.05,
-    '0.99': 2.33
+    '0.99': 2.33,
   };
 
   /**
@@ -59,8 +59,9 @@ export class MEIOEngine {
         nodeId: node.id,
         recommendedSafetyStock: Math.ceil(safetyStock),
         reorderPoint: Math.ceil(reorderPoint),
-        reasoning: `Target SL: ${node.serviceLevelTarget * 100}%. Lead Time: ${node.leadTimeDaysFromUpstream} days. ` +
-                   `Safety Stock covers demand volatility (${node.demandStdDev}/day). Reorder when stock hits ${Math.ceil(reorderPoint)}.`
+        reasoning:
+          `Target SL: ${node.serviceLevelTarget * 100}%. Lead Time: ${node.leadTimeDaysFromUpstream} days. ` +
+          `Safety Stock covers demand volatility (${node.demandStdDev}/day). Reorder when stock hits ${Math.ceil(reorderPoint)}.`,
       });
     }
 

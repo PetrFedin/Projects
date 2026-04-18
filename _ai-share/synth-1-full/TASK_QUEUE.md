@@ -1,6 +1,7 @@
 # TASK_QUEUE.md — Очередь задач (v65.0)
 
 ## ✅ СУЩЕСТВУЮЩИЕ (DONE)
+
 - [completed] Инициализация Landed Cost Engine (Финансовое ядро P0)
 - [completed] Проектирование Digital Tech Pack 2.0 (Производственное ядро P0)
 - [completed] Реализация Matrix Order Entry (Оптовое ядро P0)
@@ -36,20 +37,24 @@
 - [completed] **In-store AR Navigation (P3)**: AR-навигация для клиентов в торговом зале.
 
 ## 🏗️ ТЕКУЩИЕ / В ПРОЦЕССЕ (IN PROGRESS)
+
 - [in_progress] **Unified Ecosystem Verification**: Финальная проверка интеграции всех функций во все профили.
   - Подпункты приёмки (закрыть перед снятием флага): **`npm run check:contracts`**; на PR — **`npm run test:e2e:light`**; перед релизом или при смене hot paths — **`npm run test:e2e:verification`** и при необходимости **`npm run test:e2e:api`** (см. **`docs/UNIFIED_ECOSYSTEM_VERIFICATION.md`**, **`INTEGRATION_MAP.md` §6**); локально **`nvm use`** по **`_ai-share/synth-1-full/.nvmrc`**.
   - Матрица: заголовки **`test('…')`** в **`e2e/unified-ecosystem-smoke.spec.ts`** ↔ строки в **`docs/UNIFIED_ECOSYSTEM_VERIFICATION.md`** (порядок serial / не serial не ломать).
 
 ## 📦 OPEN-SOURCE INTEGRATION (см. OPEN_SOURCE_INTEGRATION.md, FASHION_PLATFORM_OSS.md)
+
 - [completed] **Testing foundation**: Jest + RTL + jsdom + next/jest; компонентные тесты (Button) в составе `npm test`.
 - [completed] **Sentry in logger**: reportError / logApiError отправляют в Sentry при настроенном DSN.
 - [planned] **План vs факт**: единый паттерн снимков для аналитики и бюджетов; RBAC middleware FastAPI.
 
 ## 📊 PLANNING & PROCUREMENT ANALYTICS (backend: app/docs/ANALYTICS_DATA_MODEL.md)
+
 - [completed] **Phase 1 — Analytics data model**: dimension, fact, snapshot tables в app/db/models/analytics.py; миграция create_analytics_tables. Связь: entity-links «Analytics (Planning & Procurement)» → /brand/analytics-bi.
-- [planned] **Phase 2**: ETL в fact_* и snapshot_*; buying analytics API; дашборды.
+- [planned] **Phase 2**: ETL в fact*\* и snapshot*\*; buying analytics API; дашборды.
 
 ## 📅 ЗАПЛАНИРОВАННЫЕ (PLANNED P0-P1)
+
 1. **Gift Registry Manager (P3)**: Списки подарков с синхронизацией.
 2. **BOPIS Hub (P3)**: Управление выдачей интернет-заказов в магазине.
 3. **Fashion Social Investing (P3)**: Инвестиции в дропы брендов.

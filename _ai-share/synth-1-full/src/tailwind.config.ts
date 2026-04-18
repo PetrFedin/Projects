@@ -1,24 +1,20 @@
-
-import type {Config} from 'tailwindcss';
+import type { Config } from 'tailwindcss';
 
 export default {
   darkMode: ['class'],
-  content: [
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+  content: ['./src/components/**/*.{js,ts,jsx,tsx,mdx}', './src/app/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: '2rem',
       screens: {
-        "2xl": "1400px",
+        '2xl': '1400px',
       },
     },
     extend: {
       fontFamily: {
-        body: ["var(--font-inter)", 'sans-serif'],
-        headline: ["var(--font-playfair-display)", 'serif'],
+        body: ['var(--font-inter)', 'sans-serif'],
+        headline: ['var(--font-playfair-display)', 'serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -90,23 +86,23 @@ export default {
         },
         'pulse-live': {
           '0%, 100%': { transform: 'scale(1)', opacity: '1' },
-          '50%': { transform: 'scale(1.1)', opacity: '.7' },
+          '50%': { transform: 'scale(1.04)', opacity: '1' },
         },
-        'float': {
-            '0%': { transform: 'translateY(0px)', opacity: '1' },
-            '100%': { transform: 'translateY(-200px)', opacity: '0' },
+        float: {
+          '0%': { transform: 'translateY(0px)', opacity: '1' },
+          '100%': { transform: 'translateY(-200px)', opacity: '0' },
         },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'pulse-live': 'pulse-live 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'float': 'float 4s ease-out forwards',
+        float: 'float 4s ease-out forwards',
       },
-       boxShadow: {
-        'xl': '0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05)',
+      boxShadow: {
+        xl: '0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05)',
         '2xl': '0 25px 50px -12px rgba(0,0,0,0.15)',
-      }
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],

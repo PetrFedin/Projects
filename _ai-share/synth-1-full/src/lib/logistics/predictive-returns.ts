@@ -49,7 +49,7 @@ export class PredictiveReturnsRouter {
         destinationType: 'keep_it',
         destinationId: null,
         estimatedShippingCostUSD: 0,
-        reasoning: `Item value ($${itemValueUSD}) is lower than return shipping cost ($15). Customer advised to keep or donate the item. Refund issued automatically.`
+        reasoning: `Item value ($${itemValueUSD}) is lower than return shipping cost ($15). Customer advised to keep or donate the item. Refund issued automatically.`,
       };
     }
 
@@ -61,7 +61,8 @@ export class PredictiveReturnsRouter {
         destinationType: 'recycling_center',
         destinationId: 'RECYCLE-HUB-01',
         estimatedShippingCostUSD: 8, // Локальная доставка дешевле
-        reasoning: 'Item is damaged. Routing directly to regional recycling center to minimize carbon footprint and handling costs.'
+        reasoning:
+          'Item is damaged. Routing directly to regional recycling center to minimize carbon footprint and handling costs.',
       };
     }
 
@@ -76,7 +77,7 @@ export class PredictiveReturnsRouter {
           // Вычисляем примерное расстояние (упрощенная Евклидова метрика для мока)
           const distance = Math.sqrt(
             Math.pow(store.location.lat - request.customerLocation.lat, 2) +
-            Math.pow(store.location.lng - request.customerLocation.lng, 2)
+              Math.pow(store.location.lng - request.customerLocation.lng, 2)
           );
 
           // Допустим, 1 градус ~ 111 км. Ищем в радиусе ~50 км (0.5 градуса)
@@ -101,7 +102,7 @@ export class PredictiveReturnsRouter {
       destinationType,
       destinationId,
       estimatedShippingCostUSD,
-      reasoning
+      reasoning,
     };
   }
 }

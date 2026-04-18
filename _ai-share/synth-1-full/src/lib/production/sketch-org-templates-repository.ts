@@ -67,7 +67,9 @@ export function getSketchOrgPinTemplateRepository(): SketchOrgPinTemplateReposit
 }
 
 /** Синхронное чтение из localStorage (только клиент). */
-export function readOrgSketchPinTemplatesSync(collectionId: string | undefined): Workshop2SketchPinTemplate[] {
+export function readOrgSketchPinTemplatesSync(
+  collectionId: string | undefined
+): Workshop2SketchPinTemplate[] {
   if (typeof window === 'undefined' || !collectionId?.trim()) return [];
   return parseList(localStorage.getItem(sketchOrgTemplatesStorageKey(collectionId)));
 }
@@ -80,7 +82,10 @@ export async function appendOrgSketchPinTemplate(
   await activeRepo.replaceAll(collectionId, [...cur, template]);
 }
 
-export async function removeOrgSketchPinTemplate(collectionId: string, templateId: string): Promise<void> {
+export async function removeOrgSketchPinTemplate(
+  collectionId: string,
+  templateId: string
+): Promise<void> {
   const cur = await activeRepo.list(collectionId);
   await activeRepo.replaceAll(
     collectionId,

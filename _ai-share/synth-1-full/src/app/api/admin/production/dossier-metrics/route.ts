@@ -23,8 +23,16 @@ export async function GET(request: Request) {
     return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 });
   }
   const { searchParams } = new URL(request.url);
-  const limit = Math.min(Math.max(parseInt(searchParams.get('limit') ?? '2000', 10) || 2000, 1), 5000);
-  const colRaw = searchParams.get('collections')?.split(',').map((s) => s.trim()).filter(Boolean) ?? [];
+  const limit = Math.min(
+    Math.max(parseInt(searchParams.get('limit') ?? '2000', 10) || 2000, 1),
+    5000
+  );
+  const colRaw =
+    searchParams
+      .get('collections')
+      ?.split(',')
+      .map((s) => s.trim())
+      .filter(Boolean) ?? [];
   const collectionFilter = colRaw.length > 0 ? new Set(colRaw) : undefined;
 
   try {

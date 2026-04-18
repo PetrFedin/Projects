@@ -22,10 +22,39 @@ export interface CustomerGroup {
 const STORAGE_KEY = 'b2b_customer_groups_v1';
 
 const DEFAULT_GROUPS: CustomerGroup[] = [
-  { id: 'retail', name: 'Retail', nameRu: 'Розница', defaultPriceTier: 'retail_a', defaultNetTermDays: 14, firstOrderDiscountPercent: 5 },
-  { id: 'wholesale', name: 'Wholesale', nameRu: 'Опт', defaultPriceTier: 'retail_b', defaultNetTermDays: 30, firstOrderDiscountPercent: 8 },
-  { id: 'distribution', name: 'Distribution', nameRu: 'Дистрибуция', defaultPriceTier: 'retail_b', defaultNetTermDays: 60, vatExempt: true },
-  { id: 'franchise', name: 'Franchise', nameRu: 'Франшиза', defaultPriceTier: 'retail_a', defaultNetTermDays: 30, firstOrderDiscountPercent: 10, vatExempt: true },
+  {
+    id: 'retail',
+    name: 'Retail',
+    nameRu: 'Розница',
+    defaultPriceTier: 'retail_a',
+    defaultNetTermDays: 14,
+    firstOrderDiscountPercent: 5,
+  },
+  {
+    id: 'wholesale',
+    name: 'Wholesale',
+    nameRu: 'Опт',
+    defaultPriceTier: 'retail_b',
+    defaultNetTermDays: 30,
+    firstOrderDiscountPercent: 8,
+  },
+  {
+    id: 'distribution',
+    name: 'Distribution',
+    nameRu: 'Дистрибуция',
+    defaultPriceTier: 'retail_b',
+    defaultNetTermDays: 60,
+    vatExempt: true,
+  },
+  {
+    id: 'franchise',
+    name: 'Franchise',
+    nameRu: 'Франшиза',
+    defaultPriceTier: 'retail_a',
+    defaultNetTermDays: 30,
+    firstOrderDiscountPercent: 10,
+    vatExempt: true,
+  },
 ];
 
 function load(): CustomerGroup[] {

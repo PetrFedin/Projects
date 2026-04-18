@@ -1,7 +1,8 @@
 'use client';
+import { RegistryPageShell } from '@/components/design-system';
 
+import { useSearchParamsNonNull } from '@/hooks/use-search-params-non-null';
 import { Suspense, useState, useEffect, useMemo } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/providers/auth-provider';
 import { getAllCalendarEvents } from '@/lib/live-process/calendar-sync';
 import { getCalendarEvents } from '@/lib/collaboration/calendar-store';
@@ -13,7 +14,15 @@ import { CommunicationsUpcomingStrip } from '@/components/brand/communications/C
 import { demoCalendarEventsForProductionStage } from '@/lib/production/stages-comm-demo';
 
 /** Преобразовать LIVE process события в CalendarEvent */
-function mapLiveToCalendarEvent(e: { id: string; processId: string; contextId: string; stageId: string; title: string; startAt: string; endAt: string }): CalendarEvent {
+function mapLiveToCalendarEvent(e: {
+  id: string;
+  processId: string;
+  contextId: string;
+  stageId: string;
+  title: string;
+  startAt: string;
+  endAt: string;
+}): CalendarEvent {
   return {
     id: e.id,
     ownerId: 'live',
@@ -34,7 +43,7 @@ function mapLiveToCalendarEvent(e: { id: string; processId: string; contextId: s
 
 function BrandCalendarMain() {
   const { user } = useAuth();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParamsNonNull();
   const [liveEvents, setLiveEvents] = useState<ReturnType<typeof getAllCalendarEvents>>([]);
   const [collabEvents, setCollabEvents] = useState<CalendarEvent[]>([]);
 
@@ -74,7 +83,7 @@ function BrandCalendarMain() {
   }, [liveEvents, collabEvents, stageDemoCalendar]);
 
   return (
-    <div className="container max-w-6xl mx-auto px-4 py-6 pb-24 space-y-6">
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <StyleCalendar
         initialRole="brand"
         variant="full"
@@ -82,20 +91,22 @@ function BrandCalendarMain() {
         contextSearchSeed={contextSearchSeed || undefined}
       />
       <CollaborationCalendarSection />
-    </div>
+    </RegistryPageShell>
   );
 }
 
 export default function BrandCalendarPage() {
   return (
-    <div className="space-y-4">
-      <div className="sticky top-0 z-30 space-y-2 border-b border-slate-100 bg-slate-50/90 px-4 py-3 backdrop-blur-sm supports-[backdrop-filter]:bg-slate-50/75">
+    <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+      <div className="border-border-subtle bg-bg-surface2/90 supports-[backdrop-filter]:bg-bg-surface2/75 sticky top-0 z-30 -mx-4 space-y-2 border-b px-4 py-3 backdrop-blur-sm sm:-mx-6 sm:px-6">
         <CommunicationsNavBar currentPath="/brand/calendar" />
         <CommunicationsUpcomingStrip />
       </div>
-      <Suspense fallback={<div className="container max-w-6xl mx-auto px-4 py-10 text-sm text-slate-500">Загрузка календаря…</div>}>
+      <Suspense
+        fallback={<div className="text-text-secondary py-10 text-sm">Загрузка календаря…</div>}
+      >
         <BrandCalendarMain />
       </Suspense>
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -79,7 +79,9 @@ describe('domain-event-bus health snapshot', () => {
 
       await eventBus.publish(mk('b'));
       snap = getDomainEventBusHealthSnapshot();
-      expect(snap.recentFailureCount).toBeGreaterThanOrEqual(DOMAIN_EVENT_BUS_CIRCUIT_FAILURE_THRESHOLD);
+      expect(snap.recentFailureCount).toBeGreaterThanOrEqual(
+        DOMAIN_EVENT_BUS_CIRCUIT_FAILURE_THRESHOLD
+      );
       expect(snap.circuitOpen).toBe(true);
       expect(snap.lastFailureAt).not.toBeNull();
       expect(Date.parse(snap.lastFailureAt as string)).not.toBeNaN();

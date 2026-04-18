@@ -1,14 +1,14 @@
-
 'use client';
 
-import { TeamManagement } from "@/components/team/TeamManagement";
+import { TeamManagement } from '@/components/team/TeamManagement';
+import { RegistryPageShell } from '@/components/design-system';
 
 export default function StaffPage() {
-    return (
-      <div className="container mx-auto px-4 py-6 space-y-6 max-w-6xl animate-in fade-in duration-700">
-        <div className="rounded-xl border border-slate-100 shadow-sm overflow-hidden bg-white p-1">
-          <TeamManagement />
-        </div>
+  return (
+    <RegistryPageShell className="max-w-6xl space-y-6 duration-700 animate-in fade-in">
+      <div className="border-border-subtle overflow-hidden rounded-xl border bg-white p-1 shadow-sm">
+        <TeamManagement />
       </div>
-    );
+    </RegistryPageShell>
+  );
 }

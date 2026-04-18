@@ -4,7 +4,14 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
@@ -13,14 +20,17 @@ import { ArrowLeft, MessageSquare, ThumbsDown, TrendingDown, AlertCircle } from 
 
 export default function ReturnIntelligencePage() {
   const rows = useMemo(() => {
-    return products.slice(0, 30).map(p => ({
-      product: p,
-      sentiment: getFitSentiment(p)
-    })).sort((a, b) => b.sentiment.returnRate - a.sentiment.returnRate);
+    return products
+      .slice(0, 30)
+      .map((p) => ({
+        product: p,
+        sentiment: getFitSentiment(p),
+      }))
+      .sort((a, b) => b.sentiment.returnRate - a.sentiment.returnRate);
   }, []);
 
   return (
-    <div className="container max-w-6xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -28,20 +38,23 @@ export default function ReturnIntelligencePage() {
           </Link>
         </Button>
         <div>
-          <h1 className="text-xl font-bold flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-xl font-bold">
             <TrendingDown className="h-6 w-6" />
             Return Intelligence
           </h1>
-          <p className="text-sm text-muted-foreground">Анализ причин возвратов и фидбека по посадке для отдела качества и дизайна.</p>
+          <p className="text-sm text-muted-foreground">
+            Анализ причин возвратов и фидбека по посадке для отдела качества и дизайна.
+          </p>
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         <Card className="border-rose-200 bg-rose-50/20">
           <CardHeader className="py-3">
             <CardDescription className="text-xs">High Return Alert ({'>'}15%)</CardDescription>
             <CardTitle className="text-xl font-bold text-rose-700">
-              {rows.filter(r => r.sentiment.returnRate > 15).length} <span className="text-sm font-normal text-muted-foreground">моделей</span>
+              {rows.filter((r) => r.sentiment.returnRate > 15).length}{' '}
+              <span className="text-sm font-normal text-muted-foreground">моделей</span>
             </CardTitle>
           </CardHeader>
         </Card>
@@ -49,7 +62,8 @@ export default function ReturnIntelligencePage() {
           <CardHeader className="py-3">
             <CardDescription className="text-xs">Size Mismatch Risk</CardDescription>
             <CardTitle className="text-xl font-bold text-amber-700">
-              {rows.filter(r => r.sentiment.overall !== 'true').length} <span className="text-sm font-normal text-muted-foreground">моделей</span>
+              {rows.filter((r) => r.sentiment.overall !== 'true').length}{' '}
+              <span className="text-sm font-normal text-muted-foreground">моделей</span>
             </CardTitle>
           </CardHeader>
         </Card>
@@ -74,33 +88,44 @@ export default function ReturnIntelligencePage() {
               {rows.map((r) => (
                 <TableRow key={r.product.sku}>
                   <TableCell className="max-w-[200px]">
-                    <p className="font-medium text-xs truncate">{r.product.name}</p>
+                    <p className="truncate text-xs font-medium">{r.product.name}</p>
                     <p className="font-mono text-[10px] text-muted-foreground">{r.product.sku}</p>
                   </TableCell>
-                  <TableCell className="text-right font-bold text-xs">
+                  <TableCell className="text-right text-xs font-bold">
                     <span className={r.sentiment.returnRate > 15 ? 'text-rose-600' : ''}>
                       {r.sentiment.returnRate}%
                     </span>
                   </TableCell>
                   <TableCell className="text-center">
-                    <Badge variant="outline" className={`text-[9px] ${
-                      r.sentiment.overall === 'small' ? 'text-amber-600 border-amber-200' :
-                      r.sentiment.overall === 'large' ? 'text-blue-600 border-blue-200' :
-                      'text-emerald-600 border-emerald-200'
-                    }`}>
+                    <Badge
+                      variant="outline"
+                      className={`text-[9px] ${
+                        r.sentiment.overall === 'small'
+                          ? 'border-amber-200 text-amber-600'
+                          : r.sentiment.overall === 'large'
+                            ? 'border-blue-200 text-blue-600'
+                            : 'border-emerald-200 text-emerald-600'
+                      }`}
+                    >
                       {r.sentiment.overall}
                     </Badge>
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
-                      {r.sentiment.topComplaints.map(c => (
-                        <span key={c} className="text-[9px] bg-muted px-1.5 py-0.5 rounded">{c}</span>
+                      {r.sentiment.topComplaints.map((c) => (
+                        <span key={c} className="rounded bg-muted px-1.5 py-0.5 text-[9px]">
+                          {c}
+                        </span>
                       ))}
                     </div>
                   </TableCell>
                   <TableCell className="text-right">
                     {r.sentiment.returnRate > 15 && (
-                      <Button size="sm" variant="outline" className="h-7 text-[10px] text-rose-600 hover:bg-rose-50">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="h-7 text-[10px] text-rose-600 hover:bg-rose-50"
+                      >
                         Fix Tech Pack
                       </Button>
                     )}

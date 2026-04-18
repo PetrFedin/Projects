@@ -40,7 +40,9 @@ export function buildMaterialSketchBomStrip(
     return {
       state: 'na',
       title: 'Скетч ↔ BOM',
-      bullets: ['Нет меток на скетче для этого листа — контроль привязки к строкам BOM не применяется.'],
+      bullets: [
+        'Нет меток на скетче для этого листа — контроль привязки к строкам BOM не применяется.',
+      ],
       primaryTarget: 'sketch',
       anchorId: W2_VISUALS_SKETCH_ANCHOR_ID,
       jumpLabel: 'К скетчу',
@@ -90,8 +92,12 @@ export function buildMaterialSketchBomStrip(
 
   const bullets: string[] = [];
   if (empty > 0) bullets.push(`${empty} меток без BOM-ref — привяжите к строке материала/состава.`);
-  if (notInBaseline > 0) bullets.push(`${notInBaseline} меток с ref вне последнего снимка — обновите состав или сделайте новую ревизию скетча.`);
-  if (noSnap > 0 && baseline.size === 0) bullets.push('В снимке не было BOM-ref у меток — зафиксируйте ревизию после привязки.');
+  if (notInBaseline > 0)
+    bullets.push(
+      `${notInBaseline} меток с ref вне последнего снимка — обновите состав или сделайте новую ревизию скетча.`
+    );
+  if (noSnap > 0 && baseline.size === 0)
+    bullets.push('В снимке не было BOM-ref у меток — зафиксируйте ревизию после привязки.');
 
   return {
     state: 'warn',

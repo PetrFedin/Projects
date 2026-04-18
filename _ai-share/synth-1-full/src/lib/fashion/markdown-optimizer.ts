@@ -6,12 +6,14 @@ export function getDynamicMarkdown(sku: string, currentPrice: number): DynamicMa
   let seed = parseInt(seedRaw, 10);
   if (isNaN(seed)) seed = sku.length * 41;
   const isExcess = seed % 3 === 0;
-  
+
   return {
     sku,
     currentPrice,
     suggestedMarkdownPercent: isExcess ? 15 : 0,
-    reason: isExcess ? 'High local stock (35+ units) vs 14-day velocity.' : 'Stable velocity, no markdown required.',
+    reason: isExcess
+      ? 'High local stock (35+ units) vs 14-day velocity.'
+      : 'Stable velocity, no markdown required.',
     projectedSellThroughIncrease: isExcess ? 25 : 0,
     localStockLevel: isExcess ? 'excess' : 'optimal',
   };

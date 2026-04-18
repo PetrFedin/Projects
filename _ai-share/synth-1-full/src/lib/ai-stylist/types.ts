@@ -3,28 +3,22 @@
  */
 
 export type Occasion =
-  | "Daily"
-  | "Work"
-  | "Date"
-  | "Travel"
-  | "Event"
-  | "Sport"
-  | "Golf"
-  | "Evening";
+  | 'Daily'
+  | 'Work'
+  | 'Date'
+  | 'Travel'
+  | 'Event'
+  | 'Sport'
+  | 'Golf'
+  | 'Evening';
 
-export type StyleMood =
-  | "Minimal"
-  | "Urban"
-  | "Techwear"
-  | "Classic"
-  | "SportLuxe"
-  | "AvantGarde";
+export type StyleMood = 'Minimal' | 'Urban' | 'Techwear' | 'Classic' | 'SportLuxe' | 'AvantGarde';
 
-export type Contrast = "High" | "Medium" | "Low";
-export type ColorPalette = "Warm" | "Cool" | "Neutral" | "Monochrome" | "Vibrant";
-export type Season = "Spring" | "Summer" | "Autumn" | "Winter" | "All";
+export type Contrast = 'High' | 'Medium' | 'Low';
+export type ColorPalette = 'Warm' | 'Cool' | 'Neutral' | 'Monochrome' | 'Vibrant';
+export type Season = 'Spring' | 'Summer' | 'Autumn' | 'Winter' | 'All';
 
-export type ProductCategory = "Outerwear" | "Tops" | "Bottoms" | "Shoes" | "Accessories";
+export type ProductCategory = 'Outerwear' | 'Tops' | 'Bottoms' | 'Shoes' | 'Accessories';
 
 export interface WardrobeItem {
   id: string;
@@ -75,7 +69,7 @@ export interface LookStrategy {
   excludeFromPrimary?: string[];
   maxOverlapWithPrevious?: number;
   colorBias?: string[];
-  silhouetteRule?: "balanced" | "fitted" | "oversized" | "mixed";
+  silhouetteRule?: 'balanced' | 'fitted' | 'oversized' | 'mixed';
 }
 
 export interface StylistPreferences {
@@ -87,3 +81,24 @@ export interface StylistPreferences {
   dislikedTags?: string[];
   budgetPreference?: 'economy' | 'standard' | 'premium';
 }
+
+/** Сообщения чата стилиста (клиент ↔ API). */
+export type StylistChatMessage = {
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: number;
+};
+
+/** Ответ генерации образов (совпадает с телом POST `/api/ai/stylist`). */
+export type StylistApiResponse = {
+  looks: Look[];
+  notes: string[];
+  reply?: string;
+  capsule?: {
+    items: LookItem[];
+    combinations: Look[];
+  };
+};
+
+/** @deprecated Используйте {@link StylistApiResponse}; имя сохранено для совместимости с UI. */
+export type StylistResponse = StylistApiResponse;

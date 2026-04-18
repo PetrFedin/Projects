@@ -6,6 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { DollarSign, Users, TrendingUp } from 'lucide-react';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
 
 const MOCK_AGENTS = [
   { id: '1', name: 'Иван Петров', deals: 12, volume: 2400000, commission: 72000, paid: true },
@@ -14,17 +16,19 @@ const MOCK_AGENTS = [
 
 export default function CommissionsPage() {
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-4xl pb-24">
+    <RegistryPageShell className="max-w-4xl space-y-6 pb-16">
       <header>
-        <h1 className="text-xl font-black uppercase tracking-tight flex items-center gap-2">
+        <h1 className="flex items-center gap-2 text-xl font-black uppercase tracking-tight">
           <DollarSign className="h-6 w-6 text-emerald-600" /> Sub-Agent Commission Dash
         </h1>
-        <p className="text-sm text-slate-500 mt-1">Прозрачный расчёт комиссий торговых представителей</p>
+        <p className="text-text-secondary mt-1 text-sm">
+          Прозрачный расчёт комиссий торговых представителей
+        </p>
       </header>
 
-      <Card className="rounded-xl border border-slate-200 shadow-sm">
+      <Card className="border-border-default rounded-xl border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-sm flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-sm">
             <Users className="h-4 w-4" /> Представители
           </CardTitle>
           <CardDescription>Сделки, объём и комиссия 3% от объёма</CardDescription>
@@ -32,14 +36,23 @@ export default function CommissionsPage() {
         <CardContent>
           <ul className="space-y-3">
             {MOCK_AGENTS.map((a) => (
-              <li key={a.id} className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <li
+                key={a.id}
+                className="bg-bg-surface2 border-border-default flex flex-wrap items-center justify-between gap-3 rounded-xl border p-4"
+              >
                 <div>
                   <p className="font-bold">{a.name}</p>
-                  <p className="text-[11px] text-slate-500">{a.deals} сделок · {a.volume.toLocaleString()} ₽</p>
+                  <p className="text-text-secondary text-[11px]">
+                    {a.deals} сделок · {a.volume.toLocaleString()} ₽
+                  </p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-black text-emerald-600">{a.commission.toLocaleString()} ₽</span>
-                  <Badge variant={a.paid ? 'secondary' : 'default'}>{a.paid ? 'Выплачено' : 'К выплате'}</Badge>
+                  <span className="font-black text-emerald-600">
+                    {a.commission.toLocaleString()} ₽
+                  </span>
+                  <Badge variant={a.paid ? 'secondary' : 'default'}>
+                    {a.paid ? 'Выплачено' : 'К выплате'}
+                  </Badge>
                 </div>
               </li>
             ))}
@@ -48,10 +61,16 @@ export default function CommissionsPage() {
       </Card>
 
       <div className="flex flex-wrap gap-2">
-        <Button variant="outline" size="sm" asChild><Link href="/distributor">Кабинет</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href="/distributor/orders">Заказы</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href="/distributor/vmi">VMI</Link></Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.distributor.home}>Кабинет</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.distributor.orders}>Заказы</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.distributor.vmi}>VMI</Link>
+        </Button>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

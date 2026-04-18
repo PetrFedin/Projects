@@ -29,17 +29,17 @@ export class MockCartRepository implements CartRepository {
   private notifyListeners(userId: string, items: CartItem[]) {
     const userListeners = this.listeners.get(userId);
     if (userListeners) {
-      userListeners.forEach(callback => callback(items));
+      userListeners.forEach((callback) => callback(items));
     }
   }
 
   async getCart(userId: string): Promise<CartItem[]> {
-    await new Promise(resolve => setTimeout(resolve, 50));
+    await new Promise((resolve) => setTimeout(resolve, 50));
     return this.getCartSync(userId);
   }
 
   async addItem(userId: string, item: CartItem): Promise<void> {
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
     const cart = this.getCartSync(userId);
     const existingIndex = cart.findIndex((i) => cartLineKey(i) === cartLineKey(item));
 
@@ -58,10 +58,20 @@ export class MockCartRepository implements CartRepository {
     this.saveCart(userId, cart);
   }
 
-  async updateItem(userId: string, productId: string, size: string, quantity: number, color?: string): Promise<void> {
-    await new Promise(resolve => setTimeout(resolve, 100));
+  async updateItem(
+    userId: string,
+    productId: string,
+    size: string,
+    quantity: number,
+    color?: string
+  ): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 100));
     const cart = this.getCartSync(userId);
-    const itemIndex = cart.findIndex((i) => cartLineKey(i) === cartLineKey({ id: productId, selectedSize: size, color, quantity: 1 } as CartItem));
+    const itemIndex = cart.findIndex(
+      (i) =>
+        cartLineKey(i) ===
+        cartLineKey({ id: productId, selectedSize: size, color, quantity: 1 } as CartItem)
+    );
 
     if (itemIndex > -1) {
       if (quantity <= 0) {
@@ -74,15 +84,20 @@ export class MockCartRepository implements CartRepository {
   }
 
   async removeItem(userId: string, productId: string, size: string, color?: string): Promise<void> {
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
     const cart = this.getCartSync(userId);
-    const needle = cartLineKey({ id: productId, selectedSize: size, color, quantity: 1 } as CartItem);
+    const needle = cartLineKey({
+      id: productId,
+      selectedSize: size,
+      color,
+      quantity: 1,
+    } as CartItem);
     const filtered = cart.filter((i) => cartLineKey(i) !== needle);
     this.saveCart(userId, filtered);
   }
 
   async clearCart(userId: string): Promise<void> {
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
     this.saveCart(userId, []);
   }
 
@@ -107,4 +122,3 @@ export class MockCartRepository implements CartRepository {
 }
 
 export const mockCartRepository = new MockCartRepository();
-

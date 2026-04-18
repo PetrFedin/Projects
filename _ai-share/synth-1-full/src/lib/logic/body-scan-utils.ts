@@ -15,28 +15,28 @@ export interface SizeChartEntry {
  * Сравнивает замеры тела с размерной сеткой бренда.
  */
 export function calculateFitMatch(
-  measurements: BodyMeasurements, 
+  measurements: BodyMeasurements,
   sizeChart: SizeChartEntry[],
   fitPreference: 'slim' | 'regular' | 'oversized' = 'regular'
 ): FitMatchResult | null {
   if (!measurements || !sizeChart.length) return null;
 
   // 1. Поиск идеального размера
-  const scores = sizeChart.map(entry => {
+  const scores = sizeChart.map((entry) => {
     // Рассчитываем отклонение (delta) для каждой метрики
     const chestDelta = calculateDelta(measurements.chest, entry.chestMin, entry.chestMax);
     const waistDelta = calculateDelta(measurements.waist, entry.waistMin, entry.waistMax);
     const hipsDelta = calculateDelta(measurements.hips, entry.hipsMin, entry.hipsMax);
 
     // Веса: Грудь (0.5), Талия (0.3), Бедра (0.2) - могут меняться от категории
-    const totalDelta = (chestDelta * 0.5) + (waistDelta * 0.3) + (hipsDelta * 0.2);
-    
+    const totalDelta = chestDelta * 0.5 + waistDelta * 0.3 + hipsDelta * 0.2;
+
     return {
       size: entry.size,
       totalDelta,
       chestDelta,
       waistDelta,
-      hipsDelta
+      hipsDelta,
     };
   });
 
@@ -52,14 +52,14 @@ export function calculateFitMatch(
   return {
     productId: 'current-product', // Заглушка
     recommendedSize: bestMatch.size,
-    confidence: Math.max(0, 1 - (bestMatch.totalDelta / 10)),
+    confidence: Math.max(0, 1 - bestMatch.totalDelta / 10),
     fitType,
     sizeChartUsed: 'brand-default-chart',
     measurementDelta: {
       chest: bestMatch.chestDelta,
       waist: bestMatch.waistDelta,
-      hips: bestMatch.hipsDelta
-    }
+      hips: bestMatch.hipsDelta,
+    },
   };
 }
 
@@ -79,7 +79,7 @@ export function compareWithCompetitorSizes(
 ): string {
   // В реальности здесь будет API запрос к базе размерных сеток
   console.log(`[FitMatch] Comparing measurements with ${competitorBrand} database...`);
-  
+
   // Заглушка для демонстрации
   if (measurements.chest > 100) return 'XL';
   if (measurements.chest > 92) return 'L';

@@ -17,17 +17,30 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 type Message = { type: 'success' | 'error'; text: string };
 
 export default function BrandIntegrationsJoorPage() {
   const [inventoryMsg, setInventoryMsg] = useState<Message | null>(null);
   const [inventoryLoading, setInventoryLoading] = useState(false);
-  const [priceTypes, setPriceTypes] = useState<Array<{ id: string; name?: string; currency_code?: string }>>([]);
+  const [priceTypes, setPriceTypes] = useState<
+    Array<{ id: string; name?: string; currency_code?: string }>
+  >([]);
   const [priceTypesLoading, setPriceTypesLoading] = useState(false);
   const [pricesMsg, setPricesMsg] = useState<Message | null>(null);
   const [pricesLoading, setPricesLoading] = useState(false);
-  const [orders, setOrders] = useState<Array<{ id: string; orderNumber: string; status: string; partnerName?: string; createdAt: string; total?: number; currency?: string }>>([]);
+  const [orders, setOrders] = useState<
+    Array<{
+      id: string;
+      orderNumber: string;
+      status: string;
+      partnerName?: string;
+      createdAt: string;
+      total?: number;
+      currency?: string;
+    }>
+  >([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [stylesMsg, setStylesMsg] = useState<Message | null>(null);
   const [stylesLoading, setStylesLoading] = useState(false);
@@ -42,12 +55,19 @@ export default function BrandIntegrationsJoorPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items: [{ sku: 'DEMO-SKU-01', quantity: 100, availableDate: new Date().toISOString().slice(0, 10) }],
+          items: [
+            {
+              sku: 'DEMO-SKU-01',
+              quantity: 100,
+              availableDate: new Date().toISOString().slice(0, 10),
+            },
+          ],
           overwrite: false,
         }),
       });
       const data = await res.json();
-      if (data.success) setInventoryMsg({ type: 'success', text: `Обработано: ${data.processed ?? 0}` });
+      if (data.success)
+        setInventoryMsg({ type: 'success', text: `Обработано: ${data.processed ?? 0}` });
       else setInventoryMsg({ type: 'error', text: data.error ?? 'Ошибка' });
     } catch (e) {
       setInventoryMsg({ type: 'error', text: e instanceof Error ? e.message : 'Ошибка запроса' });
@@ -60,7 +80,7 @@ export default function BrandIntegrationsJoorPage() {
     setPriceTypesLoading(true);
     try {
       const res = await fetch('/api/b2b/joor/price-types');
-      const data = await res.ok ? res.json() : [];
+      const data = (await res.ok) ? res.json() : [];
       setPriceTypes(Array.isArray(data) ? data : []);
     } catch {
       setPriceTypes([]);
@@ -102,7 +122,7 @@ export default function BrandIntegrationsJoorPage() {
     setOrdersLoading(true);
     try {
       const res = await fetch('/api/b2b/joor/orders?limit=20');
-      const data = await res.ok ? res.json() : [];
+      const data = (await res.ok) ? res.json() : [];
       setOrders(Array.isArray(data) ? data : []);
     } catch {
       setOrders([]);
@@ -118,10 +138,13 @@ export default function BrandIntegrationsJoorPage() {
       const res = await fetch('/api/b2b/joor/sync-styles', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ styles: [{ style_identifier: 'DEMO-STYLE-01', name: 'Demo Style' }] }),
+        body: JSON.stringify({
+          styles: [{ style_identifier: 'DEMO-STYLE-01', name: 'Demo Style' }],
+        }),
       });
       const data = await res.json();
-      if (data.success) setStylesMsg({ type: 'success', text: `Синхронизировано: ${data.synced ?? 0}` });
+      if (data.success)
+        setStylesMsg({ type: 'success', text: `Синхронизировано: ${data.synced ?? 0}` });
       else setStylesMsg({ type: 'error', text: data.error ?? 'Ошибка' });
     } catch (e) {
       setStylesMsg({ type: 'error', text: e instanceof Error ? e.message : 'Ошибка запроса' });
@@ -137,10 +160,13 @@ export default function BrandIntegrationsJoorPage() {
       const res = await fetch('/api/b2b/joor/sync-customers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ customers: [{ name: 'Demo Partner', email: 'partner@example.com' }] }),
+        body: JSON.stringify({
+          customers: [{ name: 'Demo Partner', email: 'partner@example.com' }],
+        }),
       });
       const data = await res.json();
-      if (data.success) setCustomersMsg({ type: 'success', text: `Синхронизировано: ${data.synced ?? 0}` });
+      if (data.success)
+        setCustomersMsg({ type: 'success', text: `Синхронизировано: ${data.synced ?? 0}` });
       else setCustomersMsg({ type: 'error', text: data.error ?? 'Ошибка' });
     } catch (e) {
       setCustomersMsg({ type: 'error', text: e instanceof Error ? e.message : 'Ошибка запроса' });
@@ -150,29 +176,29 @@ export default function BrandIntegrationsJoorPage() {
   };
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
-        <Link href={ROUTES.brand.integrations}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="JOOR"
+        leadPlain="Остатки (v2), цены (v4), импорт заказов, синхрон стилей и клиентов."
+        eyebrow={
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.brand.integrations} aria-label="Назад к интеграциям">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
           </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight">JOOR</h1>
-          <p className="text-slate-500 text-sm mt-0.5">
-            Остатки (v2), цены (v4), импорт заказов, синхрон стилей и клиентов.
-          </p>
-        </div>
-      </div>
+        }
+      />
 
       <div className="grid gap-4">
         {/* Inventory v2 */}
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-black uppercase flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
               <Package className="h-4 w-4" /> Остатки (Inventory v2)
             </CardTitle>
-            <CardDescription>Выгрузка остатков по складам и датам. Overwrite или Update.</CardDescription>
+            <CardDescription>
+              Выгрузка остатков по складам и датам. Overwrite или Update.
+            </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-wrap items-center gap-3">
             <Button onClick={pushInventory} disabled={inventoryLoading}>
@@ -181,7 +207,11 @@ export default function BrandIntegrationsJoorPage() {
             </Button>
             {inventoryMsg && (
               <span className={inventoryMsg.type === 'success' ? 'text-green-600' : 'text-red-600'}>
-                {inventoryMsg.type === 'success' ? <CheckCircle2 className="inline h-4 w-4 mr-1" /> : <AlertCircle className="inline h-4 w-4 mr-1" />}
+                {inventoryMsg.type === 'success' ? (
+                  <CheckCircle2 className="mr-1 inline h-4 w-4" />
+                ) : (
+                  <AlertCircle className="mr-1 inline h-4 w-4" />
+                )}
                 {inventoryMsg.text}
               </span>
             )}
@@ -191,14 +221,21 @@ export default function BrandIntegrationsJoorPage() {
         {/* Prices v4 */}
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-black uppercase flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
               <DollarSign className="h-4 w-4" /> Цены (Prices v4)
             </CardTitle>
-            <CardDescription>Типы цен и массовое обновление по SKU, валютам, клиентам.</CardDescription>
+            <CardDescription>
+              Типы цен и массовое обновление по SKU, валютам, клиентам.
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex flex-wrap gap-2">
-              <Button variant="outline" size="sm" onClick={loadPriceTypes} disabled={priceTypesLoading}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={loadPriceTypes}
+                disabled={priceTypesLoading}
+              >
                 {priceTypesLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                 Типы цен JOOR
               </Button>
@@ -210,14 +247,22 @@ export default function BrandIntegrationsJoorPage() {
             {priceTypes.length > 0 && (
               <div className="flex flex-wrap gap-1">
                 {priceTypes.slice(0, 10).map((t) => (
-                  <Badge key={t.id} variant="secondary">{t.name ?? t.id} {t.currency_code ?? ''}</Badge>
+                  <Badge key={t.id} variant="secondary">
+                    {t.name ?? t.id} {t.currency_code ?? ''}
+                  </Badge>
                 ))}
-                {priceTypes.length > 10 && <Badge variant="outline">+{priceTypes.length - 10}</Badge>}
+                {priceTypes.length > 10 && (
+                  <Badge variant="outline">+{priceTypes.length - 10}</Badge>
+                )}
               </div>
             )}
             {pricesMsg && (
               <p className={pricesMsg.type === 'success' ? 'text-green-600' : 'text-red-600'}>
-                {pricesMsg.type === 'success' ? <CheckCircle2 className="inline h-4 w-4 mr-1" /> : <AlertCircle className="inline h-4 w-4 mr-1" />}
+                {pricesMsg.type === 'success' ? (
+                  <CheckCircle2 className="mr-1 inline h-4 w-4" />
+                ) : (
+                  <AlertCircle className="mr-1 inline h-4 w-4" />
+                )}
                 {pricesMsg.text}
               </p>
             )}
@@ -227,7 +272,7 @@ export default function BrandIntegrationsJoorPage() {
         {/* Orders import */}
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-black uppercase flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
               <ShoppingCart className="h-4 w-4" /> Импорт заказов
             </CardTitle>
             <CardDescription>Загрузка заказов из JOOR в раздел B2B заказов.</CardDescription>
@@ -239,19 +284,29 @@ export default function BrandIntegrationsJoorPage() {
                 Импорт из JOOR
               </Button>
               <Link href={ROUTES.brand.b2bOrders}>
-                <Button variant="ghost" size="sm">B2B заказы</Button>
+                <Button variant="ghost" size="sm">
+                  B2B заказы
+                </Button>
               </Link>
             </div>
             {orders.length > 0 && (
-              <ul className="border rounded-md divide-y text-sm">
+              <ul className="divide-y rounded-md border text-sm">
                 {orders.slice(0, 5).map((o) => (
-                  <li key={o.id} className="px-3 py-2 flex justify-between items-center">
-                    <span>{o.orderNumber} — {o.partnerName ?? '—'}</span>
+                  <li key={o.id} className="flex items-center justify-between px-3 py-2">
+                    <span>
+                      {o.orderNumber} — {o.partnerName ?? '—'}
+                    </span>
                     <Badge variant="secondary">{o.status}</Badge>
-                    {o.total != null && <span>{o.currency ?? ''} {o.total}</span>}
+                    {o.total != null && (
+                      <span>
+                        {o.currency ?? ''} {o.total}
+                      </span>
+                    )}
                   </li>
                 ))}
-                {orders.length > 5 && <li className="px-3 py-2 text-slate-500">… ещё {orders.length - 5}</li>}
+                {orders.length > 5 && (
+                  <li className="text-text-secondary px-3 py-2">… ещё {orders.length - 5}</li>
+                )}
               </ul>
             )}
           </CardContent>
@@ -260,7 +315,7 @@ export default function BrandIntegrationsJoorPage() {
         {/* Styles */}
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-black uppercase flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
               <Shirt className="h-4 w-4" /> Стили / продукты
             </CardTitle>
             <CardDescription>Синхрон стилей и лайншитов в JOOR (bulk).</CardDescription>
@@ -272,7 +327,11 @@ export default function BrandIntegrationsJoorPage() {
             </Button>
             {stylesMsg && (
               <span className={stylesMsg.type === 'success' ? 'text-green-600' : 'text-red-600'}>
-                {stylesMsg.type === 'success' ? <CheckCircle2 className="inline h-4 w-4 mr-1" /> : <AlertCircle className="inline h-4 w-4 mr-1" />}
+                {stylesMsg.type === 'success' ? (
+                  <CheckCircle2 className="mr-1 inline h-4 w-4" />
+                ) : (
+                  <AlertCircle className="mr-1 inline h-4 w-4" />
+                )}
                 {stylesMsg.text}
               </span>
             )}
@@ -282,10 +341,12 @@ export default function BrandIntegrationsJoorPage() {
         {/* Customers */}
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-black uppercase flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
               <Users className="h-4 w-4" /> Клиенты / партнёры
             </CardTitle>
-            <CardDescription>Синхрон контактов и правил (sales rep, warehouse, скидки).</CardDescription>
+            <CardDescription>
+              Синхрон контактов и правил (sales rep, warehouse, скидки).
+            </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-wrap items-center gap-3">
             <Button onClick={syncCustomers} disabled={customersLoading}>
@@ -294,7 +355,11 @@ export default function BrandIntegrationsJoorPage() {
             </Button>
             {customersMsg && (
               <span className={customersMsg.type === 'success' ? 'text-green-600' : 'text-red-600'}>
-                {customersMsg.type === 'success' ? <CheckCircle2 className="inline h-4 w-4 mr-1" /> : <AlertCircle className="inline h-4 w-4 mr-1" />}
+                {customersMsg.type === 'success' ? (
+                  <CheckCircle2 className="mr-1 inline h-4 w-4" />
+                ) : (
+                  <AlertCircle className="mr-1 inline h-4 w-4" />
+                )}
                 {customersMsg.text}
               </span>
             )}
@@ -304,24 +369,36 @@ export default function BrandIntegrationsJoorPage() {
 
       <div className="mt-4 flex gap-2">
         <Link href={ROUTES.brand.b2bOrders}>
-          <Button variant="outline" size="sm">B2B заказы</Button>
+          <Button variant="outline" size="sm">
+            B2B заказы
+          </Button>
         </Link>
-        <Link href={ROUTES.brand.integrationsNuorder}>
-          <Button variant="ghost" size="sm">NuOrder</Button>
+        <Link href={ROUTES.brand.integrationsNuOrder}>
+          <Button variant="ghost" size="sm">
+            NuOrder
+          </Button>
         </Link>
         <Link href={ROUTES.brand.integrationsFashionCloud}>
-          <Button variant="ghost" size="sm">Fashion Cloud</Button>
+          <Button variant="ghost" size="sm">
+            Fashion Cloud
+          </Button>
         </Link>
         <Link href={ROUTES.brand.integrationsSparkLayer}>
-          <Button variant="ghost" size="sm">SparkLayer</Button>
+          <Button variant="ghost" size="sm">
+            SparkLayer
+          </Button>
         </Link>
         <Link href={ROUTES.brand.integrationsColect}>
-          <Button variant="ghost" size="sm">Colect</Button>
+          <Button variant="ghost" size="sm">
+            Colect
+          </Button>
         </Link>
         <Link href={ROUTES.brand.integrationsZedonk}>
-          <Button variant="ghost" size="sm">Zedonk</Button>
+          <Button variant="ghost" size="sm">
+            Zedonk
+          </Button>
         </Link>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { AlertTriangle, Gavel, Store } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ROUTES } from '@/lib/routes';
 
 export interface ShortageItem {
   id: string;
@@ -43,30 +44,30 @@ export function MaterialsShortagePanel({
     <Card className={cn('border-amber-100 bg-amber-50/50', className)}>
       <CardHeader className="p-4 pb-2">
         <div className="flex items-center gap-2">
-          <AlertTriangle className="w-5 h-5 text-amber-600" />
+          <AlertTriangle className="h-5 w-5 text-amber-600" />
           <CardTitle className="text-sm font-black uppercase tracking-widest text-amber-900">
             Нехватка сырья
           </CardTitle>
-          <Badge variant="outline" className="text-[9px] border-amber-200 text-amber-700">
+          <Badge variant="outline" className="border-amber-200 text-[9px] text-amber-700">
             {shortageItems.length}
           </Badge>
         </div>
-        <p className="text-[10px] text-amber-700/80 font-bold uppercase mt-1">
+        <p className="mt-1 text-[10px] font-bold uppercase text-amber-700/80">
           Ищите в аукционах и предложениях поставщиков — сравнение цен и ценообразования
         </p>
       </CardHeader>
-      <CardContent className="p-4 pt-0 space-y-3">
+      <CardContent className="space-y-3 p-4 pt-0">
         {shortageItems.map((item) => {
           const def = item.needed - (item.stock || 0) - (item.inPurchase || 0);
           const searchQuery = item.name;
           return (
             <div
               key={item.id}
-              className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 bg-white rounded-xl border border-amber-100 hover:border-amber-200 transition-colors"
+              className="flex flex-col justify-between gap-2 rounded-xl border border-amber-100 bg-white p-3 transition-colors hover:border-amber-200 sm:flex-row sm:items-center"
             >
               <div className="space-y-0.5">
-                <p className="text-[11px] font-bold text-slate-900">{item.name}</p>
-                <div className="flex items-center gap-2 text-[9px] font-bold text-slate-500 uppercase">
+                <p className="text-text-primary text-[11px] font-bold">{item.name}</p>
+                <div className="text-text-secondary flex items-center gap-2 text-[9px] font-bold uppercase">
                   <span>{CATEGORY_LABELS[item.category]}</span>
                   <span>·</span>
                   <span className="text-amber-600">
@@ -75,40 +76,50 @@ export function MaterialsShortagePanel({
                   {item.collection && (
                     <>
                       <span>·</span>
-                      <Badge variant="outline" className="text-[8px] border-slate-200">
+                      <Badge variant="outline" className="border-border-default text-[8px]">
                         {item.collection}
                       </Badge>
                     </>
                   )}
                 </div>
-                <p className="text-[9px] text-slate-400">
+                <p className="text-text-muted text-[9px]">
                   Остаток: {item.stock} {item.unit} · В закупке: {item.inPurchase ?? 0} {item.unit}
                 </p>
               </div>
-              <div className="flex gap-1.5 shrink-0">
+              <div className="flex shrink-0 gap-1.5">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="h-8 text-[9px] font-bold uppercase gap-1 rounded-lg border-amber-200 text-amber-700 hover:bg-amber-50"
+                  className="h-8 gap-1 rounded-lg border-amber-200 text-[9px] font-bold uppercase text-amber-700 hover:bg-amber-50"
                   onClick={() => onSearchMarketplace(searchQuery)}
                 >
-                  <Store className="w-3.5 h-3.5" />
+                  <Store className="h-3.5 w-3.5" />
                   Маркетплейс
                 </Button>
                 {onSearchAuctions && (
-                  <Button variant="outline" size="sm" className="h-8 text-[9px] font-bold uppercase gap-1 rounded-lg border-indigo-200 text-indigo-700 hover:bg-indigo-50" onClick={() => onSearchAuctions(searchQuery)}>
-                    <Gavel className="w-3.5 h-3.5" />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-accent-primary/30 text-accent-primary hover:bg-accent-primary/10 h-8 gap-1 rounded-lg text-[9px] font-bold uppercase"
+                    onClick={() => onSearchAuctions(searchQuery)}
+                  >
+                    <Gavel className="h-3.5 w-3.5" />
                     Аукционы
                   </Button>
                 )}
-                <Button variant="ghost" size="sm" className="h-8 text-[9px] font-bold uppercase gap-1" asChild>
-                  <Link href="/brand/auctions">Аукционы бренда</Link>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 gap-1 text-[9px] font-bold uppercase"
+                  asChild
+                >
+                  <Link href={ROUTES.brand.auctions}>Аукционы бренда</Link>
                 </Button>
               </div>
             </div>
           );
         })}
-        <p className="text-[9px] text-amber-800/70 font-bold uppercase">
+        <p className="text-[9px] font-bold uppercase text-amber-800/70">
           Сравните предложения участников, поставщиков и производств по тканям и фурнитуре,
           совпадение материалов и ценообразование
         </p>

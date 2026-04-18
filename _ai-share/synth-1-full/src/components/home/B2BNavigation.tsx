@@ -1,10 +1,25 @@
-"use client";
+'use client';
 
-import { ArrowRight, BadgeCheck, ShieldCheck, Globe, Leaf, Scale, Database, Zap, ArrowUpRight, ChevronRight, Calculator, FileText, LayoutDashboard } from "lucide-react";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { b2bSections } from "./_fixtures/home-data";
-import { useUIState } from "@/providers/ui-state";
+import {
+  ArrowRight,
+  BadgeCheck,
+  ShieldCheck,
+  Globe,
+  Leaf,
+  Scale,
+  Database,
+  Zap,
+  ArrowUpRight,
+  ChevronRight,
+  Calculator,
+  FileText,
+  LayoutDashboard,
+} from 'lucide-react';
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
+import { b2bSections } from './_fixtures/home-data';
+import { useUIState } from '@/providers/ui-state';
+import { ROUTES } from '@/lib/routes';
 
 interface B2BNavigationProps {
   viewRole: string;
@@ -20,8 +35,8 @@ export function B2BNavigation({
   isScrolledDown,
 }: B2BNavigationProps) {
   const { isFlowMapOpen, isCalendarOpen, isMediaRadarOpen } = useUIState();
-  
-  if (viewRole !== "b2b") {
+
+  if (viewRole !== 'b2b') {
     return null;
   }
 
@@ -30,47 +45,47 @@ export function B2BNavigation({
     const element = document.getElementById(id);
     if (element) {
       const yOffset = -135;
-      const y =
-        element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: "smooth" });
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 
   const scrollToTopOrBottom = () => {
     if (isScrolledDown) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       window.scrollTo({
         top: document.documentElement.scrollHeight,
-        behavior: "smooth",
+        behavior: 'smooth',
       });
     }
   };
 
   return (
-    <div className={cn(
-      "sticky top-[var(--header-height,48px)] z-30 w-full bg-white/90 backdrop-blur-xl border-b border-slate-200 shadow-sm py-3 transition-all duration-300",
-      (isFlowMapOpen || isCalendarOpen || isMediaRadarOpen) && "opacity-0 pointer-events-none -translate-y-full"
-    )}>
-      <div className="container mx-auto px-14">
+    <div
+      className={cn(
+        'border-border-default sticky top-[var(--header-height,48px)] z-30 w-full border-b bg-white/90 py-3 shadow-sm backdrop-blur-xl transition-all duration-300',
+        (isFlowMapOpen || isCalendarOpen || isMediaRadarOpen) &&
+          'pointer-events-none -translate-y-full opacity-0'
+      )}
+    >
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-14">
         <div className="flex items-center gap-1.5">
           {b2bSections.map((section) => (
             <button
               key={section.id}
               onClick={() => scrollToSection(section.id)}
               className={cn(
-                "flex-1 px-1.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wide transition-all whitespace-nowrap border flex items-center justify-center gap-1.5 group",
-                activeB2BSection === section.id
-                  ? "btn-tab-active"
-                  : "btn-tab-inactive-light",
+                'group flex flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border px-1.5 py-2.5 text-xs font-bold uppercase tracking-wide transition-all',
+                activeB2BSection === section.id ? 'btn-tab-active' : 'btn-tab-inactive-light'
               )}
             >
               <section.icon
                 className={cn(
-                  "h-3 w-3 transition-transform shrink-0",
+                  'h-3 w-3 shrink-0 transition-transform',
                   activeB2BSection === section.id
-                    ? "text-white"
-                    : "text-slate-400 group-hover:text-slate-600",
+                    ? 'text-white'
+                    : 'text-text-muted group-hover:text-text-secondary'
                 )}
               />
               <span className="truncate">{section.label}</span>
@@ -78,8 +93,8 @@ export function B2BNavigation({
           ))}
 
           <Link
-            href="/brand/control-center"
-            className="shrink-0 px-3 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wide border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-all flex items-center justify-center gap-1.5"
+            href={ROUTES.brand.controlCenter}
+            className="border-accent-primary/30 bg-accent-primary/10 text-accent-primary hover:bg-accent-primary/15 flex shrink-0 items-center justify-center gap-1.5 rounded-xl border px-3 py-2.5 text-xs font-bold uppercase tracking-wide transition-all"
           >
             <LayoutDashboard className="h-3 w-3" />
             <span>Brand Center</span>
@@ -87,13 +102,13 @@ export function B2BNavigation({
 
           <button
             onClick={scrollToTopOrBottom}
-            className="h-9 w-9 rounded-xl bg-black text-white hover:bg-slate-800 flex items-center justify-center shadow-lg hover:shadow-xl group shrink-0 ml-1 button-glimmer button-professional"
-            title={isScrolledDown ? "Наверх" : "Вниз"}
+            className="hover:bg-text-primary/90 button-glimmer button-professional group ml-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-black text-white shadow-lg hover:shadow-xl"
+            title={isScrolledDown ? 'Наверх' : 'Вниз'}
           >
             <ArrowRight
               className={cn(
-                "h-4 w-4 transition-transform duration-500",
-                isScrolledDown ? "-rotate-90" : "rotate-90",
+                'h-4 w-4 transition-transform duration-500',
+                isScrolledDown ? '-rotate-90' : 'rotate-90'
               )}
             />
           </button>

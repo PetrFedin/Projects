@@ -13,7 +13,9 @@ export function parseSketchPinAtMentions(body: string): string[] {
 }
 
 function newCommentId(): string {
-  return typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `c-${Date.now()}`;
+  return typeof crypto !== 'undefined' && crypto.randomUUID
+    ? crypto.randomUUID()
+    : `c-${Date.now()}`;
 }
 
 export function appendSketchPinComment(

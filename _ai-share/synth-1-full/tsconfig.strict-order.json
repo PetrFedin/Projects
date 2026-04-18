@@ -1,0 +1,34 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/lib/auth/b2b-v1-api-guard.ts",
+    "src/lib/auth/b2b-v1-api-client-headers.ts",
+    "src/lib/runtime/env-safety-warnings.ts",
+    "src/lib/server/observe-api-route.ts",
+    "src/lib/order/b2b-operational-orders-response.schema.ts",
+    "src/lib/order/b2b-orders-list-read-model.ts",
+    "src/lib/order/operational-order-dto.ts",
+    "src/lib/order/operational-order-dto.schema.ts",
+    "src/lib/order/v1/**/*.ts",
+    "src/hooks/use-b2b-operational-orders-list.ts",
+    "src/hooks/use-b2b-operational-order-row.ts",
+    "src/hooks/use-articles-v1-list.ts",
+    "src/lib/article/v1/**/*.ts",
+    "src/app/api/b2b/operational-orders/**/*.ts",
+    "src/app/api/b2b/v1/**/*.ts",
+    "src/app/api/shop/cart/route.ts",
+    "src/app/api/shop/inventory/stock-upload/route.ts",
+    "src/app/api/shop/orders/route.ts",
+    "src/app/api/shop/session/route.ts",
+    "src/app/api/realtime/poll/route.ts",
+    "src/app/api/processes/route.ts",
+    "src/app/api/processes/[processId]/events/route.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    "src/**/__tests__/**",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx"
+  ]
+}

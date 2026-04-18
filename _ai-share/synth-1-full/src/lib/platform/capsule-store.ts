@@ -29,7 +29,10 @@ export function saveCapsuleToStorage(name: string, slots: (Product | null)[]) {
   localStorage.setItem(CAPSULE_STORAGE_KEY, JSON.stringify({ name, ids, ts: Date.now() }));
 }
 
-export function resolveCapsuleSlots(catalog: Product[], ids: (string | undefined)[]): (Product | null)[] {
+export function resolveCapsuleSlots(
+  catalog: Product[],
+  ids: (string | undefined)[]
+): (Product | null)[] {
   const byId = new Map(catalog.map((p) => [String(p.id), p]));
   return [0, 1, 2].map((i) => {
     const id = ids[i];
@@ -50,7 +53,12 @@ export function toCapsuleExport(name: string, slots: (Product | null)[]): Capsul
 export function parseCapsuleImport(raw: unknown): CapsuleExportV1 | null {
   if (!raw || typeof raw !== 'object') return null;
   const o = raw as Partial<CapsuleExportV1>;
-  if (o.version !== CAPSULE_EXPORT_VERSION || typeof o.name !== 'string' || !Array.isArray(o.productIds)) return null;
+  if (
+    o.version !== CAPSULE_EXPORT_VERSION ||
+    typeof o.name !== 'string' ||
+    !Array.isArray(o.productIds)
+  )
+    return null;
   return {
     version: CAPSULE_EXPORT_VERSION,
     exportedAt: typeof o.exportedAt === 'number' ? o.exportedAt : Date.now(),

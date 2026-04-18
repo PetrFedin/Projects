@@ -35,13 +35,13 @@ export function NotificationsCenter() {
         <Button
           variant="ghost"
           size="icon"
-          className="relative h-7 w-7 text-slate-900 hover:bg-slate-50 transition-colors"
+          className="text-text-primary hover:bg-bg-surface2 relative h-7 w-7 transition-colors"
         >
           <Bell className="h-3.5 w-3.5" />
           {unreadCount > 0 && (
             <Badge
               variant="destructive"
-              className="absolute -top-0.5 -right-0.5 h-4 min-w-4 flex items-center justify-center rounded-full px-1 text-[10px] font-bold"
+              className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold"
             >
               {unreadCount > 99 ? '99+' : unreadCount}
             </Badge>
@@ -49,13 +49,18 @@ export function NotificationsCenter() {
           <span className="sr-only">Уведомления</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[360px] p-0 rounded-xl border border-slate-200 shadow-xl">
-        <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
-          <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Уведомления</span>
+      <DropdownMenuContent
+        align="end"
+        className="border-border-default w-[360px] rounded-xl border p-0 shadow-xl"
+      >
+        <div className="border-border-subtle flex items-center justify-between border-b px-4 py-3">
+          <span className="text-text-secondary text-xs font-bold uppercase tracking-widest">
+            Уведомления
+          </span>
           {unreadCount > 0 && (
             <button
               onClick={markAllRead}
-              className="text-[10px] font-bold text-indigo-600 hover:underline uppercase tracking-wider"
+              className="text-accent-primary text-[10px] font-bold uppercase tracking-wider hover:underline"
             >
               Прочитать все
             </button>
@@ -63,7 +68,7 @@ export function NotificationsCenter() {
         </div>
         <ScrollArea className="max-h-[320px]">
           {notifications.length === 0 ? (
-            <div className="py-8 text-center text-slate-400 text-sm">Нет уведомлений</div>
+            <div className="text-text-muted py-8 text-center text-sm">Нет уведомлений</div>
           ) : (
             <ul className="py-1">
               {notifications.slice(0, 20).map((n) => (
@@ -73,38 +78,48 @@ export function NotificationsCenter() {
                       href={n.href}
                       onClick={() => markRead(n.id)}
                       className={cn(
-                        "block px-4 py-3 hover:bg-slate-50 transition-colors border-b border-slate-50 last:border-0",
-                        !n.read && "bg-indigo-50/50"
+                        'hover:bg-bg-surface2 border-border-subtle block border-b px-4 py-3 transition-colors last:border-0',
+                        !n.read && 'bg-accent-primary/10'
                       )}
                     >
                       <div className="flex items-start gap-2">
-                        <span className="text-[10px] font-bold uppercase text-slate-400 shrink-0">
+                        <span className="text-text-muted shrink-0 text-[10px] font-bold uppercase">
                           {typeLabels[n.type] || n.type}
                         </span>
                         <div className="min-w-0 flex-1">
-                          <p className="text-sm font-medium text-slate-900 leading-tight">{n.title}</p>
-                          {n.body && <p className="text-xs text-slate-500 mt-0.5 truncate">{n.body}</p>}
+                          <p className="text-text-primary text-sm font-medium leading-tight">
+                            {n.title}
+                          </p>
+                          {n.body && (
+                            <p className="text-text-secondary mt-0.5 truncate text-xs">{n.body}</p>
+                          )}
                         </div>
-                        {!n.read && <span className="h-2 w-2 rounded-full bg-indigo-500 shrink-0 mt-1.5" />}
+                        {!n.read && (
+                          <span className="bg-accent-primary mt-1.5 h-2 w-2 shrink-0 rounded-full" />
+                        )}
                       </div>
                     </Link>
                   ) : (
                     <div
                       className={cn(
-                        "px-4 py-3 border-b border-slate-50 last:border-0 cursor-pointer hover:bg-slate-50",
-                        !n.read && "bg-indigo-50/50"
+                        'border-border-subtle hover:bg-bg-surface2 cursor-pointer border-b px-4 py-3 last:border-0',
+                        !n.read && 'bg-accent-primary/10'
                       )}
                       onClick={() => markRead(n.id)}
                     >
                       <div className="flex items-start gap-2">
-                        <span className="text-[10px] font-bold uppercase text-slate-400 shrink-0">
+                        <span className="text-text-muted shrink-0 text-[10px] font-bold uppercase">
                           {typeLabels[n.type] || n.type}
                         </span>
                         <div className="min-w-0 flex-1">
-                          <p className="text-sm font-medium text-slate-900 leading-tight">{n.title}</p>
-                          {n.body && <p className="text-xs text-slate-500 mt-0.5">{n.body}</p>}
+                          <p className="text-text-primary text-sm font-medium leading-tight">
+                            {n.title}
+                          </p>
+                          {n.body && <p className="text-text-secondary mt-0.5 text-xs">{n.body}</p>}
                         </div>
-                        {!n.read && <span className="h-2 w-2 rounded-full bg-indigo-500 shrink-0 mt-1.5" />}
+                        {!n.read && (
+                          <span className="bg-accent-primary mt-1.5 h-2 w-2 shrink-0 rounded-full" />
+                        )}
                       </div>
                     </div>
                   )}

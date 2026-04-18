@@ -21,23 +21,27 @@ export function calculateLcaScore(product: Product): LcaScorecardV1 {
 
   const breakdown: Array<{ label: string; impact: number }> = [];
 
-  comp.forEach(c => {
+  comp.forEach((c) => {
     const mat = c.material.toLowerCase();
-    const pct = c.percentage / 100;
-    
+    const pct = (c.percentage ?? 0) / 100;
+
     // Find matching material or fallback to neutral
-    const impact = Object.entries(MATERIAL_IMPACT).find(([k]) => mat.includes(k))?.[1] || 
-                   { water: 500, co2: 3.0, score: 50 };
-    
+    const impact = Object.entries(MATERIAL_IMPACT).find(([k]) => mat.includes(k))?.[1] || {
+      water: 500,
+      co2: 3.0,
+      score: 50,
+    };
+
     water += impact.water * pct;
     co2 += impact.co2 * pct;
     totalScore += impact.score * pct;
     totalWeight += pct;
-    
+
     breakdown.push({ label: c.material, impact: Math.round(impact.score * pct) });
   });
 
-  if (totalWeight === 0) return { totalScore: 50, waterLiters: 500, co2Kg: 3.0, grade: 'C', breakdown: [] };
+  if (totalWeight === 0)
+    return { totalScore: 50, waterLiters: 500, co2Kg: 3.0, grade: 'C', breakdown: [] };
 
   const finalScore = Math.round(totalScore / totalWeight);
   let grade: LcaScorecardV1['grade'] = 'C';

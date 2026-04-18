@@ -56,23 +56,32 @@ export function sketchKindForLeaf(leaf: HandbookCategoryLeaf): CategorySketchKin
     }
     if (l2.includes('платья') || /(плать|сарафан)/.test(l3)) return 'apparel_dress';
     if (l2.includes('юбк') || l3.includes('юб')) return 'apparel_skirt';
-    if (l2.includes('рубаш') || l2.includes('блуз') || /(рубаш|блуз)/.test(l3)) return 'apparel_shirt';
+    if (l2.includes('рубаш') || l2.includes('блуз') || /(рубаш|блуз)/.test(l3))
+      return 'apparel_shirt';
     if (/(шорт|бермуд|бридж|капр)/.test(l3) || (l2.includes('шорт') && !l2.includes('рубаш'))) {
       return 'apparel_shorts';
     }
-    if (l2.includes('брюк') || l2.includes('джинс') || /(брюк|джинс|чинос|легинс|джоггер)/.test(l3)) {
+    if (
+      l2.includes('брюк') ||
+      l2.includes('джинс') ||
+      /(брюк|джинс|чинос|легинс|джоггер)/.test(l3)
+    ) {
       return 'apparel_pants';
     }
     if (
       l2.includes('верхняя одежда') ||
-      l2.includes('верхняя') && l2.includes('одежд') ||
+      (l2.includes('верхняя') && l2.includes('одежд')) ||
       /(пальт|тренч|парки|пуховик|куртк|бомбер|ветровк|плащ|дождевик|пончо|лайнер|подст|худи|толстовк|анорак|виндстопер|дафлкот|шинел|оверкот|парка|windbreaker|coat|jacket)/.test(
         l3
       )
     ) {
       return 'apparel_outerwear';
     }
-    if (l2.includes('топ') || l2.includes('футбол') || /(топ|футбол|майк|поло|кроп|кардиган|джемпер|пуловер|водолазк|свитер|лонгслив)/.test(l3)) {
+    if (
+      l2.includes('топ') ||
+      l2.includes('футбол') ||
+      /(топ|футбол|майк|поло|кроп|кардиган|джемпер|пуловер|водолазк|свитер|лонгслив)/.test(l3)
+    ) {
       return 'apparel_top';
     }
     return 'apparel_top';
@@ -122,7 +131,10 @@ export function sketchFitVariantForContext(args: {
   return 'neutral';
 }
 
-function silhouetteGroupTransform(kind: CategorySketchKind, variant: CategorySketchFitVariant): string | undefined {
+function silhouetteGroupTransform(
+  kind: CategorySketchKind,
+  variant: CategorySketchFitVariant
+): string | undefined {
   const cx = 160;
   const cy = 125;
   const apparel =
@@ -226,12 +238,7 @@ export function CategorySketchTemplateSvg({
   );
 
   return (
-    <svg
-      viewBox="0 0 320 240"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden
-    >
+    <svg viewBox="0 0 320 240" className={className} xmlns="http://www.w3.org/2000/svg" aria-hidden>
       <rect width="320" height="240" fill={FILL} rx="8" />
       {xf ? <g transform={xf}>{inner}</g> : inner}
       <CategorySketchPathCaption leaf={leaf} />
@@ -333,7 +340,11 @@ function CategorySketchPathCaption({ leaf }: { leaf: HandbookCategoryLeaf }) {
         y="232"
         textAnchor="middle"
         fill="#0f766e"
-        style={{ fontSize: '9px', fontWeight: 600, fontFamily: 'system-ui, -apple-system, sans-serif' }}
+        style={{
+          fontSize: '9px',
+          fontWeight: 600,
+          fontFamily: 'system-ui, -apple-system, sans-serif',
+        }}
       >
         {clip(line2, 44)}
       </text>
@@ -494,7 +505,11 @@ function GenericPaths() {
       <path d="M122 52 L198 52 L208 80 L202 186 L118 186 L112 80 Z" />
       <path d="M122 52 Q160 42 198 52" />
       <path d="M112 84 L88 128 L78 176 M208 84 L232 128 L242 176" />
-      <path d="M136 92 L184 92 M134 124 L186 124 M132 156 L188 156" strokeDasharray="3 4" opacity={0.8} />
+      <path
+        d="M136 92 L184 92 M134 124 L186 124 M132 156 L188 156"
+        strokeDasharray="3 4"
+        opacity={0.8}
+      />
       <path d="M150 80 L170 80" strokeWidth="1.5" opacity={0.7} />
     </g>
   );

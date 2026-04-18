@@ -15,9 +15,7 @@ export const PASS_DB: Record<string, ProductPassport> = {
     originCountry: 'Italy',
     factoryName: 'Milan Silk Mills',
     factoryLocation: 'Milan, Italy',
-    composition: [
-      { material: 'Silk', percentage: 100 }
-    ],
+    composition: [{ material: 'Silk', percentage: 100 }],
     certifications: ['OEKO-TEX Standard 100', 'Fair Trade Certified'],
     manufactureDate: '2026-01-15',
     batchNumber: 'B-26-001',
@@ -25,10 +23,11 @@ export const PASS_DB: Record<string, ProductPassport> = {
     waterUsage: 2500,
     careInstructions: ['Dry Clean Only', 'Iron Low Heat', 'Do Not Bleach'],
     repairGuideUrl: 'https://synth1.fashion/care/silk-repair',
-    recyclingInstructions: 'Silk is a natural fiber and can be composted or recycled into high-quality textiles.',
+    recyclingInstructions:
+      'Silk is a natural fiber and can be composted or recycled into high-quality textiles.',
     resaleEligible: true,
     isAuthentic: true,
-    blockchainHash: '0x8872...f9e1'
+    blockchainHash: '0x8872...f9e1',
   },
   'PASS-1022': {
     id: 'PASS-1022',
@@ -40,7 +39,7 @@ export const PASS_DB: Record<string, ProductPassport> = {
     factoryLocation: 'Istanbul, Turkey',
     composition: [
       { material: 'Organic Cotton', percentage: 95 },
-      { material: 'Elastane', percentage: 5 }
+      { material: 'Elastane', percentage: 5 },
     ],
     certifications: ['GOTS Organic', 'EAC'],
     manufactureDate: '2026-02-10',
@@ -50,8 +49,8 @@ export const PASS_DB: Record<string, ProductPassport> = {
     careInstructions: ['Machine Wash 30°C', 'Do Not Tumble Dry'],
     recyclingInstructions: 'Organic cotton can be mechanically recycled into insulation material.',
     resaleEligible: true,
-    isAuthentic: true
-  }
+    isAuthentic: true,
+  },
 };
 
 /**
@@ -73,7 +72,12 @@ export function generatePassportLink(id: string): string {
  */
 export const MATERIAL_SOURCES: Record<string, MaterialSource[]> = {
   'PASS-9921': [
-    { material: 'Raw Silk', origin: 'Como, Italy', supplier: 'Como Silk Group', sustainabilityScore: 92 },
-    { material: 'Dyes', origin: 'Switzerland', supplier: 'EcoColor AG', sustainabilityScore: 98 }
-  ]
+    {
+      material: 'Raw Silk',
+      origin: 'Como, Italy',
+      supplier: 'Como Silk Group',
+      sustainabilityScore: 92,
+    },
+    { material: 'Dyes', origin: 'Switzerland', supplier: 'EcoColor AG', sustainabilityScore: 98 },
+  ],
 };

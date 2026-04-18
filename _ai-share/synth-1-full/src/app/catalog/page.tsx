@@ -36,32 +36,29 @@ export default function CatalogPage() {
     return list;
   }, [searchQ, countryFilter, segmentFilter]);
 
-  const segments = useMemo(
-    () => [...new Set(CATALOG_BRANDS.map((b) => b.segment))].sort(),
-    []
-  );
+  const segments = useMemo(() => [...new Set(CATALOG_BRANDS.map((b) => b.segment))].sort(), []);
   const countries = useMemo(
     () => [...new Set(CATALOG_BRANDS.flatMap((b) => b.countryOfOrigin.split(' / ')))].sort(),
     []
   );
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="container max-w-6xl mx-auto px-4 py-8 pb-24">
+    <div className="bg-bg-surface2 min-h-screen">
+      <div className="container mx-auto max-w-6xl px-4 py-8 pb-24">
         <header className="mb-8">
-          <h1 className="text-3xl font-bold uppercase tracking-tight text-slate-900">
+          <h1 className="text-text-primary text-3xl font-bold uppercase tracking-tight">
             Каталог брендов
           </h1>
-          <p className="text-slate-600 mt-1">
+          <p className="text-text-secondary mt-1">
             Реальные бренды одежды: масс-маркет, премиум, люкс. Поиск и фильтры.
           </p>
         </header>
 
         <Card className="mb-8">
           <CardContent className="p-4">
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col gap-4 sm:flex-row">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <Search className="text-text-muted absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
                 <Input
                   placeholder="Поиск по названию, описанию, тегам..."
                   className="pl-9"
@@ -72,7 +69,7 @@ export default function CatalogPage() {
               <select
                 value={segmentFilter}
                 onChange={(e) => setSegmentFilter(e.target.value)}
-                className="rounded-lg border border-slate-200 px-4 py-2 text-sm min-w-[180px]"
+                className="border-border-default min-w-[180px] rounded-lg border px-4 py-2 text-sm"
               >
                 <option value="">Все сегменты</option>
                 {segments.map((s) => (
@@ -84,7 +81,7 @@ export default function CatalogPage() {
               <select
                 value={countryFilter}
                 onChange={(e) => setCountryFilter(e.target.value)}
-                className="rounded-lg border border-slate-200 px-4 py-2 text-sm min-w-[160px]"
+                className="border-border-default min-w-[160px] rounded-lg border px-4 py-2 text-sm"
               >
                 <option value="">Все страны</option>
                 {countries.map((c) => (
@@ -97,21 +94,22 @@ export default function CatalogPage() {
           </CardContent>
         </Card>
 
-        <div className="mb-4 flex items-center gap-2 text-slate-600">
+        <div className="text-text-secondary mb-4 flex items-center gap-2">
           <LayoutGrid className="h-4 w-4" />
           <span className="text-sm font-medium">
-            {filteredBrands.length} бренд{filteredBrands.length === 1 ? '' : filteredBrands.length < 5 ? 'а' : 'ов'}
+            {filteredBrands.length} бренд
+            {filteredBrands.length === 1 ? '' : filteredBrands.length < 5 ? 'а' : 'ов'}
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredBrands.map((brand) => (
             <CatalogBrandCard key={brand.id} brand={brand} />
           ))}
         </div>
 
         {filteredBrands.length === 0 && (
-          <div className="text-center py-16 text-slate-500">
+          <div className="text-text-secondary py-16 text-center">
             <p>Бренды не найдены. Попробуйте изменить фильтры.</p>
             <Button
               variant="outline"
@@ -145,33 +143,33 @@ function CatalogBrandCard({ brand }: { brand: CatalogBrand }) {
 
   return (
     <Link href={`/search?brand=${encodeURIComponent(brand.name)}`}>
-      <Card className="h-full overflow-hidden hover:shadow-lg hover:border-slate-300 transition-all duration-300 group">
-        <div className="relative aspect-[4/3] bg-slate-100 overflow-hidden">
+      <Card className="hover:border-border-default group h-full overflow-hidden transition-all duration-300 hover:shadow-lg">
+        <div className="bg-bg-surface2 relative aspect-[4/3] overflow-hidden">
           {brand.coverImage ? (
             <Image
               src={brand.coverImage}
               alt={brand.name}
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
               sizes="(max-width: 768px) 100vw, 33vw"
             />
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center text-4xl font-bold text-slate-300">
+            <div className="text-text-muted absolute inset-0 flex items-center justify-center text-4xl font-bold">
               {brand.name.slice(0, 2)}
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           <div className="absolute bottom-3 left-3 right-3">
-            <h3 className="font-bold text-lg text-white drop-shadow">{brand.name}</h3>
-            <p className="text-white/90 text-xs flex items-center gap-1 mt-0.5">
+            <h3 className="text-lg font-bold text-white drop-shadow">{brand.name}</h3>
+            <p className="mt-0.5 flex items-center gap-1 text-xs text-white/90">
               <MapPin className="h-3 w-3" />
               {brand.countryOfOrigin}
             </p>
           </div>
         </div>
         <CardContent className="p-4">
-          <p className="text-sm text-slate-600 line-clamp-2 mb-3">{brand.description}</p>
-          <div className="flex flex-wrap gap-1 mb-2">
+          <p className="text-text-secondary mb-3 line-clamp-2 text-sm">{brand.description}</p>
+          <div className="mb-2 flex flex-wrap gap-1">
             <Badge variant="secondary" className="text-[10px]">
               {brand.segment}
             </Badge>
@@ -179,9 +177,9 @@ function CatalogBrandCard({ brand }: { brand: CatalogBrand }) {
               {priceStr}
             </Badge>
           </div>
-          <div className="flex items-center justify-between text-xs text-slate-500">
+          <div className="text-text-secondary flex items-center justify-between text-xs">
             <span>{brand.categories.slice(0, 2).join(', ')}</span>
-            <ChevronRight className="h-4 w-4 text-indigo-500 group-hover:translate-x-1 transition-transform" />
+            <ChevronRight className="text-accent-primary h-4 w-4 transition-transform group-hover:translate-x-1" />
           </div>
         </CardContent>
       </Card>

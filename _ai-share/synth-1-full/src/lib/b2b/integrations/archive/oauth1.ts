@@ -34,11 +34,7 @@ export interface OAuth1Config {
 }
 
 /** Build Authorization header for OAuth 1.0a (HMAC-SHA1). */
-export function buildOAuth1Header(
-  method: string,
-  url: string,
-  config: OAuth1Config
-): string {
+export function buildOAuth1Header(method: string, url: string, config: OAuth1Config): string {
   const oauth: Record<string, string> = {
     oauth_consumer_key: config.consumerKey,
     oauth_token: config.token,

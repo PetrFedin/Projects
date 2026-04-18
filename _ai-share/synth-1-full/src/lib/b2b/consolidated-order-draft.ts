@@ -49,8 +49,13 @@ export function getConsolidatedDraft(): ConsolidatedDraft | null {
 }
 
 /** Итого по брендам: { brandId: { amount, units, cartByProductId } } */
-export function getTotalsByBrand(lines: ConsolidatedOrderLine[]): Record<string, { amount: number; units: number; cartByProductId: Record<string, number> }> {
-  const byBrand: Record<string, { amount: number; units: number; cartByProductId: Record<string, number> }> = {};
+export function getTotalsByBrand(
+  lines: ConsolidatedOrderLine[]
+): Record<string, { amount: number; units: number; cartByProductId: Record<string, number> }> {
+  const byBrand: Record<
+    string,
+    { amount: number; units: number; cartByProductId: Record<string, number> }
+  > = {};
   lines.forEach((line) => {
     const key = line.brandId;
     if (!byBrand[key]) {
@@ -58,7 +63,8 @@ export function getTotalsByBrand(lines: ConsolidatedOrderLine[]): Record<string,
     }
     byBrand[key].amount += line.lineTotal;
     byBrand[key].units += line.qty;
-    byBrand[key].cartByProductId[line.productId] = (byBrand[key].cartByProductId[line.productId] ?? 0) + line.qty;
+    byBrand[key].cartByProductId[line.productId] =
+      (byBrand[key].cartByProductId[line.productId] ?? 0) + line.qty;
   });
   return byBrand;
 }
@@ -88,7 +94,9 @@ export function saveConsolidatedDraft(draft: ConsolidatedDraft): void {
   save(draft);
 }
 
-export function addLineToConsolidatedDraft(line: Omit<ConsolidatedOrderLine, 'id' | 'lineTotal'>): ConsolidatedDraft {
+export function addLineToConsolidatedDraft(
+  line: Omit<ConsolidatedOrderLine, 'id' | 'lineTotal'>
+): ConsolidatedDraft {
   const draft = load();
   const lineTotal = line.qty * line.unitPrice;
   const newLine: ConsolidatedOrderLine = {
@@ -109,11 +117,13 @@ export function addLineToConsolidatedDraft(line: Omit<ConsolidatedOrderLine, 'id
 export function updateLineQty(lineId: string, qty: number): ConsolidatedDraft | null {
   const draft = load();
   if (!draft) return null;
-  const lines = draft.lines.map((l) => {
-    if (l.id !== lineId) return l;
-    const lineTotal = qty * l.unitPrice;
-    return { ...l, qty, lineTotal };
-  }).filter((l) => l.qty > 0);
+  const lines = draft.lines
+    .map((l) => {
+      if (l.id !== lineId) return l;
+      const lineTotal = qty * l.unitPrice;
+      return { ...l, qty, lineTotal };
+    })
+    .filter((l) => l.qty > 0);
   const newDraft = { ...draft, lines };
   save(newDraft);
   return newDraft;

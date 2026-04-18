@@ -10,10 +10,7 @@ import type {
  * Три слота совпадают с узлами пути L1→L2→L3 в справочнике.
  * В интерфейсе не показываем «шаг 1/2/3» — только смысл узла (один SKU, разная «ширина» формулировок).
  */
-export const BRANCH_CATALOG_SLOT_ROLE: Record<
-  1 | 2 | 3,
-  { label: string; hint: string }
-> = {
+export const BRANCH_CATALOG_SLOT_ROLE: Record<1 | 2 | 3, { label: string; hint: string }> = {
   1: {
     label: 'Линия',
     hint: 'Весь раздел каталога (например, всё «Одежда»): общие требования на линию.',
@@ -50,7 +47,9 @@ export function normalizeSketchAnnotation(
   };
 }
 
-export function createAnnotationTaskLine(annotation: Workshop2Phase1CategorySketchAnnotation): string {
+export function createAnnotationTaskLine(
+  annotation: Workshop2Phase1CategorySketchAnnotation
+): string {
   const pieces = [
     annotation.annotationType ? `[${annotation.annotationType}]` : '',
     annotation.priority ? `[${annotation.priority}]` : '',
@@ -62,10 +61,10 @@ export function createAnnotationTaskLine(annotation: Workshop2Phase1CategorySket
 export function hasMeaningfulTaskContent(task: Workshop2Phase1ProductionTaskDetail): boolean {
   return Boolean(
     task.whatToDo.trim() ||
-      task.improve.trim() ||
-      task.change.trim() ||
-      task.watchAttention.trim() ||
-      task.acceptanceCriteria?.trim()
+    task.improve.trim() ||
+    task.change.trim() ||
+    task.watchAttention.trim() ||
+    task.acceptanceCriteria?.trim()
   );
 }
 
@@ -202,7 +201,10 @@ export function buildTzAttributesDimensionsSnapshotText(
     for (const a of dossier.assignments) {
       const attr = a.attributeId ? getAttributeById(a.attributeId) : undefined;
       const label = attr?.name ?? a.customProposed?.label ?? a.attributeId ?? '—';
-      const vals = a.values.map((v) => v.displayLabel).filter(Boolean).join('; ');
+      const vals = a.values
+        .map((v) => v.displayLabel)
+        .filter(Boolean)
+        .join('; ');
       lines.push(`• ${label}: ${vals || '—'}`);
     }
   }
@@ -218,7 +220,9 @@ export function buildTzAttributesDimensionsSnapshotText(
       }
     }
   } else {
-    lines.push('(таблица мерок пуста — задайте базовый размер и мерки в соответствующем блоке досье)');
+    lines.push(
+      '(таблица мерок пуста — задайте базовый размер и мерки в соответствующем блоке досье)'
+    );
   }
 
   const ranges = dossier.sampleBasePerSizeDimensionRanges;

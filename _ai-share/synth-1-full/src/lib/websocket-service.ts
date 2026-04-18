@@ -3,7 +3,7 @@
  * Connects to NEXT_PUBLIC_WS_URL when set, falls back to polling.
  */
 
-export type WsEventType = 'order' | 'qc' | 'edo' | 'sla' | 'payment' | 'po' | 'system';
+export type WsEventType = 'order' | 'qc' | 'edo' | 'sla' | 'payment' | 'po' | 'system' | 'ping';
 
 export interface WsEvent {
   type: WsEventType;
@@ -55,7 +55,8 @@ function connect(url: string) {
     ws.onopen = () => {
       clearTimers();
       pingInterval = setInterval(() => {
-        ws?.readyState === WebSocket.OPEN && ws.send(JSON.stringify({ type: 'ping', ts: new Date().toISOString() }));
+        ws?.readyState === WebSocket.OPEN &&
+          ws.send(JSON.stringify({ type: 'ping', ts: new Date().toISOString() }));
       }, PING_INTERVAL);
     };
     ws.onmessage = (e) => {

@@ -29,22 +29,18 @@ export function EmptyState({
   return (
     <Card className="border-dashed">
       <CardContent className="flex flex-col items-center justify-center py-12">
-        <Icon className="h-12 w-12 text-muted-foreground mb-4" />
-        <h3 className="text-sm font-semibold mb-2">{title}</h3>
-        <p className="text-muted-foreground text-center mb-6 max-w-md">
-          {description}
-        </p>
-        {actionLabel && (
-          actionHref ? (
+        <Icon className="mb-4 h-12 w-12 text-muted-foreground" />
+        <h3 className="mb-2 text-sm font-semibold">{title}</h3>
+        <p className="mb-6 max-w-md text-center text-muted-foreground">{description}</p>
+        {actionLabel &&
+          (actionHref ? (
             <Button asChild>
               <Link href={actionHref}>{actionLabel}</Link>
             </Button>
           ) : onAction ? (
             <Button onClick={onAction}>{actionLabel}</Button>
-          ) : null
-        )}
+          ) : null)}
       </CardContent>
     </Card>
   );
 }
-

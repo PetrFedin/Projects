@@ -9,15 +9,15 @@ import { SizeAvailabilityStatus } from '../types';
  * Модель вычисляемой коммерческой проекции продаваемости.
  */
 
-export type AvailabilityStatus = 
-  | 'NOT_VISIBLE'      // Нет права/публикации
-  | 'PREVIEW'          // Показ без возможности заказа
-  | 'PREORDER'         // Режим предзаказа
-  | 'READY_TO_ORDER'   // Можно оформить (B2B/Retail)
-  | 'IN_STOCK'         // Достаточно ATP
-  | 'LIMITED'          // Низкий остаток
-  | 'ON_HOLD'          // Временный запрет (compliance/hold)
-  | 'OUT_OF_STOCK';    // Нет в наличии
+export type AvailabilityStatus =
+  | 'NOT_VISIBLE' // Нет права/публикации
+  | 'PREVIEW' // Показ без возможности заказа
+  | 'PREORDER' // Режим предзаказа
+  | 'READY_TO_ORDER' // Можно оформить (B2B/Retail)
+  | 'IN_STOCK' // Достаточно ATP
+  | 'LIMITED' // Низкий остаток
+  | 'ON_HOLD' // Временный запрет (compliance/hold)
+  | 'OUT_OF_STOCK'; // Нет в наличии
 
 export interface AvailabilityInput {
   article: ArticleAggregate;
@@ -94,9 +94,13 @@ export function orchestrateSupplyChain(input: OrchestrationInput): Orchestration
   const { sku, tenantId, grains, orders, safetyStock } = input;
   const actions: OrchestrationAction[] = [];
 
-  const tenantGrains = grains.filter(g => g.tenantId === tenantId && g.sku === sku);
-  const atpB2C = tenantGrains.filter(g => g.channelId === 'b2c').reduce((acc, g) => acc + g.quantity, 0);
-  const atpB2B = tenantGrains.filter(g => g.channelId === 'b2b' || !g.channelId).reduce((acc, g) => acc + g.quantity, 0);
+  const tenantGrains = grains.filter((g) => g.tenantId === tenantId && g.sku === sku);
+  const atpB2C = tenantGrains
+    .filter((g) => g.channelId === 'b2c')
+    .reduce((acc, g) => acc + g.quantity, 0);
+  const atpB2B = tenantGrains
+    .filter((g) => g.channelId === 'b2b' || !g.channelId)
+    .reduce((acc, g) => acc + g.quantity, 0);
 
   // 1. Авто-ребалансировка при дефиците в B2C
   if (atpB2C < safetyStock && atpB2B > safetyStock) {
@@ -106,17 +110,19 @@ export function orchestrateSupplyChain(input: OrchestrationInput): Orchestration
       fromChannel: 'b2b',
       toChannel: 'b2c',
       quantity: safetyStock - atpB2C,
-      reason: 'B2C stock below safety threshold, B2B has surplus'
+      reason: 'B2C stock below safety threshold, B2B has surplus',
     });
   }
 
   // 2. Управление приоритетами при высоком спросе
-  const pendingB2BOrders = orders.filter(o => o.status === 'pending_approval' && o.mode === 'buy_now').length;
+  const pendingB2BOrders = orders.filter(
+    (o) => o.status === 'pending_approval' && o.mode === 'buy_now'
+  ).length;
   if (pendingB2BOrders > 5 && atpB2B < safetyStock * 2) {
     actions.push({
       type: 'priority_shift',
       sku,
-      reason: 'High B2B demand detected, shifting fulfillment priority'
+      reason: 'High B2B demand detected, shifting fulfillment priority',
     });
   }
 
@@ -125,7 +131,7 @@ export function orchestrateSupplyChain(input: OrchestrationInput): Orchestration
     actions.push({
       type: 'quota_adjustment',
       sku,
-      reason: 'Critical stock levels in all channels, reducing preorder quotas'
+      reason: 'Critical stock levels in all channels, reducing preorder quotas',
     });
   }
 
@@ -135,7 +141,7 @@ export function orchestrateSupplyChain(input: OrchestrationInput): Orchestration
     actions.push({
       type: 'priority_shift',
       sku,
-      reason: `High Lead Time (${leadTime} days) detected, prioritizing existing stock for B2C`
+      reason: `High Lead Time (${leadTime} days) detected, prioritizing existing stock for B2C`,
     });
   }
 
@@ -157,7 +163,7 @@ export function calculateAvailability(input: AvailabilityInput): AvailabilityOut
       riskLevel: 'blocked',
       reasons: ['ARTICLE_NOT_PUBLISHED'],
       quantityHints: { atp: 0 },
-      publicStatus: 'out_of_stock'
+      publicStatus: 'out_of_stock',
     };
   }
 
@@ -166,11 +172,14 @@ export function calculateAvailability(input: AvailabilityInput): AvailabilityOut
     grains: inventoryGrains,
     channelId: policy.channelId,
     actorId: context?.actorId,
-    actorType: (context?.actorRole === 'brand' || context?.actorRole === 'shop') ? context.actorRole as 'brand' | 'shop' : undefined,
+    actorType:
+      context?.actorRole === 'brand' || context?.actorRole === 'shop'
+        ? (context.actorRole as 'brand' | 'shop')
+        : undefined,
     tenantId: context?.tenantId,
     strictIsolation: !!context?.tenantId,
     agreementId: context?.virtualPoolId, // [Phase 3] Виртуальный пул как соглашение
-    safetyStock: policy.channelId === 'b2c' ? 10 : 0 // [Phase 2 Prod] Учет страхового запаса
+    safetyStock: policy.channelId === 'b2c' ? 10 : 0, // [Phase 2 Prod] Учет страхового запаса
   });
 
   // 3. Логика статусов
@@ -180,7 +189,7 @@ export function calculateAvailability(input: AvailabilityInput): AvailabilityOut
   if (atp > 0) {
     status = atp < policy.lowStockThreshold ? 'LIMITED' : 'IN_STOCK';
     publicStatus = 'in_stock';
-    
+
     if (atp < policy.lowStockThreshold) {
       riskLevel = 'medium';
       reasons.push('LOW_STOCK');
@@ -188,7 +197,7 @@ export function calculateAvailability(input: AvailabilityInput): AvailabilityOut
   } else if (policy.allowPreorder) {
     // 3.1. Проверка квот предзаказа
     const currentPreorders = orders
-      .filter(o => o.mode === 'pre_order' && o.status !== 'cancelled')
+      .filter((o) => o.mode === 'pre_order' && o.status !== 'cancelled')
       .reduce((acc, o) => acc + o.lines.reduce((lAcc, l) => lAcc + l.quantity, 0), 0);
 
     if (policy.preorderQuota && currentPreorders >= policy.preorderQuota) {
@@ -200,7 +209,7 @@ export function calculateAvailability(input: AvailabilityInput): AvailabilityOut
       status = 'PREORDER';
       publicStatus = 'pre_order';
       reasons.push('STOCK_OUT_PREORDER_ENABLED');
-      
+
       if (policy.preorderQuota && currentPreorders > policy.preorderQuota * 0.8) {
         riskLevel = 'medium';
         reasons.push('PREORDER_QUOTA_LOW');
@@ -209,7 +218,7 @@ export function calculateAvailability(input: AvailabilityInput): AvailabilityOut
   }
 
   // 4. Compliance Hold (КИЗ)
-  const hasComplianceHold = inventoryGrains.some(g => g.complianceConstrained);
+  const hasComplianceHold = inventoryGrains.some((g) => g.complianceConstrained);
   if (hasComplianceHold && atp === 0 && status !== 'PREORDER') {
     status = 'ON_HOLD';
     riskLevel = 'high';
@@ -222,10 +231,20 @@ export function calculateAvailability(input: AvailabilityInput): AvailabilityOut
     reasons,
     quantityHints: {
       atp,
-      preorderCap: policy.preorderQuota ? Math.max(0, policy.preorderQuota - (orders.filter(o => o.mode === 'pre_order' && o.status !== 'cancelled').reduce((acc, o) => acc + o.lines.reduce((lAcc, l) => lAcc + l.quantity, 0), 0))) : undefined,
+      preorderCap: policy.preorderQuota
+        ? Math.max(
+            0,
+            policy.preorderQuota -
+              orders
+                .filter((o) => o.mode === 'pre_order' && o.status !== 'cancelled')
+                .reduce((acc, o) => acc + o.lines.reduce((lAcc, l) => lAcc + l.quantity, 0), 0)
+          )
+        : undefined,
       /** [Phase 2 Prod] Расчетное время ожидания */
-      leadTimeDays: context?.expectedShipDate ? undefined : calculateLeadTime({ baseDays: 14, bufferDays: 3, factoryCongestionFactor: 1.1 })
+      leadTimeDays: context?.expectedShipDate
+        ? undefined
+        : calculateLeadTime({ baseDays: 14, bufferDays: 3, factoryCongestionFactor: 1.1 }),
     },
-    publicStatus
+    publicStatus,
   };
 }

@@ -9,16 +9,28 @@ import { SectionInfoCard } from '@/components/brand/production/ProductionSection
 import { CloudRain, Thermometer, Sun, Target, Package } from 'lucide-react';
 import { getProductLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
 
 export default function WeatherCollectionsPage() {
-  const [weather, setWeather] = useState<{ temperature: number; precipitation: number; weatherCode: number } | null>(null);
+  const [weather, setWeather] = useState<{
+    temperature: number;
+    precipitation: number;
+    weatherCode: number;
+  } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('/api/ai/weather')
       .then((r) => r.json())
-      .then((d) => { setWeather(d); setLoading(false); })
-      .catch(() => { setWeather({ temperature: 15, precipitation: 0, weatherCode: 0 }); setLoading(false); });
+      .then((d) => {
+        setWeather(d);
+        setLoading(false);
+      })
+      .catch(() => {
+        setWeather({ temperature: 15, precipitation: 0, weatherCode: 0 });
+        setLoading(false);
+      });
   }, []);
 
   const temp = weather?.temperature ?? 15;
@@ -28,14 +40,22 @@ export default function WeatherCollectionsPage() {
   const isRainy = rain > 0.5;
 
   const recommendations = [
-    { when: isCold, text: 'Усилить верхнюю одежду и тёплый трикотаж в дропе', category: 'Outerwear' },
-    { when: isWarm && !isRainy, text: 'Добавить лёгкие ткани, шорты, футболки', category: 'Lightwear' },
+    {
+      when: isCold,
+      text: 'Усилить верхнюю одежду и тёплый трикотаж в дропе',
+      category: 'Outerwear',
+    },
+    {
+      when: isWarm && !isRainy,
+      text: 'Добавить лёгкие ткани, шорты, футболки',
+      category: 'Lightwear',
+    },
     { when: isRainy, text: 'Акцент на водозащитные ткани и аксессуары', category: 'Rain-ready' },
     { when: true, text: 'Базовый ассортимент Core сохранять в каждом дропе', category: 'Core' },
   ].filter((r) => r.when);
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
       <SectionInfoCard
         title="Weather-Driven Collections"
         description="Рекомендации по наполнению дропа на основе прогноза погоды и сезонности. Связь с Range Planner и ассортиментом."
@@ -44,49 +64,60 @@ export default function WeatherCollectionsPage() {
         iconColor="text-sky-600"
         badges={
           <>
-            <Badge variant="outline" className="text-[9px]">AI</Badge>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild>
-              <Link href="/brand/range-planner"><Target className="h-3 w-3 mr-1" /> Range Planner</Link>
+            <Badge variant="outline" className="text-[9px]">
+              AI
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.rangePlanner}>
+                <Target className="mr-1 h-3 w-3" /> Range Planner
+              </Link>
             </Button>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild>
-              <Link href="/brand/products">Products</Link>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.products}>Products</Link>
             </Button>
           </>
         }
       />
       <h1 className="text-2xl font-bold uppercase">Weather-Driven Collections</h1>
 
-      <Card className="rounded-xl border border-slate-200 shadow-sm bg-white">
+      <Card className="border-border-default rounded-xl border bg-white shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Thermometer className="h-5 w-5" /> Текущая погода (Москва)
           </CardTitle>
-          <CardDescription>Прогноз используется для рекомендаций по ассортименту дропа</CardDescription>
+          <CardDescription>
+            Прогноз используется для рекомендаций по ассортименту дропа
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {loading ? (
-            <p className="text-sm text-slate-500">Загрузка...</p>
+            <p className="text-text-secondary text-sm">Загрузка...</p>
           ) : (
             <div className="flex flex-wrap gap-4">
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-3">
+              <div className="bg-bg-surface2 border-border-default flex items-center gap-3 rounded-xl border p-4">
                 <Thermometer className="h-8 w-8 text-amber-500" />
                 <div>
-                  <p className="text-[10px] font-bold uppercase text-slate-500">Температура</p>
+                  <p className="text-text-secondary text-[10px] font-bold uppercase">Температура</p>
                   <p className="text-2xl font-black">{temp} °C</p>
                 </div>
               </div>
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-3">
+              <div className="bg-bg-surface2 border-border-default flex items-center gap-3 rounded-xl border p-4">
                 <CloudRain className="h-8 w-8 text-sky-500" />
                 <div>
-                  <p className="text-[10px] font-bold uppercase text-slate-500">Осадки</p>
+                  <p className="text-text-secondary text-[10px] font-bold uppercase">Осадки</p>
                   <p className="text-2xl font-black">{rain} mm</p>
                 </div>
               </div>
-              <div className="p-4 rounded-xl bg-sky-50 border border-sky-200 flex items-center gap-3">
+              <div className="flex items-center gap-3 rounded-xl border border-sky-200 bg-sky-50 p-4">
                 <Sun className="h-8 w-8 text-sky-600" />
                 <div>
-                  <p className="text-[10px] font-bold uppercase text-slate-500">Рекомендация</p>
-                  <p className="text-sm font-bold">{isCold ? 'Холодно' : isWarm ? 'Тепло' : 'Умеренно'}{isRainy ? ' · Дождь' : ''}</p>
+                  <p className="text-text-secondary text-[10px] font-bold uppercase">
+                    Рекомендация
+                  </p>
+                  <p className="text-sm font-bold">
+                    {isCold ? 'Холодно' : isWarm ? 'Тепло' : 'Умеренно'}
+                    {isRainy ? ' · Дождь' : ''}
+                  </p>
                 </div>
               </div>
             </div>
@@ -104,17 +135,25 @@ export default function WeatherCollectionsPage() {
         <CardContent>
           <ul className="space-y-2">
             {recommendations.map((r, i) => (
-              <li key={i} className="flex items-center gap-3 p-3 rounded-lg bg-white border border-slate-200">
-                <Badge variant="outline" className="text-[9px] shrink-0">{r.category}</Badge>
+              <li
+                key={i}
+                className="border-border-default flex items-center gap-3 rounded-lg border bg-white p-3"
+              >
+                <Badge variant="outline" className="shrink-0 text-[9px]">
+                  {r.category}
+                </Badge>
                 <span className="text-sm">{r.text}</span>
               </li>
             ))}
           </ul>
-          <p className="text-[10px] text-slate-500 mt-3">Данные погоды: Open-Meteo API. Интегрируйте с Range Planner для автоматического пересчёта долей Core/Trend/Novelty.</p>
+          <p className="text-text-secondary mt-3 text-[10px]">
+            Данные погоды: Open-Meteo API. Интегрируйте с Range Planner для автоматического
+            пересчёта долей Core/Trend/Novelty.
+          </p>
         </CardContent>
       </Card>
 
       <RelatedModulesBlock links={getProductLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

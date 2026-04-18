@@ -2,9 +2,13 @@ import type { Product } from '@/lib/types';
 import type { MarginSimulationV1 } from './types';
 
 /** Расчет маржинальности и прибыльности SKU (Инструмент мерчанта). */
-export function simulateMargin(product: Product, overrides?: Partial<MarginSimulationV1>): MarginSimulationV1 {
+export function simulateMargin(
+  product: Product,
+  overrides?: Partial<MarginSimulationV1>
+): MarginSimulationV1 {
   const retailPrice = overrides?.retailPrice ?? product.price;
-  const productionCost = overrides?.productionCost ?? (product.productionCost || Math.round(retailPrice * 0.25));
+  const productionCost =
+    overrides?.productionCost ?? (product.productionCost || Math.round(retailPrice * 0.25));
   const logisticsCost = overrides?.logisticsCost ?? Math.round(retailPrice * 0.08);
   const marketingCost = overrides?.marketingCost ?? Math.round(retailPrice * 0.12);
   const vatPct = overrides?.vatPct ?? 20;

@@ -47,7 +47,8 @@ export function getReplenishmentRecommendations(brandId?: string): Replenishment
 
   return filtered.map((l) => {
     const currentStock = mockCurrentStock(l.productId, l.sku);
-    const reorder = l.suggestedQty > 0 && (l.hint === 'increase' || (l.hint === 'same' && currentStock < 5));
+    const reorder =
+      l.suggestedQty > 0 && (l.hint === 'increase' || (l.hint === 'same' && currentStock < 5));
     const suggestedQty = reorder ? l.suggestedQty : 0;
     const action: 'reorder' | 'skip' = reorder ? 'reorder' : 'skip';
 

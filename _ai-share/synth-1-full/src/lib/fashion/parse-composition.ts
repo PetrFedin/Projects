@@ -28,3 +28,8 @@ export function compositionToPlainText(parts: CompositionPart[]): string {
     .map((p) => (p.percentage != null ? `${p.material} ${p.percentage}%` : p.material))
     .join(', ');
 }
+
+/** Нормализованная строка для поиска по материалам (учёт string | structured composition). */
+export function compositionSearchText(product: Product): string {
+  return compositionToPlainText(parseComposition(product)).toLowerCase();
+}

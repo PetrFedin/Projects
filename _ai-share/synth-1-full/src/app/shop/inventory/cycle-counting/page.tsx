@@ -9,6 +9,8 @@ import { Camera, ArrowLeft } from 'lucide-react';
 import { getCycleCountingLinks } from '@/lib/data/entity-links';
 import { listCycleCountSessions } from '@/lib/api';
 import type { CycleCountSession } from '@/lib/shop/cycle-counting';
+import { RegistryPageShell } from '@/components/design-system';
+import { ROUTES } from '@/lib/routes';
 
 const statusLabels: Record<CycleCountSession['status'], string> = {
   in_progress: 'В процессе',
@@ -25,14 +27,19 @@ export default function CycleCountingPage() {
   }, []);
 
   return (
-    <div className="container max-w-4xl py-6 space-y-6 pb-24">
+    <RegistryPageShell className="max-w-4xl space-y-6">
       <div className="flex items-center gap-3">
-        <Link href="/shop/inventory">
-          <Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button>
+        <Link href={ROUTES.shop.inventory}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Inventory Cycle Counting</h1>
-          <p className="text-slate-500 text-sm">Инвентаризация склада через камеру смартфона (~15 мин). Связь со складом и маркировкой (Russian Layer).</p>
+          <p className="text-text-secondary text-sm">
+            Инвентаризация склада через камеру смартфона (~15 мин). Связь со складом и маркировкой
+            (Russian Layer).
+          </p>
         </div>
       </div>
 
@@ -46,18 +53,31 @@ export default function CycleCountingPage() {
         </CardHeader>
         <CardContent className="space-y-2">
           {sessions.map((s) => (
-            <div key={s.id} className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            <div
+              key={s.id}
+              className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3"
+            >
               <div>
-                <p className="text-sm font-medium">Зона {s.zone} · {s.scannedCount} / {s.expectedCount}</p>
-                <p className="text-xs text-slate-500">
+                <p className="text-sm font-medium">
+                  Зона {s.zone} · {s.scannedCount} / {s.expectedCount}
+                </p>
+                <p className="text-text-secondary text-xs">
                   {s.completedAt ? `Завершена в ${s.completedAt.slice(11, 16)}` : 'В процессе'}
                   {s.markingVerified && ' · КИЗ проверен'}
                 </p>
               </div>
-              <Badge variant={s.status === 'completed' ? 'default' : 'secondary'} className="text-[10px]">{statusLabels[s.status]}</Badge>
+              <Badge
+                variant={s.status === 'completed' ? 'default' : 'secondary'}
+                className="text-[10px]"
+              >
+                {statusLabels[s.status]}
+              </Badge>
             </div>
           ))}
-          <p className="text-xs text-slate-400 mt-3">API: CYCLE_COUNTING_API — старт сессии, сканирование, завершение. Russian Layer: маркировка.</p>
+          <p className="text-text-muted mt-3 text-xs">
+            API: CYCLE_COUNTING_API — старт сессии, сканирование, завершение. Russian Layer:
+            маркировка.
+          </p>
         </CardContent>
       </Card>
 
@@ -70,12 +90,14 @@ export default function CycleCountingPage() {
           <ul className="flex flex-wrap gap-2">
             {links.map((l) => (
               <li key={l.href}>
-                <Button variant="outline" size="sm" className="text-xs" asChild><Link href={l.href}>{l.label}</Link></Button>
+                <Button variant="outline" size="sm" className="text-xs" asChild>
+                  <Link href={l.href}>{l.label}</Link>
+                </Button>
               </li>
             ))}
           </ul>
         </CardContent>
       </Card>
-    </div>
+    </RegistryPageShell>
   );
 }

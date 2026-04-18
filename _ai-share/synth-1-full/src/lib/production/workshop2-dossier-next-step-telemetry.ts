@@ -100,7 +100,9 @@ function readBufMap(): Record<string, W2NextStepBuffered> {
     const raw = sessionStorage.getItem(SS_KEY);
     if (!raw) return {};
     const p = JSON.parse(raw) as unknown;
-    return p && typeof p === 'object' && !Array.isArray(p) ? (p as Record<string, W2NextStepBuffered>) : {};
+    return p && typeof p === 'object' && !Array.isArray(p)
+      ? (p as Record<string, W2NextStepBuffered>)
+      : {};
   } catch {
     return {};
   }
@@ -136,6 +138,9 @@ export function w2UpsertNextStepMlBuffer(
   return entry;
 }
 
-export function w2ReadNextStepMlBuffer(collectionId: string, articleId: string): W2NextStepBuffered | null {
+export function w2ReadNextStepMlBuffer(
+  collectionId: string,
+  articleId: string
+): W2NextStepBuffered | null {
   return readBufMap()[articleKey(collectionId, articleId)] ?? null;
 }

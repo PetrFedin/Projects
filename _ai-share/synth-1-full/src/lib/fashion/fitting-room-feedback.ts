@@ -5,9 +5,15 @@ export function getFittingRoomFeedback(sku: string): FittingRoomFeedbackV1 {
   const seedRaw = sku.split('-')[1] || '100';
   let seed = parseInt(seedRaw, 10);
   if (isNaN(seed)) seed = sku.length * 19;
-  
-  const reasons = ['Fit issues', 'Color slightly off', 'Lining too thin', 'Length for taller person', 'Need more stretch'];
-  
+
+  const reasons = [
+    'Fit issues',
+    'Color slightly off',
+    'Lining too thin',
+    'Length for taller person',
+    'Need more stretch',
+  ];
+
   return {
     sku,
     rejectedCount: 45 + (seed % 100),

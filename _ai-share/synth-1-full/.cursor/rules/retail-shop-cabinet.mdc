@@ -1,0 +1,17 @@
+---
+description: Ритейл-кабинет /shop — навигация, RBAC, аналитика, ERP
+globs: src/app/shop/**/*,src/lib/data/shop-navigation*.ts,src/components/shop/**/*
+alwaysApply: false
+---
+
+# Retail Shop cabinet
+
+Перед изменениями в **`/shop`**, навигации или B2B-хабах читай **`docs/RETAIL_CABINET_FULL_PLAYBOOK.md`**. Общий контур разработки full (миграция, CI, entity-links): **`docs/FULL_APP_DEVELOPMENT.md`**.
+
+- Маршруты: только **`ROUTES`** из **`src/lib/routes.ts`**.
+- Сайдбар: **`shop-navigation-normalized.ts`** (подразделы **Аналитика**: розница + footfall; опт + отчёты/финансы; маржа + landed cost), RBAC **`profile-page-features.ts`** / **`rbac.ts`**.
+- Дашборд `/shop`: быстрые блоки **`retailer-b2b-dashboard.ts`**, перекрёстные роли — **`getShopB2bDashboardCrossRoleLinks()`** в **`entity-links.ts`** (держать в согласовании с **`ROUTES.shop`**).
+- Срезы + учёт: **`ShopAnalyticsSegmentErpStrip`** → **`ShopAnalyticsSegmentNav`** (розница / опт / маржа) + **`/api/shop/erp-sync-status`**.
+- Новая страница с финансами/аналитикой: полоса сегментов + блок **«См. также»** (`ROUTES.shop.analytics`, `analyticsFootfall`, хаб маржи **`/shop/b2b/margin-analysis`**: `margin-hub-retail-analytics-link`, `margin-hub-b2b-analytics-link`; на footfall: `shop-footfall-*`; кнопка **`B2bMarginAnalysisHubButton`** → `b2b-margin-analysis-hub-link`) и **`data-testid`** по образцу существующих `shop-b2b-*-retail-link`.
+- E2E: **`npm run test:e2e:shop-retail`** (`e2e/shop-erp-analytics-strip.spec.ts`); матрица demo: **`npm run test:e2e:verification`**.
+- Продукт: **`docs/shop-retailer-cabinet-roadmap.md`**.

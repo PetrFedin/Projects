@@ -11,7 +11,7 @@ export function estimateFabricWaste(product: Product): FabricWasteV1 {
     sku: product.sku,
     materialUsed: materialPerSku,
     estimatedWaste: baseWaste,
-    cutOptimizationScore: 100 - (baseWaste * 4),
+    cutOptimizationScore: 100 - baseWaste * 4,
     savedMaterialCo2: Math.round(materialPerSku * baseWaste * 0.1 * 10) / 10,
   };
 }

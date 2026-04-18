@@ -49,35 +49,39 @@ export default function ClientMyOutfitsPage() {
       outfit: o,
       thumbs: outfitPreviewUrls(o, catalog),
       catalogTotal: outfitCatalogSubtotal(o, catalog),
-      inCartTotal: subtotalForItems(cart.filter((item) => o.lineRefs.some((ref) => lineRefMatchesCartItem(ref, item)))),
+      inCartTotal: subtotalForItems(
+        cart.filter((item) => o.lineRefs.some((ref) => lineRefMatchesCartItem(ref, item)))
+      ),
     }));
   }, [savedCartOutfits, catalog, cart]);
 
   return (
-    <div className="container max-w-3xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
+    <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.client.home}>
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
         <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2">
-            <Shirt className="h-6 w-6 text-indigo-600" />
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
+            <Shirt className="text-accent-primary h-6 w-6" />
             Мои образы
           </h1>
-          <p className="text-slate-500 text-sm mt-0.5">
+          <p className="text-text-secondary mt-0.5 text-sm">
             Сохранённые наборы из корзины: сумма в каталоге и в текущей корзине.
           </p>
         </div>
       </div>
 
       {rows.length === 0 ? (
-        <Card className="border-slate-100">
+        <Card className="border-border-subtle">
           <CardContent className="py-12 text-center">
-            <Shirt className="h-12 w-12 text-slate-200 mx-auto mb-3" />
-            <p className="text-slate-500 font-medium">Пока нет сохранённых образов</p>
-            <p className="text-slate-400 text-sm mt-1">В корзине отметьте позиции и нажмите «В образ».</p>
+            <Shirt className="text-text-muted mx-auto mb-3 h-12 w-12" />
+            <p className="text-text-secondary font-medium">Пока нет сохранённых образов</p>
+            <p className="text-text-muted mt-1 text-sm">
+              В корзине отметьте позиции и нажмите «В образ».
+            </p>
             <Button className="mt-4" onClick={toggleCart}>
               Открыть корзину
             </Button>
@@ -87,31 +91,38 @@ export default function ClientMyOutfitsPage() {
         <ul className="space-y-4">
           {rows.map(({ outfit, thumbs, catalogTotal, inCartTotal }) => (
             <li key={outfit.id}>
-              <Card className="border-slate-100 overflow-hidden">
+              <Card className="border-border-subtle overflow-hidden">
                 <CardContent className="p-4">
                   <div className="flex gap-4">
-                    <div className="flex gap-1 shrink-0">
+                    <div className="flex shrink-0 gap-1">
                       {thumbs.length === 0 ? (
-                        <div className="h-20 w-16 rounded bg-slate-100 flex items-center justify-center text-slate-300 text-[10px] font-bold uppercase text-center px-1">
+                        <div className="bg-bg-surface2 text-text-muted flex h-20 w-16 items-center justify-center rounded px-1 text-center text-[10px] font-bold uppercase">
                           Нет фото
                         </div>
                       ) : (
                         thumbs.map((url, i) => (
-                          <div key={i} className="relative h-20 w-14 rounded overflow-hidden bg-slate-50 border border-slate-100">
+                          <div
+                            key={i}
+                            className="bg-bg-surface2 border-border-subtle relative h-20 w-14 overflow-hidden rounded border"
+                          >
                             <Image src={url} alt="" fill className="object-cover" sizes="56px" />
                           </div>
                         ))
                       )}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h2 className="font-bold text-lg leading-tight">{outfit.name}</h2>
-                      <p className="text-xs text-slate-500 mt-1">{outfit.lineRefs.length} поз. · по каталогу ~{catalogTotal.toLocaleString('ru-RU')} ₽</p>
+                    <div className="min-w-0 flex-1">
+                      <h2 className="text-lg font-bold leading-tight">{outfit.name}</h2>
+                      <p className="text-text-secondary mt-1 text-xs">
+                        {outfit.lineRefs.length} поз. · по каталогу ~
+                        {catalogTotal.toLocaleString('ru-RU')} ₽
+                      </p>
                       {inCartTotal > 0 && (
-                        <p className="text-xs font-bold text-indigo-700 mt-0.5 flex items-center gap-1">
-                          <Sparkles className="h-3 w-3" /> В корзине сейчас: {inCartTotal.toLocaleString('ru-RU')} ₽
+                        <p className="text-accent-primary mt-0.5 flex items-center gap-1 text-xs font-bold">
+                          <Sparkles className="h-3 w-3" /> В корзине сейчас:{' '}
+                          {inCartTotal.toLocaleString('ru-RU')} ₽
                         </p>
                       )}
-                      <div className="flex flex-wrap gap-2 mt-3">
+                      <div className="mt-3 flex flex-wrap gap-2">
                         <Button
                           size="sm"
                           variant="secondary"
@@ -120,8 +131,7 @@ export default function ClientMyOutfitsPage() {
                             void applyCartOutfitToCart(outfit.id);
                           }}
                         >
-                          <ShoppingCart className="h-3.5 w-3.5 mr-1" />
-                          В корзину
+                          <ShoppingCart className="mr-1 h-3.5 w-3.5" />В корзину
                         </Button>
                         <Button
                           size="sm"
@@ -137,10 +147,10 @@ export default function ClientMyOutfitsPage() {
                         <Button
                           size="sm"
                           variant="ghost"
-                          className="text-xs text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+                          className="text-xs text-rose-600 hover:bg-rose-50 hover:text-rose-700"
                           onClick={() => deleteCartOutfit(outfit.id)}
                         >
-                          <Trash2 className="h-3.5 w-3.5 mr-1" />
+                          <Trash2 className="mr-1 h-3.5 w-3.5" />
                           Удалить
                         </Button>
                       </div>

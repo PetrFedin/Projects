@@ -13,13 +13,15 @@ import {
 
 export function useChatState(initialRole?: string) {
   const searchParams = useSearchParams();
-  const [currentRole, setCurrentRole] = React.useState<UserRole>((initialRole as UserRole) || 'admin');
-  
+  const [currentRole, setCurrentRole] = React.useState<UserRole>(
+    (initialRole as UserRole) || 'admin'
+  );
+
   const filteredConversations = React.useMemo(() => {
-    return initialConversations.filter(chat => {
+    return initialConversations.filter((chat) => {
       // If admin, show everything
       if (currentRole === 'admin') return true;
-      
+
       // Check if current user can interact with the chat type/participants
       // Each chat has a 'type' property in our mock data which corresponds to the role it belongs to
       return canInteract(currentRole, chat.type as UserRole);
@@ -100,7 +102,7 @@ export function useChatState(initialRole?: string) {
   React.useEffect(() => {
     if (activeChatId) setMessages(messagesForChat(activeChatId));
   }, [activeChatId, messagesForChat]);
-  
+
   const [chatQuery, setChatQuery] = React.useState('');
   const [msgSearch, setMsgSearch] = React.useState('');
   const [tab, setTab] = React.useState<'feed' | 'tasks' | 'archived' | 'starred'>('feed');
@@ -108,7 +110,10 @@ export function useChatState(initialRole?: string) {
   const [composerText, setComposerText] = React.useState('');
   const [isPrivate, setIsPrivate] = React.useState(false);
 
-  const activeChat = React.useMemo(() => chats.find(c => c.id === activeChatId), [chats, activeChatId]);
+  const activeChat = React.useMemo(
+    () => chats.find((c) => c.id === activeChatId),
+    [chats, activeChatId]
+  );
 
   const switchChat = (nextId: ID) => {
     setActiveChatId(nextId);
@@ -128,24 +133,34 @@ export function useChatState(initialRole?: string) {
       isPrivate,
       createdAt: Date.now(),
     };
-    setMessages(prev => [...prev, newMessage]);
+    setMessages((prev) => [...prev, newMessage]);
     setComposerText('');
     setIsPrivate(false);
   };
 
   return {
-    currentRole, setCurrentRole,
-    chats, setChats,
-    activeChatId, setActiveChatId,
-    messages, setMessages,
-    chatQuery, setChatQuery,
-    msgSearch, setMsgSearch,
-    tab, setTab,
-    activeGroup, setActiveGroup,
+    currentRole,
+    setCurrentRole,
+    chats,
+    setChats,
+    activeChatId,
+    setActiveChatId,
+    messages,
+    setMessages,
+    chatQuery,
+    setChatQuery,
+    msgSearch,
+    setMsgSearch,
+    tab,
+    setTab,
+    activeGroup,
+    setActiveGroup,
     activeChat,
-    composerText, setComposerText,
-    isPrivate, setIsPrivate,
+    composerText,
+    setComposerText,
+    isPrivate,
+    setIsPrivate,
     onSendMessage,
-    switchChat
+    switchChat,
   };
 }

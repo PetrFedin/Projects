@@ -1,7 +1,9 @@
 import type { StaffShiftOptimizationV1 } from './types';
 
 /** Оптимизация графика персонала магазина (Store Staff AI). */
-export function getStaffShiftOptimization(storeId: string = 'STORE-MOSCOW-MAIN'): StaffShiftOptimizationV1 {
+export function getStaffShiftOptimization(
+  storeId: string = 'STORE-MOSCOW-MAIN'
+): StaffShiftOptimizationV1 {
   const seedRaw = storeId.split('-').pop() || '100';
   let seed = parseInt(seedRaw, 10);
   if (isNaN(seed)) seed = storeId.length * 7;

@@ -12,16 +12,16 @@ export function ProductOccasionBadges({ product }: Props) {
   if (occasions.length === 0) return null;
 
   return (
-    <div className="flex flex-wrap gap-1.5 mt-3">
-      <div className="flex items-center gap-1 mr-1 text-[10px] text-muted-foreground uppercase font-semibold">
+    <div className="mt-3 flex flex-wrap gap-1.5">
+      <div className="mr-1 flex items-center gap-1 text-[10px] font-semibold uppercase text-muted-foreground">
         <MapPin className="h-3 w-3" />
         Куда надеть:
       </div>
-      {occasions.map(o => (
-        <Badge 
-          key={o} 
-          variant="secondary" 
-          className="text-[10px] font-normal px-2 py-0 border-primary/20 bg-primary/5"
+      {occasions.map((o) => (
+        <Badge
+          key={o}
+          variant="secondary"
+          className="border-primary/20 bg-primary/5 px-2 py-0 text-[10px] font-normal"
         >
           {OCCASION_LABELS[o]}
         </Badge>

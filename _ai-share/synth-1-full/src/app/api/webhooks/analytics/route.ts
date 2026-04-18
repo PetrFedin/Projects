@@ -16,17 +16,17 @@ export async function POST(request: Request) {
         console.log('New order created:', data);
         // Триггер обновления Pipeline
         break;
-      
+
       case 'stock.low':
         console.log('Low stock alert:', data);
         // Триггер AI Risk Radar
         break;
-      
+
       case 'buyer.active':
         console.log('Buyer activity:', data);
         // Обновление Showroom Live
         break;
-      
+
       case 'cohort.retention':
         console.log('Cohort retention update:', data);
         // Обновление Cohort Analysis
@@ -36,10 +36,10 @@ export async function POST(request: Request) {
         console.log('Unknown event:', event);
     }
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       event,
-      processed_at: new Date().toISOString() 
+      processed_at: new Date().toISOString(),
     });
   } catch (error) {
     console.error('Webhook error:', error);

@@ -10,21 +10,21 @@ export interface BOMItem {
   colorCode?: string;
   consumptionPerUnit: number; // Расход на единицу
   unit: 'meters' | 'pcs' | 'kg';
-  wastageAllowance: number;   // % на брак/выпады (например, 0.05)
+  wastageAllowance: number; // % на брак/выпады (например, 0.05)
 }
 
 export interface GradingPoint {
-  measurementName: string;    // Название измерения (например, "Длина изделия")
+  measurementName: string; // Название измерения (например, "Длина изделия")
   values: Record<string, number>; // { "S": 70, "M": 72, "L": 74 }
-  tolerance: number;          // Допуск (+/- мм)
+  tolerance: number; // Допуск (+/- мм)
 }
 
 export interface SeamSpecification {
   id: string;
   name: string;
-  type: string;               // Тип шва
-  stitchPerCm: number;        // Стежков на см
-  threadId: string;           // ID ниток из BOM
+  type: string; // Тип шва
+  stitchPerCm: number; // Стежков на см
+  threadId: string; // ID ниток из BOM
   instruction?: string;
 }
 
@@ -36,8 +36,8 @@ export interface TechPack {
   bom: BOMItem[];
   grading: GradingPoint[];
   seams: SeamSpecification[];
-  patternsUrl?: string;       // Ссылка на DXF/AAMA лекала
-  attachments: { name: string, url: string }[];
+  patternsUrl?: string; // Ссылка на DXF/AAMA лекала
+  attachments: { name: string; url: string }[];
 }
 
 export interface ProductionOrderRequirement {

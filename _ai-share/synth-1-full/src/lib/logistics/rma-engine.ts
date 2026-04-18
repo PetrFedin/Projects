@@ -43,7 +43,7 @@ export class RMAEngine {
         restockQuantity: 0,
         reworkQuantity: 0,
         scrapQuantity: 0,
-        instructions: 'Return window expired (30 days).'
+        instructions: 'Return window expired (30 days).',
       };
     }
 
@@ -81,7 +81,7 @@ export class RMAEngine {
       restockQuantity,
       reworkQuantity,
       scrapQuantity,
-      instructions: `Please pack the items securely. Restock: ${restockQuantity}, Rework: ${reworkQuantity}, Scrap: ${scrapQuantity}.`
+      instructions: `Please pack the items securely. Restock: ${restockQuantity}, Rework: ${reworkQuantity}, Scrap: ${scrapQuantity}.`,
     };
   }
 }

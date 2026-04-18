@@ -6,8 +6,14 @@ import { fastApiService } from '@/lib/fastapi-service';
 import type { HealthMetric } from '@/app/brand/organization/page-data';
 import { BRAND_ID, HEALTH_OK, HEALTH_WARNING } from '@/app/brand/organization/organization-config';
 
-function computeProfileCompleteness(profile: any): { score: number; checklist: string[]; missing?: string[]; tips?: string } {
-  if (!profile || typeof profile !== 'object') return { score: 0, checklist: ['Нет данных профиля'], tips: 'Загрузите профиль бренда' };
+function computeProfileCompleteness(profile: any): {
+  score: number;
+  checklist: string[];
+  missing?: string[];
+  tips?: string;
+} {
+  if (!profile || typeof profile !== 'object')
+    return { score: 0, checklist: ['Нет данных профиля'], tips: 'Загрузите профиль бренда' };
   const brand = profile.brand || {};
   const legal = profile.legal || {};
   const contacts = profile.contacts || {};
@@ -34,13 +40,25 @@ function computeProfileCompleteness(profile: any): { score: number; checklist: s
   };
 }
 
-function computeIntegrationsHealth(integrations: any): { score: number; checklist: string[]; missing?: string[]; tips?: string } {
-  if (!integrations || typeof integrations !== 'object') return { score: 50, checklist: ['Статус интеграций неизвестен'], tips: 'Проверьте раздел Интеграции' };
+function computeIntegrationsHealth(integrations: any): {
+  score: number;
+  checklist: string[];
+  missing?: string[];
+  tips?: string;
+} {
+  if (!integrations || typeof integrations !== 'object')
+    return {
+      score: 50,
+      checklist: ['Статус интеграций неизвестен'],
+      tips: 'Проверьте раздел Интеграции',
+    };
   const entries = Object.entries(integrations) as [string, any][];
   const total = entries.length || 1;
   const ok = entries.filter(([, v]) => v?.status === 'ok').length;
   const score = Math.round((ok / total) * 100);
-  const list = entries.map(([k, v]) => `${k}: ${v?.status === 'ok' ? 'активна' : v?.status || 'ошибка'}`);
+  const list = entries.map(
+    ([k, v]) => `${k}: ${v?.status === 'ok' ? 'активна' : v?.status || 'ошибка'}`
+  );
   const errors = entries.filter(([, v]) => v?.status !== 'ok');
   const missing = errors.length ? errors.map(([k]) => k) : undefined;
   return {
@@ -59,7 +77,9 @@ function computeMarkingHealth(dashboard: any): { score: number; checklist: strin
     score,
     checklist: [
       status === 'ok' ? 'ЭДО активна' : 'Проверьте ЭДО',
-      (dashboard as any).markingLastSync ? `Синхр: ${(dashboard as any).markingLastSync}` : 'Синхронизация КИЗ',
+      (dashboard as any).markingLastSync
+        ? `Синхр: ${(dashboard as any).markingLastSync}`
+        : 'Синхронизация КИЗ',
     ],
   };
 }
@@ -94,12 +114,27 @@ export function useOrganizationHealth() {
       const api = apiRes.status === 'fulfilled' ? apiRes.value : null;
       const profileResVal = profileRes.status === 'fulfilled' ? profileRes.value : null;
       const dashboardResVal = dashboardRes.status === 'fulfilled' ? dashboardRes.value : null;
-      const integrationsResVal = integrationsRes.status === 'fulfilled' ? integrationsRes.value : null;
-      if (profileRes.status === 'rejected') setError(profileRes.reason instanceof Error ? profileRes.reason : new Error('Не удалось загрузить профиль'));
+      const integrationsResVal =
+        integrationsRes.status === 'fulfilled' ? integrationsRes.value : null;
+      if (profileRes.status === 'rejected')
+        setError(
+          profileRes.reason instanceof Error
+            ? profileRes.reason
+            : new Error('Не удалось загрузить профиль')
+        );
       setApiHealthData(api);
-      const p = profileResVal && typeof profileResVal === 'object' ? (profileResVal as any).data ?? profileResVal : profileResVal;
-      const d = dashboardResVal && typeof dashboardResVal === 'object' ? (dashboardResVal as any).data ?? dashboardResVal : dashboardResVal;
-      const i = integrationsResVal && typeof integrationsResVal === 'object' ? (integrationsResVal as any).data ?? integrationsResVal : integrationsResVal;
+      const p =
+        profileResVal && typeof profileResVal === 'object'
+          ? ((profileResVal as any).data ?? profileResVal)
+          : profileResVal;
+      const d =
+        dashboardResVal && typeof dashboardResVal === 'object'
+          ? ((dashboardResVal as any).data ?? dashboardResVal)
+          : dashboardResVal;
+      const i =
+        integrationsResVal && typeof integrationsResVal === 'object'
+          ? ((integrationsResVal as any).data ?? integrationsResVal)
+          : integrationsResVal;
       setProfile(p);
       setDashboard(d);
       setIntegrations(i);
@@ -116,7 +151,10 @@ export function useOrganizationHealth() {
 
   const metrics = useMemo((): HealthMetric[] => {
     const lastCheck = formatDate(new Date());
-    const api = apiHealthData && typeof apiHealthData === 'object' ? (apiHealthData as any)?.data ?? apiHealthData : null;
+    const api =
+      apiHealthData && typeof apiHealthData === 'object'
+        ? ((apiHealthData as any)?.data ?? apiHealthData)
+        : null;
 
     if (Array.isArray(api) && api.length > 0) {
       return api as HealthMetric[];
@@ -129,8 +167,13 @@ export function useOrganizationHealth() {
     const teamCount = user?.team?.length ?? 0;
     const teamScore = teamCount >= 5 ? 90 : teamCount >= 2 ? 75 : teamCount >= 1 ? 60 : 40;
 
-    const statusFrom = (s: number) => (s >= HEALTH_OK ? 'ok' : s >= HEALTH_WARNING ? 'warning' : 'critical') as 'ok' | 'warning' | 'critical';
-    const colorFrom = (s: number) => (s >= HEALTH_OK ? 'bg-emerald-500' : s >= HEALTH_WARNING ? 'bg-amber-500' : 'bg-rose-500');
+    const statusFrom = (s: number) =>
+      (s >= HEALTH_OK ? 'ok' : s >= HEALTH_WARNING ? 'warning' : 'critical') as
+        | 'ok'
+        | 'warning'
+        | 'critical';
+    const colorFrom = (s: number) =>
+      s >= HEALTH_OK ? 'bg-emerald-500' : s >= HEALTH_WARNING ? 'bg-amber-500' : 'bg-rose-500';
 
     return [
       {
@@ -141,7 +184,12 @@ export function useOrganizationHealth() {
         href: '/brand',
         trend: 0,
         status: statusFrom(profileHealth.score),
-        details: { lastCheck, checklist: profileHealth.checklist, missing: profileHealth.missing, tips: profileHealth.tips },
+        details: {
+          lastCheck,
+          checklist: profileHealth.checklist,
+          missing: profileHealth.missing,
+          tips: profileHealth.tips,
+        },
       },
       {
         label: 'Безопасность',
@@ -161,23 +209,37 @@ export function useOrganizationHealth() {
         href: '/brand/team',
         trend: 0,
         status: statusFrom(teamScore),
-        details: { lastCheck, checklist: teamCount ? [`${teamCount} в команде`] : [], missing: teamCount ? undefined : ['Добавьте участников в раздел Команда'] },
+        details: {
+          lastCheck,
+          checklist: teamCount ? [`${teamCount} в команде`] : [],
+          missing: teamCount ? undefined : ['Добавьте участников в раздел Команда'],
+        },
       },
       {
         label: 'Интеграции',
         score: integrationsHealth.score,
         color: colorFrom(integrationsHealth.score),
-        desc: integrations ? `${integrationsHealth.checklist.filter(c => c.includes('активна')).length} активных` : 'Проверьте статус',
+        desc: integrations
+          ? `${integrationsHealth.checklist.filter((c) => c.includes('активна')).length} активных`
+          : 'Проверьте статус',
         href: '/brand/integrations',
         trend: 0,
         status: statusFrom(integrationsHealth.score),
-        details: { lastCheck, checklist: integrationsHealth.checklist, missing: integrationsHealth.missing, tips: integrationsHealth.tips },
+        details: {
+          lastCheck,
+          checklist: integrationsHealth.checklist,
+          missing: integrationsHealth.missing,
+          tips: integrationsHealth.tips,
+        },
       },
       {
         label: 'ЭДО и маркировка',
         score: markingHealth.score,
         color: colorFrom(markingHealth.score),
-        desc: (dashboard as any)?.markingSyncStatus === 'ok' ? 'Честный ЗНАК, ЭДО' : 'Проверьте маркировку',
+        desc:
+          (dashboard as any)?.markingSyncStatus === 'ok'
+            ? 'Честный ЗНАК, ЭДО'
+            : 'Проверьте маркировку',
         href: '/brand/compliance',
         trend: 0,
         status: statusFrom(markingHealth.score),
@@ -216,7 +278,10 @@ export function useOrganizationHealth() {
     ];
   }, [apiHealthData, profile, dashboard, integrations, user?.team?.length]);
 
-  const overallHealth = useMemo(() => Math.round(metrics.reduce((s, m) => s + m.score, 0) / metrics.length), [metrics]);
+  const overallHealth = useMemo(
+    () => Math.round(metrics.reduce((s, m) => s + m.score, 0) / metrics.length),
+    [metrics]
+  );
   const lastCheck = metrics[0]?.details?.lastCheck ?? formatDate(new Date());
 
   return {

@@ -13,66 +13,86 @@ export function ProductWholesaleTierBlock({ product }: { product: Product }) {
   const profile = getWholesalePartnerProfile('PARTNER-RU-001');
 
   const tierColors = {
-    Diamond: 'bg-indigo-600 text-white shadow-indigo-200',
-    Platinum: 'bg-slate-700 text-white shadow-slate-200',
+    Diamond: 'bg-accent-primary text-white shadow-accent-primary/15',
+    Platinum: 'bg-text-primary/75 text-white shadow-md',
     Gold: 'bg-amber-500 text-white shadow-amber-200',
-    Silver: 'bg-slate-400 text-white shadow-slate-200',
+    Silver: 'bg-text-muted text-white shadow-md',
   };
 
   const limitUsage = Math.round((profile.unpaidInvoices / profile.creditLine) * 100);
 
   return (
-    <Card className="p-4 border-2 border-indigo-100 bg-indigo-50/5 shadow-sm my-4 relative overflow-hidden">
-      <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-         <Gem className="w-16 h-16 text-indigo-600" />
+    <Card className="border-accent-primary/20 bg-accent-primary/10 relative my-4 overflow-hidden border-2 p-4 shadow-sm">
+      <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-5">
+        <Gem className="text-accent-primary h-16 w-16" />
       </div>
 
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2 text-indigo-600">
-          <Gem className="w-4 h-4" />
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">Wholesale Partner Hub</h4>
+      <div className="mb-4 flex items-center justify-between">
+        <div className="text-accent-primary flex items-center gap-2">
+          <Gem className="h-4 w-4" />
+          <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+            Wholesale Partner Hub
+          </h4>
         </div>
-        <Badge className={`${tierColors[profile.tier]} border-none uppercase text-[8px] font-black px-2.5 h-5 shadow-lg`}>
+        <Badge
+          className={`${
+            tierColors[profile.tier as keyof typeof tierColors] ?? tierColors.Silver
+          } h-5 border-none px-2.5 text-[8px] font-black uppercase shadow-lg`}
+        >
           {profile.tier} Tier
         </Badge>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mb-6">
-         <div className="p-3 bg-white rounded-xl border border-indigo-100 shadow-sm">
-            <div className="text-[8px] font-black text-slate-400 uppercase mb-1 tracking-widest flex items-center gap-1.5">
-               <Wallet className="w-3 h-3" /> Credit Line
-            </div>
-            <div className="text-lg font-black text-slate-800 leading-none">{(profile.availableLimit / 1000000).toFixed(1)}M <span className="text-xs">₽</span></div>
-            <div className="text-[7px] font-bold text-slate-400 mt-1 uppercase">Limit: {(profile.creditLine / 1000000).toFixed(0)}M</div>
-         </div>
-         <div className="p-3 bg-white rounded-xl border border-indigo-100 shadow-sm">
-            <div className="text-[8px] font-black text-slate-400 uppercase mb-1 tracking-widest flex items-center gap-1.5">
-               <ShieldCheck className="w-3 h-3" /> Net Payment
-            </div>
-            <div className="text-lg font-black text-slate-800 leading-none">30 <span className="text-xs">DAYS</span></div>
-            <div className="text-[7px] font-bold text-emerald-600 mt-1 uppercase tracking-tight">Postpaid active</div>
-         </div>
+      <div className="mb-6 grid grid-cols-2 gap-4">
+        <div className="border-accent-primary/20 rounded-xl border bg-white p-3 shadow-sm">
+          <div className="text-text-muted mb-1 flex items-center gap-1.5 text-[8px] font-black uppercase tracking-widest">
+            <Wallet className="h-3 w-3" /> Credit Line
+          </div>
+          <div className="text-text-primary text-lg font-black leading-none">
+            {(profile.availableLimit / 1000000).toFixed(1)}M <span className="text-xs">₽</span>
+          </div>
+          <div className="text-text-muted mt-1 text-[7px] font-bold uppercase">
+            Limit: {(profile.creditLine / 1000000).toFixed(0)}M
+          </div>
+        </div>
+        <div className="border-accent-primary/20 rounded-xl border bg-white p-3 shadow-sm">
+          <div className="text-text-muted mb-1 flex items-center gap-1.5 text-[8px] font-black uppercase tracking-widest">
+            <ShieldCheck className="h-3 w-3" /> Net Payment
+          </div>
+          <div className="text-text-primary text-lg font-black leading-none">
+            30 <span className="text-xs">DAYS</span>
+          </div>
+          <div className="mt-1 text-[7px] font-bold uppercase tracking-tight text-emerald-600">
+            Postpaid active
+          </div>
+        </div>
       </div>
 
-      <div className="space-y-1.5 mb-6">
-         <div className="flex justify-between items-center text-[8px] font-black text-slate-500 uppercase tracking-widest">
-            <span>Credit Exposure</span>
-            <span className={limitUsage > 80 ? "text-rose-500" : "text-slate-400"}>{limitUsage}% Used</span>
-         </div>
-         <Progress value={limitUsage} className="h-1 bg-slate-100 fill-indigo-600" />
+      <div className="mb-6 space-y-1.5">
+        <div className="text-text-secondary flex items-center justify-between text-[8px] font-black uppercase tracking-widest">
+          <span>Credit Exposure</span>
+          <span className={limitUsage > 80 ? 'text-rose-500' : 'text-text-muted'}>
+            {limitUsage}% Used
+          </span>
+        </div>
+        <Progress value={limitUsage} className="bg-bg-surface2 fill-accent-primary h-1" />
       </div>
 
-      <div className="p-3 bg-indigo-600/5 rounded-xl border border-indigo-100 flex items-center justify-between group cursor-pointer hover:bg-indigo-600/10 transition-colors">
-         <div className="flex items-center gap-3">
-            <div className="p-2 bg-white rounded-lg border border-indigo-100 shadow-sm">
-               <FileText className="w-4 h-4 text-indigo-500" />
+      <div className="bg-accent-primary/5 border-accent-primary/20 hover:bg-accent-primary/10 group flex cursor-pointer items-center justify-between rounded-xl border p-3 transition-colors">
+        <div className="flex items-center gap-3">
+          <div className="border-accent-primary/20 rounded-lg border bg-white p-2 shadow-sm">
+            <FileText className="text-accent-primary h-4 w-4" />
+          </div>
+          <div>
+            <div className="text-text-primary text-[10px] font-black uppercase tracking-tighter">
+              B2B Loyalty Points
             </div>
-            <div>
-               <div className="text-[10px] font-black text-slate-800 uppercase tracking-tighter">B2B Loyalty Points</div>
-               <div className="text-sm font-black text-indigo-700">{profile.loyaltyPoints.toLocaleString()} PTS</div>
+            <div className="text-accent-primary text-sm font-black">
+              {profile.loyaltyPoints.toLocaleString()} PTS
             </div>
-         </div>
-         <ArrowRight className="w-4 h-4 text-indigo-300 group-hover:text-indigo-600 transition-colors" />
+          </div>
+        </div>
+        <ArrowRight className="text-accent-primary group-hover:text-accent-primary h-4 w-4 transition-colors" />
       </div>
     </Card>
   );

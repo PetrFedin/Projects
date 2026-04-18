@@ -37,11 +37,11 @@ function seed(): BuyerApplicationsState {
     applications: [
       {
         id: 'app-1',
-        brandId: 'syntha',
-        brandName: 'Syntha',
-        companyName: 'Boutique No.7',
+        brandId: 'brand_syntha_lab',
+        brandName: 'Syntha Lab',
+        companyName: 'Демо-магазин · СПб',
         contactName: 'Ольга С.',
-        email: 'olga@boutique7.ru',
+        email: 'olga@demo-retail.local',
         phone: '+7 812 …',
         country: 'Россия',
         city: 'СПб',
@@ -52,11 +52,11 @@ function seed(): BuyerApplicationsState {
       },
       {
         id: 'app-2',
-        brandId: 'syntha',
-        brandName: 'Syntha',
-        companyName: 'ЦУМ',
+        brandId: 'brand_nordic_wool',
+        brandName: 'Nordic Wool',
+        companyName: 'Демо-магазин · Москва 2',
         contactName: 'Михаил В.',
-        email: 'buyer@tsum.ru',
+        email: 'buyer@demo-retail.local',
         country: 'Россия',
         city: 'Москва',
         applicantType: 'retailer',
@@ -66,9 +66,28 @@ function seed(): BuyerApplicationsState {
       },
     ],
     audit: [
-      { id: 'aud-1', applicationId: 'app-1', at: new Date().toISOString(), action: 'submitted', userLabel: 'Система' },
-      { id: 'aud-2', applicationId: 'app-2', at: new Date(Date.now() - 86400000).toISOString(), action: 'submitted', userLabel: 'Система' },
-      { id: 'aud-3', applicationId: 'app-2', at: new Date(Date.now() - 3600000).toISOString(), action: 'under_review', userLabel: 'Мария (бренд)', comment: 'Проверяем территорию' },
+      {
+        id: 'aud-1',
+        applicationId: 'app-1',
+        at: new Date().toISOString(),
+        action: 'submitted',
+        userLabel: 'Система',
+      },
+      {
+        id: 'aud-2',
+        applicationId: 'app-2',
+        at: new Date(Date.now() - 86400000).toISOString(),
+        action: 'submitted',
+        userLabel: 'Система',
+      },
+      {
+        id: 'aud-3',
+        applicationId: 'app-2',
+        at: new Date(Date.now() - 3600000).toISOString(),
+        action: 'under_review',
+        userLabel: 'Мария (бренд)',
+        comment: 'Проверяем территорию',
+      },
     ],
   };
 }
@@ -109,8 +128,8 @@ export function submitApplication(payload: {
   const id = generateId('app');
   const app: BuyerApplicationWithBrand = {
     id,
-    brandId: payload.brandId ?? 'syntha',
-    brandName: payload.brandName ?? 'Syntha',
+    brandId: payload.brandId ?? 'brand_syntha_lab',
+    brandName: payload.brandName ?? 'Syntha Lab',
     companyName: payload.companyName,
     contactName: payload.contactName,
     email: payload.email,
@@ -146,7 +165,8 @@ export function setApplicationStatus(
   const state = loadBuyerApplicationsState();
   const app = state.applications.find((a) => a.id === applicationId);
   if (!app) return null;
-  const action = status === 'approved' ? 'approved' : status === 'rejected' ? 'rejected' : 'under_review';
+  const action =
+    status === 'approved' ? 'approved' : status === 'rejected' ? 'rejected' : 'under_review';
   const updated: BuyerApplicationWithBrand = {
     ...app,
     status,
@@ -170,10 +190,18 @@ export function setApplicationStatus(
   return next;
 }
 
-export function getApplicationsByBrand(brandId: string, state: BuyerApplicationsState): BuyerApplicationWithBrand[] {
+export function getApplicationsByBrand(
+  brandId: string,
+  state: BuyerApplicationsState
+): BuyerApplicationWithBrand[] {
   return state.applications.filter((a) => a.brandId === brandId || !brandId);
 }
 
-export function getAuditForApplication(applicationId: string, state: BuyerApplicationsState): BuyerApplicationAuditEntry[] {
-  return state.audit.filter((e) => e.applicationId === applicationId).sort((a, b) => b.at.localeCompare(a.at));
+export function getAuditForApplication(
+  applicationId: string,
+  state: BuyerApplicationsState
+): BuyerApplicationAuditEntry[] {
+  return state.audit
+    .filter((e) => e.applicationId === applicationId)
+    .sort((a, b) => b.at.localeCompare(a.at));
 }

@@ -37,24 +37,36 @@ export class AutonomousLegalCounsel {
 
   public static registerContract(contract: B2BContract) {
     this.contracts.set(contract.contractId, contract);
-    console.log(`[LegalCounsel] Contract ${contract.contractId} registered between ${contract.partyAId} and ${contract.partyBId}.`);
+    console.log(
+      `[LegalCounsel] Contract ${contract.contractId} registered between ${contract.partyAId} and ${contract.partyBId}.`
+    );
   }
 
   /**
    * Оценивает событие на предмет нарушения SLA.
    */
-  public static evaluateSLA(contractId: string, metric: SLA['metric'], actualValue: number): BreachClaim | null {
+  public static evaluateSLA(
+    contractId: string,
+    metric: SLA['metric'],
+    actualValue: number
+  ): BreachClaim | null {
     const contract = this.contracts.get(contractId);
     if (!contract || contract.status !== 'active') return null;
 
-    const sla = contract.slas.find(s => s.metric === metric);
+    const sla = contract.slas.find((s) => s.metric === metric);
     if (!sla) return null;
 
     let isBreached = false;
     switch (sla.operator) {
-      case '<=': isBreached = actualValue > sla.targetValue; break;
-      case '>=': isBreached = actualValue < sla.targetValue; break;
-      case '==': isBreached = actualValue !== sla.targetValue; break;
+      case '<=':
+        isBreached = actualValue > sla.targetValue;
+        break;
+      case '>=':
+        isBreached = actualValue < sla.targetValue;
+        break;
+      case '==':
+        isBreached = actualValue !== sla.targetValue;
+        break;
     }
 
     if (!isBreached) return null;
@@ -62,8 +74,11 @@ export class AutonomousLegalCounsel {
     // Расчет штрафа
     // [Phase 58] Math Hardening: защита от NaN и отрицательных штрафов
     const safeValue = Math.max(0, isNaN(contract.totalValueUSD) ? 0 : contract.totalValueUSD);
-    const safePenaltyPct = Math.max(0, Math.min(100, isNaN(sla.penaltyPercentage) ? 0 : sla.penaltyPercentage));
-    
+    const safePenaltyPct = Math.max(
+      0,
+      Math.min(100, isNaN(sla.penaltyPercentage) ? 0 : sla.penaltyPercentage)
+    );
+
     const penaltyUSD = (safeValue * safePenaltyPct) / 100;
 
     // AI принятие решения
@@ -82,7 +97,7 @@ export class AutonomousLegalCounsel {
       actualValue,
       calculatedPenaltyUSD: penaltyUSD,
       aiResolution: resolution,
-      reasoning: `SLA breached for ${metric}. Target: ${sla.operator} ${sla.targetValue}, Actual: ${actualValue}. Penalty: $${penaltyUSD.toLocaleString()}. Action: ${resolution}.`
+      reasoning: `SLA breached for ${metric}. Target: ${sla.operator} ${sla.targetValue}, Actual: ${actualValue}. Penalty: $${penaltyUSD.toLocaleString()}. Action: ${resolution}.`,
     };
   }
 }

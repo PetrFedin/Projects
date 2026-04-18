@@ -2,7 +2,12 @@
  * Хранилище без API: localStorage. Те же сущности ожидаются от REST/GraphQL.
  */
 
-import type { ArticleEntity, BrandProductionState, IntegrationConfigEntity, ProductionRole } from './types';
+import type {
+  ArticleEntity,
+  BrandProductionState,
+  IntegrationConfigEntity,
+  ProductionRole,
+} from './types';
 import { createSeedState } from './seed';
 import { canMoveToPoStage, canMoveArticleToWarehouse } from './lifecycle-rules';
 import { ARTICLE_LIFECYCLE_ORDER, type ArticleLifecycleStage } from './types';
@@ -80,7 +85,10 @@ export function setArticleLifecycleStage(
   if (!art) return { ok: false, error: 'Артикул не найден', state };
 
   const prev = art.lifecycleStage;
-  if (ARTICLE_LIFECYCLE_ORDER.indexOf(next) < ARTICLE_LIFECYCLE_ORDER.indexOf(prev) && next !== prev) {
+  if (
+    ARTICLE_LIFECYCLE_ORDER.indexOf(next) < ARTICLE_LIFECYCLE_ORDER.indexOf(prev) &&
+    next !== prev
+  ) {
     return { ok: false, error: 'Откат этапа — только через API администратора.', state };
   }
 
@@ -88,10 +96,17 @@ export function setArticleLifecycleStage(
     const c = canMoveToPoStage(art);
     if (!c.allowed) return { ok: false, error: c.reason, state };
   }
-  if (next === 'manufacturing' || ARTICLE_LIFECYCLE_ORDER.indexOf(next) > ARTICLE_LIFECYCLE_ORDER.indexOf('po')) {
+  if (
+    next === 'manufacturing' ||
+    ARTICLE_LIFECYCLE_ORDER.indexOf(next) > ARTICLE_LIFECYCLE_ORDER.indexOf('po')
+  ) {
     if (ARTICLE_LIFECYCLE_ORDER.indexOf(next) >= ARTICLE_LIFECYCLE_ORDER.indexOf('manufacturing')) {
       if (!hasConfirmedPOForArticle(state, articleId)) {
-        return { ok: false, error: 'Нельзя перейти в производство без подтверждённого PO по артикулу.', state };
+        return {
+          ok: false,
+          error: 'Нельзя перейти в производство без подтверждённого PO по артикулу.',
+          state,
+        };
       }
     }
   }
@@ -104,7 +119,9 @@ export function setArticleLifecycleStage(
   const nextState: BrandProductionState = {
     ...state,
     articles: state.articles.map((a) =>
-      a.id === articleId ? { ...a, lifecycleStage: next, b2bReady: next === 'b2b_ready' ? true : a.b2bReady } : a
+      a.id === articleId
+        ? { ...a, lifecycleStage: next, b2bReady: next === 'b2b_ready' ? true : a.b2bReady }
+        : a
     ),
   };
   pushAudit(nextState, 'Article', articleId, 'lifecycle_change', prev, next);
@@ -120,12 +137,23 @@ export function updateIntegrationConfig(
     ...state,
     integration: { ...state.integration, ...patch },
   };
-  pushAudit(next, 'Integration', 'config', 'update', undefined, undefined, patch as Record<string, unknown>);
+  pushAudit(
+    next,
+    'Integration',
+    'config',
+    'update',
+    undefined,
+    undefined,
+    patch as Record<string, unknown>
+  );
   saveBrandProductionState(next);
   return next;
 }
 
-export function setCurrentRole(state: BrandProductionState, role: ProductionRole): BrandProductionState {
+export function setCurrentRole(
+  state: BrandProductionState,
+  role: ProductionRole
+): BrandProductionState {
   const next = { ...state, currentRole: role };
   saveBrandProductionState(next);
   return next;
@@ -138,7 +166,14 @@ export function exportPOToCsvRows(state: BrandProductionState, poId: string): st
   for (const line of po.lines) {
     const art = state.articles.find((a) => a.id === line.articleId);
     for (const [size, qty] of Object.entries(line.sizeBreakdown)) {
-      rows.push([po.code, art?.sku ?? line.articleId, art?.name ?? '', line.dropId, size, String(qty)]);
+      rows.push([
+        po.code,
+        art?.sku ?? line.articleId,
+        art?.name ?? '',
+        line.dropId,
+        size,
+        String(qty),
+      ]);
     }
   }
   return rows;

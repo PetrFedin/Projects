@@ -66,13 +66,15 @@ export function mapLegacyToAggregate(o: B2BOrder, items: B2BOrderLineItem[]): Or
       version: 1,
       source: 'web_ui',
       /** [Phase 2 Prod] Снапшот аудита для версии 1 */
-      auditLog: [{
-        version: 1,
-        timestamp: o.date,
-        actorId: 'system',
-        action: 'IMPORT',
-        changes: { status: 'imported' }
-      }]
+      auditLog: [
+        {
+          version: 1,
+          timestamp: o.date,
+          actorId: 'system',
+          action: 'IMPORT',
+          changes: { status: 'imported' },
+        },
+      ],
     },
     notes: {},
   };
@@ -95,7 +97,16 @@ export const OrderAggregateFactory = {
     agreementId?: string; // [Phase 2 Prod]
     tenantId?: string; // [Phase 2 Prod]
   }): { order?: OrderAggregate; errors?: any[] } {
-    const { payload, brandId, buyerAccountId, inventoryGrains, priceListId, shipWindowId, agreementId, tenantId } = params;
+    const {
+      payload,
+      brandId,
+      buyerAccountId,
+      inventoryGrains,
+      priceListId,
+      shipWindowId,
+      agreementId,
+      tenantId,
+    } = params;
 
     const order: OrderAggregate = {
       id: `order-${Date.now()}`,
@@ -122,11 +133,35 @@ export const OrderAggregateFactory = {
         source: 'web_ui',
         /** [Phase 3] Инициализация контрольных ворот */
         gates: [
-          { id: `gate-brand-${Date.now()}`, role: 'brand', status: 'pending' as const, required: true, label: 'Brand Approval' },
-          { id: `gate-shop-${Date.now()}`, role: 'shop', status: 'pending' as const, required: true, label: 'Partner Confirmation' },
-          { id: `gate-factory-${Date.now()}`, role: 'factory', status: 'pending' as const, required: false, label: 'Production Readiness' },
-          { id: `gate-logistics-${Date.now()}`, role: 'logistics', status: 'pending' as const, required: false, label: 'Logistics Capacity' }
-        ]
+          {
+            id: `gate-brand-${Date.now()}`,
+            role: 'brand',
+            status: 'pending' as const,
+            required: true,
+            label: 'Brand Approval',
+          },
+          {
+            id: `gate-shop-${Date.now()}`,
+            role: 'shop',
+            status: 'pending' as const,
+            required: true,
+            label: 'Partner Confirmation',
+          },
+          {
+            id: `gate-factory-${Date.now()}`,
+            role: 'factory',
+            status: 'pending' as const,
+            required: false,
+            label: 'Production Readiness',
+          },
+          {
+            id: `gate-logistics-${Date.now()}`,
+            role: 'logistics',
+            status: 'pending' as const,
+            required: false,
+            label: 'Logistics Capacity',
+          },
+        ],
       },
       notes: {
         orderNotes: payload.orderNotes,
@@ -195,18 +230,21 @@ export const OrderAggregateFactory = {
     const { order, actorId, inventoryGrains, moqRules, packRules, strictIsolation = true } = params;
 
     if (order.projections.payment === 'overdue') {
-      return { errors: [{ code: 'PAYMENT_OVERDUE', message: 'Cannot confirm order with overdue payment' }] };
+      return {
+        errors: [{ code: 'PAYMENT_OVERDUE', message: 'Cannot confirm order with overdue payment' }],
+      };
     }
 
     // [Phase 3] Автоматическое закрытие ворот при подтверждении (если актор имеет права)
     // В реальной системе это происходит через отдельные методы approveGate()
-    const updatedGates = order.metadata.gates?.map(g => {
-      if (g.status === 'pending' && (
-        (g.role === 'brand' && actorId.includes('brand')) || 
-        (g.role === 'shop' && actorId.includes('shop')) ||
-        (g.role === 'factory' && actorId.includes('factory')) ||
-        (g.role === 'logistics' && actorId.includes('logistics'))
-      )) {
+    const updatedGates = order.metadata.gates?.map((g) => {
+      if (
+        g.status === 'pending' &&
+        ((g.role === 'brand' && actorId.includes('brand')) ||
+          (g.role === 'shop' && actorId.includes('shop')) ||
+          (g.role === 'factory' && actorId.includes('factory')) ||
+          (g.role === 'logistics' && actorId.includes('logistics')))
+      ) {
         return { ...g, status: 'approved' as const, actorId, timestamp: new Date().toISOString() };
       }
       return g;
@@ -214,7 +252,7 @@ export const OrderAggregateFactory = {
 
     const orderWithUpdatedGates = {
       ...order,
-      metadata: { ...order.metadata, gates: updatedGates }
+      metadata: { ...order.metadata, gates: updatedGates },
     };
 
     // Защита инвариантов перед подтверждением
@@ -243,7 +281,7 @@ export const OrderAggregateFactory = {
           currency: order.terms.currency,
           taxAmount: financials.taxAmount,
           discountAmount: financials.discount,
-        }
+        },
       },
       metadata: {
         ...orderWithUpdatedGates.metadata,
@@ -257,9 +295,9 @@ export const OrderAggregateFactory = {
             timestamp: new Date().toISOString(),
             actorId,
             action: 'CONFIRM',
-            changes: { status: 'confirmed', gates: updatedGates, financialImpact: true }
-          }
-        ]
+            changes: { status: 'confirmed', gates: updatedGates, financialImpact: true },
+          },
+        ],
       },
     };
 
@@ -273,7 +311,7 @@ export const OrderAggregateFactory = {
         totalAmountBase: financials.totalAmountBase,
         currency: order.terms.currency,
         exchangeRate: financials.exchangeRate,
-        tenantId: order.participants.tenantId
+        tenantId: order.participants.tenantId,
       },
     });
 
@@ -295,7 +333,7 @@ export const OrderAggregateFactory = {
       ...order,
       projections: {
         ...order.projections,
-        fulfillment: 'partially_shipped' as const
+        fulfillment: 'partially_shipped' as const,
       },
       metadata: {
         ...order.metadata,
@@ -308,10 +346,10 @@ export const OrderAggregateFactory = {
             timestamp: new Date().toISOString(),
             actorId,
             action: 'PARTIAL_SHIP',
-            changes: { shipLines }
-          }
-        ]
-      }
+            changes: { shipLines },
+          },
+        ],
+      },
     };
 
     // Генерируем событие для Ledger (списание из резерва в shipped)
@@ -322,8 +360,8 @@ export const OrderAggregateFactory = {
         orderId: order.id,
         shipLines,
         actorId,
-        tenantId: order.participants.tenantId
-      }
+        tenantId: order.participants.tenantId,
+      },
     });
 
     return { order: updatedOrder };
@@ -338,11 +376,16 @@ export const OrderAggregateFactory = {
     cancelLines: Array<{ productId: string; size: string; quantity: number }>;
     actorId: string;
     reason: string;
-  }): { order: OrderAggregate; releasedGrains: Array<{ productId: string; size: string; quantity: number }> } {
+  }): {
+    order: OrderAggregate;
+    releasedGrains: Array<{ productId: string; size: string; quantity: number }>;
+  } {
     const { order, cancelLines, actorId, reason } = params;
-    
-    const updatedLines = order.lines.map(line => {
-      const cancelRequest = cancelLines.find(cl => cl.productId === line.productId && cl.size === line.size);
+
+    const updatedLines = order.lines.map((line) => {
+      const cancelRequest = cancelLines.find(
+        (cl) => cl.productId === line.productId && cl.size === line.size
+      );
       if (cancelRequest) {
         const newQuantity = Math.max(0, line.quantity - cancelRequest.quantity);
         return { ...line, quantity: newQuantity };
@@ -364,10 +407,10 @@ export const OrderAggregateFactory = {
             timestamp: new Date().toISOString(),
             actorId,
             action: 'PARTIAL_CANCEL',
-            changes: { cancelLines, reason }
-          }
-        ]
-      }
+            changes: { cancelLines, reason },
+          },
+        ],
+      },
     };
 
     // Генерируем событие для Ledger (restocking)
@@ -378,15 +421,15 @@ export const OrderAggregateFactory = {
         orderId: order.id,
         cancelLines,
         actorId,
-        tenantId: order.participants.tenantId
-      }
+        tenantId: order.participants.tenantId,
+      },
     });
 
-    return { 
-      order: updatedOrder, 
-      releasedGrains: cancelLines
+    return {
+      order: updatedOrder,
+      releasedGrains: cancelLines,
     };
-  }
+  },
 };
 
 /**
@@ -404,7 +447,12 @@ export function calculateOrderFinancials(order: OrderAggregate) {
   const totalAmountBase = totalAmount / exchangeRate;
 
   // [Phase 2 Prod] Расчет налогов по юрисдикции
-  const jurisdictionTax = order.terms.taxJurisdiction === 'EU' ? 0.21 : (order.terms.taxJurisdiction === 'US' ? 0.08 : taxRate);
+  const jurisdictionTax =
+    order.terms.taxJurisdiction === 'EU'
+      ? 0.21
+      : order.terms.taxJurisdiction === 'US'
+        ? 0.08
+        : taxRate;
   const adjustedTaxAmount = (subtotal - discount) * jurisdictionTax;
   const adjustedTotalAmount = subtotal - discount + adjustedTaxAmount;
 
@@ -416,7 +464,7 @@ export function calculateOrderFinancials(order: OrderAggregate) {
     totalAmountBase: adjustedTotalAmount / exchangeRate,
     currency: order.terms.currency,
     exchangeRate,
-    taxJurisdiction: order.terms.taxJurisdiction
+    taxJurisdiction: order.terms.taxJurisdiction,
   };
 }
 
@@ -429,23 +477,29 @@ export function getTaxRateForJurisdiction(params: {
   isExport: boolean;
 }): number {
   const { brandCountry, buyerCountry, isExport } = params;
-  
+
   if (isExport) return 0; // 0% VAT for export
-  
+
   // Упрощенная логика для Phase 2
-  if (brandCountry === 'RU' && buyerCountry === 'RU') return 0.20; // 20% VAT
+  if (brandCountry === 'RU' && buyerCountry === 'RU') return 0.2; // 20% VAT
   if (brandCountry === 'US') return 0.08; // 8% Sales Tax (avg)
-  
+
   return 0;
 }
 
 function mapLegacyStatus(status: string): OrderCommercialStatus {
   switch (status) {
-    case 'Черновик': return 'draft';
-    case 'На проверке': return 'pending_approval';
-    case 'Согласован': return 'confirmed';
-    case 'Подтверждён': return 'confirmed';
-    case 'Отменён': return 'cancelled';
-    default: return 'confirmed';
+    case 'Черновик':
+      return 'draft';
+    case 'На проверке':
+      return 'pending_approval';
+    case 'Согласован':
+      return 'confirmed';
+    case 'Подтверждён':
+      return 'confirmed';
+    case 'Отменён':
+      return 'cancelled';
+    default:
+      return 'confirmed';
   }
 }

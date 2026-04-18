@@ -1,7 +1,10 @@
 import type { AssortmentClashV1 } from './types';
 
 /** Детекция конфликта ассортимента (Clash Detection) в радиусе магазина. */
-export function detectAssortmentClash(sku: string, storeId: string = 'STORE-MOSCOW-MAIN'): AssortmentClashV1 {
+export function detectAssortmentClash(
+  sku: string,
+  storeId: string = 'STORE-MOSCOW-MAIN'
+): AssortmentClashV1 {
   const seedRaw = sku.split('-')[1] || '100';
   let seed = parseInt(seedRaw, 10);
   if (isNaN(seed)) seed = sku.length * 17;

@@ -1,7 +1,10 @@
 import type { FittingRoomQueueV1 } from './types';
 
 /** Управление очередью в примерочные для розничного магазина. */
-export function getFittingRoomQueue(sku: string, storeId: string = 'STORE-MOSCOW-MAIN'): FittingRoomQueueV1 {
+export function getFittingRoomQueue(
+  sku: string,
+  storeId: string = 'STORE-MOSCOW-MAIN'
+): FittingRoomQueueV1 {
   const seedRaw = sku.split('-')[1] || '100';
   let seed = parseInt(seedRaw, 10);
   if (isNaN(seed)) seed = sku.length * 11;

@@ -1,4 +1,3 @@
-
 'use client';
 
 import B2BOrdersPage from '@/components/shop/b2b/orders/page';

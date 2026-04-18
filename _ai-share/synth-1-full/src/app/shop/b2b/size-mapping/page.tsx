@@ -1,12 +1,14 @@
 'use client';
 
+import { RegistryPageShell } from '@/components/design-system';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Ruler, ArrowLeft } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { tid } from '@/lib/ui/test-ids';
 
 /** ASOS: маппинг размеров бренда в сетку ритейлера (EU → внутренняя линейка) для маркетплейса. */
 const DEFAULT_GRID = [
@@ -20,25 +22,24 @@ const DEFAULT_GRID = [
 
 export default function SizeMappingPage() {
   return (
-    <div className="container max-w-3xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
-        <Link href={ROUTES.shop.b2b}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
-        <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2"><Ruler className="h-6 w-6" /> Маппинг размеров</h1>
-          <p className="text-slate-500 text-sm mt-0.5">ASOS: размер бренда (EU) → размер ритейлера для маркетплейса и заказов.</p>
-        </div>
-      </div>
+    <RegistryPageShell
+      className="min-h-[200px] max-w-3xl space-y-6"
+      data-testid={tid.page('shop-b2b-size-mapping')}
+    >
+      <ShopB2bContentHeader lead="Размер бренда (EU) → размер ритейлера для маркетплейса и заказов (ASOS-style)." />
 
       <Card>
         <CardHeader>
           <CardTitle>Сетка размеров (бренд → ритейл)</CardTitle>
-          <CardDescription>В заказе сохраняются brandSize и retailerSize для атрибуции.</CardDescription>
+          <CardDescription>
+            В заказе сохраняются brandSize и retailerSize для атрибуции.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-slate-200">
+                <tr className="border-border-default border-b">
                   <th className="py-2 pr-4 font-medium">Размер бренда (EU)</th>
                   <th className="py-2 pr-4 font-medium">Размер ритейлера</th>
                   <th className="py-2 pr-4 font-medium">Грудь (см)</th>
@@ -48,7 +49,7 @@ export default function SizeMappingPage() {
               </thead>
               <tbody>
                 {DEFAULT_GRID.map((row, i) => (
-                  <tr key={i} className="border-b border-slate-100">
+                  <tr key={i} className="border-border-subtle border-b">
                     <td className="py-2 pr-4 font-medium">{row.brandSize}</td>
                     <td className="py-2 pr-4">{row.retailerSize}</td>
                     <td className="py-2 pr-4">{row.chest}</td>
@@ -59,16 +60,29 @@ export default function SizeMappingPage() {
               </tbody>
             </table>
           </div>
-          <p className="text-xs text-slate-400 mt-3">При API — сохранение сетки по бренду/категории; в позиции заказа: brandSize, retailerSize.</p>
+          <p className="text-text-muted mt-3 text-xs">
+            При API — сохранение сетки по бренду/категории; в позиции заказа: brandSize,
+            retailerSize.
+          </p>
         </CardContent>
       </Card>
 
-      <div className="mt-6 flex gap-2 flex-wrap">
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bSizeFinder}>Подбор размера / Размерная сетка</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bOrders}>Заказы</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.client.profile}>Мерки в профиле</Link></Button>
+      <div className="mt-6 flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bSizeFinder}>Подбор размера / Размерная сетка</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bOrders}>Заказы</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.client.profile}>Мерки в профиле</Link>
+        </Button>
       </div>
-      <RelatedModulesBlock links={getShopB2BHubLinks()} title="Заказы, маржа, матрица" className="mt-6" />
-    </div>
+      <RelatedModulesBlock
+        links={getShopB2BHubLinks()}
+        title="Заказы, маржа, матрица"
+        className="mt-6"
+      />
+    </RegistryPageShell>
   );
 }

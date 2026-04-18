@@ -41,7 +41,7 @@ export class DroneSwarmOrchestrator {
     weather: { windSpeedKmh: number; isRaining: boolean }
   ): SwarmDispatchResult[] {
     const results: SwarmDispatchResult[] = [];
-    const availableDrones = fleet.filter(d => d.status === 'idle' && d.batteryPercent > 20);
+    const availableDrones = fleet.filter((d) => d.status === 'idle' && d.batteryPercent > 20);
 
     for (const task of tasks) {
       let assignedDrone: DroneState | null = null;
@@ -54,11 +54,13 @@ export class DroneSwarmOrchestrator {
 
       if (!airTravelSafe) {
         // Ищем только наземных роверов (ground_rover)
-        assignedDrone = availableDrones.find(d => 
-          d.type === 'ground_rover' && 
-          d.maxPayloadKg >= task.weightKg && 
-          d.maxRangeKm >= task.distanceKm * 2 // Туда и обратно
-        ) || null;
+        assignedDrone =
+          availableDrones.find(
+            (d) =>
+              d.type === 'ground_rover' &&
+              d.maxPayloadKg >= task.weightKg &&
+              d.maxRangeKm >= task.distanceKm * 2 // Туда и обратно
+          ) || null;
 
         if (assignedDrone) {
           action = 'dispatch';
@@ -70,11 +72,13 @@ export class DroneSwarmOrchestrator {
         }
       } else {
         // Погода летная, ищем воздушные дроны (предпочтительно)
-        assignedDrone = availableDrones.find(d => 
-          (d.type === 'quadcopter' || d.type === 'hexacopter') && 
-          d.maxPayloadKg >= task.weightKg && 
-          d.maxRangeKm >= task.distanceKm * 2.2 // Воздушный запас хода (туда-обратно + ветер)
-        ) || null;
+        assignedDrone =
+          availableDrones.find(
+            (d) =>
+              (d.type === 'quadcopter' || d.type === 'hexacopter') &&
+              d.maxPayloadKg >= task.weightKg &&
+              d.maxRangeKm >= task.distanceKm * 2.2 // Воздушный запас хода (туда-обратно + ветер)
+          ) || null;
 
         if (assignedDrone) {
           action = 'dispatch';
@@ -85,7 +89,7 @@ export class DroneSwarmOrchestrator {
 
       // Если дрон найден, "бронируем" его (убираем из пула доступных для следующих задач)
       if (assignedDrone) {
-        const index = availableDrones.findIndex(d => d.droneId === assignedDrone!.droneId);
+        const index = availableDrones.findIndex((d) => d.droneId === assignedDrone!.droneId);
         if (index !== -1) availableDrones.splice(index, 1);
       }
 
@@ -94,7 +98,7 @@ export class DroneSwarmOrchestrator {
         orderId: task.orderId,
         action,
         estimatedFlightTimeMins: Math.round(estimatedFlightTimeMins),
-        reasoning
+        reasoning,
       });
     }
 

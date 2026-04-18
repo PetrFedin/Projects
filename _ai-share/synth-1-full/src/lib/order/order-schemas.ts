@@ -73,14 +73,16 @@ export const OrderAggregateSchema = z.object({
     dispute: z.enum(['none', 'open', 'resolved']).optional(),
     sync: z.enum(['pending', 'synced', 'failed']).optional(),
     /** [Phase 2 Prod] Финансовый след (для мультивалютных расчетов) */
-    financialImpact: z.object({
-      totalAmountBase: z.number(),
-      exchangeRate: z.number(),
-      currency: z.string(),
-      taxAmount: z.number(),
-      discountAmount: z.number(),
-      refundAmount: z.number().optional(),
-    }).optional(),
+    financialImpact: z
+      .object({
+        totalAmountBase: z.number(),
+        exchangeRate: z.number(),
+        currency: z.string(),
+        taxAmount: z.number(),
+        discountAmount: z.number(),
+        refundAmount: z.number().optional(),
+      })
+      .optional(),
   }),
   mode: B2BOrderModeSchema,
   terms: z.object({
@@ -111,28 +113,36 @@ export const OrderAggregateSchema = z.object({
     version: z.number().int().nonnegative(),
     source: z.enum(['web_ui', 'api', 'excel_import', 'mobile_app']),
     /** [Phase 2 Prod] Снапшоты аудита для версионирования */
-    auditLog: z.array(z.object({
-      version: z.number().int(),
-      timestamp: z.string().datetime(),
-      actorId: z.string(),
-      action: z.string(),
-      changes: z.record(z.any()),
-      /** [Phase 2 Prod] Ссылка на правку (Amendment) */
-      amendmentId: z.string().optional(),
-      /** [Phase 2 Prod] Дифф изменений для UI */
-      diff: z.record(z.any()).optional(),
-    })).optional(),
+    auditLog: z
+      .array(
+        z.object({
+          version: z.number().int(),
+          timestamp: z.string().datetime(),
+          actorId: z.string(),
+          action: z.string(),
+          changes: z.record(z.any()),
+          /** [Phase 2 Prod] Ссылка на правку (Amendment) */
+          amendmentId: z.string().optional(),
+          /** [Phase 2 Prod] Дифф изменений для UI */
+          diff: z.record(z.any()).optional(),
+        })
+      )
+      .optional(),
     /** [Phase 3] Многосторонние контрольные ворота (Multi-party Gates) */
-    gates: z.array(z.object({
-      id: z.string(),
-      label: z.string(),
-      status: z.enum(['pending', 'approved', 'rejected']),
-      role: z.enum(['brand', 'shop', 'factory', 'logistics']),
-      required: z.boolean(),
-      actorId: z.string().optional(),
-      timestamp: z.string().datetime().optional(),
-      reason: z.string().optional(),
-    })).optional(),
+    gates: z
+      .array(
+        z.object({
+          id: z.string(),
+          label: z.string(),
+          status: z.enum(['pending', 'approved', 'rejected']),
+          role: z.enum(['brand', 'shop', 'factory', 'logistics']),
+          required: z.boolean(),
+          actorId: z.string().optional(),
+          timestamp: z.string().datetime().optional(),
+          reason: z.string().optional(),
+        })
+      )
+      .optional(),
   }),
   notes: z.object({
     orderNotes: z.string().optional(),

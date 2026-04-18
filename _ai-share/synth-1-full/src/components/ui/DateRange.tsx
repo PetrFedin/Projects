@@ -1,11 +1,11 @@
-"use client";
-import React from "react";
-import { Input } from "./input";
+'use client';
+import React from 'react';
+import { Input } from './input';
 
 export function DateRange({
   from,
   to,
-  onChange
+  onChange,
 }: {
   from?: string;
   to?: string;
@@ -15,16 +15,15 @@ export function DateRange({
     <div className="flex items-center gap-2">
       <Input
         type="date"
-        value={from ?? ""}
+        value={from ?? ''}
         onChange={(e) => onChange({ from: e.target.value || undefined, to })}
       />
       <div className="text-text-muted">—</div>
       <Input
         type="date"
-        value={to ?? ""}
+        value={to ?? ''}
         onChange={(e) => onChange({ from, to: e.target.value || undefined })}
       />
     </div>
   );
 }
-

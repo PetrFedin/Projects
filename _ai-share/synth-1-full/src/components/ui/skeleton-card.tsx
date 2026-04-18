@@ -12,11 +12,11 @@ interface SkeletonCardProps {
 export function SkeletonCard({ variant = 'product', className }: SkeletonCardProps) {
   if (variant === 'product') {
     return (
-      <Card className={cn("overflow-hidden group", className)}>
+      <Card className={cn('group overflow-hidden', className)}>
         <div className="relative aspect-[3/4] bg-muted">
           <Skeleton className="absolute inset-0" />
         </div>
-        <div className="p-4 space-y-3">
+        <div className="space-y-3 p-4">
           <Skeleton className="h-4 w-3/4" />
           <Skeleton className="h-3 w-1/2" />
           <div className="flex items-center justify-between pt-2">
@@ -30,14 +30,14 @@ export function SkeletonCard({ variant = 'product', className }: SkeletonCardPro
 
   if (variant === 'stream') {
     return (
-      <Card className={cn("overflow-hidden", className)}>
+      <Card className={cn('overflow-hidden', className)}>
         <div className="relative aspect-[21/10] bg-muted">
           <Skeleton className="absolute inset-0" />
-          <div className="absolute top-3 right-3">
+          <div className="absolute right-3 top-3">
             <Skeleton className="h-6 w-12 rounded-full" />
           </div>
         </div>
-        <div className="p-4 space-y-2">
+        <div className="space-y-2 p-4">
           <Skeleton className="h-5 w-full" />
           <Skeleton className="h-4 w-2/3" />
           <div className="flex items-center gap-3 pt-2">
@@ -51,11 +51,11 @@ export function SkeletonCard({ variant = 'product', className }: SkeletonCardPro
 
   if (variant === 'brand') {
     return (
-      <Card className={cn("overflow-hidden", className)}>
+      <Card className={cn('overflow-hidden', className)}>
         <div className="relative aspect-square bg-muted">
           <Skeleton className="absolute inset-0" />
         </div>
-        <div className="p-4 space-y-2">
+        <div className="space-y-2 p-4">
           <Skeleton className="h-5 w-3/4" />
           <Skeleton className="h-3 w-full" />
           <Skeleton className="h-3 w-2/3" />
@@ -66,11 +66,11 @@ export function SkeletonCard({ variant = 'product', className }: SkeletonCardPro
 
   if (variant === 'program') {
     return (
-      <Card className={cn("overflow-hidden", className)}>
+      <Card className={cn('overflow-hidden', className)}>
         <div className="relative aspect-[21/10] bg-muted">
           <Skeleton className="absolute inset-0" />
         </div>
-        <div className="p-4 space-y-2">
+        <div className="space-y-2 p-4">
           <Skeleton className="h-5 w-full" />
           <Skeleton className="h-4 w-2/3" />
           <div className="flex items-center gap-3 pt-2">
@@ -85,20 +85,17 @@ export function SkeletonCard({ variant = 'product', className }: SkeletonCardPro
   return null;
 }
 
-export function SkeletonGrid({ 
-  count = 6, 
+export function SkeletonGrid({
+  count = 6,
   variant = 'product',
-  className 
-}: { 
-  count?: number; 
+  className,
+}: {
+  count?: number;
   variant?: SkeletonCardProps['variant'];
   className?: string;
 }) {
   return (
-    <div className={cn(
-      "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3",
-      className
-    )}>
+    <div className={cn('grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3', className)}>
       {Array.from({ length: count }).map((_, i) => (
         <SkeletonCard key={i} variant={variant} />
       ))}

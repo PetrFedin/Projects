@@ -4,7 +4,7 @@ import type { AssetCreditsV1 } from './types';
 /** Извлечение данных о талантах и правах из атрибутов медиа. */
 export function getAssetCredits(product: Product): AssetCreditsV1 {
   const a = product.attributes ?? {};
-  
+
   return {
     photographer: typeof a.photographer === 'string' ? a.photographer : undefined,
     modelName: typeof a.modelName === 'string' ? a.modelName : undefined,

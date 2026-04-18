@@ -74,7 +74,9 @@ export type OrderShippedPayload = z.infer<typeof orderShippedPayloadSchema>;
 export type ProductionQcUpdatedPayload = z.infer<typeof productionQcUpdatedPayloadSchema>;
 export type InventoryCustomerReturnPayload = z.infer<typeof inventoryCustomerReturnPayloadSchema>;
 export type InventoryChannelTransferPayload = z.infer<typeof inventoryChannelTransferPayloadSchema>;
-export type InventoryReconciliationCompletedPayload = z.infer<typeof inventoryReconciliationCompletedPayloadSchema>;
+export type InventoryReconciliationCompletedPayload = z.infer<
+  typeof inventoryReconciliationCompletedPayloadSchema
+>;
 
 /** inventory.discrepancy_detected — отчёт сверки + detectedBy */
 export const inventoryDiscrepancyDetectedPayloadSchema = z.object({
@@ -127,6 +129,13 @@ export const inventoryCycleCountCompletedPayloadSchema = z.object({
   actorId: z.string().min(1),
   reason: z.string().min(1),
   tenantId: z.string().optional(),
+});
+
+export const inventoryShopStockFileIngestedPayloadSchema = z.object({
+  fileName: z.string().min(1),
+  clientKey: z.string().min(1),
+  acceptedAt: z.string().min(1),
+  channel: z.literal('b2c_shop_stock_upload_demo'),
 });
 
 export const articleReadyForProductionPayloadSchema = z.object({

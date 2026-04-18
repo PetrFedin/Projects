@@ -4,12 +4,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { Workshop2CategoryHandbookGuidance } from '@/components/brand/production/Workshop2CategoryHandbookGuidance';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useCategoryCatalogChecks } from '@/components/project-info/CategoryCatalogCheckContext';
 import { CATALOG_AUDIENCE_COLUMNS } from '@/lib/project-info/category-catalog-audience-flags';
 import {
@@ -77,100 +72,100 @@ export function ProjectInfoCategoryHandbookFlatTable() {
   }, [rows]);
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-slate-200">
+    <div className="border-border-default overflow-x-auto rounded-lg border">
       <table className="w-full min-w-[1760px] border-collapse text-left text-[11px]">
         <thead>
-          <tr className="border-b border-slate-200 bg-slate-50">
+          <tr className="border-border-default bg-bg-surface2 border-b">
             <th
               className={cn(
-                'sticky left-0 z-10 bg-slate-50 px-2 py-2 font-semibold text-slate-800',
+                'bg-bg-surface2 text-text-primary sticky left-0 z-10 px-2 py-2 font-semibold',
                 'shadow-[1px_0_0_0_rgb(226_232_240)]'
               )}
             >
               Категория 1
             </th>
-            <th className="px-2 py-2 font-semibold text-slate-800">Категория 2</th>
-            <th className="px-2 py-2 font-semibold text-slate-800">Категория 3</th>
+            <th className="text-text-primary px-2 py-2 font-semibold">Категория 2</th>
+            <th className="text-text-primary px-2 py-2 font-semibold">Категория 3</th>
             {CATALOG_AUDIENCE_COLUMNS.map((c) => (
               <th
                 key={c.key}
-                className="w-10 min-w-10 max-w-10 border-l border-slate-200 px-0.5 py-2 text-center font-semibold text-slate-800"
+                className="border-border-default text-text-primary w-10 min-w-10 max-w-10 border-l px-0.5 py-2 text-center font-semibold"
                 title={c.label}
               >
                 <span className="block text-[10px] leading-tight">{c.abbr}</span>
-                <span className="mt-0.5 hidden text-center text-[7px] font-normal leading-snug text-slate-500 sm:block">
+                <span className="text-text-secondary mt-0.5 hidden text-center text-[7px] font-normal leading-snug sm:block">
                   {c.label}
                 </span>
               </th>
             ))}
             <th
-              className="min-w-[200px] border-l border-slate-200 px-2 py-2 align-bottom font-semibold text-slate-800"
+              className="border-border-default text-text-primary min-w-[200px] border-l px-2 py-2 align-bottom font-semibold"
               title="Материал, стиль/повод и оси, задающие тип/класс изделия для ветки кат. 1–2"
             >
               Обязательные
             </th>
             <th
-              className="min-w-[220px] border-l border-slate-100 px-2 py-2 align-bottom font-semibold text-slate-800"
+              className="border-border-subtle text-text-primary min-w-[220px] border-l px-2 py-2 align-bottom font-semibold"
               title="Остальные оси подборки (крой, отделка, фактура и т.д.) для той же ветки"
             >
               Общие
             </th>
             <th
-              className="min-w-[52px] border-l border-slate-200 px-1 py-2 align-bottom font-semibold text-slate-800"
+              className="border-border-default text-text-primary min-w-[52px] border-l px-1 py-2 align-bottom font-semibold"
               title="Единица учёта по умолчанию (шт / пара / комплект / мл …)"
             >
               Ед.
             </th>
             <th
-              className="min-w-[120px] border-l border-slate-100 px-1 py-2 align-bottom font-semibold text-slate-800"
+              className="border-border-subtle text-text-primary min-w-[120px] border-l px-1 py-2 align-bottom font-semibold"
               title="Теги комплаенса РФ/ЕАЭУ (ориентиры для чеклиста документов)"
             >
               Комплаенс
             </th>
             <th
-              className="min-w-[48px] border-l border-slate-100 px-1 py-2 text-center align-bottom font-semibold text-slate-800"
+              className="border-border-subtle text-text-primary min-w-[48px] border-l px-1 py-2 text-center align-bottom font-semibold"
               title="Подсказка главы ТН ВЭД ЕАЭС для оператора"
             >
               ТНВЭД
             </th>
             <th
-              className="min-w-[72px] border-l border-slate-100 px-1 py-2 align-bottom font-semibold text-slate-800"
+              className="border-border-subtle text-text-primary min-w-[72px] border-l px-1 py-2 align-bottom font-semibold"
               title="Профиль размеров/параметров (production-params) или переопределение"
             >
               Размеры
             </th>
             <th
-              className="min-w-[88px] border-l border-slate-100 px-1 py-2 align-bottom font-semibold text-slate-800"
+              className="border-border-subtle text-text-primary min-w-[88px] border-l px-1 py-2 align-bottom font-semibold"
               title="Шаблон маршрута / этапов производства (id)"
             >
               Маршрут
             </th>
             <th
-              className="min-w-[44px] border-l border-slate-100 px-1 py-2 text-center align-bottom font-semibold text-slate-800"
+              className="border-border-subtle text-text-primary min-w-[44px] border-l px-1 py-2 text-center align-bottom font-semibold"
               title="Количество обязательных типов вложений ТЗ"
             >
               Док.
             </th>
             <th
-              className="min-w-[52px] border-l border-slate-100 px-1 py-2 text-center align-bottom font-semibold text-slate-800"
+              className="border-border-subtle text-text-primary min-w-[52px] border-l px-1 py-2 text-center align-bottom font-semibold"
               title="Каналы сбыта (WB / Ozon / …), заданные в профиле листа"
             >
               МП
             </th>
             <th
-              className="min-w-[56px] border-l border-slate-100 px-1 py-2 text-center align-bottom font-semibold text-slate-800"
+              className="border-border-subtle text-text-primary min-w-[56px] border-l px-1 py-2 text-center align-bottom font-semibold"
               title="Языки этикетки по умолчанию"
             >
               Язык
             </th>
             <th
-              className="min-w-[72px] border-l border-slate-100 px-1 py-2 align-bottom font-semibold text-slate-800"
+              className="border-border-subtle text-text-primary min-w-[72px] border-l px-1 py-2 align-bottom font-semibold"
               title="Источник осей атрибутов: info_pick_matrix | узел справочника | hybrid"
             >
               Атриб.
             </th>
             <th
-              className="sticky right-0 z-10 min-w-[88px] border-l border-slate-200 bg-slate-50 px-1 py-2 text-center align-bottom font-semibold text-slate-800 shadow-[-1px_0_0_0_rgb(226_232_240)]"
+              className="border-border-default bg-bg-surface2 text-text-primary sticky right-0 z-10 min-w-[88px] border-l px-1 py-2 text-center align-bottom font-semibold shadow-[-1px_0_0_0_rgb(226_232_240)]"
               title="leafId и карточка подсказок (как в Цехе 2)"
             >
               Лист
@@ -189,23 +184,31 @@ export function ProjectInfoCategoryHandbookFlatTable() {
             const route = prod.productionRouteTemplateId ?? '—';
             const mp = prod.marketplaceRefs.length;
             const langs = prod.labelLocalesDefault.join(',') || '—';
-            const bind = prod.attributeBinding === 'info_pick_matrix' ? 'IP' : prod.attributeBinding === 'hybrid' ? 'H' : 'узел';
+            const bind =
+              prod.attributeBinding === 'info_pick_matrix'
+                ? 'IP'
+                : prod.attributeBinding === 'hybrid'
+                  ? 'H'
+                  : 'узел';
             return (
-              <tr key={leaf.leafId} className="group border-b border-slate-100 hover:bg-slate-50/80">
+              <tr
+                key={leaf.leafId}
+                className="border-border-subtle hover:bg-bg-surface2/80 group border-b"
+              >
                 <td
                   className={cn(
-                    'sticky left-0 z-[1] bg-white px-2 py-1.5 text-slate-900',
-                    'shadow-[1px_0_0_0_rgb(241_245_249)] group-hover:bg-slate-50/80'
+                    'text-text-primary sticky left-0 z-[1] bg-white px-2 py-1.5',
+                    'group-hover:bg-bg-surface2/80 shadow-[1px_0_0_0_rgb(241_245_249)]'
                   )}
                 >
                   {leaf.l1Name}
                 </td>
-                <td className="px-2 py-1.5 text-slate-800">{leaf.l2Name}</td>
-                <td className="px-2 py-1.5 text-slate-700">{displayL3(leaf.l3Name)}</td>
+                <td className="text-text-primary px-2 py-1.5">{leaf.l2Name}</td>
+                <td className="text-text-primary px-2 py-1.5">{displayL3(leaf.l3Name)}</td>
                 {CATALOG_AUDIENCE_COLUMNS.map((c) => (
                   <td
                     key={c.key}
-                    className="w-10 min-w-10 max-w-10 border-l border-slate-100 px-0.5 py-1 text-center align-middle"
+                    className="border-border-subtle w-10 min-w-10 max-w-10 border-l px-0.5 py-1 text-center align-middle"
                   >
                     <Checkbox
                       checked={flags[c.key]}
@@ -216,74 +219,80 @@ export function ProjectInfoCategoryHandbookFlatTable() {
                   </td>
                 ))}
                 <td
-                  className="max-w-[min(16rem,40vw)] border-l border-slate-100 px-2 py-1.5 align-top text-[10px] leading-snug text-slate-700"
+                  className="border-border-subtle text-text-primary max-w-[min(16rem,40vw)] border-l px-2 py-1.5 align-top text-[10px] leading-snug"
                   title={groups.requiredLabels.join(' · ')}
                 >
                   {groups.requiredLabels.length ? (
-                    <span className="line-clamp-4 sm:line-clamp-none">{groups.requiredLabels.join(' · ')}</span>
+                    <span className="line-clamp-4 sm:line-clamp-none">
+                      {groups.requiredLabels.join(' · ')}
+                    </span>
                   ) : (
-                    <span className="text-slate-400">—</span>
+                    <span className="text-text-muted">—</span>
                   )}
                 </td>
                 <td
-                  className="max-w-[min(18rem,45vw)] border-l border-slate-100 px-2 py-1.5 align-top text-[10px] leading-snug text-slate-600"
+                  className="border-border-subtle text-text-secondary max-w-[min(18rem,45vw)] border-l px-2 py-1.5 align-top text-[10px] leading-snug"
                   title={groups.commonLabels.join(' · ')}
                 >
                   {groups.commonLabels.length ? (
-                    <span className="line-clamp-4 sm:line-clamp-none">{groups.commonLabels.join(' · ')}</span>
+                    <span className="line-clamp-4 sm:line-clamp-none">
+                      {groups.commonLabels.join(' · ')}
+                    </span>
                   ) : (
-                    <span className="text-slate-400">—</span>
+                    <span className="text-text-muted">—</span>
                   )}
                 </td>
                 <td
-                  className="border-l border-slate-200 px-1 py-1.5 align-top text-[10px] text-slate-700"
+                  className="border-border-default text-text-primary border-l px-1 py-1.5 align-top text-[10px]"
                   title={prod.stockUnitNotes ?? prod.stockUnitDefault}
                 >
                   {formatStockUnitRu(prod.stockUnitDefault)}
                 </td>
                 <td
-                  className="max-w-[7rem] border-l border-slate-100 px-1 py-1.5 align-top text-[9px] leading-tight text-slate-700"
+                  className="border-border-subtle text-text-primary max-w-[7rem] border-l px-1 py-1.5 align-top text-[9px] leading-tight"
                   title={prod.complianceTags.join(', ')}
                 >
-                  <span className="line-clamp-3">{formatComplianceSummary(prod.complianceTags)}</span>
+                  <span className="line-clamp-3">
+                    {formatComplianceSummary(prod.complianceTags)}
+                  </span>
                 </td>
-                <td className="border-l border-slate-100 px-1 py-1.5 text-center align-top text-[10px] text-slate-700">
+                <td className="border-border-subtle text-text-primary border-l px-1 py-1.5 text-center align-top text-[10px]">
                   {tn}
                 </td>
                 <td
-                  className="max-w-[5.5rem] border-l border-slate-100 px-1 py-1.5 align-top text-[9px] leading-tight text-slate-600"
+                  className="border-border-subtle text-text-secondary max-w-[5.5rem] border-l px-1 py-1.5 align-top text-[9px] leading-tight"
                   title={prod.sizeParameterProfileId ?? ''}
                 >
                   <span className="line-clamp-2">{prod.sizeParameterProfileId ?? '—'}</span>
                 </td>
                 <td
-                  className="max-w-[5.5rem] border-l border-slate-100 px-1 py-1.5 align-top text-[9px] leading-tight text-slate-600"
+                  className="border-border-subtle text-text-secondary max-w-[5.5rem] border-l px-1 py-1.5 align-top text-[9px] leading-tight"
                   title={prod.productionRouteTemplateLabel ?? route}
                 >
                   <span className="line-clamp-2">{route}</span>
                 </td>
-                <td className="border-l border-slate-100 px-1 py-1.5 text-center align-top text-[10px] text-slate-700">
+                <td className="border-border-subtle text-text-primary border-l px-1 py-1.5 text-center align-top text-[10px]">
                   {prod.requiredDocuments.length}
                 </td>
-                <td className="border-l border-slate-100 px-1 py-1.5 text-center align-top text-[10px] text-slate-700">
+                <td className="border-border-subtle text-text-primary border-l px-1 py-1.5 text-center align-top text-[10px]">
                   {mp || '—'}
                 </td>
                 <td
-                  className="border-l border-slate-100 px-1 py-1.5 text-center align-top text-[9px] text-slate-700"
+                  className="border-border-subtle text-text-primary border-l px-1 py-1.5 text-center align-top text-[9px]"
                   title={prod.mandatoryLabelBlocks.join(', ')}
                 >
                   {langs}
                 </td>
                 <td
-                  className="border-l border-slate-100 px-1 py-1.5 align-top text-[9px] text-slate-600"
+                  className="border-border-subtle text-text-secondary border-l px-1 py-1.5 align-top text-[9px]"
                   title={prod.attributeBindingNote ?? prod.attributeBinding}
                 >
                   {bind}
                 </td>
                 <td
                   className={cn(
-                    'sticky right-0 z-[1] border-l border-slate-200 bg-white px-0.5 py-1 text-center align-middle',
-                    'shadow-[-1px_0_0_0_rgb(241_245_249)] group-hover:bg-slate-50/80'
+                    'border-border-default sticky right-0 z-[1] border-l bg-white px-0.5 py-1 text-center align-middle',
+                    'group-hover:bg-bg-surface2/80 shadow-[-1px_0_0_0_rgb(241_245_249)]'
                   )}
                 >
                   <div className="flex items-center justify-center gap-0.5">
@@ -293,9 +302,7 @@ export function ProjectInfoCategoryHandbookFlatTable() {
                       size="icon"
                       className="h-7 w-7 shrink-0"
                       title={
-                        copiedLeafId === leaf.leafId
-                          ? 'Скопировано'
-                          : `Скопировать ${leaf.leafId}`
+                        copiedLeafId === leaf.leafId ? 'Скопировано' : `Скопировать ${leaf.leafId}`
                       }
                       aria-label={`Скопировать leafId ${leaf.leafId}`}
                       onClick={() => void copyLeafId(leaf.leafId)}
@@ -321,15 +328,21 @@ export function ProjectInfoCategoryHandbookFlatTable() {
         </tbody>
       </table>
 
-      <Dialog open={handbookDialogLeaf !== null} onOpenChange={(o) => !o && setHandbookDialogLeaf(null)}>
+      <Dialog
+        open={handbookDialogLeaf !== null}
+        onOpenChange={(o) => !o && setHandbookDialogLeaf(null)}
+      >
         <DialogContent className="max-h-[min(90vh,720px)] max-w-lg overflow-y-auto sm:max-w-xl">
           <DialogHeader>
-            <DialogTitle className="text-sm leading-tight pr-8">
+            <DialogTitle className="pr-8 text-sm leading-tight">
               {handbookDialogLeaf?.pathLabel ?? 'Справочник по листу'}
             </DialogTitle>
           </DialogHeader>
           {handbookDialogLeaf ? (
-            <Workshop2CategoryHandbookGuidance leaf={handbookDialogLeaf} className="border-0 bg-transparent p-0" />
+            <Workshop2CategoryHandbookGuidance
+              leaf={handbookDialogLeaf}
+              className="border-0 bg-transparent p-0"
+            />
           ) : null}
         </DialogContent>
       </Dialog>

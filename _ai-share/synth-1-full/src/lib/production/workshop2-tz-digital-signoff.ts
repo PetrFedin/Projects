@@ -12,11 +12,12 @@ export type Workshop2TzDigitalSignoffCapabilities = {
 };
 
 /** Пока нет интеграции с «Команда» — все направления разрешены; родитель может передать явные флаги. */
-export const WORKSHOP2_TZ_DIGITAL_SIGNOFF_DEFAULT_CAPABILITIES: Workshop2TzDigitalSignoffCapabilities = {
-  designer: true,
-  technologist: true,
-  manager: true,
-};
+export const WORKSHOP2_TZ_DIGITAL_SIGNOFF_DEFAULT_CAPABILITIES: Workshop2TzDigitalSignoffCapabilities =
+  {
+    designer: true,
+    technologist: true,
+    manager: true,
+  };
 
 function djb2Hex(input: string): string {
   let hash = 5381;

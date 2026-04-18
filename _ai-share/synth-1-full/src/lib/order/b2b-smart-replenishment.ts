@@ -67,9 +67,10 @@ export class B2BSubscriptionEngine {
       quantityToShip,
       estimatedDeliveryDate,
       discountAppliedPercent,
-      reasoning: `Client inventory critically low (${daysOfSupply.toFixed(1)} days of supply remaining). ` +
-                 `Auto-replenishing ${quantityToShip} units to restore 1.5 months target inventory. ` +
-                 `Applied ${discountAppliedPercent}% subscription discount.`
+      reasoning:
+        `Client inventory critically low (${daysOfSupply.toFixed(1)} days of supply remaining). ` +
+        `Auto-replenishing ${quantityToShip} units to restore 1.5 months target inventory. ` +
+        `Applied ${discountAppliedPercent}% subscription discount.`,
     };
   }
 }

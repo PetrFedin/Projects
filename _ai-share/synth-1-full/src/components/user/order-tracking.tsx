@@ -4,20 +4,23 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { 
-  Package, Truck, MapPin, Clock, CheckCircle2, Circle, 
-  AlertCircle, ArrowRight, Copy, ExternalLink
+import {
+  Package,
+  Truck,
+  MapPin,
+  Clock,
+  CheckCircle2,
+  Circle,
+  AlertCircle,
+  ArrowRight,
+  Copy,
+  ExternalLink,
 } from 'lucide-react';
 import { useUserOrders } from '@/hooks/use-user-orders';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface TrackingEvent {
   id: string;
@@ -54,9 +57,9 @@ const statusConfig = {
   shipped: {
     label: 'В пути',
     icon: Truck,
-    color: 'text-purple-600',
-    bgColor: 'bg-purple-500/10',
-    borderColor: 'border-purple-500/20',
+    color: 'text-accent-primary',
+    bgColor: 'bg-accent-primary/10',
+    borderColor: 'border-accent-primary/30',
   },
   delivered: {
     label: 'Доставлено',
@@ -79,11 +82,11 @@ export default function OrderTracking() {
   const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
 
   const activeOrders = orders
-    .filter(o => o.status !== 'delivered' && o.status !== 'cancelled')
+    .filter((o) => o.status !== 'delivered' && o.status !== 'cancelled')
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
   const selectedOrderData = selectedOrder
-    ? orders.find(o => o.id === selectedOrder)
+    ? orders.find((o) => o.id === selectedOrder)
     : activeOrders[0];
 
   if (!selectedOrderData) {
@@ -96,8 +99,8 @@ export default function OrderTracking() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-4 text-muted-foreground">
-            <Package className="h-12 w-12 mx-auto mb-4 opacity-50" />
+          <div className="py-4 text-center text-muted-foreground">
+            <Package className="mx-auto mb-4 h-12 w-12 opacity-50" />
             <p>Нет активных заказов для отслеживания</p>
           </div>
         </CardContent>
@@ -116,26 +119,42 @@ export default function OrderTracking() {
       description: 'Заказ создан',
       timestamp: new Date(selectedOrderData.createdAt),
     },
-    ...(selectedOrderData.status !== 'pending' ? [{
-      id: '2',
-      status: 'processing',
-      description: 'Заказ обрабатывается',
-      timestamp: new Date(new Date(selectedOrderData.createdAt).getTime() + 3600000),
-    }] : []),
-    ...(selectedOrderData.status === 'shipped' || selectedOrderData.status === 'delivered' ? [{
-      id: '3',
-      status: 'shipped',
-      description: 'Заказ отправлен',
-      timestamp: selectedOrderData.updatedAt ? new Date(selectedOrderData.updatedAt) : new Date(),
-      location: 'Склад отправки',
-    }] : []),
-    ...(selectedOrderData.status === 'delivered' ? [{
-      id: '4',
-      status: 'delivered',
-      description: 'Заказ доставлен',
-      timestamp: selectedOrderData.estimatedDelivery ? new Date(selectedOrderData.estimatedDelivery) : new Date(),
-      location: selectedOrderData.shippingAddress?.city || 'Адрес доставки',
-    }] : []),
+    ...(selectedOrderData.status !== 'pending'
+      ? [
+          {
+            id: '2',
+            status: 'processing',
+            description: 'Заказ обрабатывается',
+            timestamp: new Date(new Date(selectedOrderData.createdAt).getTime() + 3600000),
+          },
+        ]
+      : []),
+    ...(selectedOrderData.status === 'shipped' || selectedOrderData.status === 'delivered'
+      ? [
+          {
+            id: '3',
+            status: 'shipped',
+            description: 'Заказ отправлен',
+            timestamp: selectedOrderData.updatedAt
+              ? new Date(selectedOrderData.updatedAt)
+              : new Date(),
+            location: 'Склад отправки',
+          },
+        ]
+      : []),
+    ...(selectedOrderData.status === 'delivered'
+      ? [
+          {
+            id: '4',
+            status: 'delivered',
+            description: 'Заказ доставлен',
+            timestamp: selectedOrderData.estimatedDelivery
+              ? new Date(selectedOrderData.estimatedDelivery)
+              : new Date(),
+            location: selectedOrderData.shippingAddress?.city || 'Адрес доставки',
+          },
+        ]
+      : []),
   ];
 
   const handleCopyTracking = () => {
@@ -154,7 +173,7 @@ export default function OrderTracking() {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              {activeOrders.map(order => {
+              {activeOrders.map((order) => {
                 const orderConfig = statusConfig[order.status];
                 const OrderIcon = orderConfig.icon;
                 return (
@@ -162,19 +181,20 @@ export default function OrderTracking() {
                     key={order.id}
                     onClick={() => setSelectedOrder(order.id)}
                     className={cn(
-                      'w-full p-3 rounded-lg border text-left transition-colors',
-                      selectedOrder === order.id || (!selectedOrder && order.id === activeOrders[0].id)
+                      'w-full rounded-lg border p-3 text-left transition-colors',
+                      selectedOrder === order.id ||
+                        (!selectedOrder && order.id === activeOrders[0].id)
                         ? 'border-accent bg-accent/5'
                         : 'hover:bg-muted/50'
                     )}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className={cn('p-2 rounded', orderConfig.bgColor)}>
+                        <div className={cn('rounded p-2', orderConfig.bgColor)}>
                           <OrderIcon className={cn('h-4 w-4', orderConfig.color)} />
                         </div>
                         <div>
-                          <p className="font-medium text-sm">
+                          <p className="text-sm font-medium">
                             Заказ #{order.id.slice(-8).toUpperCase()}
                           </p>
                           <p className="text-xs text-muted-foreground">
@@ -182,7 +202,10 @@ export default function OrderTracking() {
                           </p>
                         </div>
                       </div>
-                      <Badge variant="outline" className={cn(orderConfig.borderColor, orderConfig.color)}>
+                      <Badge
+                        variant="outline"
+                        className={cn(orderConfig.borderColor, orderConfig.color)}
+                      >
                         {orderConfig.label}
                       </Badge>
                     </div>
@@ -215,21 +238,17 @@ export default function OrderTracking() {
         <CardContent className="space-y-6">
           {/* Tracking Number */}
           {selectedOrderData.trackingNumber && (
-            <div className="p-4 rounded-lg border bg-muted/50">
+            <div className="rounded-lg border bg-muted/50 p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">Номер отслеживания</p>
+                  <p className="mb-1 text-sm text-muted-foreground">Номер отслеживания</p>
                   <p className="font-mono font-semibold">{selectedOrderData.trackingNumber}</p>
                 </div>
                 <div className="flex gap-2">
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          onClick={handleCopyTracking}
-                        >
+                        <Button variant="outline" size="icon" onClick={handleCopyTracking}>
                           <Copy className="h-4 w-4" />
                         </Button>
                       </TooltipTrigger>
@@ -238,11 +257,7 @@ export default function OrderTracking() {
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    asChild
-                  >
+                  <Button variant="outline" size="icon" asChild>
                     <a
                       href={`https://tracking.example.com/${selectedOrderData.trackingNumber}`}
                       target="_blank"
@@ -258,16 +273,19 @@ export default function OrderTracking() {
 
           {/* Estimated Delivery */}
           {selectedOrderData.estimatedDelivery && (
-            <div className="p-4 rounded-lg border">
+            <div className="rounded-lg border p-4">
               <div className="flex items-center gap-3">
                 <MapPin className="h-5 w-5 text-muted-foreground" />
                 <div className="flex-1">
-                  <p className="text-sm font-medium mb-1">Ожидаемая доставка</p>
+                  <p className="mb-1 text-sm font-medium">Ожидаемая доставка</p>
                   <p className="text-sm text-muted-foreground">
-                    {format(new Date(selectedOrderData.estimatedDelivery), 'd MMMM yyyy, EEEE', { locale: ru })}
+                    {format(new Date(selectedOrderData.estimatedDelivery), 'd MMMM yyyy, EEEE', {
+                      locale: ru,
+                    })}
                   </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {selectedOrderData.shippingAddress?.address}, {selectedOrderData.shippingAddress?.city}
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {selectedOrderData.shippingAddress?.address},{' '}
+                    {selectedOrderData.shippingAddress?.city}
                   </p>
                 </div>
               </div>
@@ -280,7 +298,8 @@ export default function OrderTracking() {
             <div className="relative">
               {trackingEvents.map((event, index) => {
                 const isLast = index === trackingEvents.length - 1;
-                const isCompleted = index < trackingEvents.length - 1 || selectedOrderData.status === 'delivered';
+                const isCompleted =
+                  index < trackingEvents.length - 1 || selectedOrderData.status === 'delivered';
                 const eventConfig = statusConfig[event.status as keyof typeof statusConfig];
                 const EventIcon = eventConfig.icon;
 
@@ -288,42 +307,48 @@ export default function OrderTracking() {
                   <div key={event.id} className="relative flex gap-3 pb-6 last:pb-0">
                     {/* Timeline Line */}
                     {!isLast && (
-                      <div className={cn(
-                        'absolute left-5 top-3 w-0.5 h-full',
-                        isCompleted ? 'bg-accent' : 'bg-muted'
-                      )} />
+                      <div
+                        className={cn(
+                          'absolute left-5 top-3 h-full w-0.5',
+                          isCompleted ? 'bg-accent' : 'bg-muted'
+                        )}
+                      />
                     )}
 
                     {/* Icon */}
-                    <div className={cn(
-                      'relative z-10 p-2 rounded-full border-2',
-                      isCompleted
-                        ? `${eventConfig.bgColor} ${eventConfig.borderColor}`
-                        : 'bg-muted border-muted'
-                    )}>
-                      <EventIcon className={cn(
-                        'h-4 w-4',
-                        isCompleted ? eventConfig.color : 'text-muted-foreground'
-                      )} />
+                    <div
+                      className={cn(
+                        'relative z-10 rounded-full border-2 p-2',
+                        isCompleted
+                          ? `${eventConfig.bgColor} ${eventConfig.borderColor}`
+                          : 'border-muted bg-muted'
+                      )}
+                    >
+                      <EventIcon
+                        className={cn(
+                          'h-4 w-4',
+                          isCompleted ? eventConfig.color : 'text-muted-foreground'
+                        )}
+                      />
                     </div>
 
                     {/* Content */}
                     <div className="flex-1 pt-1">
                       <div className="flex items-start justify-between">
                         <div>
-                          <p className={cn(
-                            'font-medium text-sm',
-                            isCompleted ? '' : 'text-muted-foreground'
-                          )}>
+                          <p
+                            className={cn(
+                              'text-sm font-medium',
+                              isCompleted ? '' : 'text-muted-foreground'
+                            )}
+                          >
                             {event.description}
                           </p>
                           {event.location && (
-                            <p className="text-xs text-muted-foreground mt-1">
-                              {event.location}
-                            </p>
+                            <p className="mt-1 text-xs text-muted-foreground">{event.location}</p>
                           )}
                         </div>
-                        <p className="text-xs text-muted-foreground whitespace-nowrap ml-4">
+                        <p className="ml-4 whitespace-nowrap text-xs text-muted-foreground">
                           {format(event.timestamp, 'd MMM, HH:mm', { locale: ru })}
                         </p>
                       </div>
@@ -335,10 +360,12 @@ export default function OrderTracking() {
           </div>
 
           {/* Order Summary */}
-          <div className="pt-4 border-t">
-            <div className="flex items-center justify-between mb-2">
+          <div className="border-t pt-4">
+            <div className="mb-2 flex items-center justify-between">
               <p className="text-sm font-medium">Сумма заказа</p>
-              <p className="text-sm font-bold">{selectedOrderData.total.toLocaleString('ru-RU')} ₽</p>
+              <p className="text-sm font-bold">
+                {selectedOrderData.total.toLocaleString('ru-RU')} ₽
+              </p>
             </div>
             <div className="flex items-center justify-between text-sm text-muted-foreground">
               <p>Товаров: {selectedOrderData.items.length}</p>
@@ -350,8 +377,3 @@ export default function OrderTracking() {
     </div>
   );
 }
-
-
-
-
-

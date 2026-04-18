@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -9,85 +8,101 @@ import { AttributeValuesDialog } from '@/components/admin/attribute-values-dialo
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface Attribute {
-    id: string;
-    name_ru: string;
-    description: string;
-    values: string[];
+  id: string;
+  name_ru: string;
+  description: string;
+  values: string[];
 }
 
 export default function AttributesPage() {
-    const [attributes, setAttributes] = useState<Attribute[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [selectedAttribute, setSelectedAttribute] = useState<Attribute | null>(null);
-    
-    useEffect(() => {
-        const fetchAttributes = async () => {
-            try {
-                setIsLoading(true);
-                const response = await fetch('/data/attribute-data.json');
-                const data = await response.json();
-                setAttributes(data);
-            } catch (error) {
-                console.error("Failed to fetch attributes", error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetchAttributes();
-    }, []);
+  const [attributes, setAttributes] = useState<Attribute[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedAttribute, setSelectedAttribute] = useState<Attribute | null>(null);
 
-    const handleOpenDialog = (attribute: Attribute) => {
-        setSelectedAttribute(attribute);
-        setIsDialogOpen(true);
+  useEffect(() => {
+    const fetchAttributes = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('/data/attribute-data.json');
+        const data = await response.json();
+        setAttributes(data);
+      } catch (error) {
+        console.error('Failed to fetch attributes', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
+    fetchAttributes();
+  }, []);
 
-    const handleSaveChanges = (attributeId: string, newValues: string[]) => {
-        setAttributes(prev => prev.map(attr => 
-            attr.id === attributeId ? { ...attr, values: newValues } : attr
-        ));
-    };
+  const handleOpenDialog = (attribute: Attribute) => {
+    setSelectedAttribute(attribute);
+    setIsDialogOpen(true);
+  };
 
-    return (
-        <>
-            <div className="space-y-4">
-                <header>
-                    <h1 className="text-base font-bold font-headline">Справочник атрибутов</h1>
-                    <p className="text-muted-foreground">Управление всеми возможными характеристиками товаров.</p>
-                </header>
-                {isLoading ? (
-                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-                        {[...Array(8)].map((_, i) => <Skeleton key={i} className="h-40 w-full" />)}
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-                        {attributes.map(attr => (
-                            <Card key={attr.id}>
-                                <CardHeader>
-                                    <CardTitle className="text-sm">{attr.name_ru}</CardTitle>
-                                    <CardDescription className="text-xs h-8 line-clamp-2">{attr.description}</CardDescription>
-                                </CardHeader>
-                                <CardContent className="flex gap-2">
-                                    <Button variant="outline" size="sm" className="flex-1" onClick={() => handleOpenDialog(attr)}>
-                                        <List className="mr-2 h-4 w-4" /> Список ({attr.values.length})
-                                    </Button>
-                                    <Button variant="secondary" size="sm" className="flex-1" onClick={() => handleOpenDialog(attr)}>
-                                        <PlusCircle className="mr-2 h-4 w-4" /> Добавить
-                                    </Button>
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </div>
-                )}
-            </div>
-            {selectedAttribute && (
-                <AttributeValuesDialog 
-                    isOpen={isDialogOpen}
-                    onOpenChange={setIsDialogOpen}
-                    attribute={selectedAttribute}
-                    onSave={handleSaveChanges}
-                />
-            )}
-        </>
+  const handleSaveChanges = (attributeId: string, newValues: string[]) => {
+    setAttributes((prev) =>
+      prev.map((attr) => (attr.id === attributeId ? { ...attr, values: newValues } : attr))
     );
+  };
+
+  return (
+    <>
+      <div className="space-y-4">
+        <header>
+          <h1 className="font-headline text-base font-bold">Справочник атрибутов</h1>
+          <p className="text-muted-foreground">
+            Управление всеми возможными характеристиками товаров.
+          </p>
+        </header>
+        {isLoading ? (
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {[...Array(8)].map((_, i) => (
+              <Skeleton key={i} className="h-40 w-full" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {attributes.map((attr) => (
+              <Card key={attr.id}>
+                <CardHeader>
+                  <CardTitle className="text-sm">{attr.name_ru}</CardTitle>
+                  <CardDescription className="line-clamp-2 h-8 text-xs">
+                    {attr.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex-1"
+                    onClick={() => handleOpenDialog(attr)}
+                  >
+                    <List className="mr-2 h-4 w-4" /> Список ({attr.values.length})
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="flex-1"
+                    onClick={() => handleOpenDialog(attr)}
+                  >
+                    <PlusCircle className="mr-2 h-4 w-4" /> Добавить
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
+      {selectedAttribute && (
+        <AttributeValuesDialog
+          isOpen={isDialogOpen}
+          onOpenChange={setIsDialogOpen}
+          attribute={selectedAttribute}
+          onSave={handleSaveChanges}
+        />
+      )}
+    </>
+  );
 }

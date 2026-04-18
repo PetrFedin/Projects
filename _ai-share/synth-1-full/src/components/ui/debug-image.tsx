@@ -24,7 +24,7 @@ export function DebugImage({ src, alt, ...props }: DebugImageProps) {
     console.error('Image failed to load:', {
       src: imageSrc,
       error: e,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
     setImageError(true);
   };
@@ -36,10 +36,13 @@ export function DebugImage({ src, alt, ...props }: DebugImageProps) {
 
   if (imageError) {
     return (
-      <div className="flex items-center justify-center bg-muted text-muted-foreground" style={props.style}>
-        <div className="text-center p-4">
+      <div
+        className="flex items-center justify-center bg-muted text-muted-foreground"
+        style={props.style}
+      >
+        <div className="p-4 text-center">
           <p className="text-xs">Failed to load</p>
-          <p className="text-xs mt-1 break-all">{imageSrc.substring(0, 50)}...</p>
+          <p className="mt-1 break-all text-xs">{imageSrc.substring(0, 50)}...</p>
         </div>
       </div>
     );
@@ -47,23 +50,12 @@ export function DebugImage({ src, alt, ...props }: DebugImageProps) {
 
   return (
     <>
-      <Image
-        src={imageSrc}
-        alt={alt}
-        onError={handleError}
-        onLoad={handleLoad}
-        {...props}
-      />
+      <Image src={imageSrc} alt={alt} onError={handleError} onLoad={handleLoad} {...props} />
       {process.env.NODE_ENV === 'development' && !imageLoaded && !imageError && (
-        <div className="absolute inset-0 bg-muted animate-pulse flex items-center justify-center">
+        <div className="absolute inset-0 flex animate-pulse items-center justify-center bg-muted">
           <span className="text-xs text-muted-foreground">Loading...</span>
         </div>
       )}
     </>
   );
 }
-
-
-
-
-

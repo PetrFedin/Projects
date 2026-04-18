@@ -12,7 +12,7 @@ export type KidsCoverageSegment = 'clothing' | 'shoes' | 'bags' | 'accessories';
 
 function resolveFlags(
   leaf: HandbookCategoryLeaf,
-  flagMap: Record<string, CatalogAudienceFlags>,
+  flagMap: Record<string, CatalogAudienceFlags>
 ): CatalogAudienceFlags {
   return flagMap[leaf.leafId] ?? defaultAudienceFlagsForCatalogLeaf(leaf);
 }
@@ -67,7 +67,12 @@ const BAGS_L2_ORDER: string[] = [
   'Косметички',
 ];
 
-const ACCESSORIES_L1_ORDER = ['Аксессуары', 'Головные уборы', 'Носочно-чулочные', 'Аксессуары для новорождённых'];
+const ACCESSORIES_L1_ORDER = [
+  'Аксессуары',
+  'Головные уборы',
+  'Носочно-чулочные',
+  'Аксессуары для новорождённых',
+];
 
 function segmentL1s(segment: KidsCoverageSegment, audience: KidsHandbookAudience): string[] {
   if (segment === 'clothing') return ['Одежда'];
@@ -80,72 +85,183 @@ function segmentL1s(segment: KidsCoverageSegment, audience: KidsHandbookAudience
 
 function clothingRowMeta(
   l2: string,
-  a: KidsHandbookAudience,
+  a: KidsHandbookAudience
 ): { sizeTableTitle: string; fetchKey: string; notes: string } | null {
   const n = 'По галочкам справочника категорий для этой аудитории';
-  const m: Record<string, Partial<Record<KidsHandbookAudience, { sizeTableTitle: string; fetchKey: string }>>> = {
+  const m: Record<
+    string,
+    Partial<Record<KidsHandbookAudience, { sizeTableTitle: string; fetchKey: string }>>
+  > = {
     'Верхняя одежда': {
-      boys: { sizeTableTitle: 'Верхняя одежда (мальчики)', fetchKey: 'sizeChartDataKidsOuterwearBoys' },
-      girls: { sizeTableTitle: 'Верхняя одежда (девочки)', fetchKey: 'sizeChartDataKidsOuterwearGirls' },
-      newborn: { sizeTableTitle: 'Верхняя одежда — габариты (0–12 м)', fetchKey: 'sizeChartDataKidsNewbornOuterwear' },
+      boys: {
+        sizeTableTitle: 'Верхняя одежда (мальчики)',
+        fetchKey: 'sizeChartDataKidsOuterwearBoys',
+      },
+      girls: {
+        sizeTableTitle: 'Верхняя одежда (девочки)',
+        fetchKey: 'sizeChartDataKidsOuterwearGirls',
+      },
+      newborn: {
+        sizeTableTitle: 'Верхняя одежда — габариты (0–12 м)',
+        fetchKey: 'sizeChartDataKidsNewbornOuterwear',
+      },
     },
     'Костюмы и жакеты': {
-      boys: { sizeTableTitle: 'Костюмы и жакеты (мальчики)', fetchKey: 'sizeChartDataKidsSuitsBoys' },
-      girls: { sizeTableTitle: 'Костюмы и жакеты (девочки)', fetchKey: 'sizeChartDataKidsSuitsGirls' },
-      newborn: { sizeTableTitle: 'Одежда (новорождённые, 0–12 м)', fetchKey: 'sizeChartDataKidsNewbornApparel' },
+      boys: {
+        sizeTableTitle: 'Костюмы и жакеты (мальчики)',
+        fetchKey: 'sizeChartDataKidsSuitsBoys',
+      },
+      girls: {
+        sizeTableTitle: 'Костюмы и жакеты (девочки)',
+        fetchKey: 'sizeChartDataKidsSuitsGirls',
+      },
+      newborn: {
+        sizeTableTitle: 'Одежда (новорождённые, 0–12 м)',
+        fetchKey: 'sizeChartDataKidsNewbornApparel',
+      },
     },
     'Платья и сарафаны': {
-      girls: { sizeTableTitle: 'Платья и сарафаны (девочки)', fetchKey: 'sizeChartDataKidsDressesGirls' },
-      newborn: { sizeTableTitle: 'Одежда (новорождённые, 0–12 м)', fetchKey: 'sizeChartDataKidsNewbornApparel' },
+      girls: {
+        sizeTableTitle: 'Платья и сарафаны (девочки)',
+        fetchKey: 'sizeChartDataKidsDressesGirls',
+      },
+      newborn: {
+        sizeTableTitle: 'Одежда (новорождённые, 0–12 м)',
+        fetchKey: 'sizeChartDataKidsNewbornApparel',
+      },
     },
     Юбки: {
       girls: { sizeTableTitle: 'Юбки (девочки)', fetchKey: 'sizeChartDataKidsSkirtsGirls' },
-      newborn: { sizeTableTitle: 'Одежда (новорождённые, 0–12 м)', fetchKey: 'sizeChartDataKidsNewbornApparel' },
+      newborn: {
+        sizeTableTitle: 'Одежда (новорождённые, 0–12 м)',
+        fetchKey: 'sizeChartDataKidsNewbornApparel',
+      },
     },
     'Рубашки и блузы': {
-      boys: { sizeTableTitle: 'Рубашки, поло, футболки (мальчики)', fetchKey: 'sizeChartDataKidsShirtsTopsBoys' },
-      girls: { sizeTableTitle: 'Рубашки, поло, футболки (девочки)', fetchKey: 'sizeChartDataKidsShirtsTopsGirls' },
-      newborn: { sizeTableTitle: 'Боди, распашонки, верх — габариты (0–12 м)', fetchKey: 'sizeChartDataKidsNewbornBodysuitsTops' },
+      boys: {
+        sizeTableTitle: 'Рубашки, поло, футболки (мальчики)',
+        fetchKey: 'sizeChartDataKidsShirtsTopsBoys',
+      },
+      girls: {
+        sizeTableTitle: 'Рубашки, поло, футболки (девочки)',
+        fetchKey: 'sizeChartDataKidsShirtsTopsGirls',
+      },
+      newborn: {
+        sizeTableTitle: 'Боди, распашонки, верх — габариты (0–12 м)',
+        fetchKey: 'sizeChartDataKidsNewbornBodysuitsTops',
+      },
     },
     'Топы и футболки': {
-      boys: { sizeTableTitle: 'Рубашки, поло, футболки (мальчики)', fetchKey: 'sizeChartDataKidsShirtsTopsBoys' },
-      girls: { sizeTableTitle: 'Рубашки, поло, футболки (девочки)', fetchKey: 'sizeChartDataKidsShirtsTopsGirls' },
-      newborn: { sizeTableTitle: 'Боди, распашонки, верх — габариты (0–12 м)', fetchKey: 'sizeChartDataKidsNewbornBodysuitsTops' },
+      boys: {
+        sizeTableTitle: 'Рубашки, поло, футболки (мальчики)',
+        fetchKey: 'sizeChartDataKidsShirtsTopsBoys',
+      },
+      girls: {
+        sizeTableTitle: 'Рубашки, поло, футболки (девочки)',
+        fetchKey: 'sizeChartDataKidsShirtsTopsGirls',
+      },
+      newborn: {
+        sizeTableTitle: 'Боди, распашонки, верх — габариты (0–12 м)',
+        fetchKey: 'sizeChartDataKidsNewbornBodysuitsTops',
+      },
     },
     Джинсы: {
-      boys: { sizeTableTitle: 'Брюки, джинсы, шорты (мальчики)', fetchKey: 'sizeChartDataKidsBottomsBoys' },
-      girls: { sizeTableTitle: 'Брюки, джинсы, шорты (девочки)', fetchKey: 'sizeChartDataKidsBottomsGirls' },
-      newborn: { sizeTableTitle: 'Ползунки, брюки — габариты (0–12 м)', fetchKey: 'sizeChartDataKidsNewbornBottoms' },
+      boys: {
+        sizeTableTitle: 'Брюки, джинсы, шорты (мальчики)',
+        fetchKey: 'sizeChartDataKidsBottomsBoys',
+      },
+      girls: {
+        sizeTableTitle: 'Брюки, джинсы, шорты (девочки)',
+        fetchKey: 'sizeChartDataKidsBottomsGirls',
+      },
+      newborn: {
+        sizeTableTitle: 'Ползунки, брюки — габариты (0–12 м)',
+        fetchKey: 'sizeChartDataKidsNewbornBottoms',
+      },
     },
     Брюки: {
-      boys: { sizeTableTitle: 'Брюки, джинсы, шорты (мальчики)', fetchKey: 'sizeChartDataKidsBottomsBoys' },
-      girls: { sizeTableTitle: 'Брюки, джинсы, шорты (девочки)', fetchKey: 'sizeChartDataKidsBottomsGirls' },
-      newborn: { sizeTableTitle: 'Ползунки, брюки — габариты (0–12 м)', fetchKey: 'sizeChartDataKidsNewbornBottoms' },
+      boys: {
+        sizeTableTitle: 'Брюки, джинсы, шорты (мальчики)',
+        fetchKey: 'sizeChartDataKidsBottomsBoys',
+      },
+      girls: {
+        sizeTableTitle: 'Брюки, джинсы, шорты (девочки)',
+        fetchKey: 'sizeChartDataKidsBottomsGirls',
+      },
+      newborn: {
+        sizeTableTitle: 'Ползунки, брюки — габариты (0–12 м)',
+        fetchKey: 'sizeChartDataKidsNewbornBottoms',
+      },
     },
     Трикотаж: {
-      boys: { sizeTableTitle: 'Трикотаж и спорт (мальчики)', fetchKey: 'sizeChartDataKidsKnitSportBoys' },
-      girls: { sizeTableTitle: 'Трикотаж и спорт (девочки)', fetchKey: 'sizeChartDataKidsKnitSportGirls' },
-      newborn: { sizeTableTitle: 'Одежда (новорождённые, 0–12 м)', fetchKey: 'sizeChartDataKidsNewbornApparel' },
+      boys: {
+        sizeTableTitle: 'Трикотаж и спорт (мальчики)',
+        fetchKey: 'sizeChartDataKidsKnitSportBoys',
+      },
+      girls: {
+        sizeTableTitle: 'Трикотаж и спорт (девочки)',
+        fetchKey: 'sizeChartDataKidsKnitSportGirls',
+      },
+      newborn: {
+        sizeTableTitle: 'Одежда (новорождённые, 0–12 м)',
+        fetchKey: 'sizeChartDataKidsNewbornApparel',
+      },
     },
     'Спортивная одежда': {
-      boys: { sizeTableTitle: 'Трикотаж и спорт (мальчики)', fetchKey: 'sizeChartDataKidsKnitSportBoys' },
-      girls: { sizeTableTitle: 'Трикотаж и спорт (девочки)', fetchKey: 'sizeChartDataKidsKnitSportGirls' },
-      newborn: { sizeTableTitle: 'Одежда (новорождённые, 0–12 м)', fetchKey: 'sizeChartDataKidsNewbornApparel' },
+      boys: {
+        sizeTableTitle: 'Трикотаж и спорт (мальчики)',
+        fetchKey: 'sizeChartDataKidsKnitSportBoys',
+      },
+      girls: {
+        sizeTableTitle: 'Трикотаж и спорт (девочки)',
+        fetchKey: 'sizeChartDataKidsKnitSportGirls',
+      },
+      newborn: {
+        sizeTableTitle: 'Одежда (новорождённые, 0–12 м)',
+        fetchKey: 'sizeChartDataKidsNewbornApparel',
+      },
     },
     'Нижнее бельё': {
-      boys: { sizeTableTitle: 'Нижнее бельё, пижамы, пляж (мальчики)', fetchKey: 'sizeChartDataKidsUnderwearPajamasBeachBoys' },
-      girls: { sizeTableTitle: 'Нижнее бельё, пижамы, пляж (девочки)', fetchKey: 'sizeChartDataKidsUnderwearPajamasBeachGirls' },
-      newborn: { sizeTableTitle: 'Одежда (новорождённые, 0–12 м)', fetchKey: 'sizeChartDataKidsNewbornApparel' },
+      boys: {
+        sizeTableTitle: 'Нижнее бельё, пижамы, пляж (мальчики)',
+        fetchKey: 'sizeChartDataKidsUnderwearPajamasBeachBoys',
+      },
+      girls: {
+        sizeTableTitle: 'Нижнее бельё, пижамы, пляж (девочки)',
+        fetchKey: 'sizeChartDataKidsUnderwearPajamasBeachGirls',
+      },
+      newborn: {
+        sizeTableTitle: 'Одежда (новорождённые, 0–12 м)',
+        fetchKey: 'sizeChartDataKidsNewbornApparel',
+      },
     },
     'Пижамы и домашняя одежда': {
-      boys: { sizeTableTitle: 'Нижнее бельё, пижамы, пляж (мальчики)', fetchKey: 'sizeChartDataKidsUnderwearPajamasBeachBoys' },
-      girls: { sizeTableTitle: 'Нижнее бельё, пижамы, пляж (девочки)', fetchKey: 'sizeChartDataKidsUnderwearPajamasBeachGirls' },
-      newborn: { sizeTableTitle: 'Одежда (новорождённые, 0–12 м)', fetchKey: 'sizeChartDataKidsNewbornApparel' },
+      boys: {
+        sizeTableTitle: 'Нижнее бельё, пижамы, пляж (мальчики)',
+        fetchKey: 'sizeChartDataKidsUnderwearPajamasBeachBoys',
+      },
+      girls: {
+        sizeTableTitle: 'Нижнее бельё, пижамы, пляж (девочки)',
+        fetchKey: 'sizeChartDataKidsUnderwearPajamasBeachGirls',
+      },
+      newborn: {
+        sizeTableTitle: 'Одежда (новорождённые, 0–12 м)',
+        fetchKey: 'sizeChartDataKidsNewbornApparel',
+      },
     },
     'Пляжная мода': {
-      boys: { sizeTableTitle: 'Нижнее бельё, пижамы, пляж (мальчики)', fetchKey: 'sizeChartDataKidsUnderwearPajamasBeachBoys' },
-      girls: { sizeTableTitle: 'Нижнее бельё, пижамы, пляж (девочки)', fetchKey: 'sizeChartDataKidsUnderwearPajamasBeachGirls' },
-      newborn: { sizeTableTitle: 'Одежда (новорождённые, 0–12 м)', fetchKey: 'sizeChartDataKidsNewbornApparel' },
+      boys: {
+        sizeTableTitle: 'Нижнее бельё, пижамы, пляж (мальчики)',
+        fetchKey: 'sizeChartDataKidsUnderwearPajamasBeachBoys',
+      },
+      girls: {
+        sizeTableTitle: 'Нижнее бельё, пижамы, пляж (девочки)',
+        fetchKey: 'sizeChartDataKidsUnderwearPajamasBeachGirls',
+      },
+      newborn: {
+        sizeTableTitle: 'Одежда (новорождённые, 0–12 м)',
+        fetchKey: 'sizeChartDataKidsNewbornApparel',
+      },
     },
   };
   const row = m[l2]?.[a];
@@ -175,7 +291,11 @@ function clothingSummary(a: KidsHandbookAudience): FootwearCoverageRow {
   };
 }
 
-function shoesRowMeta(a: KidsHandbookAudience): { sizeTableTitle: string; fetchKey: string; notes: string } {
+function shoesRowMeta(a: KidsHandbookAudience): {
+  sizeTableTitle: string;
+  fetchKey: string;
+  notes: string;
+} {
   if (a === 'newborn') {
     return {
       sizeTableTitle: 'Пинетки EU 16–19; далее общая EU-сетка 18–35',
@@ -190,7 +310,10 @@ function shoesRowMeta(a: KidsHandbookAudience): { sizeTableTitle: string; fetchK
   };
 }
 
-function bagsRowMeta(l2: string, a: KidsHandbookAudience): { sizeTableTitle: string; fetchKey: string; notes: string } {
+function bagsRowMeta(
+  l2: string,
+  a: KidsHandbookAudience
+): { sizeTableTitle: string; fetchKey: string; notes: string } {
   if (a === 'newborn' && (l2 === 'Повседневные' || l2 === 'Спортивные и дорожные')) {
     return {
       sizeTableTitle: 'Сумки у коляски / для ухода (0–12 м)',
@@ -208,7 +331,7 @@ function bagsRowMeta(l2: string, a: KidsHandbookAudience): { sizeTableTitle: str
 function accessoriesRowMeta(
   l1: string,
   l2: string,
-  a: KidsHandbookAudience,
+  a: KidsHandbookAudience
 ): { sizeTableTitle: string; fetchKey: string; notes: string } {
   if (l1 === 'Аксессуары для новорождённых') {
     return {
@@ -232,7 +355,10 @@ function accessoriesRowMeta(
     };
   }
   const acc: Record<string, { sizeTableTitle: string; fetchKey: string }> = {
-    'Перчатки и варежки': { sizeTableTitle: 'Перчатки (детские)', fetchKey: 'kidsAccessoryChartBlocks' },
+    'Перчатки и варежки': {
+      sizeTableTitle: 'Перчатки (детские)',
+      fetchKey: 'kidsAccessoryChartBlocks',
+    },
     'Ремни и подтяжки': { sizeTableTitle: 'Ремни', fetchKey: 'kidsAccessoryChartBlocks' },
     Шарфы: { sizeTableTitle: 'Шарфы…', fetchKey: 'kidsAccessoryChartBlocks' },
     Платки: { sizeTableTitle: 'Платки…', fetchKey: 'kidsAccessoryChartBlocks' },
@@ -256,7 +382,7 @@ function accessoriesRowMeta(
 export function buildKidsHandbookCoverageRows(
   audience: KidsHandbookAudience,
   segment: KidsCoverageSegment,
-  flagMap: Record<string, CatalogAudienceFlags>,
+  flagMap: Record<string, CatalogAudienceFlags>
 ): FootwearCoverageRow[] {
   const leaves = getHandbookCategoryLeaves();
   const l1s = new Set(segmentL1s(segment, audience));
@@ -300,7 +426,9 @@ export function buildKidsHandbookCoverageRows(
   for (const gk of groupKeys) {
     const groupLeaves = byGroup.get(gk)!;
     const [l1, l2] = gk.split('\t');
-    const matching = groupLeaves.filter((leaf) => audienceHit(resolveFlags(leaf, flagMap), audience));
+    const matching = groupLeaves.filter((leaf) =>
+      audienceHit(resolveFlags(leaf, flagMap), audience)
+    );
     if (matching.length === 0) continue;
 
     const catalogLeaves = uniqJoin(matching.map((l) => l.l3Name));

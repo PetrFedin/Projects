@@ -28,12 +28,12 @@ export function useUserActivity() {
     const lookboardsCount = lookboards.length;
     const cartCount = cart.length;
     const ordersCount = orderStats.totalOrders;
-    
+
     const totalActivity = wishlistCount + lookboardsCount + cartCount + ordersCount;
-    
+
     // Расчет уровня вовлеченности (0-100)
     const engagementLevel = Math.min(100, totalActivity * 10);
-    
+
     const loyaltyPoints = user?.loyaltyPoints || 0;
     const loyaltyPlan = user?.loyaltyPlan || 'base';
 
@@ -47,12 +47,14 @@ export function useUserActivity() {
       loyaltyPoints,
       loyaltyPlan,
     };
-  }, [wishlist.length, lookboards.length, cart.length, orderStats.totalOrders, user?.loyaltyPoints, user?.loyaltyPlan]);
+  }, [
+    wishlist.length,
+    lookboards.length,
+    cart.length,
+    orderStats.totalOrders,
+    user?.loyaltyPoints,
+    user?.loyaltyPlan,
+  ]);
 
   return activity;
 }
-
-
-
-
-

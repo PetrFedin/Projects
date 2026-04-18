@@ -16,6 +16,7 @@ import {
   Loader2,
   CheckCircle2,
 } from 'lucide-react';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 import {
   createCuttingMarker,
   getCuttingMarkers,
@@ -33,8 +34,12 @@ interface ProductionExtendedPanelProps {
 }
 
 export function ProductionExtendedPanel({ batchId, skuId }: ProductionExtendedPanelProps) {
-  const [markers, setMarkers] = useState<{ id: number; marker_number: string; efficiency_percent: number; status: string }[]>([]);
-  const [defectTypes, setDefectTypes] = useState<{ code: string; name_ru: string; category: string }[]>([]);
+  const [markers, setMarkers] = useState<
+    { id: number; marker_number: string; efficiency_percent: number; status: string }[]
+  >([]);
+  const [defectTypes, setDefectTypes] = useState<
+    { code: string; name_ru: string; category: string }[]
+  >([]);
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
 
@@ -105,12 +110,12 @@ export function ProductionExtendedPanel({ batchId, skuId }: ProductionExtendedPa
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       {/* 1. Раскрой и маркеры */}
-      <Card className="border border-slate-200 rounded-2xl overflow-hidden">
+      <Card className="border-border-default overflow-hidden rounded-2xl border">
         <CardHeader className="pb-2">
-          <CardTitle className="text-xs font-black uppercase tracking-wider flex items-center gap-2">
-            <Scissors className="h-4 w-4 text-indigo-500" />
+          <CardTitle className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
+            <Scissors className="text-accent-primary h-4 w-4" />
             Раскрой и маркеры
           </CardTitle>
         </CardHeader>
@@ -124,7 +129,11 @@ export function ProductionExtendedPanel({ batchId, skuId }: ProductionExtendedPa
                 onClick={handleCreateMarker}
                 disabled={loading}
               >
-                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+                {loading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Plus className="h-4 w-4" />
+                )}
                 <span className="ml-1">Создать маркер</span>
               </Button>
               {markers.length > 0 && (
@@ -132,7 +141,7 @@ export function ProductionExtendedPanel({ batchId, skuId }: ProductionExtendedPa
                   {markers.map((m) => (
                     <div
                       key={m.id}
-                      className="flex items-center justify-between p-2 rounded-xl bg-slate-50 text-[10px]"
+                      className="bg-bg-surface2 flex items-center justify-between rounded-xl p-2 text-[10px]"
                     >
                       <span className="font-bold">{m.marker_number}</span>
                       <Badge variant="secondary" className="text-[9px]">
@@ -145,56 +154,59 @@ export function ProductionExtendedPanel({ batchId, skuId }: ProductionExtendedPa
             </>
           )}
           {!batchId && (
-            <p className="text-[10px] text-slate-500">Выберите партию для управления маркерами</p>
+            <p className="text-text-secondary text-[10px]">
+              Выберите партию для управления маркерами
+            </p>
           )}
         </CardContent>
       </Card>
 
       {/* 2. Сырьё — allowance */}
-      <Card className="border border-slate-200 rounded-2xl overflow-hidden">
+      <Card className="border-border-default overflow-hidden rounded-2xl border">
         <CardHeader className="pb-2">
-          <CardTitle className="text-xs font-black uppercase tracking-wider flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
             <Layers className="h-4 w-4 text-emerald-500" />
             Нормы списания
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-[10px] text-slate-600 mb-2">
-            Allowance по операциям: ткань, нитки, подкладка. API: POST /plm/materials/allowance
+          <p className="text-text-secondary mb-2 text-[10px]">
+            Нормы списания по операциям: ткань, нитки, подкладка. <AcronymWithTooltip abbr="API" />:
+            POST /plm/materials/allowance
           </p>
           {skuId && (
             <Button size="sm" variant="ghost" className="text-[10px]" disabled>
-              Для SKU {skuId}
+              Для <AcronymWithTooltip abbr="SKU" /> {skuId}
             </Button>
           )}
         </CardContent>
       </Card>
 
-      {/* 3. Inline QC */}
-      <Card className="border border-slate-200 rounded-2xl overflow-hidden">
+      {/* 3. Межоперационный QC */}
+      <Card className="border-border-default overflow-hidden rounded-2xl border">
         <CardHeader className="pb-2">
-          <CardTitle className="text-xs font-black uppercase tracking-wider flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
             <ClipboardCheck className="h-4 w-4 text-amber-500" />
-            Inline QC
+            Межоперационный <AcronymWithTooltip abbr="QC" />
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-[10px] text-slate-600">
-            Межоперационный контроль. API: POST /plm/qc/inline
+          <p className="text-text-secondary text-[10px]">
+            Межоперационный контроль. <AcronymWithTooltip abbr="API" />: POST /plm/qc/inline
           </p>
         </CardContent>
       </Card>
 
       {/* 4. Реестр дефектов */}
-      <Card className="border border-slate-200 rounded-2xl overflow-hidden md:col-span-2">
+      <Card className="border-border-default overflow-hidden rounded-2xl border md:col-span-2">
         <CardHeader className="pb-2">
-          <CardTitle className="text-xs font-black uppercase tracking-wider flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
             <AlertCircle className="h-4 w-4 text-rose-500" />
             Реестр типов дефектов
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-wrap gap-2 mb-3">
+          <div className="mb-3 flex flex-wrap gap-2">
             {defectTypes.map((d) => (
               <Badge key={d.code} variant="outline" className="text-[9px]">
                 {d.code}: {d.name_ru}
@@ -209,23 +221,24 @@ export function ProductionExtendedPanel({ batchId, skuId }: ProductionExtendedPa
       </Card>
 
       {/* 5. PPS */}
-      <Card className="border border-slate-200 rounded-2xl overflow-hidden">
+      <Card className="border-border-default overflow-hidden rounded-2xl border">
         <CardHeader className="pb-2">
-          <CardTitle className="text-xs font-black uppercase tracking-wider flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
             <FileCheck className="h-4 w-4 text-blue-500" />
-            Pre-shipment sample
+            Предотгрузочный образец (PPS)
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-[10px] text-slate-600">
-            PPS — статус и привязка к этапу. API: POST /plm/production/batches/:id/pps
+          <p className="text-text-secondary text-[10px]">
+            PPS — статус и привязка к этапу. <AcronymWithTooltip abbr="API" />: POST
+            /plm/production/batches/:id/pps
           </p>
         </CardContent>
       </Card>
 
       {msg && (
         <div
-          className={`fixed bottom-4 right-4 px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2 ${
+          className={`fixed bottom-4 right-4 flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium ${
             msg.ok ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
           }`}
         >

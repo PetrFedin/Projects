@@ -19,8 +19,16 @@ const RolePanel = dynamic(() => import('./role-panel'), { ssr: false });
 import { OfflineBanner } from '@/components/brand/production/OfflineBanner';
 import { RegisterServiceWorker } from '@/components/pwa/RegisterServiceWorker';
 import { cn } from '@/lib/utils';
+import { ROUTES } from '@/lib/routes';
 
-const CABINET_ROUTES = ['/brand', '/admin', '/shop', '/factory', '/distributor', '/client'];
+const CABINET_ROUTES = [
+  ROUTES.brand.home,
+  ROUTES.admin.home,
+  ROUTES.shop.home,
+  ROUTES.factory.home,
+  ROUTES.distributor.home,
+  ROUTES.client.home,
+];
 
 export default function ClientLayout({
   children,
@@ -31,8 +39,8 @@ export default function ClientLayout({
   const isCabinet = pathname && CABINET_ROUTES.some((r) => pathname.startsWith(r));
 
   return (
-      <TooltipProvider>
-        <RouteGuard>
+    <TooltipProvider>
+      <RouteGuard>
         <RegisterServiceWorker />
         <div className="relative flex min-h-screen flex-col">
           <OfflineBanner />
@@ -41,7 +49,7 @@ export default function ClientLayout({
           <Header />
           {/* Иначе fixed z-[100] перекрывает собственный сайдбар кабинета (бренд z-30) и «съедает» клики слева. */}
           {!isCabinet ? <LeftSidebarNav /> : null}
-          <main className={cn("flex-1", isCabinet ? "" : "pb-32")}>{children}</main>
+          <main className={cn('flex-1', isCabinet ? '' : 'pb-32')}>{children}</main>
           {!isCabinet && <Footer />}
           <CartSheet />
           <WishlistSheet />
@@ -51,7 +59,7 @@ export default function ClientLayout({
           <RolePanel />
           <Toaster />
         </div>
-        </RouteGuard>
-      </TooltipProvider>
+      </RouteGuard>
+    </TooltipProvider>
   );
 }

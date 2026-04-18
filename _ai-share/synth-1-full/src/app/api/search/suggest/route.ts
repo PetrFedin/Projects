@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
-import { repo } from "@/lib/repo";
-import { suggestSearchQueries } from "@/ai/flows/suggest-search-queries";
-import type { SearchSuggestItem } from "@/lib/repo/searchRepo";
+import { NextRequest, NextResponse } from 'next/server';
+import { repo } from '@/lib/repo';
+import { suggestSearchQueries } from '@/ai/flows/suggest-search-queries';
+import type { SearchSuggestItem } from '@/lib/repo/searchRepo';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const q = (searchParams.get("q") ?? "").trim();
+  const q = (searchParams.get('q') ?? '').trim();
 
   const [standard, llmQueries] = await Promise.all([
     repo.search.suggest(q),
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
     .filter((s) => s && !seen.has(s.toLowerCase()))
     .map((s) => {
       seen.add(s.toLowerCase());
-      return { type: "query" as const, label: `Искать: «${s}»`, payload: { q: s } };
+      return { type: 'query' as const, label: `Искать: «${s}»`, payload: { q: s } };
     });
 
   const data = [...(standard as SearchSuggestItem[]), ...llmItems].slice(0, 12);

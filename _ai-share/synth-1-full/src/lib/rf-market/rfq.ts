@@ -36,7 +36,13 @@ export interface RfqQuote {
   rfqId: string;
   supplierId: string;
   supplierName: string;
-  lineQuotes: { lineId: string; unitPrice: number; totalPrice: number; leadTimeDays?: number; comment?: string }[];
+  lineQuotes: {
+    lineId: string;
+    unitPrice: number;
+    totalPrice: number;
+    leadTimeDays?: number;
+    comment?: string;
+  }[];
   totalAmount: number;
   currency: string;
   validityDays: number;

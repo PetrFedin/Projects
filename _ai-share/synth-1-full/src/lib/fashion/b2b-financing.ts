@@ -6,7 +6,7 @@ export function getB2BPreOrderFinancing(totalAmount: number): PreOrderFinancingV
   const remaining = totalAmount - deposit;
   const date = new Date();
   date.setMonth(date.getMonth() + 2); // 60 days remaining due
-  
+
   return {
     totalAmount,
     depositPercent: 30,
@@ -14,6 +14,6 @@ export function getB2BPreOrderFinancing(totalAmount: number): PreOrderFinancingV
     remainingAmount: remaining,
     remainingDueDate: date.toISOString().split('T')[0],
     isInterestFree: true,
-    creditTermDays: 60
+    creditTermDays: 60,
   };
 }

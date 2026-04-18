@@ -83,7 +83,7 @@ export class FactoryMaintenanceEngine {
       riskLevel,
       predictedFailureDate: predictedFailureDate.toISOString(),
       recommendedAction,
-      reasoning
+      reasoning,
     };
   }
 }

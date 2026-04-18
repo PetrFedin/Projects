@@ -166,7 +166,11 @@ export function demoCalendarEventsForProductionStage(
       ownerName: 'Производственный контур',
       calendarId: 'demo-stage',
       title: `Слот по этапу «${stepId}»${suffix}`,
-      description: calendarDescriptionWithBlob('Демо-событие из матрицы этапов (до API)', stepId, ctx),
+      description: calendarDescriptionWithBlob(
+        'Демо-событие из матрицы этапов (до API)',
+        stepId,
+        ctx
+      ),
       layer: 'production',
       visibility: 'internal',
       type: 'task',
@@ -279,7 +283,8 @@ export function matrixContextChatRow(sp: SpLike): Chat | null {
     title: sku ? `${st} · ${sku}` : `${st} · перечень коллекции`,
     subtitle: sku
       ? [season, order].filter(Boolean).join(' · ') || 'Тред из матрицы этапов по артикулу'
-      : [season, order, `этап ${step}`].filter(Boolean).join(' · ') || `Тред из матрицы этапов · ${step}`,
+      : [season, order, `этап ${step}`].filter(Boolean).join(' · ') ||
+        `Тред из матрицы этапов · ${step}`,
     time: 'сейчас',
     participantsCount: 3,
     type: 'team',

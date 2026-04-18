@@ -4,23 +4,33 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { 
-  QrCode, 
-  Package, 
-  RefreshCcw, 
-  Search, 
-  ArrowLeft, 
-  Filter, 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import {
+  QrCode,
+  Package,
+  RefreshCcw,
+  Search,
+  ArrowLeft,
+  Filter,
   Download,
   AlertTriangle,
   CheckCircle2,
   Barcode,
-  ArrowUpRight
+  ArrowUpRight,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
 export default function KizStockAccountingPage() {
   const { toast } = useToast();
@@ -29,11 +39,51 @@ export default function KizStockAccountingPage() {
 
   // Mock Data for KIZ stock
   const stockItems = [
-    { id: 'KIZ-9921-001', sku: 'TP-9921', name: 'Платье "Midnight"', size: 'M', status: 'In Stock', warehouse: 'Основной склад', date: '10.03.2026' },
-    { id: 'KIZ-9921-002', sku: 'TP-9921', name: 'Платье "Midnight"', size: 'S', status: 'In Stock', warehouse: 'Основной склад', date: '10.03.2026' },
-    { id: 'KIZ-8812-045', sku: 'TP-8812', name: 'Худи "Eco-Life"', size: 'L', status: 'Shipped', warehouse: 'Транзит', date: '08.03.2026' },
-    { id: 'KIZ-7734-112', sku: 'TP-7734', name: 'Брюки "Cargo Pro"', size: 'XL', status: 'In Stock', warehouse: 'Склад Тверь', date: '05.03.2026' },
-    { id: 'KIZ-1102-089', sku: 'TP-1102', name: 'Футболка "Base"', size: 'M', status: 'Returned', warehouse: 'Брак/Возврат', date: '01.03.2026' },
+    {
+      id: 'KIZ-9921-001',
+      sku: 'TP-9921',
+      name: 'Платье "Midnight"',
+      size: 'M',
+      status: 'In Stock',
+      warehouse: 'Основной склад',
+      date: '10.03.2026',
+    },
+    {
+      id: 'KIZ-9921-002',
+      sku: 'TP-9921',
+      name: 'Платье "Midnight"',
+      size: 'S',
+      status: 'In Stock',
+      warehouse: 'Основной склад',
+      date: '10.03.2026',
+    },
+    {
+      id: 'KIZ-8812-045',
+      sku: 'TP-8812',
+      name: 'Худи "Eco-Life"',
+      size: 'L',
+      status: 'Shipped',
+      warehouse: 'Транзит',
+      date: '08.03.2026',
+    },
+    {
+      id: 'KIZ-7734-112',
+      sku: 'TP-7734',
+      name: 'Брюки "Cargo Pro"',
+      size: 'XL',
+      status: 'In Stock',
+      warehouse: 'Склад Тверь',
+      date: '05.03.2026',
+    },
+    {
+      id: 'KIZ-1102-089',
+      sku: 'TP-1102',
+      name: 'Футболка "Base"',
+      size: 'M',
+      status: 'Returned',
+      warehouse: 'Брак/Возврат',
+      date: '01.03.2026',
+    },
   ];
 
   const handleSync = () => {
@@ -41,182 +91,259 @@ export default function KizStockAccountingPage() {
     setTimeout(() => {
       setIsSyncing(false);
       toast({
-        title: "Синхронизация завершена",
-        description: "Остатки КИЗ актуализированы с ГИС МТ.",
+        title: 'Синхронизация завершена',
+        description: 'Остатки КИЗ актуализированы с ГИС МТ.',
       });
     }, 2000);
   };
 
   return (
-    <div className="container mx-auto px-4 py-4 space-y-6 pb-24 max-w-6xl animate-in fade-in duration-500">
-      {/* Header */}
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-slate-100 pb-4">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-            <Link href="/brand/compliance" className="hover:text-indigo-600 transition-colors flex items-center gap-1">
-              <ArrowLeft className="w-3 h-3" /> Compliance
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16 duration-500 animate-in fade-in">
+      <RegistryPageHeader
+        title="Складской учет КИЗ"
+        leadPlain="Мониторинг и синхронизация маркированных остатков в реальном времени."
+        eyebrow={
+          <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+            <Link
+              href={ROUTES.brand.compliance}
+              className="hover:text-accent-primary flex items-center gap-1 transition-colors"
+            >
+              <ArrowLeft className="size-3" /> Compliance
             </Link>
-            <span className="text-slate-300">/</span>
-            <span>Складской учет КИЗ</span>
+            <span className="text-text-muted">/</span>
+            <span className="text-foreground">Складской учет КИЗ</span>
+            <AcronymWithTooltip abbr="KIZ" />
           </div>
-          <h1 className="text-2xl font-black uppercase tracking-tight text-slate-900 flex items-center gap-3">
-            <QrCode className="w-7 h-7 text-indigo-600" />
-            Складской учет КИЗ
-          </h1>
-          <p className="text-xs text-slate-500 font-medium">Мониторинг и синхронизация маркированных остатков в реальном времени</p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button 
-            onClick={handleSync}
-            disabled={isSyncing}
-            variant="outline" 
-            className="h-10 rounded-xl font-bold uppercase text-[10px] tracking-widest gap-2 bg-white shadow-sm border-slate-200"
-          >
-            <RefreshCcw className={cn("w-4 h-4 text-indigo-600", isSyncing && "animate-spin")} />
-            Синхронизировать с ГИС МТ
-          </Button>
-          <Button className="h-10 rounded-xl font-bold uppercase text-[10px] tracking-widest gap-2 bg-slate-900 text-white hover:bg-black shadow-lg">
-            <Download className="w-4 h-4" />
-            Выгрузить отчет
-          </Button>
-        </div>
-      </header>
+        }
+        actions={
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <QrCode className="text-accent-primary size-7 shrink-0" aria-hidden />
+            <Button
+              onClick={handleSync}
+              disabled={isSyncing}
+              variant="outline"
+              className="border-border-default h-10 gap-2 rounded-xl bg-white text-[10px] font-bold uppercase tracking-widest shadow-sm"
+            >
+              <RefreshCcw
+                className={cn('text-accent-primary size-4', isSyncing && 'animate-spin')}
+              />
+              Синхронизировать с ГИС МТ
+            </Button>
+            <Button className="bg-text-primary h-10 gap-2 rounded-xl text-[10px] font-bold uppercase tracking-widest text-white shadow-lg hover:bg-black">
+              <Download className="size-4" />
+              Выгрузить отчет
+            </Button>
+          </div>
+        }
+      />
 
       {/* KPI Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="rounded-2xl border-none shadow-sm bg-white p-5 space-y-3 group hover:shadow-md transition-all">
-          <div className="flex justify-between items-center">
-            <div className="p-2 bg-emerald-50 rounded-lg text-emerald-600"><CheckCircle2 className="w-5 h-5" /></div>
-            <Badge className="bg-emerald-50 text-emerald-600 border-none text-[8px] font-black uppercase">Active</Badge>
-          </div>
-          <div>
-            <p className="text-[10px] font-bold uppercase text-slate-400 tracking-widest leading-none mb-1">Всего на складе</p>
-            <p className="text-2xl font-black text-slate-900 tracking-tight leading-none">12,450</p>
-          </div>
-        </Card>
-        <Card className="rounded-2xl border-none shadow-sm bg-white p-5 space-y-3 group hover:shadow-md transition-all">
-          <div className="flex justify-between items-center">
-            <div className="p-2 bg-indigo-50 rounded-lg text-indigo-600"><Package className="w-5 h-5" /></div>
-            <p className="text-[8px] font-black text-indigo-600 uppercase tracking-widest leading-none">Shipping</p>
-          </div>
-          <div>
-            <p className="text-[10px] font-bold uppercase text-slate-400 tracking-widest leading-none mb-1">В пути / Транзит</p>
-            <p className="text-2xl font-black text-slate-900 tracking-tight leading-none">3,150</p>
-          </div>
-        </Card>
-        <Card className="rounded-2xl border-none shadow-sm bg-white p-5 space-y-3 group hover:shadow-md transition-all">
-          <div className="flex justify-between items-center">
-            <div className="p-2 bg-rose-50 rounded-lg text-rose-600"><AlertTriangle className="w-5 h-5" /></div>
-            <Badge className="bg-rose-50 text-rose-600 border-none text-[8px] font-black uppercase">Attention</Badge>
-          </div>
-          <div>
-            <p className="text-[10px] font-bold uppercase text-slate-400 tracking-widest leading-none mb-1">Брак КИЗ / Ошибки</p>
-            <p className="text-2xl font-black text-slate-900 tracking-tight leading-none">12</p>
-          </div>
-        </Card>
-        <Card className="rounded-2xl border-none shadow-sm bg-indigo-600 text-white p-5 space-y-3 group hover:bg-indigo-700 transition-all cursor-pointer overflow-hidden relative">
-          <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:scale-110 transition-transform"><Barcode className="w-24 h-24" /></div>
-          <div className="relative z-10">
-            <div className="flex justify-between items-center mb-3">
-              <div className="p-2 bg-white/10 rounded-lg"><RefreshCcw className="w-5 h-5" /></div>
-              <ArrowUpRight className="w-4 h-4 opacity-50" />
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+        <Card className="group space-y-3 rounded-2xl border-none bg-white p-5 shadow-sm transition-all hover:shadow-md">
+          <div className="flex items-center justify-between">
+            <div className="rounded-lg bg-emerald-50 p-2 text-emerald-600">
+              <CheckCircle2 className="h-5 w-5" />
             </div>
-            <p className="text-[10px] font-bold uppercase text-indigo-100 tracking-widest leading-none mb-1">Последняя синхр.</p>
-            <p className="text-sm font-black tracking-tight leading-none uppercase">Сегодня, 12:45</p>
+            <Badge className="border-none bg-emerald-50 text-[8px] font-black uppercase text-emerald-600">
+              Active
+            </Badge>
+          </div>
+          <div>
+            <p className="text-text-muted mb-1 text-[10px] font-bold uppercase leading-none tracking-widest">
+              Всего на складе
+            </p>
+            <p className="text-text-primary text-2xl font-black leading-none tracking-tight">
+              12,450
+            </p>
+          </div>
+        </Card>
+        <Card className="group space-y-3 rounded-2xl border-none bg-white p-5 shadow-sm transition-all hover:shadow-md">
+          <div className="flex items-center justify-between">
+            <div className="bg-accent-primary/10 text-accent-primary rounded-lg p-2">
+              <Package className="h-5 w-5" />
+            </div>
+            <p className="text-accent-primary text-[8px] font-black uppercase leading-none tracking-widest">
+              Shipping
+            </p>
+          </div>
+          <div>
+            <p className="text-text-muted mb-1 text-[10px] font-bold uppercase leading-none tracking-widest">
+              В пути / Транзит
+            </p>
+            <p className="text-text-primary text-2xl font-black leading-none tracking-tight">
+              3,150
+            </p>
+          </div>
+        </Card>
+        <Card className="group space-y-3 rounded-2xl border-none bg-white p-5 shadow-sm transition-all hover:shadow-md">
+          <div className="flex items-center justify-between">
+            <div className="rounded-lg bg-rose-50 p-2 text-rose-600">
+              <AlertTriangle className="h-5 w-5" />
+            </div>
+            <Badge className="border-none bg-rose-50 text-[8px] font-black uppercase text-rose-600">
+              Attention
+            </Badge>
+          </div>
+          <div>
+            <p className="text-text-muted mb-1 text-[10px] font-bold uppercase leading-none tracking-widest">
+              Брак КИЗ / Ошибки
+            </p>
+            <p className="text-text-primary text-2xl font-black leading-none tracking-tight">12</p>
+          </div>
+        </Card>
+        <Card className="bg-accent-primary hover:bg-accent-primary group relative cursor-pointer space-y-3 overflow-hidden rounded-2xl border-none p-5 text-white shadow-sm transition-all">
+          <div className="absolute right-0 top-0 p-2 opacity-10 transition-transform group-hover:scale-110">
+            <Barcode className="h-24 w-24" />
+          </div>
+          <div className="relative z-10">
+            <div className="mb-3 flex items-center justify-between">
+              <div className="rounded-lg bg-white/10 p-2">
+                <RefreshCcw className="h-5 w-5" />
+              </div>
+              <ArrowUpRight className="h-4 w-4 opacity-50" />
+            </div>
+            <p className="text-accent-primary/30 mb-1 text-[10px] font-bold uppercase leading-none tracking-widest">
+              Последняя синхр.
+            </p>
+            <p className="text-sm font-black uppercase leading-none tracking-tight">
+              Сегодня, 12:45
+            </p>
           </div>
         </Card>
       </div>
 
       {/* Registry */}
-      <Card className="rounded-2xl border-none shadow-sm bg-white overflow-hidden">
-        <CardHeader className="px-6 py-6 border-b border-slate-50 flex flex-col md:flex-row justify-between items-center gap-4 bg-slate-50/30">
+      <Card className="overflow-hidden rounded-2xl border-none bg-white shadow-sm">
+        <CardHeader className="border-border-subtle bg-bg-surface2/30 flex flex-col items-center justify-between gap-4 border-b px-6 py-6 md:flex-row">
           <div>
-            <CardTitle className="text-sm font-black uppercase tracking-tight text-slate-800">Реестр КИЗ (Коды Маркировки)</CardTitle>
-            <CardDescription className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Детальный список всех кодов в системе</CardDescription>
+            <CardTitle className="text-text-primary text-sm font-black uppercase tracking-tight">
+              Реестр КИЗ (Коды Маркировки)
+            </CardTitle>
+            <CardDescription className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+              Детальный список всех кодов в системе
+            </CardDescription>
           </div>
-          <div className="flex items-center gap-3 w-full md:w-auto">
+          <div className="flex w-full items-center gap-3 md:w-auto">
             <div className="relative flex-1 md:w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
-              <input 
-                type="text" 
-                placeholder="Поиск по КИЗ или SKU..." 
+              <Search className="text-text-muted absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="Поиск по КИЗ или SKU..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full h-10 pl-10 pr-4 bg-white border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-indigo-100 outline-none transition-all shadow-inner"
+                className="border-border-default focus:ring-accent-primary/20 h-10 w-full rounded-xl border bg-white pl-10 pr-4 text-xs font-medium shadow-inner outline-none transition-all focus:ring-2"
               />
             </div>
-            <Button variant="outline" size="icon" className="h-10 w-10 rounded-xl bg-white border-slate-200 shadow-sm">
-              <Filter className="w-4 h-4 text-slate-500" />
+            <Button
+              variant="outline"
+              size="icon"
+              className="border-border-default h-10 w-10 rounded-xl bg-white shadow-sm"
+            >
+              <Filter className="text-text-secondary h-4 w-4" />
             </Button>
           </div>
         </CardHeader>
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-slate-50/50">
-              <TableRow className="hover:bg-transparent border-slate-100 h-12">
-                <TableHead className="pl-6 text-[9px] font-black uppercase tracking-widest text-slate-400">Код (КИЗ)</TableHead>
-                <TableHead className="text-[9px] font-black uppercase tracking-widest text-slate-400">Артикул / Модель</TableHead>
-                <TableHead className="text-[9px] font-black uppercase tracking-widest text-slate-400">Размер</TableHead>
-                <TableHead className="text-[9px] font-black uppercase tracking-widest text-slate-400">Статус ГИС МТ</TableHead>
-                <TableHead className="text-[9px] font-black uppercase tracking-widest text-slate-400">Локация</TableHead>
-                <TableHead className="pr-6 text-[9px] font-black uppercase tracking-widest text-slate-400 text-right">Дата опер.</TableHead>
+            <TableHeader className="bg-bg-surface2/80">
+              <TableRow className="border-border-subtle h-12 hover:bg-transparent">
+                <TableHead className="text-text-muted pl-6 text-[9px] font-black uppercase tracking-widest">
+                  Код (<AcronymWithTooltip abbr="KIZ" />)
+                </TableHead>
+                <TableHead className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                  Артикул / Модель
+                </TableHead>
+                <TableHead className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                  Размер
+                </TableHead>
+                <TableHead className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                  Статус ГИС МТ
+                </TableHead>
+                <TableHead className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                  Локация
+                </TableHead>
+                <TableHead className="text-text-muted pr-6 text-right text-[9px] font-black uppercase tracking-widest">
+                  Дата опер.
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {stockItems.map((item) => (
-                <TableRow key={item.id} className="hover:bg-slate-50 border-slate-50 transition-colors h-14">
+                <TableRow
+                  key={item.id}
+                  className="hover:bg-bg-surface2 border-border-subtle h-14 transition-colors"
+                >
                   <TableCell className="pl-6">
                     <div className="flex items-center gap-2">
-                      <QrCode className="w-3.5 h-3.5 text-indigo-400" />
-                      <span className="font-mono text-[11px] font-bold text-slate-900 tracking-tighter">{item.id}</span>
+                      <QrCode className="text-accent-primary h-3.5 w-3.5" />
+                      <span className="text-text-primary font-mono text-[11px] font-bold tracking-tighter">
+                        {item.id}
+                      </span>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="space-y-0.5">
-                      <p className="font-black text-[10px] text-slate-900 uppercase tracking-tight leading-none">{item.name}</p>
-                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none">{item.sku}</p>
+                      <p className="text-text-primary text-[10px] font-black uppercase leading-none tracking-tight">
+                        {item.name}
+                      </p>
+                      <p className="text-text-muted text-[9px] font-bold uppercase leading-none tracking-widest">
+                        {item.sku}
+                      </p>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="outline" className="h-5 px-2 rounded-md font-black text-[9px] border-slate-200 text-slate-600 bg-white">
+                    <Badge
+                      variant="outline"
+                      className="border-border-default text-text-secondary h-5 rounded-md bg-white px-2 text-[9px] font-black"
+                    >
                       {item.size}
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <Badge className={cn(
-                      "text-[8px] font-black uppercase px-2 h-5 border-none",
-                      item.status === 'In Stock' ? "bg-emerald-50 text-emerald-600" :
-                      item.status === 'Shipped' ? "bg-indigo-50 text-indigo-600" :
-                      item.status === 'Returned' ? "bg-rose-50 text-rose-600" : "bg-slate-100 text-slate-600"
-                    )}>
+                    <Badge
+                      className={cn(
+                        'h-5 border-none px-2 text-[8px] font-black uppercase',
+                        item.status === 'In Stock'
+                          ? 'bg-emerald-50 text-emerald-600'
+                          : item.status === 'Shipped'
+                            ? 'bg-accent-primary/10 text-accent-primary'
+                            : item.status === 'Returned'
+                              ? 'bg-rose-50 text-rose-600'
+                              : 'bg-bg-surface2 text-text-secondary'
+                      )}
+                    >
                       {item.status}
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <p className="text-[10px] font-bold text-slate-600 uppercase tracking-tight">{item.warehouse}</p>
+                    <p className="text-text-secondary text-[10px] font-bold uppercase tracking-tight">
+                      {item.warehouse}
+                    </p>
                   </TableCell>
                   <TableCell className="pr-6 text-right">
-                    <p className="text-[10px] font-bold text-slate-400">{item.date}</p>
+                    <p className="text-text-muted text-[10px] font-bold">{item.date}</p>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
-          
+
           {/* Empty State if needed */}
           {stockItems.length === 0 && (
-            <div className="py-20 flex flex-col items-center justify-center text-center space-y-4">
-              <div className="h-16 w-16 rounded-full bg-slate-50 flex items-center justify-center">
-                <Search className="h-8 w-8 text-slate-200" />
+            <div className="flex flex-col items-center justify-center space-y-4 py-20 text-center">
+              <div className="bg-bg-surface2 flex h-16 w-16 items-center justify-center rounded-full">
+                <Search className="text-text-muted h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <p className="text-sm font-black uppercase text-slate-900">Ничего не найдено</p>
-                <p className="text-xs text-slate-400 max-w-xs">Попробуйте изменить параметры поиска или фильтры.</p>
+                <p className="text-text-primary text-sm font-black uppercase">Ничего не найдено</p>
+                <p className="text-text-muted max-w-xs text-xs">
+                  Попробуйте изменить параметры поиска или фильтры.
+                </p>
               </div>
             </div>
           )}
         </CardContent>
       </Card>
-    </div>
+    </RegistryPageShell>
   );
 }

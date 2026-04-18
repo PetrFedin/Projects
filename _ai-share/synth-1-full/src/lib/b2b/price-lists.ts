@@ -15,7 +15,7 @@ export interface PriceList {
   customerGroupIds?: CustomerGroupId[];
   /** Период действия */
   validFrom: string; // ISO date
-  validTo: string;   // ISO date
+  validTo: string; // ISO date
   /** Тип: множитель к базовой цене (0.9 = −10%) или переопределения по SKU */
   type: 'multiplier' | 'override';
   /** Для multiplier: множитель к оптовой цене (0.85 = 15% скидка) */
@@ -75,7 +75,7 @@ export function getActivePriceListsForChannel(
   asOfDate?: string,
   customerGroupId?: CustomerGroupId
 ): PriceList[] {
-  const date = (asOfDate ?? new Date().toISOString().slice(0, 10));
+  const date = asOfDate ?? new Date().toISOString().slice(0, 10);
   return getPriceLists().filter((pl) => {
     if (pl.channel !== channel || pl.validFrom > date || pl.validTo < date) return false;
     if (pl.customerGroupIds?.length) {

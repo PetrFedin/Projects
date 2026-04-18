@@ -15,7 +15,7 @@ export async function PATCH(
     if (!quoteId) {
       return NextResponse.json({ success: false, error: 'quoteId required' }, { status: 400 });
     }
-    const body = await _request.json().catch(() => ({})) as { status?: string };
+    const body = (await _request.json().catch(() => ({}))) as { status?: string };
     const status = body?.status ?? 'accepted';
     const result = await sparkLayerUpdateQuoteStatus(quoteId, status);
     return NextResponse.json(result);

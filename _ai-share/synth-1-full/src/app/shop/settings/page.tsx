@@ -1,105 +1,159 @@
 'use client';
 
 import React from 'react';
-import { Settings, Activity, Layout, MessageSquare, ShieldCheck, Bell, ShoppingBag, Store } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import { Activity, Layout, MessageSquare, Bell, ShoppingBag, Store } from 'lucide-react';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardFooter,
+} from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useUIState } from '@/providers/ui-state';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+import { tid } from '@/lib/ui/test-ids';
+import { ROUTES } from '@/lib/routes';
+import Link from 'next/link';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 export default function ShopSettingsPage() {
   const { pulseMode, setPulseMode } = useUIState();
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-300">
-      <header className="space-y-2">
-        <h1 className="text-sm font-black uppercase tracking-tighter text-slate-900">Настройки магазина</h1>
-        <p className="text-slate-400 font-medium max-w-2xl text-sm italic">
-           Управление розничной точкой, параметрами синхронизации и визуальными уведомлениями.
-        </p>
-      </header>
+    <RegistryPageShell
+      className="bg-bg-canvas space-y-6 duration-300 animate-in fade-in"
+      data-testid={tid.page('shop-settings')}
+    >
+      <RegistryPageHeader
+        title="Настройки магазина"
+        leadPlain="Управление розничной точкой, параметрами синхронизации и визуальными уведомлениями."
+        eyebrow={
+          <div className="text-text-muted flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em]">
+            <Link href={ROUTES.shop.home} className="hover:text-accent-primary transition-colors">
+              Ритейл-центр
+            </Link>
+            <span className="text-text-muted">/</span>
+            <span className="text-text-muted">Настройки</span>
+          </div>
+        }
+      />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
-         <div className="lg:col-span-8 space-y-4">
-            <Card className="rounded-xl border-none shadow-2xl overflow-hidden bg-white">
-              <CardHeader className="p-3 pb-4 bg-rose-600 text-white">
-                <div className="flex items-center gap-3">
-                   <Activity className="h-6 w-6 text-rose-200" />
-                   <div>
-                      <CardTitle className="text-base font-black uppercase tracking-tight">Операционный Пульс (Live Pulse)</CardTitle>
-                      <CardDescription className="text-rose-100 italic">Настройка отображения статусов производства и отгрузок от брендов.</CardDescription>
-                   </div>
+      <div className="grid grid-cols-1 gap-3 lg:grid-cols-12">
+        <div className="space-y-4 lg:col-span-8">
+          <Card className="border-border-subtle bg-bg-surface overflow-hidden rounded-xl border shadow-sm">
+            <CardHeader className="bg-accent-primary text-text-inverse p-3 pb-4">
+              <div className="flex items-center gap-3">
+                <Activity className="text-text-inverse/80 h-6 w-6" />
+                <div>
+                  <CardTitle className="text-base font-black uppercase tracking-tight">
+                    Операционный Пульс (Live Pulse)
+                  </CardTitle>
+                  <CardDescription className="text-text-inverse/80 italic">
+                    Настройка отображения статусов производства и отгрузок от брендов.
+                  </CardDescription>
                 </div>
-              </CardHeader>
-              <CardContent className="p-3 space-y-10">
-                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 p-4 bg-slate-50 rounded-xl border border-slate-100">
-                    <div className="space-y-2">
-                       <Label className="text-[11px] font-black uppercase tracking-widest text-slate-900">Режим уведомлений</Label>
-                       <p className="text-xs text-slate-500 font-medium max-w-xs leading-relaxed">
-                          «Бегущая строка» удобна для постоянного мониторинга остатков и поставок.
-                       </p>
-                    </div>
-                    
-                    <Tabs 
-                      defaultValue={pulseMode} 
-                      value={pulseMode} 
-                      onValueChange={(val) => setPulseMode(val as any)}
-                    >
-                       <TabsList className="bg-white p-1 rounded-2xl h-auto shadow-sm border border-slate-100">
-                          <TabsTrigger value="ticker" className="rounded-xl py-3 px-8 data-[state=active]:bg-rose-600 data-[state=active]:text-white text-[10px] font-black uppercase gap-2 transition-all">
-                             <Layout className="h-3.5 w-3.5" /> Бегущая строка
-                          </TabsTrigger>
-                          <TabsTrigger value="floating" className="rounded-xl py-3 px-8 data-[state=active]:bg-rose-600 data-[state=active]:text-white text-[10px] font-black uppercase gap-2 transition-all">
-                             <MessageSquare className="h-3.5 w-3.5" /> Всплывающие
-                          </TabsTrigger>
-                       </TabsList>
-                    </Tabs>
-                 </div>
-
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {[
-                      { icon: Bell, title: "Уведомления о стоке", desc: "Алерт при остатке < 10%" },
-                      { icon: ShoppingBag, title: "Авто-заказы", desc: "Настройка Smart Replenishment" }
-                    ].map((item, i) => (
-                      <div key={i} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-slate-50 shadow-sm hover:shadow-md transition-all cursor-pointer">
-                         <div className="h-10 w-10 bg-slate-50 rounded-xl flex items-center justify-center">
-                            <item.icon className="h-5 w-5 text-slate-400" />
-                         </div>
-                         <div>
-                            <p className="text-[10px] font-black uppercase text-slate-900">{item.title}</p>
-                            <p className="text-[9px] text-slate-400 font-bold uppercase">{item.desc}</p>
-                         </div>
-                      </div>
-                    ))}
-                 </div>
-              </CardContent>
-              <CardFooter className="p-3 pt-0 flex justify-end">
-                 <Button className="h-10 px-12 bg-black text-white rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-2xl hover:scale-105 transition-transform">
-                    Применить
-                 </Button>
-              </CardFooter>
-            </Card>
-         </div>
-
-         <div className="lg:col-span-4 space-y-6">
-            <Card className="rounded-xl border-none shadow-xl bg-slate-900 text-white p-4 space-y-6 relative overflow-hidden">
-               <div className="absolute top-0 right-0 p-4 opacity-10">
-                  <Store className="h-32 w-32" />
-               </div>
-               <div className="relative z-10 space-y-4">
-                  <h4 className="text-base font-black uppercase tracking-tighter">Retail Sync</h4>
-                  <p className="text-xs text-slate-400 font-medium leading-relaxed">
-                     Ваша кассовая система (POS) синхронизирована с CRM 360°. Омни-канальная лояльность активна.
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-10 p-3">
+              <div className="bg-bg-surface2 border-border-subtle flex flex-col items-start justify-between gap-3 rounded-xl border p-4 md:flex-row md:items-center">
+                <div className="space-y-2">
+                  <Label className="text-text-primary text-[11px] font-black uppercase tracking-widest">
+                    Режим уведомлений
+                  </Label>
+                  <p className="text-text-secondary max-w-xs text-xs font-medium leading-relaxed">
+                    «Бегущая строка» удобна для постоянного мониторинга остатков и поставок.
                   </p>
-                  <Button variant="outline" className="w-full h-12 rounded-xl border-white/20 text-white hover:bg-white hover:text-slate-900 font-black uppercase text-[9px] tracking-widest">
-                     Проверить связь
-                  </Button>
-               </div>
-            </Card>
-         </div>
+                </div>
+
+                <Tabs
+                  defaultValue={pulseMode}
+                  value={pulseMode}
+                  onValueChange={(val) => setPulseMode(val as any)}
+                >
+                  {/* cabinetSurface v1 */}
+                  <TabsList className={cn(cabinetSurface.tabsList, 'w-fit flex-wrap')}>
+                    <TabsTrigger
+                      value="ticker"
+                      className={cn(
+                        cabinetSurface.tabsTrigger,
+                        'data-[state=active]:text-accent-primary h-9 gap-2 px-5'
+                      )}
+                    >
+                      <Layout className="h-3.5 w-3.5" /> Бегущая строка
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="floating"
+                      className={cn(
+                        cabinetSurface.tabsTrigger,
+                        'data-[state=active]:text-accent-primary h-9 gap-2 px-5'
+                      )}
+                    >
+                      <MessageSquare className="h-3.5 w-3.5" /> Всплывающие
+                    </TabsTrigger>
+                  </TabsList>
+                </Tabs>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                {[
+                  { icon: Bell, title: 'Уведомления о стоке', desc: 'Алерт при остатке < 10%' },
+                  {
+                    icon: ShoppingBag,
+                    title: 'Авто-заказы',
+                    desc: 'Настройка Smart Replenishment',
+                  },
+                ].map((item, i) => (
+                  <div
+                    key={i}
+                    className="bg-bg-surface border-border-subtle flex cursor-pointer items-center gap-3 rounded-xl border p-4 shadow-sm transition-all hover:shadow-md"
+                  >
+                    <div className="bg-bg-surface2 flex h-10 w-10 items-center justify-center rounded-xl">
+                      <item.icon className="text-text-muted h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="text-text-primary text-[10px] font-black uppercase">
+                        {item.title}
+                      </p>
+                      <p className="text-text-muted text-[9px] font-bold uppercase">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+            <CardFooter className="flex justify-end p-3 pt-0">
+              <Button className="bg-text-primary text-text-inverse h-10 rounded-2xl px-12 text-[10px] font-black uppercase tracking-widest shadow-xl transition-transform hover:scale-105">
+                Применить
+              </Button>
+            </CardFooter>
+          </Card>
+        </div>
+
+        <div className="space-y-6 lg:col-span-4">
+          <Card className="border-border-subtle bg-text-primary text-text-inverse relative space-y-6 overflow-hidden rounded-xl border p-4 shadow-xl">
+            <div className="absolute right-0 top-0 p-4 opacity-10">
+              <Store className="h-32 w-32" />
+            </div>
+            <div className="relative z-10 space-y-4">
+              <h4 className="text-base font-black uppercase tracking-tighter">Retail Sync</h4>
+              <p className="text-text-muted text-xs font-medium leading-relaxed">
+                Ваша кассовая система (POS) синхронизирована с CRM 360°. Омни-канальная лояльность
+                активна.
+              </p>
+              <Button
+                variant="outline"
+                className="text-text-inverse hover:bg-bg-surface hover:text-text-primary h-12 w-full rounded-xl border-white/20 text-[9px] font-black uppercase tracking-widest"
+              >
+                Проверить связь
+              </Button>
+            </div>
+          </Card>
+        </div>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

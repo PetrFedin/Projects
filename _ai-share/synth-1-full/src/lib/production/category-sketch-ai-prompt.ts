@@ -2,7 +2,10 @@
  * Текстовый бриф для внешних генераторов изображений (ИИ / фриланс).
  * Не вызывает сеть — только собирает контекст из каталога и силуэта.
  */
-import type { CategorySketchFitVariant, CategorySketchKind } from '@/lib/production/category-sketch-template';
+import type {
+  CategorySketchFitVariant,
+  CategorySketchKind,
+} from '@/lib/production/category-sketch-template';
 
 const KIND_LABELS_RU: Record<CategorySketchKind, string> = {
   apparel_outerwear: 'верхняя одежда (пальто, куртка, пуховик и т.п.)',

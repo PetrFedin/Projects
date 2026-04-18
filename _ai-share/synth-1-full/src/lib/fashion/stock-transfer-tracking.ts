@@ -7,23 +7,23 @@ export function getStockTransferLog(sku: string): StockTransferTrackingV1[] {
   if (isNaN(seed)) seed = sku.length * 47;
 
   return [
-    { 
-      transferId: `SWAP-2026-${seed}`, 
-      sku, 
-      fromStoreId: 'STORE-MSK-01', 
-      toStoreId: 'STORE-SPB-01', 
-      qty: (seed % 10) + 1, 
+    {
+      transferId: `SWAP-2026-${seed}`,
+      sku,
+      fromStoreId: 'STORE-MSK-01',
+      toStoreId: 'STORE-SPB-01',
+      qty: (seed % 10) + 1,
       status: 'in_transit',
-      expectedReceivedDate: new Date(Date.now() + 86400000 * 2).toISOString().split('T')[0] 
+      expectedReceivedDate: new Date(Date.now() + 86400000 * 2).toISOString().split('T')[0],
     },
-    { 
-      transferId: `SWAP-2026-${seed + 1}`, 
-      sku, 
-      fromStoreId: 'STORE-EKB-02', 
-      toStoreId: 'STORE-MSK-01', 
-      qty: (seed % 5) + 2, 
+    {
+      transferId: `SWAP-2026-${seed + 1}`,
+      sku,
+      fromStoreId: 'STORE-EKB-02',
+      toStoreId: 'STORE-MSK-01',
+      qty: (seed % 5) + 2,
       status: 'received',
-      expectedReceivedDate: new Date(Date.now() - 86400000).toISOString().split('T')[0] 
+      expectedReceivedDate: new Date(Date.now() - 86400000).toISOString().split('T')[0],
     },
   ];
 }

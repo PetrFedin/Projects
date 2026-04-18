@@ -6,7 +6,11 @@ export function getLocalCourierStatus(orderId: string): LocalCourierDispatchV1 {
   let seed = parseInt(seedRaw, 10);
   if (isNaN(seed)) seed = orderId.length * 43;
 
-  const services: LocalCourierDispatchV1['courierService'][] = ['CDEK', 'Boxberry', 'LocalStoreCourier'];
+  const services: LocalCourierDispatchV1['courierService'][] = [
+    'CDEK',
+    'Boxberry',
+    'LocalStoreCourier',
+  ];
   const statuses: LocalCourierDispatchV1['status'][] = ['dispatched', 'collected', 'delivered'];
 
   const arrival = new Date();

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import type { ComponentType } from "react";
-import { cn } from "@/lib/utils";
-import type { GlobalCategory } from "@/lib/types";
+import type { ComponentType } from 'react';
+import { cn } from '@/lib/utils';
+import type { GlobalCategory } from '@/lib/types';
 
 type GlobalCategoryItem = {
   id: GlobalCategory;
@@ -22,22 +22,24 @@ export function GlobalCategorySelector({
   onChange,
 }: GlobalCategorySelectorProps) {
   return (
-    <section className="sticky top-[var(--header-height,48px)] z-30 w-full bg-white/90 backdrop-blur-xl border-b border-slate-200 shadow-sm py-3">
-      <div className="container mx-auto px-14">
-        <div className="flex items-center justify-start md:justify-center gap-1.5 overflow-x-auto no-scrollbar">
+    <section className="border-border-default sticky top-[var(--header-height,48px)] z-30 w-full border-b bg-white/90 py-3 shadow-sm backdrop-blur-xl">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-14">
+        <div className="no-scrollbar flex items-center justify-start gap-1.5 overflow-x-auto md:justify-center">
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => onChange(cat.id)}
               className={cn(
-                "flex-1 px-1.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wide transition-all whitespace-nowrap border flex items-center justify-center gap-1.5 group",
-                activeCategory === cat.id ? "btn-tab-active" : "btn-tab-inactive-light"
+                'group flex flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border px-1.5 py-2.5 text-xs font-bold uppercase tracking-wide transition-all',
+                activeCategory === cat.id ? 'btn-tab-active' : 'btn-tab-inactive-light'
               )}
             >
               <cat.icon
                 className={cn(
-                  "h-3 w-3 transition-transform shrink-0",
-                  activeCategory === cat.id ? "text-white" : "text-slate-400 group-hover:text-slate-600"
+                  'h-3 w-3 shrink-0 transition-transform',
+                  activeCategory === cat.id
+                    ? 'text-white'
+                    : 'text-text-muted group-hover:text-text-secondary'
                 )}
               />
               <span className="truncate">{cat.label}</span>

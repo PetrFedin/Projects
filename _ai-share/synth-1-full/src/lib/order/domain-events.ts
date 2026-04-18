@@ -72,7 +72,12 @@ export type WasteGeneratedEvent = DomainEvent & {
   payload: {
     wasteId: string;
     locationId: string;
-    materialType: 'cotton_scraps' | 'polyester_blend' | 'cardboard_offcuts' | 'defective_garments' | 'chemical_dye';
+    materialType:
+      | 'cotton_scraps'
+      | 'polyester_blend'
+      | 'cardboard_offcuts'
+      | 'defective_garments'
+      | 'chemical_dye';
     weightKg: number;
     purityPercentage: number;
   };
@@ -385,7 +390,11 @@ class DomainEventBus {
    */
   public publishBatched(event: DomainEvent): void {
     if (!this.validateEvent(event)) {
-      this.debugLog('error', `[DomainEventBus] CRITICAL: Invalid event structure rejected in batch:`, event);
+      this.debugLog(
+        'error',
+        `[DomainEventBus] CRITICAL: Invalid event structure rejected in batch:`,
+        event
+      );
       this.addToDLQ(event, 'Validation Failed: Invalid Event Structure');
       return;
     }
@@ -414,9 +423,9 @@ class DomainEventBus {
     this.batchQueue = [];
 
     this.debugLog('log', `[DomainEventBus] Flushing batch of ${batch.length} events...`);
-    
+
     // Публикуем события параллельно для скорости, но с учетом Circuit Breaker
-    await Promise.allSettled(batch.map(event => this.publish(event)));
+    await Promise.allSettled(batch.map((event) => this.publish(event)));
   }
 
   /**
@@ -501,14 +510,21 @@ class DomainEventBus {
    */
   public async publishUrgent(event: DomainEvent): Promise<void> {
     if (!this.validateEvent(event)) {
-      this.debugLog('error', `[DomainEventBus] CRITICAL: Invalid urgent event structure rejected:`, event);
+      this.debugLog(
+        'error',
+        `[DomainEventBus] CRITICAL: Invalid urgent event structure rejected:`,
+        event
+      );
       this.addToDLQ(event, 'Validation Failed: Invalid Event Structure');
       return;
     }
 
     const dkUrgent = this.normalizeDedupeKey(event);
     if (dkUrgent && this.wasDedupeKeySuccessfullyProcessed(dkUrgent)) {
-      this.debugLog('log', `[DomainEventBus] Dedupe skip (urgent): ${dkUrgent} ${this.resolveEventType(event)}`);
+      this.debugLog(
+        'log',
+        `[DomainEventBus] Dedupe skip (urgent): ${dkUrgent} ${this.resolveEventType(event)}`
+      );
       return;
     }
 
@@ -573,10 +589,16 @@ class DomainEventBus {
     // [Phase 17] Circuit Breaker Check
     if (this.circuitOpen) {
       if (Date.now() - this.lastFailureTime > this.RESET_TIMEOUT_MS) {
-        this.debugLog('log', `[DomainEventBus] Circuit half-open. Attempting recovery for ${eventType}...`);
+        this.debugLog(
+          'log',
+          `[DomainEventBus] Circuit half-open. Attempting recovery for ${eventType}...`
+        );
         this.circuitOpen = false; // Half-open
       } else {
-        this.debugLog('warn', `[DomainEventBus] Circuit is OPEN. Fast-failing event ${eventType} to DLQ.`);
+        this.debugLog(
+          'warn',
+          `[DomainEventBus] Circuit is OPEN. Fast-failing event ${eventType} to DLQ.`
+        );
         this.addToDLQ(event, 'Circuit Breaker Open');
         return;
       }
@@ -599,11 +621,18 @@ class DomainEventBus {
         } catch (error) {
           attempts++;
           this.failureCount++;
-          this.debugLog('warn', `[DomainEventBus] Handler failed for ${eventType}, attempt ${attempts}/${maxRetries}`, error);
-          
+          this.debugLog(
+            'warn',
+            `[DomainEventBus] Handler failed for ${eventType}, attempt ${attempts}/${maxRetries}`,
+            error
+          );
+
           // Trip the breaker if too many consecutive failures
           if (this.failureCount >= this.FAILURE_THRESHOLD) {
-            this.debugLog('error', `[DomainEventBus] Circuit Breaker TRIPPED after ${this.failureCount} failures.`);
+            this.debugLog(
+              'error',
+              `[DomainEventBus] Circuit Breaker TRIPPED after ${this.failureCount} failures.`
+            );
             this.circuitOpen = true;
             this.lastFailureTime = Date.now();
           }
@@ -615,7 +644,7 @@ class DomainEventBus {
             break; // Stop retrying this handler
           } else {
             // Exponential backoff: 100ms, 200ms, 400ms...
-            await new Promise(resolve => setTimeout(resolve, 100 * Math.pow(2, attempts - 1)));
+            await new Promise((resolve) => setTimeout(resolve, 100 * Math.pow(2, attempts - 1)));
           }
         }
       }
@@ -634,10 +663,13 @@ class DomainEventBus {
         this.lastFailureTime = 0;
       }
     }
-    this.logBusMetric(anyHandlerFailed ? 'domain_event_bus.publish_failed' : 'domain_event_bus.published', {
-      type: eventType,
-      dedupeKey: dk,
-    });
+    this.logBusMetric(
+      anyHandlerFailed ? 'domain_event_bus.publish_failed' : 'domain_event_bus.published',
+      {
+        type: eventType,
+        dedupeKey: dk,
+      }
+    );
   }
 
   private addToDLQ(event: DomainEvent, error: string) {
@@ -647,7 +679,7 @@ class DomainEventBus {
     this.dlq.push({
       event,
       error,
-      failedAt: new Date().toISOString()
+      failedAt: new Date().toISOString(),
     });
     this.logBusMetric('domain_event_bus.dlq_added', {
       type: this.resolveEventType(event),
@@ -692,10 +724,13 @@ class DomainEventBus {
   public subscribe(eventType: string, handler: (event: any) => Promise<void> | void): () => void {
     const handlers = this.subscribers.get(eventType) || [];
     this.subscribers.set(eventType, [...handlers, handler]);
-    
+
     return () => {
       const currentHandlers = this.subscribers.get(eventType) || [];
-      this.subscribers.set(eventType, currentHandlers.filter(h => h !== handler));
+      this.subscribers.set(
+        eventType,
+        currentHandlers.filter((h) => h !== handler)
+      );
     };
   }
 

@@ -9,14 +9,19 @@ import { getOrderPayments } from './credit-store';
 import { mockB2BOrders } from '@/lib/order-data';
 import type { B2BOrder, B2BOrderPaymentStatus } from '@/lib/types';
 
-function isAwaitingPaymentStatus(s: B2BOrderPaymentStatus | undefined): s is 'pending' | 'partial' | 'overdue' {
+function isAwaitingPaymentStatus(
+  s: B2BOrderPaymentStatus | undefined
+): s is 'pending' | 'partial' | 'overdue' {
   return s === 'pending' || s === 'partial' || s === 'overdue';
 }
 
 /** Парсит сумму из строки "750 000 ₽" или "0 ₽" */
 export function parseAmount(s: string): number {
   if (!s || s === '0 ₽') return 0;
-  const num = s.replace(/\s/g, '').replace(/[^\d.,]/g, '').replace(',', '.');
+  const num = s
+    .replace(/\s/g, '')
+    .replace(/[^\d.,]/g, '')
+    .replace(',', '.');
   return parseFloat(num) || 0;
 }
 

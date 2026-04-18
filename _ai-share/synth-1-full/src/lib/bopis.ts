@@ -5,13 +5,13 @@
  */
 
 export type BopisOrderStatus =
-  | 'created'      // заказ создан
-  | 'confirmed'    // подтверждён, ожидает комплектации
-  | 'ready'        // готов к выдаче в точке
-  | 'at_point'    // доставлен в точку самовывоза
-  | 'picked_up'   // выдан клиенту
-  | 'cancelled'   // отменён
-  | 'expired';    // не выдан в срок
+  | 'created' // заказ создан
+  | 'confirmed' // подтверждён, ожидает комплектации
+  | 'ready' // готов к выдаче в точке
+  | 'at_point' // доставлен в точку самовывоза
+  | 'picked_up' // выдан клиенту
+  | 'cancelled' // отменён
+  | 'expired'; // не выдан в срок
 
 /** Точка выдачи (магазин/ПВЗ) — РФ: адрес, часы, маркировка */
 export interface BopisPickupPoint {
@@ -32,11 +32,11 @@ export interface BopisPickupPoint {
 /** Заказ на самовывоз */
 export interface BopisOrder {
   id: string;
-  orderId: string;           // исходный интернет-заказ
+  orderId: string; // исходный интернет-заказ
   pickupPointId: string;
   status: BopisOrderStatus;
-  createdAt: string;         // ISO
-  readyAt?: string;          // когда готов к выдаче
+  createdAt: string; // ISO
+  readyAt?: string; // когда готов к выдаче
   pickedUpAt?: string;
   /** Срок хранения в точке (дней), РФ часто 3–7 */
   storageDays: number;

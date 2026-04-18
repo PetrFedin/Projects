@@ -9,26 +9,28 @@ import { getInfluencerSeedings } from '@/lib/fashion/influencer-seeding';
 
 export const ProductInfluencerSeedingBlock: React.FC<{ product: Product }> = ({ product }) => {
   const seedings = getInfluencerSeedings(product);
-  
+
   const statusIcons: Record<string, any> = {
-    'draft': Package,
-    'shipped': Send,
-    'mention_received': Zap,
-    'completed': CheckCircle,
+    draft: Package,
+    shipped: Send,
+    mention_received: Zap,
+    completed: CheckCircle,
   };
 
   return (
-    <Card className="p-4 border-2 border-purple-50 bg-purple-50/10 shadow-sm relative overflow-hidden">
-      <div className="absolute top-0 right-0 p-2 opacity-5 -rotate-12">
-        <Camera className="w-16 h-16 text-purple-400" />
+    <Card className="border-accent-primary/15 bg-accent-primary/10 relative overflow-hidden border-2 p-4 shadow-sm">
+      <div className="absolute right-0 top-0 -rotate-12 p-2 opacity-5">
+        <Camera className="text-accent-primary h-16 w-16" />
       </div>
 
-      <div className="flex items-center justify-between mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Users className="w-4 h-4 text-purple-600" />
-          <h4 className="font-bold text-xs uppercase text-purple-700 tracking-tight">Influencer Seeding Tracker</h4>
+          <Users className="text-accent-primary h-4 w-4" />
+          <h4 className="text-accent-primary text-xs font-bold uppercase tracking-tight">
+            Influencer Seeding Tracker
+          </h4>
         </div>
-        <div className="text-[10px] font-black text-purple-500 uppercase">
+        <div className="text-accent-primary text-[10px] font-black uppercase">
           Active Seeds: {seedings.length}
         </div>
       </div>
@@ -37,30 +39,40 @@ export const ProductInfluencerSeedingBlock: React.FC<{ product: Product }> = ({ 
         {seedings.map((s, idx) => {
           const Icon = statusIcons[s.status] || Package;
           return (
-            <div key={idx} className="p-2.5 rounded-lg border bg-white border-purple-100 shadow-sm">
-              <div className="flex items-center justify-between mb-1.5">
+            <div
+              key={idx}
+              className="border-accent-primary/20 rounded-lg border bg-white p-2.5 shadow-sm"
+            >
+              <div className="mb-1.5 flex items-center justify-between">
                 <div className="flex flex-col">
-                   <div className="text-xs font-black text-slate-800 uppercase leading-none">{s.name}</div>
-                   <div className="text-[9px] font-black text-purple-400 uppercase leading-none mt-1">{s.channel}</div>
+                  <div className="text-text-primary text-xs font-black uppercase leading-none">
+                    {s.name}
+                  </div>
+                  <div className="text-accent-primary mt-1 text-[9px] font-black uppercase leading-none">
+                    {s.channel}
+                  </div>
                 </div>
-                <Badge variant="outline" className="text-[8px] h-3.5 bg-purple-50 text-purple-700 font-black uppercase border-none">
+                <Badge
+                  variant="outline"
+                  className="bg-accent-primary/10 text-accent-primary h-3.5 border-none text-[8px] font-black uppercase"
+                >
                   {s.status.replace('_', ' ')}
                 </Badge>
               </div>
-              <div className="flex items-center justify-between pt-1 border-t border-purple-50 mt-1">
-                 <div className="text-[10px] font-semibold text-slate-500">
-                    Reach: {s.reach.toLocaleString()}
-                 </div>
-                 <Icon className="w-3 h-3 text-purple-400" />
+              <div className="border-accent-primary/15 mt-1 flex items-center justify-between border-t pt-1">
+                <div className="text-text-secondary text-[10px] font-semibold">
+                  Reach: {s.reach.toLocaleString()}
+                </div>
+                <Icon className="text-accent-primary h-3 w-3" />
               </div>
             </div>
           );
         })}
       </div>
 
-      <div className="mt-4 pt-3 border-t border-purple-100 text-[9px] text-slate-400 font-bold uppercase flex justify-between items-center italic">
+      <div className="border-accent-primary/20 text-text-muted mt-4 flex items-center justify-between border-t pt-3 text-[9px] font-bold uppercase italic">
         <span>PR Workflow Hub</span>
-        <span className="text-purple-600">Syncing mentions...</span>
+        <span className="text-accent-primary">Syncing mentions...</span>
       </div>
     </Card>
   );

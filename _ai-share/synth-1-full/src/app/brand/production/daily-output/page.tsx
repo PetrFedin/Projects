@@ -17,6 +17,8 @@ import { getShiftReports, getShiftReportSummary } from '@/lib/production/daily-o
 import { cn } from '@/lib/utils';
 import { useFloorTabDraftState } from '@/hooks/use-floor-tab-draft';
 import { useToast } from '@/hooks/use-toast';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { RegistryPageShell } from '@/components/design-system';
 
 const DATE_OPTIONS = ['2026-03-11', '2026-03-10'];
 
@@ -33,19 +35,23 @@ export default function DailyOutputPage() {
   const summary = useMemo(() => getShiftReportSummary(reports), [reports]);
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-4xl pb-24">
+    <RegistryPageShell className="max-w-4xl space-y-6 pb-16">
       <SectionInfoCard
-        title="Daily Output Tracking"
+        title="Контроль сменного выпуска"
         description="Сводка смен — из daily-output-data; комментарий мастера сохраняется в floor-tab: daily-output."
         icon={ClipboardList}
-        iconBg="bg-indigo-100"
-        iconColor="text-indigo-600"
+        iconBg="bg-accent-primary/15"
+        iconColor="text-accent-primary"
         badges={<ProductionGanttBadges />}
       />
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3 flex-wrap">
-          <Link href={ROUTES.brand.production}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
-          <h1 className="text-2xl font-bold uppercase">Daily Output Tracking</h1>
+        <div className="flex flex-wrap items-center gap-3">
+          <Link href={ROUTES.brand.production}>
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          </Link>
+          <h1 className="text-2xl font-bold uppercase">Контроль сменного выпуска</h1>
         </div>
         <Button
           size="sm"
@@ -60,59 +66,94 @@ export default function DailyOutputPage() {
         </Button>
       </div>
 
-      <Card className="rounded-xl border border-slate-200 shadow-sm">
+      <Card className="border-border-default rounded-xl border shadow-sm">
         <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-4">
           <div>
-            <CardTitle className="text-sm flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm">
               <Calendar className="h-4 w-4" /> Отчёты смен
             </CardTitle>
             <CardDescription>План и факт по линиям за выбранную дату</CardDescription>
           </div>
           <div className="flex items-center gap-2">
             {DATE_OPTIONS.map((d) => (
-              <Button key={d} variant={selectedDate === d ? 'default' : 'outline'} size="sm" onClick={() => setSelectedDate(d)}>
-                {new Date(d).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+              <Button
+                key={d}
+                variant={selectedDate === d ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setSelectedDate(d)}
+              >
+                {new Date(d).toLocaleDateString('ru-RU', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                })}
               </Button>
             ))}
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-3 gap-2 rounded-lg bg-slate-50 border border-slate-200 p-3 text-center">
+          <div className="bg-bg-surface2 border-border-default grid grid-cols-3 gap-2 rounded-lg border p-3 text-center">
             <div>
-              <p className="text-[10px] uppercase text-slate-500">План (сумма)</p>
+              <p className="text-text-secondary text-[10px] uppercase">
+                <AcronymWithTooltip abbr="KPI" />: план
+              </p>
               <p className="font-bold">{summary.totalPlan}</p>
             </div>
             <div>
-              <p className="text-[10px] uppercase text-slate-500">Факт (сумма)</p>
+              <p className="text-text-secondary text-[10px] uppercase">
+                <AcronymWithTooltip abbr="KPI" />: факт
+              </p>
               <p className="font-bold">{summary.totalFact}</p>
             </div>
             <div>
-              <p className="text-[10px] uppercase text-slate-500">Выполнение</p>
-              <p className={cn('font-bold', summary.percent >= 100 ? 'text-green-600' : 'text-amber-600')}>{summary.percent}%</p>
+              <p className="text-text-secondary text-[10px] uppercase">
+                <AcronymWithTooltip abbr="KPI" />: выполнение
+              </p>
+              <p
+                className={cn(
+                  'font-bold',
+                  summary.percent >= 100 ? 'text-green-600' : 'text-amber-600'
+                )}
+              >
+                {summary.percent}%
+              </p>
             </div>
           </div>
           <table className="w-full border-collapse text-sm">
             <thead>
-              <tr className="border-b border-slate-200">
-                <th className="text-left p-2 font-bold uppercase text-[10px] text-slate-500">Линия</th>
-                <th className="text-right p-2 font-bold uppercase text-[10px] text-slate-500">План</th>
-                <th className="text-right p-2 font-bold uppercase text-[10px] text-slate-500">Факт</th>
-                <th className="text-right p-2 font-bold uppercase text-[10px] text-slate-500">Статус</th>
-                <th className="text-left p-2 font-bold uppercase text-[10px] text-slate-500">Комментарий</th>
+              <tr className="border-border-default border-b">
+                <th className="text-text-secondary p-2 text-left text-[10px] font-bold uppercase">
+                  Линия
+                </th>
+                <th className="text-text-secondary p-2 text-right text-[10px] font-bold uppercase">
+                  План
+                </th>
+                <th className="text-text-secondary p-2 text-right text-[10px] font-bold uppercase">
+                  Факт
+                </th>
+                <th className="text-text-secondary p-2 text-right text-[10px] font-bold uppercase">
+                  Статус
+                </th>
+                <th className="text-text-secondary p-2 text-left text-[10px] font-bold uppercase">
+                  Комментарий
+                </th>
               </tr>
             </thead>
             <tbody>
               {reports.map((s) => (
-                <tr key={s.id} className="border-b border-slate-100">
+                <tr key={s.id} className="border-border-subtle border-b">
                   <td className="p-2 font-medium">{s.lineName}</td>
                   <td className="p-2 text-right">{s.plan}</td>
                   <td className="p-2 text-right">{s.fact}</td>
                   <td className="p-2 text-right">
-                    <Badge variant={s.fact >= s.plan ? 'default' : 'destructive'} className="text-[9px]">
+                    <Badge
+                      variant={s.fact >= s.plan ? 'default' : 'destructive'}
+                      className="text-[9px]"
+                    >
                       {s.fact >= s.plan ? 'OK' : `${s.plan - s.fact} недобор`}
                     </Badge>
                   </td>
-                  <td className="p-2 text-[11px] text-slate-500">{s.comment || '—'}</td>
+                  <td className="text-text-secondary p-2 text-[11px]">{s.comment || '—'}</td>
                 </tr>
               ))}
             </tbody>
@@ -130,6 +171,6 @@ export default function DailyOutputPage() {
       </Card>
 
       <RelatedModulesBlock links={getProductionLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

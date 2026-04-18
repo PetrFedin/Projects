@@ -2,7 +2,6 @@
  * Фильтрация товаров по запросу стилиста
  */
 
-
 export interface FilterParams {
   audience: string;
   season: string;
@@ -12,29 +11,29 @@ export interface FilterParams {
 }
 
 /** Фильтр по аудитории, сезону, бюджету, цветам и бренду Syntha */
-export function filterProducts(
-  products: Array<{ id: string; audience: string; season: string; price: number; color: string; brand: string }>,
-  params: FilterParams
-): typeof products {
+export function filterProducts<
+  T extends {
+    id: string;
+    audience: string;
+    season: string;
+    price: number;
+    color: string;
+    brand: string;
+  },
+>(products: T[], params: FilterParams): T[] {
   return products.filter((p) => {
     if (params.brandFilter && !p.brand.toLowerCase().includes(params.brandFilter.toLowerCase())) {
       return false;
     }
-    if (p.audience !== "Unisex" && p.audience !== params.audience) {
+    if (p.audience !== 'Unisex' && p.audience !== params.audience) {
       return false;
     }
 
     const productSeason = p.season;
-    if (productSeason !== "All" && params.season !== "All") {
-      if (
-        (params.season === "Spring" || params.season === "Summer") &&
-        productSeason !== "SS"
-      )
+    if (productSeason !== 'All' && params.season !== 'All') {
+      if ((params.season === 'Spring' || params.season === 'Summer') && productSeason !== 'SS')
         return false;
-      if (
-        (params.season === "Autumn" || params.season === "Winter") &&
-        productSeason !== "FW"
-      )
+      if ((params.season === 'Autumn' || params.season === 'Winter') && productSeason !== 'FW')
         return false;
     }
 

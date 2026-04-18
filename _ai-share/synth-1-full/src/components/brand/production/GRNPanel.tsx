@@ -17,11 +17,29 @@ import { PackageCheck, Plus, Loader2, CheckCircle2 } from 'lucide-react';
 import { createGRN, getGRNs } from '@/lib/production/plm-extended';
 
 export function GRNPanel() {
-  const [grns, setGrns] = useState<Array<{ id: number; material_order_id: number; received_qty: number; ordered_qty: number; variance: number; status: string; received_at: string; received_by: string }>>([]);
+  const [grns, setGrns] = useState<
+    Array<{
+      id: number;
+      material_order_id: number;
+      received_qty: number;
+      ordered_qty: number;
+      variance: number;
+      status: string;
+      received_at: string;
+      received_by: string;
+    }>
+  >([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ material_order_id: 1, received_qty: 100, ordered_qty: 100, status: 'accepted', received_by: 'Приёмщик', notes: '' });
+  const [form, setForm] = useState({
+    material_order_id: 1,
+    received_qty: 100,
+    ordered_qty: 100,
+    status: 'accepted',
+    received_by: 'Приёмщик',
+    notes: '',
+  });
 
   const load = async () => {
     setLoading(true);
@@ -35,7 +53,9 @@ export function GRNPanel() {
     }
   };
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+  }, []);
 
   const handleCreate = async () => {
     setCreating(true);
@@ -56,15 +76,15 @@ export function GRNPanel() {
   };
 
   return (
-    <Card className="border border-slate-200 rounded-2xl overflow-hidden">
-      <CardHeader className="p-4 border-b border-slate-100 flex flex-row items-center justify-between">
-        <CardTitle className="text-xs font-black uppercase flex items-center gap-2">
+    <Card className="border-border-default overflow-hidden rounded-2xl border">
+      <CardHeader className="border-border-subtle flex flex-row items-center justify-between border-b p-4">
+        <CardTitle className="flex items-center gap-2 text-xs font-black uppercase">
           <PackageCheck className="h-4 w-4 text-emerald-600" />
           Приёмка материалов (GRN)
         </CardTitle>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button size="sm" className="h-8 text-[9px] font-bold uppercase gap-1">
+            <Button size="sm" className="h-8 gap-1 text-[9px] font-bold uppercase">
               <Plus className="h-3 w-3" /> Зарегистрировать
             </Button>
           </DialogTrigger>
@@ -73,24 +93,72 @@ export function GRNPanel() {
               <DialogTitle>Новая приёмка</DialogTitle>
             </DialogHeader>
             <div className="grid gap-4 py-4">
-              <div><Label className="text-[10px]">ID заказа материала</Label><Input type="number" value={form.material_order_id} onChange={e => setForm(f => ({ ...f, material_order_id: +e.target.value }))} className="mt-1" /></div>
-              <div className="grid grid-cols-2 gap-4">
-                <div><Label className="text-[10px]">Заказано</Label><Input type="number" value={form.ordered_qty} onChange={e => setForm(f => ({ ...f, ordered_qty: +e.target.value }))} className="mt-1" /></div>
-                <div><Label className="text-[10px]">Получено</Label><Input type="number" value={form.received_qty} onChange={e => setForm(f => ({ ...f, received_qty: +e.target.value }))} className="mt-1" /></div>
+              <div>
+                <Label className="text-[10px]">ID заказа материала</Label>
+                <Input
+                  type="number"
+                  value={form.material_order_id}
+                  onChange={(e) => setForm((f) => ({ ...f, material_order_id: +e.target.value }))}
+                  className="mt-1"
+                />
               </div>
-              <div><Label className="text-[10px]">Статус</Label>
-                <select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))} className="mt-1 w-full h-9 rounded-lg border border-slate-200 px-3 text-sm">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-[10px]">Заказано</Label>
+                  <Input
+                    type="number"
+                    value={form.ordered_qty}
+                    onChange={(e) => setForm((f) => ({ ...f, ordered_qty: +e.target.value }))}
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label className="text-[10px]">Получено</Label>
+                  <Input
+                    type="number"
+                    value={form.received_qty}
+                    onChange={(e) => setForm((f) => ({ ...f, received_qty: +e.target.value }))}
+                    className="mt-1"
+                  />
+                </div>
+              </div>
+              <div>
+                <Label className="text-[10px]">Статус</Label>
+                <select
+                  value={form.status}
+                  onChange={(e) => setForm((f) => ({ ...f, status: e.target.value }))}
+                  className="border-border-default mt-1 h-9 w-full rounded-lg border px-3 text-sm"
+                >
                   <option value="accepted">Принято</option>
                   <option value="short">Недопоставка</option>
                   <option value="over">Перепоставка</option>
                   <option value="damage">Повреждение</option>
                 </select>
               </div>
-              <div><Label className="text-[10px]">Принял</Label><Input value={form.received_by} onChange={e => setForm(f => ({ ...f, received_by: e.target.value }))} className="mt-1" /></div>
-              <div><Label className="text-[10px]">Комментарий</Label><Input value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} placeholder="Опционально" className="mt-1" /></div>
+              <div>
+                <Label className="text-[10px]">Принял</Label>
+                <Input
+                  value={form.received_by}
+                  onChange={(e) => setForm((f) => ({ ...f, received_by: e.target.value }))}
+                  className="mt-1"
+                />
+              </div>
+              <div>
+                <Label className="text-[10px]">Комментарий</Label>
+                <Input
+                  value={form.notes}
+                  onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
+                  placeholder="Опционально"
+                  className="mt-1"
+                />
+              </div>
             </div>
             <Button onClick={handleCreate} disabled={creating}>
-              {creating ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
+              {creating ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <CheckCircle2 className="h-4 w-4" />
+              )}
               <span className="ml-2">Создать GRN</span>
             </Button>
           </DialogContent>
@@ -98,18 +166,39 @@ export function GRNPanel() {
       </CardHeader>
       <CardContent className="p-4">
         {loading ? (
-          <div className="flex justify-center py-8"><Loader2 className="h-6 w-6 animate-spin text-slate-300" /></div>
+          <div className="flex justify-center py-8">
+            <Loader2 className="text-text-muted h-6 w-6 animate-spin" />
+          </div>
         ) : grns.length === 0 ? (
-          <p className="text-[10px] text-slate-400 py-6 text-center">Нет приёмок. Зарегистрируйте первую.</p>
+          <p className="text-text-muted py-6 text-center text-[10px]">
+            Нет приёмок. Зарегистрируйте первую.
+          </p>
         ) : (
-          <div className="space-y-2 max-h-60 overflow-y-auto">
+          <div className="max-h-60 space-y-2 overflow-y-auto">
             {grns.map((g) => (
-              <div key={g.id} className="flex justify-between items-center p-2 rounded-xl bg-slate-50 text-[10px]">
+              <div
+                key={g.id}
+                className="bg-bg-surface2 flex items-center justify-between rounded-xl p-2 text-[10px]"
+              >
                 <div>
-                  <p className="font-bold">Order #{g.material_order_id} · {g.received_qty}/{g.ordered_qty}</p>
-                  <p className="text-slate-500">{new Date(g.received_at).toLocaleDateString()} · {g.received_by}</p>
+                  <p className="font-bold">
+                    Order #{g.material_order_id} · {g.received_qty}/{g.ordered_qty}
+                  </p>
+                  <p className="text-text-secondary">
+                    {new Date(g.received_at).toLocaleDateString()} · {g.received_by}
+                  </p>
                 </div>
-                <Badge className={g.status === 'accepted' ? 'bg-emerald-100 text-emerald-700' : g.status === 'short' ? 'bg-amber-100 text-amber-700' : 'bg-slate-100'}>{g.status}</Badge>
+                <Badge
+                  className={
+                    g.status === 'accepted'
+                      ? 'bg-emerald-100 text-emerald-700'
+                      : g.status === 'short'
+                        ? 'bg-amber-100 text-amber-700'
+                        : 'bg-bg-surface2'
+                  }
+                >
+                  {g.status}
+                </Badge>
               </div>
             ))}
           </div>

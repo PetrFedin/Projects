@@ -51,17 +51,27 @@ export function partitionGeneralPassportRows(rows: ResolvedPhase1AttributeRow[])
   startRows: ResolvedPhase1AttributeRow[];
   preSampleRows: ResolvedPhase1AttributeRow[];
 } {
-  const preSampleRows = rows.filter((r) => PASSPORT_GENERAL_PRE_SAMPLE_ATTR_IDS.has(r.attribute.attributeId));
-  const startRows = rows.filter((r) => !PASSPORT_GENERAL_PRE_SAMPLE_ATTR_IDS.has(r.attribute.attributeId));
+  const preSampleRows = rows.filter((r) =>
+    PASSPORT_GENERAL_PRE_SAMPLE_ATTR_IDS.has(r.attribute.attributeId)
+  );
+  const startRows = rows.filter(
+    (r) => !PASSPORT_GENERAL_PRE_SAMPLE_ATTR_IDS.has(r.attribute.attributeId)
+  );
   return { startRows, preSampleRows };
 }
 
-export function partitionGeneralPassportExtras(extras: { attribute: AttributeCatalogAttribute; groupLabel: string }[]): {
+export function partitionGeneralPassportExtras(
+  extras: { attribute: AttributeCatalogAttribute; groupLabel: string }[]
+): {
   startExtras: { attribute: AttributeCatalogAttribute; groupLabel: string }[];
   preSampleExtras: { attribute: AttributeCatalogAttribute; groupLabel: string }[];
 } {
-  const preSampleExtras = extras.filter((e) => PASSPORT_GENERAL_PRE_SAMPLE_ATTR_IDS.has(e.attribute.attributeId));
-  const startExtras = extras.filter((e) => !PASSPORT_GENERAL_PRE_SAMPLE_ATTR_IDS.has(e.attribute.attributeId));
+  const preSampleExtras = extras.filter((e) =>
+    PASSPORT_GENERAL_PRE_SAMPLE_ATTR_IDS.has(e.attribute.attributeId)
+  );
+  const startExtras = extras.filter(
+    (e) => !PASSPORT_GENERAL_PRE_SAMPLE_ATTR_IDS.has(e.attribute.attributeId)
+  );
   return { startExtras, preSampleExtras };
 }
 
@@ -100,7 +110,8 @@ export function buildWorkshop2PassportCheckSnapshot(
   checks.push(ownerOk);
 
   const launchOk = Boolean(pb?.plannedLaunchType && pb.plannedLaunchType !== 'undecided');
-  if (!launchOk) lines.push('Выберите планируемый тип запуска (своё производство / КНП / смешанный).');
+  if (!launchOk)
+    lines.push('Выберите планируемый тип запуска (своё производство / КНП / смешанный).');
   checks.push(launchOk);
 
   const anchorOk = Boolean(pb?.targetSampleOrPilotDate?.trim());
@@ -328,8 +339,18 @@ export function buildPassportHubModel(
   const briefDone = ownerOk && launchOk && anchorOk && critOk;
 
   const checkpoints: Workshop2PassportRouteCheckpoint[] = [
-    { id: 'pc-identity', label: 'Идентификация (SKU, название, аудитория, L1–L3)', done: identityDone, anchorId: PA.identity },
-    { id: 'pc-brief', label: 'Бриф до образца (ответственный, запуск, дата, критичность)', done: briefDone, anchorId: PA.brief },
+    {
+      id: 'pc-identity',
+      label: 'Идентификация (SKU, название, аудитория, L1–L3)',
+      done: identityDone,
+      anchorId: PA.identity,
+    },
+    {
+      id: 'pc-brief',
+      label: 'Бриф до образца (ответственный, запуск, дата, критичность)',
+      done: briefDone,
+      anchorId: PA.brief,
+    },
     {
       id: 'pc-start',
       label: startCatalogLabel,
@@ -344,7 +365,8 @@ export function buildPassportHubModel(
     },
   ];
 
-  const startChecks = 8 + startRows.filter((r) => passportCatalogRowRequiredForTzPhase(r, tzPhase)).length;
+  const startChecks =
+    8 + startRows.filter((r) => passportCatalogRowRequiredForTzPhase(r, tzPhase)).length;
   let startDoneCount = 0;
   if (skuOk) startDoneCount++;
   if (nameOk) startDoneCount++;

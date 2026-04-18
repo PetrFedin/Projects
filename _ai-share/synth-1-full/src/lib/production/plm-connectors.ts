@@ -14,12 +14,15 @@ export interface PlmConnectorConfig {
   workspace?: string;
 }
 
-export async function syncPlm(provider: PlmProvider, config: PlmConnectorConfig): Promise<{ ok: boolean; lastSync?: string; error?: string }> {
+export async function syncPlm(
+  provider: PlmProvider,
+  config: PlmConnectorConfig
+): Promise<{ ok: boolean; lastSync?: string; error?: string }> {
   try {
     const res = await fetch(`${PLM_API}/sync`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ provider, ...config }),
+      body: JSON.stringify({ ...config, provider }),
     });
     if (!res.ok) throw new Error(await res.text());
     const data = await res.json();

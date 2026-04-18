@@ -4,38 +4,44 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { PartnerDemoExportBar } from '@/components/brand/partner-demo-export-bar';
 import { ROUTES } from '@/lib/routes';
 import { PARTNER_FACTORY_SAMPLES } from '@/lib/platform/partner-demo-data';
 import { ArrowLeft, Factory, ClipboardList } from 'lucide-react';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 export default function FactoryPortalPage() {
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6 pb-24">
-      <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
-        <div className="flex items-center gap-3">
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Портал фабрики"
+        leadPlain="Образцы, QC, расхождения с tech pack. Тип строк: PartnerFactorySample."
+        eyebrow={
           <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.brand.production}>
+            <Link href={ROUTES.brand.production} aria-label="Назад в Production">
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
-          <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
-              <Factory className="h-6 w-6" />
-              Портал фабрики
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Образцы, QC, расхождения с tech pack. Тип строк: <code className="text-[10px] bg-muted px-1 rounded">PartnerFactorySample</code>.
-            </p>
+        }
+        actions={
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <Factory className="size-6 shrink-0 text-muted-foreground" aria-hidden />
+            <PartnerDemoExportBar />
           </div>
-        </div>
-        <PartnerDemoExportBar />
-      </div>
+        }
+      />
 
       <Button variant="secondary" size="sm" asChild>
         <Link href={`${ROUTES.brand.production}?floorTab=ops`}>
-          <ClipboardList className="h-3.5 w-3.5 mr-2" />
+          <ClipboardList className="mr-2 h-3.5 w-3.5" />
           Production · операции
         </Link>
       </Button>
@@ -63,13 +69,18 @@ export default function FactoryPortalPage() {
                   <TableCell className="font-mono text-xs">{s.id}</TableCell>
                   <TableCell className="text-sm">{s.style}</TableCell>
                   <TableCell>
-                    <Badge variant={s.issue === '—' ? 'secondary' : 'destructive'} className="text-[10px]">
+                    <Badge
+                      variant={s.issue === '—' ? 'secondary' : 'destructive'}
+                      className="text-[10px]"
+                    >
                       {s.status}
                     </Badge>
                   </TableCell>
-                  <TableCell className="font-mono text-xs text-muted-foreground">{s.poRef ?? '—'}</TableCell>
-                  <TableCell className="text-xs whitespace-nowrap">{s.dueAt ?? '—'}</TableCell>
-                  <TableCell className="text-xs max-w-[240px]">{s.issue}</TableCell>
+                  <TableCell className="font-mono text-xs text-muted-foreground">
+                    {s.poRef ?? '—'}
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap text-xs">{s.dueAt ?? '—'}</TableCell>
+                  <TableCell className="max-w-[240px] text-xs">{s.issue}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -80,11 +91,14 @@ export default function FactoryPortalPage() {
       <div className="space-y-3 md:hidden">
         {PARTNER_FACTORY_SAMPLES.map((s) => (
           <Card key={s.id}>
-            <CardHeader className="pb-2 flex-row items-center justify-between space-y-0">
+            <CardHeader className="flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm">
                 {s.id} · {s.style}
               </CardTitle>
-              <Badge variant={s.issue === '—' ? 'secondary' : 'destructive'} className="text-[10px]">
+              <Badge
+                variant={s.issue === '—' ? 'secondary' : 'destructive'}
+                className="text-[10px]"
+              >
                 {s.status}
               </Badge>
             </CardHeader>
@@ -96,6 +110,6 @@ export default function FactoryPortalPage() {
           </Card>
         ))}
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

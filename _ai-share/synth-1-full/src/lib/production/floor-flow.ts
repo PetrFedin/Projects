@@ -63,7 +63,9 @@ export const PRODUCTION_FLOOR_STEPS = [
 
 export type ProductionFloorTabId = (typeof PRODUCTION_FLOOR_STEPS)[number]['id'];
 
-export const PRODUCTION_FLOOR_TAB_IDS = PRODUCTION_FLOOR_STEPS.map((s) => s.id) as readonly ProductionFloorTabId[];
+export const PRODUCTION_FLOOR_TAB_IDS = PRODUCTION_FLOOR_STEPS.map(
+  (s) => s.id
+) as readonly ProductionFloorTabId[];
 
 export function isProductionFloorTab(v: string | null | undefined): v is ProductionFloorTabId {
   return !!v && (PRODUCTION_FLOOR_TAB_IDS as readonly string[]).includes(v);

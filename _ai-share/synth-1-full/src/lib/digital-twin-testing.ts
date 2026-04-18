@@ -7,14 +7,14 @@ export type TestingCampaignStatus = 'draft' | 'running' | 'closed';
 
 export interface AvatarSegment {
   id: string;
-  name: string;           // "Женщины 25-34", "Мужчины 40+"
+  name: string; // "Женщины 25-34", "Мужчины 40+"
   avatarCount: number;
 }
 
 export interface SampleTestingCampaign {
   id: string;
   title: string;
-  skuIds: string[];       // модели для теста
+  skuIds: string[]; // модели для теста
   segments: AvatarSegment[];
   status: TestingCampaignStatus;
   createdAt: string;

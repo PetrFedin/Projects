@@ -1,3 +1,4 @@
+export * from './BreadcrumbsNav';
 export * from './recent-sales';
 export * from './ab-test-dialog';
 export * from './campaign-generator';

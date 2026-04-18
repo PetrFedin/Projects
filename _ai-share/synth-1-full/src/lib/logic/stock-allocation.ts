@@ -39,9 +39,15 @@ export function allocateStock(params: {
   const { request, grains, agreement } = params;
 
   // 1. Проверка VMI соглашения при кросс-кабинетной аллокации
-  if (request.actorType === 'brand' && (request.targetChannelId === 'b2c' || request.targetChannelId === 'retail')) {
+  if (
+    request.actorType === 'brand' &&
+    (request.targetChannelId === 'b2c' || request.targetChannelId === 'retail')
+  ) {
     if (!request.agreementId) {
-      return { success: false, error: `VMI Agreement ID is required for Brand -> ${request.targetChannelId} allocation` };
+      return {
+        success: false,
+        error: `VMI Agreement ID is required for Brand -> ${request.targetChannelId} allocation`,
+      };
     }
     if (agreement && agreement.id !== request.agreementId) {
       return { success: false, error: 'VMI Agreement mismatch' };
@@ -57,16 +63,16 @@ export function allocateStock(params: {
 
   // 1. Находим подходящие гранулы стока (on_hand в нужной локации)
   const sourceGrains = grains.filter(
-    (g) =>
-      g.sku === request.sku &&
-      g.locationId === request.locationId &&
-      g.state === 'on_hand'
+    (g) => g.sku === request.sku && g.locationId === request.locationId && g.state === 'on_hand'
   );
 
   const totalAvailable = sourceGrains.reduce((acc, g) => acc + g.quantity, 0);
 
   if (totalAvailable < request.quantity) {
-    return { success: false, error: `Insufficient on_hand stock: available ${totalAvailable}, requested ${request.quantity}` };
+    return {
+      success: false,
+      error: `Insufficient on_hand stock: available ${totalAvailable}, requested ${request.quantity}`,
+    };
   }
 
   // 2. Проверяем права на управление каждой гранулой
@@ -77,7 +83,7 @@ export function allocateStock(params: {
       source: grain,
       targetProductId: request.productId,
       agreement,
-      tenantId: grain.tenantId
+      tenantId: grain.tenantId,
     });
 
     if (!check.allowed) {
@@ -96,11 +102,11 @@ export function allocateStock(params: {
     ) {
       const take = Math.min(g.quantity, remainingToAllocate);
       remainingToAllocate -= take;
-      
+
       // В реальной системе это была бы транзакция, создающая новую гранулу с targetState
       // и уменьшающая текущую. Здесь — упрощенная модель.
-      return { 
-        ...g, 
+      return {
+        ...g,
         quantity: g.quantity - take,
         metadata: {
           ...g.metadata,
@@ -113,20 +119,21 @@ export function allocateStock(params: {
               actorId: request.actorId,
               action: 'ALLOCATION_DECREMENT',
               prevQuantity: g.quantity,
-              newQuantity: g.quantity - take
-            }
-          ]
-        }
+              newQuantity: g.quantity - take,
+            },
+          ],
+        },
       };
     }
     return g;
   });
 
-  // [Phase 2 Prod] Если аллокация идёт от бренда в ритейл-канал, 
+  // [Phase 2 Prod] Если аллокация идёт от бренда в ритейл-канал,
   // используем промежуточный статус reserved_for_channel до подтверждения приёмки
-  const finalTargetState = (request.actorType === 'brand' && request.targetChannelId === 'retail') 
-    ? 'reserved_for_channel' 
-    : request.targetState;
+  const finalTargetState =
+    request.actorType === 'brand' && request.targetChannelId === 'retail'
+      ? 'reserved_for_channel'
+      : request.targetState;
 
   // Добавляем новую гранулу с целевым состоянием
   updatedGrains.push({
@@ -140,24 +147,28 @@ export function allocateStock(params: {
     quantity: request.quantity,
     ownerId: request.actorId,
     tenantId: sourceGrains[0].tenantId, // [Phase 2 Prod] Наследуем tenantId от источника
-    expiresAt: request.reservationTtlMs ? new Date(Date.now() + request.reservationTtlMs).toISOString() : undefined,
+    expiresAt: request.reservationTtlMs
+      ? new Date(Date.now() + request.reservationTtlMs).toISOString()
+      : undefined,
     metadata: {
       updatedAt: new Date().toISOString(),
       version: 1,
-      auditTrail: [{
-        timestamp: new Date().toISOString(),
-        actorId: request.actorId,
-        action: 'ALLOCATION_INCREMENT',
-        prevQuantity: 0,
-        newQuantity: request.quantity
-      }]
-    }
+      auditTrail: [
+        {
+          timestamp: new Date().toISOString(),
+          actorId: request.actorId,
+          action: 'ALLOCATION_INCREMENT',
+          prevQuantity: 0,
+          newQuantity: request.quantity,
+        },
+      ],
+    },
   });
 
   // [Phase 4] Проверка на падение стока (Auto-Replenishment trigger)
   // В реальной системе здесь бы вызывался calculateATP, но для демо мы просто смотрим на остаток on_hand
   const remainingOnHand = updatedGrains
-    .filter(g => g.sku === request.sku && g.state === 'on_hand')
+    .filter((g) => g.sku === request.sku && g.state === 'on_hand')
     .reduce((acc, g) => acc + g.quantity, 0);
 
   const REPLENISHMENT_THRESHOLD = 50; // Мок-порог
@@ -169,8 +180,8 @@ export function allocateStock(params: {
         sku: request.sku,
         currentAtp: remainingOnHand,
         threshold: REPLENISHMENT_THRESHOLD,
-        suggestedReplenishment: 200
-      }
+        suggestedReplenishment: 200,
+      },
     });
   }
 
@@ -182,7 +193,7 @@ export function allocateStock(params: {
 /**
  * [Phase 2] Автоматическая ребалансировка на основе порогов (Safety Stock).
  * [Phase 4] Omnichannel Smart Swap (Velocity-based Rebalancing).
- * Если B2C остаток ниже порога, пытается доаллоцировать из B2B, 
+ * Если B2C остаток ниже порога, пытается доаллоцировать из B2B,
  * учитывая скорость продаж (Velocity) и время пополнения (Lead Time).
  */
 export function triggerSmartSwap(params: {
@@ -198,16 +209,32 @@ export function triggerSmartSwap(params: {
   unitPrice?: number;
   shippingCostPerUnit?: number;
   handlingCostPerUnit?: number;
-}): { action: 'none' | 'allocate'; quantity?: number; reason?: string; financialImpact?: { profitMargin: number; swapCost: number } } {
-  const { 
-    sku, currentB2CAllocated, availableB2BOnHand, 
-    b2cSalesVelocity, b2bSalesVelocity, leadTimeDays, agreement, tenantId,
-    unitPrice = 100, shippingCostPerUnit = 5, handlingCostPerUnit = 2
+}): {
+  action: 'none' | 'allocate';
+  quantity?: number;
+  reason?: string;
+  financialImpact?: { profitMargin: number; swapCost: number };
+} {
+  const {
+    sku,
+    currentB2CAllocated,
+    availableB2BOnHand,
+    b2cSalesVelocity,
+    b2bSalesVelocity,
+    leadTimeDays,
+    agreement,
+    tenantId,
+    unitPrice = 100,
+    shippingCostPerUnit = 5,
+    handlingCostPerUnit = 2,
   } = params;
 
   // 1. Проверка политики ребалансировки в соглашении
   if (agreement && agreement.status === 'active') {
-    if (agreement.terms.fulfillmentResponsibility === 'retailer' && !agreement.terms.autoRebalanceEnabled) {
+    if (
+      agreement.terms.fulfillmentResponsibility === 'retailer' &&
+      !agreement.terms.autoRebalanceEnabled
+    ) {
       return { action: 'none', reason: 'Auto-rebalance disabled by agreement' };
     }
   }
@@ -217,7 +244,10 @@ export function triggerSmartSwap(params: {
   const dynamicSafetyThreshold = b2cSalesVelocity * (leadTimeDays + bufferDays);
 
   if (currentB2CAllocated >= dynamicSafetyThreshold) {
-    return { action: 'none', reason: `B2C stock (${currentB2CAllocated}) is above dynamic threshold (${dynamicSafetyThreshold})` };
+    return {
+      action: 'none',
+      reason: `B2C stock (${currentB2CAllocated}) is above dynamic threshold (${dynamicSafetyThreshold})`,
+    };
   }
 
   // 3. Проверка, не обнулим ли мы B2B канал, если у него тоже высокая скорость продаж
@@ -240,18 +270,18 @@ export function triggerSmartSwap(params: {
 
     // Если переброска убыточна (например, дешевый товар и дорогая логистика) — отменяем
     if (profitMargin <= 0) {
-      return { 
-        action: 'none', 
+      return {
+        action: 'none',
         reason: `Financially unviable: Swap cost (${swapCost}) exceeds revenue (${expectedRevenue})`,
-        financialImpact: { profitMargin, swapCost }
+        financialImpact: { profitMargin, swapCost },
       };
     }
 
-    return { 
-      action: 'allocate', 
-      quantity: canTake, 
+    return {
+      action: 'allocate',
+      quantity: canTake,
       reason: `Smart Swap triggered: B2C Velocity ${b2cSalesVelocity}/d, B2B Surplus ${b2bSurplus}`,
-      financialImpact: { profitMargin, swapCost }
+      financialImpact: { profitMargin, swapCost },
     };
   }
 
@@ -262,25 +292,27 @@ export function triggerSmartSwap(params: {
  * [Phase 2 Prod] Автоматическое освобождение просроченных резервов.
  * Возвращает сток в on_hand того же владельца.
  */
-export function releaseExpiredReservations(params: {
-  grains: InventoryGrain[];
-  actorId: string;
-}): { success: boolean; updatedGrains: InventoryGrain[]; releasedCount: number } {
+export function releaseExpiredReservations(params: { grains: InventoryGrain[]; actorId: string }): {
+  success: boolean;
+  updatedGrains: InventoryGrain[];
+  releasedCount: number;
+} {
   const { grains, actorId } = params;
   const now = new Date();
-  
-  const expiredGrains = grains.filter(g => 
-    g.expiresAt && 
-    new Date(g.expiresAt) < now && 
-    (g.state === 'reserved' || g.state === 'reserved_for_channel')
+
+  const expiredGrains = grains.filter(
+    (g) =>
+      g.expiresAt &&
+      new Date(g.expiresAt) < now &&
+      (g.state === 'reserved' || g.state === 'reserved_for_channel')
   );
 
   if (expiredGrains.length === 0) {
     return { success: true, updatedGrains: grains, releasedCount: 0 };
   }
 
-  const updatedGrains = grains.map(g => {
-    if (expiredGrains.some(eg => eg.grainId === g.grainId)) {
+  const updatedGrains = grains.map((g) => {
+    if (expiredGrains.some((eg) => eg.grainId === g.grainId)) {
       return {
         ...g,
         state: 'on_hand' as const,
@@ -296,17 +328,17 @@ export function releaseExpiredReservations(params: {
               actorId,
               action: 'RESERVATION_EXPIRED_RELEASE',
               prevQuantity: g.quantity,
-              newQuantity: g.quantity
-            }
-          ]
-        }
+              newQuantity: g.quantity,
+            },
+          ],
+        },
       };
     }
     return g;
   });
 
   // Публикуем события для каждой просроченной гранулы
-  expiredGrains.forEach(eg => {
+  expiredGrains.forEach((eg) => {
     void publishInventoryReservationExpired({
       aggregateId: eg.sku,
       version: 1,
@@ -315,8 +347,8 @@ export function releaseExpiredReservations(params: {
         sku: eg.sku,
         quantity: eg.quantity,
         ownerId: eg.ownerId,
-        tenantId: eg.tenantId
-      }
+        tenantId: eg.tenantId,
+      },
     });
   });
 
@@ -334,7 +366,7 @@ export function releaseExpiredReservations(params: {
 
 /**
  * [Phase 2 Prod] Back-to-Back (B2B2C) аллокация.
- * Позволяет зарезервировать сток в одном канале (напр. B2B) 
+ * Позволяет зарезервировать сток в одном канале (напр. B2B)
  * на основании существующего резерва в другом канале (напр. B2C).
  */
 export function allocateBackToBack(params: {
@@ -347,12 +379,13 @@ export function allocateBackToBack(params: {
 }): { success: boolean; updatedGrains?: InventoryGrain[]; error?: string } {
   const { parentGrainId, targetChannelId, quantity, grains, actorId, tenantId } = params;
 
-  const parentGrain = grains.find(g => g.grainId === parentGrainId && g.tenantId === tenantId);
+  const parentGrain = grains.find((g) => g.grainId === parentGrainId && g.tenantId === tenantId);
   if (!parentGrain) return { success: false, error: 'Parent grain not found' };
-  if (parentGrain.quantity < quantity) return { success: false, error: 'Insufficient quantity in parent grain' };
+  if (parentGrain.quantity < quantity)
+    return { success: false, error: 'Insufficient quantity in parent grain' };
 
   // 1. Уменьшаем родительскую гранулу
-  const updatedGrains = grains.map(g => {
+  const updatedGrains = grains.map((g) => {
     if (g.grainId === parentGrainId) {
       return {
         ...g,
@@ -368,10 +401,10 @@ export function allocateBackToBack(params: {
               actorId,
               action: `B2B2C_DECREMENT_FOR_${targetChannelId.toUpperCase()}`,
               prevQuantity: g.quantity,
-              newQuantity: g.quantity - quantity
-            }
-          ]
-        }
+              newQuantity: g.quantity - quantity,
+            },
+          ],
+        },
       };
     }
     return g;
@@ -392,14 +425,16 @@ export function allocateBackToBack(params: {
     metadata: {
       updatedAt: new Date().toISOString(),
       version: 1,
-      auditTrail: [{
-        timestamp: new Date().toISOString(),
-        actorId,
-        action: `B2B2C_ALLOCATION_FROM_${parentGrainId}`,
-        prevQuantity: 0,
-        newQuantity: quantity
-      }]
-    }
+      auditTrail: [
+        {
+          timestamp: new Date().toISOString(),
+          actorId,
+          action: `B2B2C_ALLOCATION_FROM_${parentGrainId}`,
+          prevQuantity: 0,
+          newQuantity: quantity,
+        },
+      ],
+    },
   });
 
   void publishInventoryB2b2cAllocationCompleted({
@@ -410,8 +445,8 @@ export function allocateBackToBack(params: {
       targetChannelId,
       quantity,
       actorId,
-      tenantId
-    }
+      tenantId,
+    },
   });
 
   dispatchInventoryBalanceChangedForProduct(parentGrain.productId);

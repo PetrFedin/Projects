@@ -44,7 +44,7 @@ export class KnowledgeGraphAdapter {
       readiness: { imagesReady: true, seoReady: true, pricingReady: true, atpReady: true },
       status: 'production_ready',
       externalReferences: {},
-      metadata: { createdAt: '', updatedAt: '', version: 1 }
+      metadata: { createdAt: '', updatedAt: '', version: 1 },
     };
 
     const dppMock: DigitalProductPassport = {
@@ -57,7 +57,7 @@ export class KnowledgeGraphAdapter {
       billOfMaterials: [],
       carbonFootprintKg: 12.5,
       recyclingInstructions: 'Standard',
-      blockchainHash: '0xABC123'
+      blockchainHash: '0xABC123',
     };
 
     const kpiMock: PartnerKPI = {
@@ -65,7 +65,7 @@ export class KnowledgeGraphAdapter {
       qualityRate: 99.1,
       avgDelayDays: 0.5,
       completedCommitments: 150,
-      rating: 4.8
+      rating: 4.8,
     };
 
     return {
@@ -75,13 +75,13 @@ export class KnowledgeGraphAdapter {
       globalInventoryStatus: {
         totalUnits: 15000,
         storesWithOverstock: [],
-        storesWithStockout: []
+        storesWithStockout: [],
       },
       financialStatus: {
         currentMarkdownContext: null,
-        isProfitable: true
+        isProfitable: true,
       },
-      socialSentimentScore: 0.85 // Очень позитивный тренд
+      socialSentimentScore: 0.85, // Очень позитивный тренд
     };
   }
 }

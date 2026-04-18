@@ -15,7 +15,9 @@ export function downloadCriticalPinsCsv(args: {
   fileNameStem?: string;
 }): void {
   const { pathLabel, sku = '', annotations, leafId, fileNameStem = 'sketch-critical' } = args;
-  const rows = annotations.filter((a) => sketchPinBelongsToLeaf(a, leafId) && a.priority === 'critical');
+  const rows = annotations.filter(
+    (a) => sketchPinBelongsToLeaf(a, leafId) && a.priority === 'critical'
+  );
   const header = [
     'sku',
     'path',

@@ -7,34 +7,29 @@
 export const localPlaceholders = {
   // Hero section - 1920x1080 landscape, premium fashion aesthetic
   hero: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23000000'/%3E%3Cstop offset='100%25' style='stop-color:%23434343'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1920' height='1080' fill='url(%23a)'/%3E%3Ctext x='960' y='500' font-family='Arial,sans-serif' font-size='120' fill='%23ffffff' text-anchor='middle' opacity='0.15' font-weight='300' letter-spacing='20'%3ESYNTHA%3C/text%3E%3Ctext x='960' y='600' font-family='Arial,sans-serif' font-size='32' fill='%23ffffff' text-anchor='middle' opacity='0.4' font-weight='300'%3EФэшн-платформа будущего%3C/text%3E%3C/svg%3E`,
-  
+
   // Story placeholders - 1080x1920 portrait (9:16), various color schemes
   story1: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1080' height='1920'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23667eea'/%3E%3Cstop offset='100%25' style='stop-color:%23764ba2'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1080' height='1920' fill='url(%23b)'/%3E%3Ccircle cx='540' cy='800' r='200' fill='%23ffffff' opacity='0.1'/%3E%3C/svg%3E`,
-  
+
   story2: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1080' height='1920'%3E%3Cdefs%3E%3ClinearGradient id='c' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23f093fb'/%3E%3Cstop offset='100%25' style='stop-color:%23f5576c'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1080' height='1920' fill='url(%23c)'/%3E%3Crect x='340' y='700' width='400' height='400' fill='%23ffffff' opacity='0.1' rx='20'/%3E%3Ctext x='540' y='1650' font-family='Arial,sans-serif' font-size='48' fill='%23ffffff' text-anchor='middle' font-weight='600'%3EНовинки%3C/text%3E%3C/svg%3E`,
-  
+
   story3: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1080' height='1920'%3E%3Cdefs%3E%3ClinearGradient id='d' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%234facfe'/%3E%3Cstop offset='100%25' style='stop-color:%2300f2fe'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1080' height='1920' fill='url(%23d)'/%3E%3Ccircle cx='300' cy='600' r='150' fill='%23ffffff' opacity='0.1'/%3E%3Ccircle cx='780' cy='1100' r='200' fill='%23ffffff' opacity='0.1'/%3E%3Ctext x='540' y='1650' font-family='Arial,sans-serif' font-size='48' fill='%23ffffff' text-anchor='middle' font-weight='600'%3EЗа кулисами%3C/text%3E%3C/svg%3E`,
-  
+
   story4: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1080' height='1920'%3E%3Cdefs%3E%3ClinearGradient id='e' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2343e97b'/%3E%3Cstop offset='100%25' style='stop-color:%2338f9d7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1080' height='1920' fill='url(%23e)'/%3E%3Cpath d='M 0 800 Q 540 600 1080 800 T 1080 1200 L 1080 1920 L 0 1920 Z' fill='%23ffffff' opacity='0.1'/%3E%3Ctext x='540' y='1650' font-family='Arial,sans-serif' font-size='48' fill='%23ffffff' text-anchor='middle' font-weight='600'%3EОбраз%3C/text%3E%3C/svg%3E`,
-  
+
   story5: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1080' height='1920'%3E%3Cdefs%3E%3ClinearGradient id='f' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23fa709a'/%3E%3Cstop offset='100%25' style='stop-color:%23fee140'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1080' height='1920' fill='url(%23f)'/%3E%3Ccircle cx='540' cy='960' r='300' fill='%23ffffff' opacity='0.15'/%3E%3Ctext x='540' y='1650' font-family='Arial,sans-serif' font-size='48' fill='%23ffffff' text-anchor='middle' font-weight='600'%3EКоллаборация%3C/text%3E%3C/svg%3E`,
-  
+
   story6: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1080' height='1920'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2330cfd0'/%3E%3Cstop offset='100%25' style='stop-color:%23330867'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1080' height='1920' fill='url(%23g)'/%3E%3Cpolygon points='540,500 740,700 540,900 340,700' fill='%23ffffff' opacity='0.1'/%3E%3Ctext x='540' y='1650' font-family='Arial,sans-serif' font-size='48' fill='%23ffffff' text-anchor='middle' font-weight='600'%3EТренды%3C/text%3E%3C/svg%3E`,
-  
+
   // Live event placeholders - 1920x1080 landscape (16:9)
   live1: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Cdefs%3E%3ClinearGradient id='h' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ee0979'/%3E%3Cstop offset='100%25' style='stop-color:%23ff6a00'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1920' height='1080' fill='url(%23h)'/%3E%3Ccircle cx='960' cy='540' r='100' fill='%23ffffff' opacity='0.2'/%3E%3Cpolygon points='920,540 1000,500 1000,580' fill='%23ffffff' opacity='0.9'/%3E%3Ctext x='960' y='750' font-family='Arial,sans-serif' font-size='42' fill='%23ffffff' text-anchor='middle' font-weight='600'%3ELIVE%3C/text%3E%3C/svg%3E`,
-  
+
   live2: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Cdefs%3E%3ClinearGradient id='i' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%235f72bd'/%3E%3Cstop offset='100%25' style='stop-color:%239b23ea'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1920' height='1080' fill='url(%23i)'/%3E%3Crect x='760' y='340' width='400' height='400' fill='%23ffffff' opacity='0.15' rx='30'/%3E%3Cpolygon points='920,540 1000,500 1000,580' fill='%23ffffff' opacity='0.9'/%3E%3Ctext x='960' y='850' font-family='Arial,sans-serif' font-size='38' fill='%23ffffff' text-anchor='middle' font-weight='600'%3EЛIVE ПРЯМОЙ ЭФИР%3C/text%3E%3C/svg%3E`,
-  
+
   live3: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Cdefs%3E%3ClinearGradient id='j' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2311998e'/%3E%3Cstop offset='100%25' style='stop-color:%2338ef7d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1920' height='1080' fill='url(%23j)'/%3E%3Ccircle cx='960' cy='540' r='120' fill='%23ffffff' opacity='0.2'/%3E%3Cpolygon points='920,540 1000,500 1000,580' fill='%23ffffff' opacity='0.9'/%3E%3Ctext x='960' y='750' font-family='Arial,sans-serif' font-size='42' fill='%23ffffff' text-anchor='middle' font-weight='600'%3EСТИЛЬ LIVE%3C/text%3E%3C/svg%3E`,
-  
+
   live4: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Cdefs%3E%3ClinearGradient id='k' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23fc4a1a'/%3E%3Cstop offset='100%25' style='stop-color:%23f7b733'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1920' height='1080' fill='url(%23k)'/%3E%3Ccircle cx='700' cy='400' r='150' fill='%23ffffff' opacity='0.1'/%3E%3Ccircle cx='1220' cy='680' r='180' fill='%23ffffff' opacity='0.1'/%3E%3Cpolygon points='920,540 1000,500 1000,580' fill='%23ffffff' opacity='0.9'/%3E%3Ctext x='960' y='850' font-family='Arial,sans-serif' font-size='38' fill='%23ffffff' text-anchor='middle' font-weight='600'%3EБЭКСТЕЙДЖ%3C/text%3E%3C/svg%3E`,
-  
+
   // Banner - 1920x800 landscape, eco/sustainable theme
   banner: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='800'%3E%3Cdefs%3E%3ClinearGradient id='l' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' style='stop-color:%230f2027'/%3E%3Cstop offset='50%25' style='stop-color:%23203a43'/%3E%3Cstop offset='100%25' style='stop-color:%232c5364'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1920' height='800' fill='url(%23l)'/%3E%3Ccircle cx='1500' cy='400' r='300' fill='%2338f9d7' opacity='0.1'/%3E%3Cpath d='M 1200 200 Q 1400 300 1300 450 T 1500 600' stroke='%2338f9d7' stroke-width='3' fill='none' opacity='0.3'/%3E%3Ctext x='300' y='350' font-family='Arial,sans-serif' font-size='72' fill='%23ffffff' font-weight='700'%3EУстойчивая мода%3C/text%3E%3Ctext x='300' y='450' font-family='Arial,sans-serif' font-size='32' fill='%23ffffff' opacity='0.8' font-weight='300'%3EБудущее начинается сегодня%3C/text%3E%3C/svg%3E`,
 };
-
-
-
-
-

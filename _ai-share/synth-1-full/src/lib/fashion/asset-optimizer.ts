@@ -4,15 +4,15 @@ import type { MpAssetCheckV1 } from './types';
 /** Проверяет соответствие медиа-активов требованиям маркетплейсов. */
 export function checkMpAssetCompliance(product: Product): MpAssetCheckV1[] {
   const channels = ['wb', 'ozon', 'lamoda'];
-  
-  return channels.map(channel => {
+
+  return channels.map((channel) => {
     const missing: string[] = [];
     const issues: string[] = [];
 
     if (channel === 'lamoda' && product.images.length < 5) {
       missing.push('Model video', 'Back view');
     }
-    if (channel === 'wb' && product.images.some(img => img.url.includes('placeholder'))) {
+    if (channel === 'wb' && product.images.some((img) => img.url.includes('placeholder'))) {
       issues.push('Low resolution detected');
     }
 

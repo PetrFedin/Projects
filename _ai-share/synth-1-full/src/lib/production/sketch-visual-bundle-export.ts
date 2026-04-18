@@ -5,7 +5,10 @@ import type { W2SketchExportSurface } from '@/lib/production/workshop2-dossier-v
 import { buildSketchQrDataUrl } from '@/lib/production/sketch-qr-infra';
 import { normalizeSketchSheets } from '@/lib/production/workshop2-sketch-sheets';
 import { filterSketchAnnotationsForExportSurface } from '@/lib/production/workshop2-sketch-export-annotation-filter';
-import { renderSketchBoardToPngBlob, type SketchBoardExportAnnotation } from '@/lib/production/sketch-board-png-export';
+import {
+  renderSketchBoardToPngBlob,
+  type SketchBoardExportAnnotation,
+} from '@/lib/production/sketch-board-png-export';
 
 function toExportAnnotations(
   anns: Parameters<typeof filterSketchAnnotationsForExportSurface>[0],
@@ -35,7 +38,6 @@ async function blobToDataUrl(blob: Blob): Promise<string> {
   });
 }
 
-
 /**
  * ZIP с PNG по общему скетчу и всем листам + PDF «паспорт визуала» (страница на доску, QR на карточку при переданном URL).
  */
@@ -48,7 +50,14 @@ export async function exportSketchVisualBundle(opts: {
   /** По умолчанию цех: все метки; merch_clean — без тех/QC на кружках. */
   exportSurface?: W2SketchExportSurface;
 }): Promise<void> {
-  const { dossier, leafId, pathLabel, articleSku, articlePageUrl, exportSurface = 'workshop_floor' } = opts;
+  const {
+    dossier,
+    leafId,
+    pathLabel,
+    articleSku,
+    articlePageUrl,
+    exportSurface = 'workshop_floor',
+  } = opts;
   const zip = new JSZip();
   const sheets = normalizeSketchSheets(dossier.sketchSheets);
 
@@ -74,7 +83,9 @@ export async function exportSketchVisualBundle(opts: {
     fileIdx++;
   }
 
-  const qrDataUrl = articlePageUrl?.trim() ? await buildSketchQrDataUrl(articlePageUrl.trim()) : null;
+  const qrDataUrl = articlePageUrl?.trim()
+    ? await buildSketchQrDataUrl(articlePageUrl.trim())
+    : null;
 
   const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
   const pageW = pdf.internal.pageSize.getWidth();
@@ -92,7 +103,10 @@ export async function exportSketchVisualBundle(opts: {
       annotations: toExportAnnotations(sh.annotations, leafId, exportSurface),
       subtitle: `${articleSku} · ${sh.title ?? 'лист'}`,
     });
-    slides.push({ blob: b, caption: `Лист: ${sh.title ?? sh.sheetId.slice(0, 8)} · ${articleSku}` });
+    slides.push({
+      blob: b,
+      caption: `Лист: ${sh.title ?? sh.sheetId.slice(0, 8)} · ${articleSku}`,
+    });
   }
 
   for (let i = 0; i < slides.length; i++) {
@@ -133,7 +147,14 @@ export async function exportTzHandoffPdfOnly(opts: {
   articlePageUrl?: string;
   exportSurface?: W2SketchExportSurface;
 }): Promise<void> {
-  const { dossier, leafId, pathLabel, articleSku, articlePageUrl, exportSurface = 'workshop_floor' } = opts;
+  const {
+    dossier,
+    leafId,
+    pathLabel,
+    articleSku,
+    articlePageUrl,
+    exportSurface = 'workshop_floor',
+  } = opts;
   const sheets = normalizeSketchSheets(dossier.sketchSheets);
   const masterAnns = dossier.categorySketchAnnotations ?? [];
 
@@ -152,10 +173,15 @@ export async function exportTzHandoffPdfOnly(opts: {
       annotations: toExportAnnotations(sh.annotations, leafId, exportSurface),
       subtitle: `${articleSku} · ${sh.title ?? 'лист'}`,
     });
-    slides.push({ blob: b, caption: `Лист: ${sh.title ?? sh.sheetId.slice(0, 8)} · ${articleSku}` });
+    slides.push({
+      blob: b,
+      caption: `Лист: ${sh.title ?? sh.sheetId.slice(0, 8)} · ${articleSku}`,
+    });
   }
 
-  const qrDataUrl = articlePageUrl?.trim() ? await buildSketchQrDataUrl(articlePageUrl.trim()) : null;
+  const qrDataUrl = articlePageUrl?.trim()
+    ? await buildSketchQrDataUrl(articlePageUrl.trim())
+    : null;
 
   const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
   const pageW = pdf.internal.pageSize.getWidth();

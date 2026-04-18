@@ -160,8 +160,24 @@ export interface LiveProcessDefinition {
 }
 
 /** Индустрия / тип бизнеса для библиотеки шаблонов */
-export type ProcessIndustry = 'fast_fashion' | 'luxury' | 'made_to_order' | 'sportswear' | 'accessories' | 'multi_brand' | 'wholesale' | 'generic';
-export type ProcessBusinessType = 'production' | 'b2b' | 'logistics' | 'sourcing' | 'qc' | 'finance' | 'compliance' | 'approval';
+export type ProcessIndustry =
+  | 'fast_fashion'
+  | 'luxury'
+  | 'made_to_order'
+  | 'sportswear'
+  | 'accessories'
+  | 'multi_brand'
+  | 'wholesale'
+  | 'generic';
+export type ProcessBusinessType =
+  | 'production'
+  | 'b2b'
+  | 'logistics'
+  | 'sourcing'
+  | 'qc'
+  | 'finance'
+  | 'compliance'
+  | 'approval';
 
 // ─── 2.1 Контекст и мультиинстанс ───────────────────────────────────────────
 

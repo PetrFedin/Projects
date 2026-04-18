@@ -19,14 +19,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { RegistryPageShell } from '@/components/design-system';
 
-const MS_DEFAULT = {
-  v: 1 as const,
+const MS_DEFAULT: { v: 1; milestones: MilestoneWithVideo[] } = {
+  v: 1,
   milestones: [
-    { id: 'm1', orderId: 'PO-201', milestoneType: 'cutting_done', milestoneLabel: 'Раскрой завершён', status: 'approved' as const, completedAt: '2026-03-09T12:00:00Z', approvedAt: '2026-03-09T14:00:00Z' },
-    { id: 'm2', orderId: 'PO-201', milestoneType: 'assembly_done', milestoneLabel: 'Сборка завершена', status: 'video_uploaded' as const, completedAt: '2026-03-10T18:00:00Z' },
-    { id: 'm3', orderId: 'PO-201', milestoneType: 'final_qc', milestoneLabel: 'Финальный ОК', status: 'pending' as const },
-  ] satisfies MilestoneWithVideo[],
+    {
+      id: 'm1',
+      orderId: 'PO-201',
+      milestoneType: 'cutting_done',
+      milestoneLabel: 'Раскрой завершён',
+      status: 'approved',
+      completedAt: '2026-03-09T12:00:00Z',
+      approvedAt: '2026-03-09T14:00:00Z',
+    },
+    {
+      id: 'm2',
+      orderId: 'PO-201',
+      milestoneType: 'assembly_done',
+      milestoneLabel: 'Сборка завершена',
+      status: 'video_uploaded',
+      completedAt: '2026-03-10T18:00:00Z',
+    },
+    {
+      id: 'm3',
+      orderId: 'PO-201',
+      milestoneType: 'final_qc',
+      milestoneLabel: 'Финальный ОК',
+      status: 'pending',
+    },
+  ],
 };
 
 const statusLabels: Record<MilestoneWithVideo['status'], string> = {
@@ -49,25 +72,40 @@ export default function MilestonesVideoPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
       <SectionInfoCard
-        title="Milestones with Video Proof"
-        description="Статусы этапов — floor-tab: milestones-video."
+        title="Вехи с видео-подтверждением"
+        description={
+          <>
+            Статусы этапов — floor-tab: milestones-video. Контроль переходов по{' '}
+            <AcronymWithTooltip abbr="PO" /> и <AcronymWithTooltip abbr="QC" />.
+          </>
+        }
         icon={Video}
-        iconBg="bg-violet-100"
-        iconColor="text-violet-600"
+        iconBg="bg-accent-primary/15"
+        iconColor="text-accent-primary"
         badges={
           <>
-            <Badge variant="outline" className="text-[9px]">Видео</Badge>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href={ROUTES.brand.documents}>ЭДО</Link></Button>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href={ROUTES.brand.production}>Production</Link></Button>
+            <Badge variant="outline" className="text-[9px]">
+              Видео
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.documents}>ЭДО</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.production}>Производство</Link>
+            </Button>
           </>
         }
       />
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <Link href={ROUTES.brand.production}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
-          <h1 className="text-2xl font-bold uppercase">Milestones with Video Proof</h1>
+          <Link href={ROUTES.brand.production}>
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          </Link>
+          <h1 className="text-2xl font-bold uppercase">Вехи с видео-подтверждением</h1>
         </div>
         <Button
           size="sm"
@@ -85,30 +123,43 @@ export default function MilestonesVideoPage() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Video className="h-5 w-5" /> Этапы по заказу PO-201
+            <Video className="h-5 w-5" /> Этапы по заказу <AcronymWithTooltip abbr="PO" />
+            -201
           </CardTitle>
           <CardDescription>Критические этапы с видео (плейсхолдер)</CardDescription>
         </CardHeader>
         <CardContent>
           <ul className="space-y-3">
             {data.milestones.map((m, i) => (
-              <li key={m.id} className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+              <li
+                key={m.id}
+                className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"
+              >
                 <div>
                   <p className="font-medium">{m.milestoneLabel}</p>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-text-secondary text-xs">
                     {m.orderId} · {statusLabels[m.status]}
-                    {m.completedAt ? ` · ${new Date(m.completedAt).toLocaleDateString('ru-RU')}` : ''}
+                    {m.completedAt
+                      ? ` · ${new Date(m.completedAt).toLocaleDateString('ru-RU')}`
+                      : ''}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
                   {m.status === 'approved' && <CheckCircle2 className="h-4 w-4 text-emerald-600" />}
-                  <Select value={m.status} onValueChange={(v) => setMilestone(i, { status: v as MilestoneWithVideo['status'] })}>
+                  <Select
+                    value={m.status}
+                    onValueChange={(v) =>
+                      setMilestone(i, { status: v as MilestoneWithVideo['status'] })
+                    }
+                  >
                     <SelectTrigger className="h-8 w-[150px] text-[10px]">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       {(Object.keys(statusLabels) as MilestoneWithVideo['status'][]).map((s) => (
-                        <SelectItem key={s} value={s} className="text-xs">{statusLabels[s]}</SelectItem>
+                        <SelectItem key={s} value={s} className="text-xs">
+                          {statusLabels[s]}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -119,6 +170,6 @@ export default function MilestonesVideoPage() {
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getProductionLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

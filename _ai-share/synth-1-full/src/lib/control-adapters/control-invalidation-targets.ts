@@ -170,7 +170,9 @@ export function dispatchControlInvalidation(
  * Ledger → Control: пересчёт article_control при изменении остатков по продукту (ATP).
  * В демо `productId` на грануле часто совпадает с `entity_id` артикула; `unknown` / пустое — пропуск.
  */
-export function dispatchInventoryBalanceChangedForProduct(productId: string | undefined): ControlRecomputeTarget[] {
+export function dispatchInventoryBalanceChangedForProduct(
+  productId: string | undefined
+): ControlRecomputeTarget[] {
   const id = productId?.trim();
   if (!id || id === 'unknown') return [];
   return dispatchControlInvalidation({

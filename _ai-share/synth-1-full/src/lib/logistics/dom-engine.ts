@@ -32,30 +32,31 @@ export class DOMEngine {
 
     for (const item of orderItems) {
       let remaining = item.requestedQty;
-      
+
       // Находим все доступные гранулы для этого SKU
-      const availableGrains = grains.filter(g => 
-        g.sku === item.sku && 
-        g.state === 'on_hand' &&
-        (!channelId || g.channelId === channelId || !g.channelId) // Учитываем канал
+      const availableGrains = grains.filter(
+        (g) =>
+          g.sku === item.sku &&
+          g.state === 'on_hand' &&
+          (!channelId || g.channelId === channelId || !g.channelId) // Учитываем канал
       );
-      
+
       // Сортируем по убыванию количества (чтобы минимизировать количество сплитов)
       availableGrains.sort((a, b) => b.quantity - a.quantity);
 
       for (const grain of availableGrains) {
         if (remaining <= 0) break;
-        
+
         const take = Math.min(grain.quantity, remaining);
         remaining -= take;
 
         if (!splitsMap.has(grain.locationId)) {
           splitsMap.set(grain.locationId, { locationId: grain.locationId, items: [] });
         }
-        
+
         const split = splitsMap.get(grain.locationId)!;
-        const existingItem = split.items.find(i => i.sku === item.sku);
-        
+        const existingItem = split.items.find((i) => i.sku === item.sku);
+
         if (existingItem) {
           existingItem.quantity += take;
         } else {
@@ -68,10 +69,10 @@ export class DOMEngine {
       }
     }
 
-    return { 
-      splits: Array.from(splitsMap.values()), 
+    return {
+      splits: Array.from(splitsMap.values()),
       unfulfilled,
-      isFullyFulfilled: unfulfilled.length === 0
+      isFullyFulfilled: unfulfilled.length === 0,
     };
   }
 }

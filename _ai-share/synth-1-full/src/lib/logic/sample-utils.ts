@@ -6,12 +6,12 @@ import { CollectionSample, SampleMovement, SampleStatus } from '../types/samples
  */
 
 export function moveSample(
-  sample: CollectionSample, 
-  toLocation: string, 
-  movedBy: string, 
+  sample: CollectionSample,
+  toLocation: string,
+  movedBy: string,
   status: SampleStatus,
   note?: string
-): { updatedSample: CollectionSample, movement: SampleMovement } {
+): { updatedSample: CollectionSample; movement: SampleMovement } {
   const movement: SampleMovement = {
     id: `MOV-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
     sampleId: sample.id,
@@ -20,7 +20,7 @@ export function moveSample(
     movedAt: new Date().toISOString(),
     movedBy,
     note,
-    statusAfter: status
+    statusAfter: status,
   };
 
   const updatedSample: CollectionSample = {
@@ -28,7 +28,7 @@ export function moveSample(
     status,
     currentLocation: toLocation,
     lastSeenAt: movement.movedAt,
-    history: [movement, ...sample.history]
+    history: [movement, ...sample.history],
   };
 
   return { updatedSample, movement };

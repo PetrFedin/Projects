@@ -7,13 +7,39 @@ import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
 import { getMarketroomLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
-import { Store, LayoutGrid, TrendingUp, ShoppingBag, Sparkles, FileSpreadsheet } from 'lucide-react';
+import {
+  Store,
+  LayoutGrid,
+  TrendingUp,
+  ShoppingBag,
+  Sparkles,
+  FileSpreadsheet,
+} from 'lucide-react';
+import { RegistryPageShell } from '@/components/design-system';
 
 /** Мок: лук = набор товаров из каталога */
 const MOCK_LOOKS = [
-  { id: 'look-1', title: 'Офисный лук FW26', productIds: ['p1', 'p2', 'p3'], productNames: ['Пиджак приталенный', 'Брюки чинос', 'Рубашка оксфорд'], totalPrice: 24900 },
-  { id: 'look-2', title: 'Вечерний образ', productIds: ['p4', 'p5'], productNames: ['Платье миди', 'Клатч'], totalPrice: 18900 },
-  { id: 'look-3', title: 'Casual выходного дня', productIds: ['p6', 'p7', 'p8'], productNames: ['Свитшот оверсайз', 'Джинсы скинни', 'Кроссовки'], totalPrice: 15200 },
+  {
+    id: 'look-1',
+    title: 'Офисный лук FW26',
+    productIds: ['p1', 'p2', 'p3'],
+    productNames: ['Пиджак приталенный', 'Брюки чинос', 'Рубашка оксфорд'],
+    totalPrice: 24900,
+  },
+  {
+    id: 'look-2',
+    title: 'Вечерний образ',
+    productIds: ['p4', 'p5'],
+    productNames: ['Платье миди', 'Клатч'],
+    totalPrice: 18900,
+  },
+  {
+    id: 'look-3',
+    title: 'Casual выходного дня',
+    productIds: ['p6', 'p7', 'p8'],
+    productNames: ['Свитшот оверсайз', 'Джинсы скинни', 'Кроссовки'],
+    totalPrice: 15200,
+  },
 ];
 
 /** Мок: тренды для AI Trend Radar */
@@ -27,15 +53,15 @@ const MOCK_TRENDS = [
 
 export default function MarketroomPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <div className="container mx-auto px-4 py-8 max-w-5xl space-y-12 pb-24">
+    <div className="from-bg-surface2 to-bg-surface min-h-screen bg-gradient-to-b">
+      <RegistryPageShell className="max-w-5xl space-y-12 py-8 pb-16">
         {/* Шапка */}
         <header className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-black uppercase tracking-tight flex items-center gap-2">
-              <Store className="h-8 w-8 text-indigo-600" /> Маркетрум
+            <h1 className="flex items-center gap-2 text-3xl font-black uppercase tracking-tight">
+              <Store className="text-accent-primary h-8 w-8" /> Маркетрум
             </h1>
-            <p className="text-slate-500 mt-1">
+            <p className="text-text-secondary mt-1">
               Каталог, луки и тренды. Покупка в один клик, привязка к заказу и корзине.
             </p>
           </div>
@@ -51,18 +77,21 @@ export default function MarketroomPage() {
 
         {/* Shop-the-Look — луки из каталога, привязка к заказу/корзине */}
         <section id="shop-the-look" className="scroll-mt-8">
-          <div className="flex items-center gap-2 mb-4">
-            <LayoutGrid className="h-5 w-5 text-indigo-600" />
+          <div className="mb-4 flex items-center gap-2">
+            <LayoutGrid className="text-accent-primary h-5 w-5" />
             <h2 className="text-xl font-bold uppercase">Shop-the-Look</h2>
           </div>
-          <p className="text-sm text-slate-500 mb-4">
+          <p className="text-text-secondary mb-4 text-sm">
             Готовые луки из каталога. Добавьте весь лук в корзину или оформите заказ одним кликом.
           </p>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {MOCK_LOOKS.map((look) => (
-              <Card key={look.id} className="rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                <div className="h-32 bg-gradient-to-br from-indigo-100 to-slate-100 flex items-center justify-center">
-                  <ShoppingBag className="h-12 w-12 text-indigo-300" />
+              <Card
+                key={look.id}
+                className="border-border-default overflow-hidden rounded-xl border shadow-sm"
+              >
+                <div className="from-accent-primary/15 to-bg-surface2 flex h-32 items-center justify-center bg-gradient-to-br">
+                  <ShoppingBag className="text-accent-primary h-12 w-12" />
                 </div>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base">{look.title}</CardTitle>
@@ -70,8 +99,10 @@ export default function MarketroomPage() {
                     {look.productNames.join(' · ')}
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="pt-0 space-y-2">
-                  <p className="text-sm font-semibold">{look.totalPrice.toLocaleString('ru-RU')} ₽</p>
+                <CardContent className="space-y-2 pt-0">
+                  <p className="text-sm font-semibold">
+                    {look.totalPrice.toLocaleString('ru-RU')} ₽
+                  </p>
                   <div className="flex gap-2">
                     <Button size="sm" className="flex-1 gap-1" asChild>
                       <Link href={`${ROUTES.client.catalog}?look=${look.id}`}>
@@ -90,33 +121,33 @@ export default function MarketroomPage() {
 
         {/* AI Trend Radar в публичном Маркетруме */}
         <section id="trend-radar" className="scroll-mt-8">
-          <div className="flex items-center gap-2 mb-4">
+          <div className="mb-4 flex items-center gap-2">
             <TrendingUp className="h-5 w-5 text-amber-600" />
             <h2 className="text-xl font-bold uppercase">AI Trend Radar</h2>
-            <Badge variant="secondary" className="text-[9px] gap-1">
+            <Badge variant="secondary" className="gap-1 text-[9px]">
               <Sparkles className="h-3 w-3" /> AI
             </Badge>
           </div>
-          <p className="text-sm text-slate-500 mb-4">
+          <p className="text-text-secondary mb-4 text-sm">
             Актуальные тренды в Маркетруме по данным поиска и продаж. Обновляется автоматически.
           </p>
-          <Card className="rounded-xl border border-slate-200 shadow-sm">
+          <Card className="border-border-default rounded-xl border shadow-sm">
             <CardContent className="p-4">
               <div className="flex flex-wrap gap-2">
                 {MOCK_TRENDS.map((t) => (
                   <Badge
                     key={t.id}
                     variant="outline"
-                    className="text-xs py-2 px-3 rounded-full border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 transition-colors cursor-default"
+                    className="border-border-default hover:border-accent-primary/30 hover:bg-accent-primary/10 cursor-default rounded-full px-3 py-2 text-xs transition-colors"
                   >
                     <span className="font-medium">{t.label}</span>
-                    <span className="ml-1.5 text-slate-400">{t.score}%</span>
-                    {t.change === 'up' && <span className="text-emerald-500 ml-0.5">↑</span>}
-                    {t.change === 'down' && <span className="text-rose-500 ml-0.5">↓</span>}
+                    <span className="text-text-muted ml-1.5">{t.score}%</span>
+                    {t.change === 'up' && <span className="ml-0.5 text-emerald-500">↑</span>}
+                    {t.change === 'down' && <span className="ml-0.5 text-rose-500">↓</span>}
                   </Badge>
                 ))}
               </div>
-              <p className="text-[11px] text-slate-400 mt-3">
+              <p className="text-text-muted mt-3 text-[11px]">
                 При API: расчёт трендов по аналитике платформы и внешним источникам.
               </p>
             </CardContent>
@@ -124,15 +155,19 @@ export default function MarketroomPage() {
         </section>
 
         {/* Импорт контента из 1С/Excel */}
-        <section className="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
-          <p className="text-xs text-slate-500 flex items-center gap-2">
+        <section className="border-border-subtle bg-bg-surface2/80 rounded-xl border p-4">
+          <p className="text-text-secondary flex items-center gap-2 text-xs">
             <FileSpreadsheet className="h-4 w-4" />
-            Импорт контента из 1С/Excel: при необходимости каталог и луки можно выгружать из учётных систем. Настройка в кабинете бренда.
+            Импорт контента из 1С/Excel: при необходимости каталог и луки можно выгружать из учётных
+            систем. Настройка в кабинете бренда.
           </p>
         </section>
 
-        <RelatedModulesBlock links={getMarketroomLinks()} title="Каталог, заказы, аналитика Маркетрум" />
-      </div>
+        <RelatedModulesBlock
+          links={getMarketroomLinks()}
+          title="Каталог, заказы, аналитика Маркетрум"
+        />
+      </RegistryPageShell>
     </div>
   );
 }

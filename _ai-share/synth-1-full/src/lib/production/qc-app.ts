@@ -12,18 +12,18 @@ export type QcInspectionStatus = 'draft' | 'in_progress' | 'passed' | 'rejected'
 /** Дефект с фото */
 export interface QcDefect {
   id: string;
-  type: string;           // например "порез", "пятно", "несовпадение шва"
+  type: string; // например "порез", "пятно", "несовпадение шва"
   severity: DefectSeverity;
   description?: string;
   /** URL фото (при API — загрузка в Storage) */
   photoUrl?: string;
-  position?: string;      // зона на изделии
+  position?: string; // зона на изделии
 }
 
 /** Инспекция партии */
 export interface QcInspection {
   id: string;
-  orderId?: string;       // PO или заказ
+  orderId?: string; // PO или заказ
   batchId?: string;
   sku?: string;
   aqlLevel: AqlLevel;
@@ -31,7 +31,7 @@ export interface QcInspection {
   inspectedCount: number;
   defectCount: number;
   defects: QcDefect[];
-  inspectedAt: string;     // ISO
+  inspectedAt: string; // ISO
   inspectorId?: string;
 }
 

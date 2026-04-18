@@ -1,4 +1,5 @@
-import { UserRole, Chat as ChatConversation, ChatMessage, TaskStatus, TaskPriority } from '@/lib/types';
+import { UserRole, Chat as ChatConversation, TaskStatus, TaskPriority } from '@/lib/types';
+export type { ChatMessage } from '@/lib/types';
 
 export type ID = string;
 

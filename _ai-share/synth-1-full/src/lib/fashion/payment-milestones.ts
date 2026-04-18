@@ -18,10 +18,10 @@ export function getPaymentMilestones(orderTotal: number): PaymentMilestoneV1[] {
       dueDate: '2026-06-01',
       status: 'pending',
       percentage: 70,
-    }
+    },
   ];
 }
 
 export function calculateMilestoneBalance(milestones: PaymentMilestoneV1[]): number {
-  return milestones.filter(m => m.status === 'pending').reduce((acc, m) => acc + m.amount, 0);
+  return milestones.filter((m) => m.status === 'pending').reduce((acc, m) => acc + m.amount, 0);
 }

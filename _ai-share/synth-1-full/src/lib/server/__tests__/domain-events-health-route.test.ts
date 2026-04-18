@@ -36,7 +36,7 @@ describe('GET /api/ops/domain-events/health', () => {
       outbox,
       requestId: 'rid-1',
     });
-    
+
     expect(body).toEqual(
       expect.objectContaining({
         contractVersion: DOMAIN_EVENTS_HEALTH_CONTRACT_VERSION,
@@ -53,7 +53,9 @@ describe('GET /api/ops/domain-events/health', () => {
         requestId: expect.any(String),
       })
     );
-    expect(Object.keys(body).sort()).toEqual([...DOMAIN_EVENTS_HEALTH_REQUIRED_RESPONSE_KEYS].sort());
+    expect(Object.keys(body).sort()).toEqual(
+      [...DOMAIN_EVENTS_HEALTH_REQUIRED_RESPONSE_KEYS].sort()
+    );
     expect(DOMAIN_EVENTS_HEALTH_CONTRACT_METADATA.requiredResponseKeys).toEqual(
       DOMAIN_EVENTS_HEALTH_REQUIRED_RESPONSE_KEYS
     );
@@ -65,11 +67,15 @@ describe('GET /api/ops/domain-events/health', () => {
       'x-request-id': 'rid-headers-1',
       'x-domain-events-health-contract-version': DOMAIN_EVENTS_HEALTH_CONTRACT_VERSION,
     });
-    expect(Object.keys(headers).sort()).toEqual([...DOMAIN_EVENTS_HEALTH_REQUIRED_HEADER_KEYS].sort());
+    expect(Object.keys(headers).sort()).toEqual(
+      [...DOMAIN_EVENTS_HEALTH_REQUIRED_HEADER_KEYS].sort()
+    );
     expect(DOMAIN_EVENTS_HEALTH_CONTRACT_METADATA.requiredHeaderKeys).toEqual(
       DOMAIN_EVENTS_HEALTH_REQUIRED_HEADER_KEYS
     );
-    expect(DOMAIN_EVENTS_HEALTH_CONTRACT_METADATA.version).toBe(DOMAIN_EVENTS_HEALTH_CONTRACT_VERSION);
+    expect(DOMAIN_EVENTS_HEALTH_CONTRACT_METADATA.version).toBe(
+      DOMAIN_EVENTS_HEALTH_CONTRACT_VERSION
+    );
   });
 
   it('validates payload + headers with a single contract helper', () => {
@@ -148,7 +154,9 @@ describe('GET /api/ops/domain-events/health', () => {
       headers: {},
     });
     expect(invalid.ok).toBe(false);
-    expect(invalid.errors).toContain(`${DOMAIN_EVENTS_HEALTH_CONTRACT_ERROR.headerMissingPrefix}x-request-id`);
+    expect(invalid.errors).toContain(
+      `${DOMAIN_EVENTS_HEALTH_CONTRACT_ERROR.headerMissingPrefix}x-request-id`
+    );
     expect(invalid.errors).toContain(
       `${DOMAIN_EVENTS_HEALTH_CONTRACT_ERROR.headerMissingPrefix}x-domain-events-health-contract-version`
     );

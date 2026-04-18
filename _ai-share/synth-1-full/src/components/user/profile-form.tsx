@@ -39,26 +39,24 @@ export default function ProfileForm({
   const { auditEvents, appendAudit } = useAuditLogic();
 
   return (
-    <Card className="border-none shadow-none bg-transparent">
+    <Card className="border-none bg-transparent shadow-none">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardContent className="space-y-6 p-0">
             {section !== 'audit' && (
-              <ProfileProgress 
-                progress={profileProgress} 
-                isOpen={progressOpen} 
-                onToggle={() => setProgressOpen((p) => !p)} 
+              <ProfileProgress
+                progress={profileProgress}
+                isOpen={progressOpen}
+                onToggle={() => setProgressOpen((p) => !p)}
               />
             )}
 
-            {section === 'audit' && (
-              <ProfileAudit events={auditEvents} />
-            )}
+            {section === 'audit' && <ProfileAudit events={auditEvents} />}
 
             {section === 'profile' && (
-              <ProfileTab 
-                form={form} 
-                user={user} 
+              <ProfileTab
+                form={form}
+                user={user}
                 appendAudit={appendAudit}
                 setBioAiInput={setBioAiInput}
                 setBioAiSuggestion={setBioAiSuggestion}
@@ -66,22 +64,20 @@ export default function ProfileForm({
               />
             )}
 
-            {section === 'familySync' && (
-              <FamilySyncTab form={form} />
-            )}
+            {section === 'familySync' && <FamilySyncTab form={form} />}
 
-            {section === 'measurements' && (
-              <MeasurementsTab form={form} />
-            )}
+            {section === 'measurements' && <MeasurementsTab form={form} />}
 
-            {section === 'productPrefs' && (
-              <ProductPrefsTab form={form} />
-            )}
+            {section === 'productPrefs' && <ProductPrefsTab form={form} />}
           </CardContent>
 
           {section !== 'audit' && (
-            <CardFooter className="flex justify-end pt-6 px-0">
-              <Button type="submit" disabled={isSubmitting} className="rounded-xl px-8 h-11 font-black uppercase tracking-widest transition-all active:scale-95 shadow-lg shadow-black/10">
+            <CardFooter className="flex justify-end px-0 pt-6">
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="h-11 rounded-xl px-8 font-black uppercase tracking-widest shadow-lg shadow-black/10 transition-all active:scale-95"
+              >
                 {isSubmitting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -35,8 +35,14 @@ export class TelekineticWMSEngine {
   public static executeMentalMove(request: TelekineticMoveRequest): TelekineticMoveResult {
     // [Phase 56] Math Hardening: Защита от NaN и отрицательных значений
     const safeMassKg = Math.max(0.001, isNaN(request.massKg) ? 1 : request.massKg);
-    const safeFocus = Math.max(0.0, Math.min(1.0, isNaN(request.bciFocusLevel) ? 0 : request.bciFocusLevel));
-    const safeFatigue = Math.max(0.0, Math.min(1.0, isNaN(request.bciFatigueLevel) ? 0 : request.bciFatigueLevel));
+    const safeFocus = Math.max(
+      0.0,
+      Math.min(1.0, isNaN(request.bciFocusLevel) ? 0 : request.bciFocusLevel)
+    );
+    const safeFatigue = Math.max(
+      0.0,
+      Math.min(1.0, isNaN(request.bciFatigueLevel) ? 0 : request.bciFatigueLevel)
+    );
 
     let status: TelekineticMoveResult['status'] = 'moved';
     let darkEnergyExpendedKWh = 0;
@@ -57,7 +63,14 @@ export class TelekineticWMSEngine {
       status = 'fatigue_warning';
       newCoordinates = { ...request.sourceCoordinates }; // Груз не сдвинулся
       reasoning = `CRITICAL: Operator neural fatigue too high (${(safeFatigue * 100).toFixed(1)}%). Telekinetic link severed to prevent brain damage. Please rest. `;
-      return { operatorId: request.operatorId, sku: request.sku, status, darkEnergyExpendedKWh: 0, newCoordinates, reasoning };
+      return {
+        operatorId: request.operatorId,
+        sku: request.sku,
+        status,
+        darkEnergyExpendedKWh: 0,
+        newCoordinates,
+        reasoning,
+      };
     }
 
     if (safeFocus < requiredFocus) {
@@ -65,14 +78,15 @@ export class TelekineticWMSEngine {
       status = 'dropped';
       // Груз падает где-то посередине пути (упрощенно)
       newCoordinates = {
-        x: request.sourceCoordinates.x + (dx * safeFocus),
-        y: request.sourceCoordinates.y + (dy * safeFocus),
-        z: 0 // Падает на пол
+        x: request.sourceCoordinates.x + dx * safeFocus,
+        y: request.sourceCoordinates.y + dy * safeFocus,
+        z: 0, // Падает на пол
       };
-      
+
       // Энергия тратится только на ту часть пути, которую успели пролететь
-      darkEnergyExpendedKWh = safeMassKg * (distanceMeters * safeFocus) * this.DARK_ENERGY_PER_KG_METER_KWH;
-      
+      darkEnergyExpendedKWh =
+        safeMassKg * (distanceMeters * safeFocus) * this.DARK_ENERGY_PER_KG_METER_KWH;
+
       reasoning = `WARNING: Operator focus (${(safeFocus * 100).toFixed(1)}%) dropped below required threshold (${(requiredFocus * 100).toFixed(1)}%). Gravitational field collapsed. Item dropped at [${newCoordinates.x.toFixed(1)}, ${newCoordinates.y.toFixed(1)}, 0]. `;
     } else {
       // Успешное перемещение
@@ -86,7 +100,7 @@ export class TelekineticWMSEngine {
       status,
       darkEnergyExpendedKWh: Math.round(darkEnergyExpendedKWh),
       newCoordinates,
-      reasoning
+      reasoning,
     };
   }
 }

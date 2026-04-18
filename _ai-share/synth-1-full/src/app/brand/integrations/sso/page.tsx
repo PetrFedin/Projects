@@ -7,22 +7,42 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Lock, Shield } from 'lucide-react';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
-import { getIntegrationLinks } from '@/lib/data/entity-links';
+import { getIntegrationsLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { RegistryPageShell } from '@/components/design-system';
+import { ROUTES } from '@/lib/routes';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
 export default function SSOPage() {
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <RegistryPageShell className="space-y-6">
       <SectionInfoCard
-        title="SSO — Single Sign-On"
-        description="Корпоративная аутентификация. SAML 2.0, OIDC. Подключение к корпоративному IdP (Azure AD, Okta, Keycloak)."
+        title="SSO — единый вход"
+        description={
+          <>
+            Корпоративная аутентификация. <AcronymWithTooltip abbr="SSO" />, SAML 2.0, OIDC.
+            Подключение к корпоративному IdP (Azure AD, Okta, Keycloak).
+          </>
+        }
         icon={Lock}
-        iconBg="bg-slate-100"
-        iconColor="text-slate-600"
-        badges={<><Badge variant="outline" className="text-[9px]">SAML</Badge><Badge variant="outline" className="text-[9px]">OIDC</Badge><Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href="/brand/integrations">Интеграции</Link></Button></>}
+        iconBg="bg-bg-surface2"
+        iconColor="text-text-secondary"
+        badges={
+          <>
+            <Badge variant="outline" className="text-[9px]">
+              SAML
+            </Badge>
+            <Badge variant="outline" className="text-[9px]">
+              OIDC
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.integrations}>Интеграции</Link>
+            </Button>
+          </>
+        }
       />
-      <h1 className="text-2xl font-bold uppercase">Single Sign-On</h1>
-      <Card className="rounded-xl border border-slate-100">
+      <h1 className="text-2xl font-bold uppercase">Единый вход (SSO)</h1>
+      <Card className="border-border-subtle rounded-xl border">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Shield className="h-5 w-5" /> Корпоративный вход
@@ -31,12 +51,16 @@ export default function SSOPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            <p className="text-[11px] text-slate-600">Поддерживаемые провайдеры: Azure AD, Okta, Google Workspace, Keycloak</p>
-            <Button size="sm" variant="outline">Настроить SSO</Button>
+            <p className="text-text-secondary text-[11px]">
+              Поддерживаемые провайдеры: Azure AD, Okta, Google Workspace, Keycloak
+            </p>
+            <Button size="sm" variant="outline">
+              Настроить <AcronymWithTooltip abbr="SSO" />
+            </Button>
           </div>
         </CardContent>
       </Card>
-      <RelatedModulesBlock links={getIntegrationLinks()} />
-    </div>
+      <RelatedModulesBlock links={getIntegrationsLinks()} />
+    </RegistryPageShell>
   );
 }

@@ -1,7 +1,10 @@
 import type { B2BReorderSuggestionV1 } from './types';
 
 /** AI-рекомендации по дозаказам (Showroom Smart Reorder). */
-export function getB2BReorderSuggestions(partnerId: string, currentCartSkus: string[]): B2BReorderSuggestionV1[] {
+export function getB2BReorderSuggestions(
+  partnerId: string,
+  currentCartSkus: string[]
+): B2BReorderSuggestionV1[] {
   return [
     {
       sku: 'SKU-101-TOP',
@@ -20,6 +23,6 @@ export function getB2BReorderSuggestions(partnerId: string, currentCartSkus: str
       suggestedQty: 50,
       confidenceScore: 85,
       reason: 'Trend Spike',
-    }
+    },
   ];
 }

@@ -55,13 +55,18 @@ const VALID_PROFILES = new Set<string>([
   'finance',
 ]);
 
-export function parseWorkshop2DossierViewParam(raw: string | null | undefined): Workshop2DossierViewProfile {
+export function parseWorkshop2DossierViewParam(
+  raw: string | null | undefined
+): Workshop2DossierViewProfile {
   const s = (raw ?? '').trim().toLowerCase();
   if (!s || s === 'full') return 'full';
   return VALID_PROFILES.has(s) ? (s as Workshop2DossierViewProfile) : 'full';
 }
 
-export const WORKSHOP2_DOSSIER_VIEW_OPTIONS: { value: Workshop2DossierViewProfile; label: string }[] = [
+export const WORKSHOP2_DOSSIER_VIEW_OPTIONS: {
+  value: Workshop2DossierViewProfile;
+  label: string;
+}[] = [
   { value: 'full', label: 'Полный (все роли)' },
   { value: 'manager', label: 'Менеджер / продакт' },
   { value: 'designer', label: 'Бренд-дизайнер' },
@@ -76,23 +81,22 @@ export const WORKSHOP2_DOSSIER_VIEW_OPTIONS: { value: Workshop2DossierViewProfil
 ];
 
 /** Короткая подсказка под режим (баннер в досье). */
-export const WORKSHOP2_DOSSIER_VIEW_HINTS: Record<Exclude<Workshop2DossierViewProfile, 'full'>, string> = {
-  manager:
-    'Акцент на статусы, готовность шагов и блокеры; детали каталога по запросу.',
+export const WORKSHOP2_DOSSIER_VIEW_HINTS: Record<
+  Exclude<Workshop2DossierViewProfile, 'full'>,
+  string
+> = {
+  manager: 'Акцент на статусы, готовность шагов и блокеры; детали каталога по запросу.',
   designer:
     'Визуал, эскиз, референсы и замысел; конструкция и материалы в той же полосе вкладок (мерки и узлы для передачи в образец).',
   technologist:
     'Мерки, конструкция, привязки меток к BOM; паспорт и визуал доступны для согласования контура.',
   supply:
     'Материалы, BOM, ограничения по сырью; визуал — только канон и метки, влияющие на закупку.',
-  production:
-    'Эскиз, задачи цеха, BOM-карта; урезанный паспорт для швейного контура.',
-  qc:
-    'Паспорт (SKU, коды, ТН ВЭД) в первичных секциях; метки qc/construction, канон и handoff в маршрут ОТК.',
+  production: 'Эскиз, задачи цеха, BOM-карта; урезанный паспорт для швейного контура.',
+  qc: 'Паспорт (SKU, коды, ТН ВЭД) в первичных секциях; метки qc/construction, канон и handoff в маршрут ОТК.',
   merch:
     'Паспорт и визуал в приоритете; материалы и конструкция в общей полосе вкладок; экспорт скетча без техметок по умолчанию.',
-  compliance:
-    'Паспорт (рынок, коды, происхождение), комплаенс скетча, сертификаты в материалах.',
+  compliance: 'Паспорт (рынок, коды, происхождение), комплаенс скетча, сертификаты в материалах.',
   factory:
     'Конструкция и узлы рядом с каноном и BOM; минимум шума; ссылка ?w2view=factory копируема.',
   finance:
@@ -100,7 +104,10 @@ export const WORKSHOP2_DOSSIER_VIEW_HINTS: Record<Exclude<Workshop2DossierViewPr
 };
 
 /** Секции ТЗ, которые профиль считает первичными (остальные можно сворачивать в последующих итерациях UI). */
-export const WORKSHOP2_DOSSIER_VIEW_PRIMARY_SECTIONS: Record<Workshop2DossierViewProfile, DossierSection[]> = {
+export const WORKSHOP2_DOSSIER_VIEW_PRIMARY_SECTIONS: Record<
+  Workshop2DossierViewProfile,
+  DossierSection[]
+> = {
   full: ['general', 'visuals', 'material', 'construction'],
   /** Все четыре вкладки в основной полосе навигации (конструкция — 4-я после материалов). */
   manager: ['general', 'visuals', 'material', 'construction'],
@@ -145,7 +152,9 @@ export function persistWorkshop2DossierViewPreference(profile: Workshop2DossierV
 /**
  * Стартовый режим ТЗ без `?w2view=` в URL (после сохранённого выбора — по роли платформы).
  */
-export function defaultWorkshop2DossierViewForPlatformRole(role: PlatformRole): Workshop2DossierViewProfile {
+export function defaultWorkshop2DossierViewForPlatformRole(
+  role: PlatformRole
+): Workshop2DossierViewProfile {
   switch (role) {
     case 'designer':
       return 'designer';
@@ -186,7 +195,9 @@ export function resolveWorkshop2DossierViewFromWorkspaceUrl(
   if (workshop2DossierViewUrlParamIsExplicit(urlParamRaw)) {
     return parseWorkshop2DossierViewParam(urlParamRaw);
   }
-  return readPersistedWorkshop2DossierView() ?? defaultWorkshop2DossierViewForPlatformRole(platformRole);
+  return (
+    readPersistedWorkshop2DossierView() ?? defaultWorkshop2DossierViewForPlatformRole(platformRole)
+  );
 }
 
 /**
@@ -214,7 +225,10 @@ export type Workshop2DossierViewUiCaps = {
   showCompactPassportContextRibbon: boolean;
 };
 
-const WORKSHOP2_DOSSIER_VIEW_UI_CAPS: Record<Workshop2DossierViewProfile, Workshop2DossierViewUiCaps> = {
+const WORKSHOP2_DOSSIER_VIEW_UI_CAPS: Record<
+  Workshop2DossierViewProfile,
+  Workshop2DossierViewUiCaps
+> = {
   full: {
     materialComplianceStrip: true,
     materialSketchBomRefsStrip: true,
@@ -371,7 +385,9 @@ const WORKSHOP2_DOSSIER_VIEW_UI_CAPS: Record<Workshop2DossierViewProfile, Worksh
   },
 };
 
-export function workshop2DossierViewUiCaps(profile: Workshop2DossierViewProfile): Readonly<Workshop2DossierViewUiCaps> {
+export function workshop2DossierViewUiCaps(
+  profile: Workshop2DossierViewProfile
+): Readonly<Workshop2DossierViewUiCaps> {
   return WORKSHOP2_DOSSIER_VIEW_UI_CAPS[profile];
 }
 
@@ -422,7 +438,11 @@ export const W2_SKETCH_EXPORT_SURFACE_LABELS: Record<W2SketchExportSurface, stri
 
 // --- Типы под будущую запись в досье (без расширения JSON-схемы в этом PR) ---
 
-export type Workshop2MaterialAlternativeStatus = 'proposed' | 'approved' | 'rejected' | 'superseded';
+export type Workshop2MaterialAlternativeStatus =
+  | 'proposed'
+  | 'approved'
+  | 'rejected'
+  | 'superseded';
 
 /** Альтернатива материала / узла BOM (согласование замен на клиенте или позже в API). */
 export type Workshop2MaterialAlternativeDraft = {
@@ -473,7 +493,10 @@ export type Workshop2FactoryBomExportColumnKey =
   | 'comment';
 
 /** Колонки «фабричного» экспорта (CSV/XLS клиентом). */
-export const W2_FACTORY_BOM_EXPORT_COLUMNS: { key: Workshop2FactoryBomExportColumnKey; headerRu: string }[] = [
+export const W2_FACTORY_BOM_EXPORT_COLUMNS: {
+  key: Workshop2FactoryBomExportColumnKey;
+  headerRu: string;
+}[] = [
   { key: 'position', headerRu: 'Поз.' },
   { key: 'componentName', headerRu: 'Узел / материал' },
   { key: 'materialCode', headerRu: 'Код' },
@@ -486,7 +509,9 @@ export const W2_FACTORY_BOM_EXPORT_COLUMNS: { key: Workshop2FactoryBomExportColu
 ];
 
 /** Собрать query-суффикс для шаринга режима (вместе с остальными params страницы). */
-export function workshop2DossierViewQueryValue(profile: Workshop2DossierViewProfile): string | null {
+export function workshop2DossierViewQueryValue(
+  profile: Workshop2DossierViewProfile
+): string | null {
   if (profile === 'full') return null;
   return profile;
 }

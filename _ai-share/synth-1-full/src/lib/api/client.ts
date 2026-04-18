@@ -3,7 +3,7 @@
  * Базовый URL: NEXT_PUBLIC_API_BASE_URL. Если не задан или запрос падает — фичи используют моки.
  */
 
-const baseUrl = typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_BASE_URL ?? '' : '';
+const baseUrl = typeof process !== 'undefined' ? (process.env.NEXT_PUBLIC_API_BASE_URL ?? '') : '';
 
 export async function get<T>(path: string): Promise<T> {
   const url = path.startsWith('http') ? path : `${baseUrl}${path}`;

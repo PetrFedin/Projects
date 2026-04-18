@@ -10,9 +10,27 @@ import { useNotifications } from '@/providers/notifications-provider';
 import { cn } from '@/lib/utils';
 
 const MOCK_DOCS = [
-  { id: 'EDO-001', type: 'Счёт', status: 'sent', date: '10.03.2026', partner: 'TSUM' },
-  { id: 'EDO-002', type: 'Акт', status: 'pending_sign', date: '09.03.2026', partner: 'Lamoda' },
-  { id: 'EDO-003', type: 'Накладная', status: 'signed', date: '08.03.2026', partner: 'ЦУМ Online' },
+  {
+    id: 'EDO-001',
+    type: 'Счёт',
+    status: 'sent',
+    date: '10.03.2026',
+    partner: 'Демо-магазин · Москва 2',
+  },
+  {
+    id: 'EDO-002',
+    type: 'Акт',
+    status: 'pending_sign',
+    date: '09.03.2026',
+    partner: 'Демо-магазин · СПб',
+  },
+  {
+    id: 'EDO-003',
+    type: 'Накладная',
+    status: 'signed',
+    date: '08.03.2026',
+    partner: 'Демо-магазин · Москва 1',
+  },
 ];
 
 export function EdoDocumentFlow() {
@@ -28,22 +46,26 @@ export function EdoDocumentFlow() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-base">
           <FileText className="h-4 w-4" />
           ЭДО — документооборот
         </CardTitle>
-        <p className="text-sm text-slate-500">Связь с B2B заказами и Production</p>
+        <p className="text-text-secondary text-sm">Связь с B2B заказами и Production</p>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
           {docs.map((doc) => (
             <div
               key={doc.id}
-              className="flex items-center justify-between p-3 rounded-lg border border-slate-100 hover:bg-slate-50"
+              className="border-border-subtle hover:bg-bg-surface2 flex items-center justify-between rounded-lg border p-3"
             >
               <div>
-                <p className="font-bold text-sm">{doc.type} {doc.id}</p>
-                <p className="text-[10px] text-slate-500">{doc.partner} · {doc.date}</p>
+                <p className="text-sm font-bold">
+                  {doc.type} {doc.id}
+                </p>
+                <p className="text-text-secondary text-[10px]">
+                  {doc.partner} · {doc.date}
+                </p>
               </div>
               <div className="flex items-center gap-2">
                 <Badge
@@ -51,13 +73,22 @@ export function EdoDocumentFlow() {
                     'text-[8px]',
                     doc.status === 'signed' && 'bg-emerald-100 text-emerald-700',
                     doc.status === 'pending_sign' && 'bg-amber-100 text-amber-700',
-                    doc.status === 'sent' && 'bg-slate-100 text-slate-600'
+                    doc.status === 'sent' && 'bg-bg-surface2 text-text-secondary'
                   )}
                 >
-                  {doc.status === 'signed' ? 'Подписан' : doc.status === 'pending_sign' ? 'Ждёт подписи' : 'Отправлен'}
+                  {doc.status === 'signed'
+                    ? 'Подписан'
+                    : doc.status === 'pending_sign'
+                      ? 'Ждёт подписи'
+                      : 'Отправлен'}
                 </Badge>
                 {doc.status === 'pending_sign' && canEdit && (
-                  <Button size="sm" variant="outline" className="h-7 text-[9px]" onClick={() => handleSign(doc)}>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="h-7 text-[9px]"
+                    onClick={() => handleSign(doc)}
+                  >
                     Подписать
                   </Button>
                 )}

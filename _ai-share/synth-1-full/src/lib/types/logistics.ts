@@ -23,7 +23,7 @@ export interface LandedCostEstimate {
   destinationCountry: string;
   shippingCost: number;
   insuranceCost: number;
-  
+
   // Calculated values
   dutyAmount: number;
   vatAmount: number;

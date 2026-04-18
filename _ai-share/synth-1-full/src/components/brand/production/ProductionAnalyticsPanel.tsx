@@ -4,8 +4,17 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Download, BarChart3 } from 'lucide-react';
-import { AnalyticsCard, DashboardGrid, HistogramCard, MetricCard } from '@/components/design-system';
-import { exportAnalyticsToCSV, type AnalyticsKpi, type AnalyticsDrillDown } from '@/lib/production/analytics';
+import {
+  AnalyticsCard,
+  DashboardGrid,
+  HistogramCard,
+  MetricCard,
+} from '@/components/design-system';
+import {
+  exportAnalyticsToCSV,
+  type AnalyticsKpi,
+  type AnalyticsDrillDown,
+} from '@/lib/production/analytics';
 
 interface Props {
   collectionIds: string[];
@@ -100,7 +109,6 @@ export function ProductionAnalyticsPanel({ collectionIds }: Props) {
           />
         </div>
       ) : null}
-
     </AnalyticsCard>
   );
 }

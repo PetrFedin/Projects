@@ -2,16 +2,16 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  BarChart3, 
-  Users, 
-  Link2, 
-  FileText, 
-  Activity, 
-  ArrowUpRight, 
-  ArrowDownRight, 
-  Zap, 
-  Globe, 
+import {
+  BarChart3,
+  Users,
+  Link2,
+  FileText,
+  Activity,
+  ArrowUpRight,
+  ArrowDownRight,
+  Zap,
+  Globe,
   ShieldCheck,
   Search,
   Filter,
@@ -33,14 +33,16 @@ import {
   Cloud,
   PieChart,
   Percent,
-  LayoutGrid, 
+  LayoutGrid,
   DollarSign,
   Target,
   Settings,
   Scan,
   ShieldAlert,
   BookOpen,
-  Landmark
+  Landmark,
+  Calculator,
+  PenTool,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -82,34 +84,43 @@ import { LeadScoringDashboard } from '../b2b/LeadScoringDashboard';
 import { WhiteLabelConfigurator } from '../b2b/WhiteLabelConfigurator';
 import { ClaimsReturnsPortal } from '../b2b/ClaimsReturnsPortal';
 import { DigitalShowroom360 } from '../b2b/DigitalShowroom360';
+import { B2BFinancialPerformance } from '../b2b/B2BFinancialPerformance';
+import { MerchandisingDashboard } from '../showroom/MerchandisingDashboard';
+import { PlanningDashboard } from '../showroom/PlanningDashboard';
 import { cn } from '@/lib/cn';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { getMetricValueToneClass } from '@/lib/ui/semantic-data-tones';
 
 export function B2BControlCenter() {
   const { viewRole, activeCurrency } = useUIState();
-  const { 
-    b2bActivityLogs, 
-    b2bConnections, 
-    linesheetRequests, 
-    addB2bActivityLog, 
-    b2bNegotiations, 
+  const {
+    b2bActivityLogs,
+    b2bConnections,
+    linesheetRequests,
+    addB2bActivityLog,
+    b2bNegotiations,
     updateOrderWholesaleStatus,
     addNegotiationMessage,
     b2bTasks,
     b2bDocuments,
-    b2bEvents
+    b2bEvents,
   } = useB2BState();
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'connections' | 'linesheets' | 'analytics' | 'orders' | 'ats' | 'logistics' | 'enterprise' | 'workplace'>('dashboard');
+  const [activeTab, setActiveTab] = useState<
+    | 'dashboard'
+    | 'connections'
+    | 'linesheets'
+    | 'analytics'
+    | 'orders'
+    | 'ats'
+    | 'logistics'
+    | 'enterprise'
+    | 'workplace'
+  >('dashboard');
   const [activeEnterpriseTool, setActiveEnterpriseTool] = useState<string | null>(null);
   const [selectedNegId, setSelectedNegId] = useState<string | null>(null);
 
-  const selectedNeg = b2bNegotiations.find(n => n.orderId === selectedNegId);
+  const selectedNeg = b2bNegotiations.find((n) => n.orderId === selectedNegId);
 
   const totalVolume = useMemo(() => {
     // Mock volume calculation from filtered negotiations
@@ -120,30 +131,44 @@ export function B2BControlCenter() {
     { label: 'Active Connections', val: b2bConnections.length, trend: '+12%', color: 'indigo' },
     { label: 'Active Negotiations', val: b2bNegotiations.length, trend: '+8.2%', color: 'amber' },
     { label: 'Linesheet Requests', val: linesheetRequests.length, trend: '+22%', color: 'indigo' },
-    { label: 'Brand Volume', val: `${(totalVolume / 1000000).toFixed(1)}M ₽`, trend: '+18%', color: 'emerald' },
+    {
+      label: 'Brand Volume',
+      val: `${(totalVolume / 1000000).toFixed(1)}M ₽`,
+      trend: '+18%',
+      color: 'emerald',
+    },
   ];
 
   const getStatusBadge = (status: B2BOrderWholesaleStatus) => {
-    const configs: Record<B2BOrderWholesaleStatus, { label: string, color: string }> = {
-      draft: { label: 'DRAFT', color: 'bg-slate-100 text-slate-600' },
+    const configs: Record<B2BOrderWholesaleStatus, { label: string; color: string }> = {
+      draft: { label: 'DRAFT', color: 'bg-bg-surface2 text-text-secondary' },
       pending_brand: { label: 'REVIEW: BRAND', color: 'bg-amber-100 text-amber-600' },
-      pending_retailer: { label: 'REVIEW: RETAILER', color: 'bg-indigo-100 text-indigo-600' },
+      pending_retailer: {
+        label: 'REVIEW: RETAILER',
+        color: 'bg-accent-primary/15 text-accent-primary',
+      },
       pending_admin: { label: 'WAITING ADMIN', color: 'bg-rose-100 text-rose-600' },
       confirmed: { label: 'CONFIRMED', color: 'bg-emerald-100 text-emerald-600' },
       production: { label: 'IN PRODUCTION', color: 'bg-blue-100 text-blue-600' },
-      shipped: { label: 'SHIPPED', color: 'bg-purple-100 text-purple-600' },
+      shipped: { label: 'SHIPPED', color: 'bg-accent-primary/15 text-accent-primary' },
     };
     const config = configs[status] || configs.draft;
-    return <Badge className={cn("border-none text-[8px] font-black uppercase px-2 py-0.5", config.color)}>{config.label}</Badge>;
+    return (
+      <Badge
+        className={cn('border-none px-2 py-0.5 text-[8px] font-black uppercase', config.color)}
+      >
+        {config.label}
+      </Badge>
+    );
   };
 
   useEffect(() => {
     if (b2bActivityLogs.length === 0) {
       addB2bActivityLog({
-        type: 'order_created',
+        type: 'order_placed',
         actor: { id: 'ret-1', name: 'Premium Store', type: 'retailer' },
-        target: { id: '#8821', name: 'Wholesale Order', type: 'order' },
-        details: 'Created new pre-order for FW26 Collection.'
+        target: { id: '#8821', name: 'Wholesale Order', type: 'linesheet' },
+        details: 'Created new pre-order for FW26 Collection.',
       });
     }
 
@@ -151,37 +176,42 @@ export function B2BControlCenter() {
       addNegotiationMessage('#8821', {
         type: 'system',
         sender: { id: 'sys', name: 'System', role: 'admin' },
-        text: 'Order created from Marketroom.'
+        text: 'Order created from Marketroom.',
       });
       updateOrderWholesaleStatus('#8821', 'pending_admin');
-      
+
       addNegotiationMessage('#8822', {
         type: 'message',
         sender: { id: 'ret-1', name: 'Milan Concept Store', role: 'shop' },
-        text: 'Can we get a 5% discount for bulk pre-order?'
+        text: 'Can we get a 5% discount for bulk pre-order?',
       });
       updateOrderWholesaleStatus('#8822', 'pending_brand');
     }
   }, []);
 
   return (
-    <div className="space-y-4 p-4 bg-slate-50/50 min-h-screen text-left">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
+    <div className="bg-bg-surface2/80 min-h-screen space-y-4 p-4 text-left">
+      <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-xl bg-slate-900 flex items-center justify-center shadow-lg">
+            <div className="bg-text-primary flex h-8 w-8 items-center justify-center rounded-xl shadow-lg">
               <ShieldCheck className="h-4 w-4 text-white" />
             </div>
-            <Badge variant="outline" className="bg-white border-slate-200 text-slate-900 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest">
+            <Badge
+              variant="outline"
+              className="border-border-default text-text-primary rounded-full bg-white px-3 py-1 text-[9px] font-black uppercase tracking-widest"
+            >
               SYNTHA_ADMIN_PANEL_v1.0
             </Badge>
           </div>
-          <h2 className="text-sm md:text-base font-black uppercase tracking-tighter text-slate-900 leading-none">
-            B2B Control<br/>Center
+          <h2 className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter md:text-base">
+            B2B Control
+            <br />
+            Center
           </h2>
         </div>
 
-        <div className="flex items-center gap-2 p-1.5 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-x-auto">
+        <div className="border-border-default flex items-center gap-2 overflow-x-auto rounded-2xl border bg-white p-1.5 shadow-sm">
           {[
             { id: 'dashboard', label: 'Overview', icon: BarChart3 },
             { id: 'orders', label: 'Order Flow', icon: ShoppingBag },
@@ -190,15 +220,15 @@ export function B2BControlCenter() {
             { id: 'workplace', label: 'Workplace', icon: LayoutGrid },
             { id: 'enterprise', label: 'Enterprise Suite', icon: ShieldCheck },
             { id: 'analytics', label: 'Analytics', icon: Activity },
-          ].map(tab => (
+          ].map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
               className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
-                activeTab === tab.id 
-                  ? "bg-slate-900 text-white shadow-xl" 
-                  : "text-slate-400 hover:text-slate-600 hover:bg-slate-50"
+                'flex items-center gap-2 rounded-xl px-4 py-2 text-[10px] font-black uppercase tracking-widest transition-all',
+                activeTab === tab.id
+                  ? 'bg-text-primary text-white shadow-xl'
+                  : 'text-text-muted hover:text-text-secondary hover:bg-bg-surface2'
               )}
             >
               <tab.icon className="h-3.5 w-3.5" />
@@ -208,22 +238,42 @@ export function B2BControlCenter() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-left">
+      <div className="grid grid-cols-1 gap-3 text-left md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, i) => (
-          <Card key={i} className="border-none shadow-xl shadow-slate-200/50 overflow-hidden group hover:scale-[1.02] transition-all duration-500">
-            <CardContent className="p-4 relative">
-              <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                 <Zap className="h-12 w-12 text-slate-900" />
+          <Card
+            key={i}
+            className="group overflow-hidden border-none shadow-md shadow-xl transition-all duration-500 hover:scale-[1.02]"
+          >
+            <CardContent className="relative p-4">
+              <div className="absolute right-0 top-0 p-4 opacity-5 transition-opacity group-hover:opacity-10">
+                <Zap className="text-text-primary h-12 w-12" />
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</p>
+                <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                  {stat.label}
+                </p>
                 <div className="flex items-end justify-between">
-                  <h3 className="text-base font-black text-slate-900 tracking-tighter">{stat.val}</h3>
-                  <div className={cn(
-                    "flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-lg",
-                    stat.trend.startsWith('+') ? "text-emerald-600 bg-emerald-50" : "text-rose-600 bg-rose-50"
-                  )}>
-                    {stat.trend.startsWith('+') ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
+                  <h3
+                    className={cn(
+                      'text-base font-black tracking-tighter',
+                      getMetricValueToneClass(stat.color)
+                    )}
+                  >
+                    {stat.val}
+                  </h3>
+                  <div
+                    className={cn(
+                      'flex items-center gap-1 rounded-lg px-2 py-0.5 text-[10px] font-bold',
+                      stat.trend.startsWith('+')
+                        ? 'bg-emerald-50 text-emerald-600'
+                        : 'bg-rose-50 text-rose-600'
+                    )}
+                  >
+                    {stat.trend.startsWith('+') ? (
+                      <ArrowUpRight className="h-3 w-3" />
+                    ) : (
+                      <ArrowDownRight className="h-3 w-3" />
+                    )}
                     {stat.trend}
                   </div>
                 </div>
@@ -244,46 +294,170 @@ export function B2BControlCenter() {
           <div className="space-y-4">
             <AnimatePresence mode="wait">
               {!activeEnterpriseTool ? (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-3"
+                  className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-2"
                 >
                   {[
-                    { id: 'collab', title: 'Collaboration Hub', desc: 'Tasks, Calendar & Messaging', icon: MessageSquare, component: B2BCollaborationHub },
-                    { id: 'pim', title: 'PIM System', desc: 'Product Information & Media', icon: Database, component: ProductInformationManager },
-                    { id: 'claims', title: 'Claims Portal', desc: 'Automated Returns & Credits', icon: ShieldAlert, component: ClaimsReturnsPortal },
-                    { id: 'dms', title: 'DMS Vault', desc: 'Secure Document Management', icon: FolderOpen, component: DocumentManagementSystem },
-                    { id: 'crm-intel', title: 'Partner CRM', desc: 'Engagement & Performance Analytics', icon: BarChart3, component: PartnerAnalyticsCRM },
-                    { id: 'leads', title: 'Lead Scoring', desc: 'AI-driven Retailer Prospecting', icon: Target, component: LeadScoringDashboard },
-                    { id: 'identity', title: 'White Label', desc: 'Custom Retailer Experience', icon: Settings, component: WhiteLabelConfigurator },
-                    { id: 'showroom-360', title: 'Showroom 360°', desc: 'Deep Zoom & Visual Discovery', icon: Scan, component: DigitalShowroom360 },
-                    { id: 'collab-buying', title: 'Team Buying', desc: 'Collaborative curation & voting', icon: Users, component: CollaborativeBuyingPortal },
-                    { id: ' marketing-cloud', title: 'Asset Cloud', desc: 'Social content & marketing sync', icon: Cloud, component: MarketingAssetCloud },
-                    { id: 'lookbook', title: 'Visual Hub', desc: 'Interactive Digital Lookbooks', icon: BookOpen, component: InteractiveLookbook },
-                    { id: 'financing', title: 'BNPL Center', desc: 'B2B Buy Now Pay Later', icon: Landmark, component: B2BFinancing },
-                    { id: 'heatmap', title: 'Global Map', desc: 'Real-time Demand Heatmap', icon: Globe, component: DemandHeatmap },
-                    { id: 'prod-pulse', title: 'Production Pulse', desc: 'Real-time IoT factory tracking', icon: Activity, component: ProductionPulseTracker },
-                    { id: 'sales-team', title: 'Sales Team', desc: 'Quota & Performance tracking', icon: Zap, component: SalesRepDashboard },
-                    { id: 'pricing', title: 'Pricing Matrix', desc: 'Multi-tier MOQ & Discount logic', icon: Percent, component: PricingTierManager },
-                    { id: 'financial-hub', title: 'Financial Hub', desc: 'Forecasting & Budgeting', icon: DollarSign, component: B2BFinancialPerformance },
-                    { id: 'channel-sales', title: 'Omni-Channel', desc: 'Cross-platform sales intel', icon: Globe, component: ChannelSalesAnalytics },
-                    { id: 'merch', title: 'Digital Rack', desc: 'Merchandising & Planograms', icon: ShoppingBag, component: MerchandisingDashboard },
-                    { id: 'planning', title: 'SKU Planner', desc: 'Assortment & Budget AI', icon: PieChart, component: PlanningDashboard },
+                    {
+                      id: 'collab',
+                      title: 'Collaboration Hub',
+                      desc: 'Tasks, Calendar & Messaging',
+                      icon: MessageSquare,
+                      component: B2BCollaborationHub,
+                    },
+                    {
+                      id: 'pim',
+                      title: 'PIM System',
+                      desc: 'Product Information & Media',
+                      icon: Database,
+                      component: ProductInformationManager,
+                    },
+                    {
+                      id: 'claims',
+                      title: 'Claims Portal',
+                      desc: 'Automated Returns & Credits',
+                      icon: ShieldAlert,
+                      component: ClaimsReturnsPortal,
+                    },
+                    {
+                      id: 'dms',
+                      title: 'DMS Vault',
+                      desc: 'Secure Document Management',
+                      icon: FolderOpen,
+                      component: DocumentManagementSystem,
+                    },
+                    {
+                      id: 'crm-intel',
+                      title: 'Partner CRM',
+                      desc: 'Engagement & Performance Analytics',
+                      icon: BarChart3,
+                      component: PartnerAnalyticsCRM,
+                    },
+                    {
+                      id: 'leads',
+                      title: 'Lead Scoring',
+                      desc: 'AI-driven Retailer Prospecting',
+                      icon: Target,
+                      component: LeadScoringDashboard,
+                    },
+                    {
+                      id: 'identity',
+                      title: 'White Label',
+                      desc: 'Custom Retailer Experience',
+                      icon: Settings,
+                      component: WhiteLabelConfigurator,
+                    },
+                    {
+                      id: 'showroom-360',
+                      title: 'Showroom 360°',
+                      desc: 'Deep Zoom & Visual Discovery',
+                      icon: Scan,
+                      component: DigitalShowroom360,
+                    },
+                    {
+                      id: 'collab-buying',
+                      title: 'Team Buying',
+                      desc: 'Collaborative curation & voting',
+                      icon: Users,
+                      component: CollaborativeBuyingPortal,
+                    },
+                    {
+                      id: ' marketing-cloud',
+                      title: 'Asset Cloud',
+                      desc: 'Social content & marketing sync',
+                      icon: Cloud,
+                      component: MarketingAssetCloud,
+                    },
+                    {
+                      id: 'lookbook',
+                      title: 'Visual Hub',
+                      desc: 'Interactive Digital Lookbooks',
+                      icon: BookOpen,
+                      component: InteractiveLookbook,
+                    },
+                    {
+                      id: 'financing',
+                      title: 'BNPL Center',
+                      desc: 'B2B Buy Now Pay Later',
+                      icon: Landmark,
+                      component: B2BFinancing,
+                    },
+                    {
+                      id: 'heatmap',
+                      title: 'Global Map',
+                      desc: 'Real-time Demand Heatmap',
+                      icon: Globe,
+                      component: DemandHeatmap,
+                    },
+                    {
+                      id: 'prod-pulse',
+                      title: 'Production Pulse',
+                      desc: 'Real-time IoT factory tracking',
+                      icon: Activity,
+                      component: ProductionPulseTracker,
+                    },
+                    {
+                      id: 'sales-team',
+                      title: 'Sales Team',
+                      desc: 'Quota & Performance tracking',
+                      icon: Zap,
+                      component: SalesRepDashboard,
+                    },
+                    {
+                      id: 'pricing',
+                      title: 'Pricing Matrix',
+                      desc: 'Multi-tier MOQ & Discount logic',
+                      icon: Percent,
+                      component: PricingTierManager,
+                    },
+                    {
+                      id: 'financial-hub',
+                      title: 'Financial Hub',
+                      desc: 'Forecasting & Budgeting',
+                      icon: DollarSign,
+                      component: B2BFinancialPerformance,
+                    },
+                    {
+                      id: 'channel-sales',
+                      title: 'Omni-Channel',
+                      desc: 'Cross-platform sales intel',
+                      icon: Globe,
+                      component: ChannelSalesAnalytics,
+                    },
+                    {
+                      id: 'merch',
+                      title: 'Digital Rack',
+                      desc: 'Merchandising & Planograms',
+                      icon: ShoppingBag,
+                      component: MerchandisingDashboard,
+                    },
+                    {
+                      id: 'planning',
+                      title: 'SKU Planner',
+                      desc: 'Assortment & Budget AI',
+                      icon: PieChart,
+                      component: PlanningDashboard,
+                    },
                   ].map((tool) => (
-                    <Card 
-                      key={tool.id} 
+                    <Card
+                      key={tool.id}
                       onClick={() => setActiveEnterpriseTool(tool.id)}
-                      className="group border-none shadow-xl shadow-slate-200/50 rounded-xl p-4 cursor-pointer hover:scale-[1.02] transition-all bg-white"
+                      className="group cursor-pointer rounded-xl border-none bg-white p-4 shadow-md shadow-xl transition-all hover:scale-[1.02]"
                     >
-                      <div className="flex items-start justify-between mb-6">
-                        <div className="h-10 w-10 rounded-2xl bg-slate-50 flex items-center justify-center group-hover:bg-slate-900 transition-colors">
-                          <tool.icon className="h-6 w-6 text-slate-400 group-hover:text-white" />
+                      <div className="mb-6 flex items-start justify-between">
+                        <div className="bg-bg-surface2 group-hover:bg-text-primary/90 flex h-10 w-10 items-center justify-center rounded-2xl transition-colors">
+                          <tool.icon className="text-text-muted h-6 w-6 group-hover:text-white" />
                         </div>
-                        <ArrowUpRight className="h-5 w-5 text-slate-200 group-hover:text-slate-900 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+                        <ArrowUpRight className="text-text-muted group-hover:text-text-primary h-5 w-5 transition-all group-hover:-translate-y-1 group-hover:translate-x-1" />
                       </div>
-                      <h4 className="text-base font-black uppercase tracking-tight text-slate-900 mb-2">{tool.title}</h4>
-                      <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest leading-relaxed">{tool.desc}</p>
+                      <h4 className="text-text-primary mb-2 text-base font-black uppercase tracking-tight">
+                        {tool.title}
+                      </h4>
+                      <p className="text-text-muted text-[10px] font-medium uppercase leading-relaxed tracking-widest">
+                        {tool.desc}
+                      </p>
                     </Card>
                   ))}
                 </motion.div>
@@ -293,10 +467,10 @@ export function B2BControlCenter() {
                   animate={{ opacity: 1, x: 0 }}
                   className="relative"
                 >
-                  <Button 
+                  <Button
                     onClick={() => setActiveEnterpriseTool(null)}
                     variant="ghost"
-                    className="absolute -top-16 left-0 text-slate-400 hover:text-slate-900 font-black uppercase text-[10px] tracking-widest gap-2"
+                    className="text-text-muted hover:text-text-primary absolute -top-16 left-0 gap-2 text-[10px] font-black uppercase tracking-widest"
                   >
                     <ArrowRight className="h-4 w-4 rotate-180" /> Back to Workplace
                   </Button>
@@ -307,7 +481,9 @@ export function B2BControlCenter() {
                   {activeEnterpriseTool === 'crm-intel' && <PartnerAnalyticsCRM />}
                   {activeEnterpriseTool === 'leads' && <LeadScoringDashboard />}
                   {activeEnterpriseTool === 'identity' && <WhiteLabelConfigurator />}
-                  {activeEnterpriseTool === 'showroom-360' && <DigitalShowroom360 onClose={() => setActiveEnterpriseTool(null)} />}
+                  {activeEnterpriseTool === 'showroom-360' && (
+                    <DigitalShowroom360 onClose={() => setActiveEnterpriseTool(null)} />
+                  )}
                   {activeEnterpriseTool === 'lookbook' && <InteractiveLookbook />}
                   {activeEnterpriseTool === 'financing' && <B2BFinancing />}
                   {activeEnterpriseTool === 'heatmap' && <DemandHeatmap />}
@@ -319,9 +495,7 @@ export function B2BControlCenter() {
                   {activeEnterpriseTool === 'financial-hub' && <B2BFinancialPerformance />}
                   {activeEnterpriseTool === 'channel-sales' && <ChannelSalesAnalytics />}
                   {activeEnterpriseTool === 'merch' && (
-                    <MerchandisingDashboard 
-                      b2bCart={[]} // Admin view might not have a cart, but let's pass empty for now
-                      setB2bCart={() => {}}
+                    <MerchandisingDashboard
                       merchStatus="ready"
                       setMerchStatus={() => {}}
                       activeMerchBrand="Platform View"
@@ -330,12 +504,7 @@ export function B2BControlCenter() {
                     />
                   )}
                   {activeEnterpriseTool === 'planning' && (
-                    <PlanningDashboard 
-                      b2bCart={[]}
-                      viewRole="admin"
-                      currency="RUB"
-                      toast={console.log}
-                    />
+                    <PlanningDashboard viewRole="admin" currency="RUB" toast={console.log} />
                   )}
                 </motion.div>
               )}
@@ -345,42 +514,142 @@ export function B2BControlCenter() {
           <div className="space-y-4">
             <AnimatePresence mode="wait">
               {!activeEnterpriseTool ? (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"
+                  className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3"
                 >
                   {[
-                    { id: 'escrow', title: 'Financial Escrow', desc: 'Secure B2B payment holding protocol', icon: Lock, component: B2BPaymentEscrow },
-                    { id: 'ai-advisor', title: 'Buy-Plan Advisor', desc: 'AI-driven purchase optimization', icon: Brain, component: AIBuyPlanAdvisor },
-                    { id: 'edi', title: 'EDI Ecosystem', desc: 'Direct ERP/1C synchronization hub', icon: Database, component: EDISyncDashboard },
-                    { id: 'vr', title: 'VR Showroom', desc: 'Immersive 3D wholesale experience', icon: Globe, component: VRShowroomModule },
-                    { id: 'currency', title: 'Settlement Engine', desc: 'Multi-currency & trade terms', icon: Globe, component: MultiCurrencySwitcher },
-                    { id: 'sustainability', title: 'Eco Passport', desc: 'Digital product sustainability ledger', icon: Leaf, component: SustainabilityPassport },
-                    { id: 'loyalty', title: 'Partner Rewards', desc: 'Wholesale loyalty & tier manager', icon: Crown, component: WholesaleLoyaltyHub },
-                    { id: 'marketing', title: 'Retailer Ads', desc: 'In-app engagement & placements', icon: Megaphone, component: B2BMarketingManager },
-                    { id: 'hs-assistant', title: 'HS Assistant', desc: 'AI Customs Classification', icon: Gavel, component: CustomsHSAssistant },
-                    { id: 'customs', title: 'Customs Gateway', desc: 'Automated global trade documents', icon: FileText, component: CustomsDocumentAutomation },
-                    { id: 'finance', title: 'Credit & Terms', desc: 'Wholesale limits & net conditions', icon: DollarSign, component: FinancialTermsManager },
-                    { id: 'allocation', title: 'Smart Allocation', desc: 'VIP priority & stock distribution', icon: Layers, component: SmartAllocationEngine },
-                    { id: 'landed-cost', title: 'Landed Cost', desc: 'Global trade & tax calculator', icon: Calculator, component: LandedCostCalculator },
-                    { id: 'contracts', title: 'Legal & Signing', desc: 'Digital agreements & compliance', icon: PenTool, component: WholesaleContractManager },
-                    { id: 'sales-reps', title: 'Sales Team', desc: 'Rep performance & quota tracking', icon: Users, component: SalesRepDashboard },
-                    { id: 'pricing-tiers', title: 'Pricing Matrix', desc: 'Tiered discounts & MOQ logic', icon: Percent, component: PricingTierManager },
+                    {
+                      id: 'escrow',
+                      title: 'Financial Escrow',
+                      desc: 'Secure B2B payment holding protocol',
+                      icon: Lock,
+                      component: B2BPaymentEscrow,
+                    },
+                    {
+                      id: 'ai-advisor',
+                      title: 'Buy-Plan Advisor',
+                      desc: 'AI-driven purchase optimization',
+                      icon: Brain,
+                      component: AIBuyPlanAdvisor,
+                    },
+                    {
+                      id: 'edi',
+                      title: 'EDI Ecosystem',
+                      desc: 'Direct ERP/1C synchronization hub',
+                      icon: Database,
+                      component: EDISyncDashboard,
+                    },
+                    {
+                      id: 'vr',
+                      title: 'VR Showroom',
+                      desc: 'Immersive 3D wholesale experience',
+                      icon: Globe,
+                      component: VRShowroomModule,
+                    },
+                    {
+                      id: 'currency',
+                      title: 'Settlement Engine',
+                      desc: 'Multi-currency & trade terms',
+                      icon: Globe,
+                      component: MultiCurrencySwitcher,
+                    },
+                    {
+                      id: 'sustainability',
+                      title: 'Eco Passport',
+                      desc: 'Digital product sustainability ledger',
+                      icon: Leaf,
+                      component: SustainabilityPassport,
+                    },
+                    {
+                      id: 'loyalty',
+                      title: 'Partner Rewards',
+                      desc: 'Wholesale loyalty & tier manager',
+                      icon: Crown,
+                      component: WholesaleLoyaltyHub,
+                    },
+                    {
+                      id: 'marketing',
+                      title: 'Retailer Ads',
+                      desc: 'In-app engagement & placements',
+                      icon: Megaphone,
+                      component: B2BMarketingManager,
+                    },
+                    {
+                      id: 'hs-assistant',
+                      title: 'HS Assistant',
+                      desc: 'AI Customs Classification',
+                      icon: Gavel,
+                      component: CustomsHSAssistant,
+                    },
+                    {
+                      id: 'customs',
+                      title: 'Customs Gateway',
+                      desc: 'Automated global trade documents',
+                      icon: FileText,
+                      component: CustomsDocumentAutomation,
+                    },
+                    {
+                      id: 'finance',
+                      title: 'Credit & Terms',
+                      desc: 'Wholesale limits & net conditions',
+                      icon: DollarSign,
+                      component: FinancialTermsManager,
+                    },
+                    {
+                      id: 'allocation',
+                      title: 'Smart Allocation',
+                      desc: 'VIP priority & stock distribution',
+                      icon: Layers,
+                      component: SmartAllocationEngine,
+                    },
+                    {
+                      id: 'landed-cost',
+                      title: 'Landed Cost',
+                      desc: 'Global trade & tax calculator',
+                      icon: Calculator,
+                      component: LandedCostCalculator,
+                    },
+                    {
+                      id: 'contracts',
+                      title: 'Legal & Signing',
+                      desc: 'Digital agreements & compliance',
+                      icon: PenTool,
+                      component: WholesaleContractManager,
+                    },
+                    {
+                      id: 'sales-reps',
+                      title: 'Sales Team',
+                      desc: 'Rep performance & quota tracking',
+                      icon: Users,
+                      component: SalesRepDashboard,
+                    },
+                    {
+                      id: 'pricing-tiers',
+                      title: 'Pricing Matrix',
+                      desc: 'Tiered discounts & MOQ logic',
+                      icon: Percent,
+                      component: PricingTierManager,
+                    },
                   ].map((tool) => (
-                    <Card 
-                      key={tool.id} 
+                    <Card
+                      key={tool.id}
                       onClick={() => setActiveEnterpriseTool(tool.id)}
-                      className="group border-none shadow-xl shadow-slate-200/50 rounded-xl p-4 cursor-pointer hover:scale-[1.02] transition-all bg-white"
+                      className="group cursor-pointer rounded-xl border-none bg-white p-4 shadow-md shadow-xl transition-all hover:scale-[1.02]"
                     >
-                      <div className="flex items-start justify-between mb-6">
-                        <div className="h-10 w-10 rounded-2xl bg-slate-50 flex items-center justify-center group-hover:bg-indigo-600 transition-colors">
-                          <tool.icon className="h-6 w-6 text-slate-400 group-hover:text-white" />
+                      <div className="mb-6 flex items-start justify-between">
+                        <div className="bg-bg-surface2 group-hover:bg-accent-primary flex h-10 w-10 items-center justify-center rounded-2xl transition-colors">
+                          <tool.icon className="text-text-muted h-6 w-6 group-hover:text-white" />
                         </div>
-                        <ArrowUpRight className="h-5 w-5 text-slate-200 group-hover:text-indigo-600 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+                        <ArrowUpRight className="text-text-muted group-hover:text-accent-primary h-5 w-5 transition-all group-hover:-translate-y-1 group-hover:translate-x-1" />
                       </div>
-                      <h4 className="text-base font-black uppercase tracking-tight text-slate-900 mb-2">{tool.title}</h4>
-                      <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest leading-relaxed">{tool.desc}</p>
+                      <h4 className="text-text-primary mb-2 text-base font-black uppercase tracking-tight">
+                        {tool.title}
+                      </h4>
+                      <p className="text-text-muted text-[10px] font-medium uppercase leading-relaxed tracking-widest">
+                        {tool.desc}
+                      </p>
                     </Card>
                   ))}
                 </motion.div>
@@ -390,10 +659,10 @@ export function B2BControlCenter() {
                   animate={{ opacity: 1, x: 0 }}
                   className="relative"
                 >
-                  <Button 
+                  <Button
                     onClick={() => setActiveEnterpriseTool(null)}
                     variant="ghost"
-                    className="absolute -top-16 left-0 text-slate-400 hover:text-slate-900 font-black uppercase text-[10px] tracking-widest gap-2"
+                    className="text-text-muted hover:text-text-primary absolute -top-16 left-0 gap-2 text-[10px] font-black uppercase tracking-widest"
                   >
                     <ArrowRight className="h-4 w-4 rotate-180" /> Back to Enterprise Suite
                   </Button>
@@ -418,133 +687,190 @@ export function B2BControlCenter() {
             </AnimatePresence>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
             {/* Activity Feed / Order Flow */}
-            <Card className="lg:col-span-2 border-none shadow-2xl shadow-slate-200/50 rounded-xl overflow-hidden bg-white">
-              <CardHeader className="p-4 pb-4 flex flex-row items-center justify-between">
+            <Card className="overflow-hidden rounded-xl border-none bg-white shadow-2xl shadow-md lg:col-span-2">
+              <CardHeader className="flex flex-row items-center justify-between p-4 pb-4">
                 <div className="space-y-1">
                   <CardTitle className="text-base font-black uppercase tracking-tight">
                     {activeTab === 'orders' ? 'Global Order Registry' : 'Live Activity Flow'}
                   </CardTitle>
-                  <CardDescription className="text-[10px] uppercase font-bold text-slate-400">
-                    {activeTab === 'orders' ? 'Transaction lifecycle monitoring' : 'Real-time B2B interaction stream'}
+                  <CardDescription className="text-text-muted text-[10px] font-bold uppercase">
+                    {activeTab === 'orders'
+                      ? 'Transaction lifecycle monitoring'
+                      : 'Real-time B2B interaction stream'}
                   </CardDescription>
                 </div>
                 <div className="flex gap-2">
-                   <Button variant="outline" size="sm" className="h-8 rounded-lg border-slate-100 text-[10px] font-black uppercase">
-                      Export CSV
-                   </Button>
-                   <Button variant="outline" size="icon" className="h-8 w-8 rounded-lg border-slate-100">
-                      <Filter className="h-3.5 w-3.5" />
-                   </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-border-subtle h-8 rounded-lg text-[10px] font-black uppercase"
+                  >
+                    Export CSV
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="border-border-subtle h-8 w-8 rounded-lg"
+                  >
+                    <Filter className="h-3.5 w-3.5" />
+                  </Button>
                 </div>
               </CardHeader>
               <CardContent className="p-4 pt-0">
                 <div className="space-y-4">
                   <AnimatePresence mode="popLayout">
                     {activeTab === 'orders' ? (
-                      b2bNegotiations.length > 0 ? b2bNegotiations.map((neg) => (
-                        <motion.div 
-                          key={neg.orderId}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          className="group flex flex-col p-4 rounded-3xl bg-slate-50 hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200"
-                        >
-                          <div className="flex items-center justify-between mb-4">
-                            <div className="flex items-center gap-3">
-                              <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center shadow-sm">
-                                <ShoppingBag className="h-5 w-5 text-indigo-600" />
+                      b2bNegotiations.length > 0 ? (
+                        b2bNegotiations.map((neg) => (
+                          <motion.div
+                            key={neg.orderId}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className="bg-bg-surface2 hover:bg-bg-surface2 hover:border-border-default group flex flex-col rounded-3xl border border-transparent p-4 transition-all"
+                          >
+                            <div className="mb-4 flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-sm">
+                                  <ShoppingBag className="text-accent-primary h-5 w-5" />
+                                </div>
+                                <div>
+                                  <p className="text-text-primary text-xs font-black uppercase">
+                                    Order {neg.orderId}
+                                  </p>
+                                  <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+                                    Last activity: {new Date(neg.lastUpdate).toLocaleTimeString()}
+                                  </p>
+                                </div>
                               </div>
-                              <div>
-                                <p className="text-xs font-black text-slate-900 uppercase">Order {neg.orderId}</p>
-                                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Last activity: {new Date(neg.lastUpdate).toLocaleTimeString()}</p>
-                              </div>
+                              {getStatusBadge(neg.status)}
                             </div>
-                            {getStatusBadge(neg.status)}
-                          </div>
-                          
-                          <div className="flex items-center gap-3 py-3 border-y border-slate-200/50 mb-4">
-                            <div className="flex -space-x-2">
-                              <div className="h-6 w-6 rounded-full bg-indigo-500 border-2 border-white flex items-center justify-center text-[8px] font-bold text-white">B</div>
-                              <div className="h-6 w-6 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-[8px] font-bold text-white">R</div>
-                            </div>
-                            <p className="text-[10px] font-bold text-slate-600 uppercase">
-                              Brand <span className="text-slate-300 mx-1">↔</span> Retailer
-                            </p>
-                            <div className="ml-auto flex items-center gap-2">
-                              <Badge variant="outline" className="bg-white text-[9px] border-slate-200">12 items</Badge>
-                              <Badge variant="outline" className="bg-white text-[9px] border-slate-200">1.2M ₽</Badge>
-                            </div>
-                          </div>
 
-                          <div className="flex gap-2">
-                            {neg.status === 'pending_admin' && (
-                              <Button 
-                                onClick={() => updateOrderWholesaleStatus(neg.orderId, 'confirmed')}
-                                className="flex-1 bg-rose-600 hover:bg-rose-700 text-white text-[9px] font-black uppercase rounded-xl h-9 shadow-lg shadow-rose-200"
+                            <div className="border-border-default/50 mb-4 flex items-center gap-3 border-y py-3">
+                              <div className="flex -space-x-2">
+                                <div className="bg-accent-primary flex h-6 w-6 items-center justify-center rounded-full border-2 border-white text-[8px] font-bold text-white">
+                                  B
+                                </div>
+                                <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-emerald-500 text-[8px] font-bold text-white">
+                                  R
+                                </div>
+                              </div>
+                              <p className="text-text-secondary text-[10px] font-bold uppercase">
+                                Brand <span className="text-text-muted mx-1">↔</span> Retailer
+                              </p>
+                              <div className="ml-auto flex items-center gap-2">
+                                <Badge
+                                  variant="outline"
+                                  className="border-border-default bg-white text-[9px]"
+                                >
+                                  12 items
+                                </Badge>
+                                <Badge
+                                  variant="outline"
+                                  className="border-border-default bg-white text-[9px]"
+                                >
+                                  1.2M ₽
+                                </Badge>
+                              </div>
+                            </div>
+
+                            <div className="flex gap-2">
+                              {neg.status === 'pending_admin' && (
+                                <Button
+                                  onClick={() =>
+                                    updateOrderWholesaleStatus(neg.orderId, 'confirmed')
+                                  }
+                                  className="h-9 flex-1 rounded-xl bg-rose-600 text-[9px] font-black uppercase text-white shadow-lg shadow-rose-200 hover:bg-rose-700"
+                                >
+                                  Approve Transaction
+                                </Button>
+                              )}
+                              <Button
+                                onClick={() => setSelectedNegId(neg.orderId)}
+                                variant="outline"
+                                className="border-border-default h-9 flex-1 gap-2 rounded-xl bg-white text-[9px] font-black uppercase"
                               >
-                                Approve Transaction
+                                <MessageSquare className="h-3 w-3" />
+                                Intervene
                               </Button>
-                            )}
-                            <Button 
-                              onClick={() => setSelectedNegId(neg.orderId)}
-                              variant="outline" 
-                              className="flex-1 text-[9px] font-black uppercase rounded-xl h-9 bg-white border-slate-200 gap-2"
-                            >
-                              <MessageSquare className="h-3 w-3" />
-                              Intervene
-                            </Button>
+                            </div>
+                          </motion.div>
+                        ))
+                      ) : (
+                        <div className="space-y-4 py-10 text-center">
+                          <div className="bg-bg-surface2 mx-auto flex h-12 w-12 items-center justify-center rounded-full">
+                            <Layers className="text-text-muted h-8 w-8" />
                           </div>
-                        </motion.div>
-                      )) : (
-                        <div className="py-10 text-center space-y-4">
-                           <div className="h-12 w-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto">
-                              <Layers className="h-8 w-8 text-slate-200" />
-                           </div>
-                           <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest italic">No active orders in flow...</p>
+                          <p className="text-text-muted text-[10px] font-black uppercase italic tracking-widest">
+                            No active orders in flow...
+                          </p>
                         </div>
                       )
-                    ) : (
-                      b2bActivityLogs.length > 0 ? b2bActivityLogs.map((log) => (
-                        <motion.div 
+                    ) : b2bActivityLogs.length > 0 ? (
+                      b2bActivityLogs.map((log) => (
+                        <motion.div
                           key={log.id}
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, scale: 0.95 }}
-                          className="group flex items-start gap-3 p-4 rounded-2xl hover:bg-slate-50 transition-all border border-transparent hover:border-slate-100"
+                          className="hover:bg-bg-surface2 hover:border-border-subtle group flex items-start gap-3 rounded-2xl border border-transparent p-4 transition-all"
                         >
-                          <div className={cn(
-                            "h-10 w-10 rounded-xl flex items-center justify-center shrink-0 shadow-sm",
-                            log.type === 'order_placed' ? "bg-emerald-100 text-emerald-600" :
-                            log.type === 'linesheet_request' ? "bg-indigo-100 text-indigo-600" :
-                            "bg-slate-100 text-slate-600"
-                          )}>
-                             {log.type === 'order_placed' ? <ShoppingBag className="h-5 w-5" /> : 
-                              log.type === 'linesheet_request' ? <FileText className="h-5 w-5" /> : 
-                              <Activity className="h-5 w-5" />}
+                          <div
+                            className={cn(
+                              'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl shadow-sm',
+                              log.type === 'order_placed'
+                                ? 'bg-emerald-100 text-emerald-600'
+                                : log.type === 'linesheet_request'
+                                  ? 'bg-accent-primary/15 text-accent-primary'
+                                  : 'bg-bg-surface2 text-text-secondary'
+                            )}
+                          >
+                            {log.type === 'order_placed' ? (
+                              <ShoppingBag className="h-5 w-5" />
+                            ) : log.type === 'linesheet_request' ? (
+                              <FileText className="h-5 w-5" />
+                            ) : (
+                              <Activity className="h-5 w-5" />
+                            )}
                           </div>
                           <div className="flex-1">
                             <div className="flex items-center justify-between">
-                              <p className="text-[11px] font-bold text-slate-900 uppercase tracking-tight">
-                                {log.actor.name} <span className="text-slate-400 mx-2">→</span> {log.details}
+                              <p className="text-text-primary text-[11px] font-bold uppercase tracking-tight">
+                                {log.actor.name} <span className="text-text-muted mx-2">→</span>{' '}
+                                {log.details}
                               </p>
-                              <span className="text-[9px] font-black text-slate-400 uppercase tabular-nums">{new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                              <span className="text-text-muted text-[9px] font-black uppercase tabular-nums">
+                                {new Date(log.timestamp).toLocaleTimeString([], {
+                                  hour: '2-digit',
+                                  minute: '2-digit',
+                                })}
+                              </span>
                             </div>
-                            <div className="flex items-center gap-2 mt-1">
-                              <Badge variant="outline" className="text-[7px] border-slate-100 text-slate-400 font-bold uppercase">{log.actor.type}</Badge>
-                              <div className="h-1 w-1 rounded-full bg-slate-200" />
-                              <span className="text-[8px] font-black text-slate-400 uppercase">IP: 192.168.1.***</span>
+                            <div className="mt-1 flex items-center gap-2">
+                              <Badge
+                                variant="outline"
+                                className="border-border-subtle text-text-muted text-[7px] font-bold uppercase"
+                              >
+                                {log.actor.type}
+                              </Badge>
+                              <div className="bg-border-subtle h-1 w-1 rounded-full" />
+                              <span className="text-text-muted text-[8px] font-black uppercase">
+                                IP: 192.168.1.***
+                              </span>
                             </div>
                           </div>
                         </motion.div>
-                      )) : (
-                        <div className="py-10 text-center space-y-4">
-                           <div className="h-12 w-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto">
-                              <Activity className="h-8 w-8 text-slate-200" />
-                           </div>
-                           <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest italic">No recent activity logged...</p>
+                      ))
+                    ) : (
+                      <div className="space-y-4 py-10 text-center">
+                        <div className="bg-bg-surface2 mx-auto flex h-12 w-12 items-center justify-center rounded-full">
+                          <Activity className="text-text-muted h-8 w-8" />
                         </div>
-                      )
+                        <p className="text-text-muted text-[10px] font-black uppercase italic tracking-widest">
+                          No recent activity logged...
+                        </p>
+                      </div>
                     )}
                   </AnimatePresence>
                 </div>
@@ -553,27 +879,29 @@ export function B2BControlCenter() {
 
             {/* Side Column: Quick Stats & Connections */}
             <div className="space-y-4">
-              <Card className="border-none shadow-2xl shadow-slate-200/50 rounded-xl bg-slate-900 text-white p-4 overflow-hidden relative">
-                <div className="absolute top-0 right-0 p-4 opacity-5">
-                   <Globe className="h-32 w-32" />
+              <Card className="bg-text-primary relative overflow-hidden rounded-xl border-none p-4 text-white shadow-2xl shadow-md">
+                <div className="absolute right-0 top-0 p-4 opacity-5">
+                  <Globe className="h-32 w-32" />
                 </div>
-                <div className="space-y-6 relative z-10">
+                <div className="relative z-10 space-y-6">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-black uppercase tracking-tight">Market Resonance</h3>
-                    <Globe className="h-5 w-5 text-indigo-400" />
+                    <h3 className="text-sm font-black uppercase tracking-tight">
+                      Market Resonance
+                    </h3>
+                    <Globe className="text-accent-primary h-5 w-5" />
                   </div>
                   <div className="space-y-4">
                     <div className="space-y-2">
                       <div className="flex justify-between text-[10px] font-black uppercase">
                         <span>Platform Utilization</span>
-                        <span className="text-indigo-400">92%</span>
+                        <span className="text-accent-primary">92%</span>
                       </div>
-                      <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                        <motion.div 
+                      <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+                        <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: '92%' }}
-                          transition={{ duration: 1.5, ease: "easeOut" }}
-                          className="h-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.5)]" 
+                          transition={{ duration: 1.5, ease: 'easeOut' }}
+                          className="bg-accent-primary h-full shadow-[0_0_10px_rgba(99,102,241,0.5)]"
                         />
                       </div>
                     </div>
@@ -582,12 +910,12 @@ export function B2BControlCenter() {
                         <span>Node Latency</span>
                         <span className="text-emerald-400">42ms</span>
                       </div>
-                      <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                        <motion.div 
+                      <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+                        <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: '42%' }}
-                          transition={{ duration: 1.5, ease: "easeOut" }}
-                          className="h-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" 
+                          transition={{ duration: 1.5, ease: 'easeOut' }}
+                          className="h-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"
                         />
                       </div>
                     </div>
@@ -595,28 +923,42 @@ export function B2BControlCenter() {
                 </div>
               </Card>
 
-              <Card className="border-none shadow-2xl shadow-slate-200/50 rounded-xl bg-white p-4 space-y-6">
+              <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-2xl shadow-md">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-black uppercase tracking-widest text-slate-900">Active Nodes</h3>
-                  <Badge className="bg-emerald-50 text-emerald-600 border-none text-[8px] font-black px-2 py-0.5">34 ONLINE</Badge>
+                  <h3 className="text-text-primary text-sm font-black uppercase tracking-widest">
+                    Active Nodes
+                  </h3>
+                  <Badge className="border-none bg-emerald-50 px-2 py-0.5 text-[8px] font-black text-emerald-600">
+                    34 ONLINE
+                  </Badge>
                 </div>
                 <div className="space-y-4">
-                  {[1, 2, 3].map(i => (
-                    <div key={i} className="flex items-center justify-between group">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="group flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-full border-2 border-slate-50 overflow-hidden group-hover:border-indigo-100 transition-colors">
-                           <img src={`https://i.pravatar.cc/100?img=${i+20}`} className="w-full h-full object-cover" />
+                        <div className="border-border-subtle group-hover:border-accent-primary/20 h-10 w-10 overflow-hidden rounded-full border-2 transition-colors">
+                          <img
+                            src={`https://i.pravatar.cc/100?img=${i + 20}`}
+                            className="h-full w-full object-cover"
+                          />
                         </div>
                         <div>
-                          <p className="text-[10px] font-black text-slate-900 uppercase">Premium Store HQ</p>
-                          <p className="text-[8px] font-bold text-slate-400 uppercase">Retailer • Moscow</p>
+                          <p className="text-text-primary text-[10px] font-black uppercase">
+                            Premium Store HQ
+                          </p>
+                          <p className="text-text-muted text-[8px] font-bold uppercase">
+                            Retailer • Moscow
+                          </p>
                         </div>
                       </div>
-                      <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse" />
+                      <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                     </div>
                   ))}
                 </div>
-                <Button variant="ghost" className="w-full h-10 rounded-xl font-black uppercase text-[9px] tracking-widest text-slate-400 hover:text-slate-900 hover:bg-slate-50 transition-all">
+                <Button
+                  variant="ghost"
+                  className="text-text-muted hover:text-text-primary hover:bg-bg-surface2 h-10 w-full rounded-xl text-[9px] font-black uppercase tracking-widest transition-all"
+                >
                   View Full Directory
                 </Button>
               </Card>
@@ -627,42 +969,57 @@ export function B2BControlCenter() {
 
       {/* Admin Intervention Dialog */}
       <Dialog open={!!selectedNegId} onOpenChange={(open) => !open && setSelectedNegId(null)}>
-        <DialogContent className="sm:max-w-[500px] bg-white border-none rounded-xl p-0 overflow-hidden shadow-2xl">
-          <DialogHeader className="p-4 pb-4 bg-slate-900 text-white">
+        <DialogContent className="overflow-hidden rounded-xl border-none bg-white p-0 shadow-2xl sm:max-w-[500px]">
+          <DialogHeader className="bg-text-primary p-4 pb-4 text-white">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-rose-600 flex items-center justify-center shadow-lg shadow-rose-900/20">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-600 shadow-lg shadow-rose-900/20">
                 <ShieldCheck className="h-5 w-5 text-white" />
               </div>
               <div>
-                <DialogTitle className="text-base font-black uppercase tracking-tighter">Admin Intervention</DialogTitle>
-                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Escrow & Negotiation Resolution Flow</p>
+                <DialogTitle className="text-base font-black uppercase tracking-tighter">
+                  Admin Intervention
+                </DialogTitle>
+                <p className="text-text-muted mt-0.5 text-[9px] font-bold uppercase tracking-widest">
+                  Escrow & Negotiation Resolution Flow
+                </p>
               </div>
             </div>
           </DialogHeader>
-          
-          <div className="p-4 h-[350px] overflow-y-auto space-y-4 bg-slate-50/50 custom-scrollbar">
+
+          <div className="bg-bg-surface2/80 custom-scrollbar h-[350px] space-y-4 overflow-y-auto p-4">
             {selectedNeg?.messages.map((msg) => (
-              <div key={msg.id} className={cn(
-                "flex flex-col gap-1 max-w-[85%]",
-                msg.sender.role === 'admin' ? "mx-auto items-center" : 
-                msg.sender.role === 'brand' ? "mr-auto items-start" : "ml-auto items-end"
-              )}>
+              <div
+                key={msg.id}
+                className={cn(
+                  'flex max-w-[85%] flex-col gap-1',
+                  msg.sender.role === 'admin'
+                    ? 'mx-auto items-center'
+                    : msg.sender.role === 'brand'
+                      ? 'mr-auto items-start'
+                      : 'ml-auto items-end'
+                )}
+              >
                 {msg.type === 'system' ? (
-                  <div className="w-full text-center py-2 px-4 bg-slate-100 rounded-lg text-[8px] font-black text-slate-400 uppercase tracking-[0.2em]">
+                  <div className="bg-bg-surface2 text-text-muted w-full rounded-lg px-4 py-2 text-center text-[8px] font-black uppercase tracking-[0.2em]">
                     {msg.text}
                   </div>
                 ) : (
                   <>
-                    <div className={cn(
-                      "p-3 rounded-2xl text-[11px] font-medium leading-relaxed shadow-sm border",
-                      msg.sender.role === 'admin' ? "bg-rose-50 border-rose-100 text-rose-900" :
-                      msg.sender.role === 'brand' ? "bg-white border-slate-100 text-slate-700" :
-                      "bg-indigo-600 border-indigo-500 text-white"
-                    )}>
+                    <div
+                      className={cn(
+                        'rounded-2xl border p-3 text-[11px] font-medium leading-relaxed shadow-sm',
+                        msg.sender.role === 'admin'
+                          ? 'border-rose-100 bg-rose-50 text-rose-900'
+                          : msg.sender.role === 'brand'
+                            ? 'border-border-subtle text-text-primary bg-white'
+                            : 'bg-accent-primary border-accent-primary text-white'
+                      )}
+                    >
                       {msg.text}
                     </div>
-                    <span className="text-[8px] font-bold text-slate-300 uppercase tracking-widest px-1">
-                      {msg.sender.name} ({msg.sender.role}) • {new Date(msg.timestamp).toLocaleTimeString()}
+                    <span className="text-text-muted px-1 text-[8px] font-bold uppercase tracking-widest">
+                      {msg.sender.name} ({msg.sender.role}) •{' '}
+                      {new Date(msg.timestamp).toLocaleTimeString()}
                     </span>
                   </>
                 )}
@@ -670,11 +1027,11 @@ export function B2BControlCenter() {
             ))}
           </div>
 
-          <div className="p-4 bg-white border-t border-slate-100">
+          <div className="border-border-subtle border-t bg-white p-4">
             <div className="flex gap-2">
-              <Input 
-                placeholder="Send official platform message..." 
-                className="h-12 rounded-xl border-slate-200 bg-slate-50 text-xs font-medium focus-visible:ring-rose-500"
+              <Input
+                placeholder="Send official platform message..."
+                className="border-border-default bg-bg-surface2 h-12 rounded-xl text-xs font-medium focus-visible:ring-rose-500"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     const target = e.target as HTMLInputElement;
@@ -682,14 +1039,14 @@ export function B2BControlCenter() {
                       addNegotiationMessage(selectedNegId, {
                         type: 'message',
                         sender: { id: 'admin-1', name: 'Platform Admin', role: 'admin' },
-                        text: target.value.trim()
+                        text: target.value.trim(),
                       });
                       target.value = '';
                     }
                   }
                 }}
               />
-              <Button className="h-12 px-6 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black uppercase text-[10px] tracking-widest shrink-0">
+              <Button className="h-12 shrink-0 rounded-xl bg-rose-600 px-6 text-[10px] font-black uppercase tracking-widest text-white hover:bg-rose-700">
                 Resolution
               </Button>
             </div>

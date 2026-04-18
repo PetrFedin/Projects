@@ -14,7 +14,7 @@ export function ProductTrendInsightBlock({ product }: Props) {
   return (
     <Card className="mt-4 border-amber-500/30 bg-amber-500/5">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-sm">
           <Zap className="h-4 w-4 text-amber-600" />
           AI Trend Insight
         </CardTitle>
@@ -25,20 +25,28 @@ export function ProductTrendInsightBlock({ product }: Props) {
       <CardContent className="space-y-3">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Trend Score</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+              Trend Score
+            </p>
             <p className="text-2xl font-black text-amber-700">{trend.score}/100</p>
           </div>
-          <Badge variant="outline" className="gap-1 border-amber-200 text-amber-700 bg-amber-100/50 uppercase text-[9px] font-bold">
+          <Badge
+            variant="outline"
+            className="gap-1 border-amber-200 bg-amber-100/50 text-[9px] font-bold uppercase text-amber-700"
+          >
             <TrendingUp className="h-3 w-3" />
             {trend.momentum}
           </Badge>
         </div>
 
-        <div className="space-y-1.5 pt-2 border-t border-amber-200/30">
-          <p className="text-[10px] text-muted-foreground uppercase font-bold">Key Trend Drivers</p>
+        <div className="space-y-1.5 border-t border-amber-200/30 pt-2">
+          <p className="text-[10px] font-bold uppercase text-muted-foreground">Key Trend Drivers</p>
           <div className="flex flex-wrap gap-1.5">
-            {trend.keyDrivers.map(d => (
-              <span key={d} className="text-[10px] px-2 py-0.5 rounded-full bg-white border border-amber-200 text-amber-800">
+            {trend.keyDrivers.map((d) => (
+              <span
+                key={d}
+                className="rounded-full border border-amber-200 bg-white px-2 py-0.5 text-[10px] text-amber-800"
+              >
                 {d}
               </span>
             ))}

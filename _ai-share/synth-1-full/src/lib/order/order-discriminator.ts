@@ -23,14 +23,14 @@ export function identifyOrderType(order: any): OrderType {
   if ('orderMode' in order || 'priceTier' in order || order.order?.startsWith('B2B-')) {
     return 'b2b';
   }
-  
+
   if ('customerId' in order || 'fulfillmentMethod' in order) {
     return 'b2c';
   }
 
   // 2. Fallback по формату ID
   if (typeof order.id === 'string' && order.id.startsWith('B2B-')) return 'b2b';
-  
+
   return 'b2c';
 }
 

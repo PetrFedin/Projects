@@ -52,9 +52,7 @@ function loadEventsWhereParticipant(userId: string): CalendarEvent[] {
 /** Получить все события для пользователя: свои + где он участник */
 export function getCalendarEvents(userId: string): CalendarEvent[] {
   const own = loadEvents(userId);
-  const invited = loadEventsWhereParticipant(userId).filter(
-    (e) => !own.some((o) => o.id === e.id)
-  );
+  const invited = loadEventsWhereParticipant(userId).filter((e) => !own.some((o) => o.id === e.id));
   return [...own, ...invited];
 }
 

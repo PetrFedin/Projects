@@ -45,8 +45,8 @@ export const STATE_TRANSITIONS: StateTransition[] = [
     from: 'confirmed',
     to: 'shipped',
     allowedActors: ['system', 'brand'],
-    conditions: (order) => 
-      order.projections.fulfillment === 'packed' || 
+    conditions: (order) =>
+      order.projections.fulfillment === 'packed' ||
       order.projections.fulfillment === 'ready_for_shipment' ||
       order.projections.fulfillment === 'shipped' ||
       order.projections.fulfillment === 'partially_shipped' ||
@@ -128,12 +128,12 @@ export const STATE_TRANSITIONS: StateTransition[] = [
  * Проверяет возможность перехода в новый статус.
  */
 export function canTransitionTo(
-  order: OrderAggregate, 
-  to: OrderCommercialStatus, 
+  order: OrderAggregate,
+  to: OrderCommercialStatus,
   actor: 'brand' | 'shop' | 'system'
 ): { allowed: boolean; reason?: string } {
-  const transition = STATE_TRANSITIONS.find(t => t.from === order.status && t.to === to);
-  
+  const transition = STATE_TRANSITIONS.find((t) => t.from === order.status && t.to === to);
+
   if (!transition) {
     return { allowed: false, reason: `No transition from ${order.status} to ${to}` };
   }
@@ -143,7 +143,10 @@ export function canTransitionTo(
   }
 
   if (transition.conditions && !transition.conditions(order)) {
-    return { allowed: false, reason: `Conditions for transition from ${order.status} to ${to} are not met` };
+    return {
+      allowed: false,
+      reason: `Conditions for transition from ${order.status} to ${to} are not met`,
+    };
   }
 
   return { allowed: true };

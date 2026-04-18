@@ -7,18 +7,18 @@ import type { B2BOrderLineItem } from './b2b-order-payload';
  * Позволяет отслеживать историю правок и применять их к агрегату.
  */
 
-export type AmendmentType = 
-  | 'lines_update'      // изменение состава (SKU, кол-во)
-  | 'terms_update'      // изменение цен, валюты, условий оплаты
-  | 'status_change'     // смена статуса (согласование)
+export type AmendmentType =
+  | 'lines_update' // изменение состава (SKU, кол-во)
+  | 'terms_update' // изменение цен, валюты, условий оплаты
+  | 'status_change' // смена статуса (согласование)
   | 'participant_change' // смена покупателя/локации
-  | 'cancel';           // отмена заказа
+  | 'cancel'; // отмена заказа
 
 export interface OrderAmendment {
   id: string;
   orderId: string;
   type: AmendmentType;
-  
+
   /** Кто инициатор (Brand / Shop / System) */
   initiatorId: string;
   initiatorType: 'brand' | 'shop' | 'system';
@@ -59,7 +59,7 @@ export function applyAmendment(order: OrderAggregate, amendment: OrderAmendment)
       ...order.metadata,
       version: order.metadata.version + 1,
       updatedAt: amendment.metadata.createdAt,
-    }
+    },
   };
 
   if (amendment.payload.lines) {
@@ -90,8 +90,8 @@ export function applyAmendment(order: OrderAggregate, amendment: OrderAmendment)
       action: `AMENDMENT_${amendment.type.toUpperCase()}`,
       changes: amendment.payload,
       amendmentId: amendment.id,
-      diff
-    }
+      diff,
+    },
   ];
 
   return updatedOrder;
@@ -101,7 +101,10 @@ export function applyAmendment(order: OrderAggregate, amendment: OrderAmendment)
  * [Phase 2 Prod] Откатывает примененную правку к предыдущему состоянию.
  * Использует snapshotBefore из правки для восстановления агрегата.
  */
-export function rollbackAmendment(order: OrderAggregate, amendment: OrderAmendment): OrderAggregate {
+export function rollbackAmendment(
+  order: OrderAggregate,
+  amendment: OrderAmendment
+): OrderAggregate {
   if (amendment.status !== 'applied') {
     throw new Error(`Cannot rollback amendment ${amendment.id} with status ${amendment.status}`);
   }
@@ -124,10 +127,10 @@ export function rollbackAmendment(order: OrderAggregate, amendment: OrderAmendme
           actorId: 'system',
           action: 'ROLLBACK_AMENDMENT',
           changes: { amendmentId: amendment.id, reason: 'Manual rollback' },
-          diff: calculateOrderDiff(order, amendment.payload.snapshotBefore as OrderAggregate)
-        }
-      ]
-    }
+          diff: calculateOrderDiff(order, amendment.payload.snapshotBefore as OrderAggregate),
+        },
+      ],
+    },
   };
 
   return restoredOrder;
@@ -136,17 +139,20 @@ export function rollbackAmendment(order: OrderAggregate, amendment: OrderAmendme
 /**
  * [Phase 2 Prod] Вычисляет разницу между двумя версиями заказа.
  */
-export function calculateOrderDiff(prev: OrderAggregate, next: OrderAggregate): Record<string, any> {
+export function calculateOrderDiff(
+  prev: OrderAggregate,
+  next: OrderAggregate
+): Record<string, any> {
   const diff: Record<string, any> = {};
-  
+
   if (prev.status !== next.status) {
     diff.status = { from: prev.status, to: next.status };
   }
-  
+
   if (JSON.stringify(prev.terms) !== JSON.stringify(next.terms)) {
     diff.terms = { from: prev.terms, to: next.terms };
   }
-  
+
   if (prev.lines.length !== next.lines.length) {
     diff.linesCount = { from: prev.lines.length, to: next.lines.length };
   }
@@ -157,14 +163,18 @@ export function calculateOrderDiff(prev: OrderAggregate, next: OrderAggregate): 
 /**
  * [Phase 2 Prod] Создает снапшот аудита для конкретной версии.
  */
-export function createAuditSnapshot(order: OrderAggregate, actorId: string, action: string): NonNullable<OrderAggregate['metadata']['auditLog']>[0] {
+export function createAuditSnapshot(
+  order: OrderAggregate,
+  actorId: string,
+  action: string
+): NonNullable<OrderAggregate['metadata']['auditLog']>[0] {
   return {
     version: order.metadata.version,
     timestamp: new Date().toISOString(),
     actorId,
     action,
     changes: {}, // Заполняется при применении изменений
-    diff: {} // Заполняется при применении изменений
+    diff: {}, // Заполняется при применении изменений
   };
 }
 
@@ -172,8 +182,8 @@ export function createAuditSnapshot(order: OrderAggregate, actorId: string, acti
  * Создает черновик правки для изменения состава линий.
  */
 export function createLinesAmendment(
-  order: OrderAggregate, 
-  newLines: B2BOrderLineItem[], 
+  order: OrderAggregate,
+  newLines: B2BOrderLineItem[],
   initiatorId: string,
   initiatorType: 'brand' | 'shop'
 ): OrderAmendment {
@@ -190,6 +200,6 @@ export function createLinesAmendment(
     metadata: {
       createdAt: new Date().toISOString(),
       version: order.metadata.version + 1,
-    }
+    },
   };
 }

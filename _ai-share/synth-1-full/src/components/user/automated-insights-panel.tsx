@@ -4,19 +4,25 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { 
-  Lightbulb, AlertTriangle, Trophy, TrendingUp, Target, Sparkles,
-  ArrowRight, Info, X, CheckCircle2, AlertCircle, Zap, Gift
+import {
+  Lightbulb,
+  AlertTriangle,
+  Trophy,
+  TrendingUp,
+  Target,
+  Sparkles,
+  ArrowRight,
+  Info,
+  X,
+  CheckCircle2,
+  AlertCircle,
+  Zap,
+  Gift,
 } from 'lucide-react';
 import { useUserInsights, type Insight } from '@/hooks/use-user-insights';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const insightIcons = {
   opportunity: Sparkles,
@@ -31,9 +37,9 @@ const insightColors = {
   opportunity: 'bg-blue-500/10 text-blue-600 border-blue-500/20',
   warning: 'bg-orange-500/10 text-orange-600 border-orange-500/20',
   achievement: 'bg-yellow-500/10 text-yellow-600 border-yellow-500/20',
-  recommendation: 'bg-purple-500/10 text-purple-600 border-purple-500/20',
+  recommendation: 'bg-accent-primary/10 text-accent-primary border-accent-primary/30',
   trend: 'bg-green-500/10 text-green-600 border-green-500/20',
-  prediction: 'bg-pink-500/10 text-pink-600 border-pink-500/20',
+  prediction: 'bg-accent-primary/10 text-accent-primary border-accent-primary/30',
 };
 
 export default function AutomatedInsightsPanel() {
@@ -41,10 +47,10 @@ export default function AutomatedInsightsPanel() {
   const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  const visibleInsights = insights.filter(insight => !dismissedIds.has(insight.id));
+  const visibleInsights = insights.filter((insight) => !dismissedIds.has(insight.id));
 
   const handleDismiss = (id: string) => {
-    setDismissedIds(prev => new Set(prev).add(id));
+    setDismissedIds((prev) => new Set(prev).add(id));
   };
 
   if (visibleInsights.length === 0) {
@@ -57,18 +63,20 @@ export default function AutomatedInsightsPanel() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-4 text-muted-foreground">
-            <Info className="h-12 w-12 mx-auto mb-4 opacity-50" />
+          <div className="py-4 text-center text-muted-foreground">
+            <Info className="mx-auto mb-4 h-12 w-12 opacity-50" />
             <p>Пока нет новых инсайтов</p>
-            <p className="text-sm mt-2">Продолжайте использовать платформу, и мы подготовим для вас персональные рекомендации</p>
+            <p className="mt-2 text-sm">
+              Продолжайте использовать платформу, и мы подготовим для вас персональные рекомендации
+            </p>
           </div>
         </CardContent>
       </Card>
     );
   }
 
-  const highPriorityInsights = visibleInsights.filter(i => i.priority === 'high');
-  const otherInsights = visibleInsights.filter(i => i.priority !== 'high');
+  const highPriorityInsights = visibleInsights.filter((i) => i.priority === 'high');
+  const otherInsights = visibleInsights.filter((i) => i.priority !== 'high');
 
   return (
     <div className="space-y-4">
@@ -80,12 +88,10 @@ export default function AutomatedInsightsPanel() {
               <AlertCircle className="h-5 w-5 text-orange-600" />
               Важные инсайты
             </CardTitle>
-            <CardDescription>
-              Требуют вашего внимания
-            </CardDescription>
+            <CardDescription>Требуют вашего внимания</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            {highPriorityInsights.map(insight => (
+            {highPriorityInsights.map((insight) => (
               <InsightCard
                 key={insight.id}
                 insight={insight}
@@ -110,7 +116,7 @@ export default function AutomatedInsightsPanel() {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          {otherInsights.map(insight => (
+          {otherInsights.map((insight) => (
             <InsightCard
               key={insight.id}
               insight={insight}
@@ -142,23 +148,23 @@ function InsightCard({
   return (
     <div
       className={cn(
-        'relative p-4 rounded-lg border transition-all',
+        'relative rounded-lg border p-4 transition-all',
         colorClass,
         isExpanded && 'ring-2 ring-offset-2'
       )}
     >
       <div className="flex items-start gap-3">
-        <div className={cn('p-2 rounded-lg', colorClass)}>
+        <div className={cn('rounded-lg p-2', colorClass)}>
           <Icon className="h-5 w-5" />
         </div>
-        
-        <div className="flex-1 min-w-0">
+
+        <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
             <div className="flex-1">
-              <div className="flex items-center gap-2 mb-1">
-                <h4 className="font-semibold text-sm">{insight.title}</h4>
-                <Badge 
-                  variant="outline" 
+              <div className="mb-1 flex items-center gap-2">
+                <h4 className="text-sm font-semibold">{insight.title}</h4>
+                <Badge
+                  variant="outline"
                   className={cn(
                     'text-xs',
                     insight.priority === 'high' && 'border-orange-500/50 text-orange-600',
@@ -166,7 +172,11 @@ function InsightCard({
                     insight.priority === 'low' && 'border-gray-500/50 text-gray-600'
                   )}
                 >
-                  {insight.priority === 'high' ? 'Важно' : insight.priority === 'medium' ? 'Средне' : 'Низко'}
+                  {insight.priority === 'high'
+                    ? 'Важно'
+                    : insight.priority === 'medium'
+                      ? 'Средне'
+                      : 'Низко'}
                 </Badge>
                 {insight.trend && (
                   <Badge variant="outline" className="text-xs">
@@ -174,23 +184,27 @@ function InsightCard({
                   </Badge>
                 )}
               </div>
-              
-              <p className="text-sm text-muted-foreground mb-2">{insight.description}</p>
+
+              <p className="mb-2 text-sm text-muted-foreground">{insight.description}</p>
 
               {isExpanded && (
-                <div className="mt-3 space-y-2 pt-3 border-t border-current/20">
+                <div className="border-current/20 mt-3 space-y-2 border-t pt-3">
                   {insight.value && (
                     <div className="flex items-center gap-2 text-sm">
                       <span className="font-medium">Значение:</span>
                       <span className="text-muted-foreground">{insight.value}</span>
                     </div>
                   )}
-                  
+
                   {insight.trend && (
                     <div className="flex items-center gap-2 text-sm">
                       <span className="font-medium">Тренд:</span>
                       <span className="text-muted-foreground">
-                        {insight.trend === 'up' ? 'Растет' : insight.trend === 'down' ? 'Падает' : 'Стабилен'}
+                        {insight.trend === 'up'
+                          ? 'Растет'
+                          : insight.trend === 'down'
+                            ? 'Падает'
+                            : 'Стабилен'}
                       </span>
                     </div>
                   )}
@@ -214,12 +228,7 @@ function InsightCard({
               {insight.action && (
                 <div className="mt-3">
                   {insight.action.href ? (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-full sm:w-auto"
-                      asChild
-                    >
+                    <Button variant="outline" size="sm" className="w-full sm:w-auto" asChild>
                       <Link href={insight.action.href}>
                         {insight.action.label}
                         <ArrowRight className="ml-2 h-3 w-3" />
@@ -241,17 +250,8 @@ function InsightCard({
             </div>
 
             <div className="flex items-center gap-1">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-6 w-6"
-                onClick={onToggleExpand}
-              >
-                {isExpanded ? (
-                  <X className="h-4 w-4" />
-                ) : (
-                  <Info className="h-4 w-4" />
-                )}
+              <Button variant="ghost" size="icon" className="h-6 w-6" onClick={onToggleExpand}>
+                {isExpanded ? <X className="h-4 w-4" /> : <Info className="h-4 w-4" />}
               </Button>
               <Button
                 variant="ghost"
@@ -268,8 +268,3 @@ function InsightCard({
     </div>
   );
 }
-
-
-
-
-

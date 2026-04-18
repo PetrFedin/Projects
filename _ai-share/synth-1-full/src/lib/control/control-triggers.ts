@@ -1,6 +1,15 @@
 import { ControlInvalidationEventTypes } from '@/lib/contracts';
-import { ControlOutput, aggregateOrderControl, aggregateArticleControl } from './control-aggregator';
-import { saveControlRecord, getControlRecordByEntity, generateInputsHash, ControlRecord } from './control-storage';
+import {
+  ControlOutput,
+  aggregateOrderControl,
+  aggregateArticleControl,
+} from './control-aggregator';
+import {
+  saveControlRecord,
+  getControlRecordByEntity,
+  generateInputsHash,
+  ControlRecord,
+} from './control-storage';
 import { OrderAggregate } from '../order/order-aggregate';
 import { ArticleAggregate } from '../article/article-aggregate';
 import { InventoryGrain } from '../logic/inventory-ledger';
@@ -46,7 +55,7 @@ export async function handleDomainEvent(event: DomainEvent): Promise<void> {
         entityType: 'order',
         output,
         status: 'active',
-        metadata: { createdAt: timestamp, updatedAt: timestamp, inputsHash: hash }
+        metadata: { createdAt: timestamp, updatedAt: timestamp, inputsHash: hash },
       });
       break;
     }
@@ -65,7 +74,7 @@ export async function handleDomainEvent(event: DomainEvent): Promise<void> {
         entityType: 'article',
         output,
         status: 'active',
-        metadata: { createdAt: timestamp, updatedAt: timestamp, inputsHash: hash }
+        metadata: { createdAt: timestamp, updatedAt: timestamp, inputsHash: hash },
       });
       break;
     }
@@ -74,7 +83,9 @@ export async function handleDomainEvent(event: DomainEvent): Promise<void> {
       // При изменении стока пересчитываем связанные артикулы
       const { articleId, grains } = event;
       // В реальной системе здесь был бы вызов aggregateArticleControl с актуальным стоком
-      console.log(`[Control] Invalidation triggered for article ${articleId} due to inventory change`);
+      console.log(
+        `[Control] Invalidation triggered for article ${articleId} due to inventory change`
+      );
       break;
     }
   }

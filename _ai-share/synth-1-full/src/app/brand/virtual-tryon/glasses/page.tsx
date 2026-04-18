@@ -8,11 +8,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { Glasses } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
 
 const GlassesVirtualTryOn = dynamic(
   () =>
     import('@/components/virtual-tryon/glasses-virtual-try-on').then((m) => m.GlassesVirtualTryOn),
-  { ssr: false, loading: () => <p className="text-sm text-muted-foreground py-8">Загрузка модуля примерки…</p> }
+  {
+    ssr: false,
+    loading: () => <p className="py-8 text-sm text-muted-foreground">Загрузка модуля примерки…</p>,
+  }
 );
 
 /**
@@ -26,7 +30,7 @@ export default function BrandGlassesVirtualTryOnPage() {
   }, []);
 
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-6 space-y-6 animate-in fade-in duration-500">
+    <RegistryPageShell className="max-w-3xl space-y-6 pb-16 duration-500 animate-in fade-in">
       <SectionInfoCard
         title="Виртуальная примерка очков"
         description="Камера или фото лица: оправа масштабируется по межзрачковому расстоянию и наклону головы. Расчёт в браузере; лица на ваш бэкенд не отправляются."
@@ -43,8 +47,9 @@ export default function BrandGlassesVirtualTryOnPage() {
         <CardHeader>
           <CardTitle className="text-base">Примерка</CardTitle>
           <CardDescription>
-            Укажите URL PNG/WebP оправы с прозрачным фоном или используйте демо. Для встраивания в витрину передайте{' '}
-            <code className="text-xs bg-muted px-1 rounded">?frame=</code> или prop <code className="text-xs bg-muted px-1 rounded">initialGlassesUrl</code>.
+            Укажите URL PNG/WebP оправы с прозрачным фоном или используйте демо. Для встраивания в
+            витрину передайте <code className="rounded bg-muted px-1 text-xs">?frame=</code> или
+            prop <code className="rounded bg-muted px-1 text-xs">initialGlassesUrl</code>.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -53,13 +58,17 @@ export default function BrandGlassesVirtualTryOnPage() {
       </Card>
       <p className="text-sm text-muted-foreground">
         Примерка одежды (полноценный try-on) по-прежнему через{' '}
-        <code className="text-xs bg-muted px-1 rounded">POST /ai/virtual-tryon</code> — отдельный сценарий с opentryon/GPU.
+        <code className="rounded bg-muted px-1 text-xs">POST /ai/virtual-tryon</code> — отдельный
+        сценарий с opentryon/GPU.
       </p>
       <p className="text-sm">
-        <Link href={ROUTES.brand.marketingSamples} className="text-primary underline-offset-4 hover:underline">
+        <Link
+          href={ROUTES.brand.marketingSamples}
+          className="text-primary underline-offset-4 hover:underline"
+        >
           ← Образцы и маркетинг
         </Link>
       </p>
-    </div>
+    </RegistryPageShell>
   );
 }

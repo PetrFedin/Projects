@@ -10,7 +10,8 @@ import { Label } from '@/components/ui/label';
 import { getTradeShowById, getUpcomingEvents } from '@/lib/b2b/trade-show-calendar';
 import { getAppointments, createAppointment } from '@/lib/b2b/trade-show-appointments';
 import { ROUTES } from '@/lib/routes';
-import { Calendar, ArrowLeft } from 'lucide-react';
+import { RegistryPageShell } from '@/components/design-system';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 export default function TradeShowAppointmentsPage() {
   const searchParams = useSearchParams();
@@ -39,11 +40,11 @@ export default function TradeShowAppointmentsPage() {
   };
 
   return (
-    <div className="container max-w-3xl mx-auto px-4 py-6">
-      <div className="flex items-center gap-3 mb-6">
-        <Link href={ROUTES.shop.b2bTradeShows}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
-        <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2"><Calendar className="h-6 w-6" /> Запись на встречи</h1>
-      </div>
+    <RegistryPageShell className="max-w-3xl space-y-6">
+      <ShopB2bContentHeader
+        backHref={ROUTES.shop.b2bTradeShows}
+        lead="Запись на встречи с брендами на выставке."
+      />
 
       <Card className="mb-6">
         <CardHeader>
@@ -63,18 +64,32 @@ export default function TradeShowAppointmentsPage() {
           <Card className="mb-6">
             <CardHeader>
               <CardTitle>{event.name}</CardTitle>
-              <p className="text-sm text-slate-500">{event.startDate} – {event.endDate} · {event.city}</p>
+              <p className="text-text-secondary text-sm">
+                {event.startDate} – {event.endDate} · {event.city}
+              </p>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
                 <Label>Дата и время</Label>
-                <Input type="datetime-local" value={slot} onChange={(e) => setSlot(e.target.value)} className="mt-1" />
+                <Input
+                  type="datetime-local"
+                  value={slot}
+                  onChange={(e) => setSlot(e.target.value)}
+                  className="mt-1"
+                />
               </div>
               <div>
                 <Label>Заметка</Label>
-                <Input placeholder="Тема встречи, контакт" value={notes} onChange={(e) => setNotes(e.target.value)} className="mt-1" />
+                <Input
+                  placeholder="Тема встречи, контакт"
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  className="mt-1"
+                />
               </div>
-              <Button onClick={handleBook} disabled={!slot}>Записаться</Button>
+              <Button onClick={handleBook} disabled={!slot}>
+                Записаться
+              </Button>
             </CardContent>
           </Card>
 
@@ -86,9 +101,9 @@ export default function TradeShowAppointmentsPage() {
               <CardContent>
                 <ul className="space-y-2">
                   {appointments.map((a) => (
-                    <li key={a.id} className="flex justify-between items-center p-2 rounded border">
+                    <li key={a.id} className="flex items-center justify-between rounded border p-2">
                       <span>{a.slotStart.slice(0, 16)}</span>
-                      <span className="text-sm text-slate-500">{a.status}</span>
+                      <span className="text-text-secondary text-sm">{a.status}</span>
                     </li>
                   ))}
                 </ul>
@@ -98,7 +113,9 @@ export default function TradeShowAppointmentsPage() {
         </>
       )}
 
-      <Button variant="outline" className="mt-6" asChild><Link href={ROUTES.shop.b2bTradeShows}>← К выставкам</Link></Button>
-    </div>
+      <Button variant="outline" className="mt-6" asChild>
+        <Link href={ROUTES.shop.b2bTradeShows}>← К выставкам</Link>
+      </Button>
+    </RegistryPageShell>
   );
 }

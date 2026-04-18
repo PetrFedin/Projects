@@ -24,7 +24,7 @@ export function ProductDropCountdown({ product }: Props) {
   if (text === 'Уже доступно') return null;
 
   return (
-    <Badge variant="secondary" className="mt-2 gap-1 font-normal text-xs">
+    <Badge variant="secondary" className="mt-2 gap-1 text-xs font-normal">
       <Clock className="h-3 w-3" />
       {drop.label}: {text}
     </Badge>

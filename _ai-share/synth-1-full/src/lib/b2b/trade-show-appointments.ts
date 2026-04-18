@@ -39,7 +39,9 @@ export function getAppointments(tradeShowId?: string): TradeShowAppointment[] {
   return tradeShowId ? all.filter((a) => a.tradeShowId === tradeShowId) : all;
 }
 
-export function createAppointment(data: Omit<TradeShowAppointment, 'id' | 'createdAt'>): TradeShowAppointment {
+export function createAppointment(
+  data: Omit<TradeShowAppointment, 'id' | 'createdAt'>
+): TradeShowAppointment {
   const item: TradeShowAppointment = {
     ...data,
     id: `apt-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,

@@ -9,8 +9,18 @@ import type { FactTableMeta, BuyingAnalyticsSummary } from '@/lib/analytics/phas
 
 const MOCK_FACT: FactTableMeta[] = [
   { name: 'fact_sales', kind: 'sales', lastLoadedAt: '2026-03-11T06:00:00Z', rowCount: 124_000 },
-  { name: 'fact_purchases', kind: 'purchases', lastLoadedAt: '2026-03-11T05:30:00Z', rowCount: 38_000 },
-  { name: 'snapshot_plan_fact', kind: 'inventory', lastLoadedAt: '2026-03-10T23:00:00Z', rowCount: 12 },
+  {
+    name: 'fact_purchases',
+    kind: 'purchases',
+    lastLoadedAt: '2026-03-11T05:30:00Z',
+    rowCount: 38_000,
+  },
+  {
+    name: 'snapshot_plan_fact',
+    kind: 'inventory',
+    lastLoadedAt: '2026-03-10T23:00:00Z',
+    rowCount: 12,
+  },
 ];
 
 const MOCK_BUYING: BuyingAnalyticsSummary = {

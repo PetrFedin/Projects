@@ -19,13 +19,33 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { RegistryPageShell } from '@/components/design-system';
 
-const QC_DEFAULT = {
-  v: 1 as const,
+const QC_DEFAULT: { v: 1; inspections: QcInspection[] } = {
+  v: 1,
   inspections: [
-    { id: 'qc1', orderId: 'PO-201', aqlLevel: '2.5' as const, status: 'passed' as const, inspectedCount: 80, defectCount: 0, defects: [], inspectedAt: '2026-03-10T14:00:00Z' },
-    { id: 'qc2', orderId: 'PO-202', aqlLevel: '4.0' as const, status: 'rework' as const, inspectedCount: 120, defectCount: 3, defects: [{ id: 'd1', type: 'пятно', severity: 'major' as const, position: 'спинка' }], inspectedAt: '2026-03-11T09:00:00Z' },
-  ] satisfies QcInspection[],
+    {
+      id: 'qc1',
+      orderId: 'PO-201',
+      aqlLevel: '2.5',
+      status: 'passed',
+      inspectedCount: 80,
+      defectCount: 0,
+      defects: [],
+      inspectedAt: '2026-03-10T14:00:00Z',
+    },
+    {
+      id: 'qc2',
+      orderId: 'PO-202',
+      aqlLevel: '4.0',
+      status: 'rework',
+      inspectedCount: 120,
+      defectCount: 3,
+      defects: [{ id: 'd1', type: 'пятно', severity: 'major', position: 'спинка' }],
+      inspectedAt: '2026-03-11T09:00:00Z',
+    },
+  ],
 };
 
 const statusLabels: Record<QcInspection['status'], string> = {
@@ -49,25 +69,43 @@ export default function QcAppPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
       <SectionInfoCard
-        title="Mobile QC App"
-        description="Инспекции и статусы сохраняются в floor-tab: qc-app. Фото дефектов — после API (Storage)."
+        title="Мобильный QC-модуль"
+        description={
+          <>
+            Инспекции и статусы сохраняются в floor-tab: qc-app. Фото дефектов — после{' '}
+            <AcronymWithTooltip abbr="API" /> (хранилище).
+          </>
+        }
         icon={Camera}
         iconBg="bg-amber-100"
         iconColor="text-amber-600"
         badges={
           <>
-            <Badge variant="outline" className="text-[9px]">AQL 2.5/4.0</Badge>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href={ROUTES.brand.productionGoldSample}>Gold Sample</Link></Button>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href={ROUTES.brand.returnsClaims}>Претензии</Link></Button>
+            <Badge variant="outline" className="text-[9px]">
+              <AcronymWithTooltip abbr="QC" /> • AQL 2.5/4.0
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.productionGoldSample}>Эталонный образец</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.returnsClaims}>Претензии</Link>
+            </Button>
           </>
         }
       />
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <Link href={ROUTES.brand.production}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
-          <h1 className="text-2xl font-bold uppercase">Mobile QC App</h1>
+          <Link href={ROUTES.brand.production}>
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          </Link>
+          <h1 className="text-2xl font-bold uppercase">
+            Мобильный <AcronymWithTooltip abbr="QC" />
+            -модуль
+          </h1>
         </div>
         <Button
           size="sm"
@@ -87,25 +125,42 @@ export default function QcAppPage() {
           <CardTitle className="flex items-center gap-2">
             <Camera className="h-5 w-5" /> Инспекции
           </CardTitle>
-          <CardDescription>Изменение статуса — локально до бэкенда QC_APP_API</CardDescription>
+          <CardDescription>
+            Изменение статуса — локально до подключения серверного <AcronymWithTooltip abbr="API" />
+            .
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <ul className="space-y-3">
             {data.inspections.map((q, i) => (
-              <li key={q.id} className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+              <li
+                key={q.id}
+                className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"
+              >
                 <div>
                   <p className="font-mono font-medium">{q.orderId}</p>
-                  <p className="text-xs text-slate-500">AQL {q.aqlLevel} · {q.inspectedCount} шт · {statusLabels[q.status]}</p>
-                  {q.defectCount > 0 && <p className="text-xs text-amber-600 flex items-center gap-1 mt-1"><AlertTriangle className="h-3 w-3" /> {q.defectCount} дефект(ов)</p>}
+                  <p className="text-text-secondary text-xs">
+                    AQL {q.aqlLevel} · {q.inspectedCount} шт · {statusLabels[q.status]}
+                  </p>
+                  {q.defectCount > 0 && (
+                    <p className="mt-1 flex items-center gap-1 text-xs text-amber-600">
+                      <AlertTriangle className="h-3 w-3" /> {q.defectCount} дефект(ов)
+                    </p>
+                  )}
                 </div>
                 <div className="flex items-center gap-2">
-                  <Select value={q.status} onValueChange={(v) => setInspection(i, { status: v as QcInspection['status'] })}>
+                  <Select
+                    value={q.status}
+                    onValueChange={(v) => setInspection(i, { status: v as QcInspection['status'] })}
+                  >
                     <SelectTrigger className="h-8 w-[140px] text-[10px]">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       {(Object.keys(statusLabels) as QcInspection['status'][]).map((s) => (
-                        <SelectItem key={s} value={s} className="text-xs">{statusLabels[s]}</SelectItem>
+                        <SelectItem key={s} value={s} className="text-xs">
+                          {statusLabels[s]}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -116,6 +171,6 @@ export default function QcAppPage() {
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getProductionLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

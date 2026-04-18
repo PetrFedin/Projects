@@ -12,14 +12,8 @@ import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getCollectionLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { getCollectionById, updateCollection, type CollectionCard } from '@/lib/data/collections';
-import {
-  ArrowLeft,
-  Package,
-  Image,
-  Presentation,
-  Factory,
-  FileText,
-} from 'lucide-react';
+import { ArrowLeft, Package, Image, Presentation, Factory, FileText } from 'lucide-react';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 const productionHref = (collectionId: string) =>
   `${ROUTES.brand.production}?collectionId=${encodeURIComponent(collectionId)}`;
@@ -59,45 +53,55 @@ export default function BrandCollectionCardPage() {
   if (id === undefined) return null;
   if (collection === null) {
     return (
-      <div className="container max-w-4xl mx-auto px-4 py-8">
-        <p className="text-slate-600">Коллекция не найдена.</p>
-        <Button variant="link" asChild className="mt-2">
+      <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+        <RegistryPageHeader
+          title="Коллекция не найдена"
+          leadPlain="Проверьте ссылку или вернитесь к списку коллекций."
+        />
+        <Button variant="link" asChild>
           <Link href={ROUTES.brand.collections}>К списку коллекций</Link>
         </Button>
-      </div>
+      </RegistryPageShell>
     );
   }
 
-  const links = getCollectionLinks(collection.id);
+  const links = getCollectionLinks();
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 pb-24 space-y-6">
-      <div className="flex items-center justify-between gap-4 flex-wrap">
-        <Button variant="ghost" size="sm" asChild>
-          <Link href={ROUTES.brand.collections} className="inline-flex items-center gap-1 text-sm">
-            <ArrowLeft className="h-4 w-4" />
-            К списку коллекций
-          </Link>
-        </Button>
-        <Badge variant={collection.status === 'archive' ? 'secondary' : 'default'}>
-          {collection.status === 'draft' ? 'Черновик' : collection.status === 'archive' ? 'Архив' : 'Активная'}
-        </Badge>
-      </div>
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title={collection.name}
+        leadPlain={`Сезон: ${collection.season}`}
+        eyebrow={
+          <Button variant="ghost" size="sm" asChild>
+            <Link
+              href={ROUTES.brand.collections}
+              className="inline-flex items-center gap-1 text-sm"
+            >
+              <ArrowLeft className="h-4 w-4" />К списку коллекций
+            </Link>
+          </Button>
+        }
+        actions={
+          <Badge variant={collection.status === 'archive' ? 'secondary' : 'default'}>
+            {collection.status === 'draft'
+              ? 'Черновик'
+              : collection.status === 'archive'
+                ? 'Архив'
+                : 'Активная'}
+          </Badge>
+        }
+      />
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-xl">{collection.name}</CardTitle>
-          <CardDescription>Сезон: {collection.season}</CardDescription>
-        </CardHeader>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-sm flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-sm">
             <FileText className="h-4 w-4" />
             Концепция, ДНК и описание
           </CardTitle>
-          <CardDescription>Опишите идею коллекции и ДНК. После сохранения продолжайте в разделах ниже.</CardDescription>
+          <CardDescription>
+            Опишите идею коллекции и ДНК. После сохранения продолжайте в разделах ниже.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
@@ -140,62 +144,63 @@ export default function BrandCollectionCardPage() {
         <CardHeader>
           <CardTitle className="text-sm">Работа в коллекции</CardTitle>
           <CardDescription>
-            Создавайте артикулы, добавляйте инспирейшен, готовьте презентации и каталоги, ведите производство по этой коллекции.
+            Создавайте артикулы, добавляйте инспирейшен, готовьте презентации и каталоги, ведите
+            производство по этой коллекции.
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-3 sm:grid-cols-2">
           <Link
             href={productsHref(collection.id)}
-            className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50/80 hover:bg-slate-100/80 p-4 transition-colors"
+            className="border-border-subtle bg-bg-surface2/80 hover:bg-bg-surface2/80 flex items-center gap-3 rounded-xl border p-4 transition-colors"
           >
-            <div className="rounded-lg bg-indigo-100 p-2">
-              <Package className="h-5 w-5 text-indigo-700" />
+            <div className="bg-accent-primary/15 rounded-lg p-2">
+              <Package className="text-accent-primary h-5 w-5" />
             </div>
             <div>
-              <p className="font-medium text-slate-900">Артикулы (PIM)</p>
-              <p className="text-xs text-slate-500">Концепция, SKU, матрица размеров</p>
+              <p className="text-text-primary font-medium">Артикулы (PIM)</p>
+              <p className="text-text-secondary text-xs">Концепция, SKU, матрица размеров</p>
             </div>
           </Link>
           <Link
             href={`${ROUTES.brand.media}?collectionId=${encodeURIComponent(collection.id)}`}
-            className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50/80 hover:bg-slate-100/80 p-4 transition-colors"
+            className="border-border-subtle bg-bg-surface2/80 hover:bg-bg-surface2/80 flex items-center gap-3 rounded-xl border p-4 transition-colors"
           >
             <div className="rounded-lg bg-amber-100 p-2">
               <Image className="h-5 w-5 text-amber-700" />
             </div>
             <div>
-              <p className="font-medium text-slate-900">Инспирейшен</p>
-              <p className="text-xs text-slate-500">Референсы, мудборды, визуал</p>
+              <p className="text-text-primary font-medium">Инспирейшен</p>
+              <p className="text-text-secondary text-xs">Референсы, мудборды, визуал</p>
             </div>
           </Link>
           <Link
             href={`${ROUTES.brand.contentHub}?collectionId=${encodeURIComponent(collection.id)}`}
-            className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50/80 hover:bg-slate-100/80 p-4 transition-colors"
+            className="border-border-subtle bg-bg-surface2/80 hover:bg-bg-surface2/80 flex items-center gap-3 rounded-xl border p-4 transition-colors"
           >
             <div className="rounded-lg bg-emerald-100 p-2">
               <Presentation className="h-5 w-5 text-emerald-700" />
             </div>
             <div>
-              <p className="font-medium text-slate-900">Презентации и каталоги</p>
-              <p className="text-xs text-slate-500">Лукбуки, каталоги товаров</p>
+              <p className="text-text-primary font-medium">Презентации и каталоги</p>
+              <p className="text-text-secondary text-xs">Лукбуки, каталоги товаров</p>
             </div>
           </Link>
           <Link
             href={productionHref(collection.id)}
-            className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50/80 hover:bg-slate-100/80 p-4 transition-colors"
+            className="border-border-subtle bg-bg-surface2/80 hover:bg-bg-surface2/80 flex items-center gap-3 rounded-xl border p-4 transition-colors"
           >
-            <div className="rounded-lg bg-slate-200 p-2">
-              <Factory className="h-5 w-5 text-slate-700" />
+            <div className="bg-border-subtle rounded-lg p-2">
+              <Factory className="text-text-primary h-5 w-5" />
             </div>
             <div>
-              <p className="font-medium text-slate-900">Производство</p>
-              <p className="text-xs text-slate-500">Схема коллекции, PO, техпаки, QC</p>
+              <p className="text-text-primary font-medium">Производство</p>
+              <p className="text-text-secondary text-xs">Схема коллекции, PO, техпаки, QC</p>
             </div>
           </Link>
         </CardContent>
       </Card>
 
       <RelatedModulesBlock links={links} title="Связанные разделы по коллекции" />
-    </div>
+    </RegistryPageShell>
   );
 }

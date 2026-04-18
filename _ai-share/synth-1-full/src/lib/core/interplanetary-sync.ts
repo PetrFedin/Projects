@@ -40,7 +40,9 @@ export class InterplanetarySyncEngine {
   ): SyncResult {
     // 1. Расчет задержки скорости света (Light-Speed Latency)
     // Дистанция = |Дистанция источника от Земли - Дистанция цели от Земли| (упрощенная модель)
-    const distanceLightSeconds = Math.abs(sourceNode.distanceFromEarthLightSeconds - targetNode.distanceFromEarthLightSeconds);
+    const distanceLightSeconds = Math.abs(
+      sourceNode.distanceFromEarthLightSeconds - targetNode.distanceFromEarthLightSeconds
+    );
     const latencySeconds = distanceLightSeconds; // Время в одну сторону
 
     let status: SyncResult['status'] = 'synced';
@@ -96,7 +98,7 @@ export class InterplanetarySyncEngine {
       status,
       latencySeconds,
       resolutionStrategy,
-      reasoning
+      reasoning,
     };
   }
 }

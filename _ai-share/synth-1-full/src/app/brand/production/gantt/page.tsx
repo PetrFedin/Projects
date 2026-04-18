@@ -14,6 +14,8 @@ import { getGanttLines, getGanttWeekLabels } from '@/lib/production/gantt-data';
 import { cn } from '@/lib/utils';
 import { useFloorTabDraftState } from '@/hooks/use-floor-tab-draft';
 import { useToast } from '@/hooks/use-toast';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { RegistryPageShell } from '@/components/design-system';
 
 const GANTT_DEFAULT = { v: 1 as const, lines: getGanttLines() };
 
@@ -34,20 +36,28 @@ export default function GanttProductionPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
       <SectionInfoCard
-        title="GANTT Production Scheduler"
+        title="Планировщик Gantt производства"
         description="Клик по ячейке недели переключает загрузку линии. Сохранение — floor-tab: gantt."
         icon={Calendar}
-        iconBg="bg-indigo-100"
-        iconColor="text-indigo-600"
+        iconBg="bg-accent-primary/15"
+        iconColor="text-accent-primary"
         badges={<ProductionGanttDailyBadges />}
       />
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3 flex-wrap">
-          <Link href={ROUTES.brand.production}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
-          <h1 className="text-2xl font-bold uppercase">GANTT Production Scheduler</h1>
-          <Link href={ROUTES.brand.productionDailyOutput}><Button variant="outline" size="sm" className="gap-1"><ClipboardList className="h-4 w-4" /> Daily Output</Button></Link>
+        <div className="flex flex-wrap items-center gap-3">
+          <Link href={ROUTES.brand.production}>
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          </Link>
+          <h1 className="text-2xl font-bold uppercase">Планировщик Gantt производства</h1>
+          <Link href={ROUTES.brand.productionDailyOutput}>
+            <Button variant="outline" size="sm" className="gap-1">
+              <ClipboardList className="h-4 w-4" /> Сменный выпуск
+            </Button>
+          </Link>
         </div>
         <Button
           size="sm"
@@ -62,30 +72,42 @@ export default function GanttProductionPage() {
         </Button>
       </div>
 
-      <Card className="rounded-xl border border-slate-200 shadow-sm">
+      <Card className="border-border-default rounded-xl border shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Factory className="h-5 w-5" /> Загрузка линий
           </CardTitle>
-          <CardDescription>Нажмите на ячейку, чтобы отметить / снять неделю</CardDescription>
+          <CardDescription>
+            Нажмите на ячейку, чтобы отметить / снять неделю. Ключевые{' '}
+            <AcronymWithTooltip abbr="KPI" /> рассчитываются на дашборде производства.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-sm">
               <thead>
-                <tr className="border-b border-slate-200">
-                  <th className="text-left p-2 font-bold uppercase text-[10px] text-slate-500 w-32">Линия</th>
+                <tr className="border-border-default border-b">
+                  <th className="text-text-secondary w-32 p-2 text-left text-[10px] font-bold uppercase">
+                    Линия
+                  </th>
                   {weekLabels.map((w) => (
-                    <th key={w.key} className="p-2 text-center font-bold uppercase text-[10px] text-slate-500 min-w-[80px]">{w.label}</th>
+                    <th
+                      key={w.key}
+                      className="text-text-secondary min-w-[80px] p-2 text-center text-[10px] font-bold uppercase"
+                    >
+                      {w.label}
+                    </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {data.lines.map((line, lineIndex) => (
-                  <tr key={line.lineId} className="border-b border-slate-100">
+                  <tr key={line.lineId} className="border-border-subtle border-b">
                     <td className="p-2">
-                      <p className="font-bold text-sm">{line.lineName}</p>
-                      <p className="text-[10px] text-slate-500">{line.orderIds.length ? line.orderIds.join(', ') : '—'}</p>
+                      <p className="text-sm font-bold">{line.lineName}</p>
+                      <p className="text-text-secondary text-[10px]">
+                        {line.orderIds.length ? line.orderIds.join(', ') : '—'}
+                      </p>
                     </td>
                     {line.weeks.map((filled, wi) => (
                       <td key={wi} className="p-1">
@@ -94,7 +116,9 @@ export default function GanttProductionPage() {
                           onClick={() => toggleCell(lineIndex, wi)}
                           className={cn(
                             'h-8 w-full rounded-md transition-colors',
-                            filled ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-slate-100 hover:bg-slate-200'
+                            filled
+                              ? 'bg-accent-primary hover:bg-accent-primary'
+                              : 'bg-bg-surface2 hover:bg-bg-surface2'
                           )}
                           aria-label={`Линия ${line.lineName}, неделя ${wi + 1}`}
                         />
@@ -109,6 +133,6 @@ export default function GanttProductionPage() {
       </Card>
 
       <RelatedModulesBlock links={getProductionLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -10,7 +10,7 @@ import { Progress } from '@/components/ui/progress';
 
 export const ProductRiskScorecardBlock: React.FC<{ product: Product }> = ({ product }) => {
   const risk = calculateProductRisk(product);
-  
+
   const getRiskColor = (score: number) => {
     if (score < 30) return 'text-green-500';
     if (score < 60) return 'text-yellow-500';
@@ -18,55 +18,62 @@ export const ProductRiskScorecardBlock: React.FC<{ product: Product }> = ({ prod
   };
 
   return (
-    <Card className="p-4 border-2 border-slate-100 bg-slate-50/30">
-      <div className="flex items-center justify-between mb-4">
+    <Card className="border-border-subtle bg-bg-surface2/30 border-2 p-4">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <AlertTriangle className="w-4 h-4 text-red-500" />
-          <h4 className="font-bold text-sm uppercase text-slate-600">Merchant Risk Scorecard</h4>
+          <AlertTriangle className="h-4 w-4 text-red-500" />
+          <h4 className="text-text-secondary text-sm font-bold uppercase">
+            Merchant Risk Scorecard
+          </h4>
         </div>
         <div className={`text-xl font-black ${getRiskColor(risk.overallRisk)}`}>
           {risk.overallRisk}%
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
         <div className="space-y-1">
-          <div className="flex justify-between text-[10px] uppercase font-bold text-slate-400">
+          <div className="text-text-muted flex justify-between text-[10px] font-bold uppercase">
             <span>Delivery</span>
             <span>{risk.deliveryRisk}%</span>
           </div>
-          <Progress value={risk.deliveryRisk} className="h-1 bg-slate-100" />
+          <Progress value={risk.deliveryRisk} className="bg-bg-surface2 h-1" />
         </div>
         <div className="space-y-1">
-          <div className="flex justify-between text-[10px] uppercase font-bold text-slate-400">
+          <div className="text-text-muted flex justify-between text-[10px] font-bold uppercase">
             <span>Quality</span>
             <span>{risk.qualityRisk}%</span>
           </div>
-          <Progress value={risk.qualityRisk} className="h-1 bg-slate-100" />
+          <Progress value={risk.qualityRisk} className="bg-bg-surface2 h-1" />
         </div>
         <div className="space-y-1">
-          <div className="flex justify-between text-[10px] uppercase font-bold text-slate-400">
+          <div className="text-text-muted flex justify-between text-[10px] font-bold uppercase">
             <span>Popularity</span>
             <span>{risk.popularityRisk}%</span>
           </div>
-          <Progress value={risk.popularityRisk} className="h-1 bg-slate-100" />
+          <Progress value={risk.popularityRisk} className="bg-bg-surface2 h-1" />
         </div>
       </div>
 
       {risk.alerts.length > 0 && (
         <div className="space-y-2">
           {risk.alerts.map((alert, idx) => (
-            <div key={idx} className="flex items-center gap-2 text-xs text-amber-700 bg-amber-50 p-2 rounded">
-              <TrendingDown className="w-3 h-3" />
+            <div
+              key={idx}
+              className="flex items-center gap-2 rounded bg-amber-50 p-2 text-xs text-amber-700"
+            >
+              <TrendingDown className="h-3 w-3" />
               {alert}
             </div>
           ))}
         </div>
       )}
 
-      <div className="mt-4 pt-3 border-t flex justify-between items-center text-[10px] text-slate-400 uppercase font-bold">
+      <div className="text-text-muted mt-4 flex items-center justify-between border-t pt-3 text-[10px] font-bold uppercase">
         <span>Source: Inventory AI Service</span>
-        <Badge variant="outline" className="text-[9px] h-4">Beta Insights</Badge>
+        <Badge variant="outline" className="h-4 text-[9px]">
+          Beta Insights
+        </Badge>
       </div>
     </Card>
   );

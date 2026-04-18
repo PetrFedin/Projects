@@ -11,7 +11,7 @@ export function PlatformDataBanner({ className }: { className?: string }) {
 
   if (mode === 'api') {
     return (
-      <Badge variant="outline" className={`text-[10px] font-normal gap-1 ${className ?? ''}`}>
+      <Badge variant="outline" className={`gap-1 text-[10px] font-normal ${className ?? ''}`}>
         <Cloud className="h-3 w-3" />
         API{api ? `: ${api}` : ' (база URL не задана)'}
       </Badge>
@@ -19,7 +19,7 @@ export function PlatformDataBanner({ className }: { className?: string }) {
   }
 
   return (
-    <Badge variant="secondary" className={`text-[10px] font-normal gap-1 ${className ?? ''}`}>
+    <Badge variant="secondary" className={`gap-1 text-[10px] font-normal ${className ?? ''}`}>
       <Database className="h-3 w-3" />
       Локально: каталог + localStorage
     </Badge>

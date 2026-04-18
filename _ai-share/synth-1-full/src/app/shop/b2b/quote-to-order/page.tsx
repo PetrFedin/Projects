@@ -5,13 +5,31 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, FileText, ArrowRight, CheckCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 /** NetSuite/BigCommerce: Quote-to-Order — переход от коммерческого предложения к заказу */
 const MOCK_QUOTES = [
-  { id: 'q1', number: 'КП-2026-001', brand: 'Syntha', total: 450000, items: 12, status: 'sent', createdAt: '2026-03-10' },
-  { id: 'q2', number: 'КП-2026-002', brand: 'Nordic Wool', total: 280000, items: 8, status: 'accepted', createdAt: '2026-03-08' },
+  {
+    id: 'q1',
+    number: 'КП-2026-001',
+    brand: 'Syntha',
+    total: 450000,
+    items: 12,
+    status: 'sent',
+    createdAt: '2026-03-10',
+  },
+  {
+    id: 'q2',
+    number: 'КП-2026-002',
+    brand: 'Nordic Wool',
+    total: 280000,
+    items: 8,
+    status: 'accepted',
+    createdAt: '2026-03-08',
+  },
 ];
 
 export default function QuoteToOrderPage() {
@@ -24,38 +42,41 @@ export default function QuoteToOrderPage() {
   };
 
   return (
-    <div className="container max-w-3xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
-        <Link href={ROUTES.shop.b2b}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
-        <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2"><FileText className="h-6 w-6" /> Quote-to-Order</h1>
-          <p className="text-slate-500 text-sm mt-0.5">NetSuite/BigCommerce: конвертация КП в заказ одной кнопкой</p>
-        </div>
-      </div>
+    <RegistryPageShell className="max-w-3xl space-y-6">
+      <ShopB2bContentHeader lead="Конвертация коммерческого предложения в заказ одной кнопкой (интеграции NetSuite / BigCommerce)." />
 
       <Card>
         <CardHeader>
           <CardTitle>Коммерческие предложения</CardTitle>
-          <CardDescription>Примите КП и оформите заказ — позиции и цены перенесутся автоматически</CardDescription>
+          <CardDescription>
+            Примите КП и оформите заказ — позиции и цены перенесутся автоматически
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           {MOCK_QUOTES.map((q) => (
-            <div key={q.id} className="flex items-center justify-between p-4 rounded-xl border border-slate-200">
+            <div
+              key={q.id}
+              className="border-border-default flex items-center justify-between rounded-xl border p-4"
+            >
               <div>
-                <p className="font-medium">{q.number} · {q.brand}</p>
-                <p className="text-xs text-slate-500">{q.items} позиций · {q.total.toLocaleString('ru-RU')} ₽</p>
+                <p className="font-medium">
+                  {q.number} · {q.brand}
+                </p>
+                <p className="text-text-secondary text-xs">
+                  {q.items} позиций · {q.total.toLocaleString('ru-RU')} ₽
+                </p>
               </div>
               <div className="flex items-center gap-2">
                 <Badge variant={q.status === 'accepted' ? 'default' : 'secondary'}>
                   {q.status === 'accepted' ? 'Принято' : 'Отправлено'}
                 </Badge>
                 {q.status === 'accepted' && (
-                  <Button
-                    size="sm"
-                    disabled={!!converting}
-                    onClick={() => handleConvert(q.id)}
-                  >
-                    {converting === q.id ? <CheckCircle className="h-4 w-4 mr-1" /> : <ArrowRight className="h-4 w-4 mr-1" />}
+                  <Button size="sm" disabled={!!converting} onClick={() => handleConvert(q.id)}>
+                    {converting === q.id ? (
+                      <CheckCircle className="mr-1 h-4 w-4" />
+                    ) : (
+                      <ArrowRight className="mr-1 h-4 w-4" />
+                    )}
                     {converting === q.id ? 'Создан заказ' : 'В заказ'}
                   </Button>
                 )}
@@ -66,9 +87,13 @@ export default function QuoteToOrderPage() {
       </Card>
 
       <div className="mt-6 flex gap-2">
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bOrders}>Мои заказы</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bCreateOrder}>Написание заказа</Link></Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bOrders}>Мои заказы</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bCreateOrder}>Написание заказа</Link>
+        </Button>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -1,5 +1,6 @@
 /**
  * Colect: карта партнёров / территории — кто где торгует, конфликты территории, статус эксклюзива.
+ * Демо: нейтральные названия магазинов (без сторонних торговых марок).
  */
 
 export interface PartnerTerritory {
@@ -19,12 +20,51 @@ export interface PartnerTerritory {
 const STORAGE_KEY = 'b2b_partner_territories';
 
 const SEED: PartnerTerritory[] = [
-  { partnerId: 'podium', partnerName: 'Podium (Москва)', region: 'Москва / ЦФО', regionKey: 'Moscow', isExclusive: true, status: 'active', order: 1 },
-  { partnerId: 'tsum', partnerName: 'ЦУМ (Москва)', region: 'Москва / ЦФО', regionKey: 'Moscow', isExclusive: false, status: 'active', order: 2 },
-  { partnerId: 'boutique7', partnerName: 'Boutique No.7 (СПб)', region: 'Санкт-Петербург / СЗФО', regionKey: 'SPb', isExclusive: true, status: 'active', order: 1 },
-  { partnerId: 'galery', partnerName: 'Galery (СПб)', region: 'Санкт-Петербург / СЗФО', regionKey: 'SPb', isExclusive: false, status: 'active', order: 2 },
-  { partnerId: 'krasnodar1', partnerName: 'Юг Торг (Краснодар)', region: 'Краснодар / ЮФО', regionKey: 'Krasnodar', isExclusive: true, status: 'active', order: 1 },
-  { partnerId: 'ekb1', partnerName: 'Урал Ритейл (Екатеринбург)', region: 'Екатеринбург / УрФО', regionKey: 'Ekb', isExclusive: true, status: 'active', order: 1 },
+  {
+    partnerId: 'retail_msk_1',
+    partnerName: 'Демо-магазин · Москва 1',
+    region: 'Москва / ЦФО',
+    regionKey: 'Moscow',
+    isExclusive: true,
+    status: 'active',
+    order: 1,
+  },
+  {
+    partnerId: 'retail_msk_2',
+    partnerName: 'Демо-магазин · Москва 2',
+    region: 'Москва / ЦФО',
+    regionKey: 'Moscow',
+    isExclusive: false,
+    status: 'active',
+    order: 2,
+  },
+  {
+    partnerId: 'retail_spb_1',
+    partnerName: 'Демо-магазин · СПб',
+    region: 'Санкт-Петербург / СЗФО',
+    regionKey: 'SPb',
+    isExclusive: true,
+    status: 'active',
+    order: 1,
+  },
+  {
+    partnerId: 'retail_krd_1',
+    partnerName: 'Демо-магазин · Краснодар',
+    region: 'Краснодар / ЮФО',
+    regionKey: 'Krasnodar',
+    isExclusive: true,
+    status: 'active',
+    order: 1,
+  },
+  {
+    partnerId: 'retail_ekb_1',
+    partnerName: 'Демо-магазин · Екатеринбург',
+    region: 'Екатеринбург / УрФО',
+    regionKey: 'Ekb',
+    isExclusive: true,
+    status: 'active',
+    order: 1,
+  },
 ];
 
 function load(): PartnerTerritory[] {
@@ -43,12 +83,16 @@ function save(data: PartnerTerritory[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
-export function getPartnerTerritories(brandId?: string): PartnerTerritory[] {
+export function getPartnerTerritories(_brandId?: string): PartnerTerritory[] {
   return load();
 }
 
 /** Группировка по региону (regionKey). */
-export function getPartnersByRegion(): { regionKey: string; region: string; partners: PartnerTerritory[] }[] {
+export function getPartnersByRegion(): {
+  regionKey: string;
+  region: string;
+  partners: PartnerTerritory[];
+}[] {
   const list = load();
   const byRegion = new Map<string, { region: string; partners: PartnerTerritory[] }>();
   list.forEach((p) => {
@@ -71,7 +115,6 @@ export interface TerritoryConflict {
   regionKey: string;
   region: string;
   partners: PartnerTerritory[];
-  /** Есть ли эксклюзив в регионе (тогда второй партнёр — потенциальный конфликт) */
   hasExclusive: boolean;
   message: string;
 }
@@ -89,7 +132,10 @@ export function getTerritoryConflicts(): TerritoryConflict[] {
         region,
         partners,
         hasExclusive: true,
-        message: `В регионе ${region} эксклюзив у ${exclusive[0].partnerName}; также торгуют: ${partners.filter((p) => !p.isExclusive).map((p) => p.partnerName).join(', ')}`,
+        message: `В регионе ${region} эксклюзив у ${exclusive[0].partnerName}; также торгуют: ${partners
+          .filter((p) => !p.isExclusive)
+          .map((p) => p.partnerName)
+          .join(', ')}`,
       });
     } else if (multiple) {
       conflicts.push({

@@ -20,9 +20,13 @@ export interface OrderRuleByBrand {
 
 /** Мок: правила по брендам. При API — с бэкенда по контракту партнёра. */
 const ORDER_RULES_BY_BRAND: OrderRuleByBrand[] = [
-  { brandId: 'syntha', brandName: 'Syntha', minOrderValue: 150_000, moqPerStyle: 6 },
-  { brandId: 'apc', brandName: 'A.P.C.', minOrderValue: 120_000, moqPerStyle: 6 },
-  { brandId: 'acne', brandName: 'Acne Studios', minOrderValue: 80_000, moqPerStyle: 4 },
+  { brandId: 'brand_syntha_lab', brandName: 'Syntha Lab', minOrderValue: 150_000, moqPerStyle: 6 },
+  {
+    brandId: 'brand_nordic_wool',
+    brandName: 'Nordic Wool',
+    minOrderValue: 120_000,
+    moqPerStyle: 6,
+  },
 ];
 
 export function getOrderRulesForBrand(brandName: string): OrderRuleByBrand | undefined {
@@ -71,7 +75,9 @@ export function runPreflightCheck(params: {
       id: 'mov',
       label: 'Минимальная сумма заказа (MOV)',
       status: ok ? 'ok' : orderTotalAmount > 0 ? 'warning' : 'error',
-      message: ok ? `Выполнено (≥ ${(mov / 1000).toFixed(0)}k ₽)` : `Минимум ${(mov / 1000).toFixed(0)}k ₽ по бренду`,
+      message: ok
+        ? `Выполнено (≥ ${(mov / 1000).toFixed(0)}k ₽)`
+        : `Минимум ${(mov / 1000).toFixed(0)}k ₽ по бренду`,
       requiredValue: `${(mov / 1000).toFixed(0)}k ₽`,
       currentValue: `${(orderTotalAmount / 1000).toFixed(0)}k ₽`,
     });
@@ -79,7 +85,9 @@ export function runPreflightCheck(params: {
 
   // MOQ по стилям
   const moqPerStyle = rules?.moqPerStyle ?? 6;
-  const violatedMoq = Object.entries(cartByProductId).find(([, qty]) => qty > 0 && qty < moqPerStyle);
+  const violatedMoq = Object.entries(cartByProductId).find(
+    ([, qty]) => qty > 0 && qty < moqPerStyle
+  );
   if (violatedMoq) {
     const [productId, qty] = violatedMoq;
     const required = getMoqForProduct(productId);
@@ -121,7 +129,9 @@ export function runPreflightCheck(params: {
       id: 'territory',
       label: 'Территория',
       status: allowed ? 'ok' : 'error',
-      message: allowed ? `Территория ${territory} разрешена` : `Для бренда не разрешена территория ${territory}`,
+      message: allowed
+        ? `Территория ${territory} разрешена`
+        : `Для бренда не разрешена территория ${territory}`,
       currentValue: territory,
     });
   }
@@ -150,7 +160,15 @@ export function getRealtimeLineBlock(params: {
   /** MOV по бренду */
   minOrderValue: number;
 }): RealtimeLineBlock {
-  const { brandName, territory, orderTotalWithLine, orderTotalByBrandWithLine, qtyForProduct, productId, minOrderValue } = params;
+  const {
+    brandName,
+    territory,
+    orderTotalWithLine,
+    orderTotalByBrandWithLine,
+    qtyForProduct,
+    productId,
+    minOrderValue,
+  } = params;
   const rules = getOrderRulesForBrand(brandName);
   const credit = getCreditForCurrentPartner();
   const reasons: string[] = [];
@@ -160,24 +178,34 @@ export function getRealtimeLineBlock(params: {
     reasons.push('Кредитный лимит исчерпан. Заказ недоступен.');
     types.push('credit');
   } else if (credit.wouldExceed(orderTotalWithLine)) {
-    reasons.push(`Превышен кредитный лимит. Доступно ${(credit.available / 1_000_000).toFixed(1)} млн ₽. Уменьшите количество или свяжитесь с брендом.`);
+    reasons.push(
+      `Превышен кредитный лимит. Доступно ${(credit.available / 1_000_000).toFixed(1)} млн ₽. Уменьшите количество или свяжитесь с брендом.`
+    );
     types.push('credit');
   }
 
   const mov = rules?.minOrderValue ?? minOrderValue;
   if (mov > 0 && orderTotalByBrandWithLine > 0 && orderTotalByBrandWithLine < mov) {
-    reasons.push(`Минимальная сумма заказа (MOV) по бренду: ${(mov / 1000).toFixed(0)}k ₽. Сейчас ${(orderTotalByBrandWithLine / 1000).toFixed(0)}k ₽.`);
+    reasons.push(
+      `Минимальная сумма заказа (MOV) по бренду: ${(mov / 1000).toFixed(0)}k ₽. Сейчас ${(orderTotalByBrandWithLine / 1000).toFixed(0)}k ₽.`
+    );
     types.push('mov');
   }
 
-  if (rules?.allowedTerritories?.length && territory && !rules.allowedTerritories.includes(territory)) {
+  if (
+    rules?.allowedTerritories?.length &&
+    territory &&
+    !rules.allowedTerritories.includes(territory)
+  ) {
     reasons.push(`Территория «${territory}» не разрешена для бренда ${brandName}.`);
     types.push('territory');
   }
 
   const moqRequired = getMoqForProduct(productId);
   if (qtyForProduct > 0 && qtyForProduct < moqRequired) {
-    reasons.push(`MOQ по стилю: ${moqRequired} ед. В строке ${qtyForProduct} ед. Добавьте ещё ${moqRequired - qtyForProduct} или уберите позицию.`);
+    reasons.push(
+      `MOQ по стилю: ${moqRequired} ед. В строке ${qtyForProduct} ед. Добавьте ещё ${moqRequired - qtyForProduct} или уберите позицию.`
+    );
     types.push('moq');
   }
 

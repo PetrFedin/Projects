@@ -15,6 +15,7 @@ import {
   inventoryGrainUnlockedPayloadSchema,
   inventorySnapshotCreatedPayloadSchema,
   inventoryCycleCountCompletedPayloadSchema,
+  inventoryShopStockFileIngestedPayloadSchema,
   articleReadyForProductionPayloadSchema,
   controlRiskAlertPayloadSchema,
   orderShipmentCreatedPayloadSchema,
@@ -303,6 +304,21 @@ export async function publishInventoryCycleCountCompleted(params: {
   });
 }
 
+export async function publishInventoryShopStockFileIngested(params: {
+  aggregateId: string;
+  version: number;
+  payload: unknown;
+}): Promise<void> {
+  return publishTyped(inventoryShopStockFileIngestedPayloadSchema, {
+    eventIdPrefix: 'evt-inv-stock-file',
+    aggregateId: params.aggregateId,
+    aggregateType: 'inventory',
+    version: params.version,
+    type: DomainEventTypes.inventory.shopStockFileIngested,
+    payload: params.payload,
+  });
+}
+
 export async function publishArticleReadyForProduction(params: {
   aggregateId: string;
   version: number;
@@ -449,7 +465,10 @@ export async function publishUrgentGlobalAnomalyDetected(params: {
 }): Promise<void> {
   const parsed = systemGlobalAnomalyDetectedPayloadSchema.safeParse(params.payload);
   if (!parsed.success) {
-    console.error('[DomainEventFactories] Invalid system.global_anomaly_detected payload', parsed.error.flatten());
+    console.error(
+      '[DomainEventFactories] Invalid system.global_anomaly_detected payload',
+      parsed.error.flatten()
+    );
     return;
   }
   return eventBus.publishUrgent(

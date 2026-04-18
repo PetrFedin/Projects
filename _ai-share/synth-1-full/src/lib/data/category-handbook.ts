@@ -52,7 +52,6 @@ export const GLOBAL_ATTRIBUTES: CategoryAttribute[] = [
   },
 ];
 
-
 export const CATEGORY_HANDBOOK: Audience[] = [
   {
     id: 'catalog',
@@ -106,9 +105,7 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-apparel-g3',
             name: 'Юбки',
-            children: [
-              { id: 'catalog-apparel-g3-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-apparel-g3-l0', name: '—' }],
           },
           {
             id: 'catalog-apparel-g4',
@@ -132,9 +129,7 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-apparel-g6',
             name: 'Джинсы',
-            children: [
-              { id: 'catalog-apparel-g6-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-apparel-g6-l0', name: '—' }],
           },
           {
             id: 'catalog-apparel-g7',
@@ -161,23 +156,17 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-apparel-g9',
             name: 'Нижнее бельё',
-            children: [
-              { id: 'catalog-apparel-g9-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-apparel-g9-l0', name: '—' }],
           },
           {
             id: 'catalog-apparel-g10',
             name: 'Спортивная одежда',
-            children: [
-              { id: 'catalog-apparel-g10-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-apparel-g10-l0', name: '—' }],
           },
           {
             id: 'catalog-apparel-g11',
             name: 'Пляжная мода',
-            children: [
-              { id: 'catalog-apparel-g11-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-apparel-g11-l0', name: '—' }],
           },
           {
             id: 'catalog-apparel-g12',
@@ -197,9 +186,7 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-shoes-g0',
             name: 'Кроссовки',
-            children: [
-              { id: 'catalog-shoes-g0-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-shoes-g0-l0', name: '—' }],
           },
           {
             id: 'catalog-shoes-g1',
@@ -212,9 +199,7 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-shoes-g2',
             name: 'Ботинки',
-            children: [
-              { id: 'catalog-shoes-g2-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-shoes-g2-l0', name: '—' }],
           },
           {
             id: 'catalog-shoes-g3',
@@ -228,9 +213,7 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-shoes-g4',
             name: 'Сапоги',
-            children: [
-              { id: 'catalog-shoes-g4-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-shoes-g4-l0', name: '—' }],
           },
           {
             id: 'catalog-shoes-g5',
@@ -252,44 +235,32 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-shoes-g7',
             name: 'Слипоны',
-            children: [
-              { id: 'catalog-shoes-g7-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-shoes-g7-l0', name: '—' }],
           },
           {
             id: 'catalog-shoes-g8',
             name: 'Эспадрильи',
-            children: [
-              { id: 'catalog-shoes-g8-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-shoes-g8-l0', name: '—' }],
           },
           {
             id: 'catalog-shoes-g9',
             name: 'Мюли',
-            children: [
-              { id: 'catalog-shoes-g9-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-shoes-g9-l0', name: '—' }],
           },
           {
             id: 'catalog-shoes-g10',
             name: 'Сабо',
-            children: [
-              { id: 'catalog-shoes-g10-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-shoes-g10-l0', name: '—' }],
           },
           {
             id: 'catalog-shoes-g11',
             name: 'Домашняя обувь',
-            children: [
-              { id: 'catalog-shoes-g11-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-shoes-g11-l0', name: '—' }],
           },
           {
             id: 'catalog-shoes-g12',
             name: 'Спортивная',
-            children: [
-              { id: 'catalog-shoes-g12-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-shoes-g12-l0', name: '—' }],
           },
         ],
       },
@@ -312,16 +283,12 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-bags-g1',
             name: 'Вечерние',
-            children: [
-              { id: 'catalog-bags-g1-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-bags-g1-l0', name: '—' }],
           },
           {
             id: 'catalog-bags-g2',
             name: 'Чемоданы',
-            children: [
-              { id: 'catalog-bags-g2-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-bags-g2-l0', name: '—' }],
           },
           {
             id: 'catalog-bags-g3',
@@ -342,9 +309,7 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-bags-g5',
             name: 'Косметички',
-            children: [
-              { id: 'catalog-bags-g5-l0', name: 'Несессеры' },
-            ],
+            children: [{ id: 'catalog-bags-g5-l0', name: 'Несессеры' }],
           },
         ],
       },
@@ -355,9 +320,7 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-accessories-g0',
             name: 'Очки',
-            children: [
-              { id: 'catalog-accessories-g0-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-accessories-g0-l0', name: '—' }],
           },
           {
             id: 'catalog-accessories-g1',
@@ -378,9 +341,7 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-accessories-g3',
             name: 'Шарфы',
-            children: [
-              { id: 'catalog-accessories-g3-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-accessories-g3-l0', name: '—' }],
           },
           {
             id: 'catalog-accessories-g4',
@@ -393,37 +354,27 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-accessories-g5',
             name: 'Платки',
-            children: [
-              { id: 'catalog-accessories-g5-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-accessories-g5-l0', name: '—' }],
           },
           {
             id: 'catalog-accessories-g6',
             name: 'Украшения',
-            children: [
-              { id: 'catalog-accessories-g6-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-accessories-g6-l0', name: '—' }],
           },
           {
             id: 'catalog-accessories-g7',
             name: 'Кожгалантерея мелкая',
-            children: [
-              { id: 'catalog-accessories-g7-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-accessories-g7-l0', name: '—' }],
           },
           {
             id: 'catalog-accessories-g8',
             name: 'Зонты',
-            children: [
-              { id: 'catalog-accessories-g8-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-accessories-g8-l0', name: '—' }],
           },
           {
             id: 'catalog-accessories-g9',
             name: 'Тех-аксессуары',
-            children: [
-              { id: 'catalog-accessories-g9-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-accessories-g9-l0', name: '—' }],
           },
           {
             id: 'catalog-accessories-g10',
@@ -443,37 +394,27 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-headwear-g0',
             name: 'Кепки',
-            children: [
-              { id: 'catalog-headwear-g0-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-headwear-g0-l0', name: '—' }],
           },
           {
             id: 'catalog-headwear-g1',
             name: 'Панамы',
-            children: [
-              { id: 'catalog-headwear-g1-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-headwear-g1-l0', name: '—' }],
           },
           {
             id: 'catalog-headwear-g2',
             name: 'Шляпы',
-            children: [
-              { id: 'catalog-headwear-g2-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-headwear-g2-l0', name: '—' }],
           },
           {
             id: 'catalog-headwear-g3',
             name: 'Береты',
-            children: [
-              { id: 'catalog-headwear-g3-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-headwear-g3-l0', name: '—' }],
           },
           {
             id: 'catalog-headwear-g4',
             name: 'Шапки',
-            children: [
-              { id: 'catalog-headwear-g4-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-headwear-g4-l0', name: '—' }],
           },
         ],
       },
@@ -484,37 +425,27 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-hosiery-g0',
             name: 'Носки',
-            children: [
-              { id: 'catalog-hosiery-g0-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-hosiery-g0-l0', name: '—' }],
           },
           {
             id: 'catalog-hosiery-g1',
             name: 'Колготки',
-            children: [
-              { id: 'catalog-hosiery-g1-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-hosiery-g1-l0', name: '—' }],
           },
           {
             id: 'catalog-hosiery-g2',
             name: 'Чулки',
-            children: [
-              { id: 'catalog-hosiery-g2-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-hosiery-g2-l0', name: '—' }],
           },
           {
             id: 'catalog-hosiery-g3',
             name: 'Гольфы',
-            children: [
-              { id: 'catalog-hosiery-g3-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-hosiery-g3-l0', name: '—' }],
           },
           {
             id: 'catalog-hosiery-g4',
             name: 'Гетры',
-            children: [
-              { id: 'catalog-hosiery-g4-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-hosiery-g4-l0', name: '—' }],
           },
         ],
       },
@@ -525,23 +456,17 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-beauty-g0',
             name: 'Парфюмерия',
-            children: [
-              { id: 'catalog-beauty-g0-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-beauty-g0-l0', name: '—' }],
           },
           {
             id: 'catalog-beauty-g1',
             name: 'Косметика',
-            children: [
-              { id: 'catalog-beauty-g1-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-beauty-g1-l0', name: '—' }],
           },
           {
             id: 'catalog-beauty-g2',
             name: 'Уход',
-            children: [
-              { id: 'catalog-beauty-g2-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-beauty-g2-l0', name: '—' }],
           },
         ],
       },
@@ -564,16 +489,12 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-home-g1',
             name: 'Декор',
-            children: [
-              { id: 'catalog-home-g1-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-home-g1-l0', name: '—' }],
           },
           {
             id: 'catalog-home-g2',
             name: 'Аксессуары',
-            children: [
-              { id: 'catalog-home-g2-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-home-g2-l0', name: '—' }],
           },
           {
             id: 'catalog-home-g3',
@@ -588,9 +509,7 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-home-g4',
             name: 'Lifestyle-гаджеты',
-            children: [
-              { id: 'catalog-home-g4-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-home-g4-l0', name: '—' }],
           },
         ],
       },
@@ -629,9 +548,7 @@ export const CATEGORY_HANDBOOK: Audience[] = [
           {
             id: 'catalog-toys-g0',
             name: '—',
-            children: [
-              { id: 'catalog-toys-g0-l0', name: '—' },
-            ],
+            children: [{ id: 'catalog-toys-g0-l0', name: '—' }],
           },
         ],
       },

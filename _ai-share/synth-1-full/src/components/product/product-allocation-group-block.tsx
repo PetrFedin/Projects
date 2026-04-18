@@ -6,46 +6,59 @@ import { Badge } from '@/components/ui/badge';
 import { Layers, Store, Target, ArrowRight } from 'lucide-react';
 import { getAllocationGroups } from '@/lib/fashion/allocation-groups';
 import type { Product } from '@/lib/types';
+import { cn } from '@/lib/utils';
 
 export function ProductAllocationGroupBlock({ product }: { product: Product }) {
   const groups = getAllocationGroups();
 
   return (
-    <Card className="p-4 border-2 border-slate-100 bg-slate-50/10 shadow-sm my-4 relative overflow-hidden">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2 text-slate-600">
-          <Layers className="w-4 h-4" />
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">Store Clustering & Allocation</h4>
+    <Card className="border-border-subtle bg-bg-surface2/10 relative my-4 overflow-hidden border-2 p-4 shadow-sm">
+      <div className="mb-4 flex items-center justify-between">
+        <div className="text-text-secondary flex items-center gap-2">
+          <Layers className="h-4 w-4" />
+          <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+            Store Clustering & Allocation
+          </h4>
         </div>
-        <div className="text-[8px] font-black text-slate-400 uppercase">B2B Strategy</div>
+        <div className="text-text-muted text-[8px] font-black uppercase">B2B Strategy</div>
       </div>
 
       <div className="space-y-3">
-         {groups.map((group) => (
-           <div key={group.groupId} className="p-3 bg-white rounded-xl border border-slate-100 shadow-sm flex items-center justify-between gap-4">
-              <div className="flex-1 min-w-0">
-                 <div className="text-[10px] font-black text-slate-800 mb-0.5">{group.groupId}</div>
-                 <div className="flex items-center gap-2 text-[8px] font-bold text-slate-400 uppercase">
-                    <Store className="w-2.5 h-2.5" /> {group.storeCount} Stores
-                 </div>
+        {groups.map((group) => (
+          <div
+            key={group.groupId}
+            className="border-border-subtle flex items-center justify-between gap-4 rounded-xl border bg-white p-3 shadow-sm"
+          >
+            <div className="min-w-0 flex-1">
+              <div className="text-text-primary mb-0.5 text-[10px] font-black">{group.groupId}</div>
+              <div className="text-text-muted flex items-center gap-2 text-[8px] font-bold uppercase">
+                <Store className="h-2.5 w-2.5" /> {group.storeCount} Stores
               </div>
-              
-              <div className="text-right">
-                 <Badge className={
-                   group.priority === 'high' ? 'bg-indigo-100 text-indigo-700' :
-                   group.priority === 'medium' ? 'bg-slate-100 text-slate-600' :
-                   'bg-slate-50 text-slate-400'
-                 } className="border-none text-[8px] h-4 font-black uppercase">
-                   {group.priority} Priority
-                 </Badge>
-                 <div className="text-[9px] font-black text-slate-700 mt-1">Min: {group.minAssortmentWidth} SKU</div>
+            </div>
+
+            <div className="text-right">
+              <Badge
+                className={cn(
+                  group.priority === 'high'
+                    ? 'bg-accent-primary/15 text-accent-primary'
+                    : group.priority === 'medium'
+                      ? 'bg-bg-surface2 text-text-secondary'
+                      : 'bg-bg-surface2 text-text-muted',
+                  'h-4 border-none text-[8px] font-black uppercase'
+                )}
+              >
+                {group.priority} Priority
+              </Badge>
+              <div className="text-text-primary mt-1 text-[9px] font-black">
+                Min: {group.minAssortmentWidth} SKU
               </div>
-           </div>
-         ))}
+            </div>
+          </div>
+        ))}
       </div>
 
-      <button className="w-full mt-4 h-9 bg-indigo-600 text-white rounded-xl text-[9px] font-black uppercase flex items-center justify-center gap-2 shadow-lg shadow-indigo-100 transition-all hover:bg-indigo-700">
-         Configure Cluster Mix <ArrowRight className="w-3 h-3" />
+      <button className="bg-accent-primary shadow-accent-primary/10 hover:bg-accent-primary mt-4 flex h-9 w-full items-center justify-center gap-2 rounded-xl text-[9px] font-black uppercase text-white shadow-lg transition-all">
+        Configure Cluster Mix <ArrowRight className="h-3 w-3" />
       </button>
     </Card>
   );

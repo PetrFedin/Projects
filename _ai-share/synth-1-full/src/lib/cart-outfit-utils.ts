@@ -43,7 +43,10 @@ export function sameCartLine(a: CartItem, b: CartItem): boolean {
   return cartLineKey(a) === cartLineKey(b);
 }
 
-export function missingOutfitLineRefs(outfit: SavedCartOutfit, cart: CartItem[]): CartOutfitLineRef[] {
+export function missingOutfitLineRefs(
+  outfit: SavedCartOutfit,
+  cart: CartItem[]
+): CartOutfitLineRef[] {
   if (!outfit?.lineRefs?.length) return [];
   return outfit.lineRefs.filter((ref) => !cart.some((item) => lineRefMatchesCartItem(ref, item)));
 }
@@ -71,14 +74,21 @@ export function lineRefMatchesCartItem(ref: CartOutfitLineRef, item: CartItem): 
   return normColor(ref.color) === normColor(cartItemColor(item));
 }
 
-export function cartItemsMatchingOutfit(cart: CartItem[], outfit: SavedCartOutfit | null | undefined): CartItem[] {
+export function cartItemsMatchingOutfit(
+  cart: CartItem[],
+  outfit: SavedCartOutfit | null | undefined
+): CartItem[] {
   if (!outfit?.lineRefs?.length) return [];
   return cart.filter((item) => outfit.lineRefs.some((ref) => lineRefMatchesCartItem(ref, item)));
 }
 
-export function sortCartByActiveOutfit(cart: CartItem[], outfit: SavedCartOutfit | null | undefined): CartItem[] {
+export function sortCartByActiveOutfit(
+  cart: CartItem[],
+  outfit: SavedCartOutfit | null | undefined
+): CartItem[] {
   if (!outfit?.lineRefs?.length) return [...cart];
-  const match = (item: CartItem) => outfit.lineRefs.some((ref) => lineRefMatchesCartItem(ref, item));
+  const match = (item: CartItem) =>
+    outfit.lineRefs.some((ref) => lineRefMatchesCartItem(ref, item));
   const yes: CartItem[] = [];
   const no: CartItem[] = [];
   for (const item of cart) {

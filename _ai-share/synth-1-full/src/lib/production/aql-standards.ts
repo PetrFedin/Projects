@@ -76,10 +76,11 @@ const AQL_TABLE_II: Record<string, Record<AqlLevel, AqlPlan>> = {
 };
 
 export function getAqlPlan(batchSize: number, level: AqlLevel = '2.5'): AqlPlan {
-  const rangeKey = Object.keys(AQL_TABLE_II).find(key => {
-    const [min, max] = key.split('-').map(Number);
-    return batchSize >= min && (max ? batchSize <= max : true);
-  }) || '2-8';
+  const rangeKey =
+    Object.keys(AQL_TABLE_II).find((key) => {
+      const [min, max] = key.split('-').map(Number);
+      return batchSize >= min && (max ? batchSize <= max : true);
+    }) || '2-8';
 
   return AQL_TABLE_II[rangeKey][level];
 }

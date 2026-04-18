@@ -3,38 +3,84 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
-  Truck, Search, PlusCircle, MoreHorizontal, Store, MapPin,
-  TrendingUp, ChevronRight, Globe, DollarSign
+  Truck,
+  Search,
+  PlusCircle,
+  MoreHorizontal,
+  Store,
+  MapPin,
+  TrendingUp,
+  ChevronRight,
+  Globe,
+  DollarSign,
 } from 'lucide-react';
+import { RegistryPageShell } from '@/components/design-system';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getDistributorLinks } from '@/lib/data/entity-links';
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { fmtMoney } from '@/lib/format';
+import { ROUTES } from '@/lib/routes';
+import { B2B_ORDERS_REGISTRY_LABEL } from '@/lib/ui/b2b-registry-label';
 
 const mockDistributors = [
-  { id: 'D01', name: 'Hub-Central Distribution', region: 'ЦФО, СЗФО', revenue: 1850000, orders: 12, retailers: 24, status: 'active' },
-  { id: 'D02', name: 'Siberian Fashion Hub', region: 'СФО, УФО', revenue: 920000, orders: 6, retailers: 8, status: 'active' },
-  { id: 'D03', name: 'Caucasus Premium', region: 'СКФО, ЮФО', revenue: 450000, orders: 3, retailers: 5, status: 'active' },
+  {
+    id: 'D01',
+    name: 'Hub-Central Distribution',
+    region: 'ЦФО, СЗФО',
+    revenue: 1850000,
+    orders: 12,
+    retailers: 24,
+    status: 'active',
+  },
+  {
+    id: 'D02',
+    name: 'Siberian Fashion Hub',
+    region: 'СФО, УФО',
+    revenue: 920000,
+    orders: 6,
+    retailers: 8,
+    status: 'active',
+  },
+  {
+    id: 'D03',
+    name: 'Caucasus Premium',
+    region: 'СКФО, ЮФО',
+    revenue: 450000,
+    orders: 3,
+    retailers: 5,
+    status: 'active',
+  },
 ];
 
 export default function DistributorsPage() {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filtered = mockDistributors.filter(d =>
-    d.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    d.region.toLowerCase().includes(searchQuery.toLowerCase())
+  const filtered = mockDistributors.filter(
+    (d) =>
+      d.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      d.region.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <RegistryPageShell className="space-y-6">
       <SectionInfoCard
         title="Дистрибьюторы"
         description="Региональные дистрибьюторы: территория, условия, выручка. Связь с B2B заказами, Analytics BI (distributorsRevenue) и Retailers."
@@ -43,58 +89,70 @@ export default function DistributorsPage() {
         iconColor="text-blue-600"
         badges={
           <>
-            <Badge variant="outline" className="text-[9px]">B2B</Badge>
-            <Badge variant="outline" className="text-[9px]">Analytics</Badge>
-            <Button variant="outline" size="sm" className="text-[9px] h-7 ml-1" asChild>
-              <Link href="/brand/b2b-orders"><Store className="h-3 w-3 mr-1" /> B2B</Link>
+            <Badge variant="outline" className="text-[9px]">
+              B2B
+            </Badge>
+            <Badge variant="outline" className="text-[9px]">
+              Analytics
+            </Badge>
+            <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.b2bOrders}>
+                <Store className="mr-1 h-3 w-3" /> {B2B_ORDERS_REGISTRY_LABEL}
+              </Link>
             </Button>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild>
-              <Link href="/brand/analytics-bi"><TrendingUp className="h-3 w-3 mr-1" /> Analytics BI</Link>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.analyticsBi}>
+                <TrendingUp className="mr-1 h-3 w-3" /> Analytics BI
+              </Link>
             </Button>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild>
-              <Link href="/brand/retailers"><Globe className="h-3 w-3 mr-1" /> Retailers</Link>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.retailers}>
+                <Globe className="mr-1 h-3 w-3" /> Retailers
+              </Link>
             </Button>
           </>
         }
       />
 
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h1 className="text-2xl font-bold uppercase">Distributors Hub</h1>
-          <p className="text-sm text-slate-500">Дистрибьюторы: территория, выручка, ритейлеры в сети</p>
+          <p className="text-text-secondary text-sm">
+            Дистрибьюторы: территория, выручка, ритейлеры в сети
+          </p>
         </div>
         <Button asChild>
-          <Link href="/brand/distributors?action=add">
-            <PlusCircle className="h-4 w-4 mr-2" /> Добавить дистрибьютора
+          <Link href={`${ROUTES.brand.distributors}?action=add`}>
+            <PlusCircle className="mr-2 h-4 w-4" /> Добавить дистрибьютора
           </Link>
         </Button>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Card className="p-4">
-          <p className="text-[10px] font-bold text-slate-400 uppercase">Дистрибьюторов</p>
-          <p className="text-xl font-black text-slate-900">{mockDistributors.length}</p>
+          <p className="text-text-muted text-[10px] font-bold uppercase">Дистрибьюторов</p>
+          <p className="text-text-primary text-xl font-black">{mockDistributors.length}</p>
         </Card>
         <Card className="p-4">
-          <p className="text-[10px] font-bold text-slate-400 uppercase">Выручка (всего)</p>
-          <p className="text-xl font-black text-slate-900">{fmtMoney(3220000)}</p>
+          <p className="text-text-muted text-[10px] font-bold uppercase">Выручка (всего)</p>
+          <p className="text-text-primary text-xl font-black">{fmtMoney(3220000)}</p>
         </Card>
         <Card className="p-4">
-          <p className="text-[10px] font-bold text-slate-400 uppercase">Ритейлеров в сети</p>
-          <p className="text-xl font-black text-slate-900">37</p>
+          <p className="text-text-muted text-[10px] font-bold uppercase">Ритейлеров в сети</p>
+          <p className="text-text-primary text-xl font-black">37</p>
         </Card>
         <Card className="p-4">
-          <p className="text-[10px] font-bold text-slate-400 uppercase">Заказов</p>
-          <p className="text-xl font-black text-slate-900">21</p>
+          <p className="text-text-muted text-[10px] font-bold uppercase">Заказов</p>
+          <p className="text-text-primary text-xl font-black">21</p>
         </Card>
       </div>
 
       <div className="flex justify-end">
         <div className="relative w-full max-w-xs">
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <Search className="text-text-muted absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2" />
           <Input
             placeholder="Поиск по названию или региону..."
-            className="pl-8 h-9"
+            className="h-9 pl-8"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -122,18 +180,23 @@ export default function DistributorsPage() {
               {filtered.map((d) => (
                 <TableRow key={d.id} className="group">
                   <TableCell className="font-medium">
-                    <Link href={`/brand/distributors/${d.id}`} className="hover:text-indigo-600 flex items-center gap-2">
+                    <Link
+                      href={`/brand/distributors/${d.id}`}
+                      className="hover:text-accent-primary flex items-center gap-2"
+                    >
                       {d.name}
-                      <ChevronRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <ChevronRight className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
                     </Link>
                   </TableCell>
                   <TableCell>
-                    <span className="flex items-center gap-1 text-slate-600">
-                      <MapPin className="h-3.5 w-3.5 text-slate-400" />
+                    <span className="text-text-secondary flex items-center gap-1">
+                      <MapPin className="text-text-muted h-3.5 w-3.5" />
                       {d.region}
                     </span>
                   </TableCell>
-                  <TableCell className="text-right font-bold tabular-nums">{fmtMoney(d.revenue)}</TableCell>
+                  <TableCell className="text-right font-bold tabular-nums">
+                    {fmtMoney(d.revenue)}
+                  </TableCell>
                   <TableCell className="text-right">{d.orders}</TableCell>
                   <TableCell className="text-right">{d.retailers}</TableCell>
                   <TableCell>
@@ -159,10 +222,7 @@ export default function DistributorsPage() {
         </CardContent>
       </Card>
 
-      <RelatedModulesBlock
-        title="Связанные модули"
-        links={getDistributorLinks()}
-      />
-    </div>
+      <RelatedModulesBlock title="Связанные модули" links={getDistributorLinks()} />
+    </RegistryPageShell>
   );
 }

@@ -4,9 +4,11 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { Zap, RefreshCcw, Calendar, ArrowRight, Package, History, Layers } from 'lucide-react';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { RegistryPageShell } from '@/components/design-system';
 
 /** NuOrder-style: один экран выбора режима заказа (Buy Now / Reorder / Pre-order). */
 const modes: Array<{
@@ -21,7 +23,8 @@ const modes: Array<{
   {
     id: 'buy_now',
     label: 'Buy Now',
-    description: 'Мгновенная отгрузка со склада. Выберите товары и оформите заказ — отгрузка в текущем цикле.',
+    description:
+      'Мгновенная отгрузка со склада. Выберите товары и оформите заказ — отгрузка в текущем цикле.',
     icon: Zap,
     href: `${ROUTES.shop.b2bMatrix}?mode=buy_now`,
     iconBg: 'bg-emerald-100',
@@ -30,11 +33,12 @@ const modes: Array<{
   {
     id: 'reorder',
     label: 'Reorder',
-    description: 'Повтор заказа из прошлого сезона. Скопируйте прошлый заказ и измените позиции или количество.',
+    description:
+      'Повтор заказа из прошлого сезона. Скопируйте прошлый заказ и измените позиции или количество.',
     icon: RefreshCcw,
     href: ROUTES.shop.b2bReorder,
-    iconBg: 'bg-indigo-100',
-    iconColor: 'text-indigo-600',
+    iconBg: 'bg-accent-primary/15',
+    iconColor: 'text-accent-primary',
   },
   {
     id: 'pre_order',
@@ -49,20 +53,22 @@ const modes: Array<{
 
 export default function B2BOrderModePage() {
   return (
-    <div className="container mx-auto px-4 py-6 max-w-3xl pb-24">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold uppercase tracking-tight">Режим заказа</h1>
-        <p className="text-slate-500 text-sm mt-1">NuOrder-style: выберите тип заказа — один поток для каталога и матрицы.</p>
-      </div>
+    <RegistryPageShell className="max-w-3xl space-y-6">
+      <ShopB2bContentHeader lead="NuOrder-style: выберите тип заказа — один поток для каталога и матрицы." />
       <div className="grid gap-4">
         {modes.map((m) => {
           const Icon = m.icon;
           return (
-            <Card key={m.id} className="border-slate-200 hover:border-slate-300 transition-colors">
+            <Card
+              key={m.id}
+              className="border-border-default hover:border-border-default transition-colors"
+            >
               <CardHeader className="pb-2">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <div className={`h-12 w-12 rounded-xl ${m.iconBg} flex items-center justify-center`}>
+                    <div
+                      className={`h-12 w-12 rounded-xl ${m.iconBg} flex items-center justify-center`}
+                    >
                       <Icon className={`h-6 w-6 ${m.iconColor}`} />
                     </div>
                     <div>
@@ -71,7 +77,9 @@ export default function B2BOrderModePage() {
                     </div>
                   </div>
                   <Button asChild>
-                    <Link href={m.href}>К заказу <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                    <Link href={m.href}>
+                      К заказу <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
                   </Button>
                 </div>
               </CardHeader>
@@ -80,11 +88,27 @@ export default function B2BOrderModePage() {
         })}
       </div>
       <div className="mt-6 flex flex-wrap gap-2">
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bCatalog}><Package className="h-3 w-3 mr-1" /> Каталог</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bAssortmentPlanning}><Layers className="h-3 w-3 mr-1" /> Планирование ассортимента</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bOrders}><History className="h-3 w-3 mr-1" /> Мои заказы</Link></Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bCatalog}>
+            <Package className="mr-1 h-3 w-3" /> Каталог
+          </Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bAssortmentPlanning}>
+            <Layers className="mr-1 h-3 w-3" /> Планирование ассортимента
+          </Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bOrders}>
+            <History className="mr-1 h-3 w-3" /> Мои заказы
+          </Link>
+        </Button>
       </div>
-      <RelatedModulesBlock links={getShopB2BHubLinks()} title="Матрица, EZ Order, аналитика, выставки" className="mt-6" />
-    </div>
+      <RelatedModulesBlock
+        links={getShopB2BHubLinks()}
+        title="Матрица, EZ Order, аналитика, выставки"
+        className="mt-6"
+      />
+    </RegistryPageShell>
   );
 }

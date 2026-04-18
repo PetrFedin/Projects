@@ -6,9 +6,9 @@ import { parseComposition } from './parse-composition';
 export function getMaterialOrigins(product: Product): MaterialOriginV1[] {
   const comp = parseComposition(product);
   const a = product.attributes ?? {};
-  
+
   // Демо-логика: сопоставление состава и стран из атрибутов PIM
-  return comp.map(c => {
+  return comp.map((c) => {
     const mat = c.material.toLowerCase();
     let country = 'Unknown';
     let certification = undefined;
@@ -29,7 +29,7 @@ export function getMaterialOrigins(product: Product): MaterialOriginV1[] {
 
     return {
       fiber: c.material,
-      percentage: c.percentage,
+      percentage: c.percentage ?? 0,
       country,
       certification,
     };

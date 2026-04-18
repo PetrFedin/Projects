@@ -12,7 +12,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   Link as LinkIcon,
@@ -22,7 +22,7 @@ import {
   Settings,
   Upload,
   Download,
-  FileText
+  FileText,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -39,9 +39,29 @@ interface PlmConnection {
 }
 
 const DEFAULT_CONNECTIONS: PlmConnection[] = [
-  { type: 'gerber', name: 'Gerber Accumark', connected: false, bomImport: true, gradationImport: true },
-  { type: 'clo3d', name: 'CLO3D', connected: true, lastSync: '2026-03-09 14:30', collections: 'SS26, DROP-UZ', bomImport: true, gradationImport: true },
-  { type: 'lectra', name: 'Lectra Modaris', connected: false, bomImport: true, gradationImport: true }
+  {
+    type: 'gerber',
+    name: 'Gerber Accumark',
+    connected: false,
+    bomImport: true,
+    gradationImport: true,
+  },
+  {
+    type: 'clo3d',
+    name: 'CLO3D',
+    connected: true,
+    lastSync: '2026-03-09 14:30',
+    collections: 'SS26, DROP-UZ',
+    bomImport: true,
+    gradationImport: true,
+  },
+  {
+    type: 'lectra',
+    name: 'Lectra Modaris',
+    connected: false,
+    bomImport: true,
+    gradationImport: true,
+  },
 ];
 
 export interface PlmIntegrationsPanelProps {
@@ -55,11 +75,15 @@ export function PlmIntegrationsPanel({
   trigger,
   collectionId,
   onConnect,
-  onImportBom
+  onImportBom,
 }: PlmIntegrationsPanelProps) {
   const [connections, setConnections] = useState<PlmConnection[]>(DEFAULT_CONNECTIONS);
   const [selectedType, setSelectedType] = useState<PlmType | null>(null);
-  const [config, setConfig] = useState<Record<string, string>>({ apiUrl: '', apiKey: '', workspace: '' });
+  const [config, setConfig] = useState<Record<string, string>>({
+    apiUrl: '',
+    apiKey: '',
+    workspace: '',
+  });
 
   const handleConnect = (type: PlmType) => {
     setSelectedType(type);
@@ -69,7 +93,13 @@ export function PlmIntegrationsPanel({
     if (!selectedType) return;
     setConnections((prev) =>
       prev.map((c) =>
-        c.type === selectedType ? { ...c, connected: true, lastSync: new Date().toISOString().slice(0, 16).replace('T', ' ') } : c
+        c.type === selectedType
+          ? {
+              ...c,
+              connected: true,
+              lastSync: new Date().toISOString().slice(0, 16).replace('T', ' '),
+            }
+          : c
       )
     );
     onConnect?.(selectedType, config);
@@ -79,7 +109,9 @@ export function PlmIntegrationsPanel({
   const handleSync = (type: PlmType) => {
     setConnections((prev) =>
       prev.map((c) =>
-        c.type === type ? { ...c, lastSync: new Date().toISOString().slice(0, 16).replace('T', ' ') } : c
+        c.type === type
+          ? { ...c, lastSync: new Date().toISOString().slice(0, 16).replace('T', ' ') }
+          : c
       )
     );
   };
@@ -88,62 +120,73 @@ export function PlmIntegrationsPanel({
     <Dialog>
       <DialogTrigger asChild>
         {trigger ?? (
-          <Button variant="ghost" size="sm" className="w-full h-7 text-[9px] font-bold uppercase gap-1">
-            <LinkIcon className="w-3.5 h-3.5" /> PLM: Gerber, CLO3D, Lectra
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 w-full gap-1 text-[9px] font-bold uppercase"
+          >
+            <LinkIcon className="h-3.5 w-3.5" /> PLM: Gerber, CLO3D, Lectra
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] border-none rounded-2xl shadow-2xl p-0 overflow-hidden bg-white">
-        <DialogHeader className="p-6 bg-indigo-600 text-white">
+      <DialogContent className="overflow-hidden rounded-2xl border-none bg-white p-0 shadow-2xl sm:max-w-[600px]">
+        <DialogHeader className="bg-accent-primary p-6 text-white">
           <DialogTitle className="text-lg font-black uppercase">Интеграции PLM</DialogTitle>
-          <DialogDescription className="text-[10px] text-white/80 uppercase">
+          <DialogDescription className="text-[10px] uppercase text-white/80">
             Подключение Gerber, CLO3D, Lectra — импорт BOM, градаций, синхронизация изменений
           </DialogDescription>
         </DialogHeader>
-        <div className="p-6 space-y-6">
+        <div className="space-y-6 p-6">
           {connections.map((conn) => (
-            <Card key={conn.type} className="border border-slate-100 shadow-sm rounded-xl overflow-hidden">
+            <Card
+              key={conn.type}
+              className="border-border-subtle overflow-hidden rounded-xl border shadow-sm"
+            >
               <CardHeader className="p-4 pb-2">
-                <div className="flex justify-between items-start">
+                <div className="flex items-start justify-between">
                   <div>
                     <CardTitle className="text-[11px] font-black uppercase">{conn.name}</CardTitle>
-                    <CardDescription className="text-[9px] mt-0.5">
+                    <CardDescription className="mt-0.5 text-[9px]">
                       BOM, градации, синхронизация изменений с выкройками
                     </CardDescription>
                   </div>
                   <Badge
                     className={cn(
                       'text-[8px] font-black uppercase',
-                      conn.connected ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-500'
+                      conn.connected
+                        ? 'bg-emerald-100 text-emerald-600'
+                        : 'bg-bg-surface2 text-text-secondary'
                     )}
                   >
                     {conn.connected ? 'Подключено' : 'Не подключено'}
                   </Badge>
                 </div>
               </CardHeader>
-              <CardContent className="p-4 pt-0 space-y-2">
+              <CardContent className="space-y-2 p-4 pt-0">
                 {conn.connected && conn.lastSync && (
-                  <p className="text-[9px] text-slate-500 font-bold uppercase">Последняя синхронизация: {conn.lastSync}</p>
+                  <p className="text-text-secondary text-[9px] font-bold uppercase">
+                    Последняя синхронизация: {conn.lastSync}
+                  </p>
                 )}
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex flex-wrap gap-2">
                   {conn.connected ? (
                     <>
                       <Button
                         variant="outline"
                         size="sm"
-                        className="h-8 text-[9px] font-bold uppercase gap-1"
+                        className="h-8 gap-1 text-[9px] font-bold uppercase"
                         onClick={() => handleSync(conn.type)}
                       >
-                        <RefreshCw className="w-3.5 h-3.5" /> Синхронизация
+                        <RefreshCw className="h-3.5 w-3.5" /> Синхронизация
                       </Button>
                       {collectionId && (
                         <Button
                           variant="outline"
                           size="sm"
-                          className="h-8 text-[9px] font-bold uppercase gap-1"
+                          className="h-8 gap-1 text-[9px] font-bold uppercase"
                           onClick={() => onImportBom?.(conn.type, collectionId)}
                         >
-                          <Upload className="w-3.5 h-3.5" /> Импорт BOM
+                          <Upload className="h-3.5 w-3.5" /> Импорт BOM
                         </Button>
                       )}
                     </>
@@ -151,10 +194,10 @@ export function PlmIntegrationsPanel({
                     <Button
                       variant="default"
                       size="sm"
-                      className="h-8 text-[9px] font-bold uppercase gap-1 bg-indigo-600 hover:bg-indigo-700"
+                      className="bg-accent-primary hover:bg-accent-primary h-8 gap-1 text-[9px] font-bold uppercase"
                       onClick={() => handleConnect(conn.type)}
                     >
-                      <LinkIcon className="w-3.5 h-3.5" /> Подключить
+                      <LinkIcon className="h-3.5 w-3.5" /> Подключить
                     </Button>
                   )}
                 </div>
@@ -163,19 +206,21 @@ export function PlmIntegrationsPanel({
           ))}
 
           {selectedType && (
-            <Card className="border-2 border-indigo-200 shadow-sm rounded-xl overflow-hidden bg-indigo-50/30">
+            <Card className="border-accent-primary/30 bg-accent-primary/10 overflow-hidden rounded-xl border-2 shadow-sm">
               <CardHeader className="p-4">
-                <CardTitle className="text-[11px] font-black uppercase">Настройка {DEFAULT_CONNECTIONS.find((c) => c.type === selectedType)?.name}</CardTitle>
+                <CardTitle className="text-[11px] font-black uppercase">
+                  Настройка {DEFAULT_CONNECTIONS.find((c) => c.type === selectedType)?.name}
+                </CardTitle>
                 <CardDescription className="text-[9px]">API URL, ключ, workspace</CardDescription>
               </CardHeader>
-              <CardContent className="p-4 space-y-3">
+              <CardContent className="space-y-3 p-4">
                 <div className="space-y-2">
                   <Label className="text-[9px] font-black uppercase">API URL</Label>
                   <Input
                     placeholder="https://..."
                     value={config.apiUrl}
                     onChange={(e) => setConfig((p) => ({ ...p, apiUrl: e.target.value }))}
-                    className="h-9 text-[10px] rounded-lg"
+                    className="h-9 rounded-lg text-[10px]"
                   />
                 </div>
                 <div className="space-y-2">
@@ -185,14 +230,23 @@ export function PlmIntegrationsPanel({
                     placeholder="••••••••"
                     value={config.apiKey}
                     onChange={(e) => setConfig((p) => ({ ...p, apiKey: e.target.value }))}
-                    className="h-9 text-[10px] rounded-lg"
+                    className="h-9 rounded-lg text-[10px]"
                   />
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" className="h-8 text-[9px] font-bold uppercase flex-1" onClick={handleSaveConnection}>
-                    <CheckCircle2 className="w-3.5 h-3.5 mr-1" /> Сохранить
+                  <Button
+                    size="sm"
+                    className="h-8 flex-1 text-[9px] font-bold uppercase"
+                    onClick={handleSaveConnection}
+                  >
+                    <CheckCircle2 className="mr-1 h-3.5 w-3.5" /> Сохранить
                   </Button>
-                  <Button variant="ghost" size="sm" className="h-8 text-[9px]" onClick={() => setSelectedType(null)}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 text-[9px]"
+                    onClick={() => setSelectedType(null)}
+                  >
                     Отмена
                   </Button>
                 </div>

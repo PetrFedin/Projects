@@ -31,7 +31,7 @@ export default function SustainabilityExplorerPage() {
   }, [ranked, tier]);
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
@@ -40,12 +40,13 @@ export default function SustainabilityExplorerPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
+            <h1 className="flex items-center gap-2 text-xl font-bold">
               <Leaf className="h-6 w-6 text-emerald-600" />
               Eco-сигналы в каталоге
             </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
-              Скоринг из тегов, состава и описания. Заменяется на LCA / сертификаты при подключении API.
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              Скоринг из тегов, состава и описания. Заменяется на LCA / сертификаты при подключении
+              API.
             </p>
           </div>
         </div>
@@ -55,11 +56,20 @@ export default function SustainabilityExplorerPage() {
       <Card>
         <CardHeader className="pb-2">
           <CardTitle className="text-base">Фильтр по уровню</CardTitle>
-          <CardDescription>Тот же <code className="text-[10px] bg-muted px-1 rounded">deriveSustainabilityBreakdown</code>, что на PDP.</CardDescription>
+          <CardDescription>
+            Тот же{' '}
+            <code className="rounded bg-muted px-1 text-[10px]">deriveSustainabilityBreakdown</code>
+            , что на PDP.
+          </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-wrap gap-2">
           {(['all', 'high', 'mid', 'low', 'unknown'] as Tier[]).map((t) => (
-            <Button key={t} size="sm" variant={tier === t ? 'default' : 'outline'} onClick={() => setTier(t)}>
+            <Button
+              key={t}
+              size="sm"
+              variant={tier === t ? 'default' : 'outline'}
+              onClick={() => setTier(t)}
+            >
               {t === 'all' ? 'Все' : t}
             </Button>
           ))}
@@ -70,16 +80,26 @@ export default function SustainabilityExplorerPage() {
         Показано: <strong>{filtered.length}</strong> из {ranked.length}
       </p>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {filtered.map(({ product: p, b }) => (
-          <Link key={p.id} href={`/products/${p.slug}`} className="group rounded-lg border overflow-hidden bg-card">
+          <Link
+            key={p.id}
+            href={`/products/${p.slug}`}
+            className="group overflow-hidden rounded-lg border bg-card"
+          >
             <div className="relative aspect-[3/4]">
-              <Image src={p.images[0]?.url || '/placeholder.jpg'} alt={p.name} fill className="object-cover" sizes="200px" />
+              <Image
+                src={p.images[0]?.url || '/placeholder.jpg'}
+                alt={p.name}
+                fill
+                className="object-cover"
+                sizes="200px"
+              />
             </div>
-            <div className="p-2 space-y-1">
-              <p className="text-xs font-medium line-clamp-2 group-hover:text-primary">{p.name}</p>
+            <div className="space-y-1 p-2">
+              <p className="line-clamp-2 text-xs font-medium group-hover:text-primary">{p.name}</p>
               <div className="flex flex-wrap gap-1">
-                <Badge variant="secondary" className="text-[10px] font-mono">
+                <Badge variant="secondary" className="font-mono text-[10px]">
                   {b.score}
                 </Badge>
                 <Badge variant="outline" className="text-[10px] capitalize">

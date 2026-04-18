@@ -1,9 +1,9 @@
 'use client';
 
+import { useSearchParamsNonNull } from '@/hooks/use-search-params-non-null';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { WidgetCard } from '@/components/ui/widget-card';
 import { EmptyStateB2B } from '@/components/ui/empty-state-b2b';
 import { Button } from '@/components/ui/button';
@@ -15,14 +15,16 @@ import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getB2BLinks } from '@/lib/data/entity-links';
 import { DollarSign, Users } from 'lucide-react';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
-const CustomerGroupsContent = dynamic(
-  () => import('@/app/brand/b2b/customer-groups/page'),
-  { ssr: false }
-);
+const CustomerGroupsContent = dynamic(() => import('@/app/brand/b2b/customer-groups/page'), {
+  ssr: false,
+});
 
 export default function PriceListsPage() {
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParamsNonNull();
   const [tab, setTab] = useState<'price-lists' | 'groups'>('price-lists');
   const groupFilter = searchParams.get('group');
   const lists = getPriceLists();
@@ -32,28 +34,51 @@ export default function PriceListsPage() {
     : lists;
 
   return (
-    <div className="space-y-6 pb-24">
-      <Tabs value={tab} onValueChange={(v) => setTab(v as 'price-lists' | 'groups')} className="space-y-6">
-        <TabsList className="bg-slate-50 border border-slate-200 h-9 px-1 gap-0.5">
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Прайс-листы и группы клиентов"
+        leadPlain="Прайс-листы по сегментам и группы покупателей для B2B."
+      />
+      <Tabs
+        value={tab}
+        onValueChange={(v) => setTab(v as 'price-lists' | 'groups')}
+        className="space-y-6"
+      >
+        <TabsList
+          className={cn(cabinetSurface.tabsList, 'h-auto min-h-9 w-full shadow-inner sm:w-fit')}
+        >
           <TabsTrigger
             value="price-lists"
-            className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'data-[state=active]:text-accent-primary h-7 gap-1.5'
+            )}
           >
             <DollarSign className="h-3 w-3" /> Прайс-листы
           </TabsTrigger>
           <TabsTrigger
             value="groups"
-            className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'data-[state=active]:text-accent-primary h-7 gap-1.5'
+            )}
           >
             <Users className="h-3 w-3" /> Группы клиентов
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="price-lists" className="space-y-6 mt-0">
-          <div className="flex gap-2 flex-wrap">
-            <Button variant={!groupFilter ? 'default' : 'outline'} size="sm" asChild><Link href={ROUTES.brand.priceLists}>Все</Link></Button>
+        <TabsContent value="price-lists" className="mt-0 space-y-6">
+          <div className="flex flex-wrap gap-2">
+            <Button variant={!groupFilter ? 'default' : 'outline'} size="sm" asChild>
+              <Link href={ROUTES.brand.priceLists}>Все</Link>
+            </Button>
             {groups.map((g) => (
-              <Button key={g.id} variant={groupFilter === g.id ? 'default' : 'outline'} size="sm" asChild>
+              <Button
+                key={g.id}
+                variant={groupFilter === g.id ? 'default' : 'outline'}
+                size="sm"
+                asChild
+              >
                 <Link href={`${ROUTES.brand.priceLists}?group=${g.id}`}>{g.nameRu}</Link>
               </Button>
             ))}
@@ -76,21 +101,30 @@ export default function PriceListsPage() {
               />
             ) : (
               filtered.map((pl) => (
-                <div key={pl.id} className="flex items-start justify-between p-4 rounded-xl border border-slate-200">
+                <div
+                  key={pl.id}
+                  className="border-border-subtle bg-bg-surface flex items-start justify-between rounded-xl border p-4"
+                >
                   <div>
                     <p className="font-medium">{pl.name}</p>
-                    <p className="text-xs text-slate-500">{pl.channel} · {pl.validFrom} – {pl.validTo}</p>
+                    <p className="text-text-secondary text-xs">
+                      {pl.channel} · {pl.validFrom} – {pl.validTo}
+                    </p>
                     {pl.customerGroupIds?.length ? (
-                      <div className="flex gap-1 mt-2">
+                      <div className="mt-2 flex gap-1">
                         {pl.customerGroupIds.map((gid) => (
-                          <Badge key={gid} variant="outline" className="text-[9px]">{groups.find((g) => g.id === gid)?.nameRu ?? gid}</Badge>
+                          <Badge key={gid} variant="outline" className="text-[9px]">
+                            {groups.find((g) => g.id === gid)?.nameRu ?? gid}
+                          </Badge>
                         ))}
                       </div>
                     ) : (
-                      <Badge variant="secondary" className="mt-2 text-[9px]">Все группы</Badge>
+                      <Badge variant="secondary" className="mt-2 text-[9px]">
+                        Все группы
+                      </Badge>
                     )}
                     {pl.type === 'multiplier' && pl.multiplier != null && (
-                      <p className="text-xs mt-1">Множитель: {(pl.multiplier * 100).toFixed(0)}%</p>
+                      <p className="mt-1 text-xs">Множитель: {(pl.multiplier * 100).toFixed(0)}%</p>
                     )}
                   </div>
                 </div>
@@ -99,15 +133,17 @@ export default function PriceListsPage() {
           </WidgetCard>
 
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" asChild><Link href={ROUTES.brand.customerGroups}>Группы клиентов</Link></Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link href={ROUTES.brand.customerGroups}>Группы клиентов</Link>
+            </Button>
           </div>
           <RelatedModulesBlock links={getB2BLinks()} title="B2B" />
         </TabsContent>
 
-        <TabsContent value="groups" className="space-y-6 mt-0">
+        <TabsContent value="groups" className="mt-0 space-y-6">
           {tab === 'groups' && <CustomerGroupsContent />}
         </TabsContent>
       </Tabs>
-    </div>
+    </RegistryPageShell>
   );
 }

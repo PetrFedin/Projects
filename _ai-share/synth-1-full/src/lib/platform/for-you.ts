@@ -3,6 +3,8 @@ import { getPlatformApiBaseUrl, getPlatformTransport, type PlatformTransport } f
 import type { ForYouFeedItem, ForYouPreferencesV1 } from './types';
 import { FOR_YOU_PREFS_VERSION } from './types';
 
+export type { ForYouFeedItem };
+
 const PREFS_KEY = 'synth.forYou.prefs.v1';
 
 const DEFAULT_PREFS: ForYouPreferencesV1 = {
@@ -22,8 +24,14 @@ export function loadForYouPreferences(): ForYouPreferencesV1 {
     return {
       version: FOR_YOU_PREFS_VERSION,
       updatedAt: p.updatedAt ?? Date.now(),
-      sizeHint: typeof p.sizeHint === 'string' && p.sizeHint.trim() ? p.sizeHint.trim() : DEFAULT_PREFS.sizeHint,
-      brandHints: Array.isArray(p.brandHints) && p.brandHints.length ? p.brandHints.filter(Boolean) : DEFAULT_PREFS.brandHints,
+      sizeHint:
+        typeof p.sizeHint === 'string' && p.sizeHint.trim()
+          ? p.sizeHint.trim()
+          : DEFAULT_PREFS.sizeHint,
+      brandHints:
+        Array.isArray(p.brandHints) && p.brandHints.length
+          ? p.brandHints.filter(Boolean)
+          : DEFAULT_PREFS.brandHints,
     };
   } catch {
     return DEFAULT_PREFS;
@@ -36,7 +44,11 @@ export function saveForYouPreferences(prefs: ForYouPreferencesV1) {
 }
 
 /** Локальная лента: смещение по префам (без ML). */
-export function buildForYouFeedLocal(catalog: Product[], prefs: ForYouPreferencesV1, limit = 9): ForYouFeedItem[] {
+export function buildForYouFeedLocal(
+  catalog: Product[],
+  prefs: ForYouPreferencesV1,
+  limit = 9
+): ForYouFeedItem[] {
   const list = catalog.filter((p) => p.images?.length);
   if (!list.length) return [];
   const brandSet = new Set(prefs.brandHints.map((b) => b.toLowerCase()));
@@ -70,7 +82,11 @@ async function forYouFeedApi(prefs: ForYouPreferencesV1): Promise<ForYouFeedItem
   return Array.isArray(data.items) ? data.items : [];
 }
 
-export async function fetchForYouFeed(transport: PlatformTransport, catalog: Product[], prefs: ForYouPreferencesV1) {
+export async function fetchForYouFeed(
+  transport: PlatformTransport,
+  catalog: Product[],
+  prefs: ForYouPreferencesV1
+) {
   if (transport === 'api') {
     return forYouFeedApi(prefs);
   }

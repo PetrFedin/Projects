@@ -46,16 +46,21 @@ export class InterstellarGatewayEngine {
         status,
         effectiveLatencyMs: Infinity,
         tachyonEnergyConsumedKWh: 0,
-        reasoning
+        reasoning,
       };
     }
 
     // 2. Расчет потребления тахионной энергии
     // Чем выше интерференция и приоритет, тем больше энергии нужно для "пробивания" помех
-    const interferenceMultiplier = 1.0 + (subspaceInterferenceLevel * 2.0);
-    const priorityMultiplier = request.priority === 'tachyon_burst' ? 5.0 : (request.priority === 'background' ? 0.5 : 1.0);
-    
-    tachyonEnergyConsumedKWh = request.payloadSizeMb * this.TACHYON_ENERGY_PER_MB_KWH * interferenceMultiplier * priorityMultiplier;
+    const interferenceMultiplier = 1.0 + subspaceInterferenceLevel * 2.0;
+    const priorityMultiplier =
+      request.priority === 'tachyon_burst' ? 5.0 : request.priority === 'background' ? 0.5 : 1.0;
+
+    tachyonEnergyConsumedKWh =
+      request.payloadSizeMb *
+      this.TACHYON_ENERGY_PER_MB_KWH *
+      interferenceMultiplier *
+      priorityMultiplier;
 
     // 3. Проверка доступной энергии
     if (request.availableEnergyKWh < tachyonEnergyConsumedKWh) {
@@ -66,7 +71,7 @@ export class InterstellarGatewayEngine {
         status,
         effectiveLatencyMs: Infinity,
         tachyonEnergyConsumedKWh: 0,
-        reasoning
+        reasoning,
       };
     }
 
@@ -76,10 +81,10 @@ export class InterstellarGatewayEngine {
       effectiveLatencyMs = 15; // 15 миллисекунд между звездами
       reasoning += `Tachyon burst engaged. Bypassing interference. Data transmitted with ultra-low latency (${effectiveLatencyMs}ms). Energy consumption spiked to ${tachyonEnergyConsumedKWh.toLocaleString()} kWh. `;
     } else if (request.priority === 'background') {
-      effectiveLatencyMs = 5000 + (subspaceInterferenceLevel * 10000); // До 15 секунд задержки
+      effectiveLatencyMs = 5000 + subspaceInterferenceLevel * 10000; // До 15 секунд задержки
       reasoning += `Background transmission. Signal buffered and sent during optimal micro-windows. Latency: ${effectiveLatencyMs}ms. `;
     } else {
-      effectiveLatencyMs = 150 + (subspaceInterferenceLevel * 500);
+      effectiveLatencyMs = 150 + subspaceInterferenceLevel * 500;
       reasoning += `Standard transmission successful. Latency: ${effectiveLatencyMs.toFixed(0)}ms. `;
     }
 
@@ -88,7 +93,7 @@ export class InterstellarGatewayEngine {
       status,
       effectiveLatencyMs: Math.round(effectiveLatencyMs),
       tachyonEnergyConsumedKWh: Math.round(tachyonEnergyConsumedKWh),
-      reasoning
+      reasoning,
     };
   }
 }

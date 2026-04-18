@@ -57,7 +57,9 @@ function hasPackagingMarkingCareAssignments(dossier: Workshop2DossierPhase1): bo
     'packagingDimensionsClassOptions',
     'articleWeightPackagingClassOptions',
   ]);
-  return dossier.assignments.some((a) => Boolean(a.attributeId && ids.has(a.attributeId) && a.values.length > 0));
+  return dossier.assignments.some((a) =>
+    Boolean(a.attributeId && ids.has(a.attributeId) && a.values.length > 0)
+  );
 }
 
 function jumpTz(
@@ -90,20 +92,21 @@ function formatTzLogLine(e: Workshop2TzActionLogEntry): string {
       return `Снимок меток (${a.masterPins}+${a.sheetPinsTotal})`;
     case 'sketch_labels_restore':
       return `Восстановление меток`;
-    default:
-      return a.type;
   }
 }
 
 function CheckRow({ done, label }: { done: boolean; label: string }) {
   return (
-    <li className="flex items-start gap-2 text-[11px] leading-snug text-slate-700">
+    <li className="text-text-primary flex items-start gap-2 text-[11px] leading-snug">
       {done ? (
-        <LucideIcons.CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden />
+        <LucideIcons.CheckCircle2
+          className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600"
+          aria-hidden
+        />
       ) : (
-        <LucideIcons.Circle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-300" aria-hidden />
+        <LucideIcons.Circle className="text-text-muted mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
       )}
-      <span className={cn(!done && 'text-slate-500')}>{label}</span>
+      <span className={cn(!done && 'text-text-secondary')}>{label}</span>
     </li>
   );
 }
@@ -118,13 +121,18 @@ export function Workshop2DossierRolePulsePanel({
   onExportHandoffPdf,
   handoffPdfBusy = false,
 }: Workshop2DossierRolePulsePanelProps) {
-  const [tzNotifPerm, setTzNotifPerm] = useState<NotificationPermission | 'unsupported'>('unsupported');
+  const [tzNotifPerm, setTzNotifPerm] = useState<NotificationPermission | 'unsupported'>(
+    'unsupported'
+  );
   useEffect(() => {
     if (typeof window === 'undefined' || !('Notification' in window)) return;
     setTzNotifPerm(Notification.permission);
   }, []);
 
-  const readiness = useMemo(() => calculateDossierReadiness(dossier, currentLeaf), [dossier, currentLeaf]);
+  const readiness = useMemo(
+    () => calculateDossierReadiness(dossier, currentLeaf),
+    [dossier, currentLeaf]
+  );
   const { summary, overall } = readiness;
   const visualsCp = readiness.sections.visuals.controlPoints;
   const generalCp = readiness.sections.general.controlPoints.filter((cp) => cp.label !== 'SKU');
@@ -146,8 +154,8 @@ export function Workshop2DossierRolePulsePanel({
   );
   const criticalMaster = masterPins.filter((a) => a.priority === 'critical').length;
   const qcMaster = masterPins.filter((a) => (a.stage ?? 'tz') === 'qc').length;
-  const bomLinkedPins = masterPins.filter(
-    (a) => Boolean(a.linkedBomLineRef?.trim() || a.linkedMaterialNote?.trim())
+  const bomLinkedPins = masterPins.filter((a) =>
+    Boolean(a.linkedBomLineRef?.trim() || a.linkedMaterialNote?.trim())
   ).length;
   const altDrafts = dossier.materialAlternativeDrafts?.length ?? 0;
   const deltaDrafts = dossier.bomLineDeltaDrafts?.length ?? 0;
@@ -191,15 +199,21 @@ export function Workshop2DossierRolePulsePanel({
 
   const signLine = (required: boolean, done: boolean, role: string) => (
     <div className="flex items-center justify-between gap-2 text-[10px]">
-      <span className="text-slate-600">{role}</span>
+      <span className="text-text-secondary">{role}</span>
       {!required ? (
-        <span className="text-slate-400">не требуется</span>
+        <span className="text-text-muted">не требуется</span>
       ) : done ? (
-        <Badge variant="outline" className="h-4 border-emerald-200 bg-emerald-50 px-1.5 text-[9px] text-emerald-800">
+        <Badge
+          variant="outline"
+          className="h-4 border-emerald-200 bg-emerald-50 px-1.5 text-[9px] text-emerald-800"
+        >
           есть
         </Badge>
       ) : (
-        <Badge variant="outline" className="h-4 border-amber-200 bg-amber-50 px-1.5 text-[9px] text-amber-900">
+        <Badge
+          variant="outline"
+          className="h-4 border-amber-200 bg-amber-50 px-1.5 text-[9px] text-amber-900"
+        >
           ждём
         </Badge>
       )}
@@ -210,16 +224,17 @@ export function Workshop2DossierRolePulsePanel({
   const recentLog = (dossier.tzActionLog ?? []).slice(-4).reverse();
 
   return (
-    <details className="group rounded-xl border border-indigo-200/80 bg-gradient-to-br from-indigo-50/90 via-white to-slate-50/80 shadow-sm open:shadow-md">
+    <details className="border-accent-primary/30 from-accent-primary/10 to-bg-surface2/80 group rounded-xl border bg-gradient-to-br via-white shadow-sm open:shadow-md">
       <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-3 [&::-webkit-details-marker]:hidden">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-600 text-white shadow-sm">
+        <div className="bg-accent-primary flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white shadow-sm">
           <LucideIcons.Radar className="h-4 w-4" aria-hidden />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-xs font-bold text-slate-900">Пульс артикула: роли и секции ТЗ</p>
-          <p className="mt-0.5 text-[10px] leading-snug text-slate-600">
-            Три опоры маршрута — бренд-дизайнер, технолог, менеджмент; ниже — снабжение, ОТК, комплаенс и мерч как
-            смежные контуры при сборке ТЗ (паспорт, визуал, материалы, конструкция).
+          <p className="text-text-primary text-xs font-bold">Пульс артикула: роли и секции ТЗ</p>
+          <p className="text-text-secondary mt-0.5 text-[10px] leading-snug">
+            Три опоры маршрута — бренд-дизайнер, технолог, менеджмент; ниже — снабжение, ОТК,
+            комплаенс и мерч как смежные контуры при сборке ТЗ (паспорт, визуал, материалы,
+            конструкция).
           </p>
         </div>
         <div className="flex shrink-0 flex-col items-end gap-1">
@@ -234,26 +249,32 @@ export function Workshop2DossierRolePulsePanel({
           >
             {summary.readyForSample ? 'Чеклист ТЗ закрыт' : 'Есть пробелы'}
           </Badge>
-          <span className="text-[10px] font-semibold tabular-nums text-slate-600">{overall.pct}% · досье</span>
+          <span className="text-text-secondary text-[10px] font-semibold tabular-nums">
+            {overall.pct}% · досье
+          </span>
         </div>
-        <LucideIcons.ChevronDown className="h-4 w-4 shrink-0 text-slate-400 transition-transform group-open:rotate-180" />
+        <LucideIcons.ChevronDown className="text-text-muted h-4 w-4 shrink-0 transition-transform group-open:rotate-180" />
       </summary>
 
-      <div className="border-t border-indigo-100/80 px-4 pb-4 pt-2">
+      <div className="border-accent-primary/20 border-t px-4 pb-4 pt-2">
         <div className="grid gap-3 md:grid-cols-3">
           {/* Дизайнер */}
-          <div className="rounded-lg border border-violet-100 bg-white/90 p-3 shadow-sm">
+          <div className="border-accent-primary/20 rounded-lg border bg-white/90 p-3 shadow-sm">
             <div className="mb-2 flex items-center gap-2">
-              <LucideIcons.Palette className="h-4 w-4 text-violet-600" aria-hidden />
-              <h3 className="text-[11px] font-bold uppercase tracking-wide text-violet-950">Бренд-дизайнер</h3>
+              <LucideIcons.Palette className="text-accent-primary h-4 w-4" aria-hidden />
+              <h3 className="text-text-primary text-[11px] font-bold uppercase tracking-wide">
+                Бренд-дизайнер
+              </h3>
             </div>
-            <p className="mb-1.5 text-[9px] font-semibold uppercase tracking-wide text-violet-800/90">Паспорт</p>
+            <p className="text-accent-primary/90 mb-1.5 text-[9px] font-semibold uppercase tracking-wide">
+              Паспорт
+            </p>
             <ul className="space-y-1.5">
               {generalCp.map((cp) => (
                 <CheckRow key={`g-${cp.label}`} done={cp.done} label={cp.label} />
               ))}
             </ul>
-            <p className="mb-1.5 mt-2 text-[9px] font-semibold uppercase tracking-wide text-violet-800/90">
+            <p className="text-accent-primary/90 mb-1.5 mt-2 text-[9px] font-semibold uppercase tracking-wide">
               Визуал / эскиз
             </p>
             <ul className="space-y-1.5">
@@ -271,19 +292,29 @@ export function Workshop2DossierRolePulsePanel({
                 variant="outline"
                 size="sm"
                 className="h-7 text-[10px]"
-                onClick={() => jumpTz('general', 'w2-passport-hub', setActiveSection, onJumpToTzAnchor)}
+                onClick={() =>
+                  jumpTz('general', 'w2-passport-hub', setActiveSection, onJumpToTzAnchor)
+                }
               >
                 Паспорт
               </Button>
-              <Button type="button" variant="outline" size="sm" className="h-7 text-[10px]" onClick={onJumpToBrandNotes}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-7 text-[10px]"
+                onClick={onJumpToBrandNotes}
+              >
                 Замысел и референсы
               </Button>
               <Button
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="h-7 text-[10px] text-slate-600"
-                onClick={() => jumpTz('visuals', 'w2-visuals-hub', setActiveSection, onJumpToTzAnchor)}
+                className="text-text-secondary h-7 text-[10px]"
+                onClick={() =>
+                  jumpTz('visuals', 'w2-visuals-hub', setActiveSection, onJumpToTzAnchor)
+                }
               >
                 Визуал / эскиз
               </Button>
@@ -294,9 +325,13 @@ export function Workshop2DossierRolePulsePanel({
           <div className="rounded-lg border border-teal-100 bg-white/90 p-3 shadow-sm">
             <div className="mb-2 flex items-center gap-2">
               <LucideIcons.Wrench className="h-4 w-4 text-teal-700" aria-hidden />
-              <h3 className="text-[11px] font-bold uppercase tracking-wide text-teal-950">Технолог</h3>
+              <h3 className="text-[11px] font-bold uppercase tracking-wide text-teal-950">
+                Технолог
+              </h3>
             </div>
-            <p className="mb-1.5 text-[9px] font-semibold uppercase tracking-wide text-teal-900/90">Материалы (BOM)</p>
+            <p className="mb-1.5 text-[9px] font-semibold uppercase tracking-wide text-teal-900/90">
+              Материалы (BOM)
+            </p>
             <ul className="space-y-1.5">
               <CheckRow done={summary.materialReady} label="Основной материал (mat)" />
               <CheckRow
@@ -320,8 +355,8 @@ export function Workshop2DossierRolePulsePanel({
                 }
               />
             </ul>
-            <p className="mt-1 text-[10px] leading-snug text-slate-600">
-              <span className="font-medium text-slate-700">Costing (необязательно):</span>{' '}
+            <p className="text-text-secondary mt-1 text-[10px] leading-snug">
+              <span className="text-text-primary font-medium">Costing (необязательно):</span>{' '}
               {costingHints > 0
                 ? `${costingHints} подсказок по строкам BOM`
                 : 'подсказок нет — задайте в блоке материалов при подготовке к costing'}
@@ -334,16 +369,29 @@ export function Workshop2DossierRolePulsePanel({
                 <CheckRow key={`c-${cp.label}`} done={cp.done} label={cp.label} />
               ))}
             </ul>
-            <p className="mb-1.5 mt-2 text-[9px] font-semibold uppercase tracking-wide text-teal-900/90">Скетч</p>
+            <p className="mb-1.5 mt-2 text-[9px] font-semibold uppercase tracking-wide text-teal-900/90">
+              Скетч
+            </p>
             <ul className="space-y-1.5">
-              <CheckRow done={masterPins.length > 0} label={`Метки на общем скетче (${masterPins.length})`} />
+              <CheckRow
+                done={masterPins.length > 0}
+                label={`Метки на общем скетче (${masterPins.length})`}
+              />
               <CheckRow
                 done={criticalMaster > 0}
-                label={criticalMaster > 0 ? `Критичные узлы отмечены (${criticalMaster})` : 'Критичные узлы на скетче'}
+                label={
+                  criticalMaster > 0
+                    ? `Критичные узлы отмечены (${criticalMaster})`
+                    : 'Критичные узлы на скетче'
+                }
               />
               <CheckRow
                 done={qcMaster > 0}
-                label={qcMaster > 0 ? `Точки этапа ОТК (${qcMaster})` : 'Контроль ОТК на скетче (по необходимости)'}
+                label={
+                  qcMaster > 0
+                    ? `Точки этапа ОТК (${qcMaster})`
+                    : 'Контроль ОТК на скетче (по необходимости)'
+                }
               />
               <CheckRow
                 done={Boolean(dossier.categorySketchProductionApproved?.at)}
@@ -364,7 +412,9 @@ export function Workshop2DossierRolePulsePanel({
                 variant="outline"
                 size="sm"
                 className="h-7 text-[10px]"
-                onClick={() => jumpTz('material', 'w2-material-hub', setActiveSection, onJumpToTzAnchor)}
+                onClick={() =>
+                  jumpTz('material', 'w2-material-hub', setActiveSection, onJumpToTzAnchor)
+                }
               >
                 Материалы (BOM)
               </Button>
@@ -373,7 +423,9 @@ export function Workshop2DossierRolePulsePanel({
                 variant="outline"
                 size="sm"
                 className="h-7 text-[10px]"
-                onClick={() => jumpTz('construction', 'w2-construction-hub', setActiveSection, onJumpToTzAnchor)}
+                onClick={() =>
+                  jumpTz('construction', 'w2-construction-hub', setActiveSection, onJumpToTzAnchor)
+                }
               >
                 Конструкция
               </Button>
@@ -382,7 +434,14 @@ export function Workshop2DossierRolePulsePanel({
                 variant="outline"
                 size="sm"
                 className="h-7 text-[10px]"
-                onClick={() => jumpTz('construction', 'w2-measurements-fields', setActiveSection, onJumpToTzAnchor)}
+                onClick={() =>
+                  jumpTz(
+                    'construction',
+                    'w2-measurements-fields',
+                    setActiveSection,
+                    onJumpToTzAnchor
+                  )
+                }
               >
                 Табель мер
               </Button>
@@ -390,8 +449,15 @@ export function Workshop2DossierRolePulsePanel({
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="h-7 text-[10px] text-slate-600"
-                onClick={() => jumpTz('construction', W2_VISUALS_SKETCH_ANCHOR_ID, setActiveSection, onJumpToTzAnchor)}
+                className="text-text-secondary h-7 text-[10px]"
+                onClick={() =>
+                  jumpTz(
+                    'construction',
+                    W2_VISUALS_SKETCH_ANCHOR_ID,
+                    setActiveSection,
+                    onJumpToTzAnchor
+                  )
+                }
               >
                 Общий скетч
               </Button>
@@ -402,32 +468,42 @@ export function Workshop2DossierRolePulsePanel({
           <div className="rounded-lg border border-amber-100 bg-white/90 p-3 shadow-sm">
             <div className="mb-2 flex items-center gap-2">
               <LucideIcons.Briefcase className="h-4 w-4 text-amber-700" aria-hidden />
-              <h3 className="text-[11px] font-bold uppercase tracking-wide text-amber-950">Менеджмент</h3>
+              <h3 className="text-[11px] font-bold uppercase tracking-wide text-amber-950">
+                Менеджмент
+              </h3>
             </div>
             {dateLabel ? (
-              <p className="mb-2 text-[11px] leading-snug text-slate-800">
+              <p className="text-text-primary mb-2 text-[11px] leading-snug">
                 <span className="font-semibold">Целевая дата образца / пилота:</span> {dateLabel}
-                {critLabel ? <span className="text-slate-500"> · {critLabel}</span> : null}
+                {critLabel ? <span className="text-text-secondary"> · {critLabel}</span> : null}
               </p>
             ) : (
-              <p className="mb-2 text-[11px] text-slate-500">В паспорте не задана целевая дата — уточните в разделе «Паспорт».</p>
+              <p className="text-text-secondary mb-2 text-[11px]">
+                В паспорте не задана целевая дата — уточните в разделе «Паспорт».
+              </p>
             )}
-            <div className="mb-3 rounded-md border border-slate-200 bg-white p-2">
-              <p className="mb-2 text-[9px] font-semibold uppercase tracking-wide text-slate-600">
+            <div className="border-border-default mb-3 rounded-md border bg-white p-2">
+              <p className="text-text-secondary mb-2 text-[9px] font-semibold uppercase tracking-wide">
                 SLA ответа по ролям (ТЗ)
               </p>
-              <p className="mb-2 text-[9px] leading-snug text-slate-500">
-                Целевая дата ответа по роли; если срок прошёл, а подпись ещё нужна — подсветка «просрочено».
+              <p className="text-text-secondary mb-2 text-[9px] leading-snug">
+                Целевая дата ответа по роли; если срок прошёл, а подпись ещё нужна — подсветка
+                «просрочено».
               </p>
               {tzNotifPerm !== 'unsupported' ? (
-                <div className="mb-2 flex flex-wrap items-center gap-2 rounded-md border border-indigo-100 bg-indigo-50/50 px-2 py-1.5">
-                  <p className="min-w-0 flex-1 text-[9px] leading-snug text-slate-700">
-                    Напоминания о сроках (просрочка / сегодня / завтра) — через уведомления браузера, пока вкладка открыта.
+                <div className="border-accent-primary/20 bg-accent-primary/10 mb-2 flex flex-wrap items-center gap-2 rounded-md border px-2 py-1.5">
+                  <p className="text-text-primary min-w-0 flex-1 text-[9px] leading-snug">
+                    Напоминания о сроках (просрочка / сегодня / завтра) — через уведомления
+                    браузера, пока вкладка открыта.
                   </p>
                   {tzNotifPerm === 'granted' ? (
-                    <span className="text-[9px] font-medium text-emerald-800">Уведомления включены</span>
+                    <span className="text-[9px] font-medium text-emerald-800">
+                      Уведомления включены
+                    </span>
                   ) : tzNotifPerm === 'denied' ? (
-                    <span className="text-[9px] text-rose-800">Заблокированы в настройках браузера</span>
+                    <span className="text-[9px] text-rose-800">
+                      Заблокированы в настройках браузера
+                    </span>
                   ) : (
                     <Button
                       type="button"
@@ -445,7 +521,7 @@ export function Workshop2DossierRolePulsePanel({
               ) : null}
               <div className="grid gap-2 sm:grid-cols-3">
                 <div className="space-y-1">
-                  <Label className="text-[9px] text-slate-600">Дизайн</Label>
+                  <Label className="text-text-secondary text-[9px]">Дизайн</Label>
                   <div className="flex items-center gap-1">
                     <Input
                       type="date"
@@ -454,14 +530,17 @@ export function Workshop2DossierRolePulsePanel({
                       onChange={(e) => patchRoleDue('designer', e.target.value)}
                     />
                     {reqD && !dossier.isVerifiedByDesigner && isPastDue(sla?.designer) ? (
-                      <Badge variant="outline" className="h-5 shrink-0 border-rose-200 bg-rose-50 px-1 text-[8px] text-rose-900">
+                      <Badge
+                        variant="outline"
+                        className="h-5 shrink-0 border-rose-200 bg-rose-50 px-1 text-[8px] text-rose-900"
+                      >
                         !
                       </Badge>
                     ) : null}
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <Label className="text-[9px] text-slate-600">Технолог</Label>
+                  <Label className="text-text-secondary text-[9px]">Технолог</Label>
                   <div className="flex items-center gap-1">
                     <Input
                       type="date"
@@ -470,14 +549,17 @@ export function Workshop2DossierRolePulsePanel({
                       onChange={(e) => patchRoleDue('technologist', e.target.value)}
                     />
                     {reqT && !dossier.isVerifiedByTechnologist && isPastDue(sla?.technologist) ? (
-                      <Badge variant="outline" className="h-5 shrink-0 border-rose-200 bg-rose-50 px-1 text-[8px] text-rose-900">
+                      <Badge
+                        variant="outline"
+                        className="h-5 shrink-0 border-rose-200 bg-rose-50 px-1 text-[8px] text-rose-900"
+                      >
                         !
                       </Badge>
                     ) : null}
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <Label className="text-[9px] text-slate-600">Менеджер</Label>
+                  <Label className="text-text-secondary text-[9px]">Менеджер</Label>
                   <div className="flex items-center gap-1">
                     <Input
                       type="date"
@@ -486,7 +568,10 @@ export function Workshop2DossierRolePulsePanel({
                       onChange={(e) => patchRoleDue('manager', e.target.value)}
                     />
                     {reqM && !dossier.isVerifiedByManager && isPastDue(sla?.manager) ? (
-                      <Badge variant="outline" className="h-5 shrink-0 border-rose-200 bg-rose-50 px-1 text-[8px] text-rose-900">
+                      <Badge
+                        variant="outline"
+                        className="h-5 shrink-0 border-rose-200 bg-rose-50 px-1 text-[8px] text-rose-900"
+                      >
                         !
                       </Badge>
                     ) : null}
@@ -494,20 +579,28 @@ export function Workshop2DossierRolePulsePanel({
                 </div>
               </div>
             </div>
-            <p className="mb-1.5 text-[9px] font-semibold uppercase tracking-wide text-slate-500">Подписи ТЗ (этап)</p>
-            <div className="space-y-1 rounded-md border border-slate-100 bg-slate-50/80 p-2">
+            <p className="text-text-secondary mb-1.5 text-[9px] font-semibold uppercase tracking-wide">
+              Подписи ТЗ (этап)
+            </p>
+            <div className="border-border-subtle bg-bg-surface2/80 space-y-1 rounded-md border p-2">
               {signLine(reqD, Boolean(dossier.isVerifiedByDesigner), 'Дизайн')}
               {signLine(reqT, Boolean(dossier.isVerifiedByTechnologist), 'Технолог')}
               {signLine(reqM, Boolean(dossier.isVerifiedByManager), 'Менеджер')}
               {extrasTz.map((ex) => (
                 <div key={ex.rowId} className="flex items-center justify-between gap-2 text-[10px]">
-                  <span className="text-slate-600">{ex.roleTitle?.trim() || 'Роль'}</span>
+                  <span className="text-text-secondary">{ex.roleTitle?.trim() || 'Роль'}</span>
                   {extrasSigned(ex.rowId) ? (
-                    <Badge variant="outline" className="h-4 border-emerald-200 bg-emerald-50 px-1.5 text-[9px] text-emerald-800">
+                    <Badge
+                      variant="outline"
+                      className="h-4 border-emerald-200 bg-emerald-50 px-1.5 text-[9px] text-emerald-800"
+                    >
                       есть
                     </Badge>
                   ) : (
-                    <Badge variant="outline" className="h-4 border-amber-200 bg-amber-50 px-1.5 text-[9px] text-amber-900">
+                    <Badge
+                      variant="outline"
+                      className="h-4 border-amber-200 bg-amber-50 px-1.5 text-[9px] text-amber-900"
+                    >
                       ждём
                     </Badge>
                   )}
@@ -529,12 +622,16 @@ export function Workshop2DossierRolePulsePanel({
                 </ul>
               </div>
             ) : (
-              <p className="mt-2 text-[10px] text-emerald-800">Критичных предупреждений движка готовности нет.</p>
+              <p className="mt-2 text-[10px] text-emerald-800">
+                Критичных предупреждений движка готовности нет.
+              </p>
             )}
             {recentLog.length > 0 ? (
-              <div className="mt-2 border-t border-slate-100 pt-2">
-                <p className="mb-1 text-[9px] font-semibold uppercase tracking-wide text-slate-500">Последние действия ТЗ</p>
-                <ul className="max-h-[4.5rem] space-y-0.5 overflow-y-auto text-[9px] text-slate-600">
+              <div className="border-border-subtle mt-2 border-t pt-2">
+                <p className="text-text-secondary mb-1 text-[9px] font-semibold uppercase tracking-wide">
+                  Последние действия ТЗ
+                </p>
+                <ul className="text-text-secondary max-h-[4.5rem] space-y-0.5 overflow-y-auto text-[9px]">
                   {recentLog.map((e) => {
                     const line = formatTzLogLine(e);
                     return (
@@ -552,7 +649,9 @@ export function Workshop2DossierRolePulsePanel({
                 variant="outline"
                 size="sm"
                 className="h-7 w-full text-[10px]"
-                onClick={() => jumpTz('general', 'w2-passport-hub', setActiveSection, onJumpToTzAnchor)}
+                onClick={() =>
+                  jumpTz('general', 'w2-passport-hub', setActiveSection, onJumpToTzAnchor)
+                }
               >
                 Паспорт · сроки и MOQ
               </Button>
@@ -573,7 +672,9 @@ export function Workshop2DossierRolePulsePanel({
                 size="sm"
                 className="h-7 w-full text-[10px]"
                 onClick={() => {
-                  document.getElementById('w2-tz-digital-signoffs')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  document
+                    .getElementById('w2-tz-digital-signoffs')
+                    ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }}
               >
                 К подписям ТЗ
@@ -582,16 +683,19 @@ export function Workshop2DossierRolePulsePanel({
           </div>
         </div>
 
-        <div className="mt-4 rounded-lg border border-slate-200/90 bg-slate-50/80 p-3">
-          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-700">Смежные роли при сборке ТЗ</p>
-          <p className="mt-1 text-[9px] leading-snug text-slate-600">
-            Не обязательные подписанты по умолчанию, но их вопросы закрываются теми же секциями досье.
+        <div className="border-border-default/90 bg-bg-surface2/80 mt-4 rounded-lg border p-3">
+          <p className="text-text-primary text-[10px] font-bold uppercase tracking-wide">
+            Смежные роли при сборке ТЗ
+          </p>
+          <p className="text-text-secondary mt-1 text-[9px] leading-snug">
+            Не обязательные подписанты по умолчанию, но их вопросы закрываются теми же секциями
+            досье.
           </p>
           <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
             <div className="rounded-md border border-white/80 bg-white/90 p-2 shadow-sm">
               <div className="mb-1.5 flex items-center gap-1.5">
                 <LucideIcons.Truck className="h-3.5 w-3.5 text-amber-700" aria-hidden />
-                <span className="text-[10px] font-bold text-slate-900">Снабжение / PD</span>
+                <span className="text-text-primary text-[10px] font-bold">Снабжение / PD</span>
               </div>
               <ul className="space-y-1">
                 <CheckRow done={summary.materialReady} label="Mat и BOM в ТЗ" />
@@ -605,7 +709,9 @@ export function Workshop2DossierRolePulsePanel({
                 variant="secondary"
                 size="sm"
                 className="mt-2 h-6 w-full text-[9px]"
-                onClick={() => jumpTz('material', 'w2-material-hub', setActiveSection, onJumpToTzAnchor)}
+                onClick={() =>
+                  jumpTz('material', 'w2-material-hub', setActiveSection, onJumpToTzAnchor)
+                }
               >
                 К BOM
               </Button>
@@ -613,7 +719,7 @@ export function Workshop2DossierRolePulsePanel({
             <div className="rounded-md border border-white/80 bg-white/90 p-2 shadow-sm">
               <div className="mb-1.5 flex items-center gap-1.5">
                 <LucideIcons.ShieldCheck className="h-3.5 w-3.5 text-teal-700" aria-hidden />
-                <span className="text-[10px] font-bold text-slate-900">ОТК / качество</span>
+                <span className="text-text-primary text-[10px] font-bold">ОТК / качество</span>
               </div>
               <ul className="space-y-1">
                 <CheckRow done={qcMaster > 0} label="Метки qc на скетче" />
@@ -624,15 +730,22 @@ export function Workshop2DossierRolePulsePanel({
                 variant="secondary"
                 size="sm"
                 className="mt-2 h-6 w-full text-[9px]"
-                onClick={() => jumpTz('construction', W2_VISUALS_SKETCH_ANCHOR_ID, setActiveSection, onJumpToTzAnchor)}
+                onClick={() =>
+                  jumpTz(
+                    'construction',
+                    W2_VISUALS_SKETCH_ANCHOR_ID,
+                    setActiveSection,
+                    onJumpToTzAnchor
+                  )
+                }
               >
                 К скетчу
               </Button>
             </div>
             <div className="rounded-md border border-white/80 bg-white/90 p-2 shadow-sm">
               <div className="mb-1.5 flex items-center gap-1.5">
-                <LucideIcons.Scale className="h-3.5 w-3.5 text-indigo-700" aria-hidden />
-                <span className="text-[10px] font-bold text-slate-900">Комплаенс</span>
+                <LucideIcons.Scale className="text-accent-primary h-3.5 w-3.5" aria-hidden />
+                <span className="text-text-primary text-[10px] font-bold">Комплаенс</span>
               </div>
               <ul className="space-y-1">
                 <CheckRow
@@ -646,15 +759,17 @@ export function Workshop2DossierRolePulsePanel({
                 variant="secondary"
                 size="sm"
                 className="mt-2 h-6 w-full text-[9px]"
-                onClick={() => jumpTz('general', 'w2-passport-market', setActiveSection, onJumpToTzAnchor)}
+                onClick={() =>
+                  jumpTz('general', 'w2-passport-market', setActiveSection, onJumpToTzAnchor)
+                }
               >
                 Рынок и коды
               </Button>
             </div>
             <div className="rounded-md border border-white/80 bg-white/90 p-2 shadow-sm">
               <div className="mb-1.5 flex items-center gap-1.5">
-                <LucideIcons.Store className="h-3.5 w-3.5 text-violet-700" aria-hidden />
-                <span className="text-[10px] font-bold text-slate-900">Мерч / e-com</span>
+                <LucideIcons.Store className="text-accent-primary h-3.5 w-3.5" aria-hidden />
+                <span className="text-text-primary text-[10px] font-bold">Мерч / e-com</span>
               </div>
               <ul className="space-y-1">
                 <CheckRow
@@ -668,7 +783,9 @@ export function Workshop2DossierRolePulsePanel({
                 variant="secondary"
                 size="sm"
                 className="mt-2 h-6 w-full text-[9px]"
-                onClick={() => jumpTz('visuals', 'w2-visuals-hub', setActiveSection, onJumpToTzAnchor)}
+                onClick={() =>
+                  jumpTz('visuals', 'w2-visuals-hub', setActiveSection, onJumpToTzAnchor)
+                }
               >
                 К визуалу
               </Button>

@@ -6,13 +6,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Package, ArrowLeft, TrendingUp } from 'lucide-react';
-import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { PreOrderQuotaBadges } from '@/components/brand/SectionBadgeCta';
 import { B2BIntegrationStatusWidget } from '@/components/b2b/B2BIntegrationStatusWidget';
 import { getPreOrderQuotaLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
-import { listPreOrderQuotaCampaigns, type PreOrderQuotaCampaign } from '@/lib/distributor/pre-order-quota';
+import {
+  listPreOrderQuotaCampaigns,
+  type PreOrderQuotaCampaign,
+} from '@/lib/distributor/pre-order-quota';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 export default function PreOrderQuotaPage() {
   const [campaigns, setCampaigns] = useState<PreOrderQuotaCampaign[]>([]);
@@ -24,45 +27,69 @@ export default function PreOrderQuotaPage() {
   const campaign = campaigns[0];
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
-      <SectionInfoCard
-        title="Pre-Order Quota Management"
-        description="Распределение дефицитных артикулов между дилерами по KPI. Связь с Pre-order, B2B заказами и планированием. При API — публикация квот, блокировка сверх лимита."
-        icon={Package}
-        iconBg="bg-amber-100"
-        iconColor="text-amber-600"
-        badges={<PreOrderQuotaBadges />}
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Pre-Order Quota"
+        leadPlain="Распределение дефицитных артикулов между дилерами по KPI. Связь с Pre-order, B2B заказами и планированием. При API — публикация квот, блокировка сверх лимита."
+        eyebrow={
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.brand.distributors} aria-label="Назад к дистрибьюторам">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+        actions={
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <Package className="size-6 shrink-0 text-muted-foreground" aria-hidden />
+            <PreOrderQuotaBadges />
+          </div>
+        }
       />
-      <div className="flex items-center gap-3">
-        <Link href={ROUTES.brand.distributors}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
-        <h1 className="text-2xl font-bold uppercase">Pre-Order Quota</h1>
-      </div>
 
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5" /> {campaign?.title ?? 'Pre-Order Quota'}
           </CardTitle>
-          <CardDescription>Квоты по артикулам и дистрибьюторам. KPI влияет на долю при дефиците.</CardDescription>
+          <CardDescription>
+            Квоты по артикулам и дистрибьюторам. KPI влияет на долю при дефиците.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {!campaign && <p className="text-sm text-slate-500">Загрузка квот...</p>}
+          {!campaign && <p className="text-text-secondary text-sm">Загрузка квот...</p>}
           {campaign?.skuQuotas?.map((sq) => (
-            <div key={sq.skuId} className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-              <p className="font-medium">{sq.skuName ?? sq.skuId} · всего {sq.totalUnits} шт</p>
-              <ul className="mt-2 text-sm text-slate-600">
+            <div
+              key={sq.skuId}
+              className="border-border-subtle bg-bg-surface2 rounded-xl border p-3"
+            >
+              <p className="font-medium">
+                {sq.skuName ?? sq.skuId} · всего {sq.totalUnits} шт
+              </p>
+              <ul className="text-text-secondary mt-2 text-sm">
                 {sq.allocated.map((a, i) => (
-                  <li key={i}>Д{a.distributorId}: {a.units} шт{a.kpiScore != null ? ` (KPI ${a.kpiScore})` : ''}</li>
+                  <li key={i}>
+                    Д{a.distributorId}: {a.units} шт
+                    {a.kpiScore != null ? ` (KPI ${a.kpiScore})` : ''}
+                  </li>
                 ))}
               </ul>
             </div>
           ))}
-          {campaign && <Badge variant="outline" className="text-[10px]">{campaign.status}</Badge>}
-          <p className="text-xs text-slate-400">API: PRE_ORDER_QUOTA_API — кампании, распределение, публикация.</p>
+          {campaign && (
+            <Badge variant="outline" className="text-[10px]">
+              {campaign.status}
+            </Badge>
+          )}
+          <p className="text-text-muted text-xs">
+            API: PRE_ORDER_QUOTA_API — кампании, распределение, публикация.
+          </p>
         </CardContent>
       </Card>
       <B2BIntegrationStatusWidget settingsHref={ROUTES.brand.integrations} />
-      <RelatedModulesBlock links={getPreOrderQuotaLinks()} title="Pre-order, B2B заказы, планирование" />
-    </div>
+      <RelatedModulesBlock
+        links={getPreOrderQuotaLinks()}
+        title="Pre-order, B2B заказы, планирование"
+      />
+    </RegistryPageShell>
   );
 }

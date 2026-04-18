@@ -3,6 +3,8 @@ import { getPlatformApiBaseUrl, getPlatformTransport, type PlatformTransport } f
 import type { VisualSearchHit, VisualSearchSessionV1 } from './types';
 import { VISUAL_SEARCH_EXPORT_VERSION } from './types';
 
+export type { VisualSearchHit, VisualSearchSessionV1 } from './types';
+
 const SESSION_KEY = 'synth.visualSearch.session.v1';
 
 export function loadVisualSearchSession(): VisualSearchSessionV1 | null {
@@ -38,7 +40,11 @@ function productToHit(p: Product, score?: number): VisualSearchHit {
 }
 
 /** Детерминированная «похожесть» без эмбеддингов: ротация по хэшу превью. */
-export function visualSearchLocalDemo(catalog: Product[], previewDataUrl: string | null, limit = 12): VisualSearchHit[] {
+export function visualSearchLocalDemo(
+  catalog: Product[],
+  previewDataUrl: string | null,
+  limit = 12
+): VisualSearchHit[] {
   const list = catalog.filter((p) => p.images?.length);
   if (!list.length) return [];
   let seed = 0;
@@ -75,7 +81,7 @@ async function visualSearchApiStub(previewDataUrl: string): Promise<VisualSearch
 export async function runVisualSearch(
   transport: PlatformTransport,
   catalog: Product[],
-  previewDataUrl: string | null,
+  previewDataUrl: string | null
 ): Promise<VisualSearchHit[]> {
   if (transport === 'api') {
     if (!previewDataUrl) return [];

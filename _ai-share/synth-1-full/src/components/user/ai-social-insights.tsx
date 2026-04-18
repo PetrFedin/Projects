@@ -48,13 +48,14 @@ export default function AISocialInsights() {
         {
           type: 'popular',
           title: 'Популярно в сообществе',
-          description: 'Товары из вашего избранного набирают популярность среди других пользователей',
+          description:
+            'Товары из вашего избранного набирают популярность среди других пользователей',
           data: {
             products: wishlist.length,
             engagement: 342,
           },
           action: 'Посмотреть избранное',
-          actionLink: '/u?tab=wardrobe',
+          actionLink: '/client/me?tab=wardrobe',
         },
         {
           type: 'similar_users',
@@ -74,7 +75,7 @@ export default function AISocialInsights() {
             engagement: 156,
           },
           action: 'Посмотреть лукборды',
-          actionLink: '/u?tab=looks',
+          actionLink: '/client/me?tab=looks',
         },
       ];
 
@@ -89,7 +90,7 @@ export default function AISocialInsights() {
     return (
       <Card>
         <CardContent className="pt-6">
-          <div className="text-center py-4">AI анализирует сообщество...</div>
+          <div className="py-4 text-center">AI анализирует сообщество...</div>
         </CardContent>
       </Card>
     );
@@ -102,36 +103,43 @@ export default function AISocialInsights() {
           <Users className="h-5 w-5 text-accent" />
           Социальные инсайты
         </CardTitle>
-        <CardDescription>
-          Что делают пользователи с похожим стилем
-        </CardDescription>
+        <CardDescription>Что делают пользователи с похожим стилем</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           {insights.map((insight, index) => (
             <div
               key={index}
-              className="p-4 rounded-lg border bg-muted/50 hover:bg-muted transition-colors"
+              className="rounded-lg border bg-muted/50 p-4 transition-colors hover:bg-muted"
             >
-              <div className="flex items-start justify-between mb-2">
+              <div className="mb-2 flex items-start justify-between">
                 <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    {insight.type === 'trending' && <TrendingUp className="h-4 w-4 text-orange-600" />}
-                    {insight.type === 'popular' && <Heart className="h-4 w-4 text-pink-600" />}
-                    {insight.type === 'similar_users' && <Users className="h-4 w-4 text-blue-600" />}
-                    {insight.type === 'community' && <Share2 className="h-4 w-4 text-purple-600" />}
-                    <h4 className="font-semibold text-sm">{insight.title}</h4>
+                  <div className="mb-1 flex items-center gap-2">
+                    {insight.type === 'trending' && (
+                      <TrendingUp className="h-4 w-4 text-orange-600" />
+                    )}
+                    {insight.type === 'popular' && (
+                      <Heart className="text-accent-primary h-4 w-4" />
+                    )}
+                    {insight.type === 'similar_users' && (
+                      <Users className="h-4 w-4 text-blue-600" />
+                    )}
+                    {insight.type === 'community' && (
+                      <Share2 className="text-accent-primary h-4 w-4" />
+                    )}
+                    <h4 className="text-sm font-semibold">{insight.title}</h4>
                   </div>
                   <p className="text-sm text-muted-foreground">{insight.description}</p>
                 </div>
                 {insight.data.trend && (
                   <Badge variant={insight.data.trend === 'up' ? 'default' : 'secondary'}>
-                    {insight.data.trend === 'up' ? '↑' : '↓'} {insight.data.trend === 'up' ? 'Растет' : 'Падает'}
+                    {insight.data.trend === 'up' ? '↑' : '↓'}{' '}
+                    {insight.data.trend === 'up' ? 'Растет' : 'Падает'}
                   </Badge>
                 )}
               </div>
-              
-              <div className="flex items-center gap-3 mt-3 text-xs text-muted-foreground">
+
+              <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
                 {insight.data.users && (
                   <div className="flex items-center gap-1">
                     <Users className="h-3 w-3" />
@@ -153,10 +161,8 @@ export default function AISocialInsights() {
               </div>
 
               {insight.action && insight.actionLink && (
-                <Button variant="link" size="sm" className="mt-3 p-0 h-auto text-xs" asChild>
-                  <Link href={insight.actionLink}>
-                    {insight.action} →
-                  </Link>
+                <Button variant="link" size="sm" className="mt-3 h-auto p-0 text-xs" asChild>
+                  <Link href={insight.actionLink}>{insight.action} →</Link>
                 </Button>
               )}
             </div>
@@ -166,8 +172,3 @@ export default function AISocialInsights() {
     </Card>
   );
 }
-
-
-
-
-

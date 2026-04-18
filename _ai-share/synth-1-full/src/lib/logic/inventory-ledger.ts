@@ -14,28 +14,28 @@ import {
  * SoT для всех проекций стока.
  */
 
-export type StockState = 
-  | 'on_hand'      // физически на складе, доступно
-  | 'reserved'     // зарезервировано под заказ
-  | 'allocated'    // аллоцировано под канал (напр. B2C Marketroom)
-  | 'unavailable'  // брак, карантин, инвентаризация
-  | 'in_transit'   // в пути между складами (shadow inventory)
-  | 'ex_factory'    // отгружено с фабрики, но еще не принято (ASN)
+export type StockState =
+  | 'on_hand' // физически на складе, доступно
+  | 'reserved' // зарезервировано под заказ
+  | 'allocated' // аллоцировано под канал (напр. B2C Marketroom)
+  | 'unavailable' // брак, карантин, инвентаризация
+  | 'in_transit' // в пути между складами (shadow inventory)
+  | 'ex_factory' // отгружено с фабрики, но еще не принято (ASN)
   | 'reserved_for_channel' // [Phase 2 Prod] зарезервировано под канал до подтверждения приёмки
-  | 'shipped'       // отгружено клиенту (списано из ATP, но еще в Ledger для истории)
-  | 'delivered';    // доставлено (финальное состояние в Ledger)
+  | 'shipped' // отгружено клиенту (списано из ATP, но еще в Ledger для истории)
+  | 'delivered'; // доставлено (финальное состояние в Ledger)
 
 export interface InventoryGrain {
   /** Уникальный ключ записи (SKU x Location x State x Lot) */
   grainId: string;
-  
+
   /** Ссылки на Build (что это) */
   productId: string;
   sku: string;
-  
+
   /** Ссылки на Run (где это) */
   locationId: string;
-  
+
   /** Состояние (ось State) */
   state: StockState;
 
@@ -112,7 +112,7 @@ export function validateVMI(params: {
   agreementId?: string;
 }): boolean {
   const { grain, actorId, actorType, agreementId } = params;
-  
+
   if (!grain.agreementId) return true; // Не VMI сток
 
   // Если это VMI сток, должен быть передан ID соглашения
@@ -158,13 +158,24 @@ export function calculateATP(params: {
   /** [Phase 3] Страховой запас, который нельзя продавать */
   safetyStock?: number;
 }): number {
-  const { grains, channelId, actorId, actorType, strictIsolation, tenantId, virtualPoolId, agreementId, includeInTransit, safetyStock = 0 } = params;
+  const {
+    grains,
+    channelId,
+    actorId,
+    actorType,
+    strictIsolation,
+    tenantId,
+    virtualPoolId,
+    agreementId,
+    includeInTransit,
+    safetyStock = 0,
+  } = params;
 
   const rawATP = grains
     .filter((g) => {
       // 0. Изоляция арендатора (Tenant Isolation)
       if (tenantId && g.tenantId && g.tenantId !== tenantId) return false;
-      
+
       // [Phase 2 Prod] Изоляция виртуального пула (Campaign Isolation)
       // Если указан virtualPoolId, берем только гранулы этого пула.
       // Если не указан — берем только свободные гранулы (без virtualPoolId).
@@ -185,7 +196,10 @@ export function calculateATP(params: {
       }
 
       // 1. Базовая фильтрация по состоянию
-      const isAvailableState = g.state === 'on_hand' || g.state === 'allocated' || (includeInTransit && g.state === 'in_transit');
+      const isAvailableState =
+        g.state === 'on_hand' ||
+        g.state === 'allocated' ||
+        (includeInTransit && g.state === 'in_transit');
       if (!isAvailableState) return false;
 
       // [Phase 2 Prod] Проверка блокировки гранулы
@@ -227,7 +241,7 @@ export function calculateATP(params: {
             if (!validateVMI({ grain: g, actorId, actorType, agreementId })) {
               return false;
             }
-            
+
             // В демо-режиме (без strict) разрешаем видеть сток бренда для cross-cabinet,
             // но только если это не аллоцировано под другой канал (b2b/b2c)
             if (!strictIsolation && g.channelId) return false;
@@ -270,7 +284,11 @@ export function transferStock(params: {
 
   // 1. Находим источник
   const sourceGrains = grains.filter(
-    (g) => g.sku === sku && g.locationId === fromLocationId && g.state === 'on_hand' && g.ownerId === ownerId
+    (g) =>
+      g.sku === sku &&
+      g.locationId === fromLocationId &&
+      g.state === 'on_hand' &&
+      g.ownerId === ownerId
   );
 
   const totalAvailable = sourceGrains.reduce((acc, g) => acc + g.quantity, 0);
@@ -281,11 +299,17 @@ export function transferStock(params: {
   // 2. Уменьшаем источник и создаем in_transit
   let remainingToTransfer = quantity;
   const updatedGrains = grains.map((g) => {
-    if (remainingToTransfer > 0 && g.sku === sku && g.locationId === fromLocationId && g.state === 'on_hand' && g.ownerId === ownerId) {
+    if (
+      remainingToTransfer > 0 &&
+      g.sku === sku &&
+      g.locationId === fromLocationId &&
+      g.state === 'on_hand' &&
+      g.ownerId === ownerId
+    ) {
       const take = Math.min(g.quantity, remainingToTransfer);
       remainingToTransfer -= take;
-      return { 
-        ...g, 
+      return {
+        ...g,
         quantity: g.quantity - take,
         metadata: {
           ...g.metadata,
@@ -298,10 +322,10 @@ export function transferStock(params: {
               actorId: actorId || 'system',
               action: 'TRANSFER_DECREMENT',
               prevQuantity: g.quantity,
-              newQuantity: g.quantity - take
-            }
-          ]
-        }
+              newQuantity: g.quantity - take,
+            },
+          ],
+        },
       };
     }
     return g;
@@ -318,14 +342,16 @@ export function transferStock(params: {
     metadata: {
       updatedAt: new Date().toISOString(),
       version: 1,
-      auditTrail: [{
-        timestamp: new Date().toISOString(),
-        actorId: actorId || 'system',
-        action: 'TRANSFER_INCREMENT',
-        prevQuantity: 0,
-        newQuantity: quantity
-      }]
-    }
+      auditTrail: [
+        {
+          timestamp: new Date().toISOString(),
+          actorId: actorId || 'system',
+          action: 'TRANSFER_INCREMENT',
+          prevQuantity: 0,
+          newQuantity: quantity,
+        },
+      ],
+    },
   });
 
   return { success: true, updatedGrains };
@@ -347,7 +373,12 @@ export function reserveCrossCabinetStock(params: {
   const { sku, locationId, quantity, brandId, shopId, grains, tenantId } = params;
 
   const availableGrains = grains.filter(
-    g => g.sku === sku && g.locationId === locationId && g.state === 'on_hand' && g.ownerId === brandId && g.tenantId === tenantId
+    (g) =>
+      g.sku === sku &&
+      g.locationId === locationId &&
+      g.state === 'on_hand' &&
+      g.ownerId === brandId &&
+      g.tenantId === tenantId
   );
 
   const totalAvailable = availableGrains.reduce((acc, g) => acc + g.quantity, 0);
@@ -356,8 +387,15 @@ export function reserveCrossCabinetStock(params: {
   }
 
   let remaining = quantity;
-  const updatedGrains = grains.map(g => {
-    if (remaining > 0 && g.sku === sku && g.locationId === locationId && g.state === 'on_hand' && g.ownerId === brandId && g.tenantId === tenantId) {
+  const updatedGrains = grains.map((g) => {
+    if (
+      remaining > 0 &&
+      g.sku === sku &&
+      g.locationId === locationId &&
+      g.state === 'on_hand' &&
+      g.ownerId === brandId &&
+      g.tenantId === tenantId
+    ) {
       const take = Math.min(g.quantity, remaining);
       remaining -= take;
       return {
@@ -374,10 +412,10 @@ export function reserveCrossCabinetStock(params: {
               actorId: brandId,
               action: 'CROSS_CABINET_RESERVE_DECREMENT',
               prevQuantity: g.quantity,
-              newQuantity: g.quantity - take
-            }
-          ]
-        }
+              newQuantity: g.quantity - take,
+            },
+          ],
+        },
       };
     }
     return g;
@@ -396,14 +434,16 @@ export function reserveCrossCabinetStock(params: {
     metadata: {
       updatedAt: new Date().toISOString(),
       version: 1,
-      auditTrail: [{
-        timestamp: new Date().toISOString(),
-        actorId: brandId,
-        action: 'CROSS_CABINET_RESERVE_INCREMENT',
-        prevQuantity: 0,
-        newQuantity: quantity
-      }]
-    }
+      auditTrail: [
+        {
+          timestamp: new Date().toISOString(),
+          actorId: brandId,
+          action: 'CROSS_CABINET_RESERVE_INCREMENT',
+          prevQuantity: 0,
+          newQuantity: quantity,
+        },
+      ],
+    },
   });
 
   return { success: true, updatedGrains };
@@ -413,7 +453,16 @@ export function reserveCrossCabinetStock(params: {
  * [Phase 2] Обработка событий инвентаря.
  * ASN, Приёмка, Отгрузка, Подтверждение ритейлом.
  */
-export type InventoryEventType = 'ASN_CREATED' | 'GOODS_RECEIVED' | 'ORDER_SHIPPED' | 'RETAIL_RECEIVED' | 'CYCLE_COUNT' | 'RECONCILIATION' | 'GRAIN_LOCKED' | 'GRAIN_UNLOCKED' | 'CUSTOMER_RETURN';
+export type InventoryEventType =
+  | 'ASN_CREATED'
+  | 'GOODS_RECEIVED'
+  | 'ORDER_SHIPPED'
+  | 'RETAIL_RECEIVED'
+  | 'CYCLE_COUNT'
+  | 'RECONCILIATION'
+  | 'GRAIN_LOCKED'
+  | 'GRAIN_UNLOCKED'
+  | 'CUSTOMER_RETURN';
 
 /**
  * [Phase 2 Prod] Обработка возврата от клиента.
@@ -434,7 +483,7 @@ export function processCustomerReturn(params: {
   const updatedGrains = [...grains];
   updatedGrains.push({
     grainId: `grain-return-${Date.now()}`,
-    productId: grains.find(g => g.sku === sku)?.productId || 'unknown',
+    productId: grains.find((g) => g.sku === sku)?.productId || 'unknown',
     sku,
     locationId,
     state: condition === 'resellable' ? 'on_hand' : 'unavailable',
@@ -444,14 +493,16 @@ export function processCustomerReturn(params: {
     metadata: {
       updatedAt: new Date().toISOString(),
       version: 1,
-      auditTrail: [{
-        timestamp: new Date().toISOString(),
-        actorId,
-        action: 'CUSTOMER_RETURN',
-        prevQuantity: 0,
-        newQuantity: quantity
-      }]
-    }
+      auditTrail: [
+        {
+          timestamp: new Date().toISOString(),
+          actorId,
+          action: 'CUSTOMER_RETURN',
+          prevQuantity: 0,
+          newQuantity: quantity,
+        },
+      ],
+    },
   });
 
   void publishInventoryCustomerReturnProcessed({
@@ -462,8 +513,8 @@ export function processCustomerReturn(params: {
       quantity,
       condition,
       actorId,
-      tenantId
-    }
+      tenantId,
+    },
   });
 
   return { success: true, updatedGrains };
@@ -486,25 +537,40 @@ export function transferChannelStock(params: {
   unitCost?: number;
   agreementId?: string; // [Phase 2 Prod] Ссылка на VMI/SLA
 }): { success: boolean; updatedGrains?: InventoryGrain[]; financialImpact?: number } {
-  const { sku, locationId, quantity, fromChannel, toChannel, ownerId, tenantId, grains, actorId, unitCost = 0, agreementId } = params;
+  const {
+    sku,
+    locationId,
+    quantity,
+    fromChannel,
+    toChannel,
+    ownerId,
+    tenantId,
+    grains,
+    actorId,
+    unitCost = 0,
+    agreementId,
+  } = params;
 
   // 1. Фильтруем подходящие гранулы источника
-  const sourceGrains = grains.filter(g => 
-    g.sku === sku && 
-    g.locationId === locationId && 
-    g.ownerId === ownerId && 
-    g.tenantId === tenantId &&
-    (fromChannel === 'b2b' ? (!g.channelId || g.channelId === 'b2b') : g.channelId === fromChannel) &&
-    g.state === 'on_hand' &&
-    !g.isLocked // [Phase 2 Prod] Нельзя перемещать заблокированный сток
+  const sourceGrains = grains.filter(
+    (g) =>
+      g.sku === sku &&
+      g.locationId === locationId &&
+      g.ownerId === ownerId &&
+      g.tenantId === tenantId &&
+      (fromChannel === 'b2b'
+        ? !g.channelId || g.channelId === 'b2b'
+        : g.channelId === fromChannel) &&
+      g.state === 'on_hand' &&
+      !g.isLocked // [Phase 2 Prod] Нельзя перемещать заблокированный сток
   );
 
   const totalAvailable = sourceGrains.reduce((acc, g) => acc + g.quantity, 0);
   if (totalAvailable < quantity) return { success: false };
 
   let remaining = quantity;
-  const updatedGrains = grains.map(g => {
-    if (remaining > 0 && sourceGrains.some(sg => sg.grainId === g.grainId)) {
+  const updatedGrains = grains.map((g) => {
+    if (remaining > 0 && sourceGrains.some((sg) => sg.grainId === g.grainId)) {
       const take = Math.min(g.quantity, remaining);
       remaining -= take;
       return {
@@ -521,10 +587,10 @@ export function transferChannelStock(params: {
               actorId,
               action: `CHANNEL_TRANSFER_OUT_${toChannel.toUpperCase()}`,
               prevQuantity: g.quantity,
-              newQuantity: g.quantity - take
-            }
-          ]
-        }
+              newQuantity: g.quantity - take,
+            },
+          ],
+        },
       };
     }
     return g;
@@ -545,14 +611,16 @@ export function transferChannelStock(params: {
     metadata: {
       updatedAt: new Date().toISOString(),
       version: 1,
-      auditTrail: [{
-        timestamp: new Date().toISOString(),
-        actorId,
-        action: `CHANNEL_TRANSFER_IN_${fromChannel.toUpperCase()}`,
-        prevQuantity: 0,
-        newQuantity: quantity
-      }]
-    }
+      auditTrail: [
+        {
+          timestamp: new Date().toISOString(),
+          actorId,
+          action: `CHANNEL_TRANSFER_IN_${fromChannel.toUpperCase()}`,
+          prevQuantity: 0,
+          newQuantity: quantity,
+        },
+      ],
+    },
   });
 
   const financialImpact = quantity * unitCost;
@@ -568,8 +636,8 @@ export function transferChannelStock(params: {
       financialImpact,
       actorId,
       tenantId,
-      agreementId
-    }
+      agreementId,
+    },
   });
 
   return { success: true, updatedGrains, financialImpact };
@@ -591,25 +659,43 @@ export function transferStockOwnership(params: {
   actorId: string;
   unitPrice: number;
   agreementId?: string;
-}): { success: boolean; updatedGrains?: InventoryGrain[]; settlementAmount?: number; error?: string } {
-  const { sku, locationId, quantity, fromOwnerId, toOwnerId, tenantId, grains, actorId, unitPrice, agreementId } = params;
+}): {
+  success: boolean;
+  updatedGrains?: InventoryGrain[];
+  settlementAmount?: number;
+  error?: string;
+} {
+  const {
+    sku,
+    locationId,
+    quantity,
+    fromOwnerId,
+    toOwnerId,
+    tenantId,
+    grains,
+    actorId,
+    unitPrice,
+    agreementId,
+  } = params;
 
   // 1. Находим свободные гранулы текущего владельца
-  const sourceGrains = grains.filter(g => 
-    g.sku === sku && 
-    g.locationId === locationId && 
-    g.ownerId === fromOwnerId && 
-    g.tenantId === tenantId &&
-    g.state === 'on_hand' &&
-    !g.isLocked
+  const sourceGrains = grains.filter(
+    (g) =>
+      g.sku === sku &&
+      g.locationId === locationId &&
+      g.ownerId === fromOwnerId &&
+      g.tenantId === tenantId &&
+      g.state === 'on_hand' &&
+      !g.isLocked
   );
 
   const totalAvailable = sourceGrains.reduce((acc, g) => acc + g.quantity, 0);
-  if (totalAvailable < quantity) return { success: false, error: 'Insufficient stock for ownership transfer' };
+  if (totalAvailable < quantity)
+    return { success: false, error: 'Insufficient stock for ownership transfer' };
 
   let remaining = quantity;
-  const updatedGrains = grains.map(g => {
-    if (remaining > 0 && sourceGrains.some(sg => sg.grainId === g.grainId)) {
+  const updatedGrains = grains.map((g) => {
+    if (remaining > 0 && sourceGrains.some((sg) => sg.grainId === g.grainId)) {
       const take = Math.min(g.quantity, remaining);
       remaining -= take;
       return {
@@ -626,10 +712,10 @@ export function transferStockOwnership(params: {
               actorId,
               action: `OWNERSHIP_TRANSFER_OUT_TO_${toOwnerId}`,
               prevQuantity: g.quantity,
-              newQuantity: g.quantity - take
-            }
-          ]
-        }
+              newQuantity: g.quantity - take,
+            },
+          ],
+        },
       };
     }
     return g;
@@ -649,14 +735,16 @@ export function transferStockOwnership(params: {
     metadata: {
       updatedAt: new Date().toISOString(),
       version: 1,
-      auditTrail: [{
-        timestamp: new Date().toISOString(),
-        actorId,
-        action: `OWNERSHIP_TRANSFER_IN_FROM_${fromOwnerId}`,
-        prevQuantity: 0,
-        newQuantity: quantity
-      }]
-    }
+      auditTrail: [
+        {
+          timestamp: new Date().toISOString(),
+          actorId,
+          action: `OWNERSHIP_TRANSFER_IN_FROM_${fromOwnerId}`,
+          prevQuantity: 0,
+          newQuantity: quantity,
+        },
+      ],
+    },
   });
 
   const settlementAmount = quantity * unitPrice;
@@ -673,8 +761,8 @@ export function transferStockOwnership(params: {
       settlementAmount,
       actorId,
       tenantId,
-      agreementId
-    }
+      agreementId,
+    },
   });
 
   return { success: true, updatedGrains, settlementAmount };
@@ -699,12 +787,12 @@ export function unlockInventoryGrain(params: {
   reason: string;
 }): { success: boolean; updatedGrains?: InventoryGrain[]; error?: string } {
   const { grainId, grains, actorId, reason } = params;
-  const grain = grains.find(g => g.grainId === grainId);
-  
+  const grain = grains.find((g) => g.grainId === grainId);
+
   if (!grain) return { success: false, error: 'Grain not found' };
   if (!grain.isLocked) return { success: true, updatedGrains: grains };
 
-  const updatedGrains = grains.map(g => {
+  const updatedGrains = grains.map((g) => {
     if (g.grainId === grainId) {
       return {
         ...g,
@@ -721,10 +809,10 @@ export function unlockInventoryGrain(params: {
               actorId,
               action: 'UNLOCK_GRAIN',
               prevQuantity: g.quantity,
-              newQuantity: g.quantity
-            }
-          ]
-        }
+              newQuantity: g.quantity,
+            },
+          ],
+        },
       };
     }
     return g;
@@ -737,8 +825,8 @@ export function unlockInventoryGrain(params: {
       grainId,
       actorId,
       reason,
-      tenantId: grain.tenantId
-    }
+      tenantId: grain.tenantId,
+    },
   });
 
   return { success: true, updatedGrains };
@@ -754,7 +842,13 @@ export function reconcileInventory(params: {
 }): { success: boolean; result?: ReconciliationResult; updatedGrains?: InventoryGrain[] } {
   const { sku, locationId, actualQuantity, grains, tenantId, actorId } = params;
 
-  const tenantGrains = grains.filter(g => g.tenantId === tenantId && g.sku === sku && g.locationId === locationId && g.state === 'on_hand');
+  const tenantGrains = grains.filter(
+    (g) =>
+      g.tenantId === tenantId &&
+      g.sku === sku &&
+      g.locationId === locationId &&
+      g.state === 'on_hand'
+  );
 
   // [Phase 2 Prod] Проверка tenantId
   if (tenantGrains.length > 0 && tenantGrains[0].tenantId !== tenantId) {
@@ -764,16 +858,31 @@ export function reconcileInventory(params: {
   const discrepancy = actualQuantity - expectedQuantity;
 
   if (discrepancy === 0) {
-    return { success: true, result: { sku, locationId, expectedQuantity, actualQuantity, discrepancy, actionTaken: 'adjusted' } };
+    return {
+      success: true,
+      result: {
+        sku,
+        locationId,
+        expectedQuantity,
+        actualQuantity,
+        discrepancy,
+        actionTaken: 'adjusted',
+      },
+    };
   }
 
   // Если расхождение значительное (>10% или >50 единиц), блокируем гранулы для расследования
   const shouldLock = Math.abs(discrepancy) > expectedQuantity * 0.1 || Math.abs(discrepancy) > 50;
 
-  const updatedGrains = grains.map(g => {
-    if (g.tenantId === tenantId && g.sku === sku && g.locationId === locationId && g.state === 'on_hand') {
-      const newQuantity = shouldLock ? g.quantity : (g.quantity + (discrepancy / tenantGrains.length));
-      
+  const updatedGrains = grains.map((g) => {
+    if (
+      g.tenantId === tenantId &&
+      g.sku === sku &&
+      g.locationId === locationId &&
+      g.state === 'on_hand'
+    ) {
+      const newQuantity = shouldLock ? g.quantity : g.quantity + discrepancy / tenantGrains.length;
+
       return {
         ...g,
         isLocked: shouldLock ? true : g.isLocked,
@@ -789,10 +898,10 @@ export function reconcileInventory(params: {
               actorId,
               action: 'RECONCILIATION',
               prevQuantity: g.quantity,
-              newQuantity
-            }
-          ]
-        }
+              newQuantity,
+            },
+          ],
+        },
       };
     }
     return g;
@@ -807,21 +916,21 @@ export function reconcileInventory(params: {
       discrepancy,
       actionTaken: shouldLock ? 'locked' : 'adjusted',
       actorId,
-      tenantId
-    }
+      tenantId,
+    },
   });
 
-  return { 
-    success: true, 
-    result: { 
-      sku, 
-      locationId, 
-      expectedQuantity, 
-      actualQuantity, 
-      discrepancy, 
-      actionTaken: shouldLock ? 'locked' : 'adjusted' 
+  return {
+    success: true,
+    result: {
+      sku,
+      locationId,
+      expectedQuantity,
+      actualQuantity,
+      discrepancy,
+      actionTaken: shouldLock ? 'locked' : 'adjusted',
     },
-    updatedGrains
+    updatedGrains,
   };
 }
 
@@ -838,7 +947,7 @@ export function createLedgerSnapshot(params: {
   const timestamp = new Date().toISOString();
   const snapshotId = `snap-inv-${tenantId}-${Date.now()}`;
 
-  const tenantGrains = grains.filter(g => g.tenantId === tenantId);
+  const tenantGrains = grains.filter((g) => g.tenantId === tenantId);
 
   void publishInventorySnapshotCreated({
     aggregateId: tenantId,
@@ -848,14 +957,14 @@ export function createLedgerSnapshot(params: {
       snapshotId,
       grainCount: tenantGrains.length,
       actorId,
-      reason
-    }
+      reason,
+    },
   });
 
   return {
     snapshotId,
     timestamp,
-    grains: JSON.parse(JSON.stringify(tenantGrains)) // Deep copy
+    grains: JSON.parse(JSON.stringify(tenantGrains)), // Deep copy
   };
 }
 
@@ -870,36 +979,46 @@ export function rebalanceInventory(params: {
   thresholds: Record<string, { min: number; max: number }>;
 }): Array<{ fromLocationId: string; toLocationId: string; quantity: number; reason: string }> {
   const { sku, grains, tenantId, thresholds } = params;
-  
-  const skuGrains = grains.filter(g => g.sku === sku && g.tenantId === tenantId && g.state === 'on_hand' && !g.isLocked);
-  const locationBalances = skuGrains.reduce((acc, g) => {
-    acc[g.locationId] = (acc[g.locationId] || 0) + g.quantity;
-    return acc;
-  }, {} as Record<string, number>);
 
-  const recommendations: Array<{ fromLocationId: string; toLocationId: string; quantity: number; reason: string }> = [];
+  const skuGrains = grains.filter(
+    (g) => g.sku === sku && g.tenantId === tenantId && g.state === 'on_hand' && !g.isLocked
+  );
+  const locationBalances = skuGrains.reduce(
+    (acc, g) => {
+      acc[g.locationId] = (acc[g.locationId] || 0) + g.quantity;
+      return acc;
+    },
+    {} as Record<string, number>
+  );
+
+  const recommendations: Array<{
+    fromLocationId: string;
+    toLocationId: string;
+    quantity: number;
+    reason: string;
+  }> = [];
 
   // 1. Находим локации с дефицитом
   for (const [locationId, threshold] of Object.entries(thresholds)) {
     const currentBalance = locationBalances[locationId] || 0;
     if (currentBalance < threshold.min) {
       const deficit = threshold.min - currentBalance;
-      
+
       // 2. Ищем донора с избытком
       for (const [donorId, donorThreshold] of Object.entries(thresholds)) {
         if (donorId === locationId) continue;
         const donorBalance = locationBalances[donorId] || 0;
-        
+
         if (donorBalance > donorThreshold.min) {
           const surplus = donorBalance - donorThreshold.min;
           const transferQty = Math.min(deficit, surplus);
-          
+
           if (transferQty > 0) {
             recommendations.push({
               fromLocationId: donorId,
               toLocationId: locationId,
               quantity: transferQty,
-              reason: `REPLENISHMENT_DEFICIT_IN_${locationId}`
+              reason: `REPLENISHMENT_DEFICIT_IN_${locationId}`,
             });
             locationBalances[donorId] -= transferQty;
             locationBalances[locationId] += transferQty;
@@ -925,24 +1044,25 @@ export function validateQuota(params: {
 }): { allowed: boolean; remainingQuota?: number; error?: string } {
   const { grains, sku, channelId, virtualPoolId, requestedQuantity } = params;
 
-  const relevantGrains = grains.filter(g => 
-    g.sku === sku && 
-    (channelId ? g.channelId === channelId : true) &&
-    (virtualPoolId ? g.virtualPoolId === virtualPoolId : true)
+  const relevantGrains = grains.filter(
+    (g) =>
+      g.sku === sku &&
+      (channelId ? g.channelId === channelId : true) &&
+      (virtualPoolId ? g.virtualPoolId === virtualPoolId : true)
   );
 
   const totalQuota = relevantGrains.reduce((acc, g) => acc + (g.quota || Infinity), 0);
   const currentAllocated = relevantGrains
-    .filter(g => g.state === 'allocated' || g.state === 'reserved')
+    .filter((g) => g.state === 'allocated' || g.state === 'reserved')
     .reduce((acc, g) => acc + g.quantity, 0);
 
   const remainingQuota = totalQuota - currentAllocated;
 
   if (requestedQuantity > remainingQuota) {
-    return { 
-      allowed: false, 
-      remainingQuota, 
-      error: `Quota exceeded: requested ${requestedQuantity}, remaining ${remainingQuota}` 
+    return {
+      allowed: false,
+      remainingQuota,
+      error: `Quota exceeded: requested ${requestedQuantity}, remaining ${remainingQuota}`,
     };
   }
 
@@ -964,13 +1084,19 @@ export function processInventoryEvent(params: {
 
   if (type === 'CYCLE_COUNT') {
     // Инвентаризация (Cycle Counting) — прямая корректировка on_hand с аудитом
-    const updatedGrains = grains.map(g => {
-      if (g.sku === sku && g.locationId === locationId && g.state === 'on_hand' && g.ownerId === ownerId) {
+    const updatedGrains = grains.map((g) => {
+      if (
+        g.sku === sku &&
+        g.locationId === locationId &&
+        g.state === 'on_hand' &&
+        g.ownerId === ownerId
+      ) {
         // [Phase 2 Prod] Проверка tenantId
-        if (actorId && g.tenantId && g.tenantId !== actorId.split('-')[0]) { // Упрощенная проверка в демо
+        if (actorId && g.tenantId && g.tenantId !== actorId.split('-')[0]) {
+          // Упрощенная проверка в демо
           // В реальной системе здесь была бы более строгая проверка
         }
-        
+
         return {
           ...g,
           quantity: quantity, // Новое абсолютное значение
@@ -979,23 +1105,23 @@ export function processInventoryEvent(params: {
             ...g.metadata,
             updatedAt: new Date().toISOString(),
             version: g.metadata.version + 1,
-          auditTrail: [
-            ...(g.metadata.auditTrail || []),
-            {
-              timestamp: new Date().toISOString(),
-              actorId: actorId || 'system',
-              action: 'CYCLE_COUNT_ADJUSTMENT',
-              prevQuantity: g.quantity,
-              newQuantity: quantity
-            }
-          ]
-          }
+            auditTrail: [
+              ...(g.metadata.auditTrail || []),
+              {
+                timestamp: new Date().toISOString(),
+                actorId: actorId || 'system',
+                action: 'CYCLE_COUNT_ADJUSTMENT',
+                prevQuantity: g.quantity,
+                newQuantity: quantity,
+              },
+            ],
+          },
         };
       }
       return g;
     });
     const result = { success: true, updatedGrains };
-    
+
     // Публикуем событие домена
     void publishInventoryCycleCountCompleted({
       aggregateId: sku,
@@ -1005,8 +1131,8 @@ export function processInventoryEvent(params: {
         newQuantity: quantity,
         actorId: actorId || 'system',
         reason: reason || 'Scheduled cycle count',
-        tenantId: updatedGrains.find(g => g.sku === sku)?.tenantId
-      }
+        tenantId: updatedGrains.find((g) => g.sku === sku)?.tenantId,
+      },
     });
 
     return result;
@@ -1024,17 +1150,19 @@ export function processInventoryEvent(params: {
       quantity,
       ownerId,
       agreementId,
-      metadata: { 
-        updatedAt: new Date().toISOString(), 
+      metadata: {
+        updatedAt: new Date().toISOString(),
         version: 1,
-        auditTrail: [{
-          timestamp: new Date().toISOString(),
-          actorId: actorId || 'system',
-          action: 'ASN_CREATED',
-          prevQuantity: 0,
-          newQuantity: quantity
-        }]
-      }
+        auditTrail: [
+          {
+            timestamp: new Date().toISOString(),
+            actorId: actorId || 'system',
+            action: 'ASN_CREATED',
+            prevQuantity: 0,
+            newQuantity: quantity,
+          },
+        ],
+      },
     });
     return { success: true, updatedGrains };
   }
@@ -1045,15 +1173,21 @@ export function processInventoryEvent(params: {
       (g) => g.sku === sku && g.locationId === locationId && g.state === 'reserved_for_channel'
     );
     const totalAvailable = sourceGrains.reduce((acc, g) => acc + g.quantity, 0);
-    if (totalAvailable < quantity) return { success: false, error: 'Insufficient reserved stock for retail receipt' };
+    if (totalAvailable < quantity)
+      return { success: false, error: 'Insufficient reserved stock for retail receipt' };
 
     let remaining = quantity;
-    const updatedGrains = grains.map(g => {
-      if (remaining > 0 && g.sku === sku && g.locationId === locationId && g.state === 'reserved_for_channel') {
+    const updatedGrains = grains.map((g) => {
+      if (
+        remaining > 0 &&
+        g.sku === sku &&
+        g.locationId === locationId &&
+        g.state === 'reserved_for_channel'
+      ) {
         const take = Math.min(g.quantity, remaining);
         remaining -= take;
-        return { 
-          ...g, 
+        return {
+          ...g,
           quantity: g.quantity - take,
           metadata: {
             ...g.metadata,
@@ -1066,10 +1200,10 @@ export function processInventoryEvent(params: {
                 actorId: actorId || 'system',
                 action: 'RETAIL_RECEIVED_DECREMENT',
                 prevQuantity: g.quantity,
-                newQuantity: g.quantity - take
-              }
-            ]
-          }
+                newQuantity: g.quantity - take,
+              },
+            ],
+          },
         };
       }
       return g;
@@ -1085,17 +1219,19 @@ export function processInventoryEvent(params: {
       ownerId, // Новый владелец (магазин)
       tenantId: sourceGrains[0].tenantId, // [Phase 2 Prod] Наследуем tenantId
       agreementId: agreementId || sourceGrains[0].agreementId,
-      metadata: { 
-        updatedAt: new Date().toISOString(), 
+      metadata: {
+        updatedAt: new Date().toISOString(),
         version: 1,
-        auditTrail: [{
-          timestamp: new Date().toISOString(),
-          actorId: actorId || 'system',
-          action: 'RETAIL_RECEIVED_INCREMENT',
-          prevQuantity: 0,
-          newQuantity: quantity
-        }]
-      }
+        auditTrail: [
+          {
+            timestamp: new Date().toISOString(),
+            actorId: actorId || 'system',
+            action: 'RETAIL_RECEIVED_INCREMENT',
+            prevQuantity: 0,
+            newQuantity: quantity,
+          },
+        ],
+      },
     });
     return { success: true, updatedGrains };
   }
@@ -1103,18 +1239,27 @@ export function processInventoryEvent(params: {
   if (type === 'GOODS_RECEIVED') {
     // Приёмка — перевод из ex_factory/in_transit в on_hand
     const sourceGrains = grains.filter(
-      (g) => g.sku === sku && g.locationId === locationId && (g.state === 'ex_factory' || g.state === 'in_transit')
+      (g) =>
+        g.sku === sku &&
+        g.locationId === locationId &&
+        (g.state === 'ex_factory' || g.state === 'in_transit')
     );
     const totalAvailable = sourceGrains.reduce((acc, g) => acc + g.quantity, 0);
-    if (totalAvailable < quantity) return { success: false, error: 'Insufficient transit stock for receiving' };
+    if (totalAvailable < quantity)
+      return { success: false, error: 'Insufficient transit stock for receiving' };
 
     let remaining = quantity;
-    const updatedGrains = grains.map(g => {
-      if (remaining > 0 && g.sku === sku && g.locationId === locationId && (g.state === 'ex_factory' || g.state === 'in_transit')) {
+    const updatedGrains = grains.map((g) => {
+      if (
+        remaining > 0 &&
+        g.sku === sku &&
+        g.locationId === locationId &&
+        (g.state === 'ex_factory' || g.state === 'in_transit')
+      ) {
         const take = Math.min(g.quantity, remaining);
         remaining -= take;
-        return { 
-          ...g, 
+        return {
+          ...g,
           quantity: g.quantity - take,
           metadata: {
             ...g.metadata,
@@ -1127,10 +1272,10 @@ export function processInventoryEvent(params: {
                 actorId: actorId || 'system',
                 action: 'GOODS_RECEIVED_DECREMENT',
                 prevQuantity: g.quantity,
-                newQuantity: g.quantity - take
-              }
-            ]
-          }
+                newQuantity: g.quantity - take,
+              },
+            ],
+          },
         };
       }
       return g;
@@ -1145,17 +1290,19 @@ export function processInventoryEvent(params: {
       quantity,
       ownerId,
       tenantId: sourceGrains[0].tenantId, // [Phase 2 Prod] Наследуем tenantId
-      metadata: { 
-        updatedAt: new Date().toISOString(), 
+      metadata: {
+        updatedAt: new Date().toISOString(),
         version: 1,
-        auditTrail: [{
-          timestamp: new Date().toISOString(),
-          actorId: actorId || 'system',
-          action: 'GOODS_RECEIVED_INCREMENT',
-          prevQuantity: 0,
-          newQuantity: quantity
-        }]
-      }
+        auditTrail: [
+          {
+            timestamp: new Date().toISOString(),
+            actorId: actorId || 'system',
+            action: 'GOODS_RECEIVED_INCREMENT',
+            prevQuantity: 0,
+            newQuantity: quantity,
+          },
+        ],
+      },
     });
     return { success: true, updatedGrains };
   }
@@ -1163,18 +1310,27 @@ export function processInventoryEvent(params: {
   if (type === 'ORDER_SHIPPED') {
     // Отгрузка — перевод из reserved/allocated в shipped
     const sourceGrains = grains.filter(
-      (g) => g.sku === sku && g.locationId === locationId && (g.state === 'reserved' || g.state === 'allocated')
+      (g) =>
+        g.sku === sku &&
+        g.locationId === locationId &&
+        (g.state === 'reserved' || g.state === 'allocated')
     );
     const totalAvailable = sourceGrains.reduce((acc, g) => acc + g.quantity, 0);
-    if (totalAvailable < quantity) return { success: false, error: 'Insufficient reserved stock for shipment' };
+    if (totalAvailable < quantity)
+      return { success: false, error: 'Insufficient reserved stock for shipment' };
 
     let remaining = quantity;
-    const updatedGrains = grains.map(g => {
-      if (remaining > 0 && g.sku === sku && g.locationId === locationId && (g.state === 'reserved' || g.state === 'allocated')) {
+    const updatedGrains = grains.map((g) => {
+      if (
+        remaining > 0 &&
+        g.sku === sku &&
+        g.locationId === locationId &&
+        (g.state === 'reserved' || g.state === 'allocated')
+      ) {
         const take = Math.min(g.quantity, remaining);
         remaining -= take;
-        return { 
-          ...g, 
+        return {
+          ...g,
           quantity: g.quantity - take,
           metadata: {
             ...g.metadata,
@@ -1187,10 +1343,10 @@ export function processInventoryEvent(params: {
                 actorId: actorId || 'system',
                 action: 'ORDER_SHIPPED_DECREMENT',
                 prevQuantity: g.quantity,
-                newQuantity: g.quantity - take
-              }
-            ]
-          }
+                newQuantity: g.quantity - take,
+              },
+            ],
+          },
         };
       }
       return g;
@@ -1205,17 +1361,19 @@ export function processInventoryEvent(params: {
       quantity,
       ownerId,
       tenantId: sourceGrains[0].tenantId, // [Phase 2 Prod] Наследуем tenantId
-      metadata: { 
-        updatedAt: new Date().toISOString(), 
+      metadata: {
+        updatedAt: new Date().toISOString(),
         version: 1,
-        auditTrail: [{
-          timestamp: new Date().toISOString(),
-          actorId: actorId || 'system',
-          action: 'ORDER_SHIPPED_INCREMENT',
-          prevQuantity: 0,
-          newQuantity: quantity
-        }]
-      }
+        auditTrail: [
+          {
+            timestamp: new Date().toISOString(),
+            actorId: actorId || 'system',
+            action: 'ORDER_SHIPPED_INCREMENT',
+            prevQuantity: 0,
+            newQuantity: quantity,
+          },
+        ],
+      },
     });
     return { success: true, updatedGrains };
   }

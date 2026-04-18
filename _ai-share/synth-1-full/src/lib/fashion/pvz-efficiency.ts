@@ -4,7 +4,7 @@ import type { PvzEfficiencyV1 } from './types';
 /** Эффективность примерок в ПВЗ (Marketplace/Logistic Analysis). */
 export function getPvzEfficiency(product: Product): PvzEfficiencyV1 {
   const seed = product.id.length;
-  
+
   // Эвристика: обувь и платья чаще примеряют в ПВЗ
   const isHighFitting = product.category === 'Footwear' || product.category === 'Dress';
   const tryOnRate = isHighFitting ? 85 + (seed % 10) : 60 + (seed % 20);

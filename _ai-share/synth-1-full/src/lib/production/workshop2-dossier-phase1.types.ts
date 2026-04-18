@@ -102,7 +102,10 @@ export type Workshop2TzSignoffStageId =
 export type Workshop2TzPanelSectionId = 'general' | 'visuals' | 'material' | 'construction';
 
 /** Устаревшие ключи в сохранённых метках (табель мер / упаковка вынесены в конструкцию и материалы). */
-export type Workshop2TzPanelSectionKeyStored = Workshop2TzPanelSectionId | 'measurements' | 'packaging';
+export type Workshop2TzPanelSectionKeyStored =
+  | Workshop2TzPanelSectionId
+  | 'measurements'
+  | 'packaging';
 
 /** Что именно берём с референса (решение, не только файл). */
 export type Workshop2VisualRefTakeawayAspect =
@@ -409,7 +412,11 @@ export type Workshop2SampleProductionChainMode =
 export type Workshop2PassportDeadlineCriticality = 'hard' | 'flexible' | 'tbd';
 
 /** Кто ведёт карточку ТЗ на шаге 1 (не оргструктура). */
-export type Workshop2PassportArticleCardOwnerRole = 'designer' | 'product' | 'technologist' | 'shared';
+export type Workshop2PassportArticleCardOwnerRole =
+  | 'designer'
+  | 'product'
+  | 'technologist'
+  | 'shared';
 
 /** План запуска: своё производство / КНП / смешанный. */
 export type Workshop2PassportPlannedLaunchType = 'own_floor' | 'cmt' | 'mixed' | 'undecided';

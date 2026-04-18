@@ -6,5 +6,6 @@ describe('stock-integration', () => {
     expect(p.ingestKind).toBe('retailer_stock_spreadsheet');
     expect(p.pipelineStage).toBe('accepted_file');
     expect(String(p.nextStage)).toContain('prepareExternalStockSync');
+    expect(p.domainEventType).toBe('inventory.shop_stock_file_ingested');
   });
 });

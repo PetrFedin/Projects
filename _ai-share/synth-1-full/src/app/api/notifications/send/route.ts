@@ -4,12 +4,16 @@ import { DEFAULT_TRIGGERS } from '@/lib/notifications/triggers';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { triggerId, channels = ['email', 'push'], payload } = body as {
+    const {
+      triggerId,
+      channels = ['email', 'push'],
+      payload,
+    } = body as {
       triggerId: string;
       channels?: string[];
       payload?: { title?: string; text?: string; userId?: string };
     };
-    const cfg = DEFAULT_TRIGGERS.find(t => t.id === triggerId);
+    const cfg = DEFAULT_TRIGGERS.find((t) => t.id === triggerId);
     if (!cfg) {
       return NextResponse.json({ success: false, error: 'Unknown trigger' }, { status: 400 });
     }

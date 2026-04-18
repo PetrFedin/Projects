@@ -1,5 +1,8 @@
 import type { NextAction } from '@/lib/contracts';
-import { mapNextActionToTaskHint, nextActionShortLabel } from '@/lib/control-adapters/map-next-action-to-task-hint';
+import {
+  mapNextActionToTaskHint,
+  nextActionShortLabel,
+} from '@/lib/control-adapters/map-next-action-to-task-hint';
 
 describe('mapNextActionToTaskHint', () => {
   const derivedPayment: NextAction = {

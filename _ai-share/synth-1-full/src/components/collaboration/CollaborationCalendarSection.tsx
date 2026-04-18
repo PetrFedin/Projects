@@ -33,7 +33,9 @@ export function CollaborationCalendarSection({ className }: { className?: string
   });
 
   const userId = user?.uid ?? 'guest';
-  const currentRole = (user?.roles?.[0] as string) || (user?.activeOrganizationId?.includes('brand') ? 'brand' : 'client');
+  const currentRole =
+    (user?.roles?.[0] as string) ||
+    (user?.activeOrganizationId?.includes('brand') ? 'brand' : 'client');
 
   const load = useCallback(() => {
     setEvents(getCalendarEvents(userId));
@@ -64,7 +66,15 @@ export function CollaborationCalendarSection({ className }: { className?: string
     load();
     setIsCreateOpen(false);
     setEditingEvent(null);
-    setDraft({ title: '', layer: 'events', type: 'event', visibility: 'internal', startAt: new Date().toISOString().slice(0, 16), endAt: new Date(Date.now() + 3600000).toISOString().slice(0, 16), participants: [] });
+    setDraft({
+      title: '',
+      layer: 'events',
+      type: 'event',
+      visibility: 'internal',
+      startAt: new Date().toISOString().slice(0, 16),
+      endAt: new Date(Date.now() + 3600000).toISOString().slice(0, 16),
+      participants: [],
+    });
   };
 
   const handleDelete = () => {
@@ -82,8 +92,7 @@ export function CollaborationCalendarSection({ className }: { className?: string
     setEditingEvent(null);
   };
 
-  const myParticipant = (ev: CalendarEvent) =>
-    ev.participants?.find((p) => p.uid === userId);
+  const myParticipant = (ev: CalendarEvent) => ev.participants?.find((p) => p.uid === userId);
   const isOwner = (ev: CalendarEvent) => ev.ownerId === userId;
 
   return (
@@ -91,23 +100,39 @@ export function CollaborationCalendarSection({ className }: { className?: string
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-sm font-bold flex items-center gap-2">
+            <h2 className="flex items-center gap-2 text-sm font-bold">
               <Users className="h-4 w-4" />
               События с участниками
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Создавайте события, приглашайте участников. Они смогут принять или отклонить приглашение.
+            <p className="text-text-secondary mt-0.5 text-xs">
+              Создавайте события, приглашайте участников. Они смогут принять или отклонить
+              приглашение.
             </p>
           </div>
-          <Button size="sm" onClick={() => { setDraft({ title: '', layer: 'events', type: 'event', visibility: 'internal', startAt: new Date().toISOString().slice(0, 16), endAt: new Date(Date.now() + 3600000).toISOString().slice(0, 16), participants: [] }); setIsCreateOpen(true); setEditingEvent(null); }}>
-            <Plus className="h-4 w-4 mr-1" />
+          <Button
+            size="sm"
+            onClick={() => {
+              setDraft({
+                title: '',
+                layer: 'events',
+                type: 'event',
+                visibility: 'internal',
+                startAt: new Date().toISOString().slice(0, 16),
+                endAt: new Date(Date.now() + 3600000).toISOString().slice(0, 16),
+                participants: [],
+              });
+              setIsCreateOpen(true);
+              setEditingEvent(null);
+            }}
+          >
+            <Plus className="mr-1 h-4 w-4" />
             Создать
           </Button>
         </div>
       </CardHeader>
       <CardContent>
         {events.length === 0 ? (
-          <p className="text-sm text-slate-500 py-6 text-center">
+          <p className="text-text-secondary py-6 text-center text-sm">
             Нет событий. Создайте событие и пригласите участников из команды.
           </p>
         ) : (
@@ -120,18 +145,19 @@ export function CollaborationCalendarSection({ className }: { className?: string
                 return (
                   <div
                     key={ev.id}
-                    className="flex items-center gap-3 p-3 rounded-lg border bg-white hover:bg-slate-50/50 cursor-pointer transition-colors"
+                    className="hover:bg-bg-surface2/80 flex cursor-pointer items-center gap-3 rounded-lg border bg-white p-3 transition-colors"
                     onClick={() => {
                       setEditingEvent(ev);
                       setDraft(ev);
                       setIsCreateOpen(false);
                     }}
                   >
-                    <div className="w-2 h-10 rounded bg-indigo-500 shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">{ev.title}</p>
-                      <p className="text-[10px] text-slate-500">
-                        {format(parseISO(ev.startAt), 'd MMM, HH:mm', { locale: ru })} · {ev.ownerName}
+                    <div className="bg-accent-primary h-10 w-2 shrink-0 rounded" />
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium">{ev.title}</p>
+                      <p className="text-text-secondary text-[10px]">
+                        {format(parseISO(ev.startAt), 'd MMM, HH:mm', { locale: ru })} ·{' '}
+                        {ev.ownerName}
                         {ev.participants && ev.participants.length > 0 && (
                           <> · {ev.participants.length} участн.</>
                         )}
@@ -139,20 +165,34 @@ export function CollaborationCalendarSection({ className }: { className?: string
                       </p>
                     </div>
                     {participant && participant.status === 'pending' && (
-                      <div className="flex gap-1 shrink-0" onClick={(e) => e.stopPropagation()}>
-                        <Button size="sm" variant="default" className="h-7" onClick={() => handleAcceptReject(ev.id, 'accepted')}>
-                          <Check className="h-3 w-3 mr-1" /> Принять
+                      <div className="flex shrink-0 gap-1" onClick={(e) => e.stopPropagation()}>
+                        <Button
+                          size="sm"
+                          variant="default"
+                          className="h-7"
+                          onClick={() => handleAcceptReject(ev.id, 'accepted')}
+                        >
+                          <Check className="mr-1 h-3 w-3" /> Принять
                         </Button>
-                        <Button size="sm" variant="outline" className="h-7" onClick={() => handleAcceptReject(ev.id, 'rejected')}>
-                          <X className="h-3 w-3 mr-1" /> Отклонить
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-7"
+                          onClick={() => handleAcceptReject(ev.id, 'rejected')}
+                        >
+                          <X className="mr-1 h-3 w-3" /> Отклонить
                         </Button>
                       </div>
                     )}
                     {participant?.status === 'accepted' && (
-                      <Badge variant="secondary" className="text-[10px] shrink-0">Принято</Badge>
+                      <Badge variant="secondary" className="shrink-0 text-[10px]">
+                        Принято
+                      </Badge>
                     )}
                     {participant?.status === 'rejected' && (
-                      <Badge variant="outline" className="text-[10px] shrink-0 text-slate-400">Отклонено</Badge>
+                      <Badge variant="outline" className="text-text-muted shrink-0 text-[10px]">
+                        Отклонено
+                      </Badge>
                     )}
                   </div>
                 );
@@ -175,9 +215,21 @@ export function CollaborationCalendarSection({ className }: { className?: string
         onSave={handleSave}
         onDelete={editingEvent && isOwner(editingEvent) ? handleDelete : undefined}
         currentRole={currentRole}
-        isPendingInvitee={!!editingEvent && !!myParticipant(editingEvent) && myParticipant(editingEvent)!.status === 'pending'}
-        onAccept={editingEvent && myParticipant(editingEvent)?.status === 'pending' ? () => handleAcceptReject(editingEvent.id, 'accepted') : undefined}
-        onReject={editingEvent && myParticipant(editingEvent)?.status === 'pending' ? () => handleAcceptReject(editingEvent.id, 'rejected') : undefined}
+        isPendingInvitee={
+          !!editingEvent &&
+          !!myParticipant(editingEvent) &&
+          myParticipant(editingEvent)!.status === 'pending'
+        }
+        onAccept={
+          editingEvent && myParticipant(editingEvent)?.status === 'pending'
+            ? () => handleAcceptReject(editingEvent.id, 'accepted')
+            : undefined
+        }
+        onReject={
+          editingEvent && myParticipant(editingEvent)?.status === 'pending'
+            ? () => handleAcceptReject(editingEvent.id, 'rejected')
+            : undefined
+        }
       />
     </Card>
   );

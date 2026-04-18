@@ -53,7 +53,8 @@ export async function patchOperationalOrderNoteV1(params: {
   ) {
     return { ok: false, status: 500, message: 'Invalid envelope' };
   }
-  const data = (raw as { data: { wholesaleOrderId: string; note: string; updatedAt: string } }).data;
+  const data = (raw as { data: { wholesaleOrderId: string; note: string; updatedAt: string } })
+    .data;
   const meta = (raw as { meta?: { idempotentReplay?: boolean } }).meta;
   return {
     ok: true,

@@ -2,11 +2,19 @@
 
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardFooter,
+} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import {
   Eye,
   Box,
@@ -21,229 +29,399 @@ import {
   Play,
   Settings,
   Globe,
-  Monitor
+  Monitor,
 } from 'lucide-react';
 import { RegistryPageShell } from '@/components/design-system';
 import Image from 'next/image';
 import { VirtualShowroom } from '@/components/brand/virtual-showroom';
-const TradeShowsContent = dynamic(() => import('@/app/brand/b2b/trade-shows/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const PassportContent = dynamic(() => import('@/app/brand/b2b/passport/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const BuyerAppsContent = dynamic(() => import('@/app/brand/b2b/buyer-applications/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const PrivateInvitesContent = dynamic(() => import('@/app/brand/b2b/private-invites/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const MerchandisingContent = dynamic(() => import('@/app/brand/merchandising/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const VideoConsultationContent = dynamic(() => import('@/app/brand/showroom/video-consultation/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const ShowroomBannersContent = dynamic(() => import('@/app/brand/showroom/banners/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const ShowroomAiSearchContent = dynamic(() => import('@/app/brand/showroom/ai-search/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
+const TradeShowsContent = dynamic(
+  () => import('@/app/brand/b2b/trade-shows/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const PassportContent = dynamic(
+  () => import('@/app/brand/b2b/passport/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const BuyerAppsContent = dynamic(
+  () => import('@/app/brand/b2b/buyer-applications/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const PrivateInvitesContent = dynamic(
+  () => import('@/app/brand/b2b/private-invites/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const MerchandisingContent = dynamic(
+  () => import('@/app/brand/merchandising/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const VideoConsultationContent = dynamic(
+  () => import('@/app/brand/showroom/video-consultation/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const ShowroomBannersContent = dynamic(
+  () => import('@/app/brand/showroom/banners/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const ShowroomAiSearchContent = dynamic(
+  () => import('@/app/brand/showroom/ai-search/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
 
 export default function BrandShowroomPage() {
   const [tab, setTab] = useState('showroom');
   const showroomFeatures = [
     {
-      title: "Phygital Presentation",
-      desc: "Интерактивный просмотр коллекций с возможностью 3D-вращения изделий и зумом деталей.",
+      title: 'Phygital Presentation',
+      desc: 'Интерактивный просмотр коллекций с возможностью 3D-вращения изделий и зумом деталей.',
       icon: Eye,
-      status: "Active"
+      status: 'Active',
     },
     {
-      title: "Interactive Order Sheets",
-      desc: "Байеры могут формировать заказ прямо внутри виртуального пространства.",
+      title: 'Interactive Order Sheets',
+      desc: 'Байеры могут формировать заказ прямо внутри виртуального пространства.',
       icon: ShoppingBag,
-      status: "Active"
+      status: 'Active',
     },
     {
-      title: "Live Sessions",
-      desc: "Проведение закрытых презентаций для VIP-байеров с голосовой связью.",
+      title: 'Live Sessions',
+      desc: 'Проведение закрытых презентаций для VIP-байеров с голосовой связью.',
       icon: Camera,
-      status: "Beta"
+      status: 'Beta',
     },
     {
-      title: "Heatmap Analytics",
-      desc: "Отслеживание наиболее популярных зон и рейлов шоурума среди посетителей.",
+      title: 'Heatmap Analytics',
+      desc: 'Отслеживание наиболее популярных зон и рейлов шоурума среди посетителей.',
       icon: Layers,
-      status: "Active"
+      status: 'Active',
     },
     {
-      title: "Virtual Try-On",
-      desc: "Примерка коллекции на 3D-аватары с разными типами фигур (XS-XXL) для байеров.",
+      title: 'Virtual Try-On',
+      desc: 'Примерка коллекции на 3D-аватары с разными типами фигур (XS-XXL) для байеров.',
       icon: Box,
-      status: "New"
+      status: 'New',
     },
     {
-      title: "Collaborative Board",
-      desc: "Совместное формирование капсул дизайнером и байером в реальном времени.",
+      title: 'Collaborative Board',
+      desc: 'Совместное формирование капсул дизайнером и байером в реальном времени.',
       icon: Layout,
-      status: "New"
+      status: 'New',
     },
     {
-      title: "Сезон в 3D",
-      desc: "Сцена коллекции: стойки, свет, навигация по линейкам — рядом с trade shows и виртуальным шоурумом.",
+      title: 'Сезон в 3D',
+      desc: 'Сцена коллекции: стойки, свет, навигация по линейкам — рядом с trade shows и виртуальным шоурумом.',
       icon: Globe,
-      status: "Roadmap"
-    }
+      status: 'Roadmap',
+    },
   ];
 
   return (
     <Tabs value={tab} onValueChange={setTab}>
-      <TabsList className="bg-slate-100/80 border border-slate-200 h-9 px-1 gap-0.5 flex-wrap">
-        <TabsTrigger value="showroom" className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5">Шоурум</TabsTrigger>
-        <TabsTrigger value="trade-shows" className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5">Выставки</TabsTrigger>
-        <TabsTrigger value="passport" className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5">Passport</TabsTrigger>
-        <TabsTrigger value="buyers" className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5">Заявки байеров</TabsTrigger>
-        <TabsTrigger value="invites" className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5">Private Invites</TabsTrigger>
-        <TabsTrigger value="merchandising" className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5">Курирование</TabsTrigger>
-        <TabsTrigger value="video-consultation" className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5">Видео</TabsTrigger>
-        <TabsTrigger value="banners" className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5">Баннеры</TabsTrigger>
-        <TabsTrigger value="ai-search" className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5">AI-поиск</TabsTrigger>
+      <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-h-9 w-full shadow-inner')}>
+        <TabsTrigger
+          value="showroom"
+          className={cn(
+            cabinetSurface.tabsTrigger,
+            'data-[state=active]:text-accent-primary h-7 gap-1.5'
+          )}
+        >
+          Шоурум
+        </TabsTrigger>
+        <TabsTrigger
+          value="trade-shows"
+          className={cn(
+            cabinetSurface.tabsTrigger,
+            'data-[state=active]:text-accent-primary h-7 gap-1.5'
+          )}
+        >
+          Выставки
+        </TabsTrigger>
+        <TabsTrigger
+          value="passport"
+          className={cn(
+            cabinetSurface.tabsTrigger,
+            'data-[state=active]:text-accent-primary h-7 gap-1.5'
+          )}
+        >
+          Passport
+        </TabsTrigger>
+        <TabsTrigger
+          value="buyers"
+          className={cn(
+            cabinetSurface.tabsTrigger,
+            'data-[state=active]:text-accent-primary h-7 gap-1.5'
+          )}
+        >
+          Заявки байеров
+        </TabsTrigger>
+        <TabsTrigger
+          value="invites"
+          className={cn(
+            cabinetSurface.tabsTrigger,
+            'data-[state=active]:text-accent-primary h-7 gap-1.5'
+          )}
+        >
+          Private Invites
+        </TabsTrigger>
+        <TabsTrigger
+          value="merchandising"
+          className={cn(
+            cabinetSurface.tabsTrigger,
+            'data-[state=active]:text-accent-primary h-7 gap-1.5'
+          )}
+        >
+          Курирование
+        </TabsTrigger>
+        <TabsTrigger
+          value="video-consultation"
+          className={cn(
+            cabinetSurface.tabsTrigger,
+            'data-[state=active]:text-accent-primary h-7 gap-1.5'
+          )}
+        >
+          Видео
+        </TabsTrigger>
+        <TabsTrigger
+          value="banners"
+          className={cn(
+            cabinetSurface.tabsTrigger,
+            'data-[state=active]:text-accent-primary h-7 gap-1.5'
+          )}
+        >
+          Баннеры
+        </TabsTrigger>
+        <TabsTrigger
+          value="ai-search"
+          className={cn(
+            cabinetSurface.tabsTrigger,
+            'data-[state=active]:text-accent-primary h-7 gap-1.5'
+          )}
+        >
+          AI-поиск
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="showroom" className="mt-4">
-    <RegistryPageShell className="space-y-6 animate-in fade-in duration-700">
-      {/* Control Panel: Executive Style */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
-        <div className="flex items-center gap-3">
-          <p className="text-[11px] font-medium text-slate-500 uppercase tracking-wider flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live Now: 12 байеров
-          </p>
-        </div>
-        <div className="flex items-center gap-2 w-full md:w-auto">
-          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-inner ml-auto md:ml-0">
-            <Button variant="ghost" className="h-8 px-3 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-500 hover:text-indigo-600 hover:bg-white hover:shadow-sm transition-all">
-              Освещение
-            </Button>
-            <Button variant="ghost" className="h-8 px-3 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-500 hover:text-indigo-600 hover:bg-white hover:shadow-sm transition-all">
-              Аналитика кликов
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      <div className="rounded-2xl border border-slate-100 shadow-sm overflow-hidden bg-white p-1">
-        <VirtualShowroom />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-        <Card className="lg:col-span-2 overflow-hidden border-slate-100 shadow-sm relative group rounded-xl">
-          <div className="absolute top-4 left-4 z-20 flex gap-2">
-            <Badge className="bg-black/60 backdrop-blur-md text-white border-none text-[10px] font-bold uppercase px-3 h-6 flex items-center gap-2 shadow-lg">
-              <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Live Now: 12 Buyers
-            </Badge>
-            <Badge className="bg-indigo-600/80 backdrop-blur-md text-white border-none text-[10px] font-bold uppercase px-3 h-6 shadow-lg">
-              3D High-Fidelity
-            </Badge>
-          </div>
-          <div className="aspect-video relative bg-slate-100">
-            <Image 
-              src="https://images.unsplash.com/photo-1633167606207-d840b5070fc2?q=80&w=1200"
-              alt="Virtual Showroom"
-              fill
-              className="object-cover transition-transform group-hover:scale-105 [transition-duration:2000ms]"
-            />
-            <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 backdrop-blur-[2px]">
-              <div className="space-y-4 text-center">
-                <div className="h-12 w-12 rounded-full bg-white/20 backdrop-blur-xl flex items-center justify-center mx-auto mb-4 border border-white/30 shadow-2xl">
-                  <Play className="h-6 w-6 text-white fill-current ml-1" />
-                </div>
-                <h3 className="text-white font-bold uppercase text-sm tracking-tight">Enter Immersive Space</h3>
-                <p className="text-white/70 text-sm font-medium max-w-xs mx-auto">Полное погружение в коллекцию SS26. Доступно для VR и Desktop.</p>
-                <Button className="bg-white text-slate-900 hover:bg-slate-50 font-bold uppercase text-[11px] h-11 px-8 rounded-lg mt-4 shadow-xl tracking-widest transition-all">
-                  Запустить 360° Сессию
+        <RegistryPageShell className="space-y-6 duration-700 animate-in fade-in">
+          {/* Control Panel: Executive Style */}
+          <div className="flex flex-col items-start justify-between gap-3 md:flex-row md:items-center">
+            <div className="flex items-center gap-3">
+              <p className="text-text-secondary flex items-center gap-2 text-[11px] font-medium uppercase tracking-wider">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" /> Live Now:
+                12 байеров
+              </p>
+            </div>
+            <div className="flex w-full items-center gap-2 md:w-auto">
+              {/* cabinetSurface v1 */}
+              <div
+                className={cn(
+                  cabinetSurface.groupTabList,
+                  'ml-auto flex h-auto min-h-9 flex-wrap items-center md:ml-0'
+                )}
+              >
+                <Button
+                  variant="ghost"
+                  className="text-text-secondary hover:text-accent-primary h-8 rounded-lg px-3 text-[10px] font-bold uppercase tracking-wider transition-all hover:bg-white hover:shadow-sm"
+                >
+                  Освещение
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="text-text-secondary hover:text-accent-primary h-8 rounded-lg px-3 text-[10px] font-bold uppercase tracking-wider transition-all hover:bg-white hover:shadow-sm"
+                >
+                  Аналитика кликов
                 </Button>
               </div>
             </div>
           </div>
-          <CardFooter className="p-4 bg-slate-50/50 flex flex-col md:flex-row justify-between items-center border-t border-slate-100 gap-3">
-            <div className="flex flex-wrap items-center gap-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              <span className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm"><Users className="h-3.5 w-3.5 text-indigo-500" /> 1,240 Visits</span>
-              <span className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm"><ShoppingBag className="h-3.5 w-3.5 text-emerald-500" /> 42 Orders</span>
-              <span className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm"><Monitor className="h-3.5 w-3.5 text-amber-500" /> 18 Slots</span>
-            </div>
-            <Button variant="outline" size="sm" className="text-[10px] font-bold uppercase gap-2 h-8 px-4 rounded-lg border-slate-200 bg-white hover:bg-slate-50 shadow-sm">
-              Настроить сцену <Settings className="h-3.5 w-3.5" />
-            </Button>
-          </CardFooter>
-        </Card>
 
-        <div className="space-y-6">
-          <Card className="border-slate-100 shadow-sm rounded-xl overflow-hidden">
-            <CardHeader className="p-4 border-b border-slate-50 bg-slate-50/30">
-              <CardTitle className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Статистика сессий</CardTitle>
-            </CardHeader>
-            <CardContent className="p-3 space-y-4">
-              <div className="flex justify-between items-end p-3 rounded-lg bg-slate-50/50 border border-slate-100">
-                <div className="space-y-0.5">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Просмотры</p>
-                  <p className="text-sm font-bold text-slate-900 tracking-tight">1,482</p>
-                </div>
-                <Badge className="bg-emerald-50 text-emerald-600 text-[10px] font-bold border-none px-2 h-5 shadow-sm">+12%</Badge>
-              </div>
-              <div className="flex justify-between items-end p-3 rounded-lg bg-slate-50/50 border border-slate-100">
-                <div className="space-y-0.5">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Ср. время</p>
-                  <p className="text-sm font-bold text-slate-900 tracking-tight">08:45</p>
-                </div>
-                <Badge className="bg-emerald-50 text-emerald-600 text-[10px] font-bold border-none px-2 h-5 shadow-sm">+5%</Badge>
-              </div>
-            </CardContent>
-          </Card>
+          <div className="border-border-subtle overflow-hidden rounded-2xl border bg-white p-1 shadow-sm">
+            <VirtualShowroom />
+          </div>
 
-          <Card className="border-slate-800 shadow-lg bg-slate-900 text-white rounded-xl overflow-hidden relative group">
-            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform duration-700"><Share2 className="h-24 w-24 text-emerald-400" /></div>
-            <CardContent className="p-4 flex flex-col items-center text-center space-y-4 relative z-10">
-              <div className="h-12 w-12 rounded-xl bg-white/10 flex items-center justify-center border border-white/10 shadow-inner group-hover:bg-white/20 transition-all duration-300">
-                <Share2 className="h-6 w-6 text-emerald-400" />
-              </div>
-              <div className="space-y-1">
-                <p className="text-[13px] font-bold uppercase tracking-wider">Пригласить байеров</p>
-                <p className="text-[11px] text-white/50 font-medium leading-relaxed">Персональные ссылки для доступа к закрытому показу.</p>
-              </div>
-              <Button className="w-full bg-white text-slate-900 hover:bg-slate-100 text-[10px] font-bold uppercase h-10 rounded-lg shadow-xl tracking-widest transition-all">
-                Сгенерировать ссылки
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-        {showroomFeatures.map((feature, i) => (
-          <Card key={i} className="border-slate-100 shadow-sm hover:border-indigo-200 transition-all rounded-xl group hover:shadow-md bg-white overflow-hidden">
-            <CardContent className="p-3 space-y-4">
-              <div className="flex justify-between items-start">
-                <div className="h-10 w-10 rounded-lg bg-slate-50 flex items-center justify-center border border-slate-100 shadow-sm group-hover:bg-indigo-50 group-hover:border-indigo-100 transition-all duration-300">
-                  <feature.icon className="h-5 w-5 text-slate-400 group-hover:text-indigo-600 transition-colors" />
-                </div>
-                <Badge variant="outline" className={cn(
-                  "text-[9px] font-bold uppercase px-2 h-5 shadow-sm border-none",
-                  feature.status === "Active" ? "bg-emerald-50 text-emerald-600" :
-                  feature.status === "Beta" ? "bg-amber-50 text-amber-600" :
-                  "bg-slate-100 text-slate-500"
-                )}>
-                  {feature.status}
+          <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+            <Card className="border-border-subtle group relative overflow-hidden rounded-xl shadow-sm lg:col-span-2">
+              <div className="absolute left-4 top-4 z-20 flex gap-2">
+                <Badge className="flex h-6 items-center gap-2 border-none bg-black/60 px-3 text-[10px] font-bold uppercase text-white shadow-lg backdrop-blur-md">
+                  <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+                  Live Now: 12 Buyers
+                </Badge>
+                <Badge className="bg-accent-primary/80 h-6 border-none px-3 text-[10px] font-bold uppercase text-white shadow-lg backdrop-blur-md">
+                  3D High-Fidelity
                 </Badge>
               </div>
-              <div>
-                <h3 className="text-[13px] font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{feature.title}</h3>
-                <p className="text-[11px] text-slate-500 font-medium leading-relaxed mt-1.5 line-clamp-2">
-                  {feature.desc}
-                </p>
+              <div className="bg-bg-surface2 relative aspect-video">
+                <Image
+                  src="https://images.unsplash.com/photo-1633167606207-d840b5070fc2?q=80&w=1200"
+                  alt="Virtual Showroom"
+                  fill
+                  className="object-cover transition-transform [transition-duration:2000ms] group-hover:scale-105"
+                />
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 opacity-0 backdrop-blur-[2px] transition-all duration-500 group-hover:opacity-100">
+                  <div className="space-y-4 text-center">
+                    <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/20 shadow-2xl backdrop-blur-xl">
+                      <Play className="ml-1 h-6 w-6 fill-current text-white" />
+                    </div>
+                    <h3 className="text-sm font-bold uppercase tracking-tight text-white">
+                      Enter Immersive Space
+                    </h3>
+                    <p className="mx-auto max-w-xs text-sm font-medium text-white/70">
+                      Полное погружение в коллекцию SS26. Доступно для VR и Desktop.
+                    </p>
+                    <Button className="text-text-primary hover:bg-bg-surface2 mt-4 h-11 rounded-lg bg-white px-8 text-[11px] font-bold uppercase tracking-widest shadow-xl transition-all">
+                      Запустить 360° Сессию
+                    </Button>
+                  </div>
+                </div>
               </div>
-              <Button variant="ghost" size="sm" className="w-full justify-between h-8 text-[10px] font-bold uppercase p-0 hover:bg-transparent hover:text-indigo-600 group/btn tracking-wider">
-                Управление <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </RegistryPageShell>
+              <CardFooter className="bg-bg-surface2/80 border-border-subtle flex flex-col items-center justify-between gap-3 border-t p-4 md:flex-row">
+                <div className="text-text-secondary flex flex-wrap items-center gap-3 text-[10px] font-bold uppercase tracking-wider">
+                  <span className="border-border-default flex items-center gap-2 rounded-lg border bg-white px-3 py-1.5 shadow-sm">
+                    <Users className="text-accent-primary h-3.5 w-3.5" /> 1,240 Visits
+                  </span>
+                  <span className="border-border-default flex items-center gap-2 rounded-lg border bg-white px-3 py-1.5 shadow-sm">
+                    <ShoppingBag className="h-3.5 w-3.5 text-emerald-500" /> 42 Orders
+                  </span>
+                  <span className="border-border-default flex items-center gap-2 rounded-lg border bg-white px-3 py-1.5 shadow-sm">
+                    <Monitor className="h-3.5 w-3.5 text-amber-500" /> 18 Slots
+                  </span>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="border-border-default hover:bg-bg-surface2 h-8 gap-2 rounded-lg bg-white px-4 text-[10px] font-bold uppercase shadow-sm"
+                >
+                  Настроить сцену <Settings className="h-3.5 w-3.5" />
+                </Button>
+              </CardFooter>
+            </Card>
+
+            <div className="space-y-6">
+              <Card className="border-border-subtle overflow-hidden rounded-xl shadow-sm">
+                <CardHeader className="border-border-subtle bg-bg-surface2/30 border-b p-4">
+                  <CardTitle className="text-text-muted text-[11px] font-bold uppercase tracking-wider">
+                    Статистика сессий
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4 p-3">
+                  <div className="bg-bg-surface2/80 border-border-subtle flex items-end justify-between rounded-lg border p-3">
+                    <div className="space-y-0.5">
+                      <p className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+                        Просмотры
+                      </p>
+                      <p className="text-text-primary text-sm font-bold tracking-tight">1,482</p>
+                    </div>
+                    <Badge className="h-5 border-none bg-emerald-50 px-2 text-[10px] font-bold text-emerald-600 shadow-sm">
+                      +12%
+                    </Badge>
+                  </div>
+                  <div className="bg-bg-surface2/80 border-border-subtle flex items-end justify-between rounded-lg border p-3">
+                    <div className="space-y-0.5">
+                      <p className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+                        Ср. время
+                      </p>
+                      <p className="text-text-primary text-sm font-bold tracking-tight">08:45</p>
+                    </div>
+                    <Badge className="h-5 border-none bg-emerald-50 px-2 text-[10px] font-bold text-emerald-600 shadow-sm">
+                      +5%
+                    </Badge>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-text-primary/30 bg-text-primary group relative overflow-hidden rounded-xl text-white shadow-lg">
+                <div className="absolute right-0 top-0 p-4 opacity-10 transition-transform duration-700 group-hover:scale-110">
+                  <Share2 className="h-24 w-24 text-emerald-400" />
+                </div>
+                <CardContent className="relative z-10 flex flex-col items-center space-y-4 p-4 text-center">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/10 shadow-inner transition-all duration-300 group-hover:bg-white/20">
+                    <Share2 className="h-6 w-6 text-emerald-400" />
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[13px] font-bold uppercase tracking-wider">
+                      Пригласить байеров
+                    </p>
+                    <p className="text-[11px] font-medium leading-relaxed text-white/50">
+                      Персональные ссылки для доступа к закрытому показу.
+                    </p>
+                  </div>
+                  <Button className="text-text-primary hover:bg-bg-surface2 h-10 w-full rounded-lg bg-white text-[10px] font-bold uppercase tracking-widest shadow-xl transition-all">
+                    Сгенерировать ссылки
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
+            {showroomFeatures.map((feature, i) => (
+              <Card
+                key={i}
+                className="border-border-subtle hover:border-accent-primary/30 group overflow-hidden rounded-xl bg-white shadow-sm transition-all hover:shadow-md"
+              >
+                <CardContent className="space-y-4 p-3">
+                  <div className="flex items-start justify-between">
+                    <div className="bg-bg-surface2 border-border-subtle group-hover:bg-accent-primary/10 group-hover:border-accent-primary/20 flex h-10 w-10 items-center justify-center rounded-lg border shadow-sm transition-all duration-300">
+                      <feature.icon className="text-text-muted group-hover:text-accent-primary h-5 w-5 transition-colors" />
+                    </div>
+                    <Badge
+                      variant="outline"
+                      className={cn(
+                        'h-5 border-none px-2 text-[9px] font-bold uppercase shadow-sm',
+                        feature.status === 'Active'
+                          ? 'bg-emerald-50 text-emerald-600'
+                          : feature.status === 'Beta'
+                            ? 'bg-amber-50 text-amber-600'
+                            : 'bg-bg-surface2 text-text-secondary'
+                      )}
+                    >
+                      {feature.status}
+                    </Badge>
+                  </div>
+                  <div>
+                    <h3 className="text-text-primary group-hover:text-accent-primary text-[13px] font-bold transition-colors">
+                      {feature.title}
+                    </h3>
+                    <p className="text-text-secondary mt-1.5 line-clamp-2 text-[11px] font-medium leading-relaxed">
+                      {feature.desc}
+                    </p>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="hover:text-accent-primary group/btn h-8 w-full justify-between p-0 text-[10px] font-bold uppercase tracking-wider hover:bg-transparent"
+                  >
+                    Управление{' '}
+                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5" />
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </RegistryPageShell>
       </TabsContent>
-      <TabsContent value="trade-shows" className="mt-4">{tab === 'trade-shows' && <TradeShowsContent />}</TabsContent>
-      <TabsContent value="passport" className="mt-4">{tab === 'passport' && <PassportContent />}</TabsContent>
-      <TabsContent value="buyers" className="mt-4">{tab === 'buyers' && <BuyerAppsContent />}</TabsContent>
-      <TabsContent value="invites" className="mt-4">{tab === 'invites' && <PrivateInvitesContent />}</TabsContent>
-      <TabsContent value="merchandising" className="mt-4">{tab === 'merchandising' && <MerchandisingContent />}</TabsContent>
-      <TabsContent value="video-consultation" className="mt-4">{tab === 'video-consultation' && <VideoConsultationContent />}</TabsContent>
-      <TabsContent value="banners" className="mt-4">{tab === 'banners' && <ShowroomBannersContent />}</TabsContent>
-      <TabsContent value="ai-search" className="mt-4">{tab === 'ai-search' && <ShowroomAiSearchContent />}</TabsContent>
+      <TabsContent value="trade-shows" className="mt-4">
+        {tab === 'trade-shows' && <TradeShowsContent />}
+      </TabsContent>
+      <TabsContent value="passport" className="mt-4">
+        {tab === 'passport' && <PassportContent />}
+      </TabsContent>
+      <TabsContent value="buyers" className="mt-4">
+        {tab === 'buyers' && <BuyerAppsContent />}
+      </TabsContent>
+      <TabsContent value="invites" className="mt-4">
+        {tab === 'invites' && <PrivateInvitesContent />}
+      </TabsContent>
+      <TabsContent value="merchandising" className="mt-4">
+        {tab === 'merchandising' && <MerchandisingContent />}
+      </TabsContent>
+      <TabsContent value="video-consultation" className="mt-4">
+        {tab === 'video-consultation' && <VideoConsultationContent />}
+      </TabsContent>
+      <TabsContent value="banners" className="mt-4">
+        {tab === 'banners' && <ShowroomBannersContent />}
+      </TabsContent>
+      <TabsContent value="ai-search" className="mt-4">
+        {tab === 'ai-search' && <ShowroomAiSearchContent />}
+      </TabsContent>
     </Tabs>
   );
 }

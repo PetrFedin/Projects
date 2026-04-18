@@ -61,7 +61,8 @@ function normalizeCatalogDossierSectionNav(
   if (!raw) return undefined;
   if (raw === 'measurements') return 'construction';
   if (raw === 'packaging') return 'material';
-  if (raw === 'general' || raw === 'visuals' || raw === 'material' || raw === 'construction') return raw;
+  if (raw === 'general' || raw === 'visuals' || raw === 'material' || raw === 'construction')
+    return raw;
   return undefined;
 }
 
@@ -71,8 +72,10 @@ export function getAttributeDossierSection(
 ): 'general' | 'visuals' | 'material' | 'construction' | undefined {
   const attr = attrById.get(attributeId);
   if (!attr) return undefined;
-  const raw = (attr.dossierSection ??
-    GROUP_TO_DOSSIER_SECTION[attr.groupId]) as RawCatalogDossierSection | string | undefined;
+  const raw = (attr.dossierSection ?? GROUP_TO_DOSSIER_SECTION[attr.groupId]) as
+    | RawCatalogDossierSection
+    | string
+    | undefined;
   return normalizeCatalogDossierSectionNav(raw);
 }
 
@@ -111,9 +114,7 @@ export function workshop2ConstructionMergedStackTitle(
 export function resolveAttributeIdsForLeaf(leafId: string, phase: number = 1): string[] {
   const fromJsonLeaf = catalog.leafBindings?.[leafId] ?? [];
   const hb = findHandbookLeafById(leafId);
-  const inferred = hb
-    ? inferExtraAttributeIdsForHandbookPath(hb.l1Name, hb.l2Name, hb.l3Name)
-    : [];
+  const inferred = hb ? inferExtraAttributeIdsForHandbookPath(hb.l1Name, hb.l2Name, hb.l3Name) : [];
   const global = catalog.globalAttributeIds ?? [];
   const seen = new Set<string>();
   const out: string[] = [];
@@ -240,7 +241,9 @@ function sortRowsForPhase1(
       return a.attribute.sortOrder - b.attribute.sortOrder;
     });
   const byId = new Map(rows.map((r) => [r.attribute.attributeId, r]));
-  const head = orderedCore.map((id) => byId.get(id)).filter(Boolean) as ResolvedPhase1AttributeRow[];
+  const head = orderedCore
+    .map((id) => byId.get(id))
+    .filter(Boolean) as ResolvedPhase1AttributeRow[];
   return [...head, ...rest];
 }
 
@@ -306,7 +309,10 @@ export function parameterMatchesAliasSearch(
   return (param.aliases ?? []).some((a) => a.toLowerCase().includes(s));
 }
 
-function mapAttributesToSearchRows(groupById: Map<string, string>, attrs: AttributeCatalogAttribute[]) {
+function mapAttributesToSearchRows(
+  groupById: Map<string, string>,
+  attrs: AttributeCatalogAttribute[]
+) {
   return attrs.map((a) => {
     const parts = [
       a.name,

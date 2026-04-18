@@ -10,50 +10,64 @@ import { WidgetCard } from '@/components/ui/widget-card';
 import { getAcademyLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { ROUTES } from '@/lib/routes';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 export default function CreateBrandCoursePage() {
   return (
-    <div className="space-y-6 pb-24">
-      <Breadcrumb
-        items={[
-          { label: 'Бренд', href: ROUTES.brand.home },
-          { label: 'Академия', href: ROUTES.brand.academy },
-          { label: 'Создать курс' },
-        ]}
-        className="mb-4"
-      />
-      <WidgetCard
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
         title="Создание курса бренда"
-        description="Собственные курсы и обучающие материалы: ДНК бренда, продукты, процессы. Связь с Академией, Team."
+        leadPlain="Собственные курсы и обучающие материалы: ДНК бренда, продукты, процессы. Связь с Академией, Team."
+        eyebrow={
+          <Breadcrumb
+            items={[
+              { label: 'Бренд', href: ROUTES.brand.home },
+              { label: 'Академия', href: ROUTES.brand.academy },
+              { label: 'Создать курс' },
+            ]}
+          />
+        }
         actions={
           <>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href={ROUTES.brand.academy}>Академия бренда</Link></Button>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href={ROUTES.brand.academyPlatform}>Академия платформы</Link></Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.academy}>Академия бренда</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.academyPlatform}>Академия платформы</Link>
+            </Button>
           </>
         }
+      />
+      <WidgetCard
+        title="Конструктор курса"
+        description="Модули, уроки, тесты, сертификация. Скоро: полный редактор курсов."
       >
-      <Card className="rounded-xl border border-dashed border-indigo-200 bg-indigo-50/20">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <BookOpen className="h-5 w-5" /> Конструктор курса
-          </CardTitle>
-          <CardDescription>
-            Модули, уроки, тесты, сертификация. Скоро: полный редактор курсов.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col items-center justify-center py-12 text-center">
-            <Plus className="h-12 w-12 text-indigo-400 mb-4" />
-            <p className="text-sm font-medium text-slate-600 mb-2">Редактор курсов в разработке</p>
-            <p className="text-[11px] text-slate-500 mb-4">Модули, видео, тесты, сертификаты</p>
-            <Button variant="outline" asChild>
-              <Link href={ROUTES.brand.academy}>← Назад в Академию</Link>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+        <Card className="border-accent-primary/30 bg-accent-primary/10 rounded-xl border border-dashed">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <BookOpen className="h-5 w-5" /> Конструктор курса
+            </CardTitle>
+            <CardDescription>
+              Модули, уроки, тесты, сертификация. Скоро: полный редактор курсов.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <Plus className="text-accent-primary mb-4 h-12 w-12" />
+              <p className="text-text-secondary mb-2 text-sm font-medium">
+                Редактор курсов в разработке
+              </p>
+              <p className="text-text-secondary mb-4 text-[11px]">
+                Модули, видео, тесты, сертификаты
+              </p>
+              <Button variant="outline" asChild>
+                <Link href={ROUTES.brand.academy}>← Назад в Академию</Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </WidgetCard>
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

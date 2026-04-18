@@ -9,6 +9,8 @@ import { Package, ArrowLeft, ShoppingBag } from 'lucide-react';
 import { getEndlessAisleLinks } from '@/lib/data/entity-links';
 import { listEndlessAisleRequests } from '@/lib/api';
 import type { EndlessAisleRequest } from '@/lib/shop/endless-aisle-pos';
+import { RegistryPageShell } from '@/components/design-system';
+import { ROUTES } from '@/lib/routes';
 
 const statusLabels: Record<EndlessAisleRequest['status'], string> = {
   created: 'Создан',
@@ -29,34 +31,54 @@ export default function EndlessAislePage() {
   }, []);
 
   return (
-    <div className="container max-w-4xl py-6 space-y-6 pb-24">
+    <RegistryPageShell className="max-w-4xl space-y-6">
       <div className="flex items-center gap-3">
-        <Link href="/shop/bopis"><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+        <Link href={ROUTES.shop.bopis}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Endless Aisle POS</h1>
-          <p className="text-slate-500 text-sm">Заказ отсутствующего размера со склада бренда из примерочной (планшет). Склад, каталог, BOPIS, заказы.</p>
+          <p className="text-text-secondary text-sm">
+            Заказ отсутствующего размера со склада бренда из примерочной (планшет). Склад, каталог,
+            BOPIS, заказы.
+          </p>
         </div>
       </div>
 
-      <Card className="border-violet-100">
+      <Card className="border-accent-primary/20">
         <CardHeader className="pb-2">
           <CardTitle className="flex items-center gap-2 text-base">
-            <ShoppingBag className="h-4 w-4 text-violet-600" />
+            <ShoppingBag className="text-accent-primary h-4 w-4" />
             Запросы из примерочной
           </CardTitle>
-          <CardDescription>Товар в нужном размере под заказ со склада бренда, выдача в магазине (BOPIS).</CardDescription>
+          <CardDescription>
+            Товар в нужном размере под заказ со склада бренда, выдача в магазине (BOPIS).
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
           {requests.map((r) => (
-            <div key={r.id} className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            <div
+              key={r.id}
+              className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3"
+            >
               <div>
-                <p className="text-sm font-medium">{r.requestedSku} · размер {r.sizeRequested}</p>
-                <p className="text-xs text-slate-500">{r.orderId ? `Заказ ${r.orderId}` : 'Резерв'} · {statusLabels[r.status]}</p>
+                <p className="text-sm font-medium">
+                  {r.requestedSku} · размер {r.sizeRequested}
+                </p>
+                <p className="text-text-secondary text-xs">
+                  {r.orderId ? `Заказ ${r.orderId}` : 'Резерв'} · {statusLabels[r.status]}
+                </p>
               </div>
-              <Badge variant="outline" className="text-[10px]">{statusLabels[r.status]}</Badge>
+              <Badge variant="outline" className="text-[10px]">
+                {statusLabels[r.status]}
+              </Badge>
             </div>
           ))}
-          <p className="text-xs text-slate-400 mt-3">API: ENDLESS_AISLE_POS_API — запрос с планшета, резерв со склада, BOPIS.</p>
+          <p className="text-text-muted mt-3 text-xs">
+            API: ENDLESS_AISLE_POS_API — запрос с планшета, резерв со склада, BOPIS.
+          </p>
         </CardContent>
       </Card>
 
@@ -68,11 +90,15 @@ export default function EndlessAislePage() {
         <CardContent>
           <ul className="flex flex-wrap gap-2">
             {links.map((l) => (
-              <li key={l.href}><Button variant="outline" size="sm" className="text-xs" asChild><Link href={l.href}>{l.label}</Link></Button></li>
+              <li key={l.href}>
+                <Button variant="outline" size="sm" className="text-xs" asChild>
+                  <Link href={l.href}>{l.label}</Link>
+                </Button>
+              </li>
             ))}
           </ul>
         </CardContent>
       </Card>
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -153,7 +153,7 @@ export default {
         },
         'pulse-live': {
           '0%, 100%': { transform: 'scale(1)', opacity: '1' },
-          '50%': { transform: 'scale(1.1)', opacity: '.7' },
+          '50%': { transform: 'scale(1.04)', opacity: '1' },
         },
         'float': {
             '0%': { transform: 'translateY(0px)', opacity: '1' },

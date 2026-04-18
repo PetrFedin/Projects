@@ -1,5 +1,11 @@
 import type { Product } from '@/lib/types';
-import { INSPIRATION_BOARD_VERSION, type InspirationBoardStateV1, type InspirationPinV1 } from './types';
+import {
+  INSPIRATION_BOARD_VERSION,
+  type InspirationBoardStateV1,
+  type InspirationPinV1,
+} from './types';
+
+export type { InspirationBoardStateV1, InspirationPinV1 };
 
 const STORAGE_KEY = 'synth.inspirationBoard.v1';
 
@@ -37,7 +43,11 @@ export function saveInspirationBoard(state: InspirationBoardStateV1) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...state, updatedAt: Date.now() }));
 }
 
-export function addPin(state: InspirationBoardStateV1, product: Product, note?: string): InspirationBoardStateV1 {
+export function addPin(
+  state: InspirationBoardStateV1,
+  product: Product,
+  note?: string
+): InspirationBoardStateV1 {
   if (state.pins.some((x) => x.productId === String(product.id))) return state;
   const pin: InspirationPinV1 = {
     productId: String(product.id),
@@ -48,7 +58,10 @@ export function addPin(state: InspirationBoardStateV1, product: Product, note?: 
   return { ...state, pins: [...state.pins, pin], updatedAt: Date.now() };
 }
 
-export function removePin(state: InspirationBoardStateV1, productId: string): InspirationBoardStateV1 {
+export function removePin(
+  state: InspirationBoardStateV1,
+  productId: string
+): InspirationBoardStateV1 {
   return {
     ...state,
     pins: state.pins.filter((x) => x.productId !== productId),

@@ -5,8 +5,8 @@
  * Используется для товаров с пустым description или для улучшения существующего.
  */
 
-import { ai, withTokenAudit, truncateInput } from "@/ai/genkit";
-import { z } from "zod";
+import { ai, withTokenAudit, truncateInput } from '@/ai/genkit';
+import { z } from 'zod';
 
 const InputSchema = z.object({
   name: z.string(),
@@ -32,10 +32,10 @@ const PromptInputSchema = z.object({
 });
 
 const OutputSchema = z.object({
-  description: z.string().describe("Описание товара на русском, 1-3 предложения"),
-  metaTitle: z.string().optional().describe("SEO title до 60 символов"),
-  metaDescription: z.string().optional().describe("SEO meta description до 160 символов"),
-  keywords: z.array(z.string()).optional().describe("Ключевые слова для SEO"),
+  description: z.string().describe('Описание товара на русском, 1-3 предложения'),
+  metaTitle: z.string().optional().describe('SEO title до 60 символов'),
+  metaDescription: z.string().optional().describe('SEO meta description до 160 символов'),
+  keywords: z.array(z.string()).optional().describe('Ключевые слова для SEO'),
 });
 
 export type GenerateProductDescriptionInput = z.infer<typeof InputSchema>;
@@ -52,8 +52,8 @@ export async function generateProductDescription(
   input: GenerateProductDescriptionInput,
   options?: { includeSeo?: boolean }
 ): Promise<string | GenerateProductDescriptionResult> {
-  const tagsStr = input.tags?.length ? input.tags.join(", ") : "";
-  const sustainabilityStr = input.sustainability?.length ? input.sustainability.join(", ") : "";
+  const tagsStr = input.tags?.length ? input.tags.join(', ') : '';
+  const sustainabilityStr = input.sustainability?.length ? input.sustainability.join(', ') : '';
 
   const includeSeo = options?.includeSeo ?? false;
   const promptInput = {
@@ -61,25 +61,25 @@ export async function generateProductDescription(
     brand: input.brand,
     category: input.category,
     color: input.color,
-    composition: input.composition ?? "",
+    composition: input.composition ?? '',
     tags: tagsStr,
     sustainability: sustainabilityStr,
     existingDescription: input.existingDescription
       ? truncateInput(input.existingDescription, 300)
-      : "",
+      : '',
     includeSeo,
   };
 
   try {
     const result = await withTokenAudit(
-      "generateProductDescription",
+      'generateProductDescription',
       promptInput,
       undefined,
       undefined,
       async (i) => {
         const prompt = ai.definePrompt({
-          name: "generateProductDescriptionPrompt",
-          model: "googleai/gemini-1.5-flash",
+          name: 'generateProductDescriptionPrompt',
+          model: 'googleai/gemini-1.5-flash',
           input: { schema: PromptInputSchema },
           output: { schema: OutputSchema },
           config: { maxOutputTokens: 300, temperature: 0.6 },
@@ -109,20 +109,22 @@ export async function generateProductDescription(
 Верни JSON: { "description": "...", "metaTitle": "...", "metaDescription": "...", "keywords": [] }`,
         });
         const { output } = await prompt(i);
-        return output ?? { description: "" };
+        return output ?? { description: '' };
       }
     );
     if (includeSeo && result) {
       return {
-        description: result.description ?? "",
+        description: result.description ?? '',
         metaTitle: result.metaTitle,
         metaDescription: result.metaDescription,
         keywords: result.keywords,
       };
     }
-    return result?.description ?? "";
+    return result?.description ?? '';
   } catch (e) {
-    console.warn("[generateProductDescription] Genkit failed:", e);
-    return options?.includeSeo ? { description: "", metaTitle: "", metaDescription: "", keywords: [] } : "";
+    console.warn('[generateProductDescription] Genkit failed:', e);
+    return options?.includeSeo
+      ? { description: '', metaTitle: '', metaDescription: '', keywords: [] }
+      : '';
   }
 }

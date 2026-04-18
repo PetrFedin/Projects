@@ -34,16 +34,38 @@ export function executeRebalance(params: {
   agreement?: StockSyncAgreement;
   tenantId?: string; // [Phase 2 Prod]
 }): { result: RebalanceResult; updatedGrains: InventoryGrain[] } {
-  const { productId, sku, locationId, grains, safetyThreshold, actorId, actorType, agreement, tenantId } = params;
+  const {
+    productId,
+    sku,
+    locationId,
+    grains,
+    safetyThreshold,
+    actorId,
+    actorType,
+    agreement,
+    tenantId,
+  } = params;
 
   // 1. Считаем текущий B2C Allocated (с учетом арендатора)
   const currentB2C = grains
-    .filter(g => g.sku === sku && g.locationId === locationId && g.state === 'allocated' && (!params.tenantId || g.tenantId === params.tenantId))
+    .filter(
+      (g) =>
+        g.sku === sku &&
+        g.locationId === locationId &&
+        g.state === 'allocated' &&
+        (!params.tenantId || g.tenantId === params.tenantId)
+    )
     .reduce((acc, g) => acc + g.quantity, 0);
 
   // 2. Считаем доступный B2B OnHand (с учетом арендатора)
   const availableB2B = grains
-    .filter(g => g.sku === sku && g.locationId === locationId && g.state === 'on_hand' && (!params.tenantId || g.tenantId === params.tenantId))
+    .filter(
+      (g) =>
+        g.sku === sku &&
+        g.locationId === locationId &&
+        g.state === 'on_hand' &&
+        (!params.tenantId || g.tenantId === params.tenantId)
+    )
     .reduce((acc, g) => acc + g.quantity, 0);
 
   // 3. Триггерим расчет необходимости
@@ -53,14 +75,14 @@ export function executeRebalance(params: {
     availableB2BOnHand: availableB2B,
     b2cSalesVelocity: 5, // Мок
     b2bSalesVelocity: 2, // Мок
-    leadTimeDays: 5,     // Мок
-    agreement
+    leadTimeDays: 5, // Мок
+    agreement,
   });
 
   if (decision.action === 'none' || !decision.quantity) {
-    return { 
-      result: { sku, action: 'none', reason: decision.reason }, 
-      updatedGrains: grains 
+    return {
+      result: { sku, action: 'none', reason: decision.reason },
+      updatedGrains: grains,
     };
   }
 
@@ -74,22 +96,32 @@ export function executeRebalance(params: {
       targetState: 'allocated',
       actorId,
       actorType,
-      agreementId: agreement?.id
+      agreementId: agreement?.id,
     },
     grains,
-    agreement
+    agreement,
   });
 
   if (!allocation.success || !allocation.updatedGrains) {
-    return { 
-      result: { sku, action: 'failed', requestedQuantity: decision.quantity, error: allocation.error }, 
-      updatedGrains: grains 
+    return {
+      result: {
+        sku,
+        action: 'failed',
+        requestedQuantity: decision.quantity,
+        error: allocation.error,
+      },
+      updatedGrains: grains,
     };
   }
 
   return {
-    result: { sku, action: 'allocated', requestedQuantity: decision.quantity, allocatedQuantity: decision.quantity },
-    updatedGrains: allocation.updatedGrains
+    result: {
+      sku,
+      action: 'allocated',
+      requestedQuantity: decision.quantity,
+      allocatedQuantity: decision.quantity,
+    },
+    updatedGrains: allocation.updatedGrains,
   };
 }
 
@@ -120,9 +152,9 @@ export function batchRebalance(params: {
       actorId: params.actorId,
       actorType: params.actorType,
       agreement: params.agreement,
-      tenantId: params.tenantId
+      tenantId: params.tenantId,
     });
-    
+
     results.push(result);
     currentGrains = updatedGrains;
   }

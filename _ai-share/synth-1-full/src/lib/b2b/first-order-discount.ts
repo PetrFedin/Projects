@@ -5,10 +5,7 @@
 
 import { getFirstOrderDiscountPercent } from './customer-groups';
 
-export function getFirstOrderDiscount(
-  orderCount: number,
-  customerGroupId?: string
-): number {
+export function getFirstOrderDiscount(orderCount: number, customerGroupId?: string): number {
   if (orderCount > 0) return 0;
   return getFirstOrderDiscountPercent(customerGroupId);
 }

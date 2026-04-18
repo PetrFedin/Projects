@@ -30,11 +30,7 @@ export function loadCartFromStorage(brandId?: string, retailerId?: string): Cart
 }
 
 /** Сохранить корзину в localStorage */
-export function saveCartToStorage(
-  cart: CartItem[],
-  brandId?: string,
-  retailerId?: string
-): void {
+export function saveCartToStorage(cart: CartItem[], brandId?: string, retailerId?: string): void {
   if (typeof window === 'undefined') return;
   try {
     const key = getStorageKey(brandId, retailerId);

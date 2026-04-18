@@ -14,11 +14,13 @@ export function ProductFabricSpecBlock({ product }: Props) {
   return (
     <Card className="mt-4 border-dashed">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-sm">
           <Layers className="h-4 w-4" />
           Полотно
         </CardTitle>
-        <CardDescription className="text-xs">GSM и конструкция из PIM — для tech pack и B2B-запросов.</CardDescription>
+        <CardDescription className="text-xs">
+          GSM и конструкция из PIM — для tech pack и B2B-запросов.
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-2 text-sm">
         {spec.gsm != null && (
@@ -32,7 +34,9 @@ export function ProductFabricSpecBlock({ product }: Props) {
             <span className="text-muted-foreground">Конструкция:</span> {spec.construction}
           </p>
         )}
-        {spec.handfeelNote && <p className="text-xs text-muted-foreground leading-snug">{spec.handfeelNote}</p>}
+        {spec.handfeelNote && (
+          <p className="text-xs leading-snug text-muted-foreground">{spec.handfeelNote}</p>
+        )}
       </CardContent>
     </Card>
   );

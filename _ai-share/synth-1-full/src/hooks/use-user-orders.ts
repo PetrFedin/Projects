@@ -51,16 +51,20 @@ export function useUserOrders() {
     const totalSpent = orders.reduce((sum, order) => sum + order.total, 0);
     const totalOrders = orders.length;
     const avgOrderValue = totalOrders > 0 ? totalSpent / totalOrders : 0;
-    const returnRate = orders.filter(o => o.returnRequested).length / Math.max(1, orders.length) * 100;
-    
+    const returnRate =
+      (orders.filter((o) => o.returnRequested).length / Math.max(1, orders.length)) * 100;
+
     const recentOrders = [...orders]
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .slice(0, 10);
 
-    const ordersByStatus = orders.reduce((acc, order) => {
-      acc[order.status] = (acc[order.status] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+    const ordersByStatus = orders.reduce(
+      (acc, order) => {
+        acc[order.status] = (acc[order.status] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>
+    );
 
     return {
       totalSpent,
@@ -94,8 +98,3 @@ export function useUserOrders() {
     refreshOrders,
   };
 }
-
-
-
-
-

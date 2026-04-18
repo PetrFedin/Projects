@@ -13,7 +13,14 @@ const MOCK_RFQ_LIST: SupplierRfq[] = [
     title: 'Ткань основная SS26',
     status: 'quotes_received',
     items: [
-      { id: 'i1', type: 'fabric', description: 'Хлопок сатин 120 г/м²', quantity: 2000, unit: 'м', techPackRef: 'TP-9921' },
+      {
+        id: 'i1',
+        type: 'fabric',
+        description: 'Хлопок сатин 120 г/м²',
+        quantity: 2000,
+        unit: 'м',
+        techPackRef: 'TP-9921',
+      },
       { id: 'i2', type: 'trim', description: 'Пуговицы 18мм', quantity: 5000, unit: 'шт' },
     ],
     quotes: [

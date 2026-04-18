@@ -30,7 +30,9 @@ export function saveControlRecord(record: ControlRecord): void {
 }
 
 export function getControlRecordByEntity(entityId: string): ControlRecord | undefined {
-  return Array.from(controlRegistry.values()).find(r => r.entityId === entityId && r.status === 'active');
+  return Array.from(controlRegistry.values()).find(
+    (r) => r.entityId === entityId && r.status === 'active'
+  );
 }
 
 export function resolveControlRecord(id: string): void {

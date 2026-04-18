@@ -9,7 +9,7 @@ const toneClass: Record<StatusTone, string> = {
   warning: 'border-amber-200 bg-amber-50 text-amber-900',
   error: 'border-rose-200 bg-rose-50 text-rose-800',
   info: 'border-sky-200 bg-sky-50 text-sky-900',
-  neutral: 'border-slate-200 bg-white text-slate-700',
+  neutral: 'border-border-default bg-white text-text-primary',
 };
 
 export type StatusBadgeProps = {
@@ -20,7 +20,10 @@ export type StatusBadgeProps = {
 
 export function StatusBadge({ children, tone = 'neutral', className }: StatusBadgeProps) {
   return (
-    <Badge variant="outline" className={cn('h-5 px-2 text-[10px] font-semibold', toneClass[tone], className)}>
+    <Badge
+      variant="outline"
+      className={cn('h-5 px-2 text-[10px] font-semibold', toneClass[tone], className)}
+    >
       {children}
     </Badge>
   );

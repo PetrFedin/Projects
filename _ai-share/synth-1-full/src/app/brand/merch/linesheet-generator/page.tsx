@@ -3,117 +3,158 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { FileText, Download, Share2, Eye, History, Layers, CheckCircle2, ShoppingBag } from 'lucide-react';
+import {
+  FileText,
+  Download,
+  Share2,
+  Eye,
+  History,
+  Layers,
+  CheckCircle2,
+  ShoppingBag,
+} from 'lucide-react';
 import { products } from '@/lib/products';
 import { generateLineSheet } from '@/lib/fashion/linesheet-generator';
 import { Button } from '@/components/ui/button';
 
 export default function LineSheetGeneratorPage() {
   const ls = generateLineSheet(products);
-  
+
   return (
-    <div className="p-8 max-w-6xl mx-auto">
+    <div className="mx-auto max-w-6xl p-8">
       <div className="mb-8">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2 bg-slate-800 rounded-lg shadow-sm">
-            <FileText className="w-6 h-6 text-white" />
+        <div className="mb-2 flex items-center gap-3">
+          <div className="bg-text-primary/90 rounded-lg p-2 shadow-sm">
+            <FileText className="h-6 w-6 text-white" />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-800 tracking-tighter uppercase">Line Sheet Generator</h1>
+          <h1 className="text-text-primary text-3xl font-bold uppercase tracking-tight tracking-tighter">
+            Line Sheet Generator
+          </h1>
         </div>
-        <p className="text-muted-foreground font-medium">
-           Автоматическая генерация оптовых каталогов и спецификаций для B2B-партнеров.
+        <p className="font-medium text-muted-foreground">
+          Автоматическая генерация оптовых каталогов и спецификаций для B2B-партнеров.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
         {/* Main Editor / Preview */}
-        <div className="lg:col-span-3 space-y-6">
-           <Card className="p-8 border-2 border-slate-100 shadow-xl min-h-[800px] relative">
-              <div className="flex justify-between items-start border-b pb-8 mb-8">
-                 <div>
-                    <h2 className="text-2xl font-black text-slate-800 uppercase tracking-tighter">{ls.collectionName}</h2>
-                    <div className="text-xs font-bold text-slate-400 uppercase mt-1">Ref: {ls.id} • Last Export: {ls.lastExported}</div>
-                 </div>
-                 <div className="text-right">
-                    <div className="text-[10px] font-black text-slate-400 uppercase">Brand Name</div>
-                    <div className="text-xl font-black text-slate-800 uppercase tracking-widest">SYNTH-MODA</div>
-                 </div>
+        <div className="space-y-6 lg:col-span-3">
+          <Card className="border-border-subtle relative min-h-[800px] border-2 p-8 shadow-xl">
+            <div className="mb-8 flex items-start justify-between border-b pb-8">
+              <div>
+                <h2 className="text-text-primary text-2xl font-black uppercase tracking-tighter">
+                  {ls.collectionName}
+                </h2>
+                <div className="text-text-muted mt-1 text-xs font-bold uppercase">
+                  Ref: {ls.id} • Last Export: {ls.lastExported}
+                </div>
               </div>
+              <div className="text-right">
+                <div className="text-text-muted text-[10px] font-black uppercase">Brand Name</div>
+                <div className="text-text-primary text-xl font-black uppercase tracking-widest">
+                  SYNTH-MODA
+                </div>
+              </div>
+            </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
-                 {ls.items.map((item) => {
-                   const p = products.find(prod => prod.sku === item.sku);
-                   if (!p) return null;
-                   return (
-                     <div key={item.sku} className="group cursor-pointer">
-                        <div className="aspect-[3/4] bg-slate-50 rounded-lg overflow-hidden border border-slate-100 mb-3 relative">
-                           <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
-                           <div className="absolute top-2 left-2">
-                              <Badge className="bg-white/90 text-slate-800 text-[8px] font-black border-none shadow-sm uppercase">{p.sku}</Badge>
-                           </div>
+            <div className="grid grid-cols-2 gap-8 md:grid-cols-3">
+              {ls.items.map((item) => {
+                const p = products.find((prod) => prod.sku === item.sku);
+                if (!p) return null;
+                return (
+                  <div key={item.sku} className="group cursor-pointer">
+                    <div className="bg-bg-surface2 border-border-subtle relative mb-3 aspect-[3/4] overflow-hidden rounded-lg border">
+                      <img
+                        src={p.images?.[0]?.url ?? ''}
+                        alt={p.name}
+                        className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                      />
+                      <div className="absolute left-2 top-2">
+                        <Badge className="text-text-primary border-none bg-white/90 text-[8px] font-black uppercase shadow-sm">
+                          {p.sku}
+                        </Badge>
+                      </div>
+                    </div>
+                    <div className="space-y-1">
+                      <div className="text-text-primary truncate text-[10px] font-black uppercase">
+                        {p.name}
+                      </div>
+                      <div className="border-border-subtle flex items-center justify-between border-t pt-1">
+                        <div className="text-text-primary text-xs font-black">
+                          ${item.wholesalePrice}{' '}
+                          <span className="text-text-muted text-[8px]">WHSL</span>
                         </div>
-                        <div className="space-y-1">
-                           <div className="text-[10px] font-black text-slate-800 uppercase truncate">{p.name}</div>
-                           <div className="flex justify-between items-center pt-1 border-t border-slate-50">
-                              <div className="text-xs font-black text-slate-900">${item.wholesalePrice} <span className="text-[8px] text-slate-400">WHSL</span></div>
-                              <div className="text-[9px] font-bold text-slate-400">MOQ: {item.moq}</div>
-                           </div>
-                        </div>
-                     </div>
-                   );
-                 })}
-              </div>
+                        <div className="text-text-muted text-[9px] font-bold">MOQ: {item.moq}</div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
 
-              <div className="absolute bottom-8 left-8 right-8 flex justify-between items-center pt-8 border-t text-[9px] font-black text-slate-300 uppercase tracking-widest">
-                 <span>© 2026 SYNTH-MODA Wholesale</span>
-                 <span>Page 1 of 1</span>
-              </div>
-           </Card>
+            <div className="text-text-muted absolute bottom-8 left-8 right-8 flex items-center justify-between border-t pt-8 text-[9px] font-black uppercase tracking-widest">
+              <span>© 2026 SYNTH-MODA Wholesale</span>
+              <span>Page 1 of 1</span>
+            </div>
+          </Card>
         </div>
 
         {/* Sidebar Controls */}
         <div className="space-y-6">
-           <Card className="p-6 border-2 border-slate-100 bg-white shadow-md">
-              <h3 className="font-black text-sm uppercase text-slate-800 mb-6 flex items-center gap-2">
-                 <Layers className="w-4 h-4 text-indigo-500" /> Export Options
-              </h3>
-              <div className="space-y-3">
-                 <Button className="w-full bg-slate-800 hover:bg-slate-900 text-white font-black uppercase text-[10px] h-10 shadow-lg tracking-widest">
-                    <Download className="w-4 h-4 mr-2" /> Download PDF
-                 </Button>
-                 <Button variant="outline" className="w-full font-black uppercase text-[10px] h-10 border-slate-200">
-                    <Share2 className="w-4 h-4 mr-2" /> Share via Link
-                 </Button>
-                 <Button variant="outline" className="w-full font-black uppercase text-[10px] h-10 border-slate-200">
-                    <Eye className="w-4 h-4 mr-2" /> Open Portal
-                 </Button>
-              </div>
-           </Card>
+          <Card className="border-border-subtle border-2 bg-white p-6 shadow-md">
+            <h3 className="text-text-primary mb-6 flex items-center gap-2 text-sm font-black uppercase">
+              <Layers className="text-accent-primary h-4 w-4" /> Export Options
+            </h3>
+            <div className="space-y-3">
+              <Button className="bg-text-primary/90 hover:bg-text-primary/90 h-10 w-full text-[10px] font-black uppercase tracking-widest text-white shadow-lg">
+                <Download className="mr-2 h-4 w-4" /> Download PDF
+              </Button>
+              <Button
+                variant="outline"
+                className="border-border-default h-10 w-full text-[10px] font-black uppercase"
+              >
+                <Share2 className="mr-2 h-4 w-4" /> Share via Link
+              </Button>
+              <Button
+                variant="outline"
+                className="border-border-default h-10 w-full text-[10px] font-black uppercase"
+              >
+                <Eye className="mr-2 h-4 w-4" /> Open Portal
+              </Button>
+            </div>
+          </Card>
 
-           <Card className="p-6 border-2 border-slate-100 bg-slate-50/20 shadow-md">
-              <h3 className="font-black text-sm uppercase text-slate-600 mb-4">Settings</h3>
-              <div className="space-y-4">
-                 <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-500 font-bold uppercase text-[9px]">Prices</span>
-                    <Badge variant="outline" className="bg-white text-[8px] font-black uppercase">Wholesale</Badge>
-                 </div>
-                 <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-500 font-bold uppercase text-[9px]">Currency</span>
-                    <Badge variant="outline" className="bg-white text-[8px] font-black uppercase">USD ($)</Badge>
-                 </div>
-                 <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-500 font-bold uppercase text-[9px]">SKU Limit</span>
-                    <span className="font-black text-slate-800">15 / 50</span>
-                 </div>
+          <Card className="border-border-subtle bg-bg-surface2/20 border-2 p-6 shadow-md">
+            <h3 className="text-text-secondary mb-4 text-sm font-black uppercase">Settings</h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-text-secondary text-[9px] font-bold uppercase">Prices</span>
+                <Badge variant="outline" className="bg-white text-[8px] font-black uppercase">
+                  Wholesale
+                </Badge>
               </div>
-           </Card>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-text-secondary text-[9px] font-bold uppercase">Currency</span>
+                <Badge variant="outline" className="bg-white text-[8px] font-black uppercase">
+                  USD ($)
+                </Badge>
+              </div>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-text-secondary text-[9px] font-bold uppercase">
+                  SKU Limit
+                </span>
+                <span className="text-text-primary font-black">15 / 50</span>
+              </div>
+            </div>
+          </Card>
 
-           <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100 flex gap-3 items-start shadow-sm">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-              <div className="text-[10px] text-emerald-700 font-medium leading-tight">
-                 <b>Smart Auto-fill:</b> Цены рассчитаны с учетом 45% маржи для ритейлера на основе ваших розничных цен.
-              </div>
-           </div>
+          <div className="flex items-start gap-3 rounded-xl border border-emerald-100 bg-emerald-50 p-4 shadow-sm">
+            <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
+            <div className="text-[10px] font-medium leading-tight text-emerald-700">
+              <b>Smart Auto-fill:</b> Цены рассчитаны с учетом 45% маржи для ритейлера на основе
+              ваших розничных цен.
+            </div>
+          </div>
         </div>
       </div>
     </div>

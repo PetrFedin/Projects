@@ -6,10 +6,15 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
-import { GraduationCap, Store, BookOpen, ChevronRight, Clock, PlayCircle } from 'lucide-react';
-import { getCollectionTrainings, getBrandKnowledgeArticles } from '@/lib/academy/brand-academy-data';
+import { Store, BookOpen, ChevronRight, Clock, PlayCircle } from 'lucide-react';
+import {
+  getCollectionTrainings,
+  getBrandKnowledgeArticles,
+} from '@/lib/academy/brand-academy-data';
 import { COLLECTION_TRAINING_TYPE_LABELS } from '@/lib/academy/brand-academy-data';
 import { cn } from '@/lib/utils';
+import { RegistryPageShell } from '@/components/design-system';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 /** Мок: коллекции, купленные магазином (в проде — из заказов/договоров) */
 const PURCHASED_COLLECTIONS = ['fw26', 'ss26'];
@@ -17,25 +22,24 @@ const PURCHASED_COLLECTIONS = ['fw26', 'ss26'];
 export default function ShopAcademyPage() {
   const [activeTab, setActiveTab] = useState<'trainings' | 'knowledge'>('trainings');
   const allTrainings = getCollectionTrainings();
-  const myTrainings = allTrainings.filter((t) => PURCHASED_COLLECTIONS.includes(t.collectionId) && t.forStores);
+  const myTrainings = allTrainings.filter(
+    (t) => PURCHASED_COLLECTIONS.includes(t.collectionId) && t.forStores
+  );
   const knowledgeArticles = getBrandKnowledgeArticles('partners');
 
   return (
-    <div className="container max-w-3xl mx-auto px-4 py-6 space-y-6 pb-24">
-      <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2">
-        <GraduationCap className="h-6 w-6" /> Академия
-      </h1>
-      <p className="text-sm text-slate-500">
-        Обучение по купленным коллекциям и база знаний бренда для партнёров.
-      </p>
+    <RegistryPageShell className="max-w-3xl space-y-6">
+      <ShopB2bContentHeader lead="Обучение по купленным коллекциям и база знаний бренда для партнёров." />
 
-      <div className="flex gap-1 p-2 bg-slate-100 rounded-xl">
+      <div className="bg-bg-surface2 flex gap-1 rounded-xl p-2">
         <button
           type="button"
           onClick={() => setActiveTab('trainings')}
           className={cn(
-            'inline-flex items-center gap-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider px-4 py-2 transition-colors',
-            activeTab === 'trainings' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:bg-white/60'
+            'inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-[10px] font-bold uppercase tracking-wider transition-colors',
+            activeTab === 'trainings'
+              ? 'text-text-primary bg-white shadow-sm'
+              : 'text-text-secondary hover:bg-white/60'
           )}
         >
           <Store className="h-3.5 w-3.5" /> По коллекциям
@@ -44,8 +48,10 @@ export default function ShopAcademyPage() {
           type="button"
           onClick={() => setActiveTab('knowledge')}
           className={cn(
-            'inline-flex items-center gap-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider px-4 py-2 transition-colors',
-            activeTab === 'knowledge' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:bg-white/60'
+            'inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-[10px] font-bold uppercase tracking-wider transition-colors',
+            activeTab === 'knowledge'
+              ? 'text-text-primary bg-white shadow-sm'
+              : 'text-text-secondary hover:bg-white/60'
           )}
         >
           <BookOpen className="h-3.5 w-3.5" /> База знаний
@@ -54,36 +60,43 @@ export default function ShopAcademyPage() {
 
       {activeTab === 'trainings' && (
         <div className="mt-6">
-          <Card className="rounded-xl border border-slate-100">
+          <Card className="border-border-subtle rounded-xl border">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Store className="h-5 w-5 text-indigo-600" /> Обучение по коллекциям
+                <Store className="text-accent-primary h-5 w-5" /> Обучение по коллекциям
               </CardTitle>
               <CardDescription>
-                Product knowledge, мерчандайзинг, скрипты продаж — по коллекциям, которые вы закупили.
+                Product knowledge, мерчандайзинг, скрипты продаж — по коллекциям, которые вы
+                закупили.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {myTrainings.length === 0 ? (
-                <p className="text-slate-500 text-sm">Нет доступных тренингов. Обучающие материалы появятся после закупки коллекций.</p>
+                <p className="text-text-secondary text-sm">
+                  Нет доступных тренингов. Обучающие материалы появятся после закупки коллекций.
+                </p>
               ) : (
                 myTrainings.map((t) => (
                   <Link key={t.id} href={ROUTES.shop.b2bAcademyTraining(t.id)}>
-                    <div className="flex items-start justify-between p-4 rounded-xl border border-slate-100 hover:border-indigo-100 transition-colors cursor-pointer">
+                    <div className="border-border-subtle hover:border-accent-primary/20 flex cursor-pointer items-start justify-between rounded-xl border p-4 transition-colors">
                       <div>
-                        <p className="font-semibold text-slate-900">{t.title}</p>
-                        <p className="text-[11px] text-slate-500 mt-1">{t.description}</p>
-                        <div className="flex gap-2 mt-2">
-                          <Badge variant="outline" className="text-[9px]">{t.collectionName} · {t.season}</Badge>
-                          <Badge variant="secondary" className="text-[9px]">
-                            <Clock className="h-2.5 w-2.5 mr-0.5" /> {t.duration}
+                        <p className="text-text-primary font-semibold">{t.title}</p>
+                        <p className="text-text-secondary mt-1 text-[11px]">{t.description}</p>
+                        <div className="mt-2 flex gap-2">
+                          <Badge variant="outline" className="text-[9px]">
+                            {t.collectionName} · {t.season}
                           </Badge>
-                          <Badge variant="secondary" className="text-[9px]">{COLLECTION_TRAINING_TYPE_LABELS[t.type] ?? t.type}</Badge>
+                          <Badge variant="secondary" className="text-[9px]">
+                            <Clock className="mr-0.5 h-2.5 w-2.5" /> {t.duration}
+                          </Badge>
+                          <Badge variant="secondary" className="text-[9px]">
+                            {COLLECTION_TRAINING_TYPE_LABELS[t.type] ?? t.type}
+                          </Badge>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <PlayCircle className="h-5 w-5 text-indigo-500" />
-                        <ChevronRight className="h-4 w-4 text-slate-400" />
+                        <PlayCircle className="text-accent-primary h-5 w-5" />
+                        <ChevronRight className="text-text-muted h-4 w-4" />
                       </div>
                     </div>
                   </Link>
@@ -96,10 +109,10 @@ export default function ShopAcademyPage() {
 
       {activeTab === 'knowledge' && (
         <div className="mt-6">
-          <Card className="rounded-xl border border-slate-100">
+          <Card className="border-border-subtle rounded-xl border">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <BookOpen className="h-5 w-5 text-indigo-600" /> База знаний бренда
+                <BookOpen className="text-accent-primary h-5 w-5" /> База знаний бренда
               </CardTitle>
               <CardDescription>
                 Информация о бренде, процессах, индустрии — для партнёров.
@@ -107,26 +120,30 @@ export default function ShopAcademyPage() {
             </CardHeader>
             <CardContent className="space-y-3">
               {knowledgeArticles.length === 0 ? (
-                <p className="text-slate-500 text-sm py-8 text-center">Нет статей в базе знаний.</p>
-              ) : knowledgeArticles.map((a) => (
-                <Link key={a.id} href={ROUTES.shop.b2bAcademyKnowledge(a.id)}>
-                  <div className="flex items-start justify-between p-4 rounded-xl border border-slate-100 hover:border-indigo-100 transition-colors cursor-pointer">
-                    <div>
-                      <p className="font-semibold text-slate-900">{a.title}</p>
-                      <p className="text-[11px] text-slate-500 mt-1">{a.excerpt}</p>
+                <p className="text-text-secondary py-8 text-center text-sm">
+                  Нет статей в базе знаний.
+                </p>
+              ) : (
+                knowledgeArticles.map((a) => (
+                  <Link key={a.id} href={ROUTES.shop.b2bAcademyKnowledge(a.id)}>
+                    <div className="border-border-subtle hover:border-accent-primary/20 flex cursor-pointer items-start justify-between rounded-xl border p-4 transition-colors">
+                      <div>
+                        <p className="text-text-primary font-semibold">{a.title}</p>
+                        <p className="text-text-secondary mt-1 text-[11px]">{a.excerpt}</p>
+                      </div>
+                      <ChevronRight className="text-text-muted h-4 w-4 shrink-0" />
                     </div>
-                    <ChevronRight className="h-4 w-4 text-slate-400 shrink-0" />
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))
+              )}
             </CardContent>
           </Card>
         </div>
       )}
 
       <Button variant="outline" asChild>
-        <Link href={ROUTES.shop.b2b}>← B2B хаб</Link>
+        <Link href={ROUTES.shop.home}>← Кабинет магазина</Link>
       </Button>
-    </div>
+    </RegistryPageShell>
   );
 }

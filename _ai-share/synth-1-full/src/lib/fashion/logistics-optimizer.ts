@@ -1,7 +1,11 @@
 import type { B2BLogisticsRouteV1 } from './types';
 
 /** Оптимизатор маршрутов для СДЭК, ПЭК, Деловых Линий. */
-export function getOptimizedLogisticsRoutes(from: string, to: string, weightKg: number): B2BLogisticsRouteV1[] {
+export function getOptimizedLogisticsRoutes(
+  from: string,
+  to: string,
+  weightKg: number
+): B2BLogisticsRouteV1[] {
   return [
     {
       id: 'L-001',
@@ -32,6 +36,6 @@ export function getOptimizedLogisticsRoutes(from: string, to: string, weightKg: 
       costRub: weightKg * 380,
       reliabilityScore: 89,
       carbonFootprintKg: weightKg * 0.1,
-    }
+    },
   ];
 }

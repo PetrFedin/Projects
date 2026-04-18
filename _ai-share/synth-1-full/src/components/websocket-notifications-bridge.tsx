@@ -14,17 +14,20 @@ export function WebSocketNotificationsBridge() {
   const addRef = useRef(addNotification);
   addRef.current = addNotification;
 
-  const onEvent = (ev: { type: string; title: string; body?: string; href?: string }) => {
-    if (ev.type === 'ping') return;
-    const type = (ev.type as 'order' | 'qc' | 'edo' | 'sla' | 'payment' | 'po' | 'system') || 'system';
-    addRef.current({
-      type,
-      title: ev.title,
-      body: ev.body,
-      href: ev.href,
-    });
-  };
-
-  useWebSocket(onEvent);
+  useWebSocket({
+    onMessage: (msg) => {
+      if (msg.type !== 'notification') return;
+      const ev = msg.payload;
+      if (ev.type === 'ping') return;
+      const type =
+        (ev.type as 'order' | 'qc' | 'edo' | 'sla' | 'payment' | 'po' | 'system') || 'system';
+      addRef.current({
+        type,
+        title: ev.title,
+        body: ev.body,
+        href: ev.href,
+      });
+    },
+  });
   return null;
 }

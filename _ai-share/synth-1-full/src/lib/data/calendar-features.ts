@@ -17,21 +17,89 @@ export interface EventTemplate {
 }
 
 export const EVENT_TEMPLATES: EventTemplate[] = [
-  { id: 'qc-sample', label: 'QC Sample', source: 'tasks', defaultTitle: 'Gold Sample — QC', reminderMinutes: 60, role: 'QC', entityType: 'task' },
-  { id: 'b2b-meeting', label: 'B2B встреча', source: 'meetings', defaultTitle: 'Встреча с партнёром', reminderMinutes: 15, defaultDuration: '1:00' },
-  { id: 'escrow', label: 'Escrow', source: 'finance', defaultTitle: 'Escrow Milestone', reminderMinutes: 1440, entityType: 'escrow' },
-  { id: 'production-milestone', label: 'Production milestone', source: 'production', defaultTitle: 'Отгрузка / Milestone', reminderMinutes: 60, entityType: 'production' },
-  { id: 'order-approval', label: 'Согласование заказа', source: 'orders', defaultTitle: 'Согласование PO', reminderMinutes: 15, role: 'Байер', entityType: 'order' },
-  { id: 'call-supplier', label: 'Звонок с поставщиком', source: 'meetings', defaultTitle: 'Звонок с поставщиком', reminderMinutes: 5, defaultDuration: '0:30' },
-  { id: 'event', label: 'Мероприятие', source: 'events', defaultTitle: 'Мероприятие', reminderMinutes: 60, entityType: 'event' },
-  { id: 'training', label: 'Обучение', source: 'tasks', defaultTitle: 'Обучение', reminderMinutes: 30 },
+  {
+    id: 'qc-sample',
+    label: 'QC Sample',
+    source: 'tasks',
+    defaultTitle: 'Gold Sample — QC',
+    reminderMinutes: 60,
+    role: 'QC',
+    entityType: 'task',
+  },
+  {
+    id: 'b2b-meeting',
+    label: 'B2B встреча',
+    source: 'meetings',
+    defaultTitle: 'Встреча с партнёром',
+    reminderMinutes: 15,
+    defaultDuration: '1:00',
+  },
+  {
+    id: 'escrow',
+    label: 'Escrow',
+    source: 'finance',
+    defaultTitle: 'Escrow Milestone',
+    reminderMinutes: 1440,
+    entityType: 'escrow',
+  },
+  {
+    id: 'production-milestone',
+    label: 'Production milestone',
+    source: 'production',
+    defaultTitle: 'Отгрузка / Milestone',
+    reminderMinutes: 60,
+    entityType: 'production',
+  },
+  {
+    id: 'order-approval',
+    label: 'Согласование заказа',
+    source: 'orders',
+    defaultTitle: 'Согласование PO',
+    reminderMinutes: 15,
+    role: 'Байер',
+    entityType: 'order',
+  },
+  {
+    id: 'call-supplier',
+    label: 'Звонок с поставщиком',
+    source: 'meetings',
+    defaultTitle: 'Звонок с поставщиком',
+    reminderMinutes: 5,
+    defaultDuration: '0:30',
+  },
+  {
+    id: 'event',
+    label: 'Мероприятие',
+    source: 'events',
+    defaultTitle: 'Мероприятие',
+    reminderMinutes: 60,
+    entityType: 'event',
+  },
+  {
+    id: 'training',
+    label: 'Обучение',
+    source: 'tasks',
+    defaultTitle: 'Обучение',
+    reminderMinutes: 30,
+  },
 ];
 
 /** Capacity по исполнителю — нагрузка в часах за день/неделю */
-export function getCapacityByAssignee(events: CalendarEvent[], year: number, month: number): Map<string, { day: number; hours: number }[]> {
+export function getCapacityByAssignee(
+  events: CalendarEvent[],
+  year: number,
+  month: number
+): Map<string, { day: number; hours: number }[]> {
   const byAssignee = new Map<string, Map<number, number>>();
   const SOURCE_WEIGHTS: Record<EventSource, number> = {
-    production: 2, orders: 1.5, finance: 1.5, events: 1.5, meetings: 0.5, tasks: 0.8, marketing: 1, content: 1,
+    production: 2,
+    orders: 1.5,
+    finance: 1.5,
+    events: 1.5,
+    meetings: 0.5,
+    tasks: 0.8,
+    marketing: 1,
+    content: 1,
   };
   for (const e of events) {
     const assignee = e.assignee || e.role || 'Без назначения';
@@ -42,18 +110,26 @@ export function getCapacityByAssignee(events: CalendarEvent[], year: number, mon
   }
   const result = new Map<string, { day: number; hours: number }[]>();
   for (const [assignee, byDay] of byAssignee) {
-    result.set(assignee, Array.from(byDay.entries()).map(([day, hours]) => ({ day, hours })));
+    result.set(
+      assignee,
+      Array.from(byDay.entries()).map(([day, hours]) => ({ day, hours }))
+    );
   }
   return result;
 }
 
 /** Найти свободные слоты в день (часы без событий) */
-export function getFreeSlots(events: CalendarEvent[], day: number): { start: string; end: string }[] {
-  const dayEvs = events.filter(e => e.d === day && e.startTime).sort((a, b) => {
-    const [ah, am] = (a.startTime || '00:00').split(':').map(Number);
-    const [bh, bm] = (b.startTime || '00:00').split(':').map(Number);
-    return ah * 60 + am - (bh * 60 + bm);
-  });
+export function getFreeSlots(
+  events: CalendarEvent[],
+  day: number
+): { start: string; end: string }[] {
+  const dayEvs = events
+    .filter((e) => e.d === day && e.startTime)
+    .sort((a, b) => {
+      const [ah, am] = (a.startTime || '00:00').split(':').map(Number);
+      const [bh, bm] = (b.startTime || '00:00').split(':').map(Number);
+      return ah * 60 + am - (bh * 60 + bm);
+    });
   const slots: { start: string; end: string }[] = [];
   let lastEnd = 9 * 60; // 09:00
   const dayEnd = 18 * 60; // 18:00

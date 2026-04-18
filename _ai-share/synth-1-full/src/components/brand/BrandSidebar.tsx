@@ -5,11 +5,7 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { ChevronDown, Star, MessageSquare } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -73,7 +69,6 @@ function resolveMostSpecificActiveLink(
   return bestScore >= 0 ? best : undefined;
 }
 
-
 function NavLinkActions({ linkKey, onNavigate }: { linkKey: string; onNavigate?: () => void }) {
   const { pins, togglePin, setReminder } = useNavPins();
   const [reminderInput, setReminderInput] = useState('');
@@ -83,29 +78,35 @@ function NavLinkActions({ linkKey, onNavigate }: { linkKey: string; onNavigate?:
 
   return (
     <div
-      className="flex items-center gap-0.5 shrink-0 opacity-0 group-hover/sub:opacity-100 group-hover/subitem:opacity-100 transition-opacity"
+      className="flex shrink-0 items-center gap-0.5 opacity-0 transition-opacity group-hover/sub:opacity-100 group-hover/subitem:opacity-100"
       onClick={(e) => e.stopPropagation()}
     >
       <button
         type="button"
-        onClick={(e) => { e.stopPropagation(); togglePin(linkKey); }}
+        onClick={(e) => {
+          e.stopPropagation();
+          togglePin(linkKey);
+        }}
         className={cn(
-          "p-0.5 rounded hover:bg-slate-200 transition-colors",
-          isPinned && "text-amber-500"
+          'hover:bg-bg-surface2 rounded p-0.5 transition-colors',
+          isPinned && 'text-amber-500'
         )}
         title={isPinned ? 'Открепить' : 'Закрепить (важный)'}
         aria-label={isPinned ? 'Открепить' : 'Закрепить'}
       >
-        <Star className={cn("h-3 w-3", isPinned ? "fill-current" : "")} />
+        <Star className={cn('h-3 w-3', isPinned ? 'fill-current' : '')} />
       </button>
       <Popover>
         <PopoverTrigger asChild>
           <button
             type="button"
-            onClick={(e) => { e.stopPropagation(); setReminderInput(reminder); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setReminderInput(reminder);
+            }}
             className={cn(
-              "p-0.5 rounded hover:bg-slate-200 transition-colors",
-              reminder && "text-indigo-500"
+              'hover:bg-bg-surface2 rounded p-0.5 transition-colors',
+              reminder && 'text-accent-primary'
             )}
             title={reminder || 'Добавить напоминание'}
             aria-label="Напоминание"
@@ -118,15 +119,33 @@ function NavLinkActions({ linkKey, onNavigate }: { linkKey: string; onNavigate?:
             placeholder="Напоминание..."
             value={reminderInput}
             onChange={(e) => setReminderInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && (setReminder(linkKey, reminderInput || undefined), setReminderInput(''))}
+            onKeyDown={(e) =>
+              e.key === 'Enter' &&
+              (setReminder(linkKey, reminderInput || undefined), setReminderInput(''))
+            }
             className="h-7 text-[10px]"
           />
-          <div className="flex gap-1 mt-2">
-            <Button size="sm" className="h-6 text-[9px]" onClick={() => { setReminder(linkKey, reminderInput || undefined); setReminderInput(''); }}>
+          <div className="mt-2 flex gap-1">
+            <Button
+              size="sm"
+              className="h-6 text-[9px]"
+              onClick={() => {
+                setReminder(linkKey, reminderInput || undefined);
+                setReminderInput('');
+              }}
+            >
               Сохранить
             </Button>
             {reminder && (
-              <Button size="sm" variant="ghost" className="h-6 text-[9px]" onClick={() => { setReminder(linkKey, undefined); setReminderInput(''); }}>
+              <Button
+                size="sm"
+                variant="ghost"
+                className="h-6 text-[9px]"
+                onClick={() => {
+                  setReminder(linkKey, undefined);
+                  setReminderInput('');
+                }}
+              >
                 Удалить
               </Button>
             )}
@@ -151,13 +170,18 @@ export function BrandSidebar({
 }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const filtered = groups.filter(g => g.scope === 'shared' || g.scope === businessMode);
+  const filtered = groups.filter((g) => g.scope === 'shared' || g.scope === businessMode);
   const { pins } = useNavPins();
 
-  const groupsByCluster = NAV_GROUP_CLUSTERS.reduce<Record<ClusterId, NavGroup[]>>((acc, c) => {
-    acc[c.id] = filtered.filter(g => (g as NavGroup & { clusterId?: ClusterId }).clusterId === c.id);
-    return acc;
-  }, {} as Record<ClusterId, NavGroup[]>);
+  const groupsByCluster = NAV_GROUP_CLUSTERS.reduce<Record<ClusterId, NavGroup[]>>(
+    (acc, c) => {
+      acc[c.id] = filtered.filter(
+        (g) => (g as NavGroup & { clusterId?: ClusterId }).clusterId === c.id
+      );
+      return acc;
+    },
+    {} as Record<ClusterId, NavGroup[]>
+  );
 
   const flatLinks = filtered.flatMap((g) => g.links);
   const sp = useMemo(() => new URLSearchParams(searchParams?.toString() ?? ''), [searchParams]);
@@ -201,73 +225,95 @@ export function BrandSidebar({
     });
   };
 
-
   return (
     <nav
       className={cn(
-        'flex flex-col h-full bg-white border-r border-slate-200 overflow-y-auto scrollbar-hide',
+        'border-border-default scrollbar-hide flex h-full flex-col overflow-y-auto border-r bg-white',
         className
       )}
     >
-      <div className="p-2 space-y-0.5">
-        {NAV_GROUP_CLUSTERS.map(cluster => {
+      <div className="space-y-0.5 p-2">
+        {NAV_GROUP_CLUSTERS.map((cluster) => {
           const clusterGroups = groupsByCluster[cluster.id].filter(Boolean);
           if (clusterGroups.length === 0) return null;
 
           return (
             <div key={cluster.id} className="mb-4 last:mb-0">
-              <div className="px-3 py-1.5 flex items-center gap-1.5">
-                <div className="h-0.5 flex-1 min-w-2 bg-slate-100 rounded-full" />
-                <span className="text-[8px] font-black uppercase tracking-[0.15em] text-slate-400 shrink-0">
+              <div className="flex items-center gap-1.5 px-3 py-1.5">
+                <div className="bg-bg-surface2 h-0.5 min-w-2 flex-1 rounded-full" />
+                <span className="text-text-muted shrink-0 text-[8px] font-black uppercase tracking-[0.15em]">
                   {cluster.label}
                 </span>
-                <div className="h-0.5 flex-1 min-w-2 bg-slate-100 rounded-full" />
+                <div className="bg-bg-surface2 h-0.5 min-w-2 flex-1 rounded-full" />
               </div>
-              <div className="space-y-0.5 mt-0.5">
-                {clusterGroups.map(group => {
-          const isGroupActive = activeGroupId === group.id;
+              <div className="mt-0.5 space-y-0.5">
+                {clusterGroups.map((group) => {
+                  const isGroupActive = activeGroupId === group.id;
 
-          return (
-            <Collapsible key={group.id} open={openGroups.has(group.id)} onOpenChange={(open) => setGroupOpen(group.id, open)} className="group/coll">
-              <CollapsibleTrigger className="group/trigger flex w-full items-center gap-2 px-3 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest text-left hover:bg-slate-50 transition-colors data-[state=open]:bg-slate-50">
-                <group.icon className={cn('h-4 w-4 shrink-0', isGroupActive ? 'text-indigo-600' : 'text-slate-400')} />
-                <span className={cn('truncate flex-1', isGroupActive ? 'text-slate-900' : 'text-slate-600')}>
-                  {group.label}
-                </span>
-                <ChevronDown className="h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform group-data-[state=open]/trigger:rotate-180" />
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <div className="pl-2 pr-1 pt-0.5 pb-2 space-y-0.5 border-l border-slate-100 ml-3">
-                  {group.links.map(link => {
-                    const active = isLinkActive(link, activeLinkValue);
-
-                    return (
-                      <div key={link.value} className={cn("group/sub flex", pins[link.value]?.pinned && "ring-1 ring-amber-200 rounded-md bg-amber-50/50")}>
-                        <Link
-                          href={(link as { href: string }).href}
-                          onClick={onNavigate}
+                  return (
+                    <Collapsible
+                      key={group.id}
+                      open={openGroups.has(group.id)}
+                      onOpenChange={(open) => setGroupOpen(group.id, open)}
+                      className="group/coll"
+                    >
+                      <CollapsibleTrigger className="group/trigger hover:bg-bg-surface2 data-[state=open]:bg-bg-surface2 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[10px] font-black uppercase tracking-widest transition-colors">
+                        <group.icon
                           className={cn(
-                            'flex-1 flex items-center gap-2 px-2.5 py-1.5 rounded-md text-[9px] font-bold uppercase tracking-wider transition-colors',
-                            active ? 'bg-slate-900 text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                            'h-4 w-4 shrink-0',
+                            isGroupActive ? 'text-accent-primary' : 'text-text-muted'
+                          )}
+                        />
+                        <span
+                          className={cn(
+                            'flex-1 truncate',
+                            isGroupActive ? 'text-text-primary' : 'text-text-secondary'
                           )}
                         >
-                          <link.icon className="h-3.5 w-3.5 shrink-0" />
-                          <span className="truncate flex-1">{link.label}</span>
-                        </Link>
-                        <NavLinkActions linkKey={link.value} onNavigate={onNavigate} />
-                      </div>
-                    );
-                  })}
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
-          );
-        })}
+                          {group.label}
+                        </span>
+                        <ChevronDown className="text-text-muted h-3.5 w-3.5 shrink-0 transition-transform group-data-[state=open]/trigger:rotate-180" />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <div className="border-border-subtle ml-3 space-y-0.5 border-l pb-2 pl-2 pr-1 pt-0.5">
+                          {group.links.map((link) => {
+                            const active = isLinkActive(link, activeLinkValue);
+
+                            return (
+                              <div
+                                key={link.value}
+                                className={cn(
+                                  'group/sub flex',
+                                  pins[link.value]?.pinned &&
+                                    'rounded-md bg-amber-50/50 ring-1 ring-amber-200'
+                                )}
+                              >
+                                <Link
+                                  href={(link as { href: string }).href}
+                                  onClick={onNavigate}
+                                  className={cn(
+                                    'flex flex-1 items-center gap-2 rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
+                                    active
+                                      ? 'bg-text-primary text-white'
+                                      : 'text-text-secondary hover:bg-bg-surface2 hover:text-text-primary'
+                                  )}
+                                >
+                                  <link.icon className="h-3.5 w-3.5 shrink-0" />
+                                  <span className="flex-1 truncate">{link.label}</span>
+                                </Link>
+                                <NavLinkActions linkKey={link.value} onNavigate={onNavigate} />
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  );
+                })}
               </div>
             </div>
           );
         })}
-
       </div>
     </nav>
   );

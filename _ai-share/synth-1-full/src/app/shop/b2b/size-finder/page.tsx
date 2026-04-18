@@ -6,15 +6,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Ruler, ArrowLeft, Info } from 'lucide-react';
+import { Ruler, Info } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import {
-  getRecommendedSize,
-  getSizeChartByBrand,
-  type FitPreference,
-} from '@/lib/b2b/size-fit';
+import { RegistryPageShell } from '@/components/design-system';
+import { getRecommendedSize, getSizeChartByBrand, type FitPreference } from '@/lib/b2b/size-fit';
 
 const FIT_OPTIONS: { value: FitPreference; label: string }[] = [
   { value: 'slim', label: 'Узкая посадка (slim)' },
@@ -48,28 +46,15 @@ export default function SizeFinderPage() {
   const chart = getSizeChartByBrand(brandName);
 
   return (
-    <div className="container max-w-3xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2">
-            <Ruler className="h-6 w-6" /> Подбор размера / Размерная сетка
-          </h1>
-          <p className="text-slate-500 text-sm mt-0.5">
-            Рост и вес или замеры (грудь, талия, бёдра) + предпочтение посадки. Рекомендация по размерной сетке бренда.
-          </p>
-        </div>
-      </div>
+    <RegistryPageShell className="max-w-3xl space-y-6">
+      <ShopB2bContentHeader lead="Рост и вес или замеры (грудь, талия, бёдра) и предпочтение посадки — рекомендация по размерной сетке бренда." />
 
       <Card>
         <CardHeader>
           <CardTitle>Ваши параметры</CardTitle>
           <CardDescription>
-            Укажите рост и вес или замеры в см. По отзывам можно увидеть подсказку «часто берут на размер больше».
+            Укажите рост и вес или замеры в см. По отзывам можно увидеть подсказку «часто берут на
+            размер больше».
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -95,7 +80,7 @@ export default function SizeFinderPage() {
               />
             </div>
           </div>
-          <div className="text-xs text-slate-500 flex items-center gap-1">
+          <div className="text-text-secondary flex items-center gap-1 text-xs">
             <Info className="h-3.5 w-3.5" /> Опционально: замеры дают точнее
           </div>
           <div className="grid grid-cols-3 gap-4">
@@ -156,27 +141,24 @@ export default function SizeFinderPage() {
               className="rounded-lg"
             />
           </div>
-          <Button
-            className="w-full rounded-xl"
-            onClick={() => setSubmitted(true)}
-          >
+          <Button className="w-full rounded-xl" onClick={() => setSubmitted(true)}>
             Подобрать размер
           </Button>
         </CardContent>
       </Card>
 
       {recommendation && (
-        <Card className="mt-6 border-indigo-100 bg-indigo-50/30">
+        <Card className="border-accent-primary/20 bg-accent-primary/10 mt-6">
           <CardHeader>
-            <CardTitle className="text-indigo-900">Рекомендуемый размер</CardTitle>
+            <CardTitle className="text-accent-primary">Рекомендуемый размер</CardTitle>
             <CardDescription>{recommendation.message}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            <p className="text-2xl font-black text-indigo-700 uppercase tracking-tight">
+            <p className="text-accent-primary text-2xl font-black uppercase tracking-tight">
               {recommendation.retailerSize ?? recommendation.size}
             </p>
             {recommendation.sizeUpWarning && recommendation.sizeUpMessage && (
-              <p className="text-sm font-bold text-amber-700 flex items-center gap-1">
+              <p className="flex items-center gap-1 text-sm font-bold text-amber-700">
                 <Info className="h-4 w-4 shrink-0" /> {recommendation.sizeUpMessage}
               </p>
             )}
@@ -193,7 +175,7 @@ export default function SizeFinderPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-slate-200">
+                <tr className="border-border-default border-b">
                   <th className="py-2 pr-4 font-medium">Размер (EU)</th>
                   <th className="py-2 pr-4 font-medium">Ритейл</th>
                   <th className="py-2 pr-4 font-medium">Грудь (см)</th>
@@ -203,12 +185,18 @@ export default function SizeFinderPage() {
               </thead>
               <tbody>
                 {chart.map((row, i) => (
-                  <tr key={i} className="border-b border-slate-100">
+                  <tr key={i} className="border-border-subtle border-b">
                     <td className="py-2 pr-4 font-medium">{row.size}</td>
                     <td className="py-2 pr-4">{row.retailerSize ?? '—'}</td>
-                    <td className="py-2 pr-4">{row.chestMin}–{row.chestMax}</td>
-                    <td className="py-2 pr-4">{row.waistMin}–{row.waistMax}</td>
-                    <td className="py-2">{row.hipsMin}–{row.hipsMax}</td>
+                    <td className="py-2 pr-4">
+                      {row.chestMin}–{row.chestMax}
+                    </td>
+                    <td className="py-2 pr-4">
+                      {row.waistMin}–{row.waistMax}
+                    </td>
+                    <td className="py-2">
+                      {row.hipsMin}–{row.hipsMax}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -221,23 +209,24 @@ export default function SizeFinderPage() {
         <CardHeader>
           <CardTitle className="text-base">Обратная связь по посадке (SKU)</CardTitle>
           <CardDescription>
-            Агрегаты «маломерит / в размер / большемерит» с карточек и заказов подмешиваются в рекомендации. На витрине — блок
-            на PDP; B2C:{' '}
-            <Link href={ROUTES.client.visualSearch} className="underline font-medium">
+            Агрегаты «маломерит / в размер / большемерит» с карточек и заказов подмешиваются в
+            рекомендации. На витрине — блок на PDP; B2C:{' '}
+            <Link href={ROUTES.client.visualSearch} className="font-medium underline">
               визуальный поиск
             </Link>
             .
           </CardDescription>
         </CardHeader>
-        <CardContent className="text-sm text-slate-700">
+        <CardContent className="text-text-primary text-sm">
           <p className="text-xs">
-            Демо-сплит по категории верх: <strong>12%</strong> маломерит · <strong>58%</strong> в размер · <strong>8%</strong>{' '}
-            большемерит — источник: отзывы + возвраты «не подошёл размер».
+            Демо-сплит по категории верх: <strong>12%</strong> маломерит · <strong>58%</strong> в
+            размер · <strong>8%</strong> большемерит — источник: отзывы + возвраты «не подошёл
+            размер».
           </p>
         </CardContent>
       </Card>
 
-      <div className="mt-6 flex gap-2 flex-wrap">
+      <div className="mt-6 flex flex-wrap gap-2">
         <Button variant="outline" size="sm" asChild>
           <Link href={ROUTES.shop.b2bSizeMapping}>Маппинг размеров</Link>
         </Button>
@@ -251,7 +240,11 @@ export default function SizeFinderPage() {
           <Link href={ROUTES.client.profile}>Мерки в профиле</Link>
         </Button>
       </div>
-      <RelatedModulesBlock links={getShopB2BHubLinks()} title="Заказы, каталог, матрица" className="mt-6" />
-    </div>
+      <RelatedModulesBlock
+        links={getShopB2BHubLinks()}
+        title="Заказы, каталог, матрица"
+        className="mt-6"
+      />
+    </RegistryPageShell>
   );
 }

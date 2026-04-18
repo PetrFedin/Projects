@@ -7,9 +7,9 @@
  * - TryOnOutfitOutput - The return type for the tryOnOutfit function.
  */
 
-import {ai, withTokenAudit, truncateInput, withRetry} from '@/ai/genkit';
-import {z} from 'zod';
-import {googleAI} from '@genkit-ai/google-genai';
+import { ai, withTokenAudit, truncateInput, withRetry } from '@/ai/genkit';
+import { z } from 'zod';
+import { googleAI } from '@genkit-ai/google-genai';
 
 const TryOnOutfitInputSchema = z.object({
   prompt: z.string().describe('A text prompt describing the desired outfit style.'),
@@ -25,19 +25,19 @@ const TryOnOutfitOutputSchema = z.object({
   generatedOutfitImage: z
     .string()
     .describe(
-      "The data URI of the generated image showing the person in the new outfit. It must include a MIME type and use Base64 encoding."
+      'The data URI of the generated image showing the person in the new outfit. It must include a MIME type and use Base64 encoding.'
     ),
 });
 export type TryOnOutfitOutput = z.infer<typeof TryOnOutfitOutputSchema>;
 
-export async function tryOnOutfit(
-  input: TryOnOutfitInput
-): Promise<TryOnOutfitOutput> {
+export async function tryOnOutfit(input: TryOnOutfitInput): Promise<TryOnOutfitOutput> {
   const optimizedInput = {
     ...input,
     prompt: truncateInput(input.prompt, 500),
   };
-  return withTokenAudit('tryOnOutfit', optimizedInput, undefined, undefined, (i) => tryOnOutfitFlow(i));
+  return withTokenAudit('tryOnOutfit', optimizedInput, undefined, undefined, (i) =>
+    tryOnOutfitFlow(i)
+  );
 }
 
 const tryOnOutfitFlow = ai.defineFlow(
@@ -46,23 +46,27 @@ const tryOnOutfitFlow = ai.defineFlow(
     inputSchema: TryOnOutfitInputSchema,
     outputSchema: TryOnOutfitOutputSchema,
   },
-  async input => {
-    const {media} = await withRetry(async () => ai.generate({
+  async (input) => {
+    const { media } = await withRetry(async () =>
+      ai.generate({
         model: googleAI.model('gemini-2.5-flash-image-preview'),
         prompt: [
-            {media: {url: input.userPhotoDataUri}},
-            {text: `Re-draw the person in this image wearing the following outfit: ${input.prompt}. Do not change the person's face or body, only the clothes. The background should remain the same.`},
+          { media: { url: input.userPhotoDataUri } },
+          {
+            text: `Re-draw the person in this image wearing the following outfit: ${input.prompt}. Do not change the person's face or body, only the clothes. The background should remain the same.`,
+          },
         ],
         config: {
-            responseModalities: ['IMAGE'], 
+          responseModalities: ['IMAGE'],
         },
-    }));
+      })
+    );
 
     if (!media || !media.url) {
       // Return a specific error or a default image data URI
       return { generatedOutfitImage: '' };
     }
 
-    return {generatedOutfitImage: media.url};
+    return { generatedOutfitImage: media.url };
   }
 );

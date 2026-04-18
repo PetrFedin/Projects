@@ -2,21 +2,21 @@
 
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Brain, 
-  TrendingUp, 
-  BarChart3, 
-  Layers, 
-  CheckCircle2, 
-  AlertCircle, 
-  ArrowRight, 
-  Zap, 
+import {
+  Brain,
+  TrendingUp,
+  BarChart3,
+  Layers,
+  CheckCircle2,
+  AlertCircle,
+  ArrowRight,
+  Zap,
   History,
   ShoppingCart,
   Maximize2,
   Filter,
   Search,
-  Package
+  Package,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -37,8 +37,9 @@ export function AIBuyPlanAdvisor() {
       sku: 'CTP-26-001',
       action: 'Увеличить заказ',
       confidence: 94,
-      reason: 'Прогнозируемый высокий спрос в Московском регионе на основе климатических изменений и объема поисковых запросов.',
-      impact: '+12% Маржа'
+      reason:
+        'Прогнозируемый высокий спрос в Московском регионе на основе климатических изменений и объема поисковых запросов.',
+      impact: '+12% Маржа',
     },
     {
       id: 'rec-2',
@@ -46,45 +47,54 @@ export function AIBuyPlanAdvisor() {
       sku: 'NCP-26-042',
       action: 'Диверсифицировать размеры',
       confidence: 82,
-      reason: 'Стандартный размер M перенасыщен. Рекомендуется увеличить аллокацию размеров L и XL.',
-      impact: 'Снижение рисков'
-    }
+      reason:
+        'Стандартный размер M перенасыщен. Рекомендуется увеличить аллокацию размеров L и XL.',
+      impact: 'Снижение рисков',
+    },
   ];
 
   return (
-    <div className="space-y-4 p-4 bg-white min-h-screen">
+    <div className="min-h-screen space-y-4 bg-white p-4">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
+      <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-xl bg-indigo-600 flex items-center justify-center">
+            <div className="bg-accent-primary flex h-8 w-8 items-center justify-center rounded-xl">
               <Brain className="h-4 w-4 text-white" />
             </div>
-            <Badge variant="outline" className="border-indigo-100 text-indigo-600 uppercase font-black tracking-widest text-[9px]">
+            <Badge
+              variant="outline"
+              className="border-accent-primary/20 text-accent-primary text-[9px] font-black uppercase tracking-widest"
+            >
               AI_Strategic_Advisor_v4.0
             </Badge>
           </div>
-          <h2 className="text-sm md:text-sm font-black uppercase tracking-tighter text-slate-900 leading-none">
-            Оптимизатор<br/>Закупок (Buy-Plan)
+          <h2 className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter md:text-sm">
+            Оптимизатор
+            <br />
+            Закупок (Buy-Plan)
           </h2>
-          <p className="text-slate-400 font-medium text-xs max-w-md text-left">
-            Движок предиктивной аналитики, оптимизирующий ваши оптовые закупки на основе рыночных трендов, исторических данных и регионального спроса.
+          <p className="text-text-muted max-w-md text-left text-xs font-medium">
+            Движок предиктивной аналитики, оптимизирующий ваши оптовые закупки на основе рыночных
+            трендов, исторических данных и регионального спроса.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 p-1 bg-slate-50 rounded-2xl border border-slate-100">
+          <div className="bg-bg-surface2 border-border-subtle flex items-center gap-1.5 rounded-2xl border p-1">
             {[
               { id: 'trends', label: 'Тренды рынка', icon: TrendingUp },
               { id: 'stock', label: 'Здоровье стока', icon: BarChart3 },
-              { id: 'risk', label: 'Анализ рисков', icon: AlertCircle }
-            ].map(tab => (
+              { id: 'risk', label: 'Анализ рисков', icon: AlertCircle },
+            ].map((tab) => (
               <Button
                 key={tab.id}
                 onClick={() => setActiveAnalysis(tab.id as any)}
                 className={cn(
-                  "h-10 px-5 rounded-xl font-black uppercase text-[9px] tracking-widest transition-all gap-2",
-                  activeAnalysis === tab.id ? "bg-white text-slate-900 shadow-sm" : "bg-transparent text-slate-400 hover:text-slate-600"
+                  'h-10 gap-2 rounded-xl px-5 text-[9px] font-black uppercase tracking-widest transition-all',
+                  activeAnalysis === tab.id
+                    ? 'text-text-primary bg-white shadow-sm'
+                    : 'text-text-muted hover:text-text-secondary bg-transparent'
                 )}
               >
                 <tab.icon className="h-3.5 w-3.5" />
@@ -95,54 +105,72 @@ export function AIBuyPlanAdvisor() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
+      <div className="grid grid-cols-1 gap-3 lg:grid-cols-12">
         {/* Main Recommendations */}
-        <div className="lg:col-span-8 space-y-6">
+        <div className="space-y-6 lg:col-span-8">
           <div className="flex items-center justify-between px-2">
-            <h3 className="text-sm font-black uppercase tracking-widest text-slate-400">Стратегические рекомендации</h3>
-            <Button variant="ghost" className="text-[10px] font-black uppercase tracking-widest text-indigo-600 gap-2">
+            <h3 className="text-text-muted text-sm font-black uppercase tracking-widest">
+              Стратегические рекомендации
+            </h3>
+            <Button
+              variant="ghost"
+              className="text-accent-primary gap-2 text-[10px] font-black uppercase tracking-widest"
+            >
               Обновить анализ <Zap className="h-3.5 w-3.5" />
             </Button>
           </div>
 
           <div className="grid grid-cols-1 gap-3">
             {recommendations.map((rec) => (
-              <Card key={rec.id} className="border-none shadow-xl shadow-slate-200/50 rounded-xl overflow-hidden hover:scale-[1.01] transition-all bg-slate-50/50 group">
+              <Card
+                key={rec.id}
+                className="bg-bg-surface2/80 group overflow-hidden rounded-xl border-none shadow-md shadow-xl transition-all hover:scale-[1.01]"
+              >
                 <CardContent className="p-4">
-                  <div className="flex items-start justify-between mb-6">
+                  <div className="mb-6 flex items-start justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="h-12 w-12 rounded-2xl bg-white shadow-sm flex items-center justify-center border border-slate-100">
-                        <Package className="h-8 w-8 text-slate-200" />
+                      <div className="border-border-subtle flex h-12 w-12 items-center justify-center rounded-2xl border bg-white shadow-sm">
+                        <Package className="text-text-muted h-8 w-8" />
                       </div>
                       <div className="space-y-1">
                         <div className="flex items-center gap-3">
-                          <h4 className="text-base font-black text-slate-900 uppercase tracking-tight">{rec.style}</h4>
-                          <Badge className="bg-emerald-100 text-emerald-600 border-none font-black text-[8px] px-2 py-0.5 uppercase">
+                          <h4 className="text-text-primary text-base font-black uppercase tracking-tight">
+                            {rec.style}
+                          </h4>
+                          <Badge className="border-none bg-emerald-100 px-2 py-0.5 text-[8px] font-black uppercase text-emerald-600">
                             Точность прогноза: {rec.confidence}%
                           </Badge>
                         </div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{rec.sku}</p>
+                        <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+                          {rec.sku}
+                        </p>
                       </div>
                     </div>
-                    <Badge className="bg-indigo-600 text-white border-none font-black text-[9px] px-3 py-1 uppercase tracking-widest">
+                    <Badge className="bg-accent-primary border-none px-3 py-1 text-[9px] font-black uppercase tracking-widest text-white">
                       {rec.action}
                     </Badge>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-white border border-slate-100 mb-6">
-                    <p className="text-sm font-medium text-slate-600 leading-relaxed italic">"{rec.reason}"</p>
+                  <div className="border-border-subtle mb-6 rounded-2xl border bg-white p-4">
+                    <p className="text-text-secondary text-sm font-medium italic leading-relaxed">
+                      "{rec.reason}"
+                    </p>
                   </div>
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-xl">
+                      <div className="flex items-center gap-2 rounded-xl bg-emerald-50 px-3 py-1.5 text-emerald-600">
                         <TrendingUp className="h-3.5 w-3.5" />
-                        <span className="text-[10px] font-black uppercase tracking-widest">{rec.impact}</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest">
+                          {rec.impact}
+                        </span>
                       </div>
-                      <div className="h-1 w-1 rounded-full bg-slate-200" />
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Применено к 12 активным заказам</span>
+                      <div className="bg-border-subtle h-1 w-1 rounded-full" />
+                      <span className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+                        Применено к 12 активным заказам
+                      </span>
                     </div>
-                    <Button className="h-11 bg-slate-900 text-white rounded-xl px-6 font-black uppercase text-[10px] tracking-widest gap-2 group-hover:bg-indigo-600 transition-colors">
+                    <Button className="bg-text-primary group-hover:bg-accent-primary h-11 gap-2 rounded-xl px-6 text-[10px] font-black uppercase tracking-widest text-white transition-colors">
                       Принять оптимизацию <CheckCircle2 className="h-4 w-4" />
                     </Button>
                   </div>
@@ -153,58 +181,72 @@ export function AIBuyPlanAdvisor() {
         </div>
 
         {/* Global Market Stats Sidebar */}
-        <div className="lg:col-span-4 space-y-4">
-          <Card className="border-none shadow-2xl shadow-slate-200/50 rounded-xl bg-slate-900 text-white p-4 space-y-4">
+        <div className="space-y-4 lg:col-span-4">
+          <Card className="bg-text-primary space-y-4 rounded-xl border-none p-4 text-white shadow-2xl shadow-md">
             <div className="space-y-2">
               <h3 className="text-base font-black uppercase tracking-tight">Рыночный резонанс</h3>
-              <p className="text-[10px] font-medium text-white/40 uppercase">Глобальные кластеры спроса в текущем окне</p>
+              <p className="text-[10px] font-medium uppercase text-white/40">
+                Глобальные кластеры спроса в текущем окне
+              </p>
             </div>
 
             <div className="space-y-6">
               {[
-                { label: 'Кибер-минимализм', val: 88, color: 'bg-indigo-500' },
+                { label: 'Кибер-минимализм', val: 88, color: 'bg-accent-primary' },
                 { label: 'Техвир Элита', val: 64, color: 'bg-emerald-500' },
-                { label: 'Цифровой кочевник', val: 42, color: 'bg-amber-500' }
+                { label: 'Цифровой кочевник', val: 42, color: 'bg-amber-500' },
               ].map((cluster, i) => (
                 <div key={i} className="space-y-2">
-                  <div className="flex justify-between items-end">
-                    <span className="text-[10px] font-black uppercase tracking-widest">{cluster.label}</span>
+                  <div className="flex items-end justify-between">
+                    <span className="text-[10px] font-black uppercase tracking-widest">
+                      {cluster.label}
+                    </span>
                     <span className="text-[10px] font-bold text-white/60">{cluster.val}%</span>
                   </div>
-                  <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                    <motion.div 
+                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+                    <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${cluster.val}%` }}
-                      className={cn("h-full", cluster.color)} 
+                      className={cn('h-full', cluster.color)}
                     />
                   </div>
                 </div>
               ))}
             </div>
 
-            <Button className="w-full h-10 bg-white text-slate-900 hover:bg-slate-100 rounded-2xl font-black uppercase text-[10px] tracking-widest gap-2 shadow-xl shadow-white/5">
+            <Button className="text-text-primary hover:bg-bg-surface2 h-10 w-full gap-2 rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest shadow-xl shadow-white/5">
               Сформировать глубокий прогноз <Zap className="h-4 w-4" />
             </Button>
           </Card>
 
-          <Card className="border-none shadow-2xl shadow-slate-200/50 rounded-xl bg-white p-4 space-y-6">
+          <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-2xl shadow-md">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center">
-                <History className="h-5 w-5 text-slate-400" />
+              <div className="bg-bg-surface2 flex h-10 w-10 items-center justify-center rounded-xl">
+                <History className="text-text-muted h-5 w-5" />
               </div>
-              <h4 className="text-sm font-black uppercase tracking-tight text-slate-900">Журнал оптимизаций</h4>
+              <h4 className="text-text-primary text-sm font-black uppercase tracking-tight">
+                Журнал оптимизаций
+              </h4>
             </div>
             <div className="space-y-4">
               {[
                 { title: 'Обновление аллокации SKU', time: '2ч назад', status: 'Применено' },
-                { title: 'Корректировка ценового уровня', time: 'Вчера', status: 'Ожидает' }
+                { title: 'Корректировка ценового уровня', time: 'Вчера', status: 'Ожидает' },
               ].map((log, i) => (
-                <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-slate-50">
+                <div
+                  key={i}
+                  className="bg-bg-surface2 flex items-center justify-between rounded-xl p-4"
+                >
                   <div className="space-y-1">
-                    <p className="text-[10px] font-black text-slate-900 uppercase leading-none">{log.title}</p>
-                    <p className="text-[8px] font-bold text-slate-400 uppercase">{log.time}</p>
+                    <p className="text-text-primary text-[10px] font-black uppercase leading-none">
+                      {log.title}
+                    </p>
+                    <p className="text-text-muted text-[8px] font-bold uppercase">{log.time}</p>
                   </div>
-                  <Badge variant="outline" className="text-[7px] border-slate-200 font-bold uppercase">
+                  <Badge
+                    variant="outline"
+                    className="border-border-default text-[7px] font-bold uppercase"
+                  >
                     {log.status}
                   </Badge>
                 </div>

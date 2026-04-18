@@ -13,12 +13,20 @@ function toCandidate(p: Product, reason: string): SubstituteCandidate {
 }
 
 /** Замены при OOS: тот же бренд + категория, другой цвет; иначе та же категория. */
-export function findSubstituteCandidates(anchor: Product, catalog: Product[], limit = 8): SubstituteCandidate[] {
+export function findSubstituteCandidates(
+  anchor: Product,
+  catalog: Product[],
+  limit = 8
+): SubstituteCandidate[] {
   const out: SubstituteCandidate[] = [];
   const seen = new Set<string>([String(anchor.id)]);
 
   const sameBrandCat = catalog.filter(
-    (p) => p.id !== anchor.id && p.brand === anchor.brand && p.category === anchor.category && p.images?.length,
+    (p) =>
+      p.id !== anchor.id &&
+      p.brand === anchor.brand &&
+      p.category === anchor.category &&
+      p.images?.length
   );
   for (const p of sameBrandCat) {
     if (out.length >= limit) break;

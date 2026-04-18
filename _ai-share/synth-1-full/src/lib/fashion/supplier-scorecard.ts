@@ -3,7 +3,8 @@ import type { SupplierMetricV1 } from './types';
 
 /** Метрики эффективности поставщика (Supply Chain Analytics). */
 export function getSupplierPerformance(product: Product): SupplierMetricV1 {
-  const name = product.attributes?.originCountry === 'Italy' ? 'Milano Fabrics Ltd.' : 'Asian Assembly Hub';
+  const name =
+    product.attributes?.originCountry === 'Italy' ? 'Milano Fabrics Ltd.' : 'Asian Assembly Hub';
   const supplierId = `SUP-${product.id.slice(0, 4).toUpperCase()}`;
 
   // Демо-данные на основе характеристик продукта

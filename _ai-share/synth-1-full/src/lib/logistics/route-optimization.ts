@@ -22,9 +22,33 @@ export interface RouteOptimizationResult {
 export class RouteOptimizationEngine {
   // Мок-база маршрутов
   private static routes: ShippingRoute[] = [
-    { origin: 'WH-A', destination: 'STORE-1', distanceKm: 500, estimatedDays: 1, costPerKg: 1.5, carbonEmissionsKg: 120, carrier: 'FastTrack' },
-    { origin: 'WH-A', destination: 'STORE-1', distanceKm: 550, estimatedDays: 3, costPerKg: 0.8, carbonEmissionsKg: 45, carrier: 'EcoRail' },
-    { origin: 'WH-B', destination: 'STORE-1', distanceKm: 1200, estimatedDays: 2, costPerKg: 3.0, carbonEmissionsKg: 300, carrier: 'AirFreight' }
+    {
+      origin: 'WH-A',
+      destination: 'STORE-1',
+      distanceKm: 500,
+      estimatedDays: 1,
+      costPerKg: 1.5,
+      carbonEmissionsKg: 120,
+      carrier: 'FastTrack',
+    },
+    {
+      origin: 'WH-A',
+      destination: 'STORE-1',
+      distanceKm: 550,
+      estimatedDays: 3,
+      costPerKg: 0.8,
+      carbonEmissionsKg: 45,
+      carrier: 'EcoRail',
+    },
+    {
+      origin: 'WH-B',
+      destination: 'STORE-1',
+      distanceKm: 1200,
+      estimatedDays: 2,
+      costPerKg: 3.0,
+      carbonEmissionsKg: 300,
+      carrier: 'AirFreight',
+    },
   ];
 
   /**
@@ -36,8 +60,10 @@ export class RouteOptimizationEngine {
     totalWeightKg: number,
     priority: 'speed' | 'cost' | 'eco' = 'cost'
   ): RouteOptimizationResult | null {
-    const availableRoutes = this.routes.filter(r => r.origin === origin && r.destination === destination);
-    
+    const availableRoutes = this.routes.filter(
+      (r) => r.origin === origin && r.destination === destination
+    );
+
     if (availableRoutes.length === 0) return null;
 
     let bestRoute = availableRoutes[0];
@@ -45,7 +71,7 @@ export class RouteOptimizationEngine {
 
     for (const route of availableRoutes) {
       let score = 0;
-      
+
       const totalCost = route.costPerKg * totalWeightKg;
       const totalEmissions = route.carbonEmissionsKg;
 
@@ -64,14 +90,15 @@ export class RouteOptimizationEngine {
       }
     }
 
-    const reasoning = `Selected ${bestRoute.carrier} based on ${priority} priority. ` +
+    const reasoning =
+      `Selected ${bestRoute.carrier} based on ${priority} priority. ` +
       `Est. Days: ${bestRoute.estimatedDays}, Cost: $${(bestRoute.costPerKg * totalWeightKg).toFixed(2)}, ` +
       `Emissions: ${bestRoute.carbonEmissionsKg}kg CO2.`;
 
     return {
       selectedRoute: bestRoute,
-      alternatives: availableRoutes.filter(r => r !== bestRoute),
-      reasoning
+      alternatives: availableRoutes.filter((r) => r !== bestRoute),
+      reasoning,
     };
   }
 }

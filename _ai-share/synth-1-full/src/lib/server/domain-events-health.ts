@@ -28,7 +28,10 @@ export type DomainEventsHealthStatus = {
 };
 
 /** Канонический словарь runbook-действий для summaryCode (ops/webhooks). */
-export const DOMAIN_EVENTS_SUMMARY_CODE_ACTION: Record<DomainEventsHealthStatus['summaryCode'], string> = {
+export const DOMAIN_EVENTS_SUMMARY_CODE_ACTION: Record<
+  DomainEventsHealthStatus['summaryCode'],
+  string
+> = {
   OK: 'No action required.',
   CRIT_CIRCUIT_OPEN: 'Reset circuit and inspect failing handlers immediately.',
   CRIT_DLQ_HIGH: 'Stabilize handlers, then replay DLQ in controlled batches.',
@@ -155,7 +158,9 @@ export function validateDomainEventsHealthContract(params: {
     headersNormalized[k.toLowerCase()] = typeof v === 'string' ? v.trim() : v;
   }
   const payloadKeys = Object.keys(params.payload).sort();
-  const requiredPayloadKeys = [...DOMAIN_EVENTS_HEALTH_CONTRACT_METADATA.requiredResponseKeys].sort();
+  const requiredPayloadKeys = [
+    ...DOMAIN_EVENTS_HEALTH_CONTRACT_METADATA.requiredResponseKeys,
+  ].sort();
   if (JSON.stringify(payloadKeys) !== JSON.stringify(requiredPayloadKeys)) {
     errors.push(DOMAIN_EVENTS_HEALTH_CONTRACT_ERROR.payloadKeysMismatch);
   }
@@ -370,7 +375,9 @@ export function evaluateDomainEventsHealth(
     severity === 'ok'
       ? 'OK: domain events pipeline healthy.'
       : `${severity.toUpperCase()}: ${alerts
-          .filter((a) => a !== 'domain_events_health_warning' && a !== 'domain_events_health_critical')
+          .filter(
+            (a) => a !== 'domain_events_health_warning' && a !== 'domain_events_health_critical'
+          )
           .slice(0, 3)
           .join(' + ')}`;
   return {

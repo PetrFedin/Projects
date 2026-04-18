@@ -40,13 +40,16 @@ export class CircularEconomyEngine {
           status: 'rejected',
           storeCreditOffered: 0,
           nextAction: 'recycle',
-          reasoning: 'High-value item requires a valid Digital Product Passport (DPP) scan to prevent counterfeits. Please scan the QR code on the care label.'
+          reasoning:
+            'High-value item requires a valid Digital Product Passport (DPP) scan to prevent counterfeits. Please scan the QR code on the care label.',
         };
       }
 
       // Проверяем, существует ли такой хэш в нашем блокчейне
       const chain = ImmutableAuditTrail.getChain();
-      const isValidDpp = chain.some(record => record.hash === request.dppHash && record.eventType === 'dpp.generated');
+      const isValidDpp = chain.some(
+        (record) => record.hash === request.dppHash && record.eventType === 'dpp.generated'
+      );
 
       if (!isValidDpp) {
         return {
@@ -54,7 +57,8 @@ export class CircularEconomyEngine {
           status: 'rejected',
           storeCreditOffered: 0,
           nextAction: 'recycle',
-          reasoning: 'CRITICAL: Digital Product Passport verification failed. The item appears to be counterfeit or tampered with. Trade-in rejected.'
+          reasoning:
+            'CRITICAL: Digital Product Passport verification failed. The item appears to be counterfeit or tampered with. Trade-in rejected.',
         };
       }
     }
@@ -66,17 +70,17 @@ export class CircularEconomyEngine {
     // 1. Базовая оценка состояния
     switch (request.condition) {
       case 'mint':
-        creditPercent = 0.40; // 40% от оригинальной цены
+        creditPercent = 0.4; // 40% от оригинальной цены
         nextAction = 'resell_as_is';
-        estimatedResalePrice = request.originalPrice * 0.70; // Продаем за 70%
+        estimatedResalePrice = request.originalPrice * 0.7; // Продаем за 70%
         break;
       case 'good':
         creditPercent = 0.25;
         nextAction = 'refurbish'; // Требуется химчистка или мелкий ремонт
-        estimatedResalePrice = request.originalPrice * 0.50;
+        estimatedResalePrice = request.originalPrice * 0.5;
         break;
       case 'fair':
-        creditPercent = 0.10;
+        creditPercent = 0.1;
         nextAction = 'donate'; // Отдаем на благотворительность
         break;
       case 'poor':
@@ -101,7 +105,8 @@ export class CircularEconomyEngine {
         status: 'rejected',
         storeCreditOffered: 0,
         nextAction: 'recycle',
-        reasoning: 'Item is too old and in poor condition. Cannot offer store credit, but will recycle for free.'
+        reasoning:
+          'Item is too old and in poor condition. Cannot offer store credit, but will recycle for free.',
       };
     }
 
@@ -111,7 +116,7 @@ export class CircularEconomyEngine {
       storeCreditOffered,
       nextAction,
       estimatedResalePrice: estimatedResalePrice > 0 ? Math.round(estimatedResalePrice) : undefined,
-      reasoning: `Condition is ${request.condition}. Offering ${storeCreditOffered} credit. Item will be routed to ${nextAction}.`
+      reasoning: `Condition is ${request.condition}. Offering ${storeCreditOffered} credit. Item will be routed to ${nextAction}.`,
     };
   }
 }

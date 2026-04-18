@@ -72,14 +72,14 @@ export function ProcessFilters({ team, contextLabels, filters, onChange }: Proce
   };
 
   return (
-    <div className="flex items-center gap-2 flex-wrap">
+    <div className="flex flex-wrap items-center gap-2">
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="sm">
-            <Filter className="h-4 w-4 mr-1" />
+            <Filter className="mr-1 h-4 w-4" />
             Фильтры
             {activeCount > 0 && (
-              <span className="ml-1.5 rounded-full bg-indigo-100 text-indigo-700 px-1.5 py-0.5 text-xs">
+              <span className="bg-accent-primary/15 text-accent-primary ml-1.5 rounded-full px-1.5 py-0.5 text-xs">
                 {activeCount}
               </span>
             )}
@@ -109,17 +109,17 @@ export function ProcessFilters({ team, contextLabels, filters, onChange }: Proce
           ))}
           <DropdownMenuSeparator />
           <DropdownMenuLabel>По дате</DropdownMenuLabel>
-          <div className="px-2 py-1.5 space-y-2">
+          <div className="space-y-2 px-2 py-1.5">
             <input
               type="date"
-              className="w-full text-sm border rounded px-2 py-1"
+              className="w-full rounded border px-2 py-1 text-sm"
               value={filters.dateFrom ?? ''}
               onChange={(e) => onChange({ ...filters, dateFrom: e.target.value || null })}
               placeholder="С"
             />
             <input
               type="date"
-              className="w-full text-sm border rounded px-2 py-1"
+              className="w-full rounded border px-2 py-1 text-sm"
               value={filters.dateTo ?? ''}
               onChange={(e) => onChange({ ...filters, dateTo: e.target.value || null })}
               placeholder="По"
@@ -144,7 +144,7 @@ export function ProcessFilters({ team, contextLabels, filters, onChange }: Proce
             <>
               <DropdownMenuSeparator />
               <Button variant="ghost" size="sm" className="w-full justify-start" onClick={clearAll}>
-                <X className="h-4 w-4 mr-1" />
+                <X className="mr-1 h-4 w-4" />
                 Сбросить
               </Button>
             </>

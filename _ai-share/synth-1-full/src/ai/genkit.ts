@@ -7,9 +7,7 @@ import { checkUserQuota, logTokenUsage } from './token-guard';
  * Centralized AI configuration with token economy and safety rules.
  */
 export const ai = genkit({
-  plugins: [
-    googleAI(),
-  ],
+  plugins: [googleAI()],
   model: 'googleai/gemini-1.5-flash',
 });
 
@@ -35,7 +33,7 @@ export async function withTokenAudit<I, O>(
 ): Promise<O> {
   const cacheKey = generateCacheKey(flowName, input);
   const cachedResult = await getFromCache<O>(cacheKey);
-  
+
   if (cachedResult) {
     console.log(`[AI_CACHE] Hit for ${flowName}`);
     return cachedResult;
@@ -59,7 +57,7 @@ export async function withTokenAudit<I, O>(
 
     const result = await execution(input);
     const duration = Date.now() - startTime;
-    
+
     let usage: TokenUsage = {};
     if (result && typeof result === 'object' && 'usage' in (result as any)) {
       const genkitUsage = (result as any).usage;
@@ -69,7 +67,7 @@ export async function withTokenAudit<I, O>(
         totalTokens: genkitUsage?.totalTokens,
       };
     }
-    
+
     // 2. Logging & Auditing
     logTokenUsage(flowName, usage);
 
@@ -83,13 +81,12 @@ export async function withTokenAudit<I, O>(
   }
 }
 
-
 /**
  * Truncates text to a maximum length to prevent token leakage.
  */
 export function truncateInput(text: string, maxLength: number = 4000): string {
   if (text.length <= maxLength) return text;
-  return text.substring(0, maxLength) + "... [truncated for token economy]";
+  return text.substring(0, maxLength) + '... [truncated for token economy]';
 }
 
 /**
@@ -125,7 +122,7 @@ export async function withRetry<T>(
       lastError = error;
       const delay = initialDelay * Math.pow(2, i);
       console.warn(`Retry attempt ${i + 1}/${maxRetries + 1} failed. Retrying in ${delay}ms...`);
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
   throw lastError; // Re-throw the last error if all retries fail

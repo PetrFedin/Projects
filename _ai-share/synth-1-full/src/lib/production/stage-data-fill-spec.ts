@@ -115,38 +115,80 @@ function crit(
 /** Универсальный fallback, если этап не описан явно. */
 export const DEFAULT_STAGE_FILL: readonly StageFillCriterion[] = [
   crit('owner', 'Ответственный за этап', true, hasAssignee, 'Модуль этапа или вкладка «Люди»'),
-  crit('record', 'Фиксация в контуре (комментарий / задержка)', true, hasNonEmptyNotes, 'Вкладка «Процесс»'),
+  crit(
+    'record',
+    'Фиксация в контуре (комментарий / задержка)',
+    true,
+    hasNonEmptyNotes,
+    'Вкладка «Процесс»'
+  ),
   crit('status-active', 'Статус этапа обновлён', false, statusTracked, 'Вкладка «Процесс»'),
 ];
 
 const STAGE_FILL_BY_STEP: Record<string, readonly StageFillCriterion[]> = {
   brief: [
-    crit('brief-text', 'Бриф: цели, сезон, экономика (текст)', true, hasNonEmptyNotes, 'Коллекция в цеху · бриф'),
+    crit(
+      'brief-text',
+      'Бриф: цели, сезон, экономика (текст)',
+      true,
+      hasNonEmptyNotes,
+      'Коллекция в цеху · бриф'
+    ),
     crit('owner', 'Ответственный за бриф', true, hasAssignee, 'Назначение в модуле или «Люди»'),
     crit('role', 'Роль в этапе', false, hasRole, '«Люди»'),
     crit('outputs', 'Зафиксированные выходы (документы, ссылки)', false, hasOutputs, '«Выходы»'),
     crit('attachments', 'Вложения и ссылки', false, hasAttachmentsNotes, '«Вложения»'),
   ],
   'assortment-map': [
-    crit('pim-map', 'Карта артикула в PIM (тип, ссылка на карточку)', true, hasOutputs, 'Продукты · PIM'),
+    crit(
+      'pim-map',
+      'Карта артикула в PIM (тип, ссылка на карточку)',
+      true,
+      hasOutputs,
+      'Продукты · PIM'
+    ),
     crit('owner', 'Ответственный за карту SKU', true, hasAssignee, '«Люди»'),
     crit('notes', 'Исключения и примечания', false, hasNonEmptyNotes, '«Процесс»'),
     crit('attachments', 'Чертежи, refs', false, hasAttachmentsNotes, '«Вложения»'),
   ],
   'collection-hub': [
-    crit('hub-note', 'Статус и заметка по хабу коллекции', true, hasNonEmptyNotes, 'Коллекция в цеху'),
+    crit(
+      'hub-note',
+      'Статус и заметка по хабу коллекции',
+      true,
+      hasNonEmptyNotes,
+      'Коллекция в цеху'
+    ),
     crit('owner', 'Ответственный', true, hasAssignee, '«Люди»'),
     crit('outputs', 'Быстрые ссылки / выходы хаба', false, hasOutputs, '«Выходы»'),
     crit('status-active', 'Статус в контуре', false, statusTracked, '«Процесс»'),
   ],
   costing: [
-    crit('cost-lines', 'Строки себестоимости с суммами (₽)', true, hasMeaningfulCostLines, 'Бюджет · факт'),
-    crit('margin-track', 'Согласование маржи или комментарий', true, (r) => hasApprovals(r) || hasNonEmptyNotes(r), 'Сообщения, задачи → «Люди»'),
+    crit(
+      'cost-lines',
+      'Строки себестоимости с суммами (₽)',
+      true,
+      hasMeaningfulCostLines,
+      'Бюджет · факт'
+    ),
+    crit(
+      'margin-track',
+      'Согласование маржи или комментарий',
+      true,
+      (r) => hasApprovals(r) || hasNonEmptyNotes(r),
+      'Сообщения, задачи → «Люди»'
+    ),
     crit('owner', 'Ответственный за costing', true, hasAssignee, '«Люди»'),
     crit('outputs', 'Ссылки на прайс / версии расчёта', false, hasOutputs, '«Выходы»'),
   ],
   materials: [
-    crit('mat-bom', 'Материалы, поставщик, нормы (артефакты или текст)', true, (r) => hasOutputs(r) || hasAttachmentsNotes(r), 'Материалы · BOM'),
+    crit(
+      'mat-bom',
+      'Материалы, поставщик, нормы (артефакты или текст)',
+      true,
+      (r) => hasOutputs(r) || hasAttachmentsNotes(r),
+      'Материалы · BOM'
+    ),
     crit('owner', 'Ответственный', true, hasAssignee, '«Люди»'),
     crit('rfq', 'RFQ / согласование поставщика', false, hasApprovals, '«Люди» · подтверждения'),
     crit('notes', 'Комментарии по материалам', false, hasNonEmptyNotes, '«Процесс»'),
@@ -157,77 +199,173 @@ const STAGE_FILL_BY_STEP: Record<string, readonly StageFillCriterion[]> = {
     crit('attachments', 'Доп. ссылки на файлы', false, hasAttachmentsNotes, '«Вложения»'),
   ],
   'tech-pack': [
-    crit('tp-pack', 'ТЗ: лекала, версии, ссылки (выходы или вложения)', true, (r) => hasOutputs(r) || hasAttachmentsNotes(r), 'Tech pack'),
+    crit(
+      'tp-pack',
+      'ТЗ: лекала, версии, ссылки (выходы или вложения)',
+      true,
+      (r) => hasOutputs(r) || hasAttachmentsNotes(r),
+      'Tech pack'
+    ),
     crit('owner', 'Ответственный (конструктор / тех)', true, hasAssignee, '«Люди»'),
     crit('notes', 'Швы, размеры, примечания', false, hasNonEmptyNotes, '«Процесс»'),
     crit('approvals', 'Согласование ТЗ', false, hasApprovals, '«Люди»'),
   ],
   'gate-all-stakeholders': [
-    crit('signoff', 'Подтверждения сторон (кто согласовал)', true, hasApprovals, 'LIVE процесс · сообщения'),
+    crit(
+      'signoff',
+      'Подтверждения сторон (кто согласовал)',
+      true,
+      hasApprovals,
+      'LIVE процесс · сообщения'
+    ),
     crit('owner', 'Координатор согласования', true, hasAssignee, '«Люди»'),
     crit('notes', 'Итог совещания / решения', false, hasNonEmptyNotes, '«Процесс»'),
   ],
   'supply-path': [
-    crit('supply', 'Поставка: заказ / сток (заметка или выход)', true, (r) => hasNonEmptyNotes(r) || hasOutputs(r), 'Закупка · сток'),
+    crit(
+      'supply',
+      'Поставка: заказ / сток (заметка или выход)',
+      true,
+      (r) => hasNonEmptyNotes(r) || hasOutputs(r),
+      'Закупка · сток'
+    ),
     crit('owner', 'Ответственный закупки', true, hasAssignee, '«Люди»'),
     crit('costs', 'Логистика / стоимость поставки', false, hasMeaningfulCostLines, '«Затраты»'),
   ],
   samples: [
-    crit('sample-artifacts', 'Семпл: партия, эталон, fit (выходы)', true, hasOutputs, 'Семпл · Gold sample'),
+    crit(
+      'sample-artifacts',
+      'Семпл: партия, эталон, fit (выходы)',
+      true,
+      hasOutputs,
+      'Семпл · Gold sample'
+    ),
     crit('owner', 'Ответственный', true, hasAssignee, '«Люди»'),
     crit('notes', 'Комментарии примерки', false, hasNonEmptyNotes, '«Процесс»'),
     crit('attachments', 'Фото / акт', false, hasAttachmentsNotes, '«Вложения»'),
   ],
   'b2b-linesheets': [
-    crit('ls', 'Лайншит / лукбук (выходы или вложения)', true, (r) => hasOutputs(r) || hasAttachmentsNotes(r), 'B2B linesheets'),
+    crit(
+      'ls',
+      'Лайншит / лукбук (выходы или вложения)',
+      true,
+      (r) => hasOutputs(r) || hasAttachmentsNotes(r),
+      'B2B linesheets'
+    ),
     crit('owner', 'Ответственный B2B', false, hasAssignee, '«Люди»'),
   ],
   'production-window': [
-    crit('slot', 'Площадка и сроки (фиксация в контуре)', true, (r) => hasNonEmptyNotes(r) || hasOutputs(r), 'Фабрики · план'),
+    crit(
+      'slot',
+      'Площадка и сроки (фиксация в контуре)',
+      true,
+      (r) => hasNonEmptyNotes(r) || hasOutputs(r),
+      'Фабрики · план'
+    ),
     crit('owner', 'Ответственный за производство', true, hasAssignee, '«Люди»'),
     crit('approvals', 'Согласование календаря', false, hasApprovals, '«Люди»'),
   ],
   po: [
-    crit('po-ref', 'PO / запуск серии (номер, ссылка)', true, (r) => hasOutputs(r) || hasNonEmptyNotes(r), 'Gantt · план PO'),
+    crit(
+      'po-ref',
+      'PO / запуск серии (номер, ссылка)',
+      true,
+      (r) => hasOutputs(r) || hasNonEmptyNotes(r),
+      'Gantt · план PO'
+    ),
     crit('owner', 'Ответственный', true, hasAssignee, '«Люди»'),
     crit('costs', 'Суммы по PO', false, hasMeaningfulCostLines, '«Затраты»'),
   ],
   'floor-ops': [
-    crit('ops', 'BOM / сводка операций', true, (r) => hasOutputs(r) || hasNonEmptyNotes(r), 'Операции цеха'),
+    crit(
+      'ops',
+      'BOM / сводка операций',
+      true,
+      (r) => hasOutputs(r) || hasNonEmptyNotes(r),
+      'Операции цеха'
+    ),
     crit('owner', 'Ответственный', false, hasAssignee, '«Люди»'),
     crit('attachments', 'Аудит / вложения', false, hasAttachmentsNotes, '«Вложения»'),
   ],
   'supplies-bind': [
-    crit('vmi', 'Резерв / поставка в цех', true, (r) => hasNonEmptyNotes(r) || hasAttachmentsNotes(r), 'Снабжение · VMI'),
+    crit(
+      'vmi',
+      'Резерв / поставка в цех',
+      true,
+      (r) => hasNonEmptyNotes(r) || hasAttachmentsNotes(r),
+      'Снабжение · VMI'
+    ),
     crit('owner', 'Ответственный снабжения', true, hasAssignee, '«Люди»'),
   ],
   'nesting-cut': [
-    crit('nest', 'Раскрой / nesting (файл, ссылка)', true, (r) => hasOutputs(r) || hasAttachmentsNotes(r), 'Nesting AI'),
+    crit(
+      'nest',
+      'Раскрой / nesting (файл, ссылка)',
+      true,
+      (r) => hasOutputs(r) || hasAttachmentsNotes(r),
+      'Nesting AI'
+    ),
     crit('owner', 'Ответственный', true, hasAssignee, '«Люди»'),
   ],
   'floor-execution': [
-    crit('exec', 'Выпуск: смены / факт', true, (r) => hasNonEmptyNotes(r) || hasOutputs(r), 'Выпуск · смены'),
+    crit(
+      'exec',
+      'Выпуск: смены / факт',
+      true,
+      (r) => hasNonEmptyNotes(r) || hasOutputs(r),
+      'Выпуск · смены'
+    ),
     crit('owner', 'Ответственный цеха', true, hasAssignee, '«Люди»'),
   ],
   qc: [
-    crit('qc', 'ОТК: акт / статус партии', true, (r) => hasOutputs(r) || hasNonEmptyNotes(r), 'ОТК · качество'),
+    crit(
+      'qc',
+      'ОТК: акт / статус партии',
+      true,
+      (r) => hasOutputs(r) || hasNonEmptyNotes(r),
+      'ОТК · качество'
+    ),
     crit('owner', 'Ответственный QC', true, hasAssignee, '«Люди»'),
     crit('approvals', 'Подпись приёмки', false, hasApprovals, '«Люди»'),
   ],
   'ready-made': [
-    crit('wh', 'Приёмка готового товара на склад', true, (r) => hasOutputs(r) || hasNonEmptyNotes(r), 'Склад · готовый товар'),
+    crit(
+      'wh',
+      'Приёмка готового товара на склад',
+      true,
+      (r) => hasOutputs(r) || hasNonEmptyNotes(r),
+      'Склад · готовый товар'
+    ),
     crit('owner', 'Ответственный склада', true, hasAssignee, '«Люди»'),
   ],
   'wholesale-prep': [
-    crit('kit', 'Комплектация под B2B', true, (r) => hasOutputs(r) || hasNonEmptyNotes(r), 'Склад · комплектация'),
+    crit(
+      'kit',
+      'Комплектация под B2B',
+      true,
+      (r) => hasOutputs(r) || hasNonEmptyNotes(r),
+      'Склад · комплектация'
+    ),
     crit('owner', 'Ответственный', true, hasAssignee, '«Люди»'),
   ],
   'b2b-ship-stores': [
-    crit('ship', 'Отгрузка / ASN / трекинг', true, (r) => hasOutputs(r) || hasNonEmptyNotes(r), 'B2B · отгрузки'),
+    crit(
+      'ship',
+      'Отгрузка / ASN / трекинг',
+      true,
+      (r) => hasOutputs(r) || hasNonEmptyNotes(r),
+      'B2B · отгрузки'
+    ),
     crit('owner', 'Ответственный логистики', true, hasAssignee, '«Люди»'),
   ],
   sustainability: [
-    crit('esg', 'ESG: сертификаты, паспорт (текст или выходы)', true, (r) => hasAttachmentsNotes(r) || hasOutputs(r), 'ESG'),
+    crit(
+      'esg',
+      'ESG: сертификаты, паспорт (текст или выходы)',
+      true,
+      (r) => hasAttachmentsNotes(r) || hasOutputs(r),
+      'ESG'
+    ),
     crit('owner', 'Ответственный устойчивость', false, hasAssignee, '«Люди»'),
     crit('notes', 'Комплаенс / примечания', false, hasNonEmptyNotes, '«Процесс»'),
   ],
@@ -314,5 +452,8 @@ export function getSkuDataGatedCurrentStepId(
     }
   }
 
-  return getSkuCurrentProcessStepId(doc, skuId, orderedStepIds) || orderedStepIds[orderedStepIds.length - 1];
+  return (
+    getSkuCurrentProcessStepId(doc, skuId, orderedStepIds) ||
+    orderedStepIds[orderedStepIds.length - 1]
+  );
 }

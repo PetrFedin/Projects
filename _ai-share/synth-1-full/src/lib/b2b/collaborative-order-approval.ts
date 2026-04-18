@@ -4,11 +4,11 @@
  */
 
 export type CollaborativeOrderStatus =
-  | 'draft'           // Черновик, редактируют участники
+  | 'draft' // Черновик, редактируют участники
   | 'pending_approval' // Отправлен на согласование
-  | 'approved'        // Одобрен, можно конвертировать в заказ
-  | 'rejected'        // Отклонён
-  | 'ordered';        // Уже оформлен как заказ
+  | 'approved' // Одобрен, можно конвертировать в заказ
+  | 'rejected' // Отклонён
+  | 'ordered'; // Уже оформлен как заказ
 
 export interface CollaborativeOrderParticipant {
   userId: string;

@@ -1,12 +1,21 @@
 'use client';
 
-import { Suspense, useCallback, useEffect, useMemo, useState, type Dispatch, type SetStateAction } from 'react';
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Smartphone, QrCode, Trash2 } from 'lucide-react';
 import { B2BModulePage } from '@/components/shop/B2BModulePage';
+import { RegistryPageShell } from '@/components/design-system';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
 import { fetchShowroomSampleByRegistryId } from '@/lib/fashion/showroom-sample-client';
@@ -38,7 +47,9 @@ function newLineId(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
-function parseScannedToken(raw: string): { payload: ShowroomSampleTagPayloadV1; source: 'qr' | 'barcode' } | null {
+function parseScannedToken(
+  raw: string
+): { payload: ShowroomSampleTagPayloadV1; source: 'qr' | 'barcode' } | null {
   const t = raw.trim();
   if (!t) return null;
   if (t.startsWith('SYNTH1|')) {
@@ -189,7 +200,10 @@ function B2BScannerInner() {
   return (
     <>
       {toast ? (
-        <p className="text-sm font-medium text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-lg px-3 py-2 mb-3" role="status">
+        <p
+          className="text-accent-primary bg-accent-primary/10 border-accent-primary/20 mb-3 rounded-lg border px-3 py-2 text-sm font-medium"
+          role="status"
+        >
           {toast}
         </p>
       ) : null}
@@ -197,18 +211,19 @@ function B2BScannerInner() {
         <CardHeader>
           <CardTitle>Сканер шоурума</CardTitle>
           <CardDescription>
-            Скан QR на бирке открывает эту страницу с параметром <code className="text-xs bg-slate-100 px-1 rounded">add</code> — модель
-            попадает в список. Штрихкод (Code 128) вводится в поле ниже и обрабатывается кнопкой — удобно для сканера с эмуляцией
-            клавиатуры. Дальше укажите только размеры и количества.
+            Скан QR на бирке открывает эту страницу с параметром{' '}
+            <code className="bg-bg-surface2 rounded px-1 text-xs">add</code> — модель попадает в
+            список. Штрихкод (Code 128) вводится в поле ниже и обрабатывается кнопкой — удобно для
+            сканера с эмуляцией клавиатуры. Дальше укажите только размеры и количества.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex items-center justify-center p-8 rounded-xl border-2 border-dashed border-slate-200 bg-slate-50">
-            <QrCode className="h-16 w-16 text-slate-300" aria-hidden />
+          <div className="border-border-default bg-bg-surface2 flex items-center justify-center rounded-xl border-2 border-dashed p-8">
+            <QrCode className="text-text-muted h-16 w-16" aria-hidden />
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="wedge" className="text-sm font-medium text-slate-800">
+            <label htmlFor="wedge" className="text-text-primary text-sm font-medium">
               Ввод со сканера (штрихкод или вставка payload)
             </label>
             <div className="flex flex-wrap gap-2">
@@ -234,10 +249,18 @@ function B2BScannerInner() {
 
           <div className="space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="text-sm font-semibold text-slate-900">Выбранные модели ({countLabel})</h3>
+              <h3 className="text-text-primary text-sm font-semibold">
+                Выбранные модели ({countLabel})
+              </h3>
               <div className="flex gap-2">
-                <Button type="button" variant="outline" size="sm" onClick={() => setLines([])} disabled={lines.length === 0}>
-                  <Trash2 className="h-4 w-4 mr-1" />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setLines([])}
+                  disabled={lines.length === 0}
+                >
+                  <Trash2 className="mr-1 h-4 w-4" />
                   Очистить
                 </Button>
                 <Button type="button" size="sm" asChild disabled={lines.length === 0}>
@@ -247,37 +270,46 @@ function B2BScannerInner() {
             </div>
 
             {lines.length === 0 ? (
-              <p className="text-sm text-slate-500">Пока пусто — отсканируйте бирки в шоуруме.</p>
+              <p className="text-text-secondary text-sm">
+                Пока пусто — отсканируйте бирки в шоуруме.
+              </p>
             ) : (
               <ul className="space-y-3">
                 {lines.map((line) => (
                   <li
                     key={line.id}
-                    className="rounded-lg border border-slate-200 bg-white p-3 space-y-2 shadow-sm"
+                    className="border-border-default space-y-2 rounded-lg border bg-white p-3 shadow-sm"
                   >
                     <div className="flex flex-wrap justify-between gap-2">
                       <div>
-                        <p className="font-semibold text-slate-900">{line.payload.name}</p>
-                        <p className="text-xs text-slate-500 font-mono">
-                          {line.payload.sku} · {line.payload.productId} · образец {line.payload.sampleId}
-                          {line.payload.internalArticleCode ? ` · внутр. ${line.payload.internalArticleCode}` : ''}
+                        <p className="text-text-primary font-semibold">{line.payload.name}</p>
+                        <p className="text-text-secondary font-mono text-xs">
+                          {line.payload.sku} · {line.payload.productId} · образец{' '}
+                          {line.payload.sampleId}
+                          {line.payload.internalArticleCode
+                            ? ` · внутр. ${line.payload.internalArticleCode}`
+                            : ''}
                         </p>
-                        <p className="text-[10px] text-slate-400 mt-1">
-                          Источник: {line.source === 'qr' ? 'QR' : 'Штрихкод'} · {new Date(line.scannedAt).toLocaleString('ru-RU')}
+                        <p className="text-text-muted mt-1 text-[10px]">
+                          Источник: {line.source === 'qr' ? 'QR' : 'Штрихкод'} ·{' '}
+                          {new Date(line.scannedAt).toLocaleString('ru-RU')}
                         </p>
                       </div>
                       <Button
                         type="button"
                         variant="ghost"
                         size="sm"
-                        className="text-rose-600 shrink-0"
+                        className="shrink-0 text-rose-600"
                         onClick={() => setLines((prev) => prev.filter((l) => l.id !== line.id))}
                       >
                         Убрать
                       </Button>
                     </div>
                     <div>
-                      <label className="text-xs font-medium text-slate-600" htmlFor={`sq-${line.id}`}>
+                      <label
+                        className="text-text-secondary text-xs font-medium"
+                        htmlFor={`sq-${line.id}`}
+                      >
                         Размеры и количества
                       </label>
                       <Input
@@ -285,7 +317,9 @@ function B2BScannerInner() {
                         value={line.sizesQtyNote}
                         onChange={(e) =>
                           setLines((prev) =>
-                            prev.map((l) => (l.id === line.id ? { ...l, sizesQtyNote: e.target.value } : l))
+                            prev.map((l) =>
+                              l.id === line.id ? { ...l, sizesQtyNote: e.target.value } : l
+                            )
                           )
                         }
                         placeholder="Например: S — 2, M — 1, L — 0"
@@ -298,9 +332,9 @@ function B2BScannerInner() {
             )}
           </div>
 
-          <p className="text-xs text-slate-500">
-            Список хранится в браузере на этом устройстве. Для боевого режима понадобится синхронизация сессии байера и резолв
-            opaque-кода штрихкода на сервере.
+          <p className="text-text-secondary text-xs">
+            Список хранится в браузере на этом устройстве. Для боевого режима понадобится
+            синхронизация сессии байера и резолв opaque-кода штрихкода на сервере.
           </p>
         </CardContent>
       </Card>
@@ -311,7 +345,7 @@ function B2BScannerInner() {
 function ScannerFallback() {
   return (
     <Card>
-      <CardContent className="p-8 text-sm text-slate-500">Загрузка сканера…</CardContent>
+      <CardContent className="text-text-secondary p-8 text-sm">Загрузка сканера…</CardContent>
     </Card>
   );
 }
@@ -319,16 +353,18 @@ function ScannerFallback() {
 /** Colect, Le New Black: Sales App — скан бирок образцов → список моделей → размеры/кол-ва. */
 export default function B2BScannerPage() {
   return (
-    <B2BModulePage
-      title="Sales App (мобильное)"
-      description="Скан QR и штрихкода бирки образца в шоуруме — модель сразу в списке выбранного, без ручного ввода артикула."
-      moduleId="sales-app"
-      icon={Smartphone}
-      phase={4}
-    >
-      <Suspense fallback={<ScannerFallback />}>
-        <B2BScannerInner />
-      </Suspense>
-    </B2BModulePage>
+    <RegistryPageShell className="max-w-4xl space-y-6">
+      <B2BModulePage
+        title="Sales App (мобильное)"
+        description="Скан QR и штрихкода бирки образца в шоуруме — модель сразу в списке выбранного, без ручного ввода артикула."
+        moduleId="sales-app"
+        icon={Smartphone}
+        phase={4}
+      >
+        <Suspense fallback={<ScannerFallback />}>
+          <B2BScannerInner />
+        </Suspense>
+      </B2BModulePage>
+    </RegistryPageShell>
   );
 }

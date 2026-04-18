@@ -77,7 +77,7 @@ export interface B2BTask {
   status: 'todo' | 'in_progress' | 'review' | 'done';
   priority: 'low' | 'medium' | 'high' | 'critical';
   assigneeId: string;
-  relatedTo?: { type: 'order' | 'partner' | 'product', id: string };
+  relatedTo?: { type: 'order' | 'partner' | 'product'; id: string };
   dueDate: string;
   createdAt: string;
 }
@@ -145,7 +145,7 @@ export interface B2BBanner {
   imageUrl: string;
   targetUrl: string;
   placement: 'dashboard' | 'showroom' | 'sidebar';
-  stats: { views: number, clicks: number };
+  stats: { views: number; clicks: number };
 }
 
 export interface CustomLinesheet {
@@ -168,7 +168,7 @@ export interface InventoryItem {
   warehouse: 'Moscow' | 'Dubai' | 'Milan';
   available: number;
   reserved: number;
-  incoming: { date: string, quantity: number }[];
+  incoming: { date: string; quantity: number }[];
 }
 
 export interface WholesaleCollection {
@@ -181,17 +181,24 @@ export interface WholesaleCollection {
   description: string;
   lookbookUrls: string[];
   videoUrl?: string;
-  documents: { title: string, url: string, type: 'cert' | 'tech' | 'price' }[];
+  documents: { title: string; url: string; type: 'cert' | 'tech' | 'price' }[];
   products: Product[];
-  drops: { id: string, name: string, deliveryDate: string }[];
-  pricingTiers: { id: string, name: string, discountPercent: number, moq: number }[];
+  drops: { id: string; name: string; deliveryDate: string }[];
+  pricingTiers: { id: string; name: string; discountPercent: number; moq: number }[];
 }
 
-export type B2BOrderWholesaleStatus = 'draft' | 'pending_brand' | 'pending_retailer' | 'pending_admin' | 'confirmed' | 'production' | 'shipped';
+export type B2BOrderWholesaleStatus =
+  | 'draft'
+  | 'pending_brand'
+  | 'pending_retailer'
+  | 'pending_admin'
+  | 'confirmed'
+  | 'production'
+  | 'shipped';
 
 export interface NegotiationMessage {
   id: string;
-  sender: { id: string, name: string, role: UserRole };
+  sender: { id: string; name: string; role: UserRole };
   text: string;
   timestamp: string;
   type: 'message' | 'system' | 'adjustment';
@@ -209,9 +216,16 @@ export interface B2BNegotiation {
 export interface B2BActivityLog {
   id: string;
   timestamp: string;
-  type: 'order_draft' | 'order_placed' | 'linesheet_request' | 'connection_request' | 'view_product' | 'negotiation_update' | 'order_status_change';
-  actor: { id: string, name: string, type: 'brand' | 'retailer' | 'system' };
-  target: { id: string, name: string, type: 'brand' | 'retailer' | 'product' | 'linesheet' };
+  type:
+    | 'order_draft'
+    | 'order_placed'
+    | 'linesheet_request'
+    | 'connection_request'
+    | 'view_product'
+    | 'negotiation_update'
+    | 'order_status_change';
+  actor: { id: string; name: string; type: 'brand' | 'retailer' | 'system' };
+  target: { id: string; name: string; type: 'brand' | 'retailer' | 'product' | 'linesheet' };
   details?: string;
 }
 

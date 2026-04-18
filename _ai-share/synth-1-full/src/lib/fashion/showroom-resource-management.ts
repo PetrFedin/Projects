@@ -23,6 +23,6 @@ export function getShowroomResourceAvailability(): ShowroomResourceV1[] {
       name: 'Main Presentation Hall',
       availabilityPercent: 100,
       nextAvailableSlot: '2026-04-01 09:00',
-    }
+    },
   ];
 }

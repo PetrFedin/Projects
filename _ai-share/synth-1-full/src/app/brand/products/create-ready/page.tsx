@@ -11,10 +11,12 @@ import { Package, CheckCircle2 } from 'lucide-react';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { getProductLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
 
 export default function CreateReadyProductPage() {
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
       <SectionInfoCard
         title="Создание карточки готового товара"
         description="Товар уже произведён — создайте карточку без привязки к производственному циклу. Детальное ведение: артикул, описание, фото, размеры, цены."
@@ -23,9 +25,11 @@ export default function CreateReadyProductPage() {
         iconColor="text-emerald-600"
         badges={
           <>
-            <Badge variant="outline" className="text-[9px]">Готовый товар</Badge>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild>
-              <Link href="/brand/products">PIM</Link>
+            <Badge variant="outline" className="text-[9px]">
+              Готовый товар
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.products}>PIM</Link>
             </Button>
           </>
         }
@@ -42,7 +46,7 @@ export default function CreateReadyProductPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label>Артикул</Label>
               <Input placeholder="SS26-DRESS-01" />
@@ -58,12 +62,14 @@ export default function CreateReadyProductPage() {
           </div>
           <div className="flex gap-2">
             <Button>Создать карточку</Button>
-            <Button variant="outline" asChild><Link href="/brand/products">Отмена</Link></Button>
+            <Button variant="outline" asChild>
+              <Link href={ROUTES.brand.products}>Отмена</Link>
+            </Button>
           </div>
         </CardContent>
       </Card>
 
       <RelatedModulesBlock links={getProductLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

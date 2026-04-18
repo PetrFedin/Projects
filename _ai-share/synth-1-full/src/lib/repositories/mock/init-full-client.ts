@@ -119,10 +119,10 @@ export async function initializeFullClientData(user: UserProfile) {
       email: 'elena.petrova@example.com',
       photoURL: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop',
     };
-    
+
     // Update in localStorage
     localStorage.setItem('syntha_auth_user', JSON.stringify(updatedUser));
-    
+
     // Check if already initialized
     const demoDataKey = `syntha_full_client_initialized_${user.uid}`;
     if (localStorage.getItem(demoDataKey)) {
@@ -159,7 +159,7 @@ export async function initializeFullClientData(user: UserProfile) {
       { product: products[20], collection: 'default' },
       { product: products[22], collection: 'default' },
       { product: products[25], collection: 'default' },
-    ].filter(item => item.product && item.product.id);
+    ].filter((item) => item.product && item.product.id);
 
     for (const item of wishlistItems) {
       if (item.product && item.product.id) {
@@ -169,14 +169,14 @@ export async function initializeFullClientData(user: UserProfile) {
 
     // Create travel collection
     const travelCollection = await wishlistRepository.addCollection(user.uid, 'Для путешествий');
-    const travelProducts = [products[6], products[14], products[19]].filter(p => p && p.id);
+    const travelProducts = [products[6], products[14], products[19]].filter((p) => p && p.id);
     for (const product of travelProducts) {
       await wishlistRepository.addItem(user.uid, product, travelCollection.id);
     }
 
     // Create work collection
     const workCollection = await wishlistRepository.addCollection(user.uid, 'Для работы');
-    const workProducts = [products[3], products[8], products[13]].filter(p => p && p.id);
+    const workProducts = [products[3], products[8], products[13]].filter((p) => p && p.id);
     for (const product of workProducts) {
       await wishlistRepository.addItem(user.uid, product, workCollection.id);
     }
@@ -185,34 +185,120 @@ export async function initializeFullClientData(user: UserProfile) {
     const now = new Date();
     // Filter out undefined products before creating order configs
     const orderConfigs = [
-      { items: [products[0], products[1]].filter((p): p is Product => p !== undefined && p !== null), subtotal: 18500, status: 'delivered' as const, daysAgo: 240, returned: false },
-      { items: [products[2]].filter((p): p is Product => p !== undefined && p !== null), subtotal: 12000, status: 'delivered' as const, daysAgo: 210, returned: true },
-      { items: [products[3], products[4]].filter((p): p is Product => p !== undefined && p !== null), subtotal: 22000, status: 'delivered' as const, daysAgo: 180, returned: false },
-      { items: [products[5]].filter((p): p is Product => p !== undefined && p !== null), subtotal: 8500, status: 'delivered' as const, daysAgo: 150, returned: false },
-      { items: [products[6], products[7]].filter((p): p is Product => p !== undefined && p !== null), subtotal: 16500, status: 'delivered' as const, daysAgo: 120, returned: false },
-      { items: [products[8]].filter((p): p is Product => p !== undefined && p !== null), subtotal: 9500, status: 'delivered' as const, daysAgo: 90, returned: false },
-      { items: [products[9], products[10]].filter((p): p is Product => p !== undefined && p !== null), subtotal: 19500, status: 'delivered' as const, daysAgo: 60, returned: false },
-      { items: [products[11]].filter((p): p is Product => p !== undefined && p !== null), subtotal: 11000, status: 'delivered' as const, daysAgo: 45, returned: false },
-      { items: [products[12], products[13]].filter((p): p is Product => p !== undefined && p !== null), subtotal: 17500, status: 'delivered' as const, daysAgo: 30, returned: false },
-      { items: [products[14]].filter((p): p is Product => p !== undefined && p !== null), subtotal: 8800, status: 'shipped' as const, daysAgo: 7, returned: false },
-      { items: [products[15], products[16]].filter((p): p is Product => p !== undefined && p !== null), subtotal: 21000, status: 'processing' as const, daysAgo: 2, returned: false },
-      { items: [products[17]].filter((p): p is Product => p !== undefined && p !== null), subtotal: 12500, status: 'pending' as const, daysAgo: 0, returned: false },
-    ].filter(config => config.items.length > 0); // Only keep configs with valid items
+      {
+        items: [products[0], products[1]].filter(
+          (p): p is Product => p !== undefined && p !== null
+        ),
+        subtotal: 18500,
+        status: 'delivered' as const,
+        daysAgo: 240,
+        returned: false,
+      },
+      {
+        items: [products[2]].filter((p): p is Product => p !== undefined && p !== null),
+        subtotal: 12000,
+        status: 'delivered' as const,
+        daysAgo: 210,
+        returned: true,
+      },
+      {
+        items: [products[3], products[4]].filter(
+          (p): p is Product => p !== undefined && p !== null
+        ),
+        subtotal: 22000,
+        status: 'delivered' as const,
+        daysAgo: 180,
+        returned: false,
+      },
+      {
+        items: [products[5]].filter((p): p is Product => p !== undefined && p !== null),
+        subtotal: 8500,
+        status: 'delivered' as const,
+        daysAgo: 150,
+        returned: false,
+      },
+      {
+        items: [products[6], products[7]].filter(
+          (p): p is Product => p !== undefined && p !== null
+        ),
+        subtotal: 16500,
+        status: 'delivered' as const,
+        daysAgo: 120,
+        returned: false,
+      },
+      {
+        items: [products[8]].filter((p): p is Product => p !== undefined && p !== null),
+        subtotal: 9500,
+        status: 'delivered' as const,
+        daysAgo: 90,
+        returned: false,
+      },
+      {
+        items: [products[9], products[10]].filter(
+          (p): p is Product => p !== undefined && p !== null
+        ),
+        subtotal: 19500,
+        status: 'delivered' as const,
+        daysAgo: 60,
+        returned: false,
+      },
+      {
+        items: [products[11]].filter((p): p is Product => p !== undefined && p !== null),
+        subtotal: 11000,
+        status: 'delivered' as const,
+        daysAgo: 45,
+        returned: false,
+      },
+      {
+        items: [products[12], products[13]].filter(
+          (p): p is Product => p !== undefined && p !== null
+        ),
+        subtotal: 17500,
+        status: 'delivered' as const,
+        daysAgo: 30,
+        returned: false,
+      },
+      {
+        items: [products[14]].filter((p): p is Product => p !== undefined && p !== null),
+        subtotal: 8800,
+        status: 'shipped' as const,
+        daysAgo: 7,
+        returned: false,
+      },
+      {
+        items: [products[15], products[16]].filter(
+          (p): p is Product => p !== undefined && p !== null
+        ),
+        subtotal: 21000,
+        status: 'processing' as const,
+        daysAgo: 2,
+        returned: false,
+      },
+      {
+        items: [products[17]].filter((p): p is Product => p !== undefined && p !== null),
+        subtotal: 12500,
+        status: 'pending' as const,
+        daysAgo: 0,
+        returned: false,
+      },
+    ].filter((config) => config.items.length > 0); // Only keep configs with valid items
 
     // Create orders
     for (const config of orderConfigs) {
       // Filter out undefined products before mapping
-      const validItems = config.items.filter((p): p is Product => p !== undefined && p !== null && p.id !== undefined);
+      const validItems = config.items.filter(
+        (p): p is Product => p !== undefined && p !== null && p.id !== undefined
+      );
       if (validItems.length === 0) continue; // Skip if no valid items
-      
+
       const orderItems = validItems.map((p, i) => {
         // Safely get size
         let selectedSize = 'S';
         if (p.sizes && Array.isArray(p.sizes) && p.sizes.length > 0) {
           const firstSize = p.sizes[0];
-          selectedSize = typeof firstSize === 'string' ? firstSize : (firstSize?.name || 'S');
+          selectedSize = typeof firstSize === 'string' ? firstSize : firstSize?.name || 'S';
         }
-        
+
         return {
           ...p,
           quantity: 1,
@@ -244,37 +330,37 @@ export async function initializeFullClientData(user: UserProfile) {
           postalCode: '101000',
           country: 'Россия',
         },
-        trackingNumber: config.status !== 'pending' && config.status !== 'processing' 
-          ? `TRACK${Math.random().toString(36).substr(2, 8).toUpperCase()}` 
-          : undefined,
-        estimatedDelivery: config.status === 'shipped' 
-          ? new Date(orderDate.getTime() + 5 * 24 * 60 * 60 * 1000).toISOString()
-          : undefined,
+        trackingNumber:
+          config.status !== 'pending' && config.status !== 'processing'
+            ? `TRACK${Math.random().toString(36).substr(2, 8).toUpperCase()}`
+            : undefined,
+        estimatedDelivery:
+          config.status === 'shipped'
+            ? new Date(orderDate.getTime() + 5 * 24 * 60 * 60 * 1000).toISOString()
+            : undefined,
         returnRequested: config.returned,
         returnReason: config.returned ? 'Не подошел размер' : undefined,
       };
 
-      await (ordersRepository as any).createOrder(
-        user.uid,
-        orderData,
-        orderDate.toISOString()
-      );
+      await (ordersRepository as any).createOrder(user.uid, orderData, orderDate.toISOString());
     }
 
     // Store client analytics data for brand recommendations
     const clientAnalytics = {
       userId: user.uid,
       profile: fullClientProfile,
-      purchaseHistory: orderConfigs.map(c => ({
+      purchaseHistory: orderConfigs.map((c) => ({
         date: new Date(now.getTime() - c.daysAgo * 24 * 60 * 60 * 1000).toISOString(),
         amount: c.subtotal,
-        categories: c.items.map(i => i.category),
-        brands: c.items.map(i => i.brand),
+        categories: c.items.map((i) => i.category),
+        brands: c.items.map((i) => i.brand),
       })),
-      viewedProducts: products.slice(0, 50).map(p => ({
+      viewedProducts: products.slice(0, 50).map((p) => ({
         productId: p.id,
         views: Math.floor(Math.random() * 10) + 1,
-        lastViewed: new Date(now.getTime() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
+        lastViewed: new Date(
+          now.getTime() - Math.random() * 30 * 24 * 60 * 60 * 1000
+        ).toISOString(),
       })),
       interests: fullClientProfile.interests,
       preferences: fullClientProfile.preferences,
@@ -283,7 +369,9 @@ export async function initializeFullClientData(user: UserProfile) {
 
     // Store in localStorage for brand analytics (simulating database)
     if (typeof window !== 'undefined') {
-      const existingClients = JSON.parse(localStorage.getItem('syntha_brand_analytics_clients') || '[]');
+      const existingClients = JSON.parse(
+        localStorage.getItem('syntha_brand_analytics_clients') || '[]'
+      );
       existingClients.push(clientAnalytics);
       localStorage.setItem('syntha_brand_analytics_clients', JSON.stringify(existingClients));
     }
@@ -294,4 +382,3 @@ export async function initializeFullClientData(user: UserProfile) {
     console.error('Failed to initialize full client data:', error);
   }
 }
-
