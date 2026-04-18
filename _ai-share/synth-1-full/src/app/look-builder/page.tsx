@@ -309,23 +309,23 @@ export default function LookBuilderPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="container mx-auto px-4 py-4">
+    <div className="min-h-screen bg-bg-surface2">
+      <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 py-4">
         <header className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-3">
           <div>
-            <Badge className="bg-indigo-600 text-white border-none mb-3 px-3 py-1 font-black uppercase tracking-widest text-[10px]">
+            <Badge className="bg-accent-primary text-white border-none mb-3 px-3 py-1 font-black uppercase tracking-widest text-[10px]">
               AI Creative Studio
             </Badge>
-            <h1 className="text-sm font-black uppercase tracking-tight text-slate-900 leading-none">
-              Live Look <span className="text-indigo-600">Builder</span>
+            <h1 className="text-sm font-black uppercase tracking-tight text-text-primary leading-none">
+              Live Look <span className="text-accent-primary">Builder</span>
             </h1>
-            <p className="mt-4 text-slate-500 font-medium max-w-xl">
+            <p className="mt-4 text-text-secondary font-medium max-w-xl">
               Создайте профессиональный образ с помощью нейронного рендеринга. 
               Выберите вещи, настройте стиль съемки и запустите генерацию.
             </p>
           </div>
           <div className="flex gap-3">
-            <div className="bg-white p-1 rounded-2xl shadow-sm border border-slate-100 flex mr-4 relative">
+            <div className="bg-white p-1 rounded-2xl shadow-sm border border-border-subtle flex mr-4 relative">
               {[
                 { id: 'woman', label: 'Женщина', group: 'adult' },
                 { id: 'man', label: 'Мужчина', group: 'adult' },
@@ -350,7 +350,7 @@ export default function LookBuilderPage() {
                   }}
                   className={cn(
                     "px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all flex items-center gap-2",
-                    (m.id === 'child' ? activeModelGroup === 'child' : selectedModel === m.id) ? "bg-slate-900 text-white shadow-lg" : "text-slate-400 hover:text-slate-900"
+                    (m.id === 'child' ? activeModelGroup === 'child' : selectedModel === m.id) ? "bg-text-primary text-white shadow-lg" : "text-text-muted hover:text-text-primary"
                   )}
                 >
                   {m.id === 'child' ? <Plus className={cn("h-3 w-3", activeModelGroup === 'child' ? "rotate-45" : "")} /> : <User className="h-3 w-3" />}
@@ -359,7 +359,7 @@ export default function LookBuilderPage() {
               ))}
 
               {activeModelGroup === 'child' && (
-                <div className="absolute top-full left-0 right-0 mt-2 p-1 bg-white rounded-2xl shadow-xl border border-slate-100 flex animate-in slide-in-from-top-2 duration-300 z-50">
+                <div className="absolute top-full left-0 right-0 mt-2 p-1 bg-white rounded-2xl shadow-xl border border-border-subtle flex animate-in slide-in-from-top-2 duration-300 z-50">
                   {[
                     { id: 'boy', label: 'Мальчик' },
                     { id: 'girl', label: 'Девочка' }
@@ -373,7 +373,7 @@ export default function LookBuilderPage() {
                       }}
                       className={cn(
                         "flex-1 py-2 rounded-xl text-[8px] font-black uppercase tracking-widest transition-all",
-                        selectedModel === c.id ? "bg-indigo-600 text-white shadow-md" : "text-slate-400 hover:bg-slate-50"
+                        selectedModel === c.id ? "bg-accent-primary text-white shadow-md" : "text-text-muted hover:bg-bg-surface2"
                       )}
                     >
                       {c.label}
@@ -385,14 +385,14 @@ export default function LookBuilderPage() {
             <Button 
               variant="outline" 
               onClick={handleSaveLook}
-              className="rounded-2xl border-slate-200 h-12 px-6 font-bold uppercase tracking-widest text-[10px]"
+              className="rounded-2xl border-border-default h-12 px-6 font-bold uppercase tracking-widest text-[10px]"
             >
               <Download className="mr-2 h-4 w-4" /> Save Draft
             </Button>
             <Button 
               variant="outline" 
               onClick={handleShareLook}
-              className="rounded-2xl border-slate-200 h-12 px-6 font-bold uppercase tracking-widest text-[10px]"
+              className="rounded-2xl border-border-default h-12 px-6 font-bold uppercase tracking-widest text-[10px]"
             >
               <Share2 className="mr-2 h-4 w-4" /> Export
             </Button>
@@ -405,18 +405,18 @@ export default function LookBuilderPage() {
             
             {/* AI Generator Control Panel */}
             <div className="space-y-4">
-              <Card className="rounded-xl border-none shadow-2xl bg-slate-900 text-white p-4 relative overflow-hidden group">
+              <Card className="rounded-xl border-none shadow-2xl bg-text-primary text-white p-4 relative overflow-hidden group">
                 <Sparkles className="absolute -right-4 -top-4 h-32 w-32 text-white opacity-[0.03] group-hover:scale-110 transition-transform duration-700" />
                 <div className="relative z-10 space-y-6">
                   <header className="space-y-2">
-                    <Badge className="bg-indigo-500 text-white border-none font-black text-[8px] uppercase px-2 py-0.5 flex w-fit items-center gap-1">
+                    <Badge className="bg-accent-primary text-white border-none font-black text-[8px] uppercase px-2 py-0.5 flex w-fit items-center gap-1">
                       <Settings2 className="h-2 w-2" /> AI Engine v4.2
                     </Badge>
                     <h3 className="text-sm font-black uppercase tracking-tight leading-none italic">Look <br /> Pipeline</h3>
                   </header>
 
                   <div className="space-y-3">
-                    <p className="text-[8px] font-black uppercase text-slate-500 tracking-widest">1. Стиль генерации</p>
+                    <p className="text-[8px] font-black uppercase text-text-secondary tracking-widest">1. Стиль генерации</p>
                     <div className="grid grid-cols-1 gap-2">
                       {GENERATION_STYLES.map(style => (
                         <button
@@ -425,19 +425,19 @@ export default function LookBuilderPage() {
                           className={cn(
                             "p-3 rounded-xl border transition-all text-left group/style flex items-center gap-3",
                             generationStyle === style.id 
-                              ? "bg-white/10 border-indigo-500 shadow-lg shadow-indigo-500/20" 
+                              ? "bg-white/10 border-accent-primary shadow-lg shadow-accent-primary/20" 
                               : "bg-white/5 border-white/5 hover:bg-white/10"
                           )}
                         >
                           <div className={cn(
                             "h-8 w-8 rounded-lg flex items-center justify-center transition-all",
-                            generationStyle === style.id ? "bg-indigo-500 text-white" : "bg-white/10 text-slate-400"
+                            generationStyle === style.id ? "bg-accent-primary text-white" : "bg-white/10 text-text-muted"
                           )}>
                             <style.icon className="h-4 w-4" />
                           </div>
                           <div>
                             <p className="text-[9px] font-black uppercase tracking-tight">{style.name}</p>
-                            <p className="text-[8px] font-medium text-slate-500 leading-none mt-0.5">{style.desc}</p>
+                            <p className="text-[8px] font-medium text-text-secondary leading-none mt-0.5">{style.desc}</p>
                           </div>
                         </button>
                       ))}
@@ -447,16 +447,16 @@ export default function LookBuilderPage() {
                   <Button 
                     onClick={generateAILook}
                     disabled={isGeneratingLook || selectedItems.length < 2}
-                    className="w-full h-10 bg-white text-slate-900 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-indigo-400 hover:text-white transition-all shadow-xl shadow-black/20"
+                    className="w-full h-10 bg-white text-text-primary rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-accent-primary hover:text-white transition-all shadow-xl shadow-black/20"
                   >
-                    {isGeneratingLook ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Zap className="mr-2 h-4 w-4 fill-slate-900 group-hover:fill-white" />}
+                    {isGeneratingLook ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Zap className="mr-2 h-4 w-4 fill-text-primary group-hover:fill-white" />}
                     Запустить рендеринг
                   </Button>
                 </div>
               </Card>
 
               {/* Technical Logs */}
-              <Card className="rounded-xl border-none shadow-2xl bg-slate-950 text-emerald-500 p-4 relative overflow-hidden group border border-white/5">
+              <Card className="rounded-xl border-none shadow-2xl bg-text-primary text-emerald-500 p-4 relative overflow-hidden group border border-white/5">
                 <div className="flex items-center justify-between mb-4 border-b border-emerald-500/20 pb-4">
                   <div className="flex items-center gap-2">
                     <Terminal className="h-4 w-4" />
@@ -500,17 +500,17 @@ export default function LookBuilderPage() {
             </div>
 
             {/* Catalog Card */}
-            <div className="bg-white p-4 rounded-xl shadow-xl border border-slate-100">
+            <div className="bg-white p-4 rounded-xl shadow-xl border border-border-subtle">
               <div className="flex flex-col gap-3 mb-6">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-black uppercase tracking-widest text-xs text-slate-900 italic">Inventory: {selectedModel}</h3>
-                  <Badge variant="outline" className="text-[8px] font-black border-indigo-100 text-indigo-600">v4.0 Ready</Badge>
+                  <h3 className="font-black uppercase tracking-widest text-xs text-text-primary italic">Inventory: {selectedModel}</h3>
+                  <Badge variant="outline" className="text-[8px] font-black border-accent-primary/20 text-accent-primary">v4.0 Ready</Badge>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="w-full justify-between rounded-xl text-[9px] font-black uppercase tracking-widest h-10 border-slate-100">
+                      <Button variant="outline" className="w-full justify-between rounded-xl text-[9px] font-black uppercase tracking-widest h-10 border-border-subtle">
                         {activeCategories.length === 0 ? "Категории" : `Cat (${activeCategories.length})`}
                         <ChevronDown className="h-3 w-3 opacity-50" />
                       </Button>
@@ -535,7 +535,7 @@ export default function LookBuilderPage() {
 
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="w-full justify-between rounded-xl text-[9px] font-black uppercase tracking-widest h-10 border-slate-100">
+                      <Button variant="outline" className="w-full justify-between rounded-xl text-[9px] font-black uppercase tracking-widest h-10 border-border-subtle">
                         {selectedBrands.length === 0 ? "Бренды" : `Brands (${selectedBrands.length})`}
                         <ChevronDown className="h-3 w-3 opacity-50" />
                       </Button>
@@ -563,7 +563,7 @@ export default function LookBuilderPage() {
               <div className="grid grid-cols-2 gap-3 max-h-[400px] overflow-y-auto pr-2 scrollbar-hide">
                 {isLoading ? (
                   Array(6).fill(0).map((_, i) => (
-                    <div key={i} className="aspect-[3/4] bg-slate-100 animate-pulse rounded-2xl" />
+                    <div key={i} className="aspect-[3/4] bg-bg-surface2 animate-pulse rounded-2xl" />
                   ))
                 ) : (
                   filteredProducts.map(product => {
@@ -574,8 +574,8 @@ export default function LookBuilderPage() {
                         disabled={!!conflictMsg}
                         onClick={() => addToLook(product)}
                         className={cn(
-                          "group relative aspect-[3/4] rounded-2xl overflow-hidden border transition-all text-left bg-slate-50",
-                          conflictMsg ? "opacity-40 grayscale cursor-not-allowed border-slate-100" : "border-slate-100 hover:border-indigo-600"
+                          "group relative aspect-[3/4] rounded-2xl overflow-hidden border transition-all text-left bg-bg-surface2",
+                          conflictMsg ? "opacity-40 grayscale cursor-not-allowed border-border-subtle" : "border-border-subtle hover:border-accent-primary"
                         )}
                       >
                         <Image
@@ -589,7 +589,7 @@ export default function LookBuilderPage() {
                           <p className="text-[7px] font-black uppercase text-white bg-black/40 backdrop-blur-sm p-1 rounded-md truncate">{product.name}</p>
                         </div>
                         <div className="absolute top-2 right-2 h-5 w-5 rounded-full bg-white shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Plus className="h-2 w-2 text-slate-900" />
+                          <Plus className="h-2 w-2 text-text-primary" />
                         </div>
                       </button>
                     );
@@ -601,7 +601,7 @@ export default function LookBuilderPage() {
 
           {/* Right: Main Canvas */}
           <div className="lg:col-span-8 space-y-4">
-            <div className="bg-white rounded-xl shadow-2xl border border-slate-100 min-h-[850px] relative overflow-hidden flex flex-col">
+            <div className="bg-white rounded-xl shadow-2xl border border-border-subtle min-h-[850px] relative overflow-hidden flex flex-col">
               
               {/* Technical Grid Overlay */}
               <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
@@ -609,24 +609,24 @@ export default function LookBuilderPage() {
               <div className="relative z-10 flex flex-col h-full p-4">
                 <div className="flex justify-between items-center mb-12">
                   <div className="flex items-center gap-3">
-                    <div className="h-12 w-12 rounded-2xl bg-slate-900 flex items-center justify-center text-white">
+                    <div className="h-12 w-12 rounded-2xl bg-text-primary flex items-center justify-center text-white">
                       <Layers className="h-6 w-6" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Workspace / {selectedModel.toUpperCase()}</p>
-                      <h3 className="text-base font-black uppercase tracking-tight text-slate-900 italic">Composition Canvas</h3>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-text-muted">Workspace / {selectedModel.toUpperCase()}</p>
+                      <h3 className="text-base font-black uppercase tracking-tight text-text-primary italic">Composition Canvas</h3>
                     </div>
                   </div>
                   
                   {selectedItems.length > 0 && (
                     <div className="flex items-center gap-3">
                       <div className="text-right">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Estimated Total</p>
-                        <p className="text-sm font-black text-slate-900 italic">{totalLookPrice.toLocaleString('ru-RU')} ₽</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-text-muted">Estimated Total</p>
+                        <p className="text-sm font-black text-text-primary italic">{totalLookPrice.toLocaleString('ru-RU')} ₽</p>
                       </div>
                       <Button 
                         onClick={handleBuyLook}
-                        className="rounded-2xl h-10 px-8 bg-indigo-600 hover:bg-indigo-700 text-white font-black uppercase tracking-widest text-[11px] shadow-lg shadow-indigo-200"
+                        className="rounded-2xl h-10 px-8 bg-accent-primary hover:bg-accent-primary text-white font-black uppercase tracking-widest text-[11px] shadow-lg shadow-accent-primary/15"
                       >
                         <Zap className="mr-2 h-4 w-4 fill-white" /> Check Out Look
                       </Button>
@@ -636,13 +636,13 @@ export default function LookBuilderPage() {
 
                 {selectedItems.length === 0 ? (
                   <div className="flex-1 flex flex-col items-center justify-center text-center py-40">
-                    <div className="h-24 w-24 rounded-xl bg-slate-50 flex items-center justify-center mb-8 group-hover:rotate-12 transition-transform duration-500">
-                      <Shirt className="h-10 w-10 text-slate-200" />
+                    <div className="h-24 w-24 rounded-xl bg-bg-surface2 flex items-center justify-center mb-8 group-hover:rotate-12 transition-transform duration-500">
+                      <Shirt className="h-10 w-10 text-text-muted" />
                     </div>
-                    <h2 className="text-base font-black uppercase tracking-tight text-slate-300 italic">
+                    <h2 className="text-base font-black uppercase tracking-tight text-text-muted italic">
                       Canvas <br /> Waiting
                     </h2>
-                    <p className="text-slate-400 mt-4 max-w-sm font-medium uppercase text-[10px] tracking-widest">
+                    <p className="text-text-muted mt-4 max-w-sm font-medium uppercase text-[10px] tracking-widest">
                       Select items to begin neural fitting process
                     </p>
                   </div>
@@ -657,7 +657,7 @@ export default function LookBuilderPage() {
                           initial={{ opacity: 0, scale: 0.8 }}
                           animate={{ opacity: 1, scale: 1 }}
                           key={item.id}
-                          className="group relative aspect-[3/4] bg-slate-50 rounded-xl overflow-hidden border border-slate-100 hover:border-indigo-200 shadow-sm transition-all duration-500"
+                          className="group relative aspect-[3/4] bg-bg-surface2 rounded-xl overflow-hidden border border-border-subtle hover:border-accent-primary/30 shadow-sm transition-all duration-500"
                         >
                           <Image
                             src={item.images?.[0]?.url || (item as any).image}
@@ -674,14 +674,14 @@ export default function LookBuilderPage() {
                             </button>
                           </div>
                           <div className="absolute bottom-4 left-6 right-6 translate-y-4 group-hover:translate-y-0 transition-all opacity-0 group-hover:opacity-100 duration-500">
-                            <p className="text-[8px] font-black uppercase text-indigo-500 mb-0.5">{item.brand}</p>
+                            <p className="text-[8px] font-black uppercase text-accent-primary mb-0.5">{item.brand}</p>
                             <h4 className="text-[10px] font-black uppercase tracking-tight leading-tight truncate">{item.name}</h4>
                           </div>
                         </motion.div>
                       ))}
                       
                       <button 
-                        className="aspect-[3/4] rounded-xl border-4 border-dashed border-slate-100 flex flex-col items-center justify-center text-slate-200 hover:border-indigo-100 hover:text-indigo-200 transition-all group"
+                        className="aspect-[3/4] rounded-xl border-4 border-dashed border-border-subtle flex flex-col items-center justify-center text-text-muted hover:border-accent-primary/20 hover:text-accent-primary/40 transition-all group"
                         onClick={() => toast({ title: "Continue exploring", description: "Select more items from the catalog." })}
                       >
                         <Plus className="h-8 w-8 mb-2 group-hover:scale-110 transition-transform" />
@@ -691,21 +691,21 @@ export default function LookBuilderPage() {
 
                     {/* AI Preview Area */}
                     <div className="sticky top-0 h-full">
-                      <div className="aspect-[3/4] rounded-[3.5rem] bg-slate-900 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)] border-8 border-white overflow-hidden relative group/preview">
+                      <div className="aspect-[3/4] rounded-[3.5rem] bg-text-primary shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)] border-8 border-white overflow-hidden relative group/preview">
                         
                         {/* 1. Loading State */}
                         {renderStatus === 'processing' && (
-                          <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center bg-slate-900 z-[30]">
+                          <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center bg-text-primary z-[30]">
                             <div className="space-y-4 flex flex-col items-center">
                               <div className="relative">
-                                <Loader2 className="h-24 w-24 text-indigo-500 animate-spin" />
-                                <Activity className="absolute inset-0 m-auto h-8 w-8 text-indigo-400 animate-pulse" />
+                                <Loader2 className="h-24 w-24 text-accent-primary animate-spin" />
+                                <Activity className="absolute inset-0 m-auto h-8 w-8 text-accent-primary animate-pulse" />
                               </div>
                               <div className="space-y-3">
                                 <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white animate-pulse">Neural Fusion v5.2</p>
                                 <div className="h-1 w-48 bg-white/10 rounded-full overflow-hidden">
                                   <motion.div 
-                                    className="h-full bg-indigo-500"
+                                    className="h-full bg-accent-primary"
                                     initial={{ width: "0%" }}
                                     animate={{ width: "100%" }}
                                     transition={{ duration: 4.5, ease: "linear" }}
@@ -722,7 +722,7 @@ export default function LookBuilderPage() {
                             key={generatedLookUrl}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            className="absolute inset-0 z-[100] bg-slate-900"
+                            className="absolute inset-0 z-[100] bg-text-primary"
                             style={{ 
                               backgroundImage: `url(${generatedLookUrl})`,
                               backgroundSize: 'cover',
@@ -735,7 +735,7 @@ export default function LookBuilderPage() {
                               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-60" />
                               
                               <div className="absolute top-4 left-8 flex flex-col gap-2">
-                                <Badge className="bg-indigo-500 text-white border-none text-[8px] font-black uppercase py-1 px-3 shadow-xl">
+                                <Badge className="bg-accent-primary text-white border-none text-[8px] font-black uppercase py-1 px-3 shadow-xl">
                                   STABLE DIFFUSION v5.2
                                 </Badge>
                                 <Badge className="bg-white/20 backdrop-blur-md text-white border-none text-[8px] font-black uppercase py-1 px-3">
@@ -749,12 +749,12 @@ export default function LookBuilderPage() {
                               <div className="absolute bottom-10 left-10 right-10 flex justify-between items-end pointer-events-auto">
                                 <div className="space-y-4">
                                   <div className="flex flex-col gap-1">
-                                    <p className="text-[10px] font-black uppercase text-indigo-400 tracking-widest italic">Neural Fusion Result</p>
+                                    <p className="text-[10px] font-black uppercase text-accent-primary tracking-widest italic">Neural Fusion Result</p>
                                     <h4 className="text-base font-black text-white uppercase tracking-tighter italic">Professional Shoot</h4>
                                   </div>
                                   <div className="flex -space-x-3">
                                     {selectedItems.map((item, i) => (
-                                      <div key={i} className="h-12 w-12 rounded-full border-2 border-slate-900 overflow-hidden bg-white shadow-2xl relative">
+                                      <div key={i} className="h-12 w-12 rounded-full border-2 border-text-primary overflow-hidden bg-white shadow-2xl relative">
                                         <img src={item.images?.[0]?.url || (item as any).image} alt={item.name} className="w-full h-full object-contain p-2" />
                                       </div>
                                     ))}
@@ -766,7 +766,7 @@ export default function LookBuilderPage() {
                                     setRenderStatus('idle');
                                     setGeneratedLookUrl(null);
                                   }}
-                                  className="rounded-2xl bg-white text-slate-900 hover:bg-indigo-500 hover:text-white text-[9px] font-black uppercase h-12 px-8 shadow-2xl transition-all"
+                                  className="rounded-2xl bg-white text-text-primary hover:bg-accent-primary hover:text-white text-[9px] font-black uppercase h-12 px-8 shadow-2xl transition-all"
                                 >
                                   <RefreshCcw className="mr-2 h-3 w-3" /> Reset Pipeline
                                 </Button>
@@ -799,23 +799,23 @@ export default function LookBuilderPage() {
             </div>
 
             {/* AI Advisor Bottom Bar */}
-            <Card className="rounded-xl border-none shadow-2xl bg-gradient-to-r from-indigo-900 to-slate-900 p-4 text-white relative overflow-hidden group">
+            <Card className="rounded-xl border-none shadow-2xl bg-gradient-to-r from-indigo-900 to-text-primary p-4 text-white relative overflow-hidden group">
               <Brain className="absolute -right-4 -top-4 h-32 w-32 text-white opacity-[0.03] group-hover:scale-110 transition-transform duration-700" />
               <div className="relative z-10 flex items-center gap-3">
                 <div className="h-20 w-20 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/10">
-                  <Palette className="h-10 w-10 text-indigo-300" />
+                  <Palette className="h-10 w-10 text-accent-primary" />
                 </div>
                 <div className="flex-1 space-y-2">
                   <div className="flex items-center gap-3">
                     <Badge className="bg-emerald-500 text-white border-none font-black text-[8px] uppercase">Composition Perfect</Badge>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-indigo-300 italic">Stylist v4.2 Analysis</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-accent-primary italic">Stylist v4.2 Analysis</p>
                   </div>
                   <h4 className="text-base font-black uppercase tracking-tight italic">
                     {selectedItems.length === 0 
                       ? "Ready for Analysis" 
                       : "Balanced Aesthetics"}
                   </h4>
-                  <p className="text-xs text-slate-400 font-medium max-w-2xl leading-relaxed">
+                  <p className="text-xs text-text-muted font-medium max-w-2xl leading-relaxed">
                     {selectedItems.length === 0 
                       ? "Добавьте вещи, чтобы наш алгоритм проанализировал цветовую гармонию, сочетаемость текстур и актуальность силуэта."
                       : "Выбранная комбинация демонстрирует высокую степень цветовой гармонии (94%). Рекомендуем использовать 'Street Style' рендеринг для подчеркивания текстур ткани."}

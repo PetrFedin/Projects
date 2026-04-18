@@ -36,6 +36,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { useUIState } from '@/providers/ui-state';
 import { mockCourses, mockLearningPaths, mockArticles, mockAcademyEvents, mockAssessments } from '@/lib/education-data';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -70,12 +71,12 @@ function GlossaryText({ text }: { text: string }) {
           return (
             <Tooltip key={i}>
               <TooltipTrigger asChild>
-                <span className="cursor-help border-b border-dotted border-indigo-400 text-indigo-600 font-bold px-0.5 hover:bg-indigo-50 transition-colors">
+                <span className="cursor-help border-b border-dotted border-accent-primary/40 text-accent-primary font-bold px-0.5 hover:bg-accent-primary/10 transition-colors">
                   {part}
                 </span>
               </TooltipTrigger>
-              <TooltipContent className="max-w-[280px] p-4 rounded-xl bg-slate-900 border-slate-800 text-white shadow-2xl">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-400 mb-1">{entry.term}</p>
+              <TooltipContent className="max-w-[280px] p-4 rounded-xl bg-text-primary border-text-primary/30 text-white shadow-2xl">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-accent-primary mb-1">{entry.term}</p>
                 <p className="text-xs font-medium leading-relaxed">{entry.definition}</p>
               </TooltipContent>
             </Tooltip>
@@ -163,31 +164,31 @@ export default function AcademyPage() {
     <TooltipProvider>
       <div className="min-h-screen bg-[#fafafa]">
       {/* Hero Section */}
-      <div className="bg-slate-900 text-white relative overflow-hidden">
+      <div className="bg-text-primary text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,#4f46e5_0%,transparent_50%)]" />
         </div>
-        <div className="container mx-auto px-6 pt-6 relative z-10">
+        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 pt-6 relative z-10">
           {/* Breadcrumb Navigation */}
-          <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">
+          <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-text-muted mb-4">
               <Link href="/" className="hover:text-white transition-colors">Home</Link>
               <ChevronRight className="h-2.5 w-2.5" />
-              <span className="text-indigo-400">Academy</span>
+              <span className="text-accent-primary">Academy</span>
           </div>
           <div className="max-w-3xl pb-10">
-            <Badge className="bg-indigo-500 hover:bg-indigo-600 text-white border-none mb-6 px-4 py-1 font-bold uppercase tracking-widest text-[10px]">
+            <Badge className="bg-accent-primary hover:bg-accent-primary text-white border-none mb-6 px-4 py-1 font-bold uppercase tracking-widest text-[10px]">
               Syntha Unified Academy
             </Badge>
             <h1 className="text-xl md:text-3xl font-semibold uppercase tracking-tight leading-none mb-6">
               Интеллектуальный <br />
-              <span className="text-indigo-400 italic">Базис Знаний</span>
+              <span className="text-accent-primary italic">Базис Знаний</span>
             </h1>
-            <p className="text-base text-slate-300 font-medium leading-relaxed mb-8 max-w-2xl">
+            <p className="text-base text-text-muted font-medium leading-relaxed mb-8 max-w-2xl">
               Единая экосистема обучения: от Wiki-статей и файлов до живых трансляций и глубокой аналитики кейсов. 
               Доступно для всех ролей в рамках корпоративной подписки.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100 rounded-2xl h-10 px-8 font-bold uppercase tracking-widest text-[11px]">
+              <Button size="lg" className="bg-white text-text-primary hover:bg-bg-surface2 rounded-2xl h-10 px-8 font-bold uppercase tracking-widest text-[11px]">
                 Начать обучение
               </Button>
               <Button size="lg" variant="outline" className="border-white/20 hover:bg-white/10 text-white rounded-2xl h-10 px-8 font-bold uppercase tracking-widest text-[11px]">
@@ -198,14 +199,14 @@ export default function AcademyPage() {
         </div>
         {/* Stats bar */}
         <div className="bg-white/5 border-t border-white/10 backdrop-blur-md">
-          <div className="container mx-auto px-6 py-6 flex flex-wrap gap-3">
+          <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 py-6 flex flex-wrap gap-3">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-indigo-500/20 flex items-center justify-center">
-                <Users className="h-5 w-5 text-indigo-400" />
+              <div className="h-10 w-10 rounded-xl bg-accent-primary/20 flex items-center justify-center">
+                <Users className="h-5 w-5 text-accent-primary" />
               </div>
               <div>
                 <p className="text-xl font-black leading-none tracking-tight">12,400+</p>
-                <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest mt-1">Студентов</p>
+                <p className="text-[10px] uppercase font-bold text-text-muted tracking-widest mt-1">Студентов</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -214,7 +215,7 @@ export default function AcademyPage() {
               </div>
               <div>
                 <p className="text-xl font-black leading-none tracking-tight">450+</p>
-                <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest mt-1">Кейсов и курсов</p>
+                <p className="text-[10px] uppercase font-bold text-text-muted tracking-widest mt-1">Кейсов и курсов</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -223,39 +224,40 @@ export default function AcademyPage() {
               </div>
               <div>
                 <p className="text-xl font-black leading-none tracking-tight">98%</p>
-                <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest mt-1">ROI обучения</p>
+                <p className="text-[10px] uppercase font-bold text-text-muted tracking-widest mt-1">ROI обучения</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-6 py-4">
+      <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 py-4">
         <Tabs defaultValue="courses" className="space-y-6">
           <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
-            <TabsList className="bg-slate-100 p-1 rounded-2xl h-10 flex-wrap w-fit">
-              <TabsTrigger value="courses" className="rounded-xl px-6 font-bold uppercase tracking-widest text-[9px] data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-xl data-[state=active]:button-glimmer data-[state=active]:button-professional hover:bg-black hover:text-white hover:button-glimmer hover:button-professional transition-all">
+            {/* cabinetSurface v1 */}
+            <TabsList className={cn(cabinetSurface.tabsList, 'h-10 w-fit rounded-2xl')}>
+              <TabsTrigger value="courses" className={cn(cabinetSurface.tabsTrigger, 'rounded-xl px-6 text-[9px] font-bold uppercase tracking-widest transition-all data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-xl data-[state=active]:button-glimmer data-[state=active]:button-professional hover:bg-black hover:text-white hover:button-glimmer hover:button-professional')}>
                 Курсы и Программы
               </TabsTrigger>
-              <TabsTrigger value="wiki" className="rounded-xl px-6 font-bold uppercase tracking-widest text-[9px] data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-xl data-[state=active]:button-glimmer data-[state=active]:button-professional hover:bg-black hover:text-white hover:button-glimmer hover:button-professional transition-all">
+              <TabsTrigger value="wiki" className={cn(cabinetSurface.tabsTrigger, 'rounded-xl px-6 text-[9px] font-bold uppercase tracking-widest transition-all data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-xl data-[state=active]:button-glimmer data-[state=active]:button-professional hover:bg-black hover:text-white hover:button-glimmer hover:button-professional')}>
                 База Знаний (Wiki)
               </TabsTrigger>
-              <TabsTrigger value="tests" className="rounded-xl px-6 font-bold uppercase tracking-widest text-[9px] data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-xl data-[state=active]:button-glimmer data-[state=active]:button-professional hover:bg-black hover:text-white hover:button-glimmer hover:button-professional transition-all">
+              <TabsTrigger value="tests" className={cn(cabinetSurface.tabsTrigger, 'rounded-xl px-6 text-[9px] font-bold uppercase tracking-widest transition-all data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-xl data-[state=active]:button-glimmer data-[state=active]:button-professional hover:bg-black hover:text-white hover:button-glimmer hover:button-professional')}>
                 Тесты и Аттестация
               </TabsTrigger>
-              <TabsTrigger value="live" className="rounded-xl px-6 font-bold uppercase tracking-widest text-[9px] data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-xl data-[state=active]:button-glimmer data-[state=active]:button-professional hover:bg-black hover:text-white hover:button-glimmer hover:button-professional transition-all">
+              <TabsTrigger value="live" className={cn(cabinetSurface.tabsTrigger, 'rounded-xl px-6 text-[9px] font-bold uppercase tracking-widest transition-all data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-xl data-[state=active]:button-glimmer data-[state=active]:button-professional hover:bg-black hover:text-white hover:button-glimmer hover:button-professional')}>
                 Live & Календарь
               </TabsTrigger>
-              <TabsTrigger value="team" className="rounded-xl px-6 font-bold uppercase tracking-widest text-[9px] data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-xl data-[state=active]:button-glimmer data-[state=active]:button-professional hover:bg-black hover:text-white hover:button-glimmer hover:button-professional transition-all">
+              <TabsTrigger value="team" className={cn(cabinetSurface.tabsTrigger, 'rounded-xl px-6 text-[9px] font-bold uppercase tracking-widest transition-all data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-xl data-[state=active]:button-glimmer data-[state=active]:button-professional hover:bg-black hover:text-white hover:button-glimmer hover:button-professional')}>
                 Обучение команды
               </TabsTrigger>
             </TabsList>
 
             <div className="relative w-full md:w-80 group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted group-focus-within:text-accent-primary transition-colors" />
               <Input 
                 placeholder="Поиск навыков и знаний..." 
-                className="h-10 pl-12 rounded-2xl border-slate-200 focus:ring-indigo-500 focus:border-indigo-500"
+                className="h-10 pl-12 rounded-2xl border-border-default focus:ring-accent-primary focus:border-accent-primary"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -266,8 +268,8 @@ export default function AcademyPage() {
             {/* Recommendations */}
             <section className="space-y-4">
               <div className="flex items-center gap-3">
-                <Target className="h-6 w-6 text-indigo-600" />
-                <h2 className="text-2xl font-black uppercase tracking-tight">Рекомендовано для: <span className="text-indigo-600 italic">{viewRole.toUpperCase()}</span></h2>
+                <Target className="h-6 w-6 text-accent-primary" />
+                <h2 className="text-2xl font-black uppercase tracking-tight">Рекомендовано для: <span className="text-accent-primary italic">{viewRole.toUpperCase()}</span></h2>
               </div>
               <div className="grid md:grid-cols-3 gap-3">
                 {recommendedCourses.map(course => (
@@ -280,7 +282,7 @@ export default function AcademyPage() {
             <section className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <BookOpen className="h-6 w-6 text-slate-900" />
+                  <BookOpen className="h-6 w-6 text-text-primary" />
                   <h2 className="text-2xl font-black uppercase tracking-tight">Все программы</h2>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -292,7 +294,7 @@ export default function AcademyPage() {
                         "px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all",
                         activeCategory === cat 
                           ? "bg-black text-white shadow-xl button-glimmer button-professional" 
-                          : "bg-white text-slate-400 border border-slate-100 hover:bg-black hover:text-white hover:button-glimmer hover:button-professional"
+                          : "bg-white text-text-muted border border-border-subtle hover:bg-black hover:text-white hover:button-glimmer hover:button-professional"
                       )}
                     >
                       {cat}
@@ -324,22 +326,22 @@ export default function AcademyPage() {
               {/* Categories Sidebar */}
               <div className="lg:col-span-3 space-y-6">
                 <Card className="rounded-xl border-none shadow-xl bg-white p-4">
-                  <h3 className="font-bold uppercase tracking-widest text-xs mb-6 text-slate-400 italic">Глоссарий терминов</h3>
+                  <h3 className="font-bold uppercase tracking-widest text-xs mb-6 text-text-muted italic">Глоссарий терминов</h3>
                   <div className="grid grid-cols-1 gap-2 max-h-[400px] overflow-y-auto pr-2 scrollbar-hide">
                     {Object.entries(glossary).map(([abbr, info]) => (
-                      <div key={abbr} className="p-3 rounded-xl bg-slate-50 border border-slate-100 hover:border-indigo-200 transition-all group">
-                        <p className="text-[11px] font-black text-indigo-600 mb-1">{abbr}</p>
-                        <p className="text-[9px] font-bold text-slate-400 uppercase leading-tight mb-2 tracking-tighter">{info.term}</p>
-                        <p className="text-[10px] text-slate-500 leading-snug">{info.definition}</p>
+                      <div key={abbr} className="p-3 rounded-xl bg-bg-surface2 border border-border-subtle hover:border-accent-primary/30 transition-all group">
+                        <p className="text-[11px] font-black text-accent-primary mb-1">{abbr}</p>
+                        <p className="text-[9px] font-bold text-text-muted uppercase leading-tight mb-2 tracking-tighter">{info.term}</p>
+                        <p className="text-[10px] text-text-secondary leading-snug">{info.definition}</p>
                       </div>
                     ))}
                   </div>
                 </Card>
-                <Card className="rounded-xl border-none shadow-xl bg-indigo-600 text-white p-4 relative overflow-hidden">
+                <Card className="rounded-xl border-none shadow-xl bg-accent-primary text-white p-4 relative overflow-hidden">
                   <HelpCircle className="absolute top-4 right-4 h-12 w-12 opacity-20" />
                   <h4 className="text-xl font-black uppercase tracking-tight mb-2">Нужна помощь?</h4>
-                  <p className="text-sm font-medium text-indigo-100 mb-6 uppercase tracking-wider leading-relaxed">Наши аналитики помогут разобрать ваш кейс индивидуально.</p>
-                  <Button className="w-full bg-white text-indigo-600 hover:bg-indigo-50 rounded-xl font-black uppercase text-[10px] h-12 tracking-widest shadow-xl">
+                  <p className="text-sm font-medium text-accent-primary/30 mb-6 uppercase tracking-wider leading-relaxed">Наши аналитики помогут разобрать ваш кейс индивидуально.</p>
+                  <Button className="w-full bg-white text-accent-primary hover:bg-accent-primary/10 rounded-xl font-black uppercase text-[10px] h-12 tracking-widest shadow-xl">
                     Запросить анализ
                   </Button>
                 </Card>
@@ -352,28 +354,28 @@ export default function AcademyPage() {
                     <Card key={article.id} className="rounded-xl border-none shadow-xl bg-white hover:shadow-2xl transition-all duration-500 group">
                       <CardHeader className="p-4 pb-4">
                         <div className="flex items-center justify-between mb-4">
-                          <Badge variant="secondary" className="bg-slate-100 text-slate-500 border-none font-black uppercase text-[8px] tracking-widest px-2 py-0.5">{article.category}</Badge>
-                          <span className="text-[9px] text-slate-400 font-bold uppercase">{format(new Date(article.updatedAt), "d MMMM yyyy", { locale: ru })}</span>
+                          <Badge variant="secondary" className="bg-bg-surface2 text-text-secondary border-none font-black uppercase text-[8px] tracking-widest px-2 py-0.5">{article.category}</Badge>
+                          <span className="text-[9px] text-text-muted font-bold uppercase">{format(new Date(article.updatedAt), "d MMMM yyyy", { locale: ru })}</span>
                         </div>
-                        <CardTitle className="text-xl md:text-2xl font-black uppercase tracking-tight leading-none group-hover:text-indigo-600 transition-colors cursor-pointer">
+                        <CardTitle className="text-xl md:text-2xl font-black uppercase tracking-tight leading-none group-hover:text-accent-primary transition-colors cursor-pointer">
                           <GlossaryText text={article.title} />
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="p-4 pt-0">
-                        <p className="text-sm md:text-base text-slate-500 font-medium leading-relaxed mb-6">
+                        <p className="text-sm md:text-base text-text-secondary font-medium leading-relaxed mb-6">
                           <GlossaryText text={article.excerpt} />
                         </p>
                         <div className="flex flex-wrap gap-2 mb-8">
                           {article.tags.map(tag => (
-                            <span key={tag} className="text-[9px] font-black text-indigo-500 bg-indigo-50 px-2.5 py-1 rounded-lg uppercase">#{tag}</span>
+                            <span key={tag} className="text-[9px] font-black text-accent-primary bg-accent-primary/10 px-2.5 py-1 rounded-lg uppercase">#{tag}</span>
                           ))}
                         </div>
-                        <div className="flex items-center justify-between pt-6 border-t border-slate-50">
+                        <div className="flex items-center justify-between pt-6 border-t border-border-subtle">
                           <div className="flex items-center gap-3">
-                            <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-black uppercase">{article.authorName.charAt(0)}</div>
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{article.authorName}</span>
+                            <div className="h-8 w-8 rounded-full bg-bg-surface2 flex items-center justify-center text-[10px] font-black uppercase">{article.authorName.charAt(0)}</div>
+                            <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest">{article.authorName}</span>
                           </div>
-                          <Button variant="ghost" size="sm" className="font-bold uppercase tracking-widest text-[9px] hover:text-indigo-600 hover:bg-transparent p-0">
+                          <Button variant="ghost" size="sm" className="font-bold uppercase tracking-widest text-[9px] hover:text-accent-primary hover:bg-transparent p-0">
                             Читать полностью <ExternalLink className="ml-2 h-3 w-3" />
                           </Button>
                         </div>
@@ -390,36 +392,36 @@ export default function AcademyPage() {
               {mockAssessments.map(assessment => (
                 <Card key={assessment.id} className="rounded-xl border-none shadow-xl bg-white p-3 flex flex-col group hover:shadow-2xl transition-all duration-500">
                   <div className="flex justify-between items-start mb-8">
-                    <div className="h-10 w-10 rounded-2xl bg-slate-50 flex items-center justify-center group-hover:bg-indigo-50 transition-colors">
-                      <GraduationCap className="h-8 w-8 text-slate-400 group-hover:text-indigo-600 transition-colors" />
+                    <div className="h-10 w-10 rounded-2xl bg-bg-surface2 flex items-center justify-center group-hover:bg-accent-primary/10 transition-colors">
+                      <GraduationCap className="h-8 w-8 text-text-muted group-hover:text-accent-primary transition-colors" />
                     </div>
-                    <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest border-slate-100">
+                    <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest border-border-subtle">
                       {assessment.category}
                     </Badge>
                   </div>
                   <h3 className="text-xl font-black uppercase tracking-tight mb-4 leading-none">
                     <GlossaryText text={assessment.title} />
                   </h3>
-                  <p className="text-sm md:text-base text-slate-500 font-medium mb-5 leading-relaxed flex-grow">
+                  <p className="text-sm md:text-base text-text-secondary font-medium mb-5 leading-relaxed flex-grow">
                     <GlossaryText text={assessment.description} />
                   </p>
                   
                   <div className="space-y-4 mb-5">
-                    <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                    <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-text-muted">
                       <span>Вопросов:</span>
-                      <span className="text-slate-900">{assessment.questions.length}</span>
+                      <span className="text-text-primary">{assessment.questions.length}</span>
                     </div>
-                    <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                    <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-text-muted">
                       <span>Проходной балл:</span>
-                      <span className="text-indigo-600">{assessment.passingScore}%</span>
+                      <span className="text-accent-primary">{assessment.passingScore}%</span>
                     </div>
-                    <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                    <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-text-muted">
                       <span>Время:</span>
-                      <span className="text-slate-900">{assessment.timeLimitMinutes || 'Без лимита'} мин.</span>
+                      <span className="text-text-primary">{assessment.timeLimitMinutes || 'Без лимита'} мин.</span>
                     </div>
                   </div>
 
-                  <Button onClick={() => startTest(assessment)} className="w-full h-10 rounded-2xl bg-slate-900 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-indigo-600 transition-all">
+                  <Button onClick={() => startTest(assessment)} className="w-full h-10 rounded-2xl bg-text-primary text-white font-bold uppercase tracking-widest text-[10px] hover:bg-accent-primary transition-all">
                     Начать аттестацию
                   </Button>
                 </Card>
@@ -431,28 +433,28 @@ export default function AcademyPage() {
             <div className="grid lg:grid-cols-12 gap-3">
               <div className="lg:col-span-8 space-y-5">
                 {/* Active/Next Broadcast */}
-                <Card className="rounded-xl border-none shadow-2xl bg-slate-900 text-white overflow-hidden relative min-h-[400px] flex items-center p-4">
+                <Card className="rounded-xl border-none shadow-2xl bg-text-primary text-white overflow-hidden relative min-h-[400px] flex items-center p-4">
                   <div className="absolute inset-0 opacity-40">
                     <Image src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=1200" alt="Live" fill className="object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-text-primary via-text-primary/80 to-transparent" />
                   </div>
                   <div className="relative z-10 max-w-lg">
                     <Badge className="bg-red-600 text-white border-none mb-6 animate-pulse px-4 py-1 font-bold uppercase tracking-widest text-[10px] flex items-center gap-2 w-fit">
                       <div className="h-1.5 w-1.5 rounded-full bg-white" /> Live Stream
                     </Badge>
-                    <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tight leading-none mb-4">SS26 Market Forecast: <br /><span className="text-indigo-400 italic">Live Analysis</span></h2>
-                    <p className="text-sm md:text-base text-slate-300 font-medium mb-8 leading-relaxed max-w-md">Присоединяйтесь к ежегодному разбору прогнозов спроса. Анализ на основе 120M+ транзакций партнеров платформы.</p>
+                    <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tight leading-none mb-4">SS26 Market Forecast: <br /><span className="text-accent-primary italic">Live Analysis</span></h2>
+                    <p className="text-sm md:text-base text-text-muted font-medium mb-8 leading-relaxed max-w-md">Присоединяйтесь к ежегодному разбору прогнозов спроса. Анализ на основе 120M+ транзакций партнеров платформы.</p>
                     <div className="flex items-center gap-3 mb-5">
                       <div className="flex items-center gap-3">
-                        <CalendarIcon className="h-5 w-5 text-indigo-400" />
+                        <CalendarIcon className="h-5 w-5 text-accent-primary" />
                         <span className="text-xs font-bold uppercase tracking-widest">Сегодня в 15:00</span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <Users className="h-5 w-5 text-indigo-400" />
+                        <Users className="h-5 w-5 text-accent-primary" />
                         <span className="text-xs font-bold uppercase tracking-widest">1,240 Байеров онлайн</span>
                       </div>
                     </div>
-                    <Button className="bg-white text-slate-900 hover:bg-slate-100 rounded-2xl h-10 px-10 font-bold uppercase tracking-widest text-[11px] shadow-xl shadow-white/5">
+                    <Button className="bg-white text-text-primary hover:bg-bg-surface2 rounded-2xl h-10 px-10 font-bold uppercase tracking-widest text-[11px] shadow-xl shadow-white/5">
                       <Video className="mr-2 h-4 w-4" /> Перейти к трансляции
                     </Button>
                   </div>
@@ -463,22 +465,22 @@ export default function AcademyPage() {
                   <h3 className="text-2xl font-black uppercase tracking-tight">Предстоящие события</h3>
                   <div className="space-y-4">
                     {mockAcademyEvents.slice(1).map(event => (
-                      <Card key={event.id} className="rounded-xl border-none shadow-xl bg-white p-4 flex items-center justify-between hover:bg-slate-50 transition-colors">
+                      <Card key={event.id} className="rounded-xl border-none shadow-xl bg-white p-4 flex items-center justify-between hover:bg-bg-surface2 transition-colors">
                         <div className="flex items-center gap-3">
-                          <div className="flex flex-col items-center justify-center h-14 w-14 rounded-2xl bg-indigo-50 text-indigo-600">
+                          <div className="flex flex-col items-center justify-center h-14 w-14 rounded-2xl bg-accent-primary/10 text-accent-primary">
                             <span className="text-lg font-black leading-none">{format(new Date(event.startTime), "dd")}</span>
                             <span className="text-[11px] font-black uppercase mt-1">{format(new Date(event.startTime), "MMM")}</span>
                           </div>
                           <div>
                             <div className="flex items-center gap-3 mb-1">
-                              <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest border-slate-200 text-slate-400">{event.type}</Badge>
-                              <span className="text-[11px] text-slate-400 font-bold uppercase tracking-widest">{format(new Date(event.startTime), "HH:mm")} - {format(new Date(event.endTime), "HH:mm")}</span>
+                              <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest border-border-default text-text-muted">{event.type}</Badge>
+                              <span className="text-[11px] text-text-muted font-bold uppercase tracking-widest">{format(new Date(event.startTime), "HH:mm")} - {format(new Date(event.endTime), "HH:mm")}</span>
                             </div>
-                            <h4 className="text-base md:text-lg font-black uppercase tracking-tight group-hover:text-indigo-600 transition-colors leading-tight">{event.title}</h4>
-                            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-1">Хост: {event.hostName}</p>
+                            <h4 className="text-base md:text-lg font-black uppercase tracking-tight group-hover:text-accent-primary transition-colors leading-tight">{event.title}</h4>
+                            <p className="text-[11px] font-bold text-text-muted uppercase tracking-widest mt-1">Хост: {event.hostName}</p>
                           </div>
                         </div>
-                        <Button variant="outline" className="rounded-xl h-12 px-6 font-bold uppercase tracking-widest text-[9px] border-slate-200">
+                        <Button variant="outline" className="rounded-xl h-12 px-6 font-bold uppercase tracking-widest text-[9px] border-border-default">
                           В календарь
                         </Button>
                       </Card>
@@ -491,7 +493,7 @@ export default function AcademyPage() {
                 <Card className="rounded-xl border-none shadow-2xl bg-white p-4 space-y-6">
                   <div className="flex items-center justify-between">
                     <h3 className="text-xl font-black uppercase tracking-tight">Тренажеры и Задачи</h3>
-                    <Badge className="bg-indigo-50 text-indigo-600 border-none font-black uppercase text-[10px] px-2 h-5">New</Badge>
+                    <Badge className="bg-accent-primary/10 text-accent-primary border-none font-black uppercase text-[10px] px-2 h-5">New</Badge>
                   </div>
                   <div className="space-y-6">
                     {[
@@ -499,20 +501,20 @@ export default function AcademyPage() {
                       { title: 'Оптимизация Tech-Pack для AI', type: 'Производство', difficulty: 'Senior', points: 300 },
                       { title: 'Кейс: Логистика в условиях кризиса', type: 'Менеджмент', difficulty: 'Pro', points: 500 }
                     ].map((task, i) => (
-                      <div key={i} className="group p-4 rounded-2xl border border-slate-100 hover:border-indigo-200 hover:bg-slate-50 transition-all cursor-pointer">
+                      <div key={i} className="group p-4 rounded-2xl border border-border-subtle hover:border-accent-primary/30 hover:bg-bg-surface2 transition-all cursor-pointer">
                         <div className="flex justify-between items-start mb-3">
-                          <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{task.type}</span>
-                          <Badge variant="outline" className="text-[9px] font-black uppercase border-slate-200 h-5 px-2">{task.difficulty}</Badge>
+                          <span className="text-[10px] font-bold uppercase tracking-widest text-text-muted">{task.type}</span>
+                          <Badge variant="outline" className="text-[9px] font-black uppercase border-border-default h-5 px-2">{task.difficulty}</Badge>
                         </div>
-                        <h5 className="text-base font-black uppercase tracking-tight text-slate-900 group-hover:text-indigo-600 transition-colors mb-4">{task.title}</h5>
+                        <h5 className="text-base font-black uppercase tracking-tight text-text-primary group-hover:text-accent-primary transition-colors mb-4">{task.title}</h5>
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-black text-indigo-600">+{task.points} SP</span>
-                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Начать →</span>
+                          <span className="text-xs font-black text-accent-primary">+{task.points} SP</span>
+                          <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest">Начать →</span>
                         </div>
                       </div>
                     ))}
                   </div>
-                  <Button className="w-full h-12 rounded-2xl bg-slate-900 text-white font-bold uppercase tracking-widest text-[11px] shadow-xl hover:bg-indigo-600 transition-all mt-4">
+                  <Button className="w-full h-12 rounded-2xl bg-text-primary text-white font-bold uppercase tracking-widest text-[11px] shadow-xl hover:bg-accent-primary transition-all mt-4">
                     Все задачи и кейсы
                   </Button>
                 </Card>
@@ -522,52 +524,52 @@ export default function AcademyPage() {
 
           <TabsContent value="team" className="animate-in fade-in duration-500">
             <Card className="rounded-xl border-none shadow-2xl overflow-hidden bg-white">
-              <CardHeader className="p-6 border-b border-slate-50">
+              <CardHeader className="p-6 border-b border-border-subtle">
                 <div className="flex flex-col md:flex-row justify-between md:items-center gap-3">
                   <div>
                     <CardTitle className="text-xl md:text-2xl font-black uppercase tracking-tight mb-2">Планирование обучения</CardTitle>
-                    <CardDescription className="text-slate-500 text-sm font-medium">Создайте системный план развития компетенций для каждого отдела.</CardDescription>
+                    <CardDescription className="text-text-secondary text-sm font-medium">Создайте системный план развития компетенций для каждого отдела.</CardDescription>
                   </div>
                   <div className="flex gap-3">
-                    <Button variant="outline" className="rounded-2xl h-11 px-8 border-slate-200 font-bold uppercase tracking-widest text-[11px] shadow-sm hover:bg-slate-50">
+                    <Button variant="outline" className="rounded-2xl h-11 px-8 border-border-default font-bold uppercase tracking-widest text-[11px] shadow-sm hover:bg-bg-surface2">
                       <BarChart className="mr-2 h-4.5 w-4.5" /> Аналитика команды
                     </Button>
-                    <Button className="rounded-2xl h-11 px-8 bg-slate-900 font-bold uppercase tracking-widest text-[11px] shadow-lg hover:bg-indigo-600 transition-all">
+                    <Button className="rounded-2xl h-11 px-8 bg-text-primary font-bold uppercase tracking-widest text-[11px] shadow-lg hover:bg-accent-primary transition-all">
                       <PlusCircle className="mr-2 h-4.5 w-4.5" /> Назначить обучение
                     </Button>
                   </div>
                 </div>
               </CardHeader>
               <CardContent className="p-0">
-                <div className="divide-y divide-slate-50">
+                <div className="divide-y divide-border-subtle">
                   {[
                     { name: 'Дмитрий Соколов', role: 'Менеджер закупок', progress: 65, course: 'B2B Fashion Economics', status: 'In Progress', nextDeadline: '12 Фев' },
                     { name: 'Анна Павлова', role: 'Дизайнер', progress: 100, course: 'AI in Fashion Design', status: 'Completed', nextDeadline: '-' },
                     { name: 'Иван Сергеев', role: 'Аналитик', progress: 12, course: 'Strategic Brand Building', status: 'In Progress', nextDeadline: '15 Фев' }
                   ].map((member, i) => (
-                    <div key={i} className="p-3 flex flex-col md:flex-row items-center justify-between hover:bg-slate-50 transition-colors gap-3">
+                    <div key={i} className="p-3 flex flex-col md:flex-row items-center justify-between hover:bg-bg-surface2 transition-colors gap-3">
                       <div className="flex items-center gap-3">
-                        <div className="h-12 w-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 relative border border-slate-200 shadow-inner">
+                        <div className="h-12 w-12 rounded-2xl bg-bg-surface2 flex items-center justify-center text-text-muted relative border border-border-default shadow-inner">
                           <Users className="h-7 w-7" />
-                          <div className={cn("absolute -bottom-1 -right-1 h-4 w-4 rounded-full border-2 border-white shadow-sm", member.progress === 100 ? "bg-emerald-500" : "bg-indigo-500")} />
+                          <div className={cn("absolute -bottom-1 -right-1 h-4 w-4 rounded-full border-2 border-white shadow-sm", member.progress === 100 ? "bg-emerald-500" : "bg-accent-primary")} />
                         </div>
                         <div>
-                          <p className="text-base font-black text-slate-900 uppercase tracking-tight leading-none">{member.name}</p>
-                          <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-1.5">{member.role}</p>
+                          <p className="text-base font-black text-text-primary uppercase tracking-tight leading-none">{member.name}</p>
+                          <p className="text-[11px] text-text-muted font-bold uppercase tracking-widest mt-1.5">{member.role}</p>
                         </div>
                       </div>
                       <div className="flex-1 max-w-md mx-12">
                         <div className="flex justify-between items-center mb-3">
-                          <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400">{member.course}</p>
-                          <p className="text-[11px] font-bold uppercase tracking-widest text-indigo-600">{member.progress}%</p>
+                          <p className="text-[11px] font-bold uppercase tracking-widest text-text-muted">{member.course}</p>
+                          <p className="text-[11px] font-bold uppercase tracking-widest text-accent-primary">{member.progress}%</p>
                         </div>
-                        <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden">
-                          <div className={cn("h-full rounded-full transition-all duration-1000", member.progress === 100 ? "bg-emerald-500" : "bg-indigo-500")} style={{ width: `${member.progress}%` }} />
+                        <div className="h-3 w-full bg-bg-surface2 rounded-full overflow-hidden">
+                          <div className={cn("h-full rounded-full transition-all duration-1000", member.progress === 100 ? "bg-emerald-500" : "bg-accent-primary")} style={{ width: `${member.progress}%` }} />
                         </div>
                       </div>
                       <div className="flex items-center gap-3 text-right">
                         <div className="hidden xl:block">
-                          <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-1">Дедлайн</p>
+                          <p className="text-[9px] font-bold uppercase tracking-widest text-text-muted mb-1">Дедлайн</p>
                           <p className="text-xs font-black uppercase">{member.nextDeadline}</p>
                         </div>
                         <div className="flex items-center gap-3">
@@ -577,7 +579,7 @@ export default function AcademyPage() {
                           )}>
                             {member.status}
                           </Badge>
-                          <Button variant="ghost" size="icon" className="h-12 w-12 rounded-2xl hover:bg-white border border-transparent hover:border-slate-100">
+                          <Button variant="ghost" size="icon" className="h-12 w-12 rounded-2xl hover:bg-white border border-transparent hover:border-border-subtle">
                             <ChevronRight className="h-5 w-5" />
                           </Button>
                         </div>
@@ -586,17 +588,17 @@ export default function AcademyPage() {
                   ))}
                 </div>
               </CardContent>
-              <CardFooter className="p-4 bg-slate-50 flex items-center justify-between">
+              <CardFooter className="p-4 bg-bg-surface2 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="h-12 w-12 rounded-xl bg-white flex items-center justify-center shadow-sm">
-                    <CalendarIcon className="h-6 w-6 text-slate-400" />
+                    <CalendarIcon className="h-6 w-6 text-text-muted" />
                   </div>
                   <div>
-                    <p className="text-base font-black uppercase tracking-tight text-slate-900 leading-none">Ближайшая аттестация отдела</p>
-                    <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-1.5">20 Февраля • 14:00 • Дизайн-студия</p>
+                    <p className="text-base font-black uppercase tracking-tight text-text-primary leading-none">Ближайшая аттестация отдела</p>
+                    <p className="text-[11px] font-bold text-text-muted uppercase tracking-widest mt-1.5">20 Февраля • 14:00 • Дизайн-студия</p>
                   </div>
                 </div>
-                <Button variant="link" className="font-bold uppercase tracking-widest text-[10px] text-indigo-600">Перейти в календарь обучения →</Button>
+                <Button variant="link" className="font-bold uppercase tracking-widest text-[10px] text-accent-primary">Перейти в календарь обучения →</Button>
               </CardFooter>
             </Card>
           </TabsContent>
@@ -610,11 +612,11 @@ export default function AcademyPage() {
             <div className="space-y-5">
               <div className="flex justify-between items-center">
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-600 mb-1">Аттестация: {activeAssessment.title}</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-accent-primary mb-1">Аттестация: {activeAssessment.title}</p>
                   <h3 className="text-base font-black uppercase tracking-tight">Вопрос {currentQuestionIndex + 1} из {activeAssessment.questions.length}</h3>
                 </div>
                 <div className="text-right">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Прогресс</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted mb-1">Прогресс</p>
                   <p className="text-sm font-black">{Math.round(((currentQuestionIndex + 1) / activeAssessment.questions.length) * 100)}%</p>
                 </div>
               </div>
@@ -632,8 +634,8 @@ export default function AcademyPage() {
                       className={cn(
                         "w-full p-4 rounded-2xl border-2 text-left transition-all font-bold uppercase tracking-tight text-xs",
                         answers[activeAssessment.questions[currentQuestionIndex].id] === option 
-                          ? "border-indigo-600 bg-indigo-50 text-indigo-600 shadow-lg" 
-                          : "border-slate-100 hover:border-slate-200 text-slate-600"
+                          ? "border-accent-primary bg-accent-primary/10 text-accent-primary shadow-lg" 
+                          : "border-border-subtle hover:border-border-default text-text-secondary"
                       )}
                     >
                       {option}
@@ -655,7 +657,7 @@ export default function AcademyPage() {
                   <Button 
                     onClick={finishTest} 
                     disabled={!answers[activeAssessment.questions[currentQuestionIndex].id]}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl h-12 px-8 font-bold uppercase tracking-widest text-[10px]"
+                    className="bg-accent-primary hover:bg-accent-primary text-white rounded-2xl h-12 px-8 font-bold uppercase tracking-widest text-[10px]"
                   >
                     Завершить тест
                   </Button>
@@ -663,7 +665,7 @@ export default function AcademyPage() {
                   <Button 
                     onClick={() => setCurrentQuestionIndex(prev => prev + 1)} 
                     disabled={!answers[activeAssessment.questions[currentQuestionIndex].id]}
-                    className="bg-slate-900 text-white rounded-2xl h-12 px-8 font-bold uppercase tracking-widest text-[10px]"
+                    className="bg-text-primary text-white rounded-2xl h-12 px-8 font-bold uppercase tracking-widest text-[10px]"
                   >
                     Следующий вопрос
                   </Button>
@@ -688,17 +690,17 @@ export default function AcademyPage() {
               <h3 className="text-xs font-black uppercase tracking-tight mb-2">
                 {testScore >= 80 ? "Поздравляем!" : "Нужно подтянуть знания"}
               </h3>
-              <p className="text-slate-500 font-medium">
+              <p className="text-text-secondary font-medium">
                 {testScore >= 80 
                   ? "Вы успешно прошли аттестацию и подтвердили свои навыки." 
                   : "К сожалению, вы не набрали достаточное количество баллов для сертификации."}
               </p>
             </div>
-            <div className="bg-slate-50 p-4 rounded-xl">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Ваш результат</p>
-              <p className="text-base font-black text-slate-900">{testScore}%</p>
+            <div className="bg-bg-surface2 p-4 rounded-xl">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted mb-2">Ваш результат</p>
+              <p className="text-base font-black text-text-primary">{testScore}%</p>
             </div>
-            <Button onClick={() => setIsResultOpen(false)} className="w-full h-10 rounded-2xl bg-slate-900 font-bold uppercase tracking-widest text-[11px]">
+            <Button onClick={() => setIsResultOpen(false)} className="w-full h-10 rounded-2xl bg-text-primary font-bold uppercase tracking-widest text-[11px]">
               {testScore >= 80 ? "Получить сертификат" : "Вернуться к курсу"}
             </Button>
           </div>
@@ -723,7 +725,7 @@ function CourseCard({ course, featured }: { course: any, featured?: boolean }) {
   return (
     <Card className={cn(
       "group rounded-xl border-none shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col h-full bg-white",
-      featured && "ring-2 ring-indigo-500/20"
+      featured && "ring-2 ring-accent-primary/20"
     )}>
       <div className="relative aspect-video overflow-hidden">
         <Image 
@@ -732,16 +734,16 @@ function CourseCard({ course, featured }: { course: any, featured?: boolean }) {
           fill 
           className="object-cover group-hover:scale-110 transition-transform duration-700"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="absolute inset-0 bg-gradient-to-t from-text-primary/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
         <div className="absolute top-4 left-4 flex flex-col gap-2">
           {course.isNew && <Badge className="bg-emerald-500 text-white border-none text-[8px] font-black uppercase px-2 py-0.5 shadow-lg">НОВОЕ</Badge>}
-          {course.isRecommended && <Badge className="bg-indigo-500 text-white border-none text-[8px] font-black uppercase px-2 py-0.5 shadow-lg">РЕКОМЕНДОВАНО</Badge>}
+          {course.isRecommended && <Badge className="bg-accent-primary text-white border-none text-[8px] font-black uppercase px-2 py-0.5 shadow-lg">РЕКОМЕНДОВАНО</Badge>}
         </div>
         <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all">
-          <Button size="sm" className="bg-white text-slate-900 hover:bg-slate-100 rounded-xl font-bold uppercase tracking-widest text-[9px] h-10 px-5 shadow-xl">
-            <PlayCircle className="mr-2 h-4 w-4 fill-slate-900 text-white" /> Смотреть
+          <Button size="sm" className="bg-white text-text-primary hover:bg-bg-surface2 rounded-xl font-bold uppercase tracking-widest text-[9px] h-10 px-5 shadow-xl">
+            <PlayCircle className="mr-2 h-4 w-4 fill-text-primary text-white" /> Смотреть
           </Button>
-          <div className="flex items-center gap-1.5 text-white bg-slate-900/50 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10">
+          <div className="flex items-center gap-1.5 text-white bg-text-primary/50 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10">
             <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
             <span className="text-xs font-black">{course.rating}</span>
           </div>
@@ -749,39 +751,39 @@ function CourseCard({ course, featured }: { course: any, featured?: boolean }) {
       </div>
       <CardHeader className="p-4 pb-2">
         <div className="flex items-center justify-between mb-4">
-          <Badge variant="outline" className="text-[8px] font-bold uppercase tracking-widest border-slate-100 text-slate-400 px-2.5 py-0.5">
+          <Badge variant="outline" className="text-[8px] font-bold uppercase tracking-widest border-border-subtle text-text-muted px-2.5 py-0.5">
             {categoryMap[course.category] || course.category}
           </Badge>
-          <div className="flex items-center text-[10px] text-slate-400 font-bold uppercase tracking-widest">
-            <Clock className="h-3.5 w-3.5 mr-1.5 text-indigo-400" /> {course.duration}
+          <div className="flex items-center text-[10px] text-text-muted font-bold uppercase tracking-widest">
+            <Clock className="h-3.5 w-3.5 mr-1.5 text-accent-primary" /> {course.duration}
           </div>
         </div>
-        <CardTitle className="text-sm font-black leading-tight group-hover:text-indigo-600 transition-colors uppercase tracking-tight">
+        <CardTitle className="text-sm font-black leading-tight group-hover:text-accent-primary transition-colors uppercase tracking-tight">
           <GlossaryText text={course.title} />
         </CardTitle>
       </CardHeader>
       <CardContent className="p-4 pt-2 flex-grow">
-        <p className="text-sm text-slate-500 font-medium line-clamp-2 mb-6 leading-relaxed">
+        <p className="text-sm text-text-secondary font-medium line-clamp-2 mb-6 leading-relaxed">
           <GlossaryText text={course.description} />
         </p>
-        <div className="flex flex-col gap-3 pt-6 border-t border-slate-50">
-          <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">В комплекте:</p>
+        <div className="flex flex-col gap-3 pt-6 border-t border-border-subtle">
+          <p className="text-[9px] font-bold uppercase tracking-widest text-text-muted">В комплекте:</p>
           <div className="flex flex-wrap gap-2">
             {course.media?.map((m: any, i: number) => (
-              <div key={i} className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100 group/media">
-                {m.type === 'video' ? <Video className="h-3 w-3 text-indigo-500" /> : <FileText className="h-3 w-3 text-indigo-500" />}
-                <span className="text-[9px] font-bold text-slate-600 uppercase tracking-tight">{m.title}</span>
+              <div key={i} className="flex items-center gap-2 bg-bg-surface2 px-3 py-1.5 rounded-xl border border-border-subtle group/media">
+                {m.type === 'video' ? <Video className="h-3 w-3 text-accent-primary" /> : <FileText className="h-3 w-3 text-accent-primary" />}
+                <span className="text-[9px] font-bold text-text-secondary uppercase tracking-tight">{m.title}</span>
               </div>
             ))}
           </div>
         </div>
       </CardContent>
-      <CardFooter className="p-4 pt-0 mt-auto flex items-center justify-between border-t border-slate-50 pt-6">
-        <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+      <CardFooter className="p-4 pt-0 mt-auto flex items-center justify-between border-t border-border-subtle pt-6">
+        <div className="text-[10px] text-text-muted font-bold uppercase tracking-widest">
           {course.provider}
         </div>
-        <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-900 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100">
-          <Users className="h-3.5 w-3.5 text-indigo-500" /> {course.studentsCount}
+        <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-text-primary bg-bg-surface2 px-3 py-1.5 rounded-xl border border-border-subtle">
+          <Users className="h-3.5 w-3.5 text-accent-primary" /> {course.studentsCount}
         </div>
       </CardFooter>
     </Card>
@@ -790,30 +792,30 @@ function CourseCard({ course, featured }: { course: any, featured?: boolean }) {
 
 function LearningPathCard({ path }: { path: any }) {
   return (
-    <Card className="rounded-xl border-none shadow-2xl bg-gradient-to-br from-slate-900 to-indigo-950 text-white overflow-hidden group">
+    <Card className="rounded-xl border-none shadow-2xl bg-gradient-to-br from-text-primary to-text-primary text-white overflow-hidden group">
       <div className="p-3 relative z-10">
         <div className="flex items-center justify-between mb-8">
           <div className="h-10 w-10 rounded-2xl bg-white/10 flex items-center justify-center backdrop-blur-md">
-            <TrendingUp className="h-8 w-8 text-indigo-400" />
+            <TrendingUp className="h-8 w-8 text-accent-primary" />
           </div>
-          <Badge className="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-4 py-1.5 font-bold uppercase tracking-widest text-[9px]">
+          <Badge className="bg-accent-primary/20 text-accent-primary border border-accent-primary/30 px-4 py-1.5 font-bold uppercase tracking-widest text-[9px]">
             Траектория обучения
           </Badge>
         </div>
         <h3 className="text-xs font-black uppercase tracking-tight mb-4">{path.title}</h3>
-        <p className="text-slate-400 font-medium mb-5 leading-relaxed max-w-sm">{path.description}</p>
+        <p className="text-text-muted font-medium mb-5 leading-relaxed max-w-sm">{path.description}</p>
         
         <div className="space-y-6 mb-6">
           {path.courses.map((courseId: string, i: number) => {
             const course = mockCourses.find(c => c.id === courseId);
             return (
               <div key={courseId} className="flex items-center gap-3 group/item">
-                <div className="h-10 w-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center font-black text-indigo-400 group-hover/item:bg-indigo-500 group-hover/item:text-white transition-all">
+                <div className="h-10 w-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center font-black text-accent-primary group-hover/item:bg-accent-primary group-hover/item:text-white transition-all">
                   {i + 1}
                 </div>
                 <div className="flex-1">
                   <p className="text-xs font-black uppercase tracking-tight text-white/90 group-hover/item:translate-x-1 transition-transform">{course?.title}</p>
-                  <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{course?.duration}</p>
+                  <p className="text-[9px] font-bold text-text-secondary uppercase tracking-widest">{course?.duration}</p>
                 </div>
               </div>
             );
@@ -826,11 +828,11 @@ function LearningPathCard({ path }: { path: any }) {
               <Award className="h-6 w-6 text-emerald-400" />
             </div>
             <div>
-              <p className="text-[9px] font-bold uppercase tracking-widest text-slate-500 leading-none mb-1">Результат</p>
+              <p className="text-[9px] font-bold uppercase tracking-widest text-text-secondary leading-none mb-1">Результат</p>
               <p className="text-xs font-bold text-emerald-400 leading-none">{path.outcome}</p>
             </div>
           </div>
-          <Button className="bg-white text-slate-900 hover:bg-slate-100 rounded-2xl h-12 px-6 font-bold uppercase tracking-widest text-[10px]">
+          <Button className="bg-white text-text-primary hover:bg-bg-surface2 rounded-2xl h-12 px-6 font-bold uppercase tracking-widest text-[10px]">
             Начать путь
           </Button>
         </div>

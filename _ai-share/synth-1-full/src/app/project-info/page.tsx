@@ -34,6 +34,9 @@ import {
 } from "@/components/ui/table";
 import { Timeline, TimelineConnector, TimelineHeader, TimelineIcon, TimelineItem, TimelineTitle, TimelineDescription, TimelineBody } from '@/components/ui/timeline';
 
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+
 
 const monetizationData = [
     { flow: '1. Комиссия с продаж (B2C)', mechanic: '10–20% с заказа (мин. 99 ₽)', description: 'Продажи digital/физических товаров через клиентское приложение Syntha. Средний чек — 18 000 ₽, комиссия ~1 800–3 600 ₽.', comments: 'Аналог Lamoda/Farfetch. Возможна скидка 1–2 п.п. для Brand PRO.' },
@@ -256,7 +259,7 @@ export default function ProjectInfoPage() {
   const [isFinancialSustainabilityOpen, setIsFinancialSustainabilityOpen] = useState(false);
 
   return (
-    <div className="container mx-auto px-4 py-4">
+    <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 py-4">
       <header className="text-center mb-12">
         <h1 className="text-sm md:text-sm font-bold font-headline">О проекте</h1>
         <p className="mt-4 text-sm text-muted-foreground max-w-3xl mx-auto">
@@ -265,9 +268,10 @@ export default function ProjectInfoPage() {
       </header>
 
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 lg:grid-cols-9">
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'grid w-full grid-cols-2 md:grid-cols-5 lg:grid-cols-9')}>
             {navLinks.map(link => (
-                <TabsTrigger key={link.value} value={link.value}><link.icon className="mr-2 h-4 w-4" />{link.label}</TabsTrigger>
+                <TabsTrigger key={link.value} value={link.value} className={cn(cabinetSurface.tabsTrigger, 'text-xs font-semibold normal-case tracking-normal')}><link.icon className="mr-2 h-4 w-4" />{link.label}</TabsTrigger>
             ))}
         </TabsList>
         <TabsContent value="overview" className="mt-6">

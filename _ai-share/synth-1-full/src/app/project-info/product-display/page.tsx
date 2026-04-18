@@ -52,6 +52,7 @@ import BrandCard from '@/components/brand-card';
 import BrandListItem from '@/components/brand-list-item';
 import BrandProfilePage from '@/app/b/[brandId]/page';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
 
 function parseComposition(composition: any): { material: string, percentage: number }[] {
@@ -475,9 +476,9 @@ const DetailPreview = forwardRef<HTMLDivElement, { settings: Record<string, bool
       toast({ title: "Добавлено в избранное", description: `${product.name} добавлено в "${collectionName}"` });
     };
     
-     const handleCreateNewCollection = () => {
+     const handleCreateNewCollection = async () => {
         if (newCollectionName.trim() === "") return;
-        const newCollection = addWishlistCollection(newCollectionName);
+        const newCollection = await addWishlistCollection(newCollectionName);
         addWishlistItem(product, newCollection.id);
         toast({ title: "Подборка создана", description: `Товар добавлен в новую подборку "${newCollectionName}"` });
         setIsNewCollectionOpen(false);
@@ -505,9 +506,10 @@ const DetailPreview = forwardRef<HTMLDivElement, { settings: Record<string, bool
         premium: { cashback: 0.1, bonusLimit: 0.4 },
       };
 
-      const plan = user.loyaltyPlan || 'base';
-      const cashback = product.price * planDetails[plan].cashback;
-      const maxBonusToUse = product.price * planDetails[plan].bonusLimit;
+      const plan = (user.loyaltyPlan || 'base') as keyof typeof planDetails;
+      const tier = planDetails[plan];
+      const cashback = product.price * tier.cashback;
+      const maxBonusToUse = product.price * tier.bonusLimit;
       const bonusToUse = Math.min(user.loyaltyPoints || 0, maxBonusToUse);
       const finalPrice = product.price - bonusToUse;
 
@@ -570,7 +572,7 @@ const DetailPreview = forwardRef<HTMLDivElement, { settings: Record<string, bool
                 {/* Image Gallery */}
                 {settings.image && (
                     <div className="flex flex-col gap-3">
-                    <div className="relative aspect-[4/5] w-full rounded-lg overflow-hidden border cursor-pointer" onClick={() => handleOpenImageViewer(imagesForCurrentColor.findIndex(img => img.id === activeImage.id))}>
+                    <div className="relative aspect-[4/5] w-full rounded-lg overflow-hidden border cursor-pointer" onClick={() => handleOpenImageViewer(imagesForCurrentColor.findIndex((img: { id: string }) => img.id === activeImage.id))}>
                         <Image src={activeImage?.url || imagesForCurrentColor[0].url} alt={activeImage?.alt || ''} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
                         <div className="absolute top-3 left-3 flex items-center gap-2">
                             {settings.promo_badge && product.isPromoted && <Badge variant="default" className="text-sm bg-accent text-accent-foreground">Промо</Badge>}
@@ -589,7 +591,7 @@ const DetailPreview = forwardRef<HTMLDivElement, { settings: Record<string, bool
                         )}
                     </div>
                     <div className="grid grid-cols-4 gap-3">
-                        {imagesForCurrentColor.map((image) => (
+                        {imagesForCurrentColor.map((image: { id: string; url: string; alt: string }) => (
                         <div
                             key={image.id}
                             className={cn(
@@ -974,7 +976,7 @@ export default function ProductDisplayInfoPage() {
   
   if (isLoading || !productDisplayData || !brandDisplayData) {
     return (
-      <div className="container mx-auto px-4 py-4">
+      <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 py-4">
         <h1 className="text-base font-bold font-headline mb-2">Структура отображения данных</h1>
         <p className="text-muted-foreground mb-8">Какие параметры товара отображаются в различных представлениях.</p>
         <Card>
@@ -1040,16 +1042,17 @@ export default function ProductDisplayInfoPage() {
   return (
     <>
       <UIStateProvider>
-        <div className="container mx-auto px-4 py-4 space-y-4">
+        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 py-4 space-y-4">
             <header>
                 <h1 className="text-base font-bold font-headline">Структура отображения данных</h1>
                 <p className="text-muted-foreground">Настройте, какие параметры будут видны в карточках товаров и на страницах брендов.</p>
             </header>
             
              <Tabs defaultValue="products" className="w-full">
-                <TabsList>
-                    <TabsTrigger value="products">Товары</TabsTrigger>
-                    <TabsTrigger value="brands">Бренды</TabsTrigger>
+                {/* cabinetSurface v1 */}
+                <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
+                    <TabsTrigger value="products" className={cn(cabinetSurface.tabsTrigger, 'text-xs font-semibold normal-case tracking-normal')}>Товары</TabsTrigger>
+                    <TabsTrigger value="brands" className={cn(cabinetSurface.tabsTrigger, 'text-xs font-semibold normal-case tracking-normal')}>Бренды</TabsTrigger>
                 </TabsList>
                 <TabsContent value="products" className="mt-6 space-y-4">
                     <Card>
