@@ -23,7 +23,8 @@ function updateUsersDb(profile: UserProfile) {
     const usersMap = new Map(parsed as any[]);
     const entry = usersMap.get(profile.email);
     if (entry && typeof entry === 'object') {
-      usersMap.set(profile.email, { ...entry, profile: { ...(entry.profile || {}), ...profile } });
+      const prev = entry as { profile?: Partial<UserProfile> };
+      usersMap.set(profile.email, { ...prev, profile: { ...(prev.profile || {}), ...profile } });
       localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(Array.from(usersMap.entries())));
     }
   } catch {

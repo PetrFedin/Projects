@@ -57,7 +57,11 @@ export function Skeleton({
 // Card skeleton component
 export function CardSkeleton({ className }: { className?: string }) {
   return (
+<<<<<<< HEAD
     <div className={cn('rounded-2xl border border-slate-100 bg-white p-4', className)}>
+=======
+    <div className={cn('border-border-subtle rounded-2xl border bg-white p-4', className)}>
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="mb-4 flex items-center gap-3">
         <Skeleton variant="circular" width={48} height={48} />
         <div className="flex-1">

@@ -10,6 +10,8 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card } from '@/components/ui/card';
 import { MapPin, Phone, Mail, Instagram, Send, Youtube } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
 interface RetailerDialogProps {
   isOpen: boolean;
@@ -35,6 +37,7 @@ export function RetailerDialog({ isOpen, onOpenChange, brandName }: RetailerDial
                   <DialogDescription className="text-sm font-medium">{brandName}</DialogDescription>
                 </div>
               </div>
+<<<<<<< HEAD
               <TabsList className="rounded-xl bg-muted/50 p-1">
                 <TabsTrigger
                   value="info"
@@ -46,6 +49,14 @@ export function RetailerDialog({ isOpen, onOpenChange, brandName }: RetailerDial
                   value="map"
                   className="rounded-lg px-4 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white"
                 >
+=======
+              {/* cabinetSurface v1 */}
+              <TabsList className={cn(cabinetSurface.tabsList, 'w-fit flex-wrap bg-muted/50')}>
+                <TabsTrigger value="info" className={cn(cabinetSurface.tabsTrigger, 'h-8 px-3')}>
+                  Инфо
+                </TabsTrigger>
+                <TabsTrigger value="map" className={cn(cabinetSurface.tabsTrigger, 'h-8 px-3')}>
+>>>>>>> recover/cabinet-wip-from-stash
                   Карта
                 </TabsTrigger>
               </TabsList>

@@ -71,7 +71,11 @@ export const getIPStatusColor = (status: IPRecord['status']) => {
     case 'disputed':
       return 'text-rose-500 bg-rose-50 border-rose-100';
     default:
+<<<<<<< HEAD
       return 'text-slate-400 bg-slate-50 border-slate-100';
+=======
+      return 'text-text-muted bg-bg-surface2 border-border-subtle';
+>>>>>>> recover/cabinet-wip-from-stash
   }
 };
 

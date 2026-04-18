@@ -7,6 +7,10 @@ import { Badge } from '@/components/ui/badge';
 import { AiVoiceAssistant } from '@/components/admin/voice-assistant';
 import { GlobalPulse } from '@/components/global/global-pulse';
 import { cn } from '@/lib/utils';
+<<<<<<< HEAD
+=======
+import { BRAND_SIDEBAR_W, cabinetSidebarLayout } from '@/lib/ui/cabinet-surface';
+>>>>>>> recover/cabinet-wip-from-stash
 import {
   brandNavGroups,
   allBrandNavLinks,
@@ -61,6 +65,10 @@ import {
   CabinetHubSectionBar,
   CabinetHubTitleRow,
 } from '@/components/layout/cabinet-hub-chrome';
+<<<<<<< HEAD
+=======
+import { cabinetRoleLabelRu } from '@/lib/ui/cabinet-role-labels';
+>>>>>>> recover/cabinet-wip-from-stash
 
 export const navGroups = brandNavGroups;
 export const allNavLinks = allBrandNavLinks;
@@ -448,7 +456,16 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
       <div className="bg-bg-surface flex min-h-screen w-full pb-12 font-sans">
         {/* Вертикальная панель — desktop */}
         {/* Левая панель: фиксированная ширина на всём кабинете бренда (cabinet layout v1) */}
+<<<<<<< HEAD
         <aside className="lg:border-border-subtle lg:bg-bg-surface hidden lg:fixed lg:bottom-0 lg:left-0 lg:top-24 lg:z-30 lg:flex lg:w-56 lg:shrink-0 lg:flex-col lg:border-r lg:pt-4">
+=======
+        <aside
+          className={cn(
+            'lg:border-border-subtle lg:bg-bg-surface hidden lg:fixed lg:bottom-0 lg:left-0 lg:top-24 lg:z-30 lg:flex lg:shrink-0 lg:flex-col lg:border-r lg:pt-4',
+            cabinetSidebarLayout.asideWidthBrand
+          )}
+        >
+>>>>>>> recover/cabinet-wip-from-stash
           <SidebarOrgHeader />
           <div className="scrollbar-hide min-h-0 flex-1 overflow-y-auto">
             <BrandSidebar
@@ -484,7 +501,11 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
         </Sheet>
 
         {/* Основная область */}
+<<<<<<< HEAD
         <div className="min-w-0 flex-1 lg:pl-56">
+=======
+        <div className={cn('min-w-0 flex-1', cabinetSidebarLayout.mainPaddingLeftBrand)}>
+>>>>>>> recover/cabinet-wip-from-stash
           {profile?.navigation && Array.isArray(profile.navigation) && (
             <GlobalHubNav navigation={profile.navigation} />
           )}
@@ -497,9 +518,23 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
                 iconTileClassName="bg-text-primary text-text-inverse shadow-xl shadow-black/15 ring-1 ring-border-subtle"
                 title="Бренд-центр"
                 badges={
+<<<<<<< HEAD
                   <Badge className="bg-accent-primary/10 text-accent-primary hover:bg-accent-primary/15 hidden shrink-0 rounded-sm border-none px-2 py-0.5 text-[8px] font-black tracking-widest sm:inline-flex">
                     ЦЕНТР_УПРАВЛЕНИЯ
                   </Badge>
+=======
+                  <>
+                    <Badge className="bg-accent-primary/10 text-accent-primary hover:bg-accent-primary/15 hidden shrink-0 rounded-sm border-none px-2 py-0.5 text-[8px] font-black tracking-widest sm:inline-flex">
+                      Центр управления
+                    </Badge>
+                    <Badge
+                      variant="outline"
+                      className="border-border-subtle text-text-secondary shrink-0 text-[8px] font-bold"
+                    >
+                      {cabinetRoleLabelRu(role)}
+                    </Badge>
+                  </>
+>>>>>>> recover/cabinet-wip-from-stash
                 }
                 trailing={
                   <div className="flex w-full min-w-0 shrink-0 flex-wrap items-center justify-end gap-2 sm:w-auto">
@@ -511,7 +546,16 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
                       </p>
                       <div className="bg-border-subtle h-6 w-px shrink-0" aria-hidden />
                       <TooltipProvider>
+<<<<<<< HEAD
                         <div className="relative flex h-7 w-[min(100%,200px)] min-w-0 items-center overflow-hidden sm:w-[min(100%,220px)] lg:w-56">
+=======
+                        <div
+                          className={cn(
+                            'relative flex h-7 w-[min(100%,200px)] min-w-0 items-center overflow-hidden sm:w-[min(100%,220px)]',
+                            BRAND_SIDEBAR_W
+                          )}
+                        >
+>>>>>>> recover/cabinet-wip-from-stash
                           <AnimatePresence mode="wait">
                             <motion.div
                               key={currentKpiIndex}
@@ -567,7 +611,11 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
                                       <div>
                                         <div className="mb-1 flex items-start justify-between">
                                           <p className="text-accent-primary font-black uppercase tracking-widest">
+<<<<<<< HEAD
                                             {m.label} //{' '}
+=======
+                                            {m.label} ·{' '}
+>>>>>>> recover/cabinet-wip-from-stash
                                             {typeof m.val === 'number'
                                               ? `${m.val}${m.unit}`
                                               : m.val}
@@ -581,7 +629,11 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
                                             )}
                                           >
                                             {m.trend > 0 ? '+' : ''}
+<<<<<<< HEAD
                                             {m.trend}% vs prev.
+=======
+                                            {m.trend}% к пред. периоду
+>>>>>>> recover/cabinet-wip-from-stash
                                           </Badge>
                                         </div>
                                         <p className="leading-relaxed opacity-90">{m.desc}</p>
@@ -589,7 +641,11 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
 
                                       <div className="space-y-1.5">
                                         <div className="flex items-center justify-between text-[7px] font-black uppercase tracking-widest text-white/40">
+<<<<<<< HEAD
                                           <span>Trend (4 weeks)</span>
+=======
+                                          <span>Тренд (4 недели)</span>
+>>>>>>> recover/cabinet-wip-from-stash
                                           <span
                                             className={cn(
                                               m.trend > 0 ? 'text-emerald-400' : 'text-rose-400'
@@ -731,7 +787,11 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
                                   className="bg-text-primary text-text-inverse z-[110] max-w-[220px] space-y-2 rounded-xl border-none p-3 text-[9px] font-medium shadow-xl"
                                 >
                                   <p className="text-accent-primary font-black uppercase tracking-widest">
+<<<<<<< HEAD
                                     {m.label} // Детализация
+=======
+                                    {m.label} · детализация
+>>>>>>> recover/cabinet-wip-from-stash
                                   </p>
                                   <p className="leading-relaxed opacity-90">{m.desc}</p>
                                   <div className="flex gap-3 border-t border-white/10 pt-1">
@@ -771,7 +831,11 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
                             : 'text-text-muted hover:text-text-secondary'
                         )}
                       >
+<<<<<<< HEAD
                         <Briefcase className="size-3.5" /> B2B режим
+=======
+                        <Briefcase className="size-3.5" /> Режим B2B
+>>>>>>> recover/cabinet-wip-from-stash
                       </button>
                       <button
                         onClick={() => setBusinessMode('b2c')}
@@ -782,7 +846,11 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
                             : 'text-text-muted hover:text-text-secondary'
                         )}
                       >
+<<<<<<< HEAD
                         <Rocket className="size-3.5" /> B2C режим
+=======
+                        <Rocket className="size-3.5" /> Режим B2C
+>>>>>>> recover/cabinet-wip-from-stash
                       </button>
                     </div>
                   </div>

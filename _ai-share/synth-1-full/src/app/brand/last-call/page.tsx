@@ -7,9 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Package, ArrowLeft, Clock, Zap } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { B2B_ORDERS_REGISTRY_LABEL } from '@/lib/ui/b2b-registry-label';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getB2BLinks } from '@/lib/data/entity-links';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
+import { RegistryPageShell } from '@/components/design-system';
 
 /** Last Call / Flash Deals для РФ: закрытый раздел ликвидации остатков для партнёров. Таймер, лимиты, рубль. */
 const MOCK_OFFERS = [
@@ -35,7 +37,11 @@ const MOCK_OFFERS = [
 
 export default function LastCallPage() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
+=======
+    <RegistryPageShell className="space-y-6">
+>>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Last Call / Flash Deals"
         description="Закрытый раздел ликвидации остатков для партнёров. Ограниченные по времени офферы в рублях. Доступ только для одобренных ритейлеров."
@@ -48,7 +54,11 @@ export default function LastCallPage() {
               <Link href={ROUTES.brand.retailers}>Партнёры</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+<<<<<<< HEAD
               <Link href={ROUTES.brand.b2bOrders}>B2B Заказы</Link>
+=======
+              <Link href={ROUTES.brand.b2bOrders}>{B2B_ORDERS_REGISTRY_LABEL}</Link>
+>>>>>>> recover/cabinet-wip-from-stash
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href={ROUTES.brand.creditRisk}>Credit Risk</Link>
@@ -77,16 +87,24 @@ export default function LastCallPage() {
             {MOCK_OFFERS.map((o) => (
               <li
                 key={o.id}
+<<<<<<< HEAD
                 className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-4"
               >
                 <div>
                   <p className="font-medium">{o.name}</p>
                   <p className="text-xs text-slate-500">
+=======
+                className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-xl border p-4"
+              >
+                <div>
+                  <p className="font-medium">{o.name}</p>
+                  <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                     {o.sku} · остаток {o.qty} шт.
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-sm text-slate-400 line-through">{o.was}</span>
+                  <span className="text-text-muted text-sm line-through">{o.was}</span>
                   <span className="font-semibold text-amber-600">{o.price}</span>
                   <Badge variant="outline" className="flex items-center gap-1">
                     <Clock className="h-3 w-3" /> до {o.endsAt}
@@ -100,6 +118,6 @@ export default function LastCallPage() {
       </Card>
 
       <RelatedModulesBlock links={getB2BLinks()} title="Партнёры, заказы, финансы, Credit Risk" />
-    </div>
+    </RegistryPageShell>
   );
 }

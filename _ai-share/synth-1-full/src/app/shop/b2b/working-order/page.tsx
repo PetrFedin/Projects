@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+<<<<<<< HEAD
 import {
   ArrowLeft,
   FileDown,
@@ -16,11 +17,17 @@ import {
   Send,
   Diff,
 } from 'lucide-react';
+=======
+import { FileDown, FileUp, History, User, CheckCircle, XCircle, Send, Diff } from 'lucide-react';
+>>>>>>> recover/cabinet-wip-from-stash
 import { ROUTES } from '@/lib/routes';
+import { cn } from '@/lib/utils';
 import { initialOrderItems } from '@/lib/order-data';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
 import { mockOrderDetailJoors } from '@/lib/order-data';
+import { RegistryPageShell } from '@/components/design-system';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import {
   getWorkingOrderVersions,
   addWorkingOrderVersion,
@@ -188,6 +195,7 @@ export default function WorkingOrderPage() {
   }, [refreshVersions]);
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2bOrders}>
@@ -203,6 +211,13 @@ export default function WorkingOrderPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-2xl space-y-6">
+      <ShopB2bContentHeader
+        backHref={ROUTES.shop.b2bOrders}
+        lead="NuOrder: экспорт заказа в Excel по шаблону (размер/цвет/qty), правка офлайн, импорт обратно и версии."
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -224,15 +239,24 @@ export default function WorkingOrderPage() {
               <FileUp className="h-4 w-4" /> Загрузить CSV
             </Button>
           </div>
-          {importMessage && <p className="text-sm text-slate-600">{importMessage}</p>}
+          {importMessage && <p className="text-text-secondary text-sm">{importMessage}</p>}
           {parsedRows.length > 0 && (
+<<<<<<< HEAD
             <div className="overflow-hidden rounded-lg border border-slate-200">
               <p className="bg-slate-50 px-3 py-2 text-xs font-medium text-slate-500">
+=======
+            <div className="border-border-default overflow-hidden rounded-lg border">
+              <p className="text-text-secondary bg-bg-surface2 px-3 py-2 text-xs font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                 Превью загруженных строк ({parsedRows.length})
               </p>
               <div className="max-h-48 overflow-x-auto overflow-y-auto">
                 <table className="w-full text-xs">
+<<<<<<< HEAD
                   <thead className="sticky top-0 bg-slate-50">
+=======
+                  <thead className="bg-bg-surface2 sticky top-0">
+>>>>>>> recover/cabinet-wip-from-stash
                     <tr>
                       {TEMPLATE_HEADERS.slice(0, 8).map((h) => (
                         <th key={h} className="px-2 py-1.5 text-left font-medium">
@@ -244,7 +268,11 @@ export default function WorkingOrderPage() {
                   </thead>
                   <tbody>
                     {parsedRows.slice(0, 20).map((row, i) => (
+<<<<<<< HEAD
                       <tr key={i} className="border-t border-slate-100">
+=======
+                      <tr key={i} className="border-border-subtle border-t">
+>>>>>>> recover/cabinet-wip-from-stash
                         {TEMPLATE_HEADERS.slice(0, 8).map((h) => (
                           <td key={h} className="px-2 py-1.5">
                             {row[h] ?? '—'}
@@ -257,13 +285,21 @@ export default function WorkingOrderPage() {
                 </table>
               </div>
               {parsedRows.length > 20 && (
+<<<<<<< HEAD
                 <p className="px-3 py-2 text-xs text-slate-400">
+=======
+                <p className="text-text-muted px-3 py-2 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                   Показаны первые 20 из {parsedRows.length} строк
                 </p>
               )}
             </div>
           )}
+<<<<<<< HEAD
           <p className="text-xs text-slate-400">
+=======
+          <p className="text-text-muted text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
             Формат: Style; SKU; Color; Delivery Window; Qty XS; Qty S; Qty M; Qty L; Qty XL; Total;
             Price; Line Total
           </p>
@@ -289,8 +325,13 @@ export default function WorkingOrderPage() {
                   className={cn(
                     'flex items-center justify-between rounded-lg border p-3 text-sm',
                     selectedVersionId === v.id
+<<<<<<< HEAD
                       ? 'border-indigo-300 bg-indigo-50/50'
                       : 'border-slate-200'
+=======
+                      ? 'border-accent-primary/30 bg-accent-primary/10'
+                      : 'border-border-default'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   <div className="flex flex-wrap items-center gap-2">
@@ -304,10 +345,17 @@ export default function WorkingOrderPage() {
                     >
                       {v.fileName}
                     </button>
+<<<<<<< HEAD
                     <span className="flex items-center gap-1 text-xs text-slate-500">
                       <User className="h-3 w-3" /> {v.uploadedBy}
                     </span>
                     <span className="text-xs text-slate-400">
+=======
+                    <span className="text-text-secondary flex items-center gap-1 text-xs">
+                      <User className="h-3 w-3" /> {v.uploadedBy}
+                    </span>
+                    <span className="text-text-muted text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                       {new Date(v.createdAt).toLocaleString('ru-RU')}
                     </span>
                     <Badge
@@ -358,14 +406,24 @@ export default function WorkingOrderPage() {
               {showCompare ? 'Скрыть сравнение' : 'Показать сравнение'}
             </Button>
             {showCompare && (
+<<<<<<< HEAD
               <div className="overflow-hidden rounded-lg border border-slate-200">
                 {comparison.length === 0 ? (
                   <p className="p-4 text-sm text-slate-500">
+=======
+              <div className="border-border-default overflow-hidden rounded-lg border">
+                {comparison.length === 0 ? (
+                  <p className="text-text-secondary p-4 text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                     В корзине матрицы нет позиций для сравнения. Добавьте товары в матрицу заказа.
                   </p>
                 ) : (
                   <table className="w-full text-xs">
+<<<<<<< HEAD
                     <thead className="bg-slate-50">
+=======
+                    <thead className="bg-bg-surface2">
+>>>>>>> recover/cabinet-wip-from-stash
                       <tr>
                         <th className="px-2 py-2 text-left font-medium">SKU</th>
                         <th className="px-2 py-2 text-right">В файле</th>
@@ -376,7 +434,11 @@ export default function WorkingOrderPage() {
                     </thead>
                     <tbody>
                       {comparison.map((c) => (
+<<<<<<< HEAD
                         <tr key={c.sku} className="border-t border-slate-100">
+=======
+                        <tr key={c.sku} className="border-border-subtle border-t">
+>>>>>>> recover/cabinet-wip-from-stash
                           <td className="px-2 py-1.5 font-medium">{c.sku}</td>
                           <td className="px-2 py-1.5 text-right">{c.inFile}</td>
                           <td className="px-2 py-1.5 text-right">{c.inMatrix}</td>
@@ -391,7 +453,11 @@ export default function WorkingOrderPage() {
                               <span className="text-amber-600">только в файле</span>
                             )}
                             {c.status === 'only_matrix' && (
+<<<<<<< HEAD
                               <span className="text-slate-500">только в матрице</span>
+=======
+                              <span className="text-text-secondary">только в матрице</span>
+>>>>>>> recover/cabinet-wip-from-stash
                             )}
                             {c.status === 'file_more' && (
                               <span className="text-blue-600">в файле больше</span>
@@ -422,7 +488,7 @@ export default function WorkingOrderPage() {
           <CardContent className="space-y-3">
             <input
               placeholder="Комментарий (опционально)"
-              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
+              className="border-border-default w-full rounded-lg border px-3 py-2 text-sm"
               value={brandComment}
               onChange={(e) => setBrandComment(e.target.value)}
             />
@@ -469,6 +535,10 @@ export default function WorkingOrderPage() {
         title="Матрица, EZ Order, аналитика"
         className="mt-6"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

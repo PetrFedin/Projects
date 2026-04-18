@@ -39,7 +39,11 @@ export const ProductMarketplaceHealthBlock: React.FC<{ product: Product }> = ({ 
                 <Badge className="h-4 border-none bg-emerald-600 text-[10px] font-black uppercase text-white">
                   {h.marketplace}
                 </Badge>
+<<<<<<< HEAD
                 <div className="text-[10px] font-black uppercase text-slate-400">
+=======
+                <div className="text-text-muted text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                   Buyback: {h.buybackRate}%
                 </div>
               </div>
@@ -57,27 +61,47 @@ export const ProductMarketplaceHealthBlock: React.FC<{ product: Product }> = ({ 
 
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col">
+<<<<<<< HEAD
                 <span className="mb-1 text-[9px] font-black uppercase text-slate-400">
                   Out of Stock Risk
                 </span>
                 <div className="flex items-center gap-2">
                   <div className="h-1 flex-1 overflow-hidden rounded-full bg-slate-100">
+=======
+                <span className="text-text-muted mb-1 text-[9px] font-black uppercase">
+                  Out of Stock Risk
+                </span>
+                <div className="flex items-center gap-2">
+                  <div className="bg-bg-surface2 h-1 flex-1 overflow-hidden rounded-full">
+>>>>>>> recover/cabinet-wip-from-stash
                     <div
                       className={`h-full ${h.outOfStockRisk > 30 ? 'bg-orange-400' : 'bg-green-400'}`}
                       style={{ width: `${h.outOfStockRisk}%` }}
                     />
                   </div>
+<<<<<<< HEAD
                   <span className="text-[10px] font-black leading-none text-slate-700">
+=======
+                  <span className="text-text-primary text-[10px] font-black leading-none">
+>>>>>>> recover/cabinet-wip-from-stash
                     {h.outOfStockRisk}%
                   </span>
                 </div>
               </div>
               <div className="flex flex-col items-end">
+<<<<<<< HEAD
                 <span className="mb-1 text-[9px] font-black uppercase text-slate-400">
                   Rating Trend
                 </span>
                 <div
                   className={`flex items-center gap-1 text-xs font-black ${h.ratingTrend === 'up' ? 'text-green-600' : 'text-slate-500'}`}
+=======
+                <span className="text-text-muted mb-1 text-[9px] font-black uppercase">
+                  Rating Trend
+                </span>
+                <div
+                  className={`flex items-center gap-1 text-xs font-black ${h.ratingTrend === 'up' ? 'text-green-600' : 'text-text-secondary'}`}
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   {h.ratingTrend === 'up' ? (
                     <TrendingUp className="h-3.5 w-3.5" />
@@ -92,7 +116,11 @@ export const ProductMarketplaceHealthBlock: React.FC<{ product: Product }> = ({ 
         ))}
       </div>
 
+<<<<<<< HEAD
       <div className="mt-4 flex items-center gap-1.5 border-t border-emerald-50 pt-3 text-[9px] font-bold uppercase italic leading-none text-slate-400">
+=======
+      <div className="text-text-muted mt-4 flex items-center gap-1.5 border-t border-emerald-50 pt-3 text-[9px] font-bold uppercase italic leading-none">
+>>>>>>> recover/cabinet-wip-from-stash
         <Info className="h-3 w-3" /> Aggregated Marketplace Analytics v3.2
       </div>
     </Card>

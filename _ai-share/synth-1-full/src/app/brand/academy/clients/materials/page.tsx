@@ -15,6 +15,7 @@ import { getAcademyLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { addClientMaterial } from '@/lib/academy/brand-academy-data';
 import { ArrowLeft } from 'lucide-react';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 export default function ClientMaterialsPage() {
   const router = useRouter();
@@ -37,6 +38,7 @@ export default function ClientMaterialsPage() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
@@ -52,12 +54,31 @@ export default function ClientMaterialsPage() {
         </div>
         <AcademySegmentSwitcher active="brand" />
       </div>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Материалы для клиентов"
+        leadPlain="Уход, стилинг, коллекции — для покупателей"
+        eyebrow={
+          <Button variant="ghost" size="icon" className="-ml-2 shrink-0" asChild>
+            <Link href={ROUTES.brand.academy} aria-label="Назад в академию">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+        actions={<AcademySegmentSwitcher active="brand" />}
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <WidgetCard
         title="Для клиентов"
         description="Обучающие и ознакомительные материалы: уход за изделиями, идеи стилизации, описание коллекций. Доступны покупателям на сайте и в приложении."
       >
+<<<<<<< HEAD
         <Card className="rounded-xl border border-slate-100">
+=======
+        <Card className="border-border-subtle rounded-xl border">
+>>>>>>> recover/cabinet-wip-from-stash
           <CardHeader>
             <CardTitle>Добавить материал</CardTitle>
             <CardDescription>Уход, стилинг, о коллекции, lookbook.</CardDescription>
@@ -132,6 +153,6 @@ export default function ClientMaterialsPage() {
       </WidgetCard>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

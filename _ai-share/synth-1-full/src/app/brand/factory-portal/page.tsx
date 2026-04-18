@@ -16,17 +16,27 @@ import { PartnerDemoExportBar } from '@/components/brand/partner-demo-export-bar
 import { ROUTES } from '@/lib/routes';
 import { PARTNER_FACTORY_SAMPLES } from '@/lib/platform/partner-demo-data';
 import { ArrowLeft, Factory, ClipboardList } from 'lucide-react';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 export default function FactoryPortalPage() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <div className="flex items-center gap-3">
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Портал фабрики"
+        leadPlain="Образцы, QC, расхождения с tech pack. Тип строк: PartnerFactorySample."
+        eyebrow={
+>>>>>>> recover/cabinet-wip-from-stash
           <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.brand.production}>
+            <Link href={ROUTES.brand.production} aria-label="Назад в Production">
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
+<<<<<<< HEAD
           <div>
             <h1 className="flex items-center gap-2 text-xl font-bold">
               <Factory className="h-6 w-6" />
@@ -36,10 +46,16 @@ export default function FactoryPortalPage() {
               Образцы, QC, расхождения с tech pack. Тип строк:{' '}
               <code className="rounded bg-muted px-1 text-[10px]">PartnerFactorySample</code>.
             </p>
+=======
+        }
+        actions={
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <Factory className="size-6 shrink-0 text-muted-foreground" aria-hidden />
+            <PartnerDemoExportBar />
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
-        </div>
-        <PartnerDemoExportBar />
-      </div>
+        }
+      />
 
       <Button variant="secondary" size="sm" asChild>
         <Link href={`${ROUTES.brand.production}?floorTab=ops`}>
@@ -112,6 +128,6 @@ export default function FactoryPortalPage() {
           </Card>
         ))}
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

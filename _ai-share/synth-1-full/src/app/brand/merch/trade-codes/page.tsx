@@ -17,6 +17,7 @@ import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import { buildTradeCodeRows, tradeCodeRowsToCsv } from '@/lib/fashion/trade-code-rollup';
 import { ArrowLeft, FileSpreadsheet } from 'lucide-react';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
 export default function TradeCodesPage() {
   const rows = useMemo(() => buildTradeCodeRows(products), []);
@@ -61,7 +62,7 @@ export default function TradeCodesPage() {
 
       <div className="flex flex-wrap items-center gap-2">
         <Button type="button" onClick={downloadCsv}>
-          CSV по SKU
+          CSV по <AcronymWithTooltip abbr="SKU" />
         </Button>
         <span className="text-xs text-muted-foreground">
           Полных: {stats.full} · частичных: {stats.partial} · пустых: {stats.empty}
@@ -80,7 +81,9 @@ export default function TradeCodesPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>SKU</TableHead>
+                <TableHead>
+                  <AcronymWithTooltip abbr="SKU" />
+                </TableHead>
                 <TableHead>Название</TableHead>
                 <TableHead>ТН ВЭД / HS</TableHead>
                 <TableHead>ЕАС</TableHead>

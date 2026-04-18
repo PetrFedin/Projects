@@ -37,11 +37,11 @@ function seed(): BuyerApplicationsState {
     applications: [
       {
         id: 'app-1',
-        brandId: 'syntha',
-        brandName: 'Syntha',
-        companyName: 'Boutique No.7',
+        brandId: 'brand_syntha_lab',
+        brandName: 'Syntha Lab',
+        companyName: 'Демо-магазин · СПб',
         contactName: 'Ольга С.',
-        email: 'olga@boutique7.ru',
+        email: 'olga@demo-retail.local',
         phone: '+7 812 …',
         country: 'Россия',
         city: 'СПб',
@@ -52,11 +52,11 @@ function seed(): BuyerApplicationsState {
       },
       {
         id: 'app-2',
-        brandId: 'syntha',
-        brandName: 'Syntha',
-        companyName: 'ЦУМ',
+        brandId: 'brand_nordic_wool',
+        brandName: 'Nordic Wool',
+        companyName: 'Демо-магазин · Москва 2',
         contactName: 'Михаил В.',
-        email: 'buyer@tsum.ru',
+        email: 'buyer@demo-retail.local',
         country: 'Россия',
         city: 'Москва',
         applicantType: 'retailer',
@@ -128,8 +128,8 @@ export function submitApplication(payload: {
   const id = generateId('app');
   const app: BuyerApplicationWithBrand = {
     id,
-    brandId: payload.brandId ?? 'syntha',
-    brandName: payload.brandName ?? 'Syntha',
+    brandId: payload.brandId ?? 'brand_syntha_lab',
+    brandName: payload.brandName ?? 'Syntha Lab',
     companyName: payload.companyName,
     contactName: payload.contactName,
     email: payload.email,

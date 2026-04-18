@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/providers/auth-provider';
 import { useUIState } from '@/providers/ui-state';
 import { CeoReportSheet, REPORT_DATA } from '@/components/brand/ceo-report-sheet';
-import { Card } from '@/components/ui/card';
+import { registryFeedLayout } from '@/lib/ui/registry-feed-layout';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -38,7 +38,9 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Progress } from '@/components/ui/progress';
+import type { DateRange } from 'react-day-picker';
 import { cn } from '@/lib/utils';
+import { ROUTES } from '@/lib/routes';
 import { SectionBlock } from '@/components/brand/SectionBlock';
 import {
   SECTION_META,
@@ -57,7 +59,7 @@ import type { HistoryEntry } from '@/components/brand/SectionBlock';
 type ActivityPeriod = '7d' | '30d' | { from: Date; to: Date };
 
 export type OrganizationOverviewContentProps = {
-  modulesPeriodKey: string;
+  modulesPeriodKey: '7d' | '30d';
   orgProfile: any;
   orgDashboard: any;
   healthMetrics: any[];
@@ -177,11 +179,19 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
   return (
     <>
       {/* Organization Hub header */}
+<<<<<<< HEAD
       <div className="rounded-2xl border border-slate-100 bg-gradient-to-br from-slate-50/50 to-white p-5 shadow-sm">
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-100 text-indigo-600">
+=======
+      <div className="border-border-subtle from-bg-surface2/50 rounded-2xl border bg-gradient-to-br to-white p-5 shadow-sm">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-2">
+              <div className="bg-accent-primary/15 text-accent-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                 <LayoutDashboard className="h-5 w-5" />
               </div>
               <Badge variant="outline" className="text-[9px]">
@@ -191,6 +201,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               {healthLoading ? (
                 <>
+<<<<<<< HEAD
                   <div className="h-6 w-32 animate-pulse rounded bg-slate-100" aria-hidden />
                   <span className="hidden text-slate-300 sm:inline">•</span>
                   <div className="h-6 w-16 animate-pulse rounded bg-slate-100" aria-hidden />
@@ -198,13 +209,26 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                   <div className="h-6 w-24 animate-pulse rounded bg-slate-100" aria-hidden />
                   <span className="hidden text-slate-300 sm:inline">•</span>
                   <div className="h-6 w-20 animate-pulse rounded bg-slate-100" aria-hidden />
+=======
+                  <div className="bg-bg-surface2 h-6 w-32 animate-pulse rounded" aria-hidden />
+                  <span className="text-text-muted hidden sm:inline">•</span>
+                  <div className="bg-bg-surface2 h-6 w-16 animate-pulse rounded" aria-hidden />
+                  <span className="text-text-muted hidden sm:inline">•</span>
+                  <div className="bg-bg-surface2 h-6 w-24 animate-pulse rounded" aria-hidden />
+                  <span className="text-text-muted hidden sm:inline">•</span>
+                  <div className="bg-bg-surface2 h-6 w-20 animate-pulse rounded" aria-hidden />
+>>>>>>> recover/cabinet-wip-from-stash
                 </>
               ) : (
                 <>
                   <Popover>
                     <PopoverTrigger asChild>
                       <button
+<<<<<<< HEAD
                         className="-mx-1.5 flex items-center gap-1.5 rounded-lg px-1.5 py-0.5 text-[10px] font-black text-slate-500 transition-colors hover:bg-indigo-50 hover:text-indigo-600"
+=======
+                        className="text-text-secondary hover:text-accent-primary hover:bg-accent-primary/10 -mx-1.5 flex items-center gap-1.5 rounded-lg px-1.5 py-0.5 text-[10px] font-black transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                         aria-label="Профиль организации"
                       >
                         <Building2 className="h-3 w-3" />
@@ -213,6 +237,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                     </PopoverTrigger>
                     <PopoverContent
                       align="end"
+<<<<<<< HEAD
                       className="w-72 rounded-xl border-slate-200 p-4 shadow-xl"
                     >
                       <div className="space-y-3">
@@ -234,6 +259,29 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                           </p>
                           <p>
                             <span className="font-bold text-slate-500">ИНН:</span>{' '}
+=======
+                      className="border-border-default w-72 rounded-xl p-4 shadow-xl"
+                    >
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+                          <div className="bg-accent-primary/15 flex h-8 w-8 items-center justify-center rounded-lg">
+                            <Building2 className="text-accent-primary h-4 w-4" />
+                          </div>
+                          <div>
+                            <h4 className="text-text-primary text-[10px] font-black uppercase">
+                              {orgProfile?.brand?.name ?? 'Syntha HQ'}
+                            </h4>
+                            <p className="text-text-secondary text-[8px]">Организация</p>
+                          </div>
+                        </div>
+                        <div className="text-text-secondary space-y-1.5 text-[9px]">
+                          <p>
+                            <span className="text-text-secondary font-bold">Юр. лицо:</span>{' '}
+                            {orgProfile?.legal?.legal_name ?? 'ООО «Синта Фэшн»'}
+                          </p>
+                          <p>
+                            <span className="text-text-secondary font-bold">ИНН:</span>{' '}
+>>>>>>> recover/cabinet-wip-from-stash
                             {orgProfile?.legal?.inn ?? '7701234567'}
                           </p>
                         </div>
@@ -243,14 +291,25 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                           variant="outline"
                           className="h-7 w-full text-[9px] font-black uppercase"
                         >
+<<<<<<< HEAD
                           <Link href="/brand" className="flex items-center justify-center gap-1.5">
+=======
+                          <Link
+                            href={ROUTES.brand.home}
+                            className="flex items-center justify-center gap-1.5"
+                          >
+>>>>>>> recover/cabinet-wip-from-stash
                             Профиль бренда <ExternalLink className="h-3 w-3" />
                           </Link>
                         </Button>
                       </div>
                     </PopoverContent>
                   </Popover>
+<<<<<<< HEAD
                   <span className="hidden text-slate-300 sm:inline">•</span>
+=======
+                  <span className="text-text-muted hidden sm:inline">•</span>
+>>>>>>> recover/cabinet-wip-from-stash
                   <Popover>
                     <PopoverTrigger asChild>
                       <button
@@ -267,6 +326,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                     </PopoverTrigger>
                     <PopoverContent
                       align="end"
+<<<<<<< HEAD
                       className="w-72 rounded-xl border-slate-200 p-4 shadow-xl"
                     >
                       <div className="space-y-3">
@@ -274,6 +334,15 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                           Elite Plan
                         </h4>
                         <p className="text-[8px] text-slate-500">Подписка</p>
+=======
+                      className="border-border-default w-72 rounded-xl p-4 shadow-xl"
+                    >
+                      <div className="space-y-3">
+                        <h4 className="text-text-primary text-[10px] font-black uppercase">
+                          Elite Plan
+                        </h4>
+                        <p className="text-text-secondary text-[8px]">Подписка</p>
+>>>>>>> recover/cabinet-wip-from-stash
                         <Button
                           asChild
                           size="sm"
@@ -281,7 +350,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                           className="h-7 w-full text-[9px] font-black uppercase"
                         >
                           <Link
+<<<<<<< HEAD
                             href="/brand/subscription"
+=======
+                            href={ROUTES.brand.subscription}
+>>>>>>> recover/cabinet-wip-from-stash
                             className="flex items-center justify-center gap-1.5"
                           >
                             Подписка и биллинг <ExternalLink className="h-3 w-3" />
@@ -290,11 +363,19 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                       </div>
                     </PopoverContent>
                   </Popover>
+<<<<<<< HEAD
                   <span className="hidden text-slate-300 sm:inline">•</span>
                   <Popover>
                     <PopoverTrigger asChild>
                       <button
                         className="-mx-1.5 flex items-center gap-1.5 rounded-lg px-1.5 py-0.5 text-[10px] font-black text-slate-500 hover:bg-indigo-50 hover:text-indigo-600"
+=======
+                  <span className="text-text-muted hidden sm:inline">•</span>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button
+                        className="text-text-secondary hover:text-accent-primary hover:bg-accent-primary/10 -mx-1.5 flex items-center gap-1.5 rounded-lg px-1.5 py-0.5 text-[10px] font-black"
+>>>>>>> recover/cabinet-wip-from-stash
                         aria-label={`Команда: ${participantsCount} участников`}
                       >
                         <Users className="h-3 w-3" /> {participantsCount} участников
@@ -302,10 +383,21 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                     </PopoverTrigger>
                     <PopoverContent
                       align="end"
+<<<<<<< HEAD
                       className="w-72 rounded-xl border-slate-200 p-4 shadow-xl"
                     >
                       <h4 className="text-[10px] font-black uppercase text-slate-900">Команда</h4>
                       <p className="text-[8px] text-slate-500">{participantsCount} участников</p>
+=======
+                      className="border-border-default w-72 rounded-xl p-4 shadow-xl"
+                    >
+                      <h4 className="text-text-primary text-[10px] font-black uppercase">
+                        Команда
+                      </h4>
+                      <p className="text-text-secondary text-[8px]">
+                        {participantsCount} участников
+                      </p>
+>>>>>>> recover/cabinet-wip-from-stash
                       <Button
                         asChild
                         size="sm"
@@ -313,7 +405,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                         className="mt-2 h-7 w-full text-[9px] font-black uppercase"
                       >
                         <Link
+<<<<<<< HEAD
                           href="/brand/team"
+=======
+                          href={ROUTES.brand.team}
+>>>>>>> recover/cabinet-wip-from-stash
                           className="flex items-center justify-center gap-1.5"
                         >
                           Команда и активность <ExternalLink className="h-3 w-3" />
@@ -321,7 +417,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                       </Button>
                     </PopoverContent>
                   </Popover>
+<<<<<<< HEAD
                   <span className="hidden text-slate-300 sm:inline">•</span>
+=======
+                  <span className="text-text-muted hidden sm:inline">•</span>
+>>>>>>> recover/cabinet-wip-from-stash
                   <Popover>
                     <PopoverTrigger asChild>
                       <button
@@ -334,12 +434,21 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                     </PopoverTrigger>
                     <PopoverContent
                       align="end"
+<<<<<<< HEAD
                       className="w-72 rounded-xl border-slate-200 p-4 shadow-xl"
                     >
                       <h4 className="text-[10px] font-black uppercase text-slate-900">
                         Сейчас онлайн
                       </h4>
                       <p className="text-[8px] text-slate-500">
+=======
+                      className="border-border-default w-72 rounded-xl p-4 shadow-xl"
+                    >
+                      <h4 className="text-text-primary text-[10px] font-black uppercase">
+                        Сейчас онлайн
+                      </h4>
+                      <p className="text-text-secondary text-[8px]">
+>>>>>>> recover/cabinet-wip-from-stash
                         {onlineCount} из {participantsCount} в системе
                       </p>
                     </PopoverContent>
@@ -351,6 +460,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="space-y-0.5">
               <div className="flex items-center gap-2">
+<<<<<<< HEAD
                 <div className="h-3.5 w-1 shrink-0 rounded-full bg-indigo-500" />
                 <h2 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                   Организация
@@ -373,11 +483,39 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                 Период:
                 {typeof activityPeriod === 'object' && (
                   <span className="ml-1 font-normal normal-case text-slate-500">
+=======
+                <div className="bg-accent-primary h-3.5 w-1 shrink-0 rounded-full" />
+                <h2 className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                  Организация
+                </h2>
+              </div>
+              <h3 className="text-text-primary text-sm font-black uppercase">Центр управления</h3>
+              <div className="text-text-muted flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest">
+                <Link
+                  href={ROUTES.brand.strategyOverview}
+                  className="hover:text-accent-primary transition-colors"
+                >
+                  Обзор
+                </Link>
+                <span className="text-text-muted">›</span>
+                <span className="text-accent-primary">Центр управления</span>
+              </div>
+            </div>
+            <div className="flex shrink-0 flex-wrap items-center gap-2">
+              <span className="text-text-muted text-[9px] font-bold uppercase">
+                Период:
+                {typeof activityPeriod === 'object' && (
+                  <span className="text-text-secondary ml-1 font-normal normal-case">
+>>>>>>> recover/cabinet-wip-from-stash
                     {formatActivityPeriod(activityPeriod)}
                   </span>
                 )}
               </span>
+<<<<<<< HEAD
               <div className="flex h-[26px] items-center gap-1 rounded-[4px] border border-slate-200 bg-slate-50 p-0.5 shadow-sm">
+=======
+              <div className="bg-bg-surface2 border-border-default flex h-[26px] items-center gap-1 rounded-[4px] border p-0.5 shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                 {(['7d', '30d'] as const).map((p) => (
                   <button
                     key={p}
@@ -388,8 +526,13 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                     className={cn(
                       'flex h-[20px] min-h-[20px] items-center rounded-[2px] px-2.5 text-[9px] font-black uppercase tracking-widest transition-all',
                       activityPeriod === p
+<<<<<<< HEAD
                         ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200'
                         : 'text-slate-400 hover:bg-white/50 hover:text-slate-600'
+=======
+                        ? 'text-text-primary ring-border-default bg-white shadow-sm ring-1'
+                        : 'text-text-muted hover:text-text-secondary hover:bg-white/50'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     {p === '7d' ? '7 дней' : '30 дней'}
@@ -404,8 +547,13 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                       className={cn(
                         'flex h-[20px] min-h-[20px] items-center gap-1 rounded-[2px] px-2.5 text-[9px] font-black uppercase tracking-widest transition-all',
                         typeof activityPeriod === 'object'
+<<<<<<< HEAD
                           ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200'
                           : 'text-slate-400 hover:bg-white/50 hover:text-slate-600'
+=======
+                          ? 'text-text-primary ring-border-default bg-white shadow-sm ring-1'
+                          : 'text-text-muted hover:text-text-secondary hover:bg-white/50'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       <CalendarIcon className="h-3 w-3" /> Календарь
@@ -413,11 +561,21 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                   </PopoverTrigger>
                   <PopoverContent
                     align="end"
+<<<<<<< HEAD
                     className="w-auto rounded-xl border-slate-200 p-0 shadow-xl"
+=======
+                    className="border-border-default w-auto rounded-xl p-0 shadow-xl"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <CalendarComponent
                       mode="range"
-                      selected={typeof activityPeriod === 'object' ? activityPeriod : customRange}
+                      selected={
+                        (typeof activityPeriod === 'object'
+                          ? { from: activityPeriod.from, to: activityPeriod.to }
+                          : customRange.from
+                            ? { from: customRange.from, to: customRange.to ?? customRange.from }
+                            : undefined) as DateRange | undefined
+                      }
                       onSelect={(range) => {
                         if (range?.from) {
                           setCustomRange(range);
@@ -451,8 +609,13 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
           accentColor="indigo"
           className="min-w-0"
         >
+<<<<<<< HEAD
           <Card className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
             <p className="mb-3 text-[10px] text-slate-500">
+=======
+          <div className={cn(registryFeedLayout.panelCardSoft, 'p-4')}>
+            <p className="text-text-secondary mb-3 text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
               Выберите роль для просмотра сводки результатов бренда с её позиции:
             </p>
             <div className="flex flex-wrap gap-2">
@@ -464,14 +627,18 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                   key={role.id}
                   variant="outline"
                   size="sm"
+<<<<<<< HEAD
                   className="h-8 gap-1.5 border-slate-200 px-3 text-[9px] font-bold uppercase hover:border-indigo-200 hover:bg-indigo-50/50"
+=======
+                  className="border-border-default hover:border-accent-primary/30 hover:bg-accent-primary/10 h-8 gap-1.5 px-3 text-[9px] font-bold uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                   onClick={() => setActiveReportRole(role.id)}
                 >
                   <UserCircle className="h-3 w-3" /> {role.label}
                 </Button>
               ))}
             </div>
-          </Card>
+          </div>
           <CeoReportSheet
             open={!!activeReportRole}
             onOpenChange={(open) => !open && setActiveReportRole(null)}
@@ -488,14 +655,22 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
         className="min-w-0 overflow-hidden"
         history={globalHistory}
       >
+<<<<<<< HEAD
         <Card className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm md:p-5">
+=======
+        <div className={cn(registryFeedLayout.panelCardSoft, 'p-4 md:p-5')}>
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="flex h-[200px] flex-nowrap gap-3 overflow-x-auto pb-1 pt-1">
             {healthLoading ? (
               <>
                 {[1, 2, 3, 4].map((i) => (
                   <div
                     key={i}
+<<<<<<< HEAD
                     className="h-[200px] w-[240px] min-w-[240px] shrink-0 animate-pulse rounded-xl border border-slate-100 bg-slate-50"
+=======
+                    className="border-border-subtle bg-bg-surface2 h-[200px] w-[240px] min-w-[240px] shrink-0 animate-pulse rounded-xl border"
+>>>>>>> recover/cabinet-wip-from-stash
                     aria-hidden
                   />
                 ))}
@@ -546,7 +721,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                     <PopoverTrigger asChild>
                                       <button
                                         type="button"
+<<<<<<< HEAD
                                         className="rounded p-0.5 text-slate-400 hover:bg-amber-100 hover:text-amber-600"
+=======
+                                        className="text-text-muted rounded p-0.5 hover:bg-amber-100 hover:text-amber-600"
+>>>>>>> recover/cabinet-wip-from-stash
                                         aria-label="Описание блока"
                                       >
                                         <HelpCircle className="h-3.5 w-3.5" />
@@ -556,7 +735,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                       align="end"
                                       className="w-72 rounded-xl p-3 text-left"
                                     >
+<<<<<<< HEAD
                                       <p className="text-[10px] leading-relaxed text-slate-600">
+=======
+                                      <p className="text-text-secondary text-[10px] leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                                         {meta.description}
                                       </p>
                                     </PopoverContent>
@@ -568,7 +751,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                   (c: { id: string; name: string; daysLeft: number }) => (
                                     <li
                                       key={c.id}
+<<<<<<< HEAD
                                       className="flex items-center justify-between gap-2 text-[10px] text-slate-700"
+=======
+                                      className="text-text-primary flex items-center justify-between gap-2 text-[10px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                     >
                                       <span className="truncate">{c.name}</span>
                                       <span className="shrink-0 font-bold text-amber-600">
@@ -603,7 +790,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             <h4 className="mb-2 text-[10px] font-black uppercase text-amber-800">
                               {meta.title}
                             </h4>
+<<<<<<< HEAD
                             <p className="mb-3 text-[10px] leading-relaxed text-slate-600">
+=======
+                            <p className="text-text-secondary mb-3 text-[10px] leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                               {meta.description}
                             </p>
                             <ul className="mb-3 space-y-1.5">
@@ -611,7 +802,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                 (c: { id: string; name: string; daysLeft: number }) => (
                                   <li
                                     key={c.id}
+<<<<<<< HEAD
                                     className="flex items-center justify-between gap-2 text-[10px] text-slate-700"
+=======
+                                    className="text-text-primary flex items-center justify-between gap-2 text-[10px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                   >
                                     <span className="truncate">{c.name}</span>
                                     <span className="shrink-0 font-bold text-amber-600">
@@ -680,7 +875,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                     <PopoverTrigger asChild>
                                       <button
                                         type="button"
+<<<<<<< HEAD
                                         className="rounded p-0.5 text-slate-400 hover:bg-rose-100 hover:text-rose-600"
+=======
+                                        className="text-text-muted rounded p-0.5 hover:bg-rose-100 hover:text-rose-600"
+>>>>>>> recover/cabinet-wip-from-stash
                                         aria-label="Описание блока"
                                       >
                                         <HelpCircle className="h-3.5 w-3.5" />
@@ -690,7 +889,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                       align="end"
                                       className="w-72 rounded-xl p-3 text-left"
                                     >
+<<<<<<< HEAD
                                       <p className="text-[10px] leading-relaxed text-slate-600">
+=======
+                                      <p className="text-text-secondary text-[10px] leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                                         {meta.description}
                                       </p>
                                     </PopoverContent>
@@ -702,7 +905,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                   (p: { id: string; name: string; detail: string }) => (
                                     <li
                                       key={p.id}
+<<<<<<< HEAD
                                       className="flex items-center justify-between gap-2 text-[10px] text-slate-700"
+=======
+                                      className="text-text-primary flex items-center justify-between gap-2 text-[10px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                     >
                                       <span className="truncate" title={p.detail}>
                                         {p.name} — {p.detail}
@@ -736,7 +943,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             <h4 className="mb-2 text-[10px] font-black uppercase text-rose-800">
                               {meta.title}
                             </h4>
+<<<<<<< HEAD
                             <p className="mb-3 text-[10px] leading-relaxed text-slate-600">
+=======
+                            <p className="text-text-secondary mb-3 text-[10px] leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                               {meta.description}
                             </p>
                             <ul className="mb-3 space-y-1.5">
@@ -744,7 +955,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                 (p: { id: string; name: string; detail: string }) => (
                                   <li
                                     key={p.id}
+<<<<<<< HEAD
                                     className="flex items-center justify-between gap-2 text-[10px] text-slate-700"
+=======
+                                    className="text-text-primary flex items-center justify-between gap-2 text-[10px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                   >
                                     <span className="truncate" title={p.detail}>
                                       {p.name} — {p.detail}
@@ -818,7 +1033,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                     )}
                                   />
                                 </div>
+<<<<<<< HEAD
                                 <h4 className="truncate text-[9px] font-black uppercase text-slate-800">
+=======
+                                <h4 className="text-text-primary truncate text-[9px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                                   {getBlockLabel?.('systems') ?? meta.title}
                                 </h4>
                               </div>
@@ -827,7 +1046,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                   <PopoverTrigger asChild>
                                     <button
                                       type="button"
+<<<<<<< HEAD
                                       className="rounded p-0.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+=======
+                                      className="text-text-muted hover:text-text-secondary hover:bg-bg-surface2 rounded p-0.5"
+>>>>>>> recover/cabinet-wip-from-stash
                                       aria-label="Описание блока"
                                     >
                                       <HelpCircle className="h-3.5 w-3.5" />
@@ -837,7 +1060,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                     align="end"
                                     className="w-72 rounded-xl p-3 text-left"
                                   >
+<<<<<<< HEAD
                                     <p className="text-[10px] leading-relaxed text-slate-600">
+=======
+                                    <p className="text-text-secondary text-[10px] leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                                       {meta.description}
                                     </p>
                                   </PopoverContent>
@@ -848,7 +1075,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                               {ok ? (
                                 <p className="text-[10px] font-medium text-emerald-700">В норме</p>
                               ) : (
+<<<<<<< HEAD
                                 <ul className="space-y-1 text-[10px] text-slate-700">
+=======
+                                <ul className="text-text-primary space-y-1 text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                                   {alerts.integrationIssues.map((issue: string, i: number) => (
                                     <li key={i}>{issue}</li>
                                   ))}
@@ -858,7 +1089,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             <div className="mt-auto flex justify-start gap-2">
                               <Link
                                 href={meta.detailHref}
+<<<<<<< HEAD
                                 className="inline-flex items-center gap-0.5 text-[9px] font-semibold text-indigo-600 hover:underline"
+=======
+                                className="text-accent-primary inline-flex items-center gap-0.5 text-[9px] font-semibold hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
                                 onClick={(e) => e.stopPropagation()}
                               >
                                 Детально <ArrowRight className="h-3 w-3" />
@@ -870,16 +1105,27 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                           align="start"
                           className="max-h-[80vh] w-[320px] overflow-y-auto rounded-xl p-4"
                         >
+<<<<<<< HEAD
                           <h4 className="mb-2 text-[10px] font-black uppercase text-slate-800">
                             {meta.title}
                           </h4>
                           <p className="mb-3 text-[10px] leading-relaxed text-slate-600">
+=======
+                          <h4 className="text-text-primary mb-2 text-[10px] font-black uppercase">
+                            {meta.title}
+                          </h4>
+                          <p className="text-text-secondary mb-3 text-[10px] leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                             {meta.description}
                           </p>
                           {ok ? (
                             <p className="mb-3 text-[10px] font-medium text-emerald-700">В норме</p>
                           ) : (
+<<<<<<< HEAD
                             <ul className="mb-3 space-y-1 text-[10px] text-slate-700">
+=======
+                            <ul className="text-text-primary mb-3 space-y-1 text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                               {alerts.integrationIssues.map((issue: string, i: number) => (
                                 <li key={i}>{issue}</li>
                               ))}
@@ -916,7 +1162,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             <div
                               role="button"
                               tabIndex={0}
+<<<<<<< HEAD
                               className="flex h-full cursor-pointer flex-col rounded-xl border border-violet-200 bg-violet-50/50 p-3 outline-none transition-colors hover:bg-violet-50/80 focus-visible:ring-2 focus-visible:ring-violet-300"
+=======
+                              className="border-accent-primary/25 bg-accent-primary/10 hover:bg-accent-primary/10 focus-visible:ring-accent-primary/40 flex h-full cursor-pointer flex-col rounded-xl border p-3 outline-none transition-colors focus-visible:ring-2"
+>>>>>>> recover/cabinet-wip-from-stash
                               onKeyDown={(e) => {
                                 if (e.key === 'Enter' || e.key === ' ') {
                                   e.preventDefault();
@@ -926,10 +1176,17 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             >
                               <div className="mb-2 flex shrink-0 items-center justify-between gap-2">
                                 <div className="flex min-w-0 items-center gap-2">
+<<<<<<< HEAD
                                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-violet-100">
                                     <CheckSquare className="h-4 w-4 text-violet-600" />
                                   </div>
                                   <h4 className="truncate text-[9px] font-black uppercase text-violet-800">
+=======
+                                  <div className="bg-accent-primary/15 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg">
+                                    <CheckSquare className="text-accent-primary h-4 w-4" />
+                                  </div>
+                                  <h4 className="text-accent-primary truncate text-[9px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                                     {getBlockLabel?.('tasks') ?? meta.title}
                                   </h4>
                                 </div>
@@ -938,7 +1195,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                     <PopoverTrigger asChild>
                                       <button
                                         type="button"
+<<<<<<< HEAD
                                         className="rounded p-0.5 text-slate-400 hover:bg-violet-100 hover:text-violet-600"
+=======
+                                        className="text-text-muted hover:text-accent-primary hover:bg-accent-primary/15 rounded p-0.5"
+>>>>>>> recover/cabinet-wip-from-stash
                                         aria-label="Описание блока"
                                       >
                                         <HelpCircle className="h-3.5 w-3.5" />
@@ -948,7 +1209,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                       align="end"
                                       className="w-72 rounded-xl p-3 text-left"
                                     >
+<<<<<<< HEAD
                                       <p className="text-[10px] leading-relaxed text-slate-600">
+=======
+                                      <p className="text-text-secondary text-[10px] leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                                         {meta.description}
                                       </p>
                                     </PopoverContent>
@@ -960,14 +1225,22 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                   (t: { id: string; title: string; priority: string }) => (
                                     <li
                                       key={t.id}
+<<<<<<< HEAD
                                       className="flex items-center justify-between gap-2 text-[10px] text-slate-700"
+=======
+                                      className="text-text-primary flex items-center justify-between gap-2 text-[10px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                     >
                                       <span className="truncate" title={t.priority}>
                                         {t.title}
                                       </span>
                                       <Link
                                         href={meta.detailHref}
+<<<<<<< HEAD
                                         className="shrink-0 text-[8px] font-semibold text-violet-700 hover:underline"
+=======
+                                        className="text-accent-primary shrink-0 text-[8px] font-semibold hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
                                         onClick={(e) => e.stopPropagation()}
                                       >
                                         Устранить
@@ -979,7 +1252,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                               <div className="mt-auto flex justify-start gap-2">
                                 <Link
                                   href={meta.detailHref}
+<<<<<<< HEAD
                                   className="inline-flex items-center gap-0.5 text-[9px] font-semibold text-violet-700 hover:underline"
+=======
+                                  className="text-accent-primary inline-flex items-center gap-0.5 text-[9px] font-semibold hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
                                   onClick={(e) => e.stopPropagation()}
                                 >
                                   Детально <ArrowRight className="h-3 w-3" />
@@ -991,10 +1268,17 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             align="start"
                             className="max-h-[80vh] w-[320px] overflow-y-auto rounded-xl p-4"
                           >
+<<<<<<< HEAD
                             <h4 className="mb-2 text-[10px] font-black uppercase text-violet-800">
                               {meta.title}
                             </h4>
                             <p className="mb-3 text-[10px] leading-relaxed text-slate-600">
+=======
+                            <h4 className="text-accent-primary mb-2 text-[10px] font-black uppercase">
+                              {meta.title}
+                            </h4>
+                            <p className="text-text-secondary mb-3 text-[10px] leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                               {meta.description}
                             </p>
                             <ul className="mb-3 space-y-1.5">
@@ -1002,14 +1286,22 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                 (t: { id: string; title: string; priority: string }) => (
                                   <li
                                     key={t.id}
+<<<<<<< HEAD
                                     className="flex items-center justify-between gap-2 text-[10px] text-slate-700"
+=======
+                                    className="text-text-primary flex items-center justify-between gap-2 text-[10px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                   >
                                     <span className="truncate" title={t.priority}>
                                       {t.title}
                                     </span>
                                     <Link
                                       href={meta.detailHref}
+<<<<<<< HEAD
                                       className="shrink-0 text-[8px] font-semibold text-violet-700 hover:underline"
+=======
+                                      className="text-accent-primary shrink-0 text-[8px] font-semibold hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
                                     >
                                       Устранить
                                     </Link>
@@ -1040,7 +1332,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
               </>
             )}
           </div>
-        </Card>
+        </div>
       </SectionBlock>
 
       {/* Индекс здоровья + Недавняя активность */}
@@ -1052,11 +1344,26 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
           className="flex min-w-0 flex-col overflow-hidden"
           history={globalHistory}
         >
+<<<<<<< HEAD
           <Card className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white p-4 shadow-sm md:p-5">
             {healthError ? (
               <div className="flex flex-col items-center justify-center gap-3 px-4 py-6 text-center">
                 <p className="text-[10px] font-bold text-slate-600">Не удалось загрузить данные</p>
                 <p className="text-[9px] text-slate-500">{healthError.message}</p>
+=======
+          <div
+            className={cn(
+              registryFeedLayout.panelCardSoft,
+              'relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden p-4 md:p-5'
+            )}
+          >
+            {healthError ? (
+              <div className="flex flex-col items-center justify-center gap-3 px-4 py-6 text-center">
+                <p className="text-text-secondary text-[10px] font-bold">
+                  Не удалось загрузить данные
+                </p>
+                <p className="text-text-secondary text-[9px]">{healthError.message}</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 <Button
                   variant="outline"
                   size="sm"
@@ -1069,24 +1376,36 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
               </div>
             ) : healthLoading ? (
               <div className="flex animate-pulse flex-col gap-4">
+<<<<<<< HEAD
                 <div className="absolute right-4 top-4 h-12 w-12 rounded-full bg-slate-100" />
+=======
+                <div className="bg-bg-surface2 absolute right-4 top-4 h-12 w-12 rounded-full" />
+>>>>>>> recover/cabinet-wip-from-stash
                 <div className="mt-8 flex flex-col gap-3">
                   {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                    <div key={i} className="h-14 rounded-lg bg-slate-50" />
+                    <div key={i} className="bg-bg-surface2 h-14 rounded-lg" />
                   ))}
                 </div>
               </div>
             ) : (
               <>
                 <div className="flex items-start justify-between gap-4">
+<<<<<<< HEAD
                   <p className="text-[10px] font-bold uppercase text-slate-400">
+=======
+                  <p className="text-text-muted text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     Проверка {lastCheck}
                   </p>
                   <div className="flex shrink-0 items-center gap-1">
                     <Button
                       variant="ghost"
                       size="icon"
+<<<<<<< HEAD
                       className="h-8 w-8 rounded-lg text-slate-400 hover:text-indigo-600"
+=======
+                      className="text-text-muted hover:text-accent-primary h-8 w-8 rounded-lg"
+>>>>>>> recover/cabinet-wip-from-stash
                       onClick={() => refetchHealth()}
                       aria-label="Обновить индекс здоровья"
                       title="Обновить"
@@ -1096,6 +1415,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                     </Button>
                     <div className="relative flex h-12 w-12 items-center justify-center">
                       <svg className="absolute inset-0 h-12 w-12 -rotate-90" viewBox="0 0 48 48">
+<<<<<<< HEAD
                         <circle
                           cx="24"
                           cy="24"
@@ -1104,19 +1424,33 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                           strokeWidth="4"
                           className="stroke-slate-200"
                         />
+=======
+>>>>>>> recover/cabinet-wip-from-stash
                         <circle
                           cx="24"
                           cy="24"
                           r="20"
                           fill="none"
                           strokeWidth="4"
-                          className="stroke-indigo-600"
+                          className="stroke-border-subtle"
+                        />
+                        <circle
+                          cx="24"
+                          cy="24"
+                          r="20"
+                          fill="none"
+                          strokeWidth="4"
+                          className="stroke-accent-primary"
                           strokeDasharray={2 * Math.PI * 20}
                           strokeDashoffset={2 * Math.PI * 20 * (1 - (overallHealth ?? 0) / 100)}
                           strokeLinecap="round"
                         />
                       </svg>
+<<<<<<< HEAD
                       <span className="relative text-lg font-black text-indigo-600">
+=======
+                      <span className="text-accent-primary relative text-lg font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                         {overallHealth}%
                       </span>
                     </div>
@@ -1154,19 +1488,31 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             onClick={() =>
                               setOpenHealthDetailFor(openHealthDetailFor === i ? null : i)
                             }
+<<<<<<< HEAD
                             className="flex w-full min-w-0 items-start gap-2 rounded-lg p-2 text-left transition-colors hover:bg-slate-50/80"
+=======
+                            className="hover:bg-bg-surface2/80 flex w-full min-w-0 items-start gap-2 rounded-lg p-2 text-left transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                           >
                             <div
                               className={cn(
                                 'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white',
+<<<<<<< HEAD
                                 m?.color ?? 'bg-indigo-500'
+=======
+                                m?.color ?? 'bg-accent-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                               )}
                             >
                               <Icon className="h-4 w-4" />
                             </div>
                             <div className="flex min-w-0 flex-1 flex-col gap-1">
                               <div className="flex items-center justify-between gap-2">
+<<<<<<< HEAD
                                 <span className="truncate text-[10px] font-bold text-slate-700 hover:text-indigo-600">
+=======
+                                <span className="text-text-primary hover:text-accent-primary truncate text-[10px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                                   {m?.label ?? ''}
                                 </span>
                                 <span
@@ -1184,12 +1530,21 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                               </div>
                               <Progress
                                 value={m?.score ?? 0}
+<<<<<<< HEAD
                                 className="h-1.5 bg-slate-100"
                                 indicatorClassName={m?.color ?? 'bg-indigo-500'}
                               />
                               {m?.status !== 'ok' && m?.details?.tips && (
                                 <p
                                   className="line-clamp-1 text-[8px] text-slate-500"
+=======
+                                className="bg-bg-surface2 h-1.5"
+                                indicatorClassName={m?.color ?? 'bg-accent-primary'}
+                              />
+                              {m?.status !== 'ok' && m?.details?.tips && (
+                                <p
+                                  className="text-text-secondary line-clamp-1 text-[8px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                   title={m.details.tips}
                                 >
                                   {m.details.tips}
@@ -1210,34 +1565,53 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                               <div
                                 className={cn(
                                   'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white',
+<<<<<<< HEAD
                                   m?.color ?? 'bg-indigo-500'
+=======
+                                  m?.color ?? 'bg-accent-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                                 )}
                               >
                                 <Icon className="h-4 w-4" />
                               </div>
                               <div>
+<<<<<<< HEAD
                                 <h4 className="text-[11px] font-bold text-slate-900">
                                   {m?.label ?? ''}
                                 </h4>
                                 <p className="text-[9px] text-slate-500">
+=======
+                                <h4 className="text-text-primary text-[11px] font-bold">
+                                  {m?.label ?? ''}
+                                </h4>
+                                <p className="text-text-secondary text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                                   {m?.score != null ? `${m.score}%` : '—'} • Проверка{' '}
                                   {details?.lastCheck ?? ''}
                                 </p>
                               </div>
                             </div>
-                            {m?.desc && <p className="text-[10px] text-slate-600">{m.desc}</p>}
+                            {m?.desc && <p className="text-text-secondary text-[10px]">{m.desc}</p>}
                             {(checklist.length > 0 || missing.length > 0) && (
                               <div className="space-y-2">
                                 {checklist.length > 0 && (
                                   <div>
+<<<<<<< HEAD
                                     <p className="mb-1 text-[9px] font-bold uppercase text-slate-400">
+=======
+                                    <p className="text-text-muted mb-1 text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                                       Заполнено
                                     </p>
                                     <ul className="space-y-0.5">
                                       {checklist.map((item: string, j: number) => (
                                         <li
                                           key={j}
+<<<<<<< HEAD
                                           className="flex items-center gap-1.5 text-[10px] text-slate-600"
+=======
+                                          className="text-text-secondary flex items-center gap-1.5 text-[10px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                         >
                                           <span className="text-emerald-500">✓</span> {item}
                                         </li>
@@ -1247,14 +1621,22 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                 )}
                                 {missing.length > 0 && (
                                   <div>
+<<<<<<< HEAD
                                     <p className="mb-1 text-[9px] font-bold uppercase text-slate-400">
+=======
+                                    <p className="text-text-muted mb-1 text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                                       Ещё не заполнено
                                     </p>
                                     <ul className="space-y-0.5">
                                       {missing.map((item: string, j: number) => (
                                         <li
                                           key={j}
+<<<<<<< HEAD
                                           className="flex items-center gap-1.5 text-[10px] text-slate-600"
+=======
+                                          className="text-text-secondary flex items-center gap-1.5 text-[10px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                         >
                                           <span className="text-amber-500">○</span> {item}
                                         </li>
@@ -1271,7 +1653,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             )}
                             <Link
                               href={m?.href ?? '#'}
+<<<<<<< HEAD
                               className="inline-flex items-center gap-1 text-[10px] font-semibold text-indigo-600 hover:text-indigo-700"
+=======
+                              className="text-accent-primary hover:text-accent-primary inline-flex items-center gap-1 text-[10px] font-semibold"
+>>>>>>> recover/cabinet-wip-from-stash
                               onClick={() => setOpenHealthDetailFor(null)}
                             >
                               Открыть раздел
@@ -1285,7 +1671,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                 </div>
               </>
             )}
-          </Card>
+          </div>
         </SectionBlock>
 
         <SectionBlock
@@ -1295,6 +1681,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
           className="flex min-w-0 flex-col overflow-hidden"
           history={globalHistory}
         >
+<<<<<<< HEAD
           <Card className="flex min-h-0 min-h-[320px] min-w-0 flex-1 flex-col rounded-xl border border-slate-200 bg-white p-4 shadow-sm md:p-5">
             {/* Высота подобрана так, чтобы после отступа (mt-4) первая строка активности была на уровне «Полнота профиля» */}
             <div className="flex min-h-[3.25rem] shrink-0 flex-col justify-end">
@@ -1307,6 +1694,23 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                   const participantStyle: Record<string, { bg: string; text: string }> = {
                     all: { bg: 'bg-slate-100', text: 'text-slate-500' },
                     anna: { bg: 'bg-indigo-100', text: 'text-indigo-600' },
+=======
+          <div
+            className={cn(
+              registryFeedLayout.panelCardSoft,
+              'flex min-h-[320px] min-w-0 flex-1 flex-col p-4 md:p-5'
+            )}
+          >
+            {/* Высота подобрана так, чтобы после отступа (mt-4) первая строка активности была на уровне «Полнота профиля» */}
+            <div className="flex min-h-[3.25rem] shrink-0 flex-col justify-end">
+              {/* Период задаётся только в Organization Hub выше (S3 — один контрол) */}
+              <div className="bg-bg-surface2 border-border-default mb-0 flex w-fit items-center gap-1 rounded-[4px] border p-0.5">
+                {ACTIVITY_PARTICIPANTS.map((p) => {
+                  const Icon = p.Icon ?? Users;
+                  const participantStyle: Record<string, { bg: string; text: string }> = {
+                    all: { bg: 'bg-bg-surface2', text: 'text-text-secondary' },
+                    anna: { bg: 'bg-accent-primary/15', text: 'text-accent-primary' },
+>>>>>>> recover/cabinet-wip-from-stash
                     igor: { bg: 'bg-emerald-100', text: 'text-emerald-600' },
                     maria: { bg: 'bg-amber-100', text: 'text-amber-600' },
                     petr: { bg: 'bg-rose-100', text: 'text-rose-600' },
@@ -1324,7 +1728,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                           className={cn(
                             'flex h-7 w-7 items-center justify-center rounded-[4px] transition-all',
                             activityParticipant === p.id
+<<<<<<< HEAD
                               ? cn('bg-white shadow-sm ring-1 ring-slate-200', style.text)
+=======
+                              ? cn('ring-border-default bg-white shadow-sm ring-1', style.text)
+>>>>>>> recover/cabinet-wip-from-stash
                               : cn(style.bg, style.text, 'hover:opacity-90')
                           )}
                         >
@@ -1346,8 +1754,8 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                   const participant = ACTIVITY_PARTICIPANTS.find((p) => p.id === act.participantId);
                   const ActIcon = participant?.Icon ?? act.icon;
                   const participantStyle: Record<string, { bg: string; text: string }> = {
-                    all: { bg: 'bg-slate-100', text: 'text-slate-500' },
-                    anna: { bg: 'bg-indigo-100', text: 'text-indigo-600' },
+                    all: { bg: 'bg-bg-surface2', text: 'text-text-secondary' },
+                    anna: { bg: 'bg-accent-primary/15', text: 'text-accent-primary' },
                     igor: { bg: 'bg-emerald-100', text: 'text-emerald-600' },
                     maria: { bg: 'bg-amber-100', text: 'text-amber-600' },
                     petr: { bg: 'bg-rose-100', text: 'text-rose-600' },
@@ -1359,10 +1767,17 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                     <div
                       key={`${act.user}-${act.dateStr}-${i}`}
                       className={cn(
+<<<<<<< HEAD
                         'flex shrink-0 items-center gap-2 rounded-lg border px-2 py-1.5 text-[9px] text-slate-600 transition-colors',
                         blocked
                           ? 'border-rose-100 bg-rose-50/30'
                           : 'border-slate-100 hover:bg-slate-50/50'
+=======
+                        'text-text-secondary flex shrink-0 items-center gap-2 rounded-lg border px-2 py-1.5 text-[9px] transition-colors',
+                        blocked
+                          ? 'border-rose-100 bg-rose-50/30'
+                          : 'border-border-subtle hover:bg-bg-surface2/80'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       <div
@@ -1375,12 +1790,20 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                         <ActIcon className="h-4 w-4" />
                       </div>
                       <div className="min-w-0 flex-1">
+<<<<<<< HEAD
                         <span className="block truncate font-semibold text-slate-900">
+=======
+                        <span className="text-text-primary block truncate font-semibold">
+>>>>>>> recover/cabinet-wip-from-stash
                           {act.user}
                         </span>
                         <span className="block truncate">{act.action}</span>
                       </div>
+<<<<<<< HEAD
                       <span className="shrink-0 text-[8px] font-bold uppercase text-slate-400">
+=======
+                      <span className="text-text-muted shrink-0 text-[8px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                         {act.time}
                       </span>
                       <div className="flex shrink-0 flex-wrap items-center justify-end gap-0.5">
@@ -1393,7 +1816,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                   prev.filter((b) => activityKey(b) !== activityKey(act))
                                 )
                               }
+<<<<<<< HEAD
                               className="inline-flex items-center gap-1 rounded border border-slate-200 px-2 py-1 text-[9px] font-semibold text-slate-600 hover:bg-slate-100"
+=======
+                              className="text-text-secondary hover:bg-bg-surface2 border-border-default inline-flex items-center gap-1 rounded border px-2 py-1 text-[9px] font-semibold"
+>>>>>>> recover/cabinet-wip-from-stash
                               aria-label="Разблокировать"
                             >
                               <LockOpen className="h-3 w-3" />
@@ -1401,7 +1828,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             </button>
                             <Link
                               href={`${getCorrectionHref(act)}?returnResolved=${encodeURIComponent(activityKey(act))}`}
+<<<<<<< HEAD
                               className="inline-flex items-center gap-1 rounded border border-indigo-200 px-2 py-1 text-[9px] font-semibold text-indigo-600 hover:bg-indigo-50"
+=======
+                              className="text-accent-primary hover:bg-accent-primary/10 border-accent-primary/30 inline-flex items-center gap-1 rounded border px-2 py-1 text-[9px] font-semibold"
+>>>>>>> recover/cabinet-wip-from-stash
                             >
                               <Pencil className="h-3 w-3" />
                               Изменить
@@ -1420,7 +1851,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                     e.preventDefault();
                                     setOpenCommentFor(openCommentFor === i ? null : i);
                                   }}
+<<<<<<< HEAD
                                   className="rounded p-1.5 text-slate-400 hover:bg-indigo-50 hover:text-indigo-600"
+=======
+                                  className="text-text-muted hover:text-accent-primary hover:bg-accent-primary/10 rounded p-1.5"
+>>>>>>> recover/cabinet-wip-from-stash
                                   aria-label="Написать комментарий"
                                 >
                                   <MessageSquare className="h-3.5 w-3.5" />
@@ -1431,14 +1866,22 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                 className="z-[200] w-64 rounded-xl p-3"
                                 onClick={(e) => e.stopPropagation()}
                               >
+<<<<<<< HEAD
                                 <p className="mb-2 text-[10px] font-bold text-slate-700">
+=======
+                                <p className="text-text-primary mb-2 text-[10px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                                   Комментарий
                                 </p>
                                 <textarea
                                   value={openCommentFor === i ? commentText : ''}
                                   onChange={(e) => setCommentText(e.target.value)}
                                   placeholder="Введите комментарий..."
+<<<<<<< HEAD
                                   className="min-h-[60px] w-full resize-none rounded-lg border border-slate-200 px-2 py-1.5 text-[10px]"
+=======
+                                  className="border-border-default min-h-[60px] w-full resize-none rounded-lg border px-2 py-1.5 text-[10px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                   rows={3}
                                 />
                                 <Button
@@ -1461,7 +1904,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                     e.preventDefault();
                                     setOpenBlockFor(openBlockFor === i ? null : i);
                                   }}
+<<<<<<< HEAD
                                   className="rounded p-1.5 text-slate-400 hover:bg-rose-50 hover:text-rose-600"
+=======
+                                  className="text-text-muted rounded p-1.5 hover:bg-rose-50 hover:text-rose-600"
+>>>>>>> recover/cabinet-wip-from-stash
                                   aria-label="Заблокировать действие"
                                 >
                                   <Lock className="h-3.5 w-3.5" />
@@ -1472,7 +1919,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                 className="z-[200] w-56 rounded-xl p-3"
                                 onClick={(e) => e.stopPropagation()}
                               >
+<<<<<<< HEAD
                                 <p className="mb-2 text-[10px] font-bold text-slate-700">
+=======
+                                <p className="text-text-primary mb-2 text-[10px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                                   Заблокировать действие?
                                 </p>
                                 <Button
@@ -1500,10 +1951,19 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                   );
                 })
               ) : (
+<<<<<<< HEAD
                 <p className="py-4 text-[9px] text-slate-400">Нет активности за выбранный период</p>
               )}
             </div>
             <div className="mt-auto flex shrink-0 justify-center border-t border-slate-200 pt-3">
+=======
+                <p className="text-text-muted py-4 text-[9px]">
+                  Нет активности за выбранный период
+                </p>
+              )}
+            </div>
+            <div className="border-border-default mt-auto flex shrink-0 justify-center border-t pt-3">
+>>>>>>> recover/cabinet-wip-from-stash
               <Button
                 asChild
                 variant="cta"
@@ -1511,7 +1971,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                 className="button-glimmer button-professional w-1/2"
               >
                 <Link
+<<<<<<< HEAD
                   href="/brand/team"
+=======
+                  href={ROUTES.brand.team}
+>>>>>>> recover/cabinet-wip-from-stash
                   className="inline-flex items-center justify-center gap-1.5"
                 >
                   Все действия
@@ -1519,7 +1983,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                 </Link>
               </Button>
             </div>
-          </Card>
+          </div>
         </SectionBlock>
       </div>
 
@@ -1531,13 +1995,18 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
         history={globalHistory}
       >
         {(() => {
-          const growthPeriodKey = modulesPeriodKey;
+          const growthPeriodKey: '7d' | '30d' = modulesPeriodKey;
           const growthData = PARTNER_GROWTH_BY_PERIOD[growthPeriodKey];
           const growthDetail = growthData.items;
           return (
             <TooltipProvider delayDuration={200}>
+<<<<<<< HEAD
               <Card className="rounded-xl border border-slate-200 bg-white p-4 md:p-5">
                 <p className="mb-2 text-[9px] font-semibold uppercase tracking-wide text-slate-400">
+=======
+              <div className={cn(registryFeedLayout.panelCardSoft, 'p-4 md:p-5')}>
+                <p className="text-text-muted mb-2 text-[9px] font-semibold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                   Партнёры по типам • за {growthPeriodKey === '7d' ? '7 дн.' : '30 дн.'}
                 </p>
                 <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
@@ -1550,7 +2019,13 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                     const progressPct = hasProgress
                       ? Math.round((item.progressValue! / item.progressMax!) * 100)
                       : 0;
+<<<<<<< HEAD
                     const periodGrowth = growthDetail.find((d) => d.label === item.label);
+=======
+                    const periodGrowth = growthDetail.find(
+                      (d: { label: string; value: string; href: string }) => d.label === item.label
+                    );
+>>>>>>> recover/cabinet-wip-from-stash
                     const trendStr = periodGrowth?.value ?? item.trend ?? '';
                     const trendNum = trendStr ? parseInt(trendStr.replace(/\D/g, ''), 10) : 0;
                     const currentNum = item.value.includes('/')
@@ -1571,7 +2046,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                           'relative flex min-h-[280px] w-[200px] shrink-0 flex-col rounded-xl border p-3 transition-colors',
                           (item.alertCount ?? 0) > 0
                             ? 'border-rose-200 bg-rose-50/50'
+<<<<<<< HEAD
                             : 'border-slate-200 bg-white hover:border-slate-300'
+=======
+                            : 'border-border-default hover:border-border-default bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
                         )}
                       >
                         {changePct != null && (
@@ -1601,10 +2080,17 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             className="group/link block min-w-0 flex-1"
                             title={item.description}
                           >
+<<<<<<< HEAD
                             <p className="text-lg font-bold tabular-nums text-slate-900 group-hover/link:text-indigo-600">
                               {item.value}
                             </p>
                             <p className="text-[9px] font-semibold uppercase text-slate-600">
+=======
+                            <p className="text-text-primary group-hover/link:text-accent-primary text-lg font-bold tabular-nums">
+                              {item.value}
+                            </p>
+                            <p className="text-text-secondary text-[9px] font-semibold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                               {item.label}
                             </p>
                           </Link>
@@ -1628,7 +2114,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                 <PopoverTrigger asChild>
                                   <button
                                     type="button"
+<<<<<<< HEAD
                                     className="shrink-0 rounded p-0.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+=======
+                                    className="text-text-muted hover:text-text-secondary hover:bg-bg-surface2 shrink-0 rounded p-0.5"
+>>>>>>> recover/cabinet-wip-from-stash
                                     aria-label="Подсказка"
                                   >
                                     <HelpCircle className="h-3.5 w-3.5" />
@@ -1641,12 +2131,20 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                   onOpenAutoFocus={(e) => e.preventDefault()}
                                 >
                                   {item.description && (
+<<<<<<< HEAD
                                     <p className="mb-2 text-[10px] leading-relaxed text-slate-600">
+=======
+                                    <p className="text-text-secondary mb-2 text-[10px] leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                                       {item.description}
                                     </p>
                                   )}
                                   {item.tips && item.tips.length > 0 && (
+<<<<<<< HEAD
                                     <ul className="list-inside list-disc space-y-0.5 text-[9px] text-slate-500">
+=======
+                                    <ul className="text-text-secondary list-inside list-disc space-y-0.5 text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                                       {item.tips.map((t, i) => (
                                         <li key={i}>{t}</li>
                                       ))}
@@ -1658,12 +2156,20 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                           </div>
                         </div>
                         {item.roleInChain && (
+<<<<<<< HEAD
                           <p className="mt-0.5 text-[8px] text-slate-400">
+=======
+                          <p className="text-text-muted mt-0.5 text-[8px]">
+>>>>>>> recover/cabinet-wip-from-stash
                             {PARTNER_ROLE_LABELS[item.roleInChain]}
                           </p>
                         )}
                         {item.subline && (
+<<<<<<< HEAD
                           <p className="mt-1 line-clamp-1 text-[9px] text-slate-500">
+=======
+                          <p className="text-text-secondary mt-1 line-clamp-1 text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                             {item.subline}
                           </p>
                         )}
@@ -1674,7 +2180,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                 key={bp.href}
                                 href={bp.href}
                                 onClick={(e) => e.stopPropagation()}
+<<<<<<< HEAD
                                 className="text-[8px] text-indigo-600 hover:underline"
+=======
+                                className="text-accent-primary text-[8px] hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
                               >
                                 {bp.label}
                               </Link>
@@ -1685,12 +2195,20 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                           (item.statusHref2 ? (
                             <Link
                               href={item.statusHref2}
+<<<<<<< HEAD
                               className="mt-1 line-clamp-1 text-[9px] font-medium text-indigo-600 hover:underline"
+=======
+                              className="text-accent-primary mt-1 line-clamp-1 text-[9px] font-medium hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
                             >
                               {item.statusShort2} →
                             </Link>
                           ) : (
+<<<<<<< HEAD
                             <p className="mt-1 line-clamp-1 text-[9px] text-slate-500">
+=======
+                            <p className="text-text-secondary mt-1 line-clamp-1 text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                               {item.statusShort2}
                             </p>
                           ))}
@@ -1699,7 +2217,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             <Link
                               href={item.statusHref}
                               className={cn(
+<<<<<<< HEAD
                                 'line-clamp-1 text-[9px] font-medium text-indigo-600 hover:underline',
+=======
+                                'text-accent-primary line-clamp-1 text-[9px] font-medium hover:underline',
+>>>>>>> recover/cabinet-wip-from-stash
                                 item.statusShort2 ? 'mt-0.5' : 'mt-1'
                               )}
                             >
@@ -1708,7 +2230,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                           ) : (
                             <p
                               className={cn(
+<<<<<<< HEAD
                                 'line-clamp-1 text-[9px] text-slate-500',
+=======
+                                'text-text-secondary line-clamp-1 text-[9px]',
+>>>>>>> recover/cabinet-wip-from-stash
                                 item.statusShort2 ? 'mt-0.5' : 'mt-1'
                               )}
                             >
@@ -1723,7 +2249,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                   key={m.label}
                                   href={m.href}
                                   onClick={(e) => e.stopPropagation()}
+<<<<<<< HEAD
                                   className="flex justify-between text-[9px] text-slate-600 hover:text-indigo-600"
+=======
+                                  className="text-text-secondary hover:text-accent-primary flex justify-between text-[9px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                 >
                                   <span className="truncate">{m.label}</span>
                                   <span className="ml-1 shrink-0 font-semibold tabular-nums">
@@ -1733,7 +2263,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                               ) : (
                                 <div
                                   key={m.label}
+<<<<<<< HEAD
                                   className="flex justify-between text-[9px] text-slate-600"
+=======
+                                  className="text-text-secondary flex justify-between text-[9px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                 >
                                   <span className="truncate">{m.label}</span>
                                   <span className="ml-1 shrink-0 font-semibold tabular-nums">
@@ -1748,18 +2282,32 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                           <div className="mt-2">
                             <Progress
                               value={progressPct}
+<<<<<<< HEAD
                               className="h-1.5 bg-slate-100"
                               indicatorClassName="bg-amber-500"
                             />
                             <p className="mt-0.5 text-[8px] text-slate-400">
+=======
+                              className="bg-bg-surface2 h-1.5"
+                              indicatorClassName="bg-amber-500"
+                            />
+                            <p className="text-text-muted mt-0.5 text-[8px]">
+>>>>>>> recover/cabinet-wip-from-stash
                               активно {item.progressValue}/{item.progressMax}
                             </p>
                           </div>
                         )}
+<<<<<<< HEAD
                         <div className="mt-auto flex items-center justify-between gap-2 border-t border-slate-100 pt-3">
                           <Link
                             href={item.href}
                             className="flex items-center gap-0.5 text-[9px] font-semibold text-indigo-600 hover:text-indigo-700"
+=======
+                        <div className="border-border-subtle mt-auto flex items-center justify-between gap-2 border-t pt-3">
+                          <Link
+                            href={item.href}
+                            className="text-accent-primary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-semibold"
+>>>>>>> recover/cabinet-wip-from-stash
                           >
                             Открыть раздел
                             <ArrowRight className="h-3 w-3" />
@@ -1767,7 +2315,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                           <Link
                             href={item.addHref}
                             onClick={(e) => e.stopPropagation()}
+<<<<<<< HEAD
                             className="flex items-center gap-0.5 text-[9px] font-medium text-slate-500 hover:text-indigo-600"
+=======
+                            className="text-text-secondary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-medium"
+>>>>>>> recover/cabinet-wip-from-stash
                           >
                             <Plus className="h-3 w-3" />
                             {item.addLabel}
@@ -1778,7 +2330,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                   })}
                 </div>
 
+<<<<<<< HEAD
                 <p className="mb-2 mt-6 text-[9px] font-semibold uppercase tracking-wide text-slate-400">
+=======
+                <p className="text-text-muted mb-2 mt-6 text-[9px] font-semibold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                   Связь с процессами • за {growthPeriodKey === '7d' ? '7 дн.' : '30 дн.'}
                 </p>
                 <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
@@ -1789,7 +2345,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                     return (
                       <div
                         key={p.id}
+<<<<<<< HEAD
                         className="relative flex min-h-[280px] w-[200px] shrink-0 flex-col rounded-xl border border-slate-200 bg-white p-3 transition-colors hover:border-slate-300"
+=======
+                        className="border-border-default hover:border-border-default relative flex min-h-[280px] w-[200px] shrink-0 flex-col rounded-xl border bg-white p-3 transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                       >
                         {changePct != null && (
                           <p
@@ -1818,10 +2378,17 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             className="group/link block min-w-0 flex-1"
                             title={p.description}
                           >
+<<<<<<< HEAD
                             <p className="text-lg font-bold tabular-nums text-slate-900 group-hover/link:text-indigo-600">
                               {count}
                             </p>
                             <p className="text-[9px] font-semibold uppercase text-slate-600">
+=======
+                            <p className="text-text-primary group-hover/link:text-accent-primary text-lg font-bold tabular-nums">
+                              {count}
+                            </p>
+                            <p className="text-text-secondary text-[9px] font-semibold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                               {p.label}
                             </p>
                           </Link>
@@ -1830,7 +2397,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                               <PopoverTrigger asChild>
                                 <button
                                   type="button"
+<<<<<<< HEAD
                                   className="shrink-0 rounded p-0.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+=======
+                                  className="text-text-muted hover:text-text-secondary hover:bg-bg-surface2 shrink-0 rounded p-0.5"
+>>>>>>> recover/cabinet-wip-from-stash
                                   aria-label="Подсказка"
                                 >
                                   <HelpCircle className="h-3.5 w-3.5" />
@@ -1842,12 +2413,20 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                 className="z-[200] w-64 rounded-xl p-3 text-left"
                               >
                                 {p.description && (
+<<<<<<< HEAD
                                   <p className="mb-2 text-[10px] leading-relaxed text-slate-600">
+=======
+                                  <p className="text-text-secondary mb-2 text-[10px] leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                                     {p.description}
                                   </p>
                                 )}
                                 {p.tips && p.tips.length > 0 && (
+<<<<<<< HEAD
                                   <ul className="list-inside list-disc space-y-0.5 text-[9px] text-slate-500">
+=======
+                                  <ul className="text-text-secondary list-inside list-disc space-y-0.5 text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                                     {p.tips.map((t, i) => (
                                       <li key={i}>{t}</li>
                                     ))}
@@ -1857,7 +2436,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             </Popover>
                           )}
                         </div>
+<<<<<<< HEAD
                         <p className="mt-1 line-clamp-1 text-[9px] text-slate-500">{p.sub}</p>
+=======
+                        <p className="text-text-secondary mt-1 line-clamp-1 text-[9px]">{p.sub}</p>
+>>>>>>> recover/cabinet-wip-from-stash
                         {p.detailMetrics && p.detailMetrics.length > 0 && (
                           <div className="mt-2 space-y-0.5">
                             {p.detailMetrics.slice(0, 3).map((m) =>
@@ -1866,7 +2449,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                   key={m.label}
                                   href={m.href}
                                   onClick={(e) => e.stopPropagation()}
+<<<<<<< HEAD
                                   className="flex justify-between text-[9px] text-slate-600 hover:text-indigo-600"
+=======
+                                  className="text-text-secondary hover:text-accent-primary flex justify-between text-[9px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                 >
                                   <span className="truncate">{m.label}</span>
                                   <span className="ml-1 shrink-0 font-semibold tabular-nums">
@@ -1876,7 +2463,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                               ) : (
                                 <div
                                   key={m.label}
+<<<<<<< HEAD
                                   className="flex justify-between text-[9px] text-slate-600"
+=======
+                                  className="text-text-secondary flex justify-between text-[9px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                 >
                                   <span className="truncate">{m.label}</span>
                                   <span className="ml-1 shrink-0 font-semibold tabular-nums">
@@ -1887,10 +2478,17 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             )}
                           </div>
                         )}
+<<<<<<< HEAD
                         <div className="mt-auto flex items-center justify-between gap-2 border-t border-slate-100 pt-3">
                           <Link
                             href={p.href}
                             className="flex items-center gap-0.5 text-[9px] font-semibold text-indigo-600 hover:text-indigo-700"
+=======
+                        <div className="border-border-subtle mt-auto flex items-center justify-between gap-2 border-t pt-3">
+                          <Link
+                            href={p.href}
+                            className="text-accent-primary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-semibold"
+>>>>>>> recover/cabinet-wip-from-stash
                           >
                             Открыть раздел
                             <ArrowRight className="h-3 w-3" />
@@ -1899,7 +2497,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             <Link
                               href={p.addHref}
                               onClick={(e) => e.stopPropagation()}
+<<<<<<< HEAD
                               className="flex items-center gap-0.5 text-[9px] font-medium text-slate-500 hover:text-indigo-600"
+=======
+                              className="text-text-secondary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-medium"
+>>>>>>> recover/cabinet-wip-from-stash
                             >
                               <Plus className="h-3 w-3" />
                               {p.addLabel}
@@ -1911,7 +2513,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                   })}
                 </div>
 
+<<<<<<< HEAD
                 <p className="mb-2 mt-6 text-[9px] font-semibold uppercase tracking-wide text-slate-400">
+=======
+                <p className="text-text-muted mb-2 mt-6 text-[9px] font-semibold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                   Процессы и области • за {growthPeriodKey === '7d' ? '7 дн.' : '30 дн.'}
                 </p>
                 <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
@@ -1935,7 +2541,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                           'relative flex min-h-[280px] w-[200px] shrink-0 flex-col rounded-xl border p-3 text-left transition-colors',
                           blockAlertCount > 0
                             ? 'border-rose-200 bg-rose-50/30 hover:bg-rose-50/50'
+<<<<<<< HEAD
                             : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50'
+=======
+                            : 'border-border-default hover:border-border-default hover:bg-bg-surface2/80 bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
                         )}
                       >
                         {changePct != null && (
@@ -1962,7 +2572,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                         <div className="mb-1.5 mt-2 flex items-start justify-between gap-2">
                           <Link
                             href={b.href}
+<<<<<<< HEAD
                             className="min-w-0 flex-1 text-[11px] font-bold uppercase leading-tight tracking-tight text-slate-900 hover:text-indigo-600"
+=======
+                            className="text-text-primary hover:text-accent-primary min-w-0 flex-1 text-[11px] font-bold uppercase leading-tight tracking-tight"
+>>>>>>> recover/cabinet-wip-from-stash
                           >
                             {b.titleLines ? (
                               <>
@@ -1990,7 +2604,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                               <PopoverTrigger asChild>
                                 <button
                                   type="button"
+<<<<<<< HEAD
                                   className="shrink-0 rounded p-0.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+=======
+                                  className="text-text-muted hover:text-text-secondary hover:bg-bg-surface2 shrink-0 rounded p-0.5"
+>>>>>>> recover/cabinet-wip-from-stash
                                   aria-label="Описание"
                                 >
                                   <HelpCircle className="h-3.5 w-3.5" />
@@ -2001,7 +2619,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                 side="bottom"
                                 className="z-[200] w-64 rounded-xl p-3 text-left"
                               >
+<<<<<<< HEAD
                                 <p className="text-[10px] leading-relaxed text-slate-600">
+=======
+                                <p className="text-text-secondary text-[10px] leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                                   {b.description}
                                 </p>
                               </PopoverContent>
@@ -2014,7 +2636,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                               {m.href ? (
                                 <Link
                                   href={m.href}
+<<<<<<< HEAD
                                   className="flex justify-between text-[9px] text-slate-600 hover:text-indigo-600"
+=======
+                                  className="text-text-secondary hover:text-accent-primary flex justify-between text-[9px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                 >
                                   <span className="truncate">{m.label}</span>
                                   <span className="ml-1 shrink-0 font-semibold tabular-nums">
@@ -2022,7 +2648,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                                   </span>
                                 </Link>
                               ) : (
-                                <div className="flex justify-between text-[9px] text-slate-600">
+                                <div className="text-text-secondary flex justify-between text-[9px]">
                                   <span className="truncate">{m.label}</span>
                                   <span className="ml-1 shrink-0 font-semibold tabular-nums">
                                     {m.value}
@@ -2032,10 +2658,17 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             </li>
                           ))}
                         </ul>
+<<<<<<< HEAD
                         <div className="mt-auto flex items-center justify-between gap-2 border-t border-slate-100 pt-3">
                           <Link
                             href={b.href}
                             className="flex items-center gap-0.5 text-[9px] font-semibold text-indigo-600 hover:text-indigo-700"
+=======
+                        <div className="border-border-subtle mt-auto flex items-center justify-between gap-2 border-t pt-3">
+                          <Link
+                            href={b.href}
+                            className="text-accent-primary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-semibold"
+>>>>>>> recover/cabinet-wip-from-stash
                           >
                             Открыть раздел
                             <ArrowRight className="h-3 w-3" />
@@ -2044,7 +2677,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             <Link
                               href={b.addHref}
                               onClick={(e) => e.stopPropagation()}
+<<<<<<< HEAD
                               className="flex items-center gap-0.5 text-[9px] font-medium text-slate-500 hover:text-indigo-600"
+=======
+                              className="text-text-secondary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-medium"
+>>>>>>> recover/cabinet-wip-from-stash
                             >
                               <Plus className="h-3 w-3" />
                               {b.addLabel}
@@ -2055,7 +2692,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                     );
                   })}
                 </div>
-              </Card>
+              </div>
             </TooltipProvider>
           );
         })()}
@@ -2069,8 +2706,13 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
           accentColor="emerald"
           history={globalHistory}
         >
+<<<<<<< HEAD
           <Card className="rounded-xl border border-slate-200 bg-white p-4 md:p-5">
             <p className="mb-2 text-[9px] font-semibold uppercase tracking-wide text-slate-400">
+=======
+          <div className={cn(registryFeedLayout.panelCardSoft, 'p-4 md:p-5')}>
+            <p className="text-text-muted mb-2 text-[9px] font-semibold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
               {modulesPeriodKey === '7d' ? 'За 7 дн.' : 'За 30 дн.'}
             </p>
             <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
@@ -2099,7 +2741,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                       'relative flex min-h-[280px] w-[200px] shrink-0 cursor-pointer flex-col rounded-xl border p-3 text-left transition-colors',
                       card.stats.status === 'warning'
                         ? 'border-rose-200 bg-rose-50/30 hover:bg-rose-50/50'
+<<<<<<< HEAD
                         : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50'
+=======
+                        : 'border-border-default hover:border-border-default hover:bg-bg-surface2/80 bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     {changePct != null && (
@@ -2124,7 +2770,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                       </div>
                     </div>
                     <div className="mt-2 flex items-start justify-between gap-2">
+<<<<<<< HEAD
                       <h3 className="min-w-0 flex-1 text-[11px] font-bold uppercase leading-tight tracking-tight text-slate-900">
+=======
+                      <h3 className="text-text-primary min-w-0 flex-1 text-[11px] font-bold uppercase leading-tight tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                         {card.title}
                       </h3>
                       <div
@@ -2148,7 +2798,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                           <PopoverTrigger asChild>
                             <button
                               type="button"
+<<<<<<< HEAD
                               className="rounded p-0.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+=======
+                              className="text-text-muted hover:text-text-secondary hover:bg-bg-surface2 rounded p-0.5"
+>>>>>>> recover/cabinet-wip-from-stash
                               aria-label="Описание раздела"
                             >
                               <HelpCircle className="h-3.5 w-3.5" />
@@ -2159,7 +2813,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                             side="bottom"
                             className="z-[200] w-64 rounded-xl p-3 text-left"
                           >
+<<<<<<< HEAD
                             <p className="text-[10px] leading-relaxed text-slate-600">
+=======
+                            <p className="text-text-secondary text-[10px] leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                               {card.description}
                             </p>
                           </PopoverContent>
@@ -2167,7 +2825,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                       </div>
                     </div>
                     <div className="mt-2 space-y-0.5">
-                      <div className="flex justify-between text-[9px] text-slate-600">
+                      <div className="text-text-secondary flex justify-between text-[9px]">
                         <span className="truncate">{card.stats.label}</span>
                         <span
                           className={cn(
@@ -2176,17 +2834,28 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                               ? 'text-emerald-600'
                               : card.stats.status === 'warning'
                                 ? 'text-amber-600'
+<<<<<<< HEAD
                                 : 'text-slate-900'
+=======
+                                : 'text-text-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                           )}
                         >
                           {card.title === 'Команда' ? participantsCount : card.stats.value}
                         </span>
                       </div>
                     </div>
+<<<<<<< HEAD
                     <div className="mt-auto flex items-center justify-between gap-2 border-t border-slate-100 pt-3">
                       <button
                         type="button"
                         className="flex items-center gap-0.5 text-left text-[9px] font-semibold text-indigo-600 hover:text-indigo-700"
+=======
+                    <div className="border-border-subtle mt-auto flex items-center justify-between gap-2 border-t pt-3">
+                      <button
+                        type="button"
+                        className="text-accent-primary hover:text-accent-primary flex items-center gap-0.5 text-left text-[9px] font-semibold"
+>>>>>>> recover/cabinet-wip-from-stash
                         onClick={(e) => {
                           e.stopPropagation();
                           router.push(card.href);
@@ -2198,7 +2867,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                       {addHref && addLabel ? (
                         <button
                           type="button"
+<<<<<<< HEAD
                           className="flex items-center gap-0.5 text-left text-[9px] font-medium text-slate-500 hover:text-indigo-600"
+=======
+                          className="text-text-secondary hover:text-accent-primary flex items-center gap-0.5 text-left text-[9px] font-medium"
+>>>>>>> recover/cabinet-wip-from-stash
                           onClick={(e) => {
                             e.stopPropagation();
                             router.push(addHref);
@@ -2213,7 +2886,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
                 );
               })}
             </div>
-          </Card>
+          </div>
         </SectionBlock>
       </div>
     </>

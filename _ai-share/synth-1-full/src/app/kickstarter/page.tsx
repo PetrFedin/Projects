@@ -9,6 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+<<<<<<< HEAD
+=======
+import { Badge } from '@/components/ui/badge';
+>>>>>>> recover/cabinet-wip-from-stash
 import { kickstarterProjects } from '@/lib/kickstarter';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,6 +26,8 @@ import { Progress } from '@/components/ui/progress';
 import { Users, Filter, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
 import { Combobox } from '@/components/ui/combobox';
 import { products } from '@/lib/products';
 import { useUIState } from '@/providers/ui-state';
@@ -92,6 +98,7 @@ export default function KickstarterPage() {
     (statusFilter.length > 0 && !(statusFilter.length === 1 && statusFilter[0] === 'live'));
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto space-y-6 px-4 py-12">
       {viewRole === 'b2b' && (
         <div className="grid grid-cols-1 gap-3 duration-300 animate-in fade-in md:grid-cols-3">
@@ -104,21 +111,48 @@ export default function KickstarterPage() {
             </Badge>
             <h3 className="text-base font-black uppercase tracking-tight">Анализ спроса B2B</h3>
             <p className="text-xs leading-relaxed text-slate-400">
+=======
+    <RegistryPageShell className="space-y-6 py-12 pb-16">
+      {viewRole === 'b2b' && (
+        <div className="grid grid-cols-1 gap-3 duration-300 animate-in fade-in md:grid-cols-3">
+          <Card className="bg-text-primary relative space-y-4 overflow-hidden rounded-xl border-none p-4 text-white shadow-xl">
+            <div className="absolute right-0 top-0 p-4 opacity-10">
+              <TrendingUp className="h-24 w-24" />
+            </div>
+            <Badge className="bg-accent-primary border-none text-[8px] font-black uppercase">
+              Wholesale Intelligence
+            </Badge>
+            <h3 className="text-base font-black uppercase tracking-tight">Анализ спроса B2B</h3>
+            <p className="text-text-muted text-xs leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
               «Сегмент "Techwear" забронирован на 84% от целевой мощности производства. Рекомендуем
               фиксировать квоты».
             </p>
           </Card>
+<<<<<<< HEAD
           <Card className="space-y-4 rounded-xl border border-none border-slate-100 bg-white p-4 shadow-xl">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
                 <ShieldCheck className="h-5 w-5" />
               </div>
               <span className="text-[10px] font-black uppercase text-slate-400">
+=======
+          <Card className="border-border-subtle space-y-4 rounded-xl border border-none bg-white p-4 shadow-xl">
+            <div className="flex items-center gap-3">
+              <div className="bg-accent-primary/10 text-accent-primary flex h-10 w-10 items-center justify-center rounded-xl">
+                <ShieldCheck className="h-5 w-5" />
+              </div>
+              <span className="text-text-muted text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 Гарантия пошива
               </span>
             </div>
             <h3 className="text-base font-black uppercase tracking-tight">Smart Contracts</h3>
+<<<<<<< HEAD
             <p className="text-xs leading-relaxed text-slate-500">
+=======
+            <p className="text-text-secondary text-xs leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
               Все предзаказы защищены эскроу-счетами. Фабрика приступает к работе сразу после
               достижения 60% лимита.
             </p>
@@ -216,7 +250,11 @@ export default function KickstarterPage() {
           return (
             <Card key={project.id} className="group relative flex flex-col overflow-hidden">
               <div className="pointer-events-none absolute right-0 top-0 z-20">
+<<<<<<< HEAD
                 <div className="translate-x-6 translate-y-2 rotate-45 bg-indigo-600 px-8 py-1 text-[8px] font-black uppercase text-white shadow-lg">
+=======
+                <div className="bg-accent-primary translate-x-6 translate-y-2 rotate-45 px-8 py-1 text-[8px] font-black uppercase text-white shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
                   B2B Ready
                 </div>
               </div>
@@ -243,9 +281,15 @@ export default function KickstarterPage() {
               <CardContent className="flex-grow p-4">
                 <div className="mb-2 flex items-start justify-between">
                   <p className="text-xs font-semibold text-primary">{project.creator}</p>
+<<<<<<< HEAD
                   <div className="flex items-center gap-1 rounded bg-indigo-50 px-1.5 py-0.5">
                     <Users className="h-3 w-3 text-indigo-600" />
                     <span className="text-[9px] font-black uppercase text-indigo-600">
+=======
+                  <div className="bg-accent-primary/10 flex items-center gap-1 rounded px-1.5 py-0.5">
+                    <Users className="text-accent-primary h-3 w-3" />
+                    <span className="text-accent-primary text-[9px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                       {b2bRetailers} ритейлеров
                     </span>
                   </div>
@@ -259,9 +303,15 @@ export default function KickstarterPage() {
                   {project.description}
                 </CardDescription>
 
+<<<<<<< HEAD
                 <div className="mt-4 rounded-lg border border-slate-100 bg-slate-50 p-3">
                   <div className="mb-1 flex items-center justify-between">
                     <p className="text-[10px] font-black uppercase text-slate-400">
+=======
+                <div className="bg-bg-surface2 border-border-subtle mt-4 rounded-lg border p-3">
+                  <div className="mb-1 flex items-center justify-between">
+                    <p className="text-text-muted text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                       B2B Оптовая бронь
                     </p>
                     <span className="text-[10px] font-black text-emerald-600">
@@ -269,12 +319,21 @@ export default function KickstarterPage() {
                     </span>
                   </div>
                   <div className="flex items-baseline justify-between">
+<<<<<<< HEAD
                     <p className="text-xs font-bold text-slate-700">
                       {b2bReserved} ед. забронировано
                     </p>
                     <Link
                       href={`/shop/b2b/kickstarter/${project.id}`}
                       className="text-[10px] font-black uppercase text-indigo-600 hover:underline"
+=======
+                    <p className="text-text-primary text-xs font-bold">
+                      {b2bReserved} ед. забронировано
+                    </p>
+                    <Link
+                      href={ROUTES.shop.b2bKickstarterProject(project.id)}
+                      className="text-accent-primary text-[10px] font-black uppercase hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       Условия закупки
                     </Link>
@@ -283,6 +342,7 @@ export default function KickstarterPage() {
               </CardContent>
               <CardFooter className="flex-col items-start gap-3 p-4 pt-0">
                 <div className="w-full">
+<<<<<<< HEAD
                   <Progress value={progress} className="h-2 bg-slate-100" />
                   <div className="mt-2 flex items-center justify-between">
                     <p className="text-sm font-black tabular-nums text-slate-900">
@@ -294,12 +354,29 @@ export default function KickstarterPage() {
                 <div className="flex w-full justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400">
                   <div className="flex items-center gap-1.5">
                     <Users className="h-4 w-4 text-slate-300" /> {project.backers} спонсоров
+=======
+                  <Progress value={progress} className="bg-bg-surface2 h-2" />
+                  <div className="mt-2 flex items-center justify-between">
+                    <p className="text-text-primary text-sm font-black tabular-nums">
+                      {project.pledged.toLocaleString('ru-RU')} ₽
+                    </p>
+                    <p className="text-text-muted text-sm font-bold">{progress.toFixed(0)}%</p>
+                  </div>
+                </div>
+                <div className="text-text-muted flex w-full justify-between text-[10px] font-bold uppercase tracking-widest">
+                  <div className="flex items-center gap-1.5">
+                    <Users className="text-text-muted h-4 w-4" /> {project.backers} спонсоров
+>>>>>>> recover/cabinet-wip-from-stash
                   </div>
                   <div>{project.daysLeft} дней</div>
                 </div>
                 <Button
                   asChild
+<<<<<<< HEAD
                   className="mt-2 h-11 w-full rounded-xl bg-slate-900 text-[10px] font-black uppercase tracking-widest text-white shadow-lg hover:bg-slate-800"
+=======
+                  className="bg-text-primary hover:bg-text-primary/90 mt-2 h-11 w-full rounded-xl text-[10px] font-black uppercase tracking-widest text-white shadow-lg"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <Link href={`/kickstarter/${project.id}`}>Поддержать проект</Link>
                 </Button>
@@ -308,6 +385,10 @@ export default function KickstarterPage() {
           );
         })}
       </div>
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

@@ -1,5 +1,6 @@
-'use client';
+import { redirect } from 'next/navigation';
 
+<<<<<<< HEAD
 import { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -462,4 +463,9 @@ export default function DigitalWorkplacePage() {
       </div>
     </div>
   );
+=======
+/** Корень `/shop/b2b` — редирект на дашборд; сценарии опта в сайдбаре `/shop`. */
+export default function ShopB2BRootPage() {
+  redirect('/shop');
+>>>>>>> recover/cabinet-wip-from-stash
 }

@@ -21,6 +21,7 @@ import {
 import type { ForYouPreferencesV1 } from '@/lib/platform/types';
 import { loadStyleQuizProfile } from '@/lib/fashion/style-quiz-store';
 import { reorderForYouFeedByQuiz } from '@/lib/fashion/style-quiz-score';
+import { UserStyleArchetypeBlock } from '@/components/client/user-style-archetype-block';
 import { ArrowLeft, Sparkles, Ruler, RefreshCw, Wand2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 

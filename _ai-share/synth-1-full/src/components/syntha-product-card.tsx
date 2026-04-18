@@ -36,6 +36,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { useUIState } from '@/providers/ui-state';
+import { useB2BState } from '@/providers/b2b-state';
 import { useToast } from '@/hooks/use-toast';
 import { QuickViewDialog } from './quick-view-dialog';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -70,10 +71,14 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
     saveComparison,
     setHoveredProduct,
     viewRole,
+<<<<<<< HEAD
     addB2bActivityLog,
     addToAssortmentPlan,
     assortmentPlan,
+=======
+>>>>>>> recover/cabinet-wip-from-stash
   } = useUIState();
+  const { addB2bActivityLog, addToAssortmentPlan, assortmentPlan } = useB2BState();
   const { toast } = useToast();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
@@ -490,7 +495,11 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
           setHoveredProduct(null);
         }}
       >
+<<<<<<< HEAD
         <div className="relative flex aspect-[3/4] w-full flex-col overflow-hidden rounded-[1.25rem] border border-slate-100 bg-slate-100 transition-all duration-500 group-hover/pitem:shadow-2xl">
+=======
+        <div className="bg-bg-surface2 border-border-subtle relative flex aspect-[3/4] w-full flex-col overflow-hidden rounded-[1.25rem] border transition-all duration-500 group-hover/pitem:shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
           {/* Mode 1: GALLERY */}
           {cardMode === 'gallery' && (
             <div className="group/galleryarea relative flex flex-1 flex-col overflow-hidden">
@@ -890,7 +899,11 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
                         {product.name}
                       </h3>
                       {product.composition && (
+<<<<<<< HEAD
                         <p className="mb-1 text-[7px] font-black uppercase leading-none tracking-widest text-indigo-300">
+=======
+                        <p className="text-accent-primary mb-1 text-[7px] font-black uppercase leading-none tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                           {typeof product.composition === 'string'
                             ? product.composition
                             : product.composition
@@ -1052,7 +1065,13 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
                           {
                             icon: Layers,
                             label: 'Ассортимент',
+<<<<<<< HEAD
                             active: assortmentPlan?.some((item) => item.id === product.id),
+=======
+                            active: assortmentPlan?.some(
+                              (item: { id: string }) => item.id === product.id
+                            ),
+>>>>>>> recover/cabinet-wip-from-stash
                             action: () => {
                               addToAssortmentPlan(product as any);
                               toast({
@@ -1175,7 +1194,11 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
                             side="top"
                             align="center"
                             sideOffset={15}
+<<<<<<< HEAD
                             className="z-[100] w-[160px] rounded-xl border border-white/10 bg-zinc-900/95 p-0 p-1.5 shadow-2xl backdrop-blur-xl"
+=======
+                            className="bg-text-primary/95 z-[100] w-[160px] rounded-xl border border-white/10 p-0 p-1.5 shadow-2xl backdrop-blur-xl"
+>>>>>>> recover/cabinet-wip-from-stash
                             onClick={(e) => e.stopPropagation()}
                           >
                             <div className="flex flex-col gap-1 p-1">
@@ -1191,7 +1214,11 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
                                     value={newCollectionName}
                                     onChange={(e) => setNewCollectionName(e.target.value)}
                                     placeholder="Название..."
+<<<<<<< HEAD
                                     className="w-full rounded-md border border-white/10 bg-white/5 px-2 py-1 text-[9px] text-white focus:border-indigo-500/50 focus:outline-none"
+=======
+                                    className="focus:border-accent-primary/50 w-full rounded-md border border-white/10 bg-white/5 px-2 py-1 text-[9px] text-white focus:outline-none"
+>>>>>>> recover/cabinet-wip-from-stash
                                     onKeyDown={(e) => {
                                       if (e.key === 'Enter' && newCollectionName.trim()) {
                                         item.onCreate?.(newCollectionName.trim());
@@ -1221,7 +1248,11 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
                                           setNewCollectionName('');
                                         }
                                       }}
+<<<<<<< HEAD
                                       className="flex-1 rounded-md bg-indigo-500 py-1 text-[8px] font-black uppercase text-white transition-colors hover:bg-indigo-600"
+=======
+                                      className="bg-accent-primary hover:bg-accent-primary flex-1 rounded-md py-1 text-[8px] font-black uppercase text-white transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                                     >
                                       Ок
                                     </button>
@@ -1264,10 +1295,17 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
                                       e.stopPropagation();
                                       setIsCreatingNewCollection(true);
                                     }}
+<<<<<<< HEAD
                                     className="mt-1 flex w-full items-center gap-2 rounded-md border-t border-white/5 px-2 py-1.5 pt-2 transition-colors hover:bg-indigo-500/20"
                                   >
                                     <Plus className="h-2 w-2 text-indigo-400" />
                                     <span className="text-[8px] font-black uppercase text-indigo-400">
+=======
+                                    className="hover:bg-accent-primary/20 mt-1 flex w-full items-center gap-2 rounded-md border-t border-white/5 px-2 py-1.5 pt-2 transition-colors"
+                                  >
+                                    <Plus className="text-accent-primary h-2 w-2" />
+                                    <span className="text-accent-primary text-[8px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                                       Создать новую
                                     </span>
                                   </button>
@@ -1384,7 +1422,11 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
                         {product.name}
                       </h3>
                       {product.composition && (
+<<<<<<< HEAD
                         <p className="mb-1 text-[7px] font-black uppercase leading-none tracking-widest text-indigo-300">
+=======
+                        <p className="text-accent-primary mb-1 text-[7px] font-black uppercase leading-none tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                           {typeof product.composition === 'string'
                             ? product.composition
                             : product.composition
@@ -1568,8 +1610,13 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
                                       'border-emerald-400/40 shadow-[0_0_8px_rgba(52,211,153,0.5)]',
                                     // Selection State
                                     selectedSize === sizeName
+<<<<<<< HEAD
                                       ? 'scale-110 border-[0.33px] border-slate-900 bg-slate-900 text-white shadow-lg'
                                       : 'hover:bg-slate-100',
+=======
+                                      ? 'bg-text-primary border-text-primary scale-110 border-[0.33px] text-white shadow-lg'
+                                      : 'hover:bg-bg-surface2',
+>>>>>>> recover/cabinet-wip-from-stash
                                     // Already Bought State (Selection context)
                                     inCart > 0 && !selectedSize && 'ring-2 ring-emerald-500',
                                     // Backorder State
@@ -1654,7 +1701,11 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
                               <Ruler className="h-2 w-2 text-white/40" />
                               <p className="text-[8px] font-black uppercase leading-none tracking-[0.1em] text-white">
                                 {getSizeDetails(product.category, selectedSize).label}:{' '}
+<<<<<<< HEAD
                                 <span className="text-indigo-400">
+=======
+                                <span className="text-accent-primary">
+>>>>>>> recover/cabinet-wip-from-stash
                                   {getSizeDetails(product.category, selectedSize).value}
                                 </span>
                               </p>
@@ -1663,7 +1714,11 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
                               {getSizeDetails(product.category, selectedSize).description} •{' '}
                               {getSizeDetails(product.category, selectedSize).fit}
                             </p>
+<<<<<<< HEAD
                             <p className="mt-1 text-[6px] font-black uppercase tracking-[0.2em] text-indigo-300">
+=======
+                            <p className="text-accent-primary mt-1 text-[6px] font-black uppercase tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
                               {product.composition && (
                                 <span className="text-white/80">
                                   {typeof product.composition === 'string'
@@ -1739,7 +1794,11 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
                                   setBackorderStatus('idle');
                                 }
                               }}
+<<<<<<< HEAD
                               className="flex h-5 w-5 items-center justify-center rounded-md text-black transition-colors hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-20"
+=======
+                              className="hover:bg-bg-surface2 flex h-5 w-5 items-center justify-center rounded-md text-black transition-colors disabled:cursor-not-allowed disabled:opacity-20"
+>>>>>>> recover/cabinet-wip-from-stash
                             >
                               <Minus className="h-2.5 w-2.5" />
                             </button>
@@ -1774,7 +1833,11 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
                                   }
                                 }
                               }}
+<<<<<<< HEAD
                               className="flex h-5 w-5 items-center justify-center rounded-md text-black transition-colors hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-20"
+=======
+                              className="hover:bg-bg-surface2 flex h-5 w-5 items-center justify-center rounded-md text-black transition-colors disabled:cursor-not-allowed disabled:opacity-20"
+>>>>>>> recover/cabinet-wip-from-stash
                             >
                               <Plus className="h-2.5 w-2.5" />
                             </button>
@@ -1795,7 +1858,11 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
                                       'Переход в раздел заказов для связи с представителем бренда...',
                                   })
                                 }
+<<<<<<< HEAD
                                 className="text-[8px] font-black uppercase text-indigo-400 underline transition-colors hover:text-indigo-300"
+=======
+                                className="text-accent-primary hover:text-accent-primary text-[8px] font-black uppercase underline transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                               >
                                 Личный чат в заказах
                               </button>
@@ -2021,13 +2088,21 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
                       'h-1.5 w-1.5 rounded-full transition-all duration-300',
                       cardMode === mode.id
                         ? 'scale-125 bg-black shadow-[0_0_10px_rgba(0,0,0,0.2)]'
+<<<<<<< HEAD
                         : 'bg-slate-200 hover:bg-slate-400'
+=======
+                        : 'bg-border-subtle hover:bg-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                   />
                 </TooltipTrigger>
                 <TooltipContent
                   side="bottom"
+<<<<<<< HEAD
                   className="rounded-md border-none bg-slate-900 px-2 py-1 text-[8px] font-black uppercase tracking-widest text-white"
+=======
+                  className="bg-text-primary rounded-md border-none px-2 py-1 text-[8px] font-black uppercase tracking-widest text-white"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   {mode.label}
                 </TooltipContent>
@@ -2063,7 +2138,11 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
                 initial={{ scale: 0.9, opacity: 0, y: 20 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 20 }}
+<<<<<<< HEAD
                 className="relative z-10 flex aspect-[9/16] w-full max-w-lg flex-col overflow-hidden rounded-xl border border-white/10 bg-zinc-900 shadow-2xl"
+=======
+                className="bg-text-primary relative z-10 flex aspect-[9/16] w-full max-w-lg flex-col overflow-hidden rounded-xl border border-white/10 shadow-2xl"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 {/* Vertical Video Content */}
                 <div className="relative flex flex-1 items-center justify-center bg-black">
@@ -2150,9 +2229,15 @@ export function SynthaProductCard({ product, forceBadge }: SynthaProductCardProp
                         )}
                       />
                     </button>
+<<<<<<< HEAD
                     <Share2 className="h-5 w-5 cursor-pointer text-white/60 transition-colors hover:text-indigo-400" />
                   </div>
                   <Button className="h-10 rounded-full bg-white px-8 text-[10px] font-black uppercase tracking-widest text-black hover:bg-zinc-200">
+=======
+                    <Share2 className="hover:text-accent-primary h-5 w-5 cursor-pointer text-white/60 transition-colors" />
+                  </div>
+                  <Button className="hover:bg-border-subtle h-10 rounded-full bg-white px-8 text-[10px] font-black uppercase tracking-widest text-black">
+>>>>>>> recover/cabinet-wip-from-stash
                     Добавить в корзину
                   </Button>
                 </div>

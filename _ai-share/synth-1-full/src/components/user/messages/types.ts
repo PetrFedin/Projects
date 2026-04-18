@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   UserRole,
   Chat as ChatConversation,
@@ -5,6 +6,10 @@ import {
   TaskStatus,
   TaskPriority,
 } from '@/lib/types';
+=======
+import { UserRole, Chat as ChatConversation, TaskStatus, TaskPriority } from '@/lib/types';
+export type { ChatMessage } from '@/lib/types';
+>>>>>>> recover/cabinet-wip-from-stash
 
 export type ID = string;
 

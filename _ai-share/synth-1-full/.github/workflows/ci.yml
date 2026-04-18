@@ -1,5 +1,5 @@
-# Standalone clone / CI в подпапке репозитория.
-# В монорепо Projects основной контур: `.github/workflows/synth-1-full-ci.yml` (ci-fast всегда; ci-heavy — лейбл, schedule, dispatch).
+# Standalone clone / CI в подпапке репозитория. Канон фронтенда — только этот пакет (`synth-1/` в корне репо не собирается).
+# В монорепо Projects: `.github/workflows/synth-1-full-ci.yml` (ci-fast всегда; ci-heavy — push main, лейбл, schedule, dispatch).
 # Здесь без heavy: полный verification + API — локально `npm run test:e2e:heavy` или PR с лейблом в монорепо.
 name: synth-1-full (local package)
 
@@ -17,26 +17,69 @@ env:
   NEXT_PUBLIC_USE_B2C_SHOP_API: 'true'
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      shop_retail: ${{ steps.filter.outputs.shop_retail }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            shop_retail:
+              - 'src/app/shop/**'
+              - 'src/components/shop/**'
+              - 'src/lib/data/shop-navigation*.ts'
+              - 'src/lib/data/retailer-b2b-dashboard.ts'
+              - 'src/lib/data/profile-page-features.ts'
+              - 'src/lib/data/entity-links.ts'
+              - 'src/app/api/shop/**'
+              - 'src/lib/server/observe-api-route.ts'
+              - 'e2e/shop-erp-analytics-strip.spec.ts'
+              - 'e2e/unified-ecosystem-smoke.spec.ts'
+
   ci:
+    needs: changes
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version-file: .nvmrc
           cache: npm
           cache-dependency-path: package-lock.json
       - run: npm ci
       - run: npm run format:check
-      - run: npm run lint
+      # Полный `next lint` даёт тысячи warning; в CI — только ошибки (rules-of-hooks и т.д.).
+      - run: npm run lint:errors
       - name: Legacy archive API guard
         if: github.event_name == 'pull_request'
         run: npm run check:legacy-archive-api
       - run: npm test
+      - name: Contract guards (live domain-events probe skips if URL unset)
+        run: npm run check:contracts:ci
       - name: TypeScript (полное дерево)
         run: npm run typecheck
-        continue-on-error: true
+      - uses: actions/cache@v4
+        with:
+          path: .next-isolated/cache
+          key: ${{ runner.os }}-next-isolated-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-next-isolated-
       - run: npm run build:isolated
+      - name: Live domain-events health contract (optional)
+        if: ${{ vars.DOMAIN_EVENTS_HEALTH_URL != '' }}
+        env:
+          DOMAIN_EVENTS_HEALTH_URL: ${{ vars.DOMAIN_EVENTS_HEALTH_URL }}
+          DOMAIN_EVENTS_HEALTH_SECRET: ${{ secrets.DOMAIN_EVENTS_HEALTH_SECRET }}
+          DOMAIN_EVENTS_HEALTH_CONTRACT_STRICT: '1'
+        run: npm run check:domain-events-health-contract
       - run: npx playwright install chromium --with-deps
       - name: E2E light
         run: npm run test:e2e:light
+      - name: E2E cabinet hubs (main + chrome)
+        run: npm run test:e2e:cabinet-hubs
+      - name: E2E shop retail (сегменты + ERP + перекрёстные ссылки)
+        if: needs.changes.outputs.shop_retail == 'true'
+        run: npm run test:e2e:shop-retail

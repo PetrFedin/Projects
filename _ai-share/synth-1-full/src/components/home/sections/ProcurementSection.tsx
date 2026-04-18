@@ -67,7 +67,16 @@ import { useB2BState } from '@/providers/b2b-state';
 
 const ROLE_CONFIG: Record<B2BRole, { label: string; icon: any; color: string; basePath: string }> =
   {
+<<<<<<< HEAD
     admin: { label: 'Администратор', icon: Shield, color: 'text-indigo-500', basePath: '/admin' },
+=======
+    admin: {
+      label: 'Администратор',
+      icon: Shield,
+      color: 'text-accent-primary',
+      basePath: '/admin',
+    },
+>>>>>>> recover/cabinet-wip-from-stash
     brand: { label: 'Бренд', icon: Store, color: 'text-emerald-500', basePath: '/brand' },
     distributor: {
       label: 'Дистрибьютор',
@@ -79,13 +88,21 @@ const ROLE_CONFIG: Record<B2BRole, { label: string; icon: any; color: string; ba
       label: 'Производство',
       icon: Factory,
       color: 'text-orange-500',
+<<<<<<< HEAD
       basePath: '/factory',
+=======
+      basePath: '/factory/production',
+>>>>>>> recover/cabinet-wip-from-stash
     },
     supplier: {
       label: 'Поставщик',
       icon: Warehouse,
       color: 'text-amber-500',
+<<<<<<< HEAD
       basePath: '/factory',
+=======
+      basePath: '/factory/supplier',
+>>>>>>> recover/cabinet-wip-from-stash
     },
     shop: { label: 'Магазин', icon: ShoppingCart, color: 'text-rose-500', basePath: '/shop' },
   };
@@ -103,14 +120,22 @@ function RoleIcons({ roles }: { roles?: B2BRole[] }) {
               <TooltipTrigger asChild>
                 <div
                   className={cn(
+<<<<<<< HEAD
                     'cursor-help rounded-lg border border-slate-100 bg-white/90 p-1.5 shadow-sm backdrop-blur-md transition-all hover:scale-110',
+=======
+                    'border-border-subtle cursor-help rounded-lg border bg-white/90 p-1.5 shadow-sm backdrop-blur-md transition-all hover:scale-110',
+>>>>>>> recover/cabinet-wip-from-stash
                     config.color
                   )}
                 >
                   <config.icon className="h-3 w-3" />
                 </div>
               </TooltipTrigger>
+<<<<<<< HEAD
               <TooltipContent className="z-[100] rounded-lg border-none bg-slate-900 p-2 text-white shadow-2xl">
+=======
+              <TooltipContent className="bg-text-primary z-[100] rounded-lg border-none p-2 text-white shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
                 <p className="text-[10px] font-bold uppercase tracking-wide">{config.label}</p>
               </TooltipContent>
             </Tooltip>
@@ -170,8 +195,8 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
     }
 
     if (role === 'manufacturer' || role === 'supplier') {
-      if (title.includes('Заказ')) return '/factory/orders';
-      return '/factory';
+      if (title.includes('Заказ')) return '/factory/production/orders';
+      return '/factory/production';
     }
 
     if (role === 'distributor') {
@@ -527,27 +552,47 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
       transition={{ duration: 0.6 }}
       className="section-spacing relative bg-transparent"
     >
+<<<<<<< HEAD
       <div className="container relative mx-auto px-4">
         <Card className="group relative flex min-h-[500px] flex-col overflow-hidden rounded-xl border border-none border-slate-100 bg-white shadow-2xl shadow-slate-200/50 transition-all">
+=======
+      <div className="relative mx-auto w-full max-w-5xl px-4 sm:px-6">
+        <Card className="border-border-subtle group relative flex min-h-[500px] flex-col overflow-hidden rounded-xl border border-none bg-white shadow-2xl shadow-md transition-all">
+>>>>>>> recover/cabinet-wip-from-stash
           <CardContent className="relative z-10 p-3">
             {/* Header */}
             <div className="mb-6 flex flex-col justify-between gap-3 md:flex-row md:items-center">
               <div className="space-y-1">
                 <div className="flex items-center gap-3">
+<<<<<<< HEAD
                   <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900">
+=======
+                  <div className="bg-text-primary flex h-8 w-8 items-center justify-center rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                     <ShoppingBag className="h-4 w-4 text-white" />
                   </div>
                   <Badge
                     variant="outline"
+<<<<<<< HEAD
                     className="border-slate-200 px-2 py-0.5 text-xs font-bold uppercase tracking-normal text-slate-900"
+=======
+                    className="border-border-default text-text-primary px-2 py-0.5 text-xs font-bold uppercase tracking-normal"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     PROCUREMENT_HUB_B2B
                   </Badge>
                 </div>
+<<<<<<< HEAD
                 <h2 className="text-2xl font-bold uppercase leading-tight tracking-tight text-slate-900 md:text-4xl">
                   ЗАКУПКИ <span className="text-indigo-600">&</span> ПРЕДЗАКАЗЫ
                 </h2>
                 <p className="max-w-md text-xs font-medium text-slate-400">
+=======
+                <h2 className="text-text-primary text-2xl font-bold uppercase leading-tight tracking-tight md:text-4xl">
+                  ЗАКУПКИ <span className="text-accent-primary">&</span> ПРЕДЗАКАЗЫ
+                </h2>
+                <p className="text-text-muted max-w-md text-xs font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                   Управление оптовыми заказами, планирование коллекций и прямая связь с
                   производителями.
                 </p>
@@ -558,7 +603,11 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                     const el = document.getElementById('procurement-main-scroll');
                     if (el) el.scrollBy({ left: -320, behavior: 'smooth' });
                   }}
+<<<<<<< HEAD
                   className="p-1 text-slate-400 transition-colors hover:text-slate-900"
+=======
+                  className="text-text-muted hover:text-text-primary p-1 transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <ArrowRight className="h-5 w-5 rotate-180" />
                 </button>
@@ -567,7 +616,11 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                     const el = document.getElementById('procurement-main-scroll');
                     if (el) el.scrollBy({ left: 320, behavior: 'smooth' });
                   }}
+<<<<<<< HEAD
                   className="p-1 text-slate-400 transition-colors hover:text-slate-900"
+=======
+                  className="text-text-muted hover:text-text-primary p-1 transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <ArrowRight className="h-5 w-5" />
                 </button>
@@ -576,7 +629,11 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
 
             {/* Tabs */}
             <div className="mb-8 flex flex-col gap-3">
+<<<<<<< HEAD
               <div className="flex w-fit shrink-0 items-center gap-1.5 rounded-2xl border border-slate-100 bg-slate-50 p-1">
+=======
+              <div className="bg-bg-surface2 border-border-subtle flex w-fit shrink-0 items-center gap-1.5 rounded-2xl border p-1">
+>>>>>>> recover/cabinet-wip-from-stash
                 <button
                   onClick={() => {
                     setMainCategory('designers');
@@ -619,7 +676,11 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
               </div>
 
               {/* Thematic Tabs */}
+<<<<<<< HEAD
               <div className="flex w-fit shrink-0 items-center gap-1.5 rounded-2xl border border-slate-100/50 bg-slate-50/50 p-1.5">
+=======
+              <div className="bg-bg-surface2/80 border-border-subtle/50 flex w-fit shrink-0 items-center gap-1.5 rounded-2xl border p-1.5">
+>>>>>>> recover/cabinet-wip-from-stash
                 {getTabs().map((tab) => (
                   <button
                     key={tab.id}
@@ -658,18 +719,30 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                           animate={{ opacity: 1, scale: 1 }}
                           className="w-[320px] flex-shrink-0 snap-start"
                         >
+<<<<<<< HEAD
                           <div className="group/col relative flex h-full flex-col rounded-xl border border-slate-100 bg-white p-4 shadow-xl transition-colors hover:border-indigo-200">
                             <div className="absolute right-6 top-4 z-30">
                               <RoleIcons roles={col.roles as B2BRole[]} />
                             </div>
                             <div className="relative mb-4 aspect-[4/3] overflow-hidden rounded-2xl bg-slate-50 shadow-inner">
+=======
+                          <div className="border-border-subtle group/col hover:border-accent-primary/30 relative flex h-full flex-col rounded-xl border bg-white p-4 shadow-xl transition-colors">
+                            <div className="absolute right-6 top-4 z-30">
+                              <RoleIcons roles={col.roles as B2BRole[]} />
+                            </div>
+                            <div className="bg-bg-surface2 relative mb-4 aspect-[4/3] overflow-hidden rounded-2xl shadow-inner">
+>>>>>>> recover/cabinet-wip-from-stash
                               <img
                                 src={col.img}
                                 className="h-full w-full object-cover transition-transform duration-700 group-hover/col:scale-110"
                               />
                               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                               <div className="absolute left-3 top-3 z-20 flex flex-col gap-1.5">
+<<<<<<< HEAD
                                 <Badge className="border-none bg-indigo-600 px-2 py-0.5 text-[7px] font-bold uppercase text-white shadow-lg">
+=======
+                                <Badge className="bg-accent-primary border-none px-2 py-0.5 text-[7px] font-bold uppercase text-white shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
                                   {col.status}
                                 </Badge>
                               </div>
@@ -679,6 +752,7 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                   <TooltipProvider>
                                     <Tooltip>
                                       <TooltipTrigger asChild>
+<<<<<<< HEAD
                                         <Badge className="cursor-help border-none bg-white/90 px-2 py-1 text-[10px] font-bold uppercase text-slate-900 shadow-md backdrop-blur-md transition-colors hover:bg-black hover:text-white">
                                           {col.match}%
                                         </Badge>
@@ -686,6 +760,15 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                       <TooltipContent className="max-w-[200px] rounded-xl border-none bg-slate-900 p-3 text-white">
                                         <div className="space-y-1.5">
                                           <p className="text-[10px] font-bold uppercase tracking-wide text-indigo-400">
+=======
+                                        <Badge className="text-text-primary cursor-help border-none bg-white/90 px-2 py-1 text-[10px] font-bold uppercase shadow-md backdrop-blur-md transition-colors hover:bg-black hover:text-white">
+                                          {col.match}%
+                                        </Badge>
+                                      </TooltipTrigger>
+                                      <TooltipContent className="bg-text-primary max-w-[200px] rounded-xl border-none p-3 text-white">
+                                        <div className="space-y-1.5">
+                                          <p className="text-accent-primary text-[10px] font-bold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                                             Match Justification
                                           </p>
                                           <p className="text-[10px] font-medium leading-relaxed">
@@ -700,6 +783,7 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                             </div>
                             <div className="flex-1 space-y-4">
                               <div>
+<<<<<<< HEAD
                                 <p className="mb-1 text-[10px] font-bold uppercase tracking-wide text-indigo-600">
                                   {col.brand}
                                 </p>
@@ -707,6 +791,15 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                   {col.title}
                                 </h3>
                                 <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+=======
+                                <p className="text-accent-primary mb-1 text-[10px] font-bold uppercase tracking-wide">
+                                  {col.brand}
+                                </p>
+                                <h3 className="text-text-primary mb-1.5 text-base font-bold uppercase leading-none tracking-tight">
+                                  {col.title}
+                                </h3>
+                                <p className="text-text-muted flex items-center gap-2 text-[10px] font-bold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                                   <Clock className="h-2.5 w-2.5" /> Отгрузка: {col.delivery}
                                 </p>
                               </div>
@@ -721,7 +814,11 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                   <DialogContent className="rounded-xl border-none bg-white p-4 sm:max-w-[500px]">
                                     <DialogHeader>
                                       <div className="mb-4 flex items-center gap-3">
+<<<<<<< HEAD
                                         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900">
+=======
+                                        <div className="bg-text-primary flex h-10 w-10 items-center justify-center rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                                           <ShoppingBag className="h-5 w-5 text-white" />
                                         </div>
                                         <DialogTitle className="text-sm font-semibold uppercase tracking-tight">
@@ -735,6 +832,7 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                         <div className="absolute inset-0 bg-black/20" />
                                       </div>
                                       <div className="space-y-4">
+<<<<<<< HEAD
                                         <h4 className="text-[10px] font-bold uppercase tracking-wide text-indigo-600">
                                           Философия и ДНК
                                         </h4>
@@ -747,14 +845,35 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                               Дизайнер
                                             </p>
                                             <p className="text-xs font-bold uppercase text-slate-900">
+=======
+                                        <h4 className="text-accent-primary text-[10px] font-bold uppercase tracking-wide">
+                                          Философия и ДНК
+                                        </h4>
+                                        <p className="text-text-secondary text-sm font-medium leading-relaxed">
+                                          {col.description}
+                                        </p>
+                                        <div className="border-border-subtle grid grid-cols-2 gap-3 border-t pt-4">
+                                          <div>
+                                            <p className="text-text-muted mb-1 text-[10px] font-bold uppercase tracking-wide">
+                                              Дизайнер
+                                            </p>
+                                            <p className="text-text-primary text-xs font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                                               {col.designer}
                                             </p>
                                           </div>
                                           <div>
+<<<<<<< HEAD
                                             <p className="mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">
                                               Основан
                                             </p>
                                             <p className="text-xs font-bold uppercase text-slate-900">
+=======
+                                            <p className="text-text-muted mb-1 text-[10px] font-bold uppercase tracking-wide">
+                                              Основан
+                                            </p>
+                                            <p className="text-text-primary text-xs font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                                               {col.founded}
                                             </p>
                                           </div>
@@ -824,12 +943,21 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                 </Dialog>
                               </div>
 
+<<<<<<< HEAD
                               <div className="flex items-center justify-between gap-3 border-t border-slate-50 pt-4">
                                 <div className="flex flex-col">
                                   <span className="mb-1 text-[7px] font-bold uppercase leading-none tracking-wide text-slate-400">
                                     Доступно
                                   </span>
                                   <span className="text-sm font-bold tracking-tight text-slate-900">
+=======
+                              <div className="border-border-subtle flex items-center justify-between gap-3 border-t pt-4">
+                                <div className="flex flex-col">
+                                  <span className="text-text-muted mb-1 text-[7px] font-bold uppercase leading-none tracking-wide">
+                                    Доступно
+                                  </span>
+                                  <span className="text-text-primary text-sm font-bold tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                                     {col.count} SKU
                                   </span>
                                 </div>
@@ -870,7 +998,11 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                       className={cn(
                                         'group/btn w-[160px]',
                                         !isAccessGranted &&
+<<<<<<< HEAD
                                           'cursor-not-allowed border-slate-100 bg-slate-50 text-slate-300'
+=======
+                                          'bg-bg-surface2 text-text-muted border-border-subtle cursor-not-allowed'
+>>>>>>> recover/cabinet-wip-from-stash
                                       )}
                                     >
                                       {isAccessGranted ? (
@@ -892,6 +1024,7 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                         </motion.div>
                       ))
                     ) : activeTab === 'orders' ? (
+<<<<<<< HEAD
                       <div className="w-full overflow-x-auto rounded-xl border border-slate-100 bg-white p-4 shadow-xl">
                         <table className="w-full border-collapse text-left">
                           <thead>
@@ -920,27 +1053,73 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                 Статус
                               </th>
                               <th className="pb-4 text-right text-[10px] font-bold uppercase tracking-wide text-slate-400">
+=======
+                      <div className="border-border-subtle w-full overflow-x-auto rounded-xl border bg-white p-4 shadow-xl">
+                        <table className="w-full border-collapse text-left">
+                          <thead>
+                            <tr className="border-border-subtle border-b">
+                              <th className="text-text-muted pb-4 text-[10px] font-bold uppercase tracking-wide">
+                                ID / Дата
+                              </th>
+                              <th className="text-text-muted pb-4 text-[10px] font-bold uppercase tracking-wide">
+                                Сезон
+                              </th>
+                              <th className="text-text-muted pb-4 text-[10px] font-bold uppercase tracking-wide">
+                                Бренд / Коллекция
+                              </th>
+                              <th className="text-text-muted pb-4 text-[10px] font-bold uppercase tracking-wide">
+                                Заказчик
+                              </th>
+                              {mainCategory === 'distributor' && (
+                                <th className="text-text-muted pb-4 text-[10px] font-bold uppercase tracking-wide">
+                                  Узел дистрибуции
+                                </th>
+                              )}
+                              <th className="text-text-muted pb-4 text-[10px] font-bold uppercase tracking-wide">
+                                Сумма (Предв. / Финал)
+                              </th>
+                              <th className="text-text-muted pb-4 text-[10px] font-bold uppercase tracking-wide">
+                                Статус
+                              </th>
+                              <th className="text-text-muted pb-4 text-right text-[10px] font-bold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                                 Действие
                               </th>
                             </tr>
                           </thead>
+<<<<<<< HEAD
                           <tbody className="divide-y divide-slate-50">
+=======
+                          <tbody className="divide-border-subtle divide-y">
+>>>>>>> recover/cabinet-wip-from-stash
                             {orders.map((order) => (
                               <tr
                                 key={order.id}
                                 className={cn(
                                   'group/row transition-colors',
                                   mainCategory === 'distributor'
+<<<<<<< HEAD
                                     ? 'hover:bg-indigo-50/30'
                                     : 'hover:bg-slate-50/50'
+=======
+                                    ? 'hover:bg-accent-primary/10'
+                                    : 'hover:bg-bg-surface2/80'
+>>>>>>> recover/cabinet-wip-from-stash
                                 )}
                               >
                                 <td className="py-4">
                                   <div className="flex flex-col">
+<<<<<<< HEAD
                                     <span className="text-xs font-bold text-slate-900">
                                       {order.orderId}
                                     </span>
                                     <span className="text-[10px] font-medium text-slate-400">
+=======
+                                    <span className="text-text-primary text-xs font-bold">
+                                      {order.orderId}
+                                    </span>
+                                    <span className="text-text-muted text-[10px] font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                                       {order.date}
                                     </span>
                                   </div>
@@ -948,7 +1127,11 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                 <td className="py-4">
                                   <Badge
                                     variant="outline"
+<<<<<<< HEAD
                                     className="rounded-lg border-slate-200 text-[10px] font-bold text-slate-600"
+=======
+                                    className="border-border-default text-text-secondary rounded-lg text-[10px] font-bold"
+>>>>>>> recover/cabinet-wip-from-stash
                                   >
                                     {order.season}
                                   </Badge>
@@ -958,26 +1141,44 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                     <div className="absolute -top-1 right-0">
                                       <RoleIcons roles={order.roles as B2BRole[]} />
                                     </div>
+<<<<<<< HEAD
                                     <span className="mb-1 text-[10px] font-bold uppercase leading-none tracking-wide text-indigo-600">
                                       {order.brand}
                                     </span>
                                     <span className="text-xs font-bold uppercase tracking-tight text-slate-900">
+=======
+                                    <span className="text-accent-primary mb-1 text-[10px] font-bold uppercase leading-none tracking-wide">
+                                      {order.brand}
+                                    </span>
+                                    <span className="text-text-primary text-xs font-bold uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                                       {order.collectionName}
                                     </span>
                                   </div>
                                 </td>
                                 <td className="py-4">
+<<<<<<< HEAD
                                   <span className="text-xs font-bold uppercase tracking-tight text-slate-700">
+=======
+                                  <span className="text-text-primary text-xs font-bold uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                                     {order.placedBy}
                                   </span>
                                 </td>
                                 {mainCategory === 'distributor' && (
                                   <td className="py-4">
                                     <div className="flex items-center gap-2">
+<<<<<<< HEAD
                                       <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-indigo-500/10">
                                         <Globe2 className="h-3 w-3 text-indigo-600" />
                                       </div>
                                       <span className="text-[10px] font-bold uppercase text-indigo-600">
+=======
+                                      <div className="bg-accent-primary/10 flex h-6 w-6 items-center justify-center rounded-lg">
+                                        <Globe2 className="text-accent-primary h-3 w-3" />
+                                      </div>
+                                      <span className="text-accent-primary text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                                         HUB-Central
                                       </span>
                                     </div>
@@ -985,10 +1186,17 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                 )}
                                 <td className="py-4">
                                   <div className="flex flex-col">
+<<<<<<< HEAD
                                     <span className="text-xs font-bold text-slate-400 line-through decoration-slate-200">
                                       {order.preliminaryTotal}
                                     </span>
                                     <span className="text-sm font-bold tracking-tight text-indigo-600">
+=======
+                                    <span className="text-text-muted decoration-border-subtle text-xs font-bold line-through">
+                                      {order.preliminaryTotal}
+                                    </span>
+                                    <span className="text-accent-primary text-sm font-bold tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                                       {order.finalTotal || 'Ожидает финализации'}
                                     </span>
                                     {(() => {
@@ -1014,8 +1222,13 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                     className={cn(
                                       'border-none px-2 py-0.5 text-[10px] font-bold uppercase',
                                       order.status === 'В работе'
+<<<<<<< HEAD
                                         ? 'bg-indigo-50 text-indigo-600'
                                         : 'bg-slate-100 text-slate-400'
+=======
+                                        ? 'bg-accent-primary/10 text-accent-primary'
+                                        : 'bg-bg-surface2 text-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                                     )}
                                   >
                                     {order.status}
@@ -1041,16 +1254,26 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                             </Button>
                                           </DialogTrigger>
                                           <DialogContent className="overflow-hidden rounded-xl border-none bg-white p-0 shadow-2xl sm:max-w-[450px]">
+<<<<<<< HEAD
                                             <DialogHeader className="border-b border-slate-100 bg-slate-50 p-4 pb-4">
                                               <div className="flex items-center gap-3">
                                                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 shadow-lg shadow-indigo-200">
+=======
+                                            <DialogHeader className="bg-bg-surface2 border-border-subtle border-b p-4 pb-4">
+                                              <div className="flex items-center gap-3">
+                                                <div className="bg-accent-primary shadow-accent-primary/15 flex h-10 w-10 items-center justify-center rounded-xl shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
                                                   <Activity className="h-5 w-5 text-white" />
                                                 </div>
                                                 <div>
                                                   <DialogTitle className="text-base font-semibold uppercase tracking-tight">
                                                     Переговоры по заказу
                                                   </DialogTitle>
+<<<<<<< HEAD
                                                   <p className="mt-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+=======
+                                                  <p className="text-text-muted mt-0.5 text-[10px] font-bold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                                                     Order ID: {order.orderId} • {order.brand}
                                                   </p>
                                                 </div>
@@ -1072,13 +1295,22 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                                     className={cn(
                                                       'rounded-2xl p-3 text-xs font-medium leading-relaxed shadow-sm',
                                                       msg.sender.id === user?.uid
+<<<<<<< HEAD
                                                         ? 'rounded-tr-none bg-indigo-600 text-white'
                                                         : 'rounded-tl-none bg-slate-100 text-slate-700'
+=======
+                                                        ? 'bg-accent-primary rounded-tr-none text-white'
+                                                        : 'bg-bg-surface2 text-text-primary rounded-tl-none'
+>>>>>>> recover/cabinet-wip-from-stash
                                                     )}
                                                   >
                                                     {msg.text}
                                                   </div>
+<<<<<<< HEAD
                                                   <span className="px-1 text-[10px] font-bold uppercase tracking-wide text-slate-300">
+=======
+                                                  <span className="text-text-muted px-1 text-[10px] font-bold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                                                     {msg.sender.name} •{' '}
                                                     {new Date(msg.timestamp).toLocaleTimeString()}
                                                   </span>
@@ -1087,19 +1319,32 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                               {(!negotiation ||
                                                 negotiation.messages.length === 0) && (
                                                 <div className="flex h-full flex-col items-center justify-center space-y-3 text-center opacity-40">
+<<<<<<< HEAD
                                                   <Activity className="h-8 w-8 text-slate-300" />
                                                   <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">
+=======
+                                                  <Activity className="text-text-muted h-8 w-8" />
+                                                  <p className="text-text-muted text-[10px] font-bold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                                                     История сообщений пуста
                                                   </p>
                                                 </div>
                                               )}
                                             </div>
 
+<<<<<<< HEAD
                                             <div className="border-t border-slate-100 bg-slate-50 p-4">
                                               <div className="flex gap-2">
                                                 <Input
                                                   placeholder="Введите сообщение..."
                                                   className="h-10 rounded-xl border-slate-200 bg-white text-xs font-medium focus-visible:ring-indigo-500"
+=======
+                                            <div className="bg-bg-surface2 border-border-subtle border-t p-4">
+                                              <div className="flex gap-2">
+                                                <Input
+                                                  placeholder="Введите сообщение..."
+                                                  className="border-border-default focus-visible:ring-accent-primary h-10 rounded-xl bg-white text-xs font-medium"
+>>>>>>> recover/cabinet-wip-from-stash
                                                   onKeyDown={(e) => {
                                                     if (e.key === 'Enter') {
                                                       const target = e.target as HTMLInputElement;
@@ -1161,7 +1406,11 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                           className={cn(
                                             'group/btn w-[120px]',
                                             !isAccessGranted &&
+<<<<<<< HEAD
                                               'cursor-not-allowed border-slate-100 bg-slate-50 text-slate-300'
+=======
+                                              'bg-bg-surface2 text-text-muted border-border-subtle cursor-not-allowed'
+>>>>>>> recover/cabinet-wip-from-stash
                                           )}
                                         >
                                           {isAccessGranted ? (
@@ -1190,11 +1439,16 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                           key={tool.id}
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
+<<<<<<< HEAD
                           className="group/card relative flex w-[280px] flex-shrink-0 snap-start flex-col rounded-3xl border border-slate-100 bg-slate-50 p-4 pb-3 transition-all hover:border-slate-900/30 hover:shadow-xl hover:shadow-slate-200/50 md:w-[320px]"
+=======
+                          className="bg-bg-surface2 border-border-subtle hover:border-text-primary/30 group/card relative flex w-[280px] flex-shrink-0 snap-start flex-col rounded-3xl border p-4 pb-3 transition-all hover:shadow-md hover:shadow-xl md:w-[320px]"
+>>>>>>> recover/cabinet-wip-from-stash
                         >
                           <div className="absolute right-4 top-4 z-20">
                             <RoleIcons roles={tool.roles as B2BRole[]} />
                           </div>
+<<<<<<< HEAD
                           <p className="mb-2 text-[10px] font-bold uppercase text-slate-900">
                             {tool.label}
                           </p>
@@ -1205,6 +1459,18 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                             {tool.desc}
                           </p>
                           <div className="mt-auto flex items-center justify-center border-t border-slate-100 pt-2">
+=======
+                          <p className="text-text-primary mb-2 text-[10px] font-bold uppercase">
+                            {tool.label}
+                          </p>
+                          <h4 className="text-text-primary mb-2 text-sm font-bold uppercase leading-tight">
+                            {tool.title}
+                          </h4>
+                          <p className="text-text-secondary mb-1 text-xs font-medium leading-relaxed">
+                            {tool.desc}
+                          </p>
+                          <div className="border-border-subtle mt-auto flex items-center justify-center border-t pt-2">
+>>>>>>> recover/cabinet-wip-from-stash
                             {(() => {
                               const isAccessGranted = tool.roles?.includes(effectiveRole);
                               return (
@@ -1218,7 +1484,11 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                   className={cn(
                                     'group/btn mx-auto w-[180px]',
                                     !isAccessGranted &&
+<<<<<<< HEAD
                                       'cursor-not-allowed border-slate-100 bg-slate-50 text-slate-300'
+=======
+                                      'bg-bg-surface2 text-text-muted border-border-subtle cursor-not-allowed'
+>>>>>>> recover/cabinet-wip-from-stash
                                   )}
                                 >
                                   {isAccessGranted ? (
@@ -1242,12 +1512,17 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                           key={idx}
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
+<<<<<<< HEAD
                           className="group/info relative flex w-[280px] flex-shrink-0 snap-start flex-col rounded-xl border border-slate-100 bg-slate-50 p-4 transition-all hover:border-slate-900/30 hover:shadow-xl hover:shadow-slate-200/50 md:w-[320px]"
+=======
+                          className="bg-bg-surface2 border-border-subtle hover:border-text-primary/30 group/info relative flex w-[280px] flex-shrink-0 snap-start flex-col rounded-xl border p-4 transition-all hover:shadow-md hover:shadow-xl md:w-[320px]"
+>>>>>>> recover/cabinet-wip-from-stash
                         >
                           <div className="absolute right-4 top-4 z-20">
                             <RoleIcons roles={item.roles as B2BRole[]} />
                           </div>
                           <div className="mb-4 flex h-4 w-4 items-center justify-center rounded-lg bg-white shadow-sm transition-colors group-hover/info:bg-black">
+<<<<<<< HEAD
                             <item.icon className="h-2 w-2 text-slate-400 group-hover/info:text-white" />
                           </div>
                           <h4 className="mb-2 text-sm font-bold uppercase leading-tight text-slate-900">
@@ -1257,6 +1532,17 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                             {item.desc}
                           </p>
                           <div className="mt-auto flex justify-center border-t border-slate-100 pt-4">
+=======
+                            <item.icon className="text-text-muted h-2 w-2 group-hover/info:text-white" />
+                          </div>
+                          <h4 className="text-text-primary mb-2 text-sm font-bold uppercase leading-tight">
+                            {item.title}
+                          </h4>
+                          <p className="text-text-secondary mb-6 text-xs font-medium leading-relaxed">
+                            {item.desc}
+                          </p>
+                          <div className="border-border-subtle mt-auto flex justify-center border-t pt-4">
+>>>>>>> recover/cabinet-wip-from-stash
                             {(() => {
                               const isAccessGranted = item.roles?.includes(effectiveRole);
                               return (
@@ -1270,7 +1556,11 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                   className={cn(
                                     'group/btn w-[160px]',
                                     !isAccessGranted &&
+<<<<<<< HEAD
                                       'cursor-not-allowed border-slate-100 bg-slate-50 text-slate-300'
+=======
+                                      'bg-bg-surface2 text-text-muted border-border-subtle cursor-not-allowed'
+>>>>>>> recover/cabinet-wip-from-stash
                                   )}
                                 >
                                   {isAccessGranted ? (
@@ -1293,14 +1583,22 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
               </div>
             </div>
 
+<<<<<<< HEAD
             <Card className="group/banner relative mt-6 flex min-h-[300px] items-center overflow-hidden rounded-xl border-none bg-slate-900 shadow-2xl">
+=======
+            <Card className="bg-text-primary group/banner relative mt-6 flex min-h-[300px] items-center overflow-hidden rounded-xl border-none shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
               <div className="absolute inset-0 overflow-hidden rounded-xl opacity-40 transition-transform duration-1000 group-hover/banner:scale-105">
                 <img
                   src="https://images.unsplash.com/photo-1556740734-7f1a02d7350c?q=80&w=2000"
                   className="h-full w-full object-cover"
                 />
               </div>
+<<<<<<< HEAD
               <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent" />
+=======
+              <div className="from-text-primary via-text-primary/80 absolute inset-0 bg-gradient-to-r to-transparent" />
+>>>>>>> recover/cabinet-wip-from-stash
               <CardContent className="relative z-10 max-w-4xl space-y-6 p-4 text-white">
                 <div className="group/marquee relative mb-4 overflow-hidden whitespace-nowrap border-y border-white/10 py-2">
                   <motion.div
@@ -1332,7 +1630,11 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                 <h2 className="text-xl font-bold uppercase leading-tight tracking-tight md:text-3xl">
                   МАСШТАБИРУЙТЕ ВАШ БИЗНЕС
                 </h2>
+<<<<<<< HEAD
                 <p className="whitespace-nowrap border-l-2 border-indigo-500/50 pl-6 text-sm font-medium text-slate-300">
+=======
+                <p className="text-text-muted border-accent-primary/50 whitespace-nowrap border-l-2 pl-6 text-sm font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                   "Автоматизация закупок и прямой доступ к производствам."
                 </p>
               </CardContent>
@@ -1340,8 +1642,13 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
           </CardContent>
 
           <div className="absolute bottom-8 right-10 z-20 flex cursor-default items-center gap-2 opacity-20 transition-opacity hover:opacity-100">
+<<<<<<< HEAD
             <div className="h-1 w-1 animate-pulse rounded-full bg-indigo-500" />
             <span className="text-[10px] font-medium uppercase tracking-wide text-slate-400">
+=======
+            <div className="bg-accent-primary h-1 w-1 animate-pulse rounded-full" />
+            <span className="text-text-muted text-[10px] font-medium uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
               PROCUREMENT_SYSTEM_v2.4
             </span>
           </div>

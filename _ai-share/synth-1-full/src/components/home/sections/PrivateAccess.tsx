@@ -51,7 +51,11 @@ export function PrivateAccess() {
           animate={{ opacity: 1, scale: 1 }}
           className="w-[280px] flex-shrink-0 snap-start"
         >
+<<<<<<< HEAD
           <div className="group/kick relative rounded-[1.5rem] border border-slate-100 bg-white p-3 shadow-lg">
+=======
+          <div className="border-border-subtle group/kick relative rounded-[1.5rem] border bg-white p-3 shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
             <div className="relative mb-3 aspect-square">
               <div className="absolute inset-0 overflow-hidden rounded-2xl">
                 <img
@@ -61,7 +65,11 @@ export function PrivateAccess() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
               </div>
               <div className="absolute left-2.5 top-2.5 z-20 flex flex-col gap-1">
+<<<<<<< HEAD
                 <Badge className="border-none bg-indigo-600 px-2 py-0.5 text-[6px] font-bold uppercase text-white shadow-lg">
+=======
+                <Badge className="bg-accent-primary border-none px-2 py-0.5 text-[6px] font-bold uppercase text-white shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
                   {item.type}
                 </Badge>
                 <Badge className="border-none bg-amber-500 px-2 py-0.5 text-[6px] font-bold uppercase text-white shadow-lg">
@@ -76,6 +84,7 @@ export function PrivateAccess() {
               </div>
             </div>
             <div className="space-y-3">
+<<<<<<< HEAD
               <h4 className="mb-0.5 text-xs font-bold uppercase tracking-tight text-slate-900">
                 {item.title}
               </h4>
@@ -89,18 +98,39 @@ export function PrivateAccess() {
                   </span>
                   <ArrowRight className="h-1.5 w-1.5 text-indigo-500" />
                   <span className="text-xs font-bold text-indigo-600">
+=======
+              <h4 className="text-text-primary mb-0.5 text-xs font-bold uppercase tracking-tight">
+                {item.title}
+              </h4>
+              <p className="text-text-muted text-[8px] font-bold uppercase tracking-wide">
+                {item.brand}
+              </p>
+              <div className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-xl border p-2.5">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-text-muted text-[10px] font-bold line-through">
+                    {item.price_current.toLocaleString('ru-RU')}₽
+                  </span>
+                  <ArrowRight className="text-accent-primary h-1.5 w-1.5" />
+                  <span className="text-accent-primary text-xs font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                     {item.price_target.toLocaleString('ru-RU')}₽
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5">
+<<<<<<< HEAD
                   <div className="h-1 w-1 animate-pulse rounded-full bg-indigo-500" />
                   <span className="text-[7px] font-bold uppercase tracking-wide text-indigo-600">
+=======
+                  <div className="bg-accent-primary h-1 w-1 animate-pulse rounded-full" />
+                  <span className="text-accent-primary text-[7px] font-bold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                     {item.stage}
                   </span>
                 </div>
               </div>
               <div className="space-y-2">
                 <div className="flex items-end justify-between">
+<<<<<<< HEAD
                   <p className="text-[9px] font-bold uppercase tracking-wide text-slate-900">
                     {item.current} / {item.goal} Slots
                   </p>
@@ -111,6 +141,18 @@ export function PrivateAccess() {
                 <div className="relative h-1 w-full rounded-full bg-slate-100">
                   <div
                     className="relative z-10 h-full rounded-full bg-indigo-600"
+=======
+                  <p className="text-text-primary text-[9px] font-bold uppercase tracking-wide">
+                    {item.current} / {item.goal} Slots
+                  </p>
+                  <p className="text-accent-primary text-[9px] font-bold uppercase tracking-wide">
+                    {Math.round((item.current / item.goal) * 100)}%
+                  </p>
+                </div>
+                <div className="bg-bg-surface2 relative h-1 w-full rounded-full">
+                  <div
+                    className="bg-accent-primary relative z-10 h-full rounded-full"
+>>>>>>> recover/cabinet-wip-from-stash
                     style={{ width: `${(item.current / item.goal) * 100}%` }}
                   />
                   {item.thresholds.map((t) => (

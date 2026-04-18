@@ -33,6 +33,8 @@ import {
 import { getProductPassport, MATERIAL_SOURCES } from '@/lib/logic/passport-utils';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { RegistryPageShell } from '@/components/design-system';
 
 /**
  * Digital Product Passport (DPP) Public View
@@ -55,27 +57,44 @@ export default function ProductPassportPage({
   }, []);
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen bg-slate-50 pb-20 text-slate-900">
       {/* Mobile-Friendly Header */}
       <div className="sticky top-0 z-50 border-b border-slate-100 bg-white px-6 py-4 shadow-sm">
         <div className="container relative mx-auto flex flex-col items-center space-y-3 text-center">
+=======
+    <div className="bg-bg-surface2 text-text-primary min-h-screen pb-20">
+      {/* Mobile-Friendly Header */}
+      <div className="border-border-subtle sticky top-0 z-50 border-b bg-white px-6 py-4 shadow-sm">
+        <div className="relative mx-auto flex w-full max-w-5xl flex-col items-center space-y-3 px-4 text-center sm:px-6">
+>>>>>>> recover/cabinet-wip-from-stash
           {/* Back Button */}
           <div className="absolute left-0 top-1/2 -translate-y-1/2">
             <Button
               asChild
               variant="ghost"
               size="icon"
+<<<<<<< HEAD
               className="h-8 w-8 rounded-full hover:bg-slate-50"
+=======
+              className="hover:bg-bg-surface2 h-8 w-8 rounded-full"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <Link href="/brand/products">
-                <ArrowLeft className="h-4 w-4 text-slate-400" />
+                <ArrowLeft className="text-text-muted h-4 w-4" />
               </Link>
             </Button>
           </div>
 
+<<<<<<< HEAD
           <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600">
             <ShieldCheck className="h-3.5 w-3.5" />
             Digital Product Passport
+=======
+          <div className="text-accent-primary flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em]">
+            <ShieldCheck className="h-3.5 w-3.5" />
+            Digital Product Passport (<AcronymWithTooltip abbr="DPP" />)
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
           <h1 className="font-headline text-sm font-black uppercase tracking-tighter">
             {passport.name}
@@ -87,18 +106,31 @@ export default function ProductPassportPage({
             >
               Authentic & Verified
             </Badge>
+<<<<<<< HEAD
             <span className="text-[10px] font-black uppercase text-slate-300">
               SKU: {passport.sku}
+=======
+            <span className="text-text-muted text-[10px] font-black uppercase">
+              <AcronymWithTooltip abbr="SKU" />: {passport.sku}
+>>>>>>> recover/cabinet-wip-from-stash
             </span>
           </div>
         </div>
       </div>
 
+<<<<<<< HEAD
       <div className="container mx-auto mt-8 max-w-2xl space-y-4 px-4">
         {/* Visual Header / Gallery Mock */}
         <Card className="overflow-hidden rounded-xl border-none bg-white shadow-xl shadow-slate-200/50">
           <div className="group relative flex aspect-[4/5] items-center justify-center bg-slate-100">
             <Package className="h-20 w-20 text-slate-200" />
+=======
+      <RegistryPageShell className="mt-8 max-w-2xl space-y-4 pb-16">
+        {/* Visual Header / Gallery Mock */}
+        <Card className="overflow-hidden rounded-xl border-none bg-white shadow-md shadow-xl">
+          <div className="bg-bg-surface2 group relative flex aspect-[4/5] items-center justify-center">
+            <Package className="text-text-muted h-20 w-20" />
+>>>>>>> recover/cabinet-wip-from-stash
             <div className="absolute right-6 top-4">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/80 shadow-sm backdrop-blur">
                 <Heart className="h-5 w-5 text-rose-500" />
@@ -109,31 +141,50 @@ export default function ProductPassportPage({
 
         {/* Origin & Production Section */}
         <div className="space-y-4">
+<<<<<<< HEAD
           <h3 className="ml-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+          <h3 className="text-text-muted ml-4 text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             Origin & Supply Chain
           </h3>
           <Card className="space-y-4 rounded-xl border-none p-4 shadow-sm">
             <div className="flex items-start gap-3">
+<<<<<<< HEAD
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-indigo-50">
                 <Globe className="h-6 w-6 text-indigo-600" />
+=======
+              <div className="bg-accent-primary/10 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl">
+                <Globe className="text-accent-primary h-6 w-6" />
+>>>>>>> recover/cabinet-wip-from-stash
               </div>
               <div className="space-y-1">
                 <p className="text-sm font-black uppercase tracking-tight">
                   Made in {passport.originCountry}
                 </p>
+<<<<<<< HEAD
                 <p className="text-xs font-medium text-slate-500">
+=======
+                <p className="text-text-secondary text-xs font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                   {passport.factoryName}, {passport.factoryLocation}
                 </p>
               </div>
             </div>
 
+<<<<<<< HEAD
             <div className="space-y-4 border-t border-slate-50 pt-6">
               <p className="text-[10px] font-black uppercase text-slate-400">
+=======
+            <div className="border-border-subtle space-y-4 border-t pt-6">
+              <p className="text-text-muted text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 Material Traceability
               </p>
               {sources.map((source, i) => (
                 <div
                   key={i}
+<<<<<<< HEAD
                   className="flex items-center justify-between rounded-2xl bg-slate-50 p-4"
                 >
                   <div className="flex items-center gap-3">
@@ -143,12 +194,27 @@ export default function ProductPassportPage({
                     <div>
                       <p className="text-xs font-bold">{source.material}</p>
                       <p className="text-[9px] font-medium uppercase text-slate-400">
+=======
+                  className="bg-bg-surface2 flex items-center justify-between rounded-2xl p-4"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="border-border-subtle flex h-8 w-8 items-center justify-center rounded-full border bg-white">
+                      <Layers className="text-accent-primary h-4 w-4" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold">{source.material}</p>
+                      <p className="text-text-muted text-[9px] font-medium uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                         {source.origin} • {source.supplier}
                       </p>
                     </div>
                   </div>
                   <Badge
+<<<<<<< HEAD
                     variant="ghost"
+=======
+                    variant="outline"
+>>>>>>> recover/cabinet-wip-from-stash
                     className="text-[8px] font-black uppercase text-emerald-600"
                   >
                     {source.sustainabilityScore}% ESG
@@ -161,12 +227,21 @@ export default function ProductPassportPage({
 
         {/* Environmental Impact */}
         <div className="space-y-4">
+<<<<<<< HEAD
           <h3 className="ml-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
             Environmental Impact
           </h3>
           <div className="grid grid-cols-2 gap-3">
             <Card className="space-y-3 rounded-xl border-none bg-slate-900 p-4 text-white shadow-sm">
               <div className="flex items-center gap-2 text-indigo-400">
+=======
+          <h3 className="text-text-muted ml-4 text-[10px] font-black uppercase tracking-widest">
+            Environmental Impact
+          </h3>
+          <div className="grid grid-cols-2 gap-3">
+            <Card className="bg-text-primary space-y-3 rounded-xl border-none p-4 text-white shadow-sm">
+              <div className="text-accent-primary flex items-center gap-2">
+>>>>>>> recover/cabinet-wip-from-stash
                 <Leaf className="h-4 w-4" />
                 <span className="text-[8px] font-black uppercase tracking-widest">
                   Carbon Footprint
@@ -177,6 +252,7 @@ export default function ProductPassportPage({
                 CO2 PER ITEM
               </p>
             </Card>
+<<<<<<< HEAD
             <Card className="space-y-3 rounded-xl border border-none border-slate-100 bg-white p-4 shadow-sm">
               <div className="flex items-center gap-2 text-indigo-600">
                 <Droplets className="h-4 w-4" />
@@ -186,6 +262,17 @@ export default function ProductPassportPage({
                 {isMounted ? passport.waterUsage.toLocaleString() : '—'} L
               </p>
               <p className="text-[10px] font-bold uppercase tracking-tight text-slate-400">
+=======
+            <Card className="border-border-subtle space-y-3 rounded-xl border border-none bg-white p-4 shadow-sm">
+              <div className="text-accent-primary flex items-center gap-2">
+                <Droplets className="h-4 w-4" />
+                <span className="text-[8px] font-black uppercase tracking-widest">Water Usage</span>
+              </div>
+              <p className="text-text-primary text-sm font-black">
+                {isMounted ? passport.waterUsage.toLocaleString() : '—'} L
+              </p>
+              <p className="text-text-muted text-[10px] font-bold uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                 LITERS PER ITEM
               </p>
             </Card>
@@ -194,14 +281,22 @@ export default function ProductPassportPage({
 
         {/* Certifications */}
         <div className="space-y-4">
+<<<<<<< HEAD
           <h3 className="ml-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+          <h3 className="text-text-muted ml-4 text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             Verified Certifications
           </h3>
           <div className="flex flex-wrap gap-2">
             {passport.certifications.map((cert, i) => (
               <Badge
                 key={i}
+<<<<<<< HEAD
                 className="h-10 gap-2 rounded-full border border-indigo-100 bg-white px-6 text-[9px] font-black uppercase text-indigo-600 shadow-sm"
+=======
+                className="text-accent-primary border-accent-primary/20 h-10 gap-2 rounded-full border bg-white px-6 text-[9px] font-black uppercase shadow-sm"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <CheckCircle2 className="h-3.5 w-3.5" />
                 {cert}
@@ -212,14 +307,23 @@ export default function ProductPassportPage({
 
         {/* Composition & Care */}
         <div className="space-y-4">
+<<<<<<< HEAD
           <h3 className="ml-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+          <h3 className="text-text-muted ml-4 text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             Care & Circularity
           </h3>
           <Card className="space-y-4 rounded-xl border-none p-4 shadow-sm">
             <div className="space-y-4">
               <div className="flex items-center gap-2">
+<<<<<<< HEAD
                 <Scissors className="h-4 w-4 text-indigo-600" />
                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+                <Scissors className="text-accent-primary h-4 w-4" />
+                <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   Composition
                 </p>
               </div>
@@ -227,25 +331,44 @@ export default function ProductPassportPage({
                 {passport.composition.map((mat, i) => (
                   <div key={i} className="space-y-1">
                     <p className="text-sm font-black">{mat.percentage}%</p>
+<<<<<<< HEAD
                     <p className="text-[10px] font-bold uppercase text-slate-400">{mat.material}</p>
+=======
+                    <p className="text-text-muted text-[10px] font-bold uppercase">
+                      {mat.material}
+                    </p>
+>>>>>>> recover/cabinet-wip-from-stash
                   </div>
                 ))}
               </div>
             </div>
 
+<<<<<<< HEAD
             <div className="space-y-6 border-t border-slate-50 pt-8">
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
                   <Zap className="h-4 w-4 text-amber-500" />
                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+            <div className="border-border-subtle space-y-6 border-t pt-8">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Zap className="h-4 w-4 text-amber-500" />
+                  <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     Care Instructions
                   </p>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   {passport.careInstructions.map((instr, i) => (
                     <div key={i} className="flex items-center gap-2">
+<<<<<<< HEAD
                       <CheckCircle2 className="h-3 w-3 text-indigo-300" />
                       <span className="text-xs font-medium text-slate-600">{instr}</span>
+=======
+                      <CheckCircle2 className="text-accent-primary h-3 w-3" />
+                      <span className="text-text-secondary text-xs font-medium">{instr}</span>
+>>>>>>> recover/cabinet-wip-from-stash
                     </div>
                   ))}
                 </div>
@@ -254,7 +377,11 @@ export default function ProductPassportPage({
               {passport.repairGuideUrl && (
                 <Button
                   variant="outline"
+<<<<<<< HEAD
                   className="h-12 w-full gap-2 rounded-2xl border-slate-100 text-[10px] font-black uppercase"
+=======
+                  className="border-border-subtle h-12 w-full gap-2 rounded-2xl text-[10px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <History className="h-4 w-4" /> Repair & Care Guide
                   <ExternalLink className="ml-auto h-3 w-3 opacity-40" />
@@ -266,7 +393,11 @@ export default function ProductPassportPage({
 
         {/* Resale CTA */}
         {passport.resaleEligible && (
+<<<<<<< HEAD
           <Card className="space-y-6 rounded-xl border-none bg-indigo-600 p-4 text-white shadow-xl shadow-indigo-100">
+=======
+          <Card className="shadow-accent-primary/10 bg-accent-primary space-y-6 rounded-xl border-none p-4 text-white shadow-xl">
+>>>>>>> recover/cabinet-wip-from-stash
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10">
                 <ArrowRightLeft className="h-5 w-5" />
@@ -282,7 +413,11 @@ export default function ProductPassportPage({
               Эта вещь верифицирована. Вы можете мгновенно выставить её на перепродажу через
               маркетплейс Synth-1, получив полную цену за аутентичность.
             </p>
+<<<<<<< HEAD
             <Button className="h-12 w-full rounded-xl border-none bg-white text-[10px] font-black uppercase text-indigo-600 hover:bg-indigo-50">
+=======
+            <Button className="text-accent-primary hover:bg-accent-primary/10 h-12 w-full rounded-xl border-none bg-white text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
               List for Resale
             </Button>
           </Card>
@@ -291,6 +426,7 @@ export default function ProductPassportPage({
         {/* Blockchain Proof */}
         {passport.blockchainHash && (
           <div className="flex flex-col items-center gap-3 py-4">
+<<<<<<< HEAD
             <div className="rounded-3xl border border-slate-100 bg-white p-4 shadow-sm">
               <QrCode className="h-32 w-32 text-slate-900" />
             </div>
@@ -299,22 +435,41 @@ export default function ProductPassportPage({
                 Blockchain Verified
               </p>
               <p className="font-mono text-[9px] text-slate-300">{passport.blockchainHash}</p>
+=======
+            <div className="border-border-subtle rounded-3xl border bg-white p-4 shadow-sm">
+              <QrCode className="text-text-primary h-32 w-32" />
+            </div>
+            <div className="space-y-1 text-center">
+              <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                Blockchain Verified
+              </p>
+              <p className="text-text-muted font-mono text-[9px]">{passport.blockchainHash}</p>
+>>>>>>> recover/cabinet-wip-from-stash
             </div>
           </div>
         )}
 
         {/* Actions Footer */}
+<<<<<<< HEAD
         <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-slate-100 bg-white/80 p-4 backdrop-blur-xl">
           <div className="container mx-auto flex max-w-2xl gap-3">
             <Button className="h-10 flex-1 gap-2 rounded-2xl bg-slate-900 text-[10px] font-black uppercase text-white">
               <ShoppingCart className="h-4 w-4" /> Add to Closet
             </Button>
             <Button variant="outline" className="h-10 w-10 rounded-2xl border-slate-200">
+=======
+        <div className="border-border-subtle fixed bottom-0 left-0 right-0 z-50 border-t bg-white/80 p-4 backdrop-blur-xl">
+          <div className="mx-auto flex w-full max-w-2xl gap-3 px-4 sm:px-6">
+            <Button className="bg-text-primary h-10 flex-1 gap-2 rounded-2xl text-[10px] font-black uppercase text-white">
+              <ShoppingCart className="h-4 w-4" /> Add to Closet
+            </Button>
+            <Button variant="outline" className="border-border-default h-10 w-10 rounded-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
               <Share2 className="h-4 w-4" />
             </Button>
           </div>
         </div>
-      </div>
+      </RegistryPageShell>
     </div>
   );
 }

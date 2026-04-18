@@ -1,4 +1,5 @@
 'use client';
+import { RegistryPageShell } from '@/components/design-system';
 
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -14,7 +15,11 @@ export default function CompanyAccountsPage() {
   const accounts = getCompanyAccounts();
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
+=======
+    <RegistryPageShell className="max-w-4xl space-y-6">
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.brand.retailers}>
           <Button variant="ghost" size="icon">
@@ -25,7 +30,11 @@ export default function CompanyAccountsPage() {
           <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
             <Building2 className="h-6 w-6" /> Company Accounts
           </h1>
+<<<<<<< HEAD
           <p className="mt-0.5 text-sm text-slate-500">
+=======
+          <p className="text-text-secondary mt-0.5 text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Одно юрлицо, несколько пользователей: директор, байер, бухгалтер.
           </p>
         </div>
@@ -40,7 +49,11 @@ export default function CompanyAccountsPage() {
         </CardHeader>
         <CardContent>
           {accounts.length === 0 ? (
+<<<<<<< HEAD
             <div className="py-8 text-center text-sm text-slate-500">
+=======
+            <div className="text-text-secondary py-8 text-center text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
               <Users className="mx-auto mb-3 h-12 w-12 opacity-40" />
               <p>Нет company accounts. Создайте при добавлении партнёра.</p>
               <Button variant="outline" size="sm" className="mt-3" asChild>
@@ -52,11 +65,19 @@ export default function CompanyAccountsPage() {
               {accounts.map((a) => (
                 <div
                   key={a.id}
+<<<<<<< HEAD
                   className="flex items-start justify-between rounded-xl border border-slate-200 p-4"
                 >
                   <div>
                     <p className="font-medium">{a.legalName}</p>
                     {a.inn && <p className="text-xs text-slate-500">ИНН {a.inn}</p>}
+=======
+                  className="border-border-default flex items-start justify-between rounded-xl border p-4"
+                >
+                  <div>
+                    <p className="font-medium">{a.legalName}</p>
+                    {a.inn && <p className="text-text-secondary text-xs">ИНН {a.inn}</p>}
+>>>>>>> recover/cabinet-wip-from-stash
                     <div className="mt-2 flex flex-wrap gap-2">
                       {a.users.map((u) => (
                         <Badge key={u.id} variant="outline" className="text-[9px]">
@@ -92,6 +113,6 @@ export default function CompanyAccountsPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getB2BLinks()} title="B2B" />
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -1,6 +1,8 @@
 import type { Product } from '@/lib/types';
 import type { PriceWatchEntryV1 } from './types';
 
+export type { PriceWatchEntryV1 } from './types';
+
 const STORAGE_KEY = 'synth.priceWatch.v1';
 
 export function loadPriceWatchList(): PriceWatchEntryV1[] {

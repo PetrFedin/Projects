@@ -32,18 +32,30 @@ export function FinancialHeader({ activeView, setActiveView, isAdmin }: Financia
             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#0f111a] shadow-xl">
               <Calculator className="h-6 w-6 text-white" />
             </div>
+<<<<<<< HEAD
             <h2 className="font-headline text-base font-black uppercase tracking-tighter text-slate-900">
               Financial Control Hub
             </h2>
           </div>
           <p className="ml-1 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+=======
+            <h2 className="text-text-primary font-headline text-base font-black uppercase tracking-tighter">
+              Financial Control Hub
+            </h2>
+          </div>
+          <p className="text-text-muted ml-1 text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             Управление экономикой бизнеса, планирование и финансовый аудит
           </p>
         </div>
         <div className="flex gap-3">
           <Button
             variant="outline"
+<<<<<<< HEAD
             className="h-12 gap-2 rounded-xl border-slate-200 px-8 text-[9px] font-black uppercase tracking-widest shadow-sm transition-all hover:bg-slate-50"
+=======
+            className="border-border-default hover:bg-bg-surface2 h-12 gap-2 rounded-xl px-8 text-[9px] font-black uppercase tracking-widest shadow-sm transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <Download className="h-4 w-4" /> Экспорт отчетности
           </Button>
@@ -54,7 +66,11 @@ export function FinancialHeader({ activeView, setActiveView, isAdmin }: Financia
       </header>
 
       {/* Financial Navigation */}
+<<<<<<< HEAD
       <div className="custom-scrollbar flex w-fit items-center gap-3 overflow-x-auto rounded-[1.5rem] border border-slate-100 bg-white/50 p-1.5 shadow-sm backdrop-blur-sm">
+=======
+      <div className="border-border-subtle custom-scrollbar flex w-fit items-center gap-3 overflow-x-auto rounded-[1.5rem] border bg-white/50 p-1.5 shadow-sm backdrop-blur-sm">
+>>>>>>> recover/cabinet-wip-from-stash
         {[
           { id: 'overview', label: 'Обзор', icon: PieChart },
           { id: 'fintech', label: 'Fintech & Escrow', icon: ShieldCheck },
@@ -74,8 +90,13 @@ export function FinancialHeader({ activeView, setActiveView, isAdmin }: Financia
             className={cn(
               'flex h-11 items-center gap-2.5 whitespace-nowrap rounded-xl px-6 text-[10px] font-black uppercase tracking-widest transition-all',
               activeView === tab.id
+<<<<<<< HEAD
                 ? 'scale-[1.02] bg-slate-900 text-white shadow-xl'
                 : 'text-slate-400 hover:bg-white/80 hover:text-slate-600'
+=======
+                ? 'bg-text-primary scale-[1.02] text-white shadow-xl'
+                : 'text-text-muted hover:text-text-secondary hover:bg-white/80'
+>>>>>>> recover/cabinet-wip-from-stash
             )}
           >
             <tab.icon className="h-4 w-4" />

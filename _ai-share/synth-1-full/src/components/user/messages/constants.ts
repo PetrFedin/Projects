@@ -1,4 +1,8 @@
 import { UserRole } from '@/lib/types';
+<<<<<<< HEAD
+=======
+import { SHOP_B2B_ORDERS_HUB_LABEL } from '@/lib/ui/b2b-registry-label';
+>>>>>>> recover/cabinet-wip-from-stash
 import {
   ArrowDown,
   ArrowUp,
@@ -28,6 +32,7 @@ export const USER_STATUSES = [
 
 export const ROLE_LABELS = {
   admin: 'Админ',
+  b2b: 'B2B',
   brand: 'Бренд',
   client: 'Клиент',
   shop: 'Магазин',
@@ -50,6 +55,10 @@ export const ROLE_PERMISSIONS = {
     'starred',
     'archived',
   ],
+<<<<<<< HEAD
+=======
+  b2b: ['all', 'brand', 'shop', 'team', 'b2b_orders', 'collections', 'starred', 'archived'],
+>>>>>>> recover/cabinet-wip-from-stash
   brand: [
     'all',
     'admin',
@@ -81,7 +90,7 @@ export const chatGroupConfig = {
   supplier: { label: 'Поставщики', icon: Handshake },
   manufacturer: { label: 'Производители', icon: Factory },
   production: { label: 'Производство', icon: Briefcase },
-  b2b_orders: { label: 'B2B Заказы', icon: Package },
+  b2b_orders: { label: SHOP_B2B_ORDERS_HUB_LABEL, icon: Package },
   collections: { label: 'Коллекции', icon: Layers },
   shop: { label: 'Магазины', icon: Users },
   team: { label: 'Команда', icon: Users },
@@ -90,8 +99,11 @@ export const chatGroupConfig = {
   archived: { label: 'Архив', icon: Archive },
 };
 
+export type ChatGroupKey = keyof typeof chatGroupConfig;
+export type ChatGroupTuple = [ChatGroupKey, (typeof chatGroupConfig)[ChatGroupKey]];
+
 export const priorityConfig = {
-  low: { label: 'Низкий', icon: ArrowDown, color: 'text-slate-400' },
+  low: { label: 'Низкий', icon: ArrowDown, color: 'text-text-muted' },
   medium: { label: 'Средний', icon: ArrowUp, color: 'text-amber-500' },
   high: { label: 'Высокий', icon: AlertCircle, color: 'text-rose-500' },
   critical: {
@@ -102,7 +114,7 @@ export const priorityConfig = {
 } satisfies Record<string, { label: string; icon: React.ElementType; color: string }>;
 
 export const statusConfig = {
-  pending: { label: 'Ожидает', color: 'text-slate-400' },
+  pending: { label: 'Ожидает', color: 'text-text-muted' },
   in_progress: { label: 'В работе', color: 'text-blue-500' },
   done: { label: 'Завершено', color: 'text-emerald-500' },
 };

@@ -129,14 +129,22 @@ export function GlobalProductionSearch({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-xl gap-0 overflow-hidden rounded-2xl border-none p-0 shadow-xl">
+<<<<<<< HEAD
         <DialogHeader className="border-b border-slate-100 p-4">
+=======
+        <DialogHeader className="border-border-subtle border-b p-4">
+>>>>>>> recover/cabinet-wip-from-stash
           <DialogTitle className="text-xs font-black uppercase tracking-widest">
             Глобальный поиск
           </DialogTitle>
         </DialogHeader>
         <div className="p-3">
           <div className="relative">
+<<<<<<< HEAD
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+=======
+            <Search className="text-text-muted absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
+>>>>>>> recover/cabinet-wip-from-stash
             <Input
               placeholder="Артикул, PO, коллекция, фабрика..."
               value={query}
@@ -147,9 +155,13 @@ export function GlobalProductionSearch({
             />
           </div>
         </div>
-        <div className="max-h-[320px] overflow-y-auto border-t border-slate-100">
+        <div className="border-border-subtle max-h-[320px] overflow-y-auto border-t">
           {results.length === 0 ? (
+<<<<<<< HEAD
             <div className="p-8 text-center text-[11px] text-slate-400">
+=======
+            <div className="text-text-muted p-8 text-center text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
               Введите запрос для поиска
             </div>
           ) : (
@@ -166,6 +178,7 @@ export function GlobalProductionSearch({
                   onMouseEnter={() => setSelectedIdx(i)}
                   className={cn(
                     'flex w-full items-center gap-3 px-4 py-3 text-left transition-colors',
+<<<<<<< HEAD
                     i === selectedIdx ? 'bg-indigo-50' : 'hover:bg-slate-50'
                   )}
                 >
@@ -175,6 +188,17 @@ export function GlobalProductionSearch({
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-[11px] font-bold">{r.title}</p>
                     {r.subtitle && <p className="text-[9px] text-slate-500">{r.subtitle}</p>}
+=======
+                    i === selectedIdx ? 'bg-accent-primary/10' : 'hover:bg-bg-surface2'
+                  )}
+                >
+                  <div className="bg-bg-surface2 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+                    <Icon className="text-text-secondary h-4 w-4" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-[11px] font-bold">{r.title}</p>
+                    {r.subtitle && <p className="text-text-secondary text-[9px]">{r.subtitle}</p>}
+>>>>>>> recover/cabinet-wip-from-stash
                   </div>
                   <Badge variant="outline" className="shrink-0 text-[8px]">
                     {r.type}

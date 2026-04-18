@@ -21,19 +21,30 @@ export function AnalyticsCard({
   children,
 }: AnalyticsCardProps) {
   return (
-    <Card className={cn('border-slate-200 shadow-sm', className)}>
+    <Card className={cn('border-border-default shadow-sm', className)}>
       <CardHeader className="flex flex-row items-start justify-between space-y-0 p-4 pb-2">
         <div className="min-w-0 space-y-1">
+<<<<<<< HEAD
           <CardTitle className="text-sm font-semibold leading-tight text-slate-900">
             {title}
           </CardTitle>
           {description ? <p className="text-xs text-slate-500">{description}</p> : null}
+=======
+          <CardTitle className="text-text-primary text-sm font-semibold leading-tight">
+            {title}
+          </CardTitle>
+          {description ? <p className="text-text-secondary text-xs">{description}</p> : null}
+>>>>>>> recover/cabinet-wip-from-stash
         </div>
         {action ? <div className="shrink-0">{action}</div> : null}
       </CardHeader>
       <CardContent className="p-4 pt-0">{children}</CardContent>
       {footer ? (
+<<<<<<< HEAD
         <CardFooter className="border-t border-slate-100 px-4 py-3 text-xs text-slate-600">
+=======
+        <CardFooter className="border-border-subtle text-text-secondary border-t px-4 py-3 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
           {footer}
         </CardFooter>
       ) : null}

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
 import { PackageCheck, ArrowLeft, Store, RotateCcw } from 'lucide-react';
+import { RegistryPageShell } from '@/components/design-system';
 
 const MOCK_PICKUPS = [
   { id: 'p1', orderId: 'ORD-2026-001', customer: 'Иван П.', status: 'ready', items: 2 },
@@ -14,7 +15,11 @@ const MOCK_PICKUPS = [
 
 export default function ShopBopisPage() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
+=======
+    <RegistryPageShell className="max-w-2xl space-y-6">
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="flex flex-wrap items-center gap-3">
         <Link href={ROUTES.shop.home}>
           <Button variant="ghost" size="icon">
@@ -25,12 +30,16 @@ export default function ShopBopisPage() {
           <Store className="h-6 w-6" /> BOPIS — выдача заказов
         </h1>
       </div>
+<<<<<<< HEAD
       <p className="text-sm text-slate-500">
+=======
+      <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
         Заказы, оформленные онлайн и выбранные для самовывоза в этом магазине. Подтвердите выдачу
         или примите возврат.
       </p>
 
-      <Card className="rounded-xl border border-slate-200 shadow-sm">
+      <Card className="border-border-default rounded-xl border shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
             <PackageCheck className="h-5 w-5" /> К выдаче
@@ -42,11 +51,19 @@ export default function ShopBopisPage() {
             {MOCK_PICKUPS.map((p) => (
               <li
                 key={p.id}
+<<<<<<< HEAD
                 className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
               >
                 <div>
                   <p className="font-mono text-xs font-semibold">{p.orderId}</p>
                   <p className="text-[11px] text-slate-500">
+=======
+                className="bg-bg-surface2 border-border-subtle flex items-center justify-between gap-2 rounded-lg border p-3"
+              >
+                <div>
+                  <p className="font-mono text-xs font-semibold">{p.orderId}</p>
+                  <p className="text-text-secondary text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                     {p.customer} · {p.items} поз.
                   </p>
                 </div>
@@ -67,7 +84,7 @@ export default function ShopBopisPage() {
         </CardContent>
       </Card>
 
-      <Card className="rounded-xl border border-slate-200 shadow-sm">
+      <Card className="border-border-default rounded-xl border shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
             <RotateCcw className="h-5 w-5" /> Возврат в магазине
@@ -81,12 +98,18 @@ export default function ShopBopisPage() {
         </CardContent>
       </Card>
 
+<<<<<<< HEAD
       <p className="text-[11px] text-slate-500">
         Управление со стороны бренда:{' '}
         <Link href={ROUTES.brand.bopis} className="text-indigo-600 hover:underline">
+=======
+      <p className="text-text-secondary text-[11px]">
+        Управление со стороны бренда:{' '}
+        <Link href={ROUTES.brand.bopis} className="text-accent-primary hover:underline">
+>>>>>>> recover/cabinet-wip-from-stash
           BOPIS Hub
         </Link>
       </p>
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -11,17 +11,27 @@ export interface FilterParams {
 }
 
 /** Фильтр по аудитории, сезону, бюджету, цветам и бренду Syntha */
+<<<<<<< HEAD
 export function filterProducts(
   products: Array<{
+=======
+export function filterProducts<
+  T extends {
+>>>>>>> recover/cabinet-wip-from-stash
     id: string;
     audience: string;
     season: string;
     price: number;
     color: string;
     brand: string;
+<<<<<<< HEAD
   }>,
   params: FilterParams
 ): typeof products {
+=======
+  },
+>(products: T[], params: FilterParams): T[] {
+>>>>>>> recover/cabinet-wip-from-stash
   return products.filter((p) => {
     if (params.brandFilter && !p.brand.toLowerCase().includes(params.brandFilter.toLowerCase())) {
       return false;

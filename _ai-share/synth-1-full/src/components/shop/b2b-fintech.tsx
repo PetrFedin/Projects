@@ -16,6 +16,10 @@ import {
   Percent,
   Wallet,
   AlertCircle,
+<<<<<<< HEAD
+=======
+  RefreshCcw,
+>>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -46,7 +50,11 @@ const MOCK_FINANCING_OFFERS = [
     rate: '14% годовых',
     period: '12 месяцев',
     icon: Landmark,
+<<<<<<< HEAD
     color: 'bg-indigo-600',
+=======
+    color: 'bg-accent-primary',
+>>>>>>> recover/cabinet-wip-from-stash
     status: 'Пре-аппрув',
   },
 ];
@@ -91,6 +99,7 @@ export function B2BFintech() {
       <CardContent className="space-y-10 p-3 pt-4">
         {/* Quick Stats */}
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+<<<<<<< HEAD
           <div className="rounded-xl border border-slate-100 bg-slate-50 p-4">
             <p className="mb-1 text-[10px] font-black uppercase tracking-widest text-slate-400">
               Использовано
@@ -103,6 +112,20 @@ export function B2BFintech() {
               К оплате (30д)
             </p>
             <h4 className="text-sm font-black tabular-nums text-slate-900">450,000 ₽</h4>
+=======
+          <div className="bg-bg-surface2 border-border-subtle rounded-xl border p-4">
+            <p className="text-text-muted mb-1 text-[10px] font-black uppercase tracking-widest">
+              Использовано
+            </p>
+            <h4 className="text-text-primary text-sm font-black tabular-nums">1.2M ₽</h4>
+            <Progress value={16} className="bg-border-subtle mt-3 h-1" />
+          </div>
+          <div className="bg-bg-surface2 border-border-subtle rounded-xl border p-4">
+            <p className="text-text-muted mb-1 text-[10px] font-black uppercase tracking-widest">
+              К оплате (30д)
+            </p>
+            <h4 className="text-text-primary text-sm font-black tabular-nums">450,000 ₽</h4>
+>>>>>>> recover/cabinet-wip-from-stash
             <div className="mt-2 flex items-center gap-2">
               <Clock className="h-3 w-3 text-amber-500" />
               <span className="text-[9px] font-bold uppercase text-amber-600">
@@ -110,9 +133,15 @@ export function B2BFintech() {
               </span>
             </div>
           </div>
+<<<<<<< HEAD
           <div className="flex flex-col justify-between rounded-xl bg-slate-900 p-4 text-white">
             <div className="flex items-center gap-2">
               <BrainCircuit className="h-4 w-4 text-indigo-400" />
+=======
+          <div className="bg-text-primary flex flex-col justify-between rounded-xl p-4 text-white">
+            <div className="flex items-center gap-2">
+              <BrainCircuit className="text-accent-primary h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
               <span className="text-[9px] font-black uppercase tracking-widest">AI Scoring</span>
             </div>
             <div>
@@ -128,7 +157,11 @@ export function B2BFintech() {
 
         {/* Offers Grid */}
         <div className="space-y-6">
+<<<<<<< HEAD
           <h4 className="border-b pb-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+          <h4 className="text-text-muted border-b pb-2 text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             Доступные предложения
           </h4>
           <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
@@ -139,8 +172,13 @@ export function B2BFintech() {
                 className={cn(
                   'group relative cursor-pointer overflow-hidden rounded-xl border-2 p-4 transition-all',
                   selectedOffer === offer.id
+<<<<<<< HEAD
                     ? 'scale-102 border-indigo-600 bg-white shadow-2xl'
                     : 'border-slate-100 bg-slate-50 hover:border-slate-300'
+=======
+                    ? 'border-accent-primary scale-102 bg-white shadow-2xl'
+                    : 'border-border-subtle bg-bg-surface2 hover:border-border-default'
+>>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 <div className="relative z-10 flex items-start justify-between">
@@ -152,20 +190,34 @@ export function B2BFintech() {
                   >
                     {React.createElement(offer.icon, { className: 'h-6 w-6' })}
                   </div>
+<<<<<<< HEAD
                   <Badge className="border-none bg-white/80 text-[8px] font-black uppercase text-slate-900 backdrop-blur-sm">
+=======
+                  <Badge className="text-text-primary border-none bg-white/80 text-[8px] font-black uppercase backdrop-blur-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                     {offer.type}
                   </Badge>
                 </div>
 
                 <div className="relative z-10 mt-6 space-y-2">
+<<<<<<< HEAD
                   <h5 className="text-base font-black uppercase tracking-tighter text-slate-900">
                     {offer.title}
                   </h5>
                   <p className="text-xs font-medium leading-relaxed text-slate-500">{offer.desc}</p>
+=======
+                  <h5 className="text-text-primary text-base font-black uppercase tracking-tighter">
+                    {offer.title}
+                  </h5>
+                  <p className="text-text-secondary text-xs font-medium leading-relaxed">
+                    {offer.desc}
+                  </p>
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
 
                 <div className="relative z-10 mt-8 grid grid-cols-3 gap-3">
                   <div className="space-y-1">
+<<<<<<< HEAD
                     <p className="text-[8px] font-black uppercase text-slate-400">Лимит</p>
                     <p className="text-sm font-black text-slate-900">{offer.limit}</p>
                   </div>
@@ -176,6 +228,18 @@ export function B2BFintech() {
                   <div className="space-y-1">
                     <p className="text-[8px] font-black uppercase text-slate-400">Срок</p>
                     <p className="text-sm font-black text-slate-900">{offer.period}</p>
+=======
+                    <p className="text-text-muted text-[8px] font-black uppercase">Лимит</p>
+                    <p className="text-text-primary text-sm font-black">{offer.limit}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-text-muted text-[8px] font-black uppercase">Ставка</p>
+                    <p className="text-accent-primary text-sm font-black">{offer.rate}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-text-muted text-[8px] font-black uppercase">Срок</p>
+                    <p className="text-text-primary text-sm font-black">{offer.period}</p>
+>>>>>>> recover/cabinet-wip-from-stash
                   </div>
                 </div>
 
@@ -183,7 +247,11 @@ export function B2BFintech() {
                   <motion.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
+<<<<<<< HEAD
                     className="relative z-10 mt-8 flex items-center justify-between border-t border-slate-100 pt-8"
+=======
+                    className="border-border-subtle relative z-10 mt-8 flex items-center justify-between border-t pt-8"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <div className="flex items-center gap-2 text-emerald-600">
                       <CheckCircle2 className="h-4 w-4" />
@@ -195,7 +263,11 @@ export function B2BFintech() {
                         handleApply();
                       }}
                       disabled={isApplying}
+<<<<<<< HEAD
                       className="h-10 rounded-xl bg-slate-900 px-8 text-[9px] font-black uppercase tracking-widest text-white transition-transform hover:scale-105"
+=======
+                      className="bg-text-primary h-10 rounded-xl px-8 text-[9px] font-black uppercase tracking-widest text-white transition-transform hover:scale-105"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       {isApplying ? (
                         <RefreshCcw className="mr-2 h-3 w-3 animate-spin" />
@@ -216,6 +288,7 @@ export function B2BFintech() {
         </div>
 
         {/* Security / Compliance */}
+<<<<<<< HEAD
         <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-4">
           <div className="flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-100 bg-white">
@@ -226,13 +299,29 @@ export function B2BFintech() {
                 Безопасность сделок обеспечена Syntha Secure Pay
               </p>
               <p className="mt-0.5 text-[9px] font-bold uppercase text-slate-500">
+=======
+        <div className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-xl border p-4">
+          <div className="flex items-center gap-3">
+            <div className="border-border-subtle flex h-12 w-12 items-center justify-center rounded-2xl border bg-white">
+              <ShieldCheck className="text-accent-primary h-6 w-6" />
+            </div>
+            <div>
+              <p className="text-text-primary text-[11px] font-black uppercase tracking-tight">
+                Безопасность сделок обеспечена Syntha Secure Pay
+              </p>
+              <p className="text-text-secondary mt-0.5 text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 Лицензированные финансовые партнеры • Смарт-контракты
               </p>
             </div>
           </div>
           <Button
             variant="ghost"
+<<<<<<< HEAD
             className="text-[9px] font-black uppercase text-slate-400 hover:text-slate-900"
+=======
+            className="text-text-muted hover:text-text-primary text-[9px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             Посмотреть договор
           </Button>

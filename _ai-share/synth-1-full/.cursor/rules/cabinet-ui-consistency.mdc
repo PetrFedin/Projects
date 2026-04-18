@@ -1,0 +1,14 @@
+---
+description: Единый визуальный стиль кабинетов (brand/shop/client/admin/distributor/factory)
+globs: src/app/brand/**/*,src/app/shop/**/*,src/app/client/**/*,src/app/admin/**/*,src/app/distributor/**/*,src/app/factory/**/*
+alwaysApply: false
+---
+
+# Cabinet UI — единый стиль
+
+- **Источник токенов вкладок/бейджей:** `src/lib/ui/cabinet-surface.ts` (`cabinetSurface.tabsList`, `tabsTrigger`, `groupTabList`, …). Не вводить новые «свои» бордеры/радиусы для тех же ролей.
+- **Каркас страниц реестра/настроек:** `RegistryPageShell` + при необходимости `RegistryPageHeader` из `@/components/design-system` — одинаковая типографика заголовка и lead (`registry-feed-layout` внутри хедера).
+- **Крошки / eyebrow:** как на соседних страницах кабинета (например `BreadcrumbsNav` у brand, компактный eyebrow со ссылкой на хаб у shop).
+- **Профили и RBAC:** маршруты и ресурсы — `src/lib/data/profile-page-features.ts`; не добавлять пункты сайдбара без проверки `canAccessHub` / ресурсов.
+- **Связи между кабинетами:** только `ROUTES` + `entity-links`; стабильные якоря — `src/lib/ui/test-ids.ts` (`tid.page(…)`).
+- **Детали по слоям:** комментарий в начале `cabinet-surface.ts` (admin/brand/shop/…); enterprise-плотность — `joor-oracle-enterprise-ui`, `ui-ux-design-system`.

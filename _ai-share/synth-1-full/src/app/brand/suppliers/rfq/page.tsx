@@ -12,6 +12,7 @@ import { B2BIntegrationStatusWidget } from '@/components/b2b/B2BIntegrationStatu
 import { ROUTES } from '@/lib/routes';
 import { getSupplierLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { RegistryPageShell } from '@/components/design-system';
 import { listRfq, type SupplierRfq } from '@/lib/supplier-rfq';
 
 const statusLabels: Record<SupplierRfq['status'], string> = {
@@ -48,7 +49,11 @@ export default function SupplierRfqPage() {
   const rfq = rfqList[0];
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
+=======
+    <RegistryPageShell className="space-y-6">
+>>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Supplier RFQ Engine"
         description="Тендеры на ткань и фурнитуру. Создание запроса из Tech Pack, получение предложений, присуждение. Связь с Materials и поставщиками. РФ: рубли, ЭДО."
@@ -68,7 +73,7 @@ export default function SupplierRfqPage() {
 
       <B2BIntegrationStatusWidget settingsHref={ROUTES.brand.integrations} />
       {catalogSummary && catalogSummary.source === 'fashion_cloud' && (
-        <Card className="border-slate-200">
+        <Card className="border-border-default">
           <CardHeader className="py-3">
             <CardTitle className="flex items-center gap-2 text-sm font-bold">
               <Cloud className="h-4 w-4" /> Fashion Cloud
@@ -95,7 +100,11 @@ export default function SupplierRfqPage() {
           {rfq && (
             <>
               <div>
+<<<<<<< HEAD
                 <p className="mb-1 text-[10px] uppercase text-slate-500">Позиции</p>
+=======
+                <p className="text-text-secondary mb-1 text-[10px] uppercase">Позиции</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 <ul className="space-y-1 text-sm">
                   {rfq.items.map((i) => (
                     <li key={i.id}>
@@ -106,12 +115,20 @@ export default function SupplierRfqPage() {
                 </ul>
               </div>
               <div>
+<<<<<<< HEAD
                 <p className="mb-1 text-[10px] uppercase text-slate-500">Предложения</p>
+=======
+                <p className="text-text-secondary mb-1 text-[10px] uppercase">Предложения</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 <ul className="space-y-2">
                   {rfq.quotes.map((q) => (
                     <li
                       key={q.supplierId}
+<<<<<<< HEAD
                       className="flex items-center justify-between rounded-lg bg-slate-50 p-2"
+=======
+                      className="bg-bg-surface2 flex items-center justify-between rounded-lg p-2"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       <span className="font-medium">{q.supplierName}</span>
                       <span>
@@ -127,12 +144,16 @@ export default function SupplierRfqPage() {
               </Badge>
             </>
           )}
+<<<<<<< HEAD
           <p className="text-xs text-slate-400">
+=======
+          <p className="text-text-muted text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
             API: SUPPLIER_RFQ_API — создание, отправка, присуждение.
           </p>
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getSupplierLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

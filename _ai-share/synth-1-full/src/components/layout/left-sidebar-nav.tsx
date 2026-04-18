@@ -42,6 +42,13 @@ type NavDropdown = {
   label: string;
   sections: typeof REFERENCE_SECTIONS;
 };
+<<<<<<< HEAD
+=======
+
+function isNavDropdown(item: NavLink | NavDropdown): item is NavDropdown {
+  return 'sections' in item;
+}
+>>>>>>> recover/cabinet-wip-from-stash
 
 export const leftSidebarNavLinks: (NavLink | NavDropdown)[] = [
   { href: ROUTES.catalog, icon: Tags, label: 'Каталог брендов' },
@@ -70,7 +77,11 @@ export function LeftSidebarNav() {
         type="button"
         onClick={() => setCollapsed((v) => !v)}
         className={cn(
+<<<<<<< HEAD
           'pointer-events-auto absolute -right-3 top-1/2 z-10 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400 shadow-md transition-all hover:bg-slate-50 hover:text-slate-900',
+=======
+          'border-border-default text-text-muted hover:text-text-primary hover:bg-bg-surface2 pointer-events-auto absolute -right-3 top-1/2 z-10 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border bg-white shadow-md transition-all',
+>>>>>>> recover/cabinet-wip-from-stash
           collapsed ? 'translate-x-[52px]' : 'translate-x-[calc(100%+16px)]'
         )}
         aria-label={collapsed ? 'Развернуть панель' : 'Свернуть панель'}
@@ -91,9 +102,16 @@ export function LeftSidebarNav() {
         )}
       >
         {leftSidebarNavLinks.map((link) => {
+<<<<<<< HEAD
           if (link.type === 'dropdown') {
             const isActive = link.sections.some(
               (s) => pathname === s.href || pathname.startsWith(s.href + '/')
+=======
+          if (isNavDropdown(link)) {
+            const isActive = link.sections.some(
+              (s: (typeof REFERENCE_SECTIONS)[number]) =>
+                pathname === s.href || pathname.startsWith(s.href + '/')
+>>>>>>> recover/cabinet-wip-from-stash
             );
             return (
               <DropdownMenu key={link.label}>
@@ -104,8 +122,13 @@ export function LeftSidebarNav() {
                         buttonVariants({ variant: 'ghost', size: 'icon' }),
                         'h-10 w-10 rounded-xl transition-all duration-300',
                         isActive
+<<<<<<< HEAD
                           ? 'bg-slate-900 text-white shadow-lg'
                           : 'text-slate-400 hover:bg-slate-50 hover:text-slate-900'
+=======
+                          ? 'bg-text-primary text-white shadow-lg'
+                          : 'text-text-muted hover:bg-bg-surface2 hover:text-text-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       <link.icon className="h-5 w-5" />
@@ -117,7 +140,11 @@ export function LeftSidebarNav() {
                     className="rounded-lg text-[10px] font-bold uppercase tracking-widest"
                   >
                     <p>{link.label}</p>
+<<<<<<< HEAD
                     <p className="mt-0.5 text-[9px] font-normal normal-case text-slate-400">
+=======
+                    <p className="text-text-muted mt-0.5 text-[9px] font-normal normal-case">
+>>>>>>> recover/cabinet-wip-from-stash
                       Категории, размеры, цвета
                     </p>
                   </TooltipContent>
@@ -127,7 +154,11 @@ export function LeftSidebarNav() {
                   align="start"
                   className="w-56 rounded-xl border shadow-xl"
                 >
+<<<<<<< HEAD
                   {link.sections.map((section) => {
+=======
+                  {link.sections.map((section: (typeof REFERENCE_SECTIONS)[number]) => {
+>>>>>>> recover/cabinet-wip-from-stash
                     const SectionIcon = section.icon;
                     return (
                       <DropdownMenuItem key={section.href} asChild>
@@ -158,8 +189,13 @@ export function LeftSidebarNav() {
                     buttonVariants({ variant: 'ghost', size: 'icon' }),
                     'h-10 w-10 rounded-xl transition-all duration-300',
                     isActive
+<<<<<<< HEAD
                       ? 'bg-slate-900 text-white shadow-lg'
                       : 'text-slate-400 hover:bg-slate-50 hover:text-slate-900'
+=======
+                      ? 'bg-text-primary text-white shadow-lg'
+                      : 'text-text-muted hover:bg-bg-surface2 hover:text-text-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   <navLink.icon className="h-5 w-5" />

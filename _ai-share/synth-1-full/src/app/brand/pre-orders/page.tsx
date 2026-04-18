@@ -27,6 +27,7 @@ import { products } from '@/lib/products';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
+import { ROUTES } from '@/lib/routes';
 
 const preOrdersData = [
   {
@@ -65,7 +66,17 @@ export default function PreOrdersPage() {
   const [filterCollection, setFilterCollection] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
 
+<<<<<<< HEAD
   const collections = [...new Set(preOrdersData.map((po) => po.product?.season).filter(Boolean))];
+=======
+  const collections = [
+    ...new Set(
+      preOrdersData
+        .map((po) => po.product?.season)
+        .filter((s): s is string => typeof s === 'string' && s.length > 0)
+    ),
+  ];
+>>>>>>> recover/cabinet-wip-from-stash
 
   const filteredOrders = preOrdersData.filter((order) => {
     const collectionMatch =
@@ -80,18 +91,30 @@ export default function PreOrdersPage() {
         title="Предзаказы (Pre-orders)"
         description="Запросы на предзаказ от B2C клиентов. Связь с Production (объёмы под пошив), B2B заказами и Live-трансляциями."
         icon={Package}
+<<<<<<< HEAD
         iconBg="bg-indigo-100"
         iconColor="text-indigo-600"
+=======
+        iconBg="bg-accent-primary/15"
+        iconColor="text-accent-primary"
+>>>>>>> recover/cabinet-wip-from-stash
         badges={
           <>
             <Badge variant="outline" className="text-[9px]">
               B2C → Production
             </Badge>
             <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
+<<<<<<< HEAD
               <Link href="/brand/b2b-orders">B2B Заказы</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href="/brand/production">Production</Link>
+=======
+              <Link href={ROUTES.brand.b2bOrders}>B2B Заказы</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.production}>Production</Link>
+>>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }

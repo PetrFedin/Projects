@@ -1,7 +1,11 @@
 import type { HonestMarkRequirementV1 } from './types';
 
 /** Инфраструктура для управления Честным Знаком и требованиями ЕАЭС. */
+<<<<<<< HEAD
 export function getHonestMarkStatus(skus: string[]): HonestMarkRequirementV1[] {
+=======
+export function getHonestMarkRequirementsForSkus(skus: string[]): HonestMarkRequirementV1[] {
+>>>>>>> recover/cabinet-wip-from-stash
   return skus.map((sku) => ({
     sku,
     status: sku.includes('101') || sku.includes('102') ? 'ready' : 'pending',

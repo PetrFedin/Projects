@@ -43,7 +43,11 @@ import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type SuggestItem = {
+<<<<<<< HEAD
   type: 'product' | 'brand' | 'category' | 'auction' | 'query' | 'trend';
+=======
+  type: 'product' | 'brand' | 'category' | 'auction' | 'query' | 'trend' | 'passport';
+>>>>>>> recover/cabinet-wip-from-stash
   label: string;
   description?: string;
   payload?: any;
@@ -189,12 +193,17 @@ export function SearchBar() {
         variant="ghost"
         size="icon"
         onClick={() => setOpen(true)}
+<<<<<<< HEAD
         className="group relative h-8 w-8 text-slate-900 transition-colors hover:bg-slate-50"
+=======
+        className="text-text-primary hover:bg-bg-surface2 group relative h-8 w-8 transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
       >
         <Search className="h-3.5 w-3.5 transition-transform group-hover:scale-110" />
         <span className="sr-only">Поиск по платформе</span>
       </Button>
 
+<<<<<<< HEAD
       <CommandDialog open={open} onOpenChange={setOpen} className="max-w-4xl">
         <div className="flex h-[70vh] max-h-[700px] flex-col overflow-hidden rounded-none bg-white">
           {/* Syntha-style Search Header */}
@@ -206,17 +215,38 @@ export function SearchBar() {
                     <Sparkles className="h-4 w-4 text-white" />
                   </div>
                   <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-900">
+=======
+      <CommandDialog open={open} onOpenChange={setOpen}>
+        <div className="bg-bg-surface flex h-[70vh] max-h-[700px] max-w-4xl flex-col overflow-hidden rounded-none">
+          {/* Syntha-style Search Header */}
+          <div className="border-border-subtle bg-bg-surface relative shrink-0 overflow-hidden border-b px-10 pb-6 pt-10">
+            <div className="relative z-10 space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="bg-text-primary flex h-8 w-8 items-center justify-center">
+                    <Sparkles className="text-text-inverse h-4 w-4" />
+                  </div>
+                  <span className="text-text-primary text-[10px] font-black uppercase tracking-[0.3em]">
+>>>>>>> recover/cabinet-wip-from-stash
                     Поиск
                   </span>
                 </div>
               </div>
 
+<<<<<<< HEAD
               <div className="relative flex items-center border-b-2 border-slate-900 pb-2 transition-all">
+=======
+              <div className="border-text-primary relative flex items-center border-b-2 pb-2 transition-all">
+>>>>>>> recover/cabinet-wip-from-stash
                 <CommandInput
                   placeholder="ПОИСК ПО ПЛАТФОРМЕ..."
                   value={q}
                   onValueChange={setQ}
+<<<<<<< HEAD
                   className="h-12 flex-1 border-none bg-transparent text-base font-black uppercase tracking-tight text-slate-900 caret-black placeholder:text-slate-100 focus:ring-0 md:text-sm"
+=======
+                  className="text-text-primary placeholder:text-text-muted/40 h-12 flex-1 border-none bg-transparent text-base font-black uppercase tracking-tight caret-black focus:ring-0 md:text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
                 />
                 <div className="ml-4 flex items-center gap-2">
                   <input
@@ -229,7 +259,11 @@ export function SearchBar() {
                   <Button
                     variant="ghost"
                     size="icon"
+<<<<<<< HEAD
                     className="group/mic h-10 w-10 rounded-full text-slate-400 transition-all hover:bg-slate-50 hover:text-slate-900"
+=======
+                    className="group/mic text-text-muted hover:bg-bg-surface2 hover:text-text-primary h-10 w-10 rounded-full transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
                     title="Голосовой поиск"
                   >
                     <Mic className="h-5 w-5 transition-transform group-hover/mic:scale-110" />
@@ -241,8 +275,13 @@ export function SearchBar() {
                     className={cn(
                       'group/cam h-10 w-10 rounded-full transition-all',
                       isAnalyzing
+<<<<<<< HEAD
                         ? 'animate-pulse bg-indigo-600 text-white'
                         : 'text-slate-400 hover:bg-slate-50 hover:text-slate-900'
+=======
+                        ? 'bg-accent-primary text-text-inverse animate-pulse'
+                        : 'text-text-muted hover:bg-bg-surface2 hover:text-text-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                     title="Визуальный поиск по фото"
                   >
@@ -251,7 +290,11 @@ export function SearchBar() {
                   <Button
                     variant="ghost"
                     size="icon"
+<<<<<<< HEAD
                     className="group/qr h-10 w-10 rounded-full text-slate-400 transition-all hover:bg-slate-50 hover:text-slate-900"
+=======
+                    className="group/qr text-text-muted hover:bg-bg-surface2 hover:text-text-primary h-10 w-10 rounded-full transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
                     title="Сканировать Digital Passport"
                   >
                     <QrCode className="h-5 w-5 transition-transform group-hover/qr:scale-110" />
@@ -261,7 +304,11 @@ export function SearchBar() {
                       variant="ghost"
                       size="sm"
                       onClick={() => setQ('')}
+<<<<<<< HEAD
                       className="ml-2 flex h-10 shrink-0 items-center gap-2 rounded-none border-l border-slate-100 px-4 text-[11px] font-black uppercase tracking-widest text-slate-400 transition-all hover:bg-slate-50 hover:text-slate-900"
+=======
+                      className="border-border-subtle text-text-muted hover:bg-bg-surface2 hover:text-text-primary ml-2 flex h-10 shrink-0 items-center gap-2 rounded-none border-l px-4 text-[11px] font-black uppercase tracking-widest transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       <Zap className="h-4 w-4" />
                       Очистить
@@ -272,7 +319,11 @@ export function SearchBar() {
             </div>
           </div>
 
+<<<<<<< HEAD
           <CommandList className="scrollbar-hide flex-1 overflow-y-auto bg-white px-10 pb-10 pt-2">
+=======
+          <CommandList className="scrollbar-hide bg-bg-surface flex-1 overflow-y-auto px-10 pb-10 pt-2">
+>>>>>>> recover/cabinet-wip-from-stash
             {/* Quick Actions / Role-based Deep Links */}
             <div className="mb-8 mt-2 grid grid-cols-2 gap-2 md:grid-cols-4">
               <button
@@ -280,14 +331,24 @@ export function SearchBar() {
                   setOpen(false);
                   router.push('/search?visual=true');
                 }}
+<<<<<<< HEAD
                 className="group/qa flex items-center gap-3 rounded-xl border border-slate-100 p-3 transition-all hover:border-slate-900 hover:bg-slate-50"
               >
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 transition-colors group-hover/qa:bg-indigo-600 group-hover/qa:text-white">
+=======
+                className="group/qa border-border-subtle hover:border-text-primary hover:bg-bg-surface2 flex items-center gap-3 rounded-xl border p-3 transition-all"
+              >
+                <div className="bg-accent-primary/10 text-accent-primary group-hover/qa:bg-accent-primary group-hover/qa:text-text-inverse flex h-8 w-8 items-center justify-center rounded-lg transition-colors">
+>>>>>>> recover/cabinet-wip-from-stash
                   <Camera className="h-4 w-4" />
                 </div>
                 <div className="text-left">
                   <p className="text-[9px] font-black uppercase tracking-tight">Visual Search</p>
+<<<<<<< HEAD
                   <p className="text-[7px] font-bold uppercase text-slate-400">Поиск по фото</p>
+=======
+                  <p className="text-text-muted text-[7px] font-bold uppercase">Поиск по фото</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
               </button>
               <button
@@ -295,14 +356,22 @@ export function SearchBar() {
                   setOpen(false);
                   router.push('/loyalty');
                 }}
+<<<<<<< HEAD
                 className="group/qa flex items-center gap-3 rounded-xl border border-slate-100 p-3 transition-all hover:border-slate-900 hover:bg-slate-50"
+=======
+                className="group/qa border-border-subtle hover:border-text-primary hover:bg-bg-surface2 flex items-center gap-3 rounded-xl border p-3 transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-50 transition-colors group-hover/qa:bg-emerald-600 group-hover/qa:text-white">
                   <QrCode className="h-4 w-4" />
                 </div>
                 <div className="text-left">
                   <p className="text-[9px] font-black uppercase tracking-tight">Digital Passport</p>
+<<<<<<< HEAD
                   <p className="text-[7px] font-bold uppercase text-slate-400">Проверить вещь</p>
+=======
+                  <p className="text-text-muted text-[7px] font-bold uppercase">Проверить вещь</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
               </button>
               <button
@@ -310,14 +379,22 @@ export function SearchBar() {
                   setOpen(false);
                   router.push('/brand/analytics-360');
                 }}
+<<<<<<< HEAD
                 className="group/qa flex items-center gap-3 rounded-xl border border-slate-100 p-3 transition-all hover:border-slate-900 hover:bg-slate-50"
+=======
+                className="group/qa border-border-subtle hover:border-text-primary hover:bg-bg-surface2 flex items-center gap-3 rounded-xl border p-3 transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-50 transition-colors group-hover/qa:bg-amber-600 group-hover/qa:text-white">
                   <Brain className="h-4 w-4" />
                 </div>
                 <div className="text-left">
                   <p className="text-[9px] font-black uppercase tracking-tight">AI Insights</p>
+<<<<<<< HEAD
                   <p className="text-[7px] font-bold uppercase text-slate-400">Аналитика рынка</p>
+=======
+                  <p className="text-text-muted text-[7px] font-bold uppercase">Аналитика рынка</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
               </button>
               <button
@@ -325,25 +402,41 @@ export function SearchBar() {
                   setOpen(false);
                   router.push('/live');
                 }}
+<<<<<<< HEAD
                 className="group/qa flex items-center gap-3 rounded-xl border border-slate-100 p-3 transition-all hover:border-slate-900 hover:bg-slate-50"
+=======
+                className="group/qa border-border-subtle hover:border-text-primary hover:bg-bg-surface2 flex items-center gap-3 rounded-xl border p-3 transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-rose-50 transition-colors group-hover/qa:bg-rose-600 group-hover/qa:text-white">
                   <Activity className="h-4 w-4" />
                 </div>
                 <div className="text-left">
                   <p className="text-[9px] font-black uppercase tracking-tight">Live Pulse</p>
+<<<<<<< HEAD
                   <p className="text-[7px] font-bold uppercase text-slate-400">События Live</p>
+=======
+                  <p className="text-text-muted text-[7px] font-bold uppercase">События Live</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
               </button>
             </div>
 
             <CommandEmpty className="py-24 text-center">
               <div className="mx-auto max-w-xs space-y-6">
+<<<<<<< HEAD
                 <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-slate-100 bg-slate-50">
                   <Search className="h-8 w-8 text-slate-200" />
                 </div>
                 <div className="space-y-2">
                   <p className="text-sm font-black uppercase tracking-widest text-slate-900">
+=======
+                <div className="border-border-subtle bg-bg-surface2 mx-auto flex h-20 w-20 items-center justify-center rounded-full border">
+                  <Search className="text-border-subtle h-8 w-8" />
+                </div>
+                <div className="space-y-2">
+                  <p className="text-text-primary text-sm font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     Результатов не найдено
                   </p>
                 </div>
@@ -354,7 +447,11 @@ export function SearchBar() {
               <div className="w-full">
                 <CommandGroup
                   heading={
+<<<<<<< HEAD
                     <span className="mb-6 block text-[10px] font-black uppercase tracking-[0.2em] text-slate-900">
+=======
+                    <span className="text-text-primary mb-6 block text-[10px] font-black uppercase tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
                       Популярные запросы
                     </span>
                   }
@@ -377,7 +474,11 @@ export function SearchBar() {
                         onClick={() => {
                           setQ(tag);
                         }}
+<<<<<<< HEAD
                         className="group flex items-center gap-2 border border-slate-200 bg-white px-4 py-2 text-[10px] font-black uppercase tracking-widest shadow-sm transition-all hover:border-slate-900"
+=======
+                        className="border-border-subtle bg-bg-surface hover:border-text-primary group flex items-center gap-2 border px-4 py-2 text-[10px] font-black uppercase tracking-widest shadow-sm transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
                       >
                         {tag}
                       </button>
@@ -390,7 +491,11 @@ export function SearchBar() {
             {items.length > 0 && (
               <CommandGroup
                 heading={
+<<<<<<< HEAD
                   <span className="mb-6 block text-[10px] font-black uppercase tracking-[0.2em] text-slate-900">
+=======
+                  <span className="text-text-primary mb-6 block text-[10px] font-black uppercase tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
                     Результаты поиска
                   </span>
                 }
@@ -401,6 +506,7 @@ export function SearchBar() {
                       key={idx}
                       value={it.label}
                       onSelect={() => handleSelect(it)}
+<<<<<<< HEAD
                       className="group flex cursor-pointer items-center justify-between rounded-none border border-slate-50 p-4 shadow-sm transition-all hover:border-slate-900 aria-selected:bg-slate-50"
                     >
                       <div className="flex items-center gap-3">
@@ -414,22 +520,51 @@ export function SearchBar() {
                         </div>
                         <div>
                           <p className="text-[11px] font-black uppercase tracking-tight text-slate-900">
+=======
+                      className="border-border-subtle hover:border-text-primary aria-selected:bg-bg-surface2 group flex cursor-pointer items-center justify-between rounded-none border p-4 shadow-sm transition-all"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="border-border-subtle bg-bg-surface2 group-hover:bg-bg-surface flex h-12 w-10 shrink-0 items-center justify-center border transition-all">
+                          {it.type === 'product' && <Shirt className="text-text-muted h-5 w-5" />}
+                          {it.type === 'brand' && <Store className="text-text-muted h-5 w-5" />}
+                          {it.type === 'auction' && <Gavel className="text-text-muted h-5 w-5" />}
+                          {it.type === 'category' && <Tag className="text-text-muted h-5 w-5" />}
+                          {it.type === 'trend' && (
+                            <TrendingUp className="text-text-muted h-5 w-5" />
+                          )}
+                          {it.type === 'query' && <Search className="text-text-muted h-5 w-5" />}
+                        </div>
+                        <div>
+                          <p className="text-text-primary text-[11px] font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                             {it.label}
                           </p>
                           <div className="mt-1 flex items-center gap-2">
                             <Badge
                               variant="outline"
+<<<<<<< HEAD
                               className="rounded-none border-slate-200 px-1 py-0 text-[7px] font-black uppercase tracking-widest"
                             >
                               {it.type}
                             </Badge>
                             <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                              className="border-border-subtle rounded-none px-1 py-0 text-[7px] font-black uppercase tracking-widest"
+                            >
+                              {it.type}
+                            </Badge>
+                            <span className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                               {it.description}
                             </span>
                           </div>
                         </div>
                       </div>
+<<<<<<< HEAD
                       <ArrowRight className="h-4 w-4 text-slate-200 opacity-0 transition-all group-hover:translate-x-2 group-hover:opacity-100" />
+=======
+                      <ArrowRight className="text-border-subtle h-4 w-4 opacity-0 transition-all group-hover:translate-x-2 group-hover:opacity-100" />
+>>>>>>> recover/cabinet-wip-from-stash
                     </CommandItem>
                   ))}
                 </div>
@@ -438,6 +573,7 @@ export function SearchBar() {
           </CommandList>
 
           {/* Syntha-style Footer */}
+<<<<<<< HEAD
           <div className="flex shrink-0 items-center justify-end border-t border-slate-100 bg-slate-50 p-4 text-slate-400">
             <div className="flex items-center gap-3">
               <div className="flex flex-col items-end">
@@ -447,6 +583,17 @@ export function SearchBar() {
                   </span>
                 </div>
                 <span className="mt-3 block text-[7px] font-bold uppercase tracking-[0.4em] text-slate-400">
+=======
+          <div className="border-border-subtle bg-bg-surface2 text-text-muted flex shrink-0 items-center justify-end border-t p-4">
+            <div className="flex items-center gap-3">
+              <div className="flex flex-col items-end">
+                <div className="flex items-center gap-2">
+                  <span className="text-text-primary text-[9px] font-black uppercase tracking-[0.2em]">
+                    Neural Engine v2.5
+                  </span>
+                </div>
+                <span className="text-text-muted mt-3 block text-[7px] font-bold uppercase tracking-[0.4em]">
+>>>>>>> recover/cabinet-wip-from-stash
                   Защита индустриальных данных
                 </span>
               </div>

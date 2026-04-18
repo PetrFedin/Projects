@@ -13,18 +13,26 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+<<<<<<< HEAD
 import { BarChart3, Globe, Download, ArrowLeft, Link2, Upload, CheckCircle } from 'lucide-react';
+=======
+import { ArrowLeft, Link2, Upload, CheckCircle } from 'lucide-react';
+>>>>>>> recover/cabinet-wip-from-stash
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getAnalyticsLinks } from '@/lib/data/entity-links';
-import { cn } from '@/lib/utils';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 /** Интеграция результатов продаж закупленных коллекций на других площадках — свод на платформе. */
 const MOCK_EXTERNAL = [
   {
     id: '1',
     collection: 'FW26 Основная',
+<<<<<<< HEAD
     retailer: 'Podium',
+=======
+    retailer: 'Демо-магазин · Москва 1',
+>>>>>>> recover/cabinet-wip-from-stash
     channel: 'Свой сайт',
     sales: '1 240 000 ₽',
     units: 312,
@@ -34,7 +42,11 @@ const MOCK_EXTERNAL = [
   {
     id: '2',
     collection: 'FW26 Основная',
+<<<<<<< HEAD
     retailer: 'ЦУМ',
+=======
+    retailer: 'Демо-магазин · Москва 2',
+>>>>>>> recover/cabinet-wip-from-stash
     channel: 'Магазины',
     sales: '2 100 000 ₽',
     units: 480,
@@ -44,8 +56,13 @@ const MOCK_EXTERNAL = [
   {
     id: '3',
     collection: 'FW26 Основная',
+<<<<<<< HEAD
     retailer: 'Lamoda',
     channel: 'Lamoda (маркетплейс)',
+=======
+    retailer: 'Демо-магазин · СПб',
+    channel: 'Маркетплейс (демо)',
+>>>>>>> recover/cabinet-wip-from-stash
     sales: '890 000 ₽',
     units: 220,
     integration: 'api',
@@ -54,8 +71,13 @@ const MOCK_EXTERNAL = [
   {
     id: '4',
     collection: 'FW26 Techwear',
+<<<<<<< HEAD
     retailer: 'Podium',
     channel: 'Wildberries',
+=======
+    retailer: 'Демо-магазин · Москва 1',
+    channel: 'Маркетплейс (демо)',
+>>>>>>> recover/cabinet-wip-from-stash
     sales: '420 000 ₽',
     units: 95,
     integration: 'api',
@@ -64,8 +86,13 @@ const MOCK_EXTERNAL = [
   {
     id: '5',
     collection: 'SS25 Остатки',
+<<<<<<< HEAD
     retailer: 'ЦУМ',
     channel: 'Ozon',
+=======
+    retailer: 'Демо-магазин · Москва 2',
+    channel: 'Маркетплейс (демо)',
+>>>>>>> recover/cabinet-wip-from-stash
     sales: '180 000 ₽',
     units: 88,
     integration: 'upload',
@@ -78,6 +105,7 @@ const channelLabel = (integration: string) =>
 
 export default function ExternalSalesPage() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
@@ -96,6 +124,20 @@ export default function ExternalSalesPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Продажи на других площадках"
+        leadPlain="Интеграция результатов продаж закупленных у вас коллекций: ритейлеры отчитывают продажи с своего сайта и внешних каналов (маркетплейсы, офлайн). Все данные сводятся на платформе для полного анализа."
+        eyebrow={
+          <Button variant="ghost" size="icon" className="-ml-2 shrink-0" asChild>
+            <Link href={ROUTES.brand.analyticsBi} aria-label="Назад к BI">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -146,7 +188,11 @@ export default function ExternalSalesPage() {
                       {channelLabel(row.integration)}
                     </Badge>
                   </TableCell>
+<<<<<<< HEAD
                   <TableCell className="text-sm text-slate-500">{row.period}</TableCell>
+=======
+                  <TableCell className="text-text-secondary text-sm">{row.period}</TableCell>
+>>>>>>> recover/cabinet-wip-from-stash
                 </TableRow>
               ))}
             </TableBody>
@@ -154,14 +200,20 @@ export default function ExternalSalesPage() {
         </CardContent>
       </Card>
 
-      <Card className="border-indigo-100 bg-indigo-50/20">
+      <Card className="border-accent-primary/20 bg-accent-primary/10">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-sm">
             <Link2 className="h-4 w-4" /> Сведение данных на платформе
           </CardTitle>
           <CardDescription>
+<<<<<<< HEAD
             Все каналы (B2B отгрузки, Маркетрум, Аутлет, продажи партнёров на WB/Ozon/свой сайт)
             сводятся в единую отчётность. Откройте «Сводную аналитику» для полного анализа.
+=======
+            Все каналы (B2B отгрузки, Маркетрум, Аутлет, продажи партнёров на внешних витринах и
+            своём сайте) сводятся в единую отчётность. Откройте «Сводную аналитику» для полного
+            анализа.
+>>>>>>> recover/cabinet-wip-from-stash
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -179,6 +231,7 @@ export default function ExternalSalesPage() {
               Сайты партнёров
             </Badge>
             <Badge variant="outline" className="text-xs">
+<<<<<<< HEAD
               Wildberries
             </Badge>
             <Badge variant="outline" className="text-xs">
@@ -186,6 +239,15 @@ export default function ExternalSalesPage() {
             </Badge>
             <Badge variant="outline" className="text-xs">
               Lamoda
+=======
+              Маркетплейс (демо) A
+            </Badge>
+            <Badge variant="outline" className="text-xs">
+              Маркетплейс (демо) B
+            </Badge>
+            <Badge variant="outline" className="text-xs">
+              Маркетплейс (демо) C
+>>>>>>> recover/cabinet-wip-from-stash
             </Badge>
           </div>
           <Button className="mt-4" asChild>
@@ -203,6 +265,6 @@ export default function ExternalSalesPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getAnalyticsLinks()} title="BI, платформа, 360°" />
-    </div>
+    </RegistryPageShell>
   );
 }

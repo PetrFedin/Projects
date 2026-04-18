@@ -9,11 +9,21 @@ export default function ProjectInfoCategoriesPage() {
   return (
     <div className="mx-auto max-w-7xl space-y-6 px-4 py-8">
       <div className="space-y-1">
+<<<<<<< HEAD
         <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400">
           Project info
         </p>
         <h1 className="text-2xl font-bold tracking-tight text-slate-900">Категории · справочник</h1>
         <p className="max-w-3xl text-[13px] text-slate-600">
+=======
+        <p className="text-text-muted text-[11px] font-medium uppercase tracking-wide">
+          Project info
+        </p>
+        <h1 className="text-text-primary text-2xl font-bold tracking-tight">
+          Категории · справочник
+        </h1>
+        <p className="text-text-secondary max-w-3xl text-[13px]">
+>>>>>>> recover/cabinet-wip-from-stash
           Три уровня категории слева; аудитории (галочки в браузере); две колонки осей подборки —
           обязательные (материал, стиль/повод, цвет/состав/уход/страна для ТЗ, плюс оси типа/класса
           по ветке) и общие (сертификаты, вес, ТН ВЭД, крой, фактура и пр.). Порядок — как в
@@ -21,7 +31,11 @@ export default function ProjectInfoCategoriesPage() {
           новорождённые — свои оси по L3.
         </p>
         <div className="flex flex-wrap items-center gap-3">
+<<<<<<< HEAD
           <Link href="/project-info" className="text-[12px] text-indigo-600 hover:underline">
+=======
+          <Link href="/project-info" className="text-accent-primary text-[12px] hover:underline">
+>>>>>>> recover/cabinet-wip-from-stash
             ← К project-info
           </Link>
           <ResetDefaultsButton />

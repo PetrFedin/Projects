@@ -4,9 +4,11 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { Zap, RefreshCcw, Calendar, ArrowRight, Package, History, Layers } from 'lucide-react';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { RegistryPageShell } from '@/components/design-system';
 
 /** NuOrder-style: один экран выбора режима заказа (Buy Now / Reorder / Pre-order). */
 const modes: Array<{
@@ -35,8 +37,8 @@ const modes: Array<{
       'Повтор заказа из прошлого сезона. Скопируйте прошлый заказ и измените позиции или количество.',
     icon: RefreshCcw,
     href: ROUTES.shop.b2bReorder,
-    iconBg: 'bg-indigo-100',
-    iconColor: 'text-indigo-600',
+    iconBg: 'bg-accent-primary/15',
+    iconColor: 'text-accent-primary',
   },
   {
     id: 'pre_order',
@@ -51,6 +53,7 @@ const modes: Array<{
 
 export default function B2BOrderModePage() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
       <div className="mb-6">
         <h1 className="text-2xl font-bold uppercase tracking-tight">Режим заказа</h1>
@@ -58,11 +61,22 @@ export default function B2BOrderModePage() {
           NuOrder-style: выберите тип заказа — один поток для каталога и матрицы.
         </p>
       </div>
+=======
+    <RegistryPageShell className="max-w-3xl space-y-6">
+      <ShopB2bContentHeader lead="NuOrder-style: выберите тип заказа — один поток для каталога и матрицы." />
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="grid gap-4">
         {modes.map((m) => {
           const Icon = m.icon;
           return (
+<<<<<<< HEAD
             <Card key={m.id} className="border-slate-200 transition-colors hover:border-slate-300">
+=======
+            <Card
+              key={m.id}
+              className="border-border-default hover:border-border-default transition-colors"
+            >
+>>>>>>> recover/cabinet-wip-from-stash
               <CardHeader className="pb-2">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-center gap-3">
@@ -109,6 +123,10 @@ export default function B2BOrderModePage() {
         title="Матрица, EZ Order, аналитика, выставки"
         className="mt-6"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

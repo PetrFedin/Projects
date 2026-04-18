@@ -82,9 +82,15 @@ export function SizeGuideDialog({ product, isOpen, onOpenChange }: SizeGuideDial
     setIsLoading(true);
     setRecommendation(null);
     try {
+<<<<<<< HEAD
       const sizeChart = product.sizeChart
         ? String(product.sizeChart)
         : 'S: 44-46, M: 48-50, L: 52-54, XL: 56-58';
+=======
+      const rawChart = (product as { sizeChart?: unknown }).sizeChart;
+      const sizeChart =
+        rawChart != null ? String(rawChart) : 'S: 44-46, M: 48-50, L: 52-54, XL: 56-58';
+>>>>>>> recover/cabinet-wip-from-stash
       const res = await fetch('/api/ai/suggest-size', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

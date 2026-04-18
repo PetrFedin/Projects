@@ -698,11 +698,19 @@ export function WidgetDetailSheet({
 
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
+<<<<<<< HEAD
       <SheetContent className="w-full overflow-y-auto border-none bg-slate-50 p-0 font-sans sm:max-w-[520px]">
         <div className="sticky top-0 z-20 bg-slate-900 p-4 text-white shadow-2xl">
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="rounded-xl bg-indigo-600 p-2">
+=======
+      <SheetContent className="bg-bg-surface2 w-full overflow-y-auto border-none p-0 font-sans sm:max-w-[520px]">
+        <div className="bg-text-primary sticky top-0 z-20 p-4 text-white shadow-2xl">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="bg-accent-primary rounded-xl p-2">
+>>>>>>> recover/cabinet-wip-from-stash
                 <BarChart3 className="h-5 w-5 text-white" />
               </div>
               <Badge
@@ -724,26 +732,45 @@ export function WidgetDetailSheet({
           <SheetTitle className="text-sm font-black uppercase tracking-tight text-white">
             {data.title}
           </SheetTitle>
+<<<<<<< HEAD
           <SheetDescription className="mt-2 text-xs font-medium leading-relaxed text-slate-400">
+=======
+          <SheetDescription className="text-text-muted mt-2 text-xs font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
             {data.description}
           </SheetDescription>
         </div>
 
         <div className="space-y-4 p-4">
           {/* Main Chart */}
+<<<<<<< HEAD
           <div className="h-[300px] rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
             <div className="mb-6 flex items-center justify-between">
               <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
+=======
+          <div className="border-border-subtle h-[300px] rounded-xl border bg-white p-4 shadow-sm">
+            <div className="mb-6 flex items-center justify-between">
+              <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Тренд показателей
               </p>
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-1.5">
+<<<<<<< HEAD
                   <div className="h-1.5 w-1.5 rounded-full bg-indigo-500" />
                   <span className="text-[7px] font-bold uppercase text-slate-400">Текущий</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className="h-1.5 w-1.5 rounded-full bg-slate-200" />
                   <span className="text-[7px] font-bold uppercase text-slate-400">Прошлый</span>
+=======
+                  <div className="bg-accent-primary h-1.5 w-1.5 rounded-full" />
+                  <span className="text-text-muted text-[7px] font-bold uppercase">Текущий</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="bg-border-subtle h-1.5 w-1.5 rounded-full" />
+                  <span className="text-text-muted text-[7px] font-bold uppercase">Прошлый</span>
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
               </div>
             </div>
@@ -841,16 +868,28 @@ export function WidgetDetailSheet({
 
           {/* Channel Breakdown (If available) */}
           {data.hasChannelBreakdown && (
+<<<<<<< HEAD
             <div className="space-y-6 rounded-xl bg-slate-900 p-4 text-white">
               <div className="flex items-center justify-between">
                 <div className="space-y-1">
                   <h4 className="text-sm font-black uppercase tracking-tight">Срез по каналам</h4>
                   <p className="text-[8px] font-bold uppercase tracking-[0.2em] text-indigo-400">
+=======
+            <div className="bg-text-primary space-y-6 rounded-xl p-4 text-white">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <h4 className="text-sm font-black uppercase tracking-tight">Срез по каналам</h4>
+                  <p className="text-accent-primary text-[8px] font-bold uppercase tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
                     Omnichannel Distribution
                   </p>
                 </div>
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/5">
+<<<<<<< HEAD
                   <Globe className="h-5 w-5 text-indigo-400" />
+=======
+                  <Globe className="text-accent-primary h-5 w-5" />
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
               </div>
 
@@ -877,7 +916,11 @@ export function WidgetDetailSheet({
                   {CHANNEL_DATA.map((item) => (
                     <div key={item.name} className="space-y-1">
                       <div className="flex items-center justify-between text-[9px] font-black uppercase">
+<<<<<<< HEAD
                         <span className="flex items-center gap-1.5 text-slate-400">
+=======
+                        <span className="text-text-muted flex items-center gap-1.5">
+>>>>>>> recover/cabinet-wip-from-stash
                           <div
                             className="h-1.5 w-1.5 rounded-full"
                             style={{ backgroundColor: item.color }}
@@ -913,14 +956,24 @@ export function WidgetDetailSheet({
             {data.metrics.map((m: any, i: number) => (
               <div
                 key={i}
+<<<<<<< HEAD
                 className="group rounded-[1.5rem] border border-slate-100 bg-white p-3 shadow-sm transition-colors hover:border-indigo-100"
               >
                 <p className="mb-1 text-[8px] font-black uppercase tracking-widest text-slate-400 transition-colors group-hover:text-indigo-600">
+=======
+                className="border-border-subtle hover:border-accent-primary/20 group rounded-[1.5rem] border bg-white p-3 shadow-sm transition-colors"
+              >
+                <p className="text-text-muted group-hover:text-accent-primary mb-1 text-[8px] font-black uppercase tracking-widest transition-colors">
+>>>>>>> recover/cabinet-wip-from-stash
                   {m.label}
                 </p>
                 <div className="space-y-1">
                   <div className="flex items-end justify-between">
+<<<<<<< HEAD
                     <span className="text-base font-black tabular-nums leading-none text-slate-900">
+=======
+                    <span className="text-text-primary text-base font-black tabular-nums leading-none">
+>>>>>>> recover/cabinet-wip-from-stash
                       {formatValue(m.value)}
                     </span>
                     {m.status && m.status !== 'neutral' && (
@@ -939,7 +992,11 @@ export function WidgetDetailSheet({
                     )}
                   </div>
                   {data.isMoney && (
+<<<<<<< HEAD
                     <p className="text-[8px] font-bold uppercase tabular-nums text-slate-400">
+=======
+                    <p className="text-text-muted text-[8px] font-bold uppercase tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                       ≈ {getEquiv(m.value)}
                     </p>
                   )}
@@ -952,11 +1009,19 @@ export function WidgetDetailSheet({
           <div className="space-y-4">
             <div className="flex items-center gap-2 px-1">
               <Zap className="h-4 w-4 text-amber-500" />
+<<<<<<< HEAD
               <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-900">
                 AI Анализ и Рекомендация
               </h4>
             </div>
             <div className="relative overflow-hidden rounded-xl border border-indigo-100 bg-indigo-50/50 p-4 text-[11px] font-medium italic leading-relaxed text-slate-700 shadow-inner">
+=======
+              <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+                AI Анализ и Рекомендация
+              </h4>
+            </div>
+            <div className="bg-accent-primary/10 border-accent-primary/20 text-text-primary relative overflow-hidden rounded-xl border p-4 text-[11px] font-medium italic leading-relaxed shadow-inner">
+>>>>>>> recover/cabinet-wip-from-stash
               <div className="absolute right-0 top-0 p-4 opacity-5">
                 <Sparkles className="h-12 w-12" />
               </div>
@@ -971,7 +1036,11 @@ export function WidgetDetailSheet({
                 key={i}
                 asChild={!!action.href}
                 variant="outline"
+<<<<<<< HEAD
                 className="h-12 rounded-2xl border-slate-100 bg-white text-[9px] font-black uppercase tracking-widest text-slate-600 shadow-sm transition-all hover:bg-slate-900 hover:text-white"
+=======
+                className="border-border-subtle text-text-secondary hover:bg-text-primary/90 h-12 rounded-2xl bg-white text-[9px] font-black uppercase tracking-widest shadow-sm transition-all hover:text-white"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 {action.href ? (
                   <Link href={action.href}>
@@ -991,12 +1060,20 @@ export function WidgetDetailSheet({
           {/* Pros & Cons */}
           {data.pros && (
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+<<<<<<< HEAD
               <div className="space-y-4 rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
+=======
+              <div className="border-border-subtle space-y-4 rounded-xl border bg-white p-4 shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                 <div className="flex items-center gap-2">
                   <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
                     <CheckCircle2 className="h-3.5 w-3.5" />
                   </div>
+<<<<<<< HEAD
                   <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-900">
+=======
+                  <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     Преимущества
                   </h4>
                 </div>
@@ -1004,19 +1081,31 @@ export function WidgetDetailSheet({
                   {data.pros.map((p: string, i: number) => (
                     <li
                       key={i}
+<<<<<<< HEAD
                       className="flex items-start gap-2 text-[10px] font-medium leading-relaxed text-slate-600"
+=======
+                      className="text-text-secondary flex items-start gap-2 text-[10px] font-medium leading-relaxed"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" /> {p}
                     </li>
                   ))}
                 </ul>
               </div>
+<<<<<<< HEAD
               <div className="space-y-4 rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
+=======
+              <div className="border-border-subtle space-y-4 rounded-xl border bg-white p-4 shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                 <div className="flex items-center gap-2">
                   <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-rose-50 text-rose-600">
                     <AlertTriangle className="h-3.5 w-3.5" />
                   </div>
+<<<<<<< HEAD
                   <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-900">
+=======
+                  <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     Риски и барьеры
                   </h4>
                 </div>
@@ -1024,7 +1113,11 @@ export function WidgetDetailSheet({
                   {data.cons.map((c: string, i: number) => (
                     <li
                       key={i}
+<<<<<<< HEAD
                       className="flex items-start gap-2 text-[10px] font-medium leading-relaxed text-slate-600"
+=======
+                      className="text-text-secondary flex items-start gap-2 text-[10px] font-medium leading-relaxed"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-rose-500" /> {c}
                     </li>
@@ -1035,6 +1128,7 @@ export function WidgetDetailSheet({
           )}
 
           {/* Complexity Footnote */}
+<<<<<<< HEAD
           <div className="flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
             <div className="rounded-xl bg-white p-2 shadow-sm">
               <Info className="h-4 w-4 text-slate-400" />
@@ -1044,13 +1138,28 @@ export function WidgetDetailSheet({
                 Техническое примечание
               </p>
               <p className="text-[10px] font-medium italic leading-relaxed text-slate-600">
+=======
+          <div className="bg-bg-surface2 border-border-default flex items-start gap-3 rounded-xl border p-4">
+            <div className="rounded-xl bg-white p-2 shadow-sm">
+              <Info className="text-text-muted h-4 w-4" />
+            </div>
+            <div className="space-y-1">
+              <p className="text-text-muted text-[8px] font-black uppercase">
+                Техническое примечание
+              </p>
+              <p className="text-text-secondary text-[10px] font-medium italic leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                 {data.complexity}
               </p>
             </div>
           </div>
 
           <div className="pb-12 pt-4">
+<<<<<<< HEAD
             <Button className="group h-10 w-full rounded-2xl bg-indigo-600 text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-xl shadow-indigo-100 hover:bg-indigo-700">
+=======
+            <Button className="bg-accent-primary hover:bg-accent-primary shadow-accent-primary/10 group h-10 w-full rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-xl">
+>>>>>>> recover/cabinet-wip-from-stash
               Скачать полный аналитический отчет{' '}
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Button>

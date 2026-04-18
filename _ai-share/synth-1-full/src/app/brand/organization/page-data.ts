@@ -130,8 +130,8 @@ export const NAVIGATION_CARDS = [
     description: 'Юридические данные, контакты, Brand DNA, история и ценности.',
     icon: Building2,
     href: '/brand',
-    color: 'text-indigo-600',
-    bg: 'bg-indigo-50',
+    color: 'text-accent-primary',
+    bg: 'bg-accent-primary/10',
     stats: { label: 'Заполнено', value: '92%', status: 'success' as const },
     changePct7d: 2,
     changePct30d: -1,
@@ -156,8 +156,8 @@ export const NAVIGATION_CARDS = [
     description: 'Договоры, акты, спецификации, ЭДО и генератор документов.',
     icon: FileText,
     href: '/brand/documents',
-    color: 'text-purple-600',
-    bg: 'bg-purple-50',
+    color: 'text-accent-primary',
+    bg: 'bg-accent-primary/10',
     stats: { label: 'На подписи', value: '2', status: 'warning' as const },
     changePct7d: -3,
     changePct30d: 2,
@@ -206,8 +206,8 @@ export const NAVIGATION_CARDS = [
     description: 'Локализация, уведомления, каналы продаж, налоги.',
     icon: Settings,
     href: '/brand/settings',
-    color: 'text-slate-600',
-    bg: 'bg-slate-50',
+    color: 'text-text-secondary',
+    bg: 'bg-bg-surface2',
     stats: { label: 'Конфигурация', value: 'OK', status: 'success' as const },
     changePct7d: 0,
     changePct30d: 1,
@@ -219,8 +219,8 @@ export const NAVIGATION_CARDS = [
     description: 'Честный ЗНАК, маркировка, синхронизация КИЗ со складом.',
     icon: ShieldCheck,
     href: '/brand/compliance',
-    color: 'text-indigo-600',
-    bg: 'bg-indigo-50',
+    color: 'text-accent-primary',
+    bg: 'bg-accent-primary/10',
     stats: { label: 'Статус', value: 'Настроено', status: 'success' as const },
     changePct7d: 4,
     changePct30d: 8,
@@ -241,7 +241,11 @@ export type RecentActivity = {
 };
 
 /** Базовые события без даты; dayOffset = 0 сегодня, -1 вчера и т.д. */
+<<<<<<< HEAD
 const RECENT_ACTIVITIES_BASE: Omit<RecentActivity, 'dateStr'> & { dayOffset: number }[] = [
+=======
+const RECENT_ACTIVITIES_BASE: (Omit<RecentActivity, 'dateStr'> & { dayOffset: number })[] = [
+>>>>>>> recover/cabinet-wip-from-stash
   {
     user: 'Анна К.',
     action: 'Обновила юридический адрес компании',
@@ -343,7 +347,8 @@ export function getRecentActivities(relativeTo: Date = new Date()): RecentActivi
   return RECENT_ACTIVITIES_BASE.map((a) => {
     const d = new Date(relativeTo);
     d.setDate(d.getDate() + a.dayOffset);
-    return { ...a, dateStr: toDateStr(d) } as RecentActivity;
+    const { dayOffset: _dayOffset, ...rest } = a;
+    return { ...rest, dateStr: toDateStr(d) };
   });
 }
 
@@ -468,7 +473,11 @@ export const HEALTH_METRICS: HealthMetric[] = [
   {
     label: 'Полнота профиля',
     score: 92,
+<<<<<<< HEAD
     color: 'bg-indigo-500',
+=======
+    color: 'bg-accent-primary',
+>>>>>>> recover/cabinet-wip-from-stash
     desc: 'Заполнены все обязательные поля',
     href: '/brand',
     trend: 2,
@@ -678,7 +687,11 @@ export const PARTNER_BUSINESS_PROCESSES: PartnerProcessItem[] = [
     changePct30d: 100,
     sub: 'с партнёрами',
     icon: FileText,
+<<<<<<< HEAD
     color: 'bg-slate-600',
+=======
+    color: 'bg-text-secondary',
+>>>>>>> recover/cabinet-wip-from-stash
     description:
       'Договоры, спецификации, акты с партнёрами. Документы на подпись и истекающие в ближайшее время.',
     tips: ['Проверяйте срок действия договоров', 'Подписанные документы в ЭДО'],
@@ -759,7 +772,11 @@ export const PARTNER_BUSINESS_PROCESSES: PartnerProcessItem[] = [
     count30d: 0,
     sub: 'аукционы, поставщики',
     icon: ShoppingCart,
+<<<<<<< HEAD
     color: 'bg-violet-500',
+=======
+    color: 'bg-accent-primary/100',
+>>>>>>> recover/cabinet-wip-from-stash
     description: 'Аукционы и закупки у поставщиков. Активные торги и приглашения.',
     tips: ['Проверяйте условия поставщиков', 'Сравнивайте предложения'],
     addHref: '/brand/auctions?action=new',
@@ -861,7 +878,7 @@ export const PARTNER_COUNTS: PartnerCountItem[] = [
     label: 'Магазины',
     value: '156',
     href: '/brand/retailers',
-    color: 'bg-purple-500',
+    color: 'bg-accent-primary',
     icon: Store,
     description: 'Связи с магазинами и ретейлерами. Точки продаж, условия, заказы.',
     trend: '+12',
@@ -1096,7 +1113,7 @@ export interface PartnerEcosystemBlock {
   href: string;
   /** Иконка блока (как в Связь с процессами) */
   icon: LucideIcon;
-  /** Цвет фона иконки: bg-slate-600, bg-blue-500 и т.д. */
+  /** Цвет фона иконки: bg-text-secondary, bg-blue-500 и т.д. */
   color: string;
   /** Изменение за 7 дн., % */
   changePct7d?: number;
@@ -1129,7 +1146,7 @@ export const PARTNER_ECOSYSTEM_BLOCKS: PartnerEcosystemBlock[] = [
       'Договоры, спецификации, акты с партнёрами. Срок действия, на подпись, истекающие.',
     href: '/brand/documents',
     icon: FileText,
-    color: 'bg-slate-600',
+    color: 'bg-text-secondary',
     changePct7d: 0,
     changePct30d: 100,
     alertCount: 2,
@@ -1285,7 +1302,7 @@ export const PARTNER_ECOSYSTEM_BLOCKS: PartnerEcosystemBlock[] = [
     description: 'Топ по объёму, план/факт, доля в выручке по каналам.',
     href: '/brand/retailers',
     icon: TrendingUp,
-    color: 'bg-indigo-500',
+    color: 'bg-accent-primary',
     changePct7d: 3,
     changePct30d: 12,
     addHref: '/brand/retailers',

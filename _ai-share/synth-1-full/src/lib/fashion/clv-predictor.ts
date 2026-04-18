@@ -18,7 +18,7 @@ export function predictFashionClv(user: UserProfile): FashionClvV1 {
   const churn = Math.max(0, 100 - points / 50);
 
   return {
-    customerId: user.id,
+    customerId: user.uid,
     predictedLtv: ltv,
     propensityToChurn: churn,
     categoryAffinity: ['Outerwear', 'Accessories'],

@@ -15,11 +15,12 @@ import type { Order } from '@/lib/types';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
+import { RegistryPageShell } from '@/components/design-system';
 
 const statusConfig = {
   pending: { label: 'В ожидании', icon: Clock, color: 'bg-yellow-100 text-yellow-800' },
   processing: { label: 'Обработка', icon: Package, color: 'bg-blue-100 text-blue-800' },
-  shipped: { label: 'Отправлен', icon: Truck, color: 'bg-purple-100 text-purple-800' },
+  shipped: { label: 'Отправлен', icon: Truck, color: 'bg-accent-primary/15 text-text-primary' },
   delivered: { label: 'Доставлен', icon: CheckCircle, color: 'bg-green-100 text-green-800' },
   cancelled: { label: 'Отменен', icon: Clock, color: 'bg-red-100 text-red-800' },
 };
@@ -61,9 +62,9 @@ export default function OrderConfirmationPage({
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-12">
+      <RegistryPageShell className="py-12 pb-16">
         <div className="text-center">Загрузка...</div>
-      </div>
+      </RegistryPageShell>
     );
   }
 
@@ -74,7 +75,11 @@ export default function OrderConfirmationPage({
   const statusInfo = statusConfig[order.status];
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto px-4 py-12">
+=======
+    <RegistryPageShell className="py-12 pb-16">
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="mx-auto max-w-4xl space-y-4">
         {/* Header */}
         <div className="flex items-center gap-3">
@@ -215,10 +220,10 @@ export default function OrderConfirmationPage({
             <Link href="/">Продолжить покупки</Link>
           </Button>
           <Button asChild className="flex-1">
-            <Link href="/u/payments">Мои заказы</Link>
+            <Link href="/client/me/payments">Мои заказы</Link>
           </Button>
         </div>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

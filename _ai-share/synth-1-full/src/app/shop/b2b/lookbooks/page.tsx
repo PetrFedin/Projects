@@ -10,6 +10,7 @@ import {
   getVisibleLookbooksForPartner,
   type LookbookProject,
 } from '@/lib/b2b/lookbook-projects-store';
+<<<<<<< HEAD
 import {
   BookOpen,
   ArrowLeft,
@@ -19,11 +20,16 @@ import {
   Share2,
   LayoutGrid,
 } from 'lucide-react';
+=======
+import { FileText, ShoppingBag, Download, Share2, LayoutGrid } from 'lucide-react';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
+>>>>>>> recover/cabinet-wip-from-stash
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { RegistryPageShell } from '@/components/design-system';
 
 /** Мок: текущий партнёр (байер). В проде — из сессии. */
-const MOCK_PARTNER_ID = 'podium';
+const MOCK_PARTNER_ID = 'retail_msk_1';
 
 export default function ShopLookbooksPage() {
   const [projects, setProjects] = useState<LookbookProject[]>([]);
@@ -36,6 +42,7 @@ export default function ShopLookbooksPage() {
   }, [load]);
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -53,6 +60,10 @@ export default function ShopLookbooksPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-3xl space-y-6">
+      <ShopB2bContentHeader lead="Colect: лукбуки по правам и до даты видимости; PDF с водяным знаком, заказ из лукбука." />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -61,7 +72,11 @@ export default function ShopLookbooksPage() {
         </CardHeader>
         <CardContent>
           {projects.length === 0 ? (
+<<<<<<< HEAD
             <p className="text-sm text-slate-500">
+=======
+            <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
               Нет доступных лукбуков. Обратитесь к бренду для доступа.
             </p>
           ) : (
@@ -69,6 +84,7 @@ export default function ShopLookbooksPage() {
               {projects.map((p) => (
                 <li
                   key={p.id}
+<<<<<<< HEAD
                   className="flex items-center justify-between rounded-xl border border-slate-200 p-4"
                 >
                   <div className="flex items-center gap-3">
@@ -78,6 +94,17 @@ export default function ShopLookbooksPage() {
                     <div>
                       <p className="font-medium">{p.name}</p>
                       <p className="text-xs text-slate-500">
+=======
+                  className="border-border-default flex items-center justify-between rounded-xl border p-4"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="bg-bg-surface2 flex h-12 w-12 items-center justify-center rounded-lg">
+                      <FileText className="text-text-secondary h-6 w-6" />
+                    </div>
+                    <div>
+                      <p className="font-medium">{p.name}</p>
+                      <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                         {p.brandName} · до {new Date(p.visibleUntil).toLocaleDateString('ru-RU')}
                       </p>
                     </div>
@@ -130,6 +157,10 @@ export default function ShopLookbooksPage() {
         title="Каталог, заказы, матрица"
         className="mt-6"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

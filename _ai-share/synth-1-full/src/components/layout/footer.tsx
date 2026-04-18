@@ -10,7 +10,7 @@ const footerLinks = {
     { href: ROUTES.brand.home, label: 'Кабинет бренда' },
     { href: ROUTES.brand.controlCenter, label: 'Центр управления' },
     { href: ROUTES.shop.home, label: 'Кабинет магазина' },
-    { href: ROUTES.shop.b2b, label: 'B2B рабочее пространство' },
+    { href: ROUTES.shop.b2bDiscover, label: 'B2B закупки (Discover)' },
     { href: ROUTES.storeLocator, label: 'Карта магазинов' },
     { href: ROUTES.academyPlatform, label: 'Академия' },
   ],
@@ -39,7 +39,11 @@ const footerLinks = {
 export default function Footer() {
   return (
     <footer className="border-t bg-background">
+<<<<<<< HEAD
       <div className="container mx-auto px-4 py-12">
+=======
+      <div className="mx-auto w-full max-w-5xl px-4 py-12 sm:px-6">
+>>>>>>> recover/cabinet-wip-from-stash
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-5">
           <div className="col-span-2 lg:col-span-1">
             <Link href="/" className="inline-block">

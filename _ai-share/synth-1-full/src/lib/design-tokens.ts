@@ -52,13 +52,23 @@ export const typography = {
   },
 };
 
+/** Tailwind class fragments aligned with `tailwind.config` semantic colors (`text-text-*`, `bg-bg-*`, `accent-primary`). */
 export const colors = {
+<<<<<<< HEAD
   primary: 'slate-900',
   secondary: 'slate-500',
   accent: 'indigo-600',
   border: 'slate-200',
   surface: 'slate-50',
   background: 'white',
+=======
+  primary: 'text-text-primary',
+  secondary: 'text-text-secondary',
+  accent: 'text-accent-primary',
+  border: 'border-border-default',
+  surface: 'bg-bg-surface2',
+  background: 'bg-bg-surface',
+>>>>>>> recover/cabinet-wip-from-stash
 };
 
 export const designTokens = {

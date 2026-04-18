@@ -38,7 +38,7 @@ export function ProductReviews({
   reviewCount?: number;
 }) {
   return (
-    <Card className="border-slate-100">
+    <Card className="border-border-subtle">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-sm">
           <MessageCircle className="h-4 w-4" /> Отзывы и рейтинг
@@ -50,9 +50,9 @@ export function ProductReviews({
       <CardContent className="space-y-3">
         <ul className="space-y-2">
           {MOCK_REVIEWS.map((r) => (
-            <li key={r.id} className="border-b border-slate-100 pb-2 last:border-0">
-              <div className="flex items-center gap-2 text-xs text-slate-500">
-                <span className="font-medium text-slate-700">{r.author}</span>
+            <li key={r.id} className="border-border-subtle border-b pb-2 last:border-0">
+              <div className="text-text-secondary flex items-center gap-2 text-xs">
+                <span className="text-text-primary font-medium">{r.author}</span>
                 <span>{new Date(r.date).toLocaleDateString('ru-RU')}</span>
                 <span className="flex items-center gap-0.5 text-amber-600">
                   {Array.from({ length: r.rating }).map((_, i) => (
@@ -64,7 +64,11 @@ export function ProductReviews({
             </li>
           ))}
         </ul>
+<<<<<<< HEAD
         <p className="text-xs text-slate-400">
+=======
+        <p className="text-text-muted text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
           Показаны последние отзывы. API отзывов — при подключении бэкенда.
         </p>
       </CardContent>

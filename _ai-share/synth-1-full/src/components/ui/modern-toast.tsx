@@ -20,9 +20,13 @@ export function ModernToast({
 }: ModernToastProps) {
   const variants = {
     default: {
-      bg: 'bg-slate-900',
+      bg: 'bg-text-primary',
       text: 'text-white',
+<<<<<<< HEAD
       border: 'border-slate-700',
+=======
+      border: 'border-text-primary/25',
+>>>>>>> recover/cabinet-wip-from-stash
       icon: '📋',
     },
     success: {

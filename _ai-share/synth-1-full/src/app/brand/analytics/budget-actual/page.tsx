@@ -15,7 +15,8 @@ import {
   DataTableContainer,
   FilterToolbar,
   LoadingState,
-  PageHeader,
+  RegistryPageHeader,
+  RegistryPageShell,
 } from '@/components/design-system';
 
 const PERIODS = ['SS26', 'FW25', 'SS25'];
@@ -35,10 +36,10 @@ export default function BudgetActualPage() {
   }, [period]);
 
   return (
-    <div className="space-y-6 pb-24">
-      <PageHeader
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
         title={`Бюджет: план / факт — ${period}`}
-        description="Единый паттерн снимков по категориям. При API — данные из snapshot_* и импорт 1С / МойСклад."
+        leadPlain="Единый паттерн снимков по категориям. При API — данные из snapshot_* и импорт 1С / МойСклад."
         actions={
           <Button variant="outline" size="sm" disabled title="При подключении API">
             <Download className="mr-2 h-4 w-4" /> Экспорт
@@ -66,7 +67,7 @@ export default function BudgetActualPage() {
         </div>
       </FilterToolbar>
 
-      <Card className="border-slate-200 shadow-sm">
+      <Card className="border-border-default shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
             <BarChart3 className="h-5 w-5" />
@@ -79,7 +80,11 @@ export default function BudgetActualPage() {
             bordered={false}
             className="px-0"
             footer={
+<<<<<<< HEAD
               <p className="px-4 pb-4 text-xs text-slate-400">
+=======
+              <p className="text-text-muted px-4 pb-4 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                 API: listBudgetActualSnapshots(period).
               </p>
             }
@@ -89,7 +94,7 @@ export default function BudgetActualPage() {
             ) : (
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-slate-200 bg-slate-50/80 text-left text-xs font-semibold uppercase tracking-wide text-slate-600">
+                  <tr className="border-border-default bg-bg-surface2/80 text-text-secondary border-b text-left text-xs font-semibold uppercase tracking-wide">
                     <th className="px-4 py-2.5 pr-4">Категория</th>
                     <th className="px-4 py-2.5 pr-4 text-right tabular-nums">План, ₽</th>
                     <th className="px-4 py-2.5 pr-4 text-right tabular-nums">Факт, ₽</th>
@@ -104,14 +109,25 @@ export default function BudgetActualPage() {
                         : 0;
                     const over = pct > 100;
                     return (
+<<<<<<< HEAD
                       <tr key={s.id} className="border-b border-slate-100 hover:bg-slate-50/50">
                         <td className="px-4 py-2.5 pr-4 font-medium text-slate-900">
                           {s.categoryLabel}
                         </td>
                         <td className="px-4 py-2.5 pr-4 text-right tabular-nums text-slate-700">
+=======
+                      <tr
+                        key={s.id}
+                        className="border-border-subtle hover:bg-bg-surface2/80 border-b"
+                      >
+                        <td className="text-text-primary px-4 py-2.5 pr-4 font-medium">
+                          {s.categoryLabel}
+                        </td>
+                        <td className="text-text-primary px-4 py-2.5 pr-4 text-right tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                           {s.plannedAmountRub.toLocaleString('ru-RU')}
                         </td>
-                        <td className="px-4 py-2.5 pr-4 text-right tabular-nums text-slate-700">
+                        <td className="text-text-primary px-4 py-2.5 pr-4 text-right tabular-nums">
                           {s.actualAmountRub.toLocaleString('ru-RU')}
                         </td>
                         <td
@@ -134,6 +150,6 @@ export default function BudgetActualPage() {
       </Card>
 
       <RelatedModulesBlock links={links} />
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -23,7 +23,21 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { getMetricValueToneClass } from '@/lib/ui/semantic-data-tones';
+
+const EDO_STATUS_BADGE_CLASS: Record<string, string> = {
+  signed: 'bg-emerald-50 text-emerald-600 border-emerald-100',
+  sent: 'bg-blue-50 text-blue-600 border-blue-100',
+};
+
+const CZ_METRIC_TONE_KEY: Record<string, 'rose' | 'indigo' | 'slate'> = {
+  'text-rose-600': 'rose',
+  'text-accent-primary': 'indigo',
+  'text-text-primary': 'slate',
+};
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { EDODocument, ChestnyZNAKCode } from '@/lib/types/compliance';
+import { RegistryPageShell } from '@/components/design-system';
 
 /**
  * Compliance Dashboard UI (Russian Layer)
@@ -68,68 +82,120 @@ export default function ComplianceDashboard() {
   ];
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-4 px-4 py-4 pb-24 duration-700 animate-in fade-in">
       <div className="flex flex-col items-start justify-between gap-3 border-b border-slate-100 pb-3 md:flex-row md:items-end">
+=======
+    <RegistryPageShell className="max-w-5xl space-y-4 pb-16 duration-700 animate-in fade-in">
+      <div className="border-border-subtle flex flex-col items-start justify-between gap-3 border-b pb-3 md:flex-row md:items-end">
+>>>>>>> recover/cabinet-wip-from-stash
         <div className="space-y-0.5">
-          <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+          <div className="text-text-muted flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em]">
             <span>Admin</span>
             <ChevronRight className="h-2 w-2" />
-            <span className="text-slate-300">Regulatory Compliance</span>
+            <span className="text-text-muted">Regulatory Compliance</span>
           </div>
           <div className="flex items-center gap-2.5">
+<<<<<<< HEAD
             <h1 className="font-headline text-base font-bold uppercase leading-none tracking-tighter text-slate-900">
+=======
+            <h1 className="text-text-primary font-headline text-base font-bold uppercase leading-none tracking-tighter">
+>>>>>>> recover/cabinet-wip-from-stash
               Security & Legal Hub 2.0
             </h1>
             <Badge
               variant="outline"
+<<<<<<< HEAD
               className="h-4 gap-1 border-indigo-100 bg-indigo-50 px-1.5 text-[7px] font-bold uppercase tracking-widest text-indigo-600 shadow-sm transition-all"
             >
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-indigo-500" /> EDO STATUS:
               SYNCED
+=======
+              className="bg-accent-primary/10 text-accent-primary border-accent-primary/20 h-4 gap-1 px-1.5 text-[7px] font-bold uppercase tracking-widest shadow-sm transition-all"
+            >
+              <span className="bg-accent-primary h-1.5 w-1.5 animate-pulse rounded-full" /> EDO
+              STATUS: SYNCED
+>>>>>>> recover/cabinet-wip-from-stash
             </Badge>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
+<<<<<<< HEAD
             className="h-8 rounded-lg border-slate-200 px-3 text-[9px] font-bold uppercase tracking-widest shadow-sm transition-all hover:bg-slate-50"
           >
             <Download className="mr-1.5 h-3.5 w-3.5 text-slate-400" /> CRPT Manifest
           </Button>
           <Button className="h-8 gap-1.5 rounded-lg border border-slate-900 bg-slate-900 px-4 text-[9px] font-bold uppercase tracking-widest text-white shadow-lg transition-all hover:bg-indigo-600">
+=======
+            className="border-border-default hover:bg-bg-surface2 h-8 rounded-lg px-3 text-[9px] font-bold uppercase tracking-widest shadow-sm transition-all"
+          >
+            <Download className="text-text-muted mr-1.5 h-3.5 w-3.5" /> CRPT Manifest
+          </Button>
+          <Button className="bg-text-primary hover:bg-accent-primary border-text-primary h-8 gap-1.5 rounded-lg border px-4 text-[9px] font-bold uppercase tracking-widest text-white shadow-lg transition-all">
+>>>>>>> recover/cabinet-wip-from-stash
             <ShieldCheck className="h-3.5 w-3.5" /> Identity Verify
           </Button>
         </div>
       </div>
 
       <Tabs defaultValue="edo" className="w-full" onValueChange={setActiveTab}>
+<<<<<<< HEAD
         <TabsList className="mb-4 w-full max-w-[320px] rounded-xl border border-slate-200 bg-slate-100 p-1 shadow-inner">
           <TabsTrigger
             value="edo"
             className="h-7 flex-1 rounded-lg border-transparent px-4 text-[9px] font-bold uppercase tracking-widest transition-all data-[state=active]:border data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
+=======
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'mb-4 max-w-[320px] shadow-inner')}>
+          <TabsTrigger
+            value="edo"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'data-[state=active]:text-accent-primary h-7 flex-1 px-4 text-[9px] transition-all data-[state=active]:border'
+            )}
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <FileText className="mr-2 h-3 w-3" /> EDO Module
           </TabsTrigger>
           <TabsTrigger
             value="cz"
+<<<<<<< HEAD
             className="h-7 flex-1 rounded-lg border-transparent px-4 text-[9px] font-bold uppercase tracking-widest transition-all data-[state=active]:border data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
+=======
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'data-[state=active]:text-accent-primary h-7 flex-1 px-4 text-[9px] transition-all data-[state=active]:border'
+            )}
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <QrCode className="mr-2 h-3 w-3" /> Chestny ZNAK
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="edo" className="space-y-4 pt-0">
+<<<<<<< HEAD
           <Card className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition-all hover:border-indigo-100/50">
             <div className="border-b border-slate-50 bg-slate-50/50 p-4">
               <h3 className="text-[10px] font-bold uppercase leading-none tracking-widest text-slate-900">
                 Document Ledger (Diadoc)
               </h3>
               <p className="mt-1 text-[8px] font-bold uppercase tracking-widest text-slate-400 opacity-60">
+=======
+          <Card className="border-border-subtle hover:border-accent-primary/20 overflow-hidden rounded-xl border bg-white shadow-sm transition-all">
+            <div className="border-border-subtle bg-bg-surface2/80 border-b p-4">
+              <h3 className="text-text-primary text-[10px] font-bold uppercase leading-none tracking-widest">
+                Document Ledger (Diadoc)
+              </h3>
+              <p className="text-text-muted mt-1 text-[8px] font-bold uppercase tracking-widest opacity-60">
+>>>>>>> recover/cabinet-wip-from-stash
                 Legal Entity Verification & Transmission Pipeline
               </p>
             </div>
             <Table>
               <TableHeader>
+<<<<<<< HEAD
                 <TableRow className="border-b border-slate-100 bg-slate-50/50 hover:bg-slate-50/50">
                   <TableHead className="h-10 px-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                     Entity Type
@@ -147,30 +213,73 @@ export default function ComplianceDashboard() {
                     Status
                   </TableHead>
                   <TableHead className="h-10 w-24 px-4 text-right text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+=======
+                <TableRow className="bg-bg-surface2/80 hover:bg-bg-surface2/80 border-border-subtle border-b">
+                  <TableHead className="text-text-muted h-10 px-4 text-[9px] font-bold uppercase tracking-[0.2em]">
+                    Entity Type
+                  </TableHead>
+                  <TableHead className="text-text-muted h-10 text-[9px] font-bold uppercase tracking-[0.2em]">
+                    Reference & Date
+                  </TableHead>
+                  <TableHead className="text-text-muted h-10 text-[9px] font-bold uppercase tracking-[0.2em]">
+                    Counterparty
+                  </TableHead>
+                  <TableHead className="text-text-muted h-10 text-[9px] font-bold uppercase tracking-[0.2em]">
+                    Magnitude (VAT Incl.)
+                  </TableHead>
+                  <TableHead className="text-text-muted h-10 text-center text-[9px] font-bold uppercase tracking-[0.2em]">
+                    Status
+                  </TableHead>
+                  <TableHead className="text-text-muted h-10 w-24 px-4 text-right text-[9px] font-bold uppercase tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
                     Actions
                   </TableHead>
                 </TableRow>
               </TableHeader>
+<<<<<<< HEAD
               <TableBody className="divide-y divide-slate-50">
                 {edoDocs.map((doc) => (
                   <TableRow key={doc.id} className="group h-12 transition-all hover:bg-slate-50/50">
                     <TableCell className="px-4 text-[10px] font-bold uppercase text-indigo-600">
+=======
+              <TableBody className="divide-border-subtle divide-y">
+                {edoDocs.map((doc) => (
+                  <TableRow
+                    key={doc.id}
+                    className="hover:bg-bg-surface2/80 group h-12 transition-all"
+                  >
+                    <TableCell className="text-accent-primary px-4 text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                       {doc.type}
                     </TableCell>
                     <TableCell>
                       <div className="flex flex-col">
+<<<<<<< HEAD
                         <span className="text-[11px] font-bold uppercase tracking-tight text-slate-900">
                           {doc.number}
                         </span>
                         <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 opacity-60">
+=======
+                        <span className="text-text-primary text-[11px] font-bold uppercase tracking-tight">
+                          {doc.number}
+                        </span>
+                        <span className="text-text-muted text-[9px] font-bold uppercase tracking-widest opacity-60">
+>>>>>>> recover/cabinet-wip-from-stash
                           {doc.date}
                         </span>
                       </div>
                     </TableCell>
+<<<<<<< HEAD
                     <TableCell className="text-[10px] font-bold uppercase tracking-tight text-slate-600">
                       {doc.receiverId}
                     </TableCell>
                     <TableCell className="text-[11px] font-bold italic tabular-nums tracking-tighter text-slate-900">
+=======
+                    <TableCell className="text-text-secondary text-[10px] font-bold uppercase tracking-tight">
+                      {doc.receiverId}
+                    </TableCell>
+                    <TableCell className="text-text-primary text-[11px] font-bold italic tabular-nums tracking-tighter">
+>>>>>>> recover/cabinet-wip-from-stash
                       {doc.totalAmount.toLocaleString()} ₽
                     </TableCell>
                     <TableCell className="text-center">
@@ -178,9 +287,13 @@ export default function ComplianceDashboard() {
                         variant="outline"
                         className={cn(
                           'h-3.5 rounded border px-1.5 text-[7px] font-bold uppercase tracking-widest shadow-sm transition-all',
+<<<<<<< HEAD
                           doc.status === 'signed'
                             ? 'border-emerald-100 bg-emerald-50 text-emerald-600'
                             : 'border-blue-100 bg-blue-50 text-blue-600'
+=======
+                          EDO_STATUS_BADGE_CLASS[doc.status] ?? EDO_STATUS_BADGE_CLASS.sent
+>>>>>>> recover/cabinet-wip-from-stash
                         )}
                       >
                         {doc.status}
@@ -191,14 +304,22 @@ export default function ComplianceDashboard() {
                         <Button
                           size="icon"
                           variant="ghost"
+<<<<<<< HEAD
                           className="h-7 w-7 rounded-lg text-slate-400 transition-all hover:bg-slate-900 hover:text-white"
+=======
+                          className="hover:bg-text-primary/90 text-text-muted h-7 w-7 rounded-lg transition-all hover:text-white"
+>>>>>>> recover/cabinet-wip-from-stash
                         >
                           <Download className="h-3.5 w-3.5" />
                         </Button>
                         <Button
                           size="icon"
                           variant="ghost"
+<<<<<<< HEAD
                           className="h-7 w-7 rounded-lg text-indigo-500 transition-all hover:bg-indigo-600 hover:text-white"
+=======
+                          className="hover:bg-accent-primary text-accent-primary h-7 w-7 rounded-lg transition-all hover:text-white"
+>>>>>>> recover/cabinet-wip-from-stash
                         >
                           <Send className="h-3.5 w-3.5" />
                         </Button>
@@ -218,15 +339,25 @@ export default function ComplianceDashboard() {
                 label: 'KIZ Inventory (Marking)',
                 val: '12,450',
                 sub: 'Available via CRPT',
+<<<<<<< HEAD
                 color: 'text-indigo-600',
                 bg: 'bg-indigo-50/50',
+=======
+                color: 'text-accent-primary',
+                bg: 'bg-accent-primary/10',
+>>>>>>> recover/cabinet-wip-from-stash
               },
               {
                 label: 'Operational Circulation',
                 val: '8,920',
                 sub: 'Active nodes',
+<<<<<<< HEAD
                 color: 'text-slate-900',
                 bg: 'bg-slate-50/50',
+=======
+                color: 'text-text-primary',
+                bg: 'bg-bg-surface2/80',
+>>>>>>> recover/cabinet-wip-from-stash
               },
               {
                 label: 'MTK Exceptions',
@@ -238,6 +369,7 @@ export default function ComplianceDashboard() {
             ].map((m, i) => (
               <Card
                 key={i}
+<<<<<<< HEAD
                 className="group relative overflow-hidden rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition-all hover:border-indigo-100"
               >
                 <div className="mb-2 flex items-center justify-between">
@@ -246,36 +378,66 @@ export default function ComplianceDashboard() {
                   </span>
                   {m.color === 'text-rose-600' && (
                     <AlertCircle className="h-3 w-3 animate-pulse text-rose-500" />
+=======
+                className="border-border-subtle hover:border-accent-primary/20 group relative overflow-hidden rounded-xl border bg-white p-4 shadow-sm transition-all"
+              >
+                <div className="mb-2 flex items-center justify-between">
+                  <span className="text-text-muted text-[9px] font-bold uppercase leading-none tracking-[0.15em]">
+                    {m.label}
+                  </span>
+                  {CZ_METRIC_TONE_KEY[m.color] === 'rose' && (
+                    <AlertCircle
+                      className={cn('h-3 w-3 animate-pulse', getMetricValueToneClass('rose'))}
+                    />
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 </div>
                 <div className="flex items-baseline gap-2">
                   <span
                     className={cn(
                       'text-sm font-bold uppercase tabular-nums leading-none tracking-tighter',
+<<<<<<< HEAD
                       m.color
+=======
+                      getMetricValueToneClass(CZ_METRIC_TONE_KEY[m.color] ?? 'slate')
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     {m.val}
                   </span>
                 </div>
+<<<<<<< HEAD
                 <p className="mt-2 text-[8px] font-bold uppercase tracking-widest text-slate-400 opacity-60">
+=======
+                <p className="text-text-muted mt-2 text-[8px] font-bold uppercase tracking-widest opacity-60">
+>>>>>>> recover/cabinet-wip-from-stash
                   {m.sub}
                 </p>
               </Card>
             ))}
           </div>
 
+<<<<<<< HEAD
           <Card className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition-all hover:border-indigo-100/50">
             <div className="border-b border-slate-50 bg-slate-50/50 p-4">
               <h3 className="text-[10px] font-bold uppercase leading-none tracking-widest text-slate-900">
                 Serial Protocol (KIZ Orders)
               </h3>
               <p className="mt-1 text-[8px] font-bold uppercase tracking-widest text-slate-400 opacity-60">
+=======
+          <Card className="border-border-subtle hover:border-accent-primary/20 overflow-hidden rounded-xl border bg-white shadow-sm transition-all">
+            <div className="border-border-subtle bg-bg-surface2/80 border-b p-4">
+              <h3 className="text-text-primary text-[10px] font-bold uppercase leading-none tracking-widest">
+                Serial Protocol (KIZ Orders)
+              </h3>
+              <p className="text-text-muted mt-1 text-[8px] font-bold uppercase tracking-widest opacity-60">
+>>>>>>> recover/cabinet-wip-from-stash
                 Production Unit Tracking & GS1 Alignment
               </p>
             </div>
             <Table>
               <TableHeader>
+<<<<<<< HEAD
                 <TableRow className="border-b border-slate-100 bg-slate-50/50 hover:bg-slate-50/50">
                   <TableHead className="h-10 px-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                     Sequence ID
@@ -293,30 +455,71 @@ export default function ComplianceDashboard() {
                     CRPT Status
                   </TableHead>
                   <TableHead className="h-10 w-24 px-4 text-right text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+=======
+                <TableRow className="bg-bg-surface2/80 hover:bg-bg-surface2/80 border-border-subtle border-b">
+                  <TableHead className="text-text-muted h-10 px-4 text-[9px] font-bold uppercase tracking-[0.2em]">
+                    Sequence ID
+                  </TableHead>
+                  <TableHead className="text-text-muted h-10 text-[9px] font-bold uppercase tracking-[0.2em]">
+                    Entity / GTIN
+                  </TableHead>
+                  <TableHead className="text-text-muted h-10 text-right text-[9px] font-bold uppercase tracking-[0.2em]">
+                    Volume
+                  </TableHead>
+                  <TableHead className="text-text-muted h-10 text-[9px] font-bold uppercase tracking-[0.2em]">
+                    Timeline
+                  </TableHead>
+                  <TableHead className="text-text-muted h-10 text-center text-[9px] font-bold uppercase tracking-[0.2em]">
+                    CRPT Status
+                  </TableHead>
+                  <TableHead className="text-text-muted h-10 w-24 px-4 text-right text-[9px] font-bold uppercase tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
                     Actions
                   </TableHead>
                 </TableRow>
               </TableHeader>
+<<<<<<< HEAD
               <TableBody className="divide-y divide-slate-50">
                 <TableRow className="group h-12 transition-all hover:bg-slate-50/50">
                   <TableCell className="px-4 font-mono text-[9px] font-bold text-slate-400">
+=======
+              <TableBody className="divide-border-subtle divide-y">
+                <TableRow className="hover:bg-bg-surface2/80 group h-12 transition-all">
+                  <TableCell className="text-text-muted px-4 font-mono text-[9px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                     ORD-MARK-99821
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-col">
+<<<<<<< HEAD
                       <span className="text-[11px] font-bold uppercase tracking-tight text-slate-900">
                         Cotton T-Shirt Black
                       </span>
                       <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 opacity-60">
+=======
+                      <span className="text-text-primary text-[11px] font-bold uppercase tracking-tight">
+                        Cotton T-Shirt Black
+                      </span>
+                      <span className="text-text-muted text-[9px] font-bold uppercase tracking-widest opacity-60">
+>>>>>>> recover/cabinet-wip-from-stash
                         GTIN: 4607123456789
                       </span>
                     </div>
                   </TableCell>
                   <TableCell className="text-right">
+<<<<<<< HEAD
                     <span className="text-[11px] font-bold tabular-nums text-slate-900">500</span>
                   </TableCell>
                   <TableCell>
                     <span className="text-[10px] font-bold uppercase tabular-nums text-slate-400">
+=======
+                    <span className="text-text-primary text-[11px] font-bold tabular-nums">
+                      500
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-text-muted text-[10px] font-bold uppercase tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                       2025-03-01
                     </span>
                   </TableCell>
@@ -332,7 +535,11 @@ export default function ComplianceDashboard() {
                     <Button
                       size="sm"
                       variant="ghost"
+<<<<<<< HEAD
                       className="h-7 rounded-lg border border-slate-100 bg-slate-50 px-3 text-[8px] font-bold uppercase tracking-widest text-slate-500 shadow-inner transition-all hover:bg-white hover:text-indigo-600 group-hover:bg-white"
+=======
+                      className="bg-bg-surface2 border-border-subtle text-text-secondary hover:text-accent-primary h-7 rounded-lg border px-3 text-[8px] font-bold uppercase tracking-widest shadow-inner transition-all hover:bg-white group-hover:bg-white"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       <Download className="mr-1.5 h-3 w-3" /> Manifest PDF
                     </Button>
@@ -343,6 +550,6 @@ export default function ComplianceDashboard() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+    </RegistryPageShell>
   );
 }

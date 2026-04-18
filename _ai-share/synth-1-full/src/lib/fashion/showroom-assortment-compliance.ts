@@ -1,5 +1,3 @@
-import type { Product } from './types';
-
 export type ShowroomAssortmentComplianceV1 = {
   sessionId: string;
   mustHaveItems: { sku: string; ordered: boolean }[];

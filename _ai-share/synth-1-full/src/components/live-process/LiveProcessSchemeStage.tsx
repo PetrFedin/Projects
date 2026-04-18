@@ -60,7 +60,11 @@ function EntityCounts({
     .filter((x) => x.n !== undefined);
   if (items.length === 0) return null;
   return (
+<<<<<<< HEAD
     <span className="mt-0.5 block text-[10px] text-slate-500">
+=======
+    <span className="text-text-secondary mt-0.5 block text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
       {items.map((i) => `${i.label}: ${i.n}`).join(', ')}
     </span>
   );
@@ -131,12 +135,16 @@ export function LiveProcessSchemeStage({
           className={cn(
             'flex h-full min-h-[200px] w-full flex-col transition-all',
             isBlocked && 'border-dashed opacity-60',
+<<<<<<< HEAD
             isHovered && 'shadow-md ring-2 ring-indigo-400'
+=======
+            isHovered && 'ring-accent-primary shadow-md ring-2'
+>>>>>>> recover/cabinet-wip-from-stash
           )}
         >
           <CardHeader className="px-3 pb-2 pt-3">
             <div className="flex items-start justify-between gap-1">
-              <span className="text-[10px] font-bold text-slate-400">Этап {index + 1}</span>
+              <span className="text-text-muted text-[10px] font-bold">Этап {index + 1}</span>
               <div className="flex items-center gap-0.5">
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -147,7 +155,11 @@ export function LiveProcessSchemeStage({
                         'rounded p-0.5',
                         runtime.status === 'not_started'
                           ? 'bg-amber-100 text-amber-600'
+<<<<<<< HEAD
                           : 'text-slate-300 hover:text-amber-500'
+=======
+                          : 'text-text-muted hover:text-amber-500'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       <CircleDot className="h-3.5 w-3.5" />
@@ -164,7 +176,11 @@ export function LiveProcessSchemeStage({
                         'rounded p-0.5',
                         runtime.status === 'in_progress'
                           ? 'bg-blue-100 text-blue-600'
+<<<<<<< HEAD
                           : 'text-slate-300 hover:text-blue-500'
+=======
+                          : 'text-text-muted hover:text-blue-500'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       <CircleDot className="h-3.5 w-3.5" />
@@ -181,7 +197,11 @@ export function LiveProcessSchemeStage({
                         'rounded p-0.5',
                         runtime.status === 'done'
                           ? 'bg-emerald-100 text-emerald-600'
+<<<<<<< HEAD
                           : 'text-slate-300 hover:text-emerald-500'
+=======
+                          : 'text-text-muted hover:text-emerald-500'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       <CheckCircle2 className="h-3.5 w-3.5" />
@@ -198,7 +218,7 @@ export function LiveProcessSchemeStage({
           <CardContent className="flex-1 space-y-2 px-3 pb-3 pt-0">
             {/* Ответственные — выпадающий список (много выбор + главный) */}
             <div className="space-y-0.5">
-              <div className="flex items-center gap-1 text-[10px] text-slate-500">
+              <div className="text-text-secondary flex items-center gap-1 text-[10px]">
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <span className="inline-flex">
@@ -229,7 +249,11 @@ export function LiveProcessSchemeStage({
                       onCheckedChange={() => toggleAssignee(m.id)}
                     >
                       {m.name}
+<<<<<<< HEAD
                       {m.role && <span className="ml-1 text-slate-400">({m.role})</span>}
+=======
+                      {m.role && <span className="text-text-muted ml-1">({m.role})</span>}
+>>>>>>> recover/cabinet-wip-from-stash
                     </DropdownMenuCheckboxItem>
                   ))}
                   {assigneeIds.length > 1 && (
@@ -256,7 +280,7 @@ export function LiveProcessSchemeStage({
 
             {/* Даты */}
             <div className="space-y-0.5">
-              <div className="flex items-center gap-1 text-[10px] text-slate-500">
+              <div className="text-text-secondary flex items-center gap-1 text-[10px]">
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <span className="inline-flex">
@@ -276,9 +300,13 @@ export function LiveProcessSchemeStage({
                       plannedStartAt: e.target.value ? `${e.target.value}T00:00:00` : null,
                     })
                   }
+<<<<<<< HEAD
                   className="min-w-0 flex-1 rounded border border-slate-200 px-1.5 py-0.5 text-[10px]"
+=======
+                  className="border-border-default min-w-0 flex-1 rounded border px-1.5 py-0.5 text-[10px]"
+>>>>>>> recover/cabinet-wip-from-stash
                 />
-                <span className="text-slate-300">–</span>
+                <span className="text-text-muted">–</span>
                 <input
                   type="date"
                   value={runtime.plannedEndAt?.slice(0, 10) ?? ''}
@@ -287,7 +315,11 @@ export function LiveProcessSchemeStage({
                       plannedEndAt: e.target.value ? `${e.target.value}T23:59:59` : null,
                     })
                   }
+<<<<<<< HEAD
                   className="min-w-0 flex-1 rounded border border-slate-200 px-1.5 py-0.5 text-[10px]"
+=======
+                  className="border-border-default min-w-0 flex-1 rounded border px-1.5 py-0.5 text-[10px]"
+>>>>>>> recover/cabinet-wip-from-stash
                 />
               </div>
             </div>
@@ -297,7 +329,11 @@ export function LiveProcessSchemeStage({
                 <TooltipTrigger asChild>
                   <Link
                     href={stage.href}
+<<<<<<< HEAD
                     className="mt-1 inline-flex items-center gap-0.5 text-[10px] font-medium text-indigo-600 hover:text-indigo-700"
+=======
+                    className="text-accent-primary hover:text-accent-primary mt-1 inline-flex items-center gap-0.5 text-[10px] font-medium"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     Перейти в раздел
                     <ChevronRight className="h-3 w-3" />

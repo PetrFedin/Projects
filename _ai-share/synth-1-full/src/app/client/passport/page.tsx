@@ -20,7 +20,11 @@ export default function ClientPassportHubPage() {
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Digital Passport</h1>
+<<<<<<< HEAD
           <p className="text-sm text-slate-500">
+=======
+          <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             История и аутентичность вещей. Выберите паспорт или введите ID.
           </p>
         </div>

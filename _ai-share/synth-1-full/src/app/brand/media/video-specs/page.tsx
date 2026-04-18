@@ -12,6 +12,7 @@ import {
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { ROUTES } from '@/lib/routes';
 
 const specs = [
   { param: 'Формат контейнера', value: 'MP4' },
@@ -32,7 +33,11 @@ export default function VideoSpecsPage() {
     <div className="space-y-6">
       <div className="flex items-center gap-3">
         <Button variant="outline" size="icon" asChild>
+<<<<<<< HEAD
           <Link href="/brand/media">
+=======
+          <Link href={ROUTES.brand.media}>
+>>>>>>> recover/cabinet-wip-from-stash
             <ChevronLeft className="h-4 w-4" />
           </Link>
         </Button>

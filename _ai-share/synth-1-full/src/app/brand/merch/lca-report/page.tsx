@@ -81,10 +81,14 @@ export default function LcaReportPage() {
             </CardTitle>
           </CardHeader>
         </Card>
-        <Card className="border-slate-200 bg-slate-50/20">
+        <Card className="border-border-default bg-bg-surface2/20">
           <CardHeader className="py-3">
             <CardDescription className="text-xs">Avg CO₂ Emission</CardDescription>
+<<<<<<< HEAD
             <CardTitle className="text-2xl font-bold text-slate-700">
+=======
+            <CardTitle className="text-text-primary text-2xl font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
               {averages.co2} kg <span className="text-xs font-normal">/ SKU</span>
             </CardTitle>
           </CardHeader>

@@ -94,7 +94,11 @@ export const brandStatuses = [
     id: 'quality',
     name: 'Мастер Качества',
     icon: <Check className="h-3 w-3" />,
+<<<<<<< HEAD
     color: 'text-indigo-500',
+=======
+    color: 'text-accent-primary',
+>>>>>>> recover/cabinet-wip-from-stash
     description: 'Ручная работа & Контроль',
     fullDesc: 'Многоступенчатая система проверки качества каждого изделия перед отправкой.',
     active: true,
@@ -103,7 +107,11 @@ export const brandStatuses = [
     id: 'trend',
     name: 'Трендсеттер',
     icon: <Sparkles className="h-3 w-3" />,
+<<<<<<< HEAD
     color: 'text-purple-500',
+=======
+    color: 'text-accent-primary',
+>>>>>>> recover/cabinet-wip-from-stash
     description: 'Задает вектор моды',
     fullDesc: 'Коллекции бренда чаще всего попадают в подборки ведущих стилистов и инфлюенсеров.',
     active: false,
@@ -139,7 +147,11 @@ export const brandStatuses = [
     id: 'service',
     name: 'Премиум Сервис',
     icon: <MessageSquare className="h-3 w-3" />,
+<<<<<<< HEAD
     color: 'text-pink-500',
+=======
+    color: 'text-accent-primary',
+>>>>>>> recover/cabinet-wip-from-stash
     description: 'Персональный консьерж',
     fullDesc: 'Мгновенная поддержка клиентов и услуга выездной примерки в день заказа.',
     active: false,

@@ -26,7 +26,11 @@ export default function LocalCompliancePage() {
           <div className="rounded-lg bg-emerald-100 p-2">
             <ShieldCheck className="h-6 w-6 text-emerald-600" />
           </div>
+<<<<<<< HEAD
           <h1 className="text-3xl font-bold tracking-tight text-slate-800">
+=======
+          <h1 className="text-text-primary text-3xl font-bold tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
             Compliance & EDO (RF)
           </h1>
         </div>
@@ -42,7 +46,11 @@ export default function LocalCompliancePage() {
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <FileText className="h-5 w-5 text-emerald-600" />
+<<<<<<< HEAD
               <h3 className="text-[14px] text-lg font-bold uppercase text-slate-800">
+=======
+              <h3 className="text-text-primary text-[14px] text-lg font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 Электронный документооборот
               </h3>
             </div>
@@ -58,21 +66,36 @@ export default function LocalCompliancePage() {
             {docs.map((doc) => (
               <div
                 key={doc.id}
+<<<<<<< HEAD
                 className="group flex items-center justify-between rounded-lg border bg-slate-50 p-3 transition-colors hover:border-emerald-200"
               >
                 <div className="min-w-0 flex-1 pr-4">
                   <div className="mb-1 flex items-center gap-2">
                     <span className="text-[10px] font-black uppercase leading-none text-slate-400">
+=======
+                className="bg-bg-surface2 group flex items-center justify-between rounded-lg border p-3 transition-colors hover:border-emerald-200"
+              >
+                <div className="min-w-0 flex-1 pr-4">
+                  <div className="mb-1 flex items-center gap-2">
+                    <span className="text-text-muted text-[10px] font-black uppercase leading-none">
+>>>>>>> recover/cabinet-wip-from-stash
                       {doc.id}
                     </span>
                     <Badge variant="outline" className="h-3.5 bg-white text-[8px] uppercase">
                       {doc.type}
                     </Badge>
                   </div>
+<<<<<<< HEAD
                   <div className="truncate text-xs font-bold text-slate-700">
                     {doc.counterparty}
                   </div>
                   <div className="text-[10px] font-semibold text-slate-500">
+=======
+                  <div className="text-text-primary truncate text-xs font-bold">
+                    {doc.counterparty}
+                  </div>
+                  <div className="text-text-secondary text-[10px] font-semibold">
+>>>>>>> recover/cabinet-wip-from-stash
                     {doc.totalAmount.toLocaleString()} ₽
                   </div>
                 </div>
@@ -81,7 +104,11 @@ export default function LocalCompliancePage() {
                     {doc.status.toUpperCase()}
                   </Badge>
                   {doc.signedAt && (
+<<<<<<< HEAD
                     <span className="text-[9px] font-bold text-slate-400">{doc.signedAt}</span>
+=======
+                    <span className="text-text-muted text-[9px] font-bold">{doc.signedAt}</span>
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 </div>
               </div>
@@ -98,7 +125,11 @@ export default function LocalCompliancePage() {
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <UserCheck className="h-5 w-5 text-blue-600" />
+<<<<<<< HEAD
               <h3 className="text-[14px] text-lg font-bold uppercase text-slate-800">
+=======
+              <h3 className="text-text-primary text-[14px] text-lg font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 Маркировка (Баланс КМ)
               </h3>
             </div>
@@ -112,9 +143,15 @@ export default function LocalCompliancePage() {
               <div className="mb-2 text-2xl font-black leading-none text-blue-800">1,240</div>
               <div className="text-[10px] font-black uppercase text-blue-400">Остатки КМ</div>
             </div>
+<<<<<<< HEAD
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-center">
               <div className="mb-2 text-2xl font-black leading-none text-slate-700">14</div>
               <div className="text-[10px] font-black uppercase text-slate-400">В работе</div>
+=======
+            <div className="bg-bg-surface2 border-border-default rounded-lg border p-4 text-center">
+              <div className="text-text-primary mb-2 text-2xl font-black leading-none">14</div>
+              <div className="text-text-muted text-[10px] font-black uppercase">В работе</div>
+>>>>>>> recover/cabinet-wip-from-stash
             </div>
           </div>
 
@@ -143,15 +180,26 @@ export default function LocalCompliancePage() {
         </Card>
       </div>
 
+<<<<<<< HEAD
       <div className="mt-8 flex items-center gap-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
+=======
+      <div className="bg-bg-surface2 border-border-default mt-8 flex items-center gap-4 rounded-lg border p-4">
+>>>>>>> recover/cabinet-wip-from-stash
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 shadow-md">
           <ShieldCheck className="h-5 w-5 text-white" />
         </div>
         <div className="flex-1">
+<<<<<<< HEAD
           <div className="mb-1 text-[11px] font-black uppercase leading-none text-slate-400">
             Инфраструктурный модуль (РФ)
           </div>
           <div className="text-sm font-bold leading-tight tracking-tight text-slate-700">
+=======
+          <div className="text-text-muted mb-1 text-[11px] font-black uppercase leading-none">
+            Инфраструктурный модуль (РФ)
+          </div>
+          <div className="text-text-primary text-sm font-bold leading-tight tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
             Система автоматически сопоставляет входящие УПД с остатками Честного ЗНАКа и обновляет
             статусы на PDP.
           </div>

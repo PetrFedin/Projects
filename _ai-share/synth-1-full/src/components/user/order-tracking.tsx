@@ -57,9 +57,9 @@ const statusConfig = {
   shipped: {
     label: 'В пути',
     icon: Truck,
-    color: 'text-purple-600',
-    bgColor: 'bg-purple-500/10',
-    borderColor: 'border-purple-500/20',
+    color: 'text-accent-primary',
+    bgColor: 'bg-accent-primary/10',
+    borderColor: 'border-accent-primary/30',
   },
   delivered: {
     label: 'Доставлено',

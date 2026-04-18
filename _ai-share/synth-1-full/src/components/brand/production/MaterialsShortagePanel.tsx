@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { AlertTriangle, Gavel, Store } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ROUTES } from '@/lib/routes';
 
 export interface ShortageItem {
   id: string;
@@ -65,8 +66,13 @@ export function MaterialsShortagePanel({
               className="flex flex-col justify-between gap-2 rounded-xl border border-amber-100 bg-white p-3 transition-colors hover:border-amber-200 sm:flex-row sm:items-center"
             >
               <div className="space-y-0.5">
+<<<<<<< HEAD
                 <p className="text-[11px] font-bold text-slate-900">{item.name}</p>
                 <div className="flex items-center gap-2 text-[9px] font-bold uppercase text-slate-500">
+=======
+                <p className="text-text-primary text-[11px] font-bold">{item.name}</p>
+                <div className="text-text-secondary flex items-center gap-2 text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                   <span>{CATEGORY_LABELS[item.category]}</span>
                   <span>·</span>
                   <span className="text-amber-600">
@@ -75,13 +81,17 @@ export function MaterialsShortagePanel({
                   {item.collection && (
                     <>
                       <span>·</span>
+<<<<<<< HEAD
                       <Badge variant="outline" className="border-slate-200 text-[8px]">
+=======
+                      <Badge variant="outline" className="border-border-default text-[8px]">
+>>>>>>> recover/cabinet-wip-from-stash
                         {item.collection}
                       </Badge>
                     </>
                   )}
                 </div>
-                <p className="text-[9px] text-slate-400">
+                <p className="text-text-muted text-[9px]">
                   Остаток: {item.stock} {item.unit} · В закупке: {item.inPurchase ?? 0} {item.unit}
                 </p>
               </div>
@@ -99,7 +109,11 @@ export function MaterialsShortagePanel({
                   <Button
                     variant="outline"
                     size="sm"
+<<<<<<< HEAD
                     className="h-8 gap-1 rounded-lg border-indigo-200 text-[9px] font-bold uppercase text-indigo-700 hover:bg-indigo-50"
+=======
+                    className="border-accent-primary/30 text-accent-primary hover:bg-accent-primary/10 h-8 gap-1 rounded-lg text-[9px] font-bold uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                     onClick={() => onSearchAuctions(searchQuery)}
                   >
                     <Gavel className="h-3.5 w-3.5" />
@@ -112,7 +126,11 @@ export function MaterialsShortagePanel({
                   className="h-8 gap-1 text-[9px] font-bold uppercase"
                   asChild
                 >
+<<<<<<< HEAD
                   <Link href="/brand/auctions">Аукционы бренда</Link>
+=======
+                  <Link href={ROUTES.brand.auctions}>Аукционы бренда</Link>
+>>>>>>> recover/cabinet-wip-from-stash
                 </Button>
               </div>
             </div>

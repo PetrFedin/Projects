@@ -6,10 +6,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Layers, ArrowLeft, DollarSign, Package } from 'lucide-react';
+import { DollarSign } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { RegistryPageShell } from '@/components/design-system';
 
 /** NuOrder-style: планирование ассортимента байером по категориям/бюджету до заказа. */
 const mockCategories = [
@@ -29,6 +31,7 @@ export default function B2BAssortmentPlanningPage() {
     : [];
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-3xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Link href={ROUTES.shop.b2bOrderMode}>
@@ -45,6 +48,13 @@ export default function B2BAssortmentPlanningPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-3xl space-y-6">
+      <ShopB2bContentHeader
+        backHref={ROUTES.shop.b2bOrderMode}
+        lead="Распределите бюджет по категориям перед заказом в матрице (NuOrder-style)."
+      />
+>>>>>>> recover/cabinet-wip-from-stash
       <Card>
         <CardHeader>
           <CardTitle>Бюджет и категории</CardTitle>
@@ -64,17 +74,25 @@ export default function B2BAssortmentPlanningPage() {
           {byCategory.map((c) => (
             <div
               key={c.id}
+<<<<<<< HEAD
               className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50 p-3"
+=======
+              className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-lg border p-3"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <span className="font-medium">{c.name}</span>
               <div className="flex items-center gap-3">
-                <span className="text-sm text-slate-500">{c.budget}%</span>
+                <span className="text-text-secondary text-sm">{c.budget}%</span>
                 <span className="font-semibold">{c.amount.toLocaleString('ru-RU')} ₽</span>
-                <span className="text-xs text-slate-400">{c.plannedUnits} ед. план</span>
+                <span className="text-text-muted text-xs">{c.plannedUnits} ед. план</span>
               </div>
             </div>
           ))}
+<<<<<<< HEAD
           <p className="pt-2 text-xs text-slate-400">
+=======
+          <p className="text-text-muted pt-2 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
             Итого: {totalPlannedPercent}% от бюджета. После сохранения перейдите в матрицу и
             собирайте заказ в рамках плана.
           </p>
@@ -98,6 +116,10 @@ export default function B2BAssortmentPlanningPage() {
         title="Матрица, заказы, аналитика, выставки"
         className="mt-6"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

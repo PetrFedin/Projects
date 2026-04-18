@@ -16,6 +16,12 @@ import {
   Gavel,
   Zap,
   Ruler,
+<<<<<<< HEAD
+=======
+  Map,
+  Globe,
+  Search,
+>>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 
@@ -27,12 +33,89 @@ export const manufacturerNavGroups = [
     icon: LayoutDashboard,
     links: [
       {
+<<<<<<< HEAD
         href: '/factory',
+=======
+        href: ROUTES.factory.production,
+>>>>>>> recover/cabinet-wip-from-stash
         value: 'dashboard',
         label: 'Дашборд',
         icon: LayoutDashboard,
         description: 'Обзор производства',
       },
+<<<<<<< HEAD
+=======
+      {
+        href: ROUTES.shop.b2bWorkspaceMap,
+        value: 'b2b-workspace-map',
+        label: 'Карта B2B (ритейл)',
+        icon: Map,
+        description: 'Как байер проходит закупку в кабинете магазина — контекст для handoff',
+      },
+    ],
+  },
+  {
+    id: 'supply-platform',
+    label: 'Площадка, RFQ и бренд',
+    icon: Globe,
+    links: [
+      {
+        href: ROUTES.shop.home,
+        value: 'shop-home',
+        label: 'Кабинет магазина',
+        icon: LayoutDashboard,
+        description: 'Контекст байера и дистрибьютора',
+      },
+      {
+        href: ROUTES.shop.b2bRfq,
+        value: 'shop-rfq',
+        label: 'RFQ (витрина)',
+        icon: FileText,
+        description: 'Запросы на площадке ритейла',
+      },
+      {
+        href: ROUTES.shop.b2bTenders,
+        value: 'shop-tenders',
+        label: 'Тендеры B2B',
+        icon: Gavel,
+        description: 'Торги, видимые байерам',
+      },
+      {
+        href: ROUTES.shop.b2bSupplierDiscovery,
+        value: 'shop-supplier-discovery',
+        label: 'Поиск поставщиков',
+        icon: Search,
+        description: 'Реестр в контуре магазина',
+      },
+      {
+        href: ROUTES.shop.b2bFulfillmentDashboard,
+        value: 'shop-fulfillment',
+        label: 'Fulfillment (ритейл)',
+        icon: Truck,
+        description: 'SLA исполнения',
+      },
+      {
+        href: ROUTES.brand.suppliersRfq,
+        value: 'brand-rfq',
+        label: 'RFQ материалов (бренд)',
+        icon: FileText,
+        description: 'Запросы бренда к поставщикам',
+      },
+      {
+        href: ROUTES.brand.suppliers,
+        value: 'brand-suppliers',
+        label: 'Поставщики (бренд)',
+        icon: PackageSearch,
+        description: 'Реестр в кабинете бренда',
+      },
+      {
+        href: ROUTES.brand.materials,
+        value: 'brand-materials',
+        label: 'Материалы (бренд)',
+        icon: Layers,
+        description: 'Номенклатура для производства',
+      },
+>>>>>>> recover/cabinet-wip-from-stash
     ],
   },
   {
@@ -262,12 +345,89 @@ export const supplierNavGroups = [
     icon: LayoutDashboard,
     links: [
       {
+<<<<<<< HEAD
         href: '/factory?role=supplier',
+=======
+        href: ROUTES.factory.supplier,
+>>>>>>> recover/cabinet-wip-from-stash
         value: 'dashboard',
         label: 'Дашборд',
         icon: LayoutDashboard,
         description: 'Обзор поставок',
       },
+<<<<<<< HEAD
+=======
+      {
+        href: ROUTES.shop.b2bWorkspaceMap,
+        value: 'b2b-workspace-map',
+        label: 'Карта B2B (ритейл)',
+        icon: Map,
+        description: 'Где RFQ и тендеры стыкуются с кабинетом байера',
+      },
+    ],
+  },
+  {
+    id: 'supply-platform',
+    label: 'Площадка, RFQ и бренд',
+    icon: Globe,
+    links: [
+      {
+        href: ROUTES.shop.home,
+        value: 'shop-home',
+        label: 'Кабинет магазина',
+        icon: LayoutDashboard,
+        description: 'Контекст байера',
+      },
+      {
+        href: ROUTES.shop.b2bRfq,
+        value: 'shop-rfq',
+        label: 'RFQ (витрина)',
+        icon: FileText,
+        description: 'Запросы на площадке ритейла',
+      },
+      {
+        href: ROUTES.shop.b2bTenders,
+        value: 'shop-tenders',
+        label: 'Тендеры B2B',
+        icon: Gavel,
+        description: 'Торги, видимые байерам',
+      },
+      {
+        href: ROUTES.shop.b2bSupplierDiscovery,
+        value: 'shop-supplier-discovery',
+        label: 'Поиск поставщиков',
+        icon: Search,
+        description: 'Реестр в контуре магазина',
+      },
+      {
+        href: ROUTES.shop.b2bFulfillmentDashboard,
+        value: 'shop-fulfillment',
+        label: 'Fulfillment (ритейл)',
+        icon: Truck,
+        description: 'SLA исполнения',
+      },
+      {
+        href: ROUTES.brand.suppliersRfq,
+        value: 'brand-rfq',
+        label: 'RFQ материалов (бренд)',
+        icon: FileText,
+        description: 'Запросы бренда к поставщикам',
+      },
+      {
+        href: ROUTES.brand.suppliers,
+        value: 'brand-suppliers',
+        label: 'Поставщики (бренд)',
+        icon: PackageSearch,
+        description: 'Реестр в кабинете бренда',
+      },
+      {
+        href: ROUTES.brand.materials,
+        value: 'brand-materials',
+        label: 'Материалы (бренд)',
+        icon: Layers,
+        description: 'Номенклатура',
+      },
+>>>>>>> recover/cabinet-wip-from-stash
     ],
   },
   {

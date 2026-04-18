@@ -1,5 +1,6 @@
 'use client';
 
+import { RegistryPageShell } from '@/components/design-system';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -33,6 +34,8 @@ import {
 import { EscrowAccount, EscrowMilestone } from '@/lib/types/finance';
 import { cn } from '@/lib/utils';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
+import { ROUTES } from '@/lib/routes';
+import { B2B_ORDERS_REGISTRY_LABEL } from '@/lib/ui/b2b-registry-label';
 
 /**
  * Escrow Milestone Engine UI
@@ -89,12 +92,20 @@ export default function EscrowPage() {
     const config: Record<EscrowMilestone['status'], { label: string; color: string; icon: any }> = {
       pending: {
         label: 'Ожидает',
+<<<<<<< HEAD
         color: 'bg-slate-50 text-slate-500 border-slate-100',
+=======
+        color: 'bg-bg-surface2 text-text-secondary border-border-subtle',
+>>>>>>> recover/cabinet-wip-from-stash
         icon: Clock,
       },
       funded: {
         label: 'Депонировано',
+<<<<<<< HEAD
         color: 'bg-indigo-50 text-indigo-600 border-indigo-100',
+=======
+        color: 'bg-accent-primary/10 text-accent-primary border-accent-primary/20',
+>>>>>>> recover/cabinet-wip-from-stash
         icon: Lock,
       },
       released: {
@@ -125,7 +136,11 @@ export default function EscrowPage() {
     100;
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto space-y-10 px-4 py-4">
+=======
+    <RegistryPageShell className="space-y-10">
+>>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Escrow Milestone Engine"
         description="Безопасные сделки с фабриками: поэтапная оплата. Связи: Finance, Disputes, B2B Orders, Production."
@@ -138,6 +153,7 @@ export default function EscrowPage() {
               Safe Deals
             </Badge>
             <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
+<<<<<<< HEAD
               <Link href="/brand/finance">Finance</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
@@ -151,6 +167,21 @@ export default function EscrowPage() {
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href="/brand/production">Production</Link>
+=======
+              <Link href={ROUTES.brand.finance}>Finance</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={`${ROUTES.brand.calendar}?layers=finance,orders`}>Календарь</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.disputes}>Disputes</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.b2bOrders}>{B2B_ORDERS_REGISTRY_LABEL}</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.production}>Production</Link>
+>>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -175,7 +206,11 @@ export default function EscrowPage() {
           >
             <FileText className="h-4 w-4" /> Договор Escrow
           </Button>
+<<<<<<< HEAD
           <Button className="h-11 gap-2 rounded-xl bg-slate-900 px-6 text-[10px] font-black uppercase text-white shadow-lg">
+=======
+          <Button className="bg-text-primary h-11 gap-2 rounded-xl px-6 text-[10px] font-black uppercase text-white shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
             <Plus className="h-4 w-4" /> Создать Escrow-счет
           </Button>
         </div>
@@ -183,7 +218,11 @@ export default function EscrowPage() {
 
       {/* Main Stats */}
       <div className="grid gap-3 md:grid-cols-4">
+<<<<<<< HEAD
         <Card className="relative overflow-hidden rounded-xl border-none bg-indigo-600 p-4 text-white shadow-xl shadow-indigo-100 md:col-span-2">
+=======
+        <Card className="shadow-accent-primary/10 bg-accent-primary relative overflow-hidden rounded-xl border-none p-4 text-white shadow-xl md:col-span-2">
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="relative z-10 flex h-full flex-col justify-between">
             <div className="flex items-start justify-between">
               <div className="space-y-1">
@@ -218,6 +257,7 @@ export default function EscrowPage() {
 
         <Card className="flex flex-col justify-between rounded-xl border-none bg-white p-4 shadow-sm">
           <div className="space-y-1">
+<<<<<<< HEAD
             <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
               На Escrow-балансе
             </p>
@@ -225,12 +265,27 @@ export default function EscrowPage() {
           </div>
           <div className="border-t border-slate-50 pt-4">
             <div className="flex items-center gap-2 text-[10px] font-black uppercase text-slate-400">
+=======
+            <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+              На Escrow-балансе
+            </p>
+            <p className="text-accent-primary text-sm font-black">
+              ${escrow.balance.toLocaleString()}
+            </p>
+          </div>
+          <div className="border-border-subtle border-t pt-4">
+            <div className="text-text-muted flex items-center gap-2 text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
               <Unlock className="h-3 w-3" /> Ожидает выплаты: $25,000
             </div>
           </div>
         </Card>
 
+<<<<<<< HEAD
         <Card className="flex flex-col justify-between rounded-xl border-none bg-slate-900 p-4 text-white shadow-sm">
+=======
+        <Card className="bg-text-primary flex flex-col justify-between rounded-xl border-none p-4 text-white shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="space-y-1">
             <p className="text-[10px] font-black uppercase tracking-widest text-white/40">
               Контрагент (Фабрика)
@@ -247,8 +302,13 @@ export default function EscrowPage() {
 
       <div className="grid gap-3 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
+<<<<<<< HEAD
           <Card className="overflow-hidden rounded-xl border-none shadow-xl shadow-slate-200/50">
             <CardHeader className="border-b border-slate-50 p-4">
+=======
+          <Card className="overflow-hidden rounded-xl border-none shadow-md shadow-xl">
+            <CardHeader className="border-border-subtle border-b p-4">
+>>>>>>> recover/cabinet-wip-from-stash
               <CardTitle className="text-base font-black uppercase tracking-tight">
                 Milestone Roadmap
               </CardTitle>
@@ -258,7 +318,11 @@ export default function EscrowPage() {
             </CardHeader>
             <CardContent className="p-0">
               <Table>
+<<<<<<< HEAD
                 <TableHeader className="bg-slate-50/50">
+=======
+                <TableHeader className="bg-bg-surface2/80">
+>>>>>>> recover/cabinet-wip-from-stash
                   <TableRow>
                     <TableHead className="pl-8 text-[10px] font-black uppercase">
                       Этап / Цель
@@ -272,14 +336,24 @@ export default function EscrowPage() {
                 </TableHeader>
                 <TableBody>
                   {escrow.milestones.map((m, i) => (
+<<<<<<< HEAD
                     <TableRow key={m.id} className="transition-colors hover:bg-slate-50/50">
                       <TableCell className="py-6 pl-8">
                         <p className="text-sm font-bold text-slate-900">{m.title}</p>
+=======
+                    <TableRow key={m.id} className="hover:bg-bg-surface2/80 transition-colors">
+                      <TableCell className="py-6 pl-8">
+                        <p className="text-text-primary text-sm font-bold">{m.title}</p>
+>>>>>>> recover/cabinet-wip-from-stash
                         <div className="mt-2 flex flex-wrap gap-1">
                           {m.conditions.map((c, idx) => (
                             <span
                               key={idx}
+<<<<<<< HEAD
                               className="rounded bg-slate-100 px-1.5 py-0.5 text-[8px] font-bold uppercase text-slate-500"
+=======
+                              className="bg-bg-surface2 text-text-secondary rounded px-1.5 py-0.5 text-[8px] font-bold uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                             >
                               {c}
                             </span>
@@ -287,10 +361,17 @@ export default function EscrowPage() {
                         </div>
                       </TableCell>
                       <TableCell>
+<<<<<<< HEAD
                         <p className="text-sm font-black text-slate-900">
                           ${m.amount.toLocaleString()}
                         </p>
                         <p className="text-[10px] font-bold uppercase text-slate-400">
+=======
+                        <p className="text-text-primary text-sm font-black">
+                          ${m.amount.toLocaleString()}
+                        </p>
+                        <p className="text-text-muted text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                           {m.percentage}%
                         </p>
                       </TableCell>
@@ -299,7 +380,11 @@ export default function EscrowPage() {
                         {m.status === 'pending' && (
                           <Button
                             size="sm"
+<<<<<<< HEAD
                             className="h-8 rounded-lg bg-indigo-600 text-[9px] font-black uppercase text-white"
+=======
+                            className="bg-accent-primary h-8 rounded-lg text-[9px] font-black uppercase text-white"
+>>>>>>> recover/cabinet-wip-from-stash
                           >
                             Депонировать
                           </Button>
@@ -315,7 +400,11 @@ export default function EscrowPage() {
                         {m.status === 'released' && (
                           <div className="flex flex-col items-end">
                             <CheckCircle2 className="h-5 w-5 text-emerald-500" />
+<<<<<<< HEAD
                             <p className="mt-1 text-[8px] font-black uppercase text-slate-400">
+=======
+                            <p className="text-text-muted mt-1 text-[8px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                               {new Date(m.releasedAt!).toLocaleDateString()}
                             </p>
                           </div>
@@ -330,17 +419,30 @@ export default function EscrowPage() {
         </div>
 
         <div className="space-y-6">
+<<<<<<< HEAD
           <Card className="rounded-xl border-none p-4 shadow-xl shadow-slate-200/50">
             <div className="mb-6 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-50">
                 <AlertTriangle className="h-5 w-5 text-amber-500" />
               </div>
               <h3 className="text-sm font-black uppercase tracking-tight text-slate-900">
+=======
+          <Card className="rounded-xl border-none p-4 shadow-md shadow-xl">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="bg-bg-surface2 flex h-10 w-10 items-center justify-center rounded-2xl">
+                <AlertTriangle className="h-5 w-5 text-amber-500" />
+              </div>
+              <h3 className="text-text-primary text-sm font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                 Arbitrage & Security
               </h3>
             </div>
 
+<<<<<<< HEAD
             <p className="mb-6 text-xs font-medium leading-relaxed text-slate-500">
+=======
+            <p className="text-text-secondary mb-6 text-xs font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
               В случае невыполнения условий этапа вы можете инициировать процедуру спора. Средства
               будут заморожены до решения арбитража Synth-1.
             </p>
@@ -353,7 +455,11 @@ export default function EscrowPage() {
             </Button>
           </Card>
 
+<<<<<<< HEAD
           <Card className="rounded-xl border-none p-4 shadow-xl shadow-slate-200/50">
+=======
+          <Card className="rounded-xl border-none p-4 shadow-md shadow-xl">
+>>>>>>> recover/cabinet-wip-from-stash
             <h3 className="mb-6 text-sm font-black uppercase tracking-tight">Recent Log</h3>
             <div className="space-y-4">
               {[
@@ -367,34 +473,51 @@ export default function EscrowPage() {
                   msg: 'Account Created',
                   date: 'Feb 12, 2026',
                   icon: FileText,
+<<<<<<< HEAD
                   color: 'text-slate-400',
+=======
+                  color: 'text-text-muted',
+>>>>>>> recover/cabinet-wip-from-stash
                 },
               ].map((log, i) => (
                 <div key={i} className="flex gap-3">
                   <div
                     className={cn(
+<<<<<<< HEAD
                       'flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-slate-50',
+=======
+                      'bg-bg-surface2 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl',
+>>>>>>> recover/cabinet-wip-from-stash
                       log.color
                     )}
                   >
                     <log.icon className="h-4 w-4" />
                   </div>
                   <div>
+<<<<<<< HEAD
                     <p className="text-xs font-bold text-slate-900">{log.msg}</p>
                     <p className="text-[10px] font-bold uppercase text-slate-400">{log.date}</p>
+=======
+                    <p className="text-text-primary text-xs font-bold">{log.msg}</p>
+                    <p className="text-text-muted text-[10px] font-bold uppercase">{log.date}</p>
+>>>>>>> recover/cabinet-wip-from-stash
                   </div>
                 </div>
               ))}
             </div>
             <Button
               variant="ghost"
+<<<<<<< HEAD
               className="mt-6 h-10 w-full rounded-xl text-[9px] font-black uppercase text-indigo-600 hover:bg-indigo-50"
+=======
+              className="text-accent-primary hover:bg-accent-primary/10 mt-6 h-10 w-full rounded-xl text-[9px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               Полный аудит-лог
             </Button>
           </Card>
         </div>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

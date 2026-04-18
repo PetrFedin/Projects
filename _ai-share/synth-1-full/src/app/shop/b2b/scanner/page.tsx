@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Smartphone, QrCode, Trash2 } from 'lucide-react';
 import { B2BModulePage } from '@/components/shop/B2BModulePage';
+import { RegistryPageShell } from '@/components/design-system';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
 import { fetchShowroomSampleByRegistryId } from '@/lib/fashion/showroom-sample-client';
@@ -200,7 +201,11 @@ function B2BScannerInner() {
     <>
       {toast ? (
         <p
+<<<<<<< HEAD
           className="mb-3 rounded-lg border border-indigo-100 bg-indigo-50 px-3 py-2 text-sm font-medium text-indigo-700"
+=======
+          className="text-accent-primary bg-accent-primary/10 border-accent-primary/20 mb-3 rounded-lg border px-3 py-2 text-sm font-medium"
+>>>>>>> recover/cabinet-wip-from-stash
           role="status"
         >
           {toast}
@@ -211,18 +216,27 @@ function B2BScannerInner() {
           <CardTitle>Сканер шоурума</CardTitle>
           <CardDescription>
             Скан QR на бирке открывает эту страницу с параметром{' '}
+<<<<<<< HEAD
             <code className="rounded bg-slate-100 px-1 text-xs">add</code> — модель попадает в
+=======
+            <code className="bg-bg-surface2 rounded px-1 text-xs">add</code> — модель попадает в
+>>>>>>> recover/cabinet-wip-from-stash
             список. Штрихкод (Code 128) вводится в поле ниже и обрабатывается кнопкой — удобно для
             сканера с эмуляцией клавиатуры. Дальше укажите только размеры и количества.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
+<<<<<<< HEAD
           <div className="flex items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 p-8">
             <QrCode className="h-16 w-16 text-slate-300" aria-hidden />
+=======
+          <div className="border-border-default bg-bg-surface2 flex items-center justify-center rounded-xl border-2 border-dashed p-8">
+            <QrCode className="text-text-muted h-16 w-16" aria-hidden />
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="wedge" className="text-sm font-medium text-slate-800">
+            <label htmlFor="wedge" className="text-text-primary text-sm font-medium">
               Ввод со сканера (штрихкод или вставка payload)
             </label>
             <div className="flex flex-wrap gap-2">
@@ -248,7 +262,11 @@ function B2BScannerInner() {
 
           <div className="space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
+<<<<<<< HEAD
               <h3 className="text-sm font-semibold text-slate-900">
+=======
+              <h3 className="text-text-primary text-sm font-semibold">
+>>>>>>> recover/cabinet-wip-from-stash
                 Выбранные модели ({countLabel})
               </h3>
               <div className="flex gap-2">
@@ -269,25 +287,40 @@ function B2BScannerInner() {
             </div>
 
             {lines.length === 0 ? (
-              <p className="text-sm text-slate-500">Пока пусто — отсканируйте бирки в шоуруме.</p>
+              <p className="text-text-secondary text-sm">
+                Пока пусто — отсканируйте бирки в шоуруме.
+              </p>
             ) : (
               <ul className="space-y-3">
                 {lines.map((line) => (
                   <li
                     key={line.id}
+<<<<<<< HEAD
                     className="space-y-2 rounded-lg border border-slate-200 bg-white p-3 shadow-sm"
                   >
                     <div className="flex flex-wrap justify-between gap-2">
                       <div>
                         <p className="font-semibold text-slate-900">{line.payload.name}</p>
                         <p className="font-mono text-xs text-slate-500">
+=======
+                    className="border-border-default space-y-2 rounded-lg border bg-white p-3 shadow-sm"
+                  >
+                    <div className="flex flex-wrap justify-between gap-2">
+                      <div>
+                        <p className="text-text-primary font-semibold">{line.payload.name}</p>
+                        <p className="text-text-secondary font-mono text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                           {line.payload.sku} · {line.payload.productId} · образец{' '}
                           {line.payload.sampleId}
                           {line.payload.internalArticleCode
                             ? ` · внутр. ${line.payload.internalArticleCode}`
                             : ''}
                         </p>
+<<<<<<< HEAD
                         <p className="mt-1 text-[10px] text-slate-400">
+=======
+                        <p className="text-text-muted mt-1 text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                           Источник: {line.source === 'qr' ? 'QR' : 'Штрихкод'} ·{' '}
                           {new Date(line.scannedAt).toLocaleString('ru-RU')}
                         </p>
@@ -304,7 +337,11 @@ function B2BScannerInner() {
                     </div>
                     <div>
                       <label
+<<<<<<< HEAD
                         className="text-xs font-medium text-slate-600"
+=======
+                        className="text-text-secondary text-xs font-medium"
+>>>>>>> recover/cabinet-wip-from-stash
                         htmlFor={`sq-${line.id}`}
                       >
                         Размеры и количества
@@ -329,7 +366,11 @@ function B2BScannerInner() {
             )}
           </div>
 
+<<<<<<< HEAD
           <p className="text-xs text-slate-500">
+=======
+          <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
             Список хранится в браузере на этом устройстве. Для боевого режима понадобится
             синхронизация сессии байера и резолв opaque-кода штрихкода на сервере.
           </p>
@@ -342,7 +383,7 @@ function B2BScannerInner() {
 function ScannerFallback() {
   return (
     <Card>
-      <CardContent className="p-8 text-sm text-slate-500">Загрузка сканера…</CardContent>
+      <CardContent className="text-text-secondary p-8 text-sm">Загрузка сканера…</CardContent>
     </Card>
   );
 }
@@ -350,16 +391,18 @@ function ScannerFallback() {
 /** Colect, Le New Black: Sales App — скан бирок образцов → список моделей → размеры/кол-ва. */
 export default function B2BScannerPage() {
   return (
-    <B2BModulePage
-      title="Sales App (мобильное)"
-      description="Скан QR и штрихкода бирки образца в шоуруме — модель сразу в списке выбранного, без ручного ввода артикула."
-      moduleId="sales-app"
-      icon={Smartphone}
-      phase={4}
-    >
-      <Suspense fallback={<ScannerFallback />}>
-        <B2BScannerInner />
-      </Suspense>
-    </B2BModulePage>
+    <RegistryPageShell className="max-w-4xl space-y-6">
+      <B2BModulePage
+        title="Sales App (мобильное)"
+        description="Скан QR и штрихкода бирки образца в шоуруме — модель сразу в списке выбранного, без ручного ввода артикула."
+        moduleId="sales-app"
+        icon={Smartphone}
+        phase={4}
+      >
+        <Suspense fallback={<ScannerFallback />}>
+          <B2BScannerInner />
+        </Suspense>
+      </B2BModulePage>
+    </RegistryPageShell>
   );
 }

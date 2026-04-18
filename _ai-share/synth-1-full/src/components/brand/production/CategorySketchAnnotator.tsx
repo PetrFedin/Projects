@@ -14,7 +14,6 @@ import {
 import type { HandbookCategoryLeaf } from '@/lib/production/category-handbook-leaves';
 import {
   CategorySketchTemplateSvg,
-  sketchAccentForLeaf,
   sketchFitVariantForContext,
   sketchKindForLeaf,
   type CategorySketchKind,
@@ -66,6 +65,8 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+import { fetchWithHttpDeadline } from '@/lib/http/http-fetch-deadline';
 import {
   ArrowRight,
   CheckCircle2,
@@ -80,14 +81,12 @@ import {
   ImageDown,
   ImageIcon,
   LayoutGrid,
-  MapPin,
   Printer,
   Save,
   Send,
   Sparkles,
   Upload,
 } from 'lucide-react';
-import { summarizeAnnotationsForHandoff } from '@/lib/production/sketch-link-model';
 import { requestCatalogImageGeneration } from '@/lib/ai/catalog-image-gen';
 import { downloadSketchBoardPng } from '@/lib/production/sketch-board-png-export';
 import type { SketchPinTextSnippet } from '@/lib/production/workshop2-sketch-sheets';
@@ -476,17 +475,19 @@ function CategorySketchPinHoverCard({
   const linkedLabel =
     a.linkedAttributeId && attributeOptions.find((o) => o.id === a.linkedAttributeId)?.label;
   return (
-    <div className="max-w-[260px] space-y-1.5 text-left text-[11px] leading-snug">
-      <p className="font-semibold text-slate-900">
+    <div className="max-w-[260px] space-y-1.5 text-left text-sm leading-snug">
+      <p className="text-text-primary font-semibold">
         Метка #{index + 1} · {TYPE_LABELS[a.annotationType ?? 'construction']} ·{' '}
         {PRIORITY_LABELS[a.priority ?? 'important']}
       </p>
-      <p className="text-slate-600">
+      <p className="text-text-secondary">
         {STATUS_LABELS[a.status ?? 'new']} · {STAGE_LABELS[a.stage ?? 'tz']}
       </p>
-      {a.owner?.trim() ? <p className="text-slate-600">Ответственный: {a.owner.trim()}</p> : null}
+      {a.owner?.trim() ? (
+        <p className="text-text-secondary">Ответственный: {a.owner.trim()}</p>
+      ) : null}
       {a.dueDate ? (
-        <p className="text-slate-600">
+        <p className="text-text-secondary">
           Срок:{' '}
           {(() => {
             try {
@@ -498,15 +499,15 @@ function CategorySketchPinHoverCard({
         </p>
       ) : null}
       {linkedLabel ? (
-        <p className="font-medium text-indigo-800">
+        <p className="text-accent-primary font-medium">
           Связанный атрибут: <span className="font-normal">{linkedLabel}</span>
         </p>
       ) : null}
       {a.linkedQcZoneId ? (
-        <p className="text-[10px] text-amber-800">Зона ОТК: {a.linkedQcZoneId}</p>
+        <p className="text-xs text-amber-800">Зона ОТК: {a.linkedQcZoneId}</p>
       ) : null}
       {a.linkedTaskId ? (
-        <p className="text-[10px] text-slate-600">
+        <p className="text-text-secondary text-xs">
           Задача подкатегории:{' '}
           <span className="font-medium">
             {taskSlotLabelById?.[a.linkedTaskId] ?? ORPHAN_LINKED_TASK_LABEL}
@@ -514,19 +515,19 @@ function CategorySketchPinHoverCard({
         </p>
       ) : null}
       {a.linkedBomLineRef?.trim() || a.linkedMaterialNote?.trim() ? (
-        <p className="text-[10px] text-emerald-900">
+        <p className="text-xs text-emerald-900">
           BOM: {a.linkedBomLineRef?.trim() || '—'}
           {a.linkedMaterialNote?.trim() ? ` · ${a.linkedMaterialNote.trim()}` : null}
         </p>
       ) : null}
       {a.mesDefectCode?.trim() || a.mesShiftId?.trim() ? (
-        <p className="text-[10px] text-amber-900">
+        <p className="text-xs text-amber-900">
           MES: {a.mesDefectCode?.trim() || '—'}
           {a.mesShiftId?.trim() ? ` · смена ${a.mesShiftId.trim()}` : null}
         </p>
       ) : null}
       {a.proofPhotoDataUrl ? (
-        <p className="text-[10px] text-slate-700">
+        <p className="text-text-primary text-xs">
           Фото: {a.proofPhotoFileName ?? 'вложение'} ·{' '}
           {a.proofStatus === 'accepted'
             ? 'принято'
@@ -535,7 +536,11 @@ function CategorySketchPinHoverCard({
               : 'на проверке'}
         </p>
       ) : null}
+<<<<<<< HEAD
       <p className="border-t border-slate-200 pt-1.5 text-slate-800">
+=======
+      <p className="border-border-default text-text-primary border-t pt-1.5">
+>>>>>>> recover/cabinet-wip-from-stash
         {a.text?.trim() ? a.text.trim() : 'Описание не заполнено — добавьте текст в списке справа.'}
       </p>
     </div>
@@ -802,7 +807,6 @@ export function CategorySketchAnnotator(props: Props) {
   );
 
   const sketchKind = useMemo(() => sketchKindForLeaf(currentLeaf), [currentLeaf]);
-  const sketchAccent = useMemo(() => sketchAccentForLeaf(currentLeaf), [currentLeaf]);
   const fitVariant = useMemo(
     () =>
       sketchFitVariantForContext({
@@ -889,7 +893,7 @@ export function CategorySketchAnnotator(props: Props) {
         imageType: 'model',
       });
       if (!res.imageUrl) return;
-      const imgRes = await fetch(res.imageUrl);
+      const imgRes = await fetchWithHttpDeadline(res.imageUrl);
       const blob = await imgRes.blob();
       const dataUrl = await new Promise<string>((resolve, reject) => {
         const r = new FileReader();
@@ -1659,7 +1663,7 @@ export function CategorySketchAnnotator(props: Props) {
       {qualityHints.length > 0 ? (
         <Alert className="border-amber-200 bg-amber-50/70">
           <AlertTitle className="text-xs">Проверка перед «готово»</AlertTitle>
-          <AlertDescription className="text-[11px] text-slate-800">
+          <AlertDescription className="text-text-primary text-sm">
             <ul className="list-disc space-y-0.5 pl-4">
               {qualityHints.map((h) => (
                 <li key={h}>{h}</li>
@@ -1669,8 +1673,8 @@ export function CategorySketchAnnotator(props: Props) {
         </Alert>
       ) : null}
       {readOnly ? (
-        <div className="flex items-start gap-2 rounded-lg border border-teal-200 bg-teal-50/90 px-3 py-2 text-[11px] text-teal-950">
-          <Factory className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+        <div className="flex items-start gap-2 rounded-lg border border-teal-200 bg-teal-50/90 px-3 py-2 text-sm text-teal-950">
+          <Factory className="mt-0.5 size-4 shrink-0" aria-hidden />
           <div>
             <p className="font-semibold">Режим цеха</p>
             <p className="text-teal-900/90">Просмотр и экспорт; правки меток отключены.</p>
@@ -1678,7 +1682,7 @@ export function CategorySketchAnnotator(props: Props) {
         </div>
       ) : null}
       {!readOnly && !sheetStorage ? (
-        <div className="flex flex-wrap items-center justify-end gap-2 border-b border-slate-100 pb-2">
+        <div className="border-border-subtle flex flex-wrap items-center justify-end gap-2 border-b pb-2">
           <Button
             type="button"
             variant="ghost"
@@ -1692,14 +1696,18 @@ export function CategorySketchAnnotator(props: Props) {
         </div>
       ) : null}
       {!sheetStorage ? (
-        <details className="rounded-lg border border-slate-200 bg-slate-50/60 text-[11px] text-slate-700">
-          <summary className="cursor-pointer list-none px-3 py-2 font-medium text-slate-800 [&::-webkit-details-marker]:hidden">
+        <details className="border-border-default bg-bg-surface2/60 text-text-primary rounded-lg border text-sm">
+          <summary className="text-text-primary cursor-pointer list-none px-3 py-2 font-medium [&::-webkit-details-marker]:hidden">
             Подсказки: с чего начать и как устроены метки
           </summary>
-          <div className="space-y-3 border-t border-slate-200 px-3 py-3">
+          <div className="border-border-default space-y-3 border-t p-3">
             {!readOnly && !onboard.done ? (
               <div>
+<<<<<<< HEAD
                 <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+=======
+                <p className="text-text-secondary mb-1.5 text-xs font-semibold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                   Чеклист
                 </p>
                 <ul className="space-y-1">
@@ -1714,6 +1722,7 @@ export function CategorySketchAnnotator(props: Props) {
                     <li key={row.label} className="flex items-start gap-2">
                       {row.ok ? (
                         <CheckCircle2
+<<<<<<< HEAD
                           className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600"
                           aria-hidden
                         />
@@ -1722,6 +1731,13 @@ export function CategorySketchAnnotator(props: Props) {
                           className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-400"
                           aria-hidden
                         />
+=======
+                          className="mt-0.5 size-3.5 shrink-0 text-emerald-600"
+                          aria-hidden
+                        />
+                      ) : (
+                        <Circle className="text-text-muted mt-0.5 size-3.5 shrink-0" aria-hidden />
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                       <span>{row.label}</span>
                     </li>
@@ -1729,24 +1745,32 @@ export function CategorySketchAnnotator(props: Props) {
                 </ul>
                 <button
                   type="button"
-                  className="mt-2 text-[10px] font-medium text-sky-800 underline"
+                  className="mt-2 text-xs font-medium text-sky-800 underline"
                   onClick={() => persistOnboard({ ...onboard, done: true })}
                 >
                   Не показывать чеклист
                 </button>
               </div>
             ) : !readOnly ? (
+<<<<<<< HEAD
               <p className="text-[10px] text-slate-600">
                 <span className="font-medium text-slate-800">Кратко:</span> цвет → «+ на доске» →
                 клик по картинке → текст справа.{' '}
                 <kbd className="rounded border border-slate-200 bg-white px-1 py-0.5 font-mono text-[9px]">
+=======
+              <p className="text-text-secondary text-xs">
+                <span className="text-text-primary font-medium">Кратко:</span> цвет → «+ на доске» →
+                клик по картинке → текст справа.{' '}
+                <kbd className="border-border-default rounded border bg-white px-1 py-0.5 font-mono text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                   Esc
                 </kbd>{' '}
                 — выйти из режима клика.
               </p>
             ) : null}
-            <ul className="list-disc space-y-1.5 pl-4 text-[10px] leading-snug">
+            <ul className="list-disc space-y-1.5 pl-4 text-xs leading-snug">
               <li>
+<<<<<<< HEAD
                 <span className="font-medium text-slate-900">Цвет кружка</span> — насколько срочно и
                 для кого (критично, ОТК, обычная заметка). Это не то же самое, что «тип узла» в
                 списке ниже.
@@ -1763,40 +1787,61 @@ export function CategorySketchAnnotator(props: Props) {
                 <span className="font-medium text-slate-900">Задачи по глубине ветки</span> — связь
                 метки с блоком «линия / группа / карточка» на вкладке ветки (тот же SKU, разная
                 гранулярность).
+=======
+                <span className="text-text-primary font-medium">Цвет кружка</span> — насколько
+                срочно и для кого (критично, ОТК, обычная заметка). Это не то же самое, что «тип
+                узла» в списке ниже.
+              </li>
+              <li>
+                <span className="text-text-primary font-medium">Тип узла</span> — что именно
+                отмечаем (шов, фурнитура…).
+              </li>
+              <li>
+                <span className="text-text-primary font-medium">Этап</span> — когда проверяем (ТЗ,
+                образец, ОТК).
+              </li>
+              <li>
+                <span className="text-text-primary font-medium">Задачи по глубине ветки</span> —
+                связь метки с блоком «линия / группа / карточка» на вкладке ветки (тот же SKU,
+                разная гранулярность).
+>>>>>>> recover/cabinet-wip-from-stash
               </li>
             </ul>
           </div>
         </details>
       ) : null}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-200 pb-2.5">
+      <div className="border-border-default flex flex-wrap items-center justify-between gap-2 border-b pb-2.5">
         <div className="min-w-0 flex-1">
           {showPassportSectionHeader ? (
-            <p className="text-[10px] font-medium text-zinc-500">Скетч по категории</p>
+            <p className="text-text-secondary text-xs font-medium">Скетч по категории</p>
           ) : null}
-          <p className="truncate text-sm font-semibold text-zinc-900" title={sketchCatalogCaption}>
+          <p
+            className="text-text-primary truncate text-sm font-semibold"
+            title={sketchCatalogCaption}
+          >
             {sketchCatalogCaption}
           </p>
         </div>
         <div className="flex flex-wrap items-center justify-end gap-1.5">
           {articleSku?.trim() ? (
-            <span className="rounded-md border border-zinc-200 bg-zinc-50 px-2 py-0.5 font-mono text-[10px] font-semibold text-zinc-900">
+            <span className="border-border-default bg-bg-surface2 text-text-primary rounded-md border px-2 py-0.5 font-mono text-xs font-semibold">
               {articleSku.trim()}
             </span>
           ) : null}
           <span
             className={cn(
-              'rounded-md border px-2 py-0.5 text-[10px] font-medium',
+              'rounded-md border px-2 py-0.5 text-xs font-medium',
               categorySketchProductionApproved
                 ? 'border-emerald-200 bg-emerald-50 text-emerald-900'
                 : categorySketchFreezeUntilDate?.trim()
                   ? 'border-amber-200 bg-amber-50 text-amber-950'
-                  : 'border-zinc-200 bg-white text-zinc-600'
+                  : 'border-border-default text-text-secondary bg-white'
             )}
             title={boardSketchStatus.detail}
           >
             {boardSketchStatus.label}
           </span>
-          <span className="text-[10px] tabular-nums text-zinc-500">
+          <span className="text-text-secondary text-xs tabular-nums">
             {counters.total}/{annotationLimit}
             {counters.critical > 0 ? (
               <span className="text-rose-600"> · {counters.critical} крит.</span>
@@ -1806,15 +1851,17 @@ export function CategorySketchAnnotator(props: Props) {
       </div>
 
       {!sheetStorage ? (
-        <details className="rounded-lg border border-zinc-200 bg-white text-[10px]">
-          <summary className="cursor-pointer list-none px-3 py-2 font-medium text-zinc-700 [&::-webkit-details-marker]:hidden">
+        <details className="border-border-default rounded-lg border bg-white text-xs">
+          <summary className="text-text-primary cursor-pointer list-none px-3 py-2 font-medium [&::-webkit-details-marker]:hidden">
             PLM: сцена артикула и вид листа (по желанию)
           </summary>
-          <div className="flex flex-wrap items-end gap-3 border-t border-zinc-100 px-3 py-3">
-            <label className="min-w-[10rem] flex-1 space-y-0.5">
-              <span className="text-[9px] font-semibold uppercase text-zinc-500">ID сцены</span>
+          <div className="border-border-subtle flex flex-wrap items-end gap-3 border-t p-3">
+            <label className="min-w-40 flex-1 space-y-0.5">
+              <span className="text-text-secondary text-[9px] font-semibold uppercase">
+                ID сцены
+              </span>
               <Input
-                className="h-8 text-[11px]"
+                className="h-8 text-sm"
                 placeholder="один id на виды"
                 value={sceneIdProp ?? ''}
                 disabled={readOnly}
@@ -1823,10 +1870,10 @@ export function CategorySketchAnnotator(props: Props) {
                 }
               />
             </label>
-            <label className="min-w-[10rem] space-y-0.5">
-              <span className="text-[9px] font-semibold uppercase text-zinc-500">Вид</span>
+            <label className="min-w-40 space-y-0.5">
+              <span className="text-text-secondary text-[9px] font-semibold uppercase">Вид</span>
               <select
-                className="h-8 w-full rounded-md border border-zinc-200 bg-white px-2 text-[11px]"
+                className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-sm"
                 value={sceneViewProp ?? ''}
                 disabled={readOnly}
                 onChange={(e) => {
@@ -1855,6 +1902,7 @@ export function CategorySketchAnnotator(props: Props) {
         )}
       >
         <div className="min-w-0 space-y-3">
+<<<<<<< HEAD
           <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm">
             <p className="mb-2 text-xs font-semibold text-zinc-900">
               Шаг 1 — поставить точку на картинке
@@ -1866,6 +1914,19 @@ export function CategorySketchAnnotator(props: Props) {
               </div>
               <div className="flex flex-wrap items-center gap-2 rounded-md border border-zinc-200/80 bg-white px-2 py-1.5">
                 <span className="text-[9px] font-semibold uppercase tracking-wide text-zinc-500">
+=======
+          <div className="border-border-default rounded-xl border bg-white p-3 shadow-sm">
+            <p className="text-text-primary mb-2 text-xs font-semibold">
+              Шаг 1 — поставить точку на картинке
+            </p>
+            <div className="border-border-subtle bg-bg-surface2/90 rounded-lg border p-2.5">
+              <div className="text-text-secondary mb-2 text-xs">
+                Выберите цвет (важность), нажмите «+ на доске», затем клик по изображению ниже.
+                Текст метки — справа.
+              </div>
+              <div className="border-border-default flex flex-wrap items-center gap-2 rounded-md border bg-white px-2 py-1.5">
+                <span className="text-text-secondary text-[9px] font-semibold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                   Группа
                 </span>
                 <div className="flex flex-wrap gap-1">
@@ -1885,9 +1946,15 @@ export function CategorySketchAnnotator(props: Props) {
                       },
                       {
                         key: 'other' as const,
+<<<<<<< HEAD
                         dot: 'bg-zinc-400',
                         border: 'border-zinc-300',
                         activeBg: 'bg-zinc-50',
+=======
+                        dot: 'bg-border-default',
+                        border: 'border-border-default',
+                        activeBg: 'bg-bg-surface2',
+>>>>>>> recover/cabinet-wip-from-stash
                       },
                     ] as const
                   ).map(({ key, dot, border, activeBg }) => (
@@ -1895,16 +1962,27 @@ export function CategorySketchAnnotator(props: Props) {
                       key={key}
                       type="button"
                       className={cn(
+<<<<<<< HEAD
                         'inline-flex items-center gap-1 rounded border px-2 py-1 text-[10px] font-medium transition-colors',
                         nextPinPreset === key
                           ? cn(border, activeBg, 'text-zinc-900')
                           : 'border-transparent bg-white text-zinc-600 hover:bg-zinc-100'
+=======
+                        'inline-flex items-center gap-1 rounded border px-2 py-1 text-xs font-medium transition-colors',
+                        nextPinPreset === key
+                          ? cn(border, activeBg, 'text-text-primary')
+                          : 'text-text-secondary hover:bg-bg-surface2 border-transparent bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                       aria-pressed={nextPinPreset === key}
                       disabled={readOnly}
                       onClick={() => setNextPinPreset(key)}
                     >
+<<<<<<< HEAD
                       <span className={cn('h-2 w-2 shrink-0 rounded-full', dot)} aria-hidden />
+=======
+                      <span className={cn('size-2 shrink-0 rounded-full', dot)} aria-hidden />
+>>>>>>> recover/cabinet-wip-from-stash
                       {NEXT_PIN_PRESET_LABEL[key]}
                     </button>
                   ))}
@@ -1914,7 +1992,11 @@ export function CategorySketchAnnotator(props: Props) {
                   variant={placeMode ? 'default' : 'outline'}
                   size="sm"
                   className={cn(
+<<<<<<< HEAD
                     'h-7 shrink-0 text-[10px]',
+=======
+                    'h-7 shrink-0 text-xs',
+>>>>>>> recover/cabinet-wip-from-stash
                     pinsOnLeaf.length === 0 && !placeMode && !readOnly && 'animate-pulse shadow-md'
                   )}
                   disabled={readOnly}
@@ -1931,18 +2013,31 @@ export function CategorySketchAnnotator(props: Props) {
                   type="button"
                   variant="ghost"
                   size="sm"
+<<<<<<< HEAD
                   className="h-7 shrink-0 text-[10px]"
+=======
+                  className="h-7 shrink-0 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                   disabled={readOnly}
                   onClick={applyLastPinStyleToNext}
                 >
                   Как у последней
                 </Button>
+<<<<<<< HEAD
                 <label className="flex min-w-0 flex-wrap items-center gap-1.5 text-[10px] text-zinc-600">
                   <span className="shrink-0 font-semibold uppercase tracking-wide text-zinc-500">
                     Тип узла
                   </span>
                   <select
                     className="h-7 max-w-[11rem] rounded-md border border-zinc-200 bg-white px-1.5 text-[10px]"
+=======
+                <label className="text-text-secondary flex min-w-0 flex-wrap items-center gap-1.5 text-xs">
+                  <span className="text-text-secondary shrink-0 font-semibold uppercase tracking-wide">
+                    Тип узла
+                  </span>
+                  <select
+                    className="border-border-default h-7 max-w-44 rounded-md border bg-white px-1.5 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                     value={nextAnnotationType}
                     disabled={readOnly}
                     onChange={(e) =>
@@ -1960,6 +2055,7 @@ export function CategorySketchAnnotator(props: Props) {
               </div>
             </div>
 
+<<<<<<< HEAD
             <details className="rounded-lg border border-slate-100 bg-white">
               <summary className="cursor-pointer list-none px-2 py-2 text-[10px] font-medium text-slate-800 [&::-webkit-details-marker]:hidden">
                 Фильтр номеров справа (необязательно)
@@ -1970,23 +2066,48 @@ export function CategorySketchAnnotator(props: Props) {
                   <span className="text-[10px] font-semibold text-slate-700">По цвету кружка</span>
                   <span
                     className="cursor-help text-[8px] font-normal normal-case text-slate-500"
+=======
+            <details className="border-border-subtle rounded-lg border bg-white">
+              <summary className="text-text-primary cursor-pointer list-none p-2 text-xs font-medium [&::-webkit-details-marker]:hidden">
+                Фильтр номеров справа (необязательно)
+              </summary>
+              <div className="border-border-subtle space-y-1.5 border-t p-2">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <Filter className="size-3.5 shrink-0 text-amber-700" aria-hidden />
+                  <span className="text-text-primary text-xs font-semibold">По цвету кружка</span>
+                  <span
+                    className="text-text-secondary cursor-help text-[8px] font-normal normal-case"
+>>>>>>> recover/cabinet-wip-from-stash
                     title="Влияет на боковую панель и кнопки номеров; на подложке всегда видны все метки листа. Новая точка — блок «Группа» выше."
                   >
                     ⓘ
                   </span>
                 </div>
+<<<<<<< HEAD
                 <p className="text-[9px] leading-snug text-slate-500">
                   По цвету пина, типу узла и этапу. «Все» / «Сбросить» — полный список справа; точки
                   на картинке не скрываются. Пресет новой метки — блок «Новая метка» выше.
                 </p>
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[9px] text-slate-600">
+=======
+                <p className="text-text-secondary text-[9px] leading-snug">
+                  По цвету пина, типу узла и этапу. «Все» / «Сбросить» — полный список справа; точки
+                  на картинке не скрываются. Пресет новой метки — блок «Новая метка» выше.
+                </p>
+                <div className="text-text-secondary flex flex-wrap items-center gap-x-2 gap-y-1 text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                   <button
                     type="button"
                     className={cn(
                       'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 transition-colors',
                       filterPinVisual === 'all' && filterType === 'all' && filterStage === 'all'
+<<<<<<< HEAD
                         ? 'border-zinc-400 bg-zinc-100 font-medium text-zinc-900'
                         : 'border-transparent bg-transparent hover:bg-slate-100'
+=======
+                        ? 'border-border-default bg-bg-surface2 text-text-primary font-medium'
+                        : 'hover:bg-bg-surface2 border-transparent bg-transparent'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                     aria-pressed={
                       filterPinVisual === 'all' && filterType === 'all' && filterStage === 'all'
@@ -1999,7 +2120,11 @@ export function CategorySketchAnnotator(props: Props) {
                     }}
                   >
                     Все
+<<<<<<< HEAD
                     <span className="tabular-nums text-slate-400">({pinsOnLeaf.length})</span>
+=======
+                    <span className="text-text-muted tabular-nums">({pinsOnLeaf.length})</span>
+>>>>>>> recover/cabinet-wip-from-stash
                   </button>
                   <button
                     type="button"
@@ -2007,7 +2132,11 @@ export function CategorySketchAnnotator(props: Props) {
                       'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 transition-colors',
                       filterPinVisual === 'critical'
                         ? 'border-rose-300 bg-rose-50 text-rose-900'
+<<<<<<< HEAD
                         : 'border-transparent bg-transparent hover:bg-slate-100'
+=======
+                        : 'hover:bg-bg-surface2 border-transparent bg-transparent'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                     aria-pressed={filterPinVisual === 'critical'}
                     title="Только красное кольцо (приоритет «критично»). Ещё раз — режим «Все»."
@@ -2015,9 +2144,15 @@ export function CategorySketchAnnotator(props: Props) {
                       setFilterPinVisual((v) => (v === 'critical' ? 'all' : 'critical'))
                     }
                   >
+<<<<<<< HEAD
                     <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-rose-600" aria-hidden />
                     критично
                     <span className="tabular-nums text-slate-400">
+=======
+                    <span className="size-2.5 shrink-0 rounded-full bg-rose-600" aria-hidden />
+                    критично
+                    <span className="text-text-muted tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                       ({pinVisualCounts.critical})
                     </span>
                   </button>
@@ -2027,15 +2162,25 @@ export function CategorySketchAnnotator(props: Props) {
                       'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 transition-colors',
                       filterPinVisual === 'qc'
                         ? 'border-amber-300 bg-amber-50 text-amber-950'
+<<<<<<< HEAD
                         : 'border-transparent bg-transparent hover:bg-slate-100'
+=======
+                        : 'hover:bg-bg-surface2 border-transparent bg-transparent'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                     aria-pressed={filterPinVisual === 'qc'}
                     title="Только этап ОТК (янтарь). Ещё раз — «Все»."
                     onClick={() => setFilterPinVisual((v) => (v === 'qc' ? 'all' : 'qc'))}
                   >
+<<<<<<< HEAD
                     <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-amber-600" aria-hidden />
                     этап ОТК
                     <span className="tabular-nums text-slate-400">({pinVisualCounts.qc})</span>
+=======
+                    <span className="size-2.5 shrink-0 rounded-full bg-amber-600" aria-hidden />
+                    этап ОТК
+                    <span className="text-text-muted tabular-nums">({pinVisualCounts.qc})</span>
+>>>>>>> recover/cabinet-wip-from-stash
                   </button>
                   <button
                     type="button"
@@ -2043,12 +2188,17 @@ export function CategorySketchAnnotator(props: Props) {
                       'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 transition-colors',
                       filterPinVisual === 'other'
                         ? 'border-teal-300 bg-teal-50 text-teal-950'
+<<<<<<< HEAD
                         : 'border-transparent bg-transparent hover:bg-slate-100'
+=======
+                        : 'hover:bg-bg-surface2 border-transparent bg-transparent'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                     aria-pressed={filterPinVisual === 'other'}
                     title="Остальные (серое кольцо). Ещё раз — «Все»."
                     onClick={() => setFilterPinVisual((v) => (v === 'other' ? 'all' : 'other'))}
                   >
+<<<<<<< HEAD
                     <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-teal-600" aria-hidden />
                     остальные
                     <span className="tabular-nums text-slate-400">({pinVisualCounts.other})</span>
@@ -2056,6 +2206,15 @@ export function CategorySketchAnnotator(props: Props) {
                   <button
                     type="button"
                     className="ml-0.5 text-[9px] font-medium text-slate-500 underline-offset-2 hover:underline"
+=======
+                    <span className="size-2.5 shrink-0 rounded-full bg-teal-600" aria-hidden />
+                    остальные
+                    <span className="text-text-muted tabular-nums">({pinVisualCounts.other})</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="text-text-secondary ml-0.5 text-[9px] font-medium underline-offset-2 hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
                     disabled={
                       filterPinVisual === 'all' &&
                       filterType === 'all' &&
@@ -2082,29 +2241,50 @@ export function CategorySketchAnnotator(props: Props) {
                   </p>
                 ) : null}
 
+<<<<<<< HEAD
                 <details className="rounded-lg border border-slate-100 bg-slate-50/80 p-2">
                   <summary className="flex cursor-pointer list-none items-center gap-1.5 text-[10px] font-semibold text-slate-700 [&::-webkit-details-marker]:hidden">
                     <LayoutGrid className="h-3.5 w-3.5 shrink-0 text-slate-600" aria-hidden />
                     Доп. фильтр: тип узла и этап
                     <span
                       className="ml-auto cursor-help text-[8px] font-normal text-slate-500"
+=======
+                <details className="border-border-subtle bg-bg-surface2/80 rounded-lg border p-2">
+                  <summary className="text-text-primary flex cursor-pointer list-none items-center gap-1.5 text-xs font-semibold [&::-webkit-details-marker]:hidden">
+                    <LayoutGrid className="text-text-secondary size-3.5 shrink-0" aria-hidden />
+                    Доп. фильтр: тип узла и этап
+                    <span
+                      className="text-text-secondary ml-auto cursor-help text-[8px] font-normal"
+>>>>>>> recover/cabinet-wip-from-stash
                       title="Сужает список справа и номера меток; доска показывает все точки листа. Суммируется с цветовым фильтром выше."
                     >
                       ⓘ
                     </span>
                   </summary>
+<<<<<<< HEAD
                   <p className="mt-2 text-[9px] leading-snug text-slate-600">
+=======
+                  <p className="text-text-secondary mt-2 text-[9px] leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                     Это поля карточки метки (конструкция, материал… и ТЗ / образец / ОТК…). Вместе с
                     цветовым фильтром выше сужает список справа и кнопки номеров; на подложке
                     по‑прежнему отображаются все метки текущего листа.
                   </p>
                   <div className="mt-2 grid gap-2 sm:grid-cols-2">
                     <label className="space-y-1">
+<<<<<<< HEAD
                       <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                         Тип узла
                       </span>
                       <select
                         className="h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-[11px]"
+=======
+                      <span className="text-text-secondary text-xs font-semibold uppercase tracking-wide">
+                        Тип узла
+                      </span>
+                      <select
+                        className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
                         value={filterType}
                         onChange={(e) => setFilterType(e.target.value as typeof filterType)}
                       >
@@ -2117,11 +2297,19 @@ export function CategorySketchAnnotator(props: Props) {
                       </select>
                     </label>
                     <label className="space-y-1">
+<<<<<<< HEAD
                       <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                         Этап маршрута
                       </span>
                       <select
                         className="h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-[11px]"
+=======
+                      <span className="text-text-secondary text-xs font-semibold uppercase tracking-wide">
+                        Этап маршрута
+                      </span>
+                      <select
+                        className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
                         value={filterStage}
                         onChange={(e) => setFilterStage(e.target.value as typeof filterStage)}
                       >
@@ -2140,7 +2328,11 @@ export function CategorySketchAnnotator(props: Props) {
 
             {hotspotPresets.length > 0 ? (
               <details className="rounded-lg border border-teal-100 bg-teal-50/20">
+<<<<<<< HEAD
                 <summary className="cursor-pointer list-none px-2 py-2 text-[10px] font-medium text-teal-950 [&::-webkit-details-marker]:hidden">
+=======
+                <summary className="cursor-pointer list-none p-2 text-xs font-medium text-teal-950 [&::-webkit-details-marker]:hidden">
+>>>>>>> recover/cabinet-wip-from-stash
                   Готовые точки по зонам (ускорение)
                 </summary>
                 <div className="flex flex-wrap gap-1.5 border-t border-teal-100 p-2">
@@ -2150,7 +2342,11 @@ export function CategorySketchAnnotator(props: Props) {
                       type="button"
                       size="sm"
                       variant="outline"
+<<<<<<< HEAD
                       className="h-7 text-[10px]"
+=======
+                      className="h-7 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                       onClick={() => addPresetAnnotation(preset)}
                     >
                       + {preset.label}
@@ -2161,8 +2357,13 @@ export function CategorySketchAnnotator(props: Props) {
             ) : null}
 
             {pinTextSnippets.length > 0 ? (
+<<<<<<< HEAD
               <div className="rounded-lg border border-slate-200 bg-slate-50/80 p-2">
                 <p className="mb-1.5 text-[10px] font-medium text-slate-800">
+=======
+              <div className="border-border-default bg-bg-surface2/80 rounded-lg border p-2">
+                <p className="text-text-primary mb-1.5 text-xs font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                   Готовые фразы в текст метки
                 </p>
                 <div className="flex flex-wrap gap-1.5">
@@ -2172,7 +2373,11 @@ export function CategorySketchAnnotator(props: Props) {
                       type="button"
                       size="sm"
                       variant="secondary"
+<<<<<<< HEAD
                       className="h-7 text-[10px]"
+=======
+                      className="h-7 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                       onClick={() => applyPinTextSnippet(s.text)}
                     >
                       {s.label}
@@ -2186,7 +2391,11 @@ export function CategorySketchAnnotator(props: Props) {
             !sheetStorage &&
             (onSavePinTemplateToDossier || onSavePinTemplateToOrg) ? (
               <details className="rounded-lg border border-emerald-200 bg-emerald-50/30">
+<<<<<<< HEAD
                 <summary className="cursor-pointer list-none px-2 py-2 text-[10px] font-medium text-emerald-950 [&::-webkit-details-marker]:hidden">
+=======
+                <summary className="cursor-pointer list-none p-2 text-xs font-medium text-emerald-950 [&::-webkit-details-marker]:hidden">
+>>>>>>> recover/cabinet-wip-from-stash
                   Сохранить этот набор точек как шаблон
                 </summary>
                 <div className="flex flex-wrap gap-2 border-t border-emerald-100 p-2">
@@ -2195,10 +2404,17 @@ export function CategorySketchAnnotator(props: Props) {
                       type="button"
                       size="sm"
                       variant="default"
+<<<<<<< HEAD
                       className="h-8 gap-1 text-[10px]"
                       onClick={onSavePinTemplateToDossier}
                     >
                       <Save className="h-3.5 w-3.5" />В досье
+=======
+                      className="h-8 gap-1 text-xs"
+                      onClick={onSavePinTemplateToDossier}
+                    >
+                      <Save className="size-3.5" />В досье
+>>>>>>> recover/cabinet-wip-from-stash
                     </Button>
                   ) : null}
                   {onSavePinTemplateToOrg ? (
@@ -2206,7 +2422,11 @@ export function CategorySketchAnnotator(props: Props) {
                       type="button"
                       size="sm"
                       variant="outline"
+<<<<<<< HEAD
                       className="h-8 text-[10px]"
+=======
+                      className="h-8 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                       onClick={onSavePinTemplateToOrg}
                     >
                       В библиотеку
@@ -2217,39 +2437,55 @@ export function CategorySketchAnnotator(props: Props) {
             ) : null}
           </div>
 
+<<<<<<< HEAD
           <div className="rounded-xl border border-zinc-200 bg-white p-2 shadow-sm">
             <p className="mb-2 text-center text-xs font-semibold text-zinc-900">Картинка и точки</p>
             <div className="rounded-lg border border-zinc-200 bg-zinc-100 p-1.5">
+=======
+          <div className="border-border-default rounded-xl border bg-white p-2 shadow-sm">
+            <p className="text-text-primary mb-2 text-center text-xs font-semibold">
+              Картинка и точки
+            </p>
+            <div className="border-border-default bg-bg-surface2 rounded-lg border p-1.5">
+>>>>>>> recover/cabinet-wip-from-stash
               <div
                 ref={boardRef}
                 role="region"
                 aria-label="Поле скетча категории с метками"
                 className={cn(
-                  'relative aspect-[4/3] w-full overflow-hidden border border-zinc-200 bg-white',
-                  placeMode && 'cursor-crosshair ring-2 ring-zinc-900 ring-offset-2'
+                  'border-border-default relative aspect-[4/3] w-full overflow-hidden border bg-white',
+                  placeMode && 'ring-text-primary cursor-crosshair ring-2 ring-offset-2'
                 )}
                 onClick={onBoardClick}
               >
                 {placeMode ? (
+<<<<<<< HEAD
                   <div className="pointer-events-none absolute inset-x-3 top-3 z-10 rounded-md border border-teal-200 bg-white/90 px-2.5 py-1.5 text-[10px] font-medium text-teal-900 shadow-sm">
+=======
+                  <div className="pointer-events-none absolute inset-x-3 top-3 z-10 rounded-md border border-teal-200 bg-white/90 px-2.5 py-1.5 text-xs font-medium text-teal-900 shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                     Кружок:{' '}
                     <span className="font-bold">{NEXT_PIN_PRESET_LABEL[nextPinPreset]}</span>.
                     Кликните по картинке.
                   </div>
                 ) : null}
-                <div ref={templateLayerRef} className="absolute inset-0 h-full w-full">
+                <div ref={templateLayerRef} className="absolute inset-0 size-full">
                   {imageDataUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element -- data URL из досье
                     <img
                       src={imageDataUrl}
                       alt="Подложка скетча"
+<<<<<<< HEAD
                       className="h-full w-full object-contain"
+=======
+                      className="size-full object-contain"
+>>>>>>> recover/cabinet-wip-from-stash
                     />
                   ) : (
                     <CategorySketchTemplateSvg
                       leaf={currentLeaf}
                       sketchContext={sketchContext}
-                      className="h-full w-full"
+                      className="size-full"
                     />
                   )}
                   {compareOverlayDataUrl && !sheetStorage ? (
@@ -2257,7 +2493,7 @@ export function CategorySketchAnnotator(props: Props) {
                     <img
                       src={compareOverlayDataUrl}
                       alt=""
-                      className="pointer-events-none absolute inset-0 h-full w-full object-contain"
+                      className="pointer-events-none absolute inset-0 size-full object-contain"
                       style={{
                         opacity: compareOpacity / 100,
                         transform: `translate(${compareOffsetXPct}%, ${compareOffsetYPct}%) scale(${compareScalePct / 100})`,
@@ -2272,16 +2508,23 @@ export function CategorySketchAnnotator(props: Props) {
                       <button
                         type="button"
                         className={cn(
-                          'absolute z-[5] flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 bg-zinc-50 font-mono font-bold tabular-nums text-zinc-900 shadow-sm transition-shadow',
-                          readOnly ? 'h-11 w-11 text-base' : 'h-9 w-9 text-sm',
+                          'bg-bg-surface2 text-text-primary absolute z-[5] flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 font-mono font-bold tabular-nums shadow-sm transition-shadow',
+                          readOnly ? 'size-11 text-base' : 'size-9 text-sm',
                           a.priority === 'critical'
                             ? 'border-rose-600 shadow-[0_0_0_1px_rgba(225,29,72,0.35)]'
                             : a.stage === 'qc'
                               ? 'border-amber-500 shadow-[0_0_0_1px_rgba(217,119,6,0.35)]'
+<<<<<<< HEAD
                               : 'border-zinc-400',
                           activeId === a.annotationId && 'ring-2 ring-zinc-900 ring-offset-1',
                           !visibleIds.has(a.annotationId) &&
                             'ring-dashed opacity-55 ring-1 ring-slate-400'
+=======
+                              : 'border-border-default',
+                          activeId === a.annotationId && 'ring-text-primary ring-2 ring-offset-1',
+                          !visibleIds.has(a.annotationId) &&
+                            'ring-dashed ring-border-default opacity-55 ring-1'
+>>>>>>> recover/cabinet-wip-from-stash
                         )}
                         style={{ left: `${a.xPct}%`, top: `${a.yPct}%` }}
                         onClick={(ev) => {
@@ -2296,7 +2539,7 @@ export function CategorySketchAnnotator(props: Props) {
                     <TooltipContent
                       side="top"
                       sideOffset={8}
-                      className="border-slate-200 bg-white p-3 text-popover-foreground shadow-lg"
+                      className="border-border-default bg-white p-3 text-popover-foreground shadow-lg"
                     >
                       <CategorySketchPinHoverCard
                         annotation={a}
@@ -2311,18 +2554,18 @@ export function CategorySketchAnnotator(props: Props) {
             </div>
           </div>
 
-          <details className="rounded-xl border border-slate-200 bg-white shadow-sm">
-            <summary className="cursor-pointer list-none px-3 py-2.5 text-xs font-medium text-zinc-800 [&::-webkit-details-marker]:hidden">
+          <details className="border-border-default rounded-xl border bg-white shadow-sm">
+            <summary className="text-text-primary cursor-pointer list-none px-3 py-2.5 text-xs font-medium [&::-webkit-details-marker]:hidden">
               Свой файл вместо силуэта · эталон · скачать .svg
             </summary>
-            <div className="space-y-2 border-t border-slate-100 p-3">
-              <p className="text-[10px] leading-snug text-slate-600">
+            <div className="border-border-subtle space-y-2 border-t p-3">
+              <p className="text-text-secondary text-xs leading-snug">
                 {sheetStorage
                   ? 'Фото этого листа; метки остаются на своих местах.'
                   : 'Необязательно: можно оставить типовой силуэт. Свой снимок полностью меняет картинку под метками.'}
               </p>
               <div className="space-y-1">
-                <Label htmlFor={sketchImageInputId} className="text-[10px] text-slate-500">
+                <Label htmlFor={sketchImageInputId} className="text-text-secondary text-xs">
                   {imageDataUrl ? 'Заменить другим файлом' : 'Файл изображения (jpg, png, webp…)'}
                 </Label>
                 <Input
@@ -2339,32 +2582,36 @@ export function CategorySketchAnnotator(props: Props) {
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="h-8 gap-1 text-[10px]"
+                  className="h-8 gap-1 text-xs"
                   disabled={Boolean(imageDataUrl)}
                   onClick={downloadSvgSilhouette}
                   title={imageDataUrl ? 'Сбросьте фото, чтобы экспортировать вектор' : ''}
                 >
-                  <Download className="h-3.5 w-3.5" />
+                  <Download className="size-3.5" />
                   Скачать .svg силуэта
                 </Button>
                 {!sheetStorage ? (
-                  <details className="min-w-[12rem] flex-1 rounded-md border border-slate-200/80 bg-white/70 p-2 text-[10px]">
-                    <summary className="cursor-pointer font-medium text-slate-700">
+                  <details className="border-border-default/80 min-w-48 flex-1 rounded-md border bg-white/70 p-2 text-xs">
+                    <summary className="text-text-primary cursor-pointer font-medium">
                       Демо-подложка через API
                     </summary>
-                    <div className="mt-2 space-y-2 border-t border-slate-100 pt-2">
+                    <div className="border-border-subtle mt-2 space-y-2 border-t pt-2">
                       <Button
                         type="button"
                         variant="secondary"
                         size="sm"
-                        className="h-8 gap-1 text-[10px]"
+                        className="h-8 gap-1 text-xs"
                         disabled={demoRefBusy}
                         onClick={() => void applyDemoAiReference()}
                       >
-                        <ImageIcon className="h-3.5 w-3.5" />
+                        <ImageIcon className="size-3.5" />
                         {demoRefBusy ? 'Загрузка…' : 'Демо: ИИ-референс'}
                       </Button>
+<<<<<<< HEAD
                       <p className="text-[9px] leading-snug text-slate-500">
+=======
+                      <p className="text-text-secondary text-[9px] leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                         Тестовое фото вместо ручной загрузки; в проде подключается ваша модель
                         генерации.
                       </p>
@@ -2373,24 +2620,28 @@ export function CategorySketchAnnotator(props: Props) {
                 ) : null}
               </div>
               {!sheetStorage ? (
-                <div className="space-y-1.5 border-t border-slate-200/80 pt-2">
+                <div className="border-border-default/80 space-y-1.5 border-t pt-2">
                   <div className="flex flex-wrap items-center gap-1.5">
-                    <GitCompare className="h-3.5 w-3.5 shrink-0 text-teal-700" aria-hidden />
-                    <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+                    <GitCompare className="size-3.5 shrink-0 text-teal-700" aria-hidden />
+                    <p className="text-text-secondary text-xs font-semibold uppercase tracking-wide">
                       Сравнение с эталоном
                     </p>
                     <span
-                      className="cursor-help text-[8px] font-normal normal-case text-slate-500"
+                      className="text-text-secondary cursor-help text-[8px] font-normal normal-case"
                       title="Накладывает референс поверх подложки для визуальной проверки. Не входит в экспорт SVG силуэта."
                     >
                       ⓘ
                     </span>
                   </div>
+<<<<<<< HEAD
                   <p className="text-[9px] leading-snug text-slate-600">
+=======
+                  <p className="text-text-secondary text-[9px] leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                     Наложение поверх подложки (прошлая партия, референс). Подгонка масштаба и сдвига
                     — слайдерами ниже.
                   </p>
-                  <Label htmlFor={sketchCompareInputId} className="text-[10px] text-slate-500">
+                  <Label htmlFor={sketchCompareInputId} className="text-text-secondary text-xs">
                     {compareOverlayDataUrl ? 'Заменить эталон' : 'Файл эталона (jpg, png…)'}
                   </Label>
                   <Input
@@ -2403,11 +2654,15 @@ export function CategorySketchAnnotator(props: Props) {
                   />
                   {compareOverlayDataUrl ? (
                     <div className="space-y-2">
-                      <p className="text-[9px] leading-snug text-slate-600">
+                      <p className="text-text-secondary text-[9px] leading-snug">
                         Прозрачность, масштаб и смещение по полю.
                       </p>
                       <div className="flex flex-wrap items-center gap-2">
+<<<<<<< HEAD
                         <span className="text-[9px] text-slate-600">
+=======
+                        <span className="text-text-secondary text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                           Прозрачность: {compareOpacity}%
                         </span>
                         <input
@@ -2425,7 +2680,11 @@ export function CategorySketchAnnotator(props: Props) {
                         />
                       </div>
                       <div className="flex flex-wrap items-center gap-2">
+<<<<<<< HEAD
                         <span className="text-[9px] text-slate-600">
+=======
+                        <span className="text-text-secondary text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                           Масштаб: {compareScalePct}%
                         </span>
                         <input
@@ -2443,7 +2702,11 @@ export function CategorySketchAnnotator(props: Props) {
                         />
                       </div>
                       <div className="flex flex-wrap items-center gap-2">
+<<<<<<< HEAD
                         <span className="text-[9px] text-slate-600">
+=======
+                        <span className="text-text-secondary text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                           Сдвиг X: {compareOffsetXPct}%
                         </span>
                         <input
@@ -2459,7 +2722,11 @@ export function CategorySketchAnnotator(props: Props) {
                         />
                       </div>
                       <div className="flex flex-wrap items-center gap-2">
+<<<<<<< HEAD
                         <span className="text-[9px] text-slate-600">
+=======
+                        <span className="text-text-secondary text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                           Сдвиг Y: {compareOffsetYPct}%
                         </span>
                         <input
@@ -2478,7 +2745,7 @@ export function CategorySketchAnnotator(props: Props) {
                         type="button"
                         variant="ghost"
                         size="sm"
-                        className="h-7 text-[10px] text-slate-600"
+                        className="text-text-secondary h-7 text-xs"
                         disabled={readOnly}
                         onClick={clearCompareOverlay}
                       >
@@ -2488,7 +2755,11 @@ export function CategorySketchAnnotator(props: Props) {
                   ) : null}
                   {compareOverlayFileName ? (
                     <p
+<<<<<<< HEAD
                       className="truncate text-[9px] text-slate-500"
+=======
+                      className="text-text-secondary truncate text-[9px]"
+>>>>>>> recover/cabinet-wip-from-stash
                       title={compareOverlayFileName}
                     >
                       {compareOverlayFileName}
@@ -2497,8 +2768,11 @@ export function CategorySketchAnnotator(props: Props) {
                 </div>
               ) : null}
               {imageFileName || imageDataUrl ? (
-                <div className="flex flex-wrap items-center gap-2 border-t border-slate-200/80 pt-2">
-                  <span className="truncate text-[10px] text-slate-600" title={imageFileName ?? ''}>
+                <div className="border-border-default/80 flex flex-wrap items-center gap-2 border-t pt-2">
+                  <span
+                    className="text-text-secondary truncate text-xs"
+                    title={imageFileName ?? ''}
+                  >
                     {imageFileName?.trim()
                       ? imageFileName
                       : imageDataUrl
@@ -2520,12 +2794,17 @@ export function CategorySketchAnnotator(props: Props) {
             </div>
           </details>
 
-          <details className="rounded-lg border border-dashed border-indigo-200 bg-indigo-50/30">
-            <summary className="cursor-pointer list-none px-2 py-2 text-[10px] font-semibold text-indigo-900 [&::-webkit-details-marker]:hidden">
+          <details className="border-accent-primary/30 bg-accent-primary/10 rounded-lg border border-dashed">
+            <summary className="text-accent-primary cursor-pointer list-none p-2 text-xs font-semibold [&::-webkit-details-marker]:hidden">
               Черновики в углах поля (по желанию)
             </summary>
+<<<<<<< HEAD
             <div className="space-y-2 border-t border-indigo-100 px-2 pb-2 pt-2">
               <p className="text-[10px] leading-snug text-indigo-900/80">
+=======
+            <div className="border-accent-primary/20 space-y-2 border-t p-2">
+              <p className="text-accent-primary/80 text-xs leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                 До четырёх меток в углах с текущим цветом; лишнее удалите или сдвиньте.
               </p>
               <div className="flex flex-wrap gap-2">
@@ -2533,7 +2812,11 @@ export function CategorySketchAnnotator(props: Props) {
                   type="button"
                   size="sm"
                   variant="outline"
+<<<<<<< HEAD
                   className="h-7 border-indigo-200 text-[10px]"
+=======
+                  className="border-accent-primary/30 h-7 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                   disabled={
                     readOnly ||
                     dataAnnotations.filter((a) => sketchPinBelongsToLeaf(a, leafId)).length >=
@@ -2547,7 +2830,11 @@ export function CategorySketchAnnotator(props: Props) {
                   type="button"
                   size="sm"
                   variant="ghost"
+<<<<<<< HEAD
                   className="h-7 text-[10px] text-red-700"
+=======
+                  className="h-7 text-xs text-red-700"
+>>>>>>> recover/cabinet-wip-from-stash
                   disabled={readOnly}
                   onClick={removeDraftSuggestedPins}
                 >
@@ -2557,10 +2844,11 @@ export function CategorySketchAnnotator(props: Props) {
             </div>
           </details>
 
-          <details className="w-full rounded-xl border border-zinc-200 bg-zinc-50/50">
-            <summary className="cursor-pointer list-none px-3 py-2.5 text-xs font-medium text-zinc-800 [&::-webkit-details-marker]:hidden">
+          <details className="border-border-default bg-bg-surface2/80 w-full rounded-xl border">
+            <summary className="text-text-primary cursor-pointer list-none px-3 py-2.5 text-xs font-medium [&::-webkit-details-marker]:hidden">
               Печать, выгрузки, MES и ревизия (для отдела)
             </summary>
+<<<<<<< HEAD
             <div className="border-t border-zinc-200 p-2">
               <Tabs defaultValue="handoff" className="w-full">
                 <TabsList className="mb-2 flex h-auto min-h-9 w-full flex-wrap justify-start gap-0.5 rounded-md bg-white p-1">
@@ -2569,22 +2857,59 @@ export function CategorySketchAnnotator(props: Props) {
                   </TabsTrigger>
                   {sketchTasksPanel ? (
                     <TabsTrigger value="tasks" className="px-2 py-1.5 text-[10px]">
+=======
+            <div className="border-border-default border-t p-2">
+              <Tabs defaultValue="handoff" className="w-full">
+                {/* cabinetSurface v1 */}
+                <TabsList className={cn(cabinetSurface.tabsList, 'mb-2 h-auto min-w-0')}>
+                  <TabsTrigger
+                    value="handoff"
+                    className={cn(
+                      cabinetSurface.tabsTrigger,
+                      'text-xs font-semibold normal-case tracking-normal'
+                    )}
+                  >
+                    Документы и MES
+                  </TabsTrigger>
+                  {sketchTasksPanel ? (
+                    <TabsTrigger
+                      value="tasks"
+                      className={cn(
+                        cabinetSurface.tabsTrigger,
+                        'text-xs font-semibold normal-case tracking-normal'
+                      )}
+                    >
+>>>>>>> recover/cabinet-wip-from-stash
                       Задачи L1→L3
                     </TabsTrigger>
                   ) : null}
                 </TabsList>
                 <TabsContent
                   value="handoff"
+<<<<<<< HEAD
                   className="mt-0 space-y-2 rounded-lg border border-zinc-200 bg-white p-2.5 text-[11px]"
                 >
                   <p className="text-[10px] font-semibold uppercase tracking-wide text-zinc-600">
+=======
+                  className="border-border-default mt-0 space-y-2 rounded-lg border bg-white p-2.5 text-sm"
+                >
+                  <p className="text-text-secondary text-xs font-semibold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                     Ревизия · комплаенс · экспорт
                   </p>
                   <div className="grid gap-2 sm:grid-cols-2">
                     <label className="space-y-0.5">
+<<<<<<< HEAD
                       <span className="text-[9px] font-semibold text-zinc-500">Ревизия скетча</span>
                       <Input
                         className="h-8 text-[11px]"
+=======
+                      <span className="text-text-secondary text-[9px] font-semibold">
+                        Ревизия скетча
+                      </span>
+                      <Input
+                        className="h-8 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
                         value={categorySketchRevisionLabel ?? ''}
                         disabled={readOnly}
                         placeholder="A/B, номер"
@@ -2594,10 +2919,19 @@ export function CategorySketchAnnotator(props: Props) {
                       />
                     </label>
                     <label className="space-y-0.5">
+<<<<<<< HEAD
                       <span className="text-[9px] font-semibold text-zinc-500">Заморозка до</span>
                       <Input
                         type="date"
                         className="h-8 text-[11px]"
+=======
+                      <span className="text-text-secondary text-[9px] font-semibold">
+                        Заморозка до
+                      </span>
+                      <Input
+                        type="date"
+                        className="h-8 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
                         value={categorySketchFreezeUntilDate ?? ''}
                         disabled={readOnly}
                         onChange={(e) =>
@@ -2606,11 +2940,19 @@ export function CategorySketchAnnotator(props: Props) {
                       />
                     </label>
                     <label className="space-y-0.5 sm:col-span-2">
+<<<<<<< HEAD
                       <span className="text-[9px] font-semibold text-zinc-500">
                         Утверждённый референс
                       </span>
                       <Input
                         className="h-8 text-[11px]"
+=======
+                      <span className="text-text-secondary text-[9px] font-semibold">
+                        Утверждённый референс
+                      </span>
+                      <Input
+                        className="h-8 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
                         value={compliance.approvedReferenceUrl ?? ''}
                         disabled={readOnly}
                         onChange={(e) =>
@@ -2624,9 +2966,17 @@ export function CategorySketchAnnotator(props: Props) {
                       />
                     </label>
                     <label className="space-y-0.5">
+<<<<<<< HEAD
                       <span className="text-[9px] font-semibold text-zinc-500">Версия лекал</span>
                       <Input
                         className="h-8 text-[11px]"
+=======
+                      <span className="text-text-secondary text-[9px] font-semibold">
+                        Версия лекал
+                      </span>
+                      <Input
+                        className="h-8 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
                         value={compliance.patternPackVersion ?? ''}
                         disabled={readOnly}
                         onChange={(e) =>
@@ -2640,9 +2990,17 @@ export function CategorySketchAnnotator(props: Props) {
                       />
                     </label>
                     <label className="space-y-0.5">
+<<<<<<< HEAD
                       <span className="text-[9px] font-semibold text-zinc-500">Акт образца</span>
                       <Input
                         className="h-8 text-[11px]"
+=======
+                      <span className="text-text-secondary text-[9px] font-semibold">
+                        Акт образца
+                      </span>
+                      <Input
+                        className="h-8 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
                         value={compliance.sampleAcceptanceActRef ?? ''}
                         disabled={readOnly}
                         onChange={(e) =>
@@ -2656,20 +3014,33 @@ export function CategorySketchAnnotator(props: Props) {
                       />
                     </label>
                   </div>
+<<<<<<< HEAD
                   <div className="flex flex-wrap items-center gap-2 border-t border-zinc-100 pt-2">
+=======
+                  <div className="border-border-subtle flex flex-wrap items-center gap-2 border-t pt-2">
+>>>>>>> recover/cabinet-wip-from-stash
                     <Button
                       type="button"
                       variant="outline"
                       size="sm"
+<<<<<<< HEAD
                       className="h-8 text-[10px]"
+=======
+                      className="h-8 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                       disabled={readOnly || !onAppendSketchRevisionSnapshot}
                       onClick={() => onAppendSketchRevisionSnapshot?.()}
                     >
                       Снимок ревизии в архив
                     </Button>
                     {categorySketchRevisionSnapshots.length > 0 ? (
+<<<<<<< HEAD
                       <details className="max-w-full text-[10px] text-zinc-600">
                         <summary className="cursor-pointer font-medium text-zinc-700">
+=======
+                      <details className="text-text-secondary max-w-full text-xs">
+                        <summary className="text-text-primary cursor-pointer font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                           Архив ({categorySketchRevisionSnapshots.length})
                         </summary>
                         <ul className="mt-1 max-h-28 space-y-0.5 overflow-y-auto font-mono text-[9px]">
@@ -2690,6 +3061,7 @@ export function CategorySketchAnnotator(props: Props) {
                             ))}
                         </ul>
                         {categorySketchRevisionSnapshots.length >= 2 ? (
+<<<<<<< HEAD
                           <div className="mt-2 space-y-2 rounded-md border border-zinc-200 bg-zinc-50/90 p-2 text-[9px] text-zinc-800">
                             <p className="font-semibold text-zinc-900">Сравнение снимков A ↔ B</p>
                             <div className="flex flex-wrap gap-2">
@@ -2697,6 +3069,19 @@ export function CategorySketchAnnotator(props: Props) {
                                 <span className="text-[8px] uppercase text-zinc-500">Снимок A</span>
                                 <select
                                   className="h-8 max-w-[14rem] rounded border border-zinc-200 bg-white px-1 text-[9px]"
+=======
+                          <div className="border-border-default bg-bg-surface2/90 text-text-primary mt-2 space-y-2 rounded-md border p-2 text-[9px]">
+                            <p className="text-text-primary font-semibold">
+                              Сравнение снимков A ↔ B
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                              <label className="flex flex-col gap-0.5">
+                                <span className="text-text-secondary text-[8px] uppercase">
+                                  Снимок A
+                                </span>
+                                <select
+                                  className="border-border-default h-8 max-w-56 rounded border bg-white px-1 text-[9px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                   value={compareSnapIdA}
                                   onChange={(e) => setCompareSnapIdA(e.target.value)}
                                 >
@@ -2710,9 +3095,17 @@ export function CategorySketchAnnotator(props: Props) {
                                 </select>
                               </label>
                               <label className="flex flex-col gap-0.5">
+<<<<<<< HEAD
                                 <span className="text-[8px] uppercase text-zinc-500">Снимок B</span>
                                 <select
                                   className="h-8 max-w-[14rem] rounded border border-zinc-200 bg-white px-1 text-[9px]"
+=======
+                                <span className="text-text-secondary text-[8px] uppercase">
+                                  Снимок B
+                                </span>
+                                <select
+                                  className="border-border-default h-8 max-w-56 rounded border bg-white px-1 text-[9px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                   value={compareSnapIdB}
                                   onChange={(e) => setCompareSnapIdB(e.target.value)}
                                 >
@@ -2727,7 +3120,11 @@ export function CategorySketchAnnotator(props: Props) {
                               </label>
                             </div>
                             {revisionDiff ? (
+<<<<<<< HEAD
                               <div className="space-y-1 border-t border-zinc-200 pt-2 font-mono text-[8px] leading-snug">
+=======
+                              <div className="border-border-default space-y-1 border-t pt-2 font-mono text-[8px] leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                                 <p>
                                   Меток: {revisionDiff.countA} → {revisionDiff.countB}
                                   {revisionDiff.leafMismatch ? (
@@ -2741,7 +3138,11 @@ export function CategorySketchAnnotator(props: Props) {
                                 {revisionDiff.changed.length > 0 ? (
                                   <table className="w-full border-collapse text-left">
                                     <thead>
+<<<<<<< HEAD
                                       <tr className="border-b border-zinc-200">
+=======
+                                      <tr className="border-border-default border-b">
+>>>>>>> recover/cabinet-wip-from-stash
                                         <th className="py-0.5 pr-1">annotationId</th>
                                         <th className="py-0.5">изменения</th>
                                       </tr>
@@ -2750,7 +3151,11 @@ export function CategorySketchAnnotator(props: Props) {
                                       {revisionDiff.changed.slice(0, 24).map((row) => (
                                         <tr
                                           key={row.annotationId}
+<<<<<<< HEAD
                                           className="border-b border-zinc-100"
+=======
+                                          className="border-border-subtle border-b"
+>>>>>>> recover/cabinet-wip-from-stash
                                         >
                                           <td className="py-0.5 pr-1 align-top">
                                             {row.annotationId.slice(0, 10)}…
@@ -2770,13 +3175,21 @@ export function CategorySketchAnnotator(props: Props) {
                                     </tbody>
                                   </table>
                                 ) : (
+<<<<<<< HEAD
                                   <p className="text-zinc-500">
+=======
+                                  <p className="text-text-secondary">
+>>>>>>> recover/cabinet-wip-from-stash
                                     Поля priority / stage / BOM ref совпадают.
                                   </p>
                                 )}
                               </div>
                             ) : (
+<<<<<<< HEAD
                               <p className="text-zinc-500">Выберите два разных снимка.</p>
+=======
+                              <p className="text-text-secondary">Выберите два разных снимка.</p>
+>>>>>>> recover/cabinet-wip-from-stash
                             )}
                           </div>
                         ) : null}
@@ -2788,7 +3201,11 @@ export function CategorySketchAnnotator(props: Props) {
                       type="button"
                       variant="secondary"
                       size="sm"
+<<<<<<< HEAD
                       className="h-8 text-[10px]"
+=======
+                      className="h-8 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                       disabled={readOnly || !auditActor}
                       onClick={() =>
                         onPatch({
@@ -2802,23 +3219,39 @@ export function CategorySketchAnnotator(props: Props) {
                       Утвердить для производства
                     </Button>
                   </div>
+<<<<<<< HEAD
                   <div className="flex flex-wrap gap-2 border-t border-zinc-100 pt-2">
+=======
+                  <div className="border-border-subtle flex flex-wrap gap-2 border-t pt-2">
+>>>>>>> recover/cabinet-wip-from-stash
                     <Button
                       type="button"
                       variant="outline"
                       size="sm"
+<<<<<<< HEAD
                       className="h-8 gap-1 text-[10px]"
                       disabled={exportBusy}
                       onClick={() => void handleExportPng()}
                     >
                       <ImageDown className="h-3.5 w-3.5" />
+=======
+                      className="h-8 gap-1 text-xs"
+                      disabled={exportBusy}
+                      onClick={() => void handleExportPng()}
+                    >
+                      <ImageDown className="size-3.5" />
+>>>>>>> recover/cabinet-wip-from-stash
                       PNG
                     </Button>
                     <Button
                       type="button"
                       variant="outline"
                       size="sm"
+<<<<<<< HEAD
                       className="h-8 gap-1 text-[10px]"
+=======
+                      className="h-8 gap-1 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                       onClick={() => {
                         const norm = dataAnnotations
                           .filter((a) => sketchPinBelongsToLeaf(a, leafId))
@@ -2838,14 +3271,22 @@ export function CategorySketchAnnotator(props: Props) {
                         })();
                       }}
                     >
+<<<<<<< HEAD
                       <Printer className="h-3.5 w-3.5" />
+=======
+                      <Printer className="size-3.5" />
+>>>>>>> recover/cabinet-wip-from-stash
                       Печать А4
                     </Button>
                     <Button
                       type="button"
                       variant="outline"
                       size="sm"
+<<<<<<< HEAD
                       className="h-8 gap-1 text-[10px]"
+=======
+                      className="h-8 gap-1 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                       onClick={() => {
                         const norm = dataAnnotations
                           .filter((a) => sketchPinBelongsToLeaf(a, leafId))
@@ -2871,67 +3312,119 @@ export function CategorySketchAnnotator(props: Props) {
                         })();
                       }}
                     >
+<<<<<<< HEAD
                       <Printer className="h-3.5 w-3.5" />
                       Лист в цех
                     </Button>
                   </div>
                   <div className="flex flex-wrap gap-2 border-t border-zinc-100 pt-2">
+=======
+                      <Printer className="size-3.5" />
+                      Лист в цех
+                    </Button>
+                  </div>
+                  <div className="border-border-subtle flex flex-wrap gap-2 border-t pt-2">
+>>>>>>> recover/cabinet-wip-from-stash
                     <Button
                       type="button"
                       variant="secondary"
                       size="sm"
+<<<<<<< HEAD
                       className="h-8 gap-1 text-[10px]"
                       disabled={readOnly}
                       onClick={handleAppendPropagatedDrafts}
                     >
                       <ClipboardList className="h-3.5 w-3.5" />В посадку / ОТК
+=======
+                      className="h-8 gap-1 text-xs"
+                      disabled={readOnly}
+                      onClick={handleAppendPropagatedDrafts}
+                    >
+                      <ClipboardList className="size-3.5" />В посадку / ОТК
+>>>>>>> recover/cabinet-wip-from-stash
                     </Button>
                     <Button
                       type="button"
                       variant="outline"
                       size="sm"
+<<<<<<< HEAD
                       className="h-8 gap-1 text-[10px]"
                       onClick={handleCriticalCsv}
                     >
                       <Download className="h-3.5 w-3.5" />
+=======
+                      className="h-8 gap-1 text-xs"
+                      onClick={handleCriticalCsv}
+                    >
+                      <Download className="size-3.5" />
+>>>>>>> recover/cabinet-wip-from-stash
                       CSV критич.
                     </Button>
                     <Button
                       type="button"
                       variant="outline"
                       size="sm"
+<<<<<<< HEAD
                       className="h-8 gap-1 text-[10px]"
                       onClick={handleMesQualityCsv}
                     >
                       <Download className="h-3.5 w-3.5" />
+=======
+                      className="h-8 gap-1 text-xs"
+                      onClick={handleMesQualityCsv}
+                    >
+                      <Download className="size-3.5" />
+>>>>>>> recover/cabinet-wip-from-stash
                       MES все
                     </Button>
                     <Button
                       type="button"
                       variant="outline"
                       size="sm"
+<<<<<<< HEAD
                       className="h-8 gap-1 text-[10px]"
                       onClick={handleMesQcCsv}
                     >
                       <Download className="h-3.5 w-3.5" />
+=======
+                      className="h-8 gap-1 text-xs"
+                      onClick={handleMesQcCsv}
+                    >
+                      <Download className="size-3.5" />
+>>>>>>> recover/cabinet-wip-from-stash
                       MES ОТК+крит.
                     </Button>
                     <Button
                       type="button"
                       variant="outline"
                       size="sm"
+<<<<<<< HEAD
                       className="h-8 gap-1 text-[10px]"
+=======
+                      className="h-8 gap-1 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                       disabled={webhookBusy || readOnly}
                       title={readOnly ? 'В режиме цеха отправка в MES отключена' : undefined}
                       onClick={() => void handleCriticalWebhook()}
                     >
+<<<<<<< HEAD
                       <Send className="h-3.5 w-3.5" />
+=======
+                      <Send className="size-3.5" />
+>>>>>>> recover/cabinet-wip-from-stash
                       {webhookBusy ? '…' : 'В MES'}
                     </Button>
                   </div>
                   {mesTopCodesOnBoard.length > 0 ? (
+<<<<<<< HEAD
                     <p className="text-[9px] leading-snug text-zinc-600">
                       <span className="font-semibold text-zinc-700">Топ кодов MES на доске:</span>{' '}
+=======
+                    <p className="text-text-secondary text-[9px] leading-snug">
+                      <span className="text-text-primary font-semibold">
+                        Топ кодов MES на доске:
+                      </span>{' '}
+>>>>>>> recover/cabinet-wip-from-stash
                       {mesTopCodesOnBoard.map((x) => `${x.code} (${x.count})`).join(', ')}
                     </p>
                   ) : null}
@@ -2941,6 +3434,7 @@ export function CategorySketchAnnotator(props: Props) {
                     </p>
                   ) : null}
                   {sketchPropagatedDrafts.length > 0 ? (
+<<<<<<< HEAD
                     <ul className="max-h-32 space-y-1 overflow-y-auto border-t border-zinc-100 pt-2 text-[10px]">
                       {sketchPropagatedDrafts.map((d) => (
                         <li
@@ -2948,6 +3442,15 @@ export function CategorySketchAnnotator(props: Props) {
                           className="flex justify-between gap-2 border-b border-zinc-50 pb-1"
                         >
                           <span className="min-w-0 text-zinc-700">
+=======
+                    <ul className="border-border-subtle max-h-32 space-y-1 overflow-y-auto border-t pt-2 text-xs">
+                      {sketchPropagatedDrafts.map((d) => (
+                        <li
+                          key={d.draftId}
+                          className="border-border-subtle flex justify-between gap-2 border-b pb-1"
+                        >
+                          <span className="text-text-primary min-w-0">
+>>>>>>> recover/cabinet-wip-from-stash
                             <span className="font-semibold text-teal-800">
                               {d.kind === 'fit' ? 'Посадка' : 'ОТК'}:
                             </span>{' '}
@@ -2970,7 +3473,11 @@ export function CategorySketchAnnotator(props: Props) {
                 {sketchTasksPanel ? (
                   <TabsContent
                     value="tasks"
+<<<<<<< HEAD
                     className="mt-0 max-h-[min(85dvh,640px)] overflow-y-auto rounded-lg border border-zinc-200 bg-zinc-50/50 p-2"
+=======
+                    className="border-border-default bg-bg-surface2/80 mt-0 max-h-[min(85dvh,640px)] overflow-y-auto rounded-lg border p-2"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     {sketchTasksPanel}
                   </TabsContent>
@@ -2980,9 +3487,15 @@ export function CategorySketchAnnotator(props: Props) {
           </details>
         </div>
 
+<<<<<<< HEAD
         <div className="flex min-w-0 flex-col gap-3 border-l border-zinc-200 pl-3 lg:sticky lg:top-4 lg:max-h-[calc(100dvh-5rem)] lg:self-start lg:overflow-y-auto lg:pl-4">
           <div className="rounded-lg border border-slate-100 bg-white/80 p-2">
             <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+=======
+        <div className="border-border-default flex min-w-0 flex-col gap-3 border-l pl-3 lg:sticky lg:top-4 lg:max-h-[calc(100dvh-5rem)] lg:self-start lg:overflow-y-auto lg:pl-4">
+          <div className="border-border-subtle rounded-lg border bg-white/80 p-2">
+            <p className="text-text-secondary text-xs font-semibold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
               Быстрые действия
             </p>
             <div className="mt-2 flex flex-wrap gap-2">
@@ -2990,7 +3503,11 @@ export function CategorySketchAnnotator(props: Props) {
                 type="button"
                 size="sm"
                 variant="outline"
+<<<<<<< HEAD
                 className="h-7 text-[10px]"
+=======
+                className="h-7 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                 onClick={() =>
                   activeId && updateAnnotation(activeId, { stage: 'sample', status: 'in_progress' })
                 }
@@ -3002,7 +3519,11 @@ export function CategorySketchAnnotator(props: Props) {
                 type="button"
                 size="sm"
                 variant="outline"
+<<<<<<< HEAD
                 className="h-7 text-[10px]"
+=======
+                className="h-7 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                 onClick={() =>
                   activeId && updateAnnotation(activeId, { stage: 'qc', linkedQcZoneId: activeId })
                 }
@@ -3016,7 +3537,11 @@ export function CategorySketchAnnotator(props: Props) {
                     type="button"
                     size="sm"
                     variant="ghost"
+<<<<<<< HEAD
                     className="h-7 text-[10px]"
+=======
+                    className="h-7 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                     onClick={() => onNavigateStage('fit')}
                   >
                     Открыть посадку
@@ -3025,7 +3550,11 @@ export function CategorySketchAnnotator(props: Props) {
                     type="button"
                     size="sm"
                     variant="ghost"
+<<<<<<< HEAD
                     className="h-7 text-[10px]"
+=======
+                    className="h-7 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                     onClick={() => onNavigateStage('qc')}
                   >
                     Открыть ОТК
@@ -3035,7 +3564,11 @@ export function CategorySketchAnnotator(props: Props) {
             </div>
           </div>
 
+<<<<<<< HEAD
           <p className="text-[10px] font-semibold uppercase tracking-wide text-zinc-600">
+=======
+          <p className="text-text-secondary text-xs font-semibold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
             Выбор метки
           </p>
           <div className="flex flex-wrap gap-1">
@@ -3048,8 +3581,13 @@ export function CategorySketchAnnotator(props: Props) {
                   className={cn(
                     'flex h-9 min-w-9 items-center justify-center rounded-md border font-mono text-sm font-bold tabular-nums transition-colors',
                     activeAnn?.annotationId === p.annotationId
+<<<<<<< HEAD
                       ? 'border-zinc-900 bg-zinc-900 text-white'
                       : 'border-zinc-300 bg-white text-zinc-900 hover:bg-zinc-50',
+=======
+                      ? 'border-text-primary bg-text-primary text-white'
+                      : 'border-border-default text-text-primary hover:bg-bg-surface2 bg-white',
+>>>>>>> recover/cabinet-wip-from-stash
                     p.priority === 'critical' &&
                       activeAnn?.annotationId !== p.annotationId &&
                       'border-rose-500',
@@ -3070,18 +3608,18 @@ export function CategorySketchAnnotator(props: Props) {
           </div>
 
           {!activeAnn ? (
-            <p className="text-[11px] text-zinc-500">Нет меток на этом листе.</p>
+            <p className="text-text-secondary text-sm">Нет меток на этом листе.</p>
           ) : (
-            <div className="space-y-3 rounded-lg border border-zinc-200 bg-white p-3">
-              <div className="flex items-center justify-between gap-2 border-b border-zinc-100 pb-2">
-                <span className="font-mono text-xl font-bold tabular-nums tracking-tight text-zinc-900">
+            <div className="border-border-default space-y-3 rounded-lg border bg-white p-3">
+              <div className="border-border-subtle flex items-center justify-between gap-2 border-b pb-2">
+                <span className="text-text-primary font-mono text-xl font-bold tabular-nums tracking-tight">
                   #{activeAnnIdx + 1}
                 </span>
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="h-7 text-[10px] text-red-600"
+                  className="h-7 text-xs text-red-600"
                   disabled={readOnly}
                   onClick={() => removeAnn(activeAnn.annotationId)}
                 >
@@ -3090,7 +3628,9 @@ export function CategorySketchAnnotator(props: Props) {
               </div>
 
               <label className="block space-y-1">
-                <span className="text-[9px] font-semibold uppercase text-zinc-500">Текст</span>
+                <span className="text-text-secondary text-[9px] font-semibold uppercase">
+                  Текст
+                </span>
                 <Textarea
                   className="min-h-[100px] text-sm"
                   placeholder="Что показать в этой точке…"
@@ -3103,19 +3643,23 @@ export function CategorySketchAnnotator(props: Props) {
               </label>
 
               <div className="space-y-1">
+<<<<<<< HEAD
                 <span className="text-[9px] font-semibold uppercase text-zinc-500">
+=======
+                <span className="text-text-secondary text-[9px] font-semibold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                   Фото-доказательство
                 </span>
                 <div className="flex flex-wrap items-end gap-2">
                   <Input
                     type="file"
                     accept="image/*"
-                    className="h-8 max-w-full cursor-pointer text-[10px]"
+                    className="h-8 max-w-full cursor-pointer text-xs"
                     disabled={readOnly}
                     onChange={(e) => void onPickProofPhoto(activeAnn.annotationId, e)}
                   />
                   <select
-                    className="h-8 rounded-md border border-zinc-200 bg-white px-2 text-[10px]"
+                    className="border-border-default h-8 rounded-md border bg-white px-2 text-xs"
                     value={activeAnn.proofStatus ?? 'pending'}
                     disabled={readOnly || !activeAnn.proofPhotoDataUrl}
                     onChange={(e) =>
@@ -3134,17 +3678,19 @@ export function CategorySketchAnnotator(props: Props) {
                   <img
                     src={activeAnn.proofPhotoDataUrl}
                     alt=""
-                    className="max-h-40 max-w-full rounded border border-zinc-200 object-contain"
+                    className="border-border-default max-h-40 max-w-full rounded border object-contain"
                   />
                 ) : null}
               </div>
 
               <div className="grid gap-2 sm:grid-cols-2">
                 <label className="space-y-1">
-                  <span className="text-[9px] font-semibold uppercase text-zinc-500">Срок</span>
+                  <span className="text-text-secondary text-[9px] font-semibold uppercase">
+                    Срок
+                  </span>
                   <Input
                     type="date"
-                    className="h-8 text-[11px]"
+                    className="h-8 text-sm"
                     value={activeAnn.dueDate ?? ''}
                     disabled={readOnly}
                     onChange={(e) =>
@@ -3155,11 +3701,15 @@ export function CategorySketchAnnotator(props: Props) {
                   />
                 </label>
                 <label className="space-y-1">
+<<<<<<< HEAD
                   <span className="text-[9px] font-semibold uppercase text-zinc-500">
+=======
+                  <span className="text-text-secondary text-[9px] font-semibold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     Ответственный
                   </span>
                   <Input
-                    className="h-8 text-[11px]"
+                    className="h-8 text-sm"
                     value={activeAnn.owner ?? ''}
                     disabled={readOnly}
                     onChange={(e) =>
@@ -3172,11 +3722,15 @@ export function CategorySketchAnnotator(props: Props) {
 
               {attributeOptions.length > 0 ? (
                 <label className="block space-y-1">
+<<<<<<< HEAD
                   <span className="text-[9px] font-semibold uppercase text-zinc-500">
+=======
+                  <span className="text-text-secondary text-[9px] font-semibold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     Связь с атрибутом ТЗ
                   </span>
                   <select
-                    className="h-9 w-full rounded-md border border-zinc-200 bg-white px-2 text-[11px]"
+                    className="border-border-default h-9 w-full rounded-md border bg-white px-2 text-sm"
                     value={activeAnn.linkedAttributeId ?? ''}
                     disabled={readOnly}
                     onChange={(e) =>
@@ -3211,11 +3765,15 @@ export function CategorySketchAnnotator(props: Props) {
 
               {taskSlotLabelOptions.length > 0 ? (
                 <label className="block space-y-1">
+<<<<<<< HEAD
                   <span className="text-[9px] font-semibold uppercase text-zinc-500">
+=======
+                  <span className="text-text-secondary text-[9px] font-semibold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     Задача подкатегории
                   </span>
                   <select
-                    className="h-9 w-full rounded-md border border-zinc-200 bg-white px-2 text-[11px]"
+                    className="border-border-default h-9 w-full rounded-md border bg-white px-2 text-sm"
                     value={activeAnn.linkedTaskId ?? ''}
                     disabled={readOnly}
                     title={
@@ -3240,7 +3798,7 @@ export function CategorySketchAnnotator(props: Props) {
               ) : null}
 
               {taskSlotLabelOptions.length > 0 && activeAnn.linkedTaskId ? (
-                <div className="space-y-2 rounded-md border border-indigo-100 bg-indigo-50/50 p-2 text-[10px] text-indigo-950">
+                <div className="border-accent-primary/20 bg-accent-primary/10 text-accent-primary space-y-2 rounded-md border p-2 text-xs">
                   <p className="leading-snug">
                     Блок задач:{' '}
                     <span className="font-semibold">
@@ -3290,7 +3848,7 @@ export function CategorySketchAnnotator(props: Props) {
               {activeAnn.linkedAttributeId ? (
                 <button
                   type="button"
-                  className="flex items-center gap-1 text-[10px] font-semibold text-indigo-700 hover:underline"
+                  className="text-accent-primary flex items-center gap-1 text-xs font-semibold hover:underline"
                   onClick={() => {
                     const el = document.getElementById(`w2-attr-${activeAnn.linkedAttributeId}`);
                     if (el) {
@@ -3299,6 +3857,7 @@ export function CategorySketchAnnotator(props: Props) {
                     }
                   }}
                 >
+<<<<<<< HEAD
                   <ArrowRight className="h-3 w-3" />К полю в ТЗ
                 </button>
               ) : null}
@@ -3309,10 +3868,22 @@ export function CategorySketchAnnotator(props: Props) {
                 </span>
                 <label className="block space-y-1">
                   <span className="text-[9px] font-semibold uppercase text-zinc-500">
+=======
+                  <ArrowRight className="size-3" />К полю в ТЗ
+                </button>
+              ) : null}
+
+              <div className="border-accent-primary/20 bg-accent-primary/10 space-y-2 rounded-md border p-2">
+                <span className="text-text-primary text-[9px] font-semibold uppercase">
+                  Раздел ТЗ и этап маршрута
+                </span>
+                <label className="block space-y-1">
+                  <span className="text-text-secondary text-[9px] font-semibold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     Раздел досье (навигация)
                   </span>
                   <select
-                    className="h-9 w-full rounded-md border border-zinc-200 bg-white px-2 text-[11px]"
+                    className="border-border-default h-9 w-full rounded-md border bg-white px-2 text-sm"
                     value={normalizeLinkedTzPanelSectionForNav(activeAnn.linkedTzSectionKey) ?? ''}
                     disabled={readOnly}
                     onChange={(e) =>
@@ -3334,11 +3905,15 @@ export function CategorySketchAnnotator(props: Props) {
                   </select>
                 </label>
                 {activeAnn.annotationType ? (
-                  <div className="rounded border border-violet-200/90 bg-white/90 px-2 py-1.5 text-[10px] leading-snug text-violet-950">
-                    <p className="text-[9px] font-bold uppercase tracking-wide text-violet-900">
+                  <div className="border-accent-primary/30 text-text-primary rounded border bg-white/90 px-2 py-1.5 text-xs leading-snug">
+                    <p className="text-text-primary text-[9px] font-bold uppercase tracking-wide">
                       Матрица: тип «{TYPE_LABELS[activeAnn.annotationType]}»
                     </p>
+<<<<<<< HEAD
                     <p className="mt-1 text-violet-900/95">
+=======
+                    <p className="text-text-primary/95 mt-1">
+>>>>>>> recover/cabinet-wip-from-stash
                       {sketchTypeTzMatrixHint(activeAnn.annotationType)}
                     </p>
                     {(() => {
@@ -3348,9 +3923,13 @@ export function CategorySketchAnnotator(props: Props) {
                         normalizeLinkedTzPanelSectionForNav(activeAnn.linkedTzSectionKey) === rec;
                       return (
                         <>
-                          <p className="mt-1 text-[9px] text-zinc-600">
+                          <p className="text-text-secondary mt-1 text-[9px]">
                             Рекомендуемый раздел ТЗ:{' '}
+<<<<<<< HEAD
                             <span className="font-semibold text-zinc-800">
+=======
+                            <span className="text-text-primary font-semibold">
+>>>>>>> recover/cabinet-wip-from-stash
                               {TZ_PANEL_SECTION_LABELS[rec]}
                             </span>
                             {matches ? ' · совпадает с выбором' : ''}
@@ -3384,7 +3963,7 @@ export function CategorySketchAnnotator(props: Props) {
                       const quick = attributeOptions.filter((o) => sug.includes(o.id));
                       if (!quick.length) return null;
                       return (
-                        <div className="rounded border border-sky-200/90 bg-sky-50/60 px-2 py-1.5 text-[10px] text-sky-950">
+                        <div className="rounded border border-sky-200/90 bg-sky-50/60 px-2 py-1.5 text-xs text-sky-950">
                           <p className="text-[9px] font-bold uppercase tracking-wide text-sky-900">
                             Поля каталога по типу метки
                           </p>
@@ -3431,11 +4010,15 @@ export function CategorySketchAnnotator(props: Props) {
                   </Button>
                 ) : null}
                 <label className="block space-y-1">
+<<<<<<< HEAD
                   <span className="text-[9px] font-semibold uppercase text-zinc-500">
+=======
+                  <span className="text-text-secondary text-[9px] font-semibold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     Этап маршрута SKU
                   </span>
                   <select
-                    className="h-9 w-full rounded-md border border-zinc-200 bg-white px-2 text-[11px]"
+                    className="border-border-default h-9 w-full rounded-md border bg-white px-2 text-sm"
                     value={activeAnn.linkedRouteStageId ?? ''}
                     disabled={readOnly}
                     onChange={(e) =>
@@ -3478,7 +4061,7 @@ export function CategorySketchAnnotator(props: Props) {
                     </span>
                     <select
                       key={`${activeAnn.annotationId}-${activeAnn.linkedBomLineRef ?? ''}`}
-                      className="h-8 w-full rounded-md border border-emerald-200/80 bg-white px-2 text-[11px] text-zinc-900"
+                      className="text-text-primary h-8 w-full rounded-md border border-emerald-200/80 bg-white px-2 text-sm"
                       disabled={readOnly}
                       defaultValue=""
                       aria-label="Подставить ref из заполненного BOM в досье"
@@ -3502,7 +4085,7 @@ export function CategorySketchAnnotator(props: Props) {
                     BOM / PLM — ref строки
                   </span>
                   <Input
-                    className="h-8 text-[11px]"
+                    className="h-8 text-sm"
                     placeholder="ID строки BOM, PIM, PLM…"
                     value={activeAnn.linkedBomLineRef ?? ''}
                     disabled={readOnly}
@@ -3518,7 +4101,7 @@ export function CategorySketchAnnotator(props: Props) {
                     Материал / узел (текст)
                   </span>
                   <Input
-                    className="h-8 text-[11px]"
+                    className="h-8 text-sm"
                     placeholder="Ткань, фурнитура, узел…"
                     value={activeAnn.linkedMaterialNote ?? ''}
                     disabled={readOnly}
@@ -3575,7 +4158,7 @@ export function CategorySketchAnnotator(props: Props) {
                     Смена / партия (MES)
                   </span>
                   <Input
-                    className="h-8 text-[11px]"
+                    className="h-8 text-sm"
                     placeholder="Смена А, 2026-04-01…"
                     value={activeAnn.mesShiftId ?? ''}
                     disabled={readOnly}
@@ -3597,7 +4180,7 @@ export function CategorySketchAnnotator(props: Props) {
                     Код дефекта (иерархия)
                   </span>
                   <select
-                    className="h-8 w-full rounded-md border border-zinc-200 bg-white px-2 text-[10px]"
+                    className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-xs"
                     value={activeAnn.mesDefectCode ?? ''}
                     disabled={readOnly}
                     onChange={(e) =>
@@ -3644,15 +4227,20 @@ export function CategorySketchAnnotator(props: Props) {
                 }
               />
 
+<<<<<<< HEAD
               <details className="rounded-md border border-zinc-100 bg-zinc-50/80 p-2 text-[11px]">
                 <summary className="cursor-pointer font-medium text-zinc-800">
+=======
+              <details className="border-border-subtle bg-bg-surface2/80 rounded-md border p-2 text-sm">
+                <summary className="text-text-primary cursor-pointer font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                   Тип, приоритет, этап, статус
                 </summary>
                 <div className="mt-2 grid gap-2 sm:grid-cols-2">
                   <label className="space-y-1">
-                    <span className="text-[9px] text-zinc-500">Тип</span>
+                    <span className="text-text-secondary text-[9px]">Тип</span>
                     <select
-                      className="h-8 w-full rounded-md border border-zinc-200 bg-white px-2 text-[10px]"
+                      className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-xs"
                       value={activeAnn.annotationType ?? 'construction'}
                       disabled={readOnly}
                       onChange={(e) =>
@@ -3669,9 +4257,9 @@ export function CategorySketchAnnotator(props: Props) {
                     </select>
                   </label>
                   <label className="space-y-1">
-                    <span className="text-[9px] text-zinc-500">Приоритет</span>
+                    <span className="text-text-secondary text-[9px]">Приоритет</span>
                     <select
-                      className="h-8 w-full rounded-md border border-zinc-200 bg-white px-2 text-[10px]"
+                      className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-xs"
                       value={activeAnn.priority ?? 'important'}
                       disabled={readOnly}
                       onChange={(e) =>
@@ -3688,9 +4276,9 @@ export function CategorySketchAnnotator(props: Props) {
                     </select>
                   </label>
                   <label className="space-y-1">
-                    <span className="text-[9px] text-zinc-500">Статус</span>
+                    <span className="text-text-secondary text-[9px]">Статус</span>
                     <select
-                      className="h-8 w-full rounded-md border border-zinc-200 bg-white px-2 text-[10px]"
+                      className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-xs"
                       value={activeAnn.status ?? 'new'}
                       disabled={readOnly}
                       onChange={(e) =>
@@ -3707,9 +4295,9 @@ export function CategorySketchAnnotator(props: Props) {
                     </select>
                   </label>
                   <label className="space-y-1">
-                    <span className="text-[9px] text-zinc-500">Этап</span>
+                    <span className="text-text-secondary text-[9px]">Этап</span>
                     <select
-                      className="h-8 w-full rounded-md border border-zinc-200 bg-white px-2 text-[10px]"
+                      className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-xs"
                       value={activeAnn.stage ?? 'tz'}
                       disabled={readOnly}
                       onChange={(e) =>
@@ -3728,14 +4316,19 @@ export function CategorySketchAnnotator(props: Props) {
                 </div>
               </details>
 
+<<<<<<< HEAD
               <details className="rounded-md border border-zinc-100 bg-zinc-50/80 p-2 text-[10px]">
                 <summary className="cursor-pointer font-medium text-zinc-800">
+=======
+              <details className="border-border-subtle bg-bg-surface2/80 rounded-md border p-2 text-xs">
+                <summary className="text-text-primary cursor-pointer font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                   Групповое редактирование
                 </summary>
                 <div className="mt-2 space-y-2">
                   <div className="flex flex-wrap gap-1">
                     <Checkbox
-                      className="h-4 w-4"
+                      className="size-4"
                       disabled={readOnly}
                       checked={batchSelectedIds.includes(activeAnn.annotationId)}
                       onCheckedChange={(v) => {
@@ -3749,7 +4342,11 @@ export function CategorySketchAnnotator(props: Props) {
                         });
                       }}
                     />
+<<<<<<< HEAD
                     <span className="text-zinc-600">
+=======
+                    <span className="text-text-secondary">
+>>>>>>> recover/cabinet-wip-from-stash
                       Включить текущую в группу ({batchSelectedIds.length})
                     </span>
                   </div>
@@ -3790,24 +4387,28 @@ export function CategorySketchAnnotator(props: Props) {
         </div>
       </div>
 
-      <details className="rounded-lg border border-violet-100 bg-violet-50/40 p-2">
-        <summary className="flex cursor-pointer list-none items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-violet-700 [&::-webkit-details-marker]:hidden">
-          <Sparkles className="h-3 w-3 shrink-0" aria-hidden />
+      <details className="border-accent-primary/20 bg-accent-primary/10 rounded-lg border p-2">
+        <summary className="text-accent-primary flex cursor-pointer list-none items-center gap-1 text-xs font-semibold uppercase tracking-wide [&::-webkit-details-marker]:hidden">
+          <Sparkles className="size-3 shrink-0" aria-hidden />
           Дополнительно: промпт ИИ и брендбук
+<<<<<<< HEAD
           <span className="font-normal normal-case text-slate-500">
+=======
+          <span className="text-text-secondary font-normal normal-case">
+>>>>>>> recover/cabinet-wip-from-stash
             — если пользуетесь Midjourney, Krea…
           </span>
         </summary>
-        <div className="mt-2 space-y-2 border-t border-violet-100/80 pt-2">
-          <p className="text-[9px] leading-snug text-slate-600">
+        <div className="border-accent-primary/20 mt-2 space-y-2 border-t pt-2">
+          <p className="text-text-secondary text-[9px] leading-snug">
             Брендбук попадает в текст промпта жёстче, чем свободные подсказки ниже.
           </p>
           <label className="block space-y-1">
-            <span className="text-[9px] font-semibold uppercase tracking-wide text-slate-600">
+            <span className="text-text-secondary text-[9px] font-semibold uppercase tracking-wide">
               Брендбук (палитра, силуэт, запреты)
             </span>
             <Textarea
-              className="min-h-[56px] text-[11px]"
+              className="min-h-[56px] text-sm"
               placeholder="Напр. только матовые ткани; без клея по лицу; запрет на контрастный top-stitch…"
               value={sketchBrandbookConstraints ?? ''}
               disabled={readOnly}
@@ -3819,29 +4420,33 @@ export function CategorySketchAnnotator(props: Props) {
               type="button"
               size="sm"
               variant="outline"
+<<<<<<< HEAD
               className="h-7 gap-1 border-violet-200 text-[10px]"
+=======
+              className="border-accent-primary/25 h-7 gap-1 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
               onClick={() => void copyAiPrompt()}
             >
-              <Copy className="h-3 w-3" />
+              <Copy className="size-3" />
               {aiCopied ? 'Скопировано' : 'Копировать промпт'}
             </Button>
           </div>
           <label className="block space-y-1">
-            <span className="text-[9px] font-semibold uppercase tracking-wide text-slate-600">
+            <span className="text-text-secondary text-[9px] font-semibold uppercase tracking-wide">
               Свои уточнения к промпту
             </span>
             <Textarea
-              className="min-h-[72px] text-[11px]"
+              className="min-h-[72px] text-sm"
               placeholder="Капюшон, длина, ворот, карманы…"
               value={aiExtraHints}
               onChange={(e) => setAiExtraHints(e.target.value)}
             />
           </label>
-          <details className="rounded border border-violet-100/80 bg-white/50 p-2 text-[10px] text-slate-600">
-            <summary className="cursor-pointer font-medium text-slate-700">
+          <details className="border-accent-primary/20 text-text-secondary rounded border bg-white/50 p-2 text-xs">
+            <summary className="text-text-primary cursor-pointer font-medium">
               Техническое: полный текст промпта и интеграция в код
             </summary>
-            <pre className="mt-2 max-h-40 overflow-auto whitespace-pre-wrap rounded border border-slate-100 bg-white p-2 text-[10px] leading-snug text-slate-800">
+            <pre className="border-border-subtle text-text-primary mt-2 max-h-40 overflow-auto whitespace-pre-wrap rounded border bg-white p-2 text-xs leading-snug">
               {aiPromptText}
             </pre>
             <div className="mt-2 flex flex-wrap gap-2">
@@ -3849,12 +4454,13 @@ export function CategorySketchAnnotator(props: Props) {
                 type="button"
                 size="sm"
                 variant="secondary"
-                className="h-7 text-[10px]"
+                className="h-7 text-xs"
                 onClick={() => void copyAiPrompt()}
               >
                 Копировать этот блок целиком
               </Button>
             </div>
+<<<<<<< HEAD
             <p className="mt-2 text-[9px] leading-snug text-slate-500">
               Демо «ИИ-референс» и{' '}
               <code className="rounded bg-slate-100 px-0.5">requestCatalogImageGeneration</code>{' '}
@@ -3862,26 +4468,45 @@ export function CategorySketchAnnotator(props: Props) {
               <code className="rounded bg-slate-100 px-0.5">aiPromptText</code>), включая брендбук
               из досье. См.{' '}
               <code className="rounded bg-slate-100 px-0.5">catalog-image-gen.ts</code>.
+=======
+            <p className="text-text-secondary mt-2 text-[9px] leading-snug">
+              Демо «ИИ-референс» и{' '}
+              <code className="bg-bg-surface2 rounded px-0.5">requestCatalogImageGeneration</code>{' '}
+              берут тот же собранный текст (
+              <code className="bg-bg-surface2 rounded px-0.5">aiPromptText</code>), включая брендбук
+              из досье. См.{' '}
+              <code className="bg-bg-surface2 rounded px-0.5">catalog-image-gen.ts</code>.
+>>>>>>> recover/cabinet-wip-from-stash
             </p>
           </details>
         </div>
       </details>
 
       {!sheetStorage && (sketchMasterAnnotationAuditLog?.length ?? 0) > 0 ? (
-        <details className="rounded-lg border border-slate-200 bg-white p-2 text-[10px]">
-          <summary className="cursor-pointer font-medium text-slate-700">
+        <details className="border-border-default rounded-lg border bg-white p-2 text-xs">
+          <summary className="text-text-primary cursor-pointer font-medium">
             Журнал изменений меток (последние {Math.min(15, sketchMasterAnnotationAuditLog.length)})
           </summary>
+<<<<<<< HEAD
           <ul className="mt-2 max-h-40 space-y-1 overflow-y-auto text-slate-600">
+=======
+          <ul className="text-text-secondary mt-2 max-h-40 space-y-1 overflow-y-auto">
+>>>>>>> recover/cabinet-wip-from-stash
             {sketchMasterAnnotationAuditLog
               .slice(-15)
               .reverse()
               .map((e) => (
                 <li
                   key={e.entryId}
+<<<<<<< HEAD
                   className="border-b border-slate-100 pb-1 font-mono text-[9px] leading-snug"
                 >
                   <span className="text-slate-400">
+=======
+                  className="border-border-subtle border-b pb-1 font-mono text-[9px] leading-snug"
+                >
+                  <span className="text-text-muted">
+>>>>>>> recover/cabinet-wip-from-stash
                     {(() => {
                       try {
                         return new Date(e.at).toLocaleString('ru-RU');
@@ -3892,9 +4517,15 @@ export function CategorySketchAnnotator(props: Props) {
                   </span>{' '}
                   · {e.by} · {e.summary}
                   {e.annotationId && !e.annotationId.startsWith('__') ? (
+<<<<<<< HEAD
                     <span className="text-slate-400"> · {e.annotationId.slice(0, 8)}…</span>
                   ) : e.action === 'revision_snapshot' ? (
                     <span className="text-slate-400"> · PLM</span>
+=======
+                    <span className="text-text-muted"> · {e.annotationId.slice(0, 8)}…</span>
+                  ) : e.action === 'revision_snapshot' ? (
+                    <span className="text-text-muted"> · PLM</span>
+>>>>>>> recover/cabinet-wip-from-stash
                   ) : null}
                 </li>
               ))}
@@ -3902,7 +4533,7 @@ export function CategorySketchAnnotator(props: Props) {
         </details>
       ) : null}
 
-      <p className="text-[10px] leading-snug text-slate-500">
+      <p className="text-text-secondary text-xs leading-snug">
         Слой для посадки, ОТК и задач цеха; при смене категории — только метки текущего листа.
       </p>
     </div>
@@ -3914,14 +4545,18 @@ export function CategorySketchAnnotator(props: Props) {
         <div className="min-w-0 flex-1 space-y-1">
           {showPassportSectionHeader ? (
             <>
-              <p className="text-sm font-semibold text-slate-900">Скетч по категории</p>
-              <p className="text-[11px] leading-snug text-slate-600">
+              <p className="text-text-primary text-sm font-semibold">Скетч по категории</p>
+              <p className="text-text-secondary text-sm leading-snug">
                 Редактор в модальном окне; силуэт и метки по ветке L1–L3.
               </p>
             </>
           ) : null}
           <p
+<<<<<<< HEAD
             className="truncate text-[11px] font-medium text-slate-700"
+=======
+            className="text-text-primary truncate text-sm font-medium"
+>>>>>>> recover/cabinet-wip-from-stash
             title={sketchCatalogCaption}
           >
             {sketchCatalogCaption}
@@ -3937,10 +4572,14 @@ export function CategorySketchAnnotator(props: Props) {
             tabIndex={-1}
             onChange={(e) => void onPickImage(e)}
           />
+<<<<<<< HEAD
           <span className="rounded-full bg-white/80 px-2 py-1 text-[10px] font-bold tabular-nums text-slate-600 shadow-sm">
+=======
+          <span className="text-text-secondary rounded-full bg-white/80 px-2 py-1 text-xs font-bold tabular-nums shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             {counters.total} / {annotationLimit} меток
           </span>
-          <span className="rounded-full bg-rose-50 px-2 py-1 text-[10px] font-bold text-rose-700">
+          <span className="rounded-full bg-rose-50 px-2 py-1 text-xs font-bold text-rose-700">
             {counters.critical} критично
           </span>
           <Button
@@ -3954,7 +4593,7 @@ export function CategorySketchAnnotator(props: Props) {
             }
             onClick={() => previewSketchFileInputRef.current?.click()}
           >
-            <Upload className="h-3.5 w-3.5 shrink-0" aria-hidden />
+            <Upload className="size-3.5 shrink-0" aria-hidden />
             Загрузить скетч
           </Button>
           <Button
@@ -3963,7 +4602,7 @@ export function CategorySketchAnnotator(props: Props) {
             className="h-9 min-w-[9.5rem] flex-1 gap-1.5 text-xs sm:flex-initial"
             onClick={() => setEditorOpen(true)}
           >
-            <Expand className="h-3.5 w-3.5 shrink-0" aria-hidden />
+            <Expand className="size-3.5 shrink-0" aria-hidden />
             Открыть скетч
           </Button>
         </div>
@@ -3979,8 +4618,9 @@ export function CategorySketchAnnotator(props: Props) {
             setEditorOpen(true);
           }
         }}
-        className="group block w-full cursor-pointer overflow-hidden rounded-lg border border-slate-200 bg-white text-left shadow-sm transition hover:border-teal-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2"
+        className="border-border-default group block w-full cursor-pointer overflow-hidden rounded-lg border bg-white text-left shadow-sm transition hover:border-teal-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2"
       >
+<<<<<<< HEAD
         <div className="relative aspect-[4/3] min-h-[14rem] w-full overflow-hidden bg-white sm:min-h-[min(56vh,32rem)]">
           {imageDataUrl ? (
             // eslint-disable-next-line @next/next/no-img-element -- data URL из досье
@@ -3989,11 +4629,21 @@ export function CategorySketchAnnotator(props: Props) {
               alt="Подложка скетча"
               className="h-full w-full object-contain"
             />
+=======
+        <div className="relative aspect-[4/3] min-h-56 w-full overflow-hidden bg-white sm:min-h-[min(56vh,32rem)]">
+          {imageDataUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element -- data URL из досье
+            <img src={imageDataUrl} alt="Подложка скетча" className="size-full object-contain" />
+>>>>>>> recover/cabinet-wip-from-stash
           ) : (
             <CategorySketchTemplateSvg
               leaf={currentLeaf}
               sketchContext={sketchContext}
+<<<<<<< HEAD
               className="h-full w-full"
+=======
+              className="size-full"
+>>>>>>> recover/cabinet-wip-from-stash
             />
           )}
           {dataAnnotations
@@ -4006,12 +4656,12 @@ export function CategorySketchAnnotator(props: Props) {
                   <button
                     type="button"
                     className={cn(
-                      'pointer-events-auto absolute z-[15] flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 bg-zinc-50 font-mono text-[11px] font-bold tabular-nums text-zinc-900 shadow-sm transition-transform hover:scale-105',
+                      'bg-bg-surface2 text-text-primary pointer-events-auto absolute z-[15] flex size-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 font-mono text-sm font-bold tabular-nums shadow-sm transition-transform hover:scale-105',
                       a.priority === 'critical'
                         ? 'border-rose-600'
                         : a.stage === 'qc'
                           ? 'border-amber-500'
-                          : 'border-zinc-400'
+                          : 'border-border-default'
                     )}
                     style={{ left: `${a.xPct}%`, top: `${a.yPct}%` }}
                     onClick={(e) => {
@@ -4027,7 +4677,7 @@ export function CategorySketchAnnotator(props: Props) {
                 <TooltipContent
                   side="top"
                   sideOffset={6}
-                  className="border-slate-200 bg-white p-3 text-popover-foreground shadow-lg"
+                  className="border-border-default bg-white p-3 text-popover-foreground shadow-lg"
                 >
                   <CategorySketchPinHoverCard
                     annotation={a}
@@ -4038,14 +4688,24 @@ export function CategorySketchAnnotator(props: Props) {
                 </TooltipContent>
               </Tooltip>
             ))}
+<<<<<<< HEAD
           <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-center justify-between bg-gradient-to-t from-slate-900/70 to-transparent px-3 py-2 text-white">
             <span
               className="truncate text-[10px] font-bold uppercase tracking-widest"
+=======
+          <div className="from-text-primary/70 pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-center justify-between bg-gradient-to-t to-transparent px-3 py-2 text-white">
+            <span
+              className="truncate text-xs font-bold uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
               title={sketchCatalogCaption}
             >
               {sketchCatalogCaption}
             </span>
+<<<<<<< HEAD
             <span className="shrink-0 text-[10px] opacity-90 group-hover:underline">
+=======
+            <span className="shrink-0 text-xs opacity-90 group-hover:underline">
+>>>>>>> recover/cabinet-wip-from-stash
               Открыть редактор
             </span>
           </div>
@@ -4060,7 +4720,7 @@ export function CategorySketchAnnotator(props: Props) {
         }}
       >
         <DialogContent className="overflow-hidden p-0 sm:max-w-6xl" ariaTitle="Скетч по категории">
-          <div className="border-b border-slate-100 bg-white px-6 py-4">
+          <div className="border-border-subtle border-b bg-white px-6 py-4">
             <DialogHeader>
               <DialogTitle>Скетч по категории</DialogTitle>
               <DialogDescription>
@@ -4068,7 +4728,7 @@ export function CategorySketchAnnotator(props: Props) {
               </DialogDescription>
             </DialogHeader>
           </div>
-          <div className="max-h-[85vh] overflow-y-auto bg-slate-50/40 p-6">{editorBody}</div>
+          <div className="bg-bg-surface2/40 max-h-[85vh] overflow-y-auto p-6">{editorBody}</div>
         </DialogContent>
       </Dialog>
     </div>

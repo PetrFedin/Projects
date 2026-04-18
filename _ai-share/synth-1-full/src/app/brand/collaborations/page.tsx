@@ -7,10 +7,13 @@ import { brands } from '@/lib/placeholder-data';
 import CollaborationInsights from '@/components/brand/collaboration-insights';
 import CollaborationProjects from '@/components/brand/collaboration-projects';
 import { Skeleton } from '@/components/ui/skeleton';
-import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Users, Store, Package } from 'lucide-react';
+import { fetchWithHttpDeadline } from '@/lib/http/http-fetch-deadline';
+import { ROUTES } from '@/lib/routes';
+import { B2B_ORDERS_REGISTRY_LABEL } from '@/lib/ui/b2b-registry-label';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 export default function CollaborationsPage() {
   const synthaBrand =
@@ -22,7 +25,11 @@ export default function CollaborationsPage() {
   useEffect(() => {
     async function fetchProducts() {
       try {
+<<<<<<< HEAD
         const response = await fetch('/data/products.json');
+=======
+        const response = await fetchWithHttpDeadline('/data/products.json');
+>>>>>>> recover/cabinet-wip-from-stash
         const products: Product[] = await response.json();
         setAllProducts(products);
       } catch (error) {
@@ -36,6 +43,7 @@ export default function CollaborationsPage() {
 
   if (isLoading) {
     return (
+<<<<<<< HEAD
       <div className="space-y-4 duration-500 animate-in fade-in">
         <header>
           <Skeleton className="h-10 w-1/3" />
@@ -51,12 +59,34 @@ export default function CollaborationsPage() {
           </div>
         </div>
       </div>
+=======
+      <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+        <RegistryPageHeader
+          title="Коллаборации"
+          leadPlain="Партнёрства с брендами, совместные коллекции и AI-аналитика синергии."
+        />
+        <div className="space-y-4 duration-500 animate-in fade-in">
+          <Skeleton className="h-10 w-1/3" />
+          <Skeleton className="h-5 w-2/3" />
+          <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+            <div className="space-y-4 lg:col-span-2">
+              <Skeleton className="h-48 w-full rounded-xl" />
+              <Skeleton className="h-64 w-full rounded-xl" />
+            </div>
+            <div className="lg:col-span-1">
+              <Skeleton className="h-64 w-full rounded-xl" />
+            </div>
+          </div>
+        </div>
+      </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
     );
   }
 
   if (!brand) return <div className="p-4 text-center">Бренд не найден.</div>;
 
   return (
+<<<<<<< HEAD
     <div className="space-y-4 pb-20">
       <SectionInfoCard
         title="Коллаборации"
@@ -66,12 +96,22 @@ export default function CollaborationsPage() {
         iconColor="text-amber-600"
         badges={
           <>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+      <RegistryPageHeader
+        title="Коллаборации"
+        leadPlain="Находите партнёров и создавайте уникальные проекты с помощью AI-аналитики. Связь с Retailers и B2B заказами."
+        actions={
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <Users className="size-6 shrink-0 text-muted-foreground" aria-hidden />
+>>>>>>> recover/cabinet-wip-from-stash
             <Badge variant="outline" className="text-[9px]">
               Retailers
             </Badge>
             <Badge variant="outline" className="text-[9px]">
               B2B
             </Badge>
+<<<<<<< HEAD
             <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
               <Link href="/brand/retailers">
                 <Store className="mr-1 h-3 w-3" /> Retailers
@@ -91,6 +131,21 @@ export default function CollaborationsPage() {
           Находите партнеров и создавайте уникальные проекты с помощью AI-аналитики.
         </p>
       </header>
+=======
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.retailers}>
+                <Store className="mr-1 size-3" /> Retailers
+              </Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.b2bOrders}>
+                <Package className="mr-1 size-3" /> {B2B_ORDERS_REGISTRY_LABEL}
+              </Link>
+            </Button>
+          </div>
+        }
+      />
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
         <div className="space-y-4 lg:col-span-2">
           <CollaborationInsights brand={brand} allProducts={allProducts} />
@@ -99,6 +154,10 @@ export default function CollaborationsPage() {
           <CollaborationProjects brandId={brand.id} />
         </div>
       </div>
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

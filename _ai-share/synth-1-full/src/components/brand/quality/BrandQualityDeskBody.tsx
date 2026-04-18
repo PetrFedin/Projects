@@ -26,6 +26,10 @@ import {
 import { cn } from '@/lib/utils';
 import { IpGuardAi } from '@/components/brand/ip-guard-ai';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
+<<<<<<< HEAD
+=======
+import { ROUTES } from '@/lib/routes';
+>>>>>>> recover/cabinet-wip-from-stash
 
 const brandQualityMetrics = [
   {
@@ -80,8 +84,13 @@ const brandQualityMetrics = [
     id: 'quality',
     name: 'Качество',
     icon: <Check className="h-5 w-5" />,
+<<<<<<< HEAD
     color: 'text-indigo-500',
     bg: 'bg-indigo-500/10',
+=======
+    color: 'text-accent-primary',
+    bg: 'bg-accent-primary/10',
+>>>>>>> recover/cabinet-wip-from-stash
     score: 97,
     status: 'active',
     description: 'Ручная работа & Контроль',
@@ -110,8 +119,13 @@ const brandQualityMetrics = [
     id: 'service',
     name: 'Сервис',
     icon: <MessageSquare className="h-5 w-5" />,
+<<<<<<< HEAD
     color: 'text-pink-500',
     bg: 'bg-pink-500/10',
+=======
+    color: 'text-accent-primary',
+    bg: 'bg-accent-primary/10',
+>>>>>>> recover/cabinet-wip-from-stash
     score: 94,
     status: 'active',
     description: 'Персональный консьерж',
@@ -125,8 +139,13 @@ const brandQualityMetrics = [
     id: 'trend',
     name: 'Тренды',
     icon: <Sparkles className="h-5 w-5" />,
+<<<<<<< HEAD
     color: 'text-purple-500',
     bg: 'bg-purple-500/10',
+=======
+    color: 'text-accent-primary',
+    bg: 'bg-accent-primary/10',
+>>>>>>> recover/cabinet-wip-from-stash
     score: 75,
     status: 'potential',
     description: 'Задает вектор моды',
@@ -203,6 +222,7 @@ export function BrandQualityDeskBody() {
               QC
             </Badge>
             <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
+<<<<<<< HEAD
               <Link href="/brand/products">Products</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
@@ -210,6 +230,15 @@ export function BrandQualityDeskBody() {
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href="/brand/reviews">Отзывы</Link>
+=======
+              <Link href={ROUTES.brand.products}>Products</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.production}>Production</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.reviews}>Отзывы</Link>
+>>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -244,7 +273,11 @@ export function BrandQualityDeskBody() {
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-12">
         {/* Left: Metrics List */}
         <div className="space-y-3 lg:col-span-5">
+<<<<<<< HEAD
           <p className="ml-1 text-[11px] font-black uppercase tracking-widest text-slate-500">
+=======
+          <p className="text-text-secondary ml-1 text-[11px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             Текущие показатели
           </p>
           {brandQualityMetrics.map((metric) => (
@@ -280,7 +313,11 @@ export function BrandQualityDeskBody() {
                       'mt-1 h-4 text-[8px] font-black',
                       metric.status === 'active'
                         ? 'border-green-500/20 bg-green-50 text-green-600'
+<<<<<<< HEAD
                         : 'border-slate-300 text-slate-400'
+=======
+                        : 'border-border-default text-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     {metric.status === 'active' ? 'АКТИВЕН' : 'В ПРОЦЕССЕ'}
@@ -332,16 +369,27 @@ export function BrandQualityDeskBody() {
             </CardHeader>
             <CardContent className="space-y-4 p-4">
               <div className="space-y-4">
+<<<<<<< HEAD
                 <h4 className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-slate-500">
                   <Info className="h-3 w-3" /> Обоснование статуса
                 </h4>
                 <p className="rounded-2xl bg-muted/20 p-4 text-sm font-bold leading-relaxed text-slate-700">
+=======
+                <h4 className="text-text-secondary flex items-center gap-2 text-[11px] font-black uppercase tracking-widest">
+                  <Info className="h-3 w-3" /> Обоснование статуса
+                </h4>
+                <p className="text-text-primary rounded-2xl bg-muted/20 p-4 text-sm font-bold leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                   {selectedMetric.details}
                 </p>
               </div>
 
               <div className="space-y-4">
+<<<<<<< HEAD
                 <h4 className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-slate-500">
+=======
+                <h4 className="text-text-secondary flex items-center gap-2 text-[11px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   <TrendingUp className="h-3 w-3" /> Пороги достижений
                 </h4>
                 <div className="space-y-6">
@@ -384,7 +432,11 @@ export function BrandQualityDeskBody() {
               </div>
 
               <div className="grid grid-cols-2 gap-3 pt-4">
+<<<<<<< HEAD
                 <Card className="rounded-3xl border-none bg-slate-900 p-4 text-white">
+=======
+                <Card className="bg-text-primary rounded-3xl border-none p-4 text-white">
+>>>>>>> recover/cabinet-wip-from-stash
                   <div className="mb-2 flex items-center gap-2">
                     <AlertCircle className="h-3 w-3 text-yellow-400" />
                     <p className="text-[9px] font-black uppercase text-white/40">Как повысить?</p>
@@ -396,9 +448,15 @@ export function BrandQualityDeskBody() {
                 <Card className="rounded-3xl border-accent/10 bg-accent/5 p-4">
                   <div className="mb-2 flex items-center gap-2">
                     <BarChart2 className="h-3 w-3 text-accent" />
+<<<<<<< HEAD
                     <p className="text-[9px] font-black uppercase text-slate-400">Динамика</p>
                   </div>
                   <p className="text-[10px] font-bold leading-relaxed text-slate-700">
+=======
+                    <p className="text-text-muted text-[9px] font-black uppercase">Динамика</p>
+                  </div>
+                  <p className="text-text-primary text-[10px] font-bold leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                     +5% за последний месяц благодаря оптимизации логистики.
                   </p>
                 </Card>
@@ -408,7 +466,11 @@ export function BrandQualityDeskBody() {
         </div>
       </div>
 
+<<<<<<< HEAD
       <Card className="relative overflow-hidden rounded-xl border-accent/10 bg-gradient-to-r from-slate-900 to-slate-800 p-4 text-white">
+=======
+      <Card className="from-text-primary to-text-primary relative overflow-hidden rounded-xl border-accent/10 bg-gradient-to-r p-4 text-white">
+>>>>>>> recover/cabinet-wip-from-stash
         <div className="relative z-10 flex flex-col items-center justify-between gap-3 md:flex-row">
           <div className="max-w-xl space-y-4">
             <Badge className="border-none bg-accent px-3 text-[10px] font-black text-white">
@@ -422,7 +484,11 @@ export function BrandQualityDeskBody() {
               рекомендаций и приоритетную поддержку 24/7. Подайте заявку на аудит сегодня.
             </p>
           </div>
+<<<<<<< HEAD
           <Button className="h-10 shrink-0 rounded-2xl bg-white px-8 text-xs font-black uppercase tracking-widest text-black transition-all hover:bg-slate-100">
+=======
+          <Button className="hover:bg-bg-surface2 h-10 shrink-0 rounded-2xl bg-white px-8 text-xs font-black uppercase tracking-widest text-black transition-all">
+>>>>>>> recover/cabinet-wip-from-stash
             Подать заявку на аудит
           </Button>
         </div>

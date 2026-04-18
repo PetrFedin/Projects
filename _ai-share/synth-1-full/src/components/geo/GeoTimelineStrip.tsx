@@ -38,13 +38,17 @@ export function GeoTimelineStrip(props: Props) {
           <Button
             variant="outline"
             size="icon"
-            className="h-7 w-7 border-slate-600"
+            className="border-text-secondary h-7 w-7"
             onClick={onTogglePlay}
             aria-label={isPlaying ? 'Pause' : 'Play'}
           >
             {isPlaying ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" />}
           </Button>
+<<<<<<< HEAD
           <span className="text-slate-300">{current?.label ?? '—'}</span>
+=======
+          <span className="text-text-muted">{current?.label ?? '—'}</span>
+>>>>>>> recover/cabinet-wip-from-stash
         </div>
 
         <div className="flex items-center gap-1">
@@ -55,7 +59,11 @@ export function GeoTimelineStrip(props: Props) {
               className={`rounded-full border px-2 py-1 text-[11px] ${
                 period === p.id
                   ? 'border-cyan-400 bg-cyan-500/10 text-cyan-200'
+<<<<<<< HEAD
                   : 'border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700'
+=======
+                  : 'border-text-primary/25 bg-text-primary/90 text-text-muted hover:bg-text-primary/80'
+>>>>>>> recover/cabinet-wip-from-stash
               }`}
             >
               {p.label}
@@ -64,7 +72,7 @@ export function GeoTimelineStrip(props: Props) {
         </div>
       </div>
 
-      <div className="flex items-center gap-3 text-xs text-slate-300">
+      <div className="text-text-muted flex items-center gap-3 text-xs">
         <span>Таймлайн</span>
         <input
           type="range"

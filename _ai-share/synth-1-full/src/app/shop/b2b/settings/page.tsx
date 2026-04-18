@@ -81,6 +81,7 @@ import {
 } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { BrandSyncConfirmation } from '@/components/shop/BrandSyncConfirmation';
+import { RegistryPageShell } from '@/components/design-system';
 
 const initialWarehouses = [
   {
@@ -101,7 +102,11 @@ const initialTeam = [
   {
     id: 'user1',
     name: 'Елена Васильева',
+<<<<<<< HEAD
     email: 'elena.v@podium.ru',
+=======
+    email: 'elena.v@demo-retail.local',
+>>>>>>> recover/cabinet-wip-from-stash
     role: 'Администратор',
     limit: 'Безлимитно',
     permissions: ['approve_orders', 'manage_team', 'view_analytics', 'manage_contracts'],
@@ -109,7 +114,11 @@ const initialTeam = [
   {
     id: 'user2',
     name: 'Игорь Семенов',
+<<<<<<< HEAD
     email: 'igor.s@podium.ru',
+=======
+    email: 'igor.s@demo-retail.local',
+>>>>>>> recover/cabinet-wip-from-stash
     role: 'Байер',
     limit: '500 000 ₽',
     permissions: [],
@@ -117,7 +126,11 @@ const initialTeam = [
   {
     id: 'user3',
     name: 'Мария Лебедева',
+<<<<<<< HEAD
     email: 'maria.l@podium.ru',
+=======
+    email: 'maria.l@demo-retail.local',
+>>>>>>> recover/cabinet-wip-from-stash
     role: 'Ассистент',
     limit: '50 000 ₽',
     permissions: [],
@@ -125,6 +138,7 @@ const initialTeam = [
 ];
 
 const initialShopProfile: Partial<Brand> = {
+<<<<<<< HEAD
   name: 'Podium',
   nameRU: 'Подиум',
   primaryLanguage: 'ru',
@@ -147,6 +161,30 @@ const initialShopProfile: Partial<Brand> = {
   },
   legal: {
     entityName: `ООО "Подиум"`,
+=======
+  name: 'Демо-магазин · Москва 1',
+  nameRU: 'Демо MSK 1',
+  primaryLanguage: 'ru',
+  description: 'Демонстрационный ритейлер премиальной одежды (мок-данные).',
+  logo: {
+    url: 'https://picsum.photos/seed/demo-retail-msk1/100/100',
+    alt: 'Демо-магазин',
+    hint: 'retail logo',
+  },
+  website: 'https://example.com/demo-retail-msk1',
+  segment: 'Luxury',
+  priceRange: [15000, 150000],
+  socials: {
+    instagram: 'https://instagram.com/example',
+    telegram: 'https://t.me/example',
+  },
+  contact: {
+    publicEmail: 'hello@demo-retail.local',
+    phone: '+7 495 123-45-67',
+  },
+  legal: {
+    entityName: `ООО "Демо Ритейл МСК 1"`,
+>>>>>>> recover/cabinet-wip-from-stash
     regNumber: '1234567890',
     address: '123456, Москва, ул. Петровка, д. 2',
     bankDetails:
@@ -173,8 +211,13 @@ interface SeasonNumbering {
 }
 
 const initialSeasonNumbering: SeasonNumbering[] = [
+<<<<<<< HEAD
   { id: 's1', season: 'FW24', prefix: 'FW24-PODIUM-', startNumber: 13 },
   { id: 's2', season: 'SS25', prefix: 'SS25-PODIUM-', startNumber: 1 },
+=======
+  { id: 's1', season: 'FW24', prefix: 'FW24-DEMO-', startNumber: 13 },
+  { id: 's2', season: 'SS25', prefix: 'SS25-DEMO-', startNumber: 1 },
+>>>>>>> recover/cabinet-wip-from-stash
 ];
 
 export default function B2BSettingsPage() {
@@ -233,7 +276,11 @@ export default function B2BSettingsPage() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="space-y-4">
+=======
+    <RegistryPageShell className="space-y-4">
+>>>>>>> recover/cabinet-wip-from-stash
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -288,6 +335,7 @@ export default function B2BSettingsPage() {
 
       <BrandSyncConfirmation
         currentShopId="shop1"
+<<<<<<< HEAD
         currentShopName={shopProfile.name || 'Podium'}
         directMatches={[
           {
@@ -297,17 +345,37 @@ export default function B2BSettingsPage() {
             storeEntryId: 'os-syntha-podium',
             storeNameInBrand: 'Podium',
             storeProductUrl: 'https://podium.ru',
+=======
+        currentShopName={shopProfile.name || 'Демо-магазин · Москва 1'}
+        directMatches={[
+          {
+            brandId: 'brand_syntha_lab',
+            brandName: 'Syntha Lab',
+            brandLogo: 'https://picsum.photos/seed/syntha-lab/40/40',
+            storeEntryId: 'os-syntha-demo-msk1',
+            storeNameInBrand: 'Демо-магазин · Москва 1',
+            storeProductUrl: 'https://example.com/demo-retail-msk1',
+>>>>>>> recover/cabinet-wip-from-stash
             matchType: 'direct',
           },
         ]}
         possibleMatches={[
           {
+<<<<<<< HEAD
             brandId: 'syntha',
             brandName: 'Syntha',
             brandLogo: 'https://picsum.photos/seed/syntha/40/40',
             storeEntryId: 'os-syntha-podium-alt',
             storeNameInBrand: 'Подиум (сайт)',
             storeProductUrl: 'https://podium.ru/brand/syntha',
+=======
+            brandId: 'brand_syntha_lab',
+            brandName: 'Syntha Lab',
+            brandLogo: 'https://picsum.photos/seed/syntha-lab/40/40',
+            storeEntryId: 'os-syntha-demo-msk1-alt',
+            storeNameInBrand: 'Демо (витрина)',
+            storeProductUrl: 'https://example.com/demo-retail-msk1/syntha-lab',
+>>>>>>> recover/cabinet-wip-from-stash
             matchType: 'possible',
           },
         ]}
@@ -803,6 +871,10 @@ export default function B2BSettingsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

@@ -25,7 +25,11 @@ export default function AllergyPage() {
         <h1 className="flex items-center gap-2 text-xl font-black uppercase tracking-tight">
           <AlertTriangle className="h-6 w-6 text-amber-600" /> Allergy & Material Alerts
         </h1>
+<<<<<<< HEAD
         <p className="mt-1 text-sm text-slate-500">
+=======
+        <p className="text-text-secondary mt-1 text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
           Персональные фильтры по составу ткани. Отметки на товарах.
         </p>
       </header>
@@ -58,7 +62,7 @@ export default function AllergyPage() {
         </CardContent>
       </Card>
 
-      <Card className="rounded-xl border border-slate-200 shadow-sm">
+      <Card className="border-border-default rounded-xl border shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-sm">
             <Tag className="h-4 w-4" /> Пример товаров
@@ -70,11 +74,15 @@ export default function AllergyPage() {
             {MOCK_PRODUCTS.map((p) => (
               <li
                 key={p.id}
+<<<<<<< HEAD
                 className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-3"
+=======
+                className="bg-bg-surface2 border-border-default flex items-center justify-between rounded-xl border p-3"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <div>
                   <p className="font-medium">{p.name}</p>
-                  <p className="text-[11px] text-slate-500">{p.composition}</p>
+                  <p className="text-text-secondary text-[11px]">{p.composition}</p>
                 </div>
                 {p.safe ? (
                   <Badge className="bg-emerald-100 text-emerald-800">Безопасно</Badge>

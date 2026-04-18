@@ -81,10 +81,17 @@ export function BuyLookDialog(props: BuyLookDialogProps) {
         {!isContactStepOpen ? (
           <>
             <DialogHeader>
+<<<<<<< HEAD
               <DialogTitle className="text-base font-black uppercase tracking-widest text-slate-900">
                 Собрать образ
               </DialogTitle>
               <DialogDescription className="mt-2 text-[10px] font-bold uppercase tracking-widest text-slate-600">
+=======
+              <DialogTitle className="text-text-primary text-base font-black uppercase tracking-widest">
+                Собрать образ
+              </DialogTitle>
+              <DialogDescription className="text-text-secondary mt-2 text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 {isAnyPreOrderInSelection
                   ? 'Выберите параметры для обсуждения деталей предзаказа'
                   : 'Выберите размеры для всех предметов'}
@@ -118,17 +125,28 @@ export function BuyLookDialog(props: BuyLookDialogProps) {
         ) : (
           <>
             <DialogHeader>
+<<<<<<< HEAD
               <DialogTitle className="text-base font-black uppercase tracking-widest text-slate-900">
                 Детали связи
               </DialogTitle>
               <DialogDescription className="mt-2 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+=======
+              <DialogTitle className="text-text-primary text-base font-black uppercase tracking-widest">
+                Детали связи
+              </DialogTitle>
+              <DialogDescription className="text-text-secondary mt-2 text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Менеджер бренда свяжется с вами для уточнения деталей заказа
               </DialogDescription>
             </DialogHeader>
 
             <div className="my-8 space-y-6">
               <div className="space-y-3">
+<<<<<<< HEAD
                 <Label className="text-[10px] font-black uppercase text-slate-500">
+=======
+                <Label className="text-text-secondary text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                   Способ связи
                 </Label>
                 <div className="grid grid-cols-3 gap-2">
@@ -148,7 +166,11 @@ export function BuyLookDialog(props: BuyLookDialogProps) {
               </div>
 
               <div className="space-y-3">
+<<<<<<< HEAD
                 <Label className="text-[10px] font-black uppercase text-slate-500">
+=======
+                <Label className="text-text-secondary text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                   Удобное время
                 </Label>
                 <div className="grid grid-cols-2 gap-2">

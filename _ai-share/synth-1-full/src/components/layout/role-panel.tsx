@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -29,10 +29,15 @@ import { useAuth } from '@/providers/auth-provider';
 import { useToast } from '@/hooks/use-toast';
 import { useUIState } from '@/providers/ui-state';
 import { useIdentitySwitch } from '@/hooks/use-identity-switch';
+import { ROUTES } from '@/lib/routes';
 
 const roles = [
   {
+<<<<<<< HEAD
     href: '/admin',
+=======
+    href: ROUTES.admin.home,
+>>>>>>> recover/cabinet-wip-from-stash
     icon: Shield,
     label: 'Администратор',
     email: 'admin@syntha.ai',
@@ -40,7 +45,11 @@ const roles = [
     orgId: 'org-hq-001',
   },
   {
+<<<<<<< HEAD
     href: '/brand',
+=======
+    href: ROUTES.brand.home,
+>>>>>>> recover/cabinet-wip-from-stash
     icon: Store,
     label: 'Бренд',
     email: 'brand@syntha.ai',
@@ -48,7 +57,11 @@ const roles = [
     orgId: 'org-brand-001',
   },
   {
+<<<<<<< HEAD
     href: '/shop',
+=======
+    href: ROUTES.shop.home,
+>>>>>>> recover/cabinet-wip-from-stash
     icon: ShoppingCart,
     label: 'Магазин',
     email: 'shop@syntha.ai',
@@ -56,7 +69,11 @@ const roles = [
     orgId: 'org-shop-001',
   },
   {
+<<<<<<< HEAD
     href: '/distributor',
+=======
+    href: ROUTES.distributor.home,
+>>>>>>> recover/cabinet-wip-from-stash
     icon: Briefcase,
     label: 'Дистрибьютор',
     email: 'dist@syntha.ai',
@@ -64,7 +81,11 @@ const roles = [
     orgId: 'org-dist-001',
   },
   {
+<<<<<<< HEAD
     href: '/factory?role=manufacturer',
+=======
+    href: ROUTES.factory.production,
+>>>>>>> recover/cabinet-wip-from-stash
     icon: Factory,
     label: 'Производство',
     roleKey: 'manufacturer',
@@ -72,7 +93,11 @@ const roles = [
     orgId: 'org-factory-001',
   },
   {
+<<<<<<< HEAD
     href: '/factory?role=supplier',
+=======
+    href: ROUTES.factory.supplier,
+>>>>>>> recover/cabinet-wip-from-stash
     icon: Warehouse,
     label: 'Поставщик',
     roleKey: 'supplier',
@@ -80,7 +105,11 @@ const roles = [
     orgId: 'org-supplier-001',
   },
   {
+<<<<<<< HEAD
     href: '/client',
+=======
+    href: ROUTES.client.home,
+>>>>>>> recover/cabinet-wip-from-stash
     icon: User,
     label: 'Клиент',
     email: 'elena.petrova@example.com',
@@ -98,9 +127,13 @@ export default function RolePanel() {
 
 function RolePanelContent() {
   const pathname = usePathname();
+<<<<<<< HEAD
   const searchParams = useSearchParams();
   const router = useRouter();
   const currentRole = searchParams.get('role');
+=======
+  const router = useRouter();
+>>>>>>> recover/cabinet-wip-from-stash
   const { user } = useAuth();
   const { handleIdentitySwitch } = useIdentitySwitch();
   const [loadingRole, setLoadingRole] = useState<string | null>(null);
@@ -150,9 +183,17 @@ function RolePanelContent() {
         <div className="flex flex-col gap-2 rounded-2xl border bg-card p-2 shadow-2xl backdrop-blur-xl">
           {roles.map((role) => {
             const isActive =
+<<<<<<< HEAD
               role.roleKey === 'manufacturer' || role.roleKey === 'supplier'
                 ? pathname.startsWith('/factory') && currentRole === role.roleKey
                 : pathname === role.href || (pathname.startsWith(role.href) && role.href !== '/');
+=======
+              role.roleKey === 'manufacturer'
+                ? pathname.startsWith(ROUTES.factory.production)
+                : role.roleKey === 'supplier'
+                  ? pathname.startsWith(ROUTES.factory.supplier)
+                  : pathname === role.href || (pathname.startsWith(role.href) && role.href !== '/');
+>>>>>>> recover/cabinet-wip-from-stash
 
             const isLoading = loadingRole === role.roleKey;
 
@@ -166,13 +207,22 @@ function RolePanelContent() {
                     className={cn(
                       'relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl transition-all duration-300',
                       isActive
+<<<<<<< HEAD
                         ? 'bg-slate-900 text-white shadow-lg'
                         : 'text-slate-400 hover:bg-slate-50 hover:text-slate-900',
+=======
+                        ? 'bg-text-primary text-white shadow-lg'
+                        : 'text-text-muted hover:bg-bg-surface2 hover:text-text-primary',
+>>>>>>> recover/cabinet-wip-from-stash
                       loadingRole && !isLoading && 'opacity-50 grayscale'
                     )}
                   >
                     {isLoading ? (
+<<<<<<< HEAD
                       <RefreshCcw className="h-4 w-4 animate-spin text-indigo-500" />
+=======
+                      <RefreshCcw className="text-accent-primary h-4 w-4 animate-spin" />
+>>>>>>> recover/cabinet-wip-from-stash
                     ) : (
                       <role.icon className="h-5 w-5" />
                     )}

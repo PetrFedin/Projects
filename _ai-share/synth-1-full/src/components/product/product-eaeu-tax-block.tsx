@@ -19,6 +19,7 @@ export function ProductEaeuTaxBlock({ product }: { product: Product }) {
   const taxes = calculateEaeuTaxes(1000000, selectedCountry);
 
   return (
+<<<<<<< HEAD
     <Card className="group relative my-4 overflow-hidden border-2 border-slate-100 bg-slate-50/10 p-4 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-slate-600">
@@ -28,6 +29,17 @@ export function ProductEaeuTaxBlock({ product }: { product: Product }) {
           </h4>
         </div>
         <div className="text-[8px] font-black uppercase tracking-widest text-slate-400">
+=======
+    <Card className="border-border-subtle bg-bg-surface2/10 group relative my-4 overflow-hidden border-2 p-4 shadow-sm">
+      <div className="mb-4 flex items-center justify-between">
+        <div className="text-text-secondary flex items-center gap-2">
+          <Globe className="h-4 w-4" />
+          <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+            EAEU Cross-Border B2B
+          </h4>
+        </div>
+        <div className="text-text-muted text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
           Duty-Free Hub
         </div>
       </div>
@@ -39,8 +51,13 @@ export function ProductEaeuTaxBlock({ product }: { product: Product }) {
             onClick={() => setSelectedCountry(c.code)}
             className={`rounded-xl border-2 px-3 py-1.5 text-[8px] font-black uppercase tracking-widest transition-all ${
               selectedCountry === c.code
+<<<<<<< HEAD
                 ? 'border-indigo-600 bg-indigo-50 text-indigo-700'
                 : 'border-slate-100 bg-white text-slate-400'
+=======
+                ? 'border-accent-primary bg-accent-primary/10 text-accent-primary'
+                : 'border-border-subtle text-text-muted bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
             }`}
           >
             {c.code}
@@ -48,12 +65,21 @@ export function ProductEaeuTaxBlock({ product }: { product: Product }) {
         ))}
       </div>
 
+<<<<<<< HEAD
       <div className="space-y-3 rounded-2xl border border-slate-100 bg-white p-3 shadow-sm">
         <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-slate-500">
           <span>VAT Rate (NDS)</span>
           <span className="text-slate-800">{Math.round(taxes.vatRate * 100)}%</span>
         </div>
         <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-slate-500">
+=======
+      <div className="border-border-subtle space-y-3 rounded-2xl border bg-white p-3 shadow-sm">
+        <div className="text-text-secondary flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
+          <span>VAT Rate (NDS)</span>
+          <span className="text-text-primary">{Math.round(taxes.vatRate * 100)}%</span>
+        </div>
+        <div className="text-text-secondary flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
           <span>Customs Duty</span>
           <Badge
             variant="outline"
@@ -62,10 +88,17 @@ export function ProductEaeuTaxBlock({ product }: { product: Product }) {
             0% DUTY-FREE
           </Badge>
         </div>
+<<<<<<< HEAD
         <div className="h-px bg-slate-50" />
         <div className="flex items-center justify-between text-[11px] font-black uppercase text-slate-900">
           <span>Est. Tax (Total)</span>
           <span className="text-indigo-600">
+=======
+        <div className="bg-bg-surface2 h-px" />
+        <div className="text-text-primary flex items-center justify-between text-[11px] font-black uppercase">
+          <span>Est. Tax (Total)</span>
+          <span className="text-accent-primary">
+>>>>>>> recover/cabinet-wip-from-stash
             {taxes.estimatedTotalTax.toLocaleString()} {taxes.currency}
           </span>
         </div>

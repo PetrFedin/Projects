@@ -3,16 +3,21 @@
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar, ArrowLeft, Truck } from 'lucide-react';
+import { Truck } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { joorGetDeliveryWindows } from '@/lib/b2b/integrations';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { RegistryPageShell } from '@/components/design-system';
+import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
+import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
 
 export default function B2BDeliveryCalendarPage() {
   const windows = joorGetDeliveryWindows();
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -30,6 +35,11 @@ export default function B2BDeliveryCalendarPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-4xl space-y-6">
+      <ShopB2bContentHeader lead="Окна доставки (drop dates) по коллекциям: Start Ship Date — Complete Ship Date (JOOR / NuOrder)." />
+      <ShopAnalyticsSegmentErpStrip />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -44,11 +54,15 @@ export default function B2BDeliveryCalendarPage() {
           {windows.map((w) => (
             <div
               key={w.id}
+<<<<<<< HEAD
               className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50/50 p-4"
+=======
+              className="border-border-subtle bg-bg-surface2/80 flex flex-wrap items-center justify-between gap-3 rounded-xl border p-4"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <div>
-                <p className="font-bold text-slate-900">{w.label}</p>
-                <p className="text-xs text-slate-500">
+                <p className="text-text-primary font-bold">{w.label}</p>
+                <p className="text-text-secondary text-xs">
                   Отгрузка: {w.startShipDate} — {w.completeShipDate}
                   {w.cancelDate && ` · Отмена до ${w.cancelDate}`}
                 </p>
@@ -68,12 +82,32 @@ export default function B2BDeliveryCalendarPage() {
         </CardContent>
       </Card>
 
+      <div className="border-border-subtle flex flex-wrap items-center gap-2 border-t pt-4">
+        <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+          См. также
+        </span>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link href={ROUTES.shop.analytics} data-testid="shop-b2b-delivery-calendar-retail-link">
+            Розничная аналитика
+          </Link>
+        </Button>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link
+            href={ROUTES.shop.analyticsFootfall}
+            data-testid="shop-b2b-delivery-calendar-footfall-link"
+          >
+            Трафик по зонам
+          </Link>
+        </Button>
+        <B2bMarginAnalysisHubButton />
+      </div>
+
       <RelatedModulesBlock
         title="Связанные разделы"
         links={getShopB2BHubLinks().filter((l) =>
           [ROUTES.shop.b2bCreateOrder, ROUTES.shop.b2bCollectionTerms].includes(l.href as string)
         )}
       />
-    </div>
+    </RegistryPageShell>
   );
 }

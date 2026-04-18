@@ -15,26 +15,38 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Copy, ArrowLeft, Plus, Trash2, Save } from 'lucide-react';
+import { Copy, Plus, Trash2, Save } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
 import { useToast } from '@/hooks/use-toast';
+import { RegistryPageShell } from '@/components/design-system';
 
 /** JOOR: шаблоны заказов по коллекциям — сохранённые наборы позиций для быстрого повторного заказа. */
 const MOCK_TEMPLATES = [
   {
     id: '1',
+<<<<<<< HEAD
     name: 'Syntha FW26 — базовая сетка',
     brand: 'Syntha',
+=======
+    name: 'Syntha Lab FW26 — базовая сетка',
+    brand: 'Syntha Lab',
+>>>>>>> recover/cabinet-wip-from-stash
     collection: 'Основная коллекция',
     itemsCount: 12,
     updatedAt: '2025-03-01',
   },
   {
     id: '2',
+<<<<<<< HEAD
     name: 'A.P.C. деним — повтор',
     brand: 'A.P.C.',
+=======
+    name: 'Nordic Wool деним — повтор',
+    brand: 'Nordic Wool',
+>>>>>>> recover/cabinet-wip-from-stash
     collection: 'Деним',
     itemsCount: 8,
     updatedAt: '2025-02-15',
@@ -65,6 +77,7 @@ export default function OrderTemplatesPage() {
   const showSaveFrom = saveFromOrderId && !saveFromDismissed;
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -81,9 +94,13 @@ export default function OrderTemplatesPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-3xl space-y-6">
+      <ShopB2bContentHeader lead="JOOR: сохраняйте наборы позиций по коллекции и повторяйте заказ в один клик." />
+>>>>>>> recover/cabinet-wip-from-stash
 
       {showSaveFrom && (
-        <Card className="mb-6 border-indigo-200 bg-indigo-50/30">
+        <Card className="border-accent-primary/30 bg-accent-primary/10 mb-6">
           <CardHeader>
             <CardTitle className="text-base">Сохранить заказ как шаблон</CardTitle>
             <CardDescription>
@@ -120,11 +137,19 @@ export default function OrderTemplatesPage() {
           {MOCK_TEMPLATES.map((t) => (
             <div
               key={t.id}
+<<<<<<< HEAD
               className="flex items-center justify-between rounded-xl border border-slate-200 p-4"
             >
               <div>
                 <p className="font-medium">{t.name}</p>
                 <p className="text-xs text-slate-500">
+=======
+              className="border-border-default flex items-center justify-between rounded-xl border p-4"
+            >
+              <div>
+                <p className="font-medium">{t.name}</p>
+                <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                   {t.brand} · {t.collection} · {t.itemsCount} позиций · обновлён {t.updatedAt}
                 </p>
               </div>
@@ -132,7 +157,11 @@ export default function OrderTemplatesPage() {
                 <Button size="sm" asChild>
                   <Link href={`${ROUTES.shop.b2bMatrix}?template=${t.id}`}>Применить</Link>
                 </Button>
+<<<<<<< HEAD
                 <Button size="sm" variant="ghost" className="text-slate-400">
+=======
+                <Button size="sm" variant="ghost" className="text-text-muted">
+>>>>>>> recover/cabinet-wip-from-stash
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </div>
@@ -145,7 +174,11 @@ export default function OrderTemplatesPage() {
         <Button variant="outline" size="sm">
           <Plus className="mr-2 h-4 w-4" /> Сохранить шаблон из заказа
         </Button>
+<<<<<<< HEAD
         <p className="mt-2 text-xs text-slate-500">
+=======
+        <p className="text-text-secondary mt-2 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
           В карточке заказа или в матрице: «Сохранить как шаблон».
         </p>
       </div>
@@ -159,6 +192,6 @@ export default function OrderTemplatesPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getShopB2BHubLinks()} title="Матрица, заказы, Reorder" />
-    </div>
+    </RegistryPageShell>
   );
 }

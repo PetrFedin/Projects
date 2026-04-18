@@ -1,5 +1,6 @@
 /**
  * Colect: коллекции как «проекты» — лукбук + права (кто видит, до какой даты), watermarked PDF, заказ из лукбука.
+ * Демо: только бренды Syntha Lab и Nordic Wool; партнёры — id из `partner-territory-map` (retail_msk_*).
  */
 
 export type LookbookVisibility = 'all' | 'invited';
@@ -31,12 +32,12 @@ const SEED: LookbookProject[] = [
   {
     id: 'lb-fw26-1',
     name: 'FW26 Lookbook',
-    brandId: 'syntha',
-    brandName: 'Syntha',
+    brandId: 'brand_syntha_lab',
+    brandName: 'Syntha Lab',
     lookbookUrl: '/lookbooks/fw26.pdf',
     watermarkedPdfUrl: '/lookbooks/fw26-watermarked.pdf',
     visibility: 'invited',
-    invitedPartnerIds: ['podium', 'tsum'],
+    invitedPartnerIds: ['retail_msk_1', 'retail_msk_2'],
     visibleUntil: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
     createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
     collectionId: 'fw26',
@@ -45,8 +46,8 @@ const SEED: LookbookProject[] = [
   {
     id: 'lb-ss26-1',
     name: 'SS26 Early Bird',
-    brandId: 'syntha',
-    brandName: 'Syntha',
+    brandId: 'brand_syntha_lab',
+    brandName: 'Syntha Lab',
     lookbookUrl: '/lookbooks/ss26.pdf',
     visibility: 'all',
     season: 'SS26',
@@ -55,17 +56,17 @@ const SEED: LookbookProject[] = [
     createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
   },
   {
-    id: 'lb-apc-fw26',
-    name: 'A.P.C. FW26',
-    brandId: 'apc',
-    brandName: 'A.P.C.',
-    lookbookUrl: '/lookbooks/apc-fw26.pdf',
-    watermarkedPdfUrl: '/lookbooks/apc-fw26-watermarked.pdf',
+    id: 'lb-nw-fw26',
+    name: 'Nordic Wool FW26',
+    brandId: 'brand_nordic_wool',
+    brandName: 'Nordic Wool',
+    lookbookUrl: '/lookbooks/nw-fw26.pdf',
+    watermarkedPdfUrl: '/lookbooks/nw-fw26-watermarked.pdf',
     visibility: 'invited',
-    invitedPartnerIds: ['podium'],
+    invitedPartnerIds: ['retail_msk_1'],
     visibleUntil: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000).toISOString(),
     createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-    collectionId: 'apc-fw26',
+    collectionId: 'nw-fw26',
     season: 'FW26',
   },
 ];

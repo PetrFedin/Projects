@@ -80,7 +80,10 @@ export default function WholesalePreorderPage() {
               </p>
               <p className="text-lg font-bold">{total.toLocaleString()} ₽</p>
             </div>
-            <Button onClick={handleSubmit} className="gap-2 bg-violet-600 hover:bg-violet-700">
+            <Button
+              onClick={handleSubmit}
+              className="bg-accent-primary hover:bg-accent-primary gap-2"
+            >
               <Send className="h-4 w-4" />
               Submit PO
             </Button>
@@ -125,8 +128,13 @@ export default function WholesalePreorderPage() {
                                 onClick={() => handleQtyChange(item.sku, s, item.wholesalePrice, 1)}
                                 className={`h-6 rounded border px-1.5 font-mono text-[10px] transition-colors ${
                                   inCart > 0
+<<<<<<< HEAD
                                     ? 'border-violet-300 bg-violet-100 font-bold text-violet-700'
                                     : 'hover:border-violet-300'
+=======
+                                    ? 'bg-accent-primary/15 border-accent-primary/30 text-accent-primary font-bold'
+                                    : 'hover:border-accent-primary/30'
+>>>>>>> recover/cabinet-wip-from-stash
                                 }`}
                               >
                                 {s} {inCart > 0 && `(${inCart})`}

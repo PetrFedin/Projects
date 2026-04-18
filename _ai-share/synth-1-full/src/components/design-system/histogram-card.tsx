@@ -38,7 +38,11 @@ export function HistogramCard({
       <div className={cn('h-[200px] min-h-[160px] w-full')}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData} margin={{ top: 8, right: 8, left: -12, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200" vertical={false} />
+            <CartesianGrid
+              strokeDasharray="3 3"
+              className="stroke-border-subtle"
+              vertical={false}
+            />
             <XAxis
               dataKey={xKey}
               tick={{ fontSize: 10, fill: 'var(--muted-foreground, #64748b)' }}

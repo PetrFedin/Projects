@@ -50,16 +50,22 @@ const PROGRESS_ITEMS: Array<{
   },
 ];
 
+<<<<<<< HEAD
 export function useProfileProgress(
   form: UseFormReturn<Record<string, unknown>>
 ): ProfileProgressResult {
+=======
+export function useProfileProgress<
+  TFieldValues extends Record<string, unknown> = Record<string, unknown>,
+>(form: UseFormReturn<TFieldValues>): ProfileProgressResult {
+>>>>>>> recover/cabinet-wip-from-stash
   const values = form.watch();
 
   return useMemo(() => {
     const items = PROGRESS_ITEMS.map(({ key, label, getDone }) => ({
       key,
       label,
-      done: getDone(values ?? {}),
+      done: getDone((values ?? {}) as Record<string, unknown>),
     }));
     const doneCount = items.filter((i) => i.done).length;
     const total = items.length;

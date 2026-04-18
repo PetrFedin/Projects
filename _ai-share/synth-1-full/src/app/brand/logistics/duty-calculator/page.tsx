@@ -40,7 +40,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import Link from 'next/link';
-import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 /**
  * Global Duty Engine UI
@@ -72,6 +73,7 @@ export default function GlobalDutyCalculatorPage() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-6 px-4 py-4 duration-700 animate-in fade-in">
       <SectionInfoCard
         title="Global Duty Engine"
@@ -125,16 +127,70 @@ export default function GlobalDutyCalculatorPage() {
           </Button>
         </div>
       </header>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16 duration-700 animate-in fade-in">
+      <RegistryPageHeader
+        eyebrow={
+          <div className="text-text-muted flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em]">
+            <Globe className="h-2.5 w-2.5" />
+            <span>Global Duty Engine (DDP)</span>
+          </div>
+        }
+        title="Duty Calculator"
+        leadPlain="Расчёт пошлин и налогов (DDP) для 200+ стран. HS-коды, инвойсы, CMR; связь с Production и Warehouse. Real-time international tax and duty estimation."
+        actions={
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <Globe className="size-6 shrink-0 text-muted-foreground" aria-hidden />
+            <Badge variant="outline" className="text-[9px]">
+              Production → PO
+            </Badge>
+            <Badge variant="outline" className="text-[9px]">
+              DDP / CIF
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.warehouse}>Warehouse</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.logisticsConsolidation}>Consolidation</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.logisticsShadowInventory}>Shadow Inventory</Link>
+            </Button>
+            <div className="bg-bg-surface2 border-border-default flex items-center gap-2 rounded-xl border p-1 shadow-inner">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-text-secondary border-border-default hover:text-accent-primary h-7 rounded-lg border bg-white px-3 text-[9px] font-bold uppercase tracking-widest shadow-sm transition-all"
+              >
+                <FileText className="mr-1.5 h-3 w-3" /> Docs
+              </Button>
+              <Button className="bg-text-primary hover:bg-text-primary/90 h-7 rounded-lg px-4 text-[9px] font-bold uppercase tracking-widest text-white shadow-lg transition-all">
+                <Package className="mr-1.5 h-3 w-3" /> Invoice
+              </Button>
+            </div>
+          </div>
+        }
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <div className="mt-2 grid gap-3 lg:grid-cols-12">
         {/* Input Form */}
         <div className="space-y-6 lg:col-span-7">
+<<<<<<< HEAD
           <Card className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm">
             <CardHeader className="border-b border-slate-50 bg-slate-50/30 p-4">
               <CardTitle className="text-base font-black uppercase tracking-tight">
                 Параметры отправки
               </CardTitle>
               <CardDescription className="text-[11px] font-medium text-slate-400">
+=======
+          <Card className="border-border-subtle overflow-hidden rounded-2xl border bg-white shadow-sm">
+            <CardHeader className="border-border-subtle bg-bg-surface2/30 border-b p-4">
+              <CardTitle className="text-base font-black uppercase tracking-tight">
+                Параметры отправки
+              </CardTitle>
+              <CardDescription className="text-text-muted text-[11px] font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                 Введите данные товара и страну назначения для расчета DDP.
               </CardDescription>
             </CardHeader>
@@ -142,21 +198,36 @@ export default function GlobalDutyCalculatorPage() {
               {/* Step 1: Destination */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between px-1">
+<<<<<<< HEAD
                   <h4 className="text-[9px] font-black uppercase tracking-widest text-slate-400">
+=======
+                  <h4 className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     1. Страна назначения
                   </h4>
                   <Badge
                     variant="outline"
+<<<<<<< HEAD
                     className="h-4 border-indigo-100 text-[7px] font-black uppercase text-indigo-600"
+=======
+                    className="text-accent-primary border-accent-primary/20 h-4 text-[7px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     Cross-Border Ready
                   </Badge>
                 </div>
                 <Select value={country} onValueChange={setCountry}>
+<<<<<<< HEAD
                   <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-slate-50/50 text-xs font-bold uppercase">
                     <SelectValue placeholder="Выберите страну" />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-100 shadow-2xl">
+=======
+                  <SelectTrigger className="border-border-default bg-bg-surface2/80 h-10 rounded-xl text-xs font-bold uppercase">
+                    <SelectValue placeholder="Выберите страну" />
+                  </SelectTrigger>
+                  <SelectContent className="border-border-subtle rounded-xl shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
                     <SelectItem value="US" className="py-2 text-xs font-bold uppercase">
                       United States (США)
                     </SelectItem>
@@ -188,13 +259,21 @@ export default function GlobalDutyCalculatorPage() {
               {/* Step 2: Product & HS Code */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between px-1">
+<<<<<<< HEAD
                   <h4 className="text-[9px] font-black uppercase tracking-widest text-slate-400">
+=======
+                  <h4 className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     2. Код товара (HS Code)
                   </h4>
                   <Button
                     onClick={handleAISuggestHS}
                     variant="ghost"
+<<<<<<< HEAD
                     className="h-5 gap-1 rounded-md px-2 text-[8px] font-black uppercase text-indigo-600 hover:bg-indigo-50"
+=======
+                    className="text-accent-primary hover:bg-accent-primary/10 h-5 gap-1 rounded-md px-2 text-[8px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <BrainCircuit className="h-2.5 w-2.5" /> Suggest Code
                   </Button>
@@ -204,7 +283,11 @@ export default function GlobalDutyCalculatorPage() {
                     placeholder="Описание товара (напр. Silk Dress)"
                     value={productDesc}
                     onChange={(e) => setProductDesc(e.target.value)}
+<<<<<<< HEAD
                     className="h-10 rounded-lg border-slate-200 text-xs font-medium"
+=======
+                    className="border-border-default h-10 rounded-lg text-xs font-medium"
+>>>>>>> recover/cabinet-wip-from-stash
                   />
                   <Select
                     value={hsCode.code}
@@ -212,10 +295,17 @@ export default function GlobalDutyCalculatorPage() {
                       setHSCode(HS_CODES.find((c) => c.code === val) || HS_CODES[0])
                     }
                   >
+<<<<<<< HEAD
                     <SelectTrigger className="h-10 rounded-lg border-slate-200 bg-slate-50/50 text-xs font-bold uppercase">
                       <SelectValue placeholder="HS Code" />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-slate-100 shadow-2xl">
+=======
+                    <SelectTrigger className="border-border-default bg-bg-surface2/80 h-10 rounded-lg text-xs font-bold uppercase">
+                      <SelectValue placeholder="HS Code" />
+                    </SelectTrigger>
+                    <SelectContent className="border-border-subtle rounded-xl shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
                       {HS_CODES.map((c) => (
                         <SelectItem
                           key={c.code}
@@ -228,23 +318,39 @@ export default function GlobalDutyCalculatorPage() {
                     </SelectContent>
                   </Select>
                 </div>
+<<<<<<< HEAD
                 <p className="px-1 text-[10px] font-medium italic text-slate-400 opacity-70">
+=======
+                <p className="text-text-muted px-1 text-[10px] font-medium italic opacity-70">
+>>>>>>> recover/cabinet-wip-from-stash
                   {hsCode.description}
                 </p>
               </div>
 
               {/* Step 3: Values */}
               <div className="space-y-3">
+<<<<<<< HEAD
                 <h4 className="px-1 text-[9px] font-black uppercase tracking-widest text-slate-400">
+=======
+                <h4 className="text-text-muted px-1 text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   3. Стоимость (CIF)
                 </h4>
                 <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
                   <div className="space-y-1.5">
+<<<<<<< HEAD
                     <label className="ml-1 text-[8px] font-bold uppercase tracking-widest text-slate-400">
                       Item Value
                     </label>
                     <div className="relative">
                       <DollarSign className="absolute left-3 top-1/2 h-3 w-3 -translate-y-1/2 text-slate-400" />
+=======
+                    <label className="text-text-muted ml-1 text-[8px] font-bold uppercase tracking-widest">
+                      Item Value
+                    </label>
+                    <div className="relative">
+                      <DollarSign className="text-text-muted absolute left-3 top-1/2 h-3 w-3 -translate-y-1/2" />
+>>>>>>> recover/cabinet-wip-from-stash
                       <Input
                         type="number"
                         value={itemValue}
@@ -254,7 +360,11 @@ export default function GlobalDutyCalculatorPage() {
                     </div>
                   </div>
                   <div className="space-y-1.5">
+<<<<<<< HEAD
                     <label className="ml-1 text-[8px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                    <label className="text-text-muted ml-1 text-[8px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       Freight
                     </label>
                     <Input
@@ -265,7 +375,11 @@ export default function GlobalDutyCalculatorPage() {
                     />
                   </div>
                   <div className="space-y-1.5">
+<<<<<<< HEAD
                     <label className="ml-1 text-[8px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                    <label className="text-text-muted ml-1 text-[8px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       Insurance
                     </label>
                     <Input
@@ -301,9 +415,15 @@ export default function GlobalDutyCalculatorPage() {
 
         {/* Results Dashboard */}
         <div className="space-y-6 lg:col-span-5">
+<<<<<<< HEAD
           <Card className="group relative overflow-hidden rounded-2xl border border-indigo-500 bg-indigo-600 p-4 text-white shadow-2xl shadow-indigo-100/50">
             <div className="absolute right-0 top-0 h-48 w-48 -translate-y-24 translate-x-24 rounded-full bg-white/5 blur-3xl transition-all group-hover:bg-white/10" />
             <div className="absolute bottom-0 left-0 h-32 w-32 -translate-x-16 translate-y-16 rounded-full bg-indigo-400/20 blur-2xl" />
+=======
+          <Card className="border-accent-primary shadow-accent-primary/10 bg-accent-primary group relative overflow-hidden rounded-2xl border p-4 text-white shadow-2xl">
+            <div className="absolute right-0 top-0 h-48 w-48 -translate-y-24 translate-x-24 rounded-full bg-white/5 blur-3xl transition-all group-hover:bg-white/10" />
+            <div className="bg-accent-primary/20 absolute bottom-0 left-0 h-32 w-32 -translate-x-16 translate-y-16 rounded-full blur-2xl" />
+>>>>>>> recover/cabinet-wip-from-stash
 
             <div className="relative space-y-6">
               <div className="flex items-center gap-3">
@@ -343,7 +463,11 @@ export default function GlobalDutyCalculatorPage() {
                   <p className="text-[9px] font-black uppercase tracking-widest text-white/40">
                     VAT / Sales Tax
                   </p>
+<<<<<<< HEAD
                   <p className="text-base font-black tabular-nums text-indigo-200">
+=======
+                  <p className="text-accent-primary/40 text-base font-black tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                     ${ddpEstimate.vatAmount.toFixed(2)}
                   </p>
                   <p className="text-[8px] font-bold uppercase tracking-widest text-white/30">
@@ -354,12 +478,21 @@ export default function GlobalDutyCalculatorPage() {
             </div>
           </Card>
 
+<<<<<<< HEAD
           <Card className="group rounded-2xl border border-slate-100 bg-white p-4 shadow-sm transition-all hover:border-indigo-100">
             <div className="mb-6 flex items-center gap-3 px-1">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-100 bg-slate-50 shadow-inner transition-transform group-hover:scale-105">
                 <Truck className="h-4 w-4 text-indigo-600" />
               </div>
               <h3 className="text-xs font-black uppercase tracking-tight text-slate-900">
+=======
+          <Card className="border-border-subtle hover:border-accent-primary/20 group rounded-2xl border bg-white p-4 shadow-sm transition-all">
+            <div className="mb-6 flex items-center gap-3 px-1">
+              <div className="bg-bg-surface2 border-border-subtle flex h-9 w-9 items-center justify-center rounded-xl border shadow-inner transition-transform group-hover:scale-105">
+                <Truck className="text-accent-primary h-4 w-4" />
+              </div>
+              <h3 className="text-text-primary text-xs font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                 Cost Breakdown
               </h3>
             </div>
@@ -370,13 +503,21 @@ export default function GlobalDutyCalculatorPage() {
                   label: 'Item CIF Value',
                   value: itemValue + shipping + insurance,
                   icon: Package,
+<<<<<<< HEAD
                   color: 'text-slate-400',
+=======
+                  color: 'text-text-muted',
+>>>>>>> recover/cabinet-wip-from-stash
                 },
                 {
                   label: 'Total Customs Duties',
                   value: ddpEstimate.dutyAmount,
                   icon: FileText,
+<<<<<<< HEAD
                   color: 'text-indigo-600',
+=======
+                  color: 'text-accent-primary',
+>>>>>>> recover/cabinet-wip-from-stash
                 },
                 {
                   label: 'Import VAT (Tax)',
@@ -387,6 +528,7 @@ export default function GlobalDutyCalculatorPage() {
               ].map((row, i) => (
                 <div
                   key={i}
+<<<<<<< HEAD
                   className="flex items-center justify-between rounded-lg border-b border-slate-50 px-2 py-2.5 transition-colors last:border-0 hover:bg-slate-50/50"
                 >
                   <div className="flex items-center gap-3">
@@ -396,15 +538,32 @@ export default function GlobalDutyCalculatorPage() {
                     </span>
                   </div>
                   <span className="text-xs font-black tabular-nums text-slate-900">
+=======
+                  className="border-border-subtle hover:bg-bg-surface2/80 flex items-center justify-between rounded-lg border-b px-2 py-2.5 transition-colors last:border-0"
+                >
+                  <div className="flex items-center gap-3">
+                    <row.icon className={cn('h-3.5 w-3.5', row.color)} />
+                    <span className="text-text-secondary text-[10px] font-bold uppercase tracking-tight">
+                      {row.label}
+                    </span>
+                  </div>
+                  <span className="text-text-primary text-xs font-black tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                     ${row.value.toFixed(2)}
                   </span>
                 </div>
               ))}
             </div>
 
+<<<<<<< HEAD
             <div className="mt-6 border-t border-slate-100 px-1 pt-6">
               <div className="mb-4 flex items-center justify-between">
                 <h4 className="text-[9px] font-black uppercase tracking-widest text-slate-400">
+=======
+            <div className="border-border-subtle mt-6 border-t px-1 pt-6">
+              <div className="mb-4 flex items-center justify-between">
+                <h4 className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   Compliance Check
                 </h4>
                 <Badge className="h-4 border-none bg-emerald-50 px-1.5 text-[7px] font-black uppercase text-emerald-600">
@@ -419,7 +578,11 @@ export default function GlobalDutyCalculatorPage() {
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-2 px-1">
                     <CheckCircle2 className="h-2.5 w-2.5 text-emerald-500" />
+<<<<<<< HEAD
                     <span className="text-[9px] font-bold uppercase tracking-tight text-slate-500">
+=======
+                    <span className="text-text-secondary text-[9px] font-bold uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                       {item.label}
                     </span>
                   </div>
@@ -429,6 +592,6 @@ export default function GlobalDutyCalculatorPage() {
           </Card>
         </div>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -12,7 +12,11 @@ export async function GET(req: Request) {
     {
       id: '1',
       sku: 'SKU-001',
+<<<<<<< HEAD
       brand: 'A.P.C.',
+=======
+      brand: 'Syntha Lab',
+>>>>>>> recover/cabinet-wip-from-stash
       category: 'Outerwear',
       wholesale: 220,
       retail: 590,
@@ -24,7 +28,11 @@ export async function GET(req: Request) {
     {
       id: '2',
       sku: 'SKU-002',
+<<<<<<< HEAD
       brand: 'Stone Island',
+=======
+      brand: 'Nordic Wool',
+>>>>>>> recover/cabinet-wip-from-stash
       category: 'Knitwear',
       wholesale: 310,
       retail: 780,

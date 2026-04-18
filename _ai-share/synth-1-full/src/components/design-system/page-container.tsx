@@ -27,13 +27,15 @@ export function PageHeader({ title, description, actions, className }: PageHeade
   return (
     <div
       className={cn(
-        'mb-6 flex flex-col gap-3 border-b border-slate-200/80 pb-4 sm:flex-row sm:items-start sm:justify-between',
+        'border-border-default/80 mb-6 flex flex-col gap-3 border-b pb-4 sm:flex-row sm:items-start sm:justify-between',
         className
       )}
     >
       <div className="min-w-0 space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{title}</h1>
-        {description ? <p className="max-w-2xl text-sm text-slate-600">{description}</p> : null}
+        <h1 className="text-text-primary text-2xl font-bold tracking-tight sm:text-3xl">{title}</h1>
+        {description ? (
+          <p className="text-text-secondary max-w-2xl text-sm">{description}</p>
+        ) : null}
       </div>
       {actions ? <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div> : null}
     </div>

@@ -98,7 +98,11 @@ export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
             <WholesaleCollectionExplorer />
             <Button
               onClick={() => setIsCollectionsOpen(false)}
+<<<<<<< HEAD
               className="fixed right-8 top-4 z-[130] h-12 w-12 rounded-2xl bg-slate-900 text-white shadow-2xl"
+=======
+              className="bg-text-primary fixed right-8 top-4 z-[130] h-12 w-12 rounded-2xl text-white shadow-2xl"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <X className="h-6 w-6" />
             </Button>
@@ -114,7 +118,11 @@ export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
         {/* Title & Badge Block */}
         <div className="space-y-1">
           <div className="flex items-center gap-3">
+<<<<<<< HEAD
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900 transition-all">
+=======
+            <div className="bg-text-primary flex h-8 w-8 items-center justify-center rounded-xl transition-all">
+>>>>>>> recover/cabinet-wip-from-stash
               {showroomTab === 'outlet' ? (
                 <Tag className="h-4 w-4 text-white" />
               ) : (
@@ -123,7 +131,11 @@ export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
             </div>
             <Badge
               variant="outline"
+<<<<<<< HEAD
               className="border-slate-200 px-2 py-0.5 text-[11px] font-bold uppercase tracking-normal text-slate-900"
+=======
+              className="border-border-default text-text-primary px-2 py-0.5 text-[11px] font-bold uppercase tracking-normal"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               {showroomTab === 'kickstarter'
                 ? viewRole === 'b2b'
@@ -138,24 +150,39 @@ export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
                     : 'SHOWCASE_b2c'}
             </Badge>
           </div>
+<<<<<<< HEAD
           <h2 className="text-2xl font-bold uppercase leading-tight tracking-tight text-slate-900 md:text-4xl">
             {tabs.find((t) => t.id === showroomTab)?.title}
           </h2>
           <p className="max-w-none whitespace-nowrap text-xs font-medium text-slate-400">
+=======
+          <h2 className="text-text-primary text-2xl font-bold uppercase leading-tight tracking-tight md:text-4xl">
+            {tabs.find((t) => t.id === showroomTab)?.title}
+          </h2>
+          <p className="text-text-muted max-w-none whitespace-nowrap text-xs font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
             {tabs.find((t) => t.id === showroomTab)?.desc}
           </p>
         </div>
 
         {/* Feature & Scroll Buttons */}
         <div className="flex items-center gap-3">
+<<<<<<< HEAD
           <div className="flex items-center gap-2 border-r border-slate-100 pr-6">
+=======
+          <div className="border-border-subtle flex items-center gap-2 border-r pr-6">
+>>>>>>> recover/cabinet-wip-from-stash
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
                     variant="outline"
                     size="icon"
+<<<<<<< HEAD
                     className="group h-9 w-9 rounded-xl border-slate-200 text-slate-400 transition-all hover:border-indigo-500 hover:bg-indigo-50 hover:text-indigo-600"
+=======
+                    className="border-border-default hover:border-accent-primary hover:bg-accent-primary/10 text-text-muted hover:text-accent-primary group h-9 w-9 rounded-xl transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
                     onClick={() => {
                       setIsConstellationOpen(true);
                       if (viewRole === 'b2b') {
@@ -179,7 +206,11 @@ export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
                     <Orbit className="h-3 w-3 transition-transform duration-500 group-hover:rotate-90" />
                   </Button>
                 </TooltipTrigger>
+<<<<<<< HEAD
                 <TooltipContent className="border-none bg-slate-900 text-[10px] font-black uppercase tracking-widest text-white">
+=======
+                <TooltipContent className="bg-text-primary border-none text-[10px] font-black uppercase tracking-widest text-white">
+>>>>>>> recover/cabinet-wip-from-stash
                   Neural_Style_Map
                 </TooltipContent>
               </Tooltip>
@@ -189,7 +220,11 @@ export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
                   <Button
                     variant="outline"
                     size="icon"
+<<<<<<< HEAD
                     className="group h-9 w-9 rounded-xl border-slate-200 text-slate-400 transition-all hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-600"
+=======
+                    className="border-border-default text-text-muted group h-9 w-9 rounded-xl transition-all hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-600"
+>>>>>>> recover/cabinet-wip-from-stash
                     onClick={() => {
                       setIsRunwayOpen(true);
                       if (viewRole === 'b2b') {
@@ -209,7 +244,11 @@ export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
                     <Scan className="h-3 w-3 transition-transform group-hover:scale-110" />
                   </Button>
                 </TooltipTrigger>
+<<<<<<< HEAD
                 <TooltipContent className="border-none bg-slate-900 text-[10px] font-black uppercase tracking-widest text-white">
+=======
+                <TooltipContent className="bg-text-primary border-none text-[10px] font-black uppercase tracking-widest text-white">
+>>>>>>> recover/cabinet-wip-from-stash
                   Virtual_Runway
                 </TooltipContent>
               </Tooltip>
@@ -219,13 +258,21 @@ export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
                   <Button
                     variant="outline"
                     size="icon"
+<<<<<<< HEAD
                     className="group h-9 w-9 rounded-xl border-slate-200 text-slate-400 transition-all hover:border-slate-900 hover:bg-slate-50 hover:text-slate-900"
+=======
+                    className="border-border-default hover:border-text-primary hover:bg-bg-surface2 text-text-muted hover:text-text-primary group h-9 w-9 rounded-xl transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
                     onClick={() => setIsCollectionsOpen(true)}
                   >
                     <Package className="h-3.5 w-3.5 transition-transform group-hover:scale-110" />
                   </Button>
                 </TooltipTrigger>
+<<<<<<< HEAD
                 <TooltipContent className="border-none bg-slate-900 text-[10px] font-black uppercase tracking-widest text-white">
+=======
+                <TooltipContent className="bg-text-primary border-none text-[10px] font-black uppercase tracking-widest text-white">
+>>>>>>> recover/cabinet-wip-from-stash
                   Collections_Registry
                 </TooltipContent>
               </Tooltip>
@@ -236,18 +283,30 @@ export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
                     <Button
                       variant="outline"
                       size="icon"
+<<<<<<< HEAD
                       className="group relative h-9 w-9 rounded-xl border-slate-200 text-slate-400 transition-all hover:border-indigo-500 hover:bg-indigo-50 hover:text-indigo-600"
+=======
+                      className="border-border-default hover:border-accent-primary hover:bg-accent-primary/10 text-text-muted hover:text-accent-primary group relative h-9 w-9 rounded-xl transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
                       onClick={() => setIsPlannerOpen(true)}
                     >
                       <Layers className="h-3 w-3 transition-transform group-hover:scale-110" />
                       {assortmentPlan.length > 0 && (
+<<<<<<< HEAD
                         <span className="animate-pulse-subtle absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-indigo-600 text-[8px] font-black text-white shadow-lg">
+=======
+                        <span className="bg-accent-primary animate-pulse-subtle absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full text-[8px] font-black text-white shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
                           {assortmentPlan.length}
                         </span>
                       )}
                     </Button>
                   </TooltipTrigger>
+<<<<<<< HEAD
                   <TooltipContent className="border-none bg-slate-900 text-[10px] font-black uppercase tracking-widest text-white">
+=======
+                  <TooltipContent className="bg-text-primary border-none text-[10px] font-black uppercase tracking-widest text-white">
+>>>>>>> recover/cabinet-wip-from-stash
                     Assortment_Planner
                   </TooltipContent>
                 </Tooltip>
@@ -257,7 +316,11 @@ export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
 
           <div className="flex items-center gap-3">
             <button
+<<<<<<< HEAD
               className="p-1 text-slate-400 transition-colors hover:text-slate-900"
+=======
+              className="text-text-muted hover:text-text-primary p-1 transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
               onClick={() =>
                 document
                   .getElementById('showroom-scroll')
@@ -267,7 +330,11 @@ export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
               <ArrowRight className="h-5 w-5 rotate-180" />
             </button>
             <button
+<<<<<<< HEAD
               className="p-1 text-slate-400 transition-colors hover:text-slate-900"
+=======
+              className="text-text-muted hover:text-text-primary p-1 transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
               onClick={() =>
                 document
                   .getElementById('showroom-scroll')
@@ -282,7 +349,11 @@ export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
 
       {/* Main Navigation Row - Similar to Ecosystem style, aligned Left */}
       <div className="flex flex-col gap-3">
+<<<<<<< HEAD
         <div className="flex w-fit items-center gap-1.5 rounded-2xl border border-slate-100 bg-slate-50 p-1">
+=======
+        <div className="bg-bg-surface2 border-border-subtle flex w-fit items-center gap-1.5 rounded-2xl border p-1">
+>>>>>>> recover/cabinet-wip-from-stash
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -303,14 +374,23 @@ export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
         </div>
 
         {/* Sub-navigation (Small buttons under the section info) */}
+<<<<<<< HEAD
         <div className="flex w-fit flex-wrap items-center gap-1.5 rounded-2xl border border-slate-100/50 bg-slate-50/50 p-1.5">
+=======
+        <div className="bg-bg-surface2/80 border-border-subtle/50 flex w-fit flex-wrap items-center gap-1.5 rounded-2xl border p-1.5">
+>>>>>>> recover/cabinet-wip-from-stash
           <button
             onClick={() => setShowroomViewMode('products')}
             className={cn(
               'flex items-center gap-2 rounded-xl border px-5 py-2.5 text-[11px] font-bold uppercase tracking-normal shadow-sm transition-all',
               showroomViewMode === 'products'
+<<<<<<< HEAD
                 ? 'border-slate-200 bg-white text-slate-900'
                 : 'border-transparent bg-white/50 text-slate-400 hover:text-slate-600'
+=======
+                ? 'text-text-primary border-border-default bg-white'
+                : 'text-text-muted hover:text-text-secondary border-transparent bg-white/50'
+>>>>>>> recover/cabinet-wip-from-stash
             )}
           >
             <LayoutGrid className="h-3 w-3" />
@@ -321,8 +401,13 @@ export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
             className={cn(
               'flex items-center gap-2 rounded-xl border px-5 py-2.5 text-[11px] font-bold uppercase tracking-normal shadow-sm transition-all',
               showroomViewMode === 'looks'
+<<<<<<< HEAD
                 ? 'border-slate-200 bg-white text-slate-900'
                 : 'border-transparent bg-white/50 text-slate-400 hover:text-slate-600'
+=======
+                ? 'text-text-primary border-border-default bg-white'
+                : 'text-text-muted hover:text-text-secondary border-transparent bg-white/50'
+>>>>>>> recover/cabinet-wip-from-stash
             )}
           >
             <Sparkles className="h-3 w-3" />
@@ -330,12 +415,20 @@ export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
           </button>
 
           {showroomTab === 'outlet' && (
+<<<<<<< HEAD
             <div className="ml-2 flex items-center gap-2 border-l border-slate-200 px-5 py-2 text-[8px] font-black uppercase tracking-widest text-slate-400">
+=======
+            <div className="text-text-muted border-border-default ml-2 flex items-center gap-2 border-l px-5 py-2 text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               Архивные коллекции
             </div>
           )}
           {showroomTab === 'kickstarter' && (
+<<<<<<< HEAD
             <div className="ml-2 flex items-center gap-2 border-l border-slate-200 px-5 py-2 text-[8px] font-black uppercase tracking-widest text-slate-400">
+=======
+            <div className="text-text-muted border-border-default ml-2 flex items-center gap-2 border-l px-5 py-2 text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               Проекты лаборатории
             </div>
           )}

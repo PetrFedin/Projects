@@ -42,7 +42,11 @@ export default function LineSheetPage() {
         </Button>
         <div>
           <h1 className="flex items-center gap-2 text-xl font-bold">
+<<<<<<< HEAD
             <FileText className="h-6 w-6 text-violet-600" />
+=======
+            <FileText className="text-accent-primary h-6 w-6" />
+>>>>>>> recover/cabinet-wip-from-stash
             Wholesale Line Sheet
           </h1>
           <p className="text-sm text-muted-foreground">

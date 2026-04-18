@@ -37,9 +37,9 @@ const insightColors = {
   opportunity: 'bg-blue-500/10 text-blue-600 border-blue-500/20',
   warning: 'bg-orange-500/10 text-orange-600 border-orange-500/20',
   achievement: 'bg-yellow-500/10 text-yellow-600 border-yellow-500/20',
-  recommendation: 'bg-purple-500/10 text-purple-600 border-purple-500/20',
+  recommendation: 'bg-accent-primary/10 text-accent-primary border-accent-primary/30',
   trend: 'bg-green-500/10 text-green-600 border-green-500/20',
-  prediction: 'bg-pink-500/10 text-pink-600 border-pink-500/20',
+  prediction: 'bg-accent-primary/10 text-accent-primary border-accent-primary/30',
 };
 
 export default function AutomatedInsightsPanel() {

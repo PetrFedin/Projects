@@ -30,6 +30,8 @@ export type Resource =
   | 'integrations'
   | 'team'
   | 'analytics'
+  | 'marketing'
+  | 'learning'
   | 'edo'
   | 'settings';
 
@@ -47,6 +49,8 @@ const RBAC_MATRIX: Record<PlatformRole, Partial<Record<Resource, Action[]>>> = {
     integrations: ['view', 'create', 'edit', 'delete'],
     team: ['view', 'create', 'edit', 'delete'],
     analytics: ['view', 'export'],
+    marketing: ['view', 'create', 'edit', 'delete', 'export'],
+    learning: ['view', 'create', 'edit', 'delete'],
     edo: ['view', 'create', 'edit', 'delete'],
     settings: ['view', 'edit'],
   },
@@ -61,6 +65,8 @@ const RBAC_MATRIX: Record<PlatformRole, Partial<Record<Resource, Action[]>>> = {
     integrations: ['view', 'edit'],
     team: ['view', 'edit'],
     analytics: ['view', 'export'],
+    marketing: ['view', 'export'],
+    learning: ['view', 'edit'],
     edo: ['view', 'create', 'edit'],
     settings: ['view', 'edit'],
   },
@@ -70,12 +76,19 @@ const RBAC_MATRIX: Record<PlatformRole, Partial<Record<Resource, Action[]>>> = {
     warehouse: ['view'],
     finance: ['view'],
     analytics: ['view'],
+    marketing: ['view'],
+    learning: ['view'],
     edo: ['view'],
+    /** Ритейл-центр: настройки магазина, команда — группа «Сеть и доступы». */
+    settings: ['view'],
+    team: ['view'],
   },
   buyer: {
     b2b_orders: ['view', 'create'],
     b2b_catalog: ['view'],
     analytics: ['view'],
+    marketing: ['view'],
+    learning: ['view'],
     production: ['view'],
   },
   distributor: {
@@ -83,6 +96,8 @@ const RBAC_MATRIX: Record<PlatformRole, Partial<Record<Resource, Action[]>>> = {
     b2b_catalog: ['view'],
     warehouse: ['view'],
     analytics: ['view'],
+    marketing: ['view'],
+    learning: ['view'],
     edo: ['view'],
     production: ['view'],
   },
@@ -97,18 +112,25 @@ const RBAC_MATRIX: Record<PlatformRole, Partial<Record<Resource, Action[]>>> = {
     b2b_orders: ['view'],
   },
   designer: {
+    brand_profile: ['view'],
     production: ['view', 'edit'],
     b2b_catalog: ['view'],
+    marketing: ['view'],
+    learning: ['view', 'edit'],
   },
   technologist: {
     production: ['view', 'edit', 'approve'],
     compliance: ['view', 'edit'],
+    marketing: ['view'],
+    learning: ['view'],
   },
   production_manager: {
     production: ['view', 'create', 'edit', 'approve', 'export'],
     b2b_orders: ['view'],
     warehouse: ['view', 'edit'],
     compliance: ['view', 'edit'],
+    marketing: ['view'],
+    learning: ['view'],
   },
   finance_manager: {
     finance: ['view', 'edit', 'approve', 'export'],
@@ -116,22 +138,35 @@ const RBAC_MATRIX: Record<PlatformRole, Partial<Record<Resource, Action[]>>> = {
     edo: ['view', 'create', 'edit'],
     /** Цех / Цех 2 в навигации и read-only контур (без create/edit в матрице production). */
     production: ['view'],
+    /** BI / финхаб / ESG в сайдбаре; без этого CFO не видит группу «Аналитика и финансы». */
+    analytics: ['view', 'export'],
+    /** Группа «Маркетинг» в бренд-центре (согласовано: CFO видит). */
+    marketing: ['view'],
+    /** Ритейл-центр: бюджет, связанные кабинеты, read-only настройки. */
+    settings: ['view'],
+    team: ['view'],
   },
   sales_rep: {
     b2b_orders: ['view', 'create', 'edit'],
     b2b_catalog: ['view'],
     analytics: ['view'],
+    marketing: ['view'],
+    learning: ['view'],
     production: ['view'],
   },
   merchandiser: {
     b2b_orders: ['view', 'create', 'edit'],
     b2b_catalog: ['view', 'edit'],
     analytics: ['view'],
+    marketing: ['view'],
+    learning: ['view'],
     production: ['view'],
   },
   client: {
     b2b_catalog: ['view'],
     analytics: ['view'],
+    marketing: ['view'],
+    learning: ['view'],
   },
 };
 

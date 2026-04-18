@@ -61,25 +61,44 @@ export function LinesheetCreator() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen space-y-4 bg-slate-50 p-4">
+=======
+    <div className="bg-bg-surface2 min-h-screen space-y-4 p-4">
+>>>>>>> recover/cabinet-wip-from-stash
       {/* Header */}
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
+<<<<<<< HEAD
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-600">
+=======
+            <div className="bg-accent-primary flex h-8 w-8 items-center justify-center rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
               <Share2 className="h-4 w-4 text-white" />
             </div>
             <Badge
               variant="outline"
+<<<<<<< HEAD
               className="border-indigo-100 text-[9px] font-black uppercase tracking-widest text-indigo-600"
+=======
+              className="border-accent-primary/20 text-accent-primary text-[9px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               Sales_Hub_v2.0
             </Badge>
           </div>
+<<<<<<< HEAD
           <h2 className="text-sm font-black uppercase leading-none tracking-tighter text-slate-900 md:text-sm">
             Custom Linesheets
           </h2>
           <p className="max-w-md text-xs font-medium text-slate-400">
+=======
+          <h2 className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter md:text-sm">
+            Custom Linesheets
+          </h2>
+          <p className="text-text-muted max-w-md text-xs font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
             Create personalized collection subsets for specific retailers with custom pricing and
             private access.
           </p>
@@ -87,7 +106,11 @@ export function LinesheetCreator() {
 
         <Button
           onClick={() => setIsCreating(true)}
+<<<<<<< HEAD
           className="h-10 gap-2 rounded-[1.5rem] bg-slate-900 px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-2xl shadow-slate-200 transition-all hover:scale-105"
+=======
+          className="bg-text-primary h-10 gap-2 rounded-[1.5rem] px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-2xl shadow-md transition-all hover:scale-105"
+>>>>>>> recover/cabinet-wip-from-stash
         >
           <FilePlus className="h-5 w-5" /> New Linesheet
         </Button>
@@ -97,12 +120,21 @@ export function LinesheetCreator() {
         {/* Active Linesheets */}
         <div className="space-y-6 lg:col-span-2">
           <div className="flex items-center justify-between px-2">
+<<<<<<< HEAD
             <h3 className="text-sm font-black uppercase tracking-widest text-slate-400">
               Sent & Active
             </h3>
             <div className="flex items-center gap-2">
               <span className="text-[10px] font-bold uppercase text-slate-400">Sort by:</span>
               <select className="border-none bg-transparent text-[10px] font-black uppercase text-slate-900 focus:ring-0">
+=======
+            <h3 className="text-text-muted text-sm font-black uppercase tracking-widest">
+              Sent & Active
+            </h3>
+            <div className="flex items-center gap-2">
+              <span className="text-text-muted text-[10px] font-bold uppercase">Sort by:</span>
+              <select className="text-text-primary border-none bg-transparent text-[10px] font-black uppercase focus:ring-0">
+>>>>>>> recover/cabinet-wip-from-stash
                 <option>Latest Created</option>
                 <option>Highest Views</option>
               </select>
@@ -111,11 +143,19 @@ export function LinesheetCreator() {
 
           <div className="grid grid-cols-1 gap-3">
             {customLinesheets.length === 0 ? (
+<<<<<<< HEAD
               <div className="flex h-64 flex-col items-center justify-center space-y-4 rounded-xl border-2 border-dashed border-slate-200">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
                   <Clock className="h-6 w-6 text-slate-300" />
                 </div>
                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-300">
+=======
+              <div className="border-border-default flex h-64 flex-col items-center justify-center space-y-4 rounded-xl border-2 border-dashed">
+                <div className="bg-bg-surface2 flex h-12 w-12 items-center justify-center rounded-full">
+                  <Clock className="text-text-muted h-6 w-6" />
+                </div>
+                <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   No custom linesheets yet
                 </p>
               </div>
@@ -123,6 +163,7 @@ export function LinesheetCreator() {
               customLinesheets.map((sheet) => (
                 <Card
                   key={sheet.id}
+<<<<<<< HEAD
                   className="group overflow-hidden rounded-xl border-none shadow-xl shadow-slate-200/50 transition-all hover:scale-[1.01]"
                 >
                   <CardContent className="p-0">
@@ -133,6 +174,18 @@ export function LinesheetCreator() {
                       <div className="flex-1 space-y-1">
                         <div className="flex items-center gap-3">
                           <h4 className="text-sm font-black uppercase tracking-tight text-slate-900">
+=======
+                  className="group overflow-hidden rounded-xl border-none shadow-md shadow-xl transition-all hover:scale-[1.01]"
+                >
+                  <CardContent className="p-0">
+                    <div className="flex items-center gap-3 p-4">
+                      <div className="bg-accent-primary/10 border-accent-primary/20 flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl border">
+                        <LayoutGrid className="text-accent-primary/40 h-8 w-8" />
+                      </div>
+                      <div className="flex-1 space-y-1">
+                        <div className="flex items-center gap-3">
+                          <h4 className="text-text-primary text-sm font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                             {sheet.title}
                           </h4>
                           <Badge
@@ -147,13 +200,13 @@ export function LinesheetCreator() {
                           </Badge>
                         </div>
                         <div className="flex items-center gap-3">
-                          <div className="flex items-center gap-1.5 text-slate-400">
+                          <div className="text-text-muted flex items-center gap-1.5">
                             <Users className="h-3 w-3" />
                             <span className="text-[9px] font-bold uppercase">
                               {retailers.find((r) => r.id === sheet.retailerId)?.name}
                             </span>
                           </div>
-                          <div className="flex items-center gap-1.5 text-slate-400">
+                          <div className="text-text-muted flex items-center gap-1.5">
                             <Clock className="h-3 w-3" />
                             <span className="text-[9px] font-bold uppercase">
                               {new Date(sheet.createdAt).toLocaleDateString()}
@@ -161,6 +214,7 @@ export function LinesheetCreator() {
                           </div>
                         </div>
                       </div>
+<<<<<<< HEAD
                       <div className="flex flex-col items-end gap-3 border-r border-slate-100 pr-4">
                         <div className="flex items-center gap-2">
                           <Eye className="h-4 w-4 text-slate-300" />
@@ -169,6 +223,16 @@ export function LinesheetCreator() {
                           </span>
                         </div>
                         <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">
+=======
+                      <div className="border-border-subtle flex flex-col items-end gap-3 border-r pr-4">
+                        <div className="flex items-center gap-2">
+                          <Eye className="text-text-muted h-4 w-4" />
+                          <span className="text-text-primary text-base font-black">
+                            {sheet.viewCount}
+                          </span>
+                        </div>
+                        <p className="text-text-muted text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                           Total Views
                         </p>
                       </div>
@@ -176,11 +240,19 @@ export function LinesheetCreator() {
                         <Button
                           variant="ghost"
                           size="icon"
+<<<<<<< HEAD
                           className="h-10 w-10 rounded-xl hover:bg-slate-50"
                         >
                           <Settings2 className="h-4 w-4 text-slate-400" />
                         </Button>
                         <Button className="h-12 w-12 rounded-xl bg-slate-900 p-0 text-white shadow-lg shadow-slate-200 transition-colors group-hover:bg-indigo-600">
+=======
+                          className="hover:bg-bg-surface2 h-10 w-10 rounded-xl"
+                        >
+                          <Settings2 className="text-text-muted h-4 w-4" />
+                        </Button>
+                        <Button className="bg-text-primary group-hover:bg-accent-primary h-12 w-12 rounded-xl p-0 text-white shadow-lg shadow-md transition-colors">
+>>>>>>> recover/cabinet-wip-from-stash
                           <ArrowRight className="h-5 w-5" />
                         </Button>
                       </div>
@@ -194,6 +266,7 @@ export function LinesheetCreator() {
 
         {/* Analytics & Stats Sidebar */}
         <div className="space-y-4">
+<<<<<<< HEAD
           <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-2xl shadow-slate-200/50">
             <h3 className="text-sm font-black uppercase tracking-widest text-slate-900">
               Conversion Intelligence
@@ -205,12 +278,26 @@ export function LinesheetCreator() {
                     Avg. View-to-Order
                   </p>
                   <p className="text-sm font-black text-slate-900">64%</p>
+=======
+          <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-2xl shadow-md">
+            <h3 className="text-text-primary text-sm font-black uppercase tracking-widest">
+              Conversion Intelligence
+            </h3>
+            <div className="space-y-4">
+              <div className="bg-accent-primary/10 border-accent-primary/20 flex items-center justify-between rounded-2xl border p-4">
+                <div className="space-y-1">
+                  <p className="text-accent-primary text-[9px] font-black uppercase">
+                    Avg. View-to-Order
+                  </p>
+                  <p className="text-text-primary text-sm font-black">64%</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white">
                   <CheckCircle2 className="h-6 w-6 text-emerald-500" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
+<<<<<<< HEAD
                 <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
                   <p className="text-[8px] font-black uppercase text-slate-400">Top Retailer</p>
                   <p className="mt-1 text-sm font-black text-slate-900">TSUM HQ</p>
@@ -218,20 +305,39 @@ export function LinesheetCreator() {
                 <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
                   <p className="text-[8px] font-black uppercase text-slate-400">Open Rate</p>
                   <p className="mt-1 text-sm font-black text-slate-900">92.4%</p>
+=======
+                <div className="bg-bg-surface2 border-border-subtle rounded-2xl border p-4">
+                  <p className="text-text-muted text-[8px] font-black uppercase">Top Retailer</p>
+                  <p className="text-text-primary mt-1 text-sm font-black">Демо · Москва 1</p>
+                </div>
+                <div className="bg-bg-surface2 border-border-subtle rounded-2xl border p-4">
+                  <p className="text-text-muted text-[8px] font-black uppercase">Open Rate</p>
+                  <p className="text-text-primary mt-1 text-sm font-black">92.4%</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
               </div>
             </div>
             <Button
               variant="outline"
+<<<<<<< HEAD
               className="h-12 w-full gap-2 rounded-xl border-slate-100 text-[9px] font-black uppercase tracking-widest"
+=======
+              className="border-border-subtle h-12 w-full gap-2 rounded-xl text-[9px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               View Detailed Sales Report
             </Button>
           </Card>
 
+<<<<<<< HEAD
           <Card className="space-y-6 rounded-xl border-none bg-slate-900 p-4 text-white shadow-2xl shadow-slate-200/50">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600">
+=======
+          <Card className="bg-text-primary space-y-6 rounded-xl border-none p-4 text-white shadow-2xl shadow-md">
+            <div className="flex items-center gap-3">
+              <div className="bg-accent-primary flex h-10 w-10 items-center justify-center rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                 <Lock className="h-5 w-5" />
               </div>
               <h4 className="text-sm font-black uppercase tracking-tight">
@@ -261,7 +367,11 @@ export function LinesheetCreator() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+<<<<<<< HEAD
             className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-xl"
+=======
+            className="bg-text-primary/40 fixed inset-0 z-[200] flex items-center justify-center p-4 backdrop-blur-xl"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
@@ -270,7 +380,11 @@ export function LinesheetCreator() {
             >
               <div className="space-y-4 p-3">
                 <div className="flex items-center justify-between">
+<<<<<<< HEAD
                   <h3 className="text-sm font-black uppercase tracking-tight text-slate-900">
+=======
+                  <h3 className="text-text-primary text-sm font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                     Create New Hub
                   </h3>
                   <Button
@@ -279,25 +393,41 @@ export function LinesheetCreator() {
                     onClick={() => setIsCreating(false)}
                     className="rounded-full"
                   >
+<<<<<<< HEAD
                     <Trash2 className="h-5 w-5 text-slate-400" />
+=======
+                    <Trash2 className="text-text-muted h-5 w-5" />
+>>>>>>> recover/cabinet-wip-from-stash
                   </Button>
                 </div>
 
                 <div className="space-y-6">
                   <div className="space-y-2">
+<<<<<<< HEAD
                     <label className="ml-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+                    <label className="text-text-muted ml-4 text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       Internal Title
                     </label>
                     <Input
                       placeholder="e.g., VIP FW26 Preview - Dubai Mall"
+<<<<<<< HEAD
                       className="h-10 rounded-2xl border-none bg-slate-50 focus-visible:ring-indigo-500"
+=======
+                      className="bg-bg-surface2 focus-visible:ring-accent-primary h-10 rounded-2xl border-none"
+>>>>>>> recover/cabinet-wip-from-stash
                       value={newSheet.title}
                       onChange={(e) => setNewSheet({ ...newSheet, title: e.target.value })}
                     />
                   </div>
 
                   <div className="space-y-2">
+<<<<<<< HEAD
                     <label className="ml-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+                    <label className="text-text-muted ml-4 text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       Target Retailer
                     </label>
                     <div className="grid grid-cols-1 gap-2">
@@ -308,6 +438,7 @@ export function LinesheetCreator() {
                           className={cn(
                             'flex items-center justify-between rounded-2xl border p-4 transition-all',
                             newSheet.retailerId === r.id
+<<<<<<< HEAD
                               ? 'border-indigo-200 bg-indigo-50'
                               : 'border-transparent bg-slate-50 hover:bg-slate-100'
                           )}
@@ -317,11 +448,26 @@ export function LinesheetCreator() {
                               {r.name}
                             </span>
                             <span className="text-[8px] font-bold uppercase text-slate-400">
+=======
+                              ? 'bg-accent-primary/10 border-accent-primary/30'
+                              : 'bg-bg-surface2 hover:bg-bg-surface2 border-transparent'
+                          )}
+                        >
+                          <div className="flex flex-col items-start">
+                            <span className="text-text-primary text-[10px] font-black uppercase">
+                              {r.name}
+                            </span>
+                            <span className="text-text-muted text-[8px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                               {r.location}
                             </span>
                           </div>
                           {newSheet.retailerId === r.id && (
+<<<<<<< HEAD
                             <CheckCircle2 className="h-4 w-4 text-indigo-600" />
+=======
+                            <CheckCircle2 className="text-accent-primary h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
                           )}
                         </button>
                       ))}
@@ -340,7 +486,11 @@ export function LinesheetCreator() {
                   <Button
                     onClick={handleCreate}
                     disabled={!newSheet.title || !newSheet.retailerId}
+<<<<<<< HEAD
                     className="h-10 flex-1 gap-2 rounded-2xl bg-slate-900 text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-slate-200"
+=======
+                    className="bg-text-primary h-10 flex-1 gap-2 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white shadow-md shadow-xl"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     Generate & Send <Send className="h-4 w-4" />
                   </Button>

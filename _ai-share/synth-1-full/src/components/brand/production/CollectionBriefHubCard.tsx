@@ -109,7 +109,7 @@ export function CollectionBriefHubCard({
   const substantive = hasSubstantiveModuleContent(draftFields, fieldDefs);
 
   return (
-    <Card className="border-amber-200/90 bg-gradient-to-r from-amber-50/40 via-white to-indigo-50/20 shadow-sm">
+    <Card className="to-accent-primary/10 border-amber-200/90 bg-gradient-to-r from-amber-50/40 via-white shadow-sm">
       <CardHeader className="space-y-1 pb-2">
         <div className="flex flex-wrap items-center gap-2">
           <FileText className="h-4 w-4 shrink-0 text-amber-700" aria-hidden />
@@ -119,7 +119,11 @@ export function CollectionBriefHubCard({
           {matrixBriefStatus ? (
             <Badge
               variant="outline"
+<<<<<<< HEAD
               className="h-5 border-slate-200 text-[7px] font-bold uppercase"
+=======
+              className="border-border-default h-5 text-[7px] font-bold uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               {STATUS_RU[matrixBriefStatus]}
             </Badge>
@@ -129,31 +133,41 @@ export function CollectionBriefHubCard({
               Черновик заполнен
             </Badge>
           ) : (
-            <Badge variant="secondary" className="h-5 text-[7px] font-semibold text-slate-600">
+            <Badge variant="secondary" className="text-text-secondary h-5 text-[7px] font-semibold">
               Заполните бриф — тот же объект, что в модуле этапа
             </Badge>
           )}
         </div>
         <CardDescription className="text-xs leading-relaxed">
+<<<<<<< HEAD
           Коллекция: <strong className="text-slate-800">{collectionLabel}</strong>. Поля совпадают с
           модулем «Бриф коллекции и цели» в цепочке этапов ниже; сохранение —{' '}
+=======
+          Коллекция: <strong className="text-text-primary">{collectionLabel}</strong>. Поля
+          совпадают с модулем «Бриф коллекции и цели» в цепочке этапов ниже; сохранение —{' '}
+>>>>>>> recover/cabinet-wip-from-stash
           <span className="font-mono text-[10px]">brand_collection_stage_modules</span> (демо).
           После первого содержательного сохранения этап{' '}
           <span className="font-mono text-[10px]">brief</span> у всех SKU коллекции переходит в «в
           работе» в матрице.
         </CardDescription>
         {previewLine ? (
+<<<<<<< HEAD
           <p className="pt-0.5 text-[11px] font-medium text-slate-700">
             Кратко: <span className="text-indigo-900">{previewLine}</span>
+=======
+          <p className="text-text-primary pt-0.5 text-[11px] font-medium">
+            Кратко: <span className="text-accent-primary">{previewLine}</span>
+>>>>>>> recover/cabinet-wip-from-stash
           </p>
         ) : null}
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex flex-wrap items-end gap-2 rounded-lg border border-slate-100 bg-white/80 p-3">
+        <div className="border-border-subtle flex flex-wrap items-end gap-2 rounded-lg border bg-white/80 p-3">
           <div className="flex min-w-[200px] flex-1 items-center gap-2">
-            <UserCircle className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
+            <UserCircle className="text-text-muted h-4 w-4 shrink-0" aria-hidden />
             <div className="min-w-0 flex-1">
-              <p className="text-[9px] font-bold uppercase text-slate-400">Кто вносит изменения</p>
+              <p className="text-text-muted text-[9px] font-bold uppercase">Кто вносит изменения</p>
               <Input
                 className="mt-0.5 h-8 text-xs"
                 value={actorLabel}
@@ -174,7 +188,7 @@ export function CollectionBriefHubCard({
                   : ''
               )}
             >
-              <p className="mb-1 text-[9px] font-bold uppercase text-slate-400">{def.label}</p>
+              <p className="text-text-muted mb-1 text-[9px] font-bold uppercase">{def.label}</p>
               {def.type === 'textarea' ? (
                 <Textarea
                   className="min-h-[72px] text-xs"
@@ -195,7 +209,7 @@ export function CollectionBriefHubCard({
           ))}
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
+        <div className="border-border-subtle flex flex-wrap items-center gap-2 border-t pt-3">
           <Button type="button" size="sm" className="h-9 text-xs" onClick={handleSave}>
             Сохранить бриф
           </Button>

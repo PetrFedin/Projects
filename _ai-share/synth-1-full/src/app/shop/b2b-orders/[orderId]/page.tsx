@@ -50,7 +50,13 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import type { Product } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { initialOrderItems, mockChat, orderStatusSteps } from '@/lib/order-data';
+<<<<<<< HEAD
 import { AttachProductDialog, OrderChat, SizeBreakdownDialog } from '@/components/shop/b2b';
+=======
+import { ROUTES } from '@/lib/routes';
+import { AttachProductDialog, OrderChat, SizeBreakdownDialog } from '@/components/shop/b2b';
+import { RegistryPageShell } from '@/components/design-system';
+>>>>>>> recover/cabinet-wip-from-stash
 
 export default function ShopB2BOrderDetailsPage({
   params: paramsPromise,
@@ -98,10 +104,17 @@ export default function ShopB2BOrderDetailsPage({
   const currentStatusIndex = orderStatusSteps.findIndex((s) => s.date === null);
 
   return (
+<<<<<<< HEAD
     <div className="space-y-4">
       <div className="mb-8 flex items-center gap-3">
         <Button variant="outline" size="icon" asChild>
           <Link href="/shop/b2b-orders">
+=======
+    <RegistryPageShell className="space-y-4">
+      <div className="mb-8 flex items-center gap-3">
+        <Button variant="outline" size="icon" asChild>
+          <Link href={ROUTES.shop.b2bOrders}>
+>>>>>>> recover/cabinet-wip-from-stash
             <ChevronLeft className="h-4 w-4" />
           </Link>
         </Button>
@@ -300,6 +313,10 @@ export default function ShopB2BOrderDetailsPage({
           onSave={handleSaveSizes}
         />
       )}
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

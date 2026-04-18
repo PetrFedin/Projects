@@ -141,7 +141,11 @@ export function ProductsTab({
               opt.label === 'Все' ? 'min-w-[60px]' : 'min-w-[120px]',
               activeTopCatalog === opt.value
                 ? 'border-black bg-black text-white shadow-lg'
+<<<<<<< HEAD
                 : 'border-slate-200 bg-white text-slate-600 shadow-sm hover:bg-slate-50'
+=======
+                : 'border-border-default hover:bg-bg-surface2 text-text-secondary bg-white shadow-sm'
+>>>>>>> recover/cabinet-wip-from-stash
             )}
             onClick={() => {
               setActiveTopCatalog(opt.value);
@@ -228,7 +232,11 @@ export function ProductsTab({
                 'h-8 rounded-xl border px-4 text-[10px] font-black uppercase tracking-widest transition-all',
                 isSelected
                   ? 'border-accent bg-accent text-white shadow-md shadow-accent/20'
+<<<<<<< HEAD
                   : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
+=======
+                  : 'border-border-default hover:bg-bg-surface2 text-text-secondary bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
               )}
               onClick={() => {
                 setFilterAvailability((prev) => {
@@ -300,7 +308,11 @@ export function ProductsTab({
               opt.label === 'Все' ? 'min-w-[60px]' : 'min-w-[120px]',
               activeTopAudience === opt.value
                 ? 'border-black bg-black text-white shadow-lg'
+<<<<<<< HEAD
                 : 'border-slate-200 bg-white text-slate-600 shadow-sm hover:bg-slate-50'
+=======
+                : 'border-border-default hover:bg-bg-surface2 text-text-secondary bg-white shadow-sm'
+>>>>>>> recover/cabinet-wip-from-stash
             )}
             onClick={() => {
               setActiveTopAudience(opt.value);

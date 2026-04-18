@@ -20,7 +20,11 @@ export function ClientNav() {
   return (
     <nav
       aria-label="Клиентское меню"
+<<<<<<< HEAD
       className="flex flex-wrap items-center gap-1 border-b border-slate-200 bg-slate-50/80 px-4 py-2"
+=======
+      className="border-border-default bg-bg-surface2/80 flex flex-wrap items-center gap-1 border-b px-4 py-2"
+>>>>>>> recover/cabinet-wip-from-stash
     >
       {clientNavItems.map(({ label, href, icon: Icon }) => {
         const isActive =
@@ -32,8 +36,8 @@ export function ClientNav() {
             className={cn(
               'inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
               isActive
-                ? 'bg-indigo-100 text-indigo-700'
-                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                ? 'bg-accent-primary/15 text-accent-primary'
+                : 'text-text-secondary hover:bg-bg-surface2 hover:text-text-primary'
             )}
             aria-current={isActive ? 'page' : undefined}
           >

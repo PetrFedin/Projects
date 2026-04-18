@@ -27,6 +27,10 @@ import {
   Clock,
   Check,
   Share2,
+<<<<<<< HEAD
+=======
+  EyeOff,
+>>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { TeamMember } from '@/lib/types';
@@ -42,6 +46,7 @@ export function TeamTable({ members, currentViewerId, onEdit, onArchive }: TeamT
   return (
     <Table>
       <TableHeader>
+<<<<<<< HEAD
         <TableRow className="h-12 border-slate-50 hover:bg-transparent">
           <TableHead className="pl-10 text-[9px] font-black uppercase tracking-[0.2em] text-slate-300">
             Сотрудник
@@ -56,6 +61,22 @@ export function TeamTable({ members, currentViewerId, onEdit, onArchive }: TeamT
             Активность
           </TableHead>
           <TableHead className="pr-10 text-right text-[9px] font-black uppercase tracking-[0.2em] text-slate-300">
+=======
+        <TableRow className="border-border-subtle h-12 hover:bg-transparent">
+          <TableHead className="text-text-muted pl-10 text-[9px] font-black uppercase tracking-[0.2em]">
+            Сотрудник
+          </TableHead>
+          <TableHead className="text-text-muted text-[9px] font-black uppercase tracking-[0.2em]">
+            Должность
+          </TableHead>
+          <TableHead className="text-text-muted text-[9px] font-black uppercase tracking-[0.2em]">
+            Контакты
+          </TableHead>
+          <TableHead className="text-text-muted text-center text-[9px] font-black uppercase tracking-[0.2em]">
+            Активность
+          </TableHead>
+          <TableHead className="text-text-muted pr-10 text-right text-[9px] font-black uppercase tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
             Управление
           </TableHead>
         </TableRow>
@@ -69,7 +90,11 @@ export function TeamTable({ members, currentViewerId, onEdit, onArchive }: TeamT
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+<<<<<<< HEAD
               className="group border-slate-50 transition-colors hover:bg-slate-50/50"
+=======
+              className="border-border-subtle hover:bg-bg-surface2/80 group transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <TableCell className="py-6 pl-8">
                 <div className="flex items-center gap-3">
@@ -89,10 +114,17 @@ export function TeamTable({ members, currentViewerId, onEdit, onArchive }: TeamT
                     />
                   </div>
                   <div className="flex flex-col">
+<<<<<<< HEAD
                     <span className="text-sm font-black uppercase text-slate-900">
                       {member.firstName} {member.lastName}
                     </span>
                     <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600">
+=======
+                    <span className="text-text-primary text-sm font-black uppercase">
+                      {member.firstName} {member.lastName}
+                    </span>
+                    <span className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       @{member.nickname}
                     </span>
                   </div>
@@ -100,22 +132,37 @@ export function TeamTable({ members, currentViewerId, onEdit, onArchive }: TeamT
               </TableCell>
               <TableCell>
                 <div className="flex flex-col">
+<<<<<<< HEAD
                   <span className="text-[11px] font-black uppercase text-slate-900">
                     {member.role}
                   </span>
                   <span className="text-[8px] font-bold uppercase text-indigo-500">
+=======
+                  <span className="text-text-primary text-[11px] font-black uppercase">
+                    {member.role}
+                  </span>
+                  <span className="text-accent-primary text-[8px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     {member.department}
                   </span>
                 </div>
               </TableCell>
               <TableCell>
                 <div className="flex flex-col gap-1">
+<<<<<<< HEAD
                   <div className="flex items-center gap-2 text-slate-600">
+=======
+                  <div className="text-text-secondary flex items-center gap-2">
+>>>>>>> recover/cabinet-wip-from-stash
                     <Mail className="h-3 w-3" />
                     <span className="text-xs">{member.email}</span>
                   </div>
                   {member.phone && (
+<<<<<<< HEAD
                     <div className="flex items-center gap-2 text-slate-400">
+=======
+                    <div className="text-text-muted flex items-center gap-2">
+>>>>>>> recover/cabinet-wip-from-stash
                       <Phone className="h-3 w-3" />
                       <span className="text-xs">{member.phone}</span>
                     </div>

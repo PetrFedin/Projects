@@ -131,7 +131,11 @@ export default function SettingsForm({ user }: { user: UserProfile }) {
         <Button
           onClick={state.save}
           disabled={state.isSaving}
+<<<<<<< HEAD
           className="h-11 rounded-xl bg-black px-8 font-black uppercase tracking-widest text-white shadow-lg shadow-black/10 hover:bg-zinc-900"
+=======
+          className="hover:bg-text-primary h-11 rounded-xl bg-black px-8 font-black uppercase tracking-widest text-white shadow-lg shadow-black/10"
+>>>>>>> recover/cabinet-wip-from-stash
         >
           {state.isSaving ? 'Сохранение...' : 'Сохранить настройки'}
         </Button>

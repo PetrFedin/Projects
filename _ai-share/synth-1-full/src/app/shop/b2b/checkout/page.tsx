@@ -3,10 +3,14 @@
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ShoppingBag } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { useB2BState } from '@/providers/b2b-state';
 import { ProductCustomizationBlock } from '@/components/b2b/ProductCustomizationBlock';
+import { RegistryPageShell } from '@/components/design-system';
+import { tid } from '@/lib/ui/test-ids';
+import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
+import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
 
 /** RepSpark: Product Customization в checkout — логотипы, мокапы при оформлении */
 export default function B2BCheckoutPage() {
@@ -17,6 +21,7 @@ export default function B2BCheckoutPage() {
   );
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -33,6 +38,11 @@ export default function B2BCheckoutPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-2xl space-y-6" data-testid={tid.page('shop-b2b-checkout')}>
+      <ShopB2bContentHeader lead="Product Customization: логотипы и мокапы при оформлении (RepSpark)." />
+      <ShopAnalyticsSegmentErpStrip />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -40,7 +50,11 @@ export default function B2BCheckoutPage() {
         </CardHeader>
         <CardContent>
           {b2bCart.length === 0 ? (
+<<<<<<< HEAD
             <p className="text-sm text-slate-500">
+=======
+            <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
               Корзина пуста. Добавьте товары в матрице заказа.
             </p>
           ) : (
@@ -67,6 +81,23 @@ export default function B2BCheckoutPage() {
           <Link href={ROUTES.shop.b2bMatrix}>В матрицу</Link>
         </Button>
       </div>
-    </div>
+
+      <div className="border-border-subtle flex flex-wrap items-center gap-2 border-t pt-4">
+        <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+          См. также
+        </span>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link href={ROUTES.shop.analytics} data-testid="shop-b2b-checkout-retail-link">
+            Розничная аналитика
+          </Link>
+        </Button>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link href={ROUTES.shop.analyticsFootfall} data-testid="shop-b2b-checkout-footfall-link">
+            Трафик по зонам
+          </Link>
+        </Button>
+        <B2bMarginAnalysisHubButton />
+      </div>
+    </RegistryPageShell>
   );
 }

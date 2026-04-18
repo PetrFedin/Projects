@@ -45,7 +45,11 @@ const MOCK_LOOKS = [
         image: 'https://images.unsplash.com/photo-1624372927054-66634eabb591?w=400',
       },
     ],
+<<<<<<< HEAD
     bg: 'bg-indigo-50',
+=======
+    bg: 'bg-accent-primary/10',
+>>>>>>> recover/cabinet-wip-from-stash
   },
   {
     id: 'l2',
@@ -87,10 +91,17 @@ export function AiPersonalLookbook() {
         <div className="flex items-center justify-between">
           <div className="space-y-1">
             <div className="mb-1 flex items-center gap-2">
+<<<<<<< HEAD
               <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-indigo-600">
                 <BrainCircuit className="h-4 w-4 text-white" />
               </div>
               <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600">
+=======
+              <div className="bg-accent-primary flex h-6 w-6 items-center justify-center rounded-lg">
+                <BrainCircuit className="h-4 w-4 text-white" />
+              </div>
+              <span className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Personal Stylist AI
               </span>
             </div>
@@ -131,7 +142,11 @@ export function AiPersonalLookbook() {
                 {/* Abstract background elements */}
                 <div className="absolute left-0 top-0 h-full w-full opacity-30">
                   <div className="absolute right-[-10%] top-[-10%] h-64 w-64 rounded-full bg-white blur-3xl" />
+<<<<<<< HEAD
                   <div className="absolute bottom-[-10%] left-[-10%] h-64 w-64 rounded-full bg-indigo-200 blur-3xl" />
+=======
+                  <div className="bg-accent-primary/25 absolute bottom-[-10%] left-[-10%] h-64 w-64 rounded-full blur-3xl" />
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
 
                 <div className="relative z-10 flex gap-3">
@@ -164,7 +179,13 @@ export function AiPersonalLookbook() {
                       key={i}
                       className={cn(
                         'h-1.5 rounded-full transition-all',
+<<<<<<< HEAD
                         i === activeLookIndex ? 'w-8 bg-indigo-600' : 'w-1.5 bg-indigo-200'
+=======
+                        i === activeLookIndex
+                          ? 'bg-accent-primary w-8'
+                          : 'bg-accent-primary/25 w-1.5'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     />
                   ))}
@@ -181,11 +202,19 @@ export function AiPersonalLookbook() {
                   exit={{ opacity: 0 }}
                   className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-white/60 p-4 text-center backdrop-blur-xl"
                 >
+<<<<<<< HEAD
                   <RefreshCcw className="mb-4 h-12 w-12 animate-spin text-indigo-600" />
                   <h3 className="text-base font-black uppercase tracking-tighter">
                     Стилист подбирает вещи...
                   </h3>
                   <p className="mt-2 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+=======
+                  <RefreshCcw className="text-accent-primary mb-4 h-12 w-12 animate-spin" />
+                  <h3 className="text-base font-black uppercase tracking-tighter">
+                    Стилист подбирает вещи...
+                  </h3>
+                  <p className="text-text-secondary mt-2 text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     Анализ погоды, календаря и ДНК вашего стиля
                   </p>
                 </motion.div>
@@ -197,24 +226,39 @@ export function AiPersonalLookbook() {
           <div className="space-y-4 lg:col-span-5">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
+<<<<<<< HEAD
                 <Badge className="rounded-full border-none bg-indigo-600 px-3 py-1 text-[9px] font-black uppercase tracking-widest text-white">
                   Match Score: {activeLook.confidence}%
                 </Badge>
                 <Badge className="rounded-full border-none bg-slate-100 px-3 py-1 text-[9px] font-black uppercase tracking-widest text-slate-500">
+=======
+                <Badge className="bg-accent-primary rounded-full border-none px-3 py-1 text-[9px] font-black uppercase tracking-widest text-white">
+                  Match Score: {activeLook.confidence}%
+                </Badge>
+                <Badge className="bg-bg-surface2 text-text-secondary rounded-full border-none px-3 py-1 text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   {activeLook.occasion}
                 </Badge>
               </div>
               <h3 className="text-sm font-black uppercase leading-none tracking-tighter">
                 {activeLook.name}
               </h3>
+<<<<<<< HEAD
               <p className="text-sm font-medium leading-relaxed text-slate-500">
+=======
+              <p className="text-text-secondary text-sm font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                 Этот образ создан на основе вашего предпочтения к технологичным тканям и планам на
                 вечер в календаре. Все вещи уже есть в вашем гардеробе.
               </p>
             </div>
 
             <div className="space-y-4">
+<<<<<<< HEAD
               <h4 className="border-b pb-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+              <h4 className="text-text-muted border-b pb-2 text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 AI Insights для этого лука
               </h4>
               <div className="space-y-3">
@@ -242,7 +286,11 @@ export function AiPersonalLookbook() {
             <div className="grid grid-cols-2 gap-3 pt-4">
               <Button
                 variant="outline"
+<<<<<<< HEAD
                 className="h-10 rounded-2xl border-slate-200 text-[10px] font-black uppercase tracking-widest hover:bg-slate-50"
+=======
+                className="border-border-default hover:bg-bg-surface2 h-10 rounded-2xl text-[10px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <Share2 className="mr-2 h-4 w-4" /> Поделиться
               </Button>
@@ -252,8 +300,13 @@ export function AiPersonalLookbook() {
             </div>
 
             {/* Quick Upsell / Loyalty integration */}
+<<<<<<< HEAD
             <div className="space-y-4 rounded-xl bg-slate-900 p-4 text-white">
               <div className="flex items-center gap-2 text-indigo-400">
+=======
+            <div className="bg-text-primary space-y-4 rounded-xl p-4 text-white">
+              <div className="text-accent-primary flex items-center gap-2">
+>>>>>>> recover/cabinet-wip-from-stash
                 <ShoppingBag className="h-4 w-4" />
                 <span className="text-[9px] font-black uppercase tracking-widest">
                   Дополни к образу
@@ -270,7 +323,11 @@ export function AiPersonalLookbook() {
                 </div>
                 <Button
                   size="icon"
+<<<<<<< HEAD
                   className="h-10 w-10 rounded-xl bg-indigo-600 hover:bg-indigo-500"
+=======
+                  className="bg-accent-primary hover:bg-accent-primary h-10 w-10 rounded-xl"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <Plus className="h-4 w-4" />
                 </Button>

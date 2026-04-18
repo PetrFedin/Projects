@@ -2,17 +2,7 @@
 
 import React, { type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
-
-type IconColor = 'indigo' | 'slate' | 'emerald' | 'amber' | 'rose' | 'blue';
-
-const ICON_STYLES: Record<IconColor, string> = {
-  indigo: 'bg-indigo-50 text-indigo-600',
-  slate: 'bg-slate-100 text-slate-600',
-  emerald: 'bg-emerald-50 text-emerald-600',
-  amber: 'bg-amber-50 text-amber-600',
-  rose: 'bg-rose-50 text-rose-600',
-  blue: 'bg-blue-50 text-blue-600',
-};
+import { type UiIconTone, getSectionHeaderIconToneClass } from '@/lib/ui/semantic-data-tones';
 
 /**
  * SectionHeader — заголовок секции для B2B-интерфейса.
@@ -32,7 +22,7 @@ export function SectionHeader({
   icon?: React.ComponentType<{ className?: string }>;
   title: string;
   description?: string;
-  iconColor?: IconColor;
+  iconColor?: UiIconTone;
   badges?: ReactNode;
   actions?: ReactNode;
   /** b2b: uppercase, compact. default: classic title. */
@@ -56,7 +46,7 @@ export function SectionHeader({
             className={cn(
               'flex shrink-0 items-center justify-center rounded-xl',
               compact ? 'h-8 w-8 rounded-lg' : 'h-10 w-10',
-              ICON_STYLES[iconColor]
+              getSectionHeaderIconToneClass(iconColor)
             )}
           >
             <Icon className={compact ? 'h-4 w-4' : 'h-5 w-5'} />
@@ -67,9 +57,15 @@ export function SectionHeader({
             className={cn(
               isB2b
                 ? compact
+<<<<<<< HEAD
                   ? 'text-sm font-black uppercase leading-tight tracking-tight text-slate-900 sm:text-[15px]'
                   : 'text-base font-black uppercase tracking-tight text-slate-900 sm:text-lg'
                 : 'text-xl font-bold tracking-tight text-slate-900 sm:text-2xl'
+=======
+                  ? 'text-text-primary text-sm font-black uppercase leading-tight tracking-tight sm:text-[15px]'
+                  : 'text-text-primary text-base font-black uppercase tracking-tight sm:text-lg'
+                : 'text-text-primary text-xl font-bold tracking-tight sm:text-2xl'
+>>>>>>> recover/cabinet-wip-from-stash
             )}
           >
             {title}
@@ -81,9 +77,15 @@ export function SectionHeader({
                 compact ? 'mt-0.5 leading-snug' : 'mt-1 leading-relaxed',
                 isB2b
                   ? compact
+<<<<<<< HEAD
                     ? 'text-[10px] font-medium text-slate-500'
                     : 'text-[11px] font-medium text-slate-500'
                   : 'text-sm text-slate-600'
+=======
+                    ? 'text-text-secondary text-[10px] font-medium'
+                    : 'text-text-secondary text-[11px] font-medium'
+                  : 'text-text-secondary text-sm'
+>>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               {description}

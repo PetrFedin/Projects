@@ -1,4 +1,9 @@
 'use client';
+<<<<<<< HEAD
+=======
+
+import { RegistryPageShell } from '@/components/design-system';
+>>>>>>> recover/cabinet-wip-from-stash
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -32,6 +37,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import type { Product } from '@/lib/types';
+<<<<<<< HEAD
+=======
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { ROUTES } from '@/lib/routes';
+>>>>>>> recover/cabinet-wip-from-stash
 
 const orderStatusSteps = [
   { status: 'В ожидании', date: '2024-07-20' },
@@ -68,10 +78,17 @@ export default function OrderDetailsPage({
   }
 
   return (
+<<<<<<< HEAD
     <div className="space-y-4">
       <div className="mb-8 flex items-center gap-3">
         <Button variant="outline" size="icon" asChild>
           <Link href="/shop/orders">
+=======
+    <RegistryPageShell className="space-y-4">
+      <div className="mb-8 flex items-center gap-3">
+        <Button variant="outline" size="icon" asChild>
+          <Link href={ROUTES.shop.orders}>
+>>>>>>> recover/cabinet-wip-from-stash
             <ChevronLeft className="h-4 w-4" />
           </Link>
         </Button>
@@ -159,7 +176,13 @@ export default function OrderDetailsPage({
                   <TableRow>
                     <TableHead className="hidden w-[80px] md:table-cell">Изобр.</TableHead>
                     <TableHead>Название</TableHead>
+<<<<<<< HEAD
                     <TableHead>SKU</TableHead>
+=======
+                    <TableHead>
+                      <AcronymWithTooltip abbr="SKU" />
+                    </TableHead>
+>>>>>>> recover/cabinet-wip-from-stash
                     <TableHead>Кол-во</TableHead>
                     <TableHead className="text-right">Цена</TableHead>
                   </TableRow>
@@ -265,6 +288,10 @@ export default function OrderDetailsPage({
           </div>
         </div>
       </div>
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

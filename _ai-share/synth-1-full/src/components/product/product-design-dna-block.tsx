@@ -15,10 +15,14 @@ export function ProductDesignDnaBlock({ product }: Props) {
   if (entries.length === 0) return null;
 
   return (
-    <Card className="mt-4 border-dashed bg-violet-50/20">
+    <Card className="bg-accent-primary/10 mt-4 border-dashed">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-sm">
+<<<<<<< HEAD
           <Fingerprint className="h-4 w-4 text-violet-600" />
+=======
+          <Fingerprint className="text-accent-primary h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
           Design DNA & Details
         </CardTitle>
         <CardDescription className="text-xs">

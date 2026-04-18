@@ -4,11 +4,12 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Users, ArrowLeft, Eye, ShoppingCart, Calendar, TrendingUp } from 'lucide-react';
+import { ArrowLeft, Eye, ShoppingCart, Calendar, TrendingUp } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { B2BIntegrationStatusWidget } from '@/components/b2b/B2BIntegrationStatusWidget';
 import { getB2BLinks } from '@/lib/data/entity-links';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 /** Мок: визиты партнёров (шоурум, лайншит, лукбук). JOOR-style активность. */
 const MOCK_VISITS = [
@@ -56,6 +57,7 @@ const MOCK_ACTIVITY = [
 
 export default function BrandB2BEngagementPage() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.brand.b2bOrders}>
@@ -103,6 +105,42 @@ export default function BrandB2BEngagementPage() {
           </Button>
         </Link>
       </div>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Вовлечённость партнёров"
+        leadPlain="JOOR: визиты шоурума и лайншита, активность по кампаниям. NuOrder: кто открыл/заказал — связь с заказами и событиями."
+        eyebrow={
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.brand.b2bOrders} aria-label="Назад к заказам">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+        actions={
+          <div className="flex flex-wrap justify-end gap-1">
+            <Button variant="outline" size="sm" asChild>
+              <Link href={ROUTES.brand.integrationsJoor}>JOOR</Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link href={ROUTES.brand.integrationsNuOrder}>NuOrder</Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link href={ROUTES.brand.integrationsFashionCloud}>Fashion Cloud</Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link href={ROUTES.brand.integrationsSparkLayer}>SparkLayer</Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link href={ROUTES.brand.integrationsColect}>Colect</Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link href={ROUTES.brand.integrationsZedonk}>Zedonk</Link>
+            </Button>
+          </div>
+        }
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
         <Card>
@@ -113,8 +151,8 @@ export default function BrandB2BEngagementPage() {
             <CardDescription>Просмотры шоурума, лайншита, лукбука по партнёрам.</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-black text-slate-900">{MOCK_VISITS.length}</p>
-            <p className="text-xs text-slate-500">последние 7 дней (мок)</p>
+            <p className="text-text-primary text-2xl font-black">{MOCK_VISITS.length}</p>
+            <p className="text-text-secondary text-xs">последние 7 дней (мок)</p>
           </CardContent>
         </Card>
         <Card>
@@ -125,8 +163,8 @@ export default function BrandB2BEngagementPage() {
             <CardDescription>Открытия кампаний, скачивания, добавления в заказ.</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-black text-slate-900">{MOCK_ACTIVITY.length}</p>
-            <p className="text-xs text-slate-500">событий за период</p>
+            <p className="text-text-primary text-2xl font-black">{MOCK_ACTIVITY.length}</p>
+            <p className="text-text-secondary text-xs">событий за период</p>
           </CardContent>
         </Card>
       </div>
@@ -143,7 +181,11 @@ export default function BrandB2BEngagementPage() {
             {MOCK_VISITS.map((v) => (
               <li
                 key={v.id}
+<<<<<<< HEAD
                 className="flex items-center justify-between border-b border-slate-100 py-2 last:border-0"
+=======
+                className="border-border-subtle flex items-center justify-between border-b py-2 last:border-0"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <div>
                   <span className="font-medium">{v.partner}</span>
@@ -151,7 +193,7 @@ export default function BrandB2BEngagementPage() {
                     {v.type}
                   </Badge>
                 </div>
-                <span className="text-xs text-slate-500">
+                <span className="text-text-secondary text-xs">
                   {new Date(v.at).toLocaleString('ru-RU')} · {v.duration} мин
                 </span>
               </li>
@@ -172,6 +214,7 @@ export default function BrandB2BEngagementPage() {
             {MOCK_ACTIVITY.map((a) => (
               <li
                 key={a.id}
+<<<<<<< HEAD
                 className="flex items-center justify-between border-b border-slate-100 py-2 last:border-0"
               >
                 <div>
@@ -179,6 +222,15 @@ export default function BrandB2BEngagementPage() {
                   <span className="ml-2 text-sm text-slate-600">{a.action}</span>
                 </div>
                 <span className="text-xs text-slate-500">
+=======
+                className="border-border-subtle flex items-center justify-between border-b py-2 last:border-0"
+              >
+                <div>
+                  <span className="font-medium">{a.partner}</span>
+                  <span className="text-text-secondary ml-2 text-sm">{a.action}</span>
+                </div>
+                <span className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                   {new Date(a.at).toLocaleString('ru-RU')}
                 </span>
               </li>
@@ -201,6 +253,6 @@ export default function BrandB2BEngagementPage() {
 
       <B2BIntegrationStatusWidget settingsHref={ROUTES.brand.integrations} />
       <RelatedModulesBlock title="B2B и партнёры" links={getB2BLinks().slice(0, 6)} />
-    </div>
+    </RegistryPageShell>
   );
 }

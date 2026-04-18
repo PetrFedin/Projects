@@ -39,16 +39,20 @@ export default function TryBeforeYouBuyPage() {
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Try Before You Buy (B2C)</h1>
+<<<<<<< HEAD
           <p className="text-sm text-slate-500">
+=======
+          <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Примерка с холдированием средств. Заказы, клиент, возвраты.
           </p>
         </div>
       </div>
 
-      <Card className="border-violet-100">
+      <Card className="border-accent-primary/20">
         <CardHeader className="pb-2">
           <CardTitle className="flex items-center gap-2 text-base">
-            <CreditCard className="h-4 w-4 text-violet-600" />
+            <CreditCard className="text-accent-primary h-4 w-4" />
             Мои примерки
           </CardTitle>
           <CardDescription>
@@ -59,13 +63,21 @@ export default function TryBeforeYouBuyPage() {
           {orders.map((o) => (
             <div
               key={o.id}
+<<<<<<< HEAD
               className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
+=======
+              className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <div>
                 <p className="text-sm font-medium">
                   {o.orderId} · {o.holdAmountRub.toLocaleString('ru')} ₽ (холд)
                 </p>
+<<<<<<< HEAD
                 <p className="text-xs text-slate-500">
+=======
+                <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                   {o.items.map((i) => i.name).join(', ')} · {statusLabels[o.status]}
                 </p>
               </div>
@@ -74,7 +86,11 @@ export default function TryBeforeYouBuyPage() {
               </Badge>
             </div>
           ))}
+<<<<<<< HEAD
           <p className="mt-3 text-xs text-slate-400">
+=======
+          <p className="text-text-muted mt-3 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
             API: TRY_BEFORE_YOU_BUY_B2C_API — create, confirm purchase, return. Не B2B matrix.
           </p>
         </CardContent>

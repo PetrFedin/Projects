@@ -9,13 +9,26 @@ import { Package, Truck, CreditCard, Layers } from 'lucide-react';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { getProductionLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
 
 export default function ReadyMadeProductionPage() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
+=======
+    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+>>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Готовый товар — упрощённый flow"
-        description="Товар уже произведён в другой стране. Минуем: сэмплы, PO, производство. Только: заведение коллекции, информация о товарах, настройка логистики и оплат."
+        description={
+          <>
+            Товар уже произведён в другой стране. Минуем: сэмплы, <AcronymWithTooltip abbr="PO" />,
+            производство. Только: заведение коллекции, информация о товарах, настройка логистики и
+            оплат.
+          </>
+        }
         icon={Package}
         iconBg="bg-amber-100"
         iconColor="text-amber-600"
@@ -25,7 +38,11 @@ export default function ReadyMadeProductionPage() {
               Готовый товар
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+<<<<<<< HEAD
               <Link href="/brand/production">Production</Link>
+=======
+              <Link href={ROUTES.brand.production}>Производство</Link>
+>>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -39,17 +56,22 @@ export default function ReadyMadeProductionPage() {
               <Layers className="h-5 w-5" /> 1. Коллекция и артикулы
             </CardTitle>
             <CardDescription>
+<<<<<<< HEAD
               Создайте коллекцию и добавьте информацию о товарах (карточки)
+=======
+              Создайте коллекцию и добавьте информацию о товарах (<AcronymWithTooltip abbr="SKU" />
+              -карточки)
+>>>>>>> recover/cabinet-wip-from-stash
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Button variant="outline" size="sm" asChild>
-              <Link href="/brand/products/create-ready">Создать карточки</Link>
+              <Link href={ROUTES.brand.productsCreateReady}>Создать карточки</Link>
             </Button>
           </CardContent>
         </Card>
 
-        <Card className="rounded-xl border border-slate-100">
+        <Card className="border-border-subtle rounded-xl border">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Truck className="h-5 w-5" /> 2. Логистика
@@ -58,12 +80,12 @@ export default function ReadyMadeProductionPage() {
           </CardHeader>
           <CardContent>
             <Button variant="outline" size="sm" asChild>
-              <Link href="/brand/warehouse">Склад</Link>
+              <Link href={ROUTES.brand.warehouse}>Склад</Link>
             </Button>
           </CardContent>
         </Card>
 
-        <Card className="rounded-xl border border-slate-100">
+        <Card className="border-border-subtle rounded-xl border">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <CreditCard className="h-5 w-5" /> 3. Оплаты и цены
@@ -72,13 +94,13 @@ export default function ReadyMadeProductionPage() {
           </CardHeader>
           <CardContent>
             <Button variant="outline" size="sm" asChild>
-              <Link href="/brand/finance">Финансы</Link>
+              <Link href={ROUTES.brand.finance}>Финансы</Link>
             </Button>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="rounded-xl border border-slate-100">
+      <Card className="border-border-subtle rounded-xl border">
         <CardHeader>
           <CardTitle>Чеклист</CardTitle>
           <CardDescription>Шаги при добавлении уже произведённого товара</CardDescription>
@@ -86,8 +108,13 @@ export default function ReadyMadeProductionPage() {
         <CardContent>
           <ul className="space-y-2 text-sm">
             <li className="flex items-center gap-2">
+<<<<<<< HEAD
               <Package className="h-4 w-4 text-emerald-500" /> Заведение коллекции (без PO и
               сэмплов)
+=======
+              <Package className="h-4 w-4 text-emerald-500" /> Заведение коллекции (без{' '}
+              <AcronymWithTooltip abbr="PO" /> и сэмплов)
+>>>>>>> recover/cabinet-wip-from-stash
             </li>
             <li className="flex items-center gap-2">
               <Package className="h-4 w-4 text-emerald-500" /> Создание карточек товаров
@@ -103,6 +130,6 @@ export default function ReadyMadeProductionPage() {
       </Card>
 
       <RelatedModulesBlock links={getProductionLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

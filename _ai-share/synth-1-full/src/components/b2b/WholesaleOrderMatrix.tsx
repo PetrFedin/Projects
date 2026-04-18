@@ -59,6 +59,10 @@ interface WholesaleOrderMatrixProps {
   initialPriceTier?: 'retail_a' | 'retail_b' | 'outlet';
   /** Территория партнёра для отображения в шапке */
   initialTerritory?: string;
+  /** PIM / Fashion Cloud: бренд из query (?brand=) */
+  pimBrandContext?: string;
+  /** Контекст коллекции при открытии из explorer */
+  collectionId?: string;
 }
 
 export function WholesaleOrderMatrix({
@@ -68,6 +72,11 @@ export function WholesaleOrderMatrix({
   initialEventId,
   initialPriceTier,
   initialTerritory,
+<<<<<<< HEAD
+=======
+  pimBrandContext: _pimBrandContext,
+  collectionId: _collectionId,
+>>>>>>> recover/cabinet-wip-from-stash
 }: WholesaleOrderMatrixProps) {
   const { activeCurrency } = useUIState();
   const { b2bCart, setB2bCart, updateB2bOrderItemQuantity, removeB2bOrderItem } = useB2BState();
@@ -175,14 +184,22 @@ export function WholesaleOrderMatrix({
       <DialogContent className="max-w-2xl rounded-xl border-none bg-white p-3 shadow-2xl">
         <DialogHeader className="mb-8">
           <div className="flex items-center gap-3">
+<<<<<<< HEAD
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-900 text-white">
+=======
+            <div className="bg-text-primary flex h-12 w-12 items-center justify-center rounded-2xl text-white">
+>>>>>>> recover/cabinet-wip-from-stash
               <FileSpreadsheet className="h-6 w-6" />
             </div>
             <div className="text-left">
               <DialogTitle className="text-sm font-black uppercase tracking-tight">
                 Массовый ввод заказа (Bulk edit)
               </DialogTitle>
+<<<<<<< HEAD
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+=======
+              <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Вставьте список артикулов или загрузите XLS для быстрого заказа. NuOrder-style:
                 массовое изменение qty/размера.
               </p>
@@ -191,16 +208,28 @@ export function WholesaleOrderMatrix({
         </DialogHeader>
         <div className="space-y-6">
           <textarea
+<<<<<<< HEAD
             className="h-48 w-full resize-none rounded-xl border-none bg-slate-50 p-4 font-mono text-xs focus:ring-2 focus:ring-indigo-500"
             placeholder="Артикул, Размер, Количество&#10;CTP-26-001, M, 12&#10;CTP-26-001, L, 8..."
           />
           <div className="flex gap-3">
             <Button className="h-10 flex-1 rounded-2xl bg-slate-900 text-[10px] font-black uppercase tracking-widest text-white">
+=======
+            className="bg-bg-surface2 focus:ring-accent-primary h-48 w-full resize-none rounded-xl border-none p-4 font-mono text-xs focus:ring-2"
+            placeholder="Артикул, Размер, Количество&#10;CTP-26-001, M, 12&#10;CTP-26-001, L, 8..."
+          />
+          <div className="flex gap-3">
+            <Button className="bg-text-primary h-10 flex-1 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white">
+>>>>>>> recover/cabinet-wip-from-stash
               Обработать список
             </Button>
             <Button
               variant="outline"
+<<<<<<< HEAD
               className="h-10 rounded-2xl border-slate-200 px-8 text-[10px] font-black uppercase tracking-widest"
+=======
+              className="border-border-default h-10 rounded-2xl px-8 text-[10px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               Загрузить XLS
             </Button>
@@ -214,14 +243,22 @@ export function WholesaleOrderMatrix({
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
+<<<<<<< HEAD
       className="fixed inset-0 z-[150] flex flex-col bg-slate-50 text-left"
     >
       {renderBulkEntry()}
       <div className="flex h-24 items-center justify-between border-b border-slate-100 bg-white px-10">
+=======
+      className="bg-bg-surface2 fixed inset-0 z-[150] flex flex-col text-left"
+    >
+      {renderBulkEntry()}
+      <div className="border-border-subtle flex h-24 items-center justify-between border-b bg-white px-10">
+>>>>>>> recover/cabinet-wip-from-stash
         <div className="flex items-center gap-3">
           <Button
             variant="ghost"
             onClick={onClose}
+<<<<<<< HEAD
             className="group h-12 w-12 rounded-2xl p-0 hover:bg-slate-50"
           >
             <ChevronLeft className="h-6 w-6 text-slate-400 transition-colors group-hover:text-slate-900" />
@@ -236,6 +273,22 @@ export function WholesaleOrderMatrix({
               </h2>
             </div>
             <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+=======
+            className="hover:bg-bg-surface2 group h-12 w-12 rounded-2xl p-0"
+          >
+            <ChevronLeft className="text-text-muted group-hover:text-text-primary h-6 w-6 transition-colors" />
+          </Button>
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <Badge className="bg-accent-primary border-none px-2 py-0.5 text-[8px] font-black uppercase tracking-widest text-white">
+                Order_Matrix_v1.2
+              </Badge>
+              <h2 className="text-text-primary text-base font-black uppercase tracking-tight">
+                Настройка Оптового Заказа
+              </h2>
+            </div>
+            <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               Коллекция: NEURAL NOMAD FW26 • Ритейлер: {activeRetailer?.name || 'Партнер'}
               {displayEventId && ` • Событие: ${displayEventId}`}
               {displayPriceTier && ` • ${PRICE_TIER_LABELS[displayPriceTier]}`}
@@ -246,6 +299,7 @@ export function WholesaleOrderMatrix({
 
         <div className="flex items-center gap-3">
           <div className="mr-6 flex flex-col items-end">
+<<<<<<< HEAD
             <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">
               Оценочная стоимость
             </p>
@@ -253,25 +307,47 @@ export function WholesaleOrderMatrix({
               {totals.amount.toLocaleString('ru-RU')} ₽
             </p>
             <p className="text-[10px] font-bold uppercase tracking-tight text-indigo-600">
+=======
+            <p className="text-text-muted text-[8px] font-black uppercase tracking-widest">
+              Оценочная стоимость
+            </p>
+            <p className="text-text-primary text-sm font-black">
+              {totals.amount.toLocaleString('ru-RU')} ₽
+            </p>
+            <p className="text-accent-primary text-[10px] font-bold uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
               Всего {totals.units} ед.
             </p>
           </div>
           {orderMode === 'pre_order' && (
             <Link
+<<<<<<< HEAD
               href="/shop/b2b/pre-order"
               className="flex items-center gap-1 text-[9px] font-bold text-indigo-600 hover:underline"
+=======
+              href={ROUTES.shop.b2bPreOrder}
+              className="text-accent-primary flex items-center gap-1 text-[9px] font-bold hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <Calendar className="h-3.5 w-3.5" /> Каталог Pre-order
             </Link>
           )}
           <Button
             variant="outline"
+<<<<<<< HEAD
             className="h-12 gap-2 rounded-2xl border-slate-200 bg-white px-6 text-[10px] font-black uppercase tracking-widest"
+=======
+            className="border-border-default h-12 gap-2 rounded-2xl bg-white px-6 text-[10px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <Save className="h-4 w-4" /> Сохранить черновик
           </Button>
           <Button
+<<<<<<< HEAD
             className="h-12 gap-2 rounded-2xl bg-slate-900 px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-slate-200"
+=======
+            className="bg-text-primary h-12 gap-2 rounded-2xl px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-md shadow-xl"
+>>>>>>> recover/cabinet-wip-from-stash
             data-order-mode={orderMode}
             data-drop={activeDrop}
             data-try-before-buy={tryBeforeBuy}
@@ -284,6 +360,7 @@ export function WholesaleOrderMatrix({
 
       <div className="flex-1 overflow-auto p-3">
         <div className="mx-auto max-w-[1400px] space-y-4">
+<<<<<<< HEAD
           <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
             <div className="flex flex-wrap items-center gap-3">
               <div className="flex flex-col gap-1">
@@ -291,6 +368,15 @@ export function WholesaleOrderMatrix({
                   Режим заказа
                 </span>
                 <div className="flex items-center gap-1 rounded-xl bg-slate-100 p-1">
+=======
+          <div className="border-border-subtle flex items-center justify-between rounded-xl border bg-white p-4 shadow-sm">
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-col gap-1">
+                <span className="text-text-muted ml-1 text-[8px] font-black uppercase tracking-[0.2em]">
+                  Режим заказа
+                </span>
+                <div className="bg-bg-surface2 flex items-center gap-1 rounded-xl p-1">
+>>>>>>> recover/cabinet-wip-from-stash
                   {(['buy_now', 'reorder', 'pre_order'] as const).map((mode) => (
                     <button
                       key={mode}
@@ -298,8 +384,13 @@ export function WholesaleOrderMatrix({
                       className={cn(
                         'rounded-lg px-3 py-2 text-[9px] font-black uppercase tracking-widest transition-all',
                         orderMode === mode
+<<<<<<< HEAD
                           ? 'bg-indigo-600 text-white shadow-lg'
                           : 'text-slate-400 hover:text-slate-600'
+=======
+                          ? 'bg-accent-primary text-white shadow-lg'
+                          : 'text-text-muted hover:text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {orderModeLabels[mode]}
@@ -307,12 +398,21 @@ export function WholesaleOrderMatrix({
                   ))}
                 </div>
               </div>
+<<<<<<< HEAD
               <div className="mx-1 h-10 w-[1px] bg-slate-100" />
               <div className="flex flex-col gap-1">
                 <span className="ml-1 text-[8px] font-black uppercase tracking-[0.2em] text-slate-400">
                   Активная поставка (Drop)
                 </span>
                 <div className="flex items-center gap-2 rounded-xl bg-slate-100 p-1">
+=======
+              <div className="bg-bg-surface2 mx-1 h-10 w-[1px]" />
+              <div className="flex flex-col gap-1">
+                <span className="text-text-muted ml-1 text-[8px] font-black uppercase tracking-[0.2em]">
+                  Активная поставка (Drop)
+                </span>
+                <div className="bg-bg-surface2 flex items-center gap-2 rounded-xl p-1">
+>>>>>>> recover/cabinet-wip-from-stash
                   {drops.map((drop) => (
                     <button
                       key={drop}
@@ -320,8 +420,13 @@ export function WholesaleOrderMatrix({
                       className={cn(
                         'rounded-lg px-4 py-2 text-[9px] font-black uppercase tracking-widest transition-all',
                         activeDrop === drop
+<<<<<<< HEAD
                           ? 'bg-slate-900 text-white shadow-lg'
                           : 'text-slate-400 hover:text-slate-600'
+=======
+                          ? 'bg-text-primary text-white shadow-lg'
+                          : 'text-text-muted hover:text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {drop.split(':')[0].replace('Drop', 'Дроп')}
@@ -335,6 +440,7 @@ export function WholesaleOrderMatrix({
                 </Badge>
               )}
 
+<<<<<<< HEAD
               <div className="mx-2 h-10 w-[1px] bg-slate-100" />
 
               <div className="relative w-64">
@@ -342,11 +448,24 @@ export function WholesaleOrderMatrix({
                 <Input
                   placeholder="Фильтр каталога..."
                   className="h-12 rounded-xl border-slate-100 bg-slate-50 pl-12"
+=======
+              <div className="bg-bg-surface2 mx-2 h-10 w-[1px]" />
+
+              <div className="relative w-64">
+                <Search className="text-text-muted absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2" />
+                <Input
+                  placeholder="Фильтр каталога..."
+                  className="border-border-subtle bg-bg-surface2 h-12 rounded-xl pl-12"
+>>>>>>> recover/cabinet-wip-from-stash
                 />
               </div>
             </div>
 
+<<<<<<< HEAD
             <div className="flex flex-wrap items-center gap-1.5 rounded-xl bg-slate-100 p-1">
+=======
+            <div className="bg-bg-surface2 flex flex-wrap items-center gap-1.5 rounded-xl p-1">
+>>>>>>> recover/cabinet-wip-from-stash
               {[
                 { id: 'matrix', label: 'Матрица размеров', icon: Grid3X3 },
                 { id: 'replenish', label: 'Умное пополнение', icon: RefreshCcw },
@@ -360,8 +479,13 @@ export function WholesaleOrderMatrix({
                   className={cn(
                     'h-10 rounded-lg px-6 text-[9px] font-black uppercase tracking-widest transition-all',
                     activeTab === tab.id
+<<<<<<< HEAD
                       ? 'bg-white text-slate-900 shadow-sm'
                       : 'bg-transparent text-slate-400 hover:text-slate-600'
+=======
+                      ? 'text-text-primary bg-white shadow-sm'
+                      : 'text-text-muted hover:text-text-secondary bg-transparent'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {tab.label}
@@ -370,7 +494,11 @@ export function WholesaleOrderMatrix({
               <Button
                 variant="outline"
                 size="sm"
+<<<<<<< HEAD
                 className="h-10 rounded-lg border-indigo-200 text-[9px] font-black uppercase tracking-widest text-indigo-600 hover:bg-indigo-50"
+=======
+                className="border-accent-primary/30 text-accent-primary hover:bg-accent-primary/10 h-10 rounded-lg text-[9px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
                 asChild
               >
                 <Link href={ROUTES.shop.b2bWorkingOrder}>
@@ -420,15 +548,24 @@ export function WholesaleOrderMatrix({
               </div>
             </div>
           )}
+<<<<<<< HEAD
           <div className="rounded-xl border border-slate-100 bg-slate-50 p-3">
             <label className="ml-1 text-[8px] font-black uppercase tracking-[0.2em] text-slate-400">
+=======
+          <div className="bg-bg-surface2 border-border-subtle rounded-xl border p-3">
+            <label className="text-text-muted ml-1 text-[8px] font-black uppercase tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
               JOOR: Заметки к заказу
             </label>
             <textarea
               value={orderNotes}
               onChange={(e) => setOrderNotes(e.target.value)}
               placeholder="Комментарий для бренда (сроки, склад, особые пожелания)…"
+<<<<<<< HEAD
               className="mt-1 min-h-[60px] w-full resize-y rounded-lg border border-slate-200 bg-white p-3 text-sm"
+=======
+              className="border-border-default mt-1 min-h-[60px] w-full resize-y rounded-lg border bg-white p-3 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
             />
           </div>
 
@@ -462,7 +599,11 @@ export function WholesaleOrderMatrix({
                       )}
                     >
                       <div className="flex h-full flex-col md:flex-row">
+<<<<<<< HEAD
                         <div className="relative h-64 w-full shrink-0 bg-slate-100 md:w-64">
+=======
+                        <div className="bg-bg-surface2 relative h-64 w-full shrink-0 md:w-64">
+>>>>>>> recover/cabinet-wip-from-stash
                           <img
                             src={
                               product.images?.[0]?.url ||
@@ -471,7 +612,11 @@ export function WholesaleOrderMatrix({
                             className="h-full w-full object-cover"
                           />
                           <div className="absolute left-4 top-4">
+<<<<<<< HEAD
                             <Badge className="border-none bg-white/90 px-3 py-1 text-[8px] font-black uppercase tracking-widest text-slate-900 backdrop-blur-md">
+=======
+                            <Badge className="text-text-primary border-none bg-white/90 px-3 py-1 text-[8px] font-black uppercase tracking-widest backdrop-blur-md">
+>>>>>>> recover/cabinet-wip-from-stash
                               FW26
                             </Badge>
                           </div>
@@ -479,10 +624,17 @@ export function WholesaleOrderMatrix({
                         <div className="flex flex-1 flex-col p-4">
                           <div className="mb-6 flex items-start justify-between">
                             <div className="space-y-1">
+<<<<<<< HEAD
                               <h4 className="text-base font-black uppercase tracking-tight text-slate-900">
                                 {product.name}
                               </h4>
                               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                              <h4 className="text-text-primary text-base font-black uppercase tracking-tight">
+                                {product.name}
+                              </h4>
+                              <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                                 {product.id} • {product.category}
                               </p>
                               {(() => {
@@ -500,9 +652,15 @@ export function WholesaleOrderMatrix({
                                 );
                                 return (
                                   <div className="mt-1.5 flex flex-wrap items-center gap-2">
+<<<<<<< HEAD
                                     <span className="text-[9px] font-bold text-slate-600">
                                       Рекомендуемый размер:{' '}
                                       <span className="uppercase text-indigo-600">
+=======
+                                    <span className="text-text-secondary text-[9px] font-bold">
+                                      Рекомендуемый размер:{' '}
+                                      <span className="text-accent-primary uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                                         {rec.retailerSize ?? rec.size}
                                       </span>
                                     </span>
@@ -513,7 +671,11 @@ export function WholesaleOrderMatrix({
                                     )}
                                     <Link
                                       href={ROUTES.shop.b2bSizeFinder}
+<<<<<<< HEAD
                                       className="text-[9px] font-bold text-indigo-600 hover:underline"
+=======
+                                      className="text-accent-primary text-[9px] font-bold hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
                                     >
                                       Подбор размера →
                                     </Link>
@@ -522,7 +684,11 @@ export function WholesaleOrderMatrix({
                               })()}
                             </div>
                             <div className="text-right">
+<<<<<<< HEAD
                               <p className="text-base font-black text-slate-900">
+=======
+                              <p className="text-text-primary text-base font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                                 {getPriceWithPromotions(
                                   product.id,
                                   getPriceForTier(product.price, priceTier),
@@ -530,7 +696,11 @@ export function WholesaleOrderMatrix({
                                 ).toLocaleString('ru-RU')}{' '}
                                 ₽
                               </p>
+<<<<<<< HEAD
                               <p className="text-[9px] font-bold uppercase tracking-tight text-indigo-600">
+=======
+                              <p className="text-accent-primary text-[9px] font-bold uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                                 {PRICE_TIER_LABELS[priceTier]} · прайс-лист
                               </p>
                             </div>
@@ -551,7 +721,11 @@ export function WholesaleOrderMatrix({
                                 return (
                                   <div key={size} className="space-y-2">
                                     <div className="flex items-center justify-between px-2">
+<<<<<<< HEAD
                                       <span className="text-[10px] font-black uppercase text-slate-400">
+=======
+                                      <span className="text-text-muted text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                                         {size}
                                       </span>
                                       <span
@@ -579,7 +753,11 @@ export function WholesaleOrderMatrix({
                                           );
                                         }}
                                         className={cn(
+<<<<<<< HEAD
                                           'h-12 rounded-xl border-slate-100 bg-slate-50 text-center font-black text-slate-900 transition-all focus:ring-2 focus:ring-indigo-500',
+=======
+                                          'border-border-subtle bg-bg-surface2 text-text-primary focus:ring-accent-primary h-12 rounded-xl text-center font-black transition-all focus:ring-2',
+>>>>>>> recover/cabinet-wip-from-stash
                                           overATS && 'border-rose-300 ring-1 ring-rose-200',
                                           lineBlock.blocked && 'cursor-not-allowed opacity-60'
                                         )}
@@ -616,7 +794,11 @@ export function WholesaleOrderMatrix({
                                   : 'border-amber-200 bg-amber-50'
                               )}
                             >
+<<<<<<< HEAD
                               <p className="mb-1 text-[9px] font-black uppercase text-slate-600">
+=======
+                              <p className="text-text-secondary mb-1 text-[9px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                                 SparkLayer: правила в реальном времени
                               </p>
                               <ul className="space-y-0.5 text-[9px] font-bold">
@@ -631,26 +813,45 @@ export function WholesaleOrderMatrix({
                               )}
                             </div>
                           )}
+<<<<<<< HEAD
                           <div className="mt-8 flex items-center justify-between border-t border-slate-100 pt-6">
                             <div className="flex gap-3">
                               <Badge
                                 variant="outline"
                                 className="h-5 rounded-md border-slate-200 text-[10px] font-bold uppercase"
+=======
+                          <div className="border-border-subtle mt-8 flex items-center justify-between border-t pt-6">
+                            <div className="flex gap-3">
+                              <Badge
+                                variant="outline"
+                                className="border-border-default h-5 rounded-md text-[10px] font-bold uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                               >
                                 JOOR MOQ: {getMoqForProduct(product.id)}
                               </Badge>
                               <Badge
                                 variant="outline"
+<<<<<<< HEAD
                                 className="h-5 rounded-md border-slate-200 text-[10px] font-bold uppercase"
+=======
+                                className="border-border-default h-5 rounded-md text-[10px] font-bold uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                               >
                                 Окно: {activeDrop}
                               </Badge>
                             </div>
                             <div className="flex items-center gap-2">
+<<<<<<< HEAD
                               <p className="text-[10px] font-black uppercase text-slate-400">
                                 Итого по дропу:
                               </p>
                               <p className="text-sm font-black text-slate-900">
+=======
+                              <p className="text-text-muted text-[10px] font-black uppercase">
+                                Итого по дропу:
+                              </p>
+                              <p className="text-text-primary text-sm font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                                 {(
                                   b2bCart
                                     .filter(
@@ -678,9 +879,15 @@ export function WholesaleOrderMatrix({
             {activeTab === 'summary' && (
               <div className="grid grid-cols-1 gap-3 animate-in fade-in slide-in-from-bottom-4">
                 {preflightItems.length > 0 && (
+<<<<<<< HEAD
                   <Card className="overflow-hidden rounded-xl border-l-4 border-none border-indigo-200 bg-white shadow-sm">
                     <div className="p-4">
                       <h3 className="mb-3 text-[10px] font-black uppercase tracking-widest text-slate-500">
+=======
+                  <Card className="border-accent-primary/30 overflow-hidden rounded-xl border-l-4 border-none bg-white shadow-sm">
+                    <div className="p-4">
+                      <h3 className="text-text-secondary mb-3 text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                         SparkLayer: Pre-flight check
                       </h3>
                       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -717,16 +924,24 @@ export function WholesaleOrderMatrix({
                 <Card className="overflow-hidden rounded-xl border-none bg-white shadow-2xl">
                   <div className="space-y-4 p-3">
                     <div className="flex items-center justify-between">
+<<<<<<< HEAD
                       <h3 className="text-sm font-black uppercase tracking-tight text-slate-900">
                         Итого по заказу
                       </h3>
                       <Badge className="rounded-full border-none bg-indigo-50 px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-indigo-600">
+=======
+                      <h3 className="text-text-primary text-sm font-black uppercase tracking-tight">
+                        Итого по заказу
+                      </h3>
+                      <Badge className="bg-accent-primary/10 text-accent-primary rounded-full border-none px-4 py-1.5 text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                         {b2bCart.length} уникальных позиций
                       </Badge>
                     </div>
 
                     <div className="space-y-6">
                       {b2bCart.length > 0 ? (
+<<<<<<< HEAD
                         Array.from(new Set(b2bCart.map((item) => item.deliveryDate))).map(
                           (drop) => (
                             <div key={drop} className="space-y-6">
@@ -804,15 +1019,106 @@ export function WholesaleOrderMatrix({
                                     </div>
                                   ))}
                               </div>
+=======
+                        Array.from(
+                          new Set(
+                            b2bCart
+                              .map((item) => item.deliveryDate)
+                              .filter((d): d is string => typeof d === 'string' && d.length > 0)
+                          )
+                        ).map((drop) => (
+                          <div key={drop} className="space-y-6">
+                            <div className="flex items-center gap-3">
+                              <Badge className="bg-text-primary rounded-full border-none px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-white">
+                                {drop.replace('Drop', 'Дроп')}
+                              </Badge>
+                              <div className="bg-bg-surface2 h-px flex-1" />
+                              <p className="text-text-muted text-[10px] font-black uppercase">
+                                Подытог:{' '}
+                                {b2bCart
+                                  .filter((i) => i.deliveryDate === drop)
+                                  .reduce((sum, i) => sum + i.quantity * i.price, 0)
+                                  .toLocaleString('ru-RU')}{' '}
+                                ₽
+                              </p>
+                            </div>
+                            <div className="divide-border-subtle divide-y">
+                              {b2bCart
+                                .filter((i) => i.deliveryDate === drop)
+                                .map((item, i) => (
+                                  <div
+                                    key={`${item.id}-${item.selectedSize}`}
+                                    className="group flex items-center justify-between py-6"
+                                  >
+                                    <div className="flex items-center gap-3">
+                                      <div className="bg-bg-surface2 border-border-subtle h-12 w-12 overflow-hidden rounded-2xl border">
+                                        <img
+                                          src={item.images?.[0]?.url}
+                                          className="h-full w-full object-cover"
+                                        />
+                                      </div>
+                                      <div>
+                                        <h4 className="text-text-primary font-black uppercase tracking-tight">
+                                          {item.name}
+                                        </h4>
+                                        <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+                                          {item.selectedSize} • {item.price.toLocaleString('ru-RU')}{' '}
+                                          ₽ / ед.
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-right">
+                                      <div>
+                                        <p className="text-text-muted text-[8px] font-black uppercase tracking-widest">
+                                          Количество
+                                        </p>
+                                        <p className="text-text-primary text-sm font-black">
+                                          {item.quantity}
+                                        </p>
+                                      </div>
+                                      <div>
+                                        <p className="text-text-muted text-[8px] font-black uppercase tracking-widest">
+                                          Итого
+                                        </p>
+                                        <p className="text-accent-primary text-sm font-black">
+                                          {(item.quantity * item.price).toLocaleString('ru-RU')} ₽
+                                        </p>
+                                      </div>
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={() =>
+                                          removeB2bOrderItem(
+                                            item.id,
+                                            item.selectedSize,
+                                            item.deliveryDate
+                                          )
+                                        }
+                                        className="h-10 w-10 rounded-xl text-rose-500 opacity-0 transition-all hover:bg-rose-50 hover:text-rose-600 group-hover:opacity-100"
+                                      >
+                                        <X className="h-5 w-5" />
+                                      </Button>
+                                    </div>
+                                  </div>
+                                ))}
+>>>>>>> recover/cabinet-wip-from-stash
                             </div>
                           )
                         )
                       ) : (
+<<<<<<< HEAD
                         <div className="space-y-4 rounded-xl border border-dashed border-slate-200 bg-slate-50 py-10 text-center">
                           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-sm">
                             <ShoppingBag className="h-8 w-8 text-slate-200" />
                           </div>
                           <p className="text-[10px] font-black uppercase italic tracking-widest text-slate-400">
+=======
+                        <div className="bg-bg-surface2 border-border-default space-y-4 rounded-xl border border-dashed py-10 text-center">
+                          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-sm">
+                            <ShoppingBag className="text-text-muted h-8 w-8" />
+                          </div>
+                          <p className="text-text-muted text-[10px] font-black uppercase italic tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                             Ваша корзина пуста...
                           </p>
                         </div>
@@ -845,13 +1151,18 @@ export function WholesaleOrderMatrix({
                             </p>
                           </div>
                         )}
+<<<<<<< HEAD
                         <div className="flex items-end justify-between border-t border-slate-100 pt-10">
+=======
+                        <div className="border-border-subtle flex items-end justify-between border-t pt-10">
+>>>>>>> recover/cabinet-wip-from-stash
                           <div className="space-y-4">
                             <label className="flex cursor-pointer items-center gap-3">
                               <input
                                 type="checkbox"
                                 checked={tryBeforeBuy}
                                 onChange={(e) => setTryBeforeBuy(e.target.checked)}
+<<<<<<< HEAD
                                 className="h-4 w-4 rounded border-slate-300 text-indigo-600"
                               />
                               <span className="text-[10px] font-black uppercase tracking-widest text-slate-700">
@@ -859,14 +1170,29 @@ export function WholesaleOrderMatrix({
                               </span>
                             </label>
                             <p className="text-[9px] text-slate-500">
+=======
+                                className="border-border-default text-accent-primary h-4 w-4 rounded"
+                              />
+                              <span className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+                                Часть заказа — сэмплы на примерку (Try Before Buy)
+                              </span>
+                            </label>
+                            <p className="text-text-secondary text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                               Ценовой уровень: <strong>{PRICE_TIER_LABELS[priceTier]}</strong>.
                               Кредитный лимит: {(credit.available / 1_000_000).toFixed(1)} млн ₽
                               доступно.
                             </p>
                             {tryBeforeBuy && (
+<<<<<<< HEAD
                               <p className="max-w-sm text-[9px] text-indigo-600">
                                 Оплата после примерки.{' '}
                                 <Link href="/client/try-before-buy" className="underline">
+=======
+                              <p className="text-accent-primary max-w-sm text-[9px]">
+                                Оплата после примерки.{' '}
+                                <Link href={ROUTES.client.tryBeforeYouBuy} className="underline">
+>>>>>>> recover/cabinet-wip-from-stash
                                   Подробнее
                                 </Link>
                               </p>
@@ -879,18 +1205,30 @@ export function WholesaleOrderMatrix({
                                 Условия и положения приняты
                               </span>
                             </div>
+<<<<<<< HEAD
                             <p className="max-w-sm text-[9px] font-medium uppercase tracking-widest text-slate-400">
+=======
+                            <p className="text-text-muted max-w-sm text-[9px] font-medium uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                               Подтверждая заказ, вы соглашаетесь с договором оптовой закупки и
                               графиком поставок.
                             </p>
                           </div>
                           <div className="space-y-2 text-right">
+<<<<<<< HEAD
                             <div className="flex items-center justify-end gap-3 text-slate-400">
+=======
+                            <div className="text-text-muted flex items-center justify-end gap-3">
+>>>>>>> recover/cabinet-wip-from-stash
                               <span className="text-[10px] font-black uppercase tracking-widest">
                                 Общий итог ({totalsByTier.units} ед.)
                               </span>
                             </div>
+<<<<<<< HEAD
                             <h4 className="text-sm font-black tracking-tighter text-slate-900">
+=======
+                            <h4 className="text-text-primary text-sm font-black tracking-tighter">
+>>>>>>> recover/cabinet-wip-from-stash
                               {totalsByTier.amount.toLocaleString('ru-RU')} ₽
                             </h4>
                           </div>

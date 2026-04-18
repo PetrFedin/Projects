@@ -60,6 +60,7 @@ export default function VMIPortal() {
     <div className="space-y-10 duration-700 animate-in fade-in">
       <header className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-4">
+<<<<<<< HEAD
           <Badge className="border-none bg-slate-900 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white">
             Brand-Retailer Collaboration
           </Badge>
@@ -67,6 +68,15 @@ export default function VMIPortal() {
             VMI <span className="italic text-indigo-600">Collaborative</span> Portal
           </h1>
           <p className="max-w-2xl text-sm font-medium text-slate-500">
+=======
+          <Badge className="bg-text-primary border-none px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white">
+            Brand-Retailer Collaboration
+          </Badge>
+          <h1 className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter">
+            VMI <span className="text-accent-primary italic">Collaborative</span> Portal
+          </h1>
+          <p className="text-text-secondary max-w-2xl text-sm font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
             Vendor Managed Inventory: бренд берет на себя управление остатками в точках продаж
             ритейлера для минимизации out-of-stock.
           </p>
@@ -74,11 +84,19 @@ export default function VMIPortal() {
         <div className="flex gap-3">
           <Button
             variant="outline"
+<<<<<<< HEAD
             className="h-12 rounded-xl border-slate-200 px-6 text-[10px] font-black uppercase tracking-widest"
           >
             <Settings className="mr-2 h-4 w-4" /> VMI Policies
           </Button>
           <Button className="h-12 rounded-xl bg-slate-900 px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-slate-200 transition-all hover:bg-indigo-600">
+=======
+            className="border-border-default h-12 rounded-xl px-6 text-[10px] font-black uppercase tracking-widest"
+          >
+            <Settings className="mr-2 h-4 w-4" /> VMI Policies
+          </Button>
+          <Button className="bg-text-primary hover:bg-accent-primary h-12 rounded-xl px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-md shadow-xl transition-all">
+>>>>>>> recover/cabinet-wip-from-stash
             Sync Global Stock
           </Button>
         </div>
@@ -90,21 +108,35 @@ export default function VMIPortal() {
           <Card className="rounded-xl border-none bg-white p-4 shadow-xl">
             <div className="mb-10 flex items-center justify-between">
               <div className="flex items-center gap-3">
+<<<<<<< HEAD
                 <Layers className="h-6 w-6 text-indigo-600" />
+=======
+                <Layers className="text-accent-primary h-6 w-6" />
+>>>>>>> recover/cabinet-wip-from-stash
                 <h3 className="text-base font-black uppercase italic tracking-tight">
                   Shared Inventory (Retailer Points)
                 </h3>
               </div>
               <div className="flex gap-3">
                 <div className="flex items-center gap-2">
+<<<<<<< HEAD
                   <div className="h-2 w-2 rounded-full bg-slate-200" />
                   <span className="text-[9px] font-black uppercase text-slate-400">
+=======
+                  <div className="bg-border-subtle h-2 w-2 rounded-full" />
+                  <span className="text-text-muted text-[9px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     Brand Hub Stock
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
+<<<<<<< HEAD
                   <div className="h-2 w-2 rounded-full bg-indigo-600" />
                   <span className="text-[9px] font-black uppercase text-slate-400">
+=======
+                  <div className="bg-accent-primary h-2 w-2 rounded-full" />
+                  <span className="text-text-muted text-[9px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     In-Store Stock
                   </span>
                 </div>
@@ -131,7 +163,11 @@ export default function VMIPortal() {
           </Card>
 
           <div className="space-y-4">
+<<<<<<< HEAD
             <h3 className="flex items-center gap-2 px-2 text-sm font-black uppercase tracking-widest text-slate-400">
+=======
+            <h3 className="text-text-muted flex items-center gap-2 px-2 text-sm font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               <Zap className="h-4 w-4 text-amber-500" /> VMI Auto-Replenishment SKU
             </h3>
             <div className="grid gap-3 md:grid-cols-2">
@@ -144,7 +180,11 @@ export default function VMIPortal() {
                     <Image src={item.images[0].url} alt={item.name} fill className="object-cover" />
                   </div>
                   <div className="min-w-0 flex-1">
+<<<<<<< HEAD
                     <p className="mb-0.5 text-[8px] font-black uppercase text-slate-400">
+=======
+                    <p className="text-text-muted mb-0.5 text-[8px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                       {item.brand}
                     </p>
                     <h4 className="mb-1.5 truncate text-xs font-black uppercase leading-none tracking-tight">
@@ -157,10 +197,17 @@ export default function VMIPortal() {
                     </div>
                   </div>
                   <div className="text-right">
+<<<<<<< HEAD
                     <p className="mb-0.5 text-[8px] font-black uppercase text-slate-400">
                       Threshold
                     </p>
                     <p className="text-sm font-black text-slate-900">15 ед.</p>
+=======
+                    <p className="text-text-muted mb-0.5 text-[8px] font-black uppercase">
+                      Threshold
+                    </p>
+                    <p className="text-text-primary text-sm font-black">15 ед.</p>
+>>>>>>> recover/cabinet-wip-from-stash
                   </div>
                 </Card>
               ))}
@@ -170,11 +217,19 @@ export default function VMIPortal() {
 
         {/* Right Panel: Collaboration & Policies */}
         <div className="space-y-4 lg:col-span-4">
+<<<<<<< HEAD
           <Card className="group relative overflow-hidden rounded-xl border-none bg-slate-900 p-4 text-white shadow-xl">
             <Users className="absolute -right-4 -top-4 h-32 w-32 text-indigo-500 opacity-10 transition-transform duration-700 group-hover:scale-110" />
             <div className="relative z-10 space-y-4">
               <header className="space-y-2">
                 <Badge className="border-none bg-indigo-500 px-2 py-0.5 text-[8px] font-black uppercase text-white">
+=======
+          <Card className="bg-text-primary group relative overflow-hidden rounded-xl border-none p-4 text-white shadow-xl">
+            <Users className="text-accent-primary absolute -right-4 -top-4 h-32 w-32 opacity-10 transition-transform duration-700 group-hover:scale-110" />
+            <div className="relative z-10 space-y-4">
+              <header className="space-y-2">
+                <Badge className="bg-accent-primary border-none px-2 py-0.5 text-[8px] font-black uppercase text-white">
+>>>>>>> recover/cabinet-wip-from-stash
                   Global Partnership
                 </Badge>
                 <h3 className="text-sm font-black uppercase italic leading-none tracking-tight">
@@ -194,7 +249,11 @@ export default function VMIPortal() {
                   >
                     <div>
                       <p className="text-xs font-black uppercase tracking-tight">{p.name}</p>
+<<<<<<< HEAD
                       <p className="text-[8px] font-black uppercase text-slate-500">
+=======
+                      <p className="text-text-secondary text-[8px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                         Portfolio Share: {p.share}
                       </p>
                     </div>
@@ -212,7 +271,11 @@ export default function VMIPortal() {
                 ))}
               </div>
 
+<<<<<<< HEAD
               <Button className="h-10 w-full rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-xl shadow-black/20 transition-all hover:bg-indigo-400 hover:text-white">
+=======
+              <Button className="text-text-primary hover:bg-accent-primary h-10 w-full rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest shadow-xl shadow-black/20 transition-all hover:text-white">
+>>>>>>> recover/cabinet-wip-from-stash
                 Connect New Retailer <ArrowUpRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
@@ -220,7 +283,11 @@ export default function VMIPortal() {
 
           <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-xl">
             <div className="flex items-center gap-3">
+<<<<<<< HEAD
               <ShieldCheck className="h-5 w-5 text-indigo-600" />
+=======
+              <ShieldCheck className="text-accent-primary h-5 w-5" />
+>>>>>>> recover/cabinet-wip-from-stash
               <h3 className="text-sm font-black uppercase tracking-widest">
                 VMI Service Level (SLA)
               </h3>
@@ -228,15 +295,24 @@ export default function VMIPortal() {
             <div className="space-y-6">
               <div className="space-y-2">
                 <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
+<<<<<<< HEAD
                   <span className="text-slate-400">Inventory Turnover</span>
                   <span>8.2x / yr</span>
                 </div>
                 <div className="h-2 w-full overflow-hidden rounded-full bg-slate-50">
                   <div className="h-full w-[82%] rounded-full bg-indigo-600" />
+=======
+                  <span className="text-text-muted">Inventory Turnover</span>
+                  <span>8.2x / yr</span>
+                </div>
+                <div className="bg-bg-surface2 h-2 w-full overflow-hidden rounded-full">
+                  <div className="bg-accent-primary h-full w-[82%] rounded-full" />
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
+<<<<<<< HEAD
                 <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
                   <p className="mb-1 text-[8px] font-black uppercase text-slate-400">
                     Stock Accuracy
@@ -245,13 +321,27 @@ export default function VMIPortal() {
                 </div>
                 <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
                   <p className="mb-1 text-[8px] font-black uppercase text-slate-400">
+=======
+                <div className="bg-bg-surface2 border-border-subtle rounded-2xl border p-4">
+                  <p className="text-text-muted mb-1 text-[8px] font-black uppercase">
+                    Stock Accuracy
+                  </p>
+                  <p className="text-text-primary text-sm font-black">99.8%</p>
+                </div>
+                <div className="bg-bg-surface2 border-border-subtle rounded-2xl border p-4">
+                  <p className="text-text-muted mb-1 text-[8px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     Refill Speed
                   </p>
                   <p className="text-sm font-black text-emerald-600">24h</p>
                 </div>
               </div>
             </div>
+<<<<<<< HEAD
             <p className="border-t border-slate-50 pt-4 text-center text-[9px] font-medium italic leading-relaxed text-slate-400">
+=======
+            <p className="text-text-muted border-border-subtle border-t pt-4 text-center text-[9px] font-medium italic leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
               *SLA контролируется Syntha Smart Contracts. Штрафы за out-of-stock начисляются
               автоматически.
             </p>

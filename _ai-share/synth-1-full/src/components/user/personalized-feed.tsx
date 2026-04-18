@@ -40,13 +40,13 @@ export default function PersonalizedFeed() {
         description: `${wishlist.length} товаров из вашего избранного сейчас со скидкой до 30%`,
         priority: 'high',
         action: 'Посмотреть скидки',
-        actionLink: '/u?tab=wardrobe',
+        actionLink: '/client/me?tab=wardrobe',
         timestamp: new Date().toISOString(),
       },
       {
         id: '2',
         type: 'new_collection',
-        title: 'Новая коллекция от A.P.C.',
+        title: 'Новая коллекция Nordic Wool',
         description: 'Ваш любимый бренд выпустил весеннюю коллекцию',
         priority: 'high',
         action: 'Посмотреть коллекцию',
@@ -103,7 +103,11 @@ export default function PersonalizedFeed() {
       case 'sale':
         return <Gift className="h-4 w-4 text-red-600" />;
       case 'new_collection':
+<<<<<<< HEAD
         return <Sparkles className="h-4 w-4 text-purple-600" />;
+=======
+        return <Sparkles className="text-accent-primary h-4 w-4" />;
+>>>>>>> recover/cabinet-wip-from-stash
       case 'restock':
         return <Bell className="h-4 w-4 text-green-600" />;
       case 'social':

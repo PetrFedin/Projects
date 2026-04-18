@@ -27,23 +27,32 @@ import {
   CheckCircle,
   Share2,
   Lock,
+<<<<<<< HEAD
+=======
+  ArrowLeft,
+>>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 import { brands } from '@/lib/placeholder-data';
 import BrandCard from '@/components/brand-card';
-import { generateOutfitFromPrompt } from '@/ai/flows/generate-outfit-from-prompt';
+import { outfitPreviewClient } from '@/lib/ai-client/api';
 import ProductCard from '@/components/product-card';
 import { products } from '@/lib/products';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { Badge } from '@/components/ui/badge';
 import kickstarterUpdates from '@/lib/data/kickstarter-updates.json';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useToast } from '@/hooks/use-toast';
 import { useUIState } from '@/providers/ui-state';
+import { useB2BState } from '@/providers/b2b-state';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 const mockComments = [
   {
@@ -66,8 +75,14 @@ function OutfitRecommender({ productTitle }: { productTitle: string }) {
     setIsLoading(true);
     setOutfitImage(null);
     try {
+<<<<<<< HEAD
       const result = await generateOutfitFromPrompt({
         prompt: `A full stylish outfit recommendation featuring a "${productTitle}". The image should be a full-body shot of a model against a clean, minimalist background, showcasing how to style the main item.`,
+=======
+      const result = await outfitPreviewClient({
+        prompt: `A full stylish outfit recommendation featuring a "${productTitle}". The image should be a full-body shot of a model against a clean, minimalist background, showcasing how to style the main item.`,
+        directPrompt: true,
+>>>>>>> recover/cabinet-wip-from-stash
       });
       if (result.generatedOutfitImage) {
         setOutfitImage(result.generatedOutfitImage);
@@ -126,6 +141,7 @@ export default function CampaignDetailsPage({
   useEffect(() => {
     setProject(kickstarterProjects.find((p) => p.id === params.campaignId));
   }, [params.campaignId]);
+<<<<<<< HEAD
 
   const [selectedTierId, setSelectedTierId] = useState<string | null>(null);
   const { toast } = useToast();
@@ -194,6 +210,123 @@ export default function CampaignDetailsPage({
               <TabsTrigger value="story">История проекта</TabsTrigger>
               <TabsTrigger value="updates">Обновления ({updates.length})</TabsTrigger>
               <TabsTrigger value="comments">Комментарии ({mockComments.length})</TabsTrigger>
+=======
+
+  const [selectedTierId, setSelectedTierId] = useState<string | null>(null);
+  const { toast } = useToast();
+  const { user } = useUIState();
+  const { addB2bOrderItem } = useB2BState();
+
+  const isB2bUser = user?.roles?.includes('shop');
+  const [b2bQuantity, setB2bQuantity] = useState(project?.moqWholesale || 1);
+
+  useEffect(() => {
+    if (project?.moqWholesale) {
+      setB2bQuantity(project.moqWholesale);
+    }
+  }, [project]);
+
+  if (!project) {
+    return null;
+  }
+
+  const brand = brands.find((b) => b.id === project.brandId);
+  const product = products.find((p) => p.id === project.productId);
+
+  const progress = (project.currentQuantity / project.targetQuantity) * 100;
+  const daysLeft = Math.max(
+    0,
+    Math.ceil((new Date(project.endAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
+  );
+  const updates = kickstarterUpdates.filter((u) => u.campaignId === project.id);
+
+  const handleCopyReferral = () => {
+    navigator.clipboard.writeText(`https://syntha.app/kickstarter/${project.id}?ref=user123`);
+    toast({
+      title: 'Ссылка скопирована',
+      description: 'Поделитесь ей с друзьями, чтобы получить бонусы!',
+    });
+  };
+
+  const handleAddToB2bOrder = () => {
+    if (!product) return;
+
+    // This is a simplified logic. A real app would need to handle variants.
+    const size = product.sizes?.[0]?.name || 'One Size';
+    addB2bOrderItem(product, size, b2bQuantity);
+
+    toast({
+      title: 'Добавлено в B2B-заказ',
+      description: `${product.name} (${b2bQuantity} шт.) добавлен в ваш оптовый заказ.`,
+    });
+  };
+
+  return (
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title={project.title}
+        leadPlain={`${daysLeft} дн. до конца · ${progress.toFixed(0)}% от цели по количеству`}
+        eyebrow={
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.brand.kickstarter} aria-label="Назад к кампаниям">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+        actions={
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <Button variant="outline" size="sm" asChild>
+              <Link href={`${ROUTES.brand.kickstarter}/${project.id}/edit`}>Редактировать</Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link href={`${ROUTES.brand.kickstarter}/${project.id}/analytics`}>Аналитика</Link>
+            </Button>
+          </div>
+        }
+      />
+      <div className="grid gap-3 lg:grid-cols-3">
+        {/* Main Content */}
+        <div className="space-y-4 lg:col-span-2">
+          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg">
+            <Image
+              src={project.imageUrl || 'https://placehold.co/1200x750/f0f0f0/333333?text=Syntha'}
+              alt={project.title}
+              fill
+              className="object-cover"
+            />
+          </div>
+
+          <Tabs defaultValue="story">
+            {/* cabinetSurface v1 */}
+            <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
+              <TabsTrigger
+                value="story"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                История проекта
+              </TabsTrigger>
+              <TabsTrigger
+                value="updates"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                Обновления ({updates.length})
+              </TabsTrigger>
+              <TabsTrigger
+                value="comments"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                Комментарии ({mockComments.length})
+              </TabsTrigger>
+>>>>>>> recover/cabinet-wip-from-stash
             </TabsList>
             <TabsContent value="story" className="prose dark:prose-invert mt-6 max-w-none">
               <h2>Концепция: {project.title}</h2>
@@ -425,6 +558,10 @@ export default function CampaignDetailsPage({
           </div>
         </div>
       </div>
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

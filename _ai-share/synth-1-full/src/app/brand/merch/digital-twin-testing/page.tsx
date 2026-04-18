@@ -31,7 +31,11 @@ export default function DigitalTwinTestingPage() {
         </Button>
         <div>
           <h1 className="flex items-center gap-2 text-xl font-bold">
+<<<<<<< HEAD
             <Box className="h-6 w-6 text-violet-600" />
+=======
+            <Box className="text-accent-primary h-6 w-6" />
+>>>>>>> recover/cabinet-wip-from-stash
             Digital Twin A/B Testing
           </h1>
           <p className="text-sm text-muted-foreground">
@@ -43,7 +47,14 @@ export default function DigitalTwinTestingPage() {
 
       <div className="grid gap-6">
         {tests.map((test) => (
+<<<<<<< HEAD
           <Card key={test.id} className={test.status === 'active' ? 'border-violet-200' : ''}>
+=======
+          <Card
+            key={test.id}
+            className={test.status === 'active' ? 'border-accent-primary/25' : ''}
+          >
+>>>>>>> recover/cabinet-wip-from-stash
             <CardHeader className="pb-2">
               <div className="flex items-start justify-between">
                 <div>
@@ -61,10 +72,16 @@ export default function DigitalTwinTestingPage() {
                   </CardDescription>
                 </div>
                 <div className="text-right">
+<<<<<<< HEAD
                   <p className="mb-1 flex items-center justify-end gap-1 text-[10px] font-bold uppercase text-muted-foreground text-violet-600">
+=======
+                  <p className="text-accent-primary mb-1 flex items-center justify-end gap-1 text-[10px] font-bold uppercase text-muted-foreground">
+>>>>>>> recover/cabinet-wip-from-stash
                     <Zap className="h-3 w-3" /> Conversion Est.
                   </p>
-                  <p className="text-2xl font-black text-violet-700">{test.conversionEstimate}%</p>
+                  <p className="text-accent-primary text-2xl font-black">
+                    {test.conversionEstimate}%
+                  </p>
                 </div>
               </div>
             </CardHeader>
@@ -88,7 +105,11 @@ export default function DigitalTwinTestingPage() {
                   </Button>
                   <Button
                     size="sm"
+<<<<<<< HEAD
                     className={`ml-2 h-7 text-[10px] ${test.status === 'active' ? 'bg-violet-600' : ''}`}
+=======
+                    className={`ml-2 h-7 text-[10px] ${test.status === 'active' ? 'bg-accent-primary' : ''}`}
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     {test.status === 'active' ? 'Approve for Sample' : 'View Results'}
                   </Button>

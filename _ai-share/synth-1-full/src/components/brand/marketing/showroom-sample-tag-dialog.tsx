@@ -156,17 +156,30 @@ export function ShowroomSampleTagDialog({
           </DialogDescription>
         </DialogHeader>
 
+<<<<<<< HEAD
         <div className="showroom-tag-print space-y-4 rounded-lg border border-slate-200 bg-white p-4">
           <div className="space-y-1 text-center">
             <p className="text-sm font-bold text-slate-900">{payload.name}</p>
             <p className="text-[11px] text-slate-500">
+=======
+        <div className="showroom-tag-print border-border-default space-y-4 rounded-lg border bg-white p-4">
+          <div className="space-y-1 text-center">
+            <p className="text-text-primary text-sm font-bold">{payload.name}</p>
+            <p className="text-text-secondary text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
               {payload.sku}
               {payload.sampleSize ? ` · ${payload.sampleSize}` : ''}
               {payload.color ? ` · ${payload.color}` : ''}
             </p>
+<<<<<<< HEAD
             <p className="font-mono text-[10px] text-slate-400">Образец {payload.sampleId}</p>
             {payload.internalArticleCode ? (
               <p className="font-mono text-[10px] text-slate-500">
+=======
+            <p className="text-text-muted font-mono text-[10px]">Образец {payload.sampleId}</p>
+            {payload.internalArticleCode ? (
+              <p className="text-text-secondary font-mono text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                 Внутр. артикул {payload.internalArticleCode}
               </p>
             ) : null}
@@ -189,7 +202,11 @@ export function ShowroomSampleTagDialog({
               />
             ) : (
               <div
+<<<<<<< HEAD
                 className="h-[200px] w-[200px] animate-pulse rounded-md bg-slate-100"
+=======
+                className="bg-bg-surface2 h-[200px] w-[200px] animate-pulse rounded-md"
+>>>>>>> recover/cabinet-wip-from-stash
                 aria-hidden
               />
             )}
@@ -203,12 +220,16 @@ export function ShowroomSampleTagDialog({
                   height={100}
                   className="h-auto max-w-full"
                 />
+<<<<<<< HEAD
                 <p className="break-all px-2 text-center font-mono text-[10px] text-slate-600">
+=======
+                <p className="text-text-secondary break-all px-2 text-center font-mono text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                   {registryId}
                 </p>
               </>
             ) : !regError ? (
-              <p className="text-[10px] text-slate-500 print:hidden">Регистрация id…</p>
+              <p className="text-text-secondary text-[10px] print:hidden">Регистрация id…</p>
             ) : null}
           </div>
         </div>

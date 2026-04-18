@@ -38,12 +38,17 @@ import {
 } from 'lucide-react';
 import { StatCard } from '../stat-card';
 import { Tabs, TabsList, TabsTrigger } from '../ui/tabs';
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { DateRange } from 'react-day-picker';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Calendar } from '../ui/calendar';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
+<<<<<<< HEAD
 import { cn } from '@/lib/utils';
+=======
+>>>>>>> recover/cabinet-wip-from-stash
 import {
   ResponsiveContainer,
   BarChart as RechartsBarChart,
@@ -54,6 +59,7 @@ import {
   CartesianGrid,
 } from 'recharts';
 import Link from 'next/link';
+import { ROUTES } from '@/lib/routes';
 import { motion } from 'framer-motion';
 import { fastApiService } from '@/lib/fastapi-service';
 import { useEffect } from 'react';
@@ -71,7 +77,11 @@ const productionLoadData = [
 const recentOrders = [
   {
     order: 'PO-001',
+<<<<<<< HEAD
     brand: 'Syntha',
+=======
+    brand: 'Syntha Lab',
+>>>>>>> recover/cabinet-wip-from-stash
     item: 'Кашемировый свитер',
     quantity: 500,
     cost: 3500000,
@@ -81,7 +91,11 @@ const recentOrders = [
   },
   {
     order: 'PO-002',
+<<<<<<< HEAD
     brand: 'A.P.C.',
+=======
+    brand: 'Nordic Wool',
+>>>>>>> recover/cabinet-wip-from-stash
     item: 'Классические брюки',
     quantity: 750,
     cost: 4200000,
@@ -91,7 +105,11 @@ const recentOrders = [
   },
   {
     order: 'PO-003',
+<<<<<<< HEAD
     brand: 'Acne Studios',
+=======
+    brand: 'Syntha Lab',
+>>>>>>> recover/cabinet-wip-from-stash
     item: 'Джинсовая куртка',
     quantity: 300,
     cost: 1800000,
@@ -129,17 +147,29 @@ export function ManufacturerDashboard() {
   return (
     <div className="space-y-4">
       {/* Industrial Fintech Integration — Compact Banner */}
+<<<<<<< HEAD
       <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 p-4 text-white shadow-xl">
+=======
+      <div className="bg-text-primary border-text-primary/30 relative overflow-hidden rounded-2xl border p-4 text-white shadow-xl">
+>>>>>>> recover/cabinet-wip-from-stash
         <div className="absolute right-0 top-0 rotate-12 p-4 opacity-[0.03]">
           <DollarSign className="h-32 w-32" />
         </div>
         <div className="relative z-10 flex flex-col items-center justify-between gap-3 md:flex-row">
           <div className="flex items-center gap-3">
+<<<<<<< HEAD
             <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-indigo-500 bg-indigo-600 shadow-lg">
               <Zap className="h-6 w-6 text-white" />
             </div>
             <div>
               <p className="mb-1 text-[9px] font-black uppercase leading-none tracking-[0.2em] text-indigo-400">
+=======
+            <div className="bg-accent-primary border-accent-primary flex h-12 w-12 items-center justify-center rounded-xl border shadow-lg">
+              <Zap className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <p className="text-accent-primary mb-1 text-[9px] font-black uppercase leading-none tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
                 Industrial Fintech Hub
               </p>
               <h3 className="text-base font-black uppercase italic leading-none tracking-tight">
@@ -149,7 +179,11 @@ export function ManufacturerDashboard() {
                 <p className="text-[10px] font-bold uppercase leading-none tracking-widest text-white/40">
                   Available for factoring:
                 </p>
+<<<<<<< HEAD
                 <span className="text-[11px] font-black tabular-nums text-indigo-400">
+=======
+                <span className="text-accent-primary text-[11px] font-black tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                   7,700,000 ₽
                 </span>
               </div>
@@ -167,7 +201,11 @@ export function ManufacturerDashboard() {
             <div className="mx-2 hidden h-8 w-px bg-white/10 xl:block" />
             <Button
               size="sm"
+<<<<<<< HEAD
               className="h-9 w-full rounded-lg bg-white px-6 text-[9px] font-black uppercase tracking-widest text-black shadow-md transition-all hover:bg-indigo-400 hover:text-white md:w-auto"
+=======
+              className="hover:bg-accent-primary h-9 w-full rounded-lg bg-white px-6 text-[9px] font-black uppercase tracking-widest text-black shadow-md transition-all hover:text-white md:w-auto"
+>>>>>>> recover/cabinet-wip-from-stash
               asChild
             >
               <Link href="/wallet">Open Wallet</Link>
@@ -184,8 +222,13 @@ export function ManufacturerDashboard() {
             value: '92%',
             sub: 'Загрузка Drop 1',
             icon: FactoryIcon,
+<<<<<<< HEAD
             color: 'text-indigo-600',
             bg: 'bg-indigo-50',
+=======
+            color: 'text-accent-primary',
+            bg: 'bg-accent-primary/10',
+>>>>>>> recover/cabinet-wip-from-stash
           },
           {
             label: 'Контроль качества',
@@ -228,12 +271,17 @@ export function ManufacturerDashboard() {
                 </div>
                 <Badge
                   variant="outline"
+<<<<<<< HEAD
                   className="border-slate-100 text-[8px] font-black uppercase"
+=======
+                  className="border-border-subtle text-[8px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   Live
                 </Badge>
               </div>
               <div className="mt-4">
+<<<<<<< HEAD
                 <p className="mb-1 text-[10px] font-black uppercase tracking-widest text-slate-400">
                   {stat.label}
                 </p>
@@ -242,6 +290,16 @@ export function ManufacturerDashboard() {
                     {stat.value}
                   </h4>
                   <p className="text-[10px] font-bold uppercase tracking-tight text-slate-500">
+=======
+                <p className="text-text-muted mb-1 text-[10px] font-black uppercase tracking-widest">
+                  {stat.label}
+                </p>
+                <div className="flex items-baseline gap-2">
+                  <h4 className="text-text-primary text-sm font-black tracking-tighter">
+                    {stat.value}
+                  </h4>
+                  <p className="text-text-secondary text-[10px] font-bold uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                     {stat.sub}
                   </p>
                 </div>
@@ -252,19 +310,29 @@ export function ManufacturerDashboard() {
       </div>
 
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+<<<<<<< HEAD
         <Card className="overflow-hidden rounded-xl border-slate-100 shadow-sm lg:col-span-2">
           <CardHeader className="border-b border-slate-100 bg-slate-50/50 pb-6">
+=======
+        <Card className="border-border-subtle overflow-hidden rounded-xl shadow-sm lg:col-span-2">
+          <CardHeader className="bg-bg-surface2/80 border-border-subtle border-b pb-6">
+>>>>>>> recover/cabinet-wip-from-stash
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-sm font-black uppercase tracking-tight">
                   Загруженность мощностей
                 </CardTitle>
+<<<<<<< HEAD
                 <CardDescription className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                <CardDescription className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   План vs Факт (единиц продукции)
                 </CardDescription>
               </div>
               <div className="flex items-center gap-2">
                 <Tabs value={period} onValueChange={(v) => setPeriod(v as Period)}>
+<<<<<<< HEAD
                   <TabsList className="border-none bg-slate-100">
                     <TabsTrigger value="week" className="px-3 text-[9px] font-black uppercase">
                       Неделя
@@ -273,6 +341,26 @@ export function ManufacturerDashboard() {
                       Месяц
                     </TabsTrigger>
                     <TabsTrigger value="year" className="px-3 text-[9px] font-black uppercase">
+=======
+                  {/* cabinetSurface v1 */}
+                  <TabsList className={cn(cabinetSurface.tabsList, 'w-fit flex-wrap border-0')}>
+                    <TabsTrigger
+                      value="week"
+                      className={cn(cabinetSurface.tabsTrigger, 'h-8 px-3 text-[9px] font-black')}
+                    >
+                      Неделя
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="month"
+                      className={cn(cabinetSurface.tabsTrigger, 'h-8 px-3 text-[9px] font-black')}
+                    >
+                      Месяц
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="year"
+                      className={cn(cabinetSurface.tabsTrigger, 'h-8 px-3 text-[9px] font-black')}
+                    >
+>>>>>>> recover/cabinet-wip-from-stash
                       Год
                     </TabsTrigger>
                   </TabsList>
@@ -314,16 +402,26 @@ export function ManufacturerDashboard() {
           </CardContent>
         </Card>
 
+<<<<<<< HEAD
         <Card className="flex flex-col rounded-xl border-slate-100 shadow-sm">
           <CardHeader className="border-b border-slate-100 bg-slate-50/50">
             <CardTitle className="text-sm font-black uppercase tracking-tight">
               Потоки в работе
             </CardTitle>
             <CardDescription className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+=======
+        <Card className="border-border-subtle flex flex-col rounded-xl shadow-sm">
+          <CardHeader className="bg-bg-surface2/80 border-border-subtle border-b">
+            <CardTitle className="text-sm font-black uppercase tracking-tight">
+              Потоки в работе
+            </CardTitle>
+            <CardDescription className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               Текущий статус по заказам
             </CardDescription>
           </CardHeader>
           <CardContent className="flex-1 p-0">
+<<<<<<< HEAD
             <div className="divide-y divide-slate-100">
               {recentOrders.map((order, i) => (
                 <div key={i} className="group p-3 transition-colors hover:bg-slate-50">
@@ -333,6 +431,17 @@ export function ManufacturerDashboard() {
                         {order.brand}
                       </p>
                       <h5 className="text-sm font-black uppercase tracking-tighter text-slate-900">
+=======
+            <div className="divide-border-subtle divide-y">
+              {recentOrders.map((order, i) => (
+                <div key={i} className="hover:bg-bg-surface2 group p-3 transition-colors">
+                  <div className="mb-2 flex items-start justify-between">
+                    <div>
+                      <p className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
+                        {order.brand}
+                      </p>
+                      <h5 className="text-text-primary text-sm font-black uppercase tracking-tighter">
+>>>>>>> recover/cabinet-wip-from-stash
                         {order.item}
                       </h5>
                     </div>
@@ -349,7 +458,11 @@ export function ManufacturerDashboard() {
                       {order.status}
                     </Badge>
                   </div>
+<<<<<<< HEAD
                   <div className="mt-4 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                  <div className="text-text-muted mt-4 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     <span className="flex items-center gap-1.5">
                       <ListOrdered className="h-3 w-3" /> {order.quantity} шт.
                     </span>
@@ -358,9 +471,15 @@ export function ManufacturerDashboard() {
                     </span>
                   </div>
                   {order.scfAvailable && (
+<<<<<<< HEAD
                     <div className="group/scf mt-4 flex cursor-pointer items-center justify-between rounded-xl border border-indigo-100 bg-indigo-50/50 p-3 transition-all hover:bg-indigo-600 hover:text-white">
                       <div className="flex items-center gap-2">
                         <Zap className="h-3 w-3 text-indigo-600 group-hover/scf:text-white" />
+=======
+                    <div className="bg-accent-primary/10 border-accent-primary/20 group/scf hover:bg-accent-primary mt-4 flex cursor-pointer items-center justify-between rounded-xl border p-3 transition-all hover:text-white">
+                      <div className="flex items-center gap-2">
+                        <Zap className="text-accent-primary h-3 w-3 group-hover/scf:text-white" />
+>>>>>>> recover/cabinet-wip-from-stash
                         <span className="text-[9px] font-black uppercase tracking-widest">
                           Доступен SCF Факторинг
                         </span>
@@ -370,7 +489,11 @@ export function ManufacturerDashboard() {
                       </span>
                     </div>
                   )}
+<<<<<<< HEAD
                   <div className="mt-4 h-1 w-full overflow-hidden rounded-full bg-slate-100">
+=======
+                  <div className="bg-bg-surface2 mt-4 h-1 w-full overflow-hidden rounded-full">
+>>>>>>> recover/cabinet-wip-from-stash
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{
@@ -390,10 +513,17 @@ export function ManufacturerDashboard() {
             <div className="mt-auto p-4">
               <Button
                 variant="outline"
+<<<<<<< HEAD
                 className="w-full rounded-xl border-slate-200 text-[10px] font-black uppercase tracking-widest hover:bg-slate-50"
                 asChild
               >
                 <Link href="/factory/orders">
+=======
+                className="border-border-default hover:bg-bg-surface2 w-full rounded-xl text-[10px] font-black uppercase tracking-widest"
+                asChild
+              >
+                <Link href={ROUTES.factory.productionOrders}>
+>>>>>>> recover/cabinet-wip-from-stash
                   Все заказы <ArrowRight className="ml-2 h-3 w-3" />
                 </Link>
               </Button>
@@ -404,19 +534,32 @@ export function ManufacturerDashboard() {
 
       {/* Integrated Industrial Modules Grid — Compact & Actionable */}
       <div className="mt-8 grid grid-cols-1 gap-3 pb-12 md:grid-cols-2 xl:grid-cols-3">
+<<<<<<< HEAD
         <Card className="group relative flex min-h-[180px] flex-col justify-between overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 p-3 text-white shadow-sm">
           <div className="absolute -bottom-2 -right-2 opacity-10 transition-transform group-hover:scale-110">
             <Scan className="h-24 w-24 text-indigo-400" />
           </div>
           <div className="relative z-10 space-y-4">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 shadow-lg">
+=======
+        <Card className="border-text-primary/30 bg-text-primary group relative flex min-h-[180px] flex-col justify-between overflow-hidden rounded-2xl border p-3 text-white shadow-sm">
+          <div className="absolute -bottom-2 -right-2 opacity-10 transition-transform group-hover:scale-110">
+            <Scan className="text-accent-primary h-24 w-24" />
+          </div>
+          <div className="relative z-10 space-y-4">
+            <div className="bg-accent-primary flex h-10 w-10 items-center justify-center rounded-xl shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
               <FactoryIcon className="h-5 w-5 text-white" />
             </div>
             <div>
               <h3 className="mb-1 text-[13px] font-black uppercase italic leading-none tracking-tight text-white">
                 RFID Warehouse Gates
               </h3>
+<<<<<<< HEAD
               <p className="text-[10px] font-black uppercase tracking-widest text-indigo-400 opacity-70">
+=======
+              <p className="text-accent-primary text-[10px] font-black uppercase tracking-widest opacity-70">
+>>>>>>> recover/cabinet-wip-from-stash
                 Industrial Automation P3
               </p>
             </div>
@@ -424,6 +567,7 @@ export function ManufacturerDashboard() {
           <Button
             asChild
             size="sm"
+<<<<<<< HEAD
             className="relative z-10 mt-4 h-8 w-full rounded-lg bg-white text-[9px] font-black uppercase text-indigo-900 shadow-md transition-all hover:bg-indigo-400 hover:text-white"
           >
             <Link href="/factory/inventory/rfid-gates">Управление воротами</Link>
@@ -443,6 +587,27 @@ export function ManufacturerDashboard() {
                 Quality Control Hub
               </h3>
               <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 opacity-70">
+=======
+            className="text-accent-primary hover:bg-accent-primary relative z-10 mt-4 h-8 w-full rounded-lg bg-white text-[9px] font-black uppercase shadow-md transition-all hover:text-white"
+          >
+            <Link href={ROUTES.factory.productionInventoryRfidGates}>Управление воротами</Link>
+          </Button>
+        </Card>
+
+        <Card className="border-border-subtle group relative flex min-h-[180px] flex-col justify-between overflow-hidden rounded-2xl border bg-white p-3 shadow-sm">
+          <div className="absolute -bottom-2 -right-2 opacity-5 transition-transform group-hover:scale-110">
+            <ShieldCheck className="text-text-primary h-24 w-24" />
+          </div>
+          <div className="relative z-10 space-y-4">
+            <div className="bg-bg-surface2 flex h-10 w-10 items-center justify-center rounded-xl shadow-sm">
+              <ShieldCheck className="text-text-primary h-5 w-5" />
+            </div>
+            <div>
+              <h3 className="text-text-primary mb-1 text-[13px] font-black uppercase italic leading-none tracking-tight">
+                Quality Control Hub
+              </h3>
+              <p className="text-text-muted text-[10px] font-black uppercase tracking-widest opacity-70">
+>>>>>>> recover/cabinet-wip-from-stash
                 Compliance & Standards
               </p>
             </div>
@@ -451,6 +616,7 @@ export function ManufacturerDashboard() {
             asChild
             variant="outline"
             size="sm"
+<<<<<<< HEAD
             className="relative z-10 mt-4 h-8 w-full rounded-lg border-slate-200 text-[9px] font-black uppercase text-slate-900 transition-all hover:bg-slate-50"
           >
             <Link href="/factory/qc">Открыть инспекции</Link>
@@ -464,12 +630,31 @@ export function ManufacturerDashboard() {
           <div className="relative z-10 space-y-4">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/10 shadow-lg">
               <Activity className="h-5 w-5 text-indigo-400" />
+=======
+            className="border-border-default text-text-primary hover:bg-bg-surface2 relative z-10 mt-4 h-8 w-full rounded-lg text-[9px] font-black uppercase transition-all"
+          >
+            <Link href={ROUTES.factory.qc}>Открыть инспекции</Link>
+          </Button>
+        </Card>
+
+        <Card className="border-accent-primary bg-accent-primary group relative flex min-h-[180px] flex-col justify-between overflow-hidden rounded-2xl border p-3 text-white shadow-sm">
+          <div className="absolute -bottom-2 -right-2 opacity-10 transition-transform group-hover:scale-110">
+            <Cpu className="text-accent-primary h-24 w-24" />
+          </div>
+          <div className="relative z-10 space-y-4">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/10 shadow-lg">
+              <Activity className="text-accent-primary h-5 w-5" />
+>>>>>>> recover/cabinet-wip-from-stash
             </div>
             <div>
               <h3 className="mb-1 text-[13px] font-black uppercase italic leading-none tracking-tight text-white">
                 IoT Machine Monitoring
               </h3>
+<<<<<<< HEAD
               <p className="text-[10px] font-black uppercase tracking-widest text-indigo-300 opacity-70">
+=======
+              <p className="text-accent-primary text-[10px] font-black uppercase tracking-widest opacity-70">
+>>>>>>> recover/cabinet-wip-from-stash
                 Real-time Telemetry (OEE)
               </p>
             </div>
@@ -477,6 +662,7 @@ export function ManufacturerDashboard() {
           <Button
             asChild
             size="sm"
+<<<<<<< HEAD
             className="relative z-10 mt-4 h-8 w-full rounded-lg bg-white text-[9px] font-black uppercase text-indigo-900 shadow-md transition-all hover:bg-indigo-400 hover:text-white"
           >
             <Link href="/factory/iot-monitoring">Мониторинг парка</Link>
@@ -496,6 +682,27 @@ export function ManufacturerDashboard() {
                 MTM Production Line
               </h3>
               <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 opacity-70">
+=======
+            className="text-accent-primary hover:bg-accent-primary relative z-10 mt-4 h-8 w-full rounded-lg bg-white text-[9px] font-black uppercase shadow-md transition-all hover:text-white"
+          >
+            <Link href={ROUTES.factory.productionIotMonitoring}>Мониторинг парка</Link>
+          </Button>
+        </Card>
+
+        <Card className="border-border-subtle bg-bg-surface2 text-text-primary group relative flex min-h-[180px] flex-col justify-between overflow-hidden rounded-2xl border p-3 shadow-sm">
+          <div className="absolute -bottom-2 -right-2 opacity-10 transition-transform group-hover:scale-110">
+            <Scissors className="text-text-primary h-24 w-24" />
+          </div>
+          <div className="relative z-10 space-y-4">
+            <div className="bg-text-primary flex h-10 w-10 items-center justify-center rounded-xl shadow-lg">
+              <Scissors className="h-5 w-5 text-white" />
+            </div>
+            <div>
+              <h3 className="text-text-primary mb-1 text-[13px] font-black uppercase italic leading-none tracking-tight">
+                MTM Production Line
+              </h3>
+              <p className="text-text-muted text-[10px] font-black uppercase tracking-widest opacity-70">
+>>>>>>> recover/cabinet-wip-from-stash
                 Custom Orders Queue
               </p>
             </div>
@@ -504,9 +711,15 @@ export function ManufacturerDashboard() {
             asChild
             variant="outline"
             size="sm"
+<<<<<<< HEAD
             className="relative z-10 mt-4 h-8 w-full rounded-lg border-slate-200 text-[9px] font-black uppercase text-slate-900 transition-all hover:bg-slate-900 hover:text-white"
           >
             <Link href="/factory/customization">Очередь пошива</Link>
+=======
+            className="border-border-default text-text-primary hover:bg-text-primary/90 relative z-10 mt-4 h-8 w-full rounded-lg text-[9px] font-black uppercase transition-all hover:text-white"
+          >
+            <Link href={ROUTES.factory.productionCustomization}>Очередь пошива</Link>
+>>>>>>> recover/cabinet-wip-from-stash
           </Button>
         </Card>
 

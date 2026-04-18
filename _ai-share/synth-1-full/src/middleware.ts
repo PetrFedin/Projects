@@ -1,7 +1,38 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+<<<<<<< HEAD
+=======
+import { ROUTES } from '@/lib/routes';
 
-export function middleware(_req: NextRequest) {
+export function middleware(req: NextRequest) {
+  const url = req.nextUrl;
+  const path = url.pathname.replace(/\/$/, '') || '/';
+
+  if (path === ROUTES.factory.home && url.searchParams.get('role') === 'supplier') {
+    const next = url.clone();
+    next.pathname = ROUTES.factory.supplier;
+    next.searchParams.delete('role');
+    return NextResponse.redirect(next);
+  }
+
+  if (path === '/supplier' || path.startsWith('/supplier/')) {
+    const next = url.clone();
+    next.pathname = path.replace(/^\/supplier/, ROUTES.factory.supplier) || ROUTES.factory.supplier;
+    return NextResponse.redirect(next);
+  }
+
+  if (path === '/u') {
+    const next = url.clone();
+    next.pathname = '/client/me';
+    return NextResponse.redirect(next);
+  }
+  if (path.startsWith('/u/')) {
+    const next = url.clone();
+    next.pathname = '/client' + path.slice(2);
+    return NextResponse.redirect(next);
+  }
+>>>>>>> recover/cabinet-wip-from-stash
+
   return NextResponse.next();
 }
 

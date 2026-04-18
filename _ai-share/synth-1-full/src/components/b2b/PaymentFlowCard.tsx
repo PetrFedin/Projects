@@ -18,7 +18,7 @@ export interface PaymentFlowCardProps {
 
 export function PaymentFlowCard({ orderId, amount, status, dueDate, onPay }: PaymentFlowCardProps) {
   return (
-    <Card className="border border-slate-100">
+    <Card className="border-border-subtle border">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-sm font-bold">{orderId}</CardTitle>
@@ -26,7 +26,7 @@ export function PaymentFlowCard({ orderId, amount, status, dueDate, onPay }: Pay
             className={cn(
               'text-[9px]',
               status === 'paid' && 'bg-emerald-100 text-emerald-700',
-              status === 'escrow' && 'bg-indigo-100 text-indigo-700',
+              status === 'escrow' && 'bg-accent-primary/15 text-accent-primary',
               status === 'pending' && 'bg-amber-100 text-amber-700'
             )}
           >
@@ -37,7 +37,11 @@ export function PaymentFlowCard({ orderId, amount, status, dueDate, onPay }: Pay
       <CardContent className="space-y-2">
         <p className="text-lg font-black">{amount}</p>
         {status === 'pending' && dueDate && (
+<<<<<<< HEAD
           <p className="flex items-center gap-1 text-[10px] text-slate-500">
+=======
+          <p className="text-text-secondary flex items-center gap-1 text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
             <Clock className="h-3 w-3" /> Оплата до {dueDate}
           </p>
         )}

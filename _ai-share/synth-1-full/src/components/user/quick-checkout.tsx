@@ -11,17 +11,31 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { ordersRepository, paymentRepository, cartRepository } from '@/lib/repositories';
 import Link from 'next/link';
+import type { CartItem } from '@/lib/types';
 
-export default function QuickCheckout({ compact = false }: { compact?: boolean }) {
+export default function QuickCheckout({
+  compact = false,
+  scopeItems,
+}: {
+  compact?: boolean;
+  /** Если задано (например образ в корзине), быстрый заказ только по этим позициям. */
+  scopeItems?: CartItem[];
+}) {
   const { user } = useAuth();
   const { cart } = useUIState();
+  const lineItems = scopeItems ?? cart;
   const router = useRouter();
   const { toast } = useToast();
   const [processing, setProcessing] = useState(false);
 
   const subtotal = useMemo(
+<<<<<<< HEAD
     () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
     [cart]
+=======
+    () => lineItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
+    [lineItems]
+>>>>>>> recover/cabinet-wip-from-stash
   );
   const shipping = subtotal > 10000 ? 0 : 500;
   const tax = (subtotal + shipping) * 0.2;
@@ -33,19 +47,29 @@ export default function QuickCheckout({ compact = false }: { compact?: boolean }
     setProcessing(true);
     try {
       // Create payment intent
+<<<<<<< HEAD
       const paymentIntent = await paymentRepository.createPaymentIntent(user.uid, total);
 
       // Confirm payment (mock - always succeeds)
       await paymentRepository.confirmPayment(paymentIntent.id);
+=======
+      const paymentIntent = await paymentRepository.createPaymentIntent(total, 'RUB', {
+        userId: user.uid,
+      });
+
+      // Confirm payment (mock - always succeeds)
+      await paymentRepository.confirmPayment(paymentIntent.paymentIntentId);
+>>>>>>> recover/cabinet-wip-from-stash
 
       // Create order
       const order = await ordersRepository.createOrder(user.uid, {
         userId: user.uid,
-        items: cart,
+        items: lineItems,
         subtotal,
         shipping,
         tax,
         total,
+        status: 'processing',
         paymentStatus: 'paid',
         shippingAddress: {
           firstName: user.displayName.split(' ')[0] || 'Елена',
@@ -60,8 +84,8 @@ export default function QuickCheckout({ compact = false }: { compact?: boolean }
       });
 
       // Clear cart
-      for (const item of cart) {
-        await cartRepository.removeItem(user.uid, item.id);
+      for (const item of lineItems) {
+        await cartRepository.removeItem(user.uid, item.id, item.selectedSize, item.color);
       }
 
       toast({
@@ -81,7 +105,7 @@ export default function QuickCheckout({ compact = false }: { compact?: boolean }
     }
   };
 
-  if (!user || cart.length === 0) {
+  if (!user || lineItems.length === 0) {
     return null;
   }
 
@@ -129,7 +153,7 @@ export default function QuickCheckout({ compact = false }: { compact?: boolean }
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">Товаров:</span>
-              <span className="font-medium">{cart.length}</span>
+              <span className="font-medium">{lineItems.length}</span>
             </div>
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">Сумма:</span>

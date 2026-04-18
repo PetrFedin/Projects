@@ -81,3 +81,24 @@ export interface StylistPreferences {
   dislikedTags?: string[];
   budgetPreference?: 'economy' | 'standard' | 'premium';
 }
+
+/** Сообщения чата стилиста (клиент ↔ API). */
+export type StylistChatMessage = {
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: number;
+};
+
+/** Ответ генерации образов (совпадает с телом POST `/api/ai/stylist`). */
+export type StylistApiResponse = {
+  looks: Look[];
+  notes: string[];
+  reply?: string;
+  capsule?: {
+    items: LookItem[];
+    combinations: Look[];
+  };
+};
+
+/** @deprecated Используйте {@link StylistApiResponse}; имя сохранено для совместимости с UI. */
+export type StylistResponse = StylistApiResponse;

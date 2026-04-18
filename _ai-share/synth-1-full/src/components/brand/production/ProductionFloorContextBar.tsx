@@ -67,46 +67,73 @@ export function ProductionFloorContextBar({
   return (
     <div
       className={cn(
-        'flex flex-col gap-2 rounded-xl border border-slate-200/90 bg-gradient-to-r from-slate-50/95 to-indigo-50/30 px-3 py-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-4 sm:gap-y-1',
+        'border-border-default/90 from-bg-surface2/95 to-accent-primary/10 flex flex-col gap-2 rounded-xl border bg-gradient-to-r px-3 py-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-4 sm:gap-y-1',
         className
       )}
       role="region"
       aria-label="Контекст производства"
     >
+<<<<<<< HEAD
       <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-slate-700">
         <span className="shrink-0 font-black uppercase tracking-wider text-slate-400">
+=======
+      <div className="text-text-primary flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 text-[10px]">
+        <span className="text-text-muted shrink-0 font-black uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
           Контекст
         </span>
         <span className="min-w-0">
-          <span className="text-slate-500">Коллекция:</span>{' '}
-          <strong className="text-slate-900">{collectionLabel}</strong>
+          <span className="text-text-secondary">Коллекция:</span>{' '}
+          <strong className="text-text-primary">{collectionLabel}</strong>
           {collectionId ? (
+<<<<<<< HEAD
             <code className="ml-1 rounded border border-slate-100 bg-white/80 px-1 py-0.5 text-[9px] text-slate-600">
+=======
+            <code className="text-text-secondary border-border-subtle ml-1 rounded border bg-white/80 px-1 py-0.5 text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
               {collectionId}
             </code>
           ) : null}
         </span>
         {stagesSkuId ? (
-          <span className="min-w-0 border-l border-slate-200 pl-3">
-            <span className="text-slate-500">SKU в URL:</span>{' '}
-            <strong className="font-mono text-indigo-900">{stagesSkuLine ?? stagesSkuId}</strong>
+          <span className="border-border-default min-w-0 border-l pl-3">
+            <span className="text-text-secondary">SKU в URL:</span>{' '}
+            <strong className="text-accent-primary font-mono">
+              {stagesSkuLine ?? stagesSkuId}
+            </strong>
           </span>
         ) : (
+<<<<<<< HEAD
           <span className="border-l border-slate-200 pl-3 text-slate-400">SKU в URL не задан</span>
         )}
         {stagesStepId ? (
           <span className="min-w-0 max-w-[min(100%,14rem)] border-l border-slate-200 pl-3 sm:max-w-xs">
             <span className="text-slate-500">Этап (stagesStep):</span>{' '}
             <strong className="line-clamp-2 text-slate-900">
+=======
+          <span className="text-text-muted border-border-default border-l pl-3">
+            SKU в URL не задан
+          </span>
+        )}
+        {stagesStepId ? (
+          <span className="border-border-default min-w-0 max-w-[min(100%,14rem)] border-l pl-3 sm:max-w-xs">
+            <span className="text-text-secondary">Этап (stagesStep):</span>{' '}
+            <strong className="text-text-primary line-clamp-2">
+>>>>>>> recover/cabinet-wip-from-stash
               {stagesStepTitle ?? stagesStepId}
             </strong>
           </span>
         ) : null}
         {skuCatalogStageTitle ? (
+<<<<<<< HEAD
           <span className="min-w-0 max-w-[min(100%,18rem)] border-l border-slate-200 pl-3 sm:max-w-sm">
             <span className="text-slate-500">В каталоге коллекции:</span>{' '}
+=======
+          <span className="border-border-default min-w-0 max-w-[min(100%,18rem)] border-l pl-3 sm:max-w-sm">
+            <span className="text-text-secondary">В каталоге коллекции:</span>{' '}
+>>>>>>> recover/cabinet-wip-from-stash
             {skuCatalogStagePhase ? (
-              <span className="text-slate-600">{skuCatalogStagePhase} · </span>
+              <span className="text-text-secondary">{skuCatalogStagePhase} · </span>
             ) : null}
             <strong className="line-clamp-2 text-emerald-900">{skuCatalogStageTitle}</strong>
             {skuCatalogPositionLabel ? (
@@ -130,13 +157,17 @@ export function ProductionFloorContextBar({
           <Copy className="h-3 w-3 shrink-0" aria-hidden />
           {copied ? 'Скопировано' : 'Ссылка'}
         </Button>
-        <span className="text-[10px] text-slate-500">
-          Вкладка: <strong className="text-slate-800">{currentTabTitle}</strong>
+        <span className="text-text-secondary text-[10px]">
+          Вкладка: <strong className="text-text-primary">{currentTabTitle}</strong>
         </span>
         {!onStages ? (
           <Link
             href={stagesTabHref}
+<<<<<<< HEAD
             className="inline-flex items-center gap-1 rounded-lg border border-indigo-200 bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-indigo-700 shadow-sm transition-colors hover:bg-indigo-50"
+=======
+            className="border-accent-primary/30 text-accent-primary hover:bg-accent-primary/10 inline-flex items-center gap-1 rounded-lg border bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide shadow-sm transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <ListTree className="h-3 w-3 shrink-0" aria-hidden />К этапам
           </Link>

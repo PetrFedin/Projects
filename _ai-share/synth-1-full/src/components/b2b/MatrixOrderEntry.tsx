@@ -26,8 +26,11 @@ interface MatrixOrderEntryProps {
  */
 export function MatrixOrderEntry({ product, onClose }: MatrixOrderEntryProps) {
   const { addB2bOrderItem } = useB2BState();
-  const colors = useMemo(() => product.colors || [product.color], [product]);
-  const sizes = useMemo(() => product.sizes || [], [product]);
+  const colors = useMemo(
+    () => product.availableColors?.map((c) => c.name).filter(Boolean) ?? [product.color],
+    [product]
+  );
+  const sizes = useMemo(() => product.sizes?.map((s) => s.name) ?? ['—'], [product]);
 
   const [cells, setCells] = useState<MatrixCell[]>([]);
 

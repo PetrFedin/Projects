@@ -1,7 +1,6 @@
-'use server';
-
 /**
  * Черновик ответа поддержки на основе FAQ и контекста вопроса.
+ * (Без директивы `use server`: модуль вызывается из Route Handlers, не как Server Action.)
  */
 
 import { ai, withTokenAudit, truncateInput } from '@/ai/genkit';

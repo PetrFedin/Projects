@@ -1,5 +1,6 @@
 'use client';
 
+import { use } from 'react';
 import B2BOrderDetailsPage from '@/app/brand/b2b-orders/[orderId]/page';
 
 export default function DistributorB2BOrderDetailsPage({

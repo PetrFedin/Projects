@@ -41,6 +41,11 @@ import {
   ShieldAlert,
   BookOpen,
   Landmark,
+<<<<<<< HEAD
+=======
+  Calculator,
+  PenTool,
+>>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -82,9 +87,16 @@ import { LeadScoringDashboard } from '../b2b/LeadScoringDashboard';
 import { WhiteLabelConfigurator } from '../b2b/WhiteLabelConfigurator';
 import { ClaimsReturnsPortal } from '../b2b/ClaimsReturnsPortal';
 import { DigitalShowroom360 } from '../b2b/DigitalShowroom360';
+import { B2BFinancialPerformance } from '../b2b/B2BFinancialPerformance';
+import { MerchandisingDashboard } from '../showroom/MerchandisingDashboard';
+import { PlanningDashboard } from '../showroom/PlanningDashboard';
 import { cn } from '@/lib/cn';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+<<<<<<< HEAD
+=======
+import { getMetricValueToneClass } from '@/lib/ui/semantic-data-tones';
+>>>>>>> recover/cabinet-wip-from-stash
 
 export function B2BControlCenter() {
   const { viewRole, activeCurrency } = useUIState();
@@ -135,13 +147,20 @@ export function B2BControlCenter() {
 
   const getStatusBadge = (status: B2BOrderWholesaleStatus) => {
     const configs: Record<B2BOrderWholesaleStatus, { label: string; color: string }> = {
+<<<<<<< HEAD
       draft: { label: 'DRAFT', color: 'bg-slate-100 text-slate-600' },
+=======
+      draft: { label: 'DRAFT', color: 'bg-bg-surface2 text-text-secondary' },
+>>>>>>> recover/cabinet-wip-from-stash
       pending_brand: { label: 'REVIEW: BRAND', color: 'bg-amber-100 text-amber-600' },
-      pending_retailer: { label: 'REVIEW: RETAILER', color: 'bg-indigo-100 text-indigo-600' },
+      pending_retailer: {
+        label: 'REVIEW: RETAILER',
+        color: 'bg-accent-primary/15 text-accent-primary',
+      },
       pending_admin: { label: 'WAITING ADMIN', color: 'bg-rose-100 text-rose-600' },
       confirmed: { label: 'CONFIRMED', color: 'bg-emerald-100 text-emerald-600' },
       production: { label: 'IN PRODUCTION', color: 'bg-blue-100 text-blue-600' },
-      shipped: { label: 'SHIPPED', color: 'bg-purple-100 text-purple-600' },
+      shipped: { label: 'SHIPPED', color: 'bg-accent-primary/15 text-accent-primary' },
     };
     const config = configs[status] || configs.draft;
     return (
@@ -156,9 +175,13 @@ export function B2BControlCenter() {
   useEffect(() => {
     if (b2bActivityLogs.length === 0) {
       addB2bActivityLog({
-        type: 'order_created',
+        type: 'order_placed',
         actor: { id: 'ret-1', name: 'Premium Store', type: 'retailer' },
+<<<<<<< HEAD
         target: { id: '#8821', name: 'Wholesale Order', type: 'order' },
+=======
+        target: { id: '#8821', name: 'Wholesale Order', type: 'linesheet' },
+>>>>>>> recover/cabinet-wip-from-stash
         details: 'Created new pre-order for FW26 Collection.',
       });
     }
@@ -181,28 +204,48 @@ export function B2BControlCenter() {
   }, []);
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen space-y-4 bg-slate-50/50 p-4 text-left">
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900 shadow-lg">
+=======
+    <div className="bg-bg-surface2/80 min-h-screen space-y-4 p-4 text-left">
+      <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
+        <div className="space-y-2">
+          <div className="flex items-center gap-3">
+            <div className="bg-text-primary flex h-8 w-8 items-center justify-center rounded-xl shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
               <ShieldCheck className="h-4 w-4 text-white" />
             </div>
             <Badge
               variant="outline"
+<<<<<<< HEAD
               className="rounded-full border-slate-200 bg-white px-3 py-1 text-[9px] font-black uppercase tracking-widest text-slate-900"
+=======
+              className="border-border-default text-text-primary rounded-full bg-white px-3 py-1 text-[9px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               SYNTHA_ADMIN_PANEL_v1.0
             </Badge>
           </div>
+<<<<<<< HEAD
           <h2 className="text-sm font-black uppercase leading-none tracking-tighter text-slate-900 md:text-base">
+=======
+          <h2 className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter md:text-base">
+>>>>>>> recover/cabinet-wip-from-stash
             B2B Control
             <br />
             Center
           </h2>
         </div>
 
+<<<<<<< HEAD
         <div className="flex items-center gap-2 overflow-x-auto rounded-2xl border border-slate-200 bg-white p-1.5 shadow-sm">
+=======
+        <div className="border-border-default flex items-center gap-2 overflow-x-auto rounded-2xl border bg-white p-1.5 shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
           {[
             { id: 'dashboard', label: 'Overview', icon: BarChart3 },
             { id: 'orders', label: 'Order Flow', icon: ShoppingBag },
@@ -218,8 +261,13 @@ export function B2BControlCenter() {
               className={cn(
                 'flex items-center gap-2 rounded-xl px-4 py-2 text-[10px] font-black uppercase tracking-widest transition-all',
                 activeTab === tab.id
+<<<<<<< HEAD
                   ? 'bg-slate-900 text-white shadow-xl'
                   : 'text-slate-400 hover:bg-slate-50 hover:text-slate-600'
+=======
+                  ? 'bg-text-primary text-white shadow-xl'
+                  : 'text-text-muted hover:text-text-secondary hover:bg-bg-surface2'
+>>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               <tab.icon className="h-3.5 w-3.5" />
@@ -233,6 +281,7 @@ export function B2BControlCenter() {
         {stats.map((stat, i) => (
           <Card
             key={i}
+<<<<<<< HEAD
             className="group overflow-hidden border-none shadow-xl shadow-slate-200/50 transition-all duration-500 hover:scale-[1.02]"
           >
             <CardContent className="relative p-4">
@@ -245,6 +294,25 @@ export function B2BControlCenter() {
                 </p>
                 <div className="flex items-end justify-between">
                   <h3 className="text-base font-black tracking-tighter text-slate-900">
+=======
+            className="group overflow-hidden border-none shadow-md shadow-xl transition-all duration-500 hover:scale-[1.02]"
+          >
+            <CardContent className="relative p-4">
+              <div className="absolute right-0 top-0 p-4 opacity-5 transition-opacity group-hover:opacity-10">
+                <Zap className="text-text-primary h-12 w-12" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                  {stat.label}
+                </p>
+                <div className="flex items-end justify-between">
+                  <h3
+                    className={cn(
+                      'text-base font-black tracking-tighter',
+                      getMetricValueToneClass(stat.color)
+                    )}
+                  >
+>>>>>>> recover/cabinet-wip-from-stash
                     {stat.val}
                   </h3>
                   <div
@@ -430,6 +498,7 @@ export function B2BControlCenter() {
                     <Card
                       key={tool.id}
                       onClick={() => setActiveEnterpriseTool(tool.id)}
+<<<<<<< HEAD
                       className="group cursor-pointer rounded-xl border-none bg-white p-4 shadow-xl shadow-slate-200/50 transition-all hover:scale-[1.02]"
                     >
                       <div className="mb-6 flex items-start justify-between">
@@ -442,6 +511,20 @@ export function B2BControlCenter() {
                         {tool.title}
                       </h4>
                       <p className="text-[10px] font-medium uppercase leading-relaxed tracking-widest text-slate-400">
+=======
+                      className="group cursor-pointer rounded-xl border-none bg-white p-4 shadow-md shadow-xl transition-all hover:scale-[1.02]"
+                    >
+                      <div className="mb-6 flex items-start justify-between">
+                        <div className="bg-bg-surface2 group-hover:bg-text-primary/90 flex h-10 w-10 items-center justify-center rounded-2xl transition-colors">
+                          <tool.icon className="text-text-muted h-6 w-6 group-hover:text-white" />
+                        </div>
+                        <ArrowUpRight className="text-text-muted group-hover:text-text-primary h-5 w-5 transition-all group-hover:-translate-y-1 group-hover:translate-x-1" />
+                      </div>
+                      <h4 className="text-text-primary mb-2 text-base font-black uppercase tracking-tight">
+                        {tool.title}
+                      </h4>
+                      <p className="text-text-muted text-[10px] font-medium uppercase leading-relaxed tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                         {tool.desc}
                       </p>
                     </Card>
@@ -456,7 +539,11 @@ export function B2BControlCenter() {
                   <Button
                     onClick={() => setActiveEnterpriseTool(null)}
                     variant="ghost"
+<<<<<<< HEAD
                     className="absolute -top-16 left-0 gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-900"
+=======
+                    className="text-text-muted hover:text-text-primary absolute -top-16 left-0 gap-2 text-[10px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <ArrowRight className="h-4 w-4 rotate-180" /> Back to Workplace
                   </Button>
@@ -482,8 +569,11 @@ export function B2BControlCenter() {
                   {activeEnterpriseTool === 'channel-sales' && <ChannelSalesAnalytics />}
                   {activeEnterpriseTool === 'merch' && (
                     <MerchandisingDashboard
+<<<<<<< HEAD
                       b2bCart={[]} // Admin view might not have a cart, but let's pass empty for now
                       setB2bCart={() => {}}
+=======
+>>>>>>> recover/cabinet-wip-from-stash
                       merchStatus="ready"
                       setMerchStatus={() => {}}
                       activeMerchBrand="Platform View"
@@ -492,12 +582,16 @@ export function B2BControlCenter() {
                     />
                   )}
                   {activeEnterpriseTool === 'planning' && (
+<<<<<<< HEAD
                     <PlanningDashboard
                       b2bCart={[]}
                       viewRole="admin"
                       currency="RUB"
                       toast={console.log}
                     />
+=======
+                    <PlanningDashboard viewRole="admin" currency="RUB" toast={console.log} />
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 </motion.div>
               )}
@@ -629,6 +723,7 @@ export function B2BControlCenter() {
                     <Card
                       key={tool.id}
                       onClick={() => setActiveEnterpriseTool(tool.id)}
+<<<<<<< HEAD
                       className="group cursor-pointer rounded-xl border-none bg-white p-4 shadow-xl shadow-slate-200/50 transition-all hover:scale-[1.02]"
                     >
                       <div className="mb-6 flex items-start justify-between">
@@ -641,6 +736,20 @@ export function B2BControlCenter() {
                         {tool.title}
                       </h4>
                       <p className="text-[10px] font-medium uppercase leading-relaxed tracking-widest text-slate-400">
+=======
+                      className="group cursor-pointer rounded-xl border-none bg-white p-4 shadow-md shadow-xl transition-all hover:scale-[1.02]"
+                    >
+                      <div className="mb-6 flex items-start justify-between">
+                        <div className="bg-bg-surface2 group-hover:bg-accent-primary flex h-10 w-10 items-center justify-center rounded-2xl transition-colors">
+                          <tool.icon className="text-text-muted h-6 w-6 group-hover:text-white" />
+                        </div>
+                        <ArrowUpRight className="text-text-muted group-hover:text-accent-primary h-5 w-5 transition-all group-hover:-translate-y-1 group-hover:translate-x-1" />
+                      </div>
+                      <h4 className="text-text-primary mb-2 text-base font-black uppercase tracking-tight">
+                        {tool.title}
+                      </h4>
+                      <p className="text-text-muted text-[10px] font-medium uppercase leading-relaxed tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                         {tool.desc}
                       </p>
                     </Card>
@@ -655,7 +764,11 @@ export function B2BControlCenter() {
                   <Button
                     onClick={() => setActiveEnterpriseTool(null)}
                     variant="ghost"
+<<<<<<< HEAD
                     className="absolute -top-16 left-0 gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-900"
+=======
+                    className="text-text-muted hover:text-text-primary absolute -top-16 left-0 gap-2 text-[10px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <ArrowRight className="h-4 w-4 rotate-180" /> Back to Enterprise Suite
                   </Button>
@@ -682,13 +795,21 @@ export function B2BControlCenter() {
         ) : (
           <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
             {/* Activity Feed / Order Flow */}
+<<<<<<< HEAD
             <Card className="overflow-hidden rounded-xl border-none bg-white shadow-2xl shadow-slate-200/50 lg:col-span-2">
+=======
+            <Card className="overflow-hidden rounded-xl border-none bg-white shadow-2xl shadow-md lg:col-span-2">
+>>>>>>> recover/cabinet-wip-from-stash
               <CardHeader className="flex flex-row items-center justify-between p-4 pb-4">
                 <div className="space-y-1">
                   <CardTitle className="text-base font-black uppercase tracking-tight">
                     {activeTab === 'orders' ? 'Global Order Registry' : 'Live Activity Flow'}
                   </CardTitle>
+<<<<<<< HEAD
                   <CardDescription className="text-[10px] font-bold uppercase text-slate-400">
+=======
+                  <CardDescription className="text-text-muted text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     {activeTab === 'orders'
                       ? 'Transaction lifecycle monitoring'
                       : 'Real-time B2B interaction stream'}
@@ -698,14 +819,22 @@ export function B2BControlCenter() {
                   <Button
                     variant="outline"
                     size="sm"
+<<<<<<< HEAD
                     className="h-8 rounded-lg border-slate-100 text-[10px] font-black uppercase"
+=======
+                    className="border-border-subtle h-8 rounded-lg text-[10px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     Export CSV
                   </Button>
                   <Button
                     variant="outline"
                     size="icon"
+<<<<<<< HEAD
                     className="h-8 w-8 rounded-lg border-slate-100"
+=======
+                    className="border-border-subtle h-8 w-8 rounded-lg"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <Filter className="h-3.5 w-3.5" />
                   </Button>
@@ -721,11 +850,16 @@ export function B2BControlCenter() {
                             key={neg.orderId}
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
+<<<<<<< HEAD
                             className="group flex flex-col rounded-3xl border border-transparent bg-slate-50 p-4 transition-all hover:border-slate-200 hover:bg-slate-100"
+=======
+                            className="bg-bg-surface2 hover:bg-bg-surface2 hover:border-border-default group flex flex-col rounded-3xl border border-transparent p-4 transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
                           >
                             <div className="mb-4 flex items-center justify-between">
                               <div className="flex items-center gap-3">
                                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-sm">
+<<<<<<< HEAD
                                   <ShoppingBag className="h-5 w-5 text-indigo-600" />
                                 </div>
                                 <div>
@@ -733,6 +867,15 @@ export function B2BControlCenter() {
                                     Order {neg.orderId}
                                   </p>
                                   <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                                  <ShoppingBag className="text-accent-primary h-5 w-5" />
+                                </div>
+                                <div>
+                                  <p className="text-text-primary text-xs font-black uppercase">
+                                    Order {neg.orderId}
+                                  </p>
+                                  <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                                     Last activity: {new Date(neg.lastUpdate).toLocaleTimeString()}
                                   </p>
                                 </div>
@@ -740,28 +883,47 @@ export function B2BControlCenter() {
                               {getStatusBadge(neg.status)}
                             </div>
 
+<<<<<<< HEAD
                             <div className="mb-4 flex items-center gap-3 border-y border-slate-200/50 py-3">
                               <div className="flex -space-x-2">
                                 <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-indigo-500 text-[8px] font-bold text-white">
+=======
+                            <div className="border-border-default/50 mb-4 flex items-center gap-3 border-y py-3">
+                              <div className="flex -space-x-2">
+                                <div className="bg-accent-primary flex h-6 w-6 items-center justify-center rounded-full border-2 border-white text-[8px] font-bold text-white">
+>>>>>>> recover/cabinet-wip-from-stash
                                   B
                                 </div>
                                 <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-emerald-500 text-[8px] font-bold text-white">
                                   R
                                 </div>
                               </div>
+<<<<<<< HEAD
                               <p className="text-[10px] font-bold uppercase text-slate-600">
                                 Brand <span className="mx-1 text-slate-300">↔</span> Retailer
+=======
+                              <p className="text-text-secondary text-[10px] font-bold uppercase">
+                                Brand <span className="text-text-muted mx-1">↔</span> Retailer
+>>>>>>> recover/cabinet-wip-from-stash
                               </p>
                               <div className="ml-auto flex items-center gap-2">
                                 <Badge
                                   variant="outline"
+<<<<<<< HEAD
                                   className="border-slate-200 bg-white text-[9px]"
+=======
+                                  className="border-border-default bg-white text-[9px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                 >
                                   12 items
                                 </Badge>
                                 <Badge
                                   variant="outline"
+<<<<<<< HEAD
                                   className="border-slate-200 bg-white text-[9px]"
+=======
+                                  className="border-border-default bg-white text-[9px]"
+>>>>>>> recover/cabinet-wip-from-stash
                                 >
                                   1.2M ₽
                                 </Badge>
@@ -782,7 +944,11 @@ export function B2BControlCenter() {
                               <Button
                                 onClick={() => setSelectedNegId(neg.orderId)}
                                 variant="outline"
+<<<<<<< HEAD
                                 className="h-9 flex-1 gap-2 rounded-xl border-slate-200 bg-white text-[9px] font-black uppercase"
+=======
+                                className="border-border-default h-9 flex-1 gap-2 rounded-xl bg-white text-[9px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                               >
                                 <MessageSquare className="h-3 w-3" />
                                 Intervene
@@ -792,10 +958,17 @@ export function B2BControlCenter() {
                         ))
                       ) : (
                         <div className="space-y-4 py-10 text-center">
+<<<<<<< HEAD
                           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-50">
                             <Layers className="h-8 w-8 text-slate-200" />
                           </div>
                           <p className="text-[10px] font-black uppercase italic tracking-widest text-slate-300">
+=======
+                          <div className="bg-bg-surface2 mx-auto flex h-12 w-12 items-center justify-center rounded-full">
+                            <Layers className="text-text-muted h-8 w-8" />
+                          </div>
+                          <p className="text-text-muted text-[10px] font-black uppercase italic tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                             No active orders in flow...
                           </p>
                         </div>
@@ -807,7 +980,11 @@ export function B2BControlCenter() {
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, scale: 0.95 }}
+<<<<<<< HEAD
                           className="group flex items-start gap-3 rounded-2xl border border-transparent p-4 transition-all hover:border-slate-100 hover:bg-slate-50"
+=======
+                          className="hover:bg-bg-surface2 hover:border-border-subtle group flex items-start gap-3 rounded-2xl border border-transparent p-4 transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
                         >
                           <div
                             className={cn(
@@ -815,8 +992,13 @@ export function B2BControlCenter() {
                               log.type === 'order_placed'
                                 ? 'bg-emerald-100 text-emerald-600'
                                 : log.type === 'linesheet_request'
+<<<<<<< HEAD
                                   ? 'bg-indigo-100 text-indigo-600'
                                   : 'bg-slate-100 text-slate-600'
+=======
+                                  ? 'bg-accent-primary/15 text-accent-primary'
+                                  : 'bg-bg-surface2 text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                             )}
                           >
                             {log.type === 'order_placed' ? (
@@ -829,11 +1011,19 @@ export function B2BControlCenter() {
                           </div>
                           <div className="flex-1">
                             <div className="flex items-center justify-between">
+<<<<<<< HEAD
                               <p className="text-[11px] font-bold uppercase tracking-tight text-slate-900">
                                 {log.actor.name} <span className="mx-2 text-slate-400">→</span>{' '}
                                 {log.details}
                               </p>
                               <span className="text-[9px] font-black uppercase tabular-nums text-slate-400">
+=======
+                              <p className="text-text-primary text-[11px] font-bold uppercase tracking-tight">
+                                {log.actor.name} <span className="text-text-muted mx-2">→</span>{' '}
+                                {log.details}
+                              </p>
+                              <span className="text-text-muted text-[9px] font-black uppercase tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                                 {new Date(log.timestamp).toLocaleTimeString([], {
                                   hour: '2-digit',
                                   minute: '2-digit',
@@ -843,12 +1033,21 @@ export function B2BControlCenter() {
                             <div className="mt-1 flex items-center gap-2">
                               <Badge
                                 variant="outline"
+<<<<<<< HEAD
                                 className="border-slate-100 text-[7px] font-bold uppercase text-slate-400"
                               >
                                 {log.actor.type}
                               </Badge>
                               <div className="h-1 w-1 rounded-full bg-slate-200" />
                               <span className="text-[8px] font-black uppercase text-slate-400">
+=======
+                                className="border-border-subtle text-text-muted text-[7px] font-bold uppercase"
+                              >
+                                {log.actor.type}
+                              </Badge>
+                              <div className="bg-border-subtle h-1 w-1 rounded-full" />
+                              <span className="text-text-muted text-[8px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                                 IP: 192.168.1.***
                               </span>
                             </div>
@@ -857,10 +1056,17 @@ export function B2BControlCenter() {
                       ))
                     ) : (
                       <div className="space-y-4 py-10 text-center">
+<<<<<<< HEAD
                         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-50">
                           <Activity className="h-8 w-8 text-slate-200" />
                         </div>
                         <p className="text-[10px] font-black uppercase italic tracking-widest text-slate-300">
+=======
+                        <div className="bg-bg-surface2 mx-auto flex h-12 w-12 items-center justify-center rounded-full">
+                          <Activity className="text-text-muted h-8 w-8" />
+                        </div>
+                        <p className="text-text-muted text-[10px] font-black uppercase italic tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                           No recent activity logged...
                         </p>
                       </div>
@@ -872,7 +1078,11 @@ export function B2BControlCenter() {
 
             {/* Side Column: Quick Stats & Connections */}
             <div className="space-y-4">
+<<<<<<< HEAD
               <Card className="relative overflow-hidden rounded-xl border-none bg-slate-900 p-4 text-white shadow-2xl shadow-slate-200/50">
+=======
+              <Card className="bg-text-primary relative overflow-hidden rounded-xl border-none p-4 text-white shadow-2xl shadow-md">
+>>>>>>> recover/cabinet-wip-from-stash
                 <div className="absolute right-0 top-0 p-4 opacity-5">
                   <Globe className="h-32 w-32" />
                 </div>
@@ -881,20 +1091,28 @@ export function B2BControlCenter() {
                     <h3 className="text-sm font-black uppercase tracking-tight">
                       Market Resonance
                     </h3>
+<<<<<<< HEAD
                     <Globe className="h-5 w-5 text-indigo-400" />
+=======
+                    <Globe className="text-accent-primary h-5 w-5" />
+>>>>>>> recover/cabinet-wip-from-stash
                   </div>
                   <div className="space-y-4">
                     <div className="space-y-2">
                       <div className="flex justify-between text-[10px] font-black uppercase">
                         <span>Platform Utilization</span>
-                        <span className="text-indigo-400">92%</span>
+                        <span className="text-accent-primary">92%</span>
                       </div>
                       <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: '92%' }}
                           transition={{ duration: 1.5, ease: 'easeOut' }}
+<<<<<<< HEAD
                           className="h-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.5)]"
+=======
+                          className="bg-accent-primary h-full shadow-[0_0_10px_rgba(99,102,241,0.5)]"
+>>>>>>> recover/cabinet-wip-from-stash
                         />
                       </div>
                     </div>
@@ -916,9 +1134,15 @@ export function B2BControlCenter() {
                 </div>
               </Card>
 
+<<<<<<< HEAD
               <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-2xl shadow-slate-200/50">
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-black uppercase tracking-widest text-slate-900">
+=======
+              <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-2xl shadow-md">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-text-primary text-sm font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     Active Nodes
                   </h3>
                   <Badge className="border-none bg-emerald-50 px-2 py-0.5 text-[8px] font-black text-emerald-600">
@@ -929,17 +1153,28 @@ export function B2BControlCenter() {
                   {[1, 2, 3].map((i) => (
                     <div key={i} className="group flex items-center justify-between">
                       <div className="flex items-center gap-3">
+<<<<<<< HEAD
                         <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-slate-50 transition-colors group-hover:border-indigo-100">
+=======
+                        <div className="border-border-subtle group-hover:border-accent-primary/20 h-10 w-10 overflow-hidden rounded-full border-2 transition-colors">
+>>>>>>> recover/cabinet-wip-from-stash
                           <img
                             src={`https://i.pravatar.cc/100?img=${i + 20}`}
                             className="h-full w-full object-cover"
                           />
                         </div>
                         <div>
+<<<<<<< HEAD
                           <p className="text-[10px] font-black uppercase text-slate-900">
                             Premium Store HQ
                           </p>
                           <p className="text-[8px] font-bold uppercase text-slate-400">
+=======
+                          <p className="text-text-primary text-[10px] font-black uppercase">
+                            Premium Store HQ
+                          </p>
+                          <p className="text-text-muted text-[8px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                             Retailer • Moscow
                           </p>
                         </div>
@@ -950,7 +1185,11 @@ export function B2BControlCenter() {
                 </div>
                 <Button
                   variant="ghost"
+<<<<<<< HEAD
                   className="h-10 w-full rounded-xl text-[9px] font-black uppercase tracking-widest text-slate-400 transition-all hover:bg-slate-50 hover:text-slate-900"
+=======
+                  className="text-text-muted hover:text-text-primary hover:bg-bg-surface2 h-10 w-full rounded-xl text-[9px] font-black uppercase tracking-widest transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   View Full Directory
                 </Button>
@@ -963,7 +1202,11 @@ export function B2BControlCenter() {
       {/* Admin Intervention Dialog */}
       <Dialog open={!!selectedNegId} onOpenChange={(open) => !open && setSelectedNegId(null)}>
         <DialogContent className="overflow-hidden rounded-xl border-none bg-white p-0 shadow-2xl sm:max-w-[500px]">
+<<<<<<< HEAD
           <DialogHeader className="bg-slate-900 p-4 pb-4 text-white">
+=======
+          <DialogHeader className="bg-text-primary p-4 pb-4 text-white">
+>>>>>>> recover/cabinet-wip-from-stash
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-600 shadow-lg shadow-rose-900/20">
                 <ShieldCheck className="h-5 w-5 text-white" />
@@ -972,14 +1215,22 @@ export function B2BControlCenter() {
                 <DialogTitle className="text-base font-black uppercase tracking-tighter">
                   Admin Intervention
                 </DialogTitle>
+<<<<<<< HEAD
                 <p className="mt-0.5 text-[9px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                <p className="text-text-muted mt-0.5 text-[9px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   Escrow & Negotiation Resolution Flow
                 </p>
               </div>
             </div>
           </DialogHeader>
 
+<<<<<<< HEAD
           <div className="custom-scrollbar h-[350px] space-y-4 overflow-y-auto bg-slate-50/50 p-4">
+=======
+          <div className="bg-bg-surface2/80 custom-scrollbar h-[350px] space-y-4 overflow-y-auto p-4">
+>>>>>>> recover/cabinet-wip-from-stash
             {selectedNeg?.messages.map((msg) => (
               <div
                 key={msg.id}
@@ -993,7 +1244,11 @@ export function B2BControlCenter() {
                 )}
               >
                 {msg.type === 'system' ? (
+<<<<<<< HEAD
                   <div className="w-full rounded-lg bg-slate-100 px-4 py-2 text-center text-[8px] font-black uppercase tracking-[0.2em] text-slate-400">
+=======
+                  <div className="bg-bg-surface2 text-text-muted w-full rounded-lg px-4 py-2 text-center text-[8px] font-black uppercase tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
                     {msg.text}
                   </div>
                 ) : (
@@ -1004,13 +1259,22 @@ export function B2BControlCenter() {
                         msg.sender.role === 'admin'
                           ? 'border-rose-100 bg-rose-50 text-rose-900'
                           : msg.sender.role === 'brand'
+<<<<<<< HEAD
                             ? 'border-slate-100 bg-white text-slate-700'
                             : 'border-indigo-500 bg-indigo-600 text-white'
+=======
+                            ? 'border-border-subtle text-text-primary bg-white'
+                            : 'bg-accent-primary border-accent-primary text-white'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {msg.text}
                     </div>
+<<<<<<< HEAD
                     <span className="px-1 text-[8px] font-bold uppercase tracking-widest text-slate-300">
+=======
+                    <span className="text-text-muted px-1 text-[8px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       {msg.sender.name} ({msg.sender.role}) •{' '}
                       {new Date(msg.timestamp).toLocaleTimeString()}
                     </span>
@@ -1020,11 +1284,19 @@ export function B2BControlCenter() {
             ))}
           </div>
 
+<<<<<<< HEAD
           <div className="border-t border-slate-100 bg-white p-4">
             <div className="flex gap-2">
               <Input
                 placeholder="Send official platform message..."
                 className="h-12 rounded-xl border-slate-200 bg-slate-50 text-xs font-medium focus-visible:ring-rose-500"
+=======
+          <div className="border-border-subtle border-t bg-white p-4">
+            <div className="flex gap-2">
+              <Input
+                placeholder="Send official platform message..."
+                className="border-border-default bg-bg-surface2 h-12 rounded-xl text-xs font-medium focus-visible:ring-rose-500"
+>>>>>>> recover/cabinet-wip-from-stash
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     const target = e.target as HTMLInputElement;

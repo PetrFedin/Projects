@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, ArrowLeft, Store, UserPlus, Cloud, Package } from 'lucide-react';
+import { Search, Store, UserPlus, Cloud, Package } from 'lucide-react';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { RegistryPageShell } from '@/components/design-system';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
 import { getSyndicationStatus } from '@/lib/b2b/content-syndication';
 
@@ -15,14 +17,20 @@ import { getSyndicationStatus } from '@/lib/b2b/content-syndication';
 const MOCK_BRANDS = [
   {
     id: '1',
+<<<<<<< HEAD
     name: 'Syntha',
     slug: 'syntha',
+=======
+    name: 'Syntha Lab',
+    slug: 'syntha-lab',
+>>>>>>> recover/cabinet-wip-from-stash
     category: 'Премиум outerwear',
     country: 'РФ',
     status: 'partner' as const,
   },
   {
     id: '2',
+<<<<<<< HEAD
     name: 'A.P.C.',
     slug: 'apc',
     category: 'Минимализм',
@@ -37,6 +45,14 @@ const MOCK_BRANDS = [
     country: 'Швеция',
     status: 'request' as const,
   },
+=======
+    name: 'Nordic Wool',
+    slug: 'nordic-wool',
+    category: 'Трикотаж и шерсть',
+    country: 'РФ',
+    status: 'partner' as const,
+  },
+>>>>>>> recover/cabinet-wip-from-stash
 ];
 
 export default function DiscoverPage() {
@@ -53,6 +69,7 @@ export default function DiscoverPage() {
     : null;
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -81,6 +98,25 @@ export default function DiscoverPage() {
           </div>
         )}
       </div>
+=======
+    <RegistryPageShell className="max-w-3xl space-y-6">
+      <ShopB2bContentHeader
+        lead="Каталог брендов для закупки, поиск поставщиков. Запрос доступа — в разделе «Подать заявку». Синхронизация с PIM — при подключении интеграции."
+        trailing={
+          lastSyncedFormatted ? (
+            <div className="text-text-secondary flex items-center gap-2 text-xs">
+              <Cloud className="text-text-muted h-4 w-4 shrink-0" aria-hidden />
+              <span>Обновлено: {lastSyncedFormatted}</span>
+              <Button variant="ghost" size="sm" className="text-accent-primary h-7" asChild>
+                <Link href={ROUTES.shop.b2bCatalog}>
+                  <Package className="mr-1 h-3 w-3" /> B2B-каталог
+                </Link>
+              </Button>
+            </div>
+          ) : undefined
+        }
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -89,7 +125,11 @@ export default function DiscoverPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="relative">
+<<<<<<< HEAD
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+=======
+            <Search className="text-text-muted absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
+>>>>>>> recover/cabinet-wip-from-stash
             <Input
               placeholder="Поиск бренда..."
               value={q}
@@ -101,6 +141,7 @@ export default function DiscoverPage() {
             {MOCK_BRANDS.map((b) => (
               <li
                 key={b.id}
+<<<<<<< HEAD
                 className="flex items-center justify-between rounded-xl border border-slate-200 p-4"
               >
                 <div className="flex items-center gap-3">
@@ -110,6 +151,17 @@ export default function DiscoverPage() {
                   <div>
                     <p className="font-medium">{b.name}</p>
                     <p className="text-xs text-slate-500">
+=======
+                className="border-border-default flex items-center justify-between rounded-xl border p-4"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="bg-bg-surface2 flex h-10 w-10 items-center justify-center rounded-lg">
+                    <Store className="text-text-secondary h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-medium">{b.name}</p>
+                    <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                       {b.category} · {b.country}
                     </p>
                   </div>
@@ -158,6 +210,6 @@ export default function DiscoverPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getShopB2BHubLinks()} title="Партнёры, заявка, заказы" />
-    </div>
+    </RegistryPageShell>
   );
 }

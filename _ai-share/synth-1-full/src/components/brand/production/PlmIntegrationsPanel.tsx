@@ -130,7 +130,11 @@ export function PlmIntegrationsPanel({
         )}
       </DialogTrigger>
       <DialogContent className="overflow-hidden rounded-2xl border-none bg-white p-0 shadow-2xl sm:max-w-[600px]">
+<<<<<<< HEAD
         <DialogHeader className="bg-indigo-600 p-6 text-white">
+=======
+        <DialogHeader className="bg-accent-primary p-6 text-white">
+>>>>>>> recover/cabinet-wip-from-stash
           <DialogTitle className="text-lg font-black uppercase">Интеграции PLM</DialogTitle>
           <DialogDescription className="text-[10px] uppercase text-white/80">
             Подключение Gerber, CLO3D, Lectra — импорт BOM, градаций, синхронизация изменений
@@ -140,7 +144,11 @@ export function PlmIntegrationsPanel({
           {connections.map((conn) => (
             <Card
               key={conn.type}
+<<<<<<< HEAD
               className="overflow-hidden rounded-xl border border-slate-100 shadow-sm"
+=======
+              className="border-border-subtle overflow-hidden rounded-xl border shadow-sm"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <CardHeader className="p-4 pb-2">
                 <div className="flex items-start justify-between">
@@ -155,7 +163,11 @@ export function PlmIntegrationsPanel({
                       'text-[8px] font-black uppercase',
                       conn.connected
                         ? 'bg-emerald-100 text-emerald-600'
+<<<<<<< HEAD
                         : 'bg-slate-100 text-slate-500'
+=======
+                        : 'bg-bg-surface2 text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     {conn.connected ? 'Подключено' : 'Не подключено'}
@@ -164,7 +176,11 @@ export function PlmIntegrationsPanel({
               </CardHeader>
               <CardContent className="space-y-2 p-4 pt-0">
                 {conn.connected && conn.lastSync && (
+<<<<<<< HEAD
                   <p className="text-[9px] font-bold uppercase text-slate-500">
+=======
+                  <p className="text-text-secondary text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     Последняя синхронизация: {conn.lastSync}
                   </p>
                 )}
@@ -194,7 +210,11 @@ export function PlmIntegrationsPanel({
                     <Button
                       variant="default"
                       size="sm"
+<<<<<<< HEAD
                       className="h-8 gap-1 bg-indigo-600 text-[9px] font-bold uppercase hover:bg-indigo-700"
+=======
+                      className="bg-accent-primary hover:bg-accent-primary h-8 gap-1 text-[9px] font-bold uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                       onClick={() => handleConnect(conn.type)}
                     >
                       <LinkIcon className="h-3.5 w-3.5" /> Подключить
@@ -206,7 +226,11 @@ export function PlmIntegrationsPanel({
           ))}
 
           {selectedType && (
+<<<<<<< HEAD
             <Card className="overflow-hidden rounded-xl border-2 border-indigo-200 bg-indigo-50/30 shadow-sm">
+=======
+            <Card className="border-accent-primary/30 bg-accent-primary/10 overflow-hidden rounded-xl border-2 shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
               <CardHeader className="p-4">
                 <CardTitle className="text-[11px] font-black uppercase">
                   Настройка {DEFAULT_CONNECTIONS.find((c) => c.type === selectedType)?.name}

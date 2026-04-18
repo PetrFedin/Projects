@@ -37,7 +37,7 @@ export const WORKSHOP2_MEASUREMENTS_TABLE_ROLE_BLOCKS: readonly {
 }[] = [
   {
     title: 'Бренд-дизайнер',
-    titleClass: 'text-violet-900',
+    titleClass: 'text-text-primary',
     body: 'Посадка на модели и силуэт на витрине должны совпадать с цифрами таблицы; при смене эскиза обновите мерки и подписи колонок.',
   },
   {
@@ -57,7 +57,7 @@ export const WORKSHOP2_MEASUREMENTS_TABLE_ROLE_BLOCKS: readonly {
   },
   {
     title: 'Производство / цех',
-    titleClass: 'text-slate-800',
+    titleClass: 'text-text-primary',
     body: 'В раскрой и пакеты уходят те же значения, что в таблице; вопросы к пустым ячейкам закрываются до запуска, иначе растут переделки.',
   },
   {
@@ -67,12 +67,12 @@ export const WORKSHOP2_MEASUREMENTS_TABLE_ROLE_BLOCKS: readonly {
   },
   {
     title: 'Комплаенс / таможня',
-    titleClass: 'text-indigo-900',
+    titleClass: 'text-accent-primary',
     body: 'Длина изделия и обхваты могут попадать в декларации и этикетку размеров — согласуйте с паспортом и блоком маркировки в материалах.',
   },
   {
     title: 'Мерч / e-com',
-    titleClass: 'text-fuchsia-900',
+    titleClass: 'text-text-primary',
     body: 'Размерная сетка на сайте и подписи «как мерить» должны ссылаться на эту таблицу как на единственный источник правды по SKU.',
   },
 ];

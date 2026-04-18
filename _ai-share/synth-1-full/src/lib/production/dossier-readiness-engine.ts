@@ -30,7 +30,10 @@ export type DossierSection =
   | 'general'
   | 'visuals'
   | 'material'
+  /** Табель мер / fit (иконки сводки в UI). */
+  | 'measurements'
   | 'construction'
+  | 'packaging'
   /** Поля таможни / маркировки / финального ТН ВЭД — только на этапе приёмки сэмпла (вкладка Fit), не в навигации ТЗ. */
   | 'sample_intake';
 
@@ -161,6 +164,17 @@ export const SECTION_ROLES: Record<DossierSection, SectionRole> = {
       'hasPackaging',
       'hasLabeling',
     ],
+<<<<<<< HEAD
+=======
+  },
+  measurements: {
+    section: 'measurements',
+    label: 'Табель мер',
+    owner: 'Технолог',
+    sourceFields: ['sampleBasePerSizeDimensions', 'sampleBasePerSizeDimensionRanges'],
+    handoffTargets: [],
+    summaryFields: ['dimensionCount'],
+>>>>>>> recover/cabinet-wip-from-stash
   },
   construction: {
     section: 'construction',
@@ -214,6 +228,14 @@ export const SECTION_ROLES: Record<DossierSection, SectionRole> = {
       'dimensionCount',
       'rangeMode',
     ],
+  },
+  packaging: {
+    section: 'packaging',
+    label: 'Упаковка / маркировка',
+    owner: 'Продакт',
+    sourceFields: ['assignments[packaging]', 'assignments[labeling]', 'assignments[barcode]'],
+    handoffTargets: [],
+    summaryFields: ['hasPackaging', 'hasLabeling'],
   },
   sample_intake: {
     section: 'sample_intake',

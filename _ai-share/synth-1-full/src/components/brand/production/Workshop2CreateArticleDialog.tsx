@@ -1,6 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useState, type ReactNode } from 'react';
+<<<<<<< HEAD
+=======
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+>>>>>>> recover/cabinet-wip-from-stash
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -131,7 +135,7 @@ function CreateArticleDialogTzExtraRow({
   }, [editingTitle, inputId]);
 
   return (
-    <div className="rounded-md border border-indigo-100/80 bg-white/80 p-2">
+    <div className="border-accent-primary/20 rounded-md border bg-white/80 p-2">
       <div className="mb-1 flex min-w-0 items-center gap-1">
         {editingTitle ? (
           <Input
@@ -149,7 +153,7 @@ function CreateArticleDialogTzExtraRow({
         ) : (
           <button
             type="button"
-            className="min-h-[1.125rem] min-w-0 flex-1 truncate rounded px-0.5 py-0 text-left text-[10px] font-semibold leading-tight text-slate-700 hover:bg-slate-100"
+            className="text-text-primary hover:bg-bg-surface2 min-h-[1.125rem] min-w-0 flex-1 truncate rounded px-0.5 py-0 text-left text-[10px] font-semibold leading-tight"
             onClick={() => setEditingTitle(true)}
             aria-label="Редактировать название роли"
           >
@@ -648,9 +652,14 @@ export function Workshop2CreateArticleDialog({
               : `Артикул в «${collectionDisplayName}»`}
           </DialogTitle>
           <DialogDescription id="w2-art-desc">
-            {isEdit
-              ? 'Те же поля, что при создании нового артикула. SKU не меняется. Данные — локально в браузере.'
-              : 'Добавьте из ранее созданных или заведите новый. Данные и вложения — локально в браузере.'}
+            {isEdit ? (
+              <>
+                Те же поля, что при создании нового артикула. Код <AcronymWithTooltip abbr="SKU" />{' '}
+                не меняется. Данные — локально в браузере.
+              </>
+            ) : (
+              'Добавьте из ранее созданных или заведите новый. Данные и вложения — локально в браузере.'
+            )}
           </DialogDescription>
         </DialogHeader>
 
@@ -684,12 +693,12 @@ export function Workshop2CreateArticleDialog({
               id="w2-base-search"
               value={baseSearch}
               onChange={(e) => setBaseSearch(e.target.value)}
-              placeholder="SKU, название или id…"
+              placeholder="Артикул, название или id…"
               className="text-sm"
               autoComplete="off"
             />
             {baseLineId ? (
-              <p className="text-[10px] text-slate-600">
+              <p className="text-text-secondary text-[10px]">
                 Выбрано:{' '}
                 <span className="font-mono font-semibold">
                   {pickerLines.find((l) => l.id === baseLineId)?.sku ?? baseLineId}
@@ -697,20 +706,28 @@ export function Workshop2CreateArticleDialog({
               </p>
             ) : null}
             <div
-              className="max-h-48 overflow-y-auto rounded-md border border-slate-200 bg-slate-50/80"
+              className="border-border-default bg-bg-surface2/80 max-h-48 overflow-y-auto rounded-md border"
               role="listbox"
               aria-label="Результаты поиска по базе артикулов"
             >
               {pickerLines.length === 0 ? (
+<<<<<<< HEAD
                 <p className="p-2 text-[10px] text-slate-500">
                   Пока нет сохранённых артикулов для выбора.
                 </p>
               ) : filteredBaseLines.length === 0 ? (
                 <p className="p-2 text-[10px] text-slate-500">
+=======
+                <p className="text-text-secondary p-2 text-[10px]">
+                  Пока нет сохранённых артикулов для выбора.
+                </p>
+              ) : filteredBaseLines.length === 0 ? (
+                <p className="text-text-secondary p-2 text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                   Ничего не найдено — уточните запрос.
                 </p>
               ) : (
-                <ul className="divide-y divide-slate-100">
+                <ul className="divide-border-subtle divide-y">
                   {filteredBaseLines.map((l) => {
                     const active = l.id === baseLineId;
                     return (
@@ -718,12 +735,16 @@ export function Workshop2CreateArticleDialog({
                         <button
                           type="button"
                           className={`w-full px-2 py-1.5 text-left text-[11px] transition-colors ${
+<<<<<<< HEAD
                             active ? 'bg-indigo-100 text-indigo-950' : 'hover:bg-white'
+=======
+                            active ? 'bg-accent-primary/15 text-accent-primary' : 'hover:bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
                           }`}
                           onClick={() => setBaseLineId(l.id)}
                         >
                           <span className="font-mono font-bold">{l.sku}</span>
-                          <span className="text-slate-600"> · {l.name}</span>
+                          <span className="text-text-secondary"> · {l.name}</span>
                         </button>
                       </li>
                     );
@@ -735,8 +756,13 @@ export function Workshop2CreateArticleDialog({
               <Workshop2CategoryHandbookGuidance leaf={baseLineHandbookLeaf} className="mt-2" />
             ) : baseLineId ? (
               <p className="mt-2 text-[10px] text-amber-800/90">
+<<<<<<< HEAD
                 У выбранной строки нет сопоставления со справочником категорий (проверьте{' '}
                 <span className="font-mono">categoryLeafId</span>).
+=======
+                У выбранной строки нет сопоставления со справочником категорий (проверьте поле{' '}
+                <span className="font-mono">categoryLeafId</span> в данных строки).
+>>>>>>> recover/cabinet-wip-from-stash
               </p>
             ) : null}
           </div>
@@ -744,14 +770,23 @@ export function Workshop2CreateArticleDialog({
           <div className="grid gap-3">
             <div className="flex flex-wrap items-end gap-2">
               <div className="grid min-w-[8rem] flex-1 gap-1">
+<<<<<<< HEAD
                 <Label htmlFor="w2-art-sku">Код SKU</Label>
+=======
+                <Label htmlFor="w2-art-sku" className="inline-flex flex-wrap items-center gap-1">
+                  Код <AcronymWithTooltip abbr="SKU" />
+                </Label>
+>>>>>>> recover/cabinet-wip-from-stash
                 <Input
                   id="w2-art-sku"
                   value={sku}
                   onChange={(e) => setSku(e.target.value)}
                   readOnly={isEdit}
                   aria-readonly={isEdit}
-                  className={cn('font-mono text-sm', isEdit && 'bg-slate-50 text-slate-600')}
+                  className={cn(
+                    'font-mono text-sm',
+                    isEdit && 'bg-bg-surface2 text-text-secondary'
+                  )}
                   placeholder="Например W2-ABC12"
                   aria-required={!isEdit}
                 />
@@ -770,7 +805,12 @@ export function Workshop2CreateArticleDialog({
             </div>
             {!isEdit && !sku.trim() ? (
               <p className="text-[10px] text-amber-800/90">
+<<<<<<< HEAD
                 Обязательно: укажите код SKU или нажмите «Сгенерировать».
+=======
+                Обязательно: укажите код <AcronymWithTooltip abbr="SKU" /> или нажмите
+                «Сгенерировать».
+>>>>>>> recover/cabinet-wip-from-stash
               </p>
             ) : null}
             <div className="grid gap-1">
@@ -818,7 +858,7 @@ export function Workshop2CreateArticleDialog({
                 {catSearch && (
                   <button
                     type="button"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                    className="text-text-muted hover:text-text-secondary absolute right-2 top-1/2 -translate-y-1/2"
                     onClick={() => setCatSearch('')}
                   >
                     ×
@@ -826,13 +866,22 @@ export function Workshop2CreateArticleDialog({
                 )}
               </div>
               {filteredLeaves.length > 0 && (
+<<<<<<< HEAD
                 <div className="z-50 mt-1 max-h-40 overflow-y-auto rounded-md border border-slate-200 bg-white shadow-lg">
                   <ul className="divide-y divide-slate-100">
+=======
+                <div className="border-border-default z-50 mt-1 max-h-40 overflow-y-auto rounded-md border bg-white shadow-lg">
+                  <ul className="divide-border-subtle divide-y">
+>>>>>>> recover/cabinet-wip-from-stash
                     {filteredLeaves.map((l) => (
                       <li key={l.leafId}>
                         <button
                           type="button"
+<<<<<<< HEAD
                           className="w-full px-3 py-2 text-left text-xs transition-colors hover:bg-indigo-50"
+=======
+                          className="hover:bg-accent-primary/10 w-full px-3 py-2 text-left text-xs transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                           onClick={() => {
                             setL1Name(l.l1Name);
                             setL2Name(l.l2Name);
@@ -840,10 +889,17 @@ export function Workshop2CreateArticleDialog({
                             setCatSearch('');
                           }}
                         >
+<<<<<<< HEAD
                           <span className="font-medium text-slate-400">
                             {l.l1Name} › {l.l2Name} ›{' '}
                           </span>
                           <span className="font-bold text-slate-900">{l.l3Name}</span>
+=======
+                          <span className="text-text-muted font-medium">
+                            {l.l1Name} › {l.l2Name} ›{' '}
+                          </span>
+                          <span className="text-text-primary font-bold">{l.l3Name}</span>
+>>>>>>> recover/cabinet-wip-from-stash
                         </button>
                       </li>
                     ))}
@@ -952,7 +1008,11 @@ export function Workshop2CreateArticleDialog({
               />
               {attachError ? <p className="text-[10px] text-red-600">{attachError}</p> : null}
               {pendingFiles.length > 0 ? (
+<<<<<<< HEAD
                 <ul className="list-disc pl-4 text-[10px] text-slate-600">
+=======
+                <ul className="text-text-secondary list-disc pl-4 text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                   {pendingFiles.map((f) => (
                     <li key={f.name}>{f.name}</li>
                   ))}
@@ -963,14 +1023,25 @@ export function Workshop2CreateArticleDialog({
         )}
 
         {!isEdit ? (
-          <div className="space-y-3 rounded-lg border border-indigo-100 bg-indigo-50/35 p-3">
+          <div className="border-accent-primary/20 bg-accent-primary/10 space-y-3 rounded-lg border p-3">
             <div className="space-y-0.5">
+<<<<<<< HEAD
               <p className="text-[11px] font-semibold text-indigo-950">Подписанты ТЗ по артикулу</p>
               <p className="text-[10px] leading-snug text-slate-600">
                 По желанию закрепите уровни цифровой подписи за конкретными людьми (команда бренда и
                 партнёры). Пустое значение — подписать может любой пользователь с соответствующим
                 правом в <span className="font-medium text-slate-700">Команда → права доступа</span>
                 .
+=======
+              <p className="text-accent-primary text-[11px] font-semibold">
+                Подписанты ТЗ по артикулу
+              </p>
+              <p className="text-text-secondary text-[10px] leading-snug">
+                По желанию закрепите уровни цифровой подписи за конкретными людьми (команда бренда и
+                партнёры). Пустое значение — подписать может любой пользователь с соответствующим
+                правом в{' '}
+                <span className="text-text-primary font-medium">Команда → права доступа</span>.
+>>>>>>> recover/cabinet-wip-from-stash
               </p>
             </div>
             <div className="grid gap-2 sm:grid-cols-3 sm:gap-3">
@@ -1008,8 +1079,13 @@ export function Workshop2CreateArticleDialog({
                 </select>
               </div>
             </div>
+<<<<<<< HEAD
             <div className="space-y-2 border-t border-indigo-100/80 pt-2">
               <p className="text-[10px] font-medium text-slate-600">
+=======
+            <div className="border-accent-primary/20 space-y-2 border-t pt-2">
+              <p className="text-text-secondary text-[10px] font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                 Дополнительные роли — те же данные, что в паспорте артикула; участие по этапам
                 настраивается там. Базовый минимум подписей ТЗ — дизайн, технолог, менеджер;
                 продакт, снабжение, ОТК, маркировка и производственный контакт добавляйте по
@@ -1057,8 +1133,13 @@ export function Workshop2CreateArticleDialog({
 
         {!isEdit && duplicateSkuError ? (
           <p className="text-[11px] text-red-600" role="alert">
+<<<<<<< HEAD
             В этой коллекции уже есть артикул с таким SKU (после нормализации кода). Выберите другой
             код или базовую позицию.
+=======
+            В этой коллекции уже есть артикул с таким кодом <AcronymWithTooltip abbr="SKU" /> (после
+            нормализации). Выберите другой код или базовую позицию.
+>>>>>>> recover/cabinet-wip-from-stash
           </p>
         ) : null}
 

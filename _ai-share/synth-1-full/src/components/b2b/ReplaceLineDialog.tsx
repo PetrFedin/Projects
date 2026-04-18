@@ -70,7 +70,11 @@ export function ReplaceLineDialog({
                 className={`flex cursor-pointer items-center justify-between rounded-lg border p-3 transition-colors ${
                   selectedId === p.id
                     ? 'border-primary bg-primary/5'
+<<<<<<< HEAD
                     : 'border-slate-200 hover:border-slate-300'
+=======
+                    : 'border-border-default hover:border-border-default'
+>>>>>>> recover/cabinet-wip-from-stash
                 }`}
                 onClick={() => setSelectedId(p.id)}
               >
@@ -80,7 +84,11 @@ export function ReplaceLineDialog({
                   )}
                   <div>
                     <p className="font-medium">{p.name}</p>
+<<<<<<< HEAD
                     <p className="text-xs text-slate-500">
+=======
+                    <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                       {p.category} · {p.price?.toLocaleString('ru-RU')} ₽
                     </p>
                   </div>

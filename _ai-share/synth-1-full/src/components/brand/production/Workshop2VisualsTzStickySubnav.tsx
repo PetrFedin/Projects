@@ -83,17 +83,17 @@ export function Workshop2VisualsTzStickySubnav({
 }: Workshop2VisualsTzStickySubnavProps) {
   return (
     <div
-      className="sticky top-0 z-30 -mx-1 flex flex-wrap items-center gap-1.5 rounded-lg border border-slate-200/90 bg-white/95 px-2 py-2 shadow-sm backdrop-blur-sm sm:gap-1 sm:py-1.5"
+      className="border-border-default/90 sticky top-0 z-30 -mx-1 flex flex-wrap items-center gap-1.5 rounded-lg border bg-white/95 px-2 py-2 shadow-sm backdrop-blur-sm sm:gap-1 sm:py-1.5"
       role="navigation"
       aria-label="Подразделы «Визуал / эскиз»"
     >
       <span
-        className="flex w-full flex-wrap items-center gap-1 pl-0.5 text-[9px] font-bold uppercase tracking-wide text-slate-400 sm:w-auto sm:pr-1"
+        className="text-text-muted flex w-full flex-wrap items-center gap-1 pl-0.5 text-[9px] font-bold uppercase tracking-wide sm:w-auto sm:pr-1"
         title="Контур «Визуал / эскиз» и готовность полей секции на текущем шаге ТЗ"
       >
         <span>Визуал</span>
         {tzPhase !== '1' ? (
-          <span className="rounded border border-indigo-200/80 bg-indigo-50 px-1 py-0 text-[8px] font-black normal-case tracking-wide text-indigo-900">
+          <span className="border-accent-primary/30 bg-accent-primary/10 text-accent-primary rounded border px-1 py-0 text-[8px] font-black normal-case tracking-wide">
             Шаг {tzPhase}
           </span>
         ) : null}
@@ -105,7 +105,7 @@ export function Workshop2VisualsTzStickySubnav({
         >
           {visualGateOpenCount === 0 ? '· контур OK' : `· открыто ${visualGateOpenCount}`}
         </span>
-        <span className="font-normal normal-case text-slate-400">(~{sectionReadinessPct}%)</span>
+        <span className="text-text-muted font-normal normal-case">(~{sectionReadinessPct}%)</span>
       </span>
       {W2_VISUAL_TZ_SUBNAV_ITEMS.map((x) => {
         let navTitle: string | undefined;
@@ -116,7 +116,11 @@ export function Workshop2VisualsTzStickySubnav({
             <span
               className={cn(
                 'ml-1 text-[9px] font-bold tabular-nums',
+<<<<<<< HEAD
                 checklistDone >= checklistTotal ? 'text-emerald-600' : 'text-indigo-600'
+=======
+                checklistDone >= checklistTotal ? 'text-emerald-600' : 'text-accent-primary'
+>>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               {checklistDone}/{checklistTotal}
@@ -130,7 +134,11 @@ export function Workshop2VisualsTzStickySubnav({
             <span
               className={cn(
                 'ml-1 text-[9px] font-bold tabular-nums',
+<<<<<<< HEAD
                 checklistDone >= checklistTotal ? 'text-emerald-600' : 'text-indigo-600'
+=======
+                checklistDone >= checklistTotal ? 'text-emerald-600' : 'text-accent-primary'
+>>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               {checklistDone}/{checklistTotal}
@@ -142,7 +150,11 @@ export function Workshop2VisualsTzStickySubnav({
             <span
               className={cn(
                 'ml-1 text-[9px] font-bold tabular-nums',
+<<<<<<< HEAD
                 catalogFieldDone >= catalogFieldTotal ? 'text-emerald-600' : 'text-violet-600'
+=======
+                catalogFieldDone >= catalogFieldTotal ? 'text-emerald-600' : 'text-accent-primary'
+>>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               {catalogFieldDone}/{catalogFieldTotal}
@@ -191,8 +203,9 @@ export function Workshop2VisualsTzStickySubnav({
             size="sm"
             aria-current={isCurrent ? 'location' : undefined}
             className={cn(
-              'min-h-9 min-w-0 border-slate-200 bg-white px-2.5 py-1.5 text-[10px] font-medium text-slate-700 shadow-none sm:h-7 sm:min-h-0 sm:px-2 sm:py-0',
-              isCurrent && 'border-indigo-300 bg-indigo-50 text-indigo-900 ring-1 ring-indigo-200'
+              'border-border-default text-text-primary min-h-9 min-w-0 bg-white px-2.5 py-1.5 text-[10px] font-medium shadow-none sm:h-7 sm:min-h-0 sm:px-2 sm:py-0',
+              isCurrent &&
+                'border-accent-primary/30 bg-accent-primary/10 text-accent-primary ring-accent-primary/30 ring-1'
             )}
             onClick={() => onNavigate(x.id)}
             title={navTitle}
@@ -207,7 +220,7 @@ export function Workshop2VisualsTzStickySubnav({
           type="button"
           variant="outline"
           size="sm"
-          className="min-h-9 border-slate-200 bg-white px-2.5 py-1.5 text-[10px] font-medium text-slate-700 shadow-none sm:h-7 sm:min-h-0 sm:px-2 sm:py-0"
+          className="border-border-default text-text-primary min-h-9 bg-white px-2.5 py-1.5 text-[10px] font-medium shadow-none sm:h-7 sm:min-h-0 sm:px-2 sm:py-0"
           aria-current={activeAnchorId === SKETCH_EXPORT_SURFACES_ANCHOR ? 'location' : undefined}
           onClick={() => onNavigate(SKETCH_EXPORT_SURFACES_ANCHOR)}
           title="Цех / мерч / комплаенс — что показывать на выгрузке скетча"
@@ -233,7 +246,7 @@ export function Workshop2VisualsTzStickySubnav({
           type="button"
           variant="outline"
           size="sm"
-          className="min-h-9 border-slate-200 bg-white px-2.5 py-1.5 text-[10px] font-medium text-slate-700 shadow-none sm:h-7 sm:min-h-0 sm:px-2 sm:py-0"
+          className="border-border-default text-text-primary min-h-9 bg-white px-2.5 py-1.5 text-[10px] font-medium shadow-none sm:h-7 sm:min-h-0 sm:px-2 sm:py-0"
           aria-current={activeAnchorId === SKETCH_TEMPLATES_ANCHOR ? 'location' : undefined}
           onClick={() => onNavigate(SKETCH_TEMPLATES_ANCHOR)}
           title="Шаблоны меток и библиотека коллекции на общую доску"
@@ -246,7 +259,7 @@ export function Workshop2VisualsTzStickySubnav({
           type="button"
           variant="outline"
           size="sm"
-          className="min-h-9 border-indigo-200/80 bg-indigo-50/70 px-2.5 py-1.5 text-[10px] font-medium text-indigo-950 shadow-none sm:h-7 sm:min-h-0 sm:px-2 sm:py-0"
+          className="border-accent-primary/30 bg-accent-primary/10 text-accent-primary min-h-9 px-2.5 py-1.5 text-[10px] font-medium shadow-none sm:h-7 sm:min-h-0 sm:px-2 sm:py-0"
           aria-current={activeAnchorId === VISUAL_HANDOFF_ANCHOR ? 'location' : undefined}
           onClick={() => onNavigate(VISUAL_HANDOFF_ANCHOR)}
           title="Блок передачи визуала в посадку, ОТК или снабжение"
@@ -255,7 +268,7 @@ export function Workshop2VisualsTzStickySubnav({
         </Button>
       ) : null}
       {routeHandoffActions?.length ? (
-        <span className="hidden h-4 w-px shrink-0 bg-slate-200 sm:block" aria-hidden />
+        <span className="bg-border-subtle hidden h-4 w-px shrink-0 sm:block" aria-hidden />
       ) : null}
       {routeHandoffActions?.map((a) => (
         <Button
@@ -263,7 +276,7 @@ export function Workshop2VisualsTzStickySubnav({
           type="button"
           variant="outline"
           size="sm"
-          className="min-h-9 border-slate-200 bg-white px-2.5 py-1.5 text-[10px] font-semibold text-slate-800 shadow-none sm:h-7 sm:min-h-0 sm:px-2 sm:py-0"
+          className="border-border-default text-text-primary min-h-9 bg-white px-2.5 py-1.5 text-[10px] font-semibold shadow-none sm:h-7 sm:min-h-0 sm:px-2 sm:py-0"
           onClick={a.onClick}
           title="Открыть вкладку маршрута артикула"
         >
@@ -275,7 +288,7 @@ export function Workshop2VisualsTzStickySubnav({
           type="button"
           variant="secondary"
           size="sm"
-          className="min-h-9 gap-1 border-indigo-200 bg-indigo-50/90 px-2.5 py-1.5 text-[10px] font-semibold text-indigo-900 shadow-none sm:ml-auto sm:h-7 sm:min-h-0 sm:px-2 sm:py-0"
+          className="border-accent-primary/30 bg-accent-primary/10 text-accent-primary min-h-9 gap-1 px-2.5 py-1.5 text-[10px] font-semibold shadow-none sm:ml-auto sm:h-7 sm:min-h-0 sm:px-2 sm:py-0"
           onClick={onJumpToPulse}
           title="Пульс артикула: SLA, подписи ТЗ"
         >

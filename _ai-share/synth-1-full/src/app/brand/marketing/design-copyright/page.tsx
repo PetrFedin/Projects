@@ -9,16 +9,27 @@ import { Shield, Search, AlertTriangle } from 'lucide-react';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { getMarketingLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
 
 export default function DesignCopyrightPage() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
+=======
+    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+>>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Design Copyright AI"
         description="Глобальный мониторинг маркетплейсов на предмет появления визуальных копий моделей. Защита интеллектуальной собственности. Связь с IP Ledger, Products."
         icon={Shield}
+<<<<<<< HEAD
         iconBg="bg-indigo-100"
         iconColor="text-indigo-600"
+=======
+        iconBg="bg-accent-primary/15"
+        iconColor="text-accent-primary"
+>>>>>>> recover/cabinet-wip-from-stash
         badges={
           <>
             <Badge variant="outline" className="text-[9px]">
@@ -28,13 +39,17 @@ export default function DesignCopyrightPage() {
               Маркетплейсы
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+<<<<<<< HEAD
               <Link href="/brand/ip-ledger">IP Ledger</Link>
+=======
+              <Link href={ROUTES.brand.ipLedger}>IP Ledger</Link>
+>>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
       />
       <h1 className="text-2xl font-bold uppercase">Design Copyright AI</h1>
-      <Card className="rounded-xl border border-indigo-100 bg-indigo-50/30">
+      <Card className="border-accent-primary/20 bg-accent-primary/10 rounded-xl border">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Search className="h-5 w-5" /> Мониторинг копий
@@ -48,15 +63,23 @@ export default function DesignCopyrightPage() {
             <AlertTriangle className="h-10 w-10 text-amber-500" />
             <div>
               <p className="font-bold">Сканирование</p>
+<<<<<<< HEAD
               <p className="text-[11px] text-slate-500">
+=======
+              <p className="text-text-secondary text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                 Загрузите образцы для мониторинга. AI сравнивает с каталогами маркетплейсов.
               </p>
             </div>
           </div>
+<<<<<<< HEAD
           <p className="mt-4 text-[10px] text-slate-400">Скоро: интеграция с маркетплейсами</p>
+=======
+          <p className="text-text-muted mt-4 text-[10px]">Скоро: интеграция с маркетплейсами</p>
+>>>>>>> recover/cabinet-wip-from-stash
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getMarketingLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

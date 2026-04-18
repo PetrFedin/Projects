@@ -17,7 +17,7 @@ const MOCK_SIZE_TABLE = [
 
 export function SizeGuide() {
   return (
-    <Card className="border-slate-100">
+    <Card className="border-border-subtle">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-sm">
           <Ruler className="h-4 w-4" /> Таблица размеров (см)
@@ -27,7 +27,7 @@ export function SizeGuide() {
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-left text-sm">
             <thead>
-              <tr className="border-b border-slate-200">
+              <tr className="border-border-default border-b">
                 <th className="py-2 pr-3 font-medium">Размер</th>
                 <th className="py-2 pr-3 font-medium">Грудь</th>
                 <th className="py-2 pr-3 font-medium">Талия</th>
@@ -38,13 +38,13 @@ export function SizeGuide() {
             </thead>
             <tbody>
               {MOCK_SIZE_TABLE.map((row) => (
-                <tr key={row.size} className="border-b border-slate-100">
+                <tr key={row.size} className="border-border-subtle border-b">
                   <td className="py-2 pr-3 font-medium">{row.size}</td>
-                  <td className="py-2 pr-3 text-slate-600">{row.chest}</td>
-                  <td className="py-2 pr-3 text-slate-600">{row.waist}</td>
-                  <td className="py-2 pr-3 text-slate-600">{row.hips}</td>
-                  <td className="py-2 pr-3 text-slate-600">{row.sleeve}</td>
-                  <td className="py-2 text-slate-600">{row.length}</td>
+                  <td className="text-text-secondary py-2 pr-3">{row.chest}</td>
+                  <td className="text-text-secondary py-2 pr-3">{row.waist}</td>
+                  <td className="text-text-secondary py-2 pr-3">{row.hips}</td>
+                  <td className="text-text-secondary py-2 pr-3">{row.sleeve}</td>
+                  <td className="text-text-secondary py-2">{row.length}</td>
                 </tr>
               ))}
             </tbody>
@@ -64,10 +64,14 @@ export function SizeRecommender({
   hasMeasurements?: boolean;
 }) {
   return (
-    <Card className="border-indigo-100 bg-indigo-50/50">
+    <Card className="border-accent-primary/20 bg-accent-primary/10">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-sm">
+<<<<<<< HEAD
           <User className="h-4 w-4 text-indigo-600" /> Подбор размера
+=======
+          <User className="text-accent-primary h-4 w-4" /> Подбор размера
+>>>>>>> recover/cabinet-wip-from-stash
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
@@ -76,7 +80,11 @@ export function SizeRecommender({
             По вашим меркам из профиля рекомендуем размер <strong>{recommendedSize}</strong>.
           </p>
         ) : (
+<<<<<<< HEAD
           <p className="text-sm text-slate-600">
+=======
+          <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Укажите мерки в профиле — мы подберём размер автоматически.
           </p>
         )}

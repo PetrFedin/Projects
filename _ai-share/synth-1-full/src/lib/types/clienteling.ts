@@ -49,6 +49,10 @@ export interface StaffNote {
 
 export interface RecommendationEngineResult {
   customerId: string;
+<<<<<<< HEAD
   suggestedProducts: { productId: string; reason: string; score: number }[];
+=======
+  suggestedProducts: { productId: string; name: string; reason: string; score: number }[];
+>>>>>>> recover/cabinet-wip-from-stash
   styleInsight: string;
 }

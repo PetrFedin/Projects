@@ -53,10 +53,25 @@ export function AttributeManagerDialog({
   };
 
   const getFullOptionsList = (
+<<<<<<< HEAD
     optionsObject: Record<string, string[]> | string[]
   ): ComboboxOptions => {
     if (Array.isArray(optionsObject)) {
       return optionsObject.map((opt) => ({ value: opt, label: opt }));
+=======
+    optionsObject: Record<string, string[]> | string[] | ComboboxOptions
+  ): ComboboxOptions => {
+    if (Array.isArray(optionsObject)) {
+      if (optionsObject.length === 0) return [];
+      const first = optionsObject[0];
+      if (typeof first === 'string') {
+        return (optionsObject as string[]).map((opt) => ({ value: opt, label: opt }));
+      }
+      if (first && typeof first === 'object' && 'value' in first && 'label' in first) {
+        return optionsObject as ComboboxOptions;
+      }
+      return [];
+>>>>>>> recover/cabinet-wip-from-stash
     }
     const allOptions = new Set<string>();
     Object.values(optionsObject).forEach((arr) => {
@@ -81,7 +96,11 @@ export function AttributeManagerDialog({
       {
         key: 'length',
         label: 'Длина',
+<<<<<<< HEAD
         options: getFullOptionsList(allAttributeOptions.lengthOptionsByCategory),
+=======
+        options: getFullOptionsList(allAttributeOptions.garmentLengthApparelOptions),
+>>>>>>> recover/cabinet-wip-from-stash
       },
       {
         key: 'sleeveLength',
@@ -136,7 +155,11 @@ export function AttributeManagerDialog({
       {
         key: 'fabricTexture',
         label: 'Фактура ткани',
+<<<<<<< HEAD
         options: getFullOptionsList(allAttributeOptions.fabricTextureOptionsByCategory),
+=======
+        options: getFullOptionsList(allAttributeOptions.fabricTextureOptions),
+>>>>>>> recover/cabinet-wip-from-stash
       },
       {
         key: 'processingTech',

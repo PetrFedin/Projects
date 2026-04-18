@@ -3,8 +3,11 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/lib/routes';
+import { B2B_ORDERS_REGISTRY_LABEL } from '@/lib/ui/b2b-registry-label';
 
 const BADGE_CLASS = 'text-[9px] h-7';
+
+export { B2B_ORDERS_REGISTRY_LABEL };
 
 /** Одна CTA-кнопка в блоках SectionInfoCard. Единый стиль для всех разделов бренда. */
 export function SectionBadgeLink({ href, children }: { href: string; children: React.ReactNode }) {
@@ -15,11 +18,11 @@ export function SectionBadgeLink({ href, children }: { href: string; children: R
   );
 }
 
-/** B2B Заказы, Партнёры, Дистрибьюторы — для Territory и общих B2B-разделов */
+/** Реестр B2B-заказов, Партнёры, Дистрибьюторы — для Territory и общих B2B-разделов */
 export function B2BOrdersPartnersDistributorsBadges() {
   return (
     <>
-      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>B2B Заказы</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>{B2B_ORDERS_REGISTRY_LABEL}</SectionBadgeLink>
       <SectionBadgeLink href={ROUTES.brand.retailers}>Партнёры</SectionBadgeLink>
       <SectionBadgeLink href={ROUTES.brand.distributors}>Дистрибьюторы</SectionBadgeLink>
     </>
@@ -47,25 +50,25 @@ export function ProductionGanttBadges() {
   );
 }
 
-/** Шоурум, B2B Заказы, Партнёры, Заявки байеров — для выставок и онбординга */
+/** Шоурум, реестр B2B-заказов, Партнёры, Заявки байеров — для выставок и онбординга */
 export function B2BShowroomPartnersBuyersBadges() {
   return (
     <>
       <SectionBadgeLink href={ROUTES.brand.showroom}>Шоурум</SectionBadgeLink>
-      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>B2B Заказы</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>{B2B_ORDERS_REGISTRY_LABEL}</SectionBadgeLink>
       <SectionBadgeLink href={ROUTES.brand.retailers}>Партнёры</SectionBadgeLink>
       <SectionBadgeLink href={ROUTES.brand.buyerApplications}>Заявки байеров</SectionBadgeLink>
     </>
   );
 }
 
-/** Финансы, Production, B2B Заказы, План vs Факт — для аналитики Phase 2 */
+/** Финансы, Production, реестр B2B-заказов, План vs Факт — для аналитики Phase 2 */
 export function FinanceProductionB2BBudgetBadges() {
   return (
     <>
       <SectionBadgeLink href={ROUTES.brand.finance}>Финансы</SectionBadgeLink>
       <SectionBadgeLink href={ROUTES.brand.production}>Production</SectionBadgeLink>
-      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>B2B Заказы</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>{B2B_ORDERS_REGISTRY_LABEL}</SectionBadgeLink>
       <SectionBadgeLink href={ROUTES.brand.budgetActual}>План vs Факт</SectionBadgeLink>
     </>
   );
@@ -81,22 +84,26 @@ export function FinanceBiHubBadges() {
   );
 }
 
-/** B2B Заказы, Заявки на изменение, Финансы — для согласования заказов */
+/** Реестр B2B-заказов, Заявки на изменение, Финансы — для согласования заказов */
 export function B2BOrdersAmendmentsFinanceBadges() {
   return (
     <>
-      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>B2B Заказы</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>{B2B_ORDERS_REGISTRY_LABEL}</SectionBadgeLink>
       <SectionBadgeLink href={ROUTES.brand.orderAmendments}>Заявки на изменение</SectionBadgeLink>
       <SectionBadgeLink href={ROUTES.brand.finance}>Финансы</SectionBadgeLink>
     </>
   );
 }
 
-/** B2B Заказы, Согласование заказов — для заявок на изменение */
+/** Реестр B2B-заказов, Согласование заказов — для заявок на изменение */
 export function B2BOrdersApprovalBadges() {
   return (
     <>
+<<<<<<< HEAD
       <SectionBadgeLink href={ROUTES.brand.b2bOrders}>B2B Заказы</SectionBadgeLink>
+=======
+      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>{B2B_ORDERS_REGISTRY_LABEL}</SectionBadgeLink>
+>>>>>>> recover/cabinet-wip-from-stash
       <SectionBadgeLink href={ROUTES.brand.orderApprovalWorkflow}>
         Согласование заказов
       </SectionBadgeLink>
@@ -114,12 +121,12 @@ export function ProductionSuppliersFinanceBadges() {
   );
 }
 
-/** Production, B2B Заказы, Отчёты смен — для GANTT-страницы */
+/** Production, реестр B2B-заказов, Отчёты смен — для GANTT-страницы */
 export function ProductionGanttDailyBadges() {
   return (
     <>
       <SectionBadgeLink href={ROUTES.brand.production}>Production</SectionBadgeLink>
-      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>B2B Заказы</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>{B2B_ORDERS_REGISTRY_LABEL}</SectionBadgeLink>
       <SectionBadgeLink href={ROUTES.brand.productionDailyOutput}>Отчёты смен</SectionBadgeLink>
     </>
   );
@@ -135,12 +142,12 @@ export function MaterialsSuppliersBadges() {
   );
 }
 
-/** Pre-order, B2B Заказы, Планирование — для Pre-Order Quota */
+/** Pre-order, реестр B2B-заказов, Планирование — для Pre-Order Quota */
 export function PreOrderQuotaBadges() {
   return (
     <>
       <SectionBadgeLink href={ROUTES.shop.b2bPreOrder}>Pre-order</SectionBadgeLink>
-      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>B2B Заказы</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>{B2B_ORDERS_REGISTRY_LABEL}</SectionBadgeLink>
       <SectionBadgeLink href={ROUTES.brand.planning}>Планирование</SectionBadgeLink>
     </>
   );

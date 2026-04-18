@@ -22,6 +22,11 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+<<<<<<< HEAD
+=======
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+>>>>>>> recover/cabinet-wip-from-stash
 import dynamic from 'next/dynamic';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -766,6 +771,7 @@ export default function SizesPage() {
   const renderWomenContent = () => (
     <div className="space-y-6">
       <Tabs value={activeSection} onValueChange={setActiveSection} className="w-full">
+<<<<<<< HEAD
         <TabsList className="mb-4 h-auto flex-wrap justify-start">
           <TabsTrigger value="clothing">
             <Shirt className="mr-2 h-4 w-4" />
@@ -784,6 +790,57 @@ export default function SizesPage() {
             Аксессуары
           </TabsTrigger>
           <TabsTrigger value="misc">
+=======
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'mb-4 h-auto min-w-0')}>
+          <TabsTrigger
+            value="clothing"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            <Shirt className="mr-2 h-4 w-4" />
+            Одежда
+          </TabsTrigger>
+          <TabsTrigger
+            value="shoes"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            <Footprints className="mr-2 h-4 w-4" />
+            Обувь
+          </TabsTrigger>
+          <TabsTrigger
+            value="bags"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            <ShoppingBag className="mr-2 h-4 w-4" />
+            Сумки
+          </TabsTrigger>
+          <TabsTrigger
+            value="accessories"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            <LandPlot className="mr-2 h-4 w-4" />
+            Аксессуары
+          </TabsTrigger>
+          <TabsTrigger
+            value="misc"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+>>>>>>> recover/cabinet-wip-from-stash
             <Briefcase className="mr-2 h-4 w-4" />
             Прочее
           </TabsTrigger>
@@ -810,6 +867,7 @@ export default function SizesPage() {
   const renderMenContent = () => (
     <div className="space-y-6">
       <Tabs value={activeSection} onValueChange={setActiveSection} className="w-full">
+<<<<<<< HEAD
         <TabsList className="mb-4 h-auto flex-wrap justify-start">
           <TabsTrigger value="clothing">
             <Shirt className="mr-2 h-4 w-4" />
@@ -828,6 +886,57 @@ export default function SizesPage() {
             Аксессуары
           </TabsTrigger>
           <TabsTrigger value="misc">
+=======
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'mb-4 h-auto min-w-0')}>
+          <TabsTrigger
+            value="clothing"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            <Shirt className="mr-2 h-4 w-4" />
+            Одежда
+          </TabsTrigger>
+          <TabsTrigger
+            value="shoes"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            <Footprints className="mr-2 h-4 w-4" />
+            Обувь
+          </TabsTrigger>
+          <TabsTrigger
+            value="bags"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            <ShoppingBag className="mr-2 h-4 w-4" />
+            Сумки
+          </TabsTrigger>
+          <TabsTrigger
+            value="accessories"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            <LandPlot className="mr-2 h-4 w-4" />
+            Аксессуары
+          </TabsTrigger>
+          <TabsTrigger
+            value="misc"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+>>>>>>> recover/cabinet-wip-from-stash
             <Briefcase className="mr-2 h-4 w-4" />
             Прочее
           </TabsTrigger>
@@ -866,10 +975,42 @@ export default function SizesPage() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
+<<<<<<< HEAD
           <TabsList>
             <TabsTrigger value="women">Женские</TabsTrigger>
             <TabsTrigger value="men">Мужские</TabsTrigger>
             <TabsTrigger value="kids">Детские</TabsTrigger>
+=======
+          {/* cabinetSurface v1 */}
+          <TabsList className={cn(cabinetSurface.tabsList, 'min-w-0 max-w-md')}>
+            <TabsTrigger
+              value="women"
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'text-xs font-semibold normal-case tracking-normal'
+              )}
+            >
+              Женские
+            </TabsTrigger>
+            <TabsTrigger
+              value="men"
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'text-xs font-semibold normal-case tracking-normal'
+              )}
+            >
+              Мужские
+            </TabsTrigger>
+            <TabsTrigger
+              value="kids"
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'text-xs font-semibold normal-case tracking-normal'
+              )}
+            >
+              Детские
+            </TabsTrigger>
+>>>>>>> recover/cabinet-wip-from-stash
           </TabsList>
 
           <TabsContent value="women" className="mt-6">

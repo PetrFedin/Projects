@@ -55,13 +55,13 @@ export function SketchViewModeToggle({
   return (
     <div
       className={cn(
-        'inline-flex flex-wrap items-center gap-1 rounded-md border border-slate-200/90 bg-white px-0.5 py-0.5 shadow-sm',
+        'border-border-default/90 inline-flex flex-wrap items-center gap-1 rounded-md border bg-white px-0.5 py-0.5 shadow-sm',
         className
       )}
     >
-      <span className="shrink-0 pl-1 text-[10px] font-medium text-slate-500">Режим</span>
+      <span className="text-text-secondary shrink-0 pl-1 text-[10px] font-medium">Режим</span>
       <div
-        className="flex rounded bg-slate-100 p-px"
+        className="bg-bg-surface2 flex rounded p-px"
         role="group"
         aria-label="Режим работы со скетчем"
       >
@@ -70,8 +70,13 @@ export function SketchViewModeToggle({
           className={cn(
             'inline-flex h-6 items-center gap-1 rounded-sm px-2 text-[10px] font-semibold transition-colors',
             !floor
+<<<<<<< HEAD
               ? 'bg-white text-slate-900 shadow-sm'
               : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-900'
+=======
+              ? 'text-text-primary bg-white shadow-sm'
+              : 'text-text-secondary hover:bg-bg-surface2/60 hover:text-text-primary'
+>>>>>>> recover/cabinet-wip-from-stash
           )}
           aria-pressed={!floor}
           title="Редактирование меток, шаблоны, снимки"
@@ -85,8 +90,13 @@ export function SketchViewModeToggle({
           className={cn(
             'inline-flex h-6 items-center gap-1 rounded-sm px-2 text-[10px] font-semibold transition-colors',
             floor
+<<<<<<< HEAD
               ? 'bg-white text-slate-900 shadow-sm'
               : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-900'
+=======
+              ? 'text-text-primary bg-white shadow-sm'
+              : 'text-text-secondary hover:bg-bg-surface2/60 hover:text-text-primary'
+>>>>>>> recover/cabinet-wip-from-stash
           )}
           aria-pressed={floor}
           title="Только просмотр и экспорт; в ссылке будет ?sketchFloor=1"
@@ -101,7 +111,7 @@ export function SketchViewModeToggle({
           type="button"
           variant="outline"
           size="sm"
-          className="h-6 gap-1 border-slate-200 bg-white px-2 text-[10px] font-medium text-slate-700 shadow-none"
+          className="border-border-default text-text-primary h-6 gap-1 bg-white px-2 text-[10px] font-medium shadow-none"
           title="Скопировать адрес страницы с режимом цеха (?sketchFloor=1)"
           onClick={onCopyFloorLink}
         >

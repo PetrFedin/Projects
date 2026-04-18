@@ -39,7 +39,11 @@ export function ProductCustomizationBlock({
         <CardDescription>RepSpark: логотипы, мокапы при оформлении заказа</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
+<<<<<<< HEAD
         {productName && <p className="text-xs font-medium text-slate-600">{productName}</p>}
+=======
+        {productName && <p className="text-text-secondary text-xs font-medium">{productName}</p>}
+>>>>>>> recover/cabinet-wip-from-stash
         {CUSTOMIZATION_OPTIONS.map((opt) => (
           <div key={opt.id} className="space-y-2">
             <div className="flex items-center justify-between">
@@ -62,7 +66,11 @@ export function ProductCustomizationBlock({
                   }}
                 />
                 {selected[opt.id] && (
+<<<<<<< HEAD
                   <span className="max-w-[120px] self-center truncate text-xs text-slate-500">
+=======
+                  <span className="text-text-secondary max-w-[120px] self-center truncate text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                     {selected[opt.id]?.name}
                   </span>
                 )}

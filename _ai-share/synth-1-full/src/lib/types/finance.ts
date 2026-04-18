@@ -2,6 +2,33 @@
  * Finance & Costing Types
  */
 
+/** Вход landed-cost движка (`lib/logic/landed-cost`). */
+export interface LandedCostInput {
+  baseCost: number;
+  freightCost: number;
+  insuranceCost: number;
+  dutyRate: number;
+  vatRate: number;
+  handlingFees: number;
+  batchSize: number;
+}
+
+export interface LandedCostResult {
+  unitBaseCost: number;
+  unitFreight: number;
+  unitDuty: number;
+  unitVat: number;
+  unitHandling: number;
+  totalLandedCost: number;
+}
+
+export interface MarginAnalysis {
+  landedCost: number;
+  retailPrice: number;
+  profit: number;
+  marginPercent: number;
+}
+
 export interface LandedCostBreakdown {
   id: string;
   productId: string;

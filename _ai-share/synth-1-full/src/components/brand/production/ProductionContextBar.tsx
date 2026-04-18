@@ -79,11 +79,15 @@ export function ProductionContextBar({
   const hasRisks = sampleOverdueCount > 0 || budgetRemainder < 0;
 
   return (
+<<<<<<< HEAD
     <Card className="mb-3 rounded-xl border border-slate-100 bg-white/95 p-3 shadow-sm backdrop-blur-sm">
+=======
+    <Card className="border-border-subtle mb-3 rounded-xl border bg-white/95 p-3 shadow-sm backdrop-blur-sm">
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-            Контекст: <span className="text-indigo-600">{labels}</span>
+          <span className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+            Контекст: <span className="text-accent-primary">{labels}</span>
           </span>
           {hasRisks && (
             <Badge
@@ -101,8 +105,8 @@ export function ProductionContextBar({
             className={cn(
               'flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[10px] font-bold uppercase transition-all',
               activeTab === 'plm'
-                ? 'bg-indigo-100 text-indigo-700'
-                : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                ? 'bg-accent-primary/15 text-accent-primary'
+                : 'bg-bg-surface2 text-text-secondary hover:bg-bg-surface2'
             )}
           >
             <Layers className="h-3.5 w-3.5" />
@@ -114,8 +118,8 @@ export function ProductionContextBar({
             className={cn(
               'flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[10px] font-bold uppercase transition-all',
               activeTab === 'orders'
-                ? 'bg-indigo-100 text-indigo-700'
-                : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                ? 'bg-accent-primary/15 text-accent-primary'
+                : 'bg-bg-surface2 text-text-secondary hover:bg-bg-surface2'
             )}
           >
             <Package className="h-3.5 w-3.5" />
@@ -127,8 +131,8 @@ export function ProductionContextBar({
             className={cn(
               'flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[10px] font-bold uppercase transition-all',
               activeTab === 'samples'
-                ? 'bg-indigo-100 text-indigo-700'
-                : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                ? 'bg-accent-primary/15 text-accent-primary'
+                : 'bg-bg-surface2 text-text-secondary hover:bg-bg-surface2'
             )}
           >
             <ClipboardCheck className="h-3.5 w-3.5" />
@@ -143,8 +147,8 @@ export function ProductionContextBar({
             className={cn(
               'flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[10px] font-bold uppercase transition-all',
               activeTab === 'budget'
-                ? 'bg-indigo-100 text-indigo-700'
-                : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                ? 'bg-accent-primary/15 text-accent-primary'
+                : 'bg-bg-surface2 text-text-secondary hover:bg-bg-surface2'
             )}
           >
             <Wallet className="h-3.5 w-3.5" />
@@ -164,8 +168,13 @@ export function ProductionContextBar({
               className={cn(
                 'flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[10px] font-bold uppercase transition-all',
                 activeTab === 'documents'
+<<<<<<< HEAD
                   ? 'bg-indigo-100 text-indigo-700'
                   : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+=======
+                  ? 'bg-accent-primary/15 text-accent-primary'
+                  : 'bg-bg-surface2 text-text-secondary hover:bg-bg-surface2'
+>>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               <FileText className="h-3.5 w-3.5" />
@@ -179,8 +188,13 @@ export function ProductionContextBar({
               className={cn(
                 'flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[10px] font-bold uppercase transition-all',
                 activeTab === 'losses'
+<<<<<<< HEAD
                   ? 'bg-indigo-100 text-indigo-700'
                   : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+=======
+                  ? 'bg-accent-primary/15 text-accent-primary'
+                  : 'bg-bg-surface2 text-text-secondary hover:bg-bg-surface2'
+>>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               <TrendingUp className="h-3.5 w-3.5" />
@@ -191,15 +205,24 @@ export function ProductionContextBar({
         </div>
 
         {apiDrops.length > 0 && (
+<<<<<<< HEAD
           <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 pt-2">
             <span className="text-[8px] font-bold uppercase tracking-widest text-slate-400">
+=======
+          <div className="border-border-subtle flex flex-wrap items-center gap-2 border-t pt-2">
+            <span className="text-text-muted text-[8px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               Дропы (API):
             </span>
             {apiDrops.slice(0, 5).map((d) => (
               <button
                 key={d.id}
                 onClick={() => onNavigate('calendar')}
+<<<<<<< HEAD
                 className="rounded-lg bg-slate-100 px-2 py-1 text-[9px] font-bold uppercase text-slate-700 transition-all hover:bg-indigo-100 hover:text-indigo-700"
+=======
+                className="bg-bg-surface2 hover:bg-accent-primary/15 text-text-primary hover:text-accent-primary rounded-lg px-2 py-1 text-[9px] font-bold uppercase transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 {d.drop_name} · {d.season}
               </button>
@@ -207,8 +230,13 @@ export function ProductionContextBar({
           </div>
         )}
 
+<<<<<<< HEAD
         <div className="flex flex-wrap items-center gap-1.5 border-t border-slate-100 pt-1">
           <span className="mr-1 text-[8px] font-bold uppercase tracking-widest text-slate-400">
+=======
+        <div className="border-border-subtle flex flex-wrap items-center gap-1.5 border-t pt-1">
+          <span className="text-text-muted mr-1 text-[8px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             Перейти:
           </span>
           {QUICK_TABS.map(({ id, label }) => (
@@ -219,15 +247,24 @@ export function ProductionContextBar({
               className={cn(
                 'h-6 rounded-md px-2 text-[8px] font-bold uppercase',
                 activeTab === id
+<<<<<<< HEAD
                   ? 'bg-indigo-100 text-indigo-700'
                   : 'text-slate-500 hover:text-indigo-600'
+=======
+                  ? 'bg-accent-primary/15 text-accent-primary'
+                  : 'text-text-secondary hover:text-accent-primary'
+>>>>>>> recover/cabinet-wip-from-stash
               )}
               onClick={() => onNavigate(id)}
             >
               {label}
             </Button>
           ))}
+<<<<<<< HEAD
           <ChevronRight className="h-3 w-3 text-slate-300" />
+=======
+          <ChevronRight className="text-text-muted h-3 w-3" />
+>>>>>>> recover/cabinet-wip-from-stash
         </div>
       </div>
     </Card>

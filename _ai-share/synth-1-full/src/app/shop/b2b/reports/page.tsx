@@ -1,10 +1,13 @@
 'use client';
 
+import { RegistryPageShell } from '@/components/design-system';
+import { useSearchParamsNonNull } from '@/hooks/use-search-params-non-null';
 import { useState, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+<<<<<<< HEAD
 import {
   Table,
   TableBody,
@@ -13,17 +16,21 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+=======
+>>>>>>> recover/cabinet-wip-from-stash
 import {
-  FileSpreadsheet,
-  ArrowLeft,
-  BarChart3,
-  TrendingUp,
-  Package,
-  Target,
-  Download,
-  RefreshCw,
-} from 'lucide-react';
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { FileSpreadsheet, TrendingUp, Package, Target, Download, RefreshCw } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
+import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
+import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
 import {
@@ -38,13 +45,13 @@ import { useToast } from '@/hooks/use-toast';
 import { usePartnerReports } from '@/hooks/use-partner-reports';
 
 const SEASON_OPTIONS = ['', 'SS26', 'FW25'];
-const BRAND_OPTIONS = ['', 'Syntha', 'A.P.C.', 'Acne Studios'];
+const BRAND_OPTIONS = ['', 'Syntha Lab', 'Nordic Wool'];
 
 /** JOOR/FashioNexus: аналитика и отчёты для партнёра. Фильтры в URL, инфраструктура под API. */
 export default function PartnerReportsPage() {
   const { toast } = useToast();
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParamsNonNull();
   const [season, setSeason] = useState('');
   const [brand, setBrand] = useState('');
   useEffect(() => {
@@ -193,13 +200,18 @@ export default function PartnerReportsPage() {
     return (
       <div className="space-y-2">
         {Array.from({ length: rows }).map((_, i) => (
+<<<<<<< HEAD
           <div key={i} className="h-10 animate-pulse rounded bg-slate-100" />
+=======
+          <div key={i} className="bg-bg-surface2 h-10 animate-pulse rounded" />
+>>>>>>> recover/cabinet-wip-from-stash
         ))}
       </div>
     );
   }
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl px-4 py-6 pb-24">
       <div className="mb-6 flex flex-col gap-4">
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
@@ -242,6 +254,38 @@ export default function PartnerReportsPage() {
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <label className="text-xs font-medium uppercase text-slate-500">Сезон</label>
+=======
+    <RegistryPageShell className="max-w-5xl space-y-6">
+      <div className="mb-6 flex flex-col gap-4">
+        <ShopB2bContentHeader
+          lead="JOOR / FashioNexus: продажи по брендам, топ SKU, sell-through, план/факт закупок. Экспорт в CSV."
+          trailing={
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                className="shrink-0 gap-2"
+                onClick={() => refetch()}
+                disabled={loading}
+              >
+                <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} /> Обновить
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="shrink-0 gap-2"
+                onClick={exportAll}
+                disabled={loading}
+              >
+                <FileSpreadsheet className="h-4 w-4" /> Экспорт всех в CSV
+              </Button>
+            </>
+          }
+        />
+        <ShopAnalyticsSegmentErpStrip />
+        <div className="flex flex-wrap items-center gap-3">
+          <label className="text-text-secondary text-xs font-medium uppercase">Сезон</label>
+>>>>>>> recover/cabinet-wip-from-stash
           <select
             value={season}
             onChange={(e) => {
@@ -249,7 +293,11 @@ export default function PartnerReportsPage() {
               setSeason(v);
               updateUrl(v, brand);
             }}
+<<<<<<< HEAD
             className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm"
+=======
+            className="border-border-default rounded-md border bg-white px-3 py-1.5 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <option value="">Все сезоны</option>
             {SEASON_OPTIONS.filter(Boolean).map((s) => (
@@ -258,7 +306,11 @@ export default function PartnerReportsPage() {
               </option>
             ))}
           </select>
+<<<<<<< HEAD
           <label className="text-xs font-medium uppercase text-slate-500">Бренд</label>
+=======
+          <label className="text-text-secondary text-xs font-medium uppercase">Бренд</label>
+>>>>>>> recover/cabinet-wip-from-stash
           <select
             value={brand}
             onChange={(e) => {
@@ -266,7 +318,11 @@ export default function PartnerReportsPage() {
               setBrand(v);
               updateUrl(season, v);
             }}
+<<<<<<< HEAD
             className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm"
+=======
+            className="border-border-default rounded-md border bg-white px-3 py-1.5 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <option value="">Все бренды</option>
             {BRAND_OPTIONS.filter(Boolean).map((b) => (
@@ -321,7 +377,11 @@ export default function PartnerReportsPage() {
                     <TableCell className="text-right tabular-nums">
                       {r.revenue.toLocaleString('ru-RU')} ₽
                     </TableCell>
+<<<<<<< HEAD
                     <TableCell className="text-right tabular-nums text-slate-500">
+=======
+                    <TableCell className="text-text-secondary text-right tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                       {r.cost.toLocaleString('ru-RU')} ₽
                     </TableCell>
                     <TableCell className="text-right font-semibold text-emerald-600">
@@ -372,7 +432,11 @@ export default function PartnerReportsPage() {
                     <TableCell className="font-mono text-xs">{r.sku}</TableCell>
                     <TableCell>{r.name}</TableCell>
                     <TableCell>{r.brand}</TableCell>
+<<<<<<< HEAD
                     <TableCell className="text-slate-500">{r.category}</TableCell>
+=======
+                    <TableCell className="text-text-secondary">{r.category}</TableCell>
+>>>>>>> recover/cabinet-wip-from-stash
                     <TableCell className="text-right tabular-nums">{r.unitsSold}</TableCell>
                     <TableCell className="text-right tabular-nums">
                       {r.revenue.toLocaleString('ru-RU')} ₽
@@ -510,6 +574,25 @@ export default function PartnerReportsPage() {
         </CardContent>
       </Card>
 
+<<<<<<< HEAD
+=======
+      <div className="border-border-subtle mt-6 flex flex-wrap items-center gap-2 border-t pt-4">
+        <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+          См. также
+        </span>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link href={ROUTES.shop.analytics} data-testid="shop-b2b-reports-retail-link">
+            Розничная аналитика
+          </Link>
+        </Button>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link href={ROUTES.shop.analyticsFootfall} data-testid="shop-b2b-reports-footfall-link">
+            Трафик по зонам
+          </Link>
+        </Button>
+        <B2bMarginAnalysisHubButton />
+      </div>
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="mt-4 flex flex-wrap gap-2">
         <Button variant="outline" size="sm" asChild>
           <Link href={ROUTES.shop.b2bOrderAnalytics}>Аналитика заказов</Link>
@@ -529,6 +612,10 @@ export default function PartnerReportsPage() {
         title="Заказы, аналитика, fulfillment"
         className="mt-6"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

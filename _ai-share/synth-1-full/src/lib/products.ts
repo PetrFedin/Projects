@@ -1,4 +1,8 @@
 import type { Product, ProductImage } from './types';
+import {
+  filterToDemoPlatformProducts,
+  normalizeDemoBrandName,
+} from '@/lib/data/demo-platform-brands';
 // Import from lib/products.ts which has many products with proper ProductImage structure
 // This file has full product data with images as objects
 import { products as libProducts } from '../../lib/products';
@@ -136,5 +140,15 @@ const allProducts: Product[] = (allProductsData as any[]).map((p, index) => {
   } as Product;
 });
 
+<<<<<<< HEAD
 export const products: Product[] = allProducts;
 export default allProducts;
+=======
+const demoOnly = filterToDemoPlatformProducts(allProducts).map((p) => {
+  const canon = normalizeDemoBrandName(p.brand);
+  return canon ? ({ ...p, brand: canon } as Product) : p;
+});
+
+export const products: Product[] = demoOnly;
+export default demoOnly;
+>>>>>>> recover/cabinet-wip-from-stash

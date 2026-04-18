@@ -21,13 +21,21 @@ export function StatCard({
   const trendColors = {
     up: 'text-emerald-600 bg-emerald-50',
     down: 'text-rose-600 bg-rose-50',
+<<<<<<< HEAD
     neutral: 'text-slate-600 bg-slate-50',
+=======
+    neutral: 'text-text-secondary bg-bg-surface2',
+>>>>>>> recover/cabinet-wip-from-stash
   };
 
   return (
     <div
       className={cn(
+<<<<<<< HEAD
         'card-hover shadow-soft rounded-3xl border border-slate-100 bg-white p-4',
+=======
+        'card-hover border-border-subtle shadow-soft rounded-3xl border bg-white p-4',
+>>>>>>> recover/cabinet-wip-from-stash
         className
       )}
     >
@@ -46,8 +54,13 @@ export function StatCard({
           </span>
         )}
       </div>
+<<<<<<< HEAD
       <p className="mb-1 text-xs font-bold uppercase tracking-wider text-slate-400">{label}</p>
       <p className="text-base font-black tracking-tight text-slate-900">{value}</p>
+=======
+      <p className="text-text-muted mb-1 text-xs font-bold uppercase tracking-wider">{label}</p>
+      <p className="text-text-primary text-base font-black tracking-tight">{value}</p>
+>>>>>>> recover/cabinet-wip-from-stash
     </div>
   );
 }

@@ -10,6 +10,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { clientPublicProfileHref } from '@/lib/routes';
 import { useToast } from '@/hooks/use-toast';
 import { useUIState } from '@/providers/ui-state';
 import {
@@ -181,7 +182,11 @@ export default function LookCard({ look, showAuthor = true, className }: LookCar
         </p>
         <p className="text-sm">
           {showAuthor && look.author && (
+<<<<<<< HEAD
             <Link href={`/u/${look.author.handle}`}>
+=======
+            <Link href={clientPublicProfileHref(look.author.handle)}>
+>>>>>>> recover/cabinet-wip-from-stash
               <span className="font-semibold">{look.author.handle}</span>
             </Link>
           )}{' '}

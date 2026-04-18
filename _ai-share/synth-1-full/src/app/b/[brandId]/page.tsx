@@ -34,12 +34,16 @@ import type { ImagePlaceholder } from '@/lib/types';
 
 interface BrandProfilePageProps {
   params: Promise<{ brandId: string }>;
+  isPreview?: boolean;
+  displaySettings?: Record<string, boolean>;
 }
 
-export default function BrandProfilePage({ params }: BrandProfilePageProps) {
+export default function BrandProfilePage({
+  params,
+  isPreview = false,
+  displaySettings: initialDisplaySettings,
+}: BrandProfilePageProps) {
   const resolvedParams = React.use(params);
-  const isPreview = false;
-  const initialDisplaySettings: Record<string, boolean> | undefined = undefined;
   const {
     brand,
     brandProducts,
@@ -215,7 +219,11 @@ export default function BrandProfilePage({ params }: BrandProfilePageProps) {
   return (
     <div
       key="brand-profile-root"
+<<<<<<< HEAD
       className={cn(!isPreview && 'container mx-auto max-w-6xl px-6 py-4 md:px-12 md:py-4')}
+=======
+      className={cn(!isPreview && 'mx-auto w-full max-w-6xl px-6 py-4 md:px-12 md:py-4')}
+>>>>>>> recover/cabinet-wip-from-stash
     >
       {showFireworks && <Fireworks />}
 
@@ -246,31 +254,51 @@ export default function BrandProfilePage({ params }: BrandProfilePageProps) {
         <TabsList className="no-scrollbar mb-8 flex h-auto justify-start gap-2 overflow-x-auto bg-transparent p-0 pb-2">
           <TabsTrigger
             value="about"
+<<<<<<< HEAD
             className="h-9 rounded-xl border border-slate-200 bg-white px-6 text-[11px] font-black uppercase tracking-wider text-slate-600 shadow-sm transition-all hover:bg-slate-50 data-[state=active]:border-black data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg"
+=======
+            className="border-border-default hover:bg-bg-surface2 text-text-secondary h-9 rounded-xl border bg-white px-6 text-[11px] font-black uppercase tracking-wider shadow-sm transition-all data-[state=active]:border-black data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             О бренде
           </TabsTrigger>
           <TabsTrigger
             value="products"
+<<<<<<< HEAD
             className="h-9 rounded-xl border border-slate-200 bg-white px-6 text-[11px] font-black uppercase tracking-wider text-slate-600 shadow-sm transition-all hover:bg-slate-50 data-[state=active]:border-black data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg"
+=======
+            className="border-border-default hover:bg-bg-surface2 text-text-secondary h-9 rounded-xl border bg-white px-6 text-[11px] font-black uppercase tracking-wider shadow-sm transition-all data-[state=active]:border-black data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             Ассортимент ({filteredProducts.length})
           </TabsTrigger>
           <TabsTrigger
             value="media"
+<<<<<<< HEAD
             className="h-9 rounded-xl border border-slate-200 bg-white px-6 text-[11px] font-black uppercase tracking-wider text-slate-600 shadow-sm transition-all hover:bg-slate-50 data-[state=active]:border-black data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg"
+=======
+            className="border-border-default hover:bg-bg-surface2 text-text-secondary h-9 rounded-xl border bg-white px-6 text-[11px] font-black uppercase tracking-wider shadow-sm transition-all data-[state=active]:border-black data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             Медиа
           </TabsTrigger>
           <TabsTrigger
             value="partnership"
+<<<<<<< HEAD
             className="h-9 rounded-xl border border-slate-200 bg-white px-6 text-[11px] font-black uppercase tracking-wider text-slate-600 shadow-sm transition-all hover:bg-slate-50 data-[state=active]:border-black data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg"
+=======
+            className="border-border-default hover:bg-bg-surface2 text-text-secondary h-9 rounded-xl border bg-white px-6 text-[11px] font-black uppercase tracking-wider shadow-sm transition-all data-[state=active]:border-black data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             Сотрудничество
           </TabsTrigger>
           <TabsTrigger
             value="passport"
+<<<<<<< HEAD
             className="h-9 rounded-xl border border-slate-200 bg-white px-6 text-[11px] font-black uppercase tracking-wider text-indigo-600 shadow-sm transition-all hover:bg-slate-50 data-[state=active]:border-indigo-600 data-[state=active]:bg-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-lg"
+=======
+            className="border-border-default data-[state=active]:bg-accent-primary data-[state=active]:border-accent-primary hover:bg-bg-surface2 text-accent-primary h-9 rounded-xl border bg-white px-6 text-[11px] font-black uppercase tracking-wider shadow-sm transition-all data-[state=active]:text-white data-[state=active]:shadow-lg"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             Цифровой паспорт
           </TabsTrigger>

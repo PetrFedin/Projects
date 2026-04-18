@@ -51,7 +51,11 @@ export function AQLCalculator() {
   const sampleSize =
     level === 'II' ? (lotSize <= 280 ? 32 : lotSize <= 500 ? 50 : 80) : lotSize <= 280 ? 50 : 80;
   return (
+<<<<<<< HEAD
     <Card className="rounded-xl border border-slate-100 shadow-sm">
+=======
+    <Card className="border-border-subtle rounded-xl border shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
       <CardHeader className="px-4 py-2">
         <CardTitle className="flex items-center gap-2 text-[10px] font-black uppercase">
           <Calculator className="h-4 w-4" /> AQL-калькулятор (ISO 2859)
@@ -59,7 +63,11 @@ export function AQLCalculator() {
       </CardHeader>
       <CardContent className="space-y-3 px-4 pb-4">
         <div>
+<<<<<<< HEAD
           <label className="text-[9px] font-bold uppercase text-slate-500">Объём партии</label>
+=======
+          <label className="text-text-secondary text-[9px] font-bold uppercase">Объём партии</label>
+>>>>>>> recover/cabinet-wip-from-stash
           <Input
             type="number"
             value={lotSize}
@@ -68,7 +76,11 @@ export function AQLCalculator() {
           />
         </div>
         <div>
+<<<<<<< HEAD
           <label className="text-[9px] font-bold uppercase text-slate-500">Уровень</label>
+=======
+          <label className="text-text-secondary text-[9px] font-bold uppercase">Уровень</label>
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="mt-1 flex gap-2">
             {(['II', 'III'] as const).map((l) => (
               <Button
@@ -83,11 +95,19 @@ export function AQLCalculator() {
             ))}
           </div>
         </div>
+<<<<<<< HEAD
         <div className="rounded-lg bg-slate-50 p-3">
           <p className="text-[10px] font-bold">
             Выборка: <span className="text-indigo-600">{sampleSize}</span> ед.
           </p>
           <p className="mt-0.5 text-[9px] text-slate-500">Ac/Re для AQL 0.065: 0/1</p>
+=======
+        <div className="bg-bg-surface2 rounded-lg p-3">
+          <p className="text-[10px] font-bold">
+            Выборка: <span className="text-accent-primary">{sampleSize}</span> ед.
+          </p>
+          <p className="text-text-secondary mt-0.5 text-[9px]">Ac/Re для AQL 0.065: 0/1</p>
+>>>>>>> recover/cabinet-wip-from-stash
         </div>
       </CardContent>
     </Card>
@@ -105,14 +125,22 @@ export function CargoTrackingCard({
   eta?: string;
 }) {
   return (
+<<<<<<< HEAD
     <Card className="rounded-xl border border-slate-100 p-4 shadow-sm">
+=======
+    <Card className="border-border-subtle rounded-xl border p-4 shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-100 text-sky-600">
           <Truck className="h-5 w-5" />
         </div>
         <div>
           <p className="text-[11px] font-black uppercase">Трек {trackId || '—'}</p>
+<<<<<<< HEAD
           <p className="text-[9px] text-slate-500">
+=======
+          <p className="text-text-secondary text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
             Статус: {status || 'В пути'} · ETA: {eta || '—'}
           </p>
         </div>
@@ -133,7 +161,11 @@ export function CashFlowSummary({
   const outSum = (outflows || [350000, 120000]).reduce((a, b) => a + b, 0);
   const diff = inSum - outSum;
   return (
+<<<<<<< HEAD
     <Card className="rounded-xl border border-slate-100 shadow-sm">
+=======
+    <Card className="border-border-subtle rounded-xl border shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
       <CardHeader className="px-4 py-2">
         <CardTitle className="flex items-center gap-2 text-[10px] font-black uppercase">
           <CreditCard className="h-4 w-4" /> Кэш-флоу (месяц)
@@ -142,6 +174,7 @@ export function CashFlowSummary({
       <CardContent className="px-4 pb-4">
         <div className="grid grid-cols-3 gap-2 text-center">
           <div>
+<<<<<<< HEAD
             <p className="text-[9px] text-slate-500">Поступления</p>
             <p className="text-sm font-bold text-emerald-600">+{(inSum / 1000).toFixed(0)}k</p>
           </div>
@@ -151,6 +184,17 @@ export function CashFlowSummary({
           </div>
           <div>
             <p className="text-[9px] text-slate-500">Итого</p>
+=======
+            <p className="text-text-secondary text-[9px]">Поступления</p>
+            <p className="text-sm font-bold text-emerald-600">+{(inSum / 1000).toFixed(0)}k</p>
+          </div>
+          <div>
+            <p className="text-text-secondary text-[9px]">Платежи</p>
+            <p className="text-sm font-bold text-rose-600">−{(outSum / 1000).toFixed(0)}k</p>
+          </div>
+          <div>
+            <p className="text-text-secondary text-[9px]">Итого</p>
+>>>>>>> recover/cabinet-wip-from-stash
             <p
               className={cn('text-sm font-bold', diff >= 0 ? 'text-emerald-600' : 'text-rose-600')}
             >
@@ -180,11 +224,19 @@ export function FactoryRatingCard({
 }) {
   const r = rating ?? 4.5;
   return (
+<<<<<<< HEAD
     <Card className="rounded-xl border border-slate-100 p-4 shadow-sm">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-[11px] font-black uppercase">{name}</p>
           <p className="mt-0.5 text-[9px] text-slate-500">Рейтинг {r.toFixed(1)}/5</p>
+=======
+    <Card className="border-border-subtle rounded-xl border p-4 shadow-sm">
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-[11px] font-black uppercase">{name}</p>
+          <p className="text-text-secondary mt-0.5 text-[9px]">Рейтинг {r.toFixed(1)}/5</p>
+>>>>>>> recover/cabinet-wip-from-stash
           {(quality !== undefined || delivery !== undefined) && (
             <div className="mt-2 flex gap-2">
               {quality !== undefined && (
@@ -201,7 +253,11 @@ export function FactoryRatingCard({
           )}
         </div>
         {contact && (
+<<<<<<< HEAD
           <a href={`mailto:${contact}`} className="text-[9px] text-indigo-600 hover:underline">
+=======
+          <a href={`mailto:${contact}`} className="text-accent-primary text-[9px] hover:underline">
+>>>>>>> recover/cabinet-wip-from-stash
             {contact}
           </a>
         )}
@@ -221,7 +277,11 @@ export function FactoryLoadOverview({
     { factory: 'Smart Tailor', week: '12–18.03', load: 60, poCount: 2 },
   ];
   return (
+<<<<<<< HEAD
     <Card className="rounded-xl border border-slate-100 shadow-sm">
+=======
+    <Card className="border-border-subtle rounded-xl border shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
       <CardHeader className="px-4 py-2">
         <CardTitle className="flex items-center gap-2 text-[10px] font-black uppercase">
           <BarChart3 className="h-4 w-4" /> Загрузка фабрик
@@ -261,7 +321,11 @@ export function CertExpiryReminder({ items }: { items?: Array<{ name: string; ex
     { name: 'Сертификат качества', expiry: '01.09.2026' },
   ];
   return (
+<<<<<<< HEAD
     <Card className="rounded-xl border border-slate-100 shadow-sm">
+=======
+    <Card className="border-border-subtle rounded-xl border shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
       <CardHeader className="px-4 py-2">
         <CardTitle className="flex items-center gap-2 text-[10px] font-black uppercase">
           <FileCheck className="h-4 w-4" /> Срок действия сертификатов

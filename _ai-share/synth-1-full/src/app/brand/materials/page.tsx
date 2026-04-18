@@ -23,6 +23,8 @@ import {
 import { SupplierCollabHub } from '@/components/brand/supplier-collab-hub';
 import MaterialReservations from '@/components/brand/supply-chain/material-reservations';
 import { cn } from '@/lib/utils';
+import { RegistryPageShell } from '@/components/design-system';
+
 const materials = [
   {
     id: 'mat1',
@@ -88,9 +90,15 @@ const materials = [
 
 export default function MaterialsPage() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 duration-500 animate-in fade-in">
       <header className="flex flex-col justify-end gap-3 border-b border-slate-100 pb-4 md:flex-row md:items-center">
         <Button className="h-9 rounded-lg px-4 text-[10px] font-bold uppercase tracking-wider shadow-md shadow-indigo-100 transition-all">
+=======
+    <RegistryPageShell className="max-w-5xl space-y-6 duration-500 animate-in fade-in">
+      <header className="border-border-subtle flex flex-col justify-end gap-3 border-b pb-4 md:flex-row md:items-center">
+        <Button className="shadow-accent-primary/10 h-9 rounded-lg px-4 text-[10px] font-bold uppercase tracking-wider shadow-md transition-all">
+>>>>>>> recover/cabinet-wip-from-stash
           <PlusCircle className="mr-2 h-4 w-4" />
           Добавить материал
         </Button>
@@ -101,6 +109,7 @@ export default function MaterialsPage() {
 
         <MaterialReservations brandId="BRAND-XYZ" />
 
+<<<<<<< HEAD
         <Card className="overflow-hidden rounded-xl border border-slate-100 shadow-sm">
           <CardHeader className="border-b border-slate-50 bg-slate-50/30 p-4">
             <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
@@ -112,6 +121,19 @@ export default function MaterialsPage() {
                 <Input
                   placeholder="Поиск по названию или SKU..."
                   className="h-8 rounded-lg border-slate-200 bg-white pl-9 text-[12px]"
+=======
+        <Card className="border-border-subtle overflow-hidden rounded-xl border shadow-sm">
+          <CardHeader className="border-border-subtle bg-bg-surface2/30 border-b p-4">
+            <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
+              <CardTitle className="text-text-primary text-sm font-bold uppercase tracking-wider">
+                Материалы на складе
+              </CardTitle>
+              <div className="relative w-full md:max-w-xs">
+                <Search className="text-text-muted absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2" />
+                <Input
+                  placeholder="Поиск по названию или SKU..."
+                  className="border-border-default bg-bg-surface2 h-8 rounded-lg pl-9 text-[12px]"
+>>>>>>> recover/cabinet-wip-from-stash
                 />
               </div>
             </div>
@@ -135,10 +157,17 @@ export default function MaterialsPage() {
                   <TableRow key={item.id} className="group transition-colors">
                     <TableCell className="py-3">
                       <div className="space-y-0.5">
+<<<<<<< HEAD
                         <p className="text-[13px] font-bold text-slate-900 transition-colors group-hover:text-indigo-600">
                           {item.name}
                         </p>
                         <p className="font-mono text-[10px] uppercase tracking-tight text-slate-400">
+=======
+                        <p className="text-text-primary group-hover:text-accent-primary text-[13px] font-bold transition-colors">
+                          {item.name}
+                        </p>
+                        <p className="text-text-muted font-mono text-[10px] uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                           {item.sku}
                         </p>
                       </div>
@@ -146,11 +175,16 @@ export default function MaterialsPage() {
                     <TableCell>
                       <Badge
                         variant="outline"
+<<<<<<< HEAD
                         className="h-4.5 border-slate-100 bg-slate-50 px-2 text-[9px] font-bold uppercase tracking-wider text-slate-500"
+=======
+                        className="bg-bg-surface2 text-text-secondary border-border-subtle h-4.5 px-2 text-[9px] font-bold uppercase tracking-wider"
+>>>>>>> recover/cabinet-wip-from-stash
                       >
                         {item.type}
                       </Badge>
                     </TableCell>
+<<<<<<< HEAD
                     <TableCell className="font-medium text-slate-700">
                       {item.stock}{' '}
                       <span className="ml-0.5 text-[10px] uppercase text-slate-400">
@@ -168,6 +202,25 @@ export default function MaterialsPage() {
                       </span>
                     </TableCell>
                     <TableCell className="text-[12px] font-medium text-slate-500">
+=======
+                    <TableCell className="text-text-primary font-medium">
+                      {item.stock}{' '}
+                      <span className="text-text-muted ml-0.5 text-[10px] uppercase">
+                        {item.unit}
+                      </span>
+                    </TableCell>
+                    <TableCell className="text-text-muted font-medium">
+                      {item.reserved}{' '}
+                      <span className="ml-0.5 text-[10px] uppercase opacity-60">{item.unit}</span>
+                    </TableCell>
+                    <TableCell className="text-text-primary text-[12px] font-bold">
+                      {item.cost.toLocaleString('ru-RU')} ₽{' '}
+                      <span className="text-text-muted ml-0.5 text-[9px] font-normal">
+                        / {item.unit}
+                      </span>
+                    </TableCell>
+                    <TableCell className="text-text-secondary text-[12px] font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                       {item.supplier}
                     </TableCell>
                     <TableCell>
@@ -191,14 +244,22 @@ export default function MaterialsPage() {
                           <Button
                             size="icon"
                             variant="ghost"
+<<<<<<< HEAD
                             className="h-7 w-7 rounded-lg text-slate-400 transition-all hover:bg-slate-100 hover:text-slate-900"
+=======
+                            className="hover:bg-bg-surface2 text-text-muted hover:text-text-primary h-7 w-7 rounded-lg transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
                           >
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent
                           align="end"
+<<<<<<< HEAD
                           className="w-48 rounded-xl border-slate-100 p-1 shadow-xl"
+=======
+                          className="border-border-subtle w-48 rounded-xl p-1 shadow-xl"
+>>>>>>> recover/cabinet-wip-from-stash
                         >
                           <DropdownMenuItem className="h-8 cursor-pointer rounded-lg text-[11px] font-bold uppercase tracking-wider">
                             Редактировать
@@ -206,7 +267,11 @@ export default function MaterialsPage() {
                           <DropdownMenuItem className="h-8 cursor-pointer rounded-lg text-[11px] font-bold uppercase tracking-wider">
                             История
                           </DropdownMenuItem>
+<<<<<<< HEAD
                           <DropdownMenuItem className="h-8 cursor-pointer rounded-lg text-[11px] font-bold uppercase tracking-wider text-indigo-600">
+=======
+                          <DropdownMenuItem className="text-accent-primary h-8 cursor-pointer rounded-lg text-[11px] font-bold uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
                             Заказать еще
                           </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -219,6 +284,10 @@ export default function MaterialsPage() {
           </CardContent>
         </Card>
       </div>
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

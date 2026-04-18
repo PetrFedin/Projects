@@ -24,7 +24,11 @@ import {
 import { Input } from './input';
 import { Label } from './label';
 
+<<<<<<< HEAD
 interface ComboboxOption {
+=======
+export interface ComboboxOption {
+>>>>>>> recover/cabinet-wip-from-stash
   value: string;
   label: string;
 }

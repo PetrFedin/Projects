@@ -19,16 +19,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { RegistryPageShell } from '@/components/design-system';
 
-const MS_DEFAULT = {
-  v: 1 as const,
+const MS_DEFAULT: { v: 1; milestones: MilestoneWithVideo[] } = {
+  v: 1,
   milestones: [
     {
       id: 'm1',
       orderId: 'PO-201',
       milestoneType: 'cutting_done',
       milestoneLabel: 'Раскрой завершён',
+<<<<<<< HEAD
       status: 'approved' as const,
+=======
+      status: 'approved',
+>>>>>>> recover/cabinet-wip-from-stash
       completedAt: '2026-03-09T12:00:00Z',
       approvedAt: '2026-03-09T14:00:00Z',
     },
@@ -37,7 +43,11 @@ const MS_DEFAULT = {
       orderId: 'PO-201',
       milestoneType: 'assembly_done',
       milestoneLabel: 'Сборка завершена',
+<<<<<<< HEAD
       status: 'video_uploaded' as const,
+=======
+      status: 'video_uploaded',
+>>>>>>> recover/cabinet-wip-from-stash
       completedAt: '2026-03-10T18:00:00Z',
     },
     {
@@ -45,9 +55,15 @@ const MS_DEFAULT = {
       orderId: 'PO-201',
       milestoneType: 'final_qc',
       milestoneLabel: 'Финальный ОК',
+<<<<<<< HEAD
       status: 'pending' as const,
     },
   ] satisfies MilestoneWithVideo[],
+=======
+      status: 'pending',
+    },
+  ],
+>>>>>>> recover/cabinet-wip-from-stash
 };
 
 const statusLabels: Record<MilestoneWithVideo['status'], string> = {
@@ -70,13 +86,22 @@ export default function MilestonesVideoPage() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
+=======
+    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+>>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
-        title="Milestones with Video Proof"
-        description="Статусы этапов — floor-tab: milestones-video."
+        title="Вехи с видео-подтверждением"
+        description={
+          <>
+            Статусы этапов — floor-tab: milestones-video. Контроль переходов по{' '}
+            <AcronymWithTooltip abbr="PO" /> и <AcronymWithTooltip abbr="QC" />.
+          </>
+        }
         icon={Video}
-        iconBg="bg-violet-100"
-        iconColor="text-violet-600"
+        iconBg="bg-accent-primary/15"
+        iconColor="text-accent-primary"
         badges={
           <>
             <Badge variant="outline" className="text-[9px]">
@@ -86,7 +111,11 @@ export default function MilestonesVideoPage() {
               <Link href={ROUTES.brand.documents}>ЭДО</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+<<<<<<< HEAD
               <Link href={ROUTES.brand.production}>Production</Link>
+=======
+              <Link href={ROUTES.brand.production}>Производство</Link>
+>>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -98,7 +127,11 @@ export default function MilestonesVideoPage() {
               <ArrowLeft className="h-4 w-4" />
             </Button>
           </Link>
+<<<<<<< HEAD
           <h1 className="text-2xl font-bold uppercase">Milestones with Video Proof</h1>
+=======
+          <h1 className="text-2xl font-bold uppercase">Вехи с видео-подтверждением</h1>
+>>>>>>> recover/cabinet-wip-from-stash
         </div>
         <Button
           size="sm"
@@ -116,7 +149,8 @@ export default function MilestonesVideoPage() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Video className="h-5 w-5" /> Этапы по заказу PO-201
+            <Video className="h-5 w-5" /> Этапы по заказу <AcronymWithTooltip abbr="PO" />
+            -201
           </CardTitle>
           <CardDescription>Критические этапы с видео (плейсхолдер)</CardDescription>
         </CardHeader>
@@ -125,11 +159,15 @@ export default function MilestonesVideoPage() {
             {data.milestones.map((m, i) => (
               <li
                 key={m.id}
+<<<<<<< HEAD
                 className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3"
+=======
+                className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <div>
                   <p className="font-medium">{m.milestoneLabel}</p>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-text-secondary text-xs">
                     {m.orderId} · {statusLabels[m.status]}
                     {m.completedAt
                       ? ` · ${new Date(m.completedAt).toLocaleDateString('ru-RU')}`
@@ -162,6 +200,6 @@ export default function MilestonesVideoPage() {
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getProductionLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

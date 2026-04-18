@@ -4,8 +4,10 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Layers, Store, Package, Percent } from 'lucide-react';
+import { Layers, Store, Package, Percent } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 /** RepSpark: Custom Assortments — персональный ассортимент под ритейлера */
 const MOCK_ASSORTMENTS = [
@@ -37,6 +39,7 @@ const MOCK_ASSORTMENTS = [
 
 export default function CustomAssortmentsPage() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -54,6 +57,10 @@ export default function CustomAssortmentsPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-3xl space-y-6">
+      <ShopB2bContentHeader lead="Персональный ассортимент под вашу сеть: бренд формирует подборку SKU (сценарий RepSpark / Custom Assortments)." />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -66,7 +73,11 @@ export default function CustomAssortmentsPage() {
           {MOCK_ASSORTMENTS.map((a) => (
             <div
               key={a.id}
+<<<<<<< HEAD
               className="flex items-center justify-between rounded-xl border border-slate-200 p-4 hover:border-indigo-200"
+=======
+              className="border-border-default hover:border-accent-primary/30 flex items-center justify-between rounded-xl border p-4"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100">
@@ -74,7 +85,11 @@ export default function CustomAssortmentsPage() {
                 </div>
                 <div>
                   <p className="font-medium">{a.retailerName}</p>
+<<<<<<< HEAD
                   <p className="mt-0.5 flex items-center gap-2 text-xs text-slate-500">
+=======
+                  <p className="text-text-secondary mt-0.5 flex items-center gap-2 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                     <Package className="h-3 w-3" /> {a.productCount} позиций
                     {a.discount > 0 && (
                       <span className="flex items-center gap-1">
@@ -106,6 +121,6 @@ export default function CustomAssortmentsPage() {
           <Link href={ROUTES.shop.b2bCreateOrder}>Написание заказа</Link>
         </Button>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

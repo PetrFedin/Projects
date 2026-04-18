@@ -93,7 +93,7 @@ export function LiveProcessSchemeEditor({
       <Card>
         <CardHeader className="pb-2">
           <h3 className="text-sm font-bold">Библиотека шаблонов</h3>
-          <p className="text-xs text-slate-500">
+          <p className="text-text-secondary text-xs">
             Готовые схемы по индустриям: Fast Fashion, Luxury, Made-to-Order, QC с ветвлениями
           </p>
         </CardHeader>
@@ -115,7 +115,11 @@ export function LiveProcessSchemeEditor({
                   }
                 >
                   {INDUSTRY_LABELS[t.industry]} → {BUSINESS_TYPE_LABELS[t.businessType]}
+<<<<<<< HEAD
                   <span className="ml-1 text-[10px] text-slate-400">
+=======
+                  <span className="text-text-muted ml-1 text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                     ({t.definition.stages.length} этапов)
                   </span>
                 </DropdownMenuItem>
@@ -147,7 +151,7 @@ export function LiveProcessSchemeEditor({
               </Button>
             )}
           </div>
-          <p className="text-xs text-slate-500">
+          <p className="text-text-secondary text-xs">
             Перетаскивайте для изменения порядка. Редактирование без деплоя.
           </p>
         </CardHeader>
@@ -165,7 +169,11 @@ export function LiveProcessSchemeEditor({
                   draggedIndex === index ? 'opacity-50' : ''
                 } ${!readOnly ? 'cursor-move' : ''}`}
               >
+<<<<<<< HEAD
                 {!readOnly && <GripVertical className="h-4 w-4 shrink-0 text-slate-400" />}
+=======
+                {!readOnly && <GripVertical className="text-text-muted h-4 w-4 shrink-0" />}
+>>>>>>> recover/cabinet-wip-from-stash
                 <div className="min-w-0 flex-1">
                   {editingStageId === stage.id ? (
                     <div className="flex gap-2">
@@ -175,7 +183,11 @@ export function LiveProcessSchemeEditor({
                         onChange={(e) => setEditTitle(e.target.value)}
                         onBlur={confirmRename}
                         onKeyDown={(e) => e.key === 'Enter' && confirmRename()}
+<<<<<<< HEAD
                         className="h-8 flex-1 rounded border border-slate-200 px-2 text-sm"
+=======
+                        className="border-border-default h-8 flex-1 rounded border px-2 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
                         autoFocus
                       />
                       <Button size="sm" variant="ghost" onClick={confirmRename}>
@@ -184,7 +196,11 @@ export function LiveProcessSchemeEditor({
                     </div>
                   ) : (
                     <div className="flex items-center gap-2">
+<<<<<<< HEAD
                       <span className="text-xs font-medium text-slate-400">#{index + 1}</span>
+=======
+                      <span className="text-text-muted text-xs font-medium">#{index + 1}</span>
+>>>>>>> recover/cabinet-wip-from-stash
                       <span className="truncate text-sm font-medium">{stage.title}</span>
                       {stage.mandatory && (
                         <span className="rounded bg-amber-100 px-1 text-[10px] text-amber-700">
@@ -192,7 +208,11 @@ export function LiveProcessSchemeEditor({
                         </span>
                       )}
                       {stage.sla?.maxDays && (
+<<<<<<< HEAD
                         <span className="text-[10px] text-slate-500">
+=======
+                        <span className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                           SLA: {stage.sla.maxDays} дн.
                         </span>
                       )}
@@ -222,7 +242,11 @@ export function LiveProcessSchemeEditor({
               </div>
             ))}
             {stages.length === 0 && (
+<<<<<<< HEAD
               <p className="py-4 text-center text-sm text-slate-500">
+=======
+              <p className="text-text-secondary py-4 text-center text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                 Нет этапов. Добавьте этап или загрузите шаблон.
               </p>
             )}

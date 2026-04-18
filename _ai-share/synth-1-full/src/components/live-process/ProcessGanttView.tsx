@@ -62,7 +62,11 @@ export function ProcessGanttView({ processId, contextId }: ProcessGanttViewProps
     <div className="overflow-x-auto rounded-lg border">
       <div className="min-w-max">
         {/* Header */}
+<<<<<<< HEAD
         <div className="flex border-b bg-slate-50">
+=======
+        <div className="bg-bg-surface2 flex border-b">
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="w-48 shrink-0 border-r p-2 text-xs font-bold">Этап / Контекст</div>
           <div className="flex" style={{ width: totalDays * dayWidth }}>
             {days.map((d) => (
@@ -84,10 +88,17 @@ export function ProcessGanttView({ processId, contextId }: ProcessGanttViewProps
             definition?.stages.map((stage) => {
               const bar = bars.find((b) => b.stageId === stage.id && b.contextId === cid);
               return (
+<<<<<<< HEAD
                 <div key={`${cid}-${stage.id}`} className="flex border-b hover:bg-slate-50/50">
                   <div className="w-48 shrink-0 border-r p-2 text-xs">
                     <span className="font-medium">{stage.title}</span>
                     <span className="block text-[10px] text-slate-500">
+=======
+                <div key={`${cid}-${stage.id}`} className="hover:bg-bg-surface2/80 flex border-b">
+                  <div className="w-48 shrink-0 border-r p-2 text-xs">
+                    <span className="font-medium">{stage.title}</span>
+                    <span className="text-text-secondary block text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                       {inst?.context.label ?? cid}
                     </span>
                   </div>
@@ -106,7 +117,11 @@ export function ProcessGanttView({ processId, contextId }: ProcessGanttViewProps
                         const width = Math.max(dayWidth, (endIdx - startIdx + 1) * dayWidth);
                         return (
                           <div
+<<<<<<< HEAD
                             className="absolute top-1 flex h-6 items-center truncate rounded bg-indigo-500/80 px-1 text-[10px] text-white"
+=======
+                            className="bg-accent-primary/80 absolute top-1 flex h-6 items-center truncate rounded px-1 text-[10px] text-white"
+>>>>>>> recover/cabinet-wip-from-stash
                             style={{ left, width, minWidth: 40 }}
                             title={`${format(bar.start, 'dd.MM')} — ${format(bar.end, 'dd.MM')}`}
                           >

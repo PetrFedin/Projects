@@ -22,6 +22,7 @@ export function OrderReplenishTab() {
               <h4 className="text-sm font-black uppercase tracking-tight">
                 Рекомендации к пополнению
               </h4>
+<<<<<<< HEAD
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
                 По sell-through и остатку · Дозаказать X шт. или не дозаказывать
               </p>
@@ -31,6 +32,17 @@ export function OrderReplenishTab() {
           <div className="space-y-4">
             {recommendations.length === 0 ? (
               <p className="text-[10px] font-bold uppercase text-slate-500">
+=======
+              <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+                По sell-through и остатку · Дозаказать X шт. или не дозаказывать
+              </p>
+            </div>
+            <RefreshCcw className="text-accent-primary animate-spin-slow h-8 w-8" />
+          </div>
+          <div className="space-y-4">
+            {recommendations.length === 0 ? (
+              <p className="text-text-secondary text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 Нет данных. Оформите заказы — появятся подсказки.
               </p>
             ) : (
@@ -40,6 +52,7 @@ export function OrderReplenishTab() {
                   className={cn(
                     'flex items-center justify-between rounded-2xl border p-4',
                     r.action === 'reorder'
+<<<<<<< HEAD
                       ? 'border-indigo-100 bg-indigo-50/80'
                       : 'border-slate-100 bg-slate-50'
                   )}
@@ -49,6 +62,17 @@ export function OrderReplenishTab() {
                       {r.productName}
                     </p>
                     <p className="text-[9px] font-bold uppercase text-slate-400">
+=======
+                      ? 'bg-accent-primary/15 border-accent-primary/20'
+                      : 'bg-bg-surface2 border-border-subtle'
+                  )}
+                >
+                  <div className="min-w-0 space-y-1">
+                    <p className="text-text-primary truncate text-xs font-black uppercase">
+                      {r.productName}
+                    </p>
+                    <p className="text-text-muted text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                       Sell-through {Math.round(r.sellThroughRate * 100)}% · Продано: {r.soldQty} ·
                       Остаток: {r.currentStock}
                     </p>
@@ -57,15 +81,26 @@ export function OrderReplenishTab() {
                     {r.action === 'reorder' ? (
                       <>
                         <div className="text-right">
+<<<<<<< HEAD
                           <p className="text-sm font-black text-indigo-600">
                             +{r.suggestedQty} шт.
                           </p>
                           <p className="text-[8px] font-black uppercase text-slate-400">
+=======
+                          <p className="text-accent-primary text-sm font-black">
+                            +{r.suggestedQty} шт.
+                          </p>
+                          <p className="text-text-muted text-[8px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                             Дозаказать
                           </p>
                         </div>
                         <Button
+<<<<<<< HEAD
                           className="h-10 rounded-xl bg-slate-900 px-6 text-[9px] font-black uppercase text-white"
+=======
+                          className="bg-text-primary h-10 rounded-xl px-6 text-[9px] font-black uppercase text-white"
+>>>>>>> recover/cabinet-wip-from-stash
                           asChild
                         >
                           <Link href={`${ROUTES.shop.b2bMatrix}?sku=${encodeURIComponent(r.sku)}`}>
@@ -75,7 +110,11 @@ export function OrderReplenishTab() {
                       </>
                     ) : (
                       <>
+<<<<<<< HEAD
                         <Minus className="h-5 w-5 text-slate-400" />
+=======
+                        <Minus className="text-text-muted h-5 w-5" />
+>>>>>>> recover/cabinet-wip-from-stash
                         <Badge variant="secondary" className="text-[8px] font-black">
                           Не дозаказывать
                         </Badge>
@@ -87,7 +126,11 @@ export function OrderReplenishTab() {
             )}
           </div>
           <Button
+<<<<<<< HEAD
             className="h-10 w-full rounded-2xl bg-indigo-600 text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-indigo-100"
+=======
+            className="bg-accent-primary shadow-accent-primary/10 h-10 w-full rounded-2xl text-[10px] font-black uppercase tracking-widest text-white shadow-xl"
+>>>>>>> recover/cabinet-wip-from-stash
             asChild
           >
             <Link href={ROUTES.shop.b2bMatrix}>
@@ -97,9 +140,15 @@ export function OrderReplenishTab() {
         </Card>
 
         <div className="space-y-6">
+<<<<<<< HEAD
           <Card className="rounded-xl border-none bg-slate-900 p-3 text-white shadow-xl">
             <h4 className="mb-4 text-base font-black uppercase tracking-tight">Stock Protection</h4>
             <p className="mb-8 text-sm font-medium text-slate-400">
+=======
+          <Card className="bg-text-primary rounded-xl border-none p-3 text-white shadow-xl">
+            <h4 className="mb-4 text-base font-black uppercase tracking-tight">Stock Protection</h4>
+            <p className="text-text-muted mb-8 text-sm font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
               Automatically reserves stock from incoming factory shipments when your local inventory
               drops below **15%** of weekly average sales.
             </p>

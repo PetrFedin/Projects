@@ -11,6 +11,10 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+<<<<<<< HEAD
+=======
+import { ROUTES } from '@/lib/routes';
+>>>>>>> recover/cabinet-wip-from-stash
 
 const mockOrders = [
   {
@@ -82,7 +86,7 @@ export function RecentOrders() {
           <TableRow key={order.order}>
             <TableCell className="font-medium">
               <Button variant="link" asChild className="p-0 font-medium">
-                <Link href={`/shop/orders/${order.order}`}>{order.order}</Link>
+                <Link href={ROUTES.shop.order(order.order)}>{order.order}</Link>
               </Button>
             </TableCell>
             <TableCell>
@@ -95,7 +99,11 @@ export function RecentOrders() {
             <TableCell className="text-right">{order.amount}</TableCell>
             <TableCell className="text-right">
               <Button variant="outline" size="sm" asChild>
+<<<<<<< HEAD
                 <Link href={`/shop/orders/${order.order}`}>Посмотреть</Link>
+=======
+                <Link href={ROUTES.shop.order(order.order)}>Посмотреть</Link>
+>>>>>>> recover/cabinet-wip-from-stash
               </Button>
             </TableCell>
           </TableRow>

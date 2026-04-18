@@ -22,9 +22,16 @@ import {
   Maximize,
   ArrowLeftRight,
   UserCheck,
+<<<<<<< HEAD
+=======
+  Settings2,
+  Monitor,
+  Plus,
+>>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { FittingRoomItem, FittingRoomRequest } from '@/lib/types/retail';
 import { cn } from '@/lib/utils';
+import { RegistryPageShell } from '@/components/design-system';
 
 /**
  * Smart Fitting Room Interface (Mirror OS)
@@ -81,12 +88,20 @@ export default function SmartMirrorPage() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="flex min-h-screen flex-col gap-3 overflow-hidden bg-black p-4 font-sans text-white">
+=======
+    <RegistryPageShell className="!mx-0 flex min-h-screen max-w-none flex-col gap-3 overflow-hidden bg-black !px-4 !py-4 font-sans text-white">
+>>>>>>> recover/cabinet-wip-from-stash
       {/* Mirror Header */}
       <header className="flex items-center justify-between border-b border-white/10 pb-8">
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5">
+<<<<<<< HEAD
             <Sparkles className="h-8 w-8 text-indigo-400" />
+=======
+            <Sparkles className="text-accent-primary h-8 w-8" />
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
           <div>
             <h1 className="font-headline text-base font-black uppercase italic tracking-tighter">
@@ -104,7 +119,11 @@ export default function SmartMirrorPage() {
             className={cn(
               'h-12 gap-3 rounded-full border-2 px-8 text-xs font-black uppercase transition-all',
               isCallingAssistant
+<<<<<<< HEAD
                 ? 'animate-pulse border-indigo-500 bg-indigo-600 text-white'
+=======
+                ? 'bg-accent-primary border-accent-primary animate-pulse text-white'
+>>>>>>> recover/cabinet-wip-from-stash
                 : 'border-white/10 bg-white/5 text-white hover:bg-white/10'
             )}
           >
@@ -205,7 +224,11 @@ export default function SmartMirrorPage() {
                     {activeItem.name}
                   </h2>
                   <div className="mb-8 flex gap-3">
+<<<<<<< HEAD
                     <span className="text-sm font-black uppercase italic tracking-widest text-indigo-400">
+=======
+                    <span className="text-accent-primary text-sm font-black uppercase italic tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       {activeItem.sku}
                     </span>
                     <span className="text-white/20">/</span>
@@ -223,30 +246,50 @@ export default function SmartMirrorPage() {
                       <p className="mb-1 text-[9px] font-black uppercase text-white/40">
                         Sustainability
                       </p>
+<<<<<<< HEAD
                       <p className="text-sm font-black text-indigo-400">92% Echo</p>
+=======
+                      <p className="text-accent-primary text-sm font-black">92% Echo</p>
+>>>>>>> recover/cabinet-wip-from-stash
                     </div>
                   </div>
                 </div>
 
                 {/* 3D Body Scan Integration (New Feature) */}
+<<<<<<< HEAD
                 <Card className="group relative overflow-hidden rounded-xl border-2 border-indigo-500/30 bg-indigo-600/20 p-4">
+=======
+                <Card className="bg-accent-primary/20 border-accent-primary/30 group relative overflow-hidden rounded-xl border-2 p-4">
+>>>>>>> recover/cabinet-wip-from-stash
                   <div className="absolute -bottom-4 -right-4 opacity-10 transition-transform group-hover:scale-110">
                     <Scan className="h-24 w-24 text-white" />
                   </div>
                   <div className="mb-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
+<<<<<<< HEAD
                       <Monitor className="h-5 w-5 text-indigo-400" />
+=======
+                      <Monitor className="text-accent-primary h-5 w-5" />
+>>>>>>> recover/cabinet-wip-from-stash
                       <h4 className="text-sm font-black uppercase italic tracking-tight">
                         Digital Twin Sync
                       </h4>
                     </div>
+<<<<<<< HEAD
                     <Badge className="h-5 border-none bg-indigo-500 px-2 text-[8px] font-black uppercase text-white">
+=======
+                    <Badge className="bg-accent-primary h-5 border-none px-2 text-[8px] font-black uppercase text-white">
+>>>>>>> recover/cabinet-wip-from-stash
                       Connected
                     </Badge>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+<<<<<<< HEAD
                       <UserCheck className="h-8 w-8 text-indigo-400" />
+=======
+                      <UserCheck className="text-accent-primary h-8 w-8" />
+>>>>>>> recover/cabinet-wip-from-stash
                     </div>
                     <div className="flex-1">
                       <p className="text-xs font-bold text-white/80">3D Body Scan (v2.4) Loaded</p>
@@ -261,7 +304,11 @@ export default function SmartMirrorPage() {
                     </div>
                     <Button
                       size="sm"
+<<<<<<< HEAD
                       className="h-9 rounded-xl bg-white px-4 text-[9px] font-black uppercase text-indigo-600 transition-transform hover:scale-105 active:scale-95"
+=======
+                      className="text-accent-primary h-9 rounded-xl bg-white px-4 text-[9px] font-black uppercase transition-transform hover:scale-105 active:scale-95"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       Recalibrate
                     </Button>
@@ -272,7 +319,11 @@ export default function SmartMirrorPage() {
                 <div className="grid h-32 grid-cols-2 gap-3">
                   <Button
                     onClick={() => requestAlternativeSize(activeItem, 'M')}
+<<<<<<< HEAD
                     className="flex h-full flex-col gap-2 rounded-xl bg-white text-xs font-black uppercase text-black transition-all hover:bg-indigo-400 hover:text-white"
+=======
+                    className="hover:bg-accent-primary flex h-full flex-col gap-2 rounded-xl bg-white text-xs font-black uppercase text-black transition-all hover:text-white"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <ArrowLeftRight className="mb-1 h-5 w-5" />
                     Change Size
@@ -286,6 +337,7 @@ export default function SmartMirrorPage() {
 
               {/* AI Styling Column */}
               <div className="flex flex-col gap-3">
+<<<<<<< HEAD
                 <Card className="group relative flex-1 space-y-6 overflow-hidden rounded-xl border border-none border-white/10 bg-gradient-to-br from-indigo-900/40 to-black p-4 backdrop-blur-xl">
                   <div className="absolute right-0 top-0 p-4 opacity-20 transition-opacity group-hover:opacity-40">
                     <Zap className="h-24 w-24 text-indigo-400" />
@@ -293,6 +345,15 @@ export default function SmartMirrorPage() {
 
                   <div className="flex items-center gap-3">
                     <Sparkles className="h-6 w-6 text-indigo-400" />
+=======
+                <Card className="from-accent-primary/40 group relative flex-1 space-y-6 overflow-hidden rounded-xl border border-none border-white/10 bg-gradient-to-br to-black p-4 backdrop-blur-xl">
+                  <div className="absolute right-0 top-0 p-4 opacity-20 transition-opacity group-hover:opacity-40">
+                    <Zap className="text-accent-primary h-24 w-24" />
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <Sparkles className="text-accent-primary h-6 w-6" />
+>>>>>>> recover/cabinet-wip-from-stash
                     <h3 className="text-sm font-black uppercase italic tracking-tight">
                       AI Stylist Insight
                     </h3>
@@ -319,7 +380,11 @@ export default function SmartMirrorPage() {
                         >
                           <div className="flex items-center gap-3">
                             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10">
+<<<<<<< HEAD
                               <suggestion.icon className="h-5 w-5 text-indigo-400" />
+=======
+                              <suggestion.icon className="text-accent-primary h-5 w-5" />
+>>>>>>> recover/cabinet-wip-from-stash
                             </div>
                             <div>
                               <p className="text-[11px] font-black uppercase">{suggestion.name}</p>
@@ -378,7 +443,11 @@ export default function SmartMirrorPage() {
         <footer className="fixed bottom-12 left-12 right-12 z-50">
           <div className="flex items-center gap-3 rounded-full border border-white/20 bg-white/10 p-4 shadow-2xl backdrop-blur-2xl animate-in slide-in-from-bottom-10">
             <div className="flex items-center gap-3 pl-4">
+<<<<<<< HEAD
               <RotateCcw className="animate-spin-slow h-5 w-5 text-indigo-400" />
+=======
+              <RotateCcw className="text-accent-primary animate-spin-slow h-5 w-5" />
+>>>>>>> recover/cabinet-wip-from-stash
               <span className="text-[10px] font-black uppercase tracking-widest">
                 Active Requests ({requests.length})
               </span>
@@ -389,7 +458,11 @@ export default function SmartMirrorPage() {
                   key={req.id}
                   className="h-10 gap-3 whitespace-nowrap rounded-full border-none bg-white px-6 text-[9px] font-black uppercase text-black"
                 >
+<<<<<<< HEAD
                   <div className="h-2 w-2 animate-pulse rounded-full bg-indigo-500" />
+=======
+                  <div className="bg-accent-primary h-2 w-2 animate-pulse rounded-full" />
+>>>>>>> recover/cabinet-wip-from-stash
                   Bring {req.targetSize} {sessionItems.find((i) => i.id === req.itemId)?.name}
                 </Badge>
               ))}
@@ -403,7 +476,7 @@ export default function SmartMirrorPage() {
           </div>
         </footer>
       )}
-    </div>
+    </RegistryPageShell>
   );
 }
 

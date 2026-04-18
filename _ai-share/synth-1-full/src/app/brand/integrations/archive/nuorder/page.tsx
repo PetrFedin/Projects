@@ -15,6 +15,7 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 type Message = { type: 'success' | 'error'; text: string };
 
@@ -127,6 +128,7 @@ export default function BrandIntegrationsNuorderPage() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.brand.integrations}>
@@ -141,6 +143,20 @@ export default function BrandIntegrationsNuorderPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="NuOrder"
+        leadPlain="Остатки (pre-book, ATS), отгрузки, amendments, replenishment. OAuth 1.0."
+        eyebrow={
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.brand.integrations} aria-label="Назад к интеграциям">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <div className="grid gap-4">
         <Card>
@@ -300,6 +316,6 @@ export default function BrandIntegrationsNuorderPage() {
           </Button>
         </Link>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+<<<<<<< HEAD
 import {
   BarChart3,
   Store,
@@ -22,10 +23,14 @@ import {
   ShoppingCart,
   Package,
 } from 'lucide-react';
+=======
+import { Store, Tag, ArrowLeft } from 'lucide-react';
+>>>>>>> recover/cabinet-wip-from-stash
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getAnalyticsLinks } from '@/lib/data/entity-links';
 import { cn } from '@/lib/utils';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 /** Полная статистика продаж в Маркетруме и Аутлете платформы. */
 const MOCK_MARKETROOM = {
@@ -60,6 +65,7 @@ export default function PlatformSalesPage() {
   const [period, setPeriod] = useState('30d');
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
@@ -92,11 +98,44 @@ export default function PlatformSalesPage() {
 
       <div className="grid gap-6 md:grid-cols-2">
         <Card className="border-indigo-100">
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Статистика: Маркетрум и Аутлет"
+        leadPlain="Полная статистика продаж на платформе — выручка, заказы, единицы, топ товаров по каналу."
+        eyebrow={
+          <Button variant="ghost" size="icon" className="-ml-2 shrink-0" asChild>
+            <Link href={ROUTES.brand.analyticsBi} aria-label="Назад к BI">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+        actions={
+          <Select value={period} onValueChange={setPeriod}>
+            <SelectTrigger className="w-[160px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="7d">За 7 дней</SelectItem>
+              <SelectItem value="30d">За 30 дней</SelectItem>
+              <SelectItem value="90d">За 90 дней</SelectItem>
+            </SelectContent>
+          </Select>
+        }
+      />
+
+      <div className="grid gap-6 md:grid-cols-2">
+        <Card className="border-accent-primary/20">
+>>>>>>> recover/cabinet-wip-from-stash
           <CardHeader className="pb-2">
             <div className="flex items-start justify-between gap-2">
               <div>
                 <CardTitle className="flex items-center gap-2 text-base">
+<<<<<<< HEAD
                   <Store className="h-5 w-5 text-indigo-600" /> Маркетрум
+=======
+                  <Store className="text-accent-primary h-5 w-5" /> Маркетрум
+>>>>>>> recover/cabinet-wip-from-stash
                 </CardTitle>
                 <CardDescription>
                   Продажи в маркетруме платформы (полная цена, новые коллекции)
@@ -110,8 +149,13 @@ export default function PlatformSalesPage() {
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
+<<<<<<< HEAD
                 <p className="text-xs text-slate-500">Выручка</p>
                 <p className="text-xl font-black text-indigo-700">{MOCK_MARKETROOM.revenue}</p>
+=======
+                <p className="text-text-secondary text-xs">Выручка</p>
+                <p className="text-accent-primary text-xl font-black">{MOCK_MARKETROOM.revenue}</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 <p
                   className={cn(
                     'text-xs font-medium',
@@ -123,21 +167,29 @@ export default function PlatformSalesPage() {
                 </p>
               </div>
               <div>
-                <p className="text-xs text-slate-500">Заказы</p>
+                <p className="text-text-secondary text-xs">Заказы</p>
                 <p className="text-xl font-black">{MOCK_MARKETROOM.orders}</p>
-                <p className="text-xs text-slate-500">+{MOCK_MARKETROOM.ordersChange} заказов</p>
+                <p className="text-text-secondary text-xs">
+                  +{MOCK_MARKETROOM.ordersChange} заказов
+                </p>
               </div>
               <div>
-                <p className="text-xs text-slate-500">Единиц</p>
+                <p className="text-text-secondary text-xs">Единиц</p>
                 <p className="text-xl font-black">{MOCK_MARKETROOM.units}</p>
               </div>
               <div>
-                <p className="text-xs text-slate-500">Средний чек</p>
+                <p className="text-text-secondary text-xs">Средний чек</p>
                 <p className="text-xl font-black">{MOCK_MARKETROOM.avgCheck}</p>
               </div>
             </div>
             <div>
+<<<<<<< HEAD
               <p className="mb-2 text-xs font-medium text-slate-600">Топ товаров (Маркетрум)</p>
+=======
+              <p className="text-text-secondary mb-2 text-xs font-medium">
+                Топ товаров (Маркетрум)
+              </p>
+>>>>>>> recover/cabinet-wip-from-stash
               <ul className="space-y-2">
                 {MOCK_MARKETROOM.topProducts.map((p, i) => (
                   <li key={i} className="flex justify-between text-sm">
@@ -162,7 +214,7 @@ export default function PlatformSalesPage() {
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-xs text-slate-500">Выручка</p>
+                <p className="text-text-secondary text-xs">Выручка</p>
                 <p className="text-xl font-black text-amber-700">{MOCK_OUTLET.revenue}</p>
                 <p
                   className={cn(
@@ -175,21 +227,25 @@ export default function PlatformSalesPage() {
                 </p>
               </div>
               <div>
-                <p className="text-xs text-slate-500">Заказы</p>
+                <p className="text-text-secondary text-xs">Заказы</p>
                 <p className="text-xl font-black">{MOCK_OUTLET.orders}</p>
-                <p className="text-xs text-slate-500">+{MOCK_OUTLET.ordersChange} заказов</p>
+                <p className="text-text-secondary text-xs">+{MOCK_OUTLET.ordersChange} заказов</p>
               </div>
               <div>
-                <p className="text-xs text-slate-500">Единиц</p>
+                <p className="text-text-secondary text-xs">Единиц</p>
                 <p className="text-xl font-black">{MOCK_OUTLET.units}</p>
               </div>
               <div>
-                <p className="text-xs text-slate-500">Средний чек</p>
+                <p className="text-text-secondary text-xs">Средний чек</p>
                 <p className="text-xl font-black">{MOCK_OUTLET.avgCheck}</p>
               </div>
             </div>
             <div>
+<<<<<<< HEAD
               <p className="mb-2 text-xs font-medium text-slate-600">Топ товаров (Аутлет)</p>
+=======
+              <p className="text-text-secondary mb-2 text-xs font-medium">Топ товаров (Аутлет)</p>
+>>>>>>> recover/cabinet-wip-from-stash
               <ul className="space-y-2">
                 {MOCK_OUTLET.topProducts.map((p, i) => (
                   <li key={i} className="flex justify-between text-sm">
@@ -213,11 +269,16 @@ export default function PlatformSalesPage() {
         <CardContent>
           <div className="flex flex-wrap gap-6">
             <div className="flex items-center gap-3">
+<<<<<<< HEAD
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-100">
                 <Store className="h-6 w-6 text-indigo-600" />
+=======
+              <div className="bg-accent-primary/15 flex h-12 w-12 items-center justify-center rounded-xl">
+                <Store className="text-accent-primary h-6 w-6" />
+>>>>>>> recover/cabinet-wip-from-stash
               </div>
               <div>
-                <p className="text-xs text-slate-500">Маркетрум</p>
+                <p className="text-text-secondary text-xs">Маркетрум</p>
                 <p className="text-lg font-black">{MOCK_MARKETROOM.revenue}</p>
               </div>
             </div>
@@ -226,13 +287,19 @@ export default function PlatformSalesPage() {
                 <Tag className="h-6 w-6 text-amber-600" />
               </div>
               <div>
-                <p className="text-xs text-slate-500">Аутлет</p>
+                <p className="text-text-secondary text-xs">Аутлет</p>
                 <p className="text-lg font-black">{MOCK_OUTLET.revenue}</p>
               </div>
             </div>
+<<<<<<< HEAD
             <div className="flex items-center gap-3 border-l border-slate-200 pl-4">
               <p className="text-xs text-slate-500">Итого платформа</p>
               <p className="text-xl font-black text-indigo-700">500 000 ₽</p>
+=======
+            <div className="border-border-default flex items-center gap-3 border-l pl-4">
+              <p className="text-text-secondary text-xs">Итого платформа</p>
+              <p className="text-accent-primary text-xl font-black">500 000 ₽</p>
+>>>>>>> recover/cabinet-wip-from-stash
             </div>
           </div>
         </CardContent>
@@ -250,6 +317,6 @@ export default function PlatformSalesPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getAnalyticsLinks()} title="BI, 360°, внешние продажи" />
-    </div>
+    </RegistryPageShell>
   );
 }

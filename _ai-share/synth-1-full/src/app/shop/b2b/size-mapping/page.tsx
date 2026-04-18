@@ -1,12 +1,14 @@
 'use client';
 
+import { RegistryPageShell } from '@/components/design-system';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Ruler, ArrowLeft } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { tid } from '@/lib/ui/test-ids';
 
 /** ASOS: маппинг размеров бренда в сетку ритейлера (EU → внутренняя линейка) для маркетплейса. */
 const DEFAULT_GRID = [
@@ -20,6 +22,7 @@ const DEFAULT_GRID = [
 
 export default function SizeMappingPage() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -36,6 +39,13 @@ export default function SizeMappingPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell
+      className="min-h-[200px] max-w-3xl space-y-6"
+      data-testid={tid.page('shop-b2b-size-mapping')}
+    >
+      <ShopB2bContentHeader lead="Размер бренда (EU) → размер ритейлера для маркетплейса и заказов (ASOS-style)." />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -48,7 +58,7 @@ export default function SizeMappingPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-slate-200">
+                <tr className="border-border-default border-b">
                   <th className="py-2 pr-4 font-medium">Размер бренда (EU)</th>
                   <th className="py-2 pr-4 font-medium">Размер ритейлера</th>
                   <th className="py-2 pr-4 font-medium">Грудь (см)</th>
@@ -58,7 +68,7 @@ export default function SizeMappingPage() {
               </thead>
               <tbody>
                 {DEFAULT_GRID.map((row, i) => (
-                  <tr key={i} className="border-b border-slate-100">
+                  <tr key={i} className="border-border-subtle border-b">
                     <td className="py-2 pr-4 font-medium">{row.brandSize}</td>
                     <td className="py-2 pr-4">{row.retailerSize}</td>
                     <td className="py-2 pr-4">{row.chest}</td>
@@ -69,7 +79,11 @@ export default function SizeMappingPage() {
               </tbody>
             </table>
           </div>
+<<<<<<< HEAD
           <p className="mt-3 text-xs text-slate-400">
+=======
+          <p className="text-text-muted mt-3 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
             При API — сохранение сетки по бренду/категории; в позиции заказа: brandSize,
             retailerSize.
           </p>
@@ -92,6 +106,10 @@ export default function SizeMappingPage() {
         title="Заказы, маржа, матрица"
         className="mt-6"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

@@ -22,6 +22,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
 interface ArchiveFile {
   id: string;
@@ -114,9 +115,15 @@ export function ProductionArchiveHub({ sku, userRole }: ProductionArchiveHubProp
       case 'photo':
         return <ImageIcon className="h-4 w-4 text-emerald-500" />;
       case 'cert':
+<<<<<<< HEAD
         return <ShieldCheck className="h-4 w-4 text-indigo-500" />;
       default:
         return <FileText className="h-4 w-4 text-slate-500" />;
+=======
+        return <ShieldCheck className="text-accent-primary h-4 w-4" />;
+      default:
+        return <FileText className="text-text-secondary h-4 w-4" />;
+>>>>>>> recover/cabinet-wip-from-stash
     }
   };
 
@@ -138,6 +145,7 @@ export function ProductionArchiveHub({ sku, userRole }: ProductionArchiveHubProp
   return (
     <div className="space-y-6 duration-500 animate-in fade-in">
       {/* Header Info */}
+<<<<<<< HEAD
       <div className="flex flex-col items-start justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 p-4 md:flex-row md:items-center">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
@@ -145,26 +153,49 @@ export function ProductionArchiveHub({ sku, userRole }: ProductionArchiveHubProp
               Production Archive
             </Badge>
             <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+      <div className="bg-bg-surface2 border-border-subtle flex flex-col items-start justify-between gap-3 rounded-xl border p-4 md:flex-row md:items-center">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <Badge className="bg-accent-primary border-none text-[9px] font-black uppercase text-white">
+              Production Archive
+            </Badge>
+            <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               {sku.sku}
             </span>
           </div>
           <h2 className="text-sm font-black uppercase tracking-tighter">{sku.name}</h2>
+<<<<<<< HEAD
           <p className="text-xs font-medium text-slate-500">
             Производство: <span className="font-bold text-slate-900">{sku.factory}</span> • Бренд:{' '}
             <span className="font-bold text-slate-900">{sku.brand}</span>
+=======
+          <p className="text-text-secondary text-xs font-medium">
+            Производство: <span className="text-text-primary font-bold">{sku.factory}</span> •
+            Бренд: <span className="text-text-primary font-bold">{sku.brand}</span>
+>>>>>>> recover/cabinet-wip-from-stash
           </p>
         </div>
         <div className="flex gap-2">
           <Button
             variant="outline"
             size="sm"
+<<<<<<< HEAD
             className="h-10 rounded-xl border-slate-200 bg-white text-[10px] font-bold uppercase"
+=======
+            className="border-border-default h-10 rounded-xl bg-white text-[10px] font-bold uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <History className="mr-2 h-3.5 w-3.5" /> История версий
           </Button>
           <Button
             size="sm"
+<<<<<<< HEAD
             className="h-10 rounded-xl bg-indigo-600 text-[10px] font-black uppercase text-white shadow-lg shadow-indigo-100 hover:bg-indigo-700"
+=======
+            className="bg-accent-primary hover:bg-accent-primary shadow-accent-primary/10 h-10 rounded-xl text-[10px] font-black uppercase text-white shadow-lg"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <PlusCircle className="mr-2 h-3.5 w-3.5" /> Загрузить файлы
           </Button>
@@ -173,43 +204,85 @@ export function ProductionArchiveHub({ sku, userRole }: ProductionArchiveHubProp
 
       <Tabs defaultValue="all" className="w-full">
         <div className="mb-6 flex flex-col items-center justify-between gap-3 md:flex-row">
+<<<<<<< HEAD
           <TabsList className="rounded-2xl bg-slate-100 p-1">
             <TabsTrigger value="all" className="rounded-xl text-[10px] font-bold uppercase">
+=======
+          {/* cabinetSurface v1 */}
+          <TabsList className={cn(cabinetSurface.tabsList, 'flex-wrap')}>
+            <TabsTrigger value="all" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
+>>>>>>> recover/cabinet-wip-from-stash
               Все файлы
             </TabsTrigger>
             <TabsTrigger
               value="tz"
+<<<<<<< HEAD
               className="rounded-xl text-[10px] font-bold uppercase text-blue-600"
+=======
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'h-8 text-blue-600 data-[state=active]:text-blue-800'
+              )}
+>>>>>>> recover/cabinet-wip-from-stash
             >
               ТЗ
             </TabsTrigger>
             <TabsTrigger
               value="pattern"
+<<<<<<< HEAD
               className="rounded-xl text-[10px] font-bold uppercase text-orange-600"
+=======
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'h-8 text-orange-600 data-[state=active]:text-orange-800'
+              )}
+>>>>>>> recover/cabinet-wip-from-stash
             >
               Лекала
             </TabsTrigger>
             <TabsTrigger
               value="photo"
+<<<<<<< HEAD
               className="rounded-xl text-[10px] font-bold uppercase text-emerald-600"
+=======
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'h-8 text-emerald-600 data-[state=active]:text-emerald-800'
+              )}
+>>>>>>> recover/cabinet-wip-from-stash
             >
               Медиа
             </TabsTrigger>
             <TabsTrigger
               value="cert"
+<<<<<<< HEAD
               className="rounded-xl text-[10px] font-bold uppercase text-indigo-600"
+=======
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'text-accent-primary data-[state=active]:text-accent-primary h-8'
+              )}
+>>>>>>> recover/cabinet-wip-from-stash
             >
               Сертификаты
             </TabsTrigger>
           </TabsList>
 
           <div className="relative w-full md:w-64">
+<<<<<<< HEAD
             <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
+=======
+            <Search className="text-text-muted absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2" />
+>>>>>>> recover/cabinet-wip-from-stash
             <Input
               placeholder="Поиск в архиве..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+<<<<<<< HEAD
               className="h-10 rounded-xl border-slate-200 pl-9 text-xs font-medium"
+=======
+              className="border-border-default h-10 rounded-xl pl-9 text-xs font-medium"
+>>>>>>> recover/cabinet-wip-from-stash
             />
           </div>
         </div>
@@ -219,16 +292,24 @@ export function ProductionArchiveHub({ sku, userRole }: ProductionArchiveHubProp
             {filteredFiles.map((file) => (
               <Card
                 key={file.id}
+<<<<<<< HEAD
                 className="group overflow-hidden rounded-3xl border-slate-100 shadow-sm transition-all hover:shadow-md"
               >
                 <CardContent className="p-3">
                   <div className="mb-4 flex items-start justify-between">
                     <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-100 bg-slate-50">
+=======
+                className="border-border-subtle group overflow-hidden rounded-3xl shadow-sm transition-all hover:shadow-md"
+              >
+                <CardContent className="p-3">
+                  <div className="mb-4 flex items-start justify-between">
+                    <div className="bg-bg-surface2 border-border-subtle flex h-10 w-10 items-center justify-center rounded-2xl border">
+>>>>>>> recover/cabinet-wip-from-stash
                       {getIcon(file.type)}
                     </div>
                     <div className="flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
                       <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                        <Download className="h-3.5 w-3.5 text-slate-400" />
+                        <Download className="text-text-muted h-3.5 w-3.5" />
                       </Button>
                       <Button
                         variant="ghost"
@@ -241,6 +322,7 @@ export function ProductionArchiveHub({ sku, userRole }: ProductionArchiveHubProp
                   </div>
 
                   <div className="space-y-1">
+<<<<<<< HEAD
                     <h4 className="truncate pr-8 text-sm font-bold text-slate-900">{file.name}</h4>
                     <div className="flex items-center gap-2">
                       <Badge
@@ -250,12 +332,29 @@ export function ProductionArchiveHub({ sku, userRole }: ProductionArchiveHubProp
                         {getLabel(file.type)}
                       </Badge>
                       <span className="text-[9px] font-bold uppercase tracking-tight text-slate-400">
+=======
+                    <h4 className="text-text-primary truncate pr-8 text-sm font-bold">
+                      {file.name}
+                    </h4>
+                    <div className="flex items-center gap-2">
+                      <Badge
+                        variant="outline"
+                        className="border-border-default text-text-muted h-4 px-1.5 py-0 text-[8px] font-black uppercase"
+                      >
+                        {getLabel(file.type)}
+                      </Badge>
+                      <span className="text-text-muted text-[9px] font-bold uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                         v{file.version}
                       </span>
                     </div>
                   </div>
 
+<<<<<<< HEAD
                   <div className="mt-4 flex items-center justify-between border-t border-slate-50 pt-4 text-[9px] font-bold uppercase text-slate-400">
+=======
+                  <div className="border-border-subtle text-text-muted mt-4 flex items-center justify-between border-t pt-4 text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     <span className="flex items-center gap-1">
                       <Paperclip className="h-3 w-3" /> {file.size}
                     </span>
@@ -276,11 +375,19 @@ export function ProductionArchiveHub({ sku, userRole }: ProductionArchiveHubProp
                 .map((file) => (
                   <Card
                     key={file.id}
+<<<<<<< HEAD
                     className="group overflow-hidden rounded-3xl border-slate-100 shadow-sm transition-all hover:shadow-md"
                   >
                     <CardContent className="p-3">
                       <div className="mb-4 flex items-start justify-between">
                         <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-100 bg-slate-50">
+=======
+                    className="border-border-subtle group overflow-hidden rounded-3xl shadow-sm transition-all hover:shadow-md"
+                  >
+                    <CardContent className="p-3">
+                      <div className="mb-4 flex items-start justify-between">
+                        <div className="bg-bg-surface2 border-border-subtle flex h-10 w-10 items-center justify-center rounded-2xl border">
+>>>>>>> recover/cabinet-wip-from-stash
                           {getIcon(file.type)}
                         </div>
                         <div className="flex gap-1">
@@ -289,17 +396,28 @@ export function ProductionArchiveHub({ sku, userRole }: ProductionArchiveHubProp
                           </Button>
                         </div>
                       </div>
+<<<<<<< HEAD
                       <h4 className="truncate text-sm font-bold text-slate-900">{file.name}</h4>
                       <p className="mt-1 text-[9px] font-bold uppercase text-slate-400">
+=======
+                      <h4 className="text-text-primary truncate text-sm font-bold">{file.name}</h4>
+                      <p className="text-text-muted mt-1 text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                         Версия: {file.version} • {file.size}
                       </p>
                     </CardContent>
                   </Card>
                 ))}
               {filteredFiles.filter((f) => f.type === type).length === 0 && (
+<<<<<<< HEAD
                 <div className="col-span-full rounded-xl border border-dashed border-slate-200 bg-slate-50/50 py-12 text-center">
                   <FolderArchive className="mx-auto mb-2 h-12 w-12 text-slate-200" />
                   <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
+=======
+                <div className="bg-bg-surface2/80 border-border-default col-span-full rounded-xl border border-dashed py-12 text-center">
+                  <FolderArchive className="text-text-muted mx-auto mb-2 h-12 w-12" />
+                  <p className="text-text-muted text-xs font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     Файлы не найдены
                   </p>
                 </div>
@@ -310,9 +428,15 @@ export function ProductionArchiveHub({ sku, userRole }: ProductionArchiveHubProp
       </Tabs>
 
       {/* Security Footer */}
+<<<<<<< HEAD
       <div className="flex items-center gap-3 rounded-2xl border border-indigo-100/50 bg-indigo-50/50 p-4">
         <Lock className="h-4 w-4 text-indigo-400" />
         <p className="text-[10px] font-medium uppercase tracking-tight text-indigo-600/70">
+=======
+      <div className="bg-accent-primary/10 border-accent-primary/20 flex items-center gap-3 rounded-2xl border p-4">
+        <Lock className="text-accent-primary h-4 w-4" />
+        <p className="text-accent-primary/70 text-[10px] font-medium uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
           Доступ к архиву ограничен ролями <span className="font-bold">Бренд-владелец</span> и{' '}
           <span className="font-bold">Производство (Закрепленное)</span>. Все изменения логируются.
         </p>

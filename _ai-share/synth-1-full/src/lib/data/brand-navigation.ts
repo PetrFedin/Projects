@@ -36,6 +36,16 @@ import {
   Wallet,
   Warehouse,
   Zap,
+<<<<<<< HEAD
+=======
+  Map,
+  Search,
+  Store,
+  CreditCard,
+  UserPlus,
+  PackageSearch,
+  CalendarDays,
+>>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 
 /** Группировки разделов — логические кластеры для визуальной организации навигации */
@@ -119,7 +129,8 @@ export const brandNavGroups = [
   // ─── Кластер: Продукт ──────────────────────────────────────────
   {
     id: 'catalog',
-    label: 'Продукт',
+    /** Не дублировать кластер «Продукт» (см. NAV_GROUP_CLUSTERS.product.label). */
+    label: 'Каталог и PIM',
     clusterId: 'product',
     icon: Layers,
     scope: 'shared',
@@ -153,7 +164,8 @@ export const brandNavGroups = [
   // ─── Кластер: Производство ─────────────────────────────────────
   {
     id: 'production',
-    label: 'Производство',
+    /** Не дублировать кластер «Производство» (NAV_GROUP_CLUSTERS.operations). */
+    label: 'Цеха и материалы',
     clusterId: 'operations',
     icon: Factory,
     scope: 'shared',
@@ -291,6 +303,19 @@ export const brandNavGroups = [
     scope: 'b2b',
     links: [
       {
+        label: 'Карта B2B (ритейл)',
+        value: 'retail-b2b-map',
+        icon: Map,
+        href: ROUTES.shop.b2bWorkspaceMap,
+        description:
+          'Сквозная визуализация модулей закупок в кабинете магазина: где шоурум, заказы и финансы стыкуются с вашим контуром.',
+        iconColor: 'indigo',
+        quickActions: [
+          { label: 'Заказы B2B', href: ROUTES.brand.b2bOrders, icon: Package },
+          { label: 'Ритейлеры', href: ROUTES.brand.retailers, icon: Users },
+        ],
+      },
+      {
         label: 'B2B Шоурум',
         value: 'showroom',
         icon: Monitor,
@@ -328,6 +353,131 @@ export const brandNavGroups = [
         href: ROUTES.brand.b2bOrders,
         description: 'Заказы, PO, отгрузки, согласование',
       },
+<<<<<<< HEAD
+=======
+      {
+        label: 'Выставки и события (бренд)',
+        value: 'brand-trade-shows',
+        icon: Monitor,
+        href: ROUTES.brand.tradeShows,
+        description:
+          'Календарь и стенды бренда; связь с заявками байеров и витриной в кабинете магазина.',
+        iconColor: 'indigo',
+        quickActions: [
+          { label: 'Заявки байеров', href: ROUTES.brand.buyerApplications, icon: Users },
+          { label: 'Passport (бренд)', href: ROUTES.brand.b2bPassport, icon: FileText },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'buyer-retail-mirror',
+    label: 'Витрина байера и площадка',
+    clusterId: 'sales',
+    icon: Globe,
+    scope: 'b2b',
+    links: [
+      {
+        label: 'Кабинет магазина',
+        value: 'shop-home',
+        icon: Store,
+        href: ROUTES.shop.home,
+        description:
+          'Тот же хаб ритейла, что видит байер: сверка UX с шоурумом, лайншитами и B2B-заказами.',
+      },
+      {
+        label: 'Discover (маркетплейс)',
+        value: 'shop-discover',
+        icon: Search,
+        href: ROUTES.shop.b2bDiscover,
+        description: 'Поиск брендов и запрос доступа — зеркало байерского Discover.',
+      },
+      {
+        label: 'Карта процессов B2B',
+        value: 'shop-b2b-map',
+        icon: Map,
+        href: ROUTES.shop.b2bWorkspaceMap,
+        description: 'Сквозная схема модулей закупок в кабинете магазина.',
+      },
+      {
+        label: 'Оплата заказов (ритейл)',
+        value: 'shop-b2b-payment',
+        icon: CreditCard,
+        href: ROUTES.shop.b2bPayment,
+        description: 'JOOR Pay и этапы оплаты в интерфейсе байера.',
+      },
+      {
+        label: 'Подать заявку (сторона байера)',
+        value: 'shop-b2b-apply',
+        icon: UserPlus,
+        href: ROUTES.shop.b2bApply,
+        description: 'Онбординг байера к бренду — сопоставьте с заявками в бренд-кабинете.',
+      },
+      {
+        label: 'Выставки (ритейл)',
+        value: 'shop-trade-shows',
+        icon: CalendarDays,
+        href: ROUTES.shop.b2bTradeShows,
+        description: 'Виртуальные выставки и календарь в кабинете магазина.',
+        subsections: [
+          { href: ROUTES.shop.b2bTradeShows, label: 'Календарь', value: 'calendar' },
+          {
+            href: ROUTES.shop.b2bTradeShowAppointments,
+            label: 'Запись на встречи',
+            value: 'appointments',
+          },
+        ],
+      },
+      {
+        label: 'Passport выставки (ритейл)',
+        value: 'shop-passport',
+        icon: FileText,
+        href: ROUTES.shop.b2bPassport,
+        description: 'Портал события в интерфейсе байера.',
+      },
+      {
+        label: 'Заявки байеров (бренд)',
+        value: 'buyer-applications',
+        icon: Users,
+        href: ROUTES.brand.buyerApplications,
+        description: 'Входящие заявки и статусы — пара к «Подать заявку» в ритейле.',
+      },
+      {
+        label: 'Fulfillment (ритейл)',
+        value: 'shop-fulfillment',
+        icon: Truck,
+        href: ROUTES.shop.b2bFulfillmentDashboard,
+        description: 'SLA и каналы исполнения в кабинете магазина (наблюдение для бренда).',
+      },
+      {
+        label: 'RFQ на площадке',
+        value: 'shop-rfq',
+        icon: FileSearch,
+        href: ROUTES.shop.b2bRfq,
+        description: 'Запросы котировок байеров; связь с RFQ материалов у бренда.',
+      },
+      {
+        label: 'Тендеры (площадка)',
+        value: 'shop-tenders',
+        icon: Gavel,
+        href: ROUTES.shop.b2bTenders,
+        description: 'Конкурентные закупки на стороне ритейла.',
+      },
+      {
+        label: 'Поиск поставщиков (площадка)',
+        value: 'shop-supplier-discovery',
+        icon: PackageSearch,
+        href: ROUTES.shop.b2bSupplierDiscovery,
+        description: 'Реестр поставщиков в контуре магазина; дополняет реестр бренда.',
+      },
+      {
+        label: 'RFQ материалов (бренд)',
+        value: 'brand-suppliers-rfq',
+        icon: FileText,
+        href: ROUTES.brand.suppliersRfq,
+        description: 'Ваши запросы к поставщикам материалов — параллельно витрине RFQ ритейла.',
+      },
+>>>>>>> recover/cabinet-wip-from-stash
     ],
   },
   {

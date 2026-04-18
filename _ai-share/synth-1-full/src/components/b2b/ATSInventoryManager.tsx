@@ -24,7 +24,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useUIState } from '@/providers/ui-state';
+import { useB2BState } from '@/providers/b2b-state';
 import { cn } from '@/lib/cn';
+import type { InventoryItem } from '@/lib/types/b2b';
 
 export function ATSInventoryManager() {
   const { inventoryATS, reserveStock } = useB2BState();
@@ -34,7 +36,11 @@ export function ATSInventoryManager() {
   );
 
   const filteredInventory = useMemo(() => {
+<<<<<<< HEAD
     return inventoryATS.filter((item) => {
+=======
+    return inventoryATS.filter((item: InventoryItem) => {
+>>>>>>> recover/cabinet-wip-from-stash
       const matchesSearch =
         item.productName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.sku.toLowerCase().includes(searchQuery.toLowerCase());
@@ -55,29 +61,49 @@ export function ATSInventoryManager() {
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
+<<<<<<< HEAD
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900">
+=======
+            <div className="bg-text-primary flex h-8 w-8 items-center justify-center rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
               <Warehouse className="h-4 w-4 text-white" />
             </div>
             <Badge
               variant="outline"
+<<<<<<< HEAD
               className="border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-900"
+=======
+              className="border-border-default text-text-primary text-[9px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               ATS_Inventory_Live
             </Badge>
           </div>
+<<<<<<< HEAD
           <h2 className="text-sm font-black uppercase leading-none tracking-tighter text-slate-900 md:text-sm">
+=======
+          <h2 className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter md:text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Свободные Запасы
             <br />
             (ATS)
           </h2>
+<<<<<<< HEAD
           <p className="max-w-md text-xs font-medium text-slate-400">
+=======
+          <p className="text-text-muted max-w-md text-xs font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
             Уровни складских запасов в реальном времени. Управление резервами и мониторинг входящих
             партий продукции.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
+<<<<<<< HEAD
           <div className="flex items-center gap-1.5 rounded-2xl border border-slate-100 bg-slate-50 p-1">
+=======
+          <div className="bg-bg-surface2 border-border-subtle flex items-center gap-1.5 rounded-2xl border p-1">
+>>>>>>> recover/cabinet-wip-from-stash
             {['Все', 'Москва', 'Дубай', 'Милан'].map((w) => (
               <Button
                 key={w}
@@ -85,32 +111,46 @@ export function ATSInventoryManager() {
                 className={cn(
                   'h-10 rounded-xl px-5 text-[9px] font-black uppercase tracking-widest transition-all',
                   activeWarehouse === w
+<<<<<<< HEAD
                     ? 'bg-white text-slate-900 shadow-sm'
                     : 'bg-transparent text-slate-400 hover:text-slate-600'
+=======
+                    ? 'text-text-primary bg-white shadow-sm'
+                    : 'text-text-muted hover:text-text-secondary bg-transparent'
+>>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 {w}
               </Button>
             ))}
           </div>
-          <Button variant="outline" className="h-12 w-12 rounded-2xl border-slate-100 p-0">
-            <Download className="h-4 w-4 text-slate-400" />
+          <Button variant="outline" className="border-border-subtle h-12 w-12 rounded-2xl p-0">
+            <Download className="text-text-muted h-4 w-4" />
           </Button>
         </div>
       </div>
 
       {/* Stats Overview */}
       <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
+<<<<<<< HEAD
         <Card className="space-y-2 rounded-xl border-none bg-slate-50 p-4 shadow-xl shadow-slate-200/50">
           <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">
             Всего единиц
           </p>
           <p className="text-sm font-black text-slate-900">42,500</p>
+=======
+        <Card className="bg-bg-surface2 space-y-2 rounded-xl border-none p-4 shadow-md shadow-xl">
+          <p className="text-text-muted text-[8px] font-black uppercase tracking-widest">
+            Всего единиц
+          </p>
+          <p className="text-text-primary text-sm font-black">42,500</p>
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="flex items-center gap-1.5 text-emerald-600">
             <TrendingUp className="h-3 w-3" />
             <span className="text-[10px] font-black">+12% к пр. нед.</span>
           </div>
         </Card>
+<<<<<<< HEAD
         <Card className="space-y-2 rounded-xl border-none bg-slate-50 p-4 shadow-xl shadow-slate-200/50">
           <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">
             Активные резервы
@@ -126,6 +166,23 @@ export function ATSInventoryManager() {
           <p className="text-[10px] font-medium uppercase text-slate-400">В след. 14 дней</p>
         </Card>
         <Card className="space-y-2 rounded-xl border-none bg-amber-500 p-4 text-white shadow-xl shadow-slate-200/50">
+=======
+        <Card className="bg-bg-surface2 space-y-2 rounded-xl border-none p-4 shadow-md shadow-xl">
+          <p className="text-text-muted text-[8px] font-black uppercase tracking-widest">
+            Активные резервы
+          </p>
+          <p className="text-accent-primary text-sm font-black">1,240</p>
+          <p className="text-text-muted text-[10px] font-medium uppercase">На сумму 15.4M ₽</p>
+        </Card>
+        <Card className="bg-bg-surface2 space-y-2 rounded-xl border-none p-4 shadow-md shadow-xl">
+          <p className="text-text-muted text-[8px] font-black uppercase tracking-widest">
+            Ожидается поступление
+          </p>
+          <p className="text-text-primary text-sm font-black">8,900</p>
+          <p className="text-text-muted text-[10px] font-medium uppercase">В след. 14 дней</p>
+        </Card>
+        <Card className="space-y-2 rounded-xl border-none bg-amber-500 p-4 text-white shadow-md shadow-xl">
+>>>>>>> recover/cabinet-wip-from-stash
           <p className="text-[8px] font-black uppercase tracking-widest text-white/60">
             Прогноз дефицита
           </p>
@@ -138,10 +195,17 @@ export function ATSInventoryManager() {
       </div>
 
       {/* Main Table */}
+<<<<<<< HEAD
       <div className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-2xl shadow-slate-200/50">
         <div className="flex items-center justify-between border-b border-slate-50 bg-slate-50/30 p-4">
           <div className="relative w-96">
             <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+=======
+      <div className="border-border-subtle overflow-hidden rounded-xl border bg-white shadow-2xl shadow-md">
+        <div className="border-border-subtle bg-bg-surface2/30 flex items-center justify-between border-b p-4">
+          <div className="relative w-96">
+            <Search className="text-text-muted absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2" />
+>>>>>>> recover/cabinet-wip-from-stash
             <Input
               placeholder="Поиск по SKU или названию..."
               className="h-12 rounded-2xl border-none bg-white pl-12 shadow-sm"
@@ -152,11 +216,19 @@ export function ATSInventoryManager() {
           <div className="flex items-center gap-3">
             <Button
               variant="ghost"
+<<<<<<< HEAD
               className="gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400"
             >
               <History className="h-4 w-4" /> Лог резервов
             </Button>
             <Button className="h-11 gap-2 rounded-xl bg-slate-900 px-6 text-[10px] font-black uppercase tracking-widest text-white shadow-lg">
+=======
+              className="text-text-muted gap-2 text-[10px] font-black uppercase tracking-widest"
+            >
+              <History className="h-4 w-4" /> Лог резервов
+            </Button>
+            <Button className="bg-text-primary h-11 gap-2 rounded-xl px-6 text-[10px] font-black uppercase tracking-widest text-white shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
               <Plus className="h-4 w-4" /> Массовый резерв
             </Button>
           </div>
@@ -165,6 +237,7 @@ export function ATSInventoryManager() {
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-white">
+<<<<<<< HEAD
               <th className="border-b border-slate-50 px-8 py-6 text-left text-[10px] font-black uppercase tracking-widest text-slate-400">
                 Детали модели
               </th>
@@ -181,40 +254,87 @@ export function ATSInventoryManager() {
                 След. поставка
               </th>
               <th className="border-b border-slate-50 px-8 py-6 text-right text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+              <th className="text-text-muted border-border-subtle border-b px-8 py-6 text-left text-[10px] font-black uppercase tracking-widest">
+                Детали модели
+              </th>
+              <th className="text-text-muted border-border-subtle border-b px-8 py-6 text-left text-[10px] font-black uppercase tracking-widest">
+                Склад
+              </th>
+              <th className="text-text-muted border-border-subtle border-b px-8 py-6 text-center text-[10px] font-black uppercase tracking-widest">
+                Доступно
+              </th>
+              <th className="text-text-muted border-border-subtle border-b px-8 py-6 text-center text-[10px] font-black uppercase tracking-widest">
+                В резерве
+              </th>
+              <th className="text-text-muted border-border-subtle border-b px-8 py-6 text-left text-[10px] font-black uppercase tracking-widest">
+                След. поставка
+              </th>
+              <th className="text-text-muted border-border-subtle border-b px-8 py-6 text-right text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Действия
               </th>
             </tr>
           </thead>
           <tbody>
+<<<<<<< HEAD
             {filteredInventory.map((item) => (
               <tr key={item.sku} className="group transition-all duration-300 hover:bg-slate-50/50">
                 <td className="border-b border-slate-50 px-8 py-6">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-slate-100">
+=======
+            {filteredInventory.map((item: InventoryItem) => (
+              <tr
+                key={item.sku}
+                className="hover:bg-bg-surface2/80 group transition-all duration-300"
+              >
+                <td className="border-border-subtle border-b px-8 py-6">
+                  <div className="flex items-center gap-3">
+                    <div className="bg-bg-surface2 flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                       <img
                         src={`https://placehold.co/100x100/f1f5f9/94a3b8?text=${item.sku.split('-')[0]}`}
                         className="h-full w-full object-cover"
                       />
                     </div>
                     <div className="space-y-1">
+<<<<<<< HEAD
                       <p className="text-sm font-black uppercase tracking-tight text-slate-900">
                         {item.productName}
                       </p>
                       <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                      <p className="text-text-primary text-sm font-black uppercase tracking-tight">
+                        {item.productName}
+                      </p>
+                      <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                         {item.sku}
                       </p>
                     </div>
                   </div>
                 </td>
+<<<<<<< HEAD
                 <td className="border-b border-slate-50 px-8 py-6">
                   <div className="flex items-center gap-2">
                     <Warehouse className="h-3.5 w-3.5 text-slate-300" />
                     <span className="text-[10px] font-black uppercase text-slate-900">
+=======
+                <td className="border-border-subtle border-b px-8 py-6">
+                  <div className="flex items-center gap-2">
+                    <Warehouse className="text-text-muted h-3.5 w-3.5" />
+                    <span className="text-text-primary text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                       {item.warehouse} Hub
                     </span>
                   </div>
                 </td>
+<<<<<<< HEAD
                 <td className="border-b border-slate-50 px-8 py-6 text-center">
+=======
+                <td className="border-border-subtle border-b px-8 py-6 text-center">
+>>>>>>> recover/cabinet-wip-from-stash
                   <Badge
                     className={cn(
                       'border-none px-4 py-1.5 text-sm font-black',
@@ -226,33 +346,56 @@ export function ATSInventoryManager() {
                     {item.available} ед.
                   </Badge>
                 </td>
+<<<<<<< HEAD
                 <td className="border-b border-slate-50 px-8 py-6 text-center">
                   <p className="text-sm font-black text-slate-400">{item.reserved}</p>
                 </td>
                 <td className="border-b border-slate-50 px-8 py-6">
+=======
+                <td className="border-border-subtle border-b px-8 py-6 text-center">
+                  <p className="text-text-muted text-sm font-black">{item.reserved}</p>
+                </td>
+                <td className="border-border-subtle border-b px-8 py-6">
+>>>>>>> recover/cabinet-wip-from-stash
                   {item.incoming.length > 0 ? (
                     <div className="space-y-1">
-                      <div className="flex items-center gap-2 text-indigo-600">
+                      <div className="text-accent-primary flex items-center gap-2">
                         <Calendar className="h-3.5 w-3.5" />
                         <span className="text-[10px] font-black uppercase">
                           {item.incoming[0].date}
                         </span>
                       </div>
+<<<<<<< HEAD
                       <p className="text-[9px] font-bold uppercase text-slate-400">
+=======
+                      <p className="text-text-muted text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                         Qty: +{item.incoming[0].quantity}
                       </p>
                     </div>
                   ) : (
+<<<<<<< HEAD
                     <span className="text-[10px] font-black uppercase text-slate-300">
+=======
+                    <span className="text-text-muted text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                       None Scheduled
                     </span>
                   )}
                 </td>
+<<<<<<< HEAD
                 <td className="border-b border-slate-50 px-8 py-6 text-right">
                   <div className="flex items-center justify-end gap-2">
                     <Button
                       onClick={() => reserveStock(item.sku, 1, 'retailer-1')}
                       className="h-10 rounded-xl bg-slate-100 px-5 text-[9px] font-black uppercase tracking-widest text-slate-900 shadow-sm transition-all hover:bg-slate-900 hover:text-white"
+=======
+                <td className="border-border-subtle border-b px-8 py-6 text-right">
+                  <div className="flex items-center justify-end gap-2">
+                    <Button
+                      onClick={() => reserveStock(item.sku, 1, 'retailer-1')}
+                      className="bg-bg-surface2 text-text-primary hover:bg-text-primary/90 h-10 rounded-xl px-5 text-[9px] font-black uppercase tracking-widest shadow-sm transition-all hover:text-white"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       Быстрый резерв
                     </Button>
@@ -269,7 +412,11 @@ export function ATSInventoryManager() {
 
       {/* Logistics Intelligence Footer */}
       <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+<<<<<<< HEAD
         <Card className="space-y-6 rounded-xl border-none bg-slate-900 p-4 text-white shadow-xl shadow-slate-200/50">
+=======
+        <Card className="bg-text-primary space-y-6 rounded-xl border-none p-4 text-white shadow-md shadow-xl">
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10">
               <Truck className="h-5 w-5" />
@@ -291,6 +438,7 @@ export function ATSInventoryManager() {
           </div>
         </Card>
 
+<<<<<<< HEAD
         <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-xl shadow-slate-200/50">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50">
@@ -301,17 +449,35 @@ export function ATSInventoryManager() {
             </h4>
           </div>
           <p className="text-[10px] font-medium leading-relaxed text-slate-500">
+=======
+        <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-md shadow-xl">
+          <div className="flex items-center gap-3">
+            <div className="bg-accent-primary/10 flex h-10 w-10 items-center justify-center rounded-xl">
+              <ShieldCheck className="text-accent-primary h-5 w-5" />
+            </div>
+            <h4 className="text-text-primary text-sm font-black uppercase tracking-tight">
+              Авто-истечение резерва
+            </h4>
+          </div>
+          <p className="text-text-secondary text-[10px] font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
             Все ручные резервы истекают через 24 часа неактивности. Автоматические уведомления будут
             отправлены региональному менеджеру.
           </p>
           <div className="flex items-center gap-2">
+<<<<<<< HEAD
             <div className="h-2 w-2 animate-pulse rounded-full bg-indigo-600" />
             <span className="text-[8px] font-black uppercase tracking-widest text-indigo-600">
+=======
+            <div className="bg-accent-primary h-2 w-2 animate-pulse rounded-full" />
+            <span className="text-accent-primary text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               Активный мониторинг
             </span>
           </div>
         </Card>
 
+<<<<<<< HEAD
         <Card className="space-y-4 rounded-xl border-none bg-white p-4 shadow-xl shadow-slate-200/50">
           <div className="mb-2 flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100">
@@ -322,6 +488,18 @@ export function ATSInventoryManager() {
             </h4>
           </div>
           <Button className="h-12 w-full gap-2 rounded-xl bg-slate-900 text-[10px] font-black uppercase tracking-widest text-white">
+=======
+        <Card className="space-y-4 rounded-xl border-none bg-white p-4 shadow-md shadow-xl">
+          <div className="mb-2 flex items-center gap-3">
+            <div className="bg-bg-surface2 flex h-10 w-10 items-center justify-center rounded-xl">
+              <Package className="text-text-primary h-5 w-5" />
+            </div>
+            <h4 className="text-text-primary text-sm font-black uppercase tracking-tight">
+              Экспорт манифеста
+            </h4>
+          </div>
+          <Button className="bg-text-primary h-12 w-full gap-2 rounded-xl text-[10px] font-black uppercase tracking-widest text-white">
+>>>>>>> recover/cabinet-wip-from-stash
             Создать CSV манифест <Download className="h-4 w-4" />
           </Button>
           <Button

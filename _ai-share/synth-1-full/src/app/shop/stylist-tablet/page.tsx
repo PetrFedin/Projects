@@ -9,6 +9,8 @@ import { LayoutGrid, ArrowLeft, ShoppingCart, Users } from 'lucide-react';
 import { getEndlessStylistLinks } from '@/lib/data/entity-links';
 import { listStylistLooks } from '@/lib/api';
 import type { StylistLook } from '@/lib/shop/endless-stylist';
+import { RegistryPageShell } from '@/components/design-system';
+import { ROUTES } from '@/lib/routes';
 
 export default function EndlessStylistTabletPage() {
   const links = getEndlessStylistLinks();
@@ -19,26 +21,36 @@ export default function EndlessStylistTabletPage() {
   }, []);
 
   return (
+<<<<<<< HEAD
     <div className="container max-w-4xl space-y-6 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Link href="/shop/clienteling">
+=======
+    <RegistryPageShell className="max-w-4xl space-y-6">
+      <div className="flex items-center gap-3">
+        <Link href={ROUTES.shop.clienteling}>
+>>>>>>> recover/cabinet-wip-from-stash
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Endless Stylist Tablet</h1>
+<<<<<<< HEAD
           <p className="text-sm text-slate-500">
+=======
+          <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Сборка полного образа из онлайн-каталога на планшете продавца. Связь с клиентингом,
             каталогом и заказами.
           </p>
         </div>
       </div>
 
-      <Card className="border-violet-100">
+      <Card className="border-accent-primary/20">
         <CardHeader className="pb-2">
           <CardTitle className="flex items-center gap-2 text-base">
-            <LayoutGrid className="h-4 w-4 text-violet-600" />
+            <LayoutGrid className="text-accent-primary h-4 w-4" />
             Последние образы
           </CardTitle>
           <CardDescription>Образы, собранные на планшете в магазине</CardDescription>
@@ -47,7 +59,11 @@ export default function EndlessStylistTabletPage() {
           {looks.map((look) => (
             <div
               key={look.id}
+<<<<<<< HEAD
               className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
+=======
+              className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <div>
                 <p className="text-sm font-medium">{look.items.map((i) => i.name).join(' + ')}</p>
@@ -62,7 +78,11 @@ export default function EndlessStylistTabletPage() {
               </Button>
             </div>
           ))}
+<<<<<<< HEAD
           <p className="mt-3 text-xs text-slate-400">
+=======
+          <p className="text-text-muted mt-3 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
             API: ENDLESS_STYLIST_API — образы, каталог, создание заказа из образа.
           </p>
         </CardContent>
@@ -85,6 +105,6 @@ export default function EndlessStylistTabletPage() {
           </ul>
         </CardContent>
       </Card>
-    </div>
+    </RegistryPageShell>
   );
 }

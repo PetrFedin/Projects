@@ -13,7 +13,7 @@ type Props = { product: Product; className?: string };
 const tierStyle: Record<string, string> = {
   high: 'border-emerald-200 bg-emerald-50/60',
   mid: 'border-amber-200 bg-amber-50/50',
-  low: 'border-slate-200 bg-muted/40',
+  low: 'border-border-default bg-muted/40',
   unknown: 'border-dashed border-muted bg-muted/20',
 };
 

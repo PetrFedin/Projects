@@ -40,22 +40,26 @@ export function Workshop2DossierNineClosureSummary({
   return (
     <div
       id="w2-dossier-nine-closure-summary"
-      className="rounded-xl border border-slate-200 bg-gradient-to-br from-slate-50/90 to-white px-3 py-2.5 shadow-sm"
+      className="border-border-default from-bg-surface2/90 rounded-xl border bg-gradient-to-br to-white px-3 py-2.5 shadow-sm"
     >
+<<<<<<< HEAD
       <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+=======
+      <p className="text-text-secondary text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
         Сводка контура (локально)
       </p>
       <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-lg border border-slate-100 bg-white/90 px-2.5 py-2 text-[11px]">
-          <p className="font-semibold text-slate-800">Паспорт</p>
-          <p className="mt-0.5 tabular-nums text-slate-600">
+        <div className="border-border-subtle rounded-lg border bg-white/90 px-2.5 py-2 text-[11px]">
+          <p className="text-text-primary font-semibold">Паспорт</p>
+          <p className="text-text-secondary mt-0.5 tabular-nums">
             {passportPct}% · открытых гейтов: {passportGatesOpen}
           </p>
           <div className="mt-1 flex flex-wrap gap-x-2 gap-y-0">
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-indigo-700"
+              className="text-accent-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('general', W2_PASSPORT_SUBPAGE_ANCHORS.hub)}
             >
               К хабу паспорта
@@ -73,7 +77,7 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-slate-700"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('general', W2_PASSPORT_SUBPAGE_ANCHORS.denseView)}
             >
               w2view
@@ -81,21 +85,23 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-slate-700"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('general', W2_PASSPORT_SUBPAGE_ANCHORS.readOnly)}
             >
               Read-only
             </Button>
           </div>
         </div>
-        <div className="rounded-lg border border-slate-100 bg-white/90 px-2.5 py-2 text-[11px]">
-          <p className="font-semibold text-slate-800">Визуал / эскиз</p>
-          <p className="mt-0.5 tabular-nums text-slate-600">Открытых пунктов: {visualGatesOpen}</p>
+        <div className="border-border-subtle rounded-lg border bg-white/90 px-2.5 py-2 text-[11px]">
+          <p className="text-text-primary font-semibold">Визуал / эскиз</p>
+          <p className="text-text-secondary mt-0.5 tabular-nums">
+            Открытых пунктов: {visualGatesOpen}
+          </p>
           <div className="mt-1 flex flex-wrap gap-x-2 gap-y-0">
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-indigo-700"
+              className="text-accent-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('visuals', 'w2-visuals-hub')}
             >
               К визуалу
@@ -103,7 +109,7 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-violet-800"
+              className="text-accent-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('construction', W2_VISUALS_SKETCH_ANCHOR_ID)}
             >
               Скетч
@@ -111,7 +117,7 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-slate-700"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('visuals', W2_VISUAL_SUBPAGE_ANCHORS.sketchLinkFields)}
             >
               Связи
@@ -119,7 +125,7 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-slate-700"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('construction', W2_VISUAL_SUBPAGE_ANCHORS.sketchTemplates)}
             >
               Шаблоны
@@ -127,7 +133,7 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-slate-700"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('visuals', W2_VISUAL_SUBPAGE_ANCHORS.canonVersion)}
             >
               Канон
@@ -135,7 +141,7 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-slate-700"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('visuals', W2_VISUAL_SUBPAGE_ANCHORS.handoff)}
             >
               Handoff
@@ -143,23 +149,23 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-slate-700"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('visuals', W2_VISUAL_SUBPAGE_ANCHORS.sketchExportSurfaces)}
             >
               Печать / мерч
             </Button>
           </div>
         </div>
-        <div className="rounded-lg border border-slate-100 bg-white/90 px-2.5 py-2 text-[11px]">
-          <p className="font-semibold text-slate-800">Материалы / BOM</p>
-          <p className="mt-0.5 tabular-nums text-slate-600">
+        <div className="border-border-subtle rounded-lg border bg-white/90 px-2.5 py-2 text-[11px]">
+          <p className="text-text-primary font-semibold">Материалы / BOM</p>
+          <p className="text-text-secondary mt-0.5 tabular-nums">
             {materialPct}% · открытых гейтов: {materialGatesOpen}
           </p>
           <div className="mt-1 flex flex-wrap gap-x-2 gap-y-0">
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-indigo-700"
+              className="text-accent-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('material', W2_MATERIAL_SUBPAGE_ANCHORS.hub)}
             >
               К материалам
@@ -175,7 +181,7 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-slate-700"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('material', W2_MATERIAL_SUBPAGE_ANCHORS.supplyDraftsDelta)}
             >
               Дельта
@@ -183,7 +189,7 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-slate-700"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('material', W2_MATERIAL_SUBPAGE_ANCHORS.factoryExport)}
             >
               Фабрика CSV
@@ -191,7 +197,7 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-slate-700"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('material', W2_MATERIAL_SUBPAGE_ANCHORS.supplyDraftsAlts)}
             >
               Альтернативы
@@ -199,7 +205,7 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-slate-700"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('material', W2_MATERIAL_SUBPAGE_ANCHORS.compliance)}
             >
               Комплаенс
@@ -207,7 +213,7 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-slate-700"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('material', W2_MATERIAL_SUBPAGE_ANCHORS.supplyDraftsCosting)}
             >
               Costing
@@ -215,21 +221,21 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-slate-700"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('material', W2_MATERIAL_SUBPAGE_ANCHORS.bomNorms)}
             >
               Нормы
             </Button>
           </div>
         </div>
-        <div className="rounded-lg border border-purple-100 bg-purple-50/40 px-2.5 py-2 text-[11px]">
-          <p className="font-semibold text-slate-800">Конструкция</p>
-          <p className="mt-0.5 tabular-nums text-slate-600">{constructionPct}% по каталогу</p>
+        <div className="border-accent-primary/20 bg-accent-primary/10 rounded-lg border px-2.5 py-2 text-[11px]">
+          <p className="text-text-primary font-semibold">Конструкция</p>
+          <p className="text-text-secondary mt-0.5 tabular-nums">{constructionPct}% по каталогу</p>
           <div className="mt-1 flex flex-wrap gap-x-2 gap-y-0">
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-purple-800"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('construction', W2_CONSTRUCTION_SUBPAGE_ANCHORS.hub)}
             >
               Хаб ТЗ
@@ -237,7 +243,7 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-purple-800"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('construction', W2_CONSTRUCTION_SUBPAGE_ANCHORS.contour)}
             >
               Контур
@@ -245,7 +251,7 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-purple-800"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('construction', 'w2-measurements-fields')}
             >
               Мерки
@@ -253,7 +259,7 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-purple-800"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('construction', W2_VISUALS_SKETCH_ANCHOR_ID)}
             >
               Скетч
@@ -261,7 +267,7 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-purple-800"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('construction', W2_CONSTRUCTION_SUBPAGE_ANCHORS.export)}
             >
               ТК / выгрузка
@@ -269,22 +275,22 @@ export function Workshop2DossierNineClosureSummary({
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[10px] font-semibold text-purple-800"
+              className="text-text-primary h-auto p-0 text-[10px] font-semibold"
               onClick={() => onJump('construction', W2_CONSTRUCTION_SUBPAGE_ANCHORS.signoff)}
             >
               Подпись
             </Button>
           </div>
         </div>
-        <div className="rounded-lg border border-violet-100 bg-violet-50/50 px-2.5 py-2 text-[11px] sm:col-span-2 lg:col-span-4">
-          <p className="font-semibold text-violet-950">Черновики в досье</p>
-          <p className="mt-0.5 text-violet-900/90">
+        <div className="border-accent-primary/20 bg-accent-primary/10 rounded-lg border px-2.5 py-2 text-[11px] sm:col-span-2 lg:col-span-4">
+          <p className="text-text-primary font-semibold">Черновики в досье</p>
+          <p className="text-text-primary/90 mt-0.5">
             Альтернативы: {altDrafts} · дельта BOM: {deltaDrafts} · costing-строк: {costingRows}
           </p>
           <Button
             type="button"
             variant="link"
-            className="h-auto p-0 text-[10px] font-semibold text-violet-800"
+            className="text-accent-primary h-auto p-0 text-[10px] font-semibold"
             onClick={() => onJump('material', W2_MATERIAL_SUBPAGE_ANCHORS.supplyDrafts)}
           >
             К таблицам снабжения / дельты / costing

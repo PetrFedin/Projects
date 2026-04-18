@@ -11,6 +11,9 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+import { RegistryPageShell } from '@/components/design-system';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PRODUCTION_PARAMS_BY_CATEGORY } from '@/lib/data/production-params';
@@ -326,9 +329,26 @@ function LifestyleSizesSection() {
         «Детские» — только одежда, обувь, сумки и аксессуары.
       </p>
       <Tabs defaultValue="home" className="space-y-6">
-        <TabsList className="h-auto flex-wrap">
-          <TabsTrigger value="home">Дом и стиль жизни</TabsTrigger>
-          <TabsTrigger value="beauty">Красота и уход</TabsTrigger>
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
+          <TabsTrigger
+            value="home"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            Дом и стиль жизни
+          </TabsTrigger>
+          <TabsTrigger
+            value="beauty"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            Красота и уход
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="home" className="space-y-6">
           <SizeChartTable
@@ -600,20 +620,45 @@ function KidsInnerTabs({
 
   return (
     <Tabs defaultValue="clothing" className="space-y-6">
-      <TabsList className="h-auto flex-wrap">
-        <TabsTrigger value="clothing">
+      {/* cabinetSurface v1 */}
+      <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
+        <TabsTrigger
+          value="clothing"
+          className={cn(
+            cabinetSurface.tabsTrigger,
+            'text-xs font-semibold normal-case tracking-normal'
+          )}
+        >
           <Shirt className="mr-2 h-4 w-4" />
           Одежда
         </TabsTrigger>
-        <TabsTrigger value="shoes">
+        <TabsTrigger
+          value="shoes"
+          className={cn(
+            cabinetSurface.tabsTrigger,
+            'text-xs font-semibold normal-case tracking-normal'
+          )}
+        >
           <Footprints className="mr-2 h-4 w-4" />
           Обувь
         </TabsTrigger>
-        <TabsTrigger value="bags">
+        <TabsTrigger
+          value="bags"
+          className={cn(
+            cabinetSurface.tabsTrigger,
+            'text-xs font-semibold normal-case tracking-normal'
+          )}
+        >
           <ShoppingBag className="mr-2 h-4 w-4" />
           Сумки
         </TabsTrigger>
-        <TabsTrigger value="accessories">
+        <TabsTrigger
+          value="accessories"
+          className={cn(
+            cabinetSurface.tabsTrigger,
+            'text-xs font-semibold normal-case tracking-normal'
+          )}
+        >
           <LandPlot className="mr-2 h-4 w-4" />
           Аксессуары
         </TabsTrigger>
@@ -749,10 +794,33 @@ function KidsSizesSection() {
         onValueChange={(v) => setAudience(v as KidsAudience)}
         className="space-y-6"
       >
-        <TabsList className="h-auto flex-wrap">
-          <TabsTrigger value="boys">Мальчики</TabsTrigger>
-          <TabsTrigger value="girls">Девочки</TabsTrigger>
-          <TabsTrigger value="newborn">
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
+          <TabsTrigger
+            value="boys"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            Мальчики
+          </TabsTrigger>
+          <TabsTrigger
+            value="girls"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            Девочки
+          </TabsTrigger>
+          <TabsTrigger
+            value="newborn"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
             <Baby className="mr-2 h-4 w-4" />
             Новорождённые
           </TabsTrigger>
@@ -1007,7 +1075,7 @@ export default function SizesPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-4">
+    <RegistryPageShell className="pb-16">
       <header className="mb-8">
         <h1 className="font-headline text-sm font-bold md:text-base">Размерные сетки</h1>
         <p className="mt-2 text-sm text-muted-foreground">
@@ -1018,16 +1086,50 @@ export default function SizesPage() {
       </header>
 
       <Tabs defaultValue="women" className="space-y-6">
-        <TabsList className="h-auto flex-wrap">
-          <TabsTrigger value="women">Женские</TabsTrigger>
-          <TabsTrigger value="men">Мужские</TabsTrigger>
-          <TabsTrigger value="kids">Детские</TabsTrigger>
-          <TabsTrigger value="lifestyle">Дом · Красота</TabsTrigger>
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
+          <TabsTrigger
+            value="women"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            Женские
+          </TabsTrigger>
+          <TabsTrigger
+            value="men"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            Мужские
+          </TabsTrigger>
+          <TabsTrigger
+            value="kids"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            Детские
+          </TabsTrigger>
+          <TabsTrigger
+            value="lifestyle"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            Дом · Красота
+          </TabsTrigger>
         </TabsList>
 
         {/* ЖЕНСКИЕ */}
         <TabsContent value="women" className="space-y-6">
           <Tabs defaultValue="clothing" className="space-y-6">
+<<<<<<< HEAD
             <TabsList className="h-auto flex-wrap">
               <TabsTrigger value="clothing">
                 <Shirt className="mr-2 h-4 w-4" />
@@ -1042,6 +1144,47 @@ export default function SizesPage() {
                 Сумки
               </TabsTrigger>
               <TabsTrigger value="accessories">
+=======
+            {/* cabinetSurface v1 */}
+            <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
+              <TabsTrigger
+                value="clothing"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                <Shirt className="mr-2 h-4 w-4" />
+                Одежда
+              </TabsTrigger>
+              <TabsTrigger
+                value="shoes"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                <Footprints className="mr-2 h-4 w-4" />
+                Обувь
+              </TabsTrigger>
+              <TabsTrigger
+                value="bags"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                <ShoppingBag className="mr-2 h-4 w-4" />
+                Сумки
+              </TabsTrigger>
+              <TabsTrigger
+                value="accessories"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+>>>>>>> recover/cabinet-wip-from-stash
                 <LandPlot className="mr-2 h-4 w-4" />
                 Аксессуары
               </TabsTrigger>
@@ -1128,6 +1271,7 @@ export default function SizesPage() {
         {/* МУЖСКИЕ */}
         <TabsContent value="men" className="space-y-6">
           <Tabs defaultValue="clothing" className="space-y-6">
+<<<<<<< HEAD
             <TabsList className="h-auto flex-wrap">
               <TabsTrigger value="clothing">
                 <Shirt className="mr-2 h-4 w-4" />
@@ -1142,6 +1286,47 @@ export default function SizesPage() {
                 Сумки
               </TabsTrigger>
               <TabsTrigger value="accessories">
+=======
+            {/* cabinetSurface v1 */}
+            <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
+              <TabsTrigger
+                value="clothing"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                <Shirt className="mr-2 h-4 w-4" />
+                Одежда
+              </TabsTrigger>
+              <TabsTrigger
+                value="shoes"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                <Footprints className="mr-2 h-4 w-4" />
+                Обувь
+              </TabsTrigger>
+              <TabsTrigger
+                value="bags"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                <ShoppingBag className="mr-2 h-4 w-4" />
+                Сумки
+              </TabsTrigger>
+              <TabsTrigger
+                value="accessories"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+>>>>>>> recover/cabinet-wip-from-stash
                 <LandPlot className="mr-2 h-4 w-4" />
                 Аксессуары
               </TabsTrigger>
@@ -1227,6 +1412,6 @@ export default function SizesPage() {
           <LifestyleSizesSection />
         </TabsContent>
       </Tabs>
-    </div>
+    </RegistryPageShell>
   );
 }

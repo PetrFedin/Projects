@@ -172,10 +172,15 @@ export default function BrandProfilePage() {
       : defaultBrand;
 
   const [brand, setBrand] = useState<Brand>(initialBrand);
+<<<<<<< HEAD
   const [activeTab, setActiveTab] = useState<
     'brand' | 'commerce' | 'legal' | 'certificates' | 'presskit'
   >('brand');
   const [activeGroup, setActiveGroup] = useState<'profile' | 'b2b'>('profile');
+=======
+  const [activeTab, setActiveTab] = useState<string>('brand');
+  const [activeGroup, setActiveGroup] = useState<string>('profile');
+>>>>>>> recover/cabinet-wip-from-stash
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -234,10 +239,17 @@ export default function BrandProfilePage() {
     storeAddresses: [
       {
         id: 'addr-1',
+<<<<<<< HEAD
         name: 'ЦУМ',
         fullAddress: '125009, г. Москва, ул. Тверская, д. 1 (ЦУМ, 3 этаж)',
         phone: '+7 (495) 933-73-00',
         site: 'https://tsum.ru',
+=======
+        name: 'Демо-точка продаж · Москва 1',
+        fullAddress: '125009, г. Москва, ул. Тверская, д. 1',
+        phone: '+7 (495) 000-00-00',
+        site: 'https://example.com',
+>>>>>>> recover/cabinet-wip-from-stash
         yandexMapUrl: 'https://yandex.ru/maps/?pt=37.617644,55.755826&z=17',
         workingHours: {
           mon: '10:00–22:00',
@@ -281,18 +293,29 @@ export default function BrandProfilePage() {
     onlineStores: [
       {
         id: 'os-1',
+<<<<<<< HEAD
         name: 'Wildberries',
         productUrl: 'https://www.wildberries.ru/catalog/0/search.aspx?search=syntha',
+=======
+        name: 'Маркетплейс (демо) A',
+        productUrl: 'https://example.com/mp-a/syntha-lab',
+>>>>>>> recover/cabinet-wip-from-stash
         parsingEnabled: true,
       },
       {
         id: 'os-2',
+<<<<<<< HEAD
         name: 'Ozon',
         productUrl: 'https://www.ozon.ru/brand/syntha-123456789/',
+=======
+        name: 'Маркетплейс (демо) B',
+        productUrl: 'https://example.com/mp-b/syntha-lab',
+>>>>>>> recover/cabinet-wip-from-stash
         parsingEnabled: true,
       },
       {
         id: 'os-3',
+<<<<<<< HEAD
         name: 'Яндекс Маркет',
         productUrl: 'https://market.yandex.ru/search?text=syntha',
         parsingEnabled: false,
@@ -301,6 +324,23 @@ export default function BrandProfilePage() {
     showroom: {
       hasShowroom: true,
       name: 'Шоурум Syntha',
+=======
+        name: 'Агрегатор (демо)',
+        productUrl: 'https://example.com/search?q=syntha-lab',
+        parsingEnabled: false,
+      },
+    ] as {
+      id: string;
+      name: string;
+      productUrl: string;
+      parsingEnabled: boolean;
+      platformShopId?: string;
+      syncStatus?: 'confirmed' | 'linked' | 'manual' | string;
+    }[],
+    showroom: {
+      hasShowroom: true,
+      name: 'Шоурум Syntha Lab',
+>>>>>>> recover/cabinet-wip-from-stash
       address: 'г. Москва, ул. Тверская, д. 1',
       phone: '+7 (495) 123-45-67',
       site: 'https://syntha.ru/showroom',
@@ -560,9 +600,15 @@ export default function BrandProfilePage() {
     linesheetsActive: 2,
     linesheetsCollections: ['SS26 Main', 'SS26 Pre-collection'],
     topRetailers: [
+<<<<<<< HEAD
       { name: 'TSUM', volume: '2.1M ₽', lastOrder: '08.03.2026' },
       { name: 'ЦУМ Online', volume: '1.8M ₽', lastOrder: '07.03.2026' },
       { name: 'Lamoda', volume: '1.2M ₽', lastOrder: '05.03.2026' },
+=======
+      { name: 'Демо-магазин · Москва 1', volume: '2.1M ₽', lastOrder: '08.03.2026' },
+      { name: 'Демо-магазин · Москва 2', volume: '1.8M ₽', lastOrder: '07.03.2026' },
+      { name: 'Демо-магазин · СПб', volume: '1.2M ₽', lastOrder: '05.03.2026' },
+>>>>>>> recover/cabinet-wip-from-stash
     ],
     certExpiryAlerts: certificates
       .filter((c) => c.status === 'expiring' || c.status === 'expired')
@@ -595,7 +641,11 @@ export default function BrandProfilePage() {
   ];
   const messagesData = {
     unread: 5,
+<<<<<<< HEAD
     lastPreview: 'TSUM: подтверждение заказа #4521',
+=======
+    lastPreview: 'Подтверждение заказа #4521 (демо-ритейл)',
+>>>>>>> recover/cabinet-wip-from-stash
     href: '/brand/messages',
   };
   const crmData = { segments: 8, ltv: '₽124K', customers: 2847 };
@@ -1299,12 +1349,24 @@ export default function BrandProfilePage() {
                           )}
                         </div>
                         <div className="flex shrink-0 items-center gap-2">
+<<<<<<< HEAD
                           {(brandInfo.showroom as Record<string, unknown>).yandexMapUrl && (
                             <a
                               href={
                                 (brandInfo.showroom as Record<string, unknown>)
                                   .yandexMapUrl as string
                               }
+=======
+                          {Boolean(
+                            String(
+                              (brandInfo.showroom as Record<string, unknown>).yandexMapUrl ?? ''
+                            ).trim()
+                          ) && (
+                            <a
+                              href={String(
+                                (brandInfo.showroom as Record<string, unknown>).yandexMapUrl
+                              )}
+>>>>>>> recover/cabinet-wip-from-stash
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -1319,9 +1381,19 @@ export default function BrandProfilePage() {
                           )}
                         </div>
                         <div className="flex shrink-0 flex-wrap items-center gap-2">
+<<<<<<< HEAD
                           {(brandInfo.showroom as Record<string, unknown>).phone && (
                             <a
                               href={`tel:${(brandInfo.showroom as Record<string, unknown>).phone}`}
+=======
+                          {Boolean(
+                            String(
+                              (brandInfo.showroom as Record<string, unknown>).phone ?? ''
+                            ).trim()
+                          ) && (
+                            <a
+                              href={`tel:${String((brandInfo.showroom as Record<string, unknown>).phone)}`}
+>>>>>>> recover/cabinet-wip-from-stash
                             >
                               <Button
                                 variant="outline"
@@ -1332,9 +1404,19 @@ export default function BrandProfilePage() {
                               </Button>
                             </a>
                           )}
+<<<<<<< HEAD
                           {(brandInfo.showroom as Record<string, unknown>).site && (
                             <a
                               href={(brandInfo.showroom as Record<string, unknown>).site as string}
+=======
+                          {Boolean(
+                            String(
+                              (brandInfo.showroom as Record<string, unknown>).site ?? ''
+                            ).trim()
+                          ) && (
+                            <a
+                              href={String((brandInfo.showroom as Record<string, unknown>).site)}
+>>>>>>> recover/cabinet-wip-from-stash
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -1452,13 +1534,21 @@ export default function BrandProfilePage() {
                         {
                           key: 'tiktok',
                           label: 'TikTok',
+<<<<<<< HEAD
                           value: (contacts as Record<string, string>).tiktok || '',
+=======
+                          value: contacts.tiktok || '',
+>>>>>>> recover/cabinet-wip-from-stash
                           icon: Video,
                         },
                         {
                           key: 'youtube',
                           label: 'YouTube',
+<<<<<<< HEAD
                           value: (contacts as Record<string, string>).youtube || '',
+=======
+                          value: contacts.youtube || '',
+>>>>>>> recover/cabinet-wip-from-stash
                           icon: Video,
                         },
                       ]
@@ -3773,7 +3863,11 @@ export default function BrandProfilePage() {
                       ) : (
                         <Link
                           key={k}
+<<<<<<< HEAD
                           href="/brand/settings/api-hub"
+=======
+                          href={ROUTES.brand.settingsApiHub}
+>>>>>>> recover/cabinet-wip-from-stash
                           className="bg-bg-surface2 hover:bg-bg-surface2 flex items-center justify-between rounded-lg p-2 transition-colors"
                         >
                           <span className="text-[11px] font-bold uppercase">

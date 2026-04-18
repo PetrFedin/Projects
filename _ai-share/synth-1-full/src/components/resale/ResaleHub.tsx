@@ -70,22 +70,38 @@ export default function ResaleHub() {
           <Badge className="border-none bg-emerald-500 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white">
             Circularity & Resale 2.0
           </Badge>
+<<<<<<< HEAD
           <h1 className="text-sm font-black uppercase leading-none tracking-tighter text-slate-900">
             Syntha <span className="italic text-emerald-500">Resale</span> Hub
           </h1>
           <p className="max-w-2xl text-sm font-medium text-slate-500">
+=======
+          <h1 className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter">
+            Syntha <span className="italic text-emerald-500">Resale</span> Hub
+          </h1>
+          <p className="text-text-secondary max-w-2xl text-sm font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
             Вторая жизнь ваших вещей. Верификация через блокчейн, автоматическая оценка состояния и
             безопасные сделки.
           </p>
         </div>
+<<<<<<< HEAD
         <div className="flex shrink-0 rounded-2xl bg-slate-100 p-1.5">
+=======
+        <div className="bg-bg-surface2 flex shrink-0 rounded-2xl p-1.5">
+>>>>>>> recover/cabinet-wip-from-stash
           <button
             onClick={() => setView('buy')}
             className={cn(
               'rounded-xl px-8 py-3 text-[10px] font-black uppercase tracking-widest transition-all',
               view === 'buy'
+<<<<<<< HEAD
                 ? 'bg-white text-slate-900 shadow-lg'
                 : 'text-slate-500 hover:text-slate-900'
+=======
+                ? 'text-text-primary bg-white shadow-lg'
+                : 'text-text-secondary hover:text-text-primary'
+>>>>>>> recover/cabinet-wip-from-stash
             )}
           >
             Купить
@@ -95,8 +111,13 @@ export default function ResaleHub() {
             className={cn(
               'rounded-xl px-8 py-3 text-[10px] font-black uppercase tracking-widest transition-all',
               view === 'sell'
+<<<<<<< HEAD
                 ? 'bg-white text-slate-900 shadow-lg'
                 : 'text-slate-500 hover:text-slate-900'
+=======
+                ? 'text-text-primary bg-white shadow-lg'
+                : 'text-text-secondary hover:text-text-primary'
+>>>>>>> recover/cabinet-wip-from-stash
             )}
           >
             Продать
@@ -109,6 +130,7 @@ export default function ResaleHub() {
           {/* Filters & Search */}
           <div className="space-y-4 lg:col-span-3">
             <div className="space-y-4">
+<<<<<<< HEAD
               <h3 className="text-sm font-black uppercase tracking-widest text-slate-400">
                 Поиск по ресейлу
               </h3>
@@ -118,16 +140,35 @@ export default function ResaleHub() {
                   type="text"
                   placeholder="Найти бренд или модель..."
                   className="h-12 w-full rounded-2xl border-2 border-slate-50 bg-white pl-12 pr-4 text-sm font-bold outline-none transition-all focus:border-emerald-500"
+=======
+              <h3 className="text-text-muted text-sm font-black uppercase tracking-widest">
+                Поиск по ресейлу
+              </h3>
+              <div className="relative">
+                <Search className="text-text-muted absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2" />
+                <input
+                  type="text"
+                  placeholder="Найти бренд или модель..."
+                  className="border-border-subtle h-12 w-full rounded-2xl border-2 bg-white pl-12 pr-4 text-sm font-bold outline-none transition-all focus:border-emerald-500"
+>>>>>>> recover/cabinet-wip-from-stash
                 />
               </div>
             </div>
 
+<<<<<<< HEAD
             <Card className="rounded-xl border-none bg-slate-900 p-4 text-white shadow-xl">
+=======
+            <Card className="bg-text-primary rounded-xl border-none p-4 text-white shadow-xl">
+>>>>>>> recover/cabinet-wip-from-stash
               <Sparkles className="mb-6 h-8 w-8 text-emerald-400" />
               <h3 className="mb-4 text-base font-black uppercase italic leading-tight tracking-tight">
                 AI Price Analytics
               </h3>
+<<<<<<< HEAD
               <p className="mb-6 text-[10px] font-bold uppercase leading-relaxed tracking-widest text-slate-400">
+=======
+              <p className="text-text-muted mb-6 text-[10px] font-bold uppercase leading-relaxed tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Текущий рынок ресейла на 15% ниже, чем в прошлом месяце. Идеальное время для покупки
                 люкса.
               </p>
@@ -137,14 +178,23 @@ export default function ResaleHub() {
             </Card>
 
             <div className="space-y-6">
+<<<<<<< HEAD
               <h3 className="text-sm font-black uppercase tracking-widest text-slate-400">
+=======
+              <h3 className="text-text-muted text-sm font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Состояние
               </h3>
               <div className="space-y-2">
                 {['New with Tags', 'Excellent', 'Very Good', 'Good'].map((cond) => (
                   <label key={cond} className="group flex cursor-pointer items-center gap-3">
+<<<<<<< HEAD
                     <div className="h-5 w-5 rounded-md border-2 border-slate-100 transition-all group-hover:border-emerald-500" />
                     <span className="text-xs font-bold uppercase tracking-tight text-slate-600">
+=======
+                    <div className="border-border-subtle h-5 w-5 rounded-md border-2 transition-all group-hover:border-emerald-500" />
+                    <span className="text-text-secondary text-xs font-bold uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                       {cond}
                     </span>
                   </label>
@@ -169,7 +219,11 @@ export default function ResaleHub() {
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute left-4 top-4 flex gap-2">
+<<<<<<< HEAD
                       <Badge className="border-none bg-white/90 px-2 py-1 text-[8px] font-black uppercase text-slate-900 backdrop-blur-md">
+=======
+                      <Badge className="text-text-primary border-none bg-white/90 px-2 py-1 text-[8px] font-black uppercase backdrop-blur-md">
+>>>>>>> recover/cabinet-wip-from-stash
                         {item.condition}
                       </Badge>
                       {item.verified && (
@@ -178,19 +232,28 @@ export default function ResaleHub() {
                         </Badge>
                       )}
                     </div>
+<<<<<<< HEAD
                     <button className="absolute bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-slate-400 shadow-lg backdrop-blur-md transition-all hover:text-emerald-500">
+=======
+                    <button className="text-text-muted absolute bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 shadow-lg backdrop-blur-md transition-all hover:text-emerald-500">
+>>>>>>> recover/cabinet-wip-from-stash
                       <Tag className="h-4 w-4" />
                     </button>
                   </div>
                   <CardContent className="space-y-4 p-4">
                     <div>
+<<<<<<< HEAD
                       <p className="mb-1 text-[10px] font-black uppercase text-slate-400">
+=======
+                      <p className="text-text-muted mb-1 text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                         {item.brand}
                       </p>
                       <h4 className="truncate text-sm font-black uppercase leading-none tracking-tight">
                         {item.name}
                       </h4>
                     </div>
+<<<<<<< HEAD
                     <div className="flex items-end justify-between border-t border-slate-50 pt-4">
                       <div className="space-y-1">
                         <p className="text-[8px] font-black uppercase text-slate-400 line-through">
@@ -201,6 +264,18 @@ export default function ResaleHub() {
                         </p>
                       </div>
                       <Button className="h-10 rounded-xl bg-slate-900 px-6 text-[9px] font-black uppercase tracking-widest text-white transition-all hover:bg-emerald-600">
+=======
+                    <div className="border-border-subtle flex items-end justify-between border-t pt-4">
+                      <div className="space-y-1">
+                        <p className="text-text-muted text-[8px] font-black uppercase line-through">
+                          {item.price.toLocaleString('ru-RU')} ₽
+                        </p>
+                        <p className="text-text-primary text-sm font-black">
+                          {item.resalePrice.toLocaleString('ru-RU')} ₽
+                        </p>
+                      </div>
+                      <Button className="bg-text-primary h-10 rounded-xl px-6 text-[9px] font-black uppercase tracking-widest text-white transition-all hover:bg-emerald-600">
+>>>>>>> recover/cabinet-wip-from-stash
                         Купить
                       </Button>
                     </div>
@@ -220,12 +295,17 @@ export default function ResaleHub() {
               <h2 className="text-base font-black uppercase tracking-tight">
                 Выставить товар на ресейл
               </h2>
+<<<<<<< HEAD
               <p className="mx-auto max-w-lg font-medium leading-relaxed text-slate-500">
+=======
+              <p className="text-text-secondary mx-auto max-w-lg font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                 Выберите товар из истории покупок. AI автоматически подгрузит все данные из Digital
                 Product Passport, подтвердит подлинность и предложит цену.
               </p>
             </div>
             <div className="flex flex-wrap justify-center gap-3">
+<<<<<<< HEAD
               <div className="flex items-center gap-2 rounded-2xl bg-slate-50 px-6 py-3">
                 <ShieldCheck className="h-5 w-5 text-emerald-500" />
                 <span className="text-[10px] font-black uppercase italic tracking-widest text-slate-600">
@@ -241,6 +321,23 @@ export default function ResaleHub() {
               <div className="flex items-center gap-2 rounded-2xl bg-slate-50 px-6 py-3">
                 <Handshake className="h-5 w-5 text-amber-500" />
                 <span className="text-[10px] font-black uppercase italic tracking-widest text-slate-600">
+=======
+              <div className="bg-bg-surface2 flex items-center gap-2 rounded-2xl px-6 py-3">
+                <ShieldCheck className="h-5 w-5 text-emerald-500" />
+                <span className="text-text-secondary text-[10px] font-black uppercase italic tracking-widest">
+                  No Fake Policy
+                </span>
+              </div>
+              <div className="bg-bg-surface2 flex items-center gap-2 rounded-2xl px-6 py-3">
+                <Zap className="text-accent-primary h-5 w-5" />
+                <span className="text-text-secondary text-[10px] font-black uppercase italic tracking-widest">
+                  Instant AI Quote
+                </span>
+              </div>
+              <div className="bg-bg-surface2 flex items-center gap-2 rounded-2xl px-6 py-3">
+                <Handshake className="h-5 w-5 text-amber-500" />
+                <span className="text-text-secondary text-[10px] font-black uppercase italic tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   Secure Escrow
                 </span>
               </div>
@@ -248,7 +345,11 @@ export default function ResaleHub() {
           </Card>
 
           <div className="space-y-6">
+<<<<<<< HEAD
             <h3 className="flex items-center gap-2 px-2 text-sm font-black uppercase tracking-widest text-slate-400">
+=======
+            <h3 className="text-text-muted flex items-center gap-2 px-2 text-sm font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               <History className="h-4 w-4" /> Ваши покупки, готовые к перепродаже
             </h3>
             <div className="grid gap-3 md:grid-cols-3">
@@ -276,23 +377,42 @@ export default function ResaleHub() {
                   </div>
                   <div className="space-y-3">
                     <div>
+<<<<<<< HEAD
                       <p className="mb-0.5 text-[8px] font-black uppercase text-slate-400">
+=======
+                      <p className="text-text-muted mb-0.5 text-[8px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                         {item.brand}
                       </p>
                       <h4 className="truncate text-sm font-black uppercase leading-none tracking-tight">
                         {item.name}
                       </h4>
                     </div>
+<<<<<<< HEAD
                     <div className="flex items-center justify-between border-t border-slate-50 pt-3">
                       <div className="space-y-0.5">
                         <p className="text-[8px] font-black uppercase text-slate-400">Est. Value</p>
+=======
+                    <div className="border-border-subtle flex items-center justify-between border-t pt-3">
+                      <div className="space-y-0.5">
+                        <p className="text-text-muted text-[8px] font-black uppercase">
+                          Est. Value
+                        </p>
+>>>>>>> recover/cabinet-wip-from-stash
                         <p className="text-sm font-black text-emerald-600">
                           {item.estimatedResale.toLocaleString('ru-RU')} ₽
                         </p>
                       </div>
                       <div className="space-y-0.5 text-right">
+<<<<<<< HEAD
                         <p className="text-[8px] font-black uppercase text-slate-400">Bought</p>
                         <p className="text-[10px] font-black text-slate-900">{item.purchaseDate}</p>
+=======
+                        <p className="text-text-muted text-[8px] font-black uppercase">Bought</p>
+                        <p className="text-text-primary text-[10px] font-black">
+                          {item.purchaseDate}
+                        </p>
+>>>>>>> recover/cabinet-wip-from-stash
                       </div>
                     </div>
                   </div>

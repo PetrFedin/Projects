@@ -46,6 +46,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { EmptyState, FilterToolbar, PageHeader } from '@/components/design-system';
 import { COLLECTION_STEPS } from '@/lib/production/collection-steps-catalog';
 import {
@@ -154,25 +155,37 @@ function Workshop2ArticleDateFlip({
   }, [addedAtIso, updatedAtIso]);
 
   if (!addedAtIso) {
-    return <span className="text-[9px] text-slate-400">Нет даты в Цехе 2</span>;
+    return <span className="text-text-muted text-[9px]">Нет даты в Цехе 2</span>;
   }
   const canFlip =
     updatedAtIso && updatedAtIso !== addedAtIso && updatedAtIso.localeCompare(addedAtIso) > 0;
   const showUpdated = canFlip && phase % 2 === 1;
   if (showUpdated && updatedAtIso) {
     return (
+<<<<<<< HEAD
       <span className="block text-[9px] leading-tight text-slate-600">
         <span className="text-slate-400">Изменён</span>
         <span className="block font-medium tabular-nums text-slate-700">
+=======
+      <span className="text-text-secondary block text-[9px] leading-tight">
+        <span className="text-text-muted">Изменён</span>
+        <span className="text-text-primary block font-medium tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
           {formatWorkshop2ArticleRowDateTime(updatedAtIso)}
         </span>
       </span>
     );
   }
   return (
+<<<<<<< HEAD
     <span className="block text-[9px] leading-tight text-slate-600">
       <span className="text-slate-400">Добавлен</span>
       <span className="block font-medium tabular-nums text-slate-700">
+=======
+    <span className="text-text-secondary block text-[9px] leading-tight">
+      <span className="text-text-muted">Добавлен</span>
+      <span className="text-text-primary block font-medium tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
         {formatWorkshop2ArticleRowDateTime(addedAtIso)}
       </span>
     </span>
@@ -400,12 +413,20 @@ function collectionCoverMonogram(id: string): string {
 
 function ArticleFacetsInline({ row }: { row: Workshop2ArticleRow }) {
   const sep = (
+<<<<<<< HEAD
     <span className="mx-1.5 shrink-0 text-slate-300" aria-hidden>
+=======
+    <span className="text-text-muted mx-1.5 shrink-0" aria-hidden>
+>>>>>>> recover/cabinet-wip-from-stash
       ·
     </span>
   );
   return (
+<<<<<<< HEAD
     <div className="w-full max-w-full overflow-x-auto text-[10px] text-slate-600 [scrollbar-width:thin]">
+=======
+    <div className="text-text-secondary w-full max-w-full overflow-x-auto text-[10px] [scrollbar-width:thin]">
+>>>>>>> recover/cabinet-wip-from-stash
       <p className="inline-block min-w-0 whitespace-nowrap">
         <span>Аудитория: {row.audienceLabel}</span>
         {sep}
@@ -415,14 +436,14 @@ function ArticleFacetsInline({ row }: { row: Workshop2ArticleRow }) {
         {sep}
         <span>Ур. 3: {row.categoryL3}</span>
         {sep}
-        <span className="font-semibold text-slate-800">Сезон: {row.season}</span>
+        <span className="text-text-primary font-semibold">Сезон: {row.season}</span>
       </p>
     </div>
   );
 }
 
 function workshop2StatusBadgeClass(s: Workshop2RunStatus): string {
-  if (s === 'draft') return 'border-slate-200 text-slate-600 bg-slate-50/80';
+  if (s === 'draft') return 'border-border-default text-text-secondary bg-bg-surface2/80';
   if (s === 'completed') return 'border-emerald-200 text-emerald-800 bg-emerald-50/80';
   return 'border-amber-200 text-amber-800 bg-amber-50/50';
 }
@@ -470,7 +491,11 @@ function Workshop2ArticleFacetPopover({
 
   return (
     <div className="flex shrink-0 flex-col gap-0.5">
+<<<<<<< HEAD
       <span className="whitespace-nowrap text-[9px] font-semibold uppercase tracking-wide text-slate-500">
+=======
+      <span className="text-text-secondary whitespace-nowrap text-[9px] font-semibold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
         {label}
       </span>
       <Popover open={open} onOpenChange={setOpen}>
@@ -479,24 +504,24 @@ function Workshop2ArticleFacetPopover({
             type="button"
             variant="outline"
             id={triggerId}
-            className="h-9 w-[6.75rem] max-w-[10rem] justify-between gap-1 px-1.5 text-left text-[10px] font-semibold text-slate-700 sm:w-[7.75rem]"
+            className="text-text-primary h-9 w-[6.75rem] max-w-[10rem] justify-between gap-1 px-1.5 text-left text-[10px] font-semibold sm:w-[7.75rem]"
             title={title}
           >
             <span className="truncate">{summary}</span>
-            <ChevronDown className="h-3.5 w-3.5 shrink-0 text-slate-500" aria-hidden />
+            <ChevronDown className="text-text-secondary h-3.5 w-3.5 shrink-0" aria-hidden />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[min(100vw-2rem,18rem)] p-0" align="start">
           <div className="max-h-64 space-y-1 overflow-y-auto p-2">
             {options.length === 0 ? (
-              <p className="px-2 py-2 text-[11px] text-slate-500">Нет значений.</p>
+              <p className="text-text-secondary px-2 py-2 text-[11px]">Нет значений.</p>
             ) : (
               options.map((o, idx) => {
                 const checkId = `${triggerId}-opt-${idx}`;
                 return (
                   <label
                     key={o}
-                    className="flex cursor-pointer items-start gap-2 rounded-md py-1.5 pl-1 pr-2 hover:bg-slate-50"
+                    className="hover:bg-bg-surface2 flex cursor-pointer items-start gap-2 rounded-md py-1.5 pl-1 pr-2"
                   >
                     <Checkbox
                       id={checkId}
@@ -504,7 +529,7 @@ function Workshop2ArticleFacetPopover({
                       onCheckedChange={() => toggle(o)}
                       className="mt-0.5 shrink-0"
                     />
-                    <span className="min-w-0 text-[11px] leading-snug text-slate-800">{o}</span>
+                    <span className="text-text-primary min-w-0 text-[11px] leading-snug">{o}</span>
                   </label>
                 );
               })
@@ -960,10 +985,10 @@ export function Workshop2TabContent({
   }, [w2col]);
 
   useEffect(() => {
-    setArticleFacetAudience('__all__');
-    setArticleFacetL1('__all__');
-    setArticleFacetL2('__all__');
-    setArticleFacetL3('__all__');
+    setArticleFacetAudience(new Set(['__all__']));
+    setArticleFacetL1(new Set(['__all__']));
+    setArticleFacetL2(new Set(['__all__']));
+    setArticleFacetL3(new Set(['__all__']));
   }, [w2col]);
 
   useEffect(() => {
@@ -1321,7 +1346,11 @@ export function Workshop2TabContent({
       <div className="mt-4 w-full min-w-0">
         <Card
           className={cn(
+<<<<<<< HEAD
             'w-full border-indigo-100 bg-white',
+=======
+            'border-accent-primary/20 w-full bg-white',
+>>>>>>> recover/cabinet-wip-from-stash
             open.panelAccentHex ? 'border-l-[5px]' : ''
           )}
           style={open.panelAccentHex ? { borderLeftColor: open.panelAccentHex } : undefined}
@@ -1378,7 +1407,11 @@ export function Workshop2TabContent({
                 </div>
                 <div className="flex shrink-0 flex-col justify-end gap-0.5">
                   <span
+<<<<<<< HEAD
                     className="flex h-[0.875rem] items-end whitespace-nowrap text-[9px] font-semibold uppercase leading-none tracking-wide text-slate-500"
+=======
+                    className="text-text-secondary flex h-[0.875rem] items-end whitespace-nowrap text-[9px] font-semibold uppercase leading-none tracking-wide"
+>>>>>>> recover/cabinet-wip-from-stash
                     aria-hidden
                   >
                     {'\u00a0'}
@@ -1387,7 +1420,11 @@ export function Workshop2TabContent({
                     type="button"
                     variant="outline"
                     size="sm"
+<<<<<<< HEAD
                     className="h-9 shrink-0 whitespace-nowrap px-2 text-[9px] font-bold uppercase text-slate-700"
+=======
+                    className="text-text-primary h-9 shrink-0 whitespace-nowrap px-2 text-[9px] font-bold uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                     onClick={() => {
                       setArticleFacetAudience(new Set());
                       setArticleFacetL1(new Set());
@@ -1401,7 +1438,11 @@ export function Workshop2TabContent({
                 <div className="flex shrink-0 flex-col gap-0.5">
                   <Label
                     htmlFor={`w2-art-sort-${open.id}`}
+<<<<<<< HEAD
                     className="whitespace-nowrap text-[9px] font-semibold uppercase tracking-wide text-slate-500"
+=======
+                    className="text-text-secondary whitespace-nowrap text-[9px] font-semibold uppercase tracking-wide"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     Сортировка
                   </Label>
@@ -1411,7 +1452,11 @@ export function Workshop2TabContent({
                     onChange={(e) =>
                       setArticleListSort(e.target.value === 'added' ? 'added' : 'sku')
                     }
+<<<<<<< HEAD
                     className="h-9 w-[6.75rem] cursor-pointer rounded-md border border-slate-200 bg-white px-1.5 text-[10px] font-semibold text-slate-700 sm:w-[7.5rem]"
+=======
+                    className="border-border-default text-text-primary h-9 w-[6.75rem] cursor-pointer rounded-md border bg-white px-1.5 text-[10px] font-semibold sm:w-[7.5rem]"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <option value="sku">SKU A→Я</option>
                     <option value="added">Дата добавления</option>
@@ -1468,19 +1513,30 @@ export function Workshop2TabContent({
                 </Button>
               </div>
             ) : null}
-            <div className="w-full min-w-0 space-y-2 rounded-lg border border-indigo-100 bg-indigo-50/50 px-3 py-2.5">
+            <div className="border-accent-primary/20 bg-accent-primary/10 w-full min-w-0 space-y-2 rounded-lg border px-3 py-2.5">
               <div className="flex w-full min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+<<<<<<< HEAD
                 <span className="shrink-0 text-[11px] font-semibold text-slate-700">
                   Общая готовность
                 </span>
                 <span className="shrink-0 text-lg font-black tabular-nums leading-none text-indigo-900">
+=======
+                <span className="text-text-primary shrink-0 text-[11px] font-semibold">
+                  Общая готовность
+                </span>
+                <span className="text-accent-primary shrink-0 text-lg font-black tabular-nums leading-none">
+>>>>>>> recover/cabinet-wip-from-stash
                   {panelMetrics.progressPct}%
                 </span>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <button
                       type="button"
+<<<<<<< HEAD
                       className="shrink-0 rounded-full p-0.5 text-slate-400 hover:text-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+=======
+                      className="text-text-muted hover:text-accent-primary focus-visible:ring-accent-primary shrink-0 rounded-full p-0.5 focus:outline-none focus-visible:ring-2"
+>>>>>>> recover/cabinet-wip-from-stash
                       aria-label="Как считается готовность"
                     >
                       <CircleAlert className="h-4 w-4" aria-hidden />
@@ -1492,7 +1548,7 @@ export function Workshop2TabContent({
                 </Tooltip>
               </div>
               {rowsSorted.length === 0 ? null : (
-                <div className="w-full min-w-0 overflow-x-auto rounded-md border border-indigo-100/90 bg-white/80 p-1.5">
+                <div className="border-accent-primary/20 w-full min-w-0 overflow-x-auto rounded-md border bg-white/80 p-1.5">
                   <div className="flex min-w-max gap-px">
                     {WORKSHOP2_PIPELINE_STEP_IDS.map((sid, idx) => {
                       const step = COLLECTION_STEP_BY_ID.get(sid);
@@ -1508,8 +1564,8 @@ export function Workshop2TabContent({
                               className={cn(
                                 'flex h-11 w-8 shrink-0 flex-col items-stretch justify-end rounded-sm border px-0.5 pb-0.5 transition-colors',
                                 active
-                                  ? 'border-indigo-600 bg-indigo-100 shadow-sm'
-                                  : 'border-slate-200/90 bg-white hover:border-slate-300 hover:bg-slate-50'
+                                  ? 'border-accent-primary bg-accent-primary/15 shadow-sm'
+                                  : 'border-border-default/90 hover:border-border-default hover:bg-bg-surface2 bg-white'
                               )}
                               aria-pressed={active}
                               aria-label={`${step?.title ?? sid}: закрыли этап ${done} из ${n}`}
@@ -1517,13 +1573,13 @@ export function Workshop2TabContent({
                                 setArticlePanelStageFilter((prev) => (prev === sid ? null : sid))
                               }
                             >
-                              <div className="relative mx-auto mt-1 flex h-7 w-5 flex-1 overflow-hidden rounded-sm bg-slate-200/90">
+                              <div className="bg-border-subtle/90 relative mx-auto mt-1 flex h-7 w-5 flex-1 overflow-hidden rounded-sm">
                                 <div
-                                  className="absolute bottom-0 left-0 right-0 bg-indigo-500 transition-all"
+                                  className="bg-accent-primary absolute bottom-0 left-0 right-0 transition-all"
                                   style={{ height: `${fillPct}%` }}
                                 />
                               </div>
-                              <span className="text-center text-[8px] font-bold tabular-nums text-slate-500">
+                              <span className="text-text-secondary text-center text-[8px] font-bold tabular-nums">
                                 {idx + 1}
                               </span>
                             </button>
@@ -1533,10 +1589,14 @@ export function Workshop2TabContent({
                             className="max-w-[260px] text-[11px] leading-snug"
                           >
                             <p className="font-semibold">{step?.title ?? sid}</p>
-                            <p className="text-slate-600">
+                            <p className="text-text-secondary">
                               Закрыли этап: {done}/{n} арт.
                             </p>
+<<<<<<< HEAD
                             <p className="mt-1 text-slate-500">
+=======
+                            <p className="text-text-secondary mt-1">
+>>>>>>> recover/cabinet-wip-from-stash
                               Повторный клик снимает подсветку строк.
                             </p>
                           </TooltipContent>
@@ -1547,7 +1607,7 @@ export function Workshop2TabContent({
                 </div>
               )}
               {articlePanelStageFilter ? (
-                <p className="text-[10px] text-indigo-800/90">
+                <p className="text-accent-primary/90 text-[10px]">
                   Подсветка: артикулы, у которых по матрице текущий открытый этап — «
                   {COLLECTION_STEP_BY_ID.get(articlePanelStageFilter)?.title ??
                     articlePanelStageFilter}
@@ -1559,7 +1619,7 @@ export function Workshop2TabContent({
             {rowsSorted.length >= 10 ? (
               <div className="relative">
                 <Search
-                  className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400"
+                  className="text-text-muted pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2"
                   aria-hidden
                 />
                 <Input
@@ -1573,17 +1633,29 @@ export function Workshop2TabContent({
             ) : null}
 
             {rowsSorted.length === 0 ? (
+<<<<<<< HEAD
               <p className="py-4 text-center text-sm text-slate-500">
                 В подборке пока нет артикулов.
               </p>
             ) : filteredRows.length === 0 ? (
               <p className="py-4 text-center text-sm text-slate-500">
+=======
+              <p className="text-text-secondary py-4 text-center text-sm">
+                В подборке пока нет артикулов.
+              </p>
+            ) : filteredRows.length === 0 ? (
+              <p className="text-text-secondary py-4 text-center text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                 {facetFiltered.length === 0 && rowsSorted.length > 0
                   ? 'Нет артикулов по выбранным фильтрам аудитории и категорий.'
                   : 'Ничего не найдено.'}
               </p>
             ) : (
+<<<<<<< HEAD
               <ul className="divide-y divide-slate-100 overflow-hidden rounded-xl border border-slate-100">
+=======
+              <ul className="divide-border-subtle border-border-subtle divide-y overflow-hidden rounded-xl border">
+>>>>>>> recover/cabinet-wip-from-stash
                 {filteredRows.map((row) => {
                   const prog = getArticlePipelineProgress(open.id, row.id);
                   const stagesIdle = prog.total > 0 && prog.done === 0;
@@ -1619,19 +1691,30 @@ export function Workshop2TabContent({
                         type="button"
                         className={cn(
                           'flex min-h-0 min-w-0 flex-1 flex-row items-stretch justify-between gap-2 overflow-hidden px-4 py-3 text-left transition-colors',
+<<<<<<< HEAD
                           'hover:bg-indigo-50/60 active:bg-indigo-100/70',
                           isHighlight && 'bg-amber-50/90 ring-2 ring-inset ring-amber-200/90',
                           stageHighlight && 'bg-indigo-50/90 ring-2 ring-inset ring-indigo-300/80'
+=======
+                          'hover:bg-accent-primary/10 active:bg-accent-primary/15',
+                          isHighlight && 'bg-amber-50/90 ring-2 ring-inset ring-amber-200/90',
+                          stageHighlight &&
+                            'bg-accent-primary/10 ring-accent-primary/40 ring-2 ring-inset'
+>>>>>>> recover/cabinet-wip-from-stash
                         )}
                         onClick={() => openArticle(open.id, row)}
                       >
                         <div className="min-w-0 flex-1 space-y-1">
                           <div className="flex flex-wrap items-center gap-2">
+<<<<<<< HEAD
                             <p className="font-mono text-[12px] font-bold text-slate-900">
+=======
+                            <p className="text-text-primary font-mono text-[12px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                               {row.sku}
                             </p>
                             {isWorkshop2InternalArticleCodeValid(row.internalArticleCode) ? (
-                              <span className="rounded border border-slate-200 bg-white px-1.5 py-0.5 font-mono text-[10px] font-semibold tabular-nums text-slate-600">
+                              <span className="border-border-default text-text-secondary rounded border bg-white px-1.5 py-0.5 font-mono text-[10px] font-semibold tabular-nums">
                                 id {row.internalArticleCode}
                               </span>
                             ) : null}
@@ -1645,7 +1728,11 @@ export function Workshop2TabContent({
                             ) : row.articleOrigin === 'base' ? (
                               <Badge
                                 variant="outline"
+<<<<<<< HEAD
                                 className="h-5 border-slate-300 px-1.5 text-[8px] font-black uppercase text-slate-700"
+=======
+                                className="border-border-default text-text-primary h-5 px-1.5 text-[8px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                               >
                                 Base
                               </Badge>
@@ -1653,7 +1740,11 @@ export function Workshop2TabContent({
                             {stageBucket === 'not_started' ? (
                               <Badge
                                 variant="secondary"
+<<<<<<< HEAD
                                 className="h-5 border-slate-200 bg-slate-100 px-1.5 text-[8px] font-semibold normal-case text-slate-700"
+=======
+                                className="bg-bg-surface2 text-text-primary border-border-default h-5 px-1.5 text-[8px] font-semibold normal-case"
+>>>>>>> recover/cabinet-wip-from-stash
                               >
                                 Ещё не начат
                               </Badge>
@@ -1667,7 +1758,7 @@ export function Workshop2TabContent({
                             )}
                             {row.attachmentCount ? (
                               <span
-                                className="inline-flex items-center gap-0.5 text-[9px] text-slate-500"
+                                className="text-text-secondary inline-flex items-center gap-0.5 text-[9px]"
                                 title={`Вложений: ${row.attachmentCount}`}
                               >
                                 <Paperclip className="h-3 w-3 shrink-0" aria-hidden />
@@ -1676,21 +1767,30 @@ export function Workshop2TabContent({
                             ) : null}
                           </div>
                           <ArticleFacetsInline row={row} />
+<<<<<<< HEAD
                           <div className="mt-0.5 w-full border-t border-slate-100/90 pt-1.5 min-[400px]:hidden">
+=======
+                          <div className="border-border-subtle/90 mt-0.5 w-full border-t pt-1.5 min-[400px]:hidden">
+>>>>>>> recover/cabinet-wip-from-stash
                             <Workshop2ArticleDateFlip
                               addedAtIso={row.addedAtIso}
                               updatedAtIso={row.updatedAtIso}
                             />
                           </div>
                         </div>
+<<<<<<< HEAD
                         <div className="hidden w-[6.75rem] shrink-0 flex-col justify-center border-l border-slate-100 px-2 text-right min-[400px]:flex">
+=======
+                        <div className="border-border-subtle hidden w-[6.75rem] shrink-0 flex-col justify-center border-l px-2 text-right min-[400px]:flex">
+>>>>>>> recover/cabinet-wip-from-stash
                           <Workshop2ArticleDateFlip
                             addedAtIso={row.addedAtIso}
                             updatedAtIso={row.updatedAtIso}
                           />
                         </div>
-                        <div className="flex w-[7.5rem] min-w-[7rem] shrink-0 flex-col items-end justify-center gap-1.5 border-l border-slate-100 pl-2 pr-1">
+                        <div className="border-border-subtle flex w-[7.5rem] min-w-[7rem] shrink-0 flex-col items-end justify-center gap-1.5 border-l pl-2 pr-1">
                           {prog.total === 0 ? (
+<<<<<<< HEAD
                             <span className="w-full break-words text-right text-[9px] font-semibold leading-tight text-slate-500">
                               Нет этапов
                             </span>
@@ -1700,22 +1800,45 @@ export function Workshop2TabContent({
                             </span>
                           ) : (
                             <span className="text-lg font-black tabular-nums leading-none text-indigo-800">
+=======
+                            <span className="text-text-secondary w-full break-words text-right text-[9px] font-semibold leading-tight">
+                              Нет этапов
+                            </span>
+                          ) : stagesIdle ? (
+                            <span className="text-text-secondary w-full break-words text-right text-[9px] font-semibold leading-tight">
+                              Этапы не начаты
+                            </span>
+                          ) : (
+                            <span className="text-accent-primary text-lg font-black tabular-nums leading-none">
+>>>>>>> recover/cabinet-wip-from-stash
                               {prog.pct}%
                             </span>
                           )}
                           <Progress value={prog.pct} className="h-1.5 w-full" />
+<<<<<<< HEAD
                           <span className="text-right text-[8px] uppercase leading-tight tracking-tighter text-slate-400">
+=======
+                          <span className="text-text-muted text-right text-[8px] uppercase leading-tight tracking-tighter">
+>>>>>>> recover/cabinet-wip-from-stash
                             Этапы {prog.done}/{prog.total}
                           </span>
                         </div>
                       </button>
+<<<<<<< HEAD
                       <div className="relative z-[1] flex w-[6rem] min-w-[6rem] shrink-0 flex-col gap-1 border-l border-slate-100 bg-slate-50/50 py-2 pl-2 pr-1">
+=======
+                      <div className="border-border-subtle bg-bg-surface2/80 relative z-[1] flex w-[6rem] min-w-[6rem] shrink-0 flex-col gap-1 border-l py-2 pl-2 pr-1">
+>>>>>>> recover/cabinet-wip-from-stash
                         <div className="flex flex-row items-center justify-end gap-0.5">
                           <Button
                             type="button"
                             variant="ghost"
                             size="icon"
+<<<<<<< HEAD
                             className="h-7 min-h-7 w-7 min-w-7 shrink-0 p-0 text-slate-600 hover:text-indigo-800"
+=======
+                            className="text-text-secondary hover:text-accent-primary h-7 min-h-7 w-7 min-w-7 shrink-0 p-0"
+>>>>>>> recover/cabinet-wip-from-stash
                             aria-label="Заметки по артикулу"
                             title="Заметки по артикулу (локально в браузере)"
                             onClick={(e) => {
@@ -1737,7 +1860,11 @@ export function Workshop2TabContent({
                                 type="button"
                                 variant="ghost"
                                 size="icon"
+<<<<<<< HEAD
                                 className="h-7 min-h-7 w-7 min-w-7 shrink-0 p-0 text-slate-600 hover:text-indigo-800"
+=======
+                                className="text-text-secondary hover:text-accent-primary h-7 min-h-7 w-7 min-w-7 shrink-0 p-0"
+>>>>>>> recover/cabinet-wip-from-stash
                                 aria-label="Редактировать артикул"
                                 onClick={(e) => {
                                   e.preventDefault();
@@ -1805,7 +1932,7 @@ export function Workshop2TabContent({
                           ) : null}
                         </div>
                         {!deletable ? (
-                          <div className="flex flex-col gap-1 border-t border-slate-100/80 pt-1">
+                          <div className="border-border-subtle/80 flex flex-col gap-1 border-t pt-1">
                             <Tooltip>
                               <TooltipTrigger asChild>
                                 <Button
@@ -1835,7 +1962,7 @@ export function Workshop2TabContent({
                               type="button"
                               variant="ghost"
                               size="sm"
-                              className="h-7 px-1 text-[8px] font-semibold text-slate-500 hover:text-slate-800"
+                              className="text-text-secondary hover:text-text-primary h-7 px-1 text-[8px] font-semibold"
                               onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
@@ -1885,10 +2012,17 @@ export function Workshop2TabContent({
                 <Card
                   className={cn(
                     'relative mx-auto flex h-full min-h-[18rem] w-full max-w-[21rem] flex-col overflow-hidden border-2 transition-all min-[520px]:mx-0 min-[520px]:max-w-full',
+<<<<<<< HEAD
                     'focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-400/50 focus-within:ring-offset-2',
                     listOpen
                       ? 'border-indigo-400 bg-indigo-50/50 shadow-md ring-2 ring-indigo-200/70 ring-offset-1'
                       : 'border-slate-100'
+=======
+                    'focus-within:ring-accent-primary/50 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2',
+                    listOpen
+                      ? 'border-accent-primary/40 bg-accent-primary/10 ring-accent-primary/30 shadow-md ring-2 ring-offset-1'
+                      : 'border-border-subtle'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {col.kind === 'user' || col.kind === 'ss27' || tab === 'active' ? (
@@ -1914,11 +2048,19 @@ export function Workshop2TabContent({
                               type="button"
                               variant="ghost"
                               size="icon"
+<<<<<<< HEAD
                               className="h-6 w-6 shrink-0 rounded-md border border-slate-200/80 bg-white/95 shadow-sm hover:bg-white"
                               aria-label="Описание коллекции"
                               title="Описание коллекции"
                             >
                               <FileText className="h-3 w-3 text-slate-600" aria-hidden />
+=======
+                              className="border-border-default/80 h-6 w-6 shrink-0 rounded-md border bg-white/95 shadow-sm hover:bg-white"
+                              aria-label="Описание коллекции"
+                              title="Описание коллекции"
+                            >
+                              <FileText className="text-text-secondary h-3 w-3" aria-hidden />
+>>>>>>> recover/cabinet-wip-from-stash
                             </Button>
                           </PopoverTrigger>
                           <PopoverContent
@@ -1928,10 +2070,17 @@ export function Workshop2TabContent({
                             sideOffset={6}
                             onCloseAutoFocus={(e) => e.preventDefault()}
                           >
+<<<<<<< HEAD
                             <p className="mb-1.5 font-semibold text-slate-900">Описание</p>
                             {col.kind === 'user' ? (
                               <>
                                 <p className="whitespace-pre-wrap break-words text-[12px] leading-relaxed text-slate-600">
+=======
+                            <p className="text-text-primary mb-1.5 font-semibold">Описание</p>
+                            {col.kind === 'user' ? (
+                              <>
+                                <p className="text-text-secondary whitespace-pre-wrap break-words text-[12px] leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                                   {col.description?.trim()
                                     ? col.description.trim()
                                     : 'Не заполнено.'}
@@ -2015,11 +2164,19 @@ export function Workshop2TabContent({
                               type="button"
                               variant="ghost"
                               size="icon"
+<<<<<<< HEAD
                               className="h-6 w-6 shrink-0 rounded-md border border-slate-200/80 bg-white/95 shadow-sm hover:bg-white"
                               aria-label="Заметка для команды"
                               title="Заметка для команды"
                             >
                               <MessageSquare className="h-3 w-3 text-slate-600" aria-hidden />
+=======
+                              className="border-border-default/80 h-6 w-6 shrink-0 rounded-md border bg-white/95 shadow-sm hover:bg-white"
+                              aria-label="Заметка для команды"
+                              title="Заметка для команды"
+                            >
+                              <MessageSquare className="text-text-secondary h-3 w-3" aria-hidden />
+>>>>>>> recover/cabinet-wip-from-stash
                             </Button>
                           </PopoverTrigger>
                           <PopoverContent
@@ -2028,7 +2185,11 @@ export function Workshop2TabContent({
                             side="bottom"
                             sideOffset={6}
                           >
+<<<<<<< HEAD
                             <p className="mb-1.5 text-[11px] font-semibold text-slate-900">
+=======
+                            <p className="text-text-primary mb-1.5 text-[11px] font-semibold">
+>>>>>>> recover/cabinet-wip-from-stash
                               Заметка для команды
                             </p>
                             <Textarea
@@ -2097,7 +2258,11 @@ export function Workshop2TabContent({
                               type="button"
                               variant="ghost"
                               size="icon"
+<<<<<<< HEAD
                               className="h-6 w-6 shrink-0 rounded-md border border-slate-200/80 bg-white/95 shadow-sm hover:bg-white"
+=======
+                              className="border-border-default/80 h-6 w-6 shrink-0 rounded-md border bg-white/95 shadow-sm hover:bg-white"
+>>>>>>> recover/cabinet-wip-from-stash
                               aria-label="Редактировать коллекцию"
                               onClick={(e) => {
                                 e.preventDefault();
@@ -2109,7 +2274,11 @@ export function Workshop2TabContent({
                                 }
                               }}
                             >
+<<<<<<< HEAD
                               <Pencil className="h-3 w-3 text-slate-600" aria-hidden />
+=======
+                              <Pencil className="text-text-secondary h-3 w-3" aria-hidden />
+>>>>>>> recover/cabinet-wip-from-stash
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent side="bottom" className="max-w-[220px] text-[11px]">
@@ -2127,8 +2296,13 @@ export function Workshop2TabContent({
                               className={cn(
                                 'h-6 w-6 shrink-0 rounded-md border bg-white/95 shadow-sm hover:bg-white',
                                 col.pinned
+<<<<<<< HEAD
                                   ? 'border-indigo-200 bg-indigo-50/90'
                                   : 'border-slate-200/80'
+=======
+                                  ? 'border-accent-primary/30 bg-accent-primary/10'
+                                  : 'border-border-default/80'
+>>>>>>> recover/cabinet-wip-from-stash
                               )}
                               aria-pressed={col.pinned}
                               aria-label={
@@ -2143,8 +2317,13 @@ export function Workshop2TabContent({
                                 className={cn(
                                   'h-3 w-3 motion-safe:transition-opacity',
                                   col.pinned
+<<<<<<< HEAD
                                     ? 'fill-indigo-200/70 text-indigo-700 motion-safe:animate-pulse'
                                     : 'text-slate-400'
+=======
+                                    ? 'text-accent-primary fill-accent-primary/40 motion-safe:animate-pulse'
+                                    : 'text-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                                 )}
                                 aria-hidden
                               />
@@ -2163,7 +2342,11 @@ export function Workshop2TabContent({
                     </div>
                   ) : null}
                   {col.coverDataUrl ? (
+<<<<<<< HEAD
                     <div className="relative aspect-[16/10] w-full shrink-0 border-b border-slate-100 bg-slate-100">
+=======
+                    <div className="border-border-subtle bg-bg-surface2 relative aspect-[16/10] w-full shrink-0 border-b">
+>>>>>>> recover/cabinet-wip-from-stash
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={col.coverDataUrl}
@@ -2173,10 +2356,17 @@ export function Workshop2TabContent({
                     </div>
                   ) : (
                     <div
+<<<<<<< HEAD
                       className="relative flex aspect-[16/10] w-full shrink-0 items-center justify-center border-b border-slate-100 bg-gradient-to-br from-slate-100 via-indigo-50/80 to-slate-200/90"
                       aria-hidden
                     >
                       <span className="font-mono text-2xl font-black tracking-tight text-indigo-900/25">
+=======
+                      className="border-border-subtle from-bg-surface2 via-accent-primary/10 to-border-subtle relative flex aspect-[16/10] w-full shrink-0 items-center justify-center border-b bg-gradient-to-br"
+                      aria-hidden
+                    >
+                      <span className="text-accent-primary/25 font-mono text-2xl font-black tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                         {collectionCoverMonogram(col.id)}
                       </span>
                     </div>
@@ -2208,7 +2398,11 @@ export function Workshop2TabContent({
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <CardTitle
+<<<<<<< HEAD
                               className="line-clamp-2 min-w-0 cursor-default text-left text-sm font-bold leading-snug text-slate-900"
+=======
+                              className="text-text-primary line-clamp-2 min-w-0 cursor-default text-left text-sm font-bold leading-snug"
+>>>>>>> recover/cabinet-wip-from-stash
                               title={fullCardTitle}
                             >
                               {col.displayName}
@@ -2219,16 +2413,29 @@ export function Workshop2TabContent({
                             className="max-w-[280px] text-[11px] leading-snug"
                           >
                             <p className="font-semibold">{col.displayName}</p>
+<<<<<<< HEAD
                             <p className="mt-1 font-mono text-[10px] text-slate-500">{col.id}</p>
+=======
+                            <p className="text-text-secondary mt-1 font-mono text-[10px]">
+                              {col.id}
+                            </p>
+>>>>>>> recover/cabinet-wip-from-stash
                           </TooltipContent>
                         </Tooltip>
                       </div>
                       <Tooltip>
                         <TooltipTrigger asChild>
+<<<<<<< HEAD
                           <p className="flex w-full min-w-0 flex-col gap-0.5 text-[10px] leading-tight text-slate-500">
                             <span className="shrink-0 text-slate-400">Код коллекции</span>
                             <span
                               className="min-w-0 truncate font-mono text-slate-600"
+=======
+                          <p className="text-text-secondary flex w-full min-w-0 flex-col gap-0.5 text-[10px] leading-tight">
+                            <span className="text-text-muted shrink-0">Код коллекции</span>
+                            <span
+                              className="text-text-secondary min-w-0 truncate font-mono"
+>>>>>>> recover/cabinet-wip-from-stash
                               title={col.id}
                             >
                               {col.id}
@@ -2243,10 +2450,17 @@ export function Workshop2TabContent({
                         {col.cardTimestamps ? (
                           <>
                             <p
+<<<<<<< HEAD
                               className="break-words text-[10px] leading-snug text-slate-700"
                               title={`${col.cardTimestamps.createdCaption} ${col.cardTimestamps.createdValue}`}
                             >
                               <span className="text-slate-400">
+=======
+                              className="text-text-primary break-words text-[10px] leading-snug"
+                              title={`${col.cardTimestamps.createdCaption} ${col.cardTimestamps.createdValue}`}
+                            >
+                              <span className="text-text-muted">
+>>>>>>> recover/cabinet-wip-from-stash
                                 {col.cardTimestamps.createdCaption}
                               </span>{' '}
                               <span className="font-medium tabular-nums">
@@ -2256,10 +2470,17 @@ export function Workshop2TabContent({
                             {col.cardTimestamps.updatedCaption &&
                             col.cardTimestamps.updatedValue ? (
                               <p
+<<<<<<< HEAD
                                 className="break-words text-[10px] leading-snug text-slate-700"
                                 title={`${col.cardTimestamps.updatedCaption} ${col.cardTimestamps.updatedValue}`}
                               >
                                 <span className="text-slate-400">
+=======
+                                className="text-text-primary break-words text-[10px] leading-snug"
+                                title={`${col.cardTimestamps.updatedCaption} ${col.cardTimestamps.updatedValue}`}
+                              >
+                                <span className="text-text-muted">
+>>>>>>> recover/cabinet-wip-from-stash
                                   {col.cardTimestamps.updatedCaption}
                                 </span>{' '}
                                 <span className="font-medium tabular-nums">
@@ -2278,19 +2499,34 @@ export function Workshop2TabContent({
                         )}
                       </div>
                     </div>
+<<<<<<< HEAD
                     <div className="flex w-full min-w-0 shrink-0 flex-col gap-2 text-[11px] text-slate-600">
+=======
+                    <div className="text-text-secondary flex w-full min-w-0 shrink-0 flex-col gap-2 text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                       {metrics.articleCount > 0 ? (
                         <p className="shrink-0 leading-snug">Артикулов: {metrics.articleCount}</p>
                       ) : null}
                       <div className="flex min-h-[2.875rem] flex-col justify-end">
                         {metrics.articleCount === 0 ? (
+<<<<<<< HEAD
                           <p className="text-[10px] leading-snug text-slate-500">Нет артикулов.</p>
+=======
+                          <p className="text-text-secondary text-[10px] leading-snug">
+                            Нет артикулов.
+                          </p>
+>>>>>>> recover/cabinet-wip-from-stash
                         ) : listOpen ? (
                           <span className="block min-h-[2rem]" aria-hidden />
                         ) : (
                           <Fragment>
+<<<<<<< HEAD
                             <div className="flex w-full min-w-0 flex-row flex-nowrap items-center gap-2 text-[10px] text-slate-600">
                               <span className="shrink-0 whitespace-nowrap font-semibold text-slate-700">
+=======
+                            <div className="text-text-secondary flex w-full min-w-0 flex-row flex-nowrap items-center gap-2 text-[10px]">
+                              <span className="text-text-primary shrink-0 whitespace-nowrap font-semibold">
+>>>>>>> recover/cabinet-wip-from-stash
                                 Общая готовность
                               </span>
                               <Progress
@@ -2298,14 +2534,22 @@ export function Workshop2TabContent({
                                 className="h-2.5 min-w-0 flex-1 basis-0"
                               />
                               <div className="flex shrink-0 items-center gap-0.5">
+<<<<<<< HEAD
                                 <span className="whitespace-nowrap text-base font-black tabular-nums text-indigo-900">
+=======
+                                <span className="text-accent-primary whitespace-nowrap text-base font-black tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                                   {metrics.progressPct}%
                                 </span>
                                 <Tooltip>
                                   <TooltipTrigger asChild>
                                     <button
                                       type="button"
+<<<<<<< HEAD
                                       className="rounded-full p-0.5 text-slate-400 hover:text-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+=======
+                                      className="text-text-muted hover:text-accent-primary focus-visible:ring-accent-primary rounded-full p-0.5 focus:outline-none focus-visible:ring-2"
+>>>>>>> recover/cabinet-wip-from-stash
                                       aria-label="Как считается готовность"
                                     >
                                       <CircleAlert className="h-3.5 w-3.5" aria-hidden />
@@ -2324,8 +2568,15 @@ export function Workshop2TabContent({
                               const rollup = dossierRollupByCollectionId[col.id];
                               if (!rollup || rollup.withDossierCount === 0) return null;
                               return (
+<<<<<<< HEAD
                                 <p className="mt-1 text-[9px] leading-snug text-slate-500">
                                   <span className="font-semibold text-slate-600">ТЗ (local):</span>{' '}
+=======
+                                <p className="text-text-secondary mt-1 text-[9px] leading-snug">
+                                  <span className="text-text-secondary font-semibold">
+                                    ТЗ (local):
+                                  </span>{' '}
+>>>>>>> recover/cabinet-wip-from-stash
                                   ~{rollup.avgTzPct}% · образец {rollup.readyForSampleCount}/
                                   {rollup.withDossierCount}
                                   {rollup.bomPinCount > 0 ? (
@@ -2369,7 +2620,11 @@ export function Workshop2TabContent({
                         <Button
                           type="button"
                           variant="link"
+<<<<<<< HEAD
                           className="h-auto px-2 py-0 text-[9px] font-normal text-slate-400 no-underline hover:text-slate-600"
+=======
+                          className="text-text-muted hover:text-text-secondary h-auto px-2 py-0 text-[9px] font-normal no-underline"
+>>>>>>> recover/cabinet-wip-from-stash
                           onClick={() =>
                             setArchiveConfirm({
                               id: col.id,
@@ -2384,7 +2639,11 @@ export function Workshop2TabContent({
                         <Button
                           type="button"
                           variant="ghost"
+<<<<<<< HEAD
                           className="h-6 px-2 text-[9px] text-indigo-700 hover:text-indigo-900"
+=======
+                          className="text-accent-primary hover:text-accent-primary h-6 px-2 text-[9px]"
+>>>>>>> recover/cabinet-wip-from-stash
                           onClick={() => restoreOne(col.id)}
                         >
                           Восстановить
@@ -2408,7 +2667,11 @@ export function Workshop2TabContent({
         <PageHeader
           title="Цех 2"
           description={PAGE_SUBTITLE}
+<<<<<<< HEAD
           className="mb-0 border-b border-slate-200/80 pb-4"
+=======
+          className="border-border-default/80 mb-0 border-b pb-4"
+>>>>>>> recover/cabinet-wip-from-stash
           actions={
             <div className="flex flex-wrap items-center justify-end gap-2">
               <Tooltip>
@@ -2440,7 +2703,11 @@ export function Workshop2TabContent({
                   Создать коллекцию
                 </Button>
               ) : (
+<<<<<<< HEAD
                 <span className="max-w-[14rem] text-[10px] leading-snug text-slate-500">
+=======
+                <span className="text-text-secondary max-w-[14rem] text-[10px] leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                   Архив хранится в этом браузере.
                 </span>
               )}
@@ -2448,6 +2715,7 @@ export function Workshop2TabContent({
           }
         />
 
+<<<<<<< HEAD
         <details className="group rounded-lg border border-slate-200 bg-slate-50/80 shadow-sm">
           <summary className="flex cursor-pointer list-none items-center gap-2 px-3 py-2.5 text-left text-xs font-semibold text-slate-800 [&::-webkit-details-marker]:hidden">
             <ClipboardList className="h-4 w-4 shrink-0 text-indigo-600" aria-hidden />
@@ -2455,6 +2723,15 @@ export function Workshop2TabContent({
             <ChevronDown className="ml-auto h-4 w-4 shrink-0 text-slate-400 transition group-open:rotate-180" />
           </summary>
           <div className="space-y-3 border-t border-slate-200 bg-white px-3 py-3 text-[11px] leading-snug text-slate-700">
+=======
+        <details className="border-border-default bg-bg-surface2/80 group rounded-lg border shadow-sm">
+          <summary className="text-text-primary flex cursor-pointer list-none items-center gap-2 px-3 py-2.5 text-left text-xs font-semibold [&::-webkit-details-marker]:hidden">
+            <ClipboardList className="text-accent-primary h-4 w-4 shrink-0" aria-hidden />
+            <span>Пилот Цеха 2 — чеклист и обратная связь</span>
+            <ChevronDown className="text-text-muted ml-auto h-4 w-4 shrink-0 transition group-open:rotate-180" />
+          </summary>
+          <div className="border-border-default text-text-primary space-y-3 border-t bg-white px-3 py-3 text-[11px] leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
             <ol className="list-decimal space-y-1.5 pl-4">
               <li>Создайте коллекцию и добавьте SKU — данные остаются в этом браузере.</li>
               <li>Откройте артикул → ТЗ: заполните паспорт, SLA по ролям и материалы (BOM).</li>
@@ -2465,7 +2742,11 @@ export function Workshop2TabContent({
               </li>
             </ol>
             <a
+<<<<<<< HEAD
               className="inline-flex items-center gap-1 font-semibold text-indigo-700 hover:underline"
+=======
+              className="text-accent-primary inline-flex items-center gap-1 font-semibold hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
               href={`mailto:?subject=${encodeURIComponent('Пилот Цеха 2 — обратная связь')}&body=${encodeURIComponent('Коллекция / SKU:\n\nЧто сработало:\n\nЧто мешает:\n')}`}
             >
               Открыть шаблон письма (mailto)
@@ -2488,20 +2769,48 @@ export function Workshop2TabContent({
           className="w-full"
         >
           <div className="flex flex-wrap items-center gap-3">
+<<<<<<< HEAD
             <TabsList className="h-9">
               <TabsTrigger value="active" className="px-3 text-xs">
                 Активные
               </TabsTrigger>
               <TabsTrigger value="archive" className="px-3 text-xs">
+=======
+            {/* cabinetSurface v1 */}
+            <TabsList className={cn(cabinetSurface.tabsList, 'w-fit flex-wrap')}>
+              <TabsTrigger
+                value="active"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'h-8 text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                Активные
+              </TabsTrigger>
+              <TabsTrigger
+                value="archive"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'h-8 text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+>>>>>>> recover/cabinet-wip-from-stash
                 Архив
               </TabsTrigger>
             </TabsList>
           </div>
 
+<<<<<<< HEAD
           <FilterToolbar className="mt-3 border-slate-200 bg-slate-50/70 p-2 sm:p-2.5">
             <div className="flex w-full min-w-0 flex-wrap items-end gap-x-2 gap-y-2 sm:gap-x-2.5">
               <div className="grid w-[min(100%,11.5rem)] min-w-0 shrink-0 gap-0.5 sm:w-[min(100%,12.5rem)]">
                 <span className="text-[8px] font-semibold uppercase leading-none tracking-wide text-slate-500">
+=======
+          <FilterToolbar className="border-border-default bg-bg-surface2/70 mt-3 p-2 sm:p-2.5">
+            <div className="flex w-full min-w-0 flex-wrap items-end gap-x-2 gap-y-2 sm:gap-x-2.5">
+              <div className="grid w-[min(100%,11.5rem)] min-w-0 shrink-0 gap-0.5 sm:w-[min(100%,12.5rem)]">
+                <span className="text-text-secondary text-[8px] font-semibold uppercase leading-none tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                   Фильтр по коллекции
                 </span>
                 <Popover>
@@ -2512,19 +2821,34 @@ export function Workshop2TabContent({
                       title="Подборки на этой вкладке. Остаются только карточки выбранных коллекций."
                       className="h-9 w-full justify-between gap-1.5 px-2.5 text-left text-xs font-normal"
                     >
+<<<<<<< HEAD
                       <span className="truncate text-slate-700">
+=======
+                      <span className="text-text-primary truncate">
+>>>>>>> recover/cabinet-wip-from-stash
                         {collectionOptionsForGridFilter.length === 0
                           ? 'Нет коллекций'
                           : gridSelectedCollectionIds.size === 0
                             ? 'Коллекции…'
                             : `Выбрано: ${gridSelectedCollectionIds.size}`}
                       </span>
+<<<<<<< HEAD
                       <ChevronDown className="h-3.5 w-3.5 shrink-0 text-slate-500" aria-hidden />
+=======
+                      <ChevronDown
+                        className="text-text-secondary h-3.5 w-3.5 shrink-0"
+                        aria-hidden
+                      />
+>>>>>>> recover/cabinet-wip-from-stash
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[min(100vw-2rem,26rem)] p-0" align="start">
                     {collectionOptionsForGridFilter.length === 0 ? (
+<<<<<<< HEAD
                       <p className="p-3 text-[11px] text-slate-500">
+=======
+                      <p className="text-text-secondary p-3 text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                         Нет коллекций на этой вкладке.
                       </p>
                     ) : (
@@ -2534,7 +2858,11 @@ export function Workshop2TabContent({
                           return (
                             <div
                               key={opt.id}
+<<<<<<< HEAD
                               className="flex w-full min-w-0 items-start gap-2 rounded-md py-1.5 pl-1 pr-0.5 hover:bg-slate-50"
+=======
+                              className="hover:bg-bg-surface2 flex w-full min-w-0 items-start gap-2 rounded-md py-1.5 pl-1 pr-0.5"
+>>>>>>> recover/cabinet-wip-from-stash
                             >
                               <Checkbox
                                 id={checkId}
@@ -2553,10 +2881,17 @@ export function Workshop2TabContent({
                                 htmlFor={checkId}
                                 className="min-w-0 flex-1 cursor-pointer text-left leading-snug"
                               >
+<<<<<<< HEAD
                                 <span className="block text-[11px] font-medium text-slate-900">
                                   {opt.displayName}
                                 </span>
                                 <span className="mt-0.5 block font-mono text-[9px] text-slate-500">
+=======
+                                <span className="text-text-primary block text-[11px] font-medium">
+                                  {opt.displayName}
+                                </span>
+                                <span className="text-text-secondary mt-0.5 block font-mono text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                                   {opt.id}
                                 </span>
                               </label>
@@ -2569,7 +2904,11 @@ export function Workshop2TabContent({
                 </Popover>
               </div>
               <div className="grid w-[min(100%,11.5rem)] min-w-0 shrink-0 gap-0.5 sm:w-[min(100%,12.5rem)]">
+<<<<<<< HEAD
                 <span className="text-[8px] font-semibold uppercase leading-none tracking-wide text-slate-500">
+=======
+                <span className="text-text-secondary text-[8px] font-semibold uppercase leading-none tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                   Фильтр по артикулу
                 </span>
                 <Popover>
@@ -2580,19 +2919,34 @@ export function Workshop2TabContent({
                       title="Список из каталога заказа и локальных подборок. Остаются карточки коллекций, где есть выбранный артикул."
                       className="h-9 w-full justify-between gap-1.5 px-2.5 text-left text-xs font-normal"
                     >
+<<<<<<< HEAD
                       <span className="truncate text-slate-700">
+=======
+                      <span className="text-text-primary truncate">
+>>>>>>> recover/cabinet-wip-from-stash
                         {skuCatalogForFilters.length === 0
                           ? 'Нет в каталоге'
                           : gridSelectedSkus.size === 0
                             ? 'Артикулы…'
                             : `Выбрано: ${gridSelectedSkus.size}`}
                       </span>
+<<<<<<< HEAD
                       <ChevronDown className="h-3.5 w-3.5 shrink-0 text-slate-500" aria-hidden />
+=======
+                      <ChevronDown
+                        className="text-text-secondary h-3.5 w-3.5 shrink-0"
+                        aria-hidden
+                      />
+>>>>>>> recover/cabinet-wip-from-stash
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[min(100vw-2rem,26rem)] p-0" align="start">
                     {skuCatalogForFilters.length === 0 ? (
+<<<<<<< HEAD
                       <p className="p-3 text-[11px] text-slate-500">
+=======
+                      <p className="text-text-secondary p-3 text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                         В каталоге заказа пока нет артикулов для фильтра.
                       </p>
                     ) : (
@@ -2608,7 +2962,11 @@ export function Workshop2TabContent({
                           return (
                             <Tooltip key={row.skuNorm}>
                               <TooltipTrigger asChild>
+<<<<<<< HEAD
                                 <div className="flex w-full min-w-0 cursor-default items-start gap-2 rounded-md py-1.5 pl-1 pr-0.5 hover:bg-slate-50">
+=======
+                                <div className="hover:bg-bg-surface2 flex w-full min-w-0 cursor-default items-start gap-2 rounded-md py-1.5 pl-1 pr-0.5">
+>>>>>>> recover/cabinet-wip-from-stash
                                   <Checkbox
                                     id={checkId}
                                     checked={gridSelectedSkus.has(row.skuNorm)}
@@ -2626,10 +2984,17 @@ export function Workshop2TabContent({
                                     htmlFor={checkId}
                                     className="min-w-0 flex-1 cursor-pointer text-left leading-snug"
                                   >
+<<<<<<< HEAD
                                     <span className="block font-mono text-[11px] font-medium text-slate-900">
                                       {row.skuLabel}
                                     </span>
                                     <span className="mt-0.5 block text-[9px] text-slate-500">
+=======
+                                    <span className="text-text-primary block font-mono text-[11px] font-medium">
+                                      {row.skuLabel}
+                                    </span>
+                                    <span className="text-text-secondary mt-0.5 block text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                                       {facetLine}
                                     </span>
                                   </label>
@@ -2637,7 +3002,11 @@ export function Workshop2TabContent({
                               </TooltipTrigger>
                               <TooltipContent
                                 side="right"
+<<<<<<< HEAD
                                 className="max-w-[min(92vw,260px)] border-slate-200 bg-white p-2 shadow-lg"
+=======
+                                className="border-border-default max-w-[min(92vw,260px)] bg-white p-2 shadow-lg"
+>>>>>>> recover/cabinet-wip-from-stash
                               >
                                 {row.thumb ? (
                                   <div className="space-y-1.5">
@@ -2647,15 +3016,23 @@ export function Workshop2TabContent({
                                       alt={row.skuLabel}
                                       className="max-h-44 w-full max-w-[220px] rounded-md object-contain"
                                     />
+<<<<<<< HEAD
                                     <p className="font-mono text-[10px] font-medium text-slate-800">
                                       {row.skuLabel}
                                     </p>
                                     <p className="text-[9px] leading-snug text-slate-500">
+=======
+                                    <p className="text-text-primary font-mono text-[10px] font-medium">
+                                      {row.skuLabel}
+                                    </p>
+                                    <p className="text-text-secondary text-[9px] leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                                       {facetLine}
                                     </p>
                                   </div>
                                 ) : (
                                   <div className="max-w-[220px] space-y-1">
+<<<<<<< HEAD
                                     <p className="text-[11px] text-slate-600">
                                       Нет фото во вложениях позиции
                                     </p>
@@ -2663,6 +3040,15 @@ export function Workshop2TabContent({
                                       {row.skuLabel}
                                     </p>
                                     <p className="text-[9px] leading-snug text-slate-500">
+=======
+                                    <p className="text-text-secondary text-[11px]">
+                                      Нет фото во вложениях позиции
+                                    </p>
+                                    <p className="text-text-secondary font-mono text-[9px]">
+                                      {row.skuLabel}
+                                    </p>
+                                    <p className="text-text-secondary text-[9px] leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                                       {facetLine}
                                     </p>
                                   </div>
@@ -2677,7 +3063,11 @@ export function Workshop2TabContent({
                 </Popover>
               </div>
               <div className="grid w-[min(100%,11.5rem)] min-w-0 shrink-0 gap-0.5 sm:w-[min(100%,12.5rem)]">
+<<<<<<< HEAD
                 <span className="text-[8px] font-semibold uppercase leading-none tracking-wide text-slate-500">
+=======
+                <span className="text-text-secondary text-[8px] font-semibold uppercase leading-none tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                   Поиск по странице
                 </span>
                 <Button
@@ -2689,7 +3079,11 @@ export function Workshop2TabContent({
                     setGlobalSearchOpen(true);
                   }}
                 >
+<<<<<<< HEAD
                   <Search className="h-3.5 w-3.5 shrink-0 text-slate-500" aria-hidden />
+=======
+                  <Search className="text-text-secondary h-3.5 w-3.5 shrink-0" aria-hidden />
+>>>>>>> recover/cabinet-wip-from-stash
                   Найти…
                 </Button>
               </div>
@@ -2705,10 +3099,17 @@ export function Workshop2TabContent({
               >
                 Сбросить фильтры
               </Button>
+<<<<<<< HEAD
               <div className="flex h-9 min-w-0 flex-1 basis-full items-center justify-end border-t border-slate-200/60 pt-2 sm:basis-auto sm:border-0 sm:pt-0">
                 <p className="whitespace-nowrap text-right text-[10px] text-slate-500">
                   Показано{' '}
                   <span className="font-semibold tabular-nums text-slate-800">
+=======
+              <div className="border-border-default/60 flex h-9 min-w-0 flex-1 basis-full items-center justify-end border-t pt-2 sm:basis-auto sm:border-0 sm:pt-0">
+                <p className="text-text-secondary whitespace-nowrap text-right text-[10px]">
+                  Показано{' '}
+                  <span className="text-text-primary font-semibold tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                     {filteredCollectionsCount}/{collectionsForCurrentTab.length}
                   </span>
                 </p>
@@ -2779,6 +3180,7 @@ export function Workshop2TabContent({
                 className="text-sm"
                 aria-label="Строка поиска"
               />
+<<<<<<< HEAD
               <div className="max-h-[50vh] min-h-0 flex-1 overflow-y-auto rounded-md border border-slate-100 bg-slate-50/50">
                 {globalSearchQuery.trim().length < 2 ? (
                   <p className="p-3 text-[11px] text-slate-500">Введите не менее двух символов.</p>
@@ -2786,6 +3188,17 @@ export function Workshop2TabContent({
                   <p className="p-3 text-[11px] text-slate-500">Совпадений нет.</p>
                 ) : (
                   <ul className="divide-y divide-slate-100 text-[11px]">
+=======
+              <div className="border-border-subtle bg-bg-surface2/80 max-h-[50vh] min-h-0 flex-1 overflow-y-auto rounded-md border">
+                {globalSearchQuery.trim().length < 2 ? (
+                  <p className="text-text-secondary p-3 text-[11px]">
+                    Введите не менее двух символов.
+                  </p>
+                ) : globalSearchResults.length === 0 ? (
+                  <p className="text-text-secondary p-3 text-[11px]">Совпадений нет.</p>
+                ) : (
+                  <ul className="divide-border-subtle divide-y text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                     {globalSearchResults.map((r, idx) => (
                       <li key={`${r.collectionId}-${r.field}-${idx}`}>
                         <button
@@ -2800,9 +3213,19 @@ export function Workshop2TabContent({
                             });
                           }}
                         >
+<<<<<<< HEAD
                           <span className="font-semibold text-slate-900">{r.collectionName}</span>
                           <span className="text-slate-500"> · {r.field}</span>
                           <span className="mt-0.5 block truncate text-slate-600">{r.snippet}</span>
+=======
+                          <span className="text-text-primary font-semibold">
+                            {r.collectionName}
+                          </span>
+                          <span className="text-text-secondary"> · {r.field}</span>
+                          <span className="text-text-secondary mt-0.5 block truncate">
+                            {r.snippet}
+                          </span>
+>>>>>>> recover/cabinet-wip-from-stash
                         </button>
                       </li>
                     ))}
@@ -2888,7 +3311,11 @@ export function Workshop2TabContent({
                   <img
                     src={coverPreview}
                     alt="Предпросмотр обложки"
+<<<<<<< HEAD
                     className="mt-1 max-h-28 w-full rounded-md border border-slate-200 object-cover"
+=======
+                    className="border-border-default mt-1 max-h-28 w-full rounded-md border object-cover"
+>>>>>>> recover/cabinet-wip-from-stash
                   />
                 ) : null}
               </div>
@@ -2904,7 +3331,11 @@ export function Workshop2TabContent({
                 />
               </div>
               <div className="space-y-1">
+<<<<<<< HEAD
                 <p className="text-[10px] leading-snug text-slate-500">
+=======
+                <p className="text-text-secondary text-[10px] leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                   Канал: выберите значение из подсказок или введите свой.
                 </p>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:items-end">
@@ -2958,13 +3389,22 @@ export function Workshop2TabContent({
                   className="resize-none text-sm"
                 />
               </div>
+<<<<<<< HEAD
               <div className="flex flex-wrap items-center gap-3 rounded-md border border-slate-100 bg-slate-50/80 px-2 py-2">
                 <label className="flex cursor-pointer items-center gap-2 text-[11px] text-slate-700">
+=======
+              <div className="border-border-subtle bg-bg-surface2/80 flex flex-wrap items-center gap-3 rounded-md border px-2 py-2">
+                <label className="text-text-primary flex cursor-pointer items-center gap-2 text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                   <input
                     type="checkbox"
                     checked={newPanelAccentOn}
                     onChange={(e) => setNewPanelAccentOn(e.target.checked)}
+<<<<<<< HEAD
                     className="rounded border-slate-300"
+=======
+                    className="border-border-default rounded"
+>>>>>>> recover/cabinet-wip-from-stash
                   />
                   Метка цвета в панели артикулов
                 </label>
@@ -2973,13 +3413,22 @@ export function Workshop2TabContent({
                     type="color"
                     value={newPanelAccent}
                     onChange={(e) => setNewPanelAccent(e.target.value)}
+<<<<<<< HEAD
                     className="h-8 w-14 cursor-pointer rounded border border-slate-200 bg-white p-0.5"
+=======
+                    className="border-border-default h-8 w-14 cursor-pointer rounded border bg-white p-0.5"
+>>>>>>> recover/cabinet-wip-from-stash
                     aria-label="Цвет метки"
                   />
                 ) : null}
               </div>
+<<<<<<< HEAD
               <p className="text-[10px] text-slate-500">
                 Автор: <strong className="text-slate-700">{createdByLabel}</strong> · время —
+=======
+              <p className="text-text-secondary text-[10px]">
+                Автор: <strong className="text-text-primary">{createdByLabel}</strong> · время —
+>>>>>>> recover/cabinet-wip-from-stash
                 автоматически.
               </p>
             </div>
@@ -3032,7 +3481,11 @@ export function Workshop2TabContent({
                   id="w2-edit-code"
                   value={editCode}
                   readOnly
+<<<<<<< HEAD
                   className="bg-slate-50 font-mono text-sm text-slate-600"
+=======
+                  className="bg-bg-surface2 text-text-secondary font-mono text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
                 />
               </div>
               <div className="grid gap-1.5">
@@ -3063,7 +3516,11 @@ export function Workshop2TabContent({
                 {editCoverError ? (
                   <p className="text-[10px] text-red-600">{editCoverError}</p>
                 ) : null}
+<<<<<<< HEAD
                 <label className="inline-flex cursor-pointer items-center gap-2 text-[11px] text-slate-700">
+=======
+                <label className="text-text-primary inline-flex cursor-pointer items-center gap-2 text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                   <input
                     type="checkbox"
                     checked={editRemoveCover}
@@ -3071,7 +3528,11 @@ export function Workshop2TabContent({
                       setEditRemoveCover(e.target.checked);
                       if (e.target.checked) setEditCoverFile(null);
                     }}
+<<<<<<< HEAD
                     className="rounded border-slate-300"
+=======
+                    className="border-border-default rounded"
+>>>>>>> recover/cabinet-wip-from-stash
                   />
                   Снять обложку
                 </label>
@@ -3080,7 +3541,11 @@ export function Workshop2TabContent({
                   <img
                     src={editCoverPreview ?? editExistingCoverUrl ?? ''}
                     alt="Предпросмотр обложки"
+<<<<<<< HEAD
                     className="mt-1 max-h-28 w-full rounded-md border border-slate-200 object-cover"
+=======
+                    className="border-border-default mt-1 max-h-28 w-full rounded-md border object-cover"
+>>>>>>> recover/cabinet-wip-from-stash
                   />
                 ) : null}
               </div>
@@ -3096,7 +3561,11 @@ export function Workshop2TabContent({
                 />
               </div>
               <div className="space-y-1">
+<<<<<<< HEAD
                 <p className="text-[10px] leading-snug text-slate-500">
+=======
+                <p className="text-text-secondary text-[10px] leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                   Канал: выберите значение из подсказок или введите свой.
                 </p>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:items-end">
@@ -3150,13 +3619,22 @@ export function Workshop2TabContent({
                   className="resize-none text-sm"
                 />
               </div>
+<<<<<<< HEAD
               <div className="flex flex-wrap items-center gap-3 rounded-md border border-slate-100 bg-slate-50/80 px-2 py-2">
                 <label className="flex cursor-pointer items-center gap-2 text-[11px] text-slate-700">
+=======
+              <div className="border-border-subtle bg-bg-surface2/80 flex flex-wrap items-center gap-3 rounded-md border px-2 py-2">
+                <label className="text-text-primary flex cursor-pointer items-center gap-2 text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                   <input
                     type="checkbox"
                     checked={editPanelAccentOn}
                     onChange={(e) => setEditPanelAccentOn(e.target.checked)}
+<<<<<<< HEAD
                     className="rounded border-slate-300"
+=======
+                    className="border-border-default rounded"
+>>>>>>> recover/cabinet-wip-from-stash
                   />
                   Метка цвета в панели артикулов
                 </label>
@@ -3165,7 +3643,11 @@ export function Workshop2TabContent({
                     type="color"
                     value={editPanelAccent}
                     onChange={(e) => setEditPanelAccent(e.target.value)}
+<<<<<<< HEAD
                     className="h-8 w-14 cursor-pointer rounded border border-slate-200 bg-white p-0.5"
+=======
+                    className="border-border-default h-8 w-14 cursor-pointer rounded border bg-white p-0.5"
+>>>>>>> recover/cabinet-wip-from-stash
                     aria-label="Цвет метки"
                   />
                 ) : null}
@@ -3254,18 +3736,34 @@ export function Workshop2TabContent({
               </DialogDescription>
             </DialogHeader>
             <div className="grid min-h-0 flex-1 gap-2">
+<<<<<<< HEAD
               <div className="space-y-2 rounded-md border border-slate-200 bg-white p-2.5 text-[10px]">
                 <p className="font-semibold text-slate-800">Файл для загрузки (CSV / TSV, UTF-8)</p>
                 <div className="overflow-x-auto">
                   <table className="w-full min-w-[280px] border-collapse text-left text-[9px]">
                     <thead>
                       <tr className="border-b border-slate-200 bg-slate-50">
+=======
+              <div className="border-border-default space-y-2 rounded-md border bg-white p-2.5 text-[10px]">
+                <p className="text-text-primary font-semibold">
+                  Файл для загрузки (CSV / TSV, UTF-8)
+                </p>
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-[280px] border-collapse text-left text-[9px]">
+                    <thead>
+                      <tr className="border-border-default bg-bg-surface2 border-b">
+>>>>>>> recover/cabinet-wip-from-stash
                         <th className="p-1.5 font-semibold">Столбец</th>
                         <th className="p-1.5 font-semibold">Что заполнять</th>
                       </tr>
                     </thead>
+<<<<<<< HEAD
                     <tbody className="text-slate-700">
                       <tr className="border-b border-slate-100">
+=======
+                    <tbody className="text-text-primary">
+                      <tr className="border-border-subtle border-b">
+>>>>>>> recover/cabinet-wip-from-stash
                         <td className="p-1.5 align-top font-mono">A — SKU</td>
                         <td className="p-1.5">Код артикула (обязательно)</td>
                       </tr>
@@ -3276,6 +3774,7 @@ export function Workshop2TabContent({
                     </tbody>
                   </table>
                 </div>
+<<<<<<< HEAD
                 <p className="leading-snug text-slate-600">
                   Первая строка может быть заголовком{' '}
                   <code className="rounded bg-slate-100 px-1 font-mono">SKU name</code> — если в
@@ -3285,11 +3784,26 @@ export function Workshop2TabContent({
                 <p className="text-slate-500">
                   Пример строки данных:{' '}
                   <code className="break-all rounded bg-slate-100 px-1 font-mono">
+=======
+                <p className="text-text-secondary leading-snug">
+                  Первая строка может быть заголовком{' '}
+                  <code className="bg-bg-surface2 rounded px-1 font-mono">SKU name</code> — если в
+                  первом столбце нет кода SKU, строка будет пропущена. Разделитель: табуляция, «;»
+                  или «,».
+                </p>
+                <p className="text-text-secondary">
+                  Пример строки данных:{' '}
+                  <code className="bg-bg-surface2 break-all rounded px-1 font-mono">
+>>>>>>> recover/cabinet-wip-from-stash
                     SS28-TOP-01[таб]Лонгслив базовый
                   </code>
                 </p>
                 <div>
+<<<<<<< HEAD
                   <Label htmlFor="w2-bulk-file" className="text-[10px] text-slate-500">
+=======
+                  <Label htmlFor="w2-bulk-file" className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                     Загрузить файл
                   </Label>
                   <Input
@@ -3338,6 +3852,7 @@ export function Workshop2TabContent({
                 const preview = bulkText.trim() ? parseWorkshop2BulkPaste(bulkText) : [];
                 if (preview.length === 0) {
                   return (
+<<<<<<< HEAD
                     <p className="text-[10px] text-slate-500">Предпросмотр появится после ввода.</p>
                   );
                 }
@@ -3347,17 +3862,38 @@ export function Workshop2TabContent({
                       К добавлению: {preview.length} поз. (дубли в тексте убраны)
                     </p>
                     <ul className="divide-y divide-slate-100">
+=======
+                    <p className="text-text-secondary text-[10px]">
+                      Предпросмотр появится после ввода.
+                    </p>
+                  );
+                }
+                return (
+                  <div className="border-border-default bg-bg-surface2/80 max-h-40 overflow-y-auto rounded-md border text-[10px]">
+                    <p className="text-text-primary border-border-default border-b px-2 py-1 font-semibold">
+                      К добавлению: {preview.length} поз. (дубли в тексте убраны)
+                    </p>
+                    <ul className="divide-border-subtle divide-y">
+>>>>>>> recover/cabinet-wip-from-stash
                       {preview.slice(0, 20).map((r) => (
                         <li key={r.sku} className="flex gap-2 px-2 py-1">
                           <span className="shrink-0 font-mono font-bold">{r.sku}</span>
                           {r.name ? (
+<<<<<<< HEAD
                             <span className="truncate text-slate-600">{r.name}</span>
+=======
+                            <span className="text-text-secondary truncate">{r.name}</span>
+>>>>>>> recover/cabinet-wip-from-stash
                           ) : null}
                         </li>
                       ))}
                     </ul>
                     {preview.length > 20 ? (
+<<<<<<< HEAD
                       <p className="px-2 py-1 text-slate-500">… и ещё {preview.length - 20}</p>
+=======
+                      <p className="text-text-secondary px-2 py-1">… и ещё {preview.length - 20}</p>
+>>>>>>> recover/cabinet-wip-from-stash
                     ) : null}
                   </div>
                 );
@@ -3437,7 +3973,11 @@ export function Workshop2TabContent({
             </DialogHeader>
             <div className="grid shrink-0 gap-2 sm:grid-cols-2">
               <div className="grid gap-1">
+<<<<<<< HEAD
                 <Label htmlFor="w2-hist-from" className="text-[10px] text-slate-500">
+=======
+                <Label htmlFor="w2-hist-from" className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                   С даты
                 </Label>
                 <Input
@@ -3449,7 +3989,11 @@ export function Workshop2TabContent({
                 />
               </div>
               <div className="grid gap-1">
+<<<<<<< HEAD
                 <Label htmlFor="w2-hist-to" className="text-[10px] text-slate-500">
+=======
+                <Label htmlFor="w2-hist-to" className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                   По дату
                 </Label>
                 <Input
@@ -3461,14 +4005,22 @@ export function Workshop2TabContent({
                 />
               </div>
               <div className="grid gap-1 sm:col-span-2">
+<<<<<<< HEAD
                 <Label htmlFor="w2-hist-actor" className="text-[10px] text-slate-500">
+=======
+                <Label htmlFor="w2-hist-actor" className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                   Автор
                 </Label>
                 <select
                   id="w2-hist-actor"
                   value={historyActorFilter}
                   onChange={(e) => setHistoryActorFilter(e.target.value)}
+<<<<<<< HEAD
                   className="h-8 rounded-md border border-slate-200 bg-white px-2 text-xs"
+=======
+                  className="border-border-default h-8 rounded-md border bg-white px-2 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <option value="__all__">Все авторы</option>
                   <option value="__no_actor__">Без автора (старые записи)</option>
@@ -3480,6 +4032,7 @@ export function Workshop2TabContent({
                 </select>
               </div>
             </div>
+<<<<<<< HEAD
             <div className="min-h-0 flex-1 overflow-y-auto rounded-md border border-slate-100 bg-slate-50/50">
               {historyEntries.length === 0 ? (
                 <p className="p-4 text-center text-sm text-slate-500">Пока нет записей.</p>
@@ -3492,6 +4045,20 @@ export function Workshop2TabContent({
                   {historyFiltered.map((e) => (
                     <li key={e.id} className="px-3 py-2.5 leading-snug text-slate-800">
                       <span className="mb-0.5 block text-[10px] tabular-nums text-slate-400">
+=======
+            <div className="border-border-subtle bg-bg-surface2/80 min-h-0 flex-1 overflow-y-auto rounded-md border">
+              {historyEntries.length === 0 ? (
+                <p className="text-text-secondary p-4 text-center text-sm">Пока нет записей.</p>
+              ) : historyFiltered.length === 0 ? (
+                <p className="text-text-secondary p-4 text-center text-sm">
+                  Нет записей по выбранным фильтрам.
+                </p>
+              ) : (
+                <ul className="divide-border-subtle divide-y text-[11px]">
+                  {historyFiltered.map((e) => (
+                    <li key={e.id} className="text-text-primary px-3 py-2.5 leading-snug">
+                      <span className="text-text-muted mb-0.5 block text-[10px] tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                         {new Date(e.at).toLocaleString('ru-RU', {
                           day: '2-digit',
                           month: '2-digit',
@@ -3501,7 +4068,11 @@ export function Workshop2TabContent({
                           second: '2-digit',
                         })}
                       </span>
+<<<<<<< HEAD
                       <span className="mb-0.5 block text-[10px] font-semibold text-indigo-700">
+=======
+                      <span className="text-accent-primary mb-0.5 block text-[10px] font-semibold">
+>>>>>>> recover/cabinet-wip-from-stash
                         {e.actor?.trim() ? e.actor : '—'}
                       </span>
                       {e.line}
@@ -3514,7 +4085,11 @@ export function Workshop2TabContent({
               <Button
                 type="button"
                 variant="outline"
+<<<<<<< HEAD
                 className="text-slate-600"
+=======
+                className="text-text-secondary"
+>>>>>>> recover/cabinet-wip-from-stash
                 onClick={() => {
                   clearWorkshop2Activity();
                   setHistoryEntries([]);

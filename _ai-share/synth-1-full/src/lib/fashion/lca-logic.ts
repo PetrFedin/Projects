@@ -23,7 +23,11 @@ export function calculateLcaScore(product: Product): LcaScorecardV1 {
 
   comp.forEach((c) => {
     const mat = c.material.toLowerCase();
+<<<<<<< HEAD
     const pct = c.percentage / 100;
+=======
+    const pct = (c.percentage ?? 0) / 100;
+>>>>>>> recover/cabinet-wip-from-stash
 
     // Find matching material or fallback to neutral
     const impact = Object.entries(MATERIAL_IMPACT).find(([k]) => mat.includes(k))?.[1] || {

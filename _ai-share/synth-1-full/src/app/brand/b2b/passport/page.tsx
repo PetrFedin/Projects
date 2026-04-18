@@ -1,4 +1,5 @@
 'use client';
+import { RegistryPageShell } from '@/components/design-system';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
@@ -64,16 +65,31 @@ export default function BrandB2BPassportPage() {
   };
 
   if (!state)
+<<<<<<< HEAD
     return <div className="container py-8 text-center text-sm text-slate-500">Загрузка…</div>;
 
   return (
     <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
+=======
+    return (
+      <div className="text-text-secondary mx-auto w-full max-w-5xl px-4 py-8 text-center text-sm sm:px-6">
+        Загрузка…
+      </div>
+    );
+
+  return (
+    <RegistryPageShell className="max-w-4xl space-y-6">
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="flex items-center gap-2 text-xl font-bold uppercase tracking-tight">
             <Calendar className="h-6 w-6" /> JOOR Passport — шоурум на выставке
           </h1>
+<<<<<<< HEAD
           <p className="mt-1 text-sm text-slate-500">
+=======
+          <p className="text-text-secondary mt-1 text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Расписание встреч, заметки по байеру, привязка заказов к слоту/событию.
           </p>
         </div>
@@ -104,7 +120,11 @@ export default function BrandB2BPassportPage() {
             ))}
           </div>
           {selectedEvent && (
+<<<<<<< HEAD
             <p className="mt-2 text-xs text-slate-500">
+=======
+            <p className="text-text-secondary mt-2 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
               {selectedEvent.startDate} – {selectedEvent.endDate} · {selectedEvent.type}
             </p>
           )}
@@ -123,7 +143,7 @@ export default function BrandB2BPassportPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           {meetings.length === 0 ? (
-            <p className="text-sm text-slate-500">Нет встреч по выбранному событию.</p>
+            <p className="text-text-secondary text-sm">Нет встреч по выбранному событию.</p>
           ) : (
             meetings.map((m) => {
               const slot = slots.find((s) => s.id === m.slotId);
@@ -132,20 +152,26 @@ export default function BrandB2BPassportPage() {
                 <div key={m.id} className="space-y-2 rounded-xl border p-4">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div>
-                      <span className="text-xs text-slate-500">{slot?.label ?? m.slotId}</span>
+                      <span className="text-text-secondary text-xs">{slot?.label ?? m.slotId}</span>
                       <p className="font-semibold">{m.buyerCompany}</p>
-                      <p className="text-xs text-slate-600">{m.buyerName}</p>
+                      <p className="text-text-secondary text-xs">{m.buyerName}</p>
                     </div>
                     <Badge variant="outline" className="text-[10px]">
                       {MEETING_STATUS_LABELS[m.status]}
                     </Badge>
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-600">
+                  <div className="text-text-secondary flex items-center gap-2 text-xs">
                     <FileText className="h-3.5 w-3.5" />
                     Заметки по байеру:
                     {!isEditing ? (
                       <>
+<<<<<<< HEAD
                         <span className={m.brandNotes ? 'text-slate-800' : 'italic text-slate-400'}>
+=======
+                        <span
+                          className={m.brandNotes ? 'text-text-primary' : 'text-text-muted italic'}
+                        >
+>>>>>>> recover/cabinet-wip-from-stash
                           {m.brandNotes || 'Нет'}
                         </span>
                         <Button
@@ -191,13 +217,18 @@ export default function BrandB2BPassportPage() {
                   </div>
                   {m.orderIds.length > 0 && (
                     <div className="flex flex-wrap items-center gap-1 text-xs">
-                      <ShoppingBag className="h-3.5 w-3.5 text-slate-500" />
+                      <ShoppingBag className="text-text-secondary h-3.5 w-3.5" />
                       Заказы привязаны к слоту:
                       {m.orderIds.map((oid) => (
                         <Link
                           key={oid}
+<<<<<<< HEAD
                           href={`${ROUTES.shop.b2bOrders}/${oid}`}
                           className="font-mono text-indigo-600 hover:underline"
+=======
+                          href={ROUTES.shop.b2bOrder(oid)}
+                          className="text-accent-primary font-mono hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
                         >
                           {oid}
                         </Link>
@@ -212,12 +243,16 @@ export default function BrandB2BPassportPage() {
       </Card>
 
       <Card className="border-dashed">
+<<<<<<< HEAD
         <CardContent className="py-3 text-xs text-slate-500">
+=======
+        <CardContent className="text-text-secondary py-3 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
           Привязка заказа к слоту: в карточке заказа (байер или бренд) укажите eventId и
           passportSlotId — заказ появится в блоке «Заказы привязаны к слоту» для соответствующей
           встречи.
         </CardContent>
       </Card>
-    </div>
+    </RegistryPageShell>
   );
 }

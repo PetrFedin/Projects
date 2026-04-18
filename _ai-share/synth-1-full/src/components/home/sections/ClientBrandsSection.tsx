@@ -90,7 +90,11 @@ function BrandCarouselItem({
       exit={{ opacity: 0, scale: 0.9 }}
       className="group/bcard relative w-72 flex-shrink-0 snap-start"
     >
+<<<<<<< HEAD
       <Card className="relative flex h-full flex-col overflow-hidden rounded-xl border border-slate-100 bg-white transition-all duration-500 hover:border-slate-900/10 hover:shadow-2xl">
+=======
+      <Card className="border-border-subtle hover:border-text-primary/10 relative flex h-full flex-col overflow-hidden rounded-xl border bg-white transition-all duration-500 hover:shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
         {/* Top Actions Layer */}
         <div className="absolute left-4 right-4 top-4 z-30 flex items-center justify-between">
           <Dialog open={isLookbookOpen} onOpenChange={setIsLookbookOpen}>
@@ -104,14 +108,22 @@ function BrandCarouselItem({
                       setIsLookbookOpen(true);
                       setMediaType('photo');
                     }}
+<<<<<<< HEAD
                     className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-100 bg-white/90 text-slate-400 shadow-sm backdrop-blur-md transition-all duration-300 hover:text-slate-900"
+=======
+                    className="border-border-subtle text-text-muted hover:text-text-primary flex h-8 w-8 items-center justify-center rounded-full border bg-white/90 shadow-sm backdrop-blur-md transition-all duration-300"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <Library className="h-4 w-4" />
                   </button>
                 </TooltipTrigger>
                 <TooltipContent
                   side="top"
+<<<<<<< HEAD
                   className="rounded-lg border-none bg-slate-900 p-2 text-white shadow-xl"
+=======
+                  className="bg-text-primary rounded-lg border-none p-2 text-white shadow-xl"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <p className="text-[10px] font-bold uppercase tracking-wide">Презентация</p>
                 </TooltipContent>
@@ -122,7 +134,11 @@ function BrandCarouselItem({
                 <DialogTitle>Презентация бренда {brand.name}</DialogTitle>
               </DialogHeader>
 
+<<<<<<< HEAD
               <div className="relative aspect-[16/10] bg-slate-950">
+=======
+              <div className="bg-text-primary relative aspect-[16/10]">
+>>>>>>> recover/cabinet-wip-from-stash
                 {mediaType === 'photo' ? (
                   <Carousel className="h-full w-full" opts={{ loop: true }}>
                     <CarouselContent>
@@ -206,7 +222,11 @@ function BrandCarouselItem({
                     'flex h-8 w-8 items-center justify-center rounded-full border backdrop-blur-md transition-all duration-300',
                     isSubscribed
                       ? 'border-black bg-black text-white'
+<<<<<<< HEAD
                       : 'border-slate-100 bg-white/90 text-slate-400 hover:text-slate-900'
+=======
+                      : 'border-border-subtle text-text-muted hover:text-text-primary bg-white/90'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {isSubscribed ? (
@@ -218,7 +238,11 @@ function BrandCarouselItem({
               </TooltipTrigger>
               <TooltipContent
                 side="top"
+<<<<<<< HEAD
                 className="rounded-lg border-none bg-slate-900 p-2 text-white shadow-xl"
+=======
+                className="bg-text-primary rounded-lg border-none p-2 text-white shadow-xl"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <p className="text-[10px] font-bold uppercase tracking-wide">
                   {isSubscribed ? 'Вы подписаны' : 'Подписаться'}
@@ -237,14 +261,22 @@ function BrandCarouselItem({
                       e.stopPropagation();
                       requestLinesheet(brand.id, 'retailer-1');
                     }}
+<<<<<<< HEAD
                     className="ml-2 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-white shadow-lg transition-all duration-300 hover:scale-110"
+=======
+                    className="bg-accent-primary ml-2 flex h-8 w-8 items-center justify-center rounded-full text-white shadow-lg transition-all duration-300 hover:scale-110"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <FileText className="h-4 w-4" />
                   </button>
                 </TooltipTrigger>
                 <TooltipContent
                   side="top"
+<<<<<<< HEAD
                   className="rounded-lg border-none bg-slate-900 p-2 text-white shadow-xl"
+=======
+                  className="bg-text-primary rounded-lg border-none p-2 text-white shadow-xl"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <p className="text-[10px] font-bold uppercase tracking-wide">
                     Запросить Linesheet
@@ -256,8 +288,13 @@ function BrandCarouselItem({
         </div>
 
         {/* Logo Section */}
+<<<<<<< HEAD
         <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden border-b border-slate-100 bg-slate-50/50 px-16 py-4">
           <div className="relative flex h-[122px] w-[122px] items-center justify-center overflow-hidden rounded-2xl border border-slate-100 bg-white p-0.5 shadow-sm transition-all duration-700 group-hover/bcard:scale-110 group-hover/bcard:border-slate-200 group-hover/bcard:shadow-md">
+=======
+        <div className="bg-bg-surface2/80 border-border-subtle relative flex aspect-[4/3] items-center justify-center overflow-hidden border-b px-16 py-4">
+          <div className="border-border-subtle group-hover/bcard:border-border-default relative flex h-[122px] w-[122px] items-center justify-center overflow-hidden rounded-2xl border bg-white p-0.5 shadow-sm transition-all duration-700 group-hover/bcard:scale-110 group-hover/bcard:shadow-md">
+>>>>>>> recover/cabinet-wip-from-stash
             {brand.logo?.url ? (
               <img
                 src={brand.logo.url}
@@ -269,17 +306,25 @@ function BrandCarouselItem({
                 }}
               />
             ) : (
-              <span className="text-sm font-bold text-slate-200">{brand.name[0]}</span>
+              <span className="text-text-muted text-sm font-bold">{brand.name[0]}</span>
             )}
           </div>
 
           {/* Description Overlay on Hover */}
           <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-white/95 p-4 opacity-0 backdrop-blur-md transition-all duration-500 group-hover/bcard:opacity-100">
+<<<<<<< HEAD
             <p className="text-center text-xs font-medium leading-relaxed text-slate-900">
               {brand.description}
             </p>
             {brand.foundedYear && (
               <span className="mt-4 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+=======
+            <p className="text-text-primary text-center text-xs font-medium leading-relaxed">
+              {brand.description}
+            </p>
+            {brand.foundedYear && (
+              <span className="text-text-muted mt-4 text-[10px] font-bold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                 Est. {brand.foundedYear}
               </span>
             )}
@@ -315,7 +360,11 @@ function BrandCarouselItem({
           {brandsTab === 'recommended' && (
             <div className="absolute bottom-6 left-0 right-0 z-30 h-px bg-transparent">
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
+<<<<<<< HEAD
                 <Badge className="whitespace-nowrap rounded-lg border-none bg-indigo-600 px-2 py-0.5 text-[7px] font-bold uppercase text-white shadow-lg">
+=======
+                <Badge className="bg-accent-primary whitespace-nowrap rounded-lg border-none px-2 py-0.5 text-[7px] font-bold uppercase text-white shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
                   ПЕРСОНАЛЬНОЕ ПРЕДЛОЖЕНИЕ
                 </Badge>
               </div>
@@ -326,6 +375,7 @@ function BrandCarouselItem({
         {/* Content Section */}
         <CardContent className="flex flex-1 flex-col items-center space-y-1 p-4 pt-0 text-center">
           <div className="space-y-0.5 pt-0">
+<<<<<<< HEAD
             <h3 className="text-base font-semibold uppercase leading-none tracking-tight text-slate-900 transition-colors group-hover/bcard:text-black">
               {brand.name}
             </h3>
@@ -334,27 +384,52 @@ function BrandCarouselItem({
                 <MapPin className="h-2 w-2" /> {brand.city || 'Moscow'}
               </p>
               <p className="text-[7px] font-bold uppercase tracking-wide text-slate-300">
+=======
+            <h3 className="text-text-primary text-base font-semibold uppercase leading-none tracking-tight transition-colors group-hover/bcard:text-black">
+              {brand.name}
+            </h3>
+            <div className="flex flex-col items-center">
+              <p className="text-text-muted flex items-center justify-center gap-1 text-[10px] font-bold uppercase tracking-wide">
+                <MapPin className="h-2 w-2" /> {brand.city || 'Moscow'}
+              </p>
+              <p className="text-text-muted text-[7px] font-bold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                 {brand.countryOfOrigin}
               </p>
             </div>
           </div>
 
+<<<<<<< HEAD
           <div className="mt-2 flex w-full items-center justify-center gap-3 border-y border-slate-50 py-2">
+=======
+          <div className="border-border-subtle mt-2 flex w-full items-center justify-center gap-3 border-y py-2">
+>>>>>>> recover/cabinet-wip-from-stash
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <div className="flex cursor-help flex-col items-center">
+<<<<<<< HEAD
                     <span className="text-xs font-bold text-slate-900">
                       {brand.followers.toLocaleString('ru-RU')}
                     </span>
                     <span className="text-[7px] font-bold uppercase tracking-wide text-slate-400">
+=======
+                    <span className="text-text-primary text-xs font-bold">
+                      {brand.followers.toLocaleString('ru-RU')}
+                    </span>
+                    <span className="text-text-muted text-[7px] font-bold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                       Followers
                     </span>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent
                   side="bottom"
+<<<<<<< HEAD
                   className="w-48 rounded-xl border-none bg-slate-900 p-3 text-white shadow-2xl"
+=======
+                  className="bg-text-primary w-48 rounded-xl border-none p-3 text-white shadow-2xl"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <div className="space-y-2">
                     <p className="border-b border-white/10 pb-1 text-[10px] font-bold uppercase tracking-wide">
@@ -364,12 +439,20 @@ function BrandCarouselItem({
                       {followerGrowth.map((val, i) => (
                         <div
                           key={i}
+<<<<<<< HEAD
                           className="flex-1 rounded-t-sm bg-indigo-500 transition-all hover:bg-white"
+=======
+                          className="bg-accent-primary flex-1 rounded-t-sm transition-all hover:bg-white"
+>>>>>>> recover/cabinet-wip-from-stash
                           style={{ height: `${(val / 40) * 100}%` }}
                         />
                       ))}
                     </div>
+<<<<<<< HEAD
                     <p className="text-[10px] font-medium text-slate-400">
+=======
+                    <p className="text-text-muted text-[10px] font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                       Стабильный рост +12% к прошлому периоду
                     </p>
                   </div>
@@ -377,24 +460,36 @@ function BrandCarouselItem({
               </Tooltip>
             </TooltipProvider>
 
+<<<<<<< HEAD
             <div className="h-6 w-px bg-slate-100" />
+=======
+            <div className="bg-bg-surface2 h-6 w-px" />
+>>>>>>> recover/cabinet-wip-from-stash
 
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <div className="flex cursor-help flex-col items-center">
                     <div className="flex items-center gap-0.5">
-                      <span className="text-xs font-bold text-slate-900">4.9</span>
+                      <span className="text-text-primary text-xs font-bold">4.9</span>
                       <Star className="h-2 w-2 fill-yellow-400 text-yellow-400" />
                     </div>
+<<<<<<< HEAD
                     <span className="text-[7px] font-bold uppercase tracking-wide text-slate-400">
+=======
+                    <span className="text-text-muted text-[7px] font-bold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                       Rating
                     </span>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent
                   side="bottom"
+<<<<<<< HEAD
                   className="w-48 rounded-xl border-none bg-slate-900 p-3 text-white shadow-2xl"
+=======
+                  className="bg-text-primary w-48 rounded-xl border-none p-3 text-white shadow-2xl"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <div className="space-y-2">
                     <p className="border-b border-white/10 pb-1 text-[10px] font-bold uppercase tracking-wide">
@@ -409,7 +504,11 @@ function BrandCarouselItem({
                         { label: 'Соответствие', val: 4.9 },
                       ].map((p) => (
                         <div key={p.label} className="flex items-center justify-between">
+<<<<<<< HEAD
                           <span className="text-[10px] font-bold uppercase text-slate-400">
+=======
+                          <span className="text-text-muted text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                             {p.label}
                           </span>
                           <span className="text-[10px] font-bold text-white">{p.val}</span>
@@ -432,7 +531,11 @@ function BrandCarouselItem({
                 </TooltipTrigger>
                 <TooltipContent
                   side="top"
+<<<<<<< HEAD
                   className="max-w-[200px] rounded-xl border-none bg-slate-900 p-3 text-white shadow-2xl"
+=======
+                  className="bg-text-primary max-w-[200px] rounded-xl border-none p-3 text-white shadow-2xl"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <p className="text-center text-[10px] font-medium italic leading-relaxed">
                     "
@@ -516,36 +619,61 @@ export function ClientBrandsSection({
       transition={{ duration: 0.6 }}
       className="section-spacing relative bg-transparent"
     >
+<<<<<<< HEAD
       <div className="container relative mx-auto px-4">
         <Card className="group relative flex min-h-[500px] flex-col justify-center rounded-xl border border-none border-slate-100 bg-white shadow-2xl shadow-slate-200/50 transition-all">
+=======
+      <div className="relative mx-auto w-full max-w-5xl px-4 sm:px-6">
+        <Card className="border-border-subtle group relative flex min-h-[500px] flex-col justify-center rounded-xl border border-none bg-white shadow-2xl shadow-md transition-all">
+>>>>>>> recover/cabinet-wip-from-stash
           <CardContent className="relative z-10 p-4">
             <div className="relative mb-6 flex flex-col justify-between gap-3 md:flex-row md:items-center">
               <div className="space-y-6 text-left">
                 <div className="space-y-2">
                   <div className="flex items-center gap-3">
+<<<<<<< HEAD
                     <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100">
+=======
+                    <div className="bg-bg-surface2 flex h-8 w-8 items-center justify-center rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                       <Users className="h-4 w-4 text-black" />
                     </div>
                     <Badge
                       variant="outline"
+<<<<<<< HEAD
                       className="border-slate-200 px-2 py-0.5 text-xs font-bold uppercase tracking-normal text-slate-900"
+=======
+                      className="border-border-default text-text-primary px-2 py-0.5 text-xs font-bold uppercase tracking-normal"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       {viewRole === 'b2b' ? 'PARTNERS_b2b' : 'PARTNERS_b2c'}
                     </Badge>
                   </div>
                   <Link href="/brands" className="block transition-colors hover:text-black">
+<<<<<<< HEAD
                     <h2 className="text-2xl font-bold uppercase leading-tight tracking-tight text-slate-900 md:text-4xl">
                       {viewRole === 'b2b' ? 'ПАРТНЕРЫ' : 'БРЕНДЫ'}
                     </h2>
                   </Link>
                   <p className="max-w-md text-xs font-medium text-slate-400">
+=======
+                    <h2 className="text-text-primary text-2xl font-bold uppercase leading-tight tracking-tight md:text-4xl">
+                      {viewRole === 'b2b' ? 'ПАРТНЕРЫ' : 'БРЕНДЫ'}
+                    </h2>
+                  </Link>
+                  <p className="text-text-muted max-w-md text-xs font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                     {viewRole === 'b2b'
                       ? 'Прямой доступ к верифицированным поставщикам и сети профессиональных байеров.'
                       : 'Глобальная экосистема авторизованных партнеров и локальных талантов.'}
                   </p>
                 </div>
 
+<<<<<<< HEAD
                 <div className="flex w-fit items-center gap-1.5 rounded-2xl border border-slate-100 bg-slate-50 p-1">
+=======
+                <div className="bg-bg-surface2 border-border-subtle flex w-fit items-center gap-1.5 rounded-2xl border p-1">
+>>>>>>> recover/cabinet-wip-from-stash
                   {[
                     { id: 'selection', label: 'Подборка' },
                     { id: 'new', label: 'Новинки' },
@@ -574,7 +702,11 @@ export function ClientBrandsSection({
                       'flex h-[38px] items-center gap-2 rounded-xl border px-4 text-[10px] font-bold uppercase tracking-wide transition-all',
                       isLinesheetMode
                         ? 'border-amber-500 bg-amber-500 text-white shadow-lg'
+<<<<<<< HEAD
                         : 'border-slate-200 bg-white text-slate-400 hover:border-slate-400'
+=======
+                        : 'text-text-muted border-border-default hover:border-border-strong bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     <FileText className="h-3 w-3" />
@@ -582,7 +714,11 @@ export function ClientBrandsSection({
                   </button>
                 )}
                 <button
+<<<<<<< HEAD
                   className="p-1 text-slate-400 transition-colors hover:text-slate-900"
+=======
+                  className="text-text-muted hover:text-text-primary p-1 transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                   onClick={() =>
                     document
                       .getElementById('brands-scroll')
@@ -592,7 +728,11 @@ export function ClientBrandsSection({
                   <ArrowRight className="h-5 w-5 rotate-180" />
                 </button>
                 <button
+<<<<<<< HEAD
                   className="p-1 text-slate-400 transition-colors hover:text-slate-900"
+=======
+                  className="text-text-muted hover:text-text-primary p-1 transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                   onClick={() =>
                     document
                       .getElementById('brands-scroll')
@@ -624,7 +764,11 @@ export function ClientBrandsSection({
             </div>
 
             {viewRole === 'client' && (
+<<<<<<< HEAD
               <Card className="group/banner relative mt-6 flex min-h-[300px] items-center overflow-hidden rounded-xl border-none bg-slate-900 shadow-2xl">
+=======
+              <Card className="bg-text-primary group/banner relative mt-6 flex min-h-[300px] items-center overflow-hidden rounded-xl border-none shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
                 <div className="absolute inset-0 opacity-40 transition-transform duration-1000 group-hover/banner:scale-105">
                   <img
                     src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2000"
@@ -632,7 +776,11 @@ export function ClientBrandsSection({
                     className="h-full w-full object-cover"
                   />
                 </div>
+<<<<<<< HEAD
                 <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent" />
+=======
+                <div className="from-text-primary via-text-primary/80 absolute inset-0 bg-gradient-to-r to-transparent" />
+>>>>>>> recover/cabinet-wip-from-stash
                 <CardContent className="relative z-10 w-full max-w-4xl space-y-4 p-4 text-left text-white">
                   <div className="group/marquee relative mb-4 overflow-hidden whitespace-nowrap border-y border-white/10 py-2">
                     <motion.div
@@ -660,7 +808,11 @@ export function ClientBrandsSection({
                     <h2 className="text-xl font-bold uppercase leading-tight tracking-tight md:text-3xl">
                       ПАРТНЕРЫ
                     </h2>
+<<<<<<< HEAD
                     <p className="whitespace-nowrap border-l-2 border-indigo-500/50 pl-6 text-sm font-medium text-slate-300">
+=======
+                    <p className="text-text-muted border-accent-primary/50 whitespace-nowrap border-l-2 pl-6 text-sm font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                       "Прямой доступ к брендам-участникам платформы и их коллекциям."
                     </p>
                     <div className="flex pt-4">
@@ -677,8 +829,13 @@ export function ClientBrandsSection({
             )}
 
             <div className="absolute bottom-8 right-10 z-20 flex cursor-default items-center gap-2 opacity-20 transition-opacity hover:opacity-100">
+<<<<<<< HEAD
               <div className="h-1 w-1 animate-pulse rounded-full bg-indigo-500" />
               <span className="text-[10px] font-medium uppercase tracking-tight tracking-wide text-slate-400">
+=======
+              <div className="bg-accent-primary h-1 w-1 animate-pulse rounded-full" />
+              <span className="text-text-muted text-[10px] font-medium uppercase tracking-tight tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                 PARTNER_MATRIX_v2.4
               </span>
             </div>

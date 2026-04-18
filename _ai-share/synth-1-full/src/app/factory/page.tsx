@@ -1,10 +1,7 @@
-'use client';
-
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { ArrowUpRight } from 'lucide-react';
+import { redirect } from 'next/navigation';
 import { ROUTES } from '@/lib/routes';
 
+<<<<<<< HEAD
 const manufacturerSections = [
   {
     title: 'Производство',
@@ -90,4 +87,9 @@ export default function FactoryHubPage() {
       </div>
     </div>
   );
+=======
+/** Корень `/factory` — ветка по умолчанию: производство. */
+export default function FactoryRootPage() {
+  redirect(ROUTES.factory.production);
+>>>>>>> recover/cabinet-wip-from-stash
 }

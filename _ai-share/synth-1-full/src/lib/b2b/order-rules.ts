@@ -20,9 +20,13 @@ export interface OrderRuleByBrand {
 
 /** Мок: правила по брендам. При API — с бэкенда по контракту партнёра. */
 const ORDER_RULES_BY_BRAND: OrderRuleByBrand[] = [
-  { brandId: 'syntha', brandName: 'Syntha', minOrderValue: 150_000, moqPerStyle: 6 },
-  { brandId: 'apc', brandName: 'A.P.C.', minOrderValue: 120_000, moqPerStyle: 6 },
-  { brandId: 'acne', brandName: 'Acne Studios', minOrderValue: 80_000, moqPerStyle: 4 },
+  { brandId: 'brand_syntha_lab', brandName: 'Syntha Lab', minOrderValue: 150_000, moqPerStyle: 6 },
+  {
+    brandId: 'brand_nordic_wool',
+    brandName: 'Nordic Wool',
+    minOrderValue: 120_000,
+    moqPerStyle: 6,
+  },
 ];
 
 export function getOrderRulesForBrand(brandName: string): OrderRuleByBrand | undefined {

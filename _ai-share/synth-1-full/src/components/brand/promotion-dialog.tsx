@@ -25,6 +25,10 @@ import {
   Calendar as CalendarIcon,
   X,
   Rocket,
+<<<<<<< HEAD
+=======
+  Trash2,
+>>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import type { Product, PromotionType, Kpi } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
@@ -157,6 +161,10 @@ export function PromotionDialog({
     initialProduct ? 'products' : initialType === 'kickstarter_boost' ? 'kickstarter' : 'brand'
   );
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+<<<<<<< HEAD
+=======
+  const [purchaseHistoryCategories, setPurchaseHistoryCategories] = useState<string[]>([]);
+>>>>>>> recover/cabinet-wip-from-stash
 
   const productOptions = useMemo(
     () => brandProducts.map((p) => ({ value: p.id, label: `${p.sku} - ${p.name}` })),
@@ -601,6 +609,13 @@ export function PromotionDialog({
                       <Label>История покупок</Label>
                       <Combobox
                         options={productOptions.map((p) => ({ value: p.label, label: p.label }))}
+<<<<<<< HEAD
+=======
+                        value={purchaseHistoryCategories}
+                        onChange={(v) =>
+                          setPurchaseHistoryCategories(Array.isArray(v) ? v : v ? [v] : [])
+                        }
+>>>>>>> recover/cabinet-wip-from-stash
                         multiple
                         placeholder="Выберите категории..."
                       />

@@ -18,7 +18,11 @@ const OrganizationOverviewContent = dynamic(
     ssr: false,
     loading: () => (
       <div
+<<<<<<< HEAD
         className="min-h-[320px] animate-pulse rounded-xl border border-slate-100 bg-slate-50/80"
+=======
+        className="border-border-subtle bg-bg-surface2/80 min-h-[320px] animate-pulse rounded-xl border"
+>>>>>>> recover/cabinet-wip-from-stash
         aria-hidden
       />
     ),
@@ -131,7 +135,7 @@ export function OrganizationOverviewEmbed() {
     return `${Math.floor(diff / 86400000)} д`;
   };
 
-  const resolvedKey = searchParams.get('resolved');
+  const resolvedKey = searchParams?.get('resolved') ?? null;
   useEffect(() => {
     if (resolvedKey) {
       setBlockedActivities((prev) => prev.filter((b) => activityKey(b) !== resolvedKey));

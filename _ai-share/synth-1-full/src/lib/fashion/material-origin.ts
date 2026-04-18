@@ -29,7 +29,7 @@ export function getMaterialOrigins(product: Product): MaterialOriginV1[] {
 
     return {
       fiber: c.material,
-      percentage: c.percentage,
+      percentage: c.percentage ?? 0,
       country,
       certification,
     };

@@ -61,10 +61,17 @@ export function GlobalPulse() {
 
   if (pulseMode === 'ticker') {
     return (
+<<<<<<< HEAD
       <div className="pointer-events-auto fixed bottom-0 left-0 right-0 z-[200] flex h-10 items-center overflow-hidden border-t border-white/10 bg-slate-900">
         <Link
           href="/"
           className="group/pulse z-10 flex h-full shrink-0 cursor-pointer items-center gap-2 bg-indigo-600 px-6 shadow-[10px_0_20px_rgba(0,0,0,0.5)] transition-colors hover:bg-indigo-700"
+=======
+      <div className="bg-text-primary pointer-events-auto fixed bottom-0 left-0 right-0 z-[200] flex h-10 items-center overflow-hidden border-t border-white/10">
+        <Link
+          href="/"
+          className="bg-accent-primary hover:bg-accent-primary group/pulse z-10 flex h-full shrink-0 cursor-pointer items-center gap-2 px-6 shadow-[10px_0_20px_rgba(0,0,0,0.5)] transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
         >
           <Activity className="h-4 w-4 animate-pulse text-white" />
           <span className="whitespace-nowrap text-[10px] font-black uppercase tracking-widest text-white transition-transform group-hover/pulse:translate-x-0.5">
@@ -87,27 +94,47 @@ export function GlobalPulse() {
                       ? 'bg-emerald-500'
                       : event.type === 'warning'
                         ? 'bg-amber-500'
+<<<<<<< HEAD
                         : 'bg-indigo-500'
+=======
+                        : 'bg-accent-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 />
                 <span className="text-[10px] font-bold uppercase tracking-tighter text-white/40">
                   {event.role}:
                 </span>
                 <span className="text-[10px] font-black uppercase tracking-tight text-white">
+<<<<<<< HEAD
                   {event.action} <span className="text-indigo-400">{event.target}</span>
                 </span>
                 <span className="text-[8px] font-medium uppercase text-white/20">
                   / {i + 1}m ago
                 </span>
+=======
+                  {event.action} <span className="text-accent-primary">{event.target}</span>
+                </span>
+                <span className="text-[8px] font-medium uppercase text-white/20">
+                  / {i + 1}m ago
+                </span>
+>>>>>>> recover/cabinet-wip-from-stash
               </div>
             ))}
           </motion.div>
 
+<<<<<<< HEAD
           <div className="absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-slate-900 to-transparent" />
           <div className="absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-slate-900 to-transparent" />
         </div>
 
         <div className="flex h-full shrink-0 items-center gap-3 border-l border-white/10 bg-slate-900 px-4">
+=======
+          <div className="from-text-primary absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r to-transparent" />
+          <div className="from-text-primary absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l to-transparent" />
+        </div>
+
+        <div className="bg-text-primary flex h-full shrink-0 items-center gap-3 border-l border-white/10 px-4">
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
             <span className="text-[8px] font-black uppercase tracking-widest text-white/60">
@@ -127,7 +154,11 @@ export function GlobalPulse() {
           onClick={() => setIsExpanded(!isExpanded)}
           className={cn(
             'group relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl shadow-2xl transition-all duration-500',
+<<<<<<< HEAD
             isExpanded ? 'bg-slate-900' : 'bg-indigo-600'
+=======
+            isExpanded ? 'bg-text-primary' : 'bg-accent-primary'
+>>>>>>> recover/cabinet-wip-from-stash
           )}
         >
           {isExpanded ? (
@@ -162,7 +193,11 @@ export function GlobalPulse() {
                       ? 'border-emerald-500/20 bg-emerald-500/10'
                       : event.type === 'warning'
                         ? 'border-amber-500/20 bg-amber-500/10'
+<<<<<<< HEAD
                         : 'border-indigo-500/20 bg-indigo-500/10'
+=======
+                        : 'bg-accent-primary/10 border-accent-primary/20'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   <div
@@ -172,7 +207,11 @@ export function GlobalPulse() {
                         ? 'bg-emerald-600'
                         : event.type === 'warning'
                           ? 'bg-amber-600'
+<<<<<<< HEAD
                           : 'bg-indigo-600'
+=======
+                          : 'bg-accent-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     {event.type === 'success' ? (
@@ -184,6 +223,7 @@ export function GlobalPulse() {
                     )}
                   </div>
                   <div className="space-y-1">
+<<<<<<< HEAD
                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                       {event.role}
                     </p>
@@ -193,6 +233,17 @@ export function GlobalPulse() {
                     <p className="text-[8px] font-medium uppercase italic text-slate-400">
                       Только что
                     </p>
+=======
+                    <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                      {event.role}
+                    </p>
+                    <p className="text-text-primary text-[11px] font-bold leading-tight">
+                      {event.action} <span className="text-accent-primary">{event.target}</span>
+                    </p>
+                    <p className="text-text-muted text-[8px] font-medium uppercase italic">
+                      Только что
+                    </p>
+>>>>>>> recover/cabinet-wip-from-stash
                   </div>
                 </div>
               </motion.div>

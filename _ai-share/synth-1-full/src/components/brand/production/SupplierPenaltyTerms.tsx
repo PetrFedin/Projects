@@ -75,7 +75,11 @@ export function SupplierPenaltyTerms({
       <Card
         className={cn(
           'cursor-pointer rounded-xl border p-4 shadow-sm transition-all hover:border-amber-200',
+<<<<<<< HEAD
           'border-slate-100'
+=======
+          'border-border-subtle'
+>>>>>>> recover/cabinet-wip-from-stash
         )}
         onClick={() => setIsOpen(true)}
       >
@@ -85,10 +89,14 @@ export function SupplierPenaltyTerms({
               <Gavel className="h-4 w-4" />
             </div>
             <div>
-              <CardTitle className="text-[11px] font-bold uppercase tracking-wider text-slate-900">
+              <CardTitle className="text-text-primary text-[11px] font-bold uppercase tracking-wider">
                 Штрафы и условия
               </CardTitle>
+<<<<<<< HEAD
               <CardDescription className="mt-0.5 text-[9px] text-slate-500">
+=======
+              <CardDescription className="text-text-secondary mt-0.5 text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                 Просрочки, брак, условия сотрудничества
               </CardDescription>
             </div>
@@ -100,6 +108,7 @@ export function SupplierPenaltyTerms({
         <CardContent className="mt-3 space-y-2 p-0">
           {localPenalties.slice(0, 2).map((p, i) => (
             <div key={i} className="flex justify-between text-[9px]">
+<<<<<<< HEAD
               <span className="font-bold uppercase text-slate-600">{p.label}</span>
               <span className="font-black text-slate-900">{p.value}</span>
             </div>
@@ -107,6 +116,15 @@ export function SupplierPenaltyTerms({
           <div className="flex items-center gap-1.5 border-t border-slate-100 pt-1">
             <Handshake className="h-3 w-3 text-indigo-500" />
             <span className="text-[9px] font-bold text-slate-600">{localTerms.payment}</span>
+=======
+              <span className="text-text-secondary font-bold uppercase">{p.label}</span>
+              <span className="text-text-primary font-black">{p.value}</span>
+            </div>
+          ))}
+          <div className="border-border-subtle flex items-center gap-1.5 border-t pt-1">
+            <Handshake className="text-accent-primary h-3 w-3" />
+            <span className="text-text-secondary text-[9px] font-bold">{localTerms.payment}</span>
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
         </CardContent>
       </Card>
@@ -124,13 +142,25 @@ export function SupplierPenaltyTerms({
           </DialogHeader>
           <div className="space-y-4">
             <div>
+<<<<<<< HEAD
               <h4 className="mb-2 flex items-center gap-1 text-[10px] font-black uppercase text-slate-500">
+=======
+              <h4 className="text-text-secondary mb-2 flex items-center gap-1 text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 <AlertTriangle className="h-3 w-3" /> Штрафные санкции
               </h4>
               <div className="space-y-3">
                 {localPenalties.map((p, i) => (
+<<<<<<< HEAD
                   <div key={i} className="rounded-xl border border-slate-100 bg-slate-50 p-3">
                     <Label className="text-[9px] font-bold uppercase text-slate-500">
+=======
+                  <div
+                    key={i}
+                    className="bg-bg-surface2 border-border-subtle rounded-xl border p-3"
+                  >
+                    <Label className="text-text-secondary text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                       {p.label}
                     </Label>
                     <Input
@@ -144,14 +174,22 @@ export function SupplierPenaltyTerms({
                       placeholder="1% в день"
                     />
                     {p.description && (
+<<<<<<< HEAD
                       <p className="mt-1 text-[8px] text-slate-400">{p.description}</p>
+=======
+                      <p className="text-text-muted mt-1 text-[8px]">{p.description}</p>
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                   </div>
                 ))}
               </div>
             </div>
             <div>
+<<<<<<< HEAD
               <h4 className="mb-2 flex items-center gap-1 text-[10px] font-black uppercase text-slate-500">
+=======
+              <h4 className="text-text-secondary mb-2 flex items-center gap-1 text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 <Handshake className="h-3 w-3" /> Условия оплаты
               </h4>
               <Input
@@ -162,7 +200,11 @@ export function SupplierPenaltyTerms({
               />
             </div>
             <div>
+<<<<<<< HEAD
               <Label className="text-[9px] font-bold uppercase text-slate-500">
+=======
+              <Label className="text-text-secondary text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 Срок производства
               </Label>
               <Input

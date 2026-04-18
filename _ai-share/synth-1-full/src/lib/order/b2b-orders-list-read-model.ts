@@ -10,6 +10,7 @@
  * @see `docs/domain-model/order.md` §4.1 · TASK_QUEUE — Phase 2 Order (полный aggregate — отдельно)
  */
 import { getOrdersWithPaymentState } from '@/lib/b2b/partner-finance-rollup';
+import { isDemoBrandName } from '@/lib/data/demo-platform-brands';
 import type { B2BOrder } from '@/lib/types';
 import type { PlatformRole } from '@/lib/rbac';
 
@@ -25,6 +26,7 @@ export function listB2BOrdersForOperationalUi(options?: {
   if (!options?.actorRole) return orders;
 
   // [Phase 2 — Order architecture] Tenant/Owner filtering.
+<<<<<<< HEAD
   // В demo-контуре мы фильтруем по строковым названиям 'Syntha', 'Podium' и т.д.
   // В prod это будет фильтрация по organizationId в OrderAggregate.
 
@@ -41,6 +43,15 @@ export function listB2BOrdersForOperationalUi(options?: {
     return orders.filter(
       (o) => o.shop.includes('Podium') || o.shop.includes('ЦУМ') || o.shop.includes('Boutique')
     );
+=======
+  // В demo — только заказы демо-брендов Syntha Lab / Nordic Wool.
+  if (options.actorRole === 'brand') {
+    return orders.filter((o) => isDemoBrandName(o.brand));
+  }
+
+  if (options.actorRole === 'retailer' || options.actorRole === 'buyer') {
+    return orders.filter((o) => o.shop.startsWith('Демо-магазин'));
+>>>>>>> recover/cabinet-wip-from-stash
   }
 
   return orders;

@@ -19,7 +19,11 @@ export default function LiveProcessHubPage() {
         </Link>
         <div className="min-w-0 flex-1">
           <h1 className="text-2xl font-bold uppercase tracking-tight">LIVE процессы</h1>
+<<<<<<< HEAD
           <p className="mt-0.5 text-sm text-slate-500">
+=======
+          <p className="text-text-secondary mt-0.5 text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Хаб всех поэтапных схем: production, B2B, логистика, сорсинг, QC, финансы, согласование,
             ЭДО
           </p>
@@ -29,10 +33,14 @@ export default function LiveProcessHubPage() {
       <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2">
         {LIVE_PROCESS_DEFINITIONS.map((def) => (
           <Link key={def.id} href={processLiveUrl(def.id)}>
+<<<<<<< HEAD
             <Card className="h-full cursor-pointer transition-colors hover:bg-slate-50 dark:hover:bg-slate-900/50">
+=======
+            <Card className="hover:bg-bg-surface2 dark:hover:bg-text-primary/90 h-full cursor-pointer transition-colors">
+>>>>>>> recover/cabinet-wip-from-stash
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-2">
-                  <Activity className="h-5 w-5 text-slate-500" />
+                  <Activity className="text-text-secondary h-5 w-5" />
                   <CardTitle className="text-base">{def.name}</CardTitle>
                 </div>
                 <CardDescription className="line-clamp-2 text-sm">
@@ -40,7 +48,7 @@ export default function LiveProcessHubPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <span className="text-xs text-slate-400">
+                <span className="text-text-muted text-xs">
                   {def.stages.length} этапов
                   {def.contextKey && ` · контекст: ${def.contextKey}`}
                 </span>

@@ -1,7 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+<<<<<<< HEAD
 import { Check, Edit2, Calendar as CalendarIcon } from 'lucide-react';
+=======
+import { Check, Edit2, Calendar as CalendarIcon, ChevronLeft } from 'lucide-react';
+>>>>>>> recover/cabinet-wip-from-stash
 import {
   Dialog,
   DialogContent,
@@ -77,7 +81,11 @@ export function StoryBuyDialog({
             isLookOrdered ? 'bg-green-500 text-white' : 'bg-white text-black'
           )}
         >
+<<<<<<< HEAD
           <span className={cn(isLookOrdered ? 'text-white' : 'text-slate-900')}>
+=======
+          <span className={cn(isLookOrdered ? 'text-white' : 'text-text-primary')}>
+>>>>>>> recover/cabinet-wip-from-stash
             {isLookOrdered ? 'Запрос отправлен' : 'Купить весь образ'}
           </span>
           {!isLookOrdered && lookPriceLabel !== 'Купить весь образ' && (
@@ -89,10 +97,17 @@ export function StoryBuyDialog({
         {!isContactStepOpen ? (
           <>
             <DialogHeader>
+<<<<<<< HEAD
               <DialogTitle className="text-base font-black uppercase tracking-widest text-slate-900">
                 Собрать образ
               </DialogTitle>
               <DialogDescription className="mt-2 text-[10px] font-bold uppercase tracking-widest text-slate-600">
+=======
+              <DialogTitle className="text-text-primary text-base font-black uppercase tracking-widest">
+                Собрать образ
+              </DialogTitle>
+              <DialogDescription className="text-text-secondary mt-2 text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 {isAnyPreOrderInSelection
                   ? 'Выберите параметры для обсуждения деталей предзаказа'
                   : 'Выберите размеры для всех предметов'}
@@ -140,10 +155,17 @@ export function StoryBuyDialog({
         ) : (
           <>
             <DialogHeader>
+<<<<<<< HEAD
               <DialogTitle className="text-base font-black uppercase tracking-widest text-slate-900">
                 Детали связи
               </DialogTitle>
               <DialogDescription className="mt-2 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+=======
+              <DialogTitle className="text-text-primary text-base font-black uppercase tracking-widest">
+                Детали связи
+              </DialogTitle>
+              <DialogDescription className="text-text-secondary mt-2 text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Менеджер бренда свяжется с вами для уточнения деталей заказа
               </DialogDescription>
             </DialogHeader>
@@ -151,7 +173,11 @@ export function StoryBuyDialog({
             <div className="my-8 space-y-6">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
+<<<<<<< HEAD
                   <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+=======
+                  <Label className="text-text-secondary text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     Способ связи
                   </Label>
                   <span className="text-[8px] font-black uppercase text-accent">
@@ -218,7 +244,11 @@ export function StoryBuyDialog({
                                 : 'border-transparent opacity-40'
                             )}
                           >
+<<<<<<< HEAD
                             <p className="truncate text-[7px] font-black text-slate-900">
+=======
+                            <p className="text-text-primary truncate text-[7px] font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                               {method.value}
                             </p>
                             <button
@@ -239,7 +269,11 @@ export function StoryBuyDialog({
               </div>
 
               <div className="space-y-3">
+<<<<<<< HEAD
                 <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+=======
+                <Label className="text-text-secondary text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   Удобное время
                 </Label>
                 <div className="grid grid-cols-2 gap-2">

@@ -104,7 +104,11 @@ export function CollaborationCalendarSection({ className }: { className?: string
               <Users className="h-4 w-4" />
               События с участниками
             </h2>
+<<<<<<< HEAD
             <p className="mt-0.5 text-xs text-slate-500">
+=======
+            <p className="text-text-secondary mt-0.5 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
               Создавайте события, приглашайте участников. Они смогут принять или отклонить
               приглашение.
             </p>
@@ -132,7 +136,11 @@ export function CollaborationCalendarSection({ className }: { className?: string
       </CardHeader>
       <CardContent>
         {events.length === 0 ? (
+<<<<<<< HEAD
           <p className="py-6 text-center text-sm text-slate-500">
+=======
+          <p className="text-text-secondary py-6 text-center text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Нет событий. Создайте событие и пригласите участников из команды.
           </p>
         ) : (
@@ -145,17 +153,28 @@ export function CollaborationCalendarSection({ className }: { className?: string
                 return (
                   <div
                     key={ev.id}
+<<<<<<< HEAD
                     className="flex cursor-pointer items-center gap-3 rounded-lg border bg-white p-3 transition-colors hover:bg-slate-50/50"
+=======
+                    className="hover:bg-bg-surface2/80 flex cursor-pointer items-center gap-3 rounded-lg border bg-white p-3 transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                     onClick={() => {
                       setEditingEvent(ev);
                       setDraft(ev);
                       setIsCreateOpen(false);
                     }}
                   >
+<<<<<<< HEAD
                     <div className="h-10 w-2 shrink-0 rounded bg-indigo-500" />
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium">{ev.title}</p>
                       <p className="text-[10px] text-slate-500">
+=======
+                    <div className="bg-accent-primary h-10 w-2 shrink-0 rounded" />
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium">{ev.title}</p>
+                      <p className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                         {format(parseISO(ev.startAt), 'd MMM, HH:mm', { locale: ru })} ·{' '}
                         {ev.ownerName}
                         {ev.participants && ev.participants.length > 0 && (
@@ -190,7 +209,11 @@ export function CollaborationCalendarSection({ className }: { className?: string
                       </Badge>
                     )}
                     {participant?.status === 'rejected' && (
+<<<<<<< HEAD
                       <Badge variant="outline" className="shrink-0 text-[10px] text-slate-400">
+=======
+                      <Badge variant="outline" className="text-text-muted shrink-0 text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                         Отклонено
                       </Badge>
                     )}

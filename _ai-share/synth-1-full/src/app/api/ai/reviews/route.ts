@@ -1,5 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { summarizeProductReviews } from '@/ai/flows/summarize-product-reviews';
+<<<<<<< HEAD
+=======
+
+/** POST body: `{ reviews: { text: string; rating: number }[] }` — сводка переданных отзывов. */
+export async function POST(req: NextRequest) {
+  try {
+    const body = (await req.json()) as { reviews?: unknown };
+    const reviews = body?.reviews;
+    if (!Array.isArray(reviews) || reviews.length === 0) {
+      return NextResponse.json({ error: 'reviews non-empty array is required' }, { status: 400 });
+    }
+    const normalized = reviews.map((r: { text?: unknown; rating?: unknown }) => ({
+      text: typeof r?.text === 'string' ? r.text : '',
+      rating: typeof r?.rating === 'number' ? r.rating : 0,
+    }));
+    const summary = await summarizeProductReviews({ reviews: normalized });
+    return NextResponse.json(summary);
+  } catch (e) {
+    console.error('[reviews POST]', e);
+    return NextResponse.json({ error: 'Failed to summarize reviews' }, { status: 500 });
+  }
+}
+>>>>>>> recover/cabinet-wip-from-stash
 
 export async function GET(req: NextRequest) {
   const productId = req.nextUrl.searchParams.get('productId');

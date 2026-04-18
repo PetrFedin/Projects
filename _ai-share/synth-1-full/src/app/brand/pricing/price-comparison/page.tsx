@@ -10,12 +10,18 @@ import { TrendingUp, Link2, BarChart3, ExternalLink } from 'lucide-react';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { getFinanceLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
 
 export default function PriceComparisonPage() {
   const [manualUrl, setManualUrl] = useState('');
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
+=======
+    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+>>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Парсинг цен и сравнение с рынком"
         description="Парсинг цен артикулов на платформе. Автоматическое сравнение с рынком (benchmark) или ручное — добавьте ссылку с другого сайта для сравнения."
@@ -31,7 +37,11 @@ export default function PriceComparisonPage() {
               Рынок
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+<<<<<<< HEAD
               <Link href="/brand/pricing">Pricing</Link>
+=======
+              <Link href={ROUTES.brand.pricing}>Pricing</Link>
+>>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -62,8 +72,13 @@ export default function PriceComparisonPage() {
                 >
                   <span className="text-sm font-medium">{row.sku}</span>
                   <div className="flex items-center gap-3">
+<<<<<<< HEAD
                     <span className="text-slate-600">{row.platform}</span>
                     <span className="text-[11px] text-slate-400">→ {row.market}</span>
+=======
+                    <span className="text-text-secondary">{row.platform}</span>
+                    <span className="text-text-muted text-[11px]">→ {row.market}</span>
+>>>>>>> recover/cabinet-wip-from-stash
                     <Badge
                       variant={row.diff.startsWith('+') ? 'secondary' : 'outline'}
                       className="text-[10px]"
@@ -80,7 +95,7 @@ export default function PriceComparisonPage() {
           </CardContent>
         </Card>
 
-        <Card className="rounded-xl border border-slate-100">
+        <Card className="border-border-subtle rounded-xl border">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Link2 className="h-5 w-5" /> Ручное сравнение
@@ -91,7 +106,11 @@ export default function PriceComparisonPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
+<<<<<<< HEAD
               <label className="text-[11px] font-bold uppercase text-slate-500">
+=======
+              <label className="text-text-secondary text-[11px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 URL для парсинга
               </label>
               <Input
@@ -104,7 +123,7 @@ export default function PriceComparisonPage() {
             <Button className="w-full gap-2">
               <ExternalLink className="h-4 w-4" /> Добавить для сравнения
             </Button>
-            <p className="text-[10px] text-slate-400">
+            <p className="text-text-muted text-[10px]">
               Поддерживаются: Wildberries, Ozon, Lamoda, сайты брендов и др.
             </p>
           </CardContent>
@@ -112,6 +131,6 @@ export default function PriceComparisonPage() {
       </div>
 
       <RelatedModulesBlock links={getFinanceLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

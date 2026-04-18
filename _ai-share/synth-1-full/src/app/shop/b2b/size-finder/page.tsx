@@ -6,10 +6,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Ruler, ArrowLeft, Info } from 'lucide-react';
+import { Ruler, Info } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+<<<<<<< HEAD
+=======
+import { RegistryPageShell } from '@/components/design-system';
+>>>>>>> recover/cabinet-wip-from-stash
 import { getRecommendedSize, getSizeChartByBrand, type FitPreference } from '@/lib/b2b/size-fit';
 
 const FIT_OPTIONS: { value: FitPreference; label: string }[] = [
@@ -44,6 +49,7 @@ export default function SizeFinderPage() {
   const chart = getSizeChartByBrand(brandName);
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -61,6 +67,10 @@ export default function SizeFinderPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-3xl space-y-6">
+      <ShopB2bContentHeader lead="Рост и вес или замеры (грудь, талия, бёдра) и предпочтение посадки — рекомендация по размерной сетке бренда." />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -93,7 +103,11 @@ export default function SizeFinderPage() {
               />
             </div>
           </div>
+<<<<<<< HEAD
           <div className="flex items-center gap-1 text-xs text-slate-500">
+=======
+          <div className="text-text-secondary flex items-center gap-1 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
             <Info className="h-3.5 w-3.5" /> Опционально: замеры дают точнее
           </div>
           <div className="grid grid-cols-3 gap-4">
@@ -161,13 +175,17 @@ export default function SizeFinderPage() {
       </Card>
 
       {recommendation && (
-        <Card className="mt-6 border-indigo-100 bg-indigo-50/30">
+        <Card className="border-accent-primary/20 bg-accent-primary/10 mt-6">
           <CardHeader>
-            <CardTitle className="text-indigo-900">Рекомендуемый размер</CardTitle>
+            <CardTitle className="text-accent-primary">Рекомендуемый размер</CardTitle>
             <CardDescription>{recommendation.message}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
+<<<<<<< HEAD
             <p className="text-2xl font-black uppercase tracking-tight text-indigo-700">
+=======
+            <p className="text-accent-primary text-2xl font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
               {recommendation.retailerSize ?? recommendation.size}
             </p>
             {recommendation.sizeUpWarning && recommendation.sizeUpMessage && (
@@ -188,7 +206,7 @@ export default function SizeFinderPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-slate-200">
+                <tr className="border-border-default border-b">
                   <th className="py-2 pr-4 font-medium">Размер (EU)</th>
                   <th className="py-2 pr-4 font-medium">Ритейл</th>
                   <th className="py-2 pr-4 font-medium">Грудь (см)</th>
@@ -198,7 +216,7 @@ export default function SizeFinderPage() {
               </thead>
               <tbody>
                 {chart.map((row, i) => (
-                  <tr key={i} className="border-b border-slate-100">
+                  <tr key={i} className="border-border-subtle border-b">
                     <td className="py-2 pr-4 font-medium">{row.size}</td>
                     <td className="py-2 pr-4">{row.retailerSize ?? '—'}</td>
                     <td className="py-2 pr-4">
@@ -230,7 +248,7 @@ export default function SizeFinderPage() {
             .
           </CardDescription>
         </CardHeader>
-        <CardContent className="text-sm text-slate-700">
+        <CardContent className="text-text-primary text-sm">
           <p className="text-xs">
             Демо-сплит по категории верх: <strong>12%</strong> маломерит · <strong>58%</strong> в
             размер · <strong>8%</strong> большемерит — источник: отзывы + возвраты «не подошёл
@@ -258,6 +276,10 @@ export default function SizeFinderPage() {
         title="Заказы, каталог, матрица"
         className="mt-6"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

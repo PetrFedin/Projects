@@ -102,10 +102,17 @@ export function CircularHub() {
           {/* Action Area */}
           <div className="space-y-4 lg:col-span-8">
             <div className="flex items-center justify-between">
+<<<<<<< HEAD
               <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-400">
                 Вещи, готовые к возврату
               </h4>
               <Badge className="border-none bg-slate-100 text-[8px] font-black uppercase text-slate-500">
+=======
+              <h4 className="text-text-muted text-[11px] font-black uppercase tracking-widest">
+                Вещи, готовые к возврату
+              </h4>
+              <Badge className="bg-bg-surface2 text-text-secondary border-none text-[8px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 Основано на цифровом паспорте
               </Badge>
             </div>
@@ -114,10 +121,17 @@ export function CircularHub() {
               {MOCK_RETURNABLE.map((item) => (
                 <div
                   key={item.id}
+<<<<<<< HEAD
                   className="group flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-4 transition-all hover:bg-white hover:shadow-xl"
                 >
                   <div className="flex items-center gap-3">
                     <div className="relative h-20 w-12 overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
+=======
+                  className="bg-bg-surface2 border-border-subtle group flex items-center justify-between rounded-xl border p-4 transition-all hover:bg-white hover:shadow-xl"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="border-border-subtle relative h-20 w-12 overflow-hidden rounded-2xl border shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                       <img
                         src={item.image}
                         alt={item.name}
@@ -128,21 +142,36 @@ export function CircularHub() {
                       </div>
                     </div>
                     <div>
+<<<<<<< HEAD
                       <h5 className="text-sm font-black uppercase tracking-tight text-slate-900">
                         {item.name}
                       </h5>
                       <p className="text-[10px] font-bold uppercase tracking-tighter text-slate-400">
+=======
+                      <h5 className="text-text-primary text-sm font-black uppercase tracking-tight">
+                        {item.name}
+                      </h5>
+                      <p className="text-text-muted text-[10px] font-bold uppercase tracking-tighter">
+>>>>>>> recover/cabinet-wip-from-stash
                         Куплено: {item.purchased}
                       </p>
                       <div className="mt-2 flex items-center gap-2">
                         <Badge className="border-none bg-emerald-100 px-2 text-[8px] font-black uppercase text-emerald-700">
                           +{item.tokens} Tokens
                         </Badge>
+<<<<<<< HEAD
                         <div className="flex items-center gap-1.5 rounded border border-indigo-100 bg-indigo-50 px-2 py-0.5 text-[8px] font-black text-indigo-600">
                           <DollarSign className="h-2 w-2" />
                           <span>{item.collateral.toLocaleString('ru-RU')} ₽ залог</span>
                         </div>
                         <span className="text-[9px] font-bold uppercase text-slate-400">
+=======
+                        <div className="bg-accent-primary/10 text-accent-primary border-accent-primary/20 flex items-center gap-1.5 rounded border px-2 py-0.5 text-[8px] font-black">
+                          <DollarSign className="h-2 w-2" />
+                          <span>{item.collateral.toLocaleString('ru-RU')} ₽ залог</span>
+                        </div>
+                        <span className="text-text-muted text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                           Оценка AI: Good
                         </span>
                       </div>
@@ -151,7 +180,11 @@ export function CircularHub() {
                   <div className="flex gap-2">
                     <Button
                       variant="outline"
+<<<<<<< HEAD
                       className="h-12 rounded-2xl border-slate-100 px-6 text-[10px] font-black uppercase tracking-widest hover:bg-slate-50"
+=======
+                      className="border-border-subtle hover:bg-bg-surface2 h-12 rounded-2xl px-6 text-[10px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       Апсайклинг
                     </Button>
@@ -163,12 +196,21 @@ export function CircularHub() {
               ))}
             </div>
 
+<<<<<<< HEAD
             <div className="relative flex items-center justify-between overflow-hidden rounded-xl bg-slate-900 p-4 text-white">
               <div className="absolute right-0 top-0 p-4 opacity-10">
                 <TrendingUp className="h-32 w-32 text-indigo-500" />
               </div>
               <div className="relative z-10 flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-indigo-600 shadow-2xl">
+=======
+            <div className="bg-text-primary relative flex items-center justify-between overflow-hidden rounded-xl p-4 text-white">
+              <div className="absolute right-0 top-0 p-4 opacity-10">
+                <TrendingUp className="text-accent-primary h-32 w-32" />
+              </div>
+              <div className="relative z-10 flex items-center gap-3">
+                <div className="bg-accent-primary flex h-12 w-12 items-center justify-center rounded-3xl shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
                   <Gem className="h-8 w-8 text-white" />
                 </div>
                 <div>
@@ -177,12 +219,20 @@ export function CircularHub() {
                   </h4>
                   <p className="text-xs font-medium text-white/60">
                     Ваш гардероб позволяет разблокировать лимит до{' '}
+<<<<<<< HEAD
                     <span className="font-black text-indigo-400">45,000 ₽</span>.
+=======
+                    <span className="text-accent-primary font-black">45,000 ₽</span>.
+>>>>>>> recover/cabinet-wip-from-stash
                   </p>
                 </div>
               </div>
               <Button
+<<<<<<< HEAD
                 className="relative z-10 h-12 rounded-xl bg-white px-6 text-[9px] font-black uppercase tracking-widest text-slate-900 shadow-2xl"
+=======
+                className="text-text-primary relative z-10 h-12 rounded-xl bg-white px-6 text-[9px] font-black uppercase tracking-widest shadow-2xl"
+>>>>>>> recover/cabinet-wip-from-stash
                 asChild
               >
                 <Link href="/wallet">Активировать в кошельке</Link>
@@ -234,6 +284,7 @@ export function CircularHub() {
               </div>
             </div>
 
+<<<<<<< HEAD
             <div className="space-y-6 rounded-xl border border-slate-100 bg-white p-4 shadow-xl">
               <div className="flex items-center justify-between">
                 <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-900">
@@ -253,13 +304,38 @@ export function CircularHub() {
                 <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4 opacity-50">
                   <p className="text-[10px] font-black uppercase text-slate-900">ЦУМ (Box #4)</p>
                   <p className="mt-1 text-[9px] font-bold uppercase text-slate-400">
+=======
+            <div className="border-border-subtle space-y-6 rounded-xl border bg-white p-4 shadow-xl">
+              <div className="flex items-center justify-between">
+                <h4 className="text-text-primary text-[11px] font-black uppercase tracking-widest">
+                  Ближайшие боксы
+                </h4>
+                <Globe className="text-accent-primary h-4 w-4" />
+              </div>
+              <div className="space-y-4">
+                <div className="bg-bg-surface2 border-border-subtle rounded-2xl border p-4">
+                  <p className="text-text-primary text-[10px] font-black uppercase">
+                    Syntha HQ Moscow
+                  </p>
+                  <p className="text-text-muted mt-1 text-[9px] font-bold uppercase">
+                    Петровка, 12 • 1.2 км
+                  </p>
+                </div>
+                <div className="bg-bg-surface2 border-border-subtle rounded-2xl border p-4 opacity-50">
+                  <p className="text-text-primary text-[10px] font-black uppercase">ЦУМ (Box #4)</p>
+                  <p className="text-text-muted mt-1 text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     Кузнецкий Мост • 2.4 км
                   </p>
                 </div>
               </div>
               <Button
                 variant="ghost"
+<<<<<<< HEAD
                 className="w-full text-[9px] font-black uppercase text-indigo-600 hover:text-indigo-700"
+=======
+                className="text-accent-primary hover:text-accent-primary w-full text-[9px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 Показать на карте
               </Button>

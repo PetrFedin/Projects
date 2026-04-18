@@ -32,6 +32,7 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { QuickStatsCard } from './shared/quick-stats-card';
 import UnifiedAchievements from './unified-achievements';
 import AIStyleAnalyzer from './ai-style-analyzer';
@@ -138,19 +139,73 @@ export default function AIDashboard() {
           label="Активность"
           value={activity.totalActivity}
           icon={Heart}
-          iconColor="text-purple-500/60"
+          iconColor="text-accent-primary/60"
         />
       </div>
 
       {/* Dashboard Tabs - Organized Analytics Sections */}
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 lg:grid-cols-6">
-          <TabsTrigger value="overview">Обзор</TabsTrigger>
-          <TabsTrigger value="analytics">Аналитика</TabsTrigger>
-          <TabsTrigger value="ai-insights">AI Инсайты</TabsTrigger>
-          <TabsTrigger value="activity">Активность</TabsTrigger>
-          <TabsTrigger value="recommendations">Рекомендации</TabsTrigger>
-          <TabsTrigger value="quick-actions">Действия</TabsTrigger>
+        {/* cabinetSurface v1 */}
+        <TabsList
+          className={cn(
+            cabinetSurface.tabsList,
+            'grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-6'
+          )}
+        >
+          <TabsTrigger
+            value="overview"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 text-xs font-medium normal-case tracking-normal'
+            )}
+          >
+            Обзор
+          </TabsTrigger>
+          <TabsTrigger
+            value="analytics"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 text-xs font-medium normal-case tracking-normal'
+            )}
+          >
+            Аналитика
+          </TabsTrigger>
+          <TabsTrigger
+            value="ai-insights"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 text-xs font-medium normal-case tracking-normal'
+            )}
+          >
+            AI Инсайты
+          </TabsTrigger>
+          <TabsTrigger
+            value="activity"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 text-xs font-medium normal-case tracking-normal'
+            )}
+          >
+            Активность
+          </TabsTrigger>
+          <TabsTrigger
+            value="recommendations"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 text-xs font-medium normal-case tracking-normal'
+            )}
+          >
+            Рекомендации
+          </TabsTrigger>
+          <TabsTrigger
+            value="quick-actions"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 text-xs font-medium normal-case tracking-normal'
+            )}
+          >
+            Действия
+          </TabsTrigger>
         </TabsList>
 
         {/* Overview Tab - Key Stats and Quick Info */}
@@ -232,7 +287,11 @@ export default function AIDashboard() {
                   </Link>
                 </Button>
                 <Button variant="outline" className="h-auto flex-col py-4" asChild>
+<<<<<<< HEAD
                   <Link href="/u?tab=wardrobe">
+=======
+                  <Link href="/client/me?tab=wardrobe">
+>>>>>>> recover/cabinet-wip-from-stash
                     <Heart className="mb-2 h-5 w-5" />
                     <span className="text-xs">Избранное</span>
                   </Link>
@@ -244,7 +303,11 @@ export default function AIDashboard() {
                   </Link>
                 </Button>
                 <Button variant="outline" className="h-auto flex-col py-4" asChild>
+<<<<<<< HEAD
                   <Link href="/u?tab=payments">
+=======
+                  <Link href="/client/me?tab=payments">
+>>>>>>> recover/cabinet-wip-from-stash
                     <Gift className="mb-2 h-5 w-5" />
                     <span className="text-xs">Бонусы</span>
                   </Link>
@@ -277,7 +340,11 @@ export default function AIDashboard() {
                   insight.type === 'opportunity' &&
                     'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/20',
                   insight.type === 'achievement' &&
+<<<<<<< HEAD
                     'border-purple-200 bg-purple-50 dark:border-purple-800 dark:bg-purple-950/20'
+=======
+                    'bg-accent-primary/10 dark:bg-bg-surface2/80 border-accent-primary/25 dark:border-border-default'
+>>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 <div className="flex items-start justify-between">
@@ -289,7 +356,11 @@ export default function AIDashboard() {
                         <TrendingUp className="h-4 w-4 text-green-600" />
                       )}
                       {insight.type === 'achievement' && (
+<<<<<<< HEAD
                         <Award className="h-4 w-4 text-purple-600" />
+=======
+                        <Award className="text-accent-primary h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                       <h4 className="text-sm font-semibold">{insight.title}</h4>
                       {insight.priority === 'high' && (
@@ -441,7 +512,7 @@ function generateAIInsights(
       title: 'Начните с избранного',
       description: `У вас ${wishlistItems} ${wishlistItems === 1 ? 'товар' : 'товаров'} в избранном. Сделайте первую покупку!`,
       action: 'Посмотреть избранное',
-      actionLink: '/u?tab=wardrobe',
+      actionLink: '/client/me?tab=wardrobe',
       priority: 'medium',
     });
   }
@@ -465,7 +536,7 @@ function generateAIInsights(
       title: 'Создайте свой первый лукборд',
       description: 'Сохраняйте любимые образы и делитесь ими с сообществом.',
       action: 'Создать лукборд',
-      actionLink: '/u?tab=looks',
+      actionLink: '/client/me?tab=looks',
       priority: 'low',
     });
   }

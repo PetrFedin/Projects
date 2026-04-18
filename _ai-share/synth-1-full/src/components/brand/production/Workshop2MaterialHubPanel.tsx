@@ -279,8 +279,13 @@ export function Workshop2MaterialHubPanel({
       <div className="space-y-3 rounded-xl border border-amber-200/85 bg-gradient-to-b from-amber-50/60 to-white p-4 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <div>
+<<<<<<< HEAD
             <h3 className="text-sm font-semibold text-slate-900">Материалы для витрины</h3>
             <p className="mt-1 max-w-xl text-[11px] leading-snug text-slate-600">
+=======
+            <h3 className="text-text-primary text-sm font-semibold">Материалы для витрины</h3>
+            <p className="text-text-secondary mt-1 max-w-xl text-[11px] leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
               Канон и состав без операционного шума: только читаемый BOM и ссылки на паспорт /
               визуал.
             </p>
@@ -330,20 +335,28 @@ export function Workshop2MaterialHubPanel({
             </Button>
           ) : null}
         </div>
-        <div className="overflow-x-auto rounded-lg border border-slate-200/90 bg-white/95">
+        <div className="border-border-default/90 overflow-x-auto rounded-lg border bg-white/95">
           <table className="w-full min-w-[280px] border-collapse text-[11px]">
             <tbody>
-              <tr className="border-b border-slate-100">
-                <th className="w-28 py-2 pl-3 pr-2 text-left font-bold text-slate-500">SKU</th>
-                <td className="py-2 pr-3 font-mono text-slate-900">{bomExport.sku}</td>
+              <tr className="border-border-subtle border-b">
+                <th className="text-text-secondary w-28 py-2 pl-3 pr-2 text-left font-bold">SKU</th>
+                <td className="text-text-primary py-2 pr-3 font-mono">{bomExport.sku}</td>
               </tr>
-              <tr className="border-b border-slate-100">
-                <th className="py-2 pl-3 pr-2 text-left font-bold text-slate-500">Изделие</th>
-                <td className="py-2 pr-3 text-slate-800">{bomExport.productName}</td>
+              <tr className="border-border-subtle border-b">
+                <th className="text-text-secondary py-2 pl-3 pr-2 text-left font-bold">Изделие</th>
+                <td className="text-text-primary py-2 pr-3">{bomExport.productName}</td>
               </tr>
+<<<<<<< HEAD
               <tr className="border-b border-slate-100">
                 <th className="py-2 pl-3 pr-2 text-left align-top font-bold text-slate-500">Mat</th>
                 <td className="py-2 pr-3 text-slate-800">
+=======
+              <tr className="border-border-subtle border-b">
+                <th className="text-text-secondary py-2 pl-3 pr-2 text-left align-top font-bold">
+                  Mat
+                </th>
+                <td className="text-text-primary py-2 pr-3">
+>>>>>>> recover/cabinet-wip-from-stash
                   {bomExport.matLines.length ? (
                     <ul className="list-inside list-disc space-y-0.5">
                       {bomExport.matLines.map((l, i) => (
@@ -351,19 +364,26 @@ export function Workshop2MaterialHubPanel({
                       ))}
                     </ul>
                   ) : (
-                    <span className="text-slate-500">—</span>
+                    <span className="text-text-secondary">—</span>
                   )}
                 </td>
               </tr>
               <tr>
+<<<<<<< HEAD
                 <th className="py-2 pl-3 pr-2 text-left align-top font-bold text-slate-500">
                   Состав
                 </th>
                 <td className="py-2 pr-3 text-slate-800">
+=======
+                <th className="text-text-secondary py-2 pl-3 pr-2 text-left align-top font-bold">
+                  Состав
+                </th>
+                <td className="text-text-primary py-2 pr-3">
+>>>>>>> recover/cabinet-wip-from-stash
                   {!bomExport.linkedComposition ? (
-                    <span className="text-slate-500">Не связан с mat</span>
+                    <span className="text-text-secondary">Не связан с mat</span>
                   ) : bomExport.composition.length === 0 ? (
-                    <span className="text-slate-500">—</span>
+                    <span className="text-text-secondary">—</span>
                   ) : (
                     <ul className="space-y-0.5">
                       {bomExport.composition.map((r, i) => (
@@ -371,7 +391,7 @@ export function Workshop2MaterialHubPanel({
                           {r.label}: <span className="font-semibold tabular-nums">{r.pct}%</span>
                         </li>
                       ))}
-                      <li className="text-[10px] text-slate-500">Σ {sumPct}%</li>
+                      <li className="text-text-secondary text-[10px]">Σ {sumPct}%</li>
                     </ul>
                   )}
                 </td>
@@ -388,7 +408,7 @@ export function Workshop2MaterialHubPanel({
       ? 'border-emerald-200/90 bg-emerald-50/50'
       : sketchBomStrip?.state === 'warn'
         ? 'border-amber-300/90 bg-amber-50/40'
-        : 'border-slate-200/90 bg-slate-50/50';
+        : 'border-border-default/90 bg-bg-surface2/80';
 
   return (
     <div className="space-y-4 rounded-xl border border-amber-200/85 bg-gradient-to-b from-amber-50/50 to-white p-4 shadow-sm">
@@ -408,14 +428,18 @@ export function Workshop2MaterialHubPanel({
               </div>
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="text-sm font-semibold text-slate-900">Материалы и BOM</h3>
+                  <h3 className="text-text-primary text-sm font-semibold">Материалы и BOM</h3>
                   {bomExport.tzPhase && bomExport.tzPhase !== '1' ? (
                     <span className="rounded border border-amber-300/80 bg-amber-50 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-amber-900">
                       Шаг {bomExport.tzPhase} ТЗ
                     </span>
                   ) : null}
                 </div>
+<<<<<<< HEAD
                 <p className="mt-0.5 text-[10px] leading-snug text-slate-500">
+=======
+                <p className="text-text-secondary mt-0.5 text-[10px] leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                   Mat, прогресс секции и блокеры — ниже всегда; дорожная карта и контекст категории
                   — разверните
                 </p>
@@ -431,29 +455,46 @@ export function Workshop2MaterialHubPanel({
             </PopoverTrigger>
             <PopoverContent className="w-80 space-y-3 text-xs" align="end">
               <div>
+<<<<<<< HEAD
                 <p className="font-semibold text-violet-900">Дизайнер / бренд</p>
                 <p className="mt-1 leading-snug text-slate-600">
+=======
+                <p className="text-text-primary font-semibold">Дизайнер / бренд</p>
+                <p className="text-text-secondary mt-1 leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                   Согласуйте ощущение ткани с рефами; при смене материала обновите визуал и описание
                   замысла.
                 </p>
               </div>
               <div>
                 <p className="font-semibold text-amber-900">Менеджер / продакт</p>
+<<<<<<< HEAD
                 <p className="mt-1 leading-snug text-slate-600">
+=======
+                <p className="text-text-secondary mt-1 leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                   MOQ и сроки снабжения завязаны на зафиксированный BOM; закрывайте состав до
                   передачи в образец.
                 </p>
               </div>
               <div>
                 <p className="font-semibold text-teal-900">Технолог / ОТК</p>
+<<<<<<< HEAD
                 <p className="mt-1 leading-snug text-slate-600">
+=======
+                <p className="text-text-secondary mt-1 leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                   Исполнимость узлов и допуски по слоям проверяйте против скетча и конструкции после
                   заполнения mat/BOM.
                 </p>
               </div>
               <div>
                 <p className="font-semibold text-orange-950">Цех и снабжение</p>
+<<<<<<< HEAD
                 <p className="mt-1 leading-snug text-slate-600">
+=======
+                <p className="text-text-secondary mt-1 leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                   Блок «Нормы BOM» и шапка фабричного CSV — чтобы норма на изделие, единица и потери
                   совпадали с выгрузкой в производство.
                 </p>
@@ -484,8 +525,13 @@ export function Workshop2MaterialHubPanel({
               </button>
             </CollapsibleTrigger>
             <CollapsibleContent className="space-y-1.5 pt-1.5">
+<<<<<<< HEAD
               <p className="text-[11px] leading-snug text-slate-600">
                 <span className="font-medium text-slate-800">Для маршрута SKU:</span> один контур
+=======
+              <p className="text-text-secondary text-[11px] leading-snug">
+                <span className="text-text-primary font-medium">Для маршрута SKU:</span> один контур
+>>>>>>> recover/cabinet-wip-from-stash
                 сырья с визуалом и конструкцией — снабжение и производство смотрят в те же строки,
                 что и ТЗ-скетч.
               </p>
@@ -500,7 +546,11 @@ export function Workshop2MaterialHubPanel({
               <p className="text-[10px] font-black uppercase tracking-widest text-amber-700">
                 Категория: {l2Name}
               </p>
+<<<<<<< HEAD
               <p className="text-[11px] leading-snug text-slate-700">{matHint}</p>
+=======
+              <p className="text-text-primary text-[11px] leading-snug">{matHint}</p>
+>>>>>>> recover/cabinet-wip-from-stash
               {onJumpToPassportSection || onJumpToVisualSection ? (
                 <div className="flex flex-wrap gap-x-3 gap-y-0.5">
                   {onJumpToPassportSection ? (
@@ -526,7 +576,7 @@ export function Workshop2MaterialHubPanel({
                 </div>
               ) : null}
               {categoryNotes.length > 0 ? (
-                <ul className="list-disc space-y-0.5 pl-4 text-[10px] leading-snug text-slate-600">
+                <ul className="text-text-secondary list-disc space-y-0.5 pl-4 text-[10px] leading-snug">
                   {categoryNotes.map((line, i) => (
                     <li key={i}>{line}</li>
                   ))}
@@ -547,7 +597,10 @@ export function Workshop2MaterialHubPanel({
           </p>
           <ul className="mt-2 space-y-1.5">
             {W2_MATERIAL_COMPLIANCE_FLOW_STEPS.map((step) => (
-              <li key={step.stepId} className="flex items-start gap-2 text-[11px] text-slate-800">
+              <li
+                key={step.stepId}
+                className="text-text-primary flex items-start gap-2 text-[11px]"
+              >
                 <Checkbox
                   id={`w2-mat-comp-${step.stepId}`}
                   checked={Boolean(materialComplianceChecklist[step.stepId])}
@@ -568,7 +621,7 @@ export function Workshop2MaterialHubPanel({
               </li>
             ))}
           </ul>
-          <p className="mt-1.5 text-[9px] leading-snug text-slate-500">
+          <p className="text-text-secondary mt-1.5 text-[9px] leading-snug">
             Сохраняется в досье вместе с кнопкой «Сохранить» (localStorage этого артикула).
           </p>
         </div>
@@ -577,18 +630,22 @@ export function Workshop2MaterialHubPanel({
       {showBomNormsStrip ? (
         <div
           id="w2-material-bom-norms"
-          className="scroll-mt-28 rounded-lg border border-slate-300/80 bg-slate-50/90 px-3 py-2.5 text-[11px] text-slate-900"
+          className="border-border-default/80 bg-bg-surface2/90 text-text-primary scroll-mt-28 rounded-lg border px-3 py-2.5 text-[11px]"
         >
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div className="min-w-0">
-              <p className="text-[9px] font-bold uppercase tracking-wide text-slate-700">
+              <p className="text-text-primary text-[9px] font-bold uppercase tracking-wide">
                 Нормы BOM (цех / закупка / финмодель)
               </p>
+<<<<<<< HEAD
               <p className="mt-1 leading-snug text-slate-700">
+=======
+              <p className="text-text-primary mt-1 leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                 Перед серией согласуйте норму на изделие, единицу учёта и потери — те же поля, что в
                 фабричном CSV.
               </p>
-              <ul className="mt-1.5 list-inside list-disc space-y-0.5 text-[10px] text-slate-600">
+              <ul className="text-text-secondary mt-1.5 list-inside list-disc space-y-0.5 text-[10px]">
                 {W2_BOM_PRODUCTION_NORM_FIELDS.map((f) => (
                   <li key={f.key}>{f.labelRu}</li>
                 ))}
@@ -645,18 +702,22 @@ export function Workshop2MaterialHubPanel({
       {showMaterialSupplyRouteStrip ? (
         <div
           id="w2-material-supply-route"
-          className="scroll-mt-28 space-y-3 rounded-lg border border-violet-200/85 bg-violet-50/45 px-3 py-2.5 text-[11px] text-violet-950 shadow-sm"
+          className="border-accent-primary/25 bg-accent-primary/10 text-text-primary scroll-mt-28 space-y-3 rounded-lg border px-3 py-2.5 text-[11px] shadow-sm"
         >
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div className="min-w-0">
-              <p className="text-[9px] font-bold uppercase tracking-wide text-violet-900">
+              <p className="text-text-primary text-[9px] font-bold uppercase tracking-wide">
                 Закупка и производство · дельта BOM
               </p>
+<<<<<<< HEAD
               <p className="mt-1 text-[10px] leading-snug text-violet-900/90">
+=======
+              <p className="text-text-primary/90 mt-1 text-[10px] leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                 Три опорные точки сравнения строк: что в ТЗ, что сошлось на образце, что уходит в
                 серию. Фиксируйте в таблице или задаче — отдельного API нет.
               </p>
-              <ul className="mt-1.5 list-inside list-disc space-y-0.5 text-[10px] text-violet-900/85">
+              <ul className="text-text-primary/85 mt-1.5 list-inside list-disc space-y-0.5 text-[10px]">
                 {(['tz_baseline', 'sample_actual', 'production_series'] as const).map((k) => (
                   <li key={k}>{W2_BOM_SAMPLE_DELTA_KIND_LABELS[k]}</li>
                 ))}
@@ -672,6 +733,7 @@ export function Workshop2MaterialHubPanel({
               Копировать гайд
             </Button>
           </div>
+<<<<<<< HEAD
           <div className="border-t border-violet-200/70 pt-2">
             <p className="text-[9px] font-bold uppercase tracking-wide text-violet-900">
               Согласование замен
@@ -679,8 +741,17 @@ export function Workshop2MaterialHubPanel({
             <p className="mt-1 text-[10px] leading-snug text-violet-900/90">
               Переходы статуса альтернативы (предложена → согласована / отклонена / снята) — единая
               логика для снабжения и комплаенса.
+=======
+          <div className="border-accent-primary/25 border-t pt-2">
+            <p className="text-text-primary text-[9px] font-bold uppercase tracking-wide">
+              Согласование замен
+>>>>>>> recover/cabinet-wip-from-stash
             </p>
-            <ul className="mt-1.5 space-y-0.5 font-mono text-[9px] leading-relaxed text-violet-900/95">
+            <p className="text-text-primary/90 mt-1 text-[10px] leading-snug">
+              Переходы статуса альтернативы (предложена → согласована / отклонена / снята) — единая
+              логика для снабжения и комплаенса.
+            </p>
+            <ul className="text-text-primary/95 mt-1.5 space-y-0.5 font-mono text-[9px] leading-relaxed">
               {(
                 Object.entries(W2_MATERIAL_ALTERNATIVE_STATUS_FLOW) as [
                   Workshop2MaterialAlternativeStatus,
@@ -698,13 +769,20 @@ export function Workshop2MaterialHubPanel({
       ) : null}
 
       {showSketchBomRefsStrip ? (
-        <div className="rounded-lg border border-indigo-200/80 bg-indigo-50/40 px-3 py-2 text-[11px] text-indigo-950">
+        <div className="border-accent-primary/30 bg-accent-primary/10 text-accent-primary rounded-lg border px-3 py-2 text-[11px]">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div className="min-w-0">
+<<<<<<< HEAD
               <p className="text-[9px] font-bold uppercase tracking-wide text-indigo-900">
                 С меток скетча (BOM-ref)
               </p>
               <p className="mt-1 font-mono text-[10px] leading-relaxed text-indigo-950/95">
+=======
+              <p className="text-accent-primary text-[9px] font-bold uppercase tracking-wide">
+                С меток скетча (BOM-ref)
+              </p>
+              <p className="text-accent-primary/95 mt-1 font-mono text-[10px] leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                 {sketchLinkedBomRefs.slice(0, 12).join(' · ')}
                 {sketchLinkedBomRefs.length > 12 ? ` · +${sketchLinkedBomRefs.length - 12}` : ''}
               </p>
@@ -779,7 +857,11 @@ export function Workshop2MaterialHubPanel({
 
       <div
         id="w2-material-bom-factory-export"
+<<<<<<< HEAD
         className="flex scroll-mt-24 flex-wrap gap-2 rounded-md border border-slate-200/80 bg-slate-50/40 px-2 py-2"
+=======
+        className="border-border-default/80 bg-bg-surface2/40 flex scroll-mt-24 flex-wrap gap-2 rounded-md border px-2 py-2"
+>>>>>>> recover/cabinet-wip-from-stash
       >
         <Button
           type="button"
@@ -841,7 +923,7 @@ export function Workshop2MaterialHubPanel({
       {sketchBomStrip ? (
         <div className={cn('rounded-lg border px-3 py-2.5 shadow-sm', stripStateClass)}>
           <div className="flex flex-wrap items-start justify-between gap-2">
-            <p className="text-[11px] font-semibold text-slate-900">{sketchBomStrip.title}</p>
+            <p className="text-text-primary text-[11px] font-semibold">{sketchBomStrip.title}</p>
             <div className="flex flex-wrap gap-1">
               <Button
                 type="button"
@@ -860,7 +942,7 @@ export function Workshop2MaterialHubPanel({
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="h-7 px-2 text-[10px] text-slate-600"
+                className="text-text-secondary h-7 px-2 text-[10px]"
                 onClick={() => onNavigate(W2_MATERIAL_SUBPAGE_ANCHORS.mat)}
               >
                 К mat
@@ -869,17 +951,17 @@ export function Workshop2MaterialHubPanel({
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="h-7 px-2 text-[10px] text-slate-600"
+                className="text-text-secondary h-7 px-2 text-[10px]"
                 onClick={onOpenVisualSketch}
               >
                 К скетчу
               </Button>
             </div>
           </div>
-          <ul className="mt-1.5 space-y-0.5 text-[10px] leading-snug text-slate-700">
+          <ul className="text-text-primary mt-1.5 space-y-0.5 text-[10px] leading-snug">
             {sketchBomStrip.bullets.map((b, i) => (
               <li key={i} className="flex gap-1.5">
-                <span className="text-slate-400">·</span>
+                <span className="text-text-muted">·</span>
                 <span>{b}</span>
               </li>
             ))}
@@ -887,20 +969,24 @@ export function Workshop2MaterialHubPanel({
         </div>
       ) : null}
 
-      <div className="rounded-lg border border-slate-200/90 bg-white/90 px-3 py-2.5">
+      <div className="border-border-default/90 rounded-lg border bg-white/90 px-3 py-2.5">
         <div className="flex flex-wrap items-center justify-between gap-2">
+<<<<<<< HEAD
           <p className="text-[11px] font-semibold text-slate-800">Прогресс секции «Материалы»</p>
+=======
+          <p className="text-text-primary text-[11px] font-semibold">Прогресс секции «Материалы»</p>
+>>>>>>> recover/cabinet-wip-from-stash
           <span className="text-[11px] font-bold tabular-nums text-amber-800">
             {model.combinedPct}%
           </span>
         </div>
-        <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-100">
+        <div className="bg-bg-surface2 mt-2 h-1.5 overflow-hidden rounded-full">
           <div
             className="h-full rounded-full bg-amber-500 transition-[width] duration-300"
             style={{ width: `${model.combinedPct}%` }}
           />
         </div>
-        <ul className="mt-2 space-y-1 text-[10px] text-slate-600">
+        <ul className="text-text-secondary mt-2 space-y-1 text-[10px]">
           {model.checkpoints.map((c) => (
             <li key={c.id} className="flex items-center gap-2">
               {c.done ? (
@@ -912,7 +998,9 @@ export function Workshop2MaterialHubPanel({
                 type="button"
                 className={cn(
                   'min-w-0 flex-1 text-left underline-offset-2 hover:underline',
-                  c.done ? 'text-slate-500 line-through decoration-slate-300' : 'text-slate-800'
+                  c.done
+                    ? 'text-text-secondary decoration-border-default line-through'
+                    : 'text-text-primary'
                 )}
                 onClick={() => onNavigate(c.anchorId)}
               >
@@ -985,6 +1073,7 @@ export function Workshop2MaterialHubPanel({
         </div>
       ) : null}
 
+<<<<<<< HEAD
       <p className="text-[10px] leading-snug text-slate-500">
         Якоря: хаб{' '}
         <code className="rounded bg-slate-100 px-1">#{W2_MATERIAL_SUBPAGE_ANCHORS.hub}</code> · mat{' '}
@@ -995,6 +1084,18 @@ export function Workshop2MaterialHubPanel({
         </code>{' '}
         · каталог{' '}
         <code className="rounded bg-slate-100 px-1">#{W2_MATERIAL_SUBPAGE_ANCHORS.catalog}</code>
+=======
+      <p className="text-text-secondary text-[10px] leading-snug">
+        Якоря: хаб{' '}
+        <code className="bg-bg-surface2 rounded px-1">#{W2_MATERIAL_SUBPAGE_ANCHORS.hub}</code> ·
+        mat <code className="bg-bg-surface2 rounded px-1">#{W2_MATERIAL_SUBPAGE_ANCHORS.mat}</code>{' '}
+        · состав{' '}
+        <code className="bg-bg-surface2 rounded px-1">
+          #{W2_MATERIAL_SUBPAGE_ANCHORS.composition}
+        </code>{' '}
+        · каталог{' '}
+        <code className="bg-bg-surface2 rounded px-1">#{W2_MATERIAL_SUBPAGE_ANCHORS.catalog}</code>
+>>>>>>> recover/cabinet-wip-from-stash
       </p>
     </div>
   );

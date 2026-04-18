@@ -53,3 +53,38 @@ export function reportError(error: Error | string | unknown, context?: LogContex
 export function logApiError(endpoint: string, status: number, detail?: string): void {
   reportError(new Error(detail || `API ${endpoint} returned ${status}`), { endpoint, status });
 }
+
+function sanitizeContext(context?: LogContext): Record<string, unknown> | undefined {
+  if (!context) return undefined;
+  return Object.fromEntries(
+    Object.entries(context).filter(([, v]) => v != null && v !== '')
+  ) as Record<string, unknown>;
+}
+
+function observabilityEnabled(): boolean {
+  return (
+    process.env.NODE_ENV === 'development' ||
+    process.env.NODE_ENV === 'test' ||
+    process.env.OBSERVABILITY_LOGS === '1' ||
+    process.env.NEXT_PUBLIC_OBSERVABILITY_LOGS === '1'
+  );
+}
+
+export function logWarn(message: string, context?: LogContext): void {
+  if (process.env.NODE_ENV !== 'development') return;
+  const payload = { message, ...(sanitizeContext(context) ?? {}) };
+  console.warn('[warn]', JSON.stringify(payload));
+}
+
+export function logInfo(message: string, context?: LogContext): void {
+  if (process.env.NODE_ENV !== 'development') return;
+  const payload = { message, ...(sanitizeContext(context) ?? {}) };
+  console.info('[info]', JSON.stringify(payload));
+}
+
+/** Структурированные события (dev/test или при OBSERVABILITY_LOGS). См. `observeApiRoute`, domain-events bus. */
+export function logObservability(event: string, fields: Record<string, unknown> = {}): void {
+  if (!observabilityEnabled()) return;
+  const line = JSON.stringify({ event, ts: new Date().toISOString(), ...fields });
+  console.info('[obs]', line);
+}

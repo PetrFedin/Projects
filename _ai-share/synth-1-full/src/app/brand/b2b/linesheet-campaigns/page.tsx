@@ -1,4 +1,5 @@
 'use client';
+import { RegistryPageShell } from '@/components/design-system';
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -7,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Mail, ArrowLeft, Send, BarChart2, Eye, MousePointer, ShoppingBag } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { B2B_ORDERS_REGISTRY_LABEL } from '@/lib/ui/b2b-registry-label';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getLinesheetCampaignsLinks } from '@/lib/data/entity-links';
 
@@ -40,7 +42,11 @@ export default function LinesheetCampaignsPage() {
   const [creating, setCreating] = useState(false);
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
+=======
+    <RegistryPageShell className="max-w-4xl space-y-6">
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="mb-6 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <Link href={ROUTES.brand.b2bLinesheets}>
@@ -52,7 +58,11 @@ export default function LinesheetCampaignsPage() {
             <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
               <Mail className="h-6 w-6" /> Кампании по лайншитам
             </h1>
+<<<<<<< HEAD
             <p className="mt-0.5 text-sm text-slate-500">
+=======
+            <p className="text-text-secondary mt-0.5 text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
               NuOrder: отправка лайншита конкретным байерам, трекинг открытий, кликов и заказов.
             </p>
           </div>
@@ -80,26 +90,45 @@ export default function LinesheetCampaignsPage() {
             <CardContent>
               <div className="grid grid-cols-2 gap-4 text-center sm:grid-cols-4">
                 <div>
+<<<<<<< HEAD
                   <p className="text-2xl font-bold text-slate-900">{c.openRate}%</p>
                   <p className="flex items-center justify-center gap-1 text-xs text-slate-500">
+=======
+                  <p className="text-text-primary text-2xl font-bold">{c.openRate}%</p>
+                  <p className="text-text-secondary flex items-center justify-center gap-1 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                     <Eye className="h-3 w-3" /> Открытия
                   </p>
                 </div>
                 <div>
+<<<<<<< HEAD
                   <p className="text-2xl font-bold text-slate-900">{c.clickRate}%</p>
                   <p className="flex items-center justify-center gap-1 text-xs text-slate-500">
+=======
+                  <p className="text-text-primary text-2xl font-bold">{c.clickRate}%</p>
+                  <p className="text-text-secondary flex items-center justify-center gap-1 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                     <MousePointer className="h-3 w-3" /> Клики
                   </p>
                 </div>
                 <div>
+<<<<<<< HEAD
                   <p className="text-2xl font-bold text-indigo-600">{c.orderRate}%</p>
                   <p className="flex items-center justify-center gap-1 text-xs text-slate-500">
+=======
+                  <p className="text-accent-primary text-2xl font-bold">{c.orderRate}%</p>
+                  <p className="text-text-secondary flex items-center justify-center gap-1 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                     Клики → заказ
                   </p>
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-emerald-600">{c.ordersCount}</p>
+<<<<<<< HEAD
                   <p className="flex items-center justify-center gap-1 text-xs text-slate-500">
+=======
+                  <p className="text-text-secondary flex items-center justify-center gap-1 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                     <ShoppingBag className="h-3 w-3" /> Заказов
                   </p>
                 </div>
@@ -114,7 +143,11 @@ export default function LinesheetCampaignsPage() {
           <Link href={ROUTES.brand.b2bLinesheets}>Лайншиты</Link>
         </Button>
         <Button variant="outline" size="sm" asChild>
+<<<<<<< HEAD
           <Link href={ROUTES.brand.b2bOrders}>B2B Заказы</Link>
+=======
+          <Link href={ROUTES.brand.b2bOrders}>{B2B_ORDERS_REGISTRY_LABEL}</Link>
+>>>>>>> recover/cabinet-wip-from-stash
         </Button>
       </div>
       <RelatedModulesBlock
@@ -122,6 +155,10 @@ export default function LinesheetCampaignsPage() {
         title="Лайншиты, заказы, выставки, партнёры"
         className="mt-6"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

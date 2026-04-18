@@ -1,11 +1,15 @@
 import type { Product } from '@/lib/types';
-import type { AssortmentHealthV1 } from './types';
+import type { CategoryAssortmentHealthV1 } from './types';
 
 /** Анализ здоровья ассортимента (Merchandising Health). */
 export function analyzeAssortmentHealth(
   products: Product[] = [],
   category: string
+<<<<<<< HEAD
 ): AssortmentHealthV1 {
+=======
+): CategoryAssortmentHealthV1 {
+>>>>>>> recover/cabinet-wip-from-stash
   const catProducts = (products || []).filter((p) => p.category === category);
   const colors = new Set(catProducts.map((p) => p.attributes?.mainColor));
 

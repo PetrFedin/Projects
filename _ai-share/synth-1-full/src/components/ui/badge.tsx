@@ -8,10 +8,18 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
+<<<<<<< HEAD
         default: 'border-transparent bg-slate-900 text-white hover:bg-slate-800 shadow-sm',
         secondary: 'border-transparent bg-slate-100 text-slate-900 hover:bg-slate-200 shadow-sm',
         destructive: 'border-transparent bg-rose-500 text-white hover:bg-rose-600 shadow-sm',
         outline: 'text-slate-500 border-slate-200 bg-white shadow-sm',
+=======
+        default: 'border-transparent bg-text-primary text-white hover:bg-text-primary/90 shadow-sm',
+        secondary:
+          'border-transparent bg-bg-surface2 text-text-primary hover:bg-bg-surface2 shadow-sm',
+        destructive: 'border-transparent bg-rose-500 text-white hover:bg-rose-600 shadow-sm',
+        outline: 'text-text-secondary border-border-default bg-white shadow-sm',
+>>>>>>> recover/cabinet-wip-from-stash
         success: 'border-emerald-100 bg-emerald-50 text-emerald-600 shadow-sm',
         warning: 'border-amber-100 bg-amber-50 text-amber-600 shadow-sm',
       },

@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, Grid3X3, Plus, Trash2, Upload, Download } from 'lucide-react';
+import { Plus, Trash2, Upload, Download } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import allProducts from '@/lib/products';
+import { RegistryPageShell } from '@/components/design-system';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 /** NetSuite: Grid Ordering — массовое занесение позиций (таблица) */
 const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
@@ -29,6 +31,7 @@ export default function GridOrderingPage() {
   const totalAmount = filledRows.reduce((a, r) => a + r.qty * (r.price || 0), 0);
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -45,6 +48,10 @@ export default function GridOrderingPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-5xl space-y-6">
+      <ShopB2bContentHeader lead="Табличный ввод заказа: артикул, размер и количество по строкам (сценарий NetSuite Grid Ordering)." />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -67,7 +74,11 @@ export default function GridOrderingPage() {
               </thead>
               <tbody>
                 {rows.map((row, i) => (
+<<<<<<< HEAD
                   <tr key={i} className="border-b border-slate-100">
+=======
+                  <tr key={i} className="border-border-subtle border-b">
+>>>>>>> recover/cabinet-wip-from-stash
                     <td className="px-2 py-1">
                       <Input
                         placeholder="SKU или артикул"
@@ -111,7 +122,11 @@ export default function GridOrderingPage() {
                       <Button
                         variant="ghost"
                         size="icon"
+<<<<<<< HEAD
                         className="h-8 w-8 text-slate-400"
+=======
+                        className="text-text-muted h-8 w-8"
+>>>>>>> recover/cabinet-wip-from-stash
                         onClick={() => removeRow(i)}
                       >
                         <Trash2 className="h-4 w-4" />
@@ -127,9 +142,13 @@ export default function GridOrderingPage() {
               <Plus className="mr-1 h-4 w-4" /> Добавить строку
             </Button>
             <div className="text-sm">
-              <span className="text-slate-500">Итого: </span>
+              <span className="text-text-secondary">Итого: </span>
               <span className="font-medium">{totalQty} ед.</span>
+<<<<<<< HEAD
               <span className="ml-4 text-slate-500">На сумму: </span>
+=======
+              <span className="text-text-secondary ml-4">На сумму: </span>
+>>>>>>> recover/cabinet-wip-from-stash
               <span className="font-semibold">{totalAmount.toLocaleString('ru-RU')} ₽</span>
             </div>
           </div>
@@ -155,6 +174,6 @@ export default function GridOrderingPage() {
           <Link href={ROUTES.shop.b2bQuickOrder}>Быстрый заказ</Link>
         </Button>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -22,6 +22,8 @@ import {
 } from '@/lib/fashion/size-conversion';
 import { ArrowLeft, ArrowRightLeft } from 'lucide-react';
 import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
 export default function SizeConverterPage() {
   const [label, setLabel] = useState('M');
@@ -50,9 +52,26 @@ export default function SizeConverterPage() {
       </div>
 
       <Tabs defaultValue="apparel">
-        <TabsList>
-          <TabsTrigger value="apparel">Верх / платья</TabsTrigger>
-          <TabsTrigger value="shoes">Обувь EU→US</TabsTrigger>
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
+          <TabsTrigger
+            value="apparel"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            Верх / платья
+          </TabsTrigger>
+          <TabsTrigger
+            value="shoes"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            Обувь EU→US
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="apparel" className="mt-4 space-y-4">
           <Card>

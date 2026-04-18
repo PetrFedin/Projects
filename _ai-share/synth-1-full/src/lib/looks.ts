@@ -45,9 +45,9 @@ export const looks: Look[] = [
   {
     id: '4',
     author: {
-      name: 'Acne Studios',
-      handle: '@acnestudios',
-      avatarUrl: 'https://picsum.photos/seed/logo2/40/40',
+      name: 'Nordic Wool',
+      handle: '@nordicwool',
+      avatarUrl: 'https://picsum.photos/seed/nordic-wool/40/40',
     },
     imageUrl: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1000',
     imageHint: 'high fashion editorial acne',

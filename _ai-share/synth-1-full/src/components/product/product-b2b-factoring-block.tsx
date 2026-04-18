@@ -20,7 +20,11 @@ export function ProductB2BFactoringBlock({ product }: { product: Product }) {
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-emerald-600">
           <CreditCard className="h-4 w-4" />
+<<<<<<< HEAD
           <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
+=======
+          <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             Wholesale Credit & Factoring
           </h4>
         </div>
@@ -38,31 +42,55 @@ export function ProductB2BFactoringBlock({ product }: { product: Product }) {
       <div className="mb-4 space-y-4">
         <div>
           <div className="mb-1 flex items-end justify-between text-[9px] font-black uppercase tracking-widest">
+<<<<<<< HEAD
             <span className="text-slate-500">Credit Utilization</span>
+=======
+            <span className="text-text-secondary">Credit Utilization</span>
+>>>>>>> recover/cabinet-wip-from-stash
             <span className="text-emerald-700">
               {Math.round(((status.totalLimit - status.availableLimit) / status.totalLimit) * 100)}%
             </span>
           </div>
           <Progress
             value={((status.totalLimit - status.availableLimit) / status.totalLimit) * 100}
+<<<<<<< HEAD
             className="h-1.5 bg-slate-100 fill-emerald-500"
+=======
+            className="bg-bg-surface2 h-1.5 fill-emerald-500"
+>>>>>>> recover/cabinet-wip-from-stash
           />
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <div className="rounded-xl border border-emerald-100 bg-white p-3 shadow-sm">
+<<<<<<< HEAD
             <div className="text-[16px] font-black leading-none text-slate-800">
               {status.availableLimit.toLocaleString()} ₽
             </div>
             <div className="mt-1 text-[8px] font-black uppercase text-slate-400">
+=======
+            <div className="text-text-primary text-[16px] font-black leading-none">
+              {status.availableLimit.toLocaleString()} ₽
+            </div>
+            <div className="text-text-muted mt-1 text-[8px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
               Available Limit
             </div>
           </div>
           <div className="rounded-xl border border-emerald-100 bg-white p-3 shadow-sm">
+<<<<<<< HEAD
             <div className="text-[16px] font-black leading-none text-slate-800">
               {status.averageDaysToPay}d
             </div>
             <div className="mt-1 text-[8px] font-black uppercase text-slate-400">Avg Pay Cycle</div>
+=======
+            <div className="text-text-primary text-[16px] font-black leading-none">
+              {status.averageDaysToPay}d
+            </div>
+            <div className="text-text-muted mt-1 text-[8px] font-black uppercase">
+              Avg Pay Cycle
+            </div>
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
         </div>
       </div>
@@ -77,7 +105,11 @@ export function ProductB2BFactoringBlock({ product }: { product: Product }) {
         </div>
       )}
 
+<<<<<<< HEAD
       <div className="mt-2 flex items-center gap-1.5 text-[8px] font-black uppercase text-slate-400">
+=======
+      <div className="text-text-muted mt-2 flex items-center gap-1.5 text-[8px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
         <Info className="h-3 w-3" /> Factoring provided by Alfa-Factoring RU
       </div>
     </Card>

@@ -76,8 +76,15 @@ export function LookProductSelector({ product, selections, onUpdate }: LookProdu
 
       <div className="space-y-2">
         <div className="flex items-center justify-between">
+<<<<<<< HEAD
           <p className="text-[8px] font-black uppercase tracking-widest text-slate-500">Цвет</p>
           <p className="text-[8px] font-black uppercase tracking-widest text-slate-900">
+=======
+          <p className="text-text-secondary text-[8px] font-black uppercase tracking-widest">
+            Цвет
+          </p>
+          <p className="text-text-primary text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             {colors.find((c) => c.id === activeColorId)?.name}
           </p>
         </div>
@@ -91,18 +98,30 @@ export function LookProductSelector({ product, selections, onUpdate }: LookProdu
                     'h-6 w-6 rounded-full border-2 transition-all active:scale-90',
                     activeColorId === color.id
                       ? 'scale-110 border-black shadow-md'
+<<<<<<< HEAD
                       : 'border-transparent hover:border-slate-300'
+=======
+                      : 'hover:border-border-default border-transparent'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                   style={{ backgroundColor: color.hex }}
                 />
               </TooltipTrigger>
               <TooltipContent
                 side="top"
+<<<<<<< HEAD
                 className="z-[100] rounded-xl border border-black/5 bg-white/95 px-3 py-2 text-[9px] font-black uppercase text-slate-900 shadow-xl backdrop-blur-md duration-200 animate-in fade-in zoom-in"
                 collisionPadding={20}
               >
                 {color.colorDescription && (
                   <span className="font-bold lowercase text-slate-500 first-letter:uppercase">
+=======
+                className="text-text-primary z-[100] rounded-xl border border-black/5 bg-white/95 px-3 py-2 text-[9px] font-black uppercase shadow-xl backdrop-blur-md duration-200 animate-in fade-in zoom-in"
+                collisionPadding={20}
+              >
+                {color.colorDescription && (
+                  <span className="text-text-secondary font-bold lowercase first-letter:uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     {color.colorDescription}
                   </span>
                 )}
@@ -113,7 +132,11 @@ export function LookProductSelector({ product, selections, onUpdate }: LookProdu
       </div>
 
       <div className="space-y-2">
+<<<<<<< HEAD
         <p className="text-[8px] font-black uppercase tracking-widest text-slate-500">
+=======
+        <p className="text-text-secondary text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
           Выберите размеры
         </p>
         <div className="flex gap-1.5">
@@ -129,7 +152,11 @@ export function LookProductSelector({ product, selections, onUpdate }: LookProdu
                   'relative h-8 w-10 overflow-visible rounded-xl border text-[10px] font-black transition-all',
                   qty > 0
                     ? 'border-black bg-black text-white'
+<<<<<<< HEAD
                     : 'border-slate-200 bg-white text-black hover:bg-muted'
+=======
+                    : 'border-border-default bg-white text-black hover:bg-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 {size}
@@ -146,7 +173,11 @@ export function LookProductSelector({ product, selections, onUpdate }: LookProdu
 
       {selections.length > 0 && (
         <div className="space-y-2 border-t border-black/5 pt-2">
+<<<<<<< HEAD
           <p className="text-[7px] font-black uppercase tracking-widest text-slate-400">
+=======
+          <p className="text-text-muted text-[7px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             Выбранные позиции:
           </p>
           <div className="space-y-1.5">

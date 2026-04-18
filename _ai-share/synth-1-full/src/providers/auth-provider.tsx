@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState, useCallback } from 'rea
 import type { UserProfile } from '@/lib/types';
 import { authRepository } from '@/lib/repositories';
 import { USE_FASTAPI } from '@/lib/syntha-api-mode';
+import { ROUTES } from '@/lib/routes';
 
 interface AuthContextType {
   user: UserProfile | null;
@@ -112,6 +113,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           await fetchFastApiProfile(email ?? undefined);
         } else if (typeof window !== 'undefined') {
           const path = window.location.pathname;
+<<<<<<< HEAD
           const search = window.location.search || '';
           const isSupplier = search.includes('role=supplier');
           const email = path.startsWith('/admin')
@@ -129,6 +131,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     : path.startsWith('/shop')
                       ? 'shop@syntha.ai'
                       : null;
+=======
+          const email = path.startsWith(ROUTES.admin.home)
+            ? 'admin@syntha.ai'
+            : path.startsWith(ROUTES.brand.home)
+              ? 'brand@syntha.ai'
+              : path.startsWith(ROUTES.distributor.home)
+                ? 'dist@syntha.ai'
+                : path.startsWith(ROUTES.factory.supplier)
+                  ? 'supplier@syntha.ai'
+                  : path.startsWith(ROUTES.factory.home)
+                    ? 'factory@syntha.ai'
+                    : path.startsWith(ROUTES.client.home)
+                      ? 'elena.petrova@example.com'
+                      : path.startsWith(ROUTES.shop.home)
+                        ? 'shop@syntha.ai'
+                        : null;
+>>>>>>> recover/cabinet-wip-from-stash
           if (email) {
             try {
               const u = await authRepository.signIn(email, 'password123');

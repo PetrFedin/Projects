@@ -23,9 +23,15 @@ export function StatusBadge({
       label: label || 'Online',
     },
     offline: {
+<<<<<<< HEAD
       color: 'bg-slate-400',
       bgColor: 'bg-slate-50',
       textColor: 'text-slate-600',
+=======
+      color: 'bg-text-muted',
+      bgColor: 'bg-bg-surface2',
+      textColor: 'text-text-secondary',
+>>>>>>> recover/cabinet-wip-from-stash
       label: label || 'Offline',
     },
     busy: {

@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Package, CreditCard, RotateCcw } from 'lucide-react';
+import { ROUTES } from '@/lib/routes';
 
 const MOCK_ORDER = {
   id: 'TB-501',
@@ -20,14 +21,20 @@ export default function TryBeforeBuyPage() {
     <div className="mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
       <header>
         <h1 className="flex items-center gap-2 text-xl font-black uppercase tracking-tight">
+<<<<<<< HEAD
           <Package className="h-6 w-6 text-indigo-600" /> Try Before You Buy
         </h1>
         <p className="mt-1 text-sm text-slate-500">
+=======
+          <Package className="text-accent-primary h-6 w-6" /> Try Before You Buy
+        </h1>
+        <p className="text-text-secondary mt-1 text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
           Примерка перед покупкой: средства заблокированы, вы решаете — выкупить или вернуть
         </p>
       </header>
 
-      <Card className="rounded-xl border border-indigo-200 bg-indigo-50/30">
+      <Card className="border-accent-primary/30 bg-accent-primary/10 rounded-xl border">
         <CardHeader>
           <CardTitle className="text-sm">Текущая примерка</CardTitle>
           <CardDescription>
@@ -36,7 +43,11 @@ export default function TryBeforeBuyPage() {
         </CardHeader>
         <CardContent className="space-y-3">
           <p className="font-medium">{MOCK_ORDER.items.join(', ')}</p>
+<<<<<<< HEAD
           <p className="text-sm text-slate-600">
+=======
+          <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Сумма к списанию: <strong>{MOCK_ORDER.amount.toLocaleString()} ₽</strong> (средства
             заблокированы)
           </p>
@@ -53,6 +64,7 @@ export default function TryBeforeBuyPage() {
 
       <div className="flex flex-wrap gap-2">
         <Button variant="ghost" size="sm" asChild>
+<<<<<<< HEAD
           <Link href="/client">В кабинет</Link>
         </Button>
         <Button variant="ghost" size="sm" asChild>
@@ -66,6 +78,21 @@ export default function TryBeforeBuyPage() {
         </Button>
         <Button variant="ghost" size="sm" asChild>
           <Link href="/u/wardrobe">Гардероб</Link>
+=======
+          <Link href={ROUTES.client.home}>В кабинет</Link>
+        </Button>
+        <Button variant="ghost" size="sm" asChild>
+          <Link href={ROUTES.client.resale}>Resale</Link>
+        </Button>
+        <Button variant="ghost" size="sm" asChild>
+          <Link href={ROUTES.client.services}>Услуги</Link>
+        </Button>
+        <Button variant="ghost" size="sm" asChild>
+          <Link href={ROUTES.client.allergy}>Аллергии</Link>
+        </Button>
+        <Button variant="ghost" size="sm" asChild>
+          <Link href={ROUTES.client.profileWardrobe}>Гардероб</Link>
+>>>>>>> recover/cabinet-wip-from-stash
         </Button>
       </div>
     </div>

@@ -98,10 +98,14 @@ function OutfitBuilderInner() {
         </CardContent>
       </Card>
 
-      <Card className="border-violet-200/80 bg-violet-50/40">
+      <Card className="border-accent-primary/25 bg-accent-primary/10">
         <CardHeader className="pb-2">
           <CardTitle className="flex items-center gap-2 text-sm">
+<<<<<<< HEAD
             <Sparkles className="h-4 w-4 text-violet-600" />
+=======
+            <Sparkles className="text-accent-primary h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
             Анализ образа
           </CardTitle>
         </CardHeader>

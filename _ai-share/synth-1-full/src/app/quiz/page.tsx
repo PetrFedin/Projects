@@ -20,12 +20,16 @@ export default function QuizPage() {
             <CardDescription className="text-sm">{result.segment.name}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <p className="text-slate-600">{result.segment.description}</p>
+            <p className="text-text-secondary">{result.segment.description}</p>
             <div className="space-y-4">
               <h4 className="text-sm font-bold uppercase tracking-widest">Рекомендации:</h4>
               <ul className="list-disc space-y-2 pl-5">
                 {result.upgradeTips.map((tip, i) => (
+<<<<<<< HEAD
                   <li key={i} className="text-slate-600">
+=======
+                  <li key={i} className="text-text-secondary">
+>>>>>>> recover/cabinet-wip-from-stash
                     {tip}
                   </li>
                 ))}
@@ -62,14 +66,22 @@ export default function QuizPage() {
   return (
     <div className="container max-w-2xl py-10">
       <Card className="overflow-hidden rounded-xl border-none bg-white shadow-2xl">
+<<<<<<< HEAD
         <div className="h-2 bg-slate-100">
+=======
+        <div className="bg-bg-surface2 h-2">
+>>>>>>> recover/cabinet-wip-from-stash
           <div
             className="h-full bg-black transition-all"
             style={{ width: `${((step + 1) / questions.length) * 100}%` }}
           />
         </div>
         <CardHeader className="p-3 pb-6">
+<<<<<<< HEAD
           <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+          <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             Вопрос {step + 1} из {questions.length}
           </span>
           <CardTitle className="mt-2 text-sm font-black uppercase">{currentQ.label}</CardTitle>

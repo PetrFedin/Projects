@@ -22,8 +22,13 @@ export function GlobalCategorySelector({
   onChange,
 }: GlobalCategorySelectorProps) {
   return (
+<<<<<<< HEAD
     <section className="sticky top-[var(--header-height,48px)] z-30 w-full border-b border-slate-200 bg-white/90 py-3 shadow-sm backdrop-blur-xl">
       <div className="container mx-auto px-14">
+=======
+    <section className="border-border-default sticky top-[var(--header-height,48px)] z-30 w-full border-b bg-white/90 py-3 shadow-sm backdrop-blur-xl">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-14">
+>>>>>>> recover/cabinet-wip-from-stash
         <div className="no-scrollbar flex items-center justify-start gap-1.5 overflow-x-auto md:justify-center">
           {categories.map((cat) => (
             <button
@@ -39,7 +44,11 @@ export function GlobalCategorySelector({
                   'h-3 w-3 shrink-0 transition-transform',
                   activeCategory === cat.id
                     ? 'text-white'
+<<<<<<< HEAD
                     : 'text-slate-400 group-hover:text-slate-600'
+=======
+                    : 'text-text-muted group-hover:text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                 )}
               />
               <span className="truncate">{cat.label}</span>

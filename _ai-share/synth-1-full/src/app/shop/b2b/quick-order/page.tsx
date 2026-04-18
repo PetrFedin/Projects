@@ -14,10 +14,12 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, Zap, Plus, Trash2, ArrowRight } from 'lucide-react';
+import { Plus, Trash2, ArrowRight } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { RegistryPageShell } from '@/components/design-system';
 
 /** NuOrder/JOOR: быстрый заказ по артикулам — ввод строк "стиль / размер / кол-во" без каталога. */
 type QuickLine = { styleNumber: string; size: string; qty: string };
@@ -45,7 +47,7 @@ const COLORS = [
 
 export default function QuickOrderPage() {
   const router = useRouter();
-  const [brand, setBrand] = useState('Syntha');
+  const [brand, setBrand] = useState('Syntha Lab');
   const [season, setSeason] = useState('');
   const [color, setColor] = useState('');
   const [lines, setLines] = useState<QuickLine[]>([{ ...DEFAULT_LINE }]);
@@ -77,6 +79,7 @@ export default function QuickOrderPage() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2bOrderMode}>
@@ -94,6 +97,13 @@ export default function QuickOrderPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-3xl space-y-6">
+      <ShopB2bContentHeader
+        backHref={ROUTES.shop.b2bOrderMode}
+        lead="NuOrder / JOOR: артикулы стилей, размеры и количество — затем матрица для проверки и отправки."
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -105,23 +115,30 @@ export default function QuickOrderPage() {
           </CardDescription>
           <div className="flex flex-wrap gap-2 pt-2">
             <div>
-              <Label className="text-xs text-slate-500">Бренд</Label>
+              <Label className="text-text-secondary text-xs">Бренд</Label>
               <select
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
+<<<<<<< HEAD
                 className="mt-0.5 block w-[180px] rounded-lg border border-slate-200 px-3 py-2 text-sm"
+=======
+                className="border-border-default mt-0.5 block w-[180px] rounded-lg border px-3 py-2 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
               >
-                <option value="Syntha">Syntha</option>
-                <option value="A.P.C.">A.P.C.</option>
-                <option value="Acne Studios">Acne Studios</option>
+                <option value="Syntha Lab">Syntha Lab</option>
+                <option value="Nordic Wool">Nordic Wool</option>
               </select>
             </div>
             <div>
-              <Label className="text-xs text-slate-500">Сезон</Label>
+              <Label className="text-text-secondary text-xs">Сезон</Label>
               <select
                 value={season}
                 onChange={(e) => setSeason(e.target.value)}
+<<<<<<< HEAD
                 className="mt-0.5 block w-[140px] rounded-lg border border-slate-200 px-3 py-2 text-sm"
+=======
+                className="border-border-default mt-0.5 block w-[140px] rounded-lg border px-3 py-2 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 {SEASONS.map((s) => (
                   <option key={s.value || 'all'} value={s.value}>
@@ -131,11 +148,15 @@ export default function QuickOrderPage() {
               </select>
             </div>
             <div>
-              <Label className="text-xs text-slate-500">Цвет</Label>
+              <Label className="text-text-secondary text-xs">Цвет</Label>
               <select
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
+<<<<<<< HEAD
                 className="mt-0.5 block w-[140px] rounded-lg border border-slate-200 px-3 py-2 text-sm"
+=======
+                className="border-border-default mt-0.5 block w-[140px] rounded-lg border px-3 py-2 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 {COLORS.map((c) => (
                   <option key={c.value || 'all'} value={c.value}>
@@ -145,14 +166,22 @@ export default function QuickOrderPage() {
               </select>
             </div>
             {(season || color) && (
+<<<<<<< HEAD
               <span className="self-end pb-2 text-xs text-slate-400">
+=======
+              <span className="text-text-muted self-end pb-2 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                 Фильтр: {[season, color].filter(Boolean).join(' · ') || '—'}
               </span>
             )}
           </div>
         </CardHeader>
         <CardContent className="space-y-3">
+<<<<<<< HEAD
           <div className="grid grid-cols-[1fr_100px_80px_40px] gap-2 text-xs font-medium uppercase text-slate-500">
+=======
+          <div className="text-text-secondary grid grid-cols-[1fr_100px_80px_40px] gap-2 text-xs font-medium uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
             <span>Артикул / стиль</span>
             <span>Размер</span>
             <span>Кол-во</span>
@@ -169,7 +198,11 @@ export default function QuickOrderPage() {
               <select
                 value={line.size}
                 onChange={(e) => updateLine(i, 'size', e.target.value)}
+<<<<<<< HEAD
                 className="h-9 rounded-md border border-slate-200 px-2 py-2 text-sm"
+=======
+                className="border-border-default h-9 rounded-md border px-2 py-2 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <option value="">—</option>
                 {MOCK_SIZES.map((s) => (
@@ -189,7 +222,11 @@ export default function QuickOrderPage() {
                 type="button"
                 variant="ghost"
                 size="icon"
+<<<<<<< HEAD
                 className="h-9 w-9 text-slate-400"
+=======
+                className="text-text-muted h-9 w-9"
+>>>>>>> recover/cabinet-wip-from-stash
                 onClick={() => removeLine(i)}
                 disabled={lines.length <= 1}
               >
@@ -202,7 +239,7 @@ export default function QuickOrderPage() {
           </Button>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <p className="text-sm text-slate-500">Строк к заказу: {validLines.length}</p>
+          <p className="text-text-secondary text-sm">Строк к заказу: {validLines.length}</p>
           <Button onClick={handleSubmit} disabled={!canSubmit}>
             В матрицу с выбранными позициями <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
@@ -221,6 +258,6 @@ export default function QuickOrderPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getShopB2BHubLinks()} title="Матрица, EZ Order, шаблоны" />
-    </div>
+    </RegistryPageShell>
   );
 }

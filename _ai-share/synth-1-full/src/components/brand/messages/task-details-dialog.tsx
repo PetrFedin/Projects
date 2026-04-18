@@ -29,6 +29,10 @@ import {
   GitCommit,
   Paperclip,
   Send,
+<<<<<<< HEAD
+=======
+  Flame,
+>>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
@@ -36,6 +40,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import type { ChatMessage, TaskStatus, TaskPriority } from '@/lib/types';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
@@ -60,6 +65,10 @@ const priorityConfig: Record<
   low: { label: 'Низкий', icon: ArrowDown, color: 'text-gray-500' },
   medium: { label: 'Средний', icon: ArrowUp, color: 'text-amber-600' },
   high: { label: 'Высокий', icon: AlertCircle, color: 'text-red-600' },
+<<<<<<< HEAD
+=======
+  critical: { label: 'Критический', icon: Flame, color: 'text-red-800' },
+>>>>>>> recover/cabinet-wip-from-stash
 };
 
 export function TaskDetailsDialog({ isOpen, onOpenChange, task }: TaskDetailsDialogProps) {
@@ -100,9 +109,32 @@ export function TaskDetailsDialog({ isOpen, onOpenChange, task }: TaskDetailsDia
         </DialogHeader>
 
         <Tabs defaultValue="discussion" className="flex min-h-0 flex-1 flex-col">
+<<<<<<< HEAD
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="discussion">Обсуждение ({comments.length || 0})</TabsTrigger>
             <TabsTrigger value="history">История ({task.history?.length || 0})</TabsTrigger>
+=======
+          {/* cabinetSurface v1 */}
+          <TabsList className={cn(cabinetSurface.tabsList, 'w-full')}>
+            <TabsTrigger
+              value="discussion"
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'h-9 flex-1 text-sm font-medium normal-case tracking-normal'
+              )}
+            >
+              Обсуждение ({comments.length || 0})
+            </TabsTrigger>
+            <TabsTrigger
+              value="history"
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'h-9 flex-1 text-sm font-medium normal-case tracking-normal'
+              )}
+            >
+              История ({task.history?.length || 0})
+            </TabsTrigger>
+>>>>>>> recover/cabinet-wip-from-stash
           </TabsList>
           <div className="min-h-0 flex-1 py-4">
             <ScrollArea className="-mr-6 h-full pr-4">

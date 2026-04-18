@@ -4,19 +4,15 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import {
-  DollarSign,
-  ArrowLeft,
-  CreditCard,
-  Clock,
-  CheckCircle2,
-  FileText,
-  ShoppingCart,
-} from 'lucide-react';
+import { RegistryPageShell } from '@/components/design-system';
+import { DollarSign, CreditCard, Clock, CheckCircle2, FileText, ShoppingCart } from 'lucide-react';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { ROUTES } from '@/lib/routes';
 import { getPartnerFinanceRollup } from '@/lib/b2b/partner-finance-rollup';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
+import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
 
 export default function PartnerFinancePage() {
   const rollup = getPartnerFinanceRollup();
@@ -32,6 +28,7 @@ export default function PartnerFinancePage() {
   const formatMoney = (n: number) => n.toLocaleString('ru-RU', { maximumFractionDigits: 0 }) + ' ₽';
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -55,12 +52,23 @@ export default function PartnerFinancePage() {
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-sm font-black uppercase tracking-tight">
               <CreditCard className="h-4 w-4 text-indigo-600" /> Кредитный лимит
+=======
+    <RegistryPageShell className="max-w-4xl space-y-6">
+      <ShopB2bContentHeader lead="Заказы по статусам, кредитный лимит, ожидаемые и оплаченные платежи, JOOR Pay и документы." />
+      <ShopAnalyticsSegmentErpStrip />
+
+      <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+        <Card className="border-border-subtle">
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase tracking-tight">
+              <CreditCard className="text-accent-primary h-4 w-4" /> Кредитный лимит
+>>>>>>> recover/cabinet-wip-from-stash
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-1">
-            <p className="text-2xl font-black text-slate-900">{formatMoney(credit.available)}</p>
-            <p className="text-xs text-slate-500">доступно из {formatMoney(credit.limit)}</p>
-            <p className="text-[10px] text-slate-400">использовано {formatMoney(credit.used)}</p>
+            <p className="text-text-primary text-2xl font-black">{formatMoney(credit.available)}</p>
+            <p className="text-text-secondary text-xs">доступно из {formatMoney(credit.limit)}</p>
+            <p className="text-text-muted text-[10px]">использовано {formatMoney(credit.used)}</p>
             {credit.blocked && (
               <Badge variant="destructive" className="mt-2 text-[9px] font-black">
                 Лимит исчерпан
@@ -69,7 +77,7 @@ export default function PartnerFinancePage() {
           </CardContent>
         </Card>
 
-        <Card className="border-slate-100">
+        <Card className="border-border-subtle">
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-sm font-black uppercase tracking-tight">
               <Clock className="h-4 w-4 text-amber-600" /> Ожидает оплаты
@@ -77,11 +85,11 @@ export default function PartnerFinancePage() {
           </CardHeader>
           <CardContent className="space-y-1">
             <p className="text-2xl font-black text-amber-700">{formatMoney(awaitingPayment)}</p>
-            <p className="text-xs text-slate-500">{ordersAwaitingPayment.length} заказ(ов)</p>
+            <p className="text-text-secondary text-xs">{ordersAwaitingPayment.length} заказ(ов)</p>
           </CardContent>
         </Card>
 
-        <Card className="border-slate-100">
+        <Card className="border-border-subtle">
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-sm font-black uppercase tracking-tight">
               <CheckCircle2 className="h-4 w-4 text-emerald-600" /> Оплачено за период
@@ -89,7 +97,7 @@ export default function PartnerFinancePage() {
           </CardHeader>
           <CardContent className="space-y-1">
             <p className="text-2xl font-black text-emerald-700">{formatMoney(paidThisPeriod)}</p>
-            <p className="text-xs text-slate-500">мок: все оплаченные</p>
+            <p className="text-text-secondary text-xs">мок: все оплаченные</p>
           </CardContent>
         </Card>
       </div>
@@ -123,13 +131,17 @@ export default function PartnerFinancePage() {
           </CardHeader>
           <CardContent>
             {ordersAwaitingPayment.length === 0 ? (
-              <p className="text-sm text-slate-500">Нет заказов, ожидающих оплаты.</p>
+              <p className="text-text-secondary text-sm">Нет заказов, ожидающих оплаты.</p>
             ) : (
               <ul className="space-y-2">
                 {ordersAwaitingPayment.map((o) => (
                   <li
                     key={o.order}
+<<<<<<< HEAD
                     className="flex items-center justify-between border-b border-slate-100 py-2 last:border-0"
+=======
+                    className="border-border-subtle flex items-center justify-between border-b py-2 last:border-0"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <span className="font-mono text-sm">{o.order}</span>
                     <span className="font-bold text-amber-700">{o.amount}</span>
@@ -156,12 +168,16 @@ export default function PartnerFinancePage() {
         </CardHeader>
         <CardContent>
           {recentOrders.length === 0 ? (
-            <p className="text-sm text-slate-500">Нет подтверждённых заказов.</p>
+            <p className="text-text-secondary text-sm">Нет подтверждённых заказов.</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
+<<<<<<< HEAD
                   <tr className="border-b border-slate-200">
+=======
+                  <tr className="border-border-default border-b">
+>>>>>>> recover/cabinet-wip-from-stash
                     <th className="py-2 text-left font-medium">Заказ</th>
                     <th className="py-2 text-left font-medium">Бренд</th>
                     <th className="py-2 text-right font-medium">Сумма</th>
@@ -171,23 +187,33 @@ export default function PartnerFinancePage() {
                 </thead>
                 <tbody>
                   {recentOrders.map((o) => (
-                    <tr key={o.order} className="border-b border-slate-100">
+                    <tr key={o.order} className="border-border-subtle border-b">
                       <td className="py-2">
                         <Link
                           href={ROUTES.shop.b2bOrders}
+<<<<<<< HEAD
                           className="font-mono text-indigo-600 hover:underline"
+=======
+                          className="text-accent-primary font-mono hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
                         >
                           {o.order}
                         </Link>
                       </td>
-                      <td className="py-2 text-slate-600">{o.brand}</td>
+                      <td className="text-text-secondary py-2">{o.brand}</td>
                       <td className="py-2 text-right font-medium">{o.amount}</td>
                       <td className="py-2">
                         <Badge variant="secondary" className="text-[9px]">
                           {o.status}
                         </Badge>
                       </td>
+<<<<<<< HEAD
                       <td className="py-2 text-[10px] text-slate-500">{o.paymentStatus ?? '—'}</td>
+=======
+                      <td className="text-text-secondary py-2 text-[10px]">
+                        {o.paymentStatus ?? '—'}
+                      </td>
+>>>>>>> recover/cabinet-wip-from-stash
                     </tr>
                   ))}
                 </tbody>
@@ -197,7 +223,24 @@ export default function PartnerFinancePage() {
         </CardContent>
       </Card>
 
-      <div className="mt-6 flex flex-wrap gap-2">
+      <div className="border-border-subtle mt-6 flex flex-wrap items-center gap-2 border-t pt-4">
+        <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+          См. также
+        </span>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link href={ROUTES.shop.analytics} data-testid="shop-b2b-finance-retail-link">
+            Розничная аналитика
+          </Link>
+        </Button>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link href={ROUTES.shop.analyticsFootfall} data-testid="shop-b2b-finance-footfall-link">
+            Трафик по зонам
+          </Link>
+        </Button>
+        <B2bMarginAnalysisHubButton />
+      </div>
+
+      <div className="mt-4 flex flex-wrap gap-2">
         <Button asChild className="rounded-xl">
           <Link href={ROUTES.shop.b2bPayment}>
             <CreditCard className="mr-2 h-4 w-4" /> Оплата заказов (JOOR Pay)
@@ -220,6 +263,10 @@ export default function PartnerFinancePage() {
         title="Заказы, оплата, документы"
         className="mt-6"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

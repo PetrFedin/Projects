@@ -118,15 +118,23 @@ export const getStatusLabel = (status: string) => {
 
 export const getStatusColor = (status: string) => {
   const colors: { [key: string]: string } = {
+<<<<<<< HEAD
     draft: 'bg-slate-100 text-slate-600',
     configuration: 'bg-blue-100 text-blue-600',
     measurement: 'bg-indigo-100 text-indigo-600',
     payment_pending: 'bg-amber-100 text-amber-600',
     in_production: 'bg-purple-100 text-purple-600',
+=======
+    draft: 'bg-bg-surface2 text-text-secondary',
+    configuration: 'bg-blue-100 text-blue-600',
+    measurement: 'bg-accent-primary/15 text-accent-primary',
+    payment_pending: 'bg-amber-100 text-amber-600',
+    in_production: 'bg-accent-primary/15 text-accent-primary',
+>>>>>>> recover/cabinet-wip-from-stash
     quality_control: 'bg-yellow-100 text-yellow-600',
     ready_for_shipping: 'bg-emerald-100 text-emerald-600',
     shipped: 'bg-sky-100 text-sky-600',
     delivered: 'bg-green-100 text-green-600',
   };
-  return colors[status] || 'bg-slate-100 text-slate-600';
+  return colors[status] || 'bg-bg-surface2 text-text-secondary';
 };

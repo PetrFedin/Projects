@@ -1,4 +1,5 @@
 'use client';
+import { RegistryPageShell } from '@/components/design-system';
 
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -14,7 +15,11 @@ export default function CustomerGroupsPage() {
   const groups = getCustomerGroups();
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
+=======
+    <RegistryPageShell className="max-w-4xl space-y-6">
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.brand.retailers}>
           <Button variant="ghost" size="icon">
@@ -25,7 +30,11 @@ export default function CustomerGroupsPage() {
           <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
             <Users className="h-6 w-6" /> Группы клиентов
           </h1>
+<<<<<<< HEAD
           <p className="mt-0.5 text-sm text-slate-500">
+=======
+          <p className="text-text-secondary mt-0.5 text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Сегментация: розница, дистрибуция, франшиза. Привязка к прайсам, скидкам, Net terms.
           </p>
         </div>
@@ -42,10 +51,17 @@ export default function CustomerGroupsPage() {
         <CardContent className="grid gap-4 sm:grid-cols-2">
           {groups.map((g) => (
             <Link key={g.id} href={ROUTES.brand.priceLists + `?group=${g.id}`}>
+<<<<<<< HEAD
               <div className="flex items-start justify-between rounded-xl border border-slate-200 p-4 transition-colors hover:border-indigo-200 hover:bg-indigo-50/30">
                 <div>
                   <p className="font-medium">{g.nameRu}</p>
                   <p className="mt-1 text-xs text-slate-500">
+=======
+              <div className="border-border-default hover:border-accent-primary/30 hover:bg-accent-primary/10 flex items-start justify-between rounded-xl border p-4 transition-colors">
+                <div>
+                  <p className="font-medium">{g.nameRu}</p>
+                  <p className="text-text-secondary mt-1 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                     Tier: {g.defaultPriceTier} · Net {g.defaultNetTermDays} дн.
                   </p>
                   <div className="mt-2 flex gap-1">
@@ -81,6 +97,6 @@ export default function CustomerGroupsPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getB2BLinks()} title="Прайсы, заказы, партнёры" />
-    </div>
+    </RegistryPageShell>
   );
 }

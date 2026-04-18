@@ -25,7 +25,7 @@ export function ProcessLinksBadge({ processLinks, sourceStageId }: ProcessLinksB
           <Link
             key={`${link.sourceProcessId}-${link.sourceStageId}-${link.targetProcessId}`}
             href={processLiveUrl(link.targetProcessId)}
-            className="inline-flex items-center gap-0.5 text-[10px] text-indigo-600 hover:text-indigo-700"
+            className="text-accent-primary hover:text-accent-primary inline-flex items-center gap-0.5 text-[10px]"
           >
             <ArrowRight className="h-3 w-3" />→ {targetDef?.name ?? link.targetProcessId}
           </Link>

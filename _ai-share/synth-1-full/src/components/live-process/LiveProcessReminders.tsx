@@ -60,7 +60,7 @@ export function LiveProcessReminders({ processId, contextId }: LiveProcessRemind
                   <p className="text-[10px] font-medium text-amber-700">
                     {REMINDER_LABELS[r.type]}
                   </p>
-                  <p className="text-xs text-slate-700">{r.message}</p>
+                  <p className="text-text-primary text-xs">{r.message}</p>
                 </div>
                 <Button
                   variant="ghost"

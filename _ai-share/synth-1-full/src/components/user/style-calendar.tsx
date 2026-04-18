@@ -37,7 +37,13 @@ export default function StyleCalendar({
   const [currentRole, setCurrentRole] = useState(
     (initialRole || user?.roles?.[0] || 'client').toLowerCase()
   );
+<<<<<<< HEAD
   const [view, setView] = useState(variant === 'compact' ? 'month' : 'month');
+=======
+  const [view, setView] = useState<'month' | 'week' | 'day' | 'list'>(
+    variant === 'compact' ? 'month' : 'month'
+  );
+>>>>>>> recover/cabinet-wip-from-stash
   const [currentDate, _setCurrentDate] = useState<Date>(externalDate || new Date());
   const [events, setEvents] = useState<CalendarEvent[]>([]);
 
@@ -74,6 +80,10 @@ export default function StyleCalendar({
     logistics: true,
     orders: true,
     communications: true,
+<<<<<<< HEAD
+=======
+    market: true,
+>>>>>>> recover/cabinet-wip-from-stash
     trends: true,
     spam: false,
   });
@@ -418,12 +428,20 @@ export default function StyleCalendar({
   return (
     <div
       className={cn(
+<<<<<<< HEAD
         'flex flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-xl',
+=======
+        'border-border-subtle flex flex-col overflow-hidden rounded-3xl border bg-white shadow-xl',
+>>>>>>> recover/cabinet-wip-from-stash
         variant === 'full' ? 'h-full' : 'h-[600px]'
       )}
     >
       {variant === 'full' ? (
+<<<<<<< HEAD
         <div className="border-b border-slate-100 p-4">
+=======
+        <div className="border-border-subtle border-b p-4">
+>>>>>>> recover/cabinet-wip-from-stash
           <CalendarHeader
             state={{
               currentRole,
@@ -454,10 +472,14 @@ export default function StyleCalendar({
           />
         </div>
       ) : (
+<<<<<<< HEAD
         <div className="pointer-events-none flex items-center justify-between border-b border-slate-100 bg-white p-4 opacity-50">
+=======
+        <div className="border-border-subtle pointer-events-none flex items-center justify-between border-b bg-white p-4 opacity-50">
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="flex items-center gap-3">
-            <div className="h-2 w-2 rounded-full bg-slate-400" />
-            <div className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+            <div className="bg-text-muted h-2 w-2 rounded-full" />
+            <div className="text-text-secondary text-[10px] font-black uppercase tracking-widest">
               {currentDate.toLocaleDateString('ru', { month: 'long', year: 'numeric' })}
             </div>
           </div>
@@ -466,7 +488,14 @@ export default function StyleCalendar({
       )}
 
       <div
+<<<<<<< HEAD
         className={cn('flex-1 overflow-y-auto bg-slate-50/50', variant === 'full' ? 'p-4' : 'p-2')}
+=======
+        className={cn(
+          'bg-bg-surface2/80 flex-1 overflow-y-auto',
+          variant === 'full' ? 'p-4' : 'p-2'
+        )}
+>>>>>>> recover/cabinet-wip-from-stash
       >
         <CalendarGrid
           view={view}

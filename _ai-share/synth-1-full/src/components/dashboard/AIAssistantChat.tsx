@@ -104,7 +104,11 @@ export function AIAssistantChat() {
     return (
       <button
         onClick={() => setIsOpen(true)}
+<<<<<<< HEAD
         className="group fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-2xl transition-transform hover:scale-110"
+=======
+        className="from-accent-primary to-accent-primary group fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br text-white shadow-2xl transition-transform hover:scale-110"
+>>>>>>> recover/cabinet-wip-from-stash
       >
         <MessageCircle className="h-7 w-7" />
         <div className="absolute -right-1 -top-1 flex h-5 w-5 animate-pulse items-center justify-center rounded-full bg-rose-500">
@@ -117,12 +121,20 @@ export function AIAssistantChat() {
   return (
     <Card
       className={cn(
+<<<<<<< HEAD
         'fixed bottom-6 right-6 z-50 overflow-hidden rounded-2xl border-2 border-indigo-200 shadow-2xl',
+=======
+        'border-accent-primary/30 fixed bottom-6 right-6 z-50 overflow-hidden rounded-2xl border-2 shadow-2xl',
+>>>>>>> recover/cabinet-wip-from-stash
         isMinimized ? 'h-12 w-80' : 'h-[600px] w-[400px]'
       )}
     >
       {/* Header */}
+<<<<<<< HEAD
       <div className="border-b bg-gradient-to-r from-indigo-600 to-purple-600 p-4 text-white">
+=======
+      <div className="from-accent-primary to-accent-primary border-b bg-gradient-to-r p-4 text-white">
+>>>>>>> recover/cabinet-wip-from-stash
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20">
@@ -161,7 +173,11 @@ export function AIAssistantChat() {
       {!isMinimized && (
         <>
           {/* Messages */}
+<<<<<<< HEAD
           <div className="h-[440px] flex-1 space-y-4 overflow-y-auto bg-slate-50 p-4">
+=======
+          <div className="bg-bg-surface2 h-[440px] flex-1 space-y-4 overflow-y-auto p-4">
+>>>>>>> recover/cabinet-wip-from-stash
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -171,8 +187,13 @@ export function AIAssistantChat() {
                   className={cn(
                     'max-w-[80%] rounded-2xl p-3',
                     message.role === 'user'
+<<<<<<< HEAD
                       ? 'bg-indigo-600 text-white'
                       : 'border-2 border-slate-200 bg-white text-slate-900'
+=======
+                      ? 'bg-accent-primary text-white'
+                      : 'text-text-primary border-border-default border-2 bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   <p className="whitespace-pre-line text-sm leading-relaxed">{message.content}</p>
@@ -186,7 +207,11 @@ export function AIAssistantChat() {
                             'rounded-full px-3 py-1.5 text-[10px] font-medium transition-colors',
                             message.role === 'user'
                               ? 'bg-white/20 text-white hover:bg-white/30'
+<<<<<<< HEAD
                               : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'
+=======
+                              : 'bg-accent-primary/10 hover:bg-accent-primary/15 text-accent-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                           )}
                         >
                           {suggestion}
@@ -200,6 +225,7 @@ export function AIAssistantChat() {
 
             {isTyping && (
               <div className="flex justify-start">
+<<<<<<< HEAD
                 <div className="rounded-2xl border-2 border-slate-200 bg-white p-3">
                   <div className="flex gap-1">
                     <div className="h-2 w-2 animate-bounce rounded-full bg-slate-400" />
@@ -209,6 +235,17 @@ export function AIAssistantChat() {
                     />
                     <div
                       className="h-2 w-2 animate-bounce rounded-full bg-slate-400"
+=======
+                <div className="border-border-default rounded-2xl border-2 bg-white p-3">
+                  <div className="flex gap-1">
+                    <div className="bg-text-muted h-2 w-2 animate-bounce rounded-full" />
+                    <div
+                      className="bg-text-muted h-2 w-2 animate-bounce rounded-full"
+                      style={{ animationDelay: '0.1s' }}
+                    />
+                    <div
+                      className="bg-text-muted h-2 w-2 animate-bounce rounded-full"
+>>>>>>> recover/cabinet-wip-from-stash
                       style={{ animationDelay: '0.2s' }}
                     />
                   </div>
@@ -229,18 +266,30 @@ export function AIAssistantChat() {
                 placeholder="Спросите что-нибудь..."
                 className="flex-1 rounded-xl"
               />
+<<<<<<< HEAD
               <Button size="icon" variant="ghost" className="flex-shrink-0 hover:bg-slate-100">
+=======
+              <Button size="icon" variant="ghost" className="hover:bg-bg-surface2 flex-shrink-0">
+>>>>>>> recover/cabinet-wip-from-stash
                 <Mic className="h-4 w-4" />
               </Button>
               <Button
                 size="icon"
                 onClick={handleSend}
+<<<<<<< HEAD
                 className="flex-shrink-0 rounded-xl bg-indigo-600 hover:bg-indigo-700"
+=======
+                className="bg-accent-primary hover:bg-accent-primary flex-shrink-0 rounded-xl"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <Send className="h-4 w-4" />
               </Button>
             </div>
+<<<<<<< HEAD
             <p className="mt-2 text-center text-[9px] text-slate-400">
+=======
+            <p className="text-text-muted mt-2 text-center text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
               Powered by GPT-4 • Ваши данные защищены
             </p>
           </div>

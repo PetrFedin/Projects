@@ -11,15 +11,25 @@ export function FinancialOverview() {
   return (
     <div className="space-y-4 duration-700 animate-in fade-in slide-in-from-bottom-2">
       {/* Valuation & Net Worth Card */}
+<<<<<<< HEAD
       <Card className="group relative overflow-hidden rounded-xl border border-slate-100 bg-slate-900 text-white shadow-xl shadow-indigo-100/30 transition-colors hover:bg-slate-800">
         <div className="absolute right-0 top-0 p-4 opacity-10 transition-transform duration-700 group-hover:scale-110">
           <TrendingUp className="h-32 w-32 text-indigo-500" />
+=======
+      <Card className="border-border-subtle shadow-accent-primary/10 bg-text-primary hover:bg-text-primary/90 group relative overflow-hidden rounded-xl border text-white shadow-xl transition-colors">
+        <div className="absolute right-0 top-0 p-4 opacity-10 transition-transform duration-700 group-hover:scale-110">
+          <TrendingUp className="text-accent-primary h-32 w-32" />
+>>>>>>> recover/cabinet-wip-from-stash
         </div>
         <CardContent className="relative z-10 p-4">
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             <div className="space-y-4">
               <div className="space-y-1">
+<<<<<<< HEAD
                 <p className="text-[9px] font-bold uppercase leading-none tracking-[0.2em] text-indigo-400">
+=======
+                <p className="text-accent-primary text-[9px] font-bold uppercase leading-none tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
                   Estimated Enterprise Value
                 </p>
                 <h3 className="text-base font-bold uppercase tabular-nums leading-none tracking-tighter text-white">
@@ -61,11 +71,19 @@ export function FinancialOverview() {
                   {metrics.totalAssets.toLocaleString('ru-RU')} ₽
                 </p>
               </div>
+<<<<<<< HEAD
               <div className="space-y-1.5 rounded-xl border border-indigo-500/20 bg-indigo-500/10 p-3.5 shadow-inner">
                 <p className="text-[8px] font-bold uppercase leading-none tracking-widest text-indigo-300">
                   Sustainability
                 </p>
                 <p className="text-sm font-bold tabular-nums leading-none text-indigo-400">
+=======
+              <div className="bg-accent-primary/10 border-accent-primary/20 space-y-1.5 rounded-xl border p-3.5 shadow-inner">
+                <p className="text-accent-primary text-[8px] font-bold uppercase leading-none tracking-widest">
+                  Sustainability
+                </p>
+                <p className="text-accent-primary text-sm font-bold tabular-nums leading-none">
+>>>>>>> recover/cabinet-wip-from-stash
                   {metrics.sustainabilityIndex}%
                 </p>
               </div>
@@ -84,16 +102,27 @@ export function FinancialOverview() {
 
       {/* Secondary Metrics */}
       <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+<<<<<<< HEAD
         <Card className="group space-y-4 rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition-all hover:border-indigo-100">
+=======
+        <Card className="border-border-subtle hover:border-accent-primary/20 group space-y-4 rounded-xl border bg-white p-4 shadow-sm transition-all">
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="flex items-center gap-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-100 bg-emerald-50 text-emerald-600 shadow-inner transition-transform group-hover:scale-105">
               <Package className="h-4 w-4" />
             </div>
             <div>
+<<<<<<< HEAD
               <p className="mb-1 text-[9px] font-bold uppercase leading-none tracking-widest text-slate-400">
                 Товарное обеспечение
               </p>
               <h4 className="text-sm font-bold uppercase leading-none tracking-tight text-slate-900">
+=======
+              <p className="text-text-muted mb-1 text-[9px] font-bold uppercase leading-none tracking-widest">
+                Товарное обеспечение
+              </p>
+              <h4 className="text-text-primary text-sm font-bold uppercase leading-none tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                 {metrics.inventoryValue.toLocaleString('ru-RU')} ₽
               </h4>
             </div>
@@ -102,6 +131,7 @@ export function FinancialOverview() {
             {inventoryStats.map((stat, i) => (
               <div key={i} className="space-y-1">
                 <div className="flex justify-between text-[8px] font-bold uppercase leading-none tracking-widest">
+<<<<<<< HEAD
                   <span className="text-slate-400">{stat.category}</span>
                   <span className="text-slate-900">
                     {Math.round((stat.value / metrics.inventoryValue) * 100)}%
@@ -110,6 +140,16 @@ export function FinancialOverview() {
                 <div className="h-1 w-full overflow-hidden rounded-full bg-slate-50 shadow-inner">
                   <div
                     className="h-full rounded-full bg-indigo-500 transition-all duration-1000"
+=======
+                  <span className="text-text-muted">{stat.category}</span>
+                  <span className="text-text-primary">
+                    {Math.round((stat.value / metrics.inventoryValue) * 100)}%
+                  </span>
+                </div>
+                <div className="bg-bg-surface2 h-1 w-full overflow-hidden rounded-full shadow-inner">
+                  <div
+                    className="bg-accent-primary h-full rounded-full transition-all duration-1000"
+>>>>>>> recover/cabinet-wip-from-stash
                     style={{
                       width: `${(stat.value / metrics.inventoryValue) * 100}%`,
                     }}
@@ -120,6 +160,7 @@ export function FinancialOverview() {
           </div>
         </Card>
 
+<<<<<<< HEAD
         <Card className="group space-y-4 rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition-all hover:border-indigo-100">
           <div className="flex items-center gap-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-indigo-100 bg-indigo-50 text-indigo-600 shadow-inner transition-transform group-hover:scale-105">
@@ -130,26 +171,52 @@ export function FinancialOverview() {
                 Операционный Runway
               </p>
               <h4 className="text-sm font-bold uppercase leading-none tracking-tight text-slate-900">
+=======
+        <Card className="border-border-subtle hover:border-accent-primary/20 group space-y-4 rounded-xl border bg-white p-4 shadow-sm transition-all">
+          <div className="flex items-center gap-3">
+            <div className="bg-accent-primary/10 text-accent-primary border-accent-primary/20 flex h-9 w-9 items-center justify-center rounded-xl border shadow-inner transition-transform group-hover:scale-105">
+              <Zap className="h-4 w-4" />
+            </div>
+            <div>
+              <p className="text-text-muted mb-1 text-[9px] font-bold uppercase leading-none tracking-widest">
+                Операционный Runway
+              </p>
+              <h4 className="text-text-primary text-sm font-bold uppercase leading-none tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                 {metrics.runwayMonths} месяцев
               </h4>
             </div>
           </div>
+<<<<<<< HEAD
           <div className="space-y-1.5 rounded-xl border border-slate-100 bg-slate-50/50 p-3.5 transition-colors group-hover:bg-white">
             <div className="flex items-center justify-between">
               <span className="text-[8px] font-bold uppercase leading-none tracking-widest text-slate-400">
+=======
+          <div className="bg-bg-surface2/80 border-border-subtle space-y-1.5 rounded-xl border p-3.5 transition-colors group-hover:bg-white">
+            <div className="flex items-center justify-between">
+              <span className="text-text-muted text-[8px] font-bold uppercase leading-none tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Burn Rate (Monthly)
               </span>
               <span className="text-[10px] font-bold tabular-nums text-rose-600">
                 -{metrics.monthlyBurn.toLocaleString('ru-RU')} ₽
               </span>
             </div>
+<<<<<<< HEAD
             <p className="text-[9px] font-bold uppercase leading-relaxed tracking-tight text-slate-400 opacity-60">
+=======
+            <p className="text-text-muted text-[9px] font-bold uppercase leading-relaxed tracking-tight opacity-60">
+>>>>>>> recover/cabinet-wip-from-stash
               Запас до сентября 2026.
             </p>
           </div>
         </Card>
 
+<<<<<<< HEAD
         <Card className="group relative overflow-hidden rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition-all hover:border-amber-100">
+=======
+        <Card className="border-border-subtle group relative overflow-hidden rounded-xl border bg-white p-4 shadow-sm transition-all hover:border-amber-100">
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="absolute right-0 top-0 p-3 opacity-5 transition-transform group-hover:scale-110">
             <ShieldCheck className="h-12 w-12" />
           </div>
@@ -158,10 +225,17 @@ export function FinancialOverview() {
               <Scale className="h-4 w-4" />
             </div>
             <div>
+<<<<<<< HEAD
               <p className="mb-1 text-[9px] font-bold uppercase leading-none tracking-widest text-slate-400">
                 Налоги и Комплаенс
               </p>
               <h4 className="text-sm font-bold uppercase leading-none tracking-tight text-slate-900">
+=======
+              <p className="text-text-muted mb-1 text-[9px] font-bold uppercase leading-none tracking-widest">
+                Налоги и Комплаенс
+              </p>
+              <h4 className="text-text-primary text-sm font-bold uppercase leading-none tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                 1,200,000 ₽
               </h4>
             </div>

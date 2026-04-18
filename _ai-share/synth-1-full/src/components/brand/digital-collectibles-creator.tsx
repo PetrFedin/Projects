@@ -25,7 +25,7 @@ import { Button } from '../ui/button';
 import { useToast } from '@/hooks/use-toast';
 import type { Product } from '@/lib/types';
 import { Gem, Loader2, Sparkles } from 'lucide-react';
-import { generateCampaignCreative } from '@/ai/flows/generate-campaign-creative';
+import { campaignCreativeClient } from '@/lib/ai-client/api';
 import LatestCollectibles from './latest-collectibles';
 
 const formSchema = z.object({
@@ -66,9 +66,15 @@ export function DigitalCollectiblesCreator({ products }: { products: Product[] }
           'holographic foil style',
           'vintage blueprint style',
         ].map((style) =>
+<<<<<<< HEAD
           generateCampaignCreative({
             productName: selectedProduct.name,
             productPrice: '', // No price on collectibles
+=======
+          campaignCreativeClient({
+            productName: selectedProduct.name,
+            productPrice: '',
+>>>>>>> recover/cabinet-wip-from-stash
             productImageDataUri: base64data,
             prompt: `A digital collectible card of a fashion item. ${style}. Remove all text.`,
           })

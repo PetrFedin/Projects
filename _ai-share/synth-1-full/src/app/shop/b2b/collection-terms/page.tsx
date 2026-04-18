@@ -4,13 +4,15 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { CalendarClock, ArrowLeft, Package, Tag } from 'lucide-react';
+import { Package, Tag } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { JOOR_DELIVERY_WINDOWS, JOOR_MOQ_BY_PRODUCT } from '@/lib/b2b/joor-constants';
 import { getOrderRulesForPartner } from '@/lib/b2b/order-rules';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { B2BIntegrationStatusWidget } from '@/components/b2b/B2BIntegrationStatusWidget';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { RegistryPageShell } from '@/components/design-system';
 
 const MOV_DEFAULT = 150_000; // минимальная сумма заказа (мок)
 
@@ -29,6 +31,7 @@ export default function B2BCollectionTermsPage() {
   }, []);
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -45,6 +48,10 @@ export default function B2BCollectionTermsPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-4xl space-y-6">
+      <ShopB2bContentHeader lead="NuOrder / JOOR: дедлайны заказа, MOQ по стилю, минимальная сумма заказа (MOV)." />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -58,12 +65,15 @@ export default function B2BCollectionTermsPage() {
         <CardContent>
           <ul className="space-y-2 text-sm">
             {moqEntries.map(([productId, moq]) => (
-              <li key={productId} className="flex justify-between rounded-lg bg-slate-50 px-3 py-2">
-                <span className="font-mono text-slate-600">Стиль {productId}</span>
+              <li
+                key={productId}
+                className="bg-bg-surface2 flex justify-between rounded-lg px-3 py-2"
+              >
+                <span className="text-text-secondary font-mono">Стиль {productId}</span>
                 <span className="font-bold">MOQ {moq} шт.</span>
               </li>
             ))}
-            <li className="flex justify-between rounded-lg bg-slate-50 px-3 py-2 text-slate-500">
+            <li className="bg-bg-surface2 text-text-secondary flex justify-between rounded-lg px-3 py-2">
               <span>Остальные стили</span>
               <span>MOQ 6 шт. (по умолчанию)</span>
             </li>
@@ -79,7 +89,7 @@ export default function B2BCollectionTermsPage() {
           <CardDescription>Минимальная сумма одного заказа по бренду/коллекции.</CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-2xl font-black text-slate-900">
+          <p className="text-text-primary text-2xl font-black">
             {MOV_DEFAULT.toLocaleString('ru-RU', { maximumFractionDigits: 0 })} ₽
           </p>
           {rules.movByBrand && Object.keys(rules.movByBrand).length > 0 && (
@@ -106,9 +116,13 @@ export default function B2BCollectionTermsPage() {
         </CardHeader>
         <CardContent className="space-y-2">
           {JOOR_DELIVERY_WINDOWS.map((w) => (
-            <div key={w.id} className="rounded-lg bg-slate-50 px-3 py-2 text-sm">
+            <div key={w.id} className="bg-bg-surface2 rounded-lg px-3 py-2 text-sm">
               <span className="font-bold">{w.label}</span>
+<<<<<<< HEAD
               <span className="ml-2 text-slate-500">
+=======
+              <span className="text-text-secondary ml-2">
+>>>>>>> recover/cabinet-wip-from-stash
                 · отмена до {w.cancelDate} · отгрузка {w.startShipDate}–{w.completeShipDate}
               </span>
             </div>
@@ -129,9 +143,16 @@ export default function B2BCollectionTermsPage() {
           <CardContent>
             <ul className="space-y-2 text-sm">
               {priceLists.map((pl) => (
-                <li key={pl.slug} className="flex justify-between rounded-lg bg-slate-50 px-3 py-2">
+                <li
+                  key={pl.slug}
+                  className="bg-bg-surface2 flex justify-between rounded-lg px-3 py-2"
+                >
                   <span className="font-medium">{pl.name}</span>
+<<<<<<< HEAD
                   <span className="text-slate-500">
+=======
+                  <span className="text-text-secondary">
+>>>>>>> recover/cabinet-wip-from-stash
                     {pl.slug}
                     {pl.currency ? ` · ${pl.currency}` : ''}
                   </span>
@@ -149,6 +170,6 @@ export default function B2BCollectionTermsPage() {
           [ROUTES.shop.b2bDeliveryCalendar, ROUTES.shop.b2bCreateOrder].includes(l.href as string)
         )}
       />
-    </div>
+    </RegistryPageShell>
   );
 }

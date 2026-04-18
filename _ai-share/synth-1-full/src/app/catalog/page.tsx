@@ -43,13 +43,21 @@ export default function CatalogPage() {
   );
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen bg-slate-50">
+=======
+    <div className="bg-bg-surface2 min-h-screen">
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="container mx-auto max-w-6xl px-4 py-8 pb-24">
         <header className="mb-8">
-          <h1 className="text-3xl font-bold uppercase tracking-tight text-slate-900">
+          <h1 className="text-text-primary text-3xl font-bold uppercase tracking-tight">
             Каталог брендов
           </h1>
+<<<<<<< HEAD
           <p className="mt-1 text-slate-600">
+=======
+          <p className="text-text-secondary mt-1">
+>>>>>>> recover/cabinet-wip-from-stash
             Реальные бренды одежды: масс-маркет, премиум, люкс. Поиск и фильтры.
           </p>
         </header>
@@ -58,7 +66,11 @@ export default function CatalogPage() {
           <CardContent className="p-4">
             <div className="flex flex-col gap-4 sm:flex-row">
               <div className="relative flex-1">
+<<<<<<< HEAD
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+=======
+                <Search className="text-text-muted absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
+>>>>>>> recover/cabinet-wip-from-stash
                 <Input
                   placeholder="Поиск по названию, описанию, тегам..."
                   className="pl-9"
@@ -69,7 +81,11 @@ export default function CatalogPage() {
               <select
                 value={segmentFilter}
                 onChange={(e) => setSegmentFilter(e.target.value)}
+<<<<<<< HEAD
                 className="min-w-[180px] rounded-lg border border-slate-200 px-4 py-2 text-sm"
+=======
+                className="border-border-default min-w-[180px] rounded-lg border px-4 py-2 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <option value="">Все сегменты</option>
                 {segments.map((s) => (
@@ -81,7 +97,11 @@ export default function CatalogPage() {
               <select
                 value={countryFilter}
                 onChange={(e) => setCountryFilter(e.target.value)}
+<<<<<<< HEAD
                 className="min-w-[160px] rounded-lg border border-slate-200 px-4 py-2 text-sm"
+=======
+                className="border-border-default min-w-[160px] rounded-lg border px-4 py-2 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <option value="">Все страны</option>
                 {countries.map((c) => (
@@ -94,7 +114,7 @@ export default function CatalogPage() {
           </CardContent>
         </Card>
 
-        <div className="mb-4 flex items-center gap-2 text-slate-600">
+        <div className="text-text-secondary mb-4 flex items-center gap-2">
           <LayoutGrid className="h-4 w-4" />
           <span className="text-sm font-medium">
             {filteredBrands.length} бренд
@@ -109,7 +129,11 @@ export default function CatalogPage() {
         </div>
 
         {filteredBrands.length === 0 && (
+<<<<<<< HEAD
           <div className="py-16 text-center text-slate-500">
+=======
+          <div className="text-text-secondary py-16 text-center">
+>>>>>>> recover/cabinet-wip-from-stash
             <p>Бренды не найдены. Попробуйте изменить фильтры.</p>
             <Button
               variant="outline"
@@ -143,8 +167,13 @@ function CatalogBrandCard({ brand }: { brand: CatalogBrand }) {
 
   return (
     <Link href={`/search?brand=${encodeURIComponent(brand.name)}`}>
+<<<<<<< HEAD
       <Card className="group h-full overflow-hidden transition-all duration-300 hover:border-slate-300 hover:shadow-lg">
         <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
+=======
+      <Card className="hover:border-border-default group h-full overflow-hidden transition-all duration-300 hover:shadow-lg">
+        <div className="bg-bg-surface2 relative aspect-[4/3] overflow-hidden">
+>>>>>>> recover/cabinet-wip-from-stash
           {brand.coverImage ? (
             <Image
               src={brand.coverImage}
@@ -154,7 +183,7 @@ function CatalogBrandCard({ brand }: { brand: CatalogBrand }) {
               sizes="(max-width: 768px) 100vw, 33vw"
             />
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center text-4xl font-bold text-slate-300">
+            <div className="text-text-muted absolute inset-0 flex items-center justify-center text-4xl font-bold">
               {brand.name.slice(0, 2)}
             </div>
           )}
@@ -168,7 +197,11 @@ function CatalogBrandCard({ brand }: { brand: CatalogBrand }) {
           </div>
         </div>
         <CardContent className="p-4">
+<<<<<<< HEAD
           <p className="mb-3 line-clamp-2 text-sm text-slate-600">{brand.description}</p>
+=======
+          <p className="text-text-secondary mb-3 line-clamp-2 text-sm">{brand.description}</p>
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="mb-2 flex flex-wrap gap-1">
             <Badge variant="secondary" className="text-[10px]">
               {brand.segment}
@@ -177,9 +210,13 @@ function CatalogBrandCard({ brand }: { brand: CatalogBrand }) {
               {priceStr}
             </Badge>
           </div>
-          <div className="flex items-center justify-between text-xs text-slate-500">
+          <div className="text-text-secondary flex items-center justify-between text-xs">
             <span>{brand.categories.slice(0, 2).join(', ')}</span>
+<<<<<<< HEAD
             <ChevronRight className="h-4 w-4 text-indigo-500 transition-transform group-hover:translate-x-1" />
+=======
+            <ChevronRight className="text-accent-primary h-4 w-4 transition-transform group-hover:translate-x-1" />
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
         </CardContent>
       </Card>

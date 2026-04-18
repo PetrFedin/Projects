@@ -101,7 +101,11 @@ export default function EnhancedDataVisualization({
       description: 'Средняя стоимость одного заказа',
       explanation:
         'Рассчитывается как общая сумма заказов за период, разделенная на их количество.',
+<<<<<<< HEAD
       color: 'text-purple-600',
+=======
+      color: 'text-accent-primary',
+>>>>>>> recover/cabinet-wip-from-stash
     },
     {
       label: 'Бонусные баллы',
@@ -120,7 +124,7 @@ export default function EnhancedDataVisualization({
       value: `${period === 'year' ? activity.engagementLevel : period === 'month' ? 72 : 65}%`,
       description: 'Ваша активность на платформе',
       explanation: 'Рассчитывается на основе просмотров, избранного и покупок за выбранный период.',
-      color: 'text-pink-600',
+      color: 'text-accent-primary',
     },
     {
       label: 'Процент возвратов',
@@ -144,7 +148,11 @@ export default function EnhancedDataVisualization({
       description: 'Сочетаемость ваших вещей',
       explanation:
         'AI анализирует ваши покупки и оценивает, насколько легко они комбинируются между собой в готовые образы.',
+<<<<<<< HEAD
       color: 'text-indigo-600',
+=======
+      color: 'text-accent-primary',
+>>>>>>> recover/cabinet-wip-from-stash
       icon: <Palette className="h-4 w-4" />,
     },
     {
@@ -153,7 +161,11 @@ export default function EnhancedDataVisualization({
       description: 'Ваш уникальный код',
       explanation:
         'AI проанализировал ваши покупки и определил доминирующий стиль. Это помогает нам подбирать рекомендации, которые на 100% соответствуют вашему вкусу.',
+<<<<<<< HEAD
       color: 'text-purple-600',
+=======
+      color: 'text-accent-primary',
+>>>>>>> recover/cabinet-wip-from-stash
       icon: <Fingerprint className="h-4 w-4" />,
     },
   ];
@@ -433,7 +445,11 @@ function MetricCard({ metric }: { metric: DataMetric }) {
             <div
               className={cn(
                 'rounded-lg bg-accent/10 p-2',
+<<<<<<< HEAD
                 metric.color.replace('text-', 'bg-').split(' ')[0] + '/10'
+=======
+                metric.color ? metric.color.replace('text-', 'bg-').split(' ')[0] + '/10' : ''
+>>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               <BarChart3 className="h-5 w-5 text-accent" />

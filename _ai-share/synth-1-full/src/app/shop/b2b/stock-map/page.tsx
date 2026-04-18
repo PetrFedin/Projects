@@ -7,6 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { Globe, MapPin, Box, Truck, Zap, Filter, Search, ShieldCheck, Clock } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
+import { RegistryPageShell } from '@/components/design-system';
+import { ShopB2bToolTitle } from '@/components/shop/ShopB2bToolHeader';
 
 export default function StockMapPage() {
   const warehouses = [
@@ -55,38 +57,65 @@ export default function StockMapPage() {
   const [selectedWarehouse, setSelectedWarehouse] = useState(warehouses[0]);
 
   return (
+<<<<<<< HEAD
     <div className="flex h-[calc(100vh-64px)] overflow-hidden bg-[#F8F9FB]">
+=======
+    <RegistryPageShell className="!mx-0 flex h-[calc(100vh-64px)] max-w-none flex-col overflow-hidden !rounded-none bg-[#F8F9FB] !p-0">
+>>>>>>> recover/cabinet-wip-from-stash
       {/* Left Sidebar - Inventory List */}
       <aside className="z-10 flex w-96 flex-col border-r bg-white shadow-2xl">
         <div className="space-y-6 border-b p-4">
           <div className="flex items-center justify-between">
+<<<<<<< HEAD
             <h1 className="text-sm font-black uppercase tracking-tighter text-slate-900">
               Global Stock
             </h1>
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+=======
+            <ShopB2bToolTitle visual="sm" className="tracking-tighter">
+              Global Stock
+            </ShopB2bToolTitle>
+            <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 items-center justify-center rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
               <Box className="h-4 w-4" />
             </div>
           </div>
           <div className="relative">
+<<<<<<< HEAD
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
               placeholder="Поиск по складу или SKU..."
               className="h-11 w-full rounded-xl border-slate-200 pl-10 pr-4 text-sm outline-none transition-all focus:ring-2 focus:ring-indigo-500"
+=======
+            <Search className="text-text-muted absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
+            <input
+              type="text"
+              placeholder="Поиск по складу или SKU..."
+              className="border-border-default focus:ring-accent-primary h-11 w-full rounded-xl pl-10 pr-4 text-sm outline-none transition-all focus:ring-2"
+>>>>>>> recover/cabinet-wip-from-stash
             />
           </div>
           <div className="flex gap-2">
             <Button
               variant="outline"
               size="sm"
+<<<<<<< HEAD
               className="h-10 flex-1 rounded-xl border-slate-200 text-[10px] font-black uppercase"
+=======
+              className="border-border-default h-10 flex-1 rounded-xl text-[10px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <Filter className="mr-2 h-3.5 w-3.5" /> Фильтры
             </Button>
             <Button
               variant="outline"
               size="sm"
+<<<<<<< HEAD
               className="h-10 flex-1 rounded-xl border-slate-200 text-[10px] font-black uppercase"
+=======
+              className="border-border-default h-10 flex-1 rounded-xl text-[10px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <Truck className="mr-2 h-3.5 w-3.5" /> В пути
             </Button>
@@ -102,16 +131,28 @@ export default function StockMapPage() {
                 className={cn(
                   'group cursor-pointer rounded-xl border-2 p-3 transition-all',
                   selectedWarehouse.id === w.id
+<<<<<<< HEAD
                     ? 'border-indigo-600 bg-indigo-50/30 shadow-xl shadow-indigo-100'
                     : 'border-slate-50 bg-white hover:border-slate-200'
+=======
+                    ? 'border-accent-primary bg-accent-primary/10 shadow-accent-primary/10 shadow-xl'
+                    : 'border-border-subtle hover:border-border-default bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 <div className="mb-4 flex items-start justify-between">
                   <div className="space-y-1">
+<<<<<<< HEAD
                     <p className="text-[10px] font-black uppercase leading-none tracking-widest text-slate-400">
                       {w.type}
                     </p>
                     <h3 className="text-sm font-black uppercase tracking-tight text-slate-900">
+=======
+                    <p className="text-text-muted text-[10px] font-black uppercase leading-none tracking-widest">
+                      {w.type}
+                    </p>
+                    <h3 className="text-text-primary text-sm font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                       {w.name}
                     </h3>
                   </div>
@@ -122,7 +163,11 @@ export default function StockMapPage() {
                         ? 'bg-emerald-100 text-emerald-600'
                         : w.status === 'Low Stock'
                           ? 'bg-amber-100 text-amber-600'
+<<<<<<< HEAD
                           : 'bg-indigo-100 text-indigo-600'
+=======
+                          : 'bg-accent-primary/15 text-accent-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     {w.status}
@@ -130,18 +175,32 @@ export default function StockMapPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
+<<<<<<< HEAD
                     <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
                       Available
                     </p>
                     <p className="text-sm font-black tabular-nums text-slate-900">
+=======
+                    <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+                      Available
+                    </p>
+                    <p className="text-text-primary text-sm font-black tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                       {w.stock.toLocaleString('ru-RU')}
                     </p>
                   </div>
                   <div className="space-y-1 text-right">
+<<<<<<< HEAD
                     <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
                       Last Sync
                     </p>
                     <p className="text-xs font-bold text-slate-600">2 min ago</p>
+=======
+                    <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+                      Last Sync
+                    </p>
+                    <p className="text-text-secondary text-xs font-bold">2 min ago</p>
+>>>>>>> recover/cabinet-wip-from-stash
                   </div>
                 </div>
               </div>
@@ -151,7 +210,11 @@ export default function StockMapPage() {
       </aside>
 
       {/* Main Content - Map Visualization */}
+<<<<<<< HEAD
       <main className="relative flex-1 overflow-hidden bg-slate-100">
+=======
+      <main className="bg-bg-surface2 relative flex-1 overflow-hidden">
+>>>>>>> recover/cabinet-wip-from-stash
         {/* Background Map Simulation */}
         <div className="absolute inset-0 z-0 flex items-center justify-center bg-[#E5E9EC]">
           <div className="relative h-full w-full opacity-40 grayscale transition-all duration-1000 group-hover:grayscale-0">
@@ -176,13 +239,22 @@ export default function StockMapPage() {
                 className={cn(
                   'relative flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border-4 border-white shadow-2xl transition-transform hover:scale-125',
                   selectedWarehouse.id === w.id
+<<<<<<< HEAD
                     ? 'z-10 scale-125 bg-indigo-600'
                     : 'bg-slate-400 opacity-60'
+=======
+                    ? 'bg-accent-primary z-10 scale-125'
+                    : 'bg-text-muted opacity-60'
+>>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 <MapPin className="h-5 w-5 text-white" />
                 {selectedWarehouse.id === w.id && (
+<<<<<<< HEAD
                   <div className="absolute inset-0 animate-ping rounded-full bg-indigo-600 opacity-25" />
+=======
+                  <div className="bg-accent-primary absolute inset-0 animate-ping rounded-full opacity-25" />
+>>>>>>> recover/cabinet-wip-from-stash
                 )}
               </div>
             </div>
@@ -195,6 +267,7 @@ export default function StockMapPage() {
             <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
+<<<<<<< HEAD
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white">
                     <Globe className="h-5 w-5" />
                   </div>
@@ -203,6 +276,16 @@ export default function StockMapPage() {
                       {selectedWarehouse.name}
                     </h2>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                  <div className="bg-accent-primary flex h-10 w-10 items-center justify-center rounded-xl text-white">
+                    <Globe className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h2 className="text-text-primary text-sm font-black uppercase tracking-tighter">
+                      {selectedWarehouse.name}
+                    </h2>
+                    <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       {selectedWarehouse.location}
                     </p>
                   </div>
@@ -213,12 +296,18 @@ export default function StockMapPage() {
                 </div>
               </div>
 
+<<<<<<< HEAD
               <div className="space-y-2 border-x border-slate-200 px-8">
                 <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
+=======
+              <div className="border-border-default space-y-2 border-x px-8">
+                <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   Пропускная способность
                 </p>
                 <div className="flex items-end gap-3">
                   <span className="text-base font-black tabular-nums">85%</span>
+<<<<<<< HEAD
                   <div className="mb-2 h-2 w-full overflow-hidden rounded-full bg-slate-100">
                     <div className="h-full w-[85%] bg-indigo-600" />
                   </div>
@@ -232,6 +321,23 @@ export default function StockMapPage() {
                     Средняя отгрузка
                   </p>
                   <Clock className="h-3.5 w-3.5 text-slate-300" />
+=======
+                  <div className="bg-bg-surface2 mb-2 h-2 w-full overflow-hidden rounded-full">
+                    <div className="bg-accent-primary h-full w-[85%]" />
+                  </div>
+                </div>
+                <p className="text-text-secondary text-[9px] italic">
+                  На 15% выше среднего по региону
+                </p>
+              </div>
+
+              <div className="border-border-default space-y-4 border-r px-8">
+                <div className="flex items-center justify-between">
+                  <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                    Средняя отгрузка
+                  </p>
+                  <Clock className="text-text-muted h-3.5 w-3.5" />
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm font-black tabular-nums">2.4 дня</p>
@@ -242,13 +348,21 @@ export default function StockMapPage() {
               </div>
 
               <div className="flex flex-col justify-center gap-3">
+<<<<<<< HEAD
                 <Button className="group h-12 rounded-2xl bg-slate-900 text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-slate-200">
+=======
+                <Button className="bg-text-primary group h-12 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white shadow-md shadow-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                   Просмотр SKU на складе{' '}
                   <Zap className="ml-2 h-4 w-4 transition-transform group-hover:scale-125" />
                 </Button>
                 <Button
                   variant="outline"
+<<<<<<< HEAD
                   className="h-12 rounded-2xl border-slate-200 text-[10px] font-black uppercase tracking-widest"
+=======
+                  className="border-border-default h-12 rounded-2xl text-[10px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   Связаться с логистом
                 </Button>
@@ -262,20 +376,32 @@ export default function StockMapPage() {
           <Button
             size="icon"
             variant="secondary"
+<<<<<<< HEAD
             className="h-12 w-12 rounded-2xl border-none bg-white text-slate-600 shadow-xl"
+=======
+            className="text-text-secondary h-12 w-12 rounded-2xl border-none bg-white shadow-xl"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <PlusIcon className="h-6 w-6" />
           </Button>
           <Button
             size="icon"
             variant="secondary"
+<<<<<<< HEAD
             className="h-12 w-12 rounded-2xl border-none bg-white text-slate-600 shadow-xl"
+=======
+            className="text-text-secondary h-12 w-12 rounded-2xl border-none bg-white shadow-xl"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <MinusIcon className="h-6 w-6" />
           </Button>
         </div>
       </main>
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }
 

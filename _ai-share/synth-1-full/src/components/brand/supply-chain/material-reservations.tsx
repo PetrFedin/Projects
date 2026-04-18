@@ -52,11 +52,19 @@ export default function MaterialReservations({ brandId }: { brandId: string }) {
   };
 
   return (
+<<<<<<< HEAD
     <Card className="mt-8 overflow-hidden rounded-xl border-slate-100 shadow-xl">
       <CardHeader className="flex flex-row items-center justify-between bg-slate-50/50">
         <div>
           <CardTitle className="flex items-center gap-2 text-sm uppercase tracking-tight">
             <Scissors className="h-4 w-4 text-indigo-600" /> Резервирование под коллекции (AI)
+=======
+    <Card className="border-border-subtle mt-8 overflow-hidden rounded-xl shadow-xl">
+      <CardHeader className="bg-bg-surface2/80 flex flex-row items-center justify-between">
+        <div>
+          <CardTitle className="flex items-center gap-2 text-sm uppercase tracking-tight">
+            <Scissors className="text-accent-primary h-4 w-4" /> Резервирование под коллекции (AI)
+>>>>>>> recover/cabinet-wip-from-stash
           </CardTitle>
           <CardDescription className="text-[10px]">
             Бронирование сырья для предотвращения дефицита при раскрое.
@@ -65,7 +73,11 @@ export default function MaterialReservations({ brandId }: { brandId: string }) {
         <Button
           onClick={handleCreateReservation}
           size="sm"
+<<<<<<< HEAD
           className="h-8 rounded-xl bg-slate-900 text-[9px] font-black uppercase tracking-widest text-white"
+=======
+          className="bg-text-primary h-8 rounded-xl text-[9px] font-black uppercase tracking-widest text-white"
+>>>>>>> recover/cabinet-wip-from-stash
         >
           <Plus className="mr-1 h-3 w-3" /> Забронировать
         </Button>
@@ -73,7 +85,11 @@ export default function MaterialReservations({ brandId }: { brandId: string }) {
       <CardContent className="p-0">
         {isLoading ? (
           <div className="flex justify-center py-12">
+<<<<<<< HEAD
             <Loader2 className="h-8 w-8 animate-spin text-slate-300" />
+=======
+            <Loader2 className="text-text-muted h-8 w-8 animate-spin" />
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
         ) : (
           <Table>
@@ -91,16 +107,28 @@ export default function MaterialReservations({ brandId }: { brandId: string }) {
             <TableBody>
               {reservations.length > 0 ? (
                 reservations.map((res) => (
+<<<<<<< HEAD
                   <TableRow key={res.id} className="transition-colors hover:bg-slate-50/50">
                     <TableCell className="py-4 pl-8 text-xs font-bold uppercase">
                       {res.material_id}
                     </TableCell>
                     <TableCell className="font-mono text-xs text-indigo-600">
+=======
+                  <TableRow key={res.id} className="hover:bg-bg-surface2/80 transition-colors">
+                    <TableCell className="py-4 pl-8 text-xs font-bold uppercase">
+                      {res.material_id}
+                    </TableCell>
+                    <TableCell className="text-accent-primary font-mono text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                       {res.sku_id}
                     </TableCell>
                     <TableCell className="text-xs font-black">{res.reserved_quantity} м</TableCell>
                     <TableCell>
+<<<<<<< HEAD
                       <Badge className="h-4 border-none bg-indigo-50 text-[7px] font-black uppercase text-indigo-600">
+=======
+                      <Badge className="bg-accent-primary/10 text-accent-primary h-4 border-none text-[7px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                         {res.status}
                       </Badge>
                     </TableCell>
@@ -108,7 +136,11 @@ export default function MaterialReservations({ brandId }: { brandId: string }) {
                       <Button
                         variant="ghost"
                         size="sm"
+<<<<<<< HEAD
                         className="h-7 rounded-lg text-[8px] font-black uppercase text-slate-400 hover:text-indigo-600"
+=======
+                        className="text-text-muted hover:text-accent-primary h-7 rounded-lg text-[8px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                       >
                         Списать
                       </Button>
@@ -119,7 +151,11 @@ export default function MaterialReservations({ brandId }: { brandId: string }) {
                 <TableRow>
                   <TableCell
                     colSpan={5}
+<<<<<<< HEAD
                     className="py-12 text-center text-xs italic text-slate-400"
+=======
+                    className="text-text-muted py-12 text-center text-xs italic"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     Нет активных резервов материалов.
                   </TableCell>

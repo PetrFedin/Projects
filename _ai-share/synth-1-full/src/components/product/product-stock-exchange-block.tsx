@@ -28,7 +28,11 @@ export function ProductStockExchangeBlock({ product }: { product: Product }) {
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-orange-600">
           <ArrowRightLeft className="h-4 w-4" />
+<<<<<<< HEAD
           <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
+=======
+          <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             B2B Stock Exchange (Secondary Market)
           </h4>
         </div>
@@ -40,7 +44,11 @@ export function ProductStockExchangeBlock({ product }: { product: Product }) {
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-4">
           <div className="space-y-3">
+<<<<<<< HEAD
             <div className="mb-1 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-slate-400">
+=======
+            <div className="text-text-muted mb-1 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               <Activity className="h-3 w-3" /> External Liquidity
             </div>
             {offers.length > 0 ? (
@@ -56,7 +64,11 @@ export function ProductStockExchangeBlock({ product }: { product: Product }) {
                           {off.type === 'excess' ? 'Partner Surplus' : 'Partner Seek'}
                         </span>
                       </div>
+<<<<<<< HEAD
                       <div className="mt-0.5 text-[9px] font-bold uppercase text-slate-500">
+=======
+                      <div className="text-text-secondary mt-0.5 text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                         {off.quantity} Units @ {off.location}
                       </div>
                     </div>
@@ -71,7 +83,11 @@ export function ProductStockExchangeBlock({ product }: { product: Product }) {
                 ))}
               </div>
             ) : (
+<<<<<<< HEAD
               <div className="rounded-xl border-2 border-dashed border-orange-200 p-8 text-center text-[9px] font-black uppercase tracking-widest text-slate-400">
+=======
+              <div className="text-text-muted rounded-xl border-2 border-dashed border-orange-200 p-8 text-center text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 No active offers
               </div>
             )}
@@ -82,21 +98,34 @@ export function ProductStockExchangeBlock({ product }: { product: Product }) {
         </div>
 
         <div className="space-y-3">
+<<<<<<< HEAD
           <div className="mb-1 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-slate-400">
+=======
+          <div className="text-text-muted mb-1 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             <TrendingUp className="h-3 w-3" /> Liquidity Metrics
           </div>
           <div className="grid grid-cols-2 gap-2">
             <div className="flex flex-col items-center rounded-xl border border-orange-100 bg-white/50 p-3">
               <Package className="mb-1 h-4 w-4 text-orange-600" />
+<<<<<<< HEAD
               <div className="text-[14px] font-black leading-none text-slate-800">420</div>
               <div className="mt-1 text-[7px] font-black uppercase text-slate-400">
+=======
+              <div className="text-text-primary text-[14px] font-black leading-none">420</div>
+              <div className="text-text-muted mt-1 text-[7px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 Avail. Units
               </div>
             </div>
             <div className="flex flex-col items-center rounded-xl border border-orange-100 bg-white/50 p-3">
               <DollarSign className="mb-1 h-4 w-4 text-emerald-600" />
               <div className="text-[14px] font-black leading-none text-emerald-600">4.2k</div>
+<<<<<<< HEAD
               <div className="mt-1 text-[7px] font-black uppercase text-slate-400">Avg. Bid</div>
+=======
+              <div className="text-text-muted mt-1 text-[7px] font-black uppercase">Avg. Bid</div>
+>>>>>>> recover/cabinet-wip-from-stash
             </div>
           </div>
 
@@ -104,7 +133,11 @@ export function ProductStockExchangeBlock({ product }: { product: Product }) {
             <div className="mb-2 text-[8px] font-black uppercase text-orange-600">
               Market Insights
             </div>
+<<<<<<< HEAD
             <p className="text-[9px] font-bold leading-tight text-slate-600">
+=======
+            <p className="text-text-secondary text-[9px] font-bold leading-tight">
+>>>>>>> recover/cabinet-wip-from-stash
               Demand for {product.name} in Novosibirsk is peaking. Secondary resale price is 8%
               above pre-order MSRP.
             </p>
@@ -112,7 +145,11 @@ export function ProductStockExchangeBlock({ product }: { product: Product }) {
         </div>
       </div>
 
+<<<<<<< HEAD
       <div className="mt-4 flex items-center justify-between border-t border-orange-100 pt-4 text-[8px] font-black uppercase text-slate-400">
+=======
+      <div className="text-text-muted mt-4 flex items-center justify-between border-t border-orange-100 pt-4 text-[8px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
         <span>B2B Peer-to-Peer Stock Swapping</span>
         <span className="text-orange-600">Trading Fee: 1.5%</span>
       </div>

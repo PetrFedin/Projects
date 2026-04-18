@@ -24,10 +24,15 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from './ui/form';
 import { Textarea } from './ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Separator } from './ui/separator';
+<<<<<<< HEAD
 import {
   summarizeProductReviews,
   type SummarizeProductReviewsOutput,
 } from '@/ai/flows/summarize-product-reviews';
+=======
+import type { SummarizeProductReviewsOutput } from '@/lib/ai-client/types';
+import { moderateContentClient, summarizeProductReviewsClient } from '@/lib/ai-client/api';
+>>>>>>> recover/cabinet-wip-from-stash
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from './ui/label';
 import { Checkbox } from './ui/checkbox';
@@ -118,6 +123,25 @@ export function ProductReviewsDialog({ product, isOpen, onOpenChange }: ProductR
     defaultValues: { review: '' },
   });
 
+  const filteredReviews = useMemo(() => {
+    if (!activeFilter) return mockReviews;
+    return mockReviews.filter((review) => review.color === activeFilter);
+  }, [activeFilter]);
+
+  const allReviewImages = useMemo(
+    () =>
+      mockReviews
+        .flatMap((review) => review.images || [])
+        .map((img) => ({
+          ...img,
+          url: img.url,
+          alt: img.alt,
+          id: img.id,
+          hint: 'review',
+        })),
+    []
+  );
+
   if (!product) {
     return null;
   }
@@ -125,8 +149,12 @@ export function ProductReviewsDialog({ product, isOpen, onOpenChange }: ProductR
   const onSubmit = async (data: z.infer<typeof reviewSchema>) => {
     setIsSubmitting(true);
     try {
+<<<<<<< HEAD
       const { moderateContent } = await import('@/ai/flows/moderate-content');
       const mod = await moderateContent({ text: data.review, context: 'review' });
+=======
+      const mod = await moderateContentClient({ text: data.review, context: 'review' });
+>>>>>>> recover/cabinet-wip-from-stash
       if (!mod.approved && mod.flags?.length) {
         toast({
           variant: 'destructive',
@@ -157,7 +185,11 @@ export function ProductReviewsDialog({ product, isOpen, onOpenChange }: ProductR
     setIsSummarizing(true);
     setSummary(null);
     try {
+<<<<<<< HEAD
       const result = await summarizeProductReviews({
+=======
+      const result = await summarizeProductReviewsClient({
+>>>>>>> recover/cabinet-wip-from-stash
         reviews: mockReviews.map((r) => ({ text: r.text, rating: r.rating })),
       });
       setSummary(result);
@@ -176,6 +208,7 @@ export function ProductReviewsDialog({ product, isOpen, onOpenChange }: ProductR
   const averageRating = product.rating || 4.5;
   const reviewCount = product.reviewCount || mockReviews.length;
 
+<<<<<<< HEAD
   const filteredReviews = useMemo(() => {
     if (!activeFilter) return mockReviews;
     return mockReviews.filter((review) => review.color === activeFilter);
@@ -197,6 +230,16 @@ export function ProductReviewsDialog({ product, isOpen, onOpenChange }: ProductR
     }
   };
 
+=======
+  const handleOpenImageViewer = (reviewImageId: string) => {
+    const imageIndex = allReviewImages.findIndex((img) => img.id === reviewImageId);
+    if (imageIndex > -1) {
+      setImageViewerStartIndex(imageIndex);
+      setIsImageViewerOpen(true);
+    }
+  };
+
+>>>>>>> recover/cabinet-wip-from-stash
   const ratingDistribution = [5, 4, 3, 2, 1].map((star) => {
     const count = mockReviews.filter((r) => r.rating === star).length;
     return { star, count, percentage: (count / mockReviews.length) * 100 };

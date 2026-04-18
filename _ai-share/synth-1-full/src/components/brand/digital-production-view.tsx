@@ -113,8 +113,13 @@ const statusConfig: Record<string, { color: string; progress: number }> = {
   'Создание сэмпла': { color: 'bg-blue-400', progress: 35 },
   Раскрой: { color: 'bg-yellow-400', progress: 50 },
   Пошив: { color: 'bg-orange-400', progress: 75 },
+<<<<<<< HEAD
   'Контроль качества': { color: 'bg-purple-400', progress: 90 },
   Упаковка: { color: 'bg-indigo-400', progress: 95 },
+=======
+  'Контроль качества': { color: 'bg-accent-primary/40', progress: 90 },
+  Упаковка: { color: 'bg-accent-primary/40', progress: 95 },
+>>>>>>> recover/cabinet-wip-from-stash
   Готово: { color: 'bg-green-500', progress: 100 },
 };
 
@@ -153,7 +158,11 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
 
   return (
     <TooltipProvider>
+<<<<<<< HEAD
       <Card className="overflow-hidden rounded-xl border-slate-100 shadow-sm">
+=======
+      <Card className="border-border-subtle overflow-hidden rounded-xl shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
         <CardHeader className="p-4 pb-4">
           <div className="flex items-center justify-between">
             <div className="space-y-1">
@@ -168,7 +177,11 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                     : 'Отслеживание всех артикулов (SKU) в производственном цикле.'}
               </CardDescription>
             </div>
+<<<<<<< HEAD
             <Button className="h-10 rounded-xl bg-indigo-600 text-[10px] font-black uppercase text-white hover:bg-indigo-700">
+=======
+            <Button className="bg-accent-primary hover:bg-accent-primary h-10 rounded-xl text-[10px] font-black uppercase text-white">
+>>>>>>> recover/cabinet-wip-from-stash
               <PlusCircle className="mr-2 h-4 w-4" />
               Новый заказ
             </Button>
@@ -176,6 +189,7 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
         </CardHeader>
         <CardContent className="p-0">
           <Table>
+<<<<<<< HEAD
             <TableHeader className="bg-slate-50/50">
               <TableRow className="h-9 border-none">
                 <TableHead className="h-9 px-8 text-[10px] font-black uppercase tracking-widest text-slate-400">
@@ -194,6 +208,26 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                   Срок
                 </TableHead>
                 <TableHead className="h-9 px-8 text-right text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+            <TableHeader className="bg-bg-surface2/80">
+              <TableRow className="h-9 border-none">
+                <TableHead className="text-text-muted h-9 px-8 text-[10px] font-black uppercase tracking-widest">
+                  Артикул
+                </TableHead>
+                <TableHead className="text-text-muted h-9 text-[10px] font-black uppercase tracking-widest">
+                  Статус
+                </TableHead>
+                <TableHead className="text-text-muted h-9 text-[10px] font-black uppercase tracking-widest">
+                  Производство
+                </TableHead>
+                <TableHead className="text-text-muted h-9 text-[10px] font-black uppercase tracking-widest">
+                  Кол-во
+                </TableHead>
+                <TableHead className="text-text-muted h-9 text-[10px] font-black uppercase tracking-widest">
+                  Срок
+                </TableHead>
+                <TableHead className="text-text-muted h-9 px-8 text-right text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   Действия
                 </TableHead>
               </TableRow>
@@ -202,7 +236,11 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
               {filteredProduction.map((item) => (
                 <TableRow
                   key={item.id}
+<<<<<<< HEAD
                   className="group h-14 transition-colors hover:bg-slate-50/50"
+=======
+                  className="hover:bg-bg-surface2/80 group h-14 transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <TableCell
                     onClick={() => {
@@ -212,7 +250,11 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                     className="cursor-pointer px-8 py-2"
                   >
                     <div className="flex items-center gap-3">
+<<<<<<< HEAD
                       <div className="relative h-10 w-8 overflow-hidden rounded-lg border border-slate-100">
+=======
+                      <div className="border-border-subtle relative h-10 w-8 overflow-hidden rounded-lg border">
+>>>>>>> recover/cabinet-wip-from-stash
                         <Image
                           src={item.images[0].url}
                           alt={item.name}
@@ -221,10 +263,17 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                         />
                       </div>
                       <div>
+<<<<<<< HEAD
                         <p className="mb-1 text-[11px] font-bold uppercase leading-none text-slate-900">
                           {item.name}
                         </p>
                         <p className="text-[9px] font-bold uppercase tracking-tighter text-slate-400">
+=======
+                        <p className="text-text-primary mb-1 text-[11px] font-bold uppercase leading-none">
+                          {item.name}
+                        </p>
+                        <p className="text-text-muted text-[9px] font-bold uppercase tracking-tighter">
+>>>>>>> recover/cabinet-wip-from-stash
                           {item.sku}
                         </p>
                       </div>
@@ -244,11 +293,16 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                           statusConfig[item.productionStatus]?.color || 'bg-gray-400'
                         )}
                       ></div>
+<<<<<<< HEAD
                       <span className="text-[10px] font-bold uppercase text-slate-600">
+=======
+                      <span className="text-text-secondary text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                         {item.productionStatus}
                       </span>
                     </div>
                   </TableCell>
+<<<<<<< HEAD
                   <TableCell className="py-2 text-[10px] font-medium text-slate-500">
                     {item.factory}
                   </TableCell>
@@ -256,6 +310,15 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                     {item.units.toLocaleString('ru-RU')} ед.
                   </TableCell>
                   <TableCell className="py-2 text-[10px] font-bold text-slate-500">
+=======
+                  <TableCell className="text-text-secondary py-2 text-[10px] font-medium">
+                    {item.factory}
+                  </TableCell>
+                  <TableCell className="text-text-primary py-2 text-[10px] font-black">
+                    {item.units.toLocaleString('ru-RU')} ед.
+                  </TableCell>
+                  <TableCell className="text-text-secondary py-2 text-[10px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                     {new Date(item.deadline).toLocaleDateString('ru-RU')}
                   </TableCell>
                   <TableCell className="px-8 py-2 text-right">
@@ -269,7 +332,11 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                           setViewRole('archive');
                         }}
                       >
+<<<<<<< HEAD
                         <FolderArchive className="h-4 w-4 text-indigo-600" />
+=======
+                        <FolderArchive className="text-accent-primary h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
                       </Button>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -281,7 +348,14 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
+<<<<<<< HEAD
                         <DropdownMenuContent align="end" className="rounded-xl border-slate-100">
+=======
+                        <DropdownMenuContent
+                          align="end"
+                          className="border-border-subtle rounded-xl"
+                        >
+>>>>>>> recover/cabinet-wip-from-stash
                           <DropdownMenuItem
                             onClick={() => {
                               setSelectedSku(item);
@@ -311,8 +385,13 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                 <TableRow>
                   <TableCell colSpan={6} className="h-48 text-center">
                     <div className="flex flex-col items-center justify-center gap-3 opacity-30">
+<<<<<<< HEAD
                       <Factory className="h-10 w-10 text-slate-300" />
                       <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+=======
+                      <Factory className="text-text-muted h-10 w-10" />
+                      <p className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
                         Производственные заказы не найдены
                       </p>
                     </div>
@@ -335,15 +414,24 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
             </DialogHeader>
             <div className="flex h-full">
               {/* Sidebar / Tabs */}
+<<<<<<< HEAD
               <div className="flex w-20 flex-col items-center gap-3 border-r border-slate-100 bg-slate-50/50 py-4">
+=======
+              <div className="border-border-subtle bg-bg-surface2/80 flex w-20 flex-col items-center gap-3 border-r py-4">
+>>>>>>> recover/cabinet-wip-from-stash
                 <Button
                   variant="ghost"
                   size="icon"
                   className={cn(
                     'h-12 w-12 rounded-2xl transition-all',
                     viewMode === 'details'
+<<<<<<< HEAD
                       ? 'border border-slate-100 bg-white text-indigo-600 shadow-md'
                       : 'text-slate-400'
+=======
+                      ? 'text-accent-primary border-border-subtle border bg-white shadow-md'
+                      : 'text-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                   onClick={() => setViewRole('details')}
                 >
@@ -355,8 +443,13 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                   className={cn(
                     'h-12 w-12 rounded-2xl transition-all',
                     viewMode === 'archive'
+<<<<<<< HEAD
                       ? 'border border-slate-100 bg-white text-indigo-600 shadow-md'
                       : 'text-slate-400'
+=======
+                      ? 'text-accent-primary border-border-subtle border bg-white shadow-md'
+                      : 'text-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                   onClick={() => setViewRole('archive')}
                 >
@@ -375,17 +468,29 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                             <Badge className="border-none bg-emerald-50 text-[9px] font-black uppercase text-emerald-600">
                               Live Tracking
                             </Badge>
+<<<<<<< HEAD
                             <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                               {selectedSku.sku}
                             </span>
                           </div>
                           <h2 className="text-base font-black uppercase tracking-tighter text-slate-900">
+=======
+                            <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                              {selectedSku.sku}
+                            </span>
+                          </div>
+                          <h2 className="text-text-primary text-base font-black uppercase tracking-tighter">
+>>>>>>> recover/cabinet-wip-from-stash
                             {selectedSku.name}
                           </h2>
                         </div>
                         <Button
                           variant="outline"
+<<<<<<< HEAD
                           className="h-10 rounded-xl border-slate-200 text-[10px] font-bold uppercase"
+=======
+                          className="border-border-default h-10 rounded-xl text-[10px] font-bold uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                         >
                           Скачать отчет
                         </Button>
@@ -393,8 +498,13 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
 
                       <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
                         <div className="space-y-6 md:col-span-2">
+<<<<<<< HEAD
                           <Card className="overflow-hidden rounded-xl border-slate-100 shadow-sm">
                             <CardHeader className="border-b border-slate-50 bg-slate-50/50 p-4">
+=======
+                          <Card className="border-border-subtle overflow-hidden rounded-xl shadow-sm">
+                            <CardHeader className="bg-bg-surface2/80 border-border-subtle border-b p-4">
+>>>>>>> recover/cabinet-wip-from-stash
                               <CardTitle className="text-sm font-black uppercase tracking-tight">
                                 Этапы производства
                               </CardTitle>
@@ -417,8 +527,13 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                                             isCompleted
                                               ? 'border-emerald-500 bg-emerald-500'
                                               : isActive
+<<<<<<< HEAD
                                                 ? 'border-indigo-600 bg-indigo-600'
                                                 : 'border-slate-200 bg-white'
+=======
+                                                ? 'bg-accent-primary border-accent-primary'
+                                                : 'border-border-default bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
                                           )}
                                         >
                                           {isCompleted ? (
@@ -427,7 +542,11 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                                             <Factory
                                               className={cn(
                                                 'h-3 w-3',
+<<<<<<< HEAD
                                                 isActive ? 'text-white' : 'text-slate-300'
+=======
+                                                isActive ? 'text-white' : 'text-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                                               )}
                                             />
                                           )}
@@ -435,7 +554,11 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                                         <TimelineTitle
                                           className={cn(
                                             'text-xs font-black uppercase tracking-tight',
+<<<<<<< HEAD
                                             isActive ? 'text-indigo-600' : 'text-slate-900'
+=======
+                                            isActive ? 'text-accent-primary' : 'text-text-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                                           )}
                                         >
                                           {status}
@@ -445,7 +568,11 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                                         <p
                                           className={cn(
                                             'mb-2 text-[10px] font-bold uppercase',
+<<<<<<< HEAD
                                             isActive ? 'text-indigo-400' : 'text-slate-400'
+=======
+                                            isActive ? 'text-accent-primary' : 'text-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                                           )}
                                         >
                                           {isCompleted
@@ -457,7 +584,11 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                                         {isActive && (
                                           <Progress
                                             value={config.progress}
+<<<<<<< HEAD
                                             className="h-1 bg-indigo-50"
+=======
+                                            className="bg-accent-primary/10 h-1"
+>>>>>>> recover/cabinet-wip-from-stash
                                           />
                                         )}
                                       </TimelineBody>
@@ -470,8 +601,13 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                         </div>
 
                         <div className="space-y-6">
+<<<<<<< HEAD
                           <Card className="rounded-xl border-slate-100 shadow-sm">
                             <CardHeader className="border-b border-slate-50 bg-slate-50/50 p-4">
+=======
+                          <Card className="border-border-subtle rounded-xl shadow-sm">
+                            <CardHeader className="bg-bg-surface2/80 border-border-subtle border-b p-4">
+>>>>>>> recover/cabinet-wip-from-stash
                               <CardTitle className="text-sm font-black uppercase tracking-tight">
                                 Чат по SKU
                               </CardTitle>
@@ -480,11 +616,19 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                               <div className="custom-scrollbar mb-4 h-[300px] space-y-4 overflow-y-auto pr-2">
                                 {selectedSku.comments.map((c, i) => (
                                   <div key={i} className="space-y-1">
+<<<<<<< HEAD
                                     <div className="flex justify-between text-[9px] font-black uppercase tracking-widest text-slate-400">
                                       <span>{c.user}</span>
                                       <span>{c.date}</span>
                                     </div>
                                     <div className="rounded-2xl bg-slate-50 p-3 text-[11px] font-medium leading-relaxed text-slate-600">
+=======
+                                    <div className="text-text-muted flex justify-between text-[9px] font-black uppercase tracking-widest">
+                                      <span>{c.user}</span>
+                                      <span>{c.date}</span>
+                                    </div>
+                                    <div className="bg-bg-surface2 text-text-secondary rounded-2xl p-3 text-[11px] font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                                       {c.text}
                                     </div>
                                   </div>
@@ -493,11 +637,19 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                               <div className="flex gap-2">
                                 <Input
                                   placeholder="Ваше сообщение..."
+<<<<<<< HEAD
                                   className="h-10 rounded-xl border-slate-200 text-xs"
                                 />
                                 <Button
                                   size="icon"
                                   className="h-10 w-10 rounded-xl bg-indigo-600 shadow-lg shadow-indigo-100"
+=======
+                                  className="border-border-default h-10 rounded-xl text-xs"
+                                />
+                                <Button
+                                  size="icon"
+                                  className="bg-accent-primary shadow-accent-primary/10 h-10 w-10 rounded-xl shadow-lg"
+>>>>>>> recover/cabinet-wip-from-stash
                                 >
                                   <ArrowRight className="h-4 w-4 text-white" />
                                 </Button>
@@ -506,7 +658,11 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                           </Card>
 
                           <Card
+<<<<<<< HEAD
                             className="group relative cursor-pointer overflow-hidden rounded-xl border-slate-100 bg-indigo-600 text-white shadow-sm"
+=======
+                            className="border-border-subtle bg-accent-primary group relative cursor-pointer overflow-hidden rounded-xl text-white shadow-sm"
+>>>>>>> recover/cabinet-wip-from-stash
                             onClick={() => setViewRole('archive')}
                           >
                             <div className="absolute right-0 top-0 p-4 opacity-10">
@@ -519,19 +675,31 @@ export function DigitalProductionView({ collectionId }: { collectionId?: string 
                               <h4 className="mb-1 text-sm font-black uppercase tracking-tight">
                                 Архив производства
                               </h4>
+<<<<<<< HEAD
                               <p className="text-[10px] font-medium leading-relaxed text-indigo-100">
+=======
+                              <p className="text-accent-primary/30 text-[10px] font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                                 Все ТЗ, лекала и сертификаты в одном месте.
                               </p>
                               <Button
                                 variant="ghost"
+<<<<<<< HEAD
                                 className="mt-4 h-auto p-0 text-[10px] font-black uppercase text-white hover:bg-transparent hover:text-indigo-200"
+=======
+                                className="hover:text-accent-primary/40 mt-4 h-auto p-0 text-[10px] font-black uppercase text-white hover:bg-transparent"
+>>>>>>> recover/cabinet-wip-from-stash
                               >
                                 Открыть хранилище <ArrowRight className="ml-2 h-3 w-3" />
                               </Button>
                             </CardContent>
                           </Card>
 
+<<<<<<< HEAD
                           <Card className="group relative overflow-hidden rounded-xl border-slate-100 bg-emerald-600 text-white shadow-sm">
+=======
+                          <Card className="border-border-subtle group relative overflow-hidden rounded-xl bg-emerald-600 text-white shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                             <div className="absolute right-0 top-0 p-4 opacity-10">
                               <Leaf className="h-12 w-12" />
                             </div>

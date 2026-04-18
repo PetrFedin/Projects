@@ -183,18 +183,28 @@ export function Workshop2DossierSupplyChainDraftsPanel({
   return (
     <div
       id="w2-material-supply-chain-drafts"
-      className="scroll-mt-28 space-y-4 rounded-xl border border-violet-200/80 bg-violet-50/30 p-4 shadow-sm"
+      className="border-accent-primary/25 bg-accent-primary/10 scroll-mt-28 space-y-4 rounded-xl border p-4 shadow-sm"
     >
       <div className="flex flex-wrap items-start gap-3">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-violet-600 text-white shadow-sm">
+        <div className="bg-accent-primary flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white shadow-sm">
           <LucideIcons.ClipboardList className="h-4 w-4" aria-hidden />
         </div>
         <div className="min-w-0 flex-1">
+<<<<<<< HEAD
           <h3 className="text-sm font-semibold text-slate-900">Снабжение · дельта · costing</h3>
           <p className="text-[11px] leading-snug text-slate-600">
             Черновики живут в объекте досье артикула (сохраняются вместе с ТЗ). Сшивка costing по
             последней записи на один и тот же <span className="font-mono">lineRef</span> (как в
             строках mat/BOM): {costingMerged.size} уникальных ref.
+=======
+          <h3 className="text-text-primary text-sm font-semibold">
+            Снабжение · дельта · калькуляция себестоимости
+          </h3>
+          <p className="text-text-secondary text-[11px] leading-snug">
+            Черновики живут в объекте досье артикула (сохраняются вместе с ТЗ). Сшивка калькуляции
+            по последней записи на один и тот же <span className="font-mono">lineRef</span> (как в
+            строках материалов/BOM): {costingMerged.size} уникальных ссылок.
+>>>>>>> recover/cabinet-wip-from-stash
           </p>
         </div>
       </div>
@@ -205,7 +215,11 @@ export function Workshop2DossierSupplyChainDraftsPanel({
           className="scroll-mt-24 rounded-lg border border-white/80 bg-white/90 p-3 shadow-sm"
         >
           <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+<<<<<<< HEAD
             <p className="text-[10px] font-bold uppercase tracking-wide text-violet-900">
+=======
+            <p className="text-text-primary text-[10px] font-bold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
               Альтернативы материала / BOM
             </p>
             <Button
@@ -222,7 +236,7 @@ export function Workshop2DossierSupplyChainDraftsPanel({
           <div className="overflow-x-auto">
             <table className="w-full min-w-[640px] border-collapse text-[11px]">
               <thead>
-                <tr className="border-b border-slate-200 text-left text-[9px] font-bold uppercase text-slate-500">
+                <tr className="border-border-default text-text-secondary border-b text-left text-[9px] font-bold uppercase">
                   <th className="py-1.5 pr-2">База</th>
                   <th className="py-1.5 pr-2">Предложение</th>
                   <th className="py-1.5 pr-2">Причина</th>
@@ -233,13 +247,13 @@ export function Workshop2DossierSupplyChainDraftsPanel({
               <tbody>
                 {(dossier.materialAlternativeDrafts ?? []).length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="py-3 text-slate-500">
+                    <td colSpan={5} className="text-text-secondary py-3">
                       Пока нет записей — добавьте согласованную замену или черновик для комплаенса.
                     </td>
                   </tr>
                 ) : (
                   (dossier.materialAlternativeDrafts ?? []).map((r) => (
-                    <tr key={r.altId} className="border-b border-slate-100 align-top">
+                    <tr key={r.altId} className="border-border-subtle border-b align-top">
                       <td className="py-1.5 pr-2">
                         <Input
                           className="h-8 text-[11px]"
@@ -267,7 +281,7 @@ export function Workshop2DossierSupplyChainDraftsPanel({
                       <td className="py-1.5 pr-2">
                         <select
                           className={cn(
-                            'h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-[11px]',
+                            'border-border-default h-8 w-full rounded-md border bg-white px-2 text-[11px]',
                             ro && 'opacity-60'
                           )}
                           value={r.status}
@@ -290,7 +304,7 @@ export function Workshop2DossierSupplyChainDraftsPanel({
                           type="button"
                           variant="ghost"
                           size="sm"
-                          className="h-8 w-8 p-0 text-slate-500"
+                          className="text-text-secondary h-8 w-8 p-0"
                           disabled={ro}
                           onClick={() => removeAlt(r.altId)}
                           aria-label="Удалить"
@@ -313,7 +327,11 @@ export function Workshop2DossierSupplyChainDraftsPanel({
           className="scroll-mt-24 rounded-lg border border-white/80 bg-white/90 p-3 shadow-sm"
         >
           <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+<<<<<<< HEAD
             <p className="text-[10px] font-bold uppercase tracking-wide text-violet-900">
+=======
+            <p className="text-text-primary text-[10px] font-bold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
               Дельта BOM
             </p>
             <Button
@@ -330,7 +348,7 @@ export function Workshop2DossierSupplyChainDraftsPanel({
           <div className="overflow-x-auto">
             <table className="w-full min-w-[720px] border-collapse text-[11px]">
               <thead>
-                <tr className="border-b border-slate-200 text-left text-[9px] font-bold uppercase text-slate-500">
+                <tr className="border-border-default text-text-secondary border-b text-left text-[9px] font-bold uppercase">
                   <th className="py-1.5 pr-2">Точка</th>
                   <th className="py-1.5 pr-2">lineRef</th>
                   <th className="py-1.5 pr-2">Поле</th>
@@ -343,16 +361,16 @@ export function Workshop2DossierSupplyChainDraftsPanel({
               <tbody>
                 {(dossier.bomLineDeltaDrafts ?? []).length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="py-3 text-slate-500">
+                    <td colSpan={7} className="text-text-secondary py-3">
                       Фиксируйте отличия образца или серии от утверждённого ТЗ.
                     </td>
                   </tr>
                 ) : (
                   (dossier.bomLineDeltaDrafts ?? []).map((r) => (
-                    <tr key={r.deltaId} className="border-b border-slate-100 align-top">
+                    <tr key={r.deltaId} className="border-border-subtle border-b align-top">
                       <td className="py-1.5 pr-2">
                         <select
-                          className="h-8 w-[140px] max-w-full rounded-md border border-slate-200 bg-white px-1 text-[10px]"
+                          className="border-border-default h-8 w-[140px] max-w-full rounded-md border bg-white px-1 text-[10px]"
                           value={r.kind}
                           disabled={ro}
                           onChange={(e) =>
@@ -378,7 +396,7 @@ export function Workshop2DossierSupplyChainDraftsPanel({
                       </td>
                       <td className="py-1.5 pr-2">
                         <select
-                          className="h-8 w-full rounded-md border border-slate-200 bg-white px-1 text-[10px]"
+                          className="border-border-default h-8 w-full rounded-md border bg-white px-1 text-[10px]"
                           value={r.field}
                           disabled={ro}
                           onChange={(e) =>
@@ -423,7 +441,7 @@ export function Workshop2DossierSupplyChainDraftsPanel({
                           type="button"
                           variant="ghost"
                           size="sm"
-                          className="h-8 w-8 p-0 text-slate-500"
+                          className="text-text-secondary h-8 w-8 p-0"
                           disabled={ro}
                           onClick={() => removeDelta(r.deltaId)}
                           aria-label="Удалить"
@@ -474,7 +492,11 @@ export function Workshop2DossierSupplyChainDraftsPanel({
               <tbody>
                 {(dossier.bomLineCostingHints ?? []).length === 0 ? (
                   <tr>
+<<<<<<< HEAD
                     <td colSpan={5} className="py-3 text-slate-600">
+=======
+                    <td colSpan={5} className="text-text-secondary py-3">
+>>>>>>> recover/cabinet-wip-from-stash
                       Строки для локальной финмодели; дубликаты lineRef сшиваются при отображении
                       счётчика выше.
                     </td>
@@ -527,7 +549,7 @@ export function Workshop2DossierSupplyChainDraftsPanel({
                           type="button"
                           variant="ghost"
                           size="sm"
-                          className="h-8 w-8 p-0 text-slate-500"
+                          className="text-text-secondary h-8 w-8 p-0"
                           disabled={ro}
                           onClick={() => removeCostingAt(i)}
                           aria-label="Удалить"

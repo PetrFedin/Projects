@@ -16,6 +16,7 @@ import { PartnerDemoExportBar } from '@/components/brand/partner-demo-export-bar
 import { ROUTES } from '@/lib/routes';
 import { PARTNER_ASSORTMENT_MATRIX_ROWS } from '@/lib/platform/partner-demo-data';
 import { ArrowLeft, Grid3x3, Factory, Plug } from 'lucide-react';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
 export default function AssortmentMatrixPage() {
   return (
@@ -33,11 +34,20 @@ export default function AssortmentMatrixPage() {
               Совместная матрица ассортимента
             </h1>
             <p className="text-sm text-muted-foreground">
+<<<<<<< HEAD
               Канал × SKU × цвет × размеры × статус × sell-through. Данные:{' '}
               <code className="rounded bg-muted px-1 text-[10px]">
                 lib/platform/partner-demo-data
               </code>{' '}
               → позже GET/PUT API.
+=======
+              Канал × <AcronymWithTooltip abbr="SKU" /> × цвет × размеры × статус × sell-through.
+              Данные:{' '}
+              <code className="rounded bg-muted px-1 text-[10px]">
+                lib/platform/partner-demo-data
+              </code>{' '}
+              → позже GET/PUT <AcronymWithTooltip abbr="API" />.
+>>>>>>> recover/cabinet-wip-from-stash
             </p>
           </div>
         </div>
@@ -71,7 +81,9 @@ export default function AssortmentMatrixPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>Канал</TableHead>
-                <TableHead>SKU</TableHead>
+                <TableHead>
+                  <AcronymWithTooltip abbr="SKU" />
+                </TableHead>
                 <TableHead>Цвет</TableHead>
                 <TableHead>Размеры</TableHead>
                 <TableHead>Сезон</TableHead>

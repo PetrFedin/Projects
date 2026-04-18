@@ -41,7 +41,7 @@ function saveState(sectionId: string, state: SectionState) {
 export function CollapsibleSection({
   id,
   title,
-  barColor = 'bg-indigo-600',
+  barColor = 'bg-accent-primary',
   children,
   defaultPinned = true,
   defaultOpen = true,
@@ -112,6 +112,7 @@ export function CollapsibleSection({
             className="group flex min-w-0 items-center gap-2 text-left transition-opacity hover:opacity-80"
           >
             <div className={cn('h-3.5 w-1 shrink-0 rounded-full', barColor)} />
+<<<<<<< HEAD
             <h2 className="truncate text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
               {title}
             </h2>
@@ -119,6 +120,15 @@ export function CollapsibleSection({
               <ChevronDown className="ml-1 h-4 w-4 shrink-0 text-slate-400" />
             ) : (
               <ChevronRight className="ml-1 h-4 w-4 shrink-0 text-slate-400" />
+=======
+            <h2 className="text-text-secondary truncate text-[10px] font-black uppercase tracking-[0.2em]">
+              {title}
+            </h2>
+            {isOpen ? (
+              <ChevronDown className="text-text-muted ml-1 h-4 w-4 shrink-0" />
+            ) : (
+              <ChevronRight className="text-text-muted ml-1 h-4 w-4 shrink-0" />
+>>>>>>> recover/cabinet-wip-from-stash
             )}
           </button>
         </CollapsibleTrigger>
@@ -129,8 +139,13 @@ export function CollapsibleSection({
             className={cn(
               'h-7 w-7 rounded-lg',
               isPinned
+<<<<<<< HEAD
                 ? 'text-indigo-600 hover:text-indigo-700'
                 : 'text-slate-300 hover:text-slate-500'
+=======
+                ? 'text-accent-primary hover:text-accent-primary'
+                : 'text-text-muted hover:text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
             )}
             onClick={(e) => {
               e.preventDefault();
@@ -148,7 +163,11 @@ export function CollapsibleSection({
           <Button
             variant="ghost"
             size="icon"
+<<<<<<< HEAD
             className="h-7 w-7 rounded-lg text-slate-400 hover:text-slate-600"
+=======
+            className="text-text-muted hover:text-text-secondary h-7 w-7 rounded-lg"
+>>>>>>> recover/cabinet-wip-from-stash
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();

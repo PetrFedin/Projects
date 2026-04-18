@@ -13,8 +13,8 @@ export function DataPanel({ title, description, className, ...rest }: DataPanelP
     <div className={cn('space-y-3', className)}>
       {(title || description) && (
         <div className="space-y-0.5">
-          {title ? <h3 className="text-sm font-semibold text-slate-900">{title}</h3> : null}
-          {description ? <p className="text-xs text-slate-500">{description}</p> : null}
+          {title ? <h3 className="text-text-primary text-sm font-semibold">{title}</h3> : null}
+          {description ? <p className="text-text-secondary text-xs">{description}</p> : null}
         </div>
       )}
       <DataTableContainer {...rest} />
@@ -39,11 +39,13 @@ export function PlanningPanel({
   children,
 }: PlanningPanelProps) {
   return (
-    <div className={cn('rounded-xl border border-slate-200 bg-white p-4 shadow-sm', className)}>
+    <div
+      className={cn('border-border-default rounded-xl border bg-white p-4 shadow-sm', className)}
+    >
       <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0 space-y-0.5">
-          {title ? <h3 className="text-sm font-semibold text-slate-900">{title}</h3> : null}
-          {description ? <p className="text-xs text-slate-500">{description}</p> : null}
+          {title ? <h3 className="text-text-primary text-sm font-semibold">{title}</h3> : null}
+          {description ? <p className="text-text-secondary text-xs">{description}</p> : null}
         </div>
         {actions ? <div className="flex shrink-0 flex-wrap gap-2">{actions}</div> : null}
       </div>
@@ -63,11 +65,13 @@ export function CommercePanel({
   children,
 }: CommercePanelProps) {
   return (
-    <div className={cn('rounded-xl border border-slate-200/90 bg-white p-5 shadow-sm', className)}>
+    <div
+      className={cn('border-border-default/90 rounded-xl border bg-white p-5 shadow-sm', className)}
+    >
       <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0 space-y-1">
-          {title ? <h3 className="text-base font-semibold text-slate-900">{title}</h3> : null}
-          {description ? <p className="text-sm text-slate-500">{description}</p> : null}
+          {title ? <h3 className="text-text-primary text-base font-semibold">{title}</h3> : null}
+          {description ? <p className="text-text-secondary text-sm">{description}</p> : null}
         </div>
         {actions ? <div className="flex shrink-0 flex-wrap gap-2">{actions}</div> : null}
       </div>

@@ -5,13 +5,19 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FilePlus, ArrowLeft, LayoutGrid, FileSpreadsheet, Upload, Loader2 } from 'lucide-react';
+import { LayoutGrid, FileSpreadsheet, Upload, Loader2 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { getAgentBrands } from '@/lib/b2b/agent-context';
 import { joorGetDeliveryWindows, isNuOrderConfigured } from '@/lib/b2b/integrations';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { B2BIntegrationStatusWidget } from '@/components/b2b/B2BIntegrationStatusWidget';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { RegistryPageShell } from '@/components/design-system';
+import { tid } from '@/lib/ui/test-ids';
+import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
+import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
+import { B2bOptOrderIdCopy } from '@/components/shop/B2bOptOrderIdCopy';
 
 const SEASONS = ['FW26', 'SS26', 'FW25'] as const;
 
@@ -29,6 +35,7 @@ export default function B2BCreateOrderPage() {
   } | null>(null);
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -45,6 +52,14 @@ export default function B2BCreateOrderPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell
+      className="max-w-4xl space-y-6"
+      data-testid={tid.page('shop-b2b-create-order')}
+    >
+      <ShopB2bContentHeader lead="JOOR: выбор бренда, сезона и коллекции — затем матрица заказа или Working Order." />
+      <ShopAnalyticsSegmentErpStrip />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -168,6 +183,7 @@ export default function B2BCreateOrderPage() {
               Отправить черновик в NuOrder
             </Button>
             {exportResult && (
+<<<<<<< HEAD
               <p
                 className={`text-sm ${exportResult.success ? 'text-green-600' : 'text-destructive'}`}
               >
@@ -175,13 +191,47 @@ export default function B2BCreateOrderPage() {
                   ? `Готово. Order ID: ${exportResult.orderId}`
                   : `Ошибка: ${exportResult.error}`}
               </p>
+=======
+              <div className="space-y-2">
+                {exportResult.success ? (
+                  <>
+                    <p className="text-sm text-green-600">Черновик отправлен во внешнюю систему.</p>
+                    {exportResult.orderId ? (
+                      <B2bOptOrderIdCopy orderId={String(exportResult.orderId)} showLabel />
+                    ) : null}
+                  </>
+                ) : (
+                  <p className="text-sm text-destructive">Ошибка: {exportResult.error}</p>
+                )}
+              </div>
+>>>>>>> recover/cabinet-wip-from-stash
             )}
           </CardContent>
         </Card>
       )}
 
+      <div className="border-border-subtle flex flex-wrap items-center gap-2 border-t pt-4">
+        <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+          См. также
+        </span>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link href={ROUTES.shop.analytics} data-testid="shop-b2b-create-order-retail-link">
+            Розничная аналитика
+          </Link>
+        </Button>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link
+            href={ROUTES.shop.analyticsFootfall}
+            data-testid="shop-b2b-create-order-footfall-link"
+          >
+            Трафик по зонам
+          </Link>
+        </Button>
+        <B2bMarginAnalysisHubButton />
+      </div>
+
       <B2BIntegrationStatusWidget settingsHref={ROUTES.shop.b2bSettings} />
       <RelatedModulesBlock title="Связанные разделы" links={getShopB2BHubLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

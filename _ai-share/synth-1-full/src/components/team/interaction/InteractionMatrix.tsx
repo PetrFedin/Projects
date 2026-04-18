@@ -84,13 +84,21 @@ const BUSINESS_STAGES = [
     id: 'logistics',
     label: 'Логистика и таможня',
     icon: Truck,
+<<<<<<< HEAD
     color: 'text-purple-500 bg-purple-50',
+=======
+    color: 'text-accent-primary bg-accent-primary/10',
+>>>>>>> recover/cabinet-wip-from-stash
   },
   {
     id: 'wholesale',
     label: 'Оптовые продажи (B2B)',
     icon: ShoppingCart,
+<<<<<<< HEAD
     color: 'text-indigo-500 bg-indigo-50',
+=======
+    color: 'text-accent-primary bg-accent-primary/10',
+>>>>>>> recover/cabinet-wip-from-stash
   },
   { id: 'retail', label: 'Ритейл и лояльность', icon: Store, color: 'text-rose-500 bg-rose-50' },
 ];
@@ -99,7 +107,11 @@ const ROLE_CONFIG: Record<UserRole, { label: string; icon: any; color: string; d
   admin: {
     label: 'Администратор',
     icon: Shield,
+<<<<<<< HEAD
     color: 'text-slate-900 bg-slate-100',
+=======
+    color: 'text-text-primary bg-bg-surface2',
+>>>>>>> recover/cabinet-wip-from-stash
     desc: 'Полный контроль всей экосистемы и прав доступа',
   },
   brand: {
@@ -123,7 +135,11 @@ const ROLE_CONFIG: Record<UserRole, { label: string; icon: any; color: string; d
   distributor: {
     label: 'Дистрибьютор',
     icon: Truck,
+<<<<<<< HEAD
     color: 'text-purple-600 bg-purple-50',
+=======
+    color: 'text-accent-primary bg-accent-primary/10',
+>>>>>>> recover/cabinet-wip-from-stash
     desc: 'Оптовый посредник, управляющий стоками и логистикой',
   },
   shop: {
@@ -135,13 +151,21 @@ const ROLE_CONFIG: Record<UserRole, { label: string; icon: any; color: string; d
   client: {
     label: 'Клиент',
     icon: User,
+<<<<<<< HEAD
     color: 'text-slate-600 bg-slate-50',
+=======
+    color: 'text-text-secondary bg-bg-surface2',
+>>>>>>> recover/cabinet-wip-from-stash
     desc: 'Конечный покупатель продукции бренда',
   },
   b2b: {
     label: 'B2B Пользователь',
     icon: Users,
+<<<<<<< HEAD
     color: 'text-slate-500 bg-slate-100',
+=======
+    color: 'text-text-secondary bg-bg-surface2',
+>>>>>>> recover/cabinet-wip-from-stash
     desc: 'Корпоративный клиент или байер',
   },
 };
@@ -168,7 +192,11 @@ const STATUS_CONFIG = {
   rus_market: {
     label: 'Рынок РФ',
     desc: 'Специализированный модуль для соответствия законодательству РФ',
+<<<<<<< HEAD
     color: 'bg-indigo-600 text-white',
+=======
+    color: 'bg-accent-primary text-white',
+>>>>>>> recover/cabinet-wip-from-stash
     icon: ShieldCheck,
   },
 };
@@ -198,7 +226,11 @@ const SIMULATIONS = [
     id: 'sim-2',
     name: 'Оптовый цикл',
     steps: ['f17', 'f34', 'f19', 'f13', 'f43', 'f15'],
+<<<<<<< HEAD
     color: 'text-indigo-500',
+=======
+    color: 'text-accent-primary',
+>>>>>>> recover/cabinet-wip-from-stash
   },
   {
     id: 'sim-3',
@@ -217,7 +249,11 @@ const STAGE_FEATURES: Record<string, Feature[]> = {
       status: 'active',
       participants: ['brand', 'manufacturer'],
       syncPage: '/brand/products',
+<<<<<<< HEAD
       integration: 'Syntha Global',
+=======
+      integration: 'External-API',
+>>>>>>> recover/cabinet-wip-from-stash
       targetType: 'plm',
       interactionDetails: {
         brand: 'Создание и утверждение техзаданий и 3D-моделей.',
@@ -231,7 +267,11 @@ const STAGE_FEATURES: Record<string, Feature[]> = {
       status: 'active',
       participants: ['brand'],
       syncPage: '/brand/media',
+<<<<<<< HEAD
       integration: 'Brand Portal',
+=======
+      integration: 'External-API',
+>>>>>>> recover/cabinet-wip-from-stash
       dependencies: ['f1'],
       interactionDetails: {
         brand: 'Генерация маркетинговых материалов на основе 3D-семплов.',
@@ -349,7 +389,11 @@ const STAGE_FEATURES: Record<string, Feature[]> = {
       desc: 'Мониторинг цепочек поставок и предсказание задержек. Страхование сроков производства.',
       status: 'pending',
       participants: ['brand', 'supplier'],
+<<<<<<< HEAD
       integration: 'Global Logistics',
+=======
+      integration: 'B2B-Global',
+>>>>>>> recover/cabinet-wip-from-stash
       interactionDetails: {
         brand: 'Управление планами страхования сроков.',
         supplier: 'Предоставление данных о логистических рисках.',
@@ -404,7 +448,11 @@ const STAGE_FEATURES: Record<string, Feature[]> = {
       desc: 'Продажа свободных окон фабриками. Бренды быстро размещают дозаказы хитов.',
       status: 'active',
       participants: ['manufacturer', 'brand'],
+<<<<<<< HEAD
       syncPage: '/factory/auctions',
+=======
+      syncPage: '/factory/production/auctions',
+>>>>>>> recover/cabinet-wip-from-stash
       interactionDetails: {
         manufacturer: 'Выставление свободных слотов на продажу.',
         brand: 'Бронирование мощностей для срочных тиражей.',
@@ -540,7 +588,11 @@ const STAGE_FEATURES: Record<string, Feature[]> = {
       status: 'active',
       participants: ['brand', 'shop'],
       syncPage: '/shop/b2b/partners',
+<<<<<<< HEAD
       integration: 'Syntha B2B',
+=======
+      integration: 'B2B-Global',
+>>>>>>> recover/cabinet-wip-from-stash
       targetType: 'order',
       interactionDetails: {
         brand: 'Настройка каталога, лимитов и индивидуальных цен.',
@@ -595,7 +647,11 @@ const STAGE_FEATURES: Record<string, Feature[]> = {
       status: 'active',
       participants: ['brand', 'shop'],
       syncPage: '/brand/b2b/linesheets',
+<<<<<<< HEAD
       integration: 'Syntha B2B',
+=======
+      integration: 'B2B-Global',
+>>>>>>> recover/cabinet-wip-from-stash
       interactionDetails: {
         brand: 'Предложение структуры коллекции под нужды ритейла.',
         shop: 'Совместная верстка ассортиментной матрицы.',
@@ -635,7 +691,11 @@ const STAGE_FEATURES: Record<string, Feature[]> = {
       desc: 'Персональные рекомендации образов. Помощь клиенту в развитии стиля и подборе гардероба.',
       status: 'active',
       participants: ['brand', 'client'],
+<<<<<<< HEAD
       syncPage: '/u/wardrobe',
+=======
+      syncPage: '/client/me/wardrobe',
+>>>>>>> recover/cabinet-wip-from-stash
       dependencies: ['f21'],
       interactionDetails: {
         brand: 'Обучение AI-стилиста стилистике бренда.',
@@ -648,7 +708,11 @@ const STAGE_FEATURES: Record<string, Feature[]> = {
       desc: 'Программа лояльности через ценности: доступ к карьере, показам и аукционам.',
       status: 'active',
       participants: ['brand', 'client', 'shop'],
+<<<<<<< HEAD
       syncPage: '/u/loyalty',
+=======
+      syncPage: '/client/me?tab=loyalty',
+>>>>>>> recover/cabinet-wip-from-stash
       interactionDetails: {
         brand: 'Настройка уровней доступа и эксклюзивных наград.',
         client: 'Накопление баллов и использование привилегий.',
@@ -813,14 +877,22 @@ export function InteractionMatrix() {
         {/* Dynamic Header with Controls */}
         <header className="flex flex-col items-start justify-between gap-3 rounded-xl border border-white/60 bg-white/40 p-4 backdrop-blur-md xl:flex-row xl:items-center">
           <div className="flex items-center gap-3">
+<<<<<<< HEAD
             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-600 shadow-2xl shadow-indigo-200">
+=======
+            <div className="bg-accent-primary shadow-accent-primary/15 flex h-10 w-10 items-center justify-center rounded-2xl shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
               <Network className="h-7 w-7 text-white" />
             </div>
             <div>
               <h2 className="text-base font-black uppercase tracking-tighter">Syntha OS Matrix</h2>
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 animate-pulse rounded-full bg-green-500" />
+<<<<<<< HEAD
                 <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+=======
+                <p className="text-text-secondary text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   {isConfigMode
                     ? `Настройка прав: ${organizations[activePartnerId]?.name || 'Все'}`
                     : 'Центр управления экосистемой'}
@@ -831,8 +903,13 @@ export function InteractionMatrix() {
 
           <div className="flex flex-wrap items-center gap-3">
             {/* Simulation Player */}
+<<<<<<< HEAD
             <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-100 p-1.5">
               <div className="px-3 text-[9px] font-black uppercase text-slate-400">Сценарии:</div>
+=======
+            <div className="bg-bg-surface2 border-border-default flex items-center gap-2 rounded-2xl border p-1.5">
+              <div className="text-text-muted px-3 text-[9px] font-black uppercase">Сценарии:</div>
+>>>>>>> recover/cabinet-wip-from-stash
               {SIMULATIONS.map((sim) => (
                 <button
                   key={sim.id}
@@ -844,7 +921,11 @@ export function InteractionMatrix() {
                     'rounded-xl px-3 py-2 text-[9px] font-black uppercase transition-all',
                     activeSim?.id === sim.id
                       ? 'bg-black text-white'
+<<<<<<< HEAD
                       : 'text-slate-600 hover:bg-white'
+=======
+                      : 'text-text-secondary hover:bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {sim.name}
@@ -864,13 +945,21 @@ export function InteractionMatrix() {
             </div>
 
             {/* Config & Heatmap Toggles */}
+<<<<<<< HEAD
             <div className="flex items-center gap-2 rounded-2xl bg-slate-900 p-1.5">
+=======
+            <div className="bg-text-primary flex items-center gap-2 rounded-2xl p-1.5">
+>>>>>>> recover/cabinet-wip-from-stash
               <button
                 onClick={() => setIsConfigMode(!isConfigMode)}
                 className={cn(
                   'flex items-center gap-2 rounded-xl px-4 py-2.5 text-[10px] font-black uppercase transition-all',
                   isConfigMode
+<<<<<<< HEAD
                     ? 'bg-indigo-600 text-white shadow-lg'
+=======
+                    ? 'bg-accent-primary text-white shadow-lg'
+>>>>>>> recover/cabinet-wip-from-stash
                     : 'text-white/40 hover:text-white'
                 )}
               >
@@ -893,8 +982,13 @@ export function InteractionMatrix() {
             </div>
 
             {/* Partner Selector */}
+<<<<<<< HEAD
             <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white p-1.5 shadow-sm">
               <Filter className="ml-2 h-3.5 w-3.5 text-slate-400" />
+=======
+            <div className="border-border-default flex items-center gap-2 rounded-2xl border bg-white p-1.5 shadow-sm">
+              <Filter className="text-text-muted ml-2 h-3.5 w-3.5" />
+>>>>>>> recover/cabinet-wip-from-stash
               <select
                 value={activePartnerId}
                 onChange={(e) => setActivePartnerId(e.target.value)}
@@ -915,7 +1009,11 @@ export function InteractionMatrix() {
 
         {/* Main Process Scheme */}
         <div className="relative">
+<<<<<<< HEAD
           <div className="absolute left-0 top-[60px] z-0 hidden h-1 w-full bg-slate-100 lg:block" />
+=======
+          <div className="bg-bg-surface2 absolute left-0 top-[60px] z-0 hidden h-1 w-full lg:block" />
+>>>>>>> recover/cabinet-wip-from-stash
 
           <div className="relative z-10 grid grid-cols-1 gap-3 lg:grid-cols-6">
             {BUSINESS_STAGES.map((stage, index) => {
@@ -929,13 +1027,22 @@ export function InteractionMatrix() {
                     className={cn(
                       'relative flex flex-col items-center gap-3 rounded-xl border-2 p-4 text-center transition-all duration-500',
                       roleInStage
+<<<<<<< HEAD
                         ? 'border-indigo-600 bg-white shadow-xl'
                         : 'border-slate-100 bg-slate-50/50 opacity-40 grayscale'
+=======
+                        ? 'border-accent-primary bg-white shadow-xl'
+                        : 'bg-bg-surface2/80 border-border-subtle opacity-40 grayscale'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     {index < BUSINESS_STAGES.length - 1 && (
                       <div className="absolute -right-5 top-1/2 hidden -translate-y-1/2 lg:block">
+<<<<<<< HEAD
                         <ChevronRight className="h-4 w-4 text-slate-200" />
+=======
+                        <ChevronRight className="text-text-muted h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
                       </div>
                     )}
                     <div
@@ -948,10 +1055,17 @@ export function InteractionMatrix() {
                       {React.createElement(stage.icon, { className: 'h-6 w-6' })}
                     </div>
                     <div>
+<<<<<<< HEAD
                       <p className="text-[10px] font-black uppercase leading-tight text-slate-900">
                         {stage.label}
                       </p>
                       <p className="mt-1 text-[8px] font-bold uppercase text-slate-400">
+=======
+                      <p className="text-text-primary text-[10px] font-black uppercase leading-tight">
+                        {stage.label}
+                      </p>
+                      <p className="text-text-muted mt-1 text-[8px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                         Шаг {index + 1}
                       </p>
                     </div>
@@ -978,10 +1092,17 @@ export function InteractionMatrix() {
                               'group relative cursor-pointer overflow-hidden rounded-2xl border-none shadow-sm transition-all duration-300',
                               isRelevant
                                 ? 'bg-white opacity-100'
+<<<<<<< HEAD
                                 : 'pointer-events-none scale-95 bg-slate-100/50 opacity-30',
                               isDisabled && 'brightness-50 grayscale',
                               isHighlighted && isRelevant
                                 ? 'z-20 scale-105 shadow-xl ring-2 ring-indigo-600 ring-offset-2'
+=======
+                                : 'bg-bg-surface2/50 pointer-events-none scale-95 opacity-30',
+                              isDisabled && 'brightness-50 grayscale',
+                              isHighlighted && isRelevant
+                                ? 'ring-accent-primary z-20 scale-105 shadow-xl ring-2 ring-offset-2'
+>>>>>>> recover/cabinet-wip-from-stash
                                 : '',
                               isCurrentSimStep &&
                                 'scale-110 shadow-2xl ring-4 ring-amber-500 ring-offset-4'
@@ -994,7 +1115,11 @@ export function InteractionMatrix() {
                                   initial={{ y: 20, opacity: 0 }}
                                   animate={{ y: 0, opacity: 1 }}
                                   exit={{ y: -20, opacity: 0 }}
+<<<<<<< HEAD
                                   className="absolute left-0 right-0 top-0 z-30 bg-indigo-600 py-1 text-center text-[7px] font-black uppercase text-white"
+=======
+                                  className="bg-accent-primary absolute left-0 right-0 top-0 z-30 py-1 text-center text-[7px] font-black uppercase text-white"
+>>>>>>> recover/cabinet-wip-from-stash
                                 >
                                   {liveAction}...
                                 </motion.div>
@@ -1026,7 +1151,11 @@ export function InteractionMatrix() {
                                   </TooltipTrigger>
                                   <TooltipContent
                                     side="right"
+<<<<<<< HEAD
                                     className="max-w-[200px] rounded-xl border-none bg-slate-900 p-3 text-white shadow-2xl"
+=======
+                                    className="bg-text-primary max-w-[200px] rounded-xl border-none p-3 text-white shadow-2xl"
+>>>>>>> recover/cabinet-wip-from-stash
                                   >
                                     <p className="mb-1 text-[10px] font-black uppercase tracking-widest">
                                       {statusInfo.label}
@@ -1059,14 +1188,22 @@ export function InteractionMatrix() {
                                       e.stopPropagation();
                                       setSelectedFeature(f);
                                     }}
+<<<<<<< HEAD
                                     className="flex h-6 w-6 items-center justify-center rounded-lg bg-slate-50 transition-colors hover:bg-black hover:text-white"
+=======
+                                    className="bg-bg-surface2 flex h-6 w-6 items-center justify-center rounded-lg transition-colors hover:bg-black hover:text-white"
+>>>>>>> recover/cabinet-wip-from-stash
                                   >
                                     <Info className="h-3 w-3" />
                                   </button>
                                 </div>
                               </div>
 
+<<<<<<< HEAD
                               <p className="line-clamp-2 text-[9px] font-black uppercase leading-tight tracking-tight text-slate-800">
+=======
+                              <p className="text-text-primary line-clamp-2 text-[9px] font-black uppercase leading-tight tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                                 {f.label}
                               </p>
 
@@ -1088,11 +1225,19 @@ export function InteractionMatrix() {
                                             })}
                                           </div>
                                         </TooltipTrigger>
+<<<<<<< HEAD
                                         <TooltipContent className="max-w-[180px] rounded-xl border border-slate-200 bg-white p-3 text-slate-900 shadow-xl">
                                           <p className="mb-1 text-[9px] font-black uppercase tracking-widest">
                                             {ROLE_CONFIG[p].label}
                                           </p>
                                           <p className="text-[8px] font-medium italic leading-tight text-slate-500">
+=======
+                                        <TooltipContent className="border-border-default text-text-primary max-w-[180px] rounded-xl border bg-white p-3 shadow-xl">
+                                          <p className="mb-1 text-[9px] font-black uppercase tracking-widest">
+                                            {ROLE_CONFIG[p].label}
+                                          </p>
+                                          <p className="text-text-secondary text-[8px] font-medium italic leading-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                                             {detail ||
                                               'Участвует в процессе синхронно с другими ролями.'}
                                           </p>
@@ -1102,7 +1247,11 @@ export function InteractionMatrix() {
                                   })}
                                 </div>
                                 {f.integration && (
+<<<<<<< HEAD
                                   <div className="rounded bg-slate-100 px-1.5 py-0.5 text-[7px] font-bold uppercase text-slate-500">
+=======
+                                  <div className="bg-bg-surface2 text-text-secondary rounded px-1.5 py-0.5 text-[7px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                                     {f.integration}
                                   </div>
                                 )}
@@ -1111,7 +1260,11 @@ export function InteractionMatrix() {
 
                             {/* Heatmap intensity bar */}
                             {showHeatmap && isRelevant && (
+<<<<<<< HEAD
                               <div className="mt-auto h-0.5 w-full bg-slate-100">
+=======
+                              <div className="bg-bg-surface2 mt-auto h-0.5 w-full">
+>>>>>>> recover/cabinet-wip-from-stash
                                 <div
                                   className="h-full bg-amber-500 transition-all duration-1000"
                                   style={{ width: `${intensity}%` }}
@@ -1162,24 +1315,39 @@ export function InteractionMatrix() {
 
                 <div className="space-y-4">
                   <div className="space-y-2">
+<<<<<<< HEAD
                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                       Описание модуля
                     </label>
                     <p className="rounded-2xl border border-slate-100 bg-slate-50 p-3 text-sm font-medium leading-relaxed text-slate-600">
+=======
+                    <label className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                      Описание модуля
+                    </label>
+                    <p className="text-text-secondary bg-bg-surface2 border-border-subtle rounded-2xl border p-3 text-sm font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                       {selectedFeature.desc}
                     </p>
                   </div>
 
                   {/* Role-Specific Actions in Dialog */}
                   <div className="space-y-2">
+<<<<<<< HEAD
                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+                    <label className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       Ролевое взаимодействие
                     </label>
                     <div className="space-y-2">
                       {selectedFeature.participants.map((p) => (
                         <div
                           key={p}
+<<<<<<< HEAD
                           className="flex gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3"
+=======
+                          className="bg-bg-surface2 border-border-subtle flex gap-3 rounded-xl border p-3"
+>>>>>>> recover/cabinet-wip-from-stash
                         >
                           <div
                             className={cn(
@@ -1190,10 +1358,17 @@ export function InteractionMatrix() {
                             {React.createElement(ROLE_CONFIG[p].icon, { className: 'h-4 w-4' })}
                           </div>
                           <div>
+<<<<<<< HEAD
                             <p className="text-[9px] font-black uppercase text-slate-900">
                               {ROLE_CONFIG[p].label}
                             </p>
                             <p className="text-[8px] font-medium text-slate-500">
+=======
+                            <p className="text-text-primary text-[9px] font-black uppercase">
+                              {ROLE_CONFIG[p].label}
+                            </p>
+                            <p className="text-text-secondary text-[8px] font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                               {selectedFeature.interactionDetails?.[p] ||
                                 'Стандартные операции модуля.'}
                             </p>
@@ -1205,23 +1380,40 @@ export function InteractionMatrix() {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-2">
+<<<<<<< HEAD
                       <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                         Синхронизация в профиле
                       </label>
                       <div className="flex items-center gap-2 rounded-xl border border-slate-100 bg-slate-50 p-3">
                         <Globe className="h-3 w-3 text-slate-400" />
                         <span className="truncate text-[9px] font-black uppercase text-slate-600">
+=======
+                      <label className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                        Синхронизация в профиле
+                      </label>
+                      <div className="bg-bg-surface2 border-border-subtle flex items-center gap-2 rounded-xl border p-3">
+                        <Globe className="text-text-muted h-3 w-3" />
+                        <span className="text-text-secondary truncate text-[9px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                           {selectedFeature.syncPage || 'Раздел в разработке'}
                         </span>
                       </div>
                     </div>
                     {selectedFeature.impact && (
                       <div className="space-y-2">
+<<<<<<< HEAD
                         <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                           Бизнес-эффект
                         </label>
                         <div className="rounded-xl border border-indigo-100 bg-indigo-50 p-3">
                           <p className="text-[9px] font-black uppercase leading-tight text-indigo-600">
+=======
+                        <label className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                          Бизнес-эффект
+                        </label>
+                        <div className="bg-accent-primary/10 border-accent-primary/20 rounded-xl border p-3">
+                          <p className="text-accent-primary text-[9px] font-black uppercase leading-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                             {selectedFeature.impact}
                           </p>
                         </div>
@@ -1231,10 +1423,17 @@ export function InteractionMatrix() {
 
                   {selectedFeature.integration && (
                     <div className="space-y-2">
+<<<<<<< HEAD
                       <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                         Технологический партнер
                       </label>
                       <div className="flex items-center gap-3 rounded-2xl bg-slate-900 p-4 text-white">
+=======
+                      <label className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                        Технологический партнер
+                      </label>
+                      <div className="bg-text-primary flex items-center gap-3 rounded-2xl p-4 text-white">
+>>>>>>> recover/cabinet-wip-from-stash
                         <Zap className="h-4 w-4 text-amber-400" />
                         <div>
                           <p className="text-[10px] font-black uppercase tracking-tighter">
@@ -1249,14 +1448,23 @@ export function InteractionMatrix() {
                   )}
                 </div>
 
+<<<<<<< HEAD
                 <div className="flex items-center justify-between border-t border-slate-100 pt-6">
                   <p className="text-[8px] font-bold uppercase text-slate-400">
+=======
+                <div className="border-border-subtle flex items-center justify-between border-t pt-6">
+                  <p className="text-text-muted text-[8px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     ID: {selectedFeature.id}
                   </p>
                   <div className="flex gap-3">
                     <button
                       onClick={() => setSelectedFeature(null)}
+<<<<<<< HEAD
                       className="rounded-2xl bg-slate-100 px-6 py-3 text-[10px] font-black uppercase tracking-widest text-slate-600"
+=======
+                      className="bg-bg-surface2 text-text-secondary rounded-2xl px-6 py-3 text-[10px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       Закрыть
                     </button>
@@ -1277,7 +1485,11 @@ export function InteractionMatrix() {
 
         {/* Role Selection & Logic Section */}
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+<<<<<<< HEAD
           <Card className="relative overflow-hidden rounded-xl border-none bg-slate-900 text-white shadow-2xl lg:col-span-1">
+=======
+          <Card className="bg-text-primary relative overflow-hidden rounded-xl border-none text-white shadow-2xl lg:col-span-1">
+>>>>>>> recover/cabinet-wip-from-stash
             <CardContent className="relative z-10 space-y-6 p-3">
               <div className="mb-6 flex flex-wrap gap-2">
                 {Object.entries(ROLE_CONFIG).map(([role, config]) => {
@@ -1309,8 +1521,13 @@ export function InteractionMatrix() {
               </div>
 
               {/* AI Insights for Role */}
+<<<<<<< HEAD
               <div className="space-y-3 rounded-3xl border border-indigo-500/30 bg-indigo-600/30 p-3 backdrop-blur-sm">
                 <div className="flex items-center gap-2 text-indigo-300">
+=======
+              <div className="bg-accent-primary/30 border-accent-primary/30 space-y-3 rounded-3xl border p-3 backdrop-blur-sm">
+                <div className="text-accent-primary flex items-center gap-2">
+>>>>>>> recover/cabinet-wip-from-stash
                   <Sparkles className="h-4 w-4" />
                   <span className="text-[10px] font-black uppercase tracking-widest">
                     AI Insight
@@ -1339,11 +1556,19 @@ export function InteractionMatrix() {
             </CardContent>
           </Card>
 
+<<<<<<< HEAD
           <div className="space-y-4 rounded-xl border border-slate-100 bg-white/50 p-3 backdrop-blur-sm lg:col-span-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Activity className="h-5 w-5 text-indigo-600" />
                 <h3 className="text-base font-black uppercase tracking-tight text-slate-800">
+=======
+          <div className="border-border-subtle space-y-4 rounded-xl border bg-white/50 p-3 backdrop-blur-sm lg:col-span-2">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Activity className="text-accent-primary h-5 w-5" />
+                <h3 className="text-text-primary text-base font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                   {activePartnerId !== 'all'
                     ? `Профиль: ${organizations[activePartnerId]?.name}`
                     : 'Центр управления Syntha Scoping'}
@@ -1358,8 +1583,13 @@ export function InteractionMatrix() {
 
             {activePartnerId !== 'all' && organizations[activePartnerId]?.subscription ? (
               <div className="grid grid-cols-1 gap-3 duration-500 animate-in slide-in-from-bottom-4 md:grid-cols-3">
+<<<<<<< HEAD
                 <div className="space-y-4 rounded-xl bg-slate-900 p-4 text-white shadow-xl">
                   <div className="flex items-center gap-2 text-indigo-400">
+=======
+                <div className="bg-text-primary space-y-4 rounded-xl p-4 text-white shadow-xl">
+                  <div className="text-accent-primary flex items-center gap-2">
+>>>>>>> recover/cabinet-wip-from-stash
                     <ShieldCheck className="h-4 w-4" />
                     <span className="text-[10px] font-black uppercase tracking-widest">
                       Пакет услуг
@@ -1378,8 +1608,13 @@ export function InteractionMatrix() {
                   </div>
                 </div>
 
+<<<<<<< HEAD
                 <div className="space-y-4 rounded-xl bg-indigo-600 p-4 text-white shadow-xl">
                   <div className="flex items-center gap-2 text-indigo-200">
+=======
+                <div className="bg-accent-primary space-y-4 rounded-xl p-4 text-white shadow-xl">
+                  <div className="text-accent-primary/40 flex items-center gap-2">
+>>>>>>> recover/cabinet-wip-from-stash
                     <Gem className="h-4 w-4" />
                     <span className="text-[10px] font-black uppercase tracking-widest">
                       Программа лояльности
@@ -1389,7 +1624,11 @@ export function InteractionMatrix() {
                     <p className="text-base font-black uppercase italic tracking-tighter">
                       {organizations[activePartnerId].subscription?.loyalty.level}
                     </p>
+<<<<<<< HEAD
                     <p className="mt-1 text-[9px] font-bold uppercase text-indigo-200">
+=======
+                    <p className="text-accent-primary/40 mt-1 text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                       {organizations[activePartnerId].subscription?.loyalty.points.toLocaleString(
                         'ru-RU'
                       )}{' '}
@@ -1398,7 +1637,11 @@ export function InteractionMatrix() {
                   </div>
                 </div>
 
+<<<<<<< HEAD
                 <div className="space-y-4 rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
+=======
+                <div className="border-border-subtle space-y-4 rounded-xl border bg-white p-4 shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                   <div className="flex items-center gap-2 text-emerald-600">
                     <Zap className="h-4 w-4" />
                     <span className="text-[10px] font-black uppercase tracking-widest">
@@ -1435,11 +1678,19 @@ export function InteractionMatrix() {
                   },
                 ].map((item, i) => (
                   <div key={i} className="space-y-2">
+<<<<<<< HEAD
                     <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-indigo-600">
                       <span className="h-1.5 w-1.5 rounded-full bg-indigo-600" />
                       {item.title}
                     </div>
                     <p className="text-xs font-medium leading-relaxed text-slate-500">
+=======
+                    <div className="text-accent-primary flex items-center gap-2 text-[11px] font-black uppercase tracking-widest">
+                      <span className="bg-accent-primary h-1.5 w-1.5 rounded-full" />
+                      {item.title}
+                    </div>
+                    <p className="text-text-secondary text-xs font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                       {item.desc}
                     </p>
                   </div>

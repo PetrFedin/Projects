@@ -50,7 +50,11 @@ export function ProcessContextSelector({
         <DropdownMenuLabel>Параллельные инстансы</DropdownMenuLabel>
         {instances.map((inst) => (
           <DropdownMenuItem key={inst.id} onClick={() => onContextChange(inst.contextId)}>
+<<<<<<< HEAD
             <Layers className="mr-2 h-4 w-4 text-slate-400" />
+=======
+            <Layers className="text-text-muted mr-2 h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
             {inst.context.label}
           </DropdownMenuItem>
         ))}

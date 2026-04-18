@@ -70,7 +70,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Label } from '../ui/label';
 import { StatCard } from '../stat-card';
 import Link from 'next/link';
-import { useUIState } from '@/providers/ui-state';
+import { useB2BState } from '@/providers/b2b-state';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Dialog } from '@radix-ui/react-dialog';
 import {
@@ -82,7 +82,7 @@ import {
 } from '@/components/ui/dialog';
 import { Separator } from '../ui/separator';
 import { Badge } from '../ui/badge';
-import { suggestProductPrice } from '@/ai/flows/suggest-product-price';
+import { suggestPriceClient } from '@/lib/ai-client/api';
 import { fullCategoryStructure } from '@/lib/categories';
 import { Combobox } from '../ui/combobox';
 
@@ -207,7 +207,11 @@ const getStockIndicatorClass = (quantity: number | undefined) => {
 };
 
 export default function MarginAnalysisPage() {
+<<<<<<< HEAD
   const { addB2bOrderItem } = useUIState();
+=======
+  const { addB2bOrderItem } = useB2BState();
+>>>>>>> recover/cabinet-wip-from-stash
   const [baseInventory, setBaseInventory] = useState<ProductWithAnalytics[]>([]);
   const [editedProducts, setEditedProducts] = useState<
     Record<string, Partial<ProductWithAnalytics>>
@@ -577,7 +581,11 @@ export default function MarginAnalysisPage() {
     setRrpSuggestion(null);
 
     try {
+<<<<<<< HEAD
       const result = await suggestProductPrice({
+=======
+      const result = await suggestPriceClient({
+>>>>>>> recover/cabinet-wip-from-stash
         productName: product.name,
         productionCost: product.productionCost || product.price * 0.4,
         category: product.category,

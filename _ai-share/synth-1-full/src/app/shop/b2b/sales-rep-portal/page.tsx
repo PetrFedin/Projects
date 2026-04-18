@@ -4,8 +4,10 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, UserCircle, Calendar, Store, FileText, Video } from 'lucide-react';
+import { Calendar, Store, FileText, Video } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 /** Shopify/Candid: Sales Rep Portal — портал для репов и showroom */
 const MOCK_APPOINTMENTS = [
@@ -27,6 +29,7 @@ const MOCK_APPOINTMENTS = [
 
 export default function SalesRepPortalPage() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -43,6 +46,10 @@ export default function SalesRepPortalPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-3xl space-y-6">
+      <ShopB2bContentHeader lead="Портал торгового представителя: встречи в шоуруме, видео и материалы по брендам (сценарии Shopify / Candid)." />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <div className="mb-6 grid gap-4 md:grid-cols-2">
         <Card>
@@ -55,11 +62,19 @@ export default function SalesRepPortalPage() {
             {MOCK_APPOINTMENTS.map((a) => (
               <div
                 key={a.id}
+<<<<<<< HEAD
                 className="flex items-center justify-between rounded-lg bg-slate-50 p-2"
               >
                 <div>
                   <p className="text-sm font-medium">{a.retailer}</p>
                   <p className="text-xs text-slate-500">
+=======
+                className="bg-bg-surface2 flex items-center justify-between rounded-lg p-2"
+              >
+                <div>
+                  <p className="text-sm font-medium">{a.retailer}</p>
+                  <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                     {a.date} · {a.type === 'showroom' ? 'Шоурум' : 'Видео'}
                   </p>
                 </div>
@@ -77,7 +92,11 @@ export default function SalesRepPortalPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
+<<<<<<< HEAD
             <p className="mb-3 text-sm text-slate-600">Забронируйте время в шоуруме бренда</p>
+=======
+            <p className="text-text-secondary mb-3 text-sm">Забронируйте время в шоуруме бренда</p>
+>>>>>>> recover/cabinet-wip-from-stash
             <Button size="sm" variant="outline" asChild>
               <Link href={ROUTES.shop.b2bVipRoomBooking}>Записаться</Link>
             </Button>
@@ -111,9 +130,13 @@ export default function SalesRepPortalPage() {
           </Link>
         </Button>
         <Button variant="outline" size="sm" asChild>
+<<<<<<< HEAD
           <Link href={ROUTES.shop.b2b}>B2B хаб</Link>
+=======
+          <Link href={ROUTES.shop.b2bCatalog}>B2B каталог</Link>
+>>>>>>> recover/cabinet-wip-from-stash
         </Button>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

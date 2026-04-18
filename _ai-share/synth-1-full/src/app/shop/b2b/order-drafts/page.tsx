@@ -3,12 +3,14 @@
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileEdit, ArrowLeft, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { getWorkingOrderVersions } from '@/lib/b2b/working-order-store';
 import { getConsolidatedDraft } from '@/lib/b2b/consolidated-order-draft';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { RegistryPageShell } from '@/components/design-system';
 
 export default function B2BOrderDraftsPage() {
   const versions = getWorkingOrderVersions();
@@ -18,6 +20,7 @@ export default function B2BOrderDraftsPage() {
   );
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -34,6 +37,10 @@ export default function B2BOrderDraftsPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-4xl space-y-6">
+      <ShopB2bContentHeader lead="JOOR: незавершённые заказы по коллекциям — продолжить в матрице или Working Order." />
+>>>>>>> recover/cabinet-wip-from-stash
 
       {consolidated && consolidated.lines.length > 0 && (
         <Card className="mb-6">
@@ -65,18 +72,30 @@ export default function B2BOrderDraftsPage() {
         </CardHeader>
         <CardContent className="space-y-3">
           {draftVersions.length === 0 ? (
+<<<<<<< HEAD
             <p className="text-sm text-slate-500">
+=======
+            <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
               Нет черновиков. Создайте заказ в матрице или загрузите Working Order.
             </p>
           ) : (
             draftVersions.slice(0, 10).map((v) => (
               <div
                 key={v.id}
+<<<<<<< HEAD
                 className="flex items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50/50 p-4"
               >
                 <div>
                   <p className="font-bold text-slate-900">{v.fileName}</p>
                   <p className="text-xs text-slate-500">
+=======
+                className="border-border-subtle bg-bg-surface2/80 flex items-center justify-between gap-3 rounded-xl border p-4"
+              >
+                <div>
+                  <p className="text-text-primary font-bold">{v.fileName}</p>
+                  <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                     {new Date(v.createdAt).toLocaleDateString('ru-RU')} · {v.uploadedBy} ·{' '}
                     {v.status}
                   </p>
@@ -127,6 +146,6 @@ export default function B2BOrderDraftsPage() {
           [ROUTES.shop.b2bOrders, ROUTES.shop.b2bCreateOrder].includes(l.href as string)
         )}
       />
-    </div>
+    </RegistryPageShell>
   );
 }

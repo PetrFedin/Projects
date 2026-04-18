@@ -13,6 +13,10 @@ import { useAuth } from '@/providers/auth-provider';
 import { useUIState } from '@/providers/ui-state';
 import { useB2BState } from '@/providers/b2b-state';
 import { type B2BRole } from './_fixtures/b2b-data';
+<<<<<<< HEAD
+=======
+import { ROUTES } from '@/lib/routes';
+>>>>>>> recover/cabinet-wip-from-stash
 
 const b2bAds = [
   {
@@ -86,9 +90,9 @@ export function B2BUpdatesSection() {
     const title = ad.title;
 
     if (role === 'admin') {
-      if (title.includes('Report') || title.includes('тест')) return '/admin/attributes';
-      if (title.includes('Кредит')) return '/admin/billing';
-      return '/admin/home';
+      if (title.includes('Report') || title.includes('тест')) return ROUTES.admin.attributes;
+      if (title.includes('Кредит')) return ROUTES.admin.billing;
+      return ROUTES.admin.cmsHome;
     }
 
     if (role === 'brand') {
@@ -100,11 +104,11 @@ export function B2BUpdatesSection() {
     }
 
     if (role === 'manufacturer' || role === 'supplier') {
-      return '/factory';
+      return ROUTES.factory.production;
     }
 
     if (role === 'distributor') {
-      return '/distributor/analytics';
+      return ROUTES.distributor.analytics;
     }
 
     if (role === 'shop') {
@@ -129,7 +133,11 @@ export function B2BUpdatesSection() {
 
   return (
     <section className="section-spacing bg-transparent pb-20">
+<<<<<<< HEAD
       <div className="container mx-auto px-4">
+=======
+      <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
+>>>>>>> recover/cabinet-wip-from-stash
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           <AnimatePresence mode="wait">
             {activeAds.map((ad, idx) => (
@@ -141,16 +149,27 @@ export function B2BUpdatesSection() {
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
                 className="relative"
               >
+<<<<<<< HEAD
                 <Card className="group/news relative flex min-h-[380px] items-center overflow-hidden rounded-xl border border-none border-white/5 bg-slate-900 shadow-2xl shadow-slate-200/50 transition-all">
                   <div className="absolute inset-0 z-0 overflow-hidden rounded-xl opacity-40 transition-transform duration-1000 group-hover/news:scale-105">
                     <img src={ad.imageUrl} className="h-full w-full object-cover" alt={ad.title} />
                     <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-900/60 to-transparent" />
+=======
+                <Card className="bg-text-primary group/news relative flex min-h-[380px] items-center overflow-hidden rounded-xl border border-none border-white/5 shadow-2xl shadow-md transition-all">
+                  <div className="absolute inset-0 z-0 overflow-hidden rounded-xl opacity-40 transition-transform duration-1000 group-hover/news:scale-105">
+                    <img src={ad.imageUrl} className="h-full w-full object-cover" alt={ad.title} />
+                    <div className="from-text-primary via-text-primary/60 absolute inset-0 bg-gradient-to-br to-transparent" />
+>>>>>>> recover/cabinet-wip-from-stash
                   </div>
 
                   <div className="relative z-10 flex h-full w-full flex-col space-y-6 p-3">
                     <div className="flex-1 space-y-4">
                       <div className="flex items-center gap-3">
+<<<<<<< HEAD
                         <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-600 shadow-lg shadow-indigo-600/20">
+=======
+                        <div className="bg-accent-primary shadow-accent-primary/20 flex h-7 w-7 items-center justify-center rounded-lg shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
                           <ad.icon className="h-3.5 w-3.5 animate-pulse text-white" />
                         </div>
                         <Badge
@@ -163,7 +182,11 @@ export function B2BUpdatesSection() {
                       <h2 className="text-base font-bold uppercase leading-none tracking-tight text-white">
                         {ad.title}
                       </h2>
+<<<<<<< HEAD
                       <p className="max-w-sm text-sm font-medium leading-relaxed text-slate-300">
+=======
+                      <p className="text-text-muted max-w-sm text-sm font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                         "{ad.description}"
                       </p>
                     </div>
@@ -176,23 +199,39 @@ export function B2BUpdatesSection() {
                         onClick={() => {
                           addB2bActivityLog({
                             type: 'view_product',
-                            actor: { id: 'user-1', name: user?.name || 'User', type: 'retailer' },
+                            actor: {
+                              id: 'user-1',
+                              name: user?.displayName || 'User',
+                              type: 'retailer',
+                            },
                             target: { id: ad.id, name: ad.title, type: 'product' },
                             details: `Interacted with B2B update: ${ad.title}`,
                           });
                         }}
+<<<<<<< HEAD
                         className="w-fit min-w-[200px] bg-indigo-600 hover:bg-indigo-700"
+=======
+                        className="bg-accent-primary hover:bg-accent-primary w-fit min-w-[200px]"
+>>>>>>> recover/cabinet-wip-from-stash
                       >
                         <Link href={getUpdateLink(ad)}>
                           {ad.ctaText}
                           <ArrowRight className="h-3 w-3" />
                         </Link>
                       </Button>
+<<<<<<< HEAD
                       <div className="border-r-2 border-indigo-500/50 pr-4 text-right">
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <div>
                               <p className="mb-1 text-[10px] font-bold uppercase leading-none tracking-wide text-indigo-400">
+=======
+                      <div className="border-accent-primary/50 border-r-2 pr-4 text-right">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div>
+                              <p className="text-accent-primary mb-1 text-[10px] font-bold uppercase leading-none tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                                 Status
                               </p>
                               <p className="cursor-help text-[10px] font-bold uppercase tabular-nums tracking-tight text-white">
@@ -203,7 +242,11 @@ export function B2BUpdatesSection() {
                           <TooltipContent
                             side="top"
                             align="end"
+<<<<<<< HEAD
                             className="z-[100] w-40 rounded-lg border border-white/10 bg-slate-900 p-2 text-right text-white shadow-2xl"
+=======
+                            className="bg-text-primary z-[100] w-40 rounded-lg border border-white/10 p-2 text-right text-white shadow-2xl"
+>>>>>>> recover/cabinet-wip-from-stash
                           >
                             <p className="text-[10px] font-medium leading-tight">
                               Актуальный статус предложения.
@@ -225,10 +268,17 @@ export function B2BUpdatesSection() {
               key={i}
               onClick={() => setCurrentPairIndex(i)}
               className={cn(
+<<<<<<< HEAD
                 'rounded-full border border-slate-200 transition-all duration-500',
                 currentPairIndex === i
                   ? 'h-2 w-8 bg-slate-900 shadow-md'
                   : 'h-2 w-2 bg-slate-200 hover:bg-slate-300'
+=======
+                'border-border-default rounded-full border transition-all duration-500',
+                currentPairIndex === i
+                  ? 'bg-text-primary h-2 w-8 shadow-md'
+                  : 'bg-border-subtle hover:bg-border-default h-2 w-2'
+>>>>>>> recover/cabinet-wip-from-stash
               )}
             />
           ))}

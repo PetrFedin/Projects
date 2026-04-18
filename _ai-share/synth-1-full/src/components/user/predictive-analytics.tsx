@@ -21,6 +21,10 @@ import {
 } from 'lucide-react';
 import { useUserInsights } from '@/hooks/use-user-insights';
 import { cn } from '@/lib/utils';
+<<<<<<< HEAD
+=======
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+>>>>>>> recover/cabinet-wip-from-stash
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   LineChart,
@@ -53,10 +57,35 @@ export default function PredictiveAnalytics() {
       </CardHeader>
       <CardContent>
         <Tabs value={selectedTab} onValueChange={(v) => setSelectedTab(v as any)}>
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="predictions">Прогнозы</TabsTrigger>
-            <TabsTrigger value="trends">Тренды</TabsTrigger>
-            <TabsTrigger value="patterns">Паттерны</TabsTrigger>
+          {/* cabinetSurface v1 */}
+          <TabsList className={cn(cabinetSurface.tabsList, 'grid w-full grid-cols-3')}>
+            <TabsTrigger
+              value="predictions"
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'h-9 text-sm font-medium normal-case tracking-normal'
+              )}
+            >
+              Прогнозы
+            </TabsTrigger>
+            <TabsTrigger
+              value="trends"
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'h-9 text-sm font-medium normal-case tracking-normal'
+              )}
+            >
+              Тренды
+            </TabsTrigger>
+            <TabsTrigger
+              value="patterns"
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'h-9 text-sm font-medium normal-case tracking-normal'
+              )}
+            >
+              Паттерны
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="predictions" className="mt-4 space-y-4">

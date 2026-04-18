@@ -3,18 +3,21 @@
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BookOpen, ArrowLeft, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { getVisibleLookbooksForPartner } from '@/lib/b2b/lookbook-projects-store';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { RegistryPageShell } from '@/components/design-system';
 
-const MOCK_PARTNER_ID = 'podium';
+const MOCK_PARTNER_ID = 'retail_msk_1';
 
 export default function B2BOrderByCollectionPage() {
   const projects = getVisibleLookbooksForPartner(MOCK_PARTNER_ID);
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -31,6 +34,10 @@ export default function B2BOrderByCollectionPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-4xl space-y-6">
+      <ShopB2bContentHeader lead="JOOR / Colect: выберите коллекцию или лукбук — затем оформите заказ из каталога коллекции." />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -41,18 +48,30 @@ export default function B2BOrderByCollectionPage() {
         </CardHeader>
         <CardContent className="space-y-3">
           {projects.length === 0 ? (
+<<<<<<< HEAD
             <p className="text-sm text-slate-500">
+=======
+            <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
               Нет доступных коллекций. Обратитесь к бренду для доступа.
             </p>
           ) : (
             projects.slice(0, 12).map((p) => (
               <div
                 key={p.id}
+<<<<<<< HEAD
                 className="flex items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50/50 p-4 transition-colors hover:bg-slate-100/50"
               >
                 <div>
                   <p className="font-bold text-slate-900">{p.name}</p>
                   <p className="text-xs text-slate-500">
+=======
+                className="border-border-subtle bg-bg-surface2/80 hover:bg-bg-surface2/50 flex items-center justify-between gap-3 rounded-xl border p-4 transition-colors"
+              >
+                <div>
+                  <p className="text-text-primary font-bold">{p.name}</p>
+                  <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                     {p.brandName} · {p.season ?? '—'}
                   </p>
                 </div>
@@ -97,6 +116,6 @@ export default function B2BOrderByCollectionPage() {
           )
         )}
       />
-    </div>
+    </RegistryPageShell>
   );
 }

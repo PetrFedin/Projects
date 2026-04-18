@@ -21,11 +21,19 @@ export function SmartCheckoutDialog({ isOpen, onOpenChange, toast }: SmartChecko
         </DialogHeader>
         <div className="flex h-[600px]">
           {/* Left: Progress & Terms */}
+<<<<<<< HEAD
           <div className="relative flex w-1/3 flex-col justify-between overflow-hidden bg-slate-900 p-3 text-white">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.1),transparent)]" />
             <div className="relative z-10 space-y-4">
               <div className="space-y-2">
                 <Badge className="border-none bg-indigo-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+=======
+          <div className="bg-text-primary relative flex w-1/3 flex-col justify-between overflow-hidden p-3 text-white">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.1),transparent)]" />
+            <div className="relative z-10 space-y-4">
+              <div className="space-y-2">
+                <Badge className="bg-accent-primary border-none px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+>>>>>>> recover/cabinet-wip-from-stash
                   ORDER_v2.0
                 </Badge>
                 <h2 className="text-sm font-bold uppercase leading-none tracking-tight">
@@ -49,8 +57,13 @@ export function SmartCheckoutDialog({ isOpen, onOpenChange, toast }: SmartChecko
                         step.status === 'completed'
                           ? 'border-emerald-500 bg-emerald-500 text-white'
                           : step.status === 'current'
+<<<<<<< HEAD
                             ? 'border-white bg-white text-slate-900 shadow-[0_0_15px_rgba(255,255,255,0.3)]'
                             : 'border-slate-800 text-slate-600'
+=======
+                            ? 'text-text-primary border-white bg-white shadow-[0_0_15px_rgba(255,255,255,0.3)]'
+                            : 'border-text-primary/30 text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {step.status === 'completed' ? <Check className="h-3 w-3" /> : i + 1}
@@ -58,7 +71,11 @@ export function SmartCheckoutDialog({ isOpen, onOpenChange, toast }: SmartChecko
                     <span
                       className={cn(
                         'text-[10px] font-bold uppercase tracking-wide transition-colors',
+<<<<<<< HEAD
                         step.status === 'pending' ? 'text-slate-600' : 'text-white'
+=======
+                        step.status === 'pending' ? 'text-text-secondary' : 'text-white'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {step.label}
@@ -69,7 +86,11 @@ export function SmartCheckoutDialog({ isOpen, onOpenChange, toast }: SmartChecko
             </div>
 
             <div className="relative z-10 space-y-4 rounded-3xl border border-white/10 bg-white/5 p-4">
+<<<<<<< HEAD
               <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">
+=======
+              <p className="text-text-muted text-[10px] font-bold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
                 Ваш Кредитный Лимит
               </p>
               <div className="space-y-2">
@@ -77,8 +98,13 @@ export function SmartCheckoutDialog({ isOpen, onOpenChange, toast }: SmartChecko
                   <span className="text-base font-bold leading-none text-white">2.5M / 5.0M</span>
                   <span className="text-[10px] font-bold text-emerald-500">50% Использовано</span>
                 </div>
+<<<<<<< HEAD
                 <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-800">
                   <div className="h-full w-1/2 rounded-full bg-gradient-to-r from-indigo-500 to-emerald-500" />
+=======
+                <div className="bg-text-primary/90 h-1.5 w-full overflow-hidden rounded-full">
+                  <div className="from-accent-primary h-full w-1/2 rounded-full bg-gradient-to-r to-emerald-500" />
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
               </div>
             </div>
@@ -88,7 +114,7 @@ export function SmartCheckoutDialog({ isOpen, onOpenChange, toast }: SmartChecko
           <div className="flex flex-1 flex-col justify-between p-3">
             <div className="space-y-4">
               <div className="space-y-4">
-                <h3 className="text-xs font-bold uppercase tracking-wide text-slate-400">
+                <h3 className="text-text-muted text-xs font-bold uppercase tracking-wide">
                   Выберите условия оплаты (Payment Terms)
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
@@ -123,28 +149,42 @@ export function SmartCheckoutDialog({ isOpen, onOpenChange, toast }: SmartChecko
                       className={cn(
                         'group/term space-y-1 rounded-2xl border-2 p-4 text-left transition-all',
                         term.active
+<<<<<<< HEAD
                           ? 'border-indigo-600 bg-indigo-50/50'
                           : 'border-slate-100 hover:border-slate-300'
+=======
+                          ? 'border-accent-primary bg-accent-primary/10'
+                          : 'border-border-subtle hover:border-border-default'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       <p
                         className={cn(
                           'text-sm font-bold uppercase',
+<<<<<<< HEAD
                           term.active ? 'text-indigo-600' : 'text-slate-900'
+=======
+                          term.active ? 'text-accent-primary' : 'text-text-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                         )}
                       >
                         {term.label}
                       </p>
+<<<<<<< HEAD
                       <p className="text-[10px] font-medium text-slate-400">{term.desc}</p>
+=======
+                      <p className="text-text-muted text-[10px] font-medium">{term.desc}</p>
+>>>>>>> recover/cabinet-wip-from-stash
                     </button>
                   ))}
                 </div>
               </div>
 
               <div className="space-y-4">
-                <h3 className="text-xs font-bold uppercase tracking-wide text-slate-400">
+                <h3 className="text-text-muted text-xs font-bold uppercase tracking-wide">
                   Инвойсинг
                 </h3>
+<<<<<<< HEAD
                 <div className="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50 p-4">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-sm">
@@ -155,13 +195,29 @@ export function SmartCheckoutDialog({ isOpen, onOpenChange, toast }: SmartChecko
                         Proforma_Invoice_#884.pdf
                       </p>
                       <p className="text-[10px] font-bold uppercase text-slate-400">
+=======
+                <div className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-2xl border p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-sm">
+                      <FileText className="text-accent-primary h-5 w-5" />
+                    </div>
+                    <div className="space-y-0.5">
+                      <p className="text-text-primary text-[10px] font-bold uppercase">
+                        Proforma_Invoice_#884.pdf
+                      </p>
+                      <p className="text-text-muted text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                         Сгенерирован автоматически на основе корзины
                       </p>
                     </div>
                   </div>
                   <Button
                     variant="outline"
+<<<<<<< HEAD
                     className="h-8 rounded-lg border-slate-200 text-[10px] font-bold uppercase"
+=======
+                    className="border-border-default h-8 rounded-lg text-[10px] font-bold uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     Скачать
                   </Button>
@@ -169,10 +225,17 @@ export function SmartCheckoutDialog({ isOpen, onOpenChange, toast }: SmartChecko
               </div>
             </div>
 
+<<<<<<< HEAD
             <div className="flex items-center gap-3 border-t border-slate-100 pt-8">
               <Button
                 variant="outline"
                 className="h-12 flex-1 rounded-2xl border-slate-200 text-[10px] font-bold uppercase tracking-wide"
+=======
+            <div className="border-border-subtle flex items-center gap-3 border-t pt-8">
+              <Button
+                variant="outline"
+                className="border-border-default h-12 flex-1 rounded-2xl text-[10px] font-bold uppercase tracking-wide"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 Назад
               </Button>
@@ -184,7 +247,11 @@ export function SmartCheckoutDialog({ isOpen, onOpenChange, toast }: SmartChecko
                     description: 'Ваш оптовый заказ отправлен на верификацию бренду.',
                   });
                 }}
+<<<<<<< HEAD
                 className="h-12 flex-[2] rounded-2xl bg-indigo-600 text-[10px] font-bold uppercase tracking-wide text-white shadow-xl shadow-indigo-200 hover:bg-indigo-700"
+=======
+                className="bg-accent-primary hover:bg-accent-primary shadow-accent-primary/15 h-12 flex-[2] rounded-2xl text-[10px] font-bold uppercase tracking-wide text-white shadow-xl"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 Подтвердить заказ (2,500,000₽)
               </Button>

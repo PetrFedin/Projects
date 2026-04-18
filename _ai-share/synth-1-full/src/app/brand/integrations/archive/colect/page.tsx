@@ -14,6 +14,7 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 type Message = { type: 'success' | 'error'; text: string };
 
@@ -37,7 +38,11 @@ export default function BrandIntegrationsColectPage() {
       const res = await fetch(
         `/api/b2b/colect/lookbook/${encodeURIComponent(lookbookId)}/structure`
       );
+<<<<<<< HEAD
       const data = (await res.ok) ? res.json() : null;
+=======
+      const data = res.ok ? await res.json() : null;
+>>>>>>> recover/cabinet-wip-from-stash
       setStructure(data);
     } catch {
       setStructure(null);
@@ -83,6 +88,7 @@ export default function BrandIntegrationsColectPage() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.brand.integrations}>
@@ -98,6 +104,20 @@ export default function BrandIntegrationsColectPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Colect"
+        leadPlain="Структура лукбука (главы, Key Looks), контент (фото, видео, 3D), режимы показа, добавление в заказ — при появлении API."
+        eyebrow={
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.brand.integrations} aria-label="Назад к интеграциям">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <div className="grid gap-4">
         <Card>
@@ -122,7 +142,11 @@ export default function BrandIntegrationsColectPage() {
               Загрузить структуру
             </Button>
             {structure && (
+<<<<<<< HEAD
               <p className="text-sm text-slate-600">
+=======
+              <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                 {structure.name ?? structure.id} · глав: {structure.chapters?.length ?? 0}, Key
                 Looks: {structure.keyLooks?.length ?? 0}
               </p>
@@ -146,7 +170,11 @@ export default function BrandIntegrationsColectPage() {
               Загрузить контент
             </Button>
             {content.length > 0 && (
+<<<<<<< HEAD
               <p className="text-sm text-slate-600">Элементов: {content.length}</p>
+=======
+              <p className="text-text-secondary text-sm">Элементов: {content.length}</p>
+>>>>>>> recover/cabinet-wip-from-stash
             )}
           </CardContent>
         </Card>
@@ -203,6 +231,6 @@ export default function BrandIntegrationsColectPage() {
           </Button>
         </Link>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

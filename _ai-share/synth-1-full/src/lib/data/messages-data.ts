@@ -4,17 +4,29 @@ import { buildCalendarUrl } from './calendar-events';
 export const initialConversations: Chat[] = [
   {
     id: 'chat_podium',
+<<<<<<< HEAD
     title: 'Podium',
+=======
+    title: 'Демо-магазин · Москва 1',
+>>>>>>> recover/cabinet-wip-from-stash
     subtitle: 'Заказ B2B-0012 согласован. Согласование с байером.',
     time: '15:35',
     participantsCount: 3,
     type: 'b2b_orders',
+<<<<<<< HEAD
     avatar: 'https://picsum.photos/seed/podium-logo/40/40',
+=======
+    avatar: 'https://picsum.photos/seed/demo-retail-msk1/40/40',
+>>>>>>> recover/cabinet-wip-from-stash
     isPinned: true,
     creatorId: 'user_petr',
     linkOrderId: 'ORD-4521',
     partnerProfile: 'shop',
+<<<<<<< HEAD
     calendarHref: buildCalendarUrl({ partner: 'Podium', layers: 'orders' }),
+=======
+    calendarHref: buildCalendarUrl({ partner: 'Демо-магазин · Москва 1', layers: 'orders' }),
+>>>>>>> recover/cabinet-wip-from-stash
     participants: [
       { id: 'user_petr', name: 'Petr', role: 'brand', isOnline: true, isAdmin: true },
       { id: 'user_elena', name: 'Елена (Байер)', role: 'shop', isOnline: true },
@@ -23,7 +35,11 @@ export const initialConversations: Chat[] = [
   },
   {
     id: 'chat_syntha_support',
+<<<<<<< HEAD
     title: 'Поддержка Syntha',
+=======
+    title: 'Поддержка Syntha Lab',
+>>>>>>> recover/cabinet-wip-from-stash
     subtitle: 'Ваш запрос на продвижение одобрен.',
     time: '10:05',
     participantsCount: 1,
@@ -120,21 +136,34 @@ export const initialConversations: Chat[] = [
     avatar: ['https://picsum.photos/seed/ss26/40/40', 'https://picsum.photos/seed/ss26b/40/40'],
     creatorId: 'user_petr',
     linkCollectionId: 'SS26',
+<<<<<<< HEAD
     calendarHref: buildCalendarUrl({ collection: 'SS26', layers: 'tasks,content' }),
+=======
+    calendarHref: buildCalendarUrl({ collection: 'SS26', layers: ['tasks', 'content'] }),
+>>>>>>> recover/cabinet-wip-from-stash
     participants: [
       { id: 'user_petr', name: 'Petr', role: 'brand', isOnline: true, isAdmin: true },
       { id: 'user_igor', name: 'Игорь (Дизайнер)', role: 'brand', isOnline: true, isCoAdmin: true },
       { id: 'user_olga', name: 'Ольга (Технолог)', role: 'brand', isOnline: false },
+<<<<<<< HEAD
       { id: 'user_elena', name: 'Елена (Байер Podium)', role: 'shop', isOnline: true },
+=======
+      { id: 'user_elena', name: 'Елена (байер, демо-ритейл)', role: 'shop', isOnline: true },
+>>>>>>> recover/cabinet-wip-from-stash
     ],
   },
   {
     id: 'chat_tsum_order',
+<<<<<<< HEAD
     title: 'ЦУМ — ORD-4420',
+=======
+    title: 'Демо-магазин · Москва 2 — ORD-4420',
+>>>>>>> recover/cabinet-wip-from-stash
     subtitle: 'Согласование оплаты Escrow. Срок отгрузки 20.03.',
     time: '14:10',
     participantsCount: 2,
     type: 'b2b_orders',
+<<<<<<< HEAD
     avatar: 'https://picsum.photos/seed/tsum/40/40',
     creatorId: 'user_petr',
     linkOrderId: 'ORD-4420',
@@ -143,6 +172,19 @@ export const initialConversations: Chat[] = [
     participants: [
       { id: 'user_petr', name: 'Petr', role: 'brand', isOnline: true, isAdmin: true },
       { id: 'user_maria', name: 'Мария (Байер ЦУМ)', role: 'shop', isOnline: true },
+=======
+    avatar: 'https://picsum.photos/seed/demo-retail-msk2/40/40',
+    creatorId: 'user_petr',
+    linkOrderId: 'ORD-4420',
+    partnerProfile: 'shop',
+    calendarHref: buildCalendarUrl({
+      partner: 'Демо-магазин · Москва 2',
+      layers: ['finance', 'orders'],
+    }),
+    participants: [
+      { id: 'user_petr', name: 'Petr', role: 'brand', isOnline: true, isAdmin: true },
+      { id: 'user_maria', name: 'Мария (байер, демо-ритейл)', role: 'shop', isOnline: true },
+>>>>>>> recover/cabinet-wip-from-stash
     ],
   },
 ];
@@ -292,7 +334,11 @@ export const mockChatHistories: Record<string, ChatMessage[]> = {
       id: 90,
       chatId: 'chat_ss26_collection',
       user: 'user_olga',
+<<<<<<< HEAD
       text: 'Предлагаю обсудить этот образец для Podium — фасон и ткань подходят под их линейку.',
+=======
+      text: 'Предлагаю обсудить этот образец для демо-ритейла — фасон и ткань подходят под их линейку.',
+>>>>>>> recover/cabinet-wip-from-stash
       time: '09:10',
       createdAt: Date.now() - 3600000 * 3.5,
       attachedProduct: {
@@ -300,12 +346,20 @@ export const mockChatHistories: Record<string, ChatMessage[]> = {
         name: 'Graphene Parka SS26',
         sku: 'SYN-GP-001',
         slug: 'graphene-parka-ss26',
+<<<<<<< HEAD
         brand: 'Syntha',
+=======
+        brand: 'Syntha Lab',
+>>>>>>> recover/cabinet-wip-from-stash
         price: 45000,
         description: '',
         category: 'Outerwear',
         color: 'Black',
         season: 'SS26',
+<<<<<<< HEAD
+=======
+        sustainability: [],
+>>>>>>> recover/cabinet-wip-from-stash
         images: [
           {
             id: 'img-1',
@@ -330,7 +384,11 @@ export const mockChatHistories: Record<string, ChatMessage[]> = {
       id: 93,
       chatId: 'chat_ss26_collection',
       user: 'user_elena',
+<<<<<<< HEAD
       text: 'Для Podium предлагаю +2 см к рукаву в размерах M–L. Тренд на oversize держится.',
+=======
+      text: 'Для демо-ритейла предлагаю +2 см к рукаву в размерах M–L. Тренд на oversize держится.',
+>>>>>>> recover/cabinet-wip-from-stash
       time: '09:25',
       createdAt: Date.now() - 3600000 * 2.5,
     },

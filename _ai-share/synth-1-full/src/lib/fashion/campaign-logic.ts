@@ -1,7 +1,7 @@
-import type { B2BCampaignV1 } from './types';
+import type { B2BCatalogPriceCampaignV1 } from './types';
 
 /** Управление версиями каталога для разных типов байеров (B2B Tiers). */
-export function getAvailableCampaigns(): B2BCampaignV1[] {
+export function getAvailableCampaigns(): B2BCatalogPriceCampaignV1[] {
   return [
     {
       id: 'eb-ss26',

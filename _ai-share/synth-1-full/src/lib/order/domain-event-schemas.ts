@@ -131,6 +131,13 @@ export const inventoryCycleCountCompletedPayloadSchema = z.object({
   tenantId: z.string().optional(),
 });
 
+export const inventoryShopStockFileIngestedPayloadSchema = z.object({
+  fileName: z.string().min(1),
+  clientKey: z.string().min(1),
+  acceptedAt: z.string().min(1),
+  channel: z.literal('b2c_shop_stock_upload_demo'),
+});
+
 export const articleReadyForProductionPayloadSchema = z.object({
   collectionId: z.string().min(1),
   readinessScore: z.number().finite(),

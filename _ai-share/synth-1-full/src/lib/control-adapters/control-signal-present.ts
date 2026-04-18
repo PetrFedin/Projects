@@ -12,7 +12,7 @@ export type { ControlActionOwner } from './map-next-action-to-owner';
 export const CONTROL_SIGNAL_BADGE_CLASS = 'px-1.5 py-0 text-[10px] font-medium leading-tight';
 
 /** Secondary line under primary badge for next_action hint. */
-export const CONTROL_NEXT_HINT_CLASS = 'text-[11px] leading-snug text-slate-500';
+export const CONTROL_NEXT_HINT_CLASS = 'text-[11px] leading-snug text-text-secondary';
 
 export function controlDeadlineLabel(level: Exclude<DeadlinePressure, 'none'>): string {
   switch (level) {
@@ -299,7 +299,7 @@ export function controlRiskRowTextClass(control: ControlOutput): string {
   if (control.risk === 'high') return 'font-medium text-[#D92D20]';
   if (control.risk === 'medium') return 'font-medium text-[#F79009]';
   if (control.risk === 'low') return 'font-medium text-[#12B76A]';
-  return 'text-slate-400';
+  return 'text-text-muted';
 }
 
 /** Plain-text deadline column. */
@@ -308,5 +308,5 @@ export function controlDeadlineRowTextClass(
 ): string {
   if (level === 'overdue') return 'font-medium text-[#D92D20]';
   if (level === 'due_today' || level === 'upcoming') return 'font-medium text-[#F79009]';
-  return 'text-slate-400';
+  return 'text-text-muted';
 }

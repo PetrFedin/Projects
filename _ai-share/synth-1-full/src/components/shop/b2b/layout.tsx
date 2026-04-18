@@ -6,13 +6,15 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { b2bNavLinks } from '@/lib/data/shop-navigation';
+import { b2bHubTabLinks, getB2bHubTabValue } from '@/lib/data/shop-navigation';
 import { PlusCircle } from 'lucide-react';
+import { ROUTES } from '@/lib/routes';
 
 export default function B2BLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
 
+<<<<<<< HEAD
   const getCurrentTab = () => {
     // Find the most specific match first by sorting by href length descending
     const sortedLinks = [...b2bNavLinks].sort((a, b) => b.href.length - a.href.length);
@@ -31,10 +33,22 @@ export default function B2BLayout({ children }: { children: React.ReactNode }) {
     }
   };
 
+=======
+  const getCurrentTab = () => getB2bHubTabValue(pathname);
+
+  const handleTabChange = (value: string) => {
+    const link = b2bHubTabLinks.find((l) => l.value === value);
+    if (link) {
+      router.push(link.href);
+    }
+  };
+
+>>>>>>> recover/cabinet-wip-from-stash
   return (
     <div className="space-y-4">
       <header className="flex items-center justify-between">
         <div>
+<<<<<<< HEAD
           <h2 className="text-sm font-bold">B2B Хаб</h2>
           <p className="text-muted-foreground">
             Управление закупками, анализ брендов и планирование бюджета.
@@ -42,6 +56,13 @@ export default function B2BLayout({ children }: { children: React.ReactNode }) {
         </div>
         <Button asChild>
           <Link href="/shop/b2b/create-order">
+=======
+          <h2 className="text-sm font-bold">B2B</h2>
+          <p className="text-muted-foreground">Закупки у брендов, заказы и аналитика.</p>
+        </div>
+        <Button asChild>
+          <Link href={ROUTES.shop.b2bCreateOrder}>
+>>>>>>> recover/cabinet-wip-from-stash
             <PlusCircle className="mr-2 h-4 w-4" />
             Новый заказ
           </Link>
@@ -50,7 +71,11 @@ export default function B2BLayout({ children }: { children: React.ReactNode }) {
       <Tabs value={getCurrentTab()} onValueChange={handleTabChange} className="w-full">
         <ScrollArea className="w-full whitespace-nowrap">
           <TabsList className="inline-flex w-auto">
+<<<<<<< HEAD
             {b2bNavLinks.map((link) => (
+=======
+            {b2bHubTabLinks.map((link) => (
+>>>>>>> recover/cabinet-wip-from-stash
               <TabsTrigger key={link.value} value={link.value}>
                 <link.icon className="mr-2 h-4 w-4" />
                 {link.label}

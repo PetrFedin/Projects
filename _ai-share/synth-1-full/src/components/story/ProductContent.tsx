@@ -93,10 +93,17 @@ export function ProductContent({
       c3: { XS: 5, S: 0, M: 0, L: 8 },
     };
 
+<<<<<<< HEAD
     if (product.id === '1' || product.id === 1) {
       return baseStock[selectedColorId || 'c1'] || baseStock['c1'];
     }
     if (product.id === '12' || product.id === 12) {
+=======
+    if (String(product.id) === '1') {
+      return baseStock[selectedColorId || 'c1'] || baseStock['c1'];
+    }
+    if (String(product.id) === '12') {
+>>>>>>> recover/cabinet-wip-from-stash
       return baseStock[selectedColorId || 'c1'] || baseStock['c1'];
     }
     return { XS: 2, S: 5, M: 0, L: 10 };
@@ -104,10 +111,17 @@ export function ProductContent({
 
   // Sizes that can be requested for pre-order if out of stock
   const canPreOrderSizes = useMemo(() => {
+<<<<<<< HEAD
     if (product.id === '1' || product.id === 1) {
       return ['XS', 'S', 'M', 'L'];
     }
     if (product.id === '12' || product.id === 12) {
+=======
+    if (String(product.id) === '1') {
+      return ['XS', 'S', 'M', 'L'];
+    }
+    if (String(product.id) === '12') {
+>>>>>>> recover/cabinet-wip-from-stash
       // Для разных цветов разные доступные размеры для предзаказа
       if (selectedColorId === 'c2') return ['XS', 'S'];
       return ['M'];
@@ -208,6 +222,7 @@ export function ProductContent({
     L: { bust: 96, waist: 76, hips: 102, length: 116 },
   };
 
+<<<<<<< HEAD
   const isSoldOut = product.availability === 'sold_out';
   const isPreOrder =
     !isSoldOut &&
@@ -215,6 +230,14 @@ export function ProductContent({
       product.id === '3' ||
       product.id === '1' ||
       product.id === 1);
+=======
+  const isSoldOut = product.availability === 'out_of_stock';
+  const isPreOrder =
+    !isSoldOut &&
+    (product.availability === 'pre_order' ||
+      String(product.id) === '3' ||
+      String(product.id) === '1');
+>>>>>>> recover/cabinet-wip-from-stash
   const isAvailable = !isPreOrder && !isSoldOut;
 
   const handlePreOrder = () => {
@@ -896,8 +919,13 @@ export function ProductContent({
       </Dialog>
 
       <ConfirmDialog
+<<<<<<< HEAD
         isOpen={!!sizeToRemove}
         onOpenChange={(open) => !open && setSizeToRemove(null)}
+=======
+        open={!!sizeToRemove}
+        onCancel={() => setSizeToRemove(null)}
+>>>>>>> recover/cabinet-wip-from-stash
         title={
           sizeToRemove?.type === 'pending_request' ? 'Отменить запрос?' : 'Удалить из корзины?'
         }

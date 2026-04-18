@@ -83,6 +83,10 @@ export default function LivePlayer({
   const [isProductsVisible, setIsProductsVisible] = useState(true);
   const [isHoveringHeart, setIsHoveringHeart] = useState(false);
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+<<<<<<< HEAD
+=======
+  const [floatingHearts, setFloatingHearts] = useState<{ id: number }[]>([]);
+>>>>>>> recover/cabinet-wip-from-stash
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -109,8 +113,11 @@ export default function LivePlayer({
     setIsChatVisible(showChat);
   }, [showChat, isOpen]);
 
+<<<<<<< HEAD
   if (!event) return null;
 
+=======
+>>>>>>> recover/cabinet-wip-from-stash
   const handleAddToCart = (product: Product) => {
     addCartItem(product, product.sizes?.[0].name || 'One Size');
     toast({
@@ -164,7 +171,11 @@ export default function LivePlayer({
     );
   };
 
+<<<<<<< HEAD
   const [floatingHearts, setFloatingHearts] = useState<{ id: number }[]>([]);
+=======
+  if (!event) return null;
+>>>>>>> recover/cabinet-wip-from-stash
 
   const addFloatingHeart = () => {
     const newHeart = { id: Date.now() };
@@ -310,8 +321,13 @@ export default function LivePlayer({
               <div className="absolute left-1/2 top-4 z-10 flex -translate-x-1/2 gap-3 rounded-lg bg-background/30 p-2 backdrop-blur-sm">
                 <p className="text-xs text-white">Спонсор:</p>
                 <Image
+<<<<<<< HEAD
                   src="https://i.imgur.com/JMgcWwL.png"
                   alt="TSUM"
+=======
+                  src="https://picsum.photos/seed/syntha-lab/80/40"
+                  alt="Syntha Lab"
+>>>>>>> recover/cabinet-wip-from-stash
                   width={40}
                   height={20}
                   className="object-contain"

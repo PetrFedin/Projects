@@ -1,5 +1,6 @@
 'use client';
 
+<<<<<<< HEAD
 import { useState, useMemo } from 'react';
 import {
   Card,
@@ -9,15 +10,20 @@ import {
   CardFooter,
   CardDescription,
 } from '@/components/ui/card';
+=======
+import { useState } from 'react';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+>>>>>>> recover/cabinet-wip-from-stash
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, ChevronLeft } from 'lucide-react';
 import { Combobox } from '@/components/ui/combobox';
-import type { Product } from '@/lib/types';
 import { products } from '@/lib/products';
 import Link from 'next/link';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 const productOptions = products.map((p) => ({
   value: p.id,
@@ -39,6 +45,7 @@ export default function CreateKickstarterPage() {
 
     router.push(`/brand/kickstarter/new/edit?${query.toString()}`);
   };
+<<<<<<< HEAD
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
@@ -57,6 +64,24 @@ export default function CreateKickstarterPage() {
       </div>
 
       <Card>
+=======
+
+  return (
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Новая кампания"
+        leadPlain="Создайте кампанию по сбору предзаказов на новый товар."
+        eyebrow={
+          <Button variant="outline" size="icon" asChild>
+            <Link href={ROUTES.brand.kickstarter} aria-label="Назад к кампаниям">
+              <ChevronLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+      />
+
+      <Card className="max-w-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
         <CardHeader>
           <CardTitle>Шаг 1: Основная информация</CardTitle>
         </CardHeader>
@@ -86,6 +111,10 @@ export default function CreateKickstarterPage() {
           </Button>
         </CardFooter>
       </Card>
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

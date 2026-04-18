@@ -70,6 +70,7 @@ export function WholesaleLookbook({
   ];
 
   return (
+<<<<<<< HEAD
     <div className="flex h-full flex-col overflow-hidden rounded-xl bg-slate-900 shadow-2xl">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-white/10 bg-slate-900/50 p-4 backdrop-blur-md">
@@ -79,6 +80,17 @@ export function WholesaleLookbook({
             <Badge
               variant="outline"
               className="border-indigo-500/30 text-[8px] font-black uppercase tracking-widest text-indigo-400"
+=======
+    <div className="bg-text-primary flex h-full flex-col overflow-hidden rounded-xl shadow-2xl">
+      {/* Header */}
+      <div className="bg-text-primary/50 flex items-center justify-between border-b border-white/10 p-4 backdrop-blur-md">
+        <div className="space-y-1">
+          <div className="flex items-center gap-3">
+            <ShoppingBag className="text-accent-primary h-4 w-4" />
+            <Badge
+              variant="outline"
+              className="border-accent-primary/30 text-accent-primary text-[8px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               INTERACTIVE_LOOKBOOK_v1
             </Badge>
@@ -121,7 +133,11 @@ export function WholesaleLookbook({
             key={hs.id}
             onClick={() => setSelectedHotspot(hs)}
             style={{ left: `${hs.x}%`, top: `${hs.y}%` }}
+<<<<<<< HEAD
             className="group/hs absolute flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-white/20 backdrop-blur-md transition-all hover:scale-125 hover:border-indigo-400 hover:bg-indigo-600"
+=======
+            className="hover:bg-accent-primary hover:border-accent-primary/40 group/hs absolute flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-white/20 backdrop-blur-md transition-all hover:scale-125"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <div className="h-2 w-2 rounded-full bg-white" />
             <div className="absolute inset-0 animate-ping rounded-full border border-white/30 opacity-20" />
@@ -136,21 +152,36 @@ export function WholesaleLookbook({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.9 }}
               style={{ left: `${selectedHotspot.x}%`, top: `${selectedHotspot.y + 5}%` }}
+<<<<<<< HEAD
               className="absolute z-10 min-w-[200px] -translate-x-1/2 rounded-2xl border border-slate-100 bg-white p-4 shadow-2xl"
             >
               <button
                 onClick={() => setSelectedHotspot(null)}
                 className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center text-slate-300 hover:text-slate-900"
+=======
+              className="border-border-subtle absolute z-10 min-w-[200px] -translate-x-1/2 rounded-2xl border bg-white p-4 shadow-2xl"
+            >
+              <button
+                onClick={() => setSelectedHotspot(null)}
+                className="text-text-muted hover:text-text-primary absolute right-2 top-2 flex h-6 w-6 items-center justify-center"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <X className="h-3 w-3" />
               </button>
 
               <div className="space-y-3">
                 <div className="space-y-1">
+<<<<<<< HEAD
                   <h4 className="text-[10px] font-black uppercase leading-tight text-slate-900">
                     {selectedHotspot.productName}
                   </h4>
                   <p className="text-[12px] font-black text-indigo-600">
+=======
+                  <h4 className="text-text-primary text-[10px] font-black uppercase leading-tight">
+                    {selectedHotspot.productName}
+                  </h4>
+                  <p className="text-accent-primary text-[12px] font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                     {selectedHotspot.price.toLocaleString('ru-RU')} ₽
                   </p>
                 </div>
@@ -159,7 +190,11 @@ export function WholesaleLookbook({
                     onShopProduct(selectedHotspot.productId);
                     setSelectedHotspot(null);
                   }}
+<<<<<<< HEAD
                   className="h-8 w-full gap-2 rounded-lg bg-slate-900 text-[8px] font-black uppercase tracking-widest text-white"
+=======
+                  className="bg-text-primary h-8 w-full gap-2 rounded-lg text-[8px] font-black uppercase tracking-widest text-white"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   Shop the look <ChevronRight className="h-3 w-3" />
                 </Button>
@@ -200,7 +235,11 @@ export function WholesaleLookbook({
       </div>
 
       {/* Footer / Thumbnail strip */}
+<<<<<<< HEAD
       <div className="flex h-32 items-center gap-3 overflow-x-auto border-t border-white/10 bg-slate-800/50 p-4 backdrop-blur-md">
+=======
+      <div className="bg-text-primary/50 flex h-32 items-center gap-3 overflow-x-auto border-t border-white/10 p-4 backdrop-blur-md">
+>>>>>>> recover/cabinet-wip-from-stash
         {pages.map((page, i) => (
           <button
             key={page.id}
@@ -208,7 +247,11 @@ export function WholesaleLookbook({
             className={cn(
               'h-20 w-32 shrink-0 overflow-hidden rounded-xl border-2 transition-all',
               activePage === i
+<<<<<<< HEAD
                 ? 'scale-105 border-indigo-500'
+=======
+                ? 'border-accent-primary scale-105'
+>>>>>>> recover/cabinet-wip-from-stash
                 : 'border-transparent opacity-50 hover:opacity-100'
             )}
           >

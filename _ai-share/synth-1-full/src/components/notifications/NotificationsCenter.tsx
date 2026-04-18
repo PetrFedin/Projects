@@ -35,7 +35,11 @@ export function NotificationsCenter() {
         <Button
           variant="ghost"
           size="icon"
+<<<<<<< HEAD
           className="relative h-7 w-7 text-slate-900 transition-colors hover:bg-slate-50"
+=======
+          className="text-text-primary hover:bg-bg-surface2 relative h-7 w-7 transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
         >
           <Bell className="h-3.5 w-3.5" />
           {unreadCount > 0 && (
@@ -51,16 +55,27 @@ export function NotificationsCenter() {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
+<<<<<<< HEAD
         className="w-[360px] rounded-xl border border-slate-200 p-0 shadow-xl"
       >
         <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
           <span className="text-xs font-bold uppercase tracking-widest text-slate-500">
+=======
+        className="border-border-default w-[360px] rounded-xl border p-0 shadow-xl"
+      >
+        <div className="border-border-subtle flex items-center justify-between border-b px-4 py-3">
+          <span className="text-text-secondary text-xs font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             Уведомления
           </span>
           {unreadCount > 0 && (
             <button
               onClick={markAllRead}
+<<<<<<< HEAD
               className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 hover:underline"
+=======
+              className="text-accent-primary text-[10px] font-bold uppercase tracking-wider hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               Прочитать все
             </button>
@@ -68,7 +83,11 @@ export function NotificationsCenter() {
         </div>
         <ScrollArea className="max-h-[320px]">
           {notifications.length === 0 ? (
+<<<<<<< HEAD
             <div className="py-8 text-center text-sm text-slate-400">Нет уведомлений</div>
+=======
+            <div className="text-text-muted py-8 text-center text-sm">Нет уведомлений</div>
+>>>>>>> recover/cabinet-wip-from-stash
           ) : (
             <ul className="py-1">
               {notifications.slice(0, 20).map((n) => (
@@ -78,6 +97,7 @@ export function NotificationsCenter() {
                       href={n.href}
                       onClick={() => markRead(n.id)}
                       className={cn(
+<<<<<<< HEAD
                         'block border-b border-slate-50 px-4 py-3 transition-colors last:border-0 hover:bg-slate-50',
                         !n.read && 'bg-indigo-50/50'
                       )}
@@ -96,18 +116,44 @@ export function NotificationsCenter() {
                         </div>
                         {!n.read && (
                           <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-indigo-500" />
+=======
+                        'hover:bg-bg-surface2 border-border-subtle block border-b px-4 py-3 transition-colors last:border-0',
+                        !n.read && 'bg-accent-primary/10'
+                      )}
+                    >
+                      <div className="flex items-start gap-2">
+                        <span className="text-text-muted shrink-0 text-[10px] font-bold uppercase">
+                          {typeLabels[n.type] || n.type}
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-text-primary text-sm font-medium leading-tight">
+                            {n.title}
+                          </p>
+                          {n.body && (
+                            <p className="text-text-secondary mt-0.5 truncate text-xs">{n.body}</p>
+                          )}
+                        </div>
+                        {!n.read && (
+                          <span className="bg-accent-primary mt-1.5 h-2 w-2 shrink-0 rounded-full" />
+>>>>>>> recover/cabinet-wip-from-stash
                         )}
                       </div>
                     </Link>
                   ) : (
                     <div
                       className={cn(
+<<<<<<< HEAD
                         'cursor-pointer border-b border-slate-50 px-4 py-3 last:border-0 hover:bg-slate-50',
                         !n.read && 'bg-indigo-50/50'
+=======
+                        'border-border-subtle hover:bg-bg-surface2 cursor-pointer border-b px-4 py-3 last:border-0',
+                        !n.read && 'bg-accent-primary/10'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                       onClick={() => markRead(n.id)}
                     >
                       <div className="flex items-start gap-2">
+<<<<<<< HEAD
                         <span className="shrink-0 text-[10px] font-bold uppercase text-slate-400">
                           {typeLabels[n.type] || n.type}
                         </span>
@@ -119,6 +165,19 @@ export function NotificationsCenter() {
                         </div>
                         {!n.read && (
                           <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-indigo-500" />
+=======
+                        <span className="text-text-muted shrink-0 text-[10px] font-bold uppercase">
+                          {typeLabels[n.type] || n.type}
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-text-primary text-sm font-medium leading-tight">
+                            {n.title}
+                          </p>
+                          {n.body && <p className="text-text-secondary mt-0.5 text-xs">{n.body}</p>}
+                        </div>
+                        {!n.read && (
+                          <span className="bg-accent-primary mt-1.5 h-2 w-2 shrink-0 rounded-full" />
+>>>>>>> recover/cabinet-wip-from-stash
                         )}
                       </div>
                     </div>

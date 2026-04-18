@@ -49,6 +49,7 @@ export function ApprovalWorkflow() {
 
   return (
     <>
+<<<<<<< HEAD
       <Card className="group h-full overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm">
         <CardHeader className="flex flex-row items-center justify-between border-b border-slate-50 bg-indigo-50/20 p-4">
           <div className="space-y-0.5">
@@ -57,6 +58,16 @@ export function ApprovalWorkflow() {
               Внутреннее согласование (Workflows)
             </CardTitle>
             <p className="text-[10px] font-medium uppercase tracking-tight text-slate-400">
+=======
+      <Card className="border-border-subtle group h-full overflow-hidden rounded-xl border bg-white shadow-sm">
+        <CardHeader className="border-border-subtle bg-accent-primary/10 flex flex-row items-center justify-between border-b p-4">
+          <div className="space-y-0.5">
+            <CardTitle className="text-text-primary flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider">
+              <ShieldCheck className="text-accent-primary h-4 w-4" />
+              Внутреннее согласование (Workflows)
+            </CardTitle>
+            <p className="text-text-muted text-[10px] font-medium uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
               Многоуровневый процесс утверждения этапов.
             </p>
           </div>
@@ -71,7 +82,11 @@ export function ApprovalWorkflow() {
         <CardContent className="space-y-4 p-4">
           <div className="relative space-y-3">
             {/* Vertical line connector */}
+<<<<<<< HEAD
             <div className="absolute bottom-6 left-[13px] top-6 w-0.5 bg-slate-100" />
+=======
+            <div className="bg-bg-surface2 absolute bottom-6 left-[13px] top-6 w-0.5" />
+>>>>>>> recover/cabinet-wip-from-stash
 
             {STAGES.map((stage) => (
               <div
@@ -79,9 +94,15 @@ export function ApprovalWorkflow() {
                 className={cn(
                   'relative z-10 flex gap-4 rounded-xl border p-3 transition-all',
                   stage.status === 'in_review'
+<<<<<<< HEAD
                     ? 'border-indigo-200 bg-white shadow-sm'
                     : stage.status === 'completed'
                       ? 'border-transparent bg-slate-50/50 opacity-80'
+=======
+                    ? 'border-accent-primary/30 bg-white shadow-sm'
+                    : stage.status === 'completed'
+                      ? 'bg-bg-surface2/80 border-transparent opacity-80'
+>>>>>>> recover/cabinet-wip-from-stash
                       : 'border-transparent bg-transparent opacity-40'
                 )}
               >
@@ -91,8 +112,13 @@ export function ApprovalWorkflow() {
                     stage.status === 'completed'
                       ? 'border-emerald-500 bg-emerald-500 text-white'
                       : stage.status === 'in_review'
+<<<<<<< HEAD
                         ? 'border-indigo-500 bg-white text-indigo-500'
                         : 'border-slate-200 bg-white text-slate-300'
+=======
+                        ? 'border-accent-primary text-accent-primary bg-white'
+                        : 'border-border-default text-text-muted bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {stage.status === 'completed' ? (
@@ -109,7 +135,11 @@ export function ApprovalWorkflow() {
                     <p
                       className={cn(
                         'text-[10px] font-black uppercase tracking-tight',
+<<<<<<< HEAD
                         stage.status !== 'pending' ? 'text-slate-900' : 'text-slate-400'
+=======
+                        stage.status !== 'pending' ? 'text-text-primary' : 'text-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {stage.label}
@@ -118,17 +148,29 @@ export function ApprovalWorkflow() {
                       <Button
                         size="icon"
                         variant="ghost"
+<<<<<<< HEAD
                         className="h-5 w-5 rounded-md text-indigo-500 transition-all hover:bg-indigo-50"
+=======
+                        className="hover:bg-accent-primary/10 text-accent-primary h-5 w-5 rounded-md transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
                       >
                         <MessageSquare className="h-3 w-3" />
                       </Button>
                     )}
                   </div>
+<<<<<<< HEAD
                   <div className="flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest text-slate-400">
                     <span className="flex items-center gap-1">
                       <User className="h-2.5 w-2.5" /> {stage.user}
                     </span>
                     <span className="rounded bg-slate-100 px-1.5 py-0.5 text-slate-500">
+=======
+                  <div className="text-text-muted flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest">
+                    <span className="flex items-center gap-1">
+                      <User className="h-2.5 w-2.5" /> {stage.user}
+                    </span>
+                    <span className="bg-bg-surface2 text-text-secondary rounded px-1.5 py-0.5">
+>>>>>>> recover/cabinet-wip-from-stash
                       {stage.role}
                     </span>
                     {stage.status === 'in_review' && (
@@ -139,7 +181,11 @@ export function ApprovalWorkflow() {
                     )}
                   </div>
                   {stageComments[stage.id] && (
+<<<<<<< HEAD
                     <p className="mt-1 text-[9px] italic text-slate-500">
+=======
+                    <p className="text-text-secondary mt-1 text-[9px] italic">
+>>>>>>> recover/cabinet-wip-from-stash
                       {stageComments[stage.id]}
                     </p>
                   )}
@@ -147,7 +193,11 @@ export function ApprovalWorkflow() {
 
                 {stage.status === 'in_review' && (
                   <div className="flex flex-col justify-center gap-1">
+<<<<<<< HEAD
                     <Button className="h-6 rounded-lg bg-indigo-600 px-3 text-[8px] font-black uppercase text-white shadow-md transition-all hover:bg-indigo-700">
+=======
+                    <Button className="bg-accent-primary hover:bg-accent-primary h-6 rounded-lg px-3 text-[8px] font-black uppercase text-white shadow-md transition-all">
+>>>>>>> recover/cabinet-wip-from-stash
                       Утвердить
                     </Button>
                     <Button
@@ -196,7 +246,11 @@ export function ApprovalWorkflow() {
                     'rounded-lg border p-2 text-[10px] font-bold uppercase transition-all',
                     rejectReason === r
                       ? 'border-rose-300 bg-rose-50 text-rose-700'
+<<<<<<< HEAD
                       : 'border-slate-200 hover:border-slate-300'
+=======
+                      : 'border-border-default hover:border-border-default'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {r}
@@ -207,7 +261,11 @@ export function ApprovalWorkflow() {
               value={rejectReason}
               onChange={(e) => setRejectReason(e.target.value)}
               placeholder="Комментарий"
+<<<<<<< HEAD
               className="h-10 w-full rounded-lg border border-slate-200 px-3 text-sm"
+=======
+              className="border-border-default h-10 w-full rounded-lg border px-3 text-sm"
+>>>>>>> recover/cabinet-wip-from-stash
             />
             <div className="flex justify-end gap-2">
               <Button

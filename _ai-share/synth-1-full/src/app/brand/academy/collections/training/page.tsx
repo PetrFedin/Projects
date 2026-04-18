@@ -15,6 +15,7 @@ import { getAcademyLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { addCollectionTraining } from '@/lib/academy/brand-academy-data';
 import { ArrowLeft } from 'lucide-react';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 const COLLECTION_OPTIONS = [
   { id: 'fw26', name: 'FW26 Main', season: 'FW26' },
@@ -49,6 +50,7 @@ export default function CollectionTrainingPage() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
@@ -66,12 +68,31 @@ export default function CollectionTrainingPage() {
         </div>
         <AcademySegmentSwitcher active="brand" />
       </div>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Обучение по коллекции"
+        leadPlain="Для магазинов: product knowledge, мерчандайзинг"
+        eyebrow={
+          <Button variant="ghost" size="icon" className="-ml-2 shrink-0" asChild>
+            <Link href={ROUTES.brand.academy} aria-label="Назад в академию">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+        actions={<AcademySegmentSwitcher active="brand" />}
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <WidgetCard
         title="Обучение для магазинов"
         description="Магазины, купившие коллекцию, получают доступ к материалам для обучения своих продавцов: продуктовая линейка, выкладка, скрипты продаж."
       >
+<<<<<<< HEAD
         <Card className="rounded-xl border border-slate-100">
+=======
+        <Card className="border-border-subtle rounded-xl border">
+>>>>>>> recover/cabinet-wip-from-stash
           <CardHeader>
             <CardTitle>Добавить обучение</CardTitle>
             <CardDescription>Привязка к коллекции, тип, модули.</CardDescription>
@@ -159,6 +180,6 @@ export default function CollectionTrainingPage() {
       </WidgetCard>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -13,6 +13,7 @@ import { ROUTES } from '@/lib/routes';
 import { ArrowLeft, Clock, BookOpen } from 'lucide-react';
 import { getCollectionTrainingById } from '@/lib/academy/brand-academy-data';
 import { COLLECTION_TRAINING_TYPE_LABELS } from '@/lib/academy/brand-academy-data';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 export default function CollectionTrainingDetailPage() {
   const params = useParams();
@@ -22,6 +23,7 @@ export default function CollectionTrainingDetailPage() {
 
   if (!training) {
     return (
+<<<<<<< HEAD
       <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
         <div className="mb-6 flex items-center gap-3">
           <Button variant="ghost" size="icon" onClick={() => router.back()}>
@@ -29,14 +31,33 @@ export default function CollectionTrainingDetailPage() {
           </Button>
           <p className="text-slate-500">Обучение не найдено</p>
         </div>
+=======
+      <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+        <RegistryPageHeader
+          title="Обучение не найдено"
+          leadPlain="Записи с таким идентификатором нет в демо-данных."
+          eyebrow={
+            <Button
+              variant="ghost"
+              size="icon"
+              className="-ml-2 shrink-0"
+              onClick={() => router.back()}
+              aria-label="Назад"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          }
+        />
+>>>>>>> recover/cabinet-wip-from-stash
         <Button variant="outline" asChild>
           <Link href={ROUTES.brand.academy}>Вернуться в академию</Link>
         </Button>
-      </div>
+      </RegistryPageShell>
     );
   }
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex items-center gap-3">
@@ -54,12 +75,31 @@ export default function CollectionTrainingDetailPage() {
         </div>
         <AcademySegmentSwitcher active="brand" />
       </div>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title={training.title}
+        leadPlain={`${training.collectionName} · ${training.season}`}
+        eyebrow={
+          <Button variant="ghost" size="icon" className="-ml-2 shrink-0" asChild>
+            <Link href={ROUTES.brand.academy} aria-label="Назад в академию">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+        actions={<AcademySegmentSwitcher active="brand" />}
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <WidgetCard
         title="Обучение для магазинов"
         description="Материалы для партнёров, купивших коллекцию."
       >
+<<<<<<< HEAD
         <Card className="rounded-xl border border-slate-100">
+=======
+        <Card className="border-border-subtle rounded-xl border">
+>>>>>>> recover/cabinet-wip-from-stash
           <CardHeader className="pb-2">
             <div className="flex flex-wrap gap-2">
               <Badge variant="outline">
@@ -74,9 +114,15 @@ export default function CollectionTrainingDetailPage() {
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
+<<<<<<< HEAD
             <p className="leading-relaxed text-slate-700">{training.description}</p>
             {training.forStores && (
               <p className="text-[11px] text-slate-500">
+=======
+            <p className="text-text-primary leading-relaxed">{training.description}</p>
+            {training.forStores && (
+              <p className="text-text-secondary text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                 Доступно магазинам, купившим коллекцию {training.collectionName}
               </p>
             )}
@@ -89,6 +135,6 @@ export default function CollectionTrainingDetailPage() {
       </Button>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

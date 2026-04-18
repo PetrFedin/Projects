@@ -44,7 +44,11 @@ export function BrandCenterSearch({ open, onOpenChange }: BrandCenterSearchProps
           href: l.href,
           label: l.label,
           description: l.description,
+<<<<<<< HEAD
           group: (l as any).group,
+=======
+          group: 'group' in l ? (l as { group?: string }).group : undefined,
+>>>>>>> recover/cabinet-wip-from-stash
         }));
     }
     const recent: SearchResult[] = recentPages.slice(0, 6).map((r) => ({
@@ -110,9 +114,15 @@ export function BrandCenterSearch({ open, onOpenChange }: BrandCenterSearchProps
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
+<<<<<<< HEAD
       <DialogContent className="gap-0 overflow-hidden border-slate-200 p-0 sm:max-w-xl">
         <div className="flex items-center border-b border-slate-100 px-4">
           <Search className="mr-3 h-4 w-4 shrink-0 text-slate-400" />
+=======
+      <DialogContent className="border-border-subtle gap-0 overflow-hidden p-0 sm:max-w-xl">
+        <div className="border-border-subtle flex items-center border-b px-4">
+          <Search className="text-text-muted mr-3 h-4 w-4 shrink-0" />
+>>>>>>> recover/cabinet-wip-from-stash
           <Input
             value={query}
             onChange={(e) => {
@@ -130,13 +140,21 @@ export function BrandCenterSearch({ open, onOpenChange }: BrandCenterSearchProps
         <div className="max-h-[320px] overflow-y-auto py-2">
           {!query.trim() && recentPages.length > 0 && (
             <div className="px-4 py-1">
+<<<<<<< HEAD
               <p className="flex items-center gap-1 text-[9px] font-black uppercase tracking-widest text-slate-400">
+=======
+              <p className="text-text-muted flex items-center gap-1 text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 <Clock className="h-3 w-3" /> Недавние
               </p>
             </div>
           )}
           {results.length === 0 ? (
+<<<<<<< HEAD
             <div className="px-4 py-8 text-center text-sm text-slate-400">
+=======
+            <div className="text-text-muted px-4 py-8 text-center text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
               {query.trim() ? 'Ничего не найдено' : 'Откройте страницы для появления в недавних'}
             </div>
           ) : (
@@ -147,18 +165,30 @@ export function BrandCenterSearch({ open, onOpenChange }: BrandCenterSearchProps
                   onClick={() => handleSelect(item)}
                   className={cn(
                     'flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors',
+<<<<<<< HEAD
                     selectedIndex === i ? 'bg-indigo-50' : 'hover:bg-slate-50'
+=======
+                    selectedIndex === i ? 'bg-accent-primary/10' : 'hover:bg-bg-surface2'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {item.fromFavorite ? (
                     <Star className="h-4 w-4 shrink-0 fill-amber-500 text-amber-500" />
                   ) : (
+<<<<<<< HEAD
                     <ArrowRight className="h-3.5 w-3.5 shrink-0 text-slate-300" />
+=======
+                    <ArrowRight className="text-text-muted h-3.5 w-3.5 shrink-0" />
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium">{item.label}</p>
                     {(item.description || item.href) && (
+<<<<<<< HEAD
                       <p className="truncate text-[10px] text-slate-400">
+=======
+                      <p className="text-text-muted truncate text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                         {item.description || item.href}
                       </p>
                     )}

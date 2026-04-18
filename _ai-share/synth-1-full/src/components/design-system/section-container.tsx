@@ -24,13 +24,13 @@ export function SectionContainer({
       {(title || description || actions) && (
         <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0 space-y-1">
-            {title ? <h2 className="text-base font-semibold text-slate-900">{title}</h2> : null}
-            {description ? <p className="text-sm text-slate-500">{description}</p> : null}
+            {title ? <h2 className="text-text-primary text-base font-semibold">{title}</h2> : null}
+            {description ? <p className="text-text-secondary text-sm">{description}</p> : null}
           </div>
           {actions ? <div className="flex shrink-0 flex-wrap gap-2">{actions}</div> : null}
         </div>
       )}
-      {divider ? <Separator className="bg-slate-200" /> : null}
+      {divider ? <Separator className="bg-border-subtle" /> : null}
       {children}
     </section>
   );

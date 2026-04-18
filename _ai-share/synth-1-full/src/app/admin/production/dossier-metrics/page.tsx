@@ -25,12 +25,14 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useRbac } from '@/hooks/useRbac';
+import { ROUTES } from '@/lib/routes';
 import type {
   W2DossierMetricsAggregate,
   W2DossierMetricsDedupAggregate,
   W2DossierMetricsOrgAggregate,
   W2DossierMetricsTeamAggregate,
 } from '@/lib/server/workshop2-dossier-metrics-store';
+import { RegistryPageShell } from '@/components/design-system';
 
 type TimeFilterMeta = {
   sinceMs: number | null;
@@ -171,28 +173,36 @@ export default function AdminDossierMetricsPage() {
 
   if (role !== 'admin') {
     return (
-      <div className="container mx-auto max-w-3xl px-4 py-10">
-        <p className="text-sm text-slate-600">Раздел доступен только роли администратора.</p>
+      <RegistryPageShell className="max-w-3xl py-10">
+        <p className="text-text-secondary text-sm">Раздел доступен только роли администратора.</p>
         <Button variant="outline" className="mt-4" asChild>
-          <Link href="/admin">Назад</Link>
+          <Link href={ROUTES.admin.home}>Назад</Link>
         </Button>
-      </div>
+      </RegistryPageShell>
     );
   }
 
   return (
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
+    <RegistryPageShell className="max-w-6xl space-y-6 pb-16">
       <header className="flex flex-wrap items-start justify-between gap-4 space-y-1">
         <div>
-          <h1 className="flex items-center gap-2 text-xl font-black uppercase tracking-tight text-slate-900">
+          <h1 className="text-text-primary flex items-center gap-2 text-xl font-black uppercase tracking-tight">
             <BarChart2 className="h-7 w-7 text-amber-600" />
             Метрики досье ТЗ (Workshop2)
           </h1>
+<<<<<<< HEAD
           <p className="text-sm text-slate-500">
             События с клиента: сессия вкладки, сохранения, вехи контура. Хранение: Upstash/KV или
             локальный NDJSON.{' '}
             <Link
               href="/admin/production/dossier-metrics/ops"
+=======
+          <p className="text-text-secondary text-sm">
+            События с клиента: сессия вкладки, сохранения, вехи контура. Хранение: Upstash/KV или
+            локальный NDJSON.{' '}
+            <Link
+              href={ROUTES.admin.productionDossierMetricsOps}
+>>>>>>> recover/cabinet-wip-from-stash
               className="font-medium text-amber-700 underline-offset-2 hover:underline"
             >
               Операции и воронка
@@ -201,25 +211,39 @@ export default function AdminDossierMetricsPage() {
         </div>
       </header>
 
-      <Card className="border-slate-200 shadow-sm">
+      <Card className="border-border-default shadow-sm">
         <CardHeader className="pb-3">
           <CardTitle className="text-sm">Фильтры</CardTitle>
           <CardDescription>
+<<<<<<< HEAD
             Клиент шлёт <code className="rounded bg-slate-100 px-1">clientActorId</code>,
             опционально <code className="rounded bg-slate-100 px-1">teamTag</code> (localStorage),
             при входе в аккаунт — <code className="rounded bg-slate-100 px-1">appUserUid</code> и{' '}
             <code className="rounded bg-slate-100 px-1">orgId</code> (тенант). Без email/ФИО.
             Отключить uid/org на клиенте:{' '}
             <code className="rounded bg-slate-100 px-1">
+=======
+            Клиент шлёт <code className="bg-bg-surface2 rounded px-1">clientActorId</code>,
+            опционально <code className="bg-bg-surface2 rounded px-1">teamTag</code> (localStorage),
+            при входе в аккаунт — <code className="bg-bg-surface2 rounded px-1">appUserUid</code> и{' '}
+            <code className="bg-bg-surface2 rounded px-1">orgId</code> (тенант). Без email/ФИО.
+            Отключить uid/org на клиенте:{' '}
+            <code className="bg-bg-surface2 rounded px-1">
+>>>>>>> recover/cabinet-wip-from-stash
               NEXT_PUBLIC_W2_DOSSIER_METRICS_DISABLE_USER_CONTEXT=1
             </code>
             ; на сервере не писать их в хранилище:{' '}
-            <code className="rounded bg-slate-100 px-1">W2_DOSSIER_METRICS_STRIP_USER_IDS=1</code>.
+            <code className="bg-bg-surface2 rounded px-1">W2_DOSSIER_METRICS_STRIP_USER_IDS=1</code>
+            .
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
           <div className="space-y-1">
+<<<<<<< HEAD
             <label className="text-[10px] font-bold uppercase text-slate-400">
+=======
+            <label className="text-text-muted text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
               Коллекции (через запятую)
             </label>
             <Input
@@ -230,7 +254,11 @@ export default function AdminDossierMetricsPage() {
             />
           </div>
           <div className="space-y-1">
+<<<<<<< HEAD
             <label className="text-[10px] font-bold uppercase text-slate-400">
+=======
+            <label className="text-text-muted text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
               Окно по времени (capturedAt)
             </label>
             <Select
@@ -249,7 +277,7 @@ export default function AdminDossierMetricsPage() {
             </Select>
           </div>
           <div className="space-y-1">
-            <label className="text-[10px] font-bold uppercase text-slate-400">
+            <label className="text-text-muted text-[10px] font-bold uppercase">
               Секрет API (если задан в .env: READ или ADMIN — достаточно одного)
             </label>
             <Input
@@ -281,7 +309,7 @@ export default function AdminDossierMetricsPage() {
       {err ? <p className="text-sm font-medium text-red-600">Ошибка загрузки: {err}</p> : null}
 
       {data ? (
-        <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
+        <div className="text-text-secondary flex flex-wrap items-center gap-2 text-xs">
           <Badge variant="outline">backend: {data.storage}</Badge>
           <Badge variant="outline">после времени: {data.rowsLoaded}</Badge>
           {typeof data.rowsRead === 'number' ? (
@@ -329,14 +357,18 @@ export default function AdminDossierMetricsPage() {
             <Download className="h-3.5 w-3.5" />
             CSV
           </Button>
+<<<<<<< HEAD
           <span className="text-[10px] text-slate-400">
+=======
+          <span className="text-text-muted text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
             файл (fallback): {data.fileFallbackPath}
           </span>
         </div>
       ) : null}
 
       {data && chartRows.length > 0 ? (
-        <Card className="border-slate-200 shadow-sm">
+        <Card className="border-border-default shadow-sm">
           <CardHeader>
             <CardTitle className="text-sm">
               События vs уникальные SKU (последний снимок в окне)
@@ -349,7 +381,11 @@ export default function AdminDossierMetricsPage() {
           <CardContent className="h-[320px] w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartRows} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+<<<<<<< HEAD
                 <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200" />
+=======
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border-subtle" />
+>>>>>>> recover/cabinet-wip-from-stash
                 <XAxis
                   dataKey="label"
                   tick={{ fontSize: 10 }}
@@ -392,7 +428,7 @@ export default function AdminDossierMetricsPage() {
 
       {data ? (
         <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
-          <Card className="border-slate-200 shadow-sm">
+          <Card className="border-border-default shadow-sm">
             <CardHeader>
               <CardTitle className="text-sm">По коллекциям (dedup)</CardTitle>
               <CardDescription>Одна строка на артикул — последнее состояние в окне</CardDescription>
@@ -400,7 +436,7 @@ export default function AdminDossierMetricsPage() {
             <CardContent className="max-h-[360px] overflow-auto text-sm">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-200 text-[10px] uppercase text-slate-500">
+                  <tr className="border-border-default text-text-secondary border-b text-[10px] uppercase">
                     <th className="py-2 pr-2">Коллекция</th>
                     <th className="py-2 pr-2">SKU</th>
                     <th className="py-2 pr-2">П100</th>
@@ -410,7 +446,7 @@ export default function AdminDossierMetricsPage() {
                 </thead>
                 <tbody>
                   {data.aggregateDedupLatest.byCollection.map((r) => (
-                    <tr key={r.collectionId} className="border-b border-slate-100">
+                    <tr key={r.collectionId} className="border-border-subtle border-b">
                       <td className="py-1.5 pr-2 font-mono">{r.collectionId}</td>
                       <td className="py-1.5 pr-2 tabular-nums">{r.articles}</td>
                       <td className="py-1.5 pr-2 tabular-nums">{r.articlesPassport100}</td>
@@ -423,17 +459,17 @@ export default function AdminDossierMetricsPage() {
             </CardContent>
           </Card>
 
-          <Card className="border-slate-200 shadow-sm">
+          <Card className="border-border-default shadow-sm">
             <CardHeader>
               <CardTitle className="text-sm">По teamTag (последний снимок)</CardTitle>
               <CardDescription>
-                Без тега — строка <code className="rounded bg-slate-100 px-1">__none__</code>
+                Без тега — строка <code className="bg-bg-surface2 rounded px-1">__none__</code>
               </CardDescription>
             </CardHeader>
             <CardContent className="max-h-[360px] overflow-auto text-sm">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-200 text-[10px] uppercase text-slate-500">
+                  <tr className="border-border-default text-text-secondary border-b text-[10px] uppercase">
                     <th className="py-2 pr-2">Команда / тег</th>
                     <th className="py-2 pr-2">Акторов</th>
                     <th className="py-2">SKU</th>
@@ -441,7 +477,11 @@ export default function AdminDossierMetricsPage() {
                 </thead>
                 <tbody>
                   {data.teamLatest.byTeam.map((r) => (
+<<<<<<< HEAD
                     <tr key={r.teamTag} className="border-b border-slate-100">
+=======
+                    <tr key={r.teamTag} className="border-border-subtle border-b">
+>>>>>>> recover/cabinet-wip-from-stash
                       <td
                         className="max-w-[200px] truncate py-1.5 pr-2 font-mono"
                         title={r.teamTag}
@@ -457,18 +497,22 @@ export default function AdminDossierMetricsPage() {
             </CardContent>
           </Card>
 
-          <Card className="border-slate-200 shadow-sm lg:col-span-2 xl:col-span-1">
+          <Card className="border-border-default shadow-sm lg:col-span-2 xl:col-span-1">
             <CardHeader>
               <CardTitle className="text-sm">По организации (orgId)</CardTitle>
               <CardDescription>
                 Последний снимок на артикул; без org —{' '}
+<<<<<<< HEAD
                 <code className="rounded bg-slate-100 px-1">__none__</code>
+=======
+                <code className="bg-bg-surface2 rounded px-1">__none__</code>
+>>>>>>> recover/cabinet-wip-from-stash
               </CardDescription>
             </CardHeader>
             <CardContent className="max-h-[360px] overflow-auto text-sm">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-200 text-[10px] uppercase text-slate-500">
+                  <tr className="border-border-default text-text-secondary border-b text-[10px] uppercase">
                     <th className="py-2 pr-2">orgId</th>
                     <th className="py-2 pr-2">Брауз. акторов</th>
                     <th className="py-2 pr-2">Профилей</th>
@@ -477,7 +521,7 @@ export default function AdminDossierMetricsPage() {
                 </thead>
                 <tbody>
                   {data.orgLatest.byOrg.map((r) => (
-                    <tr key={r.orgId} className="border-b border-slate-100">
+                    <tr key={r.orgId} className="border-border-subtle border-b">
                       <td className="max-w-[180px] truncate py-1.5 pr-2 font-mono" title={r.orgId}>
                         {r.orgId}
                       </td>
@@ -494,8 +538,8 @@ export default function AdminDossierMetricsPage() {
       ) : null}
 
       <Button variant="outline" size="sm" asChild>
-        <Link href="/admin">В админку</Link>
+        <Link href={ROUTES.admin.home}>В админку</Link>
       </Button>
-    </div>
+    </RegistryPageShell>
   );
 }

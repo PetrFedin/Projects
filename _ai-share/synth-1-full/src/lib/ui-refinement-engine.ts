@@ -49,8 +49,13 @@ export const refineLayoutClasses = (
   if (options.clutterReduction > 0.5) {
     refined = refined.replace(/shadow-lg/g, 'shadow-sm');
     refined = refined.replace(/shadow-md/g, 'shadow-sm');
+<<<<<<< HEAD
     refined = refined.replace(/border-slate-300/g, 'border-slate-100');
     refined = refined.replace(/border-slate-200/g, 'border-slate-100');
+=======
+    refined = refined.replace(/border-border-default/g, 'border-border-subtle');
+    refined = refined.replace(/border-border-default/g, 'border-border-subtle');
+>>>>>>> recover/cabinet-wip-from-stash
   }
 
   return refined;
@@ -59,14 +64,22 @@ export const refineLayoutClasses = (
 export const refineToolbar = (classes: string): string => {
   return refineLayoutClasses(
     classes +
+<<<<<<< HEAD
       ' flex items-center justify-between gap-2 p-1 bg-slate-100 border border-slate-200 rounded-xl shadow-inner',
+=======
+      ' flex items-center justify-between gap-2 p-1 bg-bg-surface2 border border-border-default rounded-xl shadow-inner',
+>>>>>>> recover/cabinet-wip-from-stash
     { density: 1, hierarchy: 1, clutterReduction: 1 }
   );
 };
 
 export const refineTableRows = (classes: string): string => {
   return refineLayoutClasses(
+<<<<<<< HEAD
     classes + ' h-10 border-b border-slate-50 hover:bg-slate-50/50 transition-all group',
+=======
+    classes + ' h-10 border-b border-border-subtle hover:bg-bg-surface2/80 transition-all group',
+>>>>>>> recover/cabinet-wip-from-stash
     { density: 1, hierarchy: 1, clutterReduction: 1 }
   );
 };

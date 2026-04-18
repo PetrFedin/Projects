@@ -1,6 +1,8 @@
 // Глобальный граф связей между сущностями для сквозной аналитики
 // Используется для построения кросс-ссылок: Клиенты → Заказы → SKU → Сток → Фабрики
 
+import { ROUTES } from '@/lib/routes';
+
 export interface EntityLink {
   type: 'client' | 'retailer' | 'sku' | 'order' | 'factory';
   id: string;
@@ -46,6 +48,7 @@ export const MOCK_CROSS_LINKS: CrossLink[] = [
     metadata: { status: 'delay', days: -5 },
   },
 
+<<<<<<< HEAD
   // ЦУМ (Ритейлер) → Заказ → SKU
   {
     from: {
@@ -55,11 +58,36 @@ export const MOCK_CROSS_LINKS: CrossLink[] = [
       href: '/brand/retailers?id=r-tsum',
     },
     to: { type: 'order', id: 'b2b-0012', name: 'B2B-0012', href: '/brand/b2b-orders/b2b-0012' },
+=======
+  // Демо-ритейлер → Заказ → SKU
+  {
+    from: {
+      type: 'retailer',
+      id: 'retail_msk_2',
+      name: 'Демо-магазин · Москва 2',
+      href: '/brand/retailers?id=retail_msk_2',
+    },
+    to: {
+      type: 'order',
+      id: 'b2b-0012',
+      name: 'B2B-0012',
+      href: ROUTES.brand.b2bOrder('B2B-0012'),
+    },
+>>>>>>> recover/cabinet-wip-from-stash
     relation: 'ordered',
     metadata: { value: 221800000, status: 'pending' },
   },
   {
+<<<<<<< HEAD
     from: { type: 'order', id: 'b2b-0012', name: 'B2B-0012', href: '/brand/b2b-orders/b2b-0012' },
+=======
+    from: {
+      type: 'order',
+      id: 'b2b-0012',
+      name: 'B2B-0012',
+      href: ROUTES.brand.b2bOrder('B2B-0012'),
+    },
+>>>>>>> recover/cabinet-wip-from-stash
     to: {
       type: 'sku',
       id: 'sku-1092',

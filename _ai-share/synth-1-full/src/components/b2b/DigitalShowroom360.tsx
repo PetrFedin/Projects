@@ -19,6 +19,7 @@ import { Badge } from '@/components/ui/badge';
 import { useB2BState } from '@/providers/b2b-state';
 import allProductsData from '@/lib/products';
 import { cn } from '@/lib/cn';
+import { getMetricValueToneClass } from '@/lib/ui/semantic-data-tones';
 
 interface DigitalShowroom360Props {
   onClose: () => void;
@@ -92,7 +93,11 @@ export function DigitalShowroom360({ onClose, brandId = 'brand-1' }: DigitalShow
             <Scan className="h-6 w-6 text-black" />
           </div>
           <div>
+<<<<<<< HEAD
             <Badge className="mb-1 border-none bg-indigo-600 px-2 py-0.5 text-[9px] font-black uppercase tracking-widest text-white">
+=======
+            <Badge className="bg-accent-primary mb-1 border-none px-2 py-0.5 text-[9px] font-black uppercase tracking-widest text-white">
+>>>>>>> recover/cabinet-wip-from-stash
               Interactive_Showroom_v1.2
             </Badge>
             <h2 className="text-sm font-black uppercase leading-none tracking-tighter">
@@ -180,13 +185,21 @@ export function DigitalShowroom360({ onClose, brandId = 'brand-1' }: DigitalShow
                               <Badge className="bg-black px-2 py-0.5 text-[8px] font-black uppercase tracking-widest text-white">
                                 STYLE_REF_{hs.productId}
                               </Badge>
+<<<<<<< HEAD
                               <ShoppingCart className="h-4 w-4 text-slate-400" />
+=======
+                              <ShoppingCart className="text-text-muted h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
                             </div>
                             <div className="space-y-1">
                               <h4 className="text-sm font-black uppercase leading-tight tracking-tighter">
                                 {hs.label}
                               </h4>
+<<<<<<< HEAD
                               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+=======
+                              <p className="text-text-secondary text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                                 {hs.details}
                               </p>
                             </div>
@@ -224,8 +237,18 @@ export function DigitalShowroom360({ onClose, brandId = 'brand-1' }: DigitalShow
               variant="ghost"
               className="group flex h-12 w-12 flex-col items-center justify-center gap-1 rounded-2xl border border-white/10 bg-white/5 p-0 transition-all hover:bg-white hover:text-black"
             >
+<<<<<<< HEAD
               <tool.icon className="h-6 w-6" />
               <span className="text-[7px] font-black uppercase opacity-0 transition-opacity group-hover:opacity-100">
+=======
+              <tool.icon className={cn('h-6 w-6', getMetricValueToneClass(tool.color))} />
+              <span
+                className={cn(
+                  'text-[7px] font-black uppercase opacity-0 transition-opacity group-hover:opacity-100',
+                  getMetricValueToneClass(tool.color)
+                )}
+              >
+>>>>>>> recover/cabinet-wip-from-stash
                 {tool.label}
               </span>
             </Button>
@@ -242,7 +265,11 @@ export function DigitalShowroom360({ onClose, brandId = 'brand-1' }: DigitalShow
               <div className="flex items-center gap-3">
                 <div className="h-1 flex-1 overflow-hidden rounded-full bg-white/10">
                   <motion.div
+<<<<<<< HEAD
                     className="h-full bg-indigo-500"
+=======
+                    className="bg-accent-primary h-full"
+>>>>>>> recover/cabinet-wip-from-stash
                     style={{ width: `${(rotation / 360) * 100}%` }}
                   />
                 </div>
@@ -278,7 +305,11 @@ export function DigitalShowroom360({ onClose, brandId = 'brand-1' }: DigitalShow
               className={cn(
                 'h-10 w-full gap-2 rounded-xl border text-[9px] font-black uppercase tracking-widest transition-all',
                 showHotspots
+<<<<<<< HEAD
                   ? 'border-indigo-500 bg-indigo-600 text-white'
+=======
+                  ? 'bg-accent-primary border-accent-primary text-white'
+>>>>>>> recover/cabinet-wip-from-stash
                   : 'border-white/10 bg-white/5 text-white/40'
               )}
               onClick={() => setShowHotspots(!showHotspots)}
@@ -301,7 +332,11 @@ export function DigitalShowroom360({ onClose, brandId = 'brand-1' }: DigitalShow
                 className={cn(
                   'relative aspect-[4/5] w-32 flex-shrink-0 overflow-hidden rounded-2xl border-2 transition-all duration-500',
                   activeStyle === i
+<<<<<<< HEAD
                     ? 'scale-105 border-indigo-600'
+=======
+                    ? 'border-accent-primary scale-105'
+>>>>>>> recover/cabinet-wip-from-stash
                     : 'border-transparent opacity-40 hover:opacity-100'
                 )}
               >

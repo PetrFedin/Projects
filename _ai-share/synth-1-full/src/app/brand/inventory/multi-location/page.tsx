@@ -8,6 +8,7 @@ import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getProductionLinks } from '@/lib/data/entity-links';
 import { Package, ArrowLeft, MapPin } from 'lucide-react';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 export default function MultiLocationInventoryPage() {
   const locations = getLocations();
@@ -16,6 +17,7 @@ export default function MultiLocationInventoryPage() {
   );
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.brand.warehouse}>
@@ -32,8 +34,23 @@ export default function MultiLocationInventoryPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Остатки по складам"
+        leadPlain="Москва, СПб, регионы — остатки по локациям."
+        eyebrow={
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.brand.warehouse} aria-label="Назад к складу">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+        actions={<MapPin className="size-6 shrink-0 text-muted-foreground" aria-hidden />}
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
-      <Card className="mb-6">
+      <Card>
         <CardHeader>
           <CardTitle>Склады</CardTitle>
           <CardDescription>Локации для учёта остатков.</CardDescription>
@@ -42,28 +59,39 @@ export default function MultiLocationInventoryPage() {
           {locations.map((l) => (
             <div
               key={l.id}
+<<<<<<< HEAD
               className="flex items-center gap-3 rounded-xl border border-slate-200 p-4"
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-50">
                 <Package className="h-5 w-5 text-indigo-600" />
+=======
+              className="border-border-default flex items-center gap-3 rounded-xl border p-4"
+            >
+              <div className="bg-accent-primary/10 flex h-10 w-10 items-center justify-center rounded-lg">
+                <Package className="text-accent-primary h-5 w-5" />
+>>>>>>> recover/cabinet-wip-from-stash
               </div>
               <div>
                 <p className="font-medium">{l.name}</p>
-                {l.city && <p className="text-xs text-slate-500">{l.city}</p>}
+                {l.city && <p className="text-text-secondary text-xs">{l.city}</p>}
               </div>
             </div>
           ))}
         </CardContent>
       </Card>
 
-      <Card className="mb-6">
+      <Card>
         <CardHeader>
           <CardTitle>Остатки по SKU</CardTitle>
           <CardDescription>Данные из localStorage (мок). В проде — API.</CardDescription>
         </CardHeader>
         <CardContent>
           {stocks.length === 0 ? (
+<<<<<<< HEAD
             <div className="py-8 text-center text-sm text-slate-500">
+=======
+            <div className="text-text-secondary py-8 text-center text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
               <Package className="mx-auto mb-3 h-12 w-12 opacity-40" />
               <p>Нет данных. Настройте синхронизацию с ERP.</p>
               <Button variant="outline" size="sm" className="mt-3" asChild>
@@ -95,7 +123,11 @@ export default function MultiLocationInventoryPage() {
         </CardContent>
       </Card>
 
+<<<<<<< HEAD
       <div className="mb-6 flex gap-2">
+=======
+      <div className="flex flex-wrap gap-2">
+>>>>>>> recover/cabinet-wip-from-stash
         <Button variant="outline" size="sm" asChild>
           <Link href={ROUTES.brand.warehouse}>Склад</Link>
         </Button>
@@ -104,6 +136,6 @@ export default function MultiLocationInventoryPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getProductionLinks()} title="Логистика" />
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -134,7 +134,11 @@ export const clientNavGroups = [
         description: 'Баланс и платежи',
       },
       {
+<<<<<<< HEAD
         href: '/u/payments',
+=======
+        href: '/client/me/payments',
+>>>>>>> recover/cabinet-wip-from-stash
         value: 'payments',
         label: 'Платежи',
         icon: CreditCard,
@@ -148,7 +152,11 @@ export const clientNavGroups = [
     icon: User,
     links: [
       {
+<<<<<<< HEAD
         href: '/u',
+=======
+        href: '/client/me',
+>>>>>>> recover/cabinet-wip-from-stash
         value: 'profile',
         label: 'Профиль',
         icon: User,

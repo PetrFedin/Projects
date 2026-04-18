@@ -16,6 +16,7 @@ export function FilterChips({
       {filters.map((f) => (
         <div
           key={f.key}
+<<<<<<< HEAD
           className="inline-flex items-center gap-1.5 rounded-sm border border-zinc-200 bg-zinc-100 px-2 py-1"
         >
           <span className="text-[10px] font-black uppercase tracking-tighter text-zinc-400">
@@ -25,6 +26,17 @@ export function FilterChips({
           <button
             onClick={() => onRemove(f.key)}
             className="text-zinc-400 transition-colors hover:text-zinc-900"
+=======
+          className="bg-bg-surface2 border-border-default inline-flex items-center gap-1.5 rounded-sm border px-2 py-1"
+        >
+          <span className="text-text-muted text-[10px] font-black uppercase tracking-tighter">
+            {f.label}:
+          </span>
+          <span className="text-text-primary text-[10px] font-bold uppercase">{f.value}</span>
+          <button
+            onClick={() => onRemove(f.key)}
+            className="text-text-muted hover:text-text-primary transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <X className="h-3 w-3" />
           </button>

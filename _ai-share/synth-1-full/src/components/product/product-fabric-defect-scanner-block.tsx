@@ -17,15 +17,26 @@ export const ProductFabricDefectScannerBlock: React.FC<{ product: Product }> = (
   };
 
   return (
+<<<<<<< HEAD
     <Card className="relative overflow-hidden border-2 border-slate-100 bg-slate-50/20 p-4 shadow-sm">
       <div className="absolute right-0 top-0 rotate-12 p-2 opacity-5">
         <Microscope className="h-16 w-16 text-slate-400" />
+=======
+    <Card className="border-border-subtle bg-bg-surface2/20 relative overflow-hidden border-2 p-4 shadow-sm">
+      <div className="absolute right-0 top-0 rotate-12 p-2 opacity-5">
+        <Microscope className="text-text-muted h-16 w-16" />
+>>>>>>> recover/cabinet-wip-from-stash
       </div>
 
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
+<<<<<<< HEAD
           <Microscope className="h-4 w-4 text-slate-600" />
           <h4 className="text-xs font-bold uppercase tracking-tight text-slate-700">
+=======
+          <Microscope className="text-text-secondary h-4 w-4" />
+          <h4 className="text-text-primary text-xs font-bold uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
             AI Quality Control Scan
           </h4>
         </div>
@@ -44,14 +55,24 @@ export const ProductFabricDefectScannerBlock: React.FC<{ product: Product }> = (
 
       <div className="grid grid-cols-2 gap-4">
         <div>
+<<<<<<< HEAD
           <div className="text-2xl font-black text-slate-800">{scan.passRate}%</div>
           <div className="text-[10px] font-black uppercase leading-none text-slate-400">
+=======
+          <div className="text-text-primary text-2xl font-black">{scan.passRate}%</div>
+          <div className="text-text-muted text-[10px] font-black uppercase leading-none">
+>>>>>>> recover/cabinet-wip-from-stash
             Pass Rate
           </div>
         </div>
         <div>
+<<<<<<< HEAD
           <div className="mt-1 text-sm font-bold text-slate-600">{scan.batchId}</div>
           <div className="text-[10px] font-black uppercase leading-none text-slate-400">
+=======
+          <div className="text-text-secondary mt-1 text-sm font-bold">{scan.batchId}</div>
+          <div className="text-text-muted text-[10px] font-black uppercase leading-none">
+>>>>>>> recover/cabinet-wip-from-stash
             Active Batch
           </div>
         </div>
@@ -79,7 +100,11 @@ export const ProductFabricDefectScannerBlock: React.FC<{ product: Product }> = (
         </div>
       )}
 
+<<<<<<< HEAD
       <div className="mt-4 flex items-center gap-2 border-t border-slate-100 pt-3 text-[9px] font-bold uppercase italic text-slate-400">
+=======
+      <div className="border-border-subtle text-text-muted mt-4 flex items-center gap-2 border-t pt-3 text-[9px] font-bold uppercase italic">
+>>>>>>> recover/cabinet-wip-from-stash
         Computer Vision Scan v4.0.2 Active
       </div>
     </Card>

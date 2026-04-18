@@ -465,6 +465,11 @@ export const WORKSHOP2_DOSSIER_SECTION_GUIDANCE: Record<
       'Упаковка, этикетки, штрихкод, care-label',
     ],
   },
+  measurements: {
+    headline: 'Табель мер',
+    purpose: 'Единая таблица мерок по размерам для ТЗ, образца и контроля на линии.',
+    essentials: ['Базовый размер и шкала', 'Заполненные мерки по ключевым точкам'],
+  },
   construction: {
     headline: 'Конструкция и табель мер',
     purpose:
@@ -473,6 +478,11 @@ export const WORKSHOP2_DOSSIER_SECTION_GUIDANCE: Record<
       'Силуэт, узлы, карманы, застёжки, вложения tech pack',
       'Базовый размер, шкала и заполненные мерки',
     ],
+  },
+  packaging: {
+    headline: 'Упаковка',
+    purpose: 'Спецификация упаковки и маркировки для отгрузки и учёта на складе.',
+    essentials: ['Короб / полиэтилен', 'Этикетки и штрихкод'],
   },
   sample_intake: {
     headline: 'Приёмка сэмпла в коллекцию',

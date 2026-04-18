@@ -339,7 +339,11 @@ export default function GamificationSystem() {
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium">
+<<<<<<< HEAD
                     {position === 2 ? user.displayName : `Пользователь ${position}`}
+=======
+                    {position === 2 ? (user?.displayName ?? 'Вы') : `Пользователь ${position}`}
+>>>>>>> recover/cabinet-wip-from-stash
                   </p>
                   <p className="text-xs text-muted-foreground">
                     {position === 2
@@ -362,10 +366,14 @@ export default function GamificationSystem() {
       </Card>
 
       {/* Referral Program */}
+<<<<<<< HEAD
       <Card className="border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50 dark:border-purple-800 dark:from-purple-950/20 dark:to-pink-950/20">
+=======
+      <Card className="from-accent-primary/10 to-accent-primary/10 dark:from-bg-surface2/80 dark:to-bg-surface2/80 border-accent-primary/25 dark:border-border-default bg-gradient-to-br">
+>>>>>>> recover/cabinet-wip-from-stash
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Share2 className="h-5 w-5 text-purple-600" />
+            <Share2 className="text-accent-primary h-5 w-5" />
             Реферальная программа
           </CardTitle>
           <CardDescription>Приглашайте друзей и получайте награды</CardDescription>
@@ -374,11 +382,19 @@ export default function GamificationSystem() {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <div className="rounded-lg bg-background/50 p-4 text-center">
+<<<<<<< HEAD
                 <p className="text-sm font-bold text-purple-600">3</p>
                 <p className="mt-1 text-xs text-muted-foreground">Приглашено друзей</p>
               </div>
               <div className="rounded-lg bg-background/50 p-4 text-center">
                 <p className="text-sm font-bold text-purple-600">1,500</p>
+=======
+                <p className="text-accent-primary text-sm font-bold">3</p>
+                <p className="mt-1 text-xs text-muted-foreground">Приглашено друзей</p>
+              </div>
+              <div className="rounded-lg bg-background/50 p-4 text-center">
+                <p className="text-accent-primary text-sm font-bold">1,500</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 <p className="mt-1 text-xs text-muted-foreground">Баллов заработано</p>
               </div>
             </div>
@@ -386,7 +402,11 @@ export default function GamificationSystem() {
               <p className="mb-2 text-sm font-medium">Ваша реферальная ссылка:</p>
               <div className="flex items-center gap-2">
                 <code className="flex-1 rounded bg-muted p-2 text-xs">
+<<<<<<< HEAD
                   syntha.com/ref/{user.uid.slice(0, 8)}
+=======
+                  syntha.com/ref/{(user?.uid ?? 'guest').slice(0, 8)}
+>>>>>>> recover/cabinet-wip-from-stash
                 </code>
                 <Button size="sm" variant="outline">
                   Копировать

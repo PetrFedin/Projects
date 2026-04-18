@@ -20,6 +20,7 @@ import {
 import { useAuth } from '@/providers/auth-provider';
 import { useUserOrders } from '@/hooks/use-user-orders';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
@@ -167,11 +168,52 @@ export default function MyReviews() {
         <CardContent>
           <Tabs defaultValue="all" onValueChange={(v) => setFilter(v as any)}>
             <div className="mb-6 flex flex-col gap-3 sm:flex-row">
+<<<<<<< HEAD
               <TabsList>
                 <TabsTrigger value="all">Все ({stats.total})</TabsTrigger>
                 <TabsTrigger value="published">Опубликовано ({stats.published})</TabsTrigger>
                 <TabsTrigger value="pending">На модерации ({stats.pending})</TabsTrigger>
                 <TabsTrigger value="rejected">Отклонено</TabsTrigger>
+=======
+              {/* cabinetSurface v1 */}
+              <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
+                <TabsTrigger
+                  value="all"
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'text-xs font-semibold normal-case tracking-normal'
+                  )}
+                >
+                  Все ({stats.total})
+                </TabsTrigger>
+                <TabsTrigger
+                  value="published"
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'text-xs font-semibold normal-case tracking-normal'
+                  )}
+                >
+                  Опубликовано ({stats.published})
+                </TabsTrigger>
+                <TabsTrigger
+                  value="pending"
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'text-xs font-semibold normal-case tracking-normal'
+                  )}
+                >
+                  На модерации ({stats.pending})
+                </TabsTrigger>
+                <TabsTrigger
+                  value="rejected"
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'text-xs font-semibold normal-case tracking-normal'
+                  )}
+                >
+                  Отклонено
+                </TabsTrigger>
+>>>>>>> recover/cabinet-wip-from-stash
               </TabsList>
               <div className="relative max-w-sm flex-1">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />

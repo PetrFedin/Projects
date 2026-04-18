@@ -598,16 +598,21 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
         applied = r;
         return r.ok ? r.inventory : prev;
       });
-      if (applied?.ok && applied.newArticleId) {
-        setHighlightArticleId(applied.newArticleId);
+      if (applied?.ok) {
+        const newArticleId = applied.newArticleId;
+        setHighlightArticleId(newArticleId);
         const key = storageKeyForCollectionId(collectionId);
         const list = applied.inventory.articlesByCollection[key] ?? [];
-        const line = list.find((l) => l.id === applied.newArticleId) as LocalOrderLine | undefined;
+        const line = list.find((l) => l.id === newArticleId) as LocalOrderLine | undefined;
         const nb = normalizeWorkshopTzSignatoryBindings(line?.workshopTzSignatoryBindings);
         if (nb) {
-          const existing = getWorkshop2Phase1Dossier(collectionId, applied.newArticleId);
+          const existing = getWorkshop2Phase1Dossier(collectionId, newArticleId);
           const base = existing ?? emptyWorkshop2DossierPhase1();
+<<<<<<< HEAD
           setWorkshop2Phase1Dossier(collectionId, applied.newArticleId, {
+=======
+          setWorkshop2Phase1Dossier(collectionId, newArticleId, {
+>>>>>>> recover/cabinet-wip-from-stash
             ...base,
             tzSignatoryBindings: nb,
           });

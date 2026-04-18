@@ -71,16 +71,21 @@ export function SubcategorySketchTasksRibbon({
   );
 
   return (
+<<<<<<< HEAD
     <div className="space-y-3 text-[11px] leading-snug text-slate-800">
       <p className="text-[10px] font-medium uppercase tracking-wide text-slate-500">
+=======
+    <div className="text-text-primary space-y-3 text-[11px] leading-snug">
+      <p className="text-text-secondary text-[10px] font-medium uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
         Задачи по узлам ветки (линия · группа · модель) — один артикул, разная детализация
         формулировок
       </p>
-      <p className="text-[10px] text-slate-600">
-        Артикул <span className="font-mono font-semibold text-slate-900">{articleSku}</span>
+      <p className="text-text-secondary text-[10px]">
+        Артикул <span className="text-text-primary font-mono font-semibold">{articleSku}</span>
         {articleName.trim() ? ` · ${articleName.trim()}` : null}
       </p>
-      <ol className="relative space-y-0 border-l border-zinc-300 pl-4">
+      <ol className="border-border-default relative space-y-0 border-l pl-4">
         {([1, 2, 3] as const).map((level) => {
           const slot = slots.find((s) => s.level === level)!;
           const t = slot.productionTasks;
@@ -89,14 +94,18 @@ export function SubcategorySketchTasksRibbon({
           return (
             <li key={level} className="relative pb-4 pl-1 last:pb-0">
               <span
-                className="absolute -left-[21px] top-1 flex h-5 w-5 items-center justify-center rounded-full border border-zinc-400 bg-white text-[9px] font-bold uppercase text-zinc-800"
+                className="border-border-default text-text-primary absolute -left-[21px] top-1 flex h-5 w-5 items-center justify-center rounded-full border bg-white text-[9px] font-bold uppercase"
                 aria-hidden
                 title={BRANCH_CATALOG_SLOT_ROLE[level].label}
               >
                 {BRANCH_CATALOG_SLOT_ROLE[level].label.slice(0, 1)}
               </span>
               <details
+<<<<<<< HEAD
                 className="group rounded-lg border border-zinc-200 bg-zinc-50/80 open:bg-white"
+=======
+                className="border-border-default bg-bg-surface2/80 group rounded-lg border open:bg-white"
+>>>>>>> recover/cabinet-wip-from-stash
                 open={level === 3}
               >
                 <summary
@@ -106,10 +115,10 @@ export function SubcategorySketchTasksRibbon({
                   )}
                 >
                   <span className="min-w-0">
-                    <span className="block font-semibold text-zinc-900">
+                    <span className="text-text-primary block font-semibold">
                       {BRANCH_CATALOG_SLOT_ROLE[level].label}: {levelNames[level]}
                     </span>
-                    <span className="mt-0.5 block text-[10px] text-zinc-600">
+                    <span className="text-text-secondary mt-0.5 block text-[10px]">
                       {BRANCH_CATALOG_SLOT_ROLE[level].hint}
                     </span>
                     {inheritedFrom ? (
@@ -118,23 +127,35 @@ export function SubcategorySketchTasksRibbon({
                         {levelNames[inheritedFrom]}»
                       </span>
                     ) : level > 1 ? (
+<<<<<<< HEAD
                       <span className="mt-1 block text-[9px] text-zinc-500">
+=======
+                      <span className="text-text-secondary mt-1 block text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                         Нет заполненного родителя для автонаследования
                       </span>
                     ) : null}
                     {preview ? (
+<<<<<<< HEAD
                       <span className="mt-1 line-clamp-2 block text-[10px] text-zinc-600">
                         {preview}
                       </span>
                     ) : (
                       <span className="mt-1 block text-[10px] italic text-zinc-400">
+=======
+                      <span className="text-text-secondary mt-1 line-clamp-2 block text-[10px]">
+                        {preview}
+                      </span>
+                    ) : (
+                      <span className="text-text-muted mt-1 block text-[10px] italic">
+>>>>>>> recover/cabinet-wip-from-stash
                         Пока пусто — разверните и введите «Что сделать»
                       </span>
                     )}
                   </span>
-                  <ChevronDown className="mt-0.5 h-4 w-4 shrink-0 text-zinc-400 transition-transform group-open:rotate-180" />
+                  <ChevronDown className="text-text-muted mt-0.5 h-4 w-4 shrink-0 transition-transform group-open:rotate-180" />
                 </summary>
-                <div className="space-y-2 border-t border-zinc-100 px-2.5 pb-2.5 pt-2">
+                <div className="border-border-subtle space-y-2 border-t px-2.5 pb-2.5 pt-2">
                   {level > 1 && inheritedFrom ? (
                     <div className="flex flex-wrap gap-1.5">
                       <Button
@@ -157,7 +178,7 @@ export function SubcategorySketchTasksRibbon({
                     </div>
                   ) : null}
                   <div className="space-y-1">
-                    <Label className="text-[10px] text-zinc-600">Что сделать</Label>
+                    <Label className="text-text-secondary text-[10px]">Что сделать</Label>
                     <Textarea
                       className="min-h-[72px] text-[11px]"
                       value={t.whatToDo ?? ''}
@@ -166,13 +187,18 @@ export function SubcategorySketchTasksRibbon({
                       }
                     />
                   </div>
+<<<<<<< HEAD
                   <details className="rounded border border-zinc-100 bg-zinc-50/50 p-2 text-[10px]">
                     <summary className="cursor-pointer font-medium text-zinc-700">
+=======
+                  <details className="border-border-subtle bg-bg-surface2/80 rounded border p-2 text-[10px]">
+                    <summary className="text-text-primary cursor-pointer font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                       Ещё поля (улучшить, изменить, внимание)
                     </summary>
                     <div className="mt-2 space-y-2">
                       <div className="space-y-1">
-                        <Label className="text-[9px] text-zinc-500">Улучшить</Label>
+                        <Label className="text-text-secondary text-[9px]">Улучшить</Label>
                         <Textarea
                           className="min-h-[48px] text-[11px]"
                           value={t.improve ?? ''}
@@ -182,7 +208,7 @@ export function SubcategorySketchTasksRibbon({
                         />
                       </div>
                       <div className="space-y-1">
-                        <Label className="text-[9px] text-zinc-500">Изменить</Label>
+                        <Label className="text-text-secondary text-[9px]">Изменить</Label>
                         <Textarea
                           className="min-h-[48px] text-[11px]"
                           value={t.change ?? ''}
@@ -192,7 +218,9 @@ export function SubcategorySketchTasksRibbon({
                         />
                       </div>
                       <div className="space-y-1">
-                        <Label className="text-[9px] text-zinc-500">На что обратить внимание</Label>
+                        <Label className="text-text-secondary text-[9px]">
+                          На что обратить внимание
+                        </Label>
                         <Textarea
                           className="min-h-[48px] text-[11px]"
                           value={t.watchAttention ?? ''}

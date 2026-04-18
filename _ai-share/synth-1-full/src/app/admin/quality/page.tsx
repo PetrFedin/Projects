@@ -29,6 +29,11 @@ import {
   BarChart2,
   Info,
   ArrowUpRight,
+<<<<<<< HEAD
+=======
+  TrendingUp,
+  AlertCircle,
+>>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { brands as allBrands } from '@/lib/placeholder-data';
@@ -141,6 +146,7 @@ export default function AdminQualityPage() {
           <Table>
             <TableHeader>
               <TableRow className="border-b border-muted/20 hover:bg-transparent">
+<<<<<<< HEAD
                 <TableHead className="text-[10px] font-black uppercase tracking-widest text-slate-500">
                   Бренд
                 </TableHead>
@@ -154,6 +160,21 @@ export default function AdminQualityPage() {
                   Ключевая компетенция
                 </TableHead>
                 <TableHead className="text-right text-[10px] font-black uppercase tracking-widest text-slate-500">
+=======
+                <TableHead className="text-text-secondary text-[10px] font-black uppercase tracking-widest">
+                  Бренд
+                </TableHead>
+                <TableHead className="text-text-secondary text-[10px] font-black uppercase tracking-widest">
+                  Общий балл
+                </TableHead>
+                <TableHead className="text-text-secondary text-[10px] font-black uppercase tracking-widest">
+                  Активные знаки
+                </TableHead>
+                <TableHead className="text-text-secondary text-[10px] font-black uppercase tracking-widest">
+                  Ключевая компетенция
+                </TableHead>
+                <TableHead className="text-text-secondary text-right text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   Детализация
                 </TableHead>
               </TableRow>
@@ -191,7 +212,11 @@ export default function AdminQualityPage() {
                                 ? 'bg-yellow-500'
                                 : data.score > 80
                                   ? 'bg-accent'
+<<<<<<< HEAD
                                   : 'bg-slate-400'
+=======
+                                  : 'bg-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                             )}
                             style={{ width: `${data.score}%` }}
                           />
@@ -207,7 +232,11 @@ export default function AdminQualityPage() {
                           .map((m: any) => (
                             <div
                               key={m.id}
+<<<<<<< HEAD
                               className="flex h-6 w-6 items-center justify-center rounded-md bg-muted/50 text-slate-500"
+=======
+                              className="text-text-secondary flex h-6 w-6 items-center justify-center rounded-md bg-muted/50"
+>>>>>>> recover/cabinet-wip-from-stash
                             >
                               {metricIcons[m.id]}
                             </div>
@@ -253,7 +282,11 @@ export default function AdminQualityPage() {
           </VisuallyHidden>
           {selectedBrand && (
             <div className="flex flex-col">
+<<<<<<< HEAD
               <div className="flex items-center justify-between bg-slate-900 p-4 text-white">
+=======
+              <div className="bg-text-primary flex items-center justify-between p-4 text-white">
+>>>>>>> recover/cabinet-wip-from-stash
                 <div className="flex items-center gap-3">
                   <div className="h-20 w-20 shrink-0 rounded-2xl bg-white p-2">
                     <img
@@ -288,7 +321,11 @@ export default function AdminQualityPage() {
 
               <div className="grid grid-cols-1 gap-3 bg-white p-4 md:grid-cols-2">
                 <div className="space-y-6">
+<<<<<<< HEAD
                   <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-400">
+=======
+                  <h4 className="text-text-muted text-[11px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     Детализация по 10 параметрам
                   </h4>
                   <div className="grid grid-cols-1 gap-3">
@@ -303,7 +340,11 @@ export default function AdminQualityPage() {
                               'flex h-8 w-8 items-center justify-center rounded-lg',
                               m.status === 'active'
                                 ? 'bg-accent text-white'
+<<<<<<< HEAD
                                 : 'bg-muted text-slate-400'
+=======
+                                : 'text-text-muted bg-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                             )}
                           >
                             {metricIcons[m.id]}
@@ -317,7 +358,11 @@ export default function AdminQualityPage() {
                           <Badge
                             className={cn(
                               'h-4 text-[8px] font-black',
+<<<<<<< HEAD
                               m.status === 'active' ? 'bg-green-500' : 'bg-slate-300'
+=======
+                              m.status === 'active' ? 'bg-green-500' : 'bg-border-default'
+>>>>>>> recover/cabinet-wip-from-stash
                             )}
                           >
                             {m.status === 'active' ? 'OK' : 'WAIT'}
@@ -329,7 +374,11 @@ export default function AdminQualityPage() {
                 </div>
 
                 <div className="space-y-6">
+<<<<<<< HEAD
                   <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-400">
+=======
+                  <h4 className="text-text-muted text-[11px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     Логи нарушений и успехов
                   </h4>
                   <Card className="rounded-3xl border-muted/20 bg-muted/5 p-4">
@@ -339,13 +388,21 @@ export default function AdminQualityPage() {
                           <TrendingUp className="h-4 w-4 text-green-600" />
                         </div>
                         <div>
+<<<<<<< HEAD
                           <p className="text-[10px] font-black uppercase text-slate-900">
+=======
+                          <p className="text-text-primary text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                             Улучшение логистики
                           </p>
                           <p className="mt-1 text-[11px] font-medium text-muted-foreground">
                             Время обработки заказов снизилось на 15% за последний месяц.
                           </p>
+<<<<<<< HEAD
                           <span className="mt-2 block text-[8px] font-bold uppercase text-slate-400">
+=======
+                          <span className="text-text-muted mt-2 block text-[8px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                             12 Янв 2024
                           </span>
                         </div>
@@ -355,14 +412,22 @@ export default function AdminQualityPage() {
                           <AlertCircle className="h-4 w-4 text-red-600" />
                         </div>
                         <div>
+<<<<<<< HEAD
                           <p className="text-[10px] font-black uppercase text-slate-900">
+=======
+                          <p className="text-text-primary text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                             Жалоба на качество упаковки
                           </p>
                           <p className="mt-1 text-[11px] font-medium text-muted-foreground">
                             Клиент сообщил о повреждении коробки при доставке. Требуется проверка
                             упаковочного материала.
                           </p>
+<<<<<<< HEAD
                           <span className="mt-2 block text-[8px] font-bold uppercase text-slate-400">
+=======
+                          <span className="text-text-muted mt-2 block text-[8px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                             08 Янв 2024
                           </span>
                         </div>
@@ -372,13 +437,21 @@ export default function AdminQualityPage() {
                           <ShieldCheck className="h-4 w-4 text-blue-600" />
                         </div>
                         <div>
+<<<<<<< HEAD
                           <p className="text-[10px] font-black uppercase text-slate-900">
+=======
+                          <p className="text-text-primary text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                             Продление статуса «Репутация»
                           </p>
                           <p className="mt-1 text-[11px] font-medium text-muted-foreground">
                             Бренд успешно прошел ежеквартальную проверку доверия платформы.
                           </p>
+<<<<<<< HEAD
                           <span className="mt-2 block text-[8px] font-bold uppercase text-slate-400">
+=======
+                          <span className="text-text-muted mt-2 block text-[8px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                             01 Янв 2024
                           </span>
                         </div>

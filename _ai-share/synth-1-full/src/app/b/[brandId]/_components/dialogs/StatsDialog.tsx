@@ -122,7 +122,11 @@ export function StatsDialog({
                             medal.type === 'gold'
                               ? 'bg-gradient-to-br from-yellow-300 to-yellow-600 text-yellow-950'
                               : medal.type === 'silver'
+<<<<<<< HEAD
                                 ? 'bg-gradient-to-br from-slate-200 to-slate-400 text-slate-900'
+=======
+                                ? 'from-border-subtle to-text-muted text-text-primary bg-gradient-to-br'
+>>>>>>> recover/cabinet-wip-from-stash
                                 : 'bg-gradient-to-br from-orange-300 to-orange-600 text-orange-950'
                           )}
                         >
@@ -156,7 +160,11 @@ export function StatsDialog({
                               medal.type === 'gold'
                                 ? 'bg-yellow-500/20 text-yellow-500'
                                 : medal.type === 'silver'
+<<<<<<< HEAD
                                   ? 'bg-slate-500/20 text-slate-400'
+=======
+                                  ? 'bg-bg-surface2/20 text-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                                   : 'bg-orange-500/20 text-orange-500'
                             )}
                           >

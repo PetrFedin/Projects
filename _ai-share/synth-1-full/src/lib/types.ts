@@ -173,8 +173,33 @@ export type ProfessionalRole =
   | 'analyst'
   | 'creative_director'
   | 'visual_merchandiser'
+<<<<<<< HEAD
+=======
+  | 'merchandiser'
+  | 'sales_representative'
+>>>>>>> recover/cabinet-wip-from-stash
   | 'blogger'
   | 'influencer';
+
+/** Подкасты / программы Academy (данные `src/data/programs.ts`). */
+export interface Program {
+  id: string;
+  title: string;
+  description: string;
+  coverUrl: string;
+  subscribers: number;
+  host: { name: string; photoUrl: string; role: string };
+  sponsors: Array<{ name: string; logoUrl: string; url: string }>;
+  schedule: { dayOfWeek: string; time: string };
+  category: string;
+  pastBroadcasts: Array<{
+    id: string;
+    title: string;
+    date: string;
+    duration: number;
+    imageUrl: string;
+  }>;
+}
 
 export interface CareerResume {
   id: string;
@@ -306,6 +331,7 @@ export interface UserProfile {
     city?: string;
     emails?: { primary?: string; secondary?: string };
     phones?: { primary?: string; secondary?: string };
+    verification?: { email?: boolean; phone?: boolean };
     addresses?: { primary?: string; secondary?: string };
     phoneNumbers?: Array<{ value: string; verified: boolean; primary: boolean }>;
     emailAddresses?: Array<{ value: string; verified: boolean; primary: boolean }>;
@@ -393,7 +419,7 @@ export type ProductAudience =
 
 export type GlobalCategory = 'all' | 'women' | 'men' | 'kids' | 'beauty' | 'home';
 
-export type SizeAvailabilityStatus = 'in_stock' | 'pre_order' | 'out_of_stock';
+export type SizeAvailabilityStatus = 'in_stock' | 'pre_order' | 'out_of_stock' | 'coming_soon';
 
 export interface SizeInfo {
   name: string;
@@ -447,10 +473,19 @@ export interface Product {
   category_group?: string;
   sustainability: string[];
   outlet?: boolean;
+  /** Legacy / CSV — дублирует смысл `outlet`, если задано */
+  is_outlet?: boolean;
+  /** Удобный флаг для фильтров UI */
+  isOutlet?: boolean;
+  discountPrice?: number;
+  /** Идентификатор капсулы для фильтра витрины бренда */
+  capsule?: string;
   hasAR?: boolean;
   sku: string;
   color: string;
   season: string;
+  /** Аудитория / пол для фильтров каталога брендов */
+  gender?: 'women' | 'men' | 'kids' | 'unisex' | string;
   tags?: ('carryover' | 'noSale' | 'newSeason')[];
   rating?: number;
   reviewCount?: number;
@@ -651,6 +686,10 @@ export interface Brand {
     logoUrl?: string;
   }[];
   tags?: string[];
+  /** B2B-витрина / демо-матчинг */
+  matchScore?: number;
+  isVerified?: boolean;
+  avgMargin?: string | number;
 }
 
 export interface Look {
@@ -674,6 +713,12 @@ export interface Lookboard {
   title: string;
   description: string;
   looks: Look[];
+<<<<<<< HEAD
+=======
+  /** UI-обложка для челленджей / ленты */
+  coverImage?: string;
+  itemsCount?: number;
+>>>>>>> recover/cabinet-wip-from-stash
 }
 
 export type ActiveFilters = Record<string, string[] | number[]>;
@@ -998,6 +1043,7 @@ export interface Chat {
 
 export type MessageEntityType = 'order' | 'task' | 'event' | 'escrow' | 'production' | 'product';
 
+<<<<<<< HEAD
 export interface ChatMessage {
   id: number;
   chatId?: string;
@@ -1056,6 +1102,74 @@ export interface ChatMessage {
   isNegotiationActive?: boolean;
 }
 
+=======
+/** История продлений дедлайна задачи в чате */
+export interface DeadlineExtension {
+  at: number;
+  by: string;
+  from: string | null;
+  to: string;
+}
+
+export interface ChatMessage {
+  id: number;
+  chatId?: string;
+  user: string;
+  text: string;
+  time: string;
+  type?: 'message' | 'task' | 'scheduled_call' | 'call_recap' | 'system' | 'reminder';
+  /** Ссылка на сущность: заказ, задача, событие, производство, товар */
+  entityId?: string;
+  entityType?: MessageEntityType;
+  isPrivate?: boolean; // Privacy flag for personal notes or sensitive messages
+  status?: TaskStatus;
+  deadline?: Date;
+  attachedProduct?: Product;
+  attachment?: ChatAttachment;
+  isSystem?: boolean;
+  assignees?: string[];
+  likes?: number;
+  dislikes?: number;
+  userReaction?: ReactionType;
+  priority?: TaskPriority;
+  subtasks?: TaskSubtask[];
+  history?: HistoryEntry[];
+  comments?: ChatComment[];
+  parentId?: number;
+  isPinned?: boolean;
+  isStarred?: boolean;
+  isArchived?: boolean;
+  forwardedFromChatId?: string;
+  audio?: { mime: string; url: string };
+  deadlineExtensions?: DeadlineExtension[];
+  createdAt?: number;
+  readBy?: string[];
+  sentiment?: 'positive' | 'negative' | 'neutral';
+  urgency?: 'high' | 'medium' | 'low';
+  isDecision?: boolean;
+  widgetTags?: string[];
+  callData?: {
+    theme: string;
+    date: string;
+    time: string;
+    participants: string[];
+    confirmedBy?: string[];
+  };
+  reminderData?: {
+    title: string;
+    description: string;
+    date: string;
+    time: string;
+    assignedTo: string[];
+    isSyncedWithCalendar: boolean;
+    reminderType: 'countdown' | 'exact_time';
+  };
+  fileVersions?: Array<{ id: string; url: string; name: string; date: string; user: string }>;
+  transcription?: string;
+  isNegotiationActive?: boolean;
+}
+
+>>>>>>> recover/cabinet-wip-from-stash
 export type KickstarterStatus =
   | 'draft'
   | 'upcoming'
@@ -1142,6 +1256,11 @@ export interface KickstarterProject {
   faqs?: KickstarterFaq[];
   product?: Product; // Added to link to the full product info
   segment?: string;
+  tags?: string[];
+  /** Сезон кампании (фильтры витрины) */
+  season?: string;
+  /** Скидка B2B для блока «оптовая бронь», % */
+  b2bDiscount?: number;
 }
 
 export interface KickstarterPledge {

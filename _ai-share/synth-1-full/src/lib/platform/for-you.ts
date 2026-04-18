@@ -3,6 +3,8 @@ import { getPlatformApiBaseUrl, getPlatformTransport, type PlatformTransport } f
 import type { ForYouFeedItem, ForYouPreferencesV1 } from './types';
 import { FOR_YOU_PREFS_VERSION } from './types';
 
+export type { ForYouFeedItem };
+
 const PREFS_KEY = 'synth.forYou.prefs.v1';
 
 const DEFAULT_PREFS: ForYouPreferencesV1 = {

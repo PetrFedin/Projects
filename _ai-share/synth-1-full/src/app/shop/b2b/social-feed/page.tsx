@@ -1,20 +1,26 @@
 'use client';
 
+import { RegistryPageShell } from '@/components/design-system';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Rss, ArrowLeft, Heart, MessageCircle, Share2 } from 'lucide-react';
+import { Heart, MessageCircle } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
 
-/** Лента брендов (Depop/TSUM для РФ): новости коллекций, посты, подписка. */
+/** Лента брендов: новости коллекций, посты, подписка (демо — только Syntha Lab и Nordic Wool). */
 const MOCK_POSTS = [
   {
     id: '1',
+<<<<<<< HEAD
     brand: 'Syntha',
+=======
+    brand: 'Syntha Lab',
+>>>>>>> recover/cabinet-wip-from-stash
     text: 'FW26: дроп 2 уже в шоуруме. Откройте каталог и оформите предзаказ до 20 марта.',
     time: '2 ч назад',
     likes: 12,
@@ -22,7 +28,11 @@ const MOCK_POSTS = [
   },
   {
     id: '2',
+<<<<<<< HEAD
     brand: 'A.P.C.',
+=======
+    brand: 'Nordic Wool',
+>>>>>>> recover/cabinet-wip-from-stash
     text: 'Новая линейка базового трикотажа — доступна для заказа в матрице. MOQ от 6 шт по артикулу.',
     time: '5 ч назад',
     likes: 8,
@@ -30,7 +40,11 @@ const MOCK_POSTS = [
   },
   {
     id: '3',
+<<<<<<< HEAD
     brand: 'Acne Studios',
+=======
+    brand: 'Syntha Lab',
+>>>>>>> recover/cabinet-wip-from-stash
     text: 'Видео-презентация коллекции SS26: слоты на следующей неделе. Запись через Видео-консультацию.',
     time: '1 дн назад',
     likes: 24,
@@ -42,6 +56,7 @@ export default function SocialFeedPage() {
   const [subscribed, setSubscribed] = useState<Record<string, boolean>>({});
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -58,6 +73,10 @@ export default function SocialFeedPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-2xl space-y-6">
+      <ShopB2bContentHeader lead="Новости коллекций и активность ваших брендов: подписка, лайки и комментарии." />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -70,14 +89,23 @@ export default function SocialFeedPage() {
           {MOCK_POSTS.map((post) => (
             <div
               key={post.id}
+<<<<<<< HEAD
               className="rounded-xl border border-slate-200 p-4 transition-colors hover:border-slate-300"
+=======
+              className="border-border-default hover:border-border-default rounded-xl border p-4 transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <div className="mb-2 flex items-start justify-between gap-2">
                 <span className="font-semibold">{post.brand}</span>
-                <span className="text-xs text-slate-400">{post.time}</span>
+                <span className="text-text-muted text-xs">{post.time}</span>
               </div>
+<<<<<<< HEAD
               <p className="mb-3 text-sm text-slate-600">{post.text}</p>
               <div className="flex items-center gap-4 text-sm text-slate-500">
+=======
+              <p className="text-text-secondary mb-3 text-sm">{post.text}</p>
+              <div className="text-text-secondary flex items-center gap-4 text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                 <span className="flex items-center gap-1">
                   <Heart className="h-4 w-4" /> {post.likes}
                 </span>
@@ -106,6 +134,10 @@ export default function SocialFeedPage() {
         title="Партнёры, выставки, заказы"
         className="mt-6"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

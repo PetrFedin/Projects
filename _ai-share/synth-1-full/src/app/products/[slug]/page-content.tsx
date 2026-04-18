@@ -37,6 +37,7 @@ import Product3dViewer from '@/components/product-3d-viewer';
 import { useToast } from '@/hooks/use-toast';
 import { useUIState } from '@/providers/ui-state';
 import { cn } from '@/lib/utils';
+import { registryFeedLayout } from '@/lib/ui/registry-feed-layout';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { NotifyMeDialog } from '@/components/notify-me-dialog';
 import { UnsubscribeDialog } from '@/components/unsubscribe-dialog';
@@ -67,6 +68,7 @@ import { ArViewerDialog } from '@/components/ar-viewer-dialog';
 import PriceComparisonTable from '@/components/price-comparison-table';
 import { ProductImageViewer } from '@/components/product-image-viewer';
 import ProductReviews from '@/components/product-reviews';
+import { ProductReviewsDialog } from '@/components/product-reviews-dialog';
 import { ProductFitFeedbackBlock } from '@/components/product/product-fit-feedback-block';
 import { ProductCareCompositionBlock } from '@/components/product/product-care-composition-block';
 import { ProductSizeChartBlock } from '@/components/product/product-size-chart-block';
@@ -488,9 +490,15 @@ export default function ProductPageContent({
     });
   };
 
+<<<<<<< HEAD
   const handleCreateNewCollection = () => {
     if (newCollectionName.trim() === '') return;
     const newCollection = addWishlistCollection(newCollectionName);
+=======
+  const handleCreateNewCollection = async () => {
+    if (newCollectionName.trim() === '') return;
+    const newCollection = await addWishlistCollection(newCollectionName);
+>>>>>>> recover/cabinet-wip-from-stash
     addWishlistItem(product, newCollection.id);
     toast({
       title: 'Подборка создана',
@@ -528,9 +536,10 @@ export default function ProductPageContent({
       premium: { cashback: 0.1, bonusLimit: 0.4 },
     };
 
-    const plan = user.loyaltyPlan || 'base';
-    const cashback = product.price * planDetails[plan];
-    const maxBonusToUse = product.price * planDetails[plan].bonusLimit;
+    const plan = (user.loyaltyPlan || 'base') as keyof typeof planDetails;
+    const tier = planDetails[plan];
+    const cashback = product.price * tier.cashback;
+    const maxBonusToUse = product.price * tier.bonusLimit;
     const bonusToUse = Math.min(user.loyaltyPoints || 0, maxBonusToUse);
     const finalPrice = product.price - bonusToUse;
 
@@ -1141,7 +1150,11 @@ export default function ProductPageContent({
       </div>
 
       {!isQuickView && (
+<<<<<<< HEAD
         <div className="container mx-auto px-4">
+=======
+        <div className={cn(registryFeedLayout.pageShell, 'max-w-6xl')}>
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="my-16">
             <Button
               variant="link"

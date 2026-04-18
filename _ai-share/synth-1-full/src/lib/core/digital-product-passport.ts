@@ -63,7 +63,7 @@ export class DPPGenerator {
     const passport: DigitalProductPassport = {
       dppId,
       articleId: article.id,
-      brandName: 'Syntha', // Mock brand
+      brandName: 'Syntha Lab',
       manufacturingDate,
       assemblyFactoryId,
       assemblyCountry,

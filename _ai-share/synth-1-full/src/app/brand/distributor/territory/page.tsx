@@ -6,13 +6,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, ArrowLeft, ShieldAlert } from 'lucide-react';
-import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { B2BOrdersPartnersDistributorsBadges } from '@/components/brand/SectionBadgeCta';
 import { B2BIntegrationStatusWidget } from '@/components/b2b/B2BIntegrationStatusWidget';
 import { getTerritoryProtectionLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { listRules, type TerritoryRule } from '@/lib/distributor/territory-protection';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 const actionLabels: Record<TerritoryRule['action'], string> = {
   allow: 'Разрешено',
@@ -28,6 +28,7 @@ export default function TerritoryProtectionPage() {
   }, []);
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Territory Protection Logic"
@@ -45,6 +46,26 @@ export default function TerritoryProtectionPage() {
         </Link>
         <h1 className="text-2xl font-bold uppercase">Territory Protection</h1>
       </div>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Territory Protection"
+        leadPlain="Блокировка заказов от магазинов вне эксклюзивного региона дистрибьютора. Связь с B2B заказами, партнёрами и квотами. При API — проверка при создании заказа."
+        eyebrow={
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.brand.distributors} aria-label="Назад к дистрибьюторам">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+        actions={
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <MapPin className="size-6 shrink-0 text-muted-foreground" aria-hidden />
+            <B2BOrdersPartnersDistributorsBadges />
+          </div>
+        }
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -60,11 +81,19 @@ export default function TerritoryProtectionPage() {
             {rules.map((r) => (
               <li
                 key={r.id}
+<<<<<<< HEAD
                 className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3"
               >
                 <div>
                   <p className="font-medium">Дистрибьютор D01</p>
                   <p className="text-xs text-slate-500">
+=======
+                className="border-border-subtle bg-bg-surface2 flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"
+              >
+                <div>
+                  <p className="font-medium">Дистрибьютор D01</p>
+                  <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                     {r.regions.join(', ')} → {actionLabels[r.action]}
                   </p>
                 </div>
@@ -77,7 +106,11 @@ export default function TerritoryProtectionPage() {
               </li>
             ))}
           </ul>
+<<<<<<< HEAD
           <p className="mt-3 text-xs text-slate-400">
+=======
+          <p className="text-text-muted mt-3 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
             API: TERRITORY_PROTECTION_API — правила, check при создании заказа.
           </p>
         </CardContent>
@@ -87,6 +120,10 @@ export default function TerritoryProtectionPage() {
         links={getTerritoryProtectionLinks()}
         title="B2B заказы, партнёры, квоты"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

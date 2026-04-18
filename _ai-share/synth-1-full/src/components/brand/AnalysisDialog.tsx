@@ -27,7 +27,11 @@ interface AnalysisDialogProps {
   onOpenChange: (open: boolean) => void;
   brandName: string;
   brandId: string;
+<<<<<<< HEAD
   viewRole: 'client' | 'b2b';
+=======
+  viewRole?: string;
+>>>>>>> recover/cabinet-wip-from-stash
 }
 
 export function AnalysisDialog({
@@ -124,7 +128,11 @@ export function AnalysisDialog({
                 </div>
               </div>
 
+<<<<<<< HEAD
               <div className="relative overflow-hidden rounded-3xl bg-slate-900 p-4 text-white">
+=======
+              <div className="bg-text-primary relative overflow-hidden rounded-3xl p-4 text-white">
+>>>>>>> recover/cabinet-wip-from-stash
                 <div className="bg-accent-primary/20 absolute right-0 top-0 -mr-16 -mt-16 h-32 w-32 blur-3xl" />
                 <p className="relative z-10 text-xs font-medium italic leading-relaxed">
                   «Система проанализировала ваши последние покупки и лайки. Эстетика {brandName}{' '}
@@ -206,7 +214,11 @@ export function AnalysisDialog({
             >
               Закрыть
             </Button>
+<<<<<<< HEAD
             <Button className="button-glimmer button-professional h-10 flex-1 rounded-2xl border-none !bg-black font-mono text-[10px] uppercase tracking-widest shadow-xl shadow-slate-200/50 transition-all hover:!bg-black">
+=======
+            <Button className="button-glimmer button-professional h-10 flex-1 rounded-2xl border-none !bg-black font-mono text-[10px] uppercase tracking-widest shadow-md shadow-xl transition-all hover:!bg-black">
+>>>>>>> recover/cabinet-wip-from-stash
               {viewRole === 'client' ? 'Добавить в избранное' : 'Обсудить условия'}
             </Button>
           </div>

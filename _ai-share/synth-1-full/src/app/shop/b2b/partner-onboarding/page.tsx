@@ -6,10 +6,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { UserPlus, ArrowLeft, Check, Building2, FileCheck, ShoppingCart } from 'lucide-react';
+import { Check, Building2, FileCheck, ShoppingCart } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { RegistryPageShell } from '@/components/design-system';
 
 /** Онбординг партнёра (Zalando для РФ): пошаговый мастер подключения нового магазина — данные, верификация, первый заказ. */
 const STEPS = [
@@ -22,6 +24,7 @@ export default function PartnerOnboardingPage() {
   const [step, setStep] = useState(1);
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -39,6 +42,10 @@ export default function PartnerOnboardingPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-2xl space-y-6">
+      <ShopB2bContentHeader lead="Пошаговое подключение: компания → верификация → первый заказ (ИНН, ЭДО, маркировка для РФ)." />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <div className="mb-6 flex gap-2">
         {STEPS.map((s) => {
@@ -49,6 +56,7 @@ export default function PartnerOnboardingPage() {
               onClick={() => setStep(s.id)}
               className={`flex flex-1 items-center gap-2 rounded-lg border p-3 text-left transition-colors ${
                 step === s.id
+<<<<<<< HEAD
                   ? 'border-indigo-500 bg-indigo-50'
                   : 'border-slate-200 hover:bg-slate-50'
               }`}
@@ -58,11 +66,26 @@ export default function PartnerOnboardingPage() {
               >
                 <Icon
                   className={`h-4 w-4 ${step === s.id ? 'text-indigo-600' : 'text-slate-500'}`}
+=======
+                  ? 'border-accent-primary bg-accent-primary/10'
+                  : 'border-border-default hover:bg-bg-surface2'
+              }`}
+            >
+              <div
+                className={`flex h-8 w-8 items-center justify-center rounded-lg ${step === s.id ? 'bg-accent-primary/15' : 'bg-bg-surface2'}`}
+              >
+                <Icon
+                  className={`h-4 w-4 ${step === s.id ? 'text-accent-primary' : 'text-text-secondary'}`}
+>>>>>>> recover/cabinet-wip-from-stash
                 />
               </div>
               <div>
                 <p className="text-xs font-medium">Шаг {s.id}</p>
+<<<<<<< HEAD
                 <p className="truncate text-xs text-slate-500">{s.title}</p>
+=======
+                <p className="text-text-secondary truncate text-xs">{s.title}</p>
+>>>>>>> recover/cabinet-wip-from-stash
               </div>
             </button>
           );
@@ -89,14 +112,22 @@ export default function PartnerOnboardingPage() {
                 <Label>Юридический адрес</Label>
                 <Input placeholder="г. Москва, ул. Примерная, 1" />
               </div>
+<<<<<<< HEAD
               <p className="text-xs text-slate-500">
+=======
+              <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                 После отправки бренд проверит данные. Подключение ЭДО и маркировки — по запросу.
               </p>
             </>
           )}
           {step === 2 && (
             <>
+<<<<<<< HEAD
               <div className="rounded-lg border border-slate-100 bg-slate-50 p-4">
+=======
+              <div className="bg-bg-surface2 border-border-subtle rounded-lg border p-4">
+>>>>>>> recover/cabinet-wip-from-stash
                 <p className="text-sm">
                   Бренд проверит заявку и отправит договор. Подписание через ЭДО (Диадок, СБИС и
                   др.). После подписания — доступ к каталогу.
@@ -137,6 +168,10 @@ export default function PartnerOnboardingPage() {
         title="Заявка, партнёры, заказы"
         className="mt-6"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

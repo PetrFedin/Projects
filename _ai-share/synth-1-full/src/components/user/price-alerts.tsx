@@ -19,6 +19,7 @@ import {
 import { useAuth } from '@/providers/auth-provider';
 import { useUIState } from '@/providers/ui-state';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import Link from 'next/link';
 import Image from 'next/image';
 import { format } from 'date-fns';
@@ -146,10 +147,35 @@ export default function PriceAlerts() {
         </CardHeader>
         <CardContent>
           <Tabs value={filter} onValueChange={(v) => setFilter(v as any)}>
-            <TabsList className="mb-6">
-              <TabsTrigger value="all">Все ({alerts.length})</TabsTrigger>
-              <TabsTrigger value="active">Активные ({activeAlerts})</TabsTrigger>
-              <TabsTrigger value="triggered">Сработало ({triggeredAlerts})</TabsTrigger>
+            {/* cabinetSurface v1 */}
+            <TabsList className={cn(cabinetSurface.tabsList, 'mb-6 w-full flex-wrap')}>
+              <TabsTrigger
+                value="all"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'h-8 text-sm font-medium normal-case tracking-normal'
+                )}
+              >
+                Все ({alerts.length})
+              </TabsTrigger>
+              <TabsTrigger
+                value="active"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'h-8 text-sm font-medium normal-case tracking-normal'
+                )}
+              >
+                Активные ({activeAlerts})
+              </TabsTrigger>
+              <TabsTrigger
+                value="triggered"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'h-8 text-sm font-medium normal-case tracking-normal'
+                )}
+              >
+                Сработало ({triggeredAlerts})
+              </TabsTrigger>
             </TabsList>
 
             {filteredAlerts.length === 0 ? (

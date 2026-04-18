@@ -20,6 +20,11 @@ import {
   Clock,
   Heart,
   Plus,
+<<<<<<< HEAD
+=======
+  MapPin,
+  Info,
+>>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';

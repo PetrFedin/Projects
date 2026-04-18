@@ -21,7 +21,11 @@ export function ProductStaffKnowledgeBlock({ product }: { product: Product }) {
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-sky-600">
           <GraduationCap className="h-4 w-4" />
+<<<<<<< HEAD
           <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
+=======
+          <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             Retail Staff Sales & Tech Guide
           </h4>
         </div>
@@ -33,19 +37,33 @@ export function ProductStaffKnowledgeBlock({ product }: { product: Product }) {
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-4">
           <div className="rounded-xl border border-sky-100 bg-white/80 p-3 shadow-sm">
+<<<<<<< HEAD
             <div className="mb-2 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-slate-400">
               <Quote className="h-3.5 w-3.5 text-sky-400" /> Sales Pitch Script
             </div>
             <p className="text-[10px] font-bold italic leading-tight text-slate-600">
+=======
+            <div className="text-text-muted mb-2 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest">
+              <Quote className="h-3.5 w-3.5 text-sky-400" /> Sales Pitch Script
+            </div>
+            <p className="text-text-secondary text-[10px] font-bold italic leading-tight">
+>>>>>>> recover/cabinet-wip-from-stash
               "{pack.stylingScript}"
             </p>
           </div>
 
           <div className="rounded-xl border border-sky-100 bg-white/50 p-3">
+<<<<<<< HEAD
             <div className="mb-2 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-slate-400">
               <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" /> Tech Highlight
             </div>
             <p className="text-[9px] font-black leading-tight text-slate-800">
+=======
+            <div className="text-text-muted mb-2 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest">
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" /> Tech Highlight
+            </div>
+            <p className="text-text-primary text-[9px] font-black leading-tight">
+>>>>>>> recover/cabinet-wip-from-stash
               {pack.technicalEdge}
             </p>
           </div>
@@ -55,11 +73,19 @@ export function ProductStaffKnowledgeBlock({ product }: { product: Product }) {
           <div className="mb-2 flex items-center gap-2 text-[8px] font-black uppercase text-sky-600">
             <Info className="h-3.5 w-3.5" /> Care & Handling (Staff)
           </div>
+<<<<<<< HEAD
           <p className="text-[10px] font-bold leading-tight text-slate-600">
             {pack.careInstructionsForStaff}
           </p>
           <Separator className="my-2 bg-sky-100" />
           <p className="text-[9px] italic text-slate-500">"{pack.materialsDescription}"</p>
+=======
+          <p className="text-text-secondary text-[10px] font-bold leading-tight">
+            {pack.careInstructionsForStaff}
+          </p>
+          <Separator className="my-2 bg-sky-100" />
+          <p className="text-text-secondary text-[9px] italic">"{pack.materialsDescription}"</p>
+>>>>>>> recover/cabinet-wip-from-stash
         </div>
       </div>
 

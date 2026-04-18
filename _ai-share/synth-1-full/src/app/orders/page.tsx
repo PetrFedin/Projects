@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils';
 const statusConfig = {
   pending: { label: 'В ожидании', color: 'bg-yellow-100 text-yellow-800' },
   processing: { label: 'Обработка', color: 'bg-blue-100 text-blue-800' },
-  shipped: { label: 'Отправлен', color: 'bg-purple-100 text-purple-800' },
+  shipped: { label: 'Отправлен', color: 'bg-accent-primary/15 text-text-primary' },
   delivered: { label: 'Доставлен', color: 'bg-green-100 text-green-800' },
   cancelled: { label: 'Отменен', color: 'bg-red-100 text-red-800' },
 };
@@ -57,15 +57,20 @@ export default function OrdersPage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-12">
+      <div className="w-full py-6">
         <div className="text-center">Загрузка...</div>
       </div>
     );
   }
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto px-4 py-12">
       <div className="mx-auto max-w-4xl">
+=======
+    <div className="w-full py-2">
+      <div className="w-full">
+>>>>>>> recover/cabinet-wip-from-stash
         <h1 className="mb-8 font-headline text-base font-bold">Мои заказы</h1>
 
         {orders.length === 0 ? (

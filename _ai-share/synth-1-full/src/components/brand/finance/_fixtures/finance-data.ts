@@ -133,7 +133,11 @@ export const interPartnerInvoices = [
   },
   {
     id: 'INV-883',
+<<<<<<< HEAD
     partner: 'Podium Moscow',
+=======
+    partner: 'Демо-магазин · Москва 1',
+>>>>>>> recover/cabinet-wip-from-stash
     amount: 1850000,
     date: '2026-01-29',
     status: 'paid',

@@ -5,8 +5,10 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, FileText, ArrowRight, CheckCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 /** NetSuite/BigCommerce: Quote-to-Order — переход от коммерческого предложения к заказу */
 const MOCK_QUOTES = [
@@ -40,6 +42,7 @@ export default function QuoteToOrderPage() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -56,6 +59,10 @@ export default function QuoteToOrderPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-3xl space-y-6">
+      <ShopB2bContentHeader lead="Конвертация коммерческого предложения в заказ одной кнопкой (интеграции NetSuite / BigCommerce)." />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -68,13 +75,21 @@ export default function QuoteToOrderPage() {
           {MOCK_QUOTES.map((q) => (
             <div
               key={q.id}
+<<<<<<< HEAD
               className="flex items-center justify-between rounded-xl border border-slate-200 p-4"
+=======
+              className="border-border-default flex items-center justify-between rounded-xl border p-4"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <div>
                 <p className="font-medium">
                   {q.number} · {q.brand}
                 </p>
+<<<<<<< HEAD
                 <p className="text-xs text-slate-500">
+=======
+                <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                   {q.items} позиций · {q.total.toLocaleString('ru-RU')} ₽
                 </p>
               </div>
@@ -106,6 +121,6 @@ export default function QuoteToOrderPage() {
           <Link href={ROUTES.shop.b2bCreateOrder}>Написание заказа</Link>
         </Button>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

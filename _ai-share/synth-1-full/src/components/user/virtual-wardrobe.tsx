@@ -22,6 +22,7 @@ import type { Order, Product } from '@/lib/types';
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
 interface WardrobeItem extends Product {
   purchaseDate?: string;
@@ -235,9 +236,26 @@ export default function VirtualWardrobe() {
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="unused" className="w-full">
-            <TabsList>
-              <TabsTrigger value="unused">Не используется</TabsTrigger>
-              <TabsTrigger value="most-worn">Чаще всего</TabsTrigger>
+            {/* cabinetSurface v1 */}
+            <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
+              <TabsTrigger
+                value="unused"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                Не используется
+              </TabsTrigger>
+              <TabsTrigger
+                value="most-worn"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                Чаще всего
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="unused" className="space-y-3">
               {unusedItems.length > 0 ? (

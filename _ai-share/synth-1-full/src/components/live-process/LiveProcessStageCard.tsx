@@ -155,7 +155,11 @@ export function LiveProcessStageCard({
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2">
+<<<<<<< HEAD
                 <span className="text-[10px] font-bold text-slate-400">Этап {index + 1}</span>
+=======
+                <span className="text-text-muted text-[10px] font-bold">Этап {index + 1}</span>
+>>>>>>> recover/cabinet-wip-from-stash
                 <Badge variant="secondary" className="text-[9px]">
                   {stage.area}
                 </Badge>
@@ -166,7 +170,11 @@ export function LiveProcessStageCard({
                 )}
               </div>
               <h3 className="mt-1 text-sm font-bold">{stage.title}</h3>
+<<<<<<< HEAD
               <p className="mt-0.5 text-xs text-slate-500">{stage.description}</p>
+=======
+              <p className="text-text-secondary mt-0.5 text-xs">{stage.description}</p>
+>>>>>>> recover/cabinet-wip-from-stash
             </div>
             <div className="flex items-center gap-1">
               <Tooltip>
@@ -259,12 +267,20 @@ export function LiveProcessStageCard({
             <Tooltip>
               <TooltipTrigger asChild>
                 <span className="inline-flex">
+<<<<<<< HEAD
                   <User className="h-3.5 w-3.5 text-slate-400" />
+=======
+                  <User className="text-text-muted h-3.5 w-3.5" />
+>>>>>>> recover/cabinet-wip-from-stash
                 </span>
               </TooltipTrigger>
               <TooltipContent>Ответственные — несколько человек, один главный</TooltipContent>
             </Tooltip>
+<<<<<<< HEAD
             <span className="text-[10px] text-slate-500">Ответственные:</span>
+=======
+            <span className="text-text-secondary text-[10px]">Ответственные:</span>
+>>>>>>> recover/cabinet-wip-from-stash
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm" className="h-8 text-xs font-normal">
@@ -284,7 +300,11 @@ export function LiveProcessStageCard({
                     checked={assigneeIds.includes(m.id)}
                     onCheckedChange={() => toggleAssignee(m.id)}
                   >
+<<<<<<< HEAD
                     {m.name} {m.role && <span className="text-slate-400">({m.role})</span>}
+=======
+                    {m.name} {m.role && <span className="text-text-muted">({m.role})</span>}
+>>>>>>> recover/cabinet-wip-from-stash
                   </DropdownMenuCheckboxItem>
                 ))}
                 {assigneeIds.length > 1 && (
@@ -314,7 +334,11 @@ export function LiveProcessStageCard({
             <Tooltip>
               <TooltipTrigger asChild>
                 <span className="inline-flex">
+<<<<<<< HEAD
                   <Calendar className="h-3.5 w-3.5 text-slate-400" />
+=======
+                  <Calendar className="text-text-muted h-3.5 w-3.5" />
+>>>>>>> recover/cabinet-wip-from-stash
                 </span>
               </TooltipTrigger>
               <TooltipContent>Планируемые даты начала и окончания этапа</TooltipContent>
@@ -327,9 +351,15 @@ export function LiveProcessStageCard({
                   plannedStartAt: e.target.value ? `${e.target.value}T00:00:00` : null,
                 })
               }
+<<<<<<< HEAD
               className="rounded border border-slate-200 px-2 py-1 text-[11px]"
             />
             <span className="text-slate-400">—</span>
+=======
+              className="border-border-default rounded border px-2 py-1 text-[11px]"
+            />
+            <span className="text-text-muted">—</span>
+>>>>>>> recover/cabinet-wip-from-stash
             <input
               type="date"
               value={runtime.plannedEndAt?.slice(0, 10) ?? ''}
@@ -338,7 +368,11 @@ export function LiveProcessStageCard({
                   plannedEndAt: e.target.value ? `${e.target.value}T23:59:59` : null,
                 })
               }
+<<<<<<< HEAD
               className="rounded border border-slate-200 px-2 py-1 text-[11px]"
+=======
+              className="border-border-default rounded border px-2 py-1 text-[11px]"
+>>>>>>> recover/cabinet-wip-from-stash
             />
             <Tooltip>
               <TooltipTrigger asChild>
@@ -355,8 +389,13 @@ export function LiveProcessStageCard({
           </div>
 
           {/* Доступ: блокировка участников */}
+<<<<<<< HEAD
           <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-2">
             <p className="mb-1.5 flex items-center gap-1 text-[10px] font-bold text-slate-600">
+=======
+          <div className="border-border-subtle bg-bg-surface2/80 rounded-lg border p-2">
+            <p className="text-text-secondary mb-1.5 flex items-center gap-1 text-[10px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
               <Tooltip>
                 <TooltipTrigger asChild>
                   <span className="inline-flex">
@@ -378,7 +417,13 @@ export function LiveProcessStageCard({
                   />
                   <span
                     className={
+<<<<<<< HEAD
                       runtime.blockedMemberIds.includes(m.id) ? 'text-red-600' : 'text-slate-600'
+=======
+                      runtime.blockedMemberIds.includes(m.id)
+                        ? 'text-red-600'
+                        : 'text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                     }
                   >
                     {m.name}
@@ -389,8 +434,13 @@ export function LiveProcessStageCard({
           </div>
 
           {/* Участники обсуждения */}
+<<<<<<< HEAD
           <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-2">
             <p className="mb-1.5 flex items-center gap-1 text-[10px] font-bold text-slate-600">
+=======
+          <div className="border-border-subtle bg-bg-surface2/80 rounded-lg border p-2">
+            <p className="text-text-secondary mb-1.5 flex items-center gap-1 text-[10px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
               <Tooltip>
                 <TooltipTrigger asChild>
                   <span className="inline-flex">
@@ -421,7 +471,11 @@ export function LiveProcessStageCard({
           {expanded && (
             <>
               {/* Чат этапа (комментарии + @упоминания) */}
+<<<<<<< HEAD
               <div className="border-t border-slate-100 pt-3">
+=======
+              <div className="border-border-subtle border-t pt-3">
+>>>>>>> recover/cabinet-wip-from-stash
                 <StageChatPanel
                   stageId={stage.id}
                   comments={runtime.comments}
@@ -431,8 +485,13 @@ export function LiveProcessStageCard({
               </div>
 
               {/* Заметки */}
+<<<<<<< HEAD
               <div className="border-t border-slate-100 pt-3">
                 <p className="mb-1.5 flex items-center gap-1 text-[10px] font-bold text-slate-600">
+=======
+              <div className="border-border-subtle border-t pt-3">
+                <p className="text-text-secondary mb-1.5 flex items-center gap-1 text-[10px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <span className="inline-flex">
@@ -447,13 +506,22 @@ export function LiveProcessStageCard({
                   placeholder="Заметки по этапу..."
                   value={runtime.note?.content ?? ''}
                   onChange={(e) => updateNote(e.target.value)}
+<<<<<<< HEAD
                   className="min-h-[60px] w-full rounded border border-slate-200 px-2 py-1.5 text-xs"
+=======
+                  className="border-border-default min-h-[60px] w-full rounded border px-2 py-1.5 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                 />
               </div>
 
               {/* Задачи */}
+<<<<<<< HEAD
               <div className="border-t border-slate-100 pt-3">
                 <p className="mb-1.5 flex items-center gap-1 text-[10px] font-bold text-slate-600">
+=======
+              <div className="border-border-subtle border-t pt-3">
+                <p className="text-text-secondary mb-1.5 flex items-center gap-1 text-[10px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <span className="inline-flex">
@@ -473,7 +541,13 @@ export function LiveProcessStageCard({
                         onChange={() => toggleTask(t.id)}
                         className="rounded"
                       />
+<<<<<<< HEAD
                       <span className={t.done ? 'text-slate-500 line-through' : ''}>{t.title}</span>
+=======
+                      <span className={t.done ? 'text-text-secondary line-through' : ''}>
+                        {t.title}
+                      </span>
+>>>>>>> recover/cabinet-wip-from-stash
                       <Button
                         variant="ghost"
                         size="sm"
@@ -492,7 +566,11 @@ export function LiveProcessStageCard({
                     value={newTaskTitle}
                     onChange={(e) => setNewTaskTitle(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && addTask()}
+<<<<<<< HEAD
                     className="flex-1 rounded border border-slate-200 px-2 py-1.5 text-xs"
+=======
+                    className="border-border-default flex-1 rounded border px-2 py-1.5 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                   />
                   <Button size="sm" className="h-8 text-[10px]" onClick={addTask}>
                     Добавить

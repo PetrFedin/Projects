@@ -11,6 +11,8 @@ import { TrendingUp, BarChart3, Percent } from 'lucide-react';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { getFinanceLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
 
 /** Упрощённая модель: эластичность -1.2 => при +10% цены объём -12% */
 function elasticityImpact(priceChangePct: number, elasticity = -1.2) {
@@ -36,27 +38,44 @@ export default function PriceElasticityPage() {
   }, [currentPrice, priceChangePct, baseVolume]);
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
+=======
+    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+>>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Price Elasticity Predictor"
         description="AI-прогноз влияния изменения цены на объём продаж. Эластичность по SKU, категориям, каналам. Связь с Finance, Pricing, Analytics."
         icon={TrendingUp}
+<<<<<<< HEAD
         iconBg="bg-indigo-100"
         iconColor="text-indigo-600"
+=======
+        iconBg="bg-accent-primary/15"
+        iconColor="text-accent-primary"
+>>>>>>> recover/cabinet-wip-from-stash
         badges={
           <>
             <Badge variant="outline" className="text-[9px]">
               AI
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+<<<<<<< HEAD
               <Link href="/brand/pricing">Pricing</Link>
+=======
+              <Link href={ROUTES.brand.pricing}>Pricing</Link>
+>>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
       />
       <h1 className="text-2xl font-bold uppercase">Price Elasticity Predictor</h1>
 
+<<<<<<< HEAD
       <Card className="rounded-xl border border-indigo-200 bg-white shadow-sm">
+=======
+      <Card className="border-accent-primary/30 rounded-xl border bg-white shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Percent className="h-5 w-5" /> Калькулятор «Что если»
@@ -69,7 +88,11 @@ export default function PriceElasticityPage() {
         <CardContent className="space-y-4">
           <div className="grid gap-4 md:grid-cols-3">
             <div>
+<<<<<<< HEAD
               <Label className="text-[10px] font-bold uppercase text-slate-500">
+=======
+              <Label className="text-text-secondary text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 Цена сейчас (₽)
               </Label>
               <Input
@@ -80,7 +103,11 @@ export default function PriceElasticityPage() {
               />
             </div>
             <div>
+<<<<<<< HEAD
               <Label className="text-[10px] font-bold uppercase text-slate-500">
+=======
+              <Label className="text-text-secondary text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 Изменение цены (%)
               </Label>
               <Input
@@ -92,7 +119,11 @@ export default function PriceElasticityPage() {
               />
             </div>
             <div>
+<<<<<<< HEAD
               <Label className="text-[10px] font-bold uppercase text-slate-500">
+=======
+              <Label className="text-text-secondary text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 Объём продаж (ед.)
               </Label>
               <Input
@@ -103,28 +134,48 @@ export default function PriceElasticityPage() {
               />
             </div>
           </div>
+<<<<<<< HEAD
           <div className="grid grid-cols-2 gap-3 rounded-xl border border-indigo-100 bg-indigo-50/50 p-4 text-sm md:grid-cols-4">
             <div>
               <p className="text-[10px] font-bold uppercase text-slate-500">Новая цена</p>
               <p className="font-black tabular-nums text-indigo-700">
+=======
+          <div className="bg-accent-primary/10 border-accent-primary/20 grid grid-cols-2 gap-3 rounded-xl border p-4 text-sm md:grid-cols-4">
+            <div>
+              <p className="text-text-secondary text-[10px] font-bold uppercase">Новая цена</p>
+              <p className="text-accent-primary font-black tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                 {result.newPrice.toLocaleString()} ₽
               </p>
             </div>
             <div>
+<<<<<<< HEAD
               <p className="text-[10px] font-bold uppercase text-slate-500">Прогноз объёма</p>
+=======
+              <p className="text-text-secondary text-[10px] font-bold uppercase">Прогноз объёма</p>
+>>>>>>> recover/cabinet-wip-from-stash
               <p className="font-black tabular-nums">
                 {result.newVolume} ед. ({result.volumeChangePct >= 0 ? '+' : ''}
                 {result.volumeChangePct.toFixed(1)}%)
               </p>
             </div>
             <div>
+<<<<<<< HEAD
               <p className="text-[10px] font-bold uppercase text-slate-500">Выручка было</p>
               <p className="font-black tabular-nums text-slate-700">
+=======
+              <p className="text-text-secondary text-[10px] font-bold uppercase">Выручка было</p>
+              <p className="text-text-primary font-black tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                 {result.revenueBefore.toLocaleString()} ₽
               </p>
             </div>
             <div>
+<<<<<<< HEAD
               <p className="text-[10px] font-bold uppercase text-slate-500">Выручка станет</p>
+=======
+              <p className="text-text-secondary text-[10px] font-bold uppercase">Выручка станет</p>
+>>>>>>> recover/cabinet-wip-from-stash
               <p
                 className={`font-black tabular-nums ${result.revenueChangePct >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}
               >
@@ -136,7 +187,11 @@ export default function PriceElasticityPage() {
         </CardContent>
       </Card>
 
+<<<<<<< HEAD
       <Card className="rounded-xl border border-slate-200 bg-white shadow-sm">
+=======
+      <Card className="border-border-default rounded-xl border bg-white shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <BarChart3 className="h-5 w-5" /> Эластичность по артикулам
@@ -146,7 +201,11 @@ export default function PriceElasticityPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+<<<<<<< HEAD
           <div className="flex h-48 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-500">
+=======
+          <div className="bg-bg-surface2 border-border-default text-text-secondary flex h-48 items-center justify-center rounded-xl border">
+>>>>>>> recover/cabinet-wip-from-stash
             <p className="text-sm">
               График эластичности по артикулам (подключите данные из PIM / Analytics)
             </p>
@@ -154,6 +213,6 @@ export default function PriceElasticityPage() {
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getFinanceLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

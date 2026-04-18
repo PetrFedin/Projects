@@ -169,7 +169,11 @@ export default function SmartRecommendations() {
                       <Zap className="mt-0.5 h-4 w-4 flex-shrink-0 text-blue-600" />
                     )}
                     {rec.type === 'trending' && (
+<<<<<<< HEAD
                       <TrendingUp className="mt-0.5 h-4 w-4 flex-shrink-0 text-purple-600" />
+=======
+                      <TrendingUp className="text-accent-primary mt-0.5 h-4 w-4 flex-shrink-0" />
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                     {rec.type === 'personalized' && (
                       <Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-accent" />
@@ -224,7 +228,7 @@ function generateSmartRecommendations(
       discount: 25,
       urgency: 'high',
       reason: 'AI заметил, что товары из вашего избранного подешевели',
-      actionLink: '/u?tab=wardrobe',
+      actionLink: '/client/me?tab=wardrobe',
     });
   }
 

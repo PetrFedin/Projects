@@ -1,14 +1,33 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Map } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { SHOP_B2B_ORDERS_HUB_LABEL } from '@/lib/ui/b2b-registry-label';
+import { HubTodayPanel, type HubAlert } from '@/components/hub/hub-today-panel';
+import { hubAlertsForSource } from '@/lib/hub/dashboard-hub-data';
+import { useDashboardHubPanel } from '@/lib/hub/use-dashboard-hub-panel';
+import { USE_FASTAPI } from '@/lib/syntha-api-mode';
+import { Button } from '@/components/ui/button';
+import { B2BWorkspaceModuleGrid } from '@/components/b2b/B2BWorkspaceModuleGrid';
+import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { getDistributorCrossRoleLinks } from '@/lib/data/entity-links';
+import { tid } from '@/lib/ui/test-ids';
+
+const DISTRIBUTOR_PANEL_ALERTS: HubAlert[] = [
+  { level: 'warning', text: '2 отгрузки с риском срыва окна (демо).' },
+  { level: 'info', text: 'ЭДО и маркетплейсы подключаются ключами в backend .env.' },
+];
 
 const overviewSections = [
   {
     title: 'Заказы',
     items: [
+<<<<<<< HEAD
       { href: ROUTES.shop.b2bOrders, label: 'B2B Заказы', desc: 'Оптовые заказы' },
+=======
+      { href: ROUTES.shop.b2bOrders, label: 'Список заказов', desc: 'Оптовые заказы' },
+>>>>>>> recover/cabinet-wip-from-stash
       { href: ROUTES.shop.b2bCreateOrder, label: 'Создать заказ', desc: 'По коллекции' },
       { href: ROUTES.shop.b2bQuickOrder, label: 'Быстрый заказ', desc: 'По артикулам' },
     ],
@@ -39,7 +58,15 @@ const overviewSections = [
 ];
 
 export default function DistributorHubPage() {
+  const { kpis, source, loading } = useDashboardHubPanel('distributor');
+  const alerts = hubAlertsForSource(
+    USE_FASTAPI,
+    loading ? undefined : source,
+    DISTRIBUTOR_PANEL_ALERTS
+  );
+
   return (
+<<<<<<< HEAD
     <div className="space-y-6">
       <div>
         <h2 className="mb-1 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500">
@@ -48,15 +75,72 @@ export default function DistributorHubPage() {
         <p className="text-sm text-slate-700">
           Используйте навигацию слева для перехода в разделы. Ключевые направления:
         </p>
+=======
+    <div className="space-y-10" data-testid={tid.page('distributor-dashboard')}>
+      <HubTodayPanel
+        e2eVariant="distributor"
+        hubLabel="дистрибьютор"
+        accentClass="text-amber-600"
+        kpis={kpis}
+        actions={[
+          { label: SHOP_B2B_ORDERS_HUB_LABEL, href: ROUTES.shop.b2bOrders, desc: 'Опт по брендам' },
+          { label: 'Быстрый заказ', href: ROUTES.shop.b2bQuickOrder, desc: 'По артикулам' },
+          { label: 'Финансы', href: ROUTES.shop.b2bFinance, desc: 'Оплаты и лимиты' },
+        ]}
+        alerts={alerts}
+      />
+
+      <div className="flex flex-wrap items-center gap-2">
+        <Button variant="outline" size="sm" className="text-[10px] font-black uppercase" asChild>
+          <Link href={ROUTES.shop.b2bWorkspaceMap}>
+            <Map className="mr-2 size-3.5" />
+            Карта процессов B2B
+          </Link>
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="text-text-muted text-[10px] font-black uppercase"
+          asChild
+        >
+          <Link href={ROUTES.shop.home}>Кабинет магазина</Link>
+        </Button>
+>>>>>>> recover/cabinet-wip-from-stash
       </div>
+
+      <div>
+        <h2 className="text-text-secondary mb-1 text-[11px] font-black uppercase tracking-[0.2em]">
+          Все разделы
+        </h2>
+        <p className="text-text-primary text-sm">Навигация слева и ссылки ниже.</p>
+      </div>
+
+      <B2BWorkspaceModuleGrid
+        primaryRole="distributor"
+        className="border-border-default rounded-lg border bg-white p-4 shadow-sm"
+        title="Модули B2B (роль дистрибьютора)"
+        lead="Та же матрица, что у ритейла: отфильтровано под дистрибьютора — лиды, финансы, ATS, логистика."
+      />
+
+      <RelatedModulesBlock
+        links={getDistributorCrossRoleLinks()}
+        title="Связь с ритейлом, брендом и производством"
+        className="border-border-default rounded-lg border bg-white p-4 shadow-sm"
+      />
 
       <div className="grid gap-6 md:grid-cols-3">
         {overviewSections.map((section) => (
           <div
             key={section.title}
+<<<<<<< HEAD
             className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
           >
             <h3 className="mb-3 text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+            className="border-border-default rounded-lg border bg-white p-4 shadow-sm"
+          >
+            <h3 className="text-text-muted mb-3 text-xs font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               {section.title}
             </h3>
             <ul className="space-y-1.5">
@@ -64,17 +148,29 @@ export default function DistributorHubPage() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
+<<<<<<< HEAD
                     className="group flex items-center justify-between rounded-md px-2.5 py-2 text-[11px] font-bold uppercase tracking-wider text-slate-700 transition-colors hover:bg-slate-50"
+=======
+                    className="text-text-primary hover:bg-bg-surface2 group flex items-center justify-between rounded-md px-2.5 py-2 text-[11px] font-bold uppercase tracking-wider transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <div>
                       <span className="transition-colors group-hover:text-amber-600">
                         {item.label}
                       </span>
+<<<<<<< HEAD
                       <p className="mt-0.5 text-[9px] font-normal normal-case tracking-normal text-slate-400">
                         {item.desc}
                       </p>
                     </div>
                     <ArrowUpRight className="h-3 w-3 shrink-0 text-slate-300 group-hover:text-amber-500" />
+=======
+                      <p className="text-text-muted mt-0.5 text-[9px] font-normal normal-case tracking-normal">
+                        {item.desc}
+                      </p>
+                    </div>
+                    <ArrowUpRight className="text-text-muted size-3 shrink-0 group-hover:text-amber-500" />
+>>>>>>> recover/cabinet-wip-from-stash
                   </Link>
                 </li>
               ))}

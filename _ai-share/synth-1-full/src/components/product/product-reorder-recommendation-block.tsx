@@ -12,19 +12,31 @@ export function ProductReorderRecommendationBlock({ product }: { product: Produc
   const recommendations = getB2BReorderSuggestions('PARTNER-01', [product.sku]);
 
   return (
+<<<<<<< HEAD
     <Card className="group relative my-4 overflow-hidden border-2 border-indigo-600 bg-indigo-600 p-4 text-white shadow-2xl">
+=======
+    <Card className="border-accent-primary bg-accent-primary group relative my-4 overflow-hidden border-2 p-4 text-white shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="pointer-events-none absolute right-0 top-0 rotate-12 p-4 opacity-10 transition-transform group-hover:scale-110">
         <Sparkles className="h-16 w-16 text-white" />
       </div>
 
       <div className="mb-4 flex items-center justify-between">
+<<<<<<< HEAD
         <div className="flex items-center gap-2 text-indigo-100">
+=======
+        <div className="text-accent-primary/30 flex items-center gap-2">
+>>>>>>> recover/cabinet-wip-from-stash
           <Sparkles className="h-4 w-4" />
           <h4 className="text-[10px] font-black uppercase tracking-widest text-white">
             AI-Driven Reorder Suggestions
           </h4>
         </div>
+<<<<<<< HEAD
         <Badge className="h-4 border-none bg-indigo-500 text-[8px] font-black uppercase text-white">
+=======
+        <Badge className="bg-accent-primary h-4 border-none text-[8px] font-black uppercase text-white">
+>>>>>>> recover/cabinet-wip-from-stash
           Smart Hub
         </Badge>
       </div>
@@ -37,21 +49,33 @@ export function ProductReorderRecommendationBlock({ product }: { product: Produc
           >
             <div className="mb-2 flex items-start justify-between">
               <div className="flex items-center gap-3">
+<<<<<<< HEAD
                 <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500 shadow-md">
+=======
+                <div className="bg-accent-primary flex h-8 w-8 items-center justify-center rounded-xl shadow-md">
+>>>>>>> recover/cabinet-wip-from-stash
                   <ShoppingBag className="h-4 w-4 text-white" />
                 </div>
                 <div>
                   <div className="text-[11px] font-black uppercase leading-tight tracking-tight text-white">
                     {r.sku}
                   </div>
+<<<<<<< HEAD
                   <div className="text-[8px] font-bold uppercase tracking-wider text-indigo-200">
+=======
+                  <div className="text-accent-primary/40 text-[8px] font-bold uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
                     {r.reason}
                   </div>
                 </div>
               </div>
               <div className="text-right">
                 <div className="text-[14px] font-black text-white">+{r.suggestedQty}</div>
+<<<<<<< HEAD
                 <div className="text-[7px] font-black uppercase leading-none text-indigo-300">
+=======
+                <div className="text-accent-primary text-[7px] font-black uppercase leading-none">
+>>>>>>> recover/cabinet-wip-from-stash
                   Suggested
                 </div>
               </div>
@@ -64,12 +88,20 @@ export function ProductReorderRecommendationBlock({ product }: { product: Produc
                   className="h-1 rounded-full bg-white/10 fill-white"
                 />
               </div>
+<<<<<<< HEAD
               <span className="text-[8px] font-black uppercase tracking-widest text-indigo-200">
+=======
+              <span className="text-accent-primary/40 text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 {r.confidenceScore}% Conf.
               </span>
             </div>
 
+<<<<<<< HEAD
             <button className="flex h-8 w-full items-center justify-center gap-2 rounded-lg bg-white text-[8px] font-black uppercase text-indigo-600 shadow-lg shadow-indigo-700/50 transition-all hover:bg-indigo-50">
+=======
+            <button className="text-accent-primary shadow-accent-primary/25 hover:bg-accent-primary/10 flex h-8 w-full items-center justify-center gap-2 rounded-lg bg-white text-[8px] font-black uppercase shadow-lg transition-all">
+>>>>>>> recover/cabinet-wip-from-stash
               Quick Reorder <Plus className="h-3 w-3" />
             </button>
           </div>
@@ -77,8 +109,13 @@ export function ProductReorderRecommendationBlock({ product }: { product: Produc
       </div>
 
       <div className="mt-4 flex items-center gap-3 rounded-2xl border border-white/5 bg-white/5 p-3">
+<<<<<<< HEAD
         <RefreshCw className="animate-spin-slow h-4 w-4 text-indigo-300" />
         <div className="text-[9px] font-bold uppercase tracking-widest text-indigo-100">
+=======
+        <RefreshCw className="text-accent-primary animate-spin-slow h-4 w-4" />
+        <div className="text-accent-primary/30 text-[9px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
           Live Sync: Analyzing {recommendations.length} SKU dependencies...
         </div>
       </div>

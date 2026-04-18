@@ -45,7 +45,7 @@ const CONSTRUCTION_SECTION_ROLE_BLOCKS: readonly {
 }[] = [
   {
     title: 'Бренд-дизайнер',
-    titleClass: 'text-violet-900',
+    titleClass: 'text-text-primary',
     body: 'Узлы, длины и посадка в полях каталога должны совпадать с эскизом и каноном; базовый размер и мерки не противоречат заявленному силуэту и рефам.',
   },
   {
@@ -65,7 +65,7 @@ const CONSTRUCTION_SECTION_ROLE_BLOCKS: readonly {
   },
   {
     title: 'Производство / цех',
-    titleClass: 'text-slate-800',
+    titleClass: 'text-text-primary',
     body: 'Нужны однозначные узлы и ссылки на выгрузку ТК; вопросы к неполным полям закрываются до запуска раскроя — используйте блок выгрузки и подпись секции.',
   },
   {
@@ -75,12 +75,12 @@ const CONSTRUCTION_SECTION_ROLE_BLOCKS: readonly {
   },
   {
     title: 'Комплаенс / таможня',
-    titleClass: 'text-indigo-900',
+    titleClass: 'text-accent-primary',
     body: 'Длина изделия, слои и вид узлов могут влиять на коды и декларации — держите согласованность с паспортом и материалами (в т.ч. маркировка и состав).',
   },
   {
     title: 'Мерч / e-com',
-    titleClass: 'text-fuchsia-900',
+    titleClass: 'text-text-primary',
     body: 'Посадка на модели, размерная сетка на витрине и описания «как сидит» опираются на зафиксированные мерки и силуэт из этой вкладки.',
   },
 ];
@@ -107,7 +107,11 @@ export function Workshop2TzSectionRolesPopover({
           >
             <LucideIcons.Users className="h-3 w-3 shrink-0" aria-hidden />
             Роли
+<<<<<<< HEAD
             <span className="tabular-nums text-slate-500">
+=======
+            <span className="text-text-secondary tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
               · {CONSTRUCTION_SECTION_ROLE_BLOCKS.length}
             </span>
           </Button>
@@ -116,14 +120,18 @@ export function Workshop2TzSectionRolesPopover({
           className="max-h-[min(32rem,70vh)] w-[min(26rem,calc(100vw-1.5rem))] space-y-3 overflow-y-auto text-xs"
           align="end"
         >
+<<<<<<< HEAD
           <p className="text-[10px] font-semibold leading-snug text-slate-700">
+=======
+          <p className="text-text-primary text-[10px] font-semibold leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
             Конструкция — общий стол: поля узлов каталога, табель мер и согласование со скетчем.
             Ниже — типичные участники маршрута SKU и что для них важно в этой вкладке.
           </p>
           {CONSTRUCTION_SECTION_ROLE_BLOCKS.map((row) => (
             <div key={row.title}>
               <p className={cn('font-semibold', row.titleClass)}>{row.title}</p>
-              <p className="mt-1 leading-snug text-slate-600">{row.body}</p>
+              <p className="text-text-secondary mt-1 leading-snug">{row.body}</p>
             </div>
           ))}
         </PopoverContent>
@@ -147,16 +155,16 @@ export function Workshop2TzSectionRolesPopover({
       </PopoverTrigger>
       <PopoverContent className="w-80 space-y-3 text-xs" align="end">
         <div>
-          <p className="font-semibold text-violet-900">Дизайнер / бренд</p>
-          <p className="mt-1 leading-snug text-slate-600">{c.designer}</p>
+          <p className="text-text-primary font-semibold">Дизайнер / бренд</p>
+          <p className="text-text-secondary mt-1 leading-snug">{c.designer}</p>
         </div>
         <div>
           <p className="font-semibold text-amber-900">Менеджер</p>
-          <p className="mt-1 leading-snug text-slate-600">{c.manager}</p>
+          <p className="text-text-secondary mt-1 leading-snug">{c.manager}</p>
         </div>
         <div>
           <p className="font-semibold text-teal-900">Технолог</p>
-          <p className="mt-1 leading-snug text-slate-600">{c.technologist}</p>
+          <p className="text-text-secondary mt-1 leading-snug">{c.technologist}</p>
         </div>
       </PopoverContent>
     </Popover>

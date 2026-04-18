@@ -14,14 +14,20 @@ import {
 import type { Product } from '@/lib/types';
 import { getAllSizeMeasurements } from '@/lib/fashion/garment-measurements';
 import { Ruler } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
 type Props = { product: Product };
 
 export function ProductMeasurementsBlock({ product }: Props) {
   const allMeasurements = getAllSizeMeasurements(product);
-  if (allMeasurements.length === 0) return null;
+  const [activeSize, setActiveSize] = useState(allMeasurements[0]?.size ?? '');
 
+<<<<<<< HEAD
   const [activeSize, setActiveSize] = useState(allMeasurements[0].size);
+=======
+  if (allMeasurements.length === 0) return null;
+>>>>>>> recover/cabinet-wip-from-stash
   const current = allMeasurements.find((m) => m.size === activeSize);
 
   return (
@@ -37,9 +43,23 @@ export function ProductMeasurementsBlock({ product }: Props) {
       </CardHeader>
       <CardContent className="space-y-4">
         <Tabs value={activeSize} onValueChange={setActiveSize}>
+<<<<<<< HEAD
           <TabsList className="h-8 p-1">
             {allMeasurements.map((m) => (
               <TabsTrigger key={m.size} value={m.size} className="px-2 text-[10px]">
+=======
+          {/* cabinetSurface v1 */}
+          <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-h-8 flex-wrap p-0.5')}>
+            {allMeasurements.map((m) => (
+              <TabsTrigger
+                key={m.size}
+                value={m.size}
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'h-7 px-2 text-[10px] font-semibold normal-case tracking-normal'
+                )}
+              >
+>>>>>>> recover/cabinet-wip-from-stash
                 {m.size}
               </TabsTrigger>
             ))}

@@ -12,6 +12,7 @@ import { getAcademyLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { getClientMaterialById } from '@/lib/academy/brand-academy-data';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 const TYPE_LABELS: Record<string, string> = {
   care: 'Уход за изделиями',
@@ -28,6 +29,7 @@ export default function ClientMaterialDetailPage() {
 
   if (!material) {
     return (
+<<<<<<< HEAD
       <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
         <div className="mb-6 flex items-center gap-3">
           <Button variant="ghost" size="icon" onClick={() => router.back()}>
@@ -35,14 +37,33 @@ export default function ClientMaterialDetailPage() {
           </Button>
           <p className="text-slate-500">Материал не найден</p>
         </div>
+=======
+      <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+        <RegistryPageHeader
+          title="Материал не найден"
+          leadPlain="Записи с таким идентификатором нет в демо-данных."
+          eyebrow={
+            <Button
+              variant="ghost"
+              size="icon"
+              className="-ml-2 shrink-0"
+              onClick={() => router.back()}
+              aria-label="Назад"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          }
+        />
+>>>>>>> recover/cabinet-wip-from-stash
         <Button variant="outline" asChild>
           <Link href={ROUTES.brand.academy}>Вернуться в академию</Link>
         </Button>
-      </div>
+      </RegistryPageShell>
     );
   }
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex items-center gap-3">
@@ -61,6 +82,24 @@ export default function ClientMaterialDetailPage() {
 
       <WidgetCard title="Для клиентов" description="Материалы для конечных покупателей.">
         <Card className="rounded-xl border border-slate-100">
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title={material.title}
+        leadPlain={TYPE_LABELS[material.type] ?? material.type}
+        eyebrow={
+          <Button variant="ghost" size="icon" className="-ml-2 shrink-0" asChild>
+            <Link href={ROUTES.brand.academy} aria-label="Назад в академию">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+        actions={<AcademySegmentSwitcher active="brand" />}
+      />
+
+      <WidgetCard title="Для клиентов" description="Материалы для конечных покупателей.">
+        <Card className="border-border-subtle rounded-xl border">
+>>>>>>> recover/cabinet-wip-from-stash
           <CardContent className="space-y-4 pt-6">
             <div className="flex gap-2">
               <Badge variant="outline">{TYPE_LABELS[material.type] ?? material.type}</Badge>
@@ -70,7 +109,11 @@ export default function ClientMaterialDetailPage() {
                 </Badge>
               )}
             </div>
+<<<<<<< HEAD
             <p className="leading-relaxed text-slate-700">{material.description}</p>
+=======
+            <p className="text-text-primary leading-relaxed">{material.description}</p>
+>>>>>>> recover/cabinet-wip-from-stash
             {material.url && (
               <Button variant="outline" size="sm" asChild>
                 <a href={material.url} target="_blank" rel="noopener noreferrer" className="gap-2">
@@ -87,6 +130,6 @@ export default function ClientMaterialDetailPage() {
       </Button>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

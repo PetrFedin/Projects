@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { PlusCircle, Palette, Layers } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+<<<<<<< HEAD
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 
 export default function ColorsPage() {
@@ -46,6 +47,38 @@ export default function ColorsPage() {
           Добавить цвет
         </Button>
       </header>
+=======
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { ROUTES } from '@/lib/routes';
+
+export default function ColorsPage() {
+  return (
+    <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+      <RegistryPageHeader
+        title="Справочник цветов"
+        leadPlain="Палитра для карточек товаров. Связь с Products (цвета SKU), Matrix (варианты) и PIM."
+        actions={
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <Palette className="size-6 shrink-0 text-muted-foreground" aria-hidden />
+            <Badge variant="outline" className="text-[9px]">
+              SKU Colors
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.products}>Products</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.productsMatrix}>
+                <Layers className="mr-1 size-3" /> Matrix
+              </Link>
+            </Button>
+            <Button>
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Добавить цвет
+            </Button>
+          </div>
+        }
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -59,7 +92,11 @@ export default function ColorsPage() {
                 <div
                   className="h-20 w-full rounded-md border"
                   style={{ backgroundColor: color.hex }}
+<<<<<<< HEAD
                 ></div>
+=======
+                />
+>>>>>>> recover/cabinet-wip-from-stash
                 <Input value={color.name} readOnly />
                 <Input value={color.hex} readOnly />
               </div>
@@ -67,6 +104,10 @@ export default function ColorsPage() {
           </div>
         </CardContent>
       </Card>
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

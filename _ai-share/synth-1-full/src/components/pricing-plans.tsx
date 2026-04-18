@@ -58,7 +58,11 @@ export default function PricingPlans() {
                       ? `${currentPlanPrice > 0 ? currentPlanPrice.toLocaleString('ru-RU') : '0'} ₽`
                       : currentPlanPrice}
                   </p>
+<<<<<<< HEAD
                   {plan.price > 0 && (
+=======
+                  {Number(plan.price) > 0 && (
+>>>>>>> recover/cabinet-wip-from-stash
                     <span className="self-end text-sm text-muted-foreground">
                       /{' '}
                       {plan.periods

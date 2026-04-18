@@ -12,11 +12,19 @@ export function ProductPreOrderAllocationBlock({ product }: { product: Product }
   const allocation = getPreOrderAllocation(product.sku);
 
   return (
+<<<<<<< HEAD
     <Card className="relative my-4 overflow-hidden border-2 border-slate-100 bg-slate-50/10 p-4 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-slate-600">
           <BarChart className="h-4 w-4" />
           <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
+=======
+    <Card className="border-border-subtle bg-bg-surface2/10 relative my-4 overflow-hidden border-2 p-4 shadow-sm">
+      <div className="mb-4 flex items-center justify-between">
+        <div className="text-text-secondary flex items-center gap-2">
+          <BarChart className="h-4 w-4" />
+          <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             Wholesale Allocation (B2B Matrix)
           </h4>
         </div>
@@ -33,7 +41,11 @@ export function ProductPreOrderAllocationBlock({ product }: { product: Product }
 
       <div className="mb-4 space-y-4">
         <div>
+<<<<<<< HEAD
           <div className="mb-1 flex items-center justify-between text-[9px] font-bold uppercase text-slate-500">
+=======
+          <div className="text-text-secondary mb-1 flex items-center justify-between text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
             <span>Capacity Allocated</span>
             <span>
               {Math.round((allocation.allocatedQty / allocation.totalAvailableQty) * 100)}%
@@ -41,11 +53,16 @@ export function ProductPreOrderAllocationBlock({ product }: { product: Product }
           </div>
           <Progress
             value={(allocation.allocatedQty / allocation.totalAvailableQty) * 100}
+<<<<<<< HEAD
             className="h-1.5 bg-slate-100 fill-indigo-500"
+=======
+            className="bg-bg-surface2 fill-accent-primary h-1.5"
+>>>>>>> recover/cabinet-wip-from-stash
           />
         </div>
 
         <div className="grid grid-cols-3 gap-2">
+<<<<<<< HEAD
           <div className="rounded-lg border border-slate-100 bg-white p-2 text-center">
             <div className="text-xs font-black text-slate-800">{allocation.remainingQty}</div>
             <div className="text-[7px] font-black uppercase text-slate-400">Available</div>
@@ -59,6 +76,23 @@ export function ProductPreOrderAllocationBlock({ product }: { product: Product }
           <div className="rounded-lg border border-slate-100 bg-slate-50 p-2 text-center">
             <div className="text-xs font-black text-slate-400">{allocation.totalAvailableQty}</div>
             <div className="text-[7px] font-black uppercase text-slate-400">Total Capacity</div>
+=======
+          <div className="border-border-subtle rounded-lg border bg-white p-2 text-center">
+            <div className="text-text-primary text-xs font-black">{allocation.remainingQty}</div>
+            <div className="text-text-muted text-[7px] font-black uppercase">Available</div>
+          </div>
+          <div className="bg-accent-primary/10 border-accent-primary/20 rounded-lg border p-2 text-center">
+            <div className="text-accent-primary text-xs font-black">
+              {allocation.reservedForTopTierQty}
+            </div>
+            <div className="text-accent-primary text-[7px] font-black uppercase">
+              A-Tier Reserved
+            </div>
+          </div>
+          <div className="bg-bg-surface2 border-border-subtle rounded-lg border p-2 text-center">
+            <div className="text-text-muted text-xs font-black">{allocation.totalAvailableQty}</div>
+            <div className="text-text-muted text-[7px] font-black uppercase">Total Capacity</div>
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
         </div>
       </div>

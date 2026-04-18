@@ -26,8 +26,15 @@ export const ProductFabricWasteBlock: React.FC<{ product: Product }> = ({ produc
         <div className="flex items-center justify-between">
           <div className="text-2xl font-black text-green-800">{waste.estimatedWaste}%</div>
           <div className="text-right">
+<<<<<<< HEAD
             <div className="text-[10px] font-black uppercase text-slate-400">Optimization</div>
             <div className="text-sm font-bold text-slate-700">{waste.cutOptimizationScore}/100</div>
+=======
+            <div className="text-text-muted text-[10px] font-black uppercase">Optimization</div>
+            <div className="text-text-primary text-sm font-bold">
+              {waste.cutOptimizationScore}/100
+            </div>
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
         </div>
         <Progress
@@ -43,7 +50,11 @@ export const ProductFabricWasteBlock: React.FC<{ product: Product }> = ({ produc
           </span>
         </div>
 
+<<<<<<< HEAD
         <div className="mt-2 flex items-center gap-1 text-[9px] font-bold uppercase italic text-slate-400">
+=======
+        <div className="text-text-muted mt-2 flex items-center gap-1 text-[9px] font-bold uppercase italic">
+>>>>>>> recover/cabinet-wip-from-stash
           <Info className="h-2.5 w-2.5" /> Source: Factory Cutting Logs v4.1
         </div>
       </div>

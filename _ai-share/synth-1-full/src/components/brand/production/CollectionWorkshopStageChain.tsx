@@ -149,7 +149,7 @@ export function CollectionWorkshopStageChain({
             outlineLinks={[
               { href: chainDeepLinkHrefs.collections, label: 'Коллекции →' },
               { href: chainDeepLinkHrefs.collectionsNew, label: 'Новая коллекция →' },
-              { href: workshopFloorTabHrefs.live, label: 'LIVE · схема (цех) →' },
+              { href: workshopFloorTabHrefs.live, label: 'Онлайн-схема цеха →' },
               { href: workshopFloorTabHrefs.stages, label: 'Этапы (цех) →' },
             ]}
           />
@@ -185,15 +185,15 @@ export function CollectionWorkshopStageChain({
             cardTitle="Коллекция в цеху (хаб артикулов)"
             Icon={FolderKanban}
             iconClassName="text-emerald-700"
-            cardHint="Приоритеты контроля и план вывода SKU — те же поля, что модуль этапа. Переход в экран цеха ниже."
+            cardHint="Приоритеты контроля и план вывода артикулов — те же поля, что модуль этапа. Переход в экран цеха ниже."
             previewFieldKeys={['hubPriorities', 'skuRolloutPlan']}
             variant="emerald"
             saveLabel="Сохранить настройки хаба"
             moduleLink={{ href: workshopCollectionHref, label: 'Цех · коллекция →' }}
             moduleLinkExtra={[
               { href: workshopFloorTabHrefs.stages, label: 'Матрица этапов →' },
-              { href: workshopFloorTabHrefs.live, label: 'LIVE · схема →' },
-              { href: pimCollectionHref, label: 'PIM →' },
+              { href: workshopFloorTabHrefs.live, label: 'Онлайн-схема →' },
+              { href: pimCollectionHref, label: 'Каталог товаров (PIM) →' },
             ]}
           />
         </div>
@@ -210,10 +210,10 @@ export function CollectionWorkshopStageChain({
             cardTitle="Себестоимость и маржа"
             Icon={CircleDollarSign}
             iconClassName="text-rose-700"
-            cardHint="Политика landed cost, коридоры маржи, FX/пошлины — демо-слой до связи с «Бюджет · факт»."
+            cardHint="Политика полной себестоимости (landed cost), коридоры маржи, курсы и пошлины — демо-слой до связи с «Бюджет · факт»."
             previewFieldKeys={['landedCostPolicy', 'marginBands']}
             variant="rose"
-            saveLabel="Сохранить параметры costing"
+            saveLabel="Сохранить параметры калькуляции"
             moduleLink={{ href: budgetActualHref, label: 'Бюджет · факт →' }}
             moduleLinkExtra={[
               { href: chainDeepLinkHrefs.pricing, label: 'Прайсинг →' },
@@ -234,7 +234,7 @@ export function CollectionWorkshopStageChain({
             onOpenFullDialog={() => setOpenStep(materialsStep)}
             cardTitle="Материалы и поставщики"
             Icon={Package}
-            iconClassName="text-violet-700"
+            iconClassName="text-accent-primary"
             cardHint="Стратегия сырья, шорт-лист, нормы расхода — тот же модуль, что этап «Подбор материалов…»."
             previewFieldKeys={['materialStrategy', 'supplierShortlist']}
             variant="violet"
@@ -242,7 +242,7 @@ export function CollectionWorkshopStageChain({
             moduleLink={{ href: materialsHref, label: 'Материалы · BOM →' }}
             moduleLinkExtra={[
               { href: chainDeepLinkHrefs.suppliers, label: 'Поставщики →' },
-              { href: chainDeepLinkHrefs.suppliersRfq, label: 'RFQ →' },
+              { href: chainDeepLinkHrefs.suppliersRfq, label: 'Запрос котировок →' },
               { href: chainDeepLinkHrefs.materialsReservation, label: 'Бронь материалов →' },
               { href: workshopFloorTabHrefs.stages, label: 'Этапы →' },
             ]}
@@ -268,7 +268,7 @@ export function CollectionWorkshopStageChain({
             moduleLink={{ href: mediaHref, label: 'Медиа →' }}
             moduleLinkExtra={[
               { href: chainDeepLinkHrefs.contentHub, label: 'Контент-хаб →' },
-              { href: techPackHref, label: 'Tech Pack →' },
+              { href: techPackHref, label: 'Техпак →' },
               { href: chainDeepLinkHrefs.messages, label: 'Сообщения →' },
             ]}
           />
@@ -283,19 +283,19 @@ export function CollectionWorkshopStageChain({
             matrixStatus={aggregateStatus['tech-pack']}
             onAfterModuleSave={onAfterModuleSave}
             onOpenFullDialog={() => setOpenStep(techPackStep)}
-            cardTitle="Tech Pack / ТЗ"
+            cardTitle="Техпак / ТЗ"
             Icon={Ruler}
-            iconClassName="text-indigo-800"
-            cardHint="Объём ТЗ, версии, градация — демо; конструктор Tech Pack по ссылке (плейсхолдер new + collectionId)."
+            iconClassName="text-accent-primary"
+            cardHint="Объём ТЗ, версии, градация — демо; конструктор техпака по ссылке (плейсхолдер new + collectionId)."
             previewFieldKeys={['tzScope', 'revisionLog']}
             variant="indigo"
             saveLabel="Сохранить черновик ТЗ (коллекция)"
-            moduleLink={{ href: techPackHref, label: 'Tech pack →' }}
+            moduleLink={{ href: techPackHref, label: 'Техпак →' }}
             moduleLinkExtra={[
               { href: mediaHref, label: 'Медиа →' },
-              { href: sampleFloorHref, label: 'Эталон · fit →' },
+              { href: sampleFloorHref, label: 'Эталон · примерка →' },
               { href: workshopCollectionHref, label: 'Хаб цеха →' },
-              { href: chainDeepLinkHrefs.integrationsErpPlm, label: 'PLM / ERP →' },
+              { href: chainDeepLinkHrefs.integrationsErpPlm, label: 'Интеграции PLM / ERP →' },
             ]}
           />
         </div>
@@ -316,9 +316,9 @@ export function CollectionWorkshopStageChain({
             previewFieldKeys={['stakeholderList', 'checklistStatus']}
             variant="amber"
             saveLabel="Сохранить ворота согласования"
-            moduleLink={{ href: liveProcessHref, label: 'LIVE процесс →' }}
+            moduleLink={{ href: liveProcessHref, label: 'Процесс онлайн →' }}
             moduleLinkExtra={[
-              { href: workshopFloorTabHrefs.live, label: 'LIVE · схема (цех) →' },
+              { href: workshopFloorTabHrefs.live, label: 'Онлайн-схема цеха →' },
               { href: workshopFloorTabHrefs.workshop, label: 'Хаб коллекции →' },
               { href: workshopFloorTabHrefs.stages, label: 'Матрица этапов →' },
               { href: chainDeepLinkHrefs.messages, label: 'Сообщения →' },
@@ -346,7 +346,7 @@ export function CollectionWorkshopStageChain({
             saveLabel="Сохранить контур поставки"
             moduleLink={{ href: suppliesFloorHref, label: 'Снабжение цеха →' }}
             moduleLinkExtra={[
-              { href: chainDeepLinkHrefs.vmi, label: 'VMI →' },
+              { href: chainDeepLinkHrefs.vmi, label: 'Управление запасами у поставщика →' },
               { href: chainDeepLinkHrefs.warehouse, label: 'Склад бренда →' },
               { href: materialsHref, label: 'Закупка (материалы) →' },
               { href: chainDeepLinkHrefs.calendar, label: 'Календарь →' },
@@ -366,14 +366,17 @@ export function CollectionWorkshopStageChain({
             cardTitle="Семплы и примерки"
             Icon={Shirt}
             iconClassName="text-teal-800"
-            cardHint="Раунд семпла, объём SKU, fit, Gold Sample — модуль этапа «Отшив семплов…»."
+            cardHint="Раунд семпла, объём артикулов, примерка, эталонный образец — модуль этапа «Отшив семплов…»."
             previewFieldKeys={['sampleRound', 'sampleScope']}
             variant="teal"
             saveLabel="Сохранить план семплов"
-            moduleLink={{ href: sampleFloorHref, label: 'Эталон · fit →' }}
+            moduleLink={{ href: sampleFloorHref, label: 'Эталон · примерка →' }}
             moduleLinkExtra={[
-              { href: chainDeepLinkHrefs.productionGoldSample, label: 'Gold Sample →' },
-              { href: chainDeepLinkHrefs.productionFitComments, label: 'Fit · комментарии →' },
+              { href: chainDeepLinkHrefs.productionGoldSample, label: 'Эталонный образец →' },
+              {
+                href: chainDeepLinkHrefs.productionFitComments,
+                label: 'Комментарии по примерке →',
+              },
             ]}
           />
         </div>
@@ -389,7 +392,7 @@ export function CollectionWorkshopStageChain({
             onOpenFullDialog={() => setOpenStep(b2bLinesheetsStep)}
             cardTitle="B2B: лайншиты и лукбуки"
             Icon={FileSpreadsheet}
-            iconClassName="text-violet-800"
+            iconClassName="text-accent-primary"
             cardHint="Охват презентаций для байеров, статус показов — модуль этапа «B2B: лукбуки и лайншиты»."
             previewFieldKeys={['linesheetCoverage', 'b2bPresentationNote']}
             variant="violet"
@@ -397,7 +400,11 @@ export function CollectionWorkshopStageChain({
             moduleLink={{ href: b2bLinesheetsHref, label: 'Лайншиты →' }}
             moduleLinkExtra={{
               href: chainDeepLinkHrefs.b2bLinesheetsCreate,
+<<<<<<< HEAD
               label: 'Создать linesheet →',
+=======
+              label: 'Создать лайншит →',
+>>>>>>> recover/cabinet-wip-from-stash
             }}
           />
         </div>
@@ -419,7 +426,7 @@ export function CollectionWorkshopStageChain({
             variant="sky"
             saveLabel="Сохранить окно производства"
             moduleLink={{ href: factoriesHref, label: 'Фабрики →' }}
-            moduleLinkExtra={{ href: workshopFloorTabHrefs.live, label: 'LIVE · схема (цех) →' }}
+            moduleLinkExtra={{ href: workshopFloorTabHrefs.live, label: 'Онлайн-схема цеха →' }}
           />
         </div>
       ) : null}
@@ -434,13 +441,16 @@ export function CollectionWorkshopStageChain({
             onOpenFullDialog={() => setOpenStep(poStep)}
             cardTitle="PO и запуск серии"
             Icon={ClipboardList}
-            iconClassName="text-indigo-800"
+            iconClassName="text-accent-primary"
             cardHint="Список PO, объёмы, сроки от фабрики — модуль этапа «PO и запуск серии в производство»."
             previewFieldKeys={['poList', 'qtyAndSizes']}
             variant="indigo"
             saveLabel="Сохранить сводку PO"
             moduleLink={{ href: workshopFloorTabHrefs.plan, label: 'План · PO (цех) →' }}
-            moduleLinkExtra={{ href: chainDeepLinkHrefs.productionGantt, label: 'Gantt →' }}
+            moduleLinkExtra={{
+              href: chainDeepLinkHrefs.productionGantt,
+              label: 'Диаграмма Ганта →',
+            }}
           />
         </div>
       ) : null}
@@ -480,12 +490,15 @@ export function CollectionWorkshopStageChain({
             cardTitle="Снабжение: брони и готовность к раскрою"
             Icon={Package}
             iconClassName="text-orange-800"
-            cardHint="Резервы VMI, готовность к раскрою, покрытие стоком — модуль «Снабжение цеха (VMI · бронирование)»."
+            cardHint="Резервы у поставщика (VMI), готовность к раскрою, покрытие стоком — модуль «Снабжение цеха (VMI · бронирование)»."
             previewFieldKeys={['reservationIds', 'cutReadiness']}
             variant="orange"
             saveLabel="Сохранить привязку снабжения"
             moduleLink={{ href: suppliesFloorHref, label: 'Снабжение цеха →' }}
-            moduleLinkExtra={{ href: chainDeepLinkHrefs.vmi, label: 'VMI →' }}
+            moduleLinkExtra={{
+              href: chainDeepLinkHrefs.vmi,
+              label: 'Управление запасами у поставщика →',
+            }}
           />
         </div>
       ) : null}
@@ -498,17 +511,24 @@ export function CollectionWorkshopStageChain({
             matrixStatus={aggregateStatus['nesting-cut']}
             onAfterModuleSave={onAfterModuleSave}
             onOpenFullDialog={() => setOpenStep(nestingCutStep)}
-            cardTitle="Nesting AI · раскрой"
+            cardTitle="Нестинг ИИ · раскрой"
             Icon={Layers}
             iconClassName="text-teal-800"
-            cardHint="Задание nesting, выход ткани, маркеры — модуль этапа «Nesting AI · раскрой»."
+            cardHint="Задание нестинга, выход ткани, маркеры — модуль этапа «Нестинг ИИ · раскрой»."
             previewFieldKeys={['nestingJobRef', 'yieldFabric']}
             variant="teal"
             saveLabel="Сохранить параметры раскроя"
+<<<<<<< HEAD
             moduleLink={{ href: workshopFloorTabHrefs.nesting, label: 'Nesting (цех) →' }}
             moduleLinkExtra={{
               href: chainDeepLinkHrefs.productionNesting,
               label: 'Nesting (полная) →',
+=======
+            moduleLink={{ href: workshopFloorTabHrefs.nesting, label: 'Нестинг (цех) →' }}
+            moduleLinkExtra={{
+              href: chainDeepLinkHrefs.productionNesting,
+              label: 'Нестинг (полная страница) →',
+>>>>>>> recover/cabinet-wip-from-stash
             }}
           />
         </div>
@@ -530,7 +550,7 @@ export function CollectionWorkshopStageChain({
             variant="emerald"
             saveLabel="Сохранить план выпуска"
             moduleLink={{ href: workshopFloorTabHrefs.launch, label: 'Выпуск (цех) →' }}
-            moduleLinkExtra={{ href: workshopFloorTabHrefs.live, label: 'LIVE · схема (цех) →' }}
+            moduleLinkExtra={{ href: workshopFloorTabHrefs.live, label: 'Онлайн-схема цеха →' }}
           />
         </div>
       ) : null}
@@ -551,7 +571,10 @@ export function CollectionWorkshopStageChain({
             variant="amber"
             saveLabel="Сохранить журнал ОТК"
             moduleLink={{ href: workshopFloorTabHrefs.quality, label: 'ОТК (цех) →' }}
-            moduleLinkExtra={{ href: chainDeepLinkHrefs.productionQcApp, label: 'QC app →' }}
+            moduleLinkExtra={{
+              href: chainDeepLinkHrefs.productionQcApp,
+              label: 'Приложение ОТК →',
+            }}
           />
         </div>
       ) : null}
@@ -566,7 +589,7 @@ export function CollectionWorkshopStageChain({
             onOpenFullDialog={() => setOpenStep(readyMadeStep)}
             cardTitle="Готовый товар и склад"
             Icon={PackageCheck}
-            iconClassName="text-violet-800"
+            iconClassName="text-accent-primary"
             cardHint="Приёмка vs PO, размещение на складе, качество при входе — модуль «Готовый товар и склад бренда»."
             previewFieldKeys={['receiptVsPo', 'warehousePlacement']}
             variant="violet"
@@ -614,15 +637,15 @@ export function CollectionWorkshopStageChain({
             onOpenFullDialog={() => setOpenStep(b2bShipStoresStep)}
             cardTitle="Отгрузка в магазины клиентов"
             Icon={Ship}
-            iconClassName="text-indigo-800"
+            iconClassName="text-accent-primary"
             cardHint="ASN, маршруты в торговые точки, подтверждения доставки — модуль «Отгрузка в магазины клиентов»."
             previewFieldKeys={['asnRefs', 'retailRoutes']}
             variant="indigo"
             saveLabel="Сохранить план отгрузок"
             moduleLink={{ href: b2bShipmentsHref, label: 'Отгрузки B2B →' }}
             moduleLinkExtra={[
-              { href: liveB2bHref, label: 'LIVE B2B →' },
-              { href: chainDeepLinkHrefs.liveLogistics, label: 'LIVE логистика →' },
+              { href: liveB2bHref, label: 'B2B онлайн →' },
+              { href: chainDeepLinkHrefs.liveLogistics, label: 'Логистика онлайн →' },
             ]}
           />
         </div>
@@ -647,7 +670,7 @@ export function CollectionWorkshopStageChain({
             moduleLinkExtra={[
               { href: materialsHref, label: 'Материалы →' },
               { href: chainDeepLinkHrefs.compliance, label: 'Комплаенс →' },
-              { href: chainDeepLinkHrefs.circularHub, label: 'Circular hub →' },
+              { href: chainDeepLinkHrefs.circularHub, label: 'Циркулярность →' },
             ]}
           />
         </div>
@@ -660,23 +683,27 @@ export function CollectionWorkshopStageChain({
             const st = aggregateStatus[step.id];
             return (
               <div key={step.id} className="flex items-center">
-                <div className="flex w-[152px] shrink-0 flex-col rounded-lg border border-indigo-200/90 bg-white p-2 shadow-sm transition-all hover:border-indigo-400 hover:shadow-md">
-                  <p className="text-[9px] font-black text-slate-400">Этап {idx + 1}</p>
+                <div className="border-accent-primary/30 hover:border-accent-primary/40 flex w-[152px] shrink-0 flex-col rounded-lg border bg-white p-2 shadow-sm transition-all hover:shadow-md">
+                  <p className="text-text-muted text-[9px] font-black">Этап {idx + 1}</p>
                   <button
                     type="button"
                     title="Открыть модуль этапа: поля, вложения, история"
                     onClick={() => setOpenStep(step)}
-                    className="mt-0.5 text-left text-[10px] font-bold leading-tight text-indigo-950 underline-offset-2 hover:underline"
+                    className="text-accent-primary mt-0.5 text-left text-[10px] font-bold leading-tight underline-offset-2 hover:underline"
                   >
                     {step.title}
                   </button>
-                  <p className="mt-1 text-[9px] text-slate-500">
+                  <p className="text-text-secondary mt-1 text-[9px]">
                     артикулов: <strong>{count}</strong>
                   </p>
                   {st ? (
                     <Badge
                       variant="outline"
+<<<<<<< HEAD
                       className="mt-1 h-5 w-fit border-slate-200 text-[7px] font-bold uppercase leading-none"
+=======
+                      className="border-border-default mt-1 h-5 w-fit text-[7px] font-bold uppercase leading-none"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       {STATUS_RU[st]}
                     </Badge>
@@ -696,7 +723,7 @@ export function CollectionWorkshopStageChain({
                   ) : null}
                 </div>
                 {idx < arr.length - 1 ? (
-                  <div className="flex shrink-0 items-center px-0.5 text-slate-300">
+                  <div className="text-text-muted flex shrink-0 items-center px-0.5">
                     <ArrowRight className="h-4 w-4" aria-hidden />
                   </div>
                 ) : null}
@@ -705,7 +732,11 @@ export function CollectionWorkshopStageChain({
           })}
         </div>
       </div>
+<<<<<<< HEAD
       <p className="text-[10px] text-slate-500">
+=======
+      <p className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
         Карточки сверху — те же модули, что и этапы в ленте (полный контур до ESG). В ленте —
         вложения и журнал; ссылки — в цех, фабрики, склад, B2B, ESG и т.д.
       </p>

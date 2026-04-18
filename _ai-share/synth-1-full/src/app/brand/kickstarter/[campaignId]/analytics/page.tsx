@@ -35,6 +35,8 @@ import {
 } from 'recharts';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 const generateDailyData = (base: number) => {
   return Array.from({ length: 15 }).map((_, i) => {
@@ -90,6 +92,7 @@ export default function CampaignAnalyticsPage({
       setTotalViews(data.reduce((acc, day) => acc + day.views, 0));
     }
   }, [project]);
+<<<<<<< HEAD
 
   if (!project) {
     notFound();
@@ -124,6 +127,44 @@ export default function CampaignAnalyticsPage({
         )}
       </div>
 
+=======
+
+  if (!project) {
+    notFound();
+  }
+
+  const handleSendToProduction = () => {
+    toast({
+      title: 'Заказ отправлен на производство',
+      description: 'Данные по предзаказу переданы на выбранную фабрику (симуляция).',
+    });
+  };
+
+  const conversionRate = totalViews > 0 ? (project.currentQuantity / totalViews) * 100 : 0;
+
+  return (
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Аналитика кампании"
+        leadPlain={project.title}
+        eyebrow={
+          <Button variant="outline" size="icon" asChild>
+            <Link href={ROUTES.brand.kickstarter} aria-label="Назад к кампаниям">
+              <ChevronLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+        actions={
+          project.status === 'successful' ? (
+            <Button onClick={handleSendToProduction}>
+              <Factory className="mr-2 h-4 w-4" />
+              Отправить на производство
+            </Button>
+          ) : null
+        }
+      />
+
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
         <Suspense
           fallback={
@@ -321,6 +362,10 @@ export default function CampaignAnalyticsPage({
           </CardContent>
         </Card>
       </div>
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

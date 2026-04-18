@@ -32,11 +32,19 @@ export const ProductClvPredictorBlock: React.FC<{ user: UserProfile }> = ({ user
           <div className="text-2xl font-black text-blue-700">
             ${clv.predictedLtv.toLocaleString()}
           </div>
+<<<<<<< HEAD
           <div className="text-[10px] font-black uppercase text-slate-400">Predicted LTV</div>
         </div>
         <div>
           <div className="text-2xl font-black text-slate-700">{clv.propensityToChurn}%</div>
           <div className="text-[10px] font-black uppercase text-slate-400">Churn Risk</div>
+=======
+          <div className="text-text-muted text-[10px] font-black uppercase">Predicted LTV</div>
+        </div>
+        <div>
+          <div className="text-text-primary text-2xl font-black">{clv.propensityToChurn}%</div>
+          <div className="text-text-muted text-[10px] font-black uppercase">Churn Risk</div>
+>>>>>>> recover/cabinet-wip-from-stash
         </div>
       </div>
 
@@ -45,14 +53,22 @@ export const ProductClvPredictorBlock: React.FC<{ user: UserProfile }> = ({ user
           <Badge
             key={idx}
             variant="secondary"
+<<<<<<< HEAD
             className="whitespace-nowrap border border-slate-100 bg-white text-[9px]"
+=======
+            className="border-border-subtle whitespace-nowrap border bg-white text-[9px]"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <Zap className="mr-1 h-2.5 w-2.5 text-yellow-500" /> {cat} Affinity
           </Badge>
         ))}
       </div>
 
+<<<<<<< HEAD
       <div className="mt-3 flex items-center justify-between border-t pt-3 text-[9px] font-bold uppercase text-slate-400">
+=======
+      <div className="text-text-muted mt-3 flex items-center justify-between border-t pt-3 text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
         <span className="flex items-center gap-1">
           <Timer className="h-2.5 w-2.5" /> Last Activity: {clv.lastPurchaseDate}
         </span>

@@ -4,6 +4,11 @@ import {
   type InspirationBoardStateV1,
   type InspirationPinV1,
 } from './types';
+<<<<<<< HEAD
+=======
+
+export type { InspirationBoardStateV1, InspirationPinV1 };
+>>>>>>> recover/cabinet-wip-from-stash
 
 const STORAGE_KEY = 'synth.inspirationBoard.v1';
 

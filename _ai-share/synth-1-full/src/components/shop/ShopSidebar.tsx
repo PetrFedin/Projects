@@ -33,6 +33,10 @@ function hasSubsections(
   return !!(link as { subsections?: unknown[] }).subsections?.length;
 }
 
+function hasHref(value: unknown): value is string {
+  return typeof value === 'string' && value.length > 0;
+}
+
 export function ShopSidebar({
   groups,
   className,
@@ -81,7 +85,11 @@ export function ShopSidebar({
   return (
     <nav
       className={cn(
+<<<<<<< HEAD
         'scrollbar-hide flex h-full flex-col overflow-y-auto border-r border-slate-200 bg-white',
+=======
+        'border-border-default scrollbar-hide flex h-full flex-col overflow-y-auto border-r bg-white',
+>>>>>>> recover/cabinet-wip-from-stash
         className
       )}
     >
@@ -98,30 +106,50 @@ export function ShopSidebar({
               >
                 <CollapsibleTrigger
                   className={cn(
+<<<<<<< HEAD
                     'group/trigger flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[10px] font-black uppercase tracking-widest transition-colors hover:bg-slate-50 data-[state=open]:bg-slate-50'
+=======
+                    'group/trigger hover:bg-bg-surface2 data-[state=open]:bg-bg-surface2 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[10px] font-black uppercase tracking-widest transition-colors'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   <group.icon
                     className={cn(
                       'h-4 w-4 shrink-0',
+<<<<<<< HEAD
                       isGroupActive ? 'text-rose-600' : 'text-slate-400'
+=======
+                      isGroupActive ? 'text-rose-600' : 'text-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                   />
                   <span
                     className={cn(
                       'flex-1 truncate',
+<<<<<<< HEAD
                       isGroupActive ? 'text-slate-900' : 'text-slate-600'
+=======
+                      isGroupActive ? 'text-text-primary' : 'text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     {group.label}
                   </span>
-                  <ChevronDown className="h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform group-data-[state=open]/trigger:rotate-180" />
+                  <ChevronDown className="text-text-muted h-3.5 w-3.5 shrink-0 transition-transform group-data-[state=open]/trigger:rotate-180" />
                 </CollapsibleTrigger>
                 <CollapsibleContent>
+<<<<<<< HEAD
                   <div className="ml-3 space-y-0.5 border-l border-slate-100 pb-2 pl-2 pr-1 pt-0.5">
+=======
+                  <div className="border-border-subtle ml-3 space-y-0.5 border-l pb-2 pl-2 pr-1 pt-0.5">
+>>>>>>> recover/cabinet-wip-from-stash
                     {group.links.map((link) => {
+                      const linkHref = (link as { href?: string }).href;
+                      if (!hasHref(linkHref)) return null;
                       const active = isLinkActive(link, pathname || '');
-                      const subs = hasSubsections(link) ? link.subsections : [];
+                      const subs = hasSubsections(link)
+                        ? link.subsections.filter((sub) => hasHref(sub.href))
+                        : [];
 
                       if (subs.length > 0) {
                         return (
@@ -136,7 +164,11 @@ export function ShopSidebar({
                                   'group/sub flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
                                   active
                                     ? 'bg-rose-50 text-rose-700'
+<<<<<<< HEAD
                                     : 'text-slate-600 hover:bg-slate-50'
+=======
+                                    : 'text-text-secondary hover:bg-bg-surface2'
+>>>>>>> recover/cabinet-wip-from-stash
                                 )}
                               >
                                 <link.icon className="h-3.5 w-3.5 shrink-0" />
@@ -164,8 +196,13 @@ export function ShopSidebar({
                                       className={cn(
                                         'block truncate rounded px-2 py-1 text-[9px] font-bold uppercase tracking-wider transition-colors',
                                         subIsActive
+<<<<<<< HEAD
                                           ? 'bg-slate-900 text-white'
                                           : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+=======
+                                          ? 'bg-text-primary text-white'
+                                          : 'text-text-secondary hover:text-text-primary hover:bg-bg-surface2'
+>>>>>>> recover/cabinet-wip-from-stash
                                       )}
                                     >
                                       {sub.label}
@@ -181,13 +218,18 @@ export function ShopSidebar({
                       return (
                         <Link
                           key={link.value}
-                          href={(link as { href: string }).href}
+                          href={linkHref}
                           onClick={onNavigate}
                           className={cn(
                             'flex items-center gap-2 rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
                             active
+<<<<<<< HEAD
                               ? 'bg-slate-900 text-white'
                               : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+=======
+                              ? 'bg-text-primary text-white'
+                              : 'text-text-secondary hover:bg-bg-surface2 hover:text-text-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                           )}
                         >
                           <link.icon className="h-3.5 w-3.5 shrink-0" />

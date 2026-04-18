@@ -174,7 +174,11 @@ export function ProductContent({ product, initialColorId }: ProductContentProps)
     L: { bust: 96, waist: 76, hips: 102, length: 116 },
   };
 
+<<<<<<< HEAD
   const isSoldOut = product.availability === 'sold_out';
+=======
+  const isSoldOut = product.availability === 'out_of_stock';
+>>>>>>> recover/cabinet-wip-from-stash
   const isPreOrder =
     !isSoldOut &&
     (product.availability === 'pre_order' ||
@@ -325,10 +329,17 @@ export function ProductContent({ product, initialColorId }: ProductContentProps)
           <div className="mt-3 flex flex-wrap gap-1.5">
             <div className="mb-2 w-full space-y-2">
               <div className="flex items-center justify-between">
+<<<<<<< HEAD
                 <p className="text-[8px] font-black uppercase tracking-widest text-slate-500">
                   Цвет
                 </p>
                 <p className="text-[8px] font-black uppercase tracking-widest text-slate-900">
+=======
+                <p className="text-text-secondary text-[8px] font-black uppercase tracking-widest">
+                  Цвет
+                </p>
+                <p className="text-text-primary text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   {(product.availableColors || []).find((c) => c.id === selectedColorId)?.name}
                 </p>
               </div>
@@ -342,7 +353,11 @@ export function ProductContent({ product, initialColorId }: ProductContentProps)
                           'relative h-6 w-6 rounded-full border-2 transition-all active:scale-90',
                           selectedColorId === color.id
                             ? 'scale-110 border-black shadow-md'
+<<<<<<< HEAD
                             : 'border-transparent hover:border-slate-300'
+=======
+                            : 'hover:border-border-default border-transparent'
+>>>>>>> recover/cabinet-wip-from-stash
                         )}
                         style={{ backgroundColor: color.hex }}
                       />
@@ -355,7 +370,11 @@ export function ProductContent({ product, initialColorId }: ProductContentProps)
               </div>
             </div>
 
+<<<<<<< HEAD
             <p className="mt-1 w-full text-[8px] font-black uppercase tracking-widest text-slate-500">
+=======
+            <p className="text-text-secondary mt-1 w-full text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               Размер
             </p>
             {['XS', 'S', 'M', 'L'].map((size) => {
@@ -402,8 +421,13 @@ export function ProductContent({ product, initialColorId }: ProductContentProps)
                         selectedSize === size
                           ? 'scale-105 border-black bg-black text-white shadow-md'
                           : isTotallyUnavailable
+<<<<<<< HEAD
                             ? 'border-muted/10 bg-muted/5 text-slate-400'
                             : 'border-slate-200 bg-white text-black hover:border-slate-400'
+=======
+                            ? 'text-text-muted border-muted/10 bg-muted/5'
+                            : 'border-border-default hover:border-border-strong bg-white text-black'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       <span className={cn(isTotallyUnavailable && 'relative')}>
@@ -498,7 +522,11 @@ export function ProductContent({ product, initialColorId }: ProductContentProps)
             className="w-56 rounded-2xl border-none bg-white/95 p-3 shadow-2xl"
             side="top"
           >
+<<<<<<< HEAD
             <p className="mb-2 px-2 text-[10px] font-black uppercase text-slate-500">Группы</p>
+=======
+            <p className="text-text-secondary mb-2 px-2 text-[10px] font-black uppercase">Группы</p>
+>>>>>>> recover/cabinet-wip-from-stash
             {wishlistGroups.map((g) => (
               <button
                 key={g}
@@ -528,7 +556,11 @@ export function ProductContent({ product, initialColorId }: ProductContentProps)
             className="w-56 rounded-2xl border-none bg-white/95 p-3 shadow-2xl"
             side="top"
           >
+<<<<<<< HEAD
             <p className="mb-2 px-2 text-[10px] font-black uppercase text-slate-500">Образы</p>
+=======
+            <p className="text-text-secondary mb-2 px-2 text-[10px] font-black uppercase">Образы</p>
+>>>>>>> recover/cabinet-wip-from-stash
             {lookGroups.map((g) => (
               <button
                 key={g}

@@ -36,9 +36,12 @@ import { buildBIDashboard, exportBIDataToCSV } from '@/lib/analytics/bi-service'
 import { useRbac } from '@/hooks/useRbac';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { getAnalyticsLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { RegistryPageShell } from '@/components/design-system';
 import { ROUTES } from '@/lib/routes';
+import { B2B_ORDERS_REGISTRY_LABEL } from '@/lib/ui/b2b-registry-label';
 
 export default function BIAnalyticsPage() {
   const { can } = useRbac();
@@ -61,8 +64,13 @@ export default function BIAnalyticsPage() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
       <Card className="rounded-xl border-slate-200 bg-slate-50/50">
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <Card className="border-border-default bg-bg-surface2/80 rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
         <CardHeader className="pb-2">
           <CardTitle className="text-sm">Дашборды аналитики</CardTitle>
           <CardDescription>
@@ -101,7 +109,11 @@ export default function BIAnalyticsPage() {
       <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h1 className="text-2xl font-bold uppercase">B2B Analytics Hub</h1>
+<<<<<<< HEAD
           <p className="text-sm text-slate-500">
+=======
+          <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Продажи, производство, остатки, платформа, коллекции, дистрибуторы
           </p>
         </div>
@@ -118,6 +130,7 @@ export default function BIAnalyticsPage() {
       </div>
 
       <Tabs defaultValue="overview" className="space-y-4">
+<<<<<<< HEAD
         <TabsList className="h-auto flex-wrap rounded-xl border border-slate-200 bg-slate-100 p-1">
           <TabsTrigger value="overview" className="rounded-lg data-[state=active]:bg-white">
             Сводка
@@ -144,6 +157,88 @@ export default function BIAnalyticsPage() {
             Budget vs Actual
           </TabsTrigger>
           <TabsTrigger value="import" className="rounded-lg data-[state=active]:bg-white">
+=======
+        <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-h-9 w-full shadow-inner')}>
+          <TabsTrigger
+            value="overview"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'data-[state=active]:text-accent-primary h-7'
+            )}
+          >
+            Сводка
+          </TabsTrigger>
+          <TabsTrigger
+            value="sales"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'data-[state=active]:text-accent-primary h-7'
+            )}
+          >
+            Продажи
+          </TabsTrigger>
+          <TabsTrigger
+            value="production"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'data-[state=active]:text-accent-primary h-7'
+            )}
+          >
+            Production
+          </TabsTrigger>
+          <TabsTrigger
+            value="inventory"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'data-[state=active]:text-accent-primary h-7'
+            )}
+          >
+            Остатки
+          </TabsTrigger>
+          <TabsTrigger
+            value="network"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'data-[state=active]:text-accent-primary h-7'
+            )}
+          >
+            Network Sell-Through
+          </TabsTrigger>
+          <TabsTrigger
+            value="geo"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'data-[state=active]:text-accent-primary h-7'
+            )}
+          >
+            Geo-Demand
+          </TabsTrigger>
+          <TabsTrigger
+            value="sentiment"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'data-[state=active]:text-accent-primary h-7'
+            )}
+          >
+            Trend Sentiment
+          </TabsTrigger>
+          <TabsTrigger
+            value="budget"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'data-[state=active]:text-accent-primary h-7'
+            )}
+          >
+            Budget vs Actual
+          </TabsTrigger>
+          <TabsTrigger
+            value="import"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'data-[state=active]:text-accent-primary h-7'
+            )}
+          >
+>>>>>>> recover/cabinet-wip-from-stash
             Импорт данных
           </TabsTrigger>
         </TabsList>
@@ -151,39 +246,68 @@ export default function BIAnalyticsPage() {
         <TabsContent value="overview" className="space-y-6">
           {/* KPI карточки */}
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-6">
+<<<<<<< HEAD
             <Link href="/brand/production">
               <Card className="h-full cursor-pointer transition-colors hover:border-indigo-200">
                 <CardHeader className="pb-1">
                   <CardTitle className="flex items-center gap-2 text-xs">
                     <Factory className="h-4 w-4 text-purple-600" /> Production
+=======
+            <Link href={ROUTES.brand.production}>
+              <Card className="hover:border-accent-primary/30 h-full cursor-pointer transition-colors">
+                <CardHeader className="pb-1">
+                  <CardTitle className="flex items-center gap-2 text-xs">
+                    <Factory className="text-accent-primary h-4 w-4" /> Production
+>>>>>>> recover/cabinet-wip-from-stash
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-lg font-black">{data.production.poCount} PO</p>
+<<<<<<< HEAD
                   <p className="text-[10px] text-slate-500">
+=======
+                  <p className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                     {data.production.shippedCount} отгружено · {data.production.collectionsCount}{' '}
                     колл.
                   </p>
                 </CardContent>
               </Card>
             </Link>
+<<<<<<< HEAD
             <Link href="/brand/b2b-orders">
               <Card className="h-full cursor-pointer transition-colors hover:border-indigo-200">
                 <CardHeader className="pb-1">
                   <CardTitle className="flex items-center gap-2 text-xs">
                     <Package className="h-4 w-4 text-indigo-600" /> B2B
+=======
+            <Link href={ROUTES.brand.b2bOrders}>
+              <Card className="hover:border-accent-primary/30 h-full cursor-pointer transition-colors">
+                <CardHeader className="pb-1">
+                  <CardTitle className="flex items-center gap-2 text-xs">
+                    <Package className="text-accent-primary h-4 w-4" /> {B2B_ORDERS_REGISTRY_LABEL}
+>>>>>>> recover/cabinet-wip-from-stash
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-lg font-black">{data.b2b.revenue}</p>
+<<<<<<< HEAD
                   <p className="text-[10px] text-slate-500">
+=======
+                  <p className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                     {data.b2b.ordersCount} заказов · {data.b2b.retailersCount} ритейлеров
                   </p>
                 </CardContent>
               </Card>
             </Link>
+<<<<<<< HEAD
             <Link href="/brand/finance">
               <Card className="h-full cursor-pointer transition-colors hover:border-indigo-200">
+=======
+            <Link href={ROUTES.brand.finance}>
+              <Card className="hover:border-accent-primary/30 h-full cursor-pointer transition-colors">
+>>>>>>> recover/cabinet-wip-from-stash
                 <CardHeader className="pb-1">
                   <CardTitle className="flex items-center gap-2 text-xs">
                     <DollarSign className="h-4 w-4 text-emerald-600" /> Finance
@@ -195,8 +319,13 @@ export default function BIAnalyticsPage() {
                 </CardContent>
               </Card>
             </Link>
+<<<<<<< HEAD
             <Link href="/brand/warehouse">
               <Card className="h-full cursor-pointer transition-colors hover:border-indigo-200">
+=======
+            <Link href={ROUTES.brand.warehouse}>
+              <Card className="hover:border-accent-primary/30 h-full cursor-pointer transition-colors">
+>>>>>>> recover/cabinet-wip-from-stash
                 <CardHeader className="pb-1">
                   <CardTitle className="flex items-center gap-2 text-xs">
                     <Warehouse className="h-4 w-4 text-amber-600" /> Склад
@@ -204,14 +333,23 @@ export default function BIAnalyticsPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-lg font-black">{data.warehouse.totalUnits} ед.</p>
+<<<<<<< HEAD
                   <p className="text-[10px] text-slate-500">
+=======
+                  <p className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                     {data.warehouse.skuCount} SKU · оборачиваемость {data.warehouse.turnoverRate}
                   </p>
                 </CardContent>
               </Card>
             </Link>
+<<<<<<< HEAD
             <Link href="/brand/showroom">
               <Card className="h-full cursor-pointer transition-colors hover:border-indigo-200">
+=======
+            <Link href={ROUTES.brand.showroom}>
+              <Card className="hover:border-accent-primary/30 h-full cursor-pointer transition-colors">
+>>>>>>> recover/cabinet-wip-from-stash
                 <CardHeader className="pb-1">
                   <CardTitle className="flex items-center gap-2 text-xs">
                     <Store className="h-4 w-4 text-blue-600" /> Marketroom
@@ -219,14 +357,23 @@ export default function BIAnalyticsPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-lg font-black">{data.platform.marketroomRevenue}</p>
+<<<<<<< HEAD
                   <p className="text-[10px] text-slate-500">
+=======
+                  <p className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                     Outlet: {data.platform.outletRevenue}
                   </p>
                 </CardContent>
               </Card>
             </Link>
+<<<<<<< HEAD
             <Link href="/brand/customers">
               <Card className="h-full cursor-pointer transition-colors hover:border-indigo-200">
+=======
+            <Link href={ROUTES.brand.customers}>
+              <Card className="hover:border-accent-primary/30 h-full cursor-pointer transition-colors">
+>>>>>>> recover/cabinet-wip-from-stash
                 <CardHeader className="pb-1">
                   <CardTitle className="flex items-center gap-2 text-xs">
                     <Users className="h-4 w-4 text-rose-600" /> Клиенты
@@ -234,7 +381,11 @@ export default function BIAnalyticsPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-lg font-black">{data.platform.customerBase}</p>
+<<<<<<< HEAD
                   <p className="text-[10px] text-slate-500">
+=======
+                  <p className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                     {data.platform.preOrders} предзаказов
                   </p>
                 </CardContent>
@@ -243,7 +394,7 @@ export default function BIAnalyticsPage() {
           </div>
 
           {/* По каналам */}
-          <Card className="rounded-xl border border-slate-100">
+          <Card className="border-border-subtle rounded-xl border">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-sm">
                 <PieChart className="h-4 w-4" /> Выручка по каналам
@@ -255,9 +406,15 @@ export default function BIAnalyticsPage() {
                 {Object.entries(data.byChannel).map(([k, v]) => (
                   <div
                     key={k}
+<<<<<<< HEAD
                     className="flex items-center justify-between rounded-lg bg-slate-50 p-3"
                   >
                     <span className="text-[11px] font-bold uppercase text-slate-600">
+=======
+                    className="bg-bg-surface2 flex items-center justify-between rounded-lg p-3"
+                  >
+                    <span className="text-text-secondary text-[11px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                       {k === 'b2b'
                         ? 'B2B Опт'
                         : k === 'b2c'
@@ -266,7 +423,7 @@ export default function BIAnalyticsPage() {
                             ? 'Marketroom'
                             : 'Outlet'}
                     </span>
-                    <span className="font-black text-slate-900">{v}</span>
+                    <span className="text-text-primary font-black">{v}</span>
                   </div>
                 ))}
               </div>
@@ -275,11 +432,19 @@ export default function BIAnalyticsPage() {
 
           {/* Топ ритейлеры + по коллекциям */}
           <div className="grid gap-4 md:grid-cols-2">
+<<<<<<< HEAD
             <Card className="rounded-xl border border-slate-100">
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="text-sm">Топ ритейлеры</CardTitle>
                 <Button variant="ghost" size="sm" className="text-[10px]" asChild>
                   <Link href="/brand/retailers">
+=======
+            <Card className="border-border-subtle rounded-xl border">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="text-sm">Топ ритейлеры</CardTitle>
+                <Button variant="ghost" size="sm" className="text-[10px]" asChild>
+                  <Link href={ROUTES.brand.retailers}>
+>>>>>>> recover/cabinet-wip-from-stash
                     Все <ChevronRight className="h-3 w-3" />
                   </Link>
                 </Button>
@@ -289,7 +454,11 @@ export default function BIAnalyticsPage() {
                   {data.topRetailers.map((r, i) => (
                     <div
                       key={i}
+<<<<<<< HEAD
                       className="flex items-center justify-between rounded-lg p-2 hover:bg-slate-50"
+=======
+                      className="hover:bg-bg-surface2 flex items-center justify-between rounded-lg p-2"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       <span className="text-sm font-medium">{r.name}</span>
                       <span className="font-bold tabular-nums">{r.revenue}</span>
@@ -298,11 +467,15 @@ export default function BIAnalyticsPage() {
                 </div>
               </CardContent>
             </Card>
-            <Card className="rounded-xl border border-slate-100">
+            <Card className="border-border-subtle rounded-xl border">
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="text-sm">По коллекциям / дропам</CardTitle>
                 <Button variant="ghost" size="sm" className="text-[10px]" asChild>
+<<<<<<< HEAD
                   <Link href="/brand/planning">
+=======
+                  <Link href={ROUTES.brand.planning}>
+>>>>>>> recover/cabinet-wip-from-stash
                     Планирование <ChevronRight className="h-3 w-3" />
                   </Link>
                 </Button>
@@ -312,12 +485,20 @@ export default function BIAnalyticsPage() {
                   {data.byCollection.map((c, i) => (
                     <div
                       key={i}
+<<<<<<< HEAD
                       className="flex items-center justify-between rounded-lg p-2 hover:bg-slate-50"
+=======
+                      className="hover:bg-bg-surface2 flex items-center justify-between rounded-lg p-2"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       <span className="text-sm font-medium">{c.name}</span>
                       <div className="text-right">
                         <span className="block font-bold tabular-nums">{c.revenue}</span>
+<<<<<<< HEAD
                         <span className="text-[10px] text-slate-500">
+=======
+                        <span className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                           Sell-through {c.sellThrough}
                         </span>
                       </div>
@@ -330,13 +511,14 @@ export default function BIAnalyticsPage() {
         </TabsContent>
 
         <TabsContent value="sales" className="space-y-4">
-          <Card className="rounded-xl border border-indigo-100 bg-indigo-50/30">
+          <Card className="border-accent-primary/20 bg-accent-primary/10 rounded-xl border">
             <CardHeader>
               <CardTitle>B2B и дистрибуторы</CardTitle>
               <CardDescription>Продажи магазинам, дистрибуторам (как у Zara, H&M)</CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4 md:grid-cols-3">
               <div className="rounded-lg border bg-white p-4">
+<<<<<<< HEAD
                 <p className="text-[10px] font-bold uppercase text-slate-500">Выручка B2B</p>
                 <p className="text-xl font-black">{data.b2b.revenue}</p>
               </div>
@@ -346,17 +528,38 @@ export default function BIAnalyticsPage() {
               </div>
               <div className="rounded-lg border bg-white p-4">
                 <p className="text-[10px] font-bold uppercase text-slate-500">Дропов коллекций</p>
+=======
+                <p className="text-text-secondary text-[10px] font-bold uppercase">Выручка B2B</p>
+                <p className="text-xl font-black">{data.b2b.revenue}</p>
+              </div>
+              <div className="rounded-lg border bg-white p-4">
+                <p className="text-text-secondary text-[10px] font-bold uppercase">Дистрибуторы</p>
+                <p className="text-xl font-black">{data.b2b.distributorsRevenue}</p>
+              </div>
+              <div className="rounded-lg border bg-white p-4">
+                <p className="text-text-secondary text-[10px] font-bold uppercase">
+                  Дропов коллекций
+                </p>
+>>>>>>> recover/cabinet-wip-from-stash
                 <p className="text-xl font-black">{data.b2b.collectionDrops}</p>
               </div>
             </CardContent>
           </Card>
+<<<<<<< HEAD
           <Card className="transition-colors hover:border-indigo-200">
+=======
+          <Card className="hover:border-accent-primary/30 transition-colors">
+>>>>>>> recover/cabinet-wip-from-stash
             <CardHeader className="pb-2">
               <CardTitle className="flex items-center justify-between text-sm">
                 Платформа: Marketroom, Outlet, Pre-orders
                 <Link
                   href={ROUTES.brand.analyticsPlatformSales}
+<<<<<<< HEAD
                   className="text-xs font-normal text-indigo-600 hover:underline"
+=======
+                  className="text-accent-primary text-xs font-normal hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   Полная статистика →
                 </Link>
@@ -364,6 +567,7 @@ export default function BIAnalyticsPage() {
             </CardHeader>
             <CardContent className="grid gap-4 md:grid-cols-4">
               <div>
+<<<<<<< HEAD
                 <p className="text-[10px] text-slate-500">Marketroom</p>
                 <p className="font-black">{data.platform.marketroomRevenue}</p>
               </div>
@@ -377,6 +581,21 @@ export default function BIAnalyticsPage() {
               </div>
               <div>
                 <p className="text-[10px] text-slate-500">База клиентов</p>
+=======
+                <p className="text-text-secondary text-[10px]">Marketroom</p>
+                <p className="font-black">{data.platform.marketroomRevenue}</p>
+              </div>
+              <div>
+                <p className="text-text-secondary text-[10px]">Outlet</p>
+                <p className="font-black">{data.platform.outletRevenue}</p>
+              </div>
+              <div>
+                <p className="text-text-secondary text-[10px]">Предзаказы</p>
+                <p className="font-black">{data.platform.preOrders}</p>
+              </div>
+              <div>
+                <p className="text-text-secondary text-[10px]">База клиентов</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 <p className="font-black">{data.platform.customerBase}</p>
               </div>
             </CardContent>
@@ -387,25 +606,41 @@ export default function BIAnalyticsPage() {
           <div className="grid gap-4 md:grid-cols-4">
             <Card>
               <CardContent className="pt-4">
+<<<<<<< HEAD
                 <p className="text-[10px] text-slate-500">PO в работе</p>
+=======
+                <p className="text-text-secondary text-[10px]">PO в работе</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 <p className="text-xl font-black">{data.production.poCount}</p>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="pt-4">
+<<<<<<< HEAD
                 <p className="text-[10px] text-slate-500">Отгружено</p>
+=======
+                <p className="text-text-secondary text-[10px]">Отгружено</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 <p className="text-xl font-black">{data.production.shippedCount}</p>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="pt-4">
+<<<<<<< HEAD
                 <p className="text-[10px] text-slate-500">Lead time (дн.)</p>
+=======
+                <p className="text-text-secondary text-[10px]">Lead time (дн.)</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 <p className="text-xl font-black">{data.production.avgLeadTime}</p>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="pt-4">
+<<<<<<< HEAD
                 <p className="text-[10px] text-slate-500">Узких мест</p>
+=======
+                <p className="text-text-secondary text-[10px]">Узких мест</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 <p className="text-xl font-black text-amber-600">
                   {data.production.bottleneckOrders}
                 </p>
@@ -413,7 +648,11 @@ export default function BIAnalyticsPage() {
             </Card>
           </div>
           <Button variant="outline" asChild>
+<<<<<<< HEAD
             <Link href="/brand/production">Production →</Link>
+=======
+            <Link href={ROUTES.brand.production}>Production →</Link>
+>>>>>>> recover/cabinet-wip-from-stash
           </Button>
         </TabsContent>
 
@@ -421,36 +660,56 @@ export default function BIAnalyticsPage() {
           <div className="grid gap-4 md:grid-cols-4">
             <Card>
               <CardContent className="pt-4">
+<<<<<<< HEAD
                 <p className="text-[10px] text-slate-500">SKU</p>
+=======
+                <p className="text-text-secondary text-[10px]">SKU</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 <p className="text-xl font-black">{data.warehouse.skuCount}</p>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="pt-4">
+<<<<<<< HEAD
                 <p className="text-[10px] text-slate-500">Всего ед.</p>
+=======
+                <p className="text-text-secondary text-[10px]">Всего ед.</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 <p className="text-xl font-black">{data.warehouse.totalUnits}</p>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="pt-4">
+<<<<<<< HEAD
                 <p className="text-[10px] text-slate-500">Оборачиваемость</p>
+=======
+                <p className="text-text-secondary text-[10px]">Оборачиваемость</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 <p className="text-xl font-black">{data.warehouse.turnoverRate}</p>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="pt-4">
+<<<<<<< HEAD
                 <p className="text-[10px] text-slate-500">Мёртвый сток</p>
+=======
+                <p className="text-text-secondary text-[10px]">Мёртвый сток</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 <p className="text-xl font-black text-rose-600">{data.warehouse.deadStock}</p>
               </CardContent>
             </Card>
           </div>
           <Button variant="outline" asChild>
+<<<<<<< HEAD
             <Link href="/brand/warehouse">Склад →</Link>
+=======
+            <Link href={ROUTES.brand.warehouse}>Склад →</Link>
+>>>>>>> recover/cabinet-wip-from-stash
           </Button>
         </TabsContent>
 
         <TabsContent value="network" className="space-y-6">
-          <Card className="rounded-xl border border-indigo-100 bg-indigo-50/30">
+          <Card className="border-accent-primary/20 bg-accent-primary/10 rounded-xl border">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <TrendingUp className="h-5 w-5" /> Network Sell-Through BI
@@ -463,11 +722,18 @@ export default function BIAnalyticsPage() {
             <CardContent>
               <div className="grid gap-4 md:grid-cols-3">
                 <div className="rounded-lg border bg-white p-4">
+<<<<<<< HEAD
                   <p className="text-[10px] font-bold uppercase text-slate-500">Ваш Sell-Through</p>
+=======
+                  <p className="text-text-secondary text-[10px] font-bold uppercase">
+                    Ваш Sell-Through
+                  </p>
+>>>>>>> recover/cabinet-wip-from-stash
                   <p className="text-2xl font-black">72%</p>
                   <p className="mt-1 text-[10px] text-emerald-600">+5% vs индустрия</p>
                 </div>
                 <div className="rounded-lg border bg-white p-4">
+<<<<<<< HEAD
                   <p className="text-[10px] font-bold uppercase text-slate-500">
                     Среднее по индустрии
                   </p>
@@ -481,6 +747,23 @@ export default function BIAnalyticsPage() {
                 </div>
               </div>
               <p className="mt-4 text-[10px] text-slate-400">
+=======
+                  <p className="text-text-secondary text-[10px] font-bold uppercase">
+                    Среднее по индустрии
+                  </p>
+                  <p className="text-2xl font-black">67%</p>
+                  <p className="text-text-secondary mt-1 text-[10px]">Fashion, premium</p>
+                </div>
+                <div className="rounded-lg border bg-white p-4">
+                  <p className="text-text-secondary text-[10px] font-bold uppercase">
+                    Топ-25% брендов
+                  </p>
+                  <p className="text-2xl font-black">78%</p>
+                  <p className="text-text-secondary mt-1 text-[10px]">Ваш потенциал</p>
+                </div>
+              </div>
+              <p className="text-text-muted mt-4 text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                 Данные агрегируются анонимно. Подключите импорт из 1С/Мой Склад для актуализации.
               </p>
             </CardContent>
@@ -488,7 +771,7 @@ export default function BIAnalyticsPage() {
         </TabsContent>
 
         <TabsContent value="geo" className="space-y-6">
-          <Card className="rounded-xl border border-indigo-100 bg-indigo-50/30">
+          <Card className="border-accent-primary/20 bg-accent-primary/10 rounded-xl border">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <MapPin className="h-5 w-5" /> Geo-Demand Heatmap
@@ -499,12 +782,21 @@ export default function BIAnalyticsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
+<<<<<<< HEAD
               <div className="flex h-64 items-center justify-center rounded-xl border border-slate-200 bg-slate-100">
                 <div className="text-center text-slate-500">
                   <MapPin className="mx-auto mb-2 h-12 w-12 opacity-50" />
                   <p className="text-sm font-bold">Интерактивная карта спроса</p>
                   <p className="text-[11px]">Москва, СПб, регионы — тепловая карта заказов</p>
                   <p className="mt-2 text-[10px] text-slate-400">
+=======
+              <div className="bg-bg-surface2 border-border-default flex h-64 items-center justify-center rounded-xl border">
+                <div className="text-text-secondary text-center">
+                  <MapPin className="mx-auto mb-2 h-12 w-12 opacity-50" />
+                  <p className="text-sm font-bold">Интерактивная карта спроса</p>
+                  <p className="text-[11px]">Москва, СПб, регионы — тепловая карта заказов</p>
+                  <p className="text-text-muted mt-2 text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                     Скоро: подключение к данным продаж
                   </p>
                 </div>
@@ -512,7 +804,11 @@ export default function BIAnalyticsPage() {
               <div className="mt-4 grid gap-3 md:grid-cols-4">
                 {['Москва', 'СПб', 'Регионы', 'Онлайн'].map((r, i) => (
                   <div key={i} className="rounded-lg border bg-white p-3 text-center">
+<<<<<<< HEAD
                     <p className="text-[10px] text-slate-500">{r}</p>
+=======
+                    <p className="text-text-secondary text-[10px]">{r}</p>
+>>>>>>> recover/cabinet-wip-from-stash
                     <p className="font-black">{[42, 18, 28, 12][i]}%</p>
                   </div>
                 ))}
@@ -522,7 +818,7 @@ export default function BIAnalyticsPage() {
         </TabsContent>
 
         <TabsContent value="sentiment" className="space-y-6">
-          <Card className="rounded-xl border border-indigo-100 bg-indigo-50/30">
+          <Card className="border-accent-primary/20 bg-accent-primary/10 rounded-xl border">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Megaphone className="h-5 w-5" /> Trend Sentiment Radar
@@ -535,33 +831,63 @@ export default function BIAnalyticsPage() {
             <CardContent>
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="rounded-xl border bg-white p-4">
+<<<<<<< HEAD
                   <p className="mb-2 text-[10px] font-bold uppercase text-slate-500">
                     TikTok · #streetwear #fashion
                   </p>
                   <div className="flex items-center gap-2">
                     <div className="h-3 flex-1 overflow-hidden rounded-full bg-slate-100">
+=======
+                  <p className="text-text-secondary mb-2 text-[10px] font-bold uppercase">
+                    TikTok · #streetwear #fashion
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <div className="bg-bg-surface2 h-3 flex-1 overflow-hidden rounded-full">
+>>>>>>> recover/cabinet-wip-from-stash
                       <div className="h-full w-[72%] rounded-full bg-emerald-500" />
                     </div>
                     <span className="text-sm font-black text-emerald-600">72% позитив</span>
                   </div>
+<<<<<<< HEAD
                   <p className="mt-2 text-[11px] text-slate-500">
+=======
+                  <p className="text-text-secondary mt-2 text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                     Рост упоминаний oversized, cargo
                   </p>
                 </div>
                 <div className="rounded-xl border bg-white p-4">
+<<<<<<< HEAD
                   <p className="mb-2 text-[10px] font-bold uppercase text-slate-500">
                     Instagram · бренд и конкуренты
                   </p>
                   <div className="flex items-center gap-2">
                     <div className="h-3 flex-1 overflow-hidden rounded-full bg-slate-100">
                       <div className="h-full w-[65%] rounded-full bg-indigo-500" />
+=======
+                  <p className="text-text-secondary mb-2 text-[10px] font-bold uppercase">
+                    Instagram · бренд и конкуренты
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <div className="bg-bg-surface2 h-3 flex-1 overflow-hidden rounded-full">
+                      <div className="bg-accent-primary h-full w-[65%] rounded-full" />
+>>>>>>> recover/cabinet-wip-from-stash
                     </div>
-                    <span className="text-sm font-black text-indigo-600">65% позитив</span>
+                    <span className="text-accent-primary text-sm font-black">65% позитив</span>
                   </div>
+<<<<<<< HEAD
                   <p className="mt-2 text-[11px] text-slate-500">Запрос на экологичные материалы</p>
                 </div>
               </div>
               <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-3 text-[11px] text-slate-600">
+=======
+                  <p className="text-text-secondary mt-2 text-[11px]">
+                    Запрос на экологичные материалы
+                  </p>
+                </div>
+              </div>
+              <div className="bg-bg-surface2 border-border-default text-text-secondary mt-4 rounded-lg border p-3 text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                 <strong>Радар трендов:</strong> Подключите API TikTok/Instagram или загружайте
                 отчёты для актуализации. Рекомендации по дизайну и ассортименту в текущем дропе.
               </div>
@@ -570,7 +896,7 @@ export default function BIAnalyticsPage() {
         </TabsContent>
 
         <TabsContent value="budget" className="space-y-6">
-          <Card className="rounded-xl border border-indigo-100 bg-indigo-50/30">
+          <Card className="border-accent-primary/20 bg-accent-primary/10 rounded-xl border">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Target className="h-5 w-5" /> Budget vs Actual
@@ -605,14 +931,22 @@ export default function BIAnalyticsPage() {
                   >
                     <span className="font-medium">{row.name}</span>
                     <div className="flex items-center gap-4">
+<<<<<<< HEAD
                       <span className="text-sm text-slate-500">План: {row.planned}</span>
+=======
+                      <span className="text-text-secondary text-sm">План: {row.planned}</span>
+>>>>>>> recover/cabinet-wip-from-stash
                       <span className="text-sm font-bold">Факт: {row.actual}</span>
                       <span
                         className={cn(
                           'text-[11px] font-bold',
                           row.ok === true && 'text-emerald-600',
                           row.ok === false && 'text-amber-600',
+<<<<<<< HEAD
                           row.ok === null && 'text-slate-400'
+=======
+                          row.ok === null && 'text-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                         )}
                       >
                         {row.diff}
@@ -626,7 +960,7 @@ export default function BIAnalyticsPage() {
                   <Link href={ROUTES.brand.budgetActual}>Полный отчёт План vs Факт →</Link>
                 </Button>
                 <Button variant="outline" size="sm" asChild>
-                  <Link href="/brand/production">Production → Бюджет коллекций</Link>
+                  <Link href={ROUTES.brand.production}>Production → Бюджет коллекций</Link>
                 </Button>
               </div>
             </CardContent>
@@ -634,7 +968,7 @@ export default function BIAnalyticsPage() {
         </TabsContent>
 
         <TabsContent value="import" className="space-y-6">
-          <Card className="rounded-xl border-2 border-dashed border-indigo-200 bg-indigo-50/20">
+          <Card className="border-accent-primary/30 bg-accent-primary/10 rounded-xl border-2 border-dashed">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Upload className="h-5 w-5" /> Загрузка и интеграция данных
@@ -651,6 +985,7 @@ export default function BIAnalyticsPage() {
                   className={cn(
                     'rounded-xl border-2 p-4 text-left transition-all',
                     importSource === '1c'
+<<<<<<< HEAD
                       ? 'border-indigo-600 bg-indigo-50'
                       : 'border-slate-200 bg-white hover:border-indigo-200'
                   )}
@@ -658,6 +993,15 @@ export default function BIAnalyticsPage() {
                   <Database className="mb-2 h-8 w-8 text-indigo-600" />
                   <p className="text-sm font-bold">1С:Предприятие</p>
                   <p className="mt-1 text-[11px] text-slate-500">
+=======
+                      ? 'border-accent-primary bg-accent-primary/10'
+                      : 'border-border-default hover:border-accent-primary/30 bg-white'
+                  )}
+                >
+                  <Database className="text-accent-primary mb-2 h-8 w-8" />
+                  <p className="text-sm font-bold">1С:Предприятие</p>
+                  <p className="text-text-secondary mt-1 text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                     Интеграция через API или выгрузку
                   </p>
                 </button>
@@ -666,26 +1010,46 @@ export default function BIAnalyticsPage() {
                   className={cn(
                     'rounded-xl border-2 p-4 text-left transition-all',
                     importSource === 'excel'
+<<<<<<< HEAD
                       ? 'border-indigo-600 bg-indigo-50'
                       : 'border-slate-200 bg-white hover:border-indigo-200'
+=======
+                      ? 'border-accent-primary bg-accent-primary/10'
+                      : 'border-border-default hover:border-accent-primary/30 bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   <FileSpreadsheet className="mb-2 h-8 w-8 text-emerald-600" />
                   <p className="text-sm font-bold">Excel / CSV</p>
+<<<<<<< HEAD
                   <p className="mt-1 text-[11px] text-slate-500">Загрузка файла выгрузки</p>
+=======
+                  <p className="text-text-secondary mt-1 text-[11px]">Загрузка файла выгрузки</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 </button>
                 <button
                   onClick={() => setImportSource('moi_sklad')}
                   className={cn(
                     'rounded-xl border-2 p-4 text-left transition-all',
                     importSource === 'moi_sklad'
+<<<<<<< HEAD
                       ? 'border-indigo-600 bg-indigo-50'
                       : 'border-slate-200 bg-white hover:border-indigo-200'
+=======
+                      ? 'border-accent-primary bg-accent-primary/10'
+                      : 'border-border-default hover:border-accent-primary/30 bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   <Truck className="mb-2 h-8 w-8 text-amber-600" />
                   <p className="text-sm font-bold">Мой Склад</p>
+<<<<<<< HEAD
                   <p className="mt-1 text-[11px] text-slate-500">Синхронизация остатков и продаж</p>
+=======
+                  <p className="text-text-secondary mt-1 text-[11px]">
+                    Синхронизация остатков и продаж
+                  </p>
+>>>>>>> recover/cabinet-wip-from-stash
                 </button>
               </div>
               {importSource && (
@@ -695,7 +1059,11 @@ export default function BIAnalyticsPage() {
                     {importSource === 'excel' && 'Загрузка Excel'}
                     {importSource === 'moi_sklad' && 'Подключение Мой Склад'}
                   </p>
+<<<<<<< HEAD
                   <p className="mb-3 text-[11px] text-slate-600">
+=======
+                  <p className="text-text-secondary mb-3 text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                     {importSource === '1c' &&
                       'Настройте API-интеграцию в разделе Интеграции или загрузите выгрузку.'}
                     {importSource === 'excel' &&
@@ -708,6 +1076,7 @@ export default function BIAnalyticsPage() {
                   </Button>
                 </div>
               )}
+<<<<<<< HEAD
               <p className="mt-4 text-[10px] text-slate-400">
                 Интеграции настраиваются в{' '}
                 <Link href="/brand/integrations" className="text-indigo-600 underline">
@@ -715,6 +1084,15 @@ export default function BIAnalyticsPage() {
                 </Link>{' '}
                 и{' '}
                 <Link href="/brand/settings" className="text-indigo-600 underline">
+=======
+              <p className="text-text-muted mt-4 text-[10px]">
+                Интеграции настраиваются в{' '}
+                <Link href={ROUTES.brand.integrations} className="text-accent-primary underline">
+                  Интеграции
+                </Link>{' '}
+                и{' '}
+                <Link href={ROUTES.brand.settings} className="text-accent-primary underline">
+>>>>>>> recover/cabinet-wip-from-stash
                   Настройки
                 </Link>
                 .
@@ -725,6 +1103,6 @@ export default function BIAnalyticsPage() {
       </Tabs>
 
       <RelatedModulesBlock links={getAnalyticsLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

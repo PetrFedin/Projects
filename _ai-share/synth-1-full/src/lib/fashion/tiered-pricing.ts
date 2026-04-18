@@ -19,3 +19,14 @@ export function getWholesaleTieredPricing(sku: string): WholesaleTieredPricingV1
     currentActiveTier: 0,
   };
 }
+
+/** Сумма строки заказа по ступенчатой цене (опт). */
+export function calculateTieredPrice(sku: string, quantity: number): number {
+  const plan = getWholesaleTieredPricing(sku);
+  const qty = Math.max(0, quantity);
+  let unit = plan.tiers[0]?.pricePerUnit ?? 0;
+  for (const t of plan.tiers) {
+    if (qty >= t.minQty) unit = t.pricePerUnit;
+  }
+  return unit * qty;
+}

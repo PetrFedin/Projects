@@ -10,7 +10,10 @@ import {
   Share2,
   Instagram,
   MessageCircle,
+<<<<<<< HEAD
   ExternalLink,
+=======
+>>>>>>> recover/cabinet-wip-from-stash
   Video,
   Radio,
   FileText,
@@ -19,9 +22,12 @@ import {
   Upload,
   Globe,
 } from 'lucide-react';
-import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { getMarketingLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { ROUTES } from '@/lib/routes';
 
 const SOCIAL_CHANNELS = [
   {
@@ -50,6 +56,7 @@ const SOCIAL_CHANNELS = [
 
 export default function ContentHubPage() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Content Hub"
@@ -59,6 +66,15 @@ export default function ContentHubPage() {
         iconColor="text-violet-600"
         badges={
           <>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Content Hub"
+        leadPlain="Синхронизация с Telegram, Instagram, VK, сайтом бренда. Видео, стримы, подкасты, блог, фото коллекций и репосты в Stories платформы."
+        actions={
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <Share2 className="size-6 shrink-0 text-muted-foreground" aria-hidden />
+>>>>>>> recover/cabinet-wip-from-stash
             <Badge variant="outline" className="text-[9px]">
               TG
             </Badge>
@@ -69,14 +85,18 @@ export default function ContentHubPage() {
               VK
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+<<<<<<< HEAD
               <Link href="/brand/media">Media</Link>
+=======
+              <Link href={ROUTES.brand.media}>Media</Link>
+>>>>>>> recover/cabinet-wip-from-stash
             </Button>
-          </>
+          </div>
         }
       />
-      <h1 className="text-2xl font-bold uppercase">Content Hub</h1>
 
       <Tabs defaultValue="social" className="space-y-6">
+<<<<<<< HEAD
         <TabsList className="rounded-xl bg-slate-100 p-1">
           <TabsTrigger value="social" className="rounded-lg">
             Синк с соцсетями
@@ -88,12 +108,26 @@ export default function ContentHubPage() {
             Блог и статьи
           </TabsTrigger>
           <TabsTrigger value="photos" className="rounded-lg">
+=======
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'flex-wrap')}>
+          <TabsTrigger value="social" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
+            Синк с соцсетями
+          </TabsTrigger>
+          <TabsTrigger value="video" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
+            Видео и стримы
+          </TabsTrigger>
+          <TabsTrigger value="blog" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
+            Блог и статьи
+          </TabsTrigger>
+          <TabsTrigger value="photos" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
+>>>>>>> recover/cabinet-wip-from-stash
             Фото и репосты
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="social" className="space-y-6">
-          <Card className="rounded-xl border border-violet-100">
+          <Card className="border-accent-primary/20 rounded-xl border">
             <CardHeader>
               <CardTitle>Подключение каналов</CardTitle>
               <CardDescription>
@@ -108,10 +142,10 @@ export default function ContentHubPage() {
                     className="flex items-center justify-between rounded-xl border bg-white p-4"
                   >
                     <div className="flex items-center gap-3">
-                      <ch.icon className="h-8 w-8 text-slate-600" />
+                      <ch.icon className="text-text-secondary h-8 w-8" />
                       <div>
                         <p className="font-bold">{ch.name}</p>
-                        <p className="text-[11px] text-slate-500">{ch.desc}</p>
+                        <p className="text-text-secondary text-[11px]">{ch.desc}</p>
                       </div>
                     </div>
                     <Button variant="outline" size="sm">
@@ -148,7 +182,11 @@ export default function ContentHubPage() {
               </CardHeader>
               <CardContent>
                 <Button variant="outline" size="sm" asChild>
+<<<<<<< HEAD
                   <Link href="/brand/media">Настроить</Link>
+=======
+                  <Link href={ROUTES.brand.media}>Настроить</Link>
+>>>>>>> recover/cabinet-wip-from-stash
                 </Button>
               </CardContent>
             </Card>
@@ -213,6 +251,6 @@ export default function ContentHubPage() {
       </Tabs>
 
       <RelatedModulesBlock links={getMarketingLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

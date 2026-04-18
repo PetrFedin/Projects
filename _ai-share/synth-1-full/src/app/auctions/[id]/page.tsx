@@ -58,7 +58,11 @@ export default function AuctionDetailPage({
 
   if (!auction)
     return (
+<<<<<<< HEAD
       <div className="p-20 text-center font-black uppercase tracking-widest text-slate-400">
+=======
+      <div className="text-text-muted p-20 text-center font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
         Аукцион не найден
       </div>
     );
@@ -73,7 +77,11 @@ export default function AuctionDetailPage({
   const selectedBid = auction.bids.find((b) => b.id === selectedBidId);
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen bg-slate-50/50 p-4 font-sans md:p-4">
+=======
+    <div className="bg-bg-surface2/80 min-h-screen p-4 font-sans md:p-4">
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="mx-auto max-w-[1400px] space-y-10">
         {/* Header */}
         <div className="flex flex-col justify-between gap-3 md:flex-row md:items-start">
@@ -81,7 +89,11 @@ export default function AuctionDetailPage({
             <Button
               asChild
               variant="ghost"
+<<<<<<< HEAD
               className="group p-0 text-[10px] font-black uppercase tracking-widest text-slate-400 transition-all hover:bg-transparent hover:text-slate-900"
+=======
+              className="text-text-muted hover:text-text-primary group p-0 text-[10px] font-black uppercase tracking-widest transition-all hover:bg-transparent"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <Link href="/brand/auctions" className="flex items-center">
                 <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />{' '}
@@ -90,12 +102,20 @@ export default function AuctionDetailPage({
             </Button>
             <div className="space-y-2">
               <div className="flex items-center gap-3">
+<<<<<<< HEAD
                 <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-900 shadow-lg">
+=======
+                <div className="bg-text-primary flex h-10 w-10 items-center justify-center rounded-2xl shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
                   <Gavel className="h-5 w-5 text-white" />
                 </div>
                 <Badge
                   variant="outline"
+<<<<<<< HEAD
                   className="border-slate-900/20 bg-slate-900/5 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-slate-900"
+=======
+                  className="border-text-primary/20 text-text-primary bg-text-primary/5 px-3 py-1 text-[10px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   ID: {auction.id}
                 </Badge>
@@ -103,10 +123,17 @@ export default function AuctionDetailPage({
                   Active Tender
                 </Badge>
               </div>
+<<<<<<< HEAD
               <h1 className="max-w-2xl text-sm font-black uppercase leading-tight tracking-tighter text-slate-900">
                 {auction.title}
               </h1>
               <p className="max-w-xl text-sm font-medium text-slate-400">{auction.description}</p>
+=======
+              <h1 className="text-text-primary max-w-2xl text-sm font-black uppercase leading-tight tracking-tighter">
+                {auction.title}
+              </h1>
+              <p className="text-text-muted max-w-xl text-sm font-medium">{auction.description}</p>
+>>>>>>> recover/cabinet-wip-from-stash
             </div>
           </div>
 
@@ -114,6 +141,7 @@ export default function AuctionDetailPage({
             <div className="space-y-6">
               {auction.type === 'collaboration' ? (
                 <>
+<<<<<<< HEAD
                   <div className="flex items-center justify-between border-b border-slate-50 pb-4">
                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                       Platform
@@ -127,11 +155,30 @@ export default function AuctionDetailPage({
                       Engagement Rate
                     </p>
                     <p className="text-base font-black text-indigo-600">
+=======
+                  <div className="border-border-subtle flex items-center justify-between border-b pb-4">
+                    <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                      Platform
+                    </p>
+                    <Badge className="bg-bg-surface2 text-text-primary border-none px-3 text-[10px] font-black uppercase">
+                      {auction.influencerData?.platform}
+                    </Badge>
+                  </div>
+                  <div className="border-border-subtle flex items-center justify-between border-b pb-4">
+                    <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                      Engagement Rate
+                    </p>
+                    <p className="text-accent-primary text-base font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                       {auction.influencerData?.er}%
                     </p>
                   </div>
                   <div className="flex items-center justify-between pb-2">
+<<<<<<< HEAD
                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+                    <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       Status
                     </p>
                     <div className="flex items-center gap-2 text-green-500">
@@ -139,12 +186,17 @@ export default function AuctionDetailPage({
                       <p className="text-base font-black uppercase tracking-tighter">Available</p>
                     </div>
                   </div>
+<<<<<<< HEAD
                   <Button className="h-10 w-full rounded-2xl bg-purple-600 text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-purple-900/20 transition-all hover:bg-purple-700">
+=======
+                  <Button className="bg-accent-primary shadow-accent-primary/20 hover:bg-accent-primary h-10 w-full rounded-2xl text-[10px] font-black uppercase tracking-widest text-white shadow-xl transition-all">
+>>>>>>> recover/cabinet-wip-from-stash
                     Обсудить коллаборацию
                   </Button>
                 </>
               ) : (
                 <>
+<<<<<<< HEAD
                   <div className="flex items-center justify-between border-b border-slate-50 pb-4">
                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                       Target Price
@@ -158,11 +210,30 @@ export default function AuctionDetailPage({
                       Units
                     </p>
                     <p className="text-base font-black text-slate-900">
+=======
+                  <div className="border-border-subtle flex items-center justify-between border-b pb-4">
+                    <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                      Target Price
+                    </p>
+                    <p className="text-text-primary text-base font-black">
+                      {auction.targetPrice?.toLocaleString('ru-RU')} ₽
+                    </p>
+                  </div>
+                  <div className="border-border-subtle flex items-center justify-between border-b pb-4">
+                    <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                      Units
+                    </p>
+                    <p className="text-text-primary text-base font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                       {auction.targetQuantity?.toLocaleString('ru-RU')}
                     </p>
                   </div>
                   <div className="flex items-center justify-between pb-2">
+<<<<<<< HEAD
                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+                    <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       Time Left
                     </p>
                     <div className="flex items-center gap-2 text-rose-500">
@@ -170,7 +241,11 @@ export default function AuctionDetailPage({
                       <p className="text-base font-black uppercase tracking-tighter">2d 14h 30m</p>
                     </div>
                   </div>
+<<<<<<< HEAD
                   <Button className="h-10 w-full rounded-2xl bg-slate-900 text-[10px] font-black uppercase tracking-widest text-white shadow-xl">
+=======
+                  <Button className="bg-text-primary h-10 w-full rounded-2xl text-[10px] font-black uppercase tracking-widest text-white shadow-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                     Закрыть досрочно
                   </Button>
                 </>
@@ -187,19 +262,32 @@ export default function AuctionDetailPage({
                 {/* Social Media Analytics Block */}
                 <section className="space-y-6">
                   <div className="flex items-center gap-3 px-2">
+<<<<<<< HEAD
                     <TrendingUp className="h-5 w-5 text-indigo-600" />
                     <h3 className="text-base font-black uppercase tracking-tight text-slate-900">
+=======
+                    <TrendingUp className="text-accent-primary h-5 w-5" />
+                    <h3 className="text-text-primary text-base font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                       Анализ социальных сетей
                     </h3>
                   </div>
 
                   <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
                     <Card className="space-y-2 rounded-xl border-none bg-white p-4 shadow-xl">
+<<<<<<< HEAD
                       <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                         Real Audience Score
                       </p>
                       <div className="flex items-end gap-2">
                         <p className="text-base font-black text-slate-900">
+=======
+                      <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                        Real Audience Score
+                      </p>
+                      <div className="flex items-end gap-2">
+                        <p className="text-text-primary text-base font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                           {auction.influencerData?.realAudienceScore}%
                         </p>
                         <Badge className="mb-1 border-none bg-green-100 text-[8px] font-black uppercase text-green-600">
@@ -208,12 +296,20 @@ export default function AuctionDetailPage({
                       </div>
                       <Progress
                         value={auction.influencerData?.realAudienceScore}
+<<<<<<< HEAD
                         className="h-1 bg-slate-100"
+=======
+                        className="bg-bg-surface2 h-1"
+>>>>>>> recover/cabinet-wip-from-stash
                       />
                     </Card>
 
                     <Card className="space-y-4 rounded-xl border-none bg-white p-4 shadow-xl">
+<<<<<<< HEAD
                       <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+                      <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                         Топ География
                       </p>
                       <div className="flex flex-wrap gap-2">
@@ -221,7 +317,11 @@ export default function AuctionDetailPage({
                           <Badge
                             key={i}
                             variant="secondary"
+<<<<<<< HEAD
                             className="rounded-lg border-slate-100 bg-slate-50 px-3 py-1 text-[9px] font-bold uppercase tracking-wider text-slate-600"
+=======
+                            className="bg-bg-surface2 text-text-secondary border-border-subtle rounded-lg px-3 py-1 text-[9px] font-bold uppercase tracking-wider"
+>>>>>>> recover/cabinet-wip-from-stash
                           >
                             {geo}
                           </Badge>
@@ -230,10 +330,17 @@ export default function AuctionDetailPage({
                     </Card>
 
                     <Card className="space-y-2 rounded-xl border-none bg-white p-4 shadow-xl">
+<<<<<<< HEAD
                       <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                         Audience Quality
                       </p>
                       <p className="text-xs font-medium italic leading-relaxed text-slate-500">
+=======
+                      <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                        Audience Quality
+                      </p>
+                      <p className="text-text-secondary text-xs font-medium italic leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                         {auction.influencerData?.audienceQuality}
                       </p>
                     </Card>
@@ -243,27 +350,44 @@ export default function AuctionDetailPage({
                 {/* AI Smart Advisor Detailed View */}
                 <section className="space-y-6">
                   <div className="flex items-center gap-3 px-2">
+<<<<<<< HEAD
                     <Brain className="h-5 w-5 text-purple-600" />
                     <h3 className="text-base font-black uppercase tracking-tight text-slate-900">
+=======
+                    <Brain className="text-accent-primary h-5 w-5" />
+                    <h3 className="text-text-primary text-base font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                       AI Smart Advisor
                     </h3>
                   </div>
 
+<<<<<<< HEAD
                   <Card className="relative overflow-hidden rounded-xl border-none bg-slate-900 p-3 text-white shadow-2xl">
+=======
+                  <Card className="bg-text-primary relative overflow-hidden rounded-xl border-none p-3 text-white shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
                     <div className="absolute right-0 top-0 p-4 opacity-5">
                       <Sparkles className="h-48 w-48" />
                     </div>
                     <div className="relative z-10 space-y-4">
                       <div className="flex items-center justify-between">
                         <div className="space-y-1">
+<<<<<<< HEAD
                           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400">
+=======
+                          <p className="text-accent-primary text-[10px] font-black uppercase tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
                             Relevance Recommendation
                           </p>
                           <h4 className="text-base font-black uppercase tracking-tighter">
                             Match Analysis
                           </h4>
                         </div>
+<<<<<<< HEAD
                         <div className="relative flex h-20 w-20 items-center justify-center rounded-full border-4 border-purple-500/30">
+=======
+                        <div className="border-accent-primary/150 relative flex h-20 w-20 items-center justify-center rounded-full border-4">
+>>>>>>> recover/cabinet-wip-from-stash
                           <span className="text-sm font-black">
                             {auction.aiSmartAdvisor?.relevanceScore}%
                           </span>
@@ -275,7 +399,11 @@ export default function AuctionDetailPage({
                               stroke="currentColor"
                               strokeWidth="4"
                               fill="transparent"
+<<<<<<< HEAD
                               className="text-purple-500"
+=======
+                              className="text-accent-primary"
+>>>>>>> recover/cabinet-wip-from-stash
                               strokeDasharray={`${auction.aiSmartAdvisor ? auction.aiSmartAdvisor.relevanceScore * 2.26 : 0} 226`}
                             />
                           </svg>
@@ -284,8 +412,8 @@ export default function AuctionDetailPage({
 
                       <div className="space-y-4 rounded-xl border border-white/5 bg-white/5 p-4">
                         <div className="flex items-center gap-3">
-                          <Info className="h-5 w-5 text-purple-400" />
-                          <p className="text-sm font-bold leading-relaxed text-slate-200">
+                          <Info className="text-accent-primary h-5 w-5" />
+                          <p className="text-text-muted text-sm font-bold leading-relaxed">
                             {auction.aiSmartAdvisor?.matchAnalysis}
                           </p>
                         </div>
@@ -296,7 +424,11 @@ export default function AuctionDetailPage({
                           <p className="text-[10px] font-black uppercase tracking-widest text-white/40">
                             Efficiency Forecast
                           </p>
+<<<<<<< HEAD
                           <p className="text-sm font-medium text-slate-400">
+=======
+                          <p className="text-text-muted text-sm font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                             Прогнозируемый рост охвата бренда на{' '}
                             <span className="font-black text-green-400">+12-15%</span> в целевом
                             сегменте в течение первой недели после публикации.
@@ -306,7 +438,11 @@ export default function AuctionDetailPage({
                           <p className="text-[10px] font-black uppercase tracking-widest text-white/40">
                             Engagement Potential
                           </p>
+<<<<<<< HEAD
                           <p className="text-sm font-medium text-slate-400">
+=======
+                          <p className="text-text-muted text-sm font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                             Высокая вероятность конверсии в лояльных клиентов благодаря высокому
                             уровню доверия аудитории (Trust Score: 9.2/10).
                           </p>
@@ -319,13 +455,21 @@ export default function AuctionDetailPage({
             ) : (
               <>
                 <div className="flex items-center justify-between px-2">
+<<<<<<< HEAD
                   <h3 className="text-base font-black uppercase tracking-tight text-slate-900">
+=======
+                  <h3 className="text-text-primary text-base font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                     Поступившие заявки
                   </h3>
                   <div className="flex gap-3">
                     <div className="flex items-center gap-2">
                       <div className="h-2 w-2 rounded-full bg-green-500" />
+<<<<<<< HEAD
                       <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">
+=======
+                      <span className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                         Leading Bid
                       </span>
                     </div>
@@ -335,8 +479,9 @@ export default function AuctionDetailPage({
                 <Card className="overflow-hidden rounded-xl border-none bg-white shadow-xl">
                   <CardContent className="p-0">
                     <Table>
-                      <TableHeader className="bg-slate-50/50">
+                      <TableHeader className="bg-bg-surface2/80">
                         <TableRow className="border-none hover:bg-transparent">
+<<<<<<< HEAD
                           <TableHead className="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
                             Поставщик
                           </TableHead>
@@ -350,6 +495,21 @@ export default function AuctionDetailPage({
                             AI Score
                           </TableHead>
                           <TableHead className="px-8 py-4 text-right text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+                          <TableHead className="text-text-muted px-8 py-4 text-[10px] font-black uppercase tracking-widest">
+                            Поставщик
+                          </TableHead>
+                          <TableHead className="text-text-muted py-4 text-[10px] font-black uppercase tracking-widest">
+                            Цена (ед.)
+                          </TableHead>
+                          <TableHead className="text-text-muted py-4 text-[10px] font-black uppercase tracking-widest">
+                            Срок (дней)
+                          </TableHead>
+                          <TableHead className="text-text-muted py-4 text-[10px] font-black uppercase tracking-widest">
+                            AI Score
+                          </TableHead>
+                          <TableHead className="text-text-muted px-8 py-4 text-right text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                             Действие
                           </TableHead>
                         </TableRow>
@@ -359,10 +519,17 @@ export default function AuctionDetailPage({
                           <TableRow
                             key={bid.id}
                             className={cn(
+<<<<<<< HEAD
                               'group cursor-pointer border-b border-slate-50 transition-colors',
                               selectedBidId === bid.id
                                 ? 'bg-slate-900 hover:bg-slate-900'
                                 : 'hover:bg-slate-50/50'
+=======
+                              'border-border-subtle group cursor-pointer border-b transition-colors',
+                              selectedBidId === bid.id
+                                ? 'bg-text-primary hover:bg-text-primary/90'
+                                : 'hover:bg-bg-surface2/80'
+>>>>>>> recover/cabinet-wip-from-stash
                             )}
                             onClick={() => setSelectedBidId(bid.id)}
                           >
@@ -373,7 +540,11 @@ export default function AuctionDetailPage({
                                     'flex h-10 w-10 items-center justify-center rounded-xl text-xs font-black transition-colors',
                                     selectedBidId === bid.id
                                       ? 'bg-white/10 text-white'
+<<<<<<< HEAD
                                       : 'bg-slate-100 text-slate-400'
+=======
+                                      : 'bg-bg-surface2 text-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                                   )}
                                 >
                                   {bid.bidderName[0]}
@@ -382,14 +553,22 @@ export default function AuctionDetailPage({
                                   <p
                                     className={cn(
                                       'font-bold uppercase tracking-tight',
+<<<<<<< HEAD
                                       selectedBidId === bid.id ? 'text-white' : 'text-slate-900'
+=======
+                                      selectedBidId === bid.id ? 'text-white' : 'text-text-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                                     )}
                                   >
                                     {bid.bidderName}
                                   </p>
                                   <div className="flex items-center gap-1">
                                     <Trophy className="h-2.5 w-2.5 text-amber-500" />
+<<<<<<< HEAD
                                     <p className="text-[9px] font-black uppercase text-slate-400">
+=======
+                                    <p className="text-text-muted text-[9px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                                       {bid.bidderRating} Rating
                                     </p>
                                   </div>
@@ -399,7 +578,11 @@ export default function AuctionDetailPage({
                             <TableCell className="py-6 text-sm font-black">
                               <span
                                 className={cn(
+<<<<<<< HEAD
                                   selectedBidId === bid.id ? 'text-green-400' : 'text-slate-900'
+=======
+                                  selectedBidId === bid.id ? 'text-green-400' : 'text-text-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                                 )}
                               >
                                 {bid.amount.toLocaleString('ru-RU')} ₽
@@ -408,7 +591,11 @@ export default function AuctionDetailPage({
                             <TableCell
                               className={cn(
                                 'py-6 text-sm font-bold',
+<<<<<<< HEAD
                                 selectedBidId === bid.id ? 'text-white/60' : 'text-slate-400'
+=======
+                                selectedBidId === bid.id ? 'text-white/60' : 'text-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                               )}
                             >
                               {bid.deliveryDays}
@@ -432,8 +619,13 @@ export default function AuctionDetailPage({
                                 className={cn(
                                   'h-10 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg transition-all',
                                   selectedBidId === bid.id
+<<<<<<< HEAD
                                     ? 'bg-white text-slate-900 hover:bg-slate-100'
                                     : 'bg-slate-900 text-white opacity-0 hover:bg-black group-hover:opacity-100'
+=======
+                                    ? 'text-text-primary hover:bg-bg-surface2 bg-white'
+                                    : 'bg-text-primary text-white opacity-0 hover:bg-black group-hover:opacity-100'
+>>>>>>> recover/cabinet-wip-from-stash
                                 )}
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -457,13 +649,21 @@ export default function AuctionDetailPage({
           <div className="space-y-4 lg:col-span-4">
             <div className="flex items-center gap-3 px-2">
               <Brain className="h-5 w-5 text-accent" />
+<<<<<<< HEAD
               <h3 className="text-base font-black uppercase tracking-tight text-accent text-slate-900">
+=======
+              <h3 className="text-text-primary text-base font-black uppercase tracking-tight text-accent">
+>>>>>>> recover/cabinet-wip-from-stash
                 AI Advisor PRO
               </h3>
             </div>
 
             {auction.type === 'collaboration' ? (
+<<<<<<< HEAD
               <Card className="relative h-fit overflow-hidden rounded-xl border-none bg-slate-950 p-3 text-white shadow-2xl">
+=======
+              <Card className="bg-text-primary relative h-fit overflow-hidden rounded-xl border-none p-3 text-white shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
                 <div className="absolute right-0 top-0 p-4 opacity-10">
                   <Bot className="h-32 w-32 rotate-12" />
                 </div>
@@ -482,7 +682,11 @@ export default function AuctionDetailPage({
                       <p className="mb-1 text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
                         Relevance
                       </p>
+<<<<<<< HEAD
                       <Badge className="border-none bg-purple-500 px-3 text-[9px] font-black uppercase">
+=======
+                      <Badge className="bg-accent-primary border-none px-3 text-[9px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                         {auction.aiSmartAdvisor?.relevanceScore}%
                       </Badge>
                     </div>
@@ -519,13 +723,21 @@ export default function AuctionDetailPage({
                     </div>
                   </div>
 
+<<<<<<< HEAD
                   <Button className="h-10 w-full rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest text-slate-900 transition-all hover:bg-slate-100">
+=======
+                  <Button className="text-text-primary hover:bg-bg-surface2 h-10 w-full rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest transition-all">
+>>>>>>> recover/cabinet-wip-from-stash
                     Открыть чат с блогером
                   </Button>
                 </div>
               </Card>
             ) : selectedBid ? (
+<<<<<<< HEAD
               <Card className="relative h-fit overflow-hidden rounded-xl border-none bg-slate-950 p-3 text-white shadow-2xl">
+=======
+              <Card className="bg-text-primary relative h-fit overflow-hidden rounded-xl border-none p-3 text-white shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
                 <div className="absolute right-0 top-0 p-4 opacity-10">
                   <Bot className="h-32 w-32 rotate-12" />
                 </div>
@@ -629,6 +841,7 @@ export default function AuctionDetailPage({
                 </div>
               </Card>
             ) : (
+<<<<<<< HEAD
               <Card className="flex h-[500px] flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-transparent p-3 text-center">
                 <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-slate-100">
                   <Brain className="h-10 w-10 text-slate-300" />
@@ -637,6 +850,16 @@ export default function AuctionDetailPage({
                   Выберите ставку
                 </h4>
                 <p className="max-w-[200px] text-xs font-bold uppercase tracking-tight text-slate-300">
+=======
+              <Card className="border-border-default flex h-[500px] flex-col items-center justify-center rounded-xl border-2 border-dashed bg-transparent p-3 text-center">
+                <div className="bg-bg-surface2 mb-6 flex h-20 w-20 items-center justify-center rounded-full">
+                  <Brain className="text-text-muted h-10 w-10" />
+                </div>
+                <h4 className="text-text-muted mb-2 text-sm font-black uppercase tracking-widest">
+                  Выберите ставку
+                </h4>
+                <p className="text-text-muted max-w-[200px] text-xs font-bold uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                   Нажмите на любую строку в таблице, чтобы запустить глубокий AI-анализ предложения.
                 </p>
               </Card>

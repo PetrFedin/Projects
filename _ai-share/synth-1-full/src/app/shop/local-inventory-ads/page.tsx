@@ -9,6 +9,9 @@ import { MapPin, ArrowLeft, Map } from 'lucide-react';
 import { getLiaLinks } from '@/lib/data/entity-links';
 import { listLiaFeeds } from '@/lib/api';
 import type { LiaStoreFeed } from '@/lib/shop/local-inventory-ads';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { RegistryPageShell } from '@/components/design-system';
+import { ROUTES } from '@/lib/routes';
 
 const statusLabels: Record<LiaStoreFeed['status'], string> = {
   active: 'Активен',
@@ -25,16 +28,26 @@ export default function ShopLocalInventoryAdsPage() {
   }, []);
 
   return (
+<<<<<<< HEAD
     <div className="container max-w-4xl space-y-6 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Link href="/shop/inventory">
+=======
+    <RegistryPageShell className="max-w-4xl space-y-6">
+      <div className="flex items-center gap-3">
+        <Link href={ROUTES.shop.inventory}>
+>>>>>>> recover/cabinet-wip-from-stash
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Local Inventory Ads (LIA)</h1>
+<<<<<<< HEAD
           <p className="text-sm text-slate-500">
+=======
+          <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Передача наличия в Google / Yandex Maps. Связь со складом, маркетингом и BOPIS.
           </p>
         </div>
@@ -54,14 +67,24 @@ export default function ShopLocalInventoryAdsPage() {
           {feeds.map((feed) => (
             <div
               key={`${feed.storeId}-${feed.channel}`}
+<<<<<<< HEAD
               className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
+=======
+              className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <div>
                 <p className="text-sm font-medium">
                   {feed.storeName} · {feed.channel === 'google' ? 'Google' : 'Yandex'}
                 </p>
+<<<<<<< HEAD
                 <p className="text-xs text-slate-500">
                   {feed.itemCount} SKU · обновлено {feed.lastSyncAt?.slice(0, 16).replace('T', ' ')}
+=======
+                <p className="text-text-secondary text-xs">
+                  {feed.itemCount} <AcronymWithTooltip abbr="SKU" /> · обновлено{' '}
+                  {feed.lastSyncAt?.slice(0, 16).replace('T', ' ')}
+>>>>>>> recover/cabinet-wip-from-stash
                 </p>
               </div>
               <Badge variant="default" className="text-[10px]">
@@ -69,7 +92,11 @@ export default function ShopLocalInventoryAdsPage() {
               </Badge>
             </div>
           ))}
+<<<<<<< HEAD
           <p className="mt-3 text-xs text-slate-400">
+=======
+          <p className="text-text-muted mt-3 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
             Настройка фидов: бренд → Маркетинг → Local Inventory Ads. API: LOCAL_INVENTORY_ADS_API.
           </p>
         </CardContent>
@@ -92,6 +119,6 @@ export default function ShopLocalInventoryAdsPage() {
           </ul>
         </CardContent>
       </Card>
-    </div>
+    </RegistryPageShell>
   );
 }

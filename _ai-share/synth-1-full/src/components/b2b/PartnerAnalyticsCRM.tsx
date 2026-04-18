@@ -1,7 +1,12 @@
 'use client';
 
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+=======
+import React, { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+>>>>>>> recover/cabinet-wip-from-stash
 import {
   BarChart3,
   Users,
@@ -62,14 +67,24 @@ export function PartnerAnalyticsCRM() {
       <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
         <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-xl">
           <div className="flex items-center gap-3">
+<<<<<<< HEAD
             <LineChart className="h-5 w-5 text-indigo-600" />
             <h4 className="text-[10px] font-black uppercase text-slate-900">
+=======
+            <LineChart className="text-accent-primary h-5 w-5" />
+            <h4 className="text-text-primary text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
               Platform Sell-Through
             </h4>
           </div>
           <div className="space-y-1">
+<<<<<<< HEAD
             <p className="text-base font-black text-slate-900">68.2%</p>
             <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
+=======
+            <p className="text-text-primary text-base font-black">68.2%</p>
+            <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               Average across 14 partners
             </p>
           </div>
@@ -77,7 +92,11 @@ export function PartnerAnalyticsCRM() {
             {[40, 60, 45, 90, 65, 80, 70].map((h, i) => (
               <div
                 key={i}
+<<<<<<< HEAD
                 className="flex-1 rounded-sm bg-indigo-100"
+=======
+                className="bg-accent-primary/15 flex-1 rounded-sm"
+>>>>>>> recover/cabinet-wip-from-stash
                 style={{ height: `${h}%` }}
               />
             ))}
@@ -87,13 +106,22 @@ export function PartnerAnalyticsCRM() {
         <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-xl">
           <div className="flex items-center gap-3">
             <Smartphone className="h-5 w-5 text-emerald-500" />
+<<<<<<< HEAD
             <h4 className="text-[10px] font-black uppercase text-slate-900">
+=======
+            <h4 className="text-text-primary text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
               POS Data Connectivity
             </h4>
           </div>
           <div className="space-y-1">
+<<<<<<< HEAD
             <p className="text-base font-black text-slate-900">12/14</p>
             <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
+=======
+            <p className="text-text-primary text-base font-black">12/14</p>
+            <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               Partners with Live POS Sync
             </p>
           </div>
@@ -108,6 +136,7 @@ export function PartnerAnalyticsCRM() {
         <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-xl">
           <div className="flex items-center gap-3">
             <PieChart className="h-5 w-5 text-amber-500" />
+<<<<<<< HEAD
             <h4 className="text-[10px] font-black uppercase text-slate-900">Inventory Health</h4>
           </div>
           <div className="space-y-1">
@@ -117,6 +146,17 @@ export function PartnerAnalyticsCRM() {
             </p>
           </div>
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+=======
+            <h4 className="text-text-primary text-[10px] font-black uppercase">Inventory Health</h4>
+          </div>
+          <div className="space-y-1">
+            <p className="text-text-primary text-base font-black">Optimal</p>
+            <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+              Weeks of Cover: 6.2
+            </p>
+          </div>
+          <div className="bg-bg-surface2 h-1.5 w-full overflow-hidden rounded-full">
+>>>>>>> recover/cabinet-wip-from-stash
             <div className="h-full w-[62%] bg-amber-500" />
           </div>
         </Card>
@@ -129,7 +169,11 @@ export function PartnerAnalyticsCRM() {
               <h4 className="text-base font-black uppercase tracking-tight">
                 Live POS Ingestion Feed
               </h4>
+<<<<<<< HEAD
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+=======
+              <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Real-time sales from connected partner stores
               </p>
             </div>
@@ -158,6 +202,7 @@ export function PartnerAnalyticsCRM() {
             ].map((sale, i) => (
               <div
                 key={i}
+<<<<<<< HEAD
                 className="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50 p-4"
               >
                 <div className="flex items-center gap-3">
@@ -171,6 +216,23 @@ export function PartnerAnalyticsCRM() {
                 </div>
                 <div className="text-right">
                   <p className="text-[10px] font-black text-slate-900">{sale.price}</p>
+=======
+                className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-2xl border p-4"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="text-accent-primary flex h-10 w-10 items-center justify-center rounded-xl bg-white text-[10px] font-black uppercase shadow-sm">
+                    {sale.store.substring(0, 2)}
+                  </div>
+                  <div>
+                    <p className="text-text-primary text-[10px] font-black uppercase">
+                      {sale.item}
+                    </p>
+                    <p className="text-text-muted text-[8px] font-bold uppercase">{sale.store}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-text-primary text-[10px] font-black">{sale.price}</p>
+>>>>>>> recover/cabinet-wip-from-stash
                   <p className="text-[8px] font-bold uppercase text-emerald-500">{sale.time}</p>
                 </div>
               </div>
@@ -181,7 +243,11 @@ export function PartnerAnalyticsCRM() {
         <Card className="space-y-4 rounded-xl border-none bg-white p-3 shadow-xl">
           <div className="space-y-1">
             <h4 className="text-base font-black uppercase tracking-tight">Market Benchmarking</h4>
+<<<<<<< HEAD
             <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+=======
+            <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               Your brand vs. category average performance
             </p>
           </div>
@@ -193,6 +259,7 @@ export function PartnerAnalyticsCRM() {
             ].map((stat, i) => (
               <div key={i} className="space-y-2">
                 <div className="flex items-center justify-between text-[9px] font-black uppercase">
+<<<<<<< HEAD
                   <span className="text-slate-400">{stat.label}</span>
                   <span className="text-slate-900">Your Brand: {stat.your}%</span>
                 </div>
@@ -207,6 +274,22 @@ export function PartnerAnalyticsCRM() {
                   />
                 </div>
                 <div className="flex justify-between text-[7px] font-black uppercase text-slate-300">
+=======
+                  <span className="text-text-muted">{stat.label}</span>
+                  <span className="text-text-primary">Your Brand: {stat.your}%</span>
+                </div>
+                <div className="bg-bg-surface2 relative h-2 w-full overflow-hidden rounded-full">
+                  <div
+                    className="bg-accent-primary absolute inset-y-0 left-0 rounded-full"
+                    style={{ width: `${stat.your}%` }}
+                  />
+                  <div
+                    className="border-text-primary absolute inset-y-0 left-0 border-r-2 border-dashed"
+                    style={{ width: `${stat.avg}%` }}
+                  />
+                </div>
+                <div className="text-text-muted flex justify-between text-[7px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                   <span>0%</span>
                   <span>Market Avg: {stat.avg}%</span>
                   <span>100%</span>
@@ -217,26 +300,42 @@ export function PartnerAnalyticsCRM() {
         </Card>
       </div>
 
+<<<<<<< HEAD
       <Card className="relative overflow-hidden rounded-xl border-none bg-slate-900 p-3 text-white shadow-2xl">
+=======
+      <Card className="bg-text-primary relative overflow-hidden rounded-xl border-none p-3 text-white shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
         <div className="absolute right-0 top-0 p-3 opacity-10">
           <Globe className="h-32 w-32" />
         </div>
         <div className="relative z-10 grid grid-cols-2 gap-3">
           <div className="space-y-6">
             <div className="space-y-2">
+<<<<<<< HEAD
               <Badge className="border-none bg-indigo-600 px-2 py-0.5 text-[8px] font-black uppercase tracking-widest text-white">
+=======
+              <Badge className="bg-accent-primary border-none px-2 py-0.5 text-[8px] font-black uppercase tracking-widest text-white">
+>>>>>>> recover/cabinet-wip-from-stash
                 AI Market Pulse
               </Badge>
               <h4 className="text-base font-black uppercase leading-none tracking-tight">
                 Demand Forecasting
               </h4>
             </div>
+<<<<<<< HEAD
             <p className="text-sm font-medium leading-relaxed text-slate-400">
+=======
+            <p className="text-text-muted text-sm font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
               Our neural network predicts a **24% surge** in technical outerwear demand for the
               Moscow region over the next 14 days based on weather patterns and social sentiment.
             </p>
             <div className="flex gap-3">
+<<<<<<< HEAD
               <Button className="h-12 rounded-2xl bg-white px-8 text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-xl">
+=======
+              <Button className="text-text-primary h-12 rounded-2xl bg-white px-8 text-[10px] font-black uppercase tracking-widest shadow-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                 Adjust Replenishment
               </Button>
               <Button
@@ -260,7 +359,11 @@ export function PartnerAnalyticsCRM() {
                 Avg. Unit Price
               </p>
               <p className="text-sm font-black">12.5K ₽</p>
+<<<<<<< HEAD
               <p className="text-[8px] font-bold uppercase text-indigo-400">Optimized</p>
+=======
+              <p className="text-accent-primary text-[8px] font-bold uppercase">Optimized</p>
+>>>>>>> recover/cabinet-wip-from-stash
             </div>
           </div>
         </div>
@@ -269,33 +372,57 @@ export function PartnerAnalyticsCRM() {
   );
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen space-y-4 bg-slate-50 p-4 text-left">
+=======
+    <div className="bg-bg-surface2 min-h-screen space-y-4 p-4 text-left">
+>>>>>>> recover/cabinet-wip-from-stash
       {/* Header */}
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
+<<<<<<< HEAD
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900">
+=======
+            <div className="bg-text-primary flex h-8 w-8 items-center justify-center rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
               <BarChart3 className="h-4 w-4 text-white" />
             </div>
             <Badge
               variant="outline"
+<<<<<<< HEAD
               className="border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-900"
+=======
+              className="border-border-default text-text-primary text-[9px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               CRM_INTELLIGENCE_v4.0
             </Badge>
           </div>
+<<<<<<< HEAD
           <h2 className="text-sm font-black uppercase leading-none tracking-tighter text-slate-900 md:text-sm">
             Partner Insights
             <br />& CRM Analytics
           </h2>
           <p className="max-w-md text-xs font-medium text-slate-400">
+=======
+          <h2 className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter md:text-sm">
+            Partner Insights
+            <br />& CRM Analytics
+          </h2>
+          <p className="text-text-muted max-w-md text-xs font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
             Deep-dive into partner performance, engagement scores, and conversion intelligence.
             Predict demand and manage relationship risks in real-time.
           </p>
         </div>
 
         <div className="flex gap-3">
+<<<<<<< HEAD
           <div className="mr-4 flex items-center gap-1.5 rounded-2xl border border-slate-200 bg-white p-1 shadow-sm">
+=======
+          <div className="border-border-default mr-4 flex items-center gap-1.5 rounded-2xl border bg-white p-1 shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             {[
               { id: 'network', label: 'Network', icon: Globe },
               { id: 'sales', label: 'Intelligence', icon: Zap },
@@ -307,8 +434,13 @@ export function PartnerAnalyticsCRM() {
                 className={cn(
                   'flex items-center gap-2 rounded-xl px-4 py-2 text-[10px] font-black uppercase tracking-widest transition-all',
                   activeTab === t.id
+<<<<<<< HEAD
                     ? 'bg-slate-900 text-white shadow-xl'
                     : 'text-slate-400 hover:text-slate-600'
+=======
+                    ? 'bg-text-primary text-white shadow-xl'
+                    : 'text-text-muted hover:text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 <t.icon className="h-3.5 w-3.5" />
@@ -318,7 +450,11 @@ export function PartnerAnalyticsCRM() {
           </div>
           <Button
             variant="outline"
+<<<<<<< HEAD
             className="h-10 gap-2 rounded-2xl border-slate-200 bg-white px-6 text-[10px] font-black uppercase tracking-widest"
+=======
+            className="border-border-default h-10 gap-2 rounded-2xl bg-white px-6 text-[10px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <ArrowDownRight className="h-4 w-4" /> Export BI Data
           </Button>
@@ -336,6 +472,7 @@ export function PartnerAnalyticsCRM() {
               { label: 'Inquiry Velocity', val: '14/day', trend: '+18%', color: 'amber' },
               { label: 'Churn Risk', val: 'Low', trend: '-5%', color: 'blue' },
             ].map((s, i) => (
+<<<<<<< HEAD
               <Card
                 key={i}
                 className="rounded-xl border-none bg-white p-4 shadow-xl shadow-slate-200/50"
@@ -345,6 +482,14 @@ export function PartnerAnalyticsCRM() {
                 </p>
                 <div className="flex items-end justify-between">
                   <h3 className="text-sm font-black text-slate-900">{s.val}</h3>
+=======
+              <Card key={i} className="rounded-xl border-none bg-white p-4 shadow-md shadow-xl">
+                <p className="text-text-muted mb-1 text-[9px] font-black uppercase tracking-widest">
+                  {s.label}
+                </p>
+                <div className="flex items-end justify-between">
+                  <h3 className="text-text-primary text-sm font-black">{s.val}</h3>
+>>>>>>> recover/cabinet-wip-from-stash
                   <span className="rounded-lg bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-600">
                     {s.trend}
                   </span>
@@ -356,31 +501,50 @@ export function PartnerAnalyticsCRM() {
           <div className="grid grid-cols-1 gap-3 lg:grid-cols-12">
             {/* Partner Table */}
             <div className="lg:col-span-8">
+<<<<<<< HEAD
               <Card className="overflow-hidden rounded-xl border-none bg-white shadow-2xl shadow-slate-200/50">
                 <div className="flex items-center justify-between border-b border-slate-50 p-4">
+=======
+              <Card className="overflow-hidden rounded-xl border-none bg-white shadow-2xl shadow-md">
+                <div className="border-border-subtle flex items-center justify-between border-b p-4">
+>>>>>>> recover/cabinet-wip-from-stash
                   <h3 className="text-base font-black uppercase tracking-tight">
                     Partner Performance node
                   </h3>
                   <div className="flex gap-2">
                     <div className="relative">
+<<<<<<< HEAD
                       <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
                       <Input
                         placeholder="Filter partners..."
                         className="h-10 w-48 rounded-xl border-slate-100 bg-slate-50 pl-9 text-[10px]"
+=======
+                      <Search className="text-text-muted absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2" />
+                      <Input
+                        placeholder="Filter partners..."
+                        className="border-border-subtle bg-bg-surface2 h-10 w-48 rounded-xl pl-9 text-[10px]"
+>>>>>>> recover/cabinet-wip-from-stash
                       />
                     </div>
                     <Button
                       variant="outline"
                       size="icon"
+<<<<<<< HEAD
                       className="h-10 w-10 rounded-xl border-slate-100"
                     >
                       <Filter className="h-4 w-4 text-slate-400" />
+=======
+                      className="border-border-subtle h-10 w-10 rounded-xl"
+                    >
+                      <Filter className="text-text-muted h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
                     </Button>
                   </div>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full border-collapse">
                     <thead>
+<<<<<<< HEAD
                       <tr className="bg-slate-50/50">
                         <th className="px-8 py-4 text-left text-[9px] font-black uppercase tracking-widest text-slate-400">
                           Partner
@@ -398,6 +562,25 @@ export function PartnerAnalyticsCRM() {
                           Conversion
                         </th>
                         <th className="px-8 py-4 text-right text-[9px] font-black uppercase tracking-widest text-slate-400">
+=======
+                      <tr className="bg-bg-surface2/80">
+                        <th className="text-text-muted px-8 py-4 text-left text-[9px] font-black uppercase tracking-widest">
+                          Partner
+                        </th>
+                        <th className="text-text-muted px-8 py-4 text-center text-[9px] font-black uppercase tracking-widest">
+                          Score
+                        </th>
+                        <th className="text-text-muted px-8 py-4 text-center text-[9px] font-black uppercase tracking-widest">
+                          Integration
+                        </th>
+                        <th className="text-text-muted px-8 py-4 text-center text-[9px] font-black uppercase tracking-widest">
+                          Inquiries
+                        </th>
+                        <th className="text-text-muted px-8 py-4 text-center text-[9px] font-black uppercase tracking-widest">
+                          Conversion
+                        </th>
+                        <th className="text-text-muted px-8 py-4 text-right text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                           Growth
                         </th>
                       </tr>
@@ -408,6 +591,7 @@ export function PartnerAnalyticsCRM() {
                           key={p.id}
                           onClick={() => setSelectedPartner(p)}
                           className={cn(
+<<<<<<< HEAD
                             'group cursor-pointer transition-colors hover:bg-slate-50',
                             selectedPartner?.id === p.id && 'bg-slate-50'
                           )}
@@ -422,26 +606,56 @@ export function PartnerAnalyticsCRM() {
                                   {p.name}
                                 </p>
                                 <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                            'hover:bg-bg-surface2 group cursor-pointer transition-colors',
+                            selectedPartner?.id === p.id && 'bg-bg-surface2'
+                          )}
+                        >
+                          <td className="border-border-subtle border-b px-8 py-6">
+                            <div className="flex items-center gap-3">
+                              <div className="bg-bg-surface2 h-10 w-10 overflow-hidden rounded-xl">
+                                <img src={`https://i.pravatar.cc/100?u=${p.id}`} />
+                              </div>
+                              <div className="space-y-0.5">
+                                <p className="text-text-primary text-sm font-black uppercase">
+                                  {p.name}
+                                </p>
+                                <p className="text-text-muted text-[8px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                                   {p.engagement} Engagement
                                 </p>
                               </div>
                             </div>
                           </td>
+<<<<<<< HEAD
                           <td className="border-b border-slate-50 px-8 py-6 text-center">
+=======
+                          <td className="border-border-subtle border-b px-8 py-6 text-center">
+>>>>>>> recover/cabinet-wip-from-stash
                             <Badge
                               className={cn(
                                 'rounded-lg border-none px-2 text-[10px] font-black',
                                 p.score > 90
                                   ? 'bg-emerald-100 text-emerald-600'
+<<<<<<< HEAD
                                   : 'bg-indigo-100 text-indigo-600'
+=======
+                                  : 'bg-accent-primary/15 text-accent-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                               )}
                             >
                               {p.score}
                             </Badge>
                           </td>
+<<<<<<< HEAD
                           <td className="border-b border-slate-50 px-8 py-6 text-center">
                             <div className="flex flex-col items-center gap-1">
                               <span className="text-[9px] font-black uppercase text-slate-900">
+=======
+                          <td className="border-border-subtle border-b px-8 py-6 text-center">
+                            <div className="flex flex-col items-center gap-1">
+                              <span className="text-text-primary text-[9px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                                 {p.pos}
                               </span>
                               <Badge
@@ -452,6 +666,7 @@ export function PartnerAnalyticsCRM() {
                               </Badge>
                             </div>
                           </td>
+<<<<<<< HEAD
                           <td className="border-b border-slate-50 px-8 py-6 text-center text-xs font-black text-slate-600">
                             {p.inquiries}
                           </td>
@@ -459,6 +674,15 @@ export function PartnerAnalyticsCRM() {
                             {p.conversion}
                           </td>
                           <td className="border-b border-slate-50 px-8 py-6 text-right">
+=======
+                          <td className="border-border-subtle text-text-secondary border-b px-8 py-6 text-center text-xs font-black">
+                            {p.inquiries}
+                          </td>
+                          <td className="border-border-subtle text-text-secondary border-b px-8 py-6 text-center text-xs font-black">
+                            {p.conversion}
+                          </td>
+                          <td className="border-border-subtle border-b px-8 py-6 text-right">
+>>>>>>> recover/cabinet-wip-from-stash
                             <div className="flex items-center justify-end gap-1 text-xs font-black text-emerald-600">
                               <ArrowUpRight className="h-3 w-3" />
                               {p.growth}
@@ -483,7 +707,11 @@ export function PartnerAnalyticsCRM() {
                     exit={{ opacity: 0, x: -20 }}
                     className="space-y-4"
                   >
+<<<<<<< HEAD
                     <Card className="relative space-y-4 overflow-hidden rounded-xl border-none bg-slate-900 p-3 text-white shadow-2xl shadow-slate-200/50">
+=======
+                    <Card className="bg-text-primary relative space-y-4 overflow-hidden rounded-xl border-none p-3 text-white shadow-2xl shadow-md">
+>>>>>>> recover/cabinet-wip-from-stash
                       <div className="absolute right-0 top-0 p-4 opacity-5">
                         <Activity className="h-32 w-32" />
                       </div>
@@ -523,7 +751,11 @@ export function PartnerAnalyticsCRM() {
                               Lifetime Value
                             </p>
                             <div className="flex items-center gap-2">
+<<<<<<< HEAD
                               <TrendingUp className="h-4 w-4 text-indigo-400" />
+=======
+                              <TrendingUp className="text-accent-primary h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
                               <span className="text-sm font-black">12.4M ₽</span>
                             </div>
                           </div>
@@ -534,7 +766,11 @@ export function PartnerAnalyticsCRM() {
                             <h4 className="text-[10px] font-black uppercase tracking-widest text-white/40">
                               POS Integration
                             </h4>
+<<<<<<< HEAD
                             <Database className="h-3.5 w-3.5 text-indigo-400" />
+=======
+                            <Database className="text-accent-primary h-3.5 w-3.5" />
+>>>>>>> recover/cabinet-wip-from-stash
                           </div>
                           <div className="space-y-2">
                             <p className="text-xs font-black uppercase">{selectedPartner.pos}</p>
@@ -572,13 +808,18 @@ export function PartnerAnalyticsCRM() {
                           </div>
                         </div>
 
+<<<<<<< HEAD
                         <Button className="h-10 w-full gap-2 rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-2xl">
+=======
+                        <Button className="text-text-primary h-10 w-full gap-2 rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
                           View Full Partner Dossier <ChevronRight className="h-4 w-4" />
                         </Button>
                       </div>
                     </Card>
                   </motion.div>
                 ) : (
+<<<<<<< HEAD
                   <div className="flex h-full flex-col items-center justify-center space-y-6 rounded-xl border border-dashed border-slate-200 bg-white p-20 text-center">
                     <div className="flex h-20 w-20 items-center justify-center rounded-full bg-slate-50">
                       <Target className="h-10 w-10 text-slate-200" />
@@ -588,6 +829,17 @@ export function PartnerAnalyticsCRM() {
                         Partner 360 node
                       </h3>
                       <p className="text-[10px] font-bold uppercase tracking-widest text-slate-300">
+=======
+                  <div className="border-border-default flex h-full flex-col items-center justify-center space-y-6 rounded-xl border border-dashed bg-white p-20 text-center">
+                    <div className="bg-bg-surface2 flex h-20 w-20 items-center justify-center rounded-full">
+                      <Target className="text-text-muted h-10 w-10" />
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="text-text-muted text-base font-black uppercase tracking-tight">
+                        Partner 360 node
+                      </h3>
+                      <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                         Select a partner to view deep analytics and interaction history
                       </p>
                     </div>

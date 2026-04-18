@@ -42,6 +42,7 @@ export function GismtMonitor() {
   };
 
   return (
+<<<<<<< HEAD
     <Card className="overflow-hidden rounded-sm border-indigo-100 bg-white shadow-sm">
       <CardHeader className="border-b border-indigo-50 bg-indigo-50/30 p-4">
         <div className="flex items-start justify-between">
@@ -49,13 +50,26 @@ export function GismtMonitor() {
             <div className="mb-1 flex items-center gap-2">
               <ShieldCheck className="h-4 w-4 text-indigo-600" />
               <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600">
+=======
+    <Card className="border-accent-primary/20 overflow-hidden rounded-sm bg-white shadow-sm">
+      <CardHeader className="border-accent-primary/15 bg-accent-primary/10 border-b p-4">
+        <div className="flex items-start justify-between">
+          <div className="space-y-1">
+            <div className="mb-1 flex items-center gap-2">
+              <ShieldCheck className="text-accent-primary h-4 w-4" />
+              <span className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Russian Market Compliance
               </span>
             </div>
             <CardTitle className="flex items-center gap-2 text-base font-black uppercase tracking-tighter">
               Честный ЗНАК / ГИСМТ Live
             </CardTitle>
+<<<<<<< HEAD
             <CardDescription className="text-[10px] font-bold uppercase text-slate-500">
+=======
+            <CardDescription className="text-text-secondary text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
               Автоматическая маркировка и контроль оборота товаров в РФ
             </CardDescription>
           </div>
@@ -68,7 +82,11 @@ export function GismtMonitor() {
               size="sm"
               onClick={startSync}
               disabled={isSyncing}
+<<<<<<< HEAD
               className="h-8 rounded-none bg-indigo-600 px-4 text-[9px] font-black uppercase text-white hover:bg-indigo-700"
+=======
+              className="bg-accent-primary hover:bg-accent-primary h-8 rounded-none px-4 text-[9px] font-black uppercase text-white"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               {isSyncing ? (
                 <RefreshCcw className="mr-2 h-3 w-3 animate-spin" />
@@ -85,16 +103,26 @@ export function GismtMonitor() {
         <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
           {/* Main Counter */}
           <div className="space-y-4 md:col-span-1">
+<<<<<<< HEAD
             <div className="group relative overflow-hidden rounded-none border border-slate-100 bg-slate-50 p-4">
               <p className="mb-1 text-[9px] font-black uppercase text-slate-400">
                 Ожидают маркировки
               </p>
               <div className="flex items-end gap-2">
                 <h4 className="text-base font-black tabular-nums text-slate-900">1,240</h4>
+=======
+            <div className="bg-bg-surface2 border-border-subtle group relative overflow-hidden rounded-none border p-4">
+              <p className="text-text-muted mb-1 text-[9px] font-black uppercase">
+                Ожидают маркировки
+              </p>
+              <div className="flex items-end gap-2">
+                <h4 className="text-text-primary text-base font-black tabular-nums">1,240</h4>
+>>>>>>> recover/cabinet-wip-from-stash
                 <span className="mb-1 text-[10px] font-black uppercase tracking-tighter text-rose-500">
                   КМ
                 </span>
               </div>
+<<<<<<< HEAD
               <p className="mt-1 text-[8px] font-bold uppercase text-slate-400">
                 Партия: Urban Jacket SS26
               </p>
@@ -111,6 +139,24 @@ export function GismtMonitor() {
                 </span>
               </div>
               <p className="mt-1 text-[8px] font-bold uppercase text-indigo-600">
+=======
+              <p className="text-text-muted mt-1 text-[8px] font-bold uppercase">
+                Партия: Urban Jacket SS26
+              </p>
+              <ScanBarcode className="text-text-muted absolute -bottom-2 -right-2 h-12 w-12 opacity-50 transition-transform group-hover:scale-110" />
+            </div>
+            <div className="bg-bg-surface2 border-border-subtle group relative overflow-hidden rounded-none border p-4">
+              <p className="text-text-muted mb-1 text-[9px] font-black uppercase">
+                Баланс кодов (ЦРПТ)
+              </p>
+              <div className="flex items-end gap-2">
+                <h4 className="text-text-primary text-sm font-black tabular-nums">48,000</h4>
+                <span className="text-accent-primary mb-1 text-[10px] font-black uppercase tracking-tighter">
+                  ₽
+                </span>
+              </div>
+              <p className="text-accent-primary mt-1 text-[8px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 Хватит на 80,000 ед.
               </p>
             </div>
@@ -119,10 +165,17 @@ export function GismtMonitor() {
           {/* Activity Feed */}
           <div className="space-y-4 md:col-span-2">
             <div className="flex items-center justify-between">
+<<<<<<< HEAD
               <h5 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-900">
                 <History className="h-3.5 w-3.5 text-indigo-600" /> Последние действия
               </h5>
               <button className="text-[8px] font-black uppercase text-indigo-600 hover:underline">
+=======
+              <h5 className="text-text-primary flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
+                <History className="text-accent-primary h-3.5 w-3.5" /> Последние действия
+              </h5>
+              <button className="text-accent-primary text-[8px] font-black uppercase hover:underline">
+>>>>>>> recover/cabinet-wip-from-stash
                 Все отчеты
               </button>
             </div>
@@ -160,7 +213,11 @@ export function GismtMonitor() {
               ].map((log, i) => (
                 <div
                   key={i}
+<<<<<<< HEAD
                   className="group flex items-center justify-between rounded-none border border-slate-100 bg-slate-50/50 p-3 transition-colors hover:bg-white"
+=======
+                  className="border-border-subtle bg-bg-surface2/80 group flex items-center justify-between rounded-none border p-3 transition-colors hover:bg-white"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <div className="flex items-center gap-3">
                     <div
@@ -178,19 +235,33 @@ export function GismtMonitor() {
                       )}
                     </div>
                     <div>
+<<<<<<< HEAD
                       <p className="text-[10px] font-black uppercase leading-tight text-slate-900">
                         {log.action}
                       </p>
                       <p className="text-[9px] font-bold uppercase tracking-tight text-slate-400">
+=======
+                      <p className="text-text-primary text-[10px] font-black uppercase leading-tight">
+                        {log.action}
+                      </p>
+                      <p className="text-text-muted text-[9px] font-bold uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                         {log.desc}
                       </p>
                     </div>
                   </div>
                   <div className="text-right">
+<<<<<<< HEAD
                     <p className="text-[10px] font-black uppercase leading-tight text-slate-900">
                       {log.target}
                     </p>
                     <p className="text-[8px] font-bold uppercase text-slate-400">{log.time}</p>
+=======
+                    <p className="text-text-primary text-[10px] font-black uppercase leading-tight">
+                      {log.target}
+                    </p>
+                    <p className="text-text-muted text-[8px] font-bold uppercase">{log.time}</p>
+>>>>>>> recover/cabinet-wip-from-stash
                   </div>
                 </div>
               ))}
@@ -199,7 +270,11 @@ export function GismtMonitor() {
 
           {/* Quick Actions / Integration */}
           <div className="space-y-4 md:col-span-1">
+<<<<<<< HEAD
             <div className="group relative space-y-4 overflow-hidden rounded-none bg-indigo-600 p-4 text-white">
+=======
+            <div className="bg-accent-primary group relative space-y-4 overflow-hidden rounded-none p-4 text-white">
+>>>>>>> recover/cabinet-wip-from-stash
               <div className="relative z-10">
                 <h6 className="mb-4 text-[10px] font-black uppercase tracking-widest">
                   Маркировка Live
@@ -217,7 +292,11 @@ export function GismtMonitor() {
                   >
                     <FileText className="mr-2 h-3.5 w-3.5" /> Реестр агрегации
                   </Button>
+<<<<<<< HEAD
                   <Button className="h-10 w-full rounded-none bg-white text-[9px] font-black uppercase text-indigo-600 shadow-xl transition-all hover:bg-indigo-50">
+=======
+                  <Button className="text-accent-primary hover:bg-accent-primary/10 h-10 w-full rounded-none bg-white text-[9px] font-black uppercase shadow-xl transition-all">
+>>>>>>> recover/cabinet-wip-from-stash
                     Отчет о нанесении
                   </Button>
                 </div>
@@ -225,12 +304,21 @@ export function GismtMonitor() {
               <Activity className="absolute -bottom-8 -right-8 h-24 w-24 text-white opacity-10 transition-transform group-hover:scale-110" />
             </div>
 
+<<<<<<< HEAD
             <div className="flex items-center justify-between rounded-none border border-slate-200 p-4">
               <div>
                 <p className="text-[8px] font-black uppercase text-slate-400">Партнер по ЭДО</p>
                 <p className="text-[10px] font-black uppercase text-slate-900">СБИС / Тензор</p>
               </div>
               <ExternalLink className="h-3.5 w-3.5 text-slate-300" />
+=======
+            <div className="border-border-default flex items-center justify-between rounded-none border p-4">
+              <div>
+                <p className="text-text-muted text-[8px] font-black uppercase">Партнер по ЭДО</p>
+                <p className="text-text-primary text-[10px] font-black uppercase">СБИС / Тензор</p>
+              </div>
+              <ExternalLink className="text-text-muted h-3.5 w-3.5" />
+>>>>>>> recover/cabinet-wip-from-stash
             </div>
           </div>
         </div>
@@ -245,9 +333,15 @@ export function GismtMonitor() {
               className="absolute inset-0 z-50 flex flex-col items-center justify-center space-y-6 bg-white/80 p-4 backdrop-blur-sm"
             >
               <div className="relative">
+<<<<<<< HEAD
                 <RefreshCcw className="h-12 w-12 animate-spin text-indigo-600" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="text-xs font-black tabular-nums text-indigo-900">
+=======
+                <RefreshCcw className="text-accent-primary h-12 w-12 animate-spin" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-accent-primary text-xs font-black tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                     {markingProgress}%
                   </span>
                 </div>
@@ -256,12 +350,16 @@ export function GismtMonitor() {
                 <h3 className="text-base font-black uppercase tracking-tighter">
                   Синхронизация с ЦРПТ...
                 </h3>
+<<<<<<< HEAD
                 <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+=======
+                <p className="text-text-secondary text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   Проверка статусов 428 кодов маркировки
                 </p>
               </div>
               <div className="w-full max-w-sm">
-                <Progress value={markingProgress} className="h-1 bg-indigo-100" />
+                <Progress value={markingProgress} className="bg-accent-primary/15 h-1" />
               </div>
             </motion.div>
           )}

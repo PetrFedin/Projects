@@ -26,7 +26,11 @@ export function ProductWeatherDemandBlock({ product }: { product: Product }) {
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-sky-600">
           <CloudSun className="h-4 w-4" />
+<<<<<<< HEAD
           <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
+=======
+          <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             Regional Weather-Demand Nexus
           </h4>
         </div>
@@ -40,17 +44,30 @@ export function ProductWeatherDemandBlock({ product }: { product: Product }) {
           <div className="flex items-center gap-4">
             <div className="flex min-w-[70px] flex-col items-center rounded-xl border border-sky-100 bg-white/50 p-3">
               <Thermometer className="mb-1 h-5 w-5 text-sky-600" />
+<<<<<<< HEAD
               <div className="text-[12px] font-black uppercase leading-none text-slate-800">
                 {correlation.idealTempRange}
               </div>
               <div className="mt-1 text-[7px] font-black uppercase text-slate-400">Ideal Range</div>
+=======
+              <div className="text-text-primary text-[12px] font-black uppercase leading-none">
+                {correlation.idealTempRange}
+              </div>
+              <div className="text-text-muted mt-1 text-[7px] font-black uppercase">
+                Ideal Range
+              </div>
+>>>>>>> recover/cabinet-wip-from-stash
             </div>
             <div className="flex min-w-[70px] flex-col items-center rounded-xl border border-sky-100 bg-white/50 p-3">
               <TrendingUp className="mb-1 h-5 w-5 text-emerald-600" />
               <div className="text-[12px] font-black uppercase leading-none text-emerald-600">
                 +{Math.round((correlation.demandShiftFactor - 1) * 100)}%
               </div>
+<<<<<<< HEAD
               <div className="mt-1 text-[7px] font-black uppercase text-slate-400">
+=======
+              <div className="text-text-muted mt-1 text-[7px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 Demand Shift
               </div>
             </div>
@@ -59,18 +76,30 @@ export function ProductWeatherDemandBlock({ product }: { product: Product }) {
           <div className="relative rounded-xl border border-sky-200 bg-white/80 p-3 shadow-sm">
             <div className="mb-2 flex items-center gap-2">
               <AlertCircle className="h-3.5 w-3.5 text-sky-600" />
+<<<<<<< HEAD
               <span className="text-[9px] font-black uppercase text-slate-700">
                 AI Recommendation
               </span>
             </div>
             <p className="text-[10px] font-bold leading-tight text-slate-600">
+=======
+              <span className="text-text-primary text-[9px] font-black uppercase">
+                AI Recommendation
+              </span>
+            </div>
+            <p className="text-text-secondary text-[10px] font-bold leading-tight">
+>>>>>>> recover/cabinet-wip-from-stash
               {correlation.recommendation}
             </p>
           </div>
         </div>
 
         <div className="space-y-3">
+<<<<<<< HEAD
           <div className="mb-1 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-slate-400">
+=======
+          <div className="text-text-muted mb-1 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             <Compass className="h-3 w-3" /> Sensitivity Map
           </div>
           <div className="space-y-2">
@@ -78,11 +107,19 @@ export function ProductWeatherDemandBlock({ product }: { product: Product }) {
               const regCorr = getWeatherDemandCorrelation(product.sku, reg);
               return (
                 <div key={reg} className="space-y-1">
+<<<<<<< HEAD
                   <div className="flex justify-between text-[8px] font-black uppercase text-slate-500">
                     <span>{reg}</span>
                     <span>{regCorr.temperatureSensitivity}/10 Sens.</span>
                   </div>
                   <div className="h-1 overflow-hidden rounded-full bg-slate-100">
+=======
+                  <div className="text-text-secondary flex justify-between text-[8px] font-black uppercase">
+                    <span>{reg}</span>
+                    <span>{regCorr.temperatureSensitivity}/10 Sens.</span>
+                  </div>
+                  <div className="bg-bg-surface2 h-1 overflow-hidden rounded-full">
+>>>>>>> recover/cabinet-wip-from-stash
                     <div
                       className="h-full bg-sky-400"
                       style={{ width: `${regCorr.temperatureSensitivity * 10}%` }}
@@ -95,7 +132,11 @@ export function ProductWeatherDemandBlock({ product }: { product: Product }) {
         </div>
       </div>
 
+<<<<<<< HEAD
       <div className="mt-4 flex items-center justify-between border-t border-sky-100 pt-4 text-[8px] font-black uppercase text-slate-400">
+=======
+      <div className="text-text-muted mt-4 flex items-center justify-between border-t border-sky-100 pt-4 text-[8px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
         <span>Powered by RU Weather Forecast APIs</span>
         <span className="text-sky-600">Predictive Modeling Active</span>
       </div>

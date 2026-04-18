@@ -4,9 +4,11 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
-import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 import { getGrowthPlatformCrossLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { Rocket, Users, Megaphone } from 'lucide-react';
 
 const consumer = [
@@ -351,7 +353,11 @@ function LinkGrid({ items }: { items: { href: string; title: string; desc: strin
     <div className="grid gap-3 sm:grid-cols-2">
       {items.map((x) => (
         <Link key={x.href} href={x.href}>
+<<<<<<< HEAD
           <Card className="h-full transition-colors hover:border-violet-200">
+=======
+          <Card className="hover:border-accent-primary/25 h-full transition-colors">
+>>>>>>> recover/cabinet-wip-from-stash
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">{x.title}</CardTitle>
               <CardDescription className="text-xs">{x.desc}</CardDescription>
@@ -368,52 +374,65 @@ function LinkGrid({ items }: { items: { href: string; title: string; desc: strin
 
 export default function BrandGrowthHubPage() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+>>>>>>> recover/cabinet-wip-from-stash
         title="Платформа: рост и вау-сценарии"
-        description="Единая точка входа: клиентские фичи (B2C/байер), инструменты партнёров и демо для маркетинга."
-        icon={Rocket}
-        iconBg="bg-violet-100"
-        iconColor="text-violet-700"
+        leadPlain="Единая точка входа: клиентские фичи (B2C/байер), инструменты партнёров и демо для маркетинга."
+        actions={<Rocket className="text-accent-primary size-6 shrink-0" aria-hidden />}
       />
 
       <Tabs defaultValue="consumer">
+<<<<<<< HEAD
         <TabsList className="h-auto flex-wrap gap-1">
           <TabsTrigger value="consumer" className="gap-1 text-xs">
+=======
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'flex-wrap')}>
+          <TabsTrigger value="consumer" className={cn(cabinetSurface.tabsTrigger, 'h-8 gap-1')}>
+>>>>>>> recover/cabinet-wip-from-stash
             <Users className="h-3.5 w-3.5" />
             Клиенты
           </TabsTrigger>
-          <TabsTrigger value="partners" className="text-xs">
+          <TabsTrigger value="partners" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Партнёры
           </TabsTrigger>
-          <TabsTrigger value="store" className="text-xs">
+          <TabsTrigger value="store" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Магазины
           </TabsTrigger>
-          <TabsTrigger value="production" className="text-xs">
+          <TabsTrigger value="production" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Производство
           </TabsTrigger>
-          <TabsTrigger value="sustainability" className="text-xs">
+          <TabsTrigger value="sustainability" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Экология
           </TabsTrigger>
-          <TabsTrigger value="distribution" className="text-xs">
+          <TabsTrigger value="distribution" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Дистрибуция
           </TabsTrigger>
-          <TabsTrigger value="b2b_advanced" className="text-xs">
+          <TabsTrigger value="b2b_advanced" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             B2B Pro
           </TabsTrigger>
-          <TabsTrigger value="operations" className="text-xs">
+          <TabsTrigger value="operations" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Операции & CRM
           </TabsTrigger>
-          <TabsTrigger value="compliance" className="text-xs">
+          <TabsTrigger value="compliance" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Комплаенс
           </TabsTrigger>
-          <TabsTrigger value="fintech" className="text-xs">
+          <TabsTrigger value="fintech" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Финтех
           </TabsTrigger>
-          <TabsTrigger value="admin" className="text-xs">
+          <TabsTrigger value="admin" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Админ
           </TabsTrigger>
+<<<<<<< HEAD
           <TabsTrigger value="wow" className="gap-1 text-xs">
+=======
+          <TabsTrigger value="wow" className={cn(cabinetSurface.tabsTrigger, 'h-8 gap-1')}>
+>>>>>>> recover/cabinet-wip-from-stash
             <Megaphone className="h-3.5 w-3.5" />
             Демо
           </TabsTrigger>
@@ -461,6 +480,10 @@ export default function BrandGrowthHubPage() {
         title="Связанные разделы"
         className="mt-2"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

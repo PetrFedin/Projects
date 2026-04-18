@@ -18,9 +18,13 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/providers/auth-provider';
+<<<<<<< HEAD
 import { tryOnOutfit } from '@/ai/flows/try-on-outfit';
 import { generateOutfitFromPrompt } from '@/ai/flows/generate-outfit-from-prompt';
 import { generateChatResponse } from '@/ai/flows/generate-chat-response';
+=======
+import { chatResponseClient, outfitPreviewClient } from '@/lib/ai-client/api';
+>>>>>>> recover/cabinet-wip-from-stash
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -49,7 +53,7 @@ const formSchema = z.object({
 
 export default function AiStylist() {
   const { user } = useAuth();
-  const userId = user?.id;
+  const userId = user?.uid;
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isBotLoading, setIsBotLoading] = useState(false);
@@ -115,10 +119,17 @@ export default function AiStylist() {
 
     try {
       // 1. Get a conversational response from the bot
+<<<<<<< HEAD
       const chatResponse = await generateChatResponse({
         query: values.prompt,
         history: messages.map((msg) => ({
           role: msg.type === 'user' ? 'user' : 'model',
+=======
+      const chatResponse = await chatResponseClient({
+        query: values.prompt,
+        history: messages.map((msg) => ({
+          role: msg.type === 'user' ? ('user' as const) : ('model' as const),
+>>>>>>> recover/cabinet-wip-from-stash
           content: msg.text,
         })),
         userId,
@@ -135,6 +146,7 @@ export default function AiStylist() {
       setMessages((prev) => [...prev, botMessage]);
 
       // 2. Decide which image generation flow to run
+<<<<<<< HEAD
       let imageResult;
       if (values.userImage) {
         // Image-to-Image: "Try on" flow
@@ -148,6 +160,12 @@ export default function AiStylist() {
           prompt: `fashion photography of a complete outfit for a person, based on the following description: ${values.prompt}. The image should be a full-body shot against a clean, minimalist background.`,
         });
       }
+=======
+      const imageResult = await outfitPreviewClient({
+        prompt: values.prompt,
+        userImage: values.userImage || undefined,
+      });
+>>>>>>> recover/cabinet-wip-from-stash
 
       if (!imageResult?.generatedOutfitImage) {
         throw new Error('Не удалось сгенерировать изображение.');

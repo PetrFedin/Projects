@@ -21,17 +21,29 @@ export function HomeCarousels({ carousels }: { carousels: CmsCarousel[] }) {
           <div key={c.id} className="space-y-6">
             <div className="flex items-end justify-between gap-3 px-2">
               <div className="space-y-1">
+<<<<<<< HEAD
                 <h3 className="text-base font-black uppercase leading-none tracking-tighter text-slate-900">
                   {c.title}
                 </h3>
                 {c.subtitle && (
                   <div className="text-xs font-medium uppercase tracking-widest text-slate-400">
+=======
+                <h3 className="text-text-primary text-base font-black uppercase leading-none tracking-tighter">
+                  {c.title}
+                </h3>
+                {c.subtitle && (
+                  <div className="text-text-muted text-xs font-medium uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     {c.subtitle}
                   </div>
                 )}
               </div>
               <button
+<<<<<<< HEAD
                 className="group flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 transition-colors hover:text-slate-900"
+=======
+                className="text-text-muted hover:text-text-primary group flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                 onClick={() => router.push(`/search?q=`)}
               >
                 View all{' '}
@@ -46,7 +58,11 @@ export function HomeCarousels({ carousels }: { carousels: CmsCarousel[] }) {
                   href={`/products/${p.slug}`}
                   className="group w-[240px] shrink-0 text-left transition-all"
                 >
+<<<<<<< HEAD
                   <div className="relative aspect-[3/4] overflow-hidden rounded-[1.5rem] border border-slate-100 bg-[#fcfcfc] p-4 transition-all group-hover:border-slate-900 group-hover:shadow-2xl group-hover:shadow-slate-200">
+=======
+                  <div className="border-border-subtle group-hover:border-text-primary relative aspect-[3/4] overflow-hidden rounded-[1.5rem] border bg-[#fcfcfc] p-4 transition-all group-hover:shadow-2xl group-hover:shadow-md">
+>>>>>>> recover/cabinet-wip-from-stash
                     <img
                       src={p.image}
                       alt={p.title}
@@ -59,6 +75,7 @@ export function HomeCarousels({ carousels }: { carousels: CmsCarousel[] }) {
                     </div>
                   </div>
                   <div className="mt-4 space-y-1 text-center">
+<<<<<<< HEAD
                     <div className="text-[9px] font-black uppercase tracking-[0.1em] text-slate-400">
                       {p.brand}
                     </div>
@@ -66,6 +83,15 @@ export function HomeCarousels({ carousels }: { carousels: CmsCarousel[] }) {
                       {p.title}
                     </div>
                     <div className="text-sm font-black tabular-nums text-slate-900">
+=======
+                    <div className="text-text-muted text-[9px] font-black uppercase tracking-[0.1em]">
+                      {p.brand}
+                    </div>
+                    <div className="text-text-primary line-clamp-1 text-xs font-bold uppercase tracking-tight underline-offset-4 group-hover:underline">
+                      {p.title}
+                    </div>
+                    <div className="text-text-primary text-sm font-black tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                       {p.price.toLocaleString('ru-RU')} ₽
                     </div>
                   </div>

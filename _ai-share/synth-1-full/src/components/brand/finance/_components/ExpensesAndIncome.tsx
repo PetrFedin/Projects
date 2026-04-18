@@ -109,6 +109,7 @@ export function ExpensesAndIncome() {
 
   return (
     <div className="space-y-4 duration-700 animate-in fade-in">
+<<<<<<< HEAD
       <Card className="overflow-hidden rounded-xl border-slate-100 bg-white shadow-xl">
         <CardHeader className="flex flex-row items-center justify-between border-b border-slate-50 p-3">
           <div>
@@ -116,12 +117,25 @@ export function ExpensesAndIncome() {
               Расходы и Доходы
             </CardTitle>
             <p className="mt-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+=======
+      <Card className="border-border-subtle overflow-hidden rounded-xl bg-white shadow-xl">
+        <CardHeader className="border-border-subtle flex flex-row items-center justify-between border-b p-3">
+          <div>
+            <CardTitle className="text-text-primary text-base font-black uppercase tracking-tight">
+              Расходы и Доходы
+            </CardTitle>
+            <p className="text-text-muted mt-2 text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               Учет всех финансовых операций
             </p>
           </div>
           <div className="flex gap-3">
             <div className="flex flex-col items-end">
+<<<<<<< HEAD
               <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
+=======
+              <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Чистый баланс
               </p>
               <p
@@ -153,8 +167,13 @@ export function ExpensesAndIncome() {
                 {totalExpenses.toLocaleString('ru-RU')} ₽
               </p>
             </div>
+<<<<<<< HEAD
             <div className="space-y-2 rounded-2xl border border-indigo-100 bg-indigo-50 p-3">
               <p className="text-[9px] font-black uppercase tracking-widest text-indigo-600">
+=======
+            <div className="bg-accent-primary/10 border-accent-primary/20 space-y-2 rounded-2xl border p-3">
+              <p className="text-accent-primary text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Итоговый баланс
               </p>
               <p
@@ -169,7 +188,11 @@ export function ExpensesAndIncome() {
           </div>
 
           <div className="space-y-4">
+<<<<<<< HEAD
             <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+            <h3 className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               Новая операция
             </h3>
             <div className="flex gap-3">
@@ -177,14 +200,22 @@ export function ExpensesAndIncome() {
                 placeholder="Описание (напр. Зарплата Январь)"
                 value={newEntry.description}
                 onChange={(e) => setNewEntry({ ...newEntry, description: e.target.value })}
+<<<<<<< HEAD
                 className="h-11 flex-1 rounded-xl border-none bg-slate-50 font-bold ring-indigo-500/20 focus:ring-2"
+=======
+                className="bg-bg-surface2 ring-accent-primary/20 h-11 flex-1 rounded-xl border-none font-bold focus:ring-2"
+>>>>>>> recover/cabinet-wip-from-stash
               />
               <Input
                 type="number"
                 placeholder="Сумма (₽)"
                 value={newEntry.amount}
                 onChange={(e) => setNewEntry({ ...newEntry, amount: e.target.value })}
+<<<<<<< HEAD
                 className="h-11 w-32 rounded-xl border-none bg-slate-50 font-bold ring-indigo-500/20 focus:ring-2"
+=======
+                className="bg-bg-surface2 ring-accent-primary/20 h-11 w-32 rounded-xl border-none font-bold focus:ring-2"
+>>>>>>> recover/cabinet-wip-from-stash
               />
               <Select
                 value={newEntry.type}
@@ -204,7 +235,11 @@ export function ExpensesAndIncome() {
                 type="date"
                 value={newEntry.date}
                 onChange={(e) => setNewEntry({ ...newEntry, date: e.target.value })}
+<<<<<<< HEAD
                 className="h-11 w-36 rounded-xl border-none bg-slate-50 font-bold ring-indigo-500/20 focus:ring-2"
+=======
+                className="bg-bg-surface2 ring-accent-primary/20 h-11 w-36 rounded-xl border-none font-bold focus:ring-2"
+>>>>>>> recover/cabinet-wip-from-stash
               />
               <Button
                 onClick={handleAddEntry}
@@ -216,6 +251,7 @@ export function ExpensesAndIncome() {
           </div>
 
           <div className="space-y-4">
+<<<<<<< HEAD
             <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
               История операций
             </h3>
@@ -232,6 +268,24 @@ export function ExpensesAndIncome() {
                     Сумма
                   </TableHead>
                   <TableHead className="pr-10 text-center text-[9px] font-black uppercase tracking-widest text-slate-400">
+=======
+            <h3 className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+              История операций
+            </h3>
+            <Table>
+              <TableHeader className="bg-bg-surface2/80">
+                <TableRow className="border-border-subtle h-12 hover:bg-transparent">
+                  <TableHead className="text-text-muted pl-10 text-[9px] font-black uppercase tracking-widest">
+                    Описание
+                  </TableHead>
+                  <TableHead className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                    Дата
+                  </TableHead>
+                  <TableHead className="text-text-muted text-right text-[9px] font-black uppercase tracking-widest">
+                    Сумма
+                  </TableHead>
+                  <TableHead className="text-text-muted pr-10 text-center text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     Тип
                   </TableHead>
                 </TableRow>
@@ -240,15 +294,22 @@ export function ExpensesAndIncome() {
                 {financialEntries.map((entry) => (
                   <TableRow
                     key={entry.id}
+<<<<<<< HEAD
                     className="h-12 border-slate-50 transition-colors hover:bg-slate-50/30"
                   >
                     <TableCell className="pl-10">
                       <p className="text-xs font-black uppercase text-slate-900">
+=======
+                    className="border-border-subtle hover:bg-bg-surface2/30 h-12 transition-colors"
+                  >
+                    <TableCell className="pl-10">
+                      <p className="text-text-primary text-xs font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                         {entry.description}
                       </p>
                     </TableCell>
                     <TableCell>
-                      <span className="text-xs font-bold text-slate-600">{entry.date}</span>
+                      <span className="text-text-secondary text-xs font-bold">{entry.date}</span>
                     </TableCell>
                     <TableCell
                       className={cn(

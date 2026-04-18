@@ -1,5 +1,7 @@
 import type { ShowroomAppointmentV1 } from './types';
 
+export type { ShowroomAppointmentV1 };
+
 const STORAGE_KEY = 'synth.showroomAppointments.v1';
 
 export function loadAppointments(): ShowroomAppointmentV1[] {

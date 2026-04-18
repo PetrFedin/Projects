@@ -3,6 +3,8 @@ import { getPlatformApiBaseUrl, getPlatformTransport, type PlatformTransport } f
 import type { VisualSearchHit, VisualSearchSessionV1 } from './types';
 import { VISUAL_SEARCH_EXPORT_VERSION } from './types';
 
+export type { VisualSearchHit, VisualSearchSessionV1 } from './types';
+
 const SESSION_KEY = 'synth.visualSearch.session.v1';
 
 export function loadVisualSearchSession(): VisualSearchSessionV1 | null {

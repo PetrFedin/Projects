@@ -26,7 +26,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import type { Product } from '@/lib/types';
-import { generateSocialVideo } from '@/ai/flows/generate-social-video';
+import { socialVideoClient } from '@/lib/ai-client/api';
 
 const formSchema = z.object({
   productId: z.string().min(1, { message: 'Пожалуйста, выберите товар.' }),
@@ -69,7 +69,11 @@ export default function SocialVideoGenerator({ products }: { products: Product[]
           title: 'Начинаем генерацию видео...',
           description: 'Это может занять несколько минут.',
         });
+<<<<<<< HEAD
         const result = await generateSocialVideo({
+=======
+        const result = await socialVideoClient({
+>>>>>>> recover/cabinet-wip-from-stash
           productName: product.name,
           productImageDataUri: base64data,
           prompt: values.prompt,

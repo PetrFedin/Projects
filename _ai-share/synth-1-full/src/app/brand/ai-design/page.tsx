@@ -28,14 +28,20 @@ import {
 } from 'lucide-react';
 import { DesignPrompt, DesignIteration } from '@/lib/types/ai-design';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { Input } from '@/components/ui/input';
-import { generateDesignVariants } from '@/ai/flows/design-assistant';
+import { designVariantsClient } from '@/lib/ai-client/api';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 const AiToolsContent = dynamic(() => import('@/app/brand/ai-tools/page'), { ssr: false });
 const BodyScannerContent = dynamic(
   () => import('@/app/brand/ai-design/body-scanner/page').then((m) => m.default),
+<<<<<<< HEAD
   { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
+=======
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+>>>>>>> recover/cabinet-wip-from-stash
 );
 
 /**
@@ -69,7 +75,7 @@ export default function AIDesignAssistantPage() {
   const handleGenerate = async () => {
     setIsGenerating(true);
     try {
-      const results = await generateDesignVariants({
+      const results = await designVariantsClient({
         brandId: 'brand-123',
         prompt: {
           id: 'p-new',
@@ -88,22 +94,34 @@ export default function AIDesignAssistantPage() {
     }
   };
 
-  const tabTriggerClass =
-    'text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5';
-
   return (
+<<<<<<< HEAD
     <div className="container mx-auto space-y-4 px-4 py-4">
       <Tabs value={tab} onValueChange={setTab} className="space-y-4">
         <TabsList className="h-9 w-fit max-w-full flex-wrap gap-0.5 border border-slate-200 bg-slate-50 px-1">
           <TabsTrigger value="design" className={tabTriggerClass}>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-4 py-1 pb-16">
+      <RegistryPageHeader
+        title="AI Design"
+        leadPlain="Генерация вариантов дизайна по текстовому описанию и создание техпакетов."
+      />
+      <Tabs value={tab} onValueChange={setTab} className="space-y-4">
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'w-fit max-w-full flex-wrap')}>
+          <TabsTrigger value="design" className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}>
+>>>>>>> recover/cabinet-wip-from-stash
             <Wand2 className="h-3 w-3 shrink-0" />
             AI Дизайн
           </TabsTrigger>
-          <TabsTrigger value="generators" className={tabTriggerClass}>
+          <TabsTrigger value="generators" className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}>
             <Sparkles className="h-3 w-3 shrink-0" />
             AI Генераторы
           </TabsTrigger>
-          <TabsTrigger value="body-scanner" className={tabTriggerClass}>
+          <TabsTrigger
+            value="body-scanner"
+            className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}
+          >
             <Scan className="h-3 w-3 shrink-0" />
             Сканер тела
           </TabsTrigger>
@@ -116,7 +134,11 @@ export default function AIDesignAssistantPage() {
             >
               <History className="h-4 w-4" /> Библиотека эскизов
             </Button>
+<<<<<<< HEAD
             <Button className="h-11 gap-2 rounded-xl bg-slate-900 px-6 text-[10px] font-black uppercase text-white shadow-lg">
+=======
+            <Button className="bg-text-primary h-11 gap-2 rounded-xl px-6 text-[10px] font-black uppercase text-white shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
               <Download className="h-4 w-4" /> Экспорт (DXF/BOM)
             </Button>
           </header>
@@ -124,21 +146,36 @@ export default function AIDesignAssistantPage() {
           <div className="grid gap-3 lg:grid-cols-12">
             {/* Input Prompt Card */}
             <div className="lg:col-span-12">
+<<<<<<< HEAD
               <Card className="rounded-xl border-none bg-white p-2 shadow-xl shadow-slate-200/50">
                 <CardContent className="flex gap-3 p-4">
                   <div className="relative flex-1">
                     <Wand2 className="absolute left-6 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-300" />
+=======
+              <Card className="rounded-xl border-none bg-white p-2 shadow-md shadow-xl">
+                <CardContent className="flex gap-3 p-4">
+                  <div className="relative flex-1">
+                    <Wand2 className="text-text-muted absolute left-6 top-1/2 h-5 w-5 -translate-y-1/2" />
+>>>>>>> recover/cabinet-wip-from-stash
                     <Input
                       placeholder="Опишите дизайн (напр. Oversized wool coat with asymmetric collar...)"
                       value={prompt}
                       onChange={(e) => setPrompt(e.target.value)}
+<<<<<<< HEAD
                       className="h-12 rounded-xl border-none bg-slate-50 pl-14 pr-6 text-base font-medium placeholder:text-slate-300 focus-visible:ring-indigo-600"
+=======
+                      className="bg-bg-surface2 placeholder:text-text-muted focus-visible:ring-accent-primary h-12 rounded-xl border-none pl-14 pr-6 text-base font-medium"
+>>>>>>> recover/cabinet-wip-from-stash
                     />
                   </div>
                   <Button
                     onClick={handleGenerate}
                     disabled={isGenerating}
+<<<<<<< HEAD
                     className="h-12 shrink-0 gap-3 rounded-xl bg-indigo-600 px-10 text-[12px] font-black uppercase text-white shadow-xl shadow-indigo-200 hover:bg-indigo-700"
+=======
+                    className="bg-accent-primary hover:bg-accent-primary shadow-accent-primary/15 h-12 shrink-0 gap-3 rounded-xl px-10 text-[12px] font-black uppercase text-white shadow-xl"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     {isGenerating ? (
                       <Zap className="h-5 w-5 animate-spin" />
@@ -154,21 +191,33 @@ export default function AIDesignAssistantPage() {
             {/* Iterations Grid */}
             <div className="space-y-4 lg:col-span-8">
               <div className="mb-2 flex items-center justify-between">
+<<<<<<< HEAD
                 <h3 className="ml-4 text-base font-black uppercase tracking-tight text-slate-900">
+=======
+                <h3 className="text-text-primary ml-4 text-base font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                   Generated Iterations
                 </h3>
                 <div className="flex gap-2">
                   <Button
                     variant="ghost"
                     size="sm"
+<<<<<<< HEAD
                     className="h-8 rounded-lg text-[10px] font-black uppercase text-slate-400 hover:text-indigo-600"
+=======
+                    className="text-text-muted hover:text-accent-primary h-8 rounded-lg text-[10px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     Latest
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
+<<<<<<< HEAD
                     className="h-8 rounded-lg text-[10px] font-black uppercase text-slate-400 hover:text-indigo-600"
+=======
+                    className="text-text-muted hover:text-accent-primary h-8 rounded-lg text-[10px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     Favorites
                   </Button>
@@ -181,9 +230,15 @@ export default function AIDesignAssistantPage() {
                     key={iter.id}
                     className="group overflow-hidden rounded-xl border-none bg-white shadow-sm transition-all duration-500 hover:shadow-xl"
                   >
+<<<<<<< HEAD
                     <div className="relative aspect-[4/5] overflow-hidden bg-slate-100">
                       <div className="absolute inset-0 flex items-center justify-center">
                         <ImageIcon className="h-12 w-12 text-slate-200" />
+=======
+                    <div className="bg-bg-surface2 relative aspect-[4/5] overflow-hidden">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <ImageIcon className="text-text-muted h-12 w-12" />
+>>>>>>> recover/cabinet-wip-from-stash
                       </div>
                       <div className="absolute right-4 top-4 z-10">
                         <Button
@@ -191,7 +246,13 @@ export default function AIDesignAssistantPage() {
                           size="icon"
                           className={cn(
                             'h-10 w-10 rounded-xl bg-white/80 shadow-sm backdrop-blur transition-colors',
+<<<<<<< HEAD
                             iter.isFavorite ? 'text-rose-500' : 'text-slate-300 hover:text-rose-500'
+=======
+                            iter.isFavorite
+                              ? 'text-rose-500'
+                              : 'text-text-muted hover:text-rose-500'
+>>>>>>> recover/cabinet-wip-from-stash
                           )}
                         >
                           <Heart className={cn('h-5 w-5', iter.isFavorite && 'fill-rose-500')} />
@@ -199,12 +260,20 @@ export default function AIDesignAssistantPage() {
                       </div>
                       {/* Hover Overlays */}
                       <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/40 p-4 opacity-0 transition-opacity group-hover:opacity-100">
+<<<<<<< HEAD
                         <Button className="h-12 w-full gap-2 rounded-2xl bg-white text-[10px] font-black uppercase text-slate-900">
+=======
+                        <Button className="text-text-primary h-12 w-full gap-2 rounded-2xl bg-white text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                           <Scissors className="h-4 w-4" /> Create Tech Pack
                         </Button>
                         <Button
                           variant="outline"
+<<<<<<< HEAD
                           className="h-12 w-full gap-2 rounded-2xl border-white bg-transparent text-[10px] font-black uppercase text-white hover:bg-white hover:text-slate-900"
+=======
+                          className="hover:text-text-primary h-12 w-full gap-2 rounded-2xl border-white bg-transparent text-[10px] font-black uppercase text-white hover:bg-white"
+>>>>>>> recover/cabinet-wip-from-stash
                         >
                           <Layers className="h-4 w-4" /> Variation
                         </Button>
@@ -213,32 +282,57 @@ export default function AIDesignAssistantPage() {
                     <CardContent className="space-y-6 p-4">
                       <div className="flex items-start justify-between">
                         <div>
+<<<<<<< HEAD
                           <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                             {iter.aiModel}
                           </p>
                           <p className="text-xs font-bold text-slate-500">
+=======
+                          <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                            {iter.aiModel}
+                          </p>
+                          <p className="text-text-secondary text-xs font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                             {new Date(iter.createdAt).toLocaleDateString()}
                           </p>
                         </div>
                         <Badge
+<<<<<<< HEAD
                           variant="ghost"
                           className="h-6 bg-slate-50 text-[8px] font-black uppercase tracking-widest text-slate-500"
+=======
+                          variant="outline"
+                          className="bg-bg-surface2 text-text-secondary border-border-default h-6 text-[8px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
                         >
                           Batch ID: #8821
                         </Badge>
                       </div>
 
+<<<<<<< HEAD
                       <div className="grid grid-cols-2 gap-3 border-t border-slate-50 pt-6">
                         <div className="space-y-1">
                           <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
                             Fabric Insight
                           </p>
                           <p className="text-sm font-black text-slate-900">
+=======
+                      <div className="border-border-subtle grid grid-cols-2 gap-3 border-t pt-6">
+                        <div className="space-y-1">
+                          <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                            Fabric Insight
+                          </p>
+                          <p className="text-text-primary text-sm font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                             {iter.technicalSpecs?.suggestedFabric}
                           </p>
                         </div>
                         <div className="space-y-1">
+<<<<<<< HEAD
                           <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
+=======
+                          <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                             CMT Est.
                           </p>
                           <p className="text-sm font-black text-emerald-600">
@@ -254,10 +348,17 @@ export default function AIDesignAssistantPage() {
 
             {/* AI Design Controls Panel */}
             <div className="space-y-6 lg:col-span-4">
+<<<<<<< HEAD
               <Card className="space-y-4 rounded-xl border-none bg-white p-4 shadow-xl shadow-slate-200/50">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-50">
                     <Settings2 className="h-5 w-5 text-indigo-600" />
+=======
+              <Card className="space-y-4 rounded-xl border-none bg-white p-4 shadow-md shadow-xl">
+                <div className="flex items-center gap-3">
+                  <div className="bg-bg-surface2 flex h-10 w-10 items-center justify-center rounded-2xl">
+                    <Settings2 className="text-accent-primary h-5 w-5" />
+>>>>>>> recover/cabinet-wip-from-stash
                   </div>
                   <h3 className="text-sm font-black uppercase tracking-tight">
                     AI Generation Rules
@@ -266,7 +367,11 @@ export default function AIDesignAssistantPage() {
 
                 <div className="space-y-6">
                   <div className="space-y-3">
+<<<<<<< HEAD
                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+                    <label className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       Brand DNA Consistency
                     </label>
                     <div className="flex items-center justify-between rounded-2xl bg-emerald-50 p-4">
@@ -278,14 +383,22 @@ export default function AIDesignAssistantPage() {
                   </div>
 
                   <div className="space-y-3">
+<<<<<<< HEAD
                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+                    <label className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       Style DNA Tags
                     </label>
                     <div className="flex flex-wrap gap-2">
                       {['Minimalist', 'Luxe', 'Sustainable'].map((tag) => (
                         <Badge
                           key={tag}
+<<<<<<< HEAD
                           className="h-8 rounded-lg border-none bg-slate-100 px-3 text-[8px] font-bold uppercase text-slate-600"
+=======
+                          className="bg-bg-surface2 text-text-secondary h-8 rounded-lg border-none px-3 text-[8px] font-bold uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                         >
                           {tag}
                         </Badge>
@@ -293,27 +406,46 @@ export default function AIDesignAssistantPage() {
                     </div>
                   </div>
 
+<<<<<<< HEAD
                   <div className="space-y-3 border-t border-slate-50 pt-6">
                     <div className="mb-4 flex items-center justify-between">
                       <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                         Color Palette
                       </label>
                       <Palette className="h-4 w-4 text-slate-300" />
+=======
+                  <div className="border-border-subtle space-y-3 border-t pt-6">
+                    <div className="mb-4 flex items-center justify-between">
+                      <label className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                        Color Palette
+                      </label>
+                      <Palette className="text-text-muted h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
                     </div>
                     <div className="flex gap-3">
                       {['#000080', '#F5F5DC', '#2F4F4F'].map((color) => (
                         <div
                           key={color}
+<<<<<<< HEAD
                           className="h-10 w-10 rounded-xl border border-slate-100 shadow-sm"
+=======
+                          className="border-border-subtle h-10 w-10 rounded-xl border shadow-sm"
+>>>>>>> recover/cabinet-wip-from-stash
                           style={{ backgroundColor: color }}
                         />
                       ))}
                       <Button
                         variant="ghost"
                         size="icon"
+<<<<<<< HEAD
                         className="h-10 w-10 rounded-xl border-2 border-dashed border-slate-200"
                       >
                         <Plus className="h-4 w-4 text-slate-300" />
+=======
+                        className="border-border-default h-10 w-10 rounded-xl border-2 border-dashed"
+                      >
+                        <Plus className="text-text-muted h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
                       </Button>
                     </div>
                   </div>
@@ -322,14 +454,22 @@ export default function AIDesignAssistantPage() {
                 <div className="pt-6">
                   <Button
                     variant="outline"
+<<<<<<< HEAD
                     className="h-12 w-full gap-2 rounded-2xl border-slate-100 text-[10px] font-black uppercase transition-all hover:bg-slate-50"
+=======
+                    className="border-border-subtle hover:bg-bg-surface2 h-12 w-full gap-2 rounded-2xl text-[10px] font-black uppercase transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     View Style Profile <ArrowRight className="h-4 w-4" />
                   </Button>
                 </div>
               </Card>
 
+<<<<<<< HEAD
               <Card className="relative space-y-6 overflow-hidden rounded-xl border-none bg-indigo-600 p-4 text-white shadow-2xl shadow-indigo-100">
+=======
+              <Card className="shadow-accent-primary/10 bg-accent-primary relative space-y-6 overflow-hidden rounded-xl border-none p-4 text-white shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
                 <div className="relative z-10 space-y-6">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/20 bg-white/10">
@@ -343,7 +483,11 @@ export default function AIDesignAssistantPage() {
                     Наш ИИ автоматически создает черновик спецификации (BOM) и предлагает материалы
                     на основе визуального анализа эскиза.
                   </p>
+<<<<<<< HEAD
                   <Button className="h-12 w-full rounded-2xl border-none bg-white text-[10px] font-black uppercase text-indigo-600 shadow-lg shadow-indigo-700/20 hover:bg-indigo-50">
+=======
+                  <Button className="text-accent-primary hover:bg-accent-primary/10 shadow-accent-primary/20 h-12 w-full rounded-2xl border-none bg-white text-[10px] font-black uppercase shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
                     Configure Automation
                   </Button>
                 </div>
@@ -359,6 +503,6 @@ export default function AIDesignAssistantPage() {
           {tab === 'body-scanner' && <BodyScannerContent />}
         </TabsContent>
       </Tabs>
-    </div>
+    </RegistryPageShell>
   );
 }

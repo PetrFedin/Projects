@@ -25,6 +25,7 @@ export function generateMetadata(options: GenerateMetadataOptions = {}): Metadat
   const metaDescription = description || defaultMetadata.description;
   const metaImage = image || defaultMetadata.image;
   const metaUrl = url || defaultMetadata.url;
+  const ogType: 'website' | 'article' = type === 'article' ? 'article' : 'website';
 
   return {
     title: fullTitle,
@@ -49,7 +50,7 @@ export function generateMetadata(options: GenerateMetadataOptions = {}): Metadat
         },
       ],
       locale: 'ru_RU',
-      type,
+      type: ogType,
     },
     twitter: {
       card: 'summary_large_image',

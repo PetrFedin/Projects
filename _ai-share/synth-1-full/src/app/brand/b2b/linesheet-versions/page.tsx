@@ -1,4 +1,5 @@
 'use client';
+import { RegistryPageShell } from '@/components/design-system';
 
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -24,7 +25,11 @@ const VERSIONS = [
 
 export default function LinesheetVersionsPage() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
+=======
+    <RegistryPageShell className="max-w-3xl space-y-6">
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.brand.b2bLinesheets}>
           <Button variant="ghost" size="icon">
@@ -35,7 +40,11 @@ export default function LinesheetVersionsPage() {
           <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
             <Layers className="h-6 w-6" /> Версии лайншита
           </h1>
+<<<<<<< HEAD
           <p className="mt-0.5 text-sm text-slate-500">
+=======
+          <p className="text-text-secondary mt-0.5 text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             NuOrder: Early Bird, VIP, Outlet, Stock Lot — разные каталоги и условия по одному
             сезону.
           </p>
@@ -54,11 +63,17 @@ export default function LinesheetVersionsPage() {
               <Link
                 key={v.id}
                 href={ROUTES.brand.b2bLinesheetsCreate}
+<<<<<<< HEAD
                 className="block rounded-xl border border-slate-200 p-4 transition-colors hover:border-indigo-300 hover:bg-indigo-50/50"
               >
                 <Icon className="mb-2 h-8 w-8 text-indigo-600" />
+=======
+                className="border-border-default hover:border-accent-primary/30 hover:bg-accent-primary/10 block rounded-xl border p-4 transition-colors"
+              >
+                <Icon className="text-accent-primary mb-2 h-8 w-8" />
+>>>>>>> recover/cabinet-wip-from-stash
                 <p className="font-medium">{v.name}</p>
-                <p className="text-xs text-slate-500">{v.desc}</p>
+                <p className="text-text-secondary text-xs">{v.desc}</p>
               </Link>
             );
           })}
@@ -74,6 +89,6 @@ export default function LinesheetVersionsPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getB2BLinks()} title="Лайншиты, кампании, заказы" />
-    </div>
+    </RegistryPageShell>
   );
 }

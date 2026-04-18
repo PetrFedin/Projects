@@ -7,7 +7,36 @@
 import type { Product } from '@/lib/types';
 import type { BuyerRights, B2BChannelId } from './buyer-rights';
 import { isProductVisibleToBuyer } from './buyer-rights';
-import { validateProductsForB2B } from './b2b-catalog-contract';
+import { formatProductComposition } from '@/lib/b2b/format-product-composition';
+import { validateProductsForB2B } from '@/lib/b2b/b2b-catalog-contract';
+
+/** Доп. поля PIM для синдикации / NuORDER (не все в `Product`) */
+type SyndicationProductExtras = {
+  allowedTerritories?: string[];
+  allowedChannels?: B2BChannelId[];
+  collection?: string;
+  certifications?: unknown;
+};
+
+function syndicationExtras(p: Product): SyndicationProductExtras {
+  const x = p as Product & SyndicationProductExtras;
+  return {
+    allowedTerritories: x.allowedTerritories,
+    allowedChannels: x.allowedChannels,
+    collection: x.collection,
+    certifications: x.certifications,
+  };
+}
+
+function syndicationSustainabilityLabel(p: Product): string | undefined {
+  const { certifications } = syndicationExtras(p);
+  const raw = p.sustainability && p.sustainability.length > 0 ? p.sustainability : certifications;
+  if (raw == null) return undefined;
+  if (Array.isArray(raw)) return raw.length > 0 ? 'Сертифицировано' : undefined;
+  if (typeof raw === 'object')
+    return Object.keys(raw as object).length > 0 ? 'Сертифицировано' : undefined;
+  return 'Сертифицировано';
+}
 
 /** Статус синдикации по бренду или глобальный */
 export interface SyndicationStatus {
@@ -269,9 +298,10 @@ function mockProductVisibility(
     ['outlet'],
   ];
   const i = index % 6;
+  const ex = syndicationExtras(p);
   return {
-    allowedTerritories: (p as any).allowedTerritories ?? territoriesByIndex[i],
-    allowedChannels: (p as any).allowedChannels ?? channelsByIndex[i],
+    allowedTerritories: ex.allowedTerritories ?? territoriesByIndex[i],
+    allowedChannels: ex.allowedChannels ?? channelsByIndex[i],
   };
 }
 
@@ -280,28 +310,33 @@ function productToSyndicatedItem(p: Product, index: number): SyndicatedCatalogIt
   const price = typeof p.price === 'number' ? p.price : 0;
   const wholesalePrice = price * 0.4; // мок: оптовая скидка
   const imageUrl = p.images?.[0]?.url ?? '/placeholder.jpg';
-  const color = (p as any).color ?? (p as any).availableColors?.[0]?.name ?? '';
+  const color = p.color ?? p.availableColors?.[0]?.name ?? '';
   const visibility = mockProductVisibility(p, index);
+  const ex = syndicationExtras(p);
   return {
     id: p.id,
-    sku: (p as any).sku ?? p.id,
+    sku: p.sku ?? p.id,
     name: p.name ?? 'Unnamed',
-    brand: (p as any).brand ?? 'Syntha',
-    category: (p as any).category ?? '',
-    season: (p as any).season ?? '',
+    brand: p.brand ?? 'Syntha Lab',
+    category: p.category ?? '',
+    season: p.season ?? '',
     price: wholesalePrice,
     priceFormatted: `${Math.round(wholesalePrice).toLocaleString('ru-RU')} ₽`,
     imageUrl,
     attributes: {
       color,
-      composition: (p as any).composition ?? '',
+      composition: formatProductComposition(p.composition),
     },
     moq: 6,
-    capsule: (p as any).capsule ?? (p as any).collection ?? '',
-    material: (p as any).material ?? (p as any).composition ?? '',
+    capsule: p.capsule ?? ex.collection ?? '',
+    material: p.material ?? formatProductComposition(p.composition),
     color,
+<<<<<<< HEAD
     sustainability:
       ((p as any).sustainability ?? (p as any).certifications) ? 'Сертифицировано' : undefined,
+=======
+    sustainability: syndicationSustainabilityLabel(p),
+>>>>>>> recover/cabinet-wip-from-stash
     contentChannels: getContentChannelsForProduct(p),
     ...visibility,
   };
@@ -316,12 +351,16 @@ export function getBuyerCatalog(
   let list = products;
   if (brandId) {
     const brandNorm = brandId.toLowerCase();
-    list = products.filter((p) => ((p as any).brand ?? '').toLowerCase().includes(brandNorm));
+    list = products.filter((p) => (p.brand ?? '').toLowerCase().includes(brandNorm));
   }
   const validIds = getStoredValidSkus(brandId);
-  if (validIds && validIds.length >= 0) {
-    const set = new Set(validIds);
-    list = list.filter((p) => set.has(p.id));
+  if (validIds !== null) {
+    if (validIds.length === 0) {
+      list = [];
+    } else {
+      const set = new Set(validIds);
+      list = list.filter((p) => set.has(p.id));
+    }
   }
   const items = list.map((p, i) => productToSyndicatedItem(p, i));
   if (rights) {

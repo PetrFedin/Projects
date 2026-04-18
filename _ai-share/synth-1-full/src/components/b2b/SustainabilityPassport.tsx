@@ -30,14 +30,22 @@ export function SustainabilityPassport({ productId = '1' }: { productId?: string
               Eco_Ledger_v1.0
             </Badge>
           </div>
+<<<<<<< HEAD
           <h3 className="text-base font-black uppercase leading-none tracking-tight text-slate-900">
+=======
+          <h3 className="text-text-primary text-base font-black uppercase leading-none tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
             Digital Product
             <br />
             Passport
           </h3>
         </div>
         <div className="flex h-20 w-20 items-center justify-center rounded-2xl border border-emerald-100 bg-white p-2 shadow-xl shadow-emerald-200/50">
+<<<<<<< HEAD
           <QrCode className="h-full w-full text-slate-900" />
+=======
+          <QrCode className="text-text-primary h-full w-full" />
+>>>>>>> recover/cabinet-wip-from-stash
         </div>
       </div>
 
@@ -47,8 +55,13 @@ export function SustainabilityPassport({ productId = '1' }: { productId?: string
             label: 'Recycled Content',
             val: '82%',
             icon: RefreshCcw,
+<<<<<<< HEAD
             color: 'text-indigo-600',
             bg: 'bg-indigo-50',
+=======
+            color: 'text-accent-primary',
+            bg: 'bg-accent-primary/10',
+>>>>>>> recover/cabinet-wip-from-stash
           },
           {
             label: 'Carbon Footprint',
@@ -77,10 +90,17 @@ export function SustainabilityPassport({ productId = '1' }: { productId?: string
               <stat.icon className={cn('h-5 w-5', stat.color)} />
             </div>
             <div className="space-y-0.5">
+<<<<<<< HEAD
               <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">
                 {stat.label}
               </p>
               <p className="text-base font-black text-slate-900">{stat.val}</p>
+=======
+              <p className="text-text-muted text-[8px] font-black uppercase tracking-widest">
+                {stat.label}
+              </p>
+              <p className="text-text-primary text-base font-black">{stat.val}</p>
+>>>>>>> recover/cabinet-wip-from-stash
             </div>
           </div>
         ))}
@@ -88,10 +108,17 @@ export function SustainabilityPassport({ productId = '1' }: { productId?: string
 
       <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-xl shadow-emerald-200/20">
         <div className="flex items-center gap-3">
+<<<<<<< HEAD
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900">
             <Factory className="h-5 w-5 text-white" />
           </div>
           <h4 className="text-sm font-black uppercase tracking-tight text-slate-900">
+=======
+          <div className="bg-text-primary flex h-10 w-10 items-center justify-center rounded-xl">
+            <Factory className="h-5 w-5 text-white" />
+          </div>
+          <h4 className="text-text-primary text-sm font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
             Supply Chain Transparency
           </h4>
         </div>
@@ -103,11 +130,19 @@ export function SustainabilityPassport({ productId = '1' }: { productId?: string
           ].map((step, i) => (
             <div
               key={i}
+<<<<<<< HEAD
               className="flex items-center justify-between border-b border-slate-50 pb-3 last:border-0 last:pb-0"
             >
               <div className="space-y-0.5">
                 <p className="text-[10px] font-black uppercase text-slate-900">{step.stage}</p>
                 <p className="text-[8px] font-medium uppercase text-slate-400">{step.location}</p>
+=======
+              className="border-border-subtle flex items-center justify-between border-b pb-3 last:border-0 last:pb-0"
+            >
+              <div className="space-y-0.5">
+                <p className="text-text-primary text-[10px] font-black uppercase">{step.stage}</p>
+                <p className="text-text-muted text-[8px] font-medium uppercase">{step.location}</p>
+>>>>>>> recover/cabinet-wip-from-stash
               </div>
               <Badge className="border-none bg-emerald-50 px-2 py-0.5 text-[7px] font-black uppercase text-emerald-600">
                 {step.status}
@@ -117,12 +152,20 @@ export function SustainabilityPassport({ productId = '1' }: { productId?: string
         </div>
       </Card>
 
+<<<<<<< HEAD
       <div className="flex items-center justify-between rounded-xl bg-slate-900 p-4 text-white">
+=======
+      <div className="bg-text-primary flex items-center justify-between rounded-xl p-4 text-white">
+>>>>>>> recover/cabinet-wip-from-stash
         <div className="flex items-center gap-3">
           <ShieldCheck className="h-6 w-6 text-emerald-400" />
           <div className="space-y-0.5">
             <p className="text-[10px] font-black uppercase">Blockchain Verified</p>
+<<<<<<< HEAD
             <p className="text-[8px] font-medium text-slate-400">Tx: 0x824...f921</p>
+=======
+            <p className="text-text-muted text-[8px] font-medium">Tx: 0x824...f921</p>
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
         </div>
         <Button

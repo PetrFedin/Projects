@@ -32,10 +32,14 @@ export function ProductTechPackHubBlock({ product }: Props) {
   };
 
   return (
-    <Card className="mt-4 border-violet-500/30 bg-violet-500/5">
+    <Card className="border-accent-primary/30 bg-accent-primary/100 mt-4">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-sm">
+<<<<<<< HEAD
           <FileJson className="h-4 w-4 text-violet-600" />
+=======
+          <FileJson className="text-accent-primary h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
           Tech Pack Data Hub
         </CardTitle>
         <CardDescription className="text-xs">
@@ -56,16 +60,31 @@ export function ProductTechPackHubBlock({ product }: Props) {
 
         <div className="flex flex-wrap gap-1.5">
           {techPack.fabricSpec?.gsm && (
+<<<<<<< HEAD
             <Badge variant="outline" className="border-violet-200 text-[9px]">
+=======
+            <Badge variant="outline" className="border-accent-primary/25 text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
               GSM: {techPack.fabricSpec.gsm}
             </Badge>
           )}
           {techPack.careSymbols.length > 0 && (
+<<<<<<< HEAD
             <Badge variant="outline" className="border-violet-200 text-[9px]">
               {techPack.careSymbols.length} символов ухода
             </Badge>
           )}
           <Badge variant="outline" className="border-violet-200 text-[9px] text-violet-700">
+=======
+            <Badge variant="outline" className="border-accent-primary/25 text-[9px]">
+              {techPack.careSymbols.length} символов ухода
+            </Badge>
+          )}
+          <Badge
+            variant="outline"
+            className="border-accent-primary/25 text-accent-primary text-[9px]"
+          >
+>>>>>>> recover/cabinet-wip-from-stash
             <CheckCircle2 className="mr-1 h-2 w-2" />
             GTIN/EAN ready
           </Badge>
@@ -74,7 +93,11 @@ export function ProductTechPackHubBlock({ product }: Props) {
         <Button
           variant="outline"
           size="sm"
+<<<<<<< HEAD
           className="w-full gap-2 border-violet-400/50 text-xs hover:bg-violet-100"
+=======
+          className="border-accent-primary/40 hover:bg-accent-primary/15 w-full gap-2 text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
           onClick={downloadJson}
         >
           <Download className="h-3 w-3" />

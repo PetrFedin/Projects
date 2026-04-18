@@ -9,6 +9,8 @@ import { Truck, ArrowLeft, MapPin } from 'lucide-react';
 import { getShipFromStoreLinks } from '@/lib/data/entity-links';
 import { listShipFromStoreAssignments } from '@/lib/api';
 import type { ShipFromStoreAssignment } from '@/lib/shop/ship-from-store';
+import { RegistryPageShell } from '@/components/design-system';
+import { ROUTES } from '@/lib/routes';
 
 const statusLabels: Record<ShipFromStoreAssignment['status'], string> = {
   eligible: 'Доступен',
@@ -27,16 +29,26 @@ export default function ShipFromStorePage() {
   }, []);
 
   return (
+<<<<<<< HEAD
     <div className="container max-w-4xl space-y-6 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Link href="/shop/orders">
+=======
+    <RegistryPageShell className="max-w-4xl space-y-6">
+      <div className="flex items-center gap-3">
+        <Link href={ROUTES.shop.orders}>
+>>>>>>> recover/cabinet-wip-from-stash
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Ship-from-Store</h1>
+<<<<<<< HEAD
           <p className="text-sm text-slate-500">
+=======
+          <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Отправка онлайн-заказа из ближайшей точки (омниканал). Заказы, склад, логистика, BOPIS.
           </p>
         </div>
@@ -54,13 +66,21 @@ export default function ShipFromStorePage() {
           {assignments.map((a) => (
             <div
               key={a.id}
+<<<<<<< HEAD
               className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
+=======
+              className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <div>
                 <p className="text-sm font-medium">
                   {a.orderId} → {a.storeName}
                 </p>
+<<<<<<< HEAD
                 <p className="text-xs text-slate-500">
+=======
+                <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                   {a.trackingNumber
                     ? `Трек ${a.trackingNumber}`
                     : a.assignedAt.slice(0, 16).replace('T', ' ')}
@@ -74,7 +94,11 @@ export default function ShipFromStorePage() {
               </Badge>
             </div>
           ))}
+<<<<<<< HEAD
           <p className="mt-3 text-xs text-slate-400">
+=======
+          <p className="text-text-muted mt-3 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
             API: SHIP_FROM_STORE_API — eligible stores, assign, ship. Омниканал.
           </p>
         </CardContent>
@@ -97,6 +121,6 @@ export default function ShipFromStorePage() {
           </ul>
         </CardContent>
       </Card>
-    </div>
+    </RegistryPageShell>
   );
 }

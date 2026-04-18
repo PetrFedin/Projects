@@ -8,6 +8,10 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useUIState } from '@/providers/ui-state';
 import { useAuth } from '@/providers/auth-provider';
+<<<<<<< HEAD
+=======
+import { ROUTES } from '@/lib/routes';
+>>>>>>> recover/cabinet-wip-from-stash
 
 const heroAds = [
   {
@@ -82,7 +86,11 @@ const heroAdsB2B = [
       'Единое хранилище ТЗ, лекал и сертификатов для всех ваших фабрик с Live-мониторингом линий.',
     imageUrl: 'https://images.unsplash.com/photo-1558444479-c8f02e62156e?q=80&w=2000',
     ctaText: 'Контроль производства',
+<<<<<<< HEAD
     ctaLink: '/factory/production',
+=======
+    ctaLink: ROUTES.factory.production,
+>>>>>>> recover/cabinet-wip-from-stash
     isPaid: true,
   },
   {
@@ -119,8 +127,13 @@ export function AdvertisingSection() {
 
   return (
     <section className="group/section relative overflow-hidden bg-white pb-3 pt-6">
+<<<<<<< HEAD
       <div className="container relative mx-auto px-4">
         <div className="group/card relative flex h-[500px] items-center overflow-hidden rounded-xl border border-slate-100 bg-[#fcfcfc] shadow-2xl shadow-slate-200/50">
+=======
+      <div className="relative mx-auto w-full max-w-5xl px-4 sm:px-6">
+        <div className="border-border-subtle group/card relative flex h-[500px] items-center overflow-hidden rounded-xl border bg-[#fcfcfc] shadow-2xl shadow-md">
+>>>>>>> recover/cabinet-wip-from-stash
           <AnimatePresence mode="wait">
             <motion.div
               key={currentAdIndex}
@@ -168,7 +181,11 @@ export function AdvertisingSection() {
 
               <div className="flex min-h-[80px] flex-col justify-center">
                 {currentAd.description && (
+<<<<<<< HEAD
                   <p className="max-w-2xl border-l-2 border-indigo-500/50 pl-6 text-sm font-medium leading-relaxed text-slate-300">
+=======
+                  <p className="text-text-muted border-accent-primary/50 max-w-2xl border-l-2 pl-6 text-sm font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                     "{currentAd.description}"
                   </p>
                 )}
@@ -180,6 +197,7 @@ export function AdvertisingSection() {
                     href={
                       currentAd.ctaText === 'Панель управления'
                         ? user?.roles?.includes('admin')
+<<<<<<< HEAD
                           ? '/admin/home'
                           : user?.roles?.includes('brand')
                             ? '/brand'
@@ -204,6 +222,32 @@ export function AdvertisingSection() {
                                   ? '/factory/materials'
                                   : currentAd.id === 'b2b-production'
                                     ? '/factory/production'
+=======
+                          ? ROUTES.admin.cmsHome
+                          : user?.roles?.includes('brand')
+                            ? ROUTES.brand.home
+                            : user?.roles?.includes('shop')
+                              ? ROUTES.shop.b2bDiscover
+                              : user?.roles?.includes('distributor')
+                                ? ROUTES.distributor.home
+                                : user?.roles?.includes('manufacturer')
+                                  ? ROUTES.factory.production
+                                  : user?.roles?.includes('supplier')
+                                    ? ROUTES.factory.supplier
+                                    : ROUTES.brand.home
+                        : currentAd.id === 'b2b-fintech'
+                          ? '/brand/finance'
+                          : currentAd.id === 'b2b-production-archive'
+                            ? ROUTES.factory.production
+                            : currentAd.id === 'b2b-commerce'
+                              ? '/brand/showroom'
+                              : currentAd.id === 'b2b-distributors'
+                                ? ROUTES.distributor.home
+                                : currentAd.id === 'b2b-suppliers'
+                                  ? ROUTES.factory.productionMaterials
+                                  : currentAd.id === 'b2b-production'
+                                    ? ROUTES.factory.production
+>>>>>>> recover/cabinet-wip-from-stash
                                     : currentAd.ctaLink
                     }
                     className="flex items-center gap-2"

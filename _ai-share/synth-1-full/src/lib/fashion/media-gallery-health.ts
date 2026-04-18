@@ -16,7 +16,11 @@ export function assessMediaGallery(product: Product): GalleryHealthResult {
 }
 
 export function galleryHealthToCsv(
+<<<<<<< HEAD
   rows: { sku: string; slug: string; score: number; issues: string }[]
+=======
+  rows: { sku: string; slug: string; score: number; issues: string[] }[]
+>>>>>>> recover/cabinet-wip-from-stash
 ): string {
   const h = ['sku', 'slug', 'gallery_score', 'issues'];
   const lines = [h.join(',')];

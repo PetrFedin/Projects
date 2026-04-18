@@ -35,17 +35,21 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 import { brands } from '@/lib/placeholder-data';
 import BrandCard from '@/components/brand-card';
-import { generateOutfitFromPrompt } from '@/ai/flows/generate-outfit-from-prompt';
+import { outfitPreviewClient } from '@/lib/ai-client/api';
 import ProductCard from '@/components/product-card';
 import { products } from '@/lib/products';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+import { RegistryPageShell } from '@/components/design-system';
 import { Badge } from '@/components/ui/badge';
 import kickstarterUpdates from '@/lib/data/kickstarter-updates.json';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useToast } from '@/hooks/use-toast';
 import { useUIState } from '@/providers/ui-state';
+import { useB2BState } from '@/providers/b2b-state';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const mockComments = [
   {
@@ -70,8 +74,14 @@ function OutfitRecommender({ productTitle }: { productTitle: string }) {
     setIsLoading(true);
     setOutfitImage(null);
     try {
+<<<<<<< HEAD
       const result = await generateOutfitFromPrompt({
         prompt: `A full stylish outfit recommendation featuring a "${productTitle}". The image should be a full-body shot of a model against a clean, minimalist background, showcasing how to style the main item.`,
+=======
+      const result = await outfitPreviewClient({
+        prompt: `A full stylish outfit recommendation featuring a "${productTitle}". The image should be a full-body shot of a model against a clean, minimalist background, showcasing how to style the main item.`,
+        directPrompt: true,
+>>>>>>> recover/cabinet-wip-from-stash
       });
       if (result.generatedOutfitImage) {
         setOutfitImage(result.generatedOutfitImage);
@@ -133,7 +143,12 @@ export default function CampaignDetailsPage({
 
   const [selectedTierId, setSelectedTierId] = useState<string | null>(null);
   const { toast } = useToast();
+<<<<<<< HEAD
   const { user, addB2bOrderItem } = useUIState();
+=======
+  const { user } = useUIState();
+  const { addB2bOrderItem } = useB2BState();
+>>>>>>> recover/cabinet-wip-from-stash
 
   // MOCK: simulate that the user is a backer
   const isBacker = true;
@@ -175,7 +190,11 @@ export default function CampaignDetailsPage({
   const handleAddToB2bOrder = () => {
     if (!product) return;
 
+<<<<<<< HEAD
     const size = product.sizes?.[0].name || 'One Size';
+=======
+    const size = product.sizes?.[0]?.name || 'One Size';
+>>>>>>> recover/cabinet-wip-from-stash
     addB2bOrderItem(product, size, b2bQuantity);
 
     toast({
@@ -201,7 +220,11 @@ export default function CampaignDetailsPage({
   };
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto px-4 py-12">
+=======
+    <RegistryPageShell className="py-12 pb-16">
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="grid gap-3 lg:grid-cols-3">
         {/* Main Content */}
         <div className="space-y-4 lg:col-span-2">
@@ -215,11 +238,52 @@ export default function CampaignDetailsPage({
           </div>
 
           <Tabs defaultValue="story" className="w-full">
+<<<<<<< HEAD
             <TabsList>
               <TabsTrigger value="story">История проекта</TabsTrigger>
               <TabsTrigger value="updates">Обновления ({updates.length})</TabsTrigger>
               <TabsTrigger value="faq">FAQ ({project.faqs?.length || 0})</TabsTrigger>
               <TabsTrigger value="comments">Комментарии ({comments.length})</TabsTrigger>
+=======
+            {/* cabinetSurface v1 */}
+            <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
+              <TabsTrigger
+                value="story"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                История проекта
+              </TabsTrigger>
+              <TabsTrigger
+                value="updates"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                Обновления ({updates.length})
+              </TabsTrigger>
+              <TabsTrigger
+                value="faq"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                FAQ ({project.faqs?.length || 0})
+              </TabsTrigger>
+              <TabsTrigger
+                value="comments"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                Комментарии ({comments.length})
+              </TabsTrigger>
+>>>>>>> recover/cabinet-wip-from-stash
             </TabsList>
             <TabsContent value="story" className="prose dark:prose-invert mt-6 max-w-none">
               <h2>Концепция: {project.title}</h2>
@@ -512,6 +576,10 @@ export default function CampaignDetailsPage({
           </div>
         </div>
       </div>
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

@@ -7,11 +7,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Share2, ArrowLeft, Copy, Check, Link2 } from 'lucide-react';
+import { Copy, Check, Link2 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { getLookbookProjects, getWatermarkedPdfUrl } from '@/lib/b2b/lookbook-projects-store';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { RegistryPageShell } from '@/components/design-system';
 
 /** JOOR/Colect: шаринг лукбука/лайншита — ссылка с истечением срока, опционально пароль. */
 export default function LookbookSharePage() {
@@ -39,6 +41,7 @@ export default function LookbookSharePage() {
   }, [shareLink]);
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2bShowroom}>
@@ -55,6 +58,13 @@ export default function LookbookSharePage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-xl space-y-6">
+      <ShopB2bContentHeader
+        backHref={ROUTES.shop.b2bShowroom}
+        lead="Ссылка на просмотр лукбука: срок действия и пароль (опционально)."
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       {project ? (
         <Card>
@@ -83,7 +93,11 @@ export default function LookbookSharePage() {
                   )}
                 </Button>
               </div>
+<<<<<<< HEAD
               <p className="text-[10px] text-slate-500">
+=======
+              <p className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                 Получатель откроет лукбук по этой ссылке (до даты видимости проекта).
               </p>
             </div>
@@ -106,7 +120,7 @@ export default function LookbookSharePage() {
                 id="withPassword"
                 checked={withPassword}
                 onChange={(e) => setWithPassword(e.target.checked)}
-                className="rounded border-slate-300"
+                className="border-border-default rounded"
               />
               <Label htmlFor="withPassword" className="text-sm font-medium">
                 Защитить паролем
@@ -144,8 +158,13 @@ export default function LookbookSharePage() {
       ) : (
         <Card>
           <CardContent className="p-8 text-center">
+<<<<<<< HEAD
             <Link2 className="mx-auto mb-3 block h-12 w-12 text-slate-300" />
             <p className="font-medium text-slate-600">
+=======
+            <Link2 className="text-text-muted mx-auto mb-3 block h-12 w-12" />
+            <p className="text-text-secondary font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
               Выберите лукбук в виртуальном шоуруме или в разделе «Лукбуки», затем нажмите
               «Поделиться лайншитом».
             </p>
@@ -161,7 +180,11 @@ export default function LookbookSharePage() {
           <Link href={ROUTES.shop.b2bLookbooks}>Лукбуки</Link>
         </Button>
         <Button variant="outline" size="sm" asChild>
+<<<<<<< HEAD
           <Link href={ROUTES.shop.b2b}>B2B</Link>
+=======
+          <Link href={ROUTES.shop.home}>Кабинет магазина</Link>
+>>>>>>> recover/cabinet-wip-from-stash
         </Button>
       </div>
       <RelatedModulesBlock
@@ -169,6 +192,10 @@ export default function LookbookSharePage() {
         title="Шоурум, лукбуки, заказы"
         className="mt-6"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

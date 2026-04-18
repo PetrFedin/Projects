@@ -19,6 +19,7 @@ import {
   categoryPriceStatsToCsv,
 } from '@/lib/fashion/category-price-stats';
 import { ArrowLeft, BarChart3 } from 'lucide-react';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
 export default function CategoryPricingPage() {
   const rows = useMemo(() => buildCategoryPriceStats(products), []);
@@ -67,7 +68,7 @@ export default function CategoryPricingPage() {
         <CardHeader>
           <CardTitle className="text-base">Таблица</CardTitle>
           <CardDescription>
-            {rows.length} категорий, {products.length} SKU
+            {rows.length} категорий, {products.length} <AcronymWithTooltip abbr="SKU" />
           </CardDescription>
         </CardHeader>
         <CardContent className="overflow-x-auto">
@@ -75,7 +76,9 @@ export default function CategoryPricingPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>Категория</TableHead>
-                <TableHead className="text-right">SKU</TableHead>
+                <TableHead className="text-right">
+                  <AcronymWithTooltip abbr="SKU" />
+                </TableHead>
                 <TableHead className="text-right">Min</TableHead>
                 <TableHead className="text-right">Max</TableHead>
                 <TableHead className="text-right">Средн.</TableHead>

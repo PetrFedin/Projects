@@ -80,6 +80,10 @@ export function useTeamManagement() {
       role,
       department,
       status,
+<<<<<<< HEAD
+=======
+      organizationId: activeOrgId,
+>>>>>>> recover/cabinet-wip-from-stash
       avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${email}`,
       joinedAt: new Date().toISOString(),
       isOnline: false,

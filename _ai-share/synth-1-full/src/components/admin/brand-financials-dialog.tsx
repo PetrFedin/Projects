@@ -22,6 +22,11 @@ import {
 } from 'lucide-react';
 import type { Brand } from '@/lib/types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
+<<<<<<< HEAD
+=======
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+>>>>>>> recover/cabinet-wip-from-stash
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '../ui/chart';
@@ -74,10 +79,42 @@ export function BrandFinancialsDialog({ isOpen, onOpenChange, brand }: BrandFina
         </DialogHeader>
         <div className="overflow-y-auto py-4 pr-2">
           <Tabs defaultValue="overview">
+<<<<<<< HEAD
             <TabsList className="mb-4">
               <TabsTrigger value="overview">Обзор</TabsTrigger>
               <TabsTrigger value="transactions">Транзакции</TabsTrigger>
               <TabsTrigger value="performance">Эффективность</TabsTrigger>
+=======
+            {/* cabinetSurface v1 */}
+            <TabsList className={cn(cabinetSurface.tabsList, 'mb-4 min-w-0')}>
+              <TabsTrigger
+                value="overview"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                Обзор
+              </TabsTrigger>
+              <TabsTrigger
+                value="transactions"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                Транзакции
+              </TabsTrigger>
+              <TabsTrigger
+                value="performance"
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'text-xs font-semibold normal-case tracking-normal'
+                )}
+              >
+                Эффективность
+              </TabsTrigger>
+>>>>>>> recover/cabinet-wip-from-stash
             </TabsList>
             <TabsContent value="overview" className="space-y-6">
               <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">

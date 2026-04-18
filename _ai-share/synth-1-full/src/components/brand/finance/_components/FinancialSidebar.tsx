@@ -32,7 +32,11 @@ interface FinancialSidebarProps {
 export function FinancialSidebar({ setActiveView, activeView, isAdmin }: FinancialSidebarProps) {
   return (
     <div className="space-y-10 lg:col-span-4">
+<<<<<<< HEAD
       <Card className="relative overflow-hidden rounded-xl border-none bg-indigo-600 text-white shadow-2xl">
+=======
+      <Card className="bg-accent-primary relative overflow-hidden rounded-xl border-none text-white shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
         <div className="absolute right-0 top-0 rotate-12 p-3 opacity-10">
           <Zap className="h-48 w-48" />
         </div>
@@ -92,12 +96,17 @@ export function FinancialSidebar({ setActiveView, activeView, isAdmin }: Financi
               </div>
             ))}
           </div>
+<<<<<<< HEAD
           <Button className="h-10 w-full rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest text-indigo-600 shadow-2xl transition-transform hover:bg-indigo-50 active:scale-95">
+=======
+          <Button className="text-accent-primary hover:bg-accent-primary/10 h-10 w-full rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest shadow-2xl transition-transform active:scale-95">
+>>>>>>> recover/cabinet-wip-from-stash
             Сформировать стратегию FW26
           </Button>
         </CardContent>
       </Card>
 
+<<<<<<< HEAD
       <Card className="overflow-hidden rounded-xl border-slate-100 bg-white shadow-sm">
         <CardHeader className="border-b border-slate-50 p-3">
           <div className="flex items-center gap-3">
@@ -109,6 +118,19 @@ export function FinancialSidebar({ setActiveView, activeView, isAdmin }: Financi
                 Интеграция с банком
               </CardTitle>
               <p className="mt-1 text-[8px] font-bold uppercase tracking-widest text-slate-400">
+=======
+      <Card className="border-border-subtle overflow-hidden rounded-xl bg-white shadow-sm">
+        <CardHeader className="border-border-subtle border-b p-3">
+          <div className="flex items-center gap-3">
+            <div className="bg-bg-surface2 text-text-muted flex h-12 w-12 items-center justify-center rounded-2xl shadow-inner">
+              <Building2 className="h-6 w-6" />
+            </div>
+            <div>
+              <CardTitle className="text-text-primary text-xs font-black uppercase tracking-widest">
+                Интеграция с банком
+              </CardTitle>
+              <p className="text-text-muted mt-1 text-[8px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Партнер: Alfa Bank Business
               </p>
             </div>
@@ -116,7 +138,11 @@ export function FinancialSidebar({ setActiveView, activeView, isAdmin }: Financi
         </CardHeader>
         <CardContent className="space-y-4 p-3">
           <div className="flex items-center justify-between">
+<<<<<<< HEAD
             <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+            <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               Статус синхронизации
             </span>
             <div className="flex items-center gap-2">
@@ -130,6 +156,7 @@ export function FinancialSidebar({ setActiveView, activeView, isAdmin }: Financi
             {mockBankAccounts.map((account) => (
               <div
                 key={account.id}
+<<<<<<< HEAD
                 className="group flex cursor-pointer items-center justify-between rounded-[1.5rem] border border-slate-100 bg-slate-50 p-3 transition-all hover:border-indigo-200"
               >
                 <div className="flex items-center gap-3">
@@ -141,6 +168,19 @@ export function FinancialSidebar({ setActiveView, activeView, isAdmin }: Financi
                   </span>
                 </div>
                 <span className="text-sm font-black tabular-nums text-slate-900">
+=======
+                className="bg-bg-surface2 border-border-subtle hover:border-accent-primary/30 group flex cursor-pointer items-center justify-between rounded-[1.5rem] border p-3 transition-all"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="text-text-muted group-hover:text-accent-primary flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-sm transition-colors">
+                    {account.icon}
+                  </div>
+                  <span className="text-text-secondary text-[10px] font-bold uppercase">
+                    {account.name}
+                  </span>
+                </div>
+                <span className="text-text-primary text-sm font-black tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                   {account.balance.toLocaleString('ru-RU')} ₽
                 </span>
               </div>
@@ -148,7 +188,11 @@ export function FinancialSidebar({ setActiveView, activeView, isAdmin }: Financi
           </div>
           <Button
             variant="ghost"
+<<<<<<< HEAD
             className="h-12 w-full gap-3 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 transition-all hover:text-indigo-600"
+=======
+            className="text-text-muted hover:text-accent-primary h-12 w-full gap-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             Управление счетами <ArrowRight className="h-4 w-4" />
           </Button>

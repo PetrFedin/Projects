@@ -13,7 +13,11 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { Share2, ArrowRightLeft, Database, Globe, Zap, AlertCircle, RefreshCw } from 'lucide-react';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { RegistryPageShell } from '@/components/design-system';
 
 /**
  * Integration Hub (Connective Tissue) UI
@@ -24,7 +28,11 @@ export default function IntegrationHubPage() {
   const [activeTab, setActiveTab] = useState('internal');
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto space-y-6 px-4 py-12">
+=======
+    <RegistryPageShell className="space-y-6 py-12 pb-16">
+>>>>>>> recover/cabinet-wip-from-stash
       <header className="flex flex-col justify-between gap-3 md:flex-row md:items-start">
         <div className="flex-1">
           <h1 className="font-headline text-sm font-bold">Integration Hub</h1>
@@ -45,6 +53,7 @@ export default function IntegrationHubPage() {
       </header>
 
       <Tabs defaultValue="internal" className="w-full" onValueChange={setActiveTab}>
+<<<<<<< HEAD
         <TabsList className="grid w-full max-w-[400px] grid-cols-2">
           <TabsTrigger value="internal" className="gap-2">
             <ArrowRightLeft className="h-4 w-4" />
@@ -53,6 +62,29 @@ export default function IntegrationHubPage() {
           <TabsTrigger value="external" className="gap-2">
             <Globe className="h-4 w-4" />
             Маркетплейсы (API)
+=======
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'grid max-w-[400px] grid-cols-2')}>
+          <TabsTrigger
+            value="internal"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            <ArrowRightLeft className="h-4 w-4" />
+            Внутренний сток
+          </TabsTrigger>
+          <TabsTrigger
+            value="external"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'text-xs font-semibold normal-case tracking-normal'
+            )}
+          >
+            <Globe className="h-4 w-4" />
+            Маркетплейсы (<AcronymWithTooltip abbr="API" />)
+>>>>>>> recover/cabinet-wip-from-stash
           </TabsTrigger>
         </TabsList>
 
@@ -117,7 +149,13 @@ export default function IntegrationHubPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Дата и Время</TableHead>
+<<<<<<< HEAD
                     <TableHead>Товар (SKU)</TableHead>
+=======
+                    <TableHead>
+                      Товар (<AcronymWithTooltip abbr="SKU" />)
+                    </TableHead>
+>>>>>>> recover/cabinet-wip-from-stash
                     <TableHead>Откуда {'->'} Куда</TableHead>
                     <TableHead>Кол-во</TableHead>
                     <TableHead>Причина</TableHead>
@@ -167,7 +205,11 @@ export default function IntegrationHubPage() {
                     Последняя синхронизация: 5 мин. назад
                   </p>
                   <Button size="sm" variant="outline" className="w-full">
+<<<<<<< HEAD
                     Настройки API
+=======
+                    Настройки <AcronymWithTooltip abbr="API" />
+>>>>>>> recover/cabinet-wip-from-stash
                   </Button>
                 </CardContent>
               </Card>
@@ -190,6 +232,6 @@ export default function IntegrationHubPage() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+    </RegistryPageShell>
   );
 }

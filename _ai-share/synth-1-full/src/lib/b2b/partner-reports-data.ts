@@ -43,8 +43,9 @@ export interface PlanFactRow {
   fulfillmentPct: number;
 }
 
-/** Продажи по брендам (мок) */
+/** Продажи по брендам (мок) — только демо-бренды платформы */
 export const MOCK_SALES_BY_BRAND: SalesByBrandRow[] = [
+<<<<<<< HEAD
   { brand: 'Syntha', revenue: 2_450_000, cost: 1_420_000, margin: 42, units: 1240, season: 'SS26' },
   { brand: 'A.P.C.', revenue: 1_800_000, cost: 1_080_000, margin: 40, units: 890, season: 'SS26' },
   {
@@ -53,6 +54,22 @@ export const MOCK_SALES_BY_BRAND: SalesByBrandRow[] = [
     cost: 552_000,
     margin: 40,
     units: 410,
+=======
+  {
+    brand: 'Syntha Lab',
+    revenue: 2_450_000,
+    cost: 1_420_000,
+    margin: 42,
+    units: 1240,
+    season: 'SS26',
+  },
+  {
+    brand: 'Nordic Wool',
+    revenue: 1_920_000,
+    cost: 1_120_000,
+    margin: 42,
+    units: 980,
+>>>>>>> recover/cabinet-wip-from-stash
     season: 'SS26',
   },
 ];
@@ -62,7 +79,11 @@ export const MOCK_TOP_SKU: TopSkuRow[] = [
   {
     sku: 'CTP-26-001',
     name: 'Graphene Parka',
+<<<<<<< HEAD
     brand: 'Syntha',
+=======
+    brand: 'Syntha Lab',
+>>>>>>> recover/cabinet-wip-from-stash
     category: 'Верхняя одежда',
     unitsSold: 420,
     revenue: 840_000,
@@ -72,7 +93,11 @@ export const MOCK_TOP_SKU: TopSkuRow[] = [
   {
     sku: 'CTP-26-002',
     name: 'Merino Sweater',
+<<<<<<< HEAD
     brand: 'Syntha',
+=======
+    brand: 'Syntha Lab',
+>>>>>>> recover/cabinet-wip-from-stash
     category: 'Трикотаж',
     unitsSold: 380,
     revenue: 684_000,
@@ -82,7 +107,11 @@ export const MOCK_TOP_SKU: TopSkuRow[] = [
   {
     sku: 'CTP-26-003',
     name: 'Tech Trousers',
+<<<<<<< HEAD
     brand: 'Syntha',
+=======
+    brand: 'Syntha Lab',
+>>>>>>> recover/cabinet-wip-from-stash
     category: 'Брюки',
     unitsSold: 290,
     revenue: 435_000,
@@ -90,6 +119,7 @@ export const MOCK_TOP_SKU: TopSkuRow[] = [
     season: 'SS26',
   },
   {
+<<<<<<< HEAD
     sku: 'APC-DJ-01',
     name: 'Classic Denim',
     brand: 'A.P.C.',
@@ -106,13 +136,35 @@ export const MOCK_TOP_SKU: TopSkuRow[] = [
     category: 'Аксессуары',
     unitsSold: 180,
     revenue: 162_000,
+=======
+    sku: 'NW-K001-BLK',
+    name: 'Кашемировый лонгслив',
+    brand: 'Nordic Wool',
+    category: 'Трикотаж',
+    unitsSold: 310,
+    revenue: 682_000,
+    sellThroughPct: 86,
+    season: 'SS26',
+  },
+  {
+    sku: 'NW-SCF-02',
+    name: 'Шерстяной платок',
+    brand: 'Nordic Wool',
+    category: 'Аксессуары',
+    unitsSold: 180,
+    revenue: 270_000,
+>>>>>>> recover/cabinet-wip-from-stash
     sellThroughPct: 90,
     season: 'SS26',
   },
   {
     sku: 'SYN-K001-BLK',
     name: 'Кашемировый свитер',
+<<<<<<< HEAD
     brand: 'Syntha',
+=======
+    brand: 'Syntha Lab',
+>>>>>>> recover/cabinet-wip-from-stash
     category: 'Трикотаж',
     unitsSold: 165,
     revenue: 412_500,
@@ -126,7 +178,11 @@ export const MOCK_SELL_THROUGH: SellThroughRow[] = [
   {
     sku: 'CTP-26-001',
     name: 'Graphene Parka',
+<<<<<<< HEAD
     brand: 'Syntha',
+=======
+    brand: 'Syntha Lab',
+>>>>>>> recover/cabinet-wip-from-stash
     purchased: 480,
     sold: 420,
     sellThroughPct: 88,
@@ -135,7 +191,11 @@ export const MOCK_SELL_THROUGH: SellThroughRow[] = [
   {
     sku: 'CTP-26-002',
     name: 'Merino Sweater',
+<<<<<<< HEAD
     brand: 'Syntha',
+=======
+    brand: 'Syntha Lab',
+>>>>>>> recover/cabinet-wip-from-stash
     purchased: 464,
     sold: 380,
     sellThroughPct: 82,
@@ -144,13 +204,18 @@ export const MOCK_SELL_THROUGH: SellThroughRow[] = [
   {
     sku: 'CTP-26-003',
     name: 'Tech Trousers',
+<<<<<<< HEAD
     brand: 'Syntha',
+=======
+    brand: 'Syntha Lab',
+>>>>>>> recover/cabinet-wip-from-stash
     purchased: 408,
     sold: 290,
     sellThroughPct: 71,
     season: 'SS26',
   },
   {
+<<<<<<< HEAD
     sku: 'APC-DJ-01',
     name: 'Classic Denim',
     brand: 'A.P.C.',
@@ -163,6 +228,20 @@ export const MOCK_SELL_THROUGH: SellThroughRow[] = [
     sku: 'ACNE-BAG-1',
     name: 'Scarf Wool',
     brand: 'Acne Studios',
+=======
+    sku: 'NW-K001-BLK',
+    name: 'Кашемировый лонгслив',
+    brand: 'Nordic Wool',
+    purchased: 360,
+    sold: 310,
+    sellThroughPct: 86,
+    season: 'SS26',
+  },
+  {
+    sku: 'NW-SCF-02',
+    name: 'Шерстяной платок',
+    brand: 'Nordic Wool',
+>>>>>>> recover/cabinet-wip-from-stash
     purchased: 200,
     sold: 180,
     sellThroughPct: 90,
@@ -173,7 +252,11 @@ export const MOCK_SELL_THROUGH: SellThroughRow[] = [
 /** План/факт закупок по брендам (мок) */
 export const MOCK_PLAN_FACT: PlanFactRow[] = [
   {
+<<<<<<< HEAD
     brand: 'Syntha',
+=======
+    brand: 'Syntha Lab',
+>>>>>>> recover/cabinet-wip-from-stash
     season: 'SS26',
     planAmount: 2_800_000,
     factAmount: 2_650_000,
@@ -182,6 +265,7 @@ export const MOCK_PLAN_FACT: PlanFactRow[] = [
     fulfillmentPct: 94,
   },
   {
+<<<<<<< HEAD
     brand: 'A.P.C.',
     season: 'SS26',
     planAmount: 2_000_000,
@@ -198,6 +282,15 @@ export const MOCK_PLAN_FACT: PlanFactRow[] = [
     planUnits: 450,
     factUnits: 410,
     fulfillmentPct: 92,
+=======
+    brand: 'Nordic Wool',
+    season: 'SS26',
+    planAmount: 2_100_000,
+    factAmount: 1_920_000,
+    planUnits: 1050,
+    factUnits: 980,
+    fulfillmentPct: 93,
+>>>>>>> recover/cabinet-wip-from-stash
   },
 ];
 
@@ -213,7 +306,7 @@ function escapeCsvField(value: string, delimiter: string): string {
 }
 
 /** Экспорт таблицы в CSV (универсальный). Разделитель ; для Excel (ru). Экранирование по RFC 4180. */
-export function exportToCsv<T extends Record<string, unknown>>(
+export function exportToCsv<T extends object>(
   rows: T[],
   columns: { key: keyof T; header: string }[],
   filename: string,

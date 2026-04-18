@@ -15,7 +15,11 @@ export function ProductEaeuCustomsBlock({ product }: { product: Product }) {
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Globe className="h-4 w-4 text-blue-600" />
+<<<<<<< HEAD
           <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
+=======
+          <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             EAEU Customs Value (Estimator)
           </h4>
         </div>
@@ -25,17 +29,29 @@ export function ProductEaeuCustomsBlock({ product }: { product: Product }) {
       </div>
 
       <div className="space-y-2.5">
+<<<<<<< HEAD
         <div className="flex items-center justify-between text-[10px] font-black uppercase text-slate-500">
           <span>Transaction Value</span>
           <span>{customs.transactionValue.toLocaleString()} ₽</span>
         </div>
         <div className="flex items-center justify-between text-[10px] font-black uppercase text-slate-500">
+=======
+        <div className="text-text-secondary flex items-center justify-between text-[10px] font-black uppercase">
+          <span>Transaction Value</span>
+          <span>{customs.transactionValue.toLocaleString()} ₽</span>
+        </div>
+        <div className="text-text-secondary flex items-center justify-between text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
           <span>Duty ({customs.dutyRatePercent}%)</span>
           <span>
             {(customs.totalCustomsValue * (customs.dutyRatePercent / 100)).toLocaleString()} ₽
           </span>
         </div>
+<<<<<<< HEAD
         <div className="flex items-center justify-between text-[10px] font-black uppercase text-slate-500">
+=======
+        <div className="text-text-secondary flex items-center justify-between text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
           <span>VAT ({customs.vatRatePercent}%)</span>
           <span>
             {(

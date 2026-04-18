@@ -42,9 +42,15 @@ export const ProductCostPerWearBlock: React.FC<{ product: Product }> = ({ produc
         </div>
       </div>
 
+<<<<<<< HEAD
       <div className="mt-4 flex items-start gap-2 rounded bg-slate-50 p-2 text-[10px]">
         <Info className="mt-0.5 h-3 w-3 text-slate-400" />
         <span className="italic text-slate-500">
+=======
+      <div className="bg-bg-surface2 mt-4 flex items-start gap-2 rounded p-2 text-[10px]">
+        <Info className="text-text-muted mt-0.5 h-3 w-3" />
+        <span className="text-text-secondary italic">
+>>>>>>> recover/cabinet-wip-from-stash
           Calculated based on product category '{product.category}' durability benchmarks.
         </span>
       </div>

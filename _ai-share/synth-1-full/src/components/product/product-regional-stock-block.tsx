@@ -28,6 +28,7 @@ export const ProductRegionalStockBlock: React.FC<{ product: Product }> = ({ prod
           <div key={idx} className="group flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="h-1.5 w-1.5 rounded-full bg-sky-400 transition-transform group-hover:scale-125" />
+<<<<<<< HEAD
               <div className="text-[11px] font-bold text-slate-600">{stock.warehouse}</div>
             </div>
             <div className="flex items-center gap-4">
@@ -35,6 +36,15 @@ export const ProductRegionalStockBlock: React.FC<{ product: Product }> = ({ prod
                 Доставка {stock.deliveryDays} дн.
               </div>
               <div className="w-8 text-right text-xs font-black text-slate-700">
+=======
+              <div className="text-text-secondary text-[11px] font-bold">{stock.warehouse}</div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="text-text-muted text-[10px] font-semibold">
+                Доставка {stock.deliveryDays} дн.
+              </div>
+              <div className="text-text-primary w-8 text-right text-xs font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                 {stock.quantity > 0 ? `${stock.quantity} шт.` : '0'}
               </div>
             </div>
@@ -43,7 +53,11 @@ export const ProductRegionalStockBlock: React.FC<{ product: Product }> = ({ prod
       </div>
 
       <div className="mt-4 flex items-center justify-between border-t border-sky-100 pt-3">
+<<<<<<< HEAD
         <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase text-slate-400">
+=======
+        <div className="text-text-muted flex items-center gap-1.5 text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
           <Truck className="h-3 w-3" /> CDEK / Boxberry / PickPoint
         </div>
         <div className="flex items-center gap-1 text-[9px] font-bold uppercase text-green-600">

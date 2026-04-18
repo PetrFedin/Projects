@@ -43,6 +43,10 @@ import { useUserOrders } from '@/hooks/use-user-orders';
 import { useUserActivity } from '@/hooks/use-user-activity';
 import { achievements as allAchievements } from '@/lib/achievements';
 import { cn } from '@/lib/utils';
+<<<<<<< HEAD
+=======
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+>>>>>>> recover/cabinet-wip-from-stash
 import {
   format,
   subDays,
@@ -179,11 +183,44 @@ function DetailModal({ isOpen, onClose, title, data, period, onPeriodChange }: D
           {/* Period Selector */}
           <div className="flex flex-wrap items-center justify-between gap-3">
             <Tabs value={period} onValueChange={(v) => onPeriodChange(v as Period)}>
-              <TabsList>
-                <TabsTrigger value="week">Неделя</TabsTrigger>
-                <TabsTrigger value="month">Месяц</TabsTrigger>
-                <TabsTrigger value="year">Год</TabsTrigger>
-                <TabsTrigger value="all">Все время</TabsTrigger>
+              {/* cabinetSurface v1 */}
+              <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
+                <TabsTrigger
+                  value="week"
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'text-xs font-semibold normal-case tracking-normal'
+                  )}
+                >
+                  Неделя
+                </TabsTrigger>
+                <TabsTrigger
+                  value="month"
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'text-xs font-semibold normal-case tracking-normal'
+                  )}
+                >
+                  Месяц
+                </TabsTrigger>
+                <TabsTrigger
+                  value="year"
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'text-xs font-semibold normal-case tracking-normal'
+                  )}
+                >
+                  Год
+                </TabsTrigger>
+                <TabsTrigger
+                  value="all"
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'text-xs font-semibold normal-case tracking-normal'
+                  )}
+                >
+                  Все время
+                </TabsTrigger>
               </TabsList>
             </Tabs>
 
@@ -478,11 +515,19 @@ export default function UnifiedAchievements() {
       case 'cart':
         return 'text-blue-600 bg-blue-100 dark:bg-blue-950';
       case 'wishlist':
+<<<<<<< HEAD
         return 'text-pink-600 bg-pink-100 dark:bg-pink-950';
       case 'view':
         return 'text-gray-600 bg-gray-100 dark:bg-gray-800';
       case 'search':
         return 'text-purple-600 bg-purple-100 dark:bg-purple-950';
+=======
+        return 'text-accent-primary bg-accent-primary/15 dark:bg-bg-surface2';
+      case 'view':
+        return 'text-gray-600 bg-gray-100 dark:bg-gray-800';
+      case 'search':
+        return 'text-accent-primary bg-accent-primary/15 dark:bg-bg-surface2';
+>>>>>>> recover/cabinet-wip-from-stash
       case 'comparison':
         return 'text-orange-600 bg-orange-100 dark:bg-orange-950';
       case 'achievement':
@@ -541,7 +586,11 @@ export default function UnifiedAchievements() {
           }
         >
           <CardContent className="p-4 text-center">
+<<<<<<< HEAD
             <Heart className="mx-auto mb-2 h-6 w-6 text-pink-600" />
+=======
+            <Heart className="text-accent-primary mx-auto mb-2 h-6 w-6" />
+>>>>>>> recover/cabinet-wip-from-stash
             <p className="text-sm font-bold">{activityStats.totalWishlist}</p>
             <p className="text-xs text-muted-foreground">В избранном</p>
           </CardContent>
@@ -569,6 +618,7 @@ export default function UnifiedAchievements() {
       </div>
 
       <Tabs defaultValue="achievements" className="w-full">
+<<<<<<< HEAD
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="achievements">
             <Trophy className="mr-2 h-4 w-4" />
@@ -580,6 +630,38 @@ export default function UnifiedAchievements() {
           </TabsTrigger>
           <TabsTrigger value="stats">
             <BarChart3 className="mr-2 h-4 w-4" />
+=======
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'grid w-full grid-cols-3')}>
+          <TabsTrigger
+            value="achievements"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 gap-2 text-sm font-medium normal-case tracking-normal'
+            )}
+          >
+            <Trophy className="h-4 w-4 shrink-0" />
+            Достижения
+          </TabsTrigger>
+          <TabsTrigger
+            value="activity"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 gap-2 text-sm font-medium normal-case tracking-normal'
+            )}
+          >
+            <Clock className="h-4 w-4 shrink-0" />
+            Активность
+          </TabsTrigger>
+          <TabsTrigger
+            value="stats"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'h-9 gap-2 text-sm font-medium normal-case tracking-normal'
+            )}
+          >
+            <BarChart3 className="h-4 w-4 shrink-0" />
+>>>>>>> recover/cabinet-wip-from-stash
             Статистика
           </TabsTrigger>
         </TabsList>

@@ -52,6 +52,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/
 import { PromotionDialog } from '../brand/promotion-dialog';
 import { Checkbox } from '../ui/checkbox';
 import Link from 'next/link';
+<<<<<<< HEAD
+=======
+import { ROUTES } from '@/lib/routes';
+>>>>>>> recover/cabinet-wip-from-stash
 
 const statusConfig = {
   approved: { label: 'Одобрено', icon: CheckCircle, color: 'text-green-600' },
@@ -537,7 +541,11 @@ export function InventoryTable({
                           )}
                           <DropdownMenuSeparator />
                           <DropdownMenuItem asChild>
+<<<<<<< HEAD
                             <Link href={`/shop/inventory/history/${item.id}`}>
+=======
+                            <Link href={ROUTES.shop.inventoryHistorySku(item.id)}>
+>>>>>>> recover/cabinet-wip-from-stash
                               <History className="mr-2 h-4 w-4" />
                               История действий
                             </Link>

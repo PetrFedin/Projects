@@ -6,7 +6,11 @@ import type { Facets } from '../../types/facets';
 import { Card } from '../ui/card';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+<<<<<<< HEAD
 import { Select } from '../ui/select';
+=======
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+>>>>>>> recover/cabinet-wip-from-stash
 import { Range } from '../ui/Range';
 import { DateRange } from '../ui/DateRange';
 import { cn } from '../../lib/cn';
@@ -63,6 +67,7 @@ export function FilterBarMarketplace({
 
         <Select
           value={filters.currency}
+<<<<<<< HEAD
           onChange={(v) => setFilters({ currency: v, page: 1 }, { replace: true })}
           options={[
             { value: 'USD', label: 'USD' },
@@ -71,6 +76,26 @@ export function FilterBarMarketplace({
             { value: 'RUB', label: 'RUB' },
           ]}
         />
+=======
+          onValueChange={(v: string) => setFilters({ currency: v, page: 1 }, { replace: true })}
+        >
+          <SelectTrigger className="h-10 w-[120px]">
+            <SelectValue placeholder="Валюта" />
+          </SelectTrigger>
+          <SelectContent>
+            {[
+              { value: 'USD', label: 'USD' },
+              { value: 'EUR', label: 'EUR' },
+              { value: 'GBP', label: 'GBP' },
+              { value: 'RUB', label: 'RUB' },
+            ].map((o) => (
+              <SelectItem key={o.value} value={o.value}>
+                {o.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+>>>>>>> recover/cabinet-wip-from-stash
 
         {[
           ['inStockOnly', 'In stock'],
@@ -100,7 +125,11 @@ export function FilterBarMarketplace({
           <Button variant="secondary" onClick={reset}>
             Reset
           </Button>
+<<<<<<< HEAD
           <Button variant="primary" onClick={() => setFilters({ page: 1 }, { replace: false })}>
+=======
+          <Button variant="cta" onClick={() => setFilters({ page: 1 }, { replace: false })}>
+>>>>>>> recover/cabinet-wip-from-stash
             Apply
           </Button>
         </div>

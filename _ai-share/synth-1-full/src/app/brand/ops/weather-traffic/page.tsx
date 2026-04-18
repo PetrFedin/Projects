@@ -3,6 +3,10 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+<<<<<<< HEAD
+=======
+import { Button } from '@/components/ui/button';
+>>>>>>> recover/cabinet-wip-from-stash
 import {
   Map,
   CloudRain,
@@ -26,7 +30,11 @@ export default function WeatherTrafficPage() {
           <div className="rounded-lg bg-sky-100 p-2 shadow-sm">
             <CloudRain className="h-6 w-6 text-sky-600" />
           </div>
+<<<<<<< HEAD
           <h1 className="text-3xl font-bold uppercase tracking-tight tracking-tighter text-slate-800">
+=======
+          <h1 className="text-text-primary text-3xl font-bold uppercase tracking-tight tracking-tighter">
+>>>>>>> recover/cabinet-wip-from-stash
             Store Weather Correlation
           </h1>
         </div>
@@ -43,7 +51,11 @@ export default function WeatherTrafficPage() {
           return (
             <Card
               key={idx}
+<<<<<<< HEAD
               className="group relative overflow-hidden border-2 border-slate-50 p-6 shadow-sm transition-all hover:border-sky-100"
+=======
+              className="border-border-subtle group relative overflow-hidden border-2 p-6 shadow-sm transition-all hover:border-sky-100"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <div className="absolute right-0 top-0 p-4 opacity-10 transition-transform group-hover:scale-110">
                 {item.weatherCondition === 'rain' ? (
@@ -55,10 +67,17 @@ export default function WeatherTrafficPage() {
 
               <div className="mb-6 flex items-center justify-between">
                 <div>
+<<<<<<< HEAD
                   <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                     {item.date}
                   </div>
                   <div className="mt-1 text-xl font-black text-slate-800">{item.storeId}</div>
+=======
+                  <div className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                    {item.date}
+                  </div>
+                  <div className="text-text-primary mt-1 text-xl font-black">{item.storeId}</div>
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
                 <div className="text-right">
                   <div
@@ -72,7 +91,11 @@ export default function WeatherTrafficPage() {
                     {isPositive ? '+' : ''}
                     {item.trafficImpact}%
                   </div>
+<<<<<<< HEAD
                   <div className="mt-1 text-[10px] font-black uppercase leading-none text-slate-400">
+=======
+                  <div className="text-text-muted mt-1 text-[10px] font-black uppercase leading-none">
+>>>>>>> recover/cabinet-wip-from-stash
                     Traffic Impact
                   </div>
                 </div>
@@ -92,8 +115,13 @@ export default function WeatherTrafficPage() {
                 </div>
               </div>
 
+<<<<<<< HEAD
               <div className="space-y-4 border-t border-slate-50 pt-4">
                 <div className="mb-2 flex items-center gap-1.5 text-[10px] font-black uppercase text-slate-400">
+=======
+              <div className="border-border-subtle space-y-4 border-t pt-4">
+                <div className="text-text-muted mb-2 flex items-center gap-1.5 text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                   <ShoppingBag className="h-3.5 w-3.5" /> Recommended Stock Push
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -109,7 +137,11 @@ export default function WeatherTrafficPage() {
                 </div>
               </div>
 
+<<<<<<< HEAD
               <div className="mt-6 flex items-center gap-2 border-t border-slate-50 pt-3 text-[9px] font-bold uppercase italic leading-none text-slate-400">
+=======
+              <div className="border-border-subtle text-text-muted mt-6 flex items-center gap-2 border-t pt-3 text-[9px] font-bold uppercase italic leading-none">
+>>>>>>> recover/cabinet-wip-from-stash
                 <Info className="h-3 w-3" /> Met Office Integration Active • Local Ops v2.4
               </div>
             </Card>
@@ -117,6 +149,7 @@ export default function WeatherTrafficPage() {
         })}
       </div>
 
+<<<<<<< HEAD
       <div className="mt-8 flex flex-col items-center gap-6 rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-md md:flex-row">
         <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-slate-300 bg-white shadow-md">
           <CloudRain className="h-7 w-7 text-sky-600" />
@@ -126,13 +159,28 @@ export default function WeatherTrafficPage() {
             AI Weather Attribution
           </div>
           <div className="text-[14px] font-medium leading-tight tracking-tight text-slate-700">
+=======
+      <div className="bg-bg-surface2 border-border-default mt-8 flex flex-col items-center gap-6 rounded-2xl border p-6 shadow-md md:flex-row">
+        <div className="border-border-default flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 bg-white shadow-md">
+          <CloudRain className="h-7 w-7 text-sky-600" />
+        </div>
+        <div className="flex-1">
+          <div className="text-text-muted mb-1 text-xs font-black uppercase tracking-tight">
+            AI Weather Attribution
+          </div>
+          <div className="text-text-primary text-[14px] font-medium leading-tight tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
             На основе прогноза погоды на ближайшие 48 часов в Москве (дождь), рекомендуется{' '}
             <b>увеличить фронтальную выкладку зонтов и дождевиков</b> в магазине MSK-CITY.
           </div>
         </div>
         <Button
           size="sm"
+<<<<<<< HEAD
           className="h-10 w-full bg-slate-800 text-[10px] font-bold uppercase tracking-widest text-white shadow-lg hover:bg-slate-900 md:w-auto"
+=======
+          className="bg-text-primary/90 hover:bg-text-primary/90 h-10 w-full text-[10px] font-bold uppercase tracking-widest text-white shadow-lg md:w-auto"
+>>>>>>> recover/cabinet-wip-from-stash
         >
           View Full Forecast
         </Button>

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import type { Occasion, StyleMood, ColorPalette, Contrast, Season } from '@/lib/repo/aiStylistRepo';
+=======
+import type { Occasion, StyleMood, ColorPalette, Contrast, Season } from '@/lib/ai-stylist';
+>>>>>>> recover/cabinet-wip-from-stash
 import type { Audience, Product } from '@/data/products.mock';
 
 export const OCCASIONS: { id: Occasion; label: string }[] = [

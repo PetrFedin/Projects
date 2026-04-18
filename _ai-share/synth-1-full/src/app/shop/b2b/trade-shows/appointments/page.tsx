@@ -10,7 +10,8 @@ import { Label } from '@/components/ui/label';
 import { getTradeShowById, getUpcomingEvents } from '@/lib/b2b/trade-show-calendar';
 import { getAppointments, createAppointment } from '@/lib/b2b/trade-show-appointments';
 import { ROUTES } from '@/lib/routes';
-import { Calendar, ArrowLeft } from 'lucide-react';
+import { RegistryPageShell } from '@/components/design-system';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 export default function TradeShowAppointmentsPage() {
   const searchParams = useSearchParams();
@@ -39,6 +40,7 @@ export default function TradeShowAppointmentsPage() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-3xl px-4 py-6">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2bTradeShows}>
@@ -50,6 +52,13 @@ export default function TradeShowAppointmentsPage() {
           <Calendar className="h-6 w-6" /> Запись на встречи
         </h1>
       </div>
+=======
+    <RegistryPageShell className="max-w-3xl space-y-6">
+      <ShopB2bContentHeader
+        backHref={ROUTES.shop.b2bTradeShows}
+        lead="Запись на встречи с брендами на выставке."
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -69,7 +78,11 @@ export default function TradeShowAppointmentsPage() {
           <Card className="mb-6">
             <CardHeader>
               <CardTitle>{event.name}</CardTitle>
+<<<<<<< HEAD
               <p className="text-sm text-slate-500">
+=======
+              <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                 {event.startDate} – {event.endDate} · {event.city}
               </p>
             </CardHeader>
@@ -108,7 +121,7 @@ export default function TradeShowAppointmentsPage() {
                   {appointments.map((a) => (
                     <li key={a.id} className="flex items-center justify-between rounded border p-2">
                       <span>{a.slotStart.slice(0, 16)}</span>
-                      <span className="text-sm text-slate-500">{a.status}</span>
+                      <span className="text-text-secondary text-sm">{a.status}</span>
                     </li>
                   ))}
                 </ul>
@@ -121,6 +134,10 @@ export default function TradeShowAppointmentsPage() {
       <Button variant="outline" className="mt-6" asChild>
         <Link href={ROUTES.shop.b2bTradeShows}>← К выставкам</Link>
       </Button>
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

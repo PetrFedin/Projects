@@ -51,10 +51,17 @@ export function OmniChannelBridge() {
         <div className="flex items-start justify-between">
           <div className="space-y-1">
             <div className="mb-1 flex items-center gap-2">
+<<<<<<< HEAD
               <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-indigo-600">
                 <Network className="h-4 w-4 text-white" />
               </div>
               <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600">
+=======
+              <div className="bg-accent-primary flex h-6 w-6 items-center justify-center rounded-lg">
+                <Network className="h-4 w-4 text-white" />
+              </div>
+              <span className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Unified Retail Hub
               </span>
             </div>
@@ -77,16 +84,27 @@ export function OmniChannelBridge() {
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           {/* Visual Bridge */}
           <div className="space-y-4">
+<<<<<<< HEAD
             <div className="relative flex items-center justify-between overflow-hidden rounded-xl border border-slate-100 bg-slate-50 p-4">
+=======
+            <div className="bg-bg-surface2 border-border-subtle relative flex items-center justify-between overflow-hidden rounded-xl border p-4">
+>>>>>>> recover/cabinet-wip-from-stash
               <div className="pointer-events-none absolute left-0 top-0 h-full w-full opacity-5">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.2),transparent)]" />
               </div>
 
               <div className="relative z-10 flex flex-col items-center gap-3">
+<<<<<<< HEAD
                 <div className="flex h-20 w-20 items-center justify-center rounded-3xl border border-slate-100 bg-white shadow-xl">
                   <Store className="h-10 w-10 text-slate-900" />
                 </div>
                 <p className="text-[10px] font-black uppercase tracking-tighter text-slate-900">
+=======
+                <div className="border-border-subtle flex h-20 w-20 items-center justify-center rounded-3xl border bg-white shadow-xl">
+                  <Store className="text-text-primary h-10 w-10" />
+                </div>
+                <p className="text-text-primary text-[10px] font-black uppercase tracking-tighter">
+>>>>>>> recover/cabinet-wip-from-stash
                   Offline Store
                 </p>
               </div>
@@ -96,25 +114,40 @@ export function OmniChannelBridge() {
                   <motion.div
                     animate={{ x: ['0%', '100%'] }}
                     transition={{ repeat: Infinity, duration: 2, ease: 'linear' }}
+<<<<<<< HEAD
                     className="absolute -top-1 left-0 h-2 w-2 rounded-full bg-indigo-600 shadow-[0_0_10px_rgba(99,102,241,1)]"
                   />
                 </div>
                 <Badge className="border-none bg-indigo-600 px-2 text-[8px] font-black uppercase text-white">
+=======
+                    className="bg-accent-primary absolute -top-1 left-0 h-2 w-2 rounded-full shadow-[0_0_10px_rgba(99,102,241,1)]"
+                  />
+                </div>
+                <Badge className="bg-accent-primary border-none px-2 text-[8px] font-black uppercase text-white">
+>>>>>>> recover/cabinet-wip-from-stash
                   Live Data Feed
                 </Badge>
               </div>
 
               <div className="relative z-10 flex flex-col items-center gap-3">
+<<<<<<< HEAD
                 <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-indigo-600 shadow-2xl shadow-indigo-200">
                   <Smartphone className="h-10 w-10 text-white" />
                 </div>
                 <p className="text-[10px] font-black uppercase tracking-tighter text-indigo-600">
+=======
+                <div className="bg-accent-primary shadow-accent-primary/15 flex h-20 w-20 items-center justify-center rounded-3xl shadow-2xl">
+                  <Smartphone className="h-10 w-10 text-white" />
+                </div>
+                <p className="text-accent-primary text-[10px] font-black uppercase tracking-tighter">
+>>>>>>> recover/cabinet-wip-from-stash
                   Digital Wardrobe
                 </p>
               </div>
             </div>
 
             <div className="space-y-4">
+<<<<<<< HEAD
               <h4 className="border-b pb-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
                 Преимущества синхронизации
               </h4>
@@ -134,6 +167,27 @@ export function OmniChannelBridge() {
                     Персональные офферы
                   </p>
                   <p className="text-[9px] font-medium text-slate-500">
+=======
+              <h4 className="text-text-muted border-b pb-2 text-[10px] font-black uppercase tracking-widest">
+                Преимущества синхронизации
+              </h4>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div className="bg-bg-surface2 border-border-subtle space-y-2 rounded-2xl border p-4">
+                  <Shirt className="text-accent-primary h-4 w-4" />
+                  <p className="text-text-primary text-[10px] font-black uppercase leading-tight">
+                    Авто-наполнение гардероба
+                  </p>
+                  <p className="text-text-secondary text-[9px] font-medium">
+                    Вещи из чека мгновенно попадают в AI-стилист.
+                  </p>
+                </div>
+                <div className="bg-bg-surface2 border-border-subtle space-y-2 rounded-2xl border p-4">
+                  <Sparkles className="h-4 w-4 text-amber-500" />
+                  <p className="text-text-primary text-[10px] font-black uppercase leading-tight">
+                    Персональные офферы
+                  </p>
+                  <p className="text-text-secondary text-[9px] font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                     Скидки в магазине на основе онлайн-покупок.
                   </p>
                 </div>
@@ -143,7 +197,11 @@ export function OmniChannelBridge() {
 
           {/* Integration Status & Controls */}
           <div className="space-y-4">
+<<<<<<< HEAD
             <div className="space-y-6 rounded-xl bg-slate-900 p-4 text-white">
+=======
+            <div className="bg-text-primary space-y-6 rounded-xl p-4 text-white">
+>>>>>>> recover/cabinet-wip-from-stash
               <div className="flex items-center justify-between">
                 <h4 className="text-[11px] font-black uppercase tracking-widest">
                   Статус подключения
@@ -162,7 +220,11 @@ export function OmniChannelBridge() {
                     className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4"
                   >
                     <div className="flex items-center gap-3">
+<<<<<<< HEAD
                       <item.icon className="h-4 w-4 text-indigo-400" />
+=======
+                      <item.icon className="text-accent-primary h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
                       <span className="text-[10px] font-black uppercase tracking-tighter text-white/60">
                         {item.label}
                       </span>
@@ -177,7 +239,11 @@ export function OmniChannelBridge() {
               <Button
                 onClick={startSync}
                 disabled={isSyncing}
+<<<<<<< HEAD
                 className="flex h-10 w-full items-center justify-center gap-3 rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-2xl transition-all hover:bg-slate-100"
+=======
+                className="text-text-primary hover:bg-bg-surface2 flex h-10 w-full items-center justify-center gap-3 rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest shadow-2xl transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 {isSyncing ? (
                   <RefreshCcw className="h-4 w-4 animate-spin" />

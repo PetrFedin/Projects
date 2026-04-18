@@ -31,7 +31,11 @@ export default function DigitalWardrobePage() {
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Digital Wardrobe</h1>
+<<<<<<< HEAD
           <p className="text-sm text-slate-500">
+=======
+          <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Виртуальный шкаф купленного + конструктор луков. Заказы, Body Scan, каталог.
           </p>
         </div>
@@ -49,11 +53,19 @@ export default function DigitalWardrobePage() {
           {items.map((i) => (
             <div
               key={i.id}
+<<<<<<< HEAD
               className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
             >
               <div>
                 <p className="text-sm font-medium">{i.name}</p>
                 <p className="text-xs text-slate-500">
+=======
+              className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3"
+            >
+              <div>
+                <p className="text-sm font-medium">{i.name}</p>
+                <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                   {i.sku} · заказ {i.orderId}
                 </p>
               </div>
@@ -62,7 +74,11 @@ export default function DigitalWardrobePage() {
               </Badge>
             </div>
           ))}
+<<<<<<< HEAD
           <p className="mt-3 text-xs text-slate-400">
+=======
+          <p className="text-text-muted mt-3 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
             API: DIGITAL_WARDROBE_API — items, sync from orders, recommend.
           </p>
         </CardContent>
@@ -79,9 +95,13 @@ export default function DigitalWardrobePage() {
         <CardContent>
           <ul className="space-y-2">
             {looks.map((l) => (
+<<<<<<< HEAD
               <li key={l.id} className="rounded-lg border border-slate-100 bg-slate-50 p-3">
+=======
+              <li key={l.id} className="bg-bg-surface2 border-border-subtle rounded-lg border p-3">
+>>>>>>> recover/cabinet-wip-from-stash
                 <p className="text-sm font-medium">{l.name ?? 'Без названия'}</p>
-                <p className="text-xs text-slate-500">Вещей в образе: {l.itemIds.length}</p>
+                <p className="text-text-secondary text-xs">Вещей в образе: {l.itemIds.length}</p>
               </li>
             ))}
           </ul>

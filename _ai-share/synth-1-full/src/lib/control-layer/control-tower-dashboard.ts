@@ -1,6 +1,5 @@
 import { ControlDashboardService, DashboardMetrics } from './aggregator/dashboard-service';
 import { ImmutableAuditTrail } from '../core/immutable-audit-trail';
-import { WebhookDispatcher } from '../integration/webhook-dispatcher';
 
 export interface ExecutiveSummary {
   timestamp: string;

@@ -20,7 +20,11 @@ export const ProductReturnsPredictionBlock: React.FC<{ product: Product }> = ({ 
   const status = getRiskLabel(risk.riskScore);
 
   return (
+<<<<<<< HEAD
     <Card className="border-dashed bg-slate-50/50 p-4">
+=======
+    <Card className="bg-bg-surface2/80 border-dashed p-4">
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Undo2 className="h-4 w-4 text-blue-500" />
@@ -34,21 +38,32 @@ export const ProductReturnsPredictionBlock: React.FC<{ product: Product }> = ({ 
       </div>
 
       <div className="space-y-3">
+<<<<<<< HEAD
         <div className="flex items-center justify-between text-xs font-bold uppercase text-slate-500">
+=======
+        <div className="text-text-secondary flex items-center justify-between text-xs font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
           <span>AI Prediction Score</span>
           <span>{risk.riskScore}%</span>
         </div>
-        <Progress value={risk.riskScore} className="h-1.5 bg-slate-200" />
+        <Progress value={risk.riskScore} className="bg-border-subtle h-1.5" />
 
         <div className="mt-4 flex items-start gap-2">
           <div className="rounded bg-blue-100 p-1">
             <Sparkles className="h-3 w-3 text-blue-600" />
           </div>
           <div className="flex-1">
+<<<<<<< HEAD
             <div className="mb-1 text-[10px] font-black uppercase leading-none text-slate-400">
               Top Factor: {risk.topRiskFactor.replace('_', ' ')}
             </div>
             <div className="text-xs leading-tight text-slate-700">{risk.advice}</div>
+=======
+            <div className="text-text-muted mb-1 text-[10px] font-black uppercase leading-none">
+              Top Factor: {risk.topRiskFactor.replace('_', ' ')}
+            </div>
+            <div className="text-text-primary text-xs leading-tight">{risk.advice}</div>
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
         </div>
 
@@ -56,7 +71,11 @@ export const ProductReturnsPredictionBlock: React.FC<{ product: Product }> = ({ 
           <div className="flex items-center gap-1 text-[9px] font-bold uppercase text-green-600">
             <CheckCircle className="h-2.5 w-2.5" /> High Confidence
           </div>
+<<<<<<< HEAD
           <div className="flex items-center gap-1 text-[9px] font-bold uppercase text-slate-400">
+=======
+          <div className="text-text-muted flex items-center gap-1 text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
             <AlertCircle className="h-2.5 w-2.5" /> Context-Aware
           </div>
         </div>

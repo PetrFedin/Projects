@@ -25,6 +25,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { organizations } from '@/components/team/_fixtures/team-data';
+import { ROUTES } from '@/lib/routes';
 
 export default function UserNav() {
   const { user, profile, loading, signOut, updateProfile, signIn } = useAuth();
@@ -48,24 +49,25 @@ export default function UserNav() {
   const hubPathForRole = (role?: string): string => {
     switch (role) {
       case 'admin':
-        return '/admin';
+        return ROUTES.admin.home;
       case 'brand':
-        return '/brand';
+        return ROUTES.brand.home;
       case 'shop':
-        return '/shop';
+        return ROUTES.shop.home;
       case 'distributor':
-        return '/distributor';
+        return ROUTES.distributor.home;
       case 'manufacturer':
+        return ROUTES.factory.production;
       case 'supplier':
-        return '/factory';
+        return ROUTES.factory.supplier;
       default:
-        return '/u?tab=profile';
+        return ROUTES.client.profileWithTab('profile');
     }
   };
 
   const settingsPathForRole = (role?: string): string => {
-    if (role === 'brand') return '/brand/settings';
-    if (!role || role === 'client') return '/u?tab=settings';
+    if (role === 'brand') return ROUTES.brand.settings;
+    if (!role || role === 'client') return '/client/me?tab=settings';
     return hubPathForRole(role);
   };
 
@@ -104,11 +106,21 @@ export default function UserNav() {
     }
   };
 
+<<<<<<< HEAD
   const isOwner =
     (isB2B &&
       (user?.team?.[0]?.nickname === user?.nickname ||
         user?.team?.[0]?.name === user?.displayName ||
         `${user?.team?.[0]?.firstName} ${user?.team?.[0]?.lastName}` === user?.displayName)) ||
+=======
+  const teamLead = user?.team?.[0];
+  const teamLeadDisplay = teamLead ? `${teamLead.firstName} ${teamLead.lastName}`.trim() : '';
+  const isOwner =
+    (isB2B &&
+      (user?.team?.[0]?.nickname === user?.nickname ||
+        teamLeadDisplay === user?.displayName ||
+        (teamLead as { name?: string } | undefined)?.name === user?.displayName)) ||
+>>>>>>> recover/cabinet-wip-from-stash
     (!isB2B && user?.roles?.includes('client'));
 
   const handleKickMember = async (member: any, e: React.MouseEvent) => {
@@ -117,7 +129,11 @@ export default function UserNav() {
 
     toast({
       title: 'Доступ аннулирован',
+<<<<<<< HEAD
       description: `Участник ${member.name || `${member.firstName} ${member.lastName}`} исключен. Пароль сброшен.`,
+=======
+      description: `Участник ${`${member.firstName} ${member.lastName}`.trim() || member.nickname} исключен. Пароль сброшен.`,
+>>>>>>> recover/cabinet-wip-from-stash
       variant: 'destructive',
     });
   };
@@ -141,7 +157,7 @@ export default function UserNav() {
           setProfileAvatar(null);
         }
         newProfile = await updateProfile({
-          displayName: member.name || `${member.firstName} ${member.lastName}`,
+          displayName: `${member.firstName} ${member.lastName}`.trim() || member.nickname,
           photoURL: member.avatar,
           nickname: member.nickname || member.role,
         });
@@ -151,6 +167,7 @@ export default function UserNav() {
       const primaryRole = newProfile.roles?.[0] || 'client';
       const targetUrl =
         primaryRole === 'admin'
+<<<<<<< HEAD
           ? '/admin'
           : primaryRole === 'brand'
             ? '/brand'
@@ -167,6 +184,24 @@ export default function UserNav() {
       toast({
         title: 'Переключение выполнено',
         description: `Вы вошли как ${member.name || `${member.firstName} ${member.lastName}`} (${member.role})`,
+=======
+          ? ROUTES.admin.home
+          : primaryRole === 'brand'
+            ? ROUTES.brand.home
+            : primaryRole === 'shop'
+              ? ROUTES.shop.home
+              : primaryRole === 'manufacturer'
+                ? ROUTES.factory.production
+                : primaryRole === 'supplier'
+                  ? ROUTES.factory.supplier
+                  : primaryRole === 'distributor'
+                    ? ROUTES.distributor.home
+                    : ROUTES.client.profile;
+
+      toast({
+        title: 'Переключение выполнено',
+        description: `Вы вошли как ${`${member.firstName} ${member.lastName}`.trim() || member.nickname} (${member.role})`,
+>>>>>>> recover/cabinet-wip-from-stash
       });
 
       startTransition(() => router.push(targetUrl));
@@ -231,19 +266,19 @@ export default function UserNav() {
   };
 
   const goAccountHome = () => {
-    const path = isB2B ? hubPathForRole(currentRole) : '/u?tab=profile';
+    const path = isB2B ? hubPathForRole(currentRole) : '/client/me?tab=profile';
     startTransition(() => router.push(path));
   };
 
   const goAccountSettings = () => {
-    const path = isB2B ? settingsPathForRole(currentRole) : '/u?tab=settings';
+    const path = isB2B ? settingsPathForRole(currentRole) : '/client/me?tab=settings';
     startTransition(() => router.push(path));
   };
 
   const handleSignInGuest = async () => {
     try {
       await signIn('elena.petrova@example.com', 'password123');
-      startTransition(() => router.push('/u'));
+      startTransition(() => router.push('/client/me'));
       toast({ title: 'Вы вошли', description: 'Открыт личный кабинет' });
     } catch {
       toast({ title: 'Не удалось войти', variant: 'destructive' });
@@ -256,34 +291,42 @@ export default function UserNav() {
 
   if (user) {
     return (
+<<<<<<< HEAD
       <div className="flex h-9 min-w-0 max-w-[200px] items-stretch rounded-[2px] border border-slate-200 bg-white sm:max-w-[240px]">
+=======
+      <div className="border-border-subtle bg-bg-surface flex h-9 min-w-0 max-w-[200px] items-stretch rounded-[2px] border sm:max-w-[240px]">
+>>>>>>> recover/cabinet-wip-from-stash
         <Button
           type="button"
           variant="ghost"
-          className="h-9 min-w-0 flex-1 shrink rounded-r-none px-2 hover:bg-slate-50"
+          className="hover:bg-bg-surface2 h-9 min-w-0 flex-1 shrink rounded-r-none px-2"
           onClick={() => goAccountHome()}
           title={isB2B ? 'Кабинет' : 'Мой профиль'}
         >
           <div className="flex min-w-0 flex-1 items-center gap-2">
             <div className="relative shrink-0">
-              <Avatar className="h-7 w-7 rounded-[2px] border border-white shadow-sm ring-1 ring-slate-100">
+              <Avatar className="ring-border-subtle h-7 w-7 rounded-[2px] border border-white shadow-sm ring-1">
                 <AvatarImage
                   src={profileAvatar ?? user.photoURL ?? ''}
                   alt={user.displayName ?? 'User'}
                 />
+<<<<<<< HEAD
                 <AvatarFallback className="rounded-[2px] bg-slate-100 text-[9px] font-black text-slate-600">
+=======
+                <AvatarFallback className="bg-bg-surface2 text-text-secondary rounded-[2px] text-[9px] font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                   {user.displayName?.[0].toUpperCase() ?? user.email?.[0].toUpperCase() ?? 'U'}
                 </AvatarFallback>
               </Avatar>
               {isB2B && (
-                <div className="absolute -bottom-0.5 -right-0.5 h-1.5 w-1.5 rounded-full border border-white bg-indigo-500" />
+                <div className="bg-accent-primary absolute -bottom-0.5 -right-0.5 h-1.5 w-1.5 rounded-full border border-white" />
               )}
             </div>
             <div className="min-w-0 flex-1 text-left">
-              <span className="mb-0.5 block truncate text-[7px] font-black uppercase leading-none tracking-[0.05em] text-slate-400">
+              <span className="text-text-muted mb-0.5 block truncate text-[7px] font-black uppercase leading-none tracking-[0.05em]">
                 {activeOrg || user?.partnerName || getRoleLabel(currentRole)}
               </span>
-              <span className="block truncate text-[10px] font-black uppercase leading-none text-slate-900">
+              <span className="text-text-primary block truncate text-[10px] font-black uppercase leading-none">
                 {partnerName || user?.displayName}
               </span>
             </div>
@@ -295,21 +338,31 @@ export default function UserNav() {
               type="button"
               variant="ghost"
               size="icon"
-              className="h-9 w-8 shrink-0 rounded-l-none border-l border-slate-200 hover:bg-slate-50"
+              className="border-border-subtle hover:bg-bg-surface2 h-9 w-8 shrink-0 rounded-l-none border-l"
               aria-label="Меню профиля"
             >
-              <ChevronDown className="h-3 w-3 text-slate-400" />
+              <ChevronDown className="text-text-muted h-3 w-3" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
+<<<<<<< HEAD
             className="z-[600] w-60 overflow-hidden rounded-[2px] border border-slate-200 bg-white p-0 shadow-xl"
+=======
+            className="border-border-subtle bg-bg-surface z-[600] w-60 overflow-hidden rounded-[2px] border p-0 shadow-xl"
+>>>>>>> recover/cabinet-wip-from-stash
             align="end"
             sideOffset={4}
           >
             {isB2B && user.organizations && user.organizations.length > 1 && (
+<<<<<<< HEAD
               <div className="border-b border-slate-800 bg-slate-900 p-2">
                 <p className="mb-2 flex items-center gap-2 px-1 text-[7px] font-black uppercase tracking-[0.2em] text-white/40">
                   <Sparkles className="h-2.5 w-2.5 text-indigo-400" />
+=======
+              <div className="border-border-subtle bg-text-primary border-b p-2">
+                <p className="mb-2 flex items-center gap-2 px-1 text-[7px] font-black uppercase tracking-[0.2em] text-white/40">
+                  <Sparkles className="text-accent-primary h-2.5 w-2.5" />
+>>>>>>> recover/cabinet-wip-from-stash
                   ВЫБОР УЗЛА
                 </p>
                 <div className="grid grid-cols-1 gap-1">
@@ -320,15 +373,24 @@ export default function UserNav() {
                       className={cn(
                         'flex cursor-pointer items-center justify-between rounded-[1px] border p-2 transition-all',
                         user.activeOrganizationId === org.organizationId
+<<<<<<< HEAD
                           ? 'border-white/20 bg-slate-800 text-white shadow-sm'
                           : 'border-transparent bg-transparent text-slate-400 hover:bg-slate-800/50 hover:text-white'
+=======
+                          ? 'text-text-inverse border-white/20 bg-white/10 shadow-sm'
+                          : 'hover:text-text-inverse border-transparent bg-transparent text-white/50 hover:bg-white/10'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       <span className="text-[9px] font-black uppercase tracking-tight">
                         {organizations[org.organizationId]?.name || org.organizationId}
                       </span>
                       {user.activeOrganizationId === org.organizationId && (
+<<<<<<< HEAD
                         <Check className="h-3 w-3 stroke-[3] text-indigo-400" />
+=======
+                        <Check className="text-accent-primary h-3 w-3 stroke-[3]" />
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     </DropdownMenuItem>
                   ))}
@@ -337,18 +399,30 @@ export default function UserNav() {
             )}
 
             {profile?.navigation?.length > 0 && (
+<<<<<<< HEAD
               <div className="border-b border-slate-100 p-1">
                 <p className="mb-1 px-2 py-1 text-[7px] font-black uppercase tracking-widest text-slate-400">
+=======
+              <div className="border-border-subtle border-b p-1">
+                <p className="text-text-muted mb-1 px-2 py-1 text-[7px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   БЫСТРЫЙ ПЕРЕХОД
                 </p>
                 <div className="grid grid-cols-2 gap-0.5">
                   {profile.navigation.slice(0, 4).map((nav: any) => (
                     <DropdownMenuItem
                       key={nav.path}
+<<<<<<< HEAD
                       className="cursor-pointer rounded-[1px] py-1.5 hover:bg-slate-50"
                       onSelect={() => router.push(nav.path)}
                     >
                       <span className="text-[8px] font-black uppercase tracking-tight text-slate-600">
+=======
+                      className="hover:bg-bg-surface2 cursor-pointer rounded-[1px] py-1.5"
+                      onSelect={() => router.push(nav.path)}
+                    >
+                      <span className="text-text-secondary text-[8px] font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                         {nav.title}
                       </span>
                     </DropdownMenuItem>
@@ -357,6 +431,7 @@ export default function UserNav() {
               </div>
             )}
 
+<<<<<<< HEAD
             <div className="border-b border-slate-100 bg-slate-50 px-4 py-3">
               <div className="flex flex-col space-y-0.5">
                 <p className="text-[7px] font-black uppercase tracking-widest text-slate-400">
@@ -366,6 +441,17 @@ export default function UserNav() {
                   {user.displayName}
                 </p>
                 <p className="mt-1 text-[9px] font-medium leading-none text-slate-500">
+=======
+            <div className="border-border-subtle bg-bg-surface2 border-b px-4 py-3">
+              <div className="flex flex-col space-y-0.5">
+                <p className="text-text-muted text-[7px] font-black uppercase tracking-widest">
+                  {isB2B ? 'АКТИВНЫЙ ПРОФИЛЬ' : 'АККАУНТ B2C'}
+                </p>
+                <p className="text-text-primary text-xs font-black uppercase leading-none tracking-tight">
+                  {user.displayName}
+                </p>
+                <p className="text-text-secondary mt-1 text-[9px] font-medium leading-none">
+>>>>>>> recover/cabinet-wip-from-stash
                   {user.email}
                 </p>
               </div>
@@ -373,18 +459,30 @@ export default function UserNav() {
 
             {isB2B && user.team && user.team.length > 0 && (
               <div className="p-1">
+<<<<<<< HEAD
                 <p className="mb-1 px-2 py-1 text-[7px] font-black uppercase tracking-widest text-slate-400">
+=======
+                <p className="text-text-muted mb-1 px-2 py-1 text-[7px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   КОМАНДА ДОСТУПА
                 </p>
                 <div className="space-y-0.5">
                   {user.team
                     .filter((m) => m.invitationStatus !== 'pending')
                     .map((member) => {
+<<<<<<< HEAD
                       const isCurrent =
                         user.nickname === member.nickname ||
                         (!user.nickname &&
                           user.displayName ===
                             (member.name || `${member.firstName} ${member.lastName}`));
+=======
+                      const memberDisplay =
+                        `${member.firstName} ${member.lastName}`.trim() || member.nickname;
+                      const isCurrent =
+                        user.nickname === member.nickname ||
+                        (!user.nickname && user.displayName === memberDisplay);
+>>>>>>> recover/cabinet-wip-from-stash
 
                       return (
                         <DropdownMenuItem
@@ -393,6 +491,7 @@ export default function UserNav() {
                           className={cn(
                             'flex cursor-pointer items-center justify-between rounded-[1px] border p-1.5 outline-none transition-all',
                             isCurrent
+<<<<<<< HEAD
                               ? 'border-slate-200 bg-slate-50 text-slate-900'
                               : 'border-transparent bg-white text-slate-600 hover:bg-slate-50'
                           )}
@@ -409,12 +508,34 @@ export default function UserNav() {
                                 {member.name || `${member.firstName} ${member.lastName}`}
                               </span>
                               <span className="mt-0.5 truncate text-[7px] font-bold uppercase leading-tight tracking-widest text-slate-400">
+=======
+                              ? 'border-border-subtle bg-bg-surface2 text-text-primary'
+                              : 'bg-bg-surface text-text-secondary hover:bg-bg-surface2 border-transparent'
+                          )}
+                        >
+                          <div className="flex flex-1 items-center gap-2 overflow-hidden">
+                            <Avatar className="ring-border-subtle h-6 w-6 flex-shrink-0 rounded-[2px] border border-white ring-1">
+                              <AvatarImage src={member.avatar} />
+                              <AvatarFallback className="rounded-[2px] text-[8px] font-black">
+                                {(memberDisplay[0] || member.firstName[0] || '?').toUpperCase()}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex min-w-0 flex-col">
+                              <span className="text-text-primary truncate text-[9px] font-black uppercase leading-tight">
+                                {memberDisplay}
+                              </span>
+                              <span className="text-text-muted mt-0.5 truncate text-[7px] font-bold uppercase leading-tight tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                                 {member.role}
                               </span>
                             </div>
                           </div>
                           {isCurrent && (
+<<<<<<< HEAD
                             <Check className="ml-2 h-2.5 w-2.5 stroke-[3] text-indigo-500" />
+=======
+                            <Check className="text-accent-primary ml-2 h-2.5 w-2.5 stroke-[3]" />
+>>>>>>> recover/cabinet-wip-from-stash
                           )}
                         </DropdownMenuItem>
                       );
@@ -423,6 +544,7 @@ export default function UserNav() {
               </div>
             )}
 
+<<<<<<< HEAD
             <DropdownMenuSeparator className="m-0 bg-slate-100" />
             <div className="p-1">
               <DropdownMenuGroup>
@@ -432,20 +554,43 @@ export default function UserNav() {
                 >
                   <UserIcon className="mr-2.5 h-3 w-3 text-slate-400" />
                   <span className="text-[10px] font-black uppercase tracking-tight text-slate-700">
+=======
+            <DropdownMenuSeparator className="bg-border-subtle m-0" />
+            <div className="p-1">
+              <DropdownMenuGroup>
+                <DropdownMenuItem
+                  className="hover:bg-bg-surface2 cursor-pointer rounded-[1px] py-2"
+                  onSelect={() => goAccountHome()}
+                >
+                  <UserIcon className="text-text-muted mr-2.5 h-3 w-3" />
+                  <span className="text-text-primary text-[10px] font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                     {isB2B ? 'КАБИНЕТ БРЕНДА' : 'МОЙ ПРОФИЛЬ'}
                   </span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
+<<<<<<< HEAD
                   className="cursor-pointer rounded-[1px] py-2 hover:bg-slate-50"
                   onSelect={() => goAccountSettings()}
                 >
                   <SettingsIcon className="mr-2.5 h-3 w-3 text-slate-400" />
                   <span className="text-[10px] font-black uppercase tracking-tight text-slate-700">
+=======
+                  className="hover:bg-bg-surface2 cursor-pointer rounded-[1px] py-2"
+                  onSelect={() => goAccountSettings()}
+                >
+                  <SettingsIcon className="text-text-muted mr-2.5 h-3 w-3" />
+                  <span className="text-text-primary text-[10px] font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                     {isB2B ? 'НАСТРОЙКИ КАБИНЕТА' : 'НАСТРОЙКИ ПРОФИЛЯ'}
                   </span>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
+<<<<<<< HEAD
               <DropdownMenuSeparator className="my-1 bg-slate-50" />
+=======
+              <DropdownMenuSeparator className="bg-border-subtle my-1" />
+>>>>>>> recover/cabinet-wip-from-stash
               <DropdownMenuItem
                 onSelect={() => void handleSignOut()}
                 className="cursor-pointer rounded-[1px] px-2 py-2 text-rose-600 focus:bg-rose-50 focus:text-rose-600"

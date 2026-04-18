@@ -38,6 +38,7 @@ import { IPRecord } from '@/lib/types/intellectual-property';
 import { MOCK_IP_RECORDS, getIPStatusColor } from '@/lib/logic/blockchain-utils';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 /**
  * Blockchain IP Ledger — Brand OS
@@ -55,6 +56,7 @@ export default function IPLedgerPage() {
   );
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 duration-700 animate-in fade-in">
       <header className="flex flex-col justify-between gap-3 border-b border-slate-100 pb-4 md:flex-row md:items-end">
         <div className="space-y-1">
@@ -81,6 +83,32 @@ export default function IPLedgerPage() {
           </Button>
         </div>
       </header>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        eyebrow={
+          <div className="text-accent-primary flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
+            <ShieldCheck className="h-3.5 w-3.5" />
+            Brand Asset Protection
+          </div>
+        }
+        title="IP Blockchain Ledger"
+        leadPlain="Защита авторских прав на дизайны и технологии через неизменяемый реестр."
+        actions={
+          <div className="bg-bg-surface2 border-border-default flex gap-2 rounded-xl border p-1 shadow-inner">
+            <Button
+              variant="ghost"
+              className="text-text-secondary hover:text-accent-primary h-8 gap-2 rounded-lg px-4 text-[10px] font-bold uppercase transition-all hover:bg-white"
+            >
+              <History className="h-3.5 w-3.5" /> History
+            </Button>
+            <Button className="bg-text-primary hover:bg-accent-primary h-8 gap-2 rounded-lg px-4 text-[10px] font-bold uppercase text-white shadow-md transition-all">
+              <Plus className="h-3.5 w-3.5" /> Register IP
+            </Button>
+          </div>
+        }
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       {/* Trust & Network Stats */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -98,24 +126,39 @@ export default function IPLedgerPage() {
             label: 'Disputes',
             value: '0',
             icon: AlertCircle,
+<<<<<<< HEAD
             color: 'text-slate-400',
             bg: 'bg-slate-50',
+=======
+            color: 'text-text-muted',
+            bg: 'bg-bg-surface2',
+>>>>>>> recover/cabinet-wip-from-stash
           },
           {
             label: 'Verification',
             value: '100%',
             icon: CheckCircle2,
+<<<<<<< HEAD
             color: 'text-indigo-600',
             bg: 'bg-indigo-50',
+=======
+            color: 'text-accent-primary',
+            bg: 'bg-accent-primary/10',
+>>>>>>> recover/cabinet-wip-from-stash
           },
         ].map((stat, i) => (
           <Card
             key={i}
+<<<<<<< HEAD
             className="group rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition-all hover:border-indigo-200"
+=======
+            className="border-border-subtle hover:border-accent-primary/30 group rounded-xl border bg-white p-4 shadow-sm transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <div className="mb-3 flex items-center justify-between">
               <div
                 className={cn(
+<<<<<<< HEAD
                   'rounded-lg border border-slate-50 p-2 shadow-sm',
                   stat.bg || 'bg-slate-50'
                 )}
@@ -124,14 +167,36 @@ export default function IPLedgerPage() {
               </div>
               {stat.sub && (
                 <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
+=======
+                  'border-border-subtle rounded-lg border p-2 shadow-sm',
+                  stat.bg || 'bg-bg-surface2'
+                )}
+              >
+                <stat.icon className={cn('h-4 w-4', stat.color || 'text-text-muted')} />
+              </div>
+              {stat.sub && (
+                <span className="text-text-muted text-[9px] font-bold uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
                   {stat.sub}
                 </span>
               )}
             </div>
+<<<<<<< HEAD
             <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
               {stat.label}
             </p>
             <p className={cn('text-base font-bold tracking-tight', stat.color || 'text-slate-900')}>
+=======
+            <p className="text-text-muted mb-0.5 text-[10px] font-bold uppercase tracking-wider">
+              {stat.label}
+            </p>
+            <p
+              className={cn(
+                'text-base font-bold tracking-tight',
+                stat.color || 'text-text-primary'
+              )}
+            >
+>>>>>>> recover/cabinet-wip-from-stash
               {stat.value}
             </p>
           </Card>
@@ -140,6 +205,7 @@ export default function IPLedgerPage() {
 
       <div className="grid gap-3 lg:grid-cols-12">
         <div className="space-y-6 lg:col-span-8">
+<<<<<<< HEAD
           <Card className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between border-b border-slate-50 bg-slate-50/30 p-4">
               <CardTitle className="text-sm font-bold uppercase tracking-wider text-slate-700">
@@ -150,6 +216,18 @@ export default function IPLedgerPage() {
                 <Input
                   placeholder="Search assets..."
                   className="h-8 w-48 rounded-lg border-slate-200 bg-white pl-9 text-[11px] shadow-sm focus:ring-1 focus:ring-indigo-500"
+=======
+          <Card className="border-border-subtle overflow-hidden rounded-xl border bg-white shadow-sm">
+            <CardHeader className="border-border-subtle bg-bg-surface2/30 flex flex-row items-center justify-between border-b p-4">
+              <CardTitle className="text-text-primary text-sm font-bold uppercase tracking-wider">
+                IP Asset Registry
+              </CardTitle>
+              <div className="relative">
+                <Search className="text-text-muted absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2" />
+                <Input
+                  placeholder="Search assets..."
+                  className="border-border-default focus:ring-accent-primary h-8 w-48 rounded-lg bg-white pl-9 text-[11px] shadow-sm focus:ring-1"
+>>>>>>> recover/cabinet-wip-from-stash
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
@@ -157,6 +235,7 @@ export default function IPLedgerPage() {
             </CardHeader>
             <CardContent className="p-0">
               <Table>
+<<<<<<< HEAD
                 <TableHeader className="bg-slate-50/50">
                   <TableRow className="h-10 border-none hover:bg-transparent">
                     <TableHead className="pl-6 text-[10px] font-bold uppercase tracking-wider text-slate-400">
@@ -172,6 +251,23 @@ export default function IPLedgerPage() {
                       Status
                     </TableHead>
                     <TableHead className="pr-6 text-right text-[10px] font-bold uppercase tracking-wider text-slate-400">
+=======
+                <TableHeader className="bg-bg-surface2/80">
+                  <TableRow className="h-10 border-none hover:bg-transparent">
+                    <TableHead className="text-text-muted pl-6 text-[10px] font-bold uppercase tracking-wider">
+                      Asset / ID
+                    </TableHead>
+                    <TableHead className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+                      Type
+                    </TableHead>
+                    <TableHead className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+                      Blockchain Hash
+                    </TableHead>
+                    <TableHead className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+                      Status
+                    </TableHead>
+                    <TableHead className="text-text-muted pr-6 text-right text-[10px] font-bold uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
                       Actions
                     </TableHead>
                   </TableRow>
@@ -180,6 +276,7 @@ export default function IPLedgerPage() {
                   {filteredRecords.map((record) => (
                     <TableRow
                       key={record.id}
+<<<<<<< HEAD
                       className="group h-12 transition-colors hover:bg-slate-50/50"
                     >
                       <TableCell className="pl-6">
@@ -192,6 +289,20 @@ export default function IPLedgerPage() {
                               {record.title}
                             </p>
                             <p className="mt-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+=======
+                      className="hover:bg-bg-surface2/80 group h-12 transition-colors"
+                    >
+                      <TableCell className="pl-6">
+                        <div className="flex items-center gap-3">
+                          <div className="bg-bg-surface2 border-border-subtle flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border shadow-sm transition-transform group-hover:scale-105">
+                            <Fingerprint className="text-text-muted group-hover:text-accent-primary h-4 w-4 transition-colors" />
+                          </div>
+                          <div>
+                            <p className="text-text-primary text-[12px] font-bold leading-tight">
+                              {record.title}
+                            </p>
+                            <p className="text-text-muted mt-0.5 text-[10px] font-bold uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
                               {record.id}
                             </p>
                           </div>
@@ -200,17 +311,28 @@ export default function IPLedgerPage() {
                       <TableCell>
                         <Badge
                           variant="outline"
+<<<<<<< HEAD
                           className="h-5 border-slate-200 bg-slate-50 px-2 text-[9px] font-bold uppercase text-slate-500"
+=======
+                          className="border-border-default bg-bg-surface2 text-text-secondary h-5 px-2 text-[9px] font-bold uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                         >
                           {record.type.replace('_', ' ')}
                         </Badge>
                       </TableCell>
                       <TableCell>
                         <div className="group/hash flex cursor-pointer items-center gap-2">
+<<<<<<< HEAD
                           <code className="block w-20 truncate font-mono text-[10px] text-slate-400">
                             {record.hash}
                           </code>
                           <ExternalLink className="h-3 w-3 text-slate-300 opacity-0 transition-opacity group-hover/hash:opacity-100" />
+=======
+                          <code className="text-text-muted block w-20 truncate font-mono text-[10px]">
+                            {record.hash}
+                          </code>
+                          <ExternalLink className="text-text-muted h-3 w-3 opacity-0 transition-opacity group-hover/hash:opacity-100" />
+>>>>>>> recover/cabinet-wip-from-stash
                         </div>
                       </TableCell>
                       <TableCell>
@@ -228,7 +350,11 @@ export default function IPLedgerPage() {
                         <Button
                           variant="ghost"
                           size="icon"
+<<<<<<< HEAD
                           className="h-7 w-7 rounded-lg border border-transparent text-slate-300 shadow-sm transition-all hover:border-slate-100 hover:bg-white hover:text-indigo-600"
+=======
+                          className="text-text-muted hover:text-accent-primary hover:border-border-subtle h-7 w-7 rounded-lg border border-transparent shadow-sm transition-all hover:bg-white"
+>>>>>>> recover/cabinet-wip-from-stash
                         >
                           <ArrowRight className="h-3.5 w-3.5" />
                         </Button>
@@ -242,12 +368,21 @@ export default function IPLedgerPage() {
         </div>
 
         <div className="space-y-6 lg:col-span-4">
+<<<<<<< HEAD
           <Card className="group relative overflow-hidden rounded-xl border border-indigo-500 bg-indigo-900 p-4 text-white shadow-xl">
             <div className="absolute -bottom-10 -right-10 opacity-10 transition-transform duration-700 group-hover:scale-110">
               <Lock className="h-40 w-40 text-indigo-400" />
             </div>
             <div className="relative z-10 mb-6 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/10 shadow-inner transition-all duration-300 group-hover:bg-white group-hover:text-indigo-600">
+=======
+          <Card className="border-accent-primary bg-accent-primary group relative overflow-hidden rounded-xl border p-4 text-white shadow-xl">
+            <div className="absolute -bottom-10 -right-10 opacity-10 transition-transform duration-700 group-hover:scale-110">
+              <Lock className="text-accent-primary h-40 w-40" />
+            </div>
+            <div className="relative z-10 mb-6 flex items-center gap-3">
+              <div className="group-hover:text-accent-primary flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/10 shadow-inner transition-all duration-300 group-hover:bg-white">
+>>>>>>> recover/cabinet-wip-from-stash
                 <Hash className="h-5 w-5" />
               </div>
               <h3 className="text-sm font-bold uppercase leading-none tracking-tight">
@@ -255,7 +390,11 @@ export default function IPLedgerPage() {
               </h3>
             </div>
             <div className="relative z-10 mb-8 space-y-4">
+<<<<<<< HEAD
               <p className="text-[13px] font-medium leading-relaxed text-indigo-100">
+=======
+              <p className="text-accent-primary/30 text-[13px] font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                 Synth-1 использует гибридный метод фиксации IP. Каждый техпакет может быть
                 «замайнен» в блокчейн одним кликом.
               </p>
@@ -263,17 +402,29 @@ export default function IPLedgerPage() {
                 Это создает юридический прецедент владения дизайном для арбитражных споров.
               </p>
             </div>
+<<<<<<< HEAD
             <Button className="relative z-10 h-10 w-full rounded-lg bg-white text-[10px] font-bold uppercase tracking-widest text-indigo-900 shadow-lg transition-all hover:bg-indigo-50">
+=======
+            <Button className="text-accent-primary hover:bg-accent-primary/10 relative z-10 h-10 w-full rounded-lg bg-white text-[10px] font-bold uppercase tracking-widest shadow-lg transition-all">
+>>>>>>> recover/cabinet-wip-from-stash
               Run Global IP Scan
             </Button>
           </Card>
 
+<<<<<<< HEAD
           <Card className="space-y-6 rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
+=======
+          <Card className="border-border-subtle space-y-6 rounded-xl border bg-white p-4 shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-emerald-100 bg-emerald-50 shadow-sm">
                 <Activity className="h-5 w-5 text-emerald-600" />
               </div>
+<<<<<<< HEAD
               <h3 className="text-sm font-bold uppercase tracking-wider text-slate-700">
+=======
+              <h3 className="text-text-primary text-sm font-bold uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
                 Network Intelligence
               </h3>
             </div>
@@ -298,17 +449,30 @@ export default function IPLedgerPage() {
                   label: 'Token Staking',
                   value: 'Inactive',
                   icon: Database,
+<<<<<<< HEAD
                   color: 'text-slate-300',
                   bg: 'bg-slate-50',
+=======
+                  color: 'text-text-muted',
+                  bg: 'bg-bg-surface2',
+>>>>>>> recover/cabinet-wip-from-stash
                 },
               ].map((item, i) => (
                 <div
                   key={i}
+<<<<<<< HEAD
                   className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50/50 p-2.5"
                 >
                   <div className="flex items-center gap-3">
                     <item.icon className={cn('h-4 w-4', item.color)} />
                     <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+=======
+                  className="bg-bg-surface2/80 border-border-subtle flex items-center justify-between rounded-lg border p-2.5"
+                >
+                  <div className="flex items-center gap-3">
+                    <item.icon className={cn('h-4 w-4', item.color)} />
+                    <span className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
                       {item.label}
                     </span>
                   </div>
@@ -318,10 +482,17 @@ export default function IPLedgerPage() {
                 </div>
               ))}
             </div>
+<<<<<<< HEAD
             <div className="border-t border-slate-100 pt-2">
               <Button
                 variant="ghost"
                 className="h-9 w-full rounded-lg text-[10px] font-bold uppercase tracking-wider text-indigo-600 hover:bg-indigo-50"
+=======
+            <div className="border-border-subtle border-t pt-2">
+              <Button
+                variant="ghost"
+                className="text-accent-primary hover:bg-accent-primary/10 h-9 w-full rounded-lg text-[10px] font-bold uppercase tracking-wider"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 Open Legal Export
               </Button>
@@ -329,6 +500,6 @@ export default function IPLedgerPage() {
           </Card>
         </div>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

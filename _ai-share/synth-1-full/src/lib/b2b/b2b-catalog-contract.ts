@@ -5,6 +5,9 @@
  */
 
 import type { Product } from '@/lib/types';
+import { formatProductComposition } from '@/lib/b2b/format-product-composition';
+
+export { formatProductComposition } from '@/lib/b2b/format-product-composition';
 
 /** Обязательные поля B2B-каталога (контракт PIM → каталог байера) */
 export const B2B_REQUIRED_FIELDS = [
@@ -34,26 +37,54 @@ function hasNonEmptyString(value: unknown): boolean {
   return typeof value === 'string' && value.trim().length > 0;
 }
 
+/** PIM/B2B поля, которых нет в базовом `Product`, но встречаются в выгрузках */
+type ProductB2BExtras = Product & {
+  careInstructions?: string;
+  care?: string;
+  sizeChart?: string;
+  size_grid?: string;
+  ean?: string;
+  gtin?: string;
+};
+
+function attrString(attrs: Product['attributes'], key: string): string | undefined {
+  if (!attrs || typeof attrs !== 'object') return undefined;
+  const v = (attrs as Record<string, unknown>)[key];
+  return typeof v === 'string' ? v : undefined;
+}
+
 function getComposition(p: Product): string | undefined {
+<<<<<<< HEAD
   const c = (p as any).composition;
   if (typeof c === 'string') return c;
   if (Array.isArray(c) && c.length > 0)
     return c.map((x: any) => `${x.material ?? x} ${x.percentage ?? ''}%`).join(', ');
   return undefined;
+=======
+  const s = formatProductComposition(p.composition);
+  return s.length > 0 ? s : undefined;
+>>>>>>> recover/cabinet-wip-from-stash
 }
 
 function getCare(p: Product): string | undefined {
-  return (p as any).careInstructions ?? (p as any).care ?? (p.attributes as any)?.care;
+  const x = p as ProductB2BExtras;
+  return x.careInstructions ?? x.care ?? attrString(p.attributes, 'care');
 }
 
 function getSizeChart(p: Product): string | undefined {
-  return (p as any).sizeChart ?? (p as any).size_grid ?? (p.attributes as any)?.sizeChart;
+  const x = p as ProductB2BExtras;
+  return x.sizeChart ?? x.size_grid ?? attrString(p.attributes, 'sizeChart');
 }
 
 function getEan(p: Product): string | undefined {
+<<<<<<< HEAD
   return (
     (p as any).ean ?? (p as any).gtin ?? (p.attributes as any)?.ean ?? (p.attributes as any)?.gtin
   );
+=======
+  const x = p as ProductB2BExtras;
+  return x.ean ?? x.gtin ?? attrString(p.attributes, 'ean') ?? attrString(p.attributes, 'gtin');
+>>>>>>> recover/cabinet-wip-from-stash
 }
 
 /** Валидация продукта для публикации в B2B-каталог. */
@@ -103,7 +134,7 @@ export function validateProductsForB2B(products: Product[]): {
     errors: { field: B2BRequiredFieldId; message: string }[];
   }[] = [];
   products.forEach((p) => {
-    const sku = (p as any).sku ?? p.id;
+    const sku = p.sku ?? p.id;
     const result = validateProductForB2B(p);
     if (result.valid) {
       validSkus.push(p.id);

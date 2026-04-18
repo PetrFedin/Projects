@@ -38,7 +38,11 @@ import { useUIState } from '@/providers/ui-state';
 import { MediaRadarPreview } from '../../home/MediaRadarPreview';
 
 const ROLE_CONFIG: Record<B2BRole, { label: string; icon: any; color: string }> = {
+<<<<<<< HEAD
   admin: { label: 'Администратор', icon: Shield, color: 'text-indigo-500' },
+=======
+  admin: { label: 'Администратор', icon: Shield, color: 'text-accent-primary' },
+>>>>>>> recover/cabinet-wip-from-stash
   brand: { label: 'Бренд', icon: Store, color: 'text-emerald-500' },
   distributor: { label: 'Дистрибьютор', icon: Briefcase, color: 'text-blue-500' },
   manufacturer: { label: 'Производство', icon: Factory, color: 'text-orange-500' },
@@ -59,14 +63,22 @@ function RoleIcons({ roles }: { roles?: B2BRole[] }) {
               <TooltipTrigger asChild>
                 <div
                   className={cn(
+<<<<<<< HEAD
                     'cursor-help rounded-lg border border-slate-100 bg-white/90 p-1.5 shadow-sm backdrop-blur-md transition-all hover:scale-110',
+=======
+                    'border-border-subtle cursor-help rounded-lg border bg-white/90 p-1.5 shadow-sm backdrop-blur-md transition-all hover:scale-110',
+>>>>>>> recover/cabinet-wip-from-stash
                     config.color
                   )}
                 >
                   <config.icon className="h-3 w-3" />
                 </div>
               </TooltipTrigger>
+<<<<<<< HEAD
               <TooltipContent className="z-[100] rounded-lg border-none bg-slate-900 p-2 text-white shadow-2xl">
+=======
+              <TooltipContent className="bg-text-primary z-[100] rounded-lg border-none p-2 text-white shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
                 <p className="text-[10px] font-bold uppercase tracking-wide">{config.label}</p>
               </TooltipContent>
             </Tooltip>
@@ -109,7 +121,7 @@ export function MediaHubSection() {
 
     if (role === 'manufacturer' || role === 'supplier') {
       if (itemTitle.includes('Видео') || itemTitle.includes('банк')) return '/factory/production';
-      return '/factory';
+      return '/factory/production';
     }
 
     if (role === 'distributor') {
@@ -228,26 +240,46 @@ export function MediaHubSection() {
       transition={{ duration: 0.6 }}
       className="section-spacing relative bg-transparent"
     >
+<<<<<<< HEAD
       <div className="container mx-auto px-4">
         <Card className="relative flex min-h-[500px] flex-col rounded-xl border border-none border-slate-100 bg-white shadow-2xl shadow-slate-200/50">
+=======
+      <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
+        <Card className="border-border-subtle relative flex min-h-[500px] flex-col rounded-xl border border-none bg-white shadow-2xl shadow-md">
+>>>>>>> recover/cabinet-wip-from-stash
           <CardContent className="flex flex-1 flex-col p-3">
             <div className="mb-8 flex flex-col justify-between gap-3 md:flex-row md:items-center">
               <div className="space-y-1">
                 <div className="flex items-center gap-3">
+<<<<<<< HEAD
                   <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900">
+=======
+                  <div className="bg-text-primary flex h-8 w-8 items-center justify-center rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                     <Video className="h-4 w-4 text-white" />
                   </div>
                   <Badge
                     variant="outline"
+<<<<<<< HEAD
                     className="border-slate-200 px-2 py-0.5 text-xs font-bold uppercase tracking-normal text-slate-900"
+=======
+                    className="border-border-default text-text-primary px-2 py-0.5 text-xs font-bold uppercase tracking-normal"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     MEDIA_ECOSYSTEM_b2b
                   </Badge>
                 </div>
+<<<<<<< HEAD
                 <h2 className="text-2xl font-bold uppercase leading-tight tracking-tight text-slate-900 md:text-4xl">
                   МЕДИА-ЭКОСИСТЕМА
                 </h2>
                 <p className="max-w-md text-xs font-medium text-slate-400">
+=======
+                <h2 className="text-text-primary text-2xl font-bold uppercase leading-tight tracking-tight md:text-4xl">
+                  МЕДИА-ЭКОСИСТЕМА
+                </h2>
+                <p className="text-text-muted max-w-md text-xs font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                   Все форматы взаимодействия в едином интерактивном пространстве.
                 </p>
               </div>
@@ -260,7 +292,11 @@ export function MediaHubSection() {
                       const el = document.getElementById('media-scroll-b2b');
                       if (el) el.scrollBy({ left: -320, behavior: 'smooth' });
                     }}
+<<<<<<< HEAD
                     className="p-1 text-slate-400 transition-colors hover:text-slate-900"
+=======
+                    className="text-text-muted hover:text-text-primary p-1 transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <ArrowRight className="h-5 w-5 rotate-180" />
                   </button>
@@ -269,7 +305,11 @@ export function MediaHubSection() {
                       const el = document.getElementById('media-scroll-b2b');
                       if (el) el.scrollBy({ left: 320, behavior: 'smooth' });
                     }}
+<<<<<<< HEAD
                     className="p-1 text-slate-400 transition-colors hover:text-slate-900"
+=======
+                    className="text-text-muted hover:text-text-primary p-1 transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <ArrowRight className="h-5 w-5" />
                   </button>
@@ -278,7 +318,11 @@ export function MediaHubSection() {
             </div>
 
             {/* Navigation Tabs - MOVED BELOW DESCRIPTION */}
+<<<<<<< HEAD
             <div className="mb-8 flex w-fit shrink-0 items-center gap-1.5 rounded-2xl border border-slate-100 bg-slate-50 p-1">
+=======
+            <div className="bg-bg-surface2 border-border-subtle mb-8 flex w-fit shrink-0 items-center gap-1.5 rounded-2xl border p-1">
+>>>>>>> recover/cabinet-wip-from-stash
               <button
                 onClick={() => setActiveTab('formats')}
                 className={cn(
@@ -311,7 +355,11 @@ export function MediaHubSection() {
                   className="mb-6 grid grid-cols-4 gap-2"
                 >
                   {/* 1. STAGE - Прямой эфир */}
+<<<<<<< HEAD
                   <div className="group/channel relative h-[300px] overflow-hidden rounded-xl border border-slate-100 bg-slate-900 shadow-xl">
+=======
+                  <div className="group/channel border-border-subtle bg-text-primary relative h-[300px] overflow-hidden rounded-xl border shadow-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                     <div className="absolute right-6 top-4 z-30">
                       <RoleIcons roles={['admin', 'brand', 'distributor', 'shop']} />
                     </div>
@@ -322,7 +370,11 @@ export function MediaHubSection() {
                         alt="Stage"
                       />
                     </div>
+<<<<<<< HEAD
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
+=======
+                    <div className="from-text-primary via-text-primary/40 absolute inset-0 bg-gradient-to-t to-transparent" />
+>>>>>>> recover/cabinet-wip-from-stash
 
                     {/* Status Badge in Top Corner */}
                     <div className="absolute left-6 top-4 z-20 transition-opacity group-hover/channel:opacity-0">
@@ -367,19 +419,33 @@ export function MediaHubSection() {
                         <Radio className="h-2.5 w-2.5 text-white" />
                       </div>
                       <h4 className="mb-1 text-sm font-bold uppercase text-white">ЭФИР</h4>
+<<<<<<< HEAD
                       <p className="mb-3 text-[10px] font-medium leading-tight text-slate-300">
+=======
+                      <p className="text-text-muted mb-3 text-[10px] font-medium leading-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                         Прямые эфиры и Live-шоппинг.
                       </p>
                       <div className="space-y-1.5">
                         <div className="flex items-center gap-2">
+<<<<<<< HEAD
                           <div className="h-1 w-1 rounded-full bg-slate-400" />
                           <p className="text-[10px] font-bold uppercase tracking-wider text-slate-300">
+=======
+                          <div className="bg-text-muted h-1 w-1 rounded-full" />
+                          <p className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
                             Интерактивная кнопка заказа
                           </p>
                         </div>
                         <div className="flex items-center gap-2">
+<<<<<<< HEAD
                           <div className="h-1 w-1 rounded-full bg-slate-400" />
                           <p className="text-[10px] font-bold uppercase tracking-wider text-slate-300">
+=======
+                          <div className="bg-text-muted h-1 w-1 rounded-full" />
+                          <p className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
                             Синхронизация стоков LIVE
                           </p>
                         </div>
@@ -388,7 +454,11 @@ export function MediaHubSection() {
                   </div>
 
                   {/* 2. STUDIO - Подкасты */}
+<<<<<<< HEAD
                   <div className="group/channel relative h-[300px] overflow-hidden rounded-xl border border-slate-100 bg-slate-900 shadow-md transition-all hover:shadow-xl">
+=======
+                  <div className="group/channel border-border-subtle bg-text-primary relative h-[300px] overflow-hidden rounded-xl border shadow-md transition-all hover:shadow-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                     <div className="absolute right-6 top-4 z-30">
                       <RoleIcons roles={['admin', 'brand', 'distributor']} />
                     </div>
@@ -399,7 +469,11 @@ export function MediaHubSection() {
                         alt="Studio"
                       />
                     </div>
+<<<<<<< HEAD
                     <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 to-slate-900/40" />
+=======
+                    <div className="from-text-primary/80 to-text-primary/40 absolute inset-0 bg-gradient-to-br" />
+>>>>>>> recover/cabinet-wip-from-stash
 
                     {/* Status Indicator in Top Corner */}
                     <div className="absolute left-6 top-4 z-20 flex h-4 items-center gap-1 transition-opacity group-hover/channel:opacity-0">
@@ -446,23 +520,41 @@ export function MediaHubSection() {
                     </div>
 
                     <div className="absolute bottom-6 left-6 right-6 z-10 flex h-[180px] flex-col justify-end">
+<<<<<<< HEAD
                       <div className="mb-3 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-slate-900">
                         <Mic className="h-2.5 w-2.5 text-white" />
                       </div>
                       <h4 className="mb-1 text-sm font-bold uppercase text-white">СТУДИЯ</h4>
                       <p className="mb-3 text-[10px] font-medium leading-tight text-slate-300">
+=======
+                      <div className="bg-text-primary mb-3 flex h-5 w-5 shrink-0 items-center justify-center rounded-full">
+                        <Mic className="h-2.5 w-2.5 text-white" />
+                      </div>
+                      <h4 className="mb-1 text-sm font-bold uppercase text-white">СТУДИЯ</h4>
+                      <p className="text-text-muted mb-3 text-[10px] font-medium leading-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                         Экспертные подкасты и интервью.
                       </p>
                       <div className="space-y-1.5">
                         <div className="flex items-center gap-2">
+<<<<<<< HEAD
                           <div className="h-1 w-1 rounded-full bg-slate-400" />
                           <p className="text-[10px] font-bold uppercase tracking-wider text-slate-300">
+=======
+                          <div className="bg-text-muted h-1 w-1 rounded-full" />
+                          <p className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
                             AI-субтитры и перевод
                           </p>
                         </div>
                         <div className="flex items-center gap-2">
+<<<<<<< HEAD
                           <div className="h-1 w-1 rounded-full bg-slate-400" />
                           <p className="text-[10px] font-bold uppercase tracking-wider text-slate-300">
+=======
+                          <div className="bg-text-muted h-1 w-1 rounded-full" />
+                          <p className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
                             Авто-аналитика и выжимка эфира
                           </p>
                         </div>
@@ -471,7 +563,11 @@ export function MediaHubSection() {
                   </div>
 
                   {/* 3. FUTURE - AI-генератор */}
+<<<<<<< HEAD
                   <div className="group/channel relative h-[300px] overflow-hidden rounded-xl border border-slate-100 bg-slate-900 shadow-md transition-all hover:shadow-xl">
+=======
+                  <div className="group/channel border-border-subtle bg-text-primary relative h-[300px] overflow-hidden rounded-xl border shadow-md transition-all hover:shadow-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                     <div className="absolute right-6 top-4 z-30">
                       <RoleIcons roles={['admin', 'brand']} />
                     </div>
@@ -482,7 +578,11 @@ export function MediaHubSection() {
                         alt="AI Lab"
                       />
                     </div>
+<<<<<<< HEAD
                     <div className="absolute inset-0 bg-gradient-to-tr from-slate-900/90 via-slate-900/40 to-transparent" />
+=======
+                    <div className="from-text-primary/90 via-text-primary/40 absolute inset-0 bg-gradient-to-tr to-transparent" />
+>>>>>>> recover/cabinet-wip-from-stash
 
                     {/* Status Indicator in Top Corner */}
                     <div className="absolute left-6 top-4 z-20 flex items-center gap-2 transition-opacity group-hover/channel:opacity-0">
@@ -523,19 +623,33 @@ export function MediaHubSection() {
                         <Sparkles className="h-2.5 w-2.5 text-white" />
                       </div>
                       <h4 className="mb-1 text-sm font-bold uppercase text-white">БУДУЩЕЕ</h4>
+<<<<<<< HEAD
                       <p className="mb-3 text-[10px] font-medium leading-tight text-slate-300">
+=======
+                      <p className="text-text-muted mb-3 text-[10px] font-medium leading-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                         AI Lookbook & Media Generator.
                       </p>
                       <div className="space-y-1.5">
                         <div className="flex items-center gap-2">
+<<<<<<< HEAD
                           <div className="h-1 w-1 rounded-full bg-slate-400" />
                           <p className="text-[10px] font-bold uppercase tracking-wider text-slate-300">
+=======
+                          <div className="bg-text-muted h-1 w-1 rounded-full" />
+                          <p className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
                             3D-модели в фото-контент
                           </p>
                         </div>
                         <div className="flex items-center gap-2">
+<<<<<<< HEAD
                           <div className="h-1 w-1 rounded-full bg-slate-400" />
                           <p className="text-[10px] font-bold uppercase tracking-wider text-slate-300">
+=======
+                          <div className="bg-text-muted h-1 w-1 rounded-full" />
+                          <p className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
                             Авто-генерация сторис
                           </p>
                         </div>
@@ -544,7 +658,11 @@ export function MediaHubSection() {
                   </div>
 
                   {/* 4. BACKSTAGE - 360 Showroom */}
+<<<<<<< HEAD
                   <div className="group/channel relative h-[300px] overflow-hidden rounded-xl border border-slate-100 bg-slate-900 shadow-md transition-all hover:shadow-xl">
+=======
+                  <div className="group/channel border-border-subtle bg-text-primary relative h-[300px] overflow-hidden rounded-xl border shadow-md transition-all hover:shadow-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                     <div className="absolute right-6 top-4 z-30">
                       <RoleIcons roles={['admin', 'brand', 'distributor', 'shop']} />
                     </div>
@@ -555,7 +673,11 @@ export function MediaHubSection() {
                         alt="Virtual"
                       />
                     </div>
+<<<<<<< HEAD
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
+=======
+                    <div className="from-text-primary via-text-primary/40 absolute inset-0 bg-gradient-to-t to-transparent" />
+>>>>>>> recover/cabinet-wip-from-stash
 
                     {/* Status Indicator in Top Corner */}
                     <div className="absolute left-6 top-4 z-20 flex items-center gap-2 transition-opacity group-hover/channel:opacity-0">
@@ -600,19 +722,33 @@ export function MediaHubSection() {
                         <MonitorPlay className="h-2.5 w-2.5 text-white" />
                       </div>
                       <h4 className="mb-1 text-sm font-bold uppercase text-white">ВИРТУАЛЬНОСТЬ</h4>
+<<<<<<< HEAD
                       <p className="mb-3 text-[10px] font-medium leading-tight text-slate-300">
+=======
+                      <p className="text-text-muted mb-3 text-[10px] font-medium leading-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                         Immersive Showroom Experience.
                       </p>
                       <div className="space-y-1.5">
                         <div className="flex items-center gap-2">
+<<<<<<< HEAD
                           <div className="h-1 w-1 rounded-full bg-slate-400" />
                           <p className="text-[10px] font-bold uppercase tracking-wider text-slate-300">
+=======
+                          <div className="bg-text-muted h-1 w-1 rounded-full" />
+                          <p className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
                             Интерактивный отбор
                           </p>
                         </div>
                         <div className="flex items-center gap-2">
+<<<<<<< HEAD
                           <div className="h-1 w-1 rounded-full bg-slate-400" />
                           <p className="text-[10px] font-bold uppercase tracking-wider text-slate-300">
+=======
+                          <div className="bg-text-muted h-1 w-1 rounded-full" />
+                          <p className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
                             Phygital-презентации
                           </p>
                         </div>
@@ -634,12 +770,17 @@ export function MediaHubSection() {
                       key={tool.id}
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
+<<<<<<< HEAD
                       className="group/card relative flex w-[280px] flex-shrink-0 snap-start flex-col rounded-3xl border border-slate-100 bg-slate-50 p-4 pb-3 transition-all hover:border-slate-900/30 hover:shadow-xl hover:shadow-slate-200/50 md:w-[320px]"
+=======
+                      className="bg-bg-surface2 border-border-subtle hover:border-text-primary/30 group/card relative flex w-[280px] flex-shrink-0 snap-start flex-col rounded-3xl border p-4 pb-3 transition-all hover:shadow-md hover:shadow-xl md:w-[320px]"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       <div className="absolute right-4 top-4 z-20">
                         <RoleIcons roles={tool.roles as B2BRole[]} />
                       </div>
                       <div className="mb-4 flex h-4 w-4 items-center justify-center rounded-lg bg-white shadow-sm transition-colors group-hover/card:bg-black">
+<<<<<<< HEAD
                         <tool.icon className="h-2 w-2 text-slate-400 group-hover/card:text-white" />
                       </div>
                       <div className="mb-2 space-y-1">
@@ -654,6 +795,22 @@ export function MediaHubSection() {
                         {tool.desc}
                       </p>
                       <div className="mt-auto flex items-center justify-center border-t border-slate-100 pt-4">
+=======
+                        <tool.icon className="text-text-muted h-2 w-2 group-hover/card:text-white" />
+                      </div>
+                      <div className="mb-2 space-y-1">
+                        <p className="text-accent-primary text-[10px] font-bold uppercase tracking-wide">
+                          {tool.label}
+                        </p>
+                        <h4 className="text-text-primary group-hover/card:text-accent-primary text-base font-bold uppercase leading-tight transition-colors">
+                          {tool.title}
+                        </h4>
+                      </div>
+                      <p className="text-text-secondary mb-6 text-xs font-medium leading-relaxed">
+                        {tool.desc}
+                      </p>
+                      <div className="border-border-subtle mt-auto flex items-center justify-center border-t pt-4">
+>>>>>>> recover/cabinet-wip-from-stash
                         {(() => {
                           const isAccessGranted = tool.roles?.includes(effectiveRole);
                           return (
@@ -663,8 +820,13 @@ export function MediaHubSection() {
                               className={cn(
                                 'group/btn mx-auto h-9 w-[180px] border',
                                 isAccessGranted
+<<<<<<< HEAD
                                   ? 'group-hover/card:button-glimmer group-hover/card:button-professional border-slate-200 bg-white text-slate-400 group-hover/card:border-black group-hover/card:bg-black group-hover/card:text-white group-hover/card:shadow-xl'
                                   : 'cursor-not-allowed border-slate-200 bg-slate-100 text-slate-300 opacity-50'
+=======
+                                  ? 'text-text-muted border-border-default group-hover/card:button-glimmer group-hover/card:button-professional bg-white group-hover/card:border-black group-hover/card:bg-black group-hover/card:text-white group-hover/card:shadow-xl'
+                                  : 'bg-bg-surface2 text-text-muted border-border-default cursor-not-allowed opacity-50'
+>>>>>>> recover/cabinet-wip-from-stash
                               )}
                             >
                               {isAccessGranted ? (
@@ -685,7 +847,11 @@ export function MediaHubSection() {
               )}
             </AnimatePresence>
 
+<<<<<<< HEAD
             <Card className="group/banner relative mt-6 flex min-h-[300px] items-center overflow-hidden rounded-xl border-none bg-slate-900 shadow-2xl">
+=======
+            <Card className="bg-text-primary group/banner relative mt-6 flex min-h-[300px] items-center overflow-hidden rounded-xl border-none shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
               <div className="absolute inset-0 overflow-hidden rounded-xl opacity-40 transition-transform duration-1000 group-hover/banner:scale-105">
                 <img
                   src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?q=80&w=2000"
@@ -693,7 +859,11 @@ export function MediaHubSection() {
                   alt="Media Ecosystem"
                 />
               </div>
+<<<<<<< HEAD
               <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent" />
+=======
+              <div className="from-text-primary via-text-primary/80 absolute inset-0 bg-gradient-to-r to-transparent" />
+>>>>>>> recover/cabinet-wip-from-stash
               <CardContent className="relative z-10 max-w-4xl space-y-6 p-4 text-white">
                 <div className="group/marquee relative mb-4 overflow-hidden whitespace-nowrap border-y border-white/10 py-2">
                   <motion.div
@@ -725,7 +895,11 @@ export function MediaHubSection() {
                 <h2 className="text-xl font-bold uppercase leading-tight tracking-tight md:text-3xl">
                   МЕДИА-ЭКОСИСТЕМА
                 </h2>
+<<<<<<< HEAD
                 <p className="whitespace-nowrap border-l-2 border-slate-900/50 pl-6 text-sm font-medium text-slate-300">
+=======
+                <p className="text-text-muted border-text-primary/50 whitespace-nowrap border-l-2 pl-6 text-sm font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                   "Все форматы взаимодействия в едином интерактивном пространстве."
                 </p>
               </CardContent>

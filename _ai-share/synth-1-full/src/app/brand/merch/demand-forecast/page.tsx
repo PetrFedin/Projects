@@ -17,6 +17,7 @@ import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import { buildDemandForecast } from '@/lib/fashion/waitlist-store';
 import { ArrowLeft, TrendingUp, TrendingDown, Minus, Bell } from 'lucide-react';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
 export default function DemandForecastPage() {
   const rows = useMemo(() => buildDemandForecast(products), []);
@@ -52,7 +53,13 @@ export default function DemandForecastPage() {
         </Card>
         <Card>
           <CardHeader className="py-3">
+<<<<<<< HEAD
             <CardDescription className="text-xs">Топовый SKU</CardDescription>
+=======
+            <CardDescription className="text-xs">
+              Топовый <AcronymWithTooltip abbr="SKU" />
+            </CardDescription>
+>>>>>>> recover/cabinet-wip-from-stash
             <CardTitle className="truncate text-base">{rows[0]?.name}</CardTitle>
           </CardHeader>
         </Card>
@@ -70,13 +77,17 @@ export default function DemandForecastPage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Рейтинг спроса</CardTitle>
-          <CardDescription>SKU × Размер × Количество «Узнать о наличии»</CardDescription>
+          <CardDescription>
+            <AcronymWithTooltip abbr="SKU" /> × Размер × Количество «Узнать о наличии»
+          </CardDescription>
         </CardHeader>
         <CardContent className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>SKU / Товар</TableHead>
+                <TableHead>
+                  <AcronymWithTooltip abbr="SKU" /> / Товар
+                </TableHead>
                 <TableHead>Размер</TableHead>
                 <TableHead className="text-right">Ждут (чел.)</TableHead>
                 <TableHead className="text-center">Тренд</TableHead>

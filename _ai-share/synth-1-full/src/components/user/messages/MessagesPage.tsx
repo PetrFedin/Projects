@@ -116,7 +116,11 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
         c.type === 'client' ||
         (c.type === 'b2b_orders' &&
           (c.partnerProfile === 'shop' ||
+<<<<<<< HEAD
             /podium|цум|ритейл|магазин/i.test(`${c.title} ${c.subtitle ?? ''}`)));
+=======
+            /демо|ритейл|магазин/i.test(`${c.title} ${c.subtitle ?? ''}`)));
+>>>>>>> recover/cabinet-wip-from-stash
       list = [...list.filter((c) => !isRetailish(c)), ...list.filter((c) => isRetailish(c))];
     }
     return list;
@@ -137,8 +141,13 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
   return (
     <div
       className={cn(
+<<<<<<< HEAD
         'flex flex-col gap-3 overflow-hidden border border-slate-200 bg-white p-4 shadow-sm',
         'h-[calc(100vh-2rem)] min-h-[700px] rounded-xl font-sans text-slate-900 duration-700 animate-in fade-in'
+=======
+        'border-border-default flex flex-col gap-3 overflow-hidden border bg-white p-4 shadow-sm',
+        'text-text-primary h-[calc(100vh-2rem)] min-h-[700px] rounded-xl font-sans duration-700 animate-in fade-in'
+>>>>>>> recover/cabinet-wip-from-stash
       )}
     >
       <TooltipProvider>
@@ -176,7 +185,11 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
             currentUser="user_petr"
           />
 
+<<<<<<< HEAD
           <main className="relative flex min-w-0 flex-1 flex-col overflow-hidden rounded-2xl border border-slate-100 bg-slate-50/30 shadow-inner transition-all">
+=======
+          <main className="bg-bg-surface2/30 border-border-subtle relative flex min-w-0 flex-1 flex-col overflow-hidden rounded-2xl border shadow-inner transition-all">
+>>>>>>> recover/cabinet-wip-from-stash
             {activeChat && (
               <ChatHeader
                 activeChat={activeChat}

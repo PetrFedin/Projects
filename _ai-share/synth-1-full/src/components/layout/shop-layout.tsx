@@ -10,6 +10,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Separator } from '@/components/ui/separator';
 import { mainShopNavLinks } from '@/lib/data/shop-navigation';
 import { ScrollArea, ScrollBar } from '../ui/scroll-area';
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
 export default function ShopLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -31,7 +33,11 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
   };
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto px-4 py-4">
+=======
+    <div className="mx-auto w-full max-w-5xl px-4 py-4 sm:px-6">
+>>>>>>> recover/cabinet-wip-from-stash
       <header className="mb-8 flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <ShoppingCart className="h-8 w-8" />
@@ -77,10 +83,25 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
       </header>
 
       <Tabs value={getShopCurrentTab()} onValueChange={handleShopTabChange} className="w-full">
+<<<<<<< HEAD
         <TabsList className="h-auto flex-wrap justify-start">
           {mainShopNavLinks.map((link) => (
             <TabsTrigger key={link.value} value={link.value}>
               <link.icon className="mr-2 h-4 w-4" />
+=======
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'flex-wrap')}>
+          {mainShopNavLinks.map((link) => (
+            <TabsTrigger
+              key={link.value}
+              value={link.value}
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'h-9 gap-2 text-sm font-semibold normal-case tracking-normal'
+              )}
+            >
+              <link.icon className="h-4 w-4 shrink-0" />
+>>>>>>> recover/cabinet-wip-from-stash
               {link.label}
             </TabsTrigger>
           ))}

@@ -60,13 +60,21 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+<<<<<<< HEAD
       className="fixed inset-0 z-[100] flex flex-col gap-3 overflow-hidden bg-slate-900/90 p-4 backdrop-blur-xl md:flex-row md:p-4"
+=======
+      className="bg-text-primary/90 fixed inset-0 z-[100] flex flex-col gap-3 overflow-hidden p-4 backdrop-blur-xl md:flex-row md:p-4"
+>>>>>>> recover/cabinet-wip-from-stash
     >
       {/* Top Header Layer (Mobile friendly) */}
       <div className="pointer-events-none absolute left-8 right-8 top-4 z-[110] flex items-center justify-between">
         <div className="pointer-events-auto flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white shadow-2xl">
+<<<<<<< HEAD
             <Layers className="h-6 w-6 text-slate-900" />
+=======
+            <Layers className="text-text-primary h-6 w-6" />
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
           <div className="space-y-0.5">
             <Badge
@@ -83,7 +91,11 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
         <Button
           variant="outline"
           onClick={onClose}
+<<<<<<< HEAD
           className="pointer-events-auto h-12 w-12 rounded-2xl border-white/20 bg-white/10 text-white transition-all hover:bg-white hover:text-slate-900"
+=======
+          className="hover:text-text-primary pointer-events-auto h-12 w-12 rounded-2xl border-white/20 bg-white/10 text-white transition-all hover:bg-white"
+>>>>>>> recover/cabinet-wip-from-stash
         >
           <X className="h-6 w-6" />
         </Button>
@@ -156,7 +168,11 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
               </div>
               <Button
                 onClick={onClose}
+<<<<<<< HEAD
                 className="h-12 gap-2 rounded-2xl bg-indigo-600 px-8 text-[10px] font-black uppercase tracking-widest text-white hover:bg-indigo-700"
+=======
+                className="bg-accent-primary hover:bg-accent-primary h-12 gap-2 rounded-2xl px-8 text-[10px] font-black uppercase tracking-widest text-white"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 Просмотреть коллекцию <ArrowUpRight className="h-4 w-4" />
               </Button>
@@ -194,7 +210,11 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
               >
                 Сбросить черновик
               </Button>
+<<<<<<< HEAD
               <Button className="h-12 gap-2 rounded-2xl bg-white px-8 text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-2xl hover:bg-indigo-50">
+=======
+              <Button className="text-text-primary hover:bg-accent-primary/10 h-12 gap-2 rounded-2xl bg-white px-8 text-[10px] font-black uppercase tracking-widest shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
                 Оформить заказ <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
@@ -210,11 +230,19 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
               <CardTitle className="text-base font-black uppercase tracking-tight">
                 Лаборатория Аналитики
               </CardTitle>
+<<<<<<< HEAD
               <Badge className="border-none bg-indigo-100 px-2 py-0.5 text-[8px] font-black uppercase tracking-widest text-indigo-600">
                 Live
               </Badge>
             </div>
             <div className="flex gap-1 rounded-2xl border border-slate-100 bg-slate-50 p-1">
+=======
+              <Badge className="bg-accent-primary/15 text-accent-primary border-none px-2 py-0.5 text-[8px] font-black uppercase tracking-widest">
+                Live
+              </Badge>
+            </div>
+            <div className="bg-bg-surface2 border-border-subtle flex gap-1 rounded-2xl border p-1">
+>>>>>>> recover/cabinet-wip-from-stash
               {[
                 { id: 'budget', label: 'Финансы', icon: DollarSign },
                 { id: 'categories', label: 'Баланс', icon: BarChart3 },
@@ -226,8 +254,13 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
                   className={cn(
                     'flex flex-1 items-center justify-center gap-2 rounded-xl py-2 text-[9px] font-black uppercase tracking-widest transition-all',
                     activeAnalysisTab === tab.id
+<<<<<<< HEAD
                       ? 'border border-slate-100 bg-white text-slate-900 shadow-md'
                       : 'text-slate-400 hover:text-slate-600'
+=======
+                      ? 'text-text-primary border-border-subtle border bg-white shadow-md'
+                      : 'text-text-muted hover:text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   <tab.icon className="h-3 w-3" />
@@ -248,6 +281,7 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
                   className="space-y-4"
                 >
                   <div className="space-y-4">
+<<<<<<< HEAD
                     <div className="group relative rounded-xl border border-slate-100 bg-slate-50 p-4">
                       <div className="absolute right-6 top-4 opacity-10 transition-transform group-hover:rotate-12">
                         <TrendingUp className="h-12 w-12 text-indigo-600" />
@@ -256,6 +290,16 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
                         Прогноз маржи
                       </p>
                       <h3 className="text-sm font-black tracking-tighter text-slate-900">
+=======
+                    <div className="bg-bg-surface2 border-border-subtle group relative rounded-xl border p-4">
+                      <div className="absolute right-6 top-4 opacity-10 transition-transform group-hover:rotate-12">
+                        <TrendingUp className="text-accent-primary h-12 w-12" />
+                      </div>
+                      <p className="text-text-muted mb-1 text-[10px] font-black uppercase tracking-widest">
+                        Прогноз маржи
+                      </p>
+                      <h3 className="text-text-primary text-sm font-black tracking-tighter">
+>>>>>>> recover/cabinet-wip-from-stash
                         {marginPercent.toFixed(1)}%
                       </h3>
                       <p className="mt-2 text-[9px] font-bold uppercase text-emerald-600">
@@ -264,6 +308,7 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
                     </div>
 
                     <div className="grid grid-cols-2 gap-3">
+<<<<<<< HEAD
                       <div className="rounded-3xl border border-slate-100 bg-slate-50 p-4">
                         <p className="mb-1 text-[8px] font-black uppercase tracking-widest text-slate-400">
                           Оптовая стоимость
@@ -277,6 +322,21 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
                           Ожид. выручка
                         </p>
                         <p className="text-sm font-black tabular-nums text-slate-900">
+=======
+                      <div className="bg-bg-surface2 border-border-subtle rounded-3xl border p-4">
+                        <p className="text-text-muted mb-1 text-[8px] font-black uppercase tracking-widest">
+                          Оптовая стоимость
+                        </p>
+                        <p className="text-text-primary text-sm font-black tabular-nums">
+                          {wholesaleTotal.toLocaleString('ru-RU')} ₽
+                        </p>
+                      </div>
+                      <div className="bg-bg-surface2 border-border-subtle rounded-3xl border p-4">
+                        <p className="text-text-muted mb-1 text-[8px] font-black uppercase tracking-widest">
+                          Ожид. выручка
+                        </p>
+                        <p className="text-text-primary text-sm font-black tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                           {rrpTotal.toLocaleString('ru-RU')} ₽
                         </p>
                       </div>
@@ -284,12 +344,20 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
                   </div>
 
                   <div className="space-y-4">
+<<<<<<< HEAD
                     <h4 className="border-b border-slate-100 pb-2 text-[10px] font-black uppercase tracking-widest text-slate-900">
+=======
+                    <h4 className="text-text-primary border-border-subtle border-b pb-2 text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       Инсайты оптимизации
                     </h4>
                     <div className="space-y-3">
                       {[
-                        { label: 'Потенциал оптовой скидки', val: '5%', color: 'text-indigo-600' },
+                        {
+                          label: 'Потенциал оптовой скидки',
+                          val: '5%',
+                          color: 'text-accent-primary',
+                        },
                         { label: 'Эффективность доставки', val: '94%', color: 'text-emerald-600' },
                         { label: 'Риск затоваривания', val: 'Низкий', color: 'text-emerald-600' },
                       ].map((item, i) => (
@@ -297,7 +365,11 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
                           key={i}
                           className="flex items-center justify-between text-[10px] font-bold"
                         >
+<<<<<<< HEAD
                           <span className="uppercase text-slate-400">{item.label}</span>
+=======
+                          <span className="text-text-muted uppercase">{item.label}</span>
+>>>>>>> recover/cabinet-wip-from-stash
                           <span className={item.color}>{item.val}</span>
                         </div>
                       ))}
@@ -319,6 +391,7 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
                       categories.map((cat, i) => (
                         <div key={i} className="space-y-2">
                           <div className="flex items-end justify-between">
+<<<<<<< HEAD
                             <span className="text-[10px] font-black uppercase tracking-widest text-slate-900">
                               {cat.name}
                             </span>
@@ -331,12 +404,30 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
                               initial={{ width: 0 }}
                               animate={{ width: `${cat.percent}%` }}
                               className="h-full rounded-full bg-indigo-600"
+=======
+                            <span className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+                              {cat.name}
+                            </span>
+                            <span className="text-text-muted text-[10px] font-bold">
+                              {cat.count} шт / {cat.percent.toFixed(0)}%
+                            </span>
+                          </div>
+                          <div className="bg-bg-surface2 h-2 w-full overflow-hidden rounded-full">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${cat.percent}%` }}
+                              className="bg-accent-primary h-full rounded-full"
+>>>>>>> recover/cabinet-wip-from-stash
                             />
                           </div>
                         </div>
                       ))
                     ) : (
+<<<<<<< HEAD
                       <div className="py-10 text-center text-slate-300">
+=======
+                      <div className="text-text-muted py-10 text-center">
+>>>>>>> recover/cabinet-wip-from-stash
                         <BarChart3 className="mx-auto mb-4 h-12 w-12 opacity-20" />
                         <p className="text-[10px] font-black uppercase tracking-widest">
                           Нет данных по категориям
@@ -355,17 +446,28 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
                   exit={{ opacity: 0, x: -20 }}
                   className="space-y-6"
                 >
+<<<<<<< HEAD
                   <div className="group relative overflow-hidden rounded-xl bg-slate-900 p-4 text-white">
                     <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-indigo-500/20 blur-3xl transition-all group-hover:bg-indigo-500/40" />
                     <div className="mb-4 flex items-center gap-3">
                       <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-600">
+=======
+                  <div className="bg-text-primary group relative overflow-hidden rounded-xl p-4 text-white">
+                    <div className="bg-accent-primary/20 group-hover:bg-accent-primary/40 absolute -right-4 -top-4 h-24 w-24 rounded-full blur-3xl transition-all" />
+                    <div className="mb-4 flex items-center gap-3">
+                      <div className="bg-accent-primary flex h-8 w-8 items-center justify-center rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                         <Sparkles className="h-4 w-4 text-white" />
                       </div>
                       <p className="text-[10px] font-black uppercase tracking-widest">
                         AI Стратегический Совет
                       </p>
                     </div>
+<<<<<<< HEAD
                     <p className="text-sm font-medium italic leading-relaxed text-slate-300">
+=======
+                    <p className="text-text-muted text-sm font-medium italic leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                       "На основе текущих трендов TikTok, ваша коллекция недостаточно представлена в
                       стиле 'Cyber-Minimalism'. Рассмотрите возможность добавления 3-4 товаров из
                       капсулы Syntha Lab FW26 для увеличения вовлеченности на 18%."
@@ -373,33 +475,54 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
                   </div>
 
                   <div className="space-y-4">
+<<<<<<< HEAD
                     <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-900">
+=======
+                    <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       Рекомендуемые дополнения
                     </h4>
                     <div className="space-y-3">
                       {[1, 2].map((i) => (
                         <div
                           key={i}
+<<<<<<< HEAD
                           className="group flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-3 transition-all hover:border-indigo-200"
                         >
                           <div className="h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-slate-200">
+=======
+                          className="bg-bg-surface2 border-border-subtle hover:border-accent-primary/30 group flex cursor-pointer items-center gap-3 rounded-2xl border p-3 transition-all"
+                        >
+                          <div className="bg-border-subtle h-12 w-12 shrink-0 overflow-hidden rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                             <img
                               src={`https://placehold.co/100x100/f8fafc/64748b?text=SKU_${i}`}
                               className="h-full w-full object-cover"
                             />
                           </div>
                           <div className="flex-1">
+<<<<<<< HEAD
                             <p className="text-[9px] font-black uppercase text-indigo-600">
                               Высокий виральный потенциал
                             </p>
                             <p className="text-xs font-black uppercase text-slate-900">
+=======
+                            <p className="text-accent-primary text-[9px] font-black uppercase">
+                              Высокий виральный потенциал
+                            </p>
+                            <p className="text-text-primary text-xs font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                               Neural Knit Jacket
                             </p>
                           </div>
                           <Button
                             size="icon"
                             variant="ghost"
+<<<<<<< HEAD
                             className="h-8 w-8 rounded-lg bg-white shadow-sm transition-all hover:bg-indigo-600 hover:text-white"
+=======
+                            className="hover:bg-accent-primary h-8 w-8 rounded-lg bg-white shadow-sm transition-all hover:text-white"
+>>>>>>> recover/cabinet-wip-from-stash
                           >
                             <Plus className="h-3.5 w-3.5" />
                           </Button>
@@ -411,6 +534,7 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
               )}
             </AnimatePresence>
 
+<<<<<<< HEAD
             <div className="mt-auto flex flex-col gap-3 border-t border-slate-100 pt-8">
               <div className="flex items-center justify-between">
                 <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
@@ -422,6 +546,19 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
                 </span>
               </div>
               <Button className="button-glimmer h-10 w-full rounded-2xl bg-slate-900 text-[11px] font-black uppercase tracking-[0.1em] text-white shadow-xl hover:bg-black">
+=======
+            <div className="border-border-subtle mt-auto flex flex-col gap-3 border-t pt-8">
+              <div className="flex items-center justify-between">
+                <span className="text-text-muted flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
+                  <ShieldCheck className="text-accent-primary h-3.5 w-3.5" />
+                  Гарантия опта
+                </span>
+                <span className="text-text-primary text-[10px] font-bold uppercase">
+                  Платформа защищена
+                </span>
+              </div>
+              <Button className="bg-text-primary button-glimmer h-10 w-full rounded-2xl text-[11px] font-black uppercase tracking-[0.1em] text-white shadow-xl hover:bg-black">
+>>>>>>> recover/cabinet-wip-from-stash
                 Завершить план ассортимента
               </Button>
             </div>
@@ -429,8 +566,13 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
         </Card>
 
         {/* Global Network Node (For Admin/Distributor visibility) */}
+<<<<<<< HEAD
         <Card className="group relative overflow-hidden rounded-xl border-none bg-slate-900 p-4 text-white shadow-2xl">
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/20 to-transparent" />
+=======
+        <Card className="bg-text-primary group relative overflow-hidden rounded-xl border-none p-4 text-white shadow-2xl">
+          <div className="from-accent-primary/20 absolute inset-0 bg-gradient-to-br to-transparent" />
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="relative z-10 space-y-4">
             <div className="flex items-center gap-3">
               <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/10">
@@ -438,7 +580,11 @@ export function VisualAssortmentPlanner({ onClose }: { onClose: () => void }) {
               </div>
               <p className="text-[10px] font-black uppercase tracking-widest">Админ-надзор</p>
             </div>
+<<<<<<< HEAD
             <p className="text-[10px] font-medium uppercase leading-relaxed tracking-tight text-slate-400">
+=======
+            <p className="text-text-muted text-[10px] font-medium uppercase leading-relaxed tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
               Этот черновой план виден <span className="text-white">Администратору платформы</span>{' '}
               и <span className="text-white">Региональному дистрибьютору</span> для синхронизации
               цепочки поставок.

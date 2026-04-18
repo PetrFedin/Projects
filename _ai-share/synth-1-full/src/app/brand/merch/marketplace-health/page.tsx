@@ -31,7 +31,11 @@ export default function MarketplaceHealthPage() {
           <div className="rounded-lg bg-emerald-100 p-2 shadow-sm">
             <HeartPulse className="h-6 w-6 text-emerald-600" />
           </div>
+<<<<<<< HEAD
           <h1 className="text-3xl font-bold uppercase tracking-tight tracking-tighter text-slate-800">
+=======
+          <h1 className="text-text-primary text-3xl font-bold uppercase tracking-tight tracking-tighter">
+>>>>>>> recover/cabinet-wip-from-stash
             Marketplace Health Card
           </h1>
         </div>
@@ -45,6 +49,7 @@ export default function MarketplaceHealthPage() {
         {healthData.map(({ product, health }) => (
           <Card
             key={product.id}
+<<<<<<< HEAD
             className="overflow-hidden border-2 border-slate-50 p-5 shadow-sm transition-all hover:border-emerald-100"
           >
             <div className="flex flex-col items-center gap-8 lg:flex-row">
@@ -52,15 +57,31 @@ export default function MarketplaceHealthPage() {
                 <div className="h-18 w-14 shrink-0 overflow-hidden rounded border bg-slate-100">
                   <img
                     src={product.image}
+=======
+            className="border-border-subtle overflow-hidden border-2 p-5 shadow-sm transition-all hover:border-emerald-100"
+          >
+            <div className="flex flex-col items-center gap-8 lg:flex-row">
+              <div className="flex w-full items-center gap-4 lg:w-1/4">
+                <div className="h-18 bg-bg-surface2 w-14 shrink-0 overflow-hidden rounded border">
+                  <img
+                    src={product.images?.[0]?.url ?? ''}
+>>>>>>> recover/cabinet-wip-from-stash
                     alt={product.name}
                     className="h-full w-full object-cover"
                   />
                 </div>
                 <div className="min-w-0 flex-1">
+<<<<<<< HEAD
                   <div className="mb-1 text-[10px] font-black uppercase leading-none text-slate-400">
                     {product.sku}
                   </div>
                   <div className="truncate text-sm font-bold text-slate-700">{product.name}</div>
+=======
+                  <div className="text-text-muted mb-1 text-[10px] font-black uppercase leading-none">
+                    {product.sku}
+                  </div>
+                  <div className="text-text-primary truncate text-sm font-bold">{product.name}</div>
+>>>>>>> recover/cabinet-wip-from-stash
                   <Badge variant="outline" className="mt-1 h-3.5 text-[9px] font-black uppercase">
                     {product.category}
                   </Badge>
@@ -90,7 +111,11 @@ export default function MarketplaceHealthPage() {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="flex flex-col">
+<<<<<<< HEAD
                         <span className="mb-1 text-[9px] font-black uppercase leading-none text-slate-400">
+=======
+                        <span className="text-text-muted mb-1 text-[9px] font-black uppercase leading-none">
+>>>>>>> recover/cabinet-wip-from-stash
                           Buyback (Выкуп)
                         </span>
                         <span className="text-sm font-black text-emerald-700">
@@ -98,7 +123,11 @@ export default function MarketplaceHealthPage() {
                         </span>
                       </div>
                       <div className="flex flex-col items-end">
+<<<<<<< HEAD
                         <span className="mb-1 text-[9px] font-black uppercase leading-none text-slate-400">
+=======
+                        <span className="text-text-muted mb-1 text-[9px] font-black uppercase leading-none">
+>>>>>>> recover/cabinet-wip-from-stash
                           OOS Risk
                         </span>
                         <span
@@ -114,10 +143,17 @@ export default function MarketplaceHealthPage() {
 
               <div className="flex w-full items-center justify-between gap-3 lg:w-32 lg:flex-col lg:items-end">
                 <div className="text-right">
+<<<<<<< HEAD
                   <div className="mb-1 text-[10px] font-black uppercase leading-none text-slate-400">
                     Health Score
                   </div>
                   <div className="text-2xl font-black leading-none text-slate-800">88%</div>
+=======
+                  <div className="text-text-muted mb-1 text-[10px] font-black uppercase leading-none">
+                    Health Score
+                  </div>
+                  <div className="text-text-primary text-2xl font-black leading-none">88%</div>
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
                 <Button
                   variant="ghost"
@@ -143,11 +179,21 @@ export default function MarketplaceHealthPage() {
           </div>
           <div className="space-y-3">
             <div className="flex items-center justify-between text-xs">
+<<<<<<< HEAD
               <span className="text-[10px] font-bold uppercase text-slate-500">Active Cards</span>
               <span className="font-black">124</span>
             </div>
             <div className="flex items-center justify-between text-xs">
               <span className="text-[10px] font-bold uppercase text-slate-500">
+=======
+              <span className="text-text-secondary text-[10px] font-bold uppercase">
+                Active Cards
+              </span>
+              <span className="font-black">124</span>
+            </div>
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-text-secondary text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 Critical Alerts
               </span>
               <span className="font-black text-rose-500">3</span>

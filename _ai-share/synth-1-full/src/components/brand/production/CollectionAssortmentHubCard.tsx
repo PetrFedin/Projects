@@ -23,6 +23,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
 const STEP_ID = 'assortment-map';
 const GENERIC_FIELD_KEYS = new Set(['objectives', 'keyDecisions', 'risksBlockers', 'linksRefs']);
@@ -116,17 +117,25 @@ export function CollectionAssortmentHubCard({
   );
 
   return (
-    <Card className="border-indigo-200/90 bg-gradient-to-r from-indigo-50/35 via-white to-sky-50/25 shadow-sm">
+    <Card className="border-accent-primary/30 from-accent-primary/10 bg-gradient-to-r via-white to-sky-50/25 shadow-sm">
       <CardHeader className="space-y-1 pb-2">
         <div className="flex flex-wrap items-center gap-2">
+<<<<<<< HEAD
           <LayoutGrid className="h-4 w-4 shrink-0 text-indigo-700" aria-hidden />
+=======
+          <LayoutGrid className="text-accent-primary h-4 w-4 shrink-0" aria-hidden />
+>>>>>>> recover/cabinet-wip-from-stash
           <CardTitle className="text-sm uppercase tracking-tight">
             Карта ассортимента (этап 2)
           </CardTitle>
           {matrixAssortmentStatus ? (
             <Badge
               variant="outline"
+<<<<<<< HEAD
               className="h-5 border-slate-200 text-[7px] font-bold uppercase"
+=======
+              className="border-border-default h-5 text-[7px] font-bold uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               {STATUS_RU[matrixAssortmentStatus]}
             </Badge>
@@ -136,30 +145,41 @@ export function CollectionAssortmentHubCard({
               Черновик заполнен
             </Badge>
           ) : (
-            <Badge variant="secondary" className="h-5 text-[7px] font-semibold text-slate-600">
+            <Badge variant="secondary" className="text-text-secondary h-5 text-[7px] font-semibold">
               Дропы, сетка, категории — здесь и в модуле этапа
             </Badge>
           )}
         </div>
         <CardDescription className="text-xs leading-relaxed">
+<<<<<<< HEAD
           Коллекция: <strong className="text-slate-800">{collectionLabel}</strong>. Данные = модуль
           «Карта ассортимента (SKU / категории)» в ленте; хранилище то же, что у брифа. Первое
           содержательное сохранение переводит этап{' '}
+=======
+          Коллекция: <strong className="text-text-primary">{collectionLabel}</strong>. Данные =
+          модуль «Карта ассортимента (SKU / категории)» в ленте; хранилище то же, что у брифа.
+          Первое содержательное сохранение переводит этап{' '}
+>>>>>>> recover/cabinet-wip-from-stash
           <span className="font-mono text-[10px]">assortment-map</span> у всех SKU в «в работе» в
           матрице.
         </CardDescription>
         {previewLine ? (
+<<<<<<< HEAD
           <p className="line-clamp-2 pt-0.5 text-[11px] font-medium text-slate-700">
             Кратко: <span className="text-indigo-900">{previewLine}</span>
+=======
+          <p className="text-text-primary line-clamp-2 pt-0.5 text-[11px] font-medium">
+            Кратко: <span className="text-accent-primary">{previewLine}</span>
+>>>>>>> recover/cabinet-wip-from-stash
           </p>
         ) : null}
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex flex-wrap items-end gap-2 rounded-lg border border-slate-100 bg-white/80 p-3">
+        <div className="border-border-subtle flex flex-wrap items-end gap-2 rounded-lg border bg-white/80 p-3">
           <div className="flex min-w-[200px] flex-1 items-center gap-2">
-            <UserCircle className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
+            <UserCircle className="text-text-muted h-4 w-4 shrink-0" aria-hidden />
             <div className="min-w-0 flex-1">
-              <p className="text-[9px] font-bold uppercase text-slate-400">Кто вносит изменения</p>
+              <p className="text-text-muted text-[9px] font-bold uppercase">Кто вносит изменения</p>
               <Input
                 className="mt-0.5 h-8 text-xs"
                 value={actorLabel}
@@ -176,8 +196,8 @@ export function CollectionAssortmentHubCard({
             return (
               <div key={def.key}>
                 {firstGenericIndex === idx ? (
-                  <div className="border-t border-slate-200 pt-3">
-                    <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">
+                  <div className="border-border-default border-t pt-3">
+                    <p className="text-text-muted text-[8px] font-black uppercase tracking-wider">
                       Дополнительно: цели, решения, риски, ссылки
                     </p>
                   </div>
@@ -185,11 +205,19 @@ export function CollectionAssortmentHubCard({
                 <div
                   className={cn(
                     isGeneric
+<<<<<<< HEAD
                       ? 'rounded-lg border border-dashed border-slate-200/80 bg-slate-50/40 p-2'
                       : ''
                   )}
                 >
                   <p className="mb-1 text-[9px] font-bold uppercase text-slate-400">{def.label}</p>
+=======
+                      ? 'border-border-default/80 bg-bg-surface2/40 rounded-lg border border-dashed p-2'
+                      : ''
+                  )}
+                >
+                  <p className="text-text-muted mb-1 text-[9px] font-bold uppercase">{def.label}</p>
+>>>>>>> recover/cabinet-wip-from-stash
                   {def.type === 'textarea' ? (
                     <Textarea
                       className="min-h-[64px] text-xs"
@@ -212,7 +240,7 @@ export function CollectionAssortmentHubCard({
           })}
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
+        <div className="border-border-subtle flex flex-wrap items-center gap-2 border-t pt-3">
           <Button type="button" size="sm" className="h-9 text-xs" onClick={handleSave}>
             Сохранить карту ассортимента
           </Button>
@@ -227,7 +255,9 @@ export function CollectionAssortmentHubCard({
             Вложения, история, согласование
           </Button>
           <Button type="button" variant="secondary" size="sm" className="h-9 text-[10px]" asChild>
-            <Link href={pimHref}>PIM · продукты →</Link>
+            <Link href={pimHref} className="inline-flex items-center gap-1">
+              Каталог товаров (<AcronymWithTooltip abbr="PIM" />) →
+            </Link>
           </Button>
           {(outlineLinks ?? []).map((link, i) => (
             <Button

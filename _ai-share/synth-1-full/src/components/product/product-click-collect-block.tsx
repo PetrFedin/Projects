@@ -20,7 +20,11 @@ export function ProductClickCollectBlock({ product }: { product: Product }) {
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-sky-700">
           <Box className="h-4 w-4" />
+<<<<<<< HEAD
           <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
+=======
+          <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             Click & Collect Operations
           </h4>
         </div>
@@ -35,23 +39,39 @@ export function ProductClickCollectBlock({ product }: { product: Product }) {
       <div className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <div className="flex flex-col justify-center rounded-xl border border-sky-100 bg-white/80 p-3 shadow-sm">
+<<<<<<< HEAD
             <div className="mb-1 text-[8px] font-black uppercase tracking-widest text-slate-400">
               Store Inventory (Active)
             </div>
             <div className="text-xl font-black text-slate-800">42 Units</div>
             <div className="mt-1 flex items-center gap-1 text-[7px] font-bold uppercase text-slate-500">
+=======
+            <div className="text-text-muted mb-1 text-[8px] font-black uppercase tracking-widest">
+              Store Inventory (Active)
+            </div>
+            <div className="text-text-primary text-xl font-black">42 Units</div>
+            <div className="text-text-secondary mt-1 flex items-center gap-1 text-[7px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
               <MapPin className="h-2.5 w-2.5" /> STORE-MOSCOW-CENTRAL
             </div>
           </div>
 
           <div className="flex flex-col justify-center rounded-xl border border-sky-100 bg-white/80 p-3 shadow-sm">
+<<<<<<< HEAD
             <div className="mb-1 text-[8px] font-black uppercase tracking-widest text-slate-400">
+=======
+            <div className="text-text-muted mb-1 text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               Efficiency Status
             </div>
             <div className="flex items-center gap-1.5 text-[10px] font-black uppercase text-sky-600">
               <Activity className="h-3.5 w-3.5" /> High Pick Speed
             </div>
+<<<<<<< HEAD
             <div className="mt-1 text-[7px] font-bold uppercase text-slate-500">
+=======
+            <div className="text-text-secondary mt-1 text-[7px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
               Average: 12min to Ready
             </div>
           </div>
@@ -61,7 +81,11 @@ export function ProductClickCollectBlock({ product }: { product: Product }) {
           <div className="mb-1 flex items-center gap-1.5 text-[8px] font-black uppercase tracking-widest text-sky-600">
             <Clock className="h-3 w-3" /> Pickup Window Monitor
           </div>
+<<<<<<< HEAD
           <p className="text-[10px] font-bold leading-snug text-slate-700">
+=======
+          <p className="text-text-primary text-[10px] font-bold leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
             Order {status.orderId} will be ready by {status.readyForPickupDate}. Storage limit:{' '}
             {status.storageDaysLimit} days.
           </p>
@@ -80,7 +104,11 @@ export function ProductClickCollectBlock({ product }: { product: Product }) {
         </div>
       </div>
 
+<<<<<<< HEAD
       <div className="mt-4 flex items-center justify-between border-t border-sky-100 pt-4 text-[8px] font-black uppercase text-slate-400">
+=======
+      <div className="text-text-muted mt-4 flex items-center justify-between border-t border-sky-100 pt-4 text-[8px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
         <span>Integrated with Store PDA Apps</span>
         <span className="flex items-center gap-1 text-sky-600">
           <Share2 className="h-3 w-3 text-sky-500" /> Live Inventory Sync

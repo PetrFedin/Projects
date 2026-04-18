@@ -1,4 +1,5 @@
 import type { Layer } from '@/lib/types/calendar';
+import type { Dispatch, SetStateAction } from 'react';
 
 export const LAYERS: Layer[] = [
   'production',
@@ -9,9 +10,37 @@ export const LAYERS: Layer[] = [
   'logistics',
   'orders',
   'communications',
+  'market',
   'trends',
   'spam',
 ];
+
+export type CalendarState = {
+  currentRole: string;
+  view: 'month' | 'week' | 'day' | 'list';
+  currentDate: Date;
+  search: string;
+  mysteryEnabled: boolean;
+  aiAutomationEnabled: boolean;
+  isInvestorMode: boolean;
+  spamFilterEnabled: boolean;
+  layerFilter: Record<Layer, boolean>;
+  entityFilters: Record<string, string>;
+};
+
+export type CalendarActions = {
+  setCurrentRole: (r: string) => void;
+  setView: (v: 'month' | 'week' | 'day' | 'list') => void;
+  setCurrentDate: (d: Date) => void;
+  setSearch: (s: string) => void;
+  setMysteryEnabled: (v: boolean) => void;
+  setAiAutomationEnabled: (v: boolean) => void;
+  setIsInvestorMode: (v: boolean) => void;
+  setSpamFilterEnabled: (v: boolean) => void;
+  setLayerFilter: Dispatch<SetStateAction<Record<Layer, boolean>>>;
+  setEntityFilters: Dispatch<SetStateAction<Record<string, string>>>;
+  handleOpenCreateModal: (date?: Date) => void;
+};
 
 export const layerColor = (layer: Layer) => {
   switch (layer) {
@@ -28,6 +57,7 @@ export const layerColor = (layer: Layer) => {
     case 'logistics':
       return 'bg-sky-500';
     case 'orders':
+<<<<<<< HEAD
       return 'bg-slate-700';
     case 'communications':
       return 'bg-fuchsia-500';
@@ -37,15 +67,34 @@ export const layerColor = (layer: Layer) => {
       return 'bg-zinc-500';
     default:
       return 'bg-slate-400';
+=======
+      return 'bg-text-primary/75';
+    case 'communications':
+      return 'bg-accent-primary/100';
+    case 'market':
+      return 'bg-violet-500';
+    case 'trends':
+      return 'bg-accent-primary';
+    case 'spam':
+      return 'bg-bg-surface20';
+    default:
+      return 'bg-text-muted';
+>>>>>>> recover/cabinet-wip-from-stash
   }
 };
 
 export const layerBorder = (layer: Layer) => {
   switch (layer) {
     case 'production':
+<<<<<<< HEAD
       return 'border-indigo-200';
     case 'buying':
       return 'border-violet-200';
+=======
+      return 'border-accent-primary/30';
+    case 'buying':
+      return 'border-accent-primary/25';
+>>>>>>> recover/cabinet-wip-from-stash
     case 'events':
       return 'border-emerald-200';
     case 'drops':
@@ -55,6 +104,7 @@ export const layerBorder = (layer: Layer) => {
     case 'logistics':
       return 'border-sky-200';
     case 'orders':
+<<<<<<< HEAD
       return 'border-slate-200';
     case 'communications':
       return 'border-fuchsia-200';
@@ -64,6 +114,19 @@ export const layerBorder = (layer: Layer) => {
       return 'border-zinc-200';
     default:
       return 'border-slate-200';
+=======
+      return 'border-border-default';
+    case 'communications':
+      return 'border-accent-primary/25';
+    case 'market':
+      return 'border-violet-200';
+    case 'trends':
+      return 'border-accent-primary/30';
+    case 'spam':
+      return 'border-border-default';
+    default:
+      return 'border-border-default';
+>>>>>>> recover/cabinet-wip-from-stash
   }
 };
 
@@ -78,6 +141,7 @@ export const ROLE_VISIBILITY: Record<string, Layer[]> = {
     'logistics',
     'orders',
     'communications',
+    'market',
     'trends',
   ],
   shop: ['buying', 'events', 'drops', 'logistics', 'orders', 'communications', 'trends'],

@@ -1,4 +1,5 @@
 'use client';
+import { RegistryPageShell } from '@/components/design-system';
 
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,6 +9,7 @@ import { Truck, ArrowLeft, Send } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getB2BLinks } from '@/lib/data/entity-links';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
 /** JOOR/Zalando: ASN (Advanced Shipping Notice) со стороны бренда — создание отгрузок, статусы. */
 const MOCK_ASN = [
@@ -23,7 +25,11 @@ const MOCK_ASN = [
 
 export default function ShipmentsPage() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
+=======
+    <RegistryPageShell className="max-w-3xl space-y-6">
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.brand.b2bOrders}>
           <Button variant="ghost" size="icon">
@@ -32,9 +38,15 @@ export default function ShipmentsPage() {
         </Link>
         <div>
           <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
+<<<<<<< HEAD
             <Truck className="h-6 w-6" /> Отгрузки (ASN)
           </h1>
           <p className="mt-0.5 text-sm text-slate-500">
+=======
+            <Truck className="h-6 w-6" /> Отгрузки (<AcronymWithTooltip abbr="ASN" />)
+          </h1>
+          <p className="text-text-secondary mt-0.5 text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Advanced Shipping Notice: создание отгрузки, уведомление ритейлера, трекинг.
           </p>
         </div>
@@ -64,11 +76,19 @@ export default function ShipmentsPage() {
             {MOCK_ASN.map((s) => (
               <li
                 key={s.id}
+<<<<<<< HEAD
                 className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50 p-4"
               >
                 <div>
                   <p className="font-medium">{s.id}</p>
                   <p className="text-xs text-slate-500">
+=======
+                className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-lg border p-4"
+              >
+                <div>
+                  <p className="font-medium">{s.id}</p>
+                  <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                     Заказ {s.orderId} · {s.partner} · {s.sentAt}
                   </p>
                 </div>
@@ -80,6 +100,6 @@ export default function ShipmentsPage() {
       </Card>
 
       <RelatedModulesBlock links={getB2BLinks()} title="B2B заказы, логистика, партнёры" />
-    </div>
+    </RegistryPageShell>
   );
 }

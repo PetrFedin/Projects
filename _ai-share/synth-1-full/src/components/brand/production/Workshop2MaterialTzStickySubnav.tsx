@@ -106,7 +106,7 @@ export function Workshop2MaterialTzStickySubnav({
         >
           {gateOpenCount === 0 ? '· контур OK' : `· открыто ${gateOpenCount}`}
         </span>
-        <span className="font-normal normal-case text-slate-400">(~{combinedPct}%)</span>
+        <span className="text-text-muted font-normal normal-case">(~{combinedPct}%)</span>
       </span>
       {navItems.map((x) => {
         const isCurrent = activeAnchorId === x.id;

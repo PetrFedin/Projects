@@ -1,5 +1,6 @@
 'use client';
 
+import { RegistryPageShell } from '@/components/design-system';
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,8 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  Layers,
-  ArrowLeft,
   Package,
   Palette,
   Store,
@@ -22,7 +21,10 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
+import { tid } from '@/lib/ui/test-ids';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getRelatedLinks } from '@/lib/data/integration-modules';
 
@@ -206,6 +208,7 @@ export default function SelectionBuilderPage() {
   const displayItems = selection.length ? selection : [];
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -228,18 +231,40 @@ export default function SelectionBuilderPage() {
         <TabsList className="grid w-full grid-cols-3 lg:inline-grid lg:w-auto">
           <TabsTrigger value="stock" className="gap-2">
             <Package className="h-4 w-4" /> Из стока
+=======
+    <RegistryPageShell
+      className="min-h-[200px] max-w-6xl space-y-6"
+      data-testid={tid.page('shop-b2b-selection-builder')}
+    >
+      <ShopB2bContentHeader lead="Сток, бренд-сезон, кросс-бренд — образы, аналитика и AI-рекомендации." />
+
+      {/* Режимы селекции */}
+      <Tabs value={mode} onValueChange={(v) => setMode(v as SelectionMode)}>
+        <TabsList
+          className={cn(
+            cabinetSurface.tabsList,
+            'grid w-full grid-cols-3 lg:inline-grid lg:w-auto'
+          )}
+        >
+          <TabsTrigger value="stock" className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-2')}>
+            <Package className="size-4" aria-hidden /> Из стока
+>>>>>>> recover/cabinet-wip-from-stash
           </TabsTrigger>
-          <TabsTrigger value="brand-season" className="gap-2">
-            <Store className="h-4 w-4" /> Бренд + сезон
+          <TabsTrigger value="brand-season" className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-2')}>
+            <Store className="size-4" aria-hidden /> Бренд + сезон
           </TabsTrigger>
-          <TabsTrigger value="cross-brand" className="gap-2">
-            <Sparkles className="h-4 w-4" /> Кросс-бренд
+          <TabsTrigger value="cross-brand" className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-2')}>
+            <Sparkles className="size-4" aria-hidden /> Кросс-бренд
           </TabsTrigger>
         </TabsList>
 
         {(mode === 'brand-season' || mode === 'cross-brand') && (
           <div className="mt-4 flex flex-wrap gap-2">
+<<<<<<< HEAD
             <span className="text-xs font-bold uppercase text-slate-500">Бренд:</span>
+=======
+            <span className="text-text-secondary text-xs font-bold uppercase">Бренд:</span>
+>>>>>>> recover/cabinet-wip-from-stash
             <div className="flex gap-1">
               <Button
                 variant={selectedBrand === 'all' ? 'default' : 'outline'}
@@ -261,7 +286,11 @@ export default function SelectionBuilderPage() {
             </div>
             {mode === 'brand-season' && (
               <>
+<<<<<<< HEAD
                 <span className="ml-2 text-xs font-bold uppercase text-slate-500">Сезон:</span>
+=======
+                <span className="text-text-secondary ml-2 text-xs font-bold uppercase">Сезон:</span>
+>>>>>>> recover/cabinet-wip-from-stash
                 <div className="flex gap-1">
                   {['SS26', 'AW25', 'SS25'].map((s) => (
                     <Button
@@ -299,16 +328,27 @@ export default function SelectionBuilderPage() {
                       className={cn(
                         'cursor-pointer rounded-xl border p-3 transition-all',
                         isSelected(p.id)
+<<<<<<< HEAD
                           ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200'
                           : 'border-slate-200 hover:border-indigo-300'
+=======
+                          ? 'border-accent-primary bg-accent-primary/10 ring-accent-primary/30 ring-2'
+                          : 'border-border-default hover:border-accent-primary/30'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                       onClick={() =>
                         isSelected(p.id) ? removeFromSelection(p.id) : addToSelection(p)
                       }
                     >
+<<<<<<< HEAD
                       <div className="mb-2 aspect-square rounded-lg bg-slate-100" />
                       <p className="truncate text-xs font-bold">{p.name}</p>
                       <p className="text-[10px] text-slate-500">
+=======
+                      <div className="bg-bg-surface2 mb-2 aspect-square rounded-lg" />
+                      <p className="truncate text-xs font-bold">{p.name}</p>
+                      <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                         {p.brand} · {p.color}
                       </p>
                       <div className="mt-1 flex items-center justify-between">
@@ -334,7 +374,11 @@ export default function SelectionBuilderPage() {
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2 text-base">
+<<<<<<< HEAD
                   <Eye className="h-4 w-4" /> Образы и сочетания
+=======
+                  <Eye className="size-4" /> Образы и сочетания
+>>>>>>> recover/cabinet-wip-from-stash
                 </CardTitle>
                 <CardDescription>
                   Комбинируйте товары в образы по стилистике, цветам, категориям
@@ -343,10 +387,17 @@ export default function SelectionBuilderPage() {
               <CardContent>
                 <div className="flex flex-wrap gap-2">
                   <Button variant="outline" size="sm" className="gap-1">
+<<<<<<< HEAD
                     <Plus className="h-3 w-3" /> Новый образ
                   </Button>
                   {looks.length === 0 && (
                     <p className="text-sm text-slate-400">
+=======
+                    <Plus className="size-3" /> Новый образ
+                  </Button>
+                  {looks.length === 0 && (
+                    <p className="text-text-muted text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                       Выберите товары и создайте образ — сочетание по стилю, цвету или категории
                     </p>
                   )}
@@ -360,7 +411,11 @@ export default function SelectionBuilderPage() {
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2 text-base">
+<<<<<<< HEAD
                   <BarChart3 className="h-4 w-4" /> Аналитика селекции
+=======
+                  <BarChart3 className="size-4" /> Аналитика селекции
+>>>>>>> recover/cabinet-wip-from-stash
                 </CardTitle>
                 <CardDescription>
                   Модели, бренды, объёмы, цвета — что взято, чего не хватает
@@ -368,6 +423,7 @@ export default function SelectionBuilderPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-2">
+<<<<<<< HEAD
                   <div className="rounded-lg border border-slate-100 bg-slate-50 p-3">
                     <p className="text-[10px] font-bold uppercase text-slate-500">Моделей</p>
                     <p className="text-lg font-black">{analytics.totalModels}</p>
@@ -378,6 +434,18 @@ export default function SelectionBuilderPage() {
                   </div>
                   <div className="col-span-2 rounded-lg border border-slate-100 bg-slate-50 p-3">
                     <p className="text-[10px] font-bold uppercase text-slate-500">Объём (₽)</p>
+=======
+                  <div className="border-border-subtle bg-bg-surface2 rounded-lg border p-3">
+                    <p className="text-text-secondary text-xs font-bold uppercase">Моделей</p>
+                    <p className="text-lg font-black">{analytics.totalModels}</p>
+                  </div>
+                  <div className="border-border-subtle bg-bg-surface2 rounded-lg border p-3">
+                    <p className="text-text-secondary text-xs font-bold uppercase">Единиц</p>
+                    <p className="text-lg font-black">{analytics.totalUnits}</p>
+                  </div>
+                  <div className="border-border-subtle bg-bg-surface2 col-span-2 rounded-lg border p-3">
+                    <p className="text-text-secondary text-xs font-bold uppercase">Объём (₽)</p>
+>>>>>>> recover/cabinet-wip-from-stash
                     <p className="text-lg font-black">
                       {analytics.totalVolume.toLocaleString('ru-RU')}
                     </p>
@@ -385,7 +453,11 @@ export default function SelectionBuilderPage() {
                 </div>
                 {analytics.byBrand.length > 0 && (
                   <div>
+<<<<<<< HEAD
                     <p className="mb-2 text-[10px] font-bold uppercase text-slate-500">
+=======
+                    <p className="text-text-secondary mb-2 text-xs font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                       По брендам
                     </p>
                     <div className="space-y-1">
@@ -402,12 +474,20 @@ export default function SelectionBuilderPage() {
                 )}
                 {analytics.byCategory.length > 0 && (
                   <div>
+<<<<<<< HEAD
                     <p className="mb-2 text-[10px] font-bold uppercase text-slate-500">
+=======
+                    <p className="text-text-secondary mb-2 text-xs font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                       По категориям
                     </p>
                     <div className="flex flex-wrap gap-1">
                       {analytics.byCategory.map(([cat, n]) => (
+<<<<<<< HEAD
                         <Badge key={cat} variant="secondary" className="text-[10px]">
+=======
+                        <Badge key={cat} variant="secondary" className="text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                           {cat} {n}
                         </Badge>
                       ))}
@@ -416,10 +496,19 @@ export default function SelectionBuilderPage() {
                 )}
                 {analytics.byColor.length > 0 && (
                   <div>
+<<<<<<< HEAD
                     <p className="mb-2 text-[10px] font-bold uppercase text-slate-500">По цветам</p>
                     <div className="flex flex-wrap gap-1">
                       {analytics.byColor.map(([color, n]) => (
                         <Badge key={color} variant="outline" className="text-[10px]">
+=======
+                    <p className="text-text-secondary mb-2 text-xs font-bold uppercase">
+                      По цветам
+                    </p>
+                    <div className="flex flex-wrap gap-1">
+                      {analytics.byColor.map(([color, n]) => (
+                        <Badge key={color} variant="outline" className="text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                           {color} {n}
                         </Badge>
                       ))}
@@ -428,15 +517,24 @@ export default function SelectionBuilderPage() {
                 )}
                 {gaps.length > 0 && (
                   <div>
+<<<<<<< HEAD
                     <p className="mb-2 flex items-center gap-1 text-[10px] font-bold uppercase text-amber-600">
                       <AlertCircle className="h-3 w-3" /> Чего не хватает
+=======
+                    <p className="mb-2 flex items-center gap-1 text-xs font-bold uppercase text-amber-600">
+                      <AlertCircle className="size-3" /> Чего не хватает
+>>>>>>> recover/cabinet-wip-from-stash
                     </p>
                     <div className="flex flex-wrap gap-1">
                       {gaps.map((cat) => (
                         <Badge
                           key={cat}
                           variant="outline"
+<<<<<<< HEAD
                           className="border-amber-200 text-[10px] text-amber-700"
+=======
+                          className="border-amber-200 text-xs text-amber-700"
+>>>>>>> recover/cabinet-wip-from-stash
                         >
                           {cat}
                         </Badge>
@@ -450,32 +548,54 @@ export default function SelectionBuilderPage() {
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2 text-base">
+<<<<<<< HEAD
                   <Brain className="h-4 w-4" /> AI-рекомендации
+=======
+                  <Brain className="size-4" /> AI-рекомендации
+>>>>>>> recover/cabinet-wip-from-stash
                 </CardTitle>
                 <CardDescription>Рекомендации по продажам и формированию селекции</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
+<<<<<<< HEAD
                 <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-3 text-xs">
                   <p className="mb-1 font-bold text-indigo-900">Дополнить категорию</p>
                   <p className="text-indigo-700">
+=======
+                <div className="border-accent-primary/20 bg-accent-primary/10 rounded-lg border p-3 text-xs">
+                  <p className="text-accent-primary mb-1 font-bold">Дополнить категорию</p>
+                  <p className="text-accent-primary">
+>>>>>>> recover/cabinet-wip-from-stash
                     Добавьте верхнюю одежду — в селекции слабая представленность. Тренд: оверсайз и
                     лёгкие куртки.
                   </p>
                 </div>
                 <div className="rounded-lg border border-emerald-100 bg-emerald-50 p-3 text-xs">
                   <p className="mb-1 flex items-center gap-1 font-bold text-emerald-900">
+<<<<<<< HEAD
                     <TrendingUp className="h-3 w-3" /> Хит продаж
+=======
+                    <TrendingUp className="size-3" /> Хит продаж
+>>>>>>> recover/cabinet-wip-from-stash
                   </p>
                   <p className="text-emerald-700">
                     Свитер оверсайз и брюки карго Syntha — топ-комбо у партнёров. Рекомендуем
                     держать в стоке.
                   </p>
                 </div>
+<<<<<<< HEAD
                 <div className="rounded-lg border border-slate-100 bg-slate-50 p-3 text-xs">
                   <p className="mb-1 flex items-center gap-1 font-bold text-slate-900">
                     <CheckCircle2 className="h-3 w-3" /> Баланс цветов
                   </p>
                   <p className="text-slate-600">
+=======
+                <div className="border-border-subtle bg-bg-surface2 rounded-lg border p-3 text-xs">
+                  <p className="text-text-primary mb-1 flex items-center gap-1 font-bold">
+                    <CheckCircle2 className="size-3" /> Баланс цветов
+                  </p>
+                  <p className="text-text-secondary">
+>>>>>>> recover/cabinet-wip-from-stash
                     Чёрный и бежевый доминируют. Добавьте акценты: синий, зелёный — растут в SS26.
                   </p>
                 </div>
@@ -494,7 +614,11 @@ export default function SelectionBuilderPage() {
           <Link href={ROUTES.shop.b2bAssortmentPlanning}>Планирование ассортимента</Link>
         </Button>
         <Button variant="outline" asChild>
+<<<<<<< HEAD
           <Link href={ROUTES.shop.b2b}>B2B Hub</Link>
+=======
+          <Link href={ROUTES.shop.b2bCatalog}>B2B каталог</Link>
+>>>>>>> recover/cabinet-wip-from-stash
         </Button>
       </div>
       <RelatedModulesBlock
@@ -502,6 +626,10 @@ export default function SelectionBuilderPage() {
         title="Связанные модули"
         className="mt-6"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

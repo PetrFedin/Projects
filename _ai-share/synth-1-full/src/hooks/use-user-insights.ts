@@ -315,7 +315,7 @@ function analyzePurchasePatterns(
       priority: 'high',
       title: 'Высокий процент возвратов',
       description: `Процент возвратов ${Math.round(stats.returnRate)}%. Рекомендуем использовать размерную сетку`,
-      action: { label: 'Проверить размеры', href: '/u?tab=profile' },
+      action: { label: 'Проверить размеры', href: '/client/me?tab=profile' },
     });
   }
 
@@ -337,7 +337,7 @@ function analyzeActivityPatterns(
       priority: 'medium',
       title: 'Большой список желаний',
       description: `У вас ${wishlist.length} товаров в избранном. Возможно, пора что-то купить?`,
-      action: { label: 'Посмотреть избранное', href: '/u?tab=wardrobe' },
+      action: { label: 'Посмотреть избранное', href: '/client/me?tab=wardrobe' },
     });
   }
 
@@ -359,7 +359,7 @@ function analyzeActivityPatterns(
       priority: 'low',
       title: 'Создайте свой первый лукборд',
       description: 'Сохраняйте любимые образы и делитесь ими с сообществом',
-      action: { label: 'Создать лукборд', href: '/u?tab=looks' },
+      action: { label: 'Создать лукборд', href: '/client/me?tab=looks' },
     });
   }
 
@@ -430,7 +430,7 @@ function generateRecommendations(
       priority: 'low',
       title: 'Используйте баллы',
       description: `У вас ${activity.loyaltyPoints} баллов. Используйте их для скидки на следующий заказ`,
-      action: { label: 'Посмотреть предложения', href: '/u?tab=payments' },
+      action: { label: 'Посмотреть предложения', href: '/client/me?tab=payments' },
     });
   }
 
@@ -472,7 +472,7 @@ function generateWarningsAndOpportunities(
         title: 'Почти следующий уровень',
         description: `Осталось ${pointsToNext} баллов до следующего уровня лояльности`,
         value: `${pointsToNext} баллов`,
-        action: { label: 'Посмотреть преимущества', href: '/u?tab=payments' },
+        action: { label: 'Посмотреть преимущества', href: '/client/me?tab=payments' },
       });
     }
   }

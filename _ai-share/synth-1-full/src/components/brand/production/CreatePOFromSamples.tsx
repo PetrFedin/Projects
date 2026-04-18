@@ -38,6 +38,7 @@ export function CreatePOFromSamples({
   }, [approvedSamples.length, materialsOk]);
 
   return (
+<<<<<<< HEAD
     <Card className="overflow-hidden rounded-xl border border-indigo-100 shadow-sm">
       <CardHeader className="border-b border-slate-50 bg-indigo-50/30 p-4">
         <CardTitle className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-slate-900">
@@ -45,13 +46,26 @@ export function CreatePOFromSamples({
           PO из утверждённых сэмплов
         </CardTitle>
         <p className="mt-0.5 text-[9px] text-slate-500">
+=======
+    <Card className="border-accent-primary/20 overflow-hidden rounded-xl border shadow-sm">
+      <CardHeader className="border-border-subtle bg-accent-primary/10 border-b p-4">
+        <CardTitle className="text-text-primary flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider">
+          <Package className="text-accent-primary h-4 w-4" />
+          PO из утверждённых сэмплов
+        </CardTitle>
+        <p className="text-text-secondary mt-0.5 text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
           Один клик — создать заказ на производство
         </p>
       </CardHeader>
       <CardContent className="space-y-4 p-4">
         {approvedSamples.length > 0 ? (
           <div className="space-y-2">
+<<<<<<< HEAD
             <p className="text-[10px] font-bold text-slate-600">
+=======
+            <p className="text-text-secondary text-[10px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
               Утверждённые артикулы ({approvedSamples.length})
             </p>
             {approvedSamples.slice(0, 5).map((s) => (
@@ -65,7 +79,11 @@ export function CreatePOFromSamples({
             ))}
           </div>
         ) : (
+<<<<<<< HEAD
           <p className="text-[10px] text-slate-500">
+=======
+          <p className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
             Утвердите сэмплы во вкладке «Сэмплы» или «Утверждение»
           </p>
         )}
@@ -82,7 +100,13 @@ export function CreatePOFromSamples({
           disabled={disabled || !canCreate}
           className={cn(
             'h-10 w-full rounded-xl text-[10px] font-black uppercase',
+<<<<<<< HEAD
             canCreate ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-slate-200 text-slate-500'
+=======
+            canCreate
+              ? 'bg-accent-primary hover:bg-accent-primary'
+              : 'bg-border-subtle text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
           )}
         >
           Создать PO

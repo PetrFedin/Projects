@@ -13,6 +13,7 @@ import { ArrowLeft } from 'lucide-react';
 import { AcademySegmentSwitcher } from '@/components/brand/AcademySegmentSwitcher';
 import { getKnowledgeArticle } from '@/lib/academy/brand-academy-data';
 import { KNOWLEDGE_CATEGORY_LABELS } from '@/lib/academy/brand-academy-data';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 export default function KnowledgeArticlePage() {
   const params = useParams();
@@ -22,6 +23,7 @@ export default function KnowledgeArticlePage() {
 
   if (!article) {
     return (
+<<<<<<< HEAD
       <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
         <div className="mb-6 flex items-center gap-3">
           <Button variant="ghost" size="icon" onClick={() => router.back()}>
@@ -29,14 +31,33 @@ export default function KnowledgeArticlePage() {
           </Button>
           <p className="text-slate-500">Статья не найдена</p>
         </div>
+=======
+      <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+        <RegistryPageHeader
+          title="Статья не найдена"
+          leadPlain="Записи с таким идентификатором нет в демо-данных."
+          eyebrow={
+            <Button
+              variant="ghost"
+              size="icon"
+              className="-ml-2 shrink-0"
+              onClick={() => router.back()}
+              aria-label="Назад"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          }
+        />
+>>>>>>> recover/cabinet-wip-from-stash
         <Button variant="outline" asChild>
           <Link href={ROUTES.brand.academy}>Вернуться в академию</Link>
         </Button>
-      </div>
+      </RegistryPageShell>
     );
   }
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex items-center gap-3">
@@ -57,6 +78,24 @@ export default function KnowledgeArticlePage() {
 
       <WidgetCard title="База знаний" description="Статьи для партнёров и клиентов.">
         <Card className="rounded-xl border border-slate-100">
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title={article.title}
+        leadPlain={`База знаний · ${KNOWLEDGE_CATEGORY_LABELS[article.category] ?? article.category}`}
+        eyebrow={
+          <Button variant="ghost" size="icon" className="-ml-2 shrink-0" asChild>
+            <Link href={ROUTES.brand.academy} aria-label="Назад в академию">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+        actions={<AcademySegmentSwitcher active="brand" />}
+      />
+
+      <WidgetCard title="База знаний" description="Статьи для партнёров и клиентов.">
+        <Card className="border-border-subtle rounded-xl border">
+>>>>>>> recover/cabinet-wip-from-stash
           <CardHeader className="pb-2">
             <div className="flex flex-wrap gap-2">
               <Badge variant="outline">
@@ -67,11 +106,19 @@ export default function KnowledgeArticlePage() {
                   {aud === 'partners' ? 'Партнёрам' : aud === 'clients' ? 'Клиентам' : 'Команде'}
                 </Badge>
               ))}
+<<<<<<< HEAD
               <span className="text-[11px] text-slate-500">Обновлено {article.updatedAt}</span>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="leading-relaxed text-slate-700">{article.excerpt}</p>
+=======
+              <span className="text-text-secondary text-[11px]">Обновлено {article.updatedAt}</span>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-text-primary leading-relaxed">{article.excerpt}</p>
+>>>>>>> recover/cabinet-wip-from-stash
             {article.tags.length > 0 && (
               <div className="flex flex-wrap gap-1 pt-2">
                 {article.tags.map((tag) => (
@@ -90,6 +137,6 @@ export default function KnowledgeArticlePage() {
       </Button>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

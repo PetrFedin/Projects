@@ -10,14 +10,23 @@ export const ProductLocalPaymentHubBlock: React.FC = () => {
   const methods = getLocalPaymentHub();
 
   return (
+<<<<<<< HEAD
     <Card className="relative overflow-hidden border-2 border-indigo-50 bg-indigo-50/10 p-4 shadow-sm">
+=======
+    <Card className="border-accent-primary/15 bg-accent-primary/10 relative overflow-hidden border-2 p-4 shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
       <div className="absolute right-0 top-0 rotate-45 p-2 opacity-5">
         <Wallet className="h-12 w-12" />
       </div>
 
       <div className="mb-4 flex items-center gap-2">
+<<<<<<< HEAD
         <CreditCard className="h-4 w-4 text-indigo-500" />
         <h4 className="text-xs font-bold uppercase tracking-tight text-indigo-700">
+=======
+        <CreditCard className="text-accent-primary h-4 w-4" />
+        <h4 className="text-accent-primary text-xs font-bold uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
           Локальные способы оплаты
         </h4>
       </div>
@@ -26,6 +35,7 @@ export const ProductLocalPaymentHubBlock: React.FC = () => {
         {methods.map((m) => (
           <div
             key={m.method}
+<<<<<<< HEAD
             className={`rounded-lg border p-2.5 transition-all ${m.isPreferred ? 'border-indigo-100 bg-white shadow-sm' : 'border-slate-100 bg-slate-50'}`}
           >
             <div className="mb-1.5 flex items-center justify-between">
@@ -39,6 +49,21 @@ export const ProductLocalPaymentHubBlock: React.FC = () => {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xs font-black uppercase text-slate-800">{m.method}</span>
+=======
+            className={`rounded-lg border p-2.5 transition-all ${m.isPreferred ? 'border-accent-primary/20 bg-white shadow-sm' : 'bg-bg-surface2 border-border-subtle'}`}
+          >
+            <div className="mb-1.5 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="bg-accent-primary/10 border-accent-primary/20 flex h-7 w-7 items-center justify-center rounded-md border shadow-sm">
+                  {m.method === 'SBP' ? (
+                    <Zap className="text-accent-primary h-4 w-4" />
+                  ) : (
+                    <Smartphone className="text-accent-primary h-4 w-4" />
+                  )}
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-text-primary text-xs font-black uppercase">{m.method}</span>
+>>>>>>> recover/cabinet-wip-from-stash
                   {m.bonusReward > 0 && (
                     <span className="text-[9px] font-black uppercase text-emerald-600">
                       +{m.bonusReward}% Cashback
@@ -47,17 +72,29 @@ export const ProductLocalPaymentHubBlock: React.FC = () => {
                 </div>
               </div>
               {m.isPreferred && (
+<<<<<<< HEAD
                 <Badge className="h-3.5 border-none bg-indigo-600 px-1.5 text-[8px] font-black uppercase">
+=======
+                <Badge className="bg-accent-primary h-3.5 border-none px-1.5 text-[8px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                   Fastest
                 </Badge>
               )}
             </div>
+<<<<<<< HEAD
             <div className="text-[10px] leading-tight text-slate-500">{m.description}</div>
+=======
+            <div className="text-text-secondary text-[10px] leading-tight">{m.description}</div>
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
         ))}
       </div>
 
+<<<<<<< HEAD
       <div className="mt-4 flex items-center justify-between border-t border-indigo-100 pt-3 text-[9px] font-black uppercase text-slate-400">
+=======
+      <div className="border-accent-primary/20 text-text-muted mt-4 flex items-center justify-between border-t pt-3 text-[9px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
         <div className="flex items-center gap-1">
           <ShieldCheck className="h-3 w-3 text-emerald-500" /> Safe SSL
         </div>

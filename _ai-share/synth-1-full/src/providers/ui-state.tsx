@@ -45,6 +45,22 @@ import {
   readUserSettings,
   USER_SETTINGS_UPDATED_EVENT,
 } from '@/lib/user-settings';
+<<<<<<< HEAD
+=======
+
+/** Минимальное состояние глобального live-плеера (эфир). */
+export type ActiveLiveStream = {
+  cover: string;
+  title: string;
+  broadcastType?: 'product_launch' | 'interview' | 'trend_review' | 'fashion_show';
+  features?: {
+    showProducts?: boolean;
+    showChat?: boolean;
+    showReactions?: boolean;
+    showStats?: boolean;
+  };
+};
+>>>>>>> recover/cabinet-wip-from-stash
 
 interface UIState {
   isCartOpen: boolean;
@@ -60,6 +76,12 @@ interface UIState {
   savedComparisons: SavedComparison[];
   manualWardrobe: Product[];
   followedBrands: string[];
+  /** Избранные бренды (отдельно от подписок) */
+  favoriteBrands: string[];
+  /** Статусы B2B-запросов на партнёрство по id бренда */
+  partnershipRequests: Record<string, 'pending' | 'accepted' | 'rejected' | 'none'>;
+  notifications: Array<{ id: string; title: string; message: string; type?: 'success' | 'info' }>;
+  removeNotification: (id: string) => void;
   user: UserProfile | null;
   isUserLoading: boolean;
   subscribedSizes: SubscribedSize[];
@@ -72,6 +94,10 @@ interface UIState {
   purchasedItems: { productId: string; size: string; color: string }[];
   playingPodcast: ImagePlaceholder | null;
   setPlayingPodcast: (podcast: ImagePlaceholder | null) => void;
+  activeLiveStream: ActiveLiveStream | null;
+  setActiveLiveStream: (stream: ActiveLiveStream | null) => void;
+  isLivePlayerMinimized: boolean;
+  setIsLivePlayerMinimized: (v: boolean) => void;
   viewRole: UserRole;
   setViewRole: (role: UserRole) => void;
   globalCategory: GlobalCategory;
@@ -94,6 +120,12 @@ interface UIState {
   togglePreOrder: () => void;
   toggleLikedVideo: (videoUrl: string) => void;
   toggleFollowBrand: (brandId: string) => void;
+  toggleFavoriteBrand: (brandId: string) => void;
+  sendPartnershipRequest: (brandId: string) => void;
+  updatePartnershipStatus: (
+    brandId: string,
+    status: 'pending' | 'accepted' | 'rejected' | 'none'
+  ) => void;
   addCartItem: (product: Product, size?: string, quantity?: number) => void;
   removeCartItem: (productId: string, size?: string, color?: string) => void;
   updateCartItemQuantity: (
@@ -173,6 +205,15 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
   const [savedComparisons, setSavedComparisons] = useState<SavedComparison[]>([]);
   const [manualWardrobe, setManualWardrobe] = useState<Product[]>([]);
   const [followedBrands, setFollowedBrands] = useState<string[]>([]);
+  const [favoriteBrands, setFavoriteBrands] = useState<string[]>([]);
+  const [partnershipRequests, setPartnershipRequests] = useState<
+    Record<string, 'pending' | 'accepted' | 'rejected' | 'none'>
+  >({});
+  const [notifications, setNotifications] = useState<
+    Array<{ id: string; title: string; message: string; type?: 'success' | 'info' }>
+  >([]);
+  const removeNotification = (id: string) =>
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
   const [subscribedSizes, setSubscribedSizes] = useState<SubscribedSize[]>([]);
   const [availableSubscriptions, setAvailableSubscriptions] = useState<AvailableSubscription[]>([]);
   const [newlyAvailableSizes, setNewlyAvailableSizes] = useState<SubscribedSize[]>([]);
@@ -188,6 +229,8 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
     { productId: '4', size: 'S', color: 'Розовый' },
   ]);
   const [playingPodcast, setPlayingPodcast] = useState<ImagePlaceholder | null>(null);
+  const [activeLiveStream, setActiveLiveStream] = useState<ActiveLiveStream | null>(null);
+  const [isLivePlayerMinimized, setIsLivePlayerMinimized] = useState(false);
   const [viewRole, setViewRole] = useState<UserRole>('client');
   const [globalCategory, setGlobalCategory] = useState<GlobalCategory>('all');
   const [isFlowMapOpen, setIsFlowMapOpen] = useState<
@@ -723,6 +766,19 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
     setFollowedBrands((prev) =>
       prev.includes(brandId) ? prev.filter((id) => id !== brandId) : [...prev, brandId]
     );
+<<<<<<< HEAD
+=======
+  const toggleFavoriteBrand = (brandId: string) =>
+    setFavoriteBrands((prev) =>
+      prev.includes(brandId) ? prev.filter((id) => id !== brandId) : [...prev, brandId]
+    );
+  const sendPartnershipRequest = (brandId: string) =>
+    setPartnershipRequests((prev) => ({ ...prev, [brandId]: 'pending' }));
+  const updatePartnershipStatus = (
+    brandId: string,
+    status: 'pending' | 'accepted' | 'rejected' | 'none'
+  ) => setPartnershipRequests((prev) => ({ ...prev, [brandId]: status }));
+>>>>>>> recover/cabinet-wip-from-stash
   const clearComparisonList = () => setComparisonList([]);
   const saveComparison = (name: string) =>
     setSavedComparisons((prev) => [
@@ -781,6 +837,13 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
       savedComparisons,
       manualWardrobe,
       followedBrands,
+<<<<<<< HEAD
+=======
+      favoriteBrands,
+      partnershipRequests,
+      notifications,
+      removeNotification,
+>>>>>>> recover/cabinet-wip-from-stash
       user: user || null,
       isUserLoading: false,
       subscribedSizes,
@@ -793,6 +856,13 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
       purchasedItems,
       playingPodcast,
       setPlayingPodcast,
+<<<<<<< HEAD
+=======
+      activeLiveStream,
+      setActiveLiveStream,
+      isLivePlayerMinimized,
+      setIsLivePlayerMinimized,
+>>>>>>> recover/cabinet-wip-from-stash
       viewRole,
       setViewRole,
       globalCategory,
@@ -844,6 +914,12 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
       addToManualWardrobe,
       removeFromManualWardrobe,
       toggleFollowBrand,
+<<<<<<< HEAD
+=======
+      toggleFavoriteBrand,
+      sendPartnershipRequest,
+      updatePartnershipStatus,
+>>>>>>> recover/cabinet-wip-from-stash
       switchOrganization,
       activeCurrency,
       setCurrency: setActiveCurrency,
@@ -885,6 +961,12 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
       savedComparisons,
       manualWardrobe,
       followedBrands,
+<<<<<<< HEAD
+=======
+      favoriteBrands,
+      partnershipRequests,
+      notifications,
+>>>>>>> recover/cabinet-wip-from-stash
       user,
       subscribedSizes,
       availableSubscriptions,
@@ -893,6 +975,11 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
       activeColorSelection,
       purchasedItems,
       playingPodcast,
+<<<<<<< HEAD
+=======
+      activeLiveStream,
+      isLivePlayerMinimized,
+>>>>>>> recover/cabinet-wip-from-stash
       viewRole,
       globalCategory,
       isFlowMapOpen,

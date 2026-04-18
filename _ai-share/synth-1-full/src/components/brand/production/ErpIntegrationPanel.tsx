@@ -132,6 +132,7 @@ export function ErpIntegrationPanel({
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-6 p-6">
+<<<<<<< HEAD
           <div className="grid grid-cols-3 gap-2 rounded-xl border border-slate-100 bg-slate-50 p-3">
             <div className="flex items-center gap-2">
               <Package className="h-4 w-4 text-indigo-600" />
@@ -143,6 +144,19 @@ export function ErpIntegrationPanel({
             </div>
             <div className="flex items-center gap-2">
               <Landmark className="h-4 w-4 text-indigo-600" />
+=======
+          <div className="bg-bg-surface2 border-border-subtle grid grid-cols-3 gap-2 rounded-xl border p-3">
+            <div className="flex items-center gap-2">
+              <Package className="text-accent-primary h-4 w-4" />
+              <span className="text-[9px] font-bold uppercase">Заказы (PO)</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <FileSpreadsheet className="text-accent-primary h-4 w-4" />
+              <span className="text-[9px] font-bold uppercase">Остатки</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Landmark className="text-accent-primary h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
               <span className="text-[9px] font-bold uppercase">Финансы</span>
             </div>
           </div>
@@ -150,7 +164,11 @@ export function ErpIntegrationPanel({
           {connections.map((conn) => (
             <Card
               key={conn.type}
+<<<<<<< HEAD
               className="overflow-hidden rounded-xl border border-slate-100 shadow-sm"
+=======
+              className="border-border-subtle overflow-hidden rounded-xl border shadow-sm"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <CardHeader className="p-4 pb-2">
                 <div className="flex items-start justify-between">
@@ -167,7 +185,11 @@ export function ErpIntegrationPanel({
                       'text-[8px] font-black uppercase',
                       conn.connected
                         ? 'bg-emerald-100 text-emerald-600'
+<<<<<<< HEAD
                         : 'bg-slate-100 text-slate-500'
+=======
+                        : 'bg-bg-surface2 text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     {conn.connected ? 'Подключено' : 'Не подключено'}
@@ -176,7 +198,11 @@ export function ErpIntegrationPanel({
               </CardHeader>
               <CardContent className="space-y-2 p-4 pt-0">
                 {conn.connected && conn.lastSync && (
+<<<<<<< HEAD
                   <p className="text-[9px] font-bold uppercase text-slate-500">
+=======
+                  <p className="text-text-secondary text-[9px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     Последняя синхронизация: {conn.lastSync}
                   </p>
                 )}

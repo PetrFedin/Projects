@@ -20,9 +20,13 @@ export default function RecentlyViewed() {
     // Get recently viewed from localStorage
     const viewed = localStorage.getItem(`syntha_recently_viewed_${user.uid}`);
     if (viewed) {
-      const productIds = JSON.parse(viewed);
+      const productIds = JSON.parse(viewed) as string[];
       const products = productIds
+<<<<<<< HEAD
         .map((id: string) => allProducts.find((p) => p.id === id))
+=======
+        .map((id) => allProducts.find((p) => p.id === id))
+>>>>>>> recover/cabinet-wip-from-stash
         .filter((p): p is Product => p !== undefined && p.price !== undefined)
         .slice(0, 8);
       setViewedProducts(products);

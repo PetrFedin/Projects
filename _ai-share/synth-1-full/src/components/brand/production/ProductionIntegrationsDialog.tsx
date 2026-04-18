@@ -10,6 +10,8 @@ import { getErpProviderLabel } from '@/lib/production/erp-integration';
 import { DEFAULT_TRIGGERS } from '@/lib/notifications/triggers';
 import { Database, PenTool, Landmark, Bell, Upload, RefreshCw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
 const PLM_PROVIDERS = ['gerber', 'clo3d', 'lectra'] as const;
 const ERP_PROVIDERS = ['1c', 'moysklad', 'sap'] as const;
@@ -77,13 +79,42 @@ export function ProductionIntegrationsDialog({
           </DialogTitle>
         </DialogHeader>
         <Tabs defaultValue="plm">
-          <TabsList>
-            <TabsTrigger value="plm">PLM</TabsTrigger>
-            <TabsTrigger value="erp">ERP / 1С</TabsTrigger>
-            <TabsTrigger value="notifications">Уведомления</TabsTrigger>
+          {/* cabinetSurface v1 */}
+          <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
+            <TabsTrigger
+              value="plm"
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'text-xs font-semibold normal-case tracking-normal'
+              )}
+            >
+              PLM
+            </TabsTrigger>
+            <TabsTrigger
+              value="erp"
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'text-xs font-semibold normal-case tracking-normal'
+              )}
+            >
+              ERP / 1С
+            </TabsTrigger>
+            <TabsTrigger
+              value="notifications"
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'text-xs font-semibold normal-case tracking-normal'
+              )}
+            >
+              Уведомления
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="plm" className="space-y-4 pt-4">
+<<<<<<< HEAD
             <p className="text-[10px] font-bold uppercase text-slate-500">
+=======
+            <p className="text-text-secondary text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
               Gerber, CLO3D, Lectra — импорт BOM, градаций
             </p>
             <div className="flex flex-wrap gap-2">
@@ -103,7 +134,11 @@ export function ProductionIntegrationsDialog({
             </Button>
           </TabsContent>
           <TabsContent value="erp" className="space-y-4 pt-4">
+<<<<<<< HEAD
             <p className="text-[10px] font-bold uppercase text-slate-500">
+=======
+            <p className="text-text-secondary text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
               1С, МойСклад, SAP — заказы, остатки, финансы
             </p>
             <div className="flex flex-wrap gap-2">
@@ -123,7 +158,11 @@ export function ProductionIntegrationsDialog({
             </Button>
           </TabsContent>
           <TabsContent value="notifications" className="space-y-4 pt-4">
+<<<<<<< HEAD
             <p className="text-[10px] font-bold uppercase text-slate-500">
+=======
+            <p className="text-text-secondary text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
               Email и Push — триггеры
             </p>
             <div className="space-y-3">
@@ -131,7 +170,7 @@ export function ProductionIntegrationsDialog({
                 <div key={t.id} className="flex items-center justify-between rounded-lg border p-3">
                   <div>
                     <p className="text-sm font-bold">{t.label}</p>
-                    <p className="text-[10px] text-slate-500">{t.description}</p>
+                    <p className="text-text-secondary text-[10px]">{t.description}</p>
                   </div>
                   <div className="flex gap-4">
                     <label className="flex cursor-pointer items-center gap-2 text-[10px]">

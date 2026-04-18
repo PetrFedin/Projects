@@ -1,7 +1,7 @@
 import type { DemandHeatmapV1 } from './types';
 
 /** Карта спроса по регионам РФ (Regional Demand Distribution). */
-export function getRegionalDemandHeatmap(): DemandHeatmapV1[] {
+export function listRegionalDemandHeatmaps(): DemandHeatmapV1[] {
   return [
     {
       region: 'Central (Moscow)',

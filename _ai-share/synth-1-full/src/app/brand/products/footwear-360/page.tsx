@@ -8,6 +8,7 @@ import { SectionInfoCard } from '@/components/brand/production/ProductionSection
 import { DEMO_FOOTWEAR_BUNDLE, DEMO_PAIRING_PRESETS } from '@/lib/footwear-viewer/demo-bundle';
 import { ROUTES } from '@/lib/routes';
 import { Footprints } from 'lucide-react';
+import { RegistryPageShell } from '@/components/design-system';
 
 /**
  * Обувь: 360° ракурсы (в т.ч. подошва / верх / сбоку), опция GLB после 3D-скана,
@@ -15,7 +16,11 @@ import { Footprints } from 'lucide-react';
  */
 export default function BrandFootwear360Page() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
+=======
+    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+>>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Обувь: 360° и контексты носки"
         description="Многоракурсные кадры и круговой просмотр, заготовка под GLB из 3D-скана. Блок «с чем носить» — тип низа, материал и цвет для витрины и B2B."
@@ -40,6 +45,10 @@ export default function BrandFootwear360Page() {
         bundle={DEMO_FOOTWEAR_BUNDLE}
         pairingPresets={DEMO_PAIRING_PRESETS}
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

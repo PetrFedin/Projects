@@ -185,7 +185,11 @@ export function ProcessGraphView({ stages, runtimes, onStageClick }: ProcessGrap
                 x={NODE_WIDTH / 2}
                 y={24}
                 textAnchor="middle"
+<<<<<<< HEAD
                 className="pointer-events-none fill-slate-800 text-xs font-medium"
+=======
+                className="fill-text-primary pointer-events-none text-xs font-medium"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 {stage.title.length > 18 ? stage.title.slice(0, 17) + '…' : stage.title}
               </text>
@@ -196,8 +200,8 @@ export function ProcessGraphView({ stages, runtimes, onStageClick }: ProcessGrap
                 className={cn(
                   'pointer-events-none text-[10px]',
                   status === 'done' && 'fill-emerald-600',
-                  status === 'in_progress' && 'fill-indigo-600',
-                  status === 'not_started' && 'fill-slate-400'
+                  status === 'in_progress' && 'fill-accent-primary',
+                  status === 'not_started' && 'fill-text-muted'
                 )}
               >
                 {status === 'done' ? 'Готово' : status === 'in_progress' ? 'В работе' : 'Не начато'}

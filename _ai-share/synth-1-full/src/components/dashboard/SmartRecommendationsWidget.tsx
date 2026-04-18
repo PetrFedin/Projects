@@ -55,17 +55,30 @@ export function SmartRecommendationsWidget() {
   ];
 
   return (
+<<<<<<< HEAD
     <Card className="rounded-xl border-2 border-purple-100 shadow-xl">
       <CardHeader className="border-b border-slate-100 bg-gradient-to-r from-purple-50 to-pink-50">
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600">
+=======
+    <Card className="border-accent-primary/20 rounded-xl border-2 shadow-xl">
+      <CardHeader className="border-border-subtle from-accent-primary/10 to-accent-primary/10 border-b bg-gradient-to-r">
+        <div className="flex items-center gap-3">
+          <div className="bg-accent-primary flex h-12 w-12 items-center justify-center rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
             <Sparkles className="h-6 w-6 text-white" />
           </div>
           <div>
-            <CardTitle className="text-sm font-black uppercase tracking-tight text-slate-900">
+            <CardTitle className="text-text-primary text-sm font-black uppercase tracking-tight">
               AI Recommendations
             </CardTitle>
+<<<<<<< HEAD
             <p className="text-[10px] font-medium text-slate-500">Personalized for your store</p>
+=======
+            <p className="text-text-secondary text-[10px] font-medium">
+              Personalized for your store
+            </p>
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
         </div>
       </CardHeader>
@@ -77,8 +90,13 @@ export function SmartRecommendationsWidget() {
             className={cn(
               'cursor-pointer rounded-xl border-2 p-4 transition-all hover:shadow-lg',
               rec.urgency === 'high'
+<<<<<<< HEAD
                 ? 'border-purple-200 bg-purple-50'
                 : 'border-slate-200 bg-slate-50'
+=======
+                ? 'bg-accent-primary/10 border-accent-primary/25'
+                : 'bg-bg-surface2 border-border-default'
+>>>>>>> recover/cabinet-wip-from-stash
             )}
           >
             <div className="mb-3 flex items-start gap-3">
@@ -91,6 +109,7 @@ export function SmartRecommendationsWidget() {
               <div className="min-w-0 flex-1">
                 <div className="mb-2 flex items-start justify-between gap-2">
                   <div>
+<<<<<<< HEAD
                     <h4 className="text-sm font-black uppercase leading-tight text-slate-900">
                       {rec.name}
                     </h4>
@@ -102,11 +121,28 @@ export function SmartRecommendationsWidget() {
                       {rec.confidence}%
                     </p>
                     <p className="text-[8px] font-bold uppercase text-slate-500">Match</p>
+=======
+                    <h4 className="text-text-primary text-sm font-black uppercase leading-tight">
+                      {rec.name}
+                    </h4>
+                    <p className="text-text-secondary mt-1 text-[10px]">by {rec.brand}</p>
+                  </div>
+
+                  <div className="flex-shrink-0 text-right">
+                    <p className="text-accent-primary text-sm font-black tabular-nums">
+                      {rec.confidence}%
+                    </p>
+                    <p className="text-text-secondary text-[8px] font-bold uppercase">Match</p>
+>>>>>>> recover/cabinet-wip-from-stash
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2">
+<<<<<<< HEAD
                   <Badge className="border-none bg-purple-100 text-[7px] font-black uppercase text-purple-700">
+=======
+                  <Badge className="bg-accent-primary/15 text-accent-primary border-none text-[7px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                     <TrendingUp className="mr-1 h-3 w-3" />
                     {rec.urgency} priority
                   </Badge>
@@ -121,14 +157,23 @@ export function SmartRecommendationsWidget() {
 
             {/* AI Reasons */}
             <div className="mb-3 space-y-1">
+<<<<<<< HEAD
               <p className="flex items-center gap-1 text-[9px] font-black uppercase text-slate-400">
+=======
+              <p className="text-text-muted flex items-center gap-1 text-[9px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 <Sparkles className="h-3 w-3" />
                 Why We Recommend:
               </p>
               <ul className="space-y-1">
                 {rec.reasons.map((reason, i) => (
+<<<<<<< HEAD
                   <li key={i} className="flex items-start gap-2 text-[10px] text-slate-700">
                     <span className="flex-shrink-0 text-purple-600">•</span>
+=======
+                  <li key={i} className="text-text-primary flex items-start gap-2 text-[10px]">
+                    <span className="text-accent-primary flex-shrink-0">•</span>
+>>>>>>> recover/cabinet-wip-from-stash
                     <span>{reason}</span>
                   </li>
                 ))}
@@ -138,7 +183,11 @@ export function SmartRecommendationsWidget() {
             <div className="flex gap-2">
               <Button
                 size="sm"
+<<<<<<< HEAD
                 className="h-9 flex-1 bg-purple-600 text-[8px] font-black uppercase hover:bg-purple-700"
+=======
+                className="bg-accent-primary hover:bg-accent-primary h-9 flex-1 text-[8px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <ShoppingCart className="mr-2 h-3 w-3" />
                 Add to Cart
@@ -155,8 +204,13 @@ export function SmartRecommendationsWidget() {
           </div>
         ))}
 
+<<<<<<< HEAD
         <div className="rounded-lg border-2 border-purple-100 bg-gradient-to-r from-purple-50 to-pink-50 p-3 text-center">
           <p className="text-[10px] font-medium text-purple-900">
+=======
+        <div className="from-accent-primary/10 to-accent-primary/10 border-accent-primary/20 rounded-lg border-2 bg-gradient-to-r p-3 text-center">
+          <p className="text-text-primary text-[10px] font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
             🤖 <strong>AI analyzed</strong> 12,450 B2B orders to find these matches
           </p>
         </div>

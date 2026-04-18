@@ -22,6 +22,17 @@ import {
   MessageSquare,
   Star,
   Calculator,
+<<<<<<< HEAD
+=======
+  FileSearch,
+  LayoutGrid,
+  Edit,
+  Sparkles,
+  Zap,
+  Camera,
+  Store,
+  Ruler,
+>>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 
@@ -33,12 +44,26 @@ export const distributorNavGroups = [
     icon: LayoutDashboard,
     links: [
       {
+<<<<<<< HEAD
         href: '/distributor',
+=======
+        href: ROUTES.distributor.home,
+>>>>>>> recover/cabinet-wip-from-stash
         value: 'dashboard',
         label: 'Дашборд',
         icon: LayoutDashboard,
         description: 'Обзор оптовых продаж',
       },
+<<<<<<< HEAD
+=======
+      {
+        href: ROUTES.shop.b2bWorkspaceMap,
+        value: 'b2b-workspace-map',
+        label: 'Карта процессов B2B',
+        icon: Map,
+        description: 'Сквозная схема модулей закупок и связей ролей (ритейл)',
+      },
+>>>>>>> recover/cabinet-wip-from-stash
     ],
   },
   {
@@ -148,6 +173,219 @@ export const distributorNavGroups = [
         icon: FileText,
         description: 'Лайншиты, прайсы',
       },
+<<<<<<< HEAD
+=======
+      {
+        href: ROUTES.shop.b2bRating,
+        value: 'rating',
+        label: 'Рейтинг брендов',
+        icon: Star,
+        description: 'Оценки партнёров',
+      },
+    ],
+  },
+  {
+    id: 'b2b-order-modes',
+    label: 'Матрица и сценарии заказа',
+    icon: LayoutGrid,
+    links: [
+      {
+        href: ROUTES.shop.b2bMatrix,
+        value: 'matrix',
+        label: 'Матрица заказов',
+        icon: Edit,
+        description: 'Матрица JOOR/NuOrder',
+      },
+      {
+        href: ROUTES.shop.b2bWhiteboard,
+        value: 'whiteboard',
+        label: 'Визуальная доска',
+        icon: LayoutGrid,
+        description: 'Планирование ассортимента',
+      },
+      {
+        href: ROUTES.shop.b2bCollaborativeOrder,
+        value: 'collaborative',
+        label: 'Коллективный заказ',
+        icon: Users,
+        description: 'Совместное редактирование',
+      },
+      {
+        href: ROUTES.shop.b2bOrderByCollection,
+        value: 'order-by-collection',
+        label: 'Заказ по коллекции',
+        icon: Package,
+        description: 'По коллекции / лукбуку',
+      },
+      {
+        href: ROUTES.shop.b2bWorkingOrder,
+        value: 'working-order',
+        label: 'Working Order',
+        icon: FileText,
+        description: 'Импорт/экспорт Excel',
+      },
+      {
+        href: ROUTES.shop.b2bQuoteToOrder,
+        value: 'quote-to-order',
+        label: 'Quote-to-Order',
+        icon: FileText,
+        description: 'От КП к заказу',
+      },
+      {
+        href: ROUTES.shop.b2bGridOrdering,
+        value: 'grid-ordering',
+        label: 'Grid Ordering',
+        icon: LayoutGrid,
+        description: 'Табличный ввод',
+      },
+      {
+        href: ROUTES.shop.b2bLandedCost,
+        value: 'landed-cost',
+        label: 'Себестоимость',
+        icon: Calculator,
+        description: 'Пошлины и логистика',
+      },
+      {
+        href: ROUTES.shop.b2bMarginReport,
+        value: 'margin-report',
+        label: 'Маржа по брендам',
+        icon: DollarSign,
+        description: 'Маржинальность',
+      },
+      {
+        href: ROUTES.shop.b2bSizeMapping,
+        value: 'size-mapping',
+        label: 'Маппинг размеров',
+        icon: Ruler,
+        description: 'Размер бренда → ритейл',
+      },
+      {
+        href: ROUTES.shop.b2bAssortmentPlanning,
+        value: 'assortment-planning',
+        label: 'Планирование ассортимента',
+        icon: LayoutGrid,
+        description: 'План до заказа',
+      },
+      {
+        href: ROUTES.shop.b2bSelectionBuilder,
+        value: 'selection-builder',
+        label: 'Формирование селекции',
+        icon: Package,
+        description: 'Селекция и AI',
+      },
+      {
+        href: ROUTES.shop.b2bEzOrder,
+        value: 'ez-order',
+        label: 'EZ Order',
+        icon: Zap,
+        description: 'One-Click',
+      },
+      {
+        href: ROUTES.shop.b2bCustomAssortments,
+        value: 'custom-assortments',
+        label: 'Custom Assortments',
+        icon: Package,
+        description: 'Персональный ассортимент',
+      },
+      {
+        href: ROUTES.shop.b2bOrderTemplates,
+        value: 'order-templates',
+        label: 'Шаблоны заказов',
+        icon: FileText,
+        description: 'Сохранённые наборы',
+      },
+    ],
+  },
+  {
+    id: 'b2b-ai-channels',
+    label: 'AI, сервис и каналы',
+    icon: Sparkles,
+    links: [
+      {
+        href: ROUTES.shop.b2bAiSearch,
+        value: 'ai-search',
+        label: 'AI-поиск',
+        icon: Sparkles,
+        description: 'Рекомендации и допродажи',
+      },
+      {
+        href: ROUTES.shop.b2bAiSmartOrder,
+        value: 'ai-smart-order',
+        label: 'AI SmartOrder',
+        icon: Zap,
+        description: 'Черновик из PDF/PO',
+      },
+      {
+        href: ROUTES.shop.b2bVideoConsultation,
+        value: 'video-consultation',
+        label: 'Видео-консультация',
+        icon: MessageSquare,
+        description: 'Слоты со стилистом',
+      },
+      {
+        href: ROUTES.shop.b2bVipRoomBooking,
+        value: 'vip-room-booking',
+        label: 'VIP Шоурум',
+        icon: Calendar,
+        description: 'Приватный шоурум',
+      },
+      {
+        href: ROUTES.shop.b2bSocialFeed,
+        value: 'social-feed',
+        label: 'Лента брендов',
+        icon: MessageSquare,
+        description: 'Новости коллекций',
+      },
+      {
+        href: ROUTES.shop.b2bGamification,
+        value: 'gamification',
+        label: 'Челленджи и бейджи',
+        icon: Star,
+        description: 'Лояльность байеров',
+      },
+      {
+        href: ROUTES.shop.b2bPartnerOnboarding,
+        value: 'partner-onboarding',
+        label: 'Онбординг партнёра',
+        icon: UserPlus,
+        description: 'Подключение к бренду',
+      },
+      {
+        href: ROUTES.storeLocator,
+        value: 'store-locator',
+        label: 'Карта магазинов',
+        icon: Map,
+        description: 'Наличие в точках',
+      },
+      {
+        href: ROUTES.shop.b2bScanner,
+        value: 'scanner',
+        label: 'Sales App / Сканер',
+        icon: Camera,
+        description: 'Приём заказов в поле',
+      },
+      {
+        href: ROUTES.shop.b2bDealerCabinet,
+        value: 'dealer-cabinet',
+        label: 'Кабинет дилера',
+        icon: LayoutDashboard,
+        description: 'Документы дилера',
+      },
+      {
+        href: ROUTES.shop.b2bShopifySync,
+        value: 'shopify-sync',
+        label: 'Синхронизация Shopify / 1С',
+        icon: Package,
+        description: 'Каталог и заказы',
+      },
+      {
+        href: ROUTES.shop.b2bSalesRepPortal,
+        value: 'sales-rep-portal',
+        label: 'Sales Rep Portal',
+        icon: Users,
+        description: 'Портал репрезентанта',
+      },
+>>>>>>> recover/cabinet-wip-from-stash
     ],
   },
   {
@@ -198,6 +436,37 @@ export const distributorNavGroups = [
         description: 'Отслеживание грузов',
       },
       {
+<<<<<<< HEAD
+=======
+        href: ROUTES.shop.b2bFulfillmentDashboard,
+        value: 'fulfillment',
+        label: 'Fulfillment',
+        icon: Package,
+        description: 'SLA и риски по отгрузкам (ритейл)',
+      },
+      {
+        href: ROUTES.shop.b2bRfq,
+        value: 'rfq',
+        label: 'RFQ',
+        icon: FileSearch,
+        description: 'Запросы котировок у поставщиков',
+      },
+      {
+        href: ROUTES.shop.b2bTenders,
+        value: 'tenders',
+        label: 'Тендеры B2B',
+        icon: Gavel,
+        description: 'Конкурентные закупки',
+      },
+      {
+        href: ROUTES.shop.b2bSupplierDiscovery,
+        value: 'supplier-discovery',
+        label: 'Поиск поставщиков',
+        icon: Search,
+        description: 'Каталог и матчинг',
+      },
+      {
+>>>>>>> recover/cabinet-wip-from-stash
         href: ROUTES.shop.b2bReplenishment,
         value: 'replenishment',
         label: 'Автопополнение',

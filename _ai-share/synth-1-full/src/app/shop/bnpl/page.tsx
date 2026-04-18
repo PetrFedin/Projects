@@ -9,6 +9,8 @@ import { CreditCard, ArrowLeft } from 'lucide-react';
 import { getBnplLinks } from '@/lib/data/entity-links';
 import { listBnplTransactions } from '@/lib/api';
 import type { BnplTransaction } from '@/lib/shop/bnpl-gateway';
+import { RegistryPageShell } from '@/components/design-system';
+import { ROUTES } from '@/lib/routes';
 
 const statusLabels: Record<BnplTransaction['status'], string> = {
   pending: 'Ожидает',
@@ -32,16 +34,26 @@ export default function ShopBnplPage() {
   }, []);
 
   return (
+<<<<<<< HEAD
     <div className="container max-w-4xl space-y-6 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Link href="/shop/orders">
+=======
+    <RegistryPageShell className="max-w-4xl space-y-6">
+      <div className="flex items-center gap-3">
+        <Link href={ROUTES.shop.orders}>
+>>>>>>> recover/cabinet-wip-from-stash
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">POS BNPL Gateway</h1>
+<<<<<<< HEAD
           <p className="text-sm text-slate-500">
+=======
+          <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Оформление рассрочки на кассе. РФ: Тинькофф, Сбер и др. Связь с финансами, заказами и
             Compliance.
           </p>
@@ -60,13 +72,21 @@ export default function ShopBnplPage() {
           {transactions.map((tx) => (
             <div
               key={tx.id}
+<<<<<<< HEAD
               className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
+=======
+              className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <div>
                 <p className="text-sm font-medium">
                   {tx.orderId} · {providerLabels[tx.provider]}
                 </p>
+<<<<<<< HEAD
                 <p className="text-xs text-slate-500">{tx.amountRub.toLocaleString('ru')} ₽</p>
+=======
+                <p className="text-text-secondary text-xs">{tx.amountRub.toLocaleString('ru')} ₽</p>
+>>>>>>> recover/cabinet-wip-from-stash
               </div>
               <Badge
                 variant={tx.status === 'approved' ? 'default' : 'outline'}
@@ -76,7 +96,11 @@ export default function ShopBnplPage() {
               </Badge>
             </div>
           ))}
+<<<<<<< HEAD
           <p className="mt-3 text-xs text-slate-400">
+=======
+          <p className="text-text-muted mt-3 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
             API: BNPL_GATEWAY_API — офферы, заявка, статус. Compliance: 54-ФЗ, согласия.
           </p>
         </CardContent>
@@ -99,6 +123,6 @@ export default function ShopBnplPage() {
           </ul>
         </CardContent>
       </Card>
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -21,8 +21,9 @@ import {
 } from '@/components/ui/select';
 import { ChevronRight, ChevronLeft, Package, FileText, Layers, CheckCircle2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
-const SKU_STAGES = ['Design', 'TZ', 'BOM', 'Sample', 'Approval', 'PO'] as const;
+const SKU_STAGES = ['Дизайн', 'ТЗ', 'BOM', 'Образец', 'Согласование', 'PO'] as const;
 
 export interface SkuCreateWizardProps {
   open: boolean;
@@ -41,7 +42,7 @@ export interface SkuCreateWizardProps {
 }
 
 const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
-const DEFAULT_COLORS = ['Black', 'White', 'Navy', 'Beige'];
+const DEFAULT_COLORS = ['Чёрный', 'Белый', 'Тёмно-синий', 'Бежевый'];
 
 export function SkuCreateWizard({
   open,
@@ -59,7 +60,7 @@ export function SkuCreateWizard({
     { material: 'Молния', qty: 1, unit: 'шт' },
   ]);
   const [sizes, setSizes] = useState<string[]>(['S', 'M', 'L']);
-  const [colors, setColors] = useState<string[]>(['Black', 'White']);
+  const [colors, setColors] = useState<string[]>(['Чёрный', 'Белый']);
   const [matrix, setMatrix] = useState<Record<string, number>>({});
 
   const toggleSize = (s: string) =>
@@ -71,9 +72,9 @@ export function SkuCreateWizard({
     const id = `TP-${Math.floor(Math.random() * 9000) + 1000}`;
     onCreated({
       id,
-      name: name || 'New SKU',
+      name: name || 'Новый SKU',
       collection: collectionId,
-      stage: 'Design',
+      stage: 'Дизайн',
       sizes,
       colors,
       bomItems,
@@ -87,22 +88,32 @@ export function SkuCreateWizard({
       { material: 'Молния', qty: 1, unit: 'шт' },
     ]);
     setSizes(['S', 'M', 'L']);
-    setColors(['Black', 'White']);
+    setColors(['Чёрный', 'Белый']);
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="flex max-h-[90vh] flex-col overflow-hidden rounded-2xl p-0 sm:max-w-[560px]">
+<<<<<<< HEAD
         <DialogHeader className="shrink-0 bg-slate-900 p-6 text-white">
           <div className="flex items-center gap-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-600">
+=======
+        <DialogHeader className="bg-text-primary shrink-0 p-6 text-white">
+          <div className="flex items-center gap-4">
+            <div className="bg-accent-primary flex h-12 w-12 items-center justify-center rounded-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
               <Package className="h-6 w-6 text-white" />
             </div>
             <div>
               <DialogTitle className="text-xl font-black uppercase tracking-tighter">
                 Новый артикул
               </DialogTitle>
+<<<<<<< HEAD
               <DialogDescription className="mt-1 text-[10px] font-bold uppercase text-slate-400">
+=======
+              <DialogDescription className="text-text-muted mt-1 text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 {collectionName || collectionId} · Шаг {step} из 4
               </DialogDescription>
             </div>
@@ -113,18 +124,28 @@ export function SkuCreateWizard({
           {step === 1 && (
             <div className="space-y-4">
               <div className="space-y-2">
+<<<<<<< HEAD
                 <Label className="text-[10px] font-black uppercase text-slate-400">
                   Название артикула *
                 </Label>
                 <Input
                   placeholder="Платье Midnight, Топ White Silk..."
+=======
+                <Label className="text-text-muted text-[10px] font-black uppercase">
+                  Название артикула *
+                </Label>
+                <Input
+                  placeholder="Платье «Полночь», топ «Белый шёлк»..."
+>>>>>>> recover/cabinet-wip-from-stash
                   className="h-11 rounded-xl"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[10px] font-black uppercase text-slate-400">Категория</Label>
+                <Label className="text-text-muted text-[10px] font-black uppercase">
+                  Категория
+                </Label>
                 <Select value={category} onValueChange={setCategory}>
                   <SelectTrigger className="h-11 rounded-xl">
                     <SelectValue placeholder="Выбрать" />
@@ -137,15 +158,26 @@ export function SkuCreateWizard({
                   </SelectContent>
                 </Select>
               </div>
+<<<<<<< HEAD
               <div className="rounded-xl border border-slate-100 bg-slate-50 p-3">
                 <p className="text-[9px] font-bold uppercase text-slate-500">Этапы артикула</p>
+=======
+              <div className="bg-bg-surface2 border-border-subtle rounded-xl border p-3">
+                <p className="text-text-secondary text-[9px] font-bold uppercase">Этапы артикула</p>
+>>>>>>> recover/cabinet-wip-from-stash
                 <div className="mt-2 flex flex-wrap gap-2">
                   {SKU_STAGES.map((s, i) => (
                     <span
                       key={s}
                       className={cn(
                         'rounded-lg px-2 py-1 text-[9px] font-bold',
+<<<<<<< HEAD
                         i === 0 ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-100 text-slate-500'
+=======
+                        i === 0
+                          ? 'bg-accent-primary/15 text-accent-primary'
+                          : 'bg-bg-surface2 text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {s}
@@ -158,8 +190,14 @@ export function SkuCreateWizard({
 
           {step === 2 && (
             <div className="space-y-4">
+<<<<<<< HEAD
               <p className="flex items-center gap-2 text-[10px] font-bold text-slate-500">
                 <FileText className="h-4 w-4" /> BOM / Техпак — материалы
+=======
+              <p className="text-text-secondary flex items-center gap-2 text-[10px] font-bold">
+                <FileText className="h-4 w-4" /> <AcronymWithTooltip abbr="BOM" /> / техпак —
+                материалы
+>>>>>>> recover/cabinet-wip-from-stash
               </p>
               <div className="space-y-3">
                 {bomItems.map((item, i) => (
@@ -219,11 +257,19 @@ export function SkuCreateWizard({
 
           {step === 3 && (
             <div className="space-y-4">
+<<<<<<< HEAD
               <p className="flex items-center gap-2 text-[10px] font-bold text-slate-500">
                 <Layers className="h-4 w-4" /> Варианты: размеры и цвета
               </p>
               <div>
                 <Label className="text-[9px] font-black uppercase text-slate-400">Размеры</Label>
+=======
+              <p className="text-text-secondary flex items-center gap-2 text-[10px] font-bold">
+                <Layers className="h-4 w-4" /> Варианты: размеры и цвета
+              </p>
+              <div>
+                <Label className="text-text-muted text-[9px] font-black uppercase">Размеры</Label>
+>>>>>>> recover/cabinet-wip-from-stash
                 <div className="mt-2 flex flex-wrap gap-2">
                   {SIZES.map((s) => (
                     <button
@@ -233,8 +279,13 @@ export function SkuCreateWizard({
                       className={cn(
                         'rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase transition-all',
                         sizes.includes(s)
+<<<<<<< HEAD
                           ? 'bg-indigo-600 text-white'
                           : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+=======
+                          ? 'bg-accent-primary text-white'
+                          : 'bg-bg-surface2 text-text-secondary hover:bg-bg-surface2'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {s}
@@ -243,7 +294,11 @@ export function SkuCreateWizard({
                 </div>
               </div>
               <div>
+<<<<<<< HEAD
                 <Label className="text-[9px] font-black uppercase text-slate-400">Цвета</Label>
+=======
+                <Label className="text-text-muted text-[9px] font-black uppercase">Цвета</Label>
+>>>>>>> recover/cabinet-wip-from-stash
                 <div className="mt-2 flex flex-wrap gap-2">
                   {DEFAULT_COLORS.map((c) => (
                     <button
@@ -253,8 +308,13 @@ export function SkuCreateWizard({
                       className={cn(
                         'rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase transition-all',
                         colors.includes(c)
+<<<<<<< HEAD
                           ? 'bg-indigo-600 text-white'
                           : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+=======
+                          ? 'bg-accent-primary text-white'
+                          : 'bg-bg-surface2 text-text-secondary hover:bg-bg-surface2'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {c}
@@ -275,11 +335,21 @@ export function SkuCreateWizard({
                   />
                 </div>
               </div>
+<<<<<<< HEAD
               <div className="rounded-xl bg-slate-50 p-3">
                 <p className="text-[9px] font-bold text-slate-500">
                   Матрица: {sizes.length} размеров × {colors.length} цветов
                 </p>
                 <p className="mt-1 text-[9px] text-slate-400">Заполняется при создании PO</p>
+=======
+              <div className="bg-bg-surface2 rounded-xl p-3">
+                <p className="text-text-secondary text-[9px] font-bold">
+                  Матрица: {sizes.length} размеров × {colors.length} цветов
+                </p>
+                <p className="text-text-muted mt-1 text-[9px]">
+                  Заполняется при создании <AcronymWithTooltip abbr="PO" />
+                </p>
+>>>>>>> recover/cabinet-wip-from-stash
               </div>
             </div>
           )}
@@ -291,13 +361,21 @@ export function SkuCreateWizard({
                   <CheckCircle2 className="h-5 w-5" />
                   <span className="text-sm font-bold">Готово к созданию</span>
                 </div>
+<<<<<<< HEAD
                 <p className="mt-2 text-[10px] text-slate-600">
                   Артикул будет создан в стадии Design. После заполнения ТЗ и BOM можно запустить
                   поток сэмплов (Proto 1 → Proto 2 → PP).
+=======
+                <p className="text-text-secondary mt-2 text-[10px]">
+                  Артикул будет создан в стадии «Дизайн». После заполнения ТЗ и{' '}
+                  <AcronymWithTooltip abbr="BOM" /> можно запустить поток сэмплов (Прототип 1 →
+                  Прототип 2 → PP).
+>>>>>>> recover/cabinet-wip-from-stash
                 </p>
               </div>
               <div className="space-y-1 text-[11px] font-bold">
                 <p>
+<<<<<<< HEAD
                   <span className="text-slate-400">Название:</span> {name || '—'}
                 </p>
                 <p>
@@ -309,6 +387,21 @@ export function SkuCreateWizard({
                 </p>
                 <p>
                   <span className="text-slate-400">Варианты:</span> {sizes.join(', ')} ×{' '}
+=======
+                  <span className="text-text-muted">Название:</span> {name || '—'}
+                </p>
+                <p>
+                  <span className="text-text-muted">Категория:</span> {category || '—'}
+                </p>
+                <p>
+                  <span className="text-text-muted">
+                    <AcronymWithTooltip abbr="BOM" />:
+                  </span>{' '}
+                  {bomItems.filter((i) => i.material).length} позиций
+                </p>
+                <p>
+                  <span className="text-text-muted">Варианты:</span> {sizes.join(', ')} ×{' '}
+>>>>>>> recover/cabinet-wip-from-stash
                   {colors.join(', ')}
                 </p>
               </div>
@@ -316,7 +409,11 @@ export function SkuCreateWizard({
           )}
         </div>
 
+<<<<<<< HEAD
         <DialogFooter className="flex justify-between border-t bg-slate-50 p-6">
+=======
+        <DialogFooter className="bg-bg-surface2 flex justify-between border-t p-6">
+>>>>>>> recover/cabinet-wip-from-stash
           <div>
             {step > 1 && (
               <Button variant="ghost" onClick={() => setStep((s) => s - 1)} className="gap-1">

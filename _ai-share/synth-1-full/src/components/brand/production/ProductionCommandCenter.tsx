@@ -70,10 +70,10 @@ export function ProductionCommandCenter({ onNavigate }: ProductionCommandCenterP
 
   const handleExport = () => {
     const rows = (calendar as Array<Record<string, unknown>>).map((c: Record<string, unknown>) => ({
-      due_date: c.due_date,
-      amount: c.amount,
+      due_date: c.due_date != null ? String(c.due_date) : '',
+      amount: c.amount != null ? String(c.amount) : '',
       currency: 'RUB',
-      milestone: c.milestone,
+      milestone: c.milestone != null ? String(c.milestone) : '',
     }));
     exportToCSV(
       rows,
@@ -91,7 +91,11 @@ export function ProductionCommandCenter({ onNavigate }: ProductionCommandCenterP
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="flex items-center gap-2 text-sm font-black uppercase tracking-wider">
+<<<<<<< HEAD
           <LayoutDashboard className="h-4 w-4 text-indigo-600" />
+=======
+          <LayoutDashboard className="text-accent-primary h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
           Command Center
         </h3>
         <div className="flex gap-2">
@@ -124,8 +128,13 @@ export function ProductionCommandCenter({ onNavigate }: ProductionCommandCenterP
 
       <div className="grid gap-4 md:grid-cols-3">
         {/* Критичные алерты */}
+<<<<<<< HEAD
         <Card className="overflow-hidden rounded-2xl border border-slate-200">
           <CardHeader className="border-b border-slate-100 p-4 pb-2">
+=======
+        <Card className="border-border-default overflow-hidden rounded-2xl border">
+          <CardHeader className="border-border-subtle border-b p-4 pb-2">
+>>>>>>> recover/cabinet-wip-from-stash
             <CardTitle className="flex items-center gap-2 text-xs font-black uppercase">
               <AlertTriangle className="h-4 w-4 text-amber-500" />
               Алерты (24ч)
@@ -139,22 +148,32 @@ export function ProductionCommandCenter({ onNavigate }: ProductionCommandCenterP
                     key={i}
                     className="rounded-xl border border-amber-100 bg-amber-50 p-2 text-[10px]"
                   >
+<<<<<<< HEAD
                     <p className="font-bold text-slate-900">{a.milestone}</p>
                     <p className="text-slate-500">
+=======
+                    <p className="text-text-primary font-bold">{a.milestone}</p>
+                    <p className="text-text-secondary">
+>>>>>>> recover/cabinet-wip-from-stash
                       PO: {a.order_id} · {new Date(a.deadline).toLocaleDateString()}
                     </p>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-[10px] text-slate-400">Нет срочных алертов</p>
+              <p className="text-text-muted text-[10px]">Нет срочных алертов</p>
             )}
           </CardContent>
         </Card>
 
         {/* Финансовый календарь */}
+<<<<<<< HEAD
         <Card className="overflow-hidden rounded-2xl border border-slate-200">
           <CardHeader className="border-b border-slate-100 p-4 pb-2">
+=======
+        <Card className="border-border-default overflow-hidden rounded-2xl border">
+          <CardHeader className="border-border-subtle border-b p-4 pb-2">
+>>>>>>> recover/cabinet-wip-from-stash
             <CardTitle className="flex items-center gap-2 text-xs font-black uppercase">
               <Calendar className="h-4 w-4 text-emerald-500" />
               Ближайшие платежи
@@ -166,11 +185,17 @@ export function ProductionCommandCenter({ onNavigate }: ProductionCommandCenterP
                 {calendar.slice(0, 5).map((c, i) => (
                   <div
                     key={i}
+<<<<<<< HEAD
                     className="flex items-center justify-between rounded-xl bg-slate-50 p-2 text-[10px]"
+=======
+                    className="bg-bg-surface2 flex items-center justify-between rounded-xl p-2 text-[10px]"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <div>
-                      <p className="font-bold text-slate-900">{c.milestone || 'Платёж'}</p>
-                      <p className="text-slate-500">{new Date(c.due_date).toLocaleDateString()}</p>
+                      <p className="text-text-primary font-bold">{c.milestone || 'Платёж'}</p>
+                      <p className="text-text-secondary">
+                        {new Date(c.due_date).toLocaleDateString()}
+                      </p>
                     </div>
                     <span className="font-black tabular-nums">
                       {c.amount?.toLocaleString('ru-RU')} ₽
@@ -179,7 +204,7 @@ export function ProductionCommandCenter({ onNavigate }: ProductionCommandCenterP
                 ))}
               </div>
             ) : (
-              <p className="text-[10px] text-slate-400">Нет предстоящих платежей</p>
+              <p className="text-text-muted text-[10px]">Нет предстоящих платежей</p>
             )}
             {onNavigate && (
               <Button
@@ -195,8 +220,13 @@ export function ProductionCommandCenter({ onNavigate }: ProductionCommandCenterP
         </Card>
 
         {/* Остатки */}
+<<<<<<< HEAD
         <Card className="overflow-hidden rounded-2xl border border-slate-200">
           <CardHeader className="border-b border-slate-100 p-4 pb-2">
+=======
+        <Card className="border-border-default overflow-hidden rounded-2xl border">
+          <CardHeader className="border-border-subtle border-b p-4 pb-2">
+>>>>>>> recover/cabinet-wip-from-stash
             <CardTitle className="flex items-center gap-2 text-xs font-black uppercase">
               <Package className="h-4 w-4 text-blue-500" />
               Остатки
@@ -204,6 +234,7 @@ export function ProductionCommandCenter({ onNavigate }: ProductionCommandCenterP
           </CardHeader>
           <CardContent className="p-4">
             <div className="grid grid-cols-2 gap-2 text-[10px]">
+<<<<<<< HEAD
               <div className="rounded-xl bg-slate-50 p-2">
                 <p className="font-bold text-slate-500">Готовая продукция</p>
                 <p className="text-lg font-black text-slate-900">
@@ -213,6 +244,17 @@ export function ProductionCommandCenter({ onNavigate }: ProductionCommandCenterP
               <div className="rounded-xl bg-slate-50 p-2">
                 <p className="font-bold text-slate-500">Сырьё</p>
                 <p className="text-lg font-black text-slate-900">
+=======
+              <div className="bg-bg-surface2 rounded-xl p-2">
+                <p className="text-text-secondary font-bold">Готовая продукция</p>
+                <p className="text-text-primary text-lg font-black">
+                  {inventory?.finished_goods?.length ?? 0} SKU
+                </p>
+              </div>
+              <div className="bg-bg-surface2 rounded-xl p-2">
+                <p className="text-text-secondary font-bold">Сырьё</p>
+                <p className="text-text-primary text-lg font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                   {inventory?.raw_materials?.length ?? 0} лотов
                 </p>
               </div>

@@ -41,7 +41,14 @@ function CommentBody({ body, team }: { body: string; team: LiveProcessTeamMember
     if (idx !== -1) {
       result.push(remaining.slice(0, idx));
       result.push(
+<<<<<<< HEAD
         <span key={m.id} className="rounded bg-indigo-50 px-0.5 font-medium text-indigo-600">
+=======
+        <span
+          key={m.id}
+          className="text-accent-primary bg-accent-primary/10 rounded px-0.5 font-medium"
+        >
+>>>>>>> recover/cabinet-wip-from-stash
           @{m.name}
         </span>
       );
@@ -74,9 +81,10 @@ export function StageChatPanel({ stageId, comments, team, onAddComment }: StageC
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center gap-1 text-[10px] font-bold text-slate-600">
+      <div className="text-text-secondary flex items-center gap-1 text-[10px] font-bold">
         <MessageSquare className="h-3 w-3" />
         Чат этапа
+<<<<<<< HEAD
         <span className="font-normal text-slate-400">(@упоминания отправят уведомление)</span>
       </div>
       <ul className="max-h-32 space-y-1.5 overflow-y-auto">
@@ -86,6 +94,17 @@ export function StageChatPanel({ stageId, comments, team, onAddComment }: StageC
             <CommentBody body={c.body} team={team} />
             {c.mentions?.length ? (
               <span className="mt-0.5 block text-[9px] text-indigo-500">
+=======
+        <span className="text-text-muted font-normal">(@упоминания отправят уведомление)</span>
+      </div>
+      <ul className="max-h-32 space-y-1.5 overflow-y-auto">
+        {comments.map((c) => (
+          <li key={c.id} className="border-border-subtle rounded border bg-white p-2 text-[11px]">
+            <span className="text-text-primary font-medium">{c.authorName}:</span>{' '}
+            <CommentBody body={c.body} team={team} />
+            {c.mentions?.length ? (
+              <span className="text-accent-primary mt-0.5 block text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                 Упомянуты: {c.mentions.map((m) => m.userName).join(', ')}
               </span>
             ) : null}
@@ -110,7 +129,7 @@ export function StageChatPanel({ stageId, comments, team, onAddComment }: StageC
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
-            className="flex-1 rounded border border-slate-200 px-2 py-1.5 text-xs"
+            className="border-border-default flex-1 rounded border px-2 py-1.5 text-xs"
           />
           <Button size="sm" className="h-7 text-[10px]" onClick={handleSubmit}>
             Отправить
@@ -122,7 +141,11 @@ export function StageChatPanel({ stageId, comments, team, onAddComment }: StageC
               <button
                 key={m.id}
                 type="button"
+<<<<<<< HEAD
                 className="w-full px-2 py-1 text-left text-xs hover:bg-slate-50"
+=======
+                className="hover:bg-bg-surface2 w-full px-2 py-1 text-left text-xs"
+>>>>>>> recover/cabinet-wip-from-stash
                 onClick={() => insertMention(m.name)}
               >
                 @{m.name}

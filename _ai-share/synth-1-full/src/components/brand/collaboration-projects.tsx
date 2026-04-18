@@ -46,18 +46,30 @@ export default function CollaborationProjects({ brandId }: { brandId: string }) 
   };
 
   return (
+<<<<<<< HEAD
     <Card className="overflow-hidden rounded-xl border-slate-100 shadow-sm">
       <CardHeader className="flex flex-row items-center justify-between bg-slate-50/50">
         <div>
           <CardTitle className="flex items-center gap-2 uppercase tracking-tight">
             <Handshake className="h-5 w-5 text-indigo-600" /> Активные Коллаборации
+=======
+    <Card className="border-border-subtle overflow-hidden rounded-xl shadow-sm">
+      <CardHeader className="bg-bg-surface2/80 flex flex-row items-center justify-between">
+        <div>
+          <CardTitle className="flex items-center gap-2 uppercase tracking-tight">
+            <Handshake className="text-accent-primary h-5 w-5" /> Активные Коллаборации
+>>>>>>> recover/cabinet-wip-from-stash
           </CardTitle>
           <CardDescription>Управление совместными проектами и доступом к ресурсам.</CardDescription>
         </div>
         <Button
           onClick={handleCreateProject}
           size="sm"
+<<<<<<< HEAD
           className="rounded-xl bg-slate-900 text-[10px] font-bold uppercase tracking-widest text-white"
+=======
+          className="bg-text-primary rounded-xl text-[10px] font-bold uppercase tracking-widest text-white"
+>>>>>>> recover/cabinet-wip-from-stash
         >
           <Plus className="mr-1 h-4 w-4" /> Создать
         </Button>
@@ -65,13 +77,18 @@ export default function CollaborationProjects({ brandId }: { brandId: string }) 
       <CardContent className="pt-6">
         {isLoading ? (
           <div className="flex justify-center py-12">
+<<<<<<< HEAD
             <Loader2 className="h-8 w-8 animate-spin text-slate-300" />
+=======
+            <Loader2 className="text-text-muted h-8 w-8 animate-spin" />
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
         ) : projects.length > 0 ? (
           <div className="space-y-4">
             {projects.map((project) => (
               <div
                 key={project.id}
+<<<<<<< HEAD
                 className="group flex items-center justify-between rounded-2xl border border-slate-100 p-4 transition-all hover:bg-slate-50"
               >
                 <div className="flex items-center gap-3">
@@ -83,6 +100,19 @@ export default function CollaborationProjects({ brandId }: { brandId: string }) 
                       {project.project_name}
                     </h4>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                className="border-border-subtle hover:bg-bg-surface2 group flex items-center justify-between rounded-2xl border p-4 transition-all"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="bg-accent-primary/10 text-accent-primary flex h-10 w-10 items-center justify-center rounded-full">
+                    <Users className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-text-primary text-sm font-bold uppercase tracking-tight">
+                      {project.project_name}
+                    </h4>
+                    <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       Партнер: {project.partner_brand_id}
                     </p>
                   </div>
@@ -96,15 +126,24 @@ export default function CollaborationProjects({ brandId }: { brandId: string }) 
                     size="icon"
                     className="h-8 w-8 rounded-full opacity-0 group-hover:opacity-100"
                   >
+<<<<<<< HEAD
                     <Shield className="h-4 w-4 text-slate-400" />
+=======
+                    <Shield className="text-text-muted h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
                   </Button>
                 </div>
               </div>
             ))}
           </div>
         ) : (
+<<<<<<< HEAD
           <div className="rounded-xl border-2 border-dashed border-slate-100 py-12 text-center">
             <p className="text-sm font-bold uppercase tracking-tight text-slate-400">
+=======
+          <div className="border-border-subtle rounded-xl border-2 border-dashed py-12 text-center">
+            <p className="text-text-muted text-sm font-bold uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
               Нет активных проектов коллабораций.
             </p>
           </div>

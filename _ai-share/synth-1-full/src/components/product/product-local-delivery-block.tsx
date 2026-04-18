@@ -26,11 +26,19 @@ export const ProductLocalDeliveryBlock: React.FC = () => {
         {rates.map((rate, idx) => (
           <div key={idx} className="group flex items-center justify-between">
             <div className="flex flex-col">
+<<<<<<< HEAD
               <div className="text-[11px] font-bold text-slate-700">{rate.service}</div>
               <div className="text-[9px] font-bold uppercase text-slate-400">{rate.type}</div>
             </div>
             <div className="text-right">
               <div className="text-sm font-black text-slate-800">{rate.price} ₽</div>
+=======
+              <div className="text-text-primary text-[11px] font-bold">{rate.service}</div>
+              <div className="text-text-muted text-[9px] font-bold uppercase">{rate.type}</div>
+            </div>
+            <div className="text-right">
+              <div className="text-text-primary text-sm font-black">{rate.price} ₽</div>
+>>>>>>> recover/cabinet-wip-from-stash
               <div className="text-[10px] font-bold text-emerald-600">{rate.days} дн.</div>
             </div>
           </div>
@@ -43,7 +51,11 @@ export const ProductLocalDeliveryBlock: React.FC = () => {
         </div>
         <input
           placeholder="Поиск города..."
+<<<<<<< HEAD
           className="flex-1 border-none bg-transparent text-[11px] outline-none placeholder:text-slate-300"
+=======
+          className="placeholder:text-text-muted flex-1 border-none bg-transparent text-[11px] outline-none"
+>>>>>>> recover/cabinet-wip-from-stash
         />
       </div>
     </Card>

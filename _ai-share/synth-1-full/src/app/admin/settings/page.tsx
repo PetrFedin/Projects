@@ -10,6 +10,8 @@ import { useToast } from '@/hooks/use-toast';
 import { useUIState } from '@/providers/ui-state';
 import { Activity, MessageSquare, Layout } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
 const features = {
   homepage: [
@@ -81,9 +83,15 @@ export default function AdminSettingsPage() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="bg-bg-canvas space-y-4">
       <header>
+<<<<<<< HEAD
         <h1 className="font-headline text-base font-bold">Настройки доступности (Feature Flags)</h1>
+=======
+        <h1 className="text-text-primary font-headline text-base font-bold">
+          Настройки доступности (Feature Flags)
+        </h1>
+>>>>>>> recover/cabinet-wip-from-stash
         <p className="text-muted-foreground">
           Включайте и выключайте разделы и функции приложения для всех пользователей.
         </p>
@@ -99,7 +107,11 @@ export default function AdminSettingsPage() {
             {features.homepage.map((feature) => (
               <div
                 key={feature.id}
+<<<<<<< HEAD
                 className="flex items-center justify-between rounded-md border p-3"
+=======
+                className="border-border-subtle bg-bg-surface flex items-center justify-between rounded-md border p-3"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <Label htmlFor={`flag-${feature.id}`}>{feature.label}</Label>
                 <Switch
@@ -120,7 +132,11 @@ export default function AdminSettingsPage() {
             {features.productPage.map((feature) => (
               <div
                 key={feature.id}
+<<<<<<< HEAD
                 className="flex items-center justify-between rounded-md border p-3"
+=======
+                className="border-border-subtle bg-bg-surface flex items-center justify-between rounded-md border p-3"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <Label htmlFor={`flag-${feature.id}`}>{feature.label}</Label>
                 <Switch
@@ -143,7 +159,11 @@ export default function AdminSettingsPage() {
             {features.global.map((feature) => (
               <div
                 key={feature.id}
+<<<<<<< HEAD
                 className="flex items-center justify-between rounded-md border p-3"
+=======
+                className="border-border-subtle bg-bg-surface flex items-center justify-between rounded-md border p-3"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <Label htmlFor={`flag-${feature.id}`}>{feature.label}</Label>
                 <Switch
@@ -166,7 +186,11 @@ export default function AdminSettingsPage() {
             {features.brandDashboard.map((feature) => (
               <div
                 key={feature.id}
+<<<<<<< HEAD
                 className="flex items-center justify-between rounded-md border p-3"
+=======
+                className="border-border-subtle bg-bg-surface flex items-center justify-between rounded-md border p-3"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <Label htmlFor={`flag-${feature.id}`}>{feature.label}</Label>
                 <Switch
@@ -182,15 +206,26 @@ export default function AdminSettingsPage() {
         </Card>
       </div>
 
+<<<<<<< HEAD
       <Card className="overflow-hidden rounded-xl border-slate-100 shadow-xl">
         <CardHeader className="bg-slate-900 p-4 text-white">
           <div className="flex items-center gap-3">
             <Activity className="h-6 w-6 text-indigo-400" />
+=======
+      <Card className="border-border-subtle overflow-hidden rounded-xl shadow-xl">
+        <CardHeader className="bg-text-primary text-text-inverse p-4">
+          <div className="flex items-center gap-3">
+            <Activity className="text-accent-primary h-6 w-6" />
+>>>>>>> recover/cabinet-wip-from-stash
             <div>
               <CardTitle className="text-base font-black uppercase tracking-tight">
                 Интерфейс Syntha OS
               </CardTitle>
+<<<<<<< HEAD
               <CardDescription className="text-slate-400">
+=======
+              <CardDescription className="text-text-muted">
+>>>>>>> recover/cabinet-wip-from-stash
                 Настройка отображения системных событий (Pulse Engine).
               </CardDescription>
             </div>
@@ -199,10 +234,17 @@ export default function AdminSettingsPage() {
         <CardContent className="space-y-4 p-4">
           <div className="flex flex-col items-start justify-between gap-3 md:flex-row md:items-center">
             <div className="space-y-1">
+<<<<<<< HEAD
               <Label className="text-sm font-black uppercase tracking-widest text-slate-900">
                 Режим уведомлений Live Pulse
               </Label>
               <p className="text-xs font-medium text-slate-400">
+=======
+              <Label className="text-text-primary text-sm font-black uppercase tracking-widest">
+                Режим уведомлений Live Pulse
+              </Label>
+              <p className="text-text-secondary text-xs font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                 Выберите формат отображения активности экосистемы.
               </p>
             </div>
@@ -213,16 +255,34 @@ export default function AdminSettingsPage() {
               onValueChange={(val) => setPulseMode(val as any)}
               className="w-full md:w-auto"
             >
+<<<<<<< HEAD
               <TabsList className="h-auto rounded-xl bg-slate-100 p-1">
                 <TabsTrigger
                   value="ticker"
                   className="gap-2 rounded-lg px-6 py-2 text-[10px] font-black uppercase data-[state=active]:bg-white data-[state=active]:shadow-sm"
+=======
+              {/* cabinetSurface v1 */}
+              <TabsList className={cn(cabinetSurface.tabsList, 'h-auto w-full md:w-auto')}>
+                <TabsTrigger
+                  value="ticker"
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'px-6 py-2 text-[10px] font-black uppercase'
+                  )}
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <Layout className="h-3.5 w-3.5" /> Бегущая строка
                 </TabsTrigger>
                 <TabsTrigger
                   value="floating"
+<<<<<<< HEAD
                   className="gap-2 rounded-lg px-6 py-2 text-[10px] font-black uppercase data-[state=active]:bg-white data-[state=active]:shadow-sm"
+=======
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'px-6 py-2 text-[10px] font-black uppercase'
+                  )}
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <MessageSquare className="h-3.5 w-3.5" /> Всплывающие
                 </TabsTrigger>

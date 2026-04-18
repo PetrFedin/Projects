@@ -291,8 +291,13 @@ export const MeasurementsTab = ({ form }: MeasurementsTabProps) => {
         <MeasurementField name="measurements.neck" label="Шея (см)" placeholder="35" form={form} />
       </div>
 
+<<<<<<< HEAD
       <div className="mt-6 border-t border-slate-200 pt-4">
         <p className="mb-2 text-sm text-slate-600">
+=======
+      <div className="border-border-default mt-6 border-t pt-4">
+        <p className="text-text-secondary mb-2 text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
           Используйте мерки для подбора размера в каталоге и при заказе.
         </p>
         <Button variant="outline" size="sm" className="rounded-lg" asChild>

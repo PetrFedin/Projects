@@ -55,7 +55,7 @@ export default function AISocialInsights() {
             engagement: 342,
           },
           action: 'Посмотреть избранное',
-          actionLink: '/u?tab=wardrobe',
+          actionLink: '/client/me?tab=wardrobe',
         },
         {
           type: 'similar_users',
@@ -75,7 +75,7 @@ export default function AISocialInsights() {
             engagement: 156,
           },
           action: 'Посмотреть лукборды',
-          actionLink: '/u?tab=looks',
+          actionLink: '/client/me?tab=looks',
         },
       ];
 
@@ -118,11 +118,23 @@ export default function AISocialInsights() {
                     {insight.type === 'trending' && (
                       <TrendingUp className="h-4 w-4 text-orange-600" />
                     )}
+<<<<<<< HEAD
                     {insight.type === 'popular' && <Heart className="h-4 w-4 text-pink-600" />}
                     {insight.type === 'similar_users' && (
                       <Users className="h-4 w-4 text-blue-600" />
                     )}
                     {insight.type === 'community' && <Share2 className="h-4 w-4 text-purple-600" />}
+=======
+                    {insight.type === 'popular' && (
+                      <Heart className="text-accent-primary h-4 w-4" />
+                    )}
+                    {insight.type === 'similar_users' && (
+                      <Users className="h-4 w-4 text-blue-600" />
+                    )}
+                    {insight.type === 'community' && (
+                      <Share2 className="text-accent-primary h-4 w-4" />
+                    )}
+>>>>>>> recover/cabinet-wip-from-stash
                     <h4 className="text-sm font-semibold">{insight.title}</h4>
                   </div>
                   <p className="text-sm text-muted-foreground">{insight.description}</p>

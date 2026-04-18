@@ -38,6 +38,7 @@ export function CollectionProgressPanel({
   onNavigate,
 }: CollectionProgressPanelProps) {
   return (
+<<<<<<< HEAD
     <Card className="overflow-hidden rounded-xl border border-slate-100 shadow-sm">
       <CardHeader className="border-b border-slate-50 bg-slate-50/50 p-4">
         <CardTitle className="text-[11px] font-bold uppercase tracking-wider text-slate-900">
@@ -49,6 +50,19 @@ export function CollectionProgressPanel({
         <div className="flex items-center justify-between">
           <span className="text-[10px] font-bold uppercase text-slate-500">Готовность</span>
           <span className="text-lg font-black text-indigo-600">{readiness}%</span>
+=======
+    <Card className="border-border-subtle overflow-hidden rounded-xl border shadow-sm">
+      <CardHeader className="border-border-subtle bg-bg-surface2/80 border-b p-4">
+        <CardTitle className="text-text-primary text-[11px] font-bold uppercase tracking-wider">
+          Прогресс по этапам
+        </CardTitle>
+        <p className="text-text-secondary mt-0.5 text-[9px]">{collectionName || collectionId}</p>
+      </CardHeader>
+      <CardContent className="space-y-4 p-4">
+        <div className="flex items-center justify-between">
+          <span className="text-text-secondary text-[10px] font-bold uppercase">Готовность</span>
+          <span className="text-accent-primary text-lg font-black">{readiness}%</span>
+>>>>>>> recover/cabinet-wip-from-stash
         </div>
         <Progress value={readiness} className="h-2" />
         <div className="flex flex-wrap gap-2">
@@ -62,8 +76,14 @@ export function CollectionProgressPanel({
                 className={cn(
                   'flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[9px] font-bold uppercase transition-all',
                   status === 'completed' && 'bg-emerald-50 text-emerald-700',
+<<<<<<< HEAD
                   status === 'active' && 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200',
                   status === 'locked' && 'cursor-not-allowed bg-slate-50 text-slate-400'
+=======
+                  status === 'active' &&
+                    'bg-accent-primary/10 text-accent-primary ring-accent-primary/30 ring-1',
+                  status === 'locked' && 'bg-bg-surface2 text-text-muted cursor-not-allowed'
+>>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 {status === 'completed' ? (
@@ -78,6 +98,7 @@ export function CollectionProgressPanel({
             );
           })}
         </div>
+<<<<<<< HEAD
         <div className="grid grid-cols-3 gap-2 border-t border-slate-100 pt-2 text-center">
           <div>
             <p className="text-[9px] font-bold text-slate-400">Артикулов</p>
@@ -90,6 +111,20 @@ export function CollectionProgressPanel({
           <div>
             <p className="text-[9px] font-bold text-slate-400">PO</p>
             <p className="text-sm font-black text-indigo-600">{poCount}</p>
+=======
+        <div className="border-border-subtle grid grid-cols-3 gap-2 border-t pt-2 text-center">
+          <div>
+            <p className="text-text-muted text-[9px] font-bold">Артикулов</p>
+            <p className="text-text-primary text-sm font-black">{skuCount}</p>
+          </div>
+          <div>
+            <p className="text-text-muted text-[9px] font-bold">Утверждено</p>
+            <p className="text-sm font-black text-emerald-600">{approvedCount}</p>
+          </div>
+          <div>
+            <p className="text-text-muted text-[9px] font-bold">PO</p>
+            <p className="text-accent-primary text-sm font-black">{poCount}</p>
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
         </div>
       </CardContent>

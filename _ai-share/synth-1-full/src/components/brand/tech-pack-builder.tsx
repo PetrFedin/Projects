@@ -37,6 +37,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import Image from 'next/image';
 
 export function TechPackBuilder({ collectionId }: { collectionId?: string | null }) {
@@ -124,6 +125,7 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
 
   if (!collectionId) {
     return (
+<<<<<<< HEAD
       <div className="flex min-h-[400px] flex-col items-center justify-center space-y-4 rounded-xl border border-slate-100 bg-slate-50/50 p-8 text-center">
         <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-3xl border border-slate-100 bg-white shadow-lg">
           <FileText className="h-10 w-10 text-slate-300" />
@@ -133,6 +135,17 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
             Спецификация не создана
           </h3>
           <p className="mx-auto max-w-xs text-[10px] font-bold uppercase tracking-widest text-slate-400">
+=======
+      <div className="bg-bg-surface2/80 border-border-subtle flex min-h-[400px] flex-col items-center justify-center space-y-4 rounded-xl border p-8 text-center">
+        <div className="border-border-subtle mb-6 flex h-20 w-20 items-center justify-center rounded-3xl border bg-white shadow-lg">
+          <FileText className="text-text-muted h-10 w-10" />
+        </div>
+        <div className="space-y-2">
+          <h3 className="text-text-primary text-xl font-black uppercase tracking-tighter">
+            Спецификация не создана
+          </h3>
+          <p className="text-text-muted mx-auto max-w-xs text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             Выберите артикул из коллекции, чтобы сформировать его тех-пакет.
           </p>
         </div>
@@ -141,25 +154,44 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
   }
 
   return (
+<<<<<<< HEAD
     <div className="flex min-h-[800px] flex-col space-y-4 rounded-xl border border-slate-100 bg-slate-50/50 p-4">
+=======
+    <div className="bg-bg-surface2/80 border-border-subtle flex min-h-[800px] flex-col space-y-4 rounded-xl border p-4">
+>>>>>>> recover/cabinet-wip-from-stash
       {/* Header */}
       <div className="flex flex-col justify-between gap-3 px-4 md:flex-row md:items-center">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
+<<<<<<< HEAD
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 shadow-lg shadow-slate-900/20">
+=======
+            <div className="bg-text-primary shadow-text-primary/20 flex h-10 w-10 items-center justify-center rounded-xl shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
               <Cpu className="h-5 w-5 text-white" />
             </div>
             <Badge
               variant="outline"
+<<<<<<< HEAD
               className="border-slate-900/20 bg-slate-900/5 text-[9px] font-black uppercase tracking-widest text-slate-900"
+=======
+              className="border-text-primary/20 text-text-primary bg-text-primary/5 text-[9px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               Digital Twin v1.0
             </Badge>
           </div>
+<<<<<<< HEAD
           <h2 className="text-sm font-black uppercase leading-none tracking-tighter text-slate-900">
             Tech Pack Builder
           </h2>
           <p className="text-sm font-medium text-slate-400">
+=======
+          <h2 className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter">
+            Tech Pack Builder
+          </h2>
+          <p className="text-text-muted text-sm font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
             Создание цифровой спецификации продукта для тендера и производства.
           </p>
         </div>
@@ -167,11 +199,19 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
         <div className="flex gap-3">
           <Button
             variant="outline"
+<<<<<<< HEAD
             className="h-12 rounded-xl border-slate-200 px-6 text-[10px] font-black uppercase tracking-widest hover:bg-slate-100"
           >
             <Download className="mr-2 h-4 w-4" /> PDF Export
           </Button>
           <Button className="h-12 rounded-xl bg-slate-900 px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-slate-900/10 hover:bg-black">
+=======
+            className="border-border-default hover:bg-bg-surface2 h-12 rounded-xl px-6 text-[10px] font-black uppercase tracking-widest"
+          >
+            <Download className="mr-2 h-4 w-4" /> PDF Export
+          </Button>
+          <Button className="bg-text-primary shadow-text-primary/10 h-12 rounded-xl px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-xl hover:bg-black">
+>>>>>>> recover/cabinet-wip-from-stash
             <Save className="mr-2 h-4 w-4" /> Save & Commit
           </Button>
         </div>
@@ -180,6 +220,7 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
       {/* Main Content */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-1 flex-col">
         <div className="px-4">
+<<<<<<< HEAD
           <TabsList className="mb-8 inline-flex h-10 w-full rounded-2xl border border-white bg-white/50 p-1 backdrop-blur md:w-auto">
             <TabsTrigger
               value="general"
@@ -204,16 +245,65 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
               className="rounded-xl px-6 text-[9px] font-black uppercase tracking-widest transition-all data-[state=active]:bg-white data-[state=active]:shadow-lg"
             >
               <Scissors className="mr-2 h-3.5 w-3.5" /> Construction
+=======
+          {/* cabinetSurface v1 */}
+          <TabsList
+            className={cn(cabinetSurface.tabsList, 'mb-8 inline-flex w-full flex-wrap md:w-auto')}
+          >
+            <TabsTrigger
+              value="general"
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'h-9 gap-2 px-4 font-black tracking-widest'
+              )}
+            >
+              <Info className="h-3.5 w-3.5 shrink-0" /> Concept
+            </TabsTrigger>
+            <TabsTrigger
+              value="bom"
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'h-9 gap-2 px-4 font-black tracking-widest'
+              )}
+            >
+              <Layers className="h-3.5 w-3.5 shrink-0" /> Bill of Materials
+            </TabsTrigger>
+            <TabsTrigger
+              value="sizing"
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'h-9 gap-2 px-4 font-black tracking-widest'
+              )}
+            >
+              <Ruler className="h-3.5 w-3.5 shrink-0" /> Measurement Table
+            </TabsTrigger>
+            <TabsTrigger
+              value="construction"
+              className={cn(
+                cabinetSurface.tabsTrigger,
+                'h-9 gap-2 px-4 font-black tracking-widest'
+              )}
+            >
+              <Scissors className="h-3.5 w-3.5 shrink-0" /> Construction
+>>>>>>> recover/cabinet-wip-from-stash
             </TabsTrigger>
           </TabsList>
         </div>
 
+<<<<<<< HEAD
         <div className="flex-1 rounded-xl border border-white bg-white p-4 shadow-2xl shadow-slate-200/50">
+=======
+        <div className="flex-1 rounded-xl border border-white bg-white p-4 shadow-2xl shadow-md">
+>>>>>>> recover/cabinet-wip-from-stash
           <TabsContent value="general" className="mt-0 h-full">
             <div className="grid h-full grid-cols-1 gap-3 lg:grid-cols-2">
               <div className="space-y-4">
                 <div className="space-y-4">
+<<<<<<< HEAD
                   <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+=======
+                  <Label className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
                     Basic Information
                   </Label>
                   <div className="grid grid-cols-2 gap-3">
@@ -221,25 +311,38 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
                       <Label className="text-[10px] font-bold uppercase">Style Name</Label>
                       <Input
                         placeholder="e.g. Minimalist Overshirt"
+<<<<<<< HEAD
                         className="rounded-xl border-slate-100 bg-slate-50 font-bold"
+=======
+                        className="border-border-subtle bg-bg-surface2 rounded-xl font-bold"
+>>>>>>> recover/cabinet-wip-from-stash
                       />
                     </div>
                     <div className="space-y-2">
                       <Label className="text-[10px] font-bold uppercase">Style ID</Label>
                       <Input
                         placeholder="e.g. SNTH-2026-OW-01"
+<<<<<<< HEAD
                         className="rounded-xl border-slate-100 bg-slate-50 font-bold"
+=======
+                        className="border-border-subtle bg-bg-surface2 rounded-xl font-bold"
+>>>>>>> recover/cabinet-wip-from-stash
                       />
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-4">
+<<<<<<< HEAD
                   <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+=======
+                  <Label className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
                     Design Concept & AI Insights
                   </Label>
                   <Textarea
                     placeholder="Describe the aesthetic and target silhouette..."
+<<<<<<< HEAD
                     className="min-h-[150px] rounded-2xl border-slate-100 bg-slate-50 p-4 font-medium italic"
                   />
                   <div className="flex items-start gap-3 rounded-2xl border border-indigo-100 bg-indigo-50 p-4">
@@ -251,6 +354,19 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
                         Syntha AI: Design Validation
                       </p>
                       <p className="text-xs font-medium leading-relaxed text-indigo-700/80">
+=======
+                    className="border-border-subtle bg-bg-surface2 min-h-[150px] rounded-2xl p-4 font-medium italic"
+                  />
+                  <div className="bg-accent-primary/10 border-accent-primary/20 flex items-start gap-3 rounded-2xl border p-4">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white shadow-sm">
+                      <Cpu className="text-accent-primary h-4 w-4" />
+                    </div>
+                    <div>
+                      <p className="text-accent-primary mb-1 text-[10px] font-black uppercase">
+                        Syntha AI: Design Validation
+                      </p>
+                      <p className="text-accent-primary/80 text-xs font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                         На основе анализа текущих трендов FW26, данная форма воротника повысит
                         вероятность предзаказа на 18%. Рекомендуемый материал: Хлопок плотностью
                         выше 160г/м.
@@ -261,6 +377,7 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
               </div>
 
               <div className="flex flex-col space-y-4">
+<<<<<<< HEAD
                 <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
                   Sketch & Moodboard
                 </Label>
@@ -269,6 +386,16 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
                     <Plus className="h-10 w-10 text-slate-300" />
                   </div>
                   <p className="text-xs font-black uppercase tracking-widest text-slate-400">
+=======
+                <Label className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em]">
+                  Sketch & Moodboard
+                </Label>
+                <div className="border-border-default bg-bg-surface2 hover:border-border-default group flex flex-1 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-4 text-center transition-all">
+                  <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-3xl bg-white shadow-xl transition-transform group-hover:scale-110">
+                    <Plus className="text-text-muted h-10 w-10" />
+                  </div>
+                  <p className="text-text-muted text-xs font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     Drop Sketches or Upload AI Generated Art
                   </p>
                 </div>
@@ -280,6 +407,7 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
+<<<<<<< HEAD
                   <h3 className="text-base font-black uppercase tracking-tight text-slate-900">
                     Спецификация материалов (BOM)
                   </h3>
@@ -288,14 +416,29 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
                   </p>
                 </div>
                 <Button className="h-10 rounded-xl bg-slate-900 px-4 text-[9px] font-black uppercase tracking-widest text-white shadow-lg">
+=======
+                  <h3 className="text-text-primary text-base font-black uppercase tracking-tight">
+                    Спецификация материалов (BOM)
+                  </h3>
+                  <p className="text-text-muted mt-1 text-xs font-medium">
+                    Автоматический расчет себестоимости на основе актуальных цен поставщиков.
+                  </p>
+                </div>
+                <Button className="bg-text-primary h-10 rounded-xl px-4 text-[9px] font-black uppercase tracking-widest text-white shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
                   <Plus className="mr-1 h-3.5 w-3.5" /> Add Material
                 </Button>
               </div>
 
+<<<<<<< HEAD
               <div className="overflow-hidden rounded-2xl border border-slate-100">
+=======
+              <div className="border-border-subtle overflow-hidden rounded-2xl border">
+>>>>>>> recover/cabinet-wip-from-stash
                 <Table>
-                  <TableHeader className="bg-slate-50">
+                  <TableHeader className="bg-bg-surface2">
                     <TableRow className="border-none">
+<<<<<<< HEAD
                       <TableHead className="text-[9px] font-black uppercase text-slate-400">
                         Type
                       </TableHead>
@@ -315,22 +458,52 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
                         Estimated Cost
                       </TableHead>
                       <TableHead className="w-[50px] text-right text-[9px] font-black uppercase text-slate-400"></TableHead>
+=======
+                      <TableHead className="text-text-muted text-[9px] font-black uppercase">
+                        Type
+                      </TableHead>
+                      <TableHead className="text-text-muted text-[9px] font-black uppercase">
+                        Item Name
+                      </TableHead>
+                      <TableHead className="text-text-muted text-[9px] font-black uppercase">
+                        Quantity
+                      </TableHead>
+                      <TableHead className="text-text-muted text-[9px] font-black uppercase">
+                        Unit
+                      </TableHead>
+                      <TableHead className="text-text-muted text-[9px] font-black uppercase">
+                        Supplier (Suggested)
+                      </TableHead>
+                      <TableHead className="text-text-muted text-right text-[9px] font-black uppercase">
+                        Estimated Cost
+                      </TableHead>
+                      <TableHead className="text-text-muted w-[50px] text-right text-[9px] font-black uppercase"></TableHead>
+>>>>>>> recover/cabinet-wip-from-stash
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {bom.map((item) => (
                       <TableRow
                         key={item.id}
+<<<<<<< HEAD
                         className="border-b border-slate-50 transition-colors hover:bg-slate-50"
+=======
+                        className="hover:bg-bg-surface2 border-border-subtle border-b transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                       >
                         <TableCell>
                           <Badge
                             variant="outline"
+<<<<<<< HEAD
                             className="border-slate-200 text-[8px] font-black uppercase"
+=======
+                            className="border-border-default text-[8px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                           >
                             {item.type}
                           </Badge>
                         </TableCell>
+<<<<<<< HEAD
                         <TableCell className="text-xs font-bold uppercase tracking-tight text-slate-900">
                           {item.name}
                         </TableCell>
@@ -342,13 +515,30 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
                           {item.supplier}
                         </TableCell>
                         <TableCell className="text-right text-xs font-bold text-slate-900">
+=======
+                        <TableCell className="text-text-primary text-xs font-bold uppercase tracking-tight">
+                          {item.name}
+                        </TableCell>
+                        <TableCell className="text-xs font-bold">{item.quantity}</TableCell>
+                        <TableCell className="text-text-muted text-xs font-bold uppercase">
+                          {item.unit}
+                        </TableCell>
+                        <TableCell className="text-text-secondary text-xs font-bold uppercase">
+                          {item.supplier}
+                        </TableCell>
+                        <TableCell className="text-text-primary text-right text-xs font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                           {item.cost.toLocaleString('ru-RU')} ₽
                         </TableCell>
                         <TableCell className="text-right">
                           <Button
                             variant="ghost"
                             size="icon"
+<<<<<<< HEAD
                             className="h-8 w-8 rounded-lg text-slate-300 hover:text-red-500"
+=======
+                            className="text-text-muted h-8 w-8 rounded-lg hover:text-red-500"
+>>>>>>> recover/cabinet-wip-from-stash
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -358,7 +548,11 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
                     {bom.length === 0 && (
                       <TableRow>
                         <TableCell colSpan={7} className="h-32 text-center">
+<<<<<<< HEAD
                           <p className="text-[9px] font-black uppercase italic tracking-widest text-slate-300">
+=======
+                          <p className="text-text-muted text-[9px] font-black uppercase italic tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                             Спецификация материалов пуста
                           </p>
                         </TableCell>
@@ -368,7 +562,11 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
                 </Table>
               </div>
 
+<<<<<<< HEAD
               <div className="flex items-center justify-between rounded-xl bg-slate-900 p-4 text-white">
+=======
+              <div className="bg-text-primary flex items-center justify-between rounded-xl p-4 text-white">
+>>>>>>> recover/cabinet-wip-from-stash
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10">
                     <Layers className="h-5 w-5 text-accent" />
@@ -396,30 +594,50 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
+<<<<<<< HEAD
                   <h3 className="text-base font-black uppercase tracking-tight text-slate-900">
                     Таблица измерений (Sizing Table)
                   </h3>
                   <p className="mt-1 text-xs font-medium text-slate-400">
+=======
+                  <h3 className="text-text-primary text-base font-black uppercase tracking-tight">
+                    Таблица измерений (Sizing Table)
+                  </h3>
+                  <p className="text-text-muted mt-1 text-xs font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                     Точные замеры для раскройного цеха и QC контроля.
                   </p>
                 </div>
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
+<<<<<<< HEAD
                     className="h-10 rounded-xl border-slate-200 px-4 text-[9px] font-black uppercase tracking-widest text-slate-400"
                   >
                     Import S-XL
                   </Button>
                   <Button className="h-10 rounded-xl bg-slate-900 px-4 text-[9px] font-black uppercase tracking-widest text-white shadow-lg">
+=======
+                    className="border-border-default text-text-muted h-10 rounded-xl px-4 text-[9px] font-black uppercase tracking-widest"
+                  >
+                    Import S-XL
+                  </Button>
+                  <Button className="bg-text-primary h-10 rounded-xl px-4 text-[9px] font-black uppercase tracking-widest text-white shadow-lg">
+>>>>>>> recover/cabinet-wip-from-stash
                     <Plus className="mr-1 h-3.5 w-3.5" /> Add Point
                   </Button>
                 </div>
               </div>
 
+<<<<<<< HEAD
               <div className="overflow-hidden rounded-2xl border border-slate-100">
+=======
+              <div className="border-border-subtle overflow-hidden rounded-2xl border">
+>>>>>>> recover/cabinet-wip-from-stash
                 <Table>
-                  <TableHeader className="bg-slate-50">
+                  <TableHeader className="bg-bg-surface2">
                     <TableRow className="border-none">
+<<<<<<< HEAD
                       <TableHead className="text-[9px] font-black uppercase text-slate-400">
                         Measurement Point
                       </TableHead>
@@ -442,23 +660,60 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
                         XL
                       </TableHead>
                       <TableHead className="w-[50px] text-right text-[9px] font-black uppercase text-slate-400"></TableHead>
+=======
+                      <TableHead className="text-text-muted text-[9px] font-black uppercase">
+                        Measurement Point
+                      </TableHead>
+                      <TableHead className="text-text-muted text-[9px] font-black uppercase">
+                        Tolerance
+                      </TableHead>
+                      <TableHead className="text-text-muted text-center text-[9px] font-black uppercase">
+                        XS
+                      </TableHead>
+                      <TableHead className="text-text-muted text-center text-[9px] font-black uppercase">
+                        S
+                      </TableHead>
+                      <TableHead className="text-text-muted bg-bg-surface2/50 text-center text-[9px] font-black uppercase">
+                        M (Base)
+                      </TableHead>
+                      <TableHead className="text-text-muted text-center text-[9px] font-black uppercase">
+                        L
+                      </TableHead>
+                      <TableHead className="text-text-muted text-center text-[9px] font-black uppercase">
+                        XL
+                      </TableHead>
+                      <TableHead className="text-text-muted w-[50px] text-right text-[9px] font-black uppercase"></TableHead>
+>>>>>>> recover/cabinet-wip-from-stash
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {sizing.map((row) => (
                       <TableRow
                         key={row.id}
+<<<<<<< HEAD
                         className="border-b border-slate-50 transition-colors hover:bg-slate-50"
                       >
                         <TableCell className="text-xs font-bold uppercase tracking-tight text-slate-900">
                           {row.point}
                         </TableCell>
                         <TableCell className="text-[10px] font-black text-slate-400">
+=======
+                        className="hover:bg-bg-surface2 border-border-subtle border-b transition-colors"
+                      >
+                        <TableCell className="text-text-primary text-xs font-bold uppercase tracking-tight">
+                          {row.point}
+                        </TableCell>
+                        <TableCell className="text-text-muted text-[10px] font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                           {row.tol}
                         </TableCell>
                         <TableCell className="text-center text-xs font-bold">{row.xs}</TableCell>
                         <TableCell className="text-center text-xs font-bold">{row.s}</TableCell>
+<<<<<<< HEAD
                         <TableCell className="bg-slate-50/50 text-center text-xs font-bold">
+=======
+                        <TableCell className="bg-bg-surface2/80 text-center text-xs font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                           {row.m}
                         </TableCell>
                         <TableCell className="text-center text-xs font-bold">{row.l}</TableCell>
@@ -467,7 +722,11 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
                           <Button
                             variant="ghost"
                             size="icon"
+<<<<<<< HEAD
                             className="h-8 w-8 rounded-lg text-slate-300 hover:text-slate-900"
+=======
+                            className="text-text-muted hover:text-text-primary h-8 w-8 rounded-lg"
+>>>>>>> recover/cabinet-wip-from-stash
                           >
                             <Settings2 className="h-3.5 w-3.5" />
                           </Button>
@@ -477,7 +736,11 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
                     {sizing.length === 0 && (
                       <TableRow>
                         <TableCell colSpan={8} className="h-32 text-center">
+<<<<<<< HEAD
                           <p className="text-[9px] font-black uppercase italic tracking-widest text-slate-300">
+=======
+                          <p className="text-text-muted text-[9px] font-black uppercase italic tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                             Таблица измерений пуста
                           </p>
                         </TableCell>
@@ -492,26 +755,39 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
           <TabsContent value="construction" className="mt-0 h-full">
             {sizing.length === 0 ? (
               <div className="flex h-full min-h-[400px] flex-col items-center justify-center p-10 text-center">
+<<<<<<< HEAD
                 <Scissors className="mb-4 h-12 w-12 text-slate-200" />
                 <h4 className="text-sm font-black uppercase tracking-tight text-slate-900">
                   Технологические узлы не определены
                 </h4>
                 <p className="mt-2 text-[10px] font-bold uppercase text-slate-400">
+=======
+                <Scissors className="text-text-muted mb-4 h-12 w-12" />
+                <h4 className="text-text-primary text-sm font-black uppercase tracking-tight">
+                  Технологические узлы не определены
+                </h4>
+                <p className="text-text-muted mt-2 text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                   Загрузите эскиз или выберите артикул для начала работы над конструкцией.
                 </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
                 <div className="space-y-6 lg:col-span-2">
+<<<<<<< HEAD
                   <div className="space-y-4 rounded-xl border border-slate-100 bg-slate-50 p-4">
                     <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+=======
+                  <div className="bg-bg-surface2 border-border-subtle space-y-4 rounded-xl border p-4">
+                    <Label className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
                       Stitching Details
                     </Label>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="space-y-2">
                         <Label className="text-[10px] font-bold uppercase">Stitch Type</Label>
                         <Select defaultValue="lockstitch">
-                          <SelectTrigger className="rounded-xl border-slate-100 bg-white font-bold">
+                          <SelectTrigger className="border-border-subtle rounded-xl bg-white font-bold">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent className="rounded-xl">
@@ -527,25 +803,42 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
                         </Label>
                         <Input
                           defaultValue="12"
+<<<<<<< HEAD
                           className="rounded-xl border-slate-100 bg-white font-bold"
+=======
+                          className="border-border-subtle rounded-xl bg-white font-bold"
+>>>>>>> recover/cabinet-wip-from-stash
                         />
                       </div>
                     </div>
                   </div>
 
+<<<<<<< HEAD
                   <div className="space-y-4 rounded-xl border border-slate-100 bg-slate-50 p-4">
                     <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+=======
+                  <div className="bg-bg-surface2 border-border-subtle space-y-4 rounded-xl border p-4">
+                    <Label className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
                       Construction Notes
                     </Label>
                     <Textarea
                       placeholder="Special instructions for seam allowances, bonding, or reinforcement..."
+<<<<<<< HEAD
                       className="min-h-[200px] rounded-2xl border-slate-100 bg-white p-4 font-medium"
+=======
+                      className="border-border-subtle min-h-[200px] rounded-2xl bg-white p-4 font-medium"
+>>>>>>> recover/cabinet-wip-from-stash
                     />
                   </div>
                 </div>
 
                 <div className="space-y-6">
+<<<<<<< HEAD
                   <Card className="relative overflow-hidden rounded-xl border-none border-slate-100 bg-slate-900 p-4 text-white shadow-xl">
+=======
+                  <Card className="border-border-subtle bg-text-primary relative overflow-hidden rounded-xl border-none p-4 text-white shadow-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                     <div className="absolute right-0 top-0 p-4 opacity-10">
                       <CheckCircle2 className="h-20 w-20" />
                     </div>
@@ -572,7 +865,11 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
                     </div>
                   </Card>
 
+<<<<<<< HEAD
                   <Button className="group h-12 w-full rounded-2xl border border-slate-100 bg-white text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-xl hover:bg-slate-50">
+=======
+                  <Button className="text-text-primary border-border-subtle hover:bg-bg-surface2 group h-12 w-full rounded-2xl border bg-white text-[10px] font-black uppercase tracking-widest shadow-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                     Send to Marketplace{' '}
                     <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Button>
@@ -584,15 +881,24 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
       </Tabs>
 
       {/* Footer / Stepper */}
+<<<<<<< HEAD
       <div className="mt-auto flex items-center justify-between border-t border-slate-100 bg-white/50 p-4">
         <div className="flex items-center gap-3 text-slate-400">
+=======
+      <div className="border-border-subtle mt-auto flex items-center justify-between border-t bg-white/50 p-4">
+        <div className="text-text-muted flex items-center gap-3">
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="flex items-center gap-2">
             <AlertCircle className="h-4 w-4 text-amber-500" />
             <span className="text-[9px] font-black uppercase tracking-widest">
               3 Missing Attributes
             </span>
           </div>
+<<<<<<< HEAD
           <div className="h-4 w-px bg-slate-200" />
+=======
+          <div className="bg-border-subtle h-4 w-px" />
+>>>>>>> recover/cabinet-wip-from-stash
           <span className="text-[9px] font-bold uppercase italic tracking-widest">
             Last saved: 2 mins ago by Syntha AI
           </span>
@@ -601,13 +907,21 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
         <div className="flex gap-3">
           <Button
             variant="ghost"
+<<<<<<< HEAD
             className="h-10 rounded-xl px-4 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:bg-slate-100"
+=======
+            className="text-text-muted hover:bg-bg-surface2 h-10 rounded-xl px-4 text-[10px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <ChevronLeft className="mr-2 h-4 w-4" /> Previous
           </Button>
           <Button
             variant="ghost"
+<<<<<<< HEAD
             className="h-10 rounded-xl px-4 text-[10px] font-black uppercase tracking-widest text-slate-900 hover:bg-slate-100"
+=======
+            className="text-text-primary hover:bg-bg-surface2 h-10 rounded-xl px-4 text-[10px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             Next Section <ChevronRight className="ml-2 h-4 w-4" />
           </Button>

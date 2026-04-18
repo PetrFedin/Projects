@@ -14,11 +14,12 @@ import {
 } from '@/components/ui/table';
 import Link from 'next/link';
 import { Package, QrCode, Truck, Factory, ArrowUpFromLine } from 'lucide-react';
-import { useRbac } from '@/hooks/useRbac';
 import { getAvailableQty, type InventoryItem } from '@/lib/warehouse';
 import { cn } from '@/lib/utils';
 import { getLogisticsLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { ROUTES } from '@/lib/routes';
 
 const MOCK_INVENTORY: InventoryItem[] = [
   {
@@ -52,10 +53,8 @@ const MOCK_INVENTORY: InventoryItem[] = [
 ];
 
 export default function WarehousePage() {
-  const { can } = useRbac();
-  const canEdit = can('warehouse', 'edit');
-
   return (
+<<<<<<< HEAD
     <div className="container mx-auto space-y-6 px-4 py-6">
       <div className="flex items-center justify-between">
         <div>
@@ -92,6 +91,42 @@ export default function WarehousePage() {
           </Button>
         </div>
       </div>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Складской учёт"
+        leadPlain="Инвентарь, остатки, связь с Production и маркировкой"
+        actions={
+          <div className="flex flex-wrap justify-end gap-2">
+            <Button variant="outline" size="sm" asChild>
+              <Link href={ROUTES.brand.production}>
+                <Factory className="mr-2 h-4 w-4" /> Production
+              </Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link href={ROUTES.brand.logisticsDutyCalculator}>
+                <Truck className="mr-2 h-4 w-4" /> Duty Calculator
+              </Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link href={ROUTES.brand.logisticsConsolidation}>
+                <Package className="mr-2 h-4 w-4" /> Консолидация
+              </Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link href={ROUTES.brand.logisticsShadowInventory}>
+                <ArrowUpFromLine className="mr-2 h-4 w-4" /> Shadow Inventory
+              </Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link href={ROUTES.brand.complianceStock}>
+                <QrCode className="mr-2 h-4 w-4" /> КИЗ / Честный ЗНАК
+              </Link>
+            </Button>
+          </div>
+        }
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <Card>
@@ -127,7 +162,7 @@ export default function WarehousePage() {
       <Card>
         <CardHeader>
           <CardTitle>Остатки по позициям</CardTitle>
-          <p className="text-sm text-slate-500">Связь с B2B заказами и Production</p>
+          <p className="text-text-secondary text-sm">Связь с B2B заказами и Production</p>
         </CardHeader>
         <CardContent>
           <Table>
@@ -168,6 +203,6 @@ export default function WarehousePage() {
       </Card>
 
       <RelatedModulesBlock links={getLogisticsLinks()} className="mt-6" />
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -28,17 +28,29 @@ export function VRShowroomModule() {
   const [activeView, setActiveAnalysis] = useState<'3d' | 'ar' | 'tour'>('3d');
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen space-y-4 bg-slate-900 p-4 text-white">
+=======
+    <div className="bg-text-primary min-h-screen space-y-4 p-4 text-white">
+>>>>>>> recover/cabinet-wip-from-stash
       {/* Header */}
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
+<<<<<<< HEAD
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-600">
+=======
+            <div className="bg-accent-primary flex h-8 w-8 items-center justify-center rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
               <Orbit className="h-4 w-4 text-white" />
             </div>
             <Badge
               variant="outline"
+<<<<<<< HEAD
               className="border-indigo-500/30 bg-indigo-500/5 text-[9px] font-black uppercase tracking-widest text-indigo-400 backdrop-blur-md"
+=======
+              className="border-accent-primary/30 text-accent-primary bg-accent-primary/5 text-[9px] font-black uppercase tracking-widest backdrop-blur-md"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               VR_Ecosystem_v5.0
             </Badge>
@@ -48,7 +60,11 @@ export function VRShowroomModule() {
             <br />
             Showroom
           </h2>
+<<<<<<< HEAD
           <p className="max-w-md text-left text-xs font-medium text-slate-400">
+=======
+          <p className="text-text-muted max-w-md text-left text-xs font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
             Immersive wholesale experience. Walk through digital twins of our physical showrooms,
             examine textures in 8K, and place orders in 3D.
           </p>
@@ -67,8 +83,13 @@ export function VRShowroomModule() {
                 className={cn(
                   'h-10 gap-2 rounded-xl px-5 text-[9px] font-black uppercase tracking-widest transition-all',
                   activeView === tab.id
+<<<<<<< HEAD
                     ? 'bg-white text-slate-900 shadow-xl'
                     : 'bg-transparent text-slate-400 hover:text-white'
+=======
+                    ? 'text-text-primary bg-white shadow-xl'
+                    : 'text-text-muted bg-transparent hover:text-white'
+>>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 <tab.icon className="h-3.5 w-3.5" />
@@ -82,7 +103,11 @@ export function VRShowroomModule() {
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-12">
         {/* Main VR Viewport */}
         <div className="lg:col-span-8">
+<<<<<<< HEAD
           <div className="group relative aspect-video cursor-crosshair overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-slate-800 to-slate-950 shadow-2xl">
+=======
+          <div className="from-text-primary to-text-primary group relative aspect-video cursor-crosshair overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
             {/* Mock VR Scene */}
             <img
               src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=1200"
@@ -91,7 +116,11 @@ export function VRShowroomModule() {
 
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="relative">
+<<<<<<< HEAD
                 <div className="absolute inset-0 animate-pulse rounded-full bg-indigo-500 opacity-20 blur-[100px]" />
+=======
+                <div className="bg-accent-primary absolute inset-0 animate-pulse rounded-full opacity-20 blur-[100px]" />
+>>>>>>> recover/cabinet-wip-from-stash
                 <div className="relative z-10 flex h-24 w-24 items-center justify-center rounded-full border-2 border-white/20 backdrop-blur-sm transition-all group-hover:scale-110">
                   <Play className="h-8 w-8 fill-white text-white" />
                 </div>
@@ -104,8 +133,13 @@ export function VRShowroomModule() {
                 Streaming Live: 8K Ready
               </Badge>
               <div className="flex items-center gap-2 rounded-full border border-white/10 bg-black/40 px-3 py-1 backdrop-blur-md">
+<<<<<<< HEAD
                 <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-indigo-500" />
                 <span className="text-[8px] font-black uppercase tracking-widest text-indigo-400">
+=======
+                <div className="bg-accent-primary h-1.5 w-1.5 animate-pulse rounded-full" />
+                <span className="text-accent-primary text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   Headset Connected
                 </span>
               </div>
@@ -118,19 +152,32 @@ export function VRShowroomModule() {
                     <h4 className="text-xs font-black uppercase tracking-tight">
                       Active Perspective
                     </h4>
+<<<<<<< HEAD
                     <Eye className="h-3 w-3 text-slate-400" />
                   </div>
                   <p className="text-[10px] font-medium leading-relaxed text-slate-400">
+=======
+                    <Eye className="text-text-muted h-3 w-3" />
+                  </div>
+                  <p className="text-text-muted text-[10px] font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                     Main Hall Cluster: Cyber Tech Core. Hover to inspect individual SKU details.
                   </p>
                 </div>
               </div>
 
               <div className="flex gap-2">
+<<<<<<< HEAD
                 <Button className="h-10 w-10 rounded-2xl bg-white p-0 text-slate-900 shadow-2xl hover:bg-slate-100">
                   <Maximize2 className="h-6 w-6" />
                 </Button>
                 <Button className="h-10 gap-2 rounded-2xl bg-indigo-600 px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-2xl shadow-indigo-900/40">
+=======
+                <Button className="text-text-primary hover:bg-bg-surface2 h-10 w-10 rounded-2xl bg-white p-0 shadow-2xl">
+                  <Maximize2 className="h-6 w-6" />
+                </Button>
+                <Button className="bg-accent-primary shadow-accent-primary/40 h-10 gap-2 rounded-2xl px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
                   Enter Full Immersion <Zap className="h-4 w-4" />
                 </Button>
               </div>
@@ -141,7 +188,11 @@ export function VRShowroomModule() {
         {/* VR HUD Controls Sidebar */}
         <div className="space-y-4 lg:col-span-4">
           <Card className="space-y-4 rounded-xl border border-none border-white/10 bg-white/5 p-4 shadow-2xl backdrop-blur-xl">
+<<<<<<< HEAD
             <h3 className="text-sm font-black uppercase tracking-widest text-indigo-400">
+=======
+            <h3 className="text-accent-primary text-sm font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               Environment HUD
             </h3>
 
@@ -156,18 +207,26 @@ export function VRShowroomModule() {
                   className="flex items-center justify-between rounded-2xl border border-white/5 bg-white/5 p-4"
                 >
                   <div className="flex items-center gap-3">
+<<<<<<< HEAD
                     <control.icon className="h-4 w-4 text-slate-400" />
+=======
+                    <control.icon className="text-text-muted h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
                     <span className="text-[10px] font-black uppercase tracking-widest">
                       {control.label}
                     </span>
                   </div>
-                  <span className="text-[10px] font-bold text-indigo-400">{control.val}</span>
+                  <span className="text-accent-primary text-[10px] font-bold">{control.val}</span>
                 </div>
               ))}
             </div>
 
             <div className="space-y-4 pt-4">
+<<<<<<< HEAD
               <h4 className="ml-2 text-[10px] font-black uppercase tracking-widest text-slate-500">
+=======
+              <h4 className="text-text-secondary ml-2 text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Quick Commands
               </h4>
               <div className="grid grid-cols-2 gap-3">
@@ -187,7 +246,11 @@ export function VRShowroomModule() {
             </div>
           </Card>
 
+<<<<<<< HEAD
           <Card className="space-y-6 rounded-xl border-none bg-indigo-600 p-4 shadow-2xl">
+=======
+          <Card className="bg-accent-primary space-y-6 rounded-xl border-none p-4 shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20">
                 <ShieldCheck className="h-5 w-5 text-white" />
@@ -199,7 +262,11 @@ export function VRShowroomModule() {
               order verification and auditing.
             </p>
             <div className="flex items-center justify-between pt-2">
+<<<<<<< HEAD
               <span className="text-[9px] font-black uppercase tracking-widest text-indigo-200">
+=======
+              <span className="text-accent-primary/40 text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Digital Signature: ACTIVE
               </span>
               <div className="h-2 w-2 animate-pulse rounded-full bg-white" />

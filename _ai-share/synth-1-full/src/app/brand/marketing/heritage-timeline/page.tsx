@@ -10,6 +10,8 @@ import { SectionInfoCard } from '@/components/brand/production/ProductionSection
 import { getMarketingLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { cn } from '@/lib/utils';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
 
 const MOCK_TIMELINE = [
   {
@@ -68,7 +70,11 @@ export default function HeritageTimelinePage() {
   const selected = MOCK_TIMELINE.find((t) => t.id === selectedId);
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
+=======
+    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+>>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Brand Heritage Timeline"
         description="Интерактивная история создания каждой вещи для конечных клиентов. Storytelling, аутентичность. Связь с Digital Passport, Products, Production."
@@ -84,17 +90,28 @@ export default function HeritageTimelinePage() {
               <Link href="/dpp/1">Digital Passport</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+<<<<<<< HEAD
               <Link href="/brand/products">Products</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href="/brand/production">Production</Link>
+=======
+              <Link href={ROUTES.brand.products}>Products</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.production}>Production</Link>
+>>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
       />
       <h1 className="text-2xl font-bold uppercase">Brand Heritage Timeline</h1>
 
+<<<<<<< HEAD
       <Card className="rounded-xl border border-slate-200 bg-white shadow-sm">
+=======
+      <Card className="border-border-default rounded-xl border bg-white shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <BookOpen className="h-5 w-5" /> История продукта: Cyber Parka (CP-001)
@@ -113,7 +130,11 @@ export default function HeritageTimelinePage() {
                   'shrink-0 rounded-xl border px-4 py-2 text-left text-[11px] font-bold transition-all',
                   selectedId === t.id
                     ? 'border-amber-300 bg-amber-100 text-amber-900'
+<<<<<<< HEAD
                     : 'border-slate-200 bg-slate-50 hover:border-amber-200'
+=======
+                    : 'bg-bg-surface2 border-border-default hover:border-amber-200'
+>>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 {t.step}
@@ -123,6 +144,7 @@ export default function HeritageTimelinePage() {
           {selected && (
             <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-amber-100 bg-amber-50/50 p-4">
               <div>
+<<<<<<< HEAD
                 <p className="text-[10px] font-bold uppercase text-slate-500">{selected.date}</p>
                 <p className="font-bold text-slate-900">{selected.step}</p>
                 <p className="mt-1 text-sm text-slate-600">{selected.desc}</p>
@@ -130,6 +152,17 @@ export default function HeritageTimelinePage() {
               <div className="flex gap-2">
                 <Button variant="outline" size="sm" asChild className="rounded-lg text-[10px]">
                   <Link href={`/brand/products/${selected.productId}`}>
+=======
+                <p className="text-text-secondary text-[10px] font-bold uppercase">
+                  {selected.date}
+                </p>
+                <p className="text-text-primary font-bold">{selected.step}</p>
+                <p className="text-text-secondary mt-1 text-sm">{selected.desc}</p>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" asChild className="rounded-lg text-[10px]">
+                  <Link href={ROUTES.brand.productsCard(selected.productId)}>
+>>>>>>> recover/cabinet-wip-from-stash
                     <Package className="mr-1 h-3 w-3" /> Карточка товара
                   </Link>
                 </Button>
@@ -145,12 +178,20 @@ export default function HeritageTimelinePage() {
           )}
           <div className="flex flex-wrap gap-2 pt-2">
             <Button variant="outline" size="sm" asChild className="text-[10px]">
+<<<<<<< HEAD
               <Link href="/brand/production/fit-comments">
+=======
+              <Link href={ROUTES.brand.productionFitComments}>
+>>>>>>> recover/cabinet-wip-from-stash
                 Fit Comments <ChevronRight className="ml-1 h-3 w-3" />
               </Link>
             </Button>
             <Button variant="outline" size="sm" asChild className="text-[10px]">
+<<<<<<< HEAD
               <Link href="/brand/production/gold-sample">
+=======
+              <Link href={ROUTES.brand.productionGoldSample}>
+>>>>>>> recover/cabinet-wip-from-stash
                 Gold Sample <ChevronRight className="ml-1 h-3 w-3" />
               </Link>
             </Button>
@@ -159,6 +200,6 @@ export default function HeritageTimelinePage() {
       </Card>
 
       <RelatedModulesBlock links={getMarketingLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

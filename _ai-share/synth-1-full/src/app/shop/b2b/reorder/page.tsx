@@ -1,11 +1,11 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useSearchParamsNonNull } from '@/hooks/use-search-params-non-null';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, RefreshCcw, TrendingUp, TrendingDown, Minus, Package } from 'lucide-react';
+import { RefreshCcw, TrendingUp, TrendingDown, Minus, Package } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { mockB2BOrders } from '@/lib/order-data';
 import {
@@ -14,9 +14,11 @@ import {
 } from '@/lib/b2b/reorder-sellthrough';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { RegistryPageShell } from '@/components/design-system';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 export default function B2BReorderPage() {
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParamsNonNull();
   const copyFrom = searchParams.get('copyFrom') ?? '';
 
   const allLines = getReorderLinesWithSellThrough();
@@ -34,6 +36,7 @@ export default function B2BReorderPage() {
     copyFrom && ordersWithLines.some((o) => o.orderId === copyFrom) ? copyFrom : null;
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2bOrders}>
@@ -48,6 +51,13 @@ export default function B2BReorderPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell>
+      <ShopB2bContentHeader
+        backHref={ROUTES.shop.b2bOrders}
+        lead="Повтор заказа из истории с подсказками по sell-through (NuORDER, мок)."
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -65,14 +75,19 @@ export default function B2BReorderPage() {
               key={orderId}
               className={
                 highlightOrderId === orderId
+<<<<<<< HEAD
                   ? 'rounded-xl border-2 border-indigo-300 bg-indigo-50/30 p-4'
                   : 'rounded-xl border border-slate-200 p-4'
+=======
+                  ? 'border-accent-primary/30 bg-accent-primary/10 rounded-xl border-2 p-4'
+                  : 'border-border-default rounded-xl border p-4'
+>>>>>>> recover/cabinet-wip-from-stash
               }
             >
               <div className="mb-3 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="font-mono font-semibold">{orderId}</span>
-                  <span className="text-slate-600">{brand}</span>
+                  <span className="text-text-secondary">{brand}</span>
                   {status && <Badge variant="secondary">{status}</Badge>}
                 </div>
                 <Button size="sm" asChild>
@@ -84,7 +99,11 @@ export default function B2BReorderPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
+<<<<<<< HEAD
                     <tr className="border-b border-slate-200">
+=======
+                    <tr className="border-border-default border-b">
+>>>>>>> recover/cabinet-wip-from-stash
                       <th className="py-2 text-left font-medium">Артикул / Товар</th>
                       <th className="py-2 text-right font-medium">Заказывали</th>
                       <th className="py-2 text-right font-medium">Продано (мок)</th>
@@ -94,10 +113,14 @@ export default function B2BReorderPage() {
                   </thead>
                   <tbody>
                     {lines.map((l) => (
-                      <tr key={`${l.orderId}-${l.sku}`} className="border-b border-slate-100">
+                      <tr key={`${l.orderId}-${l.sku}`} className="border-border-subtle border-b">
                         <td className="py-2">
                           <span className="font-mono text-xs">{l.sku}</span>
+<<<<<<< HEAD
                           <span className="block max-w-[180px] truncate text-slate-500">
+=======
+                          <span className="text-text-secondary block max-w-[180px] truncate">
+>>>>>>> recover/cabinet-wip-from-stash
                             {l.productName}
                           </span>
                         </td>
@@ -110,7 +133,11 @@ export default function B2BReorderPage() {
                                 ? 'text-emerald-600'
                                 : l.sellThroughRate < 0.5
                                   ? 'text-amber-600'
+<<<<<<< HEAD
                                   : 'text-slate-600'
+=======
+                                  : 'text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                             }
                           >
                             {Math.round(l.sellThroughRate * 100)}%
@@ -125,7 +152,11 @@ export default function B2BReorderPage() {
                             <TrendingDown className="ml-1 inline h-3.5 w-3.5 text-amber-500" />
                           )}
                           {l.hint === 'same' && (
+<<<<<<< HEAD
                             <Minus className="ml-1 inline h-3.5 w-3.5 text-slate-400" />
+=======
+                            <Minus className="text-text-muted ml-1 inline h-3.5 w-3.5" />
+>>>>>>> recover/cabinet-wip-from-stash
                           )}
                         </td>
                       </tr>
@@ -159,6 +190,10 @@ export default function B2BReorderPage() {
         title="Заказы, матрица, каталог"
         className="mt-6"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

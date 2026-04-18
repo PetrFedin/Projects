@@ -50,7 +50,7 @@ export function CollectionCreateWizardSteps({
       <div className="space-y-4">
         {COLLECTION_TEMPLATES.length > 0 && (
           <div className="space-y-2">
-            <Label className="text-[10px] font-black uppercase text-slate-400">Шаблон</Label>
+            <Label className="text-text-muted text-[10px] font-black uppercase">Шаблон</Label>
             <div className="flex flex-wrap gap-2">
               {COLLECTION_TEMPLATES.map((t) => (
                 <Button
@@ -58,21 +58,27 @@ export function CollectionCreateWizardSteps({
                   type="button"
                   variant="outline"
                   size="sm"
-                  className={templateId === t.id ? 'border-indigo-500 bg-indigo-50' : ''}
+                  className={
+                    templateId === t.id ? 'border-accent-primary bg-accent-primary/10' : ''
+                  }
                   onClick={() => applyTemplate(t)}
                 >
-                  {t.label}
+                  {t.name}
                 </Button>
               ))}
             </div>
           </div>
         )}
         <div className="space-y-2">
+<<<<<<< HEAD
           <Label className="text-[10px] font-black uppercase text-slate-400">
+=======
+          <Label className="text-text-muted text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
             Название коллекции *
           </Label>
           <Input
-            placeholder="Summer Solstice 2026"
+            placeholder="Летнее солнцестояние 2026"
             value={form.name}
             onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
             className="h-11 rounded-xl"
@@ -81,7 +87,11 @@ export function CollectionCreateWizardSteps({
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
+<<<<<<< HEAD
             <Label className="text-[10px] font-black uppercase text-slate-400">Сезон</Label>
+=======
+            <Label className="text-text-muted text-[10px] font-black uppercase">Сезон</Label>
+>>>>>>> recover/cabinet-wip-from-stash
             <Select
               value={form.season}
               onValueChange={(v) => setForm((f) => ({ ...f, season: v }))}
@@ -99,7 +109,7 @@ export function CollectionCreateWizardSteps({
             </Select>
           </div>
           <div className="space-y-2">
-            <Label className="text-[10px] font-black uppercase text-slate-400">Тип</Label>
+            <Label className="text-text-muted text-[10px] font-black uppercase">Тип</Label>
             <Select value={form.type} onValueChange={(v) => setForm((f) => ({ ...f, type: v }))}>
               <SelectTrigger className="h-11 rounded-xl">
                 <SelectValue />
@@ -116,7 +126,9 @@ export function CollectionCreateWizardSteps({
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label className="text-[10px] font-black uppercase text-slate-400">Ответственный</Label>
+            <Label className="text-text-muted text-[10px] font-black uppercase">
+              Ответственный
+            </Label>
             <Input
               value={form.responsible}
               onChange={(e) => setForm((f) => ({ ...f, responsible: e.target.value }))}
@@ -124,7 +136,7 @@ export function CollectionCreateWizardSteps({
             />
           </div>
           <div className="space-y-2">
-            <Label className="text-[10px] font-black uppercase text-slate-400">Дедлайн</Label>
+            <Label className="text-text-muted text-[10px] font-black uppercase">Дедлайн</Label>
             <Input
               type="date"
               value={form.deadline}
@@ -135,7 +147,11 @@ export function CollectionCreateWizardSteps({
           </div>
         </div>
         <div className="space-y-2">
+<<<<<<< HEAD
           <Label className="text-[10px] font-black uppercase text-slate-400">Приоритет</Label>
+=======
+          <Label className="text-text-muted text-[10px] font-black uppercase">Приоритет</Label>
+>>>>>>> recover/cabinet-wip-from-stash
           <Select
             value={form.priority}
             onValueChange={(v) => setForm((f) => ({ ...f, priority: v }))}
@@ -165,7 +181,7 @@ export function CollectionCreateWizardSteps({
     return (
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label className="text-[10px] font-black uppercase text-slate-400">Первый дроп</Label>
+          <Label className="text-text-muted text-[10px] font-black uppercase">Первый дроп</Label>
           <div className="grid grid-cols-2 gap-2">
             <Input
               placeholder="Название"
@@ -183,7 +199,11 @@ export function CollectionCreateWizardSteps({
           {errors.dropName && <p className="text-[10px] text-rose-500">{errors.dropName}</p>}
         </div>
         <div className="space-y-2">
+<<<<<<< HEAD
           <Label className="text-[10px] font-black uppercase text-slate-400">
+=======
+          <Label className="text-text-muted text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
             Дополнительные дропы
           </Label>
           {drops.map((d, i) => (
@@ -253,7 +273,11 @@ export function CollectionCreateWizardSteps({
     return (
       <div className="space-y-4">
         <div className="space-y-2">
+<<<<<<< HEAD
           <Label className="text-[10px] font-black uppercase text-slate-400">
+=======
+          <Label className="text-text-muted text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
             Бюджет (материалы / пошив / логистика)
           </Label>
           <div className="grid grid-cols-3 gap-2">
@@ -291,8 +315,13 @@ export function CollectionCreateWizardSteps({
           {errors.budget && <p className="text-[10px] text-rose-500">{errors.budget}</p>}
         </div>
         <div className="space-y-2">
+<<<<<<< HEAD
           <Label className="text-[10px] font-black uppercase text-slate-400">
             Merchandise plan (целевые единицы)
+=======
+          <Label className="text-text-muted text-[10px] font-black uppercase">
+            План мерчендайзинга (целевые единицы)
+>>>>>>> recover/cabinet-wip-from-stash
           </Label>
           {form.merchPlan?.map((m, i) => (
             <div key={m.id} className="flex items-center gap-2">
@@ -321,7 +350,7 @@ export function CollectionCreateWizardSteps({
   if (step === 4) {
     return (
       <div className="space-y-4">
-        <p className="text-[10px] text-slate-500">
+        <p className="text-text-secondary text-[10px]">
           Цветовая палитра: {form.palette?.length || 0} цветов
         </p>
         {form.palette?.length ? (
@@ -329,11 +358,19 @@ export function CollectionCreateWizardSteps({
             {form.palette.map((c, i) => (
               <div
                 key={i}
+<<<<<<< HEAD
                 className="flex items-center gap-1 rounded-lg border border-slate-200 px-2 py-1"
                 style={{ backgroundColor: c.hex ? `${c.hex}20` : undefined }}
               >
                 <div
                   className="h-4 w-4 rounded-full border border-slate-300"
+=======
+                className="border-border-default flex items-center gap-1 rounded-lg border px-2 py-1"
+                style={{ backgroundColor: c.hex ? `${c.hex}20` : undefined }}
+              >
+                <div
+                  className="border-border-default h-4 w-4 rounded-full border"
+>>>>>>> recover/cabinet-wip-from-stash
                   style={{ backgroundColor: c.hex || '#ccc' }}
                 />
                 <span className="text-[10px] font-bold">{c.name || '—'}</span>
@@ -341,7 +378,11 @@ export function CollectionCreateWizardSteps({
             ))}
           </div>
         ) : (
+<<<<<<< HEAD
           <p className="text-[10px] italic text-slate-400">
+=======
+          <p className="text-text-muted text-[10px] italic">
+>>>>>>> recover/cabinet-wip-from-stash
             Палитра подгружается из шаблона. Нажмите &quot;Запустить&quot; для создания коллекции.
           </p>
         )}

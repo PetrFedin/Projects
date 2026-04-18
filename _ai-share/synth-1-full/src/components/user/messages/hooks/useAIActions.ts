@@ -1,6 +1,9 @@
 import React from 'react';
 import { useToast } from '@/hooks/use-toast';
+<<<<<<< HEAD
 import { optimizeBlogText } from '@/ai/flows/optimize-blog-text';
+=======
+>>>>>>> recover/cabinet-wip-from-stash
 
 export function useAIActions(composerText: string, setComposerText: (t: string) => void) {
   const { toast } = useToast();
@@ -12,7 +15,19 @@ export function useAIActions(composerText: string, setComposerText: (t: string) 
     if (!composerText.trim()) return;
     setIsAiProcessing(true);
     try {
-      const result = await optimizeBlogText({ text: composerText });
+      const res = await fetch('/api/ai/optimize-blog-text', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: composerText }),
+      });
+      const result = (await res.json()) as {
+        optimizedText?: string;
+        explanation?: string;
+        message?: string;
+      };
+      if (!res.ok || !result.optimizedText || !result.explanation) {
+        throw new Error(result?.message || 'Failed to optimize text');
+      }
       setAiSuggestedText(result.optimizedText + `\n\n[AI: ${result.explanation}]`);
       setShowAiComparison(true);
       toast({ title: 'Текст оптимизирован' });

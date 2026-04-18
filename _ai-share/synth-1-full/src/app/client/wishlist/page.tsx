@@ -24,16 +24,26 @@ export default function ClientWishlistPage() {
           <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
             <Heart className="h-6 w-6 text-rose-500" /> Избранное
           </h1>
+<<<<<<< HEAD
           <p className="mt-0.5 text-sm text-slate-500">{wishlist.length} товаров</p>
+=======
+          <p className="text-text-secondary mt-0.5 text-sm">{wishlist.length} товаров</p>
+>>>>>>> recover/cabinet-wip-from-stash
         </div>
       </div>
 
       {wishlist.length === 0 ? (
-        <Card className="border-slate-100">
+        <Card className="border-border-subtle">
           <CardContent className="py-12 text-center">
+<<<<<<< HEAD
             <Heart className="mx-auto mb-3 h-12 w-12 text-slate-200" />
             <p className="font-medium text-slate-500">В избранном пока ничего нет</p>
             <p className="mt-1 text-sm text-slate-400">
+=======
+            <Heart className="text-text-muted mx-auto mb-3 h-12 w-12" />
+            <p className="text-text-secondary font-medium">В избранном пока ничего нет</p>
+            <p className="text-text-muted mt-1 text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
               Добавляйте понравившиеся товары — они появятся здесь.
             </p>
             <Button className="mt-4" asChild>

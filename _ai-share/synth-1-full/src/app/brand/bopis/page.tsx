@@ -8,6 +8,7 @@ import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getBopisLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { ArrowLeft, Store, RotateCcw } from 'lucide-react';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 const MOCK_PICKUPS = [
   {
@@ -49,6 +50,7 @@ const MOCK_RETURNS = [
 
 export default function BopisHubPage() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-wrap items-center gap-3">
         <Link href={ROUTES.brand.home}>
@@ -57,9 +59,24 @@ export default function BopisHubPage() {
           </Button>
         </Link>
       </div>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="BOPIS: выдача и возвраты в магазине"
+        leadPlain="Заказы на выдачу в точке самовывоза и возвраты по BOPIS-заказам (мок)."
+        eyebrow={
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.brand.home} aria-label="Назад в кабинет">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+        actions={<Store className="size-6 shrink-0 text-muted-foreground" aria-hidden />}
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <div className="grid gap-6 md:grid-cols-2">
-        <Card className="rounded-xl border border-slate-200 shadow-sm">
+        <Card className="border-border-default rounded-xl border shadow-sm">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
               <Store className="h-5 w-5" /> Заказы на выдачу
@@ -71,11 +88,19 @@ export default function BopisHubPage() {
               {MOCK_PICKUPS.map((p) => (
                 <li
                   key={p.id}
+<<<<<<< HEAD
                   className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
                 >
                   <div>
                     <p className="font-mono text-xs font-semibold">{p.orderId}</p>
                     <p className="text-[11px] text-slate-500">
+=======
+                  className="bg-bg-surface2 border-border-subtle flex items-center justify-between gap-2 rounded-lg border p-3"
+                >
+                  <div>
+                    <p className="font-mono text-xs font-semibold">{p.orderId}</p>
+                    <p className="text-text-secondary text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                       {p.store} · {p.customer}
                     </p>
                   </div>
@@ -97,7 +122,7 @@ export default function BopisHubPage() {
           </CardContent>
         </Card>
 
-        <Card className="rounded-xl border border-slate-200 shadow-sm">
+        <Card className="border-border-default rounded-xl border shadow-sm">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
               <RotateCcw className="h-5 w-5" /> Возвраты в магазине
@@ -109,11 +134,19 @@ export default function BopisHubPage() {
               {MOCK_RETURNS.map((r) => (
                 <li
                   key={r.id}
+<<<<<<< HEAD
                   className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
                 >
                   <div>
                     <p className="font-mono text-xs font-semibold">{r.orderId}</p>
                     <p className="text-[11px] text-slate-500">
+=======
+                  className="bg-bg-surface2 border-border-subtle flex items-center justify-between gap-2 rounded-lg border p-3"
+                >
+                  <div>
+                    <p className="font-mono text-xs font-semibold">{r.orderId}</p>
+                    <p className="text-text-secondary text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                       {r.store} · {r.reason}
                     </p>
                   </div>
@@ -123,7 +156,11 @@ export default function BopisHubPage() {
                 </li>
               ))}
             </ul>
+<<<<<<< HEAD
             <p className="mt-2 text-[11px] text-slate-500">
+=======
+            <p className="text-text-secondary mt-2 text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
               При API: синхронизация с кассой/складом и возвратами B2B.
             </p>
           </CardContent>
@@ -131,6 +168,6 @@ export default function BopisHubPage() {
       </div>
 
       <RelatedModulesBlock links={getBopisLinks()} title="Склад, возвраты, BOPIS в магазине" />
-    </div>
+    </RegistryPageShell>
   );
 }

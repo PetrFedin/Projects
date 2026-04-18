@@ -61,7 +61,7 @@ export default function SmartNotifications() {
             description: `${wishlist.length} товаров из вашего избранного сейчас со скидкой до 30%`,
             read: false,
             timestamp: new Date().toISOString(),
-            actionLink: '/u?tab=wardrobe',
+            actionLink: '/client/me?tab=wardrobe',
             actionText: 'Посмотреть скидки',
             priority: 'high',
           },
@@ -105,7 +105,7 @@ export default function SmartNotifications() {
             description: 'Вы получили достижение "Постоянный клиент" за 10 заказов',
             read: true,
             timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
-            actionLink: '/u?tab=achievements',
+            actionLink: '/client/me?tab=achievements',
             actionText: 'Посмотреть достижения',
             priority: 'low',
           },
@@ -155,7 +155,11 @@ export default function SmartNotifications() {
       case 'achievement':
         return <Sparkles className="h-4 w-4 text-yellow-600" />;
       case 'recommendation':
+<<<<<<< HEAD
         return <TrendingDown className="h-4 w-4 text-purple-600" />;
+=======
+        return <TrendingDown className="text-accent-primary h-4 w-4" />;
+>>>>>>> recover/cabinet-wip-from-stash
     }
   };
 

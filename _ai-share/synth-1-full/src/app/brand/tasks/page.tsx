@@ -23,6 +23,8 @@ import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import type { BrandTaskRecord, BrandTaskStatus } from '@/lib/production-data';
 import { generateTaskId, loadBrandTasks, saveBrandTasks } from '@/lib/production-data';
 import { demoTasksForProductionStage } from '@/lib/production/stages-comm-demo';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
 
 const DEMO_TASK_STATUS_STORAGE_KEY = 'brandStageDemoTaskStatus';
 
@@ -180,20 +182,28 @@ function BrandTasksPageInner() {
   }, [newTitle, newAssignee, newDue, newProject]);
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
+=======
+    <RegistryPageShell className="max-w-6xl space-y-6 pb-16">
+>>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Задачи команды"
         description="Kanban с сохранением в localStorage (brand_tasks_kanban_v1). Позже тот же контракт — через ProductionDataPort → API."
         icon={CheckCircle2}
-        iconBg="bg-indigo-100"
-        iconColor="text-indigo-600"
+        iconBg="bg-accent-primary/15"
+        iconColor="text-accent-primary"
         badges={
           <>
             <Badge variant="outline" className="text-[9px]">
               Kanban · persist
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+<<<<<<< HEAD
               <Link href="/brand/calendar?layers=tasks">Календарь задач</Link>
+=======
+              <Link href={`${ROUTES.brand.calendar}?layers=tasks`}>Календарь задач</Link>
+>>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -201,7 +211,11 @@ function BrandTasksPageInner() {
       <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h1 className="text-2xl font-bold uppercase">Задачи</h1>
+<<<<<<< HEAD
           <p className="text-sm text-slate-500">
+=======
+          <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Создание, смена статуса и хранение на клиенте до бэкенда
           </p>
         </div>
@@ -215,7 +229,11 @@ function BrandTasksPageInner() {
           />
           <div className="flex gap-2">
             <Button variant="outline" size="sm" asChild>
+<<<<<<< HEAD
               <Link href="/brand/calendar?layers=tasks" className="gap-2">
+=======
+              <Link href={`${ROUTES.brand.calendar}?layers=tasks`} className="gap-2">
+>>>>>>> recover/cabinet-wip-from-stash
                 <Calendar className="h-4 w-4" /> Календарь
               </Link>
             </Button>
@@ -281,7 +299,7 @@ function BrandTasksPageInner() {
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {columns.map((col) => (
-          <Card key={col.id} className="rounded-xl border border-slate-100">
+          <Card key={col.id} className="border-border-subtle rounded-xl border">
             <CardHeader className="pb-2">
               <CardTitle className="flex items-center justify-between text-sm">
                 {col.title}
@@ -292,15 +310,26 @@ function BrandTasksPageInner() {
             </CardHeader>
             <CardContent className="space-y-2">
               {col.tasks.length === 0 ? (
+<<<<<<< HEAD
                 <p className="py-4 text-[11px] text-slate-400">Нет задач</p>
+=======
+                <p className="text-text-muted py-4 text-[11px]">Нет задач</p>
+>>>>>>> recover/cabinet-wip-from-stash
               ) : (
                 col.tasks.map((t) => (
                   <div
                     key={t.id}
+<<<<<<< HEAD
                     className="space-y-2 rounded-lg border border-slate-100 bg-white p-3"
                   >
                     <p className="text-sm font-medium">{t.title}</p>
                     <div className="mt-1 flex items-center gap-2 text-[10px] text-slate-500">
+=======
+                    className="border-border-subtle space-y-2 rounded-lg border bg-white p-3"
+                  >
+                    <p className="text-sm font-medium">{t.title}</p>
+                    <div className="text-text-secondary mt-1 flex items-center gap-2 text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                       <span className="flex items-center gap-1">
                         <User className="h-3 w-3" /> {t.assignee}
                       </span>
@@ -338,18 +367,22 @@ function BrandTasksPageInner() {
         ))}
       </div>
 
-      <RelatedModulesBlock links={getTaskLinks('', undefined, undefined)} />
-    </div>
+      <RelatedModulesBlock links={getTaskLinks()} />
+    </RegistryPageShell>
   );
 }
 
 export default function BrandTasksPage() {
   return (
+<<<<<<< HEAD
     <Suspense
       fallback={
         <div className="container mx-auto px-4 py-10 text-sm text-slate-500">Загрузка…</div>
       }
     >
+=======
+    <Suspense fallback={<div className="text-text-secondary py-10 text-sm">Загрузка…</div>}>
+>>>>>>> recover/cabinet-wip-from-stash
       <BrandTasksPageInner />
     </Suspense>
   );

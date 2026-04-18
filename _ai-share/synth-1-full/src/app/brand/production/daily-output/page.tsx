@@ -17,6 +17,8 @@ import { getShiftReports, getShiftReportSummary } from '@/lib/production/daily-o
 import { cn } from '@/lib/utils';
 import { useFloorTabDraftState } from '@/hooks/use-floor-tab-draft';
 import { useToast } from '@/hooks/use-toast';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { RegistryPageShell } from '@/components/design-system';
 
 const DATE_OPTIONS = ['2026-03-11', '2026-03-10'];
 
@@ -33,13 +35,17 @@ export default function DailyOutputPage() {
   const summary = useMemo(() => getShiftReportSummary(reports), [reports]);
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
+=======
+    <RegistryPageShell className="max-w-4xl space-y-6 pb-16">
+>>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
-        title="Daily Output Tracking"
+        title="Контроль сменного выпуска"
         description="Сводка смен — из daily-output-data; комментарий мастера сохраняется в floor-tab: daily-output."
         icon={ClipboardList}
-        iconBg="bg-indigo-100"
-        iconColor="text-indigo-600"
+        iconBg="bg-accent-primary/15"
+        iconColor="text-accent-primary"
         badges={<ProductionGanttBadges />}
       />
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -49,7 +55,11 @@ export default function DailyOutputPage() {
               <ArrowLeft className="h-4 w-4" />
             </Button>
           </Link>
+<<<<<<< HEAD
           <h1 className="text-2xl font-bold uppercase">Daily Output Tracking</h1>
+=======
+          <h1 className="text-2xl font-bold uppercase">Контроль сменного выпуска</h1>
+>>>>>>> recover/cabinet-wip-from-stash
         </div>
         <Button
           size="sm"
@@ -64,7 +74,7 @@ export default function DailyOutputPage() {
         </Button>
       </div>
 
-      <Card className="rounded-xl border border-slate-200 shadow-sm">
+      <Card className="border-border-default rounded-xl border shadow-sm">
         <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-4">
           <div>
             <CardTitle className="flex items-center gap-2 text-sm">
@@ -90,17 +100,31 @@ export default function DailyOutputPage() {
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
+<<<<<<< HEAD
           <div className="grid grid-cols-3 gap-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-center">
+=======
+          <div className="bg-bg-surface2 border-border-default grid grid-cols-3 gap-2 rounded-lg border p-3 text-center">
+>>>>>>> recover/cabinet-wip-from-stash
             <div>
-              <p className="text-[10px] uppercase text-slate-500">План (сумма)</p>
+              <p className="text-text-secondary text-[10px] uppercase">
+                <AcronymWithTooltip abbr="KPI" />: план
+              </p>
               <p className="font-bold">{summary.totalPlan}</p>
             </div>
             <div>
-              <p className="text-[10px] uppercase text-slate-500">Факт (сумма)</p>
+              <p className="text-text-secondary text-[10px] uppercase">
+                <AcronymWithTooltip abbr="KPI" />: факт
+              </p>
               <p className="font-bold">{summary.totalFact}</p>
             </div>
             <div>
+<<<<<<< HEAD
               <p className="text-[10px] uppercase text-slate-500">Выполнение</p>
+=======
+              <p className="text-text-secondary text-[10px] uppercase">
+                <AcronymWithTooltip abbr="KPI" />: выполнение
+              </p>
+>>>>>>> recover/cabinet-wip-from-stash
               <p
                 className={cn(
                   'font-bold',
@@ -113,6 +137,7 @@ export default function DailyOutputPage() {
           </div>
           <table className="w-full border-collapse text-sm">
             <thead>
+<<<<<<< HEAD
               <tr className="border-b border-slate-200">
                 <th className="p-2 text-left text-[10px] font-bold uppercase text-slate-500">
                   Линия
@@ -127,13 +152,29 @@ export default function DailyOutputPage() {
                   Статус
                 </th>
                 <th className="p-2 text-left text-[10px] font-bold uppercase text-slate-500">
+=======
+              <tr className="border-border-default border-b">
+                <th className="text-text-secondary p-2 text-left text-[10px] font-bold uppercase">
+                  Линия
+                </th>
+                <th className="text-text-secondary p-2 text-right text-[10px] font-bold uppercase">
+                  План
+                </th>
+                <th className="text-text-secondary p-2 text-right text-[10px] font-bold uppercase">
+                  Факт
+                </th>
+                <th className="text-text-secondary p-2 text-right text-[10px] font-bold uppercase">
+                  Статус
+                </th>
+                <th className="text-text-secondary p-2 text-left text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                   Комментарий
                 </th>
               </tr>
             </thead>
             <tbody>
               {reports.map((s) => (
-                <tr key={s.id} className="border-b border-slate-100">
+                <tr key={s.id} className="border-border-subtle border-b">
                   <td className="p-2 font-medium">{s.lineName}</td>
                   <td className="p-2 text-right">{s.plan}</td>
                   <td className="p-2 text-right">{s.fact}</td>
@@ -145,7 +186,7 @@ export default function DailyOutputPage() {
                       {s.fact >= s.plan ? 'OK' : `${s.plan - s.fact} недобор`}
                     </Badge>
                   </td>
-                  <td className="p-2 text-[11px] text-slate-500">{s.comment || '—'}</td>
+                  <td className="text-text-secondary p-2 text-[11px]">{s.comment || '—'}</td>
                 </tr>
               ))}
             </tbody>
@@ -163,6 +204,6 @@ export default function DailyOutputPage() {
       </Card>
 
       <RelatedModulesBlock links={getProductionLinks()} />
-    </div>
+    </RegistryPageShell>
   );
 }

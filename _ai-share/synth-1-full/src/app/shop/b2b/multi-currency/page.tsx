@@ -5,14 +5,18 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, Coins, ArrowRightLeft } from 'lucide-react';
+import { ArrowRightLeft } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
+import { RegistryPageShell } from '@/components/design-system';
 import {
   SUPPORTED_CURRENCIES,
   DEMO_RATES_TO_RUB,
   convertAmount,
   formatCurrency,
 } from '@/lib/rf-market/multi-currency';
+import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
+import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
 
 /** B2B-Center: Мультивалютность — валюты и курсы (РФ) */
 export default function MultiCurrencyPage() {
@@ -23,6 +27,7 @@ export default function MultiCurrencyPage() {
   const converted = convertAmount(amount, fromCur, toCur);
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -39,6 +44,11 @@ export default function MultiCurrencyPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-2xl space-y-6">
+      <ShopB2bContentHeader lead="Несколько валют и курсов для заказов (B2B-Center style)." />
+      <ShopAnalyticsSegmentErpStrip />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -52,7 +62,11 @@ export default function MultiCurrencyPage() {
             {SUPPORTED_CURRENCIES.filter((c) => c.code !== 'RUB').map((c) => (
               <li
                 key={c.code}
+<<<<<<< HEAD
                 className="flex items-center justify-between border-b border-slate-100 py-2 last:border-0"
+=======
+                className="border-border-subtle flex items-center justify-between border-b py-2 last:border-0"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <span>
                   {c.name} ({c.code})
@@ -74,7 +88,11 @@ export default function MultiCurrencyPage() {
         <CardContent className="space-y-4">
           <div className="flex flex-wrap items-end gap-4">
             <div>
+<<<<<<< HEAD
               <label className="mb-1 block text-xs text-slate-500">Сумма</label>
+=======
+              <label className="text-text-secondary mb-1 block text-xs">Сумма</label>
+>>>>>>> recover/cabinet-wip-from-stash
               <Input
                 type="number"
                 min={0}
@@ -84,7 +102,11 @@ export default function MultiCurrencyPage() {
               />
             </div>
             <div>
+<<<<<<< HEAD
               <label className="mb-1 block text-xs text-slate-500">Из</label>
+=======
+              <label className="text-text-secondary mb-1 block text-xs">Из</label>
+>>>>>>> recover/cabinet-wip-from-stash
               <select
                 className="h-10 w-24 rounded-md border px-3"
                 value={fromCur}
@@ -98,7 +120,11 @@ export default function MultiCurrencyPage() {
               </select>
             </div>
             <div>
+<<<<<<< HEAD
               <label className="mb-1 block text-xs text-slate-500">В</label>
+=======
+              <label className="text-text-secondary mb-1 block text-xs">В</label>
+>>>>>>> recover/cabinet-wip-from-stash
               <select
                 className="h-10 w-24 rounded-md border px-3"
                 value={toCur}
@@ -120,9 +146,33 @@ export default function MultiCurrencyPage() {
 
       <div className="flex gap-2">
         <Button variant="outline" size="sm" asChild>
+<<<<<<< HEAD
           <Link href={ROUTES.shop.b2b}>B2B хаб</Link>
+=======
+          <Link href={ROUTES.shop.b2bCatalog}>B2B каталог</Link>
+>>>>>>> recover/cabinet-wip-from-stash
         </Button>
       </div>
-    </div>
+
+      <div className="border-border-subtle flex flex-wrap items-center gap-2 border-t pt-4">
+        <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+          См. также
+        </span>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link href={ROUTES.shop.analytics} data-testid="shop-b2b-multi-currency-retail-link">
+            Розничная аналитика
+          </Link>
+        </Button>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link
+            href={ROUTES.shop.analyticsFootfall}
+            data-testid="shop-b2b-multi-currency-footfall-link"
+          >
+            Трафик по зонам
+          </Link>
+        </Button>
+        <B2bMarginAnalysisHubButton />
+      </div>
+    </RegistryPageShell>
   );
 }

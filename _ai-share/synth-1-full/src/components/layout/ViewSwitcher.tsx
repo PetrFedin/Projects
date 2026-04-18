@@ -109,7 +109,11 @@ export function ViewSwitcher({
               <option value="personal">Personal</option>
               <option value="team">Team</option>
             </select>
+<<<<<<< HEAD
             <Button variant="primary" onClick={saveNew}>
+=======
+            <Button variant="cta" onClick={saveNew}>
+>>>>>>> recover/cabinet-wip-from-stash
               Save
             </Button>
           </div>

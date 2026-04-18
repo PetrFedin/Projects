@@ -40,11 +40,11 @@ export function RoleContextCard({ context }: RoleContextCardProps) {
   };
 
   const getRoleColor = () => {
-    if (isPlatformAdmin) return 'bg-purple-100 text-purple-700 border-purple-200';
-    if (isOrgAdmin) return 'bg-indigo-100 text-indigo-700 border-indigo-200';
+    if (isPlatformAdmin) return 'bg-accent-primary/15 text-accent-primary border-accent-primary/25';
+    if (isOrgAdmin) return 'bg-accent-primary/15 text-accent-primary border-accent-primary/30';
     if (isBuyer) return 'bg-blue-100 text-blue-700 border-blue-200';
     if (isSalesRep) return 'bg-emerald-100 text-emerald-700 border-emerald-200';
-    return 'bg-slate-100 text-slate-700 border-slate-200';
+    return 'bg-bg-surface2 text-text-primary border-border-default';
   };
 
   const Icon = getRoleIcon();
@@ -55,7 +55,15 @@ export function RoleContextCard({ context }: RoleContextCardProps) {
         <div
           className={cn(
             'flex h-10 w-10 items-center justify-center rounded-lg',
+<<<<<<< HEAD
             isPlatformAdmin ? 'bg-purple-200' : isOrgAdmin ? 'bg-indigo-200' : 'bg-slate-200'
+=======
+            isPlatformAdmin
+              ? 'bg-accent-primary/25'
+              : isOrgAdmin
+                ? 'bg-accent-primary/25'
+                : 'bg-border-subtle'
+>>>>>>> recover/cabinet-wip-from-stash
           )}
         >
           <Icon className="h-5 w-5" />
@@ -69,7 +77,11 @@ export function RoleContextCard({ context }: RoleContextCardProps) {
         </div>
 
         {isPlatformAdmin && (
+<<<<<<< HEAD
           <Badge className="ml-auto border-none bg-purple-600 text-[7px] font-black uppercase text-white">
+=======
+          <Badge className="bg-accent-primary ml-auto border-none text-[7px] font-black uppercase text-white">
+>>>>>>> recover/cabinet-wip-from-stash
             ADMIN
           </Badge>
         )}

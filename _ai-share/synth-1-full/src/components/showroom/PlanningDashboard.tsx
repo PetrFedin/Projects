@@ -45,7 +45,11 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
       desc: 'Оптимизация производственных циклов и загрузки мощностей',
       badge: 'Production AI',
       stats: [
+<<<<<<< HEAD
         { label: 'Цех Пошива', key: 'outerwear', color: 'bg-indigo-600' },
+=======
+        { label: 'Цех Пошива', key: 'outerwear', color: 'bg-accent-primary' },
+>>>>>>> recover/cabinet-wip-from-stash
         { label: 'Раскройный Цех', key: 'jersey', color: 'bg-emerald-500' },
         { label: 'ОТК & Упаковка', key: 'accessories', color: 'bg-amber-500' },
       ],
@@ -55,9 +59,15 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
       desc: 'Прогноз продаж и балансировка ассортиментной матрицы',
       badge: 'Retail AI',
       stats: [
+<<<<<<< HEAD
         { label: 'Верхняя одежда', key: 'outerwear', color: 'bg-slate-900' },
         { label: 'Трикотаж & Топы', key: 'jersey', color: 'bg-slate-500' },
         { label: 'Аксессуары', key: 'accessories', color: 'bg-slate-300' },
+=======
+        { label: 'Верхняя одежда', key: 'outerwear', color: 'bg-text-primary' },
+        { label: 'Трикотаж & Топы', key: 'jersey', color: 'bg-bg-surface2' },
+        { label: 'Аксессуары', key: 'accessories', color: 'bg-border-default' },
+>>>>>>> recover/cabinet-wip-from-stash
       ],
     },
     distributor: {
@@ -143,14 +153,22 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
             value: '12,500,000 ₽',
             sub: 'Лимит на сезон FW26',
             icon: Database,
+<<<<<<< HEAD
             color: 'text-slate-900',
+=======
+            color: 'text-text-primary',
+>>>>>>> recover/cabinet-wip-from-stash
           },
           {
             label: 'Выбрано в заказ',
             value: `${b2bCart.reduce((sum, item) => sum + item.price * item.quantity, 0).toLocaleString('ru-RU')} ₽`,
             sub: `${b2bCart.length} артикулов`,
             icon: Check,
+<<<<<<< HEAD
             color: 'text-indigo-600',
+=======
+            color: 'text-accent-primary',
+>>>>>>> recover/cabinet-wip-from-stash
           },
           {
             label: 'Остаток лимита',
@@ -164,11 +182,16 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
             value: '64.2%',
             sub: 'Прогноз прибыльности',
             icon: BarChart3,
+<<<<<<< HEAD
             color: 'text-indigo-600',
+=======
+            color: 'text-accent-primary',
+>>>>>>> recover/cabinet-wip-from-stash
           },
         ].map((item, i) => (
           <div
             key={i}
+<<<<<<< HEAD
             className="group flex flex-col justify-between rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition-all hover:border-indigo-200"
           >
             <div className="flex items-start justify-between">
@@ -176,23 +199,41 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
                 <item.icon className={cn('h-4 w-4', item.color)} />
               </div>
               <Badge className="border-none bg-slate-50 text-[7px] font-black uppercase tracking-widest text-slate-400">
+=======
+            className="border-border-subtle hover:border-accent-primary/30 group flex flex-col justify-between rounded-xl border bg-white p-4 shadow-sm transition-all"
+          >
+            <div className="flex items-start justify-between">
+              <div className="bg-bg-surface2 group-hover:bg-accent-primary/10 flex h-8 w-8 items-center justify-center rounded-xl transition-colors">
+                <item.icon className={cn('h-4 w-4', item.color)} />
+              </div>
+              <Badge className="bg-bg-surface2 text-text-muted border-none text-[7px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Live
               </Badge>
             </div>
             <div className="space-y-1">
+<<<<<<< HEAD
               <p className="mb-1 text-[10px] font-black uppercase tracking-widest text-slate-400">
+=======
+              <p className="text-text-muted mb-1 text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 {item.label}
               </p>
               <h4 className={cn('text-base font-black tracking-tighter', item.color)}>
                 {item.value}
               </h4>
+<<<<<<< HEAD
               <p className="mt-1 text-[7px] font-bold uppercase text-slate-400">{item.sub}</p>
+=======
+              <p className="text-text-muted mt-1 text-[7px] font-bold uppercase">{item.sub}</p>
+>>>>>>> recover/cabinet-wip-from-stash
             </div>
           </div>
         ))}
       </div>
 
       <div className="mb-8 grid grid-cols-1 gap-3 md:grid-cols-3">
+<<<<<<< HEAD
         <div className="rounded-xl border border-slate-100 bg-white p-4 shadow-sm md:col-span-2">
           <div className="mb-6 flex items-center justify-between">
             <div className="space-y-1">
@@ -203,6 +244,18 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
               <p className="text-[9px] font-medium text-slate-400">{currentConfig.desc}</p>
             </div>
             <Badge className="animate-pulse border-none bg-indigo-600 px-2 py-0.5 text-[8px] font-black uppercase tracking-widest text-white">
+=======
+        <div className="border-border-subtle rounded-xl border bg-white p-4 shadow-sm md:col-span-2">
+          <div className="mb-6 flex items-center justify-between">
+            <div className="space-y-1">
+              <h3 className="text-text-primary flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
+                <BarChart3 className="text-accent-primary h-3 w-3" />
+                {currentConfig.title}
+              </h3>
+              <p className="text-text-muted text-[9px] font-medium">{currentConfig.desc}</p>
+            </div>
+            <Badge className="bg-accent-primary animate-pulse border-none px-2 py-0.5 text-[8px] font-black uppercase tracking-widest text-white">
+>>>>>>> recover/cabinet-wip-from-stash
               {currentConfig.badge}
             </Badge>
           </div>
@@ -212,12 +265,21 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
               {stats.map((item) => (
                 <div key={item.label} className="space-y-2">
                   <div className="flex items-end justify-between">
+<<<<<<< HEAD
                     <span className="text-[8px] font-black uppercase tracking-tighter text-slate-500">
                       {item.label}
                     </span>
                     <span className="text-[9px] font-black text-slate-900">{item.value}%</span>
                   </div>
                   <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-200">
+=======
+                    <span className="text-text-secondary text-[8px] font-black uppercase tracking-tighter">
+                      {item.label}
+                    </span>
+                    <span className="text-text-primary text-[9px] font-black">{item.value}%</span>
+                  </div>
+                  <div className="bg-border-subtle h-1.5 w-full overflow-hidden rounded-full">
+>>>>>>> recover/cabinet-wip-from-stash
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${item.value}%` }}
@@ -242,19 +304,31 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
               ))}
             </div>
 
+<<<<<<< HEAD
             <div className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
+=======
+            <div className="border-border-subtle flex items-start gap-3 rounded-2xl border bg-white p-4 shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-amber-500/10">
                 <AlertCircle className="h-4 w-4 text-amber-600" />
               </div>
               <div className="space-y-1">
+<<<<<<< HEAD
                 <p className="text-[9px] font-black uppercase text-slate-900">
+=======
+                <p className="text-text-primary text-[9px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                   {viewRole === 'brand'
                     ? 'Production Insight'
                     : viewRole === 'distributor'
                       ? 'Logistics Insight'
                       : 'AI Recommendation'}
                 </p>
+<<<<<<< HEAD
                 <p className="text-[9px] font-medium leading-relaxed text-slate-500">
+=======
+                <p className="text-text-secondary text-[9px] font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                   {viewRole === 'brand'
                     ? 'Внимание: Нагрузка на цех пошива приближается к лимиту. Рекомендуем открыть дополнительную смену для Drop 2.'
                     : viewRole === 'distributor'
@@ -270,14 +344,22 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
           </div>
         </div>
 
+<<<<<<< HEAD
         <div className="group/size-curve relative overflow-hidden rounded-3xl bg-slate-900 p-4 shadow-2xl">
+=======
+        <div className="bg-text-primary group/size-curve relative overflow-hidden rounded-3xl p-4 shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(99,102,241,0.15),transparent)]" />
           <div className="relative z-10 space-y-5">
             <div className="space-y-1">
               <h3 className="text-[10px] font-black uppercase tracking-widest text-white">
                 {viewRole === 'brand' ? 'Capacity Curves' : 'Delivery Waves'}
               </h3>
+<<<<<<< HEAD
               <p className="text-[9px] font-bold uppercase tracking-tighter text-slate-500">
+=======
+              <p className="text-text-secondary text-[9px] font-bold uppercase tracking-tighter">
+>>>>>>> recover/cabinet-wip-from-stash
                 {viewRole === 'brand' ? 'Резерв мощностей' : 'График отгрузок'}
               </p>
             </div>
@@ -303,20 +385,33 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
                   className={cn(
                     'group/c flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left transition-all',
                     selectedWave === curve.name
+<<<<<<< HEAD
                       ? 'border-indigo-400 bg-indigo-600 shadow-lg shadow-indigo-500/20'
                       : 'border-slate-700 bg-slate-800 hover:border-slate-500'
+=======
+                      ? 'bg-accent-primary border-accent-primary/40 shadow-accent-primary/20 shadow-lg'
+                      : 'bg-text-primary/90 border-text-primary/25 hover:border-border-subtle'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   <div className="space-y-0.5">
                     <p
                       className={cn(
                         'text-[9px] font-black uppercase tracking-widest',
+<<<<<<< HEAD
                         selectedWave === curve.name ? 'text-white' : 'text-slate-300'
+=======
+                        selectedWave === curve.name ? 'text-white' : 'text-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {curve.name}
                     </p>
+<<<<<<< HEAD
                     <p className="text-[7px] font-bold uppercase tracking-widest text-slate-500">
+=======
+                    <p className="text-text-secondary text-[7px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       {curve.desc}
                     </p>
                   </div>
@@ -325,7 +420,11 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
                       'flex h-5 w-5 items-center justify-center rounded-lg transition-colors',
                       selectedWave === curve.name
                         ? 'bg-white/20 text-white'
+<<<<<<< HEAD
                         : 'bg-slate-700 text-slate-500 group-hover/c:text-slate-300'
+=======
+                        : 'bg-text-primary/75 text-text-secondary group-hover/c:text-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     {selectedWave === curve.name ? (
@@ -345,7 +444,11 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
                   description: 'Operational parameters updated in Cabinet for Order #8821.',
                 })
               }
+<<<<<<< HEAD
               className="h-10 w-full rounded-xl bg-white text-[9px] font-black uppercase tracking-widest text-slate-900 shadow-xl transition-all hover:bg-slate-100"
+=======
+              className="text-text-primary hover:bg-bg-surface2 h-10 w-full rounded-xl bg-white text-[9px] font-black uppercase tracking-widest shadow-xl transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               Открыть в заказе #8821
             </Button>
@@ -354,6 +457,7 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
       </div>
 
       {/* Detailed SKU Planning Table */}
+<<<<<<< HEAD
       <div className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm animate-in fade-in slide-in-from-bottom-4">
         <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50/20 p-4">
           <div className="flex items-center gap-3">
@@ -365,6 +469,19 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
                 Advanced SKU Matrix Planner
               </h3>
               <p className="text-[10px] font-medium uppercase tracking-tighter text-slate-400">
+=======
+      <div className="border-border-subtle overflow-hidden rounded-xl border bg-white shadow-sm animate-in fade-in slide-in-from-bottom-4">
+        <div className="border-border-subtle bg-bg-surface2/20 flex items-center justify-between border-b p-4">
+          <div className="flex items-center gap-3">
+            <div className="bg-accent-primary shadow-accent-primary/15 flex h-10 w-10 items-center justify-center rounded-2xl shadow-lg">
+              <Database className="h-5 w-5 text-white" />
+            </div>
+            <div className="space-y-1">
+              <h3 className="text-text-primary text-sm font-black uppercase tracking-widest">
+                Advanced SKU Matrix Planner
+              </h3>
+              <p className="text-text-muted text-[10px] font-medium uppercase tracking-tighter">
+>>>>>>> recover/cabinet-wip-from-stash
                 Детальное распределение артикулов, размеров и логистических волн
               </p>
             </div>
@@ -373,7 +490,11 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
             <Badge className="border-none bg-emerald-100 px-3 py-1 text-[8px] font-black uppercase tracking-widest text-emerald-600">
               AI Verified
             </Badge>
+<<<<<<< HEAD
             <Badge className="border-none bg-slate-900 px-3 py-1 text-[8px] font-black uppercase tracking-widest text-white">
+=======
+            <Badge className="bg-text-primary border-none px-3 py-1 text-[8px] font-black uppercase tracking-widest text-white">
+>>>>>>> recover/cabinet-wip-from-stash
               {b2bCart.length} SKU
             </Badge>
           </div>
@@ -383,6 +504,7 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
           {b2bCart.length > 0 ? (
             <table className="w-full border-collapse">
               <thead>
+<<<<<<< HEAD
                 <tr className="border-b border-slate-100 bg-slate-50/50">
                   <th className="px-8 py-4 text-left text-[9px] font-black uppercase tracking-widest text-slate-400">
                     Артикул / Модель
@@ -397,19 +519,43 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
                     Кол-во / Сумма
                   </th>
                   <th className="px-8 py-4 text-right text-[9px] font-black uppercase tracking-widest text-slate-400">
+=======
+                <tr className="bg-bg-surface2/80 border-border-subtle border-b">
+                  <th className="text-text-muted px-8 py-4 text-left text-[9px] font-black uppercase tracking-widest">
+                    Артикул / Модель
+                  </th>
+                  <th className="text-text-muted px-8 py-4 text-left text-[9px] font-black uppercase tracking-widest">
+                    Категория
+                  </th>
+                  <th className="text-text-muted px-8 py-4 text-center text-[9px] font-black uppercase tracking-widest">
+                    Спецификация
+                  </th>
+                  <th className="text-text-muted px-8 py-4 text-center text-[9px] font-black uppercase tracking-widest">
+                    Кол-во / Сумма
+                  </th>
+                  <th className="text-text-muted px-8 py-4 text-right text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     Логистическая волна
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-50">
+              <tbody className="divide-border-subtle divide-y">
                 {b2bCart.map((item) => (
                   <tr
                     key={`${item.id}-${item.selectedSize}`}
+<<<<<<< HEAD
                     className="group/tr transition-all hover:bg-slate-50/80"
                   >
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-3">
                         <div className="h-10 w-11 overflow-hidden rounded-xl border border-slate-200 bg-slate-100 shadow-sm transition-transform group-hover/tr:scale-105">
+=======
+                    className="hover:bg-bg-surface2/80 group/tr transition-all"
+                  >
+                    <td className="px-8 py-6">
+                      <div className="flex items-center gap-3">
+                        <div className="bg-bg-surface2 border-border-default h-10 w-11 overflow-hidden rounded-xl border shadow-sm transition-transform group-hover/tr:scale-105">
+>>>>>>> recover/cabinet-wip-from-stash
                           <img
                             src={item.images?.[0]?.url || (item as any).image || '/placeholder.jpg'}
                             alt={item.name}
@@ -417,12 +563,19 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
                           />
                         </div>
                         <div className="space-y-1">
+<<<<<<< HEAD
                           <p className="text-[11px] font-black uppercase tracking-tighter text-slate-900">
                             {item.name}
                           </p>
                           <p className="flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                          <p className="text-text-primary text-[11px] font-black uppercase tracking-tighter">
+                            {item.name}
+                          </p>
+                          <p className="text-text-muted flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                             <span>SKU: {item.sku || 'N/A'}</span>
-                            <span className="h-1 w-1 rounded-full bg-slate-300" />
+                            <span className="bg-border-default h-1 w-1 rounded-full" />
                             <span>{item.brand}</span>
                           </p>
                         </div>
@@ -431,22 +584,37 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
                     <td className="px-8 py-6">
                       <Badge
                         variant="outline"
+<<<<<<< HEAD
                         className="border-slate-100 bg-white text-[8px] font-black uppercase tracking-widest text-slate-500"
+=======
+                        className="border-border-subtle text-text-secondary bg-white text-[8px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
                       >
                         {item.category}
                       </Badge>
                     </td>
                     <td className="px-8 py-6 text-center">
                       <div className="inline-flex flex-col items-center">
+<<<<<<< HEAD
                         <span className="mb-1 text-[10px] font-black uppercase tracking-widest text-slate-900">
+=======
+                        <span className="text-text-primary mb-1 text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                           {item.selectedSize}
                         </span>
                         <div className="flex gap-1">
                           <div
+<<<<<<< HEAD
                             className="h-2 w-2 rounded-full border border-slate-200"
                             style={{ backgroundColor: item.color || '#ccc' }}
                           />
                           <span className="text-[7px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                            className="border-border-default h-2 w-2 rounded-full border"
+                            style={{ backgroundColor: item.color || '#ccc' }}
+                          />
+                          <span className="text-text-muted text-[7px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                             {item.color}
                           </span>
                         </div>
@@ -454,16 +622,29 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
                     </td>
                     <td className="px-8 py-6 text-center">
                       <div className="space-y-1">
+<<<<<<< HEAD
                         <p className="text-[11px] font-black text-slate-900">{item.quantity} шт.</p>
                         <p className="text-[9px] font-bold text-indigo-600">
+=======
+                        <p className="text-text-primary text-[11px] font-black">
+                          {item.quantity} шт.
+                        </p>
+                        <p className="text-accent-primary text-[9px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                           {(item.price * item.quantity).toLocaleString('ru-RU')} ₽
                         </p>
                       </div>
                     </td>
                     <td className="px-8 py-6 text-right">
+<<<<<<< HEAD
                       <div className="inline-flex items-center gap-3 rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-2 shadow-sm">
                         <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-indigo-500" />
                         <span className="text-[9px] font-black uppercase tracking-widest text-indigo-600">
+=======
+                      <div className="bg-accent-primary/10 border-accent-primary/20 inline-flex items-center gap-3 rounded-xl border px-4 py-2 shadow-sm">
+                        <div className="bg-accent-primary h-1.5 w-1.5 animate-pulse rounded-full" />
+                        <span className="text-accent-primary text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                           {selectedWave}
                         </span>
                       </div>
@@ -473,7 +654,11 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
               </tbody>
             </table>
           ) : (
+<<<<<<< HEAD
             <div className="flex flex-col items-center justify-center py-10 text-slate-300">
+=======
+            <div className="text-text-muted flex flex-col items-center justify-center py-10">
+>>>>>>> recover/cabinet-wip-from-stash
               <ShoppingBag className="mb-4 h-12 w-12 opacity-10" />
               <p className="text-[10px] font-black uppercase tracking-widest">
                 Нет товаров для планирования
@@ -485,17 +670,30 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
           )}
         </div>
 
+<<<<<<< HEAD
         <div className="flex items-center justify-between border-t border-slate-100 bg-slate-50/50 p-4">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               <div className="h-2 w-2 rounded-full bg-emerald-500" />
               <span className="text-[8px] font-black uppercase tracking-widest text-slate-500">
+=======
+        <div className="bg-bg-surface2/80 border-border-subtle flex items-center justify-between border-t p-4">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-emerald-500" />
+              <span className="text-text-secondary text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Inventory Sync: OK
               </span>
             </div>
             <div className="flex items-center gap-2">
+<<<<<<< HEAD
               <div className="h-2 w-2 rounded-full bg-indigo-500" />
               <span className="text-[8px] font-black uppercase tracking-widest text-slate-500">
+=======
+              <div className="bg-accent-primary h-2 w-2 rounded-full" />
+              <span className="text-text-secondary text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Margin Factor: 2.8x
               </span>
             </div>
@@ -503,11 +701,19 @@ export const PlanningDashboard: React.FC<PlanningDashboardProps> = ({
           <div className="flex items-center gap-3">
             <Button
               variant="outline"
+<<<<<<< HEAD
               className="flex h-10 items-center gap-2 rounded-xl border-slate-200 bg-white px-6 text-[9px] font-black uppercase tracking-widest text-slate-600 transition-all hover:bg-slate-50"
             >
               <Plus className="h-3.5 w-3.5" /> Добавить комментарий
             </Button>
             <Button className="flex h-10 items-center gap-2 rounded-xl bg-slate-900 px-8 text-[9px] font-black uppercase tracking-widest text-white shadow-xl shadow-slate-200 transition-all hover:bg-black">
+=======
+              className="border-border-default text-text-secondary hover:bg-bg-surface2 flex h-10 items-center gap-2 rounded-xl bg-white px-6 text-[9px] font-black uppercase tracking-widest transition-all"
+            >
+              <Plus className="h-3.5 w-3.5" /> Добавить комментарий
+            </Button>
+            <Button className="bg-text-primary flex h-10 items-center gap-2 rounded-xl px-8 text-[9px] font-black uppercase tracking-widest text-white shadow-md shadow-xl transition-all hover:bg-black">
+>>>>>>> recover/cabinet-wip-from-stash
               Открыть в Личном кабинете <FileText className="h-3.5 w-3.5" />
             </Button>
           </div>

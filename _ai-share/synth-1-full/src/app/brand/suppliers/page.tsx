@@ -38,11 +38,18 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { ROUTES } from '@/lib/routes';
 
 const SupplierRfqContent = dynamic(() => import('@/app/brand/suppliers/rfq/page'), { ssr: false });
 const SourcingLiveContent = dynamic(
   () => import('@/app/brand/suppliers/live/page').then((m) => m.default),
+<<<<<<< HEAD
   { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
+=======
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+>>>>>>> recover/cabinet-wip-from-stash
 );
 
 const mockSuppliers = [
@@ -110,6 +117,7 @@ export default function SuppliersPage() {
   });
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <Tabs value={tab} onValueChange={setTab} className="w-full">
         <TabsList className="h-9 gap-0.5 border border-slate-200 bg-slate-50 px-1">
@@ -124,12 +132,38 @@ export default function SuppliersPage() {
             value="rfq"
             className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
           >
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-20">
+      <RegistryPageHeader
+        title="Поставщики"
+        leadPlain="Реестр контрагентов, тендеры RFQ и live-сорсинг в одном хабе."
+        actions={
+          <Button asChild size="sm" className="h-8 text-[10px] font-bold uppercase">
+            <Link href={`${ROUTES.brand.suppliers}?action=add`}>
+              <PlusCircle className="mr-1 h-3.5 w-3.5" /> Добавить
+            </Link>
+          </Button>
+        }
+      />
+      <Tabs value={tab} onValueChange={setTab} className="w-full">
+        {/* cabinetSurface v1 */}
+        <TabsList className={cn(cabinetSurface.tabsList, 'flex-wrap')}>
+          <TabsTrigger value="suppliers" className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}>
+            <Package className="h-3.5 w-3.5" />
+            Реестр поставщиков
+          </TabsTrigger>
+          <TabsTrigger value="rfq" className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}>
+>>>>>>> recover/cabinet-wip-from-stash
             <FileSearch className="h-3.5 w-3.5" />
             Тендеры (RFQ)
           </TabsTrigger>
           <TabsTrigger
             value="sourcing-live"
+<<<<<<< HEAD
             className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+=======
+            className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <Radio className="h-3.5 w-3.5" />
             LIVE: Сорсинг
@@ -137,6 +171,7 @@ export default function SuppliersPage() {
         </TabsList>
 
         <TabsContent value="suppliers" className="mt-4 space-y-4">
+<<<<<<< HEAD
           <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
             <div>
               <h2 className="text-lg font-bold uppercase">Реестр поставщиков</h2>
@@ -149,6 +184,8 @@ export default function SuppliersPage() {
             </Button>
           </div>
 
+=======
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="flex flex-wrap gap-2">
             {['all', 'Ткани', 'Фурнитура', 'CMT'].map((t) => (
               <Button
@@ -163,7 +200,11 @@ export default function SuppliersPage() {
             ))}
             <div className="ml-auto min-w-[200px] max-w-xs flex-1">
               <div className="relative">
+<<<<<<< HEAD
                 <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+=======
+                <Search className="text-text-muted absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2" />
+>>>>>>> recover/cabinet-wip-from-stash
                 <Input
                   placeholder="Поиск по названию..."
                   className="h-9 pl-8"
@@ -198,7 +239,11 @@ export default function SuppliersPage() {
                       <TableCell className="font-medium">
                         <Link
                           href={`/brand/suppliers/${s.id}`}
+<<<<<<< HEAD
                           className="flex items-center gap-2 hover:text-indigo-600"
+=======
+                          className="hover:text-accent-primary flex items-center gap-2"
+>>>>>>> recover/cabinet-wip-from-stash
                         >
                           {s.name}
                           <ChevronRight className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
@@ -217,7 +262,11 @@ export default function SuppliersPage() {
                               ? 'text-emerald-600'
                               : s.rating >= 4.4
                                 ? 'text-amber-600'
+<<<<<<< HEAD
                                 : 'text-slate-600'
+=======
+                                : 'text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                           )}
                         >
                           {s.rating}/5
@@ -225,7 +274,13 @@ export default function SuppliersPage() {
                       </TableCell>
                       <TableCell>{s.orders}</TableCell>
                       <TableCell>{s.materials}</TableCell>
+<<<<<<< HEAD
                       <TableCell className="text-[11px] text-slate-500">{s.lastOrder}</TableCell>
+=======
+                      <TableCell className="text-text-secondary text-[11px]">
+                        {s.lastOrder}
+                      </TableCell>
+>>>>>>> recover/cabinet-wip-from-stash
                       <TableCell>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
@@ -259,6 +314,10 @@ export default function SuppliersPage() {
       </Tabs>
 
       <RelatedModulesBlock title="Связанные модули" links={getSupplierLinks()} />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

@@ -3,12 +3,20 @@
 import CheckoutForm from '@/components/checkout-form';
 import OrderSummary from '@/components/order-summary';
 import { UIStateProvider } from '@/providers/ui-state';
+<<<<<<< HEAD
+=======
+import { RegistryPageShell } from '@/components/design-system';
+>>>>>>> recover/cabinet-wip-from-stash
 
 export default function CheckoutPage() {
   return (
     <UIStateProvider>
       <div className="bg-background">
+<<<<<<< HEAD
         <div className="container mx-auto px-4 py-12">
+=======
+        <RegistryPageShell className="py-12 pb-16">
+>>>>>>> recover/cabinet-wip-from-stash
           <header className="mb-12 text-center">
             <h1 className="font-headline text-sm font-bold">Оформление заказа</h1>
           </header>
@@ -21,7 +29,11 @@ export default function CheckoutPage() {
               <OrderSummary />
             </div>
           </div>
+<<<<<<< HEAD
         </div>
+=======
+        </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
       </div>
     </UIStateProvider>
   );

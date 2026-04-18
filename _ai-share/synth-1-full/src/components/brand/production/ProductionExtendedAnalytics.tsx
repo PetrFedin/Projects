@@ -36,6 +36,8 @@ import {
 } from 'lucide-react';
 import { exportToCSV } from '@/lib/production-export-utils';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+import { getMetricValueToneClass } from '@/lib/ui/semantic-data-tones';
 
 export interface ExtendedAnalyticsProps {
   collectionIds: string[];
@@ -117,16 +119,29 @@ export function ProductionExtendedAnalytics({
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
+<<<<<<< HEAD
           <div className="flex rounded-xl border border-slate-200 bg-slate-100 p-1">
+=======
+          {/* cabinetSurface v1 */}
+          <div className={cn(cabinetSurface.groupTabList, 'h-auto min-h-9 flex-wrap')}>
+>>>>>>> recover/cabinet-wip-from-stash
             {(['week', 'month', 'quarter'] as const).map((p) => (
               <button
                 key={p}
                 onClick={() => setPeriod(p)}
                 className={cn(
+<<<<<<< HEAD
                   'rounded-lg px-4 py-1.5 text-[9px] font-bold uppercase transition-all',
                   period === p
                     ? 'bg-white text-indigo-600 shadow-sm'
                     : 'text-slate-400 hover:text-slate-600'
+=======
+                  cabinetSurface.groupTabButton,
+                  'px-4 py-1.5 text-[9px] font-bold uppercase',
+                  period === p
+                    ? cn(cabinetSurface.groupTabButtonActive, 'text-accent-primary')
+                    : 'text-text-muted hover:text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 {p === 'week' ? 'Неделя' : p === 'month' ? 'Месяц' : 'Квартал'}
@@ -196,26 +211,44 @@ export function ProductionExtendedAnalytics({
           <Card
             key={item.key}
             className={cn(
+<<<<<<< HEAD
               'cursor-pointer rounded-xl border border-slate-100 shadow-sm transition-all hover:border-indigo-200',
               activeKpi === item.key && 'ring-2 ring-indigo-500'
+=======
+              'border-border-subtle hover:border-accent-primary/30 cursor-pointer rounded-xl border shadow-sm transition-all',
+              activeKpi === item.key && 'ring-accent-primary ring-2'
+>>>>>>> recover/cabinet-wip-from-stash
             )}
             onClick={() => setActiveKpi(activeKpi === item.key ? null : item.key)}
           >
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
+<<<<<<< HEAD
                 <item.icon className={cn('h-4 w-4', `text-${item.color}-500`)} />
                 <ChevronRight className="h-4 w-4 text-slate-300" />
               </div>
               <p className="mt-1 text-[9px] font-bold uppercase text-slate-400">{item.label}</p>
               <p className="mt-0.5 text-lg font-black text-slate-900">{item.value}</p>
+=======
+                <item.icon className={cn('h-4 w-4', getMetricValueToneClass(item.color))} />
+                <ChevronRight className="text-text-muted h-4 w-4" />
+              </div>
+              <p className="text-text-muted mt-1 text-[9px] font-bold uppercase">{item.label}</p>
+              <p className="text-text-primary mt-0.5 text-lg font-black">{item.value}</p>
+>>>>>>> recover/cabinet-wip-from-stash
             </CardContent>
           </Card>
         ))}
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+<<<<<<< HEAD
         <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
           <CardHeader className="border-b border-slate-50 bg-slate-50/30 p-4">
+=======
+        <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
+          <CardHeader className="border-border-subtle bg-bg-surface2/30 border-b p-4">
+>>>>>>> recover/cabinet-wip-from-stash
             <CardTitle className="text-[11px] font-black uppercase">
               On-time delivery по фабрикам
             </CardTitle>
@@ -243,8 +276,13 @@ export function ProductionExtendedAnalytics({
           </CardContent>
         </Card>
 
+<<<<<<< HEAD
         <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
           <CardHeader className="border-b border-slate-50 bg-slate-50/30 p-4">
+=======
+        <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
+          <CardHeader className="border-border-subtle bg-bg-surface2/30 border-b p-4">
+>>>>>>> recover/cabinet-wip-from-stash
             <CardTitle className="text-[11px] font-black uppercase">Качество по фабрикам</CardTitle>
             <CardDescription className="text-[9px]">
               Доля артикулов, средний QC score
@@ -270,8 +308,13 @@ export function ProductionExtendedAnalytics({
                     ))}
                   </Pie>
                   <Tooltip
+<<<<<<< HEAD
                     formatter={(v: number, n: string, p: { payload: { score: number } }) => [
                       `${v} арт., score ${p.payload.score}%`,
+=======
+                    formatter={(v: number, n: string, item) => [
+                      `${v} арт., score ${(item as { payload?: { score?: number } })?.payload?.score ?? ''}%`,
+>>>>>>> recover/cabinet-wip-from-stash
                       n,
                     ]}
                   />
@@ -282,8 +325,13 @@ export function ProductionExtendedAnalytics({
         </Card>
       </div>
 
+<<<<<<< HEAD
       <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
         <CardHeader className="border-b border-slate-50 bg-slate-50/30 p-4">
+=======
+      <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
+        <CardHeader className="border-border-subtle bg-bg-surface2/30 border-b p-4">
+>>>>>>> recover/cabinet-wip-from-stash
           <CardTitle className="text-[11px] font-black uppercase">План vs Факт (единицы)</CardTitle>
           <CardDescription className="text-[9px]">
             Плановый объём против фактического производства

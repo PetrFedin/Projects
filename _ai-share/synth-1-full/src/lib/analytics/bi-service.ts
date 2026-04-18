@@ -88,9 +88,9 @@ export function buildBIDashboard(mock?: Partial<BIDashboardData>): BIDashboardDa
     },
     byChannel: { b2b: '68%', b2c: '14%', marketroom: '12%', outlet: '6%', ...mock?.byChannel },
     topRetailers: [
-      { name: 'ЦУМ', revenue: '2.1M ₽', orders: 12 },
-      { name: 'Podium', revenue: '1.8M ₽', orders: 8 },
-      { name: 'Lamoda', revenue: '1.2M ₽', orders: 15 },
+      { name: 'Демо-магазин · Москва 2', revenue: '2.1M ₽', orders: 12 },
+      { name: 'Демо-магазин · Москва 1', revenue: '1.8M ₽', orders: 8 },
+      { name: 'Демо-магазин · СПб', revenue: '1.2M ₽', orders: 15 },
     ],
     byCollection: [
       { name: 'SS26 Main', revenue: '1.2M ₽', sellThrough: '78%' },

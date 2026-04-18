@@ -14,6 +14,7 @@ import {
 import type { StyleQuizProfileV1 } from '@/lib/fashion/types';
 import { ArrowLeft, Wand2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
 type Mood = StyleQuizProfileV1['mood'];
 type Sil = StyleQuizProfileV1['silhouette'];
@@ -92,7 +93,9 @@ export default function StyleQuizPage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Настроения и силуэт</CardTitle>
-          <CardDescription>Три оси — эвристика по названию, категории и цвету SKU.</CardDescription>
+          <CardDescription>
+            Три оси — эвристика по названию, категории и цвету <AcronymWithTooltip abbr="SKU" />.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-2">

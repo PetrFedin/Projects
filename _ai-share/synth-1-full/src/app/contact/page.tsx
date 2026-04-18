@@ -13,10 +13,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Bot, MessageSquare, Send, Phone, Mail, Building, Handshake } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+<<<<<<< HEAD
+=======
+import { RegistryPageShell } from '@/components/design-system';
+>>>>>>> recover/cabinet-wip-from-stash
 
 export default function SupportCenterPage() {
   return (
-    <div className="container mx-auto px-4 py-12">
+    <RegistryPageShell className="py-12 pb-16">
       <header className="mb-8">
         <h1 className="flex items-center gap-3 font-headline text-sm font-bold md:text-sm">
           <MessageSquare className="h-10 w-10" />
@@ -121,6 +125,10 @@ export default function SupportCenterPage() {
           </CardContent>
         </Card>
       </div>
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

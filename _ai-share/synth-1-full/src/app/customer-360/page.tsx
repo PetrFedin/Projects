@@ -1,5 +1,9 @@
 'use client';
 
+<<<<<<< HEAD
+=======
+import { RegistryPageShell } from '@/components/design-system';
+>>>>>>> recover/cabinet-wip-from-stash
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -11,7 +15,11 @@ import {
 
 export default function Customer360Page() {
   return (
+<<<<<<< HEAD
     <div className="container mx-auto space-y-4 px-4 py-4">
+=======
+    <RegistryPageShell className="max-w-6xl space-y-4 py-4">
+>>>>>>> recover/cabinet-wip-from-stash
       <header className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
         <div className="flex items-center gap-3">
           <Avatar className="h-12 w-12 border" data-ai-hint="person face">
@@ -38,6 +46,10 @@ export default function Customer360Page() {
       <BehaviorCharts />
 
       <ActivityFeed />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

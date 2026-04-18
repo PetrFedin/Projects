@@ -29,14 +29,22 @@ export default function AssortmentHealthPage() {
         {healthData.map((data) => (
           <Card
             key={data.category}
-            className="relative overflow-hidden border border-slate-200 p-5 shadow-sm transition-colors hover:border-emerald-200/80"
+            className="border-border-default relative overflow-hidden border p-5 shadow-sm transition-colors hover:border-emerald-200/80"
           >
             <div className="mb-5 flex items-center justify-between">
+<<<<<<< HEAD
               <h3 className="text-base font-semibold uppercase tracking-tight text-slate-900">
                 {data.category}
               </h3>
               <div className="text-right">
                 <div className="mb-0.5 text-[10px] font-bold uppercase text-slate-500">
+=======
+              <h3 className="text-text-primary text-base font-semibold uppercase tracking-tight">
+                {data.category}
+              </h3>
+              <div className="text-right">
+                <div className="text-text-secondary mb-0.5 text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                   Health Score
                 </div>
                 <div className="text-2xl font-bold tabular-nums text-emerald-600">
@@ -47,21 +55,21 @@ export default function AssortmentHealthPage() {
 
             <div className="mb-6 space-y-4">
               <div className="space-y-1.5">
-                <div className="flex items-center justify-between text-[10px] font-bold uppercase text-slate-500">
+                <div className="text-text-secondary flex items-center justify-between text-[10px] font-bold uppercase">
                   <span className="flex items-center gap-1.5">
-                    <Palette className="h-3 w-3 text-indigo-500" /> Color Balance
+                    <Palette className="text-accent-primary h-3 w-3" /> Color Balance
                   </span>
                   <span>{data.colorBalance}%</span>
                 </div>
                 <Progress
                   value={data.colorBalance}
-                  className="h-1.5 bg-slate-100"
-                  indicatorClassName="bg-indigo-600"
+                  className="bg-bg-surface2 h-1.5"
+                  indicatorClassName="bg-accent-primary"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <div className="flex items-center justify-between text-[10px] font-bold uppercase text-slate-500">
+                <div className="text-text-secondary flex items-center justify-between text-[10px] font-bold uppercase">
                   <span className="flex items-center gap-1.5">
                     <Ruler className="h-3 w-3 text-emerald-500" /> Size Availability
                   </span>
@@ -69,13 +77,13 @@ export default function AssortmentHealthPage() {
                 </div>
                 <Progress
                   value={data.sizeAvailability}
-                  className="h-1.5 bg-slate-100"
+                  className="bg-bg-surface2 h-1.5"
                   indicatorClassName="bg-emerald-600"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <div className="flex items-center justify-between text-[10px] font-bold uppercase text-slate-500">
+                <div className="text-text-secondary flex items-center justify-between text-[10px] font-bold uppercase">
                   <span className="flex items-center gap-1.5">
                     <TrendingUp className="h-3 w-3 text-rose-500" /> Margin Health
                   </span>
@@ -83,20 +91,24 @@ export default function AssortmentHealthPage() {
                 </div>
                 <Progress
                   value={data.marginHealth}
-                  className="h-1.5 bg-slate-100"
+                  className="bg-bg-surface2 h-1.5"
                   indicatorClassName="bg-rose-600"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
+<<<<<<< HEAD
               <div className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
+=======
+              <div className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 AI Merch Recommendations
               </div>
               {data.recommendations.map((rec, i) => (
                 <div
                   key={i}
-                  className="flex items-start gap-2 rounded-lg border border-slate-100 bg-slate-50/80 p-2.5 text-[11px] font-medium text-slate-600"
+                  className="border-border-subtle bg-bg-surface2/80 text-text-secondary flex items-start gap-2 rounded-lg border p-2.5 text-[11px] font-medium"
                 >
                   <Zap className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-500" />
                   {rec}

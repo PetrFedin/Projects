@@ -9,20 +9,20 @@ import { PlatformDataBanner } from '@/components/client/platform-data-banner';
 import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import {
-  downloadJsonFile,
   exportVisualSearchSession,
   getVisualSearchTransport,
   loadVisualSearchSession,
   parseVisualSearchImport,
-  readJsonFromFile,
   runVisualSearch,
   saveVisualSearchSession,
   type VisualSearchHit,
   type VisualSearchSessionV1,
 } from '@/lib/platform/visual-search';
+import { downloadJsonFile, readJsonFromFile } from '@/lib/platform/json-io';
 import { VISUAL_SEARCH_EXPORT_VERSION } from '@/lib/platform/types';
 import { Camera, ArrowLeft, Sparkles, Download, Upload, Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
 export default function ClientVisualSearchPage() {
   const { toast } = useToast();
@@ -125,7 +125,12 @@ export default function ClientVisualSearchPage() {
               Визуальный поиск
             </h1>
             <p className="mt-0.5 text-sm text-muted-foreground">
+<<<<<<< HEAD
               Референс → похожие SKU. В режиме API ожидается POST{' '}
+=======
+              Референс → похожие <AcronymWithTooltip abbr="SKU" />. В режиме{' '}
+              <AcronymWithTooltip abbr="API" /> ожидается POST{' '}
+>>>>>>> recover/cabinet-wip-from-stash
               <code className="rounded bg-muted px-1 text-[10px]">/v1/client/visual-search</code>.
             </p>
           </div>

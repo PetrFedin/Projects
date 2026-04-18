@@ -5,7 +5,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Card, CardContent } from '@/components/ui/card';
 
 import * as topojson from 'topojson-client';
+<<<<<<< HEAD
 import { geoMercator, geoPath, GeoProjection } from 'd3-geo';
+=======
+import { geoMercator, geoPath } from 'd3-geo';
+>>>>>>> recover/cabinet-wip-from-stash
 
 import worldData from '@/data/world-topo.json'; // твой topojson (обязательно)
 import { CIS_VIEW_DATA } from './geo.constants';
@@ -107,7 +111,7 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
     return geo.features as any[];
   }, []);
 
-  const worldProjection: GeoProjection = React.useMemo(
+  const worldProjection = React.useMemo(
     () =>
       geoMercator().fitSize([800, 400], { type: 'FeatureCollection', features: countries } as any),
     [countries]
@@ -120,7 +124,7 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
     [countries]
   );
 
-  const cisProjection: GeoProjection = React.useMemo(
+  const cisProjection = React.useMemo(
     () =>
       geoMercator().fitSize([420, 360], {
         type: 'FeatureCollection',
@@ -191,8 +195,13 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
 
         <div className="grid grid-cols-1 gap-3 xl:grid-cols-[3fr,2fr]">
           {/* LEFT: World + controls */}
+<<<<<<< HEAD
           <div className="space-y-3 rounded-xl bg-slate-900 p-4 text-slate-50">
             <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-300">
+=======
+          <div className="bg-text-primary text-text-inverse space-y-3 rounded-xl p-4">
+            <div className="text-text-muted flex flex-wrap items-center justify-between gap-3 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
               <span>Мир: кликабельны Россия и страны СНГ</span>
               <span>Цвет = интенсивность аудитории (heatmap)</span>
             </div>
@@ -212,9 +221,13 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
               onTogglePlay={() => setIsPlaying((v) => !v)}
             />
 
-            <div className="text-xs text-slate-200">{weeklyInsights}</div>
+            <div className="text-text-muted text-xs">{weeklyInsights}</div>
 
+<<<<<<< HEAD
             <div className="relative aspect-[2/1] w-full overflow-hidden rounded-lg bg-slate-950">
+=======
+            <div className="bg-text-primary relative aspect-[2/1] w-full overflow-hidden rounded-lg">
+>>>>>>> recover/cabinet-wip-from-stash
               <svg viewBox="0 0 800 400" className="h-full w-full" onMouseLeave={clearTooltips}>
                 {countries.map((f, idx) => {
                   const cisCode = getCisCodeFromId(f.id);
@@ -243,10 +256,17 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
 
                 {hoverTooltip && (
                   <foreignObject x={hoverTooltip.x} y={hoverTooltip.y} width={240} height={70}>
+<<<<<<< HEAD
                     <div className="rounded-md border border-slate-700 bg-slate-900/95 px-3 py-2 text-xs text-slate-50 shadow-lg">
                       <div className="font-semibold">{hoverTooltip.label}</div>
                       {hoverTooltip.sublabel && (
                         <div className="mt-0.5 text-slate-300">{hoverTooltip.sublabel}</div>
+=======
+                    <div className="bg-text-primary/95 text-text-inverse border-text-primary/25 rounded-md border px-3 py-2 text-xs shadow-lg">
+                      <div className="font-semibold">{hoverTooltip.label}</div>
+                      {hoverTooltip.sublabel && (
+                        <div className="text-text-muted mt-0.5">{hoverTooltip.sublabel}</div>
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     </div>
                   </foreignObject>
@@ -259,9 +279,15 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
           <div className="space-y-4">
             <Card>
               <CardContent className="space-y-3 p-4">
+<<<<<<< HEAD
                 <div className="text-xs uppercase text-slate-400">Зум по СНГ</div>
 
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-slate-950">
+=======
+                <div className="text-text-muted text-xs uppercase">Зум по СНГ</div>
+
+                <div className="bg-text-primary relative aspect-[4/3] w-full overflow-hidden rounded-lg">
+>>>>>>> recover/cabinet-wip-from-stash
                   <svg viewBox="0 0 420 360" className="h-full w-full" onMouseLeave={clearTooltips}>
                     {cisFeatures.map((f, idx) => {
                       const code = getCisCodeFromId(f.id)!;
@@ -317,10 +343,17 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
 
                     {cityTooltip && (
                       <foreignObject x={cityTooltip.x} y={cityTooltip.y} width={280} height={70}>
+<<<<<<< HEAD
                         <div className="rounded-md border border-amber-500/70 bg-slate-900/95 px-3 py-2 text-xs text-slate-50 shadow-lg">
                           <div className="font-semibold">{cityTooltip.label}</div>
                           {cityTooltip.sublabel && (
                             <div className="mt-0.5 text-slate-200">{cityTooltip.sublabel}</div>
+=======
+                        <div className="bg-text-primary/95 text-text-inverse rounded-md border border-amber-500/70 px-3 py-2 text-xs shadow-lg">
+                          <div className="font-semibold">{cityTooltip.label}</div>
+                          {cityTooltip.sublabel && (
+                            <div className="text-text-muted mt-0.5">{cityTooltip.sublabel}</div>
+>>>>>>> recover/cabinet-wip-from-stash
                           )}
                         </div>
                       </foreignObject>
@@ -328,10 +361,17 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
 
                     {hoverTooltip && !cityTooltip && (
                       <foreignObject x={hoverTooltip.x} y={hoverTooltip.y} width={240} height={70}>
+<<<<<<< HEAD
                         <div className="rounded-md border border-slate-700 bg-slate-900/95 px-3 py-2 text-xs text-slate-50 shadow-lg">
                           <div className="font-semibold">{hoverTooltip.label}</div>
                           {hoverTooltip.sublabel && (
                             <div className="mt-0.5 text-slate-300">{hoverTooltip.sublabel}</div>
+=======
+                        <div className="bg-text-primary/95 text-text-inverse border-text-primary/25 rounded-md border px-3 py-2 text-xs shadow-lg">
+                          <div className="font-semibold">{hoverTooltip.label}</div>
+                          {hoverTooltip.sublabel && (
+                            <div className="text-text-muted mt-0.5">{hoverTooltip.sublabel}</div>
+>>>>>>> recover/cabinet-wip-from-stash
                           )}
                         </div>
                       </foreignObject>
@@ -342,21 +382,35 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
             </Card>
 
             <Card>
+<<<<<<< HEAD
               <CardContent className="space-y-2 p-4 text-sm text-slate-200">
                 <div className="font-semibold">{selectedCountry.name}</div>
                 <div className="text-slate-300">
+=======
+              <CardContent className="text-text-muted space-y-2 p-4 text-sm">
+                <div className="font-semibold">{selectedCountry.name}</div>
+                <div className="text-text-muted">
+>>>>>>> recover/cabinet-wip-from-stash
                   Всего зрителей:{' '}
                   <span className="font-mono">
                     {selectedCountry.viewers.toLocaleString('ru-RU')}
                   </span>
                 </div>
 
+<<<<<<< HEAD
                 <div className="mb-1 mt-2 text-xs text-slate-400">Города (симуляция)</div>
+=======
+                <div className="text-text-muted mb-1 mt-2 text-xs">Города (симуляция)</div>
+>>>>>>> recover/cabinet-wip-from-stash
                 <ul className="space-y-1 text-sm">
                   {selectedCountry.cities.map((city) => (
                     <li key={city.name} className="flex items-center justify-between">
                       <span>{city.name}</span>
+<<<<<<< HEAD
                       <span className="font-mono text-slate-200">
+=======
+                      <span className="text-text-muted font-mono">
+>>>>>>> recover/cabinet-wip-from-stash
                         {city.viewers.toLocaleString('ru-RU')}
                       </span>
                     </li>

@@ -486,7 +486,7 @@ export function CategorySubcategorySketchesTzBlock({
                 <button
                   type="button"
                   className={cn(
-                    'absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-indigo-600 text-[11px] font-bold text-white shadow-md hover:bg-indigo-700',
+                    'bg-accent-primary hover:bg-accent-primary absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white text-[11px] font-bold text-white shadow-md',
                     activeAnnId === a.annotationId && 'ring-2 ring-amber-400 ring-offset-1'
                   )}
                   style={{ left: `${a.xPct}%`, top: `${a.yPct}%` }}
@@ -502,22 +502,30 @@ export function CategorySubcategorySketchesTzBlock({
               <TooltipContent
                 side="top"
                 sideOffset={8}
-                className="max-w-xs border-slate-200 bg-white p-3 text-left text-slate-900 shadow-lg"
+                className="border-border-default text-text-primary max-w-xs bg-white p-3 text-left shadow-lg"
               >
                 <div className="space-y-1.5 text-[11px] leading-snug">
-                  <p className="font-semibold text-slate-900">Метка #{idx + 1}</p>
-                  <p className="text-slate-700">
+                  <p className="text-text-primary font-semibold">Метка #{idx + 1}</p>
+                  <p className="text-text-primary">
                     {a.text?.trim()
                       ? a.text.trim()
                       : 'Описание не заполнено — уточните в списке «Метки на скетче» ниже.'}
                   </p>
                   {inTaskBlock ? (
+<<<<<<< HEAD
                     <p className="border-t border-slate-100 pt-1.5 text-[10px] font-medium text-indigo-800">
+=======
+                    <p className="border-border-subtle text-accent-primary border-t pt-1.5 text-[10px] font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                       Строка добавлена в «На что обратить внимание» (задачи слота «
                       {activeBranchSlot.role.label}»).
                     </p>
                   ) : (
+<<<<<<< HEAD
                     <p className="border-t border-slate-100 pt-1.5 text-[10px] text-slate-500">
+=======
+                    <p className="border-border-subtle text-text-secondary border-t pt-1.5 text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                       Задачи слота — в колонке справа; «В задачу» переносит текст в «На что обратить
                       внимание».
                     </p>
@@ -533,7 +541,7 @@ export function CategorySubcategorySketchesTzBlock({
 
   function AnnotationsPanel() {
     return (
-      <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50/40 p-3">
+      <div className="border-border-default bg-bg-surface2/40 space-y-3 rounded-lg border p-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <Button
             type="button"
@@ -545,7 +553,7 @@ export function CategorySubcategorySketchesTzBlock({
           >
             {placeMode ? 'Клик по полю…' : '+ Метка на скетче'}
           </Button>
-          <span className="text-[10px] text-slate-500">Меток: {visibleAnn.length}</span>
+          <span className="text-text-secondary text-[10px]">Меток: {visibleAnn.length}</span>
         </div>
         {masterPinsForLeaf.length > 0 ? (
           <Button
@@ -611,10 +619,10 @@ export function CategorySubcategorySketchesTzBlock({
           ) : null}
         </div>
 
-        <div className="space-y-1 border-t border-slate-200/80 pt-3">
-          <p className="text-[10px] font-semibold uppercase text-slate-500">Метки на скетче</p>
+        <div className="border-border-default/80 space-y-1 border-t pt-3">
+          <p className="text-text-secondary text-[10px] font-semibold uppercase">Метки на скетче</p>
           {visibleAnn.length === 0 ? (
-            <p className="text-[11px] text-slate-500">Нет меток в этом слоте.</p>
+            <p className="text-text-secondary text-[11px]">Нет меток в этом слоте.</p>
           ) : (
             <ul className="max-h-[min(22rem,50vh)] space-y-2 overflow-y-auto pr-1">
               {visibleAnn.map((a, idx) => (
@@ -623,18 +631,23 @@ export function CategorySubcategorySketchesTzBlock({
                   className={cn(
                     'rounded-md border p-2 text-xs',
                     activeAnnId === a.annotationId
+<<<<<<< HEAD
                       ? 'border-indigo-300 bg-indigo-50/40'
                       : 'border-slate-100 bg-white'
+=======
+                      ? 'border-accent-primary/30 bg-accent-primary/10'
+                      : 'border-border-subtle bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   <div className="mb-1 flex items-center justify-between gap-2">
-                    <span className="font-semibold text-slate-700">#{idx + 1}</span>
+                    <span className="text-text-primary font-semibold">#{idx + 1}</span>
                     <div className="flex items-center gap-1">
                       <Button
                         type="button"
                         variant="ghost"
                         size="sm"
-                        className="h-7 px-2 text-[10px] text-indigo-600"
+                        className="text-accent-primary h-7 px-2 text-[10px]"
                         disabled={readOnly}
                         onClick={() => pushAnnotationIntoTask(a)}
                       >
@@ -695,8 +708,13 @@ export function CategorySubcategorySketchesTzBlock({
                   : `Мини-скетч: ${activeBranchSlot.role.label}. Нажмите на поле, чтобы открыть увеличенный вид.`
             }
             className={cn(
+<<<<<<< HEAD
               'relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-slate-200 bg-white',
               placeMode && !readOnly && 'cursor-crosshair ring-2 ring-indigo-500 ring-offset-2',
+=======
+              'border-border-default relative aspect-[4/3] w-full overflow-hidden rounded-lg border bg-white',
+              placeMode && !readOnly && 'ring-accent-primary cursor-crosshair ring-2 ring-offset-2',
+>>>>>>> recover/cabinet-wip-from-stash
               !placeMode && !readOnly && 'cursor-zoom-in'
             )}
             onClick={readOnly ? undefined : onPreviewBoardClick}
@@ -748,7 +766,11 @@ export function CategorySubcategorySketchesTzBlock({
             {activeSlot.imageFileName ? (
               <>
                 <span
+<<<<<<< HEAD
                   className="max-w-[min(100%,14rem)] truncate text-[10px] text-slate-600"
+=======
+                  className="text-text-secondary max-w-[min(100%,14rem)] truncate text-[10px]"
+>>>>>>> recover/cabinet-wip-from-stash
                   title={activeSlot.imageFileName}
                 >
                   {activeSlot.imageFileName}
@@ -765,7 +787,11 @@ export function CategorySubcategorySketchesTzBlock({
                 </Button>
               </>
             ) : (
+<<<<<<< HEAD
               <span className="text-[10px] text-slate-500">
+=======
+              <span className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                 Без файла — на доске типовой силуэт по ветке каталога.
               </span>
             )}
@@ -775,8 +801,13 @@ export function CategorySubcategorySketchesTzBlock({
         </div>
 
         <div className="w-full min-w-0 space-y-3 lg:w-[min(100%,380px)] lg:shrink-0">
+<<<<<<< HEAD
           <div className="space-y-2 rounded-md border border-slate-100 bg-white/80 p-2">
             <p className="text-[10px] font-bold uppercase text-slate-500">
+=======
+          <div className="border-border-subtle space-y-2 rounded-md border bg-white/80 p-2">
+            <p className="text-text-secondary text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
               Задачи для производства
             </p>
             {activeTaskSourceLevel && activeSlot.productionTasks.inheritedFromLevel == null ? (
@@ -801,7 +832,7 @@ export function CategorySubcategorySketchesTzBlock({
               </div>
             ) : null}
             <div className="flex flex-wrap items-center gap-1.5">
-              <span className="w-full text-[9px] font-semibold uppercase tracking-wide text-slate-400">
+              <span className="text-text-muted w-full text-[9px] font-semibold uppercase tracking-wide">
                 Шаблоны в задачи
               </span>
               {TASK_SNIPPETS.map((s) => (
@@ -830,18 +861,18 @@ export function CategorySubcategorySketchesTzBlock({
             </div>
             <div className="grid gap-2 sm:grid-cols-2">
               {activeSlot.productionTasks.linkedAnnotationIds?.length ? (
-                <div className="rounded-md border border-indigo-100 bg-indigo-50/60 p-2 sm:col-span-2">
-                  <p className="text-[9px] font-bold uppercase tracking-wide text-indigo-800">
+                <div className="border-accent-primary/20 bg-accent-primary/10 rounded-md border p-2 sm:col-span-2">
+                  <p className="text-accent-primary text-[9px] font-bold uppercase tracking-wide">
                     Метки master, закрывающие этот узел
                   </p>
-                  <p className="mt-0.5 text-[10px] leading-snug text-indigo-900/85">
+                  <p className="text-accent-primary/85 mt-0.5 text-[10px] leading-snug">
                     Номера совпадают с панелью выбора метки на доске категории.
                   </p>
                   <div className="mt-1.5 flex flex-wrap gap-1">
                     {activeSlot.productionTasks.linkedAnnotationIds.map((id) => (
                       <span
                         key={id}
-                        className="inline-flex items-center rounded-md bg-white px-1.5 py-0.5 font-mono text-[11px] font-bold tabular-nums text-indigo-950 ring-1 ring-indigo-200"
+                        className="text-accent-primary ring-accent-primary/30 inline-flex items-center rounded-md bg-white px-1.5 py-0.5 font-mono text-[11px] font-bold tabular-nums ring-1"
                         title={id}
                       >
                         {masterPinLabel(id)}
@@ -851,7 +882,7 @@ export function CategorySubcategorySketchesTzBlock({
                 </div>
               ) : null}
               <label className="space-y-1">
-                <Label className="text-[10px] text-slate-500">Ответственный</Label>
+                <Label className="text-text-secondary text-[10px]">Ответственный</Label>
                 <Input
                   className="h-8 text-[11px]"
                   placeholder="Технолог / ОТК"
@@ -861,7 +892,7 @@ export function CategorySubcategorySketchesTzBlock({
                 />
               </label>
               <label className="space-y-1">
-                <Label className="text-[10px] text-slate-500">Критерий приемки</Label>
+                <Label className="text-text-secondary text-[10px]">Критерий приемки</Label>
                 <Input
                   className="h-8 text-[11px]"
                   placeholder="Что считаем готовым"
@@ -871,9 +902,9 @@ export function CategorySubcategorySketchesTzBlock({
                 />
               </label>
               <label className="space-y-1">
-                <Label className="text-[10px] text-slate-500">Приоритет</Label>
+                <Label className="text-text-secondary text-[10px]">Приоритет</Label>
                 <select
-                  className="h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-[11px] disabled:opacity-60"
+                  className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-[11px] disabled:opacity-60"
                   value={activeSlot.productionTasks.priority ?? 'normal'}
                   disabled={readOnly}
                   onChange={(e) =>
@@ -886,9 +917,9 @@ export function CategorySubcategorySketchesTzBlock({
                 </select>
               </label>
               <label className="space-y-1">
-                <Label className="text-[10px] text-slate-500">Статус</Label>
+                <Label className="text-text-secondary text-[10px]">Статус</Label>
                 <select
-                  className="h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-[11px] disabled:opacity-60"
+                  className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-[11px] disabled:opacity-60"
                   value={activeSlot.productionTasks.status ?? 'new'}
                   disabled={readOnly}
                   onChange={(e) =>
@@ -902,9 +933,9 @@ export function CategorySubcategorySketchesTzBlock({
                 </select>
               </label>
               <label className="space-y-1">
-                <Label className="text-[10px] text-slate-500">Этап</Label>
+                <Label className="text-text-secondary text-[10px]">Этап</Label>
                 <select
-                  className="h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-[11px] disabled:opacity-60"
+                  className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-[11px] disabled:opacity-60"
                   value={activeSlot.productionTasks.linkedStage ?? 'tz'}
                   disabled={readOnly}
                   onChange={(e) =>
@@ -920,7 +951,7 @@ export function CategorySubcategorySketchesTzBlock({
                 </select>
               </label>
               <label className="space-y-1">
-                <Label className="text-[10px] text-slate-500">Причина override</Label>
+                <Label className="text-text-secondary text-[10px]">Причина override</Label>
                 <Input
                   className="h-8 text-[11px]"
                   placeholder="Чем отличается от узла выше по ветке"
@@ -931,7 +962,7 @@ export function CategorySubcategorySketchesTzBlock({
               </label>
             </div>
             <div className="space-y-1.5">
-              <Label className="text-[10px] text-slate-500">Что сделать</Label>
+              <Label className="text-text-secondary text-[10px]">Что сделать</Label>
               <Textarea
                 className="min-h-[48px] text-xs"
                 placeholder="Конкретные операции пошива, узлы…"
@@ -941,7 +972,7 @@ export function CategorySubcategorySketchesTzBlock({
               />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-[10px] text-slate-500">Что улучшить</Label>
+              <Label className="text-text-secondary text-[10px]">Что улучшить</Label>
               <Textarea
                 className="min-h-[48px] text-xs"
                 placeholder="Качество, аккуратность, сравнение с эталоном…"
@@ -951,7 +982,7 @@ export function CategorySubcategorySketchesTzBlock({
               />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-[10px] text-slate-500">Что изменить</Label>
+              <Label className="text-text-secondary text-[10px]">Что изменить</Label>
               <Textarea
                 className="min-h-[48px] text-xs"
                 placeholder="Отличия от прошлой версии, правки лекал…"
@@ -961,7 +992,7 @@ export function CategorySubcategorySketchesTzBlock({
               />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-[10px] text-slate-500">На что обратить внимание</Label>
+              <Label className="text-text-secondary text-[10px]">На что обратить внимание</Label>
               <Textarea
                 className="min-h-[48px] text-xs"
                 placeholder="КБ, швы, фурнитура, симметрия, маркировка…"
@@ -974,7 +1005,11 @@ export function CategorySubcategorySketchesTzBlock({
 
           <div className="space-y-1.5">
             <div className="flex flex-wrap items-center justify-between gap-2">
+<<<<<<< HEAD
               <Label className="text-[10px] font-semibold text-slate-600">
+=======
+              <Label className="text-text-secondary text-[10px] font-semibold">
+>>>>>>> recover/cabinet-wip-from-stash
                 Сводка габаритов и атрибутов артикула
               </Label>
               <Button
@@ -989,7 +1024,11 @@ export function CategorySubcategorySketchesTzBlock({
               </Button>
             </div>
             {activeSlot.attributesDimensionsSnapshotUpdatedAt ? (
+<<<<<<< HEAD
               <p className="text-[9px] text-slate-400">
+=======
+              <p className="text-text-muted text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                 Обновлено:{' '}
                 {new Date(activeSlot.attributesDimensionsSnapshotUpdatedAt).toLocaleString('ru-RU')}
               </p>
@@ -1022,8 +1061,10 @@ export function CategorySubcategorySketchesTzBlock({
               role="region"
               aria-label={`Увеличенный скетч: ${activeBranchSlot.role.label}`}
               className={cn(
-                'relative aspect-[4/3] w-full min-w-0 overflow-hidden rounded-lg border border-slate-200 bg-white lg:max-w-[min(100%,42rem)] lg:flex-1',
-                placeMode && !readOnly && 'cursor-crosshair ring-2 ring-indigo-500 ring-offset-2'
+                'border-border-default relative aspect-[4/3] w-full min-w-0 overflow-hidden rounded-lg border bg-white lg:max-w-[min(100%,42rem)] lg:flex-1',
+                placeMode &&
+                  !readOnly &&
+                  'ring-accent-primary cursor-crosshair ring-2 ring-offset-2'
               )}
               onClick={readOnly ? undefined : onOverlayBoardClick}
             >

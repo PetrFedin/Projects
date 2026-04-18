@@ -23,6 +23,7 @@ import {
   Calendar,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { ROUTES } from '@/lib/routes';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
@@ -97,7 +98,11 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
       </div>
 
       {/* --- 1. DIGITAL RACK --- */}
+<<<<<<< HEAD
       <div className="relative flex w-full flex-col items-center overflow-hidden rounded-xl border border-slate-200 bg-white/60 p-4 shadow-xl backdrop-blur-xl">
+=======
+      <div className="border-border-default relative flex w-full flex-col items-center overflow-hidden rounded-xl border bg-white/60 p-4 shadow-xl backdrop-blur-xl">
+>>>>>>> recover/cabinet-wip-from-stash
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:40px_40px] opacity-[0.1]" />
 
         {/* Rack Header */}
@@ -108,12 +113,21 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
           )}
         >
           <div className="space-y-0.5">
+<<<<<<< HEAD
             <h3 className="text-sm font-black uppercase leading-none tracking-tight text-slate-900">
               Цифровая рейка
             </h3>
             <Link
               href="/brand/b2b-orders/8821"
               className="block w-fit text-[9px] font-bold uppercase tracking-[0.2em] text-indigo-500 transition-colors hover:text-indigo-700 hover:underline"
+=======
+            <h3 className="text-text-primary text-sm font-black uppercase leading-none tracking-tight">
+              Цифровая рейка
+            </h3>
+            <Link
+              href={ROUTES.brand.b2bOrder('8821')}
+              className="text-accent-primary hover:text-accent-primary block w-fit text-[9px] font-bold uppercase tracking-[0.2em] transition-colors hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               Синхронизация с заказом #8821
             </Link>
@@ -123,22 +137,36 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
             <Button
               onClick={handleAutoBalance}
               variant="outline"
+<<<<<<< HEAD
               className="h-10 rounded-xl border-slate-200 bg-white px-6 text-[9px] font-black uppercase tracking-widest transition-all hover:bg-indigo-50 hover:text-indigo-600"
+=======
+              className="border-border-default hover:bg-accent-primary/10 hover:text-accent-primary h-10 rounded-xl bg-white px-6 text-[9px] font-black uppercase tracking-widest transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <Sparkles className="mr-2 h-3.5 w-3.5" />
               Авто-баланс
             </Button>
             <Button
               variant="outline"
+<<<<<<< HEAD
               className="flex h-10 w-10 items-center justify-center rounded-xl border-slate-200 bg-white p-0"
             >
               <Settings2 className="h-3.5 w-3.5 text-slate-500" />
+=======
+              className="border-border-default flex h-10 w-10 items-center justify-center rounded-xl bg-white p-0"
+            >
+              <Settings2 className="text-text-secondary h-3.5 w-3.5" />
+>>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </div>
         </div>
 
         {/* The Rack itself */}
+<<<<<<< HEAD
         <div className="absolute left-12 right-12 top-40 z-0 h-1 rounded-full bg-slate-200 shadow-inner" />
+=======
+        <div className="bg-border-subtle absolute left-12 right-12 top-40 z-0 h-1 rounded-full shadow-inner" />
+>>>>>>> recover/cabinet-wip-from-stash
 
         <div className="relative z-10 mt-4 flex min-h-[300px] w-full flex-wrap justify-center gap-x-8 gap-y-16 px-4">
           {b2bCart.length > 0 ? (
@@ -153,15 +181,24 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
               >
                 {!isCustomerPov && (
                   <div className="pointer-events-none absolute -top-3 left-1/2 h-10 w-4 -translate-x-1/2 opacity-30 transition-opacity group-hover/merch:opacity-100">
+<<<<<<< HEAD
                     <div className="absolute left-1/2 top-0 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-b-0 border-slate-400" />
                     <div className="absolute left-1/2 top-4 h-6 w-0.5 -translate-x-1/2 bg-slate-400" />
+=======
+                    <div className="border-border-strong absolute left-1/2 top-0 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-b-0" />
+                    <div className="bg-text-muted absolute left-1/2 top-4 h-6 w-0.5 -translate-x-1/2" />
+>>>>>>> recover/cabinet-wip-from-stash
                   </div>
                 )}
                 <div
                   className={cn(
                     'relative aspect-[3/4.5] w-32 overflow-hidden rounded-2xl border-4 border-white bg-white shadow-lg transition-all duration-500 group-hover/merch:shadow-2xl',
                     isCustomerPov && 'scale-110 shadow-2xl',
+<<<<<<< HEAD
                     selected3DProduct?.id === item.id && 'ring-4 ring-indigo-500 ring-offset-4'
+=======
+                    selected3DProduct?.id === item.id && 'ring-accent-primary ring-4 ring-offset-4'
+>>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   <img
@@ -172,6 +209,7 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                   {/* 3D Label & Quick View */}
                   {!isCustomerPov && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/40 opacity-0 transition-opacity group-hover/merch:opacity-100">
+<<<<<<< HEAD
                       <Badge className="border-none bg-white text-[7px] font-black uppercase text-slate-900">
                         {item.quantity} ед.
                       </Badge>
@@ -180,6 +218,16 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                           <Box className="h-3 w-3" />
                         </div>
                         <div className="rounded-lg bg-white p-1.5 text-slate-900">
+=======
+                      <Badge className="text-text-primary border-none bg-white text-[7px] font-black uppercase">
+                        {item.quantity} ед.
+                      </Badge>
+                      <div className="flex gap-1">
+                        <div className="bg-accent-primary rounded-lg p-1.5 text-white">
+                          <Box className="h-3 w-3" />
+                        </div>
+                        <div className="text-text-primary rounded-lg bg-white p-1.5">
+>>>>>>> recover/cabinet-wip-from-stash
                           <Eye className="h-3 w-3" />
                         </div>
                       </div>
@@ -187,14 +235,22 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                   )}
                 </div>
                 {!isCustomerPov && (
+<<<<<<< HEAD
                   <p className="mt-2 w-32 truncate text-center text-[8px] font-black uppercase tracking-tight text-slate-900">
+=======
+                  <p className="text-text-primary mt-2 w-32 truncate text-center text-[8px] font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                     {item.name}
                   </p>
                 )}
               </motion.div>
             ))
           ) : (
+<<<<<<< HEAD
             <div className="col-span-full flex flex-col items-center gap-3 py-10 text-slate-300">
+=======
+            <div className="text-text-muted col-span-full flex flex-col items-center gap-3 py-10">
+>>>>>>> recover/cabinet-wip-from-stash
               <ShoppingBag className="h-10 w-10 opacity-10" />
               <p className="text-[9px] font-black uppercase tracking-[0.3em]">
                 Рейка пуста. Добавьте товары из каталога.
@@ -204,7 +260,11 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
         </div>
 
         {/* Rack Footer Controls */}
+<<<<<<< HEAD
         <div className="relative z-20 mt-12 flex w-full items-center justify-between border-t border-slate-100 pt-6">
+=======
+        <div className="border-border-subtle relative z-20 mt-12 flex w-full items-center justify-between border-t pt-6">
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="flex gap-3">
             <button
               onClick={() => {
@@ -220,7 +280,11 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                 'flex h-10 items-center justify-center gap-2 rounded-xl border px-5 text-[9px] font-black uppercase tracking-widest shadow-sm transition-all',
                 isCustomerPov
                   ? 'border-black bg-black text-white'
+<<<<<<< HEAD
                   : 'border-slate-100 bg-white text-slate-400 hover:text-slate-600'
+=======
+                  : 'text-text-muted hover:text-text-secondary border-border-subtle bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               <Maximize2 className="h-3 w-3" /> {isCustomerPov ? 'Выйти из POV' : 'Вид покупателя'}
@@ -228,14 +292,20 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
 
             {/* 2. AI SALES SIMULATOR WIDGET (Inside rack footer) */}
             {!isCustomerPov && b2bCart.length > 0 && (
+<<<<<<< HEAD
               <div className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50 px-4 shadow-sm animate-in fade-in slide-in-from-left-4">
                 <div className="flex flex-col">
                   <span className="mb-1 text-[7px] font-black uppercase leading-none text-slate-400">
+=======
+              <div className="bg-bg-surface2 border-border-subtle flex items-center gap-3 rounded-xl border px-4 shadow-sm animate-in fade-in slide-in-from-left-4">
+                <div className="flex flex-col">
+                  <span className="text-text-muted mb-1 text-[7px] font-black uppercase leading-none">
+>>>>>>> recover/cabinet-wip-from-stash
                     Прогноз выручки
                   </span>
                   <div className="flex items-center gap-1.5">
                     <TrendingUp className="h-3 w-3 text-emerald-500" />
-                    <span className="text-[10px] font-black text-slate-900">
+                    <span className="text-text-primary text-[10px] font-black">
                       {revenueForecast.toLocaleString('ru-RU')} ₽
                     </span>
                     <Badge className="h-3.5 border-none bg-emerald-100 px-1 text-[6px] font-black text-emerald-600">
@@ -243,12 +313,19 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                     </Badge>
                   </div>
                 </div>
-                <div className="h-6 w-px bg-slate-200" />
+                <div className="bg-border-subtle h-6 w-px" />
                 <div className="flex flex-col">
+<<<<<<< HEAD
                   <span className="mb-1 text-[7px] font-black uppercase leading-none text-slate-400">
                     Кросс-сейл
                   </span>
                   <span className="text-[10px] font-black text-slate-900">
+=======
+                  <span className="text-text-muted mb-1 text-[7px] font-black uppercase leading-none">
+                    Кросс-сейл
+                  </span>
+                  <span className="text-text-primary text-[10px] font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                     {crossSellPotential}%
                   </span>
                 </div>
@@ -274,7 +351,11 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
               }}
               disabled={isGeneratingPdf}
               className={cn(
+<<<<<<< HEAD
                 'flex h-10 items-center justify-center gap-2 rounded-xl border border-slate-100 bg-white px-5 text-[9px] font-black uppercase tracking-widest text-slate-400 shadow-sm transition-all hover:bg-slate-50 hover:text-slate-600',
+=======
+                'text-text-muted hover:text-text-secondary border-border-subtle hover:bg-bg-surface2 flex h-10 items-center justify-center gap-2 rounded-xl border bg-white px-5 text-[9px] font-black uppercase tracking-widest shadow-sm transition-all',
+>>>>>>> recover/cabinet-wip-from-stash
                 isGeneratingPdf && 'cursor-wait opacity-50'
               )}
             >
@@ -317,13 +398,18 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
       </div>
 
       {/* --- 2. BRAND COLLABORATION & FEEDBACK LOOP --- */}
+<<<<<<< HEAD
       <Card className="group relative flex flex-col gap-3 overflow-hidden rounded-xl border-slate-200 bg-white p-4 shadow-sm transition-all hover:border-indigo-200">
+=======
+      <Card className="border-border-default hover:border-accent-primary/30 group relative flex flex-col gap-3 overflow-hidden rounded-xl bg-white p-4 shadow-sm transition-all">
+>>>>>>> recover/cabinet-wip-from-stash
         <div className="absolute -right-4 -top-4 opacity-[0.03] transition-opacity group-hover:opacity-[0.05]">
           <Sparkles className="h-32 w-32" />
         </div>
 
         <div className="flex flex-col items-center justify-between gap-3 lg:flex-row">
           <div className="flex shrink-0 items-center gap-3">
+<<<<<<< HEAD
             <div className="flex h-12 w-10 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 shadow-inner">
               <Handshake className="h-6 w-6" />
             </div>
@@ -332,13 +418,27 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                 Связь с брендом
               </h5>
               <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
+=======
+            <div className="bg-accent-primary/10 text-accent-primary flex h-12 w-10 items-center justify-center rounded-2xl shadow-inner">
+              <Handshake className="h-6 w-6" />
+            </div>
+            <div className="space-y-0.5">
+              <h5 className="text-text-primary text-sm font-black uppercase leading-none tracking-tight">
+                Связь с брендом
+              </h5>
+              <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 {activeMerchBrand}
               </p>
             </div>
           </div>
 
           <div className="flex-1 space-y-3">
+<<<<<<< HEAD
             <p className="max-w-md text-[10px] font-medium leading-relaxed text-slate-500">
+=======
+            <p className="text-text-secondary max-w-md text-[10px] font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
               Синхронизируйте вашу развеску с производственным календарем бренда для гарантии ATS и
               своевременной отгрузки.
             </p>
@@ -350,7 +450,11 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                     merchStatus === 'sent' ? 'bg-emerald-500' : 'bg-amber-500'
                   )}
                 />
+<<<<<<< HEAD
                 <span className="text-[8px] font-black uppercase tracking-widest text-slate-900">
+=======
+                <span className="text-text-primary text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   Статус:{' '}
                   {merchStatus === 'draft'
                     ? 'Черновик'
@@ -362,7 +466,11 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
               {merchStatus === 'sent' && (
                 <button
                   onClick={() => setShowBrandFeedback(!showBrandFeedback)}
+<<<<<<< HEAD
                   className="flex items-center gap-1 text-[8px] font-black uppercase text-indigo-600 hover:underline"
+=======
+                  className="text-accent-primary flex items-center gap-1 text-[8px] font-black uppercase hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <MessageSquare className="h-2.5 w-2.5" />
                   {showBrandFeedback ? 'Скрыть ответ' : 'Посмотреть ответ бренда (1)'}
@@ -373,7 +481,11 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
 
           <div className="flex shrink-0 gap-3">
             {merchStatus === 'sent' ? (
+<<<<<<< HEAD
               <Badge className="flex h-10 items-center gap-2 rounded-xl border-none bg-slate-100 px-6 text-[9px] font-black uppercase text-slate-500">
+=======
+              <Badge className="bg-bg-surface2 text-text-secondary flex h-10 items-center gap-2 rounded-xl border-none px-6 text-[9px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                 <Check className="h-3.5 w-3.5" /> Ожидаем подтверждения
               </Badge>
             ) : (
@@ -390,8 +502,13 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                 className={cn(
                   'flex h-10 items-center justify-center rounded-xl px-8 text-[9px] font-black uppercase tracking-widest transition-all',
                   merchStatus === 'draft'
+<<<<<<< HEAD
                     ? 'cursor-not-allowed border border-slate-200 bg-slate-100 text-slate-400'
                     : 'button-glimmer border border-black bg-black text-white shadow-xl hover:bg-slate-800'
+=======
+                    ? 'bg-bg-surface2 text-text-muted border-border-default cursor-not-allowed border'
+                    : 'button-glimmer hover:bg-text-primary/90 border border-black bg-black text-white shadow-xl'
+>>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 Отправить бренду
@@ -409,9 +526,15 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
               exit={{ height: 0, opacity: 0 }}
               className="overflow-hidden"
             >
+<<<<<<< HEAD
               <div className="mt-2 border-t border-slate-100 pt-6">
                 <div className="flex gap-3 rounded-2xl border border-indigo-100 bg-indigo-50/50 p-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-indigo-200 bg-white">
+=======
+              <div className="border-border-subtle mt-2 border-t pt-6">
+                <div className="bg-accent-primary/10 border-accent-primary/20 flex gap-3 rounded-2xl border p-4">
+                  <div className="border-accent-primary/30 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border bg-white">
+>>>>>>> recover/cabinet-wip-from-stash
                     <img
                       src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100"
                       className="h-8 w-8 rounded-full object-cover"
@@ -419,6 +542,7 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                   </div>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
+<<<<<<< HEAD
                       <span className="text-[10px] font-black uppercase text-slate-900">
                         Александр (Senior MD, {activeMerchBrand})
                       </span>
@@ -427,6 +551,16 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                       </Badge>
                     </div>
                     <p className="text-[11px] font-medium italic leading-relaxed text-slate-600">
+=======
+                      <span className="text-text-primary text-[10px] font-black uppercase">
+                        Александр (Senior MD, {activeMerchBrand})
+                      </span>
+                      <Badge className="bg-accent-primary h-3 px-1 text-[6px] text-white">
+                        OFFICIAL RESPONSE
+                      </Badge>
+                    </div>
+                    <p className="text-text-secondary text-[11px] font-medium italic leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                       "Отличная подборка! Однако, согласно нашей аналитике по вашему региону, я
                       рекомендую добавить **пару аксессуаров из Drop 2** к этой развеске. Это
                       повысит средний чек на 15%. Я прикрепил рекомендуемые позиции ниже."
@@ -434,13 +568,21 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                     <div className="flex gap-2 pt-2">
                       <Button
                         variant="outline"
+<<<<<<< HEAD
                         className="h-7 rounded-lg border-indigo-200 text-[8px] font-black uppercase text-indigo-600 hover:bg-indigo-100"
+=======
+                        className="border-accent-primary/30 text-accent-primary hover:bg-accent-primary/15 h-7 rounded-lg text-[8px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                       >
                         Принять рекомендации
                       </Button>
                       <Button
                         variant="ghost"
+<<<<<<< HEAD
                         className="h-7 rounded-lg text-[8px] font-black uppercase text-slate-400"
+=======
+                        className="text-text-muted h-7 rounded-lg text-[8px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                       >
                         Обсудить в чате
                       </Button>
@@ -455,8 +597,13 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
 
       {/* --- 3. MERCHANDISING ANALYTICS BANNER --- */}
       {!isCustomerPov && (
+<<<<<<< HEAD
         <Link href="/shop/b2b/orders/#8821?tab=analytics">
           <div className="group relative w-full cursor-pointer overflow-hidden rounded-xl border border-white/5 bg-slate-900 p-4 shadow-2xl">
+=======
+        <Link href={`${ROUTES.shop.b2bOrders}#8821?tab=analytics`}>
+          <div className="bg-text-primary group relative w-full cursor-pointer overflow-hidden rounded-xl border border-white/5 p-4 shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.15),transparent)]" />
             <div className="relative z-10 flex flex-col items-center justify-between gap-3 md:flex-row">
               <div className="space-y-3">
@@ -464,14 +611,22 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                   <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/10 text-white">
                     <TrendingUp className="h-4 w-4" />
                   </div>
+<<<<<<< HEAD
                   <Badge className="border-none bg-indigo-500 px-2 py-0.5 text-[8px] font-black uppercase tracking-widest text-white">
+=======
+                  <Badge className="bg-accent-primary border-none px-2 py-0.5 text-[8px] font-black uppercase tracking-widest text-white">
+>>>>>>> recover/cabinet-wip-from-stash
                     Intel OS Analytics
                   </Badge>
                 </div>
                 <h4 className="text-base font-black uppercase tracking-tight text-white">
                   Аналитика мерчандайзинга
                 </h4>
+<<<<<<< HEAD
                 <p className="max-w-sm text-[10px] font-medium uppercase leading-relaxed tracking-wider text-slate-400">
+=======
+                <p className="text-text-muted max-w-sm text-[10px] font-medium uppercase leading-relaxed tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
                   Прогноз: оптимизированная выкладка увеличит глубину корзины на 18% за счет
                   эффективного кросс-сейла.
                 </p>
@@ -482,7 +637,11 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                   {[1, 2, 3].map((i) => (
                     <div
                       key={i}
+<<<<<<< HEAD
                       className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-slate-900 bg-slate-800"
+=======
+                      className="border-text-primary bg-text-primary/90 flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       <img
                         src={`https://i.pravatar.cc/100?img=${i + 10}`}
@@ -490,11 +649,19 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                       />
                     </div>
                   ))}
+<<<<<<< HEAD
                   <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-slate-900 bg-indigo-600 text-[8px] font-black text-white">
                     +12
                   </div>
                 </div>
                 <Button className="h-12 rounded-2xl bg-white px-8 text-[10px] font-black uppercase tracking-widest text-slate-900 transition-all hover:bg-slate-100 group-hover:scale-105">
+=======
+                  <div className="border-text-primary bg-accent-primary flex h-10 w-10 items-center justify-center rounded-full border-2 text-[8px] font-black text-white">
+                    +12
+                  </div>
+                </div>
+                <Button className="text-text-primary hover:bg-bg-surface2 h-12 rounded-2xl bg-white px-8 text-[10px] font-black uppercase tracking-widest transition-all group-hover:scale-105">
+>>>>>>> recover/cabinet-wip-from-stash
                   Подробный отчет <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
@@ -510,7 +677,11 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+<<<<<<< HEAD
             className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/80 p-3 backdrop-blur-md"
+=======
+            className="bg-text-primary/80 fixed inset-0 z-[100] flex items-center justify-center p-3 backdrop-blur-md"
+>>>>>>> recover/cabinet-wip-from-stash
             onClick={() => setSelected3DProduct(null)}
           >
             <motion.div
@@ -520,7 +691,11 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
               className="flex h-[70vh] w-full max-w-5xl flex-col overflow-hidden rounded-xl bg-white shadow-2xl md:flex-row"
               onClick={(e) => e.stopPropagation()}
             >
+<<<<<<< HEAD
               <div className="group relative flex-1 bg-slate-50">
+=======
+              <div className="bg-bg-surface2 group relative flex-1">
+>>>>>>> recover/cabinet-wip-from-stash
                 {/* 3D Simulation Placeholder */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="relative h-full w-full">
@@ -529,6 +704,7 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                       className="h-full w-full object-contain opacity-20 grayscale"
                     />
                     <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+<<<<<<< HEAD
                       <div className="animate-spin-slow flex h-20 w-20 items-center justify-center rounded-full border-2 border-dashed border-indigo-600/20 bg-indigo-600/10">
                         <RefreshCcw className="h-8 w-8 text-indigo-600" />
                       </div>
@@ -537,6 +713,16 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                           3D Digital Twin Rendering
                         </p>
                         <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                      <div className="bg-accent-primary/10 border-accent-primary/20 animate-spin-slow flex h-20 w-20 items-center justify-center rounded-full border-2 border-dashed">
+                        <RefreshCcw className="text-accent-primary h-8 w-8" />
+                      </div>
+                      <div className="space-y-1 text-center">
+                        <p className="text-text-primary text-xs font-black uppercase tracking-widest">
+                          3D Digital Twin Rendering
+                        </p>
+                        <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                           Physically-based cloth simulation active
                         </p>
                       </div>
@@ -546,6 +732,7 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
 
                 {/* 3D HUD */}
                 <div className="absolute left-8 top-4 space-y-2">
+<<<<<<< HEAD
                   <Badge className="border-none bg-slate-900 px-3 py-1 text-[8px] font-black text-white">
                     LOD: ULTRA
                   </Badge>
@@ -554,12 +741,23 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                       <Zap className="h-4 w-4" />
                     </div>
                     <div className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-white text-slate-400 shadow-md transition-colors hover:text-indigo-600">
+=======
+                  <Badge className="bg-text-primary border-none px-3 py-1 text-[8px] font-black text-white">
+                    LOD: ULTRA
+                  </Badge>
+                  <div className="flex gap-2">
+                    <div className="text-text-muted hover:text-accent-primary flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-white shadow-md transition-colors">
+                      <Zap className="h-4 w-4" />
+                    </div>
+                    <div className="text-text-muted hover:text-accent-primary flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-white shadow-md transition-colors">
+>>>>>>> recover/cabinet-wip-from-stash
                       <LayoutGrid className="h-4 w-4" />
                     </div>
                   </div>
                 </div>
               </div>
 
+<<<<<<< HEAD
               <div className="flex w-full flex-col justify-between border-l border-slate-100 p-3 md:w-80">
                 <div className="space-y-6">
                   <div className="space-y-1">
@@ -567,13 +765,26 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                       {selected3DProduct.brand}
                     </p>
                     <h3 className="text-sm font-black uppercase leading-tight tracking-tighter text-slate-900">
+=======
+              <div className="border-border-subtle flex w-full flex-col justify-between border-l p-3 md:w-80">
+                <div className="space-y-6">
+                  <div className="space-y-1">
+                    <p className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
+                      {selected3DProduct.brand}
+                    </p>
+                    <h3 className="text-text-primary text-sm font-black uppercase leading-tight tracking-tighter">
+>>>>>>> recover/cabinet-wip-from-stash
                       {selected3DProduct.name}
                     </h3>
                   </div>
 
                   <div className="space-y-4">
                     <div className="space-y-2">
+<<<<<<< HEAD
                       <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">
+=======
+                      <p className="text-text-muted text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                         Аналитика посадки
                       </p>
                       <div className="space-y-1.5">
@@ -587,7 +798,11 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                               <span>{stat.label}</span>
                               <span>{stat.val}%</span>
                             </div>
+<<<<<<< HEAD
                             <div className="h-1 w-full overflow-hidden rounded-full bg-slate-100">
+=======
+                            <div className="bg-bg-surface2 h-1 w-full overflow-hidden rounded-full">
+>>>>>>> recover/cabinet-wip-from-stash
                               <div
                                 className="h-full rounded-full bg-emerald-500"
                                 style={{ width: `${stat.val}%` }}
@@ -607,7 +822,11 @@ export const MerchandisingDashboard: React.FC<MerchandisingDashboardProps> = ({
                   >
                     Вернуться к рейке
                   </Button>
+<<<<<<< HEAD
                   <p className="text-center text-[7px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                  <p className="text-text-muted text-center text-[7px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     Esc, чтобы закрыть предпросмотр
                   </p>
                 </div>

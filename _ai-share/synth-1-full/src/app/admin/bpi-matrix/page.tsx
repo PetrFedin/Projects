@@ -164,7 +164,11 @@ export default function BPIMatrixPage() {
   const handleCreateNewParameter = (newParameterData: any) => {
     const { name, group, weights, options } = newParameterData;
     const newId = `P${parameters.length + 1}`;
+<<<<<<< HEAD
     setParameters((prev) => [...prev, { id: newId, name: name, group: group }]);
+=======
+    setParameters((prev) => [...prev, { id: newId, name: name, group: group, description: '' }]);
+>>>>>>> recover/cabinet-wip-from-stash
     setDetailedMatrixParameters((prev) => [
       ...prev,
       {

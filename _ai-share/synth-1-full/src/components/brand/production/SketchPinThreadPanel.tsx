@@ -154,12 +154,16 @@ export function SketchPinThreadPanel({
   const brandNotesHref = `${ROUTES.brand.productionWorkshop2}#w2-attr-brandNotes`;
 
   return (
-    <div className="space-y-2 rounded-md border border-indigo-100 bg-indigo-50/40 p-2 text-[10px]">
+    <div className="border-accent-primary/20 bg-accent-primary/10 space-y-2 rounded-md border p-2 text-[10px]">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2">
-          <p className="font-semibold uppercase tracking-wide text-indigo-900">Тред у метки</p>
+          <p className="text-accent-primary font-semibold uppercase tracking-wide">Тред у метки</p>
           {threadResolved ? (
+<<<<<<< HEAD
             <span className="rounded bg-slate-200 px-1.5 py-0.5 text-[8px] font-medium text-slate-700">
+=======
+            <span className="bg-border-subtle text-text-primary rounded px-1.5 py-0.5 text-[8px] font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
               Решён
             </span>
           ) : (
@@ -174,7 +178,7 @@ export function SketchPinThreadPanel({
           ) : null}
           {mentionPending > 0 ? (
             <span
-              className="rounded bg-fuchsia-100 px-1.5 py-0.5 text-[8px] text-fuchsia-900"
+              className="bg-accent-primary/15 text-text-primary rounded px-1.5 py-0.5 text-[8px]"
               title="Заглушка под push: есть @упоминания после последнего «прочитано»"
             >
               @ {mentionPending}
@@ -231,15 +235,15 @@ export function SketchPinThreadPanel({
           </Button>
         </div>
       </div>
-      <p className="rounded border border-indigo-200/60 bg-white/50 px-2 py-1 font-mono text-[8px] leading-relaxed text-indigo-950">
-        <span className="font-sans font-semibold text-indigo-900">Привязка к метке: </span>
+      <p className="border-accent-primary/30 text-accent-primary rounded border bg-white/50 px-2 py-1 font-mono text-[8px] leading-relaxed">
+        <span className="text-accent-primary font-sans font-semibold">Привязка к метке: </span>
         {pinNumber != null ? <>№{pinNumber} на доске · </> : null}
         <span title={annotationId}>id {annotationId.slice(0, 8)}…</span>
         {mesDefectCode?.trim() ? <> · MES {mesDefectCode.trim()}</> : null}
         {linkedQcZoneId?.trim() ? <> · QC-зона {linkedQcZoneId.trim()}</> : null}
         {linkedBomLineRef?.trim() ? <> · BOM-ref {linkedBomLineRef.trim()}</> : null}
       </p>
-      <p className="text-[9px] leading-snug text-indigo-950/80">
+      <p className="text-accent-primary/80 text-[9px] leading-snug">
         Упоминания: <code className="rounded bg-white/80 px-0.5">@designer</code>{' '}
         <code className="rounded bg-white/80 px-0.5">@tech</code>{' '}
         <code className="rounded bg-white/80 px-0.5">@manager</code> — для фильтра в чате; общие
@@ -250,7 +254,7 @@ export function SketchPinThreadPanel({
           type="button"
           variant="ghost"
           size="sm"
-          className="h-6 px-2 text-[8px] text-indigo-800"
+          className="text-accent-primary h-6 px-2 text-[8px]"
           onClick={() => {
             const now = new Date().toISOString();
             const cleared = list.map((x) => ({ ...x, mentionNotifyPending: undefined }));
@@ -263,16 +267,22 @@ export function SketchPinThreadPanel({
       ) : null}
       <ul className="max-h-36 space-y-2 overflow-y-auto">
         {list.length === 0 ? (
-          <li className="text-[9px] text-slate-500">Пока нет сообщений.</li>
+          <li className="text-text-secondary text-[9px]">Пока нет сообщений.</li>
         ) : (
           list.map((c) => {
             const mentions = c.mentions?.length ? c.mentions : parseSketchPinAtMentions(c.body);
             return (
               <li
                 key={c.commentId}
+<<<<<<< HEAD
                 className="rounded border border-white/60 bg-white/70 p-1.5 text-[9px] text-slate-800"
               >
                 <div className="flex flex-wrap items-center justify-between gap-1 font-mono text-[8px] text-slate-500">
+=======
+                className="text-text-primary rounded border border-white/60 bg-white/70 p-1.5 text-[9px]"
+              >
+                <div className="text-text-secondary flex flex-wrap items-center justify-between gap-1 font-mono text-[8px]">
+>>>>>>> recover/cabinet-wip-from-stash
                   <span>
                     {c.by} ·{' '}
                     {(() => {
@@ -287,7 +297,7 @@ export function SketchPinThreadPanel({
                     {c.linkedCalendarEventId ? (
                       <Link
                         href={ROUTES.brand.calendar}
-                        className="inline-flex items-center gap-0.5 text-indigo-700 underline-offset-2 hover:underline"
+                        className="text-accent-primary inline-flex items-center gap-0.5 underline-offset-2 hover:underline"
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -298,7 +308,7 @@ export function SketchPinThreadPanel({
                         type="button"
                         variant="ghost"
                         size="sm"
-                        className="h-6 px-1 text-[8px] text-indigo-800"
+                        className="text-accent-primary h-6 px-1 text-[8px]"
                         disabled={readOnly}
                         onClick={() => pushToCalendar(c)}
                       >
@@ -309,7 +319,7 @@ export function SketchPinThreadPanel({
                 </div>
                 <p className="mt-1 whitespace-pre-wrap">{c.body}</p>
                 {mentions.length > 0 ? (
-                  <p className="mt-0.5 text-[8px] text-indigo-700">@{mentions.join(' @')}</p>
+                  <p className="text-accent-primary mt-0.5 text-[8px]">@{mentions.join(' @')}</p>
                 ) : null}
               </li>
             );
@@ -317,7 +327,7 @@ export function SketchPinThreadPanel({
         )}
       </ul>
       {!readOnly ? (
-        <div className="space-y-1 border-t border-indigo-100/80 pt-2">
+        <div className="border-accent-primary/20 space-y-1 border-t pt-2">
           <Textarea
             className="min-h-[52px] text-[11px]"
             placeholder="Ответ по метке… @designer посмотрите фото"

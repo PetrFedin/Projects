@@ -101,6 +101,7 @@ export function ProductionCostBreakdown({
   };
 
   return (
+<<<<<<< HEAD
     <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
       <div className="h-1 w-full bg-gradient-to-r from-amber-500/80 to-indigo-500/80" />
       <CardHeader className="border-b border-slate-100 bg-gradient-to-br from-slate-50/80 to-white p-5">
@@ -108,11 +109,24 @@ export function ProductionCostBreakdown({
           <div>
             <CardTitle className="flex items-center gap-2 text-sm font-black uppercase tracking-tight text-slate-900">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100 text-indigo-600">
+=======
+    <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
+      <div className="to-accent-primary/80 h-1 w-full bg-gradient-to-r from-amber-500/80" />
+      <CardHeader className="border-border-subtle from-bg-surface2/80 to-bg-surface border-b bg-gradient-to-br p-5">
+        <div className="flex items-start justify-between">
+          <div>
+            <CardTitle className="text-text-primary flex items-center gap-2 text-sm font-black uppercase tracking-tight">
+              <div className="bg-accent-primary/15 text-accent-primary flex h-10 w-10 items-center justify-center rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                 <Calculator className="h-5 w-5" />
               </div>
               Детальный расчёт себестоимости
             </CardTitle>
+<<<<<<< HEAD
             <CardDescription className="mt-2 text-[11px] text-slate-500">
+=======
+            <CardDescription className="text-text-secondary mt-2 text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
               {skuName} • {qty} ед. — материалы, фурнитура, пошив, логистика, упаковка
             </CardDescription>
           </div>
@@ -130,7 +144,11 @@ export function ProductionCostBreakdown({
       <CardContent className="space-y-4 p-4">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="space-y-3">
+<<<<<<< HEAD
             <h4 className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-slate-500">
+=======
+            <h4 className="text-text-secondary flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               <Scissors className="h-3 w-3" /> Статьи затрат (₽/ед)
             </h4>
             <div className="max-h-[280px] space-y-1.5 overflow-y-auto pr-1">
@@ -140,15 +158,25 @@ export function ProductionCostBreakdown({
                 const sum = items.reduce((s, i) => s + i.value, 0);
                 return (
                   <div key={cat} className="space-y-1">
+<<<<<<< HEAD
                     <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">
+=======
+                    <p className="text-text-muted text-[8px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       {label}
                     </p>
                     {items.map((c) => (
                       <div
                         key={c.id}
+<<<<<<< HEAD
                         className="flex items-center justify-between gap-2 rounded-lg px-2 py-1 transition-colors hover:bg-slate-50"
                       >
                         <span className="truncate text-[10px] font-bold text-slate-700">
+=======
+                        className="hover:bg-bg-surface2 flex items-center justify-between gap-2 rounded-lg px-2 py-1 transition-colors"
+                      >
+                        <span className="text-text-primary truncate text-[10px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                           {c.label}
                         </span>
                         {editingId === c.id ? (
@@ -163,14 +191,22 @@ export function ProductionCostBreakdown({
                         ) : (
                           <button
                             onClick={() => setEditingId(c.id)}
+<<<<<<< HEAD
                             className="text-[10px] font-black tabular-nums text-slate-900 hover:text-indigo-600"
+=======
+                            className="text-text-primary hover:text-accent-primary text-[10px] font-black tabular-nums"
+>>>>>>> recover/cabinet-wip-from-stash
                           >
                             {c.value} ₽
                           </button>
                         )}
                       </div>
                     ))}
+<<<<<<< HEAD
                     <div className="flex justify-between border-t border-slate-100 pl-2 pt-1 text-[9px] font-bold text-slate-500">
+=======
+                    <div className="text-text-secondary border-border-subtle flex justify-between border-t pl-2 pt-1 text-[9px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                       <span>Итого {label}</span>
                       <span>{sum} ₽</span>
                     </div>
@@ -181,6 +217,7 @@ export function ProductionCostBreakdown({
           </div>
 
           <div className="space-y-4">
+<<<<<<< HEAD
             <div className="rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-indigo-100/50 p-5 shadow-sm">
               <div className="mb-2 flex items-center justify-between">
                 <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600">
@@ -191,6 +228,18 @@ export function ProductionCostBreakdown({
                 </span>
               </div>
               <div className="flex items-center justify-between border-t border-indigo-100 pt-2 text-[10px] font-medium text-slate-600">
+=======
+            <div className="from-accent-primary/10 to-accent-primary/15 border-accent-primary/20 rounded-2xl border bg-gradient-to-br p-5 shadow-sm">
+              <div className="mb-2 flex items-center justify-between">
+                <span className="text-accent-primary text-[10px] font-black uppercase tracking-wider">
+                  Себестоимость (ед)
+                </span>
+                <span className="text-accent-primary text-xl font-black tabular-nums">
+                  {totalCost.toLocaleString('ru')} ₽
+                </span>
+              </div>
+              <div className="text-text-secondary border-accent-primary/20 flex items-center justify-between border-t pt-2 text-[10px] font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                 <span>На партию ({qty} ед.)</span>
                 <span className="font-black tabular-nums">
                   {(totalCost * qty).toLocaleString('ru')} ₽
@@ -199,7 +248,9 @@ export function ProductionCostBreakdown({
             </div>
 
             <div className="space-y-2">
-              <Label className="text-[10px] font-black uppercase text-slate-500">Наценка</Label>
+              <Label className="text-text-secondary text-[10px] font-black uppercase">
+                Наценка
+              </Label>
               <div className="flex items-center gap-2">
                 <Input
                   type="number"
@@ -218,7 +269,11 @@ export function ProductionCostBreakdown({
               <p className="text-2xl font-black tabular-nums text-emerald-700">
                 {retailPrice.toLocaleString('ru')} ₽
               </p>
+<<<<<<< HEAD
               <p className="border-t border-emerald-100 pt-2 text-[10px] font-medium text-slate-600">
+=======
+              <p className="text-text-secondary border-t border-emerald-100 pt-2 text-[10px] font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                 Маржа: {margin.toLocaleString('ru')} ₽ ({marginPct}%)
               </p>
             </div>
@@ -227,10 +282,21 @@ export function ProductionCostBreakdown({
               {Array.from(byCategory.entries()).map(([label, sum]) => (
                 <div
                   key={label}
+<<<<<<< HEAD
                   className="rounded-xl border border-slate-100 bg-slate-50 p-3 transition-colors hover:border-indigo-100"
                 >
                   <p className="truncate text-[9px] font-bold uppercase text-slate-500">{label}</p>
                   <p className="mt-0.5 text-base font-black tabular-nums text-slate-900">{sum} ₽</p>
+=======
+                  className="bg-bg-surface2 border-border-subtle hover:border-accent-primary/20 rounded-xl border p-3 transition-colors"
+                >
+                  <p className="text-text-secondary truncate text-[9px] font-bold uppercase">
+                    {label}
+                  </p>
+                  <p className="text-text-primary mt-0.5 text-base font-black tabular-nums">
+                    {sum} ₽
+                  </p>
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
               ))}
             </div>

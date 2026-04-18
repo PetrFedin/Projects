@@ -1,5 +1,12 @@
 'use client';
 
+<<<<<<< HEAD
+=======
+import Link from 'next/link';
+import { RegistryPageShell } from '@/components/design-system';
+import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
+import { ROUTES } from '@/lib/routes';
+>>>>>>> recover/cabinet-wip-from-stash
 import { StatCard } from '@/components/stat-card';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -69,7 +76,12 @@ const chartConfig = {
 
 export default function ShopAnalyticsPage() {
   return (
+<<<<<<< HEAD
     <div className="space-y-4">
+=======
+    <RegistryPageShell className="space-y-4">
+      <ShopAnalyticsSegmentErpStrip />
+>>>>>>> recover/cabinet-wip-from-stash
       <header>
         <h1 className="font-headline text-base font-bold">Аналитика розничных продаж</h1>
         <p className="text-muted-foreground">
@@ -251,6 +263,37 @@ export default function ShopAnalyticsPage() {
           </Table>
         </CardContent>
       </Card>
+<<<<<<< HEAD
     </div>
+=======
+
+      <div className="border-border-subtle mt-6 flex flex-wrap items-center gap-2 border-t pt-4">
+        <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+          См. также
+        </span>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link
+            href={ROUTES.shop.analyticsFootfall}
+            data-testid="shop-retail-analytics-footfall-link"
+          >
+            Трафик по зонам
+          </Link>
+        </Button>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link
+            href={ROUTES.shop.b2bMarginAnalysis}
+            data-testid="shop-retail-analytics-margin-hub-link"
+          >
+            Хаб маржи (B2B)
+          </Link>
+        </Button>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link href={ROUTES.shop.b2bAnalytics} data-testid="shop-retail-analytics-b2b-link">
+            Аналитика закупок (B2B)
+          </Link>
+        </Button>
+      </div>
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

@@ -14,9 +14,10 @@ import {
   type LookbookVisibility,
 } from '@/lib/b2b/lookbook-projects-store';
 import { BookOpen, Plus, Eye, Lock, Calendar, FileText, Droplets } from 'lucide-react';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
-const BRAND_ID = 'syntha';
-const BRAND_NAME = 'Syntha';
+const BRAND_ID = 'brand_syntha_lab';
+const BRAND_NAME = 'Syntha Lab';
 
 export default function BrandLookbookProjectsPage() {
   const [projects, setProjects] = useState<LookbookProject[]>([]);
@@ -25,7 +26,7 @@ export default function BrandLookbookProjectsPage() {
     name: '',
     lookbookUrl: '/lookbooks/new.pdf',
     visibility: 'invited' as LookbookVisibility,
-    invitedPartnerIds: 'podium, tsum',
+    invitedPartnerIds: 'retail_msk_1, retail_msk_2',
     visibleUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
   });
 
@@ -52,7 +53,11 @@ export default function BrandLookbookProjectsPage() {
       name: '',
       lookbookUrl: '/lookbooks/new.pdf',
       visibility: 'invited',
+<<<<<<< HEAD
       invitedPartnerIds: 'podium, tsum',
+=======
+      invitedPartnerIds: 'retail_msk_1, retail_msk_2',
+>>>>>>> recover/cabinet-wip-from-stash
       visibleUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
     });
     setShowForm(false);
@@ -66,6 +71,7 @@ export default function BrandLookbookProjectsPage() {
 
   const now = new Date().toISOString();
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <div>
         <h1 className="flex items-center gap-2 text-xl font-bold uppercase tracking-tight">
@@ -75,6 +81,14 @@ export default function BrandLookbookProjectsPage() {
           Colect: права (кто видит, до какой даты), watermarked PDF, заказ из лукбука.
         </p>
       </div>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Лукбуки как проекты"
+        leadPlain="Colect: права (кто видит, до какой даты), watermarked PDF, заказ из лукбука."
+        actions={<BookOpen className="h-6 w-6 shrink-0 text-muted-foreground" aria-hidden />}
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -91,7 +105,11 @@ export default function BrandLookbookProjectsPage() {
           </div>
         </CardHeader>
         {showForm && (
+<<<<<<< HEAD
           <CardContent className="space-y-3 border-t border-slate-100 pt-4">
+=======
+          <CardContent className="border-border-subtle space-y-3 border-t pt-4">
+>>>>>>> recover/cabinet-wip-from-stash
             <input
               placeholder="Название"
               className="w-full rounded-lg border px-3 py-2 text-sm"
@@ -139,20 +157,28 @@ export default function BrandLookbookProjectsPage() {
             </Button>
           </CardContent>
         )}
-        <CardContent className={showForm ? 'border-t border-slate-100' : ''}>
+        <CardContent className={showForm ? 'border-border-subtle border-t' : ''}>
           <ul className="space-y-3">
             {projects.map((p) => {
               const expired = p.visibleUntil < now;
               return (
                 <li
                   key={p.id}
+<<<<<<< HEAD
                   className="flex items-center justify-between rounded-lg border border-slate-200 p-3"
+=======
+                  className="border-border-default flex items-center justify-between rounded-lg border p-3"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <div className="flex items-center gap-3">
-                    <FileText className="h-5 w-5 text-slate-400" />
+                    <FileText className="text-text-muted h-5 w-5" />
                     <div>
                       <p className="font-medium">{p.name}</p>
+<<<<<<< HEAD
                       <div className="mt-0.5 flex items-center gap-2 text-xs text-slate-500">
+=======
+                      <div className="text-text-secondary mt-0.5 flex items-center gap-2 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                         {p.visibility === 'all' ? (
                           <>
                             <Eye className="h-3 w-3" /> Все
@@ -207,6 +233,6 @@ export default function BrandLookbookProjectsPage() {
           <Link href={ROUTES.brand.partnerMap}>Карта партнёров</Link>
         </Button>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

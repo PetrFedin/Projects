@@ -123,13 +123,17 @@ export default function CartSheet() {
             {cart.length > 0 && (
               <div className="flex flex-col gap-2 pt-1">
                 <div className="flex items-center justify-between gap-2">
+<<<<<<< HEAD
                   <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+=======
+                  <span className="text-text-muted text-[10px] font-black uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
                     Образ
                   </span>
                   <Link
                     href={ROUTES.client.myOutfits}
                     onClick={toggleCart}
-                    className="text-[10px] font-bold uppercase text-indigo-600 hover:underline"
+                    className="text-accent-primary text-[10px] font-bold uppercase hover:underline"
                   >
                     Мои образы
                   </Link>
@@ -156,7 +160,11 @@ export default function CartSheet() {
                     <Button
                       type="button"
                       variant="link"
+<<<<<<< HEAD
                       className="ml-1 h-auto p-0 text-[10px] font-black uppercase text-indigo-600"
+=======
+                      className="text-accent-primary ml-1 h-auto p-0 text-[10px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                       onClick={() => applyCartOutfitToCart(activeOutfit.id)}
                     >
                       Добавить из каталога
@@ -168,7 +176,11 @@ export default function CartSheet() {
                     {outfitCartLines.map((item) => (
                       <div
                         key={cartItemId(item)}
+<<<<<<< HEAD
                         className="relative h-14 w-11 shrink-0 overflow-hidden rounded border border-indigo-100 bg-slate-50"
+=======
+                        className="border-accent-primary/20 bg-bg-surface2 relative h-14 w-11 shrink-0 overflow-hidden rounded border"
+>>>>>>> recover/cabinet-wip-from-stash
                       >
                         <Image
                           src={
@@ -237,9 +249,15 @@ export default function CartSheet() {
                     return (
                       <div
                         key={key}
+<<<<<<< HEAD
                         className={`-ml-1 flex items-start gap-3 rounded-lg border-b border-slate-50 pb-4 pl-1 transition-colors last:border-0 ${
                           inActiveOutfit && activeOutfit
                             ? 'bg-indigo-50/60 ring-1 ring-indigo-100'
+=======
+                        className={`border-border-subtle -ml-1 flex items-start gap-3 rounded-lg border-b pb-4 pl-1 transition-colors last:border-0 ${
+                          inActiveOutfit && activeOutfit
+                            ? 'bg-accent-primary/10 ring-accent-primary/20 ring-1'
+>>>>>>> recover/cabinet-wip-from-stash
                             : ''
                         }`}
                       >
@@ -248,10 +266,14 @@ export default function CartSheet() {
                             checked={selectedKeys.includes(key)}
                             onCheckedChange={() => toggleKey(key)}
                             aria-label="Включить в образ"
-                            className="border-slate-300"
+                            className="border-border-default"
                           />
                         </div>
+<<<<<<< HEAD
                         <div className="relative aspect-[4/5] w-24 shrink-0 overflow-hidden rounded-md bg-slate-50">
+=======
+                        <div className="bg-bg-surface2 relative aspect-[4/5] w-24 shrink-0 overflow-hidden rounded-md">
+>>>>>>> recover/cabinet-wip-from-stash
                           <Image
                             src={
                               item.images?.[0]?.url ||
@@ -266,13 +288,21 @@ export default function CartSheet() {
                         <div className="flex min-w-0 flex-1 flex-col">
                           <div className="flex items-start justify-between gap-2">
                             <div>
+<<<<<<< HEAD
                               <p className="mb-0.5 text-[10px] font-black uppercase text-indigo-600">
+=======
+                              <p className="text-accent-primary mb-0.5 text-[10px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                                 {item.brand}
                               </p>
                               <Link
                                 href={`/products/${item.slug}`}
                                 onClick={toggleCart}
+<<<<<<< HEAD
                                 className="mb-1 block text-sm font-bold uppercase leading-tight transition-colors hover:text-indigo-600"
+=======
+                                className="hover:text-accent-primary mb-1 block text-sm font-bold uppercase leading-tight transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                               >
                                 {item.name}
                               </Link>
@@ -280,7 +310,11 @@ export default function CartSheet() {
                                 {item.selectedSize && (
                                   <Badge
                                     variant="outline"
+<<<<<<< HEAD
                                     className="h-4 border-slate-200 px-1.5 py-0 text-[9px] font-bold"
+=======
+                                    className="border-border-default h-4 px-1.5 py-0 text-[9px] font-bold"
+>>>>>>> recover/cabinet-wip-from-stash
                                   >
                                     РАЗМЕР: {item.selectedSize}
                                   </Badge>
@@ -288,7 +322,11 @@ export default function CartSheet() {
                                 {((item as { color?: string }).color || item.color) && (
                                   <Badge
                                     variant="outline"
+<<<<<<< HEAD
                                     className="h-4 border-slate-200 px-1.5 py-0 text-[9px] font-bold uppercase"
+=======
+                                    className="border-border-default h-4 px-1.5 py-0 text-[9px] font-bold uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                                   >
                                     ЦВЕТ: {(item as { color?: string }).color || item.color}
                                   </Badge>
@@ -300,19 +338,31 @@ export default function CartSheet() {
                                 )}
                               </div>
                               {item.deliveryDate && (
+<<<<<<< HEAD
                                 <p className="mt-1 flex items-center gap-1 text-[9px] font-medium uppercase text-slate-400">
+=======
+                                <p className="text-text-muted mt-1 flex items-center gap-1 text-[9px] font-medium uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                                   <Calendar className="h-2.5 w-2.5" />
                                   Доставка:{' '}
                                   {format(new Date(item.deliveryDate), 'd MMMM', { locale: ru })}
                                 </p>
                               )}
                             </div>
+<<<<<<< HEAD
                             <p className="shrink-0 text-sm font-black text-slate-900">
+=======
+                            <p className="text-text-primary shrink-0 text-sm font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                               {(item.price * item.quantity).toLocaleString('ru-RU')} ₽
                             </p>
                           </div>
                           <div className="mt-3 flex items-center justify-between">
+<<<<<<< HEAD
                             <div className="flex items-center gap-1.5 rounded-lg border border-slate-100 bg-slate-50 p-0.5">
+=======
+                            <div className="bg-bg-surface2 border-border-subtle flex items-center gap-1.5 rounded-lg border p-0.5">
+>>>>>>> recover/cabinet-wip-from-stash
                               <Button
                                 variant="ghost"
                                 size="icon"
@@ -350,7 +400,11 @@ export default function CartSheet() {
                             <Button
                               variant="ghost"
                               size="icon"
+<<<<<<< HEAD
                               className="h-7 w-7 text-slate-300 transition-colors hover:bg-rose-50 hover:text-rose-500"
+=======
+                              className="text-text-muted h-7 w-7 transition-colors hover:bg-rose-50 hover:text-rose-500"
+>>>>>>> recover/cabinet-wip-from-stash
                               onClick={() =>
                                 removeCartItem(
                                   item.id,
@@ -369,9 +423,15 @@ export default function CartSheet() {
                   })}
                 </div>
               </ScrollArea>
+<<<<<<< HEAD
               <div className="mt-auto space-y-2 border-t border-slate-100 pt-3">
                 {activeOutfit && outfitCartLines.length > 0 && (
                   <div className="flex items-center justify-between text-xs font-bold uppercase tracking-tight text-indigo-700">
+=======
+              <div className="border-border-subtle mt-auto space-y-2 border-t pt-3">
+                {activeOutfit && outfitCartLines.length > 0 && (
+                  <div className="text-accent-primary flex items-center justify-between text-xs font-bold uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                     <span className="flex items-center gap-1">
                       <Layers className="h-3.5 w-3.5" />
                       {activeOutfit.name}

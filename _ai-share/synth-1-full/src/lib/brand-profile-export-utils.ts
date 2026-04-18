@@ -29,12 +29,18 @@ export function exportToCSV(
 }
 
 /** Экспорт профиля в CSV (DNA + контакты + коммерция) */
+function csvScalar(v: string | number | boolean | undefined | null): string {
+  if (v == null) return '';
+  if (typeof v === 'boolean') return v ? 'да' : 'нет';
+  return String(v);
+}
+
 export function exportBrandProfileCSV(data: {
   brand: { name: string; description: string; countryOfOrigin: string; foundedYear: number };
   dna: Record<string, string | string[]>;
-  contacts: Record<string, string>;
-  commerce: Record<string, string>;
-  legal?: Record<string, string>;
+  contacts: Record<string, string | number | boolean>;
+  commerce: Record<string, string | number | boolean>;
+  legal?: Record<string, string | number | boolean>;
 }) {
   const rows: Record<string, string | number>[] = [];
   const { brand, dna, contacts, commerce, legal } = data;
@@ -49,16 +55,16 @@ export function exportBrandProfileCSV(data: {
   });
 
   Object.entries(contacts).forEach(([k, v]) => {
-    rows.push({ section: 'Контакты', key: k, value: v });
+    rows.push({ section: 'Контакты', key: k, value: csvScalar(v) });
   });
 
   Object.entries(commerce).forEach(([k, v]) => {
-    rows.push({ section: 'Коммерция', key: k, value: v });
+    rows.push({ section: 'Коммерция', key: k, value: csvScalar(v) });
   });
 
   if (legal) {
     Object.entries(legal).forEach(([k, v]) => {
-      rows.push({ section: 'Юр. данные', key: k, value: String(v) });
+      rows.push({ section: 'Юр. данные', key: k, value: csvScalar(v) });
     });
   }
 

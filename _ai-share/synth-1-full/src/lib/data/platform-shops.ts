@@ -7,6 +7,7 @@ import type { PlatformShop } from '@/lib/brand-profile/online-store-types';
 export const PLATFORM_SHOPS: PlatformShop[] = [
   {
     id: 'shop1',
+<<<<<<< HEAD
     name: 'Podium',
     nameAlt: 'Подиум',
     city: 'Москва',
@@ -56,5 +57,28 @@ export const PLATFORM_SHOPS: PlatformShop[] = [
     type: 'Маркетплейс',
     logoUrl: 'https://picsum.photos/seed/ozon/40/40',
     website: 'https://ozon.ru',
+=======
+    name: 'Демо-магазин · Москва 1',
+    nameAlt: 'Демо MSK 1',
+    city: 'Москва',
+    type: 'Мультибренд',
+    logoUrl: 'https://picsum.photos/seed/demo-retail-msk1/40/40',
+  },
+  {
+    id: 'shop2',
+    name: 'Демо-магазин · Москва 2',
+    nameAlt: 'Демо MSK 2',
+    city: 'Москва',
+    type: 'Универмаг',
+    logoUrl: 'https://picsum.photos/seed/demo-retail-msk2/40/40',
+  },
+  {
+    id: 'shop3',
+    name: 'Демо-магазин · СПб',
+    nameAlt: 'Демо СПб',
+    city: 'Санкт-Петербург',
+    type: 'Бутик',
+    logoUrl: 'https://picsum.photos/seed/demo-retail-spb/40/40',
+>>>>>>> recover/cabinet-wip-from-stash
   },
 ];

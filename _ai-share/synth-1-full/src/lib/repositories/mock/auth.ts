@@ -68,7 +68,11 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
             'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop',
           loyaltyPlan: 'base',
           loyaltyPoints: 0,
+<<<<<<< HEAD
           roles: ['platform_admin'],
+=======
+          roles: ['admin'],
+>>>>>>> recover/cabinet-wip-from-stash
           activeOrganizationId: 'org-hq-001',
           organizations: [
             { organizationId: 'org-hq-001', roleInOrg: 'admin', permissions: ['all'] },
@@ -113,7 +117,11 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
             'https://images.unsplash.com/photo-1519085360753-afdab827c52f?w=400&h=400&fit=crop',
           loyaltyPlan: 'base',
           loyaltyPoints: 0,
+<<<<<<< HEAD
           roles: ['platform_admin'],
+=======
+          roles: ['admin'],
+>>>>>>> recover/cabinet-wip-from-stash
           activeOrganizationId: 'org-hq-001',
           organizations: [
             { organizationId: 'org-hq-001', roleInOrg: 'admin', permissions: ['all'] },
@@ -160,7 +168,11 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
             'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop',
           loyaltyPlan: 'premium',
           loyaltyPoints: 5000,
+<<<<<<< HEAD
           roles: ['brand_admin'],
+=======
+          roles: ['brand'],
+>>>>>>> recover/cabinet-wip-from-stash
           activeOrganizationId: 'org-brand-001',
           organizations: [
             {
@@ -214,7 +226,11 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
             'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
           loyaltyPlan: 'base',
           loyaltyPoints: 500,
+<<<<<<< HEAD
           roles: ['brand_admin'],
+=======
+          roles: ['brand'],
+>>>>>>> recover/cabinet-wip-from-stash
           activeOrganizationId: 'org-brand-001',
           organizations: [
             {
@@ -263,7 +279,11 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
             'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop',
           loyaltyPlan: 'premium',
           loyaltyPoints: 3500,
+<<<<<<< HEAD
           roles: ['brand_admin'],
+=======
+          roles: ['brand'],
+>>>>>>> recover/cabinet-wip-from-stash
           activeOrganizationId: 'org-brand-002',
           organizations: [
             {
@@ -290,7 +310,11 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
             'https://images.unsplash.com/photo-1589156280159-27698a70f29e?w=400&h=400&fit=crop',
           loyaltyPlan: 'premium',
           loyaltyPoints: 2000,
+<<<<<<< HEAD
           roles: ['brand_admin'],
+=======
+          roles: ['brand'],
+>>>>>>> recover/cabinet-wip-from-stash
           activeOrganizationId: 'org-brand-003',
           organizations: [
             {
@@ -519,7 +543,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
   ]);
 
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(Array.from(defaultUsers.entries())));
-  return defaultUsers;
+  return defaultUsers as Map<string, { email: string; password: string; profile: UserProfile }>;
 };
 
 const saveUsers = (

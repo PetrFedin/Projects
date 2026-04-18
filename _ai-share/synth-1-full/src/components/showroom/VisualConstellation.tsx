@@ -137,7 +137,11 @@ export function VisualConstellation({ onClose }: { onClose: () => void }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+<<<<<<< HEAD
       className="fixed inset-0 z-[150] flex flex-col overflow-hidden bg-slate-950"
+=======
+      className="bg-text-primary fixed inset-0 z-[150] flex flex-col overflow-hidden"
+>>>>>>> recover/cabinet-wip-from-stash
     >
       {/* Neural Background */}
       <div className="pointer-events-none absolute inset-0 opacity-30">
@@ -154,7 +158,11 @@ export function VisualConstellation({ onClose }: { onClose: () => void }) {
         <div className="space-y-6">
           <div className="space-y-2">
             <div className="flex items-center gap-3">
+<<<<<<< HEAD
               <Badge className="rounded-full border-none bg-indigo-600 px-3 py-1 text-[9px] font-black uppercase tracking-widest text-white shadow-[0_0_20px_rgba(79,70,229,0.4)]">
+=======
+              <Badge className="bg-accent-primary rounded-full border-none px-3 py-1 text-[9px] font-black uppercase tracking-widest text-white shadow-[0_0_20px_rgba(79,70,229,0.4)]">
+>>>>>>> recover/cabinet-wip-from-stash
                 AI_NEURAL_NAV_v3.0
               </Badge>
               {isAutoTour && (
@@ -169,19 +177,31 @@ export function VisualConstellation({ onClose }: { onClose: () => void }) {
             <h2 className="text-sm font-black uppercase leading-[0.85] tracking-tighter text-white md:text-7xl">
               VISION
               <br />
+<<<<<<< HEAD
               <span className="text-indigo-500">CLOUD</span>
+=======
+              <span className="text-accent-primary">CLOUD</span>
+>>>>>>> recover/cabinet-wip-from-stash
             </h2>
           </div>
 
           <div className="flex flex-col gap-3">
             <div className="group relative">
+<<<<<<< HEAD
               <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40 transition-colors group-focus-within:text-indigo-400" />
+=======
+              <Search className="group-focus-within:text-accent-primary absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40 transition-colors" />
+>>>>>>> recover/cabinet-wip-from-stash
               <input
                 type="text"
                 placeholder="Search Aesthetics, Vibes, or Tech..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+<<<<<<< HEAD
                 className="w-80 rounded-2xl border border-white/10 bg-white/5 py-3 pl-12 pr-8 text-[11px] text-white shadow-2xl backdrop-blur-xl transition-all placeholder:text-white/20 focus:border-indigo-500/50 focus:outline-none"
+=======
+                className="focus:border-accent-primary/50 w-80 rounded-2xl border border-white/10 bg-white/5 py-3 pl-12 pr-8 text-[11px] text-white shadow-2xl backdrop-blur-xl transition-all placeholder:text-white/20 focus:outline-none"
+>>>>>>> recover/cabinet-wip-from-stash
               />
             </div>
 
@@ -194,7 +214,11 @@ export function VisualConstellation({ onClose }: { onClose: () => void }) {
                   className={cn(
                     'shrink-0 rounded-full border px-4 py-1.5 text-[8px] font-black uppercase tracking-widest transition-all',
                     activeMood === mood
+<<<<<<< HEAD
                       ? 'border-indigo-400 bg-indigo-500 text-white shadow-[0_0_15px_rgba(79,70,229,0.5)]'
+=======
+                      ? 'bg-accent-primary border-accent-primary/40 text-white shadow-[0_0_15px_rgba(79,70,229,0.5)]'
+>>>>>>> recover/cabinet-wip-from-stash
                       : 'border-white/10 bg-white/5 text-white/40 hover:border-white/30 hover:text-white'
                   )}
                 >
@@ -211,7 +235,13 @@ export function VisualConstellation({ onClose }: { onClose: () => void }) {
             onClick={() => setIsAutoTour(!isAutoTour)}
             className={cn(
               'h-10 gap-3 rounded-2xl border-white/10 px-6 text-[10px] font-black uppercase tracking-widest text-white backdrop-blur-xl transition-all',
+<<<<<<< HEAD
               isAutoTour ? 'border-indigo-400 bg-indigo-500' : 'bg-white/5 hover:bg-white/10'
+=======
+              isAutoTour
+                ? 'bg-accent-primary border-accent-primary/40'
+                : 'bg-white/5 hover:bg-white/10'
+>>>>>>> recover/cabinet-wip-from-stash
             )}
           >
             {isAutoTour ? (
@@ -272,7 +302,11 @@ export function VisualConstellation({ onClose }: { onClose: () => void }) {
                     className={cn(
                       'h-4 w-4 cursor-pointer rounded-full transition-all duration-700',
                       isActive
+<<<<<<< HEAD
                         ? 'bg-indigo-400 shadow-[0_0_40px_rgba(129,140,248,1)] ring-[6px] ring-indigo-500/30'
+=======
+                        ? 'bg-accent-primary/40 ring-accent-primary/30 shadow-[0_0_40px_rgba(129,140,248,1)] ring-[6px]'
+>>>>>>> recover/cabinet-wip-from-stash
                         : isMatch
                           ? 'bg-white/80 shadow-[0_0_15px_rgba(255,255,255,0.4)]'
                           : 'bg-white/10'
@@ -287,12 +321,20 @@ export function VisualConstellation({ onClose }: { onClose: () => void }) {
                         exit={{ opacity: 0, y: 20, scale: 0.8 }}
                         className="pointer-events-none absolute left-1/2 top-full z-[60] mt-4 -translate-x-1/2 whitespace-nowrap"
                       >
+<<<<<<< HEAD
                         <div className="rounded-2xl border border-indigo-500/30 bg-black/80 px-4 py-2 shadow-2xl backdrop-blur-2xl">
+=======
+                        <div className="border-accent-primary/30 rounded-2xl border bg-black/80 px-4 py-2 shadow-2xl backdrop-blur-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
                           <div className="text-[10px] font-black uppercase tracking-widest text-white">
                             {node.title}
                           </div>
                           <div className="mt-1 flex items-center justify-center gap-2">
+<<<<<<< HEAD
                             <span className="text-[7px] font-black uppercase tracking-[0.2em] text-indigo-400">
+=======
+                            <span className="text-accent-primary text-[7px] font-black uppercase tracking-[0.2em]">
+>>>>>>> recover/cabinet-wip-from-stash
                               {node.mood}
                             </span>
                             <div className="h-1 w-1 rounded-full bg-white/20" />
@@ -357,19 +399,32 @@ export function VisualConstellation({ onClose }: { onClose: () => void }) {
               initial={{ opacity: 0, x: 150, rotateY: 20 }}
               animate={{ opacity: 1, x: 0, rotateY: 0 }}
               exit={{ opacity: 0, x: 150, rotateY: 20 }}
+<<<<<<< HEAD
               className="absolute right-12 top-1/2 z-50 w-[420px] -translate-y-1/2 space-y-4 overflow-hidden rounded-[4rem] border border-white/10 bg-slate-900/40 p-3 text-white shadow-[0_0_100px_rgba(0,0,0,0.6)] backdrop-blur-[40px]"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-emerald-500/5" />
+=======
+              className="bg-text-primary/40 absolute right-12 top-1/2 z-50 w-[420px] -translate-y-1/2 space-y-4 overflow-hidden rounded-[4rem] border border-white/10 p-3 text-white shadow-[0_0_100px_rgba(0,0,0,0.6)] backdrop-blur-[40px]"
+            >
+              <div className="from-accent-primary/10 absolute inset-0 bg-gradient-to-br via-transparent to-emerald-500/5" />
+>>>>>>> recover/cabinet-wip-from-stash
 
               <div className="group relative aspect-[4/5] overflow-hidden rounded-xl shadow-2xl">
                 <img
                   src={selectedNode.image}
                   className="h-full w-full object-cover transition-all duration-1000 group-hover:scale-110"
                 />
+<<<<<<< HEAD
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-90" />
 
                 <div className="absolute left-6 top-4">
                   <Badge className="border-none bg-indigo-600/80 px-4 py-1.5 text-[9px] font-black uppercase tracking-tighter text-white backdrop-blur-md">
+=======
+                <div className="from-text-primary absolute inset-0 bg-gradient-to-t via-transparent to-transparent opacity-90" />
+
+                <div className="absolute left-6 top-4">
+                  <Badge className="bg-accent-primary/80 border-none px-4 py-1.5 text-[9px] font-black uppercase tracking-tighter text-white backdrop-blur-md">
+>>>>>>> recover/cabinet-wip-from-stash
                     {selectedNode.mood} DNA
                   </Badge>
                 </div>
@@ -391,7 +446,11 @@ export function VisualConstellation({ onClose }: { onClose: () => void }) {
 
               <div className="relative space-y-6">
                 <div className="space-y-2">
+<<<<<<< HEAD
                   <div className="text-[11px] font-black uppercase tracking-[0.3em] text-indigo-400">
+=======
+                  <div className="text-accent-primary text-[11px] font-black uppercase tracking-[0.3em]">
+>>>>>>> recover/cabinet-wip-from-stash
                     {selectedNode.brand}
                   </div>
                   <h3 className="text-sm font-black uppercase leading-[0.85] tracking-tighter">
@@ -404,7 +463,11 @@ export function VisualConstellation({ onClose }: { onClose: () => void }) {
                     <div className="text-[8px] font-black uppercase leading-none tracking-widest text-white/40">
                       Visual Match
                     </div>
+<<<<<<< HEAD
                     <div className="text-base font-black text-indigo-400">
+=======
+                    <div className="text-accent-primary text-base font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                       {selectedNode.similarity}
                     </div>
                   </div>
@@ -418,9 +481,15 @@ export function VisualConstellation({ onClose }: { onClose: () => void }) {
                   </div>
                 </div>
 
+<<<<<<< HEAD
                 <div className="space-y-4 rounded-xl border border-indigo-500/20 bg-indigo-500/10 p-4">
                   <div className="flex items-center gap-3">
                     <Zap className="h-5 w-5 fill-indigo-400 text-indigo-400" />
+=======
+                <div className="bg-accent-primary/10 border-accent-primary/20 space-y-4 rounded-xl border p-4">
+                  <div className="flex items-center gap-3">
+                    <Zap className="text-accent-primary fill-accent-primary h-5 w-5" />
+>>>>>>> recover/cabinet-wip-from-stash
                     <div className="text-[10px] font-black uppercase tracking-widest text-white">
                       AI Cluster Reasoning
                     </div>
@@ -434,7 +503,11 @@ export function VisualConstellation({ onClose }: { onClose: () => void }) {
               </div>
 
               <div className="relative flex gap-3">
+<<<<<<< HEAD
                 <Button className="h-12 flex-1 gap-3 rounded-xl bg-white text-[12px] font-black uppercase tracking-widest text-black shadow-2xl shadow-indigo-500/20 hover:bg-slate-200">
+=======
+                <Button className="hover:bg-bg-surface2 shadow-accent-primary/20 h-12 flex-1 gap-3 rounded-xl bg-white text-[12px] font-black uppercase tracking-widest text-black shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
                   <ShoppingCart className="h-5 w-5" /> Add to Look
                 </Button>
                 <Button
@@ -472,7 +545,11 @@ export function VisualConstellation({ onClose }: { onClose: () => void }) {
               <div
                 className={cn(
                   'text-sm font-black uppercase tracking-tighter',
+<<<<<<< HEAD
                   i === 0 ? 'text-indigo-400' : 'text-white'
+=======
+                  i === 0 ? 'text-accent-primary' : 'text-white'
+>>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 {stat.val}
@@ -485,6 +562,7 @@ export function VisualConstellation({ onClose }: { onClose: () => void }) {
           <div className="hidden text-right md:block">
             <div className="text-[9px] font-black uppercase tracking-[0.2em] text-white/20">
               Neural Engine Load
+<<<<<<< HEAD
             </div>
             <div className="mt-1 flex items-center gap-2">
               <div className="h-1 w-24 overflow-hidden rounded-full bg-white/5">
@@ -509,8 +587,34 @@ export function VisualConstellation({ onClose }: { onClose: () => void }) {
                 <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
                 Syntha_Stable
               </span>
+=======
+>>>>>>> recover/cabinet-wip-from-stash
             </div>
-            <Sparkles className="h-5 w-5 text-indigo-400" />
+            <div className="mt-1 flex items-center gap-2">
+              <div className="h-1 w-24 overflow-hidden rounded-full bg-white/5">
+                <motion.div
+                  animate={{ width: ['20%', '85%', '40%'] }}
+                  transition={{ duration: 10, repeat: Infinity }}
+                  className="bg-accent-primary h-full shadow-[0_0_10px_#6366f1]"
+                />
+              </div>
+              <span className="text-accent-primary text-[10px] font-black tabular-nums">42%</span>
+            </div>
+          </div>
+
+          <div className="mx-2 h-10 w-px bg-white/10" />
+
+          <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-6 py-3">
+            <div className="flex flex-col">
+              <span className="text-[8px] font-black uppercase tracking-widest text-white/40">
+                Core Status
+              </span>
+              <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-emerald-400">
+                <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+                Syntha_Stable
+              </span>
+            </div>
+            <Sparkles className="text-accent-primary h-5 w-5" />
           </div>
         </div>
       </div>

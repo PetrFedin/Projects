@@ -188,5 +188,6 @@ export function shopStockFileIngestIntegrationPreview(params: {
     pipelineStage: 'accepted_file',
     nextStage: 'parse_then_prepareExternalStockSync_per_sku',
     acceptedAt: params.acceptedAt,
+    domainEventType: 'inventory.shop_stock_file_ingested',
   };
 }

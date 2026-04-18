@@ -460,7 +460,11 @@ export function PartnershipTab({
                   </Button>
                   <Button
                     variant="ghost"
+<<<<<<< HEAD
                     className="h-8 rounded-lg border border-slate-100 bg-slate-50 text-[7px] font-black uppercase text-slate-700"
+=======
+                    className="bg-bg-surface2 text-text-primary border-border-subtle h-8 rounded-lg border text-[7px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                     onClick={() => {
                       setB2bPartnerStatus('spot');
                       toast({ title: 'Партнерство подтверждено', description: 'Статус: Точечно' });

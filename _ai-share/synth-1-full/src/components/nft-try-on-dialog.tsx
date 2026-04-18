@@ -11,7 +11,7 @@ import {
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Cube, Gamepad2, Share2, Sparkles } from 'lucide-react';
+import { Box, Gamepad2, Share2, Sparkles } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
@@ -83,7 +83,11 @@ export default function NftTryOnDialog({ nft, isOpen, onOpenChange }: NftTryOnDi
             />
           )}
           <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-lg bg-background/50 p-2 backdrop-blur-sm">
+<<<<<<< HEAD
             <Cube className="h-5 w-5 text-muted-foreground" />
+=======
+            <Box className="h-5 w-5 text-muted-foreground" />
+>>>>>>> recover/cabinet-wip-from-stash
             <span className="text-sm font-medium">3D-просмотр</span>
           </div>
         </div>

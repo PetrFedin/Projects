@@ -13,6 +13,7 @@ import {
   type TerritoryConflict,
 } from '@/lib/b2b/partner-territory-map';
 import { MapPin, AlertTriangle, Shield, Store, Users } from 'lucide-react';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 export default function BrandPartnerMapPage() {
   const [regions, setRegions] = useState<
@@ -29,6 +30,7 @@ export default function BrandPartnerMapPage() {
   }, [load]);
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <div>
         <h1 className="flex items-center gap-2 text-xl font-bold uppercase tracking-tight">
@@ -38,6 +40,14 @@ export default function BrandPartnerMapPage() {
           Colect: визуально кто где торгует, конфликты территории, статус эксклюзива.
         </p>
       </div>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Карта партнёров / территории"
+        leadPlain="Colect: визуально кто где торгует, конфликты территории, статус эксклюзива."
+        actions={<MapPin className="h-6 w-6 shrink-0 text-muted-foreground" aria-hidden />}
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       {conflicts.length > 0 && (
         <Card className="border-amber-200 bg-amber-50/30">
@@ -81,9 +91,15 @@ export default function BrandPartnerMapPage() {
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-2">
             {regions.map(({ regionKey, region, partners }) => (
+<<<<<<< HEAD
               <div key={regionKey} className="rounded-xl border border-slate-200 p-4">
                 <div className="mb-3 flex items-center gap-2">
                   <MapPin className="h-4 w-4 text-slate-500" />
+=======
+              <div key={regionKey} className="border-border-default rounded-xl border p-4">
+                <div className="mb-3 flex items-center gap-2">
+                  <MapPin className="text-text-secondary h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
                   <span className="font-medium">{region}</span>
                   <Badge variant="outline" className="text-[10px]">
                     {partners.length} партн.
@@ -128,6 +144,6 @@ export default function BrandPartnerMapPage() {
           <Link href={ROUTES.brand.buyerApplications}>Заявки на доступ</Link>
         </Button>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

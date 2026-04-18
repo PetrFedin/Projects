@@ -4,11 +4,13 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Trophy, ArrowLeft, Star, Target, Gift } from 'lucide-react';
+import { Star, Target, Gift } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/routes';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { RegistryPageShell } from '@/components/design-system';
 
 /** Геймификация для байеров (российский рынок): челленджи, бейджи, обмен очков на скидки. */
 const MOCK_CHALLENGES = [
@@ -38,6 +40,7 @@ export default function GamificationPage() {
   const points = 320;
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -54,6 +57,10 @@ export default function GamificationPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="max-w-2xl space-y-6">
+      <ShopB2bContentHeader lead="Задания и награды для байеров: баллы можно обменять на скидки у партнёрских брендов." />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -65,7 +72,11 @@ export default function GamificationPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+<<<<<<< HEAD
           <p className="text-3xl font-bold text-indigo-600">{points} баллов</p>
+=======
+          <p className="text-accent-primary text-3xl font-bold">{points} баллов</p>
+>>>>>>> recover/cabinet-wip-from-stash
           <Button variant="outline" size="sm" className="mt-2">
             Обменять на скидку
           </Button>
@@ -83,23 +94,37 @@ export default function GamificationPage() {
           {MOCK_CHALLENGES.map((c) => (
             <div
               key={c.id}
+<<<<<<< HEAD
               className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50 p-3"
+=======
+              className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-lg border p-3"
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <div>
                 <p className="font-medium">{c.title}</p>
-                <p className="text-xs text-slate-500">{c.reward}</p>
+                <p className="text-text-secondary text-xs">{c.reward}</p>
               </div>
               <div className="flex items-center gap-2">
+<<<<<<< HEAD
                 <div className="h-2 w-24 overflow-hidden rounded-full bg-slate-200">
                   <div
                     className={cn('h-full bg-indigo-500 transition-all')}
+=======
+                <div className="bg-border-subtle h-2 w-24 overflow-hidden rounded-full">
+                  <div
+                    className={cn('bg-accent-primary h-full transition-all')}
+>>>>>>> recover/cabinet-wip-from-stash
                     style={{ width: `${c.progress}%` }}
                   />
                 </div>
                 {c.done ? (
                   <Badge variant="default">Готово</Badge>
                 ) : (
+<<<<<<< HEAD
                   <span className="text-xs text-slate-500">{c.progress}%</span>
+=======
+                  <span className="text-text-secondary text-xs">{c.progress}%</span>
+>>>>>>> recover/cabinet-wip-from-stash
                 )}
               </div>
             </div>
@@ -119,7 +144,11 @@ export default function GamificationPage() {
             {MOCK_BADGES.map((b) => (
               <div
                 key={b.id}
+<<<<<<< HEAD
                 className={`flex flex-col items-center rounded-xl border p-3 ${b.earned ? 'border-amber-200 bg-amber-50' : 'border-slate-200 opacity-60'}`}
+=======
+                className={`flex flex-col items-center rounded-xl border p-3 ${b.earned ? 'border-amber-200 bg-amber-50' : 'border-border-default opacity-60'}`}
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <span className="mb-1 text-2xl">{b.icon}</span>
                 <span className="text-xs font-medium">{b.name}</span>
@@ -142,6 +171,10 @@ export default function GamificationPage() {
         title="Заказы, партнёры, выставки"
         className="mt-6"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

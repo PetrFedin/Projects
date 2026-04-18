@@ -1,7 +1,7 @@
-import type { ShowroomAppointmentV1 } from './types';
+import type { ShowroomAppointmentSessionV1 } from './types';
 
 /** Улучшенный планировщик шоурумов (Advanced B2B). */
-export function getShowroomAppointments(): ShowroomAppointmentV1[] {
+export function getShowroomAppointments(): ShowroomAppointmentSessionV1[] {
   return [
     {
       id: 'SH-2026-01',

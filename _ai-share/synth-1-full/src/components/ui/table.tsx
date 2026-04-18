@@ -15,7 +15,11 @@ const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
+<<<<<<< HEAD
   <thead ref={ref} className={cn('bg-slate-50/50 [&_tr]:border-b', className)} {...props} />
+=======
+  <thead ref={ref} className={cn('bg-bg-surface2/80 [&_tr]:border-b', className)} {...props} />
+>>>>>>> recover/cabinet-wip-from-stash
 ));
 TableHeader.displayName = 'TableHeader';
 
@@ -33,7 +37,11 @@ const TableFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tfoot
     ref={ref}
+<<<<<<< HEAD
     className={cn('border-t bg-slate-50/50 font-medium [&>tr]:last:border-b-0', className)}
+=======
+    className={cn('bg-bg-surface2/80 border-t font-medium [&>tr]:last:border-b-0', className)}
+>>>>>>> recover/cabinet-wip-from-stash
     {...props}
   />
 ));
@@ -44,7 +52,11 @@ const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTML
     <tr
       ref={ref}
       className={cn(
+<<<<<<< HEAD
         'border-b transition-colors hover:bg-slate-50/50 data-[state=selected]:bg-slate-100',
+=======
+        'hover:bg-bg-surface2/80 data-[state=selected]:bg-bg-surface2 border-b transition-colors',
+>>>>>>> recover/cabinet-wip-from-stash
         className
       )}
       {...props}
@@ -60,7 +72,11 @@ const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
+<<<<<<< HEAD
       'h-10 px-4 text-left align-middle text-[11px] font-semibold uppercase tracking-wider text-slate-500 [&:has([role=checkbox])]:pr-0',
+=======
+      'text-text-secondary h-10 px-4 text-left align-middle text-[11px] font-semibold uppercase tracking-wider [&:has([role=checkbox])]:pr-0',
+>>>>>>> recover/cabinet-wip-from-stash
       className
     )}
     {...props}
@@ -75,7 +91,11 @@ const TableCell = React.forwardRef<
   <td
     ref={ref}
     className={cn(
+<<<<<<< HEAD
       'p-4 align-middle text-[13px] text-slate-700 [&:has([role=checkbox])]:pr-0',
+=======
+      'text-text-primary p-4 align-middle text-[13px] [&:has([role=checkbox])]:pr-0',
+>>>>>>> recover/cabinet-wip-from-stash
       className
     )}
     {...props}

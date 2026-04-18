@@ -59,6 +59,7 @@ import { DigitalWorkplaceMap } from '@/components/dashboard/DigitalWorkplaceMap'
 import { useUserContext } from '@/hooks/useUserContext';
 import { type B2BUserRole } from '@/lib/data/b2b-workspace-matrix';
 import Link from 'next/link';
+import { ROUTES } from '@/lib/routes';
 
 export function WorkplaceSection() {
   const { isFlowMapOpen, setIsFlowMapOpen, viewRole } = useUIState();
@@ -74,7 +75,7 @@ export function WorkplaceSection() {
 
   const getToolPath = (toolId: string) => {
     // Determine path based on role and tool
-    const basePath = viewRole === 'admin' ? '/admin' : '/brand';
+    const basePath = viewRole === 'admin' ? ROUTES.admin.home : ROUTES.brand.home;
     if (toolId === 'collab') return `${basePath}/team`;
     if (toolId === 'pim') return `${basePath}/inventory`;
     if (toolId === 'claims') return `${basePath}/quality`;
@@ -82,7 +83,7 @@ export function WorkplaceSection() {
     if (toolId === 'crm') return `${basePath}/customers`;
     if (toolId === 'leads') return `${basePath}/customers`;
     if (toolId === 'showroom-360') return `${basePath}/showroom`;
-    if (toolId === 'merch') return `/shop/b2b/matrix`;
+    if (toolId === 'merch') return ROUTES.shop.b2bMatrix;
     if (toolId === 'planning') return `${basePath}/planning`;
     return basePath;
   };
@@ -283,27 +284,47 @@ export function WorkplaceSection() {
       viewport={{ once: true }}
       className="section-spacing relative scroll-mt-24 bg-transparent"
     >
+<<<<<<< HEAD
       <div className="container mx-auto px-4">
         <Card className="relative rounded-xl border border-none border-slate-100 bg-white shadow-2xl shadow-slate-200/50">
+=======
+      <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
+        <Card className="border-border-subtle relative rounded-xl border border-none bg-white shadow-2xl shadow-md">
+>>>>>>> recover/cabinet-wip-from-stash
           <CardContent className="p-3">
             {/* Header section (Same as Production) */}
             <div className="mb-8 flex flex-col justify-between gap-3 md:flex-row md:items-center">
               <div className="space-y-1">
                 <div className="flex items-center gap-3">
+<<<<<<< HEAD
                   <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900">
+=======
+                  <div className="bg-text-primary flex h-8 w-8 items-center justify-center rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                     <LayoutGrid className="h-4 w-4 text-white" />
                   </div>
                   <Badge
                     variant="outline"
+<<<<<<< HEAD
                     className="border-slate-200 px-2 py-0.5 text-xs font-bold uppercase tracking-normal text-slate-900"
+=======
+                    className="border-border-default text-text-primary px-2 py-0.5 text-xs font-bold uppercase tracking-normal"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     B2B_OS_WORKPLACE_V5.0
                   </Badge>
                 </div>
+<<<<<<< HEAD
                 <h2 className="text-2xl font-bold uppercase leading-tight tracking-tight text-slate-900 md:text-4xl">
                   РАБОЧЕЕ ПРОСТРАНСТВО
                 </h2>
                 <p className="max-w-md text-xs font-medium text-slate-400">
+=======
+                <h2 className="text-text-primary text-2xl font-bold uppercase leading-tight tracking-tight md:text-4xl">
+                  РАБОЧЕЕ ПРОСТРАНСТВО
+                </h2>
+                <p className="text-text-muted max-w-md text-xs font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                   Центральный узел управления для fashion-бизнеса и командной работы.
                 </p>
               </div>
@@ -316,12 +337,20 @@ export function WorkplaceSection() {
                         variant="outline"
                         size="icon"
                         onClick={() => setIsFlowMapOpen('workplace')}
+<<<<<<< HEAD
                         className="hover:border-slate-900"
+=======
+                        className="hover:border-text-primary"
+>>>>>>> recover/cabinet-wip-from-stash
                       >
-                        <Share2 className="h-4 w-4 text-indigo-600" />
+                        <Share2 className="text-accent-primary h-4 w-4" />
                       </Button>
                     </TooltipTrigger>
+<<<<<<< HEAD
                     <TooltipContent className="rounded-lg border-none bg-slate-900 p-2 text-white shadow-2xl">
+=======
+                    <TooltipContent className="bg-text-primary rounded-lg border-none p-2 text-white shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
                       <p className="text-[10px] font-bold uppercase tracking-wide">
                         Карта процессов
                       </p>
@@ -329,12 +358,20 @@ export function WorkplaceSection() {
                   </Tooltip>
                 </TooltipProvider>
 
+<<<<<<< HEAD
                 <div className="flex items-center gap-2 border-l border-slate-100 pl-4">
+=======
+                <div className="border-border-subtle flex items-center gap-2 border-l pl-4">
+>>>>>>> recover/cabinet-wip-from-stash
                   <button
                     onClick={() => {
                       containerRef.current?.scrollBy({ left: -320, behavior: 'smooth' });
                     }}
+<<<<<<< HEAD
                     className="p-1 text-slate-400 transition-colors hover:text-slate-900"
+=======
+                    className="text-text-muted hover:text-text-primary p-1 transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <ArrowRight className="h-5 w-5 rotate-180" />
                   </button>
@@ -342,7 +379,11 @@ export function WorkplaceSection() {
                     onClick={() => {
                       containerRef.current?.scrollBy({ left: 320, behavior: 'smooth' });
                     }}
+<<<<<<< HEAD
                     className="p-1 text-slate-400 transition-colors hover:text-slate-900"
+=======
+                    className="text-text-muted hover:text-text-primary p-1 transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <ArrowRight className="h-5 w-5" />
                   </button>
@@ -352,7 +393,11 @@ export function WorkplaceSection() {
 
             {/* Tabs (Same as Production) */}
             <div className="no-scrollbar mb-8 flex snap-x gap-2 overflow-x-auto pb-2">
+<<<<<<< HEAD
               <div className="flex w-fit shrink-0 items-center gap-1.5 rounded-2xl border border-slate-100 bg-slate-50 p-1">
+=======
+              <div className="bg-bg-surface2 border-border-subtle flex w-fit shrink-0 items-center gap-1.5 rounded-2xl border p-1">
+>>>>>>> recover/cabinet-wip-from-stash
                 {toolCategories.map((cat) => (
                   <button
                     key={cat.id}
@@ -386,7 +431,11 @@ export function WorkplaceSection() {
                     {currentTools.map((tool, idx) => (
                       <div
                         key={tool.id}
+<<<<<<< HEAD
                         className="group/card relative flex w-[280px] flex-shrink-0 snap-start flex-col rounded-xl border border-slate-100 bg-slate-50 p-4 transition-all hover:border-slate-900/30 hover:shadow-2xl hover:shadow-slate-200/50 md:w-[320px]"
+=======
+                        className="bg-bg-surface2 border-border-subtle hover:border-text-primary/30 group/card relative flex w-[280px] flex-shrink-0 snap-start flex-col rounded-xl border p-4 transition-all hover:shadow-2xl hover:shadow-md md:w-[320px]"
+>>>>>>> recover/cabinet-wip-from-stash
                       >
                         <div className="absolute right-6 top-4 z-20">
                           <div className="flex items-center gap-1.5">
@@ -395,8 +444,13 @@ export function WorkplaceSection() {
                                 className={cn(
                                   'flex h-5 items-center border-none px-1.5 text-[7px] font-bold uppercase tracking-wide shadow-lg',
                                   tool.badge === 'AI'
+<<<<<<< HEAD
                                     ? 'bg-indigo-600 text-white'
                                     : 'bg-slate-900 text-white'
+=======
+                                    ? 'bg-accent-primary text-white'
+                                    : 'bg-text-primary text-white'
+>>>>>>> recover/cabinet-wip-from-stash
                                 )}
                               >
                                 {tool.badge}
@@ -408,11 +462,19 @@ export function WorkplaceSection() {
                                 <TooltipProvider key={role}>
                                   <Tooltip>
                                     <TooltipTrigger asChild>
+<<<<<<< HEAD
                                       <div className="rounded-lg border border-slate-100 bg-white p-1.5 text-slate-400 shadow-sm">
                                         <Icon className="h-3.5 w-3.5" />
                                       </div>
                                     </TooltipTrigger>
                                     <TooltipContent className="rounded-lg border-none bg-slate-900 p-2 text-white shadow-2xl">
+=======
+                                      <div className="border-border-subtle text-text-muted rounded-lg border bg-white p-1.5 shadow-sm">
+                                        <Icon className="h-3.5 w-3.5" />
+                                      </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent className="bg-text-primary rounded-lg border-none p-2 text-white shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
                                       <p className="text-[10px] font-bold uppercase tracking-wide">
                                         {ROLE_LABELS[role]}
                                       </p>
@@ -426,6 +488,7 @@ export function WorkplaceSection() {
 
                         <div className="flex-1 space-y-4">
                           <div className="space-y-1">
+<<<<<<< HEAD
                             <p className="text-[5.5px] font-bold uppercase tracking-wide text-indigo-600 opacity-60">
                               {tool.category}
                             </p>
@@ -434,11 +497,25 @@ export function WorkplaceSection() {
                             </h4>
                           </div>
                           <p className="text-xs font-medium leading-relaxed text-slate-500">
+=======
+                            <p className="text-accent-primary text-[5.5px] font-bold uppercase tracking-wide opacity-60">
+                              {tool.category}
+                            </p>
+                            <h4 className="text-text-primary group-hover/card:text-accent-primary text-[10px] font-bold uppercase leading-none tracking-wide transition-colors">
+                              {tool.title}
+                            </h4>
+                          </div>
+                          <p className="text-text-secondary text-xs font-medium leading-relaxed">
+>>>>>>> recover/cabinet-wip-from-stash
                             {tool.desc}
                           </p>
                         </div>
 
+<<<<<<< HEAD
                         <div className="mt-6 border-t border-slate-100 pt-6">
+=======
+                        <div className="border-border-subtle mt-6 border-t pt-6">
+>>>>>>> recover/cabinet-wip-from-stash
                           {(() => {
                             const isAccessGranted =
                               tool.roles.includes(primaryB2BRole) || viewRole === 'admin';
@@ -451,7 +528,11 @@ export function WorkplaceSection() {
                                 className={cn(
                                   'group/btn mx-auto w-[200px]',
                                   !isAccessGranted &&
+<<<<<<< HEAD
                                     'cursor-not-allowed border-slate-100 bg-slate-50 text-slate-300 opacity-60'
+=======
+                                    'bg-bg-surface2 text-text-muted border-border-subtle cursor-not-allowed opacity-60'
+>>>>>>> recover/cabinet-wip-from-stash
                                 )}
                               >
                                 {isAccessGranted ? (
@@ -477,7 +558,11 @@ export function WorkplaceSection() {
             </div>
 
             {/* Banner (Same as Production) */}
+<<<<<<< HEAD
             <Card className="group/banner relative flex min-h-[300px] items-center overflow-hidden rounded-[3.5rem] border-b-8 border-none border-indigo-600 bg-[#0A0F1E] shadow-2xl">
+=======
+            <Card className="group/banner border-accent-primary relative flex min-h-[300px] items-center overflow-hidden rounded-[3.5rem] border-b-8 border-none bg-[#0A0F1E] shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
               <div className="absolute inset-0 overflow-hidden rounded-[3.5rem] opacity-25 transition-transform duration-1000 group-hover/banner:scale-105">
                 <img
                   src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000"
@@ -517,7 +602,11 @@ export function WorkplaceSection() {
                 <h2 className="text-xl font-bold uppercase leading-tight tracking-tight md:text-3xl">
                   АРХИТЕКТУРА ЭФФЕКТИВНОСТИ
                 </h2>
+<<<<<<< HEAD
                 <p className="border-l-2 border-indigo-500/50 pl-6 text-sm font-medium text-slate-300">
+=======
+                <p className="text-text-muted border-accent-primary/50 border-l-2 pl-6 text-sm font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                   "Интеллектуальная среда управления, где каждый процесс прозрачен, а каждое решение
                   подкреплено аналитикой."
                 </p>
@@ -531,7 +620,11 @@ export function WorkplaceSection() {
           open={isFlowMapOpen === 'workplace'}
           onOpenChange={(open) => setIsFlowMapOpen(open ? 'workplace' : null)}
         >
+<<<<<<< HEAD
           <DialogContent className="z-[10000] flex max-h-[96vh] max-w-[98vw] flex-col overflow-hidden rounded-xl border-none bg-slate-900 p-0 shadow-[0_0_50px_rgba(0,0,0,0.1)]">
+=======
+          <DialogContent className="bg-text-primary z-[10000] flex max-h-[96vh] max-w-[98vw] flex-col overflow-hidden rounded-xl border-none p-0 shadow-[0_0_50px_rgba(0,0,0,0.1)]">
+>>>>>>> recover/cabinet-wip-from-stash
             <DialogHeader className="sr-only">
               <DialogTitle>Карта Процессов Пространства</DialogTitle>
             </DialogHeader>

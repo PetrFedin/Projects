@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Mail, Shield, Plus, Trash2 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 /** Brandboom: Private Invites по домену — доступ по корпоративному email */
 const MOCK_INVITES = [
@@ -39,6 +40,7 @@ export default function PrivateInvitesPage() {
   const [newCompany, setNewCompany] = useState('');
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.brand.b2bEngagement}>
@@ -55,6 +57,21 @@ export default function PrivateInvitesPage() {
           </p>
         </div>
       </div>
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Private Invites"
+        leadPlain="Brandboom: доступ к B2B по корпоративному домену — только @store.ru и т.д."
+        eyebrow={
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.brand.b2bEngagement} aria-label="Назад к B2B Engagement">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+        }
+        actions={<Mail className="h-6 w-6 shrink-0 text-muted-foreground" aria-hidden />}
+      />
+>>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -85,19 +102,27 @@ export default function PrivateInvitesPage() {
             {MOCK_INVITES.map((i) => (
               <li
                 key={i.id}
+<<<<<<< HEAD
                 className="flex items-center justify-between rounded-lg border bg-slate-50/50 p-3"
+=======
+                className="bg-bg-surface2/80 flex items-center justify-between rounded-lg border p-3"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <div className="flex items-center gap-2">
-                  <Shield className="h-4 w-4 text-slate-400" />
+                  <Shield className="text-text-muted h-4 w-4" />
                   <span className="font-mono text-sm">@{i.domain}</span>
-                  {i.companyName && <span className="text-slate-500">— {i.companyName}</span>}
+                  {i.companyName && <span className="text-text-secondary">— {i.companyName}</span>}
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge variant={i.active ? 'default' : 'secondary'}>{i.role}</Badge>
                   <Badge variant={i.active ? 'default' : 'outline'}>
                     {i.active ? 'Активен' : 'Отключён'}
                   </Badge>
+<<<<<<< HEAD
                   <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400">
+=======
+                  <Button variant="ghost" size="icon" className="text-text-muted h-8 w-8">
+>>>>>>> recover/cabinet-wip-from-stash
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
@@ -125,6 +150,6 @@ export default function PrivateInvitesPage() {
           <Link href={ROUTES.brand.b2bEngagement}>B2B Engagement</Link>
         </Button>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

@@ -13,6 +13,16 @@ import type {
   SavedCartOutfit,
 } from '../types';
 
+export type {
+  UserProfile,
+  Product,
+  CartItem,
+  WishlistItem,
+  Order,
+  WishlistCollection,
+  SavedCartOutfit,
+} from '../types';
+
 // Auth Repository
 export interface AuthRepository {
   signIn(email: string, password: string): Promise<UserProfile>;

@@ -27,6 +27,8 @@ import {
 import { useRbac } from '@/hooks/useRbac';
 import type { W2OpsAlert, W2OpsDailyPoint } from '@/lib/server/workshop2-dossier-metrics-ops';
 import type { W2DossierMetricsDedupAggregate } from '@/lib/server/workshop2-dossier-metrics-store';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
 
 type TimeFilterMeta = {
   sinceMs: number | null;
@@ -89,39 +91,50 @@ export default function AdminDossierMetricsOpsPage() {
 
   if (role !== 'admin') {
     return (
-      <div className="container mx-auto max-w-3xl px-4 py-10">
-        <p className="text-sm text-slate-600">Раздел только для администратора.</p>
+      <RegistryPageShell className="max-w-3xl py-10">
+        <p className="text-text-secondary text-sm">Раздел только для администратора.</p>
         <Button variant="outline" className="mt-4" asChild>
-          <Link href="/admin">Назад</Link>
+          <Link href={ROUTES.admin.home}>Назад</Link>
         </Button>
-      </div>
+      </RegistryPageShell>
     );
   }
 
   const chartData = data?.dailySeries ?? [];
 
   return (
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
+    <RegistryPageShell className="max-w-6xl space-y-6 pb-16">
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-1">
-          <h1 className="flex items-center gap-2 text-xl font-black uppercase tracking-tight text-slate-900">
+          <h1 className="text-text-primary flex items-center gap-2 text-xl font-black uppercase tracking-tight">
             <TrendingUp className="h-7 w-7 text-amber-600" />
             Операции · метрики W2
           </h1>
-          <p className="max-w-2xl text-sm text-slate-500">
+          <p className="text-text-secondary max-w-2xl text-sm">
             Дневная воронка (последний снимок SKU внутри дня), алерты по хвосту. Архив: cron{' '}
+<<<<<<< HEAD
             <code className="rounded bg-slate-100 px-1">/api/cron/w2-dossier-metrics-archive</code>{' '}
             + секрет <code className="rounded bg-slate-100 px-1">W2_METRICS_CRON_SECRET</code>.
           </p>
         </div>
         <Button variant="outline" size="sm" asChild className="gap-1">
           <Link href="/admin/production/dossier-metrics">
+=======
+            <code className="bg-bg-surface2 rounded px-1">
+              /api/cron/w2-dossier-metrics-archive
+            </code>{' '}
+            + секрет <code className="bg-bg-surface2 rounded px-1">W2_METRICS_CRON_SECRET</code>.
+          </p>
+        </div>
+        <Button variant="outline" size="sm" asChild className="gap-1">
+          <Link href={ROUTES.admin.productionDossierMetrics}>
+>>>>>>> recover/cabinet-wip-from-stash
             <ArrowLeft className="h-4 w-4" />К сводным метрикам
           </Link>
         </Button>
       </header>
 
-      <Card className="border-slate-200 shadow-sm">
+      <Card className="border-border-default shadow-sm">
         <CardHeader className="pb-3">
           <CardTitle className="text-sm">Фильтры</CardTitle>
           <CardDescription>
@@ -130,7 +143,7 @@ export default function AdminDossierMetricsOpsPage() {
         </CardHeader>
         <CardContent className="flex flex-col flex-wrap gap-3 sm:flex-row sm:items-end">
           <div className="space-y-1">
-            <label className="text-[10px] font-bold uppercase text-slate-400">Коллекции</label>
+            <label className="text-text-muted text-[10px] font-bold uppercase">Коллекции</label>
             <Input
               value={collections}
               onChange={(e) => setCollections(e.target.value)}
@@ -139,7 +152,11 @@ export default function AdminDossierMetricsOpsPage() {
             />
           </div>
           <div className="space-y-1">
+<<<<<<< HEAD
             <label className="text-[10px] font-bold uppercase text-slate-400">sinceHours</label>
+=======
+            <label className="text-text-muted text-[10px] font-bold uppercase">sinceHours</label>
+>>>>>>> recover/cabinet-wip-from-stash
             <Select
               value={sinceHours || 'all'}
               onValueChange={(v) => setSinceHours(v === 'all' ? '' : v)}
@@ -156,7 +173,11 @@ export default function AdminDossierMetricsOpsPage() {
             </Select>
           </div>
           <div className="space-y-1">
+<<<<<<< HEAD
             <label className="text-[10px] font-bold uppercase text-slate-400">
+=======
+            <label className="text-text-muted text-[10px] font-bold uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
               Дней на графике
             </label>
             <Input
@@ -167,7 +188,7 @@ export default function AdminDossierMetricsOpsPage() {
             />
           </div>
           <div className="space-y-1">
-            <label className="text-[10px] font-bold uppercase text-slate-400">Секрет чтения</label>
+            <label className="text-text-muted text-[10px] font-bold uppercase">Секрет чтения</label>
             <Input
               type="password"
               value={adminSecret}
@@ -196,7 +217,7 @@ export default function AdminDossierMetricsOpsPage() {
       {err ? <p className="text-sm font-medium text-red-600">Ошибка: {err}</p> : null}
 
       {data ? (
-        <div className="flex flex-wrap gap-2 text-xs text-slate-600">
+        <div className="text-text-secondary flex flex-wrap gap-2 text-xs">
           <Badge variant="outline">строк: {data.rowsLoaded}</Badge>
           {typeof data.rowsRead === 'number' ? (
             <Badge variant="outline">из хвоста: {data.rowsRead}</Badge>
@@ -219,7 +240,7 @@ export default function AdminDossierMetricsOpsPage() {
                 className="rounded-md border border-amber-200/80 bg-white/60 px-3 py-2"
               >
                 <span className="font-mono text-[10px] uppercase text-amber-700">{a.level}</span>{' '}
-                <span className="font-mono text-[10px] text-slate-500">{a.code}</span>
+                <span className="text-text-secondary font-mono text-[10px]">{a.code}</span>
                 <p className="mt-1 text-[13px] leading-snug">{a.message}</p>
               </div>
             ))}
@@ -228,13 +249,17 @@ export default function AdminDossierMetricsOpsPage() {
       ) : null}
 
       {data && chartData.length === 0 ? (
+<<<<<<< HEAD
         <p className="text-sm text-slate-500">
+=======
+        <p className="text-text-secondary text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
           Нет дневных точек в окне — расширьте sinceHours или limit на API.
         </p>
       ) : null}
 
       {chartData.length > 0 ? (
-        <Card className="border-slate-200 shadow-sm">
+        <Card className="border-border-default shadow-sm">
           <CardHeader>
             <CardTitle className="text-sm">Воронка по дням (UTC)</CardTitle>
             <CardDescription>
@@ -244,7 +269,7 @@ export default function AdminDossierMetricsOpsPage() {
           <CardContent className="h-[340px] w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200" />
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border-subtle" />
                 <XAxis dataKey="day" tick={{ fontSize: 10 }} />
                 <YAxis tick={{ fontSize: 10 }} allowDecimals={false} />
                 <Tooltip contentStyle={{ fontSize: 12 }} />
@@ -287,16 +312,16 @@ export default function AdminDossierMetricsOpsPage() {
         </Card>
       ) : null}
 
-      <Card className="border-slate-200 bg-slate-50/50 shadow-sm">
+      <Card className="border-border-default bg-bg-surface2/80 shadow-sm">
         <CardHeader>
           <CardTitle className="text-sm">Инфраструктура</CardTitle>
           <CardDescription>
             Без отдельного warehouse-API: presigned PUT или локальный каталог.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-2 text-xs text-slate-600">
+        <CardContent className="text-text-secondary space-y-2 text-xs">
           <p>
-            <strong className="text-slate-800">Пороги алертов (env):</strong>{' '}
+            <strong className="text-text-primary">Пороги алертов (env):</strong>{' '}
             <code className="rounded bg-white px-1">W2_OPS_STALE_HOURS</code>,{' '}
             <code className="rounded bg-white px-1">W2_OPS_PASSPORT_MIN_ARTICLES</code>,{' '}
             <code className="rounded bg-white px-1">W2_OPS_PASSPORT_RATIO_WARN_BELOW</code>,{' '}
@@ -305,7 +330,7 @@ export default function AdminDossierMetricsOpsPage() {
             <code className="rounded bg-white px-1">W2_OPS_ALERT_WEBHOOK_URL</code>, секрет{' '}
             <code className="rounded bg-white px-1">W2_METRICS_WEBHOOK_SECRET</code>, окно cron:{' '}
             <code className="rounded bg-white px-1">W2_OPS_ALERT_SINCE_HOURS</code>.{' '}
-            <strong className="text-slate-800">Анти-спуф uid/org:</strong>{' '}
+            <strong className="text-text-primary">Анти-спуф uid/org:</strong>{' '}
             <code className="rounded bg-white px-1">W2_DOSSIER_METRICS_STAMP_SECRET</code>, выдача{' '}
             <code className="rounded bg-white px-1">POST …/workshop2-dossier-metrics/stamp</code>.
             Клиент:{' '}
@@ -317,7 +342,7 @@ export default function AdminDossierMetricsOpsPage() {
             <code className="rounded bg-white px-1">LOOSE_STAMP_ALLOW_PRODUCTION</code> отключён.
           </p>
           <p>
-            <strong className="text-slate-800">POST / чтение:</strong>{' '}
+            <strong className="text-text-primary">POST / чтение:</strong>{' '}
             <code className="rounded bg-white px-1">W2_DOSSIER_METRICS_POST_RL_PER_MIN</code>,{' '}
             <code className="rounded bg-white px-1">W2_DOSSIER_METRICS_POST_SECRET</code> +{' '}
             <code className="rounded bg-white px-1">NEXT_PUBLIC_W2_DOSSIER_METRICS_WRITE_KEY</code>;
@@ -325,7 +350,11 @@ export default function AdminDossierMetricsOpsPage() {
             <code className="rounded bg-white px-1">W2_DOSSIER_METRICS_READ_IP_ALLOWLIST</code>.
           </p>
           <p>
+<<<<<<< HEAD
             <strong className="text-slate-800">Архив:</strong>{' '}
+=======
+            <strong className="text-text-primary">Архив:</strong>{' '}
+>>>>>>> recover/cabinet-wip-from-stash
             <code className="rounded bg-white px-1">W2_METRICS_ARCHIVE_WEBHOOK_URL</code> (после
             архива), <code className="rounded bg-white px-1">W2_METRICS_ARCHIVE_PUT_URL</code>{' '}
             (presigned) или{' '}
@@ -340,6 +369,6 @@ export default function AdminDossierMetricsOpsPage() {
           </p>
         </CardContent>
       </Card>
-    </div>
+    </RegistryPageShell>
   );
 }

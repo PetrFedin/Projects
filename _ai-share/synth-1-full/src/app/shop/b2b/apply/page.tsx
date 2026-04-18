@@ -1,13 +1,15 @@
 'use client';
 
+import { RegistryPageShell } from '@/components/design-system';
+import { useSearchParamsNonNull } from '@/hooks/use-search-params-non-null';
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { UserPlus, ArrowLeft, CheckCircle, AlertTriangle } from 'lucide-react';
+import { UserPlus, CheckCircle, AlertTriangle } from 'lucide-react';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { ROUTES } from '@/lib/routes';
 import { submitBuyerApplication } from '@/lib/api';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
@@ -16,7 +18,7 @@ import type { BuyerApplication } from '@/lib/b2b/buyer-onboarding';
 import { checkExclusiveConflict } from '@/lib/b2b/territory-exclusivity';
 
 export default function ShopB2BApplyPage() {
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParamsNonNull();
   const [sent, setSent] = useState(false);
   const [result, setResult] = useState<BuyerApplication | null>(null);
   const [loading, setLoading] = useState(false);
@@ -75,7 +77,11 @@ export default function ShopB2BApplyPage() {
 
   if (sent && result) {
     return (
+<<<<<<< HEAD
       <div className="container mx-auto max-w-xl px-4 py-6 pb-24">
+=======
+      <RegistryPageShell className="max-w-xl space-y-6">
+>>>>>>> recover/cabinet-wip-from-stash
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2 text-emerald-600">
@@ -88,7 +94,7 @@ export default function ShopB2BApplyPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            <p className="text-sm text-slate-600">
+            <p className="text-text-secondary text-sm">
               Номер заявки: <strong>{result.id}</strong>. Статус: <strong>Ожидает</strong>.
             </p>
             <div className="flex flex-wrap gap-2">
@@ -99,16 +105,21 @@ export default function ShopB2BApplyPage() {
                 <Link href={ROUTES.shop.b2bTradeShows}>Мои выставки</Link>
               </Button>
               <Button variant="outline" asChild>
+<<<<<<< HEAD
                 <Link href={ROUTES.shop.b2b}>B2B Шоурум</Link>
+=======
+                <Link href={ROUTES.shop.b2bShowroom}>B2B Шоурум</Link>
+>>>>>>> recover/cabinet-wip-from-stash
               </Button>
             </div>
           </CardContent>
         </Card>
-      </div>
+      </RegistryPageShell>
     );
   }
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto max-w-xl px-4 py-6 pb-24">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
@@ -120,14 +131,31 @@ export default function ShopB2BApplyPage() {
           <UserPlus className="h-6 w-6" /> Подать заявку на партнёрство
         </h1>
       </div>
+=======
+    <RegistryPageShell className="max-w-xl space-y-6">
+      <ShopB2bContentHeader
+        lead={
+          <>
+            <span className="text-text-primary inline-flex items-center gap-2 font-semibold">
+              <UserPlus className="text-accent-primary h-4 w-4 shrink-0" aria-hidden />
+              Заполните форму — заявка уйдёт бренду на рассмотрение (онбординг байера).
+            </span>
+          </>
+        }
+      />
+>>>>>>> recover/cabinet-wip-from-stash
       <Card>
         <CardHeader>
-          <CardTitle>Заявка байера (Buyer Onboarding)</CardTitle>
+          <CardTitle>Данные заявки</CardTitle>
           <CardDescription>
-            JOOR-style: подайте заявку бренду для доступа к шоуруму, каталогу и оптовым заказам.
+            Доступ к шоуруму, каталогу и оптовым заказам после одобрения брендом.
           </CardDescription>
           {form.brandName && (
+<<<<<<< HEAD
             <p className="mt-2 text-sm font-medium text-indigo-600">
+=======
+            <p className="text-accent-primary mt-2 text-sm font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
               Заявка на доступ к бренду: <strong>{form.brandName}</strong>
             </p>
           )}
@@ -232,7 +260,11 @@ export default function ShopB2BApplyPage() {
                 {loading ? 'Отправка…' : 'Отправить заявку'}
               </Button>
               <Button type="button" variant="outline" asChild>
+<<<<<<< HEAD
                 <Link href={ROUTES.shop.b2b}>Отмена</Link>
+=======
+                <Link href={ROUTES.shop.home}>Отмена</Link>
+>>>>>>> recover/cabinet-wip-from-stash
               </Button>
             </div>
           </form>
@@ -243,6 +275,10 @@ export default function ShopB2BApplyPage() {
         title="Мои выставки, заказы, шоурум"
         className="mt-6"
       />
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

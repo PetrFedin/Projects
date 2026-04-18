@@ -12,7 +12,11 @@ import { ROUTES } from '@/lib/routes';
 const MOCK_STORES = [
   {
     id: '1',
+<<<<<<< HEAD
     name: 'Podium, Москва',
+=======
+    name: 'Демо-магазин · Москва 1',
+>>>>>>> recover/cabinet-wip-from-stash
     address: 'ул. Тверская, 3',
     city: 'Москва',
     open: '10:00 – 22:00',
@@ -20,7 +24,11 @@ const MOCK_STORES = [
   },
   {
     id: '2',
+<<<<<<< HEAD
     name: 'ЦУМ',
+=======
+    name: 'Демо-магазин · Москва 2',
+>>>>>>> recover/cabinet-wip-from-stash
     address: 'ул. Петровка, 2',
     city: 'Москва',
     open: '10:00 – 22:00',
@@ -28,7 +36,11 @@ const MOCK_STORES = [
   },
   {
     id: '3',
+<<<<<<< HEAD
     name: 'Boutique No.7',
+=======
+    name: 'Демо-магазин · СПб',
+>>>>>>> recover/cabinet-wip-from-stash
     address: 'Невский пр., 88',
     city: 'Санкт-Петербург',
     open: '11:00 – 21:00',
@@ -53,7 +65,11 @@ export default function StoreLocatorPage() {
           <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
             <MapPin className="h-6 w-6" /> Карта магазинов
           </h1>
+<<<<<<< HEAD
           <p className="mt-0.5 text-sm text-slate-500">
+=======
+          <p className="text-text-secondary mt-0.5 text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             Наличие в точках в реальном времени. Часы работы и маршрут. Интеграция с
             2GIS/Яндекс.Карты — в планах.
           </p>
@@ -82,6 +98,7 @@ export default function StoreLocatorPage() {
             {filtered.map((store) => (
               <div
                 key={store.id}
+<<<<<<< HEAD
                 className="flex items-start justify-between rounded-xl border border-slate-200 p-4 hover:border-slate-300"
               >
                 <div className="flex gap-3">
@@ -94,6 +111,20 @@ export default function StoreLocatorPage() {
                       {store.address}, {store.city}
                     </p>
                     <p className="mt-1 flex items-center gap-1 text-xs text-slate-400">
+=======
+                className="border-border-default hover:border-border-default flex items-start justify-between rounded-xl border p-4"
+              >
+                <div className="flex gap-3">
+                  <div className="bg-bg-surface2 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+                    <MapPin className="text-text-secondary h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-medium">{store.name}</p>
+                    <p className="text-text-secondary text-sm">
+                      {store.address}, {store.city}
+                    </p>
+                    <p className="text-text-muted mt-1 flex items-center gap-1 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                       <Clock className="h-3 w-3" /> {store.open}
                     </p>
                   </div>
@@ -116,7 +147,11 @@ export default function StoreLocatorPage() {
 
       <div className="flex gap-2">
         <Button variant="outline" size="sm" asChild>
+<<<<<<< HEAD
           <Link href={ROUTES.shop.b2b}>B2B Шоурум</Link>
+=======
+          <Link href={ROUTES.shop.b2bShowroom}>B2B Шоурум</Link>
+>>>>>>> recover/cabinet-wip-from-stash
         </Button>
         <Button variant="outline" size="sm" asChild>
           <Link href={ROUTES.shop.b2bPartners}>Партнёры</Link>

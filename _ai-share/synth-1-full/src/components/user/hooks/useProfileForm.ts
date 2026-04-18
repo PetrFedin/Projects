@@ -110,7 +110,7 @@ export function useProfileForm(user: UserProfile) {
           .filter(Boolean) as any[];
         const base = fromExisting.slice(0, 2);
         while (base.length < 2) {
-          const network = (base.length === 0 ? 'instagram' : 'telegram') as const;
+          const network: 'instagram' | 'telegram' = base.length === 0 ? 'instagram' : 'telegram';
           const v = (existing as any)[network];
           base.push({
             network,

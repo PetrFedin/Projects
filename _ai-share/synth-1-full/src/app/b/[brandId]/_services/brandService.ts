@@ -46,8 +46,14 @@ export const filterBrandProducts = (
 
     // Filter by catalog (Marketplace vs Outlet)
     if (filterOutlet.length === 1) {
+<<<<<<< HEAD
       if (filterOutlet.includes('outlet') && !p.is_outlet) return false;
       if (filterOutlet.includes('marketplace') && p.is_outlet) return false;
+=======
+      const inOutlet = p.outlet === true || p.is_outlet === true;
+      if (filterOutlet.includes('outlet') && !inOutlet) return false;
+      if (filterOutlet.includes('marketplace') && inOutlet) return false;
+>>>>>>> recover/cabinet-wip-from-stash
     }
 
     if (filterCategory.length > 0 && !filterCategory.includes(p.category)) return false;

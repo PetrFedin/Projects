@@ -34,7 +34,11 @@ export function ProductionFloorTabWithHint({
       </TooltipTrigger>
       <TooltipContent
         side="bottom"
+<<<<<<< HEAD
         className="max-w-[min(100vw-2rem,28rem)] border-slate-200 bg-slate-900 text-[11px] leading-snug text-slate-50 shadow-lg"
+=======
+        className="border-border-default bg-text-primary text-text-inverse max-w-[min(100vw-2rem,28rem)] text-[11px] leading-snug shadow-lg"
+>>>>>>> recover/cabinet-wip-from-stash
       >
         {content}
       </TooltipContent>

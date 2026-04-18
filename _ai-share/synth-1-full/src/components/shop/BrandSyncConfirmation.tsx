@@ -105,7 +105,7 @@ export function BrandSyncConfirmation({
               <Check className="h-4 w-4 text-emerald-600" />
               Прямые совпадения
             </h4>
-            <p className="text-xs text-slate-500">
+            <p className="text-text-secondary text-xs">
               Бренды выбрали вас из участников платформы. Подтвердите, что это ваш магазин.
             </p>
             <div className="space-y-2">
@@ -116,7 +116,11 @@ export function BrandSyncConfirmation({
                 return (
                   <div
                     key={link.storeEntryId}
+<<<<<<< HEAD
                     className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50/50 p-3"
+=======
+                    className="border-border-subtle bg-bg-surface2/80 flex items-center justify-between rounded-lg border p-3"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg border bg-white">
@@ -129,12 +133,18 @@ export function BrandSyncConfirmation({
                             className="object-cover"
                           />
                         ) : (
-                          <Store className="h-5 w-5 text-slate-400" />
+                          <Store className="text-text-muted h-5 w-5" />
                         )}
                       </div>
                       <div>
                         <p className="text-sm font-semibold">{link.brandName}</p>
+<<<<<<< HEAD
                         <p className="text-xs text-slate-500">Добавил: «{link.storeNameInBrand}»</p>
+=======
+                        <p className="text-text-secondary text-xs">
+                          Добавил: «{link.storeNameInBrand}»
+                        </p>
+>>>>>>> recover/cabinet-wip-from-stash
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -164,7 +174,11 @@ export function BrandSyncConfirmation({
               <AlertCircle className="h-4 w-4 text-amber-600" />
               Возможные совпадения
             </h4>
+<<<<<<< HEAD
             <p className="text-xs text-slate-500">
+=======
+            <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
               В профилях брендов найдены магазины с похожим названием. Если это вы — нажмите «Это
               мы».
             </p>
@@ -188,19 +202,27 @@ export function BrandSyncConfirmation({
                             className="object-cover"
                           />
                         ) : (
-                          <Store className="h-5 w-5 text-slate-400" />
+                          <Store className="text-text-muted h-5 w-5" />
                         )}
                       </div>
                       <div>
                         <p className="text-sm font-semibold">{link.brandName}</p>
+<<<<<<< HEAD
                         <p className="text-xs text-slate-500">
+=======
+                        <p className="text-text-secondary text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                           В списке: «{link.storeNameInBrand}»
                           {link.storeProductUrl && (
                             <a
                               href={link.storeProductUrl}
                               target="_blank"
                               rel="noopener noreferrer"
+<<<<<<< HEAD
                               className="ml-1 text-indigo-600 hover:underline"
+=======
+                              className="text-accent-primary ml-1 hover:underline"
+>>>>>>> recover/cabinet-wip-from-stash
                             >
                               ссылка
                             </a>

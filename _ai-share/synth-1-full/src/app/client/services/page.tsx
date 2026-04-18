@@ -31,14 +31,20 @@ export default function ServiceBookingPage() {
     <div className="mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
       <header>
         <h1 className="flex items-center gap-2 text-xl font-black uppercase tracking-tight">
+<<<<<<< HEAD
           <Calendar className="h-6 w-6 text-indigo-600" /> Service Booking Hub
         </h1>
         <p className="mt-1 text-sm text-slate-500">
+=======
+          <Calendar className="text-accent-primary h-6 w-6" /> Service Booking Hub
+        </h1>
+        <p className="text-text-secondary mt-1 text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
           Заказ химчистки, ремонта или кастомизации. Привязка к вещи из гардероба.
         </p>
       </header>
 
-      <Card className="rounded-xl border border-slate-200 shadow-sm">
+      <Card className="border-border-default rounded-xl border shadow-sm">
         <CardHeader>
           <CardTitle className="text-sm">Услуги</CardTitle>
           <CardDescription>Выберите услугу и привяжите к вещи из гардероба</CardDescription>
@@ -48,15 +54,26 @@ export default function ServiceBookingPage() {
             {MOCK_SERVICES.map((s) => (
               <li
                 key={s.id}
+<<<<<<< HEAD
                 className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4"
               >
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+=======
+                className="bg-bg-surface2 border-border-default flex flex-wrap items-center justify-between gap-3 rounded-xl border p-4"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="bg-accent-primary/10 text-accent-primary flex h-10 w-10 items-center justify-center rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                     <s.icon className="h-5 w-5" />
                   </div>
                   <div>
                     <p className="font-bold">{s.name}</p>
+<<<<<<< HEAD
                     <p className="text-[11px] text-slate-500">
+=======
+                    <p className="text-text-secondary text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                       {s.desc} · {s.price}
                     </p>
                   </div>

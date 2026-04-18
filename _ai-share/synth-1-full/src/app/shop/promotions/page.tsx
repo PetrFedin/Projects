@@ -40,8 +40,14 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import type { Product } from '@/lib/types';
+import { isDemoBrandName } from '@/lib/data/demo-platform-brands';
+import { RegistryPageShell } from '@/components/design-system';
 
+<<<<<<< HEAD
 const shopProducts = allProducts.filter((p) => ['Syntha', 'A.P.C.'].includes(p.brand));
+=======
+const shopProducts = allProducts.filter((p) => isDemoBrandName(p.brand));
+>>>>>>> recover/cabinet-wip-from-stash
 const productOptions = shopProducts.map((p) => ({ value: p.id, label: `${p.sku} - ${p.name}` }));
 
 const statusConfig = {
@@ -80,7 +86,11 @@ export default function ShopPromotionsPage() {
     promotionType === 'discount' || promotionType === 'outlet' || promotionType === 'promo_code';
 
   return (
+<<<<<<< HEAD
     <div className="space-y-4">
+=======
+    <RegistryPageShell className="space-y-4">
+>>>>>>> recover/cabinet-wip-from-stash
       <header>
         <h1 className="font-headline text-base font-bold">Управление продвижением</h1>
         <p className="text-muted-foreground">
@@ -99,7 +109,11 @@ export default function ShopPromotionsPage() {
               <Combobox
                 options={productOptions}
                 value={selectedProducts}
+<<<<<<< HEAD
                 onChange={setSelectedProducts}
+=======
+                onChange={(v) => setSelectedProducts(Array.isArray(v) ? v : v ? [v] : [])}
+>>>>>>> recover/cabinet-wip-from-stash
                 multiple
                 placeholder="Выберите один или несколько товаров..."
               />
@@ -238,6 +252,10 @@ export default function ShopPromotionsPage() {
           </Table>
         </CardContent>
       </Card>
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

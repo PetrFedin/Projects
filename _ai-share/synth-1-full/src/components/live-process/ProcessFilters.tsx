@@ -79,7 +79,11 @@ export function ProcessFilters({ team, contextLabels, filters, onChange }: Proce
             <Filter className="mr-1 h-4 w-4" />
             Фильтры
             {activeCount > 0 && (
+<<<<<<< HEAD
               <span className="ml-1.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xs text-indigo-700">
+=======
+              <span className="bg-accent-primary/15 text-accent-primary ml-1.5 rounded-full px-1.5 py-0.5 text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                 {activeCount}
               </span>
             )}

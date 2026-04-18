@@ -13,6 +13,11 @@ import {
   type Season,
   type Look,
   type LookItem,
+<<<<<<< HEAD
+=======
+  type StylistChatMessage,
+  type StylistApiResponse,
+>>>>>>> recover/cabinet-wip-from-stash
 } from '@/lib/ai-stylist';
 import { enrichLookReasons, type EnrichLookReasonsParams } from '@/ai/flows/enrich-look-reasons';
 import { parseChatWithLLM } from '@/ai/flows/parse-chat-with-llm';
@@ -22,11 +27,15 @@ export type { Occasion, StyleMood, Contrast, ColorPalette, Season, Look, LookIte
 
 export type ProductCategory = Product['category'];
 
+<<<<<<< HEAD
 export type Message = {
   role: 'user' | 'assistant';
   content: string;
   timestamp: number;
 };
+=======
+export type Message = StylistChatMessage;
+>>>>>>> recover/cabinet-wip-from-stash
 
 export type StylistPreferences = {
   favoriteColors?: string[];
@@ -57,15 +66,7 @@ export type StylistRequest = {
   personalItemImage?: string;
 };
 
-export type StylistResponse = {
-  looks: Look[];
-  notes: string[];
-  reply?: string;
-  capsule?: {
-    items: LookItem[];
-    combinations: Look[];
-  };
-};
+export type StylistResponse = StylistApiResponse;
 
 export interface AiStylistRepo {
   generateLooks(req: StylistRequest): Promise<StylistResponse>;

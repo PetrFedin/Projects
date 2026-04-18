@@ -44,6 +44,11 @@ import { ProductionFloorContextBar } from '@/components/brand/production/Product
 import { CollectionWorkshopStageChain } from '@/components/brand/production/CollectionWorkshopStageChain';
 import type { CollectionModuleSaveEvent } from '@/components/brand/production/CollectionStepModuleDialog';
 import { cn } from '@/lib/utils';
+<<<<<<< HEAD
+=======
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+import { RegistryPageShell } from '@/components/design-system';
+>>>>>>> recover/cabinet-wip-from-stash
 import {
   CheckCircle2,
   CircleDot,
@@ -72,7 +77,11 @@ const LiveProcessPageBody = dynamic(
   () => import('@/components/live-process/LiveProcessPageBody').then((m) => m.LiveProcessPageBody),
   {
     ssr: false,
+<<<<<<< HEAD
     loading: () => <div className="p-8 text-center text-sm text-slate-400">Загрузка LIVE…</div>,
+=======
+    loading: () => <div className="text-text-muted p-8 text-center text-sm">Загрузка LIVE…</div>,
+>>>>>>> recover/cabinet-wip-from-stash
   }
 );
 
@@ -82,6 +91,7 @@ const GoldSampleContent = dynamic(() => import('@/app/brand/production/gold-samp
 const QcAppContent = dynamic(() => import('@/app/brand/production/qc-app/page'), { ssr: false });
 const ReadyMadeContent = dynamic(
   () => import('@/app/brand/production/ready-made/page').then((m) => m.default),
+<<<<<<< HEAD
   { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
 );
 const FitCommentsContent = dynamic(
@@ -119,15 +129,62 @@ const MaterialReservationContent = dynamic(
 const ProductionLiveContent = dynamic(
   () => import('@/app/brand/production/operations/page').then((m) => m.default),
   { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
+=======
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const FitCommentsContent = dynamic(
+  () => import('@/app/brand/production/fit-comments/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const GanttContent = dynamic(
+  () => import('@/app/brand/production/gantt/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const DailyOutputContent = dynamic(
+  () => import('@/app/brand/production/daily-output/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const WorkerSkillsContent = dynamic(
+  () => import('@/app/brand/production/worker-skills/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const MilestonesVideoContent = dynamic(
+  () => import('@/app/brand/production/milestones-video/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const SubcontractorContent = dynamic(
+  () => import('@/app/brand/production/subcontractor/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const VmiContent = dynamic(() => import('@/app/brand/vmi/page').then((m) => m.default), {
+  ssr: false,
+  loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div>,
+});
+const MaterialReservationContent = dynamic(
+  () => import('@/app/brand/materials/reservation/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const ProductionLiveContent = dynamic(
+  () => import('@/app/brand/production/operations/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+>>>>>>> recover/cabinet-wip-from-stash
 );
 const QualityLiveContent = dynamic(
   () =>
     import('@/components/brand/quality/BrandQualityDeskBody').then((m) => m.BrandQualityDeskBody),
+<<<<<<< HEAD
   { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
 );
 const NestingContent = dynamic(
   () => import('@/app/brand/production/nesting/nesting-page-body').then((m) => m.NestingPageBody),
   { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
+=======
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+);
+const NestingContent = dynamic(
+  () => import('@/app/brand/production/nesting/nesting-page-body').then((m) => m.NestingPageBody),
+  { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
+>>>>>>> recover/cabinet-wip-from-stash
 );
 import { JOOR_DELIVERY_WINDOWS } from '@/lib/b2b/joor-constants';
 import products from '@/lib/products';
@@ -1317,6 +1374,7 @@ export default function BrandProductionCollectionFlowPage() {
   }, [unifiedDoc, collectionFlowKey]);
 
   return (
+<<<<<<< HEAD
     <div
       className={cn(
         'container mx-auto space-y-6 px-4 py-6 pb-24',
@@ -1326,11 +1384,22 @@ export default function BrandProductionCollectionFlowPage() {
       <TooltipProvider delayDuration={280}>
         <Tabs value={tab} onValueChange={setTab} className="w-full">
           <TabsList className="h-auto flex-wrap justify-start gap-1 overflow-x-auto border border-slate-200 bg-slate-50 px-1 py-1">
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <TooltipProvider delayDuration={280}>
+        <Tabs value={tab} onValueChange={setTab} className="w-full">
+          {/* cabinetSurface v1 */}
+          <TabsList className={cn(cabinetSurface.tabsList, 'flex-wrap overflow-x-auto')}>
+>>>>>>> recover/cabinet-wip-from-stash
             <ProductionFloorTabWithHint
               tab="stages"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
+<<<<<<< HEAD
               className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+=======
+              className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <ListTree className="h-3.5 w-3.5 shrink-0" />
               <span className="max-w-[9rem] leading-tight sm:whitespace-nowrap">
@@ -1340,14 +1409,22 @@ export default function BrandProductionCollectionFlowPage() {
             </ProductionFloorTabWithHint>
             <ProductionFloorTabWithHint
               tab="live"
+<<<<<<< HEAD
               className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+=======
+              className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <Activity className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">LIVE · схема</span>
             </ProductionFloorTabWithHint>
             <ProductionFloorTabWithHint
               tab="workshop"
+<<<<<<< HEAD
               className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+=======
+              className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <Factory className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">Коллекция</span>
@@ -1356,7 +1433,11 @@ export default function BrandProductionCollectionFlowPage() {
               tab="supplies"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
+<<<<<<< HEAD
               className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+=======
+              className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <Package className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">Снабжение</span>
@@ -1365,7 +1446,11 @@ export default function BrandProductionCollectionFlowPage() {
               tab="sample"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
+<<<<<<< HEAD
               className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+=======
+              className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <ShieldCheck className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">Эталон · fit</span>
@@ -1374,7 +1459,11 @@ export default function BrandProductionCollectionFlowPage() {
               tab="plan"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
+<<<<<<< HEAD
               className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+=======
+              className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <BarChart3 className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">План · PO</span>
@@ -1383,7 +1472,11 @@ export default function BrandProductionCollectionFlowPage() {
               tab="nesting"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
+<<<<<<< HEAD
               className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+=======
+              className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <Ruler className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">Nesting AI</span>
@@ -1392,7 +1485,11 @@ export default function BrandProductionCollectionFlowPage() {
               tab="launch"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
+<<<<<<< HEAD
               className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+=======
+              className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <Play className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">Выпуск</span>
@@ -1401,7 +1498,11 @@ export default function BrandProductionCollectionFlowPage() {
               tab="quality"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
+<<<<<<< HEAD
               className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+=======
+              className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <Camera className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">ОТК</span>
@@ -1410,7 +1511,11 @@ export default function BrandProductionCollectionFlowPage() {
               tab="receipt"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
+<<<<<<< HEAD
               className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+=======
+              className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <Truck className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">Склад</span>
@@ -1419,7 +1524,11 @@ export default function BrandProductionCollectionFlowPage() {
               tab="ops"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
+<<<<<<< HEAD
               className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+=======
+              className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}
+>>>>>>> recover/cabinet-wip-from-stash
             >
               <ClipboardCheck className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">Операции</span>
@@ -1488,6 +1597,7 @@ export default function BrandProductionCollectionFlowPage() {
           </TabsContent>
 
           <TabsContent value="workshop" className="mt-4 space-y-6">
+<<<<<<< HEAD
             <Card className="border-indigo-200 bg-indigo-50/35">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm uppercase tracking-tight text-indigo-950">
@@ -1497,6 +1607,17 @@ export default function BrandProductionCollectionFlowPage() {
                   Сначала коллекция, затем артикул. Вкладки «Этапы», «Снабжение», «Эталон», «План»,
                   «Выпуск», «ОТК», «Склад» и «Операции» открываются только после выбора артикула в
                   таблице ниже — <strong className="text-slate-900">«В цех · процесс»</strong>.
+=======
+            <Card className="border-accent-primary/30 bg-accent-primary/10">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-accent-primary text-sm uppercase tracking-tight">
+                  Единый производственный хаб
+                </CardTitle>
+                <CardDescription className="text-text-primary text-xs leading-relaxed">
+                  Сначала коллекция, затем артикул. Вкладки «Этапы», «Снабжение», «Эталон», «План»,
+                  «Выпуск», «ОТК», «Склад» и «Операции» открываются только после выбора артикула в
+                  таблице ниже — <strong className="text-text-primary">«В цех · процесс»</strong>.
+>>>>>>> recover/cabinet-wip-from-stash
                   Вкладка «LIVE · схема» доступна без артикула (обзор по коллекции). Раздел готовых
                   к продаже продуктов и B2B/B2C — отдельно позже.
                 </CardDescription>
@@ -1546,7 +1667,11 @@ export default function BrandProductionCollectionFlowPage() {
                         ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
                         : col.status === 'in_progress'
                           ? 'bg-amber-100 text-amber-800 border-amber-200'
+<<<<<<< HEAD
                           : 'bg-slate-100 text-slate-600 border-slate-200';
+=======
+                          : 'bg-bg-surface2 text-text-secondary border-border-default';
+>>>>>>> recover/cabinet-wip-from-stash
                     return (
                       <Link
                         key={col.id || 'default'}
@@ -1559,27 +1684,50 @@ export default function BrandProductionCollectionFlowPage() {
                         <Card
                           className={cn(
                             'h-full border-2 transition-all hover:shadow-md',
+<<<<<<< HEAD
                             isCurrent ? 'border-indigo-400 bg-indigo-50/50' : 'border-slate-100'
                           )}
                         >
                           <CardContent className="p-4">
                             <p className="truncate text-[12px] font-semibold text-slate-900">
+=======
+                            isCurrent
+                              ? 'border-accent-primary/40 bg-accent-primary/10'
+                              : 'border-border-subtle'
+                          )}
+                        >
+                          <CardContent className="p-4">
+                            <p className="text-text-primary truncate text-[12px] font-semibold">
+>>>>>>> recover/cabinet-wip-from-stash
                               {col.name}
                             </p>
                             <Badge className={cn('mt-1.5 border text-[9px]', statusClass)}>
                               {statusLabel}
                             </Badge>
+<<<<<<< HEAD
                             <p className="mt-2 text-[10px] text-slate-500">
                               Артикулов: <strong>{col.articleCount}</strong>
                             </p>
                             <Progress value={col.progressPct} className="mt-1 h-1.5" />
                             <p className="mt-0.5 text-[9px] text-slate-400">{col.progressPct}%</p>
+=======
+                            <p className="text-text-secondary mt-2 text-[10px]">
+                              Артикулов: <strong>{col.articleCount}</strong>
+                            </p>
+                            <Progress value={col.progressPct} className="mt-1 h-1.5" />
+                            <p className="text-text-muted mt-0.5 text-[9px]">{col.progressPct}%</p>
+>>>>>>> recover/cabinet-wip-from-stash
                             <p
                               className={cn(
                                 'mt-3 rounded-lg py-1.5 text-center text-[10px] font-semibold',
                                 isCurrent
+<<<<<<< HEAD
                                   ? 'bg-indigo-100 text-indigo-800'
                                   : 'bg-slate-100 text-slate-600'
+=======
+                                  ? 'bg-accent-primary/15 text-accent-primary'
+                                  : 'bg-bg-surface2 text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                               )}
                             >
                               {isCurrent ? 'Открыта' : 'Открыть'}
@@ -1594,7 +1742,11 @@ export default function BrandProductionCollectionFlowPage() {
             </Card>
 
             {/* —— Инструменты производства: GANTT, отчёты смен, QC, компетенции, этапы с видео, субподряд, Nesting —— */}
+<<<<<<< HEAD
             <Card className="border-indigo-100 bg-indigo-50/30">
+=======
+            <Card className="border-accent-primary/20 bg-accent-primary/10">
+>>>>>>> recover/cabinet-wip-from-stash
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2 text-sm uppercase tracking-tight">
                   <ListTodo className="h-4 w-4" /> Инструменты производства
@@ -1634,9 +1786,15 @@ export default function BrandProductionCollectionFlowPage() {
                 <CardDescription className="text-xs">
                   <strong>Что это:</strong> цепочка ниже — те же этапы и тот же порядок, что в
                   матрице «Этапы и зависимости» (
+<<<<<<< HEAD
                   <code className="rounded bg-slate-100 px-1 text-[10px]">COLLECTION_STEPS</code>
                   ). Переход артикула к следующему шагу в работе определяется графом зависимостей (
                   <code className="rounded bg-slate-100 px-1 text-[10px]">dependsOn</code>
+=======
+                  <code className="bg-bg-surface2 rounded px-1 text-[10px]">COLLECTION_STEPS</code>
+                  ). Переход артикула к следующему шагу в работе определяется графом зависимостей (
+                  <code className="bg-bg-surface2 rounded px-1 text-[10px]">dependsOn</code>
+>>>>>>> recover/cabinet-wip-from-stash
                   ), а не только номером карточки. Выберите коллекцию выше (карточки «Работа по
                   коллекциям»). По <strong>названию этапа</strong> — модуль: поля, вложения, журнал;
                   «В модуль» — переход в экран этапа. В блоке <strong>«Артикулы коллекции»</strong>{' '}
@@ -1657,7 +1815,11 @@ export default function BrandProductionCollectionFlowPage() {
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
+<<<<<<< HEAD
                 <p className="rounded-lg border border-slate-100 bg-slate-50 p-3 text-[11px] text-slate-600">
+=======
+                <p className="text-text-secondary bg-bg-surface2 border-border-subtle rounded-lg border p-3 text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                   Текущая коллекция: <strong>{collectionLabel}</strong>. Прогресс по этапам:{' '}
                   <strong>{completedCount}</strong> из {COLLECTION_STEPS.length} (этап считается
                   «готово», когда все артикулы в коллекции закрыли этап). Детали по ответственным,
@@ -1718,11 +1880,19 @@ export default function BrandProductionCollectionFlowPage() {
                 />
 
                 <div className="flex flex-wrap items-center gap-2 text-[10px]">
+<<<<<<< HEAD
                   <span className="text-slate-500">Текущая коллекция:</span>
                   <select
                     value={collectionIdFromQuery}
                     onChange={(e) => handleCollectionChange(e.target.value)}
                     className="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[10px]"
+=======
+                  <span className="text-text-secondary">Текущая коллекция:</span>
+                  <select
+                    value={collectionIdFromQuery}
+                    onChange={(e) => handleCollectionChange(e.target.value)}
+                    className="border-border-default rounded-lg border bg-white px-2 py-1.5 text-[10px]"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     <option value="">По умолчанию</option>
                     {collectionSelectOptions.map((opt) => (
@@ -1740,15 +1910,24 @@ export default function BrandProductionCollectionFlowPage() {
                   >
                     Новая коллекция
                   </Button>
+<<<<<<< HEAD
                   <span className="ml-2 text-slate-400">Прогресс: {progressPct}%</span>
+=======
+                  <span className="text-text-muted ml-2">Прогресс: {progressPct}%</span>
+>>>>>>> recover/cabinet-wip-from-stash
                   <Progress
                     value={progressPct}
                     className="ml-1 inline-block h-1.5 w-24 align-middle"
                   />
                 </div>
 
+<<<<<<< HEAD
                 <div className="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
                   <p className="mb-2 text-[10px] font-bold text-slate-600">
+=======
+                <div className="border-border-subtle bg-bg-surface2/60 rounded-xl border p-3">
+                  <p className="text-text-secondary mb-2 text-[10px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                     Таймлайн дропов по коллекции
                   </p>
                   <div className="space-y-2">
@@ -1768,7 +1947,11 @@ export default function BrandProductionCollectionFlowPage() {
                             className={cn(
                               'font-medium',
                               drop.isPast
+<<<<<<< HEAD
                                 ? 'text-slate-500'
+=======
+                                ? 'text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                                 : drop.isActive
                                   ? 'text-emerald-700'
                                   : 'text-amber-700'
@@ -1777,14 +1960,22 @@ export default function BrandProductionCollectionFlowPage() {
                             {stateLabel}
                           </span>
                           {stats && (
+<<<<<<< HEAD
                             <span className="text-slate-500">
+=======
+                            <span className="text-text-secondary">
+>>>>>>> recover/cabinet-wip-from-stash
                               Стилей: {stats.styles}, шт: {stats.qty}
                             </span>
                           )}
                           <Button
                             asChild
                             variant="ghost"
+<<<<<<< HEAD
                             size="xs"
+=======
+                            size="sm"
+>>>>>>> recover/cabinet-wip-from-stash
                             className="ml-auto h-6 text-[9px]"
                           >
                             <Link
@@ -1802,11 +1993,19 @@ export default function BrandProductionCollectionFlowPage() {
             </Card>
 
             {/* Быстрые действия: для выбранной выше коллекции — добавить артикулы, прогноз, запуск в производство */}
+<<<<<<< HEAD
             <div className="flex flex-wrap items-center gap-2 rounded-xl border border-indigo-100 bg-gradient-to-r from-indigo-50/80 to-white p-4">
               <span className="mr-2 text-[10px] font-black uppercase tracking-widest text-slate-500">
                 Быстрые действия
               </span>
               <span className="hidden text-[10px] text-slate-500 sm:inline">
+=======
+            <div className="border-accent-primary/20 from-accent-primary/10 flex flex-wrap items-center gap-2 rounded-xl border bg-gradient-to-r to-white p-4">
+              <span className="text-text-secondary mr-2 text-[10px] font-black uppercase tracking-widest">
+                Быстрые действия
+              </span>
+              <span className="text-text-secondary hidden text-[10px] sm:inline">
+>>>>>>> recover/cabinet-wip-from-stash
                 (для коллекции «{collectionLabel}»)
               </span>
               <Button
@@ -1831,13 +2030,21 @@ export default function BrandProductionCollectionFlowPage() {
                 className="h-9 gap-1.5 text-[10px] font-bold uppercase"
                 asChild
               >
+<<<<<<< HEAD
                 <Link href={ROUTES.brand.analyticsBudgetActual ?? '/brand/analytics/budget-actual'}>
+=======
+                <Link href={ROUTES.brand.budgetActual}>
+>>>>>>> recover/cabinet-wip-from-stash
                   <BarChart3 className="h-4 w-4" /> Спрогнозировать коллекцию
                 </Link>
               </Button>
               <Button
                 size="sm"
+<<<<<<< HEAD
                 className="h-9 gap-1.5 bg-slate-900 text-[10px] font-bold uppercase text-white hover:bg-slate-800"
+=======
+                className="bg-text-primary hover:bg-text-primary/90 h-9 gap-1.5 text-[10px] font-bold uppercase text-white"
+>>>>>>> recover/cabinet-wip-from-stash
                 asChild
               >
                 <Link
@@ -1846,7 +2053,11 @@ export default function BrandProductionCollectionFlowPage() {
                   <Play className="h-4 w-4" /> Запустить в производство
                 </Link>
               </Button>
+<<<<<<< HEAD
               <span className="ml-2 text-[10px] text-slate-500">
+=======
+              <span className="text-text-secondary ml-2 text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                 Артикулов в коллекции: <strong>{collectionArticles.length}</strong> · Прогноз:{' '}
                 <strong>{totalForecastQty.toLocaleString('ru-RU')} шт</strong> · Выручка:{' '}
                 <strong>{(totalForecastRevenue / 1_000_000).toFixed(1)} млн ₽</strong>
@@ -1900,7 +2111,11 @@ export default function BrandProductionCollectionFlowPage() {
                             <span
                               className={cn(
                                 'text-[11px] font-medium',
+<<<<<<< HEAD
                                 item.done ? 'text-emerald-800' : 'text-slate-800'
+=======
+                                item.done ? 'text-emerald-800' : 'text-text-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                               )}
                             >
                               {item.label}
@@ -1912,18 +2127,30 @@ export default function BrandProductionCollectionFlowPage() {
                               'flex items-center gap-2 rounded-lg border p-3',
                               item.done
                                 ? 'border-emerald-200 bg-emerald-50/50'
+<<<<<<< HEAD
                                 : 'border-slate-100 bg-slate-50/50'
+=======
+                                : 'border-border-subtle bg-bg-surface2/80'
+>>>>>>> recover/cabinet-wip-from-stash
                             )}
                           >
                             {item.done ? (
                               <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
                             ) : (
+<<<<<<< HEAD
                               <CircleDot className="h-4 w-4 shrink-0 text-slate-400" />
+=======
+                              <CircleDot className="text-text-muted h-4 w-4 shrink-0" />
+>>>>>>> recover/cabinet-wip-from-stash
                             )}
                             <span
                               className={cn(
                                 'text-[11px] font-medium',
+<<<<<<< HEAD
                                 item.done ? 'text-emerald-800' : 'text-slate-600'
+=======
+                                item.done ? 'text-emerald-800' : 'text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                               )}
                             >
                               {item.label}
@@ -1952,6 +2179,7 @@ export default function BrandProductionCollectionFlowPage() {
                       <p className="text-[10px] font-bold uppercase tracking-widest text-amber-800">
                         Требуют внимания
                       </p>
+<<<<<<< HEAD
                       <p className="text-lg font-black text-slate-900">
                         {needsAttentionCount} артикулов
                       </p>
@@ -1969,11 +2197,31 @@ export default function BrandProductionCollectionFlowPage() {
                         Без Tech Pack
                       </p>
                       <p className="text-lg font-black text-slate-900">
+=======
+                      <p className="text-text-primary text-lg font-black">
+                        {needsAttentionCount} артикулов
+                      </p>
+                      <p className="text-text-secondary text-[10px]">Без Tech Pack или без PO</p>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card className="border-border-default">
+                  <CardContent className="flex items-center gap-3 p-4">
+                    <div className="bg-bg-surface2 flex h-10 w-10 items-center justify-center rounded-xl">
+                      <FileText className="text-text-secondary h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="text-text-secondary text-[10px] font-bold uppercase tracking-widest">
+                        Без Tech Pack
+                      </p>
+                      <p className="text-text-primary text-lg font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                         {articlesProgressSummary.total - articlesProgressSummary.withTechPack} арт.
                       </p>
                     </div>
                   </CardContent>
                 </Card>
+<<<<<<< HEAD
                 <Card className="border-slate-200">
                   <CardContent className="flex items-center gap-3 p-4">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100">
@@ -1984,6 +2232,18 @@ export default function BrandProductionCollectionFlowPage() {
                         Без PO
                       </p>
                       <p className="text-lg font-black text-slate-900">
+=======
+                <Card className="border-border-default">
+                  <CardContent className="flex items-center gap-3 p-4">
+                    <div className="bg-accent-primary/15 flex h-10 w-10 items-center justify-center rounded-xl">
+                      <ClipboardCheck className="text-accent-primary h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="text-text-secondary text-[10px] font-bold uppercase tracking-widest">
+                        Без PO
+                      </p>
+                      <p className="text-text-primary text-lg font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                         {articlesProgressSummary.total - articlesProgressSummary.withPo} арт.
                       </p>
                     </div>
@@ -2007,6 +2267,7 @@ export default function BrandProductionCollectionFlowPage() {
                   </div>
                   {articlesProgressSummary.total > 0 && (
                     <div className="flex flex-wrap gap-2 text-[10px]">
+<<<<<<< HEAD
                       <Badge variant="outline" className="border-slate-200 text-slate-600">
                         Tech Pack: {articlesProgressSummary.withTechPack}/
                         {articlesProgressSummary.total}
@@ -2016,6 +2277,26 @@ export default function BrandProductionCollectionFlowPage() {
                         {articlesProgressSummary.total}
                       </Badge>
                       <Badge variant="outline" className="border-indigo-200 text-indigo-700">
+=======
+                      <Badge
+                        variant="outline"
+                        className="border-border-default text-text-secondary"
+                      >
+                        Tech Pack: {articlesProgressSummary.withTechPack}/
+                        {articlesProgressSummary.total}
+                      </Badge>
+                      <Badge
+                        variant="outline"
+                        className="border-border-default text-text-secondary"
+                      >
+                        Сэмплы: {articlesProgressSummary.withSamples}/
+                        {articlesProgressSummary.total}
+                      </Badge>
+                      <Badge
+                        variant="outline"
+                        className="border-accent-primary/30 text-accent-primary"
+                      >
+>>>>>>> recover/cabinet-wip-from-stash
                         PO: {articlesProgressSummary.withPo}/{articlesProgressSummary.total}
                       </Badge>
                       <Badge variant="outline" className="border-emerald-200 text-emerald-700">
@@ -2025,21 +2306,35 @@ export default function BrandProductionCollectionFlowPage() {
                   )}
                 </div>
                 {collectionArticles.length > 0 && (
+<<<<<<< HEAD
                   <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
                     <div className="relative min-w-[140px] max-w-[200px] flex-1">
                       <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
+=======
+                  <div className="border-border-subtle mt-3 flex flex-wrap items-center gap-2 border-t pt-3">
+                    <div className="relative min-w-[140px] max-w-[200px] flex-1">
+                      <Search className="text-text-muted absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2" />
+>>>>>>> recover/cabinet-wip-from-stash
                       <input
                         type="text"
                         placeholder="Поиск: артикул, сезон, категория, ткань…"
                         value={articleSearch}
                         onChange={(e) => setArticleSearch(e.target.value)}
+<<<<<<< HEAD
                         className="h-8 w-full rounded-lg border border-slate-200 bg-white pl-8 pr-2 text-[11px] focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500"
+=======
+                        className="border-border-default focus:ring-accent-primary focus:border-accent-primary h-8 w-full rounded-lg border bg-white pl-8 pr-2 text-[11px] focus:ring-2"
+>>>>>>> recover/cabinet-wip-from-stash
                       />
                     </div>
                     <select
                       value={articleFilterStage}
                       onChange={(e) => setArticleFilterStage(e.target.value)}
+<<<<<<< HEAD
                       className="h-8 rounded-lg border border-slate-200 bg-white px-2 text-[11px]"
+=======
+                      className="border-border-default h-8 rounded-lg border bg-white px-2 text-[11px]"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       <option value="">Все этапы</option>
                       {COLLECTION_STEPS.map((s) => (
@@ -2051,7 +2346,11 @@ export default function BrandProductionCollectionFlowPage() {
                     <select
                       value={articleFilterDrop}
                       onChange={(e) => setArticleFilterDrop(e.target.value)}
+<<<<<<< HEAD
                       className="h-8 rounded-lg border border-slate-200 bg-white px-2 text-[11px]"
+=======
+                      className="border-border-default h-8 rounded-lg border bg-white px-2 text-[11px]"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       <option value="">Все дропы</option>
                       {JOOR_DELIVERY_WINDOWS.map((w) => (
@@ -2065,7 +2364,11 @@ export default function BrandProductionCollectionFlowPage() {
                       onChange={(e) =>
                         setArticleSortBy(e.target.value as 'stage' | 'drop' | 'revenue')
                       }
+<<<<<<< HEAD
                       className="h-8 rounded-lg border border-slate-200 bg-white px-2 text-[11px]"
+=======
+                      className="border-border-default h-8 rounded-lg border bg-white px-2 text-[11px]"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       <option value="stage">Сортировка: по этапу</option>
                       <option value="drop">Сортировка: по дропу</option>
@@ -2094,7 +2397,11 @@ export default function BrandProductionCollectionFlowPage() {
               <CardContent className="overflow-x-auto">
                 <table className="w-full border-collapse text-left">
                   <thead>
+<<<<<<< HEAD
                     <tr className="border-b border-slate-100 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+=======
+                    <tr className="border-border-subtle text-text-secondary border-b text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                       <th className="pb-2 pr-4">Артикул</th>
                       <th className="pb-2 pr-4">Сезон</th>
                       <th className="min-w-[7rem] pb-2 pr-3">Производство</th>
@@ -2121,34 +2428,61 @@ export default function BrandProductionCollectionFlowPage() {
                       return (
                         <tr
                           key={art.id}
+<<<<<<< HEAD
                           className="border-b border-slate-50 transition-colors hover:bg-slate-50/50"
                         >
                           <td className="py-3 pr-4">
                             <span className="font-mono text-[11px] font-bold text-slate-900">
+=======
+                          className="border-border-subtle hover:bg-bg-surface2/80 border-b transition-colors"
+                        >
+                          <td className="py-3 pr-4">
+                            <span className="text-text-primary font-mono text-[11px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                               {art.sku}
                             </span>
                           </td>
                           <td className="py-3 pr-4">
+<<<<<<< HEAD
                             <span className="text-[11px] font-medium text-slate-800">
+=======
+                            <span className="text-text-primary text-[11px] font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                               {art.season}
                             </span>
                           </td>
                           <td className="py-3 pr-3 align-top">
+<<<<<<< HEAD
                             <span className="block max-w-[9rem] text-[10px] leading-snug text-slate-700">
+=======
+                            <span className="text-text-primary block max-w-[9rem] text-[10px] leading-snug">
+>>>>>>> recover/cabinet-wip-from-stash
                               {art.productionSiteLabel}
                             </span>
                           </td>
                           <td className="py-3 pr-3">
+<<<<<<< HEAD
                             <span className="text-[10px] text-slate-600">
+=======
+                            <span className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                               {dropLabel.replace(/^Drop \d+: /, '')}
                             </span>
                           </td>
                           <td className="py-3 pr-4">
+<<<<<<< HEAD
                             <Badge variant="outline" className="border-slate-200 text-[9px]">
                               {step?.title ?? art.currentStageId}
                             </Badge>
                           </td>
                           <td className="py-3 pr-4 text-[11px] text-slate-700">
+=======
+                            <Badge variant="outline" className="border-border-default text-[9px]">
+                              {step?.title ?? art.currentStageId}
+                            </Badge>
+                          </td>
+                          <td className="text-text-primary py-3 pr-4 text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
                             {art.forecastQty.toLocaleString('ru-RU')} шт ·{' '}
                             {(art.forecastRevenue / 1000).toFixed(0)}k ₽
                           </td>
@@ -2184,15 +2518,24 @@ export default function BrandProductionCollectionFlowPage() {
                             {art.ready ? (
                               <CheckCircle2 className="inline h-4 w-4 text-emerald-600" />
                             ) : (
+<<<<<<< HEAD
                               <CircleDot className="inline h-4 w-4 text-slate-300" />
+=======
+                              <CircleDot className="text-text-muted inline h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
                             )}
                           </td>
                           <td className="py-3 pr-2 align-middle">
                             <Button
                               type="button"
                               variant="default"
+<<<<<<< HEAD
                               size="xs"
                               className="h-7 bg-slate-900 px-2 text-[9px] font-black uppercase tracking-tight hover:bg-slate-800"
+=======
+                              size="sm"
+                              className="bg-text-primary hover:bg-text-primary/90 h-7 px-2 text-[9px] font-black uppercase tracking-tight"
+>>>>>>> recover/cabinet-wip-from-stash
                               title="Открыть этапы и модули цеха только для этого артикула"
                               onClick={() => openArticleProductionHub(art.id)}
                             >
@@ -2204,7 +2547,11 @@ export default function BrandProductionCollectionFlowPage() {
                               <Button
                                 asChild
                                 variant="ghost"
+<<<<<<< HEAD
                                 size="xs"
+=======
+                                size="sm"
+>>>>>>> recover/cabinet-wip-from-stash
                                 className="h-6 px-2 text-[9px]"
                                 title="Tech Pack"
                               >
@@ -2217,7 +2564,11 @@ export default function BrandProductionCollectionFlowPage() {
                               <Button
                                 asChild
                                 variant="ghost"
+<<<<<<< HEAD
                                 size="xs"
+=======
+                                size="sm"
+>>>>>>> recover/cabinet-wip-from-stash
                                 className="h-6 px-2 text-[9px]"
                                 title="Сэмплы"
                               >
@@ -2230,7 +2581,11 @@ export default function BrandProductionCollectionFlowPage() {
                               <Button
                                 asChild
                                 variant="ghost"
+<<<<<<< HEAD
                                 size="xs"
+=======
+                                size="sm"
+>>>>>>> recover/cabinet-wip-from-stash
                                 className="h-6 px-2 text-[9px]"
                                 title="PO"
                               >
@@ -2241,7 +2596,11 @@ export default function BrandProductionCollectionFlowPage() {
                               <Button
                                 asChild
                                 variant="ghost"
+<<<<<<< HEAD
                                 size="xs"
+=======
+                                size="sm"
+>>>>>>> recover/cabinet-wip-from-stash
                                 className="h-6 px-2 text-[9px]"
                                 title="Готовый товар"
                               >
@@ -2257,7 +2616,11 @@ export default function BrandProductionCollectionFlowPage() {
                   </tbody>
                 </table>
                 {collectionArticles.length === 0 && (
+<<<<<<< HEAD
                   <div className="py-12 text-center text-sm text-slate-500">
+=======
+                  <div className="text-text-secondary py-12 text-center text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                     Нет артикулов в текущей коллекции. Выберите сезон выше или добавьте артикулы из
                     раздела Продукты.
                     <Button variant="outline" size="sm" className="ml-2 mt-3" asChild>
@@ -2266,7 +2629,11 @@ export default function BrandProductionCollectionFlowPage() {
                   </div>
                 )}
                 {collectionArticles.length > 0 && displayedArticles.length === 0 && (
+<<<<<<< HEAD
                   <div className="py-8 text-center text-sm text-slate-500">
+=======
+                  <div className="text-text-secondary py-8 text-center text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                     По фильтрам ничего не найдено. Сбросьте поиск или «Требуют внимания».
                     <Button
                       variant="outline"
@@ -2296,14 +2663,21 @@ export default function BrandProductionCollectionFlowPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="grid gap-3 text-[11px] md:grid-cols-3">
+<<<<<<< HEAD
                 <div className="space-y-1 rounded-xl border border-slate-100 bg-slate-50/80 p-3">
                   <p className="font-bold text-slate-800">QC инспекции</p>
                   <p className="text-slate-600">
+=======
+                <div className="border-border-subtle bg-bg-surface2/80 space-y-1 rounded-xl border p-3">
+                  <p className="text-text-primary font-bold">QC инспекции</p>
+                  <p className="text-text-secondary">
+>>>>>>> recover/cabinet-wip-from-stash
                     Всего: <strong>{qcSummary.total}</strong>
                   </p>
                   <p className="text-emerald-700">
                     Принято: <strong>{qcSummary.passed}</strong>
                   </p>
+<<<<<<< HEAD
                   <p className={qcSummary.withIssues > 0 ? 'text-amber-700' : 'text-slate-500'}>
                     С вопросами: <strong>{qcSummary.withIssues}</strong>
                   </p>
@@ -2311,20 +2685,43 @@ export default function BrandProductionCollectionFlowPage() {
                 <div className="space-y-1 rounded-xl border border-slate-100 bg-slate-50/80 p-3">
                   <p className="font-bold text-slate-800">Видео‑этапы по PO</p>
                   <p className="text-slate-600">
+=======
+                  <p
+                    className={qcSummary.withIssues > 0 ? 'text-amber-700' : 'text-text-secondary'}
+                  >
+                    С вопросами: <strong>{qcSummary.withIssues}</strong>
+                  </p>
+                </div>
+                <div className="border-border-subtle bg-bg-surface2/80 space-y-1 rounded-xl border p-3">
+                  <p className="text-text-primary font-bold">Видео‑этапы по PO</p>
+                  <p className="text-text-secondary">
+>>>>>>> recover/cabinet-wip-from-stash
                     Этапов: <strong>{milestonesSummary.total}</strong>
                   </p>
                   <p className="text-emerald-700">
                     Утверждено: <strong>{milestonesSummary.approved}</strong>
                   </p>
                   <p
+<<<<<<< HEAD
                     className={milestonesSummary.pending > 0 ? 'text-amber-700' : 'text-slate-500'}
+=======
+                    className={
+                      milestonesSummary.pending > 0 ? 'text-amber-700' : 'text-text-secondary'
+                    }
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     Ожидает: <strong>{milestonesSummary.pending}</strong>
                   </p>
                 </div>
+<<<<<<< HEAD
                 <div className="space-y-1 rounded-xl border border-slate-100 bg-slate-50/80 p-3">
                   <p className="font-bold text-slate-800">Субподряд (заказы на сторону)</p>
                   <p className="text-slate-600">
+=======
+                <div className="border-border-subtle bg-bg-surface2/80 space-y-1 rounded-xl border p-3">
+                  <p className="text-text-primary font-bold">Субподряд (заказы на сторону)</p>
+                  <p className="text-text-secondary">
+>>>>>>> recover/cabinet-wip-from-stash
                     Всего: <strong>{subcontractSummary.total}</strong>
                   </p>
                   <p className="text-emerald-700">
@@ -2332,7 +2729,11 @@ export default function BrandProductionCollectionFlowPage() {
                   </p>
                   <p
                     className={
+<<<<<<< HEAD
                       subcontractSummary.inProgress > 0 ? 'text-amber-700' : 'text-slate-500'
+=======
+                      subcontractSummary.inProgress > 0 ? 'text-amber-700' : 'text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                     }
                   >
                     В работе: <strong>{subcontractSummary.inProgress}</strong>
@@ -2352,7 +2753,11 @@ export default function BrandProductionCollectionFlowPage() {
                       hasRisks ? 'bg-amber-500' : 'bg-emerald-500'
                     )}
                   />
+<<<<<<< HEAD
                   <p className="text-[10px] text-slate-800">
+=======
+                  <p className="text-text-primary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                     {hasRisks
                       ? 'Есть риски по коллекции: проверьте инспекции QC, незавершённые видео‑этапы и сроки отмены PO по дропам.'
                       : 'Критических рисков по коллекции не выявлено: QC пройден, ключевые этапы подтверждены, дропы в пределах дедлайнов.'}
@@ -2380,16 +2785,26 @@ export default function BrandProductionCollectionFlowPage() {
                 onValueChange={(v) => setSuppliesSub(v as 'vmi' | 'reservation')}
                 className="w-full"
               >
+<<<<<<< HEAD
                 <TabsList className="mb-2 h-auto w-full flex-wrap justify-start gap-0.5 rounded-xl border border-slate-200 bg-slate-100 p-0.5">
                   <TabsTrigger
                     value="vmi"
                     className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
                   >
+=======
+                {/* cabinetSurface v1 */}
+                <TabsList className={cn(cabinetSurface.tabsList, 'mb-2 flex-wrap')}>
+                  <TabsTrigger value="vmi" className={cn(cabinetSurface.tabsTrigger, 'h-7')}>
+>>>>>>> recover/cabinet-wip-from-stash
                     Запасы (VMI)
                   </TabsTrigger>
                   <TabsTrigger
                     value="reservation"
+<<<<<<< HEAD
                     className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+=======
+                    className={cn(cabinetSurface.tabsTrigger, 'h-7')}
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     Бронирование
                   </TabsTrigger>
@@ -2411,6 +2826,7 @@ export default function BrandProductionCollectionFlowPage() {
                 onValueChange={(v) => setSampleSub(v as 'gold' | 'fit')}
                 className="w-full"
               >
+<<<<<<< HEAD
                 <TabsList className="mb-2 h-auto w-full flex-wrap justify-start gap-0.5 rounded-xl border border-slate-200 bg-slate-100 p-0.5">
                   <TabsTrigger
                     value="gold"
@@ -2422,6 +2838,14 @@ export default function BrandProductionCollectionFlowPage() {
                     value="fit"
                     className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
                   >
+=======
+                {/* cabinetSurface v1 */}
+                <TabsList className={cn(cabinetSurface.tabsList, 'mb-2 flex-wrap')}>
+                  <TabsTrigger value="gold" className={cn(cabinetSurface.tabsTrigger, 'h-7')}>
+                    Утверждение эталона
+                  </TabsTrigger>
+                  <TabsTrigger value="fit" className={cn(cabinetSurface.tabsTrigger, 'h-7')}>
+>>>>>>> recover/cabinet-wip-from-stash
                     Fit comments
                   </TabsTrigger>
                 </TabsList>
@@ -2450,6 +2874,7 @@ export default function BrandProductionCollectionFlowPage() {
                 onValueChange={(v) => setLaunchSub(v as 'daily' | 'skills' | 'video' | 'sub')}
                 className="w-full"
               >
+<<<<<<< HEAD
                 <TabsList className="mb-2 h-auto w-full flex-wrap justify-start gap-0.5 rounded-xl border border-slate-200 bg-slate-100 p-0.5">
                   <TabsTrigger
                     value="daily"
@@ -2473,6 +2898,20 @@ export default function BrandProductionCollectionFlowPage() {
                     value="sub"
                     className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
                   >
+=======
+                {/* cabinetSurface v1 */}
+                <TabsList className={cn(cabinetSurface.tabsList, 'mb-2 flex-wrap')}>
+                  <TabsTrigger value="daily" className={cn(cabinetSurface.tabsTrigger, 'h-7')}>
+                    Ежедневный выпуск
+                  </TabsTrigger>
+                  <TabsTrigger value="skills" className={cn(cabinetSurface.tabsTrigger, 'h-7')}>
+                    Матрица навыков
+                  </TabsTrigger>
+                  <TabsTrigger value="video" className={cn(cabinetSurface.tabsTrigger, 'h-7')}>
+                    Видеоэтапы
+                  </TabsTrigger>
+                  <TabsTrigger value="sub" className={cn(cabinetSurface.tabsTrigger, 'h-7')}>
+>>>>>>> recover/cabinet-wip-from-stash
                     Субподрядчики
                   </TabsTrigger>
                 </TabsList>
@@ -2499,6 +2938,7 @@ export default function BrandProductionCollectionFlowPage() {
                 onValueChange={(v) => setQualitySub(v as 'mobile' | 'desk')}
                 className="w-full"
               >
+<<<<<<< HEAD
                 <TabsList className="mb-2 h-auto w-full flex-wrap justify-start gap-0.5 rounded-xl border border-slate-200 bg-slate-100 p-0.5">
                   <TabsTrigger
                     value="mobile"
@@ -2510,6 +2950,14 @@ export default function BrandProductionCollectionFlowPage() {
                     value="desk"
                     className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
                   >
+=======
+                {/* cabinetSurface v1 */}
+                <TabsList className={cn(cabinetSurface.tabsList, 'mb-2 flex-wrap')}>
+                  <TabsTrigger value="mobile" className={cn(cabinetSurface.tabsTrigger, 'h-7')}>
+                    Мобильный ОТК
+                  </TabsTrigger>
+                  <TabsTrigger value="desk" className={cn(cabinetSurface.tabsTrigger, 'h-7')}>
+>>>>>>> recover/cabinet-wip-from-stash
                     Рабочее место QC
                   </TabsTrigger>
                 </TabsList>
@@ -2532,6 +2980,6 @@ export default function BrandProductionCollectionFlowPage() {
           </TabsContent>
         </Tabs>
       </TooltipProvider>
-    </div>
+    </RegistryPageShell>
   );
 }

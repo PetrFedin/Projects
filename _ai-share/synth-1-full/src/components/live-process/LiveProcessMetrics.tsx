@@ -28,6 +28,7 @@ export function LiveProcessMetrics({ processId }: LiveProcessMetricsProps) {
           </CardHeader>
           <CardContent className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             <div>
+<<<<<<< HEAD
               <p className="text-[10px] uppercase text-slate-500">% вовремя</p>
               <p className="text-lg font-bold text-emerald-600">{kpi.onTimePct}%</p>
             </div>
@@ -41,6 +42,21 @@ export function LiveProcessMetrics({ processId }: LiveProcessMetricsProps) {
             </div>
             <div>
               <p className="text-[10px] uppercase text-slate-500">Без ответственного</p>
+=======
+              <p className="text-text-secondary text-[10px] uppercase">% вовремя</p>
+              <p className="text-lg font-bold text-emerald-600">{kpi.onTimePct}%</p>
+            </div>
+            <div>
+              <p className="text-text-secondary text-[10px] uppercase">Средний цикл (дн.)</p>
+              <p className="text-lg font-bold">{kpi.avgCycleDays}</p>
+            </div>
+            <div>
+              <p className="text-text-secondary text-[10px] uppercase">Просрочки</p>
+              <p className="text-lg font-bold text-amber-600">{kpi.overdueInstances}</p>
+            </div>
+            <div>
+              <p className="text-text-secondary text-[10px] uppercase">Без ответственного</p>
+>>>>>>> recover/cabinet-wip-from-stash
               <p className="text-lg font-bold text-red-600">{kpi.stagesWithoutAssignee}</p>
             </div>
           </CardContent>
@@ -52,7 +68,7 @@ export function LiveProcessMetrics({ processId }: LiveProcessMetricsProps) {
         <Card>
           <CardHeader className="pb-2">
             <h3 className="text-sm font-bold">Воронка: среднее время по этапам</h3>
-            <p className="text-xs text-slate-500">Узкие места — этапы с высоким % просрочек</p>
+            <p className="text-text-secondary text-xs">Узкие места — этапы с высоким % просрочек</p>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -68,10 +84,17 @@ export function LiveProcessMetrics({ processId }: LiveProcessMetricsProps) {
                         className={`h-2 ${isBottleneck ? '[&>div]:bg-amber-500' : ''}`}
                       />
                     </div>
+<<<<<<< HEAD
                     <span className="w-16 text-xs text-slate-600">{m.avgDays} дн.</span>
                     {m.overduePct > 0 && (
                       <span
                         className={`text-[10px] ${isBottleneck ? 'font-medium text-amber-600' : 'text-slate-500'}`}
+=======
+                    <span className="text-text-secondary w-16 text-xs">{m.avgDays} дн.</span>
+                    {m.overduePct > 0 && (
+                      <span
+                        className={`text-[10px] ${isBottleneck ? 'font-medium text-amber-600' : 'text-text-secondary'}`}
+>>>>>>> recover/cabinet-wip-from-stash
                       >
                         {m.overduePct}% проср.
                       </span>

@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Badge } from '@/components/ui/badge';
-import { X, Calendar as CalendarIcon, PlayCircle, Mic, Users } from 'lucide-react';
+import { X, Calendar as CalendarIcon, PlayCircle, Mic, Users, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { isSameDay, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
@@ -26,9 +26,12 @@ import {
 import PodcastCard from '@/components/podcast-card';
 import { useUIState } from '@/providers/ui-state';
 import { StreamDateDisplay } from '@/components/live/stream-date-display';
+import Link from 'next/link';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageShell } from '@/components/design-system';
 
 export default function LivePage() {
-  const { playingPodcast, setPlayingPodcast, viewRole, user } = useUIState();
+  const { viewRole, user } = useUIState();
   const [isLivePlayerOpen, setIsLivePlayerOpen] = useState(false);
 
   const role = user?.activeOrganizationId?.includes('org-brand')
@@ -103,10 +106,13 @@ export default function LivePage() {
     setIsEventLive(isLive);
     setIsLivePlayerOpen(true);
   };
+<<<<<<< HEAD
 
   const handlePlayPodcast = (podcast: ImagePlaceholder) => {
     setPlayingPodcast(podcast.id === playingPodcast?.id ? null : podcast);
   };
+=======
+>>>>>>> recover/cabinet-wip-from-stash
 
   const toggleHashtag = (hashtag: string) => {
     setSelectedHashtags((prev) =>
@@ -203,10 +209,17 @@ export default function LivePage() {
 
   return (
     <TooltipProvider>
+<<<<<<< HEAD
       <div className="container mx-auto space-y-4 px-4 py-4">
         {viewRole === 'b2b' && (
           <div className="grid grid-cols-1 gap-3 duration-500 animate-in slide-in-from-top-4 md:grid-cols-3">
             <Card className="group relative flex items-center justify-between overflow-hidden rounded-xl border-none bg-slate-900 p-4 text-white shadow-2xl md:col-span-2">
+=======
+      <RegistryPageShell className="space-y-4 pb-16">
+        {viewRole === 'b2b' && (
+          <div className="grid grid-cols-1 gap-3 duration-500 animate-in slide-in-from-top-4 md:grid-cols-3">
+            <Card className="bg-text-primary group relative flex items-center justify-between overflow-hidden rounded-xl border-none p-4 text-white shadow-2xl md:col-span-2">
+>>>>>>> recover/cabinet-wip-from-stash
               <div className="absolute right-0 top-0 p-4 opacity-10 transition-transform duration-700 group-hover:scale-110">
                 <Mic className="h-32 w-32" />
               </div>
@@ -217,38 +230,66 @@ export default function LivePage() {
                 <h3 className="text-base font-black uppercase tracking-tighter">
                   Управление эфирами
                 </h3>
+<<<<<<< HEAD
                 <p className="max-w-md text-sm font-medium italic text-slate-400">
+=======
+                <p className="text-text-muted max-w-md text-sm font-medium italic">
+>>>>>>> recover/cabinet-wip-from-stash
                   {role === 'brand'
                     ? 'Запускайте презентации коллекций и общайтесь с байерами в реальном времени.'
                     : 'Демонстрируйте прозрачность производства и технологические процессы через Live-стримы.'}
                 </p>
                 <Button
                   asChild
+<<<<<<< HEAD
                   className="h-12 rounded-xl bg-white px-8 text-[10px] font-black uppercase tracking-widest text-slate-900 transition-transform hover:scale-105"
                 >
                   <Link href={role === 'brand' ? '/brand/live' : '/factory/live'}>
+=======
+                  className="text-text-primary h-12 rounded-xl bg-white px-8 text-[10px] font-black uppercase tracking-widest transition-transform hover:scale-105"
+                >
+                  <Link href={role === 'brand' ? ROUTES.brand.live : ROUTES.factory.live}>
+>>>>>>> recover/cabinet-wip-from-stash
                     Открыть Dashboard
                   </Link>
                 </Button>
               </div>
             </Card>
+<<<<<<< HEAD
             <Card className="relative flex flex-col justify-between overflow-hidden rounded-xl border-none bg-indigo-600 p-4 text-white shadow-xl">
               <div className="relative z-10 space-y-4">
                 <div className="flex items-center gap-2">
                   <Users className="h-5 w-5 text-indigo-200" />
                   <span className="text-[10px] font-black uppercase tracking-widest text-indigo-100">
+=======
+            <Card className="bg-accent-primary relative flex flex-col justify-between overflow-hidden rounded-xl border-none p-4 text-white shadow-xl">
+              <div className="relative z-10 space-y-4">
+                <div className="flex items-center gap-2">
+                  <Users className="text-accent-primary/40 h-5 w-5" />
+                  <span className="text-accent-primary/30 text-[10px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                     B2B Аудитория
                   </span>
                 </div>
                 <h4 className="text-sm font-black tabular-nums">4.2k</h4>
+<<<<<<< HEAD
                 <p className="text-[10px] font-bold uppercase leading-relaxed tracking-widest text-indigo-100/80">
+=======
+                <p className="text-accent-primary/30 text-[10px] font-bold uppercase leading-relaxed tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                   Активных байеров в сети
                 </p>
               </div>
               <div className="relative z-10 border-t border-white/10 pt-4">
+<<<<<<< HEAD
                 <p className="flex items-center gap-2 text-[9px] font-black uppercase text-indigo-200">
                   <Zap className="h-3 w-3 fill-indigo-200" /> AI Insight: "Вечерние стримы (19:00+)
                   повышают CTR на 24%"
+=======
+                <p className="text-accent-primary/40 flex items-center gap-2 text-[9px] font-black uppercase">
+                  <Zap className="fill-accent-primary/40 h-3 w-3" /> AI Insight: "Вечерние стримы
+                  (19:00+) повышают CTR на 24%"
+>>>>>>> recover/cabinet-wip-from-stash
                 </p>
               </div>
             </Card>
@@ -316,12 +357,16 @@ export default function LivePage() {
                 <h2 className="mb-4 text-sm font-bold">Подкасты в прямом эфире</h2>
                 <div className="space-y-6">
                   {filteredLivePodcasts.map((podcast) => (
+<<<<<<< HEAD
                     <PodcastCard
                       key={podcast.id}
                       podcast={podcast}
                       onPlay={() => handlePlayPodcast(podcast)}
                       isPlaying={playingPodcast?.id === podcast.id}
                     />
+=======
+                    <PodcastCard key={podcast.id} podcast={podcast} />
+>>>>>>> recover/cabinet-wip-from-stash
                   ))}
                 </div>
               </section>
@@ -378,12 +423,16 @@ export default function LivePage() {
                 <h2 className="mb-4 text-sm font-bold">Анонсы подкастов</h2>
                 <div className="space-y-6">
                   {filteredUpcomingPodcasts.map((podcast) => (
+<<<<<<< HEAD
                     <PodcastCard
                       key={podcast.id}
                       podcast={podcast}
                       onPlay={() => handlePlayPodcast(podcast)}
                       isPlaying={playingPodcast?.id === podcast.id}
                     />
+=======
+                    <PodcastCard key={podcast.id} podcast={podcast} />
+>>>>>>> recover/cabinet-wip-from-stash
                   ))}
                 </div>
               </section>
@@ -424,12 +473,16 @@ export default function LivePage() {
                 <h2 className="mb-4 text-sm font-bold">Архив подкастов</h2>
                 <div className="space-y-6">
                   {filteredPastPodcasts.map((podcast) => (
+<<<<<<< HEAD
                     <PodcastCard
                       key={podcast.id}
                       podcast={podcast}
                       onPlay={() => handlePlayPodcast(podcast)}
                       isPlaying={playingPodcast?.id === podcast.id}
                     />
+=======
+                    <PodcastCard key={podcast.id} podcast={podcast} />
+>>>>>>> recover/cabinet-wip-from-stash
                   ))}
                 </div>
               </section>
@@ -522,7 +575,7 @@ export default function LivePage() {
             isLive={isEventLive}
           />
         )}
-      </div>
+      </RegistryPageShell>
     </TooltipProvider>
   );
 }

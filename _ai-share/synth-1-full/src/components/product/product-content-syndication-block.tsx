@@ -8,6 +8,8 @@ import type { Product } from '@/lib/types';
 import { generateSyndicatedContent, CHANNEL_LABELS } from '@/lib/fashion/content-syndication';
 import { Share2, Copy, Wand2, Check } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
 type Props = { product: Product };
 
@@ -24,10 +26,14 @@ export function ProductContentSyndicationBlock({ product }: Props) {
   };
 
   return (
-    <Card className="mt-4 border-violet-500/20 bg-violet-50/10">
+    <Card className="border-accent-primary/20 bg-accent-primary/10 mt-4">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-sm">
+<<<<<<< HEAD
           <Wand2 className="h-4 w-4 text-violet-600" />
+=======
+          <Wand2 className="text-accent-primary h-4 w-4" />
+>>>>>>> recover/cabinet-wip-from-stash
           AI Content Syndication
         </CardTitle>
         <CardDescription className="text-xs">
@@ -36,9 +42,20 @@ export function ProductContentSyndicationBlock({ product }: Props) {
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="wb">
+<<<<<<< HEAD
           <TabsList className="h-8 flex-wrap p-1">
             {content.map((c) => (
               <TabsTrigger key={c.channel} value={c.channel} className="px-2 text-[10px]">
+=======
+          {/* cabinetSurface v1 */}
+          <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-h-8 flex-wrap p-0.5')}>
+            {content.map((c) => (
+              <TabsTrigger
+                key={c.channel}
+                value={c.channel}
+                className={cn(cabinetSurface.tabsTrigger, 'h-7 px-2 text-[10px] font-semibold')}
+              >
+>>>>>>> recover/cabinet-wip-from-stash
                 {c.channel.toUpperCase()}
               </TabsTrigger>
             ))}
@@ -67,7 +84,11 @@ export function ProductContentSyndicationBlock({ product }: Props) {
                 {c.keyFeatures.map((f, i) => (
                   <span
                     key={i}
+<<<<<<< HEAD
                     className="rounded-full border border-violet-200 bg-violet-100 px-1.5 py-0.5 text-[9px] text-violet-700"
+=======
+                    className="bg-accent-primary/15 text-accent-primary border-accent-primary/25 rounded-full border px-1.5 py-0.5 text-[9px]"
+>>>>>>> recover/cabinet-wip-from-stash
                   >
                     {f}
                   </span>

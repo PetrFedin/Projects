@@ -15,6 +15,7 @@ import {
   inventoryGrainUnlockedPayloadSchema,
   inventorySnapshotCreatedPayloadSchema,
   inventoryCycleCountCompletedPayloadSchema,
+  inventoryShopStockFileIngestedPayloadSchema,
   articleReadyForProductionPayloadSchema,
   controlRiskAlertPayloadSchema,
   orderShipmentCreatedPayloadSchema,
@@ -299,6 +300,21 @@ export async function publishInventoryCycleCountCompleted(params: {
     aggregateType: 'inventory',
     version: params.version,
     type: DomainEventTypes.inventory.cycleCountCompleted,
+    payload: params.payload,
+  });
+}
+
+export async function publishInventoryShopStockFileIngested(params: {
+  aggregateId: string;
+  version: number;
+  payload: unknown;
+}): Promise<void> {
+  return publishTyped(inventoryShopStockFileIngestedPayloadSchema, {
+    eventIdPrefix: 'evt-inv-stock-file',
+    aggregateId: params.aggregateId,
+    aggregateType: 'inventory',
+    version: params.version,
+    type: DomainEventTypes.inventory.shopStockFileIngested,
     payload: params.payload,
   });
 }

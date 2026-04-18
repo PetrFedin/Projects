@@ -17,13 +17,26 @@ import Image from 'next/image';
 import { GlobalTradeAi } from '@/components/distributor/global-trade-ai';
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+<<<<<<< HEAD
 import { getPartnerLinks } from '@/lib/data/entity-links';
+=======
+import { RegistryPageShell } from '@/components/design-system';
+import { getShopB2BHubLinks } from '@/lib/data/entity-links';
+import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
+import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
+import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
+>>>>>>> recover/cabinet-wip-from-stash
 
 const mockContracts = [
   {
     id: 'contr_123',
+<<<<<<< HEAD
     brand: 'Syntha',
     brandLogo: 'https://picsum.photos/seed/syntha/40/40',
+=======
+    brand: 'Syntha Lab',
+    brandLogo: 'https://picsum.photos/seed/syntha-lab/40/40',
+>>>>>>> recover/cabinet-wip-from-stash
     type: 'Договор поставки',
     status: 'active',
     startDate: '2024-01-15',
@@ -31,8 +44,13 @@ const mockContracts = [
   },
   {
     id: 'contr_124',
+<<<<<<< HEAD
     brand: 'A.P.C.',
     brandLogo: 'https://picsum.photos/seed/apc/40/40',
+=======
+    brand: 'Nordic Wool',
+    brandLogo: 'https://picsum.photos/seed/nordic-wool/40/40',
+>>>>>>> recover/cabinet-wip-from-stash
     type: 'Договор на предзаказ',
     status: 'pending',
     startDate: '2024-08-01',
@@ -40,8 +58,13 @@ const mockContracts = [
   },
   {
     id: 'contr_125',
+<<<<<<< HEAD
     brand: 'Acne Studios',
     brandLogo: 'https://picsum.photos/seed/acne-studios/40/40',
+=======
+    brand: 'Syntha Lab',
+    brandLogo: 'https://picsum.photos/seed/syntha-lab/40/40',
+>>>>>>> recover/cabinet-wip-from-stash
     type: 'Договор поставки',
     status: 'expired',
     startDate: '2023-01-01',
@@ -57,7 +80,14 @@ const statusConfig = {
 
 export default function ContractsPage() {
   return (
+<<<<<<< HEAD
     <div className="space-y-4">
+=======
+    <RegistryPageShell className="max-w-4xl space-y-6">
+      <ShopB2bContentHeader lead="Юридические документы с брендами; связь с документами, финансами и заказами." />
+      <ShopAnalyticsSegmentErpStrip />
+
+>>>>>>> recover/cabinet-wip-from-stash
       <GlobalTradeAi />
 
       <Card>
@@ -94,7 +124,11 @@ export default function ContractsPage() {
                 return (
                   <TableRow key={contract.id}>
                     <TableCell className="font-mono">
+<<<<<<< HEAD
                       <Link href={`/shop/b2b/contracts/${contract.id}`} className="hover:underline">
+=======
+                      <Link href={ROUTES.shop.b2bContract(contract.id)} className="hover:underline">
+>>>>>>> recover/cabinet-wip-from-stash
                         {contract.id}
                       </Link>
                     </TableCell>
@@ -131,7 +165,11 @@ export default function ContractsPage() {
                     </TableCell>
                     <TableCell className="text-right">
                       <Button variant="ghost" size="sm" asChild>
+<<<<<<< HEAD
                         <Link href={`/shop/b2b/contracts/${contract.id}`}>
+=======
+                        <Link href={ROUTES.shop.b2bContract(contract.id)}>
+>>>>>>> recover/cabinet-wip-from-stash
                           <FileText className="mr-2 h-4 w-4" />
                           Просмотреть
                         </Link>
@@ -144,11 +182,44 @@ export default function ContractsPage() {
           </Table>
         </CardContent>
       </Card>
+<<<<<<< HEAD
       <RelatedModulesBlock
         links={getPartnerLinks()}
         title="Партнёры, заказы, документы"
         className="mt-6"
       />
     </div>
+=======
+
+      <div className="border-border-subtle flex flex-wrap items-center gap-2 border-t pt-4">
+        <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+          См. также
+        </span>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link href={ROUTES.shop.analytics} data-testid="shop-b2b-contracts-retail-link">
+            Розничная аналитика
+          </Link>
+        </Button>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link href={ROUTES.shop.analyticsFootfall} data-testid="shop-b2b-contracts-footfall-link">
+            Трафик по зонам
+          </Link>
+        </Button>
+        <B2bMarginAnalysisHubButton />
+      </div>
+
+      <RelatedModulesBlock
+        title="Связанные разделы"
+        links={getShopB2BHubLinks().filter(
+          (l) =>
+            l.href === ROUTES.shop.b2bFinance ||
+            l.href === ROUTES.shop.b2bDocuments ||
+            l.href === ROUTES.shop.b2bPayment ||
+            l.href === ROUTES.shop.b2bOrders
+        )}
+        className="mt-2"
+      />
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

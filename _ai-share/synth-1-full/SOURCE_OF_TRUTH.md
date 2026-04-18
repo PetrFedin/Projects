@@ -1,6 +1,6 @@
 # Source of truth (synth-1-full)
 
-Краткий указатель канона для **`_ai-share/synth-1-full`**: куда смотреть агенту и человеку, чтобы не расходиться с репо.
+Краткий указатель канона для **`_ai-share/synth-1-full`**: куда смотреть агенту и человеку, чтобы не расходиться с репо. Практический контур разработки (окружение, перенос с доноров, связи, CI): **`docs/FULL_APP_DEVELOPMENT.md`**.
 
 ## Типы и каталоги (`lib/` vs `src/lib`)
 
@@ -49,7 +49,7 @@ AI boundary (client-safe): клиентские компоненты не выз
 - CI-check контракта: **`npm run check:domain-events-health-contract`** (`scripts/ci/check-domain-events-health-contract.mjs`, dependency-light runner, default). Typed/canonical variant: **`npm run check:domain-events-health-contract:typed`** (`scripts/ci/check-domain-events-health-contract.ts`, требует `tsx`). Env: optional `DOMAIN_EVENTS_HEALTH_URL` (если не задан — **skip** с событием **`check_skipped`**, exit `0`, чтобы `npm run check:contracts` работал без поднятого сервера); для CI, где URL обязателен, задайте **`DOMAIN_EVENTS_HEALTH_CONTRACT_STRICT=1`** → отсутствие URL даёт **`config_error`** и exit `1`. Optional `DOMAIN_EVENTS_HEALTH_SECRET`, optional **`DOMAIN_EVENTS_HEALTH_CHECK_OUTPUT`**: только **`json`** | **`pretty`** (по умолчанию `json`); иное значение → fallback на `json` + warn-событие **`output_format_invalid`**.
 - Parity-check раннеров: **`npm run check:domain-events-health-runner-parity`** (`scripts/ci/check-domain-events-health-runner-parity.mjs`) — следит, что event `code` в typed/fallback вариантах совпадают.
 - Локальный агрегатор контрактных guard-ов: **`npm run check:contracts`** (`legacy-archive-api` + `integrations-boundary` + `ai-client-boundary` + `domain-events-health-runner-parity` + **`check:domain-events-health-contract`**; при отсутствии `DOMAIN_EVENTS_HEALTH_URL` live-probe **пропускается**, см. выше).
-- Практика перед PR/push (контрактные правки): запускать **`npm run check:contracts`** локально.
+- Практика перед PR/push (контрактные правки): **`npm run check:contracts:ci`** (как в **`ci-fast`**); полный **`npm run check:contracts`** — когда сознательно трогаете client/AI-границу. Переменные GitHub Actions и optional live-step: **`docs/ci/DOMAIN_EVENTS_HEALTH_CI.md`**; алертинг по **`summaryCode`**: **`docs/ops/domain-events-health.md`**.
 - Логи CI-check парсируемые (JSON): **`formatDomainEventsHealthCheckEventForConsole(event, format)`** в **`src/lib/server/domain-events-health-check-output.ts`**; поля: `scope`, `level`, `code`, `message`, `details`.
 - Обязательные ключи JSON: `contractVersion`, `ok`, `status`, `summaryCode`, `summary`, `alerts`, `degradedReasons`, `recommendations`, `thresholds`, `bus`, `outbox`, `requestId`.
 - Пороговые env:
@@ -107,12 +107,23 @@ AI boundary (client-safe): клиентские компоненты не выз
 
 ## Приёмка «полного контура» (demo)
 
+<<<<<<< HEAD
 | Что                                                  | Где                                                                                                                        |
 | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | Человеческая матрица + команды                       | **`docs/UNIFIED_ECOSYSTEM_VERIFICATION.md`**                                                                               |
 | Технические связи маршрут ↔ tid ↔ API                | **`INTEGRATION_MAP.md`**, раздел **§6**                                                                                    |
 | UI-смок (5 тестов, serial shop inventory + оболочки) | **`e2e/unified-ecosystem-smoke.spec.ts`**, **`npm run test:e2e:verification`**                                             |
 | Контракты API (подмножество Playwright)              | **`npm run test:e2e:api`**: **порядок** spec-файлов — **`package.json`** (источник истины), описание — **`e2e/README.md`** |
+=======
+| Что                                                                               | Где                                                                                                                                                                                                                        |
+| --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Человеческая матрица + команды                                                    | **`docs/UNIFIED_ECOSYSTEM_VERIFICATION.md`**                                                                                                                                                                               |
+| Технические связи маршрут ↔ tid ↔ API                                             | **`INTEGRATION_MAP.md`**, раздел **§6**                                                                                                                                                                                    |
+| Ритейл-кабинет `/shop`: навигация, RBAC, ERP, аналитика, e2e                      | **`docs/RETAIL_CABINET_FULL_PLAYBOOK.md`** (продукт: **`docs/shop-retailer-cabinet-roadmap.md`**)                                                                                                                          |
+| Ритейл E2E узкий контур (ERP `GET /api/shop/erp-sync-status` + сегменты + ссылки) | **`npm run test:e2e:shop-retail`** (`e2e/shop-erp-analytics-strip.spec.ts`); в CI — условно по **`paths-filter`** (см. **`_ai-share/synth-1-full/.github/workflows/ci.yml`**, **`.github/workflows/synth-1-full-ci.yml`**) |
+| UI-смок (6 тестов: serial shop inventory + ритейл-хаб/маржа + оболочки)           | **`e2e/unified-ecosystem-smoke.spec.ts`**, **`npm run test:e2e:verification`**                                                                                                                                             |
+| Контракты API (подмножество Playwright)                                           | **`npm run test:e2e:api`**: **порядок** spec-файлов — **`package.json`** (источник истины), описание — **`e2e/README.md`**                                                                                                 |
+>>>>>>> recover/cabinet-wip-from-stash
 
 Порядок правок при расхождении: **§6** → матрица в **`UNIFIED_…`** → заголовки **`test('…')`** в смоке.
 
@@ -120,10 +131,17 @@ AI boundary (client-safe): клиентские компоненты не выз
 
 ## CI (монорепо `Projects`)
 
+<<<<<<< HEAD
 | Слой              | Где                                                           | Содержание                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | ----------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Основной workflow | **`.github/workflows/synth-1-full-ci.yml`** (корень монорепо) | **`ci-fast`**: format, lint, legacy-archive guard (PR), jest, **`npm run typecheck`** (**`continue-on-error: true`** — техдолг полного дерева), **`npm run build:isolated`**, **`test:e2e:light`**. **`ci-heavy`** после успешного ci-fast: лейбл **`ci-heavy`** на PR (в т.ч. при **позднем** навешивании — в workflow включены события **`labeled`/`unlabeled`**), **`schedule`** (пн 05:00 UTC), **`workflow_dispatch`** → **`test:e2e:verification`** + **`test:e2e:api`**. |
 | Пакет в изоляции  | **`_ai-share/synth-1-full/.github/workflows/ci.yml`**         | Без heavy; локально **`npm run test:e2e:heavy`** или PR в монорепо с лейблом.                                                                                                                                                                                                                                                                                                                                                                                                   |
+=======
+| Слой              | Где                                                           | Содержание                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ----------------- | ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Основной workflow | **`.github/workflows/synth-1-full-ci.yml`** (корень монорепо) | **`changes`** (`paths-filter`) + **`ci-fast`**: format, lint, legacy-archive guard (PR), jest, **`npm run typecheck`** (**`continue-on-error: true`** — техдолг полного дерева), **`npm run build:isolated`**, **`test:e2e:light`**, **`test:e2e:cabinet-hubs`**, условно **`test:e2e:shop-retail`**. **`ci-heavy`** после успешного ci-fast: лейбл **`ci-heavy`** на PR (в т.ч. при **позднем** навешивании — в workflow включены события **`labeled`/`unlabeled`**), **`schedule`** (пн 05:00 UTC), **`workflow_dispatch`** → **`test:e2e:verification`** + **`test:e2e:api`**. |
+| Пакет в изоляции  | **`_ai-share/synth-1-full/.github/workflows/ci.yml`**         | То же условие для **`shop-retail`**; без heavy; локально **`npm run test:e2e:heavy`** или PR в монорепо с лейблом.                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+>>>>>>> recover/cabinet-wip-from-stash
 
 Полный **`tsc`** в CI настроен с **`continue-on-error: true`** — merge не зависит от «зелёности» всего дерева (политика монорепо). Локально **`npm run typecheck`** нередко уже проходит без ошибок; цель «строгость всего приложения» — снимать флаг и чинить регрессии пакетами, не ломая demo-контур **stock-upload + B2B hot paths** (поднабор — **`npm run typecheck:order-subset`**).
 
@@ -137,7 +155,7 @@ Known warnings сборки:
 ## Продукт / prod (вне demo-матрицы)
 
 - **Brand vs shop inventory (tenant / owner)** и границы агрегата **Order** — **`TASK_QUEUE.md`**, **`docs/domain-model/*`**; не сводится к копированию UI.
-- **Монорепо:** до фиксации «только full» и фаз **D/E** (**`docs/MONOREPO_INTEGRATION.md`**) каталоги **`synth-1/`** и **`Projects/src/`** формально остаются — см. **`AGENTS.md`**.
+- **Монорепо — конечное состояние:** **канон один — `synth-1-full`**. Каталоги **`synth-1/`** и **`Projects/src/`** — временные доноры. **Правило порядка:** сначала **перенести** нужное в full с **улучшениями** и **настроенными связями** (маршруты, навигация, entity-links, RBAC, API, E2E), затем **заморозить** и **отключить** доноры; не отключать донор, пока перенос по плану не закрыт. После фаз **D/E** (**`docs/MONOREPO_INTEGRATION.md`**) и приёмки — удалить деревья доноров. Политика: **`docs/CANONICAL_FULL.md`**, **`AGENTS.md`**.
 
 ## Кросс-кабинет shop inventory (demo)
 

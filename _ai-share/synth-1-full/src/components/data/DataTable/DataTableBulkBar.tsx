@@ -24,9 +24,13 @@ export function DataTableBulkBar({
         {actions.map((a) => (
           <Button
             key={a.label}
+<<<<<<< HEAD
             variant={
               a.tone === 'primary' ? 'primary' : a.tone === 'danger' ? 'secondary' : 'secondary'
             }
+=======
+            variant={a.tone === 'primary' ? 'cta' : a.tone === 'danger' ? 'secondary' : 'secondary'}
+>>>>>>> recover/cabinet-wip-from-stash
             onClick={a.onClick}
             className={
               a.tone === 'danger'

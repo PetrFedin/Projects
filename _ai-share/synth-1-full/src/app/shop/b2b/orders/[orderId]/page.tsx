@@ -18,7 +18,10 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import {
+<<<<<<< HEAD
   ChevronLeft,
+=======
+>>>>>>> recover/cabinet-wip-from-stash
   File,
   Truck,
   MoreVertical,
@@ -79,6 +82,15 @@ import { ReplaceLineDialog } from '@/components/b2b/ReplaceLineDialog';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BOrderLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
+<<<<<<< HEAD
+=======
+import { RegistryPageShell } from '@/components/design-system';
+import { ShopB2bToolHeader, ShopB2bToolTitle } from '@/components/shop/ShopB2bToolHeader';
+import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
+import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
+import { B2bOptOrderIdCopy } from '@/components/shop/B2bOptOrderIdCopy';
+import { registryFeedLayout } from '@/lib/ui/registry-feed-layout';
+>>>>>>> recover/cabinet-wip-from-stash
 import { useOrderShipmentTracking } from '@/hooks/use-b2b-shipment';
 import { getCarrierTrackingUrl } from '@/lib/b2b/carrier-tracking-url';
 
@@ -201,6 +213,7 @@ export default function ShopB2BOrderDetailsPage({
   ];
 
   return (
+<<<<<<< HEAD
     <div className="space-y-4">
       <div className="mb-8 flex items-center gap-3">
         <Button variant="outline" size="icon" asChild>
@@ -390,11 +403,211 @@ export default function ShopB2BOrderDetailsPage({
             Скрыть
           </Button>
         </div>
+=======
+    <RegistryPageShell className="space-y-4">
+      <ShopAnalyticsSegmentErpStrip className="mb-2" />
+      <ShopB2bToolHeader
+        backHref={ROUTES.shop.b2bOrders}
+        className="mb-8"
+        leading={
+          <div className="min-w-0 space-y-1">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+              <ShopB2bToolTitle visual="sm">
+                Заказ <span className="text-accent-primary">Syntha</span>
+              </ShopB2bToolTitle>
+              <B2bOptOrderIdCopy orderId={params.orderId} showLabel />
+              <Badge className="bg-accent-primary border-none px-3 py-1 text-[10px] font-black uppercase text-white">
+                В производстве
+              </Badge>
+              {paymentStatus ? (
+                <span className="flex flex-wrap items-center gap-1.5">
+                  <Badge
+                    variant="outline"
+                    className={cn(
+                      'px-3 py-1 text-[10px] font-black uppercase',
+                      paymentStatus === 'paid' &&
+                        'border-emerald-400 bg-emerald-50 text-emerald-700',
+                      paymentStatus === 'partial' && 'border-amber-400 bg-amber-50 text-amber-700',
+                      (paymentStatus === 'pending' || paymentStatus === 'overdue') &&
+                        'border-rose-400 bg-rose-50 text-rose-700',
+                      paymentStatus === 'cancelled' &&
+                        'border-border-default bg-bg-surface2 text-text-secondary'
+                    )}
+                  >
+                    {PAYMENT_LABELS[paymentStatus] ?? paymentStatus}
+                    {paidAmount != null &&
+                      paidAmount > 0 &&
+                      ` · ${paidAmount.toLocaleString('ru-RU')} ₽`}
+                  </Badge>
+                  {(paymentStatus === 'pending' ||
+                    paymentStatus === 'partial' ||
+                    paymentStatus === 'overdue') && (
+                    <Button
+                      size="sm"
+                      className="h-8 gap-1 rounded-lg text-[10px] font-bold uppercase"
+                      asChild
+                    >
+                      <Link
+                        href={`${ROUTES.shop.b2bPayment}?orderId=${encodeURIComponent(params.orderId)}`}
+                      >
+                        <CreditCard className="h-3.5 w-3" /> Оплатить
+                      </Link>
+                    </Button>
+                  )}
+                </span>
+              ) : null}
+              {orderOnHold ? (
+                <Badge
+                  variant="outline"
+                  className="flex items-center gap-1 border-amber-400 bg-amber-50 px-3 py-1 text-[10px] font-black uppercase text-amber-700"
+                >
+                  <PauseCircle className="h-3 w-3" /> На удержании
+                </Badge>
+              ) : null}
+            </div>
+            <p className={cn(registryFeedLayout.shopB2bToolMeta, 'text-text-muted text-[10px]')}>
+              B2B Wholesale Order • Season SS'26
+            </p>
+          </div>
+        }
+        trailing={
+          <div className="flex flex-wrap items-center gap-2">
+            <Button
+              variant="ghost"
+              className="h-10 gap-2 rounded-xl px-4 text-[10px] font-black uppercase tracking-widest"
+              asChild
+            >
+              <Link href={reorderHref}>
+                <Copy className="h-4 w-4" /> Дублировать / Reorder
+              </Link>
+            </Button>
+            <Button
+              variant="ghost"
+              className="h-10 gap-2 rounded-xl px-4 text-[10px] font-black uppercase tracking-widest"
+              asChild
+            >
+              <Link href={saveAsTemplateHref}>
+                <BookmarkPlus className="h-4 w-4" /> Сохранить как шаблон
+              </Link>
+            </Button>
+            <Dialog open={amendmentDialogOpen} onOpenChange={setAmendmentDialogOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="h-10 gap-2 rounded-xl px-4 text-[10px] font-black uppercase tracking-widest text-amber-600 hover:bg-amber-50"
+                >
+                  <FileEdit className="h-4 w-4" /> Запросить изменение
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Запрос на изменение заказа</DialogTitle>
+                  <DialogDescription>
+                    Опишите, что нужно изменить (позиции, количество, отмена строк). Бренд
+                    рассмотрит заявку в разделе «Заявки на изменение заказа».
+                  </DialogDescription>
+                </DialogHeader>
+                <Textarea
+                  value={amendmentText}
+                  onChange={(e) => setAmendmentText(e.target.value)}
+                  placeholder="Например: увеличить qty по артикулу CTP-26-001 на 20 шт; отменить позицию CTP-26-003…"
+                  className="min-h-[100px]"
+                />
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setAmendmentDialogOpen(false)}>
+                    Отмена
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      toast({
+                        title: 'Заявка отправлена',
+                        description: 'Бренд рассмотрит запрос на изменение заказа.',
+                      });
+                      setAmendmentText('');
+                      setAmendmentDialogOpen(false);
+                    }}
+                  >
+                    Отправить
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+            {orderOnHold && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-10 gap-2 rounded-xl border-amber-300 px-4 text-[10px] font-black uppercase tracking-widest text-amber-700"
+                onClick={() => {
+                  setOrderHoldReleaseRequested(true);
+                  toast({
+                    title: 'Запрос отправлен',
+                    description: 'Бренд рассмотрит запрос на снятие заказа с удержания.',
+                  });
+                }}
+                disabled={orderHoldReleaseRequested}
+              >
+                {orderHoldReleaseRequested
+                  ? 'Запрос на снятие отправлен'
+                  : 'Запросить снятие с удержания'}
+              </Button>
+            )}
+            {isAcknowledgmentEligible && !orderAcknowledged && (
+              <Button
+                className="h-10 gap-2 rounded-xl bg-emerald-600 px-4 text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700"
+                onClick={() => {
+                  setOrderAcknowledged(true);
+                  toast({
+                    title: 'Заказ подтверждён',
+                    description: 'Вы подтвердили получение условий заказа.',
+                  });
+                }}
+              >
+                <CheckCircle2 className="h-4 w-4" /> Подтвердить заказ
+              </Button>
+            )}
+            <Button
+              variant="ghost"
+              className="h-10 rounded-xl px-4 text-[10px] font-black uppercase tracking-widest text-rose-600 hover:bg-rose-50"
+            >
+              <XCircle className="h-4 w-4" /> Отменить
+            </Button>
+          </div>
+        }
+      />
+
+      {/* Уведомление «Заказ отгружен» — при статусе отгружен/в пути */}
+      {shipmentTracking?.isShipped && !shipmentBannerDismissed && (
+        <div className="flex items-center justify-between gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm">
+          <div className="flex items-center gap-2">
+            <Truck className="h-4 w-4 text-emerald-600" />
+            <span className="font-semibold text-emerald-800">Заказ отгружен</span>
+            {shipmentTracking.shipDate && (
+              <span className="text-emerald-700">
+                · Отгрузка {new Date(shipmentTracking.shipDate).toLocaleDateString('ru-RU')}
+              </span>
+            )}
+            {shipmentTracking.trackNumber && (
+              <span className="font-mono text-xs text-emerald-600">
+                Трек: {shipmentTracking.trackNumber}
+              </span>
+            )}
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-emerald-700 hover:bg-emerald-100"
+            onClick={() => setShipmentBannerDismissed(true)}
+          >
+            Скрыть
+          </Button>
+        </div>
+>>>>>>> recover/cabinet-wip-from-stash
       )}
 
       <div className="grid gap-3 md:grid-cols-3">
         <div className="space-y-4 md:col-span-2">
           {/* --- LIVE PRODUCTION TRACKER --- */}
+<<<<<<< HEAD
           <Card className="relative overflow-hidden border-2 border-indigo-100 bg-indigo-50/20">
             <div className="absolute right-0 top-0 p-4 opacity-5">
               <Truck className="h-32 w-32 text-indigo-600" />
@@ -411,13 +624,35 @@ export default function ShopB2BOrderDetailsPage({
                   </CardDescription>
                 </div>
                 <Badge className="border-indigo-100 bg-white text-[8px] font-black uppercase text-indigo-600">
+=======
+          <Card className="border-accent-primary/20 bg-accent-primary/10 relative overflow-hidden border-2">
+            <div className="absolute right-0 top-0 p-4 opacity-5">
+              <Truck className="text-accent-primary h-32 w-32" />
+            </div>
+            <CardHeader className="border-accent-primary/20 relative z-10 border-b pb-4">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <CardTitle className="text-accent-primary flex items-center gap-2 text-sm font-black uppercase tracking-widest">
+                    <div className="bg-accent-primary h-2 w-2 animate-ping rounded-full" />
+                    Live from Factory: Москва, Цех #4
+                  </CardTitle>
+                  <CardDescription className="text-text-secondary text-[10px] font-bold uppercase">
+                    Прямая трансляция статуса производства вашего заказа
+                  </CardDescription>
+                </div>
+                <Badge className="text-accent-primary border-accent-primary/20 bg-white text-[8px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                   Intel OS Sync
                 </Badge>
               </div>
             </CardHeader>
             <CardContent className="relative z-10 pt-6">
               <div className="relative flex justify-between">
+<<<<<<< HEAD
                 <div className="absolute left-0 right-0 top-4 -z-0 h-0.5 bg-slate-200" />
+=======
+                <div className="bg-border-subtle absolute left-0 right-0 top-4 -z-0 h-0.5" />
+>>>>>>> recover/cabinet-wip-from-stash
                 {productionStages.map((stage, i) => (
                   <div key={i} className="relative z-10 flex w-1/4 flex-col items-center gap-3">
                     <div
@@ -426,8 +661,13 @@ export default function ShopB2BOrderDetailsPage({
                         stage.status === 'completed'
                           ? 'border-emerald-500 bg-emerald-500 text-white shadow-lg shadow-emerald-200'
                           : stage.status === 'current'
+<<<<<<< HEAD
                             ? 'scale-110 border-indigo-600 bg-white text-indigo-600 shadow-xl'
                             : 'border-slate-200 bg-white text-slate-300'
+=======
+                            ? 'border-accent-primary text-accent-primary scale-110 bg-white shadow-xl'
+                            : 'border-border-default text-text-muted bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {stage.status === 'completed' ? (
@@ -440,13 +680,18 @@ export default function ShopB2BOrderDetailsPage({
                       <p
                         className={cn(
                           'text-[9px] font-black uppercase tracking-tight',
+<<<<<<< HEAD
                           stage.status === 'current' ? 'text-indigo-600' : 'text-slate-500'
+=======
+                          stage.status === 'current' ? 'text-accent-primary' : 'text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                         )}
                       >
                         {stage.name}
                       </p>
                       {stage.status === 'current' && (
                         <div className="mx-auto w-12">
+<<<<<<< HEAD
                           <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-indigo-100">
                             <div
                               className="h-full animate-pulse bg-indigo-600"
@@ -454,6 +699,15 @@ export default function ShopB2BOrderDetailsPage({
                             />
                           </div>
                           <p className="mt-1 text-[8px] font-bold text-indigo-600">
+=======
+                          <div className="bg-accent-primary/15 mt-1 h-1 w-full overflow-hidden rounded-full">
+                            <div
+                              className="bg-accent-primary h-full animate-pulse"
+                              style={{ width: `${stage.progress}%` }}
+                            />
+                          </div>
+                          <p className="text-accent-primary mt-1 text-[8px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                             {stage.progress}%
                           </p>
                         </div>
@@ -465,7 +719,11 @@ export default function ShopB2BOrderDetailsPage({
             </CardContent>
           </Card>
 
+<<<<<<< HEAD
           <Card className="overflow-hidden rounded-xl border-slate-100 shadow-sm">
+=======
+          <Card className="border-border-subtle overflow-hidden rounded-xl shadow-sm">
+>>>>>>> recover/cabinet-wip-from-stash
             <CardHeader>
               <CardTitle>Статус заказа</CardTitle>
             </CardHeader>
@@ -510,7 +768,11 @@ export default function ShopB2BOrderDetailsPage({
             </CardContent>
           </Card>
           {/* JOOR: отгрузки (ASN) по заказу — трекинг и документы */}
+<<<<<<< HEAD
           <Card className="border-slate-100">
+=======
+          <Card className="border-border-subtle">
+>>>>>>> recover/cabinet-wip-from-stash
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2 text-sm">
@@ -526,25 +788,43 @@ export default function ShopB2BOrderDetailsPage({
             </CardHeader>
             <CardContent>
               <ul className="space-y-2">
+<<<<<<< HEAD
                 <li className="flex items-center justify-between rounded-lg bg-slate-50 p-2 text-sm">
+=======
+                <li className="bg-bg-surface2 flex items-center justify-between rounded-lg p-2 text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                   <span className="font-mono text-xs">B2B-0012-S1</span>
                   <Badge variant="outline" className="text-[10px]">
                     В пути
                   </Badge>
+<<<<<<< HEAD
                   <span className="text-xs text-slate-500">ETA 15.09.2024</span>
                 </li>
                 <li className="flex items-center justify-between rounded-lg bg-slate-50 p-2 text-sm">
+=======
+                  <span className="text-text-secondary text-xs">ETA 15.09.2024</span>
+                </li>
+                <li className="bg-bg-surface2 flex items-center justify-between rounded-lg p-2 text-sm">
+>>>>>>> recover/cabinet-wip-from-stash
                   <span className="font-mono text-xs">B2B-0012-S2</span>
                   <Badge variant="secondary" className="text-[10px]">
                     Готовится
                   </Badge>
+<<<<<<< HEAD
                   <span className="text-xs text-slate-500">Drop 2</span>
+=======
+                  <span className="text-text-secondary text-xs">Drop 2</span>
+>>>>>>> recover/cabinet-wip-from-stash
                 </li>
               </ul>
             </CardContent>
           </Card>
           {/* Отгрузка и доставка: дата отгрузки, трек, этапы. Инфраструктура: загрузка/ошибка/refetch. */}
+<<<<<<< HEAD
           <Card className="border-slate-100">
+=======
+          <Card className="border-border-subtle">
+>>>>>>> recover/cabinet-wip-from-stash
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <div>
                 <CardTitle className="flex items-center gap-2 text-sm">
@@ -566,9 +846,15 @@ export default function ShopB2BOrderDetailsPage({
             <CardContent className="space-y-4">
               {shipmentLoading && !shipmentTracking && (
                 <div className="animate-pulse space-y-3">
+<<<<<<< HEAD
                   <div className="h-4 w-3/4 rounded bg-slate-100" />
                   <div className="h-16 rounded bg-slate-100" />
                   <div className="h-24 rounded bg-slate-100" />
+=======
+                  <div className="bg-bg-surface2 h-4 w-3/4 rounded" />
+                  <div className="bg-bg-surface2 h-16 rounded" />
+                  <div className="bg-bg-surface2 h-24 rounded" />
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
               )}
               {shipmentError && shipmentTracking && (
@@ -604,7 +890,11 @@ export default function ShopB2BOrderDetailsPage({
                         <p className="shrink-0 text-[10px] font-bold uppercase text-muted-foreground">
                           Трек-номер
                         </p>
+<<<<<<< HEAD
                         <code className="rounded bg-slate-100 px-2 py-1 font-mono text-xs">
+=======
+                        <code className="bg-bg-surface2 rounded px-2 py-1 font-mono text-xs">
+>>>>>>> recover/cabinet-wip-from-stash
                           {shipmentTracking.trackNumber}
                         </code>
                         <Button
@@ -639,7 +929,13 @@ export default function ShopB2BOrderDetailsPage({
                             {shipmentTracking.carrier}
                           </a>
                         ) : (
+<<<<<<< HEAD
                           <span className="text-xs text-slate-500">{shipmentTracking.carrier}</span>
+=======
+                          <span className="text-text-secondary text-xs">
+                            {shipmentTracking.carrier}
+                          </span>
+>>>>>>> recover/cabinet-wip-from-stash
                         )}
                       </div>
                     )}
@@ -712,7 +1008,11 @@ export default function ShopB2BOrderDetailsPage({
                   </li>
                 ))}
                 <li className="flex items-start gap-3 text-muted-foreground">
+<<<<<<< HEAD
                   <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100">
+=======
+                  <div className="bg-bg-surface2 mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+>>>>>>> recover/cabinet-wip-from-stash
                     <FileText className="h-3.5 w-3.5" />
                   </div>
                   <div>
@@ -724,7 +1024,11 @@ export default function ShopB2BOrderDetailsPage({
             </CardContent>
           </Card>
           {orderNotes !== undefined && (
+<<<<<<< HEAD
             <Card className="border-indigo-100 bg-indigo-50/20">
+=======
+            <Card className="border-accent-primary/20 bg-accent-primary/10">
+>>>>>>> recover/cabinet-wip-from-stash
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2 text-sm">
                   JOOR: Заметки к заказу
@@ -739,7 +1043,13 @@ export default function ShopB2BOrderDetailsPage({
                     className="min-h-[80px]"
                   />
                 ) : (
+<<<<<<< HEAD
                   <p className="whitespace-pre-wrap text-sm text-slate-700">{orderNotes || '—'}</p>
+=======
+                  <p className="text-text-primary whitespace-pre-wrap text-sm">
+                    {orderNotes || '—'}
+                  </p>
+>>>>>>> recover/cabinet-wip-from-stash
                 )}
               </CardContent>
             </Card>
@@ -952,8 +1262,33 @@ export default function ShopB2BOrderDetailsPage({
         </div>
       </div>
 
+<<<<<<< HEAD
       <RelatedModulesBlock
         links={getShopB2BOrderLinks(params.orderId)}
+=======
+      <div className="border-border-subtle flex flex-wrap items-center gap-2 border-t pt-4">
+        <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+          См. также
+        </span>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link href={ROUTES.shop.analytics} data-testid="shop-b2b-order-detail-retail-link">
+            Розничная аналитика
+          </Link>
+        </Button>
+        <Button variant="outline" size="sm" className="text-xs font-black uppercase" asChild>
+          <Link
+            href={ROUTES.shop.analyticsFootfall}
+            data-testid="shop-b2b-order-detail-footfall-link"
+          >
+            Трафик по зонам
+          </Link>
+        </Button>
+        <B2bMarginAnalysisHubButton />
+      </div>
+
+      <RelatedModulesBlock
+        links={getShopB2BOrderLinks()}
+>>>>>>> recover/cabinet-wip-from-stash
         title="JOOR: матрица, reorder, выставки"
       />
 
@@ -979,6 +1314,10 @@ export default function ShopB2BOrderDetailsPage({
           onCancelLine={handleCancelLine}
         />
       )}
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

@@ -88,11 +88,19 @@ export class MockSearchRepo implements SearchRepo {
           (p as any).gender !== 'unisex'
         )
           return false;
+<<<<<<< HEAD
         if (params.gender === 'kids' && (p as any).gender !== 'kids' && p.category !== 'Детям')
           return false;
         if (params.gender === 'beauty' && p.category !== 'Beauty' && p.category !== 'Красота')
           return false;
         if (params.gender === 'home' && p.category !== 'Home' && p.category !== 'Дом') return false;
+=======
+        const cat = p.category as string;
+        if (params.gender === 'kids' && (p as any).gender !== 'kids' && cat !== 'Детям')
+          return false;
+        if (params.gender === 'beauty' && cat !== 'Beauty' && cat !== 'Красота') return false;
+        if (params.gender === 'home' && cat !== 'Home' && cat !== 'Дом') return false;
+>>>>>>> recover/cabinet-wip-from-stash
       }
       if (typeof params.priceMin === 'number' && p.price < params.priceMin) return false;
       if (typeof params.priceMax === 'number' && p.price > params.priceMax) return false;

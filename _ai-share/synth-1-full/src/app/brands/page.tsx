@@ -282,7 +282,11 @@ export default function BrandsPage() {
         <div className="border-border-default flex flex-col gap-3 border-b pb-8 md:flex-row md:items-end md:justify-between">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
+<<<<<<< HEAD
               <div className="group relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-slate-900">
+=======
+              <div className="bg-text-primary group relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl">
+>>>>>>> recover/cabinet-wip-from-stash
                 <Store className="relative z-10 h-5 w-5 text-white" />
                 <div className="from-accent-primary to-accent-hover absolute inset-0 bg-gradient-to-tr opacity-0 transition-opacity group-hover:opacity-100" />
               </div>
@@ -362,7 +366,11 @@ export default function BrandsPage() {
                 'group flex min-w-[120px] flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border px-2 py-2.5 text-[8px] font-black uppercase tracking-tighter transition-all',
                 categoryFilter === cat
                   ? 'button-glimmer border-black bg-black text-white shadow-lg'
+<<<<<<< HEAD
                   : 'border-slate-200 bg-white text-slate-400 hover:text-slate-600'
+=======
+                  : 'text-text-muted hover:text-text-secondary border-border-default bg-white'
+>>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               <span className="truncate">{cat}</span>
@@ -582,7 +590,11 @@ export default function BrandsPage() {
                     productCount={productCount}
                     displaySettings={displaySettings?.grid}
                     viewRole={viewRole}
+<<<<<<< HEAD
                     onPartnershipClick={handlePartnershipClick}
+=======
+                    onRequestPartnership={handlePartnershipClick}
+>>>>>>> recover/cabinet-wip-from-stash
                     onAnalysisClick={handleAnalysisClick}
                   />
                 ) : (
@@ -591,7 +603,11 @@ export default function BrandsPage() {
                     productCount={productCount}
                     displaySettings={displaySettings?.list}
                     viewRole={viewRole}
+<<<<<<< HEAD
                     onPartnershipClick={handlePartnershipClick}
+=======
+                    onRequestPartnership={handlePartnershipClick}
+>>>>>>> recover/cabinet-wip-from-stash
                     onAnalysisClick={handleAnalysisClick}
                   />
                 )}
@@ -758,7 +774,11 @@ export default function BrandsPage() {
                     <h4
                       className={cn(
                         'mb-1 font-headline text-sm font-bold uppercase tracking-tight',
+<<<<<<< HEAD
                         isSelected ? 'text-slate-900' : 'text-text-primary'
+=======
+                        isSelected ? 'text-text-primary' : 'text-text-primary'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {segment.name}
@@ -766,7 +786,11 @@ export default function BrandsPage() {
                     <p
                       className={cn(
                         'line-clamp-2 text-[11px] leading-relaxed',
+<<<<<<< HEAD
                         isSelected ? 'text-slate-700' : 'text-text-secondary'
+=======
+                        isSelected ? 'text-text-primary' : 'text-text-secondary'
+>>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {segment.description}
@@ -779,7 +803,11 @@ export default function BrandsPage() {
 
           <div className="bg-bg-surface border-border-subtle flex justify-end border-t p-4">
             <Button
+<<<<<<< HEAD
               className="button-glimmer button-professional h-12 rounded-2xl border-none !bg-black px-10 font-mono text-[10px] uppercase tracking-widest text-white shadow-xl shadow-slate-200/50 transition-all duration-500 hover:!bg-black"
+=======
+              className="button-glimmer button-professional h-12 rounded-2xl border-none !bg-black px-10 font-mono text-[10px] uppercase tracking-widest text-white shadow-md shadow-xl transition-all duration-500 hover:!bg-black"
+>>>>>>> recover/cabinet-wip-from-stash
               onClick={() => setShowSegmentDirectory(false)}
             >
               {activeSegments.length > 0 ? (
@@ -942,7 +970,11 @@ export default function BrandsPage() {
                 Отмена
               </Button>
               <Button
+<<<<<<< HEAD
                 className="h-10 rounded-xl bg-black px-6 font-mono text-[10px] uppercase tracking-widest text-white hover:bg-slate-900"
+=======
+                className="hover:bg-text-primary/90 h-10 rounded-xl bg-black px-6 font-mono text-[10px] uppercase tracking-widest text-white"
+>>>>>>> recover/cabinet-wip-from-stash
                 onClick={() => setShowBrandSelector(false)}
               >
                 Применить

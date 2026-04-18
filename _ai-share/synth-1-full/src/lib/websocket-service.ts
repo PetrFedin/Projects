@@ -3,7 +3,7 @@
  * Connects to NEXT_PUBLIC_WS_URL when set, falls back to polling.
  */
 
-export type WsEventType = 'order' | 'qc' | 'edo' | 'sla' | 'payment' | 'po' | 'system';
+export type WsEventType = 'order' | 'qc' | 'edo' | 'sla' | 'payment' | 'po' | 'system' | 'ping';
 
 export interface WsEvent {
   type: WsEventType;

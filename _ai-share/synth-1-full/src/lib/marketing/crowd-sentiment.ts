@@ -1,3 +1,7 @@
+import { eventBus } from '@/lib/order/domain-events';
+import { DomainEventTypes } from '@/lib/order/domain-event-catalog';
+import type { DomainEvent } from '@/lib/production/execution-linkage';
+
 export interface SentimentData {
   region: string;
   topic: string; // e.g., "sustainable_sneakers", "y2k_cyberpunk_jacket"
@@ -11,6 +15,37 @@ export interface SentimentAnalysisResult {
   viralPotentialScore: number; // 0.0 to 1.0
   recommendedAction: 'launch_campaign' | 'increase_price' | 'monitor' | 'damage_control';
   reasoning: string;
+}
+
+/** Нормализация входа перед публикацией доменного события (NaN, границы, trim строк). */
+export function normalizeSentimentPayload(
+  raw: Partial<SentimentData> & {
+    region?: string;
+    topic?: string;
+    valence?: number;
+    arousal?: number;
+    volume?: number;
+  }
+): SentimentData {
+  const region = typeof raw.region === 'string' ? raw.region.trim() : '';
+  const topic = typeof raw.topic === 'string' ? raw.topic.trim() : '';
+  const v = raw.valence;
+  const a = raw.arousal;
+  const vol = raw.volume;
+  const valence = typeof v === 'number' && Number.isFinite(v) ? v : NaN;
+  const arousal = typeof a === 'number' && Number.isFinite(a) ? a : NaN;
+  const volume = typeof vol === 'number' && Number.isFinite(vol) ? vol : NaN;
+  return {
+    region,
+    topic,
+    valence: Math.max(-1, Math.min(1, Number.isNaN(valence) ? 0 : valence)),
+    arousal: Math.max(0, Math.min(1, Number.isNaN(arousal) ? 0 : arousal)),
+    volume: Math.max(0, Number.isNaN(volume) ? 0 : volume),
+  };
+}
+
+function nextSentimentEventId(): string {
+  return `evt-sentiment-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
 /**
@@ -58,5 +93,30 @@ export class CrowdSentimentEngine {
       recommendedAction: action,
       reasoning,
     };
+  }
+
+  /** Публикует `marketing.sentiment_spike` в шину доменных событий (идемпотентность по `dedupeKey`). */
+  public static async publishDomainSpike(args: {
+    aggregateId: string;
+    version: number;
+    data: SentimentData;
+    dedupeKey?: string;
+    correlationId?: string;
+  }): Promise<void> {
+    const payload = normalizeSentimentPayload(args.data);
+    const dedupeKey =
+      args.dedupeKey ?? `marketing.sentiment_spike:${args.aggregateId}:${args.version}`;
+    const ev: DomainEvent = {
+      eventId: nextSentimentEventId(),
+      occurredAt: new Date().toISOString(),
+      aggregateId: args.aggregateId,
+      aggregateType: 'marketing',
+      version: args.version,
+      type: DomainEventTypes.marketing.sentimentSpike,
+      payload,
+      dedupeKey,
+      correlationId: args.correlationId,
+    };
+    await eventBus.publish(ev);
   }
 }

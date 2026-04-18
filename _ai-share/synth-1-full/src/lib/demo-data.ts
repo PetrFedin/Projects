@@ -27,7 +27,7 @@ export const DEMO_DROPS = [
 
 export const DEMO_ORG = {
   id: 'syntha-1',
-  name: 'Syntha',
+  name: 'Syntha Lab',
   legal: { inn: '7707123456', kpp: '770701001', address: 'Москва, ул. Тверская, 1' },
   contacts: { email: 'brand@syntha.ru', phone: '+7 (495) 123-45-67' },
   subscription: { plan: 'Business', expires: '2026-12-31', users: 15 },

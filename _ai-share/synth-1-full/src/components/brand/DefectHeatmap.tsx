@@ -70,7 +70,11 @@ export function DefectHeatmap() {
       rate: '0.4%',
       trend: 'stable',
       severity: 'low',
+<<<<<<< HEAD
       color: 'bg-slate-200',
+=======
+      color: 'bg-border-subtle',
+>>>>>>> recover/cabinet-wip-from-stash
     },
   ];
 
@@ -92,6 +96,7 @@ export function DefectHeatmap() {
   ];
 
   return (
+<<<<<<< HEAD
     <Card className="group h-full overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm">
       <CardHeader className="flex flex-row items-center justify-between border-b border-slate-50 bg-rose-50/20 p-4">
         <div className="space-y-0.5">
@@ -100,6 +105,16 @@ export function DefectHeatmap() {
             Карта дефектов (Quality Heatmap)
           </CardTitle>
           <p className="text-[10px] font-medium uppercase tracking-tight text-slate-400">
+=======
+    <Card className="border-border-subtle group h-full overflow-hidden rounded-xl border bg-white shadow-sm">
+      <CardHeader className="border-border-subtle flex flex-row items-center justify-between border-b bg-rose-50/20 p-4">
+        <div className="space-y-0.5">
+          <CardTitle className="text-text-primary flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider">
+            <ShieldAlert className="h-4 w-4 text-rose-600" />
+            Карта дефектов (Quality Heatmap)
+          </CardTitle>
+          <p className="text-text-muted text-[10px] font-medium uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
             Анализ зон риска и причин брака по модели.
           </p>
         </div>
@@ -107,7 +122,11 @@ export function DefectHeatmap() {
           <Button
             variant="ghost"
             size="icon"
+<<<<<<< HEAD
             className="h-7 w-7 rounded-lg border border-slate-100 text-slate-400 shadow-sm hover:bg-white hover:text-rose-600"
+=======
+            className="text-text-muted border-border-subtle h-7 w-7 rounded-lg border shadow-sm hover:bg-white hover:text-rose-600"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             <Maximize2 className="h-3.5 w-3.5" />
           </Button>
@@ -117,8 +136,13 @@ export function DefectHeatmap() {
       <CardContent className="space-y-4 p-4">
         <div className="grid grid-cols-2 gap-4">
           {/* Schematic Diagram (Abstract Mock) */}
+<<<<<<< HEAD
           <div className="group/schematic relative flex aspect-[3/4] items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 p-4">
             <Box className="h-full w-full text-slate-200" />
+=======
+          <div className="bg-bg-surface2 border-border-default group/schematic relative flex aspect-[3/4] items-center justify-center rounded-2xl border p-4">
+            <Box className="text-text-muted h-full w-full" />
+>>>>>>> recover/cabinet-wip-from-stash
 
             {/* Heatmap Points */}
             <div className="absolute left-[45%] top-[20%] h-4 w-4 animate-pulse cursor-pointer rounded-full bg-rose-500 shadow-lg shadow-rose-500/50 transition-transform hover:scale-150" />
@@ -127,12 +151,23 @@ export function DefectHeatmap() {
             <div className="absolute bottom-[20%] left-[50%] h-2 w-2 -translate-x-1/2 cursor-pointer rounded-full bg-emerald-400 shadow-lg shadow-emerald-400/50 transition-transform hover:scale-150" />
 
             <div className="absolute inset-x-0 bottom-3 px-3">
+<<<<<<< HEAD
               <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-white/80 p-2 shadow-sm backdrop-blur-md">
                 <div className="space-y-0.5">
                   <p className="text-[7px] font-black uppercase tracking-widest text-slate-400">
                     Selected Zone
                   </p>
                   <p className="text-[9px] font-bold uppercase text-slate-900">Collar (Воротник)</p>
+=======
+              <div className="border-border-default flex items-center justify-between rounded-lg border bg-white/80 p-2 shadow-sm backdrop-blur-md">
+                <div className="space-y-0.5">
+                  <p className="text-text-muted text-[7px] font-black uppercase tracking-widest">
+                    Selected Zone
+                  </p>
+                  <p className="text-text-primary text-[9px] font-bold uppercase">
+                    Collar (Воротник)
+                  </p>
+>>>>>>> recover/cabinet-wip-from-stash
                 </div>
                 <Badge className="h-3.5 border-none bg-rose-100 px-1 text-[8px] font-black uppercase text-rose-600 shadow-sm">
                   CRITICAL
@@ -144,7 +179,11 @@ export function DefectHeatmap() {
           {/* Statistics & Legend */}
           <div className="flex flex-col justify-center space-y-4">
             <div className="space-y-2">
+<<<<<<< HEAD
               <h5 className="text-[9px] font-black uppercase tracking-widest text-slate-400">
+=======
+              <h5 className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                 Топ зон брака
               </h5>
               <div className="space-y-2">
@@ -155,23 +194,39 @@ export function DefectHeatmap() {
                       'group/zone flex cursor-pointer items-center justify-between rounded-xl border p-2.5 transition-all',
                       activeZone === zone.name
                         ? 'border-rose-200 bg-white shadow-sm'
+<<<<<<< HEAD
                         : 'border-slate-100 bg-slate-50 opacity-60 hover:opacity-100'
+=======
+                        : 'bg-bg-surface2 border-border-subtle opacity-60 hover:opacity-100'
+>>>>>>> recover/cabinet-wip-from-stash
                     )}
                     onClick={() => setActiveZone(zone.name)}
                   >
                     <div className="flex items-center gap-2">
                       <div className={cn('h-2 w-2 rounded-full', zone.color)} />
+<<<<<<< HEAD
                       <p className="text-[9px] font-black uppercase tracking-tight text-slate-900">
+=======
+                      <p className="text-text-primary text-[9px] font-black uppercase tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                         {zone.name}
                       </p>
                     </div>
                     <div className="text-right">
+<<<<<<< HEAD
                       <p className="text-[9px] font-bold tabular-nums text-slate-900">
+=======
+                      <p className="text-text-primary text-[9px] font-bold tabular-nums">
+>>>>>>> recover/cabinet-wip-from-stash
                         {zone.rate}
                       </p>
                       <div className="flex items-center justify-end gap-1">
                         {zone.trend === 'up' && <TrendingUp className="h-2 w-2 text-rose-500" />}
+<<<<<<< HEAD
                         <p className="text-[7px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                        <p className="text-text-muted text-[7px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                           {zone.count} cases
                         </p>
                       </div>
@@ -181,11 +236,19 @@ export function DefectHeatmap() {
               </div>
             </div>
 
+<<<<<<< HEAD
             <div className="group/dark relative space-y-2 overflow-hidden rounded-xl bg-slate-900 p-3 text-white shadow-lg shadow-slate-200/50">
               <div className="relative z-10 flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-indigo-400">
                 <Zap className="h-3 w-3 animate-pulse fill-indigo-400" /> AI Auditor
               </div>
               <p className="relative z-10 text-[9px] font-bold uppercase leading-relaxed tracking-tight text-slate-300">
+=======
+            <div className="bg-text-primary group/dark relative space-y-2 overflow-hidden rounded-xl p-3 text-white shadow-lg shadow-md">
+              <div className="text-accent-primary relative z-10 flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest">
+                <Zap className="fill-accent-primary h-3 w-3 animate-pulse" /> AI Auditor
+              </div>
+              <p className="text-text-muted relative z-10 text-[9px] font-bold uppercase leading-relaxed tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                 Причина брака: Нестабильное натяжение нити на участке №4.
               </p>
               <Button className="h-7 w-full rounded-lg border border-white/20 bg-white/10 text-[8px] font-black uppercase tracking-[0.2em] text-white shadow-md transition-all hover:bg-white/20">
@@ -204,7 +267,11 @@ export function DefectHeatmap() {
                 <DialogHeader>
                   <DialogTitle>CAPA — корректирующее действие</DialogTitle>
                 </DialogHeader>
+<<<<<<< HEAD
                 <p className="text-[10px] text-slate-500">
+=======
+                <p className="text-text-secondary text-[10px]">
+>>>>>>> recover/cabinet-wip-from-stash
                   Зона: <strong>{activeZone}</strong>
                 </p>
                 <div className="grid gap-4 py-4">

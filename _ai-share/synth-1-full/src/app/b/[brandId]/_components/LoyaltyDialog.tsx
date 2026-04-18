@@ -66,7 +66,11 @@ export function LoyaltyDialog({ isOpen, onOpenChange, displayName }: LoyaltyDial
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
+<<<<<<< HEAD
       <DialogContent className="max-w-2xl overflow-hidden rounded-xl border-none bg-slate-50 p-0 shadow-2xl">
+=======
+      <DialogContent className="bg-bg-surface2 max-w-2xl overflow-hidden rounded-xl border-none p-0 shadow-2xl">
+>>>>>>> recover/cabinet-wip-from-stash
         <DialogTitle className="sr-only">Программа лояльности {displayName}</DialogTitle>
         <DialogDescription className="sr-only">
           Детальная информация о вашем статусе и привилегиях
@@ -112,12 +116,20 @@ export function LoyaltyDialog({ isOpen, onOpenChange, displayName }: LoyaltyDial
                 {
                   label: 'Статус до',
                   value: '31.12.2026',
+<<<<<<< HEAD
                   icon: <Clock className="text-purple-500" />,
+=======
+                  icon: <Clock className="text-accent-primary" />,
+>>>>>>> recover/cabinet-wip-from-stash
                 },
               ].map((stat, i) => (
                 <Card key={i} className="rounded-2xl border-none bg-white shadow-sm">
                   <CardContent className="flex flex-col items-center gap-1 p-4 text-center">
+<<<<<<< HEAD
                     <div className="mb-1 flex h-8 w-8 items-center justify-center rounded-full bg-slate-50">
+=======
+                    <div className="bg-bg-surface2 mb-1 flex h-8 w-8 items-center justify-center rounded-full">
+>>>>>>> recover/cabinet-wip-from-stash
                       {stat.icon}
                     </div>
                     <p className="text-[9px] font-black uppercase text-muted-foreground">
@@ -142,7 +154,11 @@ export function LoyaltyDialog({ isOpen, onOpenChange, displayName }: LoyaltyDial
                 </div>
                 <span className="text-[10px] font-black uppercase text-accent">VIP Client</span>
               </div>
+<<<<<<< HEAD
               <div className="relative h-2 w-full overflow-hidden rounded-full bg-slate-100">
+=======
+              <div className="bg-bg-surface2 relative h-2 w-full overflow-hidden rounded-full">
+>>>>>>> recover/cabinet-wip-from-stash
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${loyaltyStats.progress}%` }}

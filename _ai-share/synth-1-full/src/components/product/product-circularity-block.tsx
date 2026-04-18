@@ -30,27 +30,47 @@ export const ProductCircularityBlock: React.FC<{ product: Product }> = ({ produc
 
       <div className="grid grid-cols-2 gap-4">
         <div>
+<<<<<<< HEAD
           <div className="mb-1 text-[10px] font-black uppercase text-slate-400">
             Est. Resale Value
           </div>
           <div className="text-2xl font-black tracking-tight text-slate-800">
+=======
+          <div className="text-text-muted mb-1 text-[10px] font-black uppercase">
+            Est. Resale Value
+          </div>
+          <div className="text-text-primary text-2xl font-black tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
             {circ.estimatedResaleValue.toLocaleString()} ₽
           </div>
         </div>
         <div>
+<<<<<<< HEAD
           <div className="mb-1 text-[10px] font-black uppercase text-slate-400">Recyclability</div>
           <div className="text-2xl font-black tracking-tight text-slate-800">
+=======
+          <div className="text-text-muted mb-1 text-[10px] font-black uppercase">Recyclability</div>
+          <div className="text-text-primary text-2xl font-black tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
             {circ.recyclabilityRate}%
           </div>
         </div>
       </div>
 
       <div className="mt-4 flex flex-col gap-2 rounded-lg border border-green-100 bg-white p-3 shadow-sm">
+<<<<<<< HEAD
         <div className="flex items-center justify-between text-[10px] font-black uppercase text-slate-500">
           <span>Recycled Material Content</span>
           <span className="text-green-600">{circ.recycledContent}%</span>
         </div>
         <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+=======
+        <div className="text-text-secondary flex items-center justify-between text-[10px] font-black uppercase">
+          <span>Recycled Material Content</span>
+          <span className="text-green-600">{circ.recycledContent}%</span>
+        </div>
+        <div className="bg-bg-surface2 h-1.5 w-full overflow-hidden rounded-full">
+>>>>>>> recover/cabinet-wip-from-stash
           <div
             className="h-full bg-green-500 transition-all"
             style={{ width: `${circ.recycledContent}%` }}
@@ -58,7 +78,11 @@ export const ProductCircularityBlock: React.FC<{ product: Product }> = ({ produc
         </div>
       </div>
 
+<<<<<<< HEAD
       <div className="mt-4 flex items-center justify-between border-t border-green-50 pt-3 text-[9px] font-bold uppercase italic text-slate-400">
+=======
+      <div className="text-text-muted mt-4 flex items-center justify-between border-t border-green-50 pt-3 text-[9px] font-bold uppercase italic">
+>>>>>>> recover/cabinet-wip-from-stash
         <span className="flex items-center gap-1.5">
           <Wind className="h-3 w-3" /> CO2 Saved: {circ.carbonSavings}kg
         </span>

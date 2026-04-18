@@ -11,8 +11,8 @@ export function HubSidebarHeader({
   icon: Icon,
   title,
   badge,
-  badgeClass = 'bg-slate-100 text-slate-600',
-  iconBgClass = 'bg-slate-900',
+  badgeClass = 'bg-bg-surface2 text-text-secondary',
+  iconBgClass = 'bg-text-primary',
 }: {
   href: string;
   icon: LucideIcon;
@@ -23,10 +23,17 @@ export function HubSidebarHeader({
 }) {
   const { role } = useRbac();
   return (
+<<<<<<< HEAD
     <div className="shrink-0 border-b border-slate-100 px-3 py-3">
       <Link
         href={href}
         className="group flex items-center gap-2.5 rounded-lg px-2 py-2 transition-colors hover:bg-slate-50"
+=======
+    <div className="border-border-subtle shrink-0 border-b px-3 py-3">
+      <Link
+        href={href}
+        className="hover:bg-bg-surface2 group flex items-center gap-2.5 rounded-lg px-2 py-2 transition-colors"
+>>>>>>> recover/cabinet-wip-from-stash
       >
         <div
           className={cn(
@@ -37,7 +44,11 @@ export function HubSidebarHeader({
           <Icon className="h-4 w-4" />
         </div>
         <div className="min-w-0 flex-1">
+<<<<<<< HEAD
           <p className="truncate text-[10px] font-black uppercase leading-tight tracking-tight text-slate-900">
+=======
+          <p className="text-text-primary truncate text-[10px] font-black uppercase leading-tight tracking-tight">
+>>>>>>> recover/cabinet-wip-from-stash
             {title}
           </p>
           <div className="mt-0.5 flex items-center gap-1.5">
@@ -46,7 +57,11 @@ export function HubSidebarHeader({
                 {badge}
               </Badge>
             )}
+<<<<<<< HEAD
             <span className="text-[8px] font-bold capitalize text-slate-400">{role}</span>
+=======
+            <span className="text-text-muted text-[8px] font-bold capitalize">{role}</span>
+>>>>>>> recover/cabinet-wip-from-stash
           </div>
         </div>
       </Link>

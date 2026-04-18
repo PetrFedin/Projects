@@ -17,7 +17,8 @@ import Image from 'next/image';
 import { products } from '@/lib/products';
 import { ArchiveRestore, Package, Layers, Archive } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
+import { ROUTES } from '@/lib/routes';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 const archivedProducts = products.slice(8, 11).map((p) => ({
   ...p,
@@ -41,6 +42,7 @@ export default function ArchivePage() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="space-y-4">
       <SectionInfoCard
         title="Архив товаров"
@@ -55,10 +57,25 @@ export default function ArchivePage() {
             </Badge>
             <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
               <Link href="/brand/products">
+=======
+    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <RegistryPageHeader
+        title="Архив товаров"
+        leadPlain="Товары, снятые с продажи или неактивные. Связь с каталогом Products, остатками Inventory и матрицей SKU."
+        actions={
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <Archive className="size-6 shrink-0 text-muted-foreground" aria-hidden />
+            <Badge variant="outline" className="text-[9px]">
+              Archive
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.products}>
+>>>>>>> recover/cabinet-wip-from-stash
                 <Package className="mr-1 h-3 w-3" /> Products
               </Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+<<<<<<< HEAD
               <Link href="/brand/inventory">Inventory</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
@@ -67,11 +84,25 @@ export default function ArchivePage() {
               </Link>
             </Button>
           </>
+=======
+              <Link href={ROUTES.brand.inventory}>Inventory</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.productsMatrix}>
+                <Layers className="mr-1 h-3 w-3" /> Matrix
+              </Link>
+            </Button>
+          </div>
+>>>>>>> recover/cabinet-wip-from-stash
         }
       />
       <Card>
         <CardHeader>
+<<<<<<< HEAD
           <CardTitle>Архив товаров</CardTitle>
+=======
+          <CardTitle>Таблица архива</CardTitle>
+>>>>>>> recover/cabinet-wip-from-stash
           <CardDescription>
             Здесь находятся товары, снятые с продажи или неактивные более 6 месяцев. Вы можете
             восстановить их в основной каталог.
@@ -127,6 +158,10 @@ export default function ArchivePage() {
           </Table>
         </CardContent>
       </Card>
+<<<<<<< HEAD
     </div>
+=======
+    </RegistryPageShell>
+>>>>>>> recover/cabinet-wip-from-stash
   );
 }

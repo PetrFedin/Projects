@@ -20,6 +20,7 @@ import ProductCard from '@/components/product-card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { RegistryPageShell } from '@/components/design-system';
 
 export default function OutletPage() {
   const [allOutletProducts, setAllOutletProducts] = useState<Product[]>([]);
@@ -84,6 +85,7 @@ export default function OutletPage() {
 
           switch (key) {
             case 'Бренд':
+<<<<<<< HEAD
               return value.includes(p.brand);
             case 'Сезон':
               return value.includes(p.season);
@@ -102,11 +104,39 @@ export default function OutletPage() {
               return p.clothing?.fit && value.includes(p.clothing.fit);
             case 'Скидка':
               const minDiscount = Math.min(...value.map((v) => parseInt(v as string, 10)));
+=======
+              return (value as string[]).includes(p.brand);
+            case 'Сезон':
+              return (value as string[]).includes(p.season);
+            case 'Стиль':
+              return (
+                p.tags &&
+                (value as string[]).some((opt) =>
+                  (p.tags || []).includes(opt as NonNullable<Product['tags']>[number])
+                )
+              );
+            case 'Материал':
+              return (value as string[]).includes(p.material || '');
+            case 'Цвет':
+              return (
+                p.availableColors &&
+                (value as string[]).some((colorName) =>
+                  p.availableColors?.some((c) => c.name === colorName)
+                )
+              );
+            case 'Наличие':
+              return (value as string[]).includes(p.availability || 'in_stock');
+            case 'Посадка':
+              return p.clothing?.fit && (value as string[]).includes(p.clothing.fit);
+            case 'Скидка':
+              const minDiscount = Math.min(...(value as string[]).map((v) => parseInt(v, 10)));
+>>>>>>> recover/cabinet-wip-from-stash
               const productDiscount = p.originalPrice
                 ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100)
                 : 0;
               return productDiscount >= minDiscount;
             case 'Цена':
+<<<<<<< HEAD
               const [minPrice, maxPrice] = value as number[];
               return p.price >= minPrice && p.price <= maxPrice;
             case 'Высота каблука':
@@ -120,6 +150,29 @@ export default function OutletPage() {
               return p.footwear?.upperMaterial && value.includes(p.footwear.upperMaterial);
             case 'Экологичность':
               return p.sustainability && value.some((opt) => p.sustainability.includes(opt));
+=======
+              const [minPrice, maxPrice] = value as [number, number];
+              const priceNum = typeof p.price === 'number' ? p.price : Number(p.price);
+              return Number.isFinite(priceNum) && priceNum >= minPrice && priceNum <= maxPrice;
+            case 'Высота каблука':
+              const [minHeel, maxHeel] = value as [number, number];
+              const rawHeel = p.footwear?.heelHeight;
+              const heelNum = typeof rawHeel === 'number' ? rawHeel : Number(rawHeel);
+              return Number.isFinite(heelNum) ? heelNum >= minHeel && heelNum <= maxHeel : true;
+            case 'Материал подошвы': {
+              const sole = p.footwear?.soleMaterial;
+              return typeof sole === 'string' && (value as string[]).includes(sole);
+            }
+            case 'Материал верха': {
+              const upper = p.footwear?.upperMaterial;
+              return typeof upper === 'string' && (value as string[]).includes(upper);
+            }
+            case 'Экологичность':
+              return (
+                p.sustainability &&
+                (value as string[]).some((opt) => p.sustainability.includes(opt))
+              );
+>>>>>>> recover/cabinet-wip-from-stash
             case 'AR':
               return p.hasAR === true;
             case '3D':
@@ -151,7 +204,7 @@ export default function OutletPage() {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-4">
+    <RegistryPageShell className="pb-16">
       <header className="mb-8 text-center">
         <h1 className="font-headline text-sm font-bold md:text-sm">Аутлет</h1>
         <p className="mx-auto mt-2 max-w-2xl text-sm text-muted-foreground">
@@ -259,6 +312,6 @@ export default function OutletPage() {
           )}
         </main>
       </div>
-    </div>
+    </RegistryPageShell>
   );
 }

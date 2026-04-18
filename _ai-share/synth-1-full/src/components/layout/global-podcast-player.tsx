@@ -22,7 +22,11 @@ export default function GlobalPodcastPlayer() {
         transition={{ duration: 0.3, ease: 'easeInOut' }}
         className="sticky top-0 z-[60] bg-secondary text-secondary-foreground"
       >
+<<<<<<< HEAD
         <div className="container mx-auto flex h-10 items-center justify-between px-4">
+=======
+        <div className="mx-auto flex h-10 w-full max-w-5xl items-center justify-between px-4 sm:px-6">
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="flex items-center gap-3 overflow-hidden">
             <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-md bg-muted">
               <Image

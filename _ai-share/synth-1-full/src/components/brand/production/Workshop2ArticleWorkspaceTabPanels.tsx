@@ -34,7 +34,7 @@ function newRowId(): string {
 }
 
 const field =
-  'flex h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-[12px] text-slate-800 shadow-sm placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-400';
+  'flex h-8 w-full rounded-md border border-border-default bg-white px-2 text-[12px] text-text-primary shadow-sm placeholder:text-text-muted focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-primary';
 
 function PanelShell({
   title,
@@ -56,14 +56,18 @@ function PanelShell({
   children: ReactNode;
 }) {
   return (
+<<<<<<< HEAD
     <Card className="border-slate-200">
+=======
+    <Card className="border-border-default">
+>>>>>>> recover/cabinet-wip-from-stash
       <CardContent className="space-y-4 pb-4 pt-4">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <div className="space-y-1">
-            <p className="text-[12px] font-semibold text-slate-900">{title}</p>
+            <p className="text-text-primary text-[12px] font-semibold">{title}</p>
             <CardDescription className="text-[11px]">{hint}</CardDescription>
           </div>
-          <span className="rounded border border-slate-200 bg-slate-50 px-1.5 py-0.5 font-mono text-[9px] text-slate-500">
+          <span className="border-border-default bg-bg-surface2 text-text-secondary rounded border px-1.5 py-0.5 font-mono text-[9px]">
             {dataMode === 'http' ? 'API' : 'local'}
           </span>
         </div>
@@ -71,6 +75,7 @@ function PanelShell({
           <div className="min-w-0">{children}</div>
           <aside className="space-y-3">
             {summary ? (
+<<<<<<< HEAD
               <div className="rounded-lg border border-slate-200 bg-slate-50/70 p-3">
                 <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
                   Суть этапа
@@ -92,6 +97,29 @@ function PanelShell({
                   Следующее действие
                 </p>
                 <p className="mt-1 text-[11px] font-semibold text-indigo-900">{nextAction}</p>
+=======
+              <div className="border-border-default bg-bg-surface2/70 rounded-lg border p-3">
+                <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                  Суть этапа
+                </p>
+                <p className="text-text-primary mt-1 text-[11px]">{summary}</p>
+              </div>
+            ) : null}
+            {readiness ? (
+              <div className="border-border-default rounded-lg border bg-white p-3">
+                <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                  Готовность
+                </p>
+                <p className="text-text-primary mt-1 text-[11px] font-semibold">{readiness}</p>
+              </div>
+            ) : null}
+            {nextAction ? (
+              <div className="border-accent-primary/20 bg-accent-primary/10 rounded-lg border p-3">
+                <p className="text-accent-primary text-[9px] font-black uppercase tracking-widest">
+                  Следующее действие
+                </p>
+                <p className="text-accent-primary mt-1 text-[11px] font-semibold">{nextAction}</p>
+>>>>>>> recover/cabinet-wip-from-stash
               </div>
             ) : null}
             {blockers && blockers.length > 0 ? (
@@ -118,7 +146,7 @@ function PanelShell({
 export function Workshop2ArticleSupplyPanel() {
   const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
   if (loading || !bundle) {
-    return <p className="text-[12px] text-slate-500">Загрузка…</p>;
+    return <p className="text-text-secondary text-[12px]">Загрузка…</p>;
   }
   const supply = bundle.supply!;
   const totalCost = supply.lines.reduce(
@@ -153,24 +181,33 @@ export function Workshop2ArticleSupplyPanel() {
     >
       <div className="space-y-2">
         <div className="mb-1 flex items-center justify-between">
+<<<<<<< HEAD
           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
             Спецификация материалов
           </p>
           <div className="text-right">
             <span className="text-[10px] font-bold uppercase text-slate-400">Итого (BOM): </span>
             <span className="text-[12px] font-black text-indigo-700">
+=======
+          <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+            Спецификация материалов
+          </p>
+          <div className="text-right">
+            <span className="text-text-muted text-[10px] font-bold uppercase">Итого (BOM): </span>
+            <span className="text-accent-primary text-[12px] font-black">
+>>>>>>> recover/cabinet-wip-from-stash
               {totalCost.toLocaleString()} ₽
             </span>
           </div>
         </div>
         {supply.lines.length === 0 ? (
-          <p className="text-[11px] text-slate-500">Пока нет строк — добавьте черновик.</p>
+          <p className="text-text-secondary text-[11px]">Пока нет строк — добавьте черновик.</p>
         ) : (
           <ul className="space-y-2">
             {supply.lines.map((line) => (
               <li
                 key={line.id}
-                className="grid gap-2 rounded-md border border-slate-100 bg-slate-50/80 p-2 sm:grid-cols-[1fr_minmax(0,100px)_minmax(0,120px)_auto]"
+                className="border-border-subtle bg-bg-surface2/80 grid gap-2 rounded-md border p-2 sm:grid-cols-[1fr_minmax(0,100px)_minmax(0,120px)_auto]"
               >
                 <div className="space-y-1">
                   <Input
@@ -334,7 +371,7 @@ export function Workshop2ArticleSupplyPanel() {
           </Button>
         </div>
         <label className="block space-y-1">
-          <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+          <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
             Заметка
           </span>
           <textarea
@@ -418,7 +455,11 @@ function Workshop2ArticleSampleIntakeStockSection({
     >
       <div className="space-y-4">
         <div className="space-y-2">
+<<<<<<< HEAD
           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+=======
+          <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
             Режим цепочки производства
           </p>
           <select
@@ -443,12 +484,12 @@ function Workshop2ArticleSampleIntakeStockSection({
         </div>
 
         {needSewnRf ? (
-          <label className="flex items-center gap-2 text-[12px] font-semibold text-slate-700">
+          <label className="text-text-primary flex items-center gap-2 text-[12px] font-semibold">
             <input
               type="checkbox"
               checked={Boolean(r.sewnInRussiaConfirmed)}
               onChange={(e) => setReleaseField('sewnInRussiaConfirmed', e.target.checked)}
-              className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+              className="border-border-default text-accent-primary focus:ring-accent-primary h-4 w-4 rounded"
             />
             Пошив / изготовление в РФ подтверждены
           </label>
@@ -456,7 +497,7 @@ function Workshop2ArticleSampleIntakeStockSection({
 
         <div className="grid gap-3 sm:grid-cols-2">
           <label className="block space-y-1 sm:col-span-2">
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
               Страна происхождения товара (факт после образца)
             </span>
             <Input
@@ -467,7 +508,11 @@ function Workshop2ArticleSampleIntakeStockSection({
             />
           </label>
           <label className="block space-y-1">
+<<<<<<< HEAD
             <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+=======
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
               ТН ВЭД под отгрузку
             </span>
             <Input
@@ -478,7 +523,11 @@ function Workshop2ArticleSampleIntakeStockSection({
             />
           </label>
           <label className="block space-y-1">
+<<<<<<< HEAD
             <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+=======
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
               EAN / GTIN или код партии
             </span>
             <Input
@@ -488,7 +537,11 @@ function Workshop2ArticleSampleIntakeStockSection({
             />
           </label>
           <label className="block space-y-1 sm:col-span-2">
+<<<<<<< HEAD
             <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+=======
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
               Маркировка и прослеживаемость (итог)
             </span>
             <Textarea
@@ -498,7 +551,11 @@ function Workshop2ArticleSampleIntakeStockSection({
             />
           </label>
           <label className="block space-y-1 sm:col-span-2">
+<<<<<<< HEAD
             <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+=======
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
               ТР ТС / ЕАЭС — реквизит или ссылка
             </span>
             <Input
@@ -508,7 +565,11 @@ function Workshop2ArticleSampleIntakeStockSection({
             />
           </label>
           <label className="block space-y-1 sm:col-span-2">
+<<<<<<< HEAD
             <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+=======
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
+>>>>>>> recover/cabinet-wip-from-stash
               ОКПД2 / отраслевой код (примечание)
             </span>
             <Input
@@ -518,9 +579,13 @@ function Workshop2ArticleSampleIntakeStockSection({
             />
           </label>
           <label className="block space-y-1 sm:col-span-2">
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
               Декларация соответствия / сертификат (реквизиты){' '}
+<<<<<<< HEAD
               <span className="font-normal normal-case text-slate-400">
+=======
+              <span className="text-text-muted font-normal normal-case">
+>>>>>>> recover/cabinet-wip-from-stash
                 — для импорта / вне ЕАЭС / смешанной цепочки
               </span>
             </span>
@@ -531,7 +596,7 @@ function Workshop2ArticleSampleIntakeStockSection({
             />
           </label>
           <label className="block space-y-1 sm:col-span-2">
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
               Итоговый состав (если менялся на образце)
             </span>
             <Textarea
@@ -543,7 +608,7 @@ function Workshop2ArticleSampleIntakeStockSection({
           </label>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 border-t border-slate-100 pt-3">
+        <div className="border-border-subtle flex flex-wrap items-center gap-3 border-t pt-3">
           <Button
             type="button"
             disabled={!intake.ok || fg.goldApproved}
@@ -563,7 +628,11 @@ function Workshop2ArticleSampleIntakeStockSection({
           {fg.goldApproved ? (
             <span className="text-[11px] font-medium text-emerald-700">Сэмпл уже принят.</span>
           ) : !intake.ok ? (
+<<<<<<< HEAD
             <span className="text-[11px] text-slate-500">
+=======
+            <span className="text-text-secondary text-[11px]">
+>>>>>>> recover/cabinet-wip-from-stash
               Кнопка активна после закрытия гейта приёмки.
             </span>
           ) : null}
@@ -576,7 +645,7 @@ function Workshop2ArticleSampleIntakeStockSection({
 export function Workshop2ArticleFitGoldPanel() {
   const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
 
-  if (loading || !bundle) return <p className="text-[12px] text-slate-500">Загрузка…</p>;
+  if (loading || !bundle) return <p className="text-text-secondary text-[12px]">Загрузка…</p>;
   const fg = bundle.fitGold!;
   const hasComments = fg.fitComments.length > 0;
 
@@ -600,10 +669,14 @@ export function Workshop2ArticleFitGoldPanel() {
           : 'Откройте «Склад», заполните приёмку сэмпла и нажмите «Принять сэмпл в коллекцию».'
       }
     >
-      <div className="mb-4 flex flex-wrap items-center gap-3 border-b border-slate-100 pb-4">
+      <div className="border-border-subtle mb-4 flex flex-wrap items-center gap-3 border-b pb-4">
         {fg.virtualFitScore != null ? (
           <div className="flex items-center gap-2">
+<<<<<<< HEAD
             <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+=======
+            <span className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+>>>>>>> recover/cabinet-wip-from-stash
               Virtual Fit Score:
             </span>
             <Badge className="h-5 border-emerald-100 bg-emerald-50 text-[10px] text-emerald-700">
@@ -611,21 +684,30 @@ export function Workshop2ArticleFitGoldPanel() {
             </Badge>
           </div>
         ) : (
-          <p className="text-[11px] text-slate-500">Оценка Virtual Fit ещё не рассчитана.</p>
+          <p className="text-text-secondary text-[11px]">Оценка Virtual Fit ещё не рассчитана.</p>
         )}
       </div>
 
       <div className="space-y-3">
+<<<<<<< HEAD
         <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
           Журнал комментариев
         </p>
         {fg.fitComments.length === 0 ? (
           <p className="text-[11px] italic text-slate-500">Комментариев пока нет.</p>
+=======
+        <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+          Журнал комментариев
+        </p>
+        {fg.fitComments.length === 0 ? (
+          <p className="text-text-secondary text-[11px] italic">Комментариев пока нет.</p>
+>>>>>>> recover/cabinet-wip-from-stash
         ) : (
           <ul className="space-y-2">
             {fg.fitComments.map((c) => (
               <li
                 key={c.id}
+<<<<<<< HEAD
                 className="group rounded-xl border border-slate-100 bg-white p-3 shadow-sm transition-colors hover:border-indigo-100"
               >
                 <div className="mb-1 flex items-start justify-between">
@@ -634,11 +716,25 @@ export function Workshop2ArticleFitGoldPanel() {
                       {c.by?.[0] || 'U'}
                     </div>
                     <span className="text-[10px] font-black text-slate-800">
+=======
+                className="border-border-subtle hover:border-accent-primary/20 group rounded-xl border bg-white p-3 shadow-sm transition-colors"
+              >
+                <div className="mb-1 flex items-start justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="bg-bg-surface2 text-text-secondary flex h-6 w-6 items-center justify-center rounded-full text-[9px] font-black">
+                      {c.by?.[0] || 'U'}
+                    </div>
+                    <span className="text-text-primary text-[10px] font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                       {c.by || 'Пользователь'}
                     </span>
                     <Badge
                       variant="outline"
+<<<<<<< HEAD
                       className="h-3.5 border-slate-200 bg-slate-50 text-[7px] uppercase"
+=======
+                      className="bg-bg-surface2 border-border-default h-3.5 text-[7px] uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
                     >
                       {c.role === 'designer'
                         ? 'Дизайнер'
@@ -647,9 +743,15 @@ export function Workshop2ArticleFitGoldPanel() {
                           : 'Бренд-менеджер'}
                     </Badge>
                   </div>
+<<<<<<< HEAD
                   <span className="font-mono text-[9px] text-slate-400">{c.at.split('T')[0]}</span>
                 </div>
                 <p className="text-[11px] leading-relaxed text-slate-600">{c.text}</p>
+=======
+                  <span className="text-text-muted font-mono text-[9px]">{c.at.split('T')[0]}</span>
+                </div>
+                <p className="text-text-secondary text-[11px] leading-relaxed">{c.text}</p>
+>>>>>>> recover/cabinet-wip-from-stash
               </li>
             ))}
           </ul>
@@ -718,7 +820,7 @@ export function Workshop2ArticleFitGoldPanel() {
 
 export function Workshop2ArticlePlanPoPanel() {
   const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
-  if (loading || !bundle) return <p className="text-[12px] text-slate-500">Загрузка…</p>;
+  if (loading || !bundle) return <p className="text-text-secondary text-[12px]">Загрузка…</p>;
   const plan = bundle.planPo!;
 
   return (
@@ -743,13 +845,21 @@ export function Workshop2ArticlePlanPoPanel() {
         }
       >
         {plan.purchaseOrders.length === 0 ? (
+<<<<<<< HEAD
           <p className="text-[11px] italic text-slate-500">Нет строк PO.</p>
+=======
+          <p className="text-text-secondary text-[11px] italic">Нет строк PO.</p>
+>>>>>>> recover/cabinet-wip-from-stash
         ) : (
           <ul className="space-y-2">
             {plan.purchaseOrders.map((po) => (
               <li
                 key={po.id}
+<<<<<<< HEAD
                 className="group grid gap-2 rounded-xl border border-slate-100 bg-slate-50 p-2 shadow-sm sm:grid-cols-2"
+=======
+                className="bg-bg-surface2 border-border-subtle group grid gap-2 rounded-xl border p-2 shadow-sm sm:grid-cols-2"
+>>>>>>> recover/cabinet-wip-from-stash
               >
                 <div className="space-y-1">
                   <Input
@@ -865,19 +975,34 @@ export function Workshop2ArticlePlanPoPanel() {
         </Button>
       </PanelShell>
 
+<<<<<<< HEAD
       <Card className="group relative overflow-hidden border-indigo-100 bg-indigo-50/20 shadow-sm">
         <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-5 transition-transform group-hover:scale-110">
           <LucideIcons.Zap className="h-16 w-16 text-indigo-600" />
+=======
+      <Card className="border-accent-primary/20 bg-accent-primary/10 group relative overflow-hidden shadow-sm">
+        <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-5 transition-transform group-hover:scale-110">
+          <LucideIcons.Zap className="text-accent-primary h-16 w-16" />
+>>>>>>> recover/cabinet-wip-from-stash
         </div>
         <CardContent className="space-y-3 p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
+<<<<<<< HEAD
               <LucideIcons.Zap className="h-4 w-4 text-indigo-600" />
               <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
                 Nesting AI Optimizer
               </h4>
             </div>
             <Badge className="h-4 border-none bg-indigo-600 text-[8px] font-black text-white">
+=======
+              <LucideIcons.Zap className="text-accent-primary h-4 w-4" />
+              <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+                Nesting AI Optimizer
+              </h4>
+            </div>
+            <Badge className="bg-accent-primary h-4 border-none text-[8px] font-black text-white">
+>>>>>>> recover/cabinet-wip-from-stash
               AI ACTIVE
             </Badge>
           </div>
@@ -885,6 +1010,7 @@ export function Workshop2ArticlePlanPoPanel() {
           {plan.nestingAiOptimization ? (
             <div className="space-y-2">
               <div className="flex items-end justify-between">
+<<<<<<< HEAD
                 <span className="text-[18px] font-black text-slate-900">
                   +{plan.nestingAiOptimization.efficiencyGainPct}%{' '}
                   <span className="text-[10px] font-bold uppercase text-slate-400">Efficiency</span>
@@ -894,11 +1020,28 @@ export function Workshop2ArticlePlanPoPanel() {
                 </span>
               </div>
               <div className="rounded-lg border border-indigo-100 bg-white p-2 text-[9px] leading-tight text-slate-600">
+=======
+                <span className="text-text-primary text-[18px] font-black">
+                  +{plan.nestingAiOptimization.efficiencyGainPct}%{' '}
+                  <span className="text-text-muted text-[10px] font-bold uppercase">
+                    Efficiency
+                  </span>
+                </span>
+                <span className="text-text-muted text-[9px] font-bold uppercase tracking-tighter">
+                  Last Run: {plan.nestingAiOptimization.lastRunAt.split('T')[0]}
+                </span>
+              </div>
+              <div className="border-accent-primary/20 text-text-secondary rounded-lg border bg-white p-2 text-[9px] leading-tight">
+>>>>>>> recover/cabinet-wip-from-stash
                 Optimized markers for: {plan.nestingAiOptimization.fabricsOptimized.join(', ')}
               </div>
             </div>
           ) : (
+<<<<<<< HEAD
             <p className="text-[11px] italic text-slate-500">
+=======
+            <p className="text-text-secondary text-[11px] italic">
+>>>>>>> recover/cabinet-wip-from-stash
               AI-оптимизация раскладки еще не запускалась.
             </p>
           )}
@@ -906,7 +1049,11 @@ export function Workshop2ArticlePlanPoPanel() {
           <Button
             variant="default"
             size="sm"
+<<<<<<< HEAD
             className="h-8 w-full gap-2 bg-indigo-600 text-[9px] font-black uppercase tracking-widest shadow-lg shadow-indigo-100 hover:bg-indigo-700"
+=======
+            className="bg-accent-primary hover:bg-accent-primary shadow-accent-primary/10 h-8 w-full gap-2 text-[9px] font-black uppercase tracking-widest shadow-lg"
+>>>>>>> recover/cabinet-wip-from-stash
             onClick={() => {
               void mergeBundle({
                 planPo: {
@@ -930,7 +1077,7 @@ export function Workshop2ArticlePlanPoPanel() {
 
 export function Workshop2ArticleNestingPanel() {
   const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
-  if (loading || !bundle) return <p className="text-[12px] text-slate-500">Загрузка…</p>;
+  if (loading || !bundle) return <p className="text-text-secondary text-[12px]">Загрузка…</p>;
   const nesting = bundle.nesting!;
 
   return (
@@ -948,11 +1095,11 @@ export function Workshop2ArticleNestingPanel() {
       }
     >
       {nesting.artifacts.length === 0 ? (
-        <p className="text-[11px] text-slate-500">Нет вложений раскладки.</p>
+        <p className="text-text-secondary text-[11px]">Нет вложений раскладки.</p>
       ) : (
         <ul className="space-y-2">
           {nesting.artifacts.map((a) => (
-            <li key={a.id} className="space-y-1 rounded border border-slate-100 p-2">
+            <li key={a.id} className="border-border-subtle space-y-1 rounded border p-2">
               <Input
                 className="h-8 text-[11px]"
                 value={a.title}
@@ -1023,7 +1170,7 @@ export function Workshop2ArticleNestingPanel() {
 
 export function Workshop2ArticleReleasePanel() {
   const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
-  if (loading || !bundle) return <p className="text-[12px] text-slate-500">Загрузка…</p>;
+  if (loading || !bundle) return <p className="text-text-secondary text-[12px]">Загрузка…</p>;
   const rel = bundle.release ?? { note: '', shiftNote: '', subcontractNote: '', operations: [] };
   const operations = rel.operations ?? [];
   const totalSewingCostPerUnit = operations.reduce((acc, op) => acc + (op.costPerUnit || 0), 0);
@@ -1052,33 +1199,55 @@ export function Workshop2ArticleReleasePanel() {
       <div className="space-y-4">
         <div className="space-y-2">
           <div className="mb-1 flex items-center justify-between">
+<<<<<<< HEAD
             <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+=======
+            <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
               Технологические операции
             </p>
             <div className="flex gap-4 text-right">
               <div>
+<<<<<<< HEAD
                 <span className="text-[9px] font-bold uppercase text-slate-400">Общее время: </span>
                 <span className="text-[11px] font-black text-slate-800">
+=======
+                <span className="text-text-muted text-[9px] font-bold uppercase">
+                  Общее время:{' '}
+                </span>
+                <span className="text-text-primary text-[11px] font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                   {totalSASH.toFixed(2)} мин
                 </span>
               </div>
               <div>
+<<<<<<< HEAD
                 <span className="text-[9px] font-bold uppercase text-slate-400">
                   Итого (пошив):{' '}
                 </span>
                 <span className="text-[11px] font-black text-indigo-700">
+=======
+                <span className="text-text-muted text-[9px] font-bold uppercase">
+                  Итого (пошив):{' '}
+                </span>
+                <span className="text-accent-primary text-[11px] font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                   {totalSewingCostPerUnit.toLocaleString()} ₽/ед
                 </span>
               </div>
             </div>
           </div>
           {operations.length === 0 ? (
+<<<<<<< HEAD
             <p className="text-[11px] italic text-slate-500">Операции не заданы.</p>
+=======
+            <p className="text-text-secondary text-[11px] italic">Операции не заданы.</p>
+>>>>>>> recover/cabinet-wip-from-stash
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-[11px]">
                 <thead>
-                  <tr className="border-b border-slate-100 text-left text-slate-400">
+                  <tr className="border-border-subtle text-text-muted border-b text-left">
                     <th className="pb-1 font-semibold">Название</th>
                     <th className="pb-1 font-semibold">SASH (мин)</th>
                     <th className="pb-1 font-semibold">Цена (₽)</th>
@@ -1086,7 +1255,7 @@ export function Workshop2ArticleReleasePanel() {
                     <th className="pb-1"></th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-50">
+                <tbody className="divide-border-subtle divide-y">
                   {operations.map((op) => (
                     <tr key={op.id}>
                       <td className="py-2">
@@ -1167,7 +1336,7 @@ export function Workshop2ArticleReleasePanel() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="h-6 w-6 p-0 text-slate-300 hover:text-red-500"
+                          className="text-text-muted h-6 w-6 p-0 hover:text-red-500"
                           onClick={() => {
                             void mergeBundle({
                               release: {
@@ -1215,7 +1384,7 @@ export function Workshop2ArticleReleasePanel() {
 
         <div className="grid gap-3 sm:grid-cols-2">
           <label className="block space-y-1">
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
               Смены
             </span>
             <textarea
@@ -1226,7 +1395,7 @@ export function Workshop2ArticleReleasePanel() {
             />
           </label>
           <label className="block space-y-1">
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
               Субподряд
             </span>
             <textarea
@@ -1241,7 +1410,7 @@ export function Workshop2ArticleReleasePanel() {
         </div>
 
         <label className="block space-y-1">
-          <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+          <span className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
             Общая заметка
           </span>
           <textarea
@@ -1258,7 +1427,7 @@ export function Workshop2ArticleReleasePanel() {
 
 export function Workshop2ArticleQcPanel() {
   const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
-  if (loading || !bundle) return <p className="text-[12px] text-slate-500">Загрузка…</p>;
+  if (loading || !bundle) return <p className="text-text-secondary text-[12px]">Загрузка…</p>;
   const qc = bundle.qc!;
 
   return (
@@ -1285,7 +1454,11 @@ export function Workshop2ArticleQcPanel() {
         }
       >
         {qc.batches.length === 0 ? (
+<<<<<<< HEAD
           <p className="text-[11px] italic text-slate-500">Нет партий для инспекции.</p>
+=======
+          <p className="text-text-secondary text-[11px] italic">Нет партий для инспекции.</p>
+>>>>>>> recover/cabinet-wip-from-stash
         ) : (
           <ul className="space-y-3">
             {qc.batches.map((b) => {
@@ -1295,13 +1468,21 @@ export function Workshop2ArticleQcPanel() {
               return (
                 <li
                   key={b.id}
+<<<<<<< HEAD
                   className="group rounded-2xl border border-slate-100 bg-white p-3 shadow-sm transition-all hover:border-indigo-100"
+=======
+                  className="border-border-subtle hover:border-accent-primary/20 group rounded-2xl border bg-white p-3 shadow-sm transition-all"
+>>>>>>> recover/cabinet-wip-from-stash
                 >
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
                       <div className="flex-1 space-y-1">
                         <Input
+<<<<<<< HEAD
                           className="h-8 border-none bg-slate-50 text-[11px] font-black uppercase tracking-tight focus:bg-white"
+=======
+                          className="bg-bg-surface2 h-8 border-none text-[11px] font-black uppercase tracking-tight focus:bg-white"
+>>>>>>> recover/cabinet-wip-from-stash
                           value={b.label}
                           onChange={(e) =>
                             void mergeBundle({
@@ -1315,13 +1496,22 @@ export function Workshop2ArticleQcPanel() {
                           }
                         />
                         <div className="flex items-center gap-3">
+<<<<<<< HEAD
                           <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
+=======
+                          <span className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+>>>>>>> recover/cabinet-wip-from-stash
                             {b.at?.split('T')[0]}
                           </span>
                           {b.defectPhotosCount != null && b.defectPhotosCount > 0 && (
                             <div className="flex items-center gap-1">
+<<<<<<< HEAD
                               <LucideIcons.Image className="h-2.5 w-2.5 text-indigo-400" />
                               <span className="text-[9px] font-black text-indigo-600">
+=======
+                              <LucideIcons.Image className="text-accent-primary h-2.5 w-2.5" />
+                              <span className="text-accent-primary text-[9px] font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                                 {b.defectPhotosCount} photos
                               </span>
                             </div>
@@ -1362,7 +1552,7 @@ export function Workshop2ArticleQcPanel() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="h-8 w-8 p-0 text-slate-300 hover:text-red-500"
+                          className="text-text-muted h-8 w-8 p-0 hover:text-red-500"
                           onClick={() => {
                             void mergeBundle({
                               qc: {
@@ -1377,9 +1567,15 @@ export function Workshop2ArticleQcPanel() {
                       </div>
                     </div>
 
+<<<<<<< HEAD
                     <div className="grid grid-cols-2 gap-3 rounded-xl border border-slate-100 bg-slate-50/50 p-2 sm:grid-cols-4">
                       <div className="space-y-1">
                         <p className="text-[8px] font-black uppercase text-slate-400">
+=======
+                    <div className="bg-bg-surface2/80 border-border-subtle grid grid-cols-2 gap-3 rounded-xl border p-2 sm:grid-cols-4">
+                      <div className="space-y-1">
+                        <p className="text-text-muted text-[8px] font-black uppercase">
+>>>>>>> recover/cabinet-wip-from-stash
                           Партия (ед)
                         </p>
                         <Input
@@ -1401,15 +1597,24 @@ export function Workshop2ArticleQcPanel() {
                         />
                       </div>
                       <div className="space-y-1">
+<<<<<<< HEAD
                         <p className="text-[8px] font-black uppercase text-slate-400">
                           Выборка (AQL)
                         </p>
                         <div className="flex h-7 items-center rounded-md border border-slate-200 bg-white px-2 text-[10px] font-bold text-slate-600">
+=======
+                        <p className="text-text-muted text-[8px] font-black uppercase">
+                          Выборка (AQL)
+                        </p>
+                        <div className="border-border-default text-text-secondary flex h-7 items-center rounded-md border bg-white px-2 text-[10px] font-bold">
+>>>>>>> recover/cabinet-wip-from-stash
                           {aql ? `${aql.sampleSize} ед.` : '—'}
                         </div>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[8px] font-black uppercase text-slate-400">Крит. брак</p>
+                        <p className="text-text-muted text-[8px] font-black uppercase">
+                          Крит. брак
+                        </p>
                         <Input
                           type="number"
                           className="h-7 text-[10px]"
@@ -1429,13 +1634,24 @@ export function Workshop2ArticleQcPanel() {
                         />
                       </div>
                       <div className="space-y-1">
+<<<<<<< HEAD
                         <p className="text-[8px] font-black uppercase text-slate-400">Порог (Re)</p>
+=======
+                        <p className="text-text-muted text-[8px] font-black uppercase">
+                          Порог (Re)
+                        </p>
+>>>>>>> recover/cabinet-wip-from-stash
                         <div
                           className={cn(
                             'flex h-7 items-center rounded-md px-2 text-[10px] font-bold',
                             aql
+<<<<<<< HEAD
                               ? 'border border-slate-200 bg-white text-slate-600'
                               : 'text-slate-300'
+=======
+                              ? 'border-border-default text-text-secondary border bg-white'
+                              : 'text-text-muted'
+>>>>>>> recover/cabinet-wip-from-stash
                           )}
                         >
                           {aql ? `≥ ${aql.rejectLimit} ед.` : '—'}
@@ -1475,6 +1691,7 @@ export function Workshop2ArticleQcPanel() {
         </Button>
       </PanelShell>
 
+<<<<<<< HEAD
       <Card className="group relative overflow-hidden border-indigo-100 bg-indigo-50/10 shadow-sm">
         <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-5 transition-transform group-hover:scale-110">
           <LucideIcons.Smartphone className="h-16 w-16 text-indigo-600" />
@@ -1489,6 +1706,22 @@ export function Workshop2ArticleQcPanel() {
                 Mobile QC Inspector
               </h4>
               <p className="text-[9px] font-medium text-slate-500">
+=======
+      <Card className="border-accent-primary/20 bg-accent-primary/10 group relative overflow-hidden shadow-sm">
+        <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-5 transition-transform group-hover:scale-110">
+          <LucideIcons.Smartphone className="text-accent-primary h-16 w-16" />
+        </div>
+        <CardContent className="flex items-center justify-between p-4">
+          <div className="flex items-center gap-3">
+            <div className="border-accent-primary/20 flex h-10 w-10 items-center justify-center rounded-xl border bg-white shadow-sm">
+              <LucideIcons.Scan className="text-accent-primary h-5 w-5" />
+            </div>
+            <div>
+              <h4 className="text-text-primary text-[11px] font-black uppercase leading-tight tracking-tight">
+                Mobile QC Inspector
+              </h4>
+              <p className="text-text-secondary text-[9px] font-medium">
+>>>>>>> recover/cabinet-wip-from-stash
                 Link with factory-floor mobile devices for photo defect logging.
               </p>
             </div>
@@ -1496,7 +1729,11 @@ export function Workshop2ArticleQcPanel() {
           <Button
             variant="outline"
             size="sm"
+<<<<<<< HEAD
             className="h-8 border-indigo-200 text-[9px] font-black uppercase tracking-widest text-indigo-700 hover:bg-indigo-50"
+=======
+            className="border-accent-primary/30 text-accent-primary hover:bg-accent-primary/10 h-8 text-[9px] font-black uppercase tracking-widest"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             Open App Mock <LucideIcons.ArrowRight className="ml-1 h-2.5 w-2.5" />
           </Button>
@@ -1508,7 +1745,7 @@ export function Workshop2ArticleQcPanel() {
 
 export function Workshop2ArticleStockPanel() {
   const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
-  if (loading || !bundle) return <p className="text-[12px] text-slate-500">Загрузка…</p>;
+  if (loading || !bundle) return <p className="text-text-secondary text-[12px]">Загрузка…</p>;
   const stock = bundle.stock!;
 
   const totalQtyOnHand = stock.movements.reduce((acc, m) => {
@@ -1526,6 +1763,7 @@ export function Workshop2ArticleStockPanel() {
     <div className="space-y-3">
       <Workshop2ArticleSampleIntakeStockSection mergeBundle={mergeBundle} dataMode={dataMode} />
       <div className="grid gap-3 sm:grid-cols-2">
+<<<<<<< HEAD
         <Card className="flex items-center justify-between border-slate-200 bg-white p-4 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100">
@@ -1536,17 +1774,34 @@ export function Workshop2ArticleStockPanel() {
                 Текущий остаток
               </p>
               <p className="text-xl font-black text-slate-900">
+=======
+        <Card className="border-border-default flex items-center justify-between bg-white p-4 shadow-sm">
+          <div className="flex items-center gap-3">
+            <div className="bg-bg-surface2 flex h-10 w-10 items-center justify-center rounded-xl">
+              <LucideIcons.Boxes className="text-text-secondary h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+                Текущий остаток
+              </p>
+              <p className="text-text-primary text-xl font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                 {totalQtyOnHand.toLocaleString()} ед.
               </p>
             </div>
           </div>
           <Badge
             variant="outline"
+<<<<<<< HEAD
             className="h-5 border-slate-200 bg-slate-50 text-[8px] font-black uppercase text-slate-600"
+=======
+            className="bg-bg-surface2 text-text-secondary border-border-default h-5 text-[8px] font-black uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             Live Inventory
           </Badge>
         </Card>
+<<<<<<< HEAD
         <Card className="flex items-center justify-between border-slate-200 bg-white p-4 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50">
@@ -1557,6 +1812,18 @@ export function Workshop2ArticleStockPanel() {
                 Средняя себестоимость
               </p>
               <p className="text-xl font-black text-slate-900">
+=======
+        <Card className="border-border-default flex items-center justify-between bg-white p-4 shadow-sm">
+          <div className="flex items-center gap-3">
+            <div className="bg-accent-primary/10 flex h-10 w-10 items-center justify-center rounded-xl">
+              <LucideIcons.CircleDollarSign className="text-accent-primary h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+                Средняя себестоимость
+              </p>
+              <p className="text-text-primary text-xl font-black">
+>>>>>>> recover/cabinet-wip-from-stash
                 {avgUnitCost.toLocaleString()} ₽/ед
               </p>
             </div>
@@ -1579,12 +1846,22 @@ export function Workshop2ArticleStockPanel() {
         }
       >
         {stock.movements.length === 0 ? (
+<<<<<<< HEAD
           <p className="text-[11px] italic text-slate-500">Движений по складу не зафиксировано.</p>
+=======
+          <p className="text-text-secondary text-[11px] italic">
+            Движений по складу не зафиксировано.
+          </p>
+>>>>>>> recover/cabinet-wip-from-stash
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-[11px]">
               <thead>
+<<<<<<< HEAD
                 <tr className="border-b border-slate-100 text-left uppercase tracking-tighter text-slate-400">
+=======
+                <tr className="border-border-subtle text-text-muted border-b text-left uppercase tracking-tighter">
+>>>>>>> recover/cabinet-wip-from-stash
                   <th className="pb-2 font-bold">Операция</th>
                   <th className="pb-2 font-bold">Тип</th>
                   <th className="pb-2 font-bold">Кол-во</th>
@@ -1593,9 +1870,13 @@ export function Workshop2ArticleStockPanel() {
                   <th className="pb-2"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-50">
+              <tbody className="divide-border-subtle divide-y">
                 {stock.movements.map((m) => (
+<<<<<<< HEAD
                   <tr key={m.id} className="group transition-colors hover:bg-slate-50/50">
+=======
+                  <tr key={m.id} className="hover:bg-bg-surface2/80 group transition-colors">
+>>>>>>> recover/cabinet-wip-from-stash
                     <td className="py-2.5">
                       <Input
                         className="h-7 border-none bg-transparent text-[11px] font-bold focus:bg-white"
@@ -1653,7 +1934,11 @@ export function Workshop2ArticleStockPanel() {
                     </td>
                     <td className="py-2.5">
                       <Input
+<<<<<<< HEAD
                         className="h-7 w-20 border-none bg-transparent text-right text-[11px] font-black text-indigo-600 focus:bg-white"
+=======
+                        className="text-accent-primary h-7 w-20 border-none bg-transparent text-right text-[11px] font-black focus:bg-white"
+>>>>>>> recover/cabinet-wip-from-stash
                         type="number"
                         value={m.unitCostRub}
                         onChange={(e) => {
@@ -1669,14 +1954,18 @@ export function Workshop2ArticleStockPanel() {
                         }}
                       />
                     </td>
+<<<<<<< HEAD
                     <td className="py-2.5 font-mono text-[9px] text-slate-400">
+=======
+                    <td className="text-text-muted py-2.5 font-mono text-[9px]">
+>>>>>>> recover/cabinet-wip-from-stash
                       {m.at.split('T')[0]}
                     </td>
                     <td className="py-2.5 text-right">
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="h-6 w-6 p-0 text-slate-300 hover:text-red-500"
+                        className="text-text-muted h-6 w-6 p-0 hover:text-red-500"
                         onClick={() => {
                           void mergeBundle({
                             stock: {
@@ -1750,7 +2039,7 @@ function SectionFlashWrap({
       id={id}
       className={cn(
         W2_SECTION_FLASH_CLASS,
-        flashSectionId === id && 'ring-4 ring-indigo-400 ring-offset-2 ring-offset-slate-50'
+        flashSectionId === id && 'ring-accent-primary ring-offset-bg-surface2 ring-4 ring-offset-2'
       )}
     >
       {children}

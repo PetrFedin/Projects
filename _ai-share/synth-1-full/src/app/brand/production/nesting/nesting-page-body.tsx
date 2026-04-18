@@ -19,6 +19,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { RegistryPageShell } from '@/components/design-system';
 
 type NestingJob = {
   id: string;
@@ -76,13 +78,20 @@ export function NestingPageBody() {
   };
 
   return (
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
+    <RegistryPageShell className="max-w-4xl space-y-6 pb-16">
       <SectionInfoCard
-        title="Nesting AI · раскрой"
-        description="Оптимизация раскладки лекал на рулон: после утверждённого плана PO и до запуска смен в цеху. Черновик сохраняется через ProductionDataPort (localStorage / позже API)."
+        title="Nesting ИИ · раскрой"
+        description={
+          <>
+            Оптимизация раскладки лекал на рулон: после утверждённого плана{' '}
+            <AcronymWithTooltip abbr="PO" /> и до запуска смен в цеху. Черновик сохраняется через
+            ProductionDataPort (локальное хранилище / позже <AcronymWithTooltip abbr="API" />
+            ).
+          </>
+        }
         icon={Scissors}
-        iconBg="bg-violet-100"
-        iconColor="text-violet-600"
+        iconBg="bg-accent-primary/15"
+        iconColor="text-accent-primary"
         badges={<ProductionGanttBadges />}
       />
 
@@ -93,10 +102,17 @@ export function NestingPageBody() {
               <ArrowLeft className="h-4 w-4" />
             </Button>
           </Link>
+<<<<<<< HEAD
           <h1 className="text-2xl font-bold uppercase tracking-tight">Nesting AI</h1>
           <Badge
             variant="outline"
             className="border-violet-200 bg-violet-50 text-[10px] font-bold uppercase text-violet-800"
+=======
+          <h1 className="text-2xl font-bold uppercase tracking-tight">Nesting ИИ</h1>
+          <Badge
+            variant="outline"
+            className="border-accent-primary/25 bg-accent-primary/10 text-accent-primary text-[10px] font-bold uppercase"
+>>>>>>> recover/cabinet-wip-from-stash
           >
             Раскрой
           </Badge>
@@ -124,15 +140,22 @@ export function NestingPageBody() {
             Задания на раскрой
           </CardTitle>
           <CardDescription>
+<<<<<<< HEAD
             Маркеры, выход деталей и статус; правки сохраняются локально до API
+=======
+            Маркеры, выход деталей и статус; правки сохраняются локально до{' '}
+            <AcronymWithTooltip abbr="API" />
+>>>>>>> recover/cabinet-wip-from-stash
           </CardDescription>
         </CardHeader>
         <CardContent className="overflow-x-auto">
           <table className="w-full border-collapse text-left text-sm">
             <thead>
-              <tr className="border-b border-slate-200 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+              <tr className="border-border-default text-text-secondary border-b text-[10px] font-bold uppercase tracking-widest">
                 <th className="pb-2 pr-3">Задание</th>
-                <th className="pb-2 pr-3">PO</th>
+                <th className="pb-2 pr-3">
+                  <AcronymWithTooltip abbr="PO" />
+                </th>
                 <th className="pb-2 pr-3">Ткань</th>
                 <th className="pb-2 pr-2 text-right">Маркеры</th>
                 <th className="pb-2 pr-2 text-right">Деталей</th>
@@ -142,11 +165,15 @@ export function NestingPageBody() {
             </thead>
             <tbody>
               {data.jobs.map((row, i) => (
-                <tr key={row.id} className="border-b border-slate-50">
+                <tr key={row.id} className="border-border-subtle border-b">
                   <td className="py-3 pr-3 font-mono text-[11px] font-bold">{row.id}</td>
                   <td className="py-3 pr-3 text-[11px]">{row.po}</td>
                   <td
+<<<<<<< HEAD
                     className="max-w-[140px] truncate py-3 pr-3 text-[11px] text-slate-700"
+=======
+                    className="text-text-primary max-w-[140px] truncate py-3 pr-3 text-[11px]"
+>>>>>>> recover/cabinet-wip-from-stash
                     title={row.fabric}
                   >
                     {row.fabric}
@@ -182,6 +209,6 @@ export function NestingPageBody() {
           </table>
         </CardContent>
       </Card>
-    </div>
+    </RegistryPageShell>
   );
 }

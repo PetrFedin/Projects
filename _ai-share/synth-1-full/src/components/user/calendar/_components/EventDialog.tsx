@@ -87,18 +87,22 @@ export function EventDialog({
             />
           </div>
           {(draft.linkedPinId || draft.sketchPageUrl) && (
-            <div className="rounded-md border border-indigo-100 bg-indigo-50/60 p-2 text-xs text-indigo-950">
+            <div className="border-accent-primary/20 bg-accent-primary/10 text-accent-primary rounded-md border p-2 text-xs">
               {draft.linkedPinId ? (
                 <p className="font-mono text-[11px]">
                   Метка скетча:{' '}
+<<<<<<< HEAD
                   <span className="text-indigo-800">{draft.linkedPinId.slice(0, 12)}…</span>
+=======
+                  <span className="text-accent-primary">{draft.linkedPinId.slice(0, 12)}…</span>
+>>>>>>> recover/cabinet-wip-from-stash
                 </p>
               ) : null}
               {draft.sketchPageUrl ? (
                 <p className="mt-1">
                   <Link
                     href={draft.sketchPageUrl}
-                    className="font-medium text-indigo-700 underline underline-offset-2"
+                    className="text-accent-primary font-medium underline underline-offset-2"
                     target="_blank"
                     rel="noreferrer"
                   >

@@ -1,7 +1,7 @@
-import type { SupplierMetricV1 } from './types';
+import type { SupplierScorecardMetricV1 } from './types';
 
 /** Демо-метрики поставщиков для инфраструктуры B2B. */
-export function getSupplierMetrics(): SupplierMetricV1[] {
+export function getSupplierMetrics(): SupplierScorecardMetricV1[] {
   return [
     {
       id: 'sup-01',

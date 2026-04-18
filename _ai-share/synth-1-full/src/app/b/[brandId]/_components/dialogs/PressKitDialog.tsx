@@ -14,7 +14,11 @@ export function PressKitDialog({ isOpen, onOpenChange, displayName }: PressKitDi
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl overflow-hidden rounded-xl border-none bg-background p-0 shadow-2xl">
+<<<<<<< HEAD
         <div className="relative overflow-hidden bg-slate-900 p-3 text-white">
+=======
+        <div className="bg-text-primary relative overflow-hidden p-3 text-white">
+>>>>>>> recover/cabinet-wip-from-stash
           <div className="absolute right-0 top-0 rotate-12 p-4 opacity-10">
             <FileText className="h-64 w-64 text-white" />
           </div>

@@ -51,10 +51,31 @@ function buildMockReorderLines(): ReorderLineSellThrough[] {
       },
     ],
     'B2B-0011': [
-      { sku: 'APC-26-101', productId: '101', name: 'A.P.C. Item', qty: 40 },
-      { sku: 'APC-26-102', productId: '102', name: 'A.P.C. Item 2', qty: 60 },
+      {
+        sku: (products[2] as { sku?: string })?.sku ?? 'NW-K001-BLK',
+        productId: products[2]?.id ?? '3',
+        name: products[2]?.name ?? 'Nordic Wool — позиция 1',
+        qty: 40,
+      },
+      {
+        sku: (products[0] as { sku?: string })?.sku ?? 'NW-K001-BLK',
+        productId: products[0]?.id ?? '1',
+        name: products[0]?.name ?? 'Nordic Wool — позиция 2',
+        qty: 60,
+      },
     ],
+<<<<<<< HEAD
     'B2B-0010': [{ sku: 'ACNE-26-01', productId: '201', name: 'Acne Item', qty: 25 }],
+=======
+    'B2B-0010': [
+      {
+        sku: (products[4] as { sku?: string })?.sku ?? 'SYN-C004-BEI',
+        productId: products[4]?.id ?? '4',
+        name: products[4]?.name ?? 'Syntha Lab — позиция',
+        qty: 25,
+      },
+    ],
+>>>>>>> recover/cabinet-wip-from-stash
   };
   const lines: ReorderLineSellThrough[] = [];
   orders.forEach((o) => {
