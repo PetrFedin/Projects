@@ -98,14 +98,11 @@ export default function B2BCatalogPage() {
     colorFilter,
     sustainabilityFilter,
   ]);
-<<<<<<< HEAD
-=======
 
   useEffect(() => {
     const sku = searchParams.get('sku');
     if (sku) setSearch(sku);
   }, [searchParams]);
->>>>>>> recover/cabinet-wip-from-stash
 
   useEffect(() => {
     const s = getSyndicationStatus(brandFilter || undefined);
@@ -136,42 +133,6 @@ export default function B2BCatalogPage() {
     : null;
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto space-y-6 px-4 py-6 pb-24">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold uppercase">B2B Каталог</h1>
-          <p className="text-sm text-slate-500">
-            Fashion Cloud: каталог байера из PIM. Ассортимент, медиа, атрибуты. После выгрузки с
-            валидацией брендом показываются только SKU, прошедшие контракт B2B (размерная сетка,
-            состав, уход, EAN, медиа).
-          </p>
-          {lastSyncedFormatted && (
-            <p className="mt-1 flex items-center gap-1 text-xs text-slate-500">
-              <Cloud className="h-3 w-3" /> Последнее обновление: {lastSyncedFormatted}
-            </p>
-          )}
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleSync}
-            disabled={syncing}
-            className="gap-1"
-          >
-            <RefreshCw className={`h-3 w-3 ${syncing ? 'animate-spin' : ''}`} />{' '}
-            {syncing ? 'Синхронизация…' : 'Синхронизировать'}
-          </Button>
-          <Button variant="outline" asChild>
-            <Link href={ROUTES.shop.b2bOrders}>Мои заказы</Link>
-          </Button>
-          {canCreateOrder && (
-            <Button asChild>
-              <Link href={ROUTES.shop.b2bCreateOrder}>
-                <ShoppingCart className="mr-2 h-4 w-4" /> Создать заказ
-              </Link>
-=======
     <RegistryPageShell className="space-y-6" data-testid={tid.page('shop-b2b-catalog')}>
       <ShopB2bContentHeader
         lead={
@@ -199,7 +160,6 @@ export default function B2BCatalogPage() {
             >
               <RefreshCw className={`size-3 ${syncing ? 'animate-spin' : ''}`} />{' '}
               {syncing ? 'Синхронизация…' : 'Синхронизировать'}
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
             <Button variant="outline" asChild>
               <Link href={ROUTES.shop.b2bOrders}>Мои заказы</Link>
@@ -217,14 +177,9 @@ export default function B2BCatalogPage() {
 
       <div className="flex flex-wrap gap-4">
         <div className="relative max-w-md flex-1">
-<<<<<<< HEAD
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-          <Input
-=======
           <Search className="text-text-muted absolute left-3 top-1/2 size-4 -translate-y-1/2" />
           <Input
             data-testid="shop-b2b-catalog-search"
->>>>>>> recover/cabinet-wip-from-stash
             placeholder="Поиск по артикулу, названию, бренду..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -234,11 +189,7 @@ export default function B2BCatalogPage() {
         <select
           value={brandFilter}
           onChange={(e) => setBrandFilter(e.target.value)}
-<<<<<<< HEAD
-          className="h-10 rounded-lg border border-slate-200 px-3 py-2 text-sm"
-=======
           className="border-border-default h-10 rounded-lg border px-3 py-2 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
         >
           <option value="">Все бренды</option>
           <option value="Syntha Lab">Syntha Lab</option>
@@ -247,11 +198,7 @@ export default function B2BCatalogPage() {
         <select
           value={seasonFilter}
           onChange={(e) => setSeasonFilter(e.target.value)}
-<<<<<<< HEAD
-          className="h-10 rounded-lg border border-slate-200 px-3 py-2 text-sm"
-=======
           className="border-border-default h-10 rounded-lg border px-3 py-2 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
         >
           <option value="">Сезон</option>
           {filterOptions.seasons.map((s) => (
@@ -263,11 +210,7 @@ export default function B2BCatalogPage() {
         <select
           value={capsuleFilter}
           onChange={(e) => setCapsuleFilter(e.target.value)}
-<<<<<<< HEAD
-          className="h-10 rounded-lg border border-slate-200 px-3 py-2 text-sm"
-=======
           className="border-border-default h-10 rounded-lg border px-3 py-2 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
         >
           <option value="">Капсула</option>
           {filterOptions.capsules.map((c) => (
@@ -279,11 +222,7 @@ export default function B2BCatalogPage() {
         <select
           value={materialFilter}
           onChange={(e) => setMaterialFilter(e.target.value)}
-<<<<<<< HEAD
-          className="h-10 rounded-lg border border-slate-200 px-3 py-2 text-sm"
-=======
           className="border-border-default h-10 rounded-lg border px-3 py-2 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
         >
           <option value="">Материал</option>
           {filterOptions.materials.map((m) => (
@@ -295,11 +234,7 @@ export default function B2BCatalogPage() {
         <select
           value={colorFilter}
           onChange={(e) => setColorFilter(e.target.value)}
-<<<<<<< HEAD
-          className="h-10 rounded-lg border border-slate-200 px-3 py-2 text-sm"
-=======
           className="border-border-default h-10 rounded-lg border px-3 py-2 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
         >
           <option value="">Цвет</option>
           {filterOptions.colors.map((c) => (
@@ -311,11 +246,7 @@ export default function B2BCatalogPage() {
         <select
           value={sustainabilityFilter}
           onChange={(e) => setSustainabilityFilter(e.target.value)}
-<<<<<<< HEAD
-          className="h-10 rounded-lg border border-slate-200 px-3 py-2 text-sm"
-=======
           className="border-border-default h-10 rounded-lg border px-3 py-2 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
         >
           <option value="">Устойчивость</option>
           {filterOptions.sustainabilities.map((s) => (
@@ -328,28 +259,18 @@ export default function B2BCatalogPage() {
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {filtered.map((item) => (
-<<<<<<< HEAD
-          <Card key={item.id} className="overflow-hidden transition-colors hover:border-indigo-200">
-=======
           <Card
             key={item.id}
             className="hover:border-accent-primary/30 overflow-hidden transition-colors"
           >
->>>>>>> recover/cabinet-wip-from-stash
             <CardHeader className="p-4 pb-2">
               <div className="flex items-start justify-between">
                 <Badge variant="outline" className="text-[9px]">
                   {item.season || '—'}
                 </Badge>
-<<<<<<< HEAD
-                <span className="text-[10px] font-bold text-slate-400">{item.sku}</span>
-              </div>
-              <div className="relative mt-2 aspect-[3/4] overflow-hidden rounded-lg bg-slate-100">
-=======
                 <span className="text-text-muted text-xs font-bold">{item.sku}</span>
               </div>
               <div className="bg-bg-surface2 relative mt-2 aspect-[3/4] overflow-hidden rounded-lg">
->>>>>>> recover/cabinet-wip-from-stash
                 <Image
                   src={item.imageUrl}
                   alt={item.name}
@@ -371,15 +292,9 @@ export default function B2BCatalogPage() {
                 const sizeUpMsg = getSizeUpWarningMessage(item.id, item.brand, item.category);
                 return (
                   <div className="mt-2 space-y-0.5">
-<<<<<<< HEAD
-                    <p className="text-[10px] font-bold text-slate-600">
-                      Рекомендуемый размер:{' '}
-                      <span className="uppercase text-indigo-600">
-=======
                     <p className="text-text-secondary text-xs font-bold">
                       Рекомендуемый размер:{' '}
                       <span className="text-accent-primary uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         {rec.retailerSize ?? rec.size}
                       </span>
                       {rec.source === 'reviews' && ' (по отзывам)'}
@@ -389,11 +304,7 @@ export default function B2BCatalogPage() {
                     )}
                     <Link
                       href={ROUTES.shop.b2bSizeFinder}
-<<<<<<< HEAD
-                      className="text-[9px] font-bold text-indigo-600 hover:underline"
-=======
                       className="text-accent-primary text-[9px] font-bold hover:underline"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       Подбор размера / размерная сетка →
                     </Link>
@@ -426,29 +337,12 @@ export default function B2BCatalogPage() {
                   onClick={() => handleAddToCart(item)}
                   disabled={!canCreateOrder}
                 >
-<<<<<<< HEAD
-                  <Package className="mr-1 h-3 w-3" /> В заказ
-=======
                   <Package className="mr-1 size-3" /> В заказ
->>>>>>> recover/cabinet-wip-from-stash
                 </Button>
                 <Button size="sm" variant="outline" asChild>
                   <Link
                     href={`${ROUTES.shop.b2bMatrix}?brand=${encodeURIComponent(item.brand)}&sku=${encodeURIComponent(item.sku)}`}
                   >
-<<<<<<< HEAD
-                    <ChevronRight className="h-3 w-3" /> В матрицу
-                  </Link>
-                </Button>
-                <Button size="sm" variant="ghost" className="text-[10px]" asChild>
-                  <Link href={ROUTES.brand.production}>
-                    <FileText className="mr-1 h-3 w-3" /> Tech Pack
-                  </Link>
-                </Button>
-                <Button size="sm" variant="ghost" className="text-[10px]" asChild>
-                  <Link href={ROUTES.brand.production}>
-                    <Factory className="mr-1 h-3 w-3" /> Production
-=======
                     <ChevronRight className="size-3" /> В матрицу
                   </Link>
                 </Button>
@@ -460,7 +354,6 @@ export default function B2BCatalogPage() {
                 <Button size="sm" variant="ghost" className="text-xs" asChild>
                   <Link href={ROUTES.factory.production}>
                     <Factory className="mr-1 size-3" /> Factory
->>>>>>> recover/cabinet-wip-from-stash
                   </Link>
                 </Button>
               </div>
@@ -471,11 +364,7 @@ export default function B2BCatalogPage() {
 
       {filtered.length === 0 && (
         <Card className="p-12 text-center">
-<<<<<<< HEAD
-          <p className="text-slate-500">
-=======
           <p className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
             Нет товаров по запросу. Проверьте фильтр бренда или запустите синхронизацию в разделе
             бренда.
           </p>
@@ -486,18 +375,10 @@ export default function B2BCatalogPage() {
       )}
 
       <RelatedModulesBlock
-<<<<<<< HEAD
-        links={getShopB2BHubLinks()}
-        title="Discover, матрица, заказы"
-        className="mt-6"
-      />
-    </div>
-=======
         links={getShopB2bCatalogRelatedLinks()}
         title="Закупка: связанные кабинеты и B2B"
         className="mt-6"
       />
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

@@ -77,11 +77,7 @@ export function OrderChatBot({ defaultCollapsed = true, className }: OrderChatBo
           {messages.map((m) => (
             <div
               key={m.id}
-<<<<<<< HEAD
-              className={`max-w-[90%] rounded-lg px-2 py-1.5 text-xs ${m.role === 'user' ? 'ml-auto bg-indigo-100 text-indigo-900' : 'bg-slate-100 text-slate-800'}`}
-=======
               className={`max-w-[90%] rounded-lg px-2 py-1.5 text-xs ${m.role === 'user' ? 'bg-accent-primary/15 text-accent-primary ml-auto' : 'bg-bg-surface2 text-text-primary'}`}
->>>>>>> recover/cabinet-wip-from-stash
             >
               {m.content}
             </div>

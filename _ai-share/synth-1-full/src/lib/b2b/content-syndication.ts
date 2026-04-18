@@ -331,12 +331,7 @@ function productToSyndicatedItem(p: Product, index: number): SyndicatedCatalogIt
     capsule: p.capsule ?? ex.collection ?? '',
     material: p.material ?? formatProductComposition(p.composition),
     color,
-<<<<<<< HEAD
-    sustainability:
-      ((p as any).sustainability ?? (p as any).certifications) ? 'Сертифицировано' : undefined,
-=======
     sustainability: syndicationSustainabilityLabel(p),
->>>>>>> recover/cabinet-wip-from-stash
     contentChannels: getContentChannelsForProduct(p),
     ...visibility,
   };

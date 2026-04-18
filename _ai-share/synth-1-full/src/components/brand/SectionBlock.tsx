@@ -141,16 +141,6 @@ export function SectionBlock({
           type="button"
           className="group flex min-w-0 flex-1 items-center gap-2 overflow-hidden text-left transition-opacity hover:opacity-80"
         >
-<<<<<<< HEAD
-          <div className={cn('h-3.5 w-1 shrink-0 rounded-full', ACCENT[accentColor])} />
-          <h2 className="truncate text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-            {title}
-          </h2>
-          {isOpen ? (
-            <ChevronDown className="h-4 w-4 shrink-0 text-slate-400" />
-          ) : (
-            <ChevronRight className="h-4 w-4 shrink-0 text-slate-400" />
-=======
           <div
             className={cn(
               'h-3.5 w-1 shrink-0 rounded-full',
@@ -164,7 +154,6 @@ export function SectionBlock({
             <ChevronDown className="text-text-muted h-4 w-4 shrink-0" />
           ) : (
             <ChevronRight className="text-text-muted h-4 w-4 shrink-0" />
->>>>>>> recover/cabinet-wip-from-stash
           )}
         </button>
       </CollapsibleTrigger>
@@ -175,13 +164,8 @@ export function SectionBlock({
           className={cn(
             'h-7 w-7 rounded-lg',
             isPinned
-<<<<<<< HEAD
-              ? 'text-indigo-600 hover:text-indigo-700'
-              : 'text-slate-300 hover:text-slate-500'
-=======
               ? 'text-accent-primary hover:text-accent-primary'
               : 'text-text-muted hover:text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
           )}
           onClick={(e) => {
             e.preventDefault();
@@ -195,11 +179,7 @@ export function SectionBlock({
         <Button
           variant="ghost"
           size="icon"
-<<<<<<< HEAD
-          className="h-7 w-7 rounded-lg text-slate-400 hover:text-slate-600"
-=======
           className="text-text-muted hover:text-text-secondary h-7 w-7 rounded-lg"
->>>>>>> recover/cabinet-wip-from-stash
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -219,11 +199,7 @@ export function SectionBlock({
               <Button
                 variant="ghost"
                 size="icon"
-<<<<<<< HEAD
-                className="h-7 w-7 rounded-lg text-slate-400 hover:bg-indigo-50 hover:text-indigo-600"
-=======
                 className="text-text-muted hover:text-accent-primary hover:bg-accent-primary/10 h-7 w-7 rounded-lg"
->>>>>>> recover/cabinet-wip-from-stash
                 onClick={(e) => e.stopPropagation()}
               >
                 <History className="h-3.5 w-3.5" />
@@ -232,21 +208,12 @@ export function SectionBlock({
             </PopoverTrigger>
             <PopoverContent
               align="end"
-<<<<<<< HEAD
-              className="max-h-[360px] w-96 overflow-y-auto rounded-xl border-slate-200 p-4 shadow-xl"
-            >
-              <p className="mb-1 text-[9px] font-black uppercase tracking-widest text-indigo-600">
-                История
-              </p>
-              <p className="mb-3 text-[9px] text-slate-500">
-=======
               className="border-border-default max-h-[360px] w-96 overflow-y-auto rounded-xl p-4 shadow-xl"
             >
               <p className="text-accent-primary mb-1 text-[9px] font-black uppercase tracking-widest">
                 История
               </p>
               <p className="text-text-secondary mb-3 text-[9px]">
->>>>>>> recover/cabinet-wip-from-stash
                 Все действия в разделе с детализацией
               </p>
               <div className="space-y-2">
@@ -255,17 +222,10 @@ export function SectionBlock({
                     <span
                       className={cn(
                         'shrink-0 rounded px-1.5 py-0.5 text-[8px] font-bold uppercase',
-<<<<<<< HEAD
-                        e.action === 'appeared' && 'bg-slate-100 text-slate-600',
-                        e.action === 'dismissed' && 'bg-emerald-100 text-emerald-700',
-                        e.action === 'changed' && 'bg-amber-100 text-amber-700',
-                        e.action === 'activity' && 'bg-indigo-100 text-indigo-700'
-=======
                         e.action === 'appeared' && 'bg-bg-surface2 text-text-secondary',
                         e.action === 'dismissed' && 'bg-emerald-100 text-emerald-700',
                         e.action === 'changed' && 'bg-amber-100 text-amber-700',
                         e.action === 'activity' && 'bg-accent-primary/15 text-accent-primary'
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {e.action === 'appeared' && 'появилось'}
@@ -275,21 +235,12 @@ export function SectionBlock({
                     </span>
                     <div className="min-w-0 flex-1">
                       {e.blockLabel && (
-<<<<<<< HEAD
-                        <p className="truncate text-[8px] font-bold uppercase text-slate-500">
-                          {e.blockLabel}
-                        </p>
-                      )}
-                      <p className="break-words text-slate-700">{e.label}</p>
-                      <p className="text-[8px] text-slate-400">
-=======
                         <p className="text-text-secondary truncate text-[8px] font-bold uppercase">
                           {e.blockLabel}
                         </p>
                       )}
                       <p className="text-text-primary break-words">{e.label}</p>
                       <p className="text-text-muted text-[8px]">
->>>>>>> recover/cabinet-wip-from-stash
                         {e.author} · {formatHistoryTime(e.timestamp)}
                       </p>
                     </div>
@@ -304,38 +255,13 @@ export function SectionBlock({
             <Button
               variant="ghost"
               size="icon"
-<<<<<<< HEAD
-              className="h-7 w-7 shrink-0 rounded-lg text-slate-400 hover:bg-indigo-50 hover:text-indigo-600"
-=======
               className="text-text-muted hover:text-accent-primary hover:bg-accent-primary/10 h-7 w-7 shrink-0 rounded-lg"
->>>>>>> recover/cabinet-wip-from-stash
               onClick={(e) => e.stopPropagation()}
             >
               <Info className="h-3.5 w-3.5" />
               <span className="sr-only">Описание раздела</span>
             </Button>
           </PopoverTrigger>
-<<<<<<< HEAD
-          <PopoverContent align="end" className="w-80 rounded-xl border-slate-200 p-4 shadow-xl">
-            <div className="space-y-3">
-              <div>
-                <p className="mb-1 text-[9px] font-black uppercase tracking-widest text-indigo-600">
-                  Описание
-                </p>
-                <p className="text-[11px] leading-relaxed text-slate-700">{meta.description}</p>
-              </div>
-              <div>
-                <p className="mb-1 text-[9px] font-black uppercase tracking-widest text-indigo-600">
-                  Цель
-                </p>
-                <p className="text-[11px] leading-relaxed text-slate-700">{meta.purpose}</p>
-              </div>
-              <div>
-                <p className="mb-1 text-[9px] font-black uppercase tracking-widest text-indigo-600">
-                  Функционал
-                </p>
-                <ul className="list-inside list-disc space-y-1 text-[11px] text-slate-700">
-=======
           <PopoverContent
             align="end"
             className="border-border-default w-80 rounded-xl p-4 shadow-xl"
@@ -358,23 +284,16 @@ export function SectionBlock({
                   Функционал
                 </p>
                 <ul className="text-text-primary list-inside list-disc space-y-1 text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
                   {meta.functionality.map((f, i) => (
                     <li key={i}>{f}</li>
                   ))}
                 </ul>
               </div>
-<<<<<<< HEAD
-              <div className="flex items-center justify-between border-t border-slate-100 pt-2">
-                <span className="text-[9px] font-black uppercase text-slate-500">Важность</span>
-                <span className="text-sm font-black text-indigo-600">{meta.importance}/10</span>
-=======
               <div className="border-border-subtle flex items-center justify-between border-t pt-2">
                 <span className="text-text-secondary text-[9px] font-black uppercase">
                   Важность
                 </span>
                 <span className="text-accent-primary text-sm font-black">{meta.importance}/10</span>
->>>>>>> recover/cabinet-wip-from-stash
               </div>
             </div>
           </PopoverContent>

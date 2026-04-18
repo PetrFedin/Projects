@@ -30,38 +30,20 @@ export const ProductPvzEfficiencyBlock: React.FC<{ product: Product }> = ({ prod
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-<<<<<<< HEAD
-          <div className="text-2xl font-black text-slate-800">{e.pvzTryOnRate}%</div>
-          <div className="text-[10px] font-black uppercase leading-none text-slate-400">
-=======
           <div className="text-text-primary text-2xl font-black">{e.pvzTryOnRate}%</div>
           <div className="text-text-muted text-[10px] font-black uppercase leading-none">
->>>>>>> recover/cabinet-wip-from-stash
             PVZ Try-on Rate
           </div>
         </div>
         <div>
           <div className="text-2xl font-black text-rose-600">{e.pvzReturnRate}%</div>
-<<<<<<< HEAD
-          <div className="text-[10px] font-black uppercase leading-none text-slate-400">
-=======
           <div className="text-text-muted text-[10px] font-black uppercase leading-none">
->>>>>>> recover/cabinet-wip-from-stash
             Instant Return
           </div>
         </div>
       </div>
 
       <div className="mt-4 flex flex-col gap-2 rounded-lg border border-orange-100 bg-white p-3 shadow-sm">
-<<<<<<< HEAD
-        <div className="flex items-center justify-between text-[10px] font-black uppercase text-slate-500">
-          <span className="flex items-center gap-1.5">
-            <Timer className="h-3 w-3" /> Avg. Time at PVZ
-          </span>
-          <span className="text-slate-700">{e.avgStayAtPvz} min</span>
-        </div>
-        <div className="flex items-center justify-between text-[10px] font-black uppercase text-slate-500">
-=======
         <div className="text-text-secondary flex items-center justify-between text-[10px] font-black uppercase">
           <span className="flex items-center gap-1.5">
             <Timer className="h-3 w-3" /> Avg. Time at PVZ
@@ -69,7 +51,6 @@ export const ProductPvzEfficiencyBlock: React.FC<{ product: Product }> = ({ prod
           <span className="text-text-primary">{e.avgStayAtPvz} min</span>
         </div>
         <div className="text-text-secondary flex items-center justify-between text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
           <span className="flex items-center gap-1.5">
             <AlertTriangle className="h-3 w-3 text-rose-500" /> Logistic Loss
           </span>
@@ -77,11 +58,7 @@ export const ProductPvzEfficiencyBlock: React.FC<{ product: Product }> = ({ prod
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div className="mt-4 flex items-center justify-between border-t border-orange-100 pt-3 text-[9px] font-bold uppercase italic text-slate-400">
-=======
       <div className="text-text-muted mt-4 flex items-center justify-between border-t border-orange-100 pt-3 text-[9px] font-bold uppercase italic">
->>>>>>> recover/cabinet-wip-from-stash
         <span>Data: WB/Ozon PVZ Aggregator</span>
         <span className="text-orange-600">Risk: {e.pvzReturnRate > 30 ? 'High' : 'Optimal'}</span>
       </div>

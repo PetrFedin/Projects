@@ -22,18 +22,12 @@ export default function CMSPage() {
 
   if (isStandaloneCmsRoute) {
     return (
-<<<<<<< HEAD
-      <div className="flex min-h-[200px] items-center justify-center text-sm text-slate-500">
-        Перенаправление в Content Factory…
-      </div>
-=======
       <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
         <RegistryPageHeader title="CMS" leadPlain="Перенаправление в Content Factory…" />
         <div className="text-text-secondary flex min-h-[200px] items-center justify-center text-sm">
           Перенаправление в Content Factory…
         </div>
       </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
     );
   }
 

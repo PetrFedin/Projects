@@ -110,11 +110,7 @@ export function ProductionIntegrationsDialog({
             </TabsTrigger>
           </TabsList>
           <TabsContent value="plm" className="space-y-4 pt-4">
-<<<<<<< HEAD
-            <p className="text-[10px] font-bold uppercase text-slate-500">
-=======
             <p className="text-text-secondary text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
               Gerber, CLO3D, Lectra — импорт BOM, градаций
             </p>
             <div className="flex flex-wrap gap-2">
@@ -134,11 +130,7 @@ export function ProductionIntegrationsDialog({
             </Button>
           </TabsContent>
           <TabsContent value="erp" className="space-y-4 pt-4">
-<<<<<<< HEAD
-            <p className="text-[10px] font-bold uppercase text-slate-500">
-=======
             <p className="text-text-secondary text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
               1С, МойСклад, SAP — заказы, остатки, финансы
             </p>
             <div className="flex flex-wrap gap-2">
@@ -158,11 +150,7 @@ export function ProductionIntegrationsDialog({
             </Button>
           </TabsContent>
           <TabsContent value="notifications" className="space-y-4 pt-4">
-<<<<<<< HEAD
-            <p className="text-[10px] font-bold uppercase text-slate-500">
-=======
             <p className="text-text-secondary text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
               Email и Push — триггеры
             </p>
             <div className="space-y-3">

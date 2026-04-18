@@ -15,11 +15,7 @@ import { RegistryPageShell } from '@/components/design-system';
 
 export default function ReadyMadeProductionPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Готовый товар — упрощённый flow"
         description={
@@ -38,11 +34,7 @@ export default function ReadyMadeProductionPage() {
               Готовый товар
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/production">Production</Link>
-=======
               <Link href={ROUTES.brand.production}>Производство</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -56,12 +48,8 @@ export default function ReadyMadeProductionPage() {
               <Layers className="h-5 w-5" /> 1. Коллекция и артикулы
             </CardTitle>
             <CardDescription>
-<<<<<<< HEAD
-              Создайте коллекцию и добавьте информацию о товарах (карточки)
-=======
               Создайте коллекцию и добавьте информацию о товарах (<AcronymWithTooltip abbr="SKU" />
               -карточки)
->>>>>>> recover/cabinet-wip-from-stash
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -108,13 +96,8 @@ export default function ReadyMadeProductionPage() {
         <CardContent>
           <ul className="space-y-2 text-sm">
             <li className="flex items-center gap-2">
-<<<<<<< HEAD
-              <Package className="h-4 w-4 text-emerald-500" /> Заведение коллекции (без PO и
-              сэмплов)
-=======
               <Package className="h-4 w-4 text-emerald-500" /> Заведение коллекции (без{' '}
               <AcronymWithTooltip abbr="PO" /> и сэмплов)
->>>>>>> recover/cabinet-wip-from-stash
             </li>
             <li className="flex items-center gap-2">
               <Package className="h-4 w-4 text-emerald-500" /> Создание карточек товаров

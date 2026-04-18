@@ -153,23 +153,6 @@ export default function BrandIntegrationsSparkLayerPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.brand.integrations}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight">SparkLayer</h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Core API (products, customers, orders), Quoting, правила и скидки по клиентам. Pricing
-            API уже встроен.
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="SparkLayer"
@@ -182,7 +165,6 @@ export default function BrandIntegrationsSparkLayerPage() {
           </Button>
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <div className="grid gap-4">
         <Card>
@@ -208,11 +190,7 @@ export default function BrandIntegrationsSparkLayerPage() {
                   </li>
                 ))}
                 {products.length > 5 && (
-<<<<<<< HEAD
-                  <li className="px-3 py-2 text-slate-500">… ещё {products.length - 5}</li>
-=======
                   <li className="text-text-secondary px-3 py-2">… ещё {products.length - 5}</li>
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               </ul>
             )}
@@ -239,11 +217,7 @@ export default function BrandIntegrationsSparkLayerPage() {
                   </li>
                 ))}
                 {customers.length > 5 && (
-<<<<<<< HEAD
-                  <li className="px-3 py-2 text-slate-500">… ещё {customers.length - 5}</li>
-=======
                   <li className="text-text-secondary px-3 py-2">… ещё {customers.length - 5}</li>
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               </ul>
             )}
@@ -281,11 +255,7 @@ export default function BrandIntegrationsSparkLayerPage() {
                   </li>
                 ))}
                 {orders.length > 5 && (
-<<<<<<< HEAD
-                  <li className="px-3 py-2 text-slate-500">… ещё {orders.length - 5}</li>
-=======
                   <li className="text-text-secondary px-3 py-2">… ещё {orders.length - 5}</li>
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               </ul>
             )}
@@ -329,11 +299,7 @@ export default function BrandIntegrationsSparkLayerPage() {
                   </li>
                 ))}
                 {quotes.length > 5 && (
-<<<<<<< HEAD
-                  <li className="px-3 py-2 text-slate-500">… ещё {quotes.length - 5}</li>
-=======
                   <li className="text-text-secondary px-3 py-2">… ещё {quotes.length - 5}</li>
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               </ul>
             )}
@@ -363,11 +329,7 @@ export default function BrandIntegrationsSparkLayerPage() {
                   </li>
                 ))}
                 {rules.length > 5 && (
-<<<<<<< HEAD
-                  <li className="px-3 py-2 text-slate-500">… ещё {rules.length - 5}</li>
-=======
                   <li className="text-text-secondary px-3 py-2">… ещё {rules.length - 5}</li>
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               </ul>
             )}
@@ -394,11 +356,7 @@ export default function BrandIntegrationsSparkLayerPage() {
                   </li>
                 ))}
                 {discounts.length > 5 && (
-<<<<<<< HEAD
-                  <li className="px-3 py-2 text-slate-500">… ещё {discounts.length - 5}</li>
-=======
                   <li className="text-text-secondary px-3 py-2">… ещё {discounts.length - 5}</li>
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               </ul>
             )}
@@ -437,11 +395,7 @@ export default function BrandIntegrationsSparkLayerPage() {
             JOOR
           </Button>
         </Link>
-<<<<<<< HEAD
-        <Link href={ROUTES.brand.integrationsNuorder}>
-=======
         <Link href={ROUTES.brand.integrationsNuOrder}>
->>>>>>> recover/cabinet-wip-from-stash
           <Button variant="ghost" size="sm">
             NuOrder
           </Button>

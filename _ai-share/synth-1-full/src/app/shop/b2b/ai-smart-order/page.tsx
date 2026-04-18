@@ -9,21 +9,15 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { FileUp, Mail, Sparkles, Loader2, CheckCircle } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-<<<<<<< HEAD
-=======
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
->>>>>>> recover/cabinet-wip-from-stash
 import {
   parseOrderFromText,
   type SmartOrderParsedLine,
   type SmartOrderParseResult,
 } from '@/lib/ai/ai-smart-order';
-<<<<<<< HEAD
-=======
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
 import { tid } from '@/lib/ui/test-ids';
->>>>>>> recover/cabinet-wip-from-stash
 
 /** OroCommerce: AI SmartOrder — черновик заказа из PDF или email PO */
 export default function AiSmartOrderPage() {
@@ -52,30 +46,11 @@ export default function AiSmartOrderPage() {
   }, [result]);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <Sparkles className="h-6 w-6" /> AI SmartOrder
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            OroCommerce: загрузите PDF или вставьте email с PO — AI создаст черновик заказа
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell
       className="min-h-[200px] max-w-3xl space-y-6"
       data-testid={tid.page('shop-b2b-ai-smart-order')}
     >
       <ShopB2bContentHeader lead="PDF или текст письма с PO — черновик заказа (OroCommerce AI SmartOrder)." />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -91,22 +66,14 @@ export default function AiSmartOrderPage() {
               size="sm"
               onClick={() => setMode('pdf')}
             >
-<<<<<<< HEAD
-              <FileUp className="mr-1 h-4 w-4" /> PDF
-=======
               <FileUp className="mr-1 size-4" /> PDF
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
             <Button
               variant={mode === 'email' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setMode('email')}
             >
-<<<<<<< HEAD
-              <Mail className="mr-1 h-4 w-4" /> Email / текст
-=======
               <Mail className="mr-1 size-4" /> Email / текст
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </div>
           <Textarea
@@ -129,25 +96,15 @@ export default function AiSmartOrderPage() {
             Вставить пример
           </Button>
           {mode === 'pdf' && (
-<<<<<<< HEAD
-            <p className="text-xs text-slate-500">
-=======
             <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
               Демо: вставьте текст из PDF. В проде будет загрузка файла и автоматический OCR.
             </p>
           )}
           <Button onClick={handleParse} disabled={!emailText.trim() || parsing}>
             {parsing ? (
-<<<<<<< HEAD
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Sparkles className="mr-2 h-4 w-4" />
-=======
               <Loader2 className="mr-2 size-4 animate-spin" />
             ) : (
               <Sparkles className="mr-2 size-4" />
->>>>>>> recover/cabinet-wip-from-stash
             )}
             {parsing ? 'Парсинг...' : 'Создать черновик с AI'}
           </Button>

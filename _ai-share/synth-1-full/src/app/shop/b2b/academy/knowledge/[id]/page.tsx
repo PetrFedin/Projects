@@ -20,17 +20,6 @@ export default function ShopKnowledgeArticlePage() {
 
   if (!article) {
     return (
-<<<<<<< HEAD
-      <div className="container mx-auto max-w-2xl px-4 py-6">
-        <Button variant="ghost" size="icon" onClick={() => router.back()}>
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
-        <p className="mt-4 text-slate-500">Статья не найдена</p>
-        <Button variant="outline" asChild className="mt-4">
-          <Link href={ROUTES.shop.b2bAcademy}>В академию</Link>
-        </Button>
-      </div>
-=======
       <RegistryPageShell className="max-w-2xl space-y-4">
         <Button variant="ghost" size="icon" onClick={() => router.back()}>
           <ArrowLeft className="h-4 w-4" />
@@ -40,29 +29,10 @@ export default function ShopKnowledgeArticlePage() {
           <Link href={ROUTES.shop.b2bAcademy}>В академию</Link>
         </Button>
       </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
     );
   }
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
-      <div className="flex items-center gap-3">
-        <Link href={ROUTES.shop.b2bAcademy}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight">{article.title}</h1>
-          <p className="text-sm text-slate-500">
-            {KNOWLEDGE_CATEGORY_LABELS[article.category] ?? article.category}
-          </p>
-        </div>
-      </div>
-
-      <Card className="rounded-xl border border-slate-100">
-=======
     <RegistryPageShell className="max-w-2xl space-y-6">
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bAcademy}
@@ -77,21 +47,14 @@ export default function ShopKnowledgeArticlePage() {
       />
 
       <Card className="border-border-subtle rounded-xl border">
->>>>>>> recover/cabinet-wip-from-stash
         <CardContent className="space-y-4 pt-6">
           <div className="flex gap-2">
             <Badge variant="outline">
               {KNOWLEDGE_CATEGORY_LABELS[article.category] ?? article.category}
             </Badge>
-<<<<<<< HEAD
-            <span className="text-[11px] text-slate-500">Обновлено {article.updatedAt}</span>
-          </div>
-          <p className="leading-relaxed text-slate-700">{article.excerpt}</p>
-=======
             <span className="text-text-secondary text-[11px]">Обновлено {article.updatedAt}</span>
           </div>
           <p className="text-text-primary leading-relaxed">{article.excerpt}</p>
->>>>>>> recover/cabinet-wip-from-stash
           {article.tags.length > 0 && (
             <div className="flex flex-wrap gap-1 pt-2">
               {article.tags.map((tag) => (

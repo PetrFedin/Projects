@@ -353,11 +353,7 @@ function LinkGrid({ items }: { items: { href: string; title: string; desc: strin
     <div className="grid gap-3 sm:grid-cols-2">
       {items.map((x) => (
         <Link key={x.href} href={x.href}>
-<<<<<<< HEAD
-          <Card className="h-full transition-colors hover:border-violet-200">
-=======
           <Card className="hover:border-accent-primary/25 h-full transition-colors">
->>>>>>> recover/cabinet-wip-from-stash
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">{x.title}</CardTitle>
               <CardDescription className="text-xs">{x.desc}</CardDescription>
@@ -374,27 +370,17 @@ function LinkGrid({ items }: { items: { href: string; title: string; desc: strin
 
 export default function BrandGrowthHubPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
-      <SectionInfoCard
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
->>>>>>> recover/cabinet-wip-from-stash
         title="Платформа: рост и вау-сценарии"
         leadPlain="Единая точка входа: клиентские фичи (B2C/байер), инструменты партнёров и демо для маркетинга."
         actions={<Rocket className="text-accent-primary size-6 shrink-0" aria-hidden />}
       />
 
       <Tabs defaultValue="consumer">
-<<<<<<< HEAD
-        <TabsList className="h-auto flex-wrap gap-1">
-          <TabsTrigger value="consumer" className="gap-1 text-xs">
-=======
         {/* cabinetSurface v1 */}
         <TabsList className={cn(cabinetSurface.tabsList, 'flex-wrap')}>
           <TabsTrigger value="consumer" className={cn(cabinetSurface.tabsTrigger, 'h-8 gap-1')}>
->>>>>>> recover/cabinet-wip-from-stash
             <Users className="h-3.5 w-3.5" />
             Клиенты
           </TabsTrigger>
@@ -428,11 +414,7 @@ export default function BrandGrowthHubPage() {
           <TabsTrigger value="admin" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             Админ
           </TabsTrigger>
-<<<<<<< HEAD
-          <TabsTrigger value="wow" className="gap-1 text-xs">
-=======
           <TabsTrigger value="wow" className={cn(cabinetSurface.tabsTrigger, 'h-8 gap-1')}>
->>>>>>> recover/cabinet-wip-from-stash
             <Megaphone className="h-3.5 w-3.5" />
             Демо
           </TabsTrigger>
@@ -480,10 +462,6 @@ export default function BrandGrowthHubPage() {
         title="Связанные разделы"
         className="mt-2"
       />
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

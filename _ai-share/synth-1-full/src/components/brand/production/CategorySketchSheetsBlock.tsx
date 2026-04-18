@@ -519,11 +519,7 @@ export function CategorySketchSheetsBlock({
           </details>
         ) : null}
         <div className="space-y-3">
-<<<<<<< HEAD
-          <p className="text-sm leading-snug text-slate-600">
-=======
           <p className="text-text-secondary text-sm leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
             Дополнительные скетч-листы: анфас, спина, деталь, фото — своя подложка и метки к
             текущему листу каталога.
           </p>
@@ -578,15 +574,9 @@ export function CategorySketchSheetsBlock({
         </details>
       ) : null}
 
-<<<<<<< HEAD
-      <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm">
-        <p className="mb-1 text-xs font-semibold text-zinc-900">Какой лист редактируем</p>
-        <p className="mb-2 text-[11px] leading-snug text-zinc-500">
-=======
       <div className="border-border-default rounded-xl border bg-white p-3 shadow-sm">
         <p className="text-text-primary mb-1 text-xs font-semibold">Какой лист редактируем</p>
         <p className="text-text-secondary mb-2 text-[11px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
           ‹ › — лист в текущем списке; ↑↓ — порядок листов в досье. Название — поле рядом. Ниже
           сразу доска; поля цеха и PLM — в свёрнутом блоке в конце.
         </p>
@@ -736,11 +726,7 @@ export function CategorySketchSheetsBlock({
                 className={cn(
                   'rounded-md border px-2 py-1 text-[11px]',
                   sceneListFilter === 'all'
-<<<<<<< HEAD
-                    ? 'border-indigo-300 bg-indigo-50 font-medium'
-=======
                     ? 'border-accent-primary/30 bg-accent-primary/10 font-medium'
->>>>>>> recover/cabinet-wip-from-stash
                     : 'border-transparent bg-white'
                 )}
                 onClick={() => setSceneListFilter('all')}
@@ -754,11 +740,7 @@ export function CategorySketchSheetsBlock({
                   className={cn(
                     'rounded-md border px-2 py-1 font-mono text-[10px]',
                     sceneListFilter === k
-<<<<<<< HEAD
-                      ? 'border-indigo-300 bg-indigo-50 font-medium'
-=======
                       ? 'border-accent-primary/30 bg-accent-primary/10 font-medium'
->>>>>>> recover/cabinet-wip-from-stash
                       : 'border-transparent bg-white'
                   )}
                   onClick={() => setSceneListFilter(k)}
@@ -830,15 +812,9 @@ export function CategorySketchSheetsBlock({
             </div>
           ) : null}
 
-<<<<<<< HEAD
-          <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm">
-            <p className="mb-1 text-xs font-semibold text-zinc-900">Доска листа</p>
-            <p className="mb-3 text-[11px] leading-snug text-zinc-500">
-=======
           <div className="border-border-default rounded-xl border bg-white p-3 shadow-sm">
             <p className="text-text-primary mb-1 text-xs font-semibold">Доска листа</p>
             <p className="text-text-secondary mb-3 text-[11px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
               Подложка и метки — как на «Общий». Статус цеха, сцена, заметки и шаблоны — в свёрнутом
               блоке ниже.
             </p>
@@ -901,19 +877,11 @@ export function CategorySketchSheetsBlock({
                 </h4>
                 <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
                   <div className="space-y-1">
-<<<<<<< HEAD
-                    <Label className="text-xs text-slate-600">
-                      Статус листа (цех / согласования)
-                    </Label>
-                    <select
-                      className="h-9 w-full min-w-[180px] rounded-md border border-slate-200 bg-white px-2 text-sm disabled:opacity-60"
-=======
                     <Label className="text-text-secondary text-xs">
                       Статус листа (цех / согласования)
                     </Label>
                     <select
                       className="border-border-default h-9 w-full min-w-[180px] rounded-md border bg-white px-2 text-sm disabled:opacity-60"
->>>>>>> recover/cabinet-wip-from-stash
                       value={activeSheet.sheetWorkflowStatus ?? 'draft'}
                       disabled={sheetChromeReadOnly}
                       onChange={(e) =>
@@ -932,13 +900,8 @@ export function CategorySketchSheetsBlock({
                     </select>
                   </div>
                   <div className="flex min-w-0 flex-1 flex-col gap-2 sm:min-w-[280px]">
-<<<<<<< HEAD
-                    <Label className="text-xs text-slate-600">Чеклист готовности</Label>
-                    <div className="flex flex-col gap-2 text-sm text-slate-700">
-=======
                     <Label className="text-text-secondary text-xs">Чеклист готовности</Label>
                     <div className="text-text-primary flex flex-col gap-2 text-sm">
->>>>>>> recover/cabinet-wip-from-stash
                       <label
                         className={cn(
                           'flex items-center gap-2',
@@ -1020,25 +983,15 @@ export function CategorySketchSheetsBlock({
                 <h4 className="text-text-secondary text-[11px] font-semibold uppercase tracking-wide">
                   Вид, сцена, копирование
                 </h4>
-<<<<<<< HEAD
-                <p className="text-[11px] text-slate-500">
-=======
                 <p className="text-text-secondary text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
                   Название листа задаётся в шапке переключателя; порядок в списке — кнопки ↑↓ рядом
                   с ‹ ›.
                 </p>
                 <div className="grid gap-3 sm:grid-cols-[minmax(0,14rem)_1fr] sm:items-end">
                   <div className="space-y-1">
-<<<<<<< HEAD
-                    <Label className="text-xs text-slate-600">Тип / вид (в сцене)</Label>
-                    <select
-                      className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm disabled:opacity-60"
-=======
                     <Label className="text-text-secondary text-xs">Тип / вид (в сцене)</Label>
                     <select
                       className="border-border-default h-9 w-full rounded-md border bg-white px-2 text-sm disabled:opacity-60"
->>>>>>> recover/cabinet-wip-from-stash
                       value={activeSheet.viewKind ?? 'other'}
                       disabled={sheetChromeReadOnly}
                       onChange={(e) =>
@@ -1089,11 +1042,7 @@ export function CategorySketchSheetsBlock({
                 <div className="rounded-lg border border-teal-100 bg-teal-50/40 p-3">
                   <div className="flex flex-wrap items-end gap-2">
                     <div className="min-w-[12rem] flex-1 space-y-1">
-<<<<<<< HEAD
-                      <Label className="text-xs text-slate-600">
-=======
                       <Label className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                         ID сцены (один на анфас / спину / деталь)
                       </Label>
                       <Input
@@ -1121,15 +1070,9 @@ export function CategorySketchSheetsBlock({
                       Как в досье
                     </Button>
                   </div>
-<<<<<<< HEAD
-                  <p className="mt-2 text-[11px] text-slate-600">
-                    Общий id в досье:{' '}
-                    <span className="font-mono text-slate-800">
-=======
                   <p className="text-text-secondary mt-2 text-[11px]">
                     Общий id в досье:{' '}
                     <span className="text-text-primary font-mono">
->>>>>>> recover/cabinet-wip-from-stash
                       {dossier.categorySketchSceneId ?? '—'}
                     </span>
                   </p>
@@ -1143,13 +1086,9 @@ export function CategorySketchSheetsBlock({
                 <div className="space-y-3">
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div className="space-y-1">
-<<<<<<< HEAD
-                      <Label className="text-xs text-slate-600">Задача цеха по этому виду</Label>
-=======
                       <Label className="text-text-secondary text-xs">
                         Задача цеха по этому виду
                       </Label>
->>>>>>> recover/cabinet-wip-from-stash
                       <Textarea
                         className="min-h-[72px] text-sm"
                         placeholder="Коротко: что проверить / сделать на этом ракурсе…"
@@ -1159,11 +1098,7 @@ export function CategorySketchSheetsBlock({
                       />
                     </div>
                     <div className="space-y-1">
-<<<<<<< HEAD
-                      <Label className="text-xs text-slate-600">
-=======
                       <Label className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                         Комментарий к листу (обсуждение)
                       </Label>
                       <Textarea
@@ -1177,11 +1112,7 @@ export function CategorySketchSheetsBlock({
                   </div>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div className="space-y-1">
-<<<<<<< HEAD
-                      <Label className="text-xs text-slate-600">Видео-референс (URL)</Label>
-=======
                       <Label className="text-text-secondary text-xs">Видео-референс (URL)</Label>
->>>>>>> recover/cabinet-wip-from-stash
                       <Input
                         className="h-9 text-sm"
                         placeholder="Ссылка на короткое видео посадки / движения"
@@ -1195,21 +1126,13 @@ export function CategorySketchSheetsBlock({
                           })
                         }
                       />
-<<<<<<< HEAD
-                      <p className="text-[11px] text-slate-500">
-=======
                       <p className="text-text-secondary text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
                         Локально только ссылка; загрузка файла — через API медиа (поле-задел в типах
                         досье).
                       </p>
                     </div>
                     <div className="space-y-1">
-<<<<<<< HEAD
-                      <Label className="text-xs text-slate-600">Заметка к видео</Label>
-=======
                       <Label className="text-text-secondary text-xs">Заметка к видео</Label>
->>>>>>> recover/cabinet-wip-from-stash
                       <Input
                         className="h-9 text-sm"
                         placeholder="Что смотреть в ролике"
@@ -1231,11 +1154,7 @@ export function CategorySketchSheetsBlock({
                         href={activeSheet.referenceMotionVideoUrl.trim()}
                         target="_blank"
                         rel="noopener noreferrer"
-<<<<<<< HEAD
-                        className="font-medium text-indigo-600 underline"
-=======
                         className="text-accent-primary font-medium underline"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         Открыть видео-референс
                       </a>
@@ -1250,11 +1169,7 @@ export function CategorySketchSheetsBlock({
                 </h4>
                 <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                   <select
-<<<<<<< HEAD
-                    className="h-9 min-w-[200px] flex-1 rounded-md border border-slate-200 bg-white px-2 text-sm disabled:opacity-60"
-=======
                     className="border-border-default h-9 min-w-[200px] flex-1 rounded-md border bg-white px-2 text-sm disabled:opacity-60"
->>>>>>> recover/cabinet-wip-from-stash
                     value={sheetTemplatePickId}
                     disabled={sheetChromeReadOnly}
                     onChange={(e) => setSheetTemplatePickId(e.target.value)}
@@ -1371,11 +1286,7 @@ export function CategorySketchSheetsBlock({
                     onChange={(e) => setCompareZoom(Number(e.target.value) / 100)}
                     aria-label="Масштаб сравнения"
                   />
-<<<<<<< HEAD
-                  <span className="text-xs tabular-nums text-slate-500">
-=======
                   <span className="text-text-secondary text-xs tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
                     {Math.round(compareZoom * 100)}%
                   </span>
                 </div>
@@ -1385,11 +1296,7 @@ export function CategorySketchSheetsBlock({
                 style={{ zoom: compareZoom } as CSSProperties}
               >
                 <div className="min-w-0 space-y-1">
-<<<<<<< HEAD
-                  <p className="text-[10px] font-semibold uppercase text-slate-500">
-=======
                   <p className="text-text-secondary text-[10px] font-semibold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                     {(
                       activeSheet.title?.trim() ||
                       SKETCH_SHEET_VIEW_LABELS[activeSheet.viewKind ?? 'other']

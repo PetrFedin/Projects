@@ -83,13 +83,8 @@ export const mockB2BOrders: B2BOrder[] = [
   {
     order: 'B2B-0013',
     status: 'Черновик',
-<<<<<<< HEAD
-    shop: 'Podium (Москва)',
-    brand: 'Syntha',
-=======
     shop: 'Демо-магазин · Москва 1',
     brand: 'Syntha Lab',
->>>>>>> recover/cabinet-wip-from-stash
     amount: '0 ₽',
     date: '2024-07-29',
     deliveryDate: '2024-09-20',
@@ -104,13 +99,8 @@ export const mockB2BOrders: B2BOrder[] = [
   {
     order: 'B2B-0012',
     status: 'Зарезервировано',
-<<<<<<< HEAD
-    shop: 'Podium (Москва)',
-    brand: 'Syntha',
-=======
     shop: 'Демо-магазин · Москва 1',
     brand: 'Syntha Lab',
->>>>>>> recover/cabinet-wip-from-stash
     amount: '750 000 ₽',
     date: '2024-07-20',
     deliveryDate: '2024-09-15',
@@ -124,13 +114,8 @@ export const mockB2BOrders: B2BOrder[] = [
   {
     order: 'B2B-0011',
     status: 'Требует внимания',
-<<<<<<< HEAD
-    shop: 'ЦУМ (Москва)',
-    brand: 'A.P.C.',
-=======
     shop: 'Демо-магазин · Москва 2',
     brand: 'Nordic Wool',
->>>>>>> recover/cabinet-wip-from-stash
     amount: '1 200 000 ₽',
     date: '2024-07-15',
     deliveryDate: '2024-08-30',
@@ -143,13 +128,8 @@ export const mockB2BOrders: B2BOrder[] = [
   {
     order: 'B2B-0010',
     status: 'Черновик',
-<<<<<<< HEAD
-    shop: 'Boutique No.7 (СПб)',
-    brand: 'Acne Studios',
-=======
     shop: 'Демо-магазин · СПб',
     brand: 'Syntha Lab',
->>>>>>> recover/cabinet-wip-from-stash
     amount: '450 000 ₽',
     date: '2024-06-25',
     deliveryDate: '2024-08-10',
@@ -194,20 +174,12 @@ export const mockChat: {
 }[] = [
   {
     user: 'Система',
-<<<<<<< HEAD
-    text: 'Магазин "Podium" отправил заказ на согласование.',
-=======
     text: 'Демо-магазин · Москва 1 отправил заказ на согласование.',
->>>>>>> recover/cabinet-wip-from-stash
     time: '14:25',
     isSystem: true,
   },
   {
-<<<<<<< HEAD
-    user: 'Анна (Syntha)',
-=======
     user: 'Анна (Syntha Lab)',
->>>>>>> recover/cabinet-wip-from-stash
     text: 'Елена, здравствуйте! Заказ B2B-0012 получен. Все позиции в наличии для производства. Сроки подтверждаем.',
     time: '14:30',
   },
@@ -217,11 +189,7 @@ export const mockChat: {
     time: '14:32',
   },
   {
-<<<<<<< HEAD
-    user: 'Анна (Syntha)',
-=======
     user: 'Анна (Syntha Lab)',
->>>>>>> recover/cabinet-wip-from-stash
     text: 'Да, конечно. Планируем отгрузку на 10 сентября, так что к 15-му все будет у вас.',
     time: '14:35',
   },

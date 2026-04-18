@@ -17,19 +17,11 @@ export function ProductLocalCourierBlock({ product }: { product: Product }) {
   };
 
   return (
-<<<<<<< HEAD
-    <Card className="relative my-4 overflow-hidden border-2 border-slate-100 bg-slate-50/5 p-4 shadow-sm">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-slate-600">
-          <Truck className="h-4 w-4" />
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
-=======
     <Card className="border-border-subtle bg-bg-surface2/5 relative my-4 overflow-hidden border-2 p-4 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
         <div className="text-text-secondary flex items-center gap-2">
           <Truck className="h-4 w-4" />
           <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
             Last-Mile Logistics (RU Local)
           </h4>
         </div>
@@ -40,18 +32,6 @@ export function ProductLocalCourierBlock({ product }: { product: Product }) {
         </Badge>
       </div>
 
-<<<<<<< HEAD
-      <div className="mb-4 rounded-xl border border-slate-100 bg-white p-3 shadow-sm">
-        <div className="mb-2 flex items-center justify-between">
-          <div className="text-[11px] font-black text-slate-800">{status.courierService} Hub</div>
-          <div className="font-mono text-[10px] text-slate-400">
-            #ORD-{status.orderId.slice(-8)}
-          </div>
-        </div>
-        <div className="flex items-center gap-2 text-[10px] font-bold text-slate-600">
-          <MapPin className="h-3.5 w-3.5 text-indigo-500" /> Currently at:{' '}
-          <span className="text-slate-900">{status.currentHub}</span>
-=======
       <div className="border-border-subtle mb-4 rounded-xl border bg-white p-3 shadow-sm">
         <div className="mb-2 flex items-center justify-between">
           <div className="text-text-primary text-[11px] font-black">
@@ -64,24 +44,15 @@ export function ProductLocalCourierBlock({ product }: { product: Product }) {
         <div className="text-text-secondary flex items-center gap-2 text-[10px] font-bold">
           <MapPin className="text-accent-primary h-3.5 w-3.5" /> Currently at:{' '}
           <span className="text-text-primary">{status.currentHub}</span>
->>>>>>> recover/cabinet-wip-from-stash
         </div>
       </div>
 
       <div className="mb-4 grid grid-cols-2 gap-3">
-<<<<<<< HEAD
-        <div className="rounded-lg border border-slate-100 bg-slate-100/50 p-2.5">
-          <div className="mb-1 flex items-center gap-1 text-[8px] font-black uppercase text-slate-400">
-            <Clock className="h-2.5 w-2.5" /> ETA Arrival
-          </div>
-          <div className="text-[10px] font-black text-slate-700">
-=======
         <div className="bg-bg-surface2/50 border-border-subtle rounded-lg border p-2.5">
           <div className="text-text-muted mb-1 flex items-center gap-1 text-[8px] font-black uppercase">
             <Clock className="h-2.5 w-2.5" /> ETA Arrival
           </div>
           <div className="text-text-primary text-[10px] font-black">
->>>>>>> recover/cabinet-wip-from-stash
             {new Date(status.estimatedArrival).toLocaleString('ru-RU', {
               day: 'numeric',
               month: 'short',
@@ -92,16 +63,6 @@ export function ProductLocalCourierBlock({ product }: { product: Product }) {
         </div>
         <button
           onClick={() => window.open(status.trackingLink, '_blank')}
-<<<<<<< HEAD
-          className="group flex items-center justify-center gap-1.5 rounded-lg border border-indigo-100 bg-indigo-50/50 p-2.5 transition-colors hover:bg-indigo-50"
-        >
-          <span className="text-[8px] font-black uppercase text-indigo-600">Live Tracking</span>
-          <ExternalLink className="h-2.5 w-2.5 text-indigo-500 transition-transform group-hover:translate-x-0.5" />
-        </button>
-      </div>
-
-      <div className="mt-2 flex items-center justify-center gap-2 text-[8px] font-black uppercase tracking-widest text-slate-400 opacity-60">
-=======
           className="bg-accent-primary/10 hover:bg-accent-primary/10 border-accent-primary/20 group flex items-center justify-center gap-1.5 rounded-lg border p-2.5 transition-colors"
         >
           <span className="text-accent-primary text-[8px] font-black uppercase">Live Tracking</span>
@@ -110,7 +71,6 @@ export function ProductLocalCourierBlock({ product }: { product: Product }) {
       </div>
 
       <div className="text-text-muted mt-2 flex items-center justify-center gap-2 text-[8px] font-black uppercase tracking-widest opacity-60">
->>>>>>> recover/cabinet-wip-from-stash
         <Navigation className="h-2.5 w-2.5" /> Optimized routing by CDEK/Boxberry
       </div>
     </Card>

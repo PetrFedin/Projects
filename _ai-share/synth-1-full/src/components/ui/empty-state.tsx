@@ -57,21 +57,12 @@ export function EmptyState({
       {/* Icon with background */}
       <div className="relative mb-6">
         <div className="absolute inset-0 scale-150 rounded-full bg-blue-500/10 blur-2xl" />
-<<<<<<< HEAD
-        <div className="shadow-soft relative rounded-3xl bg-gradient-to-br from-slate-50 to-slate-100 p-4">
-          <Icon className={cn(v.icon, 'text-slate-400')} />
-=======
         <div className="from-bg-surface2 to-bg-surface2 shadow-soft relative rounded-3xl bg-gradient-to-br p-4">
           <Icon className={cn(v.icon, 'text-text-muted')} />
->>>>>>> recover/cabinet-wip-from-stash
         </div>
       </div>
 
       {/* Content */}
-<<<<<<< HEAD
-      <h3 className={cn('mb-3 font-black tracking-tight text-slate-900', v.title)}>{title}</h3>
-      <p className={cn('mb-6 max-w-md font-medium leading-relaxed text-slate-500', v.description)}>
-=======
       <h3 className={cn('text-text-primary mb-3 font-black tracking-tight', v.title)}>{title}</h3>
       <p
         className={cn(
@@ -79,7 +70,6 @@ export function EmptyState({
           v.description
         )}
       >
->>>>>>> recover/cabinet-wip-from-stash
         {description}
       </p>
 

@@ -41,11 +41,7 @@ export async function getClientRecommendations(
         reason: 'Top trending accessory in your favorite category',
         score: 85,
       },
-<<<<<<< HEAD
-    ] as any,
-=======
     ],
->>>>>>> recover/cabinet-wip-from-stash
     styleInsight:
       'Клиент предпочитает натуральные ткани и свободный крой. Избегайте предложений из полиэстера.',
   };

@@ -48,13 +48,8 @@ export function Workshop2MeasurementsTableHub({
               <LucideIcons.Ruler className="h-4 w-4" aria-hidden />
             </div>
             <div>
-<<<<<<< HEAD
-              <h3 className="text-sm font-bold text-slate-900">Табель мер: хаб ТЗ</h3>
-              <p className="mt-0.5 text-[10px] leading-snug text-slate-600">
-=======
               <h3 className="text-text-primary text-sm font-bold">Табель мер: хаб ТЗ</h3>
               <p className="text-text-secondary mt-0.5 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                 Единая таблица для образца, фабрики, fit и ОТК. Ниже — 10 контрольных пунктов и
                 роли, которые на неё опираются.
               </p>
@@ -66,11 +61,7 @@ export function Workshop2MeasurementsTableHub({
             {score.done}/{score.total} · {score.pct}%
           </span>
           {typeof constructionSectionPct === 'number' ? (
-<<<<<<< HEAD
-            <span className="text-[9px] tabular-nums text-slate-500">
-=======
             <span className="text-text-secondary text-[9px] tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
               Секция «Конструкция» ≈ {constructionSectionPct}%
             </span>
           ) : null}
@@ -91,11 +82,7 @@ export function Workshop2MeasurementsTableHub({
               className="max-h-[min(32rem,70vh)] w-[min(26rem,calc(100vw-1.5rem))] space-y-3 overflow-y-auto text-xs"
               align="end"
             >
-<<<<<<< HEAD
-              <p className="text-[10px] font-semibold leading-snug text-slate-700">
-=======
               <p className="text-text-primary text-[10px] font-semibold leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                 Табель мер — источник правды по числам для всех этапов маршрута SKU. Каждая роль
                 читает те же ячейки; правки согласуйте через ТЗ и подписи секции.
               </p>
@@ -118,24 +105,13 @@ export function Workshop2MeasurementsTableHub({
               'flex gap-2 rounded-lg border px-2 py-1.5 text-[10px] leading-snug',
               c.done
                 ? 'border-emerald-200/90 bg-emerald-50/50 text-emerald-950'
-<<<<<<< HEAD
-                : 'border-slate-200/90 bg-white/80 text-slate-700'
-=======
                 : 'border-border-default/90 text-text-primary bg-white/80'
->>>>>>> recover/cabinet-wip-from-stash
             )}
           >
             <span className="text-text-muted mt-0.5 shrink-0 font-black tabular-nums">
               {i + 1}.
             </span>
             <div className="min-w-0">
-<<<<<<< HEAD
-              <span className={cn('font-semibold', c.done ? 'text-emerald-900' : 'text-slate-800')}>
-                {c.label}
-              </span>
-              {!c.done && c.hint ? (
-                <p className="mt-0.5 text-[9px] text-slate-500">{c.hint}</p>
-=======
               <span
                 className={cn('font-semibold', c.done ? 'text-emerald-900' : 'text-text-primary')}
               >
@@ -143,7 +119,6 @@ export function Workshop2MeasurementsTableHub({
               </span>
               {!c.done && c.hint ? (
                 <p className="text-text-secondary mt-0.5 text-[9px]">{c.hint}</p>
->>>>>>> recover/cabinet-wip-from-stash
               ) : null}
             </div>
             {c.done ? (
@@ -153,11 +128,7 @@ export function Workshop2MeasurementsTableHub({
               />
             ) : (
               <LucideIcons.Circle
-<<<<<<< HEAD
-                className="ml-auto h-3.5 w-3.5 shrink-0 text-slate-300"
-=======
                 className="text-text-muted ml-auto h-3.5 w-3.5 shrink-0"
->>>>>>> recover/cabinet-wip-from-stash
                 aria-hidden
               />
             )}

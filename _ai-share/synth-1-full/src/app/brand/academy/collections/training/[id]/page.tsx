@@ -23,15 +23,6 @@ export default function CollectionTrainingDetailPage() {
 
   if (!training) {
     return (
-<<<<<<< HEAD
-      <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
-        <div className="mb-6 flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={() => router.back()}>
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <p className="text-slate-500">Обучение не найдено</p>
-        </div>
-=======
       <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
         <RegistryPageHeader
           title="Обучение не найдено"
@@ -48,7 +39,6 @@ export default function CollectionTrainingDetailPage() {
             </Button>
           }
         />
->>>>>>> recover/cabinet-wip-from-stash
         <Button variant="outline" asChild>
           <Link href={ROUTES.brand.academy}>Вернуться в академию</Link>
         </Button>
@@ -57,25 +47,6 @@ export default function CollectionTrainingDetailPage() {
   }
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex items-center gap-3">
-          <Link href={ROUTES.brand.academy}>
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          </Link>
-          <div>
-            <h1 className="text-2xl font-bold uppercase tracking-tight">{training.title}</h1>
-            <p className="text-sm text-slate-500">
-              {training.collectionName} · {training.season}
-            </p>
-          </div>
-        </div>
-        <AcademySegmentSwitcher active="brand" />
-      </div>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title={training.title}
@@ -89,17 +60,12 @@ export default function CollectionTrainingDetailPage() {
         }
         actions={<AcademySegmentSwitcher active="brand" />}
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <WidgetCard
         title="Обучение для магазинов"
         description="Материалы для партнёров, купивших коллекцию."
       >
-<<<<<<< HEAD
-        <Card className="rounded-xl border border-slate-100">
-=======
         <Card className="border-border-subtle rounded-xl border">
->>>>>>> recover/cabinet-wip-from-stash
           <CardHeader className="pb-2">
             <div className="flex flex-wrap gap-2">
               <Badge variant="outline">
@@ -114,15 +80,9 @@ export default function CollectionTrainingDetailPage() {
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-<<<<<<< HEAD
-            <p className="leading-relaxed text-slate-700">{training.description}</p>
-            {training.forStores && (
-              <p className="text-[11px] text-slate-500">
-=======
             <p className="text-text-primary leading-relaxed">{training.description}</p>
             {training.forStores && (
               <p className="text-text-secondary text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
                 Доступно магазинам, купившим коллекцию {training.collectionName}
               </p>
             )}

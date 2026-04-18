@@ -28,17 +28,10 @@ export function ComparisonBar() {
         exit={{ y: 100, opacity: 0 }}
         className="fixed bottom-8 left-1/2 z-[100] w-full max-w-3xl -translate-x-1/2 px-4"
       >
-<<<<<<< HEAD
-        <div className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-slate-900/90 p-4 shadow-2xl shadow-indigo-500/20 backdrop-blur-2xl">
-          <div className="flex flex-1 items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-500/20">
-              <GitCompare className="h-5 w-5 text-indigo-400" />
-=======
         <div className="bg-text-primary/90 shadow-accent-primary/20 flex items-center justify-between gap-3 rounded-xl border border-white/10 p-4 shadow-2xl backdrop-blur-2xl">
           <div className="flex flex-1 items-center gap-3">
             <div className="bg-accent-primary/20 flex h-10 w-10 items-center justify-center rounded-2xl">
               <GitCompare className="text-accent-primary h-5 w-5" />
->>>>>>> recover/cabinet-wip-from-stash
             </div>
             <div className="hidden md:block">
               <p className="text-[10px] font-black uppercase tracking-widest text-white/40">
@@ -52,16 +45,7 @@ export function ComparisonBar() {
                 <div key={product.id} className="group relative shrink-0">
                   <div className="h-12 w-12 overflow-hidden rounded-xl border border-white/10 bg-white/10">
                     <img
-<<<<<<< HEAD
-                      src={
-                        product.images?.[0]?.url ||
-                        product.image ||
-                        product.thumbnail ||
-                        '/placeholder.jpg'
-                      }
-=======
                       src={product.images?.[0]?.url || '/placeholder.jpg'}
->>>>>>> recover/cabinet-wip-from-stash
                       alt={product.name}
                       className="h-full w-full object-cover"
                     />
@@ -88,11 +72,7 @@ export function ComparisonBar() {
           <div className="flex items-center gap-3">
             <Button
               onClick={() => setIsComparisonOpen(true)}
-<<<<<<< HEAD
-              className="h-10 rounded-full bg-white px-8 text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-lg shadow-white/5 hover:bg-white/90"
-=======
               className="bg-bg-surface text-text-primary hover:bg-bg-surface/90 h-10 rounded-full px-8 text-[10px] font-black uppercase tracking-widest shadow-lg shadow-white/5"
->>>>>>> recover/cabinet-wip-from-stash
             >
               Сравнить
               <ArrowRight className="ml-2 h-3 w-3" />

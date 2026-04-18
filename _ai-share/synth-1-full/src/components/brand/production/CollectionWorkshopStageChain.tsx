@@ -400,11 +400,7 @@ export function CollectionWorkshopStageChain({
             moduleLink={{ href: b2bLinesheetsHref, label: 'Лайншиты →' }}
             moduleLinkExtra={{
               href: chainDeepLinkHrefs.b2bLinesheetsCreate,
-<<<<<<< HEAD
-              label: 'Создать linesheet →',
-=======
               label: 'Создать лайншит →',
->>>>>>> recover/cabinet-wip-from-stash
             }}
           />
         </div>
@@ -518,17 +514,10 @@ export function CollectionWorkshopStageChain({
             previewFieldKeys={['nestingJobRef', 'yieldFabric']}
             variant="teal"
             saveLabel="Сохранить параметры раскроя"
-<<<<<<< HEAD
-            moduleLink={{ href: workshopFloorTabHrefs.nesting, label: 'Nesting (цех) →' }}
-            moduleLinkExtra={{
-              href: chainDeepLinkHrefs.productionNesting,
-              label: 'Nesting (полная) →',
-=======
             moduleLink={{ href: workshopFloorTabHrefs.nesting, label: 'Нестинг (цех) →' }}
             moduleLinkExtra={{
               href: chainDeepLinkHrefs.productionNesting,
               label: 'Нестинг (полная страница) →',
->>>>>>> recover/cabinet-wip-from-stash
             }}
           />
         </div>
@@ -699,11 +688,7 @@ export function CollectionWorkshopStageChain({
                   {st ? (
                     <Badge
                       variant="outline"
-<<<<<<< HEAD
-                      className="mt-1 h-5 w-fit border-slate-200 text-[7px] font-bold uppercase leading-none"
-=======
                       className="border-border-default mt-1 h-5 w-fit text-[7px] font-bold uppercase leading-none"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       {STATUS_RU[st]}
                     </Badge>
@@ -732,11 +717,7 @@ export function CollectionWorkshopStageChain({
           })}
         </div>
       </div>
-<<<<<<< HEAD
-      <p className="text-[10px] text-slate-500">
-=======
       <p className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
         Карточки сверху — те же модули, что и этапы в ленте (полный контур до ESG). В ленте —
         вложения и журнал; ссылки — в цех, фабрики, склад, B2B, ESG и т.д.
       </p>

@@ -33,11 +33,7 @@ export function ChartCard({
       </CardHeader>
       <CardContent className="p-4 pt-0">{children}</CardContent>
       {footer ? (
-<<<<<<< HEAD
-        <CardFooter className="border-t border-slate-100 px-4 py-2.5 text-xs text-slate-600">
-=======
         <CardFooter className="border-border-subtle text-text-secondary border-t px-4 py-2.5 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
           {footer}
         </CardFooter>
       ) : null}

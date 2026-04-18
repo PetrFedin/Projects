@@ -14,26 +14,6 @@ export default function B2BLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
 
-<<<<<<< HEAD
-  const getCurrentTab = () => {
-    // Find the most specific match first by sorting by href length descending
-    const sortedLinks = [...b2bNavLinks].sort((a, b) => b.href.length - a.href.length);
-    const currentBase = sortedLinks.find((link) => pathname.startsWith(link.href));
-
-    // Specific case for create-order to highlight the matrix tab
-    if (pathname.startsWith('/shop/b2b/create-order')) return 'matrix';
-
-    return currentBase?.value || 'showroom';
-  };
-
-  const handleTabChange = (value: string) => {
-    const link = b2bNavLinks.find((l) => l.value === value);
-    if (link) {
-      router.push(link.href);
-    }
-  };
-
-=======
   const getCurrentTab = () => getB2bHubTabValue(pathname);
 
   const handleTabChange = (value: string) => {
@@ -43,26 +23,15 @@ export default function B2BLayout({ children }: { children: React.ReactNode }) {
     }
   };
 
->>>>>>> recover/cabinet-wip-from-stash
   return (
     <div className="space-y-4">
       <header className="flex items-center justify-between">
         <div>
-<<<<<<< HEAD
-          <h2 className="text-sm font-bold">B2B Хаб</h2>
-          <p className="text-muted-foreground">
-            Управление закупками, анализ брендов и планирование бюджета.
-          </p>
-        </div>
-        <Button asChild>
-          <Link href="/shop/b2b/create-order">
-=======
           <h2 className="text-sm font-bold">B2B</h2>
           <p className="text-muted-foreground">Закупки у брендов, заказы и аналитика.</p>
         </div>
         <Button asChild>
           <Link href={ROUTES.shop.b2bCreateOrder}>
->>>>>>> recover/cabinet-wip-from-stash
             <PlusCircle className="mr-2 h-4 w-4" />
             Новый заказ
           </Link>
@@ -71,11 +40,7 @@ export default function B2BLayout({ children }: { children: React.ReactNode }) {
       <Tabs value={getCurrentTab()} onValueChange={handleTabChange} className="w-full">
         <ScrollArea className="w-full whitespace-nowrap">
           <TabsList className="inline-flex w-auto">
-<<<<<<< HEAD
-            {b2bNavLinks.map((link) => (
-=======
             {b2bHubTabLinks.map((link) => (
->>>>>>> recover/cabinet-wip-from-stash
               <TabsTrigger key={link.value} value={link.value}>
                 <link.icon className="mr-2 h-4 w-4" />
                 {link.label}

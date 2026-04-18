@@ -41,11 +41,7 @@ export function VideoDialog({ video, onClose }: VideoDialogProps) {
             <X className="h-5 w-5" />
           </Button>
 
-<<<<<<< HEAD
-          <div className="group relative flex h-full w-full items-center justify-center bg-slate-900">
-=======
           <div className="bg-text-primary group relative flex h-full w-full items-center justify-center">
->>>>>>> recover/cabinet-wip-from-stash
             <Image
               src={video?.imageUrl}
               alt="Video Poster"

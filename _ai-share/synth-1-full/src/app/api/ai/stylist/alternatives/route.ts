@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-<<<<<<< HEAD
-import { getStylistProductPool } from '@/lib/ai-stylist';
-=======
 import { getStylistProductPool } from '@/lib/ai-stylist/product-source';
 import { getOrCreateRequestId, jsonError } from '@/lib/api/response-contract';
 import { getRuntimeMode } from '@/lib/runtime-mode';
->>>>>>> recover/cabinet-wip-from-stash
 
 export async function GET(req: NextRequest) {
   const requestId = getOrCreateRequestId(req);
@@ -16,9 +12,6 @@ export async function GET(req: NextRequest) {
   const excludeIds = searchParams.get('excludeIds')?.split(',').filter(Boolean) ?? [];
 
   if (!productId || !category) {
-<<<<<<< HEAD
-    return NextResponse.json({ error: 'productId and category required' }, { status: 400 });
-=======
     return jsonError(
       {
         code: 'BAD_REQUEST',
@@ -28,7 +21,6 @@ export async function GET(req: NextRequest) {
       },
       { headers: { 'x-request-id': requestId } }
     );
->>>>>>> recover/cabinet-wip-from-stash
   }
 
   const pool = getStylistProductPool();

@@ -47,11 +47,7 @@ export default function FashionInvestingPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="space-y-6">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Fashion Social Investing"
         description="Инвестиции в дропы брендов: подписка на уведомления о старте, резерв слотов. Связь с предзаказами и B2B."
@@ -64,17 +60,10 @@ export default function FashionInvestingPage() {
               Дропы
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/pre-orders">Предзаказы</Link>
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/b2b-orders">B2B</Link>
-=======
               <Link href={ROUTES.brand.preOrders}>Предзаказы</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href={ROUTES.brand.b2bOrders}>{B2B_ORDERS_REGISTRY_LABEL}</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -95,16 +84,6 @@ export default function FashionInvestingPage() {
             {MOCK_DROPS.map((d) => (
               <li
                 key={d.id}
-<<<<<<< HEAD
-                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4"
-              >
-                <div>
-                  <p className="font-bold">{d.name}</p>
-                  <p className="text-[11px] text-slate-500">
-                    {d.brand} · <Calendar className="inline h-3 w-3" /> {d.date}
-                  </p>
-                  <p className="mt-1 text-[10px] text-slate-500">
-=======
                 className="bg-bg-surface2 border-border-default flex flex-wrap items-center justify-between gap-3 rounded-xl border p-4"
               >
                 <div>
@@ -113,7 +92,6 @@ export default function FashionInvestingPage() {
                     {d.brand} · <Calendar className="inline h-3 w-3" /> {d.date}
                   </p>
                   <p className="text-text-secondary mt-1 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                     Слотов: {d.reserved}/{d.slots} · мин. сумма {d.minAmount.toLocaleString()} ₽
                   </p>
                 </div>
@@ -128,11 +106,7 @@ export default function FashionInvestingPage() {
                     {subscribed.has(d.id) ? 'Уведомление включено' : 'Уведомить о старте'}
                   </Button>
                   <Button size="sm" className="rounded-lg text-[10px]" asChild>
-<<<<<<< HEAD
-                    <Link href={`/brand/b2b-orders?drop=${d.id}`}>Участвовать</Link>
-=======
                     <Link href={`${ROUTES.brand.b2bOrders}?drop=${d.id}`}>Участвовать</Link>
->>>>>>> recover/cabinet-wip-from-stash
                   </Button>
                 </div>
               </li>
@@ -143,15 +117,6 @@ export default function FashionInvestingPage() {
 
       <div className="flex flex-wrap gap-2">
         <Button variant="outline" size="sm" asChild>
-<<<<<<< HEAD
-          <Link href="/brand/pre-orders">Предзаказы</Link>
-        </Button>
-        <Button variant="outline" size="sm" asChild>
-          <Link href="/brand/b2b-orders">B2B Заказы</Link>
-        </Button>
-        <Button variant="outline" size="sm" asChild>
-          <Link href="/brand/finance">Финансы</Link>
-=======
           <Link href={ROUTES.brand.preOrders}>Предзаказы</Link>
         </Button>
         <Button variant="outline" size="sm" asChild>
@@ -159,7 +124,6 @@ export default function FashionInvestingPage() {
         </Button>
         <Button variant="outline" size="sm" asChild>
           <Link href={ROUTES.brand.finance}>Финансы</Link>
->>>>>>> recover/cabinet-wip-from-stash
         </Button>
       </div>
       <RelatedModulesBlock links={getProductLinks()} />

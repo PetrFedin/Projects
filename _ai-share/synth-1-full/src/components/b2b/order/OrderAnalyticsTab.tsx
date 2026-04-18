@@ -12,26 +12,15 @@ export function OrderAnalyticsTab() {
         <Card className="space-y-4 rounded-xl border-none bg-white p-4 shadow-xl">
           <div className="flex items-center gap-3">
             <TrendingUp className="h-5 w-5 text-emerald-500" />
-<<<<<<< HEAD
-            <h4 className="text-[10px] font-black uppercase text-slate-900">
-=======
             <h4 className="text-text-primary text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
               Sell-Through Forecast
             </h4>
           </div>
           <div className="space-y-1">
-<<<<<<< HEAD
-            <p className="text-base font-black text-slate-900">78.4%</p>
-            <p className="text-[9px] font-bold uppercase text-slate-400">Estimated by week 12</p>
-          </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
-=======
             <p className="text-text-primary text-base font-black">78.4%</p>
             <p className="text-text-muted text-[9px] font-bold uppercase">Estimated by week 12</p>
           </div>
           <div className="bg-bg-surface2 h-1.5 w-full overflow-hidden rounded-full">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="h-full w-[78%] bg-emerald-500" />
           </div>
         </Card>
@@ -44,19 +33,11 @@ export function OrderAnalyticsTab() {
             </h4>
           </div>
           <div className="space-y-1">
-<<<<<<< HEAD
-            <p className="text-base font-black text-slate-900">64.2%</p>
-            <p className="text-[9px] font-bold uppercase text-slate-400">Projected Net Margin</p>
-          </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
-            <div className="h-full w-[64%] bg-indigo-500" />
-=======
             <p className="text-text-primary text-base font-black">64.2%</p>
             <p className="text-text-muted text-[9px] font-bold uppercase">Projected Net Margin</p>
           </div>
           <div className="bg-bg-surface2 h-1.5 w-full overflow-hidden rounded-full">
             <div className="bg-accent-primary h-full w-[64%]" />
->>>>>>> recover/cabinet-wip-from-stash
           </div>
         </Card>
 
@@ -66,15 +47,10 @@ export function OrderAnalyticsTab() {
             <h4 className="text-text-primary text-[10px] font-black uppercase">Stock Balance</h4>
           </div>
           <div className="space-y-1">
-<<<<<<< HEAD
-            <p className="text-base font-black text-slate-900">Optimal</p>
-            <p className="text-[9px] font-bold uppercase text-slate-400">Size curve distribution</p>
-=======
             <p className="text-text-primary text-base font-black">Optimal</p>
             <p className="text-text-muted text-[9px] font-bold uppercase">
               Size curve distribution
             </p>
->>>>>>> recover/cabinet-wip-from-stash
           </div>
           <div className="flex gap-1">
             {[40, 70, 90, 60, 30].map((h, i) => (
@@ -86,30 +62,18 @@ export function OrderAnalyticsTab() {
         </Card>
       </div>
 
-<<<<<<< HEAD
-      <Card className="relative overflow-hidden rounded-xl border-none bg-slate-900 p-3 text-white shadow-2xl">
-=======
       <Card className="bg-text-primary relative overflow-hidden rounded-xl border-none p-3 text-white shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
         <div className="absolute right-0 top-0 p-3 opacity-10">
           <Calculator className="h-32 w-32" />
         </div>
         <div className="relative z-10 grid grid-cols-2 gap-3 text-left">
           <div className="space-y-6">
             <h4 className="text-sm font-black uppercase tracking-tight">AI Budget Advisor</h4>
-<<<<<<< HEAD
-            <p className="text-sm font-medium leading-relaxed text-slate-400">
-              Based on your last season sales in **Moscow Hub**, we recommend increasing
-              **Outerwear** allocation by 15% while reducing **Basics** to avoid markdowns.
-            </p>
-            <Button className="h-12 rounded-2xl bg-white px-8 text-[10px] font-black uppercase tracking-widest text-slate-900">
-=======
             <p className="text-text-muted text-sm font-medium leading-relaxed">
               Based on your last season sales in **Moscow Hub**, we recommend increasing
               **Outerwear** allocation by 15% while reducing **Basics** to avoid markdowns.
             </p>
             <Button className="text-text-primary h-12 rounded-2xl bg-white px-8 text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               Apply AI Rebalancing
             </Button>
           </div>

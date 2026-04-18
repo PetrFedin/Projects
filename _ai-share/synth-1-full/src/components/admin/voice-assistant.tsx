@@ -82,19 +82,11 @@ export function AiVoiceAssistant() {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-<<<<<<< HEAD
-            className="flex w-80 flex-col overflow-hidden rounded-xl border border-white/10 bg-slate-900 shadow-2xl"
-          >
-            <div className="flex items-center justify-between border-b border-white/5 bg-white/5 p-4">
-              <div className="flex items-center gap-2">
-                <BrainCircuit className="h-4 w-4 text-indigo-400" />
-=======
             className="bg-text-primary flex w-80 flex-col overflow-hidden rounded-xl border border-white/10 shadow-2xl"
           >
             <div className="flex items-center justify-between border-b border-white/5 bg-white/5 p-4">
               <div className="flex items-center gap-2">
                 <BrainCircuit className="text-accent-primary h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
                 <span className="text-[10px] font-black uppercase tracking-widest text-white">
                   Hands-Free Mode
                 </span>
@@ -116,11 +108,7 @@ export function AiVoiceAssistant() {
                       key={i}
                       initial={{ height: 4 }}
                       animate={{ height: `${line}%` }}
-<<<<<<< HEAD
-                      className="w-1 rounded-full bg-indigo-500"
-=======
                       className="bg-accent-primary w-1 rounded-full"
->>>>>>> recover/cabinet-wip-from-stash
                     />
                   ))
                 ) : (
@@ -155,11 +143,7 @@ export function AiVoiceAssistant() {
                       animate={{ opacity: 1, y: 0 }}
                       className="space-y-1 border-t border-white/5 pt-4"
                     >
-<<<<<<< HEAD
-                      <p className="text-[8px] font-black uppercase tracking-widest text-indigo-400">
-=======
                       <p className="text-accent-primary text-[8px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                         Syntha AI:
                       </p>
                       <p className="text-xs font-medium leading-relaxed text-white/80">
@@ -182,11 +166,7 @@ export function AiVoiceAssistant() {
                       key={i}
                       className="group flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-3 text-left transition-colors hover:bg-white/10"
                     >
-<<<<<<< HEAD
-                      <cmd.icon className="h-3.5 w-3.5 text-indigo-400" />
-=======
                       <cmd.icon className="text-accent-primary h-3.5 w-3.5" />
->>>>>>> recover/cabinet-wip-from-stash
                       <span className="text-[9px] font-black uppercase text-white/60 transition-colors group-hover:text-white">
                         {cmd.label}
                       </span>
@@ -196,19 +176,11 @@ export function AiVoiceAssistant() {
               )}
             </div>
 
-<<<<<<< HEAD
-            <div className="bg-indigo-600 p-4">
-              <Button
-                onClick={simulateListen}
-                disabled={isListening}
-                className="flex h-10 w-full items-center justify-center gap-2 rounded-2xl bg-white text-[11px] font-black uppercase tracking-widest text-indigo-600 shadow-2xl transition-transform hover:scale-105"
-=======
             <div className="bg-accent-primary p-4">
               <Button
                 onClick={simulateListen}
                 disabled={isListening}
                 className="text-accent-primary flex h-10 w-full items-center justify-center gap-2 rounded-2xl bg-white text-[11px] font-black uppercase tracking-widest shadow-2xl transition-transform hover:scale-105"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 {isListening ? (
                   <Activity className="h-4 w-4 animate-pulse" />
@@ -232,11 +204,7 @@ export function AiVoiceAssistant() {
         whileTap={{ scale: 0.9 }}
         className={cn(
           'flex h-12 w-12 items-center justify-center rounded-full shadow-2xl transition-all duration-500',
-<<<<<<< HEAD
-          isActive ? 'rotate-90 bg-rose-500' : 'bg-indigo-600'
-=======
           isActive ? 'rotate-90 bg-rose-500' : 'bg-accent-primary'
->>>>>>> recover/cabinet-wip-from-stash
         )}
       >
         <AnimatePresence mode="wait">

@@ -48,22 +48,15 @@ export function buildDemandForecast(products: Product[]): DemandForecastRow[] {
       const isOos = !p.sizes || p.sizes.length < 2; // Simple OOS heuristic
       const baseCount = isOos ? 12 : 2;
       const randomFactor = Math.floor(Math.random() * 20);
-<<<<<<< HEAD
-=======
       const trend: DemandForecastRow['trend'] =
         randomFactor > 10 ? 'up' : randomFactor < 5 ? 'down' : 'stable';
->>>>>>> recover/cabinet-wip-from-stash
 
       return {
         sku: p.sku,
         name: p.name,
         size: p.sizes?.[0]?.name || 'One Size',
         waitlistCount: baseCount + randomFactor,
-<<<<<<< HEAD
-        trend: randomFactor > 10 ? 'up' : randomFactor < 5 ? 'down' : 'stable',
-=======
         trend,
->>>>>>> recover/cabinet-wip-from-stash
       };
     })
     .sort((a, b) => b.waitlistCount - a.waitlistCount)

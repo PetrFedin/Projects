@@ -40,11 +40,7 @@ export function AuditTrail({ organizationId }: { organizationId?: string }) {
       case 'export':
         return 'bg-amber-100 text-amber-700';
       default:
-<<<<<<< HEAD
-        return 'bg-slate-100 text-slate-700';
-=======
         return 'bg-bg-surface2 text-text-primary';
->>>>>>> recover/cabinet-wip-from-stash
     }
   };
 
@@ -57,11 +53,7 @@ export function AuditTrail({ organizationId }: { organizationId?: string }) {
           </div>
           <div>
             <h2 className="text-base font-black uppercase tracking-tight">Журнал действий</h2>
-<<<<<<< HEAD
-            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-=======
             <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               Аудит всех транзакций и изменений
             </p>
           </div>
@@ -75,11 +67,7 @@ export function AuditTrail({ organizationId }: { organizationId?: string }) {
             'whitespace-nowrap rounded-xl border-2 px-4 py-2 text-[9px] font-black uppercase transition-all',
             selectedFlow === 'all'
               ? 'border-black bg-black text-white'
-<<<<<<< HEAD
-              : 'border-slate-100 bg-white text-slate-400 hover:border-slate-200'
-=======
               : 'text-text-muted border-border-subtle hover:border-border-default bg-white'
->>>>>>> recover/cabinet-wip-from-stash
           )}
         >
           Все процессы
@@ -91,13 +79,8 @@ export function AuditTrail({ organizationId }: { organizationId?: string }) {
             className={cn(
               'whitespace-nowrap rounded-xl border-2 px-4 py-2 text-[9px] font-black uppercase transition-all',
               selectedFlow === flow.id
-<<<<<<< HEAD
-                ? 'border-indigo-600 bg-indigo-600 text-white shadow-md'
-                : 'border-slate-100 bg-white text-slate-400 hover:border-slate-200'
-=======
                 ? 'bg-accent-primary border-accent-primary text-white shadow-md'
                 : 'text-text-muted border-border-subtle hover:border-border-default bg-white'
->>>>>>> recover/cabinet-wip-from-stash
             )}
           >
             {flow.name}
@@ -105,24 +88,6 @@ export function AuditTrail({ organizationId }: { organizationId?: string }) {
         ))}
       </div>
 
-<<<<<<< HEAD
-      <div className="overflow-hidden rounded-xl border border-slate-100 bg-white/80 shadow-sm backdrop-blur-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead>
-              <tr className="border-b border-slate-50 bg-slate-50/50">
-                <th className="px-6 py-4 text-[10px] font-black uppercase text-slate-400">ВРЕМЯ</th>
-                <th className="px-6 py-4 text-[10px] font-black uppercase text-slate-400">
-                  ПОЛЬЗОВАТЕЛЬ
-                </th>
-                <th className="px-6 py-4 text-[10px] font-black uppercase text-slate-400">
-                  ПРОФИЛЬ
-                </th>
-                <th className="px-6 py-4 text-[10px] font-black uppercase text-slate-400">
-                  ДЕЙСТВИЕ
-                </th>
-                <th className="px-6 py-4 text-[10px] font-black uppercase text-slate-400">
-=======
       <div className="border-border-subtle overflow-hidden rounded-xl border bg-white/80 shadow-sm backdrop-blur-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left">
@@ -141,18 +106,13 @@ export function AuditTrail({ organizationId }: { organizationId?: string }) {
                   ДЕЙСТВИЕ
                 </th>
                 <th className="text-text-muted px-6 py-4 text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   ОПИСАНИЕ
                 </th>
               </tr>
             </thead>
             <tbody className="divide-border-subtle divide-y">
               {filteredLogs.map((log) => (
-<<<<<<< HEAD
-                <tr key={log.id} className="group transition-colors hover:bg-slate-50/50">
-=======
                 <tr key={log.id} className="hover:bg-bg-surface2/80 group transition-colors">
->>>>>>> recover/cabinet-wip-from-stash
                   <td className="px-6 py-4">
                     <div className="text-text-secondary flex items-center gap-2">
                       <Clock className="h-3 w-3" />
@@ -163,13 +123,8 @@ export function AuditTrail({ organizationId }: { organizationId?: string }) {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-<<<<<<< HEAD
-                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">
-                        <User className="h-3 w-3 text-slate-400" />
-=======
                       <div className="bg-bg-surface2 flex h-6 w-6 items-center justify-center rounded-full">
                         <User className="text-text-muted h-3 w-3" />
->>>>>>> recover/cabinet-wip-from-stash
                       </div>
                       <span className="text-text-primary text-xs font-bold">{log.userName}</span>
                     </div>
@@ -194,19 +149,11 @@ export function AuditTrail({ organizationId }: { organizationId?: string }) {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-between gap-3">
-<<<<<<< HEAD
-                      <span className="text-[11px] font-medium text-slate-600">
-                        {log.description}
-                      </span>
-                      <button className="rounded-lg border border-transparent p-1.5 opacity-0 transition-opacity hover:border-slate-200 hover:bg-white group-hover:opacity-100">
-                        <ArrowRight className="h-3 w-3 text-slate-400" />
-=======
                       <span className="text-text-secondary text-[11px] font-medium">
                         {log.description}
                       </span>
                       <button className="hover:border-border-default rounded-lg border border-transparent p-1.5 opacity-0 transition-opacity hover:bg-white group-hover:opacity-100">
                         <ArrowRight className="text-text-muted h-3 w-3" />
->>>>>>> recover/cabinet-wip-from-stash
                       </button>
                     </div>
                   </td>

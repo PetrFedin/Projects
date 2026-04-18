@@ -34,11 +34,7 @@ export default function MediaGalleryHealthPage() {
         sku: r.product.sku,
         slug: r.product.slug,
         score: r.score,
-<<<<<<< HEAD
-        issues: r.issues.join('|'),
-=======
         issues: r.issues,
->>>>>>> recover/cabinet-wip-from-stash
       }))
     );
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });

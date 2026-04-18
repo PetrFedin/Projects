@@ -150,11 +150,7 @@ import {
 /** Section header - organization style (bar + title) */
 function SectionHeader({
   title,
-<<<<<<< HEAD
-  barColor = 'bg-indigo-600',
-=======
   barColor = 'bg-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
 }: {
   title: string;
   barColor?: string;
@@ -398,33 +394,17 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         />
       )}
       {/* Breadcrumb - as in organization/profile */}
-<<<<<<< HEAD
-      <div className="mb-4 flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest text-slate-400">
-        <Link href="/brand/organization" className="transition-colors hover:text-indigo-600">
-=======
       <div className="text-text-muted mb-4 flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest">
         <Link
           href={ROUTES.brand.organizationPage}
           className="hover:text-accent-primary transition-colors"
         >
->>>>>>> recover/cabinet-wip-from-stash
           Организация
         </Link>
         <ChevronRight className="h-3 w-3" />
         <span className="text-accent-primary">Управление производством</span>
       </div>
       {/* Header */}
-<<<<<<< HEAD
-      <header className="flex flex-col justify-between gap-3 border-b border-slate-100 pb-3 md:flex-row md:items-end">
-        <div className="space-y-0.5">
-          <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
-            <Settings2 className="h-3 w-3 text-indigo-500" />
-            Fashion OS <span className="text-slate-200">/</span> Production
-            {perms && (
-              <Badge
-                variant="outline"
-                className="ml-2 border-indigo-200 text-[8px] text-indigo-600"
-=======
       <header className="border-border-subtle flex flex-col justify-between gap-3 border-b pb-3 md:flex-row md:items-end">
         <div className="space-y-0.5">
           <div className="text-text-muted flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
@@ -434,21 +414,11 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               <Badge
                 variant="outline"
                 className="border-accent-primary/30 text-accent-primary ml-2 text-[8px]"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 {prodRole}
               </Badge>
             )}
           </div>
-<<<<<<< HEAD
-          <h2 className="text-2xl font-bold uppercase leading-tight tracking-tight text-slate-900 md:text-4xl">
-            Управление производством
-          </h2>
-          <div className="mt-1 flex flex-wrap items-center gap-2">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-              Контекст:{' '}
-              <span className="tracking-widest text-indigo-600">
-=======
           <h2 className="text-text-primary text-2xl font-bold uppercase leading-tight tracking-tight md:text-4xl">
             Управление производством
           </h2>
@@ -456,7 +426,6 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             <p className="text-text-muted text-[11px] font-bold uppercase tracking-wider">
               Контекст:{' '}
               <span className="text-accent-primary tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 {getContextTitle?.() || 'Весь бренд'}
               </span>
             </p>
@@ -467,63 +436,22 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               onClick={() => setIsGlobalSearchOpen?.(true)}
             >
               <Search className="h-3.5 w-3.5" /> Поиск{' '}
-<<<<<<< HEAD
-              <kbd className="ml-0.5 rounded bg-slate-100 px-1 py-0.5 font-mono text-[8px]">⌘K</kbd>
-=======
               <kbd className="bg-bg-surface2 ml-0.5 rounded px-1 py-0.5 font-mono text-[8px]">
                 ⌘K
               </kbd>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
             {selectedContext !== 'brand' && (
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => resetToBrand?.()}
-<<<<<<< HEAD
-                className="h-4.5 rounded-md bg-slate-100 px-1.5 text-[8px] font-bold uppercase transition-all hover:bg-black hover:text-white"
-=======
                 className="h-4.5 bg-bg-surface2 rounded-md px-1.5 text-[8px] font-bold uppercase transition-all hover:bg-black hover:text-white"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 Сбросить
               </Button>
             )}
           </div>
         </div>
-<<<<<<< HEAD
-        <div className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-100 p-1 shadow-inner">
-          <Button
-            onClick={() => setActiveTab?.('chat')}
-            variant="ghost"
-            className={cn(
-              'h-7 gap-1.5 rounded-lg border border-transparent px-3 text-[9px] font-bold uppercase tracking-widest transition-all',
-              activeTab === 'chat'
-                ? 'border-indigo-100/50 bg-white text-indigo-600 shadow-sm'
-                : 'text-slate-500 hover:bg-white'
-            )}
-          >
-            <MessageSquare className="h-3 w-3" /> Чат
-          </Button>
-          <Button
-            onClick={() => setActiveTab?.('calendar')}
-            variant="ghost"
-            className={cn(
-              'h-7 gap-1.5 rounded-lg border border-transparent px-3 text-[9px] font-bold uppercase tracking-widest transition-all',
-              activeTab === 'calendar'
-                ? 'border-slate-200 bg-white text-slate-900 shadow-sm'
-                : 'text-slate-500 hover:bg-white'
-            )}
-          >
-            <Calendar className="h-3 w-3 text-slate-400" /> Календарь
-          </Button>
-          {perms?.canCreatePO && (
-            <Button
-              onClick={() => setIsAutoPOOpen?.(true)}
-              className="h-7 gap-1.5 rounded-lg bg-slate-900 px-4 text-[9px] font-bold uppercase tracking-widest text-white shadow-md transition-all hover:bg-black"
-            >
-              <Package className="h-3 w-3 text-indigo-400" />
-=======
         <div className="flex flex-wrap items-center gap-1.5">
           {/* cabinetSurface v1 — сегменты отдельно от CTA «Новый PO» */}
           <div
@@ -563,27 +491,11 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               className="bg-text-primary h-7 gap-1.5 rounded-lg px-4 text-[9px] font-bold uppercase tracking-widest text-white shadow-md transition-all hover:bg-black"
             >
               <Package className="text-accent-primary h-3 w-3" />
->>>>>>> recover/cabinet-wip-from-stash
               <span>Новый PO</span>
             </Button>
           )}
           <div
             className={cn(
-<<<<<<< HEAD
-              'relative h-7 gap-1.5 rounded-lg border border-transparent px-3 text-[9px] font-bold uppercase tracking-widest transition-all',
-              activeTab === 'notifications'
-                ? 'bg-white text-indigo-600 shadow-sm'
-                : 'text-slate-500 hover:bg-white'
-            )}
-          >
-            <Bell className="h-3 w-3" />
-            {(notificationsList || []).filter((n: any) => !n.read).length > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-rose-500 text-[8px] font-black text-white">
-                {(notificationsList || []).filter((n: any) => !n.read).length}
-              </span>
-            )}
-          </Button>
-=======
               cabinetSurface.groupTabList,
               'h-auto min-h-9 flex-wrap items-center gap-0.5'
             )}
@@ -606,7 +518,6 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               )}
             </Button>
           </div>
->>>>>>> recover/cabinet-wip-from-stash
         </div>
       </header>
 
@@ -630,17 +541,10 @@ export function ProductionPageContent(props: Record<string, unknown>) {
 
       {/* Pipeline stages when collection selected */}
       {selectedId && (
-<<<<<<< HEAD
-        <Card className="mb-3 rounded-xl border border-slate-100 bg-white p-3 shadow-sm">
-          <p className="mb-2 text-[9px] font-black uppercase tracking-widest text-slate-400">
-            Коллекция:{' '}
-            <span className="text-indigo-600">
-=======
         <Card className="border-border-subtle mb-3 rounded-xl border bg-white p-3 shadow-sm">
           <p className="text-text-muted mb-2 text-[9px] font-black uppercase tracking-widest">
             Коллекция:{' '}
             <span className="text-accent-primary">
->>>>>>> recover/cabinet-wip-from-stash
               {collections?.find((c: any) => c.id === selectedId)?.name || selectedId}
             </span>{' '}
             — Pipeline этапов
@@ -676,22 +580,13 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                   className={cn(
                     'rounded-lg px-3 py-1.5 text-[9px] font-black uppercase tracking-widest transition-all',
                     ['Сэмпл', 'PO', 'Цех'].includes(stage)
-<<<<<<< HEAD
-                      ? 'border border-indigo-200 bg-indigo-100 text-indigo-600'
-                      : 'border border-slate-100 bg-slate-50 text-slate-500 hover:bg-slate-100'
-=======
                       ? 'bg-accent-primary/15 text-accent-primary border-accent-primary/30 border'
                       : 'bg-bg-surface2 text-text-secondary border-border-subtle hover:bg-bg-surface2 border'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {stage}
                 </button>
-<<<<<<< HEAD
-                {i < 10 && <ChevronRight className="h-3 w-3 shrink-0 text-slate-300" />}
-=======
                 {i < 10 && <ChevronRight className="text-text-muted h-3 w-3 shrink-0" />}
->>>>>>> recover/cabinet-wip-from-stash
               </React.Fragment>
             ))}
           </div>
@@ -706,15 +601,9 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             label: 'В производстве',
             value: productionKpis?.production,
             icon: Factory,
-<<<<<<< HEAD
-            color: 'text-indigo-600',
-            bg: 'bg-indigo-50/50',
-            border: 'border-indigo-100/50',
-=======
             color: 'text-accent-primary',
             bg: 'bg-accent-primary/10',
             border: 'border-accent-primary/20',
->>>>>>> recover/cabinet-wip-from-stash
           },
           {
             id: 'cargo',
@@ -768,11 +657,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               key={stat.id}
               onClick={() => setActiveKpiDetail?.(stat.id)}
               className={cn(
-<<<<<<< HEAD
-                'group flex cursor-pointer items-center gap-3.5 rounded-xl border bg-white p-3 shadow-sm transition-all hover:border-indigo-200 hover:shadow-md active:scale-[0.98]',
-=======
                 'hover:border-accent-primary/30 group flex cursor-pointer items-center gap-3.5 rounded-xl border bg-white p-3 shadow-sm transition-all hover:shadow-md active:scale-[0.98]',
->>>>>>> recover/cabinet-wip-from-stash
                 stat.border
               )}
             >
@@ -787,17 +672,10 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 <Icon className="h-4 w-4" />
               </div>
               <div className="space-y-0.5">
-<<<<<<< HEAD
-                <p className="text-[10px] font-bold uppercase leading-none tracking-widest text-slate-400">
-                  {stat.label}
-                </p>
-                <p className="mt-1 text-lg font-black leading-none text-slate-900">
-=======
                 <p className="text-text-muted text-[10px] font-bold uppercase leading-none tracking-widest">
                   {stat.label}
                 </p>
                 <p className="text-text-primary mt-1 text-lg font-black leading-none">
->>>>>>> recover/cabinet-wip-from-stash
                   {stat.value ?? '—'}
                 </p>
               </div>
@@ -812,11 +690,6 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         onValueChange={(v) => setActiveTab?.(v)}
         className="w-full"
       >
-<<<<<<< HEAD
-        <TabsList className="no-scrollbar min-h-12 w-full flex-wrap justify-start gap-0 overflow-x-auto rounded-2xl border border-slate-200 bg-slate-100 p-1.5">
-          <div className="flex items-center gap-1 px-1">
-            <span className="mr-1 shrink-0 text-[8px] font-black uppercase tracking-[0.2em] text-slate-300">
-=======
         {/* cabinetSurface v1 */}
         <TabsList
           className={cn(
@@ -826,30 +699,19 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         >
           <div className="flex items-center gap-1 px-1">
             <span className="text-text-muted mr-1 shrink-0 text-[8px] font-black uppercase tracking-[0.2em]">
->>>>>>> recover/cabinet-wip-from-stash
               1
             </span>
             <TabsTrigger
               value="collections"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Коллекции
             </TabsTrigger>
             <TabsTrigger
               value="dashboard"
-<<<<<<< HEAD
-              className="flex h-9 shrink-0 items-center gap-1.5 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-            >
-              Дашборд{' '}
-              <span className="ml-0.5 flex h-4 min-w-4 items-center justify-center rounded bg-indigo-100 text-[8px] font-black text-indigo-600">
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary flex h-9 shrink-0 items-center gap-1.5 px-5 font-black tracking-widest'
@@ -857,161 +719,108 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             >
               Дашборд{' '}
               <span className="bg-accent-primary/15 text-accent-primary ml-0.5 flex h-4 min-w-4 items-center justify-center rounded text-[8px] font-black">
->>>>>>> recover/cabinet-wip-from-stash
                 2
               </span>
             </TabsTrigger>
             <TabsTrigger
               value="demand"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-4 text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-4 text-[9px] font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Прогноз
             </TabsTrigger>
             <TabsTrigger
               value="tz"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-4 text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-4 text-[9px] font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               ТЗ
             </TabsTrigger>
           </div>
-<<<<<<< HEAD
-          <div className="mx-0.5 h-6 w-px shrink-0 bg-slate-200" />
-          <div className="flex items-center gap-1 px-1">
-            <span className="mr-1 shrink-0 text-[8px] font-black uppercase tracking-[0.2em] text-slate-300">
-=======
           <div className="bg-border-subtle mx-0.5 h-6 w-px shrink-0" />
           <div className="flex items-center gap-1 px-1">
             <span className="text-text-muted mr-1 shrink-0 text-[8px] font-black uppercase tracking-[0.2em]">
->>>>>>> recover/cabinet-wip-from-stash
               2
             </span>
             <TabsTrigger
               value="plm"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Артикулы
             </TabsTrigger>
             <TabsTrigger
               value="samples"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Сэмплы
             </TabsTrigger>
             <TabsTrigger
               value="fitting"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-4 text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-4 text-[9px] font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Примерки
             </TabsTrigger>
             <TabsTrigger
               value="approval"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Утверждения
             </TabsTrigger>
           </div>
-<<<<<<< HEAD
-          <div className="mx-0.5 h-6 w-px shrink-0 bg-slate-200" />
-          <div className="flex items-center gap-1 px-1">
-            <span className="mr-1 shrink-0 text-[8px] font-black uppercase tracking-[0.2em] text-slate-300">
-=======
           <div className="bg-border-subtle mx-0.5 h-6 w-px shrink-0" />
           <div className="flex items-center gap-1 px-1">
             <span className="text-text-muted mr-1 shrink-0 text-[8px] font-black uppercase tracking-[0.2em]">
->>>>>>> recover/cabinet-wip-from-stash
               3
             </span>
             <TabsTrigger
               value="orders"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Заказы (PO)
             </TabsTrigger>
             <TabsTrigger
               value="materials"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Снабжение
             </TabsTrigger>
             <TabsTrigger
               value="costing"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Костинг
             </TabsTrigger>
             <TabsTrigger
               value="execution"
-<<<<<<< HEAD
-              className="flex h-9 shrink-0 items-center gap-1.5 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary flex h-9 shrink-0 items-center gap-1.5 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Цех{' '}
               <span className="ml-0.5 flex h-4 min-w-4 items-center justify-center rounded bg-amber-100 text-[8px] font-black text-amber-600">
@@ -1020,218 +829,143 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             </TabsTrigger>
             <TabsTrigger
               value="mps"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-4 text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-4 text-[9px] font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               MPS
             </TabsTrigger>
           </div>
-<<<<<<< HEAD
-          <div className="mx-0.5 h-6 w-px shrink-0 bg-slate-200" />
-          <div className="flex items-center gap-1 px-1">
-            <span className="mr-1 shrink-0 text-[8px] font-black uppercase tracking-[0.2em] text-slate-300">
-=======
           <div className="bg-border-subtle mx-0.5 h-6 w-px shrink-0" />
           <div className="flex items-center gap-1 px-1">
             <span className="text-text-muted mr-1 shrink-0 text-[8px] font-black uppercase tracking-[0.2em]">
->>>>>>> recover/cabinet-wip-from-stash
               4
             </span>
             <TabsTrigger
               value="compliance"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Закон / QC
             </TabsTrigger>
             <TabsTrigger
               value="logistics"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Логистика
             </TabsTrigger>
             <TabsTrigger
               value="warehouse"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-4 text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-4 text-[9px] font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Склад
             </TabsTrigger>
             <TabsTrigger
               value="labeling"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Маркировка
             </TabsTrigger>
           </div>
-<<<<<<< HEAD
-          <div className="mx-0.5 h-6 w-px shrink-0 bg-slate-200" />
-          <div className="flex items-center gap-1 px-1">
-            <span className="mr-1 shrink-0 text-[8px] font-black uppercase tracking-[0.2em] text-slate-300">
-=======
           <div className="bg-border-subtle mx-0.5 h-6 w-px shrink-0" />
           <div className="flex items-center gap-1 px-1">
             <span className="text-text-muted mr-1 shrink-0 text-[8px] font-black uppercase tracking-[0.2em]">
->>>>>>> recover/cabinet-wip-from-stash
               5
             </span>
             <TabsTrigger
               value="budget"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Бюджет
             </TabsTrigger>
             <TabsTrigger
               value="finance"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Финансы
             </TabsTrigger>
             <TabsTrigger
               value="documents"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Документы
             </TabsTrigger>
             <TabsTrigger
               value="losses"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Потери
             </TabsTrigger>
             <TabsTrigger
               value="factories"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Фабрики
             </TabsTrigger>
             <TabsTrigger
               value="handbooks"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Партнёры
             </TabsTrigger>
             <TabsTrigger
               value="audit"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Аудит
             </TabsTrigger>
             <TabsTrigger
               value="sla"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-5 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-5 font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               SLA
             </TabsTrigger>
             <TabsTrigger
               value="reports"
-<<<<<<< HEAD
-              className="h-9 shrink-0 rounded-xl px-4 text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600"
-=======
               className={cn(
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-4 text-[9px] font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Отчёты
             </TabsTrigger>
           </div>
-<<<<<<< HEAD
-          <div className="mx-0.5 h-6 w-px shrink-0 bg-slate-200" />
-          <div className="flex items-center gap-1 px-1">
-            <TabsTrigger
-              value="archive"
-              className="h-9 shrink-0 rounded-xl px-4 text-[9px] font-black uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
-=======
           <div className="bg-border-subtle mx-0.5 h-6 w-px shrink-0" />
           <div className="flex items-center gap-1 px-1">
             <TabsTrigger
@@ -1240,7 +974,6 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 cabinetSurface.tabsTrigger,
                 'data-[state=active]:text-accent-primary h-9 shrink-0 px-4 text-[9px] font-black tracking-widest'
               )}
->>>>>>> recover/cabinet-wip-from-stash
             >
               Архив
             </TabsTrigger>
@@ -1248,21 +981,12 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         </TabsList>
 
         <TabsContent value="chat" className="mt-0 space-y-4">
-<<<<<<< HEAD
-          <SectionHeader title="Обсуждения по коллекциям" barColor="bg-indigo-600" />
-          <div className="flex min-h-[480px] gap-4 overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm">
-            {/* Слева: список чатов по коллекциям */}
-            <aside className="flex w-64 shrink-0 flex-col border-r border-slate-100">
-              <div className="border-b border-slate-100 p-3">
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-=======
           <SectionHeader title="Обсуждения по коллекциям" barColor="bg-accent-primary" />
           <div className="border-border-subtle flex min-h-[480px] gap-4 overflow-hidden rounded-xl border bg-white shadow-sm">
             {/* Слева: список чатов по коллекциям */}
             <aside className="border-border-subtle flex w-64 shrink-0 flex-col border-r">
               <div className="border-border-subtle border-b p-3">
                 <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   Чаты по коллекциям
                 </p>
               </div>
@@ -1287,13 +1011,8 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                         className={cn(
                           'flex w-full items-center justify-between gap-2 px-3 py-3 text-left transition-colors',
                           isActive
-<<<<<<< HEAD
-                            ? 'border-l-2 border-indigo-600 bg-indigo-50 text-indigo-900'
-                            : 'text-slate-700 hover:bg-slate-50'
-=======
                             ? 'bg-accent-primary/10 border-accent-primary text-accent-primary border-l-2'
                             : 'hover:bg-bg-surface2 text-text-primary'
->>>>>>> recover/cabinet-wip-from-stash
                         )}
                       >
                         <span className="truncate text-[11px] font-bold">{collName}</span>
@@ -1319,26 +1038,13 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                   );
                   if (msgs.length === 0) {
                     return (
-<<<<<<< HEAD
-                      <p className="py-8 text-center text-[10px] text-slate-400">
-=======
                       <p className="text-text-muted py-8 text-center text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                         Нет сообщений. Напишите первым.
                       </p>
                     );
                   }
                   return msgs.map((m: any) => (
                     <div key={m.id} className="flex gap-3">
-<<<<<<< HEAD
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-[10px] font-black text-indigo-600">
-                        {m.avatar || (m.sender || '').slice(0, 2).toUpperCase()}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-[10px] font-bold text-slate-800">{m.sender}</p>
-                        <p className="mt-0.5 text-[11px] text-slate-600">{m.text}</p>
-                        <p className="mt-1 text-[9px] text-slate-400">{m.time}</p>
-=======
                       <div className="bg-accent-primary/15 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[10px] font-black">
                         {m.avatar || (m.sender || '').slice(0, 2).toUpperCase()}
                       </div>
@@ -1346,17 +1052,12 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                         <p className="text-text-primary text-[10px] font-bold">{m.sender}</p>
                         <p className="text-text-secondary mt-0.5 text-[11px]">{m.text}</p>
                         <p className="text-text-muted mt-1 text-[9px]">{m.time}</p>
->>>>>>> recover/cabinet-wip-from-stash
                       </div>
                     </div>
                   ));
                 })()}
               </div>
-<<<<<<< HEAD
-              <div className="flex gap-2 border-t border-slate-100 p-4">
-=======
               <div className="border-border-subtle flex gap-2 border-t p-4">
->>>>>>> recover/cabinet-wip-from-stash
                 <Input
                   placeholder="Сообщение..."
                   value={newMessage || ''}
@@ -1365,11 +1066,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 />
                 <Button
                   size="sm"
-<<<<<<< HEAD
-                  className="h-10 rounded-lg bg-slate-900 px-5 text-[10px] font-bold text-white hover:bg-black"
-=======
                   className="bg-text-primary h-10 rounded-lg px-5 text-[10px] font-bold text-white hover:bg-black"
->>>>>>> recover/cabinet-wip-from-stash
                   onClick={() => handleSendMessage?.()}
                 >
                   Отправить
@@ -1379,22 +1076,13 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </div>
         </TabsContent>
         <TabsContent value="collections" className="mt-0 space-y-4">
-<<<<<<< HEAD
-          <SectionHeader title="Коллекции" barColor="bg-slate-900" />
-=======
           <SectionHeader title="Коллекции" barColor="bg-text-primary" />
->>>>>>> recover/cabinet-wip-from-stash
           <SectionInfoCard
             title="Что такое коллекции"
             description="Коллекция — корневая сущность производства: сезонный ассортимент (SS26, дропы). Из неё идут артикулы, сэмплы, PO, снабжение и бюджет. Здесь вы создаёте новые коллекции, копируете по шаблону, сравниваете и отслеживаете прогресс."
             icon={Layers}
-<<<<<<< HEAD
-            iconBg="bg-slate-100"
-            iconColor="text-slate-600"
-=======
             iconBg="bg-bg-surface2"
             iconColor="text-text-secondary"
->>>>>>> recover/cabinet-wip-from-stash
             badges={
               <>
                 <Badge variant="outline" className="text-[9px]">
@@ -1429,30 +1117,18 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             <div>
               <Button
                 size="lg"
-<<<<<<< HEAD
-                className="h-12 gap-2 rounded-xl bg-slate-900 px-6 text-[11px] font-black text-white hover:bg-black"
-=======
                 className="bg-text-primary h-12 gap-2 rounded-xl px-6 text-[11px] font-black text-white hover:bg-black"
->>>>>>> recover/cabinet-wip-from-stash
                 onClick={() => setIsCreatingCollection?.(true)}
               >
                 <Plus className="h-5 w-5" /> Создать новую коллекцию
               </Button>
-<<<<<<< HEAD
-              <p className="mt-2 text-[10px] text-slate-500">
-=======
               <p className="text-text-secondary mt-2 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                 Создайте папку коллекции, заполните данные — затем добавляйте артикулы, импортируйте
                 из архива, создавайте сэмплы и заказы
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-<<<<<<< HEAD
-              <span className="text-[9px] font-bold uppercase text-slate-400">Сортировка:</span>
-=======
               <span className="text-text-muted text-[9px] font-bold uppercase">Сортировка:</span>
->>>>>>> recover/cabinet-wip-from-stash
               {['name', 'status', 'readiness'].map((s) => (
                 <button
                   key={s}
@@ -1461,36 +1137,22 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                   className={cn(
                     'rounded-lg px-2.5 py-1 text-[9px] font-bold uppercase',
                     (p.collectionSortOrder || 'name') === s
-<<<<<<< HEAD
-                      ? 'bg-indigo-100 text-indigo-600'
-                      : 'text-slate-500 hover:bg-slate-100'
-=======
                       ? 'bg-accent-primary/15 text-accent-primary'
                       : 'text-text-secondary hover:bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {s === 'name' ? 'Имя' : s === 'status' ? 'Статус' : 'Готовность'}
                 </button>
               ))}
-<<<<<<< HEAD
-              <div className="h-5 w-px bg-slate-200" />
-=======
               <div className="bg-border-subtle h-5 w-px" />
->>>>>>> recover/cabinet-wip-from-stash
               <button
                 type="button"
                 onClick={() => p.setCollectionViewMode?.('grid')}
                 className={cn(
                   'rounded-lg p-1.5',
                   (p.collectionViewMode || 'grid') === 'grid'
-<<<<<<< HEAD
-                    ? 'bg-indigo-100 text-indigo-600'
-                    : 'text-slate-400 hover:bg-slate-100'
-=======
                     ? 'bg-accent-primary/15 text-accent-primary'
                     : 'text-text-muted hover:bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
                 title="Сетка"
               >
@@ -1502,13 +1164,8 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 className={cn(
                   'rounded-lg p-1.5',
                   (p.collectionViewMode || 'grid') === 'list'
-<<<<<<< HEAD
-                    ? 'bg-indigo-100 text-indigo-600'
-                    : 'text-slate-400 hover:bg-slate-100'
-=======
                     ? 'bg-accent-primary/15 text-accent-primary'
                     : 'text-text-muted hover:bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
                 title="Список"
               >
@@ -1570,11 +1227,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 const isSelected = selectedCollectionIds?.includes(c.id);
                 const statusColor =
                   c.status === 'Production'
-<<<<<<< HEAD
-                    ? 'from-indigo-500/10 to-indigo-600/5'
-=======
                     ? 'from-accent-primary/10 to-accent-primary/5'
->>>>>>> recover/cabinet-wip-from-stash
                     : c.status === 'Development'
                       ? 'from-amber-500/10 to-amber-600/5'
                       : 'from-emerald-500/10 to-emerald-600/5';
@@ -1621,13 +1274,8 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                     className={cn(
                       'group cursor-pointer overflow-hidden rounded-2xl border shadow-sm transition-all duration-300',
                       isSelected
-<<<<<<< HEAD
-                        ? 'border-indigo-200 bg-gradient-to-br from-indigo-50/80 to-white shadow-md ring-2 ring-indigo-500'
-                        : 'border-slate-100 bg-white hover:border-indigo-100 hover:shadow-lg'
-=======
                         ? 'ring-accent-primary border-accent-primary/30 from-accent-primary/10 bg-gradient-to-br to-white shadow-md ring-2'
                         : 'border-border-subtle hover:border-accent-primary/20 bg-white hover:shadow-lg'
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                     onClick={() => toggleCollectionSelection?.(c.id)}
                   >
@@ -1635,17 +1283,10 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                     <div className="flex flex-col gap-5 p-6">
                       <div className="flex items-start justify-between gap-4">
                         <div className="min-w-0 flex-1">
-<<<<<<< HEAD
-                          <h3 className="text-lg font-black uppercase tracking-tight text-slate-900 transition-colors group-hover:text-indigo-600">
-                            {c.name}
-                          </h3>
-                          <p className="mt-1 text-[11px] font-medium text-slate-500">
-=======
                           <h3 className="text-text-primary group-hover:text-accent-primary text-lg font-black uppercase tracking-tight transition-colors">
                             {c.name}
                           </h3>
                           <p className="text-text-secondary mt-1 text-[11px] font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                             {c.type} · {c.items} позиций
                           </p>
                           <div className="mt-4 flex flex-wrap gap-2">
@@ -1653,11 +1294,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                               className={cn(
                                 'text-[9px] font-bold uppercase',
                                 c.status === 'Production'
-<<<<<<< HEAD
-                                  ? 'border-0 bg-indigo-100 text-indigo-700'
-=======
                                   ? 'bg-accent-primary/15 text-accent-primary border-0'
->>>>>>> recover/cabinet-wip-from-stash
                                   : c.status === 'Development'
                                     ? 'border-0 bg-amber-100 text-amber-700'
                                     : 'border-0 bg-emerald-100 text-emerald-700'
@@ -1670,17 +1307,11 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                                 {c.season || c.tag}
                               </Badge>
                             )}
-<<<<<<< HEAD
-                            <span className="text-[12px] font-bold text-slate-700">{c.budget}</span>
-                            {c.deadline && c.deadline !== '—' && (
-                              <span className="flex items-center gap-0.5 text-[10px] font-medium text-slate-500">
-=======
                             <span className="text-text-primary text-[12px] font-bold">
                               {c.budget}
                             </span>
                             {c.deadline && c.deadline !== '—' && (
                               <span className="text-text-secondary flex items-center gap-0.5 text-[10px] font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                                 <Calendar className="h-3 w-3" /> До {c.deadline}
                               </span>
                             )}
@@ -1717,11 +1348,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                                   e.stopPropagation();
                                   setActiveTab?.('factories');
                                 }}
-<<<<<<< HEAD
-                                className="flex items-center gap-0.5 text-[9px] text-slate-500 hover:text-indigo-600"
-=======
                                 className="text-text-secondary hover:text-accent-primary flex items-center gap-0.5 text-[9px]"
->>>>>>> recover/cabinet-wip-from-stash
                               >
                                 <Factory className="h-3 w-3" />{' '}
                                 {collFactories.slice(0, 2).join(', ')}
@@ -1730,11 +1357,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                             </div>
                           )}
                           {c.responsible && (
-<<<<<<< HEAD
-                            <p className="mt-2 text-[10px] font-medium text-slate-400">
-=======
                             <p className="text-text-muted mt-2 text-[10px] font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                               {c.responsible}
                             </p>
                           )}
@@ -1743,13 +1366,8 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                           className={cn(
                             'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-110',
                             isSelected
-<<<<<<< HEAD
-                              ? 'bg-indigo-100 text-indigo-600'
-                              : 'bg-slate-100 text-slate-500'
-=======
                               ? 'bg-accent-primary/15 text-accent-primary'
                               : 'bg-bg-surface2 text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                           )}
                         >
                           <ChevronRight className="h-5 w-5" />
@@ -1759,11 +1377,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                         <Button
                           variant="outline"
                           size="sm"
-<<<<<<< HEAD
-                          className="h-9 rounded-lg border-slate-200 text-[9px] font-bold hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700"
-=======
                           className="border-border-default hover:border-accent-primary/30 hover:bg-accent-primary/10 hover:text-accent-primary h-9 rounded-lg text-[9px] font-bold"
->>>>>>> recover/cabinet-wip-from-stash
                           onClick={(e) => {
                             e.stopPropagation();
                             setActiveTab?.('plm');
@@ -1775,11 +1389,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                         <Button
                           variant="outline"
                           size="sm"
-<<<<<<< HEAD
-                          className="h-9 rounded-lg border-slate-200 text-[9px] font-bold hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700"
-=======
                           className="border-border-default hover:border-accent-primary/30 hover:bg-accent-primary/10 hover:text-accent-primary h-9 rounded-lg text-[9px] font-bold"
->>>>>>> recover/cabinet-wip-from-stash
                           onClick={(e) => {
                             e.stopPropagation();
                             setActiveTab?.('samples');
@@ -1791,11 +1401,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                         <Button
                           variant="outline"
                           size="sm"
-<<<<<<< HEAD
-                          className="h-9 rounded-lg border-slate-200 text-[9px] font-bold hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700"
-=======
                           className="border-border-default hover:border-accent-primary/30 hover:bg-accent-primary/10 hover:text-accent-primary h-9 rounded-lg text-[9px] font-bold"
->>>>>>> recover/cabinet-wip-from-stash
                           onClick={(e) => {
                             e.stopPropagation();
                             setActiveTab?.('orders');
@@ -1807,11 +1413,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                         <Button
                           variant="outline"
                           size="sm"
-<<<<<<< HEAD
-                          className="h-9 rounded-lg border-slate-200 text-[9px] font-bold hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700"
-=======
                           className="border-border-default hover:border-accent-primary/30 hover:bg-accent-primary/10 hover:text-accent-primary h-9 rounded-lg text-[9px] font-bold"
->>>>>>> recover/cabinet-wip-from-stash
                           onClick={(e) => {
                             e.stopPropagation();
                             setActiveTab?.('materials');
@@ -1824,11 +1426,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                           <Button
                             variant="ghost"
                             size="sm"
-<<<<<<< HEAD
-                            className="h-9 rounded-lg text-[9px] font-bold text-slate-500 hover:bg-indigo-50 hover:text-indigo-600"
-=======
                             className="text-text-secondary hover:text-accent-primary hover:bg-accent-primary/10 h-9 rounded-lg text-[9px] font-bold"
->>>>>>> recover/cabinet-wip-from-stash
                             onClick={(e) => {
                               e.stopPropagation();
                               p.setDuplicateFromCollection({ id: c.id, name: c.name || c.id });
@@ -1848,22 +1446,13 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         </TabsContent>
 
         <TabsContent value="dashboard" className="mt-0 space-y-4">
-<<<<<<< HEAD
-          <SectionHeader title="Командный центр" barColor="bg-indigo-600" />
-=======
           <SectionHeader title="Командный центр" barColor="bg-accent-primary" />
->>>>>>> recover/cabinet-wip-from-stash
           <SectionInfoCard
             title="Дашборд"
             description="Сводный центр: агрегирует данные по выбранным коллекциям. Показывает узкие места (SLA, потери), прогресс этапов, ближайшие дедлайны и события. Отсюда навигация по всем разделам производства."
             icon={Activity}
-<<<<<<< HEAD
-            iconBg="bg-indigo-100"
-            iconColor="text-indigo-600"
-=======
             iconBg="bg-accent-primary/15"
             iconColor="text-accent-primary"
->>>>>>> recover/cabinet-wip-from-stash
             badges={
               <>
                 <Badge variant="outline" className="text-[9px]">
@@ -1975,11 +1564,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                   .map((item: any, i) => (
                     <div
                       key={i}
-<<<<<<< HEAD
-                      className="flex items-center justify-between border-b border-slate-100 py-1.5 last:border-0"
-=======
                       className="border-border-subtle flex items-center justify-between border-b py-1.5 last:border-0"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       <span className="flex-1 truncate text-[10px] font-medium">{item.label}</span>
                       <SLACountdown dueDate={item.date} overdue={item.overdue} />
@@ -1987,11 +1572,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                   ))}
                 {!filteredSlaSamples?.length &&
                   !(filteredCollections ?? collections ?? []).some((c: any) => c.deadline) && (
-<<<<<<< HEAD
-                    <p className="py-4 text-[10px] text-slate-400">Нет активных дедлайнов</p>
-=======
                     <p className="text-text-muted py-4 text-[10px]">Нет активных дедлайнов</p>
->>>>>>> recover/cabinet-wip-from-stash
                   )}
               </div>
             </CardContent>
@@ -2034,38 +1615,23 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             );
           })()}
           <SectionHeader title="Ближайшие события" barColor="bg-sky-500" />
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-xl border border-slate-100 shadow-sm">
-=======
           <Card className="border-border-subtle overflow-hidden rounded-xl border shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <CardContent className="pt-4">
               <div className="max-h-36 space-y-2 overflow-y-auto">
                 {(filteredEvents || []).slice(0, 5).map((e: any) => (
                   <div
                     key={e.id}
-<<<<<<< HEAD
-                    className="flex items-center justify-between border-b border-slate-100 py-1.5 last:border-0"
-                  >
-                    <span className="flex-1 truncate text-[10px] font-medium">{e.title}</span>
-                    <span className="text-[9px] text-slate-500">{e.date}</span>
-=======
                     className="border-border-subtle flex items-center justify-between border-b py-1.5 last:border-0"
                   >
                     <span className="flex-1 truncate text-[10px] font-medium">{e.title}</span>
                     <span className="text-text-secondary text-[9px]">{e.date}</span>
->>>>>>> recover/cabinet-wip-from-stash
                     <Badge variant="outline" className="ml-2 text-[8px]">
                       {e.type}
                     </Badge>
                   </div>
                 ))}
                 {(!filteredEvents || filteredEvents.length === 0) && (
-<<<<<<< HEAD
-                  <p className="py-4 text-[10px] text-slate-400">Нет ближайших событий</p>
-=======
                   <p className="text-text-muted py-4 text-[10px]">Нет ближайших событий</p>
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               </div>
               <Button
@@ -2079,29 +1645,13 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             </CardContent>
           </Card>
           <SectionHeader title="Сводка" barColor="bg-emerald-600" />
-<<<<<<< HEAD
-          <Card className="rounded-xl border border-none border-slate-100 bg-white shadow-sm">
-=======
           <Card className="border-border-subtle rounded-xl border border-none bg-white shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <CardHeader>
               <CardTitle className="text-xs font-black uppercase">Обзор</CardTitle>
               <CardDescription>Сводка по выбранным коллекциям</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-<<<<<<< HEAD
-                <div className="rounded-xl bg-slate-50 p-4">
-                  <p className="text-[10px] font-bold text-slate-400">SKU</p>
-                  <p className="text-xl font-black">{(filteredSkus || []).length}</p>
-                </div>
-                <div className="rounded-xl bg-slate-50 p-4">
-                  <p className="text-[10px] font-bold text-slate-400">Заказы (PO)</p>
-                  <p className="text-xl font-black">{(filteredProductionOrders || []).length}</p>
-                </div>
-                <div className="rounded-xl bg-slate-50 p-4">
-                  <p className="text-[10px] font-bold text-slate-400">Сэмплы на проверку</p>
-=======
                 <div className="bg-bg-surface2 rounded-xl p-4">
                   <p className="text-text-muted text-[10px] font-bold">SKU</p>
                   <p className="text-xl font-black">{(filteredSkus || []).length}</p>
@@ -2112,7 +1662,6 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 </div>
                 <div className="bg-bg-surface2 rounded-xl p-4">
                   <p className="text-text-muted text-[10px] font-bold">Сэмплы на проверку</p>
->>>>>>> recover/cabinet-wip-from-stash
                   <p className="text-xl font-black">{samplePendingCount ?? 0}</p>
                 </div>
               </div>
@@ -2121,22 +1670,13 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         </TabsContent>
 
         <TabsContent value="demand" className="mt-0 space-y-4">
-<<<<<<< HEAD
-          <SectionHeader title="Прогноз спроса" barColor="bg-violet-600" />
-=======
           <SectionHeader title="Прогноз спроса" barColor="bg-accent-primary" />
->>>>>>> recover/cabinet-wip-from-stash
           <SectionInfoCard
             title="Прогноз спроса"
             description="План объёмов по артикулам и коллекциям. Прогнозирование на основе истории продаж и планов байеров. Связь с планом производства (MPS) и заказами."
             icon={BarChart3}
-<<<<<<< HEAD
-            iconBg="bg-violet-100"
-            iconColor="text-violet-600"
-=======
             iconBg="bg-accent-primary/15"
             iconColor="text-accent-primary"
->>>>>>> recover/cabinet-wip-from-stash
             badges={
               <>
                 <Badge variant="outline" className="text-[9px]">
@@ -2148,11 +1688,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               </>
             }
           />
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
-=======
           <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <CardHeader>
               <CardTitle className="text-xs font-black uppercase">Прогноз по коллекциям</CardTitle>
               <CardDescription className="text-[10px]">
@@ -2171,13 +1707,6 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                     return (
                       <div
                         key={c.id}
-<<<<<<< HEAD
-                        className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3"
-                      >
-                        <span className="text-[11px] font-bold">{c.name}</span>
-                        <div className="flex items-center gap-3">
-                          <span className="text-[10px] text-slate-500">{skuCount} артикулов</span>
-=======
                         className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-xl border p-3"
                       >
                         <span className="text-[11px] font-bold">{c.name}</span>
@@ -2185,7 +1714,6 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                           <span className="text-text-secondary text-[10px]">
                             {skuCount} артикулов
                           </span>
->>>>>>> recover/cabinet-wip-from-stash
                           <Button
                             variant="outline"
                             size="sm"
@@ -2207,22 +1735,13 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         </TabsContent>
 
         <TabsContent value="tz" className="mt-0 space-y-4">
-<<<<<<< HEAD
-          <SectionHeader title="ТЗ на коллекцию" barColor="bg-slate-700" />
-=======
           <SectionHeader title="ТЗ на коллекцию" barColor="bg-text-primary/75" />
->>>>>>> recover/cabinet-wip-from-stash
           <SectionInfoCard
             title="ТЗ (Техническое задание)"
             description="Техническое задание и бриф на коллекцию. Описание концепции, целевая аудитория, ограничения по материалам и срокам. Связано с коллекцией и документами."
             icon={FileText}
-<<<<<<< HEAD
-            iconBg="bg-slate-100"
-            iconColor="text-slate-600"
-=======
             iconBg="bg-bg-surface2"
             iconColor="text-text-secondary"
->>>>>>> recover/cabinet-wip-from-stash
             badges={
               <>
                 <Badge variant="outline" className="text-[9px]">
@@ -2234,11 +1753,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               </>
             }
           />
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
-=======
           <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <CardHeader>
               <CardTitle className="text-xs font-black uppercase">ТЗ по коллекциям</CardTitle>
             </CardHeader>
@@ -2250,11 +1765,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                   .map((d: any, i: number) => (
                     <div
                       key={i}
-<<<<<<< HEAD
-                      className="flex items-center justify-between rounded-lg bg-slate-50 p-3"
-=======
                       className="bg-bg-surface2 flex items-center justify-between rounded-lg p-3"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       <span className="text-[11px] font-medium">{d.name}</span>
                       <Badge variant="outline" className="text-[8px]">
@@ -2264,11 +1775,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                   ))}
                 {(!productionDocuments ||
                   !productionDocuments.some((d: any) => d.type === 'tz')) && (
-<<<<<<< HEAD
-                  <p className="py-4 text-[10px] text-slate-400">
-=======
                   <p className="text-text-muted py-4 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                     Нет ТЗ. Добавьте в раздел Документы.
                   </p>
                 )}
@@ -2286,22 +1793,13 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         </TabsContent>
 
         <TabsContent value="plm" className="mt-0 space-y-4">
-<<<<<<< HEAD
-          <SectionHeader title="Артикулы и PLM" barColor="bg-indigo-600" />
-=======
           <SectionHeader title="Артикулы и PLM" barColor="bg-accent-primary" />
->>>>>>> recover/cabinet-wip-from-stash
           <SectionInfoCard
             title="Артикулы (PLM)"
             description="Артикул привязан к коллекции. У каждого — BOM, варианты, Tech Pack. Сэмплы создаются по артикулам. Матрица, варианты, версии лекал и Tech Pack — основные представления."
             icon={Layers}
-<<<<<<< HEAD
-            iconBg="bg-indigo-100"
-            iconColor="text-indigo-600"
-=======
             iconBg="bg-accent-primary/15"
             iconColor="text-accent-primary"
->>>>>>> recover/cabinet-wip-from-stash
             badges={
               <>
                 <Badge variant="outline" className="text-[9px]">
@@ -2314,13 +1812,8 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             }
           />
           {selectedSkuId && (
-<<<<<<< HEAD
-            <Card className="rounded-xl border border-slate-100 p-3 shadow-sm">
-              <p className="mb-2 text-[9px] font-black uppercase text-slate-500">
-=======
             <Card className="border-border-subtle rounded-xl border p-3 shadow-sm">
               <p className="text-text-secondary mb-2 text-[9px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                 Артикул → Сэмплы
               </p>
               <div className="flex flex-wrap gap-2">
@@ -2331,11 +1824,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                       key={s.skuId}
                       type="button"
                       onClick={() => setActiveTab?.('samples')}
-<<<<<<< HEAD
-                      className="rounded-lg border border-indigo-100 bg-indigo-50 px-3 py-1.5 text-[10px] font-bold text-indigo-700 transition-colors hover:bg-indigo-100"
-=======
                       className="bg-accent-primary/10 text-accent-primary border-accent-primary/20 hover:bg-accent-primary/15 rounded-lg border px-3 py-1.5 text-[10px] font-bold transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       {STAGE_LABELS[s.stage] || s.stageLabel} ·{' '}
                       {s.status === 'approved' ? 'Утверждён' : 'На проверке'}
@@ -2346,20 +1835,12 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                   (displaySampleStatuses || filteredSampleStatuses || []).filter(
                     (s: any) => s.skuId === selectedSkuId
                   ).length === 0) && (
-<<<<<<< HEAD
-                  <span className="text-[10px] text-slate-400">
-=======
                   <span className="text-text-muted text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                     Нет сэмплов. Перейти в{' '}
                     <button
                       type="button"
                       onClick={() => setActiveTab?.('samples')}
-<<<<<<< HEAD
-                      className="font-bold text-indigo-600 underline"
-=======
                       className="text-accent-primary font-bold underline"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       Сэмплы
                     </button>
@@ -2446,15 +1927,6 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             <SampleCommentsAndTracking
               skuId={selectedSkuId}
               skuName={displaySampleStatuses?.find((s: any) => s.skuId === selectedSkuId)?.skuName}
-<<<<<<< HEAD
-              comments={(sampleComments || {})[selectedSkuId]?.map((c) => ({
-                id: c.id,
-                skuId: selectedSkuId,
-                author: c.author,
-                text: c.text,
-                time: c.time,
-              }))}
-=======
               comments={(sampleComments || {})[selectedSkuId]?.map(
                 (c: { id: string; author: string; text: string; time: string }) => ({
                   id: c.id,
@@ -2464,7 +1936,6 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                   time: c.time,
                 })
               )}
->>>>>>> recover/cabinet-wip-from-stash
               tracking={
                 displaySampleStatuses?.find((s: any) => s.skuId === selectedSkuId)?.tracking
               }
@@ -2510,13 +1981,8 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                   className={cn(
                     'rounded-lg px-3 py-1.5 text-[9px] font-bold uppercase transition-all',
                     (p.sampleStageFilter || 'all') === f
-<<<<<<< HEAD
-                      ? 'bg-indigo-100 text-indigo-600'
-                      : 'text-slate-500 hover:bg-slate-100'
-=======
                       ? 'bg-accent-primary/15 text-accent-primary'
                       : 'text-text-secondary hover:bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {f === 'all'
@@ -2530,11 +1996,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               )
             )}
           </div>
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-xl border border-none border-slate-100 bg-white shadow-sm">
-=======
           <Card className="border-border-subtle overflow-hidden rounded-xl border border-none bg-white shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <Table>
               <TableHeader>
                 <TableRow>
@@ -2563,11 +2025,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                     return (
                       <TableRow
                         key={s.skuId}
-<<<<<<< HEAD
-                        className="cursor-pointer hover:bg-indigo-50/50"
-=======
                         className="hover:bg-accent-primary/10 cursor-pointer"
->>>>>>> recover/cabinet-wip-from-stash
                         onClick={() =>
                           p.setSelectedSkuId?.(p.selectedSkuId === s.skuId ? null : s.skuId)
                         }
@@ -2635,11 +2093,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                                 <Button
                                   variant="ghost"
                                   size="sm"
-<<<<<<< HEAD
-                                  className="h-7 text-[9px] text-indigo-600"
-=======
                                   className="text-accent-primary h-7 text-[9px]"
->>>>>>> recover/cabinet-wip-from-stash
                                   onClick={() => {
                                     setSampleStatuses?.((prev: any[]) =>
                                       prev.map((x: any) =>
@@ -2690,11 +2144,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               </>
             }
           />
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
-=======
           <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <CardHeader className="flex flex-row justify-between">
               <CardTitle className="text-xs font-black uppercase">Журнал примерок</CardTitle>
               <Button
@@ -2706,11 +2156,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               </Button>
             </CardHeader>
             <CardContent>
-<<<<<<< HEAD
-              <p className="mb-4 text-[11px] text-slate-600">
-=======
               <p className="text-text-secondary mb-4 text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
                 Примерки по артикулам Proto1, Proto2. Фиксация замеров и комментариев.
               </p>
               <div className="space-y-2">
@@ -2720,11 +2166,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                   .map((s: any) => (
                     <div
                       key={s.skuId}
-<<<<<<< HEAD
-                      className="flex items-center justify-between rounded-lg bg-slate-50 p-3"
-=======
                       className="bg-bg-surface2 flex items-center justify-between rounded-lg p-3"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       <span className="text-[11px] font-medium">{s.skuName}</span>
                       <Badge variant="outline" className="text-[8px]">
@@ -2822,24 +2264,15 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 className={cn(
                   'rounded-lg px-3 py-1.5 text-[9px] font-bold uppercase transition-all',
                   ordersFilter === f
-<<<<<<< HEAD
-                    ? 'border border-slate-200 bg-white text-indigo-600 shadow-sm'
-                    : 'text-slate-500 hover:bg-slate-100'
-=======
                     ? 'text-accent-primary border-border-default border bg-white shadow-sm'
                     : 'text-text-secondary hover:bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 {f === 'all' ? 'Все' : f}
               </button>
             ))}
           </div>
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-xl border border-none border-slate-100 bg-white shadow-sm">
-=======
           <Card className="border-border-subtle overflow-hidden rounded-xl border border-none bg-white shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <CardHeader className="flex flex-row justify-between">
               <CardTitle className="text-xs font-black uppercase">
                 Заказы на производство (PO)
@@ -2864,11 +2297,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                   .map((o: any) => (
                     <Fragment key={o.id}>
                       <TableRow
-<<<<<<< HEAD
-                        className="cursor-pointer hover:bg-indigo-50/50"
-=======
                         className="hover:bg-accent-primary/10 cursor-pointer"
->>>>>>> recover/cabinet-wip-from-stash
                         onClick={() => setSelectedPoId?.(selectedPoId === o.id ? null : o.id)}
                       >
                         <TableCell className="font-mono text-[10px]">{o.id}</TableCell>
@@ -2883,11 +2312,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                       </TableRow>
                       {selectedPoId === o.id && (
                         <TableRow>
-<<<<<<< HEAD
-                          <TableCell colSpan={5} className="bg-slate-50/50 p-3">
-=======
                           <TableCell colSpan={5} className="bg-bg-surface2/80 p-3">
->>>>>>> recover/cabinet-wip-from-stash
                             <PODetailExpanded
                               po={{
                                 id: o.id,
@@ -2913,22 +2338,13 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         </TabsContent>
 
         <TabsContent value="mps" className="mt-0 space-y-4">
-<<<<<<< HEAD
-          <SectionHeader title="План производства (MPS)" barColor="bg-indigo-600" />
-=======
           <SectionHeader title="План производства (MPS)" barColor="bg-accent-primary" />
->>>>>>> recover/cabinet-wip-from-stash
           <SectionInfoCard
             title="MPS (Master Production Schedule)"
             description="Календарный план запусков: квартал, месяц, неделя. Связь с прогнозом спроса и заказами. Определяет загрузку фабрик и сроки поставок."
             icon={GanttChart}
-<<<<<<< HEAD
-            iconBg="bg-indigo-100"
-            iconColor="text-indigo-600"
-=======
             iconBg="bg-accent-primary/15"
             iconColor="text-accent-primary"
->>>>>>> recover/cabinet-wip-from-stash
             badges={
               <>
                 <Badge variant="outline" className="text-[9px]">
@@ -2938,11 +2354,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                   PO, Цех
                 </Badge>
                 <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-                  <Link href="/brand/calendar?layers=production,orders">
-=======
                   <Link href={`${ROUTES.brand.calendar}?layers=production,orders`}>
->>>>>>> recover/cabinet-wip-from-stash
                     <Calendar className="mr-1 h-3 w-3" /> Strategic Planner
                   </Link>
                 </Button>
@@ -2967,22 +2379,13 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         </TabsContent>
 
         <TabsContent value="materials" className="mt-0 space-y-4">
-<<<<<<< HEAD
-          <SectionHeader title="Снабжение" barColor="bg-purple-600" />
-=======
           <SectionHeader title="Снабжение" barColor="bg-accent-primary" />
->>>>>>> recover/cabinet-wip-from-stash
           <SectionInfoCard
             title="Снабжение"
             description="Рулоны ткани, фурнитура, заявки, КП, PO и приёмка материалов. Связано с BOM артикулов. Цепочка: заявка → КП → PO → приёмка. SFC-операции — учёт по производству."
             icon={Package}
-<<<<<<< HEAD
-            iconBg="bg-purple-100"
-            iconColor="text-purple-600"
-=======
             iconBg="bg-accent-primary/15"
             iconColor="text-accent-primary"
->>>>>>> recover/cabinet-wip-from-stash
             badges={
               <>
                 <Badge variant="outline" className="text-[9px]">
@@ -3028,11 +2431,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             onSearchMarketplace={() => {}}
             onSearchAuctions={() => {}}
           />
-<<<<<<< HEAD
-          <div className="flex w-fit gap-1 rounded-2xl border border-slate-200 bg-slate-100 p-1">
-=======
           <div className="bg-bg-surface2 border-border-default flex w-fit gap-1 rounded-2xl border p-1">
->>>>>>> recover/cabinet-wip-from-stash
             {(
               [
                 'rolls',
@@ -3051,13 +2450,8 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 className={cn(
                   'rounded-xl px-4 py-2 text-[10px] font-bold uppercase transition-all',
                   procurementView === v
-<<<<<<< HEAD
-                    ? 'bg-white text-indigo-600 shadow-sm'
-                    : 'text-slate-500 hover:text-slate-700'
-=======
                     ? 'text-accent-primary bg-white shadow-sm'
                     : 'text-text-secondary hover:text-text-primary'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 {v === 'rolls' && 'Рулоны'}
@@ -3072,11 +2466,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </div>
           {procurementView === 'rolls' && (
             <>
-<<<<<<< HEAD
-              <Card className="rounded-xl border border-none border-slate-100 bg-white shadow-sm">
-=======
               <Card className="border-border-subtle rounded-xl border border-none bg-white shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
                 <CardHeader className="flex flex-row justify-between">
                   <CardTitle className="text-xs font-black uppercase">Рулоны ткани</CardTitle>
                   <Button size="sm" className="text-[9px]" onClick={() => handleAddMaterial?.()}>
@@ -3124,11 +2514,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                         return (
                           <div
                             key={op.id || origIdx}
-<<<<<<< HEAD
-                            className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-4"
-=======
                             className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-xl border p-4"
->>>>>>> recover/cabinet-wip-from-stash
                           >
                             <div>
                               <Badge
@@ -3138,11 +2524,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                                     ? 'bg-emerald-100 text-emerald-600'
                                     : op.status === 'warning'
                                       ? 'bg-amber-100 text-amber-600'
-<<<<<<< HEAD
-                                      : 'bg-slate-200'
-=======
                                       : 'bg-border-subtle'
->>>>>>> recover/cabinet-wip-from-stash
                                 )}
                               >
                                 {op.status}
@@ -3169,11 +2551,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             </>
           )}
           {procurementView === 'requisition' && (
-<<<<<<< HEAD
-            <Card className="overflow-hidden rounded-xl border border-none border-slate-100 bg-white shadow-sm">
-=======
             <Card className="border-border-subtle overflow-hidden rounded-xl border border-none bg-white shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
               <CardHeader className="flex flex-row justify-between">
                 <CardTitle className="text-xs font-black uppercase">Заявки на материалы</CardTitle>
                 <Button
@@ -3230,20 +2608,12 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             </Card>
           )}
           {procurementView === 'haberdashery' && (
-<<<<<<< HEAD
-            <Card className="rounded-xl border border-none border-slate-100 bg-white shadow-sm">
-=======
             <Card className="border-border-subtle rounded-xl border border-none bg-white shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
               <CardHeader>
                 <CardTitle className="text-xs font-black uppercase">Фурнитура</CardTitle>
               </CardHeader>
               <CardContent>
-<<<<<<< HEAD
-                <p className="text-[10px] text-slate-500">
-=======
                 <p className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                   Реестр фурнитуры: пуговицы, молнии, нитки.
                 </p>
                 <SupplierMatrix />
@@ -3254,11 +2624,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           {(procurementView === 'po' ||
             procurementView === 'quotes' ||
             procurementView === 'subcontract') && (
-<<<<<<< HEAD
-            <Card className="rounded-xl border border-none border-slate-100 bg-white p-4 shadow-sm">
-=======
             <Card className="border-border-subtle rounded-xl border border-none bg-white p-4 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
               <CardHeader>
                 <CardTitle className="text-xs font-black uppercase">
                   {procurementView === 'po'
@@ -3269,11 +2635,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-<<<<<<< HEAD
-                <p className="mb-3 text-[10px] text-slate-500">
-=======
                 <p className="text-text-secondary mb-3 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                   {procurementView === 'po'
                     ? 'Заказы поставщикам на ткани и фурнитуру.'
                     : procurementView === 'quotes'
@@ -3342,24 +2704,15 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               { factory: 'Smart Tailor', week: '12–18.03', load: 60, poCount: 2 },
             ]}
           />
-<<<<<<< HEAD
-          <div className="mb-4 flex w-fit rounded-2xl border border-slate-200 bg-slate-100 p-1">
-=======
           <div className="bg-bg-surface2 border-border-default mb-4 flex w-fit rounded-2xl border p-1">
->>>>>>> recover/cabinet-wip-from-stash
             <button
               type="button"
               onClick={() => setExecutionView?.('monitor')}
               className={cn(
                 'rounded-xl px-4 py-2 text-[10px] font-bold uppercase transition-all',
                 executionView === 'monitor'
-<<<<<<< HEAD
-                  ? 'bg-white text-indigo-600 shadow-sm'
-                  : 'text-slate-500'
-=======
                   ? 'text-accent-primary bg-white shadow-sm'
                   : 'text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               Мониторинг
@@ -3369,13 +2722,9 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               onClick={() => setExecutionView?.('twin')}
               className={cn(
                 'rounded-xl px-4 py-2 text-[10px] font-bold uppercase transition-all',
-<<<<<<< HEAD
-                executionView === 'twin' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'
-=======
                 executionView === 'twin'
                   ? 'text-accent-primary bg-white shadow-sm'
                   : 'text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               Digital Twin
@@ -3414,11 +2763,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               </>
             }
           />
-<<<<<<< HEAD
-          <div className="mb-4 flex w-fit flex-wrap gap-1 rounded-2xl border border-slate-200 bg-slate-100 p-1">
-=======
           <div className="bg-bg-surface2 border-border-default mb-4 flex w-fit flex-wrap gap-1 rounded-2xl border p-1">
->>>>>>> recover/cabinet-wip-from-stash
             {(['marking', 'qc', 'passport', 'certs', 'eco', 'defects'] as const).map((v) => (
               <button
                 key={v}
@@ -3426,13 +2771,9 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 onClick={() => setComplianceView?.(v)}
                 className={cn(
                   'rounded-xl px-4 py-2 text-[10px] font-bold uppercase transition-all',
-<<<<<<< HEAD
-                  complianceView === v ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'
-=======
                   complianceView === v
                     ? 'text-accent-primary bg-white shadow-sm'
                     : 'text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 {v === 'marking' && 'Маркировка'}
@@ -3453,11 +2794,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             </div>
           )}
           {!['eco', 'defects', 'qc'].includes(complianceView || '') && (
-<<<<<<< HEAD
-            <Card className="rounded-xl border border-none border-slate-100 bg-white shadow-sm">
-=======
             <Card className="border-border-subtle rounded-xl border border-none bg-white shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-xs font-black uppercase">
                   <ShieldCheck className="h-4 w-4" /> Маркировка и соответствие
@@ -3498,11 +2835,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             <CargoTrackingCard trackId="TRK-2026-001" status="В пути" eta="15.03.2026" />
             <LogisticsCostCalc />
           </div>
-<<<<<<< HEAD
-          <div className="mb-4 flex w-fit flex-wrap gap-1 rounded-2xl border border-slate-200 bg-slate-100 p-1">
-=======
           <div className="bg-bg-surface2 border-border-default mb-4 flex w-fit flex-wrap gap-1 rounded-2xl border p-1">
->>>>>>> recover/cabinet-wip-from-stash
             {(['cargo', 'inbound', 'docs', 'customs', 'wms'] as const).map((v) => (
               <button
                 key={v}
@@ -3510,13 +2843,9 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 onClick={() => setLogisticsView?.(v)}
                 className={cn(
                   'rounded-xl px-4 py-2 text-[10px] font-bold uppercase transition-all',
-<<<<<<< HEAD
-                  logisticsView === v ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'
-=======
                   logisticsView === v
                     ? 'text-accent-primary bg-white shadow-sm'
                     : 'text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 {v === 'cargo' && 'Груз'}
@@ -3528,11 +2857,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             ))}
           </div>
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
-<<<<<<< HEAD
-            <Card className="rounded-xl border border-none border-slate-100 bg-white p-4 shadow-sm transition-all hover:shadow-md">
-=======
             <Card className="border-border-subtle rounded-xl border border-none bg-white p-4 shadow-sm transition-all hover:shadow-md">
->>>>>>> recover/cabinet-wip-from-stash
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-100 text-sky-600">
                   <Truck className="h-5 w-5" />
@@ -3543,11 +2868,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 </div>
               </div>
             </Card>
-<<<<<<< HEAD
-            <Card className="rounded-xl border border-none border-slate-100 bg-white p-4 shadow-sm transition-all hover:shadow-md">
-=======
             <Card className="border-border-subtle rounded-xl border border-none bg-white p-4 shadow-sm transition-all hover:shadow-md">
->>>>>>> recover/cabinet-wip-from-stash
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600">
                   <Package className="h-5 w-5" />
@@ -3558,11 +2879,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 </div>
               </div>
             </Card>
-<<<<<<< HEAD
-            <Card className="rounded-xl border border-none border-slate-100 bg-white p-4 shadow-sm transition-all hover:shadow-md">
-=======
             <Card className="border-border-subtle rounded-xl border border-none bg-white p-4 shadow-sm transition-all hover:shadow-md">
->>>>>>> recover/cabinet-wip-from-stash
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
                   <FileText className="h-5 w-5" />
@@ -3574,22 +2891,14 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               </div>
             </Card>
           </div>
-<<<<<<< HEAD
-          <Card className="rounded-xl border border-none border-slate-100 bg-white p-4 shadow-sm">
-=======
           <Card className="border-border-subtle rounded-xl border border-none bg-white p-4 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-xs font-black uppercase">
                 <Truck className="h-4 w-4" /> Логистика
               </CardTitle>
             </CardHeader>
             <CardContent>
-<<<<<<< HEAD
-              <p className="text-[10px] text-slate-500">
-=======
               <p className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                 Модуль грузоперевозок, таможня, WMS. Выберите подраздел выше.
               </p>
             </CardContent>
@@ -3615,11 +2924,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               </>
             }
           />
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
-=======
           <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <CardHeader>
               <CardTitle className="text-xs font-black uppercase">Остатки по коллекциям</CardTitle>
               <CardDescription className="text-[10px]">Материалы и готовые изделия</CardDescription>
@@ -3629,17 +2934,10 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 {(filteredMaterials || []).slice(0, 5).map((m: any, i: number) => (
                   <div
                     key={i}
-<<<<<<< HEAD
-                    className="flex items-center justify-between rounded-lg bg-slate-50 p-3"
-                  >
-                    <span className="text-[11px] font-medium">{m.name}</span>
-                    <span className="text-[10px] text-slate-500">
-=======
                     className="bg-bg-surface2 flex items-center justify-between rounded-lg p-3"
                   >
                     <span className="text-[11px] font-medium">{m.name}</span>
                     <span className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                       {m.length} · {m.status}
                     </span>
                   </div>
@@ -3674,11 +2972,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             }
           />
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-<<<<<<< HEAD
-            <Card className="rounded-xl border border-none border-slate-100 bg-white p-4 shadow-sm transition-all hover:shadow-md">
-=======
             <Card className="border-border-subtle rounded-xl border border-none bg-white p-4 shadow-sm transition-all hover:shadow-md">
->>>>>>> recover/cabinet-wip-from-stash
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-100 text-teal-600">
                   <QrCode className="h-6 w-6" />
@@ -3696,11 +2990,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 <QrCode className="mr-2 h-4 w-4" /> Открыть
               </Button>
             </Card>
-<<<<<<< HEAD
-            <Card className="rounded-xl border border-none border-slate-100 bg-white p-4 shadow-sm">
-=======
             <Card className="border-border-subtle rounded-xl border border-none bg-white p-4 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
               <MarketplaceLabelStatus />
             </Card>
           </div>
@@ -3744,22 +3034,14 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 return (
                   <Card
                     key={b.collectionId}
-<<<<<<< HEAD
-                    className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm transition-all hover:shadow-md"
-=======
                     className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm transition-all hover:shadow-md"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     <div
                       className={cn(
                         'h-1 w-full',
-<<<<<<< HEAD
-                        isOver ? 'bg-rose-500' : 'bg-gradient-to-r from-emerald-500 to-indigo-500'
-=======
                         isOver
                           ? 'bg-rose-500'
                           : 'to-accent-primary bg-gradient-to-r from-emerald-500'
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                     />
                     <CardHeader className="pb-2">
@@ -3813,23 +3095,14 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             }
           />
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-<<<<<<< HEAD
-            <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
-=======
             <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
               <div className="h-1 w-full bg-gradient-to-r from-emerald-500 to-teal-500" />
               <CardContent className="p-5">
                 <CashFlowSummary />
               </CardContent>
             </Card>
-<<<<<<< HEAD
-            <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
-              <div className="h-1 w-full bg-gradient-to-r from-indigo-500 to-purple-500" />
-=======
             <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
               <div className="from-accent-primary to-accent-primary h-1 w-full bg-gradient-to-r" />
->>>>>>> recover/cabinet-wip-from-stash
               <CardHeader>
                 <CardTitle className="text-xs font-black uppercase">Условия и штрафы</CardTitle>
               </CardHeader>
@@ -3840,11 +3113,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               </CardContent>
             </Card>
           </div>
-<<<<<<< HEAD
-          <div className="mb-4 flex w-fit flex-wrap gap-1 rounded-2xl border border-slate-200 bg-slate-100 p-1.5">
-=======
           <div className="bg-bg-surface2 border-border-default mb-4 flex w-fit flex-wrap gap-1 rounded-2xl border p-1.5">
->>>>>>> recover/cabinet-wip-from-stash
             {(['schedule', 'terms', 'factoring'] as const).map((v) => (
               <button
                 key={v}
@@ -3852,13 +3121,9 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 onClick={() => setFinanceView?.(v)}
                 className={cn(
                   'rounded-xl px-4 py-2 text-[10px] font-bold uppercase transition-all',
-<<<<<<< HEAD
-                  financeView === v ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'
-=======
                   financeView === v
                     ? 'text-accent-primary bg-white shadow-sm'
                     : 'text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 {v === 'schedule' && 'Платежи'}
@@ -3878,22 +3143,13 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         </TabsContent>
 
         <TabsContent value="documents" className="mt-0 space-y-4">
-<<<<<<< HEAD
-          <SectionHeader title="Документы" barColor="bg-slate-600" />
-=======
           <SectionHeader title="Документы" barColor="bg-text-secondary" />
->>>>>>> recover/cabinet-wip-from-stash
           <SectionInfoCard
             title="Документы"
             description="ТЗ, контракты, инвойсы, QC-отчёты, CMR. Документы привязаны к коллекциям и PO. Статусы: черновик, на подписи, подписан."
             icon={FileText}
-<<<<<<< HEAD
-            iconBg="bg-slate-100"
-            iconColor="text-slate-600"
-=======
             iconBg="bg-bg-surface2"
             iconColor="text-text-secondary"
->>>>>>> recover/cabinet-wip-from-stash
             badges={
               <>
                 <Badge variant="outline" className="text-[9px]">
@@ -3908,11 +3164,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             types={['tz', 'contract', 'invoice', 'qc', 'cmr']}
           />
           <div className="mb-3 flex flex-wrap gap-2">
-<<<<<<< HEAD
-            <span className="self-center text-[9px] font-bold text-slate-400">Статус:</span>
-=======
             <span className="text-text-muted self-center text-[9px] font-bold">Статус:</span>
->>>>>>> recover/cabinet-wip-from-stash
             {['all', 'Утверждено', 'Подписан', 'Ожидает оплаты', 'PASSED', 'В пути'].map((s) => (
               <button
                 key={s}
@@ -3921,13 +3173,8 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                 className={cn(
                   'rounded-lg px-2.5 py-1 text-[9px] font-bold',
                   (p.docStatusFilter || 'all') === s
-<<<<<<< HEAD
-                    ? 'bg-indigo-100 text-indigo-600'
-                    : 'text-slate-500 hover:bg-slate-100'
-=======
                     ? 'bg-accent-primary/15 text-accent-primary'
                     : 'text-text-secondary hover:bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 {s === 'all' ? 'Все' : s}
@@ -3961,11 +3208,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               Экспорт CSV
             </Button>
           </div>
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-xl border border-none border-slate-100 bg-white shadow-sm">
-=======
           <Card className="border-border-subtle overflow-hidden rounded-xl border border-none bg-white shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <Table>
               <TableHeader>
                 <TableRow>
@@ -4019,11 +3262,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             }
           />
           <div className="mb-3 flex flex-wrap gap-2">
-<<<<<<< HEAD
-            <span className="self-center text-[9px] font-bold text-slate-400">Тип:</span>
-=======
             <span className="text-text-muted self-center text-[9px] font-bold">Тип:</span>
->>>>>>> recover/cabinet-wip-from-stash
             {['all', 'material', 'model'].map((f) => (
               <button
                 key={f}
@@ -4033,23 +3272,15 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                   'rounded-lg px-3 py-1.5 text-[9px] font-bold uppercase transition-all',
                   (p.lossTypeFilter || 'all') === f
                     ? 'bg-rose-100 text-rose-600'
-<<<<<<< HEAD
-                    : 'text-slate-500 hover:bg-slate-100'
-=======
                     : 'text-text-secondary hover:bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 {f === 'all' ? 'Все' : f === 'material' ? 'Материалы' : 'Модели'}
               </button>
             ))}
-<<<<<<< HEAD
-            <span className="ml-2 self-center text-[9px] font-bold text-slate-400">Категория:</span>
-=======
             <span className="text-text-muted ml-2 self-center text-[9px] font-bold">
               Категория:
             </span>
->>>>>>> recover/cabinet-wip-from-stash
             {['all', 'defect', 'overrun', 'writeoff'].map((f) => (
               <button
                 key={f}
@@ -4059,11 +3290,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                   'rounded-lg px-3 py-1.5 text-[9px] font-bold uppercase transition-all',
                   (p.lossCategoryFilter || 'all') === f
                     ? 'bg-rose-100 text-rose-600'
-<<<<<<< HEAD
-                    : 'text-slate-500 hover:bg-slate-100'
-=======
                     : 'text-text-secondary hover:bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 {f === 'all'
@@ -4076,11 +3303,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               </button>
             ))}
           </div>
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
-=======
           <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="h-1 w-full bg-gradient-to-r from-rose-500 to-amber-500" />
             <CardHeader className="flex flex-row items-center justify-between pb-4">
               <div className="flex items-center gap-3">
@@ -4127,11 +3350,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                     .map((l: any, i: number) => (
                       <TableRow
                         key={i}
-<<<<<<< HEAD
-                        className="cursor-pointer hover:bg-slate-50/50"
-=======
                         className="hover:bg-bg-surface2/80 cursor-pointer"
->>>>>>> recover/cabinet-wip-from-stash
                         onClick={() =>
                           l.collection &&
                           (toggleCollectionSelection?.(l.collection),
@@ -4144,11 +3363,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                               {l.type === 'material' ? 'Материал' : 'Модель'}
                             </Badge>
                             {l.category && (
-<<<<<<< HEAD
-                              <span className="text-[8px] text-slate-400">
-=======
                               <span className="text-text-muted text-[8px]">
->>>>>>> recover/cabinet-wip-from-stash
                                 {l.category === 'defect'
                                   ? 'Брак'
                                   : l.category === 'overrun'
@@ -4169,11 +3384,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                               l.collection &&
                                 (toggleCollectionSelection?.(l.collection), setActiveTab?.('plm'));
                             }}
-<<<<<<< HEAD
-                            className="font-medium text-indigo-600 hover:underline"
-=======
                             className="text-accent-primary font-medium hover:underline"
->>>>>>> recover/cabinet-wip-from-stash
                           >
                             {l.collection || '—'}
                           </button>
@@ -4189,22 +3400,13 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         </TabsContent>
 
         <TabsContent value="factories" className="mt-0 space-y-4">
-<<<<<<< HEAD
-          <SectionHeader title="Фабрики" barColor="bg-indigo-600" />
-=======
           <SectionHeader title="Фабрики" barColor="bg-accent-primary" />
->>>>>>> recover/cabinet-wip-from-stash
           <SectionInfoCard
             title="Фабрики"
             description="Реестр фабрик: контакты, мощность, специализация. KPI: качество, сроки, коммуникация. История PO, калькулятор себестоимости по фабрике."
             icon={Factory}
-<<<<<<< HEAD
-            iconBg="bg-indigo-100"
-            iconColor="text-indigo-600"
-=======
             iconBg="bg-accent-primary/15"
             iconColor="text-accent-primary"
->>>>>>> recover/cabinet-wip-from-stash
             badges={
               <>
                 <Badge variant="outline" className="text-[9px]">
@@ -4213,13 +3415,8 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               </>
             }
           />
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
-            <div className="h-1 w-full bg-gradient-to-r from-indigo-500 to-blue-500" />
-=======
           <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
             <div className="from-accent-primary h-1 w-full bg-gradient-to-r to-blue-500" />
->>>>>>> recover/cabinet-wip-from-stash
             <CardContent className="p-5">
               <FactoryLoadOverview />
             </CardContent>
@@ -4257,15 +3454,9 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             ].map((f, i) => (
               <Card
                 key={i}
-<<<<<<< HEAD
-                className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm transition-all hover:shadow-md"
-              >
-                <div className="h-0.5 w-full bg-slate-100" />
-=======
                 className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm transition-all hover:shadow-md"
               >
                 <div className="bg-bg-surface2 h-0.5 w-full" />
->>>>>>> recover/cabinet-wip-from-stash
                 <CardContent className="p-5">
                   <FactoryRatingCard
                     name={f.name}
@@ -4281,22 +3472,13 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         </TabsContent>
 
         <TabsContent value="handbooks" className="mt-0 space-y-4">
-<<<<<<< HEAD
-          <SectionHeader title="Справочники (Партнёры)" barColor="bg-purple-600" />
-=======
           <SectionHeader title="Справочники (Партнёры)" barColor="bg-accent-primary" />
->>>>>>> recover/cabinet-wip-from-stash
           <SectionInfoCard
             title="Партнёры и справочники"
             description="Категории товаров, поставщики, размеры, материалы, фурнитура, коллаборации. Категории — для артикулов, поставщики — для снабжения."
             icon={BookOpen}
-<<<<<<< HEAD
-            iconBg="bg-purple-100"
-            iconColor="text-purple-600"
-=======
             iconBg="bg-accent-primary/15"
             iconColor="text-accent-primary"
->>>>>>> recover/cabinet-wip-from-stash
             badges={
               <>
                 <Badge variant="outline" className="text-[9px]">
@@ -4305,33 +3487,19 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               </>
             }
           />
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-2xl border border-slate-100 p-5 shadow-sm">
-            <div className="mb-4 flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-100 text-purple-600">
-=======
           <Card className="border-border-subtle overflow-hidden rounded-2xl border p-5 shadow-sm">
             <div className="mb-4 flex items-center gap-4">
               <div className="bg-accent-primary/15 text-accent-primary flex h-12 w-12 items-center justify-center rounded-xl">
->>>>>>> recover/cabinet-wip-from-stash
                 <BookOpen className="h-6 w-6" />
               </div>
               <div>
                 <h3 className="text-sm font-black uppercase">Партнёры и справочники</h3>
-<<<<<<< HEAD
-                <p className="text-[11px] text-slate-500">
-=======
                 <p className="text-text-secondary text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
                   Категории, размеры, материалы, поставщики, коллаборации
                 </p>
               </div>
             </div>
-<<<<<<< HEAD
-            <div className="mb-4 flex w-fit flex-wrap gap-1 rounded-2xl border border-slate-200 bg-slate-100 p-1.5">
-=======
             <div className="bg-bg-surface2 border-border-default mb-4 flex w-fit flex-wrap gap-1 rounded-2xl border p-1.5">
->>>>>>> recover/cabinet-wip-from-stash
               {(['categories', 'suppliers', 'collabs', 'sizes'] as const).map((v) => (
                 <button
                   key={v}
@@ -4339,13 +3507,9 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                   onClick={() => setHandbookView?.(v)}
                   className={cn(
                     'rounded-xl px-4 py-2 text-[10px] font-bold uppercase transition-all',
-<<<<<<< HEAD
-                    handbookView === v ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'
-=======
                     handbookView === v
                       ? 'text-accent-primary bg-white shadow-sm'
                       : 'text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {v === 'categories' && 'Категории'}
@@ -4356,45 +3520,27 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               ))}
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-<<<<<<< HEAD
-              <Card className="rounded-2xl border border-slate-100 p-5 transition-all hover:shadow-md">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-100 text-indigo-600">
-=======
               <Card className="border-border-subtle rounded-2xl border p-5 transition-all hover:shadow-md">
                 <div className="flex items-center gap-3">
                   <div className="bg-accent-primary/15 text-accent-primary flex h-12 w-12 items-center justify-center rounded-xl">
->>>>>>> recover/cabinet-wip-from-stash
                     <BookOpen className="h-6 w-6" />
                   </div>
                   <div>
                     <p className="text-[12px] font-black uppercase">Категории</p>
-<<<<<<< HEAD
-                    <p className="text-[10px] text-slate-500">
-=======
                     <p className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                       {CATEGORY_HANDBOOK?.length || 0} категорий
                     </p>
                   </div>
                 </div>
               </Card>
-<<<<<<< HEAD
-              <Card className="rounded-2xl border border-slate-100 p-5 transition-all hover:shadow-md">
-=======
               <Card className="border-border-subtle rounded-2xl border p-5 transition-all hover:shadow-md">
->>>>>>> recover/cabinet-wip-from-stash
                 <div className="flex items-center gap-3">
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600">
                     <Users className="h-6 w-6" />
                   </div>
                   <div>
                     <p className="text-[12px] font-black uppercase">Поставщики</p>
-<<<<<<< HEAD
-                    <p className="text-[10px] text-slate-500">Реестр партнёров</p>
-=======
                     <p className="text-text-secondary text-[10px]">Реестр партнёров</p>
->>>>>>> recover/cabinet-wip-from-stash
                   </div>
                 </div>
               </Card>
@@ -4404,22 +3550,13 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         </TabsContent>
 
         <TabsContent value="audit" className="mt-0 space-y-4">
-<<<<<<< HEAD
-          <SectionHeader title="Аудит" barColor="bg-slate-600" />
-=======
           <SectionHeader title="Аудит" barColor="bg-text-secondary" />
->>>>>>> recover/cabinet-wip-from-stash
           <SectionInfoCard
             title="Аудит"
             description="Журнал изменений: BOM, сэмплы, PO, статусы. Кто и когда изменил. Детали: было/стало. Фильтр по типу, дате, пользователю."
             icon={History}
-<<<<<<< HEAD
-            iconBg="bg-slate-100"
-            iconColor="text-slate-600"
-=======
             iconBg="bg-bg-surface2"
             iconColor="text-text-secondary"
->>>>>>> recover/cabinet-wip-from-stash
             badges={
               <>
                 <Badge variant="outline" className="text-[9px]">
@@ -4428,19 +3565,11 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               </>
             }
           />
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
-            <div className="h-1 w-full bg-gradient-to-r from-slate-600 to-slate-500" />
-            <CardHeader className="pb-4">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
-=======
           <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
             <div className="from-text-secondary to-bg-surface2 h-1 w-full bg-gradient-to-r" />
             <CardHeader className="pb-4">
               <div className="flex items-center gap-3">
                 <div className="bg-bg-surface2 text-text-secondary flex h-10 w-10 items-center justify-center rounded-xl">
->>>>>>> recover/cabinet-wip-from-stash
                   <History className="h-5 w-5" />
                 </div>
                 <div>
@@ -4462,13 +3591,8 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                       className={cn(
                         'rounded-xl px-4 py-2 text-[9px] font-bold uppercase transition-all',
                         auditFilter === v
-<<<<<<< HEAD
-                          ? 'bg-indigo-100 text-indigo-600'
-                          : 'text-slate-500 hover:bg-slate-100'
-=======
                           ? 'bg-accent-primary/15 text-accent-primary'
                           : 'text-text-secondary hover:bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {v === 'all' ? 'Все' : v}
@@ -4573,11 +3697,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               )
             );
           })()}
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
-=======
           <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="h-1 w-full bg-gradient-to-r from-amber-500 to-rose-500" />
             <CardHeader>
               <div className="flex items-center gap-3">
@@ -4620,11 +3740,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                             Просрочено
                           </Badge>
                         ) : (
-<<<<<<< HEAD
-                          <span className="text-[10px] text-slate-500">В срок</span>
-=======
                           <span className="text-text-secondary text-[10px]">В срок</span>
->>>>>>> recover/cabinet-wip-from-stash
                         )}
                       </TableCell>
                     </TableRow>
@@ -4644,11 +3760,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             onNavigate={(tab) => setActiveTab?.(tab)}
           />
           {/* Pipeline этапов */}
-<<<<<<< HEAD
-          <Card className="rounded-xl border border-none border-slate-100 bg-white p-4 shadow-sm">
-=======
           <Card className="border-border-subtle rounded-xl border border-none bg-white p-4 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <CardHeader className="p-0 pb-3">
               <CardTitle className="text-[11px] font-black uppercase">Этапы и дедлайны</CardTitle>
               <CardDescription className="text-[10px]">
@@ -4688,13 +3800,8 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                   className={cn(
                     'rounded-lg px-3 py-1.5 text-[9px] font-bold uppercase transition-all',
                     ['Сэмпл', 'PO', 'Цех'].includes(stage)
-<<<<<<< HEAD
-                      ? 'border border-indigo-200 bg-indigo-100 text-indigo-600'
-                      : 'border border-slate-100 bg-slate-50 text-slate-500'
-=======
                       ? 'bg-accent-primary/15 text-accent-primary border-accent-primary/30 border'
                       : 'bg-bg-surface2 text-text-secondary border-border-subtle border'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {stage}
@@ -4703,31 +3810,19 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             </div>
           </Card>
           {/* Блоки действий и события */}
-<<<<<<< HEAD
-          <Card className="rounded-xl border border-none border-slate-100 bg-white shadow-sm">
-=======
           <Card className="border-border-subtle rounded-xl border border-none bg-white shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-black uppercase tracking-tight">
                 События и дедлайны
               </CardTitle>
-<<<<<<< HEAD
-              <CardDescription className="text-[10px] text-slate-500">
-=======
               <CardDescription className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                 Календарь с блоками действий
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {(filteredEvents || []).length === 0 ? (
-<<<<<<< HEAD
-                  <p className="py-8 text-center text-[10px] text-slate-400">
-=======
                   <p className="text-text-muted py-8 text-center text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                     Нет запланированных событий. Выберите коллекцию для фильтрации.
                   </p>
                 ) : (
@@ -4748,16 +3843,6 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                     return (
                       <div
                         key={ev.id}
-<<<<<<< HEAD
-                        className="flex flex-col gap-3 rounded-xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:border-indigo-100 hover:bg-white sm:flex-row sm:items-center sm:justify-between"
-                      >
-                        <div className="min-w-0 flex-1">
-                          <span className="block text-[11px] font-bold text-slate-800">
-                            {ev.title}
-                          </span>
-                          {ev.description && (
-                            <span className="mt-0.5 block text-[10px] text-slate-500">
-=======
                         className="border-border-subtle bg-bg-surface2/80 hover:border-accent-primary/20 flex flex-col gap-3 rounded-xl border p-4 transition-all hover:bg-white sm:flex-row sm:items-center sm:justify-between"
                       >
                         <div className="min-w-0 flex-1">
@@ -4766,16 +3851,11 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                           </span>
                           {ev.description && (
                             <span className="text-text-secondary mt-0.5 block text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                               {ev.description}
                             </span>
                           )}
                           {ev.responsible && (
-<<<<<<< HEAD
-                            <span className="mt-1 block text-[9px] text-slate-400">
-=======
                             <span className="text-text-muted mt-1 block text-[9px]">
->>>>>>> recover/cabinet-wip-from-stash
                               Ответственный: {ev.responsible}
                             </span>
                           )}
@@ -4783,19 +3863,11 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                         <div className="flex shrink-0 flex-wrap items-center gap-2">
                           <Badge
                             variant="outline"
-<<<<<<< HEAD
-                            className="border-slate-200 text-[8px] font-bold uppercase text-slate-600"
-                          >
-                            {typeLabel}
-                          </Badge>
-                          <span className="text-[10px] font-medium tabular-nums text-slate-500">
-=======
                             className="border-border-default text-text-secondary text-[8px] font-bold uppercase"
                           >
                             {typeLabel}
                           </Badge>
                           <span className="text-text-secondary text-[10px] font-medium tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
                             {dateStr}
                           </span>
                           <Button
@@ -4825,11 +3897,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         </TabsContent>
         <TabsContent value="notifications" className="mt-0 space-y-4">
           <SectionHeader title="Уведомления" barColor="bg-rose-600" />
-<<<<<<< HEAD
-          <Card className="rounded-xl border border-none border-slate-100 bg-white shadow-sm">
-=======
           <Card className="border-border-subtle rounded-xl border border-none bg-white shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <CardHeader>
               <CardTitle className="text-xs font-black uppercase">Уведомления</CardTitle>
             </CardHeader>
@@ -4840,11 +3908,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                     key={n.id}
                     className={cn(
                       'rounded-lg border p-3',
-<<<<<<< HEAD
-                      !n.read && 'border-indigo-100 bg-indigo-50/30'
-=======
                       !n.read && 'bg-accent-primary/10 border-accent-primary/20'
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     <p className="text-[10px] font-medium">{n.title}</p>
@@ -4856,22 +3920,13 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </Card>
         </TabsContent>
         <TabsContent value="reports" className="mt-0 space-y-4">
-<<<<<<< HEAD
-          <SectionHeader title="Отчёты и аналитика" barColor="bg-indigo-600" />
-=======
           <SectionHeader title="Отчёты и аналитика" barColor="bg-accent-primary" />
->>>>>>> recover/cabinet-wip-from-stash
           <SectionInfoCard
             title="Отчёты"
             description="Сводные отчёты: динамика SKU, бюджет, загрузка фабрик. KPI по коллекциям. Экспорт в CSV. Связь с дашбордом и данными разделов."
             icon={FileSpreadsheet}
-<<<<<<< HEAD
-            iconBg="bg-indigo-100"
-            iconColor="text-indigo-600"
-=======
             iconBg="bg-accent-primary/15"
             iconColor="text-accent-primary"
->>>>>>> recover/cabinet-wip-from-stash
             badges={
               <>
                 <Badge variant="outline" className="text-[9px]">
@@ -4951,22 +4006,13 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         </TabsContent>
 
         <TabsContent value="archive" className="mt-0 space-y-4">
-<<<<<<< HEAD
-          <SectionHeader title="Архив" barColor="bg-slate-900" />
-=======
           <SectionHeader title="Архив" barColor="bg-text-primary" />
->>>>>>> recover/cabinet-wip-from-stash
           <SectionInfoCard
             title="Архив"
             description="Завершённые коллекции, PO, документы. Поиск и фильтры. Восстановление из архива для редактирования или повторного использования."
             icon={FolderArchive}
-<<<<<<< HEAD
-            iconBg="bg-slate-100"
-            iconColor="text-slate-600"
-=======
             iconBg="bg-bg-surface2"
             iconColor="text-text-secondary"
->>>>>>> recover/cabinet-wip-from-stash
             badges={
               <>
                 <Badge variant="outline" className="text-[9px]">
@@ -4980,11 +4026,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           />
           <div className="flex flex-col gap-3 sm:flex-row">
             <div className="relative flex-1">
-<<<<<<< HEAD
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-=======
               <Search className="text-text-muted absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
->>>>>>> recover/cabinet-wip-from-stash
               <Input
                 placeholder="Поиск по архиву (коллекции, артикулы, документы)..."
                 value={p.archiveSearchQuery || ''}
@@ -5003,19 +4045,11 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               Восстановить из архива
             </Button>
           </div>
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
-            <div className="h-1 w-full bg-gradient-to-r from-slate-700 to-slate-900" />
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
-=======
           <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
             <div className="from-text-primary/80 to-text-primary h-1 w-full bg-gradient-to-r" />
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="bg-bg-surface2 text-text-secondary flex h-10 w-10 items-center justify-center rounded-xl">
->>>>>>> recover/cabinet-wip-from-stash
                   <FolderArchive className="h-5 w-5" />
                 </div>
                 <div>
@@ -5060,15 +4094,9 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         }}
       >
         <DialogContent className="overflow-hidden rounded-2xl border-none p-0 shadow-xl sm:max-w-[400px]">
-<<<<<<< HEAD
-          <DialogHeader className="bg-slate-900 p-6 text-white">
-            <DialogTitle className="text-lg font-black uppercase">Отклонить сэмпл</DialogTitle>
-            <DialogDescription className="text-[10px] text-slate-400">
-=======
           <DialogHeader className="bg-text-primary p-6 text-white">
             <DialogTitle className="text-lg font-black uppercase">Отклонить сэмпл</DialogTitle>
             <DialogDescription className="text-text-muted text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
               Укажите причину отклонения для {rejectSample?.skuName}
             </DialogDescription>
           </DialogHeader>
@@ -5097,11 +4125,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             </div>
             {rejectReason === 'Прочее' && (
               <div>
-<<<<<<< HEAD
-                <label className="text-[10px] font-bold uppercase text-slate-600">
-=======
                 <label className="text-text-secondary text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   Комментарий
                 </label>
                 <Input
@@ -5113,11 +4137,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
               </div>
             )}
           </div>
-<<<<<<< HEAD
-          <DialogFooter className="flex justify-end gap-2 border-t border-slate-100 bg-slate-50 p-6">
-=======
           <DialogFooter className="bg-bg-surface2 border-border-subtle flex justify-end gap-2 border-t p-6">
->>>>>>> recover/cabinet-wip-from-stash
             <Button
               variant="outline"
               onClick={() => {
@@ -5183,28 +4203,6 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         isOpen={!!isHandoverActOpen}
         onOpenChange={(open) => setIsHandoverActOpen?.(open)}
       />
-<<<<<<< HEAD
-      {isCostingOpen && (
-        <Dialog open={!!isCostingOpen} onOpenChange={(open) => setIsCostingOpen?.(open)}>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Калькулятор себестоимости</DialogTitle>
-            </DialogHeader>
-            <CostingCalculator />
-          </DialogContent>
-        </Dialog>
-      )}
-      {isFittingLogOpen && (
-        <Dialog open={!!isFittingLogOpen} onOpenChange={(open) => setIsFittingLogOpen?.(open)}>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Журнал примерок</DialogTitle>
-            </DialogHeader>
-            <FittingLog />
-          </DialogContent>
-        </Dialog>
-      )}
-=======
       <CostingCalculator
         isOpen={!!isCostingOpen}
         onOpenChange={(open) => setIsCostingOpen?.(open)}
@@ -5213,7 +4211,6 @@ export function ProductionPageContent(props: Record<string, unknown>) {
         isOpen={!!isFittingLogOpen}
         onOpenChange={(open) => setIsFittingLogOpen?.(open)}
       />
->>>>>>> recover/cabinet-wip-from-stash
       <MaterialMarketplace
         isOpen={!!isMarketplaceOpen}
         onOpenChange={(open) => setIsMarketplaceOpen?.(open)}

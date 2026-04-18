@@ -16,19 +16,7 @@ import {
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-<<<<<<< HEAD
-import {
-  UserCircle,
-  Percent,
-  FileText,
-  ShoppingCart,
-  ArrowLeft,
-  BarChart3,
-  Filter,
-} from 'lucide-react';
-=======
 import { UserCircle, Percent, FileText, ShoppingCart, BarChart3, Filter } from 'lucide-react';
->>>>>>> recover/cabinet-wip-from-stash
 import { ReplenishmentRecommendationsBlock } from '@/components/b2b/ReplenishmentRecommendationsBlock';
 
 export default function AgentCabinetPage() {
@@ -57,28 +45,8 @@ export default function AgentCabinetPage() {
   const totalOrders = brands.reduce((s, b) => s + b.ordersCountYtd, 0);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <UserCircle className="h-6 w-6" /> Агентский кабинет
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Zedonk: один логин, несколько брендов. Переключение контекста, комиссии и отчёты по
-            брендам.
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="max-w-3xl space-y-6">
       <ShopB2bContentHeader lead="Zedonk: один логин, несколько брендов — переключение контекста, комиссии и отчёты по брендам." />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -117,11 +85,7 @@ export default function AgentCabinetPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-<<<<<<< HEAD
-                <tr className="border-b border-slate-200">
-=======
                 <tr className="border-border-default border-b">
->>>>>>> recover/cabinet-wip-from-stash
                   <th className="py-2 text-left font-medium">Бренд</th>
                   <th className="py-2 text-right font-medium">Объём (выручка)</th>
                   <th className="py-2 text-right font-medium">Комиссия</th>
@@ -194,11 +158,7 @@ export default function AgentCabinetPage() {
                 Комиссия с выручки с начала года:{' '}
                 <strong>{(commission.amountYtd / 1000).toFixed(0)}k ₽</strong>
               </p>
-<<<<<<< HEAD
-              <p className="text-xs text-slate-500">
-=======
               <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                 Выручка по бренду (YTD): {(selected.revenueYtd / 1_000_000).toFixed(2)} млн ₽ ·
                 Заказов: {selected.ordersCountYtd}
               </p>
@@ -251,11 +211,7 @@ export default function AgentCabinetPage() {
 
       <div className="mt-4 flex gap-2">
         <Button variant="outline" size="sm" asChild>
-<<<<<<< HEAD
-          <Link href={ROUTES.shop.b2b}>B2B</Link>
-=======
           <Link href={ROUTES.shop.b2bCatalog}>B2B каталог</Link>
->>>>>>> recover/cabinet-wip-from-stash
         </Button>
         <Button variant="outline" size="sm" asChild>
           <Link href={ROUTES.shop.b2bOrders}>Заказы</Link>
@@ -266,10 +222,6 @@ export default function AgentCabinetPage() {
         title="Заказы, матрица, каталог"
         className="mt-6"
       />
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

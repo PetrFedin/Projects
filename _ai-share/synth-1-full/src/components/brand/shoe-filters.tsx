@@ -58,12 +58,8 @@ export default function ShoeFilters({
 
   const handleInputCommit = () => {
     if (onHeelHeightCommit) {
-<<<<<<< HEAD
-      onHeelHeightCommit(localHeelHeight);
-=======
       const tuple: [number, number] = [localHeelHeight[0] ?? 0, localHeelHeight[1] ?? 15];
       onHeelHeightCommit(tuple);
->>>>>>> recover/cabinet-wip-from-stash
     }
   };
 

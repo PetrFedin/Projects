@@ -15,11 +15,7 @@ import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
 export default function SSOPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="space-y-6">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="SSO — единый вход"
         description={
@@ -29,13 +25,8 @@ export default function SSOPage() {
           </>
         }
         icon={Lock}
-<<<<<<< HEAD
-        iconBg="bg-slate-100"
-        iconColor="text-slate-600"
-=======
         iconBg="bg-bg-surface2"
         iconColor="text-text-secondary"
->>>>>>> recover/cabinet-wip-from-stash
         badges={
           <>
             <Badge variant="outline" className="text-[9px]">
@@ -45,11 +36,7 @@ export default function SSOPage() {
               OIDC
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/integrations">Интеграции</Link>
-=======
               <Link href={ROUTES.brand.integrations}>Интеграции</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -64,19 +51,11 @@ export default function SSOPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-<<<<<<< HEAD
-            <p className="text-[11px] text-slate-600">
-              Поддерживаемые провайдеры: Azure AD, Okta, Google Workspace, Keycloak
-            </p>
-            <Button size="sm" variant="outline">
-              Настроить SSO
-=======
             <p className="text-text-secondary text-[11px]">
               Поддерживаемые провайдеры: Azure AD, Okta, Google Workspace, Keycloak
             </p>
             <Button size="sm" variant="outline">
               Настроить <AcronymWithTooltip abbr="SSO" />
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </div>
         </CardContent>

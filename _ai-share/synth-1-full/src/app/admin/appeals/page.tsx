@@ -22,23 +22,15 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
 } from '@/components/ui/dropdown-menu';
-<<<<<<< HEAD
-import { mockPromotions } from '../promotions/page';
-=======
 import type { Promotion } from '@/lib/types';
 import { mockPromotions } from '@/lib/data/mock-promotions';
->>>>>>> recover/cabinet-wip-from-stash
 import { format, formatDistanceToNow } from 'date-fns';
 import { ru } from 'date-fns/locale';
 
 export default function AppealsPage() {
-<<<<<<< HEAD
-  const [appeals, setAppeals] = useState(mockPromotions.filter((p) => p.status === 'appealed'));
-=======
   const [appeals, setAppeals] = useState<Promotion[]>(() =>
     mockPromotions.filter((p: Promotion) => p.status === 'appealed')
   );
->>>>>>> recover/cabinet-wip-from-stash
   const [rejectionReason, setRejectionReason] = useState<string | null>(null);
   const [isClient, setIsClient] = useState(false);
 
@@ -47,22 +39,14 @@ export default function AppealsPage() {
   }, []);
 
   const handleApprove = (id: string) => {
-<<<<<<< HEAD
-    setAppeals((prev) => prev.filter((a) => a.id !== id));
-=======
     setAppeals((prev: Promotion[]) => prev.filter((a: Promotion) => a.id !== id));
->>>>>>> recover/cabinet-wip-from-stash
     // In a real app, you would also update the promotion status
   };
 
   const handleReject = (id: string) => {
     // Here you would likely open another dialog to confirm rejection reason
     // For simplicity, we just remove it from the list
-<<<<<<< HEAD
-    setAppeals((prev) => prev.filter((a) => a.id !== id));
-=======
     setAppeals((prev: Promotion[]) => prev.filter((a: Promotion) => a.id !== id));
->>>>>>> recover/cabinet-wip-from-stash
   };
 
   return (
@@ -90,11 +74,7 @@ export default function AppealsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-<<<<<<< HEAD
-              {appeals.map((appeal) => {
-=======
               {appeals.map((appeal: Promotion) => {
->>>>>>> recover/cabinet-wip-from-stash
                 const appealDate = new Date(); // Mock
                 return (
                   <TableRow key={appeal.id}>
@@ -115,11 +95,7 @@ export default function AppealsPage() {
                       </div>
                     </TableCell>
                     <TableCell>
-<<<<<<< HEAD
-                      <Badge variant="secondary" className="bg-purple-500/80 text-white">
-=======
                       <Badge variant="secondary" className="bg-accent-primary/80 text-white">
->>>>>>> recover/cabinet-wip-from-stash
                         На обжаловании
                       </Badge>
                     </TableCell>

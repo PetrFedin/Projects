@@ -169,11 +169,7 @@ export default function SmartRecommendations() {
                       <Zap className="mt-0.5 h-4 w-4 flex-shrink-0 text-blue-600" />
                     )}
                     {rec.type === 'trending' && (
-<<<<<<< HEAD
-                      <TrendingUp className="mt-0.5 h-4 w-4 flex-shrink-0 text-purple-600" />
-=======
                       <TrendingUp className="text-accent-primary mt-0.5 h-4 w-4 flex-shrink-0" />
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                     {rec.type === 'personalized' && (
                       <Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-accent" />

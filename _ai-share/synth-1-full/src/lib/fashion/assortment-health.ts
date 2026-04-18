@@ -5,11 +5,7 @@ import type { CategoryAssortmentHealthV1 } from './types';
 export function analyzeAssortmentHealth(
   products: Product[] = [],
   category: string
-<<<<<<< HEAD
-): AssortmentHealthV1 {
-=======
 ): CategoryAssortmentHealthV1 {
->>>>>>> recover/cabinet-wip-from-stash
   const catProducts = (products || []).filter((p) => p.category === category);
   const colors = new Set(catProducts.map((p) => p.attributes?.mainColor));
 

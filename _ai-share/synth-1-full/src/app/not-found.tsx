@@ -6,13 +6,8 @@ export default function NotFound() {
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 p-4 sm:gap-6 sm:p-6 md:p-8">
       <div className="space-y-2 text-center">
-<<<<<<< HEAD
-        <h1 className="text-5xl font-black text-slate-900 sm:text-6xl md:text-7xl">404</h1>
-        <p className="text-sm font-medium text-slate-500 sm:text-base">Страница не найдена</p>
-=======
         <h1 className="text-text-primary text-5xl font-black sm:text-6xl md:text-7xl">404</h1>
         <p className="text-text-secondary text-sm font-medium sm:text-base">Страница не найдена</p>
->>>>>>> recover/cabinet-wip-from-stash
       </div>
       <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
         <Button asChild>

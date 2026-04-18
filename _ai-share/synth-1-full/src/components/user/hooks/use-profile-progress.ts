@@ -50,15 +50,9 @@ const PROGRESS_ITEMS: Array<{
   },
 ];
 
-<<<<<<< HEAD
-export function useProfileProgress(
-  form: UseFormReturn<Record<string, unknown>>
-): ProfileProgressResult {
-=======
 export function useProfileProgress<
   TFieldValues extends Record<string, unknown> = Record<string, unknown>,
 >(form: UseFormReturn<TFieldValues>): ProfileProgressResult {
->>>>>>> recover/cabinet-wip-from-stash
   const values = form.watch();
 
   return useMemo(() => {

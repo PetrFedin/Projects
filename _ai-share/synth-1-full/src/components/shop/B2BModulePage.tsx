@@ -27,20 +27,12 @@ export function B2BModulePage({
   icon: Icon,
   phase,
   children,
-<<<<<<< HEAD
-  backHref = ROUTES.shop.b2b,
-=======
   backHref = ROUTES.shop.home,
->>>>>>> recover/cabinet-wip-from-stash
 }: B2BModulePageProps) {
   const relatedLinks = getRelatedLinks(moduleId).map((l) => ({ label: l.label, href: l.href }));
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
-=======
     <div className="space-y-6">
->>>>>>> recover/cabinet-wip-from-stash
       <div className="flex items-center gap-3">
         <Link href={backHref}>
           <Button variant="ghost" size="icon">
@@ -58,11 +50,7 @@ export function B2BModulePage({
               </Badge>
             )}
           </div>
-<<<<<<< HEAD
-          <p className="mt-0.5 text-sm text-slate-500">{description}</p>
-=======
           <p className="text-text-secondary mt-0.5 text-sm">{description}</p>
->>>>>>> recover/cabinet-wip-from-stash
         </div>
       </div>
       {children}
@@ -71,11 +59,7 @@ export function B2BModulePage({
       )}
       <div className="flex gap-2">
         <Button variant="outline" size="sm" asChild>
-<<<<<<< HEAD
-          <Link href={ROUTES.shop.b2b}>B2B Hub</Link>
-=======
           <Link href={ROUTES.shop.b2bCatalog}>B2B каталог</Link>
->>>>>>> recover/cabinet-wip-from-stash
         </Button>
         <Button variant="outline" size="sm" asChild>
           <Link href={ROUTES.shop.b2bMatrix}>Матрица заказов</Link>

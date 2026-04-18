@@ -1,10 +1,4 @@
 import { MockGeoRepo } from './geoRepo';
-<<<<<<< HEAD
-import { MockAiStylistRepo } from './aiStylistRepo';
-import { MockSearchRepo } from './searchRepo';
-import { MockCmsRepo } from './cmsRepo';
-import { MockLooksRepo } from './looksRepo';
-=======
 import { MockSearchRepo } from './searchRepo';
 import { MockCmsRepo } from './cmsRepo';
 import { MockLooksRepo } from './looksRepo';
@@ -17,7 +11,6 @@ export type {
   Message,
   StylistPreferences,
 } from './aiStylistRepo';
->>>>>>> recover/cabinet-wip-from-stash
 
 export const repo = {
   geo: new MockGeoRepo(),

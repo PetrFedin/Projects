@@ -65,25 +65,11 @@ const budgetData = [
 
 export default function B2BBudgetPage() {
   return (
-<<<<<<< HEAD
-    <div className="space-y-4">
-=======
     <RegistryPageShell className="space-y-4">
->>>>>>> recover/cabinet-wip-from-stash
       {/* --- BRAND PROPOSALS & BUDGET RESERVATION (CROSS-SYNC) --- */}
       <B2BFintech />
 
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
-<<<<<<< HEAD
-        <Card className="relative overflow-hidden rounded-xl border-2 border-indigo-100 bg-indigo-50/20 lg:col-span-2">
-          <div className="absolute right-0 top-0 p-4 opacity-5">
-            <TrendingUp className="h-32 w-32 text-indigo-600" />
-          </div>
-          <CardHeader className="relative z-10">
-            <div className="mb-2 flex items-center gap-2">
-              <Sparkles className="h-4 w-4 animate-pulse text-indigo-600" />
-              <Badge className="border-none bg-indigo-600 px-2 py-0.5 text-[8px] font-black uppercase text-white">
-=======
         <Card className="border-accent-primary/20 bg-accent-primary/10 relative overflow-hidden rounded-xl border-2 lg:col-span-2">
           <div className="absolute right-0 top-0 p-4 opacity-5">
             <TrendingUp className="text-accent-primary h-32 w-32" />
@@ -92,18 +78,13 @@ export default function B2BBudgetPage() {
             <div className="mb-2 flex items-center gap-2">
               <Sparkles className="text-accent-primary h-4 w-4 animate-pulse" />
               <Badge className="bg-accent-primary border-none px-2 py-0.5 text-[8px] font-black uppercase text-white">
->>>>>>> recover/cabinet-wip-from-stash
                 Opportunity Sync
               </Badge>
             </div>
             <CardTitle className="text-base font-black uppercase tracking-tight">
               Smart Budget Reservations
             </CardTitle>
-<<<<<<< HEAD
-            <CardDescription className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
-=======
             <CardDescription className="text-text-secondary text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               Предложения брендов на основе ваших планов R&D
             </CardDescription>
           </CardHeader>
@@ -127,16 +108,6 @@ export default function B2BBudgetPage() {
               ].map((prop, i) => (
                 <div
                   key={i}
-<<<<<<< HEAD
-                  className="group flex items-center justify-between rounded-2xl border border-indigo-100 bg-white p-4 transition-all hover:shadow-md"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-100 bg-slate-50 text-[10px] font-black text-slate-400">
-                      {prop.brand[0]}
-                    </div>
-                    <div className="space-y-0.5">
-                      <p className="text-xs font-black uppercase text-slate-900">
-=======
                   className="border-accent-primary/20 group flex items-center justify-between rounded-2xl border bg-white p-4 transition-all hover:shadow-md"
                 >
                   <div className="flex items-center gap-3">
@@ -145,25 +116,16 @@ export default function B2BBudgetPage() {
                     </div>
                     <div className="space-y-0.5">
                       <p className="text-text-primary text-xs font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         {prop.brand}: {prop.col}
                       </p>
                       <div className="flex items-center gap-2">
                         <Badge
                           variant="outline"
-<<<<<<< HEAD
-                          className="border-indigo-100 text-[8px] font-black uppercase text-indigo-600"
-                        >
-                          {prop.impact}
-                        </Badge>
-                        <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
-=======
                           className="border-accent-primary/20 text-accent-primary text-[8px] font-black uppercase"
                         >
                           {prop.impact}
                         </Badge>
                         <span className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                           {prop.status}
                         </span>
                       </div>
@@ -171,23 +133,14 @@ export default function B2BBudgetPage() {
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="text-right">
-<<<<<<< HEAD
-                      <p className="text-[9px] font-black uppercase text-slate-400">Est. Budget</p>
-                      <p className="text-xs font-black tabular-nums text-slate-900">
-=======
                       <p className="text-text-muted text-[9px] font-black uppercase">Est. Budget</p>
                       <p className="text-text-primary text-xs font-black tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
                         {prop.budget}
                       </p>
                     </div>
                     <Button
                       size="sm"
-<<<<<<< HEAD
-                      className="h-8 rounded-xl bg-slate-900 text-[9px] font-black uppercase tracking-widest text-white hover:bg-slate-800"
-=======
                       className="bg-text-primary hover:bg-text-primary/90 h-8 rounded-xl text-[9px] font-black uppercase tracking-widest text-white"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       Забронировать
                     </Button>
@@ -198,47 +151,23 @@ export default function B2BBudgetPage() {
           </CardContent>
         </Card>
 
-<<<<<<< HEAD
-        <Card className="relative flex flex-col justify-between overflow-hidden rounded-xl border-none bg-slate-900 p-4 text-white shadow-2xl">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.2),transparent)]" />
-          <div className="relative z-10 space-y-6">
-            <div className="space-y-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600/20 backdrop-blur-md">
-                <TrendingUp className="h-6 w-6 text-indigo-400" />
-=======
         <Card className="bg-text-primary relative flex flex-col justify-between overflow-hidden rounded-xl border-none p-4 text-white shadow-2xl">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.2),transparent)]" />
           <div className="relative z-10 space-y-6">
             <div className="space-y-2">
               <div className="bg-accent-primary/20 flex h-10 w-10 items-center justify-center rounded-xl backdrop-blur-md">
                 <TrendingUp className="text-accent-primary h-6 w-6" />
->>>>>>> recover/cabinet-wip-from-stash
               </div>
               <h3 className="pt-2 text-sm font-black uppercase leading-none tracking-tighter">
                 Budget Utilization AI
               </h3>
-<<<<<<< HEAD
-              <p className="text-[10px] font-medium italic leading-relaxed text-slate-400">
-=======
               <p className="text-text-muted text-[10px] font-medium italic leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                 «Вы задействовали 65% бюджета на сезон FW'26. AI рекомендует оставить 15% на
                 экспресс-подсортировку хитов продаж.»
               </p>
             </div>
             <div className="space-y-2">
               <div className="flex justify-between text-[9px] font-black uppercase tracking-widest">
-<<<<<<< HEAD
-                <span className="text-slate-500">Allocation Health</span>
-                <span className="text-indigo-400">Excellent</span>
-              </div>
-              <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-                <div className="h-full w-3/4 bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.5)]" />
-              </div>
-            </div>
-          </div>
-          <Button className="relative z-10 mt-6 h-10 w-full rounded-xl bg-white text-[9px] font-black uppercase tracking-widest text-slate-900 shadow-xl hover:bg-slate-100">
-=======
                 <span className="text-text-secondary">Allocation Health</span>
                 <span className="text-accent-primary">Excellent</span>
               </div>
@@ -248,19 +177,13 @@ export default function B2BBudgetPage() {
             </div>
           </div>
           <Button className="text-text-primary hover:bg-bg-surface2 relative z-10 mt-6 h-10 w-full rounded-xl bg-white text-[9px] font-black uppercase tracking-widest shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
             Оптимизировать план
           </Button>
         </Card>
       </div>
 
-<<<<<<< HEAD
-      <Card className="overflow-hidden rounded-xl border-slate-100 shadow-sm">
-        <CardHeader className="flex flex-row items-center justify-between border-b border-slate-50 pb-6">
-=======
       <Card className="border-border-subtle overflow-hidden rounded-xl shadow-sm">
         <CardHeader className="border-border-subtle flex flex-row items-center justify-between border-b pb-6">
->>>>>>> recover/cabinet-wip-from-stash
           <div>
             <CardTitle>Планирование бюджета</CardTitle>
             <CardDescription>Управляйте вашим закупочным бюджетом по сезонам.</CardDescription>
@@ -269,19 +192,11 @@ export default function B2BBudgetPage() {
             <Button
               variant="outline"
               size="sm"
-<<<<<<< HEAD
-              className="border-indigo-100 text-indigo-600 hover:bg-indigo-50"
-            >
-              <History className="mr-2 h-4 w-4" /> Наложить историю LFL
-            </Button>
-            <Button variant="outline" size="sm" className="border-slate-200">
-=======
               className="border-accent-primary/20 text-accent-primary hover:bg-accent-primary/10"
             >
               <History className="mr-2 h-4 w-4" /> Наложить историю LFL
             </Button>
             <Button variant="outline" size="sm" className="border-border-default">
->>>>>>> recover/cabinet-wip-from-stash
               <Globe className="mr-2 h-4 w-4" /> Валютное хеджирование (RUB)
             </Button>
             <Button variant="outline">
@@ -310,13 +225,9 @@ export default function B2BBudgetPage() {
                 <TableRow key={item.season}>
                   <TableCell className="font-semibold">
                     <Link
-<<<<<<< HEAD
-                      href={`/shop/b2b/budget/${item.season.toLowerCase().replace(' ', '-')}`}
-=======
                       href={ROUTES.shop.b2bBudgetSeason(
                         item.season.toLowerCase().replace(' ', '-')
                       )}
->>>>>>> recover/cabinet-wip-from-stash
                       className="hover:underline"
                     >
                       {item.season}
@@ -344,10 +255,6 @@ export default function B2BBudgetPage() {
           </Table>
         </CardContent>
       </Card>
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

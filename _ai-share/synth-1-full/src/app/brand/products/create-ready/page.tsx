@@ -16,11 +16,7 @@ import { RegistryPageShell } from '@/components/design-system';
 
 export default function CreateReadyProductPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Создание карточки готового товара"
         description="Товар уже произведён — создайте карточку без привязки к производственному циклу. Детальное ведение: артикул, описание, фото, размеры, цены."
@@ -33,11 +29,7 @@ export default function CreateReadyProductPage() {
               Готовый товар
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/products">PIM</Link>
-=======
               <Link href={ROUTES.brand.products}>PIM</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -71,11 +63,7 @@ export default function CreateReadyProductPage() {
           <div className="flex gap-2">
             <Button>Создать карточку</Button>
             <Button variant="outline" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/products">Отмена</Link>
-=======
               <Link href={ROUTES.brand.products}>Отмена</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </div>
         </CardContent>

@@ -29,56 +29,32 @@ export function FinancialTermsManager() {
   const selectedProfile = selectedId ? retailerProfiles[selectedId] : null;
 
   return (
-<<<<<<< HEAD
-    <div className="min-h-screen space-y-4 bg-slate-50 p-4">
-=======
     <div className="bg-bg-surface2 min-h-screen space-y-4 p-4">
->>>>>>> recover/cabinet-wip-from-stash
       {/* Header */}
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-<<<<<<< HEAD
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900">
-=======
             <div className="bg-text-primary flex h-8 w-8 items-center justify-center rounded-xl">
->>>>>>> recover/cabinet-wip-from-stash
               <ShieldCheck className="h-4 w-4 text-white" />
             </div>
             <Badge
               variant="outline"
-<<<<<<< HEAD
-              className="border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-900"
-=======
               className="border-border-default text-text-primary text-[9px] font-black uppercase tracking-widest"
->>>>>>> recover/cabinet-wip-from-stash
             >
               FINANCE_CORE_v1.0
             </Badge>
           </div>
-<<<<<<< HEAD
-          <h2 className="text-sm font-black uppercase leading-none tracking-tighter text-slate-900 md:text-sm">
-            Финансовые Условия
-            <br />и Кредитные Линии
-          </h2>
-          <p className="max-w-md text-left text-xs font-medium text-slate-400">
-=======
           <h2 className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter md:text-sm">
             Финансовые Условия
             <br />и Кредитные Линии
           </h2>
           <p className="text-text-muted max-w-md text-left text-xs font-medium">
->>>>>>> recover/cabinet-wip-from-stash
             Управление лимитами оптового кредитования, условиями оплаты (Net 30/60/90) и бюджетами
             OTB для всех партнеров-ритейлеров.
           </p>
         </div>
 
-<<<<<<< HEAD
-        <Button className="h-10 gap-2 rounded-2xl bg-slate-900 px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-slate-200">
-=======
         <Button className="bg-text-primary h-10 gap-2 rounded-2xl px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-md shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
           <UserPlus className="h-4 w-4" /> Выдать новую кредитную линию
         </Button>
       </div>
@@ -87,11 +63,7 @@ export function FinancialTermsManager() {
         {/* Retailer List */}
         <div className="space-y-6 lg:col-span-5">
           <div className="relative">
-<<<<<<< HEAD
-            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-=======
             <Search className="text-text-muted absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2" />
->>>>>>> recover/cabinet-wip-from-stash
             <Input
               placeholder="Поиск партнеров..."
               className="h-10 rounded-[1.25rem] border-none bg-white pl-12 shadow-sm"
@@ -104,17 +76,10 @@ export function FinancialTermsManager() {
                 key={profile.id}
                 onClick={() => setSelectedId(profile.id)}
                 className={cn(
-<<<<<<< HEAD
-                  'group cursor-pointer overflow-hidden rounded-xl border-none shadow-xl shadow-slate-200/50 transition-all',
-                  selectedId === profile.id
-                    ? 'bg-slate-900 text-white'
-                    : 'bg-white hover:bg-slate-50'
-=======
                   'group cursor-pointer overflow-hidden rounded-xl border-none shadow-md shadow-xl transition-all',
                   selectedId === profile.id
                     ? 'bg-text-primary text-white'
                     : 'hover:bg-bg-surface2 bg-white'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 <CardContent className="p-4">
@@ -123,21 +88,13 @@ export function FinancialTermsManager() {
                       <div
                         className={cn(
                           'flex h-12 w-12 items-center justify-center rounded-2xl transition-colors',
-<<<<<<< HEAD
-                          selectedId === profile.id ? 'bg-white/10' : 'bg-slate-50'
-=======
                           selectedId === profile.id ? 'bg-white/10' : 'bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
                         )}
                       >
                         <CreditCard
                           className={cn(
                             'h-6 w-6',
-<<<<<<< HEAD
-                            selectedId === profile.id ? 'text-white' : 'text-slate-400'
-=======
                             selectedId === profile.id ? 'text-white' : 'text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                           )}
                         />
                       </div>
@@ -148,17 +105,10 @@ export function FinancialTermsManager() {
                         <p
                           className={cn(
                             'text-[9px] font-black uppercase tracking-widest',
-<<<<<<< HEAD
-                            selectedId === profile.id ? 'text-slate-400' : 'text-slate-400'
-                          )}
-                        >
-                          {profile.tier === 'Premium' ? 'Премиум' : profile.tier} партнер
-=======
                             selectedId === profile.id ? 'text-text-muted' : 'text-text-muted'
                           )}
                         >
                           {profile.tier === 'VIP' ? 'Премиум' : profile.tier} партнер
->>>>>>> recover/cabinet-wip-from-stash
                         </p>
                       </div>
                     </div>
@@ -207,15 +157,6 @@ export function FinancialTermsManager() {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-4"
               >
-<<<<<<< HEAD
-                <Card className="rounded-xl border-none bg-white p-3 shadow-2xl shadow-slate-200/50">
-                  <div className="mb-10 flex items-center justify-between">
-                    <div className="space-y-1">
-                      <h3 className="text-sm font-black uppercase tracking-tight text-slate-900">
-                        Управление кредитным узлом
-                      </h3>
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-=======
                 <Card className="rounded-xl border-none bg-white p-3 shadow-2xl shadow-md">
                   <div className="mb-10 flex items-center justify-between">
                     <div className="space-y-1">
@@ -223,7 +164,6 @@ export function FinancialTermsManager() {
                         Управление кредитным узлом
                       </h3>
                       <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                         ID Ритейлера: {selectedProfile.id}
                       </p>
                     </div>
@@ -231,15 +171,9 @@ export function FinancialTermsManager() {
                       <Button
                         variant="outline"
                         size="icon"
-<<<<<<< HEAD
-                        className="h-12 w-12 rounded-xl border-slate-100"
-                      >
-                        <Settings2 className="h-5 w-5 text-slate-400" />
-=======
                         className="border-border-subtle h-12 w-12 rounded-xl"
                       >
                         <Settings2 className="text-text-muted h-5 w-5" />
->>>>>>> recover/cabinet-wip-from-stash
                       </Button>
                     </div>
                   </div>
@@ -247,19 +181,11 @@ export function FinancialTermsManager() {
                   <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                     <div className="space-y-6">
                       <div className="space-y-3">
-<<<<<<< HEAD
-                        <label className="ml-1 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                          Общий кредитный лимит
-                        </label>
-                        <div className="relative">
-                          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-black text-slate-400">
-=======
                         <label className="text-text-muted ml-1 text-[10px] font-black uppercase tracking-widest">
                           Общий кредитный лимит
                         </label>
                         <div className="relative">
                           <span className="text-text-muted absolute left-4 top-1/2 -translate-y-1/2 text-sm font-black">
->>>>>>> recover/cabinet-wip-from-stash
                             ₽
                           </span>
                           <Input
@@ -270,21 +196,13 @@ export function FinancialTermsManager() {
                                 creditLimit: parseInt(e.target.value) || 0,
                               })
                             }
-<<<<<<< HEAD
-                            className="h-10 rounded-2xl border-none bg-slate-50 pl-12 text-sm font-black"
-=======
                             className="bg-bg-surface2 h-10 rounded-2xl border-none pl-12 text-sm font-black"
->>>>>>> recover/cabinet-wip-from-stash
                           />
                         </div>
                       </div>
 
                       <div className="space-y-3">
-<<<<<<< HEAD
-                        <label className="ml-1 text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                         <label className="text-text-muted ml-1 text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                           Срок оплаты (Net Terms)
                         </label>
                         <div className="grid grid-cols-2 gap-2">
@@ -298,13 +216,8 @@ export function FinancialTermsManager() {
                               className={cn(
                                 'h-12 rounded-xl text-[9px] font-black uppercase tracking-widest',
                                 selectedProfile.netTerms === term
-<<<<<<< HEAD
-                                  ? 'bg-slate-900'
-                                  : 'border-slate-100'
-=======
                                   ? 'bg-text-primary'
                                   : 'border-border-subtle'
->>>>>>> recover/cabinet-wip-from-stash
                               )}
                             >
                               {term === 'Due on Receipt' ? 'При получении' : term}
@@ -314,17 +227,10 @@ export function FinancialTermsManager() {
                       </div>
                     </div>
 
-<<<<<<< HEAD
-                    <div className="space-y-4 rounded-xl bg-slate-50 p-4">
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                          <h4 className="text-xs font-black uppercase tracking-widest text-slate-900">
-=======
                     <div className="bg-bg-surface2 space-y-4 rounded-xl p-4">
                       <div className="space-y-4">
                         <div className="flex items-center justify-between">
                           <h4 className="text-text-primary text-xs font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                             Использование OTB
                           </h4>
                           <TrendingUp className="h-4 w-4 text-emerald-500" />
@@ -332,11 +238,7 @@ export function FinancialTermsManager() {
                         <div className="space-y-2">
                           <div className="flex justify-between text-[10px] font-black uppercase">
                             <span>Бюджет {selectedProfile.otbBudget.season} потрачен</span>
-<<<<<<< HEAD
-                            <span className="text-indigo-600">
-=======
                             <span className="text-accent-primary">
->>>>>>> recover/cabinet-wip-from-stash
                               {Math.round(
                                 (selectedProfile.otbBudget.spent /
                                   selectedProfile.otbBudget.total) *
@@ -351,17 +253,10 @@ export function FinancialTermsManager() {
                               animate={{
                                 width: `${(selectedProfile.otbBudget.spent / selectedProfile.otbBudget.total) * 100}%`,
                               }}
-<<<<<<< HEAD
-                              className="h-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.5)]"
-                            />
-                          </div>
-                          <p className="text-right text-[10px] font-bold uppercase text-slate-400">
-=======
                               className="bg-accent-primary h-full shadow-[0_0_10px_rgba(99,102,241,0.5)]"
                             />
                           </div>
                           <p className="text-text-muted text-right text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                             {selectedProfile.otbBudget.spent.toLocaleString('ru-RU')} /{' '}
                             {selectedProfile.otbBudget.total.toLocaleString('ru-RU')} ₽
                           </p>
@@ -369,15 +264,9 @@ export function FinancialTermsManager() {
                       </div>
 
                       <div className="space-y-4 pt-4">
-<<<<<<< HEAD
-                        <div className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-white p-4">
-                          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
-                          <p className="text-[9px] font-medium leading-relaxed text-slate-600">
-=======
                         <div className="border-border-subtle flex items-start gap-3 rounded-2xl border bg-white p-4">
                           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
                           <p className="text-text-secondary text-[9px] font-medium leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                             Увеличение кредитного лимита свыше 5 млн ₽ требует дополнительного
                             одобрения финансового отдела.
                           </p>
@@ -391,21 +280,12 @@ export function FinancialTermsManager() {
                 </Card>
 
                 {/* Credit Score Activity */}
-<<<<<<< HEAD
-                <Card className="rounded-xl border-none bg-white p-4 shadow-xl shadow-slate-200/50">
-                  <div className="mb-6 flex items-center justify-between">
-                    <h3 className="text-sm font-black uppercase tracking-widest text-slate-900">
-                      Журнал финансовой дисциплины
-                    </h3>
-                    <Badge variant="outline" className="border-slate-100 text-[8px] font-black">
-=======
                 <Card className="rounded-xl border-none bg-white p-4 shadow-md shadow-xl">
                   <div className="mb-6 flex items-center justify-between">
                     <h3 className="text-text-primary text-sm font-black uppercase tracking-widest">
                       Журнал финансовой дисциплины
                     </h3>
                     <Badge variant="outline" className="border-border-subtle text-[8px] font-black">
->>>>>>> recover/cabinet-wip-from-stash
                       РЕЙТИНГ: 98/100
                     </Badge>
                   </div>
@@ -429,34 +309,19 @@ export function FinancialTermsManager() {
                     ].map((log, i) => (
                       <div
                         key={i}
-<<<<<<< HEAD
-                        className="flex items-center justify-between rounded-xl border border-slate-50 p-4 transition-colors hover:bg-slate-50"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="h-2 w-2 rounded-full bg-emerald-500" />
-                          <span className="text-[10px] font-black uppercase text-slate-900">
-=======
                         className="border-border-subtle hover:bg-bg-surface2 flex items-center justify-between rounded-xl border p-4 transition-colors"
                       >
                         <div className="flex items-center gap-3">
                           <div className="h-2 w-2 rounded-full bg-emerald-500" />
                           <span className="text-text-primary text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                             {log.action}
                           </span>
                         </div>
                         <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                          <span className="text-[10px] font-bold uppercase text-slate-400">
-                            {log.actor}
-                          </span>
-                          <span className="text-[10px] font-bold uppercase text-slate-400">
-=======
                           <span className="text-text-muted text-[10px] font-bold uppercase">
                             {log.actor}
                           </span>
                           <span className="text-text-muted text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                             {log.date}
                           </span>
                         </div>
@@ -466,17 +331,6 @@ export function FinancialTermsManager() {
                 </Card>
               </motion.div>
             ) : (
-<<<<<<< HEAD
-              <div className="flex h-full flex-col items-center justify-center space-y-6 rounded-xl border border-dashed border-slate-200 bg-white p-20 text-center">
-                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-slate-50">
-                  <CreditCard className="h-10 w-10 text-slate-200" />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-base font-black uppercase tracking-tight text-slate-400">
-                    Выберите партнера
-                  </h3>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-300">
-=======
               <div className="border-border-default flex h-full flex-col items-center justify-center space-y-6 rounded-xl border border-dashed bg-white p-20 text-center">
                 <div className="bg-bg-surface2 flex h-20 w-20 items-center justify-center rounded-full">
                   <CreditCard className="text-text-muted h-10 w-10" />
@@ -486,7 +340,6 @@ export function FinancialTermsManager() {
                     Выберите партнера
                   </h3>
                   <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Выберите ритейлера из списка для управления финансовыми условиями
                   </p>
                 </div>

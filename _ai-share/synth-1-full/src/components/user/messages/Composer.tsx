@@ -63,17 +63,6 @@ export const Composer: React.FC<ComposerProps> = ({
 }) => {
   if (activeChat?.isArchived) {
     return (
-<<<<<<< HEAD
-      <div className="relative z-10 mx-auto w-full max-w-5xl border-t border-slate-100 bg-white p-4 transition-all">
-        <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50 py-4">
-          <div className="mb-2 rounded-full bg-slate-100 p-2.5">
-            <Paperclip className="h-5 w-5 text-slate-400" />
-          </div>
-          <p className="text-xs font-black uppercase tracking-widest text-slate-500">
-            Этот чат находится в архиве
-          </p>
-          <p className="mt-0.5 text-[9px] font-bold uppercase text-slate-400">
-=======
       <div className="border-border-subtle relative z-10 mx-auto w-full max-w-5xl border-t bg-white p-4 transition-all">
         <div className="bg-bg-surface2 border-border-default flex flex-col items-center justify-center rounded-xl border border-dashed py-4">
           <div className="bg-bg-surface2 mb-2 rounded-full p-2.5">
@@ -83,16 +72,11 @@ export const Composer: React.FC<ComposerProps> = ({
             Этот чат находится в архиве
           </p>
           <p className="text-text-muted mt-0.5 text-[9px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
             Вы можете просматривать историю, но отправка сообщений ограничена
           </p>
           <Button
             variant="outline"
-<<<<<<< HEAD
-            className="mt-3 h-8 rounded-xl border-slate-200 text-[8px] font-black uppercase tracking-widest hover:bg-white"
-=======
             className="border-border-default mt-3 h-8 rounded-xl text-[8px] font-black uppercase tracking-widest hover:bg-white"
->>>>>>> recover/cabinet-wip-from-stash
             onClick={onUnarchiveChat}
           >
             РАЗАРХИВИРОВАТЬ
@@ -103,19 +87,11 @@ export const Composer: React.FC<ComposerProps> = ({
   }
 
   return (
-<<<<<<< HEAD
-    <div className="relative z-10 mx-auto w-full max-w-4xl border-t border-slate-100 bg-white p-3 transition-all">
-      <div className="scrollbar-hide mb-2.5 flex gap-1.5 overflow-x-auto py-0.5">
-        <Button
-          variant="outline"
-          className="h-6.5 rounded-lg border-indigo-100 bg-indigo-50/30 px-2.5 text-[8px] font-bold uppercase tracking-widest text-indigo-600 shadow-sm transition-all hover:bg-indigo-600 hover:text-white"
-=======
     <div className="border-border-subtle relative z-10 mx-auto w-full max-w-4xl border-t bg-white p-3 transition-all">
       <div className="scrollbar-hide mb-2.5 flex gap-1.5 overflow-x-auto py-0.5">
         <Button
           variant="outline"
           className="h-6.5 border-accent-primary/20 bg-accent-primary/10 text-accent-primary hover:bg-accent-primary rounded-lg px-2.5 text-[8px] font-bold uppercase tracking-widest shadow-sm transition-all hover:text-white"
->>>>>>> recover/cabinet-wip-from-stash
           onClick={() => onSmartReply('status')}
         >
           <Factory className="mr-1.5 h-3 w-3" /> Status
@@ -136,22 +112,14 @@ export const Composer: React.FC<ComposerProps> = ({
         </Button>
         <Button
           variant="outline"
-<<<<<<< HEAD
-          className="h-6.5 rounded-lg border-indigo-100 bg-indigo-50/30 px-2.5 text-[8px] font-bold uppercase tracking-widest text-indigo-600 shadow-sm transition-all hover:bg-indigo-600 hover:text-white"
-=======
           className="h-6.5 border-accent-primary/20 bg-accent-primary/10 text-accent-primary hover:bg-accent-primary rounded-lg px-2.5 text-[8px] font-bold uppercase tracking-widest shadow-sm transition-all hover:text-white"
->>>>>>> recover/cabinet-wip-from-stash
           onClick={() => onSmartReply('reminder')}
         >
           <BellRing className="mr-1.5 h-3 w-3" /> Reminder
         </Button>
         <Button
           variant="outline"
-<<<<<<< HEAD
-          className="h-6.5 rounded-lg border-slate-200 bg-white px-2.5 text-[8px] font-bold uppercase tracking-widest text-slate-500 shadow-sm transition-all hover:bg-slate-900 hover:text-white"
-=======
           className="h-6.5 border-border-default text-text-secondary hover:bg-text-primary/90 rounded-lg bg-white px-2.5 text-[8px] font-bold uppercase tracking-widest shadow-sm transition-all hover:text-white"
->>>>>>> recover/cabinet-wip-from-stash
           onClick={() => onSmartReply('translate')}
         >
           <Languages className="mr-1.5 h-3 w-3" /> Translate
@@ -159,11 +127,7 @@ export const Composer: React.FC<ComposerProps> = ({
         {onOpenCreateTask && (
           <Button
             variant="outline"
-<<<<<<< HEAD
-            className="h-6.5 rounded-lg border-violet-100 bg-violet-50/30 px-2.5 text-[8px] font-bold uppercase tracking-widest text-violet-600 shadow-sm transition-all hover:bg-violet-600 hover:text-white"
-=======
             className="h-6.5 border-accent-primary/20 bg-accent-primary/10 text-accent-primary hover:bg-accent-primary rounded-lg px-2.5 text-[8px] font-bold uppercase tracking-widest shadow-sm transition-all hover:text-white"
->>>>>>> recover/cabinet-wip-from-stash
             onClick={onOpenCreateTask}
           >
             <ListTodo className="mr-1.5 h-3 w-3" /> Задача
@@ -181,17 +145,10 @@ export const Composer: React.FC<ComposerProps> = ({
       </div>
 
       <div className="group/composer relative">
-<<<<<<< HEAD
-        <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 p-1 shadow-inner transition-all duration-300 hover:shadow-md">
-          <Textarea
-            placeholder="Type a message or issue a command…"
-            className="scrollbar-hide max-h-[200px] min-h-[80px] resize-none border-none bg-transparent px-4 py-3 text-sm font-medium shadow-none placeholder:italic placeholder:text-slate-400 focus-visible:ring-0"
-=======
         <div className="bg-bg-surface2 border-border-default relative overflow-hidden rounded-2xl border p-1 shadow-inner transition-all duration-300 hover:shadow-md">
           <Textarea
             placeholder="Type a message or issue a command…"
             className="placeholder:text-text-muted scrollbar-hide max-h-[200px] min-h-[80px] resize-none border-none bg-transparent px-4 py-3 text-sm font-medium shadow-none placeholder:italic focus-visible:ring-0"
->>>>>>> recover/cabinet-wip-from-stash
             value={composerText}
             onChange={(e) => setComposerText(e.target.value)}
             onKeyDown={(e) => {
@@ -202,29 +159,17 @@ export const Composer: React.FC<ComposerProps> = ({
             }}
           />
 
-<<<<<<< HEAD
-          <div className="flex items-center justify-between rounded-b-xl border-t border-slate-200/50 bg-white/50 px-3 py-1.5 backdrop-blur-md">
-=======
           <div className="border-border-default/50 flex items-center justify-between rounded-b-xl border-t bg-white/50 px-3 py-1.5 backdrop-blur-md">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="flex items-center gap-0.5">
               <Button
                 variant="ghost"
                 size="icon"
-<<<<<<< HEAD
-                className="h-8 w-8 rounded-lg text-slate-400 transition-all hover:bg-white hover:text-indigo-600"
-=======
                 className="text-text-muted hover:text-accent-primary h-8 w-8 rounded-lg transition-all hover:bg-white"
->>>>>>> recover/cabinet-wip-from-stash
                 onClick={onFileClick}
               >
                 <Paperclip className="h-4 w-4" />
               </Button>
-<<<<<<< HEAD
-              <div className="mx-1 h-4 w-px bg-slate-200" />
-=======
               <div className="bg-border-subtle mx-1 h-4 w-px" />
->>>>>>> recover/cabinet-wip-from-stash
               <Button
                 variant="ghost"
                 size="icon"
@@ -232,11 +177,7 @@ export const Composer: React.FC<ComposerProps> = ({
                   'relative h-8 w-8 overflow-hidden rounded-lg transition-all',
                   recording
                     ? 'bg-rose-50 text-rose-600 shadow-inner'
-<<<<<<< HEAD
-                    : 'text-slate-400 hover:bg-white hover:text-indigo-600'
-=======
                     : 'text-text-muted hover:text-accent-primary hover:bg-white'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
                 onClick={recording ? onStopRecording : onStartRecording}
               >
@@ -255,24 +196,15 @@ export const Composer: React.FC<ComposerProps> = ({
                 className={cn(
                   'h-8 w-8 rounded-lg transition-all hover:bg-white',
                   isAiProcessing
-<<<<<<< HEAD
-                    ? 'animate-pulse text-indigo-600'
-                    : 'text-slate-400 hover:text-indigo-600'
-=======
                     ? 'text-accent-primary animate-pulse'
                     : 'text-text-muted hover:text-accent-primary'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
                 onClick={onProcessAiCorrection}
                 disabled={isAiProcessing || !composerText}
               >
                 <Sparkles className="h-4 w-4" />
               </Button>
-<<<<<<< HEAD
-              <div className="mx-1 h-4 w-px bg-slate-200" />
-=======
               <div className="bg-border-subtle mx-1 h-4 w-px" />
->>>>>>> recover/cabinet-wip-from-stash
               <Button
                 variant="ghost"
                 size="sm"
@@ -280,11 +212,7 @@ export const Composer: React.FC<ComposerProps> = ({
                   'h-8 gap-1.5 rounded-lg px-2.5 transition-all',
                   isPrivate
                     ? 'border border-rose-100 bg-rose-50 text-rose-600'
-<<<<<<< HEAD
-                    : 'text-slate-400 hover:bg-white hover:text-indigo-600'
-=======
                     : 'text-text-muted hover:text-accent-primary hover:bg-white'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
                 onClick={() => setIsPrivate(!isPrivate)}
               >
@@ -299,11 +227,7 @@ export const Composer: React.FC<ComposerProps> = ({
               <span
                 className={cn(
                   'text-[9px] font-bold uppercase tabular-nums tracking-widest transition-all',
-<<<<<<< HEAD
-                  composerText.length > 500 ? 'text-rose-500' : 'text-slate-300'
-=======
                   composerText.length > 500 ? 'text-rose-500' : 'text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 {composerText.length} / 1000
@@ -313,13 +237,8 @@ export const Composer: React.FC<ComposerProps> = ({
                 className={cn(
                   'h-8 rounded-lg px-6 text-[9px] font-bold uppercase tracking-widest shadow-lg transition-all',
                   composerText.trim()
-<<<<<<< HEAD
-                    ? 'border border-slate-900 bg-slate-900 text-white hover:scale-105 hover:bg-indigo-600'
-                    : 'cursor-not-allowed border-none bg-slate-100 text-slate-300'
-=======
                     ? 'bg-text-primary hover:bg-accent-primary border-text-primary border text-white hover:scale-105'
                     : 'bg-bg-surface2 text-text-muted cursor-not-allowed border-none'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
                 onClick={onSendMessage}
               >

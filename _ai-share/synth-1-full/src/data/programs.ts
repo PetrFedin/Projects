@@ -19,15 +19,11 @@ export const PROGRAMS: Program[] = [
         logoUrl: 'https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?q=80&w=200',
         url: 'https://sberpay.ru',
       },
-<<<<<<< HEAD
-      { name: 'TSUM', logoUrl: 'https://i.imgur.com/JMgcWwL.png', url: 'https://tsum.ru' },
-=======
       {
         name: 'Syntha Lab',
         logoUrl: 'https://picsum.photos/seed/syntha-lab/200/200',
         url: 'https://example.com',
       },
->>>>>>> recover/cabinet-wip-from-stash
     ],
     schedule: {
       dayOfWeek: 'Понедельник',

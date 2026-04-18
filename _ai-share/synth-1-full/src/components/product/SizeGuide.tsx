@@ -67,11 +67,7 @@ export function SizeRecommender({
     <Card className="border-accent-primary/20 bg-accent-primary/10">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-sm">
-<<<<<<< HEAD
-          <User className="h-4 w-4 text-indigo-600" /> Подбор размера
-=======
           <User className="text-accent-primary h-4 w-4" /> Подбор размера
->>>>>>> recover/cabinet-wip-from-stash
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
@@ -80,11 +76,7 @@ export function SizeRecommender({
             По вашим меркам из профиля рекомендуем размер <strong>{recommendedSize}</strong>.
           </p>
         ) : (
-<<<<<<< HEAD
-          <p className="text-sm text-slate-600">
-=======
           <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
             Укажите мерки в профиле — мы подберём размер автоматически.
           </p>
         )}

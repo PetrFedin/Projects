@@ -21,39 +21,21 @@ import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
 export default function MarketplaceCardHealthPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
-      <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
-        <div className="flex items-center gap-3">
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="Здоровье карточек на МП"
         leadPlain="Ошибки атрибутов по регионам. Тип: PartnerMarketplaceIssue."
         eyebrow={
->>>>>>> recover/cabinet-wip-from-stash
           <Button variant="ghost" size="icon" asChild>
             <Link href={ROUTES.brand.integrations} aria-label="Назад к интеграциям">
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
-<<<<<<< HEAD
-          <div>
-            <h1 className="flex items-center gap-2 text-xl font-bold">
-              <Store className="h-6 w-6" />
-              Здоровье карточек на МП
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Ошибки атрибутов по регионам. Тип:{' '}
-              <code className="rounded bg-muted px-1 text-[10px]">PartnerMarketplaceIssue</code>.
-            </p>
-=======
         }
         actions={
           <div className="flex flex-wrap items-center justify-end gap-2">
             <Store className="size-6 shrink-0 text-muted-foreground" aria-hidden />
             <PartnerDemoExportBar />
->>>>>>> recover/cabinet-wip-from-stash
           </div>
         }
       />
@@ -61,11 +43,7 @@ export default function MarketplaceCardHealthPage() {
       <Button variant="secondary" size="sm" asChild>
         <Link href={ROUTES.brand.products}>
           <Boxes className="mr-2 h-3.5 w-3.5" />
-<<<<<<< HEAD
-          PIM / товары
-=======
           <AcronymWithTooltip abbr="PIM" /> / товары
->>>>>>> recover/cabinet-wip-from-stash
         </Link>
       </Button>
 

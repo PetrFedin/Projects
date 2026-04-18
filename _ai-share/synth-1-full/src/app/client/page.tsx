@@ -60,11 +60,7 @@ const overviewSections = [
   {
     title: 'Аккаунт',
     items: [
-<<<<<<< HEAD
-      { href: '/u', label: 'Профиль', desc: 'Настройки' },
-=======
       { href: ROUTES.client.profile, label: 'Профиль', desc: 'Настройки' },
->>>>>>> recover/cabinet-wip-from-stash
       { href: '/wallet', label: 'Кошелёк Syntha', desc: 'Баланс' },
     ],
   },
@@ -74,17 +70,10 @@ export default function ClientHubPage() {
   return (
     <div className="space-y-6">
       <div>
-<<<<<<< HEAD
-        <h2 className="mb-1 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500">
-          Обзор
-        </h2>
-        <p className="text-sm text-slate-700">
-=======
         <h2 className="text-text-secondary mb-1 text-[11px] font-black uppercase tracking-[0.2em]">
           Обзор
         </h2>
         <p className="text-text-primary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
           Wardrobe, Wishlist, заказы и возвраты. Используйте навигацию слева для перехода в разделы.
         </p>
       </div>
@@ -93,15 +82,9 @@ export default function ClientHubPage() {
         {overviewSections.map((section) => (
           <div
             key={section.title}
-<<<<<<< HEAD
-            className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
-          >
-            <h3 className="mb-3 text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
             className="border-border-default rounded-lg border bg-white p-4 shadow-sm"
           >
             <h3 className="text-text-muted mb-3 text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               {section.title}
             </h3>
             <ul className="space-y-1.5">
@@ -109,19 +92,6 @@ export default function ClientHubPage() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-<<<<<<< HEAD
-                    className="group flex items-center justify-between rounded-md px-2.5 py-2 text-[11px] font-bold uppercase tracking-wider text-slate-700 transition-colors hover:bg-slate-50"
-                  >
-                    <div>
-                      <span className="transition-colors group-hover:text-violet-600">
-                        {item.label}
-                      </span>
-                      <p className="mt-0.5 text-[9px] font-normal normal-case tracking-normal text-slate-400">
-                        {item.desc}
-                      </p>
-                    </div>
-                    <ArrowUpRight className="h-3 w-3 shrink-0 text-slate-300 group-hover:text-violet-500" />
-=======
                     className="text-text-primary hover:bg-bg-surface2 group flex items-center justify-between rounded-md px-2.5 py-2 text-[11px] font-bold uppercase tracking-wider transition-colors"
                   >
                     <div>
@@ -133,7 +103,6 @@ export default function ClientHubPage() {
                       </p>
                     </div>
                     <ArrowUpRight className="text-text-muted group-hover:text-accent-primary h-3 w-3 shrink-0" />
->>>>>>> recover/cabinet-wip-from-stash
                   </Link>
                 </li>
               ))}

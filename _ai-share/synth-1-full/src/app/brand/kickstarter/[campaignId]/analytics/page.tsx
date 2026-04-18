@@ -92,42 +92,6 @@ export default function CampaignAnalyticsPage({
       setTotalViews(data.reduce((acc, day) => acc + day.views, 0));
     }
   }, [project]);
-<<<<<<< HEAD
-
-  if (!project) {
-    notFound();
-  }
-
-  const handleSendToProduction = () => {
-    toast({
-      title: 'Заказ отправлен на производство',
-      description: 'Данные по предзаказу переданы на выбранную фабрику (симуляция).',
-    });
-  };
-
-  const conversionRate = totalViews > 0 ? (project.currentQuantity / totalViews) * 100 : 0;
-
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <Button variant="outline" size="icon" asChild>
-          <Link href="/brand/kickstarter">
-            <ChevronLeft className="h-4 w-4" />
-          </Link>
-        </Button>
-        <div>
-          <h1 className="text-sm font-semibold tracking-tight">Аналитика кампании</h1>
-          <p className="text-muted-foreground">{project.title}</p>
-        </div>
-        {project.status === 'successful' && (
-          <Button className="ml-auto" onClick={handleSendToProduction}>
-            <Factory className="mr-2 h-4 w-4" />
-            Отправить на производство
-          </Button>
-        )}
-      </div>
-
-=======
 
   if (!project) {
     notFound();
@@ -164,7 +128,6 @@ export default function CampaignAnalyticsPage({
         }
       />
 
->>>>>>> recover/cabinet-wip-from-stash
       <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
         <Suspense
           fallback={
@@ -362,10 +325,6 @@ export default function CampaignAnalyticsPage({
           </CardContent>
         </Card>
       </div>
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

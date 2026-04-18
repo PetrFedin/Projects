@@ -207,11 +207,7 @@ const getStockIndicatorClass = (quantity: number | undefined) => {
 };
 
 export default function MarginAnalysisPage() {
-<<<<<<< HEAD
-  const { addB2bOrderItem } = useUIState();
-=======
   const { addB2bOrderItem } = useB2BState();
->>>>>>> recover/cabinet-wip-from-stash
   const [baseInventory, setBaseInventory] = useState<ProductWithAnalytics[]>([]);
   const [editedProducts, setEditedProducts] = useState<
     Record<string, Partial<ProductWithAnalytics>>
@@ -581,11 +577,7 @@ export default function MarginAnalysisPage() {
     setRrpSuggestion(null);
 
     try {
-<<<<<<< HEAD
-      const result = await suggestProductPrice({
-=======
       const result = await suggestPriceClient({
->>>>>>> recover/cabinet-wip-from-stash
         productName: product.name,
         productionCost: product.productionCost || product.price * 0.4,
         category: product.category,

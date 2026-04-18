@@ -15,15 +15,6 @@ export function MetricCard({ label, value, delta, icon, className }: MetricCardP
     <Card className={cn('border-border-default shadow-sm', className)}>
       <CardContent className="flex flex-col gap-2 p-4">
         <div className="flex items-start justify-between gap-2">
-<<<<<<< HEAD
-          <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
-            {label}
-          </span>
-          {icon ? <span className="text-slate-400 [&_svg]:h-4 [&_svg]:w-4">{icon}</span> : null}
-        </div>
-        <div className="flex flex-wrap items-end justify-between gap-2">
-          <span className="text-2xl font-bold tabular-nums tracking-tight text-slate-900">
-=======
           <span className="text-text-secondary text-[10px] font-bold uppercase tracking-widest">
             {label}
           </span>
@@ -31,7 +22,6 @@ export function MetricCard({ label, value, delta, icon, className }: MetricCardP
         </div>
         <div className="flex flex-wrap items-end justify-between gap-2">
           <span className="text-text-primary text-2xl font-bold tabular-nums tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
             {value}
           </span>
           {delta ? (

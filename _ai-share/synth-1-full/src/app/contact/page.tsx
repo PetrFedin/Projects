@@ -13,10 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Bot, MessageSquare, Send, Phone, Mail, Building, Handshake } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-<<<<<<< HEAD
-=======
 import { RegistryPageShell } from '@/components/design-system';
->>>>>>> recover/cabinet-wip-from-stash
 
 export default function SupportCenterPage() {
   return (
@@ -125,10 +122,6 @@ export default function SupportCenterPage() {
           </CardContent>
         </Card>
       </div>
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

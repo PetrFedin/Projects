@@ -20,11 +20,7 @@ export function ProductPartnerPerksBlock() {
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Gift className="h-4 w-4 text-amber-600" />
-<<<<<<< HEAD
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
-=======
           <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
             Partner Perks & Benefits
           </h4>
         </div>
@@ -35,28 +31,15 @@ export function ProductPartnerPerksBlock() {
 
       <div className="space-y-3">
         {perks.map((perk) => (
-<<<<<<< HEAD
-          <div key={perk.id} className="group flex items-center justify-between">
-=======
           <div key={perk.perkId} className="group flex items-center justify-between">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="flex items-center gap-3">
               <div
                 className={cn(
                   'flex h-6 w-6 items-center justify-center rounded',
-<<<<<<< HEAD
-                  perk.status === 'active'
-                    ? 'bg-amber-100 text-amber-600'
-                    : 'bg-slate-100 text-slate-400'
-                )}
-              >
-                {perk.status === 'active' ? (
-=======
                   perk.isUnlocked ? 'bg-amber-100 text-amber-600' : 'bg-bg-surface2 text-text-muted'
                 )}
               >
                 {perk.isUnlocked ? (
->>>>>>> recover/cabinet-wip-from-stash
                   <CheckCircle2 className="h-3.5 w-3.5" />
                 ) : (
                   <Lock className="h-3.5 w-3.5" />
@@ -66,33 +49,19 @@ export function ProductPartnerPerksBlock() {
                 <div
                   className={cn(
                     'text-[10px] font-black uppercase leading-none tracking-tight',
-<<<<<<< HEAD
-                    perk.status === 'locked' ? 'text-slate-400' : 'text-slate-800'
-=======
                     !perk.isUnlocked ? 'text-text-muted' : 'text-text-primary'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {perk.title}
                 </div>
-<<<<<<< HEAD
-                {perk.unlockCondition && (
-                  <div className="mt-1 text-[7px] font-bold uppercase text-slate-400">
-                    {perk.unlockCondition}
-=======
                 {perk.requirementDescription && (
                   <div className="text-text-muted mt-1 text-[7px] font-bold uppercase">
                     {perk.requirementDescription}
->>>>>>> recover/cabinet-wip-from-stash
                   </div>
                 )}
               </div>
             </div>
-<<<<<<< HEAD
-            <ChevronRight className="h-3 w-3 text-slate-300 transition-colors group-hover:text-amber-500" />
-=======
             <ChevronRight className="text-text-muted h-3 w-3 transition-colors group-hover:text-amber-500" />
->>>>>>> recover/cabinet-wip-from-stash
           </div>
         ))}
       </div>

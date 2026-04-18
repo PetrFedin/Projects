@@ -24,25 +24,11 @@ interface BrandTabsProps {
   setIsShareLookOpen: (open: boolean) => void;
   activeTopCatalog: any;
   setActiveTopCatalog: (v: any) => void;
-<<<<<<< HEAD
-  setFilterOutlet: (v: boolean) => void;
-=======
   setFilterOutlet: React.Dispatch<React.SetStateAction<string[]>>;
->>>>>>> recover/cabinet-wip-from-stash
   capsuleCollections: any[];
   activeCapsule: any;
   setActiveCapsule: (v: any) => void;
   filterAvailability: any[];
-<<<<<<< HEAD
-  setFilterAvailability: (v: any[]) => void;
-  activeTopAudience: any;
-  setActiveTopAudience: (v: any) => void;
-  setActiveAudience: (v: any) => void;
-  setFilterCategory: (v: any[]) => void;
-  setFilterAttributes: (v: any) => void;
-  setFilterColor: (v: any[]) => void;
-  setFilterSizes: (v: any[]) => void;
-=======
   setFilterAvailability: React.Dispatch<React.SetStateAction<string[]>>;
   activeTopAudience: any;
   setActiveTopAudience: (v: any) => void;
@@ -51,7 +37,6 @@ interface BrandTabsProps {
   setFilterAttributes: React.Dispatch<React.SetStateAction<Record<string, string[]>>>;
   setFilterColor: React.Dispatch<React.SetStateAction<string[]>>;
   setFilterSizes: React.Dispatch<React.SetStateAction<string[]>>;
->>>>>>> recover/cabinet-wip-from-stash
   setSelectedSizeRow: (v: any) => void;
   isFilterSidebarOpen: boolean;
   setIsFilterSidebarOpen: (v: boolean) => void;
@@ -72,11 +57,7 @@ interface BrandTabsProps {
   setIsAiSizeDialogOpen: (v: boolean) => void;
   displayName: string;
   mediaPeriod: string;
-<<<<<<< HEAD
-  setMediaPeriod: (v: any) => void;
-=======
   setMediaPeriod: (v: 'week' | 'month' | 'year' | 'all') => void;
->>>>>>> recover/cabinet-wip-from-stash
   selectedDate: Date | undefined;
   setSelectedDate: (v: Date | undefined) => void;
   activeMediaTab: string;
@@ -99,15 +80,9 @@ interface BrandTabsProps {
   setIsMessageDialogOpen: (v: boolean) => void;
   handleB2bRequest: (v: string) => void;
   sentB2bRequests: any;
-<<<<<<< HEAD
-  b2bPartnerStatus: string;
-  setB2bPartnerStatus: (v: string) => void;
-  handleB2bRegistration: (v: string) => void;
-=======
   b2bPartnerStatus: 'none' | 'pending' | 'friend' | 'active' | 'spot';
   setB2bPartnerStatus: (v: 'none' | 'pending' | 'friend' | 'active' | 'spot') => void;
   handleB2bRegistration: () => void;
->>>>>>> recover/cabinet-wip-from-stash
   toast: any;
 }
 
@@ -187,12 +162,6 @@ export function BrandTabs({
 }: BrandTabsProps) {
   return (
     <Tabs defaultValue="about" className="w-full">
-<<<<<<< HEAD
-      <TabsList className="no-scrollbar mb-8 flex h-auto justify-start gap-2 overflow-x-auto bg-transparent p-0 pb-2">
-        <TabsTrigger
-          value="about"
-          className="h-9 rounded-xl border border-slate-200 bg-white px-6 text-[11px] font-black uppercase tracking-wider text-slate-600 shadow-sm transition-all hover:bg-slate-50 data-[state=active]:border-black data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg"
-=======
       {/* cabinetSurface v1 */}
       <TabsList
         className={cn(
@@ -206,46 +175,33 @@ export function BrandTabs({
             cabinetSurface.tabsTrigger,
             'h-9 px-4 text-[11px] font-black tracking-wider data-[state=active]:text-foreground'
           )}
->>>>>>> recover/cabinet-wip-from-stash
         >
           О бренде
         </TabsTrigger>
         <TabsTrigger
           value="products"
-<<<<<<< HEAD
-          className="h-9 rounded-xl border border-slate-200 bg-white px-6 text-[11px] font-black uppercase tracking-wider text-slate-600 shadow-sm transition-all hover:bg-slate-50 data-[state=active]:border-black data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg"
-=======
           className={cn(
             cabinetSurface.tabsTrigger,
             'h-9 px-4 text-[11px] font-black tracking-wider data-[state=active]:text-foreground'
           )}
->>>>>>> recover/cabinet-wip-from-stash
         >
           Ассортимент ({filteredProducts.length})
         </TabsTrigger>
         <TabsTrigger
           value="media"
-<<<<<<< HEAD
-          className="h-9 rounded-xl border border-slate-200 bg-white px-6 text-[11px] font-black uppercase tracking-wider text-slate-600 shadow-sm transition-all hover:bg-slate-50 data-[state=active]:border-black data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg"
-=======
           className={cn(
             cabinetSurface.tabsTrigger,
             'h-9 px-4 text-[11px] font-black tracking-wider data-[state=active]:text-foreground'
           )}
->>>>>>> recover/cabinet-wip-from-stash
         >
           Медиа
         </TabsTrigger>
         <TabsTrigger
           value="partnership"
-<<<<<<< HEAD
-          className="h-9 rounded-xl border border-slate-200 bg-white px-6 text-[11px] font-black uppercase tracking-wider text-slate-600 shadow-sm transition-all hover:bg-slate-50 data-[state=active]:border-black data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg"
-=======
           className={cn(
             cabinetSurface.tabsTrigger,
             'h-9 px-4 text-[11px] font-black tracking-wider data-[state=active]:text-foreground'
           )}
->>>>>>> recover/cabinet-wip-from-stash
         >
           Сотрудничество
         </TabsTrigger>
@@ -302,10 +258,7 @@ export function BrandTabs({
       />
 
       <MediaTab
-<<<<<<< HEAD
-=======
         displayName={displayName}
->>>>>>> recover/cabinet-wip-from-stash
         mediaPeriod={mediaPeriod}
         setMediaPeriod={setMediaPeriod}
         selectedDate={selectedDate}
@@ -326,11 +279,8 @@ export function BrandTabs({
         setSelectedMention={setSelectedMention}
         setSelectedPress={setSelectedPress}
         setIsPressKitOpen={setIsPressKitOpen}
-<<<<<<< HEAD
-=======
         toast={toast}
         setB2bPartnerStatus={setB2bPartnerStatus}
->>>>>>> recover/cabinet-wip-from-stash
       />
 
       <PartnershipTab

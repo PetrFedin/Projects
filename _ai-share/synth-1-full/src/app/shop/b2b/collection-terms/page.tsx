@@ -31,27 +31,8 @@ export default function B2BCollectionTermsPage() {
   }, []);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <CalendarClock className="h-6 w-6" /> Условия по коллекциям
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            NuOrder/JOOR: дедлайны заказа, MOQ по стилю, минимальная сумма заказа (MOV).
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="max-w-4xl space-y-6">
       <ShopB2bContentHeader lead="NuOrder / JOOR: дедлайны заказа, MOQ по стилю, минимальная сумма заказа (MOV)." />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -118,11 +99,7 @@ export default function B2BCollectionTermsPage() {
           {JOOR_DELIVERY_WINDOWS.map((w) => (
             <div key={w.id} className="bg-bg-surface2 rounded-lg px-3 py-2 text-sm">
               <span className="font-bold">{w.label}</span>
-<<<<<<< HEAD
-              <span className="ml-2 text-slate-500">
-=======
               <span className="text-text-secondary ml-2">
->>>>>>> recover/cabinet-wip-from-stash
                 · отмена до {w.cancelDate} · отгрузка {w.startShipDate}–{w.completeShipDate}
               </span>
             </div>
@@ -148,11 +125,7 @@ export default function B2BCollectionTermsPage() {
                   className="bg-bg-surface2 flex justify-between rounded-lg px-3 py-2"
                 >
                   <span className="font-medium">{pl.name}</span>
-<<<<<<< HEAD
-                  <span className="text-slate-500">
-=======
                   <span className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
                     {pl.slug}
                     {pl.currency ? ` · ${pl.currency}` : ''}
                   </span>

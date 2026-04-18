@@ -51,29 +51,17 @@ export function BrandSectionHeader({
       </SectionInfoCard>
       <div
         className={cn(
-<<<<<<< HEAD
-          'mb-4 flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest text-slate-400',
-          breadcrumbClassName
-        )}
-      >
-        <Link href={meta.groupHref} className="transition-colors hover:text-indigo-600">
-=======
           'text-text-muted mb-4 flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest',
           breadcrumbClassName
         )}
       >
         <Link href={meta.groupHref} className="hover:text-accent-primary transition-colors">
->>>>>>> recover/cabinet-wip-from-stash
           {meta.groupLabel}
         </Link>
         <ChevronRight className="h-3 w-3" />
         {meta.subsectionLabel ? (
           <>
-<<<<<<< HEAD
-            <Link href={meta.sectionHref} className="transition-colors hover:text-indigo-600">
-=======
             <Link href={meta.sectionHref} className="hover:text-accent-primary transition-colors">
->>>>>>> recover/cabinet-wip-from-stash
               {meta.sectionLabel}
             </Link>
             <ChevronRight className="h-3 w-3" />

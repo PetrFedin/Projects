@@ -125,12 +125,8 @@ export default function ClientVisualSearchPage() {
               Визуальный поиск
             </h1>
             <p className="mt-0.5 text-sm text-muted-foreground">
-<<<<<<< HEAD
-              Референс → похожие SKU. В режиме API ожидается POST{' '}
-=======
               Референс → похожие <AcronymWithTooltip abbr="SKU" />. В режиме{' '}
               <AcronymWithTooltip abbr="API" /> ожидается POST{' '}
->>>>>>> recover/cabinet-wip-from-stash
               <code className="rounded bg-muted px-1 text-[10px]">/v1/client/visual-search</code>.
             </p>
           </div>

@@ -56,11 +56,7 @@ export function ActionCard({
             <div
               className={cn(
                 'rounded-xl p-3 transition-all group-hover:scale-110',
-<<<<<<< HEAD
-                variant === 'premium' ? 'bg-white/20' : 'bg-slate-100 group-hover:bg-blue-50'
-=======
                 variant === 'premium' ? 'bg-white/20' : 'bg-bg-surface2 group-hover:bg-blue-50'
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               <Icon
@@ -77,11 +73,7 @@ export function ActionCard({
                   size === 'sm' && 'text-sm',
                   size === 'md' && 'text-base',
                   size === 'lg' && 'text-sm',
-<<<<<<< HEAD
-                  variant === 'premium' ? 'text-white' : 'text-slate-900'
-=======
                   variant === 'premium' ? 'text-white' : 'text-text-primary'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 {title}
@@ -90,11 +82,7 @@ export function ActionCard({
                 <p
                   className={cn(
                     'mt-1 text-xs',
-<<<<<<< HEAD
-                    variant === 'premium' ? 'text-white/80' : 'text-slate-500'
-=======
                     variant === 'premium' ? 'text-white/80' : 'text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {description}
@@ -106,11 +94,7 @@ export function ActionCard({
             className={cn(
               'transition-transform group-hover:translate-x-1',
               iconSizes[size],
-<<<<<<< HEAD
-              variant === 'premium' ? 'text-white' : 'text-slate-400 group-hover:text-blue-600'
-=======
               variant === 'premium' ? 'text-white' : 'text-text-muted group-hover:text-blue-600'
->>>>>>> recover/cabinet-wip-from-stash
             )}
           />
         </div>

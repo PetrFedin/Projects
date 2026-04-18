@@ -5,19 +5,13 @@ import { useState } from 'react';
 import LoyaltyProgramDetails from '@/components/loyalty-program-details';
 import PricingPlans from '@/components/pricing-plans';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-<<<<<<< HEAD
-=======
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
->>>>>>> recover/cabinet-wip-from-stash
 import { Users, Store, ShoppingCart, Ticket, Gift, Target, ShoppingBag } from 'lucide-react';
 import BrandPricingPlans from '@/components/brand-pricing-plans';
 import { BrandFeaturesTable } from '@/components/project-info/brand-features-table';
 import { ShopFeaturesTable } from '@/components/project-info/shop-features-table';
-<<<<<<< HEAD
-=======
 import { RegistryPageShell } from '@/components/design-system';
->>>>>>> recover/cabinet-wip-from-stash
 import ShopPricingPlans from '@/components/shop-pricing-plans';
 import {
   Card,
@@ -68,74 +62,40 @@ function LotteryContent() {
   const clientWinners = [
     { ticket: '...7890', prize: '10 000 бонусов' },
     { ticket: '...1234', prize: 'Подписка Comfort на 1 год' },
-<<<<<<< HEAD
-    { ticket: '...5678', prize: 'Приз от бренда Syntha' },
-=======
     { ticket: '...5678', prize: 'Приз от бренда Syntha Lab' },
->>>>>>> recover/cabinet-wip-from-stash
     { ticket: '...9012', prize: '5 000 бонусов' },
     { ticket: '...3456', prize: 'Скидка 50% на следующий заказ' },
     { ticket: '...7891', prize: '1 000 бонусов' },
     { ticket: '...2345', prize: 'Подписка Start на 1 год' },
     { ticket: '...6789', prize: 'Эксклюзивный цифровой актив' },
     { ticket: '...1122', prize: '2 500 бонусов' },
-<<<<<<< HEAD
-    { ticket: '...3344', prize: 'Приз от бренда A.P.C.' },
-=======
     { ticket: '...3344', prize: 'Приз от бренда Nordic Wool' },
->>>>>>> recover/cabinet-wip-from-stash
   ];
   const brandWinners = [
     {
       nomination: 'Лучшие новички',
       winners: [
-<<<<<<< HEAD
-        { place: 1, name: 'Sacai', prize: 'Повышение (с PRO на Elite) на 3 мес.' },
-        { place: 2, name: 'Dries Van Noten', prize: 'Продление PRO на 1 мес.' },
-=======
         { place: 1, name: 'Syntha Lab', prize: 'Повышение (с PRO на Elite) на 3 мес.' },
         { place: 2, name: 'Nordic Wool', prize: 'Продление PRO на 1 мес.' },
->>>>>>> recover/cabinet-wip-from-stash
       ],
     },
     {
       nomination: 'Стабильные бренды',
       winners: [
-<<<<<<< HEAD
-        { place: 1, name: 'A.P.C.', prize: 'Повышение (с PRO на Elite) на 3 мес.' },
-        { place: 2, name: 'Issey Miyake', prize: 'Продление PRO на 1 мес.' },
-=======
         { place: 1, name: 'Nordic Wool', prize: 'Повышение (с PRO на Elite) на 3 мес.' },
         { place: 2, name: 'Syntha Lab', prize: 'Продление PRO на 1 мес.' },
->>>>>>> recover/cabinet-wip-from-stash
       ],
     },
     {
       nomination: 'Лучшие результаты',
       winners: [
-<<<<<<< HEAD
-        { place: 1, name: 'Jil Sander', prize: 'Продление Elite на 3 мес.' },
-        { place: 2, name: 'Acne Studios', prize: 'Продление PRO на 1 мес.' },
-=======
         { place: 1, name: 'Syntha Lab', prize: 'Продление Elite на 3 мес.' },
         { place: 2, name: 'Nordic Wool', prize: 'Продление PRO на 1 мес.' },
->>>>>>> recover/cabinet-wip-from-stash
       ],
     },
     {
       nomination: 'Самые популярные',
       winners: [
-<<<<<<< HEAD
-        { place: 1, name: 'Syntha', prize: 'Продление Elite на 3 мес.' },
-        { place: 2, name: 'Comme des Garçons', prize: 'Продление Elite на 1 мес.' },
-      ],
-    },
-    {
-      nomination: 'Выбор Syntha',
-      winners: [
-        { place: 1, name: 'Maison Margiela', prize: 'Продление Elite на 3 мес.' },
-        { place: 2, name: 'Syntha', prize: 'Продление Elite на 1 мес.' },
-=======
         { place: 1, name: 'Nordic Wool', prize: 'Продление Elite на 3 мес.' },
         { place: 2, name: 'Syntha Lab', prize: 'Продление Elite на 1 мес.' },
       ],
@@ -145,7 +105,6 @@ function LotteryContent() {
       winners: [
         { place: 1, name: 'Syntha Lab', prize: 'Продление Elite на 3 мес.' },
         { place: 2, name: 'Nordic Wool', prize: 'Продление Elite на 1 мес.' },
->>>>>>> recover/cabinet-wip-from-stash
       ],
     },
   ];
@@ -306,11 +265,6 @@ function LotteryContent() {
           )}
           {viewingResultsFor === 'partners' && (
             <Tabs defaultValue="brands">
-<<<<<<< HEAD
-              <TabsList>
-                <TabsTrigger value="brands">Бренды</TabsTrigger>
-                <TabsTrigger value="shops">Магазины</TabsTrigger>
-=======
               {/* cabinetSurface v1 */}
               <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
                 <TabsTrigger
@@ -331,7 +285,6 @@ function LotteryContent() {
                 >
                   Магазины
                 </TabsTrigger>
->>>>>>> recover/cabinet-wip-from-stash
               </TabsList>
               <TabsContent value="brands" className="pt-4">
                 <h3 className="mb-2 font-semibold">Победители среди брендов</h3>
@@ -408,11 +361,7 @@ export default function LoyaltyPage() {
 
   return (
     <div className="bg-secondary/30 duration-300 animate-in fade-in">
-<<<<<<< HEAD
-      <div className="container mx-auto space-y-6 px-4 py-4 md:py-24">
-=======
       <RegistryPageShell className="space-y-6 py-4 pb-16 md:py-24">
->>>>>>> recover/cabinet-wip-from-stash
         <header className="text-center">
           <h1 className="font-headline text-sm font-bold md:text-sm">
             Программа лояльности Syntha
@@ -424,34 +373,6 @@ export default function LoyaltyPage() {
           </p>
         </header>
         <Tabs defaultValue={defaultTab} className="w-full">
-<<<<<<< HEAD
-          <TabsList className="mx-auto grid w-full max-w-4xl grid-cols-7 rounded-2xl bg-white p-1 shadow-sm">
-            <TabsTrigger value="clients">
-              <Users className="mr-2 h-4 w-4" />
-              Для клиентов
-            </TabsTrigger>
-            <TabsTrigger value="quests">
-              <Target className="mr-2 h-4 w-4" />
-              Квесты
-            </TabsTrigger>
-            <TabsTrigger value="marketplace">
-              <ShoppingBag className="mr-2 h-4 w-4" />
-              Награды
-            </TabsTrigger>
-            <TabsTrigger value="brands">
-              <Store className="mr-2 h-4 w-4" />
-              Для брендов
-            </TabsTrigger>
-            <TabsTrigger value="shops">
-              <ShoppingCart className="mr-2 h-4 w-4" />
-              Для магазинов
-            </TabsTrigger>
-            <TabsTrigger value="lottery">
-              <Ticket className="mr-2 h-4 w-4" />
-              Лотерея
-            </TabsTrigger>
-            <TabsTrigger value="gift_cards">
-=======
           {/* cabinetSurface v1 */}
           <TabsList
             className={cn(cabinetSurface.tabsList, 'mx-auto grid w-full max-w-4xl grid-cols-7')}
@@ -523,7 +444,6 @@ export default function LoyaltyPage() {
                 'text-xs font-semibold normal-case tracking-normal'
               )}
             >
->>>>>>> recover/cabinet-wip-from-stash
               <Gift className="mr-2 h-4 w-4" />
               Подарочные карты
             </TabsTrigger>
@@ -555,11 +475,7 @@ export default function LoyaltyPage() {
             <GiftCardContent />
           </TabsContent>
         </Tabs>
-<<<<<<< HEAD
-      </div>
-=======
       </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
     </div>
   );
 }

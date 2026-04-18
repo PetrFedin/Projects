@@ -29,27 +29,8 @@ const MOCK_APPOINTMENTS = [
 
 export default function SalesRepPortalPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <UserCircle className="h-6 w-6" /> Sales Rep Portal
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Shopify/Candid: портал для репов — записи на showroom, видео-консультации, лайншиты
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="max-w-3xl space-y-6">
       <ShopB2bContentHeader lead="Портал торгового представителя: встречи в шоуруме, видео и материалы по брендам (сценарии Shopify / Candid)." />
->>>>>>> recover/cabinet-wip-from-stash
 
       <div className="mb-6 grid gap-4 md:grid-cols-2">
         <Card>
@@ -62,19 +43,11 @@ export default function SalesRepPortalPage() {
             {MOCK_APPOINTMENTS.map((a) => (
               <div
                 key={a.id}
-<<<<<<< HEAD
-                className="flex items-center justify-between rounded-lg bg-slate-50 p-2"
-              >
-                <div>
-                  <p className="text-sm font-medium">{a.retailer}</p>
-                  <p className="text-xs text-slate-500">
-=======
                 className="bg-bg-surface2 flex items-center justify-between rounded-lg p-2"
               >
                 <div>
                   <p className="text-sm font-medium">{a.retailer}</p>
                   <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                     {a.date} · {a.type === 'showroom' ? 'Шоурум' : 'Видео'}
                   </p>
                 </div>
@@ -92,11 +65,7 @@ export default function SalesRepPortalPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-<<<<<<< HEAD
-            <p className="mb-3 text-sm text-slate-600">Забронируйте время в шоуруме бренда</p>
-=======
             <p className="text-text-secondary mb-3 text-sm">Забронируйте время в шоуруме бренда</p>
->>>>>>> recover/cabinet-wip-from-stash
             <Button size="sm" variant="outline" asChild>
               <Link href={ROUTES.shop.b2bVipRoomBooking}>Записаться</Link>
             </Button>
@@ -130,11 +99,7 @@ export default function SalesRepPortalPage() {
           </Link>
         </Button>
         <Button variant="outline" size="sm" asChild>
-<<<<<<< HEAD
-          <Link href={ROUTES.shop.b2b}>B2B хаб</Link>
-=======
           <Link href={ROUTES.shop.b2bCatalog}>B2B каталог</Link>
->>>>>>> recover/cabinet-wip-from-stash
         </Button>
       </div>
     </RegistryPageShell>

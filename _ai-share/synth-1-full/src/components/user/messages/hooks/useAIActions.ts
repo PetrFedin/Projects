@@ -1,9 +1,5 @@
 import React from 'react';
 import { useToast } from '@/hooks/use-toast';
-<<<<<<< HEAD
-import { optimizeBlogText } from '@/ai/flows/optimize-blog-text';
-=======
->>>>>>> recover/cabinet-wip-from-stash
 
 export function useAIActions(composerText: string, setComposerText: (t: string) => void) {
   const { toast } = useToast();

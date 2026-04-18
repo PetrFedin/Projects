@@ -178,33 +178,21 @@ const MOCK_FALLBACKS: Record<string, any> = {
   '/orders': [
     {
       id: 'ORD-4521',
-<<<<<<< HEAD
-      retailer: 'TSUM',
-=======
       retailer: 'Демо-магазин · Москва 2',
->>>>>>> recover/cabinet-wip-from-stash
       total: 1250000,
       status: 'in_production',
       created_at: '2026-03-08',
     },
     {
       id: 'ORD-4522',
-<<<<<<< HEAD
-      retailer: 'Lamoda',
-=======
       retailer: 'Демо-магазин · СПб',
->>>>>>> recover/cabinet-wip-from-stash
       total: 890000,
       status: 'pending',
       created_at: '2026-03-10',
     },
     {
       id: 'ORD-4523',
-<<<<<<< HEAD
-      retailer: 'ЦУМ Online',
-=======
       retailer: 'Демо-магазин · Москва 1',
->>>>>>> recover/cabinet-wip-from-stash
       total: 2100000,
       status: 'shipped',
       created_at: '2026-03-01',
@@ -244,19 +232,6 @@ const MOCK_FALLBACKS: Record<string, any> = {
   '/collaboration/projects': [
     {
       id: 'cp1',
-<<<<<<< HEAD
-      project_name: 'Syntha x Nordic Wool',
-      partner_brand_id: 'Nordic Wool',
-      status: 'active',
-      description: 'Совместная капсула верхней одежды FW26',
-    },
-    {
-      id: 'cp2',
-      project_name: 'Eco-Textile Research',
-      partner_brand_id: 'GreenFabric Corp',
-      status: 'pending',
-      description: 'Исследование перерабатываемых мембран',
-=======
       project_name: 'Syntha Lab × Nordic Wool — Outerwear FW26',
       partner_brand_id: 'brand_nordic_wool',
       status: 'active',
@@ -268,7 +243,6 @@ const MOCK_FALLBACKS: Record<string, any> = {
       partner_brand_id: 'brand_nordic_wool',
       status: 'pending',
       description: 'Пилотная линия трикотажа с Syntha Lab',
->>>>>>> recover/cabinet-wip-from-stash
     },
   ],
   '/academy/leaderboard': [
@@ -333,11 +307,7 @@ const MOCK_FALLBACKS: Record<string, any> = {
     },
   ],
   '/brand/profile/': {
-<<<<<<< HEAD
-    brand: { name: 'Syntha', id: 'syntha-1' },
-=======
     brand: { name: 'Syntha Lab', id: 'syntha-1' },
->>>>>>> recover/cabinet-wip-from-stash
     legal: { inn: '7707123456' },
     contacts: {},
     dna: {},

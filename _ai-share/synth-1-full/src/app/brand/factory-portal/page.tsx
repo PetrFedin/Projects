@@ -20,39 +20,21 @@ import { RegistryPageHeader, RegistryPageShell } from '@/components/design-syste
 
 export default function FactoryPortalPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
-      <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
-        <div className="flex items-center gap-3">
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="Портал фабрики"
         leadPlain="Образцы, QC, расхождения с tech pack. Тип строк: PartnerFactorySample."
         eyebrow={
->>>>>>> recover/cabinet-wip-from-stash
           <Button variant="ghost" size="icon" asChild>
             <Link href={ROUTES.brand.production} aria-label="Назад в Production">
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
-<<<<<<< HEAD
-          <div>
-            <h1 className="flex items-center gap-2 text-xl font-bold">
-              <Factory className="h-6 w-6" />
-              Портал фабрики
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Образцы, QC, расхождения с tech pack. Тип строк:{' '}
-              <code className="rounded bg-muted px-1 text-[10px]">PartnerFactorySample</code>.
-            </p>
-=======
         }
         actions={
           <div className="flex flex-wrap items-center justify-end gap-2">
             <Factory className="size-6 shrink-0 text-muted-foreground" aria-hidden />
             <PartnerDemoExportBar />
->>>>>>> recover/cabinet-wip-from-stash
           </div>
         }
       />

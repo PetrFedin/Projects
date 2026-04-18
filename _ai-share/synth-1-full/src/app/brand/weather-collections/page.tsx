@@ -55,11 +55,7 @@ export default function WeatherCollectionsPage() {
   ].filter((r) => r.when);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Weather-Driven Collections"
         description="Рекомендации по наполнению дропа на основе прогноза погоды и сезонности. Связь с Range Planner и ассортиментом."
@@ -72,31 +68,19 @@ export default function WeatherCollectionsPage() {
               AI
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/range-planner">
-=======
               <Link href={ROUTES.brand.rangePlanner}>
->>>>>>> recover/cabinet-wip-from-stash
                 <Target className="mr-1 h-3 w-3" /> Range Planner
               </Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/products">Products</Link>
-=======
               <Link href={ROUTES.brand.products}>Products</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
       />
       <h1 className="text-2xl font-bold uppercase">Weather-Driven Collections</h1>
 
-<<<<<<< HEAD
-      <Card className="rounded-xl border border-slate-200 bg-white shadow-sm">
-=======
       <Card className="border-border-default rounded-xl border bg-white shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Thermometer className="h-5 w-5" /> Текущая погода (Москва)
@@ -110,22 +94,14 @@ export default function WeatherCollectionsPage() {
             <p className="text-text-secondary text-sm">Загрузка...</p>
           ) : (
             <div className="flex flex-wrap gap-4">
-<<<<<<< HEAD
-              <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
-=======
               <div className="bg-bg-surface2 border-border-default flex items-center gap-3 rounded-xl border p-4">
->>>>>>> recover/cabinet-wip-from-stash
                 <Thermometer className="h-8 w-8 text-amber-500" />
                 <div>
                   <p className="text-text-secondary text-[10px] font-bold uppercase">Температура</p>
                   <p className="text-2xl font-black">{temp} °C</p>
                 </div>
               </div>
-<<<<<<< HEAD
-              <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
-=======
               <div className="bg-bg-surface2 border-border-default flex items-center gap-3 rounded-xl border p-4">
->>>>>>> recover/cabinet-wip-from-stash
                 <CloudRain className="h-8 w-8 text-sky-500" />
                 <div>
                   <p className="text-text-secondary text-[10px] font-bold uppercase">Осадки</p>
@@ -135,13 +111,9 @@ export default function WeatherCollectionsPage() {
               <div className="flex items-center gap-3 rounded-xl border border-sky-200 bg-sky-50 p-4">
                 <Sun className="h-8 w-8 text-sky-600" />
                 <div>
-<<<<<<< HEAD
-                  <p className="text-[10px] font-bold uppercase text-slate-500">Рекомендация</p>
-=======
                   <p className="text-text-secondary text-[10px] font-bold uppercase">
                     Рекомендация
                   </p>
->>>>>>> recover/cabinet-wip-from-stash
                   <p className="text-sm font-bold">
                     {isCold ? 'Холодно' : isWarm ? 'Тепло' : 'Умеренно'}
                     {isRainy ? ' · Дождь' : ''}
@@ -165,11 +137,7 @@ export default function WeatherCollectionsPage() {
             {recommendations.map((r, i) => (
               <li
                 key={i}
-<<<<<<< HEAD
-                className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-3"
-=======
                 className="border-border-default flex items-center gap-3 rounded-lg border bg-white p-3"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <Badge variant="outline" className="shrink-0 text-[9px]">
                   {r.category}
@@ -178,11 +146,7 @@ export default function WeatherCollectionsPage() {
               </li>
             ))}
           </ul>
-<<<<<<< HEAD
-          <p className="mt-3 text-[10px] text-slate-500">
-=======
           <p className="text-text-secondary mt-3 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
             Данные погоды: Open-Meteo API. Интегрируйте с Range Planner для автоматического
             пересчёта долей Core/Trend/Novelty.
           </p>

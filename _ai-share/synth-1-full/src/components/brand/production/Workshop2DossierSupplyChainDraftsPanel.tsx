@@ -190,13 +190,6 @@ export function Workshop2DossierSupplyChainDraftsPanel({
           <LucideIcons.ClipboardList className="h-4 w-4" aria-hidden />
         </div>
         <div className="min-w-0 flex-1">
-<<<<<<< HEAD
-          <h3 className="text-sm font-semibold text-slate-900">Снабжение · дельта · costing</h3>
-          <p className="text-[11px] leading-snug text-slate-600">
-            Черновики живут в объекте досье артикула (сохраняются вместе с ТЗ). Сшивка costing по
-            последней записи на один и тот же <span className="font-mono">lineRef</span> (как в
-            строках mat/BOM): {costingMerged.size} уникальных ref.
-=======
           <h3 className="text-text-primary text-sm font-semibold">
             Снабжение · дельта · калькуляция себестоимости
           </h3>
@@ -204,7 +197,6 @@ export function Workshop2DossierSupplyChainDraftsPanel({
             Черновики живут в объекте досье артикула (сохраняются вместе с ТЗ). Сшивка калькуляции
             по последней записи на один и тот же <span className="font-mono">lineRef</span> (как в
             строках материалов/BOM): {costingMerged.size} уникальных ссылок.
->>>>>>> recover/cabinet-wip-from-stash
           </p>
         </div>
       </div>
@@ -215,11 +207,7 @@ export function Workshop2DossierSupplyChainDraftsPanel({
           className="scroll-mt-24 rounded-lg border border-white/80 bg-white/90 p-3 shadow-sm"
         >
           <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-<<<<<<< HEAD
-            <p className="text-[10px] font-bold uppercase tracking-wide text-violet-900">
-=======
             <p className="text-text-primary text-[10px] font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
               Альтернативы материала / BOM
             </p>
             <Button
@@ -327,11 +315,7 @@ export function Workshop2DossierSupplyChainDraftsPanel({
           className="scroll-mt-24 rounded-lg border border-white/80 bg-white/90 p-3 shadow-sm"
         >
           <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-<<<<<<< HEAD
-            <p className="text-[10px] font-bold uppercase tracking-wide text-violet-900">
-=======
             <p className="text-text-primary text-[10px] font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
               Дельта BOM
             </p>
             <Button
@@ -492,11 +476,7 @@ export function Workshop2DossierSupplyChainDraftsPanel({
               <tbody>
                 {(dossier.bomLineCostingHints ?? []).length === 0 ? (
                   <tr>
-<<<<<<< HEAD
-                    <td colSpan={5} className="py-3 text-slate-600">
-=======
                     <td colSpan={5} className="text-text-secondary py-3">
->>>>>>> recover/cabinet-wip-from-stash
                       Строки для локальной финмодели; дубликаты lineRef сшиваются при отображении
                       счётчика выше.
                     </td>

@@ -23,10 +23,7 @@ import {
   FileWarning,
   Download,
 } from 'lucide-react';
-<<<<<<< HEAD
-=======
 import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
->>>>>>> recover/cabinet-wip-from-stash
 
 /** Экспорт skuErrors в CSV (UTF-8 BOM, точка с запятой). */
 function exportSkuErrorsCsv(
@@ -101,25 +98,12 @@ export default function BrandContentSyndicationPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
-      <div>
-        <h1 className="flex items-center gap-2 text-xl font-bold uppercase tracking-tight">
-          <Cloud className="h-6 w-6" /> Синдикация контента PIM → каталог байера
-        </h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Fashion Cloud: расписание выгрузки, валидация контракта B2B (размерная сетка, состав,
-          уход, EAN, медиа), лог последней выгрузки и SKU с ошибками.
-        </p>
-      </div>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="Синдикация контента PIM → каталог байера"
         leadPlain="Fashion Cloud: расписание выгрузки, валидация контракта B2B (размерная сетка, состав, уход, EAN, медиа), лог последней выгрузки и SKU с ошибками."
         actions={<Cloud className="h-6 w-6 shrink-0 text-muted-foreground" aria-hidden />}
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -129,19 +113,11 @@ export default function BrandContentSyndicationPage() {
           <CardDescription>Выгрузка в каталог байера по расписанию (мок).</CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
-<<<<<<< HEAD
-          <p className="inline-block rounded bg-slate-100 px-2 py-1 font-mono text-sm">
-            {schedule.cron}
-          </p>
-          <p className="text-sm text-slate-600">{schedule.description}</p>
-          {schedule.nextRun && <p className="text-xs text-slate-500">{schedule.nextRun}</p>}
-=======
           <p className="bg-bg-surface2 inline-block rounded px-2 py-1 font-mono text-sm">
             {schedule.cron}
           </p>
           <p className="text-text-secondary text-sm">{schedule.description}</p>
           {schedule.nextRun && <p className="text-text-secondary text-xs">{schedule.nextRun}</p>}
->>>>>>> recover/cabinet-wip-from-stash
         </CardContent>
       </Card>
 
@@ -164,21 +140,13 @@ export default function BrandContentSyndicationPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           {!log ? (
-<<<<<<< HEAD
-            <p className="text-sm text-slate-500">
-=======
             <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
               Выгрузка ещё не запускалась. Нажмите «Запустить выгрузку» для валидации и записи лога.
             </p>
           ) : (
             <>
               <div className="flex flex-wrap gap-3">
-<<<<<<< HEAD
-                <span className="text-xs text-slate-500">
-=======
                 <span className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                   Дата: {new Date(log.runAt).toLocaleString('ru-RU')}
                 </span>
                 <Badge
@@ -209,11 +177,7 @@ export default function BrandContentSyndicationPage() {
                 )}
               </div>
               {log.nextRunSchedule && (
-<<<<<<< HEAD
-                <p className="text-xs text-slate-500">{log.nextRunSchedule}</p>
-=======
                 <p className="text-text-secondary text-xs">{log.nextRunSchedule}</p>
->>>>>>> recover/cabinet-wip-from-stash
               )}
             </>
           )}
@@ -234,22 +198,14 @@ export default function BrandContentSyndicationPage() {
                   Справочники:{' '}
                   <Link
                     href={ROUTES.shop.b2bSizeFinder}
-<<<<<<< HEAD
-                    className="font-semibold text-indigo-600 hover:underline"
-=======
                     className="text-accent-primary font-semibold hover:underline"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     Подбор размера / размерная сетка
                   </Link>
                   ,{' '}
                   <Link
                     href={ROUTES.shop.b2bSizeMapping}
-<<<<<<< HEAD
-                    className="font-semibold text-indigo-600 hover:underline"
-=======
                     className="text-accent-primary font-semibold hover:underline"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     маппинг размеров
                   </Link>
@@ -277,11 +233,7 @@ export default function BrandContentSyndicationPage() {
             </div>
           </CardHeader>
           <CardContent>
-<<<<<<< HEAD
-            <div className="overflow-hidden rounded-lg border border-slate-200">
-=======
             <div className="border-border-default overflow-hidden rounded-lg border">
->>>>>>> recover/cabinet-wip-from-stash
               <table className="w-full text-sm">
                 <thead className="bg-bg-surface2">
                   <tr>
@@ -292,11 +244,7 @@ export default function BrandContentSyndicationPage() {
                 </thead>
                 <tbody>
                   {log.skuErrors.map((row) => (
-<<<<<<< HEAD
-                    <tr key={row.productId} className="border-t border-slate-100">
-=======
                     <tr key={row.productId} className="border-border-subtle border-t">
->>>>>>> recover/cabinet-wip-from-stash
                       <td className="px-3 py-2 font-mono text-xs">{row.sku}</td>
                       <td className="max-w-[200px] truncate px-3 py-2">{row.name}</td>
                       <td className="px-3 py-2">

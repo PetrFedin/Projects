@@ -2,10 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { WholesaleOrderMatrix } from '@/components/b2b/WholesaleOrderMatrix';
-<<<<<<< HEAD
-=======
 import { RegistryPageShell } from '@/components/design-system';
->>>>>>> recover/cabinet-wip-from-stash
 
 /** NuOrder-style: матрица заказа. ?mode=… ; ?brand= — контекст PIM (Fashion Cloud). */
 export default function B2BMatrixPage() {
@@ -16,14 +13,6 @@ export default function B2BMatrixPage() {
   const pimBrand = searchParams.get('brand') || undefined;
 
   return (
-<<<<<<< HEAD
-    <WholesaleOrderMatrix
-      onClose={() => router.back()}
-      activeRetailer={{ name: 'Партнер' }}
-      initialOrderMode={validMode}
-      pimBrandContext={pimBrand}
-    />
-=======
     <RegistryPageShell className="max-w-none !p-0">
       <WholesaleOrderMatrix
         onClose={() => router.back()}
@@ -32,6 +21,5 @@ export default function B2BMatrixPage() {
         pimBrandContext={pimBrand}
       />
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

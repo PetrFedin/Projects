@@ -38,24 +38,6 @@ export function BrandSectionHeaderBlock() {
     breadcrumbItems.push({ label: meta.subsectionLabel });
   }
 
-<<<<<<< HEAD
-  const defaultActions =
-    meta.quickActions?.length &&
-    meta.quickActions.map((qa) => {
-      const Icon = qa.icon;
-      return (
-        <Button key={qa.href} variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-          <Link href={qa.href}>
-            <Icon className="mr-1 h-3 w-3" /> {qa.label}
-          </Link>
-        </Button>
-      );
-    });
-  const actions = contextActions ?? (defaultActions?.length ? defaultActions : null);
-
-  return (
-    <div className="mb-3 space-y-1.5 border-t border-slate-100 pt-2">
-=======
   const defaultActions = meta.quickActions?.length
     ? meta.quickActions.map((qa) => {
         const Icon = qa.icon;
@@ -72,7 +54,6 @@ export function BrandSectionHeaderBlock() {
 
   return (
     <div className="border-border-subtle mb-3 space-y-1.5 border-t pt-2">
->>>>>>> recover/cabinet-wip-from-stash
       <Breadcrumb items={breadcrumbItems} className="gap-0.5 text-[11px] leading-tight" />
       <SectionHeader
         compact

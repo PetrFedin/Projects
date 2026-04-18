@@ -26,11 +26,7 @@ export function WholesaleLoyaltyHub() {
   const points = retailerLoyalty['retailer-1'] || 12450;
 
   return (
-<<<<<<< HEAD
-    <div className="min-h-screen space-y-4 bg-slate-50 p-3">
-=======
     <div className="bg-bg-surface2 min-h-screen space-y-4 p-3">
->>>>>>> recover/cabinet-wip-from-stash
       {/* Header */}
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
@@ -45,17 +41,10 @@ export function WholesaleLoyaltyHub() {
               Elite_Partner_v2.0
             </Badge>
           </div>
-<<<<<<< HEAD
-          <h2 className="text-sm font-black uppercase leading-none tracking-tighter text-slate-900 md:text-sm">
-            Partner Rewards
-          </h2>
-          <p className="max-w-md text-xs font-medium text-slate-400">
-=======
           <h2 className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter md:text-sm">
             Partner Rewards
           </h2>
           <p className="text-text-muted max-w-md text-xs font-medium">
->>>>>>> recover/cabinet-wip-from-stash
             Earn points for early pre-orders, volume milestones, and ecosystem engagement. Unlock
             exclusive discounts and priority production slots.
           </p>
@@ -63,19 +52,11 @@ export function WholesaleLoyaltyHub() {
 
         <Card className="flex items-center gap-3 rounded-xl border-none bg-white p-4 shadow-xl shadow-amber-200/20">
           <div className="space-y-1">
-<<<<<<< HEAD
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-              Available Points
-            </p>
-            <div className="flex items-center gap-3">
-              <span className="text-base font-black tabular-nums text-slate-900">
-=======
             <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
               Available Points
             </p>
             <div className="flex items-center gap-3">
               <span className="text-text-primary text-base font-black tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
                 {points.toLocaleString('ru-RU')}
               </span>
               <div className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-100">
@@ -85,17 +66,10 @@ export function WholesaleLoyaltyHub() {
           </div>
           <div className="bg-bg-surface2 h-12 w-px" />
           <div className="space-y-1">
-<<<<<<< HEAD
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-              Partner Tier
-            </p>
-            <Badge className="border-none bg-slate-900 px-3 py-1 text-[10px] font-black uppercase text-white">
-=======
             <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
               Partner Tier
             </p>
             <Badge className="bg-text-primary border-none px-3 py-1 text-[10px] font-black uppercase text-white">
->>>>>>> recover/cabinet-wip-from-stash
               PLATINUM
             </Badge>
           </div>
@@ -105,11 +79,7 @@ export function WholesaleLoyaltyHub() {
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-12">
         {/* Tier Progress */}
         <div className="space-y-4 lg:col-span-8">
-<<<<<<< HEAD
-          <Card className="relative overflow-hidden rounded-xl border-none bg-slate-900 p-3 text-white shadow-2xl shadow-slate-200/50">
-=======
           <Card className="bg-text-primary relative overflow-hidden rounded-xl border-none p-3 text-white shadow-2xl shadow-md">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="absolute right-0 top-0 p-4 opacity-10">
               <TrendingUp className="h-64 w-64" />
             </div>
@@ -137,11 +107,7 @@ export function WholesaleLoyaltyHub() {
                     className="h-full bg-gradient-to-r from-amber-400 to-amber-600 shadow-[0_0_20px_rgba(245,158,11,0.5)]"
                   />
                 </div>
-<<<<<<< HEAD
-                <p className="text-right text-[11px] font-medium italic text-slate-400">
-=======
                 <p className="text-text-muted text-right text-[11px] font-medium italic">
->>>>>>> recover/cabinet-wip-from-stash
                   "You're 12,550 points away from unlocking 2.5% additional wholesale discount."
                 </p>
               </div>
@@ -164,22 +130,14 @@ export function WholesaleLoyaltyHub() {
                     <perk.icon
                       className={cn(
                         'mb-3 h-5 w-5',
-<<<<<<< HEAD
-                        perk.status === 'UNLOCKED' ? 'text-amber-400' : 'text-slate-500'
-=======
                         perk.status === 'UNLOCKED' ? 'text-amber-400' : 'text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                     />
                     <p className="mb-1 text-[10px] font-black uppercase">{perk.label}</p>
                     <p
                       className={cn(
                         'text-[8px] font-bold uppercase',
-<<<<<<< HEAD
-                        perk.status === 'UNLOCKED' ? 'text-emerald-400' : 'text-slate-500'
-=======
                         perk.status === 'UNLOCKED' ? 'text-emerald-400' : 'text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {perk.status}
@@ -191,11 +149,7 @@ export function WholesaleLoyaltyHub() {
           </Card>
 
           <div className="space-y-6">
-<<<<<<< HEAD
-            <h3 className="px-2 text-left text-sm font-black uppercase tracking-widest text-slate-400">
-=======
             <h3 className="text-text-muted px-2 text-left text-sm font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               Active Missions
             </h3>
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -215,16 +169,6 @@ export function WholesaleLoyaltyHub() {
               ].map((mission, i) => (
                 <Card
                   key={i}
-<<<<<<< HEAD
-                  className="group space-y-6 rounded-xl border-none bg-white p-4 shadow-xl shadow-slate-200/50 transition-all hover:scale-[1.02]"
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="space-y-1">
-                      <h4 className="text-sm font-black uppercase tracking-tight text-slate-900">
-                        {mission.title}
-                      </h4>
-                      <p className="text-[10px] font-medium leading-relaxed text-slate-400">
-=======
                   className="group space-y-6 rounded-xl border-none bg-white p-4 shadow-md shadow-xl transition-all hover:scale-[1.02]"
                 >
                   <div className="flex items-start justify-between">
@@ -233,7 +177,6 @@ export function WholesaleLoyaltyHub() {
                         {mission.title}
                       </h4>
                       <p className="text-text-muted text-[10px] font-medium leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                         {mission.desc}
                       </p>
                     </div>
@@ -246,15 +189,9 @@ export function WholesaleLoyaltyHub() {
                       <span>Progress</span>
                       <span>{mission.progress}%</span>
                     </div>
-<<<<<<< HEAD
-                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-50">
-                      <div
-                        className="h-full bg-slate-900 transition-all duration-1000"
-=======
                     <div className="bg-bg-surface2 h-1.5 w-full overflow-hidden rounded-full">
                       <div
                         className="bg-text-primary h-full transition-all duration-1000"
->>>>>>> recover/cabinet-wip-from-stash
                         style={{ width: `${mission.progress}%` }}
                       />
                     </div>
@@ -267,13 +204,8 @@ export function WholesaleLoyaltyHub() {
 
         {/* Sidebar: Redemption & History */}
         <div className="space-y-4 lg:col-span-4">
-<<<<<<< HEAD
-          <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-2xl shadow-slate-200/50">
-            <h3 className="text-sm font-black uppercase tracking-widest text-slate-900">
-=======
           <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-2xl shadow-md">
             <h3 className="text-text-primary text-sm font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               Redeem Points
             </h3>
             <div className="space-y-3">
@@ -284,63 +216,37 @@ export function WholesaleLoyaltyHub() {
               ].map((reward, i) => (
                 <button
                   key={i}
-<<<<<<< HEAD
-                  className="group flex w-full items-center justify-between rounded-2xl border border-transparent bg-slate-50 p-4 transition-all hover:border-slate-200 hover:bg-slate-100"
-=======
                   className="bg-bg-surface2 hover:bg-bg-surface2 hover:border-border-default group flex w-full items-center justify-between rounded-2xl border border-transparent p-4 transition-all"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-sm">
                       <reward.icon className="h-5 w-5 text-amber-500" />
                     </div>
                     <div className="text-left">
-<<<<<<< HEAD
-                      <p className="text-[10px] font-black uppercase leading-none text-slate-900">
-                        {reward.title}
-                      </p>
-                      <p className="mt-1 text-[8px] font-bold uppercase text-slate-400">
-=======
                       <p className="text-text-primary text-[10px] font-black uppercase leading-none">
                         {reward.title}
                       </p>
                       <p className="text-text-muted mt-1 text-[8px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         {reward.cost.toLocaleString('ru-RU')} points
                       </p>
                     </div>
                   </div>
-<<<<<<< HEAD
-                  <ChevronRight className="h-4 w-4 text-slate-300 transition-all group-hover:text-slate-900" />
-=======
                   <ChevronRight className="text-text-muted group-hover:text-text-primary h-4 w-4 transition-all" />
->>>>>>> recover/cabinet-wip-from-stash
                 </button>
               ))}
             </div>
             <Button
               variant="outline"
-<<<<<<< HEAD
-              className="h-12 w-full rounded-xl border-slate-100 text-[9px] font-black uppercase tracking-widest"
-=======
               className="border-border-subtle h-12 w-full rounded-xl text-[9px] font-black uppercase tracking-widest"
->>>>>>> recover/cabinet-wip-from-stash
             >
               View All Rewards
             </Button>
           </Card>
 
-<<<<<<< HEAD
-          <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-2xl shadow-slate-200/50">
-            <div className="flex items-center gap-3">
-              <History className="h-5 w-5 text-slate-400" />
-              <h4 className="text-sm font-black uppercase tracking-tight text-slate-900">
-=======
           <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-2xl shadow-md">
             <div className="flex items-center gap-3">
               <History className="text-text-muted h-5 w-5" />
               <h4 className="text-text-primary text-sm font-black uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                 Point History
               </h4>
             </div>
@@ -352,13 +258,6 @@ export function WholesaleLoyaltyHub() {
               ].map((entry, i) => (
                 <div
                   key={i}
-<<<<<<< HEAD
-                  className="flex items-center justify-between border-b border-slate-50 pb-3 last:border-0 last:pb-0"
-                >
-                  <div className="space-y-0.5">
-                    <p className="text-[10px] font-black uppercase text-slate-900">{entry.title}</p>
-                    <p className="text-[8px] font-bold uppercase text-slate-400">{entry.date}</p>
-=======
                   className="border-border-subtle flex items-center justify-between border-b pb-3 last:border-0 last:pb-0"
                 >
                   <div className="space-y-0.5">
@@ -366,7 +265,6 @@ export function WholesaleLoyaltyHub() {
                       {entry.title}
                     </p>
                     <p className="text-text-muted text-[8px] font-bold uppercase">{entry.date}</p>
->>>>>>> recover/cabinet-wip-from-stash
                   </div>
                   <span
                     className={cn(

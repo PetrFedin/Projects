@@ -490,15 +490,9 @@ export default function ProductPageContent({
     });
   };
 
-<<<<<<< HEAD
-  const handleCreateNewCollection = () => {
-    if (newCollectionName.trim() === '') return;
-    const newCollection = addWishlistCollection(newCollectionName);
-=======
   const handleCreateNewCollection = async () => {
     if (newCollectionName.trim() === '') return;
     const newCollection = await addWishlistCollection(newCollectionName);
->>>>>>> recover/cabinet-wip-from-stash
     addWishlistItem(product, newCollection.id);
     toast({
       title: 'Подборка создана',
@@ -1150,11 +1144,7 @@ export default function ProductPageContent({
       </div>
 
       {!isQuickView && (
-<<<<<<< HEAD
-        <div className="container mx-auto px-4">
-=======
         <div className={cn(registryFeedLayout.pageShell, 'max-w-6xl')}>
->>>>>>> recover/cabinet-wip-from-stash
           <div className="my-16">
             <Button
               variant="link"

@@ -1,8 +1,5 @@
 import { UserRole } from '@/lib/types';
-<<<<<<< HEAD
-=======
 import { SHOP_B2B_ORDERS_HUB_LABEL } from '@/lib/ui/b2b-registry-label';
->>>>>>> recover/cabinet-wip-from-stash
 import {
   ArrowDown,
   ArrowUp,
@@ -55,10 +52,7 @@ export const ROLE_PERMISSIONS = {
     'starred',
     'archived',
   ],
-<<<<<<< HEAD
-=======
   b2b: ['all', 'brand', 'shop', 'team', 'b2b_orders', 'collections', 'starred', 'archived'],
->>>>>>> recover/cabinet-wip-from-stash
   brand: [
     'all',
     'admin',

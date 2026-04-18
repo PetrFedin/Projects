@@ -22,11 +22,7 @@ export function ModernToast({
     default: {
       bg: 'bg-text-primary',
       text: 'text-white',
-<<<<<<< HEAD
-      border: 'border-slate-700',
-=======
       border: 'border-text-primary/25',
->>>>>>> recover/cabinet-wip-from-stash
       icon: '📋',
     },
     success: {

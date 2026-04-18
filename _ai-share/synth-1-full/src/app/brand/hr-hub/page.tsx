@@ -15,26 +15,12 @@ import { ROUTES } from '@/lib/routes';
 
 const VacanciesContent = dynamic(
   () => import('@/app/brand/hr-hub/vacancies/page').then((m) => m.default),
-<<<<<<< HEAD
-  { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
-);
-
-const hrTabTriggerClass =
-  'text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5';
-=======
   { ssr: false, loading: () => <div className="text-text-muted p-8 text-center">Загрузка...</div> }
 );
->>>>>>> recover/cabinet-wip-from-stash
 
 export default function HRHubPage() {
   const [tab, setTab] = useState('hr-hub');
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-      <Tabs value={tab} onValueChange={setTab} className="space-y-4">
-        <TabsList className="h-9 flex-wrap gap-0.5 border border-slate-200 bg-slate-100/80 px-1">
-          <TabsTrigger value="hr-hub" className={hrTabTriggerClass}>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-4 pb-20">
       <RegistryPageHeader
         title="HR-центр"
@@ -44,7 +30,6 @@ export default function HRHubPage() {
         {/* cabinetSurface v1 */}
         <TabsList className={cabinetSurface.tabsList}>
           <TabsTrigger value="hr-hub" className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}>
->>>>>>> recover/cabinet-wip-from-stash
             <Users className="h-3 w-3 shrink-0" /> HR Hub
           </TabsTrigger>
           <TabsTrigger value="vacancies" className={cn(cabinetSurface.tabsTrigger, 'h-7 gap-1.5')}>
@@ -53,13 +38,8 @@ export default function HRHubPage() {
         </TabsList>
         <TabsContent value="hr-hub" className="mt-0 space-y-6">
           <div className="grid gap-4 md:grid-cols-2">
-<<<<<<< HEAD
-            <Link href="/brand/team">
-              <Card className="h-full cursor-pointer rounded-xl border border-indigo-100 transition-colors hover:border-indigo-200">
-=======
             <Link href={ROUTES.brand.team}>
               <Card className="border-accent-primary/20 hover:border-accent-primary/30 h-full cursor-pointer rounded-xl border transition-colors">
->>>>>>> recover/cabinet-wip-from-stash
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Users className="h-5 w-5" /> Команда
@@ -68,13 +48,8 @@ export default function HRHubPage() {
                 </CardHeader>
               </Card>
             </Link>
-<<<<<<< HEAD
-            <Link href="/shop/career">
-              <Card className="h-full cursor-pointer rounded-xl border border-slate-100 transition-colors hover:border-indigo-200">
-=======
             <Link href={ROUTES.shop.career}>
               <Card className="border-border-subtle hover:border-accent-primary/30 h-full cursor-pointer rounded-xl border transition-colors">
->>>>>>> recover/cabinet-wip-from-stash
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Briefcase className="h-5 w-5" /> Вакансии и резюме
@@ -83,13 +58,8 @@ export default function HRHubPage() {
                 </CardHeader>
               </Card>
             </Link>
-<<<<<<< HEAD
-            <Link href="/brand/academy">
-              <Card className="h-full cursor-pointer rounded-xl border border-slate-100 transition-colors hover:border-indigo-200">
-=======
             <Link href={ROUTES.brand.academy}>
               <Card className="border-border-subtle hover:border-accent-primary/30 h-full cursor-pointer rounded-xl border transition-colors">
->>>>>>> recover/cabinet-wip-from-stash
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <GraduationCap className="h-5 w-5" /> Обучение
@@ -106,11 +76,7 @@ export default function HRHubPage() {
                 <CardDescription>Чеклисты для новых сотрудников</CardDescription>
               </CardHeader>
               <CardContent>
-<<<<<<< HEAD
-                <p className="text-[11px] text-slate-500">
-=======
                 <p className="text-text-secondary text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
                   Скоро: автоматизированные чеклисты онбординга
                 </p>
               </CardContent>

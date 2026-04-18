@@ -37,11 +37,7 @@ export function ProductRetailInventoryHealthBlock({ product }: { product: Produc
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Activity className="h-4 w-4" />
-<<<<<<< HEAD
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
-=======
           <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
             Retail Inventory Health (Local Store)
           </h4>
         </div>
@@ -61,32 +57,6 @@ export function ProductRetailInventoryHealthBlock({ product }: { product: Produc
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-4">
-<<<<<<< HEAD
-          <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-white/80 p-3 shadow-sm">
-            <div>
-              <div className="mb-1 text-[8px] font-black uppercase tracking-widest text-slate-400">
-                On Hand Stk.
-              </div>
-              <div className="text-2xl font-black text-slate-800">
-                {health.onHand}{' '}
-                <span className="text-xs font-bold uppercase text-slate-400">u.</span>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="mb-1 text-[8px] font-black uppercase tracking-widest text-slate-400">
-                Min. Buffer
-              </div>
-              <div className="text-lg font-black text-slate-500">{health.minBuffer} u.</div>
-            </div>
-          </div>
-
-          <div className="rounded-xl border border-slate-100 bg-white/50 p-3">
-            <div className="mb-2 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-slate-400">
-              <TrendingUp className="h-3.5 w-3.5 text-sky-500" /> Stock Runway
-            </div>
-            <div className="text-[14px] font-black text-slate-800">
-              12 Days <span className="text-[8px] uppercase text-slate-400">Estimated</span>
-=======
           <div className="border-border-subtle flex items-center justify-between rounded-xl border bg-white/80 p-3 shadow-sm">
             <div>
               <div className="text-text-muted mb-1 text-[8px] font-black uppercase tracking-widest">
@@ -111,7 +81,6 @@ export function ProductRetailInventoryHealthBlock({ product }: { product: Produc
             </div>
             <div className="text-text-primary text-[14px] font-black">
               12 Days <span className="text-text-muted text-[8px] uppercase">Estimated</span>
->>>>>>> recover/cabinet-wip-from-stash
             </div>
           </div>
         </div>
@@ -127,13 +96,9 @@ export function ProductRetailInventoryHealthBlock({ product }: { product: Produc
           <div className="mb-2 flex items-center gap-2 text-[8px] font-black uppercase">
             <Info className="h-3.5 w-3.5" /> AI Action Insight
           </div>
-<<<<<<< HEAD
-          <p className="text-[10px] font-bold leading-tight text-slate-600">"{health.action}"</p>
-=======
           <p className="text-text-secondary text-[10px] font-bold leading-tight">
             "{health.action}"
           </p>
->>>>>>> recover/cabinet-wip-from-stash
           <Button
             className={cn(
               'mt-3 h-8 w-full text-[8px] font-black uppercase tracking-widest shadow-lg',
@@ -147,11 +112,7 @@ export function ProductRetailInventoryHealthBlock({ product }: { product: Produc
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-4 text-[8px] font-black uppercase text-slate-400">
-=======
       <div className="border-border-subtle text-text-muted mt-4 flex items-center justify-between border-t pt-4 text-[8px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
         <span>Last Sync with PoS: Today, 14:45</span>
         <span className="flex items-center gap-1">
           <CheckCircle2 className="h-3 w-3 text-emerald-500" /> RFID Data Verified

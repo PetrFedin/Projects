@@ -5,17 +5,10 @@ import type { OrderLineAssortmentGapV1 } from './types';
 export function analyzeAssortmentGaps(
   currentSkus: string[] = [],
   allProducts: Product[] = []
-<<<<<<< HEAD
-): AssortmentGapV1[] {
-  // Demo logic: find high-performing products in the same category that are missing in the order
-  const categories = Array.from(new Set((allProducts || []).map((p) => p.category)));
-  const gaps: AssortmentGapV1[] = [];
-=======
 ): OrderLineAssortmentGapV1[] {
   // Demo logic: find high-performing products in the same category that are missing in the order
   const categories = Array.from(new Set((allProducts || []).map((p) => p.category)));
   const gaps: OrderLineAssortmentGapV1[] = [];
->>>>>>> recover/cabinet-wip-from-stash
 
   categories.forEach((cat) => {
     const productsInCat = (allProducts || []).filter((p) => p.category === cat);

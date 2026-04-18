@@ -29,13 +29,8 @@ export default function QuickCheckout({
   const [processing, setProcessing] = useState(false);
 
   const subtotal = useMemo(
-<<<<<<< HEAD
-    () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
-    [cart]
-=======
     () => lineItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
     [lineItems]
->>>>>>> recover/cabinet-wip-from-stash
   );
   const shipping = subtotal > 10000 ? 0 : 500;
   const tax = (subtotal + shipping) * 0.2;
@@ -47,19 +42,12 @@ export default function QuickCheckout({
     setProcessing(true);
     try {
       // Create payment intent
-<<<<<<< HEAD
-      const paymentIntent = await paymentRepository.createPaymentIntent(user.uid, total);
-
-      // Confirm payment (mock - always succeeds)
-      await paymentRepository.confirmPayment(paymentIntent.id);
-=======
       const paymentIntent = await paymentRepository.createPaymentIntent(total, 'RUB', {
         userId: user.uid,
       });
 
       // Confirm payment (mock - always succeeds)
       await paymentRepository.confirmPayment(paymentIntent.paymentIntentId);
->>>>>>> recover/cabinet-wip-from-stash
 
       // Create order
       const order = await ordersRepository.createOrder(user.uid, {

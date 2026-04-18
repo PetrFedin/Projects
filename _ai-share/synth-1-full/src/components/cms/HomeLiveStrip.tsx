@@ -234,11 +234,7 @@ export function HomeLiveStrip({ live }: { live: CmsLive[] }) {
                 >
                   <Badge
                     variant="outline"
-<<<<<<< HEAD
-                    className="border-slate-200 px-2 py-0.5 text-[11px] font-bold uppercase tracking-normal text-slate-900"
-=======
                     className="border-border-default text-text-primary px-2 py-0.5 text-[11px] font-bold uppercase tracking-normal"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     MEDIA_ECOSYSTEM_b2c
                   </Badge>
@@ -249,15 +245,6 @@ export function HomeLiveStrip({ live }: { live: CmsLive[] }) {
           <div className="space-y-1">
             <button
               onClick={() => handleOpenLive(live[0])}
-<<<<<<< HEAD
-              className="block text-left transition-colors hover:text-indigo-600"
-            >
-              <h2 className="text-xl font-semibold uppercase leading-none tracking-tight text-slate-900 md:text-3xl">
-                Прямой эфир
-              </h2>
-            </button>
-            <p className="max-w-md text-xs font-medium text-slate-400">
-=======
               className="hover:text-accent-primary block text-left transition-colors"
             >
               <h2 className="text-text-primary text-xl font-semibold uppercase leading-none tracking-tight md:text-3xl">
@@ -265,22 +252,12 @@ export function HomeLiveStrip({ live }: { live: CmsLive[] }) {
               </h2>
             </button>
             <p className="text-text-muted max-w-md text-xs font-medium">
->>>>>>> recover/cabinet-wip-from-stash
               Глобальная медиа-экосистема.
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-<<<<<<< HEAD
-          <div className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50/50 px-4 py-2.5">
-            <div className="flex flex-col items-end">
-              <div className="flex items-center gap-2 text-[13px] font-black uppercase leading-none tracking-tighter text-slate-900">
-                2.4K
-                <div className="h-1 w-1 animate-pulse rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
-              </div>
-              <span className="mt-1 text-[7px] font-black uppercase tracking-[0.2em] text-slate-400">
-=======
           <div className="bg-bg-surface2/80 border-border-subtle flex items-center gap-3 rounded-xl border px-4 py-2.5">
             <div className="flex flex-col items-end">
               <div className="text-text-primary flex items-center gap-2 text-[13px] font-black uppercase leading-none tracking-tighter">
@@ -288,7 +265,6 @@ export function HomeLiveStrip({ live }: { live: CmsLive[] }) {
                 <div className="h-1 w-1 animate-pulse rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
               </div>
               <span className="text-text-muted mt-1 text-[7px] font-black uppercase tracking-[0.2em]">
->>>>>>> recover/cabinet-wip-from-stash
                 ЗРИТЕЛИ_ОНЛАЙН
               </span>
             </div>
@@ -307,11 +283,7 @@ export function HomeLiveStrip({ live }: { live: CmsLive[] }) {
         {live.map((l, idx) => (
           <div
             key={l.id}
-<<<<<<< HEAD
-            className="group relative flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-white p-2 shadow-sm transition-all hover:border-slate-900 hover:shadow-2xl"
-=======
             className="border-border-subtle hover:border-text-primary group relative flex flex-col overflow-hidden rounded-xl border bg-white p-2 shadow-sm transition-all hover:shadow-2xl"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <div className="relative aspect-[10/12] w-full overflow-hidden rounded-xl">
               <img
@@ -360,34 +332,19 @@ export function HomeLiveStrip({ live }: { live: CmsLive[] }) {
 
             <div className="space-y-2 p-2">
               <div className="space-y-0.5">
-<<<<<<< HEAD
-                <div className="flex items-center gap-1 text-[7px] font-black uppercase tracking-[0.2em] text-indigo-500">
-                  <Signal className="h-1.5 w-1.5" />
-                  {l.brand}
-                </div>
-                <h3 className="line-clamp-1 text-[10px] font-black uppercase leading-tight tracking-tighter text-slate-950">
-=======
                 <div className="text-accent-primary flex items-center gap-1 text-[7px] font-black uppercase tracking-[0.2em]">
                   <Signal className="h-1.5 w-1.5" />
                   {l.brand}
                 </div>
                 <h3 className="text-text-primary line-clamp-1 text-[10px] font-black uppercase leading-tight tracking-tighter">
->>>>>>> recover/cabinet-wip-from-stash
                   {l.title}
                 </h3>
               </div>
 
-<<<<<<< HEAD
-              <div className="flex items-center justify-between border-t border-slate-50 pt-2">
-                <div className="flex items-center gap-1">
-                  <Brain className="h-2.5 w-2.5 text-slate-400" />
-                  <span className="text-[7px] font-bold uppercase text-slate-400">Live AI</span>
-=======
               <div className="border-border-subtle flex items-center justify-between border-t pt-2">
                 <div className="flex items-center gap-1">
                   <Brain className="text-text-muted h-2.5 w-2.5" />
                   <span className="text-text-muted text-[7px] font-bold uppercase">Live AI</span>
->>>>>>> recover/cabinet-wip-from-stash
                 </div>
                 {idx === 0 && (
                   <div className="flex items-center gap-1">
@@ -403,11 +360,7 @@ export function HomeLiveStrip({ live }: { live: CmsLive[] }) {
 
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-4">
         <div className="lg:col-span-4">
-<<<<<<< HEAD
-          <Card className="group/ann relative flex flex-col overflow-hidden rounded-xl border-none bg-slate-900 p-4 text-white shadow-2xl">
-=======
           <Card className="bg-text-primary group/ann relative flex flex-col overflow-hidden rounded-xl border-none p-4 text-white shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="relative z-10 mb-4 flex items-center justify-between">
               <div className="space-y-1">
                 <Badge className="mb-1 border-none bg-rose-500 text-[8px] font-black uppercase text-white">
@@ -453,11 +406,7 @@ export function HomeLiveStrip({ live }: { live: CmsLive[] }) {
                     <p className="truncate text-[10px] font-black uppercase leading-tight tracking-tight transition-colors group-hover/item:text-rose-400">
                       {item.title}
                     </p>
-<<<<<<< HEAD
-                    <p className="truncate text-[8px] font-bold uppercase text-slate-500">
-=======
                     <p className="text-text-secondary truncate text-[8px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                       {item.brand}
                     </p>
                   </div>
@@ -469,11 +418,7 @@ export function HomeLiveStrip({ live }: { live: CmsLive[] }) {
       </div>
 
       {/* Live Studio Partnership Banner - Redesigned as Challenge Banner */}
-<<<<<<< HEAD
-      <Card className="group/banner relative mt-8 flex min-h-[300px] items-center overflow-hidden rounded-xl border-none bg-slate-900 shadow-2xl">
-=======
       <Card className="bg-text-primary group/banner relative mt-8 flex min-h-[300px] items-center overflow-hidden rounded-xl border-none shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
         <div className="absolute inset-0 opacity-40 transition-transform duration-1000 group-hover/banner:scale-105">
           <img
             src="https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=2000"
@@ -481,11 +426,7 @@ export function HomeLiveStrip({ live }: { live: CmsLive[] }) {
             className="h-full w-full object-cover"
           />
         </div>
-<<<<<<< HEAD
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent" />
-=======
         <div className="from-text-primary via-text-primary/80 absolute inset-0 bg-gradient-to-r to-transparent" />
->>>>>>> recover/cabinet-wip-from-stash
 
         <CardContent className="relative z-10 w-full max-w-4xl space-y-4 p-4 text-left text-white">
           <div className="group/marquee relative mb-4 overflow-hidden whitespace-nowrap border-y border-white/10 py-2">
@@ -526,11 +467,7 @@ export function HomeLiveStrip({ live }: { live: CmsLive[] }) {
             <h2 className="text-xl font-semibold uppercase leading-[0.85] tracking-tight md:text-3xl">
               МЕДИА-ЭКОСИСТЕМА
             </h2>
-<<<<<<< HEAD
-            <p className="whitespace-nowrap border-l-2 border-indigo-500/50 pl-6 text-sm font-medium text-slate-300">
-=======
             <p className="text-text-muted border-accent-primary/50 whitespace-nowrap border-l-2 pl-6 text-sm font-medium">
->>>>>>> recover/cabinet-wip-from-stash
               "Все форматы взаимодействия в едином интерактивном пространстве."
             </p>
             <div className="flex pt-4">
@@ -548,11 +485,7 @@ export function HomeLiveStrip({ live }: { live: CmsLive[] }) {
                       ].includes(r)
                     )
                       ? '/brand/media'
-<<<<<<< HEAD
-                      : '/u/dashboard'
-=======
                       : '/client/me'
->>>>>>> recover/cabinet-wip-from-stash
                   }
                   className="flex items-center gap-2"
                 >

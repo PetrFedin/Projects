@@ -102,17 +102,10 @@ export function NestingPageBody() {
               <ArrowLeft className="h-4 w-4" />
             </Button>
           </Link>
-<<<<<<< HEAD
-          <h1 className="text-2xl font-bold uppercase tracking-tight">Nesting AI</h1>
-          <Badge
-            variant="outline"
-            className="border-violet-200 bg-violet-50 text-[10px] font-bold uppercase text-violet-800"
-=======
           <h1 className="text-2xl font-bold uppercase tracking-tight">Nesting ИИ</h1>
           <Badge
             variant="outline"
             className="border-accent-primary/25 bg-accent-primary/10 text-accent-primary text-[10px] font-bold uppercase"
->>>>>>> recover/cabinet-wip-from-stash
           >
             Раскрой
           </Badge>
@@ -140,12 +133,8 @@ export function NestingPageBody() {
             Задания на раскрой
           </CardTitle>
           <CardDescription>
-<<<<<<< HEAD
-            Маркеры, выход деталей и статус; правки сохраняются локально до API
-=======
             Маркеры, выход деталей и статус; правки сохраняются локально до{' '}
             <AcronymWithTooltip abbr="API" />
->>>>>>> recover/cabinet-wip-from-stash
           </CardDescription>
         </CardHeader>
         <CardContent className="overflow-x-auto">
@@ -169,11 +158,7 @@ export function NestingPageBody() {
                   <td className="py-3 pr-3 font-mono text-[11px] font-bold">{row.id}</td>
                   <td className="py-3 pr-3 text-[11px]">{row.po}</td>
                   <td
-<<<<<<< HEAD
-                    className="max-w-[140px] truncate py-3 pr-3 text-[11px] text-slate-700"
-=======
                     className="text-text-primary max-w-[140px] truncate py-3 pr-3 text-[11px]"
->>>>>>> recover/cabinet-wip-from-stash
                     title={row.fabric}
                   >
                     {row.fabric}

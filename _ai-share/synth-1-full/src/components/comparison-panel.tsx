@@ -61,11 +61,7 @@ export default function ComparisonPanel() {
     <>
       {/* Bottom Bar Trigger */}
       <div className="fixed bottom-0 left-0 right-0 z-50 border-t bg-card shadow-2xl duration-500 animate-in slide-in-from-bottom-full">
-<<<<<<< HEAD
-        <div className="container mx-auto px-4 py-3">
-=======
         <div className="mx-auto w-full max-w-5xl px-4 py-3 sm:px-6">
->>>>>>> recover/cabinet-wip-from-stash
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <h3 className="flex items-center gap-2 text-sm font-semibold">

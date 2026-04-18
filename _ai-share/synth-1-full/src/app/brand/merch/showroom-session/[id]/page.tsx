@@ -148,21 +148,12 @@ export default function ShowroomSessionPage({ params }: { params: Promise<{ id: 
   };
 
   return (
-<<<<<<< HEAD
-    <div className="min-h-screen bg-slate-900 p-8 text-slate-100">
-      {/* HUD Header */}
-      <div className="mb-12 flex items-center justify-between border-b border-slate-800 pb-8">
-        <div className="space-y-4">
-          <div className="flex items-center gap-3">
-            <Badge className="animate-pulse border-none bg-fuchsia-600 text-[9px]">
-=======
     <div className="bg-text-primary text-text-inverse min-h-screen p-8">
       {/* HUD Header */}
       <div className="border-text-primary/30 mb-12 flex items-center justify-between border-b pb-8">
         <div className="space-y-4">
           <div className="flex items-center gap-3">
             <Badge className="bg-accent-primary animate-pulse border-none text-[9px]">
->>>>>>> recover/cabinet-wip-from-stash
               BATCH 36 • RETAIL OPS PRO
             </Badge>
             <h1 className="text-4xl font-black uppercase tracking-tighter">
@@ -170,11 +161,7 @@ export default function ShowroomSessionPage({ params }: { params: Promise<{ id: 
             </h1>
           </div>
           <div className="flex items-center gap-6">
-<<<<<<< HEAD
-            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-=======
             <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               ID: {id} • Mode: Advanced B2B Logistics
             </p>
             {/* Financing HUD */}
@@ -191,19 +178,11 @@ export default function ShowroomSessionPage({ params }: { params: Promise<{ id: 
         <div className="flex gap-4">
           <Button
             variant="outline"
-<<<<<<< HEAD
-            className="border-slate-700 text-[10px] font-black uppercase text-white hover:bg-slate-800"
-          >
-            Training Hub
-          </Button>
-          <Button className="min-w-[150px] bg-indigo-600 text-[10px] font-black uppercase text-white hover:bg-indigo-700">
-=======
             className="border-text-primary/25 hover:bg-text-primary/90 text-[10px] font-black uppercase text-white"
           >
             Training Hub
           </Button>
           <Button className="bg-accent-primary hover:bg-accent-primary min-w-[150px] text-[10px] font-black uppercase text-white">
->>>>>>> recover/cabinet-wip-from-stash
             Finalize Pre-Order
           </Button>
         </div>
@@ -213,54 +192,31 @@ export default function ShowroomSessionPage({ params }: { params: Promise<{ id: 
         {/* Left Sidebar */}
         <div className="scrollbar-hide col-span-2 space-y-4 overflow-y-auto pb-12 pr-4">
           {/* Staff Training Card */}
-<<<<<<< HEAD
-          <Card className="mb-4 border-2 border-indigo-500/30 bg-indigo-900/20 p-4">
-            <div className="mb-3 flex items-center gap-2">
-              <BookOpen className="h-4 w-4 text-indigo-400" />
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-300">
-=======
           <Card className="bg-accent-primary/20 border-accent-primary/30 mb-4 border-2 p-4">
             <div className="mb-3 flex items-center gap-2">
               <BookOpen className="text-accent-primary h-4 w-4" />
               <h3 className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 Staff Argumentation
               </h3>
             </div>
             <div className="space-y-3">
               {trainingPack.keySellingPointsRu.slice(0, 2).map((point, idx) => (
-<<<<<<< HEAD
-                <div key={idx} className="text-[8px] font-medium leading-tight text-slate-400">
-                  • {point}
-                </div>
-              ))}
-              <div className="flex items-center justify-between border-t border-indigo-500/10 pt-2 text-[7px] font-black uppercase">
-                <span className="text-indigo-400">Training Video</span>
-=======
                 <div key={idx} className="text-text-muted text-[8px] font-medium leading-tight">
                   • {point}
                 </div>
               ))}
               <div className="border-accent-primary/10 flex items-center justify-between border-t pt-2 text-[7px] font-black uppercase">
                 <span className="text-accent-primary">Training Video</span>
->>>>>>> recover/cabinet-wip-from-stash
                 <Play className="h-2.5 w-2.5" />
               </div>
             </div>
           </Card>
 
           {/* Store Traffic & Conversion HUD */}
-<<<<<<< HEAD
-          <Card className="mb-4 border border-slate-700 bg-slate-800/80 p-4">
-            <div className="mb-3 flex items-center gap-2">
-              <Footprints className="h-4 w-4 text-slate-400" />
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-300">
-=======
           <Card className="bg-text-primary/90 border-text-primary/25 mb-4 border p-4">
             <div className="mb-3 flex items-center gap-2">
               <Footprints className="text-text-muted h-4 w-4" />
               <h3 className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 Zone Conversion
               </h3>
             </div>
@@ -270,11 +226,7 @@ export default function ShowroomSessionPage({ params }: { params: Promise<{ id: 
                   key={zone.zoneName}
                   className="flex items-center justify-between rounded bg-black/20 p-1.5 text-[8px] font-black uppercase"
                 >
-<<<<<<< HEAD
-                  <span className="w-24 truncate text-slate-400">{zone.zoneName}</span>
-=======
                   <span className="text-text-muted w-24 truncate">{zone.zoneName}</span>
->>>>>>> recover/cabinet-wip-from-stash
                   <span className="text-emerald-400">{zone.conversionPercent}%</span>
                 </div>
               ))}
@@ -285,11 +237,7 @@ export default function ShowroomSessionPage({ params }: { params: Promise<{ id: 
           <Card className="border-2 border-sky-500/30 bg-sky-900/20 p-4">
             <div className="mb-3 flex items-center gap-2">
               <Box className="h-4 w-4 text-sky-400" />
-<<<<<<< HEAD
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-300">
-=======
               <h3 className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 C&C Monitor
               </h3>
             </div>
@@ -297,17 +245,10 @@ export default function ShowroomSessionPage({ params }: { params: Promise<{ id: 
               <div className="text-[9px] font-black uppercase text-sky-400">
                 {clickCollect.status}
               </div>
-<<<<<<< HEAD
-              <div className="text-[7px] font-bold uppercase tracking-widest text-slate-500">
-                Store: Central Moscow
-              </div>
-              <div className="pt-1 text-[7px] font-black uppercase text-slate-300">
-=======
               <div className="text-text-secondary text-[7px] font-bold uppercase tracking-widest">
                 Store: Central Moscow
               </div>
               <div className="text-text-muted pt-1 text-[7px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                 Pickup by: {clickCollect.readyForPickupDate}
               </div>
             </div>
@@ -315,11 +256,7 @@ export default function ShowroomSessionPage({ params }: { params: Promise<{ id: 
         </div>
 
         {/* Center Viewport */}
-<<<<<<< HEAD
-        <div className="group relative col-span-7 overflow-hidden rounded-3xl border-2 border-slate-800 bg-slate-800/30">
-=======
         <div className="bg-text-primary/90 border-text-primary/30 group relative col-span-7 overflow-hidden rounded-3xl border-2">
->>>>>>> recover/cabinet-wip-from-stash
           {/* Overlays */}
           <div className="pointer-events-none absolute right-8 top-24 z-20 w-64 space-y-4">
             {/* B2B Financing Overlay */}
@@ -348,11 +285,7 @@ export default function ShowroomSessionPage({ params }: { params: Promise<{ id: 
 
           {/* Focus Product View */}
           <div className="absolute inset-0 flex flex-col items-center justify-center p-12">
-<<<<<<< HEAD
-            <div className="relative aspect-[3/4] w-[450px] overflow-hidden rounded-2xl bg-slate-700 shadow-2xl ring-4 ring-indigo-500/20 transition-transform duration-500 group-hover:scale-[1.02]">
-=======
             <div className="bg-text-primary/75 ring-accent-primary/20 relative aspect-[3/4] w-[450px] overflow-hidden rounded-2xl shadow-2xl ring-4 transition-transform duration-500 group-hover:scale-[1.02]">
->>>>>>> recover/cabinet-wip-from-stash
               <img
                 src={currentProduct.images?.[0]?.url ?? ''}
                 alt={currentProduct.name}
@@ -364,11 +297,7 @@ export default function ShowroomSessionPage({ params }: { params: Promise<{ id: 
                   <h2 className="mb-1 text-xl font-black uppercase tracking-tight">
                     {currentProduct.name}
                   </h2>
-<<<<<<< HEAD
-                  <div className="text-[10px] font-bold uppercase tracking-widest text-indigo-400 text-slate-400">
-=======
                   <div className="text-text-muted text-accent-primary text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Retail Excellence Pack Active
                   </div>
                 </div>
@@ -379,15 +308,9 @@ export default function ShowroomSessionPage({ params }: { params: Promise<{ id: 
 
         {/* Right Sidebar */}
         <div className="scrollbar-hide col-span-3 space-y-6 overflow-y-auto pb-8 pr-2">
-<<<<<<< HEAD
-          <Card className="border-slate-700 bg-slate-800/80 p-6 text-white shadow-2xl">
-            <h3 className="mb-6 flex items-center gap-2 text-xs font-black uppercase tracking-widest text-slate-400">
-              <ShoppingBag className="h-4 w-4 text-indigo-400" /> B2B Order Draft
-=======
           <Card className="bg-text-primary/90 border-text-primary/25 p-6 text-white shadow-2xl">
             <h3 className="text-text-muted mb-6 flex items-center gap-2 text-xs font-black uppercase tracking-widest">
               <ShoppingBag className="text-accent-primary h-4 w-4" /> B2B Order Draft
->>>>>>> recover/cabinet-wip-from-stash
             </h3>
 
             <div className="mb-6 max-h-80 space-y-4 overflow-y-auto pr-2 text-[10px] font-black uppercase">
@@ -396,16 +319,6 @@ export default function ShowroomSessionPage({ params }: { params: Promise<{ id: 
                 return (
                   <div
                     key={item.sku}
-<<<<<<< HEAD
-                    className="group relative flex items-center gap-3 border-b border-slate-700 pb-3"
-                  >
-                    <div className="h-14 w-10 overflow-hidden rounded bg-slate-700">
-                      <img src={p?.images?.[0]?.url ?? ''} className="h-full w-full object-cover" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="truncate text-slate-300">{p?.name}</div>
-                      <div className="mt-1 text-indigo-400">{item.quantity} Units</div>
-=======
                     className="border-text-primary/25 group relative flex items-center gap-3 border-b pb-3"
                   >
                     <div className="bg-text-primary/75 h-14 w-10 overflow-hidden rounded">
@@ -414,24 +327,17 @@ export default function ShowroomSessionPage({ params }: { params: Promise<{ id: 
                     <div className="min-w-0 flex-1">
                       <div className="text-text-muted truncate">{p?.name}</div>
                       <div className="text-accent-primary mt-1">{item.quantity} Units</div>
->>>>>>> recover/cabinet-wip-from-stash
                     </div>
                   </div>
                 );
               })}
             </div>
 
-<<<<<<< HEAD
-            <div className="mb-6 rounded-xl border border-slate-700 bg-slate-900 p-4">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-black uppercase text-slate-500">Order Value</span>
-=======
             <div className="bg-text-primary border-text-primary/25 mb-6 rounded-xl border p-4">
               <div className="mb-2 flex items-center justify-between">
                 <span className="text-text-secondary text-[10px] font-black uppercase">
                   Order Value
                 </span>
->>>>>>> recover/cabinet-wip-from-stash
                 <span className="text-lg font-black text-white">
                   {totalWholesale.toLocaleString()} ₽
                 </span>
@@ -440,27 +346,12 @@ export default function ShowroomSessionPage({ params }: { params: Promise<{ id: 
 
             <Button
               onClick={() => handleAddToDraft(activeSku)}
-<<<<<<< HEAD
-              className="h-12 w-full bg-white text-xs font-black uppercase tracking-widest text-black hover:bg-slate-100"
-=======
               className="hover:bg-bg-surface2 h-12 w-full bg-white text-xs font-black uppercase tracking-widest text-black"
->>>>>>> recover/cabinet-wip-from-stash
             >
               Add 10 Units to Draft
             </Button>
           </Card>
 
-<<<<<<< HEAD
-          <Card className="border border-slate-700 bg-slate-800/80 p-6 text-white shadow-2xl">
-            <h3 className="mb-4 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
-              <Scale className="h-4 w-4 text-indigo-400" /> B2B Fair Allocation
-            </h3>
-            <div className="space-y-2">
-              <div className="text-[12px] font-black text-indigo-400">
-                {allocation.fairnessScore}% Score
-              </div>
-              <p className="text-[8px] font-bold uppercase leading-tight text-slate-500">
-=======
           <Card className="bg-text-primary/90 border-text-primary/25 border p-6 text-white shadow-2xl">
             <h3 className="text-text-muted mb-4 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
               <Scale className="text-accent-primary h-4 w-4" /> B2B Fair Allocation
@@ -470,7 +361,6 @@ export default function ShowroomSessionPage({ params }: { params: Promise<{ id: 
                 {allocation.fairnessScore}% Score
               </div>
               <p className="text-text-secondary text-[8px] font-bold uppercase leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                 {allocation.reasoning}
               </p>
             </div>

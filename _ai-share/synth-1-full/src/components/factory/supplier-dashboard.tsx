@@ -124,13 +124,8 @@ export function SupplierDashboard() {
             value: '28',
             sub: '12 на отгрузке',
             icon: ShoppingBag,
-<<<<<<< HEAD
-            color: 'text-indigo-600',
-            bg: 'bg-indigo-50',
-=======
             color: 'text-accent-primary',
             bg: 'bg-accent-primary/10',
->>>>>>> recover/cabinet-wip-from-stash
           },
           {
             label: 'SKU в каталоге',
@@ -165,26 +160,12 @@ export function SupplierDashboard() {
                 </div>
                 <Badge
                   variant="outline"
-<<<<<<< HEAD
-                  className="border-slate-100 text-[8px] font-black uppercase"
-=======
                   className="border-border-subtle text-[8px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   Marketplace
                 </Badge>
               </div>
               <div className="mt-4">
-<<<<<<< HEAD
-                <p className="mb-1 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                  {stat.label}
-                </p>
-                <div className="flex items-baseline gap-2">
-                  <h4 className="text-sm font-black tracking-tighter text-slate-900">
-                    {stat.value}
-                  </h4>
-                  <p className="text-[10px] font-bold uppercase tracking-tight text-slate-500">
-=======
                 <p className="text-text-muted mb-1 text-[10px] font-black uppercase tracking-widest">
                   {stat.label}
                 </p>
@@ -193,7 +174,6 @@ export function SupplierDashboard() {
                     {stat.value}
                   </h4>
                   <p className="text-text-secondary text-[10px] font-bold uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                     {stat.sub}
                   </p>
                 </div>
@@ -204,33 +184,19 @@ export function SupplierDashboard() {
       </div>
 
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
-<<<<<<< HEAD
-        <Card className="overflow-hidden rounded-xl border-slate-100 shadow-sm lg:col-span-2">
-          <CardHeader className="border-b border-slate-100 bg-slate-50/50 pb-6">
-=======
         <Card className="border-border-subtle overflow-hidden rounded-xl shadow-sm lg:col-span-2">
           <CardHeader className="bg-bg-surface2/80 border-border-subtle border-b pb-6">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-sm font-black uppercase tracking-tight">
                   Динамика продаж сырья
                 </CardTitle>
-<<<<<<< HEAD
-                <CardDescription className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                  Объем отгрузок за неделю
-                </CardDescription>
-              </div>
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 bg-white">
-                <Truck className="h-4 w-4 text-slate-400" />
-=======
                 <CardDescription className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
                   Объем отгрузок за неделю
                 </CardDescription>
               </div>
               <div className="border-border-default flex h-8 w-8 items-center justify-center rounded-xl border bg-white">
                 <Truck className="text-text-muted h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
               </div>
             </div>
           </CardHeader>
@@ -269,36 +235,16 @@ export function SupplierDashboard() {
           </CardContent>
         </Card>
 
-<<<<<<< HEAD
-        <Card className="flex flex-col rounded-xl border-slate-100 shadow-sm">
-          <CardHeader className="border-b border-slate-100 bg-slate-50/50">
-            <CardTitle className="text-sm font-black uppercase tracking-tight">
-              Топ материалов
-            </CardTitle>
-            <CardDescription className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-=======
         <Card className="border-border-subtle flex flex-col rounded-xl shadow-sm">
           <CardHeader className="bg-bg-surface2/80 border-border-subtle border-b">
             <CardTitle className="text-sm font-black uppercase tracking-tight">
               Топ материалов
             </CardTitle>
             <CardDescription className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               Ликвидность и остатки
             </CardDescription>
           </CardHeader>
           <CardContent className="flex-1 p-0">
-<<<<<<< HEAD
-            <div className="divide-y divide-slate-100">
-              {topMaterials.map((mat, i) => (
-                <div key={i} className="group p-3 transition-colors hover:bg-slate-50">
-                  <div className="mb-1 flex items-start justify-between">
-                    <div>
-                      <h5 className="text-sm font-black uppercase tracking-tighter text-slate-900">
-                        {mat.name}
-                      </h5>
-                      <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
-=======
             <div className="divide-border-subtle divide-y">
               {topMaterials.map((mat, i) => (
                 <div key={i} className="hover:bg-bg-surface2 group p-3 transition-colors">
@@ -308,17 +254,12 @@ export function SupplierDashboard() {
                         {mat.name}
                       </h5>
                       <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                         SKU: {mat.sku}
                       </p>
                     </div>
                     <div
                       className={cn(
-<<<<<<< HEAD
-                        'rounded-full bg-slate-100 px-2 py-0.5 text-[9px] font-black',
-=======
                         'bg-bg-surface2 rounded-full px-2 py-0.5 text-[9px] font-black',
->>>>>>> recover/cabinet-wip-from-stash
                         mat.trend.startsWith('+')
                           ? 'bg-emerald-50 text-emerald-600'
                           : 'bg-rose-50 text-rose-600'
@@ -329,18 +270,6 @@ export function SupplierDashboard() {
                   </div>
                   <div className="mt-4 grid grid-cols-2 gap-3">
                     <div className="space-y-0.5">
-<<<<<<< HEAD
-                      <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">
-                        Склад
-                      </p>
-                      <p className="text-[11px] font-black text-slate-900">{mat.stock}</p>
-                    </div>
-                    <div className="space-y-0.5 text-right">
-                      <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">
-                        Цена
-                      </p>
-                      <p className="text-[11px] font-black text-indigo-600">{mat.price}</p>
-=======
                       <p className="text-text-muted text-[8px] font-black uppercase tracking-widest">
                         Склад
                       </p>
@@ -351,7 +280,6 @@ export function SupplierDashboard() {
                         Цена
                       </p>
                       <p className="text-accent-primary text-[11px] font-black">{mat.price}</p>
->>>>>>> recover/cabinet-wip-from-stash
                     </div>
                   </div>
                 </div>
@@ -362,28 +290,17 @@ export function SupplierDashboard() {
                 asChild
                 className="h-11 w-full gap-2 rounded-xl bg-emerald-600 text-[10px] font-black uppercase text-white shadow-lg transition-all hover:bg-emerald-700"
               >
-<<<<<<< HEAD
-                <Link href="/supplier/circular-hub">
-=======
                 <Link href={ROUTES.factory.supplierCircularHub}>
->>>>>>> recover/cabinet-wip-from-stash
                   <Leaf className="h-4 w-4" />
                   Circular Economy Hub
                 </Link>
               </Button>
               <Button
                 variant="outline"
-<<<<<<< HEAD
-                className="w-full rounded-xl border-slate-200 text-[10px] font-black uppercase tracking-widest hover:bg-slate-50"
-                asChild
-              >
-                <Link href="/factory/catalog">
-=======
                 className="border-border-default hover:bg-bg-surface2 w-full rounded-xl text-[10px] font-black uppercase tracking-widest"
                 asChild
               >
                 <Link href={ROUTES.factory.productionCatalog}>
->>>>>>> recover/cabinet-wip-from-stash
                   Весь каталог <ArrowRight className="ml-2 h-3 w-3" />
                 </Link>
               </Button>

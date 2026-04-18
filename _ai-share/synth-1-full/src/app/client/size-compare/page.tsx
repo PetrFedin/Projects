@@ -26,13 +26,6 @@ function SizeCompareInner() {
   const defA = search.get('a') || products[0]?.slug || '';
   const defB =
     search.get('b') || products.find((p) => p.slug !== defA)?.slug || products[0]?.slug || '';
-<<<<<<< HEAD
-
-  if (!products.length) {
-    return <p className="text-sm text-muted-foreground">Каталог пуст.</p>;
-  }
-=======
->>>>>>> recover/cabinet-wip-from-stash
 
   const [slugA, setSlugA] = useState(defA);
   const [slugB, setSlugB] = useState(defB);

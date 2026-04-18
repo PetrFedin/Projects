@@ -173,11 +173,8 @@ export type ProfessionalRole =
   | 'analyst'
   | 'creative_director'
   | 'visual_merchandiser'
-<<<<<<< HEAD
-=======
   | 'merchandiser'
   | 'sales_representative'
->>>>>>> recover/cabinet-wip-from-stash
   | 'blogger'
   | 'influencer';
 
@@ -713,12 +710,9 @@ export interface Lookboard {
   title: string;
   description: string;
   looks: Look[];
-<<<<<<< HEAD
-=======
   /** UI-обложка для челленджей / ленты */
   coverImage?: string;
   itemsCount?: number;
->>>>>>> recover/cabinet-wip-from-stash
 }
 
 export type ActiveFilters = Record<string, string[] | number[]>;
@@ -1043,66 +1037,6 @@ export interface Chat {
 
 export type MessageEntityType = 'order' | 'task' | 'event' | 'escrow' | 'production' | 'product';
 
-<<<<<<< HEAD
-export interface ChatMessage {
-  id: number;
-  chatId?: string;
-  user: string;
-  text: string;
-  time: string;
-  type?: 'message' | 'task' | 'scheduled_call' | 'call_recap' | 'system' | 'reminder';
-  /** Ссылка на сущность: заказ, задача, событие, производство, товар */
-  entityId?: string;
-  entityType?: MessageEntityType;
-  isPrivate?: boolean; // Privacy flag for personal notes or sensitive messages
-  status?: TaskStatus;
-  deadline?: Date;
-  attachedProduct?: Product;
-  attachment?: ChatAttachment;
-  isSystem?: boolean;
-  assignees?: string[];
-  likes?: number;
-  dislikes?: number;
-  userReaction?: ReactionType;
-  priority?: TaskPriority;
-  subtasks?: TaskSubtask[];
-  history?: HistoryEntry[];
-  comments?: ChatComment[];
-  parentId?: number;
-  isPinned?: boolean;
-  isStarred?: boolean;
-  isArchived?: boolean;
-  forwardedFromChatId?: string;
-  audio?: { mime: string; url: string };
-  deadlineExtensions?: any[];
-  createdAt?: number;
-  readBy?: string[];
-  sentiment?: 'positive' | 'negative' | 'neutral';
-  urgency?: 'high' | 'medium' | 'low';
-  isDecision?: boolean;
-  widgetTags?: string[];
-  callData?: {
-    theme: string;
-    date: string;
-    time: string;
-    participants: string[];
-    confirmedBy?: string[];
-  };
-  reminderData?: {
-    title: string;
-    description: string;
-    date: string;
-    time: string;
-    assignedTo: string[];
-    isSyncedWithCalendar: boolean;
-    reminderType: 'countdown' | 'exact_time';
-  };
-  fileVersions?: Array<{ id: string; url: string; name: string; date: string; user: string }>;
-  transcription?: string;
-  isNegotiationActive?: boolean;
-}
-
-=======
 /** История продлений дедлайна задачи в чате */
 export interface DeadlineExtension {
   at: number;
@@ -1169,7 +1103,6 @@ export interface ChatMessage {
   isNegotiationActive?: boolean;
 }
 
->>>>>>> recover/cabinet-wip-from-stash
 export type KickstarterStatus =
   | 'draft'
   | 'upcoming'

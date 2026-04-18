@@ -323,11 +323,7 @@ export const ProfileTab = ({
                   <span>О себе</span>
                   <button
                     type="button"
-<<<<<<< HEAD
-                    className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-zinc-800 transition-colors hover:bg-zinc-200"
-=======
                     className="bg-bg-surface2 text-text-primary hover:bg-border-subtle inline-flex h-5 w-5 items-center justify-center rounded-full transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
                     title="Улучшить описание"
                     onClick={() => {
                       setBioAiInput(field.value || '');
@@ -434,13 +430,9 @@ export const ProfileTab = ({
                             size="icon"
                             className={cn(
                               'h-5 w-5 rounded-full',
-<<<<<<< HEAD
-                              idx === 0 ? 'bg-zinc-900 text-white' : 'bg-zinc-100 text-zinc-700'
-=======
                               idx === 0
                                 ? 'bg-text-primary text-white'
                                 : 'bg-bg-surface2 text-text-primary'
->>>>>>> recover/cabinet-wip-from-stash
                             )}
                             onClick={() =>
                               idx !== 0 && setPrimaryInList('personalInfo.phoneNumbers', idx)
@@ -517,13 +509,9 @@ export const ProfileTab = ({
                               size="icon"
                               className={cn(
                                 'h-4 w-4 rounded-full',
-<<<<<<< HEAD
-                                isPrimary ? 'bg-zinc-900 text-white' : 'bg-zinc-100 text-zinc-700'
-=======
                                 isPrimary
                                   ? 'bg-text-primary text-white'
                                   : 'bg-bg-surface2 text-text-primary'
->>>>>>> recover/cabinet-wip-from-stash
                               )}
                               onClick={() =>
                                 !isPrimary && setPrimaryInList('personalInfo.addressBook', idx)

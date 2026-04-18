@@ -13,10 +13,7 @@ import {
 import { SkuAnalytics } from '@/components/brand/sku-analytics';
 import { CustomerBrandMatrix } from '@/components/brand/customer-brand-matrix';
 import { products as allMockProducts } from '@/lib/products';
-<<<<<<< HEAD
-=======
 import { isDemoBrandName } from '@/lib/data/demo-platform-brands';
->>>>>>> recover/cabinet-wip-from-stash
 import {
   BarChart,
   Smile,
@@ -70,14 +67,11 @@ import {
   YAxis,
 } from 'recharts';
 import { Combobox } from '@/components/ui/combobox';
-<<<<<<< HEAD
-=======
 import { ShopB2bToolHeader } from '@/components/shop/ShopB2bToolHeader';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
 import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
->>>>>>> recover/cabinet-wip-from-stash
 
 const abcData = [
   {
@@ -88,11 +82,7 @@ const abcData = [
     revenueShare: 25,
     salesStability: 'Стабильный',
     season: 'FW24',
-<<<<<<< HEAD
-    brand: 'Syntha',
-=======
     brand: 'Syntha Lab',
->>>>>>> recover/cabinet-wip-from-stash
     category: 'Трикотаж',
     audience: 'Унисекс',
   },
@@ -104,36 +94,18 @@ const abcData = [
     revenueShare: 20,
     salesStability: 'Колеблющийся',
     season: 'FW24',
-<<<<<<< HEAD
-    brand: 'Syntha',
-=======
     brand: 'Syntha Lab',
->>>>>>> recover/cabinet-wip-from-stash
     category: 'Верхняя одежда',
     audience: 'Женский',
   },
   {
-<<<<<<< HEAD
-    sku: 'ACN-J013-BLU',
-    product: 'Широкие джинсы',
-=======
     sku: 'NW-K001-BLK',
     product: 'Кашемировый лонгслив',
->>>>>>> recover/cabinet-wip-from-stash
     abc: 'B',
     xyz: 'X',
     revenueShare: 12,
     salesStability: 'Стабильный',
     season: 'SS24',
-<<<<<<< HEAD
-    brand: 'Acne Studios',
-    category: 'Джинсы',
-    audience: 'Женский',
-  },
-  {
-    sku: 'APC-T001-WHT',
-    product: 'Хлопковая футболка',
-=======
     brand: 'Nordic Wool',
     category: 'Трикотаж',
     audience: 'Женский',
@@ -141,19 +113,13 @@ const abcData = [
   {
     sku: 'NW-SCF-02',
     product: 'Шерстяной платок',
->>>>>>> recover/cabinet-wip-from-stash
     abc: 'B',
     xyz: 'X',
     revenueShare: 10,
     salesStability: 'Стабильный',
     season: 'SS24',
-<<<<<<< HEAD
-    brand: 'A.P.C.',
-    category: 'Топы и футболки',
-=======
     brand: 'Nordic Wool',
     category: 'Аксессуары',
->>>>>>> recover/cabinet-wip-from-stash
     audience: 'Мужской',
   },
   {
@@ -164,34 +130,20 @@ const abcData = [
     revenueShare: 5,
     salesStability: 'Случайный',
     season: 'FW24',
-<<<<<<< HEAD
-    brand: 'Syntha',
-=======
     brand: 'Syntha Lab',
->>>>>>> recover/cabinet-wip-from-stash
     category: 'Обувь',
     audience: 'Мужской',
   },
 ];
 
 const initialSellThroughData = [
-<<<<<<< HEAD
-  { brand: 'Syntha', sellThrough: 85, margin: 65.2, season: 'FW24' },
-  { brand: 'A.P.C.', sellThrough: 78, margin: 61.5, season: 'SS24' },
-  { brand: 'Acne Studios', sellThrough: 88, margin: 68.0, season: 'SS24' },
-=======
   { brand: 'Syntha Lab', sellThrough: 85, margin: 65.2, season: 'FW24' },
   { brand: 'Nordic Wool', sellThrough: 88, margin: 68.0, season: 'SS24' },
->>>>>>> recover/cabinet-wip-from-stash
 ];
 
 const initialMarketComparisonData = [
   {
-<<<<<<< HEAD
-    brand: 'Syntha',
-=======
     brand: 'Syntha Lab',
->>>>>>> recover/cabinet-wip-from-stash
     yourMargin: 65.2,
     yourSellThrough: 85,
     marketMargin: 62.5,
@@ -199,19 +151,7 @@ const initialMarketComparisonData = [
     season: 'FW24',
   },
   {
-<<<<<<< HEAD
-    brand: 'A.P.C.',
-    yourMargin: 61.5,
-    yourSellThrough: 78,
-    marketMargin: 64.0,
-    marketSellThrough: 75,
-    season: 'SS24',
-  },
-  {
-    brand: 'Acne Studios',
-=======
     brand: 'Nordic Wool',
->>>>>>> recover/cabinet-wip-from-stash
     yourMargin: 68.0,
     yourSellThrough: 85,
     marketMargin: 67.0,
@@ -241,11 +181,7 @@ const returnsData = [
 
 export default function B2BAnalyticsPage() {
   const allBrandProducts = useMemo(
-<<<<<<< HEAD
-    () => allMockProducts.filter((p) => ['Syntha', 'A.P.C.', 'Acne Studios'].includes(p.brand)),
-=======
     () => allMockProducts.filter((p) => isDemoBrandName(p.brand)),
->>>>>>> recover/cabinet-wip-from-stash
     []
   );
   const [selectedSkuId, setSelectedSkuId] = useState<string | undefined>(undefined);
@@ -382,28 +318,6 @@ export default function B2BAnalyticsPage() {
   }
 
   return (
-<<<<<<< HEAD
-    <div className="space-y-4">
-      <header className="flex items-end justify-between">
-        <div>
-          <h1 className="font-headline text-base font-bold">Аналитика закупок</h1>
-          <p className="text-muted-foreground">
-            Глубокий анализ SKU для принятия решений о закупках.
-          </p>
-        </div>
-        <div className="flex gap-3">
-          <Button
-            variant="outline"
-            className="border-indigo-100 text-indigo-600 hover:bg-indigo-50"
-          >
-            <Camera className="mr-2 h-4 w-4" /> AI Discovery: Поиск по фото
-          </Button>
-          <Button variant="outline" className="border-slate-200">
-            <FileOutput className="mr-2 h-4 w-4" /> B2C Auto-Content
-          </Button>
-        </div>
-      </header>
-=======
     <RegistryPageShell className="space-y-4">
       <ShopAnalyticsSegmentErpStrip />
       <ShopB2bToolHeader
@@ -424,7 +338,6 @@ export default function B2BAnalyticsPage() {
           </>
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -763,9 +676,6 @@ export default function B2BAnalyticsPage() {
           </ChartContainer>
         </CardContent>
       </Card>
-<<<<<<< HEAD
-    </div>
-=======
 
       <div className="border-border-subtle mt-6 flex flex-wrap items-center gap-2 border-t pt-4">
         <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
@@ -784,6 +694,5 @@ export default function B2BAnalyticsPage() {
         <B2bMarginAnalysisHubButton />
       </div>
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

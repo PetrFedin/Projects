@@ -83,11 +83,7 @@ export function AboutTab({
         <div className="space-y-6 lg:col-span-8">
           {storefrontSettings.showPhilosophy && (
             <Card className="group relative overflow-hidden rounded-xl border-none bg-white/80 shadow-xl backdrop-blur-sm">
-<<<<<<< HEAD
-              <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-accent/20 to-purple-600/20 opacity-0 blur transition duration-1000 group-hover:opacity-100"></div>
-=======
               <div className="from-accent-primary/20 to-accent-primary/20 absolute -inset-1 rounded-xl bg-gradient-to-r opacity-0 blur transition duration-1000 group-hover:opacity-100"></div>
->>>>>>> recover/cabinet-wip-from-stash
               <CardContent className="p-4">
                 <div className="relative">
                   <Quote className="absolute -left-6 -top-4 h-12 w-12 text-accent/5" />
@@ -749,11 +745,7 @@ function ReviewCard({ review }: { review: any }) {
                 review.type === 'star'
                   ? 'bg-amber-500 text-white'
                   : review.type === 'influencer'
-<<<<<<< HEAD
-                    ? 'bg-purple-500 text-white'
-=======
                     ? 'bg-accent-primary text-white'
->>>>>>> recover/cabinet-wip-from-stash
                     : 'bg-[#22c55e] text-white'
               )}
             >

@@ -29,15 +29,8 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { products } from '@/lib/products';
 import type { Product, ProductReview } from '@/lib/types';
-<<<<<<< HEAD
-import {
-  summarizeProductReviews,
-  type SummarizeProductReviewsOutput,
-} from '@/ai/flows/summarize-product-reviews';
-=======
 import type { SummarizeProductReviewsOutput } from '@/lib/ai-client/types';
 import { summarizeProductReviewsClient } from '@/lib/ai-client/api';
->>>>>>> recover/cabinet-wip-from-stash
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -178,11 +171,7 @@ export default function BrandReviewsPage() {
     setIsSummarizing(true);
     setSummary(null);
     try {
-<<<<<<< HEAD
-      const result = await summarizeProductReviews({
-=======
       const result = await summarizeProductReviewsClient({
->>>>>>> recover/cabinet-wip-from-stash
         reviews: mockReviews.map((r) => ({ text: r.text, rating: r.rating })),
       });
       setSummary(result);
@@ -213,11 +202,7 @@ export default function BrandReviewsPage() {
 
   return (
     <>
-<<<<<<< HEAD
-      <div className="space-y-4">
-=======
       <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
         <SectionInfoCard
           title="Отзывы клиентов"
           description="Обратная связь, AI-анализ, ответы. Связь с Products и Quality (репутация бренда)."
@@ -233,20 +218,12 @@ export default function BrandReviewsPage() {
                 Quality
               </Badge>
               <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-                <Link href="/brand/products">
-=======
                 <Link href={ROUTES.brand.products}>
->>>>>>> recover/cabinet-wip-from-stash
                   <Package className="mr-1 h-3 w-3" /> Products
                 </Link>
               </Button>
               <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-                <Link href="/brand/quality">
-=======
                 <Link href={ROUTES.brand.quality}>
->>>>>>> recover/cabinet-wip-from-stash
                   <ShieldCheck className="mr-1 h-3 w-3" /> Quality
                 </Link>
               </Button>
@@ -380,11 +357,7 @@ export default function BrandReviewsPage() {
             })}
           </CardContent>
         </Card>
-<<<<<<< HEAD
-      </div>
-=======
       </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
 
       {activeResponseReview && (
         <RespondToReviewDialog

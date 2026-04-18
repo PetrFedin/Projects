@@ -9,11 +9,7 @@ export function HomeHero({ hero }: { hero: CmsHero }) {
   const router = useRouter();
 
   return (
-<<<<<<< HEAD
-    <div className="relative flex min-h-[400px] items-center overflow-hidden rounded-xl border border-slate-100 bg-[#fcfcfc] shadow-2xl shadow-slate-200">
-=======
     <div className="border-border-subtle relative flex min-h-[400px] items-center overflow-hidden rounded-xl border bg-[#fcfcfc] shadow-2xl shadow-md">
->>>>>>> recover/cabinet-wip-from-stash
       <div className="absolute inset-0 opacity-20">
         <img
           src={
@@ -31,11 +27,7 @@ export function HomeHero({ hero }: { hero: CmsHero }) {
           <div className="font-headline text-sm font-black uppercase leading-[0.9] tracking-tighter text-white md:text-base">
             {hero.title}
           </div>
-<<<<<<< HEAD
-          <div className="max-w-lg border-l-2 border-white/10 pl-6 text-sm font-medium italic leading-relaxed text-slate-400 md:text-sm">
-=======
           <div className="text-text-muted max-w-lg border-l-2 border-white/10 pl-6 text-sm font-medium italic leading-relaxed md:text-sm">
->>>>>>> recover/cabinet-wip-from-stash
             {hero.subtitle}
           </div>
 

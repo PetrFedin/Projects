@@ -1129,22 +1129,6 @@ export default function SizesPage() {
         {/* ЖЕНСКИЕ */}
         <TabsContent value="women" className="space-y-6">
           <Tabs defaultValue="clothing" className="space-y-6">
-<<<<<<< HEAD
-            <TabsList className="h-auto flex-wrap">
-              <TabsTrigger value="clothing">
-                <Shirt className="mr-2 h-4 w-4" />
-                Одежда
-              </TabsTrigger>
-              <TabsTrigger value="shoes">
-                <Footprints className="mr-2 h-4 w-4" />
-                Обувь
-              </TabsTrigger>
-              <TabsTrigger value="bags">
-                <ShoppingBag className="mr-2 h-4 w-4" />
-                Сумки
-              </TabsTrigger>
-              <TabsTrigger value="accessories">
-=======
             {/* cabinetSurface v1 */}
             <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
               <TabsTrigger
@@ -1184,7 +1168,6 @@ export default function SizesPage() {
                   'text-xs font-semibold normal-case tracking-normal'
                 )}
               >
->>>>>>> recover/cabinet-wip-from-stash
                 <LandPlot className="mr-2 h-4 w-4" />
                 Аксессуары
               </TabsTrigger>
@@ -1271,22 +1254,6 @@ export default function SizesPage() {
         {/* МУЖСКИЕ */}
         <TabsContent value="men" className="space-y-6">
           <Tabs defaultValue="clothing" className="space-y-6">
-<<<<<<< HEAD
-            <TabsList className="h-auto flex-wrap">
-              <TabsTrigger value="clothing">
-                <Shirt className="mr-2 h-4 w-4" />
-                Одежда
-              </TabsTrigger>
-              <TabsTrigger value="shoes">
-                <Footprints className="mr-2 h-4 w-4" />
-                Обувь
-              </TabsTrigger>
-              <TabsTrigger value="bags">
-                <ShoppingBag className="mr-2 h-4 w-4" />
-                Сумки
-              </TabsTrigger>
-              <TabsTrigger value="accessories">
-=======
             {/* cabinetSurface v1 */}
             <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
               <TabsTrigger
@@ -1326,7 +1293,6 @@ export default function SizesPage() {
                   'text-xs font-semibold normal-case tracking-normal'
                 )}
               >
->>>>>>> recover/cabinet-wip-from-stash
                 <LandPlot className="mr-2 h-4 w-4" />
                 Аксессуары
               </TabsTrigger>

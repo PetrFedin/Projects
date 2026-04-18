@@ -30,10 +30,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
-<<<<<<< HEAD
-=======
 import type { Layer } from '@/lib/types/calendar';
->>>>>>> recover/cabinet-wip-from-stash
 import { CalendarState, CalendarActions, LAYERS, layerColor, ROLE_VISIBILITY } from '../constants';
 import { cn } from '@/lib/utils';
 
@@ -182,14 +179,10 @@ export function CalendarHeader({ state, actions, user }: CalendarHeaderProps) {
                         id={`filter-${layer}`}
                         checked={layerFilter[layer]}
                         onCheckedChange={(checked) =>
-<<<<<<< HEAD
-                          setLayerFilter((prev) => ({ ...prev, [layer]: checked }))
-=======
                           setLayerFilter((prev: Record<Layer, boolean>) => ({
                             ...prev,
                             [layer]: checked,
                           }))
->>>>>>> recover/cabinet-wip-from-stash
                         }
                       />
                       <label
@@ -219,11 +212,7 @@ export function CalendarHeader({ state, actions, user }: CalendarHeaderProps) {
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-100 bg-slate-50 p-2">
-=======
       <div className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-2 rounded-xl border p-2">
->>>>>>> recover/cabinet-wip-from-stash
         <div className="no-scrollbar flex items-center gap-2 overflow-x-auto pb-1 md:pb-0">
           {user?.roles && user.roles.length > 1 && (
             <Select value={currentRole} onValueChange={(v: any) => setCurrentRole(v)}>
@@ -240,22 +229,14 @@ export function CalendarHeader({ state, actions, user }: CalendarHeaderProps) {
             </Select>
           )}
 
-<<<<<<< HEAD
-          <div className="mx-1 h-6 w-px bg-slate-200" />
-=======
           <div className="bg-border-subtle mx-1 h-6 w-px" />
->>>>>>> recover/cabinet-wip-from-stash
 
           <Button
             variant="ghost"
             size="sm"
             className={cn(
               'h-8 gap-1.5 text-xs',
-<<<<<<< HEAD
-              mysteryEnabled ? 'bg-indigo-100 text-indigo-700' : 'text-slate-500'
-=======
               mysteryEnabled ? 'bg-accent-primary/15 text-accent-primary' : 'text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
             )}
             onClick={() => setMysteryEnabled(!mysteryEnabled)}
           >
@@ -268,11 +249,7 @@ export function CalendarHeader({ state, actions, user }: CalendarHeaderProps) {
             size="sm"
             className={cn(
               'h-8 gap-1.5 text-xs',
-<<<<<<< HEAD
-              aiAutomationEnabled ? 'bg-emerald-100 text-emerald-700' : 'text-slate-500'
-=======
               aiAutomationEnabled ? 'bg-emerald-100 text-emerald-700' : 'text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
             )}
             onClick={() => setAiAutomationEnabled(!aiAutomationEnabled)}
           >
@@ -290,11 +267,7 @@ export function CalendarHeader({ state, actions, user }: CalendarHeaderProps) {
               size="sm"
               className={cn(
                 'h-8 gap-1.5 text-xs',
-<<<<<<< HEAD
-                isInvestorMode ? 'bg-amber-100 text-amber-700' : 'text-slate-500'
-=======
                 isInvestorMode ? 'bg-amber-100 text-amber-700' : 'text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
               )}
               onClick={() => setIsInvestorMode(!isInvestorMode)}
             >

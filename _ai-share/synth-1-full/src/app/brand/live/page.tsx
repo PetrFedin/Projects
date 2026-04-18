@@ -34,17 +34,6 @@ export default function BrandLiveDashboard() {
   const [viewers, setViewers] = useState(1242);
 
   return (
-<<<<<<< HEAD
-    <div className="space-y-10 duration-300 animate-in fade-in">
-      <SectionInfoCard
-        title="Live Broadcast"
-        description="Прямые эфиры для B2B и B2C. Связь с Media (трансляции), Products (презентация) и Pre-orders."
-        icon={Radio}
-        iconBg="bg-rose-100"
-        iconColor="text-rose-600"
-        badges={
-          <>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16 duration-300 animate-in fade-in">
       <RegistryPageHeader
         title="Live Broadcast Control"
@@ -56,68 +45,12 @@ export default function BrandLiveDashboard() {
         actions={
           <div className="flex flex-wrap items-center justify-end gap-2">
             <Radio className="size-5 shrink-0 text-rose-500" aria-hidden />
->>>>>>> recover/cabinet-wip-from-stash
             <Badge variant="outline" className="text-[9px]">
               Media
             </Badge>
             <Badge variant="outline" className="text-[9px]">
               Products
             </Badge>
-<<<<<<< HEAD
-            <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
-              <Link href="/brand/media">Media</Link>
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/pre-orders">
-                <Package className="mr-1 h-3 w-3" /> Pre-orders
-              </Link>
-            </Button>
-          </>
-        }
-      />
-      <header className="flex flex-col items-start justify-between gap-3 rounded-xl border border-slate-100 bg-white p-4 shadow-sm md:flex-row md:items-center">
-        <div className="flex items-center gap-3">
-          <div
-            className={cn(
-              'flex h-10 w-10 items-center justify-center rounded-2xl transition-colors',
-              isLive ? 'animate-pulse bg-rose-500 text-white' : 'bg-slate-100 text-slate-400'
-            )}
-          >
-            <Radio className="h-7 w-7" />
-          </div>
-          <div>
-            <h1 className="text-base font-black uppercase tracking-tighter">
-              Live Broadcast Control
-            </h1>
-            <div className="flex items-center gap-2">
-              <span
-                className={cn(
-                  'h-2 w-2 rounded-full',
-                  isLive ? 'animate-pulse bg-rose-500' : 'bg-slate-300'
-                )}
-              />
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                {isLive ? 'В ЭФИРЕ: Презентация коллекции SS26' : 'Ожидание запуска'}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="flex gap-3">
-          <Button
-            onClick={() => setIsLive(!isLive)}
-            className={cn(
-              'h-10 rounded-2xl px-10 text-[10px] font-black uppercase tracking-widest shadow-2xl transition-all',
-              isLive ? 'bg-slate-900 text-white' : 'bg-rose-600 text-white'
-            )}
-          >
-            {isLive ? 'Завершить эфир' : 'Выйти в прямой эфир'}
-          </Button>
-          <Button variant="outline" className="h-10 w-10 rounded-2xl border-slate-200">
-            <Settings className="h-5 w-5 text-slate-400" />
-          </Button>
-        </div>
-      </header>
-=======
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href={ROUTES.brand.media}>Media</Link>
             </Button>
@@ -146,7 +79,6 @@ export default function BrandLiveDashboard() {
           </div>
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-12">
         {/* Live Preview / Producer View */}
@@ -163,11 +95,7 @@ export default function BrandLiveDashboard() {
                   </p>
                 </div>
               ) : (
-<<<<<<< HEAD
-                <div className="flex h-full w-full items-center justify-center bg-slate-800">
-=======
                 <div className="bg-text-primary/90 flex h-full w-full items-center justify-center">
->>>>>>> recover/cabinet-wip-from-stash
                   <Video className="h-24 w-24 text-white/10" />
                   <div className="absolute left-8 top-4 flex gap-3">
                     <Badge className="border-none bg-rose-600 text-[10px] font-black text-white">
@@ -200,11 +128,7 @@ export default function BrandLiveDashboard() {
                   </div>
                 </div>
                 <div className="flex gap-2">
-<<<<<<< HEAD
-                  <Button className="h-12 rounded-xl bg-indigo-600 px-6 text-[10px] font-black uppercase text-white">
-=======
                   <Button className="bg-accent-primary h-12 rounded-xl px-6 text-[10px] font-black uppercase text-white">
->>>>>>> recover/cabinet-wip-from-stash
                     Pinned: Tech Parka v2
                   </Button>
                 </div>
@@ -215,11 +139,7 @@ export default function BrandLiveDashboard() {
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-xl">
               <div className="flex items-center justify-between">
-<<<<<<< HEAD
-                <h4 className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-slate-900">
-=======
                 <h4 className="text-text-primary flex items-center gap-2 text-[11px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   <ShoppingBag className="h-4 w-4 text-rose-500" /> Продажи в эфире
                 </h4>
                 <Badge className="border-none bg-emerald-50 text-[8px] font-black text-emerald-600">
@@ -233,17 +153,6 @@ export default function BrandLiveDashboard() {
                 ].map((item, i) => (
                   <div
                     key={i}
-<<<<<<< HEAD
-                    className="flex items-center justify-between border-b border-slate-50 py-2"
-                  >
-                    <div>
-                      <p className="text-[10px] font-black uppercase text-slate-900">{item.name}</p>
-                      <p className="text-[9px] font-bold uppercase text-slate-400">
-                        {item.qty} заказов
-                      </p>
-                    </div>
-                    <span className="text-sm font-black text-indigo-600">{item.price}</span>
-=======
                     className="border-border-subtle flex items-center justify-between border-b py-2"
                   >
                     <div>
@@ -255,19 +164,13 @@ export default function BrandLiveDashboard() {
                       </p>
                     </div>
                     <span className="text-accent-primary text-sm font-black">{item.price}</span>
->>>>>>> recover/cabinet-wip-from-stash
                   </div>
                 ))}
               </div>
             </Card>
 
-<<<<<<< HEAD
-            <Card className="space-y-6 rounded-xl border-none bg-slate-900 p-4 text-white shadow-xl">
-              <h4 className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-indigo-400">
-=======
             <Card className="bg-text-primary space-y-6 rounded-xl border-none p-4 text-white shadow-xl">
               <h4 className="text-accent-primary flex items-center gap-2 text-[11px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 <MessageSquare className="h-4 w-4" /> Чат модерация
               </h4>
               <div className="custom-scrollbar max-h-[150px] space-y-4 overflow-y-auto pr-2">
@@ -288,11 +191,7 @@ export default function BrandLiveDashboard() {
 
         {/* Side Panel: Analytics & Controls */}
         <div className="space-y-4 lg:col-span-4">
-<<<<<<< HEAD
-          <Card className="relative space-y-6 overflow-hidden rounded-xl border-none bg-indigo-600 p-4 text-white shadow-xl">
-=======
           <Card className="bg-accent-primary relative space-y-6 overflow-hidden rounded-xl border-none p-4 text-white shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="absolute right-0 top-0 p-4 opacity-10">
               <Activity className="h-32 w-32" />
             </div>
@@ -316,24 +215,15 @@ export default function BrandLiveDashboard() {
                   <Progress value={65} className="h-1 bg-white/10" />
                 </div>
               </div>
-<<<<<<< HEAD
-              <p className="text-[10px] font-medium italic leading-relaxed text-indigo-100">
-=======
               <p className="text-accent-primary/30 text-[10px] font-medium italic leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                 «Упоминание экологичности ткани увеличило поток заказов на 15% за последние 2
                 минуты».
               </p>
             </div>
           </Card>
 
-<<<<<<< HEAD
-          <div className="space-y-6 rounded-xl border border-slate-100 bg-white p-4 shadow-xl">
-            <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-900">
-=======
           <div className="border-border-subtle space-y-6 rounded-xl border bg-white p-4 shadow-xl">
             <h4 className="text-text-primary text-[11px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               Управление Офферами
             </h4>
             <div className="space-y-4">
@@ -342,21 +232,13 @@ export default function BrandLiveDashboard() {
               </Button>
               <Button
                 variant="outline"
-<<<<<<< HEAD
-                className="h-12 w-full rounded-xl border-slate-200 text-[9px] font-black uppercase text-slate-400"
-=======
                 className="border-border-default text-text-muted h-12 w-full rounded-xl text-[9px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 Запустить опрос
               </Button>
               <Button
                 variant="outline"
-<<<<<<< HEAD
-                className="h-12 w-full rounded-xl border-slate-200 text-[9px] font-black uppercase text-slate-400"
-=======
                 className="border-border-default text-text-muted h-12 w-full rounded-xl text-[9px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 Разыграть купон
               </Button>

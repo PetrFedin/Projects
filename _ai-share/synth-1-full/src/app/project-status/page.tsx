@@ -1,9 +1,6 @@
 'use client';
 
-<<<<<<< HEAD
-=======
 import { RegistryPageShell } from '@/components/design-system';
->>>>>>> recover/cabinet-wip-from-stash
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
@@ -187,11 +184,7 @@ export default function ProjectStatusPage() {
 
   if (isLoading) {
     return (
-<<<<<<< HEAD
-      <div className="container mx-auto space-y-6 px-4 py-12">
-=======
       <RegistryPageShell className="max-w-6xl space-y-6 py-12">
->>>>>>> recover/cabinet-wip-from-stash
         <header className="flex flex-col justify-between gap-3 md:flex-row md:items-start">
           <div className="flex-1 space-y-2">
             <Skeleton className="h-12 w-2/3" />
@@ -208,20 +201,12 @@ export default function ProjectStatusPage() {
             </div>
           </CardContent>
         </Card>
-<<<<<<< HEAD
-      </div>
-=======
       </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
     );
   }
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto space-y-6 px-4 py-12">
-=======
     <RegistryPageShell className="max-w-6xl space-y-6 py-12">
->>>>>>> recover/cabinet-wip-from-stash
       <header className="flex flex-col justify-between gap-3 md:flex-row md:items-start">
         <div className="flex-1">
           <h1 className="font-headline text-sm font-bold md:text-sm">Реестр проекта</h1>

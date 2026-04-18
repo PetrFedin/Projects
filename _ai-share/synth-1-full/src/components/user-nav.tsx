@@ -106,13 +106,6 @@ export default function UserNav() {
     }
   };
 
-<<<<<<< HEAD
-  const isOwner =
-    (isB2B &&
-      (user?.team?.[0]?.nickname === user?.nickname ||
-        user?.team?.[0]?.name === user?.displayName ||
-        `${user?.team?.[0]?.firstName} ${user?.team?.[0]?.lastName}` === user?.displayName)) ||
-=======
   const teamLead = user?.team?.[0];
   const teamLeadDisplay = teamLead ? `${teamLead.firstName} ${teamLead.lastName}`.trim() : '';
   const isOwner =
@@ -120,7 +113,6 @@ export default function UserNav() {
       (user?.team?.[0]?.nickname === user?.nickname ||
         teamLeadDisplay === user?.displayName ||
         (teamLead as { name?: string } | undefined)?.name === user?.displayName)) ||
->>>>>>> recover/cabinet-wip-from-stash
     (!isB2B && user?.roles?.includes('client'));
 
   const handleKickMember = async (member: any, e: React.MouseEvent) => {
@@ -129,11 +121,7 @@ export default function UserNav() {
 
     toast({
       title: 'Доступ аннулирован',
-<<<<<<< HEAD
-      description: `Участник ${member.name || `${member.firstName} ${member.lastName}`} исключен. Пароль сброшен.`,
-=======
       description: `Участник ${`${member.firstName} ${member.lastName}`.trim() || member.nickname} исключен. Пароль сброшен.`,
->>>>>>> recover/cabinet-wip-from-stash
       variant: 'destructive',
     });
   };
@@ -167,24 +155,6 @@ export default function UserNav() {
       const primaryRole = newProfile.roles?.[0] || 'client';
       const targetUrl =
         primaryRole === 'admin'
-<<<<<<< HEAD
-          ? '/admin'
-          : primaryRole === 'brand'
-            ? '/brand'
-            : primaryRole === 'shop'
-              ? '/shop'
-              : primaryRole === 'manufacturer'
-                ? '/factory?role=manufacturer'
-                : primaryRole === 'supplier'
-                  ? '/factory?role=supplier'
-                  : primaryRole === 'distributor'
-                    ? '/distributor'
-                    : '/u';
-
-      toast({
-        title: 'Переключение выполнено',
-        description: `Вы вошли как ${member.name || `${member.firstName} ${member.lastName}`} (${member.role})`,
-=======
           ? ROUTES.admin.home
           : primaryRole === 'brand'
             ? ROUTES.brand.home
@@ -201,7 +171,6 @@ export default function UserNav() {
       toast({
         title: 'Переключение выполнено',
         description: `Вы вошли как ${`${member.firstName} ${member.lastName}`.trim() || member.nickname} (${member.role})`,
->>>>>>> recover/cabinet-wip-from-stash
       });
 
       startTransition(() => router.push(targetUrl));
@@ -291,11 +260,7 @@ export default function UserNav() {
 
   if (user) {
     return (
-<<<<<<< HEAD
-      <div className="flex h-9 min-w-0 max-w-[200px] items-stretch rounded-[2px] border border-slate-200 bg-white sm:max-w-[240px]">
-=======
       <div className="border-border-subtle bg-bg-surface flex h-9 min-w-0 max-w-[200px] items-stretch rounded-[2px] border sm:max-w-[240px]">
->>>>>>> recover/cabinet-wip-from-stash
         <Button
           type="button"
           variant="ghost"
@@ -310,11 +275,7 @@ export default function UserNav() {
                   src={profileAvatar ?? user.photoURL ?? ''}
                   alt={user.displayName ?? 'User'}
                 />
-<<<<<<< HEAD
-                <AvatarFallback className="rounded-[2px] bg-slate-100 text-[9px] font-black text-slate-600">
-=======
                 <AvatarFallback className="bg-bg-surface2 text-text-secondary rounded-[2px] text-[9px] font-black">
->>>>>>> recover/cabinet-wip-from-stash
                   {user.displayName?.[0].toUpperCase() ?? user.email?.[0].toUpperCase() ?? 'U'}
                 </AvatarFallback>
               </Avatar>
@@ -345,24 +306,14 @@ export default function UserNav() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-<<<<<<< HEAD
-            className="z-[600] w-60 overflow-hidden rounded-[2px] border border-slate-200 bg-white p-0 shadow-xl"
-=======
             className="border-border-subtle bg-bg-surface z-[600] w-60 overflow-hidden rounded-[2px] border p-0 shadow-xl"
->>>>>>> recover/cabinet-wip-from-stash
             align="end"
             sideOffset={4}
           >
             {isB2B && user.organizations && user.organizations.length > 1 && (
-<<<<<<< HEAD
-              <div className="border-b border-slate-800 bg-slate-900 p-2">
-                <p className="mb-2 flex items-center gap-2 px-1 text-[7px] font-black uppercase tracking-[0.2em] text-white/40">
-                  <Sparkles className="h-2.5 w-2.5 text-indigo-400" />
-=======
               <div className="border-border-subtle bg-text-primary border-b p-2">
                 <p className="mb-2 flex items-center gap-2 px-1 text-[7px] font-black uppercase tracking-[0.2em] text-white/40">
                   <Sparkles className="text-accent-primary h-2.5 w-2.5" />
->>>>>>> recover/cabinet-wip-from-stash
                   ВЫБОР УЗЛА
                 </p>
                 <div className="grid grid-cols-1 gap-1">
@@ -373,24 +324,15 @@ export default function UserNav() {
                       className={cn(
                         'flex cursor-pointer items-center justify-between rounded-[1px] border p-2 transition-all',
                         user.activeOrganizationId === org.organizationId
-<<<<<<< HEAD
-                          ? 'border-white/20 bg-slate-800 text-white shadow-sm'
-                          : 'border-transparent bg-transparent text-slate-400 hover:bg-slate-800/50 hover:text-white'
-=======
                           ? 'text-text-inverse border-white/20 bg-white/10 shadow-sm'
                           : 'hover:text-text-inverse border-transparent bg-transparent text-white/50 hover:bg-white/10'
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       <span className="text-[9px] font-black uppercase tracking-tight">
                         {organizations[org.organizationId]?.name || org.organizationId}
                       </span>
                       {user.activeOrganizationId === org.organizationId && (
-<<<<<<< HEAD
-                        <Check className="h-3 w-3 stroke-[3] text-indigo-400" />
-=======
                         <Check className="text-accent-primary h-3 w-3 stroke-[3]" />
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                     </DropdownMenuItem>
                   ))}
@@ -399,30 +341,18 @@ export default function UserNav() {
             )}
 
             {profile?.navigation?.length > 0 && (
-<<<<<<< HEAD
-              <div className="border-b border-slate-100 p-1">
-                <p className="mb-1 px-2 py-1 text-[7px] font-black uppercase tracking-widest text-slate-400">
-=======
               <div className="border-border-subtle border-b p-1">
                 <p className="text-text-muted mb-1 px-2 py-1 text-[7px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   БЫСТРЫЙ ПЕРЕХОД
                 </p>
                 <div className="grid grid-cols-2 gap-0.5">
                   {profile.navigation.slice(0, 4).map((nav: any) => (
                     <DropdownMenuItem
                       key={nav.path}
-<<<<<<< HEAD
-                      className="cursor-pointer rounded-[1px] py-1.5 hover:bg-slate-50"
-                      onSelect={() => router.push(nav.path)}
-                    >
-                      <span className="text-[8px] font-black uppercase tracking-tight text-slate-600">
-=======
                       className="hover:bg-bg-surface2 cursor-pointer rounded-[1px] py-1.5"
                       onSelect={() => router.push(nav.path)}
                     >
                       <span className="text-text-secondary text-[8px] font-black uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                         {nav.title}
                       </span>
                     </DropdownMenuItem>
@@ -431,17 +361,6 @@ export default function UserNav() {
               </div>
             )}
 
-<<<<<<< HEAD
-            <div className="border-b border-slate-100 bg-slate-50 px-4 py-3">
-              <div className="flex flex-col space-y-0.5">
-                <p className="text-[7px] font-black uppercase tracking-widest text-slate-400">
-                  {isB2B ? 'АКТИВНЫЙ ПРОФИЛЬ' : 'АККАУНТ B2C'}
-                </p>
-                <p className="text-xs font-black uppercase leading-none tracking-tight text-slate-900">
-                  {user.displayName}
-                </p>
-                <p className="mt-1 text-[9px] font-medium leading-none text-slate-500">
-=======
             <div className="border-border-subtle bg-bg-surface2 border-b px-4 py-3">
               <div className="flex flex-col space-y-0.5">
                 <p className="text-text-muted text-[7px] font-black uppercase tracking-widest">
@@ -451,7 +370,6 @@ export default function UserNav() {
                   {user.displayName}
                 </p>
                 <p className="text-text-secondary mt-1 text-[9px] font-medium leading-none">
->>>>>>> recover/cabinet-wip-from-stash
                   {user.email}
                 </p>
               </div>
@@ -459,30 +377,18 @@ export default function UserNav() {
 
             {isB2B && user.team && user.team.length > 0 && (
               <div className="p-1">
-<<<<<<< HEAD
-                <p className="mb-1 px-2 py-1 text-[7px] font-black uppercase tracking-widest text-slate-400">
-=======
                 <p className="text-text-muted mb-1 px-2 py-1 text-[7px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   КОМАНДА ДОСТУПА
                 </p>
                 <div className="space-y-0.5">
                   {user.team
                     .filter((m) => m.invitationStatus !== 'pending')
                     .map((member) => {
-<<<<<<< HEAD
-                      const isCurrent =
-                        user.nickname === member.nickname ||
-                        (!user.nickname &&
-                          user.displayName ===
-                            (member.name || `${member.firstName} ${member.lastName}`));
-=======
                       const memberDisplay =
                         `${member.firstName} ${member.lastName}`.trim() || member.nickname;
                       const isCurrent =
                         user.nickname === member.nickname ||
                         (!user.nickname && user.displayName === memberDisplay);
->>>>>>> recover/cabinet-wip-from-stash
 
                       return (
                         <DropdownMenuItem
@@ -491,24 +397,6 @@ export default function UserNav() {
                           className={cn(
                             'flex cursor-pointer items-center justify-between rounded-[1px] border p-1.5 outline-none transition-all',
                             isCurrent
-<<<<<<< HEAD
-                              ? 'border-slate-200 bg-slate-50 text-slate-900'
-                              : 'border-transparent bg-white text-slate-600 hover:bg-slate-50'
-                          )}
-                        >
-                          <div className="flex flex-1 items-center gap-2 overflow-hidden">
-                            <Avatar className="h-6 w-6 flex-shrink-0 rounded-[2px] border border-white ring-1 ring-slate-100">
-                              <AvatarImage src={member.avatar} />
-                              <AvatarFallback className="rounded-[2px] text-[8px] font-black">
-                                {(member.name || member.firstName)[0]}
-                              </AvatarFallback>
-                            </Avatar>
-                            <div className="flex min-w-0 flex-col">
-                              <span className="truncate text-[9px] font-black uppercase leading-tight text-slate-900">
-                                {member.name || `${member.firstName} ${member.lastName}`}
-                              </span>
-                              <span className="mt-0.5 truncate text-[7px] font-bold uppercase leading-tight tracking-widest text-slate-400">
-=======
                               ? 'border-border-subtle bg-bg-surface2 text-text-primary'
                               : 'bg-bg-surface text-text-secondary hover:bg-bg-surface2 border-transparent'
                           )}
@@ -525,17 +413,12 @@ export default function UserNav() {
                                 {memberDisplay}
                               </span>
                               <span className="text-text-muted mt-0.5 truncate text-[7px] font-bold uppercase leading-tight tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                                 {member.role}
                               </span>
                             </div>
                           </div>
                           {isCurrent && (
-<<<<<<< HEAD
-                            <Check className="ml-2 h-2.5 w-2.5 stroke-[3] text-indigo-500" />
-=======
                             <Check className="text-accent-primary ml-2 h-2.5 w-2.5 stroke-[3]" />
->>>>>>> recover/cabinet-wip-from-stash
                           )}
                         </DropdownMenuItem>
                       );
@@ -544,17 +427,6 @@ export default function UserNav() {
               </div>
             )}
 
-<<<<<<< HEAD
-            <DropdownMenuSeparator className="m-0 bg-slate-100" />
-            <div className="p-1">
-              <DropdownMenuGroup>
-                <DropdownMenuItem
-                  className="cursor-pointer rounded-[1px] py-2 hover:bg-slate-50"
-                  onSelect={() => goAccountHome()}
-                >
-                  <UserIcon className="mr-2.5 h-3 w-3 text-slate-400" />
-                  <span className="text-[10px] font-black uppercase tracking-tight text-slate-700">
-=======
             <DropdownMenuSeparator className="bg-border-subtle m-0" />
             <div className="p-1">
               <DropdownMenuGroup>
@@ -564,33 +436,20 @@ export default function UserNav() {
                 >
                   <UserIcon className="text-text-muted mr-2.5 h-3 w-3" />
                   <span className="text-text-primary text-[10px] font-black uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                     {isB2B ? 'КАБИНЕТ БРЕНДА' : 'МОЙ ПРОФИЛЬ'}
                   </span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
-<<<<<<< HEAD
-                  className="cursor-pointer rounded-[1px] py-2 hover:bg-slate-50"
-                  onSelect={() => goAccountSettings()}
-                >
-                  <SettingsIcon className="mr-2.5 h-3 w-3 text-slate-400" />
-                  <span className="text-[10px] font-black uppercase tracking-tight text-slate-700">
-=======
                   className="hover:bg-bg-surface2 cursor-pointer rounded-[1px] py-2"
                   onSelect={() => goAccountSettings()}
                 >
                   <SettingsIcon className="text-text-muted mr-2.5 h-3 w-3" />
                   <span className="text-text-primary text-[10px] font-black uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                     {isB2B ? 'НАСТРОЙКИ КАБИНЕТА' : 'НАСТРОЙКИ ПРОФИЛЯ'}
                   </span>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
-<<<<<<< HEAD
-              <DropdownMenuSeparator className="my-1 bg-slate-50" />
-=======
               <DropdownMenuSeparator className="bg-border-subtle my-1" />
->>>>>>> recover/cabinet-wip-from-stash
               <DropdownMenuItem
                 onSelect={() => void handleSignOut()}
                 className="cursor-pointer rounded-[1px] px-2 py-2 text-rose-600 focus:bg-rose-50 focus:text-rose-600"

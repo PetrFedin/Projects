@@ -32,11 +32,7 @@ const MOCK_CAMPAIGN: SampleTestingCampaign = {
 
 export default function DigitalTwinTestingPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Digital twin sample testing"
         description={
@@ -52,39 +48,24 @@ export default function DigitalTwinTestingPage() {
         badges={
           <>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/products">PIM</Link>
-=======
               <Link href={ROUTES.brand.products}>
                 <AcronymWithTooltip abbr="PIM" />
               </Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href={ROUTES.brand.footwear360}>360° обувь</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/range-planner">Range Planner</Link>
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/planning">Планирование</Link>
-=======
               <Link href={ROUTES.brand.rangePlanner}>Range Planner</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href={ROUTES.brand.planning}>Планирование</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
       />
       <div className="flex items-center gap-3">
-<<<<<<< HEAD
-        <Link href="/brand/products">
-=======
         <Link href={ROUTES.brand.products}>
->>>>>>> recover/cabinet-wip-from-stash
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
           </Button>
@@ -104,11 +85,7 @@ export default function DigitalTwinTestingPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-<<<<<<< HEAD
-            <p className="mb-2 text-[10px] uppercase text-slate-500">Сегменты</p>
-=======
             <p className="text-text-secondary mb-2 text-[10px] uppercase">Сегменты</p>
->>>>>>> recover/cabinet-wip-from-stash
             <ul className="flex flex-wrap gap-2">
               {MOCK_CAMPAIGN.segments.map((s) => (
                 <Badge key={s.id} variant="outline" className="text-[10px]">
@@ -119,20 +96,12 @@ export default function DigitalTwinTestingPage() {
           </div>
           {MOCK_CAMPAIGN.feedbackSummary && (
             <div>
-<<<<<<< HEAD
-              <p className="mb-2 text-[10px] uppercase text-slate-500">Фидбек по моделям</p>
-=======
               <p className="text-text-secondary mb-2 text-[10px] uppercase">Фидбек по моделям</p>
->>>>>>> recover/cabinet-wip-from-stash
               <ul className="space-y-2">
                 {MOCK_CAMPAIGN.feedbackSummary.map((f) => (
                   <li
                     key={f.skuId}
-<<<<<<< HEAD
-                    className="flex items-center justify-between rounded-lg bg-slate-50 p-2"
-=======
                     className="bg-bg-surface2 flex items-center justify-between rounded-lg p-2"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     <span className="font-mono text-sm">{f.skuId}</span>
                     <span className="flex items-center gap-3 text-sm">
@@ -148,11 +117,7 @@ export default function DigitalTwinTestingPage() {
               </ul>
             </div>
           )}
-<<<<<<< HEAD
-          <p className="text-xs text-slate-400">
-=======
           <p className="text-text-muted text-xs">
->>>>>>> recover/cabinet-wip-from-stash
             API: DIGITAL_TWIN_TESTING_API — создание кампании, отправка на примерку, сбор фидбека.
           </p>
         </CardContent>

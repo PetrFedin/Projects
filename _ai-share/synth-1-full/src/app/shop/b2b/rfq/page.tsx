@@ -67,24 +67,6 @@ function StatusBadge({ status }: { status: RfqStatus }) {
 
 export default function RfqPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <FileSearch className="h-6 w-6" /> Запрос котировок (RFQ)
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Alibaba/OroCommerce: отправьте запрос поставщикам — получите цены и условия
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="max-w-4xl space-y-6">
       <ShopB2bContentHeader lead="Витрина байера: котировки по материалам и услугам; ответы поставщиков можно сопоставить с производственным хабом и брендовым RFQ." />
 
@@ -97,7 +79,6 @@ export default function RfqPage() {
           </CardDescription>
         </CardHeader>
       </Card>
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -110,40 +91,24 @@ export default function RfqPage() {
           {MOCK_RFQS.map((r) => (
             <div
               key={r.id}
-<<<<<<< HEAD
-              className="flex flex-col justify-between gap-3 rounded-xl border border-slate-200 p-4 sm:flex-row sm:items-center"
-=======
               className="border-border-default flex flex-col justify-between gap-3 rounded-xl border p-4 sm:flex-row sm:items-center"
->>>>>>> recover/cabinet-wip-from-stash
             >
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <h3 className="font-semibold">{r.title}</h3>
                   <StatusBadge status={r.status} />
                 </div>
-<<<<<<< HEAD
-                <p className="mt-1 text-xs text-slate-500">
-=======
                 <p className="text-text-secondary mt-1 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                   {r.lines.length} позиций · Дедлайн котировок: {r.quoteDeadline}
                 </p>
               </div>
               <div className="flex gap-2">
                 <Button size="sm" variant="outline" asChild>
-<<<<<<< HEAD
-                  <Link href={`/shop/b2b/rfq/${r.id}`}>Подробнее</Link>
-                </Button>
-                {r.status === 'quotes_received' && (
-                  <Button size="sm" asChild>
-                    <Link href={`/shop/b2b/rfq/${r.id}/compare`}>Сравнить и выбрать</Link>
-=======
                   <Link href={`${ROUTES.shop.b2bRfq}/${r.id}`}>Подробнее</Link>
                 </Button>
                 {r.status === 'quotes_received' && (
                   <Button size="sm" asChild>
                     <Link href={`${ROUTES.shop.b2bRfq}/${r.id}/compare`}>Сравнить и выбрать</Link>
->>>>>>> recover/cabinet-wip-from-stash
                   </Button>
                 )}
               </div>
@@ -152,27 +117,18 @@ export default function RfqPage() {
         </CardContent>
       </Card>
 
-<<<<<<< HEAD
-      <div className="flex gap-2">
-        <Button asChild>
-          <Link href="/shop/b2b/rfq/create">
-=======
       <div className="flex flex-wrap gap-2">
         <Button asChild>
           <Link href={ROUTES.shop.b2bRfqCreate}>
->>>>>>> recover/cabinet-wip-from-stash
             <Plus className="mr-2 h-4 w-4" /> Создать RFQ
           </Link>
         </Button>
         <Button variant="outline" size="sm" asChild>
           <Link href={ROUTES.shop.b2bSupplierDiscovery}>Найти поставщиков</Link>
         </Button>
-<<<<<<< HEAD
-=======
         <Button variant="outline" size="sm" asChild>
           <Link href={ROUTES.shop.b2bTenders}>Тендеры</Link>
         </Button>
->>>>>>> recover/cabinet-wip-from-stash
       </div>
 
       <RelatedModulesBlock

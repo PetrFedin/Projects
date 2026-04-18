@@ -8,11 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-<<<<<<< HEAD
-import { Badge } from '@/components/ui/badge';
-=======
 import { Badge, type BadgeProps } from '@/components/ui/badge';
->>>>>>> recover/cabinet-wip-from-stash
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -27,15 +23,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Search, MoreHorizontal, FileText, Calendar, AlertCircle, BookText } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-<<<<<<< HEAD
-import { mockB2BOrders } from '@/lib/order-data';
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
-=======
 import { useB2BOperationalOrdersList } from '@/hooks/use-b2b-operational-orders-list';
 import { B2B_ORDERS_REGISTRY_LABEL } from '@/lib/ui/b2b-registry-label';
 import { ROUTES } from '@/lib/routes';
->>>>>>> recover/cabinet-wip-from-stash
 
 export default function B2BOrdersPage() {
   const router = useRouter();
@@ -65,26 +55,11 @@ export default function B2BOrdersPage() {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
-<<<<<<< HEAD
-          <CardTitle>B2B Заказы</CardTitle>
-=======
           <CardTitle>{B2B_ORDERS_REGISTRY_LABEL}</CardTitle>
->>>>>>> recover/cabinet-wip-from-stash
           <CardDescription>Заказы, поступившие от ритейлеров на вашу продукцию.</CardDescription>
         </div>
         <div className="flex items-center gap-2">
           <div className="relative w-full md:max-w-xs">
-<<<<<<< HEAD
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Поиск по номеру или магазину..." className="pl-8" />
-          </div>
-          <Button variant="outline" onClick={() => router.push('/brand/b2b-orders/calendar')}>
-            <Calendar className="mr-2 h-4 w-4" />
-            Календарь
-          </Button>
-          <Button variant="outline" onClick={() => router.push('/brand/b2b/linesheets')}>
-            <BookText className="mr-2 h-4 w-4" />
-=======
             <Search className="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />
             <Input placeholder="Поиск по номеру или магазину..." className="pl-8" />
           </div>
@@ -94,7 +69,6 @@ export default function B2BOrdersPage() {
           </Button>
           <Button variant="outline" onClick={() => router.push('/brand/b2b/linesheets')}>
             <BookText className="mr-2 size-4" />
->>>>>>> recover/cabinet-wip-from-stash
             Лайншиты
           </Button>
         </div>
@@ -122,40 +96,22 @@ export default function B2BOrdersPage() {
                 <TableRow key={order.order} data-state={requiresAction ? 'selected' : ''}>
                   <TableCell className="font-medium">
                     <Button variant="link" asChild className="p-0 font-medium">
-<<<<<<< HEAD
-                      <Link href={`/brand/b2b-orders/${order.order}`}>{order.order}</Link>
-=======
                       <Link href={ROUTES.brand.b2bOrder(order.order)}>{order.order}</Link>
->>>>>>> recover/cabinet-wip-from-stash
                     </Button>
                   </TableCell>
                   <TableCell>{order.shop}</TableCell>
                   <TableCell>{new Date(order.date).toLocaleDateString('ru-RU')}</TableCell>
                   <TableCell>{new Date(order.deliveryDate).toLocaleDateString('ru-RU')}</TableCell>
                   <TableCell>
-<<<<<<< HEAD
-                    <Badge
-                      variant={
-                        typeof statusInfo === 'string' ? (statusInfo as any) : statusInfo.variant
-                      }
-                      className={typeof statusInfo !== 'string' ? statusInfo.className : ''}
-                    >
-=======
                     <Badge variant={statusInfo.variant} className={statusInfo.className ?? ''}>
->>>>>>> recover/cabinet-wip-from-stash
                       {order.status}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">{order.amount}</TableCell>
                   <TableCell className="text-right">
                     <Button variant={requiresAction ? 'default' : 'outline'} size="sm" asChild>
-<<<<<<< HEAD
-                      <Link href={`/brand/b2b-orders/${order.order}`}>
-                        {requiresAction && <AlertCircle className="mr-2 h-4 w-4" />}
-=======
                       <Link href={ROUTES.brand.b2bOrder(order.order)}>
                         {requiresAction && <AlertCircle className="mr-2 size-4" />}
->>>>>>> recover/cabinet-wip-from-stash
                         {requiresAction ? 'Рассмотреть' : 'Посмотреть'}
                       </Link>
                     </Button>

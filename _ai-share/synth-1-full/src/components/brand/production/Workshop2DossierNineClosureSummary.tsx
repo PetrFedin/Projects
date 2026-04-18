@@ -42,11 +42,7 @@ export function Workshop2DossierNineClosureSummary({
       id="w2-dossier-nine-closure-summary"
       className="border-border-default from-bg-surface2/90 rounded-xl border bg-gradient-to-br to-white px-3 py-2.5 shadow-sm"
     >
-<<<<<<< HEAD
-      <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">
-=======
       <p className="text-text-secondary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
         Сводка контура (локально)
       </p>
       <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">

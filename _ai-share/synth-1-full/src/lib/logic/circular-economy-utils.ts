@@ -49,11 +49,7 @@ export const MOCK_MATERIAL_LISTINGS: MaterialListing[] = [
   {
     id: 'list-003',
     supplierId: 'org-brand-002',
-<<<<<<< HEAD
-    supplierName: 'A.P.C. Archive',
-=======
     supplierName: 'Nordic Wool Archive',
->>>>>>> recover/cabinet-wip-from-stash
     materialName: 'Selvedge Denim Leftovers',
     type: 'fabric',
     quantity: 15,
@@ -102,11 +98,7 @@ export const getConditionColor = (condition: string) => {
   const colors: { [key: string]: string } = {
     pristine: 'bg-emerald-100 text-emerald-600',
     slight_damage: 'bg-amber-100 text-amber-600',
-<<<<<<< HEAD
-    cut_leftovers: 'bg-indigo-100 text-indigo-600',
-=======
     cut_leftovers: 'bg-accent-primary/15 text-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
   };
   return colors[condition] || 'bg-bg-surface2 text-text-secondary';
 };

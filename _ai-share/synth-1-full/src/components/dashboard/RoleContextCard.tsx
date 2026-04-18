@@ -55,15 +55,11 @@ export function RoleContextCard({ context }: RoleContextCardProps) {
         <div
           className={cn(
             'flex h-10 w-10 items-center justify-center rounded-lg',
-<<<<<<< HEAD
-            isPlatformAdmin ? 'bg-purple-200' : isOrgAdmin ? 'bg-indigo-200' : 'bg-slate-200'
-=======
             isPlatformAdmin
               ? 'bg-accent-primary/25'
               : isOrgAdmin
                 ? 'bg-accent-primary/25'
                 : 'bg-border-subtle'
->>>>>>> recover/cabinet-wip-from-stash
           )}
         >
           <Icon className="h-5 w-5" />
@@ -77,11 +73,7 @@ export function RoleContextCard({ context }: RoleContextCardProps) {
         </div>
 
         {isPlatformAdmin && (
-<<<<<<< HEAD
-          <Badge className="ml-auto border-none bg-purple-600 text-[7px] font-black uppercase text-white">
-=======
           <Badge className="bg-accent-primary ml-auto border-none text-[7px] font-black uppercase text-white">
->>>>>>> recover/cabinet-wip-from-stash
             ADMIN
           </Badge>
         )}

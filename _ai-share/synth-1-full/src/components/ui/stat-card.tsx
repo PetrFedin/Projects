@@ -39,11 +39,7 @@ export function StatCard({
         )}
         <span className="text-text-primary text-2xl font-bold tabular-nums">{value}</span>
       </div>
-<<<<<<< HEAD
-      <p className="mt-3 text-xs font-medium uppercase leading-tight tracking-wider text-slate-500">
-=======
       <p className="text-text-secondary mt-3 text-xs font-medium uppercase leading-tight tracking-wider">
->>>>>>> recover/cabinet-wip-from-stash
         {label}
       </p>
     </>

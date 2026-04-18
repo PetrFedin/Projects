@@ -91,26 +91,16 @@ export function AutoPOWizard({
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="overflow-hidden rounded-2xl border-none bg-white p-0 shadow-2xl sm:max-w-[650px]">
-<<<<<<< HEAD
-        <DialogHeader className="relative bg-slate-900 p-6 text-white">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 shadow-lg shadow-indigo-900/20">
-=======
         <DialogHeader className="bg-text-primary relative p-6 text-white">
           <div className="flex items-center gap-3">
             <div className="bg-accent-primary shadow-accent-primary/20 flex h-10 w-10 items-center justify-center rounded-xl shadow-lg">
->>>>>>> recover/cabinet-wip-from-stash
               <ShoppingBag className="h-5 w-5 text-white" />
             </div>
             <div>
               <DialogTitle className="text-lg font-black uppercase tracking-tighter">
                 Auto-PO Generator (BOM to Order)
               </DialogTitle>
-<<<<<<< HEAD
-              <DialogDescription className="mt-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-=======
               <DialogDescription className="text-text-muted mt-0.5 text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 Автоматическое формирование заказов поставщикам для {productName}
               </DialogDescription>
             </div>
@@ -118,11 +108,7 @@ export function AutoPOWizard({
 
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/5">
             <div
-<<<<<<< HEAD
-              className="h-full bg-indigo-500 transition-all duration-500"
-=======
               className="bg-accent-primary h-full transition-all duration-500"
->>>>>>> recover/cabinet-wip-from-stash
               style={{ width: `${(step / 3) * 100}%` }}
             />
           </div>
@@ -138,17 +124,10 @@ export function AutoPOWizard({
                 className="space-y-4"
               >
                 <div className="mb-4 flex items-center justify-between">
-<<<<<<< HEAD
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-900">
-                    Анализ потребностей по BOM
-                  </h4>
-                  <Badge className="h-5 border-none bg-slate-100 px-2 text-[8px] font-black uppercase tracking-widest text-slate-600">
-=======
                   <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
                     Анализ потребностей по BOM
                   </h4>
                   <Badge className="bg-bg-surface2 text-text-secondary h-5 border-none px-2 text-[8px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Партия: 800 ед.
                   </Badge>
                 </div>
@@ -180,34 +159,20 @@ export function AutoPOWizard({
                           )}
                         </div>
                         <div className="space-y-0.5">
-<<<<<<< HEAD
-                          <p className="text-[10px] font-black uppercase tracking-tight text-slate-900">
-                            {m.name}
-                          </p>
-                          <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400">
-=======
                           <p className="text-text-primary text-[10px] font-black uppercase tracking-tight">
                             {m.name}
                           </p>
                           <p className="text-text-muted text-[8px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                             Поставщик: {m.supplier}
                           </p>
                         </div>
                       </div>
                       <div className="flex items-center gap-3 text-right">
                         <div className="text-right">
-<<<<<<< HEAD
-                          <p className="text-[10px] font-black uppercase text-slate-900">
-                            {m.need}
-                          </p>
-                          <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400">
-=======
                           <p className="text-text-primary text-[10px] font-black uppercase">
                             {m.need}
                           </p>
                           <p className="text-text-muted text-[8px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                             На складе: {m.stock}
                           </p>
                         </div>
@@ -226,15 +191,6 @@ export function AutoPOWizard({
                   ))}
                 </div>
 
-<<<<<<< HEAD
-                <div className="flex gap-3 rounded-xl border border-indigo-100 bg-indigo-50 p-4">
-                  <Zap className="h-4 w-4 animate-pulse fill-indigo-600 text-indigo-600" />
-                  <div className="space-y-1">
-                    <p className="text-[10px] font-black uppercase leading-none tracking-widest text-indigo-900">
-                      AI Optimization
-                    </p>
-                    <p className="text-[9px] font-medium uppercase leading-relaxed tracking-tight text-indigo-800/80">
-=======
                 <div className="bg-accent-primary/10 border-accent-primary/20 flex gap-3 rounded-xl border p-4">
                   <Zap className="text-accent-primary fill-accent-primary h-4 w-4 animate-pulse" />
                   <div className="space-y-1">
@@ -242,7 +198,6 @@ export function AutoPOWizard({
                       AI Optimization
                     </p>
                     <p className="text-accent-primary/80 text-[9px] font-medium uppercase leading-relaxed tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                       Найдено пересечение по Cotton Jersey с коллекцией SS26. Рекомендуется
                       консолидировать заказ для получения скидки 15%.
                     </p>
@@ -259,11 +214,7 @@ export function AutoPOWizard({
                 className="flex h-full flex-col items-center justify-center space-y-6 py-4"
               >
                 <div className="relative">
-<<<<<<< HEAD
-                  <Box className="h-16 w-16 animate-bounce text-indigo-600" />
-=======
                   <Box className="text-accent-primary h-16 w-16 animate-bounce" />
->>>>>>> recover/cabinet-wip-from-stash
                   <div className="absolute -right-2 -top-2">
                     <Zap className="h-6 w-6 animate-pulse fill-amber-400 text-amber-400" />
                   </div>
@@ -272,28 +223,16 @@ export function AutoPOWizard({
                   <h3 className="text-lg font-black uppercase tracking-tighter">
                     Формирование Purchase Orders...
                   </h3>
-<<<<<<< HEAD
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                    Создание 2-х документов для Tex-Global и Green Thread
-                  </p>
-                </div>
-                <div className="h-1.5 w-full max-w-sm overflow-hidden rounded-full bg-slate-100">
-=======
                   <p className="text-text-secondary text-[10px] font-bold uppercase tracking-widest">
                     Создание 2-х документов для Tex-Global и Green Thread
                   </p>
                 </div>
                 <div className="bg-bg-surface2 h-1.5 w-full max-w-sm overflow-hidden rounded-full">
->>>>>>> recover/cabinet-wip-from-stash
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: '100%' }}
                     transition={{ duration: 2 }}
-<<<<<<< HEAD
-                    className="h-full bg-indigo-600 shadow-[0_0_10px_rgba(79,70,229,0.5)]"
-=======
                     className="bg-accent-primary h-full shadow-[0_0_10px_rgba(79,70,229,0.5)]"
->>>>>>> recover/cabinet-wip-from-stash
                   />
                 </div>
               </motion.div>
@@ -324,17 +263,6 @@ export function AutoPOWizard({
                   ].map((po, i) => (
                     <div
                       key={i}
-<<<<<<< HEAD
-                      className="group flex cursor-pointer items-center justify-between rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition-all hover:border-indigo-100"
-                    >
-                      <div className="flex items-center gap-3">
-                        <FileText className="h-5 w-5 text-indigo-500 transition-transform group-hover:scale-110" />
-                        <div className="space-y-0.5">
-                          <p className="text-[11px] font-black uppercase tracking-tight text-slate-900">
-                            {po.id}
-                          </p>
-                          <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
-=======
                       className="border-border-subtle hover:border-accent-primary/20 group flex cursor-pointer items-center justify-between rounded-xl border bg-white p-4 shadow-sm transition-all"
                     >
                       <div className="flex items-center gap-3">
@@ -344,23 +272,15 @@ export function AutoPOWizard({
                             {po.id}
                           </p>
                           <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                             {po.target}
                           </p>
                         </div>
                       </div>
                       <div className="flex items-center gap-4">
-<<<<<<< HEAD
-                        <p className="text-[11px] font-black tabular-nums text-slate-900">
-                          {po.val}
-                        </p>
-                        <Badge className="h-4 border-none bg-slate-100 px-1.5 text-[8px] font-black uppercase text-slate-500">
-=======
                         <p className="text-text-primary text-[11px] font-black tabular-nums">
                           {po.val}
                         </p>
                         <Badge className="bg-bg-surface2 text-text-secondary h-4 border-none px-1.5 text-[8px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                           {po.status}
                         </Badge>
                       </div>
@@ -372,31 +292,19 @@ export function AutoPOWizard({
           </AnimatePresence>
         </div>
 
-<<<<<<< HEAD
-        <DialogFooter className="border-t border-slate-100 bg-slate-50 p-6">
-=======
         <DialogFooter className="bg-bg-surface2 border-border-subtle border-t p-6">
->>>>>>> recover/cabinet-wip-from-stash
           {step === 1 && (
             <div className="flex w-full gap-3">
               <Button
                 variant="ghost"
                 onClick={() => onOpenChange(false)}
-<<<<<<< HEAD
-                className="h-11 flex-1 text-[10px] font-black uppercase tracking-widest text-slate-400"
-=======
                 className="text-text-muted h-11 flex-1 text-[10px] font-black uppercase tracking-widest"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 Отмена
               </Button>
               <Button
                 onClick={() => setStep(2)}
-<<<<<<< HEAD
-                className="h-11 flex-[2] gap-2 rounded-xl bg-indigo-600 text-[10px] font-black uppercase tracking-widest text-white shadow-xl transition-all hover:bg-indigo-700"
-=======
                 className="bg-accent-primary hover:bg-accent-primary h-11 flex-[2] gap-2 rounded-xl text-[10px] font-black uppercase tracking-widest text-white shadow-xl transition-all"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 Создать все заказы (2) <ArrowRightLeft className="h-3.5 w-3.5" />
               </Button>
@@ -407,11 +315,7 @@ export function AutoPOWizard({
             <div className="grid w-full grid-cols-2 gap-3">
               <Button
                 variant="outline"
-<<<<<<< HEAD
-                className="h-11 gap-2 rounded-xl border-slate-200 text-[10px] font-black uppercase tracking-widest"
-=======
                 className="border-border-default h-11 gap-2 rounded-xl text-[10px] font-black uppercase tracking-widest"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <Printer className="h-4 w-4" /> Печать всех
               </Button>
@@ -420,11 +324,7 @@ export function AutoPOWizard({
                   setStep(1);
                   onOpenChange(false);
                 }}
-<<<<<<< HEAD
-                className="h-11 gap-2 rounded-xl bg-slate-900 text-[10px] font-black uppercase tracking-widest text-white"
-=======
                 className="bg-text-primary h-11 gap-2 rounded-xl text-[10px] font-black uppercase tracking-widest text-white"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 В реестр снабжения <ChevronRight className="h-4 w-4" />
               </Button>

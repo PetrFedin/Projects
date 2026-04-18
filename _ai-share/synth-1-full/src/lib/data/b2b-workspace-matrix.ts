@@ -15,12 +15,8 @@ export type B2BUserRole =
   | 'sales_rep'
   | 'merchandiser'
   | 'finance_manager'
-<<<<<<< HEAD
-  | 'distributor';
-=======
   | 'distributor'
   | 'admin';
->>>>>>> recover/cabinet-wip-from-stash
 export type DigitalFlowId = 'ops' | 'commercial' | 'supply' | 'intelligence';
 
 export interface WorkspaceTab {
@@ -394,8 +390,6 @@ export const WORKSPACE_ITEMS: WorkspaceItem[] = [
       image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2000',
       features: ['Расчет пошлин', 'Логистические затраты', 'Итоговая маржа'],
     },
-<<<<<<< HEAD
-=======
   },
   {
     id: 'fulfillment-dashboard',
@@ -465,7 +459,6 @@ export const WORKSPACE_ITEMS: WorkspaceItem[] = [
       image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2000',
       features: ['Фильтры по категориям', 'Профили фабрик', 'Быстрый контакт'],
     },
->>>>>>> recover/cabinet-wip-from-stash
   },
   {
     id: 'contracts',
@@ -497,11 +490,7 @@ export const WORKSPACE_ITEMS: WorkspaceItem[] = [
     buttonText: 'ЗАБРОНИРОВАТЬ',
     badge: 'NEW',
     teaser: {
-<<<<<<< HEAD
-      subtitle: 'TSUM / Farfetch style',
-=======
       subtitle: 'Premium retail style',
->>>>>>> recover/cabinet-wip-from-stash
       image: 'https://images.unsplash.com/photo-1577563908411-5077b6dc7624?q=80&w=2000',
       features: ['Слоты экспертов', 'Напоминания', 'Запись встречи'],
     },
@@ -518,11 +507,7 @@ export const WORKSPACE_ITEMS: WorkspaceItem[] = [
     buttonText: 'ВЫБРАТЬ СЛОТ',
     badge: 'NEW',
     teaser: {
-<<<<<<< HEAD
-      subtitle: 'TSUM style',
-=======
       subtitle: 'VIP showroom',
->>>>>>> recover/cabinet-wip-from-stash
       image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2000',
       features: ['Календарь слотов', 'Подтверждение', 'Напоминания'],
     },
@@ -765,15 +750,9 @@ export const WORKSPACE_ITEMS: WorkspaceItem[] = [
 
 /** Пути для перехода с карточек B2B Workspace (id → path). Бренд/магазин выбирается по контексту. */
 export const WORKSPACE_ITEM_PATHS: Record<string, string> = {
-<<<<<<< HEAD
-  'market-intelligence': ROUTES.shop.b2b,
-  collab: ROUTES.brand.team,
-  pim: ROUTES.brand.inventory,
-=======
   'market-intelligence': ROUTES.shop.b2bDiscover,
   collab: ROUTES.brand.team,
   pim: ROUTES.brand.products,
->>>>>>> recover/cabinet-wip-from-stash
   claims: ROUTES.brand.returnsClaims,
   dms: ROUTES.brand.documents,
   crm: ROUTES.brand.retailers,
@@ -809,13 +788,10 @@ export const WORKSPACE_ITEM_PATHS: Record<string, string> = {
   'delivery-calendar': ROUTES.shop.b2bDeliveryCalendar,
   'lookbook-share': ROUTES.shop.b2bLookbookShare,
   academy: ROUTES.shop.b2bAcademy,
-<<<<<<< HEAD
-=======
   'fulfillment-dashboard': ROUTES.shop.b2bFulfillmentDashboard,
   'b2b-rfq': ROUTES.shop.b2bRfq,
   'b2b-tenders': ROUTES.shop.b2bTenders,
   'supplier-discovery': ROUTES.shop.b2bSupplierDiscovery,
->>>>>>> recover/cabinet-wip-from-stash
 };
 
 export const DIGITAL_WORKSPACE_CONNECTIONS = [
@@ -861,8 +837,6 @@ export const DIGITAL_WORKSPACE_CONNECTIONS = [
     label: 'ЛИДЫ -> CRM',
     desc: 'Автоматическая конвертация успешных лидов в карточки партнеров в CRM.',
   },
-<<<<<<< HEAD
-=======
   {
     from: 'supplier-discovery',
     to: 'b2b-rfq',
@@ -875,20 +849,12 @@ export const DIGITAL_WORKSPACE_CONNECTIONS = [
     label: 'SLA -> ТРЕКИНГ',
     desc: 'Проблемные заказы из fulfillment ведут в сквозной трекинг поставок.',
   },
->>>>>>> recover/cabinet-wip-from-stash
 ];
 
 export const FLOW_CONFIG: Record<DigitalFlowId, { label: string; color: string; bgColor: string }> =
   {
     intelligence: {
       label: 'Интеллект и Аналитика',
-<<<<<<< HEAD
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-50',
-    },
-    ops: { label: 'Операции и Коллаборация', color: 'text-blue-600', bgColor: 'bg-blue-50' },
-    commercial: { label: 'Коммерция и Продажи', color: 'text-indigo-600', bgColor: 'bg-indigo-50' },
-=======
       color: 'text-accent-primary',
       bgColor: 'bg-accent-primary/10',
     },
@@ -898,7 +864,6 @@ export const FLOW_CONFIG: Record<DigitalFlowId, { label: string; color: string; 
       color: 'text-accent-primary',
       bgColor: 'bg-accent-primary/10',
     },
->>>>>>> recover/cabinet-wip-from-stash
     supply: { label: 'Цепочки Поставок', color: 'text-emerald-600', bgColor: 'bg-emerald-50' },
   };
 
@@ -908,16 +873,12 @@ export const ROLE_CONFIG: Record<
 > = {
   retailer: { label: 'РЕТЕЙЛЕР', icon: 'Store', color: 'text-blue-500', bgColor: 'bg-blue-50' },
   brand: { label: 'БРЕНД', icon: 'Tag', color: 'text-emerald-500', bgColor: 'bg-emerald-50' },
-<<<<<<< HEAD
-  buyer: { label: 'БАЙЕР', icon: 'ShoppingBag', color: 'text-indigo-500', bgColor: 'bg-indigo-50' },
-=======
   buyer: {
     label: 'БАЙЕР',
     icon: 'ShoppingBag',
     color: 'text-accent-primary',
     bgColor: 'bg-accent-primary/10',
   },
->>>>>>> recover/cabinet-wip-from-stash
   distributor: {
     label: 'ДИСТРИБЬЮТОР',
     icon: 'Briefcase',
@@ -942,13 +903,10 @@ export const ROLE_PERMISSIONS: Record<string, string[]> = {
     'planning',
     'logistics',
     'landed-cost',
-<<<<<<< HEAD
-=======
     'fulfillment-dashboard',
     'b2b-rfq',
     'b2b-tenders',
     'supplier-discovery',
->>>>>>> recover/cabinet-wip-from-stash
     'contracts',
     'video-consultation',
     'vip-room-booking',
@@ -982,13 +940,10 @@ export const ROLE_PERMISSIONS: Record<string, string[]> = {
     'prod-pulse',
     'ats',
     'logistics',
-<<<<<<< HEAD
-=======
     'fulfillment-dashboard',
     'b2b-rfq',
     'b2b-tenders',
     'supplier-discovery',
->>>>>>> recover/cabinet-wip-from-stash
     'contracts',
     'video-consultation',
     'vip-room-booking',
@@ -1005,13 +960,10 @@ export const ROLE_PERMISSIONS: Record<string, string[]> = {
     'financing',
     'ats',
     'landed-cost',
-<<<<<<< HEAD
-=======
     'fulfillment-dashboard',
     'b2b-rfq',
     'b2b-tenders',
     'supplier-discovery',
->>>>>>> recover/cabinet-wip-from-stash
     'margin-calculator',
     'multi-currency',
     'partner-onboarding',
@@ -1024,13 +976,10 @@ export const ROLE_PERMISSIONS: Record<string, string[]> = {
     'academy',
     'financing',
     'logistics',
-<<<<<<< HEAD
-=======
     'fulfillment-dashboard',
     'b2b-rfq',
     'b2b-tenders',
     'supplier-discovery',
->>>>>>> recover/cabinet-wip-from-stash
     'video-consultation',
     'vip-room-booking',
     'store-locator',

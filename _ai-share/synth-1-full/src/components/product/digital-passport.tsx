@@ -31,20 +31,12 @@ export function DigitalProductPassport() {
   return (
     <div className="mx-auto max-w-2xl space-y-4 duration-1000 animate-in fade-in">
       {/* Mobile-Style Header */}
-<<<<<<< HEAD
-      <header className="sticky top-4 z-50 flex items-center justify-between rounded-xl border border-slate-100 bg-white/80 p-4 shadow-xl backdrop-blur-md">
-=======
       <header className="border-border-subtle sticky top-4 z-50 flex items-center justify-between rounded-xl border bg-white/80 p-4 shadow-xl backdrop-blur-md">
->>>>>>> recover/cabinet-wip-from-stash
         <Button variant="ghost" size="icon" className="rounded-full">
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div className="text-center">
-<<<<<<< HEAD
-          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
           <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
             Digital Passport v2.0
           </p>
           <h1 className="text-sm font-black uppercase tracking-tighter">Urban Tech Parka #001</h1>
@@ -77,22 +69,14 @@ export function DigitalProductPassport() {
       </div>
 
       {/* Nav Tabs */}
-<<<<<<< HEAD
-      <div className="flex rounded-3xl border border-slate-200 bg-slate-100 p-1.5">
-=======
       <div className="bg-bg-surface2 border-border-default flex rounded-3xl border p-1.5">
->>>>>>> recover/cabinet-wip-from-stash
         {['origin', 'eco', 'verify'].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab as any)}
             className={cn(
               'flex-1 rounded-2xl py-3 text-[10px] font-black uppercase transition-all',
-<<<<<<< HEAD
-              activeTab === tab ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400'
-=======
               activeTab === tab ? 'text-text-primary bg-white shadow-sm' : 'text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
             )}
           >
             {tab === 'origin' ? 'История' : tab === 'eco' ? 'Экология' : 'Подлинность'}
@@ -108,16 +92,6 @@ export function DigitalProductPassport() {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-<<<<<<< HEAD
-            <Card className="space-y-4 rounded-xl border-slate-100 p-4 shadow-sm">
-              <div className="flex items-center gap-3 border-b border-slate-50 pb-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50">
-                  <History className="h-6 w-6 text-indigo-600" />
-                </div>
-                <div>
-                  <h3 className="text-base font-black uppercase tracking-tight">Путь изделия</h3>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-=======
             <Card className="border-border-subtle space-y-4 rounded-xl p-4 shadow-sm">
               <div className="border-border-subtle flex items-center gap-3 border-b pb-6">
                 <div className="bg-accent-primary/10 flex h-12 w-12 items-center justify-center rounded-2xl">
@@ -126,17 +100,12 @@ export function DigitalProductPassport() {
                 <div>
                   <h3 className="text-base font-black uppercase tracking-tight">Путь изделия</h3>
                   <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     От фермы до ваших рук
                   </p>
                 </div>
               </div>
 
-<<<<<<< HEAD
-              <div className="relative space-y-4 before:absolute before:bottom-2 before:left-6 before:top-2 before:w-0.5 before:bg-slate-100">
-=======
               <div className="before:bg-bg-surface2 relative space-y-4 before:absolute before:bottom-2 before:left-6 before:top-2 before:w-0.5">
->>>>>>> recover/cabinet-wip-from-stash
                 {[
                   {
                     stage: 'Ферма (Сырье)',
@@ -168,24 +137,6 @@ export function DigitalProductPassport() {
                   },
                 ].map((step, i) => (
                   <div key={i} className="relative z-10 flex gap-3">
-<<<<<<< HEAD
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border-2 border-slate-100 bg-white shadow-sm">
-                      <step.icon className="h-5 w-5 text-slate-400" />
-                    </div>
-                    <div className="space-y-1 pt-1">
-                      <div className="flex items-center justify-between">
-                        <p className="text-[11px] font-black uppercase text-slate-900">
-                          {step.stage}
-                        </p>
-                        <span className="text-[9px] font-bold uppercase text-slate-400">
-                          {step.date}
-                        </span>
-                      </div>
-                      <p className="text-[10px] font-bold uppercase tracking-tighter text-indigo-600">
-                        {step.location}
-                      </p>
-                      <p className="text-xs font-medium leading-relaxed text-slate-500">
-=======
                     <div className="border-border-subtle flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border-2 bg-white shadow-sm">
                       <step.icon className="text-text-muted h-5 w-5" />
                     </div>
@@ -202,7 +153,6 @@ export function DigitalProductPassport() {
                         {step.location}
                       </p>
                       <p className="text-text-secondary text-xs font-medium leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                         {step.desc}
                       </p>
                     </div>
@@ -263,11 +213,7 @@ export function DigitalProductPassport() {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-<<<<<<< HEAD
-            <Card className="space-y-4 rounded-xl border-slate-100 p-3 text-center shadow-xl">
-=======
             <Card className="border-border-subtle space-y-4 rounded-xl p-3 text-center shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
               <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 shadow-inner">
                 <ShieldCheck className="h-12 w-12" />
               </div>
@@ -275,26 +221,15 @@ export function DigitalProductPassport() {
                 <h3 className="text-sm font-black uppercase tracking-tighter">
                   Authenticity Verified
                 </h3>
-<<<<<<< HEAD
-                <p className="text-sm font-medium text-slate-500">
-=======
                 <p className="text-text-secondary text-sm font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                   Это изделие является оригинальным продуктом бренда Syntha Lab.
                 </p>
               </div>
               <div className="space-y-4 pt-4">
-<<<<<<< HEAD
-                <div className="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50 p-4">
-                  <div className="flex items-center gap-3">
-                    <Fingerprint className="h-5 w-5 text-indigo-600" />
-                    <span className="text-[10px] font-black uppercase text-slate-900">
-=======
                 <div className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-2xl border p-4">
                   <div className="flex items-center gap-3">
                     <Fingerprint className="text-accent-primary h-5 w-5" />
                     <span className="text-text-primary text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                       NFC Chip Status
                     </span>
                   </div>
@@ -302,19 +237,6 @@ export function DigitalProductPassport() {
                     Active
                   </Badge>
                 </div>
-<<<<<<< HEAD
-                <div className="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50 p-4">
-                  <div className="flex items-center gap-3">
-                    <Lock className="h-5 w-5 text-indigo-600" />
-                    <span className="text-[10px] font-black uppercase text-slate-900">
-                      Blockchain Record
-                    </span>
-                  </div>
-                  <span className="text-[10px] font-bold text-slate-400">View on Etherscan</span>
-                </div>
-              </div>
-              <div className="rounded-xl border border-slate-200 bg-slate-100 p-4 text-slate-900">
-=======
                 <div className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-2xl border p-4">
                   <div className="flex items-center gap-3">
                     <Lock className="text-accent-primary h-5 w-5" />
@@ -326,7 +248,6 @@ export function DigitalProductPassport() {
                 </div>
               </div>
               <div className="bg-bg-surface2 text-text-primary border-border-default rounded-xl border p-4">
->>>>>>> recover/cabinet-wip-from-stash
                 <p className="mb-2 text-[10px] font-black uppercase tracking-widest">
                   Владение изделием
                 </p>
@@ -334,11 +255,7 @@ export function DigitalProductPassport() {
                   Ваш цифровой паспорт подтверждает право собственности и подлинность изделия на
                   протяжении всего жизненного цикла.
                 </p>
-<<<<<<< HEAD
-                <Button className="h-12 w-full rounded-2xl border border-slate-200 bg-white text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-sm">
-=======
                 <Button className="text-text-primary border-border-default h-12 w-full rounded-2xl border bg-white text-[10px] font-black uppercase tracking-widest shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
                   История обслуживания
                 </Button>
               </div>
@@ -348,11 +265,7 @@ export function DigitalProductPassport() {
       </div>
 
       <footer className="pb-20 text-center">
-<<<<<<< HEAD
-        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-=======
         <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
           © 2026 Syntha Ecosystem • All rights reserved
         </p>
       </footer>

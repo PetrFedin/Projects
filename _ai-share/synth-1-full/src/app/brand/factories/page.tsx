@@ -1,11 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-<<<<<<< HEAD
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-=======
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
->>>>>>> recover/cabinet-wip-from-stash
 import {
   Table,
   TableBody,
@@ -16,11 +12,7 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-<<<<<<< HEAD
-import { MoreHorizontal, PlusCircle, Search, Factory, ChevronRight } from 'lucide-react';
-=======
 import { MoreHorizontal, PlusCircle, Search, ChevronRight } from 'lucide-react';
->>>>>>> recover/cabinet-wip-from-stash
 import { Input } from '@/components/ui/input';
 import {
   DropdownMenu,
@@ -60,21 +52,6 @@ const factories = [
 
 export default function FactoriesPage() {
   return (
-<<<<<<< HEAD
-    <div className="space-y-4">
-      <header className="flex items-center justify-between">
-        <div>
-          <h1 className="font-headline text-base font-bold">Производства</h1>
-          <p className="text-muted-foreground">
-            Управление вашими производственными партнерами и фабриками.
-          </p>
-        </div>
-        <Button>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Добавить производство
-        </Button>
-      </header>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
       <RegistryPageHeader
         title="Производства"
@@ -86,7 +63,6 @@ export default function FactoriesPage() {
           </Button>
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -115,13 +91,8 @@ export default function FactoriesPage() {
                 <TableRow key={factory.id} className="group">
                   <TableCell className="font-medium">
                     <Link
-<<<<<<< HEAD
-                      href={`/brand/factories/${factory.id}`}
-                      className="flex items-center gap-2 hover:text-indigo-600"
-=======
                       href={`${ROUTES.brand.factories}/${factory.id}`}
                       className="hover:text-accent-primary flex items-center gap-2"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       {factory.name}
                       <ChevronRight className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
@@ -159,10 +130,6 @@ export default function FactoriesPage() {
           </Table>
         </CardContent>
       </Card>
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

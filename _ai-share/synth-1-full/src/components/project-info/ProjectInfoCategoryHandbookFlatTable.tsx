@@ -193,11 +193,7 @@ export function ProjectInfoCategoryHandbookFlatTable() {
             return (
               <tr
                 key={leaf.leafId}
-<<<<<<< HEAD
-                className="group border-b border-slate-100 hover:bg-slate-50/80"
-=======
                 className="border-border-subtle hover:bg-bg-surface2/80 group border-b"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <td
                   className={cn(

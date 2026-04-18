@@ -39,22 +39,6 @@ CI и переменные для live-probe контракта health: **`docs/
 - Версии публичных API: **`docs/api-versioning.md`**
 - Владельцы модулей (заполнить): **`docs/OWNERS.md`** · SLO (черновик): **`docs/SLO.md`**
 - Инциденты и откат: **`docs/production-readiness/RUNBOOK.md`**
-<<<<<<< HEAD
-- CI (монорепо `Projects`): корневой **`.github/workflows/synth-1-full-ci.yml`** — **`ci-fast`** по push/PR с paths под **`\_ai-share/synth-1-full/**`:** `format:check`, **`npm run lint`**, **`npm run check:legacy-archive-api`** (только PR), **`npm test`**, полный **`npm run typecheck`** (**`continue-on-error`**, техдолг), **`npm run build`**, **`npm run test:e2e:light`** (при **`NEXT_PUBLIC_USE_B2C_SHOP_API`**). **`ci-heavy`** после успешного ci-fast — при лейбле **`ci-heavy`** на PR (в т.ч. события **`labeled`/`unlabeled`**), **`schedule`** (пн 05:00 UTC) или **`workflow_dispatch`**: **`npm run test:e2e:verification`** + **`npm run test:e2e:api`**. Standalone-клон только full: **`\_ai-share/synth-1-full/.github/workflows/ci.yml`** (без heavy; локально **`npm run test:e2e:heavy`**). Визуальные тесты — отдельный workflow / лейбл **`ci-visual`** (см. корень **`.github/workflows/`**). Шаблон PR: **`.github/pull_request_template.md`\*\*
-
-## Качество кода (локально)
-
-| Команда                        | Назначение                                                                                                           |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
-| `npm run typecheck`            | TypeScript без эмита                                                                                                 |
-| `npm run lint`                 | ESLint (Next + TypeScript + Tailwind); часть правил — **warning** для старого кода                                   |
-| `npm run format:check`         | Prettier без записи                                                                                                  |
-| `npm run format`               | Prettier с записью                                                                                                   |
-| `npm run check:contracts`      | Локальный запуск контрактных guard-ов (`legacy-archive-api`, `integrations-boundary`, `ai-client-boundary`, parity). |
-| `npm run build`                | Production-сборка Next.js (обычный `.next`)                                                                          |
-| `npm run build:isolated`       | Изолированная production-сборка (`.next-isolated`) без конфликта с параллельным `next dev`                           |
-| `npm run typecheck:next-pages` | Проверка Next page-контрактов по `.next-isolated/types`                                                              |
-=======
 - CI (монорепо `Projects`): корневой **`.github/workflows/synth-1-full-ci.yml`** — job **`changes`** (`dorny/paths-filter`) + **`ci-fast`** по push/PR с paths под **`\_ai-share/synth-1-full/**`:** `format:check`, **`npm run lint`**, **`npm run check:legacy-archive-api`** (только PR), **`npm test`**, **`npm run check:contracts:ci`** (live health-probe **пропускается**, если не задан **`DOMAIN_EVENTS_HEALTH_URL`**), отдельный шаг **`check:ai-client-boundary`** с **`continue-on-error`** (сигнал без блокировки merge), полный **`npm run typecheck`** (**`continue-on-error`**, техдолг), **`npm run build:isolated`**, опционально live-probe при **repo variable** **`DOMAIN_EVENTS_HEALTH_URL`** (см. **`docs/ci/DOMAIN_EVENTS_HEALTH_CI.md`**), **`npm run test:e2e:light`**, **`npm run test:e2e:cabinet-hubs`**, **`npm run test:e2e:shop-retail`** (последний — только если менялся контур ритейл-кабинета, см. фильтр в workflow). Node в CI берётся из **`.nvmrc`**. **`ci-heavy`** после успешного **`ci-fast`** — при **`push`в`main`**, лейбле **`ci-heavy`** на PR, **`schedule`** (пн 05:00 UTC) или **`workflow_dispatch`**: **`npm run test:e2e:verification`** + **`npm run test:e2e:api`**. Standalone-клон только full: **`\_ai-share/synth-1-full/.github/workflows/ci.yml`** (то же условие для **`test:e2e:shop-retail`**; без heavy; локально **`npm run test:e2e:heavy`**). Визуальные тесты — отдельный workflow / лейбл **`ci-visual`** (см. корень **`.github/workflows/`**). Шаблон PR: **`.github/pull_request_template.md`\*\*
 
 ## Качество кода (локально)
@@ -73,7 +57,6 @@ CI и переменные для live-probe контракта health: **`docs/
 | `npm run typecheck:next-pages`  | Проверка Next page-контрактов по `.next-isolated/types`                                                                                                                                    |
 | `npm run test:e2e:shop-retail`  | Ритейл-кабинет: **`GET /api/shop/erp-sync-status`**, сегменты аналитики и перекрёстные ссылки (**`e2e/shop-erp-analytics-strip.spec.ts`**); см. **`docs/RETAIL_CABINET_FULL_PLAYBOOK.md`** |
 | `npm run test:e2e:verification` | Матрица demo-хабов, в т.ч. **`/shop`** + хаб маржи (**`unified-ecosystem-smoke.spec.ts`**)                                                                                                 |
->>>>>>> recover/cabinet-wip-from-stash
 
 Рекомендуемый pre-push для изменений в API/контрактах: **`npm run check:contracts:ci`**; если трогаете client/AI-границу — ещё **`npm run check:contracts`** (или смотрите красный informational-шаг в CI). Для изменений в **`/shop`** (навигация, аналитика, ERP): **`npm run test:e2e:shop-retail`** и при необходимости **`npm run test:e2e:verification`**.
 

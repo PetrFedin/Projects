@@ -56,19 +56,11 @@ export const MessageList: React.FC<MessageListProps> = ({
         {grouped.map((g) => (
           <div key={g.day} className="space-y-4">
             <div className="flex items-center gap-3">
-<<<<<<< HEAD
-              <div className="h-px flex-1 bg-slate-100" />
-              <span className="text-[9px] font-bold uppercase italic tracking-[0.2em] text-slate-300">
-                {g.day}
-              </span>
-              <div className="h-px flex-1 bg-slate-100" />
-=======
               <div className="bg-bg-surface2 h-px flex-1" />
               <span className="text-text-muted text-[9px] font-bold uppercase italic tracking-[0.2em]">
                 {g.day}
               </span>
               <div className="bg-bg-surface2 h-px flex-1" />
->>>>>>> recover/cabinet-wip-from-stash
             </div>
 
             <div className="space-y-2">
@@ -80,15 +72,9 @@ export const MessageList: React.FC<MessageListProps> = ({
                 if (m.isPrivate && !mine) {
                   return (
                     <div key={m.id} className="flex select-none justify-center py-1 opacity-40">
-<<<<<<< HEAD
-                      <div className="flex items-center gap-2 rounded-full border border-slate-100 bg-slate-50 px-3 py-1 shadow-sm">
-                        <EyeOff className="h-2.5 w-2.5 text-slate-400" />
-                        <span className="text-[8px] font-bold uppercase italic tracking-widest text-slate-500">
-=======
                       <div className="bg-bg-surface2 border-border-subtle flex items-center gap-2 rounded-full border px-3 py-1 shadow-sm">
                         <EyeOff className="text-text-muted h-2.5 w-2.5" />
                         <span className="text-text-secondary text-[8px] font-bold uppercase italic tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                           Content hidden by privacy policy
                         </span>
                       </div>
@@ -102,17 +88,10 @@ export const MessageList: React.FC<MessageListProps> = ({
                   <React.Fragment key={m.id}>
                     {showUnreadDivider && (
                       <div className="my-6 flex items-center gap-3">
-<<<<<<< HEAD
-                        <div className="h-px flex-1 bg-indigo-100" />
-                        <Badge
-                          variant="outline"
-                          className="h-4 rounded-md border-none bg-indigo-600 px-3 text-[8px] font-bold uppercase tracking-widest text-white shadow-md"
-=======
                         <div className="bg-accent-primary/15 h-px flex-1" />
                         <Badge
                           variant="outline"
                           className="bg-accent-primary h-4 rounded-md border-none px-3 text-[8px] font-bold uppercase tracking-widest text-white shadow-md"
->>>>>>> recover/cabinet-wip-from-stash
                         >
                           NEW MESSAGES ({unreadCountActiveChat})
                         </Badge>

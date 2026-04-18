@@ -36,11 +36,7 @@ export const ProductLoyaltyQuestsBlock: React.FC<{ product: Product }> = ({ prod
             className={`rounded-lg border p-3 transition-all ${q.status === 'in_progress' ? 'border-amber-200 bg-white shadow-md' : 'border-amber-100 bg-amber-50/50 opacity-80'}`}
           >
             <div className="mb-1.5 flex items-center justify-between">
-<<<<<<< HEAD
-              <div className="flex items-center gap-1.5 text-xs font-black uppercase text-slate-800">
-=======
               <div className="text-text-primary flex items-center gap-1.5 text-xs font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                 {q.title}
                 {q.status === 'completed' && (
                   <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
@@ -50,13 +46,9 @@ export const ProductLoyaltyQuestsBlock: React.FC<{ product: Product }> = ({ prod
                 <Star className="h-2.5 w-2.5 fill-amber-500" /> +{q.rewardPoints}
               </div>
             </div>
-<<<<<<< HEAD
-            <div className="mb-3 text-[10px] leading-tight text-slate-500">{q.description}</div>
-=======
             <div className="text-text-secondary mb-3 text-[10px] leading-tight">
               {q.description}
             </div>
->>>>>>> recover/cabinet-wip-from-stash
 
             <Button
               variant="outline"
@@ -70,11 +62,7 @@ export const ProductLoyaltyQuestsBlock: React.FC<{ product: Product }> = ({ prod
         ))}
       </div>
 
-<<<<<<< HEAD
-      <div className="mt-4 flex items-center justify-between border-t border-amber-100 pt-3 text-[9px] font-bold uppercase italic text-slate-400">
-=======
       <div className="text-text-muted mt-4 flex items-center justify-between border-t border-amber-100 pt-3 text-[9px] font-bold uppercase italic">
->>>>>>> recover/cabinet-wip-from-stash
         <span>Программа лояльности v3.0</span>
         <span className="text-amber-600">Gamification Enabled</span>
       </div>

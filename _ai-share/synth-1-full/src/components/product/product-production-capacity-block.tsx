@@ -12,30 +12,6 @@ export function ProductProductionCapacityBlock({ product }: { product: Product }
   const cap = getFactoryCapacityStatus(product.sku);
 
   return (
-<<<<<<< HEAD
-    <Card className="relative my-4 overflow-hidden border-2 border-slate-100 bg-slate-50/10 p-4 shadow-sm">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-slate-600">
-          <Factory className="h-4 w-4" />
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
-            Factory Capacity Planning
-          </h4>
-        </div>
-        <div className="text-[8px] font-black uppercase text-slate-400">Production Scheduling</div>
-      </div>
-
-      <div className="relative mb-4 overflow-hidden rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
-        <div className="mb-4 flex items-start justify-between">
-          <div>
-            <div className="text-[11px] font-black uppercase tracking-tighter text-slate-800">
-              {cap.factoryId}
-            </div>
-            <div className="mt-0.5 text-[8px] font-bold uppercase text-slate-400">
-              Primary Manufacturing Site
-            </div>
-          </div>
-          <Activity className="h-5 w-5 animate-pulse text-indigo-500" />
-=======
     <Card className="border-border-subtle bg-bg-surface2/10 relative my-4 overflow-hidden border-2 p-4 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
         <div className="text-text-secondary flex items-center gap-2">
@@ -58,16 +34,11 @@ export function ProductProductionCapacityBlock({ product }: { product: Product }
             </div>
           </div>
           <Activity className="text-accent-primary h-5 w-5 animate-pulse" />
->>>>>>> recover/cabinet-wip-from-stash
         </div>
 
         <div className="space-y-4">
           <div>
-<<<<<<< HEAD
-            <div className="mb-1 flex items-end justify-between text-[9px] font-black uppercase tracking-widest text-slate-500">
-=======
             <div className="text-text-secondary mb-1 flex items-end justify-between text-[9px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               <span>Line Utilization</span>
               <span className={cap.utilizationPercent > 85 ? 'text-rose-600' : 'text-emerald-600'}>
                 {cap.utilizationPercent}%
@@ -75,42 +46,24 @@ export function ProductProductionCapacityBlock({ product }: { product: Product }
             </div>
             <Progress
               value={cap.utilizationPercent}
-<<<<<<< HEAD
-              className={`h-1.5 bg-slate-100 ${cap.utilizationPercent > 85 ? 'fill-rose-500' : 'fill-indigo-500'}`}
-=======
               className={`bg-bg-surface2 h-1.5 ${cap.utilizationPercent > 85 ? 'fill-rose-500' : 'fill-accent-primary'}`}
->>>>>>> recover/cabinet-wip-from-stash
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-<<<<<<< HEAD
-              <div className="text-[14px] font-black leading-none text-slate-800">
-                {cap.currentBookedQty.toLocaleString()}
-              </div>
-              <div className="mt-1 text-[7px] font-black uppercase text-slate-400">
-=======
               <div className="text-text-primary text-[14px] font-black leading-none">
                 {cap.currentBookedQty.toLocaleString()}
               </div>
               <div className="text-text-muted mt-1 text-[7px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                 Units Booked
               </div>
             </div>
             <div className="text-right">
-<<<<<<< HEAD
-              <div className="text-[14px] font-black leading-none text-slate-800">
-                {cap.totalMonthlyCapacity.toLocaleString()}
-              </div>
-              <div className="mt-1 text-[7px] font-black uppercase text-slate-400">
-=======
               <div className="text-text-primary text-[14px] font-black leading-none">
                 {cap.totalMonthlyCapacity.toLocaleString()}
               </div>
               <div className="text-text-muted mt-1 text-[7px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                 Total Capacity
               </div>
             </div>
@@ -118,17 +71,6 @@ export function ProductProductionCapacityBlock({ product }: { product: Product }
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div className="mb-2 flex items-center justify-between rounded-xl border border-indigo-100 bg-indigo-50/50 p-3 shadow-sm">
-        <div className="flex items-center gap-2.5">
-          <Calendar className="h-4 w-4 text-indigo-500" />
-          <div>
-            <div className="text-[10px] font-black text-slate-700">Next Slot Available</div>
-            <div className="text-[9px] font-bold text-indigo-600">{cap.earliestAvailableSlot}</div>
-          </div>
-        </div>
-        <button className="flex items-center gap-1 text-[8px] font-black uppercase text-indigo-600 hover:underline">
-=======
       <div className="bg-accent-primary/10 border-accent-primary/20 mb-2 flex items-center justify-between rounded-xl border p-3 shadow-sm">
         <div className="flex items-center gap-2.5">
           <Calendar className="text-accent-primary h-4 w-4" />
@@ -140,7 +82,6 @@ export function ProductProductionCapacityBlock({ product }: { product: Product }
           </div>
         </div>
         <button className="text-accent-primary flex items-center gap-1 text-[8px] font-black uppercase hover:underline">
->>>>>>> recover/cabinet-wip-from-stash
           Book Slot <ArrowRight className="h-2.5 w-2.5" />
         </button>
       </div>

@@ -41,42 +41,6 @@ export default function BrandCustomerActivityPage() {
   const [period, setPeriod] = useState<'7d' | '30d' | '90d'>('30d');
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <Link href="/brand">
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          </Link>
-          <div>
-            <h1 className="flex items-center gap-2 text-xl font-bold uppercase">
-              <Activity className="h-5 w-5" /> Активность клиентов
-            </h1>
-            <p className="mt-0.5 text-sm text-slate-500">
-              Подписчики, лайки, избранное, образы, метрики вовлечённости с профилем бренда
-            </p>
-          </div>
-        </div>
-        <div className="flex gap-1 rounded-lg bg-slate-100 p-0.5">
-          {(['7d', '30d', '90d'] as const).map((p) => (
-            <button
-              key={p}
-              onClick={() => setPeriod(p)}
-              className={cn(
-                'rounded px-3 py-1.5 text-[10px] font-bold uppercase',
-                period === p
-                  ? 'bg-white text-slate-900 shadow'
-                  : 'text-slate-500 hover:text-slate-700'
-              )}
-            >
-              {p === '7d' ? '7 дней' : p === '30d' ? '30 дней' : '90 дней'}
-            </button>
-          ))}
-        </div>
-      </div>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="Активность клиентов"
@@ -111,7 +75,6 @@ export default function BrandCustomerActivityPage() {
           </div>
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       {/* KPI карточки */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-6">
@@ -131,11 +94,7 @@ export default function BrandCustomerActivityPage() {
         ].map((k) => (
           <Card key={k.label} className="border-border-default">
             <CardContent className="p-4">
-<<<<<<< HEAD
-              <div className="mb-1 flex items-center gap-2 text-slate-500">
-=======
               <div className={cn('mb-1 flex items-center gap-2', getMetricValueToneClass(k.color))}>
->>>>>>> recover/cabinet-wip-from-stash
                 <k.icon className="h-4 w-4" />
                 <span className="text-[10px] font-bold uppercase tracking-widest">{k.label}</span>
               </div>
@@ -149,16 +108,6 @@ export default function BrandCustomerActivityPage() {
       </div>
 
       <Tabs defaultValue="engagement" className="space-y-4">
-<<<<<<< HEAD
-        <TabsList>
-          <TabsTrigger value="engagement" className="gap-2">
-            Вовлечённость
-          </TabsTrigger>
-          <TabsTrigger value="content" className="gap-2">
-            Контент и товары
-          </TabsTrigger>
-          <TabsTrigger value="social" className="gap-2">
-=======
         {/* cabinetSurface v1 */}
         <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
           <TabsTrigger
@@ -186,7 +135,6 @@ export default function BrandCustomerActivityPage() {
               'text-xs font-semibold normal-case tracking-normal'
             )}
           >
->>>>>>> recover/cabinet-wip-from-stash
             Социальная активность
           </TabsTrigger>
         </TabsList>
@@ -205,11 +153,7 @@ export default function BrandCustomerActivityPage() {
                   {MOCK_FOLLOWERS.map((v, i) => (
                     <div
                       key={i}
-<<<<<<< HEAD
-                      className="min-h-[4px] flex-1 rounded-t bg-indigo-500/80 hover:bg-indigo-500"
-=======
                       className="bg-accent-primary/80 hover:bg-accent-primary min-h-[4px] flex-1 rounded-t"
->>>>>>> recover/cabinet-wip-from-stash
                       style={{
                         height: `${20 + (v / MOCK_FOLLOWERS[MOCK_FOLLOWERS.length - 1]) * 80}%`,
                       }}
@@ -217,11 +161,7 @@ export default function BrandCustomerActivityPage() {
                     />
                   ))}
                 </div>
-<<<<<<< HEAD
-                <div className="mt-2 flex justify-between text-[10px] text-slate-400">
-=======
                 <div className="text-text-muted mt-2 flex justify-between text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                   <span>{MOCK_FOLLOWERS[0].toLocaleString('ru-RU')}</span>
                   <span>{MOCK_FOLLOWERS[MOCK_FOLLOWERS.length - 1].toLocaleString('ru-RU')}</span>
                 </div>
@@ -272,12 +212,6 @@ export default function BrandCustomerActivityPage() {
                   { label: 'Переходы в каталог', value: '3 120', icon: BarChart3 },
                   { label: 'Клики на «Купить»', value: '1 840', icon: TrendingUp },
                 ].map((m) => (
-<<<<<<< HEAD
-                  <div key={m.label} className="rounded-xl border border-slate-100 bg-slate-50 p-4">
-                    <m.icon className="mb-2 h-4 w-4 text-slate-400" />
-                    <p className="text-[10px] font-bold uppercase text-slate-500">{m.label}</p>
-                    <p className="text-lg font-black text-slate-900">{m.value}</p>
-=======
                   <div
                     key={m.label}
                     className="bg-bg-surface2 border-border-subtle rounded-xl border p-4"
@@ -285,7 +219,6 @@ export default function BrandCustomerActivityPage() {
                     <m.icon className="text-text-muted mb-2 h-4 w-4" />
                     <p className="text-text-secondary text-[10px] font-bold uppercase">{m.label}</p>
                     <p className="text-text-primary text-lg font-black">{m.value}</p>
->>>>>>> recover/cabinet-wip-from-stash
                   </div>
                 ))}
               </div>
@@ -310,11 +243,7 @@ export default function BrandCustomerActivityPage() {
                 ].map((p, i) => (
                   <div
                     key={i}
-<<<<<<< HEAD
-                    className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50 p-3"
-=======
                     className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-lg border p-3"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     <span className="font-medium">{p.name}</span>
                     <div className="text-text-secondary flex gap-4 text-sm">
@@ -345,18 +274,12 @@ export default function BrandCustomerActivityPage() {
                   { label: 'Ответы бренда', value: '312' },
                   { label: 'Отзывы с фото', value: '156' },
                 ].map((m) => (
-<<<<<<< HEAD
-                  <div key={m.label} className="rounded-xl border border-slate-100 bg-slate-50 p-4">
-                    <p className="text-[10px] font-bold uppercase text-slate-500">{m.label}</p>
-                    <p className="text-lg font-black text-slate-900">{m.value}</p>
-=======
                   <div
                     key={m.label}
                     className="bg-bg-surface2 border-border-subtle rounded-xl border p-4"
                   >
                     <p className="text-text-secondary text-[10px] font-bold uppercase">{m.label}</p>
                     <p className="text-text-primary text-lg font-black">{m.value}</p>
->>>>>>> recover/cabinet-wip-from-stash
                   </div>
                 ))}
               </div>
@@ -367,11 +290,7 @@ export default function BrandCustomerActivityPage() {
 
       <div className="flex gap-2">
         <Button variant="outline" asChild>
-<<<<<<< HEAD
-          <Link href="/brand">Назад к профилю</Link>
-=======
           <Link href={ROUTES.brand.home}>Назад к профилю</Link>
->>>>>>> recover/cabinet-wip-from-stash
         </Button>
         <Button variant="outline" asChild>
           <Link href={ROUTES.brand.customers}>CRM и клиенты</Link>

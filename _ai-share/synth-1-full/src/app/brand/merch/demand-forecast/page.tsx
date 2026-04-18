@@ -53,13 +53,9 @@ export default function DemandForecastPage() {
         </Card>
         <Card>
           <CardHeader className="py-3">
-<<<<<<< HEAD
-            <CardDescription className="text-xs">Топовый SKU</CardDescription>
-=======
             <CardDescription className="text-xs">
               Топовый <AcronymWithTooltip abbr="SKU" />
             </CardDescription>
->>>>>>> recover/cabinet-wip-from-stash
             <CardTitle className="truncate text-base">{rows[0]?.name}</CardTitle>
           </CardHeader>
         </Card>

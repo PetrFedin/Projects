@@ -21,28 +21,9 @@ export default function B2BCheckoutPage() {
   );
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <ShoppingBag className="h-6 w-6" /> Оформление заказа
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Product Customization: логотипы, мокапы при оформлении
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="max-w-2xl space-y-6" data-testid={tid.page('shop-b2b-checkout')}>
       <ShopB2bContentHeader lead="Product Customization: логотипы и мокапы при оформлении (RepSpark)." />
       <ShopAnalyticsSegmentErpStrip />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -50,11 +31,7 @@ export default function B2BCheckoutPage() {
         </CardHeader>
         <CardContent>
           {b2bCart.length === 0 ? (
-<<<<<<< HEAD
-            <p className="text-sm text-slate-500">
-=======
             <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
               Корзина пуста. Добавьте товары в матрице заказа.
             </p>
           ) : (

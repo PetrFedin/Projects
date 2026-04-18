@@ -608,11 +608,7 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
         if (nb) {
           const existing = getWorkshop2Phase1Dossier(collectionId, newArticleId);
           const base = existing ?? emptyWorkshop2DossierPhase1();
-<<<<<<< HEAD
-          setWorkshop2Phase1Dossier(collectionId, applied.newArticleId, {
-=======
           setWorkshop2Phase1Dossier(collectionId, newArticleId, {
->>>>>>> recover/cabinet-wip-from-stash
             ...base,
             tzSignatoryBindings: nb,
           });

@@ -18,29 +18,9 @@ export default function B2BTrackingPage() {
   const ordersWithTracking = mockB2BOrders.filter((o) => o.status !== 'Черновик').slice(0, 8);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <Truck className="h-6 w-6" /> Трекинг заказов
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Сквозной мониторинг отгрузок. JOOR ASN, статусы доставки и ссылки на трекинг
-            перевозчика.
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="max-w-4xl space-y-6" data-testid={tid.page('shop-b2b-tracking')}>
       <ShopB2bContentHeader lead="Сквозной мониторинг отгрузок: JOOR ASN, статусы доставки и ссылки на трекинг перевозчика." />
       <ShopAnalyticsSegmentErpStrip />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -49,30 +29,18 @@ export default function B2BTrackingPage() {
         </CardHeader>
         <CardContent className="space-y-3">
           {ordersWithTracking.length === 0 ? (
-<<<<<<< HEAD
-            <p className="text-sm text-slate-500">
-=======
             <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
               Нет заказов с отгрузкой. После отгрузки здесь появится трекинг.
             </p>
           ) : (
             ordersWithTracking.map((o) => (
               <div
                 key={o.order}
-<<<<<<< HEAD
-                className="flex items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50/50 p-4"
-              >
-                <div>
-                  <p className="font-bold text-slate-900">{o.order}</p>
-                  <p className="text-xs text-slate-500">
-=======
                 className="border-border-subtle bg-bg-surface2/80 flex items-center justify-between gap-3 rounded-xl border p-4"
               >
                 <div>
                   <p className="text-text-primary font-bold">{o.order}</p>
                   <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                     {o.brand} · {o.shop} · {o.deliveryDate}
                   </p>
                 </div>
@@ -82,11 +50,7 @@ export default function B2BTrackingPage() {
                   className="rounded-lg text-[10px] font-black uppercase"
                   asChild
                 >
-<<<<<<< HEAD
-                  <Link href={`${ROUTES.shop.b2bOrders}/${o.order}`}>Детали и трекинг</Link>
-=======
                   <Link href={ROUTES.shop.b2bOrder(o.order)}>Детали и трекинг</Link>
->>>>>>> recover/cabinet-wip-from-stash
                 </Button>
               </div>
             ))

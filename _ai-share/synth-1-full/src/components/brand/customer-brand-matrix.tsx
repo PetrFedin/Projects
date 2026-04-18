@@ -39,13 +39,8 @@ const matrixData = [
     value: '+15% SKU interest',
     benefit: 'Бренд видит рост интереса к конкретным товарам (SKU) и может планировать запасы.',
     href: '/brand/products',
-<<<<<<< HEAD
-    color: 'text-indigo-600',
-    bg: 'bg-indigo-50',
-=======
     color: 'text-accent-primary',
     bg: 'bg-accent-primary/10',
->>>>>>> recover/cabinet-wip-from-stash
   },
   {
     action: 'Создал look с товаром',
@@ -99,13 +94,8 @@ const matrixData = [
     value: '1.2x Reach',
     benefit: 'Органическое привлечение новых клиентов через рекомендации существующих.',
     href: '/brand/analytics-360',
-<<<<<<< HEAD
-    color: 'text-purple-600',
-    bg: 'bg-purple-50',
-=======
     color: 'text-accent-primary',
     bg: 'bg-accent-primary/10',
->>>>>>> recover/cabinet-wip-from-stash
   },
 ];
 
@@ -116,24 +106,15 @@ export function CustomerBrandMatrix() {
         <div className="flex items-center justify-between">
           <div className="space-y-1">
             <div className="mb-1 flex items-center gap-2">
-<<<<<<< HEAD
-              <Activity className="h-4 w-4 text-indigo-600" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
-=======
               <Activity className="text-accent-primary h-4 w-4" />
               <span className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em]">
->>>>>>> recover/cabinet-wip-from-stash
                 Matrix v2.0
               </span>
             </div>
             <CardTitle className="text-base font-black uppercase tracking-tight">
               Матрица "Клиент-Бренд"
             </CardTitle>
-<<<<<<< HEAD
-            <CardDescription className="text-xs font-medium italic text-slate-400">
-=======
             <CardDescription className="text-text-muted text-xs font-medium italic">
->>>>>>> recover/cabinet-wip-from-stash
               Как действия клиентов влияют на ключевые метрики вашего бренда.
             </CardDescription>
           </div>
@@ -142,20 +123,6 @@ export function CustomerBrandMatrix() {
       <CardContent className="p-0">
         <div className="w-full overflow-auto">
           <Table>
-<<<<<<< HEAD
-            <TableHeader className="bg-slate-50/50">
-              <TableRow className="border-none hover:bg-transparent">
-                <TableHead className="h-10 px-8 text-[9px] font-black uppercase tracking-widest text-slate-400">
-                  Действие клиента
-                </TableHead>
-                <TableHead className="h-10 text-[9px] font-black uppercase tracking-widest text-slate-400">
-                  Метрика бренда
-                </TableHead>
-                <TableHead className="h-10 text-[9px] font-black uppercase tracking-widest text-slate-400">
-                  Показатель
-                </TableHead>
-                <TableHead className="h-10 px-8 text-[9px] font-black uppercase tracking-widest text-slate-400">
-=======
             <TableHeader className="bg-bg-surface2/80">
               <TableRow className="border-none hover:bg-transparent">
                 <TableHead className="text-text-muted h-10 px-8 text-[9px] font-black uppercase tracking-widest">
@@ -168,7 +135,6 @@ export function CustomerBrandMatrix() {
                   Показатель
                 </TableHead>
                 <TableHead className="text-text-muted h-10 px-8 text-[9px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   Выгода и Логика
                 </TableHead>
               </TableRow>
@@ -177,11 +143,7 @@ export function CustomerBrandMatrix() {
               {matrixData.map((row) => (
                 <TableRow
                   key={row.action}
-<<<<<<< HEAD
-                  className="group border-slate-50 transition-all hover:bg-slate-50"
-=======
                   className="hover:bg-bg-surface2 border-border-subtle group transition-all"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   <TableCell className="px-8 py-5">
                     <div className="flex items-center gap-3">
@@ -193,28 +155,17 @@ export function CustomerBrandMatrix() {
                       >
                         <row.icon className={cn('h-4 w-4', row.color)} />
                       </div>
-<<<<<<< HEAD
-                      <span className="text-[11px] font-black uppercase leading-tight text-slate-900">
-=======
                       <span className="text-text-primary text-[11px] font-black uppercase leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                         {row.action}
                       </span>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-col gap-0.5">
-<<<<<<< HEAD
-                      <span className="text-[9px] font-black uppercase text-slate-900">
-                        {row.metric}
-                      </span>
-                      <span className="text-[8px] font-medium uppercase tracking-widest text-slate-400">
-=======
                       <span className="text-text-primary text-[9px] font-black uppercase">
                         {row.metric}
                       </span>
                       <span className="text-text-muted text-[8px] font-medium uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                         {row.label}
                       </span>
                     </div>
@@ -235,22 +186,14 @@ export function CustomerBrandMatrix() {
                   </TableCell>
                   <TableCell className="px-8 py-5">
                     <div className="flex items-center justify-between gap-3">
-<<<<<<< HEAD
-                      <p className="max-w-sm text-[9px] font-medium italic leading-relaxed text-slate-500">
-=======
                       <p className="text-text-secondary max-w-sm text-[9px] font-medium italic leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                         {row.benefit}
                       </p>
                       <Button
                         asChild
                         variant="ghost"
                         size="icon"
-<<<<<<< HEAD
-                        className="h-8 w-8 rounded-xl bg-slate-50 text-slate-400 opacity-0 transition-all hover:bg-slate-900 hover:text-white group-hover:opacity-100"
-=======
                         className="bg-bg-surface2 text-text-muted hover:bg-text-primary/90 h-8 w-8 rounded-xl opacity-0 transition-all hover:text-white group-hover:opacity-100"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         <Link href={row.href}>
                           <ArrowUpRight className="h-4 w-4" />

@@ -70,11 +70,7 @@ export function CollectionCreateWizardSteps({
           </div>
         )}
         <div className="space-y-2">
-<<<<<<< HEAD
-          <Label className="text-[10px] font-black uppercase text-slate-400">
-=======
           <Label className="text-text-muted text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
             Название коллекции *
           </Label>
           <Input
@@ -87,11 +83,7 @@ export function CollectionCreateWizardSteps({
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-<<<<<<< HEAD
-            <Label className="text-[10px] font-black uppercase text-slate-400">Сезон</Label>
-=======
             <Label className="text-text-muted text-[10px] font-black uppercase">Сезон</Label>
->>>>>>> recover/cabinet-wip-from-stash
             <Select
               value={form.season}
               onValueChange={(v) => setForm((f) => ({ ...f, season: v }))}
@@ -147,11 +139,7 @@ export function CollectionCreateWizardSteps({
           </div>
         </div>
         <div className="space-y-2">
-<<<<<<< HEAD
-          <Label className="text-[10px] font-black uppercase text-slate-400">Приоритет</Label>
-=======
           <Label className="text-text-muted text-[10px] font-black uppercase">Приоритет</Label>
->>>>>>> recover/cabinet-wip-from-stash
           <Select
             value={form.priority}
             onValueChange={(v) => setForm((f) => ({ ...f, priority: v }))}
@@ -199,11 +187,7 @@ export function CollectionCreateWizardSteps({
           {errors.dropName && <p className="text-[10px] text-rose-500">{errors.dropName}</p>}
         </div>
         <div className="space-y-2">
-<<<<<<< HEAD
-          <Label className="text-[10px] font-black uppercase text-slate-400">
-=======
           <Label className="text-text-muted text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
             Дополнительные дропы
           </Label>
           {drops.map((d, i) => (
@@ -273,11 +257,7 @@ export function CollectionCreateWizardSteps({
     return (
       <div className="space-y-4">
         <div className="space-y-2">
-<<<<<<< HEAD
-          <Label className="text-[10px] font-black uppercase text-slate-400">
-=======
           <Label className="text-text-muted text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
             Бюджет (материалы / пошив / логистика)
           </Label>
           <div className="grid grid-cols-3 gap-2">
@@ -315,13 +295,8 @@ export function CollectionCreateWizardSteps({
           {errors.budget && <p className="text-[10px] text-rose-500">{errors.budget}</p>}
         </div>
         <div className="space-y-2">
-<<<<<<< HEAD
-          <Label className="text-[10px] font-black uppercase text-slate-400">
-            Merchandise plan (целевые единицы)
-=======
           <Label className="text-text-muted text-[10px] font-black uppercase">
             План мерчендайзинга (целевые единицы)
->>>>>>> recover/cabinet-wip-from-stash
           </Label>
           {form.merchPlan?.map((m, i) => (
             <div key={m.id} className="flex items-center gap-2">
@@ -358,19 +333,11 @@ export function CollectionCreateWizardSteps({
             {form.palette.map((c, i) => (
               <div
                 key={i}
-<<<<<<< HEAD
-                className="flex items-center gap-1 rounded-lg border border-slate-200 px-2 py-1"
-                style={{ backgroundColor: c.hex ? `${c.hex}20` : undefined }}
-              >
-                <div
-                  className="h-4 w-4 rounded-full border border-slate-300"
-=======
                 className="border-border-default flex items-center gap-1 rounded-lg border px-2 py-1"
                 style={{ backgroundColor: c.hex ? `${c.hex}20` : undefined }}
               >
                 <div
                   className="border-border-default h-4 w-4 rounded-full border"
->>>>>>> recover/cabinet-wip-from-stash
                   style={{ backgroundColor: c.hex || '#ccc' }}
                 />
                 <span className="text-[10px] font-bold">{c.name || '—'}</span>
@@ -378,11 +345,7 @@ export function CollectionCreateWizardSteps({
             ))}
           </div>
         ) : (
-<<<<<<< HEAD
-          <p className="text-[10px] italic text-slate-400">
-=======
           <p className="text-text-muted text-[10px] italic">
->>>>>>> recover/cabinet-wip-from-stash
             Палитра подгружается из шаблона. Нажмите &quot;Запустить&quot; для создания коллекции.
           </p>
         )}

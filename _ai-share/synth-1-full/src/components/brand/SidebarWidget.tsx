@@ -114,11 +114,7 @@ export function SidebarWidget() {
   const preview = notes.slice(0, 80) + (notes.length > 80 ? '…' : '');
 
   return (
-<<<<<<< HEAD
-    <div className="shrink-0 border-t border-slate-100 bg-slate-50/50">
-=======
     <div className="border-border-subtle bg-bg-surface2/80 shrink-0 border-t">
->>>>>>> recover/cabinet-wip-from-stash
       {/* Quick links */}
       <div className="flex items-center gap-0.5 p-1.5">
         <Sheet open={notesOpen} onOpenChange={setNotesOpen}>
@@ -126,11 +122,7 @@ export function SidebarWidget() {
             <Button
               variant="ghost"
               size="sm"
-<<<<<<< HEAD
-              className="h-7 flex-1 justify-start gap-1 px-2 text-[9px] font-bold uppercase tracking-wider text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-600"
-=======
               className="text-text-secondary hover:text-accent-primary hover:bg-accent-primary/10 h-7 flex-1 justify-start gap-1 px-2 text-[9px] font-bold uppercase tracking-wider"
->>>>>>> recover/cabinet-wip-from-stash
             >
               <StickyNote className="h-3 w-3 shrink-0" />
               Заметки
@@ -152,11 +144,7 @@ export function SidebarWidget() {
           <Button
             variant="ghost"
             size="sm"
-<<<<<<< HEAD
-            className="h-7 flex-1 justify-start gap-1 px-2 text-[9px] font-bold uppercase tracking-wider text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-600"
-=======
             className="text-text-secondary hover:text-accent-primary hover:bg-accent-primary/10 h-7 flex-1 justify-start gap-1 px-2 text-[9px] font-bold uppercase tracking-wider"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <MessageSquare className="h-3 w-3 shrink-0" />
             Чат
@@ -166,11 +154,7 @@ export function SidebarWidget() {
           <Button
             variant="ghost"
             size="sm"
-<<<<<<< HEAD
-            className="h-7 flex-1 justify-start gap-1 px-2 text-[9px] font-bold uppercase tracking-wider text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-600"
-=======
             className="text-text-secondary hover:text-accent-primary hover:bg-accent-primary/10 h-7 flex-1 justify-start gap-1 px-2 text-[9px] font-bold uppercase tracking-wider"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <Calendar className="h-3 w-3 shrink-0" />
             Календарь
@@ -183,11 +167,7 @@ export function SidebarWidget() {
         <button
           type="button"
           onClick={() => setNotesOpen(true)}
-<<<<<<< HEAD
-          className="mx-1 mb-1 w-full truncate rounded px-2 py-1.5 text-left text-[10px] text-slate-600 transition-colors hover:bg-slate-100/80"
-=======
           className="text-text-secondary hover:bg-bg-surface2/80 mx-1 mb-1 w-full truncate rounded px-2 py-1.5 text-left text-[10px] transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
           title="Открыть заметки"
         >
           {preview}
@@ -196,21 +176,13 @@ export function SidebarWidget() {
 
       {/* Upcoming tasks */}
       <div className="px-2 pb-2">
-<<<<<<< HEAD
-        <p className="mb-1 px-0.5 text-[8px] font-black uppercase tracking-widest text-slate-400">
-=======
         <p className="text-text-muted mb-1 px-0.5 text-[8px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
           Ближайшее
         </p>
         <ScrollArea className="h-[72px]">
           <div className="space-y-0.5 pr-1">
             {upcoming.length === 0 ? (
-<<<<<<< HEAD
-              <p className="py-1 text-[9px] italic text-slate-400">Нет событий</p>
-=======
               <p className="text-text-muted py-1 text-[9px] italic">Нет событий</p>
->>>>>>> recover/cabinet-wip-from-stash
             ) : (
               upcoming.map((item) => (
                 <Link
@@ -220,11 +192,7 @@ export function SidebarWidget() {
                     'group flex items-center gap-1.5 rounded px-1.5 py-1 text-[9px] transition-colors',
                     item.needsAttention
                       ? 'border border-amber-200/50 bg-amber-50/80'
-<<<<<<< HEAD
-                      : 'hover:bg-slate-100'
-=======
                       : 'hover:bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {item.needsAttention && (
@@ -233,28 +201,17 @@ export function SidebarWidget() {
                       title="Требует внимания"
                     />
                   )}
-<<<<<<< HEAD
-                  <span className="flex-1 truncate text-slate-700 group-hover:text-indigo-600">
-                    {item.title}
-                  </span>
-                  <span className="shrink-0 text-[8px] text-slate-400">
-=======
                   <span className="text-text-primary group-hover:text-accent-primary flex-1 truncate">
                     {item.title}
                   </span>
                   <span className="text-text-muted shrink-0 text-[8px]">
->>>>>>> recover/cabinet-wip-from-stash
                     {isToday(parseISO(item.startAt))
                       ? format(parseISO(item.startAt), 'HH:mm')
                       : isTomorrow(parseISO(item.startAt))
                         ? 'завтра'
                         : format(parseISO(item.startAt), 'd.MM')}
                   </span>
-<<<<<<< HEAD
-                  <ChevronRight className="h-2.5 w-2.5 shrink-0 text-slate-300 group-hover:text-indigo-500" />
-=======
                   <ChevronRight className="text-text-muted group-hover:text-accent-primary h-2.5 w-2.5 shrink-0" />
->>>>>>> recover/cabinet-wip-from-stash
                 </Link>
               ))
             )}

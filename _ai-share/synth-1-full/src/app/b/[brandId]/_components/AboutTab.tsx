@@ -6,10 +6,7 @@ import {
   Leaf,
   Palette,
   ShieldCheck,
-<<<<<<< HEAD
-=======
   Shield,
->>>>>>> recover/cabinet-wip-from-stash
   Brain,
   Globe,
   Heart,
@@ -29,11 +26,8 @@ import {
   ArrowRight,
   Star,
   Camera,
-<<<<<<< HEAD
-=======
   Check,
   Users,
->>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -80,11 +74,7 @@ export function AboutTab({
         <div className="space-y-6 lg:col-span-8">
           {storefrontSettings.showPhilosophy && (
             <Card className="group relative overflow-hidden rounded-xl border-none bg-white/80 shadow-xl backdrop-blur-sm">
-<<<<<<< HEAD
-              <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-accent/20 to-purple-600/20 opacity-0 blur transition duration-1000 group-hover:opacity-100"></div>
-=======
               <div className="from-accent-primary/20 to-accent-primary/20 absolute -inset-1 rounded-xl bg-gradient-to-r opacity-0 blur transition duration-1000 group-hover:opacity-100"></div>
->>>>>>> recover/cabinet-wip-from-stash
               <CardContent className="p-4">
                 <div className="relative">
                   <Quote className="absolute -left-6 -top-4 h-12 w-12 text-accent/5" />
@@ -648,11 +638,7 @@ export function AboutTab({
                           review.type === 'star'
                             ? 'bg-amber-50 text-white'
                             : review.type === 'influencer'
-<<<<<<< HEAD
-                              ? 'bg-purple-50 text-white'
-=======
                               ? 'bg-accent-primary/10 text-white'
->>>>>>> recover/cabinet-wip-from-stash
                               : 'bg-[#22c55e] text-white'
                         )}
                       >
@@ -680,12 +666,6 @@ export function AboutTab({
                       </div>
 
                       <div className="pt-2">
-<<<<<<< HEAD
-                        <TabsList className="h-auto bg-transparent p-0">
-                          <TabsTrigger
-                            value="products"
-                            className="group/link h-auto gap-1.5 border-none bg-transparent p-0 text-[9px] font-black uppercase text-white shadow-none transition-colors hover:text-accent data-[state=active]:bg-transparent data-[state=active]:text-accent"
-=======
                         {/* cabinetSurface v1 */}
                         <TabsList
                           className={cn(
@@ -699,7 +679,6 @@ export function AboutTab({
                               cabinetSurface.tabsTrigger,
                               'group/link h-auto gap-1.5 border-0 bg-transparent p-0 text-[9px] font-black uppercase text-white shadow-none hover:text-accent data-[state=active]:border-0 data-[state=active]:bg-transparent data-[state=active]:text-accent data-[state=active]:shadow-none'
                             )}
->>>>>>> recover/cabinet-wip-from-stash
                           >
                             Смотреть товары{' '}
                             <ArrowRight className="h-3 w-3 transition-transform group-hover/link:translate-x-1" />

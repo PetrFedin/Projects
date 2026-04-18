@@ -11,10 +11,7 @@ import { ROUTES } from '@/lib/routes';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-<<<<<<< HEAD
-=======
 import { RegistryPageShell } from '@/components/design-system';
->>>>>>> recover/cabinet-wip-from-stash
 import { getRecommendedSize, getSizeChartByBrand, type FitPreference } from '@/lib/b2b/size-fit';
 
 const FIT_OPTIONS: { value: FitPreference; label: string }[] = [
@@ -49,28 +46,8 @@ export default function SizeFinderPage() {
   const chart = getSizeChartByBrand(brandName);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <Ruler className="h-6 w-6" /> Подбор размера / Размерная сетка
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Рост и вес или замеры (грудь, талия, бёдра) + предпочтение посадки. Рекомендация по
-            размерной сетке бренда.
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="max-w-3xl space-y-6">
       <ShopB2bContentHeader lead="Рост и вес или замеры (грудь, талия, бёдра) и предпочтение посадки — рекомендация по размерной сетке бренда." />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -103,11 +80,7 @@ export default function SizeFinderPage() {
               />
             </div>
           </div>
-<<<<<<< HEAD
-          <div className="flex items-center gap-1 text-xs text-slate-500">
-=======
           <div className="text-text-secondary flex items-center gap-1 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
             <Info className="h-3.5 w-3.5" /> Опционально: замеры дают точнее
           </div>
           <div className="grid grid-cols-3 gap-4">
@@ -181,11 +154,7 @@ export default function SizeFinderPage() {
             <CardDescription>{recommendation.message}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-<<<<<<< HEAD
-            <p className="text-2xl font-black uppercase tracking-tight text-indigo-700">
-=======
             <p className="text-accent-primary text-2xl font-black uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
               {recommendation.retailerSize ?? recommendation.size}
             </p>
             {recommendation.sizeUpWarning && recommendation.sizeUpMessage && (
@@ -276,10 +245,6 @@ export default function SizeFinderPage() {
         title="Заказы, каталог, матрица"
         className="mt-6"
       />
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

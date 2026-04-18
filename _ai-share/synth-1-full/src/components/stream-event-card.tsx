@@ -108,11 +108,7 @@ export default function StreamEventCard({
     : '';
 
   return (
-<<<<<<< HEAD
-    <div className="border-border-default hover:border-accent-primary/30 group w-full overflow-hidden rounded-xl border bg-white shadow-sm transition-all duration-500 hover:shadow-xl">
-=======
     <div className="border-border-default bg-bg-surface hover:border-accent-primary/30 group w-full overflow-hidden rounded-xl border shadow-sm transition-all duration-500 hover:shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
       {/* Top Section: Media */}
       <div className="p-3">
         <div className="bg-bg-surface2 group/media relative aspect-[21/10] w-full overflow-hidden rounded-xl shadow-inner">
@@ -133,11 +129,7 @@ export default function StreamEventCard({
                 isLive
                   ? 'bg-state-success/80 animate-pulse text-white'
                   : isArchive
-<<<<<<< HEAD
-                    ? 'bg-slate-500/80 text-white'
-=======
                     ? 'bg-text-secondary/80 text-text-inverse'
->>>>>>> recover/cabinet-wip-from-stash
                     : 'bg-state-error/80 text-white'
               )}
             >
@@ -231,29 +223,17 @@ export default function StreamEventCard({
               <DialogTrigger asChild>
                 <Button
                   variant="outline"
-<<<<<<< HEAD
-                  className="border-border-default text-text-muted hover:text-text-primary hover:border-border-strong h-9 rounded-xl bg-white/50 px-4 text-[10px] font-black uppercase tracking-widest shadow-sm backdrop-blur-sm transition-all"
-=======
                   className="border-border-default bg-bg-surface/50 text-text-muted hover:border-border-strong hover:text-text-primary h-9 rounded-xl px-4 text-[10px] font-black uppercase tracking-widest shadow-sm backdrop-blur-sm transition-all"
->>>>>>> recover/cabinet-wip-from-stash
                   onClick={(e) => e.stopPropagation()}
                 >
                   <ShieldCheck className="text-text-muted/70 mr-2 h-3.5 w-3.5" /> Спонсоры
                 </Button>
               </DialogTrigger>
-<<<<<<< HEAD
-              <DialogContent className="rounded-xl border-none bg-white shadow-2xl sm:max-w-[450px]">
-                <DialogHeader>
-                  <DialogTitle className="flex items-center gap-3 text-base font-black uppercase tracking-tighter">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50">
-                      <ShieldCheck className="h-5 w-5 text-indigo-600" />
-=======
               <DialogContent className="bg-bg-surface rounded-xl border-none shadow-2xl sm:max-w-[450px]">
                 <DialogHeader>
                   <DialogTitle className="flex items-center gap-3 text-base font-black uppercase tracking-tighter">
                     <div className="bg-accent-primary/10 flex h-10 w-10 items-center justify-center rounded-xl">
                       <ShieldCheck className="text-accent-primary h-5 w-5" />
->>>>>>> recover/cabinet-wip-from-stash
                     </div>
                     Партнеры трансляции
                   </DialogTitle>
@@ -290,15 +270,9 @@ export default function StreamEventCard({
                       href={sponsor.url}
                       target="_blank"
                       rel="noopener noreferrer"
-<<<<<<< HEAD
-                      className="group/sp relative block rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:border-indigo-500/30"
-                    >
-                      <div className="relative mb-3 aspect-video overflow-hidden rounded-lg border border-slate-100 bg-white">
-=======
                       className="group/sp border-border-subtle bg-bg-surface2/80 hover:border-accent-primary/30 relative block rounded-2xl border p-4 transition-all"
                     >
                       <div className="border-border-subtle bg-bg-surface relative mb-3 aspect-video overflow-hidden rounded-lg border">
->>>>>>> recover/cabinet-wip-from-stash
                         <img
                           src={sponsor.logo}
                           alt={sponsor.name}
@@ -306,16 +280,6 @@ export default function StreamEventCard({
                         />
                       </div>
                       <div className="space-y-0.5">
-<<<<<<< HEAD
-                        <p className="text-[10px] font-black uppercase tracking-tight text-slate-900">
-                          {sponsor.name}
-                        </p>
-                        <p className="text-[7px] font-bold uppercase tracking-widest text-slate-400">
-                          {sponsor.type}
-                        </p>
-                      </div>
-                      <ExternalLink className="absolute right-4 top-4 h-3 w-3 text-slate-300 opacity-0 transition-opacity group-hover/sp:opacity-100" />
-=======
                         <p className="text-text-primary text-[10px] font-black uppercase tracking-tight">
                           {sponsor.name}
                         </p>
@@ -324,7 +288,6 @@ export default function StreamEventCard({
                         </p>
                       </div>
                       <ExternalLink className="text-text-muted absolute right-4 top-4 h-3 w-3 opacity-0 transition-opacity group-hover/sp:opacity-100" />
->>>>>>> recover/cabinet-wip-from-stash
                     </a>
                   ))}
                 </div>
@@ -335,47 +298,27 @@ export default function StreamEventCard({
               <DialogTrigger asChild>
                 <Button
                   variant="outline"
-<<<<<<< HEAD
-                  className="border-border-default text-text-muted hover:text-text-primary hover:border-border-strong h-9 rounded-xl bg-white/50 px-4 text-[10px] font-black uppercase tracking-widest shadow-sm backdrop-blur-sm transition-all"
-=======
                   className="border-border-default bg-bg-surface/50 text-text-muted hover:border-border-strong hover:text-text-primary h-9 rounded-xl px-4 text-[10px] font-black uppercase tracking-widest shadow-sm backdrop-blur-sm transition-all"
->>>>>>> recover/cabinet-wip-from-stash
                   onClick={(e) => e.stopPropagation()}
                 >
                   <Info className="text-text-muted/70 mr-2 h-3.5 w-3.5" /> Инфо
                 </Button>
               </DialogTrigger>
-<<<<<<< HEAD
-              <DialogContent className="rounded-xl border-none bg-white shadow-2xl sm:max-w-[550px]">
-                <DialogHeader>
-                  <DialogTitle className="flex items-center gap-3 text-sm font-black uppercase tracking-tighter">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50">
-                      <Info className="h-5 w-5 text-indigo-600" />
-=======
               <DialogContent className="bg-bg-surface rounded-xl border-none shadow-2xl sm:max-w-[550px]">
                 <DialogHeader>
                   <DialogTitle className="flex items-center gap-3 text-sm font-black uppercase tracking-tighter">
                     <div className="bg-accent-primary/10 flex h-10 w-10 items-center justify-center rounded-xl">
                       <Info className="text-accent-primary h-5 w-5" />
->>>>>>> recover/cabinet-wip-from-stash
                     </div>
                     О трансляции
                   </DialogTitle>
                 </DialogHeader>
                 <div className="space-y-6 py-4">
-<<<<<<< HEAD
-                  <div className="relative aspect-[21/9] overflow-hidden rounded-2xl border border-slate-100">
-                    <img src={event.imageUrl} alt="" className="h-full w-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute bottom-4 left-6">
-                      <Badge className="mb-2 border-none bg-indigo-500 text-[8px] font-black">
-=======
                   <div className="border-border-subtle relative aspect-[21/9] overflow-hidden rounded-2xl border">
                     <img src={event.imageUrl} alt="" className="h-full w-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     <div className="absolute bottom-4 left-6">
                       <Badge className="bg-accent-primary text-text-inverse mb-2 border-none text-[8px] font-black">
->>>>>>> recover/cabinet-wip-from-stash
                         LIVE_STREAM_v2.4
                       </Badge>
                       <h4 className="text-sm font-black uppercase leading-none tracking-tight text-white">
@@ -385,17 +328,10 @@ export default function StreamEventCard({
                   </div>
 
                   <div className="space-y-3">
-<<<<<<< HEAD
-                    <h5 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                      Описание программы
-                    </h5>
-                    <p className="text-xs font-medium leading-relaxed text-slate-500">
-=======
                     <h5 className="text-text-muted text-[10px] font-black uppercase tracking-widest">
                       Описание программы
                     </h5>
                     <p className="text-text-secondary text-xs font-medium leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                       {isLive
                         ? 'Эксклюзивная презентация новой коллекции FW26. Мы разберем ключевые дропы, обсудим материалы и покажем, как стилизовать подиумные образы для реальной жизни. В конце эфира — возможность раннего выкупа для участников сообщества.'
                         : 'Глубокое погружение в макро-тренды сезона. Наш ведущий аналитик моды разберет самые актуальные направления, цвета и силуэты, которые будут определять стиль в ближайшие месяцы. Подготовьте ваши вопросы для Q&A сессии.'}
@@ -404,21 +340,12 @@ export default function StreamEventCard({
 
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-<<<<<<< HEAD
-                      <h5 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                        Участники эфира
-                      </h5>
-                      <div className="flex items-center gap-3 rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1">
-                        <Users className="h-3 w-3 text-indigo-600" />
-                        <span className="text-[9px] font-black uppercase tracking-widest text-indigo-600">
-=======
                       <h5 className="text-text-muted text-[10px] font-black uppercase tracking-widest">
                         Участники эфира
                       </h5>
                       <div className="border-accent-primary/20 bg-accent-primary/10 flex items-center gap-3 rounded-full border px-3 py-1">
                         <Users className="text-accent-primary h-3 w-3" />
                         <span className="text-accent-primary text-[9px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                           LIVE Analytics v4.0
                         </span>
                       </div>
@@ -442,15 +369,9 @@ export default function StreamEventCard({
                       ].map((person, i) => (
                         <div
                           key={i}
-<<<<<<< HEAD
-                          className="group/p relative flex items-center gap-3 overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 p-3 transition-all hover:bg-white hover:shadow-lg"
-                        >
-                          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-indigo-500/10 to-transparent" />
-=======
                           className="group/p border-border-subtle bg-bg-surface2 hover:bg-bg-surface relative flex items-center gap-3 overflow-hidden rounded-2xl border p-3 transition-all hover:shadow-lg"
                         >
                           <div className="via-accent-primary/10 absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent to-transparent" />
->>>>>>> recover/cabinet-wip-from-stash
 
                           <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border-2 border-white shadow-sm">
                             <img
@@ -461,20 +382,12 @@ export default function StreamEventCard({
                           </div>
                           <div className="flex-1 space-y-0.5 overflow-hidden">
                             <div className="flex items-center justify-between">
-<<<<<<< HEAD
-                              <p className="truncate text-[11px] font-black text-slate-900">
-=======
                               <p className="text-text-primary truncate text-[11px] font-black">
->>>>>>> recover/cabinet-wip-from-stash
                                 {person.name}
                               </p>
                             </div>
                             <div className="flex flex-col">
-<<<<<<< HEAD
-                              <span className="text-[8px] font-bold uppercase leading-none tracking-widest text-indigo-600">
-=======
                               <span className="text-accent-primary text-[8px] font-bold uppercase leading-none tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                                 {person.role}
                               </span>
                             </div>
@@ -484,11 +397,7 @@ export default function StreamEventCard({
                     </div>
 
                     {(isLive || isArchive) && (
-<<<<<<< HEAD
-                      <div className="relative space-y-4 overflow-hidden rounded-xl border border-white/5 bg-slate-950 p-4">
-=======
                       <div className="bg-text-primary relative space-y-4 overflow-hidden rounded-xl border border-white/5 p-4">
->>>>>>> recover/cabinet-wip-from-stash
                         <div className="absolute right-0 top-0 p-3">
                           <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
                         </div>
@@ -510,11 +419,7 @@ export default function StreamEventCard({
                                 key={i}
                                 initial={{ height: 0 }}
                                 animate={{ height: `${h}%` }}
-<<<<<<< HEAD
-                                className="w-1.5 rounded-t-sm bg-indigo-500/40"
-=======
                                 className="bg-accent-primary/40 w-1.5 rounded-t-sm"
->>>>>>> recover/cabinet-wip-from-stash
                               />
                             ))}
                           </div>

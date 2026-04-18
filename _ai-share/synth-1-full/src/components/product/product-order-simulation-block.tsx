@@ -12,21 +12,13 @@ export function ProductOrderSimulationBlock({ product }: { product: Product }) {
   const sim = simulateOrderImpact('SH-2026-01');
 
   return (
-<<<<<<< HEAD
-    <Card className="relative my-4 overflow-hidden border-2 border-indigo-600 bg-indigo-600 p-4 text-white shadow-2xl">
-=======
     <Card className="border-accent-primary bg-accent-primary relative my-4 overflow-hidden border-2 p-4 text-white shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
       <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-10">
         <Sparkles className="h-16 w-16 text-white" />
       </div>
 
       <div className="mb-4 flex items-center justify-between">
-<<<<<<< HEAD
-        <div className="flex items-center gap-2 text-indigo-200">
-=======
         <div className="text-accent-primary/40 flex items-center gap-2">
->>>>>>> recover/cabinet-wip-from-stash
           <BarChart3 className="h-4 w-4" />
           <h4 className="text-[10px] font-black uppercase tracking-widest text-white">
             B2B Order KPI Simulator
@@ -39,23 +31,15 @@ export function ProductOrderSimulationBlock({ product }: { product: Product }) {
 
       <div className="relative z-10 mb-6 grid grid-cols-2 gap-4">
         <div className="rounded-xl border border-white/10 bg-white/10 p-3">
-<<<<<<< HEAD
-          <div className="mb-1 text-[8px] font-black uppercase text-indigo-200">
-=======
           <div className="text-accent-primary/40 mb-1 text-[8px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
             Proj. Sell-Through
           </div>
           <div className="text-[20px] font-black leading-none">{sim.projectedSellThrough}%</div>
         </div>
         <div className="rounded-xl border border-white/10 bg-white/10 p-3">
-<<<<<<< HEAD
-          <div className="mb-1 text-[8px] font-black uppercase text-indigo-200">Proj. Margin</div>
-=======
           <div className="text-accent-primary/40 mb-1 text-[8px] font-black uppercase">
             Proj. Margin
           </div>
->>>>>>> recover/cabinet-wip-from-stash
           <div className="text-[20px] font-black leading-none">{sim.projectedMargin}%</div>
         </div>
       </div>
@@ -63,11 +47,7 @@ export function ProductOrderSimulationBlock({ product }: { product: Product }) {
       <div className="mb-4 space-y-4">
         <div>
           <div className="mb-1 flex items-end justify-between text-[9px] font-black uppercase tracking-widest">
-<<<<<<< HEAD
-            <span className="text-indigo-200">Inventory Turnover</span>
-=======
             <span className="text-accent-primary/40">Inventory Turnover</span>
->>>>>>> recover/cabinet-wip-from-stash
             <span>{sim.inventoryTurnoverWeeks} Weeks</span>
           </div>
           <Progress
@@ -77,19 +57,6 @@ export function ProductOrderSimulationBlock({ product }: { product: Product }) {
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div className="flex items-center justify-between rounded-xl border border-white/20 bg-white p-3 text-slate-900 shadow-lg">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50">
-            <TrendingUp className="h-4 w-4 text-indigo-600" />
-          </div>
-          <div>
-            <div className="text-[10px] font-black uppercase tracking-tighter">Markdown Risk</div>
-            <div className="text-[14px] font-black text-indigo-600">{sim.markdownRiskScore}%</div>
-          </div>
-        </div>
-        <button className="flex h-7 items-center gap-1.5 rounded-lg bg-indigo-600 px-3 text-[8px] font-black uppercase tracking-widest text-white transition-colors hover:bg-indigo-700">
-=======
       <div className="text-text-primary flex items-center justify-between rounded-xl border border-white/20 bg-white p-3 shadow-lg">
         <div className="flex items-center gap-2.5">
           <div className="bg-accent-primary/10 flex h-8 w-8 items-center justify-center rounded-lg">
@@ -103,7 +70,6 @@ export function ProductOrderSimulationBlock({ product }: { product: Product }) {
           </div>
         </div>
         <button className="bg-accent-primary hover:bg-accent-primary flex h-7 items-center gap-1.5 rounded-lg px-3 text-[8px] font-black uppercase tracking-widest text-white transition-colors">
->>>>>>> recover/cabinet-wip-from-stash
           <RefreshCw className="h-2.5 w-2.5" /> Re-Simulate
         </button>
       </div>

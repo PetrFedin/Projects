@@ -67,21 +67,13 @@ export default function VRShowroomPage() {
       <header className="pointer-events-none relative z-10 flex items-start justify-between p-4">
         <div className="pointer-events-auto space-y-4">
           <Link
-<<<<<<< HEAD
-            href="/brand"
-=======
             href={ROUTES.brand.home}
->>>>>>> recover/cabinet-wip-from-stash
             className="group flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/10 backdrop-blur-xl transition-all hover:bg-white/20"
           >
             <ChevronLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
           </Link>
           <div className="space-y-0.5">
-<<<<<<< HEAD
-            <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-indigo-400">
-=======
             <div className="text-accent-primary flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em]">
->>>>>>> recover/cabinet-wip-from-stash
               <Zap className="h-3 w-3" />
               <span>Immersive Node (B2B)</span>
             </div>
@@ -97,11 +89,7 @@ export default function VRShowroomPage() {
         <div className="pointer-events-auto flex gap-2">
           <Button
             size="sm"
-<<<<<<< HEAD
-            className="h-9 gap-2 rounded-lg bg-white px-5 text-[10px] font-black uppercase text-black shadow-xl transition-all hover:bg-indigo-50"
-=======
             className="hover:bg-accent-primary/10 h-9 gap-2 rounded-lg bg-white px-5 text-[10px] font-black uppercase text-black shadow-xl transition-all"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <UserPlus className="h-3.5 w-3.5" /> Invite Buyer
           </Button>
@@ -120,11 +108,7 @@ export default function VRShowroomPage() {
         {/* Hotspot 1: Product */}
         <div className="group pointer-events-auto absolute left-1/3 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div
-<<<<<<< HEAD
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-white/20 bg-indigo-500/80 shadow-[0_0_20px_rgba(99,102,241,0.4)] backdrop-blur-xl transition-all hover:scale-110"
-=======
             className="bg-accent-primary/80 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-white/20 shadow-[0_0_20px_rgba(99,102,241,0.4)] backdrop-blur-xl transition-all hover:scale-110"
->>>>>>> recover/cabinet-wip-from-stash
             onMouseEnter={() => setActiveHotspot('p1')}
           >
             <Plus className="h-5 w-5 text-white" />
@@ -141,11 +125,7 @@ export default function VRShowroomPage() {
                 </div>
                 <div className="flex-1 space-y-2.5">
                   <div className="space-y-0.5">
-<<<<<<< HEAD
-                    <p className="text-[8px] font-black uppercase tracking-widest text-indigo-400">
-=======
                     <p className="text-accent-primary text-[8px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                       Featured Look
                     </p>
                     <h4 className="text-[13px] font-black uppercase italic leading-none text-white">
@@ -159,11 +139,7 @@ export default function VRShowroomPage() {
                     <p className="text-sm font-black text-white">$450</p>
                     <Button
                       size="sm"
-<<<<<<< HEAD
-                      className="h-7 gap-1.5 rounded-md bg-indigo-600 px-3 text-[8px] font-black uppercase text-white transition-all hover:bg-indigo-500"
-=======
                       className="bg-accent-primary hover:bg-accent-primary h-7 gap-1.5 rounded-md px-3 text-[8px] font-black uppercase text-white transition-all"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       <ShoppingBag className="h-3 w-3" /> Add
                     </Button>
@@ -190,11 +166,7 @@ export default function VRShowroomPage() {
               <div className="group/vid relative flex aspect-video items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-white/5">
                 <PlayCircle className="h-8 w-8 cursor-pointer text-white/40 transition-colors group-hover/vid:text-white" />
               </div>
-<<<<<<< HEAD
-              <p className="mt-2.5 text-center text-[10px] font-bold italic text-indigo-200">
-=======
               <p className="text-accent-primary/40 mt-2.5 text-center text-[10px] font-bold italic">
->>>>>>> recover/cabinet-wip-from-stash
                 "Liquid Metal Vision"
               </p>
             </Card>
@@ -238,28 +210,16 @@ export default function VRShowroomPage() {
               {[1, 2, 3, 4, 5].map((i) => (
                 <div
                   key={i}
-<<<<<<< HEAD
-                  className="inline-block flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-slate-800 text-[9px] font-black uppercase text-white/60 ring-2 ring-black"
-=======
                   className="bg-text-primary/90 inline-block flex h-7 w-7 items-center justify-center rounded-full border border-white/10 text-[9px] font-black uppercase text-white/60 ring-2 ring-black"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   {['JD', 'MS', 'AK', 'LP', 'RT'][i - 1]}
                 </div>
               ))}
-<<<<<<< HEAD
-              <div className="inline-block flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-[9px] font-black text-indigo-400 ring-2 ring-black">
-                +7
-              </div>
-            </div>
-            <Button className="h-9 w-full gap-2 rounded-lg border-none bg-indigo-600 text-[9px] font-black uppercase text-white shadow-lg transition-all hover:bg-indigo-700">
-=======
               <div className="text-accent-primary inline-block flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-[9px] font-black ring-2 ring-black">
                 +7
               </div>
             </div>
             <Button className="bg-accent-primary hover:bg-accent-primary h-9 w-full gap-2 rounded-lg border-none text-[9px] font-black uppercase text-white shadow-lg transition-all">
->>>>>>> recover/cabinet-wip-from-stash
               <Monitor className="h-3.5 w-3.5" /> Start Presentation
             </Button>
           </div>
@@ -276,11 +236,7 @@ export default function VRShowroomPage() {
             <Button
               variant="ghost"
               size="sm"
-<<<<<<< HEAD
-              className="h-7 rounded-md bg-white px-4 text-[8px] font-black uppercase text-black hover:bg-indigo-50"
-=======
               className="hover:bg-accent-primary/10 h-7 rounded-md bg-white px-4 text-[8px] font-black uppercase text-black"
->>>>>>> recover/cabinet-wip-from-stash
             >
               Checkout
             </Button>
@@ -295,11 +251,7 @@ export default function VRShowroomPage() {
             </Button>
             <Button
               size="icon"
-<<<<<<< HEAD
-              className="h-10 w-10 rounded-lg border-none bg-indigo-600 text-white shadow-xl transition-all hover:bg-indigo-500"
-=======
               className="bg-accent-primary hover:bg-accent-primary h-10 w-10 rounded-lg border-none text-white shadow-xl transition-all"
->>>>>>> recover/cabinet-wip-from-stash
             >
               <Sparkles className="h-4 w-4" />
             </Button>

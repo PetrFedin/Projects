@@ -31,11 +31,7 @@ export default function GoldSamplePage() {
   const { data, setData, save, hydrated } = useFloorTabDraftState('gold-sample', GOLD_DEFAULT);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Gold Sample Approval"
         description="Маршрут и заметки сохраняются локально (floor-tab: gold-sample). После API — ЭДО и подписи в HttpProductionDataPort."
@@ -51,11 +47,7 @@ export default function GoldSamplePage() {
               ЭЦП
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/compliance">Compliance</Link>
-=======
               <Link href={ROUTES.brand.compliance}>Compliance</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }

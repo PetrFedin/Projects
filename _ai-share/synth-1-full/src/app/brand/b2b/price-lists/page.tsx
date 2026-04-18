@@ -34,26 +34,16 @@ export default function PriceListsPage() {
     : lists;
 
   return (
-<<<<<<< HEAD
-    <div className="space-y-6 pb-24">
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="Прайс-листы и группы клиентов"
         leadPlain="Прайс-листы по сегментам и группы покупателей для B2B."
       />
->>>>>>> recover/cabinet-wip-from-stash
       <Tabs
         value={tab}
         onValueChange={(v) => setTab(v as 'price-lists' | 'groups')}
         className="space-y-6"
       >
-<<<<<<< HEAD
-        <TabsList className="h-9 gap-0.5 border border-slate-200 bg-slate-50 px-1">
-          <TabsTrigger
-            value="price-lists"
-            className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
-=======
         <TabsList
           className={cn(cabinetSurface.tabsList, 'h-auto min-h-9 w-full shadow-inner sm:w-fit')}
         >
@@ -63,20 +53,15 @@ export default function PriceListsPage() {
               cabinetSurface.tabsTrigger,
               'data-[state=active]:text-accent-primary h-7 gap-1.5'
             )}
->>>>>>> recover/cabinet-wip-from-stash
           >
             <DollarSign className="h-3 w-3" /> Прайс-листы
           </TabsTrigger>
           <TabsTrigger
             value="groups"
-<<<<<<< HEAD
-            className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
-=======
             className={cn(
               cabinetSurface.tabsTrigger,
               'data-[state=active]:text-accent-primary h-7 gap-1.5'
             )}
->>>>>>> recover/cabinet-wip-from-stash
           >
             <Users className="h-3 w-3" /> Группы клиентов
           </TabsTrigger>
@@ -118,19 +103,11 @@ export default function PriceListsPage() {
               filtered.map((pl) => (
                 <div
                   key={pl.id}
-<<<<<<< HEAD
-                  className="flex items-start justify-between rounded-xl border border-slate-200 p-4"
-                >
-                  <div>
-                    <p className="font-medium">{pl.name}</p>
-                    <p className="text-xs text-slate-500">
-=======
                   className="border-border-subtle bg-bg-surface flex items-start justify-between rounded-xl border p-4"
                 >
                   <div>
                     <p className="font-medium">{pl.name}</p>
                     <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                       {pl.channel} · {pl.validFrom} – {pl.validTo}
                     </p>
                     {pl.customerGroupIds?.length ? (

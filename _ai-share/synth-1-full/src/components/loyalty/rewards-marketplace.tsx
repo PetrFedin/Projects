@@ -120,17 +120,6 @@ export default function RewardsMarketplace() {
     <div className="space-y-4 delay-200 duration-1000 animate-in fade-in slide-in-from-bottom-4">
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div>
-<<<<<<< HEAD
-          <h2 className="text-base font-black uppercase leading-none tracking-tight text-slate-900">
-            Маркетплейс <span className="italic text-indigo-600">Наград</span>
-          </h2>
-          <p className="mt-2 font-medium text-slate-500">
-            Обменивайте накопленные баллы на реальные и цифровые привилегии.
-          </p>
-        </div>
-        <Card className="flex items-center gap-3 rounded-2xl border-none bg-slate-900 p-4 text-white shadow-lg">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600">
-=======
           <h2 className="text-text-primary text-base font-black uppercase leading-none tracking-tight">
             Маркетплейс <span className="text-accent-primary italic">Наград</span>
           </h2>
@@ -140,7 +129,6 @@ export default function RewardsMarketplace() {
         </div>
         <Card className="bg-text-primary flex items-center gap-3 rounded-2xl border-none p-4 text-white shadow-lg">
           <div className="bg-accent-primary flex h-10 w-10 items-center justify-center rounded-xl">
->>>>>>> recover/cabinet-wip-from-stash
             <Zap className="h-5 w-5 fill-white" />
           </div>
           <div>
@@ -171,11 +159,7 @@ export default function RewardsMarketplace() {
                 className={cn(
                   'absolute left-4 top-4 border-none px-3 py-1 text-[8px] font-black uppercase tracking-widest shadow-lg',
                   reward.category === 'digital'
-<<<<<<< HEAD
-                    ? 'bg-purple-600 text-white'
-=======
                     ? 'bg-accent-primary text-white'
->>>>>>> recover/cabinet-wip-from-stash
                     : reward.category === 'experience'
                       ? 'bg-amber-500 text-white'
                       : reward.category === 'physical'
@@ -199,26 +183,16 @@ export default function RewardsMarketplace() {
               )}
             </div>
             <CardHeader className="flex-1 pb-4">
-<<<<<<< HEAD
-              <CardTitle className="text-base font-black uppercase leading-tight tracking-tight transition-colors group-hover:text-indigo-600">
-=======
               <CardTitle className="group-hover:text-accent-primary text-base font-black uppercase leading-tight tracking-tight transition-colors">
->>>>>>> recover/cabinet-wip-from-stash
                 {reward.title}
               </CardTitle>
               <CardDescription className="text-xs font-medium italic leading-relaxed">
                 {reward.description}
               </CardDescription>
             </CardHeader>
-<<<<<<< HEAD
-            <CardFooter className="flex items-center justify-between bg-slate-50/50 p-4 pt-0">
-              <div className="flex items-center gap-1 text-sm font-black text-indigo-600">
-                <Zap className="h-4 w-4 fill-indigo-600" /> {reward.cost}{' '}
-=======
             <CardFooter className="bg-bg-surface2/80 flex items-center justify-between p-4 pt-0">
               <div className="text-accent-primary flex items-center gap-1 text-sm font-black">
                 <Zap className="fill-accent-primary h-4 w-4" /> {reward.cost}{' '}
->>>>>>> recover/cabinet-wip-from-stash
                 <span className="ml-1 text-[10px] uppercase tracking-widest">SC</span>
               </div>
               <Button
@@ -226,13 +200,8 @@ export default function RewardsMarketplace() {
                 className={cn(
                   'h-10 rounded-xl px-6 text-[9px] font-black uppercase tracking-widest shadow-lg transition-all',
                   balance >= reward.cost
-<<<<<<< HEAD
-                    ? 'bg-slate-900 text-white hover:bg-indigo-600 hover:shadow-indigo-100'
-                    : 'cursor-not-allowed bg-slate-200 text-slate-400'
-=======
                     ? 'bg-text-primary hover:bg-accent-primary hover:shadow-accent-primary/10 text-white'
                     : 'bg-border-subtle text-text-muted cursor-not-allowed'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 Обменять
@@ -242,27 +211,16 @@ export default function RewardsMarketplace() {
         ))}
       </div>
 
-<<<<<<< HEAD
-      <div className="group relative flex flex-col items-center justify-between gap-3 overflow-hidden rounded-xl bg-gradient-to-br from-slate-900 to-slate-800 p-3 text-white shadow-2xl md:flex-row">
-        <Sparkles className="absolute -right-10 -top-3 h-64 w-64 text-white opacity-[0.03] transition-transform duration-1000 group-hover:rotate-12" />
-        <div className="relative z-10 text-center md:text-left">
-          <Badge className="mb-4 border-none bg-indigo-600 px-3 py-1 text-[9px] font-black uppercase tracking-widest text-white">
-=======
       <div className="from-text-primary to-text-primary group relative flex flex-col items-center justify-between gap-3 overflow-hidden rounded-xl bg-gradient-to-br p-3 text-white shadow-2xl md:flex-row">
         <Sparkles className="absolute -right-10 -top-3 h-64 w-64 text-white opacity-[0.03] transition-transform duration-1000 group-hover:rotate-12" />
         <div className="relative z-10 text-center md:text-left">
           <Badge className="bg-accent-primary mb-4 border-none px-3 py-1 text-[9px] font-black uppercase tracking-widest text-white">
->>>>>>> recover/cabinet-wip-from-stash
             Coming Soon
           </Badge>
           <h3 className="mb-4 text-base font-black uppercase italic leading-none tracking-tighter">
             Marketplace <br /> Collaboration
           </h3>
-<<<<<<< HEAD
-          <p className="max-w-md text-sm font-medium leading-relaxed text-slate-400">
-=======
           <p className="text-text-muted max-w-md text-sm font-medium leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
             Мы работаем над расширением наград: скоро вы сможете обменивать баллы на подписки Apple
             Music, билеты в кино и скидки у наших партнеров по всему миру.
           </p>
@@ -274,11 +232,7 @@ export default function RewardsMarketplace() {
           >
             Узнать больше <ChevronRight className="ml-2 h-4 w-4" />
           </Button>
-<<<<<<< HEAD
-          <Button className="h-12 rounded-xl bg-white px-8 text-[9px] font-black uppercase tracking-widest text-slate-900 shadow-xl hover:bg-slate-100">
-=======
           <Button className="text-text-primary hover:bg-bg-surface2 h-12 rounded-xl bg-white px-8 text-[9px] font-black uppercase tracking-widest shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
             Предложить награду <Check className="ml-2 h-4 w-4" />
           </Button>
         </div>

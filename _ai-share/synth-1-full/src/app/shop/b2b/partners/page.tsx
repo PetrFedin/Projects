@@ -32,26 +32,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-<<<<<<< HEAD
-=======
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
->>>>>>> recover/cabinet-wip-from-stash
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
 
 const mockPartners = [
   {
-<<<<<<< HEAD
-    id: 'syntha',
-    name: 'Syntha',
-    city: 'Москва',
-    type: 'Цифровой бренд',
-    orders: 3,
-    totalValue: 2400000,
-    logoUrl: 'https://picsum.photos/seed/syntha/40/40',
-    slug: 'syntha',
-=======
     id: 'brand_syntha_lab',
     name: 'Syntha Lab',
     city: 'Москва',
@@ -60,42 +47,10 @@ const mockPartners = [
     totalValue: 3200000,
     logoUrl: 'https://picsum.photos/seed/syntha-lab/40/40',
     slug: 'syntha-lab',
->>>>>>> recover/cabinet-wip-from-stash
     contractStatus: 'active',
     baseDiscount: 60,
   },
   {
-<<<<<<< HEAD
-    id: 'apc',
-    name: 'A.P.C.',
-    city: 'Париж',
-    type: 'Современная классика',
-    orders: 1,
-    totalValue: 1200000,
-    logoUrl: 'https://picsum.photos/seed/apc/40/40',
-    slug: 'apc',
-    contractStatus: 'pending',
-    baseDiscount: 58,
-  },
-  {
-    id: 'acne-studios',
-    name: 'Acne Studios',
-    city: 'Стокгольм',
-    type: 'Авангард',
-    orders: 5,
-    totalValue: 3100000,
-    logoUrl: 'https://picsum.photos/seed/acne-studios/40/40',
-    slug: 'acne-studios',
-    contractStatus: 'expired',
-    baseDiscount: 62,
-  },
-];
-
-const mockRequests = [
-  { id: 'req1', brand: 'Jil Sander', date: '2024-07-28', status: 'pending' },
-  { id: 'req2', brand: 'Dries Van Noten', date: '2024-07-25', status: 'viewed' },
-  { id: 'req3', brand: 'Maison Margiela', date: '2024-07-22', status: 'approved' },
-=======
     id: 'brand_nordic_wool',
     name: 'Nordic Wool',
     city: 'Санкт-Петербург',
@@ -113,16 +68,11 @@ const mockRequests = [
   { id: 'req1', brand: 'Nordic Wool', date: '2024-07-28', status: 'pending' },
   { id: 'req2', brand: 'Syntha Lab', date: '2024-07-25', status: 'viewed' },
   { id: 'req3', brand: 'Nordic Wool', date: '2024-07-22', status: 'approved' },
->>>>>>> recover/cabinet-wip-from-stash
 ];
 
 export default function PartnersPage() {
   const router = useRouter();
-<<<<<<< HEAD
-  const searchParams = useSearchParams();
-=======
   const searchParams = useSearchParamsNonNull();
->>>>>>> recover/cabinet-wip-from-stash
   const defaultTab = searchParams.get('tab') === 'requests' ? 'requests' : 'partners';
 
   const getStatusInfo = (status: string) => {
@@ -152,11 +102,7 @@ export default function PartnersPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="space-y-6">
->>>>>>> recover/cabinet-wip-from-stash
       <Card>
         <CardHeader>
           <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
@@ -221,11 +167,6 @@ export default function PartnersPage() {
             </Button>
           </div>
           <Tabs defaultValue={defaultTab}>
-<<<<<<< HEAD
-            <TabsList>
-              <TabsTrigger value="partners">Мои партнеры</TabsTrigger>
-              <TabsTrigger value="requests">Запросы на партнерство</TabsTrigger>
-=======
             <TabsList className={cn(cabinetSurface.tabsList, 'w-full flex-wrap sm:w-auto')}>
               <TabsTrigger value="partners" className={cabinetSurface.tabsTrigger}>
                 Мои партнеры
@@ -233,7 +174,6 @@ export default function PartnersPage() {
               <TabsTrigger value="requests" className={cabinetSurface.tabsTrigger}>
                 Запросы на партнерство
               </TabsTrigger>
->>>>>>> recover/cabinet-wip-from-stash
             </TabsList>
             <TabsContent value="partners" className="pt-4">
               <Table>
@@ -255,11 +195,7 @@ export default function PartnersPage() {
                         <TableCell>
                           <Button variant="link" asChild className="h-auto p-0 font-medium">
                             <Link
-<<<<<<< HEAD
-                              href={`/shop/b2b/partners/${retailer.slug}`}
-=======
                               href={ROUTES.shop.b2bPartnerRetailer(retailer.slug)}
->>>>>>> recover/cabinet-wip-from-stash
                               className="flex items-center gap-3"
                             >
                               <Image
@@ -288,64 +224,38 @@ export default function PartnersPage() {
                                           'h-2.5 w-2.5',
                                           s <= 4
                                             ? 'fill-amber-400 text-amber-400'
-<<<<<<< HEAD
-                                            : 'text-slate-200'
-=======
                                             : 'text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                                         )}
                                       />
                                     ))}
                                   </div>
-<<<<<<< HEAD
-                                  <span className="text-[10px] font-black text-slate-900">4.2</span>
-                                </div>
-                              </TooltipTrigger>
-                              <TooltipContent className="rounded-xl border-none bg-slate-900 p-3 text-white shadow-2xl">
-=======
                                   <span className="text-text-primary text-[10px] font-black">
                                     4.2
                                   </span>
                                 </div>
                               </TooltipTrigger>
                               <TooltipContent className="bg-text-primary rounded-xl border-none p-3 text-white shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
                                 <div className="space-y-1.5">
                                   <p className="border-b border-white/10 pb-1 text-[9px] font-black uppercase tracking-widest">
                                     Partner Efficiency
                                   </p>
                                   <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-<<<<<<< HEAD
-                                    <span className="text-[8px] uppercase text-slate-400">
-=======
                                     <span className="text-text-muted text-[8px] uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                                       Отработка брака:
                                     </span>
                                     <span className="text-right text-[8px] font-bold text-emerald-400">
                                       98%
                                     </span>
-<<<<<<< HEAD
-                                    <span className="text-[8px] uppercase text-slate-400">
-=======
                                     <span className="text-text-muted text-[8px] uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                                       Точность сроков:
                                     </span>
                                     <span className="text-right text-[8px] font-bold text-amber-400">
                                       85%
                                     </span>
-<<<<<<< HEAD
-                                    <span className="text-[8px] uppercase text-slate-400">
-                                      Полнота отгрузки:
-                                    </span>
-                                    <span className="text-right text-[8px] font-bold text-indigo-400">
-=======
                                     <span className="text-text-muted text-[8px] uppercase">
                                       Полнота отгрузки:
                                     </span>
                                     <span className="text-accent-primary text-right text-[8px] font-bold">
->>>>>>> recover/cabinet-wip-from-stash
                                       92%
                                     </span>
                                   </div>
@@ -378,11 +288,7 @@ export default function PartnersPage() {
                                   <Button
                                     variant="ghost"
                                     size="icon"
-<<<<<<< HEAD
-                                    className="h-8 w-8 text-slate-400 hover:text-indigo-600"
-=======
                                     className="text-text-muted hover:text-accent-primary h-8 w-8"
->>>>>>> recover/cabinet-wip-from-stash
                                   >
                                     <BookOpen className="h-4 w-4" />
                                   </Button>
@@ -409,17 +315,10 @@ export default function PartnersPage() {
               </Table>
             </TabsContent>
             <TabsContent value="requests" className="space-y-3 pt-4">
-<<<<<<< HEAD
-              <p className="text-sm text-slate-500">
-                Заявки на сотрудничество с брендами. После одобрения бренд появится в «Мои
-                партнёры».{' '}
-                <Link href={ROUTES.shop.b2bApply} className="text-indigo-600 hover:underline">
-=======
               <p className="text-text-secondary text-sm">
                 Заявки на сотрудничество с брендами. После одобрения бренд появится в «Мои
                 партнёры».{' '}
                 <Link href={ROUTES.shop.b2bApply} className="text-accent-primary hover:underline">
->>>>>>> recover/cabinet-wip-from-stash
                   Подать новую заявку
                 </Link>
                 .
@@ -462,10 +361,6 @@ export default function PartnersPage() {
         title="Заказы, выставки, матрица"
         className="mt-6"
       />
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

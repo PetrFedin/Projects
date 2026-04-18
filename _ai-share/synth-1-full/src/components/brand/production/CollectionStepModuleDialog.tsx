@@ -250,19 +250,11 @@ export function CollectionStepModuleDialog({
         </DialogHeader>
 
         <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-4 py-3">
-<<<<<<< HEAD
-          <div className="flex flex-wrap items-end gap-2 rounded-lg border border-slate-100 bg-slate-50/80 p-3">
-=======
           <div className="border-border-subtle bg-bg-surface2/80 flex flex-wrap items-end gap-2 rounded-lg border p-3">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="flex min-w-[200px] flex-1 items-center gap-2">
               <UserCircle className="text-text-muted h-4 w-4 shrink-0" aria-hidden />
               <div className="min-w-0 flex-1">
-<<<<<<< HEAD
-                <p className="text-[9px] font-bold uppercase text-slate-400">
-=======
                 <p className="text-text-muted text-[9px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   Кто вносит изменения
                 </p>
                 <Input
@@ -279,11 +271,7 @@ export function CollectionStepModuleDialog({
           </div>
 
           <section>
-<<<<<<< HEAD
-            <h3 className="mb-2 text-[10px] font-black uppercase tracking-wider text-slate-500">
-=======
             <h3 className="text-text-secondary mb-2 text-[10px] font-black uppercase tracking-wider">
->>>>>>> recover/cabinet-wip-from-stash
               Данные этапа
             </h3>
             <div className="space-y-3">
@@ -348,15 +336,9 @@ export function CollectionStepModuleDialog({
                     key={a.id}
                     className="border-border-subtle flex flex-wrap items-center justify-between gap-2 rounded-md border bg-white px-2 py-1.5 text-[10px]"
                   >
-<<<<<<< HEAD
-                    <span className="font-medium text-slate-800">{a.name}</span>
-                    <span className="truncate text-slate-500">{a.ref}</span>
-                    <span className="text-slate-400">
-=======
                     <span className="text-text-primary font-medium">{a.name}</span>
                     <span className="text-text-secondary truncate">{a.ref}</span>
                     <span className="text-text-muted">
->>>>>>> recover/cabinet-wip-from-stash
                       {formatAt(a.addedAt)} · {a.addedBy}
                     </span>
                     <Button
@@ -381,11 +363,7 @@ export function CollectionStepModuleDialog({
             </h3>
             <div className="border-border-subtle bg-bg-surface2/80 max-h-52 overflow-y-auto rounded-lg border">
               {history.length === 0 ? (
-<<<<<<< HEAD
-                <p className="p-3 text-[10px] text-slate-400">
-=======
                 <p className="text-text-muted p-3 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                   Записей пока нет — сохраните черновик или добавьте вложение.
                 </p>
               ) : (
@@ -471,11 +449,7 @@ export function CollectionStepModuleDialog({
               </Link>
             </Button>
           </div>
-<<<<<<< HEAD
-          <p className="text-[9px] leading-snug text-slate-500">
-=======
           <p className="text-text-secondary text-[9px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
             Ссылки передают <span className="font-mono">collectionId</span>,{' '}
             <span className="font-mono">stagesStep</span> и{' '}
             <span className="font-mono">reviewFlow=collection_stage_module</span> — страницы

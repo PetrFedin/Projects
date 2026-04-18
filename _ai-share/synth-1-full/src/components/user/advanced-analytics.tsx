@@ -275,13 +275,8 @@ export default function AdvancedAnalytics() {
                             className={cn(
                               'h-3 w-3 rounded-full',
                               index === 0 && 'bg-blue-500',
-<<<<<<< HEAD
-                              index === 1 && 'bg-purple-500',
-                              index === 2 && 'bg-pink-500',
-=======
                               index === 1 && 'bg-accent-primary',
                               index === 2 && 'bg-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
                               index === 3 && 'bg-orange-500',
                               index === 4 && 'bg-green-500'
                             )}
@@ -298,13 +293,8 @@ export default function AdvancedAnalytics() {
                           className={cn(
                             'h-2 rounded-full transition-all',
                             index === 0 && 'bg-blue-500',
-<<<<<<< HEAD
-                            index === 1 && 'bg-purple-500',
-                            index === 2 && 'bg-pink-500',
-=======
                             index === 1 && 'bg-accent-primary',
                             index === 2 && 'bg-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
                             index === 3 && 'bg-orange-500',
                             index === 4 && 'bg-green-500'
                           )}
@@ -358,11 +348,7 @@ export default function AdvancedAnalytics() {
                         Планируйте крупные покупки в конце сезона для лучших цен
                       </p>
                     </div>
-<<<<<<< HEAD
-                    <div className="rounded-lg border border-purple-200 bg-purple-50 p-3 dark:border-purple-800 dark:bg-purple-950/20">
-=======
                     <div className="bg-accent-primary/10 dark:bg-bg-surface2/80 border-accent-primary/25 dark:border-border-default rounded-lg border p-3">
->>>>>>> recover/cabinet-wip-from-stash
                       <p className="mb-1 text-sm font-medium">Используйте бонусы</p>
                       <p className="text-xs text-muted-foreground">
                         У вас накоплено {user?.loyaltyPoints || 0} баллов. Используйте их для

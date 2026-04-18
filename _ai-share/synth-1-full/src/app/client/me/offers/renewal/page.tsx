@@ -34,11 +34,7 @@ export default function RenewalOfferLetterPage() {
   };
 
   return (
-<<<<<<< HEAD:_ai-share/synth-1-full/src/app/u/offers/renewal/page.tsx
-    <div className="container mx-auto max-w-3xl px-4 py-10">
-=======
     <RegistryPageShell className="max-w-3xl py-10 pb-16">
->>>>>>> recover/cabinet-wip-from-stash:_ai-share/synth-1-full/src/app/client/me/offers/renewal/page.tsx
       <div className="mb-6 flex items-center justify-between gap-3">
         <div>
           <h1 className="font-headline text-base font-bold">Сообщение</h1>

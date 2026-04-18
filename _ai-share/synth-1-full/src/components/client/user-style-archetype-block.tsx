@@ -23,11 +23,7 @@ export function UserStyleArchetypeBlock() {
     <Card className="border-accent-primary/20 bg-accent-primary/10">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-sm">
-<<<<<<< HEAD
-          <Sparkles className="h-4 w-4 text-violet-600" />
-=======
           <Sparkles className="text-accent-primary h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
           Ваш Style Archetype
         </CardTitle>
         <CardDescription className="text-xs">
@@ -40,29 +36,17 @@ export function UserStyleArchetypeBlock() {
             <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
               Основной стиль
             </p>
-<<<<<<< HEAD
-            <p className="text-base font-bold text-violet-700">
-=======
             <p className="text-accent-primary text-base font-bold">
->>>>>>> recover/cabinet-wip-from-stash
               {ARCHETYPE_LABELS[profile.archetype]}
             </p>
           </div>
           <div className="text-right">
             <p className="text-[10px] font-bold uppercase text-muted-foreground">Confidence</p>
-<<<<<<< HEAD
-            <p className="font-mono text-lg font-bold text-violet-600">{profile.confidence}%</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3 border-t border-violet-100 pt-2">
-=======
             <p className="text-accent-primary font-mono text-lg font-bold">{profile.confidence}%</p>
           </div>
         </div>
 
         <div className="border-accent-primary/20 grid grid-cols-2 gap-3 border-t pt-2">
->>>>>>> recover/cabinet-wip-from-stash
           <div className="space-y-1.5">
             <p className="flex items-center gap-1 text-[10px] text-muted-foreground">
               <Palette className="h-3 w-3" /> Любимые цвета
@@ -72,11 +56,7 @@ export function UserStyleArchetypeBlock() {
                 <Badge
                   key={c}
                   variant="secondary"
-<<<<<<< HEAD
-                  className="h-4 border-none bg-violet-100 px-1.5 text-[9px] font-normal text-violet-700"
-=======
                   className="bg-accent-primary/15 text-accent-primary h-4 border-none px-1.5 text-[9px] font-normal"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   {c}
                 </Badge>
@@ -92,11 +72,7 @@ export function UserStyleArchetypeBlock() {
                 <Badge
                   key={c}
                   variant="secondary"
-<<<<<<< HEAD
-                  className="h-4 border-none bg-violet-100 px-1.5 text-[9px] font-normal text-violet-700"
-=======
                   className="bg-accent-primary/15 text-accent-primary h-4 border-none px-1.5 text-[9px] font-normal"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   {c}
                 </Badge>

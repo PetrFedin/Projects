@@ -15,24 +15,12 @@ export default function BrandAiToolsPage() {
   const links = getRelatedLinks('ai-creator-studio').map((l) => ({ label: l.label, href: l.href }));
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 duration-700 animate-in fade-in">
-      <SectionInfoCard
-        title="AI Creator Studio"
-        description="Генерация описаний, lookbook, контент-планы. Описания SKU, сценарии съёмок, планирование контента."
-        icon={Sparkles}
-        iconBg="bg-violet-100"
-        iconColor="text-violet-600"
-        badges={
-          <Badge variant="outline" className="text-[9px]">
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-20">
       <RegistryPageHeader
         title="AI Creator Studio"
         leadPlain="Генерация описаний, lookbook и контент-планы по SKU и каналам (демо Colect)."
         actions={
           <Badge variant="outline" className="shrink-0 text-[9px]">
->>>>>>> recover/cabinet-wip-from-stash
             Colect
           </Badge>
         }
@@ -67,11 +55,7 @@ export default function BrandAiToolsPage() {
         <Card className="border-accent-primary/25 bg-accent-primary/10">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
-<<<<<<< HEAD
-              <Sparkles className="h-4 w-4 text-violet-600" /> Копирайт под канал
-=======
               <Sparkles className="text-accent-primary h-4 w-4" /> Копирайт под канал
->>>>>>> recover/cabinet-wip-from-stash
             </CardTitle>
             <CardDescription>
               Один SKU → тексты для Wildberries, Ozon, Instagram (тон, ограничения длины, ключевые

@@ -1,12 +1,9 @@
 'use client';
 
-<<<<<<< HEAD
-=======
 import Link from 'next/link';
 import { RegistryPageShell } from '@/components/design-system';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
 import { ROUTES } from '@/lib/routes';
->>>>>>> recover/cabinet-wip-from-stash
 import { StatCard } from '@/components/stat-card';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -76,12 +73,8 @@ const chartConfig = {
 
 export default function ShopAnalyticsPage() {
   return (
-<<<<<<< HEAD
-    <div className="space-y-4">
-=======
     <RegistryPageShell className="space-y-4">
       <ShopAnalyticsSegmentErpStrip />
->>>>>>> recover/cabinet-wip-from-stash
       <header>
         <h1 className="font-headline text-base font-bold">Аналитика розничных продаж</h1>
         <p className="text-muted-foreground">
@@ -263,9 +256,6 @@ export default function ShopAnalyticsPage() {
           </Table>
         </CardContent>
       </Card>
-<<<<<<< HEAD
-    </div>
-=======
 
       <div className="border-border-subtle mt-6 flex flex-wrap items-center gap-2 border-t pt-4">
         <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
@@ -294,6 +284,5 @@ export default function ShopAnalyticsPage() {
         </Button>
       </div>
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

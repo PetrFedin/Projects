@@ -92,11 +92,7 @@ export function ExtendedAuditPanel({
       detail: a.detail,
       user: a.user,
       time: a.time,
-<<<<<<< HEAD
-      ip: a.ip,
-=======
       ip: a.ip ?? '',
->>>>>>> recover/cabinet-wip-from-stash
     }));
     exportToCSV(
       rows,
@@ -117,29 +113,18 @@ export function ExtendedAuditPanel({
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
-<<<<<<< HEAD
-          <div className="flex rounded-xl border border-slate-200 bg-slate-100 p-1">
-=======
           {/* cabinetSurface v1 */}
           <div className={cn(cabinetSurface.groupTabList, 'h-auto min-h-9 flex-wrap')}>
->>>>>>> recover/cabinet-wip-from-stash
             {(['log', 'bom_history', 'po_amendments'] as const).map((v) => (
               <button
                 key={v}
                 onClick={() => setViewMode(v)}
                 className={cn(
-<<<<<<< HEAD
-                  'rounded-lg px-3 py-1.5 text-[9px] font-bold uppercase transition-all',
-                  viewMode === v
-                    ? 'bg-white text-indigo-600 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-600'
-=======
                   cabinetSurface.groupTabButton,
                   'px-3 py-1.5 text-[9px] font-bold uppercase',
                   viewMode === v
                     ? cn(cabinetSurface.groupTabButtonActive, 'text-accent-primary')
                     : 'text-text-muted hover:text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 {v === 'log' ? 'Лог' : v === 'bom_history' ? 'BOM версии' : 'PO amendments'}
@@ -147,29 +132,18 @@ export function ExtendedAuditPanel({
             ))}
           </div>
           {viewMode === 'log' && (
-<<<<<<< HEAD
-            <div className="flex rounded-xl border border-slate-200 bg-slate-100 p-1">
-=======
             <div className={cn(cabinetSurface.groupTabList, 'h-auto min-h-8 flex-wrap')}>
               {/* cabinetSurface v1 */}
->>>>>>> recover/cabinet-wip-from-stash
               {(['all', 'bom', 'sample', 'po', 'status'] as const).map((v) => (
                 <button
                   key={v}
                   onClick={() => setFilter(v)}
                   className={cn(
-<<<<<<< HEAD
-                    'rounded-lg px-2 py-1 text-[8px] font-bold uppercase transition-all',
-                    filter === v
-                      ? 'bg-white text-indigo-600 shadow-sm'
-                      : 'text-slate-400 hover:text-slate-600'
-=======
                     cabinetSurface.groupTabButton,
                     'px-2 py-1 text-[8px] font-bold uppercase',
                     filter === v
                       ? cn(cabinetSurface.groupTabButtonActive, 'text-accent-primary')
                       : 'text-text-muted hover:text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {v === 'all'
@@ -229,43 +203,25 @@ export function ExtendedAuditPanel({
             />
           </div>
 
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
-            <div className="relative ml-4 space-y-0 border-l-2 border-slate-100 py-4 pl-6">
-              {filteredEntries.length === 0 ? (
-                <div className="mx-4 rounded-2xl border-2 border-dashed border-slate-100 py-12 text-center">
-                  <History className="mx-auto mb-2 h-10 w-10 text-slate-200" />
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-=======
           <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
             <div className="border-border-subtle relative ml-4 space-y-0 border-l-2 py-4 pl-6">
               {filteredEntries.length === 0 ? (
                 <div className="border-border-subtle mx-4 rounded-2xl border-2 border-dashed py-12 text-center">
                   <History className="text-text-muted mx-auto mb-2 h-10 w-10" />
                   <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Нет записей
                   </p>
                 </div>
               ) : (
                 filteredEntries.map((entry) => (
                   <div key={entry.id} className="relative pb-6 pl-4 last:pb-0">
-<<<<<<< HEAD
-                    <div className="absolute -left-[21px] top-0 z-10 h-4 w-4 rounded-full border-2 border-indigo-500 bg-white shadow-sm" />
-=======
                     <div className="border-accent-primary absolute -left-[21px] top-0 z-10 h-4 w-4 rounded-full border-2 bg-white shadow-sm" />
->>>>>>> recover/cabinet-wip-from-stash
                     <div
                       className={cn(
                         'flex cursor-pointer flex-col gap-2 rounded-xl border p-3.5 transition-colors sm:flex-row sm:items-start',
                         expandedId === entry.id
-<<<<<<< HEAD
-                          ? 'border-indigo-200 bg-indigo-50/50'
-                          : 'border-slate-100 bg-slate-50/50 hover:bg-slate-50'
-=======
                           ? 'bg-accent-primary/10 border-accent-primary/30'
                           : 'bg-bg-surface2/80 hover:bg-bg-surface2 border-border-subtle'
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                       onClick={() => setExpandedId(expandedId === entry.id ? null : entry.id)}
                     >
@@ -274,58 +230,33 @@ export function ExtendedAuditPanel({
                           className={cn(
                             'h-5 border-none px-2 text-[8px] font-black uppercase',
                             entry.action === 'bom'
-<<<<<<< HEAD
-                              ? 'bg-indigo-50 text-indigo-600'
-=======
                               ? 'bg-accent-primary/10 text-accent-primary'
->>>>>>> recover/cabinet-wip-from-stash
                               : entry.action === 'sample'
                                 ? 'bg-emerald-50 text-emerald-600'
                                 : entry.action === 'po'
                                   ? 'bg-amber-50 text-amber-600'
-<<<<<<< HEAD
-                                  : 'bg-slate-200 text-slate-600'
-=======
                                   : 'bg-border-subtle text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                           )}
                         >
                           {entry.actionLabel}
                         </Badge>
-<<<<<<< HEAD
-                        <span className="text-[9px] font-bold uppercase text-slate-400">
-                          {entry.entity}
-                        </span>
-                        <Badge variant="outline" className="border-slate-200 text-[8px]">
-=======
                         <span className="text-text-muted text-[9px] font-bold uppercase">
                           {entry.entity}
                         </span>
                         <Badge variant="outline" className="border-border-default text-[8px]">
->>>>>>> recover/cabinet-wip-from-stash
                           {entry.collection}
                         </Badge>
                       </div>
                       <div className="min-w-0 flex-1">
-<<<<<<< HEAD
-                        <p className="text-[11px] font-bold text-slate-900">{entry.detail}</p>
-                        <p className="mt-0.5 flex items-center gap-1.5 text-[9px] font-bold uppercase text-slate-400">
-=======
                         <p className="text-text-primary text-[11px] font-bold">{entry.detail}</p>
                         <p className="text-text-muted mt-0.5 flex items-center gap-1.5 text-[9px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                           <User className="h-3 w-3" /> {entry.user} • <Clock className="h-3 w-3" />{' '}
                           {entry.time}
                           {entry.ip && ` • IP: ${entry.ip}`}
                         </p>
                         {expandedId === entry.id && entry.diff && entry.diff.length > 0 && (
-<<<<<<< HEAD
-                          <div className="mt-3 space-y-1 rounded-lg border border-slate-200 bg-slate-100 p-3">
-                            <p className="mb-2 text-[9px] font-black uppercase text-slate-500">
-=======
                           <div className="bg-bg-surface2 border-border-default mt-3 space-y-1 rounded-lg border p-3">
                             <p className="text-text-secondary mb-2 text-[9px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                               Diff
                             </p>
                             {entry.diff.map((d, i) => (
@@ -342,11 +273,7 @@ export function ExtendedAuditPanel({
                       {entry.diff && entry.diff.length > 0 && (
                         <ChevronRight
                           className={cn(
-<<<<<<< HEAD
-                            'h-4 w-4 text-slate-400 transition-transform',
-=======
                             'text-text-muted h-4 w-4 transition-transform',
->>>>>>> recover/cabinet-wip-from-stash
                             expandedId === entry.id && 'rotate-90'
                           )}
                         />
@@ -361,21 +288,12 @@ export function ExtendedAuditPanel({
       )}
 
       {viewMode === 'bom_history' && (
-<<<<<<< HEAD
-        <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
-          <CardContent className="p-4">
-            {bomVersions.length === 0 ? (
-              <div className="rounded-xl border-2 border-dashed border-slate-100 py-12 text-center">
-                <FileText className="mx-auto mb-2 h-10 w-10 text-slate-200" />
-                <p className="text-[10px] font-bold uppercase text-slate-400">
-=======
         <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
           <CardContent className="p-4">
             {bomVersions.length === 0 ? (
               <div className="border-border-subtle rounded-xl border-2 border-dashed py-12 text-center">
                 <FileText className="text-text-muted mx-auto mb-2 h-10 w-10" />
                 <p className="text-text-muted text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   История BOM — выбор артикула
                 </p>
               </div>
@@ -384,11 +302,7 @@ export function ExtendedAuditPanel({
                 {bomVersions.map((v, i) => (
                   <div
                     key={i}
-<<<<<<< HEAD
-                    className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3"
-=======
                     className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-xl border p-3"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     <div className="flex items-center gap-2">
                       <Badge variant="outline" className="text-[8px]">
@@ -407,21 +321,12 @@ export function ExtendedAuditPanel({
       )}
 
       {viewMode === 'po_amendments' && (
-<<<<<<< HEAD
-        <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
-          <CardContent className="p-4">
-            {poAmendments.length === 0 ? (
-              <div className="rounded-xl border-2 border-dashed border-slate-100 py-12 text-center">
-                <Package className="mx-auto mb-2 h-10 w-10 text-slate-200" />
-                <p className="text-[10px] font-bold uppercase text-slate-400">
-=======
         <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
           <CardContent className="p-4">
             {poAmendments.length === 0 ? (
               <div className="border-border-subtle rounded-xl border-2 border-dashed py-12 text-center">
                 <Package className="text-text-muted mx-auto mb-2 h-10 w-10" />
                 <p className="text-text-muted text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   История amendments по PO
                 </p>
               </div>
@@ -435,11 +340,7 @@ export function ExtendedAuditPanel({
                     <div className="flex items-center gap-2">
                       <Badge className="bg-amber-100 text-[8px] text-amber-700">{a.poId}</Badge>
                       <span className="text-[10px] font-bold">v{a.version}</span>
-<<<<<<< HEAD
-                      <span className="text-[9px] text-slate-400">
-=======
                       <span className="text-text-muted text-[9px]">
->>>>>>> recover/cabinet-wip-from-stash
                         {a.date} • {a.user}
                       </span>
                     </div>

@@ -86,26 +86,16 @@ export function LabellingWizard({
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="overflow-hidden rounded-2xl border-none bg-white p-0 shadow-2xl sm:max-w-[600px]">
-<<<<<<< HEAD
-        <DialogHeader className="relative bg-slate-900 p-6 text-white">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 shadow-lg shadow-indigo-900/20">
-=======
         <DialogHeader className="bg-text-primary relative p-6 text-white">
           <div className="flex items-center gap-3">
             <div className="bg-accent-primary shadow-accent-primary/20 flex h-10 w-10 items-center justify-center rounded-xl shadow-lg">
->>>>>>> recover/cabinet-wip-from-stash
               <QrCode className="h-5 w-5 text-white" />
             </div>
             <div>
               <DialogTitle className="text-lg font-black uppercase tracking-tighter">
                 Мастер маркировки (Честный ЗНАК)
               </DialogTitle>
-<<<<<<< HEAD
-              <DialogDescription className="mt-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-=======
               <DialogDescription className="text-text-muted mt-0.5 text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 Автоматизированный заказ КИЗ для {productName}
               </DialogDescription>
             </div>
@@ -113,11 +103,7 @@ export function LabellingWizard({
 
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/5">
             <div
-<<<<<<< HEAD
-              className="h-full bg-indigo-500 transition-all duration-500"
-=======
               className="bg-accent-primary h-full transition-all duration-500"
->>>>>>> recover/cabinet-wip-from-stash
               style={{ width: `${(step / steps.length) * 100}%` }}
             />
           </div>
@@ -132,17 +118,10 @@ export function LabellingWizard({
                     className={cn(
                       'flex h-6 w-6 items-center justify-center rounded-full border-2 text-[10px] font-black transition-all',
                       step === s.id
-<<<<<<< HEAD
-                        ? 'border-indigo-600 bg-indigo-600 text-white shadow-lg'
-                        : step > s.id
-                          ? 'border-emerald-500 bg-emerald-500 text-white'
-                          : 'border-slate-200 text-slate-300'
-=======
                         ? 'bg-accent-primary border-accent-primary text-white shadow-lg'
                         : step > s.id
                           ? 'border-emerald-500 bg-emerald-500 text-white'
                           : 'border-border-default text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     {step > s.id ? <CheckCircle2 className="h-3 w-3" /> : s.id}
@@ -151,11 +130,7 @@ export function LabellingWizard({
                     <p
                       className={cn(
                         'text-[8px] font-black uppercase tracking-widest',
-<<<<<<< HEAD
-                        step === s.id ? 'text-slate-900' : 'text-slate-400'
-=======
                         step === s.id ? 'text-text-primary' : 'text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {s.title}
@@ -176,11 +151,7 @@ export function LabellingWizard({
               >
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-<<<<<<< HEAD
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                     <Label className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                       Категория товара
                     </Label>
                     <Select defaultValue="clothes">
@@ -195,24 +166,11 @@ export function LabellingWizard({
                     </Select>
                   </div>
                   <div className="space-y-2">
-<<<<<<< HEAD
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                     <Label className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                       Код ТН ВЭД
                     </Label>
                     <Input
                       defaultValue="6201 93 000 0"
-<<<<<<< HEAD
-                      className="h-10 rounded-xl border-slate-200 bg-slate-50 text-xs font-bold"
-                    />
-                  </div>
-                </div>
-                <div className="flex gap-3 rounded-xl border border-indigo-100 bg-indigo-50 p-4">
-                  <Info className="h-4 w-4 shrink-0 text-indigo-600" />
-                  <p className="text-[10px] font-medium leading-relaxed text-indigo-900">
-=======
                       className="border-border-default bg-bg-surface2 h-10 rounded-xl text-xs font-bold"
                     />
                   </div>
@@ -220,7 +178,6 @@ export function LabellingWizard({
                 <div className="bg-accent-primary/10 border-accent-primary/20 flex gap-3 rounded-xl border p-4">
                   <Info className="text-accent-primary h-4 w-4 shrink-0" />
                   <p className="text-accent-primary text-[10px] font-medium leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                     Для одежды верхнего ассортимента (куртки, ветровки) выбранный код ТН ВЭД требует
                     обязательной маркировки с 1 апреля 2024 года.
                   </p>
@@ -236,11 +193,7 @@ export function LabellingWizard({
                 className="space-y-4"
               >
                 <div className="space-y-2">
-<<<<<<< HEAD
-                  <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                   <Label className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Способ выпуска в оборот
                   </Label>
                   <Select defaultValue="production_rf">
@@ -256,29 +209,17 @@ export function LabellingWizard({
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-<<<<<<< HEAD
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                     <Label className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                       Количество КИЗ
                     </Label>
                     <Input
                       type="number"
                       defaultValue="800"
-<<<<<<< HEAD
-                      className="h-10 rounded-xl border-slate-200 bg-slate-50 text-xs font-bold"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                       className="border-border-default bg-bg-surface2 h-10 rounded-xl text-xs font-bold"
                     />
                   </div>
                   <div className="space-y-2">
                     <Label className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                       Тип кодов
                     </Label>
                     <Select defaultValue="unit">
@@ -304,37 +245,21 @@ export function LabellingWizard({
               >
                 {!isProcessing ? (
                   <div className="space-y-4">
-<<<<<<< HEAD
-                    <div className="flex flex-col items-center justify-center space-y-3 rounded-xl border-2 border-dashed border-slate-200 p-4 text-center">
-                      <Printer className="h-8 w-8 text-slate-300" />
-=======
                     <div className="border-border-default flex flex-col items-center justify-center space-y-3 rounded-xl border-2 border-dashed p-4 text-center">
                       <Printer className="text-text-muted h-8 w-8" />
->>>>>>> recover/cabinet-wip-from-stash
                       <div>
                         <p className="text-xs font-black uppercase tracking-tight">
                           Готов к генерации
                         </p>
-<<<<<<< HEAD
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-=======
                         <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                           800 кодов маркировки DataMatrix
                         </p>
                       </div>
                     </div>
-<<<<<<< HEAD
-                    <div className="flex items-center justify-between rounded-xl bg-slate-50 p-3">
-                      <div className="flex items-center gap-2">
-                        <ShieldCheck className="h-4 w-4 text-emerald-500" />
-                        <span className="text-[10px] font-black uppercase text-slate-600">
-=======
                     <div className="bg-bg-surface2 flex items-center justify-between rounded-xl p-3">
                       <div className="flex items-center gap-2">
                         <ShieldCheck className="h-4 w-4 text-emerald-500" />
                         <span className="text-text-secondary text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                           ЭЦП Подключена
                         </span>
                       </div>
@@ -346,22 +271,14 @@ export function LabellingWizard({
                 ) : (
                   <div className="flex flex-col items-center justify-center space-y-6 py-8">
                     <div className="relative">
-<<<<<<< HEAD
-                      <QrCode className="h-16 w-16 animate-pulse text-indigo-600" />
-=======
                       <QrCode className="text-accent-primary h-16 w-16 animate-pulse" />
->>>>>>> recover/cabinet-wip-from-stash
                       <div className="absolute -right-2 -top-2">
                         <Zap className="h-6 w-6 animate-bounce fill-amber-400 text-amber-400" />
                       </div>
                     </div>
                     <div className="w-full space-y-2">
                       <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
-<<<<<<< HEAD
-                        <span className="w-full text-center italic text-slate-400">
-=======
                         <span className="text-text-muted w-full text-center italic">
->>>>>>> recover/cabinet-wip-from-stash
                           Генерация кодов в системе ГИС МТ... {progress}%
                         </span>
                       </div>
@@ -385,29 +302,17 @@ export function LabellingWizard({
                   <h3 className="text-xl font-black uppercase tracking-tighter">
                     КИЗ успешно созданы
                   </h3>
-<<<<<<< HEAD
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
-=======
                   <p className="text-text-secondary text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Заказ №ГИС-29421-2026. 800 единиц.
                   </p>
                 </div>
                 <div className="grid grid-cols-2 gap-3 pt-4">
-<<<<<<< HEAD
-                  <Button className="h-12 gap-2 rounded-xl bg-slate-900 text-[10px] font-black uppercase text-white">
-=======
                   <Button className="bg-text-primary h-12 gap-2 rounded-xl text-[10px] font-black uppercase text-white">
->>>>>>> recover/cabinet-wip-from-stash
                     <Printer className="h-4 w-4" /> Печать этикеток
                   </Button>
                   <Button
                     variant="outline"
-<<<<<<< HEAD
-                    className="h-12 gap-2 rounded-xl border-slate-200 text-[10px] font-black uppercase"
-=======
                     className="border-border-default h-12 gap-2 rounded-xl text-[10px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     <FileText className="h-4 w-4" /> Скачать реестр
                   </Button>
@@ -417,33 +322,21 @@ export function LabellingWizard({
           </AnimatePresence>
         </div>
 
-<<<<<<< HEAD
-        <DialogFooter className="border-t border-slate-100 bg-slate-50 p-6">
-=======
         <DialogFooter className="bg-bg-surface2 border-border-subtle border-t p-6">
->>>>>>> recover/cabinet-wip-from-stash
           {step <= 3 ? (
             <div className="flex w-full gap-3">
               <Button
                 variant="ghost"
                 onClick={() => setStep(Math.max(1, step - 1))}
                 disabled={step === 1 || isProcessing}
-<<<<<<< HEAD
-                className="h-10 flex-1 text-[10px] font-black uppercase tracking-widest text-slate-400"
-=======
                 className="text-text-muted h-10 flex-1 text-[10px] font-black uppercase tracking-widest"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 Назад
               </Button>
               <Button
                 onClick={handleNext}
                 disabled={isProcessing}
-<<<<<<< HEAD
-                className="h-10 flex-[2] gap-2 rounded-xl bg-indigo-600 text-[10px] font-black uppercase tracking-widest text-white shadow-lg shadow-indigo-200 transition-all hover:bg-indigo-700"
-=======
                 className="bg-accent-primary hover:bg-accent-primary shadow-accent-primary/15 h-10 flex-[2] gap-2 rounded-xl text-[10px] font-black uppercase tracking-widest text-white shadow-lg transition-all"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 {step === 3 ? 'Заказать в Честный ЗНАК' : 'Продолжить'}{' '}
                 <ArrowRight className="h-3 w-3" />
@@ -452,11 +345,7 @@ export function LabellingWizard({
           ) : (
             <Button
               onClick={handleReset}
-<<<<<<< HEAD
-              className="h-10 w-full rounded-xl bg-slate-900 text-[10px] font-black uppercase tracking-widest text-white"
-=======
               className="bg-text-primary h-10 w-full rounded-xl text-[10px] font-black uppercase tracking-widest text-white"
->>>>>>> recover/cabinet-wip-from-stash
             >
               Завершить
             </Button>

@@ -106,11 +106,7 @@ export function PartnershipDialog({
                 <Button
                   type="submit"
                   disabled={isLoading}
-<<<<<<< HEAD
-                  className="button-glimmer button-professional group/btn mt-4 h-10 w-full rounded-2xl border-none !bg-black shadow-xl shadow-slate-200/50 transition-all duration-500 hover:!bg-black"
-=======
                   className="button-glimmer button-professional group/btn mt-4 h-10 w-full rounded-2xl border-none !bg-black shadow-md shadow-xl transition-all duration-500 hover:!bg-black"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   {isLoading ? (
                     <div className="flex items-center gap-2">

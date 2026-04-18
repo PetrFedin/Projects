@@ -69,11 +69,7 @@ export default function SocialVideoGenerator({ products }: { products: Product[]
           title: 'Начинаем генерацию видео...',
           description: 'Это может занять несколько минут.',
         });
-<<<<<<< HEAD
-        const result = await generateSocialVideo({
-=======
         const result = await socialVideoClient({
->>>>>>> recover/cabinet-wip-from-stash
           productName: product.name,
           productImageDataUri: base64data,
           prompt: values.prompt,

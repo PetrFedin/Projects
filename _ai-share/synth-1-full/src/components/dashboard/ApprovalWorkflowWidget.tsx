@@ -59,11 +59,7 @@ export function ApprovalWorkflowWidget() {
 
   return (
     <Card className="rounded-xl border-2 border-blue-100 shadow-xl">
-<<<<<<< HEAD
-      <CardHeader className="border-b border-slate-100 bg-gradient-to-r from-blue-50 to-cyan-50">
-=======
       <CardHeader className="border-border-subtle border-b bg-gradient-to-r from-blue-50 to-cyan-50">
->>>>>>> recover/cabinet-wip-from-stash
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600">
             <CheckCircle className="h-6 w-6 text-white" />
@@ -72,11 +68,7 @@ export function ApprovalWorkflowWidget() {
             <CardTitle className="text-text-primary text-sm font-black uppercase tracking-tight">
               Approval Workflows
             </CardTitle>
-<<<<<<< HEAD
-            <p className="text-[10px] font-medium text-slate-500">
-=======
             <p className="text-text-secondary text-[10px] font-medium">
->>>>>>> recover/cabinet-wip-from-stash
               {workflows.length} orders pending approval
             </p>
           </div>
@@ -91,17 +83,10 @@ export function ApprovalWorkflowWidget() {
           >
             <div className="mb-4 flex items-start justify-between">
               <div>
-<<<<<<< HEAD
-                <h4 className="text-sm font-black uppercase leading-tight text-slate-900">
-                  {workflow.orderId}
-                </h4>
-                <p className="mt-1 text-[10px] text-slate-600">{workflow.brand}</p>
-=======
                 <h4 className="text-text-primary text-sm font-black uppercase leading-tight">
                   {workflow.orderId}
                 </h4>
                 <p className="text-text-secondary mt-1 text-[10px]">{workflow.brand}</p>
->>>>>>> recover/cabinet-wip-from-stash
               </div>
 
               <div className="text-right">
@@ -145,13 +130,9 @@ export function ApprovalWorkflowWidget() {
 
                   <div className="min-w-0 flex-1">
                     <div className="mb-1 flex items-center gap-2">
-<<<<<<< HEAD
-                      <p className="text-[10px] font-black uppercase text-slate-900">{step.role}</p>
-=======
                       <p className="text-text-primary text-[10px] font-black uppercase">
                         {step.role}
                       </p>
->>>>>>> recover/cabinet-wip-from-stash
                       <Badge
                         className={cn(
                           'border-none text-[7px] font-black uppercase',
@@ -174,11 +155,7 @@ export function ApprovalWorkflowWidget() {
                     )}
 
                     {step.comment && (
-<<<<<<< HEAD
-                      <p className="mt-1 text-[9px] italic text-slate-500">"{step.comment}"</p>
-=======
                       <p className="text-text-secondary mt-1 text-[9px] italic">"{step.comment}"</p>
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                   </div>
                 </div>

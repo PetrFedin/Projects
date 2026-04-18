@@ -67,13 +67,6 @@ export function WardrobePageContent() {
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-4">
         <main className="lg:col-span-3">
           <Tabs defaultValue="purchased">
-<<<<<<< HEAD:_ai-share/synth-1-full/src/app/u/wardrobe/wardrobe-page-content.tsx
-            <TabsList className="mb-6">
-              <TabsTrigger value="purchased">
-                Покупки на Syntha ({purchasedProducts.length})
-              </TabsTrigger>
-              <TabsTrigger value="added">Добавленные вручную ({manualWardrobe.length})</TabsTrigger>
-=======
             <TabsList className={cn(cabinetSurface.tabsList, 'mb-6 w-full flex-wrap')}>
               <TabsTrigger value="purchased" className={cabinetSurface.tabsTrigger}>
                 Покупки на Syntha ({purchasedProducts.length})
@@ -81,7 +74,6 @@ export function WardrobePageContent() {
               <TabsTrigger value="added" className={cabinetSurface.tabsTrigger}>
                 Добавленные вручную ({manualWardrobe.length})
               </TabsTrigger>
->>>>>>> recover/cabinet-wip-from-stash:_ai-share/synth-1-full/src/app/client/me/wardrobe/wardrobe-page-content.tsx
             </TabsList>
             <TabsContent value="purchased">
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">

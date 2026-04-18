@@ -55,13 +55,8 @@ export function ProductLcaBlock({ product }: Props) {
             </div>
           </div>
           <div className="flex items-center gap-2">
-<<<<<<< HEAD
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100">
-              <Wind className="h-4 w-4 text-slate-600" />
-=======
             <div className="bg-bg-surface2 flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
               <Wind className="text-text-secondary h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
             </div>
             <div>
               <p className="text-[10px] font-bold uppercase text-muted-foreground">CO₂</p>

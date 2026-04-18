@@ -93,10 +93,7 @@ export function BrandDialogs(props: BrandDialogsProps) {
         onOpenChange={props.setIsLiveReminderOpen}
         liveReminderTime={props.liveReminderTime}
         setLiveReminderTime={props.setLiveReminderTime}
-<<<<<<< HEAD
-=======
         toast={props.toast}
->>>>>>> recover/cabinet-wip-from-stash
       />
       <ShareLookDialog
         isOpen={props.isShareLookOpen}

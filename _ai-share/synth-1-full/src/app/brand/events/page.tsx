@@ -33,17 +33,6 @@ export default function BrandEventsPage() {
   );
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
-      <SectionInfoCard
-        title="События"
-        description="Мероприятия, показы, дедлайны. Полный календарь со всеми слоями — в разделе Календарь."
-        icon={Calendar}
-        iconBg="bg-blue-100"
-        iconColor="text-blue-600"
-        badges={
-          <>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="События"
@@ -51,7 +40,6 @@ export default function BrandEventsPage() {
         actions={
           <div className="flex flex-wrap items-center justify-end gap-2">
             <Calendar className="size-6 shrink-0 text-muted-foreground" aria-hidden />
->>>>>>> recover/cabinet-wip-from-stash
             <Badge variant="outline" className="text-[9px]">
               Мероприятия
             </Badge>
@@ -66,20 +54,6 @@ export default function BrandEventsPage() {
           </div>
         }
       />
-<<<<<<< HEAD
-      <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-        <div>
-          <h1 className="text-2xl font-bold uppercase">События</h1>
-          <p className="text-sm text-slate-500">Мероприятия, показы, дедлайны</p>
-        </div>
-        <Button size="sm" className="gap-2" asChild>
-          <Link href={buildCalendarUrl({ layers: 'events' })}>
-            <Calendar className="h-4 w-4" /> Календарь
-          </Link>
-        </Button>
-      </div>
-=======
->>>>>>> recover/cabinet-wip-from-stash
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card className="border-border-subtle rounded-xl border">
@@ -93,11 +67,7 @@ export default function BrandEventsPage() {
           </CardHeader>
           <CardContent className="space-y-2">
             {eventOnly.length === 0 ? (
-<<<<<<< HEAD
-              <p className="py-4 text-sm text-slate-500">Нет событий в текущем периоде.</p>
-=======
               <p className="text-text-secondary py-4 text-sm">Нет событий в текущем периоде.</p>
->>>>>>> recover/cabinet-wip-from-stash
             ) : (
               eventOnly.map((ev, i) => {
                 const date = new Date(YEAR, MONTH, ev.d);
@@ -109,22 +79,14 @@ export default function BrandEventsPage() {
                       buildCalendarUrl({ layers: 'events', date: format(date, 'yyyy-MM-dd') })
                     }
                     className={cn(
-<<<<<<< HEAD
-                      'flex items-center gap-3 rounded-xl border p-3 transition-colors hover:border-indigo-200',
-=======
                       'hover:border-accent-primary/30 flex items-center gap-3 rounded-xl border p-3 transition-colors',
->>>>>>> recover/cabinet-wip-from-stash
                       ev.c,
                       'border-transparent'
                     )}
                   >
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-semibold">{ev.t}</p>
-<<<<<<< HEAD
-                      <div className="mt-0.5 flex items-center gap-2 text-[11px] text-slate-500">
-=======
                       <div className="text-text-secondary mt-0.5 flex items-center gap-2 text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
                         <span>{format(date, 'd MMMM yyyy', { locale: ru })}</span>
                         {ev.location && (
                           <>
@@ -148,11 +110,7 @@ export default function BrandEventsPage() {
           </CardHeader>
           <CardContent className="space-y-2">
             {upcoming.length === 0 ? (
-<<<<<<< HEAD
-              <p className="py-4 text-sm text-slate-500">Нет предстоящих дедлайнов.</p>
-=======
               <p className="text-text-secondary py-4 text-sm">Нет предстоящих дедлайнов.</p>
->>>>>>> recover/cabinet-wip-from-stash
             ) : (
               upcoming.slice(0, 10).map((d, i) => (
                 <Link

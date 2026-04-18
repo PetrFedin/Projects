@@ -40,13 +40,7 @@ export default function AgentConsolidatedOrderPage() {
   }, [load]);
 
   const productsByBrand = BRANDS.map((b) => {
-<<<<<<< HEAD
-    const list = (products as any[]).filter((p: any) =>
-      (p.brand ?? '').toLowerCase().includes(b.name.toLowerCase())
-    );
-=======
     const list = (products as any[]).filter((p: any) => (p.brand ?? '') === b.name);
->>>>>>> recover/cabinet-wip-from-stash
     return { brandId: b.id, brandName: b.name, products: list.slice(0, 8) };
   });
   const productsForAdd = productsByBrand.find((x) => x.brandId === addBrand)?.products ?? [];
@@ -84,29 +78,11 @@ export default function AgentConsolidatedOrderPage() {
     : {};
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2bAgentCabinet}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight">Мультибрендовый заказ</h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Корзина по нескольким брендам — для дистрибьюторов и агентов. Zedonk-style. MOV/MOQ по
-            бренду.
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="max-w-4xl space-y-6">
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bAgentCabinet}
         lead="Корзина по нескольким брендам для агентов и дистрибьюторов; MOV/MOQ по бренду (Zedonk-style)."
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -117,11 +93,7 @@ export default function AgentConsolidatedOrderPage() {
         </CardHeader>
         <CardContent className="flex flex-wrap items-end gap-3">
           <div>
-<<<<<<< HEAD
-            <label className="mb-1 block text-xs font-medium text-slate-500">Бренд</label>
-=======
             <label className="text-text-secondary mb-1 block text-xs font-medium">Бренд</label>
->>>>>>> recover/cabinet-wip-from-stash
             <select
               className="rounded-lg border px-3 py-2 text-sm"
               value={addBrand}
@@ -138,11 +110,7 @@ export default function AgentConsolidatedOrderPage() {
             </select>
           </div>
           <div>
-<<<<<<< HEAD
-            <label className="mb-1 block text-xs font-medium text-slate-500">Товар</label>
-=======
             <label className="text-text-secondary mb-1 block text-xs font-medium">Товар</label>
->>>>>>> recover/cabinet-wip-from-stash
             <select
               className="min-w-[200px] rounded-lg border px-3 py-2 text-sm"
               value={addProductId}
@@ -157,11 +125,7 @@ export default function AgentConsolidatedOrderPage() {
             </select>
           </div>
           <div>
-<<<<<<< HEAD
-            <label className="mb-1 block text-xs font-medium text-slate-500">Кол-во</label>
-=======
             <label className="text-text-secondary mb-1 block text-xs font-medium">Кол-во</label>
->>>>>>> recover/cabinet-wip-from-stash
             <input
               type="number"
               min={1}
@@ -202,11 +166,7 @@ export default function AgentConsolidatedOrderPage() {
                 <CardContent className="space-y-2">
                   <table className="w-full text-sm">
                     <thead>
-<<<<<<< HEAD
-                      <tr className="border-b text-left text-slate-500">
-=======
                       <tr className="text-text-secondary border-b text-left">
->>>>>>> recover/cabinet-wip-from-stash
                         <th className="pb-1">SKU</th>
                         <th className="pb-1">Товар</th>
                         <th className="pb-1 text-right">Кол-во</th>
@@ -258,11 +218,7 @@ export default function AgentConsolidatedOrderPage() {
                               ? 'text-rose-600'
                               : item.status === 'warning'
                                 ? 'text-amber-600'
-<<<<<<< HEAD
-                                : 'text-slate-600'
-=======
                                 : 'text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                           }
                         >
                           {item.message}
@@ -293,11 +249,7 @@ export default function AgentConsolidatedOrderPage() {
         </>
       ) : (
         <Card>
-<<<<<<< HEAD
-          <CardContent className="py-8 text-center text-sm text-slate-500">
-=======
           <CardContent className="text-text-secondary py-8 text-center text-sm">
->>>>>>> recover/cabinet-wip-from-stash
             Драфт пуст. Добавьте позиции выше — по разным брендам. MOV и MOQ проверяются отдельно по
             каждому бренду.
           </CardContent>

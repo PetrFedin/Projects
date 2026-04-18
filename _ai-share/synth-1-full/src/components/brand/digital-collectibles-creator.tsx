@@ -66,15 +66,9 @@ export function DigitalCollectiblesCreator({ products }: { products: Product[] }
           'holographic foil style',
           'vintage blueprint style',
         ].map((style) =>
-<<<<<<< HEAD
-          generateCampaignCreative({
-            productName: selectedProduct.name,
-            productPrice: '', // No price on collectibles
-=======
           campaignCreativeClient({
             productName: selectedProduct.name,
             productPrice: '',
->>>>>>> recover/cabinet-wip-from-stash
             productImageDataUri: base64data,
             prompt: `A digital collectible card of a fashion item. ${style}. Remove all text.`,
           })

@@ -24,11 +24,7 @@ export function LogisticsCostCalc({ onEstimate }: LogisticsCostCalcProps) {
   };
 
   return (
-<<<<<<< HEAD
-    <Card className="rounded-xl border border-slate-100 shadow-sm">
-=======
     <Card className="border-border-subtle rounded-xl border shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
       <CardHeader className="px-4 py-2">
         <CardTitle className="flex items-center gap-2 text-[10px] font-black uppercase">
           <Truck className="h-4 w-4" /> Расчёт стоимости логистики
@@ -37,11 +33,7 @@ export function LogisticsCostCalc({ onEstimate }: LogisticsCostCalcProps) {
       <CardContent className="space-y-3 px-4 pb-4">
         <div className="grid grid-cols-2 gap-2">
           <div>
-<<<<<<< HEAD
-            <label className="text-[9px] font-bold uppercase text-slate-500">Вес (кг)</label>
-=======
             <label className="text-text-secondary text-[9px] font-bold uppercase">Вес (кг)</label>
->>>>>>> recover/cabinet-wip-from-stash
             <Input
               type="number"
               value={weight}
@@ -50,11 +42,7 @@ export function LogisticsCostCalc({ onEstimate }: LogisticsCostCalcProps) {
             />
           </div>
           <div>
-<<<<<<< HEAD
-            <label className="text-[9px] font-bold uppercase text-slate-500">Объём (м³)</label>
-=======
             <label className="text-text-secondary text-[9px] font-bold uppercase">Объём (м³)</label>
->>>>>>> recover/cabinet-wip-from-stash
             <Input
               type="number"
               step={0.1}
@@ -66,11 +54,7 @@ export function LogisticsCostCalc({ onEstimate }: LogisticsCostCalcProps) {
         </div>
         <div className="grid grid-cols-2 gap-2">
           <div>
-<<<<<<< HEAD
-            <label className="text-[9px] font-bold uppercase text-slate-500">Откуда</label>
-=======
             <label className="text-text-secondary text-[9px] font-bold uppercase">Откуда</label>
->>>>>>> recover/cabinet-wip-from-stash
             <Input
               value={from}
               onChange={(e) => setFrom(e.target.value)}
@@ -78,11 +62,7 @@ export function LogisticsCostCalc({ onEstimate }: LogisticsCostCalcProps) {
             />
           </div>
           <div>
-<<<<<<< HEAD
-            <label className="text-[9px] font-bold uppercase text-slate-500">Куда</label>
-=======
             <label className="text-text-secondary text-[9px] font-bold uppercase">Куда</label>
->>>>>>> recover/cabinet-wip-from-stash
             <Input
               value={to}
               onChange={(e) => setTo(e.target.value)}
@@ -94,11 +74,7 @@ export function LogisticsCostCalc({ onEstimate }: LogisticsCostCalcProps) {
           Рассчитать
         </Button>
         {result !== null && (
-<<<<<<< HEAD
-          <p className="text-center text-[11px] font-bold text-indigo-600">
-=======
           <p className="text-accent-primary text-center text-[11px] font-bold">
->>>>>>> recover/cabinet-wip-from-stash
             ≈ {result.toLocaleString('ru-RU')} ₽
           </p>
         )}

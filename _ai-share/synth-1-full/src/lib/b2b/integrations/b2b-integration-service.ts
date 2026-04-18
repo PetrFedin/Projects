@@ -66,13 +66,6 @@ export async function exportOrderToProvider(
   payload: unknown,
   opts?: { idempotencyKey?: string }
 ): Promise<OrderExportResult> {
-<<<<<<< HEAD
-  return {
-    success: false,
-    provider: 'platform',
-    error: 'Экспорт: используйте платформу или маркетплейсы РФ',
-  };
-=======
   const parsed = b2bPlatformExportPayloadSchema.safeParse(payload);
   if (!parsed.success) {
     return { success: false, provider: 'platform', error: 'payload: orderId обязателен' };
@@ -124,7 +117,6 @@ export async function retryOrderExportFromJob(
   opts?: { simulateReject?: boolean }
 ): ReturnType<typeof retryPlatformExport> {
   return retryPlatformExport(exportJobId, opts);
->>>>>>> recover/cabinet-wip-from-stash
 }
 
 /** Прайс-листы — платформа. */

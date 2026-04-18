@@ -188,14 +188,9 @@ function getDefaultAttributesForCategory(
   const { level1, level2, level3 } = category;
 
   const getRelevantOptions = (
-<<<<<<< HEAD
-    optionsObject: Record<string, string[]> | { value: string; label: string }[]
-  ): string[] => {
-=======
     optionsObject: Record<string, string[]> | { value: string; label: string }[] | undefined
   ): string[] => {
     if (!optionsObject) return [];
->>>>>>> recover/cabinet-wip-from-stash
     if (Array.isArray(optionsObject) && typeof optionsObject[0] === 'object') {
       // This is for flat arrays of objects like pocketOptions
       return [];
@@ -216,12 +211,8 @@ function getDefaultAttributesForCategory(
 
   const attributeConfig: { key: keyof CategoryAttributes; options: string[] }[] = [
     { key: 'fit', options: getRelevantOptions(allAttributeOptions.clothingFitOptions) },
-<<<<<<< HEAD
-    { key: 'length', options: getRelevantOptions(allAttributeOptions.lengthOptionsByCategory) },
-=======
     // lengthOptionsByCategory / fabricTextureOptionsByCategory пока не заданы в product-attributes (есть плоские шкалы)
     { key: 'length', options: getRelevantOptions({}) },
->>>>>>> recover/cabinet-wip-from-stash
     {
       key: 'sleeveLength',
       options: getRelevantOptions(allAttributeOptions.sleeveOptionsByCategory),
@@ -241,14 +232,7 @@ function getDefaultAttributesForCategory(
     },
     { key: 'decor', options: getRelevantOptions(allAttributeOptions.decorOptionsByCategory) },
     { key: 'hardware', options: getRelevantOptions(allAttributeOptions.hardwareOptionsByCategory) },
-<<<<<<< HEAD
-    {
-      key: 'fabricTexture',
-      options: getRelevantOptions(allAttributeOptions.fabricTextureOptionsByCategory),
-    },
-=======
     { key: 'fabricTexture', options: getRelevantOptions({}) },
->>>>>>> recover/cabinet-wip-from-stash
     {
       key: 'processingTech',
       options: getRelevantOptions(allAttributeOptions.processingTechOptionsByCategory),

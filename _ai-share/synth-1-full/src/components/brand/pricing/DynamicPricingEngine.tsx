@@ -114,15 +114,6 @@ export default function DynamicPricingEngine() {
     <div className="space-y-4 duration-500 animate-in fade-in">
       <header className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div>
-<<<<<<< HEAD
-          <Badge className="mb-3 border-none bg-indigo-600 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white">
-            AI Revenue Management
-          </Badge>
-          <h1 className="text-sm font-black uppercase italic leading-none tracking-tight text-slate-900">
-            Движок <span className="text-indigo-600">Динамического</span> Ценообразования
-          </h1>
-          <p className="mt-4 max-w-xl font-medium text-slate-500">
-=======
           <Badge className="bg-accent-primary mb-3 border-none px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white">
             AI Revenue Management
           </Badge>
@@ -130,7 +121,6 @@ export default function DynamicPricingEngine() {
             Движок <span className="text-accent-primary">Динамического</span> Ценообразования
           </h1>
           <p className="text-text-secondary mt-4 max-w-xl font-medium">
->>>>>>> recover/cabinet-wip-from-stash
             Автоматическая оптимизация маржинальности. ИИ анализирует эластичность спроса, остатки и
             цены конкурентов 24/7.
           </p>
@@ -138,22 +128,14 @@ export default function DynamicPricingEngine() {
         <div className="flex gap-3">
           <Button
             variant="outline"
-<<<<<<< HEAD
-            className="h-10 rounded-xl border-slate-200 px-4 text-[9px] font-bold uppercase tracking-widest"
-=======
             className="border-border-default h-10 rounded-xl px-4 text-[9px] font-bold uppercase tracking-widest"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <RefreshCcw className="mr-2 h-3.5 w-3.5" /> Обновить данные
           </Button>
           <Button
             onClick={handleApplyAll}
             disabled={isUpdating}
-<<<<<<< HEAD
-            className="h-10 rounded-xl bg-slate-900 px-6 text-[9px] font-black uppercase tracking-widest text-white shadow-lg shadow-slate-200 transition-all hover:bg-indigo-600"
-=======
             className="bg-text-primary hover:bg-accent-primary h-10 rounded-xl px-6 text-[9px] font-black uppercase tracking-widest text-white shadow-lg shadow-md transition-all"
->>>>>>> recover/cabinet-wip-from-stash
           >
             {isUpdating ? (
               <RefreshCcw className="mr-2 h-3.5 w-3.5 animate-spin" />
@@ -171,32 +153,19 @@ export default function DynamicPricingEngine() {
           <Card className="overflow-hidden rounded-xl border-none bg-white p-4 shadow-xl">
             <div className="mb-8 flex items-center justify-between">
               <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                <BarChart3 className="h-5 w-5 text-indigo-600" />
-=======
                 <BarChart3 className="text-accent-primary h-5 w-5" />
->>>>>>> recover/cabinet-wip-from-stash
                 <h3 className="text-base font-black uppercase tracking-tight">
                   Прогноз выручки (7 дней)
                 </h3>
               </div>
               <div className="flex gap-3">
                 <div className="flex items-center gap-2">
-<<<<<<< HEAD
-                  <div className="h-2 w-2 rounded-full bg-slate-200" />
-                  <span className="text-[9px] font-black uppercase text-slate-400">Текущая</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="h-2 w-2 rounded-full bg-indigo-600" />
-                  <span className="text-[9px] font-black uppercase text-slate-400">
-=======
                   <div className="bg-border-subtle h-2 w-2 rounded-full" />
                   <span className="text-text-muted text-[9px] font-black uppercase">Текущая</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="bg-accent-primary h-2 w-2 rounded-full" />
                   <span className="text-text-muted text-[9px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                     Оптимизированная
                   </span>
                 </div>
@@ -244,33 +213,14 @@ export default function DynamicPricingEngine() {
                 </AreaChart>
               </ResponsiveContainer>
             </div>
-<<<<<<< HEAD
-            <div className="mt-8 grid grid-cols-3 gap-3 border-t border-slate-50 pt-8">
-              <div className="space-y-1">
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-=======
             <div className="border-border-subtle mt-8 grid grid-cols-3 gap-3 border-t pt-8">
               <div className="space-y-1">
                 <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   Прогноз роста выручки
                 </p>
                 <p className="text-sm font-black text-emerald-600">+14.2%</p>
               </div>
               <div className="space-y-1">
-<<<<<<< HEAD
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-                  Прирост валовой маржи
-                </p>
-                <p className="text-sm font-black text-indigo-600">+5.8%</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-                  Эластичность цены
-                </p>
-                <p className="text-sm font-black text-slate-900">
-                  0.82 <span className="text-[10px] text-slate-400">Высокая</span>
-=======
                 <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
                   Прирост валовой маржи
                 </p>
@@ -282,7 +232,6 @@ export default function DynamicPricingEngine() {
                 </p>
                 <p className="text-text-primary text-sm font-black">
                   0.82 <span className="text-text-muted text-[10px]">Высокая</span>
->>>>>>> recover/cabinet-wip-from-stash
                 </p>
               </div>
             </div>
@@ -290,17 +239,10 @@ export default function DynamicPricingEngine() {
 
           <div className="space-y-4">
             <div className="flex items-center justify-between px-2">
-<<<<<<< HEAD
-              <h3 className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-slate-400">
-                <AlertCircle className="h-4 w-4" /> Топ рекомендаций
-              </h3>
-              <button className="text-[10px] font-black uppercase text-indigo-600 hover:underline">
-=======
               <h3 className="text-text-muted flex items-center gap-2 text-sm font-black uppercase tracking-widest">
                 <AlertCircle className="h-4 w-4" /> Топ рекомендаций
               </h3>
               <button className="text-accent-primary text-[10px] font-black uppercase hover:underline">
->>>>>>> recover/cabinet-wip-from-stash
                 View All SKU
               </button>
             </div>
@@ -311,11 +253,7 @@ export default function DynamicPricingEngine() {
                   className="group rounded-2xl border-none bg-white p-4 shadow-md transition-all hover:shadow-xl"
                 >
                   <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-slate-50">
-=======
                     <div className="bg-bg-surface2 relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
->>>>>>> recover/cabinet-wip-from-stash
                       <Image
                         src={item.images[0].url}
                         alt={item.name}
@@ -324,11 +262,7 @@ export default function DynamicPricingEngine() {
                       />
                     </div>
                     <div className="min-w-0 flex-1">
-<<<<<<< HEAD
-                      <p className="mb-0.5 text-[8px] font-black uppercase text-slate-400">
-=======
                       <p className="text-text-muted mb-0.5 text-[8px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         {item.brand}
                       </p>
                       <h4 className="mb-1.5 truncate text-xs font-black uppercase leading-none tracking-tight">
@@ -336,30 +270,17 @@ export default function DynamicPricingEngine() {
                       </h4>
                       <Badge
                         variant="outline"
-<<<<<<< HEAD
-                        className="border-indigo-50 bg-indigo-50/30 text-[8px] font-black text-indigo-600"
-=======
                         className="border-accent-primary/15 text-accent-primary bg-accent-primary/10 text-[8px] font-black"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         {item.reason}
                       </Badge>
                     </div>
-<<<<<<< HEAD
-                    <div className="flex flex-col items-end gap-1 border-x border-slate-50 px-4 text-right">
-                      <p className="text-[9px] font-black uppercase text-slate-400">
-                        Текущая: {formatRubInt(item.price)} ₽
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <p className="text-sm font-black text-slate-900">
-=======
                     <div className="border-border-subtle flex flex-col items-end gap-1 border-x px-4 text-right">
                       <p className="text-text-muted text-[9px] font-black uppercase">
                         Текущая: {formatRubInt(item.price)} ₽
                       </p>
                       <div className="flex items-center gap-2">
                         <p className="text-text-primary text-sm font-black">
->>>>>>> recover/cabinet-wip-from-stash
                           {formatRubInt(item.suggestedPrice)} ₽
                         </p>
                         <div
@@ -378,28 +299,17 @@ export default function DynamicPricingEngine() {
                       </div>
                     </div>
                     <div className="shrink-0 text-right">
-<<<<<<< HEAD
-                      <p className="mb-1 text-[8px] font-black uppercase text-slate-400">
-                        ИИ-Точность
-                      </p>
-                      <p className="text-xs font-black italic text-indigo-600">
-=======
                       <p className="text-text-muted mb-1 text-[8px] font-black uppercase">
                         ИИ-Точность
                       </p>
                       <p className="text-accent-primary text-xs font-black italic">
->>>>>>> recover/cabinet-wip-from-stash
                         {item.confidence}%
                       </p>
                     </div>
                     <Button
                       variant="ghost"
                       size="icon"
-<<<<<<< HEAD
-                      className="ml-2 h-10 w-10 rounded-xl transition-all hover:bg-slate-900 hover:text-white"
-=======
                       className="hover:bg-text-primary/90 ml-2 h-10 w-10 rounded-xl transition-all hover:text-white"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       <RefreshCcw className="h-4 w-4" />
                     </Button>
@@ -412,21 +322,13 @@ export default function DynamicPricingEngine() {
 
         {/* Right: Rules & Config */}
         <div className="space-y-4 lg:col-span-5">
-<<<<<<< HEAD
-          <Card className="relative overflow-hidden rounded-xl border-none bg-slate-900 p-4 text-white shadow-xl">
-=======
           <Card className="bg-text-primary relative overflow-hidden rounded-xl border-none p-4 text-white shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="absolute right-0 top-0 p-4 opacity-10">
               <LineChart className="h-32 w-32 rotate-12" />
             </div>
             <div className="relative z-10 space-y-4">
               <header className="space-y-2">
-<<<<<<< HEAD
-                <Badge className="border-none bg-indigo-500 px-2 py-0.5 text-[8px] font-black uppercase text-white">
-=======
                 <Badge className="bg-accent-primary border-none px-2 py-0.5 text-[8px] font-black uppercase text-white">
->>>>>>> recover/cabinet-wip-from-stash
                   Автоматизация активна
                 </Badge>
                 <h3 className="text-sm font-black uppercase italic leading-none tracking-tight">
@@ -442,11 +344,7 @@ export default function DynamicPricingEngine() {
                     label: 'Режим распродажи стока',
                     value: 'ВЫКЛ',
                     icon: ShoppingBag,
-<<<<<<< HEAD
-                    color: 'text-slate-500',
-=======
                     color: 'text-text-secondary',
->>>>>>> recover/cabinet-wip-from-stash
                   },
                   { label: 'Индекс цен конкурентов', value: 'Поддерживать 95%', icon: Globe },
                 ].map((rule, i) => (
@@ -455,17 +353,10 @@ export default function DynamicPricingEngine() {
                     className="group flex cursor-pointer items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4 transition-all hover:bg-white/10"
                   >
                     <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 text-indigo-400 transition-transform group-hover:scale-110">
-                        <rule.icon className="h-4 w-4" />
-                      </div>
-                      <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                       <div className="text-accent-primary flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 transition-transform group-hover:scale-110">
                         <rule.icon className="h-4 w-4" />
                       </div>
                       <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                         {rule.label}
                       </span>
                     </div>
@@ -476,11 +367,7 @@ export default function DynamicPricingEngine() {
                 ))}
               </div>
 
-<<<<<<< HEAD
-              <Button className="h-10 w-full rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-xl shadow-black/20 transition-all hover:bg-indigo-400 hover:text-white">
-=======
               <Button className="text-text-primary hover:bg-accent-primary h-10 w-full rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest shadow-xl shadow-black/20 transition-all hover:text-white">
->>>>>>> recover/cabinet-wip-from-stash
                 Настроить все правила <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
@@ -488,11 +375,7 @@ export default function DynamicPricingEngine() {
 
           <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-xl">
             <div className="flex items-center gap-3">
-<<<<<<< HEAD
-              <Globe className="h-5 w-5 text-indigo-600" />
-=======
               <Globe className="text-accent-primary h-5 w-5" />
->>>>>>> recover/cabinet-wip-from-stash
               <h3 className="text-sm font-black uppercase tracking-widest">Данные конкурентов</h3>
             </div>
             <div className="space-y-4">
@@ -508,13 +391,6 @@ export default function DynamicPricingEngine() {
               ].map((comp) => (
                 <div
                   key={comp.name}
-<<<<<<< HEAD
-                  className="flex items-center justify-between rounded-xl border border-slate-50 p-4"
-                >
-                  <div>
-                    <p className="text-[10px] font-black uppercase text-slate-900">{comp.name}</p>
-                    <p className="text-[9px] font-bold uppercase tracking-tight text-slate-400">
-=======
                   className="border-border-subtle flex items-center justify-between rounded-xl border p-4"
                 >
                   <div>
@@ -522,7 +398,6 @@ export default function DynamicPricingEngine() {
                       {comp.name}
                     </p>
                     <p className="text-text-muted text-[9px] font-bold uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                       {comp.status}
                     </p>
                   </div>
@@ -530,11 +405,7 @@ export default function DynamicPricingEngine() {
                 </div>
               ))}
             </div>
-<<<<<<< HEAD
-            <p className="text-center text-[9px] font-medium italic leading-relaxed text-slate-400">
-=======
             <p className="text-text-muted text-center text-[9px] font-medium italic leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
               *Парсинг цен конкурентов выполняется каждые 15 минут через Syntha Proxy Grid.
             </p>
           </Card>

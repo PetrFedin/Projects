@@ -79,42 +79,25 @@ export function RealRouteAi() {
 
   return (
     <Card className="overflow-hidden rounded-xl border-none bg-white shadow-2xl">
-<<<<<<< HEAD
-      <CardHeader className="bg-slate-900 p-3 pb-4 text-white">
-        <div className="flex items-start justify-between">
-          <div className="space-y-1">
-            <div className="mb-1 flex items-center gap-2">
-              <Navigation className="h-6 w-6 text-indigo-400" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-indigo-400">
-=======
       <CardHeader className="bg-text-primary p-3 pb-4 text-white">
         <div className="flex items-start justify-between">
           <div className="space-y-1">
             <div className="mb-1 flex items-center gap-2">
               <Navigation className="text-accent-primary h-6 w-6" />
               <span className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 Real-Route AI Engine
               </span>
             </div>
             <CardTitle className="text-base font-black uppercase tracking-tighter">
               Интеллектуальная Логистика
             </CardTitle>
-<<<<<<< HEAD
-            <CardDescription className="font-medium italic text-slate-400">
-=======
             <CardDescription className="text-text-muted font-medium italic">
->>>>>>> recover/cabinet-wip-from-stash
               Предиктивный анализ задержек и автоматическое перестроение маршрутов.
             </CardDescription>
           </div>
           <div className="flex gap-3">
             <div className="flex flex-col items-end rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md">
-<<<<<<< HEAD
-              <p className="text-[8px] font-black uppercase text-indigo-400">
-=======
               <p className="text-accent-primary text-[8px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                 Точность прогноза ETA
               </p>
               <p className="text-sm font-black text-white">98.2%</p>
@@ -127,21 +110,12 @@ export function RealRouteAi() {
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-12">
           {/* Global Map Mockup */}
           <div className="lg:col-span-8">
-<<<<<<< HEAD
-            <div className="relative aspect-video overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
-              {/* This would be a real map in production */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="space-y-4 text-center">
-                  <Globe className="mx-auto h-24 w-24 animate-pulse text-slate-200" />
-                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
             <div className="bg-bg-surface2 border-border-default relative aspect-video overflow-hidden rounded-xl border">
               {/* This would be a real map in production */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="space-y-4 text-center">
                   <Globe className="text-text-muted mx-auto h-24 w-24 animate-pulse" />
                   <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Global Logistics Visualizer
                   </p>
                 </div>
@@ -169,13 +143,8 @@ export function RealRouteAi() {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     className={cn(
-<<<<<<< HEAD
-                      'absolute flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl border border-slate-100 bg-white shadow-2xl transition-transform hover:scale-110',
-                      activeRouteId === route.id && 'z-20 ring-4 ring-indigo-600 ring-offset-2'
-=======
                       'border-border-subtle absolute flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl border bg-white shadow-2xl transition-transform hover:scale-110',
                       activeRouteId === route.id && 'ring-accent-primary z-20 ring-4 ring-offset-2'
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                     style={{ top: `${20 + i * 20}%`, left: `${15 + i * 25}%` }}
                     onClick={() => setActiveRouteId(route.id)}
@@ -183,11 +152,7 @@ export function RealRouteAi() {
                     <Truck
                       className={cn(
                         'h-5 w-5',
-<<<<<<< HEAD
-                        route.status === 'Delayed' ? 'text-rose-500' : 'text-indigo-600'
-=======
                         route.status === 'Delayed' ? 'text-rose-500' : 'text-accent-primary'
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                     />
                     {route.status === 'Delayed' && (
@@ -210,11 +175,7 @@ export function RealRouteAi() {
                   exit={{ opacity: 0, x: -20 }}
                   className="space-y-6"
                 >
-<<<<<<< HEAD
-                  <div className="space-y-6 rounded-xl border border-slate-100 bg-slate-50 p-4">
-=======
                   <div className="bg-bg-surface2 border-border-subtle space-y-6 rounded-xl border p-4">
->>>>>>> recover/cabinet-wip-from-stash
                     <div className="flex items-start justify-between">
                       <Badge
                         className={cn(
@@ -226,27 +187,16 @@ export function RealRouteAi() {
                       >
                         {activeRoute.status}
                       </Badge>
-<<<<<<< HEAD
-                      <span className="text-[10px] font-black uppercase text-slate-400">
-=======
                       <span className="text-text-muted text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         ETA: {activeRoute.eta}
                       </span>
                     </div>
 
                     <div className="space-y-1">
-<<<<<<< HEAD
-                      <h4 className="text-base font-black uppercase tracking-tighter text-slate-900">
-                        {activeRoute.from} → {activeRoute.to}
-                      </h4>
-                      <p className="text-[10px] font-bold uppercase text-slate-400">
-=======
                       <h4 className="text-text-primary text-base font-black uppercase tracking-tighter">
                         {activeRoute.from} → {activeRoute.to}
                       </h4>
                       <p className="text-text-muted text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         {activeRoute.method}
                       </p>
                     </div>
@@ -256,11 +206,7 @@ export function RealRouteAi() {
                         <span>Прогресс пути</span>
                         <span>{activeRoute.progress}%</span>
                       </div>
-<<<<<<< HEAD
-                      <Progress value={activeRoute.progress} className="h-1.5 bg-slate-200" />
-=======
                       <Progress value={activeRoute.progress} className="bg-border-subtle h-1.5" />
->>>>>>> recover/cabinet-wip-from-stash
                     </div>
 
                     {activeRoute.status === 'Delayed' && (
@@ -284,13 +230,8 @@ export function RealRouteAi() {
                       className={cn(
                         'h-10 w-full rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl transition-all',
                         activeRoute.status === 'Delayed'
-<<<<<<< HEAD
-                          ? 'bg-indigo-600 text-white'
-                          : 'bg-slate-900 text-white'
-=======
                           ? 'bg-accent-primary text-white'
                           : 'bg-text-primary text-white'
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {isRerouting ? (
@@ -305,30 +246,14 @@ export function RealRouteAi() {
                     </Button>
                   </div>
 
-<<<<<<< HEAD
-                  <div className="space-y-4 rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
-                    <div className="flex items-center gap-2">
-                      <ShieldCheck className="h-4 w-4 text-emerald-500" />
-                      <span className="text-[10px] font-black uppercase text-slate-900">
-=======
                   <div className="border-border-subtle space-y-4 rounded-xl border bg-white p-4 shadow-sm">
                     <div className="flex items-center gap-2">
                       <ShieldCheck className="h-4 w-4 text-emerald-500" />
                       <span className="text-text-primary text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         Таможенный статус
                       </span>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
-<<<<<<< HEAD
-                      <div className="rounded-xl bg-slate-50 p-3">
-                        <p className="text-[8px] font-black uppercase text-slate-400">Документы</p>
-                        <p className="text-[10px] font-black text-emerald-600">Готовы (12/12)</p>
-                      </div>
-                      <div className="rounded-xl bg-slate-50 p-3">
-                        <p className="text-[8px] font-black uppercase text-slate-400">Пошлина</p>
-                        <p className="text-[10px] font-black text-slate-900">Оплачена</p>
-=======
                       <div className="bg-bg-surface2 rounded-xl p-3">
                         <p className="text-text-muted text-[8px] font-black uppercase">Документы</p>
                         <p className="text-[10px] font-black text-emerald-600">Готовы (12/12)</p>
@@ -336,7 +261,6 @@ export function RealRouteAi() {
                       <div className="bg-bg-surface2 rounded-xl p-3">
                         <p className="text-text-muted text-[8px] font-black uppercase">Пошлина</p>
                         <p className="text-text-primary text-[10px] font-black">Оплачена</p>
->>>>>>> recover/cabinet-wip-from-stash
                       </div>
                     </div>
                   </div>

@@ -15,14 +15,8 @@ export default function DPPPage() {
   }, [id]);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto px-4 py-4">
-      <DigitalProductPassport product={product} />
-    </div>
-=======
     <RegistryPageShell className="pb-16">
       <DigitalProductPassport product={product} />
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

@@ -25,11 +25,7 @@ export default function ClientCatalogPage() {
     <div className="container mx-auto max-w-5xl px-4 py-6 pb-24">
       <div className="mb-6">
         <h1 className="text-2xl font-bold uppercase tracking-tight">Каталог</h1>
-<<<<<<< HEAD
-        <p className="mt-1 text-sm text-slate-500">
-=======
         <p className="text-text-secondary mt-1 text-sm">
->>>>>>> recover/cabinet-wip-from-stash
           Несколько брендов, единый поиск и фильтр по бренду.
         </p>
       </div>
@@ -55,11 +51,7 @@ export default function ClientCatalogPage() {
             <select
               value={brandFilter}
               onChange={(e) => setBrandFilter(e.target.value)}
-<<<<<<< HEAD
-              className="min-w-[160px] rounded-lg border border-slate-200 px-3 py-2 text-sm"
-=======
               className="border-border-default min-w-[160px] rounded-lg border px-3 py-2 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
             >
               <option value="">Все бренды</option>
               {brands.slice(0, 8).map((b) => (
@@ -80,15 +72,6 @@ export default function ClientCatalogPage() {
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
         {brands.slice(0, 8).map((b) => (
           <Link key={b.id} href={`/search?brand=${encodeURIComponent(b.name)}`}>
-<<<<<<< HEAD
-            <Card className="h-full cursor-pointer transition-colors hover:border-slate-300">
-              <CardContent className="flex flex-col items-center p-4 text-center">
-                <div className="mb-2 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 text-lg font-bold text-slate-600">
-                  {b.name.slice(0, 2)}
-                </div>
-                <p className="text-sm font-medium">{b.name}</p>
-                <p className="mt-0.5 text-xs text-slate-400">Каталог</p>
-=======
             <Card className="hover:border-border-default h-full cursor-pointer transition-colors">
               <CardContent className="flex flex-col items-center p-4 text-center">
                 <div className="bg-bg-surface2 text-text-secondary mb-2 flex h-16 w-16 items-center justify-center rounded-full text-lg font-bold">
@@ -96,7 +79,6 @@ export default function ClientCatalogPage() {
                 </div>
                 <p className="text-sm font-medium">{b.name}</p>
                 <p className="text-text-muted mt-0.5 text-xs">Каталог</p>
->>>>>>> recover/cabinet-wip-from-stash
               </CardContent>
             </Card>
           </Link>

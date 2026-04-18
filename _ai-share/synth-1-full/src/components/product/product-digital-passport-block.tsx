@@ -30,17 +30,10 @@ export const ProductDigitalPassportBlock: React.FC<{ product: Product }> = ({ pr
             <QrCode className="h-8 w-8 text-emerald-600" />
           </div>
           <div className="min-w-0 flex-1">
-<<<<<<< HEAD
-            <div className="mb-1 text-[10px] font-black uppercase leading-none text-slate-400">
-              Declaration No.
-            </div>
-            <div className="truncate text-[11px] font-bold text-slate-700">
-=======
             <div className="text-text-muted mb-1 text-[10px] font-black uppercase leading-none">
               Declaration No.
             </div>
             <div className="text-text-primary truncate text-[11px] font-bold">
->>>>>>> recover/cabinet-wip-from-stash
               {p.declarationNumber}
             </div>
             <div className="mt-1 flex gap-1.5">
@@ -50,11 +43,7 @@ export const ProductDigitalPassportBlock: React.FC<{ product: Product }> = ({ pr
               >
                 {p.standard}
               </Badge>
-<<<<<<< HEAD
-              <span className="mt-0.5 text-[8px] font-bold uppercase text-slate-400">
-=======
               <span className="text-text-muted mt-0.5 text-[8px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                 Until: {p.validUntil}
               </span>
             </div>
@@ -62,21 +51,13 @@ export const ProductDigitalPassportBlock: React.FC<{ product: Product }> = ({ pr
         </div>
 
         <div className="space-y-2 rounded-lg border border-emerald-50 bg-white/60 p-2.5 text-[10px]">
-<<<<<<< HEAD
-          <div className="flex items-center justify-between text-slate-500">
-=======
           <div className="text-text-secondary flex items-center justify-between">
->>>>>>> recover/cabinet-wip-from-stash
             <span className="flex items-center gap-1.5">
               <FileText className="h-3 w-3" /> Testing Lab
             </span>
             <span className="font-bold">{p.testingLab}</span>
           </div>
-<<<<<<< HEAD
-          <div className="flex items-center justify-between text-slate-500">
-=======
           <div className="text-text-secondary flex items-center justify-between">
->>>>>>> recover/cabinet-wip-from-stash
             <span className="flex items-center gap-1.5">
               <Info className="h-3 w-3" /> EAEU-Standard Declaration
             </span>
@@ -85,11 +66,7 @@ export const ProductDigitalPassportBlock: React.FC<{ product: Product }> = ({ pr
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div className="mt-4 flex items-center gap-1.5 text-[9px] font-bold uppercase italic text-slate-400">
-=======
       <div className="text-text-muted mt-4 flex items-center gap-1.5 text-[9px] font-bold uppercase italic">
->>>>>>> recover/cabinet-wip-from-stash
         Certified for RF, BY, KZ, AM, KG Markets • Digital Safety Passport v1.2
       </div>
     </Card>

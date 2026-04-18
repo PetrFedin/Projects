@@ -95,10 +95,7 @@ BRAND_PROFILE_SCHEMA ─► brand/page.tsx (структура, порядок, 
 | Reorder                       | b2bReorder                | shop/b2b/reorder                   |
 | Pre-order                     | b2bPreOrder               | shop/b2b/pre-order                 |
 | Маржа по брендам              | b2bMarginReport           | shop/b2b/margin-report             |
-<<<<<<< HEAD
-=======
 | Хаб маржи (срез)              | b2bMarginAnalysis         | shop/b2b/margin-analysis           |
->>>>>>> recover/cabinet-wip-from-stash
 | Режим заказа                  | b2bOrderMode              | shop/b2b/order-mode                |
 | Working Order                 | b2bWorkingOrder           | shop/b2b/working-order             |
 | Лукбуки                       | b2bLookbooks              | shop/b2b/lookbooks                 |

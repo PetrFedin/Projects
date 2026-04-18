@@ -99,22 +99,14 @@ const roleConfig = {
   supplier: { label: 'Поставщик', color: 'bg-amber-50 text-amber-600 border-amber-100' },
   distributor: { label: 'Дистрибьютор', color: 'bg-blue-50 text-blue-600 border-blue-100' },
   shop: { label: 'Магазин', color: 'bg-rose-50 text-rose-600 border-rose-100' },
-<<<<<<< HEAD
-  client: { label: 'Клиент', color: 'bg-slate-50 text-slate-600 border-slate-100' },
-=======
   client: { label: 'Клиент', color: 'bg-bg-surface2 text-text-secondary border-border-subtle' },
->>>>>>> recover/cabinet-wip-from-stash
 };
 
 const actionConfig = {
   cart: { icon: ShoppingCart, color: 'text-green-500' },
   product: { icon: Eye, color: 'text-blue-500' },
   order: { icon: ShoppingCart, color: 'text-orange-500' },
-<<<<<<< HEAD
-  review: { icon: MessageSquare, color: 'text-purple-500' },
-=======
   review: { icon: MessageSquare, color: 'text-accent-primary' },
->>>>>>> recover/cabinet-wip-from-stash
   view: { icon: Eye, color: 'text-gray-500' },
   wishlist: { icon: Heart, color: 'text-red-500' },
 };
@@ -127,22 +119,14 @@ export default function ActivityLogPage() {
           <h1 className="font-headline text-base font-black uppercase tracking-tighter">
             Глобальная лента событий
           </h1>
-<<<<<<< HEAD
-          <p className="border-l-2 border-indigo-500 pl-4 text-sm font-medium italic text-muted-foreground">
-=======
           <p className="border-accent-primary border-l-2 pl-4 text-sm font-medium italic text-muted-foreground">
->>>>>>> recover/cabinet-wip-from-stash
             "Мониторинг кросс-функционального взаимодействия всех участников платформы в реальном
             времени."
           </p>
         </div>
       </header>
 
-<<<<<<< HEAD
-      <Card className="border-slate-100 shadow-xl shadow-slate-200/20">
-=======
       <Card className="border-border-subtle shadow-md/20 shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
         <CardHeader>
           <CardTitle className="text-sm font-black uppercase tracking-tight">
             Журнал транзакций и действий
@@ -163,19 +147,6 @@ export default function ActivityLogPage() {
         <CardContent>
           <Table>
             <TableHeader>
-<<<<<<< HEAD
-              <TableRow className="border-slate-100 hover:bg-transparent">
-                <TableHead className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-                  Участник / Роль
-                </TableHead>
-                <TableHead className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-                  Действие
-                </TableHead>
-                <TableHead className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-                  Объект системы
-                </TableHead>
-                <TableHead className="text-right text-[9px] font-black uppercase tracking-widest text-slate-400">
-=======
               <TableRow className="border-border-subtle hover:bg-transparent">
                 <TableHead className="text-text-muted text-[9px] font-black uppercase tracking-widest">
                   Участник / Роль
@@ -187,7 +158,6 @@ export default function ActivityLogPage() {
                   Объект системы
                 </TableHead>
                 <TableHead className="text-text-muted text-right text-[9px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   Таймштамп
                 </TableHead>
               </TableRow>
@@ -202,28 +172,16 @@ export default function ActivityLogPage() {
                 return (
                   <TableRow
                     key={activity.id}
-<<<<<<< HEAD
-                    className="group/row border-slate-50 hover:bg-slate-50/50"
-                  >
-                    <TableCell>
-                      <div className="flex items-center gap-3">
-                        <Avatar className="h-8 w-8 border border-slate-100 transition-transform group-hover/row:scale-110">
-=======
                     className="border-border-subtle group/row hover:bg-bg-surface2/80"
                   >
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <Avatar className="border-border-subtle h-8 w-8 border transition-transform group-hover/row:scale-110">
->>>>>>> recover/cabinet-wip-from-stash
                           <AvatarImage src={activity.avatar} alt={activity.user} />
                           <AvatarFallback>{activity.user.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col">
-<<<<<<< HEAD
-                          <span className="mb-1 text-xs font-black uppercase leading-none tracking-tight text-slate-900">
-=======
                           <span className="text-text-primary mb-1 text-xs font-black uppercase leading-none tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                             {activity.user}
                           </span>
                           <Badge
@@ -242,47 +200,28 @@ export default function ActivityLogPage() {
                       <div className="flex items-center gap-2">
                         <div
                           className={cn(
-<<<<<<< HEAD
-                            'rounded border border-slate-100 bg-white p-1 shadow-sm',
-=======
                             'border-border-subtle rounded border bg-white p-1 shadow-sm',
->>>>>>> recover/cabinet-wip-from-stash
                             config.color
                           )}
                         >
                           <config.icon className="h-3 w-3" />
                         </div>
-<<<<<<< HEAD
-                        <span className="text-[11px] font-bold uppercase tracking-tight text-slate-600">
-=======
                         <span className="text-text-secondary text-[11px] font-bold uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                           {activity.action}
                         </span>
                       </div>
                     </TableCell>
                     <TableCell>
-<<<<<<< HEAD
-                      <span className="text-[11px] font-medium italic text-slate-400">
-=======
                       <span className="text-text-muted text-[11px] font-medium italic">
->>>>>>> recover/cabinet-wip-from-stash
                         "{activity.target}"
                       </span>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex flex-col items-end">
-<<<<<<< HEAD
-                        <span className="mb-0.5 text-[10px] font-black leading-none text-slate-900">
-                          {format(new Date(activity.date), 'HH:mm', { locale: ru })}
-                        </span>
-                        <span className="text-[8px] font-bold uppercase tracking-widest text-slate-400">
-=======
                         <span className="text-text-primary mb-0.5 text-[10px] font-black leading-none">
                           {format(new Date(activity.date), 'HH:mm', { locale: ru })}
                         </span>
                         <span className="text-text-muted text-[8px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                           {format(new Date(activity.date), 'dd MMM yyyy', { locale: ru })}
                         </span>
                       </div>

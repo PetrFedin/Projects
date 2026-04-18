@@ -41,10 +41,7 @@ import {
   formatPrice,
   type PlanId,
 } from '@/lib/data/subscription-plans';
-<<<<<<< HEAD
-=======
 import { ROUTES } from '@/lib/routes';
->>>>>>> recover/cabinet-wip-from-stash
 
 const CURRENT_PLAN_ID: PlanId = 'elite';
 const currentPlan =
@@ -53,11 +50,7 @@ const currentPlan =
 const USAGE_STATS = [
   { label: 'API Calls', used: 24500, limit: 100000, unit: 'calls', color: 'bg-blue-500' },
   { label: 'Storage', used: 142, limit: 500, unit: 'GB', color: 'bg-emerald-500' },
-<<<<<<< HEAD
-  { label: 'Team Members', used: 24, limit: null, unit: 'users', color: 'bg-indigo-500' },
-=======
   { label: 'Team Members', used: 24, limit: null, unit: 'users', color: 'bg-accent-primary' },
->>>>>>> recover/cabinet-wip-from-stash
   { label: 'B2B Orders', used: 1247, limit: null, unit: 'orders', color: 'bg-amber-500' },
 ];
 
@@ -128,17 +121,10 @@ export default function SubscriptionPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-4 px-4 pb-20 md:px-0">
       {returnResolved && (
-<<<<<<< HEAD
-        <div className="mb-4 rounded-lg border border-indigo-100 bg-indigo-50 p-2">
-          <Link
-            href={`/brand/organization?resolved=${encodeURIComponent(returnResolved)}`}
-            className="flex items-center gap-1 text-[10px] font-semibold text-indigo-600 hover:text-indigo-700"
-=======
         <div className="bg-accent-primary/10 border-accent-primary/20 mb-4 rounded-lg border p-2">
           <Link
             href={`/brand/organization?resolved=${encodeURIComponent(returnResolved)}`}
             className="text-accent-primary hover:text-accent-primary flex items-center gap-1 text-[10px] font-semibold"
->>>>>>> recover/cabinet-wip-from-stash
           >
             ← Вернуться в Центр управления
           </Link>
@@ -151,43 +137,25 @@ export default function SubscriptionPage() {
             asChild
             variant="outline"
             size="sm"
-<<<<<<< HEAD
-            className="h-7 rounded-lg border-slate-200 bg-white px-3 text-[7px] font-black uppercase tracking-widest text-slate-400 shadow-sm hover:bg-slate-50"
-          >
-            <Link href="/api/export/billing?format=csv">Экспорт</Link>
-          </Button>
-          <div className="mx-0.5 h-4 w-px bg-slate-200" />
-=======
             className="border-border-default text-text-muted hover:bg-bg-surface2 h-7 rounded-lg bg-white px-3 text-[7px] font-black uppercase tracking-widest shadow-sm"
           >
             <Link href="/api/export/billing?format=csv">Экспорт</Link>
           </Button>
           <div className="bg-border-subtle mx-0.5 h-4 w-px" />
->>>>>>> recover/cabinet-wip-from-stash
           <Button
             asChild
             variant="outline"
             size="sm"
-<<<<<<< HEAD
-            className="h-7 rounded-lg border-slate-200 bg-white px-3 text-[7px] font-black uppercase tracking-widest text-slate-400 shadow-sm hover:bg-slate-50"
-          >
-            <Link href="/brand/settings">Настройки</Link>
-=======
             className="border-border-default text-text-muted hover:bg-bg-surface2 h-7 rounded-lg bg-white px-3 text-[7px] font-black uppercase tracking-widest shadow-sm"
           >
             <Link href={ROUTES.brand.settings}>Настройки</Link>
->>>>>>> recover/cabinet-wip-from-stash
           </Button>
         </div>
 
         <Button
           variant="default"
           size="sm"
-<<<<<<< HEAD
-          className="h-7 rounded-lg bg-indigo-600 px-4 text-[7px] font-black uppercase tracking-widest text-white shadow-lg shadow-indigo-100 transition-all hover:bg-indigo-700"
-=======
           className="bg-accent-primary shadow-accent-primary/10 hover:bg-accent-primary h-7 rounded-lg px-4 text-[7px] font-black uppercase tracking-widest text-white shadow-lg transition-all"
->>>>>>> recover/cabinet-wip-from-stash
         >
           Изменить план
         </Button>
@@ -199,19 +167,11 @@ export default function SubscriptionPage() {
           <CollapsibleSection
             id="subscription-current-plan"
             title="Current Plan"
-<<<<<<< HEAD
-            barColor="bg-indigo-600"
-            className="mb-0 h-full"
-            fillHeight
-          >
-            <Card className="relative mt-2 flex h-full min-h-[160px] flex-col overflow-hidden rounded-xl border-none bg-gradient-to-br from-indigo-600 to-indigo-700 p-3 text-white shadow-sm">
-=======
             barColor="bg-accent-primary"
             className="mb-0 h-full"
             fillHeight
           >
             <Card className="from-accent-primary to-accent-primary relative mt-2 flex h-full min-h-[160px] flex-col overflow-hidden rounded-xl border-none bg-gradient-to-br p-3 text-white shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
               <div className="absolute right-0 top-0 p-2 opacity-10">
                 <Crown className="h-20 w-20" />
               </div>
@@ -224,11 +184,7 @@ export default function SubscriptionPage() {
                     <h3 className="text-sm font-black uppercase tracking-tight">
                       {currentPlan.name}
                     </h3>
-<<<<<<< HEAD
-                    <p className="line-clamp-2 text-[9px] font-medium text-indigo-200">
-=======
                     <p className="text-accent-primary/40 line-clamp-2 text-[9px] font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                       {currentPlan.description}
                     </p>
                   </div>
@@ -236,11 +192,7 @@ export default function SubscriptionPage() {
                     <div className="text-xs font-black">
                       {formatPrice(currentPlan.priceMonthly)}
                     </div>
-<<<<<<< HEAD
-                    <div className="text-[9px] font-black uppercase tracking-widest text-indigo-200">
-=======
                     <div className="text-accent-primary/40 text-[9px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                       / мес
                     </div>
                   </div>
@@ -248,11 +200,7 @@ export default function SubscriptionPage() {
 
                 <div className="grid grid-cols-3 gap-2">
                   <div className="flex items-center gap-1.5">
-<<<<<<< HEAD
-                    <Activity className="h-3.5 w-3.5 shrink-0 text-indigo-300" />
-=======
                     <Activity className="text-accent-primary h-3.5 w-3.5 shrink-0" />
->>>>>>> recover/cabinet-wip-from-stash
                     <div>
                       <div className="text-accent-primary/40 text-[7px] font-black uppercase">
                         API
@@ -261,11 +209,7 @@ export default function SubscriptionPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5">
-<<<<<<< HEAD
-                    <Database className="h-3.5 w-3.5 shrink-0 text-indigo-300" />
-=======
                     <Database className="text-accent-primary h-3.5 w-3.5 shrink-0" />
->>>>>>> recover/cabinet-wip-from-stash
                     <div>
                       <div className="text-accent-primary/40 text-[7px] font-black uppercase">
                         Storage
@@ -274,11 +218,7 @@ export default function SubscriptionPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5">
-<<<<<<< HEAD
-                    <Users className="h-3.5 w-3.5 shrink-0 text-indigo-300" />
-=======
                     <Users className="text-accent-primary h-3.5 w-3.5 shrink-0" />
->>>>>>> recover/cabinet-wip-from-stash
                     <div>
                       <div className="text-accent-primary/40 text-[7px] font-black uppercase">
                         Team
@@ -289,15 +229,9 @@ export default function SubscriptionPage() {
                 </div>
 
                 <div className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-2">
-<<<<<<< HEAD
-                  <Calendar className="h-4 w-4 shrink-0 text-indigo-300" />
-                  <div className="min-w-0 flex-1">
-                    <div className="text-[8px] font-black uppercase text-indigo-200">
-=======
                   <Calendar className="text-accent-primary h-4 w-4 shrink-0" />
                   <div className="min-w-0 flex-1">
                     <div className="text-accent-primary/40 text-[8px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                       След. списание
                     </div>
                     <div className="text-[11px] font-black">01 марта 2026</div>
@@ -315,15 +249,6 @@ export default function SubscriptionPage() {
           <CollapsibleSection
             id="subscription-quick-actions"
             title="Quick Actions"
-<<<<<<< HEAD
-            barColor="bg-slate-900"
-            className="mb-0 h-full"
-            fillHeight
-          >
-            <Card className="group relative mt-2 flex h-full min-h-[160px] flex-col overflow-hidden rounded-xl border-none bg-slate-900 p-3 text-white shadow-sm">
-              <div className="absolute right-0 top-0 p-2 opacity-10">
-                <CreditCard className="h-16 w-16 text-indigo-400" />
-=======
             barColor="bg-text-primary"
             className="mb-0 h-full"
             fillHeight
@@ -331,16 +256,11 @@ export default function SubscriptionPage() {
             <Card className="bg-text-primary group relative mt-2 flex h-full min-h-[160px] flex-col overflow-hidden rounded-xl border-none p-3 text-white shadow-sm">
               <div className="absolute right-0 top-0 p-2 opacity-10">
                 <CreditCard className="text-accent-primary h-16 w-16" />
->>>>>>> recover/cabinet-wip-from-stash
               </div>
               <div className="relative z-10 flex flex-1 flex-col gap-2">
                 <div>
                   <h3 className="text-xs font-black uppercase tracking-tight">Billing Portal</h3>
-<<<<<<< HEAD
-                  <p className="text-[9px] font-medium text-slate-400">Счета и оплата</p>
-=======
                   <p className="text-text-muted text-[9px] font-medium">Счета и оплата</p>
->>>>>>> recover/cabinet-wip-from-stash
                 </div>
                 <div className="mt-auto flex flex-col gap-1">
                   <Button className="h-6 w-fit min-w-0 justify-start rounded-md border border-white/5 bg-white/5 px-2 text-[7px] font-black uppercase tracking-widest text-white hover:bg-white/10">
@@ -349,11 +269,7 @@ export default function SubscriptionPage() {
                   <Button className="h-6 w-fit min-w-0 justify-start rounded-md border border-white/5 bg-white/5 px-2 text-[7px] font-black uppercase tracking-widest text-white hover:bg-white/10">
                     Инвойсы (ZIP)
                   </Button>
-<<<<<<< HEAD
-                  <Button className="h-6 w-fit min-w-0 justify-start rounded-md bg-indigo-600 px-2 text-[7px] font-black uppercase tracking-widest text-white hover:bg-indigo-700">
-=======
                   <Button className="bg-accent-primary hover:bg-accent-primary h-6 w-fit min-w-0 justify-start rounded-md px-2 text-[7px] font-black uppercase tracking-widest text-white">
->>>>>>> recover/cabinet-wip-from-stash
                     Повысить план
                   </Button>
                 </div>
@@ -374,26 +290,15 @@ export default function SubscriptionPage() {
           {USAGE_STATS.map((stat, i) => (
             <Card
               key={i}
-<<<<<<< HEAD
-              className="rounded-xl border border-none border-slate-100 bg-white p-3 shadow-sm"
-            >
-              <div className="mb-2 flex items-center justify-between">
-                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">
-=======
               className="border-border-subtle rounded-xl border border-none bg-white p-3 shadow-sm"
             >
               <div className="mb-2 flex items-center justify-between">
                 <h4 className="text-text-secondary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   {stat.label}
                 </h4>
                 <Badge
                   variant="outline"
-<<<<<<< HEAD
-                  className="border-slate-200 text-[7px] font-black text-slate-400"
-=======
                   className="border-border-default text-text-muted text-[7px] font-black"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   {stat.unit}
                 </Badge>
@@ -402,36 +307,21 @@ export default function SubscriptionPage() {
               {stat.limit ? (
                 <>
                   <div className="mb-2 flex items-end gap-2">
-<<<<<<< HEAD
-                    <span className="text-sm font-black text-slate-900">
-                      {stat.used.toLocaleString('ru-RU')}
-                    </span>
-                    <span className="mb-1 text-sm font-black text-slate-400">
-=======
                     <span className="text-text-primary text-sm font-black">
                       {stat.used.toLocaleString('ru-RU')}
                     </span>
                     <span className="text-text-muted mb-1 text-sm font-black">
->>>>>>> recover/cabinet-wip-from-stash
                       / {stat.limit.toLocaleString('ru-RU')}
                     </span>
                   </div>
                   <Progress value={(stat.used / stat.limit) * 100} className="h-2" />
-<<<<<<< HEAD
-                  <div className="mt-2 text-[8px] font-medium text-slate-400">
-=======
                   <div className="text-text-muted mt-2 text-[8px] font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                     {Math.round((stat.used / stat.limit) * 100)}% использовано
                   </div>
                 </>
               ) : (
                 <div className="flex items-end gap-2">
-<<<<<<< HEAD
-                  <span className="text-sm font-black text-slate-900">
-=======
                   <span className="text-text-primary text-sm font-black">
->>>>>>> recover/cabinet-wip-from-stash
                     {stat.used.toLocaleString('ru-RU')}
                   </span>
                   <span className="mb-1 text-sm font-black text-emerald-600">Безлимит</span>
@@ -449,16 +339,6 @@ export default function SubscriptionPage() {
         barColor="bg-blue-600"
         className="mb-6"
       >
-<<<<<<< HEAD
-        <Card className="mt-2 rounded-xl border border-none border-slate-100 bg-white p-3 shadow-sm">
-          <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
-            {currentPlan.features.map((feature, i) => (
-              <div key={i} className="flex items-center gap-2 rounded-lg bg-slate-50 p-2">
-                <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md bg-emerald-100">
-                  <Check className="h-3 w-3 text-emerald-600" />
-                </div>
-                <span className="text-[9px] font-black uppercase text-slate-700">{feature}</span>
-=======
         <Card className="border-border-subtle mt-2 rounded-xl border border-none bg-white p-3 shadow-sm">
           <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
             {currentPlan.features.map((feature, i) => (
@@ -467,7 +347,6 @@ export default function SubscriptionPage() {
                   <Check className="h-3 w-3 text-emerald-600" />
                 </div>
                 <span className="text-text-primary text-[9px] font-black uppercase">{feature}</span>
->>>>>>> recover/cabinet-wip-from-stash
               </div>
             ))}
           </div>
@@ -478,16 +357,6 @@ export default function SubscriptionPage() {
       <CollapsibleSection
         id="subscription-calculator"
         title="Калькулятор стоимости"
-<<<<<<< HEAD
-        barColor="bg-purple-600"
-        className="mb-6"
-      >
-        <Card className="mt-2 rounded-xl border border-none border-purple-100 bg-gradient-to-br from-purple-50 to-pink-50 p-3 shadow-sm">
-          <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <Label className="w-20 shrink-0 text-[9px] font-black uppercase tracking-widest text-slate-700">
-=======
         barColor="bg-accent-primary"
         className="mb-6"
       >
@@ -496,7 +365,6 @@ export default function SubscriptionPage() {
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <Label className="text-text-primary w-20 shrink-0 text-[9px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   API Calls
                 </Label>
                 <div className="flex items-center gap-1.5">
@@ -525,11 +393,7 @@ export default function SubscriptionPage() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-<<<<<<< HEAD
-                <Label className="w-20 shrink-0 text-[9px] font-black uppercase tracking-widest text-slate-700">
-=======
                 <Label className="text-text-primary w-20 shrink-0 text-[9px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   Storage GB
                 </Label>
                 <div className="flex items-center gap-1.5">
@@ -558,11 +422,7 @@ export default function SubscriptionPage() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-<<<<<<< HEAD
-                <Label className="w-20 shrink-0 text-[9px] font-black uppercase tracking-widest text-slate-700">
-=======
                 <Label className="text-text-primary w-20 shrink-0 text-[9px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   Team
                 </Label>
                 <div className="flex items-center gap-1.5">
@@ -594,16 +454,6 @@ export default function SubscriptionPage() {
 
             <Card className="rounded-xl border-none bg-white p-3 shadow-lg">
               <div className="mb-2 flex items-start gap-2">
-<<<<<<< HEAD
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-purple-600 text-white">
-                  <Calculator className="h-4 w-4" />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-xs font-black text-slate-900">
-                    {formatPrice(calculatePrice().price)}
-                  </div>
-                  <p className="text-[9px] font-black uppercase text-purple-600">
-=======
                 <div className="bg-accent-primary flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white">
                   <Calculator className="h-4 w-4" />
                 </div>
@@ -612,16 +462,11 @@ export default function SubscriptionPage() {
                     {formatPrice(calculatePrice().price)}
                   </div>
                   <p className="text-accent-primary text-[9px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                     {calculatePrice().plan.name}
                   </p>
                 </div>
               </div>
-<<<<<<< HEAD
-              <div className="flex flex-wrap gap-x-3 gap-y-1 border-t border-slate-100 pt-2 text-[8px] font-bold uppercase text-slate-600">
-=======
               <div className="text-text-secondary border-border-subtle flex flex-wrap gap-x-3 gap-y-1 border-t pt-2 text-[8px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                 {['B2B/B2C безлимит', 'Поддержка 24/7', 'AI-аналитика', 'Маркетплейсы'].map(
                   (f, i) => (
                     <span key={i} className="flex items-center gap-1">
@@ -631,11 +476,7 @@ export default function SubscriptionPage() {
                   )
                 )}
               </div>
-<<<<<<< HEAD
-              <Button className="mt-2 h-8 w-fit rounded-lg bg-purple-600 px-3 text-[9px] font-black uppercase hover:bg-purple-700">
-=======
               <Button className="bg-accent-primary hover:bg-accent-primary mt-2 h-8 w-fit rounded-lg px-3 text-[9px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                 Перейти на план
               </Button>
             </Card>
@@ -647,67 +488,39 @@ export default function SubscriptionPage() {
       <CollapsibleSection
         id="subscription-billing-history"
         title="Billing History"
-<<<<<<< HEAD
-        barColor="bg-slate-900"
-        className="mb-0"
-      >
-        <Card className="mt-2 rounded-xl border border-none border-slate-100 bg-white p-3 shadow-sm">
-=======
         barColor="bg-text-primary"
         className="mb-0"
       >
         <Card className="border-border-subtle mt-2 rounded-xl border border-none bg-white p-3 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
           <div className="space-y-1.5">
             {BILLING_HISTORY.map((bill, i) => (
               <div
                 key={i}
-<<<<<<< HEAD
-                className="group flex items-center gap-2 rounded-lg bg-slate-50 px-3 py-2 transition-all hover:bg-slate-100"
-=======
                 className="bg-bg-surface2 hover:bg-bg-surface2 group flex items-center gap-2 rounded-lg px-3 py-2 transition-all"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
                   <FileText className="h-3.5 w-3.5" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
-<<<<<<< HEAD
-                    <span className="text-[9px] font-black uppercase text-slate-900">
-=======
                     <span className="text-text-primary text-[9px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                       {bill.period}
                     </span>
                     <Badge className="h-3 border-none bg-emerald-500 px-1 text-[6px] font-black uppercase text-white">
                       Оплачено
                     </Badge>
-<<<<<<< HEAD
-                    <span className="font-mono text-[8px] text-slate-500">{bill.invoice}</span>
-                  </div>
-                  <span className="text-[8px] text-slate-500">{bill.date}</span>
-                </div>
-                <div className="flex shrink-0 items-center gap-2">
-                  <span className="text-xs font-black text-slate-900">
-=======
                     <span className="text-text-secondary font-mono text-[8px]">{bill.invoice}</span>
                   </div>
                   <span className="text-text-secondary text-[8px]">{bill.date}</span>
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
                   <span className="text-text-primary text-xs font-black">
->>>>>>> recover/cabinet-wip-from-stash
                     {bill.amount.toLocaleString('ru-RU')} ₽
                   </span>
                   <Button
                     variant="ghost"
                     size="sm"
-<<<<<<< HEAD
-                    className="h-6 px-1.5 text-[7px] font-black uppercase text-slate-400 hover:text-indigo-600"
-=======
                     className="text-text-muted hover:text-accent-primary h-6 px-1.5 text-[7px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     <Download className="h-3 w-3" />
                   </Button>
@@ -715,21 +528,12 @@ export default function SubscriptionPage() {
               </div>
             ))}
           </div>
-<<<<<<< HEAD
-          <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-3">
-            <span className="text-[8px] font-medium text-slate-400">4 из 12 платежей</span>
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-6 w-fit rounded-lg border-slate-200 px-2 text-[8px] font-black uppercase hover:bg-slate-50"
-=======
           <div className="border-border-subtle mt-3 flex items-center justify-between border-t pt-3">
             <span className="text-text-muted text-[8px] font-medium">4 из 12 платежей</span>
             <Button
               variant="outline"
               size="sm"
               className="border-border-default hover:bg-bg-surface2 h-6 w-fit rounded-lg px-2 text-[8px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
             >
               Показать все
             </Button>

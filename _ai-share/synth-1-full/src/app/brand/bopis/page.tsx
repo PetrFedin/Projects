@@ -50,16 +50,6 @@ const MOCK_RETURNS = [
 
 export default function BopisHubPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-      <div className="flex flex-wrap items-center gap-3">
-        <Link href={ROUTES.brand.home}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-      </div>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="BOPIS: выдача и возвраты в магазине"
@@ -73,7 +63,6 @@ export default function BopisHubPage() {
         }
         actions={<Store className="size-6 shrink-0 text-muted-foreground" aria-hidden />}
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <div className="grid gap-6 md:grid-cols-2">
         <Card className="border-border-default rounded-xl border shadow-sm">
@@ -88,19 +77,11 @@ export default function BopisHubPage() {
               {MOCK_PICKUPS.map((p) => (
                 <li
                   key={p.id}
-<<<<<<< HEAD
-                  className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
-                >
-                  <div>
-                    <p className="font-mono text-xs font-semibold">{p.orderId}</p>
-                    <p className="text-[11px] text-slate-500">
-=======
                   className="bg-bg-surface2 border-border-subtle flex items-center justify-between gap-2 rounded-lg border p-3"
                 >
                   <div>
                     <p className="font-mono text-xs font-semibold">{p.orderId}</p>
                     <p className="text-text-secondary text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
                       {p.store} · {p.customer}
                     </p>
                   </div>
@@ -134,19 +115,11 @@ export default function BopisHubPage() {
               {MOCK_RETURNS.map((r) => (
                 <li
                   key={r.id}
-<<<<<<< HEAD
-                  className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
-                >
-                  <div>
-                    <p className="font-mono text-xs font-semibold">{r.orderId}</p>
-                    <p className="text-[11px] text-slate-500">
-=======
                   className="bg-bg-surface2 border-border-subtle flex items-center justify-between gap-2 rounded-lg border p-3"
                 >
                   <div>
                     <p className="font-mono text-xs font-semibold">{r.orderId}</p>
                     <p className="text-text-secondary text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
                       {r.store} · {r.reason}
                     </p>
                   </div>
@@ -156,11 +129,7 @@ export default function BopisHubPage() {
                 </li>
               ))}
             </ul>
-<<<<<<< HEAD
-            <p className="mt-2 text-[11px] text-slate-500">
-=======
             <p className="text-text-secondary mt-2 text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
               При API: синхронизация с кассой/складом и возвратами B2B.
             </p>
           </CardContent>

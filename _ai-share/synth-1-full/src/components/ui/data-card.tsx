@@ -28,13 +28,8 @@ export function DataCard({
   className,
 }: DataCardProps) {
   const variants = {
-<<<<<<< HEAD
-    default: 'bg-white border-slate-200',
-    gradient: 'bg-gradient-to-br from-blue-50 via-white to-indigo-50 border-blue-100',
-=======
     default: 'bg-white border-border-default',
     gradient: 'bg-gradient-to-br from-blue-50 via-white to-accent-primary/10 border-blue-100',
->>>>>>> recover/cabinet-wip-from-stash
     minimal: 'bg-transparent border-transparent',
   };
 
@@ -70,11 +65,7 @@ export function DataCard({
   const trendColors = {
     up: 'text-emerald-600 bg-emerald-50',
     down: 'text-rose-600 bg-rose-50',
-<<<<<<< HEAD
-    neutral: 'text-slate-600 bg-slate-50',
-=======
     neutral: 'text-text-secondary bg-bg-surface2',
->>>>>>> recover/cabinet-wip-from-stash
   };
 
   return (
@@ -91,11 +82,7 @@ export function DataCard({
         {Icon && (
           <div
             className={cn(
-<<<<<<< HEAD
-              'flex items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg',
-=======
               'to-accent-primary flex items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 shadow-lg',
->>>>>>> recover/cabinet-wip-from-stash
               s.icon
             )}
           >
@@ -117,17 +104,6 @@ export function DataCard({
 
       {/* Content */}
       <div className="space-y-1">
-<<<<<<< HEAD
-        <h3 className={cn('font-bold uppercase tracking-wider text-slate-500', s.title)}>
-          {title}
-        </h3>
-        <p className={cn('font-black tracking-tight text-slate-900', s.value)}>{value}</p>
-        {subtitle && <p className={cn('font-medium text-slate-400', s.subtitle)}>{subtitle}</p>}
-      </div>
-
-      {/* Footer */}
-      {footer && <div className="mt-4 border-t border-slate-100 pt-4">{footer}</div>}
-=======
         <h3 className={cn('text-text-secondary font-bold uppercase tracking-wider', s.title)}>
           {title}
         </h3>
@@ -137,7 +113,6 @@ export function DataCard({
 
       {/* Footer */}
       {footer && <div className="border-border-subtle mt-4 border-t pt-4">{footer}</div>}
->>>>>>> recover/cabinet-wip-from-stash
     </div>
   );
 }

@@ -80,42 +80,25 @@ export function Analytics360() {
   return (
     <div className="space-y-10 duration-1000 animate-in fade-in">
       <Card className="overflow-hidden rounded-xl border-none bg-white shadow-2xl">
-<<<<<<< HEAD
-        <CardHeader className="bg-indigo-600 p-3 pb-4 text-white">
-          <div className="flex items-start justify-between">
-            <div className="space-y-1">
-              <div className="mb-1 flex items-center gap-2">
-                <Users className="h-6 w-6 text-indigo-200" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-indigo-200">
-=======
         <CardHeader className="bg-accent-primary p-3 pb-4 text-white">
           <div className="flex items-start justify-between">
             <div className="space-y-1">
               <div className="mb-1 flex items-center gap-2">
                 <Users className="text-accent-primary/40 h-6 w-6" />
                 <span className="text-accent-primary/40 text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   Customer Intelligence 360°
                 </span>
               </div>
               <CardTitle className="text-base font-black uppercase tracking-tighter">
                 CRM & Поведенческая Аналитика
               </CardTitle>
-<<<<<<< HEAD
-              <CardDescription className="font-medium italic text-indigo-50">
-=======
               <CardDescription className="text-accent-primary/30 font-medium italic">
->>>>>>> recover/cabinet-wip-from-stash
                 Сквозной профиль клиента: от AR-примерок до повторных покупок и лояльности.
               </CardDescription>
             </div>
             <div className="flex gap-3">
               <div className="flex flex-col items-end rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-md">
-<<<<<<< HEAD
-                <p className="text-[8px] font-black uppercase text-indigo-200">
-=======
                 <p className="text-accent-primary/40 text-[8px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   Active Omni-Profiles
                 </p>
                 <p className="text-sm font-black text-white">12,482</p>
@@ -129,19 +112,11 @@ export function Analytics360() {
             {/* Customer Segment List */}
             <div className="space-y-6 lg:col-span-4">
               <div className="mb-4 flex items-center justify-between">
-<<<<<<< HEAD
-                <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-400">
-                  Топ клиентов (Omni)
-                </h4>
-                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg">
-                  <Filter className="h-4 w-4 text-slate-400" />
-=======
                 <h4 className="text-text-muted text-[11px] font-black uppercase tracking-widest">
                   Топ клиентов (Omni)
                 </h4>
                 <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg">
                   <Filter className="text-text-muted h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
                 </Button>
               </div>
               <div className="space-y-3">
@@ -152,21 +127,12 @@ export function Analytics360() {
                     className={cn(
                       'group flex cursor-pointer items-center gap-3 rounded-3xl border p-3 transition-all',
                       selectedCustomerId === customer.id
-<<<<<<< HEAD
-                        ? 'border-indigo-200 bg-indigo-50 shadow-lg'
-                        : 'border-slate-100 bg-white hover:bg-slate-50'
-                    )}
-                  >
-                    <Avatar className="h-12 w-12 border-2 border-white shadow-md">
-                      <AvatarFallback className="bg-slate-900 text-xs font-black text-white">
-=======
                         ? 'bg-accent-primary/10 border-accent-primary/30 shadow-lg'
                         : 'border-border-subtle hover:bg-bg-surface2 bg-white'
                     )}
                   >
                     <Avatar className="h-12 w-12 border-2 border-white shadow-md">
                       <AvatarFallback className="bg-text-primary text-xs font-black text-white">
->>>>>>> recover/cabinet-wip-from-stash
                         {customer.name
                           .split(' ')
                           .map((n) => n[0])
@@ -174,17 +140,10 @@ export function Analytics360() {
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1">
-<<<<<<< HEAD
-                      <p className="text-sm font-black uppercase leading-tight text-slate-900">
-                        {customer.name}
-                      </p>
-                      <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
-=======
                       <p className="text-text-primary text-sm font-black uppercase leading-tight">
                         {customer.name}
                       </p>
                       <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                         {customer.city} • {customer.ltv}
                       </p>
                     </div>
@@ -193,11 +152,7 @@ export function Analytics360() {
                         'border-none px-2 py-0.5 text-[8px] font-black uppercase',
                         customer.segment === 'VIP'
                           ? 'bg-amber-500 text-white'
-<<<<<<< HEAD
-                          : 'bg-indigo-600 text-white'
-=======
                           : 'bg-accent-primary text-white'
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {customer.segment}
@@ -208,15 +163,9 @@ export function Analytics360() {
               <Button
                 asChild
                 variant="outline"
-<<<<<<< HEAD
-                className="h-12 w-full rounded-2xl border-slate-200 text-[10px] font-black uppercase text-slate-400 hover:text-indigo-600"
-              >
-                <Link href="/brand/customers">Просмотреть всех клиентов</Link>
-=======
                 className="border-border-default text-text-muted hover:text-accent-primary h-12 w-full rounded-2xl text-[10px] font-black uppercase"
               >
                 <Link href={ROUTES.brand.customers}>Просмотреть всех клиентов</Link>
->>>>>>> recover/cabinet-wip-from-stash
               </Button>
             </div>
 
@@ -238,11 +187,7 @@ export function Analytics360() {
                           label: 'Customer Score',
                           value: selectedCustomer.score,
                           icon: Target,
-<<<<<<< HEAD
-                          color: 'text-indigo-600',
-=======
                           color: 'text-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
                           href: '/brand/customer-intelligence',
                         },
                         {
@@ -261,33 +206,19 @@ export function Analytics360() {
                         },
                       ].map((stat, i) => (
                         <Link key={i} href={stat.href} className="group/stat">
-<<<<<<< HEAD
-                          <div className="relative flex cursor-pointer items-center gap-3 overflow-hidden rounded-xl border border-slate-100 bg-slate-50 p-4 transition-all group-hover/stat:bg-white group-hover/stat:shadow-xl">
-                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white shadow-sm transition-all group-hover/stat:bg-slate-900 group-hover/stat:text-white">
-=======
                           <div className="bg-bg-surface2 border-border-subtle relative flex cursor-pointer items-center gap-3 overflow-hidden rounded-xl border p-4 transition-all group-hover/stat:bg-white group-hover/stat:shadow-xl">
                             <div className="group-hover/stat:bg-text-primary flex h-12 w-12 items-center justify-center rounded-2xl bg-white shadow-sm transition-all group-hover/stat:text-white">
->>>>>>> recover/cabinet-wip-from-stash
                               <stat.icon
                                 className={cn('h-6 w-6', stat.color, 'group-hover/stat:text-white')}
                               />
                             </div>
                             <div>
-<<<<<<< HEAD
-                              <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-                                {stat.label}
-                              </p>
-                              <p className="text-base font-black text-slate-900">{stat.value}</p>
-                            </div>
-                            <ArrowUpRight className="absolute right-4 top-4 h-3 w-3 text-slate-300 opacity-0 transition-all group-hover/stat:opacity-100" />
-=======
                               <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
                                 {stat.label}
                               </p>
                               <p className="text-text-primary text-base font-black">{stat.value}</p>
                             </div>
                             <ArrowUpRight className="text-text-muted absolute right-4 top-4 h-3 w-3 opacity-0 transition-all group-hover/stat:opacity-100" />
->>>>>>> recover/cabinet-wip-from-stash
                           </div>
                         </Link>
                       ))}
@@ -295,16 +226,10 @@ export function Analytics360() {
 
                     {/* Behavior Timeline & Affinity */}
                     <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-<<<<<<< HEAD
-                      <div className="space-y-6 rounded-xl border border-slate-100 bg-white p-4 shadow-xl">
-                        <h4 className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-slate-900">
-                          <MousePointer2 className="h-4 w-4 text-indigo-600" /> Последние действия
-=======
                       <div className="border-border-subtle space-y-6 rounded-xl border bg-white p-4 shadow-xl">
                         <h4 className="text-text-primary flex items-center gap-2 text-[11px] font-black uppercase tracking-widest">
                           <MousePointer2 className="text-accent-primary h-4 w-4" /> Последние
                           действия
->>>>>>> recover/cabinet-wip-from-stash
                         </h4>
                         <div className="space-y-4">
                           {[
@@ -326,15 +251,6 @@ export function Analytics360() {
                           ].map((item, i) => (
                             <div
                               key={i}
-<<<<<<< HEAD
-                              className="flex items-center justify-between border-b border-slate-50 py-3 last:border-none"
-                            >
-                              <div>
-                                <p className="text-[10px] font-black uppercase text-slate-900">
-                                  {item.action}
-                                </p>
-                                <p className="text-[9px] font-bold uppercase text-slate-400">
-=======
                               className="border-border-subtle flex items-center justify-between border-b py-3 last:border-none"
                             >
                               <div>
@@ -342,17 +258,12 @@ export function Analytics360() {
                                   {item.action}
                                 </p>
                                 <p className="text-text-muted text-[9px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                                   {item.time}
                                 </p>
                               </div>
                               <Badge
                                 variant="outline"
-<<<<<<< HEAD
-                                className="border-slate-200 text-[8px] font-black uppercase text-slate-400"
-=======
                                 className="border-border-default text-text-muted text-[8px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                               >
                                 {item.status}
                               </Badge>
@@ -361,20 +272,12 @@ export function Analytics360() {
                         </div>
                       </div>
 
-<<<<<<< HEAD
-                      <div className="relative space-y-6 overflow-hidden rounded-xl bg-slate-900 p-4 text-white">
-=======
                       <div className="bg-text-primary relative space-y-6 overflow-hidden rounded-xl p-4 text-white">
->>>>>>> recover/cabinet-wip-from-stash
                         <div className="absolute right-0 top-0 p-4 opacity-10">
                           <Heart className="h-24 w-24 fill-white" />
                         </div>
                         <div className="relative z-10 space-y-6">
-<<<<<<< HEAD
-                          <h4 className="text-[11px] font-black uppercase tracking-widest text-indigo-400">
-=======
                           <h4 className="text-accent-primary text-[11px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                             Интересы (Affinity Score)
                           </h4>
                           <div className="space-y-4">

@@ -121,22 +121,6 @@ export default function BrandIntegrationsFashionCloudPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.brand.integrations}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight">Fashion Cloud</h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Импорт заказов и drafts, stock bulk upsert, каталог с options и media (фото, видео, 3D).
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="Fashion Cloud"
@@ -149,7 +133,6 @@ export default function BrandIntegrationsFashionCloudPage() {
           </Button>
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <div className="grid gap-4">
         <Card>
@@ -182,11 +165,7 @@ export default function BrandIntegrationsFashionCloudPage() {
                   </li>
                 ))}
                 {orders.length > 5 && (
-<<<<<<< HEAD
-                  <li className="px-3 py-2 text-slate-500">… ещё {orders.length - 5}</li>
-=======
                   <li className="text-text-secondary px-3 py-2">… ещё {orders.length - 5}</li>
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               </ul>
             )}
@@ -213,11 +192,7 @@ export default function BrandIntegrationsFashionCloudPage() {
                   </li>
                 ))}
                 {drafts.length > 5 && (
-<<<<<<< HEAD
-                  <li className="px-3 py-2 text-slate-500">… ещё {drafts.length - 5}</li>
-=======
                   <li className="text-text-secondary px-3 py-2">… ещё {drafts.length - 5}</li>
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               </ul>
             )}
@@ -301,11 +276,7 @@ export default function BrandIntegrationsFashionCloudPage() {
             JOOR
           </Button>
         </Link>
-<<<<<<< HEAD
-        <Link href={ROUTES.brand.integrationsNuorder}>
-=======
         <Link href={ROUTES.brand.integrationsNuOrder}>
->>>>>>> recover/cabinet-wip-from-stash
           <Button variant="ghost" size="sm">
             NuOrder
           </Button>

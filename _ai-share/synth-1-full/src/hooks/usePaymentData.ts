@@ -60,11 +60,7 @@ export function usePaymentData() {
       id: 'factoring',
       name: 'Invoice Factoring',
       badge: 'Get paid today',
-<<<<<<< HEAD
-      badgeColor: 'bg-purple-100 text-purple-700',
-=======
       badgeColor: 'bg-accent-primary/15 text-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
     },
   ]);
 

@@ -7,10 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import {
-<<<<<<< HEAD
-  DollarSign,
-=======
->>>>>>> recover/cabinet-wip-from-stash
   TrendingUp,
   ArrowRight,
   Calculator,
@@ -62,58 +58,6 @@ export default function LandedCostPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto space-y-10 px-4 py-4">
-      <SectionInfoCard
-        title="Landed Cost Engine"
-        description="Расчёт полной себестоимости: ткань, CMT, логистика, пошлины. Связи: Finance, Production, Warehouse, Duty Calculator."
-        icon={Calculator}
-        iconBg="bg-emerald-100"
-        iconColor="text-emerald-600"
-        badges={
-          <>
-            <Badge variant="outline" className="text-[9px]">
-              Full Cost
-            </Badge>
-            <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
-              <Link href="/brand/finance">Finance</Link>
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/production">Production</Link>
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/warehouse">Warehouse</Link>
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/logistics/duty-calculator">Duty Calc</Link>
-            </Button>
-          </>
-        }
-      />
-      <header className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-emerald-600">
-            <DollarSign className="h-3 w-3" />
-            Financial Engine
-          </div>
-          <h1 className="font-headline text-sm font-black tracking-tighter">Landed Cost Engine</h1>
-          <p className="font-medium text-muted-foreground">
-            Расчет полной себестоимости изделия с учетом всех факторов.
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            className="h-11 gap-2 rounded-xl px-6 text-[10px] font-black uppercase"
-          >
-            <Target className="h-4 w-4" /> Анализ конкурентов
-          </Button>
-          <Button className="h-11 gap-2 rounded-xl bg-slate-900 px-6 text-[10px] font-black uppercase text-white shadow-lg">
-            <Zap className="h-4 w-4" /> Экспорт в P&L
-          </Button>
-        </div>
-      </header>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-10 pb-16">
       <RegistryPageHeader
         title="Landed Cost Engine"
@@ -152,18 +96,12 @@ export default function LandedCostPage() {
           </div>
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <div className="grid gap-3 lg:grid-cols-12">
         {/* Input Form */}
         <div className="space-y-4 lg:col-span-7">
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-xl border-none shadow-xl shadow-slate-200/50">
-            <CardHeader className="border-b border-slate-50 p-4">
-=======
           <Card className="overflow-hidden rounded-xl border-none shadow-md shadow-xl">
             <CardHeader className="border-border-subtle border-b p-4">
->>>>>>> recover/cabinet-wip-from-stash
               <CardTitle className="text-base font-black uppercase tracking-tight">
                 Параметры расчета
               </CardTitle>
@@ -175,20 +113,12 @@ export default function LandedCostPage() {
               <div className="grid grid-cols-2 gap-3">
                 {/* Production Section */}
                 <div className="space-y-4">
-<<<<<<< HEAD
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                   <h4 className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Производство (CMT+M)
                   </h4>
                   <div className="space-y-3">
                     <div>
-<<<<<<< HEAD
-                      <label className="mb-1 block text-[10px] font-bold uppercase text-slate-500">
-=======
                       <label className="text-text-secondary mb-1 block text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         Fabric (Ткань)
                       </label>
                       <Input
@@ -199,11 +129,7 @@ export default function LandedCostPage() {
                       />
                     </div>
                     <div>
-<<<<<<< HEAD
-                      <label className="mb-1 block text-[10px] font-bold uppercase text-slate-500">
-=======
                       <label className="text-text-secondary mb-1 block text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         CMT (Пошив)
                       </label>
                       <Input
@@ -214,11 +140,7 @@ export default function LandedCostPage() {
                       />
                     </div>
                     <div>
-<<<<<<< HEAD
-                      <label className="mb-1 block text-[10px] font-bold uppercase text-slate-500">
-=======
                       <label className="text-text-secondary mb-1 block text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         Trims (Фурнитура)
                       </label>
                       <Input
@@ -233,20 +155,12 @@ export default function LandedCostPage() {
 
                 {/* Logistics Section */}
                 <div className="space-y-4">
-<<<<<<< HEAD
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                   <h4 className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Логистика и пошлины
                   </h4>
                   <div className="space-y-3">
                     <div>
-<<<<<<< HEAD
-                      <label className="mb-1 block text-[10px] font-bold uppercase text-slate-500">
-=======
                       <label className="text-text-secondary mb-1 block text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         Freight (Доставка)
                       </label>
                       <Input
@@ -257,11 +171,7 @@ export default function LandedCostPage() {
                       />
                     </div>
                     <div>
-<<<<<<< HEAD
-                      <label className="mb-1 block text-[10px] font-bold uppercase text-slate-500">
-=======
                       <label className="text-text-secondary mb-1 block text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         Duty Rate (%)
                       </label>
                       <Input
@@ -272,11 +182,7 @@ export default function LandedCostPage() {
                       />
                     </div>
                     <div>
-<<<<<<< HEAD
-                      <label className="mb-1 block text-[10px] font-bold uppercase text-slate-500">
-=======
                       <label className="text-text-secondary mb-1 block text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         Marking (Маркировка)
                       </label>
                       <Input
@@ -291,20 +197,12 @@ export default function LandedCostPage() {
 
                 {/* Overheads Section */}
                 <div className="space-y-4">
-<<<<<<< HEAD
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                   <h4 className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Операционные расходы
                   </h4>
                   <div className="space-y-3">
                     <div>
-<<<<<<< HEAD
-                      <label className="mb-1 block text-[10px] font-bold uppercase text-slate-500">
-=======
                       <label className="text-text-secondary mb-1 block text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         Overhead Rate (%)
                       </label>
                       <Input
@@ -315,11 +213,7 @@ export default function LandedCostPage() {
                       />
                     </div>
                     <div>
-<<<<<<< HEAD
-                      <label className="mb-1 block text-[10px] font-bold uppercase text-slate-500">
-=======
                       <label className="text-text-secondary mb-1 block text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         Amortization (Амортизация)
                       </label>
                       <Input
@@ -334,31 +228,19 @@ export default function LandedCostPage() {
 
                 {/* Price Section */}
                 <div className="space-y-4">
-<<<<<<< HEAD
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                   <h4 className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Целевая цена
                   </h4>
                   <div className="space-y-3">
                     <div>
-<<<<<<< HEAD
-                      <label className="mb-1 block text-[10px] font-bold uppercase text-indigo-600">
-=======
                       <label className="text-accent-primary mb-1 block text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         Retail Price (Розница)
                       </label>
                       <Input
                         type="number"
                         value={formData.targetRetailPrice}
                         onChange={(e) => handleInputChange('targetRetailPrice', e.target.value)}
-<<<<<<< HEAD
-                        className="rounded-xl border-indigo-200"
-=======
                         className="border-accent-primary/30 rounded-xl"
->>>>>>> recover/cabinet-wip-from-stash
                       />
                     </div>
                   </div>
@@ -370,17 +252,10 @@ export default function LandedCostPage() {
 
         {/* Results Dashboard */}
         <div className="space-y-6 lg:col-span-5">
-<<<<<<< HEAD
-          <Card className="relative overflow-hidden rounded-xl border-none bg-indigo-600 p-3 text-white shadow-2xl shadow-indigo-100">
-            {/* Background Pattern */}
-            <div className="absolute right-0 top-0 h-48 w-48 -translate-y-24 translate-x-24 rounded-full bg-white/5 blur-3xl" />
-            <div className="absolute bottom-0 left-0 h-32 w-32 -translate-x-16 translate-y-16 rounded-full bg-indigo-400/20 blur-2xl" />
-=======
           <Card className="shadow-accent-primary/10 bg-accent-primary relative overflow-hidden rounded-xl border-none p-3 text-white shadow-2xl">
             {/* Background Pattern */}
             <div className="absolute right-0 top-0 h-48 w-48 -translate-y-24 translate-x-24 rounded-full bg-white/5 blur-3xl" />
             <div className="bg-accent-primary/20 absolute bottom-0 left-0 h-32 w-32 -translate-x-16 translate-y-16 rounded-full blur-2xl" />
->>>>>>> recover/cabinet-wip-from-stash
 
             <div className="relative space-y-4">
               <div className="flex items-center gap-3">
@@ -417,27 +292,16 @@ export default function LandedCostPage() {
                   <p className="text-[10px] font-black uppercase tracking-widest text-white/40">
                     Ценовая Эластичность
                   </p>
-<<<<<<< HEAD
-                  <p className="text-sm font-black text-indigo-200">Medium</p>
-=======
                   <p className="text-accent-primary/40 text-sm font-black">Medium</p>
->>>>>>> recover/cabinet-wip-from-stash
                 </div>
               </div>
             </div>
           </Card>
 
-<<<<<<< HEAD
-          <Card className="rounded-xl border-none bg-white p-3 shadow-xl shadow-slate-200/50">
-            <div className="mb-6 flex items-center gap-3">
-              <BrainCircuit className="h-5 w-5 text-indigo-600" />
-              <h3 className="text-sm font-black uppercase tracking-tight text-slate-900">
-=======
           <Card className="rounded-xl border-none bg-white p-3 shadow-md shadow-xl">
             <div className="mb-6 flex items-center gap-3">
               <BrainCircuit className="text-accent-primary h-5 w-5" />
               <h3 className="text-text-primary text-sm font-black uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                 AI Financial Insights
               </h3>
             </div>
@@ -446,16 +310,6 @@ export default function LandedCostPage() {
               {aiInsights.map((insight, i) => (
                 <div
                   key={i}
-<<<<<<< HEAD
-                  className="flex gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4"
-                >
-                  <div className="mt-1 h-2 w-2 shrink-0 rounded-full bg-indigo-500" />
-                  <p className="text-xs font-medium leading-relaxed text-slate-600">{insight}</p>
-                </div>
-              ))}
-              {aiInsights.length === 0 && (
-                <div className="py-6 text-center text-[10px] font-bold uppercase text-slate-400">
-=======
                   className="bg-bg-surface2 border-border-subtle flex gap-3 rounded-2xl border p-4"
                 >
                   <div className="bg-accent-primary mt-1 h-2 w-2 shrink-0 rounded-full" />
@@ -466,19 +320,13 @@ export default function LandedCostPage() {
               ))}
               {aiInsights.length === 0 && (
                 <div className="text-text-muted py-6 text-center text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   Все показатели в норме
                 </div>
               )}
             </div>
 
-<<<<<<< HEAD
-            <div className="mt-8 space-y-4 border-t border-slate-50 pt-8">
-              <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
             <div className="border-border-subtle mt-8 space-y-4 border-t pt-8">
               <h4 className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 Структура себестоимости
               </h4>
               <div className="space-y-3">
@@ -486,11 +334,7 @@ export default function LandedCostPage() {
                   {
                     label: 'Production (BOM+CMT)',
                     value: calculatedLC.fabricCost + calculatedLC.cmtCost + calculatedLC.trimsCost,
-<<<<<<< HEAD
-                    color: 'bg-indigo-500',
-=======
                     color: 'bg-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
                   },
                   {
                     label: 'Logistics & Duties',
@@ -508,17 +352,10 @@ export default function LandedCostPage() {
                 ].map((part, i) => (
                   <div key={i} className="space-y-1.5">
                     <div className="flex justify-between text-[10px] font-black uppercase tracking-tight">
-<<<<<<< HEAD
-                      <span className="text-slate-500">{part.label}</span>
-                      <span className="text-slate-900">${part.value.toFixed(2)}</span>
-                    </div>
-                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
-=======
                       <span className="text-text-secondary">{part.label}</span>
                       <span className="text-text-primary">${part.value.toFixed(2)}</span>
                     </div>
                     <div className="bg-bg-surface2 h-1.5 w-full overflow-hidden rounded-full">
->>>>>>> recover/cabinet-wip-from-stash
                       <div
                         className={cn(
                           'h-full rounded-full transition-all duration-500',

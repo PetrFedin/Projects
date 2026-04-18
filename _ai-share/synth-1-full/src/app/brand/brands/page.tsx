@@ -1,10 +1,6 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-<<<<<<< HEAD
-import BrandCard from '@/components/brand-card';
-=======
->>>>>>> recover/cabinet-wip-from-stash
 import { brands } from '@/lib/placeholder-data';
 import { products } from '@/lib/products';
 import {
@@ -25,24 +21,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
-<<<<<<< HEAD
-
-export default function BrandsDirectoryPage() {
-  return (
-    <div className="space-y-4">
-      <header className="flex items-center justify-between">
-        <div>
-          <h1 className="font-headline text-base font-bold">Справочник брендов</h1>
-          <p className="text-muted-foreground">
-            Управление всеми брендами, представленными на платформе.
-          </p>
-        </div>
-        <Button>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Добавить бренд
-        </Button>
-      </header>
-=======
 import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 export default function BrandsDirectoryPage() {
@@ -58,7 +36,6 @@ export default function BrandsDirectoryPage() {
           </Button>
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -122,10 +99,6 @@ export default function BrandsDirectoryPage() {
           </Table>
         </CardContent>
       </Card>
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

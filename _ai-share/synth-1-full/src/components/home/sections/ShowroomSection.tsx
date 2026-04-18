@@ -1,9 +1,6 @@
 'use client';
 
-<<<<<<< HEAD
-=======
 import * as React from 'react';
->>>>>>> recover/cabinet-wip-from-stash
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
@@ -18,15 +15,10 @@ interface ShowroomSectionProps {
   viewRole: string;
   showroomTab: string;
   setShowroomTab: (tab: string) => void;
-<<<<<<< HEAD
-  showroomViewMode: 'products' | 'looks' | 'collections' | 'my_orders';
-  setShowroomViewMode: (mode: 'products' | 'looks' | 'collections' | 'my_orders') => void;
-=======
   showroomViewMode: 'products' | 'looks' | 'collections' | 'my_orders' | 'planning';
   setShowroomViewMode: (
     mode: 'products' | 'looks' | 'collections' | 'my_orders' | 'planning'
   ) => void;
->>>>>>> recover/cabinet-wip-from-stash
   toast: any;
   carousels: any[];
   filteredShowroomProducts: any[];
@@ -67,13 +59,8 @@ export function ShowroomSection({
       transition={{ duration: 0.6 }}
       className="section-spacing relative bg-transparent"
     >
-<<<<<<< HEAD
-      <div className="container relative mx-auto px-4">
-        <Card className="group relative flex min-h-[400px] flex-col justify-center rounded-xl border border-none border-slate-100 bg-white shadow-2xl shadow-slate-200/50 transition-all">
-=======
       <div className="relative mx-auto w-full max-w-5xl px-4 sm:px-6">
         <Card className="border-border-subtle group relative flex min-h-[400px] flex-col justify-center rounded-xl border border-none bg-white shadow-2xl shadow-md transition-all">
->>>>>>> recover/cabinet-wip-from-stash
           <CardContent className="relative z-10 p-4">
             <ShowroomNavigation
               viewRole={viewRole}
@@ -128,11 +115,7 @@ export function ShowroomSection({
             </div>
 
             {/* Showroom Banner Section */}
-<<<<<<< HEAD
-            <Card className="group/banner relative mt-6 flex min-h-[300px] w-full items-center overflow-hidden rounded-xl border-none bg-slate-900 shadow-2xl">
-=======
             <Card className="bg-text-primary group/banner relative mt-6 flex min-h-[300px] w-full items-center overflow-hidden rounded-xl border-none shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
               <AnimatePresence mode="wait">
                 <motion.div
                   key={showroomTab}
@@ -158,11 +141,7 @@ export function ShowroomSection({
                       className="h-full w-full object-cover"
                     />
                   </div>
-<<<<<<< HEAD
-                  <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent" />
-=======
                   <div className="from-text-primary via-text-primary/80 absolute inset-0 bg-gradient-to-r to-transparent" />
->>>>>>> recover/cabinet-wip-from-stash
                 </motion.div>
               </AnimatePresence>
 
@@ -229,11 +208,7 @@ export function ShowroomSection({
                       {showroomTab === 'kickstarter' && 'КРАУДФАНДИНГ'}
                       {showroomTab === '3d_fitting' && 'ЦИФРОВАЯ ПРИМЕРКА'}
                     </h2>
-<<<<<<< HEAD
-                    <p className="whitespace-nowrap border-l-2 border-indigo-500/50 pl-6 text-sm font-medium text-slate-300">
-=======
                     <p className="text-text-muted border-accent-primary/50 whitespace-nowrap border-l-2 pl-6 text-sm font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                       {showroomTab === 'all' &&
                         (viewRole === 'b2b'
                           ? '"Ваш надежный фундамент для стабильного развития"'
@@ -275,13 +250,8 @@ export function ShowroomSection({
               </CardContent>
             </Card>
             <div className="absolute bottom-8 right-10 z-20 flex cursor-default items-center gap-2 opacity-20 transition-opacity hover:opacity-100">
-<<<<<<< HEAD
-              <div className="h-1 w-1 animate-pulse rounded-full bg-indigo-500" />
-              <span className="text-[10px] font-medium uppercase tracking-wide text-slate-400">
-=======
               <div className="bg-accent-primary h-1 w-1 animate-pulse rounded-full" />
               <span className="text-text-muted text-[10px] font-medium uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
                 MARKETROOM_ENGINE_v4.2
               </span>
             </div>

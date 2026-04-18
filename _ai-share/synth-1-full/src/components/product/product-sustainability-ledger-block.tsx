@@ -78,18 +78,6 @@ export function ProductSustainabilityLedgerBlock({ product }: { product: Product
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div className="flex items-center justify-between rounded-xl border border-slate-700/50 bg-white p-3 shadow-lg">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100">
-            <FileText className="h-4 w-4 text-slate-500" />
-          </div>
-          <div>
-            <div className="text-[10px] font-black leading-tight text-slate-800">
-              ESG Certifications
-            </div>
-            <div className="font-mono text-[8px] text-slate-400">
-=======
       <div className="border-text-primary/25 flex items-center justify-between rounded-xl border bg-white p-3 shadow-lg">
         <div className="flex items-center gap-2.5">
           <div className="bg-bg-surface2 flex h-8 w-8 items-center justify-center rounded-lg">
@@ -100,7 +88,6 @@ export function ProductSustainabilityLedgerBlock({ product }: { product: Product
               ESG Certifications
             </div>
             <div className="text-text-muted font-mono text-[8px]">
->>>>>>> recover/cabinet-wip-from-stash
               {ledger.certificates.join(', ')}
             </div>
           </div>

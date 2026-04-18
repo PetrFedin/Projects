@@ -48,11 +48,7 @@ export function InteractiveLookbook() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="min-h-screen space-y-4 bg-slate-50 p-3 text-left">
-=======
     <div className="bg-bg-surface2 min-h-screen space-y-4 p-3 text-left">
->>>>>>> recover/cabinet-wip-from-stash
       <AnimatePresence mode="wait">
         {!selectedLookbook ? (
           <motion.div
@@ -65,48 +61,28 @@ export function InteractiveLookbook() {
             <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-lg">
-=======
                   <div className="bg-accent-primary flex h-10 w-10 items-center justify-center rounded-2xl text-white shadow-lg">
->>>>>>> recover/cabinet-wip-from-stash
                     <BookOpen className="h-5 w-5" />
                   </div>
                   <Badge
                     variant="outline"
-<<<<<<< HEAD
-                    className="border-indigo-100 text-[9px] font-black uppercase tracking-widest text-indigo-600"
-=======
                     className="border-accent-primary/20 text-accent-primary text-[9px] font-black uppercase tracking-widest"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     VISUAL_SELL_v3.0
                   </Badge>
                 </div>
-<<<<<<< HEAD
-                <h2 className="text-sm font-black uppercase leading-none tracking-tighter text-slate-900 md:text-sm">
-=======
                 <h2 className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter md:text-sm">
->>>>>>> recover/cabinet-wip-from-stash
                   Интерактивные
                   <br />
                   Лукбуки
                 </h2>
-<<<<<<< HEAD
-                <p className="max-w-md text-xs font-medium text-slate-400">
-=======
                 <p className="text-text-muted max-w-md text-xs font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                   Превратите имиджевые кампании в торговый опыт. Отмечайте товары прямо на фото для
                   мгновенного оформления оптовых заказов.
                 </p>
               </div>
 
-<<<<<<< HEAD
-              <Button className="h-10 gap-2 rounded-2xl bg-slate-900 px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-slate-200">
-=======
               <Button className="bg-text-primary h-10 gap-2 rounded-2xl px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-md shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
                 <Plus className="h-4 w-4" /> Создать новый лукбук
               </Button>
             </div>
@@ -116,26 +92,16 @@ export function InteractiveLookbook() {
                 <Card
                   key={lb.id}
                   onClick={() => setSelectedLookbook(lb)}
-<<<<<<< HEAD
-                  className="group cursor-pointer overflow-hidden rounded-xl border-none bg-white shadow-xl shadow-slate-200/50 transition-all hover:scale-[1.02]"
-=======
                   className="group cursor-pointer overflow-hidden rounded-xl border-none bg-white shadow-md shadow-xl transition-all hover:scale-[1.02]"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   <div className="relative aspect-[3/4] overflow-hidden">
                     <img
                       src={lb.coverUrl}
                       className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
                     />
-<<<<<<< HEAD
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-60" />
-                    <div className="absolute left-6 top-4">
-                      <Badge className="border-none bg-white/90 px-3 py-1 text-[8px] font-black uppercase text-slate-900 backdrop-blur-md">
-=======
                     <div className="from-text-primary absolute inset-0 bg-gradient-to-t via-transparent to-transparent opacity-60" />
                     <div className="absolute left-6 top-4">
                       <Badge className="text-text-primary border-none bg-white/90 px-3 py-1 text-[8px] font-black uppercase backdrop-blur-md">
->>>>>>> recover/cabinet-wip-from-stash
                         {lb.season}
                       </Badge>
                     </div>
@@ -149,28 +115,17 @@ export function InteractiveLookbook() {
                       </p>
                     </div>
                   </div>
-<<<<<<< HEAD
-                  <CardContent className="flex items-center justify-between border-t border-slate-50 p-4">
-                    <div className="flex items-center gap-2">
-                      <div className="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-                      <span className="text-[10px] font-black uppercase text-slate-400">
-=======
                   <CardContent className="border-border-subtle flex items-center justify-between border-t p-4">
                     <div className="flex items-center gap-2">
                       <div className="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                       <span className="text-text-muted text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         {lb.status}
                       </span>
                     </div>
                     <Button
                       variant="ghost"
                       size="icon"
-<<<<<<< HEAD
-                      className="h-10 w-10 rounded-xl text-slate-300 transition-all group-hover:bg-slate-50 group-hover:text-slate-900"
-=======
                       className="text-text-muted group-hover:text-text-primary group-hover:bg-bg-surface2 h-10 w-10 rounded-xl transition-all"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       <ArrowRight className="h-5 w-5" />
                     </Button>
@@ -191,11 +146,7 @@ export function InteractiveLookbook() {
               <Button
                 onClick={() => setSelectedLookbook(null)}
                 variant="ghost"
-<<<<<<< HEAD
-                className="gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-900"
-=======
                 className="text-text-muted hover:text-text-primary gap-2 text-[10px] font-black uppercase tracking-widest"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <ChevronLeft className="h-4 w-4" /> Назад в библиотеку
               </Button>
@@ -205,21 +156,13 @@ export function InteractiveLookbook() {
                   variant={isEditorMode ? 'default' : 'outline'}
                   className={cn(
                     'h-12 gap-2 rounded-2xl px-6 text-[10px] font-black uppercase tracking-widest',
-<<<<<<< HEAD
-                    isEditorMode ? 'bg-indigo-600 text-white' : 'bg-white'
-=======
                     isEditorMode ? 'bg-accent-primary text-white' : 'bg-white'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   <Settings2 className="h-4 w-4" />{' '}
                   {isEditorMode ? 'Сохранить макет' : 'Режим редактора'}
                 </Button>
-<<<<<<< HEAD
-                <Button className="h-12 gap-2 rounded-2xl bg-slate-900 px-6 text-[10px] font-black uppercase tracking-widest text-white">
-=======
                 <Button className="bg-text-primary h-12 gap-2 rounded-2xl px-6 text-[10px] font-black uppercase tracking-widest text-white">
->>>>>>> recover/cabinet-wip-from-stash
                   <Share2 className="h-4 w-4" /> Опубликовать ссылку
                 </Button>
               </div>
@@ -252,27 +195,13 @@ export function InteractiveLookbook() {
 
                             <div className="pointer-events-none absolute left-1/2 top-3 z-20 w-48 -translate-x-1/2 scale-90 rounded-2xl bg-white p-4 opacity-0 shadow-2xl transition-all group-hover:scale-100 group-hover:opacity-100">
                               <div className="space-y-3">
-<<<<<<< HEAD
-                                <div className="aspect-square overflow-hidden rounded-xl bg-slate-100">
-=======
                                 <div className="bg-bg-surface2 aspect-square overflow-hidden rounded-xl">
->>>>>>> recover/cabinet-wip-from-stash
                                   <img
                                     src={product?.images?.[0]?.url}
                                     className="h-full w-full object-cover"
                                   />
                                 </div>
                                 <div className="space-y-1">
-<<<<<<< HEAD
-                                  <p className="text-[10px] font-black uppercase leading-none text-slate-900">
-                                    {product?.name}
-                                  </p>
-                                  <p className="text-[9px] font-bold uppercase text-indigo-600">
-                                    {product?.price.toLocaleString('ru-RU')} ₽
-                                  </p>
-                                </div>
-                                <Button className="h-8 w-full rounded-lg bg-slate-900 text-[8px] font-black uppercase text-white">
-=======
                                   <p className="text-text-primary text-[10px] font-black uppercase leading-none">
                                     {product?.name}
                                   </p>
@@ -281,7 +210,6 @@ export function InteractiveLookbook() {
                                   </p>
                                 </div>
                                 <Button className="bg-text-primary h-8 w-full rounded-lg text-[8px] font-black uppercase text-white">
->>>>>>> recover/cabinet-wip-from-stash
                                   В корзину
                                 </Button>
                               </div>
@@ -298,11 +226,7 @@ export function InteractiveLookbook() {
                       disabled={activePageIdx === 0}
                       variant="ghost"
                       size="icon"
-<<<<<<< HEAD
-                      className="h-12 w-12 rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md hover:bg-white hover:text-slate-900 disabled:opacity-30"
-=======
                       className="hover:text-text-primary h-12 w-12 rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md hover:bg-white disabled:opacity-30"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       <ChevronLeft className="h-6 w-6" />
                     </Button>
@@ -317,11 +241,7 @@ export function InteractiveLookbook() {
                       disabled={activePageIdx === selectedLookbook.pages.length - 1}
                       variant="ghost"
                       size="icon"
-<<<<<<< HEAD
-                      className="h-12 w-12 rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md hover:bg-white hover:text-slate-900 disabled:opacity-30"
-=======
                       className="hover:text-text-primary h-12 w-12 rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md hover:bg-white disabled:opacity-30"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       <ChevronRight className="h-6 w-6" />
                     </Button>
@@ -336,11 +256,7 @@ export function InteractiveLookbook() {
                       className={cn(
                         'h-20 w-12 shrink-0 overflow-hidden rounded-xl border-4 transition-all',
                         activePageIdx === i
-<<<<<<< HEAD
-                          ? 'scale-110 border-indigo-600 shadow-lg'
-=======
                           ? 'border-accent-primary scale-110 shadow-lg'
->>>>>>> recover/cabinet-wip-from-stash
                           : 'border-white opacity-60 shadow-sm hover:opacity-100'
                       )}
                     >
@@ -348,11 +264,7 @@ export function InteractiveLookbook() {
                     </button>
                   ))}
                   {isEditorMode && (
-<<<<<<< HEAD
-                    <button className="flex h-20 w-12 shrink-0 items-center justify-center rounded-xl border-4 border-dashed border-slate-200 text-slate-300 transition-all hover:border-slate-400 hover:text-slate-900">
-=======
                     <button className="border-border-default text-text-muted hover:text-text-primary hover:border-border-strong flex h-20 w-12 shrink-0 items-center justify-center rounded-xl border-4 border-dashed transition-all">
->>>>>>> recover/cabinet-wip-from-stash
                       <Plus className="h-6 w-6" />
                     </button>
                   )}
@@ -361,11 +273,7 @@ export function InteractiveLookbook() {
 
               <div className="space-y-4 lg:col-span-4">
                 <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-xl">
-<<<<<<< HEAD
-                  <h4 className="text-sm font-black uppercase tracking-widest text-slate-900">
-=======
                   <h4 className="text-text-primary text-sm font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Товары на странице
                   </h4>
                   <div className="space-y-4">
@@ -375,28 +283,17 @@ export function InteractiveLookbook() {
                         return (
                           <div key={h.id} className="group flex items-center justify-between">
                             <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                              <div className="h-12 w-12 overflow-hidden rounded-xl border border-slate-100 bg-slate-50">
-=======
                               <div className="bg-bg-surface2 border-border-subtle h-12 w-12 overflow-hidden rounded-xl border">
->>>>>>> recover/cabinet-wip-from-stash
                                 <img
                                   src={product?.images?.[0]?.url}
                                   className="h-full w-full object-cover"
                                 />
                               </div>
                               <div>
-<<<<<<< HEAD
-                                <p className="text-[10px] font-black uppercase text-slate-900">
-                                  {product?.name}
-                                </p>
-                                <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400">
-=======
                                 <p className="text-text-primary text-[10px] font-black uppercase">
                                   {product?.name}
                                 </p>
                                 <p className="text-text-muted text-[8px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                                   {product?.sku}
                                 </p>
                               </div>
@@ -418,11 +315,7 @@ export function InteractiveLookbook() {
                         );
                       })
                     ) : (
-<<<<<<< HEAD
-                      <p className="py-4 text-[10px] font-bold uppercase italic tracking-widest text-slate-300">
-=======
                       <p className="text-text-muted py-4 text-[10px] font-bold uppercase italic tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                         Нет отмеченных товаров на странице
                       </p>
                     )}
@@ -430,36 +323,18 @@ export function InteractiveLookbook() {
                   {isEditorMode && (
                     <Button
                       variant="outline"
-<<<<<<< HEAD
-                      className="h-12 w-full gap-2 rounded-xl border-slate-100 text-[9px] font-black uppercase tracking-widest"
-=======
                       className="border-border-subtle h-12 w-full gap-2 rounded-xl text-[9px] font-black uppercase tracking-widest"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       <Tag className="h-4 w-4" /> Отметить новый товар
                     </Button>
                   )}
                 </Card>
 
-<<<<<<< HEAD
-                <Card className="relative space-y-6 overflow-hidden rounded-xl border-none bg-slate-900 p-4 text-white shadow-xl">
-=======
                 <Card className="bg-text-primary relative space-y-6 overflow-hidden rounded-xl border-none p-4 text-white shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
                   <div className="absolute right-0 top-0 p-4 opacity-10">
                     <Sparkles className="h-24 w-24" />
                   </div>
                   <div className="relative z-10 space-y-4">
-<<<<<<< HEAD
-                    <h5 className="text-sm font-black uppercase tracking-widest text-indigo-400">
-                      AI Визуальный Помощник
-                    </h5>
-                    <p className="text-[10px] font-medium uppercase leading-relaxed tracking-widest text-slate-400">
-                      Наш ИИ автоматически обнаружил **3 потенциальных товара** на этом фото.
-                      Нажмите для проверки и подтверждения тегов.
-                    </p>
-                    <Button className="h-10 w-full rounded-xl bg-white text-[9px] font-black uppercase tracking-widest text-slate-900">
-=======
                     <h5 className="text-accent-primary text-sm font-black uppercase tracking-widest">
                       AI Визуальный Помощник
                     </h5>
@@ -468,40 +343,20 @@ export function InteractiveLookbook() {
                       Нажмите для проверки и подтверждения тегов.
                     </p>
                     <Button className="text-text-primary h-10 w-full rounded-xl bg-white text-[9px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                       Запустить ИИ-сканирование
                     </Button>
                   </div>
                 </Card>
 
-<<<<<<< HEAD
-                <Card className="space-y-4 rounded-xl border-none bg-indigo-50 p-4 shadow-xl">
-                  <div className="flex items-center gap-3">
-                    <MousePointer2 className="h-4 w-4 text-indigo-600" />
-                    <h5 className="text-[10px] font-black uppercase tracking-widest text-indigo-900">
-=======
                 <Card className="bg-accent-primary/10 space-y-4 rounded-xl border-none p-4 shadow-xl">
                   <div className="flex items-center gap-3">
                     <MousePointer2 className="text-accent-primary h-4 w-4" />
                     <h5 className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                       Эффективность страницы
                     </h5>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
-<<<<<<< HEAD
-                      <p className="text-[8px] font-black uppercase text-indigo-400">
-                        Ср. время фокуса
-                      </p>
-                      <p className="text-base font-black text-indigo-900">12.4с</p>
-                    </div>
-                    <div className="space-y-1">
-                      <p className="text-[8px] font-black uppercase text-indigo-400">
-                        Кликабельность (CTR)
-                      </p>
-                      <p className="text-base font-black text-indigo-900">18.2%</p>
-=======
                       <p className="text-accent-primary text-[8px] font-black uppercase">
                         Ср. время фокуса
                       </p>
@@ -512,7 +367,6 @@ export function InteractiveLookbook() {
                         Кликабельность (CTR)
                       </p>
                       <p className="text-accent-primary text-base font-black">18.2%</p>
->>>>>>> recover/cabinet-wip-from-stash
                     </div>
                   </div>
                 </Card>

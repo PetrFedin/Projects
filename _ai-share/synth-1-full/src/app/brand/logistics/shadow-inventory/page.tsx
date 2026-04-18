@@ -84,64 +84,6 @@ export default function ShadowInventoryPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-4 duration-700 animate-in fade-in">
-      <SectionInfoCard
-        title="Shadow Inventory"
-        description="Продажа товаров в пути. Отслеживание грузов от фабрик до склада. Связь с Production (PO), B2B (заказы) и Warehouse (приёмки). Sell-in-transit для ранних продаж."
-        icon={Truck}
-        iconBg="bg-indigo-100"
-        iconColor="text-indigo-600"
-        badges={
-          <>
-            <Badge variant="outline" className="text-[9px]">
-              Production → PO
-            </Badge>
-            <Badge variant="outline" className="text-[9px]">
-              B2B → заказы
-            </Badge>
-            <Badge variant="outline" className="text-[9px]">
-              Warehouse
-            </Badge>
-            <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
-              <Link href="/brand/warehouse">Warehouse</Link>
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/logistics/duty-calculator">Duty Calc</Link>
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/logistics/consolidation">Consolidation</Link>
-            </Button>
-          </>
-        }
-      />
-      <header className="flex flex-col justify-between gap-3 border-b border-slate-100 pb-3 md:flex-row md:items-end">
-        <div className="space-y-0.5">
-          <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
-            <Truck className="h-2.5 w-2.5" />
-            <span>Inventory Logistics Node</span>
-          </div>
-          <h1 className="text-sm font-black uppercase leading-none tracking-tighter text-slate-900">
-            Shadow Inventory
-          </h1>
-          <p className="mt-1 px-0.5 text-[11px] font-medium text-slate-500">
-            Real-time sell-in-transit management & allocation.
-          </p>
-        </div>
-        <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-100 p-1 shadow-inner">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-7 rounded-lg border border-slate-200 bg-white px-3 text-[9px] font-bold uppercase tracking-widest text-slate-600 shadow-sm transition-all hover:text-indigo-600"
-          >
-            <Globe className="mr-1.5 h-3 w-3" /> Global Track
-          </Button>
-          <Button className="h-7 rounded-lg bg-slate-900 px-4 text-[9px] font-bold uppercase tracking-widest text-white shadow-lg transition-all hover:bg-slate-800">
-            <Filter className="mr-1.5 h-3 w-3" /> Filter
-          </Button>
-        </div>
-      </header>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16 duration-700 animate-in fade-in">
       <RegistryPageHeader
         eyebrow={
@@ -188,7 +130,6 @@ export default function ShadowInventoryPage() {
           </div>
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       {/* Analytics Row — Compact & Normalized */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -197,25 +138,15 @@ export default function ShadowInventoryPage() {
             label: 'Total In-Transit',
             value: calculateTotalInTransit(shipments).toLocaleString(),
             icon: Box,
-<<<<<<< HEAD
-            color: 'text-slate-900',
-            bg: 'bg-slate-50/50',
-=======
             color: 'text-text-primary',
             bg: 'bg-bg-surface2/80',
->>>>>>> recover/cabinet-wip-from-stash
           },
           {
             label: 'ATP Shadow Stock',
             value: '700',
             icon: Zap,
-<<<<<<< HEAD
-            color: 'text-indigo-600',
-            bg: 'bg-indigo-50/50',
-=======
             color: 'text-accent-primary',
             bg: 'bg-accent-primary/10',
->>>>>>> recover/cabinet-wip-from-stash
           },
           {
             label: 'Active Shipments',
@@ -234,16 +165,6 @@ export default function ShadowInventoryPage() {
         ].map((stat, i) => (
           <Card
             key={i}
-<<<<<<< HEAD
-            className="group relative overflow-hidden rounded-xl border border-slate-100 bg-white p-3.5 shadow-sm transition-all hover:border-indigo-100"
-          >
-            <div className="mb-2.5 flex items-center justify-between">
-              <span className="text-[9px] font-bold uppercase leading-none tracking-[0.15em] text-slate-400">
-                {stat.label}
-              </span>
-              <div
-                className={cn('rounded-lg border border-slate-200/50 p-1.5 shadow-inner', stat.bg)}
-=======
             className="border-border-subtle hover:border-accent-primary/20 group relative overflow-hidden rounded-xl border bg-white p-3.5 shadow-sm transition-all"
           >
             <div className="mb-2.5 flex items-center justify-between">
@@ -255,7 +176,6 @@ export default function ShadowInventoryPage() {
                   'border-border-default/50 rounded-lg border p-1.5 shadow-inner',
                   stat.bg
                 )}
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <stat.icon className={cn('h-3.5 w-3.5 transition-colors', stat.color)} />
               </div>
@@ -274,39 +194,23 @@ export default function ShadowInventoryPage() {
 
       <div className="mt-2 grid gap-3 lg:grid-cols-12">
         <div className="space-y-4 lg:col-span-8">
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm">
-            <CardHeader className="flex flex-row items-center justify-between border-b border-slate-50 bg-slate-50/30 p-3">
-=======
           <Card className="border-border-subtle overflow-hidden rounded-2xl border bg-white shadow-sm">
             <CardHeader className="border-border-subtle bg-bg-surface2/30 flex flex-row items-center justify-between border-b p-3">
->>>>>>> recover/cabinet-wip-from-stash
               <CardTitle className="text-sm font-black uppercase tracking-tight">
                 In-Transit Shipments
               </CardTitle>
               <div className="relative">
-<<<<<<< HEAD
-                <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-300" />
-                <Input
-                  placeholder="Filter shipments..."
-                  className="h-8 w-48 rounded-lg border-slate-200 bg-white pl-9 text-[10px] font-bold uppercase"
-=======
                 <Search className="text-text-muted absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2" />
                 <Input
                   placeholder="Filter shipments..."
                   className="border-border-default h-8 w-48 rounded-lg bg-white pl-9 text-[10px] font-bold uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                 />
               </div>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
                 <TableHeader className="bg-white">
-<<<<<<< HEAD
-                  <TableRow className="border-b border-slate-50 hover:bg-transparent">
-=======
                   <TableRow className="border-border-subtle border-b hover:bg-transparent">
->>>>>>> recover/cabinet-wip-from-stash
                     <TableHead className="h-10 pl-6 text-[9px] font-black uppercase tracking-wider">
                       Shipment ID / Route
                     </TableHead>
@@ -328,16 +232,6 @@ export default function ShadowInventoryPage() {
                   {shipments.map((ship) => (
                     <TableRow
                       key={ship.id}
-<<<<<<< HEAD
-                      className="group border-b border-slate-50 transition-colors last:border-0 hover:bg-slate-50/50"
-                    >
-                      <TableCell className="py-4 pl-6">
-                        <div className="space-y-1">
-                          <p className="text-[11px] font-black uppercase text-slate-900">
-                            {ship.id}
-                          </p>
-                          <div className="flex items-center gap-1 text-[8px] font-bold uppercase tracking-widest text-slate-400">
-=======
                       className="hover:bg-bg-surface2/80 border-border-subtle group border-b transition-colors last:border-0"
                     >
                       <TableCell className="py-4 pl-6">
@@ -346,7 +240,6 @@ export default function ShadowInventoryPage() {
                             {ship.id}
                           </p>
                           <div className="text-text-muted flex items-center gap-1 text-[8px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                             <span>{ship.origin.split(',')[1]}</span>
                             <ArrowRight className="h-2 w-2" />
                             <span>{ship.destination.split(',')[1]}</span>
@@ -356,11 +249,7 @@ export default function ShadowInventoryPage() {
                       <TableCell>
                         <div className="space-y-1.5">
                           {getStatusBadge(ship.status)}
-<<<<<<< HEAD
-                          <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase text-slate-500">
-=======
                           <div className="text-text-secondary flex items-center gap-1.5 text-[9px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                             <Calendar className="h-2.5 w-2.5" />
                             {ship.estimatedArrival}
                           </div>
@@ -368,17 +257,10 @@ export default function ShadowInventoryPage() {
                       </TableCell>
                       <TableCell>
                         <div className="space-y-1">
-<<<<<<< HEAD
-                          <p className="text-xs font-black text-slate-900">
-                            {ship.items.reduce((s, i) => s + i.qty, 0)} units
-                          </p>
-                          <p className="text-[8px] font-black uppercase tracking-tight text-indigo-600">
-=======
                           <p className="text-text-primary text-xs font-black">
                             {ship.items.reduce((s, i) => s + i.qty, 0)} units
                           </p>
                           <p className="text-accent-primary text-[8px] font-black uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                             {ship.items.length} SKUs
                           </p>
                         </div>
@@ -393,11 +275,7 @@ export default function ShadowInventoryPage() {
                           <span
                             className={cn(
                               'text-[7px] font-black uppercase tracking-widest',
-<<<<<<< HEAD
-                              ship.sellableInTransit ? 'text-indigo-600' : 'text-slate-300'
-=======
                               ship.sellableInTransit ? 'text-accent-primary' : 'text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                             )}
                           >
                             {ship.sellableInTransit ? 'Active' : 'Disabled'}
@@ -408,11 +286,7 @@ export default function ShadowInventoryPage() {
                         <Button
                           variant="ghost"
                           size="icon"
-<<<<<<< HEAD
-                          className="h-7 w-7 rounded-lg text-slate-300 transition-all hover:bg-indigo-50 hover:text-indigo-600"
-=======
                           className="text-text-muted hover:text-accent-primary hover:bg-accent-primary/10 h-7 w-7 rounded-lg transition-all"
->>>>>>> recover/cabinet-wip-from-stash
                         >
                           <ArrowRight className="h-3.5 w-3.5" />
                         </Button>
@@ -426,17 +300,10 @@ export default function ShadowInventoryPage() {
         </div>
 
         <div className="space-y-4 lg:col-span-4">
-<<<<<<< HEAD
-          <Card className="group rounded-2xl border border-slate-800 bg-slate-900 p-3 text-white shadow-lg transition-all hover:border-indigo-500/30">
-            <div className="mb-5 flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/10 shadow-inner transition-transform group-hover:scale-105">
-                <TrendingUp className="w-4.5 h-4.5 text-indigo-400" />
-=======
           <Card className="border-text-primary/30 bg-text-primary hover:border-accent-primary/30 group rounded-2xl border p-3 text-white shadow-lg transition-all">
             <div className="mb-5 flex items-center gap-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/10 shadow-inner transition-transform group-hover:scale-105">
                 <TrendingUp className="w-4.5 h-4.5 text-accent-primary" />
->>>>>>> recover/cabinet-wip-from-stash
               </div>
               <div>
                 <h3 className="text-xs font-black uppercase tracking-tight">
@@ -461,19 +328,11 @@ export default function ShadowInventoryPage() {
                   <span className="text-[8px] font-black uppercase tracking-widest text-white/60">
                     Transit Sell-Through
                   </span>
-<<<<<<< HEAD
-                  <span className="text-xs font-black tabular-nums text-indigo-400">14.2%</span>
-                </div>
-                <div className="h-1 w-full overflow-hidden rounded-full bg-white/10 shadow-inner">
-                  <div
-                    className="h-full rounded-full bg-indigo-500 transition-all duration-1000"
-=======
                   <span className="text-accent-primary text-xs font-black tabular-nums">14.2%</span>
                 </div>
                 <div className="h-1 w-full overflow-hidden rounded-full bg-white/10 shadow-inner">
                   <div
                     className="bg-accent-primary h-full rounded-full transition-all duration-1000"
->>>>>>> recover/cabinet-wip-from-stash
                     style={{ width: '14.2%' }}
                   />
                 </div>
@@ -485,20 +344,12 @@ export default function ShadowInventoryPage() {
             </p>
           </Card>
 
-<<<<<<< HEAD
-          <Card className="group space-y-5 rounded-2xl border border-slate-100 bg-white p-3 shadow-sm transition-all hover:border-amber-100">
-=======
           <Card className="border-border-subtle group space-y-5 rounded-2xl border bg-white p-3 shadow-sm transition-all hover:border-amber-100">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="flex items-center gap-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-amber-100 bg-amber-50 shadow-sm transition-transform group-hover:scale-105">
                 <AlertTriangle className="w-4.5 h-4.5 text-amber-500" />
               </div>
-<<<<<<< HEAD
-              <h3 className="text-xs font-black uppercase tracking-tight text-slate-900">
-=======
               <h3 className="text-text-primary text-xs font-black uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                 Transit Risks
               </h3>
             </div>
@@ -515,15 +366,9 @@ export default function ShadowInventoryPage() {
               ].map((risk, i) => (
                 <div
                   key={i}
-<<<<<<< HEAD
-                  className="flex items-center justify-between rounded-lg border-b border-slate-50 px-1 py-2.5 transition-colors last:border-0 hover:bg-slate-50/50"
-                >
-                  <span className="text-[9px] font-black uppercase tracking-wider text-slate-400">
-=======
                   className="border-border-subtle hover:bg-bg-surface2/80 flex items-center justify-between rounded-lg border-b px-1 py-2.5 transition-colors last:border-0"
                 >
                   <span className="text-text-muted text-[9px] font-black uppercase tracking-wider">
->>>>>>> recover/cabinet-wip-from-stash
                     {risk.label}
                   </span>
                   <span
@@ -537,11 +382,7 @@ export default function ShadowInventoryPage() {
             <Button
               variant="outline"
               size="sm"
-<<<<<<< HEAD
-              className="h-9 w-full rounded-xl border-slate-200 text-[9px] font-black uppercase tracking-widest shadow-sm transition-all hover:border-slate-900 hover:bg-slate-900 hover:text-white"
-=======
               className="border-border-default hover:bg-text-primary/90 hover:border-text-primary h-9 w-full rounded-xl text-[9px] font-black uppercase tracking-widest shadow-sm transition-all hover:text-white"
->>>>>>> recover/cabinet-wip-from-stash
             >
               Analyze Supply Chain
             </Button>

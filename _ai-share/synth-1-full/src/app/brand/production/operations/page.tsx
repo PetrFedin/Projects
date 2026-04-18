@@ -71,11 +71,7 @@ export default function ProductionOperationsPage() {
 
   if (!state) {
     return (
-<<<<<<< HEAD
-      <div className="container py-12 text-center text-sm text-slate-500">
-=======
       <div className="text-text-secondary mx-auto w-full max-w-none px-4 py-12 text-center text-sm sm:px-6">
->>>>>>> recover/cabinet-wip-from-stash
         Загрузка модели производства…
       </div>
     );
@@ -95,26 +91,12 @@ export default function ProductionOperationsPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="flex items-center gap-2 text-xl font-bold uppercase tracking-tight">
             <Database className="h-6 w-6" /> Операции производства
           </h1>
-<<<<<<< HEAD
-          <p className="mt-1 max-w-2xl text-sm text-slate-500">
-            Единая модель без API: данные в localStorage в формате, готовом к замене на
-            REST/GraphQL. Горизонтальные связи: коллекция → артикулы → BOM → PO → QC → склад/B2B.
-            Вертикальные: этапы жизни артикула, аудит, роли.
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-[10px] uppercase text-slate-500">Роль (мок):</span>
-=======
           <p className="text-text-secondary mt-1 max-w-2xl text-sm">
             Единая модель без <AcronymWithTooltip abbr="API" />: данные в localStorage в формате,
             готовом к замене на REST/GraphQL. Горизонтальные связи: коллекция → артикулы →{' '}
@@ -125,7 +107,6 @@ export default function ProductionOperationsPage() {
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-text-secondary text-[10px] uppercase">Роль (мок):</span>
->>>>>>> recover/cabinet-wip-from-stash
           <select
             value={state.currentRole}
             onChange={(e) => {
@@ -146,11 +127,7 @@ export default function ProductionOperationsPage() {
             className="h-9 gap-1 text-xs"
             onClick={() => setState(resetBrandProductionToSeed())}
           >
-<<<<<<< HEAD
-            <RefreshCw className="h-3.5 w-3.5" /> Сброс к seed
-=======
             <RefreshCw className="h-3.5 w-3.5" /> Сброс к исходным данным
->>>>>>> recover/cabinet-wip-from-stash
           </Button>
           <Button variant="outline" size="sm" className="h-9 text-xs" asChild>
             <Link href={ROUTES.brand.production}>Схема коллекции</Link>
@@ -159,34 +136,6 @@ export default function ProductionOperationsPage() {
       </div>
 
       <Tabs defaultValue="overview" className="space-y-4">
-<<<<<<< HEAD
-        <TabsList className="flex h-auto flex-wrap gap-1 bg-slate-100 p-1">
-          <TabsTrigger value="overview" className="text-xs">
-            Обзор и алерты
-          </TabsTrigger>
-          <TabsTrigger value="articles" className="text-xs">
-            Коллекции · артикулы
-          </TabsTrigger>
-          <TabsTrigger value="po" className="text-xs">
-            PO и фабрики
-          </TabsTrigger>
-          <TabsTrigger value="bom" className="text-xs">
-            BOM
-          </TabsTrigger>
-          <TabsTrigger value="qc" className="text-xs">
-            QC
-          </TabsTrigger>
-          <TabsTrigger value="comms" className="text-xs">
-            С фабрикой
-          </TabsTrigger>
-          <TabsTrigger value="b2b" className="text-xs">
-            B2B · склад
-          </TabsTrigger>
-          <TabsTrigger value="integrations" className="text-xs">
-            Интеграции
-          </TabsTrigger>
-          <TabsTrigger value="audit" className="text-xs">
-=======
         <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-h-9 w-full shadow-inner')}>
           <TabsTrigger
             value="overview"
@@ -267,7 +216,6 @@ export default function ProductionOperationsPage() {
               'data-[state=active]:text-accent-primary h-7 text-xs'
             )}
           >
->>>>>>> recover/cabinet-wip-from-stash
             Аудит
           </TabsTrigger>
         </TabsList>
@@ -280,12 +228,8 @@ export default function ProductionOperationsPage() {
                   <AlertTriangle className="h-4 w-4 text-amber-500" /> Что горит
                 </CardTitle>
                 <CardDescription className="text-xs">
-<<<<<<< HEAD
-                  Дедлайны, PO без подтверждения, материалы к раскрою, QC.
-=======
                   Дедлайны, <AcronymWithTooltip abbr="PO" /> без подтверждения, материалы к раскрою,{' '}
                   <AcronymWithTooltip abbr="QC" />.
->>>>>>> recover/cabinet-wip-from-stash
                 </CardDescription>
               </CardHeader>
               <CardContent className="max-h-80 space-y-2 overflow-y-auto">
@@ -305,19 +249,11 @@ export default function ProductionOperationsPage() {
                       )}
                     >
                       <p className="font-semibold">{a.title}</p>
-<<<<<<< HEAD
-                      <p className="mt-0.5 text-slate-600">{a.detail}</p>
-                      {a.href && (
-                        <Link
-                          href={a.href}
-                          className="mt-1 inline-flex items-center gap-0.5 text-[10px] font-medium text-indigo-600"
-=======
                       <p className="text-text-secondary mt-0.5">{a.detail}</p>
                       {a.href && (
                         <Link
                           href={a.href}
                           className="text-accent-primary mt-1 inline-flex items-center gap-0.5 text-[10px] font-medium"
->>>>>>> recover/cabinet-wip-from-stash
                         >
                           Перейти <ArrowRight className="h-3 w-3" />
                         </Link>
@@ -348,13 +284,8 @@ export default function ProductionOperationsPage() {
                 {kpi && (
                   <>
                     <p>
-<<<<<<< HEAD
-                      Артикулов: <strong>{kpi.totalArticles}</strong> · BOM заполнен:{' '}
-                      <strong>{kpi.bomPct}%</strong>
-=======
                       Артикулов: <strong>{kpi.totalArticles}</strong> ·{' '}
                       <AcronymWithTooltip abbr="BOM" /> заполнен: <strong>{kpi.bomPct}%</strong>
->>>>>>> recover/cabinet-wip-from-stash
                     </p>
                     {kpi.dropDeadline && (
                       <p className="text-text-secondary">
@@ -385,17 +316,11 @@ export default function ProductionOperationsPage() {
             <CardHeader>
               <CardTitle className="text-sm">Артикулы и жизненный цикл</CardTitle>
               <CardDescription className="text-xs">
-<<<<<<< HEAD
-                Правила: на этап PO — только после утверждения Gold Sample и этапа «Утверждение»;
-                производство — после подтверждённого PO; склад — после успешного QC (блокировка при
-                fail/rework с флагом отгрузки).
-=======
                 Правила: на этап <AcronymWithTooltip abbr="PO" /> — только после утверждения
                 эталонного образца и этапа «Утверждение»; производство — после подтверждённого{' '}
                 <AcronymWithTooltip abbr="PO" />; склад — после успешного{' '}
                 <AcronymWithTooltip abbr="QC" /> (блокировка при ошибке/доработке с флагом
                 отгрузки).
->>>>>>> recover/cabinet-wip-from-stash
               </CardDescription>
             </CardHeader>
             <CardContent className="overflow-x-auto">
@@ -466,13 +391,6 @@ export default function ProductionOperationsPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-sm">
-<<<<<<< HEAD
-                <Factory className="h-4 w-4" /> PO → коллекция → артикулы → размеры
-              </CardTitle>
-              <CardDescription className="text-xs">
-                Критический путь и риск срыва учитываются в алертах. Экспорт в Excel/CSV для фабрики
-                (подготовка к ERP).
-=======
                 <Factory className="h-4 w-4" /> <AcronymWithTooltip abbr="PO" /> → коллекция →
                 артикулы → размеры
               </CardTitle>
@@ -480,7 +398,6 @@ export default function ProductionOperationsPage() {
                 Критический путь и риск срыва учитываются в алертах. Экспорт в Excel/CSV для фабрики
                 (подготовка к <AcronymWithTooltip abbr="ERP" />
                 ).
->>>>>>> recover/cabinet-wip-from-stash
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -534,11 +451,7 @@ export default function ProductionOperationsPage() {
                     </ul>
                     {typeof fac?.utilizationPct === 'number' && (
                       <div className="pt-2">
-<<<<<<< HEAD
-                        <p className="mb-1 text-[10px] text-slate-500">
-=======
                         <p className="text-text-secondary mb-1 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                           Загрузка фабрики ~{fac.utilizationPct}%
                         </p>
                         <Progress value={fac.utilizationPct} className="h-1.5" />
@@ -555,11 +468,7 @@ export default function ProductionOperationsPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-sm">
-<<<<<<< HEAD
-                <Package className="h-4 w-4" /> BOM по артикулу
-=======
                 <Package className="h-4 w-4" /> <AcronymWithTooltip abbr="BOM" /> по артикулу
->>>>>>> recover/cabinet-wip-from-stash
               </CardTitle>
               <CardDescription className="text-xs">
                 Резерв, статус закупки, ETA до фабрики — горизонтальная связь с артикулом и
@@ -606,14 +515,6 @@ export default function ProductionOperationsPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-sm">
-<<<<<<< HEAD
-                <ClipboardList className="h-4 w-4" /> QC: планы и инспекции
-              </CardTitle>
-              <CardDescription className="text-xs">
-                Блокировка отгрузки при fail/rework. Полевой сценарий:{' '}
-                <Link href={ROUTES.brand.productionQcApp} className="text-indigo-600 underline">
-                  QC App
-=======
                 <ClipboardList className="h-4 w-4" /> <AcronymWithTooltip abbr="QC" />: планы и
                 инспекции
               </CardTitle>
@@ -622,7 +523,6 @@ export default function ProductionOperationsPage() {
                 <Link href={ROUTES.brand.productionQcApp} className="text-accent-primary underline">
                   мобильный <AcronymWithTooltip abbr="QC" />
                   -модуль
->>>>>>> recover/cabinet-wip-from-stash
                 </Link>
                 .
               </CardDescription>
@@ -633,11 +533,7 @@ export default function ProductionOperationsPage() {
                 <ul className="space-y-1">
                   {state.qcPlans.map((p) => (
                     <li key={p.id}>
-<<<<<<< HEAD
-                      PO {p.poId} · {p.type} · {p.scheduledAt} ·{' '}
-=======
                       <AcronymWithTooltip abbr="PO" /> {p.poId} · {p.type} · {p.scheduledAt} ·{' '}
->>>>>>> recover/cabinet-wip-from-stash
                       <Badge variant="outline">{p.status}</Badge>
                     </li>
                   ))}
@@ -665,13 +561,8 @@ export default function ProductionOperationsPage() {
                 <MessageSquare className="h-4 w-4" /> Треды с фабрикой
               </CardTitle>
               <CardDescription className="text-xs">
-<<<<<<< HEAD
-                По артикулу и по PO: комментарии, версии техпака, вложения (URL). Уведомления —
-                через API позже.
-=======
                 По артикулу и по <AcronymWithTooltip abbr="PO" />: комментарии, версии техпака,
                 вложения (URL). Уведомления — через <AcronymWithTooltip abbr="API" /> позже.
->>>>>>> recover/cabinet-wip-from-stash
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -682,19 +573,11 @@ export default function ProductionOperationsPage() {
                   </Badge>
                   <ul className="space-y-2 text-xs">
                     {th.messages.map((m) => (
-<<<<<<< HEAD
-                      <li key={m.id} className="border-l-2 border-indigo-200 pl-2">
-                        <span className="text-slate-500">{m.at}</span> ·{' '}
-                        <strong>{m.authorLabel}</strong> ({m.authorRole})
-                        {m.techPackVersion && (
-                          <span className="text-indigo-600"> · TP {m.techPackVersion}</span>
-=======
                       <li key={m.id} className="border-accent-primary/30 border-l-2 pl-2">
                         <span className="text-text-secondary">{m.at}</span> ·{' '}
                         <strong>{m.authorLabel}</strong> ({m.authorRole})
                         {m.techPackVersion && (
                           <span className="text-accent-primary"> · TP {m.techPackVersion}</span>
->>>>>>> recover/cabinet-wip-from-stash
                         )}
                         <p className="mt-0.5">{m.body}</p>
                       </li>
@@ -735,11 +618,7 @@ export default function ProductionOperationsPage() {
                       {o.orderRef}: {o.articleSku} × {o.qty} · {o.status}{' '}
                       <Link
                         href={`${ROUTES.shop.b2bOrders}?sku=${encodeURIComponent(o.articleSku)}`}
-<<<<<<< HEAD
-                        className="ml-1 text-indigo-600"
-=======
                         className="text-accent-primary ml-1"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         → заказы
                       </Link>
@@ -755,20 +634,12 @@ export default function ProductionOperationsPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-sm">
-<<<<<<< HEAD
-                <Plug className="h-4 w-4" /> Интеграции (настройка под API)
-              </CardTitle>
-              <CardDescription className="text-xs">
-                Webhook для статусов с фабрики, выгрузка в ERP. Сохраняется локально; бэкенд
-                подставит URL и секреты.
-=======
                 <Plug className="h-4 w-4" /> Интеграции (настройка под{' '}
                 <AcronymWithTooltip abbr="API" />)
               </CardTitle>
               <CardDescription className="text-xs">
                 Webhook для статусов с фабрики, выгрузка в <AcronymWithTooltip abbr="ERP" />.
                 Сохраняется локально; бэкенд подставит URL и секреты.
->>>>>>> recover/cabinet-wip-from-stash
               </CardDescription>
             </CardHeader>
             <CardContent className="max-w-lg space-y-3 text-xs">
@@ -806,13 +677,9 @@ export default function ProductionOperationsPage() {
                 </select>
               </div>
               <div>
-<<<<<<< HEAD
-                <span className="mb-1 block text-slate-500">Webhook URL (статусы фабрики)</span>
-=======
                 <span className="text-text-secondary mb-1 block">
                   URL вебхука (статусы фабрики)
                 </span>
->>>>>>> recover/cabinet-wip-from-stash
                 <input
                   className="h-9 w-full rounded border px-2 text-xs"
                   placeholder="https://api.brand.com/webhooks/factory"
@@ -854,25 +721,15 @@ export default function ProductionOperationsPage() {
                 <History className="h-4 w-4" /> История изменений
               </CardTitle>
               <CardDescription className="text-xs">
-<<<<<<< HEAD
-                Кто и когда сдвинул этап / изменил настройки (под API — userId с сервера).
-=======
                 Кто и когда сдвинул этап / изменил настройки (под <AcronymWithTooltip abbr="API" />{' '}
                 — userId с сервера).
->>>>>>> recover/cabinet-wip-from-stash
               </CardDescription>
             </CardHeader>
             <CardContent className="max-h-96 space-y-2 overflow-y-auto text-xs">
               {state.auditLog.map((a) => (
-<<<<<<< HEAD
-                <div key={a.id} className="border-b border-slate-100 pb-2">
-                  <span className="text-slate-500">{a.at}</span> · <strong>{a.userLabel}</strong> ·{' '}
-                  {a.entityType} {a.entityId}
-=======
                 <div key={a.id} className="border-border-subtle border-b pb-2">
                   <span className="text-text-secondary">{a.at}</span> ·{' '}
                   <strong>{a.userLabel}</strong> · {a.entityType} {a.entityId}
->>>>>>> recover/cabinet-wip-from-stash
                   <br />
                   <span className="text-text-secondary">
                     {a.action}
@@ -890,20 +747,12 @@ export default function ProductionOperationsPage() {
       </Tabs>
 
       <Card className="border-dashed">
-<<<<<<< HEAD
-        <CardContent className="flex flex-wrap items-center gap-3 py-3 text-[10px] text-slate-500">
-          <Shield className="h-4 w-4" />
-          <span>
-            Роли: дизайн / продакшн / закупки / мерчендайзинг — разные права на смену статусов и PO
-            (см. переключатель роли). После API проверка на сервере.
-=======
         <CardContent className="text-text-secondary flex flex-wrap items-center gap-3 py-3 text-[10px]">
           <Shield className="h-4 w-4" />
           <span>
             Роли: дизайн / продакшн / закупки / мерчендайзинг — разные права на смену статусов и{' '}
             <AcronymWithTooltip abbr="PO" /> (см. переключатель роли). После{' '}
             <AcronymWithTooltip abbr="API" /> проверка на сервере.
->>>>>>> recover/cabinet-wip-from-stash
           </span>
         </CardContent>
       </Card>

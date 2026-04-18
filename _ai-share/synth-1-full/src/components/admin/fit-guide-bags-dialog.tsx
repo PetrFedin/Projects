@@ -127,13 +127,6 @@ export function FitGuideBagsDialog({
                     )}
                     {section.type === 'profile' && section.rows && (
                       <div className="space-y-2 text-sm">
-<<<<<<< HEAD
-                        {section.rows.map((row, index) => (
-                          <p key={index}>
-                            <strong>{row.key}:</strong> {row.value}
-                          </p>
-                        ))}
-=======
                         {section.rows.map((row, index) =>
                           'key' in row && 'value' in row ? (
                             <p key={index}>
@@ -141,7 +134,6 @@ export function FitGuideBagsDialog({
                             </p>
                           ) : null
                         )}
->>>>>>> recover/cabinet-wip-from-stash
                       </div>
                     )}
                   </CardContent>

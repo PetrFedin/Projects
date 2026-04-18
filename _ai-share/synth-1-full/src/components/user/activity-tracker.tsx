@@ -130,19 +130,11 @@ export default function ActivityTracker() {
       case 'cart':
         return 'text-blue-600 bg-blue-100 dark:bg-blue-950';
       case 'wishlist':
-<<<<<<< HEAD
-        return 'text-pink-600 bg-pink-100 dark:bg-pink-950';
-      case 'view':
-        return 'text-gray-600 bg-gray-100 dark:bg-gray-800';
-      case 'search':
-        return 'text-purple-600 bg-purple-100 dark:bg-purple-950';
-=======
         return 'text-accent-primary bg-accent-primary/15 dark:bg-bg-surface2';
       case 'view':
         return 'text-gray-600 bg-gray-100 dark:bg-gray-800';
       case 'search':
         return 'text-accent-primary bg-accent-primary/15 dark:bg-bg-surface2';
->>>>>>> recover/cabinet-wip-from-stash
       case 'comparison':
         return 'text-orange-600 bg-orange-100 dark:bg-orange-950';
       default:

@@ -16,17 +16,6 @@ export function TableSkeleton({
   className?: string;
 }) {
   return (
-<<<<<<< HEAD
-    <div className={cn('overflow-hidden rounded-xl border border-slate-200', className)}>
-      <div className="divide-y divide-slate-100">
-        {/* Header */}
-        <div
-          className="grid gap-4 bg-slate-50 px-4 py-3"
-          style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
-        >
-          {Array.from({ length: cols }).map((_, i) => (
-            <div key={`h-${i}`} className="h-3 w-16 animate-pulse rounded bg-slate-200" />
-=======
     <div className={cn('border-border-default overflow-hidden rounded-xl border', className)}>
       <div className="divide-border-subtle divide-y">
         {/* Header */}
@@ -36,7 +25,6 @@ export function TableSkeleton({
         >
           {Array.from({ length: cols }).map((_, i) => (
             <div key={`h-${i}`} className="bg-border-subtle h-3 w-16 animate-pulse rounded" />
->>>>>>> recover/cabinet-wip-from-stash
           ))}
         </div>
         {/* Rows */}
@@ -50,11 +38,7 @@ export function TableSkeleton({
               <div
                 key={c}
                 className={cn(
-<<<<<<< HEAD
-                  'h-4 animate-pulse rounded bg-slate-100',
-=======
                   'bg-bg-surface2 h-4 animate-pulse rounded',
->>>>>>> recover/cabinet-wip-from-stash
                   c === 0 ? 'w-24' : 'max-w-32'
                 )}
               />

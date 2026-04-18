@@ -17,11 +17,7 @@ export default function PriceComparisonPage() {
   const [manualUrl, setManualUrl] = useState('');
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Парсинг цен и сравнение с рынком"
         description="Парсинг цен артикулов на платформе. Автоматическое сравнение с рынком (benchmark) или ручное — добавьте ссылку с другого сайта для сравнения."
@@ -37,11 +33,7 @@ export default function PriceComparisonPage() {
               Рынок
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/pricing">Pricing</Link>
-=======
               <Link href={ROUTES.brand.pricing}>Pricing</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -72,13 +64,8 @@ export default function PriceComparisonPage() {
                 >
                   <span className="text-sm font-medium">{row.sku}</span>
                   <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                    <span className="text-slate-600">{row.platform}</span>
-                    <span className="text-[11px] text-slate-400">→ {row.market}</span>
-=======
                     <span className="text-text-secondary">{row.platform}</span>
                     <span className="text-text-muted text-[11px]">→ {row.market}</span>
->>>>>>> recover/cabinet-wip-from-stash
                     <Badge
                       variant={row.diff.startsWith('+') ? 'secondary' : 'outline'}
                       className="text-[10px]"
@@ -106,11 +93,7 @@ export default function PriceComparisonPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-<<<<<<< HEAD
-              <label className="text-[11px] font-bold uppercase text-slate-500">
-=======
               <label className="text-text-secondary text-[11px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                 URL для парсинга
               </label>
               <Input

@@ -31,11 +31,7 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto px-4 py-4">
-=======
     <div className="mx-auto w-full max-w-5xl px-4 py-4 sm:px-6">
->>>>>>> recover/cabinet-wip-from-stash
       <header className="mb-8 flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <ShoppingCart className="h-8 w-8" />
@@ -69,11 +65,7 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
                 <span className="font-mono">#B2B-0012</span>.
               </p>
               <p>
-<<<<<<< HEAD
-                <span className="font-semibold">A.P.C.</span> опубликовал новую коллекцию.
-=======
                 <span className="font-semibold">Nordic Wool</span> опубликовал новую коллекцию.
->>>>>>> recover/cabinet-wip-from-stash
               </p>
               <p>
                 Товар <span className="font-semibold">"Шелковое платье-миди"</span> от Syntha снова
@@ -85,12 +77,6 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
       </header>
 
       <Tabs value={getShopCurrentTab()} onValueChange={handleShopTabChange} className="w-full">
-<<<<<<< HEAD
-        <TabsList className="h-auto flex-wrap justify-start">
-          {mainShopNavLinks.map((link) => (
-            <TabsTrigger key={link.value} value={link.value}>
-              <link.icon className="mr-2 h-4 w-4" />
-=======
         {/* cabinetSurface v1 */}
         <TabsList className={cn(cabinetSurface.tabsList, 'flex-wrap')}>
           {mainShopNavLinks.map((link) => (
@@ -103,7 +89,6 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
               )}
             >
               <link.icon className="h-4 w-4 shrink-0" />
->>>>>>> recover/cabinet-wip-from-stash
               {link.label}
             </TabsTrigger>
           ))}

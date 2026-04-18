@@ -72,11 +72,7 @@ export default function ClientGiftRegistryPage() {
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Список подарков</h1>
-<<<<<<< HEAD
-          <p className="text-sm text-slate-500">
-=======
           <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
             Свадьба, ДР, юбилей — отметьте «куплено» по всей сети. РФ.
           </p>
         </div>
@@ -128,19 +124,11 @@ export default function ClientGiftRegistryPage() {
             {MOCK_REGISTRY.items.map((item) => (
               <li
                 key={item.id}
-<<<<<<< HEAD
-                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3"
-              >
-                <div>
-                  <p className="font-medium">{item.title}</p>
-                  <p className="text-xs text-slate-500">
-=======
                 className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"
               >
                 <div>
                   <p className="font-medium">{item.title}</p>
                   <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                     {item.priceRub != null ? `${item.priceRub.toLocaleString('ru-RU')} ₽` : ''} ·{' '}
                     {statusLabels[item.status]}
                     {item.purchasedByLabel && ` · ${item.purchasedByLabel}`}
@@ -155,11 +143,7 @@ export default function ClientGiftRegistryPage() {
               </li>
             ))}
           </ul>
-<<<<<<< HEAD
-          <p className="mt-3 text-xs text-slate-400">
-=======
           <p className="text-text-muted mt-3 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
             API: создание списка, добавление позиций, отметка «куплено» из заказа — при подключении
             бэкенда.
           </p>

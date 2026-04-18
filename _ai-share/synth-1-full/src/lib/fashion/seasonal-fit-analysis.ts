@@ -4,14 +4,8 @@ import { compositionSearchText } from './parse-composition';
 
 /** Анализ сезонности материала в зависимости от плотности (GSM) и климата РФ. */
 export function analyzeSeasonalFit(product: Product): SeasonalMaterialFitV1 {
-<<<<<<< HEAD
-  const isNatural =
-    product.composition?.toLowerCase().includes('cotton') ||
-    product.composition?.toLowerCase().includes('wool');
-=======
   const comp = compositionSearchText(product);
   const isNatural = comp.includes('cotton') || comp.includes('wool');
->>>>>>> recover/cabinet-wip-from-stash
   const gsm = product.category === 'Outerwear' ? 450 : product.category === 'Top' ? 180 : 250;
 
   let range = '+10°C to +25°C';

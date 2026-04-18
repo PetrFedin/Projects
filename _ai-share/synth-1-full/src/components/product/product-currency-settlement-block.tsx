@@ -45,17 +45,6 @@ export function ProductCurrencySettlementBlock({ product }: { product: Product }
   const settlement = getB2BCurrencySettlement('PO-2026-001', 5000000, selectedCurrency);
 
   return (
-<<<<<<< HEAD
-    <Card className="group relative my-4 overflow-hidden border-2 border-slate-100 bg-slate-50/5 p-4 shadow-sm">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-slate-600">
-          <Globe className="h-4 w-4" />
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
-            Regional B2B Settlement
-          </h4>
-        </div>
-        <div className="text-[8px] font-black uppercase tracking-widest text-slate-400">
-=======
     <Card className="border-border-subtle bg-bg-surface2/5 group relative my-4 overflow-hidden border-2 p-4 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
         <div className="text-text-secondary flex items-center gap-2">
@@ -65,7 +54,6 @@ export function ProductCurrencySettlementBlock({ product }: { product: Product }
           </h4>
         </div>
         <div className="text-text-muted text-[8px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
           Multi-Currency
         </div>
       </div>
@@ -77,13 +65,8 @@ export function ProductCurrencySettlementBlock({ product }: { product: Product }
             onClick={() => setSelectedCurrency(c.code)}
             className={`rounded-xl border-2 px-3 py-1.5 text-[8px] font-black uppercase tracking-widest transition-all ${
               selectedCurrency === c.code
-<<<<<<< HEAD
-                ? 'border-indigo-600 bg-indigo-50 text-indigo-700'
-                : 'border-slate-100 bg-white text-slate-400'
-=======
                 ? 'border-accent-primary bg-accent-primary/10 text-accent-primary'
                 : 'border-border-subtle text-text-muted bg-white'
->>>>>>> recover/cabinet-wip-from-stash
             }`}
           >
             {c.code}
@@ -91,23 +74,6 @@ export function ProductCurrencySettlementBlock({ product }: { product: Product }
         ))}
       </div>
 
-<<<<<<< HEAD
-      <div className="space-y-3 rounded-2xl border border-slate-100 bg-white p-3 shadow-sm">
-        <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-slate-500">
-          <span>Exchange Rate</span>
-          <span className="text-slate-800">
-            1 RUB = {settlement.exchangeRate} {settlement.currency}
-          </span>
-        </div>
-        <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-slate-500">
-          <span>Base Amount</span>
-          <span className="text-slate-800">{settlement.baseAmount.toLocaleString()} RUB</span>
-        </div>
-        <div className="h-px bg-slate-50" />
-        <div className="flex items-center justify-between text-[11px] font-black uppercase text-slate-900">
-          <span>Settlement Total</span>
-          <span className="text-indigo-600">
-=======
       <div className="border-border-subtle space-y-3 rounded-2xl border bg-white p-3 shadow-sm">
         <div className="text-text-secondary flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
           <span>Exchange Rate</span>
@@ -123,17 +89,12 @@ export function ProductCurrencySettlementBlock({ product }: { product: Product }
         <div className="text-text-primary flex items-center justify-between text-[11px] font-black uppercase">
           <span>Settlement Total</span>
           <span className="text-accent-primary">
->>>>>>> recover/cabinet-wip-from-stash
             {settlement.finalAmount.toLocaleString()} {settlement.currency}
           </span>
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div className="group/btn relative mt-4 flex cursor-pointer items-center justify-between overflow-hidden rounded-xl bg-indigo-600 p-2.5 text-white shadow-lg shadow-indigo-100">
-=======
       <div className="bg-accent-primary shadow-accent-primary/10 group/btn relative mt-4 flex cursor-pointer items-center justify-between overflow-hidden rounded-xl p-2.5 text-white shadow-lg">
->>>>>>> recover/cabinet-wip-from-stash
         <div className="absolute right-0 top-0 p-2 opacity-10 transition-transform group-hover/btn:scale-125">
           <CreditCard className="h-12 w-12 text-white" />
         </div>

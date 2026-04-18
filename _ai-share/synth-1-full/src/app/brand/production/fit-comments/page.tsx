@@ -37,11 +37,7 @@ const FIT_DEFAULT: FitCommentsDraft = {
       id: 'S-101',
       sku: 'CP-001',
       name: 'Cyber Parka',
-<<<<<<< HEAD
-      stage: 'Proto 2' as const,
-=======
       stage: 'Прототип 2',
->>>>>>> recover/cabinet-wip-from-stash
       comments: 'Укоротить рукав на 2 см',
       hasPhoto: true,
     },
@@ -49,11 +45,7 @@ const FIT_DEFAULT: FitCommentsDraft = {
       id: 'S-102',
       sku: 'CR-002',
       name: 'Cargo Pants',
-<<<<<<< HEAD
-      stage: 'PP / Gold' as const,
-=======
       stage: 'PP / Gold',
->>>>>>> recover/cabinet-wip-from-stash
       comments: 'Готово к утверждению',
       hasPhoto: true,
     },
@@ -61,19 +53,11 @@ const FIT_DEFAULT: FitCommentsDraft = {
       id: 'S-103',
       sku: 'OS-003',
       name: 'Overshirt',
-<<<<<<< HEAD
-      stage: 'Proto 1' as const,
-      comments: '',
-      hasPhoto: false,
-    },
-  ] satisfies FitSample[],
-=======
       stage: 'Прототип 1',
       comments: '',
       hasPhoto: false,
     },
   ],
->>>>>>> recover/cabinet-wip-from-stash
   selectedId: 'S-101',
 };
 
@@ -97,11 +81,7 @@ export default function FitCommentsPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Журнал комментариев по примеркам"
         description={
@@ -116,18 +96,6 @@ export default function FitCommentsPage() {
         badges={
           <>
             <Badge variant="outline" className="text-[9px]">
-<<<<<<< HEAD
-              Proto → Gold
-            </Badge>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/production">Production</Link>
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/production/gold-sample">Gold Sample</Link>
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/marketing/samples">PR Samples</Link>
-=======
               Прототип → эталон
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
@@ -138,7 +106,6 @@ export default function FitCommentsPage() {
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href={ROUTES.brand.marketingSamples}>Промо-образцы</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -159,11 +126,7 @@ export default function FitCommentsPage() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
-<<<<<<< HEAD
-        <Card className="rounded-xl border border-slate-200 shadow-sm md:col-span-1">
-=======
         <Card className="border-border-default rounded-xl border shadow-sm md:col-span-1">
->>>>>>> recover/cabinet-wip-from-stash
           <CardHeader>
             <CardTitle className="text-sm">Образцы</CardTitle>
             <CardDescription>Выберите образец</CardDescription>
@@ -179,19 +142,11 @@ export default function FitCommentsPage() {
                       'w-full rounded-xl border p-3 text-left transition-all',
                       data.selectedId === s.id
                         ? 'border-teal-200 bg-teal-50'
-<<<<<<< HEAD
-                        : 'border-slate-200 bg-slate-50 hover:border-teal-200'
-                    )}
-                  >
-                    <p className="text-sm font-bold">{s.name}</p>
-                    <p className="text-[10px] text-slate-500">
-=======
                         : 'bg-bg-surface2 border-border-default hover:border-teal-200'
                     )}
                   >
                     <p className="text-sm font-bold">{s.name}</p>
                     <p className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                       {s.sku} · {s.stage}
                     </p>
                   </button>
@@ -201,11 +156,7 @@ export default function FitCommentsPage() {
           </CardContent>
         </Card>
 
-<<<<<<< HEAD
-        <Card className="rounded-xl border border-slate-200 shadow-sm md:col-span-2">
-=======
         <Card className="border-border-default rounded-xl border shadow-sm md:col-span-2">
->>>>>>> recover/cabinet-wip-from-stash
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-sm">
               {sample ? `${sample.name} (${sample.stage})` : 'Журнал примерок'}
@@ -232,17 +183,10 @@ export default function FitCommentsPage() {
                         'rounded-xl border p-3 text-center',
                         sample.stage === st
                           ? 'border-teal-200 bg-teal-50'
-<<<<<<< HEAD
-                          : 'border-slate-200 bg-slate-50'
-                      )}
-                    >
-                      <p className="text-[10px] font-bold uppercase text-slate-500">{st}</p>
-=======
                           : 'bg-bg-surface2 border-border-default'
                       )}
                     >
                       <p className="text-text-secondary text-[10px] font-bold uppercase">{st}</p>
->>>>>>> recover/cabinet-wip-from-stash
                       {sample.stage === st && (
                         <CheckCircle2 className="mx-auto mt-1 h-5 w-5 text-teal-600" />
                       )}
@@ -250,15 +194,10 @@ export default function FitCommentsPage() {
                   ))}
                 </div>
                 {sample.comments && (
-<<<<<<< HEAD
-                  <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-                    <p className="text-[10px] font-bold uppercase text-slate-500">Комментарии</p>
-=======
                   <div className="bg-bg-surface2 border-border-default rounded-lg border p-3">
                     <p className="text-text-secondary text-[10px] font-bold uppercase">
                       Комментарии
                     </p>
->>>>>>> recover/cabinet-wip-from-stash
                     <p className="whitespace-pre-wrap text-sm">{sample.comments}</p>
                   </div>
                 )}
@@ -281,22 +220,14 @@ export default function FitCommentsPage() {
                     <Upload className="mr-1 h-4 w-4" /> Загрузить фото
                   </Button>
                 </div>
-<<<<<<< HEAD
-                <div className="flex h-24 items-center justify-center rounded-xl border border-dashed border-slate-200 text-sm text-slate-400">
-=======
                 <div className="border-border-default text-text-muted flex h-24 items-center justify-center rounded-xl border border-dashed text-sm">
->>>>>>> recover/cabinet-wip-from-stash
                   {sample.hasPhoto
                     ? 'Фото образца (плейсхолдер)'
                     : 'Перетащите фото или нажмите «Загрузить фото»'}
                 </div>
               </>
             ) : (
-<<<<<<< HEAD
-              <p className="text-sm text-slate-500">Выберите образец слева</p>
-=======
               <p className="text-text-secondary text-sm">Выберите образец слева</p>
->>>>>>> recover/cabinet-wip-from-stash
             )}
           </CardContent>
         </Card>

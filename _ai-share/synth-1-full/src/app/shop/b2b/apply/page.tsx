@@ -77,11 +77,7 @@ export default function ShopB2BApplyPage() {
 
   if (sent && result) {
     return (
-<<<<<<< HEAD
-      <div className="container mx-auto max-w-xl px-4 py-6 pb-24">
-=======
       <RegistryPageShell className="max-w-xl space-y-6">
->>>>>>> recover/cabinet-wip-from-stash
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2 text-emerald-600">
@@ -105,11 +101,7 @@ export default function ShopB2BApplyPage() {
                 <Link href={ROUTES.shop.b2bTradeShows}>Мои выставки</Link>
               </Button>
               <Button variant="outline" asChild>
-<<<<<<< HEAD
-                <Link href={ROUTES.shop.b2b}>B2B Шоурум</Link>
-=======
                 <Link href={ROUTES.shop.b2bShowroom}>B2B Шоурум</Link>
->>>>>>> recover/cabinet-wip-from-stash
               </Button>
             </div>
           </CardContent>
@@ -119,19 +111,6 @@ export default function ShopB2BApplyPage() {
   }
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <h1 className="flex items-center gap-2 text-2xl font-bold uppercase">
-          <UserPlus className="h-6 w-6" /> Подать заявку на партнёрство
-        </h1>
-      </div>
-=======
     <RegistryPageShell className="max-w-xl space-y-6">
       <ShopB2bContentHeader
         lead={
@@ -143,7 +122,6 @@ export default function ShopB2BApplyPage() {
           </>
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
       <Card>
         <CardHeader>
           <CardTitle>Данные заявки</CardTitle>
@@ -151,11 +129,7 @@ export default function ShopB2BApplyPage() {
             Доступ к шоуруму, каталогу и оптовым заказам после одобрения брендом.
           </CardDescription>
           {form.brandName && (
-<<<<<<< HEAD
-            <p className="mt-2 text-sm font-medium text-indigo-600">
-=======
             <p className="text-accent-primary mt-2 text-sm font-medium">
->>>>>>> recover/cabinet-wip-from-stash
               Заявка на доступ к бренду: <strong>{form.brandName}</strong>
             </p>
           )}
@@ -260,11 +234,7 @@ export default function ShopB2BApplyPage() {
                 {loading ? 'Отправка…' : 'Отправить заявку'}
               </Button>
               <Button type="button" variant="outline" asChild>
-<<<<<<< HEAD
-                <Link href={ROUTES.shop.b2b}>Отмена</Link>
-=======
                 <Link href={ROUTES.shop.home}>Отмена</Link>
->>>>>>> recover/cabinet-wip-from-stash
               </Button>
             </div>
           </form>
@@ -275,10 +245,6 @@ export default function ShopB2BApplyPage() {
         title="Мои выставки, заказы, шоурум"
         className="mt-6"
       />
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

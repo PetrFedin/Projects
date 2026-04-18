@@ -51,24 +51,6 @@ export default function EzOrderPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2bOrderMode}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <Zap className="h-6 w-6" /> EZ Order
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            NuOrder: открыл лайншит → выбрал qty → отправил. Без перехода в матрицу.
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell
       className="min-h-[200px] max-w-4xl space-y-6"
       data-testid={tid.page('shop-b2b-ez-order')}
@@ -77,7 +59,6 @@ export default function EzOrderPage() {
         backHref={ROUTES.shop.b2bOrderMode}
         lead="NuOrder: открыл лайншит → выбрал qty → отправил, без перехода в матрицу (EZ Order)."
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -91,31 +72,19 @@ export default function EzOrderPage() {
             {LINESHEET_PRODUCTS.map((p) => (
               <li
                 key={p.id}
-<<<<<<< HEAD
-                className="flex items-center justify-between gap-4 rounded-xl border border-slate-100 bg-slate-50 p-3"
-=======
                 className="border-border-subtle bg-bg-surface2 flex items-center justify-between gap-4 rounded-xl border p-3"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <div className="flex min-w-0 items-center gap-3">
                   {p.images?.[0]?.url && (
                     <img
                       src={p.images[0].url}
                       alt=""
-<<<<<<< HEAD
-                      className="h-14 w-14 shrink-0 rounded-lg object-cover"
-=======
                       className="size-14 shrink-0 rounded-lg object-cover"
->>>>>>> recover/cabinet-wip-from-stash
                     />
                   )}
                   <div className="min-w-0">
                     <p className="truncate font-medium">{p.name}</p>
-<<<<<<< HEAD
-                    <p className="text-xs text-slate-500">
-=======
                     <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                       {p.sku} · {p.price.toLocaleString('ru-RU')} ₽
                     </p>
                   </div>
@@ -143,11 +112,7 @@ export default function EzOrderPage() {
             <span className="font-semibold">{totalAmount.toLocaleString('ru-RU')} ₽</span>
           </div>
           <Button className="mt-4 w-full" onClick={handleSubmit} disabled={totalUnits === 0}>
-<<<<<<< HEAD
-            <ShoppingBag className="mr-2 h-4 w-4" /> Отправить заказ (EZ Order)
-=======
             <ShoppingBag className="mr-2 size-4" /> Отправить заказ (EZ Order)
->>>>>>> recover/cabinet-wip-from-stash
           </Button>
         </CardContent>
       </Card>
@@ -156,11 +121,7 @@ export default function EzOrderPage() {
         <Card className="border-accent-primary/30 bg-accent-primary/10 mb-6">
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-sm">
-<<<<<<< HEAD
-              <Link2 className="h-4 w-4" /> Заказ по ссылке (NuOrder)
-=======
               <Link2 className="size-4" /> Заказ по ссылке (NuOrder)
->>>>>>> recover/cabinet-wip-from-stash
             </CardTitle>
             <CardDescription>
               Отправьте ссылку байеру — он оформит заказ без входа в платформу
@@ -178,15 +139,7 @@ export default function EzOrderPage() {
                   setTimeout(() => setCopied(false), 2000);
                 }}
               >
-<<<<<<< HEAD
-                {copied ? (
-                  <Check className="h-4 w-4 text-green-600" />
-                ) : (
-                  <Copy className="h-4 w-4" />
-                )}
-=======
                 {copied ? <Check className="size-4 text-green-600" /> : <Copy className="size-4" />}
->>>>>>> recover/cabinet-wip-from-stash
               </Button>
             </div>
           </CardContent>
@@ -194,11 +147,7 @@ export default function EzOrderPage() {
       )}
       <div className="flex flex-wrap gap-2">
         <Button variant="outline" size="sm" onClick={handleCreateLink}>
-<<<<<<< HEAD
-          <Link2 className="mr-1 h-3 w-3" /> Создать ссылку для заказа
-=======
           <Link2 className="mr-1 size-3" /> Создать ссылку для заказа
->>>>>>> recover/cabinet-wip-from-stash
         </Button>
         <Button variant="outline" size="sm" asChild>
           <Link href={ROUTES.shop.b2bMatrix}>Матрица заказа</Link>
@@ -212,10 +161,6 @@ export default function EzOrderPage() {
         title="Матрица, Working Order, аналитика"
         className="mt-6"
       />
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

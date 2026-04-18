@@ -29,11 +29,7 @@ const statusConfig: Record<
 > = {
   pending: { label: 'Ожидает производства', icon: Clock, color: 'text-amber-600' },
   in_production: { label: 'В производстве', icon: RotateCw, color: 'text-blue-600' },
-<<<<<<< HEAD
-  shipped: { label: 'Отправлен', icon: Truck, color: 'text-indigo-600' },
-=======
   shipped: { label: 'Отправлен', icon: Truck, color: 'text-accent-primary' },
->>>>>>> recover/cabinet-wip-from-stash
   delivered: { label: 'Доставлен', icon: Package, color: 'text-green-600' },
   cancelled: { label: 'Отменен', icon: XCircle, color: 'text-red-600' },
 };

@@ -91,11 +91,7 @@ export function EventDialog({
               {draft.linkedPinId ? (
                 <p className="font-mono text-[11px]">
                   Метка скетча:{' '}
-<<<<<<< HEAD
-                  <span className="text-indigo-800">{draft.linkedPinId.slice(0, 12)}…</span>
-=======
                   <span className="text-accent-primary">{draft.linkedPinId.slice(0, 12)}…</span>
->>>>>>> recover/cabinet-wip-from-stash
                 </p>
               ) : null}
               {draft.sketchPageUrl ? (

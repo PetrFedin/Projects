@@ -241,11 +241,7 @@ export type RecentActivity = {
 };
 
 /** Базовые события без даты; dayOffset = 0 сегодня, -1 вчера и т.д. */
-<<<<<<< HEAD
-const RECENT_ACTIVITIES_BASE: Omit<RecentActivity, 'dateStr'> & { dayOffset: number }[] = [
-=======
 const RECENT_ACTIVITIES_BASE: (Omit<RecentActivity, 'dateStr'> & { dayOffset: number })[] = [
->>>>>>> recover/cabinet-wip-from-stash
   {
     user: 'Анна К.',
     action: 'Обновила юридический адрес компании',
@@ -473,11 +469,7 @@ export const HEALTH_METRICS: HealthMetric[] = [
   {
     label: 'Полнота профиля',
     score: 92,
-<<<<<<< HEAD
-    color: 'bg-indigo-500',
-=======
     color: 'bg-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
     desc: 'Заполнены все обязательные поля',
     href: '/brand',
     trend: 2,
@@ -687,11 +679,7 @@ export const PARTNER_BUSINESS_PROCESSES: PartnerProcessItem[] = [
     changePct30d: 100,
     sub: 'с партнёрами',
     icon: FileText,
-<<<<<<< HEAD
-    color: 'bg-slate-600',
-=======
     color: 'bg-text-secondary',
->>>>>>> recover/cabinet-wip-from-stash
     description:
       'Договоры, спецификации, акты с партнёрами. Документы на подпись и истекающие в ближайшее время.',
     tips: ['Проверяйте срок действия договоров', 'Подписанные документы в ЭДО'],
@@ -772,11 +760,7 @@ export const PARTNER_BUSINESS_PROCESSES: PartnerProcessItem[] = [
     count30d: 0,
     sub: 'аукционы, поставщики',
     icon: ShoppingCart,
-<<<<<<< HEAD
-    color: 'bg-violet-500',
-=======
     color: 'bg-accent-primary/100',
->>>>>>> recover/cabinet-wip-from-stash
     description: 'Аукционы и закупки у поставщиков. Активные торги и приглашения.',
     tips: ['Проверяйте условия поставщиков', 'Сравнивайте предложения'],
     addHref: '/brand/auctions?action=new',

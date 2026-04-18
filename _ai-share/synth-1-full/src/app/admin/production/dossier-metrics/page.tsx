@@ -190,19 +190,11 @@ export default function AdminDossierMetricsPage() {
             <BarChart2 className="h-7 w-7 text-amber-600" />
             Метрики досье ТЗ (Workshop2)
           </h1>
-<<<<<<< HEAD
-          <p className="text-sm text-slate-500">
-            События с клиента: сессия вкладки, сохранения, вехи контура. Хранение: Upstash/KV или
-            локальный NDJSON.{' '}
-            <Link
-              href="/admin/production/dossier-metrics/ops"
-=======
           <p className="text-text-secondary text-sm">
             События с клиента: сессия вкладки, сохранения, вехи контура. Хранение: Upstash/KV или
             локальный NDJSON.{' '}
             <Link
               href={ROUTES.admin.productionDossierMetricsOps}
->>>>>>> recover/cabinet-wip-from-stash
               className="font-medium text-amber-700 underline-offset-2 hover:underline"
             >
               Операции и воронка
@@ -215,21 +207,12 @@ export default function AdminDossierMetricsPage() {
         <CardHeader className="pb-3">
           <CardTitle className="text-sm">Фильтры</CardTitle>
           <CardDescription>
-<<<<<<< HEAD
-            Клиент шлёт <code className="rounded bg-slate-100 px-1">clientActorId</code>,
-            опционально <code className="rounded bg-slate-100 px-1">teamTag</code> (localStorage),
-            при входе в аккаунт — <code className="rounded bg-slate-100 px-1">appUserUid</code> и{' '}
-            <code className="rounded bg-slate-100 px-1">orgId</code> (тенант). Без email/ФИО.
-            Отключить uid/org на клиенте:{' '}
-            <code className="rounded bg-slate-100 px-1">
-=======
             Клиент шлёт <code className="bg-bg-surface2 rounded px-1">clientActorId</code>,
             опционально <code className="bg-bg-surface2 rounded px-1">teamTag</code> (localStorage),
             при входе в аккаунт — <code className="bg-bg-surface2 rounded px-1">appUserUid</code> и{' '}
             <code className="bg-bg-surface2 rounded px-1">orgId</code> (тенант). Без email/ФИО.
             Отключить uid/org на клиенте:{' '}
             <code className="bg-bg-surface2 rounded px-1">
->>>>>>> recover/cabinet-wip-from-stash
               NEXT_PUBLIC_W2_DOSSIER_METRICS_DISABLE_USER_CONTEXT=1
             </code>
             ; на сервере не писать их в хранилище:{' '}
@@ -239,11 +222,7 @@ export default function AdminDossierMetricsPage() {
         </CardHeader>
         <CardContent className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
           <div className="space-y-1">
-<<<<<<< HEAD
-            <label className="text-[10px] font-bold uppercase text-slate-400">
-=======
             <label className="text-text-muted text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
               Коллекции (через запятую)
             </label>
             <Input
@@ -254,11 +233,7 @@ export default function AdminDossierMetricsPage() {
             />
           </div>
           <div className="space-y-1">
-<<<<<<< HEAD
-            <label className="text-[10px] font-bold uppercase text-slate-400">
-=======
             <label className="text-text-muted text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
               Окно по времени (capturedAt)
             </label>
             <Select
@@ -357,11 +332,7 @@ export default function AdminDossierMetricsPage() {
             <Download className="h-3.5 w-3.5" />
             CSV
           </Button>
-<<<<<<< HEAD
-          <span className="text-[10px] text-slate-400">
-=======
           <span className="text-text-muted text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
             файл (fallback): {data.fileFallbackPath}
           </span>
         </div>
@@ -381,11 +352,7 @@ export default function AdminDossierMetricsPage() {
           <CardContent className="h-[320px] w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartRows} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
-<<<<<<< HEAD
-                <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200" />
-=======
                 <CartesianGrid strokeDasharray="3 3" className="stroke-border-subtle" />
->>>>>>> recover/cabinet-wip-from-stash
                 <XAxis
                   dataKey="label"
                   tick={{ fontSize: 10 }}
@@ -477,11 +444,7 @@ export default function AdminDossierMetricsPage() {
                 </thead>
                 <tbody>
                   {data.teamLatest.byTeam.map((r) => (
-<<<<<<< HEAD
-                    <tr key={r.teamTag} className="border-b border-slate-100">
-=======
                     <tr key={r.teamTag} className="border-border-subtle border-b">
->>>>>>> recover/cabinet-wip-from-stash
                       <td
                         className="max-w-[200px] truncate py-1.5 pr-2 font-mono"
                         title={r.teamTag}
@@ -502,11 +465,7 @@ export default function AdminDossierMetricsPage() {
               <CardTitle className="text-sm">По организации (orgId)</CardTitle>
               <CardDescription>
                 Последний снимок на артикул; без org —{' '}
-<<<<<<< HEAD
-                <code className="rounded bg-slate-100 px-1">__none__</code>
-=======
                 <code className="bg-bg-surface2 rounded px-1">__none__</code>
->>>>>>> recover/cabinet-wip-from-stash
               </CardDescription>
             </CardHeader>
             <CardContent className="max-h-[360px] overflow-auto text-sm">

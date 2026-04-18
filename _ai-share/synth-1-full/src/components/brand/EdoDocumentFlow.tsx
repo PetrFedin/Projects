@@ -57,21 +57,13 @@ export function EdoDocumentFlow() {
           {docs.map((doc) => (
             <div
               key={doc.id}
-<<<<<<< HEAD
-              className="flex items-center justify-between rounded-lg border border-slate-100 p-3 hover:bg-slate-50"
-=======
               className="border-border-subtle hover:bg-bg-surface2 flex items-center justify-between rounded-lg border p-3"
->>>>>>> recover/cabinet-wip-from-stash
             >
               <div>
                 <p className="text-sm font-bold">
                   {doc.type} {doc.id}
                 </p>
-<<<<<<< HEAD
-                <p className="text-[10px] text-slate-500">
-=======
                 <p className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                   {doc.partner} · {doc.date}
                 </p>
               </div>

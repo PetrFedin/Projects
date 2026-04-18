@@ -117,11 +117,7 @@ export default function ProductReviews({ productId }: { productId: string }) {
     setIsSummarizing(true);
     setSummary(null);
     try {
-<<<<<<< HEAD
-      const result = await summarizeProductReviews({
-=======
       const result = await summarizeProductReviewsClient({
->>>>>>> recover/cabinet-wip-from-stash
         reviews: mockReviews.map((r) => ({ text: r.text, rating: r.rating })),
       });
       setSummary(result.summary);

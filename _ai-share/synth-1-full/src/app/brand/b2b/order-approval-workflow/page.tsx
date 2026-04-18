@@ -16,11 +16,7 @@ const MOCK_APPROVALS = [
   {
     id: 'a1',
     orderId: 'PO-301',
-<<<<<<< HEAD
-    partner: 'Podium',
-=======
     partner: 'Демо-магазин · Москва 1',
->>>>>>> recover/cabinet-wip-from-stash
     requestedAt: '2026-03-10T09:00:00',
     step: 'credit_check',
     stepLabel: 'Проверка лимита',
@@ -39,11 +35,7 @@ const MOCK_APPROVALS = [
 
 export default function OrderApprovalWorkflowPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="space-y-6">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Order Approval Workflow"
         description="Многошаговое согласование B2B заказа: лимит, менеджер, кредит, особые условия. JOOR-style. Связь с заказами и финансами."
@@ -55,11 +47,7 @@ export default function OrderApprovalWorkflowPage() {
       <div className="flex flex-wrap items-center gap-3">
         <Link href={ROUTES.brand.b2bOrders}>
           <Button variant="ghost" size="icon">
-<<<<<<< HEAD
-            <ArrowLeft className="h-4 w-4" />
-=======
             <ArrowLeft className="size-4" />
->>>>>>> recover/cabinet-wip-from-stash
           </Button>
         </Link>
         <h1 className="text-2xl font-bold uppercase">Order Approval Workflow</h1>
@@ -80,19 +68,11 @@ export default function OrderApprovalWorkflowPage() {
             {MOCK_APPROVALS.map((a) => (
               <li
                 key={a.id}
-<<<<<<< HEAD
-                className="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4"
-              >
-                <div>
-                  <p className="font-mono font-semibold">{a.orderId}</p>
-                  <p className="text-[11px] text-slate-500">
-=======
                 className="border-border-default bg-bg-surface2 flex items-center justify-between gap-4 rounded-xl border p-4"
               >
                 <div>
                   <p className="font-mono font-semibold">{a.orderId}</p>
                   <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
                     {a.partner} · {a.stepLabel}
                   </p>
                 </div>
@@ -102,24 +82,14 @@ export default function OrderApprovalWorkflowPage() {
                     className="gap-1 text-[9px]"
                   >
                     {a.status === 'approved' ? (
-<<<<<<< HEAD
-                      <CheckCircle2 className="h-3 w-3" />
-                    ) : (
-                      <Clock className="h-3 w-3" />
-=======
                       <CheckCircle2 className="size-3" />
                     ) : (
                       <Clock className="size-3" />
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                     {a.status === 'approved' ? 'Согласован' : 'Ожидает'}
                   </Badge>
                   <Button variant="ghost" size="sm" asChild>
-<<<<<<< HEAD
-                    <Link href={`${ROUTES.brand.b2bOrders}/${a.orderId}`}>Открыть</Link>
-=======
                     <Link href={ROUTES.brand.b2bOrder(a.orderId)}>Открыть</Link>
->>>>>>> recover/cabinet-wip-from-stash
                   </Button>
                 </div>
               </li>

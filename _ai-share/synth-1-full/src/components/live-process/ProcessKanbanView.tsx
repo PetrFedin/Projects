@@ -51,46 +51,27 @@ function KanbanCard({
       <Card
         className={cn(
           'min-w-[180px] cursor-pointer p-3 transition-all hover:shadow-md',
-<<<<<<< HEAD
-          isSelected ? 'ring-2 ring-indigo-500' : 'hover:border-indigo-300'
-=======
           isSelected ? 'ring-accent-primary ring-2' : 'hover:border-accent-primary/30'
->>>>>>> recover/cabinet-wip-from-stash
         )}
       >
         <CardContent className="space-y-1 p-0">
           <div className="truncate text-sm font-medium" title={contextLabel}>
             {contextLabel}
           </div>
-<<<<<<< HEAD
-          <div className="flex items-center gap-1.5 text-xs text-slate-500">
-=======
           <div className="text-text-secondary flex items-center gap-1.5 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
             {runtime.status === 'done' && (
               <CheckCircle2 className="h-3.5 w-3 shrink-0 text-emerald-500" />
             )}
             {runtime.status === 'in_progress' && (
-<<<<<<< HEAD
-              <CircleDot className="h-3.5 w-3 shrink-0 text-indigo-500" />
-            )}
-            {runtime.status === 'not_started' && (
-              <Clock className="h-3.5 w-3 shrink-0 text-slate-400" />
-=======
               <CircleDot className="text-accent-primary h-3.5 w-3 shrink-0" />
             )}
             {runtime.status === 'not_started' && (
               <Clock className="text-text-muted h-3.5 w-3 shrink-0" />
->>>>>>> recover/cabinet-wip-from-stash
             )}
             <span className="truncate">{primary ?? '—'}</span>
           </div>
           {(runtime.plannedStartAt || runtime.plannedEndAt) && (
-<<<<<<< HEAD
-            <div className="truncate text-[10px] text-slate-400">
-=======
             <div className="text-text-muted truncate text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
               {runtime.plannedStartAt && new Date(runtime.plannedStartAt).toLocaleDateString('ru')}
               {runtime.plannedStartAt && runtime.plannedEndAt && ' — '}
               {runtime.plannedEndAt && new Date(runtime.plannedEndAt).toLocaleDateString('ru')}
@@ -149,19 +130,11 @@ export function ProcessKanbanView({
         {columns.map(({ stage, cards }) => (
           <div
             key={stage.id}
-<<<<<<< HEAD
-            className="w-[220px] flex-shrink-0 rounded-lg border bg-slate-50/50 p-2"
-          >
-            <div className="mb-2 flex items-center justify-between text-sm font-medium">
-              <span className="truncate">{stage.title}</span>
-              <span className="ml-1 shrink-0 text-xs text-slate-400">{cards.length}</span>
-=======
             className="bg-bg-surface2/80 w-[220px] flex-shrink-0 rounded-lg border p-2"
           >
             <div className="mb-2 flex items-center justify-between text-sm font-medium">
               <span className="truncate">{stage.title}</span>
               <span className="text-text-muted ml-1 shrink-0 text-xs">{cards.length}</span>
->>>>>>> recover/cabinet-wip-from-stash
             </div>
             <div className="min-h-[60px] space-y-2">
               {cards.map((c) => (

@@ -27,15 +27,6 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 export function GlobalLivePlayer() {
-<<<<<<< HEAD
-  const {
-    activeLiveStream,
-    setActiveLiveStream,
-    isLivePlayerMinimized,
-    setIsLivePlayerMinimized,
-    liveDuration,
-  } = useUIState();
-=======
   const { activeLiveStream, setActiveLiveStream, isLivePlayerMinimized, setIsLivePlayerMinimized } =
     useUIState();
   const [liveDuration, setLiveDuration] = useState('00:00:00');
@@ -52,7 +43,6 @@ export function GlobalLivePlayer() {
     }, 1000);
     return () => window.clearInterval(id);
   }, [activeLiveStream]);
->>>>>>> recover/cabinet-wip-from-stash
 
   if (!activeLiveStream) return null;
 
@@ -63,16 +53,6 @@ export function GlobalLivePlayer() {
     showStats: true,
   };
 
-<<<<<<< HEAD
-  const broadcastTypeLabel = {
-    product_launch: 'Презентация коллекции',
-    interview: 'Интервью / Q&A',
-    trend_review: 'Обзор трендов',
-    fashion_show: 'Показ моды',
-  }[(activeLiveStream.broadcastType as keyof typeof broadcastTypeLabel) || 'product_launch'];
-
-=======
->>>>>>> recover/cabinet-wip-from-stash
   return (
     <AnimatePresence>
       {isLivePlayerMinimized ? (
@@ -129,11 +109,7 @@ export function GlobalLivePlayer() {
 
           {/* Scanner Line Decor for Minimized */}
           <motion.div
-<<<<<<< HEAD
-            className="absolute inset-x-0 h-px bg-indigo-500/20"
-=======
             className="bg-accent-primary/20 absolute inset-x-0 h-px"
->>>>>>> recover/cabinet-wip-from-stash
             animate={{ top: ['0%', '100%', '0%'] }}
             transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
           />
@@ -147,18 +123,6 @@ export function GlobalLivePlayer() {
           className="fixed inset-0 z-[9999] flex flex-col overflow-hidden bg-black md:flex-row"
         >
           {/* Left Sidebar: Обсуждение */}
-<<<<<<< HEAD
-          <div className="flex h-full w-full shrink-0 flex-col border-r border-slate-100 bg-white md:w-[320px]">
-            <div className="shrink-0 border-b border-slate-100 p-4">
-              <h3 className="mb-4 text-sm font-black uppercase tracking-tighter text-slate-900">
-                Обсуждение
-              </h3>
-              <div className="space-y-1">
-                <p className="text-[13px] font-black uppercase leading-none tracking-tight text-slate-900">
-                  {activeLiveStream.title}
-                </p>
-                <p className="text-[10px] font-medium text-slate-400">
-=======
           <div className="border-border-subtle flex h-full w-full shrink-0 flex-col border-r bg-white md:w-[320px]">
             <div className="border-border-subtle shrink-0 border-b p-4">
               <h3 className="text-text-primary mb-4 text-sm font-black uppercase tracking-tighter">
@@ -169,7 +133,6 @@ export function GlobalLivePlayer() {
                   {activeLiveStream.title}
                 </p>
                 <p className="text-text-muted text-[10px] font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                   Ведущая: София, стилист Syntha
                 </p>
               </div>
@@ -193,48 +156,23 @@ export function GlobalLivePlayer() {
                 { user: 'Ольга', text: 'Доставка быстрая?', avatar: 'O' },
               ].map((msg, i) => (
                 <div key={i} className="group flex items-start gap-3">
-<<<<<<< HEAD
-                  <Avatar className="h-8 w-8 shrink-0 rounded-full border border-slate-100">
-                    <AvatarFallback className="bg-slate-50 text-[10px] font-black text-slate-400">
-=======
                   <Avatar className="border-border-subtle h-8 w-8 shrink-0 rounded-full border">
                     <AvatarFallback className="bg-bg-surface2 text-text-muted text-[10px] font-black">
->>>>>>> recover/cabinet-wip-from-stash
                       {msg.avatar}
                     </AvatarFallback>
                   </Avatar>
                   <div className="space-y-1">
-<<<<<<< HEAD
-                    <p className="text-[11px] font-black leading-none text-slate-900">{msg.user}</p>
-                    <p className="text-xs font-medium leading-relaxed text-slate-500">{msg.text}</p>
-=======
                     <p className="text-text-primary text-[11px] font-black leading-none">
                       {msg.user}
                     </p>
                     <p className="text-text-secondary text-xs font-medium leading-relaxed">
                       {msg.text}
                     </p>
->>>>>>> recover/cabinet-wip-from-stash
                   </div>
                 </div>
               ))}
             </div>
 
-<<<<<<< HEAD
-            <div className="shrink-0 border-t border-slate-100 p-4">
-              <div className="flex items-center gap-3">
-                <div className="flex h-12 flex-1 items-center rounded-xl border border-slate-100 bg-slate-50 px-4">
-                  <input
-                    type="text"
-                    placeholder="Ваш комментарий..."
-                    className="w-full border-none bg-transparent text-xs font-medium outline-none placeholder:text-slate-400"
-                  />
-                </div>
-                <button className="flex h-10 w-10 items-center justify-center text-slate-400 transition-colors hover:text-slate-900">
-                  <Send className="h-5 w-5" />
-                </button>
-                <button className="flex h-10 w-10 items-center justify-center text-slate-400 transition-colors hover:text-rose-500">
-=======
             <div className="border-border-subtle shrink-0 border-t p-4">
               <div className="flex items-center gap-3">
                 <div className="bg-bg-surface2 border-border-subtle flex h-12 flex-1 items-center rounded-xl border px-4">
@@ -248,7 +186,6 @@ export function GlobalLivePlayer() {
                   <Send className="h-5 w-5" />
                 </button>
                 <button className="text-text-muted flex h-10 w-10 items-center justify-center transition-colors hover:text-rose-500">
->>>>>>> recover/cabinet-wip-from-stash
                   <Heart className="h-5 w-5" />
                 </button>
               </div>
@@ -308,11 +245,7 @@ export function GlobalLivePlayer() {
                 src={activeLiveStream.cover}
                 className="absolute inset-0 h-full w-full object-cover opacity-40"
               />
-<<<<<<< HEAD
-              <div className="absolute inset-0 bg-gradient-to-br from-rose-500 via-orange-500 to-indigo-600 opacity-80" />
-=======
               <div className="to-accent-primary absolute inset-0 bg-gradient-to-br from-rose-500 via-orange-500 opacity-80" />
->>>>>>> recover/cabinet-wip-from-stash
 
               <div className="relative z-10 flex flex-col items-center gap-3">
                 <div className="flex h-24 w-24 cursor-pointer items-center justify-center rounded-full border border-white/40 bg-white/20 backdrop-blur-md transition-transform hover:scale-110">
@@ -333,24 +266,14 @@ export function GlobalLivePlayer() {
           </div>
 
           {/* Right Sidebar: Товары в эфире */}
-<<<<<<< HEAD
-          <div className="flex h-full w-full shrink-0 flex-col border-l border-slate-100 bg-white md:w-[320px]">
-            <div className="flex shrink-0 items-center justify-between border-b border-slate-100 p-4">
-              <h3 className="text-sm font-black uppercase tracking-tighter text-slate-900">
-=======
           <div className="border-border-subtle flex h-full w-full shrink-0 flex-col border-l bg-white md:w-[320px]">
             <div className="border-border-subtle flex shrink-0 items-center justify-between border-b p-4">
               <h3 className="text-text-primary text-sm font-black uppercase tracking-tighter">
->>>>>>> recover/cabinet-wip-from-stash
                 Товары в эфире
               </h3>
               <button
                 onClick={() => setActiveLiveStream(null)}
-<<<<<<< HEAD
-                className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition-colors hover:bg-slate-50"
-=======
                 className="hover:bg-bg-surface2 text-text-muted flex h-8 w-8 items-center justify-center rounded-full transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <X className="h-5 w-5" />
               </button>
@@ -380,15 +303,9 @@ export function GlobalLivePlayer() {
                 ].map((item, i) => (
                   <div
                     key={i}
-<<<<<<< HEAD
-                    className="group/item flex cursor-pointer gap-3 rounded-2xl border border-transparent p-3 transition-all hover:border-slate-100 hover:bg-slate-50"
-                  >
-                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-slate-100">
-=======
                     className="hover:bg-bg-surface2 hover:border-border-subtle group/item flex cursor-pointer gap-3 rounded-2xl border border-transparent p-3 transition-all"
                   >
                     <div className="border-border-subtle relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border">
->>>>>>> recover/cabinet-wip-from-stash
                       <img
                         src={item.img}
                         alt={item.name}
@@ -396,15 +313,6 @@ export function GlobalLivePlayer() {
                       />
                     </div>
                     <div className="min-w-0 flex-1 py-1">
-<<<<<<< HEAD
-                      <p className="mb-0.5 text-[8px] font-black uppercase tracking-widest text-indigo-500">
-                        {item.brand}
-                      </p>
-                      <h4 className="mb-2 truncate text-[11px] font-black uppercase leading-none tracking-tight text-slate-900">
-                        {item.name}
-                      </h4>
-                      <span className="text-[12px] font-black tabular-nums text-slate-900">
-=======
                       <p className="text-accent-primary mb-0.5 text-[8px] font-black uppercase tracking-widest">
                         {item.brand}
                       </p>
@@ -412,7 +320,6 @@ export function GlobalLivePlayer() {
                         {item.name}
                       </h4>
                       <span className="text-text-primary text-[12px] font-black tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
                         {item.price}
                       </span>
                     </div>
@@ -420,24 +327,15 @@ export function GlobalLivePlayer() {
                 ))
               ) : (
                 <div className="flex h-full items-center justify-center p-3 text-center">
-<<<<<<< HEAD
-                  <p className="text-[10px] font-bold uppercase leading-relaxed tracking-widest text-slate-300">
-=======
                   <p className="text-text-muted text-[10px] font-bold uppercase leading-relaxed tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     В этом эфире товары не представлены
                   </p>
                 </div>
               )}
             </div>
 
-<<<<<<< HEAD
-            <div className="shrink-0 border-t border-slate-100 p-4">
-              <div className="flex aspect-[4/1.5] w-full items-center justify-center rounded-2xl border border-slate-100 bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-300">
-=======
             <div className="border-border-subtle shrink-0 border-t p-4">
               <div className="bg-bg-surface2 border-border-subtle text-text-muted flex aspect-[4/1.5] w-full items-center justify-center rounded-2xl border text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 Рекламный баннер
               </div>
             </div>

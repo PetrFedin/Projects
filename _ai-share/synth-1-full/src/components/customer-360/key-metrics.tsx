@@ -2,10 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Gem, Rocket, TrendingUp } from 'lucide-react';
-<<<<<<< HEAD
-=======
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
->>>>>>> recover/cabinet-wip-from-stash
 
 const metrics = {
   clv: 128500,
@@ -26,13 +23,9 @@ export function KeyMetrics() {
       <Card>
         <CardHeader className="pb-2">
           <CardTitle className="flex items-center justify-between text-sm font-medium">
-<<<<<<< HEAD
-            <span>CLV</span>
-=======
             <span>
               <AcronymWithTooltip abbr="CLV" className="no-underline" />
             </span>
->>>>>>> recover/cabinet-wip-from-stash
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardTitle>
         </CardHeader>
@@ -43,13 +36,9 @@ export function KeyMetrics() {
       </Card>
       <Card>
         <CardHeader className="pb-2">
-<<<<<<< HEAD
-          <CardTitle className="text-sm font-medium">RFM Сегмент</CardTitle>
-=======
           <CardTitle className="text-sm font-medium">
             <AcronymWithTooltip abbr="RFM" /> сегмент
           </CardTitle>
->>>>>>> recover/cabinet-wip-from-stash
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-2">

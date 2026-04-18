@@ -242,11 +242,7 @@ export function GlassesVirtualTryOn({ initialGlassesUrl, className }: GlassesVir
 
   return (
     <div className={cn('space-y-4', className)}>
-<<<<<<< HEAD
-      <div className="relative mx-auto aspect-[4/3] max-h-[min(72vh,520px)] overflow-hidden rounded-xl border bg-slate-950">
-=======
       <div className="bg-text-primary relative mx-auto aspect-[4/3] max-h-[min(72vh,520px)] overflow-hidden rounded-xl border">
->>>>>>> recover/cabinet-wip-from-stash
         <video
           ref={videoRef}
           className="pointer-events-none absolute h-px w-px opacity-0"
@@ -256,20 +252,12 @@ export function GlassesVirtualTryOn({ initialGlassesUrl, className }: GlassesVir
         <canvas
           ref={canvasRef}
           className={cn(
-<<<<<<< HEAD
-            'block h-full w-full bg-slate-900 object-contain',
-=======
             'bg-text-primary block h-full w-full object-contain',
->>>>>>> recover/cabinet-wip-from-stash
             mirror && '-scale-x-100'
           )}
         />
         {status === 'loading-model' && (
-<<<<<<< HEAD
-          <div className="absolute inset-0 flex items-center justify-center gap-2 bg-slate-950/80 text-sm text-slate-200">
-=======
           <div className="bg-text-primary/80 text-text-muted absolute inset-0 flex items-center justify-center gap-2 text-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <Loader2 className="h-5 w-5 animate-spin" />
             Загрузка детектора лица…
           </div>

@@ -91,36 +91,12 @@ function SearchContent() {
     // Manual filters
     if (Object.keys(activeFilters).length > 0) {
       tempProducts = tempProducts.filter((p) => {
-<<<<<<< HEAD
-        return Object.entries(activeFilters).every(([key, value]) => {
-=======
         return Object.entries(activeFilters).every(([key, rawValue]) => {
           const value = rawValue as (string | number)[];
->>>>>>> recover/cabinet-wip-from-stash
           if (!value || value.length === 0) return true;
 
           switch (key) {
             case 'Бренд':
-<<<<<<< HEAD
-              return value.includes(p.brand);
-            case 'Сезон':
-              return value.includes(p.season);
-            case 'Стиль':
-              return p.tags && value.some((opt) => (p.tags || []).includes(opt as any));
-            case 'Материал':
-              return value.includes(p.material || '');
-            case 'Цвет':
-              return (
-                p.availableColors &&
-                value.some((colorName) => p.availableColors?.some((c) => c.name === colorName))
-              );
-            case 'Наличие':
-              return value.includes(p.availability || 'in_stock');
-            case 'Посадка':
-              return p.clothing?.fit && value.includes(p.clothing.fit);
-            case 'Скидка':
-              const minDiscount = Math.min(...value.map((v) => parseInt(v as string, 10)));
-=======
               return (value as string[]).includes(p.brand);
             case 'Сезон':
               return (value as string[]).includes(p.season);
@@ -146,7 +122,6 @@ function SearchContent() {
               const minDiscount = Math.min(
                 ...(value as string[]).map((v) => parseInt(String(v), 10))
               );
->>>>>>> recover/cabinet-wip-from-stash
               const productDiscount = p.originalPrice
                 ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100)
                 : 0;
@@ -154,19 +129,6 @@ function SearchContent() {
             case 'Цена':
               const [minPrice, maxPrice] = value as number[];
               return p.price >= minPrice && p.price <= maxPrice;
-<<<<<<< HEAD
-            case 'Высота каблука':
-              const [minHeel, maxHeel] = value as number[];
-              return p.footwear?.heelHeight
-                ? p.footwear.heelHeight >= minHeel && p.footwear.heelHeight <= maxHeel
-                : true;
-            case 'Материал подошвы':
-              return p.footwear?.soleMaterial && value.includes(p.footwear.soleMaterial);
-            case 'Материал верха':
-              return p.footwear?.upperMaterial && value.includes(p.footwear.upperMaterial);
-            case 'Экологичность':
-              return p.sustainability && value.some((opt) => p.sustainability.includes(opt));
-=======
             case 'Высота каблука': {
               const [minHeel, maxHeel] = value as number[];
               const raw = p.footwear?.heelHeight;
@@ -187,21 +149,14 @@ function SearchContent() {
               return (
                 p.sustainability && value.some((opt) => p.sustainability.includes(String(opt)))
               );
->>>>>>> recover/cabinet-wip-from-stash
             case 'Ценности': {
               const combined = [...(p.sustainability || []), ...(p.tags || [])].map((x) =>
                 x.toLowerCase()
               );
-<<<<<<< HEAD
-              return value.some((opt) =>
-                combined.some((c) => c.includes(opt.replace(/_/g, ' ')) || c.includes(opt))
-              );
-=======
               return value.some((opt) => {
                 const o = String(opt);
                 return combined.some((c) => c.includes(o.replace(/_/g, ' ')) || c.includes(o));
               });
->>>>>>> recover/cabinet-wip-from-stash
             }
             case 'AR':
               return p.hasAR === true;
@@ -255,29 +210,6 @@ function SearchContent() {
   ];
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto space-y-4 px-4 py-4 duration-300 animate-in fade-in">
-      {viewRole === 'b2b' && (
-        <div className="grid grid-cols-1 gap-3 duration-500 animate-in slide-in-from-top-4 md:grid-cols-4">
-          <Card className="relative overflow-hidden rounded-3xl border-none bg-slate-900 p-4 text-white shadow-xl">
-            <TrendingUp className="absolute right-4 top-4 h-12 w-12 opacity-10" />
-            <p className="mb-1 text-[8px] font-black uppercase tracking-widest text-indigo-400">
-              Спрос в реальном времени
-            </p>
-            <h4 className="text-base font-black">High (84%)</h4>
-            <p className="mt-2 text-[10px] italic text-slate-400">
-              «Категория "Верхняя одежда" лидирует в предзаказах»
-            </p>
-          </Card>
-          <Card className="rounded-3xl border border-slate-100 bg-white p-4 shadow-sm">
-            <Zap className="mb-2 h-5 w-5 text-amber-500" />
-            <p className="mb-1 text-[8px] font-black uppercase tracking-widest text-slate-400">
-              Доступно к заказу (ATS)
-            </p>
-            <h4 className="text-base font-black text-slate-900">
-              42,850{' '}
-              <span className="text-xs font-bold uppercase tracking-normal text-slate-400">
-=======
     <RegistryPageShell className="space-y-4 pb-16 duration-300 animate-in fade-in">
       {viewRole === 'b2b' && (
         <div className="grid grid-cols-1 gap-3 duration-500 animate-in slide-in-from-top-4 md:grid-cols-4">
@@ -299,26 +231,10 @@ function SearchContent() {
             <h4 className="text-text-primary text-base font-black">
               42,850{' '}
               <span className="text-text-muted text-xs font-bold uppercase tracking-normal">
->>>>>>> recover/cabinet-wip-from-stash
                 ед.
               </span>
             </h4>
           </Card>
-<<<<<<< HEAD
-          <Card className="rounded-3xl border border-slate-100 bg-white p-4 shadow-sm">
-            <Package className="mb-2 h-5 w-5 text-indigo-600" />
-            <p className="mb-1 text-[8px] font-black uppercase tracking-widest text-slate-400">
-              Брендов на связи
-            </p>
-            <h4 className="text-base font-black text-slate-900">124</h4>
-          </Card>
-          <Card className="rounded-3xl border border-indigo-100 bg-indigo-50 p-4">
-            <Brain className="mb-2 h-5 w-5 text-indigo-600" />
-            <p className="mb-1 text-[8px] font-black uppercase tracking-widest text-indigo-600">
-              AI Recommendation
-            </p>
-            <p className="text-[10px] font-bold leading-tight text-indigo-900">
-=======
           <Card className="border-border-subtle rounded-3xl border bg-white p-4 shadow-sm">
             <Package className="text-accent-primary mb-2 h-5 w-5" />
             <p className="text-text-muted mb-1 text-[8px] font-black uppercase tracking-widest">
@@ -332,7 +248,6 @@ function SearchContent() {
               AI Recommendation
             </p>
             <p className="text-accent-primary text-[10px] font-bold leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
               «Пополните сток базовых моделей к началу сезона SS26»
             </p>
           </Card>
@@ -394,11 +309,7 @@ function SearchContent() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="sm" className="gap-2">
-<<<<<<< HEAD
-                    {sortBy === 'ai_smart' && <Sparkles className="h-3 w-3 text-indigo-500" />}
-=======
                     {sortBy === 'ai_smart' && <Sparkles className="text-accent-primary h-3 w-3" />}
->>>>>>> recover/cabinet-wip-from-stash
                     {sortBy === 'popular'
                       ? 'Сначала популярные'
                       : sortBy === 'new'
@@ -415,11 +326,7 @@ function SearchContent() {
                 <DropdownMenuContent align="end" className="w-56">
                   <DropdownMenuItem
                     onClick={() => setSortBy('ai_smart')}
-<<<<<<< HEAD
-                    className="flex items-center gap-2 font-bold text-indigo-600"
-=======
                     className="text-accent-primary flex items-center gap-2 font-bold"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     <Sparkles className="h-4 w-4" />
                     AI Smart Sort
@@ -504,13 +411,9 @@ function SearchContent() {
 export default function SearchPage() {
   return (
     <Suspense
-<<<<<<< HEAD
-      fallback={<div className="container mx-auto px-4 py-4 text-center">Загрузка каталога...</div>}
-=======
       fallback={
         <div className={cn(registryFeedLayout.pageShell, 'text-center')}>Загрузка каталога...</div>
       }
->>>>>>> recover/cabinet-wip-from-stash
     >
       <SearchContent />
     </Suspense>

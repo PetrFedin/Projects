@@ -24,28 +24,9 @@ const MOCK_BY_CATEGORY = [
 
 export default function MarginReportPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <DollarSign className="h-6 w-6" /> Маржа по брендам
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            ASOS: маржа и оборачиваемость по брендам/категориям для ритейла.
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="max-w-4xl space-y-6">
       <ShopB2bContentHeader lead="Маржа и оборачиваемость по брендам и категориям для ритейла (ASOS-style)." />
       <ShopAnalyticsSegmentErpStrip />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -57,19 +38,11 @@ export default function MarginReportPage() {
             {MOCK_BY_BRAND.map((r) => (
               <li
                 key={r.brand}
-<<<<<<< HEAD
-                className="flex items-center justify-between rounded-lg bg-slate-50 p-3"
-              >
-                <div>
-                  <p className="font-medium">{r.brand}</p>
-                  <p className="text-xs text-slate-500">
-=======
                 className="bg-bg-surface2 flex items-center justify-between rounded-lg p-3"
               >
                 <div>
                   <p className="font-medium">{r.brand}</p>
                   <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                     {r.revenue.toLocaleString('ru-RU')} ₽ выручка · себестоимость{' '}
                     {r.cost.toLocaleString('ru-RU')} ₽
                   </p>
@@ -94,11 +67,7 @@ export default function MarginReportPage() {
             {MOCK_BY_CATEGORY.map((c) => (
               <li
                 key={c.category}
-<<<<<<< HEAD
-                className="flex items-center justify-between rounded-lg border border-slate-100 p-3"
-=======
                 className="border-border-subtle flex items-center justify-between rounded-lg border p-3"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <span className="font-medium">{c.category}</span>
                 <div className="text-right">
@@ -111,16 +80,6 @@ export default function MarginReportPage() {
         </CardContent>
       </Card>
 
-<<<<<<< HEAD
-      <div className="mt-6 flex gap-2">
-        <Button variant="outline" size="sm" asChild>
-          <Link href={ROUTES.shop.b2bMarginAnalysis}>Анализ маржи</Link>
-        </Button>
-        <Button variant="outline" size="sm" asChild>
-          <Link href={ROUTES.shop.b2bOrders}>Заказы</Link>
-        </Button>
-      </div>
-=======
       <div className="border-border-subtle mt-6 flex flex-wrap items-center gap-2 border-t pt-4">
         <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
           См. также
@@ -145,16 +104,11 @@ export default function MarginReportPage() {
           <Link href={ROUTES.shop.b2bOrders}>Заказы</Link>
         </Button>
       </div>
->>>>>>> recover/cabinet-wip-from-stash
       <RelatedModulesBlock
         links={getShopB2BHubLinks()}
         title="Заказы, аналитика заказов, fulfillment"
         className="mt-6"
       />
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

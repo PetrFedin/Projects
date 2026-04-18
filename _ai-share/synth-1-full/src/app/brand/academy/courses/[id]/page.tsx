@@ -23,14 +23,6 @@ export default function BrandCourseDetailPage() {
 
   if (!course) {
     return (
-<<<<<<< HEAD
-      <div className="container mx-auto max-w-3xl px-4 py-12">
-        <Button variant="ghost" size="icon" onClick={() => router.back()}>
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
-        <p className="mt-6 text-slate-500">Курс не найден</p>
-        <Button variant="outline" className="mt-4" asChild>
-=======
       <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
         <RegistryPageHeader
           title="Курс не найден"
@@ -48,7 +40,6 @@ export default function BrandCourseDetailPage() {
           }
         />
         <Button variant="outline" asChild>
->>>>>>> recover/cabinet-wip-from-stash
           <Link href={ROUTES.brand.academy}>Вернуться в Академию бренда</Link>
         </Button>
       </RegistryPageShell>
@@ -77,11 +68,7 @@ export default function BrandCourseDetailPage() {
             'rounded-2xl border p-8',
             course.status === 'completed'
               ? 'border-emerald-200/60 bg-emerald-50/30'
-<<<<<<< HEAD
-              : 'border-slate-200/80 bg-white'
-=======
               : 'border-border-default/80 bg-white'
->>>>>>> recover/cabinet-wip-from-stash
           )}
         >
           <div className="flex items-start gap-4">
@@ -91,13 +78,8 @@ export default function BrandCourseDetailPage() {
                 course.status === 'completed'
                   ? 'bg-emerald-100 text-emerald-600'
                   : course.status === 'in_progress'
-<<<<<<< HEAD
-                    ? 'bg-indigo-100 text-indigo-600'
-                    : 'bg-slate-100 text-slate-400'
-=======
                     ? 'bg-accent-primary/15 text-accent-primary'
                     : 'bg-bg-surface2 text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               {course.status === 'completed' ? (
@@ -114,13 +96,8 @@ export default function BrandCourseDetailPage() {
                     course.status === 'completed'
                       ? 'border-emerald-300 text-emerald-700'
                       : course.status === 'in_progress'
-<<<<<<< HEAD
-                        ? 'border-indigo-300 text-indigo-700'
-                        : 'border-slate-200 text-slate-500'
-=======
                         ? 'border-accent-primary/30 text-accent-primary'
                         : 'border-border-default text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {course.status === 'completed'
@@ -158,15 +135,9 @@ export default function BrandCourseDetailPage() {
               {course.curriculum.map((item, i) => (
                 <li
                   key={i}
-<<<<<<< HEAD
-                  className="flex items-center gap-3 border-b border-slate-100 py-2 text-slate-700 last:border-0"
-                >
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-xs font-semibold text-slate-600">
-=======
                   className="text-text-primary border-border-subtle flex items-center gap-3 border-b py-2 last:border-0"
                 >
                   <span className="bg-bg-surface2 text-text-secondary flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-semibold">
->>>>>>> recover/cabinet-wip-from-stash
                     {i + 1}
                   </span>
                   {item}

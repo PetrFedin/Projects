@@ -49,11 +49,7 @@ export default function SupplierRfqPage() {
   const rfq = rfqList[0];
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="space-y-6">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Supplier RFQ Engine"
         description="Тендеры на ткань и фурнитуру. Создание запроса из Tech Pack, получение предложений, присуждение. Связь с Materials и поставщиками. РФ: рубли, ЭДО."
@@ -100,11 +96,7 @@ export default function SupplierRfqPage() {
           {rfq && (
             <>
               <div>
-<<<<<<< HEAD
-                <p className="mb-1 text-[10px] uppercase text-slate-500">Позиции</p>
-=======
                 <p className="text-text-secondary mb-1 text-[10px] uppercase">Позиции</p>
->>>>>>> recover/cabinet-wip-from-stash
                 <ul className="space-y-1 text-sm">
                   {rfq.items.map((i) => (
                     <li key={i.id}>
@@ -115,20 +107,12 @@ export default function SupplierRfqPage() {
                 </ul>
               </div>
               <div>
-<<<<<<< HEAD
-                <p className="mb-1 text-[10px] uppercase text-slate-500">Предложения</p>
-=======
                 <p className="text-text-secondary mb-1 text-[10px] uppercase">Предложения</p>
->>>>>>> recover/cabinet-wip-from-stash
                 <ul className="space-y-2">
                   {rfq.quotes.map((q) => (
                     <li
                       key={q.supplierId}
-<<<<<<< HEAD
-                      className="flex items-center justify-between rounded-lg bg-slate-50 p-2"
-=======
                       className="bg-bg-surface2 flex items-center justify-between rounded-lg p-2"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       <span className="font-medium">{q.supplierName}</span>
                       <span>
@@ -144,11 +128,7 @@ export default function SupplierRfqPage() {
               </Badge>
             </>
           )}
-<<<<<<< HEAD
-          <p className="text-xs text-slate-400">
-=======
           <p className="text-text-muted text-xs">
->>>>>>> recover/cabinet-wip-from-stash
             API: SUPPLIER_RFQ_API — создание, отправка, присуждение.
           </p>
         </CardContent>

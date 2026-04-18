@@ -78,11 +78,7 @@ export const getScanStatusColor = (status: PalletScan['status']) => {
     case 'damaged':
       return 'text-amber-500 bg-amber-50 border-amber-100';
     default:
-<<<<<<< HEAD
-      return 'text-slate-400 bg-slate-50 border-slate-100';
-=======
       return 'text-text-muted bg-bg-surface2 border-border-subtle';
->>>>>>> recover/cabinet-wip-from-stash
   }
 };
 
@@ -91,18 +87,10 @@ export const getGateStatusColor = (status: WarehouseGate['status']) => {
     case 'online':
       return 'bg-emerald-500';
     case 'offline':
-<<<<<<< HEAD
-      return 'bg-slate-300';
-    case 'maintenance':
-      return 'bg-amber-500';
-    default:
-      return 'bg-slate-300';
-=======
       return 'bg-border-default';
     case 'maintenance':
       return 'bg-amber-500';
     default:
       return 'bg-border-default';
->>>>>>> recover/cabinet-wip-from-stash
   }
 };

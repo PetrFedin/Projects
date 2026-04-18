@@ -35,11 +35,7 @@ export default function MaterialReservationPage() {
   const [reserving, setReserving] = useState<string | null>(null);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="max-w-4xl space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Material Reservation Hub"
         description="Бронирование остатков ткани и фурнитуры напрямую из техпакета у поставщика."
@@ -49,15 +45,6 @@ export default function MaterialReservationPage() {
         badges={
           <>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/materials">Materials</Link>
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/suppliers">Поставщики</Link>
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/production/tech-pack/TP-9921-A">Tech Pack</Link>
-=======
               <Link href={ROUTES.brand.materials}>Materials</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
@@ -65,7 +52,6 @@ export default function MaterialReservationPage() {
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href={ROUTES.brand.productionTechPackStyle('TP-9921-A')}>Tech Pack</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -84,19 +70,11 @@ export default function MaterialReservationPage() {
             {MOCK_MATERIALS.map((m) => (
               <li
                 key={m.id}
-<<<<<<< HEAD
-                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4"
-              >
-                <div>
-                  <p className="font-bold">{m.name}</p>
-                  <p className="text-[11px] text-slate-500">
-=======
                 className="bg-bg-surface2 border-border-default flex flex-wrap items-center justify-between gap-3 rounded-xl border p-4"
               >
                 <div>
                   <p className="font-bold">{m.name}</p>
                   <p className="text-text-secondary text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
                     {m.supplier} · Остаток: {m.stock} {m.unit}
                   </p>
                 </div>

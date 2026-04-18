@@ -13,11 +13,7 @@ const profileData = {
   },
   interests: {
     categories: ['Casual', 'Streetwear'],
-<<<<<<< HEAD
-    brands: ['Syntha', 'A.P.C.'],
-=======
     brands: ['Syntha Lab', 'Nordic Wool'],
->>>>>>> recover/cabinet-wip-from-stash
     colors: ['#000000', '#F6F2EC', '#C9B9A6'],
   },
   body: { height: '172 см', weight: '60 кг', type: 'Песочные часы' },

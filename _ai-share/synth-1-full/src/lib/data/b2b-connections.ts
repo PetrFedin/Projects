@@ -42,8 +42,6 @@ export const PROFILE_NAV_GROUPS: Record<AppProfile, string[]> = {
     'hr',
     'academy',
     'comm',
-<<<<<<< HEAD
-=======
   ],
   shop: [
     'overview',
@@ -54,9 +52,7 @@ export const PROFILE_NAV_GROUPS: Record<AppProfile, string[]> = {
     'b2b-service',
     'analytics',
     'management',
->>>>>>> recover/cabinet-wip-from-stash
   ],
-  shop: ['overview', 'retail', 'b2b', 'partners', 'analytics', 'management'],
   distributor: [
     'overview',
     'staff',

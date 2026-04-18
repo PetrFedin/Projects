@@ -22,8 +22,6 @@ import {
   MessageSquare,
   Star,
   Calculator,
-<<<<<<< HEAD
-=======
   FileSearch,
   LayoutGrid,
   Edit,
@@ -32,7 +30,6 @@ import {
   Camera,
   Store,
   Ruler,
->>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 
@@ -44,18 +41,12 @@ export const distributorNavGroups = [
     icon: LayoutDashboard,
     links: [
       {
-<<<<<<< HEAD
-        href: '/distributor',
-=======
         href: ROUTES.distributor.home,
->>>>>>> recover/cabinet-wip-from-stash
         value: 'dashboard',
         label: 'Дашборд',
         icon: LayoutDashboard,
         description: 'Обзор оптовых продаж',
       },
-<<<<<<< HEAD
-=======
       {
         href: ROUTES.shop.b2bWorkspaceMap,
         value: 'b2b-workspace-map',
@@ -63,7 +54,6 @@ export const distributorNavGroups = [
         icon: Map,
         description: 'Сквозная схема модулей закупок и связей ролей (ритейл)',
       },
->>>>>>> recover/cabinet-wip-from-stash
     ],
   },
   {
@@ -173,8 +163,6 @@ export const distributorNavGroups = [
         icon: FileText,
         description: 'Лайншиты, прайсы',
       },
-<<<<<<< HEAD
-=======
       {
         href: ROUTES.shop.b2bRating,
         value: 'rating',
@@ -385,7 +373,6 @@ export const distributorNavGroups = [
         icon: Users,
         description: 'Портал репрезентанта',
       },
->>>>>>> recover/cabinet-wip-from-stash
     ],
   },
   {
@@ -436,8 +423,6 @@ export const distributorNavGroups = [
         description: 'Отслеживание грузов',
       },
       {
-<<<<<<< HEAD
-=======
         href: ROUTES.shop.b2bFulfillmentDashboard,
         value: 'fulfillment',
         label: 'Fulfillment',
@@ -466,7 +451,6 @@ export const distributorNavGroups = [
         description: 'Каталог и матчинг',
       },
       {
->>>>>>> recover/cabinet-wip-from-stash
         href: ROUTES.shop.b2bReplenishment,
         value: 'replenishment',
         label: 'Автопополнение',

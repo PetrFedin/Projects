@@ -76,13 +76,8 @@ export function GRNPanel() {
   };
 
   return (
-<<<<<<< HEAD
-    <Card className="overflow-hidden rounded-2xl border border-slate-200">
-      <CardHeader className="flex flex-row items-center justify-between border-b border-slate-100 p-4">
-=======
     <Card className="border-border-default overflow-hidden rounded-2xl border">
       <CardHeader className="border-border-subtle flex flex-row items-center justify-between border-b p-4">
->>>>>>> recover/cabinet-wip-from-stash
         <CardTitle className="flex items-center gap-2 text-xs font-black uppercase">
           <PackageCheck className="h-4 w-4 text-emerald-600" />
           Приёмка материалов (GRN)
@@ -132,11 +127,7 @@ export function GRNPanel() {
                 <select
                   value={form.status}
                   onChange={(e) => setForm((f) => ({ ...f, status: e.target.value }))}
-<<<<<<< HEAD
-                  className="mt-1 h-9 w-full rounded-lg border border-slate-200 px-3 text-sm"
-=======
                   className="border-border-default mt-1 h-9 w-full rounded-lg border px-3 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   <option value="accepted">Принято</option>
                   <option value="short">Недопоставка</option>
@@ -176,17 +167,10 @@ export function GRNPanel() {
       <CardContent className="p-4">
         {loading ? (
           <div className="flex justify-center py-8">
-<<<<<<< HEAD
-            <Loader2 className="h-6 w-6 animate-spin text-slate-300" />
-          </div>
-        ) : grns.length === 0 ? (
-          <p className="py-6 text-center text-[10px] text-slate-400">
-=======
             <Loader2 className="text-text-muted h-6 w-6 animate-spin" />
           </div>
         ) : grns.length === 0 ? (
           <p className="text-text-muted py-6 text-center text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
             Нет приёмок. Зарегистрируйте первую.
           </p>
         ) : (
@@ -194,21 +178,13 @@ export function GRNPanel() {
             {grns.map((g) => (
               <div
                 key={g.id}
-<<<<<<< HEAD
-                className="flex items-center justify-between rounded-xl bg-slate-50 p-2 text-[10px]"
-=======
                 className="bg-bg-surface2 flex items-center justify-between rounded-xl p-2 text-[10px]"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <div>
                   <p className="font-bold">
                     Order #{g.material_order_id} · {g.received_qty}/{g.ordered_qty}
                   </p>
-<<<<<<< HEAD
-                  <p className="text-slate-500">
-=======
                   <p className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
                     {new Date(g.received_at).toLocaleDateString()} · {g.received_by}
                   </p>
                 </div>
@@ -218,11 +194,7 @@ export function GRNPanel() {
                       ? 'bg-emerald-100 text-emerald-700'
                       : g.status === 'short'
                         ? 'bg-amber-100 text-amber-700'
-<<<<<<< HEAD
-                        : 'bg-slate-100'
-=======
                         : 'bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
                   }
                 >
                   {g.status}

@@ -164,8 +164,6 @@ export const SECTION_ROLES: Record<DossierSection, SectionRole> = {
       'hasPackaging',
       'hasLabeling',
     ],
-<<<<<<< HEAD
-=======
   },
   measurements: {
     section: 'measurements',
@@ -174,7 +172,6 @@ export const SECTION_ROLES: Record<DossierSection, SectionRole> = {
     sourceFields: ['sampleBasePerSizeDimensions', 'sampleBasePerSizeDimensionRanges'],
     handoffTargets: [],
     summaryFields: ['dimensionCount'],
->>>>>>> recover/cabinet-wip-from-stash
   },
   construction: {
     section: 'construction',

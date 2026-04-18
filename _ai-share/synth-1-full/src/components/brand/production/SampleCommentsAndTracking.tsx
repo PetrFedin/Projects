@@ -50,11 +50,7 @@ export function SampleCommentsAndTracking({
   return (
     <div className="space-y-3">
       {tracking && (
-<<<<<<< HEAD
-        <Card className="rounded-xl border border-slate-100 p-3 shadow-sm">
-=======
         <Card className="border-border-subtle rounded-xl border p-3 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
           <div className="flex items-center gap-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-100 text-sky-600">
               <Package className="h-4 w-4" />
@@ -78,11 +74,7 @@ export function SampleCommentsAndTracking({
           </div>
         </Card>
       )}
-<<<<<<< HEAD
-      <Card className="rounded-xl border border-slate-100 shadow-sm">
-=======
       <Card className="border-border-subtle rounded-xl border shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
         <CardHeader className="px-4 py-2">
           <CardTitle className="flex items-center gap-2 text-[10px] font-black uppercase">
             <MessageSquare className="h-4 w-4" /> Комментарии по сэмплу {skuName || skuId}
@@ -91,15 +83,6 @@ export function SampleCommentsAndTracking({
         <CardContent className="px-4 pb-4">
           <div className="mb-3 max-h-40 space-y-2 overflow-y-auto">
             {comments.length === 0 ? (
-<<<<<<< HEAD
-              <p className="py-4 text-center text-[10px] text-slate-400">Нет комментариев</p>
-            ) : (
-              comments.map((c) => (
-                <div key={c.id} className="rounded-lg border border-slate-100 bg-slate-50 p-2">
-                  <p className="text-[10px] font-bold">{c.author}</p>
-                  <p className="mt-0.5 text-[10px] text-slate-700">{c.text}</p>
-                  <p className="mt-1 text-[9px] text-slate-400">{c.time}</p>
-=======
               <p className="text-text-muted py-4 text-center text-[10px]">Нет комментариев</p>
             ) : (
               comments.map((c) => (
@@ -110,7 +93,6 @@ export function SampleCommentsAndTracking({
                   <p className="text-[10px] font-bold">{c.author}</p>
                   <p className="text-text-primary mt-0.5 text-[10px]">{c.text}</p>
                   <p className="text-text-muted mt-1 text-[9px]">{c.time}</p>
->>>>>>> recover/cabinet-wip-from-stash
                 </div>
               ))
             )}

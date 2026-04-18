@@ -12,11 +12,6 @@ import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisH
 
 export default function SmartReplenishmentPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto px-4 py-12">
-      <SmartReplenishment />
-    </div>
-=======
     <RegistryPageShell className="max-w-5xl space-y-6">
       <ShopB2bContentHeader lead="AI-пополнение по POS и остаткам; связь с заказами B2B и трекингом." />
       <ShopAnalyticsSegmentErpStrip />
@@ -42,6 +37,5 @@ export default function SmartReplenishmentPage() {
         <B2bMarginAnalysisHubButton />
       </div>
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

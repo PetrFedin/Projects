@@ -105,18 +105,11 @@ export function getRecommendedSize(params: {
       retailerSize: match.retailerSize,
       source: 'measurements',
       message: `По вашим замерам: ${match.retailerSize ?? match.size}. Грудь ${params.chestCm}, талия ${params.waistCm}, бёдра ${params.hipsCm} см.`,
-<<<<<<< HEAD
-      sizeUpWarning: getSizeUpWarning(params.productId ?? '', brand, params.category),
-      sizeUpMessage: getSizeUpWarning(params.productId ?? '', brand, params.category)
-        ? 'По отзывам часто берут на размер больше.'
-        : undefined,
-=======
       sizeUpWarning: getSizeUpWarning(params.productId ?? '', brand, params.category) === true,
       sizeUpMessage:
         getSizeUpWarning(params.productId ?? '', brand, params.category) === true
           ? 'По отзывам часто берут на размер больше.'
           : undefined,
->>>>>>> recover/cabinet-wip-from-stash
     };
   }
 
@@ -128,18 +121,11 @@ export function getRecommendedSize(params: {
       retailerSize: entry?.retailerSize ?? size,
       source: 'height_weight',
       message: `По росту ${params.heightCm} см и весу ${params.weightKg} кг: рекомендуем ${entry?.retailerSize ?? size}.`,
-<<<<<<< HEAD
-      sizeUpWarning: getSizeUpWarning(params.productId ?? '', brand, params.category),
-      sizeUpMessage: getSizeUpWarning(params.productId ?? '', brand, params.category)
-        ? 'Часто берут на размер больше.'
-        : undefined,
-=======
       sizeUpWarning: getSizeUpWarning(params.productId ?? '', brand, params.category) === true,
       sizeUpMessage:
         getSizeUpWarning(params.productId ?? '', brand, params.category) === true
           ? 'Часто берут на размер больше.'
           : undefined,
->>>>>>> recover/cabinet-wip-from-stash
     };
   }
 
@@ -149,18 +135,11 @@ export function getRecommendedSize(params: {
     retailerSize: fallback.retailerSize,
     source: 'reviews',
     message: 'Укажите рост/вес или замеры для точного подбора. По отзывам чаще всего заказывают M.',
-<<<<<<< HEAD
-    sizeUpWarning: getSizeUpWarning(params.productId ?? '', brand, params.category),
-    sizeUpMessage: getSizeUpWarning(params.productId ?? '', brand, params.category)
-      ? 'По отзывам часто берут на размер больше.'
-      : undefined,
-=======
     sizeUpWarning: getSizeUpWarning(params.productId ?? '', brand, params.category) === true,
     sizeUpMessage:
       getSizeUpWarning(params.productId ?? '', brand, params.category) === true
         ? 'По отзывам часто берут на размер больше.'
         : undefined,
->>>>>>> recover/cabinet-wip-from-stash
   };
 }
 

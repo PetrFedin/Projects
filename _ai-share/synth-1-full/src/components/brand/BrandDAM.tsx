@@ -130,35 +130,20 @@ export function BrandDAM() {
     <div className="space-y-6">
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
         <div className="relative max-w-md flex-1">
-<<<<<<< HEAD
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-          <Input
-            placeholder="Поиск по активам..."
-            className="h-10 rounded-xl border-slate-100 bg-white pl-10"
-=======
           <Search className="text-text-muted absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
           <Input
             placeholder="Поиск по активам..."
             className="border-border-subtle h-10 rounded-xl bg-white pl-10"
->>>>>>> recover/cabinet-wip-from-stash
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
         <div className="flex items-center gap-2">
-<<<<<<< HEAD
-          <div className="flex items-center gap-1 rounded-xl border border-slate-100 bg-white p-1">
-            <Button
-              variant="ghost"
-              size="icon"
-              className={cn('h-8 w-8 rounded-lg', viewMode === 'grid' && 'bg-slate-100')}
-=======
           <div className="border-border-subtle flex items-center gap-1 rounded-xl border bg-white p-1">
             <Button
               variant="ghost"
               size="icon"
               className={cn('h-8 w-8 rounded-lg', viewMode === 'grid' && 'bg-bg-surface2')}
->>>>>>> recover/cabinet-wip-from-stash
               onClick={() => setViewMode('grid')}
             >
               <Grid className="h-4 w-4" />
@@ -166,21 +151,13 @@ export function BrandDAM() {
             <Button
               variant="ghost"
               size="icon"
-<<<<<<< HEAD
-              className={cn('h-8 w-8 rounded-lg', viewMode === 'list' && 'bg-slate-100')}
-=======
               className={cn('h-8 w-8 rounded-lg', viewMode === 'list' && 'bg-bg-surface2')}
->>>>>>> recover/cabinet-wip-from-stash
               onClick={() => setViewMode('list')}
             >
               <List className="h-4 w-4" />
             </Button>
           </div>
-<<<<<<< HEAD
-          <Button className="h-10 gap-2 rounded-xl bg-slate-900 text-white">
-=======
           <Button className="bg-text-primary h-10 gap-2 rounded-xl text-white">
->>>>>>> recover/cabinet-wip-from-stash
             <Plus className="h-4 w-4" /> Загрузить
           </Button>
         </div>
@@ -197,22 +174,14 @@ export function BrandDAM() {
             <SheetTrigger asChild>
               <Card
                 className={cn(
-<<<<<<< HEAD
-                  'group cursor-pointer overflow-hidden border-slate-100 transition-all hover:shadow-lg',
-=======
                   'border-border-subtle group cursor-pointer overflow-hidden transition-all hover:shadow-lg',
->>>>>>> recover/cabinet-wip-from-stash
                   viewMode === 'list' && 'flex items-center gap-3 p-4'
                 )}
                 onClick={() => setSelectedAsset(asset)}
               >
                 <div
                   className={cn(
-<<<<<<< HEAD
-                    'flex items-center justify-center bg-slate-50 transition-colors group-hover:bg-slate-100',
-=======
                     'bg-bg-surface2 group-hover:bg-bg-surface2 flex items-center justify-center transition-colors',
->>>>>>> recover/cabinet-wip-from-stash
                     viewMode === 'grid' ? 'aspect-video' : 'h-12 w-12 shrink-0 rounded-xl'
                   )}
                 >
@@ -225,15 +194,6 @@ export function BrandDAM() {
                   )}
                 >
                   <div>
-<<<<<<< HEAD
-                    <h4 className="mb-1 truncate text-[11px] font-black uppercase text-slate-900">
-                      {asset.name}
-                    </h4>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[9px] font-medium text-slate-400">{asset.size}</span>
-                      <div className="h-1 w-1 rounded-full bg-slate-200" />
-                      <span className="text-[9px] font-medium text-slate-400">{asset.date}</span>
-=======
                     <h4 className="text-text-primary mb-1 truncate text-[11px] font-black uppercase">
                       {asset.name}
                     </h4>
@@ -241,7 +201,6 @@ export function BrandDAM() {
                       <span className="text-text-muted text-[9px] font-medium">{asset.size}</span>
                       <div className="bg-border-subtle h-1 w-1 rounded-full" />
                       <span className="text-text-muted text-[9px] font-medium">{asset.date}</span>
->>>>>>> recover/cabinet-wip-from-stash
                     </div>
                   </div>
                   {viewMode === 'list' && (
@@ -260,17 +219,10 @@ export function BrandDAM() {
                 </div>
               </Card>
             </SheetTrigger>
-<<<<<<< HEAD
-            <SheetContent className="w-full overflow-y-auto border-none bg-slate-50 p-0 sm:max-w-[440px]">
-              <div className="bg-slate-900 p-4 text-white">
-                <div className="mb-4 flex items-center gap-3">
-                  <div className="rounded-xl bg-indigo-600 p-2">{getIcon(asset.type)}</div>
-=======
             <SheetContent className="bg-bg-surface2 w-full overflow-y-auto border-none p-0 sm:max-w-[440px]">
               <div className="bg-text-primary p-4 text-white">
                 <div className="mb-4 flex items-center gap-3">
                   <div className="bg-accent-primary rounded-xl p-2">{getIcon(asset.type)}</div>
->>>>>>> recover/cabinet-wip-from-stash
                   <Badge
                     variant="outline"
                     className="h-5 border-white/20 px-2 text-[8px] font-black uppercase tracking-widest text-white/60"
@@ -281,45 +233,27 @@ export function BrandDAM() {
                 <SheetTitle className="text-base font-black uppercase tracking-tight text-white">
                   {asset.name}
                 </SheetTitle>
-<<<<<<< HEAD
-                <SheetDescription className="mt-2 text-xs font-medium text-slate-400">
-=======
                 <SheetDescription className="text-text-muted mt-2 text-xs font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                   Управление цифровым активом и правами доступа.
                 </SheetDescription>
               </div>
 
               <div className="space-y-6 p-4">
                 <div className="grid grid-cols-2 gap-3">
-<<<<<<< HEAD
-                  <Button className="h-11 gap-2 rounded-xl bg-indigo-600 text-[9px] font-black uppercase tracking-widest text-white hover:bg-indigo-700">
-=======
                   <Button className="bg-accent-primary hover:bg-accent-primary h-11 gap-2 rounded-xl text-[9px] font-black uppercase tracking-widest text-white">
->>>>>>> recover/cabinet-wip-from-stash
                     <Download className="h-4 w-4" /> Скачать
                   </Button>
                   <Button
                     variant="outline"
-<<<<<<< HEAD
-                    className="h-11 gap-2 rounded-xl border-slate-100 bg-white text-[9px] font-black uppercase tracking-widest"
-=======
                     className="border-border-subtle h-11 gap-2 rounded-xl bg-white text-[9px] font-black uppercase tracking-widest"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     <Share2 className="h-4 w-4" /> Поделиться
                   </Button>
                 </div>
 
-<<<<<<< HEAD
-                <div className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm">
-                  <div className="border-b border-slate-50 p-4">
-                    <h5 className="mb-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                 <div className="border-border-subtle overflow-hidden rounded-xl border bg-white shadow-sm">
                   <div className="border-border-subtle border-b p-4">
                     <h5 className="text-text-muted mb-4 text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                       Свойства
                     </h5>
                     <div className="space-y-4">
@@ -333,29 +267,17 @@ export function BrandDAM() {
                           key={i}
                           className="flex items-center justify-between text-[10px] font-bold"
                         >
-<<<<<<< HEAD
-                          <div className="flex items-center gap-2 text-slate-400">
-                            <prop.icon className="h-3.5 w-3.5" />
-                            <span>{prop.label}</span>
-                          </div>
-                          <span className="text-slate-900">{prop.value}</span>
-=======
                           <div className="text-text-muted flex items-center gap-2">
                             <prop.icon className="h-3.5 w-3.5" />
                             <span>{prop.label}</span>
                           </div>
                           <span className="text-text-primary">{prop.value}</span>
->>>>>>> recover/cabinet-wip-from-stash
                         </div>
                       ))}
                     </div>
                   </div>
                   <div className="p-4">
-<<<<<<< HEAD
-                    <h5 className="mb-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                     <h5 className="text-text-muted mb-4 text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                       Теги
                     </h5>
                     <div className="flex flex-wrap gap-2">
@@ -363,11 +285,7 @@ export function BrandDAM() {
                         <Badge
                           key={i}
                           variant="secondary"
-<<<<<<< HEAD
-                          className="border-none bg-slate-50 px-2.5 py-1 text-[8px] font-bold uppercase text-slate-600"
-=======
                           className="bg-bg-surface2 text-text-secondary border-none px-2.5 py-1 text-[8px] font-bold uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                         >
                           {tag}
                         </Badge>
@@ -376,11 +294,7 @@ export function BrandDAM() {
                   </div>
                 </div>
 
-<<<<<<< HEAD
-                <div className="relative overflow-hidden rounded-xl bg-slate-900 p-4 text-white">
-=======
                 <div className="bg-text-primary relative overflow-hidden rounded-xl p-4 text-white">
->>>>>>> recover/cabinet-wip-from-stash
                   <div className="relative z-10 space-y-4">
                     <div className="flex items-center gap-2">
                       <ShieldCheck className="h-4 w-4 text-emerald-400" />

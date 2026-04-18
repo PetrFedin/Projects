@@ -15,15 +15,9 @@ const buttonVariants = cva(
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
-<<<<<<< HEAD
-        cta: 'bg-black text-white hover:bg-slate-900 rounded-xl text-xs font-bold uppercase tracking-wide shadow-sm button-glimmer button-professional active:scale-[0.98]',
-        ctaOutline:
-          'border border-slate-200 bg-white text-slate-600 hover:bg-black hover:text-white hover:border-black rounded-xl text-xs font-bold uppercase tracking-wide shadow-sm button-glimmer button-professional active:scale-[0.98]',
-=======
         cta: 'bg-black text-white hover:bg-text-primary/90 rounded-xl text-xs font-bold uppercase tracking-wide shadow-sm button-glimmer button-professional active:scale-[0.98]',
         ctaOutline:
           'border border-border-default bg-white text-text-secondary hover:bg-black hover:text-white hover:border-black rounded-xl text-xs font-bold uppercase tracking-wide shadow-sm button-glimmer button-professional active:scale-[0.98]',
->>>>>>> recover/cabinet-wip-from-stash
       },
       size: {
         default: 'h-9 px-4 py-2',

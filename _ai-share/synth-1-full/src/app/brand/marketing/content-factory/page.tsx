@@ -15,19 +15,6 @@ export default function BrandMarketingContentFactoryPage() {
   const links = getRelatedLinks('wiz-studio').map((l) => ({ label: l.label, href: l.href }));
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 duration-700 animate-in fade-in">
-      <SectionInfoCard
-        title="WizStudio / AI-каталог"
-        description="Виртуальные съёмки и контент без фотосессии. Генерация образов по flat-фото, фоны, lifestyle."
-        icon={Camera}
-        iconBg="bg-amber-100"
-        iconColor="text-amber-600"
-        badges={
-          <Badge variant="outline" className="text-[9px]">
-            WizCommerce
-          </Badge>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16 duration-700 animate-in fade-in">
       <RegistryPageHeader
         title="WizStudio / AI-каталог"
@@ -39,7 +26,6 @@ export default function BrandMarketingContentFactoryPage() {
               WizCommerce
             </Badge>
           </div>
->>>>>>> recover/cabinet-wip-from-stash
         }
       />
       <Card>

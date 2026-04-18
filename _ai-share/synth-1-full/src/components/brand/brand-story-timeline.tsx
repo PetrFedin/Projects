@@ -26,11 +26,7 @@ export function BrandStoryTimeline({ foundedYear = 2023 }: BrandStoryTimelinePro
     {
       icon: Sparkles,
       title: `Первая коллаборация (${foundedYear + 1})`,
-<<<<<<< HEAD
-      description: 'Выпуск совместной капсулы с брендом A.P.C., которая стала хитом продаж.',
-=======
       description: 'Выпуск совместной капсулы с Nordic Wool, которая стала хитом продаж.',
->>>>>>> recover/cabinet-wip-from-stash
     },
     {
       icon: Rocket,

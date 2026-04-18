@@ -11,10 +11,7 @@ import { Heart, MessageCircle, Send, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import type { Product } from '@/lib/types';
-<<<<<<< HEAD
-=======
 import { RegistryPageShell } from '@/components/design-system';
->>>>>>> recover/cabinet-wip-from-stash
 
 const mockComments = [
   {
@@ -56,11 +53,7 @@ export default function LookPage({ params: paramsPromise }: { params: Promise<{ 
   const relatedLooks = looks.filter((l) => l.id !== look.id).slice(0, 3);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto px-4 py-4">
-=======
     <RegistryPageShell className="pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <div className="grid gap-3 lg:grid-cols-3 lg:gap-3">
         {/* Main Content */}
         <div className="space-y-4 lg:col-span-2">

@@ -71,13 +71,8 @@ export function SubcategorySketchTasksRibbon({
   );
 
   return (
-<<<<<<< HEAD
-    <div className="space-y-3 text-[11px] leading-snug text-slate-800">
-      <p className="text-[10px] font-medium uppercase tracking-wide text-slate-500">
-=======
     <div className="text-text-primary space-y-3 text-[11px] leading-snug">
       <p className="text-text-secondary text-[10px] font-medium uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
         Задачи по узлам ветки (линия · группа · модель) — один артикул, разная детализация
         формулировок
       </p>
@@ -101,11 +96,7 @@ export function SubcategorySketchTasksRibbon({
                 {BRANCH_CATALOG_SLOT_ROLE[level].label.slice(0, 1)}
               </span>
               <details
-<<<<<<< HEAD
-                className="group rounded-lg border border-zinc-200 bg-zinc-50/80 open:bg-white"
-=======
                 className="border-border-default bg-bg-surface2/80 group rounded-lg border open:bg-white"
->>>>>>> recover/cabinet-wip-from-stash
                 open={level === 3}
               >
                 <summary
@@ -127,28 +118,16 @@ export function SubcategorySketchTasksRibbon({
                         {levelNames[inheritedFrom]}»
                       </span>
                     ) : level > 1 ? (
-<<<<<<< HEAD
-                      <span className="mt-1 block text-[9px] text-zinc-500">
-=======
                       <span className="text-text-secondary mt-1 block text-[9px]">
->>>>>>> recover/cabinet-wip-from-stash
                         Нет заполненного родителя для автонаследования
                       </span>
                     ) : null}
                     {preview ? (
-<<<<<<< HEAD
-                      <span className="mt-1 line-clamp-2 block text-[10px] text-zinc-600">
-                        {preview}
-                      </span>
-                    ) : (
-                      <span className="mt-1 block text-[10px] italic text-zinc-400">
-=======
                       <span className="text-text-secondary mt-1 line-clamp-2 block text-[10px]">
                         {preview}
                       </span>
                     ) : (
                       <span className="text-text-muted mt-1 block text-[10px] italic">
->>>>>>> recover/cabinet-wip-from-stash
                         Пока пусто — разверните и введите «Что сделать»
                       </span>
                     )}
@@ -187,13 +166,8 @@ export function SubcategorySketchTasksRibbon({
                       }
                     />
                   </div>
-<<<<<<< HEAD
-                  <details className="rounded border border-zinc-100 bg-zinc-50/50 p-2 text-[10px]">
-                    <summary className="cursor-pointer font-medium text-zinc-700">
-=======
                   <details className="border-border-subtle bg-bg-surface2/80 rounded border p-2 text-[10px]">
                     <summary className="text-text-primary cursor-pointer font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                       Ещё поля (улучшить, изменить, внимание)
                     </summary>
                     <div className="mt-2 space-y-2">

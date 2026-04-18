@@ -149,26 +149,11 @@ export function AssortmentPlm({
         animate={{ opacity: 1, x: 0 }}
         className="space-y-4"
       >
-<<<<<<< HEAD
-        <header className="flex items-center justify-between rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
-=======
         <header className="border-border-subtle flex items-center justify-between rounded-xl border bg-white p-4 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
           <div className="flex items-center gap-3">
             <Button
               onClick={() => setSelectedModelId(null)}
               variant="ghost"
-<<<<<<< HEAD
-              className="h-10 w-10 rounded-2xl bg-slate-50"
-            >
-              <ArrowLeft className="h-6 w-6 text-slate-400" />
-            </Button>
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-600">
-                Model Tech-Pack / BOM
-              </p>
-              <h2 className="text-base font-bold uppercase tracking-tighter text-slate-900">
-=======
               className="bg-bg-surface2 h-10 w-10 rounded-2xl"
             >
               <ArrowLeft className="text-text-muted h-6 w-6" />
@@ -178,7 +163,6 @@ export function AssortmentPlm({
                 Model Tech-Pack / BOM
               </p>
               <h2 className="text-text-primary text-base font-bold uppercase tracking-tighter">
->>>>>>> recover/cabinet-wip-from-stash
                 {selectedModel.name}
               </h2>
             </div>
@@ -197,53 +181,24 @@ export function AssortmentPlm({
           {/* BOM Editor */}
           <div className="space-y-6 lg:col-span-8">
             <Card className="overflow-hidden rounded-xl border-none bg-white shadow-2xl">
-<<<<<<< HEAD
-              <CardHeader className="flex flex-row items-center justify-between border-b border-slate-50 p-3">
-=======
               <CardHeader className="border-border-subtle flex flex-row items-center justify-between border-b p-3">
->>>>>>> recover/cabinet-wip-from-stash
                 <div>
                   <CardTitle className="text-base font-bold uppercase tracking-tight">
                     Калькулятор себестоимости (BOM)
                   </CardTitle>
-<<<<<<< HEAD
-                  <CardDescription className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-=======
                   <CardDescription className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Спецификация материалов и работ
                   </CardDescription>
                 </div>
                 <Button
                   variant="outline"
-<<<<<<< HEAD
-                  className="h-10 rounded-xl border-slate-200 text-[10px] font-bold uppercase"
-=======
                   className="border-border-default h-10 rounded-xl text-[10px] font-bold uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   Добавить позицию +
                 </Button>
               </CardHeader>
               <CardContent className="p-0">
                 <Table>
-<<<<<<< HEAD
-                  <TableHeader className="bg-slate-50">
-                    <TableRow className="border-none">
-                      <TableHead className="px-10 py-5 text-[10px] font-bold uppercase text-slate-500">
-                        Компонент
-                      </TableHead>
-                      <TableHead className="py-5 text-center text-[10px] font-bold uppercase text-slate-500">
-                        Кол-во
-                      </TableHead>
-                      <TableHead className="py-5 text-center text-[10px] font-bold uppercase text-slate-500">
-                        Ед. изм.
-                      </TableHead>
-                      <TableHead className="py-5 text-right text-[10px] font-bold uppercase text-slate-500">
-                        Цена/ед.
-                      </TableHead>
-                      <TableHead className="px-10 py-5 text-right text-[10px] font-bold uppercase text-slate-500">
-=======
                   <TableHeader className="bg-bg-surface2">
                     <TableRow className="border-none">
                       <TableHead className="text-text-secondary px-10 py-5 text-[10px] font-bold uppercase">
@@ -259,7 +214,6 @@ export function AssortmentPlm({
                         Цена/ед.
                       </TableHead>
                       <TableHead className="text-text-secondary px-10 py-5 text-right text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         Итого
                       </TableHead>
                     </TableRow>
@@ -268,42 +222,25 @@ export function AssortmentPlm({
                     {bomItems.map((item) => (
                       <TableRow
                         key={item.id}
-<<<<<<< HEAD
-                        className="border-b border-slate-50 transition-colors hover:bg-slate-50/50"
-                      >
-                        <TableCell className="px-10 py-6 text-xs font-bold uppercase text-slate-900">
-=======
                         className="border-border-subtle hover:bg-bg-surface2/80 border-b transition-colors"
                       >
                         <TableCell className="text-text-primary px-10 py-6 text-xs font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                           {item.name}
                         </TableCell>
                         <TableCell className="text-center">
                           <Input
                             type="number"
                             defaultValue={item.qty}
-<<<<<<< HEAD
-                            className="mx-auto h-10 w-20 rounded-xl border-slate-100 text-center font-bold"
-                          />
-                        </TableCell>
-                        <TableCell className="text-center text-[10px] font-bold uppercase text-slate-400">
-=======
                             className="border-border-subtle mx-auto h-10 w-20 rounded-xl text-center font-bold"
                           />
                         </TableCell>
                         <TableCell className="text-text-muted text-center text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                           {item.unit}
                         </TableCell>
                         <TableCell className="text-right font-bold tabular-nums">
                           {item.cost.toLocaleString('ru-RU')} ₽
                         </TableCell>
-<<<<<<< HEAD
-                        <TableCell className="px-10 text-right font-bold tabular-nums text-indigo-600">
-=======
                         <TableCell className="text-accent-primary px-10 text-right font-bold tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
                           {(item.qty * item.cost).toLocaleString('ru-RU')} ₽
                         </TableCell>
                       </TableRow>
@@ -311,11 +248,7 @@ export function AssortmentPlm({
                   </TableBody>
                 </Table>
               </CardContent>
-<<<<<<< HEAD
-              <CardFooter className="flex items-center justify-between bg-slate-900 p-3 text-white">
-=======
               <CardFooter className="bg-text-primary flex items-center justify-between p-3 text-white">
->>>>>>> recover/cabinet-wip-from-stash
                 <div className="flex items-center gap-3">
                   <div className="space-y-1">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">
@@ -348,11 +281,7 @@ export function AssortmentPlm({
 
           {/* Model Insights Sidebar */}
           <div className="space-y-4 lg:col-span-4">
-<<<<<<< HEAD
-            <Card className="relative space-y-6 overflow-hidden rounded-xl border-none bg-indigo-600 p-4 text-white shadow-2xl">
-=======
             <Card className="bg-accent-primary relative space-y-6 overflow-hidden rounded-xl border-none p-4 text-white shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
               <div className="absolute right-0 top-0 p-4 opacity-10">
                 <Calculator className="h-32 w-32" />
               </div>
@@ -361,35 +290,21 @@ export function AssortmentPlm({
                   AI Profit Guard
                 </Badge>
                 <h4 className="text-base font-bold uppercase leading-tight">Анализ доходности</h4>
-<<<<<<< HEAD
-                <p className="text-xs font-medium leading-relaxed text-indigo-100">
-=======
                 <p className="text-accent-primary/30 text-xs font-medium leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                   «Текущая себестоимость оптимальна. Если вы увеличите объем ткани на 10%, вы
                   получите скидку -5% от поставщика, что поднимет маржу до 72.4%»
                 </p>
                 <div className="flex gap-3 pt-4">
-<<<<<<< HEAD
-                  <Button className="h-10 rounded-xl bg-white px-6 text-[9px] font-bold uppercase text-indigo-600 shadow-xl">
-=======
                   <Button className="text-accent-primary h-10 rounded-xl bg-white px-6 text-[9px] font-bold uppercase shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
                     Оптимизировать
                   </Button>
                 </div>
               </div>
             </Card>
 
-<<<<<<< HEAD
-            <div className="space-y-6 rounded-xl border border-slate-100 bg-white p-4 shadow-xl">
-              <h4 className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-slate-900">
-                <Settings className="h-4 w-4 text-slate-400" /> Технические детали
-=======
             <div className="border-border-subtle space-y-6 rounded-xl border bg-white p-4 shadow-xl">
               <h4 className="text-text-primary flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest">
                 <Settings className="text-text-muted h-4 w-4" /> Технические детали
->>>>>>> recover/cabinet-wip-from-stash
               </h4>
               <div className="space-y-4">
                 {[
@@ -399,21 +314,12 @@ export function AssortmentPlm({
                 ].map((item, i) => (
                   <div
                     key={i}
-<<<<<<< HEAD
-                    className="flex items-center justify-between border-b border-slate-50 py-3"
-                  >
-                    <span className="text-[10px] font-bold uppercase text-slate-400">
-                      {item.label}
-                    </span>
-                    <span className="text-[10px] font-bold uppercase text-slate-900">
-=======
                     className="border-border-subtle flex items-center justify-between border-b py-3"
                   >
                     <span className="text-text-muted text-[10px] font-bold uppercase">
                       {item.label}
                     </span>
                     <span className="text-text-primary text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                       {item.val}
                     </span>
                   </div>
@@ -421,11 +327,7 @@ export function AssortmentPlm({
               </div>
               <Button
                 variant="outline"
-<<<<<<< HEAD
-                className="h-12 w-full rounded-xl border-slate-200 text-[9px] font-bold uppercase text-slate-400 hover:text-indigo-600"
-=======
                 className="border-border-default text-text-muted hover:text-accent-primary h-12 w-full rounded-xl text-[9px] font-bold uppercase"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 Экспорт тех-пакета (PDF)
               </Button>
@@ -438,32 +340,19 @@ export function AssortmentPlm({
 
   return (
     <Card className="overflow-hidden rounded-xl border-none bg-white shadow-2xl">
-<<<<<<< HEAD
-      <CardHeader className="bg-slate-900 p-3 pb-4 text-white">
-        <div className="flex items-start justify-between">
-          <div className="space-y-1">
-            <div className="mb-1 flex items-center gap-2">
-              <Layers className="h-6 w-6 text-indigo-400" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-400">
-=======
       <CardHeader className="bg-text-primary p-3 pb-4 text-white">
         <div className="flex items-start justify-between">
           <div className="space-y-1">
             <div className="mb-1 flex items-center gap-2">
               <Layers className="text-accent-primary h-6 w-6" />
               <span className="text-accent-primary text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 Master Production Record
               </span>
             </div>
             <CardTitle className="text-base font-bold uppercase tracking-tighter">
               Assortment Matrix & PLM R&D
             </CardTitle>
-<<<<<<< HEAD
-            <CardDescription className="font-bold uppercase tracking-tight text-slate-400">
-=======
             <CardDescription className="text-text-muted font-bold uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
               Единый реестр моделей, тех-пакетов, лекал и результатов примерки образцов.
             </CardDescription>
           </div>
@@ -475,11 +364,7 @@ export function AssortmentPlm({
                 className={cn(
                   'rounded-xl px-6 py-2.5 text-[10px] font-bold uppercase transition-all',
                   activeTab === tab
-<<<<<<< HEAD
-                    ? 'bg-white text-slate-900 shadow-xl'
-=======
                     ? 'text-text-primary bg-white shadow-xl'
->>>>>>> recover/cabinet-wip-from-stash
                     : 'text-white/40 hover:text-white'
                 )}
               >
@@ -496,17 +381,6 @@ export function AssortmentPlm({
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between">
                 <div className="flex gap-3">
-<<<<<<< HEAD
-                  <div className="flex flex-col gap-1 rounded-2xl border border-slate-100 bg-slate-50 p-4">
-                    <span className="text-[9px] font-bold uppercase text-slate-400">
-                      Всего в списке
-                    </span>
-                    <span className="text-base font-bold text-slate-900">{models.length} SKU</span>
-                  </div>
-                  <div className="flex flex-col gap-1 rounded-2xl border border-slate-100 bg-slate-50 p-4">
-                    <span className="text-[9px] font-bold uppercase text-slate-400">Коллекция</span>
-                    <span className="text-base font-bold uppercase italic text-indigo-600">
-=======
                   <div className="bg-bg-surface2 border-border-subtle flex flex-col gap-1 rounded-2xl border p-4">
                     <span className="text-text-muted text-[9px] font-bold uppercase">
                       Всего в списке
@@ -520,7 +394,6 @@ export function AssortmentPlm({
                       Коллекция
                     </span>
                     <span className="text-accent-primary text-base font-bold uppercase italic">
->>>>>>> recover/cabinet-wip-from-stash
                       {collectionId || 'Все'}
                     </span>
                   </div>
@@ -528,21 +401,13 @@ export function AssortmentPlm({
                 <div className="flex gap-3">
                   <Button
                     variant="outline"
-<<<<<<< HEAD
-                    className="h-12 rounded-xl border-slate-200 text-[10px] font-bold uppercase"
-=======
                     className="border-border-default h-12 rounded-xl text-[10px] font-bold uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     Экспорт в 1С/ERP
                   </Button>
                   <Button
                     onClick={onAddSku}
-<<<<<<< HEAD
-                    className="h-12 rounded-xl bg-indigo-600 px-8 text-[10px] font-bold uppercase text-white"
-=======
                     className="bg-accent-primary h-12 rounded-xl px-8 text-[10px] font-bold uppercase text-white"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     Новая модель +
                   </Button>
@@ -550,21 +415,12 @@ export function AssortmentPlm({
               </div>
 
               {/* Filters Row */}
-<<<<<<< HEAD
-              <div className="grid grid-cols-5 gap-2 rounded-2xl border border-slate-100 bg-slate-50/50 p-2">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
-                  <Input
-                    placeholder="Поиск ID/Имя..."
-                    className="h-9 rounded-xl border-slate-200 bg-white pl-9 text-[10px] font-bold uppercase"
-=======
               <div className="bg-bg-surface2/80 border-border-subtle grid grid-cols-5 gap-2 rounded-2xl border p-2">
                 <div className="relative">
                   <Search className="text-text-muted absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2" />
                   <Input
                     placeholder="Поиск ID/Имя..."
                     className="border-border-default h-9 rounded-xl bg-white pl-9 text-[10px] font-bold uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                     value={filters.search}
                     onChange={(e) => setFilters({ ...filters, search: e.target.value })}
                   />
@@ -573,11 +429,7 @@ export function AssortmentPlm({
                   value={filters.audience}
                   onValueChange={(v) => setFilters({ ...filters, audience: v })}
                 >
-<<<<<<< HEAD
-                  <SelectTrigger className="h-9 rounded-xl border-slate-200 bg-white text-[9px] font-bold uppercase">
-=======
                   <SelectTrigger className="border-border-default h-9 rounded-xl bg-white text-[9px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                     <SelectValue placeholder="Аудитория" />
                   </SelectTrigger>
                   <SelectContent>
@@ -595,11 +447,7 @@ export function AssortmentPlm({
                     setFilters({ ...filters, cat1: v, cat2: 'all', cat3: 'all' })
                   }
                 >
-<<<<<<< HEAD
-                  <SelectTrigger className="h-9 rounded-xl border-slate-200 bg-white text-[9px] font-bold uppercase">
-=======
                   <SelectTrigger className="border-border-default h-9 rounded-xl bg-white text-[9px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                     <SelectValue placeholder="Кат. 1" />
                   </SelectTrigger>
                   <SelectContent>
@@ -618,11 +466,7 @@ export function AssortmentPlm({
                   value={filters.cat2}
                   onValueChange={(v) => setFilters({ ...filters, cat2: v, cat3: 'all' })}
                 >
-<<<<<<< HEAD
-                  <SelectTrigger className="h-9 rounded-xl border-slate-200 bg-white text-[9px] font-bold uppercase">
-=======
                   <SelectTrigger className="border-border-default h-9 rounded-xl bg-white text-[9px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                     <SelectValue placeholder="Кат. 2" />
                   </SelectTrigger>
                   <SelectContent>
@@ -642,11 +486,7 @@ export function AssortmentPlm({
                   value={filters.cat3}
                   onValueChange={(v) => setFilters({ ...filters, cat3: v })}
                 >
-<<<<<<< HEAD
-                  <SelectTrigger className="h-9 rounded-xl border-slate-200 bg-white text-[9px] font-bold uppercase">
-=======
                   <SelectTrigger className="border-border-default h-9 rounded-xl bg-white text-[9px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                     <SelectValue placeholder="Кат. 3" />
                   </SelectTrigger>
                   <SelectContent>
@@ -666,31 +506,6 @@ export function AssortmentPlm({
               </div>
             </div>
 
-<<<<<<< HEAD
-            <div className="overflow-hidden rounded-xl border border-slate-100 shadow-sm">
-              <Table>
-                <TableHeader className="bg-slate-50">
-                  <TableRow className="border-none">
-                    <TableHead className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                      Артикул / Модель
-                    </TableHead>
-                    <TableHead className="py-5 text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                      В сэмпле / PO / ТП
-                    </TableHead>
-                    <TableHead className="py-5 text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                      Статус / Р&Д
-                    </TableHead>
-                    <TableHead className="py-5 text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                      Характеристики
-                    </TableHead>
-                    <TableHead className="py-5 text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                      Ответственный
-                    </TableHead>
-                    <TableHead className="py-5 text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                      Спеки / Лекала
-                    </TableHead>
-                    <TableHead className="px-8 py-5 text-right text-[10px] font-bold uppercase tracking-widest text-slate-500">
-=======
             <div className="border-border-subtle overflow-hidden rounded-xl border shadow-sm">
               <Table>
                 <TableHeader className="bg-bg-surface2">
@@ -714,7 +529,6 @@ export function AssortmentPlm({
                       Спеки / Лекала
                     </TableHead>
                     <TableHead className="text-text-secondary px-8 py-5 text-right text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                       VariantMatrix ↔ TechPack / Cross-links
                     </TableHead>
                   </TableRow>
@@ -724,35 +538,20 @@ export function AssortmentPlm({
                     <TableRow
                       key={m.id}
                       onClick={() => setSelectedModelId(m.id)}
-<<<<<<< HEAD
-                      className="group cursor-pointer transition-colors hover:bg-slate-50/50"
-                    >
-                      <TableCell className="px-8 py-6">
-                        <p className="mb-1 text-[11px] font-black uppercase leading-none tracking-tight text-slate-900">
-=======
                       className="hover:bg-bg-surface2/80 group cursor-pointer transition-colors"
                     >
                       <TableCell className="px-8 py-6">
                         <p className="text-text-primary mb-1 text-[11px] font-black uppercase leading-none tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                           {m.name}
                         </p>
                         <div className="flex items-center gap-2">
                           <Badge
                             variant="outline"
-<<<<<<< HEAD
-                            className="h-3.5 border-slate-200 bg-white px-1 text-[7px] font-black uppercase"
-                          >
-                            {m.id}
-                          </Badge>
-                          <span className="text-[8px] font-bold uppercase tracking-widest text-slate-400">
-=======
                             className="border-border-default h-3.5 bg-white px-1 text-[7px] font-black uppercase"
                           >
                             {m.id}
                           </Badge>
                           <span className="text-text-muted text-[8px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                             {m.audienceId} • {m.catLevel2Id}
                           </span>
                         </div>
@@ -760,11 +559,7 @@ export function AssortmentPlm({
                       <TableCell>
                         <div className="flex flex-wrap gap-1">
                           {m.inSample && (
-<<<<<<< HEAD
-                            <span className="rounded bg-indigo-100 px-1.5 py-0.5 text-[7px] font-black uppercase text-indigo-600">
-=======
                             <span className="bg-accent-primary/15 text-accent-primary rounded px-1.5 py-0.5 text-[7px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                               Сэмпл
                             </span>
                           )}
@@ -774,20 +569,12 @@ export function AssortmentPlm({
                             </span>
                           )}
                           {m.hasTechPack && (
-<<<<<<< HEAD
-                            <span className="rounded bg-slate-200 px-1.5 py-0.5 text-[7px] font-black uppercase text-slate-600">
-=======
                             <span className="bg-border-subtle text-text-secondary rounded px-1.5 py-0.5 text-[7px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                               ТП
                             </span>
                           )}
                           {!m.inSample && !m.inPO && !m.hasTechPack && (
-<<<<<<< HEAD
-                            <span className="text-[7px] text-slate-400">—</span>
-=======
                             <span className="text-text-muted text-[7px]">—</span>
->>>>>>> recover/cabinet-wip-from-stash
                           )}
                         </div>
                       </TableCell>
@@ -799,11 +586,7 @@ export function AssortmentPlm({
                               ? 'bg-emerald-500 text-white'
                               : m.status === 'Development'
                                 ? 'bg-amber-500 text-white'
-<<<<<<< HEAD
-                                : 'bg-indigo-600 text-white'
-=======
                                 : 'bg-accent-primary text-white'
->>>>>>> recover/cabinet-wip-from-stash
                           )}
                         >
                           {m.status}
@@ -811,38 +594,23 @@ export function AssortmentPlm({
                       </TableCell>
                       <TableCell>
                         <div className="space-y-1">
-<<<<<<< HEAD
-                          <p className="text-[10px] font-bold uppercase italic tracking-tight text-slate-600">
-                            {(m.attributes as any)?.color || 'Base'}
-                          </p>
-                          <p className="text-[10px] font-black leading-none text-slate-900">
-=======
                           <p className="text-text-secondary text-[10px] font-bold uppercase italic tracking-tight">
                             {(m.attributes as any)?.color || 'Base'}
                           </p>
                           <p className="text-text-primary text-[10px] font-black leading-none">
->>>>>>> recover/cabinet-wip-from-stash
                             {m.price}
                           </p>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
-<<<<<<< HEAD
-                          <div className="flex h-6 w-6 items-center justify-center rounded-full border border-slate-200 bg-slate-100 text-[8px] font-black uppercase text-slate-500">
-=======
                           <div className="bg-bg-surface2 border-border-default text-text-secondary flex h-6 w-6 items-center justify-center rounded-full border text-[8px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                             {m.responsible
                               ?.split(' ')
                               .map((n: string) => n[0])
                               .join('') || '??'}
                           </div>
-<<<<<<< HEAD
-                          <span className="text-[9px] font-bold uppercase text-slate-600">
-=======
                           <span className="text-text-secondary text-[9px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                             {m.responsible || '—'}
                           </span>
                         </div>
@@ -852,17 +620,10 @@ export function AssortmentPlm({
                           <FileText
                             className={cn(
                               'h-3.5 w-3.5',
-<<<<<<< HEAD
-                              m.master ? 'text-indigo-600' : 'text-slate-300'
-                            )}
-                          />
-                          <span className="text-[9px] font-bold uppercase tracking-tight text-slate-500">
-=======
                               m.master ? 'text-accent-primary' : 'text-text-muted'
                             )}
                           />
                           <span className="text-text-secondary text-[9px] font-bold uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                             {m.master ? 'Spec Locked' : 'Draft'}
                           </span>
                         </div>
@@ -874,11 +635,7 @@ export function AssortmentPlm({
                               <Button
                                 variant="ghost"
                                 size="icon"
-<<<<<<< HEAD
-                                className="h-7 w-7 rounded-lg hover:bg-indigo-50 hover:text-indigo-600"
-=======
                                 className="hover:bg-accent-primary/10 hover:text-accent-primary h-7 w-7 rounded-lg"
->>>>>>> recover/cabinet-wip-from-stash
                                 title="VariantMatrix"
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -890,11 +647,7 @@ export function AssortmentPlm({
                               <Button
                                 variant="ghost"
                                 size="icon"
-<<<<<<< HEAD
-                                className="h-7 w-7 rounded-lg hover:bg-indigo-50 hover:text-indigo-600"
-=======
                                 className="hover:bg-accent-primary/10 hover:text-accent-primary h-7 w-7 rounded-lg"
->>>>>>> recover/cabinet-wip-from-stash
                                 title="Tech Pack"
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -923,11 +676,7 @@ export function AssortmentPlm({
                             <Button
                               variant="ghost"
                               size="icon"
-<<<<<<< HEAD
-                              className="h-7 w-7 rounded-lg hover:bg-indigo-50 hover:text-indigo-600"
-=======
                               className="hover:bg-accent-primary/10 hover:text-accent-primary h-7 w-7 rounded-lg"
->>>>>>> recover/cabinet-wip-from-stash
                               title="Cross-links"
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -940,15 +689,9 @@ export function AssortmentPlm({
                           <Button
                             variant="ghost"
                             size="icon"
-<<<<<<< HEAD
-                            className="h-8 w-8 rounded-xl border border-transparent transition-all group-hover:border-slate-100 group-hover:bg-white group-hover:shadow-md"
-                          >
-                            <ChevronRight className="h-4 w-4 text-slate-400" />
-=======
                             className="group-hover:border-border-subtle h-8 w-8 rounded-xl border border-transparent transition-all group-hover:bg-white group-hover:shadow-md"
                           >
                             <ChevronRight className="text-text-muted h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
                           </Button>
                         </div>
                       </TableCell>
@@ -957,11 +700,7 @@ export function AssortmentPlm({
                   {models.length === 0 && (
                     <TableRow>
                       <TableCell colSpan={6} className="h-32 text-center">
-<<<<<<< HEAD
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300">
-=======
                         <p className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em]">
->>>>>>> recover/cabinet-wip-from-stash
                           Артикулы не найдены по текущему фильтру
                         </p>
                       </TableCell>
@@ -1002,15 +741,6 @@ export function AssortmentPlm({
               ].map((s, i) => (
                 <div
                   key={i}
-<<<<<<< HEAD
-                  className="space-y-6 rounded-xl border border-slate-100 bg-slate-50 p-4"
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-100 bg-white shadow-sm">
-                      <s.icon className="h-7 w-7 text-indigo-600" />
-                    </div>
-                    <Badge className="border border-slate-200 bg-white text-[8px] font-bold uppercase text-slate-400">
-=======
                   className="bg-bg-surface2 border-border-subtle space-y-6 rounded-xl border p-4"
                 >
                   <div className="flex items-start justify-between">
@@ -1018,22 +748,14 @@ export function AssortmentPlm({
                       <s.icon className="text-accent-primary h-7 w-7" />
                     </div>
                     <Badge className="border-border-default text-text-muted border bg-white text-[8px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                       Шаг {i + 1}
                     </Badge>
                   </div>
                   <div className="space-y-2">
-<<<<<<< HEAD
-                    <h4 className="text-base font-bold uppercase tracking-tighter text-slate-900">
-                      {s.stage}
-                    </h4>
-                    <p className="text-[10px] font-medium leading-relaxed text-slate-500">
-=======
                     <h4 className="text-text-primary text-base font-bold uppercase tracking-tighter">
                       {s.stage}
                     </h4>
                     <p className="text-text-secondary text-[10px] font-medium leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                       {s.desc}
                     </p>
                   </div>
@@ -1042,15 +764,9 @@ export function AssortmentPlm({
                       <span>Готовность</span>
                       <span>{s.progress}%</span>
                     </div>
-<<<<<<< HEAD
-                    <Progress value={s.progress} className="h-1.5 bg-slate-200" />
-                  </div>
-                  <Button className="h-12 w-full rounded-xl border border-indigo-100 bg-white text-[10px] font-bold uppercase text-indigo-600 transition-all hover:bg-indigo-600 hover:text-white">
-=======
                     <Progress value={s.progress} className="bg-border-subtle h-1.5" />
                   </div>
                   <Button className="text-accent-primary border-accent-primary/20 hover:bg-accent-primary h-12 w-full rounded-xl border bg-white text-[10px] font-bold uppercase transition-all hover:text-white">
->>>>>>> recover/cabinet-wip-from-stash
                     Открыть тех-пакет
                   </Button>
                 </div>
@@ -1063,21 +779,13 @@ export function AssortmentPlm({
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-<<<<<<< HEAD
-            className="relative space-y-10 overflow-hidden rounded-xl bg-slate-900 p-4 text-white"
-=======
             className="bg-text-primary relative space-y-10 overflow-hidden rounded-xl p-4 text-white"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <div className="absolute right-0 top-0 p-4 opacity-10">
               <Archive className="h-64 w-64 rotate-12" />
             </div>
             <div className="relative z-10 mx-auto max-w-2xl space-y-4 text-center">
-<<<<<<< HEAD
-              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-indigo-600 shadow-2xl">
-=======
               <div className="bg-accent-primary mx-auto flex h-20 w-20 items-center justify-center rounded-3xl shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
                 <Database className="h-10 w-10 text-white" />
               </div>
               <h3 className="text-sm font-bold uppercase tracking-tighter">Цифровой Сейф Syntha</h3>
@@ -1098,11 +806,7 @@ export function AssortmentPlm({
                   key={i}
                   className="group cursor-pointer rounded-2xl border border-white/10 bg-white/5 p-4 transition-all hover:bg-white/10"
                 >
-<<<<<<< HEAD
-                  <arch.icon className="mb-4 h-6 w-6 text-indigo-400" />
-=======
                   <arch.icon className="text-accent-primary mb-4 h-6 w-6" />
->>>>>>> recover/cabinet-wip-from-stash
                   <p className="mb-1 text-xs font-bold uppercase">{arch.label}</p>
                   <p className="text-[9px] font-bold uppercase text-white/40">
                     {arch.items} Объектов

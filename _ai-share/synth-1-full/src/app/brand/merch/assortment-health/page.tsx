@@ -32,19 +32,11 @@ export default function AssortmentHealthPage() {
             className="border-border-default relative overflow-hidden border p-5 shadow-sm transition-colors hover:border-emerald-200/80"
           >
             <div className="mb-5 flex items-center justify-between">
-<<<<<<< HEAD
-              <h3 className="text-base font-semibold uppercase tracking-tight text-slate-900">
-                {data.category}
-              </h3>
-              <div className="text-right">
-                <div className="mb-0.5 text-[10px] font-bold uppercase text-slate-500">
-=======
               <h3 className="text-text-primary text-base font-semibold uppercase tracking-tight">
                 {data.category}
               </h3>
               <div className="text-right">
                 <div className="text-text-secondary mb-0.5 text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   Health Score
                 </div>
                 <div className="text-2xl font-bold tabular-nums text-emerald-600">
@@ -98,11 +90,7 @@ export default function AssortmentHealthPage() {
             </div>
 
             <div className="space-y-2">
-<<<<<<< HEAD
-              <div className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
-=======
               <div className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 AI Merch Recommendations
               </div>
               {data.recommendations.map((rec, i) => (

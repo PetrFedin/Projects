@@ -196,11 +196,7 @@ const ProductionPageContent = dynamic(
   () => import('./production-page-content').then((m) => ({ default: m.ProductionPageContent })),
   {
     ssr: false,
-<<<<<<< HEAD
-    loading: () => <div className="p-8 text-center text-sm text-slate-400">Загрузка…</div>,
-=======
     loading: () => <div className="text-text-muted p-8 text-center text-sm">Загрузка…</div>,
->>>>>>> recover/cabinet-wip-from-stash
   }
 );
 
@@ -232,18 +228,6 @@ function Acronym({
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-<<<<<<< HEAD
-        <span className="cursor-help px-0.5 font-medium underline decoration-indigo-400/60 decoration-dotted">
-          {children}
-        </span>
-      </TooltipTrigger>
-      <TooltipContent className="z-[100] max-w-xs rounded-lg border-none bg-slate-900 p-3 text-white shadow-xl">
-        <div className="space-y-1">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-indigo-400">
-            {title}
-          </p>
-          {description && <p className="text-[10px] leading-snug text-slate-300">{description}</p>}
-=======
         <span className="decoration-accent-primary/60 cursor-help px-0.5 font-medium underline decoration-dotted">
           {children}
         </span>
@@ -254,7 +238,6 @@ function Acronym({
             {title}
           </p>
           {description && <p className="text-text-muted text-[10px] leading-snug">{description}</p>}
->>>>>>> recover/cabinet-wip-from-stash
         </div>
       </TooltipContent>
     </Tooltip>
@@ -1265,11 +1248,7 @@ export default function ProductionControlPage() {
         ? parseInt(
             String(s)
               .replace(/[\s\u00a0₽]/g, '')
-<<<<<<< HEAD
-              .replace(/,/g, '') || 0,
-=======
               .replace(/,/g, '') || '0',
->>>>>>> recover/cabinet-wip-from-stash
             10
           )
         : 0;
@@ -1645,11 +1624,6 @@ export default function ProductionControlPage() {
     setEditingEvent,
     newSkuData,
     setNewSkuData,
-<<<<<<< HEAD
-    collections: collections,
-    collectionBudgets,
-=======
->>>>>>> recover/cabinet-wip-from-stash
     skus,
     materialsList,
     sfcOperations,
@@ -1662,12 +1636,6 @@ export default function ProductionControlPage() {
     requisitions,
     setRequisitions,
     qcReports,
-<<<<<<< HEAD
-    productionDocuments,
-    notificationsList,
-    chatMessages,
-=======
->>>>>>> recover/cabinet-wip-from-stash
     isCreatingCollection,
     setIsCreatingCollection,
     isCreatingSku,

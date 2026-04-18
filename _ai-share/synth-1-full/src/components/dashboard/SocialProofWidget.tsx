@@ -61,11 +61,7 @@ export function SocialProofWidget() {
 
   return (
     <Card className="rounded-xl border-2 border-rose-100 shadow-xl">
-<<<<<<< HEAD
-      <CardHeader className="border-b border-slate-100 bg-gradient-to-r from-rose-50 to-pink-50">
-=======
       <CardHeader className="border-border-subtle to-accent-primary/10 border-b bg-gradient-to-r from-rose-50">
->>>>>>> recover/cabinet-wip-from-stash
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-rose-600">
             <TrendingUp className="h-6 w-6 text-white" />
@@ -74,13 +70,9 @@ export function SocialProofWidget() {
             <CardTitle className="text-text-primary text-sm font-black uppercase tracking-tight">
               Trending This Week
             </CardTitle>
-<<<<<<< HEAD
-            <p className="text-[10px] font-medium text-slate-500">What other buyers are loving</p>
-=======
             <p className="text-text-secondary text-[10px] font-medium">
               What other buyers are loving
             </p>
->>>>>>> recover/cabinet-wip-from-stash
           </div>
         </div>
       </CardHeader>
@@ -104,28 +96,16 @@ export function SocialProofWidget() {
               </div>
 
               <div className="min-w-0 flex-1">
-<<<<<<< HEAD
-                <h4 className="text-sm font-black uppercase leading-tight text-slate-900">
-                  {product.name}
-                </h4>
-                <p className="mb-2 text-[10px] text-slate-600">by {product.brand}</p>
-=======
                 <h4 className="text-text-primary text-sm font-black uppercase leading-tight">
                   {product.name}
                 </h4>
                 <p className="text-text-secondary mb-2 text-[10px]">by {product.brand}</p>
->>>>>>> recover/cabinet-wip-from-stash
 
                 <div className="flex flex-wrap items-center gap-3">
                   <div className="flex items-center gap-1">
                     <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-<<<<<<< HEAD
-                    <span className="text-sm font-black text-slate-900">{product.rating}</span>
-                    <span className="text-[10px] text-slate-500">({product.reviews})</span>
-=======
                     <span className="text-text-primary text-sm font-black">{product.rating}</span>
                     <span className="text-text-secondary text-[10px]">({product.reviews})</span>
->>>>>>> recover/cabinet-wip-from-stash
                   </div>
 
                   <Badge className="border-none bg-emerald-100 text-[7px] font-black uppercase text-emerald-700">
@@ -146,22 +126,14 @@ export function SocialProofWidget() {
               <div className="flex items-start gap-2">
                 <Avatar className="h-8 w-8 flex-shrink-0">
                   <AvatarImage src={product.topReview.buyerAvatar} />
-<<<<<<< HEAD
-                  <AvatarFallback className="bg-gradient-to-br from-rose-500 to-pink-500 text-[10px] font-bold text-white">
-=======
                   <AvatarFallback className="to-accent-primary/100 bg-gradient-to-br from-rose-500 text-[10px] font-bold text-white">
->>>>>>> recover/cabinet-wip-from-stash
                     {product.topReview.buyer.slice(0, 2)}
                   </AvatarFallback>
                 </Avatar>
 
                 <div className="min-w-0 flex-1">
                   <div className="mb-1 flex items-center justify-between">
-<<<<<<< HEAD
-                    <p className="text-[10px] font-bold text-slate-900">
-=======
                     <p className="text-text-primary text-[10px] font-bold">
->>>>>>> recover/cabinet-wip-from-stash
                       {product.topReview.buyer}
                     </p>
                     <div className="flex">
@@ -170,11 +142,7 @@ export function SocialProofWidget() {
                       ))}
                     </div>
                   </div>
-<<<<<<< HEAD
-                  <p className="text-[10px] italic leading-relaxed text-slate-700">
-=======
                   <p className="text-text-primary text-[10px] italic leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                     "{product.topReview.text}"
                   </p>
                 </div>
@@ -194,30 +162,18 @@ export function SocialProofWidget() {
                   className="h-7 bg-rose-600 text-[8px] font-black uppercase hover:bg-rose-700"
                   asChild
                 >
-<<<<<<< HEAD
-                  <Link href={`/shop/b2b/products/${product.id}`}>View Product</Link>
-=======
                   <Link href={ROUTES.shop.b2bProduct(product.id)}>View Product</Link>
->>>>>>> recover/cabinet-wip-from-stash
                 </Button>
               </div>
             </div>
           </div>
         ))}
 
-<<<<<<< HEAD
-        <div className="rounded-xl border-2 border-rose-100 bg-gradient-to-r from-rose-50 to-pink-50 p-4 text-center">
-          <p className="text-[11px] font-medium text-rose-900">
-            💡 <strong>89% байеров</strong> заказывают эти товары повторно
-          </p>
-          <p className="mt-1 text-[9px] text-slate-600">
-=======
         <div className="to-accent-primary/10 rounded-xl border-2 border-rose-100 bg-gradient-to-r from-rose-50 p-4 text-center">
           <p className="text-[11px] font-medium text-rose-900">
             💡 <strong>89% байеров</strong> заказывают эти товары повторно
           </p>
           <p className="text-text-secondary mt-1 text-[9px]">
->>>>>>> recover/cabinet-wip-from-stash
             Based on 12,450 B2B orders in last 60 days
           </p>
         </div>

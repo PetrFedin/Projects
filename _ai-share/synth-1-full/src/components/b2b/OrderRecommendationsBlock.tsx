@@ -25,11 +25,7 @@ export function OrderRecommendationsBlock({ orderLineCount = 0 }: OrderRecommend
         <Card className="border-accent-primary/20 bg-accent-primary/10">
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-sm">
-<<<<<<< HEAD
-              <Sparkles className="h-4 w-4 text-indigo-600" />
-=======
               <Sparkles className="text-accent-primary h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
               AI-рекомендации
             </CardTitle>
             <CardDescription>
@@ -68,15 +64,9 @@ function RecommendationRow({ rec }: { rec: OrderRecommendation }) {
     <div className="flex items-start justify-between gap-2 rounded-lg bg-white/60 p-2">
       <div>
         <p className="text-sm font-medium">{rec.title}</p>
-<<<<<<< HEAD
-        <p className="text-xs text-slate-500">{rec.description}</p>
-        {rec.productName && (
-          <p className="mt-0.5 flex items-center gap-1 text-xs text-slate-600">
-=======
         <p className="text-text-secondary text-xs">{rec.description}</p>
         {rec.productName && (
           <p className="text-text-secondary mt-0.5 flex items-center gap-1 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
             <Package className="h-3 w-3" /> {rec.productName}
             {rec.suggestedQty != null && ` · +${rec.suggestedQty} шт.`}
           </p>
@@ -106,11 +96,7 @@ function AnomalyRow({ anomaly }: { anomaly: OrderAnomaly }) {
       </div>
       <p className="text-text-secondary text-xs">{anomaly.description}</p>
       {anomaly.suggestedAction && (
-<<<<<<< HEAD
-        <p className="mt-1 text-xs text-indigo-600">{anomaly.suggestedAction}</p>
-=======
         <p className="text-accent-primary mt-1 text-xs">{anomaly.suggestedAction}</p>
->>>>>>> recover/cabinet-wip-from-stash
       )}
     </div>
   );

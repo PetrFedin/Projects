@@ -82,15 +82,6 @@ export const getMachineStatusColor = (status: MachineKPI['status']) => {
     case 'running':
       return 'bg-emerald-500';
     case 'idle':
-<<<<<<< HEAD
-      return 'bg-slate-300';
-    case 'offline':
-      return 'bg-slate-900';
-    case 'error':
-      return 'bg-rose-500 animate-pulse';
-    default:
-      return 'bg-slate-300';
-=======
       return 'bg-border-default';
     case 'offline':
       return 'bg-text-primary';
@@ -98,6 +89,5 @@ export const getMachineStatusColor = (status: MachineKPI['status']) => {
       return 'bg-rose-500 animate-pulse';
     default:
       return 'bg-border-default';
->>>>>>> recover/cabinet-wip-from-stash
   }
 };

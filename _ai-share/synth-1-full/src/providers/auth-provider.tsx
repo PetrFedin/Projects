@@ -113,25 +113,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           await fetchFastApiProfile(email ?? undefined);
         } else if (typeof window !== 'undefined') {
           const path = window.location.pathname;
-<<<<<<< HEAD
-          const search = window.location.search || '';
-          const isSupplier = search.includes('role=supplier');
-          const email = path.startsWith('/admin')
-            ? 'admin@syntha.ai'
-            : path.startsWith('/brand')
-              ? 'brand@syntha.ai'
-              : path.startsWith('/distributor')
-                ? 'dist@syntha.ai'
-                : path.startsWith('/factory')
-                  ? isSupplier
-                    ? 'supplier@syntha.ai'
-                    : 'factory@syntha.ai'
-                  : path.startsWith('/client')
-                    ? 'elena.petrova@example.com'
-                    : path.startsWith('/shop')
-                      ? 'shop@syntha.ai'
-                      : null;
-=======
           const email = path.startsWith(ROUTES.admin.home)
             ? 'admin@syntha.ai'
             : path.startsWith(ROUTES.brand.home)
@@ -147,7 +128,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                       : path.startsWith(ROUTES.shop.home)
                         ? 'shop@syntha.ai'
                         : null;
->>>>>>> recover/cabinet-wip-from-stash
           if (email) {
             try {
               const u = await authRepository.signIn(email, 'password123');

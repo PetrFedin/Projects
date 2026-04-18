@@ -19,31 +19,18 @@ const eventIcons: { [key: string]: React.ElementType } = {
 };
 
 const mockHistory = [
-<<<<<<< HEAD
-  { event: 'Листинг запрошен', date: '2024-07-01 10:00', user: 'Магазин "Podium"' },
-  { event: 'Листинг одобрен', date: '2024-07-01 14:00', user: 'Бренд "Syntha"' },
-  {
-    event: 'Цена изменена',
-    date: '2024-07-15 11:30',
-    user: 'Бренд "Syntha"',
-=======
   { event: 'Листинг запрошен', date: '2024-07-01 10:00', user: 'Демо-магазин · Москва 1' },
   { event: 'Листинг одобрен', date: '2024-07-01 14:00', user: 'Бренд "Syntha Lab"' },
   {
     event: 'Цена изменена',
     date: '2024-07-15 11:30',
     user: 'Бренд "Syntha Lab"',
->>>>>>> recover/cabinet-wip-from-stash
     details: 'Старая цена: 22000 ₽, Новая цена: 24500 ₽',
   },
   {
     event: 'Запрос на скидку 20%',
     date: '2024-07-20 09:00',
-<<<<<<< HEAD
-    user: 'Магазин "Podium"',
-=======
     user: 'Демо-магазин · Москва 1',
->>>>>>> recover/cabinet-wip-from-stash
     status: 'отклонен брендом',
   },
   {
@@ -52,17 +39,12 @@ const mockHistory = [
     user: 'Автоматически (нет в наличии)',
     details: 'Остаток 0 более 30 дней',
   },
-<<<<<<< HEAD
-  { event: 'Товар восстановлен', date: '2024-07-28 12:00', user: 'Магазин "Podium"' },
-  { event: 'Листинг запрошен (повторно)', date: '2024-07-28 12:01', user: 'Магазин "Podium"' },
-=======
   { event: 'Товар восстановлен', date: '2024-07-28 12:00', user: 'Демо-магазин · Москва 1' },
   {
     event: 'Листинг запрошен (повторно)',
     date: '2024-07-28 12:01',
     user: 'Демо-магазин · Москва 1',
   },
->>>>>>> recover/cabinet-wip-from-stash
 ];
 
 export default function SkuHistoryPage({
@@ -83,17 +65,10 @@ export default function SkuHistoryPage({
   }
 
   return (
-<<<<<<< HEAD
-    <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <Button variant="outline" size="icon" asChild>
-          <Link href="/shop/inventory">
-=======
     <RegistryPageShell className="space-y-6">
       <div className="flex items-center gap-3">
         <Button variant="outline" size="icon" asChild>
           <Link href={ROUTES.shop.inventory}>
->>>>>>> recover/cabinet-wip-from-stash
             <ChevronLeft className="h-4 w-4" />
           </Link>
         </Button>
@@ -139,10 +114,6 @@ export default function SkuHistoryPage({
           </ol>
         </CardContent>
       </Card>
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

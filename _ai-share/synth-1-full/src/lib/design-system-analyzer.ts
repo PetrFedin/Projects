@@ -68,11 +68,7 @@ export const normalizeComponentVariant = (
     result = result.replace(/p-\d+/g, 'p-4'); // Standard padding
     result = result.replace(/rounded-\w+/g, 'rounded-xl'); // Standard radius
     result = result.replace(/shadow-\w+/g, 'shadow-sm'); // Minimal clutter
-<<<<<<< HEAD
-    result = result.replace(/border-\w+/g, 'border-slate-100'); // Standard border
-=======
     result = result.replace(/border-\w+/g, 'border-border-subtle'); // Standard border
->>>>>>> recover/cabinet-wip-from-stash
   }
 
   return result;

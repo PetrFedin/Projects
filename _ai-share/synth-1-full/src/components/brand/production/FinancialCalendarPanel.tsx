@@ -77,16 +77,6 @@ export function FinancialCalendarPanel() {
   const totalAmount = items.reduce((s, c) => s + (c.amount || 0), 0);
 
   return (
-<<<<<<< HEAD
-    <Card className="overflow-hidden rounded-2xl border border-slate-200">
-      <CardHeader className="flex flex-row items-center justify-between gap-3 border-b border-slate-100 p-4">
-        <CardTitle className="flex shrink-0 items-center gap-2 text-xs font-black uppercase">
-          <Calendar className="h-4 w-4 text-indigo-600" />
-          Финансовый календарь
-        </CardTitle>
-        <div className="flex shrink-0 items-center gap-2">
-          {loading && <Loader2 className="h-4 w-4 animate-spin text-slate-400" />}
-=======
     <Card className="border-border-default overflow-hidden rounded-2xl border">
       <CardHeader className="border-border-subtle flex flex-row items-center justify-between gap-3 border-b p-4">
         <CardTitle className="flex shrink-0 items-center gap-2 text-xs font-black uppercase">
@@ -95,7 +85,6 @@ export function FinancialCalendarPanel() {
         </CardTitle>
         <div className="flex shrink-0 items-center gap-2">
           {loading && <Loader2 className="text-text-muted h-4 w-4 animate-spin" />}
->>>>>>> recover/cabinet-wip-from-stash
           {isDemo && (
             <Badge variant="outline" className="border-amber-200 text-[8px] text-amber-600">
               Демо
@@ -105,37 +94,22 @@ export function FinancialCalendarPanel() {
             Всего: {totalAmount.toLocaleString('ru-RU')} ₽
           </Badge>
           <Button variant="outline" size="sm" className="h-7 px-2 text-[8px]" asChild>
-<<<<<<< HEAD
-            <Link href="/brand/calendar?layers=production,finance,orders">
-=======
             <Link href={`${ROUTES.brand.calendar}?layers=production,finance,orders`}>
->>>>>>> recover/cabinet-wip-from-stash
               <ArrowUpRight className="mr-1 h-3 w-3" /> Strategic Planner
             </Link>
           </Button>
           <button
             onClick={handleExport}
-<<<<<<< HEAD
-            className="rounded-lg p-1.5 transition-colors hover:bg-slate-100"
-            aria-label="Экспорт"
-          >
-            <Download className="h-4 w-4 text-slate-500" />
-=======
             className="hover:bg-bg-surface2 rounded-lg p-1.5 transition-colors"
             aria-label="Экспорт"
           >
             <Download className="text-text-secondary h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
           </button>
         </div>
       </CardHeader>
       <CardContent className="min-h-[120px] p-4">
         {items.length === 0 ? (
-<<<<<<< HEAD
-          <p className="py-8 text-center text-[10px] text-slate-400">
-=======
           <p className="text-text-muted py-8 text-center text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
             Нет запланированных платежей
           </p>
         ) : (
@@ -143,13 +117,6 @@ export function FinancialCalendarPanel() {
             {items.map((c, i) => (
               <div
                 key={i}
-<<<<<<< HEAD
-                className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3 transition-all hover:border-indigo-100 hover:bg-white"
-              >
-                <div>
-                  <p className="text-[10px] font-bold text-slate-900">{c.milestone || 'Платёж'}</p>
-                  <p className="text-[9px] text-slate-500">
-=======
                 className="bg-bg-surface2 border-border-subtle hover:border-accent-primary/20 flex items-center justify-between rounded-xl border p-3 transition-all hover:bg-white"
               >
                 <div>
@@ -157,7 +124,6 @@ export function FinancialCalendarPanel() {
                     {c.milestone || 'Платёж'}
                   </p>
                   <p className="text-text-secondary text-[9px]">
->>>>>>> recover/cabinet-wip-from-stash
                     {new Date(c.due_date).toLocaleDateString('ru-RU')} · {c.sku_id || '—'}
                   </p>
                 </div>

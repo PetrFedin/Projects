@@ -88,11 +88,7 @@ function NavLinkActions({ linkKey, onNavigate }: { linkKey: string; onNavigate?:
           togglePin(linkKey);
         }}
         className={cn(
-<<<<<<< HEAD
-          'rounded p-0.5 transition-colors hover:bg-slate-200',
-=======
           'hover:bg-bg-surface2 rounded p-0.5 transition-colors',
->>>>>>> recover/cabinet-wip-from-stash
           isPinned && 'text-amber-500'
         )}
         title={isPinned ? 'Открепить' : 'Закрепить (важный)'}
@@ -109,13 +105,8 @@ function NavLinkActions({ linkKey, onNavigate }: { linkKey: string; onNavigate?:
               setReminderInput(reminder);
             }}
             className={cn(
-<<<<<<< HEAD
-              'rounded p-0.5 transition-colors hover:bg-slate-200',
-              reminder && 'text-indigo-500'
-=======
               'hover:bg-bg-surface2 rounded p-0.5 transition-colors',
               reminder && 'text-accent-primary'
->>>>>>> recover/cabinet-wip-from-stash
             )}
             title={reminder || 'Добавить напоминание'}
             aria-label="Напоминание"
@@ -237,11 +228,7 @@ export function BrandSidebar({
   return (
     <nav
       className={cn(
-<<<<<<< HEAD
-        'scrollbar-hide flex h-full flex-col overflow-y-auto border-r border-slate-200 bg-white',
-=======
         'border-border-default scrollbar-hide flex h-full flex-col overflow-y-auto border-r bg-white',
->>>>>>> recover/cabinet-wip-from-stash
         className
       )}
     >
@@ -253,19 +240,11 @@ export function BrandSidebar({
           return (
             <div key={cluster.id} className="mb-4 last:mb-0">
               <div className="flex items-center gap-1.5 px-3 py-1.5">
-<<<<<<< HEAD
-                <div className="h-0.5 min-w-2 flex-1 rounded-full bg-slate-100" />
-                <span className="shrink-0 text-[8px] font-black uppercase tracking-[0.15em] text-slate-400">
-                  {cluster.label}
-                </span>
-                <div className="h-0.5 min-w-2 flex-1 rounded-full bg-slate-100" />
-=======
                 <div className="bg-bg-surface2 h-0.5 min-w-2 flex-1 rounded-full" />
                 <span className="text-text-muted shrink-0 text-[8px] font-black uppercase tracking-[0.15em]">
                   {cluster.label}
                 </span>
                 <div className="bg-bg-surface2 h-0.5 min-w-2 flex-1 rounded-full" />
->>>>>>> recover/cabinet-wip-from-stash
               </div>
               <div className="mt-0.5 space-y-0.5">
                 {clusterGroups.map((group) => {
@@ -278,44 +257,25 @@ export function BrandSidebar({
                       onOpenChange={(open) => setGroupOpen(group.id, open)}
                       className="group/coll"
                     >
-<<<<<<< HEAD
-                      <CollapsibleTrigger className="group/trigger flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[10px] font-black uppercase tracking-widest transition-colors hover:bg-slate-50 data-[state=open]:bg-slate-50">
-                        <group.icon
-                          className={cn(
-                            'h-4 w-4 shrink-0',
-                            isGroupActive ? 'text-indigo-600' : 'text-slate-400'
-=======
                       <CollapsibleTrigger className="group/trigger hover:bg-bg-surface2 data-[state=open]:bg-bg-surface2 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[10px] font-black uppercase tracking-widest transition-colors">
                         <group.icon
                           className={cn(
                             'h-4 w-4 shrink-0',
                             isGroupActive ? 'text-accent-primary' : 'text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                           )}
                         />
                         <span
                           className={cn(
                             'flex-1 truncate',
-<<<<<<< HEAD
-                            isGroupActive ? 'text-slate-900' : 'text-slate-600'
-=======
                             isGroupActive ? 'text-text-primary' : 'text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                           )}
                         >
                           {group.label}
                         </span>
-<<<<<<< HEAD
-                        <ChevronDown className="h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform group-data-[state=open]/trigger:rotate-180" />
-                      </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        <div className="ml-3 space-y-0.5 border-l border-slate-100 pb-2 pl-2 pr-1 pt-0.5">
-=======
                         <ChevronDown className="text-text-muted h-3.5 w-3.5 shrink-0 transition-transform group-data-[state=open]/trigger:rotate-180" />
                       </CollapsibleTrigger>
                       <CollapsibleContent>
                         <div className="border-border-subtle ml-3 space-y-0.5 border-l pb-2 pl-2 pr-1 pt-0.5">
->>>>>>> recover/cabinet-wip-from-stash
                           {group.links.map((link) => {
                             const active = isLinkActive(link, activeLinkValue);
 
@@ -334,13 +294,8 @@ export function BrandSidebar({
                                   className={cn(
                                     'flex flex-1 items-center gap-2 rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
                                     active
-<<<<<<< HEAD
-                                      ? 'bg-slate-900 text-white'
-                                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-=======
                                       ? 'bg-text-primary text-white'
                                       : 'text-text-secondary hover:bg-bg-surface2 hover:text-text-primary'
->>>>>>> recover/cabinet-wip-from-stash
                                   )}
                                 >
                                   <link.icon className="h-3.5 w-3.5 shrink-0" />

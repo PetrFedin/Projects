@@ -14,22 +14,13 @@ import { ROUTES } from '@/lib/routes';
 
 export default function WebhooksPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="space-y-6">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Webhooks & API"
         description="Уведомления и автоматизация. Настройте webhooks для событий: заказы, сэмплы, оплаты. API для внешних систем."
         icon={Zap}
-<<<<<<< HEAD
-        iconBg="bg-indigo-100"
-        iconColor="text-indigo-600"
-=======
         iconBg="bg-accent-primary/15"
         iconColor="text-accent-primary"
->>>>>>> recover/cabinet-wip-from-stash
         badges={
           <>
             <Badge variant="outline" className="text-[9px]">
@@ -39,11 +30,7 @@ export default function WebhooksPage() {
               API
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/integrations">Интеграции</Link>
-=======
               <Link href={ROUTES.brand.integrations}>Интеграции</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -58,11 +45,7 @@ export default function WebhooksPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-<<<<<<< HEAD
-            <p className="text-[11px] text-slate-600">
-=======
             <p className="text-text-secondary text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
               События: order.created, sample.approved, payment.received, shipment.sent
             </p>
             <Button size="sm" variant="outline" className="gap-2">

@@ -81,11 +81,7 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
     d: 3,
     t: 'Paris Fashion Week',
     source: 'events',
-<<<<<<< HEAD
-    c: 'bg-slate-900 text-white',
-=======
     c: 'bg-text-primary text-white',
->>>>>>> recover/cabinet-wip-from-stash
     href: '/brand/events',
     partner: 'Оргкомитет',
     entityType: 'event',
@@ -102,49 +98,29 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
     d: 5,
     t: 'Согласование PO ORD-4521',
     source: 'orders',
-<<<<<<< HEAD
-    c: 'bg-indigo-100 text-indigo-700',
-    href: '/brand/b2b-orders/4521',
-    role: 'Байер',
-    partner: 'Podium',
-=======
     c: 'bg-accent-primary/15 text-accent-primary',
     href: brandB2bOrderHref('4521'),
     role: 'Байер',
     partner: 'Демо-магазин · Москва 1',
->>>>>>> recover/cabinet-wip-from-stash
     entityId: '4521',
     entityType: 'order',
     startTime: '11:00',
     endTime: '12:00',
     reminderMinutes: 15,
     collection: 'SS26',
-<<<<<<< HEAD
-    dependsOn: 'task-podium',
-=======
     dependsOn: 'task-retail-msk1',
->>>>>>> recover/cabinet-wip-from-stash
     weight: 1,
     priority: 'high',
   },
   {
     d: 5,
-<<<<<<< HEAD
-    t: 'Звонок с Podium',
-=======
     t: 'Звонок с демо-магазином (Москва 1)',
->>>>>>> recover/cabinet-wip-from-stash
     source: 'meetings',
     c: 'bg-sky-100 text-sky-700',
     href: '/brand/messages',
     role: 'Байер',
-<<<<<<< HEAD
-    partner: 'Podium',
-    entityId: 'podium-chat',
-=======
     partner: 'Демо-магазин · Москва 1',
     entityId: 'retail-msk1-chat',
->>>>>>> recover/cabinet-wip-from-stash
     startTime: '14:00',
     endTime: '14:30',
     reminderMinutes: 5,
@@ -153,15 +129,6 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
   },
   {
     d: 6,
-<<<<<<< HEAD
-    t: 'Договор Podium — черновик',
-    source: 'tasks',
-    c: 'bg-violet-100 text-violet-700',
-    href: '/brand/tasks',
-    assignee: 'Анна',
-    role: 'Юрист',
-    entityId: 'task-podium',
-=======
     t: 'Договор с демо-магазином — черновик',
     source: 'tasks',
     c: 'bg-accent-primary/15 text-accent-primary',
@@ -169,7 +136,6 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
     assignee: 'Анна',
     role: 'Юрист',
     entityId: 'task-retail-msk1',
->>>>>>> recover/cabinet-wip-from-stash
     entityType: 'task',
     startTime: '09:00',
     endTime: '12:00',
@@ -182,13 +148,8 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
     source: 'finance',
     c: 'bg-emerald-100 text-emerald-700',
     href: '/brand/finance/escrow',
-<<<<<<< HEAD
-    partner: 'ЦУМ',
-    entityId: 'escrow-tsum',
-=======
     partner: 'Демо-магазин · Москва 2',
     entityId: 'escrow-demo-msk2',
->>>>>>> recover/cabinet-wip-from-stash
     entityType: 'escrow',
     startTime: '12:00',
     endTime: '13:00',
@@ -215,11 +176,7 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
     d: 12,
     t: 'Lookbook Graphene — релиз',
     source: 'content',
-<<<<<<< HEAD
-    c: 'bg-purple-100 text-purple-700',
-=======
     c: 'bg-accent-primary/15 text-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
     href: '/brand/media',
     role: 'Маркетолог',
     startTime: '09:00',
@@ -231,11 +188,7 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
     d: 12,
     t: 'Gold Sample SYN-001',
     source: 'tasks',
-<<<<<<< HEAD
-    c: 'bg-violet-100 text-violet-700',
-=======
     c: 'bg-accent-primary/15 text-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
     href: '/brand/production',
     assignee: 'Петр (QC)',
     entityId: 'syn-001',
@@ -264,19 +217,11 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
   },
   {
     d: 15,
-<<<<<<< HEAD
-    t: 'Встреча с ЦУМ',
-    source: 'meetings',
-    c: 'bg-sky-100 text-sky-700',
-    href: '/brand/b2b-orders',
-    partner: 'ЦУМ',
-=======
     t: 'Встреча с демо-магазином (Москва 2)',
     source: 'meetings',
     c: 'bg-sky-100 text-sky-700',
     href: ROUTES.brand.b2bOrders,
     partner: 'Демо-магазин · Москва 2',
->>>>>>> recover/cabinet-wip-from-stash
     startTime: '15:00',
     endTime: '16:30',
     timezone: 'Europe/Moscow',
@@ -288,11 +233,7 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
     d: 18,
     t: 'Gold Sample — примерка',
     source: 'production',
-<<<<<<< HEAD
-    c: 'bg-purple-100 text-purple-700',
-=======
     c: 'bg-accent-primary/15 text-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
     href: '/brand/production',
     role: 'QC',
     partner: 'Фабрика #4',
@@ -310,11 +251,7 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
     source: 'finance',
     c: 'bg-emerald-100 text-emerald-700',
     href: '/brand/finance/escrow',
-<<<<<<< HEAD
-    partner: 'ЦУМ',
-=======
     partner: 'Демо-магазин · Москва 2',
->>>>>>> recover/cabinet-wip-from-stash
     entityId: '4420',
     entityType: 'escrow',
     startTime: '10:00',
@@ -341,15 +278,6 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
   },
   {
     d: 28,
-<<<<<<< HEAD
-    t: 'Контракт TSUM — подписание',
-    source: 'orders',
-    c: 'bg-indigo-100 text-indigo-700',
-    href: '/brand/b2b-orders',
-    role: 'CFO',
-    partner: 'ЦУМ',
-    entityId: 'tsum-contract',
-=======
     t: 'Контракт с демо-магазином — подписание',
     source: 'orders',
     c: 'bg-accent-primary/15 text-accent-primary',
@@ -357,7 +285,6 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
     role: 'CFO',
     partner: 'Демо-магазин · Москва 2',
     entityId: 'demo-msk2-contract',
->>>>>>> recover/cabinet-wip-from-stash
     entityType: 'order',
     startTime: '16:00',
     endTime: '17:00',
@@ -477,31 +404,19 @@ export const SEASON_PIPELINE_PHASES = [
   {
     id: 'research',
     label: 'Research',
-<<<<<<< HEAD
-    color: 'bg-slate-100 text-slate-700',
-=======
     color: 'bg-bg-surface2 text-text-primary',
->>>>>>> recover/cabinet-wip-from-stash
     layers: ['tasks', 'meetings'] as EventSource[],
   },
   {
     id: 'design',
     label: 'Design',
-<<<<<<< HEAD
-    color: 'bg-indigo-100 text-indigo-700',
-=======
     color: 'bg-accent-primary/15 text-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
     layers: ['tasks', 'content', 'orders'] as EventSource[],
   },
   {
     id: 'sampling',
     label: 'Sampling',
-<<<<<<< HEAD
-    color: 'bg-violet-100 text-violet-700',
-=======
     color: 'bg-accent-primary/15 text-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
     layers: ['production', 'tasks', 'meetings'] as EventSource[],
   },
   {

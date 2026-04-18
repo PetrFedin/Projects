@@ -37,17 +37,10 @@ export const ProductAlterationsServiceBlock: React.FC<{ product: Product }> = ({
           >
             <div className="mb-2 flex items-start justify-between">
               <div className="flex flex-col">
-<<<<<<< HEAD
-                <div className="text-sm font-black tracking-tight text-slate-800">
-                  {a.atelierName}
-                </div>
-                <div className="mt-0.5 text-[10px] font-bold uppercase text-slate-400">
-=======
                 <div className="text-text-primary text-sm font-black tracking-tight">
                   {a.atelierName}
                 </div>
                 <div className="text-text-muted mt-0.5 text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   {a.distanceKm} km away
                 </div>
               </div>
@@ -68,13 +61,8 @@ export const ProductAlterationsServiceBlock: React.FC<{ product: Product }> = ({
               ))}
             </div>
 
-<<<<<<< HEAD
-            <div className="flex items-center justify-between border-t border-slate-50 pt-2">
-              <div className="text-[10px] font-black uppercase text-slate-400">
-=======
             <div className="border-border-subtle flex items-center justify-between border-t pt-2">
               <div className="text-text-muted text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                 From {a.estimatedPrice} ₽
               </div>
               <Button

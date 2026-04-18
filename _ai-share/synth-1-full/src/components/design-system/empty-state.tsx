@@ -18,13 +18,6 @@ export function EmptyState({ title, description, icon, className, children }: Em
         className
       )}
     >
-<<<<<<< HEAD
-      <div className="mb-3 text-slate-400">
-        {icon ?? <Inbox className="h-10 w-10 stroke-[1.25]" />}
-      </div>
-      <p className="text-sm font-semibold text-slate-900">{title}</p>
-      {description ? <p className="mt-1 max-w-sm text-xs text-slate-500">{description}</p> : null}
-=======
       <div className="text-text-muted mb-3">
         {icon ?? <Inbox className="h-10 w-10 stroke-[1.25]" />}
       </div>
@@ -32,7 +25,6 @@ export function EmptyState({ title, description, icon, className, children }: Em
       {description ? (
         <p className="text-text-secondary mt-1 max-w-sm text-xs">{description}</p>
       ) : null}
->>>>>>> recover/cabinet-wip-from-stash
       {children ? <div className="mt-4 flex flex-wrap justify-center gap-2">{children}</div> : null}
     </div>
   );

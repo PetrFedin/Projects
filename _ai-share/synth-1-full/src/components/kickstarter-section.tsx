@@ -54,11 +54,7 @@ export default function KickstarterSection() {
           animate={{ opacity: 1, scale: 1 }}
           className="w-[280px] flex-shrink-0 snap-start"
         >
-<<<<<<< HEAD
-          <div className="group/kick relative rounded-[1.5rem] border border-slate-100 bg-white p-3 shadow-lg">
-=======
           <div className="group/kick border-border-subtle bg-bg-surface relative rounded-[1.5rem] border p-3 shadow-lg">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="relative mb-3 aspect-square">
               <div className="absolute inset-0 overflow-hidden rounded-2xl">
                 <img
@@ -68,41 +64,15 @@ export default function KickstarterSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
               </div>
               <div className="absolute left-2.5 top-2.5 z-20 flex flex-col gap-1">
-<<<<<<< HEAD
-                <Badge className="border-none bg-indigo-600 px-2 py-0.5 text-[6px] font-black uppercase text-white shadow-lg">
-                  {kick.type}
-                </Badge>
-                <Badge className="border-none bg-emerald-500 px-2 py-0.5 text-[6px] font-black uppercase text-white shadow-lg">
-=======
                 <Badge className="bg-accent-primary text-text-inverse border-none px-2 py-0.5 text-[6px] font-black uppercase shadow-lg">
                   {kick.type}
                 </Badge>
                 <Badge className="bg-state-success text-text-inverse border-none px-2 py-0.5 text-[6px] font-black uppercase shadow-lg">
->>>>>>> recover/cabinet-wip-from-stash
                   Early Bird Price
                 </Badge>
               </div>
             </div>
             <div className="space-y-3">
-<<<<<<< HEAD
-              <h4 className="mb-0.5 text-xs font-black uppercase tracking-tight text-slate-900">
-                {kick.title}
-              </h4>
-              <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400">
-                {kick.brand}
-              </p>
-              <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-2.5">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[10px] font-black text-slate-400 line-through">
-                    ${kick.price_current}
-                  </span>
-                  <ArrowRight className="h-1.5 w-1.5 text-indigo-500" />
-                  <span className="text-xs font-black text-indigo-600">${kick.price_target}</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="h-1 w-1 animate-pulse rounded-full bg-emerald-500" />
-                  <span className="text-[7px] font-black uppercase tracking-widest text-emerald-600">
-=======
               <h4 className="text-text-primary mb-0.5 text-xs font-black uppercase tracking-tight">
                 {kick.title}
               </h4>
@@ -122,25 +92,12 @@ export default function KickstarterSection() {
                 <div className="flex items-center gap-1.5">
                   <div className="bg-state-success h-1 w-1 animate-pulse rounded-full" />
                   <span className="text-state-success text-[7px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Active
                   </span>
                 </div>
               </div>
               <div className="space-y-2">
                 <div className="flex items-end justify-between">
-<<<<<<< HEAD
-                  <p className="text-[9px] font-black uppercase tracking-widest text-slate-900">
-                    {kick.current} / {kick.goal} ед.
-                  </p>
-                  <p className="text-[9px] font-black uppercase tracking-widest text-indigo-600">
-                    {Math.round((kick.current / kick.goal) * 100)}%
-                  </p>
-                </div>
-                <div className="relative h-1 w-full rounded-full bg-slate-100">
-                  <div
-                    className="relative z-10 h-full rounded-full bg-indigo-600"
-=======
                   <p className="text-text-primary text-[9px] font-black uppercase tracking-widest">
                     {kick.current} / {kick.goal} ед.
                   </p>
@@ -151,7 +108,6 @@ export default function KickstarterSection() {
                 <div className="bg-bg-surface2 relative h-1 w-full rounded-full">
                   <div
                     className="bg-accent-primary relative z-10 h-full rounded-full"
->>>>>>> recover/cabinet-wip-from-stash
                     style={{ width: `${(kick.current / kick.goal) * 100}%` }}
                   />
                   {kick.thresholds.map((t) => (
@@ -165,11 +121,7 @@ export default function KickstarterSection() {
                 <div className="flex justify-center pt-1">
                   <Button
                     asChild
-<<<<<<< HEAD
-                    className="hover:button-glimmer hover:button-professional group/btn h-9 w-[180px] rounded-xl border border-slate-200 bg-white text-[9px] font-black uppercase text-slate-400 transition-all duration-500 hover:border-black hover:bg-black hover:text-white"
-=======
                     className="group/btn border-border-default bg-bg-surface text-text-muted hover:border-text-primary hover:bg-text-primary hover:text-text-inverse hover:button-glimmer hover:button-professional h-9 w-[180px] rounded-xl border text-[9px] font-black uppercase transition-all duration-500"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     <Link href={`/kickstarter/${kick.id}`}>
                       Участвовать

@@ -39,13 +39,8 @@ const loyaltyPlans = {
   comfort: {
     name: 'Комфорт',
     icon: Gift,
-<<<<<<< HEAD
-    color: 'text-purple-600',
-    bg: 'bg-purple-100',
-=======
     color: 'text-accent-primary',
     bg: 'bg-accent-primary/15',
->>>>>>> recover/cabinet-wip-from-stash
     next: 'premium',
   },
   premium: {
@@ -146,70 +141,6 @@ export default function LoyaltyCard() {
       : new Date();
   const cardNumber = cardNumberFromIssuedAt(issuedAt);
 
-<<<<<<< HEAD
-  const transactions: LoyaltyTx[] = [
-    // Qualifying (purchases)
-    {
-      id: 'q1',
-      date: '2025-12-18T10:30:00Z',
-      title: 'Кэшбэк за покупку (заказ #1042)',
-      amount: 3800,
-      bucket: 'qualifying',
-    },
-    {
-      id: 'q2',
-      date: '2025-11-29T15:10:00Z',
-      title: 'Кэшбэк за покупку (заказ #1011)',
-      amount: 5200,
-      bucket: 'qualifying',
-    },
-    {
-      id: 'q3',
-      date: '2025-10-03T09:05:00Z',
-      title: 'Кэшбэк за покупку (заказ #998)',
-      amount: 4450,
-      bucket: 'qualifying',
-    },
-    // Non-qualifying (activity)
-    {
-      id: 'n1',
-      date: '2025-12-25T08:00:00Z',
-      title: 'Ежедневная активность',
-      amount: 400,
-      bucket: 'nonQualifying',
-    },
-    {
-      id: 'n2',
-      date: '2025-12-12T12:10:00Z',
-      title: 'Создание лукборда',
-      amount: 700,
-      bucket: 'nonQualifying',
-    },
-    {
-      id: 'n3',
-      date: '2025-11-20T13:20:00Z',
-      title: 'Отзывы и лайки',
-      amount: 900,
-      bucket: 'nonQualifying',
-    },
-    // Spend / expiration examples
-    // Spend is always split 75/25, qualifying first
-    {
-      id: 's1',
-      date: '2025-12-28T17:40:00Z',
-      title: 'Списание при оплате части заказа бонусами',
-      amount: -1200,
-      bucket: 'mixed',
-    },
-    {
-      id: 'e1',
-      date: '2025-11-30T00:00:00Z',
-      title: 'Сгорание неквалификационных баллов (истёк срок)',
-      amount: -600,
-      bucket: 'nonQualifying',
-    },
-  ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-=======
   const transactions: LoyaltyTx[] = (
     [
       // Qualifying (purchases)
@@ -273,7 +204,6 @@ export default function LoyaltyCard() {
       },
     ] satisfies LoyaltyTx[]
   ).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
->>>>>>> recover/cabinet-wip-from-stash
 
   const splitSpend = (total: number) => {
     const abs = Math.abs(total);

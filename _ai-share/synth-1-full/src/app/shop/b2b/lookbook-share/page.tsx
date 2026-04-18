@@ -41,30 +41,11 @@ export default function LookbookSharePage() {
   }, [shareLink]);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2bShowroom}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <Share2 className="h-6 w-6" /> Поделиться лукбуком / лайншитом
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Ссылка на просмотр лукбука. Срок действия и пароль (опционально).
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="max-w-xl space-y-6">
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bShowroom}
         lead="Ссылка на просмотр лукбука: срок действия и пароль (опционально)."
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       {project ? (
         <Card>
@@ -93,11 +74,7 @@ export default function LookbookSharePage() {
                   )}
                 </Button>
               </div>
-<<<<<<< HEAD
-              <p className="text-[10px] text-slate-500">
-=======
               <p className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                 Получатель откроет лукбук по этой ссылке (до даты видимости проекта).
               </p>
             </div>
@@ -158,13 +135,8 @@ export default function LookbookSharePage() {
       ) : (
         <Card>
           <CardContent className="p-8 text-center">
-<<<<<<< HEAD
-            <Link2 className="mx-auto mb-3 block h-12 w-12 text-slate-300" />
-            <p className="font-medium text-slate-600">
-=======
             <Link2 className="text-text-muted mx-auto mb-3 block h-12 w-12" />
             <p className="text-text-secondary font-medium">
->>>>>>> recover/cabinet-wip-from-stash
               Выберите лукбук в виртуальном шоуруме или в разделе «Лукбуки», затем нажмите
               «Поделиться лайншитом».
             </p>
@@ -180,11 +152,7 @@ export default function LookbookSharePage() {
           <Link href={ROUTES.shop.b2bLookbooks}>Лукбуки</Link>
         </Button>
         <Button variant="outline" size="sm" asChild>
-<<<<<<< HEAD
-          <Link href={ROUTES.shop.b2b}>B2B</Link>
-=======
           <Link href={ROUTES.shop.home}>Кабинет магазина</Link>
->>>>>>> recover/cabinet-wip-from-stash
         </Button>
       </div>
       <RelatedModulesBlock
@@ -192,10 +160,6 @@ export default function LookbookSharePage() {
         title="Шоурум, лукбуки, заказы"
         className="mt-6"
       />
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

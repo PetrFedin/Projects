@@ -2,11 +2,7 @@
 
 import { useFieldArray } from 'react-hook-form';
 import type { ColorInfo, SizeInfo } from '@/lib/types';
-<<<<<<< HEAD
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../ui/card';
-=======
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../ui/card';
->>>>>>> recover/cabinet-wip-from-stash
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
@@ -23,10 +19,7 @@ import {
   Shirt,
   Plus,
   Save,
-<<<<<<< HEAD
-=======
   PlusCircle,
->>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { Calendar } from '../ui/calendar';
 import { DateRange } from 'react-day-picker';
@@ -57,10 +50,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-<<<<<<< HEAD
-=======
   DialogTrigger,
->>>>>>> recover/cabinet-wip-from-stash
 } from '../ui/dialog';
 import { Textarea } from '../ui/textarea';
 
@@ -81,11 +71,7 @@ function ColorSizeGrid({
   watch: any;
   setValue: any;
   masterSizes: SizeInfo[];
-<<<<<<< HEAD
-  colorPalette: Color[];
-=======
   colorPalette: { name: string; hex: string }[];
->>>>>>> recover/cabinet-wip-from-stash
 }) {
   const { fields, append, remove, update } = useFieldArray({
     control,

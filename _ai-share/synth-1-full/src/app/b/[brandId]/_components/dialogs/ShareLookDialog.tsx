@@ -61,11 +61,7 @@ export function ShareLookDialog({
                 0. О себе (обязательно)
               </Label>
               <Link
-<<<<<<< HEAD
-                href="/u/settings"
-=======
                 href="/client/me?tab=settings"
->>>>>>> recover/cabinet-wip-from-stash
                 className="flex items-center gap-1 text-[9px] font-bold text-accent hover:underline"
               >
                 <Edit2 className="h-2.5 w-2.5" /> Редактировать в профиле
@@ -268,11 +264,7 @@ export function ShareLookDialog({
               После публикации ваш образ будет отправлен бренду на согласование
             </p>
             <Button
-<<<<<<< HEAD
-              className="active:scale-0.98 h-10 w-full rounded-2xl bg-black text-xs font-black uppercase tracking-[0.2em] text-white shadow-xl transition-all hover:scale-[1.02] hover:bg-slate-900"
-=======
               className="hover:bg-text-primary/90 active:scale-0.98 h-10 w-full rounded-2xl bg-black text-xs font-black uppercase tracking-[0.2em] text-white shadow-xl transition-all hover:scale-[1.02]"
->>>>>>> recover/cabinet-wip-from-stash
               onClick={() => {
                 onOpenChange(false);
                 toast({

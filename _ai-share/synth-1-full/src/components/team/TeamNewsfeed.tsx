@@ -17,10 +17,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-<<<<<<< HEAD
-=======
 import { getMetricValueToneClass } from '@/lib/ui/semantic-data-tones';
->>>>>>> recover/cabinet-wip-from-stash
 
 const TeamNewsfeed = ({
   team,
@@ -74,39 +71,22 @@ const TeamNewsfeed = ({
             color: highWorkloadCount > 0 ? 'rose' : 'emerald',
           },
         ].map((s, i) => (
-<<<<<<< HEAD
-          <div key={i} className="group rounded-xl border border-slate-100 bg-white p-3 shadow-sm">
-            <p className="mb-2 text-[8px] font-black uppercase tracking-[0.2em] text-slate-400">
-=======
           <div
             key={i}
             className="border-border-subtle group rounded-xl border bg-white p-3 shadow-sm"
           >
             <p className="text-text-muted mb-2 text-[8px] font-black uppercase tracking-[0.2em]">
->>>>>>> recover/cabinet-wip-from-stash
               {s.label}
             </p>
             <p
               className={cn(
                 'text-sm font-black tracking-tighter',
-<<<<<<< HEAD
-                s.color === 'rose'
-                  ? 'text-rose-600'
-                  : s.color === 'emerald'
-                    ? 'text-emerald-600'
-                    : 'text-slate-900'
-=======
                 getMetricValueToneClass(s.color)
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               {s.value}
             </p>
-<<<<<<< HEAD
-            <p className="mt-1 text-[9px] font-bold uppercase tracking-tight text-slate-400">
-=======
             <p className="text-text-muted mt-1 text-[9px] font-bold uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
               {s.sub}
             </p>
           </div>
@@ -120,17 +100,6 @@ const TeamNewsfeed = ({
         onClick={() => setIsMatrixSummaryOpen(true)}
       >
         <div className="absolute right-0 top-0 p-4 opacity-10 transition-transform duration-1000 group-hover:scale-110">
-<<<<<<< HEAD
-          <Bot className="h-48 w-48 text-indigo-500" />
-        </div>
-        <div className="relative z-10 flex flex-col items-center gap-3 lg:flex-row">
-          <div className="flex shrink-0 items-center gap-3">
-            <div className="flex h-12 w-12 animate-pulse items-center justify-center rounded-xl bg-indigo-600 shadow-[0_0_30px_rgba(79,70,229,0.4)]">
-              <Bot className="h-8 w-8 text-white" />
-            </div>
-            <div>
-              <h4 className="mb-1 text-[10px] font-black uppercase tracking-[0.4em] text-indigo-400">
-=======
           <Bot className="text-accent-primary h-48 w-48" />
         </div>
         <div className="relative z-10 flex flex-col items-center gap-3 lg:flex-row">
@@ -140,7 +109,6 @@ const TeamNewsfeed = ({
             </div>
             <div>
               <h4 className="text-accent-primary mb-1 text-[10px] font-black uppercase tracking-[0.4em]">
->>>>>>> recover/cabinet-wip-from-stash
                 Intel OS AI Newsfeed
               </h4>
               <p className="text-base font-black uppercase tracking-tight text-white">
@@ -151,22 +119,14 @@ const TeamNewsfeed = ({
           <div className="hidden h-12 w-[1px] bg-white/10 lg:block" />
           <div className="flex-1 space-y-4">
             <div className="flex items-center gap-3">
-<<<<<<< HEAD
-              <Badge className="rounded-full border-none bg-indigo-500 px-3 py-1 text-[8px] font-black uppercase text-white">
-=======
               <Badge className="bg-accent-primary rounded-full border-none px-3 py-1 text-[8px] font-black uppercase text-white">
->>>>>>> recover/cabinet-wip-from-stash
                 LIVE ANALYTICS
               </Badge>
               <span className="text-[10px] font-black uppercase tracking-widest text-white/40">
                 Нажмите для детального анализа ресурсов
               </span>
             </div>
-<<<<<<< HEAD
-            <p className="max-w-2xl text-sm font-bold leading-relaxed text-slate-400">
-=======
             <p className="text-text-muted max-w-2xl text-sm font-bold leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
               <span className="font-black text-white">AI Контекст:</span> Текущая нагрузка
               распределена {avgWorkload < 70 ? 'оптимально' : 'неравномерно'}. Обнаружено{' '}
               {highWorkloadCount} узлов с критической загрузкой. Рекомендуется аудит задач в секторе{' '}
@@ -187,19 +147,11 @@ const TeamNewsfeed = ({
           <div className="shrink-0 bg-[#0f111a] p-3 text-white">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-600">
-                  <Bot className="h-6 w-6 text-white" />
-                </div>
-                <div>
-                  <h2 className="text-xs font-black uppercase tracking-[0.4em] text-indigo-400">
-=======
                 <div className="bg-accent-primary flex h-12 w-12 items-center justify-center rounded-2xl">
                   <Bot className="h-6 w-6 text-white" />
                 </div>
                 <div>
                   <h2 className="text-accent-primary text-xs font-black uppercase tracking-[0.4em]">
->>>>>>> recover/cabinet-wip-from-stash
                     Intel OS AI Intelligence
                   </h2>
                   <h1 className="text-base font-black uppercase tracking-tighter">Ресурсный Хаб</h1>
@@ -222,15 +174,6 @@ const TeamNewsfeed = ({
                 {Object.entries(deptStats).map(([dept, stats]: [string, any]) => (
                   <div
                     key={dept}
-<<<<<<< HEAD
-                    className="rounded-xl border border-slate-100 bg-white p-4 shadow-sm"
-                  >
-                    <div className="mb-4 flex items-center justify-between">
-                      <h4 className="text-xs font-black uppercase tracking-widest text-slate-900">
-                        {dept}
-                      </h4>
-                      <Badge className="border-none bg-slate-100 text-[8px] font-black text-slate-600">
-=======
                     className="border-border-subtle rounded-xl border bg-white p-4 shadow-sm"
                   >
                     <div className="mb-4 flex items-center justify-between">
@@ -238,43 +181,27 @@ const TeamNewsfeed = ({
                         {dept}
                       </h4>
                       <Badge className="bg-bg-surface2 text-text-secondary border-none text-[8px] font-black">
->>>>>>> recover/cabinet-wip-from-stash
                         {stats.count} чел.
                       </Badge>
                     </div>
                     <div className="space-y-2">
                       <div className="flex justify-between text-[10px] font-bold uppercase">
-<<<<<<< HEAD
-                        <span className="text-slate-400">Средняя нагрузка</span>
-                        <span
-                          className={cn(
-                            stats.workload / stats.count > 80 ? 'text-rose-500' : 'text-indigo-600'
-=======
                         <span className="text-text-muted">Средняя нагрузка</span>
                         <span
                           className={cn(
                             stats.workload / stats.count > 80
                               ? 'text-rose-500'
                               : 'text-accent-primary'
->>>>>>> recover/cabinet-wip-from-stash
                           )}
                         >
                           {Math.round(stats.workload / stats.count)}%
                         </span>
                       </div>
-<<<<<<< HEAD
-                      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-50">
-                        <div
-                          className={cn(
-                            'h-full rounded-full transition-all duration-1000',
-                            stats.workload / stats.count > 80 ? 'bg-rose-500' : 'bg-indigo-500'
-=======
                       <div className="bg-bg-surface2 h-2 w-full overflow-hidden rounded-full">
                         <div
                           className={cn(
                             'h-full rounded-full transition-all duration-1000',
                             stats.workload / stats.count > 80 ? 'bg-rose-500' : 'bg-accent-primary'
->>>>>>> recover/cabinet-wip-from-stash
                           )}
                           style={{ width: `${Math.round(stats.workload / stats.count)}%` }}
                         />
@@ -285,11 +212,7 @@ const TeamNewsfeed = ({
               </div>
 
               <div className="space-y-4">
-<<<<<<< HEAD
-                <h3 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                 <h3 className="text-text-muted flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   <AlertCircle className="h-4 w-4 text-rose-500" /> Критические узлы (Top Load)
                 </h3>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -299,11 +222,7 @@ const TeamNewsfeed = ({
                     .map((m, i) => (
                       <div
                         key={i}
-<<<<<<< HEAD
-                        className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-white p-4"
-=======
                         className="border-border-subtle flex items-center gap-3 rounded-2xl border bg-white p-4"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         <Avatar className="h-10 w-10 rounded-xl">
                           <AvatarImage src={m.avatar} />
@@ -324,11 +243,7 @@ const TeamNewsfeed = ({
                 </div>
               </div>
 
-<<<<<<< HEAD
-              <div className="relative overflow-hidden rounded-xl bg-indigo-600 p-4 text-white">
-=======
               <div className="bg-accent-primary relative overflow-hidden rounded-xl p-4 text-white">
->>>>>>> recover/cabinet-wip-from-stash
                 <div className="absolute right-0 top-0 p-3 opacity-10">
                   <Zap className="h-32 w-32" />
                 </div>
@@ -338,11 +253,7 @@ const TeamNewsfeed = ({
                   </h3>
                   <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                     <div className="space-y-2">
-<<<<<<< HEAD
-                      <p className="text-[10px] font-black uppercase text-indigo-200">
-=======
                       <p className="text-accent-primary/40 text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         Оптимизация
                       </p>
                       <p className="text-sm font-medium leading-relaxed">
@@ -368,11 +279,7 @@ const TeamNewsfeed = ({
             </div>
           </ScrollArea>
 
-<<<<<<< HEAD
-          <div className="flex shrink-0 justify-end gap-3 border-t border-slate-50 bg-white p-4">
-=======
           <div className="border-border-subtle flex shrink-0 justify-end gap-3 border-t bg-white p-4">
->>>>>>> recover/cabinet-wip-from-stash
             <Button
               variant="outline"
               onClick={() => setIsMatrixSummaryOpen(false)}

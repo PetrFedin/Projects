@@ -35,31 +35,12 @@ export default function B2BCreateOrderPage() {
   } | null>(null);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <FilePlus className="h-6 w-6" /> Создать заказ
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            JOOR: выбор бренда, сезона и коллекции — затем матрица заказа или Working Order.
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell
       className="max-w-4xl space-y-6"
       data-testid={tid.page('shop-b2b-create-order')}
     >
       <ShopB2bContentHeader lead="JOOR: выбор бренда, сезона и коллекции — затем матрица заказа или Working Order." />
       <ShopAnalyticsSegmentErpStrip />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -183,15 +164,6 @@ export default function B2BCreateOrderPage() {
               Отправить черновик в NuOrder
             </Button>
             {exportResult && (
-<<<<<<< HEAD
-              <p
-                className={`text-sm ${exportResult.success ? 'text-green-600' : 'text-destructive'}`}
-              >
-                {exportResult.success
-                  ? `Готово. Order ID: ${exportResult.orderId}`
-                  : `Ошибка: ${exportResult.error}`}
-              </p>
-=======
               <div className="space-y-2">
                 {exportResult.success ? (
                   <>
@@ -204,7 +176,6 @@ export default function B2BCreateOrderPage() {
                   <p className="text-sm text-destructive">Ошибка: {exportResult.error}</p>
                 )}
               </div>
->>>>>>> recover/cabinet-wip-from-stash
             )}
           </CardContent>
         </Card>

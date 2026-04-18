@@ -23,11 +23,7 @@ const overviewSections = [
   {
     title: 'Заказы',
     items: [
-<<<<<<< HEAD
-      { href: ROUTES.shop.b2bOrders, label: 'B2B Заказы', desc: 'Оптовые заказы' },
-=======
       { href: ROUTES.shop.b2bOrders, label: 'Список заказов', desc: 'Оптовые заказы' },
->>>>>>> recover/cabinet-wip-from-stash
       { href: ROUTES.shop.b2bCreateOrder, label: 'Создать заказ', desc: 'По коллекции' },
       { href: ROUTES.shop.b2bQuickOrder, label: 'Быстрый заказ', desc: 'По артикулам' },
     ],
@@ -66,16 +62,6 @@ export default function DistributorHubPage() {
   );
 
   return (
-<<<<<<< HEAD
-    <div className="space-y-6">
-      <div>
-        <h2 className="mb-1 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500">
-          Обзор
-        </h2>
-        <p className="text-sm text-slate-700">
-          Используйте навигацию слева для перехода в разделы. Ключевые направления:
-        </p>
-=======
     <div className="space-y-10" data-testid={tid.page('distributor-dashboard')}>
       <HubTodayPanel
         e2eVariant="distributor"
@@ -105,7 +91,6 @@ export default function DistributorHubPage() {
         >
           <Link href={ROUTES.shop.home}>Кабинет магазина</Link>
         </Button>
->>>>>>> recover/cabinet-wip-from-stash
       </div>
 
       <div>
@@ -132,15 +117,9 @@ export default function DistributorHubPage() {
         {overviewSections.map((section) => (
           <div
             key={section.title}
-<<<<<<< HEAD
-            className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
-          >
-            <h3 className="mb-3 text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
             className="border-border-default rounded-lg border bg-white p-4 shadow-sm"
           >
             <h3 className="text-text-muted mb-3 text-xs font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               {section.title}
             </h3>
             <ul className="space-y-1.5">
@@ -148,29 +127,17 @@ export default function DistributorHubPage() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-<<<<<<< HEAD
-                    className="group flex items-center justify-between rounded-md px-2.5 py-2 text-[11px] font-bold uppercase tracking-wider text-slate-700 transition-colors hover:bg-slate-50"
-=======
                     className="text-text-primary hover:bg-bg-surface2 group flex items-center justify-between rounded-md px-2.5 py-2 text-[11px] font-bold uppercase tracking-wider transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     <div>
                       <span className="transition-colors group-hover:text-amber-600">
                         {item.label}
                       </span>
-<<<<<<< HEAD
-                      <p className="mt-0.5 text-[9px] font-normal normal-case tracking-normal text-slate-400">
-                        {item.desc}
-                      </p>
-                    </div>
-                    <ArrowUpRight className="h-3 w-3 shrink-0 text-slate-300 group-hover:text-amber-500" />
-=======
                       <p className="text-text-muted mt-0.5 text-[9px] font-normal normal-case tracking-normal">
                         {item.desc}
                       </p>
                     </div>
                     <ArrowUpRight className="text-text-muted size-3 shrink-0 group-hover:text-amber-500" />
->>>>>>> recover/cabinet-wip-from-stash
                   </Link>
                 </li>
               ))}

@@ -34,20 +34,12 @@ export default function AssortmentMatrixPage() {
               Совместная матрица ассортимента
             </h1>
             <p className="text-sm text-muted-foreground">
-<<<<<<< HEAD
-              Канал × SKU × цвет × размеры × статус × sell-through. Данные:{' '}
-              <code className="rounded bg-muted px-1 text-[10px]">
-                lib/platform/partner-demo-data
-              </code>{' '}
-              → позже GET/PUT API.
-=======
               Канал × <AcronymWithTooltip abbr="SKU" /> × цвет × размеры × статус × sell-through.
               Данные:{' '}
               <code className="rounded bg-muted px-1 text-[10px]">
                 lib/platform/partner-demo-data
               </code>{' '}
               → позже GET/PUT <AcronymWithTooltip abbr="API" />.
->>>>>>> recover/cabinet-wip-from-stash
             </p>
           </div>
         </div>

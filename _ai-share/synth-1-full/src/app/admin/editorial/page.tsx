@@ -82,12 +82,6 @@ export default function EditorialCMSPage() {
 
   const getStatusBadge = (status: EditorialStatus) => {
     const config: Record<EditorialStatus, { label: string; color: string }> = {
-<<<<<<< HEAD
-      draft: { label: 'Черновик', color: 'bg-slate-100 text-slate-500 border-slate-200' },
-      scheduled: {
-        label: 'Запланировано',
-        color: 'bg-indigo-50 text-indigo-600 border-indigo-100',
-=======
       draft: {
         label: 'Черновик',
         color: 'bg-bg-surface2 text-text-secondary border-border-default',
@@ -95,17 +89,12 @@ export default function EditorialCMSPage() {
       scheduled: {
         label: 'Запланировано',
         color: 'bg-accent-primary/10 text-accent-primary border-accent-primary/20',
->>>>>>> recover/cabinet-wip-from-stash
       },
       published: {
         label: 'Опубликовано',
         color: 'bg-emerald-50 text-emerald-600 border-emerald-100',
       },
-<<<<<<< HEAD
-      archived: { label: 'Архив', color: 'bg-slate-900 text-white border-none' },
-=======
       archived: { label: 'Архив', color: 'bg-text-primary text-white border-none' },
->>>>>>> recover/cabinet-wip-from-stash
     };
     const item = config[status];
     return (
@@ -119,17 +108,10 @@ export default function EditorialCMSPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto space-y-10 px-4 py-4">
-      <header className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-indigo-600">
-=======
     <RegistryPageShell className="space-y-10 pb-16">
       <header className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
           <div className="text-accent-primary flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
             <Newspaper className="h-3.5 w-3.5" />
             Marketroom Editorial CMS
           </div>
@@ -147,11 +129,7 @@ export default function EditorialCMSPage() {
           >
             <Layout className="h-4 w-4" /> Шаблоны
           </Button>
-<<<<<<< HEAD
-          <Button className="h-11 gap-2 rounded-xl bg-slate-900 px-6 text-[10px] font-black uppercase text-white shadow-lg">
-=======
           <Button className="bg-text-primary h-11 gap-2 rounded-xl px-6 text-[10px] font-black uppercase text-white shadow-lg">
->>>>>>> recover/cabinet-wip-from-stash
             <Plus className="h-4 w-4" /> Создать статью
           </Button>
         </div>
@@ -160,13 +138,8 @@ export default function EditorialCMSPage() {
       {/* Analytics Row */}
       <div className="grid gap-3 md:grid-cols-4">
         {[
-<<<<<<< HEAD
-          { label: 'Всего статей', value: '42', icon: FileText, color: 'text-slate-900' },
-          { label: 'Total Views', value: '185K', icon: Eye, color: 'text-indigo-600' },
-=======
           { label: 'Всего статей', value: '42', icon: FileText, color: 'text-text-primary' },
           { label: 'Total Views', value: '185K', icon: Eye, color: 'text-accent-primary' },
->>>>>>> recover/cabinet-wip-from-stash
           { label: 'Avg CTR', value: '12.4%', icon: TrendingUp, color: 'text-emerald-600' },
           {
             label: 'Trending Tags',
@@ -177,17 +150,10 @@ export default function EditorialCMSPage() {
         ].map((stat, i) => (
           <Card key={i} className="rounded-3xl border-none bg-white p-4 shadow-sm">
             <div className="mb-2 flex items-center gap-3">
-<<<<<<< HEAD
-              <div className="rounded-xl bg-slate-50 p-2">
-                <stat.icon className="h-4 w-4 text-slate-400" />
-              </div>
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
               <div className="bg-bg-surface2 rounded-xl p-2">
                 <stat.icon className="text-text-muted h-4 w-4" />
               </div>
               <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 {stat.label}
               </span>
             </div>
@@ -198,38 +164,22 @@ export default function EditorialCMSPage() {
 
       <div className="grid gap-3 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-xl border-none bg-white shadow-xl shadow-slate-200/50">
-            <CardHeader className="flex flex-row items-center justify-between border-b border-slate-50 p-4">
-=======
           <Card className="overflow-hidden rounded-xl border-none bg-white shadow-md shadow-xl">
             <CardHeader className="border-border-subtle flex flex-row items-center justify-between border-b p-4">
->>>>>>> recover/cabinet-wip-from-stash
               <CardTitle className="text-base font-black uppercase tracking-tight">
                 Статьи и Репорты
               </CardTitle>
               <div className="relative">
-<<<<<<< HEAD
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-300" />
-                <Input
-                  placeholder="Поиск по заголовку"
-                  className="h-10 w-64 rounded-xl border-slate-100 pl-9 text-xs"
-=======
                 <Search className="text-text-muted absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
                 <Input
                   placeholder="Поиск по заголовку"
                   className="border-border-subtle h-10 w-64 rounded-xl pl-9 text-xs"
->>>>>>> recover/cabinet-wip-from-stash
                 />
               </div>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
-<<<<<<< HEAD
-                <TableHeader className="bg-slate-50/50">
-=======
                 <TableHeader className="bg-bg-surface2/80">
->>>>>>> recover/cabinet-wip-from-stash
                   <TableRow>
                     <TableHead className="pl-8 text-[10px] font-black uppercase">Контент</TableHead>
                     <TableHead className="text-[10px] font-black uppercase">Статус</TableHead>
@@ -243,24 +193,6 @@ export default function EditorialCMSPage() {
                   {articles.map((article) => (
                     <TableRow
                       key={article.id}
-<<<<<<< HEAD
-                      className="group cursor-pointer transition-colors hover:bg-slate-50/50"
-                    >
-                      <TableCell className="py-6 pl-8">
-                        <div className="flex items-center gap-3">
-                          <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-slate-50 bg-slate-100">
-                            <ImageIcon className="h-6 w-6 text-slate-200" />
-                            <div className="absolute inset-0 bg-black/5 opacity-0 transition-opacity group-hover:opacity-100" />
-                          </div>
-                          <div className="space-y-1">
-                            <p className="text-[10px] font-black uppercase tracking-widest text-indigo-600">
-                              {article.category.replace('_', ' ')}
-                            </p>
-                            <h4 className="text-sm font-black leading-tight text-slate-900">
-                              {article.title}
-                            </h4>
-                            <div className="flex items-center gap-3 text-[9px] font-bold text-slate-400">
-=======
                       className="hover:bg-bg-surface2/80 group cursor-pointer transition-colors"
                     >
                       <TableCell className="py-6 pl-8">
@@ -277,7 +209,6 @@ export default function EditorialCMSPage() {
                               {article.title}
                             </h4>
                             <div className="text-text-muted flex items-center gap-3 text-[9px] font-bold">
->>>>>>> recover/cabinet-wip-from-stash
                               <span className="flex items-center gap-1">
                                 <Clock className="h-3 w-3" /> {article.readingTime} min
                               </span>
@@ -290,17 +221,10 @@ export default function EditorialCMSPage() {
                       </TableCell>
                       <TableCell>{getStatusBadge(article.status)}</TableCell>
                       <TableCell>
-<<<<<<< HEAD
-                        <p className="text-sm font-black text-slate-900">
-                          {article.viewCount.toLocaleString()}
-                        </p>
-                        <p className="text-[9px] font-bold uppercase tracking-tight text-slate-400">
-=======
                         <p className="text-text-primary text-sm font-black">
                           {article.viewCount.toLocaleString()}
                         </p>
                         <p className="text-text-muted text-[9px] font-bold uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                           Total Reads
                         </p>
                       </TableCell>
@@ -308,11 +232,7 @@ export default function EditorialCMSPage() {
                         <Button
                           variant="ghost"
                           size="icon"
-<<<<<<< HEAD
-                          className="rounded-xl text-slate-300 hover:text-indigo-600"
-=======
                           className="text-text-muted hover:text-accent-primary rounded-xl"
->>>>>>> recover/cabinet-wip-from-stash
                         >
                           <ArrowRight className="h-4 w-4" />
                         </Button>
@@ -326,17 +246,10 @@ export default function EditorialCMSPage() {
         </div>
 
         <div className="space-y-6">
-<<<<<<< HEAD
-          <Card className="rounded-xl border-none bg-slate-900 p-4 text-white shadow-xl shadow-slate-200/50">
-            <div className="mb-6 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10">
-                <Zap className="h-5 w-5 text-indigo-400" />
-=======
           <Card className="bg-text-primary rounded-xl border-none p-4 text-white shadow-md shadow-xl">
             <div className="mb-6 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10">
                 <Zap className="text-accent-primary h-5 w-5" />
->>>>>>> recover/cabinet-wip-from-stash
               </div>
               <div>
                 <h3 className="text-sm font-black uppercase tracking-tight">
@@ -350,11 +263,7 @@ export default function EditorialCMSPage() {
 
             <div className="space-y-6">
               <div className="space-y-2 rounded-2xl border border-white/10 bg-white/5 p-4">
-<<<<<<< HEAD
-                <p className="text-[10px] font-black uppercase tracking-widest text-indigo-400">
-=======
                 <p className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   Headline Recommendation
                 </p>
                 <p className="text-xs font-medium leading-relaxed text-white/80">
@@ -370,30 +279,11 @@ export default function EditorialCMSPage() {
                 </p>
               </div>
             </div>
-<<<<<<< HEAD
-            <Button className="mt-8 h-10 w-full rounded-xl border-none bg-indigo-600 text-[9px] font-black uppercase text-white shadow-lg hover:bg-indigo-700">
-=======
             <Button className="bg-accent-primary hover:bg-accent-primary mt-8 h-10 w-full rounded-xl border-none text-[9px] font-black uppercase text-white shadow-lg">
->>>>>>> recover/cabinet-wip-from-stash
               Analyze Draft
             </Button>
           </Card>
 
-<<<<<<< HEAD
-          <Card className="rounded-xl border border-none border-slate-50 bg-white p-4 shadow-xl shadow-slate-200/50">
-            <h3 className="mb-6 text-sm font-black uppercase tracking-tight text-slate-900">
-              Marketroom Layout
-            </h3>
-            <div className="space-y-4">
-              <div className="space-y-3 rounded-2xl bg-slate-50 p-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase text-slate-400">
-                    Hero Section
-                  </span>
-                  <Badge className="bg-slate-900 text-[8px] uppercase text-white">Active</Badge>
-                </div>
-                <p className="text-xs font-black uppercase text-slate-700">
-=======
           <Card className="border-border-subtle rounded-xl border border-none bg-white p-4 shadow-md shadow-xl">
             <h3 className="text-text-primary mb-6 text-sm font-black uppercase tracking-tight">
               Marketroom Layout
@@ -407,17 +297,12 @@ export default function EditorialCMSPage() {
                   <Badge className="bg-text-primary text-[8px] uppercase text-white">Active</Badge>
                 </div>
                 <p className="text-text-primary text-xs font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   "Metallic Textures..."
                 </p>
               </div>
               <Button
                 variant="outline"
-<<<<<<< HEAD
-                className="h-12 w-full gap-2 rounded-2xl border-slate-100 text-[10px] font-black uppercase hover:bg-slate-50"
-=======
                 className="border-border-subtle hover:bg-bg-surface2 h-12 w-full gap-2 rounded-2xl text-[10px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <Layout className="h-4 w-4" /> Change Layout Design
               </Button>

@@ -67,11 +67,7 @@ const MOCK_DOCUMENTS: Document[] = [
     status: 'pending_signature',
     createdAt: '2026-02-15',
     updatedAt: '2026-02-16',
-<<<<<<< HEAD
-    counterparty: 'TSUM',
-=======
     counterparty: 'Демо-магазин · Москва 2',
->>>>>>> recover/cabinet-wip-from-stash
     amount: 2400000,
   },
   {
@@ -82,11 +78,7 @@ const MOCK_DOCUMENTS: Document[] = [
     createdAt: '2026-02-10',
     updatedAt: '2026-02-12',
     signedAt: '2026-02-12',
-<<<<<<< HEAD
-    counterparty: 'Podium Market',
-=======
     counterparty: 'Демо-магазин · Москва 1',
->>>>>>> recover/cabinet-wip-from-stash
     amount: 890000,
   },
   {
@@ -100,20 +92,12 @@ const MOCK_DOCUMENTS: Document[] = [
   },
   {
     id: 'DOC-004',
-<<<<<<< HEAD
-    title: 'NDA для коллаборации с A.P.C.',
-=======
     title: 'NDA для коллаборации с Nordic Wool',
->>>>>>> recover/cabinet-wip-from-stash
     type: 'nda',
     status: 'pending_signature',
     createdAt: '2026-02-13',
     updatedAt: '2026-02-13',
-<<<<<<< HEAD
-    counterparty: 'A.P.C.',
-=======
     counterparty: 'Nordic Wool',
->>>>>>> recover/cabinet-wip-from-stash
   },
   {
     id: 'DOC-005',
@@ -196,25 +180,15 @@ export default function DocumentsPage() {
   const getStatusColor = (status: DocumentStatus) => {
     switch (status) {
       case 'draft':
-<<<<<<< HEAD
-        return 'bg-slate-100 text-slate-600';
-=======
         return 'bg-bg-surface2 text-text-secondary';
->>>>>>> recover/cabinet-wip-from-stash
       case 'pending_signature':
         return 'bg-amber-100 text-amber-600';
       case 'signed':
         return 'bg-emerald-100 text-emerald-600';
       case 'archived':
-<<<<<<< HEAD
-        return 'bg-slate-100 text-slate-400';
-      default:
-        return 'bg-slate-100 text-slate-600';
-=======
         return 'bg-bg-surface2 text-text-muted';
       default:
         return 'bg-bg-surface2 text-text-secondary';
->>>>>>> recover/cabinet-wip-from-stash
     }
   };
 
@@ -259,40 +233,6 @@ export default function DocumentsPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="mx-auto max-w-5xl space-y-5 px-4 pb-20 md:px-0">
-      {/* Control Panel */}
-      <div className="mb-4 flex items-center justify-end gap-3">
-        <div className="flex items-center gap-1.5">
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-7 rounded-lg border-slate-200 bg-white px-3 text-[7px] font-black uppercase tracking-widest text-slate-400 shadow-sm hover:bg-slate-50"
-          >
-            <Download className="mr-1 h-3 w-3" /> Экспорт архива
-          </Button>
-          <div className="mx-0.5 h-4 w-px bg-slate-200" />
-          <Button
-            asChild
-            variant="outline"
-            size="sm"
-            className="h-7 rounded-lg border-slate-200 bg-white px-3 text-[7px] font-black uppercase tracking-widest text-slate-400 shadow-sm hover:bg-slate-50"
-          >
-            <Link href="/brand/settings">Настройки</Link>
-          </Button>
-        </div>
-
-        <FeatureGate resource="edo" action="create">
-          <Button
-            variant="default"
-            size="sm"
-            className="button-glimmer h-7 rounded-lg bg-indigo-600 px-4 text-[7px] font-black uppercase tracking-widest text-white shadow-lg shadow-indigo-100 hover:bg-indigo-700"
-          >
-            <Plus className="mr-1 h-3 w-3" /> Создать документ
-          </Button>
-        </FeatureGate>
-      </div>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-5 pb-20">
       <RegistryPageHeader
         title="Документооборот и ЭДО"
@@ -322,7 +262,6 @@ export default function DocumentsPage() {
           </>
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -331,11 +270,7 @@ export default function DocumentsPage() {
             label: 'Всего документов',
             value: stats.total,
             icon: FileText,
-<<<<<<< HEAD
-            color: 'text-indigo-600',
-=======
             color: 'text-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
           },
           { label: 'На подписи', value: stats.pending, icon: Clock, color: 'text-amber-600' },
           {
@@ -344,17 +279,6 @@ export default function DocumentsPage() {
             icon: CheckCircle2,
             color: 'text-emerald-600',
           },
-<<<<<<< HEAD
-          { label: 'Черновиков', value: stats.draft, icon: Edit, color: 'text-slate-600' },
-        ].map((stat, i) => (
-          <Card key={i} className="rounded-2xl border-slate-100 bg-white shadow-sm">
-            <CardContent className="space-y-2 p-3">
-              <div className="flex items-center justify-between">
-                <stat.icon className={cn('h-5 w-5', stat.color)} />
-                <span className="text-sm font-black tabular-nums text-slate-900">{stat.value}</span>
-              </div>
-              <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
-=======
           { label: 'Черновиков', value: stats.draft, icon: Edit, color: 'text-text-secondary' },
         ].map((stat, i) => (
           <Card key={i} className="border-border-subtle rounded-2xl bg-white shadow-sm">
@@ -366,7 +290,6 @@ export default function DocumentsPage() {
                 </span>
               </div>
               <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 {stat.label}
               </p>
             </CardContent>
@@ -376,31 +299,6 @@ export default function DocumentsPage() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="space-y-6">
-<<<<<<< HEAD
-        <TabsList className="h-auto rounded-2xl border border-slate-100 bg-white p-1 shadow-sm">
-          <TabsTrigger
-            value="all"
-            className="gap-2 rounded-xl px-6 py-3 text-[9px] font-black uppercase data-[state=active]:bg-slate-900 data-[state=active]:text-white"
-          >
-            <FileText className="h-3.5 w-3.5" /> Все документы
-          </TabsTrigger>
-          <TabsTrigger
-            value="templates"
-            className="gap-2 rounded-xl px-6 py-3 text-[9px] font-black uppercase data-[state=active]:bg-slate-900 data-[state=active]:text-white"
-          >
-            <Copy className="h-3.5 w-3.5" /> Шаблоны
-          </TabsTrigger>
-          <TabsTrigger
-            value="edo"
-            className="gap-2 rounded-xl px-6 py-3 text-[9px] font-black uppercase data-[state=active]:bg-slate-900 data-[state=active]:text-white"
-          >
-            <Shield className="h-3.5 w-3.5" /> ЭДО
-          </TabsTrigger>
-          <TabsTrigger
-            value="kiz"
-            className="gap-2 rounded-xl px-6 py-3 text-[9px] font-black uppercase data-[state=active]:bg-slate-900 data-[state=active]:text-white"
-          >
-=======
         {/* cabinetSurface v1 */}
         <TabsList className={cn(cabinetSurface.tabsList, 'flex-wrap')}>
           <TabsTrigger value="all" className={cn(cabinetSurface.tabsTrigger, 'h-8 gap-2')}>
@@ -413,7 +311,6 @@ export default function DocumentsPage() {
             <Shield className="h-3.5 w-3.5" /> ЭДО
           </TabsTrigger>
           <TabsTrigger value="kiz" className={cn(cabinetSurface.tabsTrigger, 'h-8 gap-2')}>
->>>>>>> recover/cabinet-wip-from-stash
             <QrCode className="h-3.5 w-3.5" /> Склад КИЗ
           </TabsTrigger>
         </TabsList>
@@ -422,30 +319,18 @@ export default function DocumentsPage() {
         <TabsContent value="all" className="space-y-6">
           <div className="flex items-center gap-3">
             <div className="relative flex-1">
-<<<<<<< HEAD
-              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-=======
               <Search className="text-text-muted absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2" />
->>>>>>> recover/cabinet-wip-from-stash
               <Input
                 placeholder="Поиск по названию или контрагенту..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-<<<<<<< HEAD
-                className="h-11 rounded-xl border-slate-200 bg-white pl-11 text-sm"
-=======
                 className="border-border-default h-11 rounded-xl bg-white pl-11 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
               />
             </div>
             <Button
               variant="outline"
               size="sm"
-<<<<<<< HEAD
-              className="h-11 rounded-xl border-slate-200 px-4 text-[9px] font-black uppercase"
-=======
               className="border-border-default h-11 rounded-xl px-4 text-[9px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
             >
               <Filter className="mr-2 h-3 w-3" /> Фильтры
             </Button>
@@ -459,25 +344,15 @@ export default function DocumentsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
               >
-<<<<<<< HEAD
-                <Card className="group rounded-2xl border-slate-100 bg-white shadow-sm transition-all hover:shadow-md">
-                  <CardContent className="flex items-center gap-3 p-3">
-                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
-=======
                 <Card className="border-border-subtle group rounded-2xl bg-white shadow-sm transition-all hover:shadow-md">
                   <CardContent className="flex items-center gap-3 p-3">
                     <div className="bg-accent-primary/10 text-accent-primary flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl">
->>>>>>> recover/cabinet-wip-from-stash
                       <FileText className="h-6 w-6" />
                     </div>
 
                     <div className="min-w-0 flex-1">
                       <div className="mb-1 flex items-center gap-2">
-<<<<<<< HEAD
-                        <h4 className="truncate text-sm font-black uppercase text-slate-900">
-=======
                         <h4 className="text-text-primary truncate text-sm font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                           {doc.title}
                         </h4>
                         <Badge
@@ -519,11 +394,7 @@ export default function DocumentsPage() {
                       {doc.status === 'pending_signature' && (
                         <Button
                           size="sm"
-<<<<<<< HEAD
-                          className="h-9 rounded-xl bg-indigo-600 text-[8px] font-black uppercase text-white hover:bg-indigo-700"
-=======
                           className="bg-accent-primary hover:bg-accent-primary h-9 rounded-xl text-[8px] font-black uppercase text-white"
->>>>>>> recover/cabinet-wip-from-stash
                         >
                           <FileSignature className="mr-1 h-3 w-3" /> Подписать
                         </Button>
@@ -532,11 +403,7 @@ export default function DocumentsPage() {
                         <Button
                           size="sm"
                           variant="outline"
-<<<<<<< HEAD
-                          className="h-9 rounded-xl border-slate-200 text-[8px] font-black uppercase"
-=======
                           className="border-border-default h-9 rounded-xl text-[8px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                         >
                           <Download className="mr-1 h-3 w-3" /> Скачать
                         </Button>
@@ -544,22 +411,14 @@ export default function DocumentsPage() {
                       <Button
                         size="sm"
                         variant="ghost"
-<<<<<<< HEAD
-                        className="h-9 w-9 rounded-xl text-slate-400 hover:text-slate-900"
-=======
                         className="text-text-muted hover:text-text-primary h-9 w-9 rounded-xl"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         <Eye className="h-4 w-4" />
                       </Button>
                       <Button
                         size="sm"
                         variant="ghost"
-<<<<<<< HEAD
-                        className="h-9 w-9 rounded-xl text-slate-400 hover:text-rose-600"
-=======
                         className="text-text-muted h-9 w-9 rounded-xl hover:text-rose-600"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -575,13 +434,8 @@ export default function DocumentsPage() {
         <TabsContent value="templates" className="space-y-6">
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-<<<<<<< HEAD
-              <div className="h-1 w-8 rounded-full bg-indigo-600" />
-              <h2 className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-400">
-=======
               <div className="bg-accent-primary h-1 w-8 rounded-full" />
               <h2 className="text-text-muted text-[9px] font-black uppercase tracking-[0.3em]">
->>>>>>> recover/cabinet-wip-from-stash
                 Готовые шаблоны
               </h2>
             </div>
@@ -594,15 +448,6 @@ export default function DocumentsPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: i * 0.05 }}
                 >
-<<<<<<< HEAD
-                  <Card className="group h-full cursor-pointer rounded-2xl border-slate-100 bg-white shadow-sm transition-all hover:border-indigo-200 hover:shadow-lg">
-                    <CardContent className="space-y-4 p-4">
-                      <div className="flex items-start justify-between">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
-                          <FileText className="h-6 w-6" />
-                        </div>
-                        <Badge className="border-none bg-slate-100 text-[7px] font-black uppercase text-slate-600">
-=======
                   <Card className="border-border-subtle hover:border-accent-primary/30 group h-full cursor-pointer rounded-2xl bg-white shadow-sm transition-all hover:shadow-lg">
                     <CardContent className="space-y-4 p-4">
                       <div className="flex items-start justify-between">
@@ -610,23 +455,15 @@ export default function DocumentsPage() {
                           <FileText className="h-6 w-6" />
                         </div>
                         <Badge className="bg-bg-surface2 text-text-secondary border-none text-[7px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                           {getTypeLabel(template.type as DocumentType)}
                         </Badge>
                       </div>
 
                       <div className="space-y-2">
-<<<<<<< HEAD
-                        <h3 className="text-sm font-black uppercase text-slate-900 transition-colors group-hover:text-indigo-600">
-                          {template.name}
-                        </h3>
-                        <p className="text-[10px] leading-relaxed text-slate-500">
-=======
                         <h3 className="text-text-primary group-hover:text-accent-primary text-sm font-black uppercase transition-colors">
                           {template.name}
                         </h3>
                         <p className="text-text-secondary text-[10px] leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                           {template.description}
                         </p>
                       </div>
@@ -635,11 +472,7 @@ export default function DocumentsPage() {
                         <FeatureGate resource="edo" action="create">
                           <Button
                             size="sm"
-<<<<<<< HEAD
-                            className="h-9 flex-1 rounded-xl bg-indigo-600 text-[8px] font-black uppercase text-white hover:bg-indigo-700"
-=======
                             className="bg-accent-primary hover:bg-accent-primary h-9 flex-1 rounded-xl text-[8px] font-black uppercase text-white"
->>>>>>> recover/cabinet-wip-from-stash
                           >
                             <Plus className="mr-1 h-3 w-3" /> Создать
                           </Button>
@@ -647,11 +480,7 @@ export default function DocumentsPage() {
                         <Button
                           size="sm"
                           variant="outline"
-<<<<<<< HEAD
-                          className="h-9 w-9 rounded-xl border-slate-200"
-=======
                           className="border-border-default h-9 w-9 rounded-xl"
->>>>>>> recover/cabinet-wip-from-stash
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
@@ -666,11 +495,7 @@ export default function DocumentsPage() {
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <div className="h-1 w-8 rounded-full bg-emerald-600" />
-<<<<<<< HEAD
-              <h2 className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-400">
-=======
               <h2 className="text-text-muted text-[9px] font-black uppercase tracking-[0.3em]">
->>>>>>> recover/cabinet-wip-from-stash
                 Генератор документов
               </h2>
             </div>
@@ -682,17 +507,10 @@ export default function DocumentsPage() {
                     <Zap className="h-7 w-7" />
                   </div>
                   <div className="flex-1">
-<<<<<<< HEAD
-                    <h3 className="text-sm font-black uppercase tracking-tight text-slate-900">
-                      AI Document Generator
-                    </h3>
-                    <p className="text-[10px] font-medium text-slate-500">
-=======
                     <h3 className="text-text-primary text-sm font-black uppercase tracking-tight">
                       AI Document Generator
                     </h3>
                     <p className="text-text-secondary text-[10px] font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                       Создавайте документы автоматически на основе данных заказа
                     </p>
                   </div>
@@ -727,13 +545,8 @@ export default function DocumentsPage() {
         <TabsContent value="edo" className="space-y-6">
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-<<<<<<< HEAD
-              <div className="h-1 w-8 rounded-full bg-indigo-600" />
-              <h2 className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-400">
-=======
               <div className="bg-accent-primary h-1 w-8 rounded-full" />
               <h2 className="text-text-muted text-[9px] font-black uppercase tracking-[0.3em]">
->>>>>>> recover/cabinet-wip-from-stash
                 Электронный документооборот
               </h2>
             </div>
@@ -746,11 +559,7 @@ export default function DocumentsPage() {
                     'rounded-xl border-2 transition-all',
                     edo.status === 'active'
                       ? 'border-emerald-200 bg-white'
-<<<<<<< HEAD
-                      : 'border-slate-200 bg-slate-50'
-=======
                       : 'bg-bg-surface2 border-border-default'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   <CardContent className="space-y-6 p-4">
@@ -766,11 +575,7 @@ export default function DocumentsPage() {
                           <CheckCircle2 className="mr-1 h-3 w-3" /> Активно
                         </Badge>
                       ) : (
-<<<<<<< HEAD
-                        <Badge className="border-none bg-slate-200 text-[7px] font-black uppercase text-slate-600">
-=======
                         <Badge className="bg-border-subtle text-text-secondary border-none text-[7px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                           Не подключено
                         </Badge>
                       )}
@@ -779,11 +584,7 @@ export default function DocumentsPage() {
                     {edo.status === 'active' ? (
                       <div className="space-y-3">
                         <div className="flex items-center justify-between rounded-xl bg-emerald-50 p-3">
-<<<<<<< HEAD
-                          <span className="text-[9px] font-black uppercase text-slate-600">
-=======
                           <span className="text-text-secondary text-[9px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                             Документов отправлено
                           </span>
                           <span className="text-sm font-black text-emerald-600">
@@ -794,22 +595,14 @@ export default function DocumentsPage() {
                           <Button
                             size="sm"
                             variant="outline"
-<<<<<<< HEAD
-                            className="h-10 flex-1 rounded-xl border-slate-200 text-[8px] font-black uppercase"
-=======
                             className="border-border-default h-10 flex-1 rounded-xl text-[8px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                           >
                             <ExternalLink className="mr-1 h-3 w-3" /> Открыть панель
                           </Button>
                           <Button
                             size="sm"
                             variant="ghost"
-<<<<<<< HEAD
-                            className="h-10 w-10 rounded-xl text-slate-400 hover:text-rose-600"
-=======
                             className="text-text-muted h-10 w-10 rounded-xl hover:text-rose-600"
->>>>>>> recover/cabinet-wip-from-stash
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -818,11 +611,7 @@ export default function DocumentsPage() {
                     ) : (
                       <Button
                         size="sm"
-<<<<<<< HEAD
-                        className="h-11 w-full rounded-2xl bg-indigo-600 text-[9px] font-black uppercase text-white hover:bg-indigo-700"
-=======
                         className="bg-accent-primary hover:bg-accent-primary h-11 w-full rounded-2xl text-[9px] font-black uppercase text-white"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         <Plus className="mr-2 h-3 w-3" /> Подключить
                       </Button>
@@ -833,21 +622,13 @@ export default function DocumentsPage() {
             </div>
           </div>
 
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-xl bg-slate-900 text-white">
-=======
           <Card className="bg-text-primary overflow-hidden rounded-xl text-white">
->>>>>>> recover/cabinet-wip-from-stash
             <CardContent className="space-y-4 p-4">
               <div className="flex items-center gap-3">
                 <Shield className="text-accent-primary h-6 w-6" />
                 <div>
                   <h3 className="text-sm font-black uppercase">Защищенный обмен документами</h3>
-<<<<<<< HEAD
-                  <p className="mt-1 text-[10px] text-slate-400">
-=======
                   <p className="text-text-muted mt-1 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                     ЭДО обеспечивает юридическую значимость электронных документов
                   </p>
                 </div>

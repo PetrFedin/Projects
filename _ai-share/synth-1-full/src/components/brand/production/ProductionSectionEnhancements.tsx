@@ -41,31 +41,15 @@ export function SectionInfoCard({
   children?: ReactNode;
 }) {
   return (
-<<<<<<< HEAD
-    <div className="rounded-2xl border border-slate-100 bg-gradient-to-br from-slate-50/50 to-white p-5 shadow-sm">
-      <div className="flex items-start gap-4">
-        <div
-          className={cn(
-            'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl',
-=======
     <div className="border-border-subtle from-bg-surface2/50 rounded-xl border bg-gradient-to-br to-white p-5 shadow-sm">
       <div className="flex items-start gap-4">
         <div
           className={cn(
             'flex size-10 shrink-0 items-center justify-center rounded-xl',
->>>>>>> recover/cabinet-wip-from-stash
             iconBg,
             iconColor
           )}
         >
-<<<<<<< HEAD
-          <Icon className="h-5 w-5" />
-        </div>
-        <div className="min-w-0 flex-1">
-          <h3 className="text-sm font-black uppercase text-slate-900">{title}</h3>
-          {description ? (
-            <p className="mt-1 text-[11px] leading-relaxed text-slate-600">{description}</p>
-=======
           <Icon className="size-5" />
         </div>
         <div className="min-w-0 flex-1">
@@ -74,7 +58,6 @@ export function SectionInfoCard({
             <p className="text-text-secondary mt-1 text-xs font-medium leading-relaxed">
               {description}
             </p>
->>>>>>> recover/cabinet-wip-from-stash
           ) : null}
           {badges ? <div className="mt-3 flex flex-wrap items-center gap-2">{badges}</div> : null}
           {children}
@@ -97,15 +80,6 @@ export function CollectionCardStats({
   onNavigate?: (tab: string) => void;
 }) {
   return (
-<<<<<<< HEAD
-    <div className="flex gap-3 text-[10px]">
-      <button
-        type="button"
-        onClick={() => onNavigate?.('plm')}
-        className="flex items-center gap-1 text-slate-600 hover:text-indigo-600"
-      >
-        <Layers className="h-3.5 w-3.5" /> {skuCount} SKU
-=======
     <div className="flex gap-3 text-xs">
       <button
         type="button"
@@ -113,20 +87,13 @@ export function CollectionCardStats({
         className="text-text-secondary hover:text-accent-primary flex items-center gap-1"
       >
         <Layers className="size-3.5" /> {skuCount} SKU
->>>>>>> recover/cabinet-wip-from-stash
       </button>
       <button
         type="button"
         onClick={() => onNavigate?.('orders')}
-<<<<<<< HEAD
-        className="flex items-center gap-1 text-slate-600 hover:text-indigo-600"
-      >
-        <Package className="h-3.5 w-3.5" /> {poCount} PO
-=======
         className="text-text-secondary hover:text-accent-primary flex items-center gap-1"
       >
         <Package className="size-3.5" /> {poCount} PO
->>>>>>> recover/cabinet-wip-from-stash
       </button>
       {samplePending > 0 && (
         <button
@@ -134,11 +101,7 @@ export function CollectionCardStats({
           onClick={() => onNavigate?.('samples')}
           className="flex items-center gap-1 font-bold text-amber-600"
         >
-<<<<<<< HEAD
-          <Clock className="h-3.5 w-3.5" /> {samplePending} на проверке
-=======
           <Clock className="size-3.5" /> {samplePending} на проверке
->>>>>>> recover/cabinet-wip-from-stash
         </button>
       )}
     </div>
@@ -180,11 +143,7 @@ export function BudgetCategoryBreakdown({
           </div>
         );
       })}
-<<<<<<< HEAD
-      <div className="flex justify-between border-t border-slate-100 pt-2 text-[11px] font-bold">
-=======
       <div className="border-border-subtle flex justify-between border-t pt-2 text-sm font-bold">
->>>>>>> recover/cabinet-wip-from-stash
         <span>Остаток</span>
         <span className={cn(remainder >= 0 ? 'text-emerald-600' : 'text-rose-600')}>
           {(remainder / 1000).toFixed(0)}k ₽
@@ -199,11 +158,7 @@ export function SLACountdown({ dueDate, overdue }: { dueDate?: string; overdue?:
   if (!dueDate) return null;
   return (
     <Badge variant={overdue ? 'destructive' : 'outline'} className="gap-0.5 text-[8px]">
-<<<<<<< HEAD
-      {overdue ? <AlertTriangle className="h-3 w-3" /> : <Clock className="h-3 w-3" />}
-=======
       {overdue ? <AlertTriangle className="size-3" /> : <Clock className="size-3" />}
->>>>>>> recover/cabinet-wip-from-stash
       {overdue ? 'Просрочено' : dueDate}
     </Badge>
   );
@@ -225,19 +180,11 @@ export function AuditRowWithDetail({
 }) {
   const [expanded, setExpanded] = useState(false);
   return (
-<<<<<<< HEAD
-    <tr className="cursor-pointer hover:bg-slate-50/50" onClick={() => setExpanded(!expanded)}>
-      <td className="py-2 text-[10px] font-medium">{actionLabel}</td>
-      <td className="font-mono text-[10px]">{entity}</td>
-      <td className="text-[10px]">{user}</td>
-      <td className="text-[10px] text-slate-500">{time}</td>
-=======
     <tr className="hover:bg-bg-surface2/80 cursor-pointer" onClick={() => setExpanded(!expanded)}>
       <td className="py-2 text-xs font-medium">{actionLabel}</td>
       <td className="font-mono text-xs">{entity}</td>
       <td className="text-xs">{user}</td>
       <td className="text-text-secondary text-xs">{time}</td>
->>>>>>> recover/cabinet-wip-from-stash
       <td className="text-[9px]">{expanded && detail ? detail : detail ? '…' : ''}</td>
     </tr>
   );
@@ -265,30 +212,18 @@ export function PODetailExpanded({
   const progress =
     po.progress ?? (po.status === 'Shipped' ? 100 : po.status === 'In Production' ? 65 : 25);
   return (
-<<<<<<< HEAD
-    <div className="space-y-3 rounded-xl border border-slate-100 bg-slate-50/80 p-4">
-      <div className="flex flex-wrap gap-4">
-        {po.sizeMatrix &&
-          Object.entries(po.sizeMatrix).map(([size, qty]) => (
-            <span key={size} className="font-mono text-[10px]">
-=======
     <div className="border-border-subtle bg-bg-surface2/80 space-y-3 rounded-xl border p-4">
       <div className="flex flex-wrap gap-4">
         {po.sizeMatrix &&
           Object.entries(po.sizeMatrix).map(([size, qty]) => (
             <span key={size} className="font-mono text-xs">
->>>>>>> recover/cabinet-wip-from-stash
               <strong>{size}</strong>: {qty}
             </span>
           ))}
       </div>
       {po.colors && <p className="text-xs">Цвета: {po.colors.join(', ')}</p>}
       <div>
-<<<<<<< HEAD
-        <div className="mb-1 flex justify-between text-[10px] font-bold">Прогресс</div>
-=======
         <div className="mb-1 flex justify-between text-xs font-bold">Прогресс</div>
->>>>>>> recover/cabinet-wip-from-stash
         <Progress value={progress} className="h-2" />
       </div>
       <div className="flex gap-2">
@@ -347,11 +282,7 @@ export function CollectionProgressMiniChart({
                 ? 'bg-emerald-500'
                 : stageStatus[s] === 'active'
                   ? 'bg-amber-500'
-<<<<<<< HEAD
-                  : 'bg-slate-200'
-=======
                   : 'bg-border-subtle'
->>>>>>> recover/cabinet-wip-from-stash
             )}
           />
         ))}
@@ -377,13 +308,9 @@ export function DocumentFilterBar({
         onClick={() => onFilter('all')}
         className={cn(
           'rounded-lg px-3 py-1.5 text-[9px] font-bold uppercase transition-all',
-<<<<<<< HEAD
-          filter === 'all' ? 'bg-indigo-100 text-indigo-600' : 'text-slate-500 hover:bg-slate-100'
-=======
           filter === 'all'
             ? 'bg-accent-primary/15 text-accent-primary'
             : 'text-text-secondary hover:bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
         )}
       >
         Все
@@ -395,13 +322,9 @@ export function DocumentFilterBar({
           onClick={() => onFilter(t)}
           className={cn(
             'rounded-lg px-3 py-1.5 text-[9px] font-bold uppercase transition-all',
-<<<<<<< HEAD
-            filter === t ? 'bg-indigo-100 text-indigo-600' : 'text-slate-500 hover:bg-slate-100'
-=======
             filter === t
               ? 'bg-accent-primary/15 text-accent-primary'
               : 'text-text-secondary hover:bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
           )}
         >
           {t}

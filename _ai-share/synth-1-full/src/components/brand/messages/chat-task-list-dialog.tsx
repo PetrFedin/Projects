@@ -19,9 +19,6 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-<<<<<<< HEAD
-import { CheckCircle, Clock, CornerDownRight, AlertCircle, ArrowUp, ArrowDown } from 'lucide-react';
-=======
 import {
   CheckCircle,
   Clock,
@@ -31,7 +28,6 @@ import {
   ArrowDown,
   Flame,
 } from 'lucide-react';
->>>>>>> recover/cabinet-wip-from-stash
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -65,10 +61,7 @@ const priorityConfig: Record<
   low: { label: 'Низкий', icon: ArrowDown, color: 'text-gray-500' },
   medium: { label: 'Средний', icon: ArrowUp, color: 'text-amber-600' },
   high: { label: 'Высокий', icon: AlertCircle, color: 'text-red-600' },
-<<<<<<< HEAD
-=======
   critical: { label: 'Критический', icon: Flame, color: 'text-red-800' },
->>>>>>> recover/cabinet-wip-from-stash
 };
 
 function TaskBoard({
@@ -187,11 +180,6 @@ export function ChatTaskListDialog({
         </DialogHeader>
 
         <Tabs defaultValue="board" className="flex min-h-0 flex-1 flex-col">
-<<<<<<< HEAD
-          <TabsList>
-            <TabsTrigger value="list">Список</TabsTrigger>
-            <TabsTrigger value="board">Доска</TabsTrigger>
-=======
           {/* cabinetSurface v1 */}
           <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
             <TabsTrigger
@@ -212,7 +200,6 @@ export function ChatTaskListDialog({
             >
               Доска
             </TabsTrigger>
->>>>>>> recover/cabinet-wip-from-stash
           </TabsList>
 
           <div className="min-h-0 flex-1 py-4">
@@ -236,11 +223,7 @@ export function ChatTaskListDialog({
                           const st = task.status ? statusConfig[task.status] : statusConfig.pending;
                           const Icon = st.icon;
                           const pr = task.priority ? priorityConfig[task.priority] : undefined;
-<<<<<<< HEAD
-                          const PriorityIcon = pr?.icon;
-=======
                           const PriorityIconCmp = pr?.icon;
->>>>>>> recover/cabinet-wip-from-stash
 
                           return (
                             <React.Fragment key={task.id}>
@@ -285,19 +268,11 @@ export function ChatTaskListDialog({
                                 </TableCell>
 
                                 <TableCell>
-<<<<<<< HEAD
-                                  {pr && (
-                                    <Tooltip>
-                                      <TooltipTrigger asChild>
-                                        <div className={cn('flex items-center gap-1', pr.color)}>
-                                          <PriorityIcon className="h-4 w-4" />
-=======
                                   {pr && PriorityIconCmp && (
                                     <Tooltip>
                                       <TooltipTrigger asChild>
                                         <div className={cn('flex items-center gap-1', pr.color)}>
                                           <PriorityIconCmp className="h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
                                         </div>
                                       </TooltipTrigger>
                                       <TooltipContent>

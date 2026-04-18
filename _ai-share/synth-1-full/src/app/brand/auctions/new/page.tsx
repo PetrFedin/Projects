@@ -13,32 +13,17 @@ import { ROUTES } from '@/lib/routes';
 
 export default function NewAuctionPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-      <SectionInfoCard
-        title="Новый тендер / закупка"
-        description="Создание аукциона для закупок бренда: ткани, фурнитура, услуги. Полноценный сценарий закупок и потребностей."
-        icon={Gavel}
-        iconBg="bg-slate-100"
-        iconColor="text-slate-600"
-        badges={
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="Новый тендер / закупка"
         leadPlain="Создание аукциона для закупок бренда: ткани, фурнитура, услуги. Полноценный сценарий закупок и потребностей."
         actions={
->>>>>>> recover/cabinet-wip-from-stash
           <>
             <Badge variant="outline" className="text-[9px]">
               Закупки
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/auctions">Аукционы</Link>
-=======
               <Link href={ROUTES.brand.auctions}>Аукционы</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -54,13 +39,6 @@ export default function NewAuctionPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-<<<<<<< HEAD
-            <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 p-4">
-              <p className="mb-2 text-sm font-medium">Тип закупки</p>
-              <div className="flex gap-2">
-                {['Ткани', 'Фурнитура', 'Услуги пошива', 'Логистика'].map((t) => (
-                  <Badge key={t} variant="outline" className="cursor-pointer hover:bg-indigo-50">
-=======
             <div className="bg-bg-surface2 border-border-default rounded-xl border border-dashed p-4">
               <p className="mb-2 text-sm font-medium">Тип закупки</p>
               <div className="flex gap-2">
@@ -70,7 +48,6 @@ export default function NewAuctionPage() {
                     variant="outline"
                     className="hover:bg-accent-primary/10 cursor-pointer"
                   >
->>>>>>> recover/cabinet-wip-from-stash
                     {t}
                   </Badge>
                 ))}

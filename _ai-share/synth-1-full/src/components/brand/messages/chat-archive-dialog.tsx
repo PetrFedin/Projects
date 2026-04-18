@@ -26,11 +26,8 @@ import { ru } from 'date-fns/locale';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FileText, Link as LinkIcon, ShoppingBag } from 'lucide-react';
-<<<<<<< HEAD
-=======
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
->>>>>>> recover/cabinet-wip-from-stash
 
 interface ChatArchiveDialogProps {
   isOpen: boolean;
@@ -54,18 +51,6 @@ export function ChatArchiveDialog({ isOpen, onOpenChange, messages }: ChatArchiv
         </DialogHeader>
 
         <Tabs defaultValue="products" className="flex min-h-0 flex-1 flex-col">
-<<<<<<< HEAD
-          <TabsList>
-            <TabsTrigger value="products">
-              <ShoppingBag className="mr-2 h-4 w-4" />
-              Товары ({products.length})
-            </TabsTrigger>
-            <TabsTrigger value="files">
-              <FileText className="mr-2 h-4 w-4" />
-              Файлы ({files.length})
-            </TabsTrigger>
-            <TabsTrigger value="links">
-=======
           {/* cabinetSurface v1 */}
           <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
             <TabsTrigger
@@ -95,7 +80,6 @@ export function ChatArchiveDialog({ isOpen, onOpenChange, messages }: ChatArchiv
                 'text-xs font-semibold normal-case tracking-normal'
               )}
             >
->>>>>>> recover/cabinet-wip-from-stash
               <LinkIcon className="mr-2 h-4 w-4" />
               Ссылки ({links.length})
             </TabsTrigger>

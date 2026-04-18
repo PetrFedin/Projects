@@ -59,13 +59,8 @@ export function Workshop2PassportAttributeReferenceBlock() {
         </Button>
       </div>
       {open ? (
-<<<<<<< HEAD
-        <div className="max-h-[min(70vh,560px)] space-y-4 overflow-y-auto border-t border-indigo-100/80 bg-white px-3 py-3 text-[11px]">
-          <p className="leading-snug text-slate-600">
-=======
         <div className="border-accent-primary/20 max-h-[min(70vh,560px)] space-y-4 overflow-y-auto border-t bg-white px-3 py-3 text-[11px]">
           <p className="text-text-secondary leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
             Канонический каталог (`attribute-catalog.instance.json`): какие поля относятся к
             разделам ТЗ и на каком уровне ветки (линия L1, группа L2, карточка модели L3) их логично
             вести. «Общие» — регуляторика и глобальный пул (ТН ВЭД, страны, маркировка, ключи из{' '}
@@ -81,11 +76,7 @@ export function Workshop2PassportAttributeReferenceBlock() {
                   <h4 className="border-border-subtle text-text-primary border-b pb-1 text-[11px] font-bold">
                     {SECTION_LABELS[sec]}
                   </h4>
-<<<<<<< HEAD
-                  <p className="mt-1 text-[10px] text-slate-500">
-=======
                   <p className="text-text-secondary mt-1 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                     Нет атрибутов в фазе 1 для этой секции.
                   </p>
                 </section>
@@ -112,19 +103,11 @@ export function Workshop2PassportAttributeReferenceBlock() {
                       {list.map((row) => (
                         <tr
                           key={row.attributeId}
-<<<<<<< HEAD
-                          className="border-b border-slate-50 last:border-0"
-                        >
-                          <td className="py-1 pr-2 align-top">
-                            <span className="font-medium text-slate-900">{row.name}</span>
-                            <span className="mt-0.5 block font-mono text-[9px] text-slate-500">
-=======
                           className="border-border-subtle border-b last:border-0"
                         >
                           <td className="py-1 pr-2 align-top">
                             <span className="text-text-primary font-medium">{row.name}</span>
                             <span className="text-text-secondary mt-0.5 block font-mono text-[9px]">
->>>>>>> recover/cabinet-wip-from-stash
                               {row.attributeId}
                             </span>
                           </td>
@@ -135,11 +118,7 @@ export function Workshop2PassportAttributeReferenceBlock() {
                                 'rounded px-1 py-0.5 font-medium',
                                 row.passportCommon
                                   ? 'bg-emerald-100 text-emerald-900'
-<<<<<<< HEAD
-                                  : 'bg-slate-100 text-slate-600'
-=======
                                   : 'bg-bg-surface2 text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                               )}
                             >
                               {row.passportCommon ? 'Да' : 'Нет'}
@@ -148,11 +127,7 @@ export function Workshop2PassportAttributeReferenceBlock() {
                           <td className="text-text-primary py-1 pr-2 align-top font-mono tabular-nums">
                             {levelsShort(row.applicableLevels)}
                           </td>
-<<<<<<< HEAD
-                          <td className="py-1 align-top text-slate-700">
-=======
                           <td className="text-text-primary py-1 align-top">
->>>>>>> recover/cabinet-wip-from-stash
                             {row.requiredForPhase1 ? 'Да' : '—'}
                           </td>
                         </tr>

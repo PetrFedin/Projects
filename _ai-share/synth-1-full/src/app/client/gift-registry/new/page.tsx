@@ -14,11 +14,7 @@ export default function NewGiftRegistryPage() {
     <div className="mx-auto max-w-lg space-y-6 px-4 py-6 pb-24">
       <header className="flex items-center gap-3">
         <Button variant="ghost" size="sm" asChild>
-<<<<<<< HEAD
-          <Link href="/client/gift-registry">
-=======
           <Link href={ROUTES.client.giftRegistry}>
->>>>>>> recover/cabinet-wip-from-stash
             <ArrowLeft className="mr-2 h-4 w-4" /> Назад
           </Link>
         </Button>
@@ -35,11 +31,7 @@ export default function NewGiftRegistryPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-<<<<<<< HEAD
-            <Label className="text-[10px] font-bold uppercase text-slate-500">
-=======
             <Label className="text-text-secondary text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
               Название события
             </Label>
             <Input placeholder="Например: Свадьба · Анна и Михаил" className="mt-1 rounded-lg" />
@@ -51,11 +43,7 @@ export default function NewGiftRegistryPage() {
             <Input type="date" className="mt-1 rounded-lg" />
           </div>
           <Button className="w-full rounded-xl text-[10px] font-bold uppercase" asChild>
-<<<<<<< HEAD
-            <Link href="/client/gift-registry">Создать и добавить подарки</Link>
-=======
             <Link href={ROUTES.client.giftRegistry}>Создать и добавить подарки</Link>
->>>>>>> recover/cabinet-wip-from-stash
           </Button>
         </CardContent>
       </Card>

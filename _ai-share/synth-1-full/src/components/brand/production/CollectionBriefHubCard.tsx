@@ -119,11 +119,7 @@ export function CollectionBriefHubCard({
           {matrixBriefStatus ? (
             <Badge
               variant="outline"
-<<<<<<< HEAD
-              className="h-5 border-slate-200 text-[7px] font-bold uppercase"
-=======
               className="border-border-default h-5 text-[7px] font-bold uppercase"
->>>>>>> recover/cabinet-wip-from-stash
             >
               {STATUS_RU[matrixBriefStatus]}
             </Badge>
@@ -139,26 +135,16 @@ export function CollectionBriefHubCard({
           )}
         </div>
         <CardDescription className="text-xs leading-relaxed">
-<<<<<<< HEAD
-          Коллекция: <strong className="text-slate-800">{collectionLabel}</strong>. Поля совпадают с
-          модулем «Бриф коллекции и цели» в цепочке этапов ниже; сохранение —{' '}
-=======
           Коллекция: <strong className="text-text-primary">{collectionLabel}</strong>. Поля
           совпадают с модулем «Бриф коллекции и цели» в цепочке этапов ниже; сохранение —{' '}
->>>>>>> recover/cabinet-wip-from-stash
           <span className="font-mono text-[10px]">brand_collection_stage_modules</span> (демо).
           После первого содержательного сохранения этап{' '}
           <span className="font-mono text-[10px]">brief</span> у всех SKU коллекции переходит в «в
           работе» в матрице.
         </CardDescription>
         {previewLine ? (
-<<<<<<< HEAD
-          <p className="pt-0.5 text-[11px] font-medium text-slate-700">
-            Кратко: <span className="text-indigo-900">{previewLine}</span>
-=======
           <p className="text-text-primary pt-0.5 text-[11px] font-medium">
             Кратко: <span className="text-accent-primary">{previewLine}</span>
->>>>>>> recover/cabinet-wip-from-stash
           </p>
         ) : null}
       </CardHeader>

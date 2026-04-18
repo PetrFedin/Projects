@@ -155,11 +155,7 @@ export default function SmartNotifications() {
       case 'achievement':
         return <Sparkles className="h-4 w-4 text-yellow-600" />;
       case 'recommendation':
-<<<<<<< HEAD
-        return <TrendingDown className="h-4 w-4 text-purple-600" />;
-=======
         return <TrendingDown className="text-accent-primary h-4 w-4" />;
->>>>>>> recover/cabinet-wip-from-stash
     }
   };
 

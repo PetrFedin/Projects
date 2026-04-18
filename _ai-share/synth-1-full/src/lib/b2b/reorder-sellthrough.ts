@@ -64,9 +64,6 @@ function buildMockReorderLines(): ReorderLineSellThrough[] {
         qty: 60,
       },
     ],
-<<<<<<< HEAD
-    'B2B-0010': [{ sku: 'ACNE-26-01', productId: '201', name: 'Acne Item', qty: 25 }],
-=======
     'B2B-0010': [
       {
         sku: (products[4] as { sku?: string })?.sku ?? 'SYN-C004-BEI',
@@ -75,7 +72,6 @@ function buildMockReorderLines(): ReorderLineSellThrough[] {
         qty: 25,
       },
     ],
->>>>>>> recover/cabinet-wip-from-stash
   };
   const lines: ReorderLineSellThrough[] = [];
   orders.forEach((o) => {

@@ -26,24 +26,6 @@ export function listB2BOrdersForOperationalUi(options?: {
   if (!options?.actorRole) return orders;
 
   // [Phase 2 — Order architecture] Tenant/Owner filtering.
-<<<<<<< HEAD
-  // В demo-контуре мы фильтруем по строковым названиям 'Syntha', 'Podium' и т.д.
-  // В prod это будет фильтрация по organizationId в OrderAggregate.
-
-  if (options.actorRole === 'brand') {
-    // Бренд видит только свои заказы (в моке Syntha, A.P.C., Acne Studios)
-    // Для демо Syntha — основной бренд.
-    return orders.filter(
-      (o) => o.brand === 'Syntha' || o.brand === 'A.P.C.' || o.brand === 'Acne Studios'
-    );
-  }
-
-  if (options.actorRole === 'retailer' || options.actorRole === 'buyer') {
-    // Ритейлер видит только заказы своих магазинов
-    return orders.filter(
-      (o) => o.shop.includes('Podium') || o.shop.includes('ЦУМ') || o.shop.includes('Boutique')
-    );
-=======
   // В demo — только заказы демо-брендов Syntha Lab / Nordic Wool.
   if (options.actorRole === 'brand') {
     return orders.filter((o) => isDemoBrandName(o.brand));
@@ -51,7 +33,6 @@ export function listB2BOrdersForOperationalUi(options?: {
 
   if (options.actorRole === 'retailer' || options.actorRole === 'buyer') {
     return orders.filter((o) => o.shop.startsWith('Демо-магазин'));
->>>>>>> recover/cabinet-wip-from-stash
   }
 
   return orders;

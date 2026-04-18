@@ -42,23 +42,6 @@ export default function BrandCollectionsNewPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
-      <div className="mb-4">
-        <Button variant="ghost" size="sm" asChild>
-          <Link href={ROUTES.brand.collections} className="inline-flex items-center gap-1 text-sm">
-            <ArrowLeft className="h-4 w-4" />К списку коллекций
-          </Link>
-        </Button>
-      </div>
-      <Card>
-        <CardHeader>
-          <CardTitle>Создать карточку коллекции</CardTitle>
-          <CardDescription>
-            Заполните название, сезон и описание. Концепция и ДНК можно дописать в карточке
-            коллекции.
-          </CardDescription>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
       <RegistryPageHeader
         title="Создать карточку коллекции"
@@ -78,7 +61,6 @@ export default function BrandCollectionsNewPage() {
         <CardHeader>
           <CardTitle>Данные коллекции</CardTitle>
           <CardDescription>Название и сезон обязательны.</CardDescription>
->>>>>>> recover/cabinet-wip-from-stash
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">

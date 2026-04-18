@@ -38,46 +38,26 @@ export function ChannelSalesAnalytics() {
   ];
 
   return (
-<<<<<<< HEAD
-    <div className="min-h-screen space-y-4 bg-slate-50 p-3 text-left">
-      <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
-        <div className="space-y-2">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-200">
-=======
     <div className="bg-bg-surface2 min-h-screen space-y-4 p-3 text-left">
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
             <div className="bg-accent-primary shadow-accent-primary/15 flex h-10 w-10 items-center justify-center rounded-2xl text-white shadow-lg">
->>>>>>> recover/cabinet-wip-from-stash
               <PieChart className="h-5 w-5" />
             </div>
             <Badge
               variant="outline"
-<<<<<<< HEAD
-              className="border-indigo-100 text-[9px] font-black uppercase tracking-widest text-indigo-600"
-=======
               className="border-accent-primary/20 text-accent-primary text-[9px] font-black uppercase tracking-widest"
->>>>>>> recover/cabinet-wip-from-stash
             >
               SALES_INTEL_v4.0
             </Badge>
           </div>
-<<<<<<< HEAD
-          <h2 className="text-sm font-black uppercase leading-none tracking-tighter text-slate-900 md:text-sm">
-=======
           <h2 className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter md:text-sm">
->>>>>>> recover/cabinet-wip-from-stash
             Аналитика
             <br />
             Продаж по Каналам
           </h2>
-<<<<<<< HEAD
-          <p className="max-w-md text-xs font-medium text-slate-400">
-=======
           <p className="text-text-muted max-w-md text-xs font-medium">
->>>>>>> recover/cabinet-wip-from-stash
             Консолидированные показатели эффективности в реальном времени: DTC, оптовые партнеры и
             маркетплейсы.
           </p>
@@ -86,19 +66,11 @@ export function ChannelSalesAnalytics() {
         <div className="flex gap-3">
           <Button
             variant="outline"
-<<<<<<< HEAD
-            className="h-10 gap-2 rounded-2xl border-slate-200 bg-white px-6 text-[10px] font-black uppercase tracking-widest"
-          >
-            <Download className="h-4 w-4" /> Экспорт отчета
-          </Button>
-          <Button className="h-10 gap-2 rounded-2xl bg-slate-900 px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-slate-200">
-=======
             className="border-border-default h-10 gap-2 rounded-2xl bg-white px-6 text-[10px] font-black uppercase tracking-widest"
           >
             <Download className="h-4 w-4" /> Экспорт отчета
           </Button>
           <Button className="bg-text-primary h-10 gap-2 rounded-2xl px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-md shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
             <Share2 className="h-4 w-4" /> Поделиться
           </Button>
         </div>
@@ -111,13 +83,9 @@ export function ChannelSalesAnalytics() {
             onClick={() => setActiveChannel(ch.id as any)}
             className={cn(
               'cursor-pointer overflow-hidden rounded-xl border-none shadow-xl transition-all',
-<<<<<<< HEAD
-              activeChannel === ch.id ? 'bg-slate-900 text-white' : 'bg-white hover:bg-slate-50'
-=======
               activeChannel === ch.id
                 ? 'bg-text-primary text-white'
                 : 'hover:bg-bg-surface2 bg-white'
->>>>>>> recover/cabinet-wip-from-stash
             )}
           >
             <CardContent className="space-y-4 p-4">
@@ -127,11 +95,7 @@ export function ChannelSalesAnalytics() {
                     'flex h-10 w-10 items-center justify-center rounded-xl',
                     activeChannel === ch.id
                       ? 'bg-white/10 text-white'
-<<<<<<< HEAD
-                      : 'bg-slate-50 text-slate-400'
-=======
                       : 'bg-bg-surface2 text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   <ch.icon className="h-5 w-5" />
@@ -151,11 +115,7 @@ export function ChannelSalesAnalytics() {
                 <p
                   className={cn(
                     'text-[9px] font-black uppercase tracking-widest',
-<<<<<<< HEAD
-                    activeChannel === ch.id ? 'text-white/40' : 'text-slate-400'
-=======
                     activeChannel === ch.id ? 'text-white/40' : 'text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {ch.label}
@@ -170,11 +130,7 @@ export function ChannelSalesAnalytics() {
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
         <Card className="space-y-4 rounded-xl border-none bg-white p-3 shadow-2xl lg:col-span-2">
           <div className="flex items-center justify-between">
-<<<<<<< HEAD
-            <h4 className="text-base font-black uppercase tracking-tight text-slate-900">
-=======
             <h4 className="text-text-primary text-base font-black uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
               Динамика выручки
             </h4>
             <div className="flex gap-2">
@@ -183,13 +139,9 @@ export function ChannelSalesAnalytics() {
                   key={p}
                   className={cn(
                     'rounded-lg px-3 py-1 text-[9px] font-black uppercase tracking-widest',
-<<<<<<< HEAD
-                    p === '30D' ? 'bg-slate-900 text-white' : 'text-slate-400 hover:bg-slate-50'
-=======
                     p === '30D'
                       ? 'bg-text-primary text-white'
                       : 'text-text-muted hover:bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {p}
@@ -202,16 +154,6 @@ export function ChannelSalesAnalytics() {
               <div key={i} className="flex-1 space-y-3">
                 <div className="group relative">
                   <div
-<<<<<<< HEAD
-                    className="w-full rounded-t-lg bg-indigo-600 transition-all duration-1000 group-hover:bg-indigo-400"
-                    style={{ height: `${h * 2}px` }}
-                  />
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded bg-slate-900 px-2 py-1 text-[8px] font-black text-white opacity-0 transition-opacity group-hover:opacity-100">
-                    {(h * 100).toLocaleString('ru-RU')} ₽
-                  </div>
-                </div>
-                <span className="block text-center text-[8px] font-black uppercase text-slate-300">
-=======
                     className="bg-accent-primary group-hover:bg-accent-primary w-full rounded-t-lg transition-all duration-1000"
                     style={{ height: `${h * 2}px` }}
                   />
@@ -220,7 +162,6 @@ export function ChannelSalesAnalytics() {
                   </div>
                 </div>
                 <span className="text-text-muted block text-center text-[8px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   W{i + 1}
                 </span>
               </div>
@@ -229,20 +170,12 @@ export function ChannelSalesAnalytics() {
         </Card>
 
         <div className="space-y-4">
-<<<<<<< HEAD
-          <Card className="relative space-y-6 overflow-hidden rounded-xl border-none bg-slate-900 p-4 text-white shadow-xl">
-=======
           <Card className="bg-text-primary relative space-y-6 overflow-hidden rounded-xl border-none p-4 text-white shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="absolute right-0 top-0 p-4 opacity-10">
               <Zap className="h-24 w-24" />
             </div>
             <div className="relative z-10 space-y-4">
-<<<<<<< HEAD
-              <h5 className="text-sm font-black uppercase tracking-widest text-indigo-400">
-=======
               <h5 className="text-accent-primary text-sm font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 AI Лидер продаж
               </h5>
               <div className="flex items-center gap-3">
@@ -257,22 +190,14 @@ export function ChannelSalesAnalytics() {
                   <p className="text-[10px] font-bold text-emerald-400">Sell-through: 92%</p>
                 </div>
               </div>
-<<<<<<< HEAD
-              <p className="text-[10px] font-medium uppercase leading-relaxed tracking-widest text-slate-400">
-=======
               <p className="text-text-muted text-[10px] font-medium uppercase leading-relaxed tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 Генерирует 24% выручки DTC. Рекомендуем увеличить производство для SS27.
               </p>
             </div>
           </Card>
 
           <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-xl">
-<<<<<<< HEAD
-            <h5 className="text-sm font-black uppercase text-slate-900">Географическая карта</h5>
-=======
             <h5 className="text-text-primary text-sm font-black uppercase">Географическая карта</h5>
->>>>>>> recover/cabinet-wip-from-stash
             <div className="space-y-4">
               {[
                 { region: 'Москва Хаб', share: '42%', trend: 'up' },
@@ -282,22 +207,13 @@ export function ChannelSalesAnalytics() {
               ].map((r, i) => (
                 <div key={i} className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                    <div className="h-2 w-2 rounded-full bg-indigo-500" />
-                    <span className="text-[10px] font-bold uppercase text-slate-600">
-=======
                     <div className="bg-accent-primary h-2 w-2 rounded-full" />
                     <span className="text-text-secondary text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                       {r.region}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-<<<<<<< HEAD
-                    <span className="text-[10px] font-black text-slate-900">{r.share}</span>
-=======
                     <span className="text-text-primary text-[10px] font-black">{r.share}</span>
->>>>>>> recover/cabinet-wip-from-stash
                     {r.trend === 'up' ? (
                       <ArrowUpRight className="h-3 w-3 text-emerald-500" />
                     ) : r.trend === 'down' ? (
@@ -309,11 +225,7 @@ export function ChannelSalesAnalytics() {
             </div>
             <Button
               variant="ghost"
-<<<<<<< HEAD
-              className="h-10 w-full rounded-xl border border-slate-100 text-[9px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-900"
-=======
               className="border-border-subtle text-text-muted hover:text-text-primary h-10 w-full rounded-xl border text-[9px] font-black uppercase tracking-widest"
->>>>>>> recover/cabinet-wip-from-stash
             >
               Открыть полную карту
             </Button>

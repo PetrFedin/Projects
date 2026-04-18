@@ -116,15 +116,11 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
     enabled: true,
   });
 
-<<<<<<< HEAD
-  return <WebSocketContext.Provider value={{ connected }}>{children}</WebSocketContext.Provider>;
-=======
   return (
     <WebSocketContext.Provider value={{ connected, transport, reconnectAttempt }}>
       {children}
     </WebSocketContext.Provider>
   );
->>>>>>> recover/cabinet-wip-from-stash
 }
 
 export function useWebSocketContext() {

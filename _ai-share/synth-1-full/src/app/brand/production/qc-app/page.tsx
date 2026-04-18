@@ -28,13 +28,8 @@ const QC_DEFAULT: { v: 1; inspections: QcInspection[] } = {
     {
       id: 'qc1',
       orderId: 'PO-201',
-<<<<<<< HEAD
-      aqlLevel: '2.5' as const,
-      status: 'passed' as const,
-=======
       aqlLevel: '2.5',
       status: 'passed',
->>>>>>> recover/cabinet-wip-from-stash
       inspectedCount: 80,
       defectCount: 0,
       defects: [],
@@ -43,16 +38,6 @@ const QC_DEFAULT: { v: 1; inspections: QcInspection[] } = {
     {
       id: 'qc2',
       orderId: 'PO-202',
-<<<<<<< HEAD
-      aqlLevel: '4.0' as const,
-      status: 'rework' as const,
-      inspectedCount: 120,
-      defectCount: 3,
-      defects: [{ id: 'd1', type: 'пятно', severity: 'major' as const, position: 'спинка' }],
-      inspectedAt: '2026-03-11T09:00:00Z',
-    },
-  ] satisfies QcInspection[],
-=======
       aqlLevel: '4.0',
       status: 'rework',
       inspectedCount: 120,
@@ -61,7 +46,6 @@ const QC_DEFAULT: { v: 1; inspections: QcInspection[] } = {
       inspectedAt: '2026-03-11T09:00:00Z',
     },
   ],
->>>>>>> recover/cabinet-wip-from-stash
 };
 
 const statusLabels: Record<QcInspection['status'], string> = {
@@ -85,11 +69,7 @@ export default function QcAppPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Мобильный QC-модуль"
         description={
@@ -104,17 +84,10 @@ export default function QcAppPage() {
         badges={
           <>
             <Badge variant="outline" className="text-[9px]">
-<<<<<<< HEAD
-              AQL 2.5/4.0
-            </Badge>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href={ROUTES.brand.productionGoldSample}>Gold Sample</Link>
-=======
               <AcronymWithTooltip abbr="QC" /> • AQL 2.5/4.0
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href={ROUTES.brand.productionGoldSample}>Эталонный образец</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href={ROUTES.brand.returnsClaims}>Претензии</Link>
@@ -129,14 +102,10 @@ export default function QcAppPage() {
               <ArrowLeft className="h-4 w-4" />
             </Button>
           </Link>
-<<<<<<< HEAD
-          <h1 className="text-2xl font-bold uppercase">Mobile QC App</h1>
-=======
           <h1 className="text-2xl font-bold uppercase">
             Мобильный <AcronymWithTooltip abbr="QC" />
             -модуль
           </h1>
->>>>>>> recover/cabinet-wip-from-stash
         </div>
         <Button
           size="sm"
@@ -166,19 +135,11 @@ export default function QcAppPage() {
             {data.inspections.map((q, i) => (
               <li
                 key={q.id}
-<<<<<<< HEAD
-                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3"
-              >
-                <div>
-                  <p className="font-mono font-medium">{q.orderId}</p>
-                  <p className="text-xs text-slate-500">
-=======
                 className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"
               >
                 <div>
                   <p className="font-mono font-medium">{q.orderId}</p>
                   <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                     AQL {q.aqlLevel} · {q.inspectedCount} шт · {statusLabels[q.status]}
                   </p>
                   {q.defectCount > 0 && (

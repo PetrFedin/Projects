@@ -36,8 +36,6 @@ import {
   Wallet,
   Warehouse,
   Zap,
-<<<<<<< HEAD
-=======
   Map,
   Search,
   Store,
@@ -45,7 +43,6 @@ import {
   UserPlus,
   PackageSearch,
   CalendarDays,
->>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 
 /** Группировки разделов — логические кластеры для визуальной организации навигации */
@@ -353,8 +350,6 @@ export const brandNavGroups = [
         href: ROUTES.brand.b2bOrders,
         description: 'Заказы, PO, отгрузки, согласование',
       },
-<<<<<<< HEAD
-=======
       {
         label: 'Выставки и события (бренд)',
         value: 'brand-trade-shows',
@@ -477,7 +472,6 @@ export const brandNavGroups = [
         href: ROUTES.brand.suppliersRfq,
         description: 'Ваши запросы к поставщикам материалов — параллельно витрине RFQ ритейла.',
       },
->>>>>>> recover/cabinet-wip-from-stash
     ],
   },
   {

@@ -64,11 +64,7 @@ export function ProductReviews({
             </li>
           ))}
         </ul>
-<<<<<<< HEAD
-        <p className="text-xs text-slate-400">
-=======
         <p className="text-text-muted text-xs">
->>>>>>> recover/cabinet-wip-from-stash
           Показаны последние отзывы. API отзывов — при подключении бэкенда.
         </p>
       </CardContent>

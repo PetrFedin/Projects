@@ -6,11 +6,7 @@ import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { resolveProductForDisplay } from '@/lib/ai-stylist';
-<<<<<<< HEAD
-import type { Look, WardrobeItem } from '@/lib/repo/aiStylistRepo';
-=======
 import type { Look, WardrobeItem } from '@/lib/ai-stylist';
->>>>>>> recover/cabinet-wip-from-stash
 import {
   Check,
   ShoppingCart,
@@ -31,10 +27,7 @@ import {
   Maximize2,
   Camera,
   Plus,
-<<<<<<< HEAD
-=======
   ArrowRight,
->>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LookProductItem } from './LookProductItem';
@@ -42,15 +35,8 @@ import { OutfitCollage } from './OutfitCollage';
 import { Button } from '@/components/ui/button';
 import { useUIState } from '@/providers/ui-state';
 import { useToast } from '@/hooks/use-toast';
-<<<<<<< HEAD
-import {
-  generateContentIdeas,
-  type GenerateContentIdeasOutput,
-} from '@/ai/flows/generate-content-ideas';
-=======
 import type { GenerateContentIdeasOutput } from '@/lib/ai-client/types';
 import { generateContentIdeasClient } from '@/lib/ai-client/api';
->>>>>>> recover/cabinet-wip-from-stash
 import type { Product } from '@/lib/types';
 
 type DisplayProduct = {
@@ -158,12 +144,8 @@ export function LookResultCard({
   });
 
   const validItems = items.filter(
-<<<<<<< HEAD
-    (it): it is { p: DisplayProduct; reason: string } => it.p !== null
-=======
     (it): it is { p: DisplayProduct; reason: string; productId: string; isMissing: false } =>
       it.p !== null
->>>>>>> recover/cabinet-wip-from-stash
   );
   const buyableItems = validItems.filter((it) => it.p.brand !== 'My Wardrobe');
 
@@ -178,12 +160,6 @@ export function LookResultCard({
         price: it.p.price,
         brand: it.p.brand,
         slug: it.p.slug,
-<<<<<<< HEAD
-        images: [{ id: '1', url: it.p.image, alt: it.p.title }],
-        category: it.p.category,
-        description: it.reason,
-        sku: `AI-${it.p.id}`,
-=======
         images: [{ id: '1', url: it.p.image, alt: it.p.title, hint: '' }],
         category: it.p.category,
         description: it.reason,
@@ -191,7 +167,6 @@ export function LookResultCard({
         sustainability: [],
         color: '',
         season: '',
->>>>>>> recover/cabinet-wip-from-stash
         availability: 'in_stock',
       };
       addCartItem(product, 'One Size', 1);
@@ -271,11 +246,7 @@ export function LookResultCard({
     setIsGeneratingPromo(true);
     try {
       const itemsList = validItems.map((it) => it.p.title).join(', ');
-<<<<<<< HEAD
-      const result = await generateContentIdeas({
-=======
       const result = await generateContentIdeasClient({
->>>>>>> recover/cabinet-wip-from-stash
         brandName: 'Syntha Lab',
         theme: `Образ "${look.title}" из товаров: ${itemsList}`,
         channel: 'instagram',
@@ -297,21 +268,6 @@ export function LookResultCard({
   };
 
   return (
-<<<<<<< HEAD
-    <Card className="os-card-frame group relative overflow-hidden rounded-xl border-slate-200 bg-white text-slate-900 transition-all duration-500 hover:border-slate-900 hover:shadow-2xl">
-      <div className="os-card-frame-inner" />
-      <CardContent className="relative z-10 space-y-5 p-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-          <div className="flex flex-col">
-            <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-900">
-              {look.title}
-            </div>
-            <div className="mt-1 font-mono text-[7px] uppercase tracking-widest text-slate-400">
-              SYN_SYNTH_0x42
-            </div>
-          </div>
-          <Badge className="rounded-lg border-none bg-slate-950 px-2.5 py-1 text-[8px] font-black uppercase tracking-widest text-white">
-=======
     <Card className="border-border-default text-text-primary hover:border-text-primary os-card-frame group relative overflow-hidden rounded-xl bg-white transition-all duration-500 hover:shadow-2xl">
       <div className="os-card-frame-inner" />
       <CardContent className="relative z-10 space-y-5 p-4">
@@ -325,23 +281,12 @@ export function LookResultCard({
             </div>
           </div>
           <Badge className="bg-text-primary rounded-lg border-none px-2.5 py-1 text-[8px] font-black uppercase tracking-widest text-white">
->>>>>>> recover/cabinet-wip-from-stash
             {Math.round(look.confidence * 100)}%_PROBABILITY
           </Badge>
         </div>
 
         {viewRole === 'b2b' && (
           <div className="space-y-3">
-<<<<<<< HEAD
-            <div className="flex items-center justify-between rounded-2xl border border-indigo-100 bg-indigo-50 p-3">
-              <div className="flex items-center gap-2">
-                <TrendingUp className="h-3 w-3 text-indigo-600" />
-                <div className="text-[8px] font-black uppercase tracking-widest text-indigo-600">
-                  Market_Demand_Score
-                </div>
-              </div>
-              <div className="text-xs font-black text-indigo-900">
-=======
             <div className="bg-accent-primary/10 border-accent-primary/20 flex items-center justify-between rounded-2xl border p-3">
               <div className="flex items-center gap-2">
                 <TrendingUp className="text-accent-primary h-3 w-3" />
@@ -350,18 +295,12 @@ export function LookResultCard({
                 </div>
               </div>
               <div className="text-accent-primary text-xs font-black">
->>>>>>> recover/cabinet-wip-from-stash
                 {(look.confidence * 1.2).toFixed(1)}x
               </div>
             </div>
 
-<<<<<<< HEAD
-            <div className="group/sentiment relative space-y-3 overflow-hidden rounded-2xl border border-white/10 bg-slate-900 p-4">
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent opacity-0 transition-opacity group-hover/sentiment:opacity-100" />
-=======
             <div className="bg-text-primary group/sentiment relative space-y-3 overflow-hidden rounded-2xl border border-white/10 p-4">
               <div className="from-accent-primary/10 absolute inset-0 bg-gradient-to-br to-transparent opacity-0 transition-opacity group-hover/sentiment:opacity-100" />
->>>>>>> recover/cabinet-wip-from-stash
               <div className="relative z-10 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
@@ -386,11 +325,7 @@ export function LookResultCard({
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: '88%' }}
-<<<<<<< HEAD
-                      className="h-full bg-indigo-500"
-=======
                       className="bg-accent-primary h-full"
->>>>>>> recover/cabinet-wip-from-stash
                     />
                   </div>
                 </div>
@@ -420,11 +355,7 @@ export function LookResultCard({
                 <Button
                   onClick={handlePredictVirality}
                   disabled={isPredictingVirality}
-<<<<<<< HEAD
-                  className="h-8 w-full gap-2 rounded-xl border-none bg-indigo-600 text-[8px] font-black uppercase tracking-widest text-white hover:bg-indigo-700"
-=======
                   className="bg-accent-primary hover:bg-accent-primary h-8 w-full gap-2 rounded-xl border-none text-[8px] font-black uppercase tracking-widest text-white"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   {isPredictingVirality ? (
                     <div className="h-2 w-2 animate-spin rounded-full border-2 border-white border-t-transparent" />
@@ -442,17 +373,10 @@ export function LookResultCard({
                   className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-3"
                 >
                   <div className="flex items-center justify-between">
-<<<<<<< HEAD
-                    <span className="text-[7px] font-black uppercase tracking-widest text-indigo-400">
-                      Viral_Forecast
-                    </span>
-                    <Badge className="bg-indigo-500 px-1.5 py-0 text-[7px] text-white">
-=======
                     <span className="text-accent-primary text-[7px] font-black uppercase tracking-widest">
                       Viral_Forecast
                     </span>
                     <Badge className="bg-accent-primary px-1.5 py-0 text-[7px] text-white">
->>>>>>> recover/cabinet-wip-from-stash
                       Score: {viralPrediction.score}%
                     </Badge>
                   </div>
@@ -483,51 +407,30 @@ export function LookResultCard({
           </div>
         )}
 
-<<<<<<< HEAD
-        <div className="flex items-center justify-between rounded-xl bg-slate-50/80 px-3 py-2">
-          <div className="flex items-center gap-2">
-            <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            <div className="text-[8px] font-black uppercase tracking-widest text-slate-500">
-=======
         <div className="bg-bg-surface2/80 flex items-center justify-between rounded-xl px-3 py-2">
           <div className="flex items-center gap-2">
             <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
             <div className="text-text-secondary text-[8px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               Longevity_Score
             </div>
           </div>
           <div className="flex items-center gap-2">
-<<<<<<< HEAD
-            <div className="h-1 w-12 overflow-hidden rounded-full bg-slate-200">
-=======
             <div className="bg-border-subtle h-1 w-12 overflow-hidden rounded-full">
->>>>>>> recover/cabinet-wip-from-stash
               <div
                 className="h-full bg-emerald-500 transition-all duration-1000"
                 style={{ width: `${look.longevityScore ?? 50}%` }}
               />
             </div>
-<<<<<<< HEAD
-            <span className="text-[10px] font-black text-slate-900">
-=======
             <span className="text-text-primary text-[10px] font-black">
->>>>>>> recover/cabinet-wip-from-stash
               {look.longevityScore ?? 50}%
             </span>
           </div>
         </div>
 
         <div className="flex items-end justify-between">
-<<<<<<< HEAD
-          <div className="text-sm font-black tabular-nums tracking-tighter text-slate-950">
-            {look.totalPrice.toLocaleString('ru-RU')}{' '}
-            <span className="ml-1 text-[10px] font-bold uppercase tracking-normal text-slate-400">
-=======
           <div className="text-text-primary text-sm font-black tabular-nums tracking-tighter">
             {look.totalPrice.toLocaleString('ru-RU')}{' '}
             <span className="text-text-muted ml-1 text-[10px] font-bold uppercase tracking-normal">
->>>>>>> recover/cabinet-wip-from-stash
               ₽
             </span>
           </div>
@@ -537,13 +440,8 @@ export function LookResultCard({
               className={cn(
                 'rounded-lg border p-1.5 transition-all',
                 viewMode === 'list'
-<<<<<<< HEAD
-                  ? 'border-slate-900 bg-slate-900 text-white'
-                  : 'border-slate-100 bg-white text-slate-400 hover:border-slate-200'
-=======
                   ? 'bg-text-primary border-text-primary text-white'
                   : 'text-text-muted border-border-subtle hover:border-border-default bg-white'
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               <Brain className="h-3 w-3" />
@@ -553,13 +451,8 @@ export function LookResultCard({
               className={cn(
                 'rounded-lg border p-1.5 transition-all',
                 viewMode === 'collage'
-<<<<<<< HEAD
-                  ? 'border-slate-900 bg-slate-900 text-white'
-                  : 'border-slate-100 bg-white text-slate-400 hover:border-slate-200'
-=======
                   ? 'bg-text-primary border-text-primary text-white'
                   : 'text-text-muted border-border-subtle hover:border-border-default bg-white'
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               <Layers className="h-3 w-3" />
@@ -576,25 +469,11 @@ export function LookResultCard({
           </div>
 
           {viewMode === 'list' ? (
-<<<<<<< HEAD
-            <div className="space-y-3 rounded-2xl border border-slate-100/50 bg-slate-50/50 p-3 shadow-inner">
-=======
             <div className="bg-bg-surface2/80 border-border-subtle/50 space-y-3 rounded-2xl border p-3 shadow-inner">
->>>>>>> recover/cabinet-wip-from-stash
               {items.map((item, idx) => {
                 if ('isMissing' in item && item.isMissing) {
                   return (
                     <div key={item.productId} className="flex items-center gap-3 py-2 opacity-60">
-<<<<<<< HEAD
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-100">
-                        <span className="text-[8px] font-bold uppercase text-slate-400">—</span>
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-[10px] font-medium text-slate-500">
-                          Товар недоступен
-                        </div>
-                        <div className="text-[9px] text-slate-400">
-=======
                       <div className="bg-bg-surface2 border-border-default flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-dashed">
                         <span className="text-text-muted text-[8px] font-bold uppercase">—</span>
                       </div>
@@ -603,7 +482,6 @@ export function LookResultCard({
                           Товар недоступен
                         </div>
                         <div className="text-text-muted text-[9px]">
->>>>>>> recover/cabinet-wip-from-stash
                           ID: {item.productId.slice(0, 8)}
                         </div>
                       </div>
@@ -633,30 +511,18 @@ export function LookResultCard({
           )}
         </div>
 
-<<<<<<< HEAD
-        <div className="border-t border-slate-100 pt-2">
-          <div className="mb-3 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Brain className="h-3 w-3 text-slate-400" />
-              <div className="text-[8px] font-black uppercase tracking-[0.2em] text-slate-400">
-=======
         <div className="border-border-subtle border-t pt-2">
           <div className="mb-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Brain className="text-text-muted h-3 w-3" />
               <div className="text-text-muted text-[8px] font-black uppercase tracking-[0.2em]">
->>>>>>> recover/cabinet-wip-from-stash
                 Heuristic_Reasoning
               </div>
             </div>
             <button
               onClick={handleGenerateStory}
               disabled={isGeneratingStory}
-<<<<<<< HEAD
-              className="flex items-center gap-1 text-[8px] font-black uppercase tracking-widest text-indigo-500 transition-all hover:text-indigo-700"
-=======
               className="text-accent-primary hover:text-accent-primary flex items-center gap-1 text-[8px] font-black uppercase tracking-widest transition-all"
->>>>>>> recover/cabinet-wip-from-stash
             >
               <FileText className={cn('h-3 w-3', isGeneratingStory && 'animate-pulse')} />
               {lookStory ? 'Regenerate_Story' : 'Generate_Narrative'}
@@ -667,15 +533,9 @@ export function LookResultCard({
             <motion.div
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
-<<<<<<< HEAD
-              className="mb-4 rounded-xl border-l-2 border-indigo-500 bg-slate-50 p-3 italic"
-            >
-              <p className="text-[10px] leading-relaxed text-slate-600">"{lookStory}"</p>
-=======
               className="bg-bg-surface2 border-accent-primary mb-4 rounded-xl border-l-2 p-3 italic"
             >
               <p className="text-text-secondary text-[10px] leading-relaxed">"{lookStory}"</p>
->>>>>>> recover/cabinet-wip-from-stash
             </motion.div>
           )}
 
@@ -683,31 +543,18 @@ export function LookResultCard({
             {look.why.map((w, i) => (
               <li
                 key={i}
-<<<<<<< HEAD
-                className="group/why relative flex items-start gap-3 text-[10px] font-medium leading-relaxed text-slate-600"
-              >
-                <div className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full border border-slate-300 transition-colors group-hover/why:bg-slate-900" />
-                <span className="transition-colors group-hover/why:text-slate-900">{w}</span>
-=======
                 className="text-text-secondary group/why relative flex items-start gap-3 text-[10px] font-medium leading-relaxed"
               >
                 <div className="border-border-default group-hover/why:bg-text-primary mt-1 h-1.5 w-1.5 shrink-0 rounded-full border transition-colors" />
                 <span className="group-hover/why:text-text-primary transition-colors">{w}</span>
->>>>>>> recover/cabinet-wip-from-stash
               </li>
             ))}
           </ul>
         </div>
 
-<<<<<<< HEAD
-        <div className="flex gap-2 border-t border-slate-100 pt-4">
-          <Button
-            className="group/buy button-glimmer h-12 flex-1 rounded-xl border border-white/10 bg-slate-950 text-[9px] font-black uppercase tracking-[0.2em] text-white shadow-2xl transition-all hover:bg-black active:scale-[0.98]"
-=======
         <div className="border-border-subtle flex gap-2 border-t pt-4">
           <Button
             className="bg-text-primary group/buy button-glimmer h-12 flex-1 rounded-xl border border-white/10 text-[9px] font-black uppercase tracking-[0.2em] text-white shadow-2xl transition-all hover:bg-black active:scale-[0.98]"
->>>>>>> recover/cabinet-wip-from-stash
             onClick={handleAddAllToCart}
           >
             <ShoppingCart className="mr-2 h-4 w-4 group-hover/buy:animate-bounce" />{' '}
@@ -716,11 +563,7 @@ export function LookResultCard({
           <Button
             variant="outline"
             size="icon"
-<<<<<<< HEAD
-            className="h-12 w-12 rounded-xl border-slate-200 bg-white text-slate-400 shadow-sm transition-all hover:bg-slate-50 hover:text-slate-900"
-=======
             className="border-border-default hover:bg-bg-surface2 text-text-muted hover:text-text-primary h-12 w-12 rounded-xl bg-white shadow-sm transition-all"
->>>>>>> recover/cabinet-wip-from-stash
             onClick={() => setIsMagicMirrorOpen(true)}
           >
             <Shirt className="h-4 w-4" />
@@ -728,11 +571,7 @@ export function LookResultCard({
           <Button
             variant="outline"
             size="icon"
-<<<<<<< HEAD
-            className="h-12 w-12 rounded-xl border-slate-200 bg-white text-slate-400 shadow-sm transition-all hover:bg-slate-50 hover:text-slate-900"
-=======
             className="border-border-default hover:bg-bg-surface2 text-text-muted hover:text-text-primary h-12 w-12 rounded-xl bg-white shadow-sm transition-all"
->>>>>>> recover/cabinet-wip-from-stash
             onClick={handleShare}
           >
             <Share2 className="h-4 w-4" />
@@ -741,22 +580,14 @@ export function LookResultCard({
 
         <div className="mt-2 grid grid-cols-2 gap-2">
           <button
-<<<<<<< HEAD
-            className="group/like flex items-center justify-center gap-2 rounded-xl border border-slate-100 bg-slate-50 py-2.5 text-[8px] font-black uppercase tracking-[0.2em] text-slate-400 transition-all hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-600"
-=======
             className="bg-bg-surface2 text-text-muted border-border-subtle group/like flex items-center justify-center gap-2 rounded-xl border py-2.5 text-[8px] font-black uppercase tracking-[0.2em] transition-all hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-600"
->>>>>>> recover/cabinet-wip-from-stash
             onClick={() => handleFeedback('like')}
           >
             <ThumbsUp className="h-3 w-3 transition-all group-hover/like:fill-emerald-500" />{' '}
             Like_Style
           </button>
           <button
-<<<<<<< HEAD
-            className="group/dislike flex items-center justify-center gap-2 rounded-xl border border-slate-100 bg-slate-50 py-2.5 text-[8px] font-black uppercase tracking-[0.2em] text-slate-400 transition-all hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600"
-=======
             className="bg-bg-surface2 text-text-muted border-border-subtle group/dislike flex items-center justify-center gap-2 rounded-xl border py-2.5 text-[8px] font-black uppercase tracking-[0.2em] transition-all hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600"
->>>>>>> recover/cabinet-wip-from-stash
             onClick={() => handleFeedback('dislike')}
           >
             <ThumbsDown className="h-3 w-3 transition-all group-hover/dislike:fill-rose-500" />{' '}
@@ -765,11 +596,7 @@ export function LookResultCard({
         </div>
 
         <button
-<<<<<<< HEAD
-          className="group/live mt-2 flex w-full items-center justify-center gap-2 rounded-xl border border-slate-800 bg-slate-900 py-3 text-[8px] font-black uppercase tracking-[0.2em] text-white shadow-lg transition-all hover:bg-black active:scale-[0.98]"
-=======
           className="bg-text-primary border-text-primary/30 group/live mt-2 flex w-full items-center justify-center gap-2 rounded-xl border py-3 text-[8px] font-black uppercase tracking-[0.2em] text-white shadow-lg transition-all hover:bg-black active:scale-[0.98]"
->>>>>>> recover/cabinet-wip-from-stash
           onClick={handlePostToFeed}
         >
           <Zap className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400 group-hover:animate-pulse" />{' '}
@@ -787,11 +614,7 @@ export function LookResultCard({
           </button>
           <button
             onClick={() => handleSocialAction('next')}
-<<<<<<< HEAD
-            className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-slate-100 bg-slate-50 py-2.5 text-[8px] font-black uppercase tracking-widest text-slate-400 transition-all hover:bg-slate-200"
-=======
             className="bg-bg-surface2 text-text-muted border-border-subtle hover:bg-bg-surface2 flex flex-1 items-center justify-center gap-2 rounded-xl border py-2.5 text-[8px] font-black uppercase tracking-widest transition-all"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <ArrowRight className="h-3 w-3" />
             NEXT ({socialEngagement.next})
@@ -801,11 +624,7 @@ export function LookResultCard({
         {viewRole === 'b2b' && (
           <div className="mt-2 space-y-2">
             <button
-<<<<<<< HEAD
-              className="group/promo flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 py-3 text-[8px] font-black uppercase tracking-[0.2em] text-white shadow-lg transition-all hover:bg-indigo-700"
-=======
               className="bg-accent-primary hover:bg-accent-primary group/promo flex w-full items-center justify-center gap-2 rounded-xl py-3 text-[8px] font-black uppercase tracking-[0.2em] text-white shadow-lg transition-all"
->>>>>>> recover/cabinet-wip-from-stash
               onClick={handleGeneratePromo}
               disabled={isGeneratingPromo}
             >
@@ -817,50 +636,28 @@ export function LookResultCard({
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
-<<<<<<< HEAD
-                className="space-y-2 overflow-hidden rounded-xl border border-indigo-100 bg-indigo-50 p-3"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-[7px] font-black uppercase text-indigo-400">
-=======
                 className="bg-accent-primary/10 border-accent-primary/20 space-y-2 overflow-hidden rounded-xl border p-3"
               >
                 <div className="flex items-center justify-between">
                   <span className="text-accent-primary text-[7px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                     Marketing_Output
                   </span>
                   <button
                     onClick={() => setPromoContent(null)}
-<<<<<<< HEAD
-                    className="text-[7px] font-black uppercase text-indigo-300 hover:text-indigo-600"
-=======
                     className="text-accent-primary hover:text-accent-primary text-[7px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     Clear
                   </button>
                 </div>
-<<<<<<< HEAD
-                <div className="text-[9px] font-bold leading-tight text-indigo-900">
-                  {promoContent.ideas[0]?.title}
-                </div>
-                <p className="text-[8px] italic leading-relaxed text-indigo-700">
-=======
                 <div className="text-accent-primary text-[9px] font-bold leading-tight">
                   {promoContent.ideas[0]?.title}
                 </div>
                 <p className="text-accent-primary text-[8px] italic leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                   "{promoContent.ideas[0]?.caption}"
                 </p>
                 <div className="flex flex-wrap gap-1">
                   {promoContent.ideas[0]?.hashtags?.map((h, i) => (
-<<<<<<< HEAD
-                    <span key={i} className="text-[7px] text-indigo-400">
-=======
                     <span key={i} className="text-accent-primary text-[7px]">
->>>>>>> recover/cabinet-wip-from-stash
                       #{h}
                     </span>
                   ))}
@@ -871,11 +668,7 @@ export function LookResultCard({
         )}
 
         <button
-<<<<<<< HEAD
-          className="group/save mt-2 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-slate-200 bg-slate-50 py-3 text-[8px] font-black uppercase tracking-[0.2em] text-slate-400 transition-all hover:border-slate-900 hover:bg-white hover:text-slate-900 active:scale-[0.98]"
-=======
           className="bg-bg-surface2 text-text-muted border-border-default hover:border-text-primary hover:text-text-primary group/save mt-2 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed py-3 text-[8px] font-black uppercase tracking-[0.2em] transition-all hover:bg-white active:scale-[0.98]"
->>>>>>> recover/cabinet-wip-from-stash
           onClick={() => {
             const key = 'syntha_saved_looks';
             const prev = JSON.parse(localStorage.getItem(key) ?? '[]');
@@ -898,11 +691,7 @@ export function LookResultCard({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-<<<<<<< HEAD
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/95 p-4 backdrop-blur-2xl md:p-4"
-=======
             className="bg-text-primary/95 fixed inset-0 z-[100] flex items-center justify-center p-4 backdrop-blur-2xl md:p-4"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <button
               onClick={() => setIsMagicMirrorOpen(false)}
@@ -914,11 +703,7 @@ export function LookResultCard({
             <div className="grid w-full max-w-6xl grid-cols-1 items-center gap-3 lg:grid-cols-2">
               <div className="space-y-6">
                 <div className="space-y-2">
-<<<<<<< HEAD
-                  <Badge className="rounded-full border-none bg-indigo-500 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white">
-=======
                   <Badge className="bg-accent-primary rounded-full border-none px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white">
->>>>>>> recover/cabinet-wip-from-stash
                     AI_Magic_Mirror_v2.0
                   </Badge>
                   <h2 className="text-sm font-black uppercase leading-none tracking-tighter text-white md:text-base">
@@ -926,11 +711,7 @@ export function LookResultCard({
                     <br />
                     Примерочная
                   </h2>
-<<<<<<< HEAD
-                  <p className="max-w-md text-sm italic text-slate-400 md:text-sm">
-=======
                   <p className="text-text-muted max-w-md text-sm italic md:text-sm">
->>>>>>> recover/cabinet-wip-from-stash
                     "Примерьте образ {look.title} прямо сейчас. Наш ИИ адаптирует вещи под ваши
                     параметры."
                   </p>
@@ -943,11 +724,7 @@ export function LookResultCard({
                       onClick={() => setIsLiveAR(false)}
                       className={cn(
                         'h-10 flex-1 rounded-2xl text-[10px] font-black uppercase tracking-widest',
-<<<<<<< HEAD
-                        !isLiveAR && 'bg-indigo-500 text-white'
-=======
                         !isLiveAR && 'bg-accent-primary text-white'
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       Фото-режим
@@ -976,11 +753,7 @@ export function LookResultCard({
                       isLiveAR
                         ? 'border-emerald-500 bg-black'
                         : userPhoto
-<<<<<<< HEAD
-                          ? 'border-indigo-500 bg-white/5'
-=======
                           ? 'border-accent-primary bg-white/5'
->>>>>>> recover/cabinet-wip-from-stash
                           : 'border-white/10 hover:border-white/40 hover:bg-white/5'
                     )}
                   >
@@ -994,11 +767,7 @@ export function LookResultCard({
 
                     {isLiveAR ? (
                       <>
-<<<<<<< HEAD
-                        <div className="absolute inset-0 flex items-center justify-center bg-slate-900">
-=======
                         <div className="bg-text-primary absolute inset-0 flex items-center justify-center">
->>>>>>> recover/cabinet-wip-from-stash
                           {/* Simulated Live Feed */}
                           <motion.div
                             animate={{ opacity: [0.4, 0.6, 0.4] }}
@@ -1044,15 +813,9 @@ export function LookResultCard({
                       </>
                     ) : isProcessingTryOn ? (
                       <div className="flex flex-col items-center gap-3">
-<<<<<<< HEAD
-                        <div className="h-12 w-12 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent" />
-                        <div className="space-y-1 text-center">
-                          <div className="animate-pulse text-xs font-black uppercase tracking-[0.2em] text-indigo-400">
-=======
                         <div className="border-accent-primary h-12 w-12 animate-spin rounded-full border-4 border-t-transparent" />
                         <div className="space-y-1 text-center">
                           <div className="text-accent-primary animate-pulse text-xs font-black uppercase tracking-[0.2em]">
->>>>>>> recover/cabinet-wip-from-stash
                             Синхронизация_слоев...
                           </div>
                           <div className="font-mono text-[10px] text-white/40">
@@ -1068,11 +831,7 @@ export function LookResultCard({
                           src={userPhoto}
                           className="absolute inset-0 h-full w-full object-cover"
                         />
-<<<<<<< HEAD
-                        <div className="absolute inset-0 bg-indigo-500/20 mix-blend-overlay" />
-=======
                         <div className="bg-accent-primary/20 absolute inset-0 mix-blend-overlay" />
->>>>>>> recover/cabinet-wip-from-stash
 
                         {/* Simulated overlay of the look */}
                         <motion.div
@@ -1115,11 +874,7 @@ export function LookResultCard({
               <div className="space-y-4 rounded-xl border border-white/10 bg-white/5 p-4">
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                    <Sparkles className="h-5 w-5 text-indigo-400" />
-=======
                     <Sparkles className="text-accent-primary h-5 w-5" />
->>>>>>> recover/cabinet-wip-from-stash
                     <span className="text-xs font-black uppercase tracking-[0.2em] text-white/60">
                       Constituent_Look_Items
                     </span>
@@ -1161,11 +916,7 @@ export function LookResultCard({
                         key={i}
                         className="flex items-center gap-3 text-[11px] font-medium italic text-white/70"
                       >
-<<<<<<< HEAD
-                        <div className="h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
-=======
                         <div className="bg-accent-primary h-1.5 w-1.5 shrink-0 rounded-full" />
->>>>>>> recover/cabinet-wip-from-stash
                         {t}
                       </div>
                     ))}
@@ -1174,11 +925,7 @@ export function LookResultCard({
 
                 <div className="flex gap-3 pt-4">
                   <Button
-<<<<<<< HEAD
-                    className="h-10 flex-1 rounded-2xl bg-white text-[11px] font-black uppercase tracking-widest text-black hover:bg-slate-200"
-=======
                     className="hover:bg-bg-surface2 h-10 flex-1 rounded-2xl bg-white text-[11px] font-black uppercase tracking-widest text-black"
->>>>>>> recover/cabinet-wip-from-stash
                     onClick={handleAddAllToCart}
                   >
                     Добавить весь образ в корзину

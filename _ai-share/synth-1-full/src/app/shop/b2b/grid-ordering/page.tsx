@@ -31,27 +31,8 @@ export default function GridOrderingPage() {
   const totalAmount = filledRows.reduce((a, r) => a + r.qty * (r.price || 0), 0);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <Grid3X3 className="h-6 w-6" /> Grid Ordering
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            NetSuite: массовое занесение позиций в таблицу — стиль, размер, qty
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="max-w-5xl space-y-6">
       <ShopB2bContentHeader lead="Табличный ввод заказа: артикул, размер и количество по строкам (сценарий NetSuite Grid Ordering)." />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -74,11 +55,7 @@ export default function GridOrderingPage() {
               </thead>
               <tbody>
                 {rows.map((row, i) => (
-<<<<<<< HEAD
-                  <tr key={i} className="border-b border-slate-100">
-=======
                   <tr key={i} className="border-border-subtle border-b">
->>>>>>> recover/cabinet-wip-from-stash
                     <td className="px-2 py-1">
                       <Input
                         placeholder="SKU или артикул"
@@ -122,11 +99,7 @@ export default function GridOrderingPage() {
                       <Button
                         variant="ghost"
                         size="icon"
-<<<<<<< HEAD
-                        className="h-8 w-8 text-slate-400"
-=======
                         className="text-text-muted h-8 w-8"
->>>>>>> recover/cabinet-wip-from-stash
                         onClick={() => removeRow(i)}
                       >
                         <Trash2 className="h-4 w-4" />
@@ -144,11 +117,7 @@ export default function GridOrderingPage() {
             <div className="text-sm">
               <span className="text-text-secondary">Итого: </span>
               <span className="font-medium">{totalQty} ед.</span>
-<<<<<<< HEAD
-              <span className="ml-4 text-slate-500">На сумму: </span>
-=======
               <span className="text-text-secondary ml-4">На сумму: </span>
->>>>>>> recover/cabinet-wip-from-stash
               <span className="font-semibold">{totalAmount.toLocaleString('ru-RU')} ₽</span>
             </div>
           </div>

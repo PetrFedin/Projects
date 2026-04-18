@@ -9,10 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Plus } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-<<<<<<< HEAD
-=======
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
->>>>>>> recover/cabinet-wip-from-stash
 import {
   getShoppableLooksByLookbookId,
   type ShoppableLookProduct,
@@ -56,13 +53,8 @@ export default function ShoppableLookbookPage({
 
   if (looks.length === 0) {
     return (
-<<<<<<< HEAD
-      <div className="container mx-auto max-w-2xl px-4 py-12 text-center">
-        <p className="text-slate-500">Лукбук не найден или в нём нет shoppable look'ов.</p>
-=======
       <RegistryPageShell className="max-w-2xl space-y-6 py-12 text-center">
         <p className="text-text-secondary">Лукбук не найден или в нём нет shoppable look'ов.</p>
->>>>>>> recover/cabinet-wip-from-stash
         <Button variant="outline" className="mt-4" asChild>
           <Link href={ROUTES.shop.b2bShowroom}>В шоурум</Link>
         </Button>
@@ -71,30 +63,11 @@ export default function ShoppableLookbookPage({
   }
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2bShowroom}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <ShoppingBag className="h-6 w-6" /> Shoppable Lookbook
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            JOOR: клик по продукту на look'е — добавление в заказ
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="max-w-4xl space-y-6">
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bShowroom}
         lead="Клик по товару на look'е — добавление в заказ (JOOR Shoppable Lookbook)."
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <div className="mb-4 flex gap-2 overflow-x-auto">
         {looks.map((l, i) => (
@@ -115,11 +88,7 @@ export default function ShoppableLookbookPage({
             <CardTitle className="text-base">{activeLook.title}</CardTitle>
           </CardHeader>
           <CardContent>
-<<<<<<< HEAD
-            <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-slate-100">
-=======
             <div className="bg-bg-surface2 relative aspect-[4/3] overflow-hidden rounded-xl">
->>>>>>> recover/cabinet-wip-from-stash
               <Image
                 src={activeLook.imageUrl}
                 alt={activeLook.title ?? 'Look'}
@@ -140,11 +109,7 @@ export default function ShoppableLookbookPage({
               {activeLook.products.map((p) => (
                 <div
                   key={p.productId}
-<<<<<<< HEAD
-                  className="flex items-center gap-2 rounded-lg bg-slate-50 px-3 py-2 text-sm"
-=======
                   className="bg-bg-surface2 flex items-center gap-2 rounded-lg px-3 py-2 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   <span className="font-medium">{p.name}</span>
                   <span className="text-text-secondary">{p.price.toLocaleString('ru-RU')} ₽</span>
@@ -187,11 +152,7 @@ function Hotspot({
   return (
     <button
       type="button"
-<<<<<<< HEAD
-      className="absolute flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-indigo-500/90 text-white shadow-lg transition-transform hover:scale-110"
-=======
       className="bg-accent-primary/90 absolute flex h-8 w-8 items-center justify-center rounded-full border-2 border-white text-white shadow-lg transition-transform hover:scale-110"
->>>>>>> recover/cabinet-wip-from-stash
       style={{ left: `${product.x}%`, top: `${product.y}%`, transform: 'translate(-50%, -50%)' }}
       onClick={onAdd}
       title={`${product.name} — ${product.price.toLocaleString('ru-RU')} ₽`}

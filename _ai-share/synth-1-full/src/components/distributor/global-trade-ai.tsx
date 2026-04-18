@@ -58,32 +58,19 @@ export function GlobalTradeAi() {
 
   return (
     <Card className="overflow-hidden rounded-xl border-none bg-white shadow-2xl">
-<<<<<<< HEAD
-      <CardHeader className="bg-slate-900 p-3 pb-4 text-white">
-        <div className="flex items-start justify-between">
-          <div className="space-y-1">
-            <div className="mb-1 flex items-center gap-2">
-              <Globe className="h-6 w-6 text-indigo-400" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-indigo-400">
-=======
       <CardHeader className="bg-text-primary p-3 pb-4 text-white">
         <div className="flex items-start justify-between">
           <div className="space-y-1">
             <div className="mb-1 flex items-center gap-2">
               <Globe className="text-accent-primary h-6 w-6" />
               <span className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 Global Compliance Engine
               </span>
             </div>
             <CardTitle className="text-base font-black uppercase tracking-tighter">
               Global Trade AI
             </CardTitle>
-<<<<<<< HEAD
-            <CardDescription className="font-medium text-slate-400">
-=======
             <CardDescription className="text-text-muted font-medium">
->>>>>>> recover/cabinet-wip-from-stash
               Автоматизация таможенных документов, расчет пошлин и экспортный контроль.
             </CardDescription>
           </div>
@@ -101,30 +88,19 @@ export function GlobalTradeAi() {
           {/* Main Controls Area */}
           <div className="space-y-4 lg:col-span-8">
             <div className="flex items-center justify-between">
-<<<<<<< HEAD
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-400">
-                Активные экспортные потоки
-              </h4>
-              <div className="flex rounded-xl bg-slate-100 p-1">
-=======
               <h4 className="text-text-muted text-[11px] font-black uppercase tracking-widest">
                 Активные экспортные потоки
               </h4>
               <div className="bg-bg-surface2 flex rounded-xl p-1">
->>>>>>> recover/cabinet-wip-from-stash
                 {['EU', 'CIS', 'MENA', 'ASIA'].map((reg) => (
                   <button
                     key={reg}
                     onClick={() => setActiveRegion(reg)}
                     className={cn(
                       'rounded-lg px-4 py-1.5 text-[9px] font-black uppercase transition-all',
-<<<<<<< HEAD
-                      activeRegion === reg ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400'
-=======
                       activeRegion === reg
                         ? 'text-text-primary bg-white shadow-sm'
                         : 'text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     {reg}
@@ -137,17 +113,6 @@ export function GlobalTradeAi() {
               {MOCK_DOCS.map((doc) => (
                 <div
                   key={doc.id}
-<<<<<<< HEAD
-                  className="group flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-4 transition-all hover:bg-white hover:shadow-xl"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-100 bg-white shadow-sm">
-                      <FileText className="h-6 w-6 text-slate-400 transition-colors group-hover:text-indigo-600" />
-                    </div>
-                    <div>
-                      <div className="mb-1 flex items-center gap-2">
-                        <p className="text-sm font-black uppercase tracking-tight text-slate-900">
-=======
                   className="bg-bg-surface2 border-border-subtle group flex items-center justify-between rounded-xl border p-4 transition-all hover:bg-white hover:shadow-xl"
                 >
                   <div className="flex items-center gap-3">
@@ -157,7 +122,6 @@ export function GlobalTradeAi() {
                     <div>
                       <div className="mb-1 flex items-center gap-2">
                         <p className="text-text-primary text-sm font-black uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                           {doc.title}
                         </p>
                         <Badge
@@ -171,11 +135,7 @@ export function GlobalTradeAi() {
                           {doc.status}
                         </Badge>
                       </div>
-<<<<<<< HEAD
-                      <p className="text-[10px] font-bold uppercase tracking-tighter text-slate-400">
-=======
                       <p className="text-text-muted text-[10px] font-bold uppercase tracking-tighter">
->>>>>>> recover/cabinet-wip-from-stash
                         {doc.country} • {doc.type}
                       </p>
                     </div>
@@ -183,19 +143,11 @@ export function GlobalTradeAi() {
                   <div className="flex gap-2">
                     <Button
                       variant="outline"
-<<<<<<< HEAD
-                      className="h-12 w-12 rounded-2xl border-slate-100 p-0"
-                    >
-                      <Download className="h-5 w-5 text-slate-400" />
-                    </Button>
-                    <Button className="h-12 rounded-2xl bg-slate-900 px-6 text-[10px] font-black uppercase tracking-widest text-white shadow-lg transition-all hover:bg-indigo-600">
-=======
                       className="border-border-subtle h-12 w-12 rounded-2xl p-0"
                     >
                       <Download className="text-text-muted h-5 w-5" />
                     </Button>
                     <Button className="bg-text-primary hover:bg-accent-primary h-12 rounded-2xl px-6 text-[10px] font-black uppercase tracking-widest text-white shadow-lg transition-all">
->>>>>>> recover/cabinet-wip-from-stash
                       Проверить AI
                     </Button>
                   </div>
@@ -203,18 +155,6 @@ export function GlobalTradeAi() {
               ))}
             </div>
 
-<<<<<<< HEAD
-            <div className="flex items-center justify-between rounded-xl border border-indigo-100 bg-indigo-50 p-4">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-lg">
-                  <Calculator className="h-7 w-7" />
-                </div>
-                <div>
-                  <p className="text-sm font-black uppercase tracking-tighter text-slate-900">
-                    Duty Calculator Pro
-                  </p>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-700/80">
-=======
             <div className="bg-accent-primary/10 border-accent-primary/20 flex items-center justify-between rounded-xl border p-4">
               <div className="flex items-center gap-3">
                 <div className="bg-accent-primary flex h-10 w-10 items-center justify-center rounded-2xl text-white shadow-lg">
@@ -225,16 +165,11 @@ export function GlobalTradeAi() {
                     Duty Calculator Pro
                   </p>
                   <p className="text-accent-primary/80 text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Авто-расчет таможенных пошлин и НДС по коду ТН ВЭД
                   </p>
                 </div>
               </div>
-<<<<<<< HEAD
-              <Button className="h-10 rounded-2xl border border-indigo-200 bg-white px-8 text-[10px] font-black uppercase tracking-widest text-indigo-600 transition-all hover:bg-indigo-600 hover:text-white">
-=======
               <Button className="text-accent-primary border-accent-primary/30 hover:bg-accent-primary h-10 rounded-2xl border bg-white px-8 text-[10px] font-black uppercase tracking-widest transition-all hover:text-white">
->>>>>>> recover/cabinet-wip-from-stash
                 Рассчитать партию
               </Button>
             </div>
@@ -242,29 +177,17 @@ export function GlobalTradeAi() {
 
           {/* Compliance Sidebar */}
           <div className="space-y-4 lg:col-span-4">
-<<<<<<< HEAD
-            <div className="relative space-y-4 overflow-hidden rounded-xl bg-slate-900 p-4 text-white">
-=======
             <div className="bg-text-primary relative space-y-4 overflow-hidden rounded-xl p-4 text-white">
->>>>>>> recover/cabinet-wip-from-stash
               <div className="absolute right-0 top-0 p-4 opacity-10">
                 <ShieldCheck className="h-32 w-32" />
               </div>
 
               <div className="relative z-10 space-y-1">
-<<<<<<< HEAD
-                <p className="text-[10px] font-black uppercase tracking-widest text-indigo-400">
-                  Compliance Health
-                </p>
-                <h3 className="text-sm font-black tabular-nums">98.4%</h3>
-                <p className="text-[9px] font-bold uppercase text-indigo-300/60">
-=======
                 <p className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
                   Compliance Health
                 </p>
                 <h3 className="text-sm font-black tabular-nums">98.4%</h3>
                 <p className="text-accent-primary/60 text-[9px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   Риск задержки документов: Низкий
                 </p>
               </div>
@@ -280,11 +203,7 @@ export function GlobalTradeAi() {
                     className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4"
                   >
                     <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                      <item.icon className="h-4 w-4 text-indigo-400" />
-=======
                       <item.icon className="text-accent-primary h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
                       <span className="text-[10px] font-black uppercase text-white/60">
                         {item.label}
                       </span>
@@ -296,11 +215,7 @@ export function GlobalTradeAi() {
                 ))}
               </div>
 
-<<<<<<< HEAD
-              <Button className="relative z-10 h-10 w-full rounded-2xl bg-indigo-600 text-[10px] font-black uppercase tracking-widest text-white shadow-2xl transition-all hover:bg-indigo-500">
-=======
               <Button className="bg-accent-primary hover:bg-accent-primary relative z-10 h-10 w-full rounded-2xl text-[10px] font-black uppercase tracking-widest text-white shadow-2xl transition-all">
->>>>>>> recover/cabinet-wip-from-stash
                 Новая декларация
               </Button>
             </div>

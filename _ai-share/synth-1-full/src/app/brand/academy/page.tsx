@@ -45,17 +45,6 @@ export default function BrandAcademyPage() {
             <div className="space-y-3">
               {inProgress.map((c) => (
                 <Link key={c.id} href={ROUTES.brand.academyCourse(c.id)}>
-<<<<<<< HEAD
-                  <div className="flex items-center justify-between rounded-xl border border-indigo-100 bg-indigo-50/30 p-4 transition-colors hover:bg-indigo-50/50">
-                    <div className="flex items-center gap-4">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-indigo-100">
-                        <PlayCircle className="h-5 w-5 text-indigo-600" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-slate-900">{c.title}</p>
-                        <div className="mt-1 flex items-center gap-3">
-                          <span className="text-xs text-slate-500">{c.modules} модулей</span>
-=======
                   <div className="border-accent-primary/20 bg-accent-primary/10 hover:bg-accent-primary/10 flex items-center justify-between rounded-xl border p-4 transition-colors">
                     <div className="flex items-center gap-4">
                       <div className="bg-accent-primary/15 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
@@ -65,7 +54,6 @@ export default function BrandAcademyPage() {
                         <p className="text-text-primary font-semibold">{c.title}</p>
                         <div className="mt-1 flex items-center gap-3">
                           <span className="text-text-secondary text-xs">{c.modules} модулей</span>
->>>>>>> recover/cabinet-wip-from-stash
                           <div className="w-24">
                             <Progress value={c.progress} className="h-1.5 rounded-full" />
                           </div>
@@ -75,11 +63,7 @@ export default function BrandAcademyPage() {
                         </div>
                       </div>
                     </div>
-<<<<<<< HEAD
-                    <ChevronRight className="h-4 w-4 shrink-0 text-slate-400" />
-=======
                     <ChevronRight className="text-text-muted h-4 w-4 shrink-0" />
->>>>>>> recover/cabinet-wip-from-stash
                   </div>
                 </Link>
               ))}
@@ -115,11 +99,7 @@ export default function BrandAcademyPage() {
                       'group overflow-hidden rounded-xl border transition-all duration-200 hover:shadow-md',
                       c.status === 'completed'
                         ? 'border-emerald-200/60 bg-emerald-50/30'
-<<<<<<< HEAD
-                        : 'border-slate-200/80 bg-white hover:border-slate-300'
-=======
                         : 'border-border-default/80 hover:border-border-default bg-white'
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     <div className="flex flex-col gap-5 p-6 sm:flex-row sm:items-center">
@@ -129,13 +109,8 @@ export default function BrandAcademyPage() {
                           c.status === 'completed'
                             ? 'bg-emerald-100 text-emerald-600'
                             : c.status === 'in_progress'
-<<<<<<< HEAD
-                              ? 'bg-indigo-100 text-indigo-600'
-                              : 'bg-slate-100 text-slate-400'
-=======
                               ? 'bg-accent-primary/15 text-accent-primary'
                               : 'bg-bg-surface2 text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                         )}
                       >
                         {c.status === 'completed' ? (
@@ -146,11 +121,7 @@ export default function BrandAcademyPage() {
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
-<<<<<<< HEAD
-                          <h3 className="text-base font-semibold text-slate-900">{c.title}</h3>
-=======
                           <h3 className="text-text-primary text-base font-semibold">{c.title}</h3>
->>>>>>> recover/cabinet-wip-from-stash
                           <Badge
                             variant="outline"
                             className={cn(
@@ -158,13 +129,8 @@ export default function BrandAcademyPage() {
                               c.status === 'completed'
                                 ? 'border-emerald-300 bg-emerald-50 text-emerald-700'
                                 : c.status === 'in_progress'
-<<<<<<< HEAD
-                                  ? 'border-indigo-300 bg-indigo-50 text-indigo-700'
-                                  : 'border-slate-200 text-slate-500'
-=======
                                   ? 'border-accent-primary/30 text-accent-primary bg-accent-primary/10'
                                   : 'border-border-default text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                             )}
                           >
                             {c.status === 'completed'
@@ -174,13 +140,8 @@ export default function BrandAcademyPage() {
                                 : 'Не начат'}
                           </Badge>
                         </div>
-<<<<<<< HEAD
-                        <p className="mt-1 text-sm text-slate-500">{c.description}</p>
-                        <div className="mt-3 flex items-center gap-4 text-xs text-slate-500">
-=======
                         <p className="text-text-secondary mt-1 text-sm">{c.description}</p>
                         <div className="text-text-secondary mt-3 flex items-center gap-4 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                           <span className="flex items-center gap-1">
                             <Clock className="h-3.5 w-3.5" /> {c.duration}
                           </span>
@@ -192,11 +153,7 @@ export default function BrandAcademyPage() {
                           )}
                         </div>
                       </div>
-<<<<<<< HEAD
-                      <ChevronRight className="h-5 w-5 shrink-0 self-center text-slate-400 transition-colors group-hover:text-slate-600" />
-=======
                       <ChevronRight className="text-text-muted group-hover:text-text-secondary h-5 w-5 shrink-0 self-center transition-colors" />
->>>>>>> recover/cabinet-wip-from-stash
                     </div>
                   </div>
                 </Link>

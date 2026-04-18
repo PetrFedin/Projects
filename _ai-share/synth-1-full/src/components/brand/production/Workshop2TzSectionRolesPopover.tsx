@@ -107,11 +107,7 @@ export function Workshop2TzSectionRolesPopover({
           >
             <LucideIcons.Users className="h-3 w-3 shrink-0" aria-hidden />
             Роли
-<<<<<<< HEAD
-            <span className="tabular-nums text-slate-500">
-=======
             <span className="text-text-secondary tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
               · {CONSTRUCTION_SECTION_ROLE_BLOCKS.length}
             </span>
           </Button>
@@ -120,11 +116,7 @@ export function Workshop2TzSectionRolesPopover({
           className="max-h-[min(32rem,70vh)] w-[min(26rem,calc(100vw-1.5rem))] space-y-3 overflow-y-auto text-xs"
           align="end"
         >
-<<<<<<< HEAD
-          <p className="text-[10px] font-semibold leading-snug text-slate-700">
-=======
           <p className="text-text-primary text-[10px] font-semibold leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
             Конструкция — общий стол: поля узлов каталога, табель мер и согласование со скетчем.
             Ниже — типичные участники маршрута SKU и что для них важно в этой вкладке.
           </p>

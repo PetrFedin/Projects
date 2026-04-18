@@ -30,27 +30,16 @@ export const ProductSeasonalFitBlock: React.FC<{ product: Product }> = ({ produc
 
       <div className="mb-4 grid grid-cols-2 gap-4">
         <div>
-<<<<<<< HEAD
-          <div className="text-2xl font-black leading-none text-slate-800">
-            {analysis.fitScore}%
-          </div>
-          <div className="mt-1 text-[10px] font-black uppercase leading-none text-slate-400">
-=======
           <div className="text-text-primary text-2xl font-black leading-none">
             {analysis.fitScore}%
           </div>
           <div className="text-text-muted mt-1 text-[10px] font-black uppercase leading-none">
->>>>>>> recover/cabinet-wip-from-stash
             Season Match
           </div>
         </div>
         <div className="text-right">
           <div className="text-xs font-black text-sky-700">{analysis.recommendedTempRange}</div>
-<<<<<<< HEAD
-          <div className="mt-1 text-[10px] font-black uppercase leading-none text-slate-400">
-=======
           <div className="text-text-muted mt-1 text-[10px] font-black uppercase leading-none">
->>>>>>> recover/cabinet-wip-from-stash
             Optimal Range
           </div>
         </div>
@@ -63,11 +52,7 @@ export const ProductSeasonalFitBlock: React.FC<{ product: Product }> = ({ produc
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div className="mt-4 flex items-center gap-2 border-t border-sky-100 pt-3 text-[9px] font-bold uppercase italic text-slate-400">
-=======
       <div className="text-text-muted mt-4 flex items-center gap-2 border-t border-sky-100 pt-3 text-[9px] font-bold uppercase italic">
->>>>>>> recover/cabinet-wip-from-stash
         <Info className="h-3 w-3" /> Fabric Density vs RF Regional Climate v1.4
       </div>
     </Card>

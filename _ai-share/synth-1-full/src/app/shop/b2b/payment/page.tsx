@@ -78,36 +78,6 @@ export default function B2BPaymentPage() {
   );
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <CreditCard className="h-6 w-6" /> JOOR Pay
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Оплата заказов внутри платформы. Кредитный лимит обновляется в реальном времени после
-            оплаты.
-          </p>
-        </div>
-      </div>
-
-      <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-        <Card className="border-slate-100">
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase tracking-tight">
-              <DollarSign className="h-4 w-4 text-indigo-600" /> Доступный лимит
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-1">
-            <p className="text-2xl font-black text-slate-900">{formatMoney(credit.available)}</p>
-            <p className="text-xs text-slate-500">
-=======
     <RegistryPageShell className="max-w-4xl space-y-6" data-testid={tid.page('shop-b2b-payment')}>
       <ShopB2bContentHeader lead="Оплата заказов внутри платформы; кредитный лимит обновляется после оплаты (JOOR Pay)." />
       <ShopAnalyticsSegmentErpStrip />
@@ -122,7 +92,6 @@ export default function B2BPaymentPage() {
           <CardContent className="space-y-1">
             <p className="text-text-primary text-2xl font-black">{formatMoney(credit.available)}</p>
             <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
               из {formatMoney(credit.limit)} · использовано {formatMoney(credit.used)}
             </p>
             {credit.blocked && (
@@ -142,11 +111,7 @@ export default function B2BPaymentPage() {
             <p className="text-2xl font-black text-amber-700">
               {formatMoney(rollup.awaitingPayment)}
             </p>
-<<<<<<< HEAD
-            <p className="text-xs text-slate-500">
-=======
             <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
               {rollup.ordersAwaitingPayment.length} заказ(ов)
             </p>
           </CardContent>
@@ -163,11 +128,7 @@ export default function B2BPaymentPage() {
         </CardHeader>
         <CardContent className="space-y-3">
           {awaiting.length === 0 ? (
-<<<<<<< HEAD
-            <p className="text-sm text-slate-500">Нет заказов, ожидающих оплаты.</p>
-=======
             <p className="text-text-secondary text-sm">Нет заказов, ожидающих оплаты.</p>
->>>>>>> recover/cabinet-wip-from-stash
           ) : (
             <ul className="space-y-2">
               {awaiting.map((o) => {
@@ -176,16 +137,6 @@ export default function B2BPaymentPage() {
                 return (
                   <li
                     key={o.order}
-<<<<<<< HEAD
-                    className={`flex items-center justify-between rounded-xl border px-4 py-3 ${isHighlight ? 'border-indigo-300 bg-indigo-50/50' : 'border-slate-100 bg-slate-50/50'}`}
-                  >
-                    <div>
-                      <span className="font-mono font-bold">{o.order}</span>
-                      <span className="ml-2 text-slate-500">{o.brand}</span>
-                      <span className="ml-2 font-medium text-amber-700">{o.amount}</span>
-                      {o.paidAmount != null && o.paidAmount > 0 && (
-                        <span className="ml-2 text-xs text-slate-500">
-=======
                     className={`flex items-center justify-between rounded-xl border px-4 py-3 ${isHighlight ? 'border-accent-primary/30 bg-accent-primary/10' : 'border-border-subtle bg-bg-surface2/80'}`}
                   >
                     <div>
@@ -194,7 +145,6 @@ export default function B2BPaymentPage() {
                       <span className="ml-2 font-medium text-amber-700">{o.amount}</span>
                       {o.paidAmount != null && o.paidAmount > 0 && (
                         <span className="text-text-secondary ml-2 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                           оплачено {formatMoney(o.paidAmount)}
                         </span>
                       )}
@@ -213,11 +163,7 @@ export default function B2BPaymentPage() {
                         className="rounded-lg text-[10px]"
                         asChild
                       >
-<<<<<<< HEAD
-                        <Link href={`${ROUTES.shop.b2bOrders}/${o.order}`}>Детали</Link>
-=======
                         <Link href={ROUTES.shop.b2bOrder(o.order)}>Детали</Link>
->>>>>>> recover/cabinet-wip-from-stash
                       </Button>
                     </div>
                   </li>

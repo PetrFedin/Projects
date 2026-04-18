@@ -21,13 +21,8 @@ const STORAGE_KEY = 'b2b_partner_territories';
 
 const SEED: PartnerTerritory[] = [
   {
-<<<<<<< HEAD
-    partnerId: 'podium',
-    partnerName: 'Podium (Москва)',
-=======
     partnerId: 'retail_msk_1',
     partnerName: 'Демо-магазин · Москва 1',
->>>>>>> recover/cabinet-wip-from-stash
     region: 'Москва / ЦФО',
     regionKey: 'Moscow',
     isExclusive: true,
@@ -35,13 +30,8 @@ const SEED: PartnerTerritory[] = [
     order: 1,
   },
   {
-<<<<<<< HEAD
-    partnerId: 'tsum',
-    partnerName: 'ЦУМ (Москва)',
-=======
     partnerId: 'retail_msk_2',
     partnerName: 'Демо-магазин · Москва 2',
->>>>>>> recover/cabinet-wip-from-stash
     region: 'Москва / ЦФО',
     regionKey: 'Moscow',
     isExclusive: false,
@@ -49,13 +39,8 @@ const SEED: PartnerTerritory[] = [
     order: 2,
   },
   {
-<<<<<<< HEAD
-    partnerId: 'boutique7',
-    partnerName: 'Boutique No.7 (СПб)',
-=======
     partnerId: 'retail_spb_1',
     partnerName: 'Демо-магазин · СПб',
->>>>>>> recover/cabinet-wip-from-stash
     region: 'Санкт-Петербург / СЗФО',
     regionKey: 'SPb',
     isExclusive: true,
@@ -63,22 +48,8 @@ const SEED: PartnerTerritory[] = [
     order: 1,
   },
   {
-<<<<<<< HEAD
-    partnerId: 'galery',
-    partnerName: 'Galery (СПб)',
-    region: 'Санкт-Петербург / СЗФО',
-    regionKey: 'SPb',
-    isExclusive: false,
-    status: 'active',
-    order: 2,
-  },
-  {
-    partnerId: 'krasnodar1',
-    partnerName: 'Юг Торг (Краснодар)',
-=======
     partnerId: 'retail_krd_1',
     partnerName: 'Демо-магазин · Краснодар',
->>>>>>> recover/cabinet-wip-from-stash
     region: 'Краснодар / ЮФО',
     regionKey: 'Krasnodar',
     isExclusive: true,
@@ -86,13 +57,8 @@ const SEED: PartnerTerritory[] = [
     order: 1,
   },
   {
-<<<<<<< HEAD
-    partnerId: 'ekb1',
-    partnerName: 'Урал Ритейл (Екатеринбург)',
-=======
     partnerId: 'retail_ekb_1',
     partnerName: 'Демо-магазин · Екатеринбург',
->>>>>>> recover/cabinet-wip-from-stash
     region: 'Екатеринбург / УрФО',
     regionKey: 'Ekb',
     isExclusive: true,

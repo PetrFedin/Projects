@@ -52,34 +52,20 @@ export default function DistributorLayout({ children }: { children: React.ReactN
 
   if (loading && HUB_AUTH_FULLSCREEN_SPINNER) {
     return (
-<<<<<<< HEAD
-      <div className="flex min-h-screen items-center justify-center bg-[#f8fafc]">
-        <Loader2 className="h-8 w-8 animate-spin text-amber-600" />
-=======
       <div className="bg-bg-surface flex min-h-screen items-center justify-center">
         <Loader2 className="size-8 animate-spin text-amber-600" />
->>>>>>> recover/cabinet-wip-from-stash
       </div>
     );
   }
 
   if (!hasAccess) {
     return (
-<<<<<<< HEAD
-      <div className="mx-auto flex min-h-[50vh] max-w-[1400px] flex-col items-center justify-center px-8 py-12 text-center">
-        <p className="mb-2 font-medium text-slate-500">
-          Нет доступа к Distributor Hub для роли {role}
-        </p>
-        <p className="mb-4 text-sm text-slate-400">Доступ: distributor.</p>
-        <Link href="/" className="text-sm font-bold text-indigo-600 hover:underline">
-=======
       <div className={cabinetSurface.hubAccessDeniedShell}>
         <p className="text-text-secondary mb-2 font-medium">
           Нет доступа к кабинету дистрибьютора для роли {role}
         </p>
         <p className="text-text-muted mb-4 text-sm">Доступ: роль «дистрибутор».</p>
         <Link href="/" className="text-accent-primary text-sm font-bold hover:underline">
->>>>>>> recover/cabinet-wip-from-stash
           На главную
         </Link>
       </div>
@@ -99,10 +85,6 @@ export default function DistributorLayout({ children }: { children: React.ReactN
 
   return (
     <ErrorBoundary>
-<<<<<<< HEAD
-      <div className="flex min-h-screen w-full bg-[#f8fafc] pb-12 font-sans">
-        <aside className="hidden lg:fixed lg:bottom-0 lg:left-0 lg:top-24 lg:z-30 lg:flex lg:w-52 lg:shrink-0 lg:flex-col lg:border-r lg:border-slate-200 lg:bg-white lg:pt-4">
-=======
       <div className="bg-bg-surface flex min-h-screen w-full pb-12 font-sans">
         <aside
           className={cn(
@@ -110,7 +92,6 @@ export default function DistributorLayout({ children }: { children: React.ReactN
             cabinetSidebarLayout.asideWidthStandard
           )}
         >
->>>>>>> recover/cabinet-wip-from-stash
           <HubSidebarHeader
             href={ROUTES.distributor.home}
             icon={Briefcase}
@@ -141,13 +122,8 @@ export default function DistributorLayout({ children }: { children: React.ReactN
                 iconBgClass="bg-amber-900"
               />
             </div>
-<<<<<<< HEAD
-            <div className="shrink-0 border-b border-slate-100 px-3 pb-2">
-              <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-=======
             <div className="border-border-subtle shrink-0 border-b px-3 pb-2">
               <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 Навигация
               </p>
             </div>
@@ -163,60 +139,6 @@ export default function DistributorLayout({ children }: { children: React.ReactN
           </SheetContent>
         </Sheet>
 
-<<<<<<< HEAD
-        <div className="min-w-0 flex-1 lg:pl-52">
-          <div className="space-y-4 pl-2 pr-4 pt-6 lg:pl-3 lg:pr-6">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex min-w-0 items-center gap-2 sm:gap-3">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-11 w-11 shrink-0 rounded-[4px] hover:bg-slate-100 lg:hidden"
-                  onClick={() => setSidebarOpen(true)}
-                >
-                  <Menu className="h-5 w-5 text-slate-700" />
-                </Button>
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[4px] bg-amber-900 text-white">
-                  <Briefcase className="h-5.5 w-5.5" />
-                </div>
-                <div className="flex min-w-0 items-center gap-2 sm:gap-3">
-                  <h1 className="truncate text-sm font-black uppercase leading-none tracking-tighter text-slate-900 sm:text-base">
-                    Distributor Hub
-                  </h1>
-                  <Badge
-                    variant="outline"
-                    className="shrink-0 border-amber-200 text-[8px] font-bold capitalize text-amber-700"
-                  >
-                    {role}
-                  </Badge>
-                </div>
-              </div>
-              <nav className="flex shrink-0 flex-wrap items-center gap-2">
-                {hubs.map((hub) => {
-                  const HubIcon = hub.icon;
-                  return (
-                    <Link
-                      key={hub.href}
-                      href={hub.href}
-                      className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-[10px] font-bold text-slate-500 hover:bg-slate-100 hover:text-slate-900"
-                    >
-                      <HubIcon className="h-3.5 w-3.5" /> {hub.label}
-                    </Link>
-                  );
-                })}
-              </nav>
-            </div>
-
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <div className="flex items-center gap-3">
-                <div className="h-4 w-[2px] rounded-full bg-amber-500" />
-                <h2 className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-900">
-                  {getCurrentLabel()}
-                </h2>
-              </div>
-            </div>
-
-=======
         <div className={cn('min-w-0 flex-1', cabinetSidebarLayout.mainPaddingLeftStandard)}>
           <CabinetHubMain className="space-y-2 pt-2">
             <CabinetHubTitleRow
@@ -256,7 +178,6 @@ export default function DistributorLayout({ children }: { children: React.ReactN
               sectionTitle={getCurrentLabel()}
             />
 
->>>>>>> recover/cabinet-wip-from-stash
             <main className="duration-300 animate-in fade-in">
               <ErrorBoundary>{children}</ErrorBoundary>
             </main>

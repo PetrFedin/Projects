@@ -779,11 +779,7 @@ function HandbookMultiSelectPopover({
           Number.isFinite(maxSelections) &&
           maxSelections >= 0 &&
           atCap ? (
-<<<<<<< HEAD
-            <p className="px-2 py-1.5 text-[10px] leading-snug text-slate-500">
-=======
             <p className="text-text-secondary px-2 py-1.5 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
               Уже выбрано максимум размеров ({maxSelections}) по паспорту — снимите лишний, чтобы
               добавить другой.
             </p>
@@ -791,11 +787,7 @@ function HandbookMultiSelectPopover({
           {options.length === 0 ? (
             <p className="text-text-secondary px-2 py-2 text-[11px]">Нет значений.</p>
           ) : filteredOptions.length === 0 ? (
-<<<<<<< HEAD
-            <p className="px-2 py-2 text-[11px] text-slate-500">
-=======
             <p className="text-text-secondary px-2 py-2 text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
               Ничего не найдено — измените запрос.
             </p>
           ) : (
@@ -809,11 +801,7 @@ function HandbookMultiSelectPopover({
                     'flex items-start gap-2 rounded-md py-1.5 pl-1 pr-2',
                     disableAdd
                       ? 'cursor-not-allowed opacity-50'
-<<<<<<< HEAD
-                      : 'cursor-pointer hover:bg-slate-50'
-=======
                       : 'hover:bg-bg-surface2 cursor-pointer'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   <Checkbox
@@ -822,11 +810,7 @@ function HandbookMultiSelectPopover({
                     onCheckedChange={() => toggle(o.parameterId)}
                     className="mt-0.5 shrink-0"
                   />
-<<<<<<< HEAD
-                  <span className="text-xs leading-snug text-slate-800">{o.label}</span>
-=======
                   <span className="text-text-primary text-xs leading-snug">{o.label}</span>
->>>>>>> recover/cabinet-wip-from-stash
                 </label>
               );
             })
@@ -1557,11 +1541,7 @@ function renderHandbookCheckReportBlock(
               >
                 {a.ok ? '✓' : '!'}
               </span>
-<<<<<<< HEAD
-              <span className={cn(a.ok ? 'text-slate-700' : 'font-medium text-amber-900')}>
-=======
               <span className={cn(a.ok ? 'text-text-primary' : 'font-medium text-amber-900')}>
->>>>>>> recover/cabinet-wip-from-stash
                 {a.label}
               </span>
             </li>
@@ -1682,13 +1662,8 @@ function renderHandbookCheckReportBlock(
           </p>
         </>
       ) : (
-<<<<<<< HEAD
-        <p className="text-[10px] leading-snug text-slate-600">
-          {collapsedSummary} <span className="text-slate-400">· {checkedAtLabel}</span>
-=======
         <p className="text-text-secondary text-[10px] leading-snug">
           {collapsedSummary} <span className="text-text-muted">· {checkedAtLabel}</span>
->>>>>>> recover/cabinet-wip-from-stash
         </p>
       )}
     </div>
@@ -1876,19 +1851,11 @@ function DossierNavigator({
         className={cn(
           'group relative grid w-full grid-cols-[auto_auto_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 rounded-xl px-3 py-2.5 text-left transition-all',
           activeSection === s.id
-<<<<<<< HEAD
-            ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-100'
-            : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
-          !primaryForView &&
-            activeSection !== s.id &&
-            'ring-dashed opacity-70 ring-1 ring-slate-200/70'
-=======
             ? 'bg-accent-primary shadow-accent-primary/10 text-white shadow-lg'
             : 'hover:bg-bg-surface2 text-text-secondary hover:text-text-primary',
           !primaryForView &&
             activeSection !== s.id &&
             'ring-dashed ring-border-default/70 opacity-70 ring-1'
->>>>>>> recover/cabinet-wip-from-stash
         )}
       >
         {hasWarnings && activeSection !== s.id && (
@@ -1975,15 +1942,9 @@ function DossierNavigator({
         <Collapsible
           open={extraNavOpen}
           onOpenChange={setExtraNavOpen}
-<<<<<<< HEAD
-          className="rounded-xl border border-dashed border-slate-200/90 bg-slate-50/50"
-        >
-          <CollapsibleTrigger className="flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2 text-left text-[11px] font-semibold text-slate-600 hover:bg-slate-100/80">
-=======
           className="border-border-default/90 bg-bg-surface2/80 rounded-xl border border-dashed"
         >
           <CollapsibleTrigger className="text-text-secondary hover:bg-bg-surface2/80 flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2 text-left text-[11px] font-semibold">
->>>>>>> recover/cabinet-wip-from-stash
             <span>Дополнительные разделы ({secondarySections.length})</span>
             <LucideIcons.ChevronsUpDown className="h-4 w-4 shrink-0 opacity-70" aria-hidden />
           </CollapsibleTrigger>
@@ -4150,24 +4111,15 @@ export function Workshop2Phase1DossierPanel({
               groupLabel && WORKSHOP_GROUP_LABEL_AMBER.has(groupLabel)
                 ? 'text-orange-800'
                 : variant === 'base'
-<<<<<<< HEAD
-                  ? 'font-bold text-slate-400'
-                  : 'font-bold text-indigo-400'
-=======
                   ? 'text-text-muted font-bold'
                   : 'text-accent-primary font-bold'
->>>>>>> recover/cabinet-wip-from-stash
             )}
           >
             {groupLabel}
           </span>
         ) : null}
         <span className="inline-flex items-center gap-0.5">
-<<<<<<< HEAD
-          <span className="text-sm font-semibold text-slate-900">{attribute.name}</span>
-=======
           <span className="text-text-primary text-sm font-semibold">{attribute.name}</span>
->>>>>>> recover/cabinet-wip-from-stash
           {showAttributeNameHintIcon ? <WorkshopAttributeHintIcon attribute={attribute} /> : null}
           {attributeIdsLinkedOnSketch.has(attribute.attributeId) ? (
             <Tooltip>
@@ -4210,13 +4162,8 @@ export function Workshop2Phase1DossierPanel({
           variant === 'base'
             ? isMissingRequired
               ? 'border-amber-200 bg-amber-50/30 ring-1 ring-amber-100'
-<<<<<<< HEAD
-              : 'border-slate-100 bg-slate-50/40'
-            : 'border-indigo-100 bg-indigo-50/20',
-=======
               : 'border-border-subtle bg-bg-surface2/40'
             : 'border-accent-primary/20 bg-accent-primary/10',
->>>>>>> recover/cabinet-wip-from-stash
           activeSection === 'visuals' &&
             sketchVisualCatalogHighlightSet.has(attribute.attributeId) &&
             'ring-accent-primary/90 ring-2 ring-offset-2 ring-offset-white'
@@ -4226,11 +4173,7 @@ export function Workshop2Phase1DossierPanel({
         {attribute.uiInformationHint &&
         !showAttributeNameHintIcon &&
         !suppressCatalogInlineDescriptions ? (
-<<<<<<< HEAD
-          <p className="rounded-md border border-slate-100 bg-slate-50/80 px-2 py-1.5 text-[10px] leading-snug text-slate-600">
-=======
           <p className="border-border-subtle bg-bg-surface2/80 text-text-secondary rounded-md border px-2 py-1.5 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
             {attribute.uiInformationHint}
           </p>
         ) : null}
@@ -4277,19 +4220,11 @@ export function Workshop2Phase1DossierPanel({
           key={liKey}
           id={showMaterialIntroAndGuides ? 'w2-material-required-section' : undefined}
           className={cn(
-<<<<<<< HEAD
-            'space-y-2 rounded-lg border border-slate-100 bg-slate-50/40 p-3',
-            showMaterialIntroAndGuides &&
-              'border-indigo-200/90 bg-gradient-to-b from-indigo-50/40 to-slate-50/30 shadow-sm',
-            matCompositionSumInvalid &&
-              'shadow-sm ring-2 ring-amber-400/90 ring-offset-2 ring-offset-slate-50/80'
-=======
             'border-border-subtle bg-bg-surface2/40 space-y-2 rounded-lg border p-3',
             showMaterialIntroAndGuides &&
               'border-accent-primary/30 from-accent-primary/10 to-bg-surface2/30 bg-gradient-to-b shadow-sm',
             matCompositionSumInvalid &&
               'ring-offset-bg-surface2/80 shadow-sm ring-2 ring-amber-400/90 ring-offset-2'
->>>>>>> recover/cabinet-wip-from-stash
           )}
         >
           {showMaterialIntroAndGuides ? (
@@ -4298,19 +4233,11 @@ export function Workshop2Phase1DossierPanel({
                 <LucideIcons.Layers className="h-5 w-5" aria-hidden />
               </div>
               <div className="min-w-0 space-y-1">
-<<<<<<< HEAD
-                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-indigo-600">
-                  Раздел к заполнению
-                </p>
-                <h3 className="text-sm font-bold tracking-tight text-slate-900">Материалы</h3>
-                <p className="text-[11px] leading-snug text-slate-600">
-=======
                 <p className="text-accent-primary text-[9px] font-black uppercase tracking-[0.2em]">
                   Раздел к заполнению
                 </p>
                 <h3 className="text-text-primary text-sm font-bold tracking-tight">Материалы</h3>
                 <p className="text-text-secondary text-[11px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                   Укажите материалы из справочника и доли в составе (при связке с composition — в
                   сумме 100&nbsp;%). Далее заполните плотность полотна, температурный режим,
                   утепление и уход — данные пойдут в BOM и на фабрику.
@@ -4337,11 +4264,7 @@ export function Workshop2Phase1DossierPanel({
                     должны в сумме давать 100%.
                   </p>
                   {currentLeaf.l2Name === 'Верхняя одежда' ? (
-<<<<<<< HEAD
-                    <p className="mt-2 border-t border-slate-200 pt-2">
-=======
                     <p className="border-border-default mt-2 border-t pt-2">
->>>>>>> recover/cabinet-wip-from-stash
                       Для верхней одежды разведите shell, подклад, утеплитель и фурнитуру по разным
                       строкам; типовые составы под категорию — быстрые кнопки ниже, когда список ещё
                       пуст.
@@ -5254,11 +5177,7 @@ export function Workshop2Phase1DossierPanel({
                   <h3 className="text-text-muted flex min-w-0 flex-1 items-center gap-2 text-[10px] font-black uppercase tracking-widest">
                     <span className="bg-bg-surface2 h-px min-w-[1rem] flex-1" />
                     <span className="shrink-0">{workshopGroupSectionTitle(groupName)}</span>
-<<<<<<< HEAD
-                    <span className="h-px min-w-[1rem] flex-1 bg-slate-100" />
-=======
                     <span className="bg-bg-surface2 h-px min-w-[1rem] flex-1" />
->>>>>>> recover/cabinet-wip-from-stash
                   </h3>
                   <div className="flex shrink-0 items-center gap-1">
                     <button
@@ -5554,19 +5473,6 @@ export function Workshop2Phase1DossierPanel({
               <Workshop2PassportAttributeReferenceBlock />
               <div
                 id="w2-passport-identity"
-<<<<<<< HEAD
-                className="scroll-mt-24 space-y-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
-              >
-                <div className="flex flex-wrap items-start justify-between gap-2 pb-1">
-                  <div className="flex min-w-0 flex-1 items-start gap-3">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
-                      <LucideIcons.Fingerprint className="h-4 w-4 shrink-0" aria-hidden />
-                    </div>
-                    <div className="min-w-0 flex-1 space-y-1">
-                      <h2 className="text-base font-semibold text-slate-900">Паспорт артикула</h2>
-                      <p className="text-xs leading-snug text-slate-500">
-                        <span className="font-medium text-slate-700">Для маршрута SKU:</span>{' '}
-=======
                 className="border-border-default scroll-mt-24 space-y-3 rounded-lg border bg-white p-4 shadow-sm"
               >
                 <div className="flex flex-wrap items-start justify-between gap-2 pb-1">
@@ -5580,7 +5486,6 @@ export function Workshop2Phase1DossierPanel({
                       </h2>
                       <p className="text-text-secondary text-xs leading-snug">
                         <span className="text-text-primary font-medium">Для маршрута SKU:</span>{' '}
->>>>>>> recover/cabinet-wip-from-stash
                         опорные поля — аудитория, ветка L1–L3, артикул и название; от них строятся
                         визуал, материалы, мерки и конструкция. Менять аудиторию или категорию после
                         заполнения ТЗ стоит осознанно: часть значений справочника может устареть.
@@ -5613,11 +5518,7 @@ export function Workshop2Phase1DossierPanel({
                           ? internalArticleCode
                           : formatWorkshop2InternalArticleCodePlaceholder()
                       }
-<<<<<<< HEAD
-                      className="h-9 cursor-not-allowed bg-slate-50 font-mono text-sm text-slate-700"
-=======
                       className="bg-bg-surface2 text-text-primary h-9 cursor-not-allowed font-mono text-sm"
->>>>>>> recover/cabinet-wip-from-stash
                       title="Номер присваивается автоматически при создании артикула в коллекции и не меняется"
                       aria-readonly
                     />
@@ -5631,11 +5532,7 @@ export function Workshop2Phase1DossierPanel({
                             Публичный код модели: этикетки, заказы, интеграции. Сохраняется при
                             выходе из поля (on blur).
                           </p>
-<<<<<<< HEAD
-                          <p className="text-slate-600">
-=======
                           <p className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
                             Держите SKU стабильным после запуска в производство или обмен данными.
                           </p>
                         </>
@@ -5660,11 +5557,7 @@ export function Workshop2Phase1DossierPanel({
                             Сегмент справочника (женская, мужская и т.д.): от него зависят доступные
                             значения атрибутов.
                           </p>
-<<<<<<< HEAD
-                          <p className="text-slate-600">
-=======
                           <p className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
                             Смена аудитории может сузить или расширить списки в других секциях ТЗ.
                           </p>
                         </>
@@ -5673,11 +5566,7 @@ export function Workshop2Phase1DossierPanel({
                       Аудитория
                     </WorkshopLabelWithHint>
                     <select
-<<<<<<< HEAD
-                      className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
-=======
                       className="border-border-default h-9 w-full rounded-md border bg-white px-2 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
                       value={selectedAudienceId}
                       onChange={(e) => onAudienceSelect(e.target.value)}
                     >
@@ -5702,11 +5591,7 @@ export function Workshop2Phase1DossierPanel({
                       Раздел каталога (L1)
                     </WorkshopLabelWithHint>
                     <select
-<<<<<<< HEAD
-                      className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
-=======
                       className="border-border-default h-9 w-full rounded-md border bg-white px-2 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
                       value={currentLeaf.l1Name}
                       onChange={(e) => onL1Select(e.target.value)}
                     >
@@ -5723,11 +5608,7 @@ export function Workshop2Phase1DossierPanel({
                         hint={
                           <>
                             <p>Группа внутри раздела (например, «Верхняя одежда»).</p>
-<<<<<<< HEAD
-                            <p className="text-slate-600">
-=======
                             <p className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
                               От неё зависят варианты карточки модели (L3).
                             </p>
                           </>
@@ -5736,11 +5617,7 @@ export function Workshop2Phase1DossierPanel({
                         Подтип / группа (L2)
                       </WorkshopLabelWithHint>
                       <select
-<<<<<<< HEAD
-                        className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
-=======
                         className="border-border-default h-9 w-full rounded-md border bg-white px-2 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
                         value={currentLeaf.l2Name}
                         onChange={(e) => onL2Select(e.target.value)}
                       >
@@ -5759,11 +5636,7 @@ export function Workshop2Phase1DossierPanel({
                               Карточка модели в справочнике (например, «Пальто») — соответствует
                               листу артикула.
                             </p>
-<<<<<<< HEAD
-                            <p className="text-slate-600">
-=======
                             <p className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
                               Если для ветки нет L3, в списке может быть один технический вариант.
                             </p>
                           </>
@@ -5772,11 +5645,7 @@ export function Workshop2Phase1DossierPanel({
                         Карточка модели в справочнике (L3)
                       </WorkshopLabelWithHint>
                       <select
-<<<<<<< HEAD
-                        className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
-=======
                         className="border-border-default h-9 w-full rounded-md border bg-white px-2 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
                         value={currentLeaf.l3Name}
                         onChange={(e) => onL3Select(e.target.value)}
                       >
@@ -5797,11 +5666,7 @@ export function Workshop2Phase1DossierPanel({
                             Человекочитаемое имя для команды: не путать с SKU. Сохраняется при
                             выходе из поля.
                           </p>
-<<<<<<< HEAD
-                          <p className="text-slate-600">
-=======
                           <p className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
                             Используется в заголовках и сводках, пока нет финального маркетингового
                             названия.
                           </p>
@@ -5837,23 +5702,14 @@ export function Workshop2Phase1DossierPanel({
                     >
                       Унисекс
                     </WorkshopLabelWithHint>
-<<<<<<< HEAD
-                    <div className="inline-flex shrink-0 rounded-md border border-slate-200 bg-slate-50/80 p-px">
-=======
                     <div className="border-border-default bg-bg-surface2/80 inline-flex shrink-0 rounded-md border p-px">
->>>>>>> recover/cabinet-wip-from-stash
                       <button
                         type="button"
                         className={cn(
                           'h-[1.4rem] min-w-[1.8rem] rounded-sm px-1.5 text-[10px] font-medium leading-none transition',
                           !dossier.isUnisex
-<<<<<<< HEAD
-                            ? 'bg-white text-slate-900 shadow-sm'
-                            : 'text-slate-500 hover:text-slate-800'
-=======
                             ? 'text-text-primary bg-white shadow-sm'
                             : 'text-text-secondary hover:text-text-primary'
->>>>>>> recover/cabinet-wip-from-stash
                         )}
                         onClick={() =>
                           setDossier((p: Workshop2DossierPhase1) => ({ ...p, isUnisex: false }))
@@ -5866,13 +5722,8 @@ export function Workshop2Phase1DossierPanel({
                         className={cn(
                           'h-[1.4rem] min-w-[1.8rem] rounded-sm px-1.5 text-[10px] font-medium leading-none transition',
                           dossier.isUnisex === true
-<<<<<<< HEAD
-                            ? 'bg-white text-slate-900 shadow-sm'
-                            : 'text-slate-500 hover:text-slate-800'
-=======
                             ? 'text-text-primary bg-white shadow-sm'
                             : 'text-text-secondary hover:text-text-primary'
->>>>>>> recover/cabinet-wip-from-stash
                         )}
                         onClick={() =>
                           setDossier((p: Workshop2DossierPhase1) => ({ ...p, isUnisex: true }))
@@ -5886,11 +5737,7 @@ export function Workshop2Phase1DossierPanel({
               </div>
               <div
                 id="w2-passport-brief"
-<<<<<<< HEAD
-                className="scroll-mt-24 space-y-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
-=======
                 className="border-border-default scroll-mt-24 space-y-3 rounded-lg border bg-white p-4 shadow-sm"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <div className="grid gap-2 sm:grid-cols-2">
                   <div className="space-y-1">
@@ -5902,11 +5749,7 @@ export function Workshop2Phase1DossierPanel({
                             Когда ожидается готовность образца или пилотной партии — якорь для
                             планирования и чеклиста.
                           </p>
-<<<<<<< HEAD
-                          <p className="text-slate-600">
-=======
                           <p className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
                             Учитывается в проверках готовности паспорта вместе с другими полями.
                           </p>
                         </>
@@ -5940,19 +5783,11 @@ export function Workshop2Phase1DossierPanel({
                             «Выбор из справочника», и верхнюю границу суммы по колонке «Кол-во, шт»
                             в табеле мерок.
                           </p>
-<<<<<<< HEAD
-                          <p className="text-slate-600">
-                            Пустое поле — без лимита. Если уменьшить число, лишние размеры в
-                            справочнике отрежутся, табель и количества подстроятся.
-                          </p>
-                          <p className="text-slate-600">
-=======
                           <p className="text-text-secondary">
                             Пустое поле — без лимита. Если уменьшить число, лишние размеры в
                             справочнике отрежутся, табель и количества подстроятся.
                           </p>
                           <p className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
                             Следите, чтобы сумма «Кол-во, шт» по строкам не превышала это значение —
                             иначе появится предупреждение в досье.
                           </p>
@@ -6027,11 +5862,7 @@ export function Workshop2Phase1DossierPanel({
                             «Жёсткий дедлайн» — срок нельзя сдвигать без согласования; «Гибкий
                             ориентир» — допустимы корректировки.
                           </p>
-<<<<<<< HEAD
-                          <p className="text-slate-600">
-=======
                           <p className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
                             «Пока не определено» оставляет статус открытым до уточнения с брендом.
                           </p>
                         </>
@@ -6041,11 +5872,7 @@ export function Workshop2Phase1DossierPanel({
                     </WorkshopLabelWithHint>
                     <select
                       id="w2-passport-deadline-crit"
-<<<<<<< HEAD
-                      className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
-=======
                       className="border-border-default h-9 w-full rounded-md border bg-white px-2 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
                       value={dossier.passportProductionBrief?.deadlineCriticality ?? 'tbd'}
                       onChange={(e) =>
                         setDossier((p: Workshop2DossierPhase1) => ({
@@ -6072,11 +5899,7 @@ export function Workshop2Phase1DossierPanel({
                             Где планируется шить: свой цех, КНП/подряд или смешанная схема —
                             подсказка для маршрута и снабжения.
                           </p>
-<<<<<<< HEAD
-                          <p className="text-slate-600">
-=======
                           <p className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
                             Не определяет юридическую форму; при смене стратегии обновите значение.
                           </p>
                         </>
@@ -6086,11 +5909,7 @@ export function Workshop2Phase1DossierPanel({
                     </WorkshopLabelWithHint>
                     <select
                       id="w2-passport-launch"
-<<<<<<< HEAD
-                      className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
-=======
                       className="border-border-default h-9 w-full rounded-md border bg-white px-2 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
                       value={dossier.passportProductionBrief?.plannedLaunchType ?? 'undecided'}
                       onChange={(e) =>
                         setDossier((p: Workshop2DossierPhase1) => ({
@@ -6118,11 +5937,7 @@ export function Workshop2Phase1DossierPanel({
                             внутреннего планирования, не дублирует страну происхождения товара в
                             комплаенсе.
                           </p>
-<<<<<<< HEAD
-                          <p className="text-slate-600">
-=======
                           <p className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
                             После фиксации фабрики уточните финальные поля в соответствующих шагах
                             ТЗ.
                           </p>
@@ -6160,24 +5975,11 @@ export function Workshop2Phase1DossierPanel({
                   className={
                     isPhase2
                       ? 'text-[9px] font-semibold text-orange-800'
-<<<<<<< HEAD
-                      : 'text-[9px] font-semibold text-slate-600'
-=======
                       : 'text-text-secondary text-[9px] font-semibold'
->>>>>>> recover/cabinet-wip-from-stash
                   }
                 >
                   {isPhase2 ? 'Обязательный' : 'ОТК / приёмка'}
                 </span>
-<<<<<<< HEAD
-                <span className="text-sm font-semibold text-slate-900">
-                  {isPhase2 ? 'Шаг 2' : 'Шаг 3'}
-                </span>
-              </p>
-              <p className="font-mono text-sm font-semibold text-slate-800">{articleSku}</p>
-              <p className="text-[10px] leading-snug text-slate-600">{currentLeaf.pathLabel}</p>
-              <p className="text-[10px] leading-snug text-slate-500">
-=======
                 <span className="text-text-primary text-sm font-semibold">
                   {isPhase2 ? 'Шаг 2' : 'Шаг 3'}
                 </span>
@@ -6187,7 +5989,6 @@ export function Workshop2Phase1DossierPanel({
                 {currentLeaf.pathLabel}
               </p>
               <p className="text-text-secondary text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                 Полная идентификация и аудитория — на шаге 1 ТЗ; здесь дозаполнение полей паспорта
                 для текущего шага.
               </p>
@@ -6204,13 +6005,8 @@ export function Workshop2Phase1DossierPanel({
                     <LucideIcons.LayoutGrid className="h-4 w-4 shrink-0" aria-hidden />
                   </div>
                   <div className="min-w-0 flex-1 space-y-1">
-<<<<<<< HEAD
-                    <h2 className="text-base font-semibold text-slate-900">Старт по каталогу</h2>
-                    <p className="text-xs leading-snug text-slate-500">
-=======
                     <h2 className="text-text-primary text-base font-semibold">Старт по каталогу</h2>
                     <p className="text-text-secondary text-xs leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                       Обязательные поля справочника (сезон, цвет и др.) вне рынка и ТН ВЭД — та же
                       рамка SKU для маршрута, что визуал и материалы. Заполните до перехода к
                       визуалу и материалам.
@@ -6235,17 +6031,10 @@ export function Workshop2Phase1DossierPanel({
                     <LucideIcons.Globe2 className="h-4 w-4 shrink-0" aria-hidden />
                   </div>
                   <div className="min-w-0 flex-1 space-y-1">
-<<<<<<< HEAD
-                    <h2 className="text-base font-semibold text-slate-900">
-                      До образца: рынок и коды
-                    </h2>
-                    <p className="text-xs leading-snug text-slate-500">
-=======
                     <h2 className="text-text-primary text-base font-semibold">
                       До образца: рынок и коды
                     </h2>
                     <p className="text-text-secondary text-xs leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                       Поля для РФ и рынка (ТН ВЭД, штрихкод, группа для таможни и др.). Их можно
                       дозаполнить позже, когда ясны силуэт и материал; на «готово к образцу» этот
                       блок обычно не влияет.
@@ -6268,13 +6057,8 @@ export function Workshop2Phase1DossierPanel({
                 id="w2-passport-brief"
                 className="border-accent-primary/20 bg-accent-primary/10 scroll-mt-24 rounded-lg border p-4 shadow-sm"
               >
-<<<<<<< HEAD
-                <p className="text-sm font-semibold text-slate-900">Бриф до образца</p>
-                <p className="mt-1 text-xs leading-snug text-slate-600">
-=======
                 <p className="text-text-primary text-sm font-semibold">Бриф до образца</p>
                 <p className="text-text-secondary mt-1 text-xs leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                   Ответственный за карточку, тип запуска, целевая дата и критичность срока задаются
                   на шаге 1 ТЗ. Ниже — поля каталога для шага {currentPhase}; переход к брифу
                   открывает ту же страницу артикула.
@@ -6292,13 +6076,8 @@ export function Workshop2Phase1DossierPanel({
                     <LucideIcons.LayoutGrid className="h-4 w-4 shrink-0" aria-hidden />
                   </div>
                   <div className="min-w-0 flex-1 space-y-1">
-<<<<<<< HEAD
-                    <h2 className="text-base font-semibold text-slate-900">Старт по каталогу</h2>
-                    <p className="text-xs leading-snug text-slate-500">
-=======
                     <h2 className="text-text-primary text-base font-semibold">Старт по каталогу</h2>
                     <p className="text-text-secondary text-xs leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                       Поля паспорта на шаге {currentPhase} ТЗ; обязательность совпадает с гейтом в
                       хабе выше.
                     </p>
@@ -6322,17 +6101,10 @@ export function Workshop2Phase1DossierPanel({
                     <LucideIcons.Globe2 className="h-4 w-4 shrink-0" aria-hidden />
                   </div>
                   <div className="min-w-0 flex-1 space-y-1">
-<<<<<<< HEAD
-                    <h2 className="text-base font-semibold text-slate-900">
-                      До образца: рынок и коды
-                    </h2>
-                    <p className="text-xs leading-snug text-slate-500">
-=======
                     <h2 className="text-text-primary text-base font-semibold">
                       До образца: рынок и коды
                     </h2>
                     <p className="text-text-secondary text-xs leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                       Дозаполните по мере приближения к образцу и отгрузке.
                     </p>
                   </div>
@@ -6584,26 +6356,13 @@ export function Workshop2Phase1DossierPanel({
           </div>
           <div
             id="w2-visuals-attributes"
-<<<<<<< HEAD
-            className="scroll-mt-24 rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
-=======
             className="border-border-default scroll-mt-24 rounded-xl border bg-white p-4 shadow-sm"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <div className="mb-3 flex items-start gap-3">
               <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
                 <LucideIcons.Palette className="h-4 w-4 shrink-0" aria-hidden />
               </div>
               <div className="min-w-0 space-y-1">
-<<<<<<< HEAD
-                <h2 className="text-base font-semibold text-slate-900">Визуальные оси каталога</h2>
-                <p className="text-sm leading-snug text-slate-600">
-                  <span className="font-medium text-slate-800">SKU · visuals:</span> набор полей
-                  листа от категории — здесь, у референсов; та же ось артикула, что и согласование
-                  выше. Редактор скетча — в «Конструкция» → «Табель мер: хаб ТЗ».
-                </p>
-                <p className="text-[11px] leading-snug text-slate-500">
-=======
                 <h2 className="text-text-primary text-base font-semibold">
                   Визуальные оси каталога
                 </h2>
@@ -6613,7 +6372,6 @@ export function Workshop2Phase1DossierPanel({
                   выше. Редактор скетча — в «Конструкция» → «Табель мер: хаб ТЗ».
                 </p>
                 <p className="text-text-secondary text-[11px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                   Скетч ↔ поля: <span className="font-mono">linkedAttributeId</span> на метке;
                   подсветка по типу метки — матрица ТЗ + при необходимости{' '}
                   <span className="font-mono">sketchHighlightForPinTypes</span> в JSON каталога.
@@ -6653,15 +6411,10 @@ export function Workshop2Phase1DossierPanel({
                 <LucideIcons.Layers className="h-4 w-4 shrink-0" aria-hidden />
               </div>
               <div className="min-w-0 flex-1 space-y-1">
-<<<<<<< HEAD
-                <p className="text-sm font-semibold text-slate-900">Скетч перенесён в контур ТЗ</p>
-                <p className="text-xs leading-snug text-slate-600">
-=======
                 <p className="text-text-primary text-sm font-semibold">
                   Скетч перенесён в контур ТЗ
                 </p>
                 <p className="text-text-secondary text-xs leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                   Редактор меток и листов — в «Конструкция» → разверните «Табель мер: хаб ТЗ» и
                   прокрутите к блоку скетча (тот же якорь для переходов из материалов и «до 9»).
                 </p>
@@ -6687,13 +6440,8 @@ export function Workshop2Phase1DossierPanel({
                 <LucideIcons.Sparkles className="h-4 w-4 shrink-0" aria-hidden />
               </div>
               <div className="min-w-0 flex-1 space-y-1">
-<<<<<<< HEAD
-                <h2 className="text-base font-semibold text-slate-900">Дизайнерский замысел</h2>
-                <p className="text-sm leading-snug text-slate-500">
-=======
                 <h2 className="text-text-primary text-base font-semibold">Дизайнерский замысел</h2>
                 <p className="text-text-secondary text-sm leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                   Зафиксируйте образ для команды: что важно в силуэте, деталях и общем настроении —
                   это подхватят посадка, производство и ОТК.
                 </p>
@@ -6716,11 +6464,7 @@ export function Workshop2Phase1DossierPanel({
                 }
               />
             </div>
-<<<<<<< HEAD
-            <div className="flex flex-wrap items-center justify-end gap-2 border-t border-slate-100 pt-3">
-=======
             <div className="border-border-subtle flex flex-wrap items-center justify-end gap-2 border-t pt-3">
->>>>>>> recover/cabinet-wip-from-stash
               <Button
                 type="button"
                 className="h-9 px-3 text-xs font-semibold"
@@ -6814,11 +6558,7 @@ export function Workshop2Phase1DossierPanel({
             <CollapsibleTrigger className="flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left transition hover:bg-amber-100/50">
               <div className="min-w-0 pr-2">
                 <p className="text-[11px] font-semibold text-amber-950">Материалы и BOM</p>
-<<<<<<< HEAD
-                <p className="text-[10px] leading-snug text-slate-600">
-=======
                 <p className="text-text-secondary text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                   Хаб, комплаенс, нормы, mat и поля каталога — ниже блока «Снабжение · дельта ·
                   costing»
                 </p>
@@ -6998,15 +6738,9 @@ export function Workshop2Phase1DossierPanel({
               {dossierViewProfile === 'merch' ? (
                 <Collapsible
                   defaultOpen={false}
-<<<<<<< HEAD
-                  className="mx-1 scroll-mt-4 rounded-lg border border-slate-200 bg-slate-50/40 sm:mx-2"
-                >
-                  <CollapsibleTrigger className="flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-[11px] font-semibold text-slate-800 hover:bg-slate-100/80">
-=======
                   className="border-border-default bg-bg-surface2/40 mx-1 scroll-mt-4 rounded-lg border sm:mx-2"
                 >
                   <CollapsibleTrigger className="text-text-primary hover:bg-bg-surface2/80 flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-[11px] font-semibold">
->>>>>>> recover/cabinet-wip-from-stash
                     <span>Полный каталог материалов ТЗ (редактирование атрибутов)</span>
                     <LucideIcons.ChevronsUpDown
                       className="h-4 w-4 shrink-0 opacity-60"
@@ -7016,11 +6750,7 @@ export function Workshop2Phase1DossierPanel({
                   <CollapsibleContent>
                     <div
                       id="w2-material-fields"
-<<<<<<< HEAD
-                      className="space-y-4 border-t border-slate-200/80 px-3 pb-3 pt-3"
-=======
                       className="border-border-default/80 space-y-4 border-t px-3 pb-3 pt-3"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       {materialFieldsBlocks}
                     </div>
@@ -7117,19 +6847,6 @@ export function Workshop2Phase1DossierPanel({
             {isPhase1 ? (
               <>
                 <div className="flex items-start gap-3">
-<<<<<<< HEAD
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
-                    <LucideIcons.Layers className="h-4 w-4 shrink-0" aria-hidden />
-                  </div>
-                  <div className="min-w-0 flex-1 space-y-1">
-                    <h2 className="text-base font-semibold text-slate-900">Скетчи</h2>
-                    <p className="text-sm leading-snug text-slate-600">
-                      Базовый путь: режим ТЗ/цех → метки на подложке. Расширенные действия — в
-                      «Дополнительно».
-                    </p>
-                    <div className="sticky top-2 z-20 mt-3 flex flex-col gap-1.5 rounded-lg border border-slate-200/90 bg-white p-1.5 shadow-sm sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
-                      <div className="flex w-fit max-w-full flex-wrap items-center gap-1 rounded-md border border-slate-200/90 bg-white px-1 py-0.5 shadow-sm">
-=======
                   <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
                     <LucideIcons.Layers className="h-4 w-4 shrink-0" aria-hidden />
                   </div>
@@ -7141,7 +6858,6 @@ export function Workshop2Phase1DossierPanel({
                     </p>
                     <div className="border-border-default/90 sticky top-2 z-20 mt-3 flex flex-col gap-1.5 rounded-lg border bg-white p-1.5 shadow-sm sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
                       <div className="border-border-default/90 flex w-fit max-w-full flex-wrap items-center gap-1 rounded-md border bg-white px-1 py-0.5 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
                         <SketchViewModeToggle
                           floor={sketchViewFloor}
                           onFloorChange={setSketchFloorMode}
@@ -7156,11 +6872,7 @@ export function Workshop2Phase1DossierPanel({
                             type="button"
                             variant="outline"
                             size="sm"
-<<<<<<< HEAD
-                            className="h-7 gap-1 border-slate-200 bg-white px-2 text-[10px] font-medium shadow-none"
-=======
                             className="border-border-default h-7 gap-1 bg-white px-2 text-[10px] font-medium shadow-none"
->>>>>>> recover/cabinet-wip-from-stash
                           >
                             <LucideIcons.Settings2 className="h-3.5 w-3.5 shrink-0" aria-hidden />
                             Дополнительно
@@ -7193,30 +6905,18 @@ export function Workshop2Phase1DossierPanel({
                               size="sm"
                               className={cn(
                                 SKETCH_PHASE1_HELP_BUTTON_CLASS,
-<<<<<<< HEAD
-                                'max-w-[11rem] text-slate-800'
-                              )}
-                            >
-                              <LucideIcons.CircleHelp
-                                className="h-3.5 w-3.5 shrink-0 text-indigo-600"
-=======
                                 'text-text-primary max-w-[11rem]'
                               )}
                             >
                               <LucideIcons.CircleHelp
                                 className="text-accent-primary h-3.5 w-3.5 shrink-0"
->>>>>>> recover/cabinet-wip-from-stash
                                 aria-hidden
                               />
                               <span className="min-w-0">
                                 <span className="block text-[10px] font-semibold leading-tight">
                                   Панель скетча
                                 </span>
-<<<<<<< HEAD
-                                <span className="mt-0.5 block text-[8px] font-normal leading-tight text-slate-500">
-=======
                                 <span className="text-text-secondary mt-0.5 block text-[8px] font-normal leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                                   режим, ссылка, шаблоны
                                 </span>
                               </span>
@@ -7227,64 +6927,37 @@ export function Workshop2Phase1DossierPanel({
                             className="max-h-[min(32rem,70vh)] w-[min(calc(100vw-1.5rem),24rem)] overflow-y-auto p-0"
                             sideOffset={6}
                           >
-<<<<<<< HEAD
-                            <div className="border-b border-slate-100 bg-slate-50/80 px-4 py-3">
-                              <p className="text-sm font-semibold text-slate-900">
-                                Панель над скетчем
-                              </p>
-                              <p className="mt-1 text-xs leading-snug text-slate-600">
-=======
                             <div className="border-border-subtle bg-bg-surface2/80 border-b px-4 py-3">
                               <p className="text-text-primary text-sm font-semibold">
                                 Панель над скетчем
                               </p>
                               <p className="text-text-secondary mt-1 text-xs leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                                 Кнопки слева от вкладок «Скетч / Узлы ветки»: режим работы, ссылка
                                 для цеха, библиотека и дополнительные действия.
                               </p>
                             </div>
-<<<<<<< HEAD
-                            <div className="space-y-4 p-4 text-xs leading-relaxed text-slate-700">
-                              <section>
-                                <p className="font-semibold text-slate-900">Режим · ТЗ</p>
-                                <p className="mt-1 text-slate-600">
-=======
                             <div className="text-text-primary space-y-4 p-4 text-xs leading-relaxed">
                               <section>
                                 <p className="text-text-primary font-semibold">Режим · ТЗ</p>
                                 <p className="text-text-secondary mt-1">
->>>>>>> recover/cabinet-wip-from-stash
                                   Полное редактирование: ставите и правите метки, приоритеты, этапы,
                                   связи с задачами по ветке каталога и полями ТЗ. Так готовят
                                   материалы для согласований и передачи в производство.
                                 </p>
                               </section>
                               <section>
-<<<<<<< HEAD
-                                <p className="font-semibold text-slate-900">Режим · Цех</p>
-                                <p className="mt-1 text-slate-600">
-=======
                                 <p className="text-text-primary font-semibold">Режим · Цех</p>
                                 <p className="text-text-secondary mt-1">
->>>>>>> recover/cabinet-wip-from-stash
                                   Просмотр для линии: крупные номера меток без правок, чтобы открыть
                                   карточку на планшете или у машины и сразу видеть доску. Не
                                   заменяет подписи и права в паспорте — только интерфейс скетча.
                                 </p>
                               </section>
                               <section>
-<<<<<<< HEAD
-                                <p className="font-semibold text-slate-900">Ссылка цеха</p>
-                                <p className="mt-1 text-slate-600">
-                                  Копирует адрес этой страницы с параметром{' '}
-                                  <code className="rounded bg-slate-100 px-1 py-0.5 font-mono text-[10px]">
-=======
                                 <p className="text-text-primary font-semibold">Ссылка цеха</p>
                                 <p className="text-text-secondary mt-1">
                                   Копирует адрес этой страницы с параметром{' '}
                                   <code className="bg-bg-surface2 rounded px-1 py-0.5 font-mono text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                                     ?sketchFloor=1
                                   </code>
                                   . Получатель откроет тот же артикул уже в режиме цеха — без
@@ -7292,39 +6965,24 @@ export function Workshop2Phase1DossierPanel({
                                 </p>
                               </section>
                               <section>
-<<<<<<< HEAD
-                                <p className="font-semibold text-slate-900">Шаблоны и снимки</p>
-                                <p className="mt-1 text-slate-600">
-=======
                                 <p className="text-text-primary font-semibold">Шаблоны и снимки</p>
                                 <p className="text-text-secondary mt-1">
->>>>>>> recover/cabinet-wip-from-stash
                                   Библиотека шаблонов меток и эталонных снимков: подставить набор
                                   точек, сравнить подложку с фото, сохранить свой шаблон в досье или
                                   в коллекции (если доступно).
                                 </p>
                               </section>
                               <section>
-<<<<<<< HEAD
-                                <p className="font-semibold text-slate-900">Ещё</p>
-                                <p className="mt-1 text-slate-600">
-=======
                                 <p className="text-text-primary font-semibold">Ещё</p>
                                 <p className="text-text-secondary mt-1">
->>>>>>> recover/cabinet-wip-from-stash
                                   Снимок меток в PNG и выгрузка ZIP с картинками и PDF для архива
                                   или переписки. Библиотека шаблонов — только кнопка «Шаблоны и
                                   снимки».
                                 </p>
                               </section>
                               <section>
-<<<<<<< HEAD
-                                <p className="font-semibold text-slate-900">Только цех</p>
-                                <p className="mt-1 text-slate-600">
-=======
                                 <p className="text-text-primary font-semibold">Только цех</p>
                                 <p className="text-text-secondary mt-1">
->>>>>>> recover/cabinet-wip-from-stash
                                   Если у роли нет прав на правки, вместо переключателя показывается
                                   подсказка «Только цех» и остаётся доступна копия ссылки — разметку
                                   меняют пользователи с доступом к ТЗ.
@@ -7338,19 +6996,11 @@ export function Workshop2Phase1DossierPanel({
                   </div>
                 </div>
                 {sketchViewFloor ? (
-<<<<<<< HEAD
-                  <p className="rounded-md border border-slate-200 bg-slate-50/90 px-3 py-2 text-[10px] leading-snug text-slate-700">
-                    <span className="font-semibold text-slate-800">Режим цеха:</span> ориентируйтесь
-                    на канон-скетч и эталон подложки на доске. Печать и QR — в «Дополнительно»;
-                    общий пакет для передачи — PDF из пульса или экспорт пакета визуала в блоке
-                    согласования.
-=======
                   <p className="border-border-default bg-bg-surface2/90 text-text-primary rounded-md border px-3 py-2 text-[10px] leading-snug">
                     <span className="text-text-primary font-semibold">Режим цеха:</span>{' '}
                     ориентируйтесь на канон-скетч и эталон подложки на доске. Печать и QR — в
                     «Дополнительно»; общий пакет для передачи — PDF из пульса или экспорт пакета
                     визуала в блоке согласования.
->>>>>>> recover/cabinet-wip-from-stash
                   </p>
                 ) : sketchTechGaps.pinsWithoutAttrOrBom > 0 ||
                   sketchTechGaps.criticalPinsWithoutDue > 0 ? (
@@ -7382,12 +7032,6 @@ export function Workshop2Phase1DossierPanel({
                   className="w-full"
                 >
                   <div className="mb-2 flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-2">
-<<<<<<< HEAD
-                    <TabsList className="grid h-auto min-h-8 w-full min-w-0 flex-1 grid-cols-1 gap-0.5 rounded-lg border border-slate-200 bg-slate-100 p-0.5 sm:grid-cols-2">
-                      <TabsTrigger
-                        value="sketch"
-                        className="min-h-8 justify-center rounded-md px-2 py-1 text-xs font-semibold text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-sm"
-=======
                     {/* cabinetSurface v1 */}
                     <TabsList
                       className={cn(
@@ -7401,18 +7045,13 @@ export function Workshop2Phase1DossierPanel({
                           cabinetSurface.tabsTrigger,
                           'text-text-secondary data-[state=active]:text-text-primary min-h-8 justify-center px-2 py-1 text-xs font-semibold normal-case tracking-normal'
                         )}
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         <span className="flex flex-wrap items-center justify-center gap-1.5">
                           <span>Скетч</span>
                           {sketchWorkspaceStats.masterPins > 0 ? (
                             <Badge
                               variant="secondary"
-<<<<<<< HEAD
-                              className="h-4 min-w-4 border border-slate-200/80 bg-slate-100 px-1 text-[9px] font-bold tabular-nums"
-=======
                               className="border-border-default/80 bg-bg-surface2 h-4 min-w-4 border px-1 text-[9px] font-bold tabular-nums"
->>>>>>> recover/cabinet-wip-from-stash
                               title="Меток на общей доске"
                             >
                               {sketchWorkspaceStats.masterPins}
@@ -7421,11 +7060,7 @@ export function Workshop2Phase1DossierPanel({
                           {sketchWorkspaceStats.sheetCount > 0 ? (
                             <Badge
                               variant="secondary"
-<<<<<<< HEAD
-                              className="h-4 min-w-4 border border-slate-200/80 bg-slate-100 px-1 text-[9px] font-bold tabular-nums"
-=======
                               className="border-border-default/80 bg-bg-surface2 h-4 min-w-4 border px-1 text-[9px] font-bold tabular-nums"
->>>>>>> recover/cabinet-wip-from-stash
                               title="Скетч-листов"
                             >
                               {sketchWorkspaceStats.sheetCount}л
@@ -7435,25 +7070,17 @@ export function Workshop2Phase1DossierPanel({
                       </TabsTrigger>
                       <TabsTrigger
                         value="sublevels"
-<<<<<<< HEAD
-                        className="min-h-8 justify-center rounded-md px-2 py-1 text-xs font-semibold text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-sm"
-=======
                         className={cn(
                           cabinetSurface.tabsTrigger,
                           'text-text-secondary data-[state=active]:text-text-primary min-h-8 justify-center px-2 py-1 text-xs font-semibold normal-case tracking-normal'
                         )}
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         <span className="flex items-center justify-center gap-2">
                           Узлы ветки
                           {sketchWorkspaceStats.sublevelPins > 0 ? (
                             <Badge
                               variant="secondary"
-<<<<<<< HEAD
-                              className="h-4 min-w-4 border border-slate-200/80 bg-slate-100 px-1 text-[9px] font-bold tabular-nums"
-=======
                               className="border-border-default/80 bg-bg-surface2 h-4 min-w-4 border px-1 text-[9px] font-bold tabular-nums"
->>>>>>> recover/cabinet-wip-from-stash
                             >
                               {sketchWorkspaceStats.sublevelPins}
                             </Badge>
@@ -7469,30 +7096,18 @@ export function Workshop2Phase1DossierPanel({
                           size="sm"
                           className={cn(
                             SKETCH_PHASE1_HELP_BUTTON_CLASS,
-<<<<<<< HEAD
-                            'max-w-[11rem] text-slate-800'
-                          )}
-                        >
-                          <LucideIcons.CircleHelp
-                            className="h-3.5 w-3.5 shrink-0 text-indigo-600"
-=======
                             'text-text-primary max-w-[11rem]'
                           )}
                         >
                           <LucideIcons.CircleHelp
                             className="text-accent-primary h-3.5 w-3.5 shrink-0"
->>>>>>> recover/cabinet-wip-from-stash
                             aria-hidden
                           />
                           <span className="min-w-0">
                             <span className="block text-[10px] font-semibold leading-tight">
                               Скетч и узлы ветки
                             </span>
-<<<<<<< HEAD
-                            <span className="mt-0.5 block text-[8px] font-normal leading-tight text-slate-500">
-=======
                             <span className="text-text-secondary mt-0.5 block text-[8px] font-normal leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                               как устроено
                             </span>
                           </span>
@@ -7503,19 +7118,11 @@ export function Workshop2Phase1DossierPanel({
                         className="max-h-[min(32rem,70vh)] w-[min(calc(100vw-1.5rem),24rem)] overflow-y-auto p-0"
                         sideOffset={6}
                       >
-<<<<<<< HEAD
-                        <div className="border-b border-slate-100 bg-slate-50/80 px-4 py-3">
-                          <p className="text-sm font-semibold text-slate-900">
-                            Две зоны: скетч артикула и узлы ветки
-                          </p>
-                          <p className="mt-1 text-xs leading-snug text-slate-600">
-=======
                         <div className="border-border-subtle bg-bg-surface2/80 border-b px-4 py-3">
                           <p className="text-text-primary text-sm font-semibold">
                             Две зоны: скетч артикула и узлы ветки
                           </p>
                           <p className="text-text-secondary mt-1 text-xs leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                             Во вкладке «Скетч» переключатель «Общий / Листы» и кнопка «Создать лист»
                             — одна модель, разные доски. На основной вкладке бейджи: метки на общей
                             доске и число листов.
@@ -7523,54 +7130,31 @@ export function Workshop2Phase1DossierPanel({
                         </div>
                         <div className="text-text-primary space-y-4 p-4 text-xs leading-relaxed">
                           <section>
-<<<<<<< HEAD
-                            <p className="font-semibold text-slate-900">Вкладка «Скетч»</p>
-                            <p className="mt-1 text-slate-600">
-                              <strong className="font-medium text-slate-800">Общий:</strong> главная
-                              доска — силуэт или фото изделия целиком, ключевые метки, экспорт и
-                              согласование.{' '}
-                              <strong className="font-medium text-slate-800">Листы:</strong>{' '}
-=======
                             <p className="text-text-primary font-semibold">Вкладка «Скетч»</p>
                             <p className="text-text-secondary mt-1">
                               <strong className="text-text-primary font-medium">Общий:</strong>{' '}
                               главная доска — силуэт или фото изделия целиком, ключевые метки,
                               экспорт и согласование.{' '}
                               <strong className="text-text-primary font-medium">Листы:</strong>{' '}
->>>>>>> recover/cabinet-wip-from-stash
                               отдельные ракурсы (анфас, спина, деталь, фото) со своей подложкой и
                               метками; «Создать лист» добавляет лист и переключает на ленту листов.
                               Метки с общей доски можно копировать на лист и в слоты узлов ветки.
                             </p>
                           </section>
                           <section>
-<<<<<<< HEAD
-                            <p className="font-semibold text-slate-900">
-                              Узлы ветки — зачем и что делать
-                            </p>
-                            <p className="mt-1 text-slate-600">
-                              Три слота названы по{' '}
-                              <strong className="font-medium text-slate-800">роли узла</strong> в
-=======
                             <p className="text-text-primary font-semibold">
                               Узлы ветки — зачем и что делать
                             </p>
                             <p className="text-text-secondary mt-1">
                               Три слота названы по{' '}
                               <strong className="text-text-primary font-medium">роли узла</strong> в
->>>>>>> recover/cabinet-wip-from-stash
                               справочнике: <strong>Линия</strong> (весь раздел, напр. Одежда),{' '}
                               <strong>Группа</strong> (подтип, напр. Верхняя одежда),{' '}
                               <strong>Модель</strong> (карточка этого артикула, напр. Пальто). Это{' '}
                               <strong>один путь к вашему SKU</strong>, не три артикула.
                             </p>
-<<<<<<< HEAD
-                            <p className="mt-1.5 text-slate-600">
-                              <strong className="font-medium text-slate-800">
-=======
                             <p className="text-text-secondary mt-1.5">
                               <strong className="text-text-primary font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                                 Чем отличается от вкладки «Скетч»:
                               </strong>{' '}
                               там — главная картинка и виды изделия. Здесь — отдельные мини-скетчи и
@@ -7613,13 +7197,8 @@ export function Workshop2Phase1DossierPanel({
                         'production',
                       ] as Workshop2DossierViewProfile[]
                     ).includes(dossierViewProfile) ? (
-<<<<<<< HEAD
-                      <div className="mb-3 flex flex-wrap items-center gap-1.5 rounded-lg border border-violet-100 bg-violet-50/50 px-2 py-2">
-                        <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-violet-800">
-=======
                       <div className="border-accent-primary/20 bg-accent-primary/10 mb-3 flex flex-wrap items-center gap-1.5 rounded-lg border px-2 py-2">
                         <span className="text-accent-primary shrink-0 text-[9px] font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
                           Текст метки
                         </span>
                         {W2_SKETCH_PIN_TYPE_PRESETS.map((pr) => (
@@ -7647,18 +7226,11 @@ export function Workshop2Phase1DossierPanel({
                         ))}
                       </div>
                     ) : null}
-<<<<<<< HEAD
-                    <div className="mb-3 flex flex-col gap-2 border-b border-slate-100 pb-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <div
-                          className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-0.5"
-=======
                     <div className="border-border-subtle mb-3 flex flex-col gap-2 border-b pb-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
                       <div className="flex flex-wrap items-center gap-2">
                         {/* cabinetSurface v1 */}
                         <div
                           className={cn(cabinetSurface.groupTabList, 'rounded-lg p-0.5')}
->>>>>>> recover/cabinet-wip-from-stash
                           role="tablist"
                           aria-label="Общий скетч или листы"
                         >
@@ -7667,16 +7239,9 @@ export function Workshop2Phase1DossierPanel({
                             role="tab"
                             aria-selected={sketchSurface === 'master'}
                             className={cn(
-<<<<<<< HEAD
-                              'rounded-md px-3 py-1.5 text-xs font-semibold transition-colors',
-                              sketchSurface === 'master'
-                                ? 'bg-white text-slate-900 shadow-sm'
-                                : 'text-slate-600 hover:text-slate-900'
-=======
                               cabinetSurface.groupTabButton,
                               'rounded-md px-3 py-1.5 text-xs font-semibold',
                               sketchSurface === 'master' && cabinetSurface.groupTabButtonActive
->>>>>>> recover/cabinet-wip-from-stash
                             )}
                             onClick={() => setSketchSurface('master')}
                           >
@@ -7685,11 +7250,7 @@ export function Workshop2Phase1DossierPanel({
                               {sketchWorkspaceStats.masterPins > 0 ? (
                                 <Badge
                                   variant="secondary"
-<<<<<<< HEAD
-                                  className="h-4 min-w-4 border border-slate-200/80 bg-slate-100 px-1 text-[9px] font-bold tabular-nums"
-=======
                                   className="border-border-default/80 bg-bg-surface2 h-4 min-w-4 border px-1 text-[9px] font-bold tabular-nums"
->>>>>>> recover/cabinet-wip-from-stash
                                 >
                                   {sketchWorkspaceStats.masterPins}
                                 </Badge>
@@ -7701,16 +7262,9 @@ export function Workshop2Phase1DossierPanel({
                             role="tab"
                             aria-selected={sketchSurface === 'sheets'}
                             className={cn(
-<<<<<<< HEAD
-                              'rounded-md px-3 py-1.5 text-xs font-semibold transition-colors',
-                              sketchSurface === 'sheets'
-                                ? 'bg-white text-slate-900 shadow-sm'
-                                : 'text-slate-600 hover:text-slate-900'
-=======
                               cabinetSurface.groupTabButton,
                               'rounded-md px-3 py-1.5 text-xs font-semibold',
                               sketchSurface === 'sheets' && cabinetSurface.groupTabButtonActive
->>>>>>> recover/cabinet-wip-from-stash
                             )}
                             onClick={() => setSketchSurface('sheets')}
                           >
@@ -7719,11 +7273,7 @@ export function Workshop2Phase1DossierPanel({
                               {sketchWorkspaceStats.sheetCount > 0 ? (
                                 <Badge
                                   variant="secondary"
-<<<<<<< HEAD
-                                  className="h-4 min-w-4 border border-slate-200/80 bg-slate-100 px-1 text-[9px] font-bold tabular-nums"
-=======
                                   className="border-border-default/80 bg-bg-surface2 h-4 min-w-4 border px-1 text-[9px] font-bold tabular-nums"
->>>>>>> recover/cabinet-wip-from-stash
                                 >
                                   {sketchWorkspaceStats.sheetCount}
                                 </Badge>
@@ -7750,26 +7300,13 @@ export function Workshop2Phase1DossierPanel({
                           Создать лист
                         </Button>
                       </div>
-<<<<<<< HEAD
-                      <p className="max-w-md text-[10px] leading-snug text-slate-500">
-=======
                       <p className="text-text-secondary max-w-md text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                         Общий — главный вид модели; листы — дополнительные ракурсы и детали.
                       </p>
                     </div>
                     {sketchSurface === 'master' ? (
                       <>
                         <div id="w2-visuals-sketch-templates" className="scroll-mt-24">
-<<<<<<< HEAD
-                          <details className="mb-3 rounded-lg border border-slate-200 bg-slate-50/40">
-                            <summary className="cursor-pointer list-none px-3 py-2.5 text-xs font-medium text-slate-800 [&::-webkit-details-marker]:hidden">
-                              Дополнительно: шаблоны меток на общую доску
-                            </summary>
-                            <div className="flex flex-col gap-2 border-t border-slate-100 px-3 py-3 sm:flex-row sm:flex-wrap sm:items-center">
-                              <select
-                                className="h-9 min-w-[200px] flex-1 rounded-md border border-slate-200 bg-white px-2 text-sm disabled:opacity-60"
-=======
                           <details className="border-border-default bg-bg-surface2/40 mb-3 rounded-lg border">
                             <summary className="text-text-primary cursor-pointer list-none px-3 py-2.5 text-xs font-medium [&::-webkit-details-marker]:hidden">
                               Дополнительно: шаблоны меток на общую доску
@@ -7777,7 +7314,6 @@ export function Workshop2Phase1DossierPanel({
                             <div className="border-border-subtle flex flex-col gap-2 border-t px-3 py-3 sm:flex-row sm:flex-wrap sm:items-center">
                               <select
                                 className="border-border-default h-9 min-w-[200px] flex-1 rounded-md border bg-white px-2 text-sm disabled:opacity-60"
->>>>>>> recover/cabinet-wip-from-stash
                                 value={sketchMasterTemplateId}
                                 disabled={sketchEditsLocked}
                                 onChange={(e) => setSketchMasterTemplateId(e.target.value)}
@@ -7966,11 +7502,7 @@ export function Workshop2Phase1DossierPanel({
                         />
                       </>
                     ) : (
-<<<<<<< HEAD
-                      <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm">
-=======
                       <div className="border-border-default rounded-xl border bg-white p-3 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
                         <CategorySketchSheetsBlock
                           currentLeaf={currentLeaf}
                           dossier={dossier}
@@ -8012,18 +7544,6 @@ export function Workshop2Phase1DossierPanel({
                   </TabsContent>
                   <TabsContent value="sublevels" className="mt-0 outline-none focus-visible:ring-0">
                     <div className="space-y-3">
-<<<<<<< HEAD
-                      <div className="space-y-2 rounded-lg border border-zinc-200 bg-white p-2 shadow-sm">
-                        <p className="text-[10px] leading-snug text-zinc-600">
-                          <span className="font-semibold text-zinc-800">Артикул:</span>{' '}
-                          <span className="font-mono text-zinc-900">{skuDraft.trim() || '—'}</span>
-                          <span className="text-zinc-400"> · </span>
-                          <span className="font-semibold text-zinc-800">
-                            Аудитория каталога (L3):
-                          </span>{' '}
-                          <span className="text-zinc-900">{selectedAudienceLabel}</span>
-                          <span className="mt-0.5 block text-zinc-500">
-=======
                       <div className="border-border-default space-y-2 rounded-lg border bg-white p-2 shadow-sm">
                         <p className="text-text-secondary text-[10px] leading-snug">
                           <span className="text-text-primary font-semibold">Артикул:</span>{' '}
@@ -8036,22 +7556,14 @@ export function Workshop2Phase1DossierPanel({
                           </span>{' '}
                           <span className="text-text-primary">{selectedAudienceLabel}</span>
                           <span className="text-text-secondary mt-0.5 block">
->>>>>>> recover/cabinet-wip-from-stash
                             Название в паспорте — отдельное поле; формулировки вроде «мужское» там
                             не меняют выбранную аудиторию листа.
                           </span>
                         </p>
-<<<<<<< HEAD
-                        <p className="text-[10px] leading-snug text-zinc-700">
-                          <span className="font-semibold text-zinc-800">По умолчанию</span>{' '}
-                          редактируется слот{' '}
-                          <strong className="font-semibold text-zinc-900">
-=======
                         <p className="text-text-primary text-[10px] leading-snug">
                           <span className="text-text-primary font-semibold">По умолчанию</span>{' '}
                           редактируется слот{' '}
                           <strong className="text-text-primary font-semibold">
->>>>>>> recover/cabinet-wip-from-stash
                             «{BRANCH_CATALOG_SLOT_ROLE[3].label}»
                           </strong>{' '}
                           — требования и мини-скетч на уровне карточки артикула. Переключение на
@@ -8087,21 +7599,13 @@ export function Workshop2Phase1DossierPanel({
                               type="button"
                               variant="outline"
                               size="sm"
-<<<<<<< HEAD
-                              className="h-8 w-full justify-between gap-2 text-left text-[10px] font-medium text-zinc-800 sm:w-auto sm:min-w-[16rem]"
-=======
                               className="text-text-primary h-8 w-full justify-between gap-2 text-left text-[10px] font-medium sm:w-auto sm:min-w-[16rem]"
->>>>>>> recover/cabinet-wip-from-stash
                               aria-expanded={branchLevelsDetailsOpen}
                             >
                               <span>Уровни ветки (линия · группа · модель)</span>
                               <LucideIcons.ChevronDown
                                 className={cn(
-<<<<<<< HEAD
-                                  'h-4 w-4 shrink-0 text-zinc-500 transition-transform',
-=======
                                   'text-text-secondary h-4 w-4 shrink-0 transition-transform',
->>>>>>> recover/cabinet-wip-from-stash
                                   branchLevelsDetailsOpen && 'rotate-180'
                                 )}
                                 aria-hidden
@@ -8109,26 +7613,17 @@ export function Workshop2Phase1DossierPanel({
                             </Button>
                           </CollapsibleTrigger>
                           <CollapsibleContent className="space-y-2 overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-<<<<<<< HEAD
-                            <p className="pt-2 text-[10px] leading-snug text-zinc-600">
-=======
                             <p className="text-text-secondary pt-2 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                               Три слота совпадают с узлами пути в справочнике; текст и метки в
                               каждом слоте раздельны. Наследование формулировок между слотами — в
                               блоке задач справа («Принять оттуда»).
                             </p>
-<<<<<<< HEAD
-                            <div
-                              className="flex w-fit flex-wrap gap-0.5 rounded-md border border-zinc-100 bg-zinc-50/90 p-0.5"
-=======
                             {/* cabinetSurface v1 */}
                             <div
                               className={cn(
                                 cabinetSurface.groupTabList,
                                 'border-border-default/90 bg-bg-surface2/90 h-auto min-h-8 w-fit flex-wrap rounded-md p-0.5'
                               )}
->>>>>>> recover/cabinet-wip-from-stash
                               role="tablist"
                               aria-label="Слот узла ветки"
                             >
@@ -8145,16 +7640,6 @@ export function Workshop2Phase1DossierPanel({
                                     key={lv}
                                     type="button"
                                     size="sm"
-<<<<<<< HEAD
-                                    variant={
-                                      subcategorySketchActiveLevel === lv ? 'default' : 'ghost'
-                                    }
-                                    className={cn(
-                                      'h-7 shrink-0 px-2.5 text-[10px] font-semibold',
-                                      subcategorySketchActiveLevel === lv
-                                        ? 'shadow-sm'
-                                        : 'text-zinc-600'
-=======
                                     variant="ghost"
                                     className={cn(
                                       cabinetSurface.groupTabButton,
@@ -8164,7 +7649,6 @@ export function Workshop2Phase1DossierPanel({
                                           cabinetSurface.groupTabButtonActive,
                                           'text-text-primary shadow-sm'
                                         )
->>>>>>> recover/cabinet-wip-from-stash
                                     )}
                                     onClick={() => setSubcategorySketchActiveLevel(lv)}
                                     title={`Узел ветки: ${nodeName}. ${role.hint}`}
@@ -8178,11 +7662,7 @@ export function Workshop2Phase1DossierPanel({
                           </CollapsibleContent>
                         </Collapsible>
                       </div>
-<<<<<<< HEAD
-                      <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm">
-=======
                       <div className="border-border-default rounded-xl border bg-white p-3 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
                         <CategorySubcategorySketchesTzBlock
                           currentLeaf={currentLeaf}
                           dossier={dossier}
@@ -8206,18 +7686,6 @@ export function Workshop2Phase1DossierPanel({
             ) : (
               <>
                 <div className="flex items-start gap-3">
-<<<<<<< HEAD
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
-                    <LucideIcons.Pencil className="h-4 w-4 shrink-0" aria-hidden />
-                  </div>
-                  <div className="min-w-0 flex-1 space-y-1">
-                    <h2 className="text-base font-semibold text-slate-900">Скетч по категории</h2>
-                    <p className="text-sm leading-snug text-slate-500">
-                      Один силуэт на выбранную ветку каталога: отметьте узлы на скетче, привяжите
-                      метки к полям ТЗ.
-                    </p>
-                    <div className="flex flex-col gap-2 border-t border-slate-100 pt-2 sm:flex-row sm:flex-wrap sm:items-stretch">
-=======
                   <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
                     <LucideIcons.Pencil className="h-4 w-4 shrink-0" aria-hidden />
                   </div>
@@ -8230,7 +7698,6 @@ export function Workshop2Phase1DossierPanel({
                       метки к полям ТЗ.
                     </p>
                     <div className="border-border-subtle flex flex-col gap-2 border-t pt-2 sm:flex-row sm:flex-wrap sm:items-stretch">
->>>>>>> recover/cabinet-wip-from-stash
                       <div className="flex flex-wrap items-center gap-2">
                         <SketchViewModeToggle
                           floor={sketchViewFloor}
@@ -8273,26 +7740,15 @@ export function Workshop2Phase1DossierPanel({
                             type="button"
                             variant="outline"
                             size="sm"
-<<<<<<< HEAD
-                            className="h-auto min-h-8 shrink-0 gap-2 px-3 py-2 text-left text-xs font-medium leading-snug text-slate-700 sm:max-w-[12rem]"
-                          >
-                            <LucideIcons.CircleHelp
-                              className="h-4 w-4 shrink-0 text-indigo-600"
-=======
                             className="text-text-primary h-auto min-h-8 shrink-0 gap-2 px-3 py-2 text-left text-xs font-medium leading-snug sm:max-w-[12rem]"
                           >
                             <LucideIcons.CircleHelp
                               className="text-accent-primary h-4 w-4 shrink-0"
->>>>>>> recover/cabinet-wip-from-stash
                               aria-hidden
                             />
                             <span>
                               Панель скетча
-<<<<<<< HEAD
-                              <span className="mt-0.5 block text-[10px] font-normal text-slate-500">
-=======
                               <span className="text-text-secondary mt-0.5 block text-[10px] font-normal">
->>>>>>> recover/cabinet-wip-from-stash
                                 как пользоваться
                               </span>
                             </span>
@@ -8303,32 +7759,15 @@ export function Workshop2Phase1DossierPanel({
                           className="max-h-[min(32rem,70vh)] w-[min(calc(100vw-1.5rem),24rem)] overflow-y-auto p-0"
                           sideOffset={6}
                         >
-<<<<<<< HEAD
-                          <div className="border-b border-slate-100 bg-slate-50/80 px-4 py-3">
-                            <p className="text-sm font-semibold text-slate-900">
-                              Панель над скетчем
-                            </p>
-                            <p className="mt-1 text-xs leading-snug text-slate-600">
-=======
                           <div className="border-border-subtle bg-bg-surface2/80 border-b px-4 py-3">
                             <p className="text-text-primary text-sm font-semibold">
                               Панель над скетчем
                             </p>
                             <p className="text-text-secondary mt-1 text-xs leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                               Те же смыслы, что и в фазе 1: режим ТЗ/цех, ссылка для цеха,
                               библиотека и выгрузки.
                             </p>
                           </div>
-<<<<<<< HEAD
-                          <div className="space-y-4 p-4 text-xs leading-relaxed text-slate-700">
-                            <section>
-                              <p className="font-semibold text-slate-900">Режим · ТЗ / Цех</p>
-                              <p className="mt-1 text-slate-600">
-                                ТЗ — правки меток; цех — только просмотр крупных номеров. Ссылка
-                                цеха копирует URL с{' '}
-                                <code className="rounded bg-slate-100 px-1 py-0.5 font-mono text-[10px]">
-=======
                           <div className="text-text-primary space-y-4 p-4 text-xs leading-relaxed">
                             <section>
                               <p className="text-text-primary font-semibold">Режим · ТЗ / Цех</p>
@@ -8336,20 +7775,14 @@ export function Workshop2Phase1DossierPanel({
                                 ТЗ — правки меток; цех — только просмотр крупных номеров. Ссылка
                                 цеха копирует URL с{' '}
                                 <code className="bg-bg-surface2 rounded px-1 py-0.5 font-mono text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                                   ?sketchFloor=1
                                 </code>
                                 .
                               </p>
                             </section>
                             <section>
-<<<<<<< HEAD
-                              <p className="font-semibold text-slate-900">Снимки и шаблоны</p>
-                              <p className="mt-1 text-slate-600">
-=======
                               <p className="text-text-primary font-semibold">Снимки и шаблоны</p>
                               <p className="text-text-secondary mt-1">
->>>>>>> recover/cabinet-wip-from-stash
                                 Открывает библиотеку шаблонов и эталонов. Снимок меток и ZIP —
                                 быстрый экспорт без меню «Ещё».
                               </p>
@@ -8360,21 +7793,12 @@ export function Workshop2Phase1DossierPanel({
                     </div>
                   </div>
                 </div>
-<<<<<<< HEAD
-                <div className="flex flex-col gap-2 rounded-lg border border-slate-100 bg-slate-50/60 p-2 sm:flex-row sm:flex-wrap sm:items-center">
-                  <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-                    Шаблоны меток
-                  </span>
-                  <select
-                    className="h-9 min-w-[200px] flex-1 rounded-md border border-slate-200 bg-white px-2 text-sm disabled:opacity-60"
-=======
                 <div className="border-border-subtle bg-bg-surface2/60 flex flex-col gap-2 rounded-lg border p-2 sm:flex-row sm:flex-wrap sm:items-center">
                   <span className="text-text-secondary text-[10px] font-semibold uppercase tracking-wide">
                     Шаблоны меток
                   </span>
                   <select
                     className="border-border-default h-9 min-w-[200px] flex-1 rounded-md border bg-white px-2 text-sm disabled:opacity-60"
->>>>>>> recover/cabinet-wip-from-stash
                     value={sketchMasterTemplateId}
                     disabled={sketchEditsLocked}
                     onChange={(e) => setSketchMasterTemplateId(e.target.value)}
@@ -8569,28 +7993,16 @@ export function Workshop2Phase1DossierPanel({
             </CollapsibleTrigger>
             <CollapsibleContent className="space-y-4 overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
               <div className="flex flex-wrap items-start justify-between gap-2">
-<<<<<<< HEAD
-                <div className="min-w-0 flex-1 rounded-lg border border-purple-100 bg-purple-50/30 px-3 py-2">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-purple-500">
-                    Конструктив: {l2}
-                  </p>
-                  <p className="mt-1 text-[10px] leading-snug text-slate-600">
-=======
                 <div className="border-accent-primary/20 bg-accent-primary/10 min-w-0 flex-1 rounded-lg border px-3 py-2">
                   <p className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
                     Конструктив: {l2}
                   </p>
                   <p className="text-text-secondary mt-1 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                     Узлы каталога ниже — зона дизайна и технолога; мерки и скетч связывают
                     менеджера, снабжение, цех и ОТК с одним артикулом. Подпись секции и выгрузка ТК
                     закрывают контур для производства и комплаенса.
                   </p>
-<<<<<<< HEAD
-                  <p className="mt-1 text-[11px] leading-snug text-slate-700">{hint}</p>
-=======
                   <p className="text-text-primary mt-1 text-[11px] leading-snug">{hint}</p>
->>>>>>> recover/cabinet-wip-from-stash
                 </div>
                 <Workshop2TzSectionRolesPopover section="construction" className="shrink-0" />
               </div>
@@ -8699,21 +8111,12 @@ export function Workshop2Phase1DossierPanel({
               />
               <div
                 id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.export}
-<<<<<<< HEAD
-                className="scroll-mt-24 rounded-lg border border-slate-200/90 bg-slate-50/80 px-3 py-2.5 text-[11px] text-slate-800 shadow-sm"
-              >
-                <p className="text-[9px] font-black uppercase tracking-wide text-slate-600">
-                  Выгрузка узлов / ТК для цеха
-                </p>
-                <p className="mt-1 leading-snug text-slate-700">
-=======
                 className="border-border-default/90 bg-bg-surface2/80 text-text-primary scroll-mt-24 rounded-lg border px-3 py-2.5 text-[11px] shadow-sm"
               >
                 <p className="text-text-secondary text-[9px] font-black uppercase tracking-wide">
                   Выгрузка узлов / ТК для цеха
                 </p>
                 <p className="text-text-primary mt-1 leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                   PDF листа узлов или табличная выгрузка техкарты подключаются маршрутами tech-pack
                   и экспорта <span className="font-semibold">вне этого экрана</span> — здесь
                   фиксируем согласованный контур данных для цеха.
@@ -8721,21 +8124,12 @@ export function Workshop2Phase1DossierPanel({
               </div>
               <div
                 id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.signoff}
-<<<<<<< HEAD
-                className="scroll-mt-24 rounded-lg border border-violet-200/85 bg-violet-50/50 px-3 py-2.5 text-[11px] text-violet-950 shadow-sm"
-              >
-                <p className="text-[9px] font-black uppercase tracking-wide text-violet-900">
-                  Подпись блока конструкции
-                </p>
-                <p className="mt-1 leading-snug text-violet-950/90">
-=======
                 className="border-accent-primary/25 bg-accent-primary/10 text-text-primary scroll-mt-24 rounded-lg border px-3 py-2.5 text-[11px] shadow-sm"
               >
                 <p className="text-text-primary text-[9px] font-black uppercase tracking-wide">
                   Подпись блока конструкции
                 </p>
                 <p className="text-text-primary/90 mt-1 leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                   Те же мета подписей, что у прочих секций ТЗ (brand / tech): чекбоксы в липкой
                   панели «Этап ТЗ» над полями при открытой вкладке «Конструкция».
                 </p>
@@ -8758,11 +8152,7 @@ export function Workshop2Phase1DossierPanel({
           </Collapsible>
           <Collapsible
             defaultOpen={false}
-<<<<<<< HEAD
-            className="mx-1 scroll-mt-4 rounded-lg border border-slate-200 bg-slate-50/40 sm:mx-2"
-=======
             className="border-border-default bg-bg-surface2/40 mx-1 scroll-mt-4 rounded-lg border sm:mx-2"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <CollapsibleTrigger className="text-text-primary hover:bg-bg-surface2/80 flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-[11px] font-semibold">
               <span>Поля каталога: конструкция · мерки · доп. строки ТЗ</span>
@@ -8796,15 +8186,6 @@ export function Workshop2Phase1DossierPanel({
         className="border-accent-primary/20 bg-accent-primary/10 text-text-primary rounded-lg border px-3 py-2 text-[11px] shadow-sm"
       >
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-<<<<<<< HEAD
-          <span className="font-semibold tabular-nums text-indigo-950">
-            SKU: {skuDraft.trim() || '—'}
-          </span>
-          <span className="text-slate-400" aria-hidden>
-            ·
-          </span>
-          <span className="font-mono text-[10px] text-slate-700">
-=======
           <span className="text-accent-primary font-semibold tabular-nums">
             SKU: {skuDraft.trim() || '—'}
           </span>
@@ -8812,7 +8193,6 @@ export function Workshop2Phase1DossierPanel({
             ·
           </span>
           <span className="text-text-primary font-mono text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
             {internalArticleCodeDisplayForRibbon}
           </span>
           {(nameDraft || '').trim() ? (
@@ -8872,11 +8252,7 @@ export function Workshop2Phase1DossierPanel({
             return (
               <Fragment key={s.id}>
                 {idx > 0 && (
-<<<<<<< HEAD
-                  <LucideIcons.ChevronRight className="h-3 w-3 shrink-0 text-slate-300" />
-=======
                   <LucideIcons.ChevronRight className="text-text-muted h-3 w-3 shrink-0" />
->>>>>>> recover/cabinet-wip-from-stash
                 )}
                 <button
                   type="button"
@@ -8889,15 +8265,6 @@ export function Workshop2Phase1DossierPanel({
                   className={cn(
                     'flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-bold transition-all',
                     isActive
-<<<<<<< HEAD
-                      ? 'bg-indigo-600 text-white shadow-md'
-                      : isDone
-                        ? 'border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                        : 'border border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100',
-                    !primaryForView &&
-                      !isActive &&
-                      'ring-dashed opacity-65 ring-1 ring-slate-200/80'
-=======
                       ? 'bg-accent-primary text-white shadow-md'
                       : isDone
                         ? 'border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
@@ -8905,7 +8272,6 @@ export function Workshop2Phase1DossierPanel({
                     !primaryForView &&
                       !isActive &&
                       'ring-dashed ring-border-default/80 opacity-65 ring-1'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {isDone && !isActive && <LucideIcons.Check className="h-3 w-3" />}
@@ -8919,11 +8285,7 @@ export function Workshop2Phase1DossierPanel({
           })}
           {dossierNavSecondarySections.length > 0 ? (
             <Fragment>
-<<<<<<< HEAD
-              <LucideIcons.ChevronRight className="h-3 w-3 shrink-0 text-slate-300" />
-=======
               <LucideIcons.ChevronRight className="text-text-muted h-3 w-3 shrink-0" />
->>>>>>> recover/cabinet-wip-from-stash
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
@@ -8936,11 +8298,7 @@ export function Workshop2Phase1DossierPanel({
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent align="start" className="w-56 p-2">
-<<<<<<< HEAD
-                  <p className="mb-1.5 text-[9px] font-bold uppercase tracking-wide text-slate-500">
-=======
                   <p className="text-text-secondary mb-1.5 text-[9px] font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
                     Доп. разделы ТЗ
                   </p>
                   <div className="flex flex-col gap-1">
@@ -8955,13 +8313,8 @@ export function Workshop2Phase1DossierPanel({
                           className={cn(
                             'rounded-md px-2 py-1.5 text-left text-[11px] font-semibold transition-colors',
                             isActive
-<<<<<<< HEAD
-                              ? 'bg-indigo-600 text-white'
-                              : 'bg-slate-50 text-slate-800 hover:bg-slate-100'
-=======
                               ? 'bg-accent-primary text-white'
                               : 'bg-bg-surface2 text-text-primary hover:bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
                           )}
                         >
                           {s.label}
@@ -9003,19 +8356,11 @@ export function Workshop2Phase1DossierPanel({
       ) : null}
 
       {isPhase1 && dossierViewProfile === 'factory' ? (
-<<<<<<< HEAD
-        <div className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 shadow-sm">
-          <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">
-            Фабрика · с чего начать
-          </p>
-          <p className="mt-1 text-xs text-slate-600">
-=======
         <div className="border-border-default rounded-xl border-2 bg-white px-4 py-3 shadow-sm">
           <p className="text-text-secondary text-[10px] font-black uppercase tracking-widest">
             Фабрика · с чего начать
           </p>
           <p className="text-text-secondary mt-1 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
             SKU → канон → эскиз → BOM без лишнего скролла.
           </p>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -9098,24 +8443,15 @@ export function Workshop2Phase1DossierPanel({
 
       <div className="grid gap-4 xl:grid-cols-[220px_minmax(0,1fr)_300px]">
         <aside className="space-y-4 self-start xl:sticky xl:top-4">
-<<<<<<< HEAD
-          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-=======
           <div className="border-border-default rounded-xl border bg-white p-4 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="flex flex-wrap items-start justify-between gap-2 pb-1">
               <div className="flex min-w-0 flex-1 items-start gap-3">
                 <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
                   <LucideIcons.LayoutGrid className="h-4 w-4 shrink-0" aria-hidden />
                 </div>
                 <div className="min-w-0 space-y-1">
-<<<<<<< HEAD
-                  <h2 className="text-base font-semibold text-slate-900">Досье артикула</h2>
-                  <p className="text-xs leading-snug text-slate-500">
-=======
                   <h2 className="text-text-primary text-base font-semibold">Досье артикула</h2>
                   <p className="text-text-secondary text-xs leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                     Разделы ТЗ и прогресс по маршруту SKU: от паспорта и визуала к материалам,
                     меркам и подписям без лишних переходов.
                   </p>
@@ -9143,13 +8479,8 @@ export function Workshop2Phase1DossierPanel({
               />
             </div>
             {dossierViewProfile === 'factory' ? (
-<<<<<<< HEAD
-              <div className="mt-3 rounded-lg border border-purple-200/85 bg-purple-50/45 p-2.5">
-                <p className="text-[9px] font-black uppercase tracking-widest text-purple-800/90">
-=======
               <div className="border-accent-primary/25 bg-accent-primary/10 mt-3 rounded-lg border p-2.5">
                 <p className="text-text-primary/90 text-[9px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   Быстро · фабрика
                 </p>
                 <div className="mt-1.5 flex flex-wrap gap-1">
@@ -9157,11 +8488,7 @@ export function Workshop2Phase1DossierPanel({
                     type="button"
                     variant="outline"
                     size="sm"
-<<<<<<< HEAD
-                    className="h-7 border-purple-200 bg-white text-[10px] text-purple-950"
-=======
                     className="border-accent-primary/25 text-text-primary h-7 bg-white text-[10px]"
->>>>>>> recover/cabinet-wip-from-stash
                     onClick={() =>
                       jumpToTzSectionAnchor('construction', W2_CONSTRUCTION_SUBPAGE_ANCHORS.hub)
                     }
@@ -9190,11 +8517,7 @@ export function Workshop2Phase1DossierPanel({
                     type="button"
                     variant="outline"
                     size="sm"
-<<<<<<< HEAD
-                    className="h-7 border-purple-200 bg-white text-[10px] text-purple-950"
-=======
                     className="border-accent-primary/25 text-text-primary h-7 bg-white text-[10px]"
->>>>>>> recover/cabinet-wip-from-stash
                     onClick={() =>
                       jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.hub)
                     }
@@ -9236,17 +8559,10 @@ export function Workshop2Phase1DossierPanel({
             <div className="border-border-subtle bg-bg-surface2/60 mt-4 rounded-lg border p-3">
               <div className="flex items-center justify-between gap-2">
                 <div>
-<<<<<<< HEAD
-                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                    Готовность досье
-                  </p>
-                  <p className="mt-1 text-sm font-semibold text-slate-900">
-=======
                   <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
                     Готовность досье
                   </p>
                   <p className="text-text-primary mt-1 text-sm font-semibold">
->>>>>>> recover/cabinet-wip-from-stash
                     {overallReadinessPct}% по всем секциям
                   </p>
                 </div>
@@ -9262,15 +8578,9 @@ export function Workshop2Phase1DossierPanel({
                   {tzReadyForSample ? 'Готово к передаче' : 'Черновик'}
                 </Badge>
               </div>
-<<<<<<< HEAD
-              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-100">
-                <div
-                  className="h-full rounded-full bg-indigo-500"
-=======
               <div className="bg-bg-surface2 mt-2 h-1.5 overflow-hidden rounded-full">
                 <div
                   className="bg-accent-primary h-full rounded-full"
->>>>>>> recover/cabinet-wip-from-stash
                   style={{ width: `${overallReadinessPct}%` }}
                 />
               </div>
@@ -9464,15 +8774,6 @@ export function Workshop2Phase1DossierPanel({
                         className="border-border-default flex flex-wrap items-start justify-between gap-2 rounded-md border bg-white p-2 text-sm"
                       >
                         <div className="min-w-0">
-<<<<<<< HEAD
-                          <p className="font-medium text-slate-800">
-                            {snap.label?.trim() || 'Без подписи'}
-                          </p>
-                          <p className="text-xs text-slate-500">
-                            {formatTzLogTimestamp(snap.at)} · {snap.by}
-                          </p>
-                          <p className="text-[11px] text-slate-500">
-=======
                           <p className="text-text-primary font-medium">
                             {snap.label?.trim() || 'Без подписи'}
                           </p>
@@ -9480,7 +8781,6 @@ export function Workshop2Phase1DossierPanel({
                             {formatTzLogTimestamp(snap.at)} · {snap.by}
                           </p>
                           <p className="text-text-secondary text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
                             Master: {snap.masterAnnotations?.length ?? 0} · Листов в снимке:{' '}
                             {snap.sheets?.length ?? 0}
                           </p>
@@ -9503,11 +8803,7 @@ export function Workshop2Phase1DossierPanel({
                   className="max-h-[50vh] space-y-2 overflow-y-auto pr-1"
                 >
                   {(dossier.sketchPinTemplates ?? []).length === 0 ? (
-<<<<<<< HEAD
-                    <p className="text-sm text-slate-500">
-=======
                     <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
                       В досье нет шаблонов. Сохраните метки кнопкой «В досье» над доской или на
                       скетч-листе.
                     </p>
@@ -9542,19 +8838,11 @@ export function Workshop2Phase1DossierPanel({
                   className="max-h-[50vh] space-y-2 overflow-y-auto pr-1"
                 >
                   {!String(collectionId ?? '').trim() ? (
-<<<<<<< HEAD
-                    <p className="text-sm text-slate-500">
-                      Нет id коллекции — библиотека недоступна.
-                    </p>
-                  ) : orgSketchTemplatesList.length === 0 ? (
-                    <p className="text-sm text-slate-500">
-=======
                     <p className="text-text-secondary text-sm">
                       Нет id коллекции — библиотека недоступна.
                     </p>
                   ) : orgSketchTemplatesList.length === 0 ? (
                     <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
                       В этом браузере для коллекции пока нет шаблонов. Сохраните метки кнопкой «В
                       коллекцию» над доской.
                     </p>
@@ -9590,33 +8878,20 @@ export function Workshop2Phase1DossierPanel({
         </div>
 
         <aside className="space-y-4 self-start xl:sticky xl:top-4">
-<<<<<<< HEAD
-          <div className="space-y-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-=======
           <div className="border-border-default space-y-4 rounded-xl border bg-white p-4 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <div id="w2-tz-digital-signoffs" className="scroll-mt-24 space-y-3">
               <div className="flex items-start gap-3">
                 <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
                   <LucideIcons.BadgeCheck className="h-4 w-4 shrink-0" aria-hidden />
                 </div>
                 <div className="min-w-0 space-y-1">
-<<<<<<< HEAD
-                  <h2 className="text-base font-semibold text-slate-900">Подтверждения ТЗ</h2>
-                  <p className="text-sm leading-snug text-slate-500">
-=======
                   <h2 className="text-text-primary text-base font-semibold">Подтверждения ТЗ</h2>
                   <p className="text-text-secondary text-sm leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                     Участники этапа «ТЗ» из паспорта: подпись и уведомление по строкам. Права ролей
                     — в{' '}
                     <Link
                       href={ROUTES.brand.teamPermissions}
-<<<<<<< HEAD
-                      className="font-medium text-indigo-600 underline"
-=======
                       className="text-accent-primary font-medium underline"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       Команда → права доступа
                     </Link>
@@ -9626,11 +8901,7 @@ export function Workshop2Phase1DossierPanel({
               </div>
               <div className="space-y-2">
                 {tzDigitalSignoffRows.length === 0 ? (
-<<<<<<< HEAD
-                  <p className="rounded-md border border-slate-100 bg-slate-50/60 px-3 py-2 text-[11px] text-slate-600">
-=======
                   <p className="border-border-subtle bg-bg-surface2/60 text-text-secondary rounded-md border px-3 py-2 text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
                     В паспорте нет участников на этапе «ТЗ»: отметьте этап у ролей и закрепите
                     исполнителей в «Ответственные за подпись ТЗ».
                   </p>
@@ -9684,11 +8955,7 @@ export function Workshop2Phase1DossierPanel({
         </div>
         {dossierMetricsFooterLine ? (
           <span
-<<<<<<< HEAD
-            className="text-[9px] leading-snug text-slate-400"
-=======
             className="text-text-muted text-[9px] leading-snug"
->>>>>>> recover/cabinet-wip-from-stash
             title="Локально в этом браузере, для оценки сессии"
           >
             {dossierMetricsFooterLine}
@@ -9842,32 +9109,19 @@ function MaterialSectionGuidesBeforeFields({ l2Name }: { l2Name?: string }) {
       role="region"
       aria-label="Подсказки к полям материалов"
     >
-<<<<<<< HEAD
-      <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">
-=======
       <p className="text-text-secondary text-[9px] font-black uppercase tracking-[0.2em]">
->>>>>>> recover/cabinet-wip-from-stash
         Подсказки к полям ниже
       </p>
       <div className="space-y-3">
         <div>
-<<<<<<< HEAD
-          <p className="text-[11px] font-semibold text-slate-900">Плотность полотна (г/м²)</p>
-          <p className="mt-1 rounded-r-md border-l-2 border-indigo-200 bg-indigo-50/35 py-1.5 pl-2 text-[10px] leading-snug text-slate-700">
-=======
           <p className="text-text-primary text-[11px] font-semibold">Плотность полотна (г/м²)</p>
           <p className="border-accent-primary/30 bg-accent-primary/10 text-text-primary mt-1 rounded-r-md border-l-2 py-1.5 pl-2 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
             Несколько тканей: укажите г/м² <span className="font-semibold">основного</span> полотна
             (наибольшая доля в составе) или <span className="font-semibold">лицевой</span> ткани
             корпуса. Подклад и утеплитель — отдельные строки в BOM; при необходимости добавьте
             плотность второго слоя в комментарии к строке материала.
             {outer ? (
-<<<<<<< HEAD
-              <span className="mt-1 block text-indigo-900/90">
-=======
               <span className="text-accent-primary/90 mt-1 block">
->>>>>>> recover/cabinet-wip-from-stash
                 Для пуховиков и парок: здесь — плотность{' '}
                 <span className="font-semibold">оболочки</span>; граммы наполнителя и FP/down — в
                 полях утеплителя и в строках BOM, согласованных со скетчем.
@@ -9876,13 +9130,8 @@ function MaterialSectionGuidesBeforeFields({ l2Name }: { l2Name?: string }) {
           </p>
         </div>
         <div>
-<<<<<<< HEAD
-          <p className="text-[11px] font-semibold text-slate-900">Температурный режим</p>
-          <p className="mt-1 text-[10px] leading-snug text-slate-600">
-=======
           <p className="text-text-primary text-[11px] font-semibold">Температурный режим</p>
           <p className="text-text-secondary mt-1 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
             Укажите целевой диапазон носки или класс по гайду бренда; согласуйте с утеплителем и
             сценарием использования изделия.
           </p>
@@ -9890,39 +9139,24 @@ function MaterialSectionGuidesBeforeFields({ l2Name }: { l2Name?: string }) {
         {outer ? (
           <>
             <div>
-<<<<<<< HEAD
-              <p className="text-[11px] font-semibold text-slate-900">Материал утеплителя</p>
-              <p className="mt-1 rounded-r-md border-l-2 border-amber-200 bg-amber-50/40 py-1.5 pl-2 text-[10px] leading-snug text-slate-800">
-=======
               <p className="text-text-primary text-[11px] font-semibold">Материал утеплителя</p>
               <p className="text-text-primary mt-1 rounded-r-md border-l-2 border-amber-200 bg-amber-50/40 py-1.5 pl-2 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                 Совместите с отдельной строкой «утеплитель» в справочнике материалов и при
                 необходимости с меткой <span className="font-semibold">material</span> на скетче —
                 чтобы закупка и конструкция ссылались на одно наименование.
               </p>
             </div>
             <div>
-<<<<<<< HEAD
-              <p className="text-[11px] font-semibold text-slate-900">Уровень утепления</p>
-              <p className="mt-1 rounded-r-md border-l-2 border-amber-200 bg-amber-50/40 py-1.5 pl-2 text-[10px] leading-snug text-slate-800">
-=======
               <p className="text-text-primary text-[11px] font-semibold">Уровень утепления</p>
               <p className="text-text-primary mt-1 rounded-r-md border-l-2 border-amber-200 bg-amber-50/40 py-1.5 pl-2 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                 Уровень утепления согласуйте с сценарием носки (город / активный отдых) и с
                 плотностью shell; при спорных значениях зафиксируйте решение в комментарии к
                 материалу или в техпаке.
               </p>
             </div>
             <div>
-<<<<<<< HEAD
-              <p className="text-[11px] font-semibold text-slate-900">Термо-технологии</p>
-              <p className="mt-1 rounded-r-md border-l-2 border-teal-200 bg-teal-50/40 py-1.5 pl-2 text-[10px] leading-snug text-slate-800">
-=======
               <p className="text-text-primary text-[11px] font-semibold">Термо-технологии</p>
               <p className="text-text-primary mt-1 rounded-r-md border-l-2 border-teal-200 bg-teal-50/40 py-1.5 pl-2 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                 Мембраны, отражающие слои и маркетинговые названия — продублируйте исполнимые
                 параметры (уход, паропроницаемость, стирка) в BOM или вложении техпака, чтобы
                 фабрика не гадала по бренду на вешалке.
@@ -9931,15 +9165,10 @@ function MaterialSectionGuidesBeforeFields({ l2Name }: { l2Name?: string }) {
           </>
         ) : null}
         <div>
-<<<<<<< HEAD
-          <p className="text-[11px] font-semibold text-slate-900">Уход: стирка и обработка (ТЗ)</p>
-          <p className="mt-1 text-[10px] leading-snug text-slate-600">
-=======
           <p className="text-text-primary text-[11px] font-semibold">
             Уход: стирка и обработка (ТЗ)
           </p>
           <p className="text-text-secondary mt-1 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
             Зафиксируйте класс ухода и ограничения, совместимые с подобранными материалами;
             критичное продублируйте в BOM или вложении техпака.
           </p>
@@ -9983,11 +9212,7 @@ function MaterialHandbookPicker({
             value={q}
             onChange={(e) => setQ(e.target.value)}
           />
-<<<<<<< HEAD
-          <div className="max-h-48 divide-y divide-slate-100 overflow-y-auto rounded-md border border-slate-100">
-=======
           <div className="border-border-subtle divide-border-subtle max-h-48 divide-y overflow-y-auto rounded-md border">
->>>>>>> recover/cabinet-wip-from-stash
             {available.length === 0 ? (
               <p className="text-text-secondary p-3 text-[11px]">
                 Нет позиций — измените фильтр или все материалы уже в строке состава.
@@ -9997,11 +9222,7 @@ function MaterialHandbookPicker({
                 <button
                   key={p.parameterId}
                   type="button"
-<<<<<<< HEAD
-                  className="w-full px-2 py-2 text-left text-sm hover:bg-slate-50"
-=======
                   className="hover:bg-bg-surface2 w-full px-2 py-2 text-left text-sm"
->>>>>>> recover/cabinet-wip-from-stash
                   onClick={() => {
                     onPick(p);
                     setQ('');
@@ -10175,19 +9396,11 @@ function MaterialCompositionBlock({
           onApplyLinked={() => {}}
         />
         <div>
-<<<<<<< HEAD
-          <p className="mb-1.5 text-[10px] font-semibold uppercase text-slate-500">
-            Выбранные материалы
-          </p>
-          {selectedRows.length === 0 ? (
-            <p className="text-[11px] text-slate-500">
-=======
           <p className="text-text-secondary mb-1.5 text-[10px] font-semibold uppercase">
             Выбранные материалы
           </p>
           {selectedRows.length === 0 ? (
             <p className="text-text-secondary text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
               Пока пусто — откройте «+ Добавить материал из справочника» выше или выберите типовой
               состав для категории.
             </p>
@@ -10197,11 +9410,7 @@ function MaterialCompositionBlock({
                 {selectedRows.map((p) => (
                   <div
                     key={p.parameterId}
-<<<<<<< HEAD
-                    className="flex h-9 shrink-0 items-center gap-2 rounded-md border border-slate-200 bg-white px-2 text-sm"
-=======
                     className="border-border-default flex h-9 shrink-0 items-center gap-2 rounded-md border bg-white px-2 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     <span
                       className="max-w-[10rem] truncate whitespace-nowrap leading-none"
@@ -10229,13 +9438,6 @@ function MaterialCompositionBlock({
     );
   }
 
-<<<<<<< HEAD
-  const rows = useMemo(
-    () => parseMatRowsFromDossier(dossier, paramLabelById),
-    [dossier, paramLabelById]
-  );
-=======
->>>>>>> recover/cabinet-wip-from-stash
   const pctByPid = Object.fromEntries(rows.map((r) => [r.parameterId, r.pct])) as Record<
     string,
     number
@@ -10291,11 +9493,7 @@ function MaterialCompositionBlock({
       />
 
       <div>
-<<<<<<< HEAD
-        <p className="mb-1.5 text-[10px] font-semibold uppercase text-slate-500">
-=======
         <p className="text-text-secondary mb-1.5 text-[10px] font-semibold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
           Выбранные материалы
         </p>
         {selectedRows.length === 0 ? (
@@ -10309,11 +9507,7 @@ function MaterialCompositionBlock({
               {selectedRows.map((r) => (
                 <div
                   key={r.parameterId}
-<<<<<<< HEAD
-                  className="flex h-9 shrink-0 items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2"
-=======
                   className="border-border-default flex h-9 shrink-0 items-center gap-1.5 rounded-md border bg-white px-2"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   <span
                     className="max-w-[9rem] truncate whitespace-nowrap text-sm leading-none sm:max-w-[11rem]"
@@ -10332,11 +9526,7 @@ function MaterialCompositionBlock({
                     aria-label={`Процент для ${r.label}`}
                     aria-invalid={sum !== 100 && rows.length > 0 ? true : undefined}
                   />
-<<<<<<< HEAD
-                  <span className="pr-0.5 text-xs leading-none text-slate-500">%</span>
-=======
                   <span className="text-text-secondary pr-0.5 text-xs leading-none">%</span>
->>>>>>> recover/cabinet-wip-from-stash
                   <Button
                     type="button"
                     variant="ghost"
@@ -10506,22 +9696,14 @@ function TechPackAttachmentsBlock({
             <Input
               type="file"
               multiple
-<<<<<<< HEAD
-              className="h-9 min-h-9 w-full cursor-pointer border-0 bg-transparent px-0 py-0 text-sm leading-9 shadow-none file:mr-3 file:inline-flex file:h-9 file:items-center file:border-0 file:bg-transparent file:px-0 file:py-0 file:text-sm file:font-medium file:leading-9 file:text-slate-800"
-=======
               className="file:text-text-primary h-9 min-h-9 w-full cursor-pointer border-0 bg-transparent px-0 py-0 text-sm leading-9 shadow-none file:mr-3 file:inline-flex file:h-9 file:items-center file:border-0 file:bg-transparent file:px-0 file:py-0 file:text-sm file:font-medium file:leading-9"
->>>>>>> recover/cabinet-wip-from-stash
               onChange={onPick}
             />
           </div>
           <p className="text-text-secondary text-left text-[10px]">Слотов: {remaining}.</p>
         </div>
       ) : (
-<<<<<<< HEAD
-        <p className="text-[11px] text-slate-500">
-=======
         <p className="text-text-secondary text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
           Достигнут лимит {MAX_TECH_PACK_FILES} вложений.
         </p>
       )}
@@ -10939,13 +10121,8 @@ function VisualReferencesBlock({
           <LucideIcons.Images className="h-4 w-4 shrink-0" aria-hidden />
         </div>
         <div className="min-w-0 flex-1 space-y-1">
-<<<<<<< HEAD
-          <h2 className="text-base font-semibold text-slate-900">Референсы</h2>
-          <p className="text-sm leading-snug text-slate-500">
-=======
           <h2 className="text-text-primary text-base font-semibold">Референсы</h2>
           <p className="text-text-secondary text-sm leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
             До {MAX_VISUAL_REFERENCES} файлов; в карточке — что берёте с рефа. Звезда — канон;
             комментарии — в полноэкране.
           </p>
@@ -10959,13 +10136,8 @@ function VisualReferencesBlock({
       </div>
 
       {items.length > 0 ? (
-<<<<<<< HEAD
-        <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
-          <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-=======
         <div className="border-border-subtle flex flex-wrap items-center gap-2 border-t pt-3">
           <span className="text-text-secondary text-[10px] font-semibold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
             Вид сетки
           </span>
           <Button
@@ -11032,11 +10204,7 @@ function VisualReferencesBlock({
                     <button
                       type="button"
                       className={cn(
-<<<<<<< HEAD
-                        'group relative w-full overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm outline-none ring-indigo-400/60 transition hover:ring-2 focus-visible:ring-2',
-=======
                         'border-border-default ring-accent-primary/60 group relative w-full overflow-hidden rounded-md border bg-white shadow-sm outline-none transition hover:ring-2 focus-visible:ring-2',
->>>>>>> recover/cabinet-wip-from-stash
                         tileAspect,
                         isMainPhoto && 'ring-2 ring-amber-400/80'
                       )}
@@ -11073,11 +10241,7 @@ function VisualReferencesBlock({
                       ) : null}
                       {hasComments ? (
                         <span
-<<<<<<< HEAD
-                          className="absolute bottom-0.5 left-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-white/95 text-indigo-600 shadow-sm ring-1 ring-indigo-200"
-=======
                           className="text-accent-primary ring-accent-primary/30 absolute bottom-0.5 left-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-white/95 shadow-sm ring-1"
->>>>>>> recover/cabinet-wip-from-stash
                           title="Есть комментарии"
                           aria-hidden
                         >
@@ -11110,11 +10274,7 @@ function VisualReferencesBlock({
                     {!isVideo ? (
                       <button
                         type="button"
-<<<<<<< HEAD
-                        className="absolute right-0.5 top-0.5 z-10 flex h-6 w-6 items-center justify-center rounded bg-white/95 text-indigo-700 shadow-sm ring-1 ring-indigo-200/80 transition hover:bg-indigo-50"
-=======
                         className="text-accent-primary ring-accent-primary/30 hover:bg-accent-primary/10 absolute right-0.5 top-0.5 z-10 flex h-6 w-6 items-center justify-center rounded bg-white/95 shadow-sm ring-1 transition"
->>>>>>> recover/cabinet-wip-from-stash
                         title="Открыть окно: затем клик по фото для лупы"
                         aria-label="Открыть просмотр с режимом лупы"
                         onClick={(e) => {
@@ -11129,11 +10289,7 @@ function VisualReferencesBlock({
                     <div className="absolute bottom-0.5 right-0.5 z-10 flex gap-0.5">
                       <button
                         type="button"
-<<<<<<< HEAD
-                        className="flex h-6 w-6 items-center justify-center rounded bg-white/95 text-slate-600 shadow-sm ring-1 ring-slate-200/80 transition hover:bg-slate-50 disabled:opacity-30"
-=======
                         className="text-text-secondary ring-border-default/80 hover:bg-bg-surface2 flex h-6 w-6 items-center justify-center rounded bg-white/95 shadow-sm ring-1 transition disabled:opacity-30"
->>>>>>> recover/cabinet-wip-from-stash
                         title="Сдвинуть раньше"
                         aria-label="Сдвинуть раньше в списке"
                         disabled={index <= 0}
@@ -11147,11 +10303,7 @@ function VisualReferencesBlock({
                       </button>
                       <button
                         type="button"
-<<<<<<< HEAD
-                        className="flex h-6 w-6 items-center justify-center rounded bg-white/95 text-slate-600 shadow-sm ring-1 ring-slate-200/80 transition hover:bg-slate-50 disabled:opacity-30"
-=======
                         className="text-text-secondary ring-border-default/80 hover:bg-bg-surface2 flex h-6 w-6 items-center justify-center rounded bg-white/95 shadow-sm ring-1 transition disabled:opacity-30"
->>>>>>> recover/cabinet-wip-from-stash
                         title="Сдвинуть позже"
                         aria-label="Сдвинуть позже в списке"
                         disabled={index >= items.length - 1}
@@ -11186,11 +10338,7 @@ function VisualReferencesBlock({
                     if (!asp && !note) return null;
                     return (
                       <p
-<<<<<<< HEAD
-                        className="mt-1 line-clamp-2 text-[9px] leading-snug text-slate-600"
-=======
                         className="text-text-secondary mt-1 line-clamp-2 text-[9px] leading-snug"
->>>>>>> recover/cabinet-wip-from-stash
                         title={note || asp}
                       >
                         {[asp, note].filter(Boolean).join(' — ')}
@@ -11264,11 +10412,7 @@ function VisualReferencesBlock({
             <button
               type="button"
               className={cn(
-<<<<<<< HEAD
-                'flex min-h-0 w-full items-center justify-center rounded-md border border-dashed border-slate-300 bg-slate-50 text-lg font-bold leading-none text-slate-600 transition hover:bg-slate-100',
-=======
                 'border-border-default bg-bg-surface2 text-text-secondary hover:bg-bg-surface2 flex min-h-0 w-full items-center justify-center rounded-md border border-dashed text-lg font-bold leading-none transition',
->>>>>>> recover/cabinet-wip-from-stash
                 refViewMode === 'board'
                   ? 'aspect-[4/3] max-h-[200px]'
                   : 'aspect-square max-h-[120px]'
@@ -11491,19 +10635,11 @@ function VisualReferencesBlock({
                   />
                 </div>
 
-<<<<<<< HEAD
-                <div className="space-y-2 border-t border-slate-100 pt-3">
-                  <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">
-                    Обсуждение
-                  </p>
-                  <div className="flex max-h-52 flex-col gap-2 overflow-y-auto rounded-lg border border-slate-100 bg-slate-50/80 p-2">
-=======
                 <div className="border-border-subtle space-y-2 border-t pt-3">
                   <p className="text-text-muted text-[10px] font-black uppercase tracking-wider">
                     Обсуждение
                   </p>
                   <div className="border-border-subtle bg-bg-surface2/80 flex max-h-52 flex-col gap-2 overflow-y-auto rounded-lg border p-2">
->>>>>>> recover/cabinet-wip-from-stash
                     {sortedComments.length === 0 ? (
                       <p className="text-text-secondary text-center text-[11px]">
                         Пока нет сообщений.
@@ -11701,13 +10837,8 @@ function VisualReferencesBlock({
                       className={cn(
                         'flex cursor-pointer items-center gap-1.5 rounded-md border px-2 py-1 text-[11px] transition',
                         on
-<<<<<<< HEAD
-                          ? 'border-indigo-300 bg-indigo-50 text-indigo-900'
-                          : 'border-slate-200 bg-white text-slate-700'
-=======
                           ? 'border-accent-primary/30 bg-accent-primary/10 text-accent-primary'
                           : 'border-border-default text-text-primary bg-white'
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       <input
@@ -11746,21 +10877,13 @@ function VisualReferencesBlock({
                 className="h-9 cursor-pointer text-xs"
               />
               {refEditorId ? (
-<<<<<<< HEAD
-                <p className="text-[10px] text-slate-500">
-=======
                 <p className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                   Оставьте поле пустым, чтобы сохранить текущий файл.
                 </p>
               ) : null}
             </div>
           </div>
-<<<<<<< HEAD
-          <DialogFooter className="border-t border-slate-100 px-4 py-3 sm:px-5">
-=======
           <DialogFooter className="border-border-subtle border-t px-4 py-3 sm:px-5">
->>>>>>> recover/cabinet-wip-from-stash
             <Button
               type="button"
               variant="outline"
@@ -12365,11 +11488,7 @@ function SampleBaseSizeBlock({
           </select>
         </div>
         <div className="min-w-0 flex-1 space-y-1">
-<<<<<<< HEAD
-          <Label className="text-[10px] font-bold uppercase text-slate-400">
-=======
           <Label className="text-text-muted text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
             Свой размер (через запятую)
           </Label>
           <Input
@@ -12382,11 +11501,7 @@ function SampleBaseSizeBlock({
       </div>
 
       <div className="space-y-1.5">
-<<<<<<< HEAD
-        <Label className="text-[10px] font-bold uppercase text-slate-400">
-=======
         <Label className="text-text-muted text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
           Выбор из справочника
         </Label>
         <HandbookMultiSelectPopover
@@ -12412,11 +11527,7 @@ function SampleBaseSizeBlock({
       </div>
 
       {handbookParts.length > 0 ? (
-<<<<<<< HEAD
-        <p className="rounded-lg border border-slate-100 bg-slate-50/90 px-3 py-2 text-[11px] leading-snug text-slate-600">
-=======
         <p className="border-border-subtle bg-bg-surface2/90 text-text-secondary rounded-lg border px-3 py-2 text-[11px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
           Нужны мерки вне стандартного справочника (объём капюшона, шаг плеча бренда, длина по
           боковому шву и т.п.)? В таблице ниже нажмите «+» справа от заголовков — добавьте колонку,
           задайте подпись и заполните значения по размерам. Лишние стандартные мерки можно скрыть
@@ -12425,11 +11536,7 @@ function SampleBaseSizeBlock({
       ) : null}
 
       {handbookParts.length > 0 && (visibleDimLabels.length > 0 || extras.length > 0) ? (
-<<<<<<< HEAD
-        <div className="min-w-0 max-w-full rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
-=======
         <div className="border-border-default min-w-0 max-w-full rounded-xl border bg-white p-1 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
           {capActive && tablePieceSum > moqCap! ? (
             <p className="mx-1 mb-2 rounded-md border border-amber-200 bg-amber-50/90 px-2 py-1.5 text-[11px] text-amber-900">
               Сумма «Кол-во, шт» ({tablePieceSum}) больше количества образцов в паспорте ({moqCap}).
@@ -12456,11 +11563,7 @@ function SampleBaseSizeBlock({
                 type="button"
                 variant="outline"
                 size="sm"
-<<<<<<< HEAD
-                className="h-7 border-indigo-100 bg-white text-[10px] text-indigo-700 shadow-sm hover:bg-indigo-50"
-=======
                 className="border-accent-primary/20 text-accent-primary hover:bg-accent-primary/10 h-7 bg-white text-[10px] shadow-sm"
->>>>>>> recover/cabinet-wip-from-stash
                 onClick={fillAllSuggestions}
               >
                 <LucideIcons.Sparkles className="mr-1 h-3 w-3" />
@@ -12475,11 +11578,7 @@ function SampleBaseSizeBlock({
                   disabled={dimsWithSuggestionRange.every((k) => rangeKeysSet.has(k))}
                   onClick={() => addAllSuggestedRangeDimensions()}
                 >
-<<<<<<< HEAD
-                  <LucideIcons.Sparkles className="mr-1 h-3 w-3 text-indigo-500" />
-=======
                   <LucideIcons.Sparkles className="text-accent-primary mr-1 h-3 w-3" />
->>>>>>> recover/cabinet-wip-from-stash
                   Все мерки с «число–число»
                 </Button>
               )}
@@ -12489,11 +11588,7 @@ function SampleBaseSizeBlock({
             <div className="min-w-max space-y-3 px-2">
               <div className="border-border-subtle flex flex-nowrap items-end gap-x-2 gap-y-2 border-b pb-2">
                 <div className="min-w-[5rem] max-w-[9rem] shrink-0 pb-2" aria-hidden>
-<<<<<<< HEAD
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                   <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Размер
                   </span>
                 </div>
@@ -12514,11 +11609,7 @@ function SampleBaseSizeBlock({
                         ×
                       </button>
                       <Input
-<<<<<<< HEAD
-                        className="h-8 w-full px-1 pr-4 text-[9px] font-medium leading-tight text-slate-500"
-=======
                         className="text-text-secondary h-8 w-full px-1 pr-4 text-[9px] font-medium leading-tight"
->>>>>>> recover/cabinet-wip-from-stash
                         value={display}
                         onChange={(e) => setStandardLabelOverride(canon, e.target.value)}
                         aria-label="Подпись мерки"
@@ -12533,13 +11624,9 @@ function SampleBaseSizeBlock({
                             }}
                             className="h-3 w-3"
                           />
-<<<<<<< HEAD
-                          <span className="text-[8px] leading-none text-slate-500">мин–макс</span>
-=======
                           <span className="text-text-secondary text-[8px] leading-none">
                             мин–макс
                           </span>
->>>>>>> recover/cabinet-wip-from-stash
                         </label>
                       ) : null}
                     </div>
@@ -12562,11 +11649,7 @@ function SampleBaseSizeBlock({
                         ×
                       </button>
                       <Input
-<<<<<<< HEAD
-                        className="h-8 w-full px-1 pr-4 text-[9px] font-medium leading-tight text-slate-500"
-=======
                         className="text-text-secondary h-8 w-full px-1 pr-4 text-[9px] font-medium leading-tight"
->>>>>>> recover/cabinet-wip-from-stash
                         value={ex.label}
                         onChange={(e) => {
                           const v = e.target.value;
@@ -12589,24 +11672,16 @@ function SampleBaseSizeBlock({
                             }}
                             className="h-3 w-3"
                           />
-<<<<<<< HEAD
-                          <span className="text-[8px] leading-none text-slate-500">мин–макс</span>
-=======
                           <span className="text-text-secondary text-[8px] leading-none">
                             мин–макс
                           </span>
->>>>>>> recover/cabinet-wip-from-stash
                         </label>
                       ) : null}
                     </div>
                   );
                 })}
                 <div className="w-[4.5rem] shrink-0 pb-2">
-<<<<<<< HEAD
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                   <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Кол-во, шт
                   </span>
                 </div>
@@ -12615,19 +11690,11 @@ function SampleBaseSizeBlock({
               {handbookParts.map((part, idx) => (
                 <div
                   key={part.parameterId}
-<<<<<<< HEAD
-                  className="flex flex-nowrap items-center gap-x-2 gap-y-2 border-b border-slate-100 pb-3 last:border-0 last:pb-0"
-                  aria-label={sizeLineForPart(part)}
-                >
-                  <div className="flex min-h-9 min-w-[4.5rem] max-w-[9rem] shrink-0 items-center">
-                    <span className="text-sm font-medium leading-snug text-slate-900">
-=======
                   className="border-border-subtle flex flex-nowrap items-center gap-x-2 gap-y-2 border-b pb-3 last:border-0 last:pb-0"
                   aria-label={sizeLineForPart(part)}
                 >
                   <div className="flex min-h-9 min-w-[4.5rem] max-w-[9rem] shrink-0 items-center">
                     <span className="text-text-primary text-sm font-medium leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                       {sizeLineForPart(part)}
                     </span>
                   </div>
@@ -12679,11 +11746,7 @@ function SampleBaseSizeBlock({
                               type="button"
                               variant="ghost"
                               size="sm"
-<<<<<<< HEAD
-                              className="h-6 px-1 text-[9px] text-slate-600"
-=======
                               className="text-text-secondary h-6 px-1 text-[9px]"
->>>>>>> recover/cabinet-wip-from-stash
                               disabled={!midpointNominalSuggestion(rc.min, rc.max)}
                               onClick={() => {
                                 const m = midpointNominalSuggestion(rc.min, rc.max);
@@ -12765,11 +11828,7 @@ function SampleBaseSizeBlock({
                               type="button"
                               variant="ghost"
                               size="sm"
-<<<<<<< HEAD
-                              className="h-6 px-1 text-[9px] text-slate-600"
-=======
                               className="text-text-secondary h-6 px-1 text-[9px]"
->>>>>>> recover/cabinet-wip-from-stash
                               disabled={!midpointNominalSuggestion(rc.min, rc.max)}
                               onClick={() => {
                                 const m = midpointNominalSuggestion(rc.min, rc.max);
@@ -12866,18 +11925,6 @@ function AttributeRowEditor({
     freeText?: string;
   }) => void;
 }) {
-<<<<<<< HEAD
-  if (attribute.attributeId === 'color' && patchColor) {
-    return <ColorAttributeRow attribute={attribute} dossier={dossier} patchColor={patchColor} />;
-  }
-
-  const a = dossier.assignments.find(
-    (x) => x.kind === 'canonical' && x.attributeId === attribute.attributeId
-  );
-  const { hbs, ft } = partitionHandbookAndFree(a);
-  const freeStr = ft?.text ?? '';
-=======
->>>>>>> recover/cabinet-wip-from-stash
   const handbookParts = useMemo(() => {
     const assign = dossier.assignments.find(
       (x) => x.kind === 'canonical' && x.attributeId === attribute.attributeId
@@ -13143,11 +12190,7 @@ function ColorAttributeRow({
           embedded ? 'mb-4' : 'mb-6'
         )}
       >
-<<<<<<< HEAD
-        <p className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'leading-tight text-indigo-950')}>
-=======
         <p className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-accent-primary leading-tight')}>
->>>>>>> recover/cabinet-wip-from-stash
           Палитра и градиент
         </p>
         <Label
@@ -13159,27 +12202,6 @@ function ColorAttributeRow({
           Свой оттенок
         </Label>
 
-<<<<<<< HEAD
-        <div className="min-w-0 overflow-hidden rounded-md border border-indigo-100 bg-white sm:self-start">
-          <button
-            type="button"
-            className="flex h-9 w-full items-center gap-2 px-2 text-left text-sm hover:bg-slate-50/80"
-            onClick={() => setPaletteOpen((o) => !o)}
-          >
-            <span
-              className="h-2.5 w-2.5 shrink-0 rounded-full border border-slate-200 shadow-sm"
-              style={summarySwatchStyle}
-            />
-            <span className="min-w-0 flex-1 truncate font-medium leading-none text-slate-800">
-              {summaryLabel}
-            </span>
-            <span className="shrink-0 text-[10px] text-slate-400">{paletteOpen ? '▲' : '▼'}</span>
-          </button>
-          {paletteOpen ? (
-            <div className="border-t border-indigo-100/80 bg-indigo-50/20 p-2">
-              <Input
-                className="mb-2 h-9 border-indigo-100 text-sm"
-=======
         <div className="border-accent-primary/20 min-w-0 overflow-hidden rounded-md border bg-white sm:self-start">
           <button
             type="button"
@@ -13199,7 +12221,6 @@ function ColorAttributeRow({
             <div className="border-accent-primary/20 bg-accent-primary/10 border-t p-2">
               <Input
                 className="border-accent-primary/20 mb-2 h-9 text-sm"
->>>>>>> recover/cabinet-wip-from-stash
                 placeholder="Фильтр по названию цвета…"
                 value={palFilter}
                 onChange={(e) => setPalFilter(e.target.value)}
@@ -13215,45 +12236,28 @@ function ColorAttributeRow({
                     : 'Показать всю палитру'}
                 </button>
               ) : null}
-<<<<<<< HEAD
-              <div className="max-h-52 divide-y divide-indigo-100/80 overflow-y-auto rounded-md border border-indigo-100 bg-white">
-                <button
-                  type="button"
-                  className="flex h-9 w-full items-center gap-2 px-2 text-left text-sm hover:bg-slate-50"
-=======
               <div className="divide-accent-primary/20 border-accent-primary/20 max-h-52 divide-y overflow-y-auto rounded-md border bg-white">
                 <button
                   type="button"
                   className="hover:bg-bg-surface2 flex h-9 w-full items-center gap-2 px-2 text-left text-sm"
->>>>>>> recover/cabinet-wip-from-stash
                   onClick={() => {
                     pickHandbook('', '');
                     setPaletteOpen(false);
                     setPalFilter('');
                   }}
                 >
-<<<<<<< HEAD
-                  <span className="h-2.5 w-2.5 shrink-0 rounded-full border border-dashed border-slate-300 bg-slate-50" />
-                  <span className="leading-none text-slate-500">Не выбрано из справочника</span>
-=======
                   <span className="border-border-default bg-bg-surface2 h-2.5 w-2.5 shrink-0 rounded-full border border-dashed" />
                   <span className="text-text-secondary leading-none">
                     Не выбрано из справочника
                   </span>
->>>>>>> recover/cabinet-wip-from-stash
                 </button>
                 {filteredPalette.map((p) => (
                   <button
                     key={p.parameterId}
                     type="button"
                     className={cn(
-<<<<<<< HEAD
-                      'flex h-9 w-full items-center gap-2 px-2 text-left text-sm hover:bg-slate-50',
-                      currentPid === p.parameterId && 'bg-indigo-50/80'
-=======
                       'hover:bg-bg-surface2 flex h-9 w-full items-center gap-2 px-2 text-left text-sm',
                       currentPid === p.parameterId && 'bg-accent-primary/15'
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                     onClick={() => {
                       pickHandbook(p.parameterId, p.label);
@@ -13262,11 +12266,7 @@ function ColorAttributeRow({
                     }}
                   >
                     <span
-<<<<<<< HEAD
-                      className="h-2.5 w-2.5 shrink-0 rounded-full border border-slate-200 shadow-inner"
-=======
                       className="border-border-default h-2.5 w-2.5 shrink-0 rounded-full border shadow-inner"
->>>>>>> recover/cabinet-wip-from-stash
                       style={
                         p.colorHex
                           ? { backgroundColor: p.colorHex }
@@ -13443,11 +12443,7 @@ function WorkshopPassportColorBundle({
         {primary ? (
           <div className="border-border-subtle bg-bg-surface2/40 space-y-2 rounded-md border p-3">
             <div className="flex items-center gap-1">
-<<<<<<< HEAD
-              <Label className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-indigo-950')}>
-=======
               <Label className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-accent-primary')}>
->>>>>>> recover/cabinet-wip-from-stash
                 {primary.attribute.name}
               </Label>
               {showAttributeHintIcons ? (
@@ -13469,11 +12465,7 @@ function WorkshopPassportColorBundle({
         {refRow ? (
           <div className="border-border-subtle bg-bg-surface2/40 space-y-2 rounded-md border p-3 pt-4">
             <div className="flex items-center gap-1">
-<<<<<<< HEAD
-              <Label className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-indigo-950')}>
-=======
               <Label className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-accent-primary')}>
->>>>>>> recover/cabinet-wip-from-stash
                 {refRow.attribute.name}
               </Label>
               {showAttributeHintIcons ? (
@@ -13496,11 +12488,7 @@ function WorkshopPassportColorBundle({
           <div className="border-border-subtle space-y-2 border-t pt-4">
             {showAttributeHintIcons ? (
               <div className="flex items-center gap-1">
-<<<<<<< HEAD
-                <span className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-indigo-950')}>
-=======
                 <span className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-accent-primary')}>
->>>>>>> recover/cabinet-wip-from-stash
                   {colorRow.attribute.name}
                 </span>
                 <WorkshopAttributeHintIcon attribute={colorRow.attribute} />

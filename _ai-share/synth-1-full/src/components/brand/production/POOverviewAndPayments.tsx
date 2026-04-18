@@ -45,11 +45,7 @@ export function POOverviewAndPayments({
   const totalPending = pending.reduce((s, o) => s + (o.total || 0), 0);
 
   return (
-<<<<<<< HEAD
-    <Card className="rounded-xl border border-slate-100 shadow-sm">
-=======
     <Card className="border-border-subtle rounded-xl border shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
       <CardHeader className="flex flex-row items-center justify-between px-4 py-2">
         <CardTitle className="flex items-center gap-2 text-[10px] font-black uppercase">
           <Package className="h-4 w-4" /> Сводка по PO

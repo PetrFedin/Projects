@@ -40,25 +40,11 @@ export default function TradeShowAppointmentsPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-3xl px-4 py-6">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2bTradeShows}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-          <Calendar className="h-6 w-6" /> Запись на встречи
-        </h1>
-      </div>
-=======
     <RegistryPageShell className="max-w-3xl space-y-6">
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bTradeShows}
         lead="Запись на встречи с брендами на выставке."
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -78,11 +64,7 @@ export default function TradeShowAppointmentsPage() {
           <Card className="mb-6">
             <CardHeader>
               <CardTitle>{event.name}</CardTitle>
-<<<<<<< HEAD
-              <p className="text-sm text-slate-500">
-=======
               <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
                 {event.startDate} – {event.endDate} · {event.city}
               </p>
             </CardHeader>
@@ -134,10 +116,6 @@ export default function TradeShowAppointmentsPage() {
       <Button variant="outline" className="mt-6" asChild>
         <Link href={ROUTES.shop.b2bTradeShows}>← К выставкам</Link>
       </Button>
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

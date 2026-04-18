@@ -31,14 +31,6 @@ export const PROFILE_MAIN_PAGES: Record<ProfileKey, string[]> = {
   /** `/shop` — дашборд; `/shop/b2b` — редирект на `/shop`; сценарии — в сайдбаре. */
   shop: ['/shop', '/shop/b2b'],
   retailer: ['/shop', '/shop/b2b'],
-<<<<<<< HEAD
-  distributor: ['/distributor'],
-  factory: ['/factory'],
-  manufacturer: ['/factory'],
-  supplier: ['/factory'],
-  client: [
-    '/client',
-=======
   distributor: [ROUTES.distributor.home],
   factory: [ROUTES.factory.production, ROUTES.factory.supplier],
   manufacturer: [ROUTES.factory.production],
@@ -46,7 +38,6 @@ export const PROFILE_MAIN_PAGES: Record<ProfileKey, string[]> = {
   client: [
     '/client',
     '/client/me',
->>>>>>> recover/cabinet-wip-from-stash
     '/client/wardrobe',
     '/client/try-before-you-buy',
     '/client/wishlist',
@@ -60,27 +51,19 @@ export const PROFILE_MAIN_PAGES: Record<ProfileKey, string[]> = {
 
 /** Resource → основные маршруты (для поиска, breadcrumb) */
 export const RESOURCE_TO_ROUTES: Record<Resource, string[]> = {
-<<<<<<< HEAD
-  brand_profile: ['/brand', '/brand?group=profile'],
-=======
   brand_profile: ['/brand/profile', '/brand/profile?group=profile', '/brand?group=profile'],
->>>>>>> recover/cabinet-wip-from-stash
   production: [
     '/brand/production',
     '/brand/production/operations',
     '/brand/factories',
     '/brand/materials',
   ],
-<<<<<<< HEAD
-  b2b_orders: ['/brand/b2b-orders', '/brand/showroom', '/brand/b2b/linesheets', '/shop/b2b/orders'],
-=======
   b2b_orders: [
     ROUTES.brand.b2bOrders,
     '/brand/showroom',
     '/brand/b2b/linesheets',
     '/shop/b2b/orders',
   ],
->>>>>>> recover/cabinet-wip-from-stash
   b2b_catalog: [
     '/brand/products',
     '/brand/collections',
@@ -97,9 +80,6 @@ export const RESOURCE_TO_ROUTES: Record<Resource, string[]> = {
     '/brand/analytics-bi',
     '/brand/control-center',
     '/brand/dashboard',
-<<<<<<< HEAD
-  ],
-=======
     ROUTES.shop.analytics,
     ROUTES.shop.analyticsFootfall,
     ROUTES.shop.b2bAnalytics,
@@ -121,7 +101,6 @@ export const RESOURCE_TO_ROUTES: Record<Resource, string[]> = {
   ],
   /** AI, академия, HR — группа «AI и обучение» (ворота `learning`). */
   learning: [ROUTES.brand.aiDesign, ROUTES.brand.aiTools, ROUTES.brand.academy, ROUTES.brand.hrHub],
->>>>>>> recover/cabinet-wip-from-stash
   edo: ['/brand/documents', '/brand/compliance'],
   settings: ['/brand/settings', '/brand/security', '/brand/subscription'],
 };
@@ -225,17 +204,6 @@ export function canAccessHub(role: string, hub: HubKey): boolean {
         'merchandiser',
       ].includes(role);
     case 'shop':
-<<<<<<< HEAD
-      return ['retailer', 'buyer', 'distributor', 'sales_rep', 'merchandiser'].includes(role);
-    case 'factory':
-      return [
-        'manufacturer',
-        'supplier',
-        'designer',
-        'technologist',
-        'production_manager',
-      ].includes(role);
-=======
       return [
         'retailer',
         'buyer',
@@ -248,7 +216,6 @@ export function canAccessHub(role: string, hub: HubKey): boolean {
       return ['manufacturer', 'designer', 'technologist', 'production_manager'].includes(role);
     case 'supplier':
       return role === 'supplier';
->>>>>>> recover/cabinet-wip-from-stash
     case 'distributor':
       return role === 'distributor';
     case 'client':

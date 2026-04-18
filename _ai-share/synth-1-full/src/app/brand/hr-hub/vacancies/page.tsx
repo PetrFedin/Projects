@@ -6,20 +6,6 @@ import { RegistryPageHeader, RegistryPageShell } from '@/components/design-syste
 
 export default function VacanciesPage() {
   return (
-<<<<<<< HEAD
-    <div className="mx-auto max-w-5xl space-y-4">
-      <div>
-        <h2 className="text-lg font-black uppercase tracking-tight">Вакансии и резюме</h2>
-        <p className="mt-1 text-sm font-medium text-muted-foreground">
-          Открытые позиции, отклики и этапы отбора кандидатов.
-        </p>
-      </div>
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card className="rounded-xl border border-slate-100">
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
-              <Briefcase className="h-4 w-4 text-indigo-600" />
-=======
     <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
       <RegistryPageHeader
         title="Вакансии и резюме"
@@ -30,7 +16,6 @@ export default function VacanciesPage() {
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
               <Briefcase className="text-accent-primary h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
               Open positions
             </CardTitle>
             <CardDescription className="text-xs">Активных вакансий</CardDescription>

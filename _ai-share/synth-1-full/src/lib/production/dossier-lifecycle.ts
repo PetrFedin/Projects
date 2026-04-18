@@ -76,15 +76,9 @@ export function getLifecycleStateLabel(state: Workshop2DossierLifecycleState): s
 export function getLifecycleStateBadgeClass(state: Workshop2DossierLifecycleState): string {
   switch (state) {
     case 'draft':
-<<<<<<< HEAD
-      return 'bg-slate-100 text-slate-700 border-slate-200';
-    case 'handoff_ready':
-      return 'bg-indigo-50 text-indigo-800 border-indigo-200';
-=======
       return 'bg-bg-surface2 text-text-primary border-border-default';
     case 'handoff_ready':
       return 'bg-accent-primary/10 text-accent-primary border-accent-primary/30';
->>>>>>> recover/cabinet-wip-from-stash
     case 'sent_to_production':
       return 'bg-amber-50 text-amber-800 border-amber-200';
     case 'accepted':

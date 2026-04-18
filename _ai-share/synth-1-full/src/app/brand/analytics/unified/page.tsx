@@ -5,21 +5,7 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-<<<<<<< HEAD
-import {
-  BarChart3,
-  Package,
-  Store,
-  Tag,
-  Globe,
-  TrendingUp,
-  ArrowLeft,
-  Download,
-  Layers,
-} from 'lucide-react';
-=======
 import { BarChart3, Package, Store, Globe, ArrowLeft, Layers } from 'lucide-react';
->>>>>>> recover/cabinet-wip-from-stash
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getAnalyticsLinks } from '@/lib/data/entity-links';
@@ -39,11 +25,7 @@ const MOCK_UNIFIED = {
       label: 'Внешние (партнёры)',
       value: '4.83M ₽',
       share: 42,
-<<<<<<< HEAD
-      color: 'bg-violet-500',
-=======
       color: 'bg-accent-primary/100',
->>>>>>> recover/cabinet-wip-from-stash
     },
   ],
   byCollection: [
@@ -79,25 +61,6 @@ export default function UnifiedAnalyticsPage() {
   const [data] = useState(() => buildBIDashboard());
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href={ROUTES.brand.analyticsBi}>
-            <ArrowLeft className="h-4 w-4" />
-          </Link>
-        </Button>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <TrendingUp className="h-6 w-6" /> Сводная аналитика
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Полный анализ: B2B, Маркетрум, Аутлет и продажи закупленных коллекций на других
-            площадках — все данные сведены на платформе.
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="Сводная аналитика"
@@ -110,7 +73,6 @@ export default function UnifiedAnalyticsPage() {
           </Button>
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="border-accent-primary/20 from-accent-primary/10 bg-gradient-to-br to-white">
         <CardHeader>
@@ -118,33 +80,20 @@ export default function UnifiedAnalyticsPage() {
           <CardDescription>Сумма по всем источникам за отчётный период</CardDescription>
         </CardHeader>
         <CardContent>
-<<<<<<< HEAD
-          <p className="text-3xl font-black text-indigo-700">{MOCK_UNIFIED.totalRevenue}</p>
-          <p className="mt-1 text-xs text-slate-500">
-=======
           <p className="text-accent-primary text-3xl font-black">{MOCK_UNIFIED.totalRevenue}</p>
           <p className="text-text-secondary mt-1 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
             B2B + платформа (Маркетрум, Аутлет) + внешние продажи партнёров
           </p>
         </CardContent>
       </Card>
 
       <Tabs defaultValue="channels" className="space-y-4">
-<<<<<<< HEAD
-        <TabsList className="rounded-xl bg-slate-100 p-1">
-          <TabsTrigger value="channels" className="rounded-lg">
-            По каналам
-          </TabsTrigger>
-          <TabsTrigger value="collections" className="rounded-lg">
-=======
         {/* cabinetSurface v1 */}
         <TabsList className={cn(cabinetSurface.tabsList, 'w-fit flex-wrap')}>
           <TabsTrigger value="channels" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
             По каналам
           </TabsTrigger>
           <TabsTrigger value="collections" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
->>>>>>> recover/cabinet-wip-from-stash
             По коллекциям
           </TabsTrigger>
         </TabsList>
@@ -166,22 +115,14 @@ export default function UnifiedAnalyticsPage() {
                       <div className={cn('h-3 w-3 rounded-full', ch.color)} />
                       <span className="text-sm font-medium">{ch.label}</span>
                     </div>
-<<<<<<< HEAD
-                    <div className="h-8 flex-1 overflow-hidden rounded-lg bg-slate-100">
-=======
                     <div className="bg-bg-surface2 h-8 flex-1 overflow-hidden rounded-lg">
->>>>>>> recover/cabinet-wip-from-stash
                       <div
                         className={cn('h-full rounded-lg', ch.color)}
                         style={{ width: `${ch.share}%` }}
                       />
                     </div>
                     <span className="w-24 text-right text-sm font-semibold">{ch.value}</span>
-<<<<<<< HEAD
-                    <span className="w-10 text-xs text-slate-500">{ch.share}%</span>
-=======
                     <span className="text-text-secondary w-10 text-xs">{ch.share}%</span>
->>>>>>> recover/cabinet-wip-from-stash
                   </div>
                 ))}
               </div>
@@ -204,11 +145,7 @@ export default function UnifiedAnalyticsPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-<<<<<<< HEAD
-                    <tr className="border-b border-slate-200">
-=======
                     <tr className="border-border-default border-b">
->>>>>>> recover/cabinet-wip-from-stash
                       <th className="py-3 text-left font-medium">Коллекция</th>
                       <th className="py-3 text-right font-medium">B2B</th>
                       <th className="py-3 text-right font-medium">Маркетрум</th>

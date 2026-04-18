@@ -18,11 +18,7 @@ import { format } from 'date-fns';
 const billingHistory = [
   {
     id: 'inv_124',
-<<<<<<< HEAD
-    member: 'Магазин Podium',
-=======
     member: 'Демо-магазин · Москва 1',
->>>>>>> recover/cabinet-wip-from-stash
     role: 'shop',
     amount: '150 000 ₽',
     date: '2026-02-05',
@@ -99,82 +95,46 @@ export default function BillingPage() {
       </header>
 
       <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
-<<<<<<< HEAD
-        <Card className="border-slate-100 shadow-xl shadow-slate-200/20">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-[10px] font-black uppercase text-slate-400">
-=======
         <Card className="border-border-subtle shadow-md/20 shadow-xl">
           <CardHeader className="pb-2">
             <CardTitle className="text-text-muted text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
               GMV Экосистемы
             </CardTitle>
           </CardHeader>
           <CardContent>
-<<<<<<< HEAD
-            <div className="text-sm font-black tracking-tight text-slate-900">84.4 млн ₽</div>
-=======
             <div className="text-text-primary text-sm font-black tracking-tight">84.4 млн ₽</div>
->>>>>>> recover/cabinet-wip-from-stash
             <p className="mt-1 flex items-center gap-1 text-[10px] font-bold text-emerald-600">
               <span className="text-emerald-500">▲</span> +12% к прошлому месяцу
             </p>
           </CardContent>
         </Card>
-<<<<<<< HEAD
-        <Card className="border-slate-100 shadow-xl shadow-slate-200/20">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-[10px] font-black uppercase text-slate-400">
-=======
         <Card className="border-border-subtle shadow-md/20 shadow-xl">
           <CardHeader className="pb-2">
             <CardTitle className="text-text-muted text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
               Комиссионный доход
             </CardTitle>
           </CardHeader>
           <CardContent>
-<<<<<<< HEAD
-            <div className="text-sm font-black tracking-tight text-indigo-600">4.2 млн ₽</div>
-            <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-=======
             <div className="text-accent-primary text-sm font-black tracking-tight">4.2 млн ₽</div>
             <p className="text-text-muted mt-1 text-[10px] font-bold uppercase tracking-wider">
->>>>>>> recover/cabinet-wip-from-stash
               Чистая прибыль OS
             </p>
           </CardContent>
         </Card>
-<<<<<<< HEAD
-        <Card className="border-slate-100 shadow-xl shadow-slate-200/20">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-[10px] font-black uppercase text-slate-400">
-=======
         <Card className="border-border-subtle shadow-md/20 shadow-xl">
           <CardHeader className="pb-2">
             <CardTitle className="text-text-muted text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
               Подписки (MRR)
             </CardTitle>
           </CardHeader>
           <CardContent>
-<<<<<<< HEAD
-            <div className="text-sm font-black tracking-tight text-slate-900">1.8 млн ₽</div>
-            <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-=======
             <div className="text-text-primary text-sm font-black tracking-tight">1.8 млн ₽</div>
             <p className="text-text-muted mt-1 text-[10px] font-bold uppercase tracking-wider">
->>>>>>> recover/cabinet-wip-from-stash
               1,240 активных брендов
             </p>
           </CardContent>
         </Card>
-<<<<<<< HEAD
-        <Card className="border-rose-100 border-slate-100 bg-rose-50 shadow-xl shadow-slate-200/20">
-=======
         <Card className="border-border-subtle shadow-md/20 border-rose-100 bg-rose-50 shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
           <CardHeader className="pb-2">
             <CardTitle className="text-[10px] font-black uppercase text-rose-400">
               Дебиторская задолж.
@@ -189,11 +149,7 @@ export default function BillingPage() {
         </Card>
       </div>
 
-<<<<<<< HEAD
-      <Card className="border-slate-100 shadow-xl shadow-slate-200/20">
-=======
       <Card className="border-border-subtle shadow-md/20 shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
         <CardHeader>
           <CardTitle className="text-sm font-black uppercase tracking-tight">
             Реестр глобальных транзакций
@@ -202,25 +158,6 @@ export default function BillingPage() {
         <CardContent>
           <Table>
             <TableHeader>
-<<<<<<< HEAD
-              <TableRow className="border-slate-100 hover:bg-transparent">
-                <TableHead className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-                  ID / Дата
-                </TableHead>
-                <TableHead className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-                  Участник / Роль
-                </TableHead>
-                <TableHead className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-                  Тип платежа
-                </TableHead>
-                <TableHead className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-                  Сумма
-                </TableHead>
-                <TableHead className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-                  Статус
-                </TableHead>
-                <TableHead className="text-right text-[9px] font-black uppercase tracking-widest text-slate-400">
-=======
               <TableRow className="border-border-subtle hover:bg-transparent">
                 <TableHead className="text-text-muted text-[9px] font-black uppercase tracking-widest">
                   ID / Дата
@@ -238,7 +175,6 @@ export default function BillingPage() {
                   Статус
                 </TableHead>
                 <TableHead className="text-text-muted text-right text-[9px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   Действие
                 </TableHead>
               </TableRow>
@@ -247,25 +183,11 @@ export default function BillingPage() {
               {billingHistory.map((item) => {
                 const role = roleConfig[item.role as keyof typeof roleConfig] || {
                   label: 'Система',
-<<<<<<< HEAD
-                  color: 'bg-slate-100',
-=======
                   color: 'bg-bg-surface2',
->>>>>>> recover/cabinet-wip-from-stash
                 };
                 return (
                   <TableRow
                     key={item.id}
-<<<<<<< HEAD
-                    className="group/row border-slate-50 hover:bg-slate-50/50"
-                  >
-                    <TableCell>
-                      <div className="flex flex-col">
-                        <span className="font-mono text-[10px] font-bold text-slate-900">
-                          {item.id}
-                        </span>
-                        <span className="text-[9px] font-medium text-slate-400">
-=======
                     className="border-border-subtle group/row hover:bg-bg-surface2/80"
                   >
                     <TableCell>
@@ -274,18 +196,13 @@ export default function BillingPage() {
                           {item.id}
                         </span>
                         <span className="text-text-muted text-[9px] font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                           {format(new Date(item.date), 'dd.MM.yyyy')}
                         </span>
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="flex flex-col">
-<<<<<<< HEAD
-                        <span className="mb-1 text-[11px] font-black uppercase leading-none tracking-tight text-slate-900">
-=======
                         <span className="text-text-primary mb-1 text-[11px] font-black uppercase leading-none tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                           {item.member}
                         </span>
                         <Badge
@@ -300,11 +217,7 @@ export default function BillingPage() {
                       </div>
                     </TableCell>
                     <TableCell>
-<<<<<<< HEAD
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-=======
                       <span className="text-text-secondary text-[10px] font-bold uppercase tracking-wider">
->>>>>>> recover/cabinet-wip-from-stash
                         {item.type === 'subscription'
                           ? 'Подписка'
                           : item.type === 'commission'
@@ -315,11 +228,7 @@ export default function BillingPage() {
                       </span>
                     </TableCell>
                     <TableCell>
-<<<<<<< HEAD
-                      <span className="text-xs font-black tracking-tight text-slate-900">
-=======
                       <span className="text-text-primary text-xs font-black tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                         {item.amount}
                       </span>
                     </TableCell>
@@ -341,15 +250,9 @@ export default function BillingPage() {
                       <Button
                         variant="ghost"
                         size="sm"
-<<<<<<< HEAD
-                        className="h-7 w-7 rounded-lg p-0 transition-colors hover:bg-slate-100"
-                      >
-                        <FileText className="h-3.5 w-3.5 text-slate-400" />
-=======
                         className="hover:bg-bg-surface2 h-7 w-7 rounded-lg p-0 transition-colors"
                       >
                         <FileText className="text-text-muted h-3.5 w-3.5" />
->>>>>>> recover/cabinet-wip-from-stash
                       </Button>
                     </TableCell>
                   </TableRow>

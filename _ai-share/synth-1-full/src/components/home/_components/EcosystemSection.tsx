@@ -42,16 +42,12 @@ import { Zap, HelpCircle, ChevronRight, X } from 'lucide-react';
 
 const ROLE_CONFIG: Record<B2BRole, { label: string; icon: any; color: string; basePath: string }> =
   {
-<<<<<<< HEAD
-    admin: { label: 'Администратор', icon: Shield, color: 'text-indigo-500', basePath: '/admin' },
-=======
     admin: {
       label: 'Администратор',
       icon: Shield,
       color: 'text-accent-primary',
       basePath: '/admin',
     },
->>>>>>> recover/cabinet-wip-from-stash
     brand: { label: 'Бренд', icon: Store, color: 'text-emerald-500', basePath: '/brand' },
     distributor: {
       label: 'Дистрибьютор',
@@ -63,21 +59,13 @@ const ROLE_CONFIG: Record<B2BRole, { label: string; icon: any; color: string; ba
       label: 'Производство',
       icon: Factory,
       color: 'text-orange-500',
-<<<<<<< HEAD
-      basePath: '/factory',
-=======
       basePath: '/factory/production',
->>>>>>> recover/cabinet-wip-from-stash
     },
     supplier: {
       label: 'Поставщик',
       icon: Warehouse,
       color: 'text-amber-500',
-<<<<<<< HEAD
-      basePath: '/factory',
-=======
       basePath: '/factory/supplier',
->>>>>>> recover/cabinet-wip-from-stash
     },
     shop: { label: 'Магазин', icon: ShoppingCart, color: 'text-rose-500', basePath: '/shop' },
   };
@@ -386,11 +374,7 @@ export function EcosystemSection() {
     strategy: {
       title: 'Стратегия',
       icon: Activity,
-<<<<<<< HEAD
-      color: 'text-indigo-500',
-=======
       color: 'text-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
       desc: 'Интеллектуальное планирование.',
     },
     marketing: {
@@ -416,46 +400,26 @@ export function EcosystemSection() {
       transition={{ duration: 0.6 }}
       className="section-spacing relative bg-transparent"
     >
-<<<<<<< HEAD
-      <div className="container mx-auto px-4">
-        <Card className="relative rounded-xl border border-none border-slate-100 bg-white shadow-2xl shadow-slate-200/50">
-=======
       <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
         <Card className="border-border-subtle relative rounded-xl border border-none bg-white shadow-2xl shadow-md">
->>>>>>> recover/cabinet-wip-from-stash
           <CardContent className="p-3">
             <div className="mb-6 flex flex-col justify-between gap-3 md:flex-row md:items-center">
               <div className="space-y-1">
                 <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900">
-=======
                   <div className="bg-text-primary flex h-8 w-8 items-center justify-center rounded-xl">
->>>>>>> recover/cabinet-wip-from-stash
                     <Globe className="h-4 w-4 text-white" />
                   </div>
                   <Badge
                     variant="outline"
-<<<<<<< HEAD
-                    className="border-slate-200 px-2 py-0.5 text-xs font-bold uppercase tracking-normal text-slate-900"
-=======
                     className="border-border-default text-text-primary px-2 py-0.5 text-xs font-bold uppercase tracking-normal"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     ECOSYSTEM_b2b
                   </Badge>
                 </div>
-<<<<<<< HEAD
-                <h2 className="text-2xl font-bold uppercase leading-tight tracking-tight text-slate-900 md:text-4xl">
-                  ЦИФРОВАЯ ЭКОСИСТЕМА
-                </h2>
-                <p className="max-w-md text-xs font-medium text-slate-400">
-=======
                 <h2 className="text-text-primary text-2xl font-bold uppercase leading-tight tracking-tight md:text-4xl">
                   ЦИФРОВАЯ ЭКОСИСТЕМА
                 </h2>
                 <p className="text-text-muted max-w-md text-xs font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                   Инструменты для масштабирования и управления бизнесом.
                 </p>
               </div>
@@ -467,42 +431,25 @@ export function EcosystemSection() {
                         variant="outline"
                         size="icon"
                         onClick={() => setIsFlowMapOpen('ecosystem')}
-<<<<<<< HEAD
-                        className="h-9 w-9 rounded-xl border-slate-200 bg-white shadow-sm transition-all hover:border-slate-900"
-                      >
-                        <Share2 className="h-4 w-4 text-indigo-600" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent className="rounded-lg border-none bg-slate-900 p-2 text-white shadow-2xl">
-=======
                         className="border-border-default hover:border-text-primary h-9 w-9 rounded-xl bg-white shadow-sm transition-all"
                       >
                         <Share2 className="text-accent-primary h-4 w-4" />
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent className="bg-text-primary rounded-lg border-none p-2 text-white shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
                       <p className="text-[10px] font-bold uppercase tracking-wide">
                         Карта процессов
                       </p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
-<<<<<<< HEAD
-                <div className="ml-1 flex items-center gap-2 border-l border-slate-100 pl-3">
-=======
                 <div className="border-border-subtle ml-1 flex items-center gap-2 border-l pl-3">
->>>>>>> recover/cabinet-wip-from-stash
                   <button
                     onClick={() => {
                       const el = document.getElementById('ecosystem-scroll');
                       if (el) el.scrollBy({ left: -320, behavior: 'smooth' });
                     }}
-<<<<<<< HEAD
-                    className="p-1 text-slate-400 transition-colors hover:text-slate-900"
-=======
                     className="text-text-muted hover:text-text-primary p-1 transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     <ArrowRight className="h-5 w-5 rotate-180" />
                   </button>
@@ -511,11 +458,7 @@ export function EcosystemSection() {
                       const el = document.getElementById('ecosystem-scroll');
                       if (el) el.scrollBy({ left: 320, behavior: 'smooth' });
                     }}
-<<<<<<< HEAD
-                    className="p-1 text-slate-400 transition-colors hover:text-slate-900"
-=======
                     className="text-text-muted hover:text-text-primary p-1 transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     <ArrowRight className="h-5 w-5" />
                   </button>
@@ -524,11 +467,7 @@ export function EcosystemSection() {
             </div>
 
             <div className="custom-scrollbar no-scrollbar mb-6 flex snap-x gap-2 overflow-x-auto pb-2">
-<<<<<<< HEAD
-              <div className="flex w-fit shrink-0 items-center gap-1.5 rounded-2xl border border-slate-100 bg-slate-50 p-1">
-=======
               <div className="bg-bg-surface2 border-border-subtle flex w-fit shrink-0 items-center gap-1.5 rounded-2xl border p-1">
->>>>>>> recover/cabinet-wip-from-stash
                 {ECOSYSTEM_TABS.map((tab) => (
                   <button
                     key={tab.id}
@@ -561,11 +500,7 @@ export function EcosystemSection() {
                     {ECOSYSTEM_ITEMS[activeEcosystemTab].map((item, idx) => (
                       <div
                         key={idx}
-<<<<<<< HEAD
-                        className="group/card relative flex w-[280px] flex-shrink-0 snap-start flex-col rounded-3xl border border-slate-100 bg-slate-50 p-4 pb-3 transition-all hover:border-slate-900/30 hover:shadow-xl hover:shadow-slate-200/50 md:w-[320px]"
-=======
                         className="bg-bg-surface2 border-border-subtle hover:border-text-primary/30 group/card relative flex w-[280px] flex-shrink-0 snap-start flex-col rounded-3xl border p-4 pb-3 transition-all hover:shadow-md hover:shadow-xl md:w-[320px]"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         <div className="absolute right-4 top-4 z-20">
                           <div className="flex items-center gap-1.5">
@@ -574,22 +509,14 @@ export function EcosystemSection() {
                                 className={cn(
                                   'flex h-5 items-center border-none px-1.5 text-[7px] font-bold uppercase tracking-wide shadow-lg',
                                   item.badge === 'AI'
-<<<<<<< HEAD
-                                    ? 'bg-indigo-600 text-white'
-=======
                                     ? 'bg-accent-primary text-white'
->>>>>>> recover/cabinet-wip-from-stash
                                     : 'bg-rose-500 text-white'
                                 )}
                               >
                                 {item.badge}
                               </Badge>
                             )}
-<<<<<<< HEAD
-                            {(item.roles || ['admin']).map((role) => {
-=======
                             {(item.roles || ['admin']).map((role: B2BRole) => {
->>>>>>> recover/cabinet-wip-from-stash
                               const config = ROLE_CONFIG[role as B2BRole];
                               if (!config) return null;
                               return (
@@ -598,22 +525,14 @@ export function EcosystemSection() {
                                     <TooltipTrigger asChild>
                                       <div
                                         className={cn(
-<<<<<<< HEAD
-                                          'rounded-lg border border-slate-100 bg-white p-1.5 shadow-sm',
-=======
                                           'border-border-subtle rounded-lg border bg-white p-1.5 shadow-sm',
->>>>>>> recover/cabinet-wip-from-stash
                                           config.color
                                         )}
                                       >
                                         <config.icon className="h-3 w-3" />
                                       </div>
                                     </TooltipTrigger>
-<<<<<<< HEAD
-                                    <TooltipContent className="rounded-lg border-none bg-slate-900 p-2 text-white shadow-2xl">
-=======
                                     <TooltipContent className="bg-text-primary rounded-lg border-none p-2 text-white shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
                                       <p className="text-[10px] font-bold uppercase tracking-wide">
                                         {config.label}
                                       </p>
@@ -625,19 +544,6 @@ export function EcosystemSection() {
                           </div>
                         </div>
                         <div className="mb-2 space-y-1">
-<<<<<<< HEAD
-                          <p className="text-[5.5px] font-bold uppercase tracking-wide text-indigo-600 opacity-60">
-                            {item.label}
-                          </p>
-                          <h4 className="text-[10px] font-bold uppercase leading-none tracking-wide text-slate-900 transition-colors group-hover/card:text-indigo-600">
-                            {item.title}
-                          </h4>
-                        </div>
-                        <p className="mb-4 text-xs font-medium leading-relaxed text-slate-500">
-                          {item.desc}
-                        </p>
-                        <div className="mt-auto flex items-center justify-center border-t border-slate-100 pt-4">
-=======
                           <p className="text-accent-primary text-[5.5px] font-bold uppercase tracking-wide opacity-60">
                             {item.label}
                           </p>
@@ -649,7 +555,6 @@ export function EcosystemSection() {
                           {item.desc}
                         </p>
                         <div className="border-border-subtle mt-auto flex items-center justify-center border-t pt-4">
->>>>>>> recover/cabinet-wip-from-stash
                           <Button
                             asChild
                             variant="ctaOutline"
@@ -673,21 +578,6 @@ export function EcosystemSection() {
               open={isFlowMapOpen === 'ecosystem'}
               onOpenChange={(open) => setIsFlowMapOpen(open ? 'ecosystem' : null)}
             >
-<<<<<<< HEAD
-              <DialogContent className="z-[10000] flex max-h-[96vh] max-w-[98vw] flex-col overflow-hidden rounded-xl border-none bg-slate-50 p-0 shadow-[0_0_50px_rgba(0,0,0,0.1)]">
-                <DialogHeader className="shrink-0 border-b border-slate-200/50 bg-white p-4 pb-2">
-                  <div className="flex w-full flex-col gap-3">
-                    <div className="flex items-center gap-3">
-                      <div className="rounded-2xl border border-indigo-100 bg-indigo-50 p-2 text-indigo-600 shadow-sm">
-                        <Share2 className="h-5 w-5" />
-                      </div>
-                      <div>
-                        <DialogTitle className="text-sm font-semibold uppercase leading-none tracking-tight text-slate-900">
-                          Карта сквозных процессов экосистемы
-                        </DialogTitle>
-                        <div className="mt-1.5 flex items-center gap-3">
-                          <p className="text-[10px] font-bold uppercase leading-none tracking-wide text-slate-400">
-=======
               <DialogContent className="bg-bg-surface2 z-[10000] flex max-h-[96vh] max-w-[98vw] flex-col overflow-hidden rounded-xl border-none p-0 shadow-[0_0_50px_rgba(0,0,0,0.1)]">
                 <DialogHeader className="border-border-default/50 shrink-0 border-b bg-white p-4 pb-2">
                   <div className="flex w-full flex-col gap-3">
@@ -701,16 +591,11 @@ export function EcosystemSection() {
                         </DialogTitle>
                         <div className="mt-1.5 flex items-center gap-3">
                           <p className="text-text-muted text-[10px] font-bold uppercase leading-none tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
                             Визуализация взаимодействия цифровых инструментов
                           </p>
                           <button
                             onClick={() => setActiveGuideStep(0)}
-<<<<<<< HEAD
-                            className="group/guide flex items-center gap-1.5 rounded-full border border-indigo-100 bg-indigo-50 px-2 py-0.5 text-indigo-600 shadow-sm transition-all hover:bg-indigo-600 hover:text-white"
-=======
                             className="bg-accent-primary/10 text-accent-primary hover:bg-accent-primary border-accent-primary/20 group/guide flex items-center gap-1.5 rounded-full border px-2 py-0.5 shadow-sm transition-all hover:text-white"
->>>>>>> recover/cabinet-wip-from-stash
                           >
                             <HelpCircle className="h-2.5 w-2.5" />
                             <span className="text-[10px] font-bold uppercase tracking-wide">
@@ -722,11 +607,7 @@ export function EcosystemSection() {
                     </div>
                     <div className="space-y-2">
                       <div className="no-scrollbar flex gap-2 overflow-x-auto pb-1">
-<<<<<<< HEAD
-                        <div className="flex w-fit shrink-0 items-center gap-1 rounded-2xl border border-slate-200 bg-slate-100 p-1">
-=======
                         <div className="bg-bg-surface2 border-border-default flex w-fit shrink-0 items-center gap-1 rounded-2xl border p-1">
->>>>>>> recover/cabinet-wip-from-stash
                           {ECOSYSTEM_TABS.map((tab) => (
                             <button
                               key={tab.id}
@@ -743,11 +624,7 @@ export function EcosystemSection() {
                           ))}
                         </div>
                       </div>
-<<<<<<< HEAD
-                      <div className="flex w-fit items-center gap-1.5 rounded-2xl border border-slate-200 bg-slate-100 p-1">
-=======
                       <div className="bg-bg-surface2 border-border-default flex w-fit items-center gap-1.5 rounded-2xl border p-1">
->>>>>>> recover/cabinet-wip-from-stash
                         <button
                           onClick={() => setActiveFlowRole('all')}
                           className={cn(
@@ -764,13 +641,8 @@ export function EcosystemSection() {
                             className={cn(
                               'flex items-center gap-2 rounded-xl border px-3 py-1.5 text-[10px] font-bold uppercase tracking-normal transition-all',
                               activeFlowRole === role
-<<<<<<< HEAD
-                                ? cn('border-slate-200 bg-white shadow-md', config.color)
-                                : 'border-transparent text-slate-400 hover:bg-white hover:text-slate-600'
-=======
                                 ? cn('border-border-default bg-white shadow-md', config.color)
                                 : 'text-text-muted hover:text-text-secondary border-transparent hover:bg-white'
->>>>>>> recover/cabinet-wip-from-stash
                             )}
                           >
                             <config.icon className="h-3.5 w-3.5" />
@@ -783,11 +655,7 @@ export function EcosystemSection() {
                 </DialogHeader>
 
                 <div
-<<<<<<< HEAD
-                  className="no-scrollbar relative flex-1 space-y-6 overflow-y-auto bg-slate-50/50 px-8 pb-10 pt-10"
-=======
                   className="bg-bg-surface2/80 no-scrollbar relative flex-1 space-y-6 overflow-y-auto px-8 pb-10 pt-10"
->>>>>>> recover/cabinet-wip-from-stash
                   ref={containerRef}
                 >
                   <svg className="pointer-events-none absolute inset-0 z-0 h-full w-full">
@@ -838,11 +706,7 @@ export function EcosystemSection() {
                               height: 0,
                             }}
                           >
-<<<<<<< HEAD
-                            <div className="whitespace-nowrap rounded-full border border-white/20 bg-indigo-600 px-2.5 py-1 text-[5.5px] font-bold uppercase text-white shadow-2xl">
-=======
                             <div className="bg-accent-primary whitespace-nowrap rounded-full border border-white/20 px-2.5 py-1 text-[5.5px] font-bold uppercase text-white shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
                               {conn.label}
                             </div>
                           </motion.div>
@@ -867,11 +731,7 @@ export function EcosystemSection() {
                         <div className="mb-4 flex items-center gap-3">
                           <div
                             className={cn(
-<<<<<<< HEAD
-                              'flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-1 shadow-sm',
-=======
                               'border-border-default flex items-center gap-2 rounded-lg border bg-white px-2.5 py-1 shadow-sm',
->>>>>>> recover/cabinet-wip-from-stash
                               config.color
                             )}
                           >
@@ -880,11 +740,7 @@ export function EcosystemSection() {
                               {config.title}
                             </span>
                           </div>
-<<<<<<< HEAD
-                          <div className="h-px flex-1 bg-slate-200" />
-=======
                           <div className="bg-border-subtle h-px flex-1" />
->>>>>>> recover/cabinet-wip-from-stash
                         </div>
                         <div className="flex flex-wrap gap-x-1.5 gap-y-6">
                           {displayItems.map((item, idx, array) => {
@@ -916,19 +772,11 @@ export function EcosystemSection() {
                                 >
                                   <div
                                     className={cn(
-<<<<<<< HEAD
-                                      'group/card-inner relative w-[170px] cursor-pointer rounded-2xl border border-slate-200 bg-white p-2 shadow-sm transition-all hover:border-indigo-400 hover:shadow-md',
-                                      isHovered
-                                        ? 'z-40 border-indigo-600 shadow-xl'
-                                        : isRelated
-                                          ? 'animate-pulse-subtle z-20 border-indigo-400 shadow-lg'
-=======
                                       'border-border-default group/card-inner hover:border-accent-primary/40 relative w-[170px] cursor-pointer rounded-2xl border bg-white p-2 shadow-sm transition-all hover:shadow-md',
                                       isHovered
                                         ? 'border-accent-primary z-40 shadow-xl'
                                         : isRelated
                                           ? 'animate-pulse-subtle border-accent-primary/40 z-20 shadow-lg'
->>>>>>> recover/cabinet-wip-from-stash
                                           : 'z-10'
                                     )}
                                     onMouseEnter={() => setHoveredItemId(item.title)}
@@ -940,11 +788,7 @@ export function EcosystemSection() {
                                       <div
                                         className={cn(
                                           'flex h-3.5 w-3.5 items-center justify-center rounded-md border border-current bg-white text-[5.5px] font-bold',
-<<<<<<< HEAD
-                                          isRoleActive ? config.color : 'text-slate-300'
-=======
                                           isRoleActive ? config.color : 'text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                                         )}
                                       >
                                         {item.originalIdx + 1}
@@ -952,11 +796,7 @@ export function EcosystemSection() {
                                       <span
                                         className={cn(
                                           'line-clamp-1 text-[5.5px] font-bold uppercase tracking-wide opacity-60',
-<<<<<<< HEAD
-                                          isRoleActive ? config.color : 'text-slate-300'
-=======
                                           isRoleActive ? config.color : 'text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                                         )}
                                       >
                                         {item.label}
@@ -986,20 +826,12 @@ export function EcosystemSection() {
                                                 e.stopPropagation();
                                                 setActiveTeaser(item);
                                               }}
-<<<<<<< HEAD
-                                              className="group/teaser absolute right-2 top-2 z-50 rounded-xl border border-slate-100 bg-slate-50 p-1.5 text-slate-400 shadow-sm transition-all hover:bg-indigo-600 hover:text-white"
-=======
                                               className="bg-bg-surface2 text-text-muted hover:bg-accent-primary border-border-subtle group/teaser absolute right-2 top-2 z-50 rounded-xl border p-1.5 shadow-sm transition-all hover:text-white"
->>>>>>> recover/cabinet-wip-from-stash
                                             >
                                               <Eye className="h-2.5 w-2.5" />
                                             </button>
                                           </TooltipTrigger>
-<<<<<<< HEAD
-                                          <TooltipContent className="z-[15000] rounded-lg border-none bg-slate-900 p-2 text-white shadow-2xl">
-=======
                                           <TooltipContent className="bg-text-primary z-[15000] rounded-lg border-none p-2 text-white shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
                                             <p className="text-[10px] font-bold uppercase tracking-wide">
                                               Подробнее
                                             </p>
@@ -1013,23 +845,14 @@ export function EcosystemSection() {
                                           <h3
                                             className={cn(
                                               'mb-2 line-clamp-2 min-h-[20px] cursor-help pr-6 text-[10px] font-bold uppercase leading-none tracking-wide',
-<<<<<<< HEAD
-                                              isRoleActive ? 'text-slate-900' : 'text-slate-300'
-=======
                                               isRoleActive ? 'text-text-primary' : 'text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                                             )}
                                           >
                                             {item.title}
                                           </h3>
                                         </TooltipTrigger>
-<<<<<<< HEAD
-                                        <TooltipContent className="z-[15000] max-w-[240px] rounded-xl border-none bg-slate-900 p-3 text-white shadow-2xl">
-                                          <p className="mb-1 text-[10px] font-bold uppercase tracking-wide text-indigo-400">
-=======
                                         <TooltipContent className="bg-text-primary z-[15000] max-w-[240px] rounded-xl border-none p-3 text-white shadow-2xl">
                                           <p className="text-accent-primary mb-1 text-[10px] font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
                                             {item.label}
                                           </p>
                                           <p className="text-xs font-medium leading-relaxed">
@@ -1039,11 +862,7 @@ export function EcosystemSection() {
                                       </Tooltip>
                                     </TooltipProvider>
                                     <div className="mt-auto flex flex-wrap gap-1">
-<<<<<<< HEAD
-                                      {(item.roles || ['admin']).map((role) => {
-=======
                                       {(item.roles || ['admin']).map((role: B2BRole) => {
->>>>>>> recover/cabinet-wip-from-stash
                                         const config = ROLE_CONFIG[role as B2BRole];
                                         if (!config) return null;
                                         const isTargetRole = role === effectiveRole;
@@ -1051,11 +870,7 @@ export function EcosystemSection() {
                                           <div
                                             key={role}
                                             className={cn(
-<<<<<<< HEAD
-                                              'rounded border border-slate-100 bg-slate-50 p-1',
-=======
                                               'bg-bg-surface2 border-border-subtle rounded border p-1',
->>>>>>> recover/cabinet-wip-from-stash
                                               config.color,
                                               !isTargetRole && 'opacity-20 grayscale'
                                             )}
@@ -1088,11 +903,7 @@ export function EcosystemSection() {
                                           )}
                                         >
                                           {!isExpansionActive && (
-<<<<<<< HEAD
-                                            <ArrowRight className="h-2 w-2 text-slate-300" />
-=======
                                             <ArrowRight className="text-text-muted h-2 w-2" />
->>>>>>> recover/cabinet-wip-from-stash
                                           )}
                                         </div>
                                       );
@@ -1107,49 +918,28 @@ export function EcosystemSection() {
                   })}
                 </div>
 
-<<<<<<< HEAD
-                <div className="shrink-0 border-t border-slate-200 bg-white">
-                  <div className="flex items-center justify-center gap-3 p-3">
-                    <div className="flex items-center gap-1.5">
-                      <div className="h-1 w-1 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.3)]" />
-                      <span className="text-[6.5px] font-bold uppercase tracking-wide text-slate-400">
-=======
                 <div className="border-border-default shrink-0 border-t bg-white">
                   <div className="flex items-center justify-center gap-3 p-3">
                     <div className="flex items-center gap-1.5">
                       <div className="h-1 w-1 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.3)]" />
                       <span className="text-text-muted text-[6.5px] font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
                         Цифровой ритейл
                       </span>
                     </div>
                     <div className="flex items-center gap-1.5">
-<<<<<<< HEAD
-                      <div className="h-1 w-1 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.3)]" />
-                      <span className="text-[6.5px] font-bold uppercase tracking-wide text-slate-400">
-=======
                       <div className="bg-accent-primary h-1 w-1 rounded-full shadow-[0_0_8px_rgba(99,102,241,0.3)]" />
                       <span className="text-text-muted text-[6.5px] font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
                         BI-аналитика
                       </span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <div className="h-1 w-1 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]" />
-<<<<<<< HEAD
-                      <span className="text-[6.5px] font-bold uppercase tracking-wide text-slate-400">
-=======
                       <span className="text-text-muted text-[6.5px] font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
                         Медиа-активы
                       </span>
                     </div>
                   </div>
-<<<<<<< HEAD
-                  <div className="min-h-[100px] border-t border-white/10 bg-slate-900 p-4 transition-all duration-500">
-=======
                   <div className="bg-text-primary min-h-[100px] border-t border-white/10 p-4 transition-all duration-500">
->>>>>>> recover/cabinet-wip-from-stash
                     <AnimatePresence mode="wait">
                       {hoveredItemId ? (
                         <motion.div
@@ -1160,11 +950,7 @@ export function EcosystemSection() {
                           className="flex flex-col gap-3"
                         >
                           <div className="flex items-center gap-3" id="synergy-info">
-<<<<<<< HEAD
-                            <div className="flex items-center gap-1.5 rounded border border-indigo-500/30 bg-indigo-500/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-indigo-400">
-=======
                             <div className="bg-accent-primary/20 border-accent-primary/30 text-accent-primary flex items-center gap-1.5 rounded border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
                               <Info className="h-2.5 w-2.5" /> Экосистема: {hoveredItemId}
                             </div>
                             {SYNERGY_CONNECTIONS[hoveredItemId] && (
@@ -1182,21 +968,13 @@ export function EcosystemSection() {
                                   .map((c, i) => (
                                     <div
                                       key={i}
-<<<<<<< HEAD
-                                      className="group/mon-item flex gap-3 border-l border-white/5 pl-3 transition-colors hover:border-indigo-500/50"
-=======
                                       className="group/mon-item hover:border-accent-primary/50 flex gap-3 border-l border-white/5 pl-3 transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
                                     >
                                       <div className="mt-1 shrink-0">
                                         {c.isIncoming ? (
                                           <ArrowDownLeft className="h-3 w-3 text-emerald-400" />
                                         ) : (
-<<<<<<< HEAD
-                                          <ArrowUpRight className="h-3 w-3 text-indigo-400" />
-=======
                                           <ArrowUpRight className="text-accent-primary h-3 w-3" />
->>>>>>> recover/cabinet-wip-from-stash
                                         )}
                                       </div>
                                       <div className="space-y-1">
@@ -1208,11 +986,7 @@ export function EcosystemSection() {
                                             {c.isIncoming ? '← от ' : '→ к '} {c.targetTitle}
                                           </span>
                                         </div>
-<<<<<<< HEAD
-                                        <p className="max-w-sm text-[10px] font-medium leading-tight text-slate-400">
-=======
                                         <p className="text-text-muted max-w-sm text-[10px] font-medium leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                                           {c.desc ||
                                             'Интеграция цифрового сервиса в общую архитектуру экосистемы.'}
                                         </p>
@@ -1243,11 +1017,7 @@ export function EcosystemSection() {
                                 )}
                               </>
                             ) : (
-<<<<<<< HEAD
-                              <div className="col-span-2 py-2 text-[10px] font-bold uppercase italic tracking-wider text-slate-500 opacity-50">
-=======
                               <div className="text-text-secondary col-span-2 py-2 text-[10px] font-bold uppercase italic tracking-wider opacity-50">
->>>>>>> recover/cabinet-wip-from-stash
                                 Внешние кросс-потоковые связи для данного узла не обнаружены...
                               </div>
                             )}
@@ -1257,11 +1027,7 @@ export function EcosystemSection() {
                         <motion.div
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 0.5 }}
-<<<<<<< HEAD
-                          className="flex h-full items-center justify-center py-4 text-[10px] font-medium uppercase tracking-wide text-slate-500"
-=======
                           className="text-text-secondary flex h-full items-center justify-center py-4 text-[10px] font-medium uppercase tracking-wide"
->>>>>>> recover/cabinet-wip-from-stash
                         >
                           Ожидание выбора узла экосистемы для анализа...
                         </motion.div>
@@ -1278,42 +1044,20 @@ export function EcosystemSection() {
                       exit={{ opacity: 0 }}
                       className="pointer-events-none absolute inset-0 z-[20000] overflow-hidden"
                     >
-<<<<<<< HEAD
-                      <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]" />
-=======
                       <div className="bg-text-primary/40 absolute inset-0 backdrop-blur-[2px]" />
->>>>>>> recover/cabinet-wip-from-stash
                       <div className="absolute inset-0 flex items-center justify-center p-4">
                         <motion.div
                           initial={{ scale: 0.9, y: 20 }}
                           animate={{ scale: 1, y: 0 }}
-<<<<<<< HEAD
-                          className="pointer-events-auto relative w-full max-w-md rounded-xl border border-slate-100 bg-white p-4 shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
-                        >
-                          <button
-                            onClick={() => setActiveGuideStep(null)}
-                            className="absolute right-6 top-4 rounded-full p-2 text-slate-400 transition-colors hover:bg-slate-50"
-=======
                           className="border-border-subtle pointer-events-auto relative w-full max-w-md rounded-xl border bg-white p-4 shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
                         >
                           <button
                             onClick={() => setActiveGuideStep(null)}
                             className="hover:bg-bg-surface2 text-text-muted absolute right-6 top-4 rounded-full p-2 transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
                           >
                             <X className="h-5 w-5" />
                           </button>
                           <div className="mb-6 flex items-center gap-3">
-<<<<<<< HEAD
-                            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-600 shadow-lg shadow-indigo-200">
-                              <HelpCircle className="h-5 w-5 text-white" />
-                            </div>
-                            <div>
-                              <p className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-indigo-600">
-                                Шаг {activeGuideStep + 1} из {ECOSYSTEM_GUIDE.length}
-                              </p>
-                              <h4 className="text-base font-semibold uppercase leading-none tracking-tight text-slate-900">
-=======
                             <div className="bg-accent-primary shadow-accent-primary/15 flex h-10 w-10 items-center justify-center rounded-2xl shadow-lg">
                               <HelpCircle className="h-5 w-5 text-white" />
                             </div>
@@ -1322,16 +1066,11 @@ export function EcosystemSection() {
                                 Шаг {activeGuideStep + 1} из {ECOSYSTEM_GUIDE.length}
                               </p>
                               <h4 className="text-text-primary text-base font-semibold uppercase leading-none tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                                 {ECOSYSTEM_GUIDE[activeGuideStep].title}
                               </h4>
                             </div>
                           </div>
-<<<<<<< HEAD
-                          <p className="mb-8 text-sm font-medium leading-relaxed text-slate-500">
-=======
                           <p className="text-text-secondary mb-8 text-sm font-medium leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                             {ECOSYSTEM_GUIDE[activeGuideStep].desc}
                           </p>
                           <div className="flex items-center justify-between gap-3">
@@ -1341,13 +1080,9 @@ export function EcosystemSection() {
                                   key={i}
                                   className={cn(
                                     'h-1 rounded-full transition-all duration-500',
-<<<<<<< HEAD
-                                    i === activeGuideStep ? 'w-6 bg-indigo-600' : 'w-1 bg-slate-200'
-=======
                                     i === activeGuideStep
                                       ? 'bg-accent-primary w-6'
                                       : 'bg-border-subtle w-1'
->>>>>>> recover/cabinet-wip-from-stash
                                   )}
                                 />
                               ))}
@@ -1399,21 +1134,13 @@ export function EcosystemSection() {
                           <DialogTitle>{activeTeaser.title}</DialogTitle>
                         </DialogHeader>
                         <div className="flex h-full max-h-[80vh] flex-col md:flex-row">
-<<<<<<< HEAD
-                          <div className="relative h-64 overflow-hidden bg-slate-900 md:h-auto md:w-1/2">
-=======
                           <div className="bg-text-primary relative h-64 overflow-hidden md:h-auto md:w-1/2">
->>>>>>> recover/cabinet-wip-from-stash
                             <img
                               src={activeTeaser.teaser.image}
                               alt={activeTeaser.title}
                               className="absolute inset-0 h-full w-full object-cover opacity-40 mix-blend-overlay"
                             />
-<<<<<<< HEAD
-                            <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/20 to-transparent" />
-=======
                             <div className="from-accent-primary/20 absolute inset-0 bg-gradient-to-br to-transparent" />
->>>>>>> recover/cabinet-wip-from-stash
                             <div className="pointer-events-none absolute inset-0 flex flex-col justify-between p-4">
                               <div className="flex items-start justify-between">
                                 <div className="rounded-xl border border-white/20 bg-white/10 p-3 shadow-2xl backdrop-blur-md">
@@ -1426,11 +1153,7 @@ export function EcosystemSection() {
                                     <div className="h-1 w-12 rounded-full bg-white/10" />
                                   </div>
                                 </div>
-<<<<<<< HEAD
-                                <div className="rounded border border-indigo-400/50 bg-indigo-500/40 px-2 py-1 text-[7px] font-bold uppercase tracking-wide text-white backdrop-blur-md">
-=======
                                 <div className="bg-accent-primary/40 border-accent-primary/40 rounded border px-2 py-1 text-[7px] font-bold uppercase tracking-wide text-white backdrop-blur-md">
->>>>>>> recover/cabinet-wip-from-stash
                                   Модуль: ACTIVE
                                 </div>
                               </div>
@@ -1442,11 +1165,7 @@ export function EcosystemSection() {
                                       initial={{ height: 0 }}
                                       animate={{ height: `${h}%` }}
                                       transition={{ delay: i * 0.1, duration: 1 }}
-<<<<<<< HEAD
-                                      className="flex-1 rounded-sm bg-gradient-to-t from-indigo-500 to-indigo-400"
-=======
                                       className="from-accent-primary flex-1 rounded-sm bg-gradient-to-t to-indigo-400"
->>>>>>> recover/cabinet-wip-from-stash
                                       style={{ height: `${h}%`, minHeight: '4px' }}
                                     />
                                   ))}
@@ -1456,20 +1175,12 @@ export function EcosystemSection() {
                                     initial={{ width: 0 }}
                                     animate={{ width: '75%' }}
                                     transition={{ duration: 2, delay: 0.5 }}
-<<<<<<< HEAD
-                                    className="h-full bg-indigo-400"
-=======
                                     className="bg-accent-primary/40 h-full"
->>>>>>> recover/cabinet-wip-from-stash
                                   />
                                 </div>
                               </div>
                             </div>
-<<<<<<< HEAD
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-white" />
-=======
                             <div className="from-text-primary/80 absolute inset-0 bg-gradient-to-t via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-white" />
->>>>>>> recover/cabinet-wip-from-stash
                             <div className="absolute bottom-6 left-6 text-white md:hidden">
                               <p className="mb-1 text-[10px] font-bold uppercase tracking-wider opacity-80">
                                 {activeTeaser.label}
@@ -1481,15 +1192,6 @@ export function EcosystemSection() {
                           </div>
                           <div className="flex flex-col justify-center p-4 md:w-1/2 md:p-3">
                             <div className="mb-6 hidden md:block">
-<<<<<<< HEAD
-                              <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-indigo-600">
-                                {activeTeaser.label}
-                              </p>
-                              <h3 className="mb-2 text-base font-semibold uppercase leading-none tracking-tight text-slate-900">
-                                {activeTeaser.title}
-                              </h3>
-                              <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
-=======
                               <p className="text-accent-primary mb-2 text-[10px] font-bold uppercase tracking-wider">
                                 {activeTeaser.label}
                               </p>
@@ -1497,7 +1199,6 @@ export function EcosystemSection() {
                                 {activeTeaser.title}
                               </h3>
                               <p className="text-text-muted text-xs font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
                                 {activeTeaser.teaser.subtitle}
                               </p>
                             </div>
@@ -1507,11 +1208,7 @@ export function EcosystemSection() {
                                   <div className="bg-emerald mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full">
                                     <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                                   </div>
-<<<<<<< HEAD
-                                  <p className="text-sm font-medium leading-snug text-slate-600">
-=======
                                   <p className="text-text-secondary text-sm font-medium leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                                     {feature}
                                   </p>
                                 </div>
@@ -1529,11 +1226,7 @@ export function EcosystemSection() {
                                     className={cn(
                                       'flex-1',
                                       !isAccessGranted &&
-<<<<<<< HEAD
-                                        'cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400 opacity-50'
-=======
                                         'bg-bg-surface2 text-text-muted border-border-default cursor-not-allowed opacity-50'
->>>>>>> recover/cabinet-wip-from-stash
                                     )}
                                   >
                                     {isAccessGranted ? (
@@ -1570,22 +1263,14 @@ export function EcosystemSection() {
               </DialogContent>
             </Dialog>
 
-<<<<<<< HEAD
-            <Card className="group/banner relative mt-6 flex min-h-[300px] items-center overflow-hidden rounded-xl border-none bg-slate-900 shadow-2xl">
-=======
             <Card className="bg-text-primary group/banner relative mt-6 flex min-h-[300px] items-center overflow-hidden rounded-xl border-none shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
               <div className="absolute inset-0 overflow-hidden rounded-xl opacity-50 transition-transform duration-1000 group-hover/banner:scale-105">
                 <img
                   src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000"
                   className="h-full w-full object-cover"
                 />
               </div>
-<<<<<<< HEAD
-              <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent" />
-=======
               <div className="from-text-primary via-text-primary/80 absolute inset-0 bg-gradient-to-r to-transparent" />
->>>>>>> recover/cabinet-wip-from-stash
               <CardContent className="relative z-10 max-w-4xl space-y-6 p-4 text-white">
                 <div className="group/marquee relative mb-4 overflow-hidden whitespace-nowrap border-y border-white/10 py-2">
                   <motion.div
@@ -1659,11 +1344,7 @@ export function EcosystemSection() {
                 <h2 className="text-xl font-bold uppercase leading-tight tracking-tight md:text-3xl">
                   ЯДРО УПРАВЛЕНИЯ
                 </h2>
-<<<<<<< HEAD
-                <p className="whitespace-nowrap border-l-2 border-indigo-500/50 pl-6 text-sm font-medium text-slate-300">
-=======
                 <p className="text-text-muted border-accent-primary/50 whitespace-nowrap border-l-2 pl-6 text-sm font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                   "Консолидация ресурсов и данных для доминирования на рынке."
                 </p>
               </CardContent>

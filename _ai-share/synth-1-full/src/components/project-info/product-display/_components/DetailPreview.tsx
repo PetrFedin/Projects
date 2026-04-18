@@ -28,11 +28,8 @@ import {
   View,
   Sparkles,
   PlusCircle,
-<<<<<<< HEAD
-=======
   Bell,
   Check,
->>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Product, ProductImage } from '@/lib/types';
@@ -134,14 +131,6 @@ export const DetailPreview = forwardRef<
     return color || product.availableColors?.[0];
   }, [product, activeColorSelection]);
 
-<<<<<<< HEAD
-  const imagesForCurrentColor = React.useMemo(() => {
-    if (!activeColor || !product.images) return product.images;
-    const colorImages = mockProduct.images.filter((img: any) => img.colorName === activeColor.name);
-    return colorImages.length > 0
-      ? colorImages.map((img: any) => ({ ...img, url: img.url, alt: img.alt }))
-      : mockProduct.images.map((img: any) => ({ ...img, url: img.url, alt: img.alt }));
-=======
   const imagesForCurrentColor = React.useMemo((): ProductImage[] => {
     if (!activeColor || !product.images) return product.images ?? [];
     const colorImages = mockProduct.images.filter(
@@ -150,7 +139,6 @@ export const DetailPreview = forwardRef<
     return colorImages.length > 0
       ? colorImages.map((img: ProductImage) => ({ ...img, url: img.url, alt: img.alt }))
       : mockProduct.images.map((img: ProductImage) => ({ ...img, url: img.url, alt: img.alt }));
->>>>>>> recover/cabinet-wip-from-stash
   }, [activeColor, mockProduct.images, product.images]);
 
   const [activeImage, setActiveImage] = useState(imagesForCurrentColor[0]);
@@ -291,15 +279,9 @@ export const DetailPreview = forwardRef<
     });
   };
 
-<<<<<<< HEAD
-  const handleCreateNewCollection = () => {
-    if (newCollectionName.trim() === '') return;
-    const newCollection = addWishlistCollection(newCollectionName);
-=======
   const handleCreateNewCollection = async () => {
     if (newCollectionName.trim() === '') return;
     const newCollection = await addWishlistCollection(newCollectionName);
->>>>>>> recover/cabinet-wip-from-stash
     addWishlistItem(product, newCollection.id);
     toast({
       title: 'Подборка создана',
@@ -405,11 +387,7 @@ export const DetailPreview = forwardRef<
               className="relative aspect-[4/5] w-full cursor-pointer overflow-hidden rounded-lg border"
               onClick={() =>
                 handleOpenImageViewer(
-<<<<<<< HEAD
-                  imagesForCurrentColor.findIndex((img) => img.id === activeImage.id)
-=======
                   imagesForCurrentColor.findIndex((img: ProductImage) => img.id === activeImage.id)
->>>>>>> recover/cabinet-wip-from-stash
                 )
               }
             >
@@ -451,11 +429,7 @@ export const DetailPreview = forwardRef<
               )}
             </div>
             <div className="grid grid-cols-4 gap-3">
-<<<<<<< HEAD
-              {imagesForCurrentColor.map((image) => (
-=======
               {imagesForCurrentColor.map((image: ProductImage) => (
->>>>>>> recover/cabinet-wip-from-stash
                 <div
                   key={image.id}
                   className={cn(

@@ -57,11 +57,7 @@ export default function MetaversePage() {
       </section>
 
       {/* Featured NFTs Section */}
-<<<<<<< HEAD
-      <section className="container mx-auto px-4 py-10 text-center">
-=======
       <section className="mx-auto w-full max-w-5xl space-y-4 px-4 py-10 text-center sm:px-6">
->>>>>>> recover/cabinet-wip-from-stash
         <h2 className="mb-4 font-headline text-base font-bold md:text-sm">Цифровые активы</h2>
         <p className="mx-auto mb-12 max-w-2xl text-sm text-gray-400">
           Эксклюзивные цифровые коллекционные предметы, которые можно использовать в метавселенной и
@@ -90,11 +86,7 @@ export default function MetaversePage() {
           ))}
         </div>
         <Button asChild size="lg" className="mt-12">
-<<<<<<< HEAD
-          <Link href="/shop">
-=======
           <Link href={ROUTES.shop.home}>
->>>>>>> recover/cabinet-wip-from-stash
             Посмотреть всю коллекцию <ArrowRight className="ml-2 h-5 w-5" />
           </Link>
         </Button>

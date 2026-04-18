@@ -21,10 +21,7 @@ import {
 } from 'lucide-react';
 import { useUserInsights } from '@/hooks/use-user-insights';
 import { cn } from '@/lib/utils';
-<<<<<<< HEAD
-=======
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
->>>>>>> recover/cabinet-wip-from-stash
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   LineChart,

@@ -29,11 +29,7 @@ export function ProductLogisticsOptimizerBlock({ product }: { product: Product }
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-emerald-600">
           <Truck className="h-4 w-4" />
-<<<<<<< HEAD
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
-=======
           <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
             AI B2B Logistics Route Optimizer (RU Delivery)
           </h4>
         </div>
@@ -44,11 +40,7 @@ export function ProductLogisticsOptimizerBlock({ product }: { product: Product }
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-3">
-<<<<<<< HEAD
-          <div className="mb-1 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-slate-400">
-=======
           <div className="text-text-muted mb-1 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
             <Activity className="h-3 w-3" /> Carrier Options
           </div>
           {routes.map((r) => (
@@ -57,15 +49,10 @@ export function ProductLogisticsOptimizerBlock({ product }: { product: Product }
               className="group flex cursor-pointer items-center justify-between rounded-xl border border-emerald-200 bg-white/80 p-2.5 shadow-sm transition-colors hover:bg-white"
             >
               <div>
-<<<<<<< HEAD
-                <div className="text-[10px] font-black uppercase text-slate-800">{r.carrier}</div>
-                <div className="mt-0.5 text-[9px] font-bold uppercase text-slate-500">
-=======
                 <div className="text-text-primary text-[10px] font-black uppercase">
                   {r.carrier}
                 </div>
                 <div className="text-text-secondary mt-0.5 text-[9px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   {r.estDays} Days • {r.costRub.toLocaleString()} ₽
                 </div>
               </div>
@@ -77,32 +64,19 @@ export function ProductLogisticsOptimizerBlock({ product }: { product: Product }
         </div>
 
         <div className="space-y-3">
-<<<<<<< HEAD
-          <div className="mb-1 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-slate-400">
-=======
           <div className="text-text-muted mb-1 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
             <TrendingDown className="h-3 w-3" /> Delivery Efficiency
           </div>
           <div className="grid grid-cols-2 gap-2 text-center">
             <div className="rounded-xl border border-emerald-100 bg-white/50 p-3">
               <Clock className="mx-auto mb-1 h-4 w-4 text-emerald-600" />
-<<<<<<< HEAD
-              <div className="text-[12px] font-black text-slate-800">3-4 D.</div>
-              <div className="mt-1 text-[7px] font-black uppercase text-slate-400">Avg. TAT</div>
-=======
               <div className="text-text-primary text-[12px] font-black">3-4 D.</div>
               <div className="text-text-muted mt-1 text-[7px] font-black uppercase">Avg. TAT</div>
->>>>>>> recover/cabinet-wip-from-stash
             </div>
             <div className="rounded-xl border border-emerald-100 bg-white/50 p-3">
               <Package className="mx-auto mb-1 h-4 w-4 text-sky-600" />
               <div className="text-[12px] font-black text-sky-600">-12%</div>
-<<<<<<< HEAD
-              <div className="mt-1 text-[7px] font-black uppercase text-slate-400">
-=======
               <div className="text-text-muted mt-1 text-[7px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                 Consolidation
               </div>
             </div>
@@ -111,15 +85,9 @@ export function ProductLogisticsOptimizerBlock({ product }: { product: Product }
           <div className="mt-2 rounded-xl border border-emerald-200 bg-white/80 p-3 shadow-sm">
             <div className="mb-2 flex items-center gap-2">
               <Info className="h-3.5 w-3.5 text-emerald-600" />
-<<<<<<< HEAD
-              <span className="text-[9px] font-black uppercase text-slate-700">AI Insights</span>
-            </div>
-            <p className="text-[9px] font-bold italic leading-tight text-slate-600">
-=======
               <span className="text-text-primary text-[9px] font-black uppercase">AI Insights</span>
             </div>
             <p className="text-text-secondary text-[9px] font-bold italic leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
               "Peak logistics congestion in Novosibirsk. PEK route recommended for bulk non-urgent
               shipments."
             </p>
@@ -127,11 +95,7 @@ export function ProductLogisticsOptimizerBlock({ product }: { product: Product }
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div className="mt-4 flex items-center justify-between border-t border-emerald-100 pt-4 text-[8px] font-black uppercase text-slate-400">
-=======
       <div className="text-text-muted mt-4 flex items-center justify-between border-t border-emerald-100 pt-4 text-[8px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
         <span>Integrated with RU Carrier APIs</span>
         <span className="flex items-center gap-1 text-emerald-600">
           Track All Shipments <ExternalLink className="h-3 w-3" />

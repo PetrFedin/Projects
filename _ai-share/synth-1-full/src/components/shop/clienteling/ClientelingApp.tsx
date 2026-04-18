@@ -70,36 +70,21 @@ export default function ClientelingApp() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="relative mx-auto flex min-h-screen max-w-[450px] flex-col overflow-hidden rounded-xl border-[8px] border-slate-900 bg-slate-50 shadow-2xl">
-=======
     <div className="bg-bg-surface2 border-text-primary relative mx-auto flex min-h-screen max-w-[450px] flex-col overflow-hidden rounded-xl border-[8px] shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
       {/* Mobile Header */}
       <header className="relative z-10 space-y-4 bg-white px-6 pb-6 pt-12 shadow-sm">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
-<<<<<<< HEAD
-            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
             <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               Store Mode: Moscow City
             </span>
           </div>
           <div className="flex gap-2">
-<<<<<<< HEAD
-            <button className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-50 text-slate-900">
-              <QrCode className="h-5 w-5" />
-            </button>
-            <button className="relative flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-50 text-slate-900">
-=======
             <button className="bg-bg-surface2 text-text-primary flex h-10 w-10 items-center justify-center rounded-2xl">
               <QrCode className="h-5 w-5" />
             </button>
             <button className="bg-bg-surface2 text-text-primary relative flex h-10 w-10 items-center justify-center rounded-2xl">
->>>>>>> recover/cabinet-wip-from-stash
               <Bell className="h-5 w-5" />
               <div className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full border-2 border-white bg-rose-500" />
             </button>
@@ -107,21 +92,13 @@ export default function ClientelingApp() {
         </div>
 
         <form onSubmit={handleSearch} className="relative">
-<<<<<<< HEAD
-          <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-=======
           <Search className="text-text-muted absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2" />
->>>>>>> recover/cabinet-wip-from-stash
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Поиск клиента по имени, ID или QR..."
-<<<<<<< HEAD
-            className="h-12 w-full rounded-2xl border-none bg-slate-50 pl-12 pr-4 text-sm font-bold outline-none"
-=======
             className="bg-bg-surface2 h-12 w-full rounded-2xl border-none pl-12 pr-4 text-sm font-bold outline-none"
->>>>>>> recover/cabinet-wip-from-stash
           />
         </form>
       </header>
@@ -129,15 +106,6 @@ export default function ClientelingApp() {
       {!isFound ? (
         <div className="flex flex-1 flex-col items-center justify-center space-y-6 p-4 text-center">
           <div className="flex h-24 w-24 items-center justify-center rounded-xl bg-white shadow-xl">
-<<<<<<< HEAD
-            <User className="h-10 w-10 text-slate-300" />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-base font-black uppercase tracking-tight text-slate-900">
-              Поиск клиента
-            </h3>
-            <p className="text-xs font-medium leading-relaxed text-slate-400">
-=======
             <User className="text-text-muted h-10 w-10" />
           </div>
           <div className="space-y-2">
@@ -145,7 +113,6 @@ export default function ClientelingApp() {
               Поиск клиента
             </h3>
             <p className="text-text-muted text-xs font-medium leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
               Введите данные для доступа к цифровому гардеробу и персональным рекомендациям.
             </p>
           </div>
@@ -156,11 +123,7 @@ export default function ClientelingApp() {
           <div className="p-4">
             <Card className="space-y-6 overflow-hidden rounded-xl border-none bg-white p-4 shadow-xl">
               <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                <div className="relative h-20 w-20 overflow-hidden rounded-[1.5rem] border-4 border-slate-50">
-=======
                 <div className="border-border-subtle relative h-20 w-20 overflow-hidden rounded-[1.5rem] border-4">
->>>>>>> recover/cabinet-wip-from-stash
                   <Image
                     src={MOCK_CUSTOMER.avatar}
                     alt={MOCK_CUSTOMER.name}
@@ -170,19 +133,6 @@ export default function ClientelingApp() {
                 </div>
                 <div className="flex-1">
                   <div className="mb-1 flex items-center justify-between">
-<<<<<<< HEAD
-                    <Badge className="border-none bg-indigo-600 px-2 py-0.5 text-[8px] font-black uppercase text-white">
-                      {MOCK_CUSTOMER.status}
-                    </Badge>
-                    <p className="text-[10px] font-black uppercase text-slate-400">
-                      {MOCK_CUSTOMER.id}
-                    </p>
-                  </div>
-                  <h3 className="text-sm font-black uppercase leading-none tracking-tight text-slate-900">
-                    {MOCK_CUSTOMER.name}
-                  </h3>
-                  <p className="mt-1 text-[10px] font-bold uppercase italic text-slate-400">
-=======
                     <Badge className="bg-accent-primary border-none px-2 py-0.5 text-[8px] font-black uppercase text-white">
                       {MOCK_CUSTOMER.status}
                     </Badge>
@@ -194,23 +144,12 @@ export default function ClientelingApp() {
                     {MOCK_CUSTOMER.name}
                   </h3>
                   <p className="text-text-muted mt-1 text-[10px] font-bold uppercase italic">
->>>>>>> recover/cabinet-wip-from-stash
                     Visit: {MOCK_CUSTOMER.lastVisit}
                   </p>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-<<<<<<< HEAD
-                <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
-                  <p className="mb-1 text-[8px] font-black uppercase text-slate-400">Total LTV</p>
-                  <p className="text-sm font-black text-slate-900">{MOCK_CUSTOMER.ltv}</p>
-                </div>
-                <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
-                  <p className="mb-1 text-[8px] font-black uppercase text-slate-400">Avg Score</p>
-                  <div className="flex items-center gap-1">
-                    <p className="text-sm font-black text-slate-900">4.9</p>
-=======
                 <div className="bg-bg-surface2 border-border-subtle rounded-2xl border p-4">
                   <p className="text-text-muted mb-1 text-[8px] font-black uppercase">Total LTV</p>
                   <p className="text-text-primary text-sm font-black">{MOCK_CUSTOMER.ltv}</p>
@@ -219,7 +158,6 @@ export default function ClientelingApp() {
                   <p className="text-text-muted mb-1 text-[8px] font-black uppercase">Avg Score</p>
                   <div className="flex items-center gap-1">
                     <p className="text-text-primary text-sm font-black">4.9</p>
->>>>>>> recover/cabinet-wip-from-stash
                     <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
                   </div>
                 </div>
@@ -229,11 +167,7 @@ export default function ClientelingApp() {
 
           {/* Tabs Navigation */}
           <div className="px-6 pb-6">
-<<<<<<< HEAD
-            <div className="flex rounded-2xl border border-slate-100 bg-white p-1.5 shadow-sm">
-=======
             <div className="border-border-subtle flex rounded-2xl border bg-white p-1.5 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
               {[
                 { id: 'profile', label: 'Info', icon: User },
                 { id: 'wardrobe', label: 'Wardrobe', icon: ShoppingBag },
@@ -245,13 +179,8 @@ export default function ClientelingApp() {
                   className={cn(
                     'flex flex-1 flex-col items-center gap-1.5 rounded-xl py-3 transition-all',
                     activeTab === tab.id
-<<<<<<< HEAD
-                      ? 'bg-slate-900 text-white shadow-lg'
-                      : 'text-slate-400 hover:text-slate-900'
-=======
                       ? 'bg-text-primary text-white shadow-lg'
                       : 'text-text-muted hover:text-text-primary'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   <tab.icon className="h-4 w-4" />
@@ -268,11 +197,7 @@ export default function ClientelingApp() {
             {activeTab === 'profile' && (
               <div className="space-y-6 duration-500 animate-in fade-in slide-in-from-bottom-2">
                 <div className="space-y-3">
-<<<<<<< HEAD
-                  <h4 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                   <h4 className="text-text-muted flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     <History className="h-3.5 w-3.5" /> Заметки персонала
                   </h4>
                   <div className="rounded-[1.5rem] border border-amber-100 bg-amber-50 p-3 text-xs font-bold italic leading-relaxed text-amber-900">
@@ -281,11 +206,7 @@ export default function ClientelingApp() {
                 </div>
 
                 <div className="space-y-3">
-<<<<<<< HEAD
-                  <h4 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                   <h4 className="text-text-muted flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     <TrendingUp className="h-3.5 w-3.5" /> Предпочтения
                   </h4>
                   <div className="flex flex-wrap gap-2">
@@ -293,11 +214,7 @@ export default function ClientelingApp() {
                       <Badge
                         key={pref}
                         variant="outline"
-<<<<<<< HEAD
-                        className="rounded-lg border-slate-200 px-3 py-1 text-[8px] font-black uppercase text-slate-600"
-=======
                         className="border-border-default text-text-secondary rounded-lg px-3 py-1 text-[8px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         {pref}
                       </Badge>
@@ -310,15 +227,9 @@ export default function ClientelingApp() {
             {activeTab === 'wardrobe' && (
               <div className="space-y-4 duration-500 animate-in fade-in slide-in-from-bottom-2">
                 <div className="space-y-4">
-<<<<<<< HEAD
-                  <h4 className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-400">
-                    <span>Wishlist (3)</span>
-                    <button className="text-indigo-600">See All</button>
-=======
                   <h4 className="text-text-muted flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
                     <span>Wishlist (3)</span>
                     <button className="text-accent-primary">See All</button>
->>>>>>> recover/cabinet-wip-from-stash
                   </h4>
                   <div className="scrollbar-hide -mx-2 flex gap-3 overflow-x-auto px-2">
                     {MOCK_CUSTOMER.wishlist.map((item) => (
@@ -330,26 +241,15 @@ export default function ClientelingApp() {
                             fill
                             className="object-cover"
                           />
-<<<<<<< HEAD
-                          <button className="absolute bottom-2 right-2 flex h-8 w-8 items-center justify-center rounded-xl bg-white/90 text-slate-900 shadow-lg backdrop-blur-md">
-=======
                           <button className="text-text-primary absolute bottom-2 right-2 flex h-8 w-8 items-center justify-center rounded-xl bg-white/90 shadow-lg backdrop-blur-md">
->>>>>>> recover/cabinet-wip-from-stash
                             <Heart className="h-4 w-4 fill-rose-500 text-rose-500" />
                           </button>
                         </div>
                         <div className="px-1">
-<<<<<<< HEAD
-                          <p className="mb-0.5 truncate text-[8px] font-black uppercase text-slate-400">
-                            {item.brand}
-                          </p>
-                          <p className="truncate text-[10px] font-black text-slate-900">
-=======
                           <p className="text-text-muted mb-0.5 truncate text-[8px] font-black uppercase">
                             {item.brand}
                           </p>
                           <p className="text-text-primary truncate text-[10px] font-black">
->>>>>>> recover/cabinet-wip-from-stash
                             {item.name}
                           </p>
                         </div>
@@ -359,11 +259,7 @@ export default function ClientelingApp() {
                 </div>
 
                 <div className="space-y-4">
-<<<<<<< HEAD
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                   <h4 className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     В шкафу (куплено)
                   </h4>
                   <div className="grid grid-cols-2 gap-3">
@@ -380,11 +276,7 @@ export default function ClientelingApp() {
                             className="object-cover"
                           />
                         </div>
-<<<<<<< HEAD
-                        <p className="truncate text-center text-[9px] font-black text-slate-900">
-=======
                         <p className="text-text-primary truncate text-center text-[9px] font-black">
->>>>>>> recover/cabinet-wip-from-stash
                           {item.name}
                         </p>
                       </Card>
@@ -396,11 +288,7 @@ export default function ClientelingApp() {
 
             {activeTab === 'ai' && (
               <div className="space-y-6 duration-500 animate-in fade-in slide-in-from-bottom-2">
-<<<<<<< HEAD
-                <Card className="group relative overflow-hidden rounded-xl border-none bg-indigo-600 p-4 text-white shadow-xl">
-=======
                 <Card className="bg-accent-primary group relative overflow-hidden rounded-xl border-none p-4 text-white shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
                   <Sparkles className="absolute -right-4 -top-4 h-24 w-24 opacity-20 transition-transform duration-700 group-hover:scale-110" />
                   <div className="relative z-10 space-y-4">
                     <Badge className="border-none bg-white/20 px-2 py-0.5 text-[8px] font-black uppercase text-white">
@@ -409,11 +297,7 @@ export default function ClientelingApp() {
                     <h3 className="text-base font-black uppercase italic leading-none tracking-tight">
                       Style Insight
                     </h3>
-<<<<<<< HEAD
-                    <p className="text-xs font-bold leading-relaxed text-indigo-100">
-=======
                     <p className="text-accent-primary/30 text-xs font-bold leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                       Екатерина не покупала аксессуары уже 3 месяца. На основе ее вишлиста и
                       недавней покупки шелкового платья, рекомендуем предложить:
                     </p>
@@ -421,26 +305,16 @@ export default function ClientelingApp() {
                 </Card>
 
                 <div className="space-y-4">
-<<<<<<< HEAD
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                   <h4 className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Персональный подбор
                   </h4>
                   <div className="space-y-3">
                     {allProducts.slice(6, 8).map((item) => (
                       <div
                         key={item.id}
-<<<<<<< HEAD
-                        className="group flex items-center gap-3 rounded-[1.5rem] border border-slate-50 bg-white p-4 shadow-sm transition-all hover:shadow-lg"
-                      >
-                        <div className="relative h-20 w-12 shrink-0 overflow-hidden rounded-xl bg-slate-50">
-=======
                         className="border-border-subtle group flex items-center gap-3 rounded-[1.5rem] border bg-white p-4 shadow-sm transition-all hover:shadow-lg"
                       >
                         <div className="bg-bg-surface2 relative h-20 w-12 shrink-0 overflow-hidden rounded-xl">
->>>>>>> recover/cabinet-wip-from-stash
                           <Image
                             src={item.images[0].url}
                             alt={item.name}
@@ -449,11 +323,7 @@ export default function ClientelingApp() {
                           />
                         </div>
                         <div className="min-w-0 flex-1">
-<<<<<<< HEAD
-                          <p className="mb-0.5 text-[8px] font-black uppercase text-slate-400">
-=======
                           <p className="text-text-muted mb-0.5 text-[8px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                             {item.brand}
                           </p>
                           <h4 className="mb-2 truncate text-xs font-black uppercase leading-none tracking-tight">
@@ -463,11 +333,7 @@ export default function ClientelingApp() {
                             <Badge className="border-none bg-emerald-50 px-2 py-0.5 text-[8px] font-black uppercase text-emerald-600">
                               98% Match
                             </Badge>
-<<<<<<< HEAD
-                            <p className="text-xs font-black text-slate-900">
-=======
                             <p className="text-text-primary text-xs font-black">
->>>>>>> recover/cabinet-wip-from-stash
                               {item.price.toLocaleString('ru-RU')} ₽
                             </p>
                           </div>
@@ -475,11 +341,7 @@ export default function ClientelingApp() {
                         <Button
                           onClick={handleSendRecommendation}
                           size="icon"
-<<<<<<< HEAD
-                          className="h-10 w-10 shrink-0 rounded-xl bg-slate-900 text-white transition-all hover:bg-indigo-600"
-=======
                           className="bg-text-primary hover:bg-accent-primary h-10 w-10 shrink-0 rounded-xl text-white transition-all"
->>>>>>> recover/cabinet-wip-from-stash
                         >
                           <Zap className="h-4 w-4 fill-white" />
                         </Button>
@@ -495,22 +357,13 @@ export default function ClientelingApp() {
 
       {/* Bottom Action Bar */}
       {isFound && (
-<<<<<<< HEAD
-        <div className="absolute inset-x-0 bottom-0 z-20 flex gap-3 border-t border-slate-100 bg-white/80 p-4 backdrop-blur-xl">
-          <Button className="h-10 flex-1 rounded-2xl bg-slate-900 text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-slate-200 transition-all hover:bg-emerald-600">
-=======
         <div className="border-border-subtle absolute inset-x-0 bottom-0 z-20 flex gap-3 border-t bg-white/80 p-4 backdrop-blur-xl">
           <Button className="bg-text-primary h-10 flex-1 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white shadow-md shadow-xl transition-all hover:bg-emerald-600">
->>>>>>> recover/cabinet-wip-from-stash
             <MessageSquare className="mr-2 h-4 w-4" /> Чат с клиентом
           </Button>
           <Button
             variant="outline"
-<<<<<<< HEAD
-            className="h-10 w-10 rounded-2xl border-slate-200 bg-white text-slate-900"
-=======
             className="border-border-default text-text-primary h-10 w-10 rounded-2xl bg-white"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <Camera className="h-5 w-5" />
           </Button>

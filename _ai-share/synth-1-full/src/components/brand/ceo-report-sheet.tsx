@@ -52,11 +52,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
-<<<<<<< HEAD
-import { Card, CardContent } from '@/components/ui/card';
-=======
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
->>>>>>> recover/cabinet-wip-from-stash
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -1065,30 +1061,17 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
         }
       }}
     >
-<<<<<<< HEAD
-      <SheetContent className="w-full overflow-hidden border-none bg-slate-50 p-0 font-sans sm:max-w-[650px]">
-        <div className="flex h-full flex-col">
-          {/* Header */}
-          <div className="relative overflow-hidden bg-slate-900 p-4 text-white">
-            <div className="absolute -right-10 -top-3 opacity-10">
-              <BrainCircuit className="h-48 w-48 text-indigo-400" />
-=======
       <SheetContent className="bg-bg-surface2 w-full overflow-hidden border-none p-0 font-sans sm:max-w-[650px]">
         <div className="flex h-full flex-col">
           {/* Header */}
           <div className="bg-text-primary relative overflow-hidden p-4 text-white">
             <div className="absolute -right-10 -top-3 opacity-10">
               <BrainCircuit className="text-accent-primary h-48 w-48" />
->>>>>>> recover/cabinet-wip-from-stash
             </div>
             <div className="relative z-10">
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                  <div className="rounded-xl bg-indigo-600 p-2">
-=======
                   <div className="bg-accent-primary rounded-xl p-2">
->>>>>>> recover/cabinet-wip-from-stash
                     <BarChart3 className="h-5 w-5 text-white" />
                   </div>
                   <Badge
@@ -1105,11 +1088,7 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
               <SheetTitle className="text-sm font-black uppercase tracking-tight text-white">
                 {data.title}
               </SheetTitle>
-<<<<<<< HEAD
-              <SheetDescription className="mt-2 max-w-md text-xs font-medium leading-relaxed text-slate-400">
-=======
               <SheetDescription className="text-text-muted mt-2 max-w-md text-xs font-medium leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                 {data.summary}
               </SheetDescription>
             </div>
@@ -1118,19 +1097,11 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
           <ScrollArea className="flex-1 p-4">
             <div className="space-y-4 pb-12">
               {/* Planning & Targets Period Selector */}
-<<<<<<< HEAD
-              <div className="space-y-4 rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-indigo-600" />
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-900">
-=======
               <div className="border-border-subtle space-y-4 rounded-xl border bg-white p-4 shadow-sm">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Calendar className="text-accent-primary h-4 w-4" />
                     <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                       Планирование и KPI
                     </h4>
                   </div>
@@ -1138,38 +1109,22 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
                     <Button
                       variant="ghost"
                       size="icon"
-<<<<<<< HEAD
-                      className="h-6 w-6 rounded-lg transition-colors hover:bg-slate-100"
-                    >
-                      <History className="h-3 w-3 text-slate-400" />
-=======
                       className="hover:bg-bg-surface2 h-6 w-6 rounded-lg transition-colors"
                     >
                       <History className="text-text-muted h-3 w-3" />
->>>>>>> recover/cabinet-wip-from-stash
                     </Button>
                     <Button
                       variant="ghost"
                       size="icon"
-<<<<<<< HEAD
-                      className="h-6 w-6 rounded-lg transition-colors hover:bg-slate-100"
-                    >
-                      <Settings className="h-3 w-3 text-slate-400" />
-=======
                       className="hover:bg-bg-surface2 h-6 w-6 rounded-lg transition-colors"
                     >
                       <Settings className="text-text-muted h-3 w-3" />
->>>>>>> recover/cabinet-wip-from-stash
                     </Button>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between gap-3">
-<<<<<<< HEAD
-                  <div className="flex items-center gap-1 rounded-xl border border-slate-100 bg-slate-50 p-1">
-=======
                   <div className="bg-bg-surface2 border-border-subtle flex items-center gap-1 rounded-xl border p-1">
->>>>>>> recover/cabinet-wip-from-stash
                     {(['season', 'quarter', 'year'] as const).map((p) => (
                       <button
                         key={p}
@@ -1180,13 +1135,8 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
                         className={cn(
                           'rounded-lg px-3 py-1.5 text-[8px] font-black uppercase tracking-widest transition-all',
                           planningPeriod === p
-<<<<<<< HEAD
-                            ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200'
-                            : 'text-slate-400 hover:text-slate-600'
-=======
                             ? 'text-text-primary ring-border-default bg-white shadow-sm ring-1'
                             : 'text-text-muted hover:text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                         )}
                       >
                         {p === 'season' ? 'Сезон' : p === 'quarter' ? 'Квартал' : 'Год'}
@@ -1201,21 +1151,13 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
                       'h-8 rounded-xl px-3 text-[8px] font-black uppercase tracking-widest transition-all',
                       isSettingTargets
                         ? 'border-none bg-emerald-600 text-white shadow-lg shadow-emerald-100 hover:bg-emerald-700'
-<<<<<<< HEAD
-                        : 'border-indigo-100 text-indigo-600 hover:bg-indigo-50'
-=======
                         : 'border-accent-primary/20 text-accent-primary hover:bg-accent-primary/10'
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     {isSettingTargets ? 'Сохранить цели' : 'Установить цели'}
                   </Button>
                 </div>
-<<<<<<< HEAD
-                <div className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
-=======
                 <div className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   Установка и отслеживание целевых показателей на{' '}
                   {planningPeriod === 'season'
                     ? 'текущий сезон'
@@ -1230,15 +1172,9 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
                 <Button
                   onClick={handleAIAnalysis}
                   disabled={isAnalyzing}
-<<<<<<< HEAD
-                  className="group relative h-10 w-full overflow-hidden rounded-2xl bg-indigo-600 text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-xl shadow-indigo-100 hover:bg-indigo-700"
-                >
-                  <div className="animate-shimmer absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-=======
                   className="bg-accent-primary hover:bg-accent-primary shadow-accent-primary/10 group relative h-10 w-full overflow-hidden rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-xl"
                 >
                   <div className="from-accent-primary to-accent-primary animate-shimmer absolute inset-0 bg-gradient-to-r via-purple-600 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
->>>>>>> recover/cabinet-wip-from-stash
                   <span className="relative flex items-center justify-center gap-3">
                     {isAnalyzing ? (
                       <Bot className="h-5 w-5 animate-bounce" />
@@ -1251,49 +1187,29 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
                   </span>
                 </Button>
               ) : (
-<<<<<<< HEAD
-                <Card className="overflow-hidden rounded-xl border-indigo-200 bg-indigo-50/30 duration-500 animate-in slide-in-from-top-4">
-                  <CardHeader className="pb-2">
-                    <div className="flex items-center gap-2">
-                      <Bot className="h-4 w-4 text-indigo-600" />
-                      <CardTitle className="text-[10px] font-black uppercase tracking-widest text-indigo-900">
-=======
                 <Card className="border-accent-primary/30 bg-accent-primary/10 overflow-hidden rounded-xl duration-500 animate-in slide-in-from-top-4">
                   <CardHeader className="pb-2">
                     <div className="flex items-center gap-2">
                       <Bot className="text-accent-primary h-4 w-4" />
                       <CardTitle className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                         AI Insight & Recommendations
                       </CardTitle>
                     </div>
                   </CardHeader>
                   <CardContent>
-<<<<<<< HEAD
-                    <p className="text-xs font-medium italic leading-relaxed text-slate-700">
-=======
                     <p className="text-text-primary text-xs font-medium italic leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                       «{data.aiInsight}»
                     </p>
                     <div className="mt-4 flex gap-2">
                       <Badge
                         variant="outline"
-<<<<<<< HEAD
-                        className="border-indigo-100 bg-white text-[7px] font-black uppercase text-indigo-600"
-=======
                         className="border-accent-primary/20 text-accent-primary bg-white text-[7px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         Actionable
                       </Badge>
                       <Badge
                         variant="outline"
-<<<<<<< HEAD
-                        className="border-indigo-100 bg-white text-[7px] font-black uppercase text-indigo-600"
-=======
                         className="border-accent-primary/20 text-accent-primary bg-white text-[7px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         High Priority
                       </Badge>
@@ -1305,13 +1221,8 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
               {/* KPIs Grid - 3 columns, small cards */}
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
-<<<<<<< HEAD
-                  <PieChart className="h-4 w-4 text-slate-400" />
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-900">
-=======
                   <PieChart className="text-text-muted h-4 w-4" />
                   <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Key Performance Indicators
                   </h4>
                 </div>
@@ -1324,21 +1235,12 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
                             className={cn(
                               'group cursor-help space-y-3 rounded-2xl border bg-white p-4 transition-all',
                               isSettingTargets
-<<<<<<< HEAD
-                                ? 'border-indigo-300 shadow-lg ring-2 ring-indigo-50'
-                                : 'border-slate-100 shadow-sm hover:border-indigo-100'
-                            )}
-                          >
-                            <div className="flex items-start justify-between">
-                              <p className="text-[7px] font-black uppercase tracking-widest text-slate-400 group-hover:text-indigo-600">
-=======
                                 ? 'border-accent-primary/30 ring-accent-primary/10 shadow-lg ring-2'
                                 : 'border-border-subtle hover:border-accent-primary/20 shadow-sm'
                             )}
                           >
                             <div className="flex items-start justify-between">
                               <p className="text-text-muted group-hover:text-accent-primary text-[7px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                                 {kpi.label}
                               </p>
                               <div
@@ -1348,11 +1250,7 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
                                     ? 'text-emerald-500'
                                     : kpi.trend === 'down'
                                       ? 'text-rose-500'
-<<<<<<< HEAD
-                                      : 'text-slate-400'
-=======
                                       : 'text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                                 )}
                               >
                                 {kpi.trend === 'up' ? (
@@ -1367,20 +1265,12 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
 
                             <div className="flex items-end justify-between">
                               <div className="w-full space-y-0.5">
-<<<<<<< HEAD
-                                <span className="text-sm font-black tabular-nums leading-none text-slate-900">
-=======
                                 <span className="text-text-primary text-sm font-black tabular-nums leading-none">
->>>>>>> recover/cabinet-wip-from-stash
                                   {kpi.value}
                                 </span>
                                 {isSettingTargets ? (
                                   <div className="mt-2 space-y-1">
-<<<<<<< HEAD
-                                    <label className="block text-[6px] font-black uppercase tracking-widest text-indigo-400">
-=======
                                     <label className="text-accent-primary block text-[6px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                                       Новая цель:
                                     </label>
                                     <Input
@@ -1391,54 +1281,34 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
                                           [kpi.label]: e.target.value,
                                         })
                                       }
-<<<<<<< HEAD
-                                      className="h-6 border-indigo-100 bg-indigo-50/30 text-[9px] font-black tabular-nums"
-=======
                                       className="border-accent-primary/20 bg-accent-primary/10 h-6 text-[9px] font-black tabular-nums"
->>>>>>> recover/cabinet-wip-from-stash
                                       placeholder="Введите цель..."
                                     />
                                   </div>
                                 ) : (
                                   kpi.target && (
-<<<<<<< HEAD
-                                    <div className="text-[7px] font-black uppercase text-slate-400">
-=======
                                     <div className="text-text-muted text-[7px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                                       Цель: {kpi.target}
                                     </div>
                                   )
                                 )}
                               </div>
                               {!isSettingTargets && kpi.currentProgress && (
-<<<<<<< HEAD
-                                <div className="text-[9px] font-black tabular-nums text-indigo-600">
-=======
                                 <div className="text-accent-primary text-[9px] font-black tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
                                   {kpi.currentProgress}%
                                 </div>
                               )}
                             </div>
 
                             {!isSettingTargets && kpi.currentProgress && (
-<<<<<<< HEAD
-                              <div className="h-1 w-full overflow-hidden rounded-full bg-slate-50">
-=======
                               <div className="bg-bg-surface2 h-1 w-full overflow-hidden rounded-full">
->>>>>>> recover/cabinet-wip-from-stash
                                 <div
                                   className={cn(
                                     'h-full transition-all duration-1000',
                                     kpi.currentProgress > 90
                                       ? 'bg-emerald-500'
                                       : kpi.currentProgress > 70
-<<<<<<< HEAD
-                                        ? 'bg-indigo-500'
-=======
                                         ? 'bg-accent-primary'
->>>>>>> recover/cabinet-wip-from-stash
                                         : 'bg-amber-500'
                                   )}
                                   style={{ width: `${kpi.currentProgress}%` }}
@@ -1447,11 +1317,7 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
                             )}
 
                             {kpi.hint && (
-<<<<<<< HEAD
-                              <p className="text-[6px] font-bold uppercase text-slate-300">
-=======
                               <p className="text-text-muted text-[6px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                                 {kpi.hint}
                               </p>
                             )}
@@ -1459,15 +1325,9 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
                         </TooltipTrigger>
                         <TooltipContent
                           side="top"
-<<<<<<< HEAD
-                          className="max-w-[200px] rounded-xl border-none bg-slate-900 p-3 text-[9px] font-medium text-white shadow-xl"
-                        >
-                          <p className="mb-1 font-black uppercase tracking-widest text-indigo-400">
-=======
                           className="bg-text-primary max-w-[200px] rounded-xl border-none p-3 text-[9px] font-medium text-white shadow-xl"
                         >
                           <p className="text-accent-primary mb-1 font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                             {kpi.label}
                           </p>
                           <p className="leading-relaxed opacity-90">
@@ -1485,11 +1345,7 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">
                     <Zap className="h-4 w-4 text-amber-500" />
-<<<<<<< HEAD
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-900">
-=======
                     <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                       Факторы влияния на результат
                     </h4>
                   </div>
@@ -1497,11 +1353,7 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
                     {data.influencingFactors.map((factor: any, i: number) => (
                       <div
                         key={i}
-<<<<<<< HEAD
-                        className="group flex items-center justify-between rounded-2xl border border-slate-100 bg-white p-4 shadow-sm transition-colors hover:border-amber-100"
-=======
                         className="border-border-subtle group flex items-center justify-between rounded-2xl border bg-white p-4 shadow-sm transition-colors hover:border-amber-100"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         <div className="flex items-center gap-3">
                           <div
@@ -1511,11 +1363,7 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
                                 ? 'bg-emerald-50 text-emerald-500'
                                 : factor.impact === 'negative'
                                   ? 'bg-rose-50 text-rose-500'
-<<<<<<< HEAD
-                                  : 'bg-slate-50 text-slate-400'
-=======
                                   : 'bg-bg-surface2 text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                             )}
                           >
                             {factor.impact === 'positive' ? (
@@ -1527,17 +1375,10 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
                             )}
                           </div>
                           <div>
-<<<<<<< HEAD
-                            <p className="mb-0.5 text-[10px] font-black uppercase leading-tight text-slate-900">
-                              {factor.label}
-                            </p>
-                            <p className="text-[8px] font-medium uppercase tracking-widest text-slate-400">
-=======
                             <p className="text-text-primary mb-0.5 text-[10px] font-black uppercase leading-tight">
                               {factor.label}
                             </p>
                             <p className="text-text-muted text-[8px] font-medium uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                               {factor.desc}
                             </p>
                           </div>
@@ -1549,11 +1390,7 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
                               ? 'text-emerald-500'
                               : factor.impact === 'negative'
                                 ? 'text-rose-500'
-<<<<<<< HEAD
-                                : 'text-slate-400'
-=======
                                 : 'text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                           )}
                         >
                           {factor.value}
@@ -1569,13 +1406,8 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
                 {data.sections.map((section: any, idx: number) => (
                   <div key={idx} className="space-y-4">
                     <div className="flex items-center gap-2">
-<<<<<<< HEAD
-                      <section.icon className="h-4 w-4 text-indigo-600" />
-                      <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-900">
-=======
                       <section.icon className="text-accent-primary h-4 w-4" />
                       <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                         {section.title}
                       </h4>
                     </div>
@@ -1583,57 +1415,33 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
                       {section.items.map((item: any, i: number) => (
                         <Card
                           key={i}
-<<<<<<< HEAD
-                          className="group overflow-hidden rounded-2xl border-slate-100 shadow-sm transition-all hover:shadow-md"
-                        >
-                          <CardContent className="p-4">
-                            <div className="mb-3 flex items-center justify-between">
-                              <span className="text-[10px] font-bold uppercase tracking-tight text-slate-700">
-=======
                           className="border-border-subtle group overflow-hidden rounded-2xl shadow-sm transition-all hover:shadow-md"
                         >
                           <CardContent className="p-4">
                             <div className="mb-3 flex items-center justify-between">
                               <span className="text-text-primary text-[10px] font-bold uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                                 {item.label}
                               </span>
                               <Badge
                                 variant="secondary"
-<<<<<<< HEAD
-                                className="bg-slate-50 px-1.5 py-0.5 text-[7px] font-black uppercase tracking-widest transition-colors group-hover:bg-indigo-50 group-hover:text-indigo-600"
-=======
                                 className="bg-bg-surface2 group-hover:bg-accent-primary/10 group-hover:text-accent-primary px-1.5 py-0.5 text-[7px] font-black uppercase tracking-widest transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
                               >
                                 {item.status}
                               </Badge>
                             </div>
                             <div className="space-y-1.5">
-<<<<<<< HEAD
-                              <div className="flex justify-between text-[8px] font-black uppercase tracking-widest text-slate-400">
-                                <span>Progress / Maturity</span>
-                                <span>{item.progress}%</span>
-                              </div>
-                              <div className="h-1 w-full overflow-hidden rounded-full bg-slate-100">
-=======
                               <div className="text-text-muted flex justify-between text-[8px] font-black uppercase tracking-widest">
                                 <span>Progress / Maturity</span>
                                 <span>{item.progress}%</span>
                               </div>
                               <div className="bg-bg-surface2 h-1 w-full overflow-hidden rounded-full">
->>>>>>> recover/cabinet-wip-from-stash
                                 <div
                                   className={cn(
                                     'h-full transition-all duration-1000 group-hover:brightness-110',
                                     item.progress > 80
                                       ? 'bg-emerald-500'
                                       : item.progress > 40
-<<<<<<< HEAD
-                                        ? 'bg-indigo-500'
-=======
                                         ? 'bg-accent-primary'
->>>>>>> recover/cabinet-wip-from-stash
                                         : 'bg-amber-500'
                                   )}
                                   style={{ width: `${item.progress}%` }}
@@ -1649,29 +1457,17 @@ export function CeoReportSheet({ open, onOpenChange, role }: CeoReportSheetProps
               </div>
 
               {/* Action Buttons */}
-<<<<<<< HEAD
-              <div className="grid grid-cols-2 gap-3 border-t border-slate-100 pt-4">
-                <button className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-slate-900 text-[9px] font-black uppercase tracking-widest text-white shadow-lg shadow-slate-200 transition-all hover:bg-black active:scale-95">
-                  <ArrowUpRight className="h-3.5 w-3.5" /> Экспорт Полного Отчета
-                </button>
-                <button className="flex h-12 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white text-[9px] font-black uppercase tracking-widest text-slate-900 shadow-sm transition-all hover:bg-slate-50 active:scale-95">
-=======
               <div className="border-border-subtle grid grid-cols-2 gap-3 border-t pt-4">
                 <button className="bg-text-primary flex h-12 items-center justify-center gap-2 rounded-2xl text-[9px] font-black uppercase tracking-widest text-white shadow-lg shadow-md transition-all hover:bg-black active:scale-95">
                   <ArrowUpRight className="h-3.5 w-3.5" /> Экспорт Полного Отчета
                 </button>
                 <button className="border-border-default text-text-primary hover:bg-bg-surface2 flex h-12 items-center justify-center gap-2 rounded-2xl border bg-white text-[9px] font-black uppercase tracking-widest shadow-sm transition-all active:scale-95">
->>>>>>> recover/cabinet-wip-from-stash
                   <Users className="h-3.5 w-3.5" /> Доступ Команде
                 </button>
               </div>
 
               <div className="pt-4">
-<<<<<<< HEAD
-                <Button className="h-12 w-full rounded-[1.25rem] bg-indigo-600 text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-xl shadow-indigo-100 hover:bg-indigo-700">
-=======
                 <Button className="bg-accent-primary hover:bg-accent-primary shadow-accent-primary/10 h-12 w-full rounded-[1.25rem] text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
                   Скачать аналитическую записку для {data.roleName}{' '}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>

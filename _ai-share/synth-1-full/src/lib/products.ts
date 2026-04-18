@@ -140,10 +140,6 @@ const allProducts: Product[] = (allProductsData as any[]).map((p, index) => {
   } as Product;
 });
 
-<<<<<<< HEAD
-export const products: Product[] = allProducts;
-export default allProducts;
-=======
 const demoOnly = filterToDemoPlatformProducts(allProducts).map((p) => {
   const canon = normalizeDemoBrandName(p.brand);
   return canon ? ({ ...p, brand: canon } as Product) : p;
@@ -151,4 +147,3 @@ const demoOnly = filterToDemoPlatformProducts(allProducts).map((p) => {
 
 export const products: Product[] = demoOnly;
 export default demoOnly;
->>>>>>> recover/cabinet-wip-from-stash

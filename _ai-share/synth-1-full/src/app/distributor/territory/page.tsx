@@ -18,11 +18,7 @@ export default function DistributorTerritoryPage() {
         <h1 className="text-sm font-black uppercase tracking-tighter">
           Логистическая Карта & AI Маршруты
         </h1>
-<<<<<<< HEAD
-        <p className="max-w-2xl text-sm font-medium italic text-slate-400">
-=======
         <p className="text-text-muted max-w-2xl text-sm font-medium italic">
->>>>>>> recover/cabinet-wip-from-stash
           Глобальный мониторинг поставок в реальном времени с использованием предиктивной аналитики
           маршрутов.
         </p>
@@ -47,19 +43,11 @@ export default function DistributorTerritoryPage() {
             >
               {protectionOn ? 'Включено' : 'Выключено'}
             </Button>
-<<<<<<< HEAD
-            <span className="text-[11px] text-slate-600">
-              Разрешённые регионы: {allowedRegions.join(', ')}
-            </span>
-          </div>
-          <p className="text-[10px] text-slate-500">
-=======
             <span className="text-text-secondary text-[11px]">
               Разрешённые регионы: {allowedRegions.join(', ')}
             </span>
           </div>
           <p className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
             Заказы с доставкой вне указанных регионов будут отклонены. Связь с заказами и
             ритейлерами.
           </p>
@@ -76,21 +64,12 @@ export default function DistributorTerritoryPage() {
         ].map((stat, i) => (
           <div
             key={i}
-<<<<<<< HEAD
-            className="flex flex-col gap-1 rounded-xl border border-slate-100 bg-white p-4 shadow-sm"
-          >
-            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-              {stat.label}
-            </span>
-            <span className="text-base font-black text-slate-900">{stat.value}</span>
-=======
             className="border-border-subtle flex flex-col gap-1 rounded-xl border bg-white p-4 shadow-sm"
           >
             <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
               {stat.label}
             </span>
             <span className="text-text-primary text-base font-black">{stat.value}</span>
->>>>>>> recover/cabinet-wip-from-stash
           </div>
         ))}
       </div>

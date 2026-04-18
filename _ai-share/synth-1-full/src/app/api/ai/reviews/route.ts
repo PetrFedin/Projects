@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { summarizeProductReviews } from '@/ai/flows/summarize-product-reviews';
-<<<<<<< HEAD
-=======
 
 /** POST body: `{ reviews: { text: string; rating: number }[] }` — сводка переданных отзывов. */
 export async function POST(req: NextRequest) {
@@ -22,7 +20,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Failed to summarize reviews' }, { status: 500 });
   }
 }
->>>>>>> recover/cabinet-wip-from-stash
 
 export async function GET(req: NextRequest) {
   const productId = req.nextUrl.searchParams.get('productId');

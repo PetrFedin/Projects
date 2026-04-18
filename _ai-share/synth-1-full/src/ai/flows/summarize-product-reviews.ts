@@ -40,9 +40,6 @@ export type SummarizeProductReviewsOutput = z.infer<typeof SummarizeProductRevie
 export async function summarizeProductReviews(
   input: SummarizeProductReviewsInput
 ): Promise<SummarizeProductReviewsOutput> {
-<<<<<<< HEAD
-  return withTokenAudit('summarizeProductReviews', input, (i) => summarizeProductReviewsFlow(i));
-=======
   return withTokenAudit(
     'summarizeProductReviews',
     input,
@@ -50,7 +47,6 @@ export async function summarizeProductReviews(
     undefined,
     (i: SummarizeProductReviewsInput) => summarizeProductReviewsFlow(i)
   );
->>>>>>> recover/cabinet-wip-from-stash
 }
 
 const prompt = ai.definePrompt({

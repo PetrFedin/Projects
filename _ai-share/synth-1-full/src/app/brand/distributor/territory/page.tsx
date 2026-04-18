@@ -28,25 +28,6 @@ export default function TerritoryProtectionPage() {
   }, []);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-      <SectionInfoCard
-        title="Territory Protection Logic"
-        description="Блокировка заказов от магазинов вне эксклюзивного региона дистрибьютора. Связь с B2B заказами, партнёрами и квотами. При API — проверка при создании заказа."
-        icon={MapPin}
-        iconBg="bg-blue-100"
-        iconColor="text-blue-600"
-        badges={<B2BOrdersPartnersDistributorsBadges />}
-      />
-      <div className="flex items-center gap-3">
-        <Link href={ROUTES.brand.distributors}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <h1 className="text-2xl font-bold uppercase">Territory Protection</h1>
-      </div>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="Territory Protection"
@@ -65,7 +46,6 @@ export default function TerritoryProtectionPage() {
           </div>
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -81,19 +61,11 @@ export default function TerritoryProtectionPage() {
             {rules.map((r) => (
               <li
                 key={r.id}
-<<<<<<< HEAD
-                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3"
-              >
-                <div>
-                  <p className="font-medium">Дистрибьютор D01</p>
-                  <p className="text-xs text-slate-500">
-=======
                 className="border-border-subtle bg-bg-surface2 flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"
               >
                 <div>
                   <p className="font-medium">Дистрибьютор D01</p>
                   <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                     {r.regions.join(', ')} → {actionLabels[r.action]}
                   </p>
                 </div>
@@ -106,11 +78,7 @@ export default function TerritoryProtectionPage() {
               </li>
             ))}
           </ul>
-<<<<<<< HEAD
-          <p className="mt-3 text-xs text-slate-400">
-=======
           <p className="text-text-muted mt-3 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
             API: TERRITORY_PROTECTION_API — правила, check при создании заказа.
           </p>
         </CardContent>
@@ -120,10 +88,6 @@ export default function TerritoryProtectionPage() {
         links={getTerritoryProtectionLinks()}
         title="B2B заказы, партнёры, квоты"
       />
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

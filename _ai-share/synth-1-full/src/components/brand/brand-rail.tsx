@@ -12,11 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-<<<<<<< HEAD
-import type { RailProduct, Look, Capsule, CartItem, Product } from '@/lib/types';
-=======
 import type { RailProduct, Look, Capsule, CartItem, Product, ColorInfo } from '@/lib/types';
->>>>>>> recover/cabinet-wip-from-stash
 import { products as allProducts } from '@/lib/products';
 import { useUIState } from '@/providers/ui-state';
 import { useB2BState } from '@/providers/b2b-state';
@@ -83,37 +79,6 @@ import { useToast } from '@/hooks/use-toast';
 import { looks as allLooks } from '@/lib/looks';
 import { ROUTES } from '@/lib/routes';
 
-<<<<<<< HEAD
-const PRODUCTS: RailProduct[] = allProducts.map((p) => ({
-  id: p.id,
-  title: p.name,
-  category: p.category,
-  subcategory: p.subcategory,
-  brand: p.brand,
-  heroRailImageUrl: p.images[0].url,
-  variants: (
-    p.availableColors || [
-      {
-        id: `color-${p.id}-default`,
-        name: p.color,
-        hex: '#000000',
-        sizeAvailability: p.sizes?.map((s) => ({ name: s.name })),
-      },
-    ]
-  ).map((c) => ({
-    variantId: c.id,
-    colorCode: c.hex,
-    colorName: c.name,
-    sizeRun: (c.sizeAvailability || p.sizes || []).map((s) => (typeof s === 'string' ? s : s.name)),
-    images: p.images.filter((img) => img.colorName === c.name).map((i) => i.url),
-  })),
-  pricing: { currentPrice: p.price, currency: '₽' },
-  badges: {
-    newIn: p.tags?.includes('newSeason'),
-    bestseller: !!p.bestsellerRank && p.bestsellerRank <= 5,
-  },
-}));
-=======
 const PRODUCTS: RailProduct[] = allProducts.map((p) => {
   const fallbackColor: ColorInfo = {
     id: `color-${p.id}-default`,
@@ -150,7 +115,6 @@ const PRODUCTS: RailProduct[] = allProducts.map((p) => {
     },
   };
 });
->>>>>>> recover/cabinet-wip-from-stash
 
 function SizeGrid({
   product,
@@ -477,11 +441,7 @@ export function BrandRail() {
     return PRODUCTS.filter((p) => {
       const brandMatch = brandFilter.length === 0 || brandFilter.includes(p.brand);
       const categoryMatch =
-<<<<<<< HEAD
-        categoryFilter.length === 0 || categoryFilter.includes(p.subcategory || p.category);
-=======
         categoryFilter.length === 0 || categoryFilter.includes(p.subcategory || p.category || '');
->>>>>>> recover/cabinet-wip-from-stash
       return brandMatch && categoryMatch;
     });
   }, [brandFilter, categoryFilter]);
@@ -493,19 +453,12 @@ export function BrandRail() {
     const itemsToGroup = viewMode === 'products' ? productsToDisplay : allLooks;
     return itemsToGroup.reduce(
       (acc, item) => {
-<<<<<<< HEAD
-        const key =
-          groupBy === 'brand'
-            ? (item as any).brand
-            : (item as any).subcategory || (item as any).category;
-=======
         const anyItem = item as RailProduct & Partial<Look>;
         const key = String(
           groupBy === 'brand'
             ? (anyItem.brand ?? 'Образы')
             : anyItem.subcategory || anyItem.category || anyItem.description?.slice(0, 24) || '—'
         );
->>>>>>> recover/cabinet-wip-from-stash
         if (!acc[key]) {
           acc[key] = [];
         }
@@ -522,15 +475,11 @@ export function BrandRail() {
   );
   const allCategories = useMemo(
     () =>
-<<<<<<< HEAD
-      [...new Set(PRODUCTS.map((p) => p.subcategory || p.category))].map((c) => ({
-=======
       [
         ...new Set(
           PRODUCTS.map((p) => p.subcategory || p.category).filter((c): c is string => Boolean(c))
         ),
       ].map((c) => ({
->>>>>>> recover/cabinet-wip-from-stash
         value: c,
         label: c,
       })),
@@ -745,11 +694,7 @@ export function BrandRail() {
                 </p>
               </div>
               <Button asChild>
-<<<<<<< HEAD
-                <Link href="/shop/b2b/matrix">
-=======
                 <Link href={ROUTES.shop.b2bMatrix}>
->>>>>>> recover/cabinet-wip-from-stash
                   Перейти к заказу <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>

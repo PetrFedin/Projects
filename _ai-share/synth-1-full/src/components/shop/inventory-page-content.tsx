@@ -2,12 +2,6 @@
 
 import dynamic from 'next/dynamic';
 import { useState, useMemo, useEffect } from 'react';
-<<<<<<< HEAD
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Search, PlusCircle, Zap, Truck, Activity } from 'lucide-react';
-import { InventoryTable } from '@/components/shop/inventory-table';
-=======
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -21,7 +15,6 @@ const InventoryTable = dynamic(
     loading: () => <div className="text-text-muted p-8 text-center text-sm">Загрузка таблицы…</div>,
   }
 );
->>>>>>> recover/cabinet-wip-from-stash
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Combobox } from '../ui/combobox';
 import type { Product } from '@/lib/types';
@@ -51,11 +44,7 @@ const DEMO_REF_MS = 1_717_000_000_000;
 
 const initialInventory: InventoryItem[] = allProducts.slice(0, 7).map((p, i) => ({
   ...p,
-<<<<<<< HEAD
-  storeStock: Math.floor(Math.random() * 20),
-=======
   storeStock: (i * 3 + 5) % 20,
->>>>>>> recover/cabinet-wip-from-stash
   listingStatus: i < 3 ? 'approved' : i === 3 ? 'pending' : i === 4 ? 'rejected' : 'approved',
   promotion:
     i === 5
@@ -70,13 +59,8 @@ const initialInventory: InventoryItem[] = allProducts.slice(0, 7).map((p, i) => 
           }
         : undefined,
   lastRejectionDate:
-<<<<<<< HEAD
-    i === 4 ? new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString() : undefined, // Rejected 2 days ago
-  requestDate: i === 3 ? new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString() : undefined, // Requested 12 hours ago
-=======
     i === 4 ? new Date(DEMO_REF_MS - 2 * 24 * 60 * 60 * 1000).toISOString() : undefined,
   requestDate: i === 3 ? new Date(DEMO_REF_MS - 12 * 60 * 60 * 1000).toISOString() : undefined,
->>>>>>> recover/cabinet-wip-from-stash
 }));
 
 export function InventoryPageContent() {
@@ -205,16 +189,6 @@ export function InventoryPageContent() {
 
   return (
     <div className="space-y-6">
-<<<<<<< HEAD
-      {/* VMI & Dropshipping Quick Status */}
-      <div className="mb-2 grid grid-cols-1 gap-3 md:grid-cols-3">
-        <Card className="group relative overflow-hidden rounded-[1.5rem] border-slate-100 bg-indigo-50/50 shadow-sm">
-          <div className="absolute right-0 top-0 rotate-12 p-4 opacity-5 transition-transform group-hover:scale-110">
-            <Zap className="h-12 w-12 text-indigo-600" />
-          </div>
-          <CardHeader className="p-3 pb-2">
-            <Badge className="mb-1 w-fit border-none bg-indigo-100 text-[8px] font-black uppercase tracking-widest text-indigo-700">
-=======
       <div className="flex flex-wrap justify-end gap-2">
         <Link
           href="/brand/inventory"
@@ -232,7 +206,6 @@ export function InventoryPageContent() {
           </div>
           <CardHeader className="p-3 pb-2">
             <Badge className="bg-accent-primary/15 text-accent-primary mb-1 w-fit border-none text-[8px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               Retail VMI Active
             </Badge>
             <CardTitle className="text-sm font-black uppercase">Авто-пополнение</CardTitle>
@@ -241,20 +214,12 @@ export function InventoryPageContent() {
             <div className="flex items-end justify-between">
               <div>
                 <p className="text-sm font-black tabular-nums">12</p>
-<<<<<<< HEAD
-                <p className="text-[10px] font-medium text-slate-500">SKU дозаказано ИИ</p>
-=======
                 <p className="text-text-secondary text-[10px] font-medium">SKU дозаказано ИИ</p>
->>>>>>> recover/cabinet-wip-from-stash
               </div>
               <Button
                 variant="ghost"
                 size="sm"
-<<<<<<< HEAD
-                className="h-7 text-[9px] font-bold uppercase text-indigo-600 hover:bg-indigo-100/50"
-=======
                 className="text-accent-primary hover:bg-accent-primary/10 h-7 text-[9px] font-bold uppercase"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 Детали
               </Button>
@@ -262,11 +227,7 @@ export function InventoryPageContent() {
           </CardContent>
         </Card>
 
-<<<<<<< HEAD
-        <Card className="group relative overflow-hidden rounded-[1.5rem] border-slate-100 bg-emerald-50/50 shadow-sm">
-=======
         <Card className="border-border-subtle group relative overflow-hidden rounded-[1.5rem] bg-emerald-50/50 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
           <div className="absolute right-0 top-0 rotate-12 p-4 opacity-5 transition-transform group-hover:scale-110">
             <Truck className="h-12 w-12 text-emerald-600" />
           </div>
@@ -280,11 +241,7 @@ export function InventoryPageContent() {
             <div className="flex items-end justify-between">
               <div>
                 <p className="text-sm font-black tabular-nums">48</p>
-<<<<<<< HEAD
-                <p className="text-[10px] font-medium text-slate-500">Заказов B2B2C в пути</p>
-=======
                 <p className="text-text-secondary text-[10px] font-medium">Заказов B2B2C в пути</p>
->>>>>>> recover/cabinet-wip-from-stash
               </div>
               <Button
                 variant="ghost"
@@ -297,24 +254,14 @@ export function InventoryPageContent() {
           </CardContent>
         </Card>
 
-<<<<<<< HEAD
-        <Card className="group relative overflow-hidden rounded-[1.5rem] border-slate-100 bg-white shadow-sm">
-          <div className="absolute right-0 top-0 rotate-12 p-4 opacity-5 transition-transform group-hover:scale-110">
-            <Activity className="h-12 w-12 text-slate-600" />
-=======
         <Card className="border-border-subtle group relative overflow-hidden rounded-[1.5rem] bg-white shadow-sm">
           <div className="absolute right-0 top-0 rotate-12 p-4 opacity-5 transition-transform group-hover:scale-110">
             <Activity className="text-text-secondary h-12 w-12" />
->>>>>>> recover/cabinet-wip-from-stash
           </div>
           <CardHeader className="p-3 pb-2">
             <Badge
               variant="outline"
-<<<<<<< HEAD
-              className="mb-1 w-fit border-slate-200 text-[8px] font-black uppercase tracking-widest text-slate-500"
-=======
               className="border-border-default text-text-secondary mb-1 w-fit text-[8px] font-black uppercase tracking-widest"
->>>>>>> recover/cabinet-wip-from-stash
             >
               Inventory Health
             </Badge>
@@ -324,11 +271,7 @@ export function InventoryPageContent() {
             <div className="flex items-end justify-between">
               <div>
                 <p className="text-sm font-black tabular-nums">1.4x</p>
-<<<<<<< HEAD
-                <p className="text-[10px] font-medium text-slate-500">Коэффициент SS26</p>
-=======
                 <p className="text-text-secondary text-[10px] font-medium">Коэффициент SS26</p>
->>>>>>> recover/cabinet-wip-from-stash
               </div>
               <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-600">
                 <span>+0.2</span>

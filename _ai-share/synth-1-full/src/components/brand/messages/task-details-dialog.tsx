@@ -29,10 +29,7 @@ import {
   GitCommit,
   Paperclip,
   Send,
-<<<<<<< HEAD
-=======
   Flame,
->>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
@@ -65,10 +62,7 @@ const priorityConfig: Record<
   low: { label: 'Низкий', icon: ArrowDown, color: 'text-gray-500' },
   medium: { label: 'Средний', icon: ArrowUp, color: 'text-amber-600' },
   high: { label: 'Высокий', icon: AlertCircle, color: 'text-red-600' },
-<<<<<<< HEAD
-=======
   critical: { label: 'Критический', icon: Flame, color: 'text-red-800' },
->>>>>>> recover/cabinet-wip-from-stash
 };
 
 export function TaskDetailsDialog({ isOpen, onOpenChange, task }: TaskDetailsDialogProps) {
@@ -109,11 +103,6 @@ export function TaskDetailsDialog({ isOpen, onOpenChange, task }: TaskDetailsDia
         </DialogHeader>
 
         <Tabs defaultValue="discussion" className="flex min-h-0 flex-1 flex-col">
-<<<<<<< HEAD
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="discussion">Обсуждение ({comments.length || 0})</TabsTrigger>
-            <TabsTrigger value="history">История ({task.history?.length || 0})</TabsTrigger>
-=======
           {/* cabinetSurface v1 */}
           <TabsList className={cn(cabinetSurface.tabsList, 'w-full')}>
             <TabsTrigger
@@ -134,7 +123,6 @@ export function TaskDetailsDialog({ isOpen, onOpenChange, task }: TaskDetailsDia
             >
               История ({task.history?.length || 0})
             </TabsTrigger>
->>>>>>> recover/cabinet-wip-from-stash
           </TabsList>
           <div className="min-h-0 flex-1 py-4">
             <ScrollArea className="-mr-6 h-full pr-4">

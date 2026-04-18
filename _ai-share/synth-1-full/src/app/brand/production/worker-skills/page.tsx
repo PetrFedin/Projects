@@ -38,11 +38,7 @@ export default function WorkerSkillsPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="max-w-4xl space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Матрица навыков сотрудников"
         description={
@@ -83,11 +79,7 @@ export default function WorkerSkillsPage() {
             {data.workers.map((w, i) => (
               <li
                 key={w.id}
-<<<<<<< HEAD
-                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4"
-=======
                 className="bg-bg-surface2 border-border-default flex flex-wrap items-center justify-between gap-3 rounded-xl border p-4"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <div>
                   <p className="font-bold">{w.name}</p>

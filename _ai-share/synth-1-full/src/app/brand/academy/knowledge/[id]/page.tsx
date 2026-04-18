@@ -23,15 +23,6 @@ export default function KnowledgeArticlePage() {
 
   if (!article) {
     return (
-<<<<<<< HEAD
-      <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
-        <div className="mb-6 flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={() => router.back()}>
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <p className="text-slate-500">Статья не найдена</p>
-        </div>
-=======
       <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
         <RegistryPageHeader
           title="Статья не найдена"
@@ -48,7 +39,6 @@ export default function KnowledgeArticlePage() {
             </Button>
           }
         />
->>>>>>> recover/cabinet-wip-from-stash
         <Button variant="outline" asChild>
           <Link href={ROUTES.brand.academy}>Вернуться в академию</Link>
         </Button>
@@ -57,28 +47,6 @@ export default function KnowledgeArticlePage() {
   }
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex items-center gap-3">
-          <Link href={ROUTES.brand.academy}>
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          </Link>
-          <div>
-            <h1 className="text-2xl font-bold uppercase tracking-tight">{article.title}</h1>
-            <p className="text-sm text-slate-500">
-              База знаний · {KNOWLEDGE_CATEGORY_LABELS[article.category] ?? article.category}
-            </p>
-          </div>
-        </div>
-        <AcademySegmentSwitcher active="brand" />
-      </div>
-
-      <WidgetCard title="База знаний" description="Статьи для партнёров и клиентов.">
-        <Card className="rounded-xl border border-slate-100">
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title={article.title}
@@ -95,7 +63,6 @@ export default function KnowledgeArticlePage() {
 
       <WidgetCard title="База знаний" description="Статьи для партнёров и клиентов.">
         <Card className="border-border-subtle rounded-xl border">
->>>>>>> recover/cabinet-wip-from-stash
           <CardHeader className="pb-2">
             <div className="flex flex-wrap gap-2">
               <Badge variant="outline">
@@ -106,19 +73,11 @@ export default function KnowledgeArticlePage() {
                   {aud === 'partners' ? 'Партнёрам' : aud === 'clients' ? 'Клиентам' : 'Команде'}
                 </Badge>
               ))}
-<<<<<<< HEAD
-              <span className="text-[11px] text-slate-500">Обновлено {article.updatedAt}</span>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="leading-relaxed text-slate-700">{article.excerpt}</p>
-=======
               <span className="text-text-secondary text-[11px]">Обновлено {article.updatedAt}</span>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-text-primary leading-relaxed">{article.excerpt}</p>
->>>>>>> recover/cabinet-wip-from-stash
             {article.tags.length > 0 && (
               <div className="flex flex-wrap gap-1 pt-2">
                 {article.tags.map((tag) => (

@@ -13,11 +13,7 @@ import { ArrowLeft, LayoutPanelLeft, AlertCircle, PlusCircle, Search } from 'luc
 export default function AssortmentGapsPage() {
   const categories = Array.from(new Set(products.map((p) => p.category)));
   const gaps = useMemo(
-<<<<<<< HEAD
-    () => categories.map((c) => analyzeAssortmentGaps(products, c)),
-=======
     () => categories.map((c) => analyzeCategoryAssortmentGaps(products, c)),
->>>>>>> recover/cabinet-wip-from-stash
     [categories]
   );
 

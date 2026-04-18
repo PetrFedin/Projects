@@ -66,11 +66,7 @@ export function OnlineStorePickerDialog({
         </DialogHeader>
         <div className="space-y-3">
           <div className="relative">
-<<<<<<< HEAD
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-=======
             <Search className="text-text-muted absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
->>>>>>> recover/cabinet-wip-from-stash
             <Input
               placeholder="Поиск по названию, городу..."
               value={search}
@@ -78,15 +74,9 @@ export function OnlineStorePickerDialog({
               className="pl-9"
             />
           </div>
-<<<<<<< HEAD
-          <div className="max-h-64 space-y-1 overflow-y-auto rounded-lg border border-slate-100 p-2">
-            {filtered.length === 0 ? (
-              <p className="py-6 text-center text-sm text-slate-500">
-=======
           <div className="border-border-subtle max-h-64 space-y-1 overflow-y-auto rounded-lg border p-2">
             {filtered.length === 0 ? (
               <p className="text-text-secondary py-6 text-center text-sm">
->>>>>>> recover/cabinet-wip-from-stash
                 {excludeIds.length > 0 && !search
                   ? 'Все участники уже добавлены'
                   : 'Ничего не найдено'}
@@ -99,17 +89,10 @@ export function OnlineStorePickerDialog({
                   onClick={() => handleSelect(shop)}
                   className={cn(
                     'flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors',
-<<<<<<< HEAD
-                    'border border-transparent hover:border-slate-200 hover:bg-slate-50'
-                  )}
-                >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-slate-100">
-=======
                     'hover:bg-bg-surface2 hover:border-border-default border border-transparent'
                   )}
                 >
                   <div className="bg-bg-surface2 flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg">
->>>>>>> recover/cabinet-wip-from-stash
                     {shop.logoUrl ? (
                       <Image
                         src={shop.logoUrl}
@@ -123,21 +106,12 @@ export function OnlineStorePickerDialog({
                     )}
                   </div>
                   <div className="min-w-0 flex-1">
-<<<<<<< HEAD
-                    <p className="truncate font-semibold text-slate-900">{shop.name}</p>
-                    <p className="truncate text-xs text-slate-500">
-                      {[shop.type, shop.city].filter(Boolean).join(' · ')}
-                    </p>
-                  </div>
-                  <Check className="h-4 w-4 shrink-0 text-indigo-600" />
-=======
                     <p className="text-text-primary truncate font-semibold">{shop.name}</p>
                     <p className="text-text-secondary truncate text-xs">
                       {[shop.type, shop.city].filter(Boolean).join(' · ')}
                     </p>
                   </div>
                   <Check className="text-accent-primary h-4 w-4 shrink-0" />
->>>>>>> recover/cabinet-wip-from-stash
                 </button>
               ))
             )}

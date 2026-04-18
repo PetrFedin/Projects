@@ -20,11 +20,7 @@ export function ProductDynamicMarkdownBlock({ product }: { product: Product }) {
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-rose-600">
           <Flame className="h-4 w-4" />
-<<<<<<< HEAD
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
-=======
           <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
             AI Retail Dynamic Markdown Optimizer
           </h4>
         </div>
@@ -41,11 +37,7 @@ export function ProductDynamicMarkdownBlock({ product }: { product: Product }) {
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-4">
           <div className="rounded-xl border border-rose-100 bg-white/80 p-3 text-center shadow-sm">
-<<<<<<< HEAD
-            <div className="mb-1 text-[8px] font-black uppercase tracking-widest text-slate-400">
-=======
             <div className="text-text-muted mb-1 text-[8px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               Suggested Action
             </div>
             {markdown.suggestedMarkdownPercent > 0 ? (
@@ -53,22 +45,14 @@ export function ProductDynamicMarkdownBlock({ product }: { product: Product }) {
                 <div className="text-3xl font-black text-rose-600">
                   -{markdown.suggestedMarkdownPercent}%
                 </div>
-<<<<<<< HEAD
-                <div className="mt-1 text-[9px] font-bold uppercase text-slate-500">
-=======
                 <div className="text-text-secondary mt-1 text-[9px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   Limited Time Price Drop
                 </div>
               </>
             ) : (
               <>
                 <div className="text-xl font-black uppercase text-emerald-600">Maintain MSRP</div>
-<<<<<<< HEAD
-                <div className="mt-1 text-[9px] font-bold uppercase text-slate-500">
-=======
                 <div className="text-text-secondary mt-1 text-[9px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   Healthy Velocity
                 </div>
               </>
@@ -78,17 +62,6 @@ export function ProductDynamicMarkdownBlock({ product }: { product: Product }) {
           <div className="flex gap-2">
             <div className="flex-1 rounded-xl border border-rose-100 bg-white/50 p-2.5 text-center">
               <TrendingUp className="mx-auto mb-1 h-3.5 w-3.5 text-rose-500" />
-<<<<<<< HEAD
-              <div className="text-[12px] font-black leading-none text-slate-800">
-                +{markdown.projectedSellThroughIncrease}%
-              </div>
-              <div className="mt-1 text-[7px] font-black uppercase text-slate-400">Proj. Lift</div>
-            </div>
-            <div className="flex-1 rounded-xl border border-rose-100 bg-white/50 p-2.5 text-center">
-              <BarChart3 className="mx-auto mb-1 h-3.5 w-3.5 text-sky-500" />
-              <div className="text-[12px] font-black leading-none text-slate-800">AI</div>
-              <div className="mt-1 text-[7px] font-black uppercase text-slate-400">Model-V2</div>
-=======
               <div className="text-text-primary text-[12px] font-black leading-none">
                 +{markdown.projectedSellThroughIncrease}%
               </div>
@@ -98,7 +71,6 @@ export function ProductDynamicMarkdownBlock({ product }: { product: Product }) {
               <BarChart3 className="mx-auto mb-1 h-3.5 w-3.5 text-sky-500" />
               <div className="text-text-primary text-[12px] font-black leading-none">AI</div>
               <div className="text-text-muted mt-1 text-[7px] font-black uppercase">Model-V2</div>
->>>>>>> recover/cabinet-wip-from-stash
             </div>
           </div>
         </div>
@@ -107,17 +79,11 @@ export function ProductDynamicMarkdownBlock({ product }: { product: Product }) {
           <div className="mb-2 flex items-center gap-2 text-[8px] font-black uppercase text-rose-600">
             <Info className="h-3.5 w-3.5" /> Markdown Rational
           </div>
-<<<<<<< HEAD
-          <p className="text-[10px] font-bold leading-tight text-slate-600">"{markdown.reason}"</p>
-          <div className="mt-3 border-t border-rose-100 pt-3">
-            <div className="flex justify-between text-[9px] font-black uppercase text-slate-400">
-=======
           <p className="text-text-secondary text-[10px] font-bold leading-tight">
             "{markdown.reason}"
           </p>
           <div className="mt-3 border-t border-rose-100 pt-3">
             <div className="text-text-muted flex justify-between text-[9px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
               <span>Current Price</span>
               <span>{markdown.currentPrice.toLocaleString()} ₽</span>
             </div>

@@ -42,27 +42,8 @@ export default function QuoteToOrderPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <FileText className="h-6 w-6" /> Quote-to-Order
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            NetSuite/BigCommerce: конвертация КП в заказ одной кнопкой
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="max-w-3xl space-y-6">
       <ShopB2bContentHeader lead="Конвертация коммерческого предложения в заказ одной кнопкой (интеграции NetSuite / BigCommerce)." />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -75,21 +56,13 @@ export default function QuoteToOrderPage() {
           {MOCK_QUOTES.map((q) => (
             <div
               key={q.id}
-<<<<<<< HEAD
-              className="flex items-center justify-between rounded-xl border border-slate-200 p-4"
-=======
               className="border-border-default flex items-center justify-between rounded-xl border p-4"
->>>>>>> recover/cabinet-wip-from-stash
             >
               <div>
                 <p className="font-medium">
                   {q.number} · {q.brand}
                 </p>
-<<<<<<< HEAD
-                <p className="text-xs text-slate-500">
-=======
                 <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                   {q.items} позиций · {q.total.toLocaleString('ru-RU')} ₽
                 </p>
               </div>

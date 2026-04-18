@@ -80,47 +80,28 @@ export const CreateChatDialog: React.FC<CreateChatDialogProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-xl rounded-xl border-none bg-white p-3 shadow-2xl">
         <DialogHeader className="mb-6 space-y-3">
-<<<<<<< HEAD
-          <DialogTitle className="text-base font-black uppercase tracking-tighter text-slate-800">
-            Создать чат
-          </DialogTitle>
-          <DialogDescription className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-=======
           <DialogTitle className="text-text-primary text-base font-black uppercase tracking-tighter">
             Создать чат
           </DialogTitle>
           <DialogDescription className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
             Организуйте взаимодействие в едином пространстве
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
           <div className="space-y-2">
-<<<<<<< HEAD
-            <Label className="ml-2 text-[10px] font-black uppercase tracking-[0.2rem] text-slate-400">
-=======
             <Label className="text-text-muted ml-2 text-[10px] font-black uppercase tracking-[0.2rem]">
->>>>>>> recover/cabinet-wip-from-stash
               Название чата
             </Label>
             <Input
               value={name}
               onChange={(e) => setName(e.target.value)}
-<<<<<<< HEAD
-              className="h-12 rounded-2xl border-slate-100 bg-slate-50 px-5 text-sm font-bold"
-=======
               className="bg-bg-surface2 border-border-subtle h-12 rounded-2xl px-5 text-sm font-bold"
->>>>>>> recover/cabinet-wip-from-stash
             />
           </div>
 
           <div className="space-y-2">
-<<<<<<< HEAD
-            <Label className="ml-2 text-[10px] font-black uppercase tracking-[0.2rem] text-slate-400">
-=======
             <Label className="text-text-muted ml-2 text-[10px] font-black uppercase tracking-[0.2rem]">
->>>>>>> recover/cabinet-wip-from-stash
               Группа назначения
             </Label>
             <div className="grid grid-cols-2 gap-3">
@@ -132,13 +113,8 @@ export const CreateChatDialog: React.FC<CreateChatDialogProps> = ({
                   className={cn(
                     'h-12 justify-start rounded-xl text-[10px] font-black uppercase tracking-widest transition-all',
                     groupKey === g.key
-<<<<<<< HEAD
-                      ? 'bg-slate-900 text-white shadow-lg'
-                      : 'border-slate-100 bg-slate-50 text-slate-400 hover:bg-white'
-=======
                       ? 'bg-text-primary text-white shadow-lg'
                       : 'bg-bg-surface2 border-border-subtle text-text-muted hover:bg-white'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                   onClick={() => setGroupKey(g.key)}
                 >
@@ -149,11 +125,7 @@ export const CreateChatDialog: React.FC<CreateChatDialogProps> = ({
           </div>
 
           <div className="space-y-2">
-<<<<<<< HEAD
-            <Label className="ml-2 text-[10px] font-black uppercase tracking-[0.2rem] text-slate-400">
-=======
             <Label className="text-text-muted ml-2 text-[10px] font-black uppercase tracking-[0.2rem]">
->>>>>>> recover/cabinet-wip-from-stash
               Привязать к
             </Label>
             <div className="flex flex-wrap gap-2">
@@ -209,11 +181,7 @@ export const CreateChatDialog: React.FC<CreateChatDialogProps> = ({
           </div>
 
           <div className="space-y-2">
-<<<<<<< HEAD
-            <Label className="ml-2 text-[10px] font-black uppercase tracking-[0.2rem] text-slate-400">
-=======
             <Label className="text-text-muted ml-2 text-[10px] font-black uppercase tracking-[0.2rem]">
->>>>>>> recover/cabinet-wip-from-stash
               Новая группа
             </Label>
             <div className="flex gap-3">
@@ -221,20 +189,12 @@ export const CreateChatDialog: React.FC<CreateChatDialogProps> = ({
                 value={newGroupName}
                 onChange={(e) => setNewGroupName(e.target.value)}
                 placeholder="Напр: Логистика"
-<<<<<<< HEAD
-                className="h-12 rounded-2xl border-slate-100 bg-slate-50 px-5 text-xs font-bold"
-=======
                 className="bg-bg-surface2 border-border-subtle h-12 rounded-2xl px-5 text-xs font-bold"
->>>>>>> recover/cabinet-wip-from-stash
               />
               <Button
                 variant="outline"
                 onClick={createGroup}
-<<<<<<< HEAD
-                className="h-12 rounded-2xl border-slate-100 px-6 hover:bg-slate-50"
-=======
                 className="border-border-subtle hover:bg-bg-surface2 h-12 rounded-2xl px-6"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <Plus className="mr-2 h-4 w-4" />
                 <span className="text-[10px] font-black uppercase tracking-widest">Добавить</span>
@@ -247,11 +207,7 @@ export const CreateChatDialog: React.FC<CreateChatDialogProps> = ({
           <Button
             variant="ghost"
             onClick={() => onOpenChange(false)}
-<<<<<<< HEAD
-            className="h-12 rounded-2xl px-8 text-[10px] font-black uppercase tracking-widest text-slate-400"
-=======
             className="text-text-muted h-12 rounded-2xl px-8 text-[10px] font-black uppercase tracking-widest"
->>>>>>> recover/cabinet-wip-from-stash
           >
             Отмена
           </Button>

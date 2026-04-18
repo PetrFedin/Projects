@@ -79,17 +79,10 @@ export default function BudgetVsActual({
       <header className="flex flex-wrap items-center justify-between gap-3">
         {!embedded && (
           <div>
-<<<<<<< HEAD
-            <h3 className="text-base font-black uppercase italic tracking-tight text-slate-900">
-              План <span className="text-indigo-600">vs Факт</span>
-            </h3>
-            <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-=======
             <h3 className="text-text-primary text-base font-black uppercase italic tracking-tight">
               План <span className="text-accent-primary">vs Факт</span>
             </h3>
             <p className="text-text-muted mt-1 text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               Сравнение лимитов и фактических расходов по сезону
             </p>
           </div>
@@ -98,13 +91,8 @@ export default function BudgetVsActual({
           <SelectTrigger
             className={
               embedded
-<<<<<<< HEAD
-                ? 'ml-auto h-9 w-[140px] rounded-lg border-slate-200 text-[10px] font-bold uppercase'
-                : 'h-9 w-[140px] rounded-lg border-slate-200 text-[10px] font-bold uppercase'
-=======
                 ? 'border-border-default ml-auto h-9 w-[140px] rounded-lg text-[10px] font-bold uppercase'
                 : 'border-border-default h-9 w-[140px] rounded-lg text-[10px] font-bold uppercase'
->>>>>>> recover/cabinet-wip-from-stash
             }
             aria-label="Сезон"
           >
@@ -120,19 +108,11 @@ export default function BudgetVsActual({
 
       {isLoading ? (
         <div className="flex justify-center py-12">
-<<<<<<< HEAD
-          <Loader2 className="h-10 w-10 animate-spin text-slate-300" />
-        </div>
-      ) : rows.length === 0 ? (
-        <Card className="rounded-xl border border-slate-200 p-8 text-center">
-          <p className="text-sm text-slate-500">
-=======
           <Loader2 className="text-text-muted h-10 w-10 animate-spin" />
         </div>
       ) : rows.length === 0 ? (
         <Card className="border-border-default rounded-xl border p-8 text-center">
           <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
             Нет данных по бюджетам за выбранный сезон. Задайте лимиты во вкладке «Лимиты».
           </p>
         </Card>
@@ -141,19 +121,6 @@ export default function BudgetVsActual({
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left">
               <thead>
-<<<<<<< HEAD
-                <tr className="border-b border-slate-200">
-                  <th className="pb-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                    Категория
-                  </th>
-                  <th className="pb-2 text-right text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                    План
-                  </th>
-                  <th className="pb-2 text-right text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                    Факт
-                  </th>
-                  <th className="pb-2 text-right text-[10px] font-bold uppercase tracking-widest text-slate-400">
-=======
                 <tr className="border-border-default border-b">
                   <th className="text-text-muted pb-2 text-[10px] font-bold uppercase tracking-widest">
                     Категория
@@ -165,28 +132,18 @@ export default function BudgetVsActual({
                     Факт
                   </th>
                   <th className="text-text-muted pb-2 text-right text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Отклонение
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {rows.map((r) => (
-<<<<<<< HEAD
-                  <tr key={r.id} className="border-b border-slate-100">
-                    <td className="py-3 text-sm font-medium text-slate-900">{r.category}</td>
-                    <td className="py-3 text-right text-sm tabular-nums text-slate-700">
-                      {r.currency} {r.plan.toLocaleString()}
-                    </td>
-                    <td className="py-3 text-right text-sm tabular-nums text-slate-900">
-=======
                   <tr key={r.id} className="border-border-subtle border-b">
                     <td className="text-text-primary py-3 text-sm font-medium">{r.category}</td>
                     <td className="text-text-primary py-3 text-right text-sm tabular-nums">
                       {r.currency} {r.plan.toLocaleString()}
                     </td>
                     <td className="text-text-primary py-3 text-right text-sm tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
                       {r.currency} {r.actual.toLocaleString()}
                     </td>
                     <td className="py-3 text-right">
@@ -197,11 +154,7 @@ export default function BudgetVsActual({
                             ? 'text-rose-600'
                             : r.diff < 0
                               ? 'text-emerald-600'
-<<<<<<< HEAD
-                              : 'text-slate-500'
-=======
                               : 'text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                         )}
                       >
                         {r.diff > 0 ? (
@@ -220,13 +173,8 @@ export default function BudgetVsActual({
                 ))}
               </tbody>
               <tfoot>
-<<<<<<< HEAD
-                <tr className="border-t-2 border-slate-200 bg-slate-50/50">
-                  <td className="py-3 text-sm font-black text-slate-900">Итого</td>
-=======
                 <tr className="border-border-default bg-bg-surface2/80 border-t-2">
                   <td className="text-text-primary py-3 text-sm font-black">Итого</td>
->>>>>>> recover/cabinet-wip-from-stash
                   <td className="py-3 text-right text-sm font-black tabular-nums">
                     {rows[0]?.currency} {totalPlan.toLocaleString()}
                   </td>
@@ -249,13 +197,8 @@ export default function BudgetVsActual({
               </tfoot>
             </table>
           </div>
-<<<<<<< HEAD
-          <Card className="rounded-xl border border-slate-200 bg-slate-50/30 p-4">
-            <CardDescription className="text-[10px] font-bold uppercase text-slate-500">
-=======
           <Card className="border-border-default bg-bg-surface2/30 rounded-xl border p-4">
             <CardDescription className="text-text-secondary text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
               <Scale className="mr-1 inline h-3.5 w-3.5" /> Факт ниже плана — экономия; выше плана —
               перерасход. Данные согласуются с учётом заказов и отшива.
             </CardDescription>

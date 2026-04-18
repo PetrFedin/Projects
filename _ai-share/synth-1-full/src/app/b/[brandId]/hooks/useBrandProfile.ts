@@ -316,10 +316,7 @@ export function useBrandProfile(params: any, isPreview: boolean, initialDisplayS
     handleSendMessage,
     displayName,
     b2bPartnerStatus,
-<<<<<<< HEAD
-=======
     setB2bPartnerStatus,
->>>>>>> recover/cabinet-wip-from-stash
     handleB2bRegistration,
     handleEventRegistration,
     currentTeamIdx,

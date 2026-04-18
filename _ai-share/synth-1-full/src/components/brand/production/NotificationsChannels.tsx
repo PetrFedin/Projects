@@ -81,13 +81,8 @@ export function NotificationsChannels({
   };
 
   return (
-<<<<<<< HEAD
-    <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
-      <CardHeader className="border-b border-slate-50 bg-slate-50/30 p-4">
-=======
     <Card className="border-border-subtle overflow-hidden rounded-2xl border shadow-sm">
       <CardHeader className="border-border-subtle bg-bg-surface2/30 border-b p-4">
->>>>>>> recover/cabinet-wip-from-stash
         <CardTitle className="text-[11px] font-black uppercase">Email и Push-уведомления</CardTitle>
         <CardDescription className="text-[9px]">
           Настройка каналов: SLA, QC, PO amendments, дедлайны — настраиваемые триггеры
@@ -96,11 +91,7 @@ export function NotificationsChannels({
       <CardContent className="space-y-4 p-4">
         <div className="flex flex-wrap gap-4">
           <div className="flex items-center gap-2">
-<<<<<<< HEAD
-            <Mail className="h-4 w-4 text-slate-500" />
-=======
             <Mail className="text-text-secondary h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
             <Label className="text-[10px] font-bold uppercase">Email</Label>
             <Switch checked={emailEnabled} onCheckedChange={setEmailEnabled} />
             {emailEnabled && (
@@ -110,11 +101,7 @@ export function NotificationsChannels({
             )}
           </div>
           <div className="flex items-center gap-2">
-<<<<<<< HEAD
-            <Smartphone className="h-4 w-4 text-slate-500" />
-=======
             <Smartphone className="text-text-secondary h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
             <Label className="text-[10px] font-bold uppercase">Push</Label>
             <Switch checked={pushEnabled} onCheckedChange={setPushEnabled} />
             {pushEnabled && (
@@ -126,11 +113,7 @@ export function NotificationsChannels({
         </div>
 
         <div className="space-y-2">
-<<<<<<< HEAD
-          <p className="text-[9px] font-black uppercase text-slate-500">
-=======
           <p className="text-text-secondary text-[9px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
             Триггеры по типам событий
           </p>
           <div className="space-y-2">
@@ -139,26 +122,15 @@ export function NotificationsChannels({
               return (
                 <div
                   key={t.id}
-<<<<<<< HEAD
-                  className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50/50 p-3 transition-colors hover:bg-slate-50"
-                >
-                  <div className="flex items-center gap-2">
-                    <Icon className="h-4 w-4 text-indigo-500" />
-=======
                   className="border-border-subtle bg-bg-surface2/80 hover:bg-bg-surface2 flex items-center justify-between rounded-xl border p-3 transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     <Icon className="text-accent-primary h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
                     <span className="text-[10px] font-bold">{t.label}</span>
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1.5">
-<<<<<<< HEAD
-                      <Mail className="h-3.5 w-3.5 text-slate-400" />
-=======
                       <Mail className="text-text-muted h-3.5 w-3.5" />
->>>>>>> recover/cabinet-wip-from-stash
                       <Switch
                         checked={config[t.id].email}
                         onCheckedChange={(v) => handleChannelChange(t.id, 'email', v)}
@@ -166,11 +138,7 @@ export function NotificationsChannels({
                       />
                     </div>
                     <div className="flex items-center gap-1.5">
-<<<<<<< HEAD
-                      <Smartphone className="h-3.5 w-3.5 text-slate-400" />
-=======
                       <Smartphone className="text-text-muted h-3.5 w-3.5" />
->>>>>>> recover/cabinet-wip-from-stash
                       <Switch
                         checked={config[t.id].push}
                         onCheckedChange={(v) => handleChannelChange(t.id, 'push', v)}

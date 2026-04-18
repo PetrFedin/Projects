@@ -67,11 +67,7 @@ export function useIdentitySwitch() {
       setViewRole(isB2B ? 'b2b' : 'client');
 
       // 4. Determine target URL with robust fallbacks
-<<<<<<< HEAD
-      let targetUrl = '/u'; // Default to profile
-=======
       let targetUrl = ROUTES.client.profile; // Default to profile
->>>>>>> recover/cabinet-wip-from-stash
 
       // Determine effective role type
       const currentOrgId = organizationId || newProfile.activeOrganizationId || '';
@@ -105,19 +101,6 @@ export function useIdentitySwitch() {
 
       // Map roles to URLs (главные страницы профилей)
       const roleMap: Record<string, string> = {
-<<<<<<< HEAD
-        admin: '/admin',
-        brand: '/brand',
-        shop: '/shop',
-        manufacturer: '/factory?role=manufacturer',
-        supplier: '/factory?role=supplier',
-        distributor: '/distributor',
-        /** Личный кабинет покупателя — страница профиля /u */
-        client: '/u',
-      };
-
-      targetUrl = roleMap[effectiveRole] || '/u';
-=======
         admin: ROUTES.admin.home,
         brand: ROUTES.brand.home,
         shop: ROUTES.shop.home,
@@ -129,7 +112,6 @@ export function useIdentitySwitch() {
       };
 
       targetUrl = roleMap[effectiveRole] || ROUTES.client.profile;
->>>>>>> recover/cabinet-wip-from-stash
 
       console.log('Identity switch SUCCESS. Final target:', targetUrl);
 

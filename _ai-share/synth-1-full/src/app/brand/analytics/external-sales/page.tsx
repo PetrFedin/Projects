@@ -13,11 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-<<<<<<< HEAD
-import { BarChart3, Globe, Download, ArrowLeft, Link2, Upload, CheckCircle } from 'lucide-react';
-=======
 import { ArrowLeft, Link2, Upload, CheckCircle } from 'lucide-react';
->>>>>>> recover/cabinet-wip-from-stash
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getAnalyticsLinks } from '@/lib/data/entity-links';
@@ -28,11 +24,7 @@ const MOCK_EXTERNAL = [
   {
     id: '1',
     collection: 'FW26 Основная',
-<<<<<<< HEAD
-    retailer: 'Podium',
-=======
     retailer: 'Демо-магазин · Москва 1',
->>>>>>> recover/cabinet-wip-from-stash
     channel: 'Свой сайт',
     sales: '1 240 000 ₽',
     units: 312,
@@ -42,11 +34,7 @@ const MOCK_EXTERNAL = [
   {
     id: '2',
     collection: 'FW26 Основная',
-<<<<<<< HEAD
-    retailer: 'ЦУМ',
-=======
     retailer: 'Демо-магазин · Москва 2',
->>>>>>> recover/cabinet-wip-from-stash
     channel: 'Магазины',
     sales: '2 100 000 ₽',
     units: 480,
@@ -56,13 +44,8 @@ const MOCK_EXTERNAL = [
   {
     id: '3',
     collection: 'FW26 Основная',
-<<<<<<< HEAD
-    retailer: 'Lamoda',
-    channel: 'Lamoda (маркетплейс)',
-=======
     retailer: 'Демо-магазин · СПб',
     channel: 'Маркетплейс (демо)',
->>>>>>> recover/cabinet-wip-from-stash
     sales: '890 000 ₽',
     units: 220,
     integration: 'api',
@@ -71,13 +54,8 @@ const MOCK_EXTERNAL = [
   {
     id: '4',
     collection: 'FW26 Techwear',
-<<<<<<< HEAD
-    retailer: 'Podium',
-    channel: 'Wildberries',
-=======
     retailer: 'Демо-магазин · Москва 1',
     channel: 'Маркетплейс (демо)',
->>>>>>> recover/cabinet-wip-from-stash
     sales: '420 000 ₽',
     units: 95,
     integration: 'api',
@@ -86,13 +64,8 @@ const MOCK_EXTERNAL = [
   {
     id: '5',
     collection: 'SS25 Остатки',
-<<<<<<< HEAD
-    retailer: 'ЦУМ',
-    channel: 'Ozon',
-=======
     retailer: 'Демо-магазин · Москва 2',
     channel: 'Маркетплейс (демо)',
->>>>>>> recover/cabinet-wip-from-stash
     sales: '180 000 ₽',
     units: 88,
     integration: 'upload',
@@ -105,26 +78,6 @@ const channelLabel = (integration: string) =>
 
 export default function ExternalSalesPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href={ROUTES.brand.analyticsBi}>
-            <ArrowLeft className="h-4 w-4" />
-          </Link>
-        </Button>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <Globe className="h-6 w-6" /> Продажи на других площадках
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Интеграция результатов продаж закупленных у вас коллекций: ритейлеры отчитывают продажи
-            с своего сайта, маркетплейсов (WB, Ozon, Lamoda), магазинов. Все данные сводятся на
-            платформе для полного анализа.
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="Продажи на других площадках"
@@ -137,7 +90,6 @@ export default function ExternalSalesPage() {
           </Button>
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -188,11 +140,7 @@ export default function ExternalSalesPage() {
                       {channelLabel(row.integration)}
                     </Badge>
                   </TableCell>
-<<<<<<< HEAD
-                  <TableCell className="text-sm text-slate-500">{row.period}</TableCell>
-=======
                   <TableCell className="text-text-secondary text-sm">{row.period}</TableCell>
->>>>>>> recover/cabinet-wip-from-stash
                 </TableRow>
               ))}
             </TableBody>
@@ -206,14 +154,9 @@ export default function ExternalSalesPage() {
             <Link2 className="h-4 w-4" /> Сведение данных на платформе
           </CardTitle>
           <CardDescription>
-<<<<<<< HEAD
-            Все каналы (B2B отгрузки, Маркетрум, Аутлет, продажи партнёров на WB/Ozon/свой сайт)
-            сводятся в единую отчётность. Откройте «Сводную аналитику» для полного анализа.
-=======
             Все каналы (B2B отгрузки, Маркетрум, Аутлет, продажи партнёров на внешних витринах и
             своём сайте) сводятся в единую отчётность. Откройте «Сводную аналитику» для полного
             анализа.
->>>>>>> recover/cabinet-wip-from-stash
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -231,15 +174,6 @@ export default function ExternalSalesPage() {
               Сайты партнёров
             </Badge>
             <Badge variant="outline" className="text-xs">
-<<<<<<< HEAD
-              Wildberries
-            </Badge>
-            <Badge variant="outline" className="text-xs">
-              Ozon
-            </Badge>
-            <Badge variant="outline" className="text-xs">
-              Lamoda
-=======
               Маркетплейс (демо) A
             </Badge>
             <Badge variant="outline" className="text-xs">
@@ -247,7 +181,6 @@ export default function ExternalSalesPage() {
             </Badge>
             <Badge variant="outline" className="text-xs">
               Маркетплейс (демо) C
->>>>>>> recover/cabinet-wip-from-stash
             </Badge>
           </div>
           <Button className="mt-4" asChild>

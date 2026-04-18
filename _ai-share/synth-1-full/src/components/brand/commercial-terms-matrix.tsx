@@ -147,17 +147,6 @@ export function CommercialTermsMatrix() {
 
         <CardContent className="space-y-10 p-3 pt-10">
           <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
-<<<<<<< HEAD
-            <div className="group flex flex-col justify-between rounded-xl border border-slate-100 bg-slate-50 p-4 transition-all hover:border-indigo-200">
-              <div>
-                <div className="mb-4 flex items-center gap-3">
-                  <BadgePercent className="h-6 w-6 text-indigo-600" />
-                  <span className="text-[11px] font-black uppercase tracking-widest text-slate-900">
-                    Pricing Tiers (Wholesale)
-                  </span>
-                </div>
-                <p className="mb-6 text-[10px] font-medium uppercase leading-relaxed text-slate-500">
-=======
             <div className="bg-bg-surface2 border-border-subtle hover:border-accent-primary/30 group flex flex-col justify-between rounded-xl border p-4 transition-all">
               <div>
                 <div className="mb-4 flex items-center gap-3">
@@ -167,7 +156,6 @@ export function CommercialTermsMatrix() {
                   </span>
                 </div>
                 <p className="text-text-secondary mb-6 text-[10px] font-medium uppercase leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                   Оптовые цены, рассчитанные на основе выбранной розничной цены.
                 </p>
                 <div className="space-y-3">
@@ -178,19 +166,6 @@ export function CommercialTermsMatrix() {
                   ].map((t, i) => (
                     <div
                       key={i}
-<<<<<<< HEAD
-                      className="flex items-center justify-between rounded-2xl border border-slate-100 bg-white p-4 shadow-sm transition-all group-hover:shadow-md"
-                    >
-                      <div>
-                        <span className="block text-[10px] font-black uppercase text-slate-400">
-                          {t.label}
-                        </span>
-                        <span className="text-[8px] font-bold uppercase text-indigo-600">
-                          Discount: {t.discount}
-                        </span>
-                      </div>
-                      <span className="text-sm font-black tabular-nums text-slate-900">
-=======
                       className="border-border-subtle flex items-center justify-between rounded-2xl border bg-white p-4 shadow-sm transition-all group-hover:shadow-md"
                     >
                       <div>
@@ -202,7 +177,6 @@ export function CommercialTermsMatrix() {
                         </span>
                       </div>
                       <span className="text-text-primary text-sm font-black tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
                         {t.price.toLocaleString('ru-RU')} ₽
                       </span>
                     </div>
@@ -211,27 +185,12 @@ export function CommercialTermsMatrix() {
               </div>
               <Button
                 variant="ghost"
-<<<<<<< HEAD
-                className="mt-6 w-full text-[9px] font-black uppercase text-indigo-600"
-=======
                 className="text-accent-primary mt-6 w-full text-[9px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 Настроить тиры <ChevronRight className="ml-1 h-3 w-3" />
               </Button>
             </div>
 
-<<<<<<< HEAD
-            <div className="group flex flex-col justify-between rounded-xl border border-slate-100 bg-slate-50 p-4 transition-all hover:border-emerald-200">
-              <div>
-                <div className="mb-4 flex items-center gap-3">
-                  <Landmark className="h-6 w-6 text-emerald-600" />
-                  <span className="text-[11px] font-black uppercase tracking-widest text-slate-900">
-                    Режимы оплаты и факторинг
-                  </span>
-                </div>
-                <p className="mb-6 text-[10px] font-medium uppercase leading-relaxed text-slate-500">
-=======
             <div className="bg-bg-surface2 border-border-subtle group flex flex-col justify-between rounded-xl border p-4 transition-all hover:border-emerald-200">
               <div>
                 <div className="mb-4 flex items-center gap-3">
@@ -241,7 +200,6 @@ export function CommercialTermsMatrix() {
                   </span>
                 </div>
                 <p className="text-text-secondary mb-6 text-[10px] font-medium uppercase leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                   Финансовые шлюзы и условия отсрочки платежей.
                 </p>
                 <div className="space-y-4">
@@ -258,17 +216,6 @@ export function CommercialTermsMatrix() {
                       </p>
                     </div>
                   </div>
-<<<<<<< HEAD
-                  <div className="flex items-center gap-3 rounded-2xl border border-indigo-100 bg-indigo-50 p-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-lg shadow-indigo-200">
-                      <CheckCircle2 className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-black uppercase leading-tight text-indigo-900">
-                        Escrow Contracts
-                      </p>
-                      <p className="mt-0.5 text-[8px] font-bold uppercase text-indigo-700">
-=======
                   <div className="bg-accent-primary/10 border-accent-primary/20 flex items-center gap-3 rounded-2xl border p-4">
                     <div className="bg-accent-primary shadow-accent-primary/15 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white shadow-lg">
                       <CheckCircle2 className="h-5 w-5" />
@@ -278,37 +225,24 @@ export function CommercialTermsMatrix() {
                         Escrow Contracts
                       </p>
                       <p className="text-accent-primary mt-0.5 text-[8px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         Безопасные сделки для новых партнеров
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
-<<<<<<< HEAD
-              <Button className="mt-6 h-12 w-full rounded-xl bg-slate-900 text-[9px] font-black uppercase text-white shadow-xl">
-=======
               <Button className="bg-text-primary mt-6 h-12 w-full rounded-xl text-[9px] font-black uppercase text-white shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
                 Шлюзы оплаты
               </Button>
             </div>
 
-<<<<<<< HEAD
-            <div className="group relative flex flex-col justify-between overflow-hidden rounded-xl bg-slate-900 p-4 text-white">
-=======
             <div className="bg-text-primary group relative flex flex-col justify-between overflow-hidden rounded-xl p-4 text-white">
->>>>>>> recover/cabinet-wip-from-stash
               <div className="absolute right-0 top-0 p-4 opacity-10 transition-transform group-hover:scale-110">
                 <Globe className="h-32 w-32" />
               </div>
               <div className="relative z-10">
                 <div className="mb-6 flex items-center gap-3">
-<<<<<<< HEAD
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 shadow-lg shadow-indigo-500/50">
-=======
                   <div className="bg-accent-primary shadow-accent-primary/25 flex h-10 w-10 items-center justify-center rounded-xl shadow-lg">
->>>>>>> recover/cabinet-wip-from-stash
                     <Truck className="h-5 w-5" />
                   </div>
                   <span className="text-[11px] font-black uppercase tracking-widest">
@@ -326,13 +260,8 @@ export function CommercialTermsMatrix() {
                     </p>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
-<<<<<<< HEAD
-                    <Badge className="flex items-center justify-center gap-2 border border-indigo-400/30 bg-indigo-600/50 py-2 text-[8px] font-black uppercase text-white">
-                      <CheckCircle2 className="h-3 w-3 text-indigo-300" /> EXW Ready
-=======
                     <Badge className="bg-accent-primary/50 border-accent-primary/40 flex items-center justify-center gap-2 border py-2 text-[8px] font-black uppercase text-white">
                       <CheckCircle2 className="text-accent-primary h-3 w-3" /> EXW Ready
->>>>>>> recover/cabinet-wip-from-stash
                     </Badge>
                     <Badge className="flex items-center justify-center gap-2 border border-white/5 bg-white/10 py-2 text-[8px] font-black uppercase text-white/60">
                       <Clock className="h-3 w-3" /> DDP Active
@@ -340,11 +269,7 @@ export function CommercialTermsMatrix() {
                   </div>
                 </div>
               </div>
-<<<<<<< HEAD
-              <Button className="relative z-10 mt-10 h-12 w-full rounded-xl bg-white text-[9px] font-black uppercase text-slate-900 shadow-2xl hover:bg-slate-100">
-=======
               <Button className="text-text-primary hover:bg-bg-surface2 relative z-10 mt-10 h-12 w-full rounded-xl bg-white text-[9px] font-black uppercase shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
                 Калькулятор доставки
               </Button>
             </div>
@@ -352,25 +277,11 @@ export function CommercialTermsMatrix() {
 
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-<<<<<<< HEAD
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-400">
-=======
               <h4 className="text-text-muted text-[11px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 Реестр партнерских условий
               </h4>
               <div className="flex gap-2">
                 <div className="relative">
-<<<<<<< HEAD
-                  <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
-                  <Input
-                    placeholder="Поиск партнера..."
-                    className="h-10 w-64 rounded-xl border-slate-100 pl-9 text-[10px] font-bold uppercase"
-                  />
-                </div>
-                <Button variant="outline" className="h-10 rounded-xl border-slate-100">
-                  <Filter className="h-4 w-4 text-slate-400" />
-=======
                   <Search className="text-text-muted absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2" />
                   <Input
                     placeholder="Поиск партнера..."
@@ -379,33 +290,10 @@ export function CommercialTermsMatrix() {
                 </div>
                 <Button variant="outline" className="border-border-subtle h-10 rounded-xl">
                   <Filter className="text-text-muted h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
                 </Button>
               </div>
             </div>
 
-<<<<<<< HEAD
-            <div className="overflow-hidden rounded-xl border border-slate-100 shadow-sm">
-              <Table>
-                <TableHeader className="bg-slate-50">
-                  <TableRow className="border-none">
-                    <TableHead className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-slate-500">
-                      Партнер / Тип
-                    </TableHead>
-                    <TableHead className="py-5 text-[10px] font-black uppercase tracking-widest text-slate-500">
-                      Tier / Скидка
-                    </TableHead>
-                    <TableHead className="py-5 text-[10px] font-black uppercase tracking-widest text-slate-500">
-                      Условия оплаты
-                    </TableHead>
-                    <TableHead className="py-5 text-[10px] font-black uppercase tracking-widest text-slate-500">
-                      Объем (YTD)
-                    </TableHead>
-                    <TableHead className="py-5 text-[10px] font-black uppercase tracking-widest text-slate-500">
-                      Статус
-                    </TableHead>
-                    <TableHead className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-widest text-slate-500">
-=======
             <div className="border-border-subtle overflow-hidden rounded-xl border shadow-sm">
               <Table>
                 <TableHeader className="bg-bg-surface2">
@@ -426,7 +314,6 @@ export function CommercialTermsMatrix() {
                       Статус
                     </TableHead>
                     <TableHead className="text-text-secondary px-8 py-5 text-right text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                       Действия
                     </TableHead>
                   </TableRow>
@@ -437,26 +324,12 @@ export function CommercialTermsMatrix() {
                       key={p.id}
                       onClick={() => setSelectedPartnerId(p.id)}
                       className={cn(
-<<<<<<< HEAD
-                        'group cursor-pointer transition-colors hover:bg-slate-50/50',
-=======
                         'hover:bg-bg-surface2/80 group cursor-pointer transition-colors',
->>>>>>> recover/cabinet-wip-from-stash
                         selectedPartnerId === p.id && 'bg-emerald-50/30'
                       )}
                     >
                       <TableCell className="px-8 py-6">
                         <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                          <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-100 bg-white text-sm font-black text-emerald-600 shadow-sm transition-transform group-hover:scale-105">
-                            {p.name[0]}
-                          </div>
-                          <div>
-                            <p className="text-sm font-black uppercase tracking-tight text-slate-900">
-                              {p.name}
-                            </p>
-                            <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
-=======
                           <div className="border-border-subtle flex h-12 w-12 items-center justify-center rounded-2xl border bg-white text-sm font-black text-emerald-600 shadow-sm transition-transform group-hover:scale-105">
                             {p.name[0]}
                           </div>
@@ -465,7 +338,6 @@ export function CommercialTermsMatrix() {
                               {p.name}
                             </p>
                             <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                               {p.type}
                             </p>
                           </div>
@@ -478,24 +350,11 @@ export function CommercialTermsMatrix() {
                               'h-5 w-fit border-none px-2 text-[8px] font-black uppercase',
                               p.tier === 'VIP'
                                 ? 'bg-amber-100 text-amber-700'
-<<<<<<< HEAD
-                                : 'bg-indigo-100 text-indigo-700'
-=======
                                 : 'bg-accent-primary/15 text-accent-primary'
->>>>>>> recover/cabinet-wip-from-stash
                             )}
                           >
                             {p.tier}
                           </Badge>
-<<<<<<< HEAD
-                          <span className="text-xs font-black text-slate-900">-{p.discount}%</span>
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-[10px] font-black uppercase italic tracking-tighter text-slate-900">
-                        {p.payment}
-                      </TableCell>
-                      <TableCell className="text-[10px] font-black tabular-nums text-slate-900">
-=======
                           <span className="text-text-primary text-xs font-black">
                             -{p.discount}%
                           </span>
@@ -505,7 +364,6 @@ export function CommercialTermsMatrix() {
                         {p.payment}
                       </TableCell>
                       <TableCell className="text-text-primary text-[10px] font-black tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
                         {p.volume}
                       </TableCell>
                       <TableCell>
@@ -526,11 +384,7 @@ export function CommercialTermsMatrix() {
                           size="icon"
                           className="h-10 w-10 rounded-xl transition-all group-hover:bg-white group-hover:shadow-md"
                         >
-<<<<<<< HEAD
-                          <FileText className="h-4 w-4 text-slate-400" />
-=======
                           <FileText className="text-text-muted h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -550,21 +404,13 @@ export function CommercialTermsMatrix() {
             exit={{ opacity: 0, y: 20 }}
             className="grid grid-cols-1 gap-3 lg:grid-cols-2"
           >
-<<<<<<< HEAD
-            <Card className="relative overflow-hidden rounded-xl border-none bg-slate-900 p-3 text-white shadow-xl">
-=======
             <Card className="bg-text-primary relative overflow-hidden rounded-xl border-none p-3 text-white shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
               <div className="absolute right-0 top-0 p-4 opacity-10">
                 <TrendingUp className="h-32 w-32" />
               </div>
               <div className="relative z-10 space-y-6">
                 <div>
-<<<<<<< HEAD
-                  <Badge className="mb-2 border-none bg-indigo-600 text-[8px] font-black uppercase text-white">
-=======
                   <Badge className="bg-accent-primary mb-2 border-none text-[8px] font-black uppercase text-white">
->>>>>>> recover/cabinet-wip-from-stash
                     Partner Health Check
                   </Badge>
                   <h4 className="text-base font-black uppercase tracking-tighter">
@@ -573,22 +419,14 @@ export function CommercialTermsMatrix() {
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-2">
-<<<<<<< HEAD
-                    <div className="flex justify-between text-[10px] font-black uppercase text-indigo-300">
-=======
                     <div className="text-accent-primary flex justify-between text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                       <span>Sell-Through</span>
                       <span>84%</span>
                     </div>
                     <Progress value={84} className="h-1 bg-white/10" />
                   </div>
                   <div className="space-y-2">
-<<<<<<< HEAD
-                    <div className="flex justify-between text-[10px] font-black uppercase text-indigo-300">
-=======
                     <div className="text-accent-primary flex justify-between text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                       <span>Лояльность</span>
                       <span>High</span>
                     </div>
@@ -599,21 +437,13 @@ export function CommercialTermsMatrix() {
                   «Партнер показывает отличную динамику продаж. AI рекомендует повысить скидку до
                   48% при условии увеличения объема предзаказа на 15% в следующем сезоне».
                 </p>
-<<<<<<< HEAD
-                <Button className="h-10 rounded-2xl bg-white px-8 text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-2xl hover:bg-slate-100">
-=======
                 <Button className="text-text-primary hover:bg-bg-surface2 h-10 rounded-2xl bg-white px-8 text-[10px] font-black uppercase tracking-widest shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
                   Сгенерировать оффер
                 </Button>
               </div>
             </Card>
 
-<<<<<<< HEAD
-            <Card className="flex flex-col justify-between rounded-xl border-slate-100 bg-white p-3 shadow-xl">
-=======
             <Card className="border-border-subtle flex flex-col justify-between rounded-xl bg-white p-3 shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
               <div className="space-y-6">
                 <div className="flex items-center gap-3">
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-50">
@@ -640,22 +470,13 @@ export function CommercialTermsMatrix() {
                   </div>
                 </div>
               </div>
-<<<<<<< HEAD
-              <div className="flex items-center justify-between border-t border-slate-50 pt-8">
-                <p className="text-[10px] font-bold uppercase italic tracking-widest text-slate-400">
-=======
               <div className="border-border-subtle flex items-center justify-between border-t pt-8">
                 <p className="text-text-muted text-[10px] font-bold uppercase italic tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   Данные синхронизированы с CRM
                 </p>
                 <Button
                   variant="ghost"
-<<<<<<< HEAD
-                  className="text-[9px] font-black uppercase text-slate-400 hover:text-slate-900"
-=======
                   className="text-text-muted hover:text-text-primary text-[9px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   Просмотреть договор
                 </Button>

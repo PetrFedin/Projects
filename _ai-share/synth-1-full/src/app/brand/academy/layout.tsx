@@ -136,11 +136,7 @@ export default function AcademyLayout({ children }: { children: React.ReactNode 
       />
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
         {KPI_ITEMS.map((item, i) => {
-<<<<<<< HEAD
-          const value = item.value ?? item.getValue?.(kpiValues[i] ?? 0) ?? '-';
-=======
           const value = item.getValue(kpiValues[i] ?? 0);
->>>>>>> recover/cabinet-wip-from-stash
           return (
             <StatCard
               key={item.href}
@@ -154,11 +150,7 @@ export default function AcademyLayout({ children }: { children: React.ReactNode 
           );
         })}
       </div>
-<<<<<<< HEAD
-      <nav className="flex items-center gap-1 overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-1">
-=======
       <nav className="bg-bg-surface2 border-border-default flex items-center gap-1 overflow-x-auto rounded-lg border p-1">
->>>>>>> recover/cabinet-wip-from-stash
         {TABS.map(({ href, label, match }) => (
           <Link
             key={href}
@@ -166,13 +158,8 @@ export default function AcademyLayout({ children }: { children: React.ReactNode 
             className={cn(
               'whitespace-nowrap rounded-md px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors',
               match(pathname)
-<<<<<<< HEAD
-                ? 'border border-slate-200 bg-white text-slate-900 shadow-sm'
-                : 'text-slate-500 hover:bg-white/60 hover:text-slate-700'
-=======
                 ? 'text-text-primary border-border-default border bg-white shadow-sm'
                 : 'text-text-secondary hover:text-text-primary hover:bg-white/60'
->>>>>>> recover/cabinet-wip-from-stash
             )}
           >
             {label}

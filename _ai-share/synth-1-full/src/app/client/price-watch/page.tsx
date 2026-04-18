@@ -141,11 +141,7 @@ export default function PriceWatchPage() {
               Слежение за ценой
             </h1>
             <p className="mt-0.5 text-sm text-muted-foreground">
-<<<<<<< HEAD
-              Локально в браузере; контракт под price-alert API.
-=======
               Локально в браузере; контракт под price-alert <AcronymWithTooltip abbr="API" />.
->>>>>>> recover/cabinet-wip-from-stash
             </p>
           </div>
         </div>

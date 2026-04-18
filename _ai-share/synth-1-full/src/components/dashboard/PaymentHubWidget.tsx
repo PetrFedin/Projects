@@ -27,11 +27,7 @@ export function PaymentHubWidget() {
 
   return (
     <Card className="rounded-xl border-2 border-blue-100 shadow-xl">
-<<<<<<< HEAD
-      <CardHeader className="border-b border-slate-100 bg-gradient-to-r from-blue-50 to-cyan-50">
-=======
       <CardHeader className="border-border-subtle border-b bg-gradient-to-r from-blue-50 to-cyan-50">
->>>>>>> recover/cabinet-wip-from-stash
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600">
             <CreditCard className="h-6 w-6 text-white" />
@@ -40,11 +36,7 @@ export function PaymentHubWidget() {
             <CardTitle className="text-text-primary text-sm font-black uppercase tracking-tight">
               Payment & Credit
             </CardTitle>
-<<<<<<< HEAD
-            <p className="text-[10px] font-medium text-slate-500">Your financial overview</p>
-=======
             <p className="text-text-secondary text-[10px] font-medium">Your financial overview</p>
->>>>>>> recover/cabinet-wip-from-stash
           </div>
         </div>
       </CardHeader>
@@ -52,11 +44,7 @@ export function PaymentHubWidget() {
       <CardContent className="space-y-6 p-4">
         {/* Credit Line */}
         <div className="space-y-3">
-<<<<<<< HEAD
-          <h4 className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-slate-400">
-=======
           <h4 className="text-text-muted flex items-center gap-2 text-xs font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
             <TrendingUp className="h-4 w-4 text-blue-600" />
             Your Credit Line
           </h4>
@@ -71,17 +59,10 @@ export function PaymentHubWidget() {
               </div>
 
               <div className="text-right">
-<<<<<<< HEAD
-                <p className="text-sm font-black tabular-nums tracking-tight text-slate-600">
-                  {creditLine.limit.toLocaleString('ru-RU')} ₽
-                </p>
-                <p className="text-[10px] font-bold uppercase text-slate-500">Total Limit</p>
-=======
                 <p className="text-text-secondary text-sm font-black tabular-nums tracking-tight">
                   {creditLine.limit.toLocaleString('ru-RU')} ₽
                 </p>
                 <p className="text-text-secondary text-[10px] font-bold uppercase">Total Limit</p>
->>>>>>> recover/cabinet-wip-from-stash
               </div>
             </div>
 
@@ -92,11 +73,7 @@ export function PaymentHubWidget() {
                 {creditLine.used.toLocaleString('ru-RU')} ₽ used
               </span>
               <Link
-<<<<<<< HEAD
-                href="/shop/b2b/finance/increase-limit"
-=======
                 href={ROUTES.shop.b2bFinanceIncreaseLimit}
->>>>>>> recover/cabinet-wip-from-stash
                 className="text-[10px] font-black uppercase text-blue-600 hover:underline"
               >
                 Increase Limit →
@@ -106,13 +83,8 @@ export function PaymentHubWidget() {
         </div>
 
         {/* Payment Methods */}
-<<<<<<< HEAD
-        <div className="space-y-3 border-t border-slate-100 pt-4">
-          <h4 className="text-xs font-black uppercase tracking-widest text-slate-400">
-=======
         <div className="border-border-subtle space-y-3 border-t pt-4">
           <h4 className="text-text-muted text-xs font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
             Pay This Order
           </h4>
 
@@ -120,11 +92,7 @@ export function PaymentHubWidget() {
             {paymentMethods.map((method) => (
               <div
                 key={method.id}
-<<<<<<< HEAD
-                className="flex cursor-pointer items-center space-x-3 rounded-xl border-2 border-slate-100 p-3 transition-colors hover:border-blue-300"
-=======
                 className="border-border-subtle flex cursor-pointer items-center space-x-3 rounded-xl border-2 p-3 transition-colors hover:border-blue-300"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <RadioGroupItem value={method.id} id={method.id} />
                 <Label
@@ -132,11 +100,7 @@ export function PaymentHubWidget() {
                   className="flex flex-1 cursor-pointer items-center justify-between"
                 >
                   <div className="flex items-center gap-2">
-<<<<<<< HEAD
-                    <span className="text-sm font-bold text-slate-900">{method.name}</span>
-=======
                     <span className="text-text-primary text-sm font-bold">{method.name}</span>
->>>>>>> recover/cabinet-wip-from-stash
                     {method.badge && (
                       <Badge
                         className={cn(
@@ -149,11 +113,7 @@ export function PaymentHubWidget() {
                     )}
                   </div>
                   {method.dueDate && (
-<<<<<<< HEAD
-                    <span className="text-[10px] text-slate-500">Due {method.dueDate}</span>
-=======
                     <span className="text-text-secondary text-[10px]">Due {method.dueDate}</span>
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 </Label>
               </div>
@@ -162,13 +122,8 @@ export function PaymentHubWidget() {
         </div>
 
         {/* Outstanding Invoices */}
-<<<<<<< HEAD
-        <div className="space-y-3 border-t border-slate-100 pt-4">
-          <h4 className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-slate-400">
-=======
         <div className="border-border-subtle space-y-3 border-t pt-4">
           <h4 className="text-text-muted flex items-center gap-2 text-xs font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
             <Clock className="h-4 w-4 text-amber-600" />
             Outstanding Invoices
           </h4>
@@ -179,11 +134,7 @@ export function PaymentHubWidget() {
                 key={invoice.id}
                 className={cn(
                   'flex items-center justify-between rounded-xl p-3',
-<<<<<<< HEAD
-                  invoice.isOverdue ? 'border-2 border-rose-200 bg-rose-50' : 'bg-slate-50'
-=======
                   invoice.isOverdue ? 'border-2 border-rose-200 bg-rose-50' : 'bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 <div className="flex items-center gap-2">
@@ -191,13 +142,8 @@ export function PaymentHubWidget() {
                     <AlertTriangle className="h-4 w-4 flex-shrink-0 text-rose-600" />
                   )}
                   <div>
-<<<<<<< HEAD
-                    <p className="text-sm font-bold text-slate-900">{invoice.number}</p>
-                    <p className="text-[10px] text-slate-500">
-=======
                     <p className="text-text-primary text-sm font-bold">{invoice.number}</p>
                     <p className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                       {invoice.amount.toLocaleString('ru-RU')} ₽
                     </p>
                   </div>

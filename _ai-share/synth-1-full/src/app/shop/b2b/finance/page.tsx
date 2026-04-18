@@ -28,31 +28,6 @@ export default function PartnerFinancePage() {
   const formatMoney = (n: number) => n.toLocaleString('ru-RU', { maximumFractionDigits: 0 }) + ' ₽';
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <DollarSign className="h-6 w-6" /> Финансы партнёра
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Единый экран: заказы по статусам, кредитный лимит, ожидаемые платежи, оплачено за
-            период. JOOR Pay и документы.
-          </p>
-        </div>
-      </div>
-
-      <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-        <Card className="border-slate-100">
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase tracking-tight">
-              <CreditCard className="h-4 w-4 text-indigo-600" /> Кредитный лимит
-=======
     <RegistryPageShell className="max-w-4xl space-y-6">
       <ShopB2bContentHeader lead="Заказы по статусам, кредитный лимит, ожидаемые и оплаченные платежи, JOOR Pay и документы." />
       <ShopAnalyticsSegmentErpStrip />
@@ -62,7 +37,6 @@ export default function PartnerFinancePage() {
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-sm font-black uppercase tracking-tight">
               <CreditCard className="text-accent-primary h-4 w-4" /> Кредитный лимит
->>>>>>> recover/cabinet-wip-from-stash
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-1">
@@ -137,11 +111,7 @@ export default function PartnerFinancePage() {
                 {ordersAwaitingPayment.map((o) => (
                   <li
                     key={o.order}
-<<<<<<< HEAD
-                    className="flex items-center justify-between border-b border-slate-100 py-2 last:border-0"
-=======
                     className="border-border-subtle flex items-center justify-between border-b py-2 last:border-0"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     <span className="font-mono text-sm">{o.order}</span>
                     <span className="font-bold text-amber-700">{o.amount}</span>
@@ -173,11 +143,7 @@ export default function PartnerFinancePage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-<<<<<<< HEAD
-                  <tr className="border-b border-slate-200">
-=======
                   <tr className="border-border-default border-b">
->>>>>>> recover/cabinet-wip-from-stash
                     <th className="py-2 text-left font-medium">Заказ</th>
                     <th className="py-2 text-left font-medium">Бренд</th>
                     <th className="py-2 text-right font-medium">Сумма</th>
@@ -191,11 +157,7 @@ export default function PartnerFinancePage() {
                       <td className="py-2">
                         <Link
                           href={ROUTES.shop.b2bOrders}
-<<<<<<< HEAD
-                          className="font-mono text-indigo-600 hover:underline"
-=======
                           className="text-accent-primary font-mono hover:underline"
->>>>>>> recover/cabinet-wip-from-stash
                         >
                           {o.order}
                         </Link>
@@ -207,13 +169,9 @@ export default function PartnerFinancePage() {
                           {o.status}
                         </Badge>
                       </td>
-<<<<<<< HEAD
-                      <td className="py-2 text-[10px] text-slate-500">{o.paymentStatus ?? '—'}</td>
-=======
                       <td className="text-text-secondary py-2 text-[10px]">
                         {o.paymentStatus ?? '—'}
                       </td>
->>>>>>> recover/cabinet-wip-from-stash
                     </tr>
                   ))}
                 </tbody>
@@ -263,10 +221,6 @@ export default function PartnerFinancePage() {
         title="Заказы, оплата, документы"
         className="mt-6"
       />
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

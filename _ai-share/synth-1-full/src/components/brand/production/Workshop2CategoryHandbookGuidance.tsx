@@ -33,26 +33,16 @@ export function Workshop2CategoryHandbookGuidance({ leaf, className }: Props) {
         className
       )}
     >
-<<<<<<< HEAD
-      <p className="font-semibold text-slate-900">Подсказки по категории (справочник)</p>
-      <p
-        className="mt-0.5 font-mono text-[9px] text-slate-500"
-=======
       <p className="text-text-primary font-semibold">Подсказки по категории (справочник)</p>
       <p
         className="text-text-secondary mt-0.5 font-mono text-[9px]"
->>>>>>> recover/cabinet-wip-from-stash
         title="Канонический leafId при сохранении"
       >
         leafId: {canonicalLeafId}
       </p>
       <dl className="mt-2 grid gap-1.5">
         <div>
-<<<<<<< HEAD
-          <dt className="text-slate-500">Ед. учёта (по умолчанию)</dt>
-=======
           <dt className="text-text-secondary">Ед. учёта (по умолчанию)</dt>
->>>>>>> recover/cabinet-wip-from-stash
           <dd>
             {formatStockUnitRu(profile.stockUnitDefault)}
             {profile.stockUnitNotes ? ` · ${profile.stockUnitNotes}` : ''}
@@ -111,11 +101,7 @@ export function Workshop2CategoryHandbookGuidance({ leaf, className }: Props) {
             <ul className="mt-0.5 space-y-0.5">
               {attachmentChecklist.map((item) => (
                 <li key={item.id} className="flex gap-1.5">
-<<<<<<< HEAD
-                  <span className="select-none text-slate-400" aria-hidden>
-=======
                   <span className="text-text-muted select-none" aria-hidden>
->>>>>>> recover/cabinet-wip-from-stash
                     ☐
                   </span>
                   <span>{item.label}</span>
@@ -125,13 +111,8 @@ export function Workshop2CategoryHandbookGuidance({ leaf, className }: Props) {
           </dd>
         </div>
         <div>
-<<<<<<< HEAD
-          <dt className="text-slate-500">Этикетка: языки и блоки</dt>
-          <dd className="text-slate-600">
-=======
           <dt className="text-text-secondary">Этикетка: языки и блоки</dt>
           <dd className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
             {profile.labelLocalesDefault.join(', ') || '—'} ·{' '}
             {profile.mandatoryLabelBlocks.join(', ')}
           </dd>

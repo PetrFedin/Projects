@@ -16,12 +16,9 @@ import {
   Gavel,
   Zap,
   Ruler,
-<<<<<<< HEAD
-=======
   Map,
   Globe,
   Search,
->>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 
@@ -33,18 +30,12 @@ export const manufacturerNavGroups = [
     icon: LayoutDashboard,
     links: [
       {
-<<<<<<< HEAD
-        href: '/factory',
-=======
         href: ROUTES.factory.production,
->>>>>>> recover/cabinet-wip-from-stash
         value: 'dashboard',
         label: 'Дашборд',
         icon: LayoutDashboard,
         description: 'Обзор производства',
       },
-<<<<<<< HEAD
-=======
       {
         href: ROUTES.shop.b2bWorkspaceMap,
         value: 'b2b-workspace-map',
@@ -115,7 +106,6 @@ export const manufacturerNavGroups = [
         icon: Layers,
         description: 'Номенклатура для производства',
       },
->>>>>>> recover/cabinet-wip-from-stash
     ],
   },
   {
@@ -345,18 +335,12 @@ export const supplierNavGroups = [
     icon: LayoutDashboard,
     links: [
       {
-<<<<<<< HEAD
-        href: '/factory?role=supplier',
-=======
         href: ROUTES.factory.supplier,
->>>>>>> recover/cabinet-wip-from-stash
         value: 'dashboard',
         label: 'Дашборд',
         icon: LayoutDashboard,
         description: 'Обзор поставок',
       },
-<<<<<<< HEAD
-=======
       {
         href: ROUTES.shop.b2bWorkspaceMap,
         value: 'b2b-workspace-map',
@@ -427,7 +411,6 @@ export const supplierNavGroups = [
         icon: Layers,
         description: 'Номенклатура',
       },
->>>>>>> recover/cabinet-wip-from-stash
     ],
   },
   {

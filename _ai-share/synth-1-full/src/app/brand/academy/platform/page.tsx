@@ -78,15 +78,11 @@ export default function AcademyPlatformPage() {
   }, [search, category]);
 
   return (
-<<<<<<< HEAD
-    <div className="space-y-12">
-=======
     <RegistryPageShell className="w-full max-w-none space-y-12 pb-16">
       <RegistryPageHeader
         title="Курсы платформы"
         leadPlain="Курсы, траектории обучения, статьи и события академии платформы для разных ролей в fashion-экосистеме."
       />
->>>>>>> recover/cabinet-wip-from-stash
       {/* Мои курсы */}
       {myEnrollmentCourses.length > 0 && (
         <WidgetCard title="Мои курсы" description="Курсы в процессе прохождения">
@@ -96,21 +92,6 @@ export default function AcademyPlatformPage() {
                 key={enrollment.courseId}
                 href={ROUTES.brand.academyPlatformCourse(enrollment.courseId)}
               >
-<<<<<<< HEAD
-                <div className="flex items-center justify-between rounded-xl border border-indigo-100 bg-indigo-50/30 p-4 transition-colors hover:bg-indigo-50/50">
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-indigo-100">
-                      <PlayCircle className="h-5 w-5 text-indigo-600" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-slate-900">{course!.title}</p>
-                      <div className="mt-1 flex items-center gap-3">
-                        <span className="text-xs text-slate-500">{course!.duration}</span>
-                        <div className="w-24">
-                          <Progress value={enrollment.progress} className="h-1.5 rounded-full" />
-                        </div>
-                        <span className="text-xs font-medium text-indigo-600">
-=======
                 <div className="border-accent-primary/20 bg-accent-primary/10 hover:bg-accent-primary/10 flex items-center justify-between rounded-xl border p-4 transition-colors">
                   <div className="flex items-center gap-4">
                     <div className="bg-accent-primary/15 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
@@ -124,17 +105,12 @@ export default function AcademyPlatformPage() {
                           <Progress value={enrollment.progress} className="h-1.5 rounded-full" />
                         </div>
                         <span className="text-accent-primary text-xs font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                           {enrollment.progress}%
                         </span>
                       </div>
                     </div>
                   </div>
-<<<<<<< HEAD
-                  <ChevronRight className="h-4 w-4 shrink-0 text-slate-400" />
-=======
                   <ChevronRight className="text-text-muted h-4 w-4 shrink-0" />
->>>>>>> recover/cabinet-wip-from-stash
                 </div>
               </Link>
             ))}
@@ -144,33 +120,6 @@ export default function AcademyPlatformPage() {
 
       {/* Для кого */}
       <section>
-<<<<<<< HEAD
-        <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">
-          Для кого
-        </h2>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          <div className="rounded-2xl border border-slate-200/80 bg-white p-5 transition-colors hover:border-indigo-200/60">
-            <Store className="mb-3 h-8 w-8 text-indigo-600" />
-            <h3 className="font-semibold text-slate-900">Магазины</h3>
-            <p className="mt-1 text-xs text-slate-500">
-              Мерчандайзинг, продажи, продуктовая экспертиза
-            </p>
-          </div>
-          <div className="rounded-2xl border border-slate-200/80 bg-white p-5 transition-colors hover:border-indigo-200/60">
-            <Shirt className="mb-3 h-8 w-8 text-indigo-600" />
-            <h3 className="font-semibold text-slate-900">Бренды</h3>
-            <p className="mt-1 text-xs text-slate-500">Дизайн, стратегия, построение бренда</p>
-          </div>
-          <div className="rounded-2xl border border-slate-200/80 bg-white p-5 transition-colors hover:border-indigo-200/60">
-            <Factory className="mb-3 h-8 w-8 text-indigo-600" />
-            <h3 className="font-semibold text-slate-900">Производители</h3>
-            <p className="mt-1 text-xs text-slate-500">Логистика, поставки, ESG, compliance</p>
-          </div>
-          <div className="rounded-2xl border border-slate-200/80 bg-white p-5 transition-colors hover:border-indigo-200/60">
-            <Users className="mb-3 h-8 w-8 text-indigo-600" />
-            <h3 className="font-semibold text-slate-900">Дистрибьюторы</h3>
-            <p className="mt-1 text-xs text-slate-500">B2B-операции, маржа, управление запасами</p>
-=======
         <h2 className="text-text-secondary mb-4 text-sm font-semibold uppercase tracking-wider">
           Для кого
         </h2>
@@ -198,7 +147,6 @@ export default function AcademyPlatformPage() {
             <p className="text-text-secondary mt-1 text-xs">
               B2B-операции, маржа, управление запасами
             </p>
->>>>>>> recover/cabinet-wip-from-stash
           </div>
         </div>
       </section>
@@ -206,20 +154,12 @@ export default function AcademyPlatformPage() {
       {/* Поиск и категории */}
       <div className="flex flex-col gap-4 sm:flex-row">
         <div className="relative flex-1">
-<<<<<<< HEAD
-          <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-=======
           <Search className="text-text-muted absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2" />
->>>>>>> recover/cabinet-wip-from-stash
           <Input
             placeholder="Поиск курсов по названию или описанию..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-<<<<<<< HEAD
-            className="h-12 rounded-xl border-slate-200 pl-11 text-base"
-=======
             className="border-border-default h-12 rounded-xl pl-11 text-base"
->>>>>>> recover/cabinet-wip-from-stash
           />
         </div>
         <div className="flex flex-wrap gap-2">
@@ -241,33 +181,15 @@ export default function AcademyPlatformPage() {
       <section>
         <div className="mb-6 flex items-center gap-2">
           <Lightbulb className="h-5 w-5 text-amber-500" />
-<<<<<<< HEAD
-          <h2 className="text-xl font-bold text-slate-900">Траектории обучения</h2>
-        </div>
-        <p className="mb-6 text-sm text-slate-600">
-=======
           <h2 className="text-text-primary text-xl font-bold">Траектории обучения</h2>
         </div>
         <p className="text-text-secondary mb-6 text-sm">
->>>>>>> recover/cabinet-wip-from-stash
           Сертифицированные пути: от начального до экспертного уровня. Освойте комплексные
           компетенции.
         </p>
         <div className="grid gap-6 sm:grid-cols-2">
           {mockLearningPaths.map((path) => (
             <Link key={path.id} href={ROUTES.brand.academyPlatformPath(path.id)}>
-<<<<<<< HEAD
-              <Card className="group h-full overflow-hidden rounded-2xl border border-indigo-200/60 bg-gradient-to-br from-indigo-50/50 to-white transition-all duration-200 hover:border-indigo-300/80 hover:shadow-lg hover:shadow-indigo-500/10">
-                <CardContent className="flex h-full flex-col p-6">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="rounded-xl bg-indigo-100 p-3">
-                      <Award className="h-6 w-6 text-indigo-600" />
-                    </div>
-                    <ChevronRight className="h-5 w-5 shrink-0 text-slate-400 transition-colors group-hover:text-indigo-600" />
-                  </div>
-                  <h3 className="mt-4 text-lg font-semibold text-slate-900">{path.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{path.description}</p>
-=======
               <Card className="border-accent-primary/30 from-accent-primary/10 hover:shadow-accent-primary/10 hover:border-accent-primary/30 group h-full overflow-hidden rounded-2xl border bg-gradient-to-br to-white transition-all duration-200 hover:shadow-lg">
                 <CardContent className="flex h-full flex-col p-6">
                   <div className="flex items-start justify-between gap-4">
@@ -280,18 +202,13 @@ export default function AcademyPlatformPage() {
                   <p className="text-text-secondary mt-2 text-sm leading-relaxed">
                     {path.description}
                   </p>
->>>>>>> recover/cabinet-wip-from-stash
                   <div className="mt-4 flex flex-wrap gap-2">
                     <Badge variant="secondary" className="text-[10px] font-medium">
                       <Clock className="mr-1 h-3 w-3" /> {path.totalDuration}
                     </Badge>
                     <Badge
                       variant="outline"
-<<<<<<< HEAD
-                      className="border-indigo-200 text-[10px] text-indigo-700"
-=======
                       className="border-accent-primary/30 text-accent-primary text-[10px]"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       {path.outcome}
                     </Badge>
@@ -306,24 +223,14 @@ export default function AcademyPlatformPage() {
       {/* Курсы */}
       <section>
         <div className="mb-6">
-<<<<<<< HEAD
-          <h2 className="text-xl font-bold text-slate-900">Курсы</h2>
-          <p className="mt-1 text-sm text-slate-600">Найдено: {filteredCourses.length}</p>
-=======
           <h2 className="text-text-primary text-xl font-bold">Курсы</h2>
           <p className="text-text-secondary mt-1 text-sm">Найдено: {filteredCourses.length}</p>
->>>>>>> recover/cabinet-wip-from-stash
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredCourses.map((course) => (
             <Link key={course.id} href={ROUTES.brand.academyPlatformCourse(course.id)}>
-<<<<<<< HEAD
-              <Card className="group h-full overflow-hidden rounded-2xl border border-slate-200/80 bg-white transition-all duration-200 hover:border-indigo-200/60 hover:shadow-xl hover:shadow-slate-200/50">
-                <div className="relative aspect-video overflow-hidden bg-slate-100">
-=======
               <Card className="border-border-default/80 hover:border-accent-primary/30 group h-full overflow-hidden rounded-2xl border bg-white transition-all duration-200 hover:shadow-md hover:shadow-xl">
                 <div className="bg-bg-surface2 relative aspect-video overflow-hidden">
->>>>>>> recover/cabinet-wip-from-stash
                   {course.thumbnail ? (
                     <Image
                       src={course.thumbnail}
@@ -333,22 +240,13 @@ export default function AcademyPlatformPage() {
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   ) : (
-<<<<<<< HEAD
-                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
-                      <PlayCircle className="h-12 w-12 text-slate-400" />
-=======
                     <div className="from-bg-surface2 to-border-subtle absolute inset-0 flex items-center justify-center bg-gradient-to-br">
                       <PlayCircle className="text-text-muted h-12 w-12" />
->>>>>>> recover/cabinet-wip-from-stash
                     </div>
                   )}
                   <div className="absolute right-3 top-3 flex gap-1.5">
                     {(course as { isRecommended?: boolean }).isRecommended && (
-<<<<<<< HEAD
-                      <Badge className="bg-indigo-600 text-[9px]">Рекомендуем</Badge>
-=======
                       <Badge className="bg-accent-primary text-[9px]">Рекомендуем</Badge>
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                     {(course as { isNew?: boolean }).isNew && (
                       <Badge variant="secondary" className="text-[9px]">
@@ -358,13 +256,6 @@ export default function AcademyPlatformPage() {
                   </div>
                 </div>
                 <CardContent className="p-5">
-<<<<<<< HEAD
-                  <h3 className="line-clamp-2 font-semibold leading-tight text-slate-900">
-                    {course.title}
-                  </h3>
-                  <p className="mt-2 line-clamp-2 text-sm text-slate-500">{course.description}</p>
-                  <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-slate-500">
-=======
                   <h3 className="text-text-primary line-clamp-2 font-semibold leading-tight">
                     {course.title}
                   </h3>
@@ -372,7 +263,6 @@ export default function AcademyPlatformPage() {
                     {course.description}
                   </p>
                   <div className="text-text-secondary mt-4 flex flex-wrap items-center gap-3 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                     <span className="flex items-center gap-1">
                       <Clock className="h-3.5 w-3.5" /> {course.duration}
                     </span>
@@ -397,23 +287,14 @@ export default function AcademyPlatformPage() {
       {mockAcademyEvents.length > 0 && (
         <section>
           <div className="mb-6 flex items-center gap-2">
-<<<<<<< HEAD
-            <Calendar className="h-5 w-5 text-indigo-600" />
-            <h2 className="text-xl font-bold text-slate-900">Ближайшие мероприятия</h2>
-=======
             <Calendar className="text-accent-primary h-5 w-5" />
             <h2 className="text-text-primary text-xl font-bold">Ближайшие мероприятия</h2>
->>>>>>> recover/cabinet-wip-from-stash
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {mockAcademyEvents.slice(0, 2).map((event) => (
               <div
                 key={event.id}
-<<<<<<< HEAD
-                className="rounded-2xl border border-slate-200/80 bg-white p-5 transition-colors hover:border-indigo-200/60"
-=======
                 className="border-border-default/80 hover:border-accent-primary/30 rounded-2xl border bg-white p-5 transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <Badge variant="secondary" className="mb-2 text-[10px]">
                   {event.type === 'webinar'
@@ -422,15 +303,9 @@ export default function AcademyPlatformPage() {
                       ? 'Воркшоп'
                       : event.type}
                 </Badge>
-<<<<<<< HEAD
-                <h3 className="font-semibold text-slate-900">{event.title}</h3>
-                <p className="mt-1 line-clamp-2 text-sm text-slate-500">{event.description}</p>
-                <p className="mt-2 text-xs text-slate-400">{event.hostName}</p>
-=======
                 <h3 className="text-text-primary font-semibold">{event.title}</h3>
                 <p className="text-text-secondary mt-1 line-clamp-2 text-sm">{event.description}</p>
                 <p className="text-text-muted mt-2 text-xs">{event.hostName}</p>
->>>>>>> recover/cabinet-wip-from-stash
               </div>
             ))}
           </div>
@@ -440,35 +315,20 @@ export default function AcademyPlatformPage() {
       {/* База знаний */}
       <section>
         <div className="mb-6 flex items-center gap-2">
-<<<<<<< HEAD
-          <FileText className="h-5 w-5 text-slate-600" />
-          <h2 className="text-xl font-bold text-slate-900">База знаний</h2>
-        </div>
-        <p className="mb-6 text-sm text-slate-600">
-=======
           <FileText className="text-text-secondary h-5 w-5" />
           <h2 className="text-text-primary text-xl font-bold">База знаний</h2>
         </div>
         <p className="text-text-secondary mb-6 text-sm">
->>>>>>> recover/cabinet-wip-from-stash
           Wiki-статьи по терминам, процессам и регуляторике. Актуальная информация для партнёров.
         </p>
         <div className="space-y-3">
           {mockArticles.map((art) => (
             <Link key={art.id} href={ROUTES.brand.academyPlatformArticle(art.id)}>
-<<<<<<< HEAD
-              <Card className="group rounded-2xl border border-slate-200/80 bg-white transition-all duration-200 hover:border-indigo-200/60 hover:shadow-md hover:shadow-indigo-500/5">
-                <CardContent className="flex items-center justify-between gap-4 p-5">
-                  <div className="min-w-0 flex-1">
-                    <h3 className="font-semibold text-slate-900">{art.title}</h3>
-                    <p className="mt-1 line-clamp-1 text-sm text-slate-500">{art.excerpt}</p>
-=======
               <Card className="border-border-default/80 hover:border-accent-primary/30 hover:shadow-accent-primary/5 group rounded-2xl border bg-white transition-all duration-200 hover:shadow-md">
                 <CardContent className="flex items-center justify-between gap-4 p-5">
                   <div className="min-w-0 flex-1">
                     <h3 className="text-text-primary font-semibold">{art.title}</h3>
                     <p className="text-text-secondary mt-1 line-clamp-1 text-sm">{art.excerpt}</p>
->>>>>>> recover/cabinet-wip-from-stash
                     <div className="mt-3 flex flex-wrap gap-2">
                       {art.tags.map((t) => (
                         <Badge key={t} variant="outline" className="text-[10px]">
@@ -477,11 +337,7 @@ export default function AcademyPlatformPage() {
                       ))}
                     </div>
                   </div>
-<<<<<<< HEAD
-                  <ChevronRight className="h-5 w-5 shrink-0 text-slate-400 transition-colors group-hover:text-indigo-600" />
-=======
                   <ChevronRight className="text-text-muted group-hover:text-accent-primary h-5 w-5 shrink-0 transition-colors" />
->>>>>>> recover/cabinet-wip-from-stash
                 </CardContent>
               </Card>
             </Link>
@@ -490,10 +346,6 @@ export default function AcademyPlatformPage() {
       </section>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

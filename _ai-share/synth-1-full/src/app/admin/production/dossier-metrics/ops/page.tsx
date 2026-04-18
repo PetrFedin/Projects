@@ -112,14 +112,6 @@ export default function AdminDossierMetricsOpsPage() {
           </h1>
           <p className="text-text-secondary max-w-2xl text-sm">
             Дневная воронка (последний снимок SKU внутри дня), алерты по хвосту. Архив: cron{' '}
-<<<<<<< HEAD
-            <code className="rounded bg-slate-100 px-1">/api/cron/w2-dossier-metrics-archive</code>{' '}
-            + секрет <code className="rounded bg-slate-100 px-1">W2_METRICS_CRON_SECRET</code>.
-          </p>
-        </div>
-        <Button variant="outline" size="sm" asChild className="gap-1">
-          <Link href="/admin/production/dossier-metrics">
-=======
             <code className="bg-bg-surface2 rounded px-1">
               /api/cron/w2-dossier-metrics-archive
             </code>{' '}
@@ -128,7 +120,6 @@ export default function AdminDossierMetricsOpsPage() {
         </div>
         <Button variant="outline" size="sm" asChild className="gap-1">
           <Link href={ROUTES.admin.productionDossierMetrics}>
->>>>>>> recover/cabinet-wip-from-stash
             <ArrowLeft className="h-4 w-4" />К сводным метрикам
           </Link>
         </Button>
@@ -152,11 +143,7 @@ export default function AdminDossierMetricsOpsPage() {
             />
           </div>
           <div className="space-y-1">
-<<<<<<< HEAD
-            <label className="text-[10px] font-bold uppercase text-slate-400">sinceHours</label>
-=======
             <label className="text-text-muted text-[10px] font-bold uppercase">sinceHours</label>
->>>>>>> recover/cabinet-wip-from-stash
             <Select
               value={sinceHours || 'all'}
               onValueChange={(v) => setSinceHours(v === 'all' ? '' : v)}
@@ -173,11 +160,7 @@ export default function AdminDossierMetricsOpsPage() {
             </Select>
           </div>
           <div className="space-y-1">
-<<<<<<< HEAD
-            <label className="text-[10px] font-bold uppercase text-slate-400">
-=======
             <label className="text-text-muted text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
               Дней на графике
             </label>
             <Input
@@ -249,11 +232,7 @@ export default function AdminDossierMetricsOpsPage() {
       ) : null}
 
       {data && chartData.length === 0 ? (
-<<<<<<< HEAD
-        <p className="text-sm text-slate-500">
-=======
         <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
           Нет дневных точек в окне — расширьте sinceHours или limit на API.
         </p>
       ) : null}
@@ -350,11 +329,7 @@ export default function AdminDossierMetricsOpsPage() {
             <code className="rounded bg-white px-1">W2_DOSSIER_METRICS_READ_IP_ALLOWLIST</code>.
           </p>
           <p>
-<<<<<<< HEAD
-            <strong className="text-slate-800">Архив:</strong>{' '}
-=======
             <strong className="text-text-primary">Архив:</strong>{' '}
->>>>>>> recover/cabinet-wip-from-stash
             <code className="rounded bg-white px-1">W2_METRICS_ARCHIVE_WEBHOOK_URL</code> (после
             архива), <code className="rounded bg-white px-1">W2_METRICS_ARCHIVE_PUT_URL</code>{' '}
             (presigned) или{' '}

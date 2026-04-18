@@ -34,11 +34,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
             {title}
           </DialogTitle>
           {description && (
-<<<<<<< HEAD
-            <DialogDescription className="mt-2 text-xs font-bold uppercase leading-relaxed tracking-widest text-slate-400">
-=======
             <DialogDescription className="text-text-muted mt-2 text-xs font-bold uppercase leading-relaxed tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               {description}
             </DialogDescription>
           )}
@@ -55,11 +51,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
             className={
               destructive
                 ? 'h-12 flex-1 rounded-xl bg-rose-600 text-[10px] font-black uppercase tracking-widest hover:bg-rose-700'
-<<<<<<< HEAD
-                : 'h-12 flex-1 rounded-xl bg-slate-900 text-[10px] font-black uppercase tracking-widest hover:bg-black'
-=======
                 : 'bg-text-primary h-12 flex-1 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-black'
->>>>>>> recover/cabinet-wip-from-stash
             }
             onClick={onConfirm}
           >

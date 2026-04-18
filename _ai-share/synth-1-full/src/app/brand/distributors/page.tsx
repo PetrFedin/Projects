@@ -80,11 +80,7 @@ export default function DistributorsPage() {
   );
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="space-y-6">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Дистрибьюторы"
         description="Региональные дистрибьюторы: территория, условия, выручка. Связь с B2B заказами, Analytics BI (distributorsRevenue) и Retailers."
@@ -100,30 +96,17 @@ export default function DistributorsPage() {
               Analytics
             </Badge>
             <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/b2b-orders">
-                <Store className="mr-1 h-3 w-3" /> B2B
-              </Link>
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/analytics-bi">
-=======
               <Link href={ROUTES.brand.b2bOrders}>
                 <Store className="mr-1 h-3 w-3" /> {B2B_ORDERS_REGISTRY_LABEL}
               </Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href={ROUTES.brand.analyticsBi}>
->>>>>>> recover/cabinet-wip-from-stash
                 <TrendingUp className="mr-1 h-3 w-3" /> Analytics BI
               </Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/retailers">
-=======
               <Link href={ROUTES.brand.retailers}>
->>>>>>> recover/cabinet-wip-from-stash
                 <Globe className="mr-1 h-3 w-3" /> Retailers
               </Link>
             </Button>
@@ -134,20 +117,12 @@ export default function DistributorsPage() {
       <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h1 className="text-2xl font-bold uppercase">Distributors Hub</h1>
-<<<<<<< HEAD
-          <p className="text-sm text-slate-500">
-=======
           <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
             Дистрибьюторы: территория, выручка, ритейлеры в сети
           </p>
         </div>
         <Button asChild>
-<<<<<<< HEAD
-          <Link href="/brand/distributors?action=add">
-=======
           <Link href={`${ROUTES.brand.distributors}?action=add`}>
->>>>>>> recover/cabinet-wip-from-stash
             <PlusCircle className="mr-2 h-4 w-4" /> Добавить дистрибьютора
           </Link>
         </Button>
@@ -155,22 +130,6 @@ export default function DistributorsPage() {
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Card className="p-4">
-<<<<<<< HEAD
-          <p className="text-[10px] font-bold uppercase text-slate-400">Дистрибьюторов</p>
-          <p className="text-xl font-black text-slate-900">{mockDistributors.length}</p>
-        </Card>
-        <Card className="p-4">
-          <p className="text-[10px] font-bold uppercase text-slate-400">Выручка (всего)</p>
-          <p className="text-xl font-black text-slate-900">{fmtMoney(3220000)}</p>
-        </Card>
-        <Card className="p-4">
-          <p className="text-[10px] font-bold uppercase text-slate-400">Ритейлеров в сети</p>
-          <p className="text-xl font-black text-slate-900">37</p>
-        </Card>
-        <Card className="p-4">
-          <p className="text-[10px] font-bold uppercase text-slate-400">Заказов</p>
-          <p className="text-xl font-black text-slate-900">21</p>
-=======
           <p className="text-text-muted text-[10px] font-bold uppercase">Дистрибьюторов</p>
           <p className="text-text-primary text-xl font-black">{mockDistributors.length}</p>
         </Card>
@@ -185,17 +144,12 @@ export default function DistributorsPage() {
         <Card className="p-4">
           <p className="text-text-muted text-[10px] font-bold uppercase">Заказов</p>
           <p className="text-text-primary text-xl font-black">21</p>
->>>>>>> recover/cabinet-wip-from-stash
         </Card>
       </div>
 
       <div className="flex justify-end">
         <div className="relative w-full max-w-xs">
-<<<<<<< HEAD
-          <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-=======
           <Search className="text-text-muted absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2" />
->>>>>>> recover/cabinet-wip-from-stash
           <Input
             placeholder="Поиск по названию или региону..."
             className="h-9 pl-8"
@@ -228,11 +182,7 @@ export default function DistributorsPage() {
                   <TableCell className="font-medium">
                     <Link
                       href={`/brand/distributors/${d.id}`}
-<<<<<<< HEAD
-                      className="flex items-center gap-2 hover:text-indigo-600"
-=======
                       className="hover:text-accent-primary flex items-center gap-2"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       {d.name}
                       <ChevronRight className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
@@ -273,10 +223,6 @@ export default function DistributorsPage() {
       </Card>
 
       <RelatedModulesBlock title="Связанные модули" links={getDistributorLinks()} />
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

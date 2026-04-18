@@ -196,17 +196,10 @@ function W2PassportTzStagesPick({
         </button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-[11rem] p-2.5" sideOffset={6}>
-<<<<<<< HEAD
-        <p className="mb-2 text-[9px] font-bold uppercase tracking-wide text-slate-500">
-          Этапы маршрута
-        </p>
-        <p className="mb-2 text-[9px] leading-snug text-slate-600">
-=======
         <p className="text-text-secondary mb-2 text-[9px] font-bold uppercase tracking-wide">
           Этапы маршрута
         </p>
         <p className="text-text-secondary mb-2 text-[9px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
           Снимите галочку — роль не участвует на этапе; включите снова, когда нужно.
         </p>
         <div className="max-h-[14rem] space-y-0.5 overflow-y-auto pr-0.5">
@@ -367,11 +360,7 @@ function Workshop2StageSignatoryStrip({
         className
       )}
     >
-<<<<<<< HEAD
-      <p className="text-[9px] font-bold uppercase tracking-wider text-slate-500">
-=======
       <p className="text-text-secondary text-[9px] font-bold uppercase tracking-wider">
->>>>>>> recover/cabinet-wip-from-stash
         Подпись на этапе
       </p>
       <ul className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5">
@@ -595,15 +584,9 @@ function Workshop2RouteStageTile({
       className={cn(
         W2_OVERVIEW_DECISION_ROW_MIN,
         'flex h-full min-h-0 cursor-pointer flex-col justify-between gap-0.5 rounded-xl border p-2 text-left shadow-sm outline-none transition-all',
-<<<<<<< HEAD
-        'border-slate-200 bg-white hover:border-indigo-200 hover:bg-slate-50/90 hover:shadow-md',
-        'focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2',
-        active && 'border-indigo-400 bg-indigo-50/50 ring-1 ring-indigo-100',
-=======
         'border-border-default hover:border-accent-primary/30 hover:bg-bg-surface2/90 bg-white hover:shadow-md',
         'focus-visible:ring-accent-primary focus-visible:ring-2 focus-visible:ring-offset-2',
         active && 'border-accent-primary/40 ring-accent-primary/20 bg-accent-primary/10 ring-1',
->>>>>>> recover/cabinet-wip-from-stash
         done && 'border-emerald-100 bg-emerald-50/35',
         blocked && 'border-rose-200 bg-rose-50/35'
       )}
@@ -620,11 +603,7 @@ function Workshop2RouteStageTile({
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex min-w-0 items-center gap-1">
-<<<<<<< HEAD
-            <h3 className="line-clamp-1 text-sm font-semibold leading-tight text-slate-900">
-=======
             <h3 className="text-text-primary line-clamp-1 text-sm font-semibold leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
               {title}
             </h3>
             <button
@@ -838,24 +817,15 @@ function Workshop2ArticleWorkspaceOverviewStats({
 
   return (
     <div className={cn('grid gap-4', hasRisk ? 'lg:grid-cols-2 lg:items-stretch' : '')}>
-<<<<<<< HEAD
-      <Card className="flex h-full min-h-0 flex-col border-slate-200 bg-white shadow-sm">
-=======
       <Card className="border-border-default flex h-full min-h-0 flex-col bg-white shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
         <CardContent className="flex min-h-0 flex-1 flex-col gap-4 p-5">
           <div className="flex shrink-0 items-start gap-3">
             <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
               <LucideIcons.LayoutDashboard className="h-4 w-4 shrink-0" aria-hidden />
             </div>
             <div>
-<<<<<<< HEAD
-              <p className="text-base font-semibold text-slate-900">Операционные KPI</p>
-              <p className="text-sm leading-snug text-slate-500">
-=======
               <p className="text-text-primary text-base font-semibold">Операционные KPI</p>
               <p className="text-text-secondary text-sm leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                 Порядок плиток совпадает с типовым процессом: снабжение и посадка → выпуск и
                 себестоимость → ОТК → склад
               </p>
@@ -879,11 +849,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
                 'flex flex-col justify-between rounded-xl border px-3 py-2.5',
                 bomComplete
                   ? 'border-emerald-100 bg-emerald-50/40'
-<<<<<<< HEAD
-                  : 'border-slate-100 bg-slate-50/70'
-=======
                   : 'border-border-subtle bg-bg-surface2/70'
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               <div className="flex items-center justify-between gap-2">
@@ -942,11 +908,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
                 >
                   {bomComplete ? 'Секция закрыта' : 'Нужны данные в ТЗ'}
                 </span>
-<<<<<<< HEAD
-                <span className="shrink-0 text-[10px] tabular-nums text-slate-500">
-=======
                 <span className="text-text-secondary shrink-0 text-[10px] tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
                   {bomReady}/{bomTotal} ед.
                 </span>
               </div>
@@ -968,11 +930,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
                 'flex flex-col justify-between rounded-xl border px-3 py-2.5',
                 fitApproved
                   ? 'border-emerald-100 bg-emerald-50/40'
-<<<<<<< HEAD
-                  : 'border-slate-100 bg-slate-50/70'
-=======
                   : 'border-border-subtle bg-bg-surface2/70'
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               <div className="flex items-center justify-between gap-2">
@@ -987,11 +945,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex min-w-0 items-center gap-1">
-<<<<<<< HEAD
-                      <h3 className="line-clamp-1 text-sm font-semibold leading-tight text-slate-900">
-=======
                       <h3 className="text-text-primary line-clamp-1 text-sm font-semibold leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                         Посадка
                       </h3>
                       <button
@@ -1060,11 +1014,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
                 'flex flex-col justify-between rounded-xl border px-3 py-2.5',
                 opComplete
                   ? 'border-emerald-100 bg-emerald-50/40'
-<<<<<<< HEAD
-                  : 'border-slate-100 bg-slate-50/70'
-=======
                   : 'border-border-subtle bg-bg-surface2/70'
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               <div className="flex items-center justify-between gap-2">
@@ -1079,11 +1029,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex min-w-0 items-center gap-1">
-<<<<<<< HEAD
-                      <h3 className="line-clamp-1 text-sm font-semibold leading-tight text-slate-900">
-=======
                       <h3 className="text-text-primary line-clamp-1 text-sm font-semibold leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                         Производство
                       </h3>
                       <button
@@ -1127,11 +1073,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
                 >
                   {opComplete ? 'Секция закрыта' : 'Нужны данные в ТЗ'}
                 </span>
-<<<<<<< HEAD
-                <span className="shrink-0 text-[10px] tabular-nums text-slate-500">
-=======
                 <span className="text-text-secondary shrink-0 text-[10px] tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
                   {opDone}/{opTotal} опер.
                 </span>
               </div>
@@ -1255,11 +1197,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
                 'flex flex-col justify-between rounded-xl border px-3 py-2.5',
                 qcOkVisual
                   ? 'border-emerald-100 bg-emerald-50/40'
-<<<<<<< HEAD
-                  : 'border-slate-100 bg-slate-50/70'
-=======
                   : 'border-border-subtle bg-bg-surface2/70'
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               <div className="flex items-center justify-between gap-2">
@@ -1352,11 +1290,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
                 'flex flex-col justify-between rounded-xl border px-3 py-2.5',
                 stockMovementsStarted
                   ? 'border-emerald-100 bg-emerald-50/40'
-<<<<<<< HEAD
-                  : 'border-slate-100 bg-slate-50/70'
-=======
                   : 'border-border-subtle bg-bg-surface2/70'
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               <div className="flex items-center justify-between gap-2">
@@ -1571,14 +1505,10 @@ function Workshop2OverviewDecisionSnapshot({
 }) {
   return (
     <Card
-<<<<<<< HEAD
-      className={cn('flex h-full min-h-0 flex-col border-slate-200 bg-white shadow-sm', className)}
-=======
       className={cn(
         'border-border-default flex h-full min-h-0 flex-col bg-white shadow-sm',
         className
       )}
->>>>>>> recover/cabinet-wip-from-stash
     >
       <CardContent className="flex min-h-0 flex-1 flex-col gap-4 p-5">
         <div className="flex shrink-0 items-start gap-3">
@@ -1586,13 +1516,8 @@ function Workshop2OverviewDecisionSnapshot({
             <LucideIcons.FileBadge2 className="h-4 w-4 shrink-0" aria-hidden />
           </div>
           <div className="min-w-0 space-y-1">
-<<<<<<< HEAD
-            <h2 className="text-base font-semibold text-slate-900">Сводка решений</h2>
-            <p className="text-sm leading-snug text-slate-500">
-=======
             <h2 className="text-text-primary text-base font-semibold">Сводка решений</h2>
             <p className="text-text-secondary text-sm leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
               Каждый раздел ТЗ задаёт входные данные для следующего этапа маршрута — от досье до
               фабрики и ОТК.
             </p>
@@ -1637,11 +1562,7 @@ function Workshop2OverviewDecisionSnapshot({
                   </div>
                   <div className="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)_auto] items-center gap-1">
                     <div className="inline-flex min-w-0 items-center gap-0.5">
-<<<<<<< HEAD
-                      <h3 className="min-w-0 truncate text-sm font-semibold leading-tight text-slate-900">
-=======
                       <h3 className="text-text-primary min-w-0 truncate text-sm font-semibold leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                         {title}
                       </h3>
                       <button
@@ -1713,14 +1634,10 @@ function Workshop2OverviewTopBlockers({
 }) {
   return (
     <Card
-<<<<<<< HEAD
-      className={cn('flex h-full min-h-0 flex-col border-slate-200 bg-white shadow-sm', className)}
-=======
       className={cn(
         'border-border-default flex h-full min-h-0 flex-col bg-white shadow-sm',
         className
       )}
->>>>>>> recover/cabinet-wip-from-stash
     >
       <CardContent className="flex min-h-0 flex-1 flex-col gap-4 p-5">
         <div className="flex shrink-0 items-start gap-3">
@@ -1728,13 +1645,8 @@ function Workshop2OverviewTopBlockers({
             <LucideIcons.AlertTriangle className="h-4 w-4" />
           </div>
           <div>
-<<<<<<< HEAD
-            <p className="text-base font-semibold text-slate-900">Ключевые блокеры</p>
-            <p className="text-sm text-slate-500">
-=======
             <p className="text-text-primary text-base font-semibold">Ключевые блокеры</p>
             <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
               Критичные проблемы: что тормозит этапы маршрута и что нужно закрыть в ТЗ, прежде чем
               двигаться дальше.
             </p>
@@ -1767,16 +1679,6 @@ function Workshop2OverviewTopBlockers({
                     )}
                   >
                     <div className="flex min-w-0 flex-1 items-start gap-2">
-<<<<<<< HEAD
-                      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                        <BlockStageIcon className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                          {formatWorkshop2StageEyebrow(blocker.stageLabel, blocker.owner)}
-                        </p>
-                        <p className="mt-0.5 text-sm font-semibold leading-snug text-slate-900">
-=======
                       <span className="bg-accent-primary/10 text-accent-primary mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md">
                         <BlockStageIcon className="h-3.5 w-3.5 shrink-0" aria-hidden />
                       </span>
@@ -1785,7 +1687,6 @@ function Workshop2OverviewTopBlockers({
                           {formatWorkshop2StageEyebrow(blocker.stageLabel, blocker.owner)}
                         </p>
                         <p className="text-text-primary mt-0.5 text-sm font-semibold leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                           {blocker.text}
                         </p>
                         <div className="mt-2 h-0.5 overflow-hidden rounded-full bg-rose-200/80">
@@ -1833,11 +1734,7 @@ function Workshop2OverviewActionRail({
 }) {
   return (
     <div className="self-start xl:sticky xl:top-4">
-<<<<<<< HEAD
-      <Card className="border-slate-200 bg-white shadow-sm">
-=======
       <Card className="border-border-default bg-white shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
         <CardContent className="p-3">
           <div className="flex items-center justify-between gap-2">
             <div className="flex min-w-0 flex-1 items-center gap-2.5">
@@ -1846,17 +1743,10 @@ function Workshop2OverviewActionRail({
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-<<<<<<< HEAD
-                  <p className="shrink-0 text-xs font-semibold leading-snug text-slate-900">
-                    {action.title}
-                  </p>
-                  <p className="min-w-0 flex-1 text-[11px] leading-snug text-slate-500">
-=======
                   <p className="text-text-primary shrink-0 text-xs font-semibold leading-snug">
                     {action.title}
                   </p>
                   <p className="text-text-secondary min-w-0 flex-1 text-[11px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                     {action.reason}
                   </p>
                 </div>
@@ -1897,16 +1787,6 @@ function Workshop2ArticleContextRail({
   const activeStage = stages.find((stage) => stage.id === activeTab) ?? stages[0]!;
   return (
     <div className="space-y-4 self-start xl:sticky xl:top-4">
-<<<<<<< HEAD
-      <Card className="border-slate-200">
-        <CardContent className="space-y-3 pt-4">
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-              Следующее действие
-            </p>
-            <p className="mt-1 text-sm font-bold text-slate-900">{nextAction.title}</p>
-            <p className="text-[11px] text-slate-500">{nextAction.reason}</p>
-=======
       <Card className="border-border-default">
         <CardContent className="space-y-3 pt-4">
           <div>
@@ -1915,7 +1795,6 @@ function Workshop2ArticleContextRail({
             </p>
             <p className="text-text-primary mt-1 text-sm font-bold">{nextAction.title}</p>
             <p className="text-text-secondary text-[11px]">{nextAction.reason}</p>
->>>>>>> recover/cabinet-wip-from-stash
           </div>
           <Button
             type="button"
@@ -1938,19 +1817,11 @@ function Workshop2ArticleContextRail({
       <Card className="border-border-default">
         <CardContent className="space-y-3 pt-4">
           <div>
-<<<<<<< HEAD
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-              Текущий этап
-            </p>
-            <p className="mt-1 text-sm font-bold text-slate-900">{activeStage.label}</p>
-            <p className="text-[11px] text-slate-500">Ответственный: {activeStage.owner}</p>
-=======
             <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
               Текущий этап
             </p>
             <p className="text-text-primary mt-1 text-sm font-bold">{activeStage.label}</p>
             <p className="text-text-secondary text-[11px]">Ответственный: {activeStage.owner}</p>
->>>>>>> recover/cabinet-wip-from-stash
           </div>
           <Badge
             variant="outline"
@@ -2877,11 +2748,7 @@ function Workshop2ArticleWorkspaceScreen({
                     : 'Формат: 6 цифр от 100000. Номер присваивается при сохранении строки в инвентаре Цеха 2.'
                 }
               >
-<<<<<<< HEAD
-                <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
-=======
                 <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   Внутренний артикул
                 </p>
                 <p
@@ -2909,24 +2776,15 @@ function Workshop2ArticleWorkspaceScreen({
                       asChild
                       variant="ghost"
                       size="sm"
-<<<<<<< HEAD
-                      className="-ml-2 h-7 gap-1.5 px-2 text-[10px] text-slate-500 hover:bg-slate-100 hover:text-slate-900"
-=======
                       className="text-text-secondary hover:text-text-primary hover:bg-bg-surface2 -ml-2 h-7 gap-1.5 px-2 text-[10px]"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       <Link href={listHref}>
                         <LucideIcons.ArrowLeft className="h-3 w-3 shrink-0" aria-hidden />
                         {collection.displayName}
                       </Link>
                     </Button>
-<<<<<<< HEAD
-                    <span className="text-slate-300">/</span>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-=======
                     <span className="text-text-muted">/</span>
                     <span className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                       Цифровой паспорт SKU
                     </span>
                   </div>
@@ -2936,13 +2794,8 @@ function Workshop2ArticleWorkspaceScreen({
                       <span className="text-accent-primary font-mono">{article.sku}</span>
                     </h1>
                     <div className="flex items-center gap-2">
-<<<<<<< HEAD
-                      <LucideIcons.Tag className="h-3.5 w-3.5 text-slate-400" />
-                      <p className="text-sm font-bold text-slate-700">
-=======
                       <LucideIcons.Tag className="text-text-muted h-3.5 w-3.5" />
                       <p className="text-text-primary text-sm font-bold">
->>>>>>> recover/cabinet-wip-from-stash
                         {categoryPath || article.name}
                       </p>
                     </div>
@@ -2956,11 +2809,7 @@ function Workshop2ArticleWorkspaceScreen({
                             {overviewVisualGateItems.length} открыто
                           </span>
                           <Link
-<<<<<<< HEAD
-                            className="font-medium text-indigo-600 underline decoration-indigo-200 underline-offset-2 hover:text-indigo-800"
-=======
                             className="text-accent-primary decoration-accent-primary/30 hover:text-accent-primary font-medium underline underline-offset-2"
->>>>>>> recover/cabinet-wip-from-stash
                             href={workshop2ArticleHref(
                               collectionId,
                               workshop2ArticleUrlSegment(article.internalArticleCode, article.id),
@@ -2987,11 +2836,7 @@ function Workshop2ArticleWorkspaceScreen({
                     className="hover:bg-bg-surface2 flex min-w-[3.25rem] flex-col items-center justify-center gap-0.5 px-2 py-1.5 text-left transition-colors"
                     title="Прогресс маршрута по SKU"
                   >
-<<<<<<< HEAD
-                    <span className="text-[8px] font-bold uppercase tracking-tight text-slate-500">
-=======
                     <span className="text-text-secondary text-[8px] font-bold uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                       Прогресс
                     </span>
                     <Badge
@@ -3008,11 +2853,7 @@ function Workshop2ArticleWorkspaceScreen({
                     className="hover:bg-bg-surface2 flex min-w-[3.25rem] flex-col items-center justify-center gap-0.5 px-2 py-1.5 text-left transition-colors"
                     title="Замечания по ТЗ"
                   >
-<<<<<<< HEAD
-                    <span className="text-[8px] font-bold uppercase tracking-tight text-slate-500">
-=======
                     <span className="text-text-secondary text-[8px] font-bold uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                       Замечания
                     </span>
                     <span
@@ -3027,19 +2868,11 @@ function Workshop2ArticleWorkspaceScreen({
                 </div>
               </div>
 
-<<<<<<< HEAD
-              <div className="mt-4 flex flex-col gap-4 border-t border-slate-100 pt-4 lg:flex-row lg:items-start lg:justify-between lg:gap-6">
-                <div className="w-full max-w-[28rem] shrink-0 space-y-1.5 rounded-lg border border-slate-200 bg-white p-2 shadow-sm">
-                  <p className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-slate-500">
-                    <LucideIcons.UserCheck
-                      className="h-3 w-3 shrink-0 text-indigo-600"
-=======
               <div className="border-border-subtle mt-4 flex flex-col gap-4 border-t pt-4 lg:flex-row lg:items-start lg:justify-between lg:gap-6">
                 <div className="border-border-default w-full max-w-[28rem] shrink-0 space-y-1.5 rounded-lg border bg-white p-2 shadow-sm">
                   <p className="text-text-secondary flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest">
                     <LucideIcons.UserCheck
                       className="text-accent-primary h-3 w-3 shrink-0"
->>>>>>> recover/cabinet-wip-from-stash
                       aria-hidden
                     />
                     Ответственные за подпись ТЗ
@@ -3086,11 +2919,7 @@ function Workshop2ArticleWorkspaceScreen({
                       return (
                         <div
                           key={row.id}
-<<<<<<< HEAD
-                          className="rounded-md border border-slate-100 bg-slate-50/50 p-1.5"
-=======
                           className="border-border-subtle bg-bg-surface2/80 rounded-md border p-1.5"
->>>>>>> recover/cabinet-wip-from-stash
                         >
                           <div className="mb-1 flex min-w-0 items-center gap-1">
                             <Label
@@ -3193,11 +3022,7 @@ function Workshop2ArticleWorkspaceScreen({
                     type="button"
                     onClick={() => setPassportHeaderDialog('sampleReadiness')}
                     className={cn(
-<<<<<<< HEAD
-                      'h-6 max-w-full cursor-pointer justify-end rounded-md border-2 px-3 text-right text-[10px] font-black leading-tight tracking-wide transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 sm:ml-auto',
-=======
                       'focus-visible:ring-accent-primary h-6 max-w-full cursor-pointer justify-end rounded-md border-2 px-3 text-right text-[10px] font-black leading-tight tracking-wide transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:ml-auto',
->>>>>>> recover/cabinet-wip-from-stash
                       dossierSummary.readyForSample
                         ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
                         : 'border-amber-200 bg-amber-50 text-amber-800'
@@ -3212,11 +3037,7 @@ function Workshop2ArticleWorkspaceScreen({
                     type="button"
                     onClick={() => setPassportHeaderDialog('lifecycleStatus')}
                     className={cn(
-<<<<<<< HEAD
-                      'h-5 max-w-full cursor-pointer justify-end rounded-md border px-2 text-right text-[9px] font-bold tracking-wide transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-1 sm:ml-auto',
-=======
                       'focus-visible:ring-accent-primary h-5 max-w-full cursor-pointer justify-end rounded-md border px-2 text-right text-[9px] font-bold tracking-wide transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 sm:ml-auto',
->>>>>>> recover/cabinet-wip-from-stash
                       getLifecycleStateBadgeClass(lifecycleState as 'draft')
                     )}
                     title="Нажмите — что означает статус жизненного цикла"
@@ -3231,19 +3052,11 @@ function Workshop2ArticleWorkspaceScreen({
                   >
                     <span className="inline-flex items-center gap-1">
                       <LucideIcons.Clock className="h-3 w-3 shrink-0" aria-hidden />
-<<<<<<< HEAD
-                      <span className="border-b border-dashed border-slate-300 hover:border-slate-500">
-                        Обновлено
-                      </span>
-                    </span>
-                    <span className="tabular-nums text-slate-500">
-=======
                       <span className="border-border-default hover:border-border-subtle border-b border-dashed">
                         Обновлено
                       </span>
                     </span>
                     <span className="text-text-secondary tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
                       {passportUpdatedDisplay ?? 'нет данных'}
                     </span>
                   </button>
@@ -3270,17 +3083,10 @@ function Workshop2ArticleWorkspaceScreen({
                 onClick={() => openTabWithFlash('tz', { dossierSection: 'visuals' })}
               >
                 <div className="min-w-0">
-<<<<<<< HEAD
-                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                    Визуал
-                  </p>
-                  <p className="mt-0.5 truncate text-sm font-semibold text-slate-900">
-=======
                   <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
                     Визуал
                   </p>
                   <p className="text-text-primary mt-0.5 truncate text-sm font-semibold">
->>>>>>> recover/cabinet-wip-from-stash
                     Готовность раздела (менеджер)
                   </p>
                 </div>
@@ -3308,11 +3114,7 @@ function Workshop2ArticleWorkspaceScreen({
                       }}
                     />
                   </div>
-<<<<<<< HEAD
-                  <span className="text-sm font-bold tabular-nums text-slate-800">
-=======
                   <span className="text-text-primary text-sm font-bold tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
                     {visualReadinessOverview.done}/{visualReadinessOverview.total}
                   </span>
                 </div>
@@ -3370,17 +3172,10 @@ function Workshop2ArticleWorkspaceScreen({
               onOpenStage={(tab) => openTabWithFlash(tab)}
               onStageHelp={(tab) => setRouteStageHelpId(tab)}
             />
-<<<<<<< HEAD
-            <Card className="border-slate-200 bg-gradient-to-b from-slate-50/80 to-white">
-              <CardContent className="pb-8 pt-6">
-                <div className="mb-4 flex flex-wrap items-center justify-end gap-2 border-b border-slate-100 pb-3">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
             <Card className="border-border-default from-bg-surface2/80 to-bg-surface bg-gradient-to-b">
               <CardContent className="pb-8 pt-6">
                 <div className="border-border-subtle mb-4 flex flex-wrap items-center justify-end gap-2 border-b pb-3">
                   <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Режим ТЗ
                   </span>
                   <Workshop2DossierViewModeSelect />
@@ -3486,44 +3281,25 @@ function Workshop2ArticleWorkspaceScreen({
           {passportHeaderDialog === 'progress' ? (
             <>
               <div className="flex flex-col space-y-1.5 text-center sm:text-left">
-<<<<<<< HEAD
-                <h2 className="text-base font-semibold leading-none tracking-tight text-slate-900">
-                  Прогресс
-                </h2>
-                <p className="text-sm text-slate-600">
-=======
                 <h2 className="text-text-primary text-base font-semibold leading-none tracking-tight">
                   Прогресс
                 </h2>
                 <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
                   Шаги маршрута SKU и заполнение разделов ТЗ (есть / нет данных).
                 </p>
               </div>
               <div className="mt-3 space-y-3 text-sm">
-<<<<<<< HEAD
-                <div className="rounded-lg border border-slate-100 bg-slate-50/80 p-3">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                    Маршрут
-                  </p>
-                  <p className="mt-1 text-slate-800">
-=======
                 <div className="border-border-subtle bg-bg-surface2/80 rounded-lg border p-3">
                   <p className="text-text-secondary text-[10px] font-bold uppercase tracking-widest">
                     Маршрут
                   </p>
                   <p className="text-text-primary mt-1">
->>>>>>> recover/cabinet-wip-from-stash
                     Выполнено шагов: {prog.done} из {prog.total} ({prog.pct}%).
                   </p>
                 </div>
                 <div className="border-border-subtle bg-bg-surface2/80 rounded-lg border p-3">
                   <div className="flex items-center justify-between gap-2">
-<<<<<<< HEAD
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
-=======
                     <span className="text-text-secondary text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                       ТЗ · разделы
                     </span>
                     <Badge
@@ -3545,11 +3321,7 @@ function Workshop2ArticleWorkspaceScreen({
                         key={item.dossierSection}
                         className="flex items-center justify-between gap-2"
                       >
-<<<<<<< HEAD
-                        <span className="min-w-0 truncate text-slate-700">{item.label}</span>
-=======
                         <span className="text-text-primary min-w-0 truncate">{item.label}</span>
->>>>>>> recover/cabinet-wip-from-stash
                         <span
                           className={cn(
                             'shrink-0 font-semibold',
@@ -3567,17 +3339,10 @@ function Workshop2ArticleWorkspaceScreen({
           ) : passportHeaderDialog === 'warnings' ? (
             <>
               <div className="flex flex-col space-y-1.5 text-center sm:text-left">
-<<<<<<< HEAD
-                <h2 className="text-base font-semibold leading-none tracking-tight text-slate-900">
-                  Замечания
-                </h2>
-                <p className="text-sm text-slate-600">
-=======
                 <h2 className="text-text-primary text-base font-semibold leading-none tracking-tight">
                   Замечания
                 </h2>
                 <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
                   Список предупреждений из досье, влияющих на готовность ТЗ.
                 </p>
               </div>
@@ -3601,11 +3366,7 @@ function Workshop2ArticleWorkspaceScreen({
                 <h2 className="text-text-primary text-base font-semibold leading-none tracking-tight">
                   Готовность к образцу
                 </h2>
-<<<<<<< HEAD
-                <p className="text-sm text-slate-600">
-=======
                 <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
                   Это отдельно от статуса «Принято» в жизненном цикле: ниже — минимальный чеклист
                   содержимого ТЗ. Зелёный бейдж «Готово к образцу» возможен только если все пункты
                   выполнены и нет замечаний из списка движка готовности.
@@ -3627,11 +3388,7 @@ function Workshop2ArticleWorkspaceScreen({
                   </div>
                 ) : null}
                 <div>
-<<<<<<< HEAD
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
-=======
                   <p className="text-text-secondary text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                     Минимум для «готово»
                   </p>
                   <ul className="mt-2 space-y-2 text-[11px] leading-snug">
@@ -3660,13 +3417,8 @@ function Workshop2ArticleWorkspaceScreen({
                         {dossierSummary.materialReady ? '✓' : '✗'}
                       </span>
                       <span>
-<<<<<<< HEAD
-                        <span className="font-semibold text-slate-800">Материал</span>
-                        <span className="text-slate-600">
-=======
                         <span className="text-text-primary font-semibold">Материал</span>
                         <span className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
                           {' '}
                           — заполнен основной материал (атрибут mat).
                         </span>
@@ -3717,17 +3469,10 @@ function Workshop2ArticleWorkspaceScreen({
                         {dossierSummary.warnings.length === 0 ? '✓' : '✗'}
                       </span>
                       <span>
-<<<<<<< HEAD
-                        <span className="font-semibold text-slate-800">
-                          Без блокирующих замечаний
-                        </span>
-                        <span className="text-slate-600">
-=======
                         <span className="text-text-primary font-semibold">
                           Без блокирующих замечаний
                         </span>
                         <span className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
                           {' '}
                           — нет предупреждений движка (несовпадение шкалы, пропуск мерок и т.д.).
                         </span>
@@ -3735,21 +3480,12 @@ function Workshop2ArticleWorkspaceScreen({
                     </li>
                   </ul>
                 </div>
-<<<<<<< HEAD
-                <div className="rounded-lg border border-slate-100 bg-slate-50/80 p-3">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                    Текущие замечания
-                  </p>
-                  {dossierSummary.warnings.length === 0 ? (
-                    <p className="mt-1.5 text-[11px] text-slate-600">
-=======
                 <div className="border-border-subtle bg-bg-surface2/80 rounded-lg border p-3">
                   <p className="text-text-secondary text-[10px] font-bold uppercase tracking-widest">
                     Текущие замечания
                   </p>
                   {dossierSummary.warnings.length === 0 ? (
                     <p className="text-text-secondary mt-1.5 text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
                       Нет — условие «без замечаний» выполнено.
                     </p>
                   ) : (
@@ -3777,11 +3513,7 @@ function Workshop2ArticleWorkspaceScreen({
                 <h2 className="text-text-primary text-base font-semibold leading-none tracking-tight">
                   Статус жизненного цикла
                 </h2>
-<<<<<<< HEAD
-                <p className="text-sm text-slate-600">
-=======
                 <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
                   Отражает этап согласования и приёмки досье в процессе, а не автоматический
                   пересчёт полей ТЗ.
                 </p>
@@ -3800,39 +3532,22 @@ function Workshop2ArticleWorkspaceScreen({
                 </p>
                 <ul className="text-text-primary list-disc space-y-1.5 pl-4 text-[11px] leading-snug">
                   <li>
-<<<<<<< HEAD
-                    <span className="font-medium text-slate-800">Черновик</span> — досье в работе,
-                    передачи ещё не фиксировались.
-                  </li>
-                  <li>
-                    <span className="font-medium text-slate-800">
-=======
                     <span className="text-text-primary font-medium">Черновик</span> — досье в
                     работе, передачи ещё не фиксировались.
                   </li>
                   <li>
                     <span className="text-text-primary font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                       Готово к передаче / Передано в производство
                     </span>{' '}
                     — отмеченные вручную этапы согласования маршрута.
                   </li>
                   <li>
-<<<<<<< HEAD
-                    <span className="font-medium text-slate-800">Принято</span> — зафиксирована
-                    приёмка сэмпла по процессу; не отменяет проверку актуального содержимого ТЗ.
-                  </li>
-                  <li>
-                    <span className="font-medium text-slate-800">Возврат на доработку</span> — нужна
-                    правка перед следующей итерацией.
-=======
                     <span className="text-text-primary font-medium">Принято</span> — зафиксирована
                     приёмка сэмпла по процессу; не отменяет проверку актуального содержимого ТЗ.
                   </li>
                   <li>
                     <span className="text-text-primary font-medium">Возврат на доработку</span> —
                     нужна правка перед следующей итерацией.
->>>>>>> recover/cabinet-wip-from-stash
                   </li>
                 </ul>
                 <Button
@@ -3860,17 +3575,10 @@ function Workshop2ArticleWorkspaceScreen({
           {routeStageHelp ? (
             <>
               <DialogHeader>
-<<<<<<< HEAD
-                <DialogTitle className="text-base text-slate-900">
-                  {routeStageHelp.headline}
-                </DialogTitle>
-                <DialogDescription className="text-slate-600">
-=======
                 <DialogTitle className="text-text-primary text-base">
                   {routeStageHelp.headline}
                 </DialogTitle>
                 <DialogDescription className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
                   {routeStageHelp.purpose}
                 </DialogDescription>
               </DialogHeader>
@@ -3899,17 +3607,10 @@ function Workshop2ArticleWorkspaceScreen({
           {dossierSectionHelp && dossierSectionHelpId ? (
             <>
               <DialogHeader>
-<<<<<<< HEAD
-                <DialogTitle className="text-base text-slate-900">
-                  {dossierSectionHelp.headline}
-                </DialogTitle>
-                <DialogDescription className="text-slate-600">
-=======
                 <DialogTitle className="text-text-primary text-base">
                   {dossierSectionHelp.headline}
                 </DialogTitle>
                 <DialogDescription className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
                   {dossierSectionHelp.purpose}
                 </DialogDescription>
               </DialogHeader>
@@ -3957,28 +3658,16 @@ function Workshop2ArticleWorkspaceScreen({
           className="flex max-h-[min(80vh,560px)] max-w-lg flex-col gap-0"
         >
           <DialogHeader>
-<<<<<<< HEAD
-            <DialogTitle className="text-base text-slate-900">История изменений</DialogTitle>
-            <DialogDescription className="text-slate-600">
-              Данные производства артикула{' '}
-              <span className="font-mono font-semibold text-slate-800">{article.sku}</span>: журнал
-              Цеха 2, сохранения ТЗ и правки строки коллекции (локально).
-=======
             <DialogTitle className="text-text-primary text-base">История изменений</DialogTitle>
             <DialogDescription className="text-text-secondary">
               Данные производства артикула{' '}
               <span className="text-text-primary font-mono font-semibold">{article.sku}</span>:
               журнал Цеха 2, сохранения ТЗ и правки строки коллекции (локально).
->>>>>>> recover/cabinet-wip-from-stash
             </DialogDescription>
           </DialogHeader>
           <div className="min-h-0 flex-1 overflow-y-auto py-2">
             {articleProductionHistory.length === 0 ? (
-<<<<<<< HEAD
-              <p className="text-sm text-slate-500">
-=======
               <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
                 Пока нет зафиксированных событий по этому SKU.
               </p>
             ) : (
@@ -4005,11 +3694,7 @@ function Workshop2ArticleWorkspaceScreen({
                         })}
                       </time>
                     </div>
-<<<<<<< HEAD
-                    <p className="mt-1.5 text-[13px] font-semibold leading-snug text-slate-900">
-=======
                     <p className="text-text-primary mt-1.5 text-[13px] font-semibold leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                       {row.summary}
                     </p>
                     {row.actor ? (
@@ -4022,11 +3707,7 @@ function Workshop2ArticleWorkspaceScreen({
               </ul>
             )}
           </div>
-<<<<<<< HEAD
-          <DialogFooter className="mt-2 border-t border-slate-100 pt-3 sm:justify-end">
-=======
           <DialogFooter className="border-border-subtle mt-2 border-t pt-3 sm:justify-end">
->>>>>>> recover/cabinet-wip-from-stash
             <Button
               type="button"
               variant="outline"

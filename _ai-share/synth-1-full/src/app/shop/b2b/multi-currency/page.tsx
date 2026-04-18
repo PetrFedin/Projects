@@ -27,28 +27,9 @@ export default function MultiCurrencyPage() {
   const converted = convertAmount(amount, fromCur, toCur);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <Coins className="h-6 w-6" /> Мультивалютность
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            B2B-Center: поддержка нескольких валют и курсов для заказов
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="max-w-2xl space-y-6">
       <ShopB2bContentHeader lead="Несколько валют и курсов для заказов (B2B-Center style)." />
       <ShopAnalyticsSegmentErpStrip />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -62,11 +43,7 @@ export default function MultiCurrencyPage() {
             {SUPPORTED_CURRENCIES.filter((c) => c.code !== 'RUB').map((c) => (
               <li
                 key={c.code}
-<<<<<<< HEAD
-                className="flex items-center justify-between border-b border-slate-100 py-2 last:border-0"
-=======
                 className="border-border-subtle flex items-center justify-between border-b py-2 last:border-0"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <span>
                   {c.name} ({c.code})
@@ -88,11 +65,7 @@ export default function MultiCurrencyPage() {
         <CardContent className="space-y-4">
           <div className="flex flex-wrap items-end gap-4">
             <div>
-<<<<<<< HEAD
-              <label className="mb-1 block text-xs text-slate-500">Сумма</label>
-=======
               <label className="text-text-secondary mb-1 block text-xs">Сумма</label>
->>>>>>> recover/cabinet-wip-from-stash
               <Input
                 type="number"
                 min={0}
@@ -102,11 +75,7 @@ export default function MultiCurrencyPage() {
               />
             </div>
             <div>
-<<<<<<< HEAD
-              <label className="mb-1 block text-xs text-slate-500">Из</label>
-=======
               <label className="text-text-secondary mb-1 block text-xs">Из</label>
->>>>>>> recover/cabinet-wip-from-stash
               <select
                 className="h-10 w-24 rounded-md border px-3"
                 value={fromCur}
@@ -120,11 +89,7 @@ export default function MultiCurrencyPage() {
               </select>
             </div>
             <div>
-<<<<<<< HEAD
-              <label className="mb-1 block text-xs text-slate-500">В</label>
-=======
               <label className="text-text-secondary mb-1 block text-xs">В</label>
->>>>>>> recover/cabinet-wip-from-stash
               <select
                 className="h-10 w-24 rounded-md border px-3"
                 value={toCur}
@@ -146,11 +111,7 @@ export default function MultiCurrencyPage() {
 
       <div className="flex gap-2">
         <Button variant="outline" size="sm" asChild>
-<<<<<<< HEAD
-          <Link href={ROUTES.shop.b2b}>B2B хаб</Link>
-=======
           <Link href={ROUTES.shop.b2bCatalog}>B2B каталог</Link>
->>>>>>> recover/cabinet-wip-from-stash
         </Button>
       </div>
 

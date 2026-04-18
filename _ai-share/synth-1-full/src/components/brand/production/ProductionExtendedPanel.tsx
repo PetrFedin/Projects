@@ -112,17 +112,10 @@ export function ProductionExtendedPanel({ batchId, skuId }: ProductionExtendedPa
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       {/* 1. Раскрой и маркеры */}
-<<<<<<< HEAD
-      <Card className="overflow-hidden rounded-2xl border border-slate-200">
-        <CardHeader className="pb-2">
-          <CardTitle className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
-            <Scissors className="h-4 w-4 text-indigo-500" />
-=======
       <Card className="border-border-default overflow-hidden rounded-2xl border">
         <CardHeader className="pb-2">
           <CardTitle className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
             <Scissors className="text-accent-primary h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
             Раскрой и маркеры
           </CardTitle>
         </CardHeader>
@@ -148,11 +141,7 @@ export function ProductionExtendedPanel({ batchId, skuId }: ProductionExtendedPa
                   {markers.map((m) => (
                     <div
                       key={m.id}
-<<<<<<< HEAD
-                      className="flex items-center justify-between rounded-xl bg-slate-50 p-2 text-[10px]"
-=======
                       className="bg-bg-surface2 flex items-center justify-between rounded-xl p-2 text-[10px]"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       <span className="font-bold">{m.marker_number}</span>
                       <Badge variant="secondary" className="text-[9px]">
@@ -173,11 +162,7 @@ export function ProductionExtendedPanel({ batchId, skuId }: ProductionExtendedPa
       </Card>
 
       {/* 2. Сырьё — allowance */}
-<<<<<<< HEAD
-      <Card className="overflow-hidden rounded-2xl border border-slate-200">
-=======
       <Card className="border-border-default overflow-hidden rounded-2xl border">
->>>>>>> recover/cabinet-wip-from-stash
         <CardHeader className="pb-2">
           <CardTitle className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
             <Layers className="h-4 w-4 text-emerald-500" />
@@ -185,14 +170,9 @@ export function ProductionExtendedPanel({ batchId, skuId }: ProductionExtendedPa
           </CardTitle>
         </CardHeader>
         <CardContent>
-<<<<<<< HEAD
-          <p className="mb-2 text-[10px] text-slate-600">
-            Allowance по операциям: ткань, нитки, подкладка. API: POST /plm/materials/allowance
-=======
           <p className="text-text-secondary mb-2 text-[10px]">
             Нормы списания по операциям: ткань, нитки, подкладка. <AcronymWithTooltip abbr="API" />:
             POST /plm/materials/allowance
->>>>>>> recover/cabinet-wip-from-stash
           </p>
           {skuId && (
             <Button size="sm" variant="ghost" className="text-[10px]" disabled>
@@ -202,13 +182,8 @@ export function ProductionExtendedPanel({ batchId, skuId }: ProductionExtendedPa
         </CardContent>
       </Card>
 
-<<<<<<< HEAD
-      {/* 3. Inline QC */}
-      <Card className="overflow-hidden rounded-2xl border border-slate-200">
-=======
       {/* 3. Межоперационный QC */}
       <Card className="border-border-default overflow-hidden rounded-2xl border">
->>>>>>> recover/cabinet-wip-from-stash
         <CardHeader className="pb-2">
           <CardTitle className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
             <ClipboardCheck className="h-4 w-4 text-amber-500" />
@@ -223,11 +198,7 @@ export function ProductionExtendedPanel({ batchId, skuId }: ProductionExtendedPa
       </Card>
 
       {/* 4. Реестр дефектов */}
-<<<<<<< HEAD
-      <Card className="overflow-hidden rounded-2xl border border-slate-200 md:col-span-2">
-=======
       <Card className="border-border-default overflow-hidden rounded-2xl border md:col-span-2">
->>>>>>> recover/cabinet-wip-from-stash
         <CardHeader className="pb-2">
           <CardTitle className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
             <AlertCircle className="h-4 w-4 text-rose-500" />
@@ -250,11 +221,7 @@ export function ProductionExtendedPanel({ batchId, skuId }: ProductionExtendedPa
       </Card>
 
       {/* 5. PPS */}
-<<<<<<< HEAD
-      <Card className="overflow-hidden rounded-2xl border border-slate-200">
-=======
       <Card className="border-border-default overflow-hidden rounded-2xl border">
->>>>>>> recover/cabinet-wip-from-stash
         <CardHeader className="pb-2">
           <CardTitle className="flex items-center gap-2 text-xs font-black uppercase tracking-wider">
             <FileCheck className="h-4 w-4 text-blue-500" />

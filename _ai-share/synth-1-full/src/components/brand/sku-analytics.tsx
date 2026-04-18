@@ -160,21 +160,6 @@ export function SkuAnalytics({
   }
 
   return (
-<<<<<<< HEAD
-    <Card className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition-all hover:border-indigo-100">
-      <CardHeader className="border-b border-slate-50 bg-slate-50/50 p-4">
-        <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-          <div className="space-y-0.5">
-            <div className="mb-1 flex items-center gap-2">
-              <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-1.5 text-indigo-600 shadow-inner">
-                <BarChart2 className="h-3.5 w-3.5" />
-              </div>
-              <CardTitle className="text-sm font-bold uppercase leading-none tracking-widest text-slate-900">
-                Deep SKU Analysis: {selectedProduct?.name || ''}
-              </CardTitle>
-            </div>
-            <CardDescription className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
-=======
     <Card className="border-border-subtle hover:border-accent-primary/20 overflow-hidden rounded-xl border bg-white shadow-sm transition-all">
       <CardHeader className="border-border-subtle bg-bg-surface2/80 border-b p-4">
         <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
@@ -188,7 +173,6 @@ export function SkuAnalytics({
               </CardTitle>
             </div>
             <CardDescription className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               {selectedProduct
                 ? 'Detailed funnel, trends and AI-driven recommendations.'
                 : 'Select a product from the table to view analytics.'}
@@ -207,15 +191,6 @@ export function SkuAnalytics({
           {promotion && (
             <Alert
               variant="default"
-<<<<<<< HEAD
-              className="rounded-xl border-indigo-100 bg-indigo-50/50 py-2.5"
-            >
-              <TrendingUp className="h-3.5 w-3.5 text-indigo-600" />
-              <AlertTitle className="mb-1 text-[10px] font-bold uppercase leading-none tracking-widest text-indigo-900">
-                Active Promotion
-              </AlertTitle>
-              <AlertDescription className="text-[11px] font-medium tracking-tight text-slate-600">
-=======
               className="bg-accent-primary/10 border-accent-primary/20 rounded-xl py-2.5"
             >
               <TrendingUp className="text-accent-primary h-3.5 w-3.5" />
@@ -223,7 +198,6 @@ export function SkuAnalytics({
                 Active Promotion
               </AlertTitle>
               <AlertDescription className="text-text-secondary text-[11px] font-medium tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                 Campaign "{promotion.type}" active until{' '}
                 {format(new Date(promotion.endDate), 'd MMM yyyy', { locale: ru })}. Metrics may be
                 higher than average baseline.
@@ -259,21 +233,12 @@ export function SkuAnalytics({
 
           <div className="grid grid-cols-1 items-start gap-3 lg:grid-cols-2">
             <ProductFunnelChart data={funnelData} />
-<<<<<<< HEAD
-            <Card className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm">
-              <CardHeader className="border-b border-slate-50 bg-slate-50/50 p-3.5">
-                <CardTitle className="text-[10px] font-bold uppercase tracking-widest text-slate-700">
-                  Sell-Through Dynamics
-                </CardTitle>
-                <CardDescription className="text-[9px] font-bold uppercase tracking-tight text-slate-400">
-=======
             <Card className="border-border-subtle overflow-hidden rounded-xl border bg-white shadow-sm">
               <CardHeader className="border-border-subtle bg-bg-surface2/80 border-b p-3.5">
                 <CardTitle className="text-text-primary text-[10px] font-bold uppercase tracking-widest">
                   Sell-Through Dynamics
                 </CardTitle>
                 <CardDescription className="text-text-muted text-[9px] font-bold uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                   Weekly percentage sold vs stock levels.
                 </CardDescription>
               </CardHeader>
@@ -359,40 +324,17 @@ export function SkuAnalytics({
             </Card>
           </div>
 
-<<<<<<< HEAD
-          <Card className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm">
-            <CardHeader className="border-b border-slate-50 bg-slate-50/50 p-3.5">
-              <CardTitle className="text-[10px] font-bold uppercase tracking-widest text-slate-700">
-                Variant Efficiency
-              </CardTitle>
-              <CardDescription className="text-[9px] font-bold uppercase tracking-tight text-slate-400">
-=======
           <Card className="border-border-subtle overflow-hidden rounded-xl border bg-white shadow-sm">
             <CardHeader className="border-border-subtle bg-bg-surface2/80 border-b p-3.5">
               <CardTitle className="text-text-primary text-[10px] font-bold uppercase tracking-widest">
                 Variant Efficiency
               </CardTitle>
               <CardDescription className="text-text-muted text-[9px] font-bold uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                 Size & Color level performance analysis.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
-<<<<<<< HEAD
-                <TableHeader className="bg-slate-50/30">
-                  <TableRow className="h-9 border-none">
-                    <TableHead className="h-9 py-0 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
-                      Variant
-                    </TableHead>
-                    <TableHead className="h-9 py-0 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
-                      Sell-Through
-                    </TableHead>
-                    <TableHead className="h-9 py-0 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
-                      Inventory
-                    </TableHead>
-                    <TableHead className="h-9 py-0 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
-=======
                 <TableHeader className="bg-bg-surface2/30">
                   <TableRow className="h-9 border-none">
                     <TableHead className="text-text-muted h-9 py-0 text-[9px] font-bold uppercase tracking-[0.2em]">
@@ -405,7 +347,6 @@ export function SkuAnalytics({
                       Inventory
                     </TableHead>
                     <TableHead className="text-text-muted h-9 py-0 text-[9px] font-bold uppercase tracking-[0.2em]">
->>>>>>> recover/cabinet-wip-from-stash
                       Forecast
                     </TableHead>
                   </TableRow>
@@ -413,17 +354,10 @@ export function SkuAnalytics({
                 <TableBody>
                   {selectedProduct.availableColors?.map((color) => (
                     <React.Fragment key={color.id}>
-<<<<<<< HEAD
-                      <TableRow className="h-9 bg-slate-50/30 transition-colors hover:bg-slate-50/50">
-                        <TableCell
-                          colSpan={4}
-                          className="pl-4 text-[10px] font-bold uppercase tracking-widest text-slate-900"
-=======
                       <TableRow className="bg-bg-surface2/30 hover:bg-bg-surface2/80 h-9 transition-colors">
                         <TableCell
                           colSpan={4}
                           className="text-text-primary pl-4 text-[10px] font-bold uppercase tracking-widest"
->>>>>>> recover/cabinet-wip-from-stash
                         >
                           {color.name}
                         </TableCell>
@@ -435,17 +369,6 @@ export function SkuAnalytics({
                         return (
                           <TableRow
                             key={`${color.id}-${size.name}`}
-<<<<<<< HEAD
-                            className="h-10 border-slate-50 transition-colors hover:bg-slate-50/50"
-                          >
-                            <TableCell className="pl-8 text-[11px] font-bold uppercase leading-none tracking-tight text-slate-900">
-                              {size.name}
-                            </TableCell>
-                            <TableCell className="text-[11px] font-bold tabular-nums text-slate-900">
-                              {sellThrough}%
-                            </TableCell>
-                            <TableCell className="text-[11px] font-bold tabular-nums text-slate-900">
-=======
                             className="hover:bg-bg-surface2/80 border-border-subtle h-10 transition-colors"
                           >
                             <TableCell className="text-text-primary pl-8 text-[11px] font-bold uppercase leading-none tracking-tight">
@@ -455,7 +378,6 @@ export function SkuAnalytics({
                               {sellThrough}%
                             </TableCell>
                             <TableCell className="text-text-primary text-[11px] font-bold tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
                               {stock} units
                             </TableCell>
                             <TableCell>
@@ -476,16 +398,6 @@ export function SkuAnalytics({
             </CardContent>
           </Card>
 
-<<<<<<< HEAD
-          <Card className="group relative overflow-hidden rounded-xl border border-indigo-500 bg-slate-900 p-4 text-white shadow-xl shadow-indigo-100/50">
-            <div className="relative z-10 space-y-4">
-              <div className="flex items-center gap-2.5">
-                <div className="rounded-lg border border-indigo-500 bg-indigo-600 p-2 shadow-lg transition-transform group-hover:scale-105">
-                  <Bot className="h-3.5 w-3.5 text-white" />
-                </div>
-                <div className="space-y-0.5">
-                  <span className="text-[9px] font-bold uppercase leading-none tracking-[0.2em] text-indigo-300">
-=======
           <Card className="border-accent-primary shadow-accent-primary/10 bg-text-primary group relative overflow-hidden rounded-xl border p-4 text-white shadow-xl">
             <div className="relative z-10 space-y-4">
               <div className="flex items-center gap-2.5">
@@ -494,7 +406,6 @@ export function SkuAnalytics({
                 </div>
                 <div className="space-y-0.5">
                   <span className="text-accent-primary text-[9px] font-bold uppercase leading-none tracking-[0.2em]">
->>>>>>> recover/cabinet-wip-from-stash
                     Intelligence
                   </span>
                   <p className="text-[11px] font-bold uppercase tracking-tight">
@@ -504,17 +415,10 @@ export function SkuAnalytics({
               </div>
               <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
                 <div className="rounded-xl border border-white/10 bg-white/5 p-3 backdrop-blur-sm transition-colors hover:bg-white/10">
-<<<<<<< HEAD
-                  <p className="mb-1 text-[8px] font-bold uppercase leading-none tracking-widest text-indigo-300">
-                    Funnel Analysis
-                  </p>
-                  <p className="text-[10px] font-bold uppercase leading-relaxed tracking-tight text-slate-300">
-=======
                   <p className="text-accent-primary mb-1 text-[8px] font-bold uppercase leading-none tracking-widest">
                     Funnel Analysis
                   </p>
                   <p className="text-text-muted text-[10px] font-bold uppercase leading-relaxed tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                     High cart additions (15%) but low conversion (32%). Shipping costs or checkout
                     complexity suspected.
                   </p>
@@ -523,11 +427,7 @@ export function SkuAnalytics({
                   <p className="mb-1 text-[8px] font-bold uppercase leading-none tracking-widest text-emerald-300">
                     Trend Forecast
                   </p>
-<<<<<<< HEAD
-                  <p className="text-[10px] font-bold uppercase leading-relaxed tracking-tight text-slate-300">
-=======
                   <p className="text-text-muted text-[10px] font-bold uppercase leading-relaxed tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                     Seasonal peak expected in FW period. Launch promo late August to maximize
                     velocity.
                   </p>
@@ -536,21 +436,13 @@ export function SkuAnalytics({
                   <p className="mb-1 text-[8px] font-bold uppercase leading-none tracking-widest text-amber-300">
                     Action Item
                   </p>
-<<<<<<< HEAD
-                  <p className="text-[10px] font-bold uppercase leading-relaxed tracking-tight text-slate-300">
-=======
                   <p className="text-text-muted text-[10px] font-bold uppercase leading-relaxed tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                     Enable free shipping for this SKU to increase final stage conversion velocity.
                   </p>
                 </div>
               </div>
             </div>
-<<<<<<< HEAD
-            <Sparkles className="absolute -right-6 -top-4 h-24 w-24 text-indigo-600 opacity-10 transition-all duration-700 group-hover:scale-110 group-hover:opacity-20" />
-=======
             <Sparkles className="text-accent-primary absolute -right-6 -top-4 h-24 w-24 opacity-10 transition-all duration-700 group-hover:scale-110 group-hover:opacity-20" />
->>>>>>> recover/cabinet-wip-from-stash
           </Card>
         </CardContent>
       )}

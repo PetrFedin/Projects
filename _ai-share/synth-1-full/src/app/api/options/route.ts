@@ -2,14 +2,8 @@ import { NextResponse } from 'next/server';
 
 const DB: Record<string, Array<{ value: string; label: string }>> = {
   brands: [
-<<<<<<< HEAD
-    { value: 'apc', label: 'A.P.C.' },
-    { value: 'stone-island', label: 'Stone Island' },
-    { value: 'kitsune', label: 'Maison Kitsuné' },
-=======
     { value: 'brand_syntha_lab', label: 'Syntha Lab' },
     { value: 'brand_nordic_wool', label: 'Nordic Wool' },
->>>>>>> recover/cabinet-wip-from-stash
   ],
   suppliers: [
     { value: 'factory-01', label: 'Factory 01' },

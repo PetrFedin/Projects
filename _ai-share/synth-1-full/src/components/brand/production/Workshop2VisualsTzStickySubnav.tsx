@@ -116,11 +116,7 @@ export function Workshop2VisualsTzStickySubnav({
             <span
               className={cn(
                 'ml-1 text-[9px] font-bold tabular-nums',
-<<<<<<< HEAD
-                checklistDone >= checklistTotal ? 'text-emerald-600' : 'text-indigo-600'
-=======
                 checklistDone >= checklistTotal ? 'text-emerald-600' : 'text-accent-primary'
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               {checklistDone}/{checklistTotal}
@@ -134,11 +130,7 @@ export function Workshop2VisualsTzStickySubnav({
             <span
               className={cn(
                 'ml-1 text-[9px] font-bold tabular-nums',
-<<<<<<< HEAD
-                checklistDone >= checklistTotal ? 'text-emerald-600' : 'text-indigo-600'
-=======
                 checklistDone >= checklistTotal ? 'text-emerald-600' : 'text-accent-primary'
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               {checklistDone}/{checklistTotal}
@@ -150,11 +142,7 @@ export function Workshop2VisualsTzStickySubnav({
             <span
               className={cn(
                 'ml-1 text-[9px] font-bold tabular-nums',
-<<<<<<< HEAD
-                catalogFieldDone >= catalogFieldTotal ? 'text-emerald-600' : 'text-violet-600'
-=======
                 catalogFieldDone >= catalogFieldTotal ? 'text-emerald-600' : 'text-accent-primary'
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               {catalogFieldDone}/{catalogFieldTotal}

@@ -2,14 +2,10 @@ import type { Product } from '@/lib/types';
 import type { CategoryAssortmentGapV1 } from './types';
 
 /** Анализирует пробелы в ассортименте категории (Gap Analysis). */
-<<<<<<< HEAD
-export function analyzeAssortmentGaps(products: Product[] = [], category: string): AssortmentGapV1 {
-=======
 export function analyzeCategoryAssortmentGaps(
   products: Product[] = [],
   category: string
 ): CategoryAssortmentGapV1 {
->>>>>>> recover/cabinet-wip-from-stash
   const catProducts = (products || []).filter((p) => p.category === category);
   const colors = new Set(catProducts.map((p) => p.color.toLowerCase()));
   const prices = catProducts.map((p) => p.price);

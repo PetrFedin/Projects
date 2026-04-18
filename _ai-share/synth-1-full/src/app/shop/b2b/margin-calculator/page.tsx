@@ -20,49 +20,6 @@ export default function B2BMarginCalculatorPage() {
   const margin = sellPrice > 0 ? (((sellPrice - buyPrice) / sellPrice) * 100).toFixed(1) : '0';
 
   return (
-<<<<<<< HEAD
-    <B2BModulePage
-      title="Margin Calculator"
-      description="Расчёт маржи в корзине (NuOrder)"
-      moduleId="margin-calculator"
-      icon={Calculator}
-      phase={2}
-    >
-      <Card>
-        <CardHeader>
-          <CardTitle>Калькулятор маржи</CardTitle>
-          <CardDescription>
-            Введите закупочную и розничную цену для расчёта маржинальности.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid gap-2">
-            <Label>Закупочная цена (₽)</Label>
-            <Input
-              type="number"
-              value={buyPrice}
-              onChange={(e) => setBuyPrice(Number(e.target.value) || 0)}
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label>Розничная цена (₽)</Label>
-            <Input
-              type="number"
-              value={sellPrice}
-              onChange={(e) => setSellPrice(Number(e.target.value) || 0)}
-            />
-          </div>
-          <div className="flex items-center gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3">
-            <Percent className="h-4 w-4 text-slate-500" />
-            <span className="font-semibold">Маржа: {margin}%</span>
-          </div>
-          <Button variant="outline" size="sm" asChild>
-            <Link href={ROUTES.shop.b2bCollaborativeOrder}>Collaborative Order</Link>
-          </Button>
-        </CardContent>
-      </Card>
-    </B2BModulePage>
-=======
     <RegistryPageShell className="max-w-4xl space-y-6">
       <ShopAnalyticsSegmentErpStrip />
       <B2BModulePage
@@ -128,6 +85,5 @@ export default function B2BMarginCalculatorPage() {
         <B2bMarginAnalysisHubButton />
       </div>
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

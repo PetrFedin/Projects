@@ -20,11 +20,7 @@ export function ClientNav() {
   return (
     <nav
       aria-label="Клиентское меню"
-<<<<<<< HEAD
-      className="flex flex-wrap items-center gap-1 border-b border-slate-200 bg-slate-50/80 px-4 py-2"
-=======
       className="border-border-default bg-bg-surface2/80 flex flex-wrap items-center gap-1 border-b px-4 py-2"
->>>>>>> recover/cabinet-wip-from-stash
     >
       {clientNavItems.map(({ label, href, icon: Icon }) => {
         const isActive =

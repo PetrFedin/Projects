@@ -159,11 +159,7 @@ export function SketchPinThreadPanel({
         <div className="flex flex-wrap items-center gap-2">
           <p className="text-accent-primary font-semibold uppercase tracking-wide">Тред у метки</p>
           {threadResolved ? (
-<<<<<<< HEAD
-            <span className="rounded bg-slate-200 px-1.5 py-0.5 text-[8px] font-medium text-slate-700">
-=======
             <span className="bg-border-subtle text-text-primary rounded px-1.5 py-0.5 text-[8px] font-medium">
->>>>>>> recover/cabinet-wip-from-stash
               Решён
             </span>
           ) : (
@@ -274,15 +270,9 @@ export function SketchPinThreadPanel({
             return (
               <li
                 key={c.commentId}
-<<<<<<< HEAD
-                className="rounded border border-white/60 bg-white/70 p-1.5 text-[9px] text-slate-800"
-              >
-                <div className="flex flex-wrap items-center justify-between gap-1 font-mono text-[8px] text-slate-500">
-=======
                 className="text-text-primary rounded border border-white/60 bg-white/70 p-1.5 text-[9px]"
               >
                 <div className="text-text-secondary flex flex-wrap items-center justify-between gap-1 font-mono text-[8px]">
->>>>>>> recover/cabinet-wip-from-stash
                   <span>
                     {c.by} ·{' '}
                     {(() => {

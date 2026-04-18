@@ -198,11 +198,7 @@ export const ProductPrefsTab = ({ form }: ProductPrefsTabProps) => {
               <div className="absolute inset-0 flex items-center justify-center gap-2 bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
                 <button
                   type="button"
-<<<<<<< HEAD
-                  className="rounded-full bg-white p-1.5 text-zinc-900 hover:bg-zinc-100"
-=======
                   className="text-text-primary hover:bg-bg-surface2 rounded-full bg-white p-1.5"
->>>>>>> recover/cabinet-wip-from-stash
                   onClick={() => {
                     const current = [...(form.getValues('styleGallery') || [])];
                     current[idx].isPrivate = !current[idx].isPrivate;
@@ -218,11 +214,7 @@ export const ProductPrefsTab = ({ form }: ProductPrefsTabProps) => {
                 </button>
                 <button
                   type="button"
-<<<<<<< HEAD
-                  className="rounded-full bg-white p-1.5 text-red-600 hover:bg-zinc-100"
-=======
                   className="hover:bg-bg-surface2 rounded-full bg-white p-1.5 text-red-600"
->>>>>>> recover/cabinet-wip-from-stash
                   onClick={() => {
                     const current = [...(form.getValues('styleGallery') || [])];
                     current.splice(idx, 1);

@@ -175,13 +175,8 @@ const LookCard = ({
       onMouseEnter={() => setIsUserActive(true)}
       onMouseLeave={() => setIsUserActive(false)}
     >
-<<<<<<< HEAD
-      <Card className="group/look relative flex h-full flex-col overflow-hidden rounded-3xl border-none bg-slate-50 transition-all duration-500 hover:shadow-2xl">
-        <div className="relative aspect-[3/3.8] flex-1 overflow-hidden rounded-3xl bg-slate-50 shadow-inner">
-=======
       <Card className="bg-bg-surface2 group/look relative flex h-full flex-col overflow-hidden rounded-3xl border-none transition-all duration-500 hover:shadow-2xl">
         <div className="bg-bg-surface2 relative aspect-[3/3.8] flex-1 overflow-hidden rounded-3xl shadow-inner">
->>>>>>> recover/cabinet-wip-from-stash
           <AnimatePresence mode="wait">
             {lookMode === 'gallery' ? (
               <motion.div
@@ -632,11 +627,7 @@ const LookCard = ({
                             side="top"
                             align="center"
                             sideOffset={15}
-<<<<<<< HEAD
-                            className="z-[100] w-[160px] overflow-hidden rounded-xl border border-white/10 bg-zinc-900/95 p-0 shadow-2xl backdrop-blur-xl"
-=======
                             className="bg-text-primary/95 z-[100] w-[160px] overflow-hidden rounded-xl border border-white/10 p-0 shadow-2xl backdrop-blur-xl"
->>>>>>> recover/cabinet-wip-from-stash
                             onClick={(e) => e.stopPropagation()}
                           >
                             <div className="flex flex-col gap-1 p-1">
@@ -652,11 +643,7 @@ const LookCard = ({
                                     value={newCollectionName}
                                     onChange={(e) => setNewCollectionName(e.target.value)}
                                     placeholder="Название..."
-<<<<<<< HEAD
-                                    className="w-full rounded-md border border-white/10 bg-white/5 px-2 py-1 text-[9px] text-white focus:border-indigo-500/50 focus:outline-none"
-=======
                                     className="focus:border-accent-primary/50 w-full rounded-md border border-white/10 bg-white/5 px-2 py-1 text-[9px] text-white focus:outline-none"
->>>>>>> recover/cabinet-wip-from-stash
                                   />
                                   <div className="flex gap-1">
                                     <button
@@ -667,11 +654,7 @@ const LookCard = ({
                                           setNewCollectionName('');
                                         }
                                       }}
-<<<<<<< HEAD
-                                      className="flex-1 rounded-md bg-indigo-500 py-1 text-[8px] font-black uppercase text-white transition-colors hover:bg-indigo-600"
-=======
                                       className="bg-accent-primary hover:bg-accent-primary flex-1 rounded-md py-1 text-[8px] font-black uppercase text-white transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
                                     >
                                       Ок
                                     </button>
@@ -707,17 +690,10 @@ const LookCard = ({
                                   </div>
                                   <button
                                     onClick={() => setIsCreatingNewCollection(true)}
-<<<<<<< HEAD
-                                    className="mt-1 flex w-full items-center gap-2 rounded-md border-t border-white/5 px-2 py-1.5 pt-2 transition-colors hover:bg-indigo-500/20"
-                                  >
-                                    <Plus className="h-2 w-2 text-indigo-400" />
-                                    <span className="text-[8px] font-black uppercase text-indigo-400">
-=======
                                     className="hover:bg-accent-primary/20 mt-1 flex w-full items-center gap-2 rounded-md border-t border-white/5 px-2 py-1.5 pt-2 transition-colors"
                                   >
                                     <Plus className="text-accent-primary h-2 w-2" />
                                     <span className="text-accent-primary text-[8px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                                       Создать новую
                                     </span>
                                   </button>
@@ -783,21 +759,13 @@ const LookCard = ({
                     'h-1.5 w-1.5 rounded-full transition-all duration-300',
                     lookMode === mode.id
                       ? 'scale-125 bg-black shadow-[0_0_10px_rgba(0,0,0,0.2)]'
-<<<<<<< HEAD
-                      : 'bg-slate-200 hover:bg-slate-400'
-=======
                       : 'bg-border-subtle hover:bg-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 />
               </TooltipTrigger>
               <TooltipContent
                 side="bottom"
-<<<<<<< HEAD
-                className="rounded-md border-none bg-slate-900 px-2 py-1 text-[8px] font-black uppercase tracking-widest text-white"
-=======
                 className="bg-text-primary rounded-md border-none px-2 py-1 text-[8px] font-black uppercase tracking-widest text-white"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 {mode.label}
               </TooltipContent>
@@ -922,11 +890,7 @@ export const ShowroomGrid: React.FC<ShowroomGridProps> = ({
             animate={{ opacity: 1, scale: 1 }}
             className="w-[280px] flex-shrink-0 snap-start"
           >
-<<<<<<< HEAD
-            <div className="group/kick relative rounded-[1.5rem] border border-slate-100 bg-white p-3 shadow-lg">
-=======
             <div className="border-border-subtle group/kick relative rounded-[1.5rem] border bg-white p-3 shadow-lg">
->>>>>>> recover/cabinet-wip-from-stash
               <div className="relative mb-3 aspect-square">
                 <div className="absolute inset-0 overflow-hidden rounded-2xl">
                   <img
@@ -936,11 +900,7 @@ export const ShowroomGrid: React.FC<ShowroomGridProps> = ({
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                 </div>
                 <div className="absolute left-2.5 top-2.5 z-20 flex flex-col gap-1">
-<<<<<<< HEAD
-                  <Badge className="border-none bg-indigo-600 px-2 py-0.5 text-[6px] font-black uppercase text-white shadow-lg">
-=======
                   <Badge className="bg-accent-primary border-none px-2 py-0.5 text-[6px] font-black uppercase text-white shadow-lg">
->>>>>>> recover/cabinet-wip-from-stash
                     {kick.type}
                   </Badge>
                   <Badge className="border-none bg-emerald-500 px-2 py-0.5 text-[6px] font-black uppercase text-white shadow-lg">
@@ -949,21 +909,6 @@ export const ShowroomGrid: React.FC<ShowroomGridProps> = ({
                 </div>
               </div>
               <div className="space-y-3">
-<<<<<<< HEAD
-                <h4 className="mb-0.5 text-xs font-black uppercase tracking-tight text-slate-900">
-                  {kick.title}
-                </h4>
-                <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400">
-                  {kick.brand}
-                </p>
-                <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-2.5">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-[10px] font-black text-slate-400 line-through">
-                      ${kick.price_current}
-                    </span>
-                    <ArrowRight className="h-1.5 w-1.5 text-indigo-500" />
-                    <span className="text-xs font-black text-indigo-600">${kick.price_target}</span>
-=======
                 <h4 className="text-text-primary mb-0.5 text-xs font-black uppercase tracking-tight">
                   {kick.title}
                 </h4>
@@ -979,7 +924,6 @@ export const ShowroomGrid: React.FC<ShowroomGridProps> = ({
                     <span className="text-accent-primary text-xs font-black">
                       ${kick.price_target}
                     </span>
->>>>>>> recover/cabinet-wip-from-stash
                   </div>
                   <div className="flex items-center gap-1.5">
                     <div className="h-1 w-1 animate-pulse rounded-full bg-emerald-500" />
@@ -990,18 +934,6 @@ export const ShowroomGrid: React.FC<ShowroomGridProps> = ({
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-end justify-between">
-<<<<<<< HEAD
-                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-900">
-                      {kick.current} / {kick.goal} ед.
-                    </p>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-indigo-600">
-                      {Math.round((kick.current / kick.goal) * 100)}%
-                    </p>
-                  </div>
-                  <div className="relative h-1 w-full rounded-full bg-slate-100">
-                    <div
-                      className="relative z-10 h-full rounded-full bg-indigo-600"
-=======
                     <p className="text-text-primary text-[9px] font-black uppercase tracking-widest">
                       {kick.current} / {kick.goal} ед.
                     </p>
@@ -1012,7 +944,6 @@ export const ShowroomGrid: React.FC<ShowroomGridProps> = ({
                   <div className="bg-bg-surface2 relative h-1 w-full rounded-full">
                     <div
                       className="bg-accent-primary relative z-10 h-full rounded-full"
->>>>>>> recover/cabinet-wip-from-stash
                       style={{ width: `${(kick.current / kick.goal) * 100}%` }}
                     />
                     {/* Divisions */}
@@ -1029,11 +960,7 @@ export const ShowroomGrid: React.FC<ShowroomGridProps> = ({
                       onClick={() =>
                         viewRole === 'b2b' ? router.push(getShowroomB2BLink('kick')) : null
                       }
-<<<<<<< HEAD
-                      className="hover:button-glimmer hover:button-professional group/btn h-9 w-[180px] rounded-xl border border-slate-200 bg-white text-[9px] font-black uppercase text-slate-400 transition-all duration-500 hover:border-black hover:bg-black hover:text-white"
-=======
                       className="text-text-muted border-border-default hover:button-glimmer hover:button-professional group/btn h-9 w-[180px] rounded-xl border bg-white text-[9px] font-black uppercase transition-all duration-500 hover:border-black hover:bg-black hover:text-white"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       Участвовать
                       <ArrowRight className="h-3 w-3 transition-transform group-hover/btn:translate-x-1" />
@@ -1067,23 +994,7 @@ export const ShowroomGrid: React.FC<ShowroomGridProps> = ({
             transition={{ duration: 0.4 }}
             className="w-60 flex-shrink-0 snap-start"
           >
-<<<<<<< HEAD
-            <SynthaProductCard
-              product={p}
-              viewRole={viewRole as any}
-              isLinesheetMode={isLinesheetMode}
-              isSelected={selectedLinesheetItems.includes(p.id)}
-              onToggleSelect={(productId) => {
-                setSelectedLinesheetItems((prev) =>
-                  prev.includes(productId)
-                    ? prev.filter((id) => id !== productId)
-                    : [...prev, productId]
-                );
-              }}
-            />
-=======
             <SynthaProductCard product={p} />
->>>>>>> recover/cabinet-wip-from-stash
           </motion.div>
         ))}
       </>

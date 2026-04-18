@@ -23,17 +23,6 @@ export function WidgetCard({
   return (
     <div
       className={cn(
-<<<<<<< HEAD
-        'overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-sm',
-        'transition-all duration-200 hover:border-slate-300 hover:shadow-md',
-        className
-      )}
-    >
-      <div className="flex flex-col gap-3 border-b border-slate-100 p-5 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h3 className="text-base font-semibold text-slate-900">{title}</h3>
-          {description && <p className="mt-0.5 text-sm text-slate-500">{description}</p>}
-=======
         'border-border-default/80 overflow-hidden rounded-xl border bg-white shadow-sm',
         'hover:border-border-default transition-all duration-200 hover:shadow-md',
         className
@@ -43,7 +32,6 @@ export function WidgetCard({
         <div>
           <h3 className="text-text-primary text-base font-semibold">{title}</h3>
           {description && <p className="text-text-secondary mt-0.5 text-sm">{description}</p>}
->>>>>>> recover/cabinet-wip-from-stash
         </div>
         {actions && <div className="shrink-0">{actions}</div>}
       </div>

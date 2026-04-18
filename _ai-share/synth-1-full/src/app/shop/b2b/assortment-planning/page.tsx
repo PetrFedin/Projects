@@ -31,30 +31,11 @@ export default function B2BAssortmentPlanningPage() {
     : [];
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-3xl space-y-6 px-4 py-6 pb-24">
-      <div className="flex items-center gap-3">
-        <Link href={ROUTES.shop.b2bOrderMode}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase">
-            <Layers className="h-6 w-6" /> Планирование ассортимента
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Распределите бюджет по категориям перед заказом в матрице.
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="max-w-3xl space-y-6">
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bOrderMode}
         lead="Распределите бюджет по категориям перед заказом в матрице (NuOrder-style)."
       />
->>>>>>> recover/cabinet-wip-from-stash
       <Card>
         <CardHeader>
           <CardTitle>Бюджет и категории</CardTitle>
@@ -74,11 +55,7 @@ export default function B2BAssortmentPlanningPage() {
           {byCategory.map((c) => (
             <div
               key={c.id}
-<<<<<<< HEAD
-              className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50 p-3"
-=======
               className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-lg border p-3"
->>>>>>> recover/cabinet-wip-from-stash
             >
               <span className="font-medium">{c.name}</span>
               <div className="flex items-center gap-3">
@@ -88,11 +65,7 @@ export default function B2BAssortmentPlanningPage() {
               </div>
             </div>
           ))}
-<<<<<<< HEAD
-          <p className="pt-2 text-xs text-slate-400">
-=======
           <p className="text-text-muted pt-2 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
             Итого: {totalPlannedPercent}% от бюджета. После сохранения перейдите в матрицу и
             собирайте заказ в рамках плана.
           </p>
@@ -116,10 +89,6 @@ export default function B2BAssortmentPlanningPage() {
         title="Матрица, заказы, аналитика, выставки"
         className="mt-6"
       />
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

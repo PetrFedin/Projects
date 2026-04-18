@@ -35,11 +35,7 @@ export default function DailyOutputPage() {
   const summary = useMemo(() => getShiftReportSummary(reports), [reports]);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="max-w-4xl space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Контроль сменного выпуска"
         description="Сводка смен — из daily-output-data; комментарий мастера сохраняется в floor-tab: daily-output."
@@ -55,11 +51,7 @@ export default function DailyOutputPage() {
               <ArrowLeft className="h-4 w-4" />
             </Button>
           </Link>
-<<<<<<< HEAD
-          <h1 className="text-2xl font-bold uppercase">Daily Output Tracking</h1>
-=======
           <h1 className="text-2xl font-bold uppercase">Контроль сменного выпуска</h1>
->>>>>>> recover/cabinet-wip-from-stash
         </div>
         <Button
           size="sm"
@@ -100,11 +92,7 @@ export default function DailyOutputPage() {
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
-<<<<<<< HEAD
-          <div className="grid grid-cols-3 gap-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-center">
-=======
           <div className="bg-bg-surface2 border-border-default grid grid-cols-3 gap-2 rounded-lg border p-3 text-center">
->>>>>>> recover/cabinet-wip-from-stash
             <div>
               <p className="text-text-secondary text-[10px] uppercase">
                 <AcronymWithTooltip abbr="KPI" />: план
@@ -118,13 +106,9 @@ export default function DailyOutputPage() {
               <p className="font-bold">{summary.totalFact}</p>
             </div>
             <div>
-<<<<<<< HEAD
-              <p className="text-[10px] uppercase text-slate-500">Выполнение</p>
-=======
               <p className="text-text-secondary text-[10px] uppercase">
                 <AcronymWithTooltip abbr="KPI" />: выполнение
               </p>
->>>>>>> recover/cabinet-wip-from-stash
               <p
                 className={cn(
                   'font-bold',
@@ -137,22 +121,6 @@ export default function DailyOutputPage() {
           </div>
           <table className="w-full border-collapse text-sm">
             <thead>
-<<<<<<< HEAD
-              <tr className="border-b border-slate-200">
-                <th className="p-2 text-left text-[10px] font-bold uppercase text-slate-500">
-                  Линия
-                </th>
-                <th className="p-2 text-right text-[10px] font-bold uppercase text-slate-500">
-                  План
-                </th>
-                <th className="p-2 text-right text-[10px] font-bold uppercase text-slate-500">
-                  Факт
-                </th>
-                <th className="p-2 text-right text-[10px] font-bold uppercase text-slate-500">
-                  Статус
-                </th>
-                <th className="p-2 text-left text-[10px] font-bold uppercase text-slate-500">
-=======
               <tr className="border-border-default border-b">
                 <th className="text-text-secondary p-2 text-left text-[10px] font-bold uppercase">
                   Линия
@@ -167,7 +135,6 @@ export default function DailyOutputPage() {
                   Статус
                 </th>
                 <th className="text-text-secondary p-2 text-left text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   Комментарий
                 </th>
               </tr>

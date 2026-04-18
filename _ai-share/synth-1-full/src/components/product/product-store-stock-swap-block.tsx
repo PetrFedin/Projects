@@ -20,11 +20,7 @@ export function ProductStoreStockSwapBlock({ product }: { product: Product }) {
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-orange-600">
           <RefreshCw className="h-4 w-4" />
-<<<<<<< HEAD
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
-=======
           <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
             Network Store-to-Store Stock Swap
           </h4>
         </div>
@@ -34,11 +30,7 @@ export function ProductStoreStockSwapBlock({ product }: { product: Product }) {
       </div>
 
       <div className="space-y-3">
-<<<<<<< HEAD
-        <div className="flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-slate-400">
-=======
         <div className="text-text-muted flex items-center gap-2 text-[8px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
           <Activity className="h-3 w-3" /> Active Swap Requests
         </div>
 
@@ -50,11 +42,7 @@ export function ProductStoreStockSwapBlock({ product }: { product: Product }) {
                 className="rounded-xl border border-orange-100 bg-white/80 p-3 shadow-sm"
               >
                 <div className="mb-2 flex items-start justify-between">
-<<<<<<< HEAD
-                  <div className="flex items-center gap-1.5 text-[10px] font-black uppercase text-slate-800">
-=======
                   <div className="text-text-primary flex items-center gap-1.5 text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                     <ArrowLeftRight className="h-3.5 w-3.5 text-orange-500" />
                     {swap.quantity} Units
                   </div>
@@ -67,15 +55,9 @@ export function ProductStoreStockSwapBlock({ product }: { product: Product }) {
                     {swap.urgency.toUpperCase()}
                   </Badge>
                 </div>
-<<<<<<< HEAD
-                <div className="flex items-center gap-2 text-[8px] font-bold uppercase text-slate-500">
-                  <MapPin className="h-2.5 w-2.5" /> {swap.fromStoreId.split('-')[1]}
-                  <ArrowRight className="h-2.5 w-2.5 text-slate-300" />
-=======
                 <div className="text-text-secondary flex items-center gap-2 text-[8px] font-bold uppercase">
                   <MapPin className="h-2.5 w-2.5" /> {swap.fromStoreId.split('-')[1]}
                   <ArrowRight className="text-text-muted h-2.5 w-2.5" />
->>>>>>> recover/cabinet-wip-from-stash
                   {swap.toStoreId.split('-')[1]}
                 </div>
                 <div className="mt-2 text-[7px] font-black uppercase text-emerald-600">
@@ -85,11 +67,7 @@ export function ProductStoreStockSwapBlock({ product }: { product: Product }) {
             ))}
           </div>
         ) : (
-<<<<<<< HEAD
-          <div className="rounded-xl border-2 border-dashed border-orange-100 p-8 text-center text-[9px] font-black uppercase text-slate-400">
-=======
           <div className="text-text-muted rounded-xl border-2 border-dashed border-orange-100 p-8 text-center text-[9px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
             No network rebalancing required
           </div>
         )}
@@ -102,11 +80,7 @@ export function ProductStoreStockSwapBlock({ product }: { product: Product }) {
         Initiate Network Rebalance <ArrowRight className="h-3 w-3" />
       </Button>
 
-<<<<<<< HEAD
-      <div className="mt-4 flex items-center justify-between border-t border-orange-100 pt-4 text-[8px] font-black uppercase text-slate-400">
-=======
       <div className="text-text-muted mt-4 flex items-center justify-between border-t border-orange-100 pt-4 text-[8px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
         <span>Optimizing Sell-Through Across 12 Locations</span>
         <span className="text-orange-600">AI Logistic Route Prep Ready</span>
       </div>

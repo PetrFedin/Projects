@@ -10,19 +10,8 @@ import { validateProductsForB2B } from '@/lib/b2b/b2b-catalog-contract';
 import { B2B_FIELD_LABELS } from '@/lib/b2b/b2b-catalog-contract';
 import type { B2BRequiredFieldId } from '@/lib/b2b/b2b-catalog-contract';
 import products from '@/lib/products';
-<<<<<<< HEAD
-import {
-  CheckCircle2,
-  AlertTriangle,
-  FileText,
-  Download,
-  BarChart3,
-  ArrowLeft,
-} from 'lucide-react';
-=======
 import { CheckCircle2, AlertTriangle, FileText, Download, ArrowLeft } from 'lucide-react';
 import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
->>>>>>> recover/cabinet-wip-from-stash
 
 /** Экспорт SKU с ошибками в CSV (разделитель — точка с запятой, UTF-8 BOM для Excel). */
 function exportSkuErrorsToCsv(
@@ -97,25 +86,6 @@ export default function CatalogQualityPage() {
   }, []);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
-      <div className="flex items-center gap-3">
-        <Link href={ROUTES.brand.contentSyndication}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-xl font-bold uppercase tracking-tight">
-            <BarChart3 className="h-6 w-6" /> Качество каталога
-          </h1>
-          <p className="mt-1 text-sm text-slate-500">
-            Обязательные поля для B2B (размерная сетка, состав, уход, EAN, медиа). Доля SKU без
-            ошибок, список полей с проблемами, экспорт в CSV.
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="Качество каталога"
@@ -128,7 +98,6 @@ export default function CatalogQualityPage() {
           </Button>
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card>
         <CardHeader>
@@ -211,11 +180,7 @@ export default function CatalogQualityPage() {
               {fieldProblems.map(([fieldId, count]) => (
                 <li
                   key={fieldId}
-<<<<<<< HEAD
-                  className="flex items-center justify-between border-b border-slate-100 py-2 last:border-0"
-=======
                   className="border-border-subtle flex items-center justify-between border-b py-2 last:border-0"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   <span className="font-medium">
                     {B2B_FIELD_LABELS[fieldId as B2BRequiredFieldId] ?? fieldId}
@@ -252,11 +217,7 @@ export default function CatalogQualityPage() {
             </div>
           </CardHeader>
           <CardContent>
-<<<<<<< HEAD
-            <div className="overflow-hidden rounded-lg border border-slate-200">
-=======
             <div className="border-border-default overflow-hidden rounded-lg border">
->>>>>>> recover/cabinet-wip-from-stash
               <table className="w-full text-sm">
                 <thead className="bg-bg-surface2">
                   <tr>
@@ -267,11 +228,7 @@ export default function CatalogQualityPage() {
                 </thead>
                 <tbody>
                   {skuErrors.map((row) => (
-<<<<<<< HEAD
-                    <tr key={row.productId} className="border-t border-slate-100">
-=======
                     <tr key={row.productId} className="border-border-subtle border-t">
->>>>>>> recover/cabinet-wip-from-stash
                       <td className="px-3 py-2 font-mono text-xs">{row.sku}</td>
                       <td className="max-w-[200px] truncate px-3 py-2">{row.name}</td>
                       <td className="px-3 py-2">
@@ -304,11 +261,7 @@ export default function CatalogQualityPage() {
             <p className="font-medium text-emerald-800">
               Все SKU проходят валидацию контракта B2B.
             </p>
-<<<<<<< HEAD
-            <p className="mt-1 text-sm text-slate-600">
-=======
             <p className="text-text-secondary mt-1 text-sm">
->>>>>>> recover/cabinet-wip-from-stash
               Размерная сетка, состав, уход, EAN и медиа заполнены.
             </p>
           </CardContent>

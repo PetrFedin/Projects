@@ -55,11 +55,7 @@ const ASSET_TYPES: Omit<AssetType, 'items'>[] = [
     title: 'Brand Identity',
     desc: 'Logos, Colors, Fonts',
     icon: Palette,
-<<<<<<< HEAD
-    color: 'bg-indigo-50 text-indigo-600',
-=======
     color: 'bg-accent-primary/10 text-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
   },
   {
     id: 'lookbooks',
@@ -94,11 +90,7 @@ const ASSET_TYPES: Omit<AssetType, 'items'>[] = [
     title: 'Store Photos',
     desc: 'Retail Environment',
     icon: Building2,
-<<<<<<< HEAD
-    color: 'bg-purple-50 text-purple-600',
-=======
     color: 'bg-accent-primary/10 text-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
   },
 ];
 
@@ -175,11 +167,7 @@ export function MediaAssetsViewer({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-<<<<<<< HEAD
-      <DialogContent className="flex max-h-[90vh] flex-col overflow-hidden rounded-xl border-slate-200 sm:max-w-4xl">
-=======
       <DialogContent className="border-border-default flex max-h-[90vh] flex-col overflow-hidden rounded-xl sm:max-w-4xl">
->>>>>>> recover/cabinet-wip-from-stash
         <DialogHeader className="flex-shrink-0">
           <DialogTitle className="flex items-center gap-3">
             <div
@@ -189,22 +177,14 @@ export function MediaAssetsViewer({
             </div>
             <div>
               <span className="text-base font-black uppercase tracking-tight">{meta.title}</span>
-<<<<<<< HEAD
-              <p className="mt-0.5 text-[11px] font-medium text-slate-500">{meta.desc}</p>
-=======
               <p className="text-text-secondary mt-0.5 text-[11px] font-medium">{meta.desc}</p>
->>>>>>> recover/cabinet-wip-from-stash
             </div>
           </DialogTitle>
         </DialogHeader>
 
         <div className="flex min-h-0 flex-1 gap-4 overflow-hidden">
           {/* Список слева */}
-<<<<<<< HEAD
-          <div className="flex w-64 flex-shrink-0 flex-col gap-2 border-r border-slate-100 pr-4">
-=======
           <div className="border-border-subtle flex w-64 flex-shrink-0 flex-col gap-2 border-r pr-4">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="flex gap-1">
               <Button
                 variant={!showArchive ? 'default' : 'ghost'}
@@ -225,11 +205,7 @@ export function MediaAssetsViewer({
             </div>
             <div className="flex-1 space-y-1 overflow-y-auto">
               {displayItems.length === 0 ? (
-<<<<<<< HEAD
-                <p className="py-4 text-center text-[11px] text-slate-400">
-=======
                 <p className="text-text-muted py-4 text-center text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
                   {showArchive ? 'Архив пуст' : 'Нет файлов'}
                 </p>
               ) : (
@@ -240,13 +216,8 @@ export function MediaAssetsViewer({
                     className={cn(
                       'flex w-full items-center gap-2 rounded-lg p-2 text-left text-[11px] font-medium transition-colors',
                       selectedId === item.id
-<<<<<<< HEAD
-                        ? 'bg-indigo-50 text-indigo-700'
-                        : 'text-slate-700 hover:bg-slate-50'
-=======
                         ? 'bg-accent-primary/10 text-accent-primary'
                         : 'hover:bg-bg-surface2 text-text-primary'
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     <ChevronRight className="h-3 w-3 shrink-0 opacity-50" />
@@ -269,22 +240,13 @@ export function MediaAssetsViewer({
           <div className="flex min-w-0 flex-1 flex-col">
             {selected ? (
               <>
-<<<<<<< HEAD
-                <div className="min-h-[200px] flex-1 overflow-auto rounded-xl border border-slate-200 bg-slate-50 p-4">
-                  <div className="flex h-full items-center justify-center text-slate-400">
-=======
                 <div className="border-border-default bg-bg-surface2 min-h-[200px] flex-1 overflow-auto rounded-xl border p-4">
                   <div className="text-text-muted flex h-full items-center justify-center">
->>>>>>> recover/cabinet-wip-from-stash
                     <div className="text-center">
                       <FileText className="mx-auto mb-2 h-16 w-16 opacity-50" />
                       <p className="text-sm font-medium">{selected.title}</p>
                       <p className="mt-1 text-[11px]">Превью • {selected.type.toUpperCase()}</p>
-<<<<<<< HEAD
-                      <p className="mt-1 text-[10px] text-slate-400">
-=======
                       <p className="text-text-muted mt-1 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                         Добавлено: {selected.addedAt}
                       </p>
                     </div>
@@ -321,11 +283,7 @@ export function MediaAssetsViewer({
                 </div>
               </>
             ) : (
-<<<<<<< HEAD
-              <div className="flex flex-1 items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50/50 text-slate-400">
-=======
               <div className="border-border-default bg-bg-surface2/80 text-text-muted flex flex-1 items-center justify-center rounded-xl border border-dashed">
->>>>>>> recover/cabinet-wip-from-stash
                 <p className="text-[11px]">Выберите файл из списка</p>
               </div>
             )}
@@ -333,11 +291,7 @@ export function MediaAssetsViewer({
         </div>
 
         {/* Таймер автоархива */}
-<<<<<<< HEAD
-        <div className="flex-shrink-0 border-t border-slate-100 pt-4">
-=======
         <div className="border-border-subtle flex-shrink-0 border-t pt-4">
->>>>>>> recover/cabinet-wip-from-stash
           <button
             type="button"
             onClick={() => setShowTimerSettings(!showTimerSettings)}

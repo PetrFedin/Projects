@@ -37,11 +37,7 @@ export function PaymentFlowCard({ orderId, amount, status, dueDate, onPay }: Pay
       <CardContent className="space-y-2">
         <p className="text-lg font-black">{amount}</p>
         {status === 'pending' && dueDate && (
-<<<<<<< HEAD
-          <p className="flex items-center gap-1 text-[10px] text-slate-500">
-=======
           <p className="text-text-secondary flex items-center gap-1 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
             <Clock className="h-3 w-3" /> Оплата до {dueDate}
           </p>
         )}

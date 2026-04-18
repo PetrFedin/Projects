@@ -24,10 +24,7 @@ import {
 import { MOCK_WAYPOINTS, MOCK_ITEMS, MOCK_ROUTES } from '@/lib/logic/ar-navigation-utils';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-<<<<<<< HEAD
-=======
 import { ROUTES } from '@/lib/routes';
->>>>>>> recover/cabinet-wip-from-stash
 
 export default function ARNavigationPage() {
   const [isARActive, setIsARActive] = useState(false);
@@ -35,20 +32,12 @@ export default function ARNavigationPage() {
   const [activeWaypoint, setActiveWaypoint] = useState<string | null>(null);
 
   return (
-<<<<<<< HEAD
-    <div className="relative flex min-h-screen flex-col bg-slate-900 text-white">
-=======
     <div className="bg-text-primary relative flex min-h-screen flex-col text-white">
->>>>>>> recover/cabinet-wip-from-stash
       {/* Top Header */}
       <header className="relative z-10 flex items-center justify-between bg-gradient-to-b from-black/60 to-transparent p-4">
         <div className="flex items-center gap-3">
           <Link
-<<<<<<< HEAD
-            href="/client"
-=======
             href={ROUTES.client.home}
->>>>>>> recover/cabinet-wip-from-stash
             className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/10 backdrop-blur-md transition-all hover:bg-white/20"
           >
             <X className="h-5 w-5" />
@@ -58,20 +47,12 @@ export default function ARNavigationPage() {
               Syntha AR Navigator
             </h1>
             <p className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest text-white/40">
-<<<<<<< HEAD
-              <MapPin className="h-2.5 w-2.5 text-indigo-400" /> Tverskaya St. Store 12
-=======
               <MapPin className="text-accent-primary h-2.5 w-2.5" /> Tverskaya St. Store 12
->>>>>>> recover/cabinet-wip-from-stash
             </p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-<<<<<<< HEAD
-          <Badge className="flex h-6 items-center gap-1 border-none bg-indigo-500 px-2 text-[8px] font-black uppercase tracking-widest text-white">
-=======
           <Badge className="bg-accent-primary flex h-6 items-center gap-1 border-none px-2 text-[8px] font-black uppercase tracking-widest text-white">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="h-1 w-1 animate-ping rounded-full bg-white" /> AR Live
           </Badge>
           <Button variant="ghost" size="icon" className="text-white/40 hover:text-white">
@@ -85,27 +66,16 @@ export default function ARNavigationPage() {
         {!isARActive ? (
           <div className="flex flex-1 flex-col items-center justify-center space-y-4 p-4 text-center duration-700 animate-in fade-in">
             <div className="relative">
-<<<<<<< HEAD
-              <div className="flex h-32 w-32 animate-pulse items-center justify-center rounded-xl border border-indigo-500/30 bg-indigo-600/20">
-                <Box className="h-12 w-12 text-indigo-400" />
-              </div>
-              <div className="absolute -right-4 -top-4 flex h-12 w-12 rotate-12 items-center justify-center rounded-2xl bg-white text-indigo-600 shadow-2xl">
-=======
               <div className="bg-accent-primary/20 border-accent-primary/30 flex h-32 w-32 animate-pulse items-center justify-center rounded-xl border">
                 <Box className="text-accent-primary h-12 w-12" />
               </div>
               <div className="text-accent-primary absolute -right-4 -top-4 flex h-12 w-12 rotate-12 items-center justify-center rounded-2xl bg-white shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
                 <Smartphone className="h-6 w-6" />
               </div>
             </div>
             <div className="max-w-sm space-y-3">
               <h2 className="text-sm font-black uppercase tracking-tight">
-<<<<<<< HEAD
-                Погрузитесь в <span className="italic text-indigo-400">AR Шоппинг</span>
-=======
                 Погрузитесь в <span className="text-accent-primary italic">AR Шоппинг</span>
->>>>>>> recover/cabinet-wip-from-stash
               </h2>
               <p className="text-sm font-medium leading-relaxed text-white/60">
                 Используйте камеру для навигации, поиска товаров и открытия скрытых предложений
@@ -116,11 +86,7 @@ export default function ARNavigationPage() {
             <div className="grid w-full max-w-md grid-cols-1 gap-3">
               <Button
                 onClick={() => setIsARActive(true)}
-<<<<<<< HEAD
-                className="group flex h-12 items-center justify-center gap-3 rounded-2xl bg-indigo-600 text-xs font-black uppercase tracking-widest text-white shadow-[0_20px_40px_-15px_rgba(79,70,229,0.5)] transition-all hover:bg-indigo-500"
-=======
                 className="bg-accent-primary hover:bg-accent-primary group flex h-12 items-center justify-center gap-3 rounded-2xl text-xs font-black uppercase tracking-widest text-white shadow-[0_20px_40px_-15px_rgba(79,70,229,0.5)] transition-all"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <Scan className="h-6 w-6 transition-transform group-hover:scale-110" /> Запустить AR
               </Button>
@@ -149,28 +115,16 @@ export default function ARNavigationPage() {
                 className="h-full w-full object-cover opacity-40 blur-[2px] grayscale"
                 alt="AR Feed"
               />
-<<<<<<< HEAD
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent" />
-
-              {/* Scan Reticle */}
-              <div className="absolute left-1/2 top-1/2 flex h-64 w-64 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border-2 border-white/10">
-                <div className="animate-scan absolute top-1/2 h-1 w-full -translate-y-1/2 bg-indigo-500/40" />
-=======
               <div className="from-text-primary absolute inset-0 bg-gradient-to-t via-transparent to-transparent" />
 
               {/* Scan Reticle */}
               <div className="absolute left-1/2 top-1/2 flex h-64 w-64 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border-2 border-white/10">
                 <div className="bg-accent-primary/40 animate-scan absolute top-1/2 h-1 w-full -translate-y-1/2" />
->>>>>>> recover/cabinet-wip-from-stash
               </div>
 
               {/* AR Waypoints Floating */}
               <div
-<<<<<<< HEAD
-                className="group absolute left-1/3 top-1/4 animate-bounce cursor-pointer rounded-3xl border border-white/20 bg-indigo-600/90 p-4 shadow-2xl backdrop-blur-xl"
-=======
                 className="bg-accent-primary/90 group absolute left-1/3 top-1/4 animate-bounce cursor-pointer rounded-3xl border border-white/20 p-4 shadow-2xl backdrop-blur-xl"
->>>>>>> recover/cabinet-wip-from-stash
                 onClick={() => setActiveWaypoint('w2')}
               >
                 <div className="flex items-center gap-3">
@@ -206,11 +160,7 @@ export default function ARNavigationPage() {
               {/* Route Indicator */}
               <div className="flex items-center justify-between rounded-3xl border border-white/10 bg-white/5 p-4 backdrop-blur-md">
                 <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500 shadow-lg">
-=======
                   <div className="bg-accent-primary flex h-12 w-12 items-center justify-center rounded-2xl shadow-lg">
->>>>>>> recover/cabinet-wip-from-stash
                     <Navigation className="h-6 w-6 text-white" />
                   </div>
                   <div>
@@ -223,11 +173,7 @@ export default function ARNavigationPage() {
                   </div>
                 </div>
                 <div className="animate-spin-slow flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/20">
-<<<<<<< HEAD
-                  <div className="h-6 w-1.5 origin-bottom rotate-45 rounded-full bg-indigo-500" />
-=======
                   <div className="bg-accent-primary h-6 w-1.5 origin-bottom rotate-45 rounded-full" />
->>>>>>> recover/cabinet-wip-from-stash
                 </div>
               </div>
 

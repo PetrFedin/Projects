@@ -24,10 +24,7 @@ import { Label } from '../ui/label';
 import { Switch } from '../ui/switch';
 import CategoryTreeFilter from './category-tree-filter';
 import { getFilteredCategoryStructure } from '@/lib/category-filters';
-<<<<<<< HEAD
-=======
 import { fullCategoryStructure } from '@/lib/categories';
->>>>>>> recover/cabinet-wip-from-stash
 
 interface ProductFiltersProps {
   products: Product[];
@@ -56,14 +53,10 @@ const ProductFilters = ({
 }: ProductFiltersProps) => {
   const [localHeelHeight, setLocalHeelHeight] = useState<[number, number] | undefined>(undefined);
 
-<<<<<<< HEAD
-  const categoryStructure = useMemo(() => getFilteredCategoryStructure(audience), [audience]);
-=======
   const categoryStructure = useMemo(
     () => getFilteredCategoryStructure(audience, fullCategoryStructure),
     [audience]
   );
->>>>>>> recover/cabinet-wip-from-stash
 
   const filterConfig = useMemo(() => {
     const allColors = products.reduce(
@@ -156,15 +149,11 @@ const ProductFilters = ({
       (v) =>
         Array.isArray(v) &&
         v.length > 0 &&
-<<<<<<< HEAD
-        !(v.length === 2 && v.includes('in_stock') && v.includes('pre_order'))
-=======
         !(
           v.length === 2 &&
           (v as string[]).includes('in_stock') &&
           (v as string[]).includes('pre_order')
         )
->>>>>>> recover/cabinet-wip-from-stash
     ) ||
     !!context ||
     !!selectedCategory;
@@ -295,13 +284,9 @@ const ProductFilters = ({
                   <div key={option} className="flex items-center space-x-2">
                     <Checkbox
                       id={`brand-${option}`}
-<<<<<<< HEAD
-                      checked={activeFilters['Бренд']?.includes(option) ?? false}
-=======
                       checked={
                         (activeFilters['Бренд'] as string[] | undefined)?.includes(option) ?? false
                       }
->>>>>>> recover/cabinet-wip-from-stash
                       onCheckedChange={(checked) => handleFilterChange('Бренд', option, !!checked)}
                     />
                     <Label htmlFor={`brand-${option}`} className="cursor-pointer font-normal">
@@ -356,11 +341,7 @@ const ProductFilters = ({
             <AccordionItemWithReset value="Технологии" title="Технологии">
               <div className="space-y-4 p-4">
                 <ArFilter
-<<<<<<< HEAD
-                  hasAR={activeFilters['AR']?.includes('true')}
-=======
                   hasAR={(activeFilters['AR'] as string[] | undefined)?.includes('true')}
->>>>>>> recover/cabinet-wip-from-stash
                   onCheckedChange={(checked) =>
                     handleSingleSelectFilterChange('AR', checked ? 'true' : undefined, 'radio')
                   }
@@ -368,11 +349,7 @@ const ProductFilters = ({
                 <div className="flex items-center space-x-2">
                   <Switch
                     id="3d-mode"
-<<<<<<< HEAD
-                    checked={activeFilters['3D']?.includes('true')}
-=======
                     checked={(activeFilters['3D'] as string[] | undefined)?.includes('true')}
->>>>>>> recover/cabinet-wip-from-stash
                     onCheckedChange={(checked) =>
                       handleSingleSelectFilterChange('3D', checked ? 'true' : undefined, 'radio')
                     }

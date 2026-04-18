@@ -96,11 +96,7 @@ export function AiCatalogImagesGenerator() {
         </Button>
         {message && <p className="text-text-secondary text-xs">{message}</p>}
         {resultUrl && (
-<<<<<<< HEAD
-          <div className="overflow-hidden rounded-lg border bg-slate-50">
-=======
           <div className="bg-bg-surface2 overflow-hidden rounded-lg border">
->>>>>>> recover/cabinet-wip-from-stash
             <img src={resultUrl} alt="Generated catalog" className="max-h-64 w-full object-cover" />
           </div>
         )}

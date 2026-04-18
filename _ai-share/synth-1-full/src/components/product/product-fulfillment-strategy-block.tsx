@@ -30,30 +30,18 @@ export const ProductFulfillmentStrategyBlock: React.FC<{ product: Product }> = (
 
       <div className="mb-4 grid grid-cols-2 gap-4">
         <div>
-<<<<<<< HEAD
-          <div className="mb-1 text-[10px] font-black uppercase leading-none text-slate-400">
-            Margin Impact
-          </div>
-          <div
-            className={`text-xl font-black ${strategy.marginImpact > 0 ? 'text-green-600' : 'text-slate-700'}`}
-=======
           <div className="text-text-muted mb-1 text-[10px] font-black uppercase leading-none">
             Margin Impact
           </div>
           <div
             className={`text-xl font-black ${strategy.marginImpact > 0 ? 'text-green-600' : 'text-text-primary'}`}
->>>>>>> recover/cabinet-wip-from-stash
           >
             {strategy.marginImpact > 0 ? '+' : ''}
             {strategy.marginImpact}%
           </div>
         </div>
         <div className="text-right">
-<<<<<<< HEAD
-          <div className="mb-1 text-[10px] font-black uppercase leading-none text-slate-400">
-=======
           <div className="text-text-muted mb-1 text-[10px] font-black uppercase leading-none">
->>>>>>> recover/cabinet-wip-from-stash
             Delivery Speed
           </div>
           <div className="text-xl font-black text-emerald-700">
@@ -69,11 +57,7 @@ export const ProductFulfillmentStrategyBlock: React.FC<{ product: Product }> = (
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div className="mt-4 flex items-center gap-2 border-t border-emerald-100 pt-3 text-[9px] font-bold uppercase italic leading-none text-slate-400">
-=======
       <div className="text-text-muted mt-4 flex items-center gap-2 border-t border-emerald-100 pt-3 text-[9px] font-bold uppercase italic leading-none">
->>>>>>> recover/cabinet-wip-from-stash
         <Info className="h-3 w-3" /> FBO vs FBS vs DBS Optimizer v2.4
       </div>
     </Card>

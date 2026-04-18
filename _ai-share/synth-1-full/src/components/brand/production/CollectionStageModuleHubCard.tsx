@@ -161,11 +161,7 @@ export function CollectionStageModuleHubCard({
           {matrixStatus ? (
             <Badge
               variant="outline"
-<<<<<<< HEAD
-              className="h-5 border-slate-200 text-[7px] font-bold uppercase"
-=======
               className="border-border-default h-5 text-[7px] font-bold uppercase"
->>>>>>> recover/cabinet-wip-from-stash
             >
               {STATUS_RU[matrixStatus]}
             </Badge>
@@ -181,21 +177,12 @@ export function CollectionStageModuleHubCard({
           )}
         </div>
         <CardDescription className="text-xs leading-relaxed">
-<<<<<<< HEAD
-          Коллекция: <strong className="text-slate-800">{collectionLabel}</strong>. {cardHint} Этап
-          в матрице: <span className="font-mono text-[10px]">{stepId}</span>.
-        </CardDescription>
-        {previewLine ? (
-          <p className="line-clamp-2 pt-0.5 text-[11px] font-medium text-slate-700">
-            Кратко: <span className="text-indigo-900">{previewLine}</span>
-=======
           Коллекция: <strong className="text-text-primary">{collectionLabel}</strong>. {cardHint}{' '}
           Этап в матрице: <span className="font-mono text-[10px]">{stepId}</span>.
         </CardDescription>
         {previewLine ? (
           <p className="text-text-primary line-clamp-2 pt-0.5 text-[11px] font-medium">
             Кратко: <span className="text-accent-primary">{previewLine}</span>
->>>>>>> recover/cabinet-wip-from-stash
           </p>
         ) : null}
       </CardHeader>
@@ -230,19 +217,11 @@ export function CollectionStageModuleHubCard({
                 <div
                   className={cn(
                     isGeneric
-<<<<<<< HEAD
-                      ? 'rounded-lg border border-dashed border-slate-200/80 bg-slate-50/40 p-2'
-                      : ''
-                  )}
-                >
-                  <p className="mb-1 text-[9px] font-bold uppercase text-slate-400">{def.label}</p>
-=======
                       ? 'border-border-default/80 bg-bg-surface2/40 rounded-lg border border-dashed p-2'
                       : ''
                   )}
                 >
                   <p className="text-text-muted mb-1 text-[9px] font-bold uppercase">{def.label}</p>
->>>>>>> recover/cabinet-wip-from-stash
                   {def.type === 'textarea' ? (
                     <Textarea
                       className="min-h-[64px] text-xs"

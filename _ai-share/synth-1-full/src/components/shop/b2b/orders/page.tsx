@@ -9,14 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-<<<<<<< HEAD
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { MoreHorizontal, PlusCircle, Search, Edit, AlertCircle } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-=======
 import { Badge, type BadgeProps } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -25,7 +17,6 @@ import { Edit, AlertCircle } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { operationalLayoutContract as o } from '@/lib/ui/operational-layout-contract';
 import { tid } from '@/lib/ui/test-ids';
->>>>>>> recover/cabinet-wip-from-stash
 import {
   Select,
   SelectContent,
@@ -33,14 +24,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-<<<<<<< HEAD
-import { useState } from 'react';
-import type { B2BOrder } from '@/lib/types';
-import { mockB2BOrders as initialMockOrders } from '@/lib/order-data';
-=======
 import { useMemo, useState } from 'react';
 import { useB2BOperationalOrdersList } from '@/hooks/use-b2b-operational-orders-list';
->>>>>>> recover/cabinet-wip-from-stash
 import { cn } from '@/lib/utils';
 
 export default function B2BOrdersPage() {
@@ -66,24 +51,6 @@ export default function B2BOrdersPage() {
     }
   };
 
-<<<<<<< HEAD
-  const brands = [...new Set(initialMockOrders.map((o) => o.brand))];
-  const filteredOrders = initialMockOrders.filter(
-    (order) => brandFilter === 'all' || order.brand === brandFilter
-  );
-
-  return (
-    <Card>
-      <CardHeader>
-        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-          <div>
-            <CardTitle>Заказы у брендов</CardTitle>
-            <CardDescription>Ваши оптовые закупки у брендов-партнеров.</CardDescription>
-          </div>
-          <div className="flex items-center gap-2">
-            <Select value={brandFilter} onValueChange={setBrandFilter}>
-              <SelectTrigger className="w-full sm:w-[180px]">
-=======
   const brands = useMemo(
     () => [...new Set(ordersWithPayment.map((o) => o.brand))],
     [ordersWithPayment]
@@ -108,7 +75,6 @@ export default function B2BOrdersPage() {
           <div className="flex items-center gap-2">
             <Select value={brandFilter} onValueChange={setBrandFilter}>
               <SelectTrigger className="border-border-default w-full rounded-lg sm:w-[180px]">
->>>>>>> recover/cabinet-wip-from-stash
                 <SelectValue placeholder="Фильтр по бренду" />
               </SelectTrigger>
               <SelectContent>
@@ -124,76 +90,6 @@ export default function B2BOrdersPage() {
         </div>
       </CardHeader>
       <CardContent>
-<<<<<<< HEAD
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Номер заказа</TableHead>
-              <TableHead>Бренд</TableHead>
-              <TableHead>Дата заказа</TableHead>
-              <TableHead>Сумма</TableHead>
-              <TableHead>Статус</TableHead>
-              <TableHead className="text-right">Действия</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredOrders.map((order) => {
-              const statusInfo = getStatusVariant(order.status);
-              const requiresAction =
-                order.status === 'Требует внимания' || order.status === 'На проверке';
-              return (
-                <TableRow key={order.order} data-state={requiresAction ? 'selected' : ''}>
-                  <TableCell className="font-medium">
-                    <Button variant="link" asChild className="p-0 font-medium">
-                      <Link href={`/shop/b2b/orders/${order.order}`}>{order.order}</Link>
-                    </Button>
-                  </TableCell>
-                  <TableCell>{order.brand}</TableCell>
-                  <TableCell>{new Date(order.date).toLocaleDateString('ru-RU')}</TableCell>
-                  <TableCell>{order.amount}</TableCell>
-                  <TableCell>
-                    <Badge
-                      variant={
-                        typeof statusInfo === 'string' ? (statusInfo as any) : statusInfo.variant
-                      }
-                      className={typeof statusInfo !== 'string' ? statusInfo.className : ''}
-                    >
-                      {order.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {order.status === 'Черновик' ? (
-                      <FeatureGate
-                        resource="b2b_orders"
-                        action="edit"
-                        fallback={
-                          <Button variant="outline" size="sm" asChild>
-                            <Link href={`/shop/b2b/orders/${order.order}`}>Посмотреть</Link>
-                          </Button>
-                        }
-                      >
-                        <Button variant="outline" size="sm" asChild>
-                          <Link href="/shop/b2b/matrix">
-                            <Edit className="mr-2 h-4 w-4" />
-                            Редактировать
-                          </Link>
-                        </Button>
-                      </FeatureGate>
-                    ) : (
-                      <Button variant={requiresAction ? 'default' : 'outline'} size="sm" asChild>
-                        <Link href={`/shop/b2b/orders/${order.order}`}>
-                          {requiresAction && <AlertCircle className="mr-2 h-4 w-4" />}
-                          {requiresAction ? 'Рассмотреть' : 'Посмотреть'}
-                        </Link>
-                      </Button>
-                    )}
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-=======
         <div className={o.tableWrap} data-testid={tid.shopB2bOrdersTable}>
           <Table>
             <TableHeader>
@@ -284,7 +180,6 @@ export default function B2BOrdersPage() {
             </TableBody>
           </Table>
         </div>
->>>>>>> recover/cabinet-wip-from-stash
       </CardContent>
     </Card>
   );

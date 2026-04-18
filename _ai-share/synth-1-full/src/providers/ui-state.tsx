@@ -45,8 +45,6 @@ import {
   readUserSettings,
   USER_SETTINGS_UPDATED_EVENT,
 } from '@/lib/user-settings';
-<<<<<<< HEAD
-=======
 
 /** Минимальное состояние глобального live-плеера (эфир). */
 export type ActiveLiveStream = {
@@ -60,7 +58,6 @@ export type ActiveLiveStream = {
     showStats?: boolean;
   };
 };
->>>>>>> recover/cabinet-wip-from-stash
 
 interface UIState {
   isCartOpen: boolean;
@@ -766,8 +763,6 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
     setFollowedBrands((prev) =>
       prev.includes(brandId) ? prev.filter((id) => id !== brandId) : [...prev, brandId]
     );
-<<<<<<< HEAD
-=======
   const toggleFavoriteBrand = (brandId: string) =>
     setFavoriteBrands((prev) =>
       prev.includes(brandId) ? prev.filter((id) => id !== brandId) : [...prev, brandId]
@@ -778,7 +773,6 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
     brandId: string,
     status: 'pending' | 'accepted' | 'rejected' | 'none'
   ) => setPartnershipRequests((prev) => ({ ...prev, [brandId]: status }));
->>>>>>> recover/cabinet-wip-from-stash
   const clearComparisonList = () => setComparisonList([]);
   const saveComparison = (name: string) =>
     setSavedComparisons((prev) => [
@@ -837,13 +831,10 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
       savedComparisons,
       manualWardrobe,
       followedBrands,
-<<<<<<< HEAD
-=======
       favoriteBrands,
       partnershipRequests,
       notifications,
       removeNotification,
->>>>>>> recover/cabinet-wip-from-stash
       user: user || null,
       isUserLoading: false,
       subscribedSizes,
@@ -856,13 +847,10 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
       purchasedItems,
       playingPodcast,
       setPlayingPodcast,
-<<<<<<< HEAD
-=======
       activeLiveStream,
       setActiveLiveStream,
       isLivePlayerMinimized,
       setIsLivePlayerMinimized,
->>>>>>> recover/cabinet-wip-from-stash
       viewRole,
       setViewRole,
       globalCategory,
@@ -914,12 +902,9 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
       addToManualWardrobe,
       removeFromManualWardrobe,
       toggleFollowBrand,
-<<<<<<< HEAD
-=======
       toggleFavoriteBrand,
       sendPartnershipRequest,
       updatePartnershipStatus,
->>>>>>> recover/cabinet-wip-from-stash
       switchOrganization,
       activeCurrency,
       setCurrency: setActiveCurrency,
@@ -961,12 +946,9 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
       savedComparisons,
       manualWardrobe,
       followedBrands,
-<<<<<<< HEAD
-=======
       favoriteBrands,
       partnershipRequests,
       notifications,
->>>>>>> recover/cabinet-wip-from-stash
       user,
       subscribedSizes,
       availableSubscriptions,
@@ -975,11 +957,8 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
       activeColorSelection,
       purchasedItems,
       playingPodcast,
-<<<<<<< HEAD
-=======
       activeLiveStream,
       isLivePlayerMinimized,
->>>>>>> recover/cabinet-wip-from-stash
       viewRole,
       globalCategory,
       isFlowMapOpen,

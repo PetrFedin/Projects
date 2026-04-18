@@ -79,41 +79,24 @@ export function RolePermissionsTable() {
   };
 
   return (
-<<<<<<< HEAD
-    <Card className="overflow-hidden rounded-xl border-slate-200">
-      <CardContent className="p-0">
-        <div className="border-b border-slate-100 bg-slate-50/50 p-4">
-          <p className="text-[10px] font-black uppercase tracking-wider text-slate-500">
-=======
     <Card className="border-border-default overflow-hidden rounded-xl">
       <CardContent className="p-0">
         <div className="border-border-subtle bg-bg-surface2/80 border-b p-4">
           <p className="text-text-secondary text-[10px] font-black uppercase tracking-wider">
->>>>>>> recover/cabinet-wip-from-stash
             Роли × разделы. Переключатели — для настройки (пока не применяются к навигации).
           </p>
         </div>
         <div className="max-h-[60vh] overflow-x-auto overflow-y-auto">
           <table className="w-full text-[10px]">
-<<<<<<< HEAD
-            <thead className="sticky top-0 z-10 border-b border-slate-200 bg-white">
-              <tr>
-                <th className="w-32 p-3 text-left font-black uppercase tracking-wider text-slate-600">
-=======
             <thead className="border-border-default sticky top-0 z-10 border-b bg-white">
               <tr>
                 <th className="text-text-secondary w-32 p-3 text-left font-black uppercase tracking-wider">
->>>>>>> recover/cabinet-wip-from-stash
                   Роль
                 </th>
                 {groups.map((g) => (
                   <th
                     key={g.id}
-<<<<<<< HEAD
-                    className="min-w-[140px] p-2 text-left font-bold uppercase text-slate-500"
-=======
                     className="text-text-secondary min-w-[140px] p-2 text-left font-bold uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     {g.label}
                   </th>
@@ -122,11 +105,7 @@ export function RolePermissionsTable() {
               <tr className="border-border-subtle bg-bg-surface2/80 border-b">
                 <th />
                 {groups.map((g) => (
-<<<<<<< HEAD
-                  <th key={g.id} className="p-2 text-[8px] font-bold uppercase text-slate-400">
-=======
                   <th key={g.id} className="text-text-muted p-2 text-[8px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                     view · edit · delete
                   </th>
                 ))}
@@ -172,11 +151,7 @@ export function RolePermissionsTable() {
                       })}
                     {!isExpanded &&
                       groups.map((g) => (
-<<<<<<< HEAD
-                        <td key={g.id} className="p-2 text-slate-300">
-=======
                         <td key={g.id} className="text-text-muted p-2">
->>>>>>> recover/cabinet-wip-from-stash
                           ⋯
                         </td>
                       ))}

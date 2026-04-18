@@ -21,11 +21,7 @@ const MOCK_PARTNERS = [
 
 export default function CreditRiskPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="space-y-6">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Credit Risk Scoring"
         description="JOOR-style: внутренний рейтинг надёжности ритейлеров. Лимиты, история платежей, автоматический пересчёт при задержках."
@@ -38,11 +34,7 @@ export default function CreditRiskPage() {
               <Link href={ROUTES.brand.retailers}>Партнёры</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href={ROUTES.brand.b2bOrders}>B2B Заказы</Link>
-=======
               <Link href={ROUTES.brand.b2bOrders}>{B2B_ORDERS_REGISTRY_LABEL}</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href={ROUTES.brand.buyerApplications}>Заявки байеров</Link>
@@ -74,11 +66,7 @@ export default function CreditRiskPage() {
             {MOCK_PARTNERS.map((p) => (
               <li
                 key={p.id}
-<<<<<<< HEAD
-                className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50 p-4"
-=======
                 className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-lg border p-4"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <div>
                   <p className="font-medium">{p.name}</p>
@@ -100,10 +88,6 @@ export default function CreditRiskPage() {
         links={getBuyerOnboardingLinks()}
         title="Заявки байеров, партнёры, B2B заказы, Territory"
       />
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

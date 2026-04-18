@@ -95,19 +95,6 @@ export function useCollaborativeOrder() {
         ]);
 
         // Convert activity logs to recent activity
-<<<<<<< HEAD
-        const activities: RecentActivity[] = b2bActivityLogs.slice(0, 5).map((log) => ({
-          userAvatar: `/avatars/${log.userName?.toLowerCase().replace(' ', '-')}.jpg`,
-          userInitials:
-            log.userName
-              ?.split(' ')
-              .map((n) => n[0])
-              .join('') || 'U',
-          userName: log.userName || 'User',
-          action: log.description || log.details,
-          time: getRelativeTime(log.timestamp),
-        }));
-=======
         const activities: RecentActivity[] = b2bActivityLogs.slice(0, 5).map((log) => {
           const name = log.actor?.name || 'User';
           return {
@@ -122,7 +109,6 @@ export function useCollaborativeOrder() {
             time: getRelativeTime(log.timestamp),
           };
         });
->>>>>>> recover/cabinet-wip-from-stash
 
         setRecentActivity(activities);
 

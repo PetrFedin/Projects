@@ -93,11 +93,7 @@ export function CollectionFiltersAndRisk({
             onKeyDown={(e) => e.key === 'Enter' && apply()}
             className="h-8 pl-9 text-[10px]"
           />
-<<<<<<< HEAD
-          <Filter className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
-=======
           <Filter className="text-text-muted absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2" />
->>>>>>> recover/cabinet-wip-from-stash
         </div>
         <Select
           value={statusFilter}
@@ -155,11 +151,7 @@ export function CollectionFiltersAndRisk({
       </div>
 
       {expanded && (
-<<<<<<< HEAD
-        <Card className="rounded-xl border border-slate-100 shadow-sm">
-=======
         <Card className="border-border-subtle rounded-xl border shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
           <CardHeader className="px-4 py-2">
             <CardTitle className="text-[10px] font-black uppercase">
               Сравнение коллекций (выберите 2–3)
@@ -175,13 +167,8 @@ export function CollectionFiltersAndRisk({
                   className={cn(
                     'rounded-lg border px-3 py-1.5 text-[9px] font-bold uppercase transition-all',
                     compareIds.includes(c.id)
-<<<<<<< HEAD
-                      ? 'border-indigo-300 bg-indigo-100 text-indigo-700'
-                      : 'border-slate-100 bg-slate-50 hover:bg-slate-100'
-=======
                       ? 'bg-accent-primary/15 border-accent-primary/30 text-accent-primary'
                       : 'bg-bg-surface2 border-border-subtle hover:bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   {c.name}

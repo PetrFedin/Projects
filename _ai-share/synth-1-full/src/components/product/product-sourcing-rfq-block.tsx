@@ -27,11 +27,7 @@ export function ProductSourcingRfqBlock({ product }: Props) {
     <Card className="bg-accent-primary/10 mt-4 border-dashed text-muted-foreground">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-sm">
-<<<<<<< HEAD
-          <Factory className="h-4 w-4 text-violet-600" />
-=======
           <Factory className="text-accent-primary h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
           Production Sourcing (RFQ)
         </CardTitle>
         <CardDescription className="text-xs italic">
@@ -64,11 +60,7 @@ export function ProductSourcingRfqBlock({ product }: Props) {
         <Button
           variant="outline"
           size="sm"
-<<<<<<< HEAD
-          className="h-8 w-full gap-2 border-violet-300 text-[10px] text-violet-700 hover:bg-violet-100"
-=======
           className="border-accent-primary/30 text-accent-primary hover:bg-accent-primary/15 h-8 w-full gap-2 text-[10px]"
->>>>>>> recover/cabinet-wip-from-stash
           onClick={handleSend}
         >
           <Send className="h-3 w-3" />

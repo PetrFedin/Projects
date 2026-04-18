@@ -11,19 +11,11 @@ export const ProductMarketplaceMappingBlock: React.FC<{ product: Product }> = ({
   const m = getMarketplaceMapping(product);
 
   return (
-<<<<<<< HEAD
-    <Card className="border-2 border-slate-100 bg-slate-50/10 p-4">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Share2 className="h-4 w-4 text-purple-500" />
-          <h4 className="text-xs font-bold uppercase tracking-tight text-slate-600">
-=======
     <Card className="border-border-subtle bg-bg-surface2/10 border-2 p-4">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Share2 className="text-accent-primary h-4 w-4" />
           <h4 className="text-text-secondary text-xs font-bold uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
             Marketplace Sync (MP)
           </h4>
         </div>
@@ -46,49 +38,30 @@ export const ProductMarketplaceMappingBlock: React.FC<{ product: Product }> = ({
             <span className="text-[10px] font-bold uppercase text-muted-foreground">
               Wildberries
             </span>
-<<<<<<< HEAD
-            <div className="flex items-center gap-1.5 font-mono text-slate-700">
-              {m.wildberriesId} <ExternalLink className="h-3 w-3 text-slate-300" />
-=======
             <div className="text-text-primary flex items-center gap-1.5 font-mono">
               {m.wildberriesId} <ExternalLink className="text-text-muted h-3 w-3" />
->>>>>>> recover/cabinet-wip-from-stash
             </div>
           </div>
         )}
         {m.ozonId && (
           <div className="flex items-center justify-between text-xs">
             <span className="text-[10px] font-bold uppercase text-muted-foreground">Ozon</span>
-<<<<<<< HEAD
-            <div className="flex items-center gap-1.5 font-mono text-slate-700">
-              {m.ozonId} <ExternalLink className="h-3 w-3 text-slate-300" />
-=======
             <div className="text-text-primary flex items-center gap-1.5 font-mono">
               {m.ozonId} <ExternalLink className="text-text-muted h-3 w-3" />
->>>>>>> recover/cabinet-wip-from-stash
             </div>
           </div>
         )}
         {m.lamodaId && (
           <div className="flex items-center justify-between text-xs">
             <span className="text-[10px] font-bold uppercase text-muted-foreground">Lamoda</span>
-<<<<<<< HEAD
-            <div className="flex items-center gap-1.5 font-mono text-slate-700">
-              {m.lamodaId} <ExternalLink className="h-3 w-3 text-slate-300" />
-=======
             <div className="text-text-primary flex items-center gap-1.5 font-mono">
               {m.lamodaId} <ExternalLink className="text-text-muted h-3 w-3" />
->>>>>>> recover/cabinet-wip-from-stash
             </div>
           </div>
         )}
       </div>
 
-<<<<<<< HEAD
-      <div className="mt-4 flex items-center justify-between border-t pt-3 text-[9px] font-bold uppercase text-slate-400">
-=======
       <div className="text-text-muted mt-4 flex items-center justify-between border-t pt-3 text-[9px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
         <span>Last Feed Update: {m.lastFeedUpdate}</span>
         <span className="text-accent-primary">Active Feed</span>
       </div>

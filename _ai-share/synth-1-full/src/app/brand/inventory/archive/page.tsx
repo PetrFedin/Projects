@@ -42,22 +42,6 @@ export default function ArchivePage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="space-y-4">
-      <SectionInfoCard
-        title="Архив товаров"
-        description="Товары, снятые с продажи или неактивные. Связь с Products (каталог), Inventory (остатки) и Matrix."
-        icon={Archive}
-        iconBg="bg-slate-100"
-        iconColor="text-slate-600"
-        badges={
-          <>
-            <Badge variant="outline" className="text-[9px]">
-              Archive
-            </Badge>
-            <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
-              <Link href="/brand/products">
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="Архив товаров"
@@ -70,21 +54,10 @@ export default function ArchivePage() {
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href={ROUTES.brand.products}>
->>>>>>> recover/cabinet-wip-from-stash
                 <Package className="mr-1 h-3 w-3" /> Products
               </Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/inventory">Inventory</Link>
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/products/matrix">
-                <Layers className="mr-1 h-3 w-3" /> Matrix
-              </Link>
-            </Button>
-          </>
-=======
               <Link href={ROUTES.brand.inventory}>Inventory</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
@@ -93,16 +66,11 @@ export default function ArchivePage() {
               </Link>
             </Button>
           </div>
->>>>>>> recover/cabinet-wip-from-stash
         }
       />
       <Card>
         <CardHeader>
-<<<<<<< HEAD
-          <CardTitle>Архив товаров</CardTitle>
-=======
           <CardTitle>Таблица архива</CardTitle>
->>>>>>> recover/cabinet-wip-from-stash
           <CardDescription>
             Здесь находятся товары, снятые с продажи или неактивные более 6 месяцев. Вы можете
             восстановить их в основной каталог.
@@ -158,10 +126,6 @@ export default function ArchivePage() {
           </Table>
         </CardContent>
       </Card>
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

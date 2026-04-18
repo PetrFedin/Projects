@@ -445,11 +445,7 @@ export function Workshop2VisualsExcellenceBlock({
               </div>
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-<<<<<<< HEAD
-                  <h3 className="text-sm font-semibold text-slate-900">
-=======
                   <h3 className="text-text-primary text-sm font-semibold">
->>>>>>> recover/cabinet-wip-from-stash
                     Визуал: согласование и полнота
                   </h3>
                   {tzPhase !== '1' ? (
@@ -458,11 +454,7 @@ export function Workshop2VisualsExcellenceBlock({
                     </span>
                   ) : null}
                 </div>
-<<<<<<< HEAD
-                <p className="mt-0.5 text-[10px] leading-snug text-slate-500">
-=======
                 <p className="text-text-secondary mt-0.5 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                   Канон, гейт, формы и чеклист — ниже всегда; дорожная карта и описание блока —
                   разверните
                 </p>
@@ -526,21 +518,12 @@ export function Workshop2VisualsExcellenceBlock({
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-80 space-y-2 text-xs" align="end">
-<<<<<<< HEAD
-                <p className="font-semibold text-slate-900">Глоссарий</p>
-                <ul className="space-y-2">
-                  {GLOSSARY.map((g) => (
-                    <li key={g.term}>
-                      <span className="font-medium text-indigo-800">{g.term}</span>
-                      <span className="text-slate-600"> — {g.def}</span>
-=======
                 <p className="text-text-primary font-semibold">Глоссарий</p>
                 <ul className="space-y-2">
                   {GLOSSARY.map((g) => (
                     <li key={g.term}>
                       <span className="text-accent-primary font-medium">{g.term}</span>
                       <span className="text-text-secondary"> — {g.def}</span>
->>>>>>> recover/cabinet-wip-from-stash
                     </li>
                   ))}
                 </ul>
@@ -560,47 +543,29 @@ export function Workshop2VisualsExcellenceBlock({
               </PopoverTrigger>
               <PopoverContent className="w-80 space-y-3 text-xs" align="end">
                 <div>
-<<<<<<< HEAD
-                  <p className="font-semibold text-violet-900">Дизайнер</p>
-                  <p className="mt-1 leading-snug text-slate-600">
-=======
                   <p className="text-text-primary font-semibold">Дизайнер</p>
                   <p className="text-text-secondary mt-1 leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                     Рефы, замысел, скетч с метками и канон — фиксируют образ для маршрута SKU;
                     чеклист помогает не уехать в согласованиях.
                   </p>
                 </div>
                 <div>
-<<<<<<< HEAD
-                  <p className="font-semibold text-fuchsia-900">Мерч</p>
-                  <p className="mt-1 leading-snug text-slate-600">
-=======
                   <p className="text-text-primary font-semibold">Мерч</p>
                   <p className="text-text-secondary mt-1 leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                     Для витрины и лукбука используйте поверхность «мерч» (без технических меток);
                     канон и версию фиксируйте в блоке выше.
                   </p>
                 </div>
                 <div>
                   <p className="font-semibold text-amber-900">Менеджер</p>
-<<<<<<< HEAD
-                  <p className="mt-1 leading-snug text-slate-600">
-=======
                   <p className="text-text-secondary mt-1 leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                     Чеклист готовности визуала и открытый гейт — что ещё блокирует «готово к
                     образцу»; сводка в буфер для статуса в почте или таск-трекере.
                   </p>
                 </div>
                 <div>
                   <p className="font-semibold text-teal-900">Технолог</p>
-<<<<<<< HEAD
-                  <p className="mt-1 leading-snug text-slate-600">
-=======
                   <p className="text-text-secondary mt-1 leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                     Метки с привязкой к атрибуту/BOM и сроками на критичных точках снижают разрыв
                     между картинкой и исполнением; детали узлов — в материалах и конструкции.
                   </p>
@@ -621,11 +586,7 @@ export function Workshop2VisualsExcellenceBlock({
           />
           <Collapsible
             defaultOpen={false}
-<<<<<<< HEAD
-            className="w-full min-w-0 rounded-md border border-violet-100/90 bg-white/50 px-2 py-2"
-=======
             className="border-accent-primary/20 w-full min-w-0 rounded-md border bg-white/50 px-2 py-2"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <CollapsibleTrigger asChild>
               <button
@@ -636,15 +597,6 @@ export function Workshop2VisualsExcellenceBlock({
               </button>
             </CollapsibleTrigger>
             <CollapsibleContent className="space-y-1.5 pt-1.5">
-<<<<<<< HEAD
-              <p className="text-[11px] leading-snug text-slate-600">
-                <span className="font-medium text-slate-800">Замысел</span> — только текст в этом
-                блоке; <span className="font-medium text-slate-800">фото и видео</span> — в
-                «Референсах» (звезда на превью = главное для канона);{' '}
-                <span className="font-medium text-slate-800">канон</span> (главное фото + скетч) —
-                справа здесь же. Атрибуты каталога «Визуал» — в{' '}
-                <span className="font-medium text-indigo-800">«Поля каталога»</span> ниже.
-=======
               <p className="text-text-secondary text-[11px] leading-snug">
                 <span className="text-text-primary font-medium">Замысел</span> — только текст в этом
                 блоке; <span className="text-text-primary font-medium">фото и видео</span> — в
@@ -652,7 +604,6 @@ export function Workshop2VisualsExcellenceBlock({
                 <span className="text-text-primary font-medium">канон</span> (главное фото + скетч)
                 — справа здесь же. Атрибуты каталога «Визуал» — в{' '}
                 <span className="text-accent-primary font-medium">«Поля каталога»</span> ниже.
->>>>>>> recover/cabinet-wip-from-stash
               </p>
               {onJumpToPassportSection || onJumpToMaterialSection ? (
                 <div className="flex flex-wrap gap-x-3 gap-y-0.5">
@@ -685,19 +636,11 @@ export function Workshop2VisualsExcellenceBlock({
 
       <div
         id="w2-visuals-canon-version"
-<<<<<<< HEAD
-        className="scroll-mt-24 rounded-lg border border-violet-200/90 bg-violet-50/55 px-3 py-2.5 text-[11px] text-violet-950 shadow-sm"
-      >
-        <div className="flex flex-wrap items-start justify-between gap-2">
-          <div className="min-w-0 space-y-1">
-            <p className="text-[9px] font-black uppercase tracking-wide text-violet-800">
-=======
         className="border-accent-primary/30 bg-accent-primary/10 text-text-primary scroll-mt-24 rounded-lg border px-3 py-2.5 text-[11px] shadow-sm"
       >
         <div className="flex flex-wrap items-start justify-between gap-2">
           <div className="min-w-0 space-y-1">
             <p className="text-accent-primary text-[9px] font-black uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
               Канон и версия визуала
             </p>
             <p className="leading-snug">
@@ -711,20 +654,12 @@ export function Workshop2VisualsExcellenceBlock({
               ) : null}
             </p>
             {lastVersionLogLine ? (
-<<<<<<< HEAD
-              <p className="text-[10px] leading-snug text-violet-900/90">
-=======
               <p className="text-text-primary/90 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                 <span className="font-semibold">Последняя запись журнала:</span>{' '}
                 {lastVersionLogLine}
               </p>
             ) : (
-<<<<<<< HEAD
-              <p className="text-[10px] leading-snug text-violet-800/75">
-=======
               <p className="text-accent-primary/75 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                 Журнал версий пуст — после согласованных правок добавьте запись ниже (дизайн /
                 менеджер).
               </p>
@@ -750,11 +685,7 @@ export function Workshop2VisualsExcellenceBlock({
           className="border-accent-primary/30 bg-accent-primary/10 text-accent-primary scroll-mt-24 rounded-lg border px-3 py-2.5 text-[11px] shadow-sm"
         >
           <div className="flex flex-wrap items-center gap-2">
-<<<<<<< HEAD
-            <span className="text-[9px] font-bold uppercase tracking-wide text-indigo-900">
-=======
             <span className="text-accent-primary text-[9px] font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
               Передача в маршрут
             </span>
             <div className="flex flex-wrap gap-1.5">
@@ -815,11 +746,7 @@ export function Workshop2VisualsExcellenceBlock({
               <p className="text-text-secondary text-[9px] font-black uppercase tracking-wide">
                 Экспорт скетча · поверхности
               </p>
-<<<<<<< HEAD
-              <p className="text-[10px] leading-snug text-slate-600">
-=======
               <p className="text-text-secondary text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                 Один PNG/PDF — три поверхности: цех (узлы+QC), мерч (чисто), комплаенс
                 (техметки+QC).
               </p>
@@ -828,17 +755,10 @@ export function Workshop2VisualsExcellenceBlock({
                   const vis = W2_SKETCH_PIN_VISIBILITY_BY_SURFACE[surf];
                   return (
                     <li key={surf}>
-<<<<<<< HEAD
-                      <span className="font-semibold text-slate-900">
-                        {W2_SKETCH_EXPORT_SURFACE_LABELS[surf]}
-                      </span>
-                      <span className="text-slate-500">
-=======
                       <span className="text-text-primary font-semibold">
                         {W2_SKETCH_EXPORT_SURFACE_LABELS[surf]}
                       </span>
                       <span className="text-text-secondary">
->>>>>>> recover/cabinet-wip-from-stash
                         {' '}
                         — тех.метки: {vis.showTechnicalPins ? 'да' : 'нет'}, QC-коды:{' '}
                         {vis.showQcCodes ? 'да' : 'нет'}
@@ -1014,19 +934,11 @@ export function Workshop2VisualsExcellenceBlock({
       )}
 
       <div className="grid gap-3 lg:grid-cols-2">
-<<<<<<< HEAD
-        <div className="rounded-lg border border-slate-200 bg-white/90 p-3 shadow-sm">
-          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">
-            Замысел дизайна
-          </p>
-          <Label className="mt-2 text-[10px] text-slate-500">Mood / направление</Label>
-=======
         <div className="border-border-default rounded-lg border bg-white/90 p-3 shadow-sm">
           <p className="text-text-secondary text-[10px] font-bold uppercase tracking-wide">
             Замысел дизайна
           </p>
           <Label className="text-text-secondary mt-2 text-[10px]">Mood / направление</Label>
->>>>>>> recover/cabinet-wip-from-stash
           <Input
             className="mt-1 h-8 text-xs"
             placeholder="Например: мягкий минимализм, спорт-шик FW26"
@@ -1051,19 +963,11 @@ export function Workshop2VisualsExcellenceBlock({
           </div>
         </div>
 
-<<<<<<< HEAD
-        <div className="rounded-lg border border-slate-200 bg-white/90 p-3 shadow-sm">
-          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">
-            Канон для подписи
-          </p>
-          <Label className="mt-2 text-[10px] text-slate-500">Главное фото модели</Label>
-=======
         <div className="border-border-default rounded-lg border bg-white/90 p-3 shadow-sm">
           <p className="text-text-secondary text-[10px] font-bold uppercase tracking-wide">
             Канон для подписи
           </p>
           <Label className="text-text-secondary mt-2 text-[10px]">Главное фото модели</Label>
->>>>>>> recover/cabinet-wip-from-stash
           <select
             className="border-border-default mt-1 h-8 w-full rounded-md border bg-white px-2 text-[11px]"
             value={dossier.canonicalMainPhotoRefId ?? ''}
@@ -1124,11 +1028,7 @@ export function Workshop2VisualsExcellenceBlock({
 
       <div
         id="w2-visuals-checklist"
-<<<<<<< HEAD
-        className="scroll-mt-24 rounded-lg border border-slate-200 bg-white/90 p-3 shadow-sm"
-=======
         className="border-border-default scroll-mt-24 rounded-lg border bg-white/90 p-3 shadow-sm"
->>>>>>> recover/cabinet-wip-from-stash
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="text-text-secondary text-[10px] font-bold uppercase tracking-wide">
@@ -1154,11 +1054,7 @@ export function Workshop2VisualsExcellenceBlock({
             По фактам в досье
           </Button>
         </div>
-<<<<<<< HEAD
-        <p className="mt-1 text-[10px] leading-snug text-slate-500">
-=======
         <p className="text-text-secondary mt-1 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
           Кнопка подставляет только то, что однозначно следует из досье; пункты про треды и эталон
           цеха — по решению команды.
         </p>
@@ -1178,19 +1074,12 @@ export function Workshop2VisualsExcellenceBlock({
                   htmlFor={`vr-${row.key}`}
                   className="min-w-0 cursor-pointer text-[11px] leading-snug"
                 >
-<<<<<<< HEAD
-                  <span className="font-medium text-slate-800">{row.label}</span>
-                  <span className="block text-slate-500">{row.hint}</span>
-                  {hintExtra ? (
-                    <span className="mt-0.5 block text-[10px] text-indigo-600">{hintExtra}</span>
-=======
                   <span className="text-text-primary font-medium">{row.label}</span>
                   <span className="text-text-secondary block">{row.hint}</span>
                   {hintExtra ? (
                     <span className="text-accent-primary mt-0.5 block text-[10px]">
                       {hintExtra}
                     </span>
->>>>>>> recover/cabinet-wip-from-stash
                   ) : null}
                 </label>
               </li>
@@ -1199,19 +1088,11 @@ export function Workshop2VisualsExcellenceBlock({
         </ul>
       </div>
 
-<<<<<<< HEAD
-      <div className="rounded-lg border border-slate-200 bg-white/90 p-3 shadow-sm">
-        <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">
-          Журнал версий визуала
-        </p>
-        <p className="mt-1 text-[10px] text-slate-500">
-=======
       <div className="border-border-default rounded-lg border bg-white/90 p-3 shadow-sm">
         <p className="text-text-secondary text-[10px] font-bold uppercase tracking-wide">
           Журнал версий визуала
         </p>
         <p className="text-text-secondary mt-1 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
           Кратко: что изменилось, кто и когда (без бинарного diff).
         </p>
         <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-end">
@@ -1243,21 +1124,12 @@ export function Workshop2VisualsExcellenceBlock({
           {[...(dossier.visualVersionLog ?? [])].reverse().map((e) => (
             <li
               key={e.entryId}
-<<<<<<< HEAD
-              className="rounded border border-slate-100 bg-slate-50/80 px-2 py-1.5"
-            >
-              <span className="font-semibold text-slate-800">{e.versionLabel}</span>
-              <span className="text-slate-500"> · {e.by} · </span>
-              <span className="text-slate-400">{new Date(e.at).toLocaleString('ru-RU')}</span>
-              <p className="mt-0.5 text-slate-700">{e.changeSummary}</p>
-=======
               className="border-border-subtle bg-bg-surface2/80 rounded border px-2 py-1.5"
             >
               <span className="text-text-primary font-semibold">{e.versionLabel}</span>
               <span className="text-text-secondary"> · {e.by} · </span>
               <span className="text-text-muted">{new Date(e.at).toLocaleString('ru-RU')}</span>
               <p className="text-text-primary mt-0.5">{e.changeSummary}</p>
->>>>>>> recover/cabinet-wip-from-stash
             </li>
           ))}
         </ul>
@@ -1279,13 +1151,6 @@ export function Workshop2VisualsExcellenceBlock({
             </thead>
             <tbody>
               {SKETCH_TZ_MATRIX_ROWS.map((row) => (
-<<<<<<< HEAD
-                <tr key={row.annotationType} className="border-b border-slate-100 last:border-0">
-                  <td className="py-1.5 pr-2 align-top font-medium text-slate-800">
-                    {row.typeLabel}
-                  </td>
-                  <td className="py-1.5 pr-2 align-top text-indigo-800">{row.sectionLabel}</td>
-=======
                 <tr
                   key={row.annotationType}
                   className="border-border-subtle border-b last:border-0"
@@ -1294,7 +1159,6 @@ export function Workshop2VisualsExcellenceBlock({
                     {row.typeLabel}
                   </td>
                   <td className="text-accent-primary py-1.5 pr-2 align-top">{row.sectionLabel}</td>
->>>>>>> recover/cabinet-wip-from-stash
                   <td
                     className="text-text-primary max-w-[10rem] py-1.5 pr-2 align-top font-mono text-[9px] leading-snug"
                     title={row.suggestedAttributeIds.join(', ')}
@@ -1310,27 +1174,16 @@ export function Workshop2VisualsExcellenceBlock({
         </div>
       </details>
 
-<<<<<<< HEAD
-      <p className="text-[10px] text-slate-500">
-=======
       <p className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
         Черновик в localStorage; тяжёлые data URL в рефах/скетче — сожмите или дайте ссылку (см.
         предупреждение у сохранения внизу ТЗ).
       </p>
       <p className="text-text-secondary text-[10px]">
         Метка ↔ раздел/этап — в карточке на доске; по ветке — «Задачи для производства». Экспорт:{' '}
-<<<<<<< HEAD
-        <span className="font-medium text-slate-600">visualQuickSummary</span>,{' '}
-        <span className="font-medium text-slate-600">visualRouteGate</span> (без data URL). Якорь по
-        умолчанию <span className="font-mono text-[10px]">#w2-visuals-hub</span> — при нужде{' '}
-        <span className="font-mono text-[10px]">#w2-visuals-refs</span>,{' '}
-=======
         <span className="text-text-secondary font-medium">visualQuickSummary</span>,{' '}
         <span className="text-text-secondary font-medium">visualRouteGate</span> (без data URL).
         Якорь по умолчанию <span className="font-mono text-[10px]">#w2-visuals-hub</span> — при
         нужде <span className="font-mono text-[10px]">#w2-visuals-refs</span>,{' '}
->>>>>>> recover/cabinet-wip-from-stash
         <span className="font-mono text-[10px]">#{W2_VISUALS_SKETCH_ANCHOR_ID}</span> (вкладка
         «Конструкция»)…
       </p>

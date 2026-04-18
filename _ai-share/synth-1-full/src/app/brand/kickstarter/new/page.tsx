@@ -1,19 +1,7 @@
 'use client';
 
-<<<<<<< HEAD
-import { useState, useMemo } from 'react';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-  CardDescription,
-} from '@/components/ui/card';
-=======
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
->>>>>>> recover/cabinet-wip-from-stash
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -45,26 +33,6 @@ export default function CreateKickstarterPage() {
 
     router.push(`/brand/kickstarter/new/edit?${query.toString()}`);
   };
-<<<<<<< HEAD
-
-  return (
-    <div className="mx-auto max-w-2xl space-y-6">
-      <div className="flex items-center gap-3">
-        <Button variant="outline" size="icon" asChild>
-          <Link href="/brand/kickstarter">
-            <ChevronLeft className="h-4 w-4" />
-          </Link>
-        </Button>
-        <div>
-          <h1 className="text-sm font-semibold tracking-tight">Новая кампания</h1>
-          <p className="text-muted-foreground">
-            Создайте кампанию по сбору предзаказов на новый товар.
-          </p>
-        </div>
-      </div>
-
-      <Card>
-=======
 
   return (
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
@@ -81,7 +49,6 @@ export default function CreateKickstarterPage() {
       />
 
       <Card className="max-w-2xl">
->>>>>>> recover/cabinet-wip-from-stash
         <CardHeader>
           <CardTitle>Шаг 1: Основная информация</CardTitle>
         </CardHeader>
@@ -111,10 +78,6 @@ export default function CreateKickstarterPage() {
           </Button>
         </CardFooter>
       </Card>
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

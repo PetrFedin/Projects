@@ -14,13 +14,8 @@ export default function VisualMerchGridPage() {
     <div className="mx-auto max-w-7xl p-8">
       <div className="mb-8">
         <div className="mb-2 flex items-center gap-3">
-<<<<<<< HEAD
-          <div className="rounded-lg bg-indigo-100 p-2">
-            <LayoutGrid className="h-6 w-6 text-indigo-600" />
-=======
           <div className="bg-accent-primary/15 rounded-lg p-2">
             <LayoutGrid className="text-accent-primary h-6 w-6" />
->>>>>>> recover/cabinet-wip-from-stash
           </div>
           <h1 className="text-3xl font-bold tracking-tight">Visual Merchandising Grid</h1>
         </div>
@@ -37,19 +32,11 @@ export default function VisualMerchGridPage() {
           return (
             <Card
               key={slot.sku}
-<<<<<<< HEAD
-              className="overflow-hidden border-2 transition-colors hover:border-indigo-400"
-            >
-              <div className="group relative aspect-[3/4] bg-slate-100">
-                <img
-                  src={product.image}
-=======
               className="hover:border-accent-primary/40 overflow-hidden border-2 transition-colors"
             >
               <div className="bg-bg-surface2 group relative aspect-[3/4]">
                 <img
                   src={product.images?.[0]?.url ?? ''}
->>>>>>> recover/cabinet-wip-from-stash
                   alt={product.name}
                   className="h-full w-full object-cover grayscale-[20%] transition-all group-hover:grayscale-0"
                 />
@@ -65,26 +52,16 @@ export default function VisualMerchGridPage() {
               </div>
 
               <div className="space-y-3 bg-white p-3">
-<<<<<<< HEAD
-                <div className="flex items-center justify-between text-[10px] font-black uppercase text-slate-400">
-=======
                 <div className="text-text-muted flex items-center justify-between text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   <div className="flex items-center gap-1">
                     <Zap className="h-3 w-3 text-yellow-500" />
                     Visual Weight: {slot.visualWeight}%
                   </div>
                 </div>
 
-<<<<<<< HEAD
-                <div className="flex items-center justify-between text-[10px] font-black uppercase text-slate-400">
-                  <div className="flex items-center gap-1">
-                    <Palette className="h-3 w-3 text-indigo-500" />
-=======
                 <div className="text-text-muted flex items-center justify-between text-[10px] font-black uppercase">
                   <div className="flex items-center gap-1">
                     <Palette className="text-accent-primary h-3 w-3" />
->>>>>>> recover/cabinet-wip-from-stash
                     Harmony: {slot.colorHarmonyScore}%
                   </div>
                 </div>

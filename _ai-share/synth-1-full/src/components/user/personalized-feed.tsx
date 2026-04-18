@@ -103,11 +103,7 @@ export default function PersonalizedFeed() {
       case 'sale':
         return <Gift className="h-4 w-4 text-red-600" />;
       case 'new_collection':
-<<<<<<< HEAD
-        return <Sparkles className="h-4 w-4 text-purple-600" />;
-=======
         return <Sparkles className="text-accent-primary h-4 w-4" />;
->>>>>>> recover/cabinet-wip-from-stash
       case 'restock':
         return <Bell className="h-4 w-4 text-green-600" />;
       case 'social':

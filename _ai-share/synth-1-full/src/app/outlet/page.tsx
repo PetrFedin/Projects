@@ -85,26 +85,6 @@ export default function OutletPage() {
 
           switch (key) {
             case 'Бренд':
-<<<<<<< HEAD
-              return value.includes(p.brand);
-            case 'Сезон':
-              return value.includes(p.season);
-            case 'Стиль':
-              return p.tags && value.some((opt) => (p.tags || []).includes(opt as any));
-            case 'Материал':
-              return value.includes(p.material || '');
-            case 'Цвет':
-              return (
-                p.availableColors &&
-                value.some((colorName) => p.availableColors?.some((c) => c.name === colorName))
-              );
-            case 'Наличие':
-              return value.includes(p.availability || 'in_stock');
-            case 'Посадка':
-              return p.clothing?.fit && value.includes(p.clothing.fit);
-            case 'Скидка':
-              const minDiscount = Math.min(...value.map((v) => parseInt(v as string, 10)));
-=======
               return (value as string[]).includes(p.brand);
             case 'Сезон':
               return (value as string[]).includes(p.season);
@@ -130,27 +110,11 @@ export default function OutletPage() {
               return p.clothing?.fit && (value as string[]).includes(p.clothing.fit);
             case 'Скидка':
               const minDiscount = Math.min(...(value as string[]).map((v) => parseInt(v, 10)));
->>>>>>> recover/cabinet-wip-from-stash
               const productDiscount = p.originalPrice
                 ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100)
                 : 0;
               return productDiscount >= minDiscount;
             case 'Цена':
-<<<<<<< HEAD
-              const [minPrice, maxPrice] = value as number[];
-              return p.price >= minPrice && p.price <= maxPrice;
-            case 'Высота каблука':
-              const [minHeel, maxHeel] = value as number[];
-              return p.footwear?.heelHeight
-                ? p.footwear.heelHeight >= minHeel && p.footwear.heelHeight <= maxHeel
-                : true;
-            case 'Материал подошвы':
-              return p.footwear?.soleMaterial && value.includes(p.footwear.soleMaterial);
-            case 'Материал верха':
-              return p.footwear?.upperMaterial && value.includes(p.footwear.upperMaterial);
-            case 'Экологичность':
-              return p.sustainability && value.some((opt) => p.sustainability.includes(opt));
-=======
               const [minPrice, maxPrice] = value as [number, number];
               const priceNum = typeof p.price === 'number' ? p.price : Number(p.price);
               return Number.isFinite(priceNum) && priceNum >= minPrice && priceNum <= maxPrice;
@@ -172,7 +136,6 @@ export default function OutletPage() {
                 p.sustainability &&
                 (value as string[]).some((opt) => p.sustainability.includes(opt))
               );
->>>>>>> recover/cabinet-wip-from-stash
             case 'AR':
               return p.hasAR === true;
             case '3D':

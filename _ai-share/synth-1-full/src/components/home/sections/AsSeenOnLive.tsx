@@ -47,36 +47,21 @@ export function AsSeenOnLive() {
       <div className="mb-12 flex flex-col justify-between gap-3 md:flex-row md:items-center">
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-<<<<<<< HEAD
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-600">
-=======
             <div className="bg-accent-primary flex h-8 w-8 items-center justify-center rounded-xl">
->>>>>>> recover/cabinet-wip-from-stash
               <Zap className="h-4 w-4 text-white" />
             </div>
             <Badge
               variant="outline"
-<<<<<<< HEAD
-              className="rounded-full border-indigo-100 bg-indigo-50 px-3 py-1 text-[9px] font-bold uppercase tracking-wide text-indigo-600"
-=======
               className="bg-accent-primary/10 border-accent-primary/20 text-accent-primary rounded-full px-3 py-1 text-[9px] font-bold uppercase tracking-wide"
->>>>>>> recover/cabinet-wip-from-stash
             >
               SOCIAL_SYNC_LIVE
             </Badge>
           </div>
           <div className="space-y-1">
-<<<<<<< HEAD
-            <h2 className="text-2xl font-bold uppercase leading-tight tracking-tight text-slate-900 md:text-4xl">
-              AS SEEN ON LIVE
-            </h2>
-            <p className="max-w-xl text-sm text-slate-500">
-=======
             <h2 className="text-text-primary text-2xl font-bold uppercase leading-tight tracking-tight md:text-4xl">
               AS SEEN ON LIVE
             </h2>
             <p className="text-text-secondary max-w-xl text-sm">
->>>>>>> recover/cabinet-wip-from-stash
               "Образы, которые взорвали ленту за последние 24 часа. Сообщество выбрало лучшее."
             </p>
           </div>
@@ -86,31 +71,18 @@ export function AsSeenOnLive() {
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-<<<<<<< HEAD
-                className="h-10 w-10 overflow-hidden rounded-full border-2 border-white bg-slate-200"
-=======
                 className="bg-border-subtle h-10 w-10 overflow-hidden rounded-full border-2 border-white"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <img src={`https://i.pravatar.cc/100?img=${i + 10}`} alt="User" />
               </div>
             ))}
-<<<<<<< HEAD
-            <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-slate-900 text-[10px] font-bold text-white">
-=======
             <div className="bg-text-primary flex h-10 w-10 items-center justify-center rounded-full border-2 border-white text-[10px] font-bold text-white">
->>>>>>> recover/cabinet-wip-from-stash
               +42
             </div>
           </div>
           <div className="text-right">
-<<<<<<< HEAD
-            <div className="text-xs font-bold text-slate-900">45.2K</div>
-            <div className="text-nowrap text-[10px] font-bold uppercase tracking-wide text-slate-400">
-=======
             <div className="text-text-primary text-xs font-bold">45.2K</div>
             <div className="text-text-muted text-nowrap text-[10px] font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
               Участников сейчас
             </div>
           </div>
@@ -125,11 +97,7 @@ export function AsSeenOnLive() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ delay: idx * 0.1 }}
             viewport={{ once: true }}
-<<<<<<< HEAD
-            className="group relative overflow-hidden rounded-xl border border-slate-100 bg-white shadow-xl shadow-slate-200/50"
-=======
             className="border-border-subtle group relative overflow-hidden rounded-xl border bg-white shadow-md shadow-xl"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <div className="relative aspect-[3/4] overflow-hidden">
               <img
@@ -150,11 +118,7 @@ export function AsSeenOnLive() {
                 <Button
                   variant="ctaOutline"
                   size="ctaMd"
-<<<<<<< HEAD
-                  className="w-full border-white bg-white text-black hover:border-slate-100 hover:bg-slate-100 hover:text-black"
-=======
                   className="hover:bg-bg-surface2 hover:border-border-subtle w-full border-white bg-white text-black hover:text-black"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   <ShoppingBag className="h-3.5 w-3.5" /> Купить образ
                 </Button>
@@ -165,26 +129,13 @@ export function AsSeenOnLive() {
               <div className="flex items-center justify-between">
                 <div className="flex gap-1">
                   {post.tags.map((tag) => (
-<<<<<<< HEAD
-                    <span key={tag} className="text-[10px] font-bold uppercase text-indigo-500">
-=======
                     <span key={tag} className="text-accent-primary text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                       #{tag}
                     </span>
                   ))}
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Heart className="h-3 w-3 fill-rose-500 text-rose-500" />
-<<<<<<< HEAD
-                  <span className="text-[10px] font-bold text-slate-900">{post.likes}</span>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 border-t border-slate-50 pt-2">
-                <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
-                <span className="text-[10px] font-bold uppercase tracking-wide text-slate-400">
-=======
                   <span className="text-text-primary text-[10px] font-bold">{post.likes}</span>
                 </div>
               </div>
@@ -192,7 +143,6 @@ export function AsSeenOnLive() {
               <div className="border-border-subtle flex items-center gap-2 border-t pt-2">
                 <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
                 <span className="text-text-muted text-[10px] font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
                   В тренде
                 </span>
               </div>

@@ -160,11 +160,7 @@ export function StageContextBar() {
                 {canSetStageStatus ? (
                   <Badge
                     variant="outline"
-<<<<<<< HEAD
-                    className="h-5 border-slate-200 text-[9px] font-bold uppercase"
-=======
                     className="border-border-default h-5 text-[9px] font-bold uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     Статус в матрице: {stepStatusRu(currentStepStatus)}
                   </Badge>
@@ -289,21 +285,13 @@ export function StageContextBar() {
           </div>
         </div>
         {!parsed.stagesStep && showFlowBanner ? (
-<<<<<<< HEAD
-          <p className="mt-2 border-t border-indigo-100/80 pt-2 text-[10px] text-slate-500">
-=======
           <p className="border-accent-primary/20 text-text-secondary mt-2 border-t pt-2 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
             Откройте этап с доски производства — в URL появится{' '}
             <span className="font-mono">stagesStep</span>, и здесь будут кнопки статуса.
           </p>
         ) : null}
         {parsed.stagesStep && !parsed.resolvedArticleId ? (
-<<<<<<< HEAD
-          <p className="mt-2 border-t border-indigo-100/80 pt-2 text-[10px] text-amber-800">
-=======
           <p className="border-accent-primary/20 mt-2 border-t pt-2 text-[10px] text-amber-800">
->>>>>>> recover/cabinet-wip-from-stash
             В URL нет <span className="font-mono">stagesSku</span> /{' '}
             <span className="font-mono">productId</span> — выберите артикул в матрице и перейдите «В
             модуль», чтобы менять статус этапа.

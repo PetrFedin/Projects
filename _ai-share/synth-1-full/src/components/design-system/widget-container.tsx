@@ -14,11 +14,7 @@ export function WidgetContainer({ title, action, className, children }: WidgetCo
   return (
     <Card className={cn('border-border-default shadow-sm', className)}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 p-3 pb-2">
-<<<<<<< HEAD
-        <CardTitle className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
-=======
         <CardTitle className="text-text-secondary text-[10px] font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
           {title}
         </CardTitle>
         {action ? <div className="shrink-0">{action}</div> : null}

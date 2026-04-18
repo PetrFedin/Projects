@@ -50,11 +50,6 @@ const overviewSections: { title: string; items: OverviewItem[] }[] = [
         href: ROUTES.shop.orders,
         label: 'Заказы клиентов',
         desc: 'Управление розничными заказами',
-<<<<<<< HEAD
-      },
-      { href: ROUTES.shop.inventory, label: 'Склад и остатки', desc: 'Инвентарь и архив' },
-      { href: ROUTES.shop.promotions, label: 'Акции и скидки', desc: 'Промо-акции' },
-=======
         testId: 'shop-dashboard-retail-orders-link',
       },
       {
@@ -69,7 +64,6 @@ const overviewSections: { title: string; items: OverviewItem[] }[] = [
         desc: 'Промо-акции',
         testId: 'shop-dashboard-promotions-link',
       },
->>>>>>> recover/cabinet-wip-from-stash
     ],
   },
   {
@@ -97,9 +91,6 @@ const overviewSections: { title: string; items: OverviewItem[] }[] = [
   },
   {
     title: 'Аналитика',
-<<<<<<< HEAD
-    items: [{ href: ROUTES.shop.analytics, label: 'Аналитика', desc: 'Дашборды и отчёты' }],
-=======
     items: [
       {
         href: ROUTES.shop.analytics,
@@ -126,7 +117,6 @@ const overviewSections: { title: string; items: OverviewItem[] }[] = [
         testId: 'shop-dashboard-analytics-margin-link',
       },
     ],
->>>>>>> recover/cabinet-wip-from-stash
   },
 ];
 
@@ -183,20 +173,12 @@ export default function ShopHubPage() {
       ) : null}
 
       <div>
-<<<<<<< HEAD
-        <h2 className="mb-1 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500">
-          Обзор
-        </h2>
-        <p className="text-sm text-slate-700">
-          Используйте навигацию слева для перехода в разделы. Ключевые направления:
-=======
         <h2 className="text-text-secondary mb-1 text-[11px] font-black uppercase tracking-[0.2em]">
           Все разделы
         </h2>
         <p className="text-text-primary text-sm">
           Розница и опт — навигация слева (включая B2B и связанные кабинеты). Дашборд — эта
           страница.
->>>>>>> recover/cabinet-wip-from-stash
         </p>
       </div>
 
@@ -206,11 +188,7 @@ export default function ShopHubPage() {
             key={section.title}
             className="border-border-default rounded-lg border bg-white p-4 shadow-sm"
           >
-<<<<<<< HEAD
-            <h3 className="mb-3 text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
             <h3 className="text-text-muted mb-3 text-xs font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
               {section.title}
             </h3>
             <ul className="space-y-1.5">
@@ -218,30 +196,18 @@ export default function ShopHubPage() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-<<<<<<< HEAD
-                    className="group flex items-center justify-between rounded-md px-2.5 py-2 text-[11px] font-bold uppercase tracking-wider text-slate-700 transition-colors hover:bg-slate-50"
-=======
                     data-testid={item.testId}
                     className="text-text-primary hover:bg-bg-surface2 group flex items-center justify-between rounded-md px-2.5 py-2 text-[11px] font-bold uppercase tracking-wider transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     <div>
                       <span className="transition-colors group-hover:text-rose-600">
                         {item.label}
                       </span>
-<<<<<<< HEAD
-                      <p className="mt-0.5 text-[9px] font-normal normal-case tracking-normal text-slate-400">
-                        {item.desc}
-                      </p>
-                    </div>
-                    <ArrowUpRight className="h-3 w-3 shrink-0 text-slate-300 group-hover:text-rose-500" />
-=======
                       <p className="text-text-muted mt-0.5 text-[9px] font-normal normal-case tracking-normal">
                         {item.desc}
                       </p>
                     </div>
                     <ArrowUpRight className="text-text-muted size-3 shrink-0 group-hover:text-rose-500" />
->>>>>>> recover/cabinet-wip-from-stash
                   </Link>
                 </li>
               ))}

@@ -60,31 +60,19 @@ export function MtoBridge() {
 
   return (
     <Card className="overflow-hidden rounded-xl border-none bg-white shadow-2xl">
-<<<<<<< HEAD
-      <CardHeader className="bg-indigo-600 p-3 pb-4 text-white">
-=======
       <CardHeader className="bg-accent-primary p-3 pb-4 text-white">
->>>>>>> recover/cabinet-wip-from-stash
         <div className="flex items-start justify-between">
           <div className="space-y-1">
             <div className="mb-1 flex items-center gap-2">
               <Shirt className="h-6 w-6 text-white" />
-<<<<<<< HEAD
-              <span className="text-[10px] font-black uppercase tracking-widest text-indigo-200">
-=======
               <span className="text-accent-primary/40 text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 Made-to-Order Bridge
               </span>
             </div>
             <CardTitle className="text-base font-black uppercase tracking-tighter">
               MTO Direct Channel
             </CardTitle>
-<<<<<<< HEAD
-            <CardDescription className="font-medium italic text-indigo-100">
-=======
             <CardDescription className="text-accent-primary/30 font-medium italic">
->>>>>>> recover/cabinet-wip-from-stash
               Прямой поток кастомных заказов от клиентов в производственный цех.
             </CardDescription>
           </div>
@@ -93,11 +81,7 @@ export function MtoBridge() {
               onClick={() => setActiveTab('orders')}
               className={cn(
                 'rounded-xl px-4 py-2 text-[10px] font-black uppercase transition-all',
-<<<<<<< HEAD
-                activeTab === 'orders' ? 'bg-white text-indigo-600 shadow-lg' : 'text-white/60'
-=======
                 activeTab === 'orders' ? 'text-accent-primary bg-white shadow-lg' : 'text-white/60'
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               Очередь заказов
@@ -106,11 +90,7 @@ export function MtoBridge() {
               onClick={() => setActiveTab('config')}
               className={cn(
                 'rounded-xl px-4 py-2 text-[10px] font-black uppercase transition-all',
-<<<<<<< HEAD
-                activeTab === 'config' ? 'bg-white text-indigo-600 shadow-lg' : 'text-white/60'
-=======
                 activeTab === 'config' ? 'text-accent-primary bg-white shadow-lg' : 'text-white/60'
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               Настройка MTO
@@ -124,11 +104,7 @@ export function MtoBridge() {
           {/* Main List Area */}
           <div className="space-y-4 lg:col-span-8">
             <div className="flex items-center justify-between">
-<<<<<<< HEAD
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-400">
-=======
               <h4 className="text-text-muted text-[11px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                 Активные MTO-слоты
               </h4>
               <div className="flex gap-2">
@@ -143,17 +119,6 @@ export function MtoBridge() {
                 <motion.div
                   key={order.id}
                   layoutId={order.id}
-<<<<<<< HEAD
-                  className="group flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-4 transition-all hover:border-indigo-100 hover:bg-white hover:shadow-xl"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-slate-100 bg-white shadow-sm">
-                      <User className="h-8 w-8 text-slate-300" />
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <h5 className="text-sm font-black uppercase tracking-tight text-slate-900">
-=======
                   className="bg-bg-surface2 border-border-subtle hover:border-accent-primary/20 group flex items-center justify-between rounded-xl border p-4 transition-all hover:bg-white hover:shadow-xl"
                 >
                   <div className="flex items-center gap-3">
@@ -163,7 +128,6 @@ export function MtoBridge() {
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
                         <h5 className="text-text-primary text-sm font-black uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
                           {order.item} / {order.client}
                         </h5>
                         <Badge
@@ -173,11 +137,7 @@ export function MtoBridge() {
                               ? 'bg-rose-500 text-white'
                               : order.priority === 'high'
                                 ? 'bg-amber-500 text-white'
-<<<<<<< HEAD
-                                : 'bg-slate-200 text-slate-500'
-=======
                                 : 'bg-border-subtle text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                           )}
                         >
                           {order.priority}
@@ -187,21 +147,13 @@ export function MtoBridge() {
                         {order.mods.map((mod, i) => (
                           <span
                             key={i}
-<<<<<<< HEAD
-                            className="rounded-full border border-indigo-100 bg-indigo-50 px-2 py-0.5 text-[9px] font-bold text-indigo-600"
-=======
                             className="text-accent-primary bg-accent-primary/10 border-accent-primary/20 rounded-full border px-2 py-0.5 text-[9px] font-bold"
->>>>>>> recover/cabinet-wip-from-stash
                           >
                             {mod}
                           </span>
                         ))}
                       </div>
-<<<<<<< HEAD
-                      <p className="text-[9px] font-bold uppercase tracking-tighter text-slate-400">
-=======
                       <p className="text-text-muted text-[9px] font-bold uppercase tracking-tighter">
->>>>>>> recover/cabinet-wip-from-stash
                         {order.time} • ID: {order.id}
                       </p>
                     </div>
@@ -209,11 +161,7 @@ export function MtoBridge() {
 
                   <div className="flex items-center gap-3">
                     <div className="text-right">
-<<<<<<< HEAD
-                      <p className="mb-1 text-[9px] font-black uppercase text-slate-400">Статус</p>
-=======
                       <p className="text-text-muted mb-1 text-[9px] font-black uppercase">Статус</p>
->>>>>>> recover/cabinet-wip-from-stash
                       <div className="flex items-center gap-2">
                         <div
                           className={cn(
@@ -222,26 +170,15 @@ export function MtoBridge() {
                               ? 'bg-emerald-500'
                               : order.status === 'cutting'
                                 ? 'bg-amber-500'
-<<<<<<< HEAD
-                                : 'bg-slate-300'
-                          )}
-                        />
-                        <span className="text-[10px] font-black uppercase text-slate-900">
-=======
                                 : 'bg-border-default'
                           )}
                         />
                         <span className="text-text-primary text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                           {order.status}
                         </span>
                       </div>
                     </div>
-<<<<<<< HEAD
-                    <Button className="h-12 rounded-2xl bg-slate-900 px-6 text-[10px] font-black uppercase tracking-widest text-white shadow-lg transition-colors hover:bg-indigo-600">
-=======
                     <Button className="bg-text-primary hover:bg-accent-primary h-12 rounded-2xl px-6 text-[10px] font-black uppercase tracking-widest text-white shadow-lg transition-colors">
->>>>>>> recover/cabinet-wip-from-stash
                       Взять в работу
                     </Button>
                   </div>
@@ -252,31 +189,19 @@ export function MtoBridge() {
 
           {/* MTO Config Sidebar */}
           <div className="space-y-4 lg:col-span-4">
-<<<<<<< HEAD
-            <div className="relative space-y-4 overflow-hidden rounded-xl bg-slate-900 p-4 text-white">
-=======
             <div className="bg-text-primary relative space-y-4 overflow-hidden rounded-xl p-4 text-white">
->>>>>>> recover/cabinet-wip-from-stash
               <div className="absolute right-0 top-0 p-4 opacity-10">
                 <Scissors className="h-32 w-32" />
               </div>
 
               <div className="relative z-10 space-y-1">
-<<<<<<< HEAD
-                <p className="text-[10px] font-black uppercase tracking-widest text-indigo-400">
-=======
                 <p className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   MTO Capacity
                 </p>
                 <h3 className="text-sm font-black tabular-nums">
                   12 <span className="text-sm text-white/40">/ 20</span>
                 </h3>
-<<<<<<< HEAD
-                <p className="text-[9px] font-bold uppercase text-indigo-300/60">
-=======
                 <p className="text-accent-primary/60 text-[9px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   Слотов забронировано на сегодня
                 </p>
               </div>
@@ -293,11 +218,7 @@ export function MtoBridge() {
                 </div>
                 <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4">
                   <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                    <MessageSquare className="h-4 w-4 text-indigo-400" />
-=======
                     <MessageSquare className="text-accent-primary h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
                     <span className="text-[10px] font-black uppercase">Client Live Sync</span>
                   </div>
                   <Badge className="border-none bg-emerald-500 text-[8px] font-black uppercase text-white">
@@ -306,11 +227,7 @@ export function MtoBridge() {
                 </div>
               </div>
 
-<<<<<<< HEAD
-              <Button className="relative z-10 h-10 w-full rounded-2xl bg-indigo-600 text-[10px] font-black uppercase tracking-widest text-white shadow-2xl transition-colors hover:bg-indigo-500">
-=======
               <Button className="bg-accent-primary hover:bg-accent-primary relative z-10 h-10 w-full rounded-2xl text-[10px] font-black uppercase tracking-widest text-white shadow-2xl transition-colors">
->>>>>>> recover/cabinet-wip-from-stash
                 Открыть прием заказов
               </Button>
             </div>

@@ -36,11 +36,7 @@ export default function ProductPage({
 
   if (loading) {
     return (
-<<<<<<< HEAD
-      <div className="container mx-auto px-4 py-4">
-=======
       <RegistryPageShell className="max-w-7xl p-4">
->>>>>>> recover/cabinet-wip-from-stash
         <div className="grid gap-3 md:grid-cols-2 lg:gap-3">
           <div className="flex flex-col gap-3">
             <Skeleton className="aspect-[4/5] w-full rounded-lg" />

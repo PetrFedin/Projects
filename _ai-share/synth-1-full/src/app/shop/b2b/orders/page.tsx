@@ -35,28 +35,9 @@ export default function ShopB2BOrdersPage() {
     : ordersWithPayment;
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <ShoppingCart className="h-6 w-6" /> Мои заказы
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Список заказов. Фильтр по бренду для агента: один вход — несколько брендов.
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="max-w-4xl space-y-6" data-testid={tid.page('shop-b2b-orders')}>
       <ShopB2bContentHeader lead="Список заказов; фильтр по бренду для агента — один вход, несколько брендов." />
       <ShopAnalyticsSegmentErpStrip />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader className="pb-2">
@@ -107,30 +88,18 @@ export default function ShopB2BOrdersPage() {
           </CardHeader>
           <CardContent>
             {filteredOrders.length === 0 ? (
-<<<<<<< HEAD
-              <p className="text-sm text-slate-500">Нет заказов по выбранному фильтру.</p>
-=======
               <p className="text-text-secondary text-sm">Нет заказов по выбранному фильтру.</p>
->>>>>>> recover/cabinet-wip-from-stash
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-<<<<<<< HEAD
-                    <tr className="border-b border-slate-200">
-                      <th className="py-2 text-left font-medium">Заказ</th>
-=======
                     <tr className="border-border-default border-b">
                       <th className="py-2 text-left font-medium">ID заказа опта</th>
->>>>>>> recover/cabinet-wip-from-stash
                       <th className="py-2 text-left font-medium">Бренд</th>
                       <th className="py-2 text-left font-medium">Статус</th>
                       <th className="py-2 text-right font-medium">Сумма</th>
                       <th className="py-2 text-left font-medium">Оплата</th>
-<<<<<<< HEAD
-=======
                       <th className="whitespace-nowrap py-2 text-right font-medium">Быстро</th>
->>>>>>> recover/cabinet-wip-from-stash
                     </tr>
                   </thead>
                   <tbody>
@@ -151,11 +120,6 @@ export default function ShopB2BOrdersPage() {
                           </Badge>
                         </td>
                         <td className="py-2 text-right font-medium">{o.amount}</td>
-<<<<<<< HEAD
-                        <td className="py-2 text-[10px] text-slate-500">
-                          {o.paymentStatus ?? '—'}
-                        </td>
-=======
                         <td className="text-text-secondary py-2 text-[10px]">
                           {o.paymentStatus ?? '—'}
                         </td>
@@ -181,7 +145,6 @@ export default function ShopB2BOrdersPage() {
                             </Link>
                           </div>
                         </td>
->>>>>>> recover/cabinet-wip-from-stash
                       </tr>
                     ))}
                   </tbody>
@@ -201,14 +164,6 @@ export default function ShopB2BOrdersPage() {
           <Link href={ROUTES.shop.b2bFinance}>Финансы партнёра</Link>
         </Button>
       </div>
-<<<<<<< HEAD
-      <RelatedModulesBlock
-        links={getShopB2BHubLinks()}
-        title="Агентский кабинет, финансы"
-        className="mt-6"
-      />
-    </div>
-=======
 
       <div className="border-border-subtle flex flex-wrap items-center gap-2 border-t pt-4">
         <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
@@ -235,6 +190,5 @@ export default function ShopB2BOrdersPage() {
         className="mt-6"
       />
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

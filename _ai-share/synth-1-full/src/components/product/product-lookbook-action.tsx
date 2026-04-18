@@ -43,11 +43,7 @@ export function ProductLookbookAction({ product }: Props) {
         <Button
           variant="outline"
           size="sm"
-<<<<<<< HEAD
-          className="w-full gap-2 border-violet-300 text-xs text-violet-700 hover:bg-violet-50"
-=======
           className="border-accent-primary/30 text-accent-primary hover:bg-accent-primary/10 w-full gap-2 text-xs"
->>>>>>> recover/cabinet-wip-from-stash
         >
           <FolderPlus className="h-3.5 w-3.5" />В проект лукбука
         </Button>
@@ -66,11 +62,7 @@ export function ProductLookbookAction({ product }: Props) {
               <Button
                 key={p.id}
                 variant="ghost"
-<<<<<<< HEAD
-                className={`h-auto justify-between border px-4 py-3 ${isAdded ? 'border-violet-200 bg-violet-50' : ''}`}
-=======
                 className={`h-auto justify-between border px-4 py-3 ${isAdded ? 'bg-accent-primary/10 border-accent-primary/25' : ''}`}
->>>>>>> recover/cabinet-wip-from-stash
                 onClick={() => !isAdded && handleAdd(p.id, p.title)}
                 disabled={isAdded}
               >
@@ -81,11 +73,7 @@ export function ProductLookbookAction({ product }: Props) {
                   </p>
                 </div>
                 {isAdded ? (
-<<<<<<< HEAD
-                  <Check className="h-4 w-4 text-violet-600" />
-=======
                   <Check className="text-accent-primary h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
                 ) : (
                   <Folder className="h-4 w-4 text-muted-foreground" />
                 )}

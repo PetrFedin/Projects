@@ -287,11 +287,7 @@ export default function AIDashboard() {
                   </Link>
                 </Button>
                 <Button variant="outline" className="h-auto flex-col py-4" asChild>
-<<<<<<< HEAD
-                  <Link href="/u?tab=wardrobe">
-=======
                   <Link href="/client/me?tab=wardrobe">
->>>>>>> recover/cabinet-wip-from-stash
                     <Heart className="mb-2 h-5 w-5" />
                     <span className="text-xs">Избранное</span>
                   </Link>
@@ -303,11 +299,7 @@ export default function AIDashboard() {
                   </Link>
                 </Button>
                 <Button variant="outline" className="h-auto flex-col py-4" asChild>
-<<<<<<< HEAD
-                  <Link href="/u?tab=payments">
-=======
                   <Link href="/client/me?tab=payments">
->>>>>>> recover/cabinet-wip-from-stash
                     <Gift className="mb-2 h-5 w-5" />
                     <span className="text-xs">Бонусы</span>
                   </Link>
@@ -340,11 +332,7 @@ export default function AIDashboard() {
                   insight.type === 'opportunity' &&
                     'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/20',
                   insight.type === 'achievement' &&
-<<<<<<< HEAD
-                    'border-purple-200 bg-purple-50 dark:border-purple-800 dark:bg-purple-950/20'
-=======
                     'bg-accent-primary/10 dark:bg-bg-surface2/80 border-accent-primary/25 dark:border-border-default'
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               >
                 <div className="flex items-start justify-between">
@@ -356,11 +344,7 @@ export default function AIDashboard() {
                         <TrendingUp className="h-4 w-4 text-green-600" />
                       )}
                       {insight.type === 'achievement' && (
-<<<<<<< HEAD
-                        <Award className="h-4 w-4 text-purple-600" />
-=======
                         <Award className="text-accent-primary h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                       <h4 className="text-sm font-semibold">{insight.title}</h4>
                       {insight.priority === 'high' && (

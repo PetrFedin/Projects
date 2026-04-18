@@ -31,26 +31,6 @@ const MOCK_TENDERS = [
 /** B2B-Center: тендеры и аукционы закупок. */
 export default function B2BTendersPage() {
   return (
-<<<<<<< HEAD
-    <B2BModulePage
-      title="Тендеры B2B"
-      description="Закупки и аукционы (B2B-Center) — участие в торгах, RFQ, поставщики"
-      moduleId="tenders"
-      icon={Gavel}
-      phase={1}
-    >
-      <Card>
-        <CardHeader>
-          <CardTitle>Активные тендеры</CardTitle>
-          <CardDescription>
-            Участие в закупочных торгах, запросы котировок, аукционы.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="grid gap-2 text-sm">
-            <p className="text-slate-600">
-              Синхронизация с B2B-Center: просмотр тендеров, подача заявок, торги.
-=======
     <RegistryPageShell className="max-w-4xl space-y-6">
       <B2BModulePage
         title="Тендеры B2B"
@@ -92,7 +72,6 @@ export default function B2BTendersPage() {
             <p className="text-text-secondary text-sm">
               После выбора победителя условия можно перенести в B2B-заказ и отследить исполнение в
               Fulfillment и у бренда.
->>>>>>> recover/cabinet-wip-from-stash
             </p>
             <div className="flex flex-wrap gap-2">
               <Button size="sm" variant="outline" asChild>
@@ -104,12 +83,9 @@ export default function B2BTendersPage() {
                 <Link href={ROUTES.shop.b2bRfq}>
                   <FileText className="mr-1 h-3 w-3" /> RFQ
                 </Link>
-<<<<<<< HEAD
-=======
               </Button>
               <Button size="sm" variant="outline" asChild>
                 <Link href={ROUTES.shop.b2bFulfillmentDashboard}>Fulfillment</Link>
->>>>>>> recover/cabinet-wip-from-stash
               </Button>
             </div>
           </CardContent>

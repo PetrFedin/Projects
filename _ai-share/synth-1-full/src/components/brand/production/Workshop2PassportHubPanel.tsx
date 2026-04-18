@@ -213,11 +213,7 @@ export function Workshop2PassportHubPanel({
                     </span>
                   ) : null}
                 </div>
-<<<<<<< HEAD
-                <p className="mt-0.5 text-[10px] leading-snug text-slate-500">
-=======
                 <p className="text-text-secondary mt-0.5 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                   Прогресс по блокам и гейты — ниже всегда; дорожная карта, аудит и справка —
                   разверните
                 </p>
@@ -254,69 +250,43 @@ export function Workshop2PassportHubPanel({
               </PopoverTrigger>
               <PopoverContent className="w-80 space-y-3 text-xs" align="end">
                 <div>
-<<<<<<< HEAD
-                  <p className="font-semibold text-violet-900">Дизайнер / бренд</p>
-                  <p className="mt-1 leading-snug text-slate-600">
-=======
                   <p className="text-text-primary font-semibold">Дизайнер / бренд</p>
                   <p className="text-text-secondary mt-1 leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                     Закрепите аудиторию и карточку модели (L3), затем бриф и обязательные поля
                     старта — чтобы визуал и материалы ссылались на ту же ветку каталога.
                   </p>
                 </div>
                 <div>
                   <p className="font-semibold text-amber-900">Менеджер</p>
-<<<<<<< HEAD
-                  <p className="mt-1 leading-snug text-slate-600">
-=======
                   <p className="text-text-secondary mt-1 leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                     Даты, MOQ, ответственный и критичность срока — якорь для SLA и пульса; копируйте
                     SKU в переписку одной кнопкой.
                   </p>
                 </div>
                 <div>
                   <p className="font-semibold text-teal-900">Технолог</p>
-<<<<<<< HEAD
-                  <p className="mt-1 leading-snug text-slate-600">
-=======
                   <p className="text-text-secondary mt-1 leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                     Паспорт задаёт контекст изделия; исполнимость узлов и состава проверяйте в
                     материалах, мерках и конструкции после закрытия стартовых полей.
                   </p>
                 </div>
                 <div>
                   <p className="font-semibold text-orange-950">Снабжение / PD</p>
-<<<<<<< HEAD
-                  <p className="mt-1 leading-snug text-slate-600">
-=======
                   <p className="text-text-secondary mt-1 leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                     В материалах — BOM-ref со скетча, нормы, дельта к образцу и поток замен; в
                     паспорте держите SKU и коды синхронно с закупкой.
                   </p>
                 </div>
                 <div>
                   <p className="font-semibold text-rose-900">ОТК</p>
-<<<<<<< HEAD
-                  <p className="mt-1 leading-snug text-slate-600">
-=======
                   <p className="text-text-secondary mt-1 leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                     Критичный аудит паспорта и метки qc/construction на скетче должны сходиться;
                     handoff из визуала ведёт на вкладку ОТК.
                   </p>
                 </div>
                 <div>
-<<<<<<< HEAD
-                  <p className="font-semibold text-slate-800">Производство</p>
-                  <p className="mt-1 leading-snug text-slate-600">
-=======
                   <p className="text-text-primary font-semibold">Производство</p>
                   <p className="text-text-secondary mt-1 leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                     Режим цеха для скетча и блок норм BOM — чтобы строки сырья совпадали с тем, что
                     уходит в раскрой.
                   </p>
@@ -329,11 +299,7 @@ export function Workshop2PassportHubPanel({
         <CollapsibleContent className="space-y-4 overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
           <Collapsible
             defaultOpen={false}
-<<<<<<< HEAD
-            className="w-full min-w-0 rounded-md border border-indigo-100/80 bg-white/50 px-2 py-2"
-=======
             className="border-accent-primary/20 w-full min-w-0 rounded-md border bg-white/50 px-2 py-2"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <CollapsibleTrigger asChild>
               <button
@@ -344,11 +310,7 @@ export function Workshop2PassportHubPanel({
               </button>
             </CollapsibleTrigger>
             <CollapsibleContent className="space-y-1.5 pt-1.5">
-<<<<<<< HEAD
-              <p className="text-[11px] leading-snug text-slate-600">
-=======
               <p className="text-text-secondary text-[11px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                 Одна ось для визуала, материалов и мерок: без расхождений в справочнике и сроках по
                 коллекции.
               </p>
@@ -431,24 +393,14 @@ export function Workshop2PassportHubPanel({
               'scroll-mt-28 rounded-lg border px-3 py-2.5 text-[11px]',
               auditRoleOk && passportCriticalAuditSummaries.length > 0
                 ? 'border-rose-200/90 bg-rose-50/90 text-rose-950'
-<<<<<<< HEAD
-                : 'border-slate-200/90 bg-slate-50/80 text-slate-800'
-=======
                 : 'border-border-default/90 bg-bg-surface2/80 text-text-primary'
->>>>>>> recover/cabinet-wip-from-stash
             )}
           >
             <p className="font-semibold">Аудит паспорта (фильтр журнала по критичным полям)</p>
             {!auditRoleOk ? (
-<<<<<<< HEAD
-              <p className="mt-1.5 leading-snug text-slate-600">
-                Сводка по ключевым словам{' '}
-                <span className="font-mono text-[10px] text-slate-500">
-=======
               <p className="text-text-secondary mt-1.5 leading-snug">
                 Сводка по ключевым словам{' '}
                 <span className="text-text-secondary font-mono text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                   W2_PASSPORT_AUDIT_SUMMARY_KEYWORDS
                 </span>{' '}
                 доступна в режимах ТЗ: менеджер, комплаенс, технолог, финансы — переключите{' '}
@@ -468,11 +420,7 @@ export function Workshop2PassportHubPanel({
                 ) : null}
               </>
             ) : (
-<<<<<<< HEAD
-              <p className="mt-1.5 leading-snug text-slate-600">
-=======
               <p className="text-text-secondary mt-1.5 leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                 Сейчас нет строк журнала, совпадающих с фильтром критичных полей паспорта (
                 <span className="font-mono text-[10px]">filterPassportCriticalAuditLines</span>).
               </p>
@@ -481,20 +429,12 @@ export function Workshop2PassportHubPanel({
 
           <div
             id="w2-passport-readonly"
-<<<<<<< HEAD
-            className="flex scroll-mt-28 flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-200 bg-slate-50/80 px-3 py-2 text-[11px] text-slate-700"
-=======
             className="border-border-default bg-bg-surface2/80 text-text-primary flex scroll-mt-28 flex-wrap items-center justify-between gap-2 rounded-lg border px-3 py-2 text-[11px]"
->>>>>>> recover/cabinet-wip-from-stash
           >
             {readOnlyShareUrl ? (
               <>
                 <p className="min-w-0 leading-snug">
-<<<<<<< HEAD
-                  <span className="font-semibold text-slate-800">Внешняя сторона:</span> ссылка с
-=======
                   <span className="text-text-primary font-semibold">Внешняя сторона:</span> ссылка с
->>>>>>> recover/cabinet-wip-from-stash
                   режимом фабрики и просмотром скетча — для цеха или контрагента без редактирования
                   (
                   <span className="font-mono text-[10px]">
@@ -514,13 +454,8 @@ export function Workshop2PassportHubPanel({
                 </Button>
               </>
             ) : (
-<<<<<<< HEAD
-              <p className="min-w-0 leading-snug text-slate-600">
-                <span className="font-semibold text-slate-800">Read-only выдача:</span> ссылка с{' '}
-=======
               <p className="text-text-secondary min-w-0 leading-snug">
                 <span className="text-text-primary font-semibold">Read-only выдача:</span> ссылка с{' '}
->>>>>>> recover/cabinet-wip-from-stash
                 <span className="font-mono text-[10px]">w2view=factory</span> и полом скетча
                 появляется, когда она сформирована для артикула; при необходимости сформируйте из
                 полного режима или проверьте права.
@@ -654,11 +589,7 @@ export function Workshop2PassportHubPanel({
           <p className="text-text-secondary text-[10px] font-bold uppercase tracking-wide">
             Паспорт для маршрута · {doneCp}/{totalCp} блоков
           </p>
-<<<<<<< HEAD
-          <span className="text-[11px] font-semibold tabular-nums text-indigo-800">
-=======
           <span className="text-accent-primary text-[11px] font-semibold tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
             ≈ {model.combinedPct}%
           </span>
         </div>
@@ -791,11 +722,7 @@ export function Workshop2PassportHubPanel({
         </button>
       )}
 
-<<<<<<< HEAD
-      <p className="text-[10px] leading-snug text-slate-500">
-=======
       <p className="text-text-secondary text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
         Локальное сохранение: досье хранится в браузере (localStorage). Тяжёлые фото в референсах и
         скетче могут не сохраниться — сожмите файлы или выгрузите внешними ссылками; при ошибке
         квоты появится предупреждение у метки времени сохранения.

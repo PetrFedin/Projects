@@ -176,22 +176,6 @@ export default function BrandIntegrationsJoorPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.brand.integrations}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight">JOOR</h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Остатки (v2), цены (v4), импорт заказов, синхрон стилей и клиентов.
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="JOOR"
@@ -204,7 +188,6 @@ export default function BrandIntegrationsJoorPage() {
           </Button>
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <div className="grid gap-4">
         {/* Inventory v2 */}
@@ -322,11 +305,7 @@ export default function BrandIntegrationsJoorPage() {
                   </li>
                 ))}
                 {orders.length > 5 && (
-<<<<<<< HEAD
-                  <li className="px-3 py-2 text-slate-500">… ещё {orders.length - 5}</li>
-=======
                   <li className="text-text-secondary px-3 py-2">… ещё {orders.length - 5}</li>
->>>>>>> recover/cabinet-wip-from-stash
                 )}
               </ul>
             )}
@@ -394,11 +373,7 @@ export default function BrandIntegrationsJoorPage() {
             B2B заказы
           </Button>
         </Link>
-<<<<<<< HEAD
-        <Link href={ROUTES.brand.integrationsNuorder}>
-=======
         <Link href={ROUTES.brand.integrationsNuOrder}>
->>>>>>> recover/cabinet-wip-from-stash
           <Button variant="ghost" size="sm">
             NuOrder
           </Button>

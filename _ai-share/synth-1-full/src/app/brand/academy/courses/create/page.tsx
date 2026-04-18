@@ -42,11 +42,7 @@ export default function CreateBrandCoursePage() {
         title="Конструктор курса"
         description="Модули, уроки, тесты, сертификация. Скоро: полный редактор курсов."
       >
-<<<<<<< HEAD
-        <Card className="rounded-xl border border-dashed border-indigo-200 bg-indigo-50/20">
-=======
         <Card className="border-accent-primary/30 bg-accent-primary/10 rounded-xl border border-dashed">
->>>>>>> recover/cabinet-wip-from-stash
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <BookOpen className="h-5 w-5" /> Конструктор курса
@@ -57,13 +53,6 @@ export default function CreateBrandCoursePage() {
           </CardHeader>
           <CardContent>
             <div className="flex flex-col items-center justify-center py-12 text-center">
-<<<<<<< HEAD
-              <Plus className="mb-4 h-12 w-12 text-indigo-400" />
-              <p className="mb-2 text-sm font-medium text-slate-600">
-                Редактор курсов в разработке
-              </p>
-              <p className="mb-4 text-[11px] text-slate-500">Модули, видео, тесты, сертификаты</p>
-=======
               <Plus className="text-accent-primary mb-4 h-12 w-12" />
               <p className="text-text-secondary mb-2 text-sm font-medium">
                 Редактор курсов в разработке
@@ -71,7 +60,6 @@ export default function CreateBrandCoursePage() {
               <p className="text-text-secondary mb-4 text-[11px]">
                 Модули, видео, тесты, сертификаты
               </p>
->>>>>>> recover/cabinet-wip-from-stash
               <Button variant="outline" asChild>
                 <Link href={ROUTES.brand.academy}>← Назад в Академию</Link>
               </Button>

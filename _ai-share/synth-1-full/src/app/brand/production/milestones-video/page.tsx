@@ -30,11 +30,7 @@ const MS_DEFAULT: { v: 1; milestones: MilestoneWithVideo[] } = {
       orderId: 'PO-201',
       milestoneType: 'cutting_done',
       milestoneLabel: 'Раскрой завершён',
-<<<<<<< HEAD
-      status: 'approved' as const,
-=======
       status: 'approved',
->>>>>>> recover/cabinet-wip-from-stash
       completedAt: '2026-03-09T12:00:00Z',
       approvedAt: '2026-03-09T14:00:00Z',
     },
@@ -43,11 +39,7 @@ const MS_DEFAULT: { v: 1; milestones: MilestoneWithVideo[] } = {
       orderId: 'PO-201',
       milestoneType: 'assembly_done',
       milestoneLabel: 'Сборка завершена',
-<<<<<<< HEAD
-      status: 'video_uploaded' as const,
-=======
       status: 'video_uploaded',
->>>>>>> recover/cabinet-wip-from-stash
       completedAt: '2026-03-10T18:00:00Z',
     },
     {
@@ -55,15 +47,9 @@ const MS_DEFAULT: { v: 1; milestones: MilestoneWithVideo[] } = {
       orderId: 'PO-201',
       milestoneType: 'final_qc',
       milestoneLabel: 'Финальный ОК',
-<<<<<<< HEAD
-      status: 'pending' as const,
-    },
-  ] satisfies MilestoneWithVideo[],
-=======
       status: 'pending',
     },
   ],
->>>>>>> recover/cabinet-wip-from-stash
 };
 
 const statusLabels: Record<MilestoneWithVideo['status'], string> = {
@@ -86,11 +72,7 @@ export default function MilestonesVideoPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Вехи с видео-подтверждением"
         description={
@@ -111,11 +93,7 @@ export default function MilestonesVideoPage() {
               <Link href={ROUTES.brand.documents}>ЭДО</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href={ROUTES.brand.production}>Production</Link>
-=======
               <Link href={ROUTES.brand.production}>Производство</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -127,11 +105,7 @@ export default function MilestonesVideoPage() {
               <ArrowLeft className="h-4 w-4" />
             </Button>
           </Link>
-<<<<<<< HEAD
-          <h1 className="text-2xl font-bold uppercase">Milestones with Video Proof</h1>
-=======
           <h1 className="text-2xl font-bold uppercase">Вехи с видео-подтверждением</h1>
->>>>>>> recover/cabinet-wip-from-stash
         </div>
         <Button
           size="sm"
@@ -159,11 +133,7 @@ export default function MilestonesVideoPage() {
             {data.milestones.map((m, i) => (
               <li
                 key={m.id}
-<<<<<<< HEAD
-                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3"
-=======
                 className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <div>
                   <p className="font-medium">{m.milestoneLabel}</p>

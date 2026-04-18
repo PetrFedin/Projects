@@ -39,11 +39,7 @@ export default function BodyScannerPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-lg space-y-6 px-4 py-4">
-=======
     <RegistryPageShell className="max-w-lg space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <header className="space-y-2 text-center">
         <h1 className="font-headline text-base font-bold">AI Body Scanner</h1>
         <p className="text-muted-foreground">Подберите идеальный размер за 30 секунд</p>

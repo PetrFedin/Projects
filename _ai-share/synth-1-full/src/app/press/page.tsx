@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-export default function PressPage() {
-  return (
-    <div className="container mx-auto px-4 py-4 text-center">
-      <h1 className="font-headline text-sm font-bold">Пресса</h1>
-      <p className="mx-auto mt-4 max-w-2xl text-sm text-muted-foreground">
-        Материалы для прессы и наши последние публикации.
-      </p>
-    </div>
-=======
 import Link from 'next/link';
 import { tid } from '@/lib/ui/test-ids';
 import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
@@ -77,6 +67,5 @@ export default function PressPage() {
         </CardContent>
       </Card>
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

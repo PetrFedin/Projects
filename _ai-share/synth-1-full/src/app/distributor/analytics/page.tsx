@@ -71,15 +71,6 @@ export default function DistributorAnalyticsPage() {
   const stats = periodStats[period];
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
-      <header className="flex flex-col justify-between gap-3 border-b border-slate-100 pb-4 sm:flex-row sm:items-start">
-        <div>
-          <h1 className="flex items-center gap-2 text-xl font-black uppercase tracking-tight">
-            <TrendingUp className="h-6 w-6 text-indigo-600" /> Аналитика дистрибуции
-          </h1>
-          <p className="mt-1 text-sm text-slate-500">
-=======
     <RegistryPageShell className="max-w-6xl space-y-6 pb-16">
       <header className="border-border-subtle flex flex-col justify-between gap-3 border-b pb-4 sm:flex-row sm:items-start">
         <div>
@@ -87,7 +78,6 @@ export default function DistributorAnalyticsPage() {
             <TrendingUp className="text-accent-primary h-6 w-6" /> Аналитика дистрибуции
           </h1>
           <p className="text-text-secondary mt-1 text-sm">
->>>>>>> recover/cabinet-wip-from-stash
             Региональный спрос, топ ритейлеров, динамика заказов и выручки.
           </p>
         </div>
@@ -141,11 +131,7 @@ export default function DistributorAnalyticsPage() {
         <Card className="border-border-subtle rounded-xl border">
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-sm">
-<<<<<<< HEAD
-              <BarChart3 className="h-4 w-4 text-indigo-600" /> Топ ритейлеров по объёму
-=======
               <BarChart3 className="text-accent-primary h-4 w-4" /> Топ ритейлеров по объёму
->>>>>>> recover/cabinet-wip-from-stash
             </CardTitle>
             <CardDescription>За выбранный период</CardDescription>
           </CardHeader>
@@ -153,17 +139,10 @@ export default function DistributorAnalyticsPage() {
             {topRetailersByVolume.map((r, i) => (
               <div
                 key={r.name}
-<<<<<<< HEAD
-                className="flex items-center justify-between border-b border-slate-50 py-2 last:border-0"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="w-5 text-[10px] font-bold text-slate-400">{i + 1}</span>
-=======
                 className="border-border-subtle flex items-center justify-between border-b py-2 last:border-0"
               >
                 <div className="flex items-center gap-2">
                   <span className="text-text-muted w-5 text-[10px] font-bold">{i + 1}</span>
->>>>>>> recover/cabinet-wip-from-stash
                   <span className="text-sm font-medium">{r.name}</span>
                 </div>
                 <div className="text-right">
@@ -177,17 +156,10 @@ export default function DistributorAnalyticsPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-<<<<<<< HEAD
-        <Card className="rounded-xl border border-slate-100">
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-sm">
-              <MapPin className="h-4 w-4 text-slate-600" /> Выручка по регионам
-=======
         <Card className="border-border-subtle rounded-xl border">
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-sm">
               <MapPin className="text-text-secondary h-4 w-4" /> Выручка по регионам
->>>>>>> recover/cabinet-wip-from-stash
             </CardTitle>
             <CardDescription>Доля и рост к прошлому периоду</CardDescription>
           </CardHeader>
@@ -197,11 +169,7 @@ export default function DistributorAnalyticsPage() {
                 <li key={r.name} className="flex items-center justify-between gap-4">
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium">{r.name}</p>
-<<<<<<< HEAD
-                    <div className="mt-1 h-2 overflow-hidden rounded-full bg-slate-100">
-=======
                     <div className="bg-bg-surface2 mt-1 h-2 overflow-hidden rounded-full">
->>>>>>> recover/cabinet-wip-from-stash
                       <div
                         className="bg-accent-primary h-full rounded-full"
                         style={{ width: `${r.share}%` }}
@@ -218,22 +186,14 @@ export default function DistributorAnalyticsPage() {
           </CardContent>
         </Card>
 
-<<<<<<< HEAD
-        <Card className="rounded-xl border border-slate-100">
-=======
         <Card className="border-border-subtle rounded-xl border">
->>>>>>> recover/cabinet-wip-from-stash
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div>
               <CardTitle className="text-sm">Недавние заказы</CardTitle>
               <CardDescription>Последние B2B-заказы от ритейлеров</CardDescription>
             </div>
             <Button variant="ghost" size="sm" className="h-7 text-[10px]" asChild>
-<<<<<<< HEAD
-              <Link href="/distributor/orders" className="gap-1">
-=======
               <Link href={ROUTES.distributor.orders} className="gap-1">
->>>>>>> recover/cabinet-wip-from-stash
                 Все заказы <ArrowRight className="h-3 w-3" />
               </Link>
             </Button>

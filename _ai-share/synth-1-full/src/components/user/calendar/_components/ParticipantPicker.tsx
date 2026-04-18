@@ -118,13 +118,9 @@ export function ParticipantPicker({
                     onClick={() => toggle(a.uid, a.name, a.role)}
                     className={cn(
                       'flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors',
-<<<<<<< HEAD
-                      selectedIds.has(a.uid) ? 'bg-indigo-50 text-indigo-700' : 'hover:bg-slate-50'
-=======
                       selectedIds.has(a.uid)
                         ? 'bg-accent-primary/10 text-accent-primary'
                         : 'hover:bg-bg-surface2'
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     {selectedIds.has(a.uid) ? (
@@ -133,11 +129,7 @@ export function ParticipantPicker({
                       <span className="w-4" />
                     )}
                     <span className="truncate">{a.name}</span>
-<<<<<<< HEAD
-                    <span className="ml-auto text-[10px] text-slate-400">{a.role}</span>
-=======
                     <span className="text-text-muted ml-auto text-[10px]">{a.role}</span>
->>>>>>> recover/cabinet-wip-from-stash
                   </button>
                 ))}
               </div>

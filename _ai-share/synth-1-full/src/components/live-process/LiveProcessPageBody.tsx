@@ -211,11 +211,7 @@ export function LiveProcessPageBody({
             <h1 className="truncate text-xl font-bold uppercase tracking-tight md:text-2xl">
               LIVE: {definition.name}
             </h1>
-<<<<<<< HEAD
-            <p className="mt-0.5 line-clamp-2 text-xs text-slate-500 md:text-sm">
-=======
             <p className="text-text-secondary mt-0.5 line-clamp-2 text-xs md:text-sm">
->>>>>>> recover/cabinet-wip-from-stash
               {embedded
                 ? `${definition.description} Контекст коллекции совпадает с выбором на вкладке «Коллекция», если задан.`
                 : definition.description}
@@ -256,11 +252,7 @@ export function LiveProcessPageBody({
 
       {/* View switcher + Filters */}
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-<<<<<<< HEAD
-        <div className="flex rounded-lg border bg-slate-50 p-0.5">
-=======
         <div className="bg-bg-surface2 flex rounded-lg border p-0.5">
->>>>>>> recover/cabinet-wip-from-stash
           {[
             { id: 'grid' as ViewMode, icon: LayoutGrid, label: 'Схема' },
             { id: 'kanban' as ViewMode, icon: Columns3, label: 'Kanban' },
@@ -289,13 +281,8 @@ export function LiveProcessPageBody({
       </div>
 
       {showSchemeEditor && (
-<<<<<<< HEAD
-        <div className="mb-6 rounded-lg border border-slate-200 bg-slate-50/50 p-4">
-          <h2 className="mb-3 text-sm font-bold uppercase tracking-tight text-slate-700">
-=======
         <div className="border-border-default bg-bg-surface2/80 mb-6 rounded-lg border p-4">
           <h2 className="text-text-primary mb-3 text-sm font-bold uppercase tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
             Редактор этапов — создание/редактирование без деплоя
           </h2>
           <LiveProcessSchemeEditor
@@ -353,26 +340,15 @@ export function LiveProcessPageBody({
       <div className="mb-6">
         {viewMode === 'grid' && (
           <>
-<<<<<<< HEAD
-            <h2 className="mb-3 text-sm font-bold uppercase tracking-tight text-slate-700">
-              Поэтапная схема: {definition.name}
-              {filteredStages.length !== definition.stages.length && (
-                <span className="ml-2 font-normal text-slate-500">
-=======
             <h2 className="text-text-primary mb-3 text-sm font-bold uppercase tracking-tight">
               Поэтапная схема: {definition.name}
               {filteredStages.length !== definition.stages.length && (
                 <span className="text-text-secondary ml-2 font-normal">
->>>>>>> recover/cabinet-wip-from-stash
                   (показано {filteredStages.length} из {definition.stages.length})
                 </span>
               )}
             </h2>
-<<<<<<< HEAD
-            <p className="mb-4 text-xs text-slate-500">
-=======
             <p className="text-text-secondary mb-4 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
               Выберите ответственных, даты. Наведите на блок — подсветятся связи.
             </p>
             <div className="overflow-x-auto pb-4">
@@ -389,17 +365,10 @@ export function LiveProcessPageBody({
         )}
         {viewMode === 'kanban' && (
           <>
-<<<<<<< HEAD
-            <h2 className="mb-3 text-sm font-bold uppercase tracking-tight text-slate-700">
-              Kanban: этапы — колонки, карточки — инстансы
-            </h2>
-            <p className="mb-4 text-xs text-slate-500">
-=======
             <h2 className="text-text-primary mb-3 text-sm font-bold uppercase tracking-tight">
               Kanban: этапы — колонки, карточки — инстансы
             </h2>
             <p className="text-text-secondary mb-4 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
               Карточка инстанса в колонке текущего этапа. Клик — переход к инстансу.
             </p>
             <ProcessKanbanView
@@ -414,17 +383,10 @@ export function LiveProcessPageBody({
         )}
         {viewMode === 'gantt' && (
           <>
-<<<<<<< HEAD
-            <h2 className="mb-3 text-sm font-bold uppercase tracking-tight text-slate-700">
-              Gantt: этапы по датам
-            </h2>
-            <p className="mb-4 text-xs text-slate-500">
-=======
             <h2 className="text-text-primary mb-3 text-sm font-bold uppercase tracking-tight">
               Gantt: этапы по датам
             </h2>
             <p className="text-text-secondary mb-4 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
               Все этапы инстансов. Даты синхронизируются с календарём.
             </p>
             <ProcessGanttView processId={processId} contextId={contextId || undefined} />
@@ -432,17 +394,10 @@ export function LiveProcessPageBody({
         )}
         {viewMode === 'graph' && (
           <>
-<<<<<<< HEAD
-            <h2 className="mb-3 text-sm font-bold uppercase tracking-tight text-slate-700">
-              Граф: узлы — этапы, рёбра — зависимости
-            </h2>
-            <p className="mb-4 text-xs text-slate-500">
-=======
             <h2 className="text-text-primary mb-3 text-sm font-bold uppercase tracking-tight">
               Граф: узлы — этапы, рёбра — зависимости
             </h2>
             <p className="text-text-secondary mb-4 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
               Наведите на узел — подсветятся связи. Цвет: зелёный — готово, синий — в работе.
             </p>
             <ProcessGraphView stages={definition.stages} runtimes={runtimes} />

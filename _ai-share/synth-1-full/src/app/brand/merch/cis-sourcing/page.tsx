@@ -17,11 +17,7 @@ export default function CisSourcingPage() {
           <div className="rounded-lg bg-emerald-100 p-2">
             <Factory className="h-6 w-6 text-emerald-600" />
           </div>
-<<<<<<< HEAD
-          <h1 className="text-3xl font-bold tracking-tight text-slate-800">
-=======
           <h1 className="text-text-primary text-3xl font-bold tracking-tight">
->>>>>>> recover/cabinet-wip-from-stash
             Local Sourcing Registry (CIS)
           </h1>
         </div>
@@ -35,11 +31,7 @@ export default function CisSourcingPage() {
         {suppliers.map((s) => (
           <Card
             key={s.id}
-<<<<<<< HEAD
-            className="border-2 border-slate-100 p-6 shadow-sm transition-all hover:border-emerald-200"
-=======
             className="border-border-subtle border-2 p-6 shadow-sm transition-all hover:border-emerald-200"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <div className="mb-6 flex items-start justify-between">
               <div className="flex items-center gap-3">
@@ -47,19 +39,11 @@ export default function CisSourcingPage() {
                   <Briefcase className="h-6 w-6 text-emerald-600" />
                 </div>
                 <div>
-<<<<<<< HEAD
-                  <div className="mb-1 text-[10px] font-black uppercase leading-none text-slate-400">
-                    {s.id}
-                  </div>
-                  <h3 className="text-xl font-bold tracking-tight text-slate-800">{s.name}</h3>
-                  <div className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-slate-500">
-=======
                   <div className="text-text-muted mb-1 text-[10px] font-black uppercase leading-none">
                     {s.id}
                   </div>
                   <h3 className="text-text-primary text-xl font-bold tracking-tight">{s.name}</h3>
                   <div className="text-text-secondary mt-1 flex items-center gap-1.5 text-xs font-semibold">
->>>>>>> recover/cabinet-wip-from-stash
                     <MapPin className="h-3.5 w-3.5 text-emerald-500" /> {s.location}
                   </div>
                 </div>
@@ -77,17 +61,6 @@ export default function CisSourcingPage() {
               </div>
             </div>
 
-<<<<<<< HEAD
-            <div className="mb-6 grid grid-cols-2 gap-4 border-t border-slate-50 pt-4">
-              <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-3 text-center shadow-sm">
-                <div className="mb-1 text-[10px] font-black uppercase text-slate-400">
-                  Min Order (MOQ)
-                </div>
-                <div className="text-lg font-black text-slate-800">{s.moq} pcs</div>
-              </div>
-              <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-3 text-center shadow-sm">
-                <div className="mb-1 text-[10px] font-black uppercase text-slate-400">
-=======
             <div className="border-border-subtle mb-6 grid grid-cols-2 gap-4 border-t pt-4">
               <div className="bg-bg-surface2/80 border-border-subtle rounded-lg border p-3 text-center shadow-sm">
                 <div className="text-text-muted mb-1 text-[10px] font-black uppercase">
@@ -97,7 +70,6 @@ export default function CisSourcingPage() {
               </div>
               <div className="bg-bg-surface2/80 border-border-subtle rounded-lg border p-3 text-center shadow-sm">
                 <div className="text-text-muted mb-1 text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                   Certifications
                 </div>
                 <div className="mt-1 flex justify-center gap-1">
@@ -113,11 +85,7 @@ export default function CisSourcingPage() {
               </Button>
               <Button
                 variant="outline"
-<<<<<<< HEAD
-                className="h-10 border-slate-200 text-[11px] font-black uppercase"
-=======
                 className="border-border-default h-10 text-[11px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 Profile
               </Button>
@@ -147,31 +115,18 @@ export default function CisSourcingPage() {
           </Button>
         </Card>
 
-<<<<<<< HEAD
-        <Card className="border-2 border-slate-100 bg-slate-50/20 p-6 shadow-sm">
-          <div className="mb-4 flex items-center gap-3 text-slate-600">
-            <ShieldCheck className="h-5 w-5" />
-            <h3 className="text-sm font-bold uppercase">Audit Reports</h3>
-          </div>
-          <p className="mb-4 text-[11px] font-medium leading-snug text-slate-500">
-=======
         <Card className="border-border-subtle bg-bg-surface2/20 border-2 p-6 shadow-sm">
           <div className="text-text-secondary mb-4 flex items-center gap-3">
             <ShieldCheck className="h-5 w-5" />
             <h3 className="text-sm font-bold uppercase">Audit Reports</h3>
           </div>
           <p className="text-text-secondary mb-4 text-[11px] font-medium leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
             Latest social and quality audit reports for all registered CIS suppliers.
           </p>
           <Button
             size="sm"
             variant="outline"
-<<<<<<< HEAD
-            className="h-8 w-full border-slate-200 text-[10px] font-black uppercase text-slate-700"
-=======
             className="border-border-default text-text-primary h-8 w-full text-[10px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
           >
             View Reports
           </Button>

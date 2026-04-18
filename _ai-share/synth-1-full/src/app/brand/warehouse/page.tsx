@@ -54,44 +54,6 @@ const MOCK_INVENTORY: InventoryItem[] = [
 
 export default function WarehousePage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto space-y-6 px-4 py-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold uppercase">Складской учёт</h1>
-          <p className="text-sm text-slate-500">
-            Инвентарь, остатки, связь с Production и маркировкой
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/brand/production">
-              <Factory className="mr-2 h-4 w-4" /> Production
-            </Link>
-          </Button>
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/brand/logistics/duty-calculator">
-              <Truck className="mr-2 h-4 w-4" /> Duty Calculator
-            </Link>
-          </Button>
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/brand/logistics/consolidation">
-              <Package className="mr-2 h-4 w-4" /> Консолидация
-            </Link>
-          </Button>
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/brand/logistics/shadow-inventory">
-              <ArrowUpFromLine className="mr-2 h-4 w-4" /> Shadow Inventory
-            </Link>
-          </Button>
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/brand/compliance/stock">
-              <QrCode className="mr-2 h-4 w-4" /> КИЗ / Честный ЗНАК
-            </Link>
-          </Button>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="Складской учёт"
@@ -126,7 +88,6 @@ export default function WarehousePage() {
           </div>
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <Card>

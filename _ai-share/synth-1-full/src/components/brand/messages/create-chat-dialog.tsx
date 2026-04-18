@@ -17,11 +17,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Users, Store } from 'lucide-react';
-<<<<<<< HEAD
-=======
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
->>>>>>> recover/cabinet-wip-from-stash
 
 const teamMembers = [
   { value: 'igor', label: 'Игорь (Дизайнер)', avatar: 'https://picsum.photos/seed/team1/40/40' },
@@ -69,14 +66,6 @@ export function CreateChatDialog({
           <DialogTitle>Создать новый чат</DialogTitle>
         </DialogHeader>
         <Tabs defaultValue="team">
-<<<<<<< HEAD
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="team">
-              <Users className="mr-2 h-4 w-4" />С командой
-            </TabsTrigger>
-            <TabsTrigger value="partner">
-              <Store className="mr-2 h-4 w-4" />С партнером
-=======
           {/* cabinetSurface v1 */}
           <TabsList className={cn(cabinetSurface.tabsList, 'w-full')}>
             <TabsTrigger
@@ -96,7 +85,6 @@ export function CreateChatDialog({
               )}
             >
               <Store className="h-4 w-4 shrink-0" />С партнером
->>>>>>> recover/cabinet-wip-from-stash
             </TabsTrigger>
           </TabsList>
           <TabsContent value="team" className="space-y-4 py-4">

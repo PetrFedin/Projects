@@ -35,11 +35,7 @@ const SUB_DEFAULT: { v: 1; orders: SubcontractOrder[] } = {
       workTypeLabel: 'Пошив',
       quantity: 500,
       unit: 'шт',
-<<<<<<< HEAD
-      status: 'in_progress' as const,
-=======
       status: 'in_progress',
->>>>>>> recover/cabinet-wip-from-stash
       requestedAt: '2026-03-05T10:00:00Z',
     },
     {
@@ -51,20 +47,12 @@ const SUB_DEFAULT: { v: 1; orders: SubcontractOrder[] } = {
       workTypeLabel: 'Раскрой',
       quantity: 1200,
       unit: 'шт',
-<<<<<<< HEAD
-      status: 'completed' as const,
-=======
       status: 'completed',
->>>>>>> recover/cabinet-wip-from-stash
       requestedAt: '2026-03-01T08:00:00Z',
       completedAt: '2026-03-08T17:00:00Z',
       actNumber: 'АКТ-2026-014',
     },
-<<<<<<< HEAD
-  ] satisfies SubcontractOrder[],
-=======
   ],
->>>>>>> recover/cabinet-wip-from-stash
 };
 
 const statusLabels: Record<SubcontractOrder['status'], string> = {
@@ -87,11 +75,7 @@ export default function SubcontractorPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Кабинет субподряда"
         description={
@@ -112,11 +96,7 @@ export default function SubcontractorPage() {
               <ArrowLeft className="h-4 w-4" />
             </Button>
           </Link>
-<<<<<<< HEAD
-          <h1 className="text-2xl font-bold uppercase">Subcontractor Hub</h1>
-=======
           <h1 className="text-2xl font-bold uppercase">Кабинет субподряда</h1>
->>>>>>> recover/cabinet-wip-from-stash
         </div>
         <Button
           size="sm"
@@ -143,16 +123,6 @@ export default function SubcontractorPage() {
             {data.orders.map((o, i) => (
               <li
                 key={o.id}
-<<<<<<< HEAD
-                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3"
-              >
-                <div>
-                  <p className="font-medium">{o.subcontractorName}</p>
-                  <p className="text-xs text-slate-500">
-                    {o.workTypeLabel} · {o.orderId} · {o.quantity} {o.unit}
-                  </p>
-                  {o.actNumber && <p className="mt-1 text-xs text-slate-500">Акт: {o.actNumber}</p>}
-=======
                 className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"
               >
                 <div>
@@ -164,7 +134,6 @@ export default function SubcontractorPage() {
                   {o.actNumber && (
                     <p className="text-text-secondary mt-1 text-xs">Акт: {o.actNumber}</p>
                   )}
->>>>>>> recover/cabinet-wip-from-stash
                 </div>
                 <Select
                   value={o.status}

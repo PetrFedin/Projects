@@ -17,42 +17,20 @@ import { getSyndicationStatus } from '@/lib/b2b/content-syndication';
 const MOCK_BRANDS = [
   {
     id: '1',
-<<<<<<< HEAD
-    name: 'Syntha',
-    slug: 'syntha',
-=======
     name: 'Syntha Lab',
     slug: 'syntha-lab',
->>>>>>> recover/cabinet-wip-from-stash
     category: 'Премиум outerwear',
     country: 'РФ',
     status: 'partner' as const,
   },
   {
     id: '2',
-<<<<<<< HEAD
-    name: 'A.P.C.',
-    slug: 'apc',
-    category: 'Минимализм',
-    country: 'Франция',
-    status: 'partner' as const,
-  },
-  {
-    id: '3',
-    name: 'Acne Studios',
-    slug: 'acne-studios',
-    category: 'Сканди',
-    country: 'Швеция',
-    status: 'request' as const,
-  },
-=======
     name: 'Nordic Wool',
     slug: 'nordic-wool',
     category: 'Трикотаж и шерсть',
     country: 'РФ',
     status: 'partner' as const,
   },
->>>>>>> recover/cabinet-wip-from-stash
 ];
 
 export default function DiscoverPage() {
@@ -69,36 +47,6 @@ export default function DiscoverPage() {
     : null;
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <Search className="h-6 w-6" /> Discover
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            JOOR: каталог брендов, поиск поставщиков. Запрос доступа — через «Подать заявку».
-            Fashion Cloud: каталог байера синхронизирован с PIM.
-          </p>
-        </div>
-        {lastSyncedFormatted && (
-          <div className="flex shrink-0 items-center gap-2 text-xs text-slate-500">
-            <Cloud className="h-4 w-4 text-slate-400" />
-            <span>Каталог обновлён: {lastSyncedFormatted}</span>
-            <Button variant="ghost" size="sm" className="h-7 text-indigo-600" asChild>
-              <Link href={ROUTES.shop.b2bCatalog}>
-                <Package className="mr-1 h-3 w-3" /> B2B Каталог
-              </Link>
-            </Button>
-          </div>
-        )}
-      </div>
-=======
     <RegistryPageShell className="max-w-3xl space-y-6">
       <ShopB2bContentHeader
         lead="Каталог брендов для закупки, поиск поставщиков. Запрос доступа — в разделе «Подать заявку». Синхронизация с PIM — при подключении интеграции."
@@ -116,7 +64,6 @@ export default function DiscoverPage() {
           ) : undefined
         }
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <Card className="mb-6">
         <CardHeader>
@@ -125,11 +72,7 @@ export default function DiscoverPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="relative">
-<<<<<<< HEAD
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-=======
             <Search className="text-text-muted absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
->>>>>>> recover/cabinet-wip-from-stash
             <Input
               placeholder="Поиск бренда..."
               value={q}
@@ -141,17 +84,6 @@ export default function DiscoverPage() {
             {MOCK_BRANDS.map((b) => (
               <li
                 key={b.id}
-<<<<<<< HEAD
-                className="flex items-center justify-between rounded-xl border border-slate-200 p-4"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100">
-                    <Store className="h-5 w-5 text-slate-500" />
-                  </div>
-                  <div>
-                    <p className="font-medium">{b.name}</p>
-                    <p className="text-xs text-slate-500">
-=======
                 className="border-border-default flex items-center justify-between rounded-xl border p-4"
               >
                 <div className="flex items-center gap-3">
@@ -161,7 +93,6 @@ export default function DiscoverPage() {
                   <div>
                     <p className="font-medium">{b.name}</p>
                     <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                       {b.category} · {b.country}
                     </p>
                   </div>

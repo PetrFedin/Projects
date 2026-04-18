@@ -13,10 +13,7 @@ import { getCollectionLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { getCollectionById, updateCollection, type CollectionCard } from '@/lib/data/collections';
 import { ArrowLeft, Package, Image, Presentation, Factory, FileText } from 'lucide-react';
-<<<<<<< HEAD
-=======
 import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
->>>>>>> recover/cabinet-wip-from-stash
 
 const productionHref = (collectionId: string) =>
   `${ROUTES.brand.production}?collectionId=${encodeURIComponent(collectionId)}`;
@@ -56,18 +53,12 @@ export default function BrandCollectionCardPage() {
   if (id === undefined) return null;
   if (collection === null) {
     return (
-<<<<<<< HEAD
-      <div className="container mx-auto max-w-4xl px-4 py-8">
-        <p className="text-slate-600">Коллекция не найдена.</p>
-        <Button variant="link" asChild className="mt-2">
-=======
       <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
         <RegistryPageHeader
           title="Коллекция не найдена"
           leadPlain="Проверьте ссылку или вернитесь к списку коллекций."
         />
         <Button variant="link" asChild>
->>>>>>> recover/cabinet-wip-from-stash
           <Link href={ROUTES.brand.collections}>К списку коллекций</Link>
         </Button>
       </RegistryPageShell>
@@ -77,33 +68,6 @@ export default function BrandCollectionCardPage() {
   const links = getCollectionLinks();
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <Button variant="ghost" size="sm" asChild>
-          <Link href={ROUTES.brand.collections} className="inline-flex items-center gap-1 text-sm">
-            <ArrowLeft className="h-4 w-4" />К списку коллекций
-          </Link>
-        </Button>
-        <Badge variant={collection.status === 'archive' ? 'secondary' : 'default'}>
-          {collection.status === 'draft'
-            ? 'Черновик'
-            : collection.status === 'archive'
-              ? 'Архив'
-              : 'Активная'}
-        </Badge>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-xl">{collection.name}</CardTitle>
-          <CardDescription>Сезон: {collection.season}</CardDescription>
-        </CardHeader>
-      </Card>
-
-      <Card>
-        <CardHeader>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title={collection.name}
@@ -131,7 +95,6 @@ export default function BrandCollectionCardPage() {
 
       <Card>
         <CardHeader>
->>>>>>> recover/cabinet-wip-from-stash
           <CardTitle className="flex items-center gap-2 text-sm">
             <FileText className="h-4 w-4" />
             Концепция, ДНК и описание
@@ -188,11 +151,7 @@ export default function BrandCollectionCardPage() {
         <CardContent className="grid gap-3 sm:grid-cols-2">
           <Link
             href={productsHref(collection.id)}
-<<<<<<< HEAD
-            className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50/80 p-4 transition-colors hover:bg-slate-100/80"
-=======
             className="border-border-subtle bg-bg-surface2/80 hover:bg-bg-surface2/80 flex items-center gap-3 rounded-xl border p-4 transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <div className="bg-accent-primary/15 rounded-lg p-2">
               <Package className="text-accent-primary h-5 w-5" />
@@ -204,11 +163,7 @@ export default function BrandCollectionCardPage() {
           </Link>
           <Link
             href={`${ROUTES.brand.media}?collectionId=${encodeURIComponent(collection.id)}`}
-<<<<<<< HEAD
-            className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50/80 p-4 transition-colors hover:bg-slate-100/80"
-=======
             className="border-border-subtle bg-bg-surface2/80 hover:bg-bg-surface2/80 flex items-center gap-3 rounded-xl border p-4 transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <div className="rounded-lg bg-amber-100 p-2">
               <Image className="h-5 w-5 text-amber-700" />
@@ -220,11 +175,7 @@ export default function BrandCollectionCardPage() {
           </Link>
           <Link
             href={`${ROUTES.brand.contentHub}?collectionId=${encodeURIComponent(collection.id)}`}
-<<<<<<< HEAD
-            className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50/80 p-4 transition-colors hover:bg-slate-100/80"
-=======
             className="border-border-subtle bg-bg-surface2/80 hover:bg-bg-surface2/80 flex items-center gap-3 rounded-xl border p-4 transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <div className="rounded-lg bg-emerald-100 p-2">
               <Presentation className="h-5 w-5 text-emerald-700" />
@@ -236,11 +187,7 @@ export default function BrandCollectionCardPage() {
           </Link>
           <Link
             href={productionHref(collection.id)}
-<<<<<<< HEAD
-            className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50/80 p-4 transition-colors hover:bg-slate-100/80"
-=======
             className="border-border-subtle bg-bg-surface2/80 hover:bg-bg-surface2/80 flex items-center gap-3 rounded-xl border p-4 transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <div className="bg-border-subtle rounded-lg p-2">
               <Factory className="text-text-primary h-5 w-5" />

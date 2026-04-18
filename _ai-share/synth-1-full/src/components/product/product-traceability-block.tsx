@@ -31,16 +31,6 @@ export const ProductTraceabilityBlock: React.FC<{ product: Product }> = ({ produ
           return (
             <div key={idx} className="relative flex gap-4">
               {idx < tiers.length - 1 && (
-<<<<<<< HEAD
-                <div className="absolute bottom-0 left-3 top-6 -mb-4 w-px bg-slate-200" />
-              )}
-              <div className="z-10 flex h-6 w-6 items-center justify-center rounded-full border bg-white">
-                <Icon className="h-3 w-3 text-slate-600" />
-              </div>
-              <div className="flex-1 pb-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold uppercase text-slate-400">
-=======
                 <div className="bg-border-subtle absolute bottom-0 left-3 top-6 -mb-4 w-px" />
               )}
               <div className="z-10 flex h-6 w-6 items-center justify-center rounded-full border bg-white">
@@ -49,7 +39,6 @@ export const ProductTraceabilityBlock: React.FC<{ product: Product }> = ({ produ
               <div className="flex-1 pb-2">
                 <div className="flex items-center justify-between">
                   <span className="text-text-muted text-xs font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                     Tier {tier.tier}
                   </span>
                   {tier.certification && (
@@ -58,13 +47,8 @@ export const ProductTraceabilityBlock: React.FC<{ product: Product }> = ({ produ
                     </span>
                   )}
                 </div>
-<<<<<<< HEAD
-                <div className="text-sm font-semibold text-slate-800">{tier.name}</div>
-                <div className="text-xs text-slate-500">
-=======
                 <div className="text-text-primary text-sm font-semibold">{tier.name}</div>
                 <div className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                   {tier.location} • {tier.role}
                 </div>
               </div>

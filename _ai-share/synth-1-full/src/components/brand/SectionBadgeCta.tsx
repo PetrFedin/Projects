@@ -99,11 +99,7 @@ export function B2BOrdersAmendmentsFinanceBadges() {
 export function B2BOrdersApprovalBadges() {
   return (
     <>
-<<<<<<< HEAD
-      <SectionBadgeLink href={ROUTES.brand.b2bOrders}>B2B Заказы</SectionBadgeLink>
-=======
       <SectionBadgeLink href={ROUTES.brand.b2bOrders}>{B2B_ORDERS_REGISTRY_LABEL}</SectionBadgeLink>
->>>>>>> recover/cabinet-wip-from-stash
       <SectionBadgeLink href={ROUTES.brand.orderApprovalWorkflow}>
         Согласование заказов
       </SectionBadgeLink>

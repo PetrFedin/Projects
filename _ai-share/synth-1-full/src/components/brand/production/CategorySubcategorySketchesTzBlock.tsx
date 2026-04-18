@@ -512,20 +512,12 @@ export function CategorySubcategorySketchesTzBlock({
                       : 'Описание не заполнено — уточните в списке «Метки на скетче» ниже.'}
                   </p>
                   {inTaskBlock ? (
-<<<<<<< HEAD
-                    <p className="border-t border-slate-100 pt-1.5 text-[10px] font-medium text-indigo-800">
-=======
                     <p className="border-border-subtle text-accent-primary border-t pt-1.5 text-[10px] font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                       Строка добавлена в «На что обратить внимание» (задачи слота «
                       {activeBranchSlot.role.label}»).
                     </p>
                   ) : (
-<<<<<<< HEAD
-                    <p className="border-t border-slate-100 pt-1.5 text-[10px] text-slate-500">
-=======
                     <p className="border-border-subtle text-text-secondary border-t pt-1.5 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                       Задачи слота — в колонке справа; «В задачу» переносит текст в «На что обратить
                       внимание».
                     </p>
@@ -631,13 +623,8 @@ export function CategorySubcategorySketchesTzBlock({
                   className={cn(
                     'rounded-md border p-2 text-xs',
                     activeAnnId === a.annotationId
-<<<<<<< HEAD
-                      ? 'border-indigo-300 bg-indigo-50/40'
-                      : 'border-slate-100 bg-white'
-=======
                       ? 'border-accent-primary/30 bg-accent-primary/10'
                       : 'border-border-subtle bg-white'
->>>>>>> recover/cabinet-wip-from-stash
                   )}
                 >
                   <div className="mb-1 flex items-center justify-between gap-2">
@@ -708,13 +695,8 @@ export function CategorySubcategorySketchesTzBlock({
                   : `Мини-скетч: ${activeBranchSlot.role.label}. Нажмите на поле, чтобы открыть увеличенный вид.`
             }
             className={cn(
-<<<<<<< HEAD
-              'relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-slate-200 bg-white',
-              placeMode && !readOnly && 'cursor-crosshair ring-2 ring-indigo-500 ring-offset-2',
-=======
               'border-border-default relative aspect-[4/3] w-full overflow-hidden rounded-lg border bg-white',
               placeMode && !readOnly && 'ring-accent-primary cursor-crosshair ring-2 ring-offset-2',
->>>>>>> recover/cabinet-wip-from-stash
               !placeMode && !readOnly && 'cursor-zoom-in'
             )}
             onClick={readOnly ? undefined : onPreviewBoardClick}
@@ -766,11 +748,7 @@ export function CategorySubcategorySketchesTzBlock({
             {activeSlot.imageFileName ? (
               <>
                 <span
-<<<<<<< HEAD
-                  className="max-w-[min(100%,14rem)] truncate text-[10px] text-slate-600"
-=======
                   className="text-text-secondary max-w-[min(100%,14rem)] truncate text-[10px]"
->>>>>>> recover/cabinet-wip-from-stash
                   title={activeSlot.imageFileName}
                 >
                   {activeSlot.imageFileName}
@@ -787,11 +765,7 @@ export function CategorySubcategorySketchesTzBlock({
                 </Button>
               </>
             ) : (
-<<<<<<< HEAD
-              <span className="text-[10px] text-slate-500">
-=======
               <span className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                 Без файла — на доске типовой силуэт по ветке каталога.
               </span>
             )}
@@ -801,13 +775,8 @@ export function CategorySubcategorySketchesTzBlock({
         </div>
 
         <div className="w-full min-w-0 space-y-3 lg:w-[min(100%,380px)] lg:shrink-0">
-<<<<<<< HEAD
-          <div className="space-y-2 rounded-md border border-slate-100 bg-white/80 p-2">
-            <p className="text-[10px] font-bold uppercase text-slate-500">
-=======
           <div className="border-border-subtle space-y-2 rounded-md border bg-white/80 p-2">
             <p className="text-text-secondary text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
               Задачи для производства
             </p>
             {activeTaskSourceLevel && activeSlot.productionTasks.inheritedFromLevel == null ? (
@@ -1005,11 +974,7 @@ export function CategorySubcategorySketchesTzBlock({
 
           <div className="space-y-1.5">
             <div className="flex flex-wrap items-center justify-between gap-2">
-<<<<<<< HEAD
-              <Label className="text-[10px] font-semibold text-slate-600">
-=======
               <Label className="text-text-secondary text-[10px] font-semibold">
->>>>>>> recover/cabinet-wip-from-stash
                 Сводка габаритов и атрибутов артикула
               </Label>
               <Button
@@ -1024,11 +989,7 @@ export function CategorySubcategorySketchesTzBlock({
               </Button>
             </div>
             {activeSlot.attributesDimensionsSnapshotUpdatedAt ? (
-<<<<<<< HEAD
-              <p className="text-[9px] text-slate-400">
-=======
               <p className="text-text-muted text-[9px]">
->>>>>>> recover/cabinet-wip-from-stash
                 Обновлено:{' '}
                 {new Date(activeSlot.attributesDimensionsSnapshotUpdatedAt).toLocaleString('ru-RU')}
               </p>

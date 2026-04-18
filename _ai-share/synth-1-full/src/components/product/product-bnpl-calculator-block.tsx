@@ -24,41 +24,24 @@ export const ProductBnplBlock: React.FC<{ product: Product }> = ({ product }) =>
       </div>
 
       <div className="mb-4 flex items-end gap-2">
-<<<<<<< HEAD
-        <div className="text-2xl font-black tracking-tighter text-slate-800">
-          {bnpl.paymentAmount.toLocaleString()} ₽
-        </div>
-        <div className="mb-1.5 text-[10px] font-black uppercase text-slate-400">
-=======
         <div className="text-text-primary text-2xl font-black tracking-tighter">
           {bnpl.paymentAmount.toLocaleString()} ₽
         </div>
         <div className="text-text-muted mb-1.5 text-[10px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
           × {bnpl.installments} платежа
         </div>
       </div>
 
       <div className="space-y-2">
-<<<<<<< HEAD
-        <div className="flex items-center justify-between text-[11px] font-semibold text-slate-600">
-=======
         <div className="text-text-secondary flex items-center justify-between text-[11px] font-semibold">
->>>>>>> recover/cabinet-wip-from-stash
           <span>Сегодня — {bnpl.paymentAmount.toLocaleString()} ₽</span>
           <ArrowRight className="h-3 w-3" />
           <span>Далее каждые 2 недели</span>
         </div>
 
-<<<<<<< HEAD
-        <div className="flex h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
-          <div className="h-full w-1/4 bg-yellow-400" />
-          <div className="h-full w-3/4 bg-slate-200" />
-=======
         <div className="bg-bg-surface2 flex h-1.5 w-full overflow-hidden rounded-full">
           <div className="h-full w-1/4 bg-yellow-400" />
           <div className="bg-border-subtle h-full w-3/4" />
->>>>>>> recover/cabinet-wip-from-stash
         </div>
       </div>
 
@@ -83,11 +66,7 @@ export const ProductBnplBlock: React.FC<{ product: Product }> = ({ product }) =>
         </Badge>
       </div>
 
-<<<<<<< HEAD
-      <div className="mt-3 flex items-center gap-1 text-[9px] font-bold uppercase text-slate-400">
-=======
       <div className="text-text-muted mt-3 flex items-center gap-1 text-[9px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
         <Info className="h-2.5 w-2.5" /> Без кредитного договора • Нужна только карта
       </div>
     </Card>

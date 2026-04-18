@@ -8,20 +8,6 @@
  */
 
 export {
-<<<<<<< HEAD
-  getB2BIntegrationStatus,
-  exportOrderToProvider,
-  getPriceListsForOrder,
-  calculateOrderPricing,
-  getCatalogSummaryForProduction,
-  type B2BIntegrationStatus,
-  type OrderExportProvider,
-  type OrderExportResult,
-} from './b2b-integration-service';
-
-export {
-=======
->>>>>>> recover/cabinet-wip-from-stash
   joorGetDeliveryWindows,
   isNuOrderConfigured,
   type JoorDeliveryWindow,

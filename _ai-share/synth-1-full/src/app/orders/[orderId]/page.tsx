@@ -75,11 +75,7 @@ export default function OrderConfirmationPage({
   const statusInfo = statusConfig[order.status];
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto px-4 py-12">
-=======
     <RegistryPageShell className="py-12 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <div className="mx-auto max-w-4xl space-y-4">
         {/* Header */}
         <div className="flex items-center gap-3">

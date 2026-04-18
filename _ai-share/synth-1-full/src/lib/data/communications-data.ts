@@ -19,11 +19,7 @@ export interface UpcomingItem {
 export const UPCOMING_EVENTS: UpcomingItem[] = [
   {
     id: '1',
-<<<<<<< HEAD
-    title: 'Contract TSUM',
-=======
     title: 'Контракт с демо-магазином',
->>>>>>> recover/cabinet-wip-from-stash
     date: '2026-01-28',
     dateShort: '28 Jan',
     href: buildCalendarUrl({ layers: 'orders', date: '2026-01-28', role: 'CFO' }),
@@ -47,11 +43,7 @@ export const UPCOMING_EVENTS: UpcomingItem[] = [
     dateShort: '18 Jan',
     href: buildCalendarUrl({ layers: 'production', date: '2026-01-18', partner: 'Фабрика #4' }),
     layer: 'production',
-<<<<<<< HEAD
-    color: 'bg-slate-50 text-slate-600',
-=======
     color: 'bg-bg-surface2 text-text-secondary',
->>>>>>> recover/cabinet-wip-from-stash
     partner: 'Фабрика #4',
   },
   {
@@ -61,19 +53,11 @@ export const UPCOMING_EVENTS: UpcomingItem[] = [
     dateShort: '12 Jan',
     href: buildCalendarUrl({ layers: 'content', date: '2026-01-12' }),
     layer: 'content',
-<<<<<<< HEAD
-    color: 'bg-purple-50 text-purple-600',
-  },
-  {
-    id: '5',
-    title: 'Escrow ЦУМ',
-=======
     color: 'bg-accent-primary/10 text-accent-primary',
   },
   {
     id: '5',
     title: 'Escrow (демо-ритейл)',
->>>>>>> recover/cabinet-wip-from-stash
     date: '2026-01-20',
     dateShort: '20 Jan',
     href: buildCalendarUrl({ layers: 'finance', date: '2026-01-20' }),
@@ -108,32 +92,19 @@ export function buildMessagesUrl(params: {
 
 /** Маппинг партнёр → chatId для deep link из календаря */
 export const PARTNER_CHAT_MAP: Record<string, string> = {
-<<<<<<< HEAD
-  Podium: 'chat_podium',
-  ЦУМ: 'chat_tsum_order',
-=======
   'Демо-магазин · Москва 1': 'chat_podium',
   'Демо-магазин · Москва 2': 'chat_tsum_order',
->>>>>>> recover/cabinet-wip-from-stash
   'Фабрика #4': 'chat_production_line',
 };
 
 export const RECENT_CHATS_PREVIEW: RecentChatPreview[] = [
   {
     id: '1',
-<<<<<<< HEAD
-    title: 'Podium',
-    preview: 'TSUM: подтверждение заказа #4521',
-    unread: 2,
-    href: '/brand/messages',
-    calendarHref: buildCalendarUrl({ partner: 'Podium', layers: 'orders' }),
-=======
     title: 'Демо-магазин · Москва 1',
     preview: 'Подтверждение заказа #4521',
     unread: 2,
     href: '/brand/messages',
     calendarHref: buildCalendarUrl({ partner: 'Демо-магазин · Москва 1', layers: 'orders' }),
->>>>>>> recover/cabinet-wip-from-stash
   },
   {
     id: '2',
@@ -147,10 +118,6 @@ export const RECENT_CHATS_PREVIEW: RecentChatPreview[] = [
     title: 'SS26',
     preview: 'Финальные образцы на согласовании',
     href: '/brand/messages',
-<<<<<<< HEAD
-    calendarHref: buildCalendarUrl({ layers: 'tasks,content' }),
-=======
     calendarHref: buildCalendarUrl({ layers: ['tasks', 'content'] }),
->>>>>>> recover/cabinet-wip-from-stash
   },
 ];

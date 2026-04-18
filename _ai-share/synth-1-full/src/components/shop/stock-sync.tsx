@@ -19,22 +19,6 @@ import Image from 'next/image';
 export function StockSync() {
   const [isExcelDialogOpen, setIsExcelDialogOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-<<<<<<< HEAD
-  const { toast } = useToast();
-
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setIsUploading(true);
-      setTimeout(() => {
-        setIsUploading(false);
-        setIsExcelDialogOpen(false);
-        toast({
-          title: 'Файл успешно загружен',
-          description: 'Остатки будут обновлены в течение нескольких минут.',
-        });
-      }, 2000);
-=======
   const [lastAcceptedName, setLastAcceptedName] = useState<string | null>(null);
   const { toast } = useToast();
 
@@ -62,7 +46,6 @@ export function StockSync() {
       });
     } finally {
       setIsUploading(false);
->>>>>>> recover/cabinet-wip-from-stash
     }
   };
 
@@ -75,11 +58,7 @@ export function StockSync() {
   };
 
   return (
-<<<<<<< HEAD
-    <>
-=======
     <div data-testid="shop-stock-sync">
->>>>>>> recover/cabinet-wip-from-stash
       <Card>
         <CardHeader>
           <CardTitle>Синхронизация остатков</CardTitle>
@@ -118,10 +97,7 @@ export function StockSync() {
             variant="outline"
             className="h-12 justify-start text-left"
             onClick={() => setIsExcelDialogOpen(true)}
-<<<<<<< HEAD
-=======
             data-testid="shop-stock-sync-open-excel"
->>>>>>> recover/cabinet-wip-from-stash
           >
             <Image
               src="https://i.imgur.com/sC5PSAS.png"
@@ -136,12 +112,6 @@ export function StockSync() {
             </div>
           </Button>
         </CardContent>
-<<<<<<< HEAD
-      </Card>
-
-      <Dialog open={isExcelDialogOpen} onOpenChange={setIsExcelDialogOpen}>
-        <DialogContent>
-=======
         <CardFooter className="text-xs text-muted-foreground">
           <span data-testid="shop-stock-sync-last-accepted">
             {lastAcceptedName
@@ -153,7 +123,6 @@ export function StockSync() {
 
       <Dialog open={isExcelDialogOpen} onOpenChange={setIsExcelDialogOpen}>
         <DialogContent data-testid="shop-stock-sync-dialog">
->>>>>>> recover/cabinet-wip-from-stash
           <DialogHeader>
             <DialogTitle>Загрузить файл с остатками</DialogTitle>
             <DialogDescription>
@@ -176,11 +145,7 @@ export function StockSync() {
             </Alert>
             <div
               className="relative flex h-40 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed hover:bg-muted"
-<<<<<<< HEAD
-              onClick={() => document.getElementById('file-upload')?.click()}
-=======
               onClick={() => document.getElementById('shop-stock-sync-upload-input')?.click()}
->>>>>>> recover/cabinet-wip-from-stash
             >
               {isUploading ? (
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -189,18 +154,11 @@ export function StockSync() {
                   <Upload className="h-8 w-8 text-muted-foreground" />
                   <p className="mt-2 text-sm text-muted-foreground">Нажмите, чтобы выбрать файл</p>
                   <input
-<<<<<<< HEAD
-                    id="file-upload"
-                    type="file"
-                    className="hidden"
-                    accept=".xlsx, .csv"
-=======
                     id="shop-stock-sync-upload-input"
                     data-testid="shop-stock-sync-upload-input"
                     type="file"
                     className="hidden"
                     accept=".xlsx,.csv"
->>>>>>> recover/cabinet-wip-from-stash
                     onChange={handleFileUpload}
                   />
                 </>
@@ -215,10 +173,6 @@ export function StockSync() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-<<<<<<< HEAD
-    </>
-=======
     </div>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

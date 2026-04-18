@@ -54,11 +54,7 @@ export function InviteOnboarding() {
           <UserPlus className="h-8 w-8 text-white" />
         </div>
         <h2 className="text-base font-black uppercase tracking-tighter">Масштабирование Команды</h2>
-<<<<<<< HEAD
-        <p className="text-sm font-bold uppercase tracking-widest text-slate-400">
-=======
         <p className="text-text-muted text-sm font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
           Быстрый запуск и настройка участников профиля
         </p>
       </header>
@@ -67,20 +63,12 @@ export function InviteOnboarding() {
         <Card className="overflow-hidden rounded-xl border-none bg-white shadow-sm">
           <CardContent className="space-y-6 p-4">
             <h3 className="flex items-center gap-2 text-sm font-black uppercase">
-<<<<<<< HEAD
-              <Mail className="h-5 w-5 text-indigo-600" />
-=======
               <Mail className="text-accent-primary h-5 w-5" />
->>>>>>> recover/cabinet-wip-from-stash
               Пригласить по почте
             </h3>
             <div className="space-y-4">
               <div className="space-y-1.5">
-<<<<<<< HEAD
-                <label className="ml-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                 <label className="text-text-muted ml-2 text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   Тип профиля для подключения
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -93,13 +81,8 @@ export function InviteOnboarding() {
                         className={cn(
                           'rounded-xl border-2 px-3 py-1.5 text-[9px] font-black uppercase transition-all',
                           targetProfileType === r
-<<<<<<< HEAD
-                            ? 'border-indigo-600 bg-indigo-50 text-indigo-600'
-                            : 'border-slate-100 text-slate-400'
-=======
                             ? 'border-accent-primary bg-accent-primary/10 text-accent-primary'
                             : 'border-border-subtle text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                         )}
                       >
                         {r}
@@ -109,30 +92,18 @@ export function InviteOnboarding() {
               </div>
 
               <div className="space-y-1.5">
-<<<<<<< HEAD
-                <label className="ml-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                 <label className="text-text-muted ml-2 text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   Email участника или представителя
                 </label>
                 <Input
                   placeholder="name@company.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-<<<<<<< HEAD
-                  className="h-12 rounded-2xl border-none bg-slate-50 px-4 font-bold"
-                />
-              </div>
-              <div className="space-y-1.5">
-                <label className="ml-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                   className="bg-bg-surface2 h-12 rounded-2xl border-none px-4 font-bold"
                 />
               </div>
               <div className="space-y-1.5">
                 <label className="text-text-muted ml-2 text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   Роль в системе
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -146,32 +117,19 @@ export function InviteOnboarding() {
                       className={cn(
                         'group rounded-2xl border-2 p-4 text-left transition-all',
                         role === r.id
-<<<<<<< HEAD
-                          ? 'border-indigo-600 bg-indigo-50'
-                          : 'border-slate-100 hover:border-slate-200'
-=======
                           ? 'border-accent-primary bg-accent-primary/10'
                           : 'border-border-subtle hover:border-border-default'
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       <p
                         className={cn(
                           'text-xs font-black uppercase',
-<<<<<<< HEAD
-                          role === r.id ? 'text-indigo-600' : 'text-slate-900'
-=======
                           role === r.id ? 'text-accent-primary' : 'text-text-primary'
->>>>>>> recover/cabinet-wip-from-stash
                         )}
                       >
                         {r.label}
                       </p>
-<<<<<<< HEAD
-                      <p className="mt-1 text-[9px] font-bold uppercase tracking-tighter text-slate-400">
-=======
                       <p className="text-text-muted mt-1 text-[9px] font-bold uppercase tracking-tighter">
->>>>>>> recover/cabinet-wip-from-stash
                         {r.desc}
                       </p>
                     </button>
@@ -179,11 +137,7 @@ export function InviteOnboarding() {
                 </div>
               </div>
               <div className="space-y-1.5">
-<<<<<<< HEAD
-                <label className="ml-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
-=======
                 <label className="text-text-muted ml-2 text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
                   Назначение процессов (Flows)
                 </label>
                 <div className="grid grid-cols-1 gap-2">
@@ -194,35 +148,22 @@ export function InviteOnboarding() {
                       className={cn(
                         'flex items-center justify-between rounded-xl border-2 p-3 transition-all',
                         selectedFlows.includes(f.id)
-<<<<<<< HEAD
-                          ? 'border-indigo-600 bg-indigo-50'
-                          : 'border-slate-50 hover:border-slate-100'
-=======
                           ? 'border-accent-primary bg-accent-primary/10'
                           : 'border-border-subtle hover:border-border-subtle'
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       <div className="text-left">
                         <p
                           className={cn(
                             'text-[9px] font-black uppercase',
-<<<<<<< HEAD
-                            selectedFlows.includes(f.id) ? 'text-indigo-600' : 'text-slate-900'
-=======
                             selectedFlows.includes(f.id)
                               ? 'text-accent-primary'
                               : 'text-text-primary'
->>>>>>> recover/cabinet-wip-from-stash
                           )}
                         >
                           {f.name}
                         </p>
-<<<<<<< HEAD
-                        <p className="mt-1 text-[8px] font-medium leading-tight text-slate-400">
-=======
                         <p className="text-text-muted mt-1 text-[8px] font-medium leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                           {f.description}
                         </p>
                       </div>
@@ -230,13 +171,8 @@ export function InviteOnboarding() {
                         className={cn(
                           'flex h-4 w-4 items-center justify-center rounded-full border-2 transition-all',
                           selectedFlows.includes(f.id)
-<<<<<<< HEAD
-                            ? 'border-indigo-600 bg-indigo-600'
-                            : 'border-slate-200'
-=======
                             ? 'bg-accent-primary border-accent-primary'
                             : 'border-border-default'
->>>>>>> recover/cabinet-wip-from-stash
                         )}
                       >
                         {selectedFlows.includes(f.id) && (
@@ -259,21 +195,13 @@ export function InviteOnboarding() {
           </CardContent>
         </Card>
 
-<<<<<<< HEAD
-        <Card className="relative overflow-hidden rounded-xl border-none bg-slate-900 text-white shadow-sm">
-=======
         <Card className="bg-text-primary relative overflow-hidden rounded-xl border-none text-white shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
           <div className="absolute right-0 top-0 p-4 opacity-10">
             <Sparkles className="h-32 w-32" />
           </div>
           <CardContent className="relative z-10 space-y-6 p-4">
             <h3 className="flex items-center gap-2 text-sm font-black uppercase">
-<<<<<<< HEAD
-              <Shield className="h-5 w-5 text-indigo-400" />
-=======
               <Shield className="text-accent-primary h-5 w-5" />
->>>>>>> recover/cabinet-wip-from-stash
               Матрица Доступа
             </h3>
             <div className="space-y-4">

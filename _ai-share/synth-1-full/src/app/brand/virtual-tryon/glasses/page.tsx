@@ -30,11 +30,7 @@ export default function BrandGlassesVirtualTryOnPage() {
   }, []);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-3xl space-y-6 px-4 py-6 duration-500 animate-in fade-in">
-=======
     <RegistryPageShell className="max-w-3xl space-y-6 pb-16 duration-500 animate-in fade-in">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Виртуальная примерка очков"
         description="Камера или фото лица: оправа масштабируется по межзрачковому расстоянию и наклону головы. Расчёт в браузере; лица на ваш бэкенд не отправляются."

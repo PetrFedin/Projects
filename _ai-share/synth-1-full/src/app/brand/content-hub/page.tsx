@@ -10,10 +10,6 @@ import {
   Share2,
   Instagram,
   MessageCircle,
-<<<<<<< HEAD
-  ExternalLink,
-=======
->>>>>>> recover/cabinet-wip-from-stash
   Video,
   Radio,
   FileText,
@@ -56,17 +52,6 @@ const SOCIAL_CHANNELS = [
 
 export default function ContentHubPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
-      <SectionInfoCard
-        title="Content Hub"
-        description="Синхронизация с Telegram, Instagram, VK, сайтом бренда. Загрузка видео, стримов, подкастов. Блог, статьи, новости. Фото коллекций. Репост в соцсети и дублирование в Stories платформы."
-        icon={Share2}
-        iconBg="bg-violet-100"
-        iconColor="text-violet-600"
-        badges={
-          <>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="Content Hub"
@@ -74,7 +59,6 @@ export default function ContentHubPage() {
         actions={
           <div className="flex flex-wrap items-center justify-end gap-2">
             <Share2 className="size-6 shrink-0 text-muted-foreground" aria-hidden />
->>>>>>> recover/cabinet-wip-from-stash
             <Badge variant="outline" className="text-[9px]">
               TG
             </Badge>
@@ -85,30 +69,13 @@ export default function ContentHubPage() {
               VK
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/media">Media</Link>
-=======
               <Link href={ROUTES.brand.media}>Media</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </div>
         }
       />
 
       <Tabs defaultValue="social" className="space-y-6">
-<<<<<<< HEAD
-        <TabsList className="rounded-xl bg-slate-100 p-1">
-          <TabsTrigger value="social" className="rounded-lg">
-            Синк с соцсетями
-          </TabsTrigger>
-          <TabsTrigger value="video" className="rounded-lg">
-            Видео и стримы
-          </TabsTrigger>
-          <TabsTrigger value="blog" className="rounded-lg">
-            Блог и статьи
-          </TabsTrigger>
-          <TabsTrigger value="photos" className="rounded-lg">
-=======
         {/* cabinetSurface v1 */}
         <TabsList className={cn(cabinetSurface.tabsList, 'flex-wrap')}>
           <TabsTrigger value="social" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
@@ -121,7 +88,6 @@ export default function ContentHubPage() {
             Блог и статьи
           </TabsTrigger>
           <TabsTrigger value="photos" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
->>>>>>> recover/cabinet-wip-from-stash
             Фото и репосты
           </TabsTrigger>
         </TabsList>
@@ -182,11 +148,7 @@ export default function ContentHubPage() {
               </CardHeader>
               <CardContent>
                 <Button variant="outline" size="sm" asChild>
-<<<<<<< HEAD
-                  <Link href="/brand/media">Настроить</Link>
-=======
                   <Link href={ROUTES.brand.media}>Настроить</Link>
->>>>>>> recover/cabinet-wip-from-stash
                 </Button>
               </CardContent>
             </Card>

@@ -42,23 +42,6 @@ export default function CreateKnowledgePage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-3">
-          <Link href={ROUTES.brand.academy}>
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          </Link>
-          <div>
-            <h1 className="text-2xl font-bold uppercase tracking-tight">Добавить статью</h1>
-            <p className="text-sm text-slate-500">База знаний — для партнёров и клиентов</p>
-          </div>
-        </div>
-        <AcademySegmentSwitcher active="brand" />
-      </div>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="Добавить статью"
@@ -72,17 +55,12 @@ export default function CreateKnowledgePage() {
         }
         actions={<AcademySegmentSwitcher active="brand" />}
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       <WidgetCard
         title="База знаний"
         description="Статьи помогают партнёрам и клиентам ознакомиться с брендом, сферой, процессами."
       >
-<<<<<<< HEAD
-        <Card className="rounded-xl border border-slate-100">
-=======
         <Card className="border-border-subtle rounded-xl border">
->>>>>>> recover/cabinet-wip-from-stash
           <CardHeader>
             <CardTitle>Новая статья</CardTitle>
             <CardDescription>Заголовок, краткое описание, категория, аудитория.</CardDescription>

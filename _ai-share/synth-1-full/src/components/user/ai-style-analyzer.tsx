@@ -194,11 +194,7 @@ export default function AIStyleAnalyzer() {
                   prediction.type === 'purchase' &&
                     'border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/20',
                   prediction.type === 'trend' &&
-<<<<<<< HEAD
-                    'border-purple-200 bg-purple-50 dark:border-purple-800 dark:bg-purple-950/20',
-=======
                     'bg-accent-primary/10 dark:bg-bg-surface2/80 border-accent-primary/25 dark:border-border-default',
->>>>>>> recover/cabinet-wip-from-stash
                   prediction.type === 'opportunity' &&
                     'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/20',
                   prediction.type === 'warning' &&
@@ -211,11 +207,7 @@ export default function AIStyleAnalyzer() {
                       <ShoppingBag className="h-4 w-4 text-blue-600" />
                     )}
                     {prediction.type === 'trend' && (
-<<<<<<< HEAD
-                      <TrendingUp className="h-4 w-4 text-purple-600" />
-=======
                       <TrendingUp className="text-accent-primary h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                     {prediction.type === 'opportunity' && (
                       <Zap className="h-4 w-4 text-green-600" />

@@ -53,25 +53,6 @@ export default function FactoryDetailPage({ params }: { params: Promise<{ id: st
   const factory = mockFactory;
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-      <SectionInfoCard
-        title="Карточка фабрики"
-        description="Детальный профиль: PO, качество, штрафы, материалы. Связь с Production, VMI, B2B Orders."
-        icon={Factory}
-        iconBg="bg-slate-100"
-        iconColor="text-slate-600"
-        badges={
-          <>
-            <Badge variant="outline" className="text-[9px]">
-              Production
-            </Badge>
-            <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
-              <Link href="/brand/production">Production</Link>
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/vmi">VMI</Link>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title={factory.name}
@@ -94,7 +75,6 @@ export default function FactoryDetailPage({ params }: { params: Promise<{ id: st
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href={ROUTES.brand.vmi}>VMI</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
             <Button variant="outline" asChild>
               <Link href={ROUTES.brand.production}>Перейти в Production</Link>
@@ -103,48 +83,15 @@ export default function FactoryDetailPage({ params }: { params: Promise<{ id: st
         }
       />
 
-<<<<<<< HEAD
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href="/brand/factories">
-            <ChevronLeft className="h-4 w-4" />
-          </Link>
-        </Button>
-        <div className="flex-1">
-          <h1 className="text-2xl font-bold uppercase">{factory.name}</h1>
-          <p className="text-sm text-slate-500">{factory.specialization}</p>
-        </div>
-        <Button variant="outline" asChild>
-          <Link href="/brand/production">Перейти в Production</Link>
-        </Button>
-      </div>
-
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <Card className="p-4">
-          <p className="text-[10px] font-bold uppercase text-slate-400">Загруженность</p>
-=======
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Card className="p-4">
           <p className="text-text-muted text-[10px] font-bold uppercase">Загруженность</p>
->>>>>>> recover/cabinet-wip-from-stash
           <div className="mt-1 flex items-center gap-2">
             <Progress value={factory.load} className="h-2 flex-1" />
             <span className="font-bold">{factory.load}%</span>
           </div>
         </Card>
         <Card className="p-4">
-<<<<<<< HEAD
-          <p className="text-[10px] font-bold uppercase text-slate-400">Рейтинг качества</p>
-          <p className="text-xl font-black text-emerald-600">{factory.qualityRating}/5</p>
-        </Card>
-        <Card className="p-4">
-          <p className="text-[10px] font-bold uppercase text-slate-400">Активные PO</p>
-          <p className="text-xl font-black text-slate-900">{factory.activeOrders}</p>
-        </Card>
-        <Card className="p-4">
-          <p className="text-[10px] font-bold uppercase text-slate-400">Штрафы</p>
-          <p className="text-xl font-black text-slate-900">0</p>
-=======
           <p className="text-text-muted text-[10px] font-bold uppercase">Рейтинг качества</p>
           <p className="text-xl font-black text-emerald-600">{factory.qualityRating}/5</p>
         </Card>
@@ -155,24 +102,10 @@ export default function FactoryDetailPage({ params }: { params: Promise<{ id: st
         <Card className="p-4">
           <p className="text-text-muted text-[10px] font-bold uppercase">Штрафы</p>
           <p className="text-text-primary text-xl font-black">0</p>
->>>>>>> recover/cabinet-wip-from-stash
         </Card>
       </div>
 
       <Tabs defaultValue="po" className="space-y-4">
-<<<<<<< HEAD
-        <TabsList className="rounded-xl bg-slate-100 p-1">
-          <TabsTrigger value="po" className="rounded-lg">
-            Production Orders
-          </TabsTrigger>
-          <TabsTrigger value="quality" className="rounded-lg">
-            Качество
-          </TabsTrigger>
-          <TabsTrigger value="materials" className="rounded-lg">
-            Материалы
-          </TabsTrigger>
-          <TabsTrigger value="penalties" className="rounded-lg">
-=======
         {/* cabinetSurface v1 */}
         <TabsList className={cn(cabinetSurface.tabsList, 'flex-wrap')}>
           <TabsTrigger value="po" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
@@ -185,7 +118,6 @@ export default function FactoryDetailPage({ params }: { params: Promise<{ id: st
             Материалы
           </TabsTrigger>
           <TabsTrigger value="penalties" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
->>>>>>> recover/cabinet-wip-from-stash
             Штрафы
           </TabsTrigger>
         </TabsList>
@@ -210,19 +142,11 @@ export default function FactoryDetailPage({ params }: { params: Promise<{ id: st
                       </Badge>
                     </div>
                     <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                      <span className="text-[11px] text-slate-500">{po.items} SKU</span>
-                      <Badge variant="outline" className="text-[9px]">
-                        {po.status}
-                      </Badge>
-                      <span className="text-[11px] text-slate-500">ETA: {po.eta}</span>
-=======
                       <span className="text-text-secondary text-[11px]">{po.items} SKU</span>
                       <Badge variant="outline" className="text-[9px]">
                         {po.status}
                       </Badge>
                       <span className="text-text-secondary text-[11px]">ETA: {po.eta}</span>
->>>>>>> recover/cabinet-wip-from-stash
                     </div>
                   </div>
                 ))}
@@ -249,13 +173,8 @@ export default function FactoryDetailPage({ params }: { params: Promise<{ id: st
                     <span className="font-mono text-sm">{q.batch}</span>
                     <div className="flex items-center gap-4">
                       <span className="font-bold text-emerald-600">{q.score}%</span>
-<<<<<<< HEAD
-                      <span className="text-[11px] text-slate-500">дефектов: {q.defects}</span>
-                      <span className="text-[11px] text-slate-500">{q.date}</span>
-=======
                       <span className="text-text-secondary text-[11px]">дефектов: {q.defects}</span>
                       <span className="text-text-secondary text-[11px]">{q.date}</span>
->>>>>>> recover/cabinet-wip-from-stash
                     </div>
                   </div>
                 ))}
@@ -270,11 +189,7 @@ export default function FactoryDetailPage({ params }: { params: Promise<{ id: st
               <CardDescription>VMI: остатки сырья</CardDescription>
             </CardHeader>
             <CardContent>
-<<<<<<< HEAD
-              <p className="mb-3 text-sm text-slate-500">Связь с VMI</p>
-=======
               <p className="text-text-secondary mb-3 text-sm">Связь с VMI</p>
->>>>>>> recover/cabinet-wip-from-stash
               <Button variant="outline" size="sm" asChild>
                 <Link href={ROUTES.brand.vmi}>Перейти в VMI</Link>
               </Button>
@@ -288,11 +203,7 @@ export default function FactoryDetailPage({ params }: { params: Promise<{ id: st
               <CardDescription>Условия по браку и срокам</CardDescription>
             </CardHeader>
             <CardContent>
-<<<<<<< HEAD
-              <p className="mb-3 text-sm text-slate-500">Настраиваются в Production → PO</p>
-=======
               <p className="text-text-secondary mb-3 text-sm">Настраиваются в Production → PO</p>
->>>>>>> recover/cabinet-wip-from-stash
               <Button variant="outline" size="sm" asChild>
                 <Link href={ROUTES.brand.production}>Production</Link>
               </Button>

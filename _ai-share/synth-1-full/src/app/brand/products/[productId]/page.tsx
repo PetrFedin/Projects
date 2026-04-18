@@ -46,45 +46,26 @@ export default function ProductEditPage({
         title="Редактирование товара"
         description="Карточка SKU: данные, медиа, BOM. Связи: Products, Variant Matrix, Production, Inventory, Linesheets."
         icon={Package}
-<<<<<<< HEAD
-        iconBg="bg-indigo-100"
-        iconColor="text-indigo-600"
-=======
         iconBg="bg-accent-primary/15"
         iconColor="text-accent-primary"
->>>>>>> recover/cabinet-wip-from-stash
         badges={
           <>
             <Badge variant="outline" className="text-[9px]">
               SKU
             </Badge>
             <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/products">Products</Link>
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/products/matrix">
-=======
               <Link href={ROUTES.brand.products}>Products</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href={ROUTES.brand.productsMatrix}>
->>>>>>> recover/cabinet-wip-from-stash
                 <Layers className="mr-1 h-3 w-3" /> Matrix
               </Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/production">Production</Link>
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href="/brand/inventory">Inventory</Link>
-=======
               <Link href={ROUTES.brand.production}>Production</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href={ROUTES.brand.inventory}>Inventory</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -310,11 +291,7 @@ export default function ProductEditPage({
             </CardContent>
           </Card>
 
-<<<<<<< HEAD
-          <div className="rounded-xl border-2 border-dashed bg-white/50 p-3 text-center font-bold uppercase tracking-widest text-slate-400">
-=======
           <div className="text-text-muted rounded-xl border-2 border-dashed bg-white/50 p-3 text-center font-bold uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
             Секции инвентаря, медиа и атрибутов рефакторятся...
           </div>
         </form>

@@ -64,13 +64,8 @@ export default function OrdersPage() {
   }
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto px-4 py-12">
-      <div className="mx-auto max-w-4xl">
-=======
     <div className="w-full py-2">
       <div className="w-full">
->>>>>>> recover/cabinet-wip-from-stash
         <h1 className="mb-8 font-headline text-base font-bold">Мои заказы</h1>
 
         {orders.length === 0 ? (

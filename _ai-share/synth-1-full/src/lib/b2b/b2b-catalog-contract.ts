@@ -54,16 +54,8 @@ function attrString(attrs: Product['attributes'], key: string): string | undefin
 }
 
 function getComposition(p: Product): string | undefined {
-<<<<<<< HEAD
-  const c = (p as any).composition;
-  if (typeof c === 'string') return c;
-  if (Array.isArray(c) && c.length > 0)
-    return c.map((x: any) => `${x.material ?? x} ${x.percentage ?? ''}%`).join(', ');
-  return undefined;
-=======
   const s = formatProductComposition(p.composition);
   return s.length > 0 ? s : undefined;
->>>>>>> recover/cabinet-wip-from-stash
 }
 
 function getCare(p: Product): string | undefined {
@@ -77,14 +69,8 @@ function getSizeChart(p: Product): string | undefined {
 }
 
 function getEan(p: Product): string | undefined {
-<<<<<<< HEAD
-  return (
-    (p as any).ean ?? (p as any).gtin ?? (p.attributes as any)?.ean ?? (p.attributes as any)?.gtin
-  );
-=======
   const x = p as ProductB2BExtras;
   return x.ean ?? x.gtin ?? attrString(p.attributes, 'ean') ?? attrString(p.attributes, 'gtin');
->>>>>>> recover/cabinet-wip-from-stash
 }
 
 /** Валидация продукта для публикации в B2B-каталог. */

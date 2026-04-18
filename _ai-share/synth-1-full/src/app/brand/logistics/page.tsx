@@ -26,10 +26,7 @@ import { SectionBlock } from '@/components/brand/SectionBlock';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 import { getLogisticsLinks } from '@/lib/data/entity-links';
-<<<<<<< HEAD
-=======
 import { ROUTES } from '@/lib/routes';
->>>>>>> recover/cabinet-wip-from-stash
 import { SECTION_META, LOGISTICS_KPI, LOGISTICS_NAV_CARDS } from './page-data';
 
 const DutyCalculatorPage = dynamic(() => import('@/app/brand/logistics/duty-calculator/page'), {
@@ -41,11 +38,6 @@ const ConsolidationPage = dynamic(() => import('@/app/brand/logistics/consolidat
 const ShadowInventoryPage = dynamic(() => import('@/app/brand/logistics/shadow-inventory/page'), {
   ssr: false,
 });
-<<<<<<< HEAD
-const LogisticsLiveContent = dynamic(
-  () => import('@/app/brand/logistics/live/page').then((m) => m.default),
-  { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
-=======
 function LogisticsLoadingState() {
   return (
     <Card className="border-border-subtle bg-bg-surface2">
@@ -58,7 +50,6 @@ function LogisticsLoadingState() {
 const LogisticsLiveContent = dynamic(
   () => import('@/app/brand/logistics/live/page').then((m) => m.default),
   { ssr: false, loading: () => <LogisticsLoadingState /> }
->>>>>>> recover/cabinet-wip-from-stash
 );
 
 const logisticsTabTriggerClass = cn(
@@ -70,11 +61,6 @@ export default function LogisticsPage() {
   const [tab, setTab] = useState('hub');
   const kpi = LOGISTICS_KPI;
   return (
-<<<<<<< HEAD
-    <div className="mx-auto max-w-7xl space-y-4 px-4 pb-20 md:px-6">
-      <Tabs value={tab} onValueChange={setTab} className="space-y-4">
-        <TabsList className="h-9 w-fit gap-0.5 border border-slate-200 bg-slate-50 px-1">
-=======
     <RegistryPageShell
       className="w-full max-w-none space-y-4 pb-16"
       data-testid="brand-logistics-hub-page"
@@ -97,7 +83,6 @@ export default function LogisticsPage() {
         <TabsList
           className={cn(cabinetSurface.tabsList, 'h-auto min-h-9 w-full shadow-inner sm:w-fit')}
         >
->>>>>>> recover/cabinet-wip-from-stash
           <TabsTrigger value="hub" className={logisticsTabTriggerClass}>
             <Truck className="h-3 w-3 shrink-0" />
             Центр логистики
@@ -133,25 +118,11 @@ export default function LogisticsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0 }}
               >
-<<<<<<< HEAD
-                <Card className="rounded-xl border-slate-100 bg-white p-4 shadow-sm">
-=======
                 <Card className="border-border-subtle rounded-xl bg-white p-4 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
                   <div className="mb-2 flex items-center gap-2">
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-100">
                       <Package className="h-4 w-4 text-amber-600" />
                     </div>
-<<<<<<< HEAD
-                    <p className="text-[8px] font-black uppercase text-slate-400">
-                      Отгрузки за период
-                    </p>
-                  </div>
-                  <p className="text-2xl font-black tabular-nums text-slate-900">
-                    {kpi.shipmentsPeriod.toLocaleString('ru-RU')}
-                  </p>
-                  <p className="mt-0.5 text-[9px] text-slate-500">ед.</p>
-=======
                     <p className="text-text-muted text-[8px] font-black uppercase">
                       Отгрузки за период
                     </p>
@@ -160,7 +131,6 @@ export default function LogisticsPage() {
                     {kpi.shipmentsPeriod.toLocaleString('ru-RU')}
                   </p>
                   <p className="text-text-secondary mt-0.5 text-[9px]">ед.</p>
->>>>>>> recover/cabinet-wip-from-stash
                 </Card>
               </motion.div>
               <motion.div
@@ -168,28 +138,17 @@ export default function LogisticsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.05 }}
               >
-<<<<<<< HEAD
-                <Card className="rounded-xl border-slate-100 bg-white p-4 shadow-sm">
-=======
                 <Card className="border-border-subtle rounded-xl bg-white p-4 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
                   <div className="mb-2 flex items-center gap-2">
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-100">
                       <Route className="h-4 w-4 text-sky-600" />
                     </div>
-<<<<<<< HEAD
-                    <p className="text-[8px] font-black uppercase text-slate-400">В пути</p>
-                  </div>
-                  <p className="text-2xl font-black tabular-nums text-slate-900">{kpi.inTransit}</p>
-                  <p className="mt-0.5 text-[9px] text-slate-500">отправлений</p>
-=======
                     <p className="text-text-muted text-[8px] font-black uppercase">В пути</p>
                   </div>
                   <p className="text-text-primary text-2xl font-black tabular-nums">
                     {kpi.inTransit}
                   </p>
                   <p className="text-text-secondary mt-0.5 text-[9px]">отправлений</p>
->>>>>>> recover/cabinet-wip-from-stash
                 </Card>
               </motion.div>
               <motion.div
@@ -197,30 +156,17 @@ export default function LogisticsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
               >
-<<<<<<< HEAD
-                <Card className="rounded-xl border-slate-100 bg-white p-4 shadow-sm">
-=======
                 <Card className="border-border-subtle rounded-xl bg-white p-4 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
                   <div className="mb-2 flex items-center gap-2">
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100">
                       <Warehouse className="h-4 w-4 text-blue-600" />
                     </div>
-<<<<<<< HEAD
-                    <p className="text-[8px] font-black uppercase text-slate-400">Склады</p>
-                  </div>
-                  <p className="text-2xl font-black tabular-nums text-slate-900">
-                    {kpi.warehousesCount}
-                  </p>
-                  <p className="mt-0.5 text-[9px] text-slate-500">точек</p>
-=======
                     <p className="text-text-muted text-[8px] font-black uppercase">Склады</p>
                   </div>
                   <p className="text-text-primary text-2xl font-black tabular-nums">
                     {kpi.warehousesCount}
                   </p>
                   <p className="text-text-secondary mt-0.5 text-[9px]">точек</p>
->>>>>>> recover/cabinet-wip-from-stash
                 </Card>
               </motion.div>
               <motion.div
@@ -228,30 +174,17 @@ export default function LogisticsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 }}
               >
-<<<<<<< HEAD
-                <Card className="rounded-xl border-slate-100 bg-white p-4 shadow-sm">
-=======
                 <Card className="border-border-subtle rounded-xl bg-white p-4 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
                   <div className="mb-2 flex items-center gap-2">
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100">
                       <Truck className="h-4 w-4 text-emerald-600" />
                     </div>
-<<<<<<< HEAD
-                    <p className="text-[8px] font-black uppercase text-slate-400">Перевозчики</p>
-                  </div>
-                  <p className="text-2xl font-black tabular-nums text-slate-900">
-                    {kpi.carriersConnected}
-                  </p>
-                  <p className="mt-0.5 text-[9px] text-slate-500">подключено</p>
-=======
                     <p className="text-text-muted text-[8px] font-black uppercase">Перевозчики</p>
                   </div>
                   <p className="text-text-primary text-2xl font-black tabular-nums">
                     {kpi.carriersConnected}
                   </p>
                   <p className="text-text-secondary mt-0.5 text-[9px]">подключено</p>
->>>>>>> recover/cabinet-wip-from-stash
                 </Card>
               </motion.div>
             </div>
@@ -264,11 +197,7 @@ export default function LogisticsPage() {
             accentColor="blue"
             className="min-w-0"
           >
-<<<<<<< HEAD
-            <p className="mb-3 px-0.5 text-[10px] text-slate-500">
-=======
             <p className="text-text-secondary mb-3 px-0.5 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
               Склады, перевозчики (СДЭК, Боксберри, ПЭК, ДПД, Почта РФ), документы (ТТН, CMR, ЭТрН),
               таможня, трекинг, регионы и возвраты.
             </p>
@@ -280,21 +209,13 @@ export default function LogisticsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.03 }}
                 >
-<<<<<<< HEAD
-                  <Card className="group h-full rounded-xl border-slate-100 bg-white p-4 shadow-sm transition-all hover:shadow-lg">
-=======
                   <Card className="border-border-subtle group h-full rounded-xl bg-white p-4 shadow-sm transition-all hover:shadow-lg">
->>>>>>> recover/cabinet-wip-from-stash
                     <div className="mb-3 flex items-start justify-between">
                       <div className={cn('rounded-xl p-2.5', card.bg)}>
                         <card.icon className={cn('h-5 w-5', card.color)} />
                       </div>
                       <div className="flex items-center gap-2">
-<<<<<<< HEAD
-                        <Badge className="border-none bg-slate-50 text-[7px] font-black uppercase text-slate-600">
-=======
                         <Badge className="bg-bg-surface2 text-text-secondary border-none text-[7px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                           {card.badge}
                         </Badge>
                         <Button
@@ -309,16 +230,6 @@ export default function LogisticsPage() {
                         </Button>
                       </div>
                     </div>
-<<<<<<< HEAD
-                    <h3 className="mb-1 text-sm font-black uppercase tracking-tight text-slate-900 transition-colors group-hover:text-indigo-600">
-                      {card.title}
-                    </h3>
-                    <p className="mb-3 line-clamp-2 text-[10px] leading-relaxed text-slate-500">
-                      {card.description}
-                    </p>
-                    <div className="mb-3 flex items-center justify-between rounded-lg bg-slate-50 p-2.5">
-                      <span className="text-[8px] font-black uppercase text-slate-400">
-=======
                     <h3 className="text-text-primary group-hover:text-accent-primary mb-1 text-sm font-black uppercase tracking-tight transition-colors">
                       {card.title}
                     </h3>
@@ -327,7 +238,6 @@ export default function LogisticsPage() {
                     </p>
                     <div className="bg-bg-surface2 mb-3 flex items-center justify-between rounded-lg p-2.5">
                       <span className="text-text-muted text-[8px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                         {card.stats.label}
                       </span>
                       <span
@@ -337,11 +247,7 @@ export default function LogisticsPage() {
                             ? 'text-emerald-600'
                             : card.stats.status === 'warning'
                               ? 'text-amber-600'
-<<<<<<< HEAD
-                              : 'text-slate-900'
-=======
                               : 'text-text-primary'
->>>>>>> recover/cabinet-wip-from-stash
                         )}
                       >
                         {card.stats.value}
@@ -350,11 +256,6 @@ export default function LogisticsPage() {
                     <Button
                       asChild
                       variant="link"
-<<<<<<< HEAD
-                      className="h-auto p-0 text-[8px] font-black uppercase text-indigo-600 hover:text-indigo-700"
-                    >
-                      <Link href={card.href} className="flex items-center gap-1.5">
-=======
                       className="text-accent-primary hover:text-accent-primary h-auto p-0 text-[8px] font-black uppercase"
                     >
                       <Link
@@ -364,7 +265,6 @@ export default function LogisticsPage() {
                           ? { 'data-testid': card.navTestId }
                           : {})}
                       >
->>>>>>> recover/cabinet-wip-from-stash
                         Перейти <ArrowRight className="h-2.5 w-2.5" />
                       </Link>
                     </Button>
@@ -382,16 +282,6 @@ export default function LogisticsPage() {
             className="min-w-0"
           >
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-<<<<<<< HEAD
-              <Card className="rounded-xl border-slate-100 bg-white p-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-purple-100">
-                    <FileText className="h-5 w-5 text-purple-600" />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-black text-slate-900">ТТН, CMR, ЭТрН</h4>
-                    <p className="text-[10px] text-slate-500">
-=======
               <Card className="border-border-subtle rounded-xl bg-white p-4">
                 <div className="flex items-center gap-3">
                   <div className="bg-accent-primary/15 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
@@ -400,49 +290,31 @@ export default function LogisticsPage() {
                   <div>
                     <h4 className="text-text-primary text-sm font-black">ТТН, CMR, ЭТрН</h4>
                     <p className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                       Товарно-транспортные накладные, международная CMR, электронная ТрН и УПД для
                       ЭДО.
                     </p>
                   </div>
                 </div>
                 <Button asChild variant="outline" size="sm" className="mt-3 text-[9px] font-black">
-<<<<<<< HEAD
-                  <Link href="/brand/documents">
-=======
                   <Link href={ROUTES.brand.documents}>
->>>>>>> recover/cabinet-wip-from-stash
                     Документы <ArrowRight className="ml-1 h-3 w-3" />
                   </Link>
                 </Button>
               </Card>
-<<<<<<< HEAD
-              <Card className="rounded-xl border-slate-100 bg-white p-4">
-=======
               <Card className="border-border-subtle rounded-xl bg-white p-4">
->>>>>>> recover/cabinet-wip-from-stash
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-rose-100">
                     <Calculator className="h-5 w-5 text-rose-600" />
                   </div>
                   <div>
-<<<<<<< HEAD
-                    <h4 className="text-sm font-black text-slate-900">Таможня и пошлины</h4>
-                    <p className="text-[10px] text-slate-500">
-=======
                     <h4 className="text-text-primary text-sm font-black">Таможня и пошлины</h4>
                     <p className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                       Расчёт пошлин и налогов (DDP), ЕАЭС, landed cost, декларации.
                     </p>
                   </div>
                 </div>
                 <Button asChild variant="outline" size="sm" className="mt-3 text-[9px] font-black">
-<<<<<<< HEAD
-                  <Link href="/brand/logistics/duty-calculator">
-=======
                   <Link href={ROUTES.brand.logisticsDutyCalculator}>
->>>>>>> recover/cabinet-wip-from-stash
                     Калькулятор пошлин <ArrowRight className="ml-1 h-3 w-3" />
                   </Link>
                 </Button>
@@ -457,13 +329,8 @@ export default function LogisticsPage() {
             accentColor="emerald"
             className="min-w-0"
           >
-<<<<<<< HEAD
-            <Card className="rounded-xl border-slate-100 bg-white p-4">
-              <p className="mb-3 text-[10px] text-slate-600">
-=======
             <Card className="border-border-subtle rounded-xl bg-white p-4">
               <p className="text-text-secondary mb-3 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                 РФ и СНГ: зоны доставки перевозчиков (СДЭК, Боксберри, ПЭК, ДПД, Почта России).
                 Условия Ex-Works, DDP, до двери. Сроки и ограничения по регионам.
               </p>
@@ -487,15 +354,9 @@ export default function LogisticsPage() {
               <Button
                 asChild
                 variant="link"
-<<<<<<< HEAD
-                className="mt-3 h-auto p-0 text-[9px] font-black text-indigo-600"
-              >
-                <Link href="/brand/logistics/regions">Настроить регионы и тарифы →</Link>
-=======
                 className="text-accent-primary mt-3 h-auto p-0 text-[9px] font-black"
               >
                 <Link href={ROUTES.brand.logisticsRegions}>Настроить регионы и тарифы →</Link>
->>>>>>> recover/cabinet-wip-from-stash
               </Button>
             </Card>
           </SectionBlock>

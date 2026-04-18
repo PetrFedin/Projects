@@ -142,17 +142,10 @@ function StagesHelpHover({
         )}
       >
         <div className="px-3 py-3 sm:px-4 sm:py-3.5">
-<<<<<<< HEAD
-          <p className="border-b border-slate-100 pb-2 text-sm font-semibold text-slate-900">
-            {title}
-          </p>
-          <div className="space-y-2.5 pt-2.5 text-[11px] leading-relaxed text-slate-600">
-=======
           <p className="border-border-subtle text-text-primary border-b pb-2 text-sm font-semibold">
             {title}
           </p>
           <div className="text-text-secondary space-y-2.5 pt-2.5 text-[11px] leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
             {children}
           </div>
         </div>
@@ -186,15 +179,9 @@ StagesHelpIconTrigger.displayName = 'StagesHelpIconTrigger';
 
 function StagesHelpWhyBlock({ title, children }: { title: string; children: ReactNode }) {
   return (
-<<<<<<< HEAD
-    <div className="space-y-1 rounded-md border border-slate-100 bg-slate-50/90 px-2.5 py-2">
-      <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">{title}</p>
-      <div className="space-y-1 text-[10px] leading-snug text-slate-600">{children}</div>
-=======
     <div className="border-border-subtle bg-bg-surface2/90 space-y-1 rounded-md border px-2.5 py-2">
       <p className="text-text-secondary text-[10px] font-bold uppercase tracking-wide">{title}</p>
       <div className="text-text-secondary space-y-1 text-[10px] leading-snug">{children}</div>
->>>>>>> recover/cabinet-wip-from-stash
     </div>
   );
 }
@@ -614,15 +601,9 @@ function MatrixLinkStrip({
           </Link>
         </TooltipTrigger>
         <TooltipContent side="bottom" align="center" className={MATRIX_LINK_TIP_CONTENT_CLASS}>
-<<<<<<< HEAD
-          <p className="text-[9px] font-bold uppercase tracking-wide text-slate-500">Чат</p>
-          <p className="mt-1 text-[11px] leading-snug text-slate-700">{row.lines.chat}</p>
-          <p className="mt-1.5 border-t border-slate-100 pt-1.5 text-[10px] text-slate-500">
-=======
           <p className="text-text-secondary text-[9px] font-bold uppercase tracking-wide">Чат</p>
           <p className="text-text-primary mt-1 text-[11px] leading-snug">{row.lines.chat}</p>
           <p className="border-border-subtle text-text-secondary mt-1.5 border-t pt-1.5 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
             {MATRIX_LINK_TIP_FOOTER}
           </p>
         </TooltipContent>
@@ -656,15 +637,9 @@ function MatrixLinkStrip({
           </Link>
         </TooltipTrigger>
         <TooltipContent side="bottom" align="center" className={MATRIX_LINK_TIP_CONTENT_CLASS}>
-<<<<<<< HEAD
-          <p className="text-[9px] font-bold uppercase tracking-wide text-slate-500">Задачи</p>
-          <p className="mt-1 text-[11px] leading-snug text-slate-700">{row.lines.tasks}</p>
-          <p className="mt-1.5 border-t border-slate-100 pt-1.5 text-[10px] text-slate-500">
-=======
           <p className="text-text-secondary text-[9px] font-bold uppercase tracking-wide">Задачи</p>
           <p className="text-text-primary mt-1 text-[11px] leading-snug">{row.lines.tasks}</p>
           <p className="border-border-subtle text-text-secondary mt-1.5 border-t pt-1.5 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
             {MATRIX_LINK_TIP_FOOTER}
           </p>
         </TooltipContent>
@@ -699,17 +674,11 @@ function MatrixLinkStrip({
           </Link>
         </TooltipTrigger>
         <TooltipContent side="bottom" align="center" className={MATRIX_LINK_TIP_CONTENT_CLASS}>
-<<<<<<< HEAD
-          <p className="text-[9px] font-bold uppercase tracking-wide text-slate-500">Календарь</p>
-          <p className="mt-1 text-[11px] leading-snug text-slate-700">{row.lines.calendar}</p>
-          <p className="mt-1.5 border-t border-slate-100 pt-1.5 text-[10px] text-slate-500">
-=======
           <p className="text-text-secondary text-[9px] font-bold uppercase tracking-wide">
             Календарь
           </p>
           <p className="text-text-primary mt-1 text-[11px] leading-snug">{row.lines.calendar}</p>
           <p className="border-border-subtle text-text-secondary mt-1.5 border-t pt-1.5 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
             {MATRIX_LINK_TIP_FOOTER}
           </p>
         </TooltipContent>
@@ -738,17 +707,11 @@ function MatrixLinkStrip({
           </Link>
         </TooltipTrigger>
         <TooltipContent side="bottom" align="center" className={MATRIX_LINK_TIP_CONTENT_CLASS}>
-<<<<<<< HEAD
-          <p className="text-[9px] font-bold uppercase tracking-wide text-slate-500">Заметки</p>
-          <p className="mt-1 text-[11px] leading-snug text-slate-700">{row.lines.notes}</p>
-          <p className="mt-1.5 border-t border-slate-100 pt-1.5 text-[10px] text-slate-500">
-=======
           <p className="text-text-secondary text-[9px] font-bold uppercase tracking-wide">
             Заметки
           </p>
           <p className="text-text-primary mt-1 text-[11px] leading-snug">{row.lines.notes}</p>
           <p className="border-border-subtle text-text-secondary mt-1.5 border-t pt-1.5 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
             {MATRIX_LINK_TIP_FOOTER}
           </p>
         </TooltipContent>
@@ -1043,11 +1006,7 @@ function StagesLocalInventoryToolbar({
           <Upload className="h-3 w-3" aria-hidden />
           Импорт JSON
         </Button>
-<<<<<<< HEAD
-        <label className="flex cursor-pointer select-none items-center gap-1.5 text-[10px] text-slate-600">
-=======
         <label className="text-text-secondary flex cursor-pointer select-none items-center gap-1.5 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
           <Checkbox
             checked={importReplaceAll}
             onCheckedChange={(v) => setImportReplaceAll(v === true)}
@@ -1078,11 +1037,7 @@ function StagesLocalInventoryToolbar({
           <p className="text-[9px] font-bold uppercase tracking-wide text-emerald-800">
             Новая коллекция
           </p>
-<<<<<<< HEAD
-          <p className="text-[10px] leading-snug text-slate-600">
-=======
           <p className="text-text-secondary text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
             Создаётся запись в списке коллекций и открывается контекст{' '}
             <code className="text-[9px]">collectionId</code> — дальше добавьте артикулы ниже.
           </p>
@@ -1114,13 +1069,8 @@ function StagesLocalInventoryToolbar({
           </div>
         </div>
       ) : null}
-<<<<<<< HEAD
-      <div className="space-y-2 rounded-lg border border-slate-200/90 bg-white/90 p-3">
-        <p className="text-[9px] font-bold uppercase tracking-wide text-slate-600">
-=======
       <div className="border-border-default/90 space-y-2 rounded-lg border bg-white/90 p-3">
         <p className="text-text-secondary text-[9px] font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
           {emptyCol ? 'Первый артикул в этой коллекции' : 'Добавить артикул'}
         </p>
         <div className="flex flex-col flex-wrap items-stretch gap-2 sm:flex-row sm:items-center">
@@ -1150,23 +1100,14 @@ function StagesLocalInventoryToolbar({
         </div>
       </div>
       {tools.localRemovableArticles.length > 0 ? (
-<<<<<<< HEAD
-        <div className="space-y-2 rounded-lg border border-slate-200/80 bg-slate-50/60 p-3">
-          <p className="text-[9px] font-bold uppercase tracking-wide text-slate-600">
-=======
         <div className="border-border-default/80 bg-bg-surface2/60 space-y-2 rounded-lg border p-3">
           <p className="text-text-secondary text-[9px] font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
             Локальные артикулы (удаление)
           </p>
           <ul className="max-h-32 space-y-1.5 overflow-y-auto">
             {tools.localRemovableArticles.map((a) => (
               <li key={a.id} className="flex items-center justify-between gap-2 text-[10px]">
-<<<<<<< HEAD
-                <span className="truncate font-mono text-slate-800" title={a.id}>
-=======
                 <span className="text-text-primary truncate font-mono" title={a.id}>
->>>>>>> recover/cabinet-wip-from-stash
                   {a.sku}
                 </span>
                 <Button
@@ -1201,11 +1142,7 @@ function StagesLocalInventoryToolbar({
           <Plus className="h-3.5 w-3.5 shrink-0" aria-hidden />
           Коллекция и артикулы
         </p>
-<<<<<<< HEAD
-        <p className="-mt-1 text-[9px] leading-snug text-slate-600">
-=======
         <p className="text-text-secondary -mt-1 text-[9px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
           Контекст {collectionLabel}. Импорт/экспорт, добавление SKU — без API (
           <strong className="text-text-primary">ProductionDataPort</strong> / localStorage).
         </p>
@@ -1221,19 +1158,11 @@ function StagesLocalInventoryToolbar({
           <Plus className="h-3.5 w-3.5 shrink-0" aria-hidden />
           Коллекция и артикулы (локально, без API)
         </CardTitle>
-<<<<<<< HEAD
-        <CardDescription className="text-[10px] leading-relaxed text-slate-600">
-          Данные в <strong className="text-slate-800">localStorage</strong>; контекст{' '}
-          {collectionLabel}. Импорт/экспорт — перенос между браузерами. Записи процесса по SKU
-          синхронизируются при удалении. Дальше —{' '}
-          <strong className="text-slate-800">ProductionDataPort</strong>.
-=======
         <CardDescription className="text-text-secondary text-[10px] leading-relaxed">
           Данные в <strong className="text-text-primary">localStorage</strong>; контекст{' '}
           {collectionLabel}. Импорт/экспорт — перенос между браузерами. Записи процесса по SKU
           синхронизируются при удалении. Дальше —{' '}
           <strong className="text-text-primary">ProductionDataPort</strong>.
->>>>>>> recover/cabinet-wip-from-stash
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3 pt-0">{body}</CardContent>
@@ -1257,19 +1186,11 @@ export function StagesContextFilterPulseIcon() {
       title="Активен фильтр среза / перечня / узла схемы"
     >
       <span
-<<<<<<< HEAD
-        className="pointer-events-none absolute inline-flex h-3 w-3 animate-ping rounded-full bg-violet-400/45 motion-reduce:hidden"
-        aria-hidden
-      />
-      <Filter
-        className="pointer-events-none relative h-3.5 w-3.5 animate-pulse text-violet-600 drop-shadow-[0_0_5px_rgba(139,92,246,0.5)] motion-reduce:animate-none motion-reduce:opacity-100"
-=======
         className="bg-accent-primary/15 pointer-events-none absolute inline-flex h-3 w-3 animate-ping rounded-full motion-reduce:hidden"
         aria-hidden
       />
       <Filter
         className="text-accent-primary pointer-events-none relative h-3.5 w-3.5 animate-pulse drop-shadow-[0_0_5px_rgba(139,92,246,0.5)] motion-reduce:animate-none motion-reduce:opacity-100"
->>>>>>> recover/cabinet-wip-from-stash
         strokeWidth={2.5}
         aria-hidden
       />
@@ -1294,11 +1215,7 @@ function StagesCollapsePinBar({
   collapseAriaLabel: string;
 }) {
   return (
-<<<<<<< HEAD
-    <div className="ml-1 flex shrink-0 items-center gap-0.5 border-l border-slate-200/80 pl-2">
-=======
     <div className="border-border-default/80 ml-1 flex shrink-0 items-center gap-0.5 border-l pl-2">
->>>>>>> recover/cabinet-wip-from-stash
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
@@ -1371,13 +1288,8 @@ function DepsRowTurnConnector({ column }: { column: number }) {
       {[1, 2, 3, 4, 5].map((c) =>
         c === col ? (
           <span key={c} className="flex flex-col items-center justify-start">
-<<<<<<< HEAD
-            <span className="h-2.5 w-0.5 rounded-full bg-indigo-500/90" />
-            <ArrowDown className="h-3.5 w-3.5 text-indigo-600" strokeWidth={2.5} />
-=======
             <span className="bg-accent-primary/90 h-2.5 w-0.5 rounded-full" />
             <ArrowDown className="text-accent-primary h-3.5 w-3.5" strokeWidth={2.5} />
->>>>>>> recover/cabinet-wip-from-stash
           </span>
         ) : (
           <span key={c} />
@@ -2175,11 +2087,7 @@ export function StagesDependenciesTabContent({
     <TooltipProvider delayDuration={200} skipDelayDuration={400}>
       <div className="space-y-4">
         {sliceEmptyButCollectionHasArticles ? (
-<<<<<<< HEAD
-          <div className="flex flex-col gap-2 rounded-lg border border-violet-200 bg-violet-50/50 px-3 py-2.5 text-[10px] text-violet-950 sm:flex-row sm:items-center">
-=======
           <div className="border-accent-primary/25 bg-accent-primary/10 text-text-primary flex flex-col gap-2 rounded-lg border px-3 py-2.5 text-[10px] sm:flex-row sm:items-center">
->>>>>>> recover/cabinet-wip-from-stash
             <p className="flex-1 leading-snug">
               В коллекции есть{' '}
               <strong>{mergedLocalInventoryTools!.totalArticlesInCollection}</strong> SKU, но{' '}
@@ -2196,27 +2104,16 @@ export function StagesDependenciesTabContent({
             </Button>
           </div>
         ) : null}
-<<<<<<< HEAD
-        <div className="rounded-lg border border-indigo-200/80 bg-indigo-50/35 px-3 py-2">
-=======
         <div className="border-accent-primary/30 bg-accent-primary/10 rounded-lg border px-3 py-2">
->>>>>>> recover/cabinet-wip-from-stash
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
             <div className="min-w-0 flex-1 space-y-2">
               {!profilePanelOpen ? (
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
                   <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1">
-<<<<<<< HEAD
-                    <span className="shrink-0 text-[9px] font-black uppercase tracking-wider text-indigo-900/85">
-                      Профиль контура
-                    </span>
-                    <span className="text-[10px] font-semibold leading-snug text-slate-800">
-=======
                     <span className="text-accent-primary/85 shrink-0 text-[9px] font-black uppercase tracking-wider">
                       Профиль контура
                     </span>
                     <span className="text-text-primary text-[10px] font-semibold leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                       {productionProfileLabel}
                     </span>
                   </div>
@@ -2234,39 +2131,19 @@ export function StagesDependenciesTabContent({
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                   <div className="min-w-0 flex-1 space-y-1">
                     <div className="flex flex-wrap items-center justify-between gap-2">
-<<<<<<< HEAD
-                      <p className="text-[9px] font-black uppercase tracking-wider text-indigo-900/85">
-=======
                       <p className="text-accent-primary/85 text-[9px] font-black uppercase tracking-wider">
->>>>>>> recover/cabinet-wip-from-stash
                         Профиль контура производства
                       </p>
                       <Button
                         type="button"
                         variant="ghost"
                         size="sm"
-<<<<<<< HEAD
-                        className="h-7 shrink-0 text-[10px] text-slate-600"
-=======
                         className="text-text-secondary h-7 shrink-0 text-[10px]"
->>>>>>> recover/cabinet-wip-from-stash
                         onClick={() => setProfilePanelOpen(false)}
                       >
                         Свернуть
                       </Button>
                     </div>
-<<<<<<< HEAD
-                    <p className="text-[9px] leading-snug text-slate-600">
-                      {productionProfileHint}
-                    </p>
-                    <p className="text-[8px] text-slate-500">
-                      Хранится в документе коллекции (
-                      <code className="rounded bg-white/80 px-0.5">productionProfileId</code>) через{' '}
-                      <strong className="text-slate-700">ProductionDataPort</strong> (сейчас
-                      localStorage; с API — тот же контракт). Меняет{' '}
-                      <strong className="text-slate-700">блокировки</strong> и подсветку этапов «вне
-                      профиля», не названия модулей.
-=======
                     <p className="text-text-secondary text-[9px] leading-snug">
                       {productionProfileHint}
                     </p>
@@ -2277,7 +2154,6 @@ export function StagesDependenciesTabContent({
                       localStorage; с API — тот же контракт). Меняет{' '}
                       <strong className="text-text-primary">блокировки</strong> и подсветку этапов
                       «вне профиля», не названия модулей.
->>>>>>> recover/cabinet-wip-from-stash
                     </p>
                   </div>
                   <Select
@@ -2303,32 +2179,20 @@ export function StagesDependenciesTabContent({
                 </div>
               )}
             </div>
-<<<<<<< HEAD
-            <div className="flex shrink-0 flex-row items-center justify-end gap-2 border-t border-indigo-200/40 pt-2 sm:flex-col sm:items-end sm:border-l sm:border-t-0 sm:pl-3 sm:pt-0">
-=======
             <div className="border-accent-primary/30 flex shrink-0 flex-row items-center justify-end gap-2 border-t pt-2 sm:flex-col sm:items-end sm:border-l sm:border-t-0 sm:pl-3 sm:pt-0">
->>>>>>> recover/cabinet-wip-from-stash
               <StagesHelpHover
                 title="Локальный режим без API"
                 trigger={
                   <button
                     type="button"
-<<<<<<< HEAD
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-indigo-200/90 bg-white text-indigo-700 shadow-sm hover:bg-indigo-50/90"
-=======
                     className="border-accent-primary/30 text-accent-primary hover:bg-accent-primary/10 inline-flex h-8 w-8 items-center justify-center rounded-md border bg-white shadow-sm"
->>>>>>> recover/cabinet-wip-from-stash
                     aria-label="Справка: локальные данные в браузере"
                   >
                     <Info className="h-4 w-4 shrink-0" aria-hidden />
                   </button>
                 }
               >
-<<<<<<< HEAD
-                <p className="max-w-sm text-[11px] leading-relaxed text-slate-700">
-=======
                 <p className="text-text-primary max-w-sm text-[11px] leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                   {localModeHelpText}
                 </p>
               </StagesHelpHover>
@@ -2337,11 +2201,7 @@ export function StagesDependenciesTabContent({
                   type="button"
                   variant="outline"
                   size="sm"
-<<<<<<< HEAD
-                  className="h-8 border-indigo-200/90 bg-white text-[10px]"
-=======
                   className="border-accent-primary/30 h-8 bg-white text-[10px]"
->>>>>>> recover/cabinet-wip-from-stash
                   onClick={() => setLocalInventoryOpen((o) => !o)}
                 >
                   {localInventoryOpen ? 'Скрыть коллекцию' : 'Коллекция и данные'}
@@ -2362,13 +2222,8 @@ export function StagesDependenciesTabContent({
               <span className="font-black uppercase tracking-wider text-emerald-800/90">
                 Контур SKU
               </span>
-<<<<<<< HEAD
-              <span className="text-slate-400"> · </span>
-              <span className="font-semibold text-slate-800">
-=======
               <span className="text-text-muted"> · </span>
               <span className="text-text-primary font-semibold">
->>>>>>> recover/cabinet-wip-from-stash
                 {stagesArticleDisplayLabel(focusArticle.sku, focusArticle.season)}
               </span>
               {(() => {
@@ -2377,13 +2232,8 @@ export function StagesDependenciesTabContent({
                 if (!st) return null;
                 return (
                   <>
-<<<<<<< HEAD
-                    <span className="text-slate-400"> — </span>
-                    {st.phase ? <span className="text-slate-600">{st.phase} · </span> : null}
-=======
                     <span className="text-text-muted"> — </span>
                     {st.phase ? <span className="text-text-secondary">{st.phase} · </span> : null}
->>>>>>> recover/cabinet-wip-from-stash
                     <strong className="text-emerald-950">{st.title}</strong>
                     {idx >= 0 ? (
                       <span className="ml-1 font-mono text-[9px] font-bold text-emerald-700/80">
@@ -2396,11 +2246,7 @@ export function StagesDependenciesTabContent({
             </div>
             {focusSkuContourGuidance ? (
               <div className="space-y-2 border-t border-emerald-200/50 pt-2">
-<<<<<<< HEAD
-                <p className="text-[9px] leading-relaxed text-slate-700">
-=======
                 <p className="text-text-primary text-[9px] leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                   {focusSkuContourGuidance.narrative}
                 </p>
                 <div className="flex flex-wrap items-center gap-1.5">
@@ -2441,16 +2287,6 @@ export function StagesDependenciesTabContent({
           onValueChange={(v) => setSubTab(normalizeStagesSub(v))}
           className="w-full"
         >
-<<<<<<< HEAD
-          <Card className="border-slate-200 bg-slate-50/60">
-            <CardHeader className="space-y-0 pb-3">
-              <div className="flex flex-row flex-wrap items-start gap-2">
-                <div className="min-w-0 flex-1 space-y-1.5">
-                  <CardTitle className="text-xs uppercase tracking-tight text-slate-800">
-                    Контроль коллекции: этапы и зависимости
-                  </CardTitle>
-                  <p className="text-xs leading-relaxed text-slate-600">
-=======
           <Card className="border-border-default bg-bg-surface2/60">
             <CardHeader className="space-y-0 pb-3">
               <div className="flex flex-row flex-wrap items-start gap-2">
@@ -2459,7 +2295,6 @@ export function StagesDependenciesTabContent({
                     Контроль коллекции: этапы и зависимости
                   </CardTitle>
                   <p className="text-text-secondary text-xs leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                     Срез и перечень SKU, доска по текущим этапам, схема зависимостей и
                     агрегированная матрица статусов — один контекст коллекции без прыжков по
                     модулям.
@@ -2482,15 +2317,6 @@ export function StagesDependenciesTabContent({
                     </p>
                   </StagesHelpWhyBlock>
                   <StagesHelpWhyBlock title="Контур коллекции в каталоге">
-<<<<<<< HEAD
-                    <p className="mb-2 text-[10px] leading-snug text-slate-600">
-                      Полный путь «от идеи к полке» — тот же порядок, что в{' '}
-                      <strong className="text-slate-800">матрице этапов</strong> и в графе{' '}
-                      <code className="rounded bg-slate-100 px-1">dependsOn</code> (блокировки
-                      следующего шага считаются по зависимостям, а не по номеру в списке ниже).
-                    </p>
-                    <ol className="max-h-52 list-decimal space-y-0.5 overflow-y-auto rounded-md border border-slate-100 bg-slate-50/50 p-2 pl-4 text-[10px] text-slate-600">
-=======
                     <p className="text-text-secondary mb-2 text-[10px] leading-snug">
                       Полный путь «от идеи к полке» — тот же порядок, что в{' '}
                       <strong className="text-text-primary">матрице этапов</strong> и в графе{' '}
@@ -2498,35 +2324,19 @@ export function StagesDependenciesTabContent({
                       следующего шага считаются по зависимостям, а не по номеру в списке ниже).
                     </p>
                     <ol className="text-text-secondary border-border-subtle bg-bg-surface2/80 max-h-52 list-decimal space-y-0.5 overflow-y-auto rounded-md border p-2 pl-4 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                       {getCollectionBrandNarrativeTitles().map((t, i) => (
                         <li key={i}>{t}</li>
                       ))}
                     </ol>
                   </StagesHelpWhyBlock>
                   <StagesHelpWhyBlock title="Гайд бренда (дорожная карта)">
-<<<<<<< HEAD
-                    <p className="mb-2 text-[10px] leading-snug text-slate-600">
-                      Тот же набор этапов в логике{' '}
-                      <strong className="text-slate-800">
-=======
                     <p className="text-text-secondary mb-2 text-[10px] leading-snug">
                       Тот же набор этапов в логике{' '}
                       <strong className="text-text-primary">
->>>>>>> recover/cabinet-wip-from-stash
                         презентаций и планирования с командой
                       </strong>{' '}
                       (семплы и закупка до формального согласования образа и ТЗ; комплектация B2B в
                       повестке рядом со складом). Для{' '}
-<<<<<<< HEAD
-                      <strong className="text-slate-800">статусов и «что блокирует что»</strong>{' '}
-                      ориентируйтесь на список выше и матрицу — там порядок строк = исполнение и{' '}
-                      <code className="rounded bg-slate-100 px-1">dependsOn</code> (например семплы
-                      после Tech Pack и поставки в цех; на серии — nesting → выпуск → ОТК → склад →
-                      комплектация → отгрузка).
-                    </p>
-                    <ol className="max-h-52 list-decimal space-y-0.5 overflow-y-auto rounded-md border border-indigo-100 bg-indigo-50/40 p-2 pl-4 text-[10px] text-slate-600">
-=======
                       <strong className="text-text-primary">статусов и «что блокирует что»</strong>{' '}
                       ориентируйтесь на список выше и матрицу — там порядок строк = исполнение и{' '}
                       <code className="bg-bg-surface2 rounded px-1">dependsOn</code> (например
@@ -2534,52 +2344,23 @@ export function StagesDependenciesTabContent({
                       склад → комплектация → отгрузка).
                     </p>
                     <ol className="text-text-secondary border-accent-primary/20 bg-accent-primary/10 max-h-52 list-decimal space-y-0.5 overflow-y-auto rounded-md border p-2 pl-4 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                       {getCollectionBrandGuideTitles().map((t, i) => (
                         <li key={i}>{t}</li>
                       ))}
                     </ol>
                   </StagesHelpWhyBlock>
                   <p>
-<<<<<<< HEAD
-                    <strong className="text-slate-800">Категории</strong> — из{' '}
-                    <strong className="text-slate-800">CATEGORY_HANDBOOK</strong>: сначала
-                    аудитория, затем три уровня L1–L3 под корнями аудитории.
-                  </p>
-                  <p>
-                    <strong className="text-slate-800">Схема зависимостей</strong> (5 узлов в
-=======
                     <strong className="text-text-primary">Категории</strong> — из{' '}
                     <strong className="text-text-primary">CATEGORY_HANDBOOK</strong>: сначала
                     аудитория, затем три уровня L1–L3 под корнями аудитории.
                   </p>
                   <p>
                     <strong className="text-text-primary">Схема зависимостей</strong> (5 узлов в
->>>>>>> recover/cabinet-wip-from-stash
                     строке, змейка, без горизонтального скролла): числа — по пулу среза; клик по
                     узлу сужает доску и матрицу до SKU с этапом на этом узле (повторный клик —
                     сброс).
                   </p>
                   <div>
-<<<<<<< HEAD
-                    <p className="mb-1.5 font-semibold text-slate-800">Параметры в URL</p>
-                    <ul className="list-disc space-y-1 pl-4 text-[10px] text-slate-600">
-                      <li>
-                        <code className="rounded bg-slate-100 px-1 py-0.5 text-slate-800">
-                          stagesAudience
-                        </code>
-                        ,{' '}
-                        <code className="rounded bg-slate-100 px-1 py-0.5 text-slate-800">
-                          stagesSeason
-                        </code>
-                        ,{' '}
-                        <code className="rounded bg-slate-100 px-1 py-0.5 text-slate-800">
-                          stagesL1
-                        </code>
-                        –<code className="rounded bg-slate-100 px-1 py-0.5 text-slate-800">L3</code>
-                        ,{' '}
-                        <code className="rounded bg-slate-100 px-1 py-0.5 text-slate-800">
-=======
                     <p className="text-text-primary mb-1.5 font-semibold">Параметры в URL</p>
                     <ul className="text-text-secondary list-disc space-y-1 pl-4 text-[10px]">
                       <li>
@@ -2600,7 +2381,6 @@ export function StagesDependenciesTabContent({
                         </code>
                         ,{' '}
                         <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">
->>>>>>> recover/cabinet-wip-from-stash
                           stagesFab
                         </code>{' '}
                         — срез (несколько значений через запятую, OR внутри оси; между осями — AND).
@@ -2608,73 +2388,45 @@ export function StagesDependenciesTabContent({
                         <code className="text-[10px]">encodeURIComponent</code>.
                       </li>
                       <li>
-<<<<<<< HEAD
-                        <code className="rounded bg-slate-100 px-1 py-0.5 text-slate-800">
-=======
                         <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">
->>>>>>> recover/cabinet-wip-from-stash
                           stagesSku
                         </code>{' '}
                         — один артикул в рабочем контексте (id в коллекции)
                       </li>
                       <li>
-<<<<<<< HEAD
-                        <code className="rounded bg-slate-100 px-1 py-0.5 text-slate-800">
-=======
                         <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">
->>>>>>> recover/cabinet-wip-from-stash
                           stagesChainFocus
                         </code>{' '}
                         — фильтр узла схемы
                       </li>
                       <li>
-<<<<<<< HEAD
-                        <code className="rounded bg-slate-100 px-1 py-0.5 text-slate-800">
-=======
                         <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">
->>>>>>> recover/cabinet-wip-from-stash
                           stagesMatrixSku
                         </code>{' '}
                         — устаревший deep link: при открытии переносит на вкладку «По артикулам» с
                         выбранным SKU и удаляется из URL
                       </li>
                       <li>
-<<<<<<< HEAD
-                        <code className="rounded bg-slate-100 px-1 py-0.5 text-slate-800">
-=======
                         <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">
->>>>>>> recover/cabinet-wip-from-stash
                           stagesSub
                         </code>{' '}
                         — внутренняя вкладка (оперативка / процесс / по артикулам)
                       </li>
                       <li>
-<<<<<<< HEAD
-                        <code className="rounded bg-slate-100 px-1 py-0.5 text-slate-800">
-=======
                         <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">
->>>>>>> recover/cabinet-wip-from-stash
                           stagesFilterSub
                         </code>{' '}
                         — вкладка, где последний раз меняли срез (пульсирующая иконка фильтра)
                       </li>
                       <li>
-<<<<<<< HEAD
-                        <code className="rounded bg-slate-100 px-1 py-0.5 text-slate-800">
-=======
                         <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">
->>>>>>> recover/cabinet-wip-from-stash
                           stagesMatrixPhase
                         </code>{' '}
                         — фильтр матрицы по фазе каталога (точное имя группы этапа); сбрасывается
                         вместе с «Сбросить срез»
                       </li>
                       <li>
-<<<<<<< HEAD
-                        <code className="rounded bg-slate-100 px-1 py-0.5 text-slate-800">
-=======
                         <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">
->>>>>>> recover/cabinet-wip-from-stash
                           stagesMatrixQ
                         </code>{' '}
                         — текстовый фильтр строк матрицы (подстрока в названии, фазе, id или зоне);
@@ -2684,13 +2436,6 @@ export function StagesDependenciesTabContent({
                   </div>
                 </StagesHelpHover>
               </div>
-<<<<<<< HEAD
-              <TabsList className="mt-4 h-auto w-full flex-wrap justify-start gap-1 border border-slate-200 bg-slate-100/90 p-1">
-                <TabsTrigger
-                  value="ops"
-                  title="Доска этапов и срез коллекции (без перезагрузки страницы — меняется блок ниже)"
-                  className="gap-1.5 px-2.5 py-2 text-[10px] font-bold uppercase tracking-wider data-[state=active]:bg-white"
-=======
               {/* cabinetSurface v1 */}
               <TabsList className={cn(cabinetSurface.tabsList, 'mt-4 flex-wrap')}>
                 <TabsTrigger
@@ -2700,7 +2445,6 @@ export function StagesDependenciesTabContent({
                     cabinetSurface.tabsTrigger,
                     'h-auto gap-1.5 px-2.5 py-2 tracking-wider'
                   )}
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   <LayoutGrid
                     className="pointer-events-none h-3.5 w-3.5 shrink-0 opacity-70"
@@ -2714,14 +2458,10 @@ export function StagesDependenciesTabContent({
                 <TabsTrigger
                   value="process"
                   title="Схема зависимостей и матрица статусов по этапам"
-<<<<<<< HEAD
-                  className="gap-1.5 px-2.5 py-2 text-[10px] font-bold uppercase tracking-wider data-[state=active]:bg-white"
-=======
                   className={cn(
                     cabinetSurface.tabsTrigger,
                     'h-auto gap-1.5 px-2.5 py-2 tracking-wider'
                   )}
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   <ListTree
                     className="pointer-events-none h-3.5 w-3.5 shrink-0 opacity-70"
@@ -2737,14 +2477,10 @@ export function StagesDependenciesTabContent({
                 <TabsTrigger
                   value="sku"
                   title="Карточка одного SKU: чеклисты этапов и кнопки «в модуль»"
-<<<<<<< HEAD
-                  className="gap-1.5 px-2.5 py-2 text-[10px] font-bold uppercase tracking-wider data-[state=active]:bg-white"
-=======
                   className={cn(
                     cabinetSurface.tabsTrigger,
                     'h-auto gap-1.5 px-2.5 py-2 tracking-wider'
                   )}
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   <Package
                     className="pointer-events-none h-3.5 w-3.5 shrink-0 opacity-70"
@@ -2756,15 +2492,9 @@ export function StagesDependenciesTabContent({
                   ) : null}
                 </TabsTrigger>
               </TabsList>
-<<<<<<< HEAD
-              <p className="mt-2 text-[10px] leading-snug text-slate-500">
-                Это три{' '}
-                <strong className="font-semibold text-slate-700">секции одного экрана</strong>{' '}
-=======
               <p className="text-text-secondary mt-2 text-[10px] leading-snug">
                 Это три{' '}
                 <strong className="text-text-primary font-semibold">секции одного экрана</strong>{' '}
->>>>>>> recover/cabinet-wip-from-stash
                 (адрес в браузере чуть меняется — так удобнее делиться ссылкой). Не обновление
                 страницы: переключается только содержимое ниже. Матрица этапов — на вкладке «Процесс
                 и правила».
@@ -2772,11 +2502,7 @@ export function StagesDependenciesTabContent({
             </CardHeader>
           </Card>
 
-<<<<<<< HEAD
-          <Card className="border-indigo-100">
-=======
           <Card className="border-accent-primary/20">
->>>>>>> recover/cabinet-wip-from-stash
             <CardHeader className="pb-2">
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1 space-y-1">
@@ -2793,11 +2519,7 @@ export function StagesDependenciesTabContent({
                   onOpenChange={setSliceOpen}
                   collapseAriaLabel="Свернуть или развернуть блок «Срез и перечень»"
                 />
-<<<<<<< HEAD
-                <div className="flex h-8 shrink-0 items-center border-l border-slate-200 pl-2">
-=======
                 <div className="border-border-default flex h-8 shrink-0 items-center border-l pl-2">
->>>>>>> recover/cabinet-wip-from-stash
                   <StagesHelpHover
                     align="end"
                     wide
@@ -2813,17 +2535,10 @@ export function StagesDependenciesTabContent({
                       <p>
                         Слева — оси среза коллекции; справа — список артикулов пула. Клик по строке
                         задаёт{' '}
-<<<<<<< HEAD
-                        <strong className="text-slate-800">единственный артикул в фокусе</strong> (
-                        <code className="rounded bg-slate-100 px-1">stagesSku</code>): схема, доска,
-                        матрица и переходы считаются только в его контексте. Свод по всей коллекции
-                        без выбора строки — отдельный сценарий (бэклог).
-=======
                         <strong className="text-text-primary">единственный артикул в фокусе</strong>{' '}
                         (<code className="bg-bg-surface2 rounded px-1">stagesSku</code>): схема,
                         доска, матрица и переходы считаются только в его контексте. Свод по всей
                         коллекции без выбора строки — отдельный сценарий (бэклог).
->>>>>>> recover/cabinet-wip-from-stash
                       </p>
                     </StagesHelpWhyBlock>
                     <StagesHelpWhyBlock title="Зачем">
@@ -2834,18 +2549,6 @@ export function StagesDependenciesTabContent({
                     </StagesHelpWhyBlock>
                     <StagesHelpWhyBlock title="URL и ссылки">
                       <p>
-<<<<<<< HEAD
-                        <code className="rounded bg-slate-100 px-1">stagesSku</code> — id артикула в
-                        URL. Чтобы снять привязку к узлу схемы, удалите из адреса{' '}
-                        <code className="rounded bg-slate-100 px-1">stagesChainFocus</code>; при
-                        необходимости уберите устаревшие{' '}
-                        <code className="rounded bg-slate-100 px-1">stagesPick</code> /{' '}
-                        <code className="rounded bg-slate-100 px-1">stagesWorkSku</code>.
-                      </p>
-                      <p className="mt-2">
-                        Подробности по строке — по стрелке.{' '}
-                        <strong className="text-slate-800">Ткань и площадка</strong> — в модулях:
-=======
                         <code className="bg-bg-surface2 rounded px-1">stagesSku</code> — id артикула
                         в URL. Чтобы снять привязку к узлу схемы, удалите из адреса{' '}
                         <code className="bg-bg-surface2 rounded px-1">stagesChainFocus</code>; при
@@ -2856,7 +2559,6 @@ export function StagesDependenciesTabContent({
                       <p className="mt-2">
                         Подробности по строке — по стрелке.{' '}
                         <strong className="text-text-primary">Ткань и площадка</strong> — в модулях:
->>>>>>> recover/cabinet-wip-from-stash
                       </p>
                       <ul className="list-disc space-y-1 pl-4">
                         <li>
@@ -2869,20 +2571,12 @@ export function StagesDependenciesTabContent({
                                   )
                                 : mergeCollectionQuery(ROUTES.brand.materials, collectionQuery)
                             }
-<<<<<<< HEAD
-                            className="font-semibold text-indigo-600 hover:underline"
-=======
                             className="text-accent-primary font-semibold hover:underline"
->>>>>>> recover/cabinet-wip-from-stash
                           >
                             Материалы
                           </Link>
                           {focusArticle ? (
-<<<<<<< HEAD
-                            <span className="text-slate-400"> (с контекстом артикула в URL)</span>
-=======
                             <span className="text-text-muted"> (с контекстом артикула в URL)</span>
->>>>>>> recover/cabinet-wip-from-stash
                           ) : null}
                         </li>
                         <li>
@@ -2895,11 +2589,7 @@ export function StagesDependenciesTabContent({
                                   )
                                 : mergeCollectionQuery(floorHref('workshop'), collectionQuery)
                             }
-<<<<<<< HEAD
-                            className="font-semibold text-indigo-600 hover:underline"
-=======
                             className="text-accent-primary font-semibold hover:underline"
->>>>>>> recover/cabinet-wip-from-stash
                           >
                             Коллекция в цеху
                           </Link>
@@ -2915,17 +2605,6 @@ export function StagesDependenciesTabContent({
               <CardContent className="space-y-3 pb-4 pt-0">
                 <div
                   className={cn(
-<<<<<<< HEAD
-                    'flex min-h-0 flex-col gap-3 rounded-xl border border-slate-200/90 bg-slate-50/90 p-2 sm:flex-row',
-                    SLICE_PANEL_HEIGHT_CLASS
-                  )}
-                >
-                  <aside className="flex max-h-[min(13rem,46vh)] min-h-0 w-full shrink-0 flex-col gap-2 overflow-y-auto sm:max-h-none sm:w-[12.5rem] sm:max-w-[13rem] sm:border-r sm:border-slate-200/80 sm:pr-2.5">
-                    <p className="text-[7px] font-bold uppercase tracking-wide text-slate-400">
-                      Фильтры
-                    </p>
-                    <p className="text-[9px] leading-snug text-slate-500">
-=======
                     'border-border-default/90 bg-bg-surface2/90 flex min-h-0 flex-col gap-3 rounded-xl border p-2 sm:flex-row',
                     SLICE_PANEL_HEIGHT_CLASS
                   )}
@@ -2935,7 +2614,6 @@ export function StagesDependenciesTabContent({
                       Фильтры
                     </p>
                     <p className="text-text-secondary text-[9px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                       Варианты в каждом блоке — из коллекции с учётом остальных выбранных осей.
                     </p>
                     <div className="flex shrink-0 flex-wrap items-center gap-1.5">
@@ -2957,21 +2635,12 @@ export function StagesDependenciesTabContent({
                     </div>
 
                     <div className="space-y-1">
-<<<<<<< HEAD
-                      <span className="text-[7px] font-bold uppercase text-slate-400">
-                        Аудитория
-                      </span>
-                      <div className="space-y-0.5 rounded-md border border-slate-100 bg-white px-1 py-1">
-                        {audienceFacetChoices.length === 0 ? (
-                          <p className="px-0.5 py-1 text-[9px] text-slate-400">Нет вариантов</p>
-=======
                       <span className="text-text-muted text-[7px] font-bold uppercase">
                         Аудитория
                       </span>
                       <div className="border-border-subtle space-y-0.5 rounded-md border bg-white px-1 py-1">
                         {audienceFacetChoices.length === 0 ? (
                           <p className="text-text-muted px-0.5 py-1 text-[9px]">Нет вариантов</p>
->>>>>>> recover/cabinet-wip-from-stash
                         ) : (
                           audienceFacetChoices.map((o) => {
                             const fid = `facet-aud-${o.id}`;
@@ -2979,11 +2648,7 @@ export function StagesDependenciesTabContent({
                               <label
                                 key={o.id}
                                 htmlFor={fid}
-<<<<<<< HEAD
-                                className="flex cursor-pointer items-center gap-1.5 rounded px-0.5 py-0.5 hover:bg-slate-50"
-=======
                                 className="hover:bg-bg-surface2 flex cursor-pointer items-center gap-1.5 rounded px-0.5 py-0.5"
->>>>>>> recover/cabinet-wip-from-stash
                               >
                                 <Checkbox
                                   id={fid}
@@ -2991,11 +2656,7 @@ export function StagesDependenciesTabContent({
                                   checked={facetBundle.audience.has(o.id)}
                                   onCheckedChange={() => toggleFacetValue('stagesAudience', o.id)}
                                 />
-<<<<<<< HEAD
-                                <span className="truncate text-[10px] leading-tight text-slate-800">
-=======
                                 <span className="text-text-primary truncate text-[10px] leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                                   {o.name}
                                 </span>
                               </label>
@@ -3006,17 +2667,10 @@ export function StagesDependenciesTabContent({
                     </div>
 
                     <div className="space-y-1">
-<<<<<<< HEAD
-                      <span className="text-[7px] font-bold uppercase text-slate-400">Сезон</span>
-                      <div className="space-y-0.5 rounded-md border border-slate-100 bg-white px-1 py-1">
-                        {seasonFacetChoices.length === 0 ? (
-                          <p className="px-0.5 py-1 text-[9px] text-slate-400">Нет вариантов</p>
-=======
                       <span className="text-text-muted text-[7px] font-bold uppercase">Сезон</span>
                       <div className="border-border-subtle space-y-0.5 rounded-md border bg-white px-1 py-1">
                         {seasonFacetChoices.length === 0 ? (
                           <p className="text-text-muted px-0.5 py-1 text-[9px]">Нет вариантов</p>
->>>>>>> recover/cabinet-wip-from-stash
                         ) : (
                           seasonFacetChoices.map((s) => {
                             const fid = `facet-sea-${encodeURIComponent(s)}`;
@@ -3024,11 +2678,7 @@ export function StagesDependenciesTabContent({
                               <label
                                 key={s}
                                 htmlFor={fid}
-<<<<<<< HEAD
-                                className="flex cursor-pointer items-center gap-1.5 rounded px-0.5 py-0.5 hover:bg-slate-50"
-=======
                                 className="hover:bg-bg-surface2 flex cursor-pointer items-center gap-1.5 rounded px-0.5 py-0.5"
->>>>>>> recover/cabinet-wip-from-stash
                               >
                                 <Checkbox
                                   id={fid}
@@ -3036,11 +2686,7 @@ export function StagesDependenciesTabContent({
                                   checked={facetBundle.season.has(s)}
                                   onCheckedChange={() => toggleFacetValue('stagesSeason', s)}
                                 />
-<<<<<<< HEAD
-                                <span className="truncate text-[10px] leading-tight text-slate-800">
-=======
                                 <span className="text-text-primary truncate text-[10px] leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                                   {s}
                                 </span>
                               </label>
@@ -3051,17 +2697,10 @@ export function StagesDependenciesTabContent({
                     </div>
 
                     <div className="space-y-1">
-<<<<<<< HEAD
-                      <span className="text-[7px] font-bold uppercase text-slate-400">L1</span>
-                      <div className="space-y-0.5 rounded-md border border-slate-100 bg-white px-1 py-1">
-                        {l1FacetChoices.length === 0 ? (
-                          <p className="px-0.5 py-1 text-[9px] text-slate-400">Нет вариантов</p>
-=======
                       <span className="text-text-muted text-[7px] font-bold uppercase">L1</span>
                       <div className="border-border-subtle space-y-0.5 rounded-md border bg-white px-1 py-1">
                         {l1FacetChoices.length === 0 ? (
                           <p className="text-text-muted px-0.5 py-1 text-[9px]">Нет вариантов</p>
->>>>>>> recover/cabinet-wip-from-stash
                         ) : (
                           l1FacetChoices.map((s) => {
                             const fid = `facet-l1-${encodeURIComponent(s)}`;
@@ -3069,11 +2708,7 @@ export function StagesDependenciesTabContent({
                               <label
                                 key={s}
                                 htmlFor={fid}
-<<<<<<< HEAD
-                                className="flex cursor-pointer items-center gap-1.5 rounded px-0.5 py-0.5 hover:bg-slate-50"
-=======
                                 className="hover:bg-bg-surface2 flex cursor-pointer items-center gap-1.5 rounded px-0.5 py-0.5"
->>>>>>> recover/cabinet-wip-from-stash
                               >
                                 <Checkbox
                                   id={fid}
@@ -3081,11 +2716,7 @@ export function StagesDependenciesTabContent({
                                   checked={facetBundle.l1.has(s)}
                                   onCheckedChange={() => toggleFacetValue('stagesL1', s)}
                                 />
-<<<<<<< HEAD
-                                <span className="truncate text-[10px] leading-tight text-slate-800">
-=======
                                 <span className="text-text-primary truncate text-[10px] leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                                   {s}
                                 </span>
                               </label>
@@ -3096,17 +2727,10 @@ export function StagesDependenciesTabContent({
                     </div>
 
                     <div className="space-y-1">
-<<<<<<< HEAD
-                      <span className="text-[7px] font-bold uppercase text-slate-400">L2</span>
-                      <div className="space-y-0.5 rounded-md border border-slate-100 bg-white px-1 py-1">
-                        {l2FacetChoices.length === 0 ? (
-                          <p className="px-0.5 py-1 text-[9px] text-slate-400">Нет вариантов</p>
-=======
                       <span className="text-text-muted text-[7px] font-bold uppercase">L2</span>
                       <div className="border-border-subtle space-y-0.5 rounded-md border bg-white px-1 py-1">
                         {l2FacetChoices.length === 0 ? (
                           <p className="text-text-muted px-0.5 py-1 text-[9px]">Нет вариантов</p>
->>>>>>> recover/cabinet-wip-from-stash
                         ) : (
                           l2FacetChoices.map((s) => {
                             const fid = `facet-l2-${encodeURIComponent(s)}`;
@@ -3114,11 +2738,7 @@ export function StagesDependenciesTabContent({
                               <label
                                 key={s}
                                 htmlFor={fid}
-<<<<<<< HEAD
-                                className="flex cursor-pointer items-center gap-1.5 rounded px-0.5 py-0.5 hover:bg-slate-50"
-=======
                                 className="hover:bg-bg-surface2 flex cursor-pointer items-center gap-1.5 rounded px-0.5 py-0.5"
->>>>>>> recover/cabinet-wip-from-stash
                               >
                                 <Checkbox
                                   id={fid}
@@ -3126,11 +2746,7 @@ export function StagesDependenciesTabContent({
                                   checked={facetBundle.l2.has(s)}
                                   onCheckedChange={() => toggleFacetValue('stagesL2', s)}
                                 />
-<<<<<<< HEAD
-                                <span className="truncate text-[10px] leading-tight text-slate-800">
-=======
                                 <span className="text-text-primary truncate text-[10px] leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                                   {s}
                                 </span>
                               </label>
@@ -3141,17 +2757,10 @@ export function StagesDependenciesTabContent({
                     </div>
 
                     <div className="space-y-1">
-<<<<<<< HEAD
-                      <span className="text-[7px] font-bold uppercase text-slate-400">L3</span>
-                      <div className="space-y-0.5 rounded-md border border-slate-100 bg-white px-1 py-1">
-                        {l3FacetChoices.length === 0 ? (
-                          <p className="px-0.5 py-1 text-[9px] text-slate-400">Нет вариантов</p>
-=======
                       <span className="text-text-muted text-[7px] font-bold uppercase">L3</span>
                       <div className="border-border-subtle space-y-0.5 rounded-md border bg-white px-1 py-1">
                         {l3FacetChoices.length === 0 ? (
                           <p className="text-text-muted px-0.5 py-1 text-[9px]">Нет вариантов</p>
->>>>>>> recover/cabinet-wip-from-stash
                         ) : (
                           l3FacetChoices.map((s) => {
                             const fid = `facet-l3-${encodeURIComponent(s)}`;
@@ -3159,11 +2768,7 @@ export function StagesDependenciesTabContent({
                               <label
                                 key={s}
                                 htmlFor={fid}
-<<<<<<< HEAD
-                                className="flex cursor-pointer items-center gap-1.5 rounded px-0.5 py-0.5 hover:bg-slate-50"
-=======
                                 className="hover:bg-bg-surface2 flex cursor-pointer items-center gap-1.5 rounded px-0.5 py-0.5"
->>>>>>> recover/cabinet-wip-from-stash
                               >
                                 <Checkbox
                                   id={fid}
@@ -3171,11 +2776,7 @@ export function StagesDependenciesTabContent({
                                   checked={facetBundle.l3.has(s)}
                                   onCheckedChange={() => toggleFacetValue('stagesL3', s)}
                                 />
-<<<<<<< HEAD
-                                <span className="truncate text-[10px] leading-tight text-slate-800">
-=======
                                 <span className="text-text-primary truncate text-[10px] leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                                   {s}
                                 </span>
                               </label>
@@ -3186,21 +2787,12 @@ export function StagesDependenciesTabContent({
                     </div>
 
                     <div className="space-y-1">
-<<<<<<< HEAD
-                      <span className="text-[7px] font-bold uppercase text-slate-400">
-                        Производство
-                      </span>
-                      <div className="space-y-0.5 rounded-md border border-slate-100 bg-white px-1 py-1">
-                        {fabFacetChoices.length === 0 ? (
-                          <p className="px-0.5 py-1 text-[9px] text-slate-400">Нет вариантов</p>
-=======
                       <span className="text-text-muted text-[7px] font-bold uppercase">
                         Производство
                       </span>
                       <div className="border-border-subtle space-y-0.5 rounded-md border bg-white px-1 py-1">
                         {fabFacetChoices.length === 0 ? (
                           <p className="text-text-muted px-0.5 py-1 text-[9px]">Нет вариантов</p>
->>>>>>> recover/cabinet-wip-from-stash
                         ) : (
                           fabFacetChoices.map((o) => {
                             const fid = `facet-fab-${o.id}`;
@@ -3208,11 +2800,7 @@ export function StagesDependenciesTabContent({
                               <label
                                 key={o.id}
                                 htmlFor={fid}
-<<<<<<< HEAD
-                                className="flex cursor-pointer items-center gap-1.5 rounded px-0.5 py-0.5 hover:bg-slate-50"
-=======
                                 className="hover:bg-bg-surface2 flex cursor-pointer items-center gap-1.5 rounded px-0.5 py-0.5"
->>>>>>> recover/cabinet-wip-from-stash
                               >
                                 <Checkbox
                                   id={fid}
@@ -3220,11 +2808,7 @@ export function StagesDependenciesTabContent({
                                   checked={facetBundle.fab.has(o.id)}
                                   onCheckedChange={() => toggleFacetValue('stagesFab', o.id)}
                                 />
-<<<<<<< HEAD
-                                <span className="truncate text-[10px] leading-tight text-slate-800">
-=======
                                 <span className="text-text-primary truncate text-[10px] leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                                   {o.label}
                                 </span>
                               </label>
@@ -3235,15 +2819,9 @@ export function StagesDependenciesTabContent({
                     </div>
                   </aside>
 
-<<<<<<< HEAD
-                  <div className="min-h-0 min-w-0 flex-1 overflow-y-auto rounded-lg border border-slate-200 bg-white p-2">
-                    {articlesForPickerList.length === 0 ? (
-                      <p className="col-span-full py-2 text-[10px] text-slate-400">
-=======
                   <div className="border-border-default min-h-0 min-w-0 flex-1 overflow-y-auto rounded-lg border bg-white p-2">
                     {articlesForPickerList.length === 0 ? (
                       <p className="text-text-muted col-span-full py-2 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                         Нет артикулов в пуле.
                       </p>
                     ) : (
@@ -3260,34 +2838,21 @@ export function StagesDependenciesTabContent({
                             className={cn(
                               'flex flex-col gap-0.5 rounded border px-1 py-1 text-[10px] transition-colors',
                               active
-<<<<<<< HEAD
-                                ? 'border-indigo-400 bg-indigo-50/50 shadow-sm'
-                                : 'border-transparent hover:border-slate-100 hover:bg-slate-50'
-=======
                                 ? 'border-accent-primary/40 bg-accent-primary/10 shadow-sm'
                                 : 'hover:bg-bg-surface2 hover:border-border-subtle border-transparent'
->>>>>>> recover/cabinet-wip-from-stash
                             )}
                           >
                             <div className="flex min-w-0 items-center gap-1.5">
                               <button
                                 type="button"
-<<<<<<< HEAD
-                                className="min-w-0 flex-1 cursor-pointer truncate text-left font-medium text-slate-800"
-=======
                                 className="text-text-primary min-w-0 flex-1 cursor-pointer truncate text-left font-medium"
->>>>>>> recover/cabinet-wip-from-stash
                                 onClick={() => setFocusSku(a.id)}
                               >
                                 {stagesArticleDisplayLabel(a.sku, a.season)}
                               </button>
                               <button
                                 type="button"
-<<<<<<< HEAD
-                                className="shrink-0 rounded p-0.5 text-slate-400 transition-colors hover:bg-indigo-50/80 hover:text-indigo-600"
-=======
                                 className="text-text-muted hover:text-accent-primary hover:bg-accent-primary/15 shrink-0 rounded p-0.5 transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
                                 aria-expanded={expanded}
                                 aria-controls={`stages-pick-detail-${a.id}`}
                                 title={expanded ? 'Скрыть подробности' : 'Категория, сезон, этап'}
@@ -3309,19 +2874,6 @@ export function StagesDependenciesTabContent({
                             {expanded ? (
                               <div
                                 id={`stages-pick-detail-${a.id}`}
-<<<<<<< HEAD
-                                className="mt-0.5 space-y-1 border-t border-slate-100/90 pl-1 pt-1 text-[8px] leading-snug text-slate-500"
-                              >
-                                <p className="line-clamp-4 text-slate-600">{pathLine}</p>
-                                <p className="text-slate-500">
-                                  <span className="font-semibold text-slate-600">Сезон:</span>{' '}
-                                  {a.season ?? '—'}
-                                  <span className="text-slate-300"> · </span>
-                                  <span className="font-semibold text-slate-600">Этап:</span>{' '}
-                                  {st?.title ?? a.currentStageId}
-                                </p>
-                                <p className="text-[7px] leading-snug text-slate-400">
-=======
                                 className="text-text-secondary border-border-subtle/90 mt-0.5 space-y-1 border-t pl-1 pt-1 text-[8px] leading-snug"
                               >
                                 <p className="text-text-secondary line-clamp-4">{pathLine}</p>
@@ -3335,7 +2887,6 @@ export function StagesDependenciesTabContent({
                                   {st?.title ?? a.currentStageId}
                                 </p>
                                 <p className="text-text-muted text-[7px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                                   Ткань и поставщики —{' '}
                                   <Link
                                     href={mergeModuleHref(
@@ -3343,11 +2894,7 @@ export function StagesDependenciesTabContent({
                                       a.currentStageId,
                                       a.id
                                     )}
-<<<<<<< HEAD
-                                    className="font-medium text-indigo-600 hover:underline"
-=======
                                     className="text-accent-primary font-medium hover:underline"
->>>>>>> recover/cabinet-wip-from-stash
                                     onClick={(e) => e.stopPropagation()}
                                   >
                                     Материалы
@@ -3359,11 +2906,7 @@ export function StagesDependenciesTabContent({
                                       a.currentStageId,
                                       a.id
                                     )}
-<<<<<<< HEAD
-                                    className="font-medium text-indigo-600 hover:underline"
-=======
                                     className="text-accent-primary font-medium hover:underline"
->>>>>>> recover/cabinet-wip-from-stash
                                     onClick={(e) => e.stopPropagation()}
                                   >
                                     Коллекция в цеху
@@ -3391,11 +2934,7 @@ export function StagesDependenciesTabContent({
                     <CardDescription className="text-xs">
                       Колонки — этапы коллекции; артикул в фокусе — карточка в колонке текущего
                       этапа. В шапке каждой колонки —{' '}
-<<<<<<< HEAD
-                      <strong className="text-slate-800">% заполнения данных</strong> для этого
-=======
                       <strong className="text-text-primary">% заполнения данных</strong> для этого
->>>>>>> recover/cabinet-wip-from-stash
                       этапа и SKU (обязательные и доп. поля под модуль этапа, не прогресс «можно ли
                       идти дальше»).
                     </CardDescription>
@@ -3407,11 +2946,7 @@ export function StagesDependenciesTabContent({
                     onOpenChange={setBoardOpen}
                     collapseAriaLabel="Свернуть или развернуть «Доску этапов»"
                   />
-<<<<<<< HEAD
-                  <div className="flex h-8 shrink-0 items-center border-l border-slate-200 pl-2">
-=======
                   <div className="border-border-default flex h-8 shrink-0 items-center border-l pl-2">
->>>>>>> recover/cabinet-wip-from-stash
                     <StagesHelpHover
                       align="end"
                       wide
@@ -3429,19 +2964,11 @@ export function StagesDependenciesTabContent({
                       <StagesHelpWhyBlock title="Подробно">
                         <p>
                           Карточка артикула стоит в колонке его{' '}
-<<<<<<< HEAD
-                          <strong className="text-slate-800">текущего</strong> этапа. Этапы — сеткой
-                          по четыре колонки в ряд; сводка в шапке колонки — по артикулу в фокусе (
-                          <code className="rounded bg-slate-100 px-1">stagesSku</code>). Колонка с
-                          карточкой SKU подсвечена. Кнопка{' '}
-                          <strong className="text-slate-800">«К данным этапа»</strong> в шапке
-=======
                           <strong className="text-text-primary">текущего</strong> этапа. Этапы —
                           сеткой по четыре колонки в ряд; сводка в шапке колонки — по артикулу в
                           фокусе (<code className="bg-bg-surface2 rounded px-1">stagesSku</code>).
                           Колонка с карточкой SKU подсвечена. Кнопка{' '}
                           <strong className="text-text-primary">«К данным этапа»</strong> в шапке
->>>>>>> recover/cabinet-wip-from-stash
                           колонки открывает модуль этапа с этим SKU в URL для любой колонки (не
                           только текущей). Клик по карточке SKU ведёт на вкладку цеха / модуль этого
                           этапа (заполнение данных) с тем же артикулом в URL; если у этапа нет
@@ -3449,21 +2976,13 @@ export function StagesDependenciesTabContent({
                           прокрутка.
                         </p>
                         <p className="mt-1.5">
-<<<<<<< HEAD
-                          <strong className="text-slate-800">Процент в шапке колонки</strong> —
-=======
                           <strong className="text-text-primary">Процент в шапке колонки</strong> —
->>>>>>> recover/cabinet-wip-from-stash
                           заполненность полей карточки процесса под модуль этого этапа (бриф, PIM,
                           бюджет, материалы… — разный чеклист). Это не то же самое, что статус
                           «готово» в цепочке этапов. Без артикула в фокусе процент не показывается.
                         </p>
                       </StagesHelpWhyBlock>
-<<<<<<< HEAD
-                      <p className="text-[10px] text-slate-500">
-=======
                       <p className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                         Массовые статусы по этапам — в «Матрице этапов» ниже; схема зависимостей —
                         для фильтра узла и обзора цифр.
                       </p>
@@ -3476,11 +2995,7 @@ export function StagesDependenciesTabContent({
                   {boardStepRows.map((rowSteps, rowIdx) => (
                     <div
                       key={`board-row-${rowIdx}`}
-<<<<<<< HEAD
-                      className="grid min-h-[280px] grid-cols-2 items-stretch gap-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-50/80 md:grid-cols-4"
-=======
                       className="border-border-default bg-bg-surface2/80 grid min-h-[280px] grid-cols-2 items-stretch gap-0 overflow-hidden rounded-xl border md:grid-cols-4"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       {rowSteps.map((step, colIdxInRow) => {
                         const globalColIdx = rowIdx * BOARD_STAGES_PER_ROW + colIdxInRow;
@@ -3519,41 +3034,25 @@ export function StagesDependenciesTabContent({
                               )
                             : [];
                         const headerShell = cn(
-<<<<<<< HEAD
-                          'px-2.5 pt-2.5 pb-2 border-b border-slate-100 flex flex-col justify-between transition-colors',
-=======
                           'px-2.5 pt-2.5 pb-2 border-b border-border-subtle flex flex-col justify-between transition-colors',
->>>>>>> recover/cabinet-wip-from-stash
                           BOARD_COL_HEADER_H
                         );
                         return (
                           <div
                             key={step.id}
                             className={cn(
-<<<<<<< HEAD
-                              'flex min-w-0 flex-col border-l border-slate-200 bg-white/90 first:rounded-l-xl first:border-l-0 last:rounded-r-xl',
-                              profileNa && 'bg-slate-50/95 opacity-[0.72]',
-=======
                               'border-border-default flex min-w-0 flex-col border-l bg-white/90 first:rounded-l-xl first:border-l-0 last:rounded-r-xl',
                               profileNa && 'bg-bg-surface2/95 opacity-[0.72]',
->>>>>>> recover/cabinet-wip-from-stash
                               here.length > 0 &&
                                 'z-[1] border-emerald-200/90 shadow-[0_0_0_1px_rgba(16,185,129,0.08)] ring-2 ring-inset ring-emerald-500/50'
                             )}
                           >
                             <div className={headerShell}>
                               <div>
-<<<<<<< HEAD
-                                <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">
-                                  Этап {globalColIdx + 1}
-                                </p>
-                                <p className="line-clamp-2 text-[11px] font-bold leading-tight text-slate-900">
-=======
                                 <p className="text-text-muted text-[8px] font-black uppercase tracking-wider">
                                   Этап {globalColIdx + 1}
                                 </p>
                                 <p className="text-text-primary line-clamp-2 text-[11px] font-bold leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                                   {step.title}
                                 </p>
                               </div>
@@ -3561,52 +3060,24 @@ export function StagesDependenciesTabContent({
                                 {profileNa ? (
                                   <Badge
                                     variant="outline"
-<<<<<<< HEAD
-                                    className="h-5 border-dashed border-slate-300 px-1 py-0 text-[7px] text-slate-500"
-=======
                                     className="border-border-default text-text-secondary h-5 border-dashed px-1 py-0 text-[7px]"
->>>>>>> recover/cabinet-wip-from-stash
                                   >
                                     Вне профиля
                                   </Badge>
                                 ) : null}
                                 <Badge
                                   variant="outline"
-<<<<<<< HEAD
-                                  className="h-5 border-slate-200 px-1 py-0 text-[8px]"
-                                >
-                                  {step.area}
-                                </Badge>
-                                <span className="text-[8px] text-slate-500">
-=======
                                   className="border-border-default h-5 px-1 py-0 text-[8px]"
                                 >
                                   {step.area}
                                 </Badge>
                                 <span className="text-text-secondary text-[8px]">
->>>>>>> recover/cabinet-wip-from-stash
                                   {stat?.line ?? '—'}
                                 </span>
                               </div>
                               {focusStageFill ? (
                                 <div className="mt-2 w-full space-y-1">
                                   <div className="flex items-center justify-between gap-1">
-<<<<<<< HEAD
-                                    <span className="text-[7px] font-bold uppercase tracking-wide text-slate-500">
-                                      Данные SKU
-                                    </span>
-                                    <span className="text-[10px] font-black tabular-nums text-indigo-700">
-                                      {focusStageFill.percent}%
-                                    </span>
-                                  </div>
-                                  <div className="h-1 w-full overflow-hidden rounded-full bg-slate-200">
-                                    <div
-                                      className="h-full rounded-full bg-indigo-500"
-                                      style={{ width: `${focusStageFill.percent}%` }}
-                                    />
-                                  </div>
-                                  <p className="text-[7px] leading-tight text-slate-400">
-=======
                                     <span className="text-text-secondary text-[7px] font-bold uppercase tracking-wide">
                                       Данные SKU
                                     </span>
@@ -3621,18 +3092,13 @@ export function StagesDependenciesTabContent({
                                     />
                                   </div>
                                   <p className="text-text-muted text-[7px] leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                                     Обяз. {focusStageFill.requiredFilled}/
                                     {focusStageFill.requiredTotal} · Доп.{' '}
                                     {focusStageFill.optionalFilled}/{focusStageFill.optionalTotal}
                                   </p>
                                 </div>
                               ) : (
-<<<<<<< HEAD
-                                <p className="mt-2 text-[7px] leading-tight text-slate-400">
-=======
                                 <p className="text-text-muted mt-2 text-[7px] leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                                   Выберите артикул в фокусе — покажем % заполнения по этапу.
                                 </p>
                               )}
@@ -3656,22 +3122,14 @@ export function StagesDependenciesTabContent({
                                 ) : boardNavHref &&
                                   !focusArticle &&
                                   !step.collectionScopedModuleNav ? (
-<<<<<<< HEAD
-                                  <span className="text-[7px] leading-tight text-slate-400">
-=======
                                   <span className="text-text-muted text-[7px] leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                                     Выберите артикул справа в срезе — откроются переходы по этапам
                                   </span>
                                 ) : focusArticle &&
                                   !boardNavHref &&
                                   !step.productionFloorTab &&
                                   !step.href ? (
-<<<<<<< HEAD
-                                  <span className="text-[7px] leading-tight text-slate-400">
-=======
                                   <span className="text-text-muted text-[7px] leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                                     Нет маршрута этапа — только «Панель данных»
                                   </span>
                                 ) : null}
@@ -3690,19 +3148,11 @@ export function StagesDependenciesTabContent({
                               </div>
                               {focusArticle && boardFillShortcuts.length > 0 ? (
                                 <div
-<<<<<<< HEAD
-                                  className="mt-1.5 flex flex-col gap-0.5 border-t border-slate-100/90 pt-1.5"
-                                  role="group"
-                                  aria-label="Блоки формы в панели этапа"
-                                >
-                                  <span className="text-[6px] font-bold uppercase tracking-wider text-slate-400">
-=======
                                   className="border-border-subtle/90 mt-1.5 flex flex-col gap-0.5 border-t pt-1.5"
                                   role="group"
                                   aria-label="Блоки формы в панели этапа"
                                 >
                                   <span className="text-text-muted text-[6px] font-bold uppercase tracking-wider">
->>>>>>> recover/cabinet-wip-from-stash
                                     Блоки
                                   </span>
                                   <div className="flex flex-wrap gap-0.5">
@@ -3710,11 +3160,7 @@ export function StagesDependenciesTabContent({
                                       <button
                                         key={t}
                                         type="button"
-<<<<<<< HEAD
-                                        className="h-5 min-w-[1.1rem] rounded border border-slate-200 bg-white px-1 text-[7px] font-black text-slate-600 hover:border-indigo-200 hover:bg-indigo-50"
-=======
                                         className="border-border-default text-text-secondary hover:bg-accent-primary/10 hover:border-accent-primary/30 h-5 min-w-[1.1rem] rounded border bg-white px-1 text-[7px] font-black"
->>>>>>> recover/cabinet-wip-from-stash
                                         title={`Панель данных · ${STAGE_FILL_EDIT_TAB_LABELS[t]}`}
                                         onClick={() =>
                                           openSkuPanelForStep(focusArticle.id, step.id, t)
@@ -3734,40 +3180,24 @@ export function StagesDependenciesTabContent({
                               ) : null}
                             </div>
                             <div className="flex min-h-0 flex-1 flex-col gap-2 px-2 py-2">
-<<<<<<< HEAD
-                              <div className="shrink-0 space-y-0.5 rounded-md bg-slate-100/80 px-2 py-1.5 text-[9px] text-slate-600">
-                                <p>
-                                  <strong className="text-slate-800">В колонке:</strong>{' '}
-=======
                               <div className="bg-bg-surface2/80 text-text-secondary shrink-0 space-y-0.5 rounded-md px-2 py-1.5 text-[9px]">
                                 <p>
                                   <strong className="text-text-primary">В колонке:</strong>{' '}
->>>>>>> recover/cabinet-wip-from-stash
                                   {here.length} арт.
                                 </p>
                                 <p>
                                   Готово: {stat?.done ?? 0} · В работе: {stat?.prog ?? 0}
                                   {(stat?.block ?? 0) > 0 ? ` · Блок: ${stat?.block}` : ''}
                                 </p>
-<<<<<<< HEAD
-                                <p className="text-slate-500">
-                                  Матрица:{' '}
-                                  <strong className="text-slate-700">
-=======
                                 <p className="text-text-secondary">
                                   Матрица:{' '}
                                   <strong className="text-text-primary">
->>>>>>> recover/cabinet-wip-from-stash
                                     {statusLabel(s, blocked, profileNa)}
                                   </strong>
                                 </p>
                               </div>
                               {here.length === 0 ? (
-<<<<<<< HEAD
-                                <p className="py-6 text-center text-[9px] text-slate-400">
-=======
                                 <p className="text-text-muted py-6 text-center text-[9px]">
->>>>>>> recover/cabinet-wip-from-stash
                                   Нет артикулов
                                 </p>
                               ) : (
@@ -3808,19 +3238,11 @@ export function StagesDependenciesTabContent({
                                     return (
                                       <div
                                         key={a.id}
-<<<<<<< HEAD
-                                        className="w-full space-y-1.5 rounded-lg border border-slate-100 bg-white p-2 text-left shadow-sm"
-                                      >
-                                        <button
-                                          type="button"
-                                          className="-m-0.5 w-full space-y-1 rounded-md p-0.5 text-left transition-colors hover:bg-indigo-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
-=======
                                         className="border-border-subtle w-full space-y-1.5 rounded-lg border bg-white p-2 text-left shadow-sm"
                                       >
                                         <button
                                           type="button"
                                           className="hover:bg-accent-primary/10 focus-visible:ring-accent-primary -m-0.5 w-full space-y-1 rounded-md p-0.5 text-left transition-colors focus-visible:outline-none focus-visible:ring-2"
->>>>>>> recover/cabinet-wip-from-stash
                                           title={
                                             cardNavHref
                                               ? step.collectionScopedModuleNav
@@ -3830,17 +3252,10 @@ export function StagesDependenciesTabContent({
                                           }
                                           onClick={goCardPrimary}
                                         >
-<<<<<<< HEAD
-                                          <p className="truncate text-[10px] font-bold text-slate-900">
-                                            {stagesArticleDisplayLabel(a.sku, a.season)}
-                                          </p>
-                                          <p className="truncate text-[8px] text-slate-500">
-=======
                                           <p className="text-text-primary truncate text-[10px] font-bold">
                                             {stagesArticleDisplayLabel(a.sku, a.season)}
                                           </p>
                                           <p className="text-text-secondary truncate text-[8px]">
->>>>>>> recover/cabinet-wip-from-stash
                                             {a.productionSiteLabel ?? '—'}
                                           </p>
                                           {a.fabricStockNote ? (
@@ -3862,31 +3277,18 @@ export function StagesDependenciesTabContent({
                                                     : 'Не начато'}
                                             </Badge>
                                           </div>
-<<<<<<< HEAD
-                                          <p className="text-[8px] text-slate-500">
-                                            <span className="font-semibold text-slate-600">
-=======
                                           <p className="text-text-secondary text-[8px]">
                                             <span className="text-text-secondary font-semibold">
->>>>>>> recover/cabinet-wip-from-stash
                                               Кто:
                                             </span>{' '}
                                             {assignee || '—'}
                                           </p>
                                           {row.notes?.trim() ? (
-<<<<<<< HEAD
-                                            <p className="line-clamp-2 text-[8px] text-slate-500">
-                                              {row.notes}
-                                            </p>
-                                          ) : null}
-                                          <p className="pt-0.5 text-[7px] font-bold uppercase tracking-wide text-indigo-600">
-=======
                                             <p className="text-text-secondary line-clamp-2 text-[8px]">
                                               {row.notes}
                                             </p>
                                           ) : null}
                                           <p className="text-accent-primary pt-0.5 text-[7px] font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
                                             {cardNavHref ? 'К работе по этапу →' : 'По артикулам →'}
                                           </p>
                                         </button>
@@ -3924,11 +3326,7 @@ export function StagesDependenciesTabContent({
                       <CardTitle className="text-sm uppercase tracking-tight">
                         Схема зависимостей
                       </CardTitle>
-<<<<<<< HEAD
-                      <p className="mt-1 text-xs leading-snug text-slate-500">
-=======
                       <p className="text-text-secondary mt-1 text-xs leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                         Перечень SKU · клик по узлу сужает список и доску «Оперативка»
                       </p>
                     </div>
@@ -3940,11 +3338,7 @@ export function StagesDependenciesTabContent({
                       collapseAriaLabel="Свернуть или развернуть «Схему зависимостей»"
                     />
                   </div>
-<<<<<<< HEAD
-                  <div className="flex h-8 shrink-0 items-center border-l border-slate-200 pl-2">
-=======
                   <div className="border-border-default flex h-8 shrink-0 items-center border-l pl-2">
->>>>>>> recover/cabinet-wip-from-stash
                     <StagesHelpHover
                       align="end"
                       wide
@@ -3960,55 +3354,33 @@ export function StagesDependenciesTabContent({
                         </p>
                         <p className="mt-1.5">
                           У каждого узла справа сверху — иконка{' '}
-<<<<<<< HEAD
-                          <strong className="text-slate-800">i</strong>: список артикулов перечня на
-                          этом этапе и подсказка, что сделать, чтобы двигаться дальше по контуру.
-=======
                           <strong className="text-text-primary">i</strong>: список артикулов перечня
                           на этом этапе и подсказка, что сделать, чтобы двигаться дальше по контуру.
->>>>>>> recover/cabinet-wip-from-stash
                           Если на узле 0 SKU, сначала закройте предшественников в матрице или
                           расширьте срез.
                         </p>
                         <p className="mt-1.5">
                           Числа на узлах — по{' '}
-<<<<<<< HEAD
-                          <strong className="text-slate-800">перечню SKU</strong> (срез слева +
-=======
                           <strong className="text-text-primary">перечню SKU</strong> (срез слева +
->>>>>>> recover/cabinet-wip-from-stash
                           чекбоксы). Узлы в 5 колонок и змейка; стрелки — визуальный порядок, не
                           полный граф (полный — в матрице ниже).
                         </p>
                         <p className="mt-1.5">
                           Узлы с артикулами перечня —{' '}
                           <strong className="text-emerald-800">зелёная рамка</strong>. Активный
-<<<<<<< HEAD
-                          фильтр узла — <strong className="text-indigo-800">индиго</strong>.
-=======
                           фильтр узла — <strong className="text-accent-primary">индиго</strong>.
->>>>>>> recover/cabinet-wip-from-stash
                         </p>
                       </StagesHelpWhyBlock>
                       <StagesHelpWhyBlock title="Счётчики «арт. здесь» и контекст">
                         <p>
                           «Арт. здесь» = сколько SKU из{' '}
-<<<<<<< HEAD
-                          <strong className="text-slate-800">пула среза</strong> имеют{' '}
-                          <strong className="text-slate-800">текущий этап</strong> на этом узле
-=======
                           <strong className="text-text-primary">пула среза</strong> имеют{' '}
                           <strong className="text-text-primary">текущий этап</strong> на этом узле
->>>>>>> recover/cabinet-wip-from-stash
                           (поле контура коллекции).
                         </p>
                         <p className="mt-1.5">
                           Рабочий контекст — один артикул (
-<<<<<<< HEAD
-                          <code className="rounded bg-slate-100 px-1">stagesSku</code>); доска и
-=======
                           <code className="bg-bg-surface2 rounded px-1">stagesSku</code>); доска и
->>>>>>> recover/cabinet-wip-from-stash
                           матрица показывают его только если этап SKU совпадает с выбранным узлом
                           схемы (или узел не включён).
                         </p>
@@ -4021,15 +3393,9 @@ export function StagesDependenciesTabContent({
                         </p>
                         <p className="mt-1.5">
                           Статусы меняются в{' '}
-<<<<<<< HEAD
-                          <strong className="text-slate-800">«Матрице этапов»</strong>; текст по
-                          конкретному артикулу — в окне узла (кнопка{' '}
-                          <strong className="text-slate-800">i</strong> на карточке этапа), без
-=======
                           <strong className="text-text-primary">«Матрице этапов»</strong>; текст по
                           конкретному артикулу — в окне узла (кнопка{' '}
                           <strong className="text-text-primary">i</strong> на карточке этапа), без
->>>>>>> recover/cabinet-wip-from-stash
                           дублирования здесь.
                         </p>
                       </StagesHelpWhyBlock>
@@ -4040,15 +3406,6 @@ export function StagesDependenciesTabContent({
               {depsExpanded && (
                 <CardContent className="max-w-full overflow-x-hidden pb-4">
                   <div className="mb-3 space-y-1.5">
-<<<<<<< HEAD
-                    <div className="flex flex-wrap items-center gap-2 rounded-xl border border-slate-200/90 bg-white px-3 py-2.5 shadow-sm">
-                      <div className="flex min-w-0 flex-1 items-center gap-2.5">
-                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-indigo-700">
-                          <Package className="h-4 w-4" aria-hidden />
-                        </span>
-                        <div className="min-w-0">
-                          <p className="text-[11px] font-bold leading-tight text-slate-900">
-=======
                     <div className="border-border-default/90 flex flex-wrap items-center gap-2 rounded-xl border bg-white px-3 py-2.5 shadow-sm">
                       <div className="flex min-w-0 flex-1 items-center gap-2.5">
                         <span className="bg-accent-primary/15 text-accent-primary flex h-9 w-9 shrink-0 items-center justify-center rounded-lg">
@@ -4056,16 +3413,11 @@ export function StagesDependenciesTabContent({
                         </span>
                         <div className="min-w-0">
                           <p className="text-text-primary text-[11px] font-bold leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                             {focusArticle
                               ? `В фокусе: ${stagesArticleDisplayLabel(focusArticle.sku, focusArticle.season)}`
                               : 'Нет артикула в фокусе'}
                           </p>
-<<<<<<< HEAD
-                          <p className="mt-0.5 text-[10px] leading-snug text-slate-500">
-=======
                           <p className="text-text-secondary mt-0.5 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                             Счётчики на узлах — по пулу среза; доска и матрица следуют одному SKU и
                             узлу схемы · подробности — в справке у «Схема зависимостей»
                           </p>
@@ -4073,11 +3425,7 @@ export function StagesDependenciesTabContent({
                       </div>
                     </div>
                     {chainFocusStepId ? (
-<<<<<<< HEAD
-                      <p className="text-[10px] text-slate-600" aria-live="polite">
-=======
                       <p className="text-text-secondary text-[10px]" aria-live="polite">
->>>>>>> recover/cabinet-wip-from-stash
                         Узел «
                         <strong>
                           {steps.find((s) => s.id === chainFocusStepId)?.title ?? chainFocusStepId}
@@ -4089,22 +3437,14 @@ export function StagesDependenciesTabContent({
                         .{' '}
                         <button
                           type="button"
-<<<<<<< HEAD
-                          className="font-semibold text-indigo-600 hover:underline"
-=======
                           className="text-accent-primary font-semibold hover:underline"
->>>>>>> recover/cabinet-wip-from-stash
                           onClick={() => toggleChainFocus(chainFocusStepId)}
                         >
                           Снять фильтр узла
                         </button>
                       </p>
                     ) : (
-<<<<<<< HEAD
-                      <p className="text-[10px] text-slate-500">
-=======
                       <p className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                         Клик по узлу цепочки — сузить список, доску и матрицу до артикулов с текущим
                         этапом на узле; на карточке узла всегда видно число «арт.: N», в т.ч. 0.
                       </p>
@@ -4142,26 +3482,15 @@ export function StagesDependenciesTabContent({
                                         className="relative flex min-w-0 items-center justify-center opacity-25"
                                         aria-hidden
                                       >
-<<<<<<< HEAD
-                                        <span className="pointer-events-none absolute left-0 right-0 top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-slate-200" />
-                                        {isEvenRow ? (
-                                          <ArrowRight
-                                            className="relative z-[1] h-3 w-3 text-slate-300"
-=======
                                         <span className="bg-border-subtle pointer-events-none absolute left-0 right-0 top-1/2 h-[3px] -translate-y-1/2 rounded-full" />
                                         {isEvenRow ? (
                                           <ArrowRight
                                             className="text-text-muted relative z-[1] h-3 w-3"
->>>>>>> recover/cabinet-wip-from-stash
                                             strokeWidth={2.5}
                                           />
                                         ) : (
                                           <ArrowLeft
-<<<<<<< HEAD
-                                            className="relative z-[1] h-3 w-3 text-slate-300"
-=======
                                             className="text-text-muted relative z-[1] h-3 w-3"
->>>>>>> recover/cabinet-wip-from-stash
                                             strokeWidth={2.5}
                                           />
                                         )}
@@ -4188,21 +3517,12 @@ export function StagesDependenciesTabContent({
                                     className={cn(
                                       'relative flex h-full min-w-0 flex-col rounded-lg border transition-colors',
                                       profileNa &&
-<<<<<<< HEAD
-                                        'border-dashed border-slate-300/90 bg-slate-100/50 opacity-70',
-                                      active
-                                        ? 'z-[1] border-indigo-500 bg-indigo-50 shadow-sm ring-2 ring-indigo-300'
-                                        : hasArticlesHere
-                                          ? 'border-2 border-emerald-500 bg-emerald-50/45 shadow-[0_0_0_1px_rgba(16,185,129,0.12)] hover:border-emerald-600 hover:bg-emerald-50/70'
-                                          : 'border border-slate-200 bg-slate-50/90 hover:border-slate-300 hover:bg-white'
-=======
                                         'border-border-default/90 bg-bg-surface2/50 border-dashed opacity-70',
                                       active
                                         ? 'border-accent-primary bg-accent-primary/10 ring-accent-primary/40 z-[1] shadow-sm ring-2'
                                         : hasArticlesHere
                                           ? 'border-2 border-emerald-500 bg-emerald-50/45 shadow-[0_0_0_1px_rgba(16,185,129,0.12)] hover:border-emerald-600 hover:bg-emerald-50/70'
                                           : 'border-border-default bg-bg-surface2/90 hover:border-border-default border hover:bg-white'
->>>>>>> recover/cabinet-wip-from-stash
                                     )}
                                   >
                                     <button
@@ -4217,21 +3537,6 @@ export function StagesDependenciesTabContent({
                                       }
                                       className="flex min-h-[48px] flex-1 flex-col justify-center px-1.5 py-1 pr-5 text-left"
                                     >
-<<<<<<< HEAD
-                                      <p className="line-clamp-2 text-[7px] font-bold leading-tight text-slate-500">
-                                        {step.title}
-                                      </p>
-                                      {profileNa ? (
-                                        <p className="mt-0.5 text-[7px] font-semibold uppercase tracking-wide text-slate-400">
-                                          вне профиля
-                                        </p>
-                                      ) : null}
-                                      <p className="mt-0.5 text-[8px] tabular-nums text-slate-600">
-                                        арт. на узле: <strong>{count}</strong>
-                                      </p>
-                                      {active ? (
-                                        <p className="mt-0.5 text-[7px] font-semibold tabular-nums text-indigo-800">
-=======
                                       <p className="text-text-secondary line-clamp-2 text-[7px] font-bold leading-tight">
                                         {step.title}
                                       </p>
@@ -4245,18 +3550,13 @@ export function StagesDependenciesTabContent({
                                       </p>
                                       {active ? (
                                         <p className="text-accent-primary mt-0.5 text-[7px] font-semibold tabular-nums">
->>>>>>> recover/cabinet-wip-from-stash
                                           узел выбран · {count} SKU
                                         </p>
                                       ) : null}
                                     </button>
                                     <button
                                       type="button"
-<<<<<<< HEAD
-                                      className="absolute right-0.5 top-0.5 z-[2] flex h-5 w-5 items-center justify-center rounded-md text-indigo-600/90 shadow-sm hover:bg-white hover:text-indigo-800"
-=======
                                       className="text-accent-primary/90 hover:text-accent-primary absolute right-0.5 top-0.5 z-[2] flex h-5 w-5 items-center justify-center rounded-md shadow-sm hover:bg-white"
->>>>>>> recover/cabinet-wip-from-stash
                                       aria-label={`Артикулы и следующий шаг: ${step.title}`}
                                       onPointerDown={(e) => e.stopPropagation()}
                                       onClick={(e) => {
@@ -4279,35 +3579,22 @@ export function StagesDependenciesTabContent({
                                         className={cn(
                                           'pointer-events-none absolute left-0 right-0 top-1/2 h-[3px] -translate-y-1/2 rounded-full',
                                           hasNextNode
-<<<<<<< HEAD
-                                            ? 'bg-gradient-to-r from-violet-200 via-indigo-400 to-violet-200 opacity-95'
-                                            : 'bg-slate-200'
-=======
                                             ? 'from-accent-primary/20 via-accent-primary to-accent-primary/20 bg-gradient-to-r opacity-95'
                                             : 'bg-border-subtle'
->>>>>>> recover/cabinet-wip-from-stash
                                         )}
                                       />
                                       {isEvenRow ? (
                                         <ArrowRight
                                           className={cn(
                                             'relative z-[1] h-3 w-3 stroke-[2.5] drop-shadow-sm',
-<<<<<<< HEAD
-                                            hasNextNode ? 'text-indigo-600' : 'text-slate-300'
-=======
                                             hasNextNode ? 'text-accent-primary' : 'text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                                           )}
                                         />
                                       ) : (
                                         <ArrowLeft
                                           className={cn(
                                             'relative z-[1] h-3 w-3 stroke-[2.5] drop-shadow-sm',
-<<<<<<< HEAD
-                                            hasNextNode ? 'text-indigo-600' : 'text-slate-300'
-=======
                                             hasNextNode ? 'text-accent-primary' : 'text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                                           )}
                                         />
                                       )}
@@ -4358,11 +3645,7 @@ export function StagesDependenciesTabContent({
                     onOpenChange={setMatrixOpen}
                     collapseAriaLabel="Свернуть или развернуть «Матрицу этапов»"
                   />
-<<<<<<< HEAD
-                  <div className="flex h-8 shrink-0 items-center border-l border-slate-200 pl-2">
-=======
                   <div className="border-border-default flex h-8 shrink-0 items-center border-l pl-2">
->>>>>>> recover/cabinet-wip-from-stash
                     <StagesHelpHover
                       align="end"
                       wide
@@ -4374,11 +3657,7 @@ export function StagesDependenciesTabContent({
                       <StagesHelpWhyBlock title="Зачем">
                         <p>
                           Статусы по этапам для{' '}
-<<<<<<< HEAD
-                          <strong className="text-slate-800">одного артикула в фокусе</strong> (и
-=======
                           <strong className="text-text-primary">одного артикула в фокусе</strong> (и
->>>>>>> recover/cabinet-wip-from-stash
                           узла схемы, если включён); блокировки из каталога, пока предшественники не
                           закрыты.
                         </p>
@@ -4386,11 +3665,7 @@ export function StagesDependenciesTabContent({
                       <StagesHelpWhyBlock title="Срез и фокус">
                         <p>
                           Пул артикулов задаёт срез слева; в URL фиксируется{' '}
-<<<<<<< HEAD
-                          <code className="rounded bg-slate-100 px-1">stagesSku</code>. Узел схемы
-=======
                           <code className="bg-bg-surface2 rounded px-1">stagesSku</code>. Узел схемы
->>>>>>> recover/cabinet-wip-from-stash
                           может скрыть строки матрицы, если этап SKU не на этом узле — смените
                           артикул или снимите узел.
                         </p>
@@ -4398,18 +3673,6 @@ export function StagesDependenciesTabContent({
                       <StagesHelpWhyBlock title="Колонка «Связь»">
                         <p>
                           Четыре иконки сеткой 2×2 (сверху:{' '}
-<<<<<<< HEAD
-                          <strong className="text-slate-800">чат</strong>,{' '}
-                          <strong className="text-slate-800">задачи</strong>; снизу:{' '}
-                          <strong className="text-slate-800">календарь</strong>,{' '}
-                          <strong className="text-slate-800">заметки</strong>) — компактнее, чтобы
-                          не заезжать на кнопку «В модуль». Наведение на{' '}
-                          <strong className="text-slate-800">конкретную</strong> иконку показывает
-                          сводку только по этому каналу. Серый контур — нет активности; янтарь —
-                          ждём ответ / открытые задачи / слот без «проведено»; зелёный — контур
-                          закрыт; заметки при наличии — нейтральная заливка. Чат/задачи/заметки не
-                          для этапов «впереди» текущего SKU; календарь — текущий и следующий этап.
-=======
                           <strong className="text-text-primary">чат</strong>,{' '}
                           <strong className="text-text-primary">задачи</strong>; снизу:{' '}
                           <strong className="text-text-primary">календарь</strong>,{' '}
@@ -4421,7 +3684,6 @@ export function StagesDependenciesTabContent({
                           контур закрыт; заметки при наличии — нейтральная заливка.
                           Чат/задачи/заметки не для этапов «впереди» текущего SKU; календарь —
                           текущий и следующий этап.
->>>>>>> recover/cabinet-wip-from-stash
                         </p>
                       </StagesHelpWhyBlock>
                       <StagesHelpWhyBlock title="Как пользоваться">
@@ -4431,21 +3693,12 @@ export function StagesDependenciesTabContent({
                           включён).
                         </p>
                         <p className="mt-1.5">
-<<<<<<< HEAD
-                          Поле <strong className="text-slate-800">Поиск этапа</strong> сужает список
-                          по названию, фазе, id или зоне (локально); запрос синхронизируется с URL{' '}
-                          <code className="rounded bg-slate-100 px-1">stagesMatrixQ</code> (debounce
-                          ~0,4 с). Чипы <strong className="text-slate-800">фаз</strong> пишут фильтр
-                          в URL (
-                          <code className="rounded bg-slate-100 px-1">stagesMatrixPhase</code>) —
-=======
                           Поле <strong className="text-text-primary">Поиск этапа</strong> сужает
                           список по названию, фазе, id или зоне (локально); запрос синхронизируется
                           с URL <code className="bg-bg-surface2 rounded px-1">stagesMatrixQ</code>{' '}
                           (debounce ~0,4 с). Чипы <strong className="text-text-primary">фаз</strong>{' '}
                           пишут фильтр в URL (
                           <code className="bg-bg-surface2 rounded px-1">stagesMatrixPhase</code>) —
->>>>>>> recover/cabinet-wip-from-stash
                           удобно шарить ссылку. Зелёное кольцо на чипе — фаза текущего этапа SKU в
                           фокусе. «Сброс фильтра матрицы» очищает чип, поле и параметр в адресе.
                         </p>
@@ -4453,20 +3706,12 @@ export function StagesDependenciesTabContent({
                       <StagesHelpWhyBlock title="Переходы и связи">
                         <p>
                           Кнопки ведут во вкладку цеха или внешний модуль с тем же{' '}
-<<<<<<< HEAD
-                          <code className="rounded bg-slate-100 px-1">stagesSku</code> в URL (без
-=======
                           <code className="bg-bg-surface2 rounded px-1">stagesSku</code> в URL (без
->>>>>>> recover/cabinet-wip-from-stash
                           мульти-перечня). Свод «сколько SKU на каком этапе» по коллекции —
                           отдельный сценарий в бэклоге, не смешивается с этим рабочим контекстом.
                         </p>
                       </StagesHelpWhyBlock>
-<<<<<<< HEAD
-                      <p className="text-[10px] text-slate-500">
-=======
                       <p className="text-text-secondary text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                         Схема зависимостей выше задаёт фильтр узла; число артикулов на узле всегда
                         на карточке, в т.ч. 0.
                       </p>
@@ -4477,19 +3722,11 @@ export function StagesDependenciesTabContent({
               {matrixExpanded ? (
                 <CardContent className="space-y-4">
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-<<<<<<< HEAD
-                    <div className="min-w-0 flex-1 rounded-lg border border-slate-200 bg-slate-50/80 px-3 py-2.5">
-                      <p className="text-[9px] font-black uppercase tracking-wider text-slate-500">
-                        Перечень для матрицы
-                      </p>
-                      <p className="mt-1 text-[10px] leading-snug text-slate-600">
-=======
                     <div className="border-border-default bg-bg-surface2/80 min-w-0 flex-1 rounded-lg border px-3 py-2.5">
                       <p className="text-text-secondary text-[9px] font-black uppercase tracking-wider">
                         Перечень для матрицы
                       </p>
                       <p className="text-text-secondary mt-1 text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                         Артикул в фокусе — справа в «Срез и артикул»
                         {chainFocusStepId ? (
                           <>
@@ -4510,11 +3747,7 @@ export function StagesDependenciesTabContent({
                     <div className="w-full shrink-0 space-y-1.5 sm:w-[14rem]">
                       <label
                         htmlFor="stages-matrix-stage-filter"
-<<<<<<< HEAD
-                        className="mb-1 block text-[8px] font-bold uppercase tracking-wide text-slate-400"
-=======
                         className="text-text-muted mb-1 block text-[8px] font-bold uppercase tracking-wide"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         Поиск этапа
                       </label>
@@ -4555,13 +3788,8 @@ export function StagesDependenciesTabContent({
                   </div>
 
                   {matrixPhaseOptions.length > 0 ? (
-<<<<<<< HEAD
-                    <div className="rounded-lg border border-slate-200/90 bg-white/80 px-2.5 py-2">
-                      <p className="mb-1.5 text-[8px] font-black uppercase tracking-wider text-slate-400">
-=======
                     <div className="border-border-default/90 rounded-lg border bg-white/80 px-2.5 py-2">
                       <p className="text-text-muted mb-1.5 text-[8px] font-black uppercase tracking-wider">
->>>>>>> recover/cabinet-wip-from-stash
                         Фазы каталога (фильтр в URL)
                       </p>
                       <div className="flex flex-wrap gap-1.5">
@@ -4586,12 +3814,8 @@ export function StagesDependenciesTabContent({
                               size="sm"
                               className={cn(
                                 'h-7 max-w-[min(100%,14rem)] truncate px-2 text-[9px]',
-<<<<<<< HEAD
-                                matrixPhaseParam === ph && 'bg-indigo-600 hover:bg-indigo-600',
-=======
                                 matrixPhaseParam === ph &&
                                   'bg-accent-primary hover:bg-accent-primary',
->>>>>>> recover/cabinet-wip-from-stash
                                 isFocusSkuPhase &&
                                   matrixPhaseParam !== ph &&
                                   'ring-2 ring-emerald-500/55 ring-offset-1 ring-offset-white'
@@ -4614,19 +3838,11 @@ export function StagesDependenciesTabContent({
                   ) : null}
 
                   {!focusArticle ? (
-<<<<<<< HEAD
-                    <p className="text-xs text-slate-500">
-                      Нет артикула в фокусе — расширьте срез или выберите строку справа.
-                    </p>
-                  ) : viewArticles.length === 0 ? (
-                    <p className="text-xs text-slate-500">
-=======
                     <p className="text-text-secondary text-xs">
                       Нет артикула в фокусе — расширьте срез или выберите строку справа.
                     </p>
                   ) : viewArticles.length === 0 ? (
                     <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                       Этап выбранного SKU не совпадает с узлом схемы — снимите узел или выберите
                       другой артикул.
                     </p>
@@ -4634,11 +3850,7 @@ export function StagesDependenciesTabContent({
                     <>
                       <div
                         className={cn(
-<<<<<<< HEAD
-                          'hidden items-center border-b border-slate-100 pb-2 text-[10px] font-bold text-slate-500 md:grid',
-=======
                           'text-text-secondary border-border-subtle hidden items-center border-b pb-2 text-[10px] font-bold md:grid',
->>>>>>> recover/cabinet-wip-from-stash
                           MATRIX_GRID
                         )}
                       >
@@ -4648,21 +3860,13 @@ export function StagesDependenciesTabContent({
                         <span>Обяз.</span>
                         <span>Статус</span>
                         <span>По арт.</span>
-<<<<<<< HEAD
-                        <span className="flex items-center gap-1 font-semibold normal-case text-slate-600">
-=======
                         <span className="text-text-secondary flex items-center gap-1 font-semibold normal-case">
->>>>>>> recover/cabinet-wip-from-stash
                           Связь
                           <Tooltip delayDuration={200}>
                             <TooltipTrigger asChild>
                               <button
                                 type="button"
-<<<<<<< HEAD
-                                className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded text-slate-400 hover:bg-slate-100 hover:text-slate-700"
-=======
                                 className="text-text-muted hover:bg-bg-surface2 hover:text-text-primary inline-flex h-5 w-5 shrink-0 items-center justify-center rounded"
->>>>>>> recover/cabinet-wip-from-stash
                                 aria-label="Легенда: чат, задачи, календарь, заметки"
                               >
                                 <span className="text-[10px] font-bold leading-none">?</span>
@@ -4670,11 +3874,7 @@ export function StagesDependenciesTabContent({
                             </TooltipTrigger>
                             <TooltipContent
                               side="bottom"
-<<<<<<< HEAD
-                              className="max-w-xs border border-slate-200 bg-white text-[10px] leading-snug text-slate-800"
-=======
                               className="border-border-default text-text-primary max-w-xs border bg-white text-[10px] leading-snug"
->>>>>>> recover/cabinet-wip-from-stash
                             >
                               Иконки связи — сетка 2×2: чат и задачи сверху, календарь и заметки
                               снизу. Наведение на иконку — сводка только по этому каналу; клик —
@@ -4713,30 +3913,14 @@ export function StagesDependenciesTabContent({
                             s === 'done' ? (
                               <CheckCircle2 className="h-4 w-4 text-emerald-600" />
                             ) : profileNa ? (
-<<<<<<< HEAD
-                              <MinusCircle className="h-4 w-4 text-slate-400" aria-hidden />
-                            ) : blocked ? (
-                              <Lock className="h-4 w-4 text-slate-400" />
-=======
                               <MinusCircle className="text-text-muted h-4 w-4" aria-hidden />
                             ) : blocked ? (
                               <Lock className="text-text-muted h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
                             ) : (
                               <CircleDot className="h-4 w-4 text-amber-500" />
                             );
                           const label = statusLabel(s, blocked, profileNa);
                           const statusColor = profileNa
-<<<<<<< HEAD
-                            ? 'text-slate-500'
-                            : s === 'done'
-                              ? 'text-emerald-700'
-                              : blocked
-                                ? 'text-slate-500'
-                                : s === 'in_progress'
-                                  ? 'text-amber-700'
-                                  : 'text-slate-600';
-=======
                             ? 'text-text-secondary'
                             : s === 'done'
                               ? 'text-emerald-700'
@@ -4745,7 +3929,6 @@ export function StagesDependenciesTabContent({
                                 : s === 'in_progress'
                                   ? 'text-amber-700'
                                   : 'text-text-secondary';
->>>>>>> recover/cabinet-wip-from-stash
 
                           const commQuery = buildStagesCommLinkQuery(viewArticles, step.id);
                           const notesQuery = buildStagesNotesLinkQuery(viewArticles, step.id);
@@ -4759,11 +3942,7 @@ export function StagesDependenciesTabContent({
                           return (
                             <Fragment key={step.id}>
                               {showPhaseHeader && step.phase ? (
-<<<<<<< HEAD
-                                <div className="rounded-lg border border-slate-200/80 bg-slate-100/90 px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-700">
-=======
                                 <div className="border-border-default/80 bg-bg-surface2/90 text-text-primary rounded-lg border px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider">
->>>>>>> recover/cabinet-wip-from-stash
                                   {step.phase}
                                 </div>
                               ) : null}
@@ -4777,16 +3956,6 @@ export function StagesDependenciesTabContent({
                                 className={cn(
                                   MATRIX_GRID,
                                   'scroll-mt-4 items-start rounded-xl border p-2.5 sm:p-3',
-<<<<<<< HEAD
-                                  profileNa && 'border-dashed border-slate-200/95 bg-slate-50/75',
-                                  focusArticle && step.id === focusArticle.currentStageId
-                                    ? 'border-emerald-300/90 bg-emerald-50/35 ring-1 ring-emerald-400/40'
-                                    : !profileNa && 'border-slate-100 bg-white/60'
-                                )}
-                              >
-                                <div className="space-y-1">
-                                  <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 md:hidden">
-=======
                                   profileNa &&
                                     'border-border-default/95 bg-bg-surface2/75 border-dashed',
                                   focusArticle && step.id === focusArticle.currentStageId
@@ -4796,26 +3965,17 @@ export function StagesDependenciesTabContent({
                               >
                                 <div className="space-y-1">
                                   <span className="text-text-muted text-[9px] font-bold uppercase tracking-wider md:hidden">
->>>>>>> recover/cabinet-wip-from-stash
                                     Ось UI
                                   </span>
                                   {step.productionFloorTab ? (
                                     <>
-<<<<<<< HEAD
-                                      <Badge className="border-indigo-200 bg-indigo-50 text-[8px] font-black uppercase tracking-wider text-indigo-800">
-=======
                                       <Badge className="border-accent-primary/30 bg-accent-primary/10 text-accent-primary text-[8px] font-black uppercase tracking-wider">
->>>>>>> recover/cabinet-wip-from-stash
                                         Вкладка цеха
                                       </Badge>
                                       <button
                                         type="button"
                                         disabled={!focusArticle && !step.collectionScopedModuleNav}
-<<<<<<< HEAD
-                                        className="block w-full text-left text-[10px] font-bold leading-snug text-indigo-700 hover:underline disabled:cursor-not-allowed disabled:no-underline disabled:opacity-50"
-=======
                                         className="text-accent-primary block w-full text-left text-[10px] font-bold leading-snug hover:underline disabled:cursor-not-allowed disabled:no-underline disabled:opacity-50"
->>>>>>> recover/cabinet-wip-from-stash
                                         onClick={() => {
                                           const tab = step.productionFloorTab;
                                           if (!tab) return;
@@ -4836,11 +3996,7 @@ export function StagesDependenciesTabContent({
                                     <>
                                       <Badge
                                         variant="outline"
-<<<<<<< HEAD
-                                        className="border-slate-200 text-[8px] font-black uppercase tracking-wider text-slate-600"
-=======
                                         className="border-border-default text-text-secondary text-[8px] font-black uppercase tracking-wider"
->>>>>>> recover/cabinet-wip-from-stash
                                       >
                                         Вне цеха
                                       </Badge>
@@ -4852,11 +4008,7 @@ export function StagesDependenciesTabContent({
                                             ? 'Открыть модуль этапа с контекстом коллекции (без SKU в URL)'
                                             : 'Открыть основной модуль этапа с тем же артикулом в URL'
                                         }
-<<<<<<< HEAD
-                                        className="block w-full text-left text-[10px] font-bold leading-snug text-indigo-700 hover:underline disabled:cursor-not-allowed disabled:no-underline disabled:opacity-50"
-=======
                                         className="text-accent-primary block w-full text-left text-[10px] font-bold leading-snug hover:underline disabled:cursor-not-allowed disabled:no-underline disabled:opacity-50"
->>>>>>> recover/cabinet-wip-from-stash
                                         onClick={() => {
                                           if (step.collectionScopedModuleNav && step.href) {
                                             router.push(
@@ -4875,65 +4027,34 @@ export function StagesDependenciesTabContent({
                                     <>
                                       <Badge
                                         variant="outline"
-<<<<<<< HEAD
-                                        className="border-slate-200 text-[8px] font-black uppercase tracking-wider text-slate-600"
-                                      >
-                                        Вне цеха
-                                      </Badge>
-                                      <span className="block text-[10px] leading-snug text-slate-500">
-=======
                                         className="border-border-default text-text-secondary text-[8px] font-black uppercase tracking-wider"
                                       >
                                         Вне цеха
                                       </Badge>
                                       <span className="text-text-secondary block text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                                         Ссылка в каталоге не задана
                                       </span>
                                     </>
                                   )}
                                 </div>
                                 <div className="space-y-0.5">
-<<<<<<< HEAD
-                                  <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 md:hidden">
-=======
                                   <span className="text-text-muted text-[9px] font-bold uppercase tracking-wider md:hidden">
->>>>>>> recover/cabinet-wip-from-stash
                                     Этап
                                   </span>
                                   <div className="flex flex-wrap items-start gap-1.5">
                                     {icon}
-<<<<<<< HEAD
-                                    <span className="min-w-0 text-[11px] font-semibold leading-snug text-slate-900">
-=======
                                     <span className="text-text-primary min-w-0 text-[11px] font-semibold leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                                       {step.title}
                                     </span>
                                     {profileNa ? (
                                       <Badge
                                         variant="outline"
-<<<<<<< HEAD
-                                        className="h-5 shrink-0 border-dashed px-1 text-[7px] text-slate-500"
-=======
                                         className="text-text-secondary h-5 shrink-0 border-dashed px-1 text-[7px]"
->>>>>>> recover/cabinet-wip-from-stash
                                       >
                                         вне профиля
                                       </Badge>
                                     ) : null}
                                   </div>
-<<<<<<< HEAD
-                                  <p className="line-clamp-3 text-[10px] leading-snug text-slate-600">
-                                    {step.description}
-                                  </p>
-                                </div>
-                                <div className="flex items-center justify-between text-[10px] text-slate-600 md:justify-start">
-                                  <span className="text-[9px] font-bold uppercase text-slate-400 md:hidden">
-                                    Зона
-                                  </span>
-                                  <Badge variant="outline" className="border-slate-200 text-[9px]">
-=======
                                   <p className="text-text-secondary line-clamp-3 text-[10px] leading-snug">
                                     {step.description}
                                   </p>
@@ -4946,36 +4067,23 @@ export function StagesDependenciesTabContent({
                                     variant="outline"
                                     className="border-border-default text-[9px]"
                                   >
->>>>>>> recover/cabinet-wip-from-stash
                                     {step.area}
                                   </Badge>
                                 </div>
                                 <div className="flex flex-col justify-between gap-0.5 text-[10px] md:justify-start">
-<<<<<<< HEAD
-                                  <span className="text-[9px] font-bold uppercase text-slate-400 md:hidden">
-=======
                                   <span className="text-text-muted text-[9px] font-bold uppercase md:hidden">
->>>>>>> recover/cabinet-wip-from-stash
                                     Обяз.
                                   </span>
                                   <span
                                     className={cn(
                                       'shrink-0 font-semibold',
-<<<<<<< HEAD
-                                      step.mandatory ? 'text-rose-600' : 'text-slate-500'
-=======
                                       step.mandatory ? 'text-rose-600' : 'text-text-secondary'
->>>>>>> recover/cabinet-wip-from-stash
                                     )}
                                   >
                                     {step.mandatory ? 'Да' : 'Нет'}
                                   </span>
                                   {!step.mandatory || step.canSkipForNow ? (
-<<<<<<< HEAD
-                                    <p className="max-w-[11rem] text-[8px] leading-tight text-slate-500">
-=======
                                     <p className="text-text-secondary max-w-[11rem] text-[8px] leading-tight">
->>>>>>> recover/cabinet-wip-from-stash
                                       {!step.mandatory
                                         ? 'Необязателен в каталоге — статус можно отложить.'
                                         : 'К закрытию обязателен; отметку в матрице можно позже.'}
@@ -4983,11 +4091,7 @@ export function StagesDependenciesTabContent({
                                   ) : null}
                                 </div>
                                 <div className="space-y-1">
-<<<<<<< HEAD
-                                  <span className="text-[9px] font-bold uppercase text-slate-400 md:hidden">
-=======
                                   <span className="text-text-muted text-[9px] font-bold uppercase md:hidden">
->>>>>>> recover/cabinet-wip-from-stash
                                     Статус
                                   </span>
                                   <span
@@ -5033,11 +4137,7 @@ export function StagesDependenciesTabContent({
                                       type="button"
                                       variant="ghost"
                                       size="sm"
-<<<<<<< HEAD
-                                      className="h-6 px-2 text-[9px] text-slate-400"
-=======
                                       className="text-text-muted h-6 px-2 text-[9px]"
->>>>>>> recover/cabinet-wip-from-stash
                                       onClick={() => markStatus(step.id, 'not_started')}
                                     >
                                       Сброс
@@ -5045,17 +4145,10 @@ export function StagesDependenciesTabContent({
                                   </div>
                                 </div>
                                 <div className="flex flex-col items-start gap-1">
-<<<<<<< HEAD
-                                  <span className="text-[9px] font-bold uppercase text-slate-400 md:hidden">
-                                    По арт.
-                                  </span>
-                                  <span className="text-[9px] font-semibold text-slate-700">
-=======
                                   <span className="text-text-muted text-[9px] font-bold uppercase md:hidden">
                                     По арт.
                                   </span>
                                   <span className="text-text-primary text-[9px] font-semibold">
->>>>>>> recover/cabinet-wip-from-stash
                                     {skuProgressLine}
                                   </span>
                                   {focusArticle ? (
@@ -5072,11 +4165,7 @@ export function StagesDependenciesTabContent({
                                   ) : null}
                                 </div>
                                 <div className="flex flex-col gap-1.5">
-<<<<<<< HEAD
-                                  <span className="text-[9px] font-bold uppercase text-slate-400 md:hidden">
-=======
                                   <span className="text-text-muted text-[9px] font-bold uppercase md:hidden">
->>>>>>> recover/cabinet-wip-from-stash
                                     Связь
                                   </span>
                                   <MatrixLinkStrip
@@ -5088,11 +4177,7 @@ export function StagesDependenciesTabContent({
                                   />
                                 </div>
                                 <div className="flex flex-col items-start gap-2">
-<<<<<<< HEAD
-                                  <span className="text-[9px] font-bold uppercase text-slate-400 md:hidden">
-=======
                                   <span className="text-text-muted text-[9px] font-bold uppercase md:hidden">
->>>>>>> recover/cabinet-wip-from-stash
                                     Переходы
                                   </span>
                                   {step.href ? (
@@ -5118,22 +4203,13 @@ export function StagesDependenciesTabContent({
                                       <ArrowRight className="ml-1 inline h-3 w-3" />
                                     </Button>
                                   ) : (
-<<<<<<< HEAD
-                                    <span className="text-[10px] text-slate-400">
-=======
                                     <span className="text-text-muted text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                                       Без основной ссылки
                                     </span>
                                   )}
                                   {step.crossLinks && step.crossLinks.length > 0 ? (
-<<<<<<< HEAD
-                                    <div className="max-h-28 w-full space-y-1 overflow-y-auto border-t border-slate-100 pt-2">
-                                      <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">
-=======
                                     <div className="border-border-subtle max-h-28 w-full space-y-1 overflow-y-auto border-t pt-2">
                                       <p className="text-text-muted text-[8px] font-black uppercase tracking-wider">
->>>>>>> recover/cabinet-wip-from-stash
                                         Связи
                                       </p>
                                       <div className="flex flex-col gap-1 pr-0.5">
@@ -5144,11 +4220,7 @@ export function StagesDependenciesTabContent({
                                             disabled={
                                               !focusArticle && !step.collectionScopedModuleNav
                                             }
-<<<<<<< HEAD
-                                            className="text-left text-[9px] font-medium text-indigo-600 hover:underline disabled:cursor-not-allowed disabled:no-underline disabled:opacity-50"
-=======
                                             className="text-accent-primary text-left text-[9px] font-medium hover:underline disabled:cursor-not-allowed disabled:no-underline disabled:opacity-50"
->>>>>>> recover/cabinet-wip-from-stash
                                             onClick={() =>
                                               navigateToStageModule(
                                                 step,
@@ -5176,11 +4248,7 @@ export function StagesDependenciesTabContent({
           </TabsContent>
 
           <TabsContent value="sku" className="mt-4 space-y-4 focus-visible:outline-none">
-<<<<<<< HEAD
-            <Card className="border-indigo-100 bg-indigo-50/20">
-=======
             <Card className="border-accent-primary/20 bg-accent-primary/10">
->>>>>>> recover/cabinet-wip-from-stash
               <CardHeader className="pb-2">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0 flex-1 space-y-1">
@@ -5199,11 +4267,7 @@ export function StagesDependenciesTabContent({
                     onOpenChange={setSkuPanelOpen}
                     collapseAriaLabel="Свернуть или развернуть блок «По артикулам»"
                   />
-<<<<<<< HEAD
-                  <div className="flex h-8 shrink-0 items-center border-l border-slate-200 pl-2">
-=======
                   <div className="border-border-default flex h-8 shrink-0 items-center border-l pl-2">
->>>>>>> recover/cabinet-wip-from-stash
                     <StagesHelpHover
                       align="end"
                       wide
@@ -5214,20 +4278,12 @@ export function StagesDependenciesTabContent({
                     >
                       <StagesHelpWhyBlock title="Две кнопки в колонке">
                         <p>
-<<<<<<< HEAD
-                          <strong className="text-slate-800">Панель этапа</strong> — окно: чеклист
-                          обязательно/дополнительно, под ним форма выбранной строки (редактирование)
-                          и отдельно «Журнал». <strong className="text-slate-800">Таб этапа</strong>{' '}
-                          — переход во вкладку цеха или внешний модуль с контекстом коллекции (если
-                          маршрут задан в каталоге).
-=======
                           <strong className="text-text-primary">Панель этапа</strong> — окно:
                           чеклист обязательно/дополнительно, под ним форма выбранной строки
                           (редактирование) и отдельно «Журнал».{' '}
                           <strong className="text-text-primary">Таб этапа</strong> — переход во
                           вкладку цеха или внешний модуль с контекстом коллекции (если маршрут задан
                           в каталоге).
->>>>>>> recover/cabinet-wip-from-stash
                         </p>
                       </StagesHelpWhyBlock>
                       <StagesHelpWhyBlock title="Зачем">
@@ -5239,15 +4295,9 @@ export function StagesDependenciesTabContent({
                       </StagesHelpWhyBlock>
                       <StagesHelpWhyBlock title="Как связано с матрицей">
                         <p>
-<<<<<<< HEAD
-                          Тот же <code className="rounded bg-slate-100 px-1">stagesSku</code>, что и
-                          на «Процесс и правила»; матрица — сводка, здесь — доска этапов с панелью и
-                          табом этапа.
-=======
                           Тот же <code className="bg-bg-surface2 rounded px-1">stagesSku</code>, что
                           и на «Процесс и правила»; матрица — сводка, здесь — доска этапов с панелью
                           и табом этапа.
->>>>>>> recover/cabinet-wip-from-stash
                         </p>
                       </StagesHelpWhyBlock>
                     </StagesHelpHover>
@@ -5259,11 +4309,7 @@ export function StagesDependenciesTabContent({
                   {poolArticles.length > 0 ? (
                     <>
                       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-<<<<<<< HEAD
-                        <span className="shrink-0 text-[10px] font-bold uppercase text-slate-500">
-=======
                         <span className="text-text-secondary shrink-0 text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                           Артикул
                         </span>
                         <Select
@@ -5284,13 +4330,8 @@ export function StagesDependenciesTabContent({
                         </Select>
                       </div>
                       {focusArticle ? (
-<<<<<<< HEAD
-                        <div className="flex flex-wrap items-center gap-2 rounded-lg border border-slate-200/90 bg-white/80 px-2 py-2">
-                          <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-slate-400">
-=======
                         <div className="border-border-default/90 flex flex-wrap items-center gap-2 rounded-lg border bg-white/80 px-2 py-2">
                           <span className="text-text-muted shrink-0 text-[9px] font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
                             Связь экранов
                           </span>
                           <Button
@@ -5355,21 +4396,13 @@ export function StagesDependenciesTabContent({
                       ) : null}
                     </>
                   ) : collectionArticles.length === 0 ? (
-<<<<<<< HEAD
-                    <p className="text-xs text-slate-500">
-=======
                     <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                       В этой коллекции пока нет артикулов — нажмите «Коллекция и данные» (справа у
                       профиля контура), добавьте SKU или переключите коллекцию.
                     </p>
                   ) : (
                     <div className="space-y-2">
-<<<<<<< HEAD
-                      <p className="text-xs leading-relaxed text-slate-600">
-=======
                       <p className="text-text-secondary text-xs leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                         В коллекции <strong>{collectionArticles.length}</strong> SKU, но в{' '}
                         <strong>текущем срезе</strong> (фильтры слева и узел схемы) ни одного не
                         осталось.
@@ -5400,11 +4433,7 @@ export function StagesDependenciesTabContent({
                 onClick={() => setDepsNodeInfoStepId(null)}
               >
                 <div
-<<<<<<< HEAD
-                  className="max-h-[min(85vh,32rem)] w-full max-w-md overflow-y-auto rounded-xl border border-slate-200 bg-white p-4 text-slate-900 shadow-xl"
-=======
                   className="border-border-default text-text-primary max-h-[min(85vh,32rem)] w-full max-w-md overflow-y-auto rounded-xl border bg-white p-4 shadow-xl"
->>>>>>> recover/cabinet-wip-from-stash
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="mb-3 flex items-start justify-between gap-2">
@@ -5412,11 +4441,7 @@ export function StagesDependenciesTabContent({
                       <p id="deps-node-info-title" className="text-sm font-semibold leading-tight">
                         {depsInfoStep.title}
                       </p>
-<<<<<<< HEAD
-                      <p className="mt-1 text-[10px] text-slate-500">
-=======
                       <p className="text-text-secondary mt-1 text-[10px]">
->>>>>>> recover/cabinet-wip-from-stash
                         В перечне на этом этапе: {depsInfoArticles.length} SKU
                       </p>
                     </div>
@@ -5431,21 +4456,13 @@ export function StagesDependenciesTabContent({
                     </Button>
                   </div>
                   {depsInfoArticles.length === 0 ? (
-<<<<<<< HEAD
-                    <p className="text-[10px] leading-snug text-slate-600">
-=======
                     <p className="text-text-secondary text-[10px] leading-snug">
->>>>>>> recover/cabinet-wip-from-stash
                       На этом узле нет артикулов текущего перечня — сначала завершите
                       предшественников в матрице (статусы) или расширьте срез. Тогда здесь появятся
                       SKU и пошаговые подсказки.
                     </p>
                   ) : (
-<<<<<<< HEAD
-                    <ul className="space-y-2 border-t border-slate-100 pt-3">
-=======
                     <ul className="border-border-subtle space-y-2 border-t pt-3">
->>>>>>> recover/cabinet-wip-from-stash
                       {depsInfoArticles.map((a) => {
                         const label = stagesArticleDisplayLabel(a.sku, a.season);
                         const hint = hintTextForArticleNextCatalogStep(
@@ -5458,28 +4475,17 @@ export function StagesDependenciesTabContent({
                         return (
                           <li
                             key={a.id}
-<<<<<<< HEAD
-                            className="border-b border-slate-100/80 pb-2 text-[10px] last:border-0 last:pb-0"
-                          >
-                            <p className="font-semibold text-slate-800">{label}</p>
-                            <p className="mt-1 leading-snug text-slate-600">{hint}</p>
-=======
                             className="border-border-subtle/80 border-b pb-2 text-[10px] last:border-0 last:pb-0"
                           >
                             <p className="text-text-primary font-semibold">{label}</p>
                             <p className="text-text-secondary mt-1 leading-snug">{hint}</p>
->>>>>>> recover/cabinet-wip-from-stash
                           </li>
                         );
                       })}
                     </ul>
                   )}
                   {focusArticle && depsInfoStep ? (
-<<<<<<< HEAD
-                    <div className="mt-3 flex flex-wrap gap-2 border-t border-slate-100 pt-3">
-=======
                     <div className="border-border-subtle mt-3 flex flex-wrap gap-2 border-t pt-3">
->>>>>>> recover/cabinet-wip-from-stash
                       <Button
                         type="button"
                         variant="secondary"

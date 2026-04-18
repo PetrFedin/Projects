@@ -24,28 +24,8 @@ export default function PartnerOnboardingPage() {
   const [step, setStep] = useState(1);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.shop.b2b}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <UserPlus className="h-6 w-6" /> Онбординг партнёра
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">
-            Пошаговое подключение к бренду: компания → верификация → первый заказ. Для РФ: ИНН, ЭДО,
-            маркировка.
-          </p>
-        </div>
-      </div>
-=======
     <RegistryPageShell className="max-w-2xl space-y-6">
       <ShopB2bContentHeader lead="Пошаговое подключение: компания → верификация → первый заказ (ИНН, ЭДО, маркировка для РФ)." />
->>>>>>> recover/cabinet-wip-from-stash
 
       <div className="mb-6 flex gap-2">
         {STEPS.map((s) => {
@@ -56,17 +36,6 @@ export default function PartnerOnboardingPage() {
               onClick={() => setStep(s.id)}
               className={`flex flex-1 items-center gap-2 rounded-lg border p-3 text-left transition-colors ${
                 step === s.id
-<<<<<<< HEAD
-                  ? 'border-indigo-500 bg-indigo-50'
-                  : 'border-slate-200 hover:bg-slate-50'
-              }`}
-            >
-              <div
-                className={`flex h-8 w-8 items-center justify-center rounded-lg ${step === s.id ? 'bg-indigo-100' : 'bg-slate-100'}`}
-              >
-                <Icon
-                  className={`h-4 w-4 ${step === s.id ? 'text-indigo-600' : 'text-slate-500'}`}
-=======
                   ? 'border-accent-primary bg-accent-primary/10'
                   : 'border-border-default hover:bg-bg-surface2'
               }`}
@@ -76,16 +45,11 @@ export default function PartnerOnboardingPage() {
               >
                 <Icon
                   className={`h-4 w-4 ${step === s.id ? 'text-accent-primary' : 'text-text-secondary'}`}
->>>>>>> recover/cabinet-wip-from-stash
                 />
               </div>
               <div>
                 <p className="text-xs font-medium">Шаг {s.id}</p>
-<<<<<<< HEAD
-                <p className="truncate text-xs text-slate-500">{s.title}</p>
-=======
                 <p className="text-text-secondary truncate text-xs">{s.title}</p>
->>>>>>> recover/cabinet-wip-from-stash
               </div>
             </button>
           );
@@ -112,22 +76,14 @@ export default function PartnerOnboardingPage() {
                 <Label>Юридический адрес</Label>
                 <Input placeholder="г. Москва, ул. Примерная, 1" />
               </div>
-<<<<<<< HEAD
-              <p className="text-xs text-slate-500">
-=======
               <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                 После отправки бренд проверит данные. Подключение ЭДО и маркировки — по запросу.
               </p>
             </>
           )}
           {step === 2 && (
             <>
-<<<<<<< HEAD
-              <div className="rounded-lg border border-slate-100 bg-slate-50 p-4">
-=======
               <div className="bg-bg-surface2 border-border-subtle rounded-lg border p-4">
->>>>>>> recover/cabinet-wip-from-stash
                 <p className="text-sm">
                   Бренд проверит заявку и отправит договор. Подписание через ЭДО (Диадок, СБИС и
                   др.). После подписания — доступ к каталогу.
@@ -168,10 +124,6 @@ export default function PartnerOnboardingPage() {
         title="Заявка, партнёры, заказы"
         className="mt-6"
       />
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

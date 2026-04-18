@@ -330,26 +330,16 @@ export function CollectionCreateWizard({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="flex max-h-[90vh] flex-col overflow-hidden rounded-[2rem] border-none bg-white p-0 shadow-2xl sm:max-w-[640px]">
-<<<<<<< HEAD
-        <DialogHeader className="shrink-0 bg-slate-900 p-6 text-white">
-          <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-600">
-=======
         <DialogHeader className="bg-text-primary shrink-0 p-6 text-white">
           <div className="flex items-center gap-4">
             <div className="bg-accent-primary flex h-12 w-12 items-center justify-center rounded-2xl">
->>>>>>> recover/cabinet-wip-from-stash
               <Layers className="h-6 w-6 text-white" />
             </div>
             <div>
               <DialogTitle className="text-xl font-black uppercase italic tracking-tighter">
                 Новая коллекция
               </DialogTitle>
-<<<<<<< HEAD
-              <DialogDescription className="mt-1 text-[10px] font-bold uppercase text-slate-400">
-=======
               <DialogDescription className="text-text-muted mt-1 text-[10px] font-bold uppercase">
->>>>>>> recover/cabinet-wip-from-stash
                 Шаг {step} из 4 · {STEPS[step - 1].title}
               </DialogDescription>
             </div>
@@ -365,11 +355,7 @@ export function CollectionCreateWizard({
             templateId={templateId}
           />
         </div>
-<<<<<<< HEAD
-        <DialogFooter className="flex justify-between border-t bg-slate-50 p-6">
-=======
         <DialogFooter className="bg-bg-surface2 flex justify-between border-t p-6">
->>>>>>> recover/cabinet-wip-from-stash
           <div>
             {step > 1 && (
               <Button variant="ghost" onClick={handleBack} className="h-10 gap-1 rounded-xl">
@@ -384,11 +370,7 @@ export function CollectionCreateWizard({
             {step < 4 ? (
               <Button
                 onClick={handleNext}
-<<<<<<< HEAD
-                className="h-10 gap-1 rounded-xl bg-indigo-600 text-white"
-=======
                 className="bg-accent-primary h-10 gap-1 rounded-xl text-white"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 Далее <ChevronRight className="h-4 w-4" />
               </Button>
@@ -396,11 +378,7 @@ export function CollectionCreateWizard({
               <Button
                 onClick={handleFinish}
                 disabled={isSubmitting}
-<<<<<<< HEAD
-                className="h-10 rounded-xl bg-indigo-600 text-white"
-=======
                 className="bg-accent-primary h-10 rounded-xl text-white"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 {isSubmitting ? 'Создаём...' : 'Запустить'}
               </Button>

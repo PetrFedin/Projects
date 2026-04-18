@@ -102,11 +102,7 @@ const B2BControlCenter = dynamic(
     ssr: false,
     loading: () => (
       <div
-<<<<<<< HEAD
-        className="min-h-[240px] rounded-xl border border-dashed border-slate-200 bg-slate-50/60"
-=======
         className="border-border-default bg-bg-surface2/60 min-h-[240px] rounded-xl border border-dashed"
->>>>>>> recover/cabinet-wip-from-stash
         aria-hidden
       />
     ),
@@ -128,11 +124,7 @@ const MerchandisingDashboard = dynamic(
   {
     ssr: false,
     loading: () => (
-<<<<<<< HEAD
-      <div className="min-h-[200px] animate-pulse rounded-xl bg-slate-50" aria-hidden />
-=======
       <div className="bg-bg-surface2 min-h-[200px] animate-pulse rounded-xl" aria-hidden />
->>>>>>> recover/cabinet-wip-from-stash
     ),
   }
 );
@@ -144,11 +136,7 @@ const PlanningDashboard = dynamic(
   {
     ssr: false,
     loading: () => (
-<<<<<<< HEAD
-      <div className="min-h-[200px] animate-pulse rounded-xl bg-slate-50" aria-hidden />
-=======
       <div className="bg-bg-surface2 min-h-[200px] animate-pulse rounded-xl" aria-hidden />
->>>>>>> recover/cabinet-wip-from-stash
     ),
   }
 );
@@ -197,11 +185,7 @@ export function HomePageClient() {
   const [products, setProducts] = useState<Product[]>([]);
   const [showroomTab, setShowroomTab] = useState<string>('all');
   const [showroomViewMode, setShowroomViewMode] = useState<
-<<<<<<< HEAD
-    'products' | 'looks' | 'collections' | 'my_orders'
-=======
     'products' | 'looks' | 'collections' | 'my_orders' | 'planning'
->>>>>>> recover/cabinet-wip-from-stash
   >('products');
   const [laboratoryTab, setLaboratoryTab] = useState<'laboratory' | 'private'>('laboratory');
   const [brandsTab, setBrandsTab] = useState<string>('selection');
@@ -373,37 +357,8 @@ export function HomePageClient() {
   return (
     <div className="relative flex flex-col bg-[#f8fafc] font-sans">
       <AdvertisingSection />
-<<<<<<< HEAD
-
-      {/* Admin Control Hub - Only visible for admins */}
-      {viewRole === 'admin' && (
-        <section id="ADMIN_HUB" className="section-spacing relative bg-transparent pt-24">
-          <div className="container relative mx-auto px-4">
-            <B2BControlCenter />
-          </div>
-        </section>
-      )}
-
-      {/* Global Navigation - Only visible if not in high-level AI overlays */}
-      <div
-        className={cn(
-          'fixed left-0 right-0 top-[var(--header-height,64px)] z-[100] transition-all duration-500',
-          (isFlowMapOpen || isCalendarOpen || isMediaRadarOpen || isConstellationOpen) &&
-            'pointer-events-none -translate-y-full opacity-0'
-        )}
-      >
-        {viewRole === 'b2b' ? (
-          <B2BNavigation
-            viewRole={viewRole}
-            activeB2BSection={activeB2BSection}
-            onSectionChange={setActiveB2BSection}
-            isScrolledDown={isScrolledDown}
-          />
-        ) : (
-=======
       {viewRole !== 'b2b' && (
         <div className="relative z-[100]">
->>>>>>> recover/cabinet-wip-from-stash
           <GlobalCategorySelector
             categories={globalCategories}
             activeCategory={globalCategory}
@@ -422,8 +377,6 @@ export function HomePageClient() {
         </div>
       )}
 
-<<<<<<< HEAD
-=======
       {/* Admin Control Hub - Only visible for admins */}
       {viewRole === 'admin' && (
         <section id="ADMIN_HUB" className="section-spacing relative bg-transparent pt-24">
@@ -433,7 +386,6 @@ export function HomePageClient() {
         </section>
       )}
 
->>>>>>> recover/cabinet-wip-from-stash
       <div
         className={cn(
           'flex flex-col',
@@ -443,11 +395,7 @@ export function HomePageClient() {
         {/* B2B Presentation Sections */}
         <div
           className={cn(
-<<<<<<< HEAD
-            viewRole === 'b2b' && 'pt-20 transition-all duration-300',
-=======
             viewRole === 'b2b' && 'transition-all duration-300',
->>>>>>> recover/cabinet-wip-from-stash
             isFlowMapOpen && 'pt-0'
           )}
         >
@@ -504,47 +452,27 @@ export function HomePageClient() {
           id="LABORATORY_b2c"
           className="section-spacing relative scroll-mt-24 bg-transparent"
         >
-<<<<<<< HEAD
-          <div className="container relative mx-auto px-4">
-            <Card className="relative overflow-hidden rounded-xl border border-none border-slate-100 bg-white shadow-2xl shadow-slate-200/50">
-=======
           <div className="relative mx-auto w-full max-w-5xl px-4 sm:px-6">
             <Card className="border-border-subtle relative overflow-hidden rounded-xl border border-none bg-white shadow-2xl shadow-md">
->>>>>>> recover/cabinet-wip-from-stash
               <CardContent className="relative z-10 p-4">
                 <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                      <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100">
-=======
                       <div className="bg-bg-surface2 flex h-8 w-8 items-center justify-center rounded-xl">
->>>>>>> recover/cabinet-wip-from-stash
                         <Zap className="h-4 w-4 text-black" />
                       </div>
                       <Badge
                         variant="outline"
-<<<<<<< HEAD
-                        className="border-slate-200 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-slate-900"
-=======
                         className="border-border-default text-text-primary px-2 py-0.5 text-xs font-semibold uppercase tracking-wide"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         {laboratoryTab === 'laboratory' ? 'LABORATORY_B2C' : 'PRIVATE_ACCESS'}
                       </Badge>
                     </div>
                     <div className="space-y-1">
-<<<<<<< HEAD
-                      <h2 className="text-2xl font-bold uppercase leading-tight tracking-tight text-slate-900 md:text-4xl">
-                        {laboratoryTab === 'laboratory' ? 'ЛАБОРАТОРИЯ' : 'ЭКСКЛЮЗИВ'}
-                      </h2>
-                      <p className="max-w-xl text-sm text-slate-500">
-=======
                       <h2 className="text-text-primary text-2xl font-bold uppercase leading-tight tracking-tight md:text-4xl">
                         {laboratoryTab === 'laboratory' ? 'ЛАБОРАТОРИЯ' : 'ЭКСКЛЮЗИВ'}
                       </h2>
                       <p className="text-text-secondary max-w-xl text-sm">
->>>>>>> recover/cabinet-wip-from-stash
                         {laboratoryTab === 'laboratory'
                           ? 'Площадка для реализации самых смелых fashion-идей.'
                           : 'Закрытый доступ к прототипам и лимитированным сериям.'}
@@ -552,11 +480,7 @@ export function HomePageClient() {
                     </div>
 
                     {/* Tab Switcher - Moved here below description */}
-<<<<<<< HEAD
-                    <div className="flex w-fit items-center gap-1.5 rounded-2xl border border-slate-100 bg-slate-50 p-1">
-=======
                     <div className="bg-bg-surface2 border-border-subtle flex w-fit items-center gap-1.5 rounded-2xl border p-1">
->>>>>>> recover/cabinet-wip-from-stash
                       {[
                         { id: 'laboratory', title: 'Лаборатория' },
                         { id: 'private', title: 'Эксклюзив' },
@@ -578,11 +502,7 @@ export function HomePageClient() {
                   {/* Scroll Arrows - Matching Showroom style */}
                   <div className="flex items-center gap-3">
                     <button
-<<<<<<< HEAD
-                      className="p-1 text-slate-400 transition-colors hover:text-slate-900"
-=======
                       className="text-text-muted hover:text-text-primary p-1 transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
                       onClick={() =>
                         document
                           .getElementById(
@@ -596,11 +516,7 @@ export function HomePageClient() {
                       <ArrowRight className="h-5 w-5 rotate-180" />
                     </button>
                     <button
-<<<<<<< HEAD
-                      className="p-1 text-slate-400 transition-colors hover:text-slate-900"
-=======
                       className="text-text-muted hover:text-text-primary p-1 transition-colors"
->>>>>>> recover/cabinet-wip-from-stash
                       onClick={() =>
                         document
                           .getElementById(
@@ -638,11 +554,7 @@ export function HomePageClient() {
                   )}
                 </AnimatePresence>
 
-<<<<<<< HEAD
-                <Card className="group/banner relative mt-12 flex min-h-[300px] w-full items-center overflow-hidden rounded-xl border-none bg-slate-900 shadow-2xl">
-=======
                 <Card className="bg-text-primary group/banner relative mt-12 flex min-h-[300px] w-full items-center overflow-hidden rounded-xl border-none shadow-2xl">
->>>>>>> recover/cabinet-wip-from-stash
                   <div className="absolute inset-0 opacity-40 transition-transform duration-1000 group-hover/banner:scale-105">
                     <img
                       src={
@@ -654,11 +566,7 @@ export function HomePageClient() {
                       className="h-full w-full object-cover grayscale"
                     />
                   </div>
-<<<<<<< HEAD
-                  <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent" />
-=======
                   <div className="from-text-primary via-text-primary/80 absolute inset-0 bg-gradient-to-r to-transparent" />
->>>>>>> recover/cabinet-wip-from-stash
                   <CardContent className="relative z-10 w-full max-w-4xl space-y-4 p-4 text-left text-white">
                     <div className="group/marquee relative mb-4 overflow-hidden whitespace-nowrap border-y border-white/10 py-2">
                       <motion.div
@@ -714,11 +622,7 @@ export function HomePageClient() {
                       <h2 className="text-xl font-bold uppercase leading-tight tracking-tight md:text-3xl">
                         {laboratoryTab === 'laboratory' ? 'КРАУДФАНДИНГ' : 'ПРОВЕРИТЬ МОЙ СТАТУС'}
                       </h2>
-<<<<<<< HEAD
-                      <p className="border-l-2 border-indigo-500/50 pl-6 text-sm font-medium text-slate-300">
-=======
                       <p className="text-text-muted border-accent-primary/50 border-l-2 pl-6 text-sm font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                         {laboratoryTab === 'laboratory'
                           ? '"Площадка для реализации самых смелых fashion-идей."'
                           : '"Пользователи с уровнем лояльности \'Style Icon\' получают доступ к дропам на 48 часов раньше всех."'}
@@ -750,11 +654,7 @@ export function HomePageClient() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-<<<<<<< HEAD
-            className="section-spacing relative overflow-hidden bg-slate-950 py-24"
-=======
             className="section-spacing bg-text-primary relative overflow-hidden py-24"
->>>>>>> recover/cabinet-wip-from-stash
           >
             {/* Background elements */}
             <div className="absolute inset-0 opacity-20">
@@ -762,16 +662,6 @@ export function HomePageClient() {
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
             </div>
 
-<<<<<<< HEAD
-            <div className="container relative z-10 mx-auto px-4">
-              <div className="mb-16 flex flex-col justify-between gap-3 md:flex-row md:items-end">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-indigo-500/30 bg-indigo-500/20">
-                      <Flame className="h-4 w-4 text-indigo-400" />
-                    </div>
-                    <Badge className="border-none bg-indigo-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white shadow-[0_0_15px_rgba(79,70,229,0.5)]">
-=======
             <div className="relative z-10 mx-auto w-full max-w-5xl px-4 sm:px-6">
               <div className="mb-16 flex flex-col justify-between gap-3 md:flex-row md:items-end">
                 <div className="space-y-4">
@@ -780,21 +670,14 @@ export function HomePageClient() {
                       <Flame className="text-accent-primary h-4 w-4" />
                     </div>
                     <Badge className="bg-accent-primary border-none px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white shadow-[0_0_15px_rgba(79,70,229,0.5)]">
->>>>>>> recover/cabinet-wip-from-stash
                       LOCKED_CONTENT_UNLOCKED
                     </Badge>
                   </div>
                   <div className="space-y-2">
                     <h2 className="text-2xl font-bold uppercase tracking-tight text-white md:text-4xl">
-<<<<<<< HEAD
-                      DROPS<span className="text-indigo-500">.</span>
-                    </h2>
-                    <p className="max-w-lg text-sm font-medium text-slate-400">
-=======
                       DROPS<span className="text-accent-primary">.</span>
                     </h2>
                     <p className="text-text-muted max-w-lg text-sm font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                       Эксклюзивный доступ к лимитированным коллекциям для активных участников
                       сообщества. Только 48 часов до общего релиза.
                     </p>
@@ -803,11 +686,7 @@ export function HomePageClient() {
 
                 <div className="flex items-center gap-3">
                   <div className="hidden text-right md:block">
-<<<<<<< HEAD
-                    <p className="mb-1 text-[10px] font-bold uppercase tracking-wider text-indigo-500">
-=======
                     <p className="text-accent-primary mb-1 text-[10px] font-bold uppercase tracking-wider">
->>>>>>> recover/cabinet-wip-from-stash
                       Следующий дроп через
                     </p>
                     <div className="flex gap-3">
@@ -818,11 +697,7 @@ export function HomePageClient() {
                       ].map((t) => (
                         <div key={t.label} className="flex flex-col items-center">
                           <span className="text-sm font-bold tabular-nums text-white">{t.val}</span>
-<<<<<<< HEAD
-                          <span className="text-[10px] font-medium uppercase tracking-wide text-slate-500">
-=======
                           <span className="text-text-secondary text-[10px] font-medium uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
                             {t.label}
                           </span>
                         </div>
@@ -867,11 +742,7 @@ export function HomePageClient() {
                 ].map((drop) => (
                   <Card
                     key={drop.id}
-<<<<<<< HEAD
-                    className="group/drop overflow-hidden rounded-xl border-slate-800 bg-slate-900/50 transition-all duration-500 hover:border-indigo-500/50"
-=======
                     className="bg-text-primary/50 border-text-primary/30 group/drop hover:border-accent-primary/50 overflow-hidden rounded-xl transition-all duration-500"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     <div className="relative aspect-[4/5] overflow-hidden">
                       <img
@@ -879,22 +750,14 @@ export function HomePageClient() {
                         alt={drop.name}
                         className="h-full w-full object-cover transition-transform duration-700 group-hover/drop:scale-110"
                       />
-<<<<<<< HEAD
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60" />
-=======
                       <div className="from-text-primary absolute inset-0 bg-gradient-to-t via-transparent to-transparent opacity-60" />
->>>>>>> recover/cabinet-wip-from-stash
                       <div className="absolute left-6 top-4">
                         <Badge className="rounded-full border-white/10 bg-black/80 px-3 py-1 text-[10px] font-bold uppercase text-white backdrop-blur-md">
                           {drop.stock === 'Sold Out' ? 'SOLD OUT' : `STOCK: ${drop.stock}`}
                         </Badge>
                       </div>
                       <div className="absolute bottom-6 left-6 right-6">
-<<<<<<< HEAD
-                        <p className="mb-1 text-[10px] font-bold uppercase tracking-wide text-indigo-400">
-=======
                         <p className="text-accent-primary mb-1 text-[10px] font-bold uppercase tracking-wide">
->>>>>>> recover/cabinet-wip-from-stash
                           {drop.brand}
                         </p>
                         <h3 className="text-sm font-bold uppercase leading-tight tracking-tight text-white">
@@ -907,11 +770,7 @@ export function HomePageClient() {
                       <Button
                         size="sm"
                         variant="ghost"
-<<<<<<< HEAD
-                        className="h-auto p-0 text-xs font-bold uppercase tracking-wide text-white hover:bg-transparent hover:text-indigo-400"
-=======
                         className="hover:text-accent-primary h-auto p-0 text-xs font-bold uppercase tracking-wide text-white hover:bg-transparent"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         Забронировать <ArrowRight className="ml-2 h-3 w-3" />
                       </Button>
@@ -930,47 +789,27 @@ export function HomePageClient() {
           id="AI_STYLIST_b2c"
           className="section-spacing relative scroll-mt-24 bg-transparent"
         >
-<<<<<<< HEAD
-          <div className="container relative mx-auto px-4">
-            <Card className="relative overflow-hidden rounded-xl border border-none border-slate-100 bg-white shadow-2xl shadow-slate-200/50">
-=======
           <div className="relative mx-auto w-full max-w-5xl px-4 sm:px-6">
             <Card className="border-border-subtle relative overflow-hidden rounded-xl border border-none bg-white shadow-2xl shadow-md">
->>>>>>> recover/cabinet-wip-from-stash
               <CardContent className="relative z-10 p-4 pb-4 pt-4">
                 <div className="mb-2 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
-<<<<<<< HEAD
-                      <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100">
-=======
                       <div className="bg-bg-surface2 flex h-8 w-8 items-center justify-center rounded-xl">
->>>>>>> recover/cabinet-wip-from-stash
                         <Brain className="h-4 w-4 text-black" />
                       </div>
                       <Badge
                         variant="outline"
-<<<<<<< HEAD
-                        className="border-slate-200 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-slate-900"
-=======
                         className="border-border-default text-text-primary px-2 py-0.5 text-xs font-semibold uppercase tracking-wide"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         ALGORITHM_B2C
                       </Badge>
                     </div>
                     <div className="space-y-1">
-<<<<<<< HEAD
-                      <h2 className="text-2xl font-bold uppercase leading-tight tracking-tight text-slate-900 md:text-4xl">
-                        AI-стилист
-                      </h2>
-                      <p className="max-w-xl text-sm text-slate-500">
-=======
                       <h2 className="text-text-primary text-2xl font-bold uppercase leading-tight tracking-tight md:text-4xl">
                         AI-стилист
                       </h2>
                       <p className="text-text-secondary max-w-xl text-sm">
->>>>>>> recover/cabinet-wip-from-stash
                         Создавайте уникальные комбинации в один клик.
                       </p>
                     </div>
@@ -989,13 +828,8 @@ export function HomePageClient() {
           id="WEEKLY_LOOKS_b2c"
           className="section-spacing relative scroll-mt-24 bg-transparent"
         >
-<<<<<<< HEAD
-          <div className="container relative mx-auto px-4">
-            <Card className="relative overflow-hidden rounded-xl border border-none border-slate-100 bg-white shadow-2xl shadow-slate-200/50">
-=======
           <div className="relative mx-auto w-full max-w-5xl px-4 sm:px-6">
             <Card className="border-border-subtle relative overflow-hidden rounded-xl border border-none bg-white shadow-2xl shadow-md">
->>>>>>> recover/cabinet-wip-from-stash
               <CardContent className="relative z-10 p-4">
                 <WeeklyLooks
                   viewRole={viewRole}
@@ -1026,13 +860,8 @@ export function HomePageClient() {
       {/* Available Media — те же отступы и структура, что у SHOWCASE_b2c */}
       {viewRole === 'client' && (
         <section id="MEDIA_b2c" className="section-spacing relative scroll-mt-24 bg-transparent">
-<<<<<<< HEAD
-          <div className="container relative mx-auto px-4">
-            <Card className="relative overflow-hidden rounded-xl border border-none border-slate-100 bg-white shadow-2xl shadow-slate-200/50">
-=======
           <div className="relative mx-auto w-full max-w-5xl px-4 sm:px-6">
             <Card className="border-border-subtle relative overflow-hidden rounded-xl border border-none bg-white shadow-2xl shadow-md">
->>>>>>> recover/cabinet-wip-from-stash
               <CardContent className="relative z-10 p-4">
                 <HomeLiveStrip live={cfg.live} />
               </CardContent>
@@ -1048,13 +877,8 @@ export function HomePageClient() {
             id="SOCIAL_SYNC_b2c"
             className="section-spacing relative scroll-mt-24 bg-transparent"
           >
-<<<<<<< HEAD
-            <div className="container relative mx-auto px-4">
-              <Card className="relative overflow-hidden rounded-xl border border-none border-slate-100 bg-white shadow-2xl shadow-slate-200/50">
-=======
             <div className="relative mx-auto w-full max-w-5xl px-4 sm:px-6">
               <Card className="border-border-subtle relative overflow-hidden rounded-xl border border-none bg-white shadow-2xl shadow-md">
->>>>>>> recover/cabinet-wip-from-stash
                 <CardContent className="relative z-10 p-4">
                   <AsSeenOnLive />
                 </CardContent>
@@ -1066,13 +890,8 @@ export function HomePageClient() {
             id="EDITORIAL_b2c"
             className="section-spacing relative scroll-mt-24 bg-transparent"
           >
-<<<<<<< HEAD
-            <div className="container relative mx-auto px-4">
-              <Card className="relative overflow-hidden rounded-xl border border-none border-slate-100 bg-white shadow-2xl shadow-slate-200/50">
-=======
             <div className="relative mx-auto w-full max-w-5xl px-4 sm:px-6">
               <Card className="border-border-subtle relative overflow-hidden rounded-xl border border-none bg-white shadow-2xl shadow-md">
->>>>>>> recover/cabinet-wip-from-stash
                 <CardContent className="relative z-10 p-4">
                   <SynthaEdit />
                 </CardContent>

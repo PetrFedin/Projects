@@ -29,11 +29,7 @@ export default function StyleMeUpsellPage() {
   }, []);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Post-Purchase Style-Me Upsell"
         description="Персональные подборки в мессенджер через 2 дня после покупки. Связь с CRM, заказами и контентом. При API — триггер по событию заказа + шаблоны подборок."
@@ -43,11 +39,7 @@ export default function StyleMeUpsellPage() {
         badges={<StyleMeUpsellBadges />}
       />
       <div className="flex items-center gap-3">
-<<<<<<< HEAD
-        <Link href="/brand/kickstarter">
-=======
         <Link href={ROUTES.brand.kickstarter}>
->>>>>>> recover/cabinet-wip-from-stash
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
           </Button>
@@ -69,19 +61,11 @@ export default function StyleMeUpsellPage() {
             {campaigns.map((c) => (
               <li
                 key={c.id}
-<<<<<<< HEAD
-                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3"
-              >
-                <div>
-                  <p className="font-medium">{c.name}</p>
-                  <p className="text-xs text-slate-500">
-=======
                 className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"
               >
                 <div>
                   <p className="font-medium">{c.name}</p>
                   <p className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
                     Через {c.daysAfterPurchase} дн. · {c.channel}
                   </p>
                 </div>
@@ -94,11 +78,7 @@ export default function StyleMeUpsellPage() {
               </li>
             ))}
           </ul>
-<<<<<<< HEAD
-          <p className="mt-3 text-xs text-slate-400">
-=======
           <p className="text-text-muted mt-3 text-xs">
->>>>>>> recover/cabinet-wip-from-stash
             API: STYLE_ME_UPSELL_API — кампании, триггер по заказу, шаблоны.
           </p>
         </CardContent>

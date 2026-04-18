@@ -33,11 +33,7 @@ const mockClaimsFallback = [
   {
     id: 'RMA-001',
     orderId: 'ORD-8821',
-<<<<<<< HEAD
-    partner: 'Podium',
-=======
     partner: 'Демо-магазин · Москва 1',
->>>>>>> recover/cabinet-wip-from-stash
     type: 'return',
     reason: 'Брак: разошелся шов',
     items: 3,
@@ -59,11 +55,7 @@ const mockClaimsFallback = [
   {
     id: 'RMA-003',
     orderId: 'ORD-8791',
-<<<<<<< HEAD
-    partner: 'ЦУМ',
-=======
     partner: 'Демо-магазин · Москва 2',
->>>>>>> recover/cabinet-wip-from-stash
     type: 'return',
     reason: 'Пересорт: L вместо M',
     items: 5,
@@ -76,11 +68,7 @@ const mockClaimsFallback = [
 const statusConfig: Record<string, { label: string; color: string; icon: React.ElementType }> = {
   draft: {
     label: 'Черновик',
-<<<<<<< HEAD
-    color: 'bg-slate-50 text-slate-600 border-slate-100',
-=======
     color: 'bg-bg-surface2 text-text-secondary border-border-subtle',
->>>>>>> recover/cabinet-wip-from-stash
     icon: FileText,
   },
   submitted: {
@@ -110,11 +98,7 @@ const statusConfig: Record<string, { label: string; color: string; icon: React.E
   },
   received: {
     label: 'Получено',
-<<<<<<< HEAD
-    color: 'bg-indigo-50 text-indigo-600 border-indigo-100',
-=======
     color: 'bg-accent-primary/10 text-accent-primary border-accent-primary/20',
->>>>>>> recover/cabinet-wip-from-stash
     icon: Package,
   },
   refunded: {
@@ -124,11 +108,7 @@ const statusConfig: Record<string, { label: string; color: string; icon: React.E
   },
   closed: {
     label: 'Закрыта',
-<<<<<<< HEAD
-    color: 'bg-slate-50 text-slate-500 border-slate-100',
-=======
     color: 'bg-bg-surface2 text-text-secondary border-border-subtle',
->>>>>>> recover/cabinet-wip-from-stash
     icon: CheckCircle2,
   },
 };
@@ -194,31 +174,6 @@ export default function ReturnsClaimsPage() {
       </div>
 
       <WidgetCard title="Рекламации и возвраты" description="Партнёр, заказ, причина, статус">
-<<<<<<< HEAD
-        <div className="overflow-x-auto rounded-xl border border-slate-200">
-          <Table className="min-w-[640px]">
-            <TableHeader>
-              <TableRow className="border-b border-slate-100 hover:bg-transparent">
-                <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                  ID
-                </TableHead>
-                <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                  Заказ
-                </TableHead>
-                <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                  Партнёр
-                </TableHead>
-                <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                  Тип
-                </TableHead>
-                <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                  Причина
-                </TableHead>
-                <TableHead className="text-right text-xs font-bold uppercase tracking-wider text-slate-500">
-                  Сумма
-                </TableHead>
-                <TableHead className="text-xs font-bold uppercase tracking-wider text-slate-500">
-=======
         <div className="border-border-default overflow-x-auto rounded-xl border">
           <Table className="min-w-[640px]">
             <TableHeader>
@@ -242,7 +197,6 @@ export default function ReturnsClaimsPage() {
                   Сумма
                 </TableHead>
                 <TableHead className="text-text-secondary text-xs font-bold uppercase tracking-wider">
->>>>>>> recover/cabinet-wip-from-stash
                   Статус
                 </TableHead>
                 <TableHead className="w-12" />
@@ -255,15 +209,6 @@ export default function ReturnsClaimsPage() {
                 return (
                   <TableRow
                     key={c.id}
-<<<<<<< HEAD
-                    className="group border-b border-slate-100 hover:bg-slate-50"
-                  >
-                    <TableCell className="font-mono text-[11px] text-slate-900">{c.id}</TableCell>
-                    <TableCell>
-                      <Link
-                        href={`${ROUTES.brand.b2bOrders}/${c.orderId}`}
-                        className="font-medium text-slate-900 hover:text-slate-900"
-=======
                     className="border-border-subtle hover:bg-bg-surface2 group border-b"
                   >
                     <TableCell className="text-text-primary font-mono text-[11px]">
@@ -273,7 +218,6 @@ export default function ReturnsClaimsPage() {
                       <Link
                         href={ROUTES.brand.b2bOrder(c.orderId)}
                         className="hover:text-text-primary text-text-primary font-medium"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         {c.orderId}
                       </Link>
@@ -290,11 +234,7 @@ export default function ReturnsClaimsPage() {
                           : 'Рекламация'}
                       </Badge>
                     </TableCell>
-<<<<<<< HEAD
-                    <TableCell className="max-w-[180px] truncate text-[11px] text-slate-600">
-=======
                     <TableCell className="text-text-secondary max-w-[180px] truncate text-[11px]">
->>>>>>> recover/cabinet-wip-from-stash
                       {c.reason}
                     </TableCell>
                     <TableCell className="text-right font-bold tabular-nums">

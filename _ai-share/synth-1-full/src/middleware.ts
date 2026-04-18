@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-<<<<<<< HEAD
-=======
 import { ROUTES } from '@/lib/routes';
 
 export function middleware(req: NextRequest) {
@@ -31,7 +29,6 @@ export function middleware(req: NextRequest) {
     next.pathname = '/client' + path.slice(2);
     return NextResponse.redirect(next);
   }
->>>>>>> recover/cabinet-wip-from-stash
 
   return NextResponse.next();
 }

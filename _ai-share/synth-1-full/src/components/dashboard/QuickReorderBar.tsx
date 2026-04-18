@@ -79,15 +79,6 @@ export function QuickReorderBar() {
   };
 
   return (
-<<<<<<< HEAD
-    <Card className="sticky top-0 z-40 rounded-none border-x-0 border-b-2 border-t-0 border-indigo-100 bg-white/95 shadow-lg backdrop-blur-md">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center gap-3 py-3">
-          <div className="flex flex-shrink-0 items-center gap-2">
-            <RotateCcw className="h-5 w-5 text-indigo-600" />
-            <span className="text-sm font-black uppercase text-slate-900">Quick Reorder</span>
-            <Badge className="border-none bg-indigo-100 text-[7px] font-black uppercase text-indigo-700">
-=======
     <Card className="border-accent-primary/20 sticky top-0 z-40 rounded-none border-x-0 border-b-2 border-t-0 bg-white/95 shadow-lg backdrop-blur-md">
       <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
         <div className="flex items-center gap-3 py-3">
@@ -95,7 +86,6 @@ export function QuickReorderBar() {
             <RotateCcw className="text-accent-primary h-5 w-5" />
             <span className="text-text-primary text-sm font-black uppercase">Quick Reorder</span>
             <Badge className="bg-accent-primary/15 text-accent-primary border-none text-[7px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
               Last 30 Days
             </Badge>
           </div>
@@ -107,11 +97,7 @@ export function QuickReorderBar() {
                 className={cn(
                   'flex flex-shrink-0 items-center gap-3 rounded-xl border-2 p-2 transition-all',
                   item.inStock
-<<<<<<< HEAD
-                    ? 'border-slate-200 bg-slate-50 hover:border-indigo-300'
-=======
                     ? 'bg-bg-surface2 border-border-default hover:border-accent-primary/30'
->>>>>>> recover/cabinet-wip-from-stash
                     : 'border-rose-200 bg-rose-50'
                 )}
               >
@@ -122,17 +108,10 @@ export function QuickReorderBar() {
                 />
 
                 <div className="min-w-0">
-<<<<<<< HEAD
-                  <h4 className="w-32 truncate text-[10px] font-black uppercase leading-tight text-slate-900">
-                    {item.name}
-                  </h4>
-                  <p className="flex items-center gap-1 text-[9px] text-slate-500">
-=======
                   <h4 className="text-text-primary w-32 truncate text-[10px] font-black uppercase leading-tight">
                     {item.name}
                   </h4>
                   <p className="text-text-secondary flex items-center gap-1 text-[9px]">
->>>>>>> recover/cabinet-wip-from-stash
                     <Clock className="h-3 w-3" />
                     {item.lastQuantity} шт •{' '}
                     {new Date(item.lastOrderDate).toLocaleDateString('ru-RU', {
@@ -162,13 +141,8 @@ export function QuickReorderBar() {
                     className={cn(
                       'h-8 rounded-lg px-3 text-[8px] font-black uppercase',
                       item.inStock
-<<<<<<< HEAD
-                        ? 'bg-indigo-600 hover:bg-indigo-700'
-                        : 'cursor-not-allowed bg-slate-400'
-=======
                         ? 'bg-accent-primary hover:bg-accent-primary'
                         : 'bg-text-muted cursor-not-allowed'
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                     onClick={() => item.inStock && handleReorder(item)}
                     disabled={!item.inStock}
@@ -187,11 +161,7 @@ export function QuickReorderBar() {
             className="h-9 flex-shrink-0 rounded-xl text-[8px] font-black uppercase"
             asChild
           >
-<<<<<<< HEAD
-            <Link href="/shop/b2b/orders">All Orders</Link>
-=======
             <Link href={ROUTES.shop.b2bOrders}>Все заказы B2B</Link>
->>>>>>> recover/cabinet-wip-from-stash
           </Button>
         </div>
       </div>

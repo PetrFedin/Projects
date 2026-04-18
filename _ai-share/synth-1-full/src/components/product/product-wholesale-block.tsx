@@ -18,19 +18,11 @@ export const ProductWholesaleBlock: React.FC<{ product: Product }> = ({ product 
   };
 
   return (
-<<<<<<< HEAD
-    <Card className="border-2 border-indigo-50 bg-indigo-50/20 p-4">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Briefcase className="h-4 w-4 text-indigo-600" />
-          <h4 className="text-sm font-bold uppercase text-indigo-600">Wholesale & Pre-order</h4>
-=======
     <Card className="border-accent-primary/15 bg-accent-primary/10 border-2 p-4">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Briefcase className="text-accent-primary h-4 w-4" />
           <h4 className="text-accent-primary text-sm font-bold uppercase">Wholesale & Pre-order</h4>
->>>>>>> recover/cabinet-wip-from-stash
         </div>
         <Badge className={statusColors[ws.allocationStatus]}>
           {ws.allocationStatus.replace('_', ' ').toUpperCase()}
@@ -64,11 +56,7 @@ export const ProductWholesaleBlock: React.FC<{ product: Product }> = ({ product 
         <Button
           variant="outline"
           size="sm"
-<<<<<<< HEAD
-          className="h-8 w-full border-indigo-200 text-[10px] text-indigo-700 hover:bg-indigo-50"
-=======
           className="border-accent-primary/30 text-accent-primary hover:bg-accent-primary/10 h-8 w-full text-[10px]"
->>>>>>> recover/cabinet-wip-from-stash
         >
           <ArrowDownToLine className="mr-1 h-3 w-3" /> Download Wholesale Pack
         </Button>

@@ -27,10 +27,7 @@ import {
   CheckCircle,
   Share2,
   Lock,
-<<<<<<< HEAD
-=======
   ArrowLeft,
->>>>>>> recover/cabinet-wip-from-stash
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -75,14 +72,9 @@ function OutfitRecommender({ productTitle }: { productTitle: string }) {
     setIsLoading(true);
     setOutfitImage(null);
     try {
-<<<<<<< HEAD
-      const result = await generateOutfitFromPrompt({
-        prompt: `A full stylish outfit recommendation featuring a "${productTitle}". The image should be a full-body shot of a model against a clean, minimalist background, showcasing how to style the main item.`,
-=======
       const result = await outfitPreviewClient({
         prompt: `A full stylish outfit recommendation featuring a "${productTitle}". The image should be a full-body shot of a model against a clean, minimalist background, showcasing how to style the main item.`,
         directPrompt: true,
->>>>>>> recover/cabinet-wip-from-stash
       });
       if (result.generatedOutfitImage) {
         setOutfitImage(result.generatedOutfitImage);
@@ -141,76 +133,6 @@ export default function CampaignDetailsPage({
   useEffect(() => {
     setProject(kickstarterProjects.find((p) => p.id === params.campaignId));
   }, [params.campaignId]);
-<<<<<<< HEAD
-
-  const [selectedTierId, setSelectedTierId] = useState<string | null>(null);
-  const { toast } = useToast();
-  const { user, addB2bOrderItem } = useUIState();
-
-  const isB2bUser = user?.roles?.includes('shop');
-  const [b2bQuantity, setB2bQuantity] = useState(project?.moqWholesale || 1);
-
-  useEffect(() => {
-    if (project?.moqWholesale) {
-      setB2bQuantity(project.moqWholesale);
-    }
-  }, [project]);
-
-  if (!project) {
-    return null;
-  }
-
-  const brand = brands.find((b) => b.id === project.brandId);
-  const product = products.find((p) => p.id === project.productId);
-
-  const progress = (project.currentQuantity / project.targetQuantity) * 100;
-  const daysLeft = Math.max(
-    0,
-    Math.ceil((new Date(project.endAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
-  );
-  const updates = kickstarterUpdates.filter((u) => u.campaignId === project.id);
-
-  const handleCopyReferral = () => {
-    navigator.clipboard.writeText(`https://syntha.app/kickstarter/${project.id}?ref=user123`);
-    toast({
-      title: 'Ссылка скопирована',
-      description: 'Поделитесь ей с друзьями, чтобы получить бонусы!',
-    });
-  };
-
-  const handleAddToB2bOrder = () => {
-    if (!product) return;
-
-    // This is a simplified logic. A real app would need to handle variants.
-    const size = product.sizes?.[0]?.name || 'One Size';
-    addB2bOrderItem(product, size, b2bQuantity);
-
-    toast({
-      title: 'Добавлено в B2B-заказ',
-      description: `${product.name} (${b2bQuantity} шт.) добавлен в ваш оптовый заказ.`,
-    });
-  };
-
-  return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="grid gap-3 lg:grid-cols-3">
-        {/* Main Content */}
-        <div className="space-y-4 lg:col-span-2">
-          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg">
-            <Image
-              src={project.imageUrl || 'https://placehold.co/1200x750/f0f0f0/333333?text=Syntha'}
-              alt={project.title}
-              fill
-              className="object-cover"
-            />
-          </div>
-
-          <Tabs defaultValue="story">
-            <TabsList>
-              <TabsTrigger value="story">История проекта</TabsTrigger>
-              <TabsTrigger value="updates">Обновления ({updates.length})</TabsTrigger>
-              <TabsTrigger value="comments">Комментарии ({mockComments.length})</TabsTrigger>
-=======
 
   const [selectedTierId, setSelectedTierId] = useState<string | null>(null);
   const { toast } = useToast();
@@ -326,7 +248,6 @@ export default function CampaignDetailsPage({
               >
                 Комментарии ({mockComments.length})
               </TabsTrigger>
->>>>>>> recover/cabinet-wip-from-stash
             </TabsList>
             <TabsContent value="story" className="prose dark:prose-invert mt-6 max-w-none">
               <h2>Концепция: {project.title}</h2>
@@ -558,10 +479,6 @@ export default function CampaignDetailsPage({
           </div>
         </div>
       </div>
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

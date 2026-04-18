@@ -57,15 +57,9 @@ export function SectionHeader({
             className={cn(
               isB2b
                 ? compact
-<<<<<<< HEAD
-                  ? 'text-sm font-black uppercase leading-tight tracking-tight text-slate-900 sm:text-[15px]'
-                  : 'text-base font-black uppercase tracking-tight text-slate-900 sm:text-lg'
-                : 'text-xl font-bold tracking-tight text-slate-900 sm:text-2xl'
-=======
                   ? 'text-text-primary text-sm font-black uppercase leading-tight tracking-tight sm:text-[15px]'
                   : 'text-text-primary text-base font-black uppercase tracking-tight sm:text-lg'
                 : 'text-text-primary text-xl font-bold tracking-tight sm:text-2xl'
->>>>>>> recover/cabinet-wip-from-stash
             )}
           >
             {title}
@@ -77,15 +71,9 @@ export function SectionHeader({
                 compact ? 'mt-0.5 leading-snug' : 'mt-1 leading-relaxed',
                 isB2b
                   ? compact
-<<<<<<< HEAD
-                    ? 'text-[10px] font-medium text-slate-500'
-                    : 'text-[11px] font-medium text-slate-500'
-                  : 'text-sm text-slate-600'
-=======
                     ? 'text-text-secondary text-[10px] font-medium'
                     : 'text-text-secondary text-[11px] font-medium'
                   : 'text-text-secondary text-sm'
->>>>>>> recover/cabinet-wip-from-stash
               )}
             >
               {description}

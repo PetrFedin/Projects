@@ -17,11 +17,7 @@ export default function ClientReturnsPage() {
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Возвраты</h1>
-<<<<<<< HEAD
-          <p className="text-sm text-slate-500">
-=======
           <p className="text-text-secondary text-sm">
->>>>>>> recover/cabinet-wip-from-stash
             Оформление возврата товаров. Связь с заказами и Try Before You Buy.
           </p>
         </div>
@@ -35,15 +31,6 @@ export default function ClientReturnsPage() {
           <CardDescription>Список возвратов будет доступен после подключения API.</CardDescription>
         </CardHeader>
         <CardContent>
-<<<<<<< HEAD
-          <p className="text-sm text-slate-500">
-            Связанные разделы:{' '}
-            <Link href={ROUTES.client.orders} className="text-indigo-600 underline">
-              Мои заказы
-            </Link>
-            ,{' '}
-            <Link href={ROUTES.client.tryBeforeYouBuy} className="text-indigo-600 underline">
-=======
           <p className="text-text-secondary text-sm">
             Связанные разделы:{' '}
             <Link href={ROUTES.client.orders} className="text-accent-primary underline">
@@ -51,7 +38,6 @@ export default function ClientReturnsPage() {
             </Link>
             ,{' '}
             <Link href={ROUTES.client.tryBeforeYouBuy} className="text-accent-primary underline">
->>>>>>> recover/cabinet-wip-from-stash
               Try Before You Buy
             </Link>
             .

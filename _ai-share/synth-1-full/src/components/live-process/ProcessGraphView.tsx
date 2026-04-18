@@ -185,11 +185,7 @@ export function ProcessGraphView({ stages, runtimes, onStageClick }: ProcessGrap
                 x={NODE_WIDTH / 2}
                 y={24}
                 textAnchor="middle"
-<<<<<<< HEAD
-                className="pointer-events-none fill-slate-800 text-xs font-medium"
-=======
                 className="fill-text-primary pointer-events-none text-xs font-medium"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 {stage.title.length > 18 ? stage.title.slice(0, 17) + '…' : stage.title}
               </text>

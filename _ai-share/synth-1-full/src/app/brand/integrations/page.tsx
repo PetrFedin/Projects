@@ -61,13 +61,8 @@ const MARKETPLACE_INTEGRATIONS = [
     category: 'Маркетплейс',
     status: 'inactive',
     icon: ShoppingBag,
-<<<<<<< HEAD
-    color: 'text-purple-600',
-    bg: 'bg-purple-50',
-=======
     color: 'text-accent-primary',
     bg: 'bg-accent-primary/10',
->>>>>>> recover/cabinet-wip-from-stash
     description: 'Крупнейший маркетплейс РФ',
     oneClickSetup: true,
     fields: [
@@ -207,52 +202,32 @@ export default function IntegrationsPage() {
       category: 'Аналитика',
       status: 'active',
       icon: BarChart3,
-<<<<<<< HEAD
-      color: 'text-purple-600',
-      bg: 'bg-purple-50',
-=======
       color: 'text-accent-primary',
       bg: 'bg-accent-primary/10',
->>>>>>> recover/cabinet-wip-from-stash
     },
     {
       name: 'Мой Склад',
       category: 'Учет',
       status: 'inactive',
       icon: Package,
-<<<<<<< HEAD
-      color: 'text-slate-400',
-      bg: 'bg-slate-50',
-=======
       color: 'text-text-muted',
       bg: 'bg-bg-surface2',
->>>>>>> recover/cabinet-wip-from-stash
     },
     {
       name: 'VK Реклама',
       category: 'Маркетинг',
       status: 'inactive',
       icon: TrendingUp,
-<<<<<<< HEAD
-      color: 'text-slate-400',
-      bg: 'bg-slate-50',
-=======
       color: 'text-text-muted',
       bg: 'bg-bg-surface2',
->>>>>>> recover/cabinet-wip-from-stash
     },
     {
       name: 'Контур',
       category: 'Бухгалтерия',
       status: 'inactive',
       icon: Building2,
-<<<<<<< HEAD
-      color: 'text-slate-400',
-      bg: 'bg-slate-50',
-=======
       color: 'text-text-muted',
       bg: 'bg-bg-surface2',
->>>>>>> recover/cabinet-wip-from-stash
     },
   ]);
 
@@ -293,14 +268,6 @@ export default function IntegrationsPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="mx-auto max-w-5xl space-y-5 px-4 pb-20 md:px-0">
-      {returnResolved && (
-        <div className="mb-4 rounded-lg border border-indigo-100 bg-indigo-50 p-2">
-          <Link
-            href={`/brand/organization?resolved=${encodeURIComponent(returnResolved)}`}
-            className="flex items-center gap-1 text-[10px] font-semibold text-indigo-600 hover:text-indigo-700"
-=======
     <RegistryPageShell
       className="w-full max-w-none space-y-5 pb-20"
       data-testid="brand-integrations-page"
@@ -310,56 +277,11 @@ export default function IntegrationsPage() {
           <Link
             href={`/brand/organization?resolved=${encodeURIComponent(returnResolved)}`}
             className="text-accent-primary hover:text-accent-primary flex items-center gap-1 text-[10px] font-semibold"
->>>>>>> recover/cabinet-wip-from-stash
           >
             ← Вернуться в Центр управления
           </Link>
         </div>
       )}
-<<<<<<< HEAD
-      {/* Control Panel */}
-      <div className="mb-4 flex items-center justify-end gap-3">
-        <div className="flex items-center gap-1.5">
-          <Badge className="h-5 border-none bg-emerald-500 px-2 text-[7px] font-black uppercase text-white">
-            <span className="mr-1.5 h-1.5 w-1.5 animate-pulse rounded-full bg-white" />{' '}
-            {webhooks.filter((w) => w.status === 'active').length +
-              integrations.filter((i) => i.status === 'active').length}{' '}
-            активных
-          </Badge>
-          <div className="mx-0.5 h-4 w-px bg-slate-200" />
-          <Button
-            asChild
-            variant="outline"
-            size="sm"
-            className="h-7 rounded-lg border-slate-200 bg-white px-3 text-[7px] font-black uppercase tracking-widest text-slate-400 shadow-sm hover:bg-slate-50"
-          >
-            <Link href="/api/docs">API Документация</Link>
-          </Button>
-        </div>
-
-        <Button
-          variant={isEditing ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => setIsEditing(!isEditing)}
-          className={cn(
-            'h-7 rounded-lg px-4 text-[7px] font-black uppercase tracking-widest transition-all',
-            isEditing
-              ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-100'
-              : 'border-slate-200 bg-white text-slate-600'
-          )}
-        >
-          {isEditing ? (
-            <>
-              <Save className="mr-1 h-3 w-3" /> Сохранить
-            </>
-          ) : (
-            <>
-              <Edit className="mr-1 h-3 w-3" /> Настроить
-            </>
-          )}
-        </Button>
-      </div>
-=======
       <RegistryPageHeader
         title="Интеграции"
         leadPlain={
@@ -424,20 +346,13 @@ export default function IntegrationsPage() {
         </div>
         <ArrowUpRight className="text-text-muted h-4 w-4 shrink-0" />
       </Link>
->>>>>>> recover/cabinet-wip-from-stash
 
       {/* Marketplace Integrations (One-Click Setup) */}
       <div className="mb-8 space-y-3">
         <div className="flex items-center gap-2">
-<<<<<<< HEAD
-          <div className="h-3.5 w-1 rounded-full bg-purple-600" />
-          <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-            Маркетплейсы (One-Click Setup)
-=======
           <div className="bg-accent-primary h-3.5 w-1 rounded-full" />
           <h2 className="text-text-secondary text-[10px] font-black uppercase tracking-[0.2em]">
             Маркетплейсы (быстрое подключение)
->>>>>>> recover/cabinet-wip-from-stash
           </h2>
         </div>
 
@@ -449,11 +364,7 @@ export default function IntegrationsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
             >
-<<<<<<< HEAD
-              <Card className="group relative h-full overflow-hidden rounded-2xl border border-none border-slate-100 bg-white p-3 shadow-sm transition-all duration-300 hover:shadow-xl">
-=======
               <Card className="border-border-subtle group relative h-full overflow-hidden rounded-2xl border border-none bg-white p-3 shadow-sm transition-all duration-300 hover:shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
                 <div className="space-y-4">
                   <div className="flex items-start justify-between">
                     <div
@@ -469,11 +380,7 @@ export default function IntegrationsPage() {
                         'h-4 border-none px-1.5 text-[7px] font-black uppercase',
                         mp.status === 'active'
                           ? 'bg-emerald-50 text-emerald-600'
-<<<<<<< HEAD
-                          : 'bg-slate-50 text-slate-400'
-=======
                           : 'bg-bg-surface2 text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {mp.status === 'active' ? 'Активно' : 'Не подключено'}
@@ -481,17 +388,10 @@ export default function IntegrationsPage() {
                   </div>
 
                   <div className="space-y-2">
-<<<<<<< HEAD
-                    <h3 className="text-sm font-black uppercase tracking-tight text-slate-900 transition-colors group-hover:text-indigo-600">
-                      {mp.name}
-                    </h3>
-                    <p className="text-[9px] font-medium leading-relaxed text-slate-500">
-=======
                     <h3 className="text-text-primary group-hover:text-accent-primary text-sm font-black uppercase tracking-tight transition-colors">
                       {mp.name}
                     </h3>
                     <p className="text-text-secondary text-[9px] font-medium leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                       {mp.description}
                     </p>
                   </div>
@@ -501,11 +401,7 @@ export default function IntegrationsPage() {
                       <div className="space-y-2">
                         <Button
                           variant="outline"
-<<<<<<< HEAD
-                          className="h-9 w-full gap-2 rounded-xl border-slate-200 text-[8px] font-black uppercase hover:bg-slate-50"
-=======
                           className="border-border-default hover:bg-bg-surface2 h-9 w-full gap-2 rounded-xl text-[8px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                         >
                           <Settings className="h-3 w-3" /> Настройки
                         </Button>
@@ -519,11 +415,7 @@ export default function IntegrationsPage() {
                     ) : (
                       <Button
                         onClick={() => handleIntegrationClick(mp)}
-<<<<<<< HEAD
-                        className="h-9 w-full gap-2 rounded-xl bg-indigo-600 text-[8px] font-black uppercase hover:bg-indigo-700"
-=======
                         className="bg-accent-primary hover:bg-accent-primary h-9 w-full gap-2 rounded-xl text-[8px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         <Zap className="h-3 w-3" /> Подключить за 2 мин
                       </Button>
@@ -539,21 +431,12 @@ export default function IntegrationsPage() {
       {/* Встроенные B2B-фичи */}
       <div className="mb-8 space-y-3">
         <div className="flex items-center gap-2">
-<<<<<<< HEAD
-          <div className="h-3.5 w-1 rounded-full bg-indigo-600" />
-          <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-            Встроенные B2B-фичи
-          </h2>
-        </div>
-        <p className="-mt-1 text-[9px] text-slate-500">
-=======
           <div className="bg-accent-primary h-3.5 w-1 rounded-full" />
           <h2 className="text-text-secondary text-[10px] font-black uppercase tracking-[0.2em]">
             Встроенные B2B-фичи
           </h2>
         </div>
         <p className="text-text-secondary -mt-1 text-[9px]">
->>>>>>> recover/cabinet-wip-from-stash
           Совместные заказы, Smart Replenishment, личный кабинет дилера, несколько корзин, AI-поиск
           и другие — встроены в платформу.
         </p>
@@ -564,17 +447,6 @@ export default function IntegrationsPage() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
-<<<<<<< HEAD
-                className="group h-full rounded-xl border border-slate-100 bg-white p-3 transition-all hover:border-indigo-200 hover:shadow-md"
-              >
-                <div className="mb-2 flex items-start justify-between">
-                  <span className="text-xs font-black uppercase text-slate-900 group-hover:text-indigo-600">
-                    {f.label}
-                  </span>
-                  <ArrowUpRight className="h-3 w-3 shrink-0 text-slate-300 group-hover:text-indigo-500" />
-                </div>
-                <p className="text-[9px] leading-relaxed text-slate-500">{f.desc}</p>
-=======
                 className="border-border-subtle hover:border-accent-primary/30 group h-full rounded-xl border bg-white p-3 transition-all hover:shadow-md"
               >
                 <div className="mb-2 flex items-start justify-between">
@@ -584,7 +456,6 @@ export default function IntegrationsPage() {
                   <ArrowUpRight className="text-text-muted group-hover:text-accent-primary h-3 w-3 shrink-0" />
                 </div>
                 <p className="text-text-secondary text-[9px] leading-relaxed">{f.desc}</p>
->>>>>>> recover/cabinet-wip-from-stash
               </motion.div>
             </Link>
           ))}
@@ -595,11 +466,7 @@ export default function IntegrationsPage() {
       <div className="mb-8 space-y-3">
         <div className="flex items-center gap-2">
           <div className="h-3.5 w-1 rounded-full bg-emerald-600" />
-<<<<<<< HEAD
-          <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-=======
           <h2 className="text-text-secondary text-[10px] font-black uppercase tracking-[0.2em]">
->>>>>>> recover/cabinet-wip-from-stash
             Другие интеграции
           </h2>
         </div>
@@ -612,11 +479,7 @@ export default function IntegrationsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
             >
-<<<<<<< HEAD
-              <Card className="group relative h-full overflow-hidden rounded-xl border border-none border-slate-100 bg-white p-4 shadow-sm transition-all duration-300 hover:shadow-xl">
-=======
               <Card className="border-border-subtle group relative h-full overflow-hidden rounded-xl border border-none bg-white p-4 shadow-sm transition-all duration-300 hover:shadow-xl">
->>>>>>> recover/cabinet-wip-from-stash
                 <div className="mb-4 flex items-start justify-between">
                   <div
                     className={cn(
@@ -632,11 +495,7 @@ export default function IntegrationsPage() {
                         'h-4 border-none px-1.5 text-[7px] font-black uppercase tracking-widest',
                         int.status === 'active'
                           ? 'bg-emerald-50 text-emerald-600'
-<<<<<<< HEAD
-                          : 'bg-slate-50 text-slate-400'
-=======
                           : 'bg-bg-surface2 text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                       )}
                     >
                       {int.status}
@@ -645,11 +504,7 @@ export default function IntegrationsPage() {
                       asChild
                       variant="ghost"
                       size="icon"
-<<<<<<< HEAD
-                      className="h-7 w-7 rounded-lg bg-slate-50 text-slate-400 opacity-0 transition-all hover:bg-slate-900 hover:text-white group-hover:opacity-100"
-=======
                       className="bg-bg-surface2 text-text-muted hover:bg-text-primary/90 h-7 w-7 rounded-lg opacity-0 transition-all hover:text-white group-hover:opacity-100"
->>>>>>> recover/cabinet-wip-from-stash
                     >
                       <Link href="#">
                         <ArrowUpRight className="h-3.5 w-3.5" />
@@ -660,45 +515,26 @@ export default function IntegrationsPage() {
 
                 <div className="space-y-4">
                   <div>
-<<<<<<< HEAD
-                    <h3 className="mb-1 text-sm font-black uppercase tracking-tight text-slate-900 transition-colors group-hover:text-indigo-600">
-                      {int.name}
-                    </h3>
-                    <p className="text-[10px] font-medium leading-relaxed text-slate-500">
-=======
                     <h3 className="text-text-primary group-hover:text-accent-primary mb-1 text-sm font-black uppercase tracking-tight transition-colors">
                       {int.name}
                     </h3>
                     <p className="text-text-secondary text-[10px] font-medium leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                       {int.category} integration for seamless data sync.
                     </p>
                   </div>
 
-<<<<<<< HEAD
-                  <div className="border-t border-slate-50 pt-4">
-                    {int.status === 'active' ? (
-                      <Button
-                        variant="outline"
-                        className="h-9 w-full gap-2 rounded-xl border-slate-200 text-[8px] font-black uppercase hover:bg-slate-50"
-=======
                   <div className="border-border-subtle border-t pt-4">
                     {int.status === 'active' ? (
                       <Button
                         variant="outline"
                         className="border-border-default hover:bg-bg-surface2 h-9 w-full gap-2 rounded-xl text-[8px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         <Settings className="h-3 w-3" /> Настройки
                       </Button>
                     ) : (
                       <Button
                         variant="default"
-<<<<<<< HEAD
-                        className="h-9 w-full gap-2 rounded-xl bg-indigo-600 text-[8px] font-black uppercase hover:bg-indigo-700"
-=======
                         className="bg-accent-primary hover:bg-accent-primary h-9 w-full gap-2 rounded-xl text-[8px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
                       >
                         <Plug className="h-3 w-3" /> Подключить
                       </Button>
@@ -717,64 +553,39 @@ export default function IntegrationsPage() {
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <div className="h-3.5 w-1 rounded-full bg-blue-600" />
-<<<<<<< HEAD
-            <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-=======
             <h2 className="text-text-secondary text-[10px] font-black uppercase tracking-[0.2em]">
->>>>>>> recover/cabinet-wip-from-stash
               Webhook Configurator
             </h2>
           </div>
 
-<<<<<<< HEAD
-          <Card className="h-full rounded-xl border border-none border-slate-100 bg-white p-4 shadow-sm">
-=======
           <Card className="border-border-subtle h-full rounded-xl border border-none bg-white p-4 shadow-sm">
->>>>>>> recover/cabinet-wip-from-stash
             <div className="space-y-3">
               {webhooks.map((wh, i) => (
                 <div
                   key={i}
-<<<<<<< HEAD
-                  className="group relative flex items-center gap-3 rounded-xl bg-slate-50 p-4 transition-all hover:bg-slate-100"
-=======
                   className="bg-bg-surface2 hover:bg-bg-surface2 group relative flex items-center gap-3 rounded-xl p-4 transition-all"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   <div
                     className={cn(
                       'flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl',
                       wh.status === 'active'
-<<<<<<< HEAD
-                        ? 'bg-indigo-100 text-indigo-600'
-                        : 'bg-slate-200 text-slate-400'
-=======
                         ? 'bg-accent-primary/15 text-accent-primary'
                         : 'bg-border-subtle text-text-muted'
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                   >
                     <Zap className="h-5 w-5" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="mb-1 flex items-center justify-between">
-<<<<<<< HEAD
-                      <p className="text-[9px] font-black uppercase text-slate-900">{wh.event}</p>
-=======
                       <p className="text-text-primary text-[9px] font-black uppercase">
                         {wh.event}
                       </p>
->>>>>>> recover/cabinet-wip-from-stash
                       <Badge
                         className={cn(
                           'h-3.5 border-none px-1.5 text-[6px] font-black uppercase',
                           wh.status === 'active'
                             ? 'bg-emerald-500 text-white'
-<<<<<<< HEAD
-                            : 'bg-slate-400 text-white'
-=======
                             : 'bg-text-muted text-white'
->>>>>>> recover/cabinet-wip-from-stash
                         )}
                       >
                         {wh.status}
@@ -784,17 +595,10 @@ export default function IntegrationsPage() {
                       <Input
                         value={wh.url}
                         onChange={(e) => handleWebhookChange(i, e.target.value)}
-<<<<<<< HEAD
-                        className="h-7 border-slate-200 bg-white font-mono text-[8px]"
-                      />
-                    ) : (
-                      <p className="truncate font-mono text-[7px] text-slate-400">{wh.url}</p>
-=======
                         className="border-border-default h-7 bg-white font-mono text-[8px]"
                       />
                     ) : (
                       <p className="text-text-muted truncate font-mono text-[7px]">{wh.url}</p>
->>>>>>> recover/cabinet-wip-from-stash
                     )}
                   </div>
                   {isEditing && (
@@ -809,17 +613,10 @@ export default function IntegrationsPage() {
                 </div>
               ))}
             </div>
-<<<<<<< HEAD
-            <div className="mt-6 border-t border-slate-100 pt-6">
-              <Button
-                variant="outline"
-                className="h-10 w-full gap-2 rounded-xl border-slate-200 text-[8px] font-black uppercase hover:bg-slate-50"
-=======
             <div className="border-border-subtle mt-6 border-t pt-6">
               <Button
                 variant="outline"
                 className="border-border-default hover:bg-bg-surface2 h-10 w-full gap-2 rounded-xl text-[8px] font-black uppercase"
->>>>>>> recover/cabinet-wip-from-stash
               >
                 <PlusCircle className="h-3 w-3" /> Добавить Webhook
               </Button>
@@ -830,15 +627,6 @@ export default function IntegrationsPage() {
         {/* API & Developer Tools */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-<<<<<<< HEAD
-            <div className="h-3.5 w-1 rounded-full bg-slate-900" />
-            <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-              Developer Tools
-            </h2>
-          </div>
-          <Card className="group relative h-full overflow-hidden rounded-xl border-none bg-slate-900 p-4 text-white shadow-sm">
-            <div className="absolute right-0 top-0 p-4 text-indigo-400 opacity-10 transition-transform group-hover:scale-110">
-=======
             <div className="bg-text-primary h-3.5 w-1 rounded-full" />
             <h2 className="text-text-secondary text-[10px] font-black uppercase tracking-[0.2em]">
               Инструменты разработчика
@@ -846,18 +634,12 @@ export default function IntegrationsPage() {
           </div>
           <Card className="bg-text-primary group relative h-full overflow-hidden rounded-xl border-none p-4 text-white shadow-sm">
             <div className="text-accent-primary absolute right-0 top-0 p-4 opacity-10 transition-transform group-hover:scale-110">
->>>>>>> recover/cabinet-wip-from-stash
               <Terminal className="h-32 w-32" />
             </div>
             <div className="relative z-10 flex h-full flex-col space-y-6">
               <div className="space-y-1">
-<<<<<<< HEAD
-                <h3 className="text-base font-black uppercase tracking-tight">API Management</h3>
-                <p className="text-xs font-medium text-slate-400">
-=======
                 <h3 className="text-base font-black uppercase tracking-tight">Управление API</h3>
                 <p className="text-text-muted text-xs font-medium">
->>>>>>> recover/cabinet-wip-from-stash
                   Управление ключами доступа и документацией.
                 </p>
               </div>
@@ -867,11 +649,7 @@ export default function IntegrationsPage() {
                   variant="ghost"
                   className="h-12 justify-start rounded-2xl border border-white/5 bg-white/5 px-4 text-[9px] font-black uppercase tracking-widest text-white transition-all hover:bg-white/10"
                 >
-<<<<<<< HEAD
-                  <Link href="/brand/security">API Ключи доступа</Link>
-=======
                   <Link href={ROUTES.brand.security}>API Ключи доступа</Link>
->>>>>>> recover/cabinet-wip-from-stash
                 </Button>
                 <Button
                   variant="ghost"
@@ -907,11 +685,7 @@ export default function IntegrationsPage() {
             <DialogTitle className="text-sm font-black uppercase tracking-tight">
               Подключить {selectedIntegration?.name}
             </DialogTitle>
-<<<<<<< HEAD
-            <DialogDescription className="text-xs text-slate-500">
-=======
             <DialogDescription className="text-text-secondary text-xs">
->>>>>>> recover/cabinet-wip-from-stash
               Заполните данные для интеграции с {selectedIntegration?.name}
             </DialogDescription>
           </DialogHeader>
@@ -921,11 +695,7 @@ export default function IntegrationsPage() {
               <div key={field.name} className="space-y-2">
                 <Label
                   htmlFor={field.name}
-<<<<<<< HEAD
-                  className="text-[10px] font-black uppercase tracking-widest text-slate-700"
-=======
                   className="text-text-primary text-[10px] font-black uppercase tracking-widest"
->>>>>>> recover/cabinet-wip-from-stash
                 >
                   {field.label} {field.required && <span className="text-rose-500">*</span>}
                 </Label>
@@ -941,16 +711,6 @@ export default function IntegrationsPage() {
               </div>
             ))}
 
-<<<<<<< HEAD
-            <div className="rounded-2xl border border-indigo-100 bg-indigo-50 p-4">
-              <div className="flex items-start gap-3">
-                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-indigo-600">
-                  <Zap className="h-4 w-4 text-white" />
-                </div>
-                <div className="space-y-1">
-                  <p className="text-[9px] font-black uppercase text-slate-900">One-Click Setup</p>
-                  <p className="text-[8px] leading-relaxed text-slate-600">
-=======
             <div className="bg-accent-primary/10 border-accent-primary/20 rounded-2xl border p-4">
               <div className="flex items-start gap-3">
                 <div className="bg-accent-primary flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg">
@@ -961,7 +721,6 @@ export default function IntegrationsPage() {
                     One-Click Setup
                   </p>
                   <p className="text-text-secondary text-[8px] leading-relaxed">
->>>>>>> recover/cabinet-wip-from-stash
                     После подключения товары автоматически синхронизируются с{' '}
                     {selectedIntegration?.name}. Остатки и цены будут обновляться в реальном
                     времени.
@@ -982,11 +741,7 @@ export default function IntegrationsPage() {
             </Button>
             <Button
               onClick={handleConnectIntegration}
-<<<<<<< HEAD
-              className="rounded-xl bg-indigo-600 hover:bg-indigo-700"
-=======
               className="bg-accent-primary hover:bg-accent-primary rounded-xl"
->>>>>>> recover/cabinet-wip-from-stash
               disabled={
                 isConnecting ||
                 !selectedIntegration?.fields?.every(
@@ -1009,10 +764,6 @@ export default function IntegrationsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-<<<<<<< HEAD
-    </div>
-=======
     </RegistryPageShell>
->>>>>>> recover/cabinet-wip-from-stash
   );
 }

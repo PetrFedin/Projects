@@ -83,11 +83,7 @@ function BrandCalendarMain() {
   }, [liveEvents, collabEvents, stageDemoCalendar]);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <StyleCalendar
         initialRole="brand"
         variant="full"
@@ -107,15 +103,7 @@ export default function BrandCalendarPage() {
         <CommunicationsUpcomingStrip />
       </div>
       <Suspense
-<<<<<<< HEAD
-        fallback={
-          <div className="container mx-auto max-w-6xl px-4 py-10 text-sm text-slate-500">
-            Загрузка календаря…
-          </div>
-        }
-=======
         fallback={<div className="text-text-secondary py-10 text-sm">Загрузка календаря…</div>}
->>>>>>> recover/cabinet-wip-from-stash
       >
         <BrandCalendarMain />
       </Suspense>

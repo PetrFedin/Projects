@@ -58,11 +58,7 @@ export default function PartnerVRShowroomPage() {
       <header className="pointer-events-none relative z-10 flex items-start justify-between p-3">
         <div className="pointer-events-auto space-y-4">
           <div className="flex items-center gap-3">
-<<<<<<< HEAD
-            <Badge className="h-6 border-none bg-indigo-600 px-3 text-[9px] font-black uppercase text-white">
-=======
             <Badge className="bg-accent-primary h-6 border-none px-3 text-[9px] font-black uppercase text-white">
->>>>>>> recover/cabinet-wip-from-stash
               Live Selection
             </Badge>
             <span className="text-[10px] font-bold uppercase italic tracking-widest text-white/40">
@@ -96,11 +92,7 @@ export default function PartnerVRShowroomPage() {
       <div className="relative flex flex-1 items-center justify-center">
         <div className="group pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div
-<<<<<<< HEAD
-            className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border-2 border-white/30 bg-white/10 shadow-2xl backdrop-blur-3xl transition-all hover:scale-110 hover:bg-indigo-600"
-=======
             className="hover:bg-accent-primary flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border-2 border-white/30 bg-white/10 shadow-2xl backdrop-blur-3xl transition-all hover:scale-110"
->>>>>>> recover/cabinet-wip-from-stash
             onMouseEnter={() => setActiveHotspot('p1')}
           >
             <Plus className="h-8 w-8 text-white" />
@@ -143,11 +135,7 @@ export default function PartnerVRShowroomPage() {
                       setCartCount((c) => c + 1);
                       setActiveHotspot(null);
                     }}
-<<<<<<< HEAD
-                    className="h-12 w-full gap-2 rounded-2xl bg-indigo-600 text-[10px] font-black uppercase text-white shadow-lg shadow-indigo-600/20 hover:bg-indigo-500"
-=======
                     className="bg-accent-primary hover:bg-accent-primary shadow-accent-primary/20 h-12 w-full gap-2 rounded-2xl text-[10px] font-black uppercase text-white shadow-lg"
->>>>>>> recover/cabinet-wip-from-stash
                   >
                     <Plus className="h-4 w-4" /> Add to Pre-Order
                   </Button>

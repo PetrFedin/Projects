@@ -15,17 +15,6 @@ export default function BrandFinanceRfTermsPage() {
   const netTermsLinks = getRelatedLinks('net-terms').map((l) => ({ label: l.label, href: l.href }));
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 duration-700 animate-in fade-in">
-      <SectionInfoCard
-        title="Условия для РФ (Net terms, скидки)"
-        description="Отсрочка платежа 30/60 дней для оптовиков (Faire), автоскидка на первый заказ, НДС."
-        icon={CreditCard}
-        iconBg="bg-indigo-100"
-        iconColor="text-indigo-600"
-        badges={
-          <>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16 duration-700 animate-in fade-in">
       <RegistryPageHeader
         title="Условия для РФ (Net terms, скидки)"
@@ -33,18 +22,13 @@ export default function BrandFinanceRfTermsPage() {
         actions={
           <div className="flex flex-wrap items-center justify-end gap-2">
             <CreditCard className="size-6 shrink-0 text-muted-foreground" aria-hidden />
->>>>>>> recover/cabinet-wip-from-stash
             <Badge variant="outline" className="text-[9px]">
               Net terms
             </Badge>
             <Badge variant="outline" className="text-[9px]">
               First order
             </Badge>
-<<<<<<< HEAD
-          </>
-=======
           </div>
->>>>>>> recover/cabinet-wip-from-stash
         }
       />
       <div className="grid gap-4 sm:grid-cols-2">

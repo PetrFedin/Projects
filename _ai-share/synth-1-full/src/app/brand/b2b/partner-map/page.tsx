@@ -30,24 +30,12 @@ export default function BrandPartnerMapPage() {
   }, [load]);
 
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
-      <div>
-        <h1 className="flex items-center gap-2 text-xl font-bold uppercase tracking-tight">
-          <MapPin className="h-6 w-6" /> Карта партнёров / территории
-        </h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Colect: визуально кто где торгует, конфликты территории, статус эксклюзива.
-        </p>
-      </div>
-=======
     <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
       <RegistryPageHeader
         title="Карта партнёров / территории"
         leadPlain="Colect: визуально кто где торгует, конфликты территории, статус эксклюзива."
         actions={<MapPin className="h-6 w-6 shrink-0 text-muted-foreground" aria-hidden />}
       />
->>>>>>> recover/cabinet-wip-from-stash
 
       {conflicts.length > 0 && (
         <Card className="border-amber-200 bg-amber-50/30">
@@ -91,15 +79,9 @@ export default function BrandPartnerMapPage() {
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-2">
             {regions.map(({ regionKey, region, partners }) => (
-<<<<<<< HEAD
-              <div key={regionKey} className="rounded-xl border border-slate-200 p-4">
-                <div className="mb-3 flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-slate-500" />
-=======
               <div key={regionKey} className="border-border-default rounded-xl border p-4">
                 <div className="mb-3 flex items-center gap-2">
                   <MapPin className="text-text-secondary h-4 w-4" />
->>>>>>> recover/cabinet-wip-from-stash
                   <span className="font-medium">{region}</span>
                   <Badge variant="outline" className="text-[10px]">
                     {partners.length} партн.

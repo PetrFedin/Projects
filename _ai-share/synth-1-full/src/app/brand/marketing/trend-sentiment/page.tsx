@@ -14,11 +14,7 @@ import { RegistryPageShell } from '@/components/design-system';
 
 export default function TrendSentimentPage() {
   return (
-<<<<<<< HEAD
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-=======
     <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
->>>>>>> recover/cabinet-wip-from-stash
       <SectionInfoCard
         title="Trend Sentiment Radar"
         description="Анализ соцсетей (TikTok, Instagram) для мгновенной корректировки дизайна в текущем цикле. Связь с Content Factory, Products, Production."
@@ -34,11 +30,7 @@ export default function TrendSentimentPage() {
               Instagram
             </Badge>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-<<<<<<< HEAD
-              <Link href="/brand/cms">Content</Link>
-=======
               <Link href={ROUTES.brand.cms}>Content</Link>
->>>>>>> recover/cabinet-wip-from-stash
             </Button>
           </>
         }
@@ -63,22 +55,14 @@ export default function TrendSentimentPage() {
               </div>
             </div>
             <div className="flex items-center gap-3 rounded-xl border bg-white p-4">
-<<<<<<< HEAD
-              <Video className="h-10 w-10 text-slate-900" />
-=======
               <Video className="text-text-primary h-10 w-10" />
->>>>>>> recover/cabinet-wip-from-stash
               <div>
                 <p className="font-bold">TikTok</p>
                 <p className="text-text-secondary text-[11px]">Virality, тренды, звуки</p>
               </div>
             </div>
           </div>
-<<<<<<< HEAD
-          <p className="mt-4 text-[10px] text-slate-400">Скоро: подключение API соцсетей</p>
-=======
           <p className="text-text-muted mt-4 text-[10px]">Скоро: подключение API соцсетей</p>
->>>>>>> recover/cabinet-wip-from-stash
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getMarketingLinks()} />

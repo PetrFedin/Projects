@@ -16,11 +16,7 @@ export function HomeStories({ stories }: { stories: CmsStory[] }) {
             onClick={() => s.href && router.push(s.href)}
             className="group relative w-44 shrink-0 text-left transition-all"
           >
-<<<<<<< HEAD
-            <div className="relative aspect-[9/16] w-full overflow-hidden rounded-3xl border border-slate-100 bg-white p-1.5 transition-all group-hover:border-slate-900 group-hover:shadow-2xl group-hover:shadow-slate-200">
-=======
             <div className="border-border-subtle group-hover:border-text-primary relative aspect-[9/16] w-full overflow-hidden rounded-3xl border bg-white p-1.5 transition-all group-hover:shadow-2xl group-hover:shadow-md">
->>>>>>> recover/cabinet-wip-from-stash
               <div className="relative h-full w-full overflow-hidden rounded-[1.2rem]">
                 <img
                   src={s.cover}

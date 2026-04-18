@@ -29,11 +29,7 @@ export function ProductB2BClaimBlock({ product }: { product: Product }) {
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-rose-600">
           <AlertCircle className="h-4 w-4" />
-<<<<<<< HEAD
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
-=======
           <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
->>>>>>> recover/cabinet-wip-from-stash
             Active Quality Claim (B2B)
           </h4>
         </div>
@@ -46,16 +42,6 @@ export function ProductB2BClaimBlock({ product }: { product: Product }) {
 
       <div className="mb-4 rounded-xl border border-rose-100 bg-white p-3 shadow-sm">
         <div className="mb-2 flex items-start justify-between">
-<<<<<<< HEAD
-          <div className="text-[11px] font-black uppercase tracking-tighter text-slate-800">
-            {claim.claimId}
-          </div>
-          <div className="text-[8px] font-bold uppercase tracking-widest text-slate-400">
-            {claim.createdAt}
-          </div>
-        </div>
-        <div className="text-[10px] font-bold text-slate-600">
-=======
           <div className="text-text-primary text-[11px] font-black uppercase tracking-tighter">
             {claim.claimId}
           </div>
@@ -64,7 +50,6 @@ export function ProductB2BClaimBlock({ product }: { product: Product }) {
           </div>
         </div>
         <div className="text-text-secondary text-[10px] font-bold">
->>>>>>> recover/cabinet-wip-from-stash
           Reason:{' '}
           <span className="font-black uppercase text-rose-600">
             {claim.reason.replace('_', ' ')}
@@ -76,21 +61,12 @@ export function ProductB2BClaimBlock({ product }: { product: Product }) {
         {claim.evidenceUrls.map((url, i) => (
           <div
             key={i}
-<<<<<<< HEAD
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-slate-100 transition-colors hover:bg-slate-200"
-          >
-            <ImageIcon className="h-4 w-4 text-slate-400" />
-          </div>
-        ))}
-        <div className="text-[8px] font-black uppercase text-slate-400">
-=======
             className="bg-bg-surface2 border-border-default hover:bg-bg-surface2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border transition-colors"
           >
             <ImageIcon className="text-text-muted h-4 w-4" />
           </div>
         ))}
         <div className="text-text-muted text-[8px] font-black uppercase">
->>>>>>> recover/cabinet-wip-from-stash
           Evidence Files Attached
         </div>
       </div>

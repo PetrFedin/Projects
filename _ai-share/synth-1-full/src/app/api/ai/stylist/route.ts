@@ -55,15 +55,9 @@ export async function POST(req: NextRequest) {
     if (product) {
       const result = await repo.aiStylist.generateLooks(body);
       const personaName =
-<<<<<<< HEAD
-        body.mood === 'street'
-          ? 'Urban Explorer'
-          : body.mood === 'avant'
-=======
         body.mood === 'Urban'
           ? 'Urban Explorer'
           : body.mood === 'AvantGarde'
->>>>>>> recover/cabinet-wip-from-stash
             ? 'Visionary'
             : 'Minimalist Master';
       return NextResponse.json({
