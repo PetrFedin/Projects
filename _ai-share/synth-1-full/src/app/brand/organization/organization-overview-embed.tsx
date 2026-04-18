@@ -10,10 +10,18 @@ import { useOrganizationHealth } from '@/hooks/use-organization-health';
 import { useToast } from '@/hooks/use-toast';
 import { useAttentionAlerts } from './use-attention-alerts';
 const OrganizationOverviewContent = dynamic(
-  () => import('./organization-overview-content').then((m) => ({ default: m.OrganizationOverviewContent })),
+  () =>
+    import('./organization-overview-content').then((m) => ({
+      default: m.OrganizationOverviewContent,
+    })),
   {
     ssr: false,
-    loading: () => <div className="min-h-[320px] rounded-xl border border-slate-100 bg-slate-50/80 animate-pulse" aria-hidden />,
+    loading: () => (
+      <div
+        className="min-h-[320px] animate-pulse rounded-xl border border-slate-100 bg-slate-50/80"
+        aria-hidden
+      />
+    ),
   }
 );
 import { PARTICIPANTS_COUNT, ONLINE_COUNT } from './organization-demo-data';
@@ -24,7 +32,10 @@ function toDateStr(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
-function filterActivitiesByPeriod(activities: RecentActivity[], period: ActivityPeriod): RecentActivity[] {
+function filterActivitiesByPeriod(
+  activities: RecentActivity[],
+  period: ActivityPeriod
+): RecentActivity[] {
   let startStr: string;
   let endStr: string;
   if (typeof period === 'object') {
@@ -55,7 +66,8 @@ export function OrganizationOverviewEmbed() {
   const [alertHelpKey, setAlertHelpKey] = useState<string | null>(null);
 
   const activityKey = (a: RecentActivity) => `${a.user}|${a.action}|${a.time}|${a.dateStr}`;
-  const isBlocked = (a: RecentActivity) => blockedActivities.some((b) => activityKey(b) === activityKey(a));
+  const isBlocked = (a: RecentActivity) =>
+    blockedActivities.some((b) => activityKey(b) === activityKey(a));
   const getCorrectionHref = (act: RecentActivity) => {
     const map: Record<RecentActivity['type'], string> = {
       profile: '/brand',
@@ -68,7 +80,15 @@ export function OrganizationOverviewEmbed() {
   };
 
   const { toast } = useToast();
-  const { alerts, getActiveDuration, getHistory, getBlockLabel, dismissCertificate, dismissProfile, dismissTask } = useAttentionAlerts();
+  const {
+    alerts,
+    getActiveDuration,
+    getHistory,
+    getBlockLabel,
+    dismissCertificate,
+    dismissProfile,
+    dismissTask,
+  } = useAttentionAlerts();
 
   const attentionHistory = (['certificates', 'profile', 'systems', 'tasks'] as const)
     .flatMap((id) => getHistory(id).map((e) => ({ ...e, blockLabel: getBlockLabel(id) })))
@@ -88,9 +108,19 @@ export function OrganizationOverviewEmbed() {
       author: act.user,
       timestamp: new Date(act.dateStr).getTime() + (filteredActivities.length - i) * 60000,
       blockLabel:
-        act.type === 'profile' ? 'Профиль' : act.type === 'team' ? 'Команда' : act.type === 'integration' ? 'Интеграции' : act.type === 'security' ? 'Безопасность' : 'Биллинг',
+        act.type === 'profile'
+          ? 'Профиль'
+          : act.type === 'team'
+            ? 'Команда'
+            : act.type === 'integration'
+              ? 'Интеграции'
+              : act.type === 'security'
+                ? 'Безопасность'
+                : 'Биллинг',
     }));
-    return [...attentionHistory, ...activityEntries].sort((a, b) => b.timestamp - a.timestamp).slice(0, 50) as HistoryEntry[];
+    return [...attentionHistory, ...activityEntries]
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .slice(0, 50) as HistoryEntry[];
   }, [attentionHistory, filteredActivities]);
 
   const formatHistoryTime = (ts: number) => {
@@ -109,7 +139,16 @@ export function OrganizationOverviewEmbed() {
     }
   }, [resolvedKey, router]);
 
-  const { metrics: healthMetrics, overallHealth, lastCheck, isLoading: healthLoading, error: healthError, refetch: refetchHealth, profile: orgProfile, dashboard: orgDashboard } = useOrganizationHealth();
+  const {
+    metrics: healthMetrics,
+    overallHealth,
+    lastCheck,
+    isLoading: healthLoading,
+    error: healthError,
+    refetch: refetchHealth,
+    profile: orgProfile,
+    dashboard: orgDashboard,
+  } = useOrganizationHealth();
 
   const modulesPeriodKey = typeof activityPeriod === 'object' ? '30d' : activityPeriod;
 

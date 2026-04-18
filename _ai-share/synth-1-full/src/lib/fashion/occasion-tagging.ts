@@ -12,7 +12,8 @@ const OCCASION_KEYWORDS: Record<OccasionTag, string[]> = {
 };
 
 export function getProductOccasions(product: Product): OccasionTag[] {
-  const text = `${product.name} ${product.category} ${product.description} ${product.tags?.join(' ')}`.toLowerCase();
+  const text =
+    `${product.name} ${product.category} ${product.description} ${product.tags?.join(' ')}`.toLowerCase();
   const found = new Set<OccasionTag>();
 
   // From explicit attribute if exists
@@ -24,7 +25,7 @@ export function getProductOccasions(product: Product): OccasionTag[] {
 
   // Keyword heuristic
   Object.entries(OCCASION_KEYWORDS).forEach(([occ, keywords]) => {
-    if (keywords.some(k => text.includes(k.toLowerCase()))) {
+    if (keywords.some((k) => text.includes(k.toLowerCase()))) {
       found.add(occ as OccasionTag);
     }
   });
@@ -32,8 +33,11 @@ export function getProductOccasions(product: Product): OccasionTag[] {
   return Array.from(found);
 }
 
-export function filterProductsByOccasion(products: Product[] = [], occasion: OccasionTag): Product[] {
-  return (products || []).filter(p => getProductOccasions(p).includes(occasion));
+export function filterProductsByOccasion(
+  products: Product[] = [],
+  occasion: OccasionTag
+): Product[] {
+  return (products || []).filter((p) => getProductOccasions(p).includes(occasion));
 }
 
 export const OCCASION_LABELS: Record<OccasionTag, string> = {

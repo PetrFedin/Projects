@@ -3,8 +3,21 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
-  Search, Heart, ShoppingBag, Calendar, Camera, Sparkles, Gift, Zap,
-  Share2, HelpCircle, Settings, Bell, CreditCard, Package, Truck,
+  Search,
+  Heart,
+  ShoppingBag,
+  Calendar,
+  Camera,
+  Sparkles,
+  Gift,
+  Zap,
+  Share2,
+  HelpCircle,
+  Settings,
+  Bell,
+  CreditCard,
+  Package,
+  Truck,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useUIState } from '@/providers/ui-state';
@@ -112,27 +125,25 @@ export default function QuickActionsPanel() {
       <Card>
         <CardHeader>
           <CardTitle>Быстрые действия</CardTitle>
-          <CardDescription>
-            Все важные функции в одном месте
-          </CardDescription>
+          <CardDescription>Все важные функции в одном месте</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
             {quickActions.map((action, index) => (
               <Button
                 key={index}
                 variant="outline"
-                className="h-auto flex-col py-4 relative"
+                className="relative h-auto flex-col py-4"
                 asChild
               >
                 <Link href={action.href}>
-                  <action.icon className={`h-5 w-5 mb-2 ${action.color}`} />
+                  <action.icon className={`mb-2 h-5 w-5 ${action.color}`} />
                   <span className="text-xs font-medium">{action.label}</span>
-                  <span className="text-xs text-muted-foreground mt-1">{action.description}</span>
+                  <span className="mt-1 text-xs text-muted-foreground">{action.description}</span>
                   {action.badge && (
-                    <Badge 
-                      variant="destructive" 
-                      className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
+                    <Badge
+                      variant="destructive"
+                      className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center p-0 text-xs"
                     >
                       {action.badge}
                     </Badge>
@@ -152,14 +163,9 @@ export default function QuickActionsPanel() {
         <CardContent>
           <div className="grid grid-cols-3 gap-3">
             {supportActions.map((action, index) => (
-              <Button
-                key={index}
-                variant="ghost"
-                className="h-auto flex-col py-3"
-                asChild
-              >
+              <Button key={index} variant="ghost" className="h-auto flex-col py-3" asChild>
                 <Link href={action.href}>
-                  <action.icon className="h-4 w-4 mb-1" />
+                  <action.icon className="mb-1 h-4 w-4" />
                   <span className="text-xs">{action.label}</span>
                 </Link>
               </Button>
@@ -175,7 +181,7 @@ export default function QuickActionsPanel() {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+            <div className="flex items-center justify-between rounded-lg bg-muted/50 p-3">
               <div className="flex items-center gap-3">
                 <Package className="h-5 w-5 text-blue-600" />
                 <div>
@@ -187,7 +193,7 @@ export default function QuickActionsPanel() {
                 <Link href="/orders">Подробнее →</Link>
               </Button>
             </div>
-            <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+            <div className="flex items-center justify-between rounded-lg bg-muted/50 p-3">
               <div className="flex items-center gap-3">
                 <Truck className="h-5 w-5 text-green-600" />
                 <div>
@@ -205,8 +211,3 @@ export default function QuickActionsPanel() {
     </div>
   );
 }
-
-
-
-
-

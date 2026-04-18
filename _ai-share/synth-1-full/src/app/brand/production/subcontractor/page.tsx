@@ -24,8 +24,32 @@ import {
 const SUB_DEFAULT = {
   v: 1 as const,
   orders: [
-    { id: 's1', subcontractorId: 'sc1', subcontractorName: 'Ателье «Стиль»', orderId: 'PO-201', workType: 'sewing', workTypeLabel: 'Пошив', quantity: 500, unit: 'шт', status: 'in_progress' as const, requestedAt: '2026-03-05T10:00:00Z' },
-    { id: 's2', subcontractorId: 'sc2', subcontractorName: 'Раскройный цех №2', orderId: 'PO-202', workType: 'cutting', workTypeLabel: 'Раскрой', quantity: 1200, unit: 'шт', status: 'completed' as const, requestedAt: '2026-03-01T08:00:00Z', completedAt: '2026-03-08T17:00:00Z', actNumber: 'АКТ-2026-014' },
+    {
+      id: 's1',
+      subcontractorId: 'sc1',
+      subcontractorName: 'Ателье «Стиль»',
+      orderId: 'PO-201',
+      workType: 'sewing',
+      workTypeLabel: 'Пошив',
+      quantity: 500,
+      unit: 'шт',
+      status: 'in_progress' as const,
+      requestedAt: '2026-03-05T10:00:00Z',
+    },
+    {
+      id: 's2',
+      subcontractorId: 'sc2',
+      subcontractorName: 'Раскройный цех №2',
+      orderId: 'PO-202',
+      workType: 'cutting',
+      workTypeLabel: 'Раскрой',
+      quantity: 1200,
+      unit: 'шт',
+      status: 'completed' as const,
+      requestedAt: '2026-03-01T08:00:00Z',
+      completedAt: '2026-03-08T17:00:00Z',
+      actNumber: 'АКТ-2026-014',
+    },
   ] satisfies SubcontractOrder[],
 };
 
@@ -49,7 +73,7 @@ export default function SubcontractorPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Subcontractor Hub"
         description="Заказы на сторону — floor-tab: subcontractor."
@@ -60,7 +84,11 @@ export default function SubcontractorPage() {
       />
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <Link href={ROUTES.brand.production}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+          <Link href={ROUTES.brand.production}>
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          </Link>
           <h1 className="text-2xl font-bold uppercase">Subcontractor Hub</h1>
         </div>
         <Button
@@ -86,19 +114,29 @@ export default function SubcontractorPage() {
         <CardContent>
           <ul className="space-y-3">
             {data.orders.map((o, i) => (
-              <li key={o.id} className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+              <li
+                key={o.id}
+                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3"
+              >
                 <div>
                   <p className="font-medium">{o.subcontractorName}</p>
-                  <p className="text-xs text-slate-500">{o.workTypeLabel} · {o.orderId} · {o.quantity} {o.unit}</p>
-                  {o.actNumber && <p className="text-xs text-slate-500 mt-1">Акт: {o.actNumber}</p>}
+                  <p className="text-xs text-slate-500">
+                    {o.workTypeLabel} · {o.orderId} · {o.quantity} {o.unit}
+                  </p>
+                  {o.actNumber && <p className="mt-1 text-xs text-slate-500">Акт: {o.actNumber}</p>}
                 </div>
-                <Select value={o.status} onValueChange={(v) => setOrder(i, { status: v as SubcontractOrder['status'] })}>
+                <Select
+                  value={o.status}
+                  onValueChange={(v) => setOrder(i, { status: v as SubcontractOrder['status'] })}
+                >
                   <SelectTrigger className="h-8 w-[130px] text-[10px]">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     {(Object.keys(statusLabels) as SubcontractOrder['status'][]).map((s) => (
-                      <SelectItem key={s} value={s} className="text-xs">{statusLabels[s]}</SelectItem>
+                      <SelectItem key={s} value={s} className="text-xs">
+                        {statusLabels[s]}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>

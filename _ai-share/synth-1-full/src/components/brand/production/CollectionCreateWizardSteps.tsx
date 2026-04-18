@@ -3,7 +3,13 @@
 import React from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Plus, Trash2 } from 'lucide-react';
 import {
@@ -62,7 +68,9 @@ export function CollectionCreateWizardSteps({
           </div>
         )}
         <div className="space-y-2">
-          <Label className="text-[10px] font-black uppercase text-slate-400">Название коллекции *</Label>
+          <Label className="text-[10px] font-black uppercase text-slate-400">
+            Название коллекции *
+          </Label>
           <Input
             placeholder="Summer Solstice 2026"
             value={form.name}
@@ -74,11 +82,18 @@ export function CollectionCreateWizardSteps({
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label className="text-[10px] font-black uppercase text-slate-400">Сезон</Label>
-            <Select value={form.season} onValueChange={(v) => setForm((f) => ({ ...f, season: v }))}>
-              <SelectTrigger className="h-11 rounded-xl"><SelectValue /></SelectTrigger>
+            <Select
+              value={form.season}
+              onValueChange={(v) => setForm((f) => ({ ...f, season: v }))}
+            >
+              <SelectTrigger className="h-11 rounded-xl">
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 {SEASONS.map((s) => (
-                  <SelectItem key={s} value={s}>{s}</SelectItem>
+                  <SelectItem key={s} value={s}>
+                    {s}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -86,10 +101,14 @@ export function CollectionCreateWizardSteps({
           <div className="space-y-2">
             <Label className="text-[10px] font-black uppercase text-slate-400">Тип</Label>
             <Select value={form.type} onValueChange={(v) => setForm((f) => ({ ...f, type: v }))}>
-              <SelectTrigger className="h-11 rounded-xl"><SelectValue /></SelectTrigger>
+              <SelectTrigger className="h-11 rounded-xl">
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 {COLLECTION_TYPES.map((t) => (
-                  <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
+                  <SelectItem key={t.value} value={t.value}>
+                    {t.label}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -117,11 +136,18 @@ export function CollectionCreateWizardSteps({
         </div>
         <div className="space-y-2">
           <Label className="text-[10px] font-black uppercase text-slate-400">Приоритет</Label>
-          <Select value={form.priority} onValueChange={(v) => setForm((f) => ({ ...f, priority: v }))}>
-            <SelectTrigger className="h-11 rounded-xl"><SelectValue /></SelectTrigger>
+          <Select
+            value={form.priority}
+            onValueChange={(v) => setForm((f) => ({ ...f, priority: v }))}
+          >
+            <SelectTrigger className="h-11 rounded-xl">
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               {PRIORITIES.map((p) => (
-                <SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>
+                <SelectItem key={p.value} value={p.value}>
+                  {p.label}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -131,7 +157,11 @@ export function CollectionCreateWizardSteps({
   }
 
   if (step === 2) {
-    const drops = form.drops?.length ? form.drops : (form.dropName ? [{ name: form.dropName, date: form.dropDate }] : []);
+    const drops = form.drops?.length
+      ? form.drops
+      : form.dropName
+        ? [{ name: form.dropName, date: form.dropDate }]
+        : [];
     return (
       <div className="space-y-4">
         <div className="space-y-2">
@@ -153,19 +183,23 @@ export function CollectionCreateWizardSteps({
           {errors.dropName && <p className="text-[10px] text-rose-500">{errors.dropName}</p>}
         </div>
         <div className="space-y-2">
-          <Label className="text-[10px] font-black uppercase text-slate-400">Дополнительные дропы</Label>
+          <Label className="text-[10px] font-black uppercase text-slate-400">
+            Дополнительные дропы
+          </Label>
           {drops.map((d, i) => (
-            <div key={i} className="flex gap-2 items-center">
+            <div key={i} className="flex items-center gap-2">
               <Input
                 placeholder="Название"
                 value={d.name}
                 onChange={(e) =>
                   setForm((f) => ({
                     ...f,
-                    drops: (f.drops || []).map((x, j) => (j === i ? { ...x, name: e.target.value } : x)),
+                    drops: (f.drops || []).map((x, j) =>
+                      j === i ? { ...x, name: e.target.value } : x
+                    ),
                   }))
                 }
-                className="h-10 rounded-xl flex-1"
+                className="h-10 flex-1 rounded-xl"
               />
               <Input
                 type="date"
@@ -173,10 +207,12 @@ export function CollectionCreateWizardSteps({
                 onChange={(e) =>
                   setForm((f) => ({
                     ...f,
-                    drops: (f.drops || []).map((x, j) => (j === i ? { ...x, date: e.target.value } : x)),
+                    drops: (f.drops || []).map((x, j) =>
+                      j === i ? { ...x, date: e.target.value } : x
+                    ),
                   }))
                 }
-                className="h-10 rounded-xl w-36"
+                className="h-10 w-36 rounded-xl"
               />
               <Button
                 type="button"
@@ -217,14 +253,18 @@ export function CollectionCreateWizardSteps({
     return (
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label className="text-[10px] font-black uppercase text-slate-400">Бюджет (материалы / пошив / логистика)</Label>
+          <Label className="text-[10px] font-black uppercase text-slate-400">
+            Бюджет (материалы / пошив / логистика)
+          </Label>
           <div className="grid grid-cols-3 gap-2">
             <Input
               type="number"
               min={0}
               placeholder="Материалы"
               value={form.materials || ''}
-              onChange={(e) => setForm((f) => ({ ...f, materials: parseInt(e.target.value, 10) || 0 }))}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, materials: parseInt(e.target.value, 10) || 0 }))
+              }
               className="h-11 rounded-xl"
             />
             <Input
@@ -232,7 +272,9 @@ export function CollectionCreateWizardSteps({
               min={0}
               placeholder="Пошив"
               value={form.sewing || ''}
-              onChange={(e) => setForm((f) => ({ ...f, sewing: parseInt(e.target.value, 10) || 0 }))}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, sewing: parseInt(e.target.value, 10) || 0 }))
+              }
               className="h-11 rounded-xl"
             />
             <Input
@@ -240,17 +282,21 @@ export function CollectionCreateWizardSteps({
               min={0}
               placeholder="Логистика"
               value={form.logistics || ''}
-              onChange={(e) => setForm((f) => ({ ...f, logistics: parseInt(e.target.value, 10) || 0 }))}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, logistics: parseInt(e.target.value, 10) || 0 }))
+              }
               className="h-11 rounded-xl"
             />
           </div>
           {errors.budget && <p className="text-[10px] text-rose-500">{errors.budget}</p>}
         </div>
         <div className="space-y-2">
-          <Label className="text-[10px] font-black uppercase text-slate-400">Merchandise plan (целевые единицы)</Label>
+          <Label className="text-[10px] font-black uppercase text-slate-400">
+            Merchandise plan (целевые единицы)
+          </Label>
           {form.merchPlan?.map((m, i) => (
             <div key={m.id} className="flex items-center gap-2">
-              <span className="text-[10px] font-bold w-28">{m.label}</span>
+              <span className="w-28 text-[10px] font-bold">{m.label}</span>
               <Input
                 type="number"
                 min={0}
@@ -263,7 +309,7 @@ export function CollectionCreateWizardSteps({
                     ),
                   }))
                 }
-                className="h-10 rounded-xl flex-1"
+                className="h-10 flex-1 rounded-xl"
               />
             </div>
           ))}
@@ -283,16 +329,21 @@ export function CollectionCreateWizardSteps({
             {form.palette.map((c, i) => (
               <div
                 key={i}
-                className="flex items-center gap-1 px-2 py-1 rounded-lg border border-slate-200"
+                className="flex items-center gap-1 rounded-lg border border-slate-200 px-2 py-1"
                 style={{ backgroundColor: c.hex ? `${c.hex}20` : undefined }}
               >
-                <div className="w-4 h-4 rounded-full border border-slate-300" style={{ backgroundColor: c.hex || '#ccc' }} />
+                <div
+                  className="h-4 w-4 rounded-full border border-slate-300"
+                  style={{ backgroundColor: c.hex || '#ccc' }}
+                />
                 <span className="text-[10px] font-bold">{c.name || '—'}</span>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-[10px] text-slate-400 italic">Палитра подгружается из шаблона. Нажмите &quot;Запустить&quot; для создания коллекции.</p>
+          <p className="text-[10px] italic text-slate-400">
+            Палитра подгружается из шаблона. Нажмите &quot;Запустить&quot; для создания коллекции.
+          </p>
         )}
       </div>
     );

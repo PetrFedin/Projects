@@ -22,47 +22,59 @@ const MOCK = {
 
 export default function SellThroughBIPage() {
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-4xl pb-24">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
-          <Link href={ROUTES.brand.analyticsBi}><ArrowLeft className="h-4 w-4" /></Link>
+          <Link href={ROUTES.brand.analyticsBi}>
+            <ArrowLeft className="h-4 w-4" />
+          </Link>
         </Button>
         <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
             <TrendingUp className="h-6 w-6" /> Sell-Through BI
           </h1>
-          <p className="text-slate-500 text-sm mt-0.5">Сравнение вашего sell-through со средними показателями индустрии по категориям и регионам.</p>
+          <p className="mt-0.5 text-sm text-slate-500">
+            Сравнение вашего sell-through со средними показателями индустрии по категориям и
+            регионам.
+          </p>
         </div>
       </div>
 
       <Card className="border-indigo-100 bg-indigo-50/30">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2"><Target className="h-5 w-5" /> Benchmark</CardTitle>
-          <CardDescription>Анонимные агрегированные данные. Подключите импорт из 1С/Мой Склад для актуализации.</CardDescription>
+          <CardTitle className="flex items-center gap-2">
+            <Target className="h-5 w-5" /> Benchmark
+          </CardTitle>
+          <CardDescription>
+            Анонимные агрегированные данные. Подключите импорт из 1С/Мой Склад для актуализации.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="p-4 rounded-xl bg-white border">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="rounded-xl border bg-white p-4">
               <p className="text-[10px] font-bold uppercase text-slate-500">Ваш Sell-Through</p>
               <p className="text-2xl font-black text-indigo-600">{MOCK.yourSellThrough}%</p>
-              <p className="text-[10px] text-emerald-600 mt-1">+5% vs индустрия</p>
+              <p className="mt-1 text-[10px] text-emerald-600">+5% vs индустрия</p>
             </div>
-            <div className="p-4 rounded-xl bg-white border">
+            <div className="rounded-xl border bg-white p-4">
               <p className="text-[10px] font-bold uppercase text-slate-500">Среднее по индустрии</p>
               <p className="text-2xl font-black">{MOCK.industryAvg}%</p>
-              <p className="text-[10px] text-slate-500 mt-1">Fashion, premium</p>
+              <p className="mt-1 text-[10px] text-slate-500">Fashion, premium</p>
             </div>
-            <div className="p-4 rounded-xl bg-white border">
+            <div className="rounded-xl border bg-white p-4">
               <p className="text-[10px] font-bold uppercase text-slate-500">Топ-25% брендов</p>
               <p className="text-2xl font-black">{MOCK.topQuartile}%</p>
-              <p className="text-[10px] text-slate-500 mt-1">Потенциал</p>
+              <p className="mt-1 text-[10px] text-slate-500">Потенциал</p>
             </div>
           </div>
           <div>
-            <p className="text-xs font-semibold text-slate-600 mb-2">По категориям</p>
+            <p className="mb-2 text-xs font-semibold text-slate-600">По категориям</p>
             <ul className="space-y-2">
               {MOCK.byCategory.map((row, i) => (
-                <li key={i} className="flex items-center justify-between p-2 rounded-lg bg-white border">
+                <li
+                  key={i}
+                  className="flex items-center justify-between rounded-lg border bg-white p-2"
+                >
                   <span className="text-sm font-medium">{row.category}</span>
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-bold text-indigo-600">Вы: {row.yours}%</span>

@@ -22,21 +22,25 @@ export default function B2BCreateOrderPage() {
   const windows = joorGetDeliveryWindows();
   const nuOrderEnabled = isNuOrderConfigured();
   const [exporting, setExporting] = useState(false);
-  const [exportResult, setExportResult] = useState<{ success: boolean; orderId?: string; error?: string } | null>(null);
+  const [exportResult, setExportResult] = useState<{
+    success: boolean;
+    orderId?: string;
+    error?: string;
+  } | null>(null);
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
+    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
         <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
             <FilePlus className="h-6 w-6" /> Создать заказ
           </h1>
-          <p className="text-slate-500 text-sm mt-0.5">
+          <p className="mt-0.5 text-sm text-slate-500">
             JOOR: выбор бренда, сезона и коллекции — затем матрица заказа или Working Order.
           </p>
         </div>
@@ -45,17 +49,29 @@ export default function B2BCreateOrderPage() {
       <Card className="mb-6">
         <CardHeader>
           <CardTitle className="text-sm font-black uppercase">Способ создания</CardTitle>
-          <CardDescription>Матрица по артикулам или загрузка Excel (NuOrder Working Order).</CardDescription>
+          <CardDescription>
+            Матрица по артикулам или загрузка Excel (NuOrder Working Order).
+          </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-wrap gap-3">
-          <Button asChild variant="default" className="rounded-xl font-black uppercase text-[10px] tracking-widest" size="lg">
+          <Button
+            asChild
+            variant="default"
+            className="rounded-xl text-[10px] font-black uppercase tracking-widest"
+            size="lg"
+          >
             <Link href={ROUTES.shop.b2bMatrix}>
-              <LayoutGrid className="h-4 w-4 mr-2" /> Матрица заказа
+              <LayoutGrid className="mr-2 h-4 w-4" /> Матрица заказа
             </Link>
           </Button>
-          <Button asChild variant="outline" className="rounded-xl font-black uppercase text-[10px] tracking-widest" size="lg">
+          <Button
+            asChild
+            variant="outline"
+            className="rounded-xl text-[10px] font-black uppercase tracking-widest"
+            size="lg"
+          >
             <Link href={ROUTES.shop.b2bWorkingOrder}>
-              <FileSpreadsheet className="h-4 w-4 mr-2" /> Working Order (Excel)
+              <FileSpreadsheet className="mr-2 h-4 w-4" /> Working Order (Excel)
             </Link>
           </Button>
         </CardContent>
@@ -76,7 +92,9 @@ export default function B2BCreateOrderPage() {
                 className="rounded-lg text-[10px] font-black uppercase"
                 asChild
               >
-                <Link href={`${ROUTES.shop.b2bMatrix}?brand=${encodeURIComponent(b.name)}&season=${season}`}>
+                <Link
+                  href={`${ROUTES.shop.b2bMatrix}?brand=${encodeURIComponent(b.name)}&season=${season}`}
+                >
                   {b.name} {season}
                 </Link>
               </Button>
@@ -104,7 +122,8 @@ export default function B2BCreateOrderPage() {
           <CardHeader>
             <CardTitle className="text-sm font-black uppercase">Экспорт в NuOrder</CardTitle>
             <CardDescription>
-              Интеграция с NuOrder (OAuth 1.0). Отправка черновика заказа в NuOrder для синхронизации.
+              Интеграция с NuOrder (OAuth 1.0). Отправка черновика заказа в NuOrder для
+              синхронизации.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
@@ -126,19 +145,32 @@ export default function B2BCreateOrderPage() {
                     }),
                   });
                   const data = await res.json();
-                  setExportResult({ success: data.success, orderId: data.orderId, error: data.error });
+                  setExportResult({
+                    success: data.success,
+                    orderId: data.orderId,
+                    error: data.error,
+                  });
                 } catch (e) {
-                  setExportResult({ success: false, error: e instanceof Error ? e.message : 'Request failed' });
+                  setExportResult({
+                    success: false,
+                    error: e instanceof Error ? e.message : 'Request failed',
+                  });
                 } finally {
                   setExporting(false);
                 }
               }}
             >
-              {exporting ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Upload className="h-4 w-4 mr-2" />}
+              {exporting ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Upload className="mr-2 h-4 w-4" />
+              )}
               Отправить черновик в NuOrder
             </Button>
             {exportResult && (
-              <p className={`text-sm ${exportResult.success ? 'text-green-600' : 'text-destructive'}`}>
+              <p
+                className={`text-sm ${exportResult.success ? 'text-green-600' : 'text-destructive'}`}
+              >
                 {exportResult.success
                   ? `Готово. Order ID: ${exportResult.orderId}`
                   : `Ошибка: ${exportResult.error}`}

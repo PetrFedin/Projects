@@ -14,7 +14,10 @@ export interface PlmConnectorConfig {
   workspace?: string;
 }
 
-export async function syncPlm(provider: PlmProvider, config: PlmConnectorConfig): Promise<{ ok: boolean; lastSync?: string; error?: string }> {
+export async function syncPlm(
+  provider: PlmProvider,
+  config: PlmConnectorConfig
+): Promise<{ ok: boolean; lastSync?: string; error?: string }> {
   try {
     const res = await fetch(`${PLM_API}/sync`, {
       method: 'POST',

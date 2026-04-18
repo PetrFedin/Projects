@@ -68,17 +68,20 @@ export function BrandCenterProvider({ children }: { children: React.ReactNode })
   }, []);
 
   const addRecent = useCallback((item: Omit<RecentPage, 'visitedAt'>) => {
-    setRecentPages(prev => {
-      const filtered = prev.filter(p => p.href !== item.href);
-      const next: RecentPage[] = [{ ...item, visitedAt: Date.now() }, ...filtered].slice(0, MAX_RECENT);
+    setRecentPages((prev) => {
+      const filtered = prev.filter((p) => p.href !== item.href);
+      const next: RecentPage[] = [{ ...item, visitedAt: Date.now() }, ...filtered].slice(
+        0,
+        MAX_RECENT
+      );
       saveToStorage(STORAGE_RECENT, next);
       return next;
     });
   }, []);
 
   const addFavorite = useCallback((item: FavoriteModule) => {
-    setFavorites(prev => {
-      if (prev.some(f => f.id === item.id)) return prev;
+    setFavorites((prev) => {
+      if (prev.some((f) => f.id === item.id)) return prev;
       const next = [...prev, item];
       saveToStorage(STORAGE_FAVORITES, next);
       return next;
@@ -86,19 +89,19 @@ export function BrandCenterProvider({ children }: { children: React.ReactNode })
   }, []);
 
   const removeFavorite = useCallback((id: string) => {
-    setFavorites(prev => {
-      const next = prev.filter(f => f.id !== id);
+    setFavorites((prev) => {
+      const next = prev.filter((f) => f.id !== id);
       saveToStorage(STORAGE_FAVORITES, next);
       return next;
     });
   }, []);
 
-  const isFavorite = useCallback((id: string) => favorites.some(f => f.id === id), [favorites]);
+  const isFavorite = useCallback((id: string) => favorites.some((f) => f.id === id), [favorites]);
 
   const toggleFavorite = useCallback((item: FavoriteModule) => {
-    setFavorites(prev => {
-      const exists = prev.some(f => f.id === item.id);
-      const next = exists ? prev.filter(f => f.id !== item.id) : [...prev, item];
+    setFavorites((prev) => {
+      const exists = prev.some((f) => f.id === item.id);
+      const next = exists ? prev.filter((f) => f.id !== item.id) : [...prev, item];
       saveToStorage(STORAGE_FAVORITES, next);
       return next;
     });
@@ -114,11 +117,7 @@ export function BrandCenterProvider({ children }: { children: React.ReactNode })
     toggleFavorite,
   };
 
-  return (
-    <BrandCenterContext.Provider value={value}>
-      {children}
-    </BrandCenterContext.Provider>
-  );
+  return <BrandCenterContext.Provider value={value}>{children}</BrandCenterContext.Provider>;
 }
 
 export function useBrandCenter() {

@@ -11,40 +11,52 @@ export function ProductStockRebalancingBlock({ product }: { product: Product }) 
   const suggestions = getStockRebalancingSuggestions(product.sku);
 
   return (
-    <Card className="p-4 border-2 border-teal-50 bg-teal-50/5 shadow-sm my-4">
-      <div className="flex items-center justify-between mb-4">
+    <Card className="my-4 border-2 border-teal-50 bg-teal-50/5 p-4 shadow-sm">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-teal-600">
-          <ArrowRightLeft className="w-4 h-4" />
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">Stock Rebalancing (B2B/Inter-store)</h4>
+          <ArrowRightLeft className="h-4 w-4" />
+          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
+            Stock Rebalancing (B2B/Inter-store)
+          </h4>
         </div>
-        <Badge className="bg-teal-100 text-teal-700 border-none uppercase text-[8px] font-black animate-pulse">Auto-Suggestion</Badge>
+        <Badge className="animate-pulse border-none bg-teal-100 text-[8px] font-black uppercase text-teal-700">
+          Auto-Suggestion
+        </Badge>
       </div>
 
       <div className="space-y-3">
         {suggestions.map((s, idx) => (
-          <div key={idx} className="p-3 bg-white rounded-xl border border-teal-100 shadow-sm relative overflow-hidden group">
-             <div className="flex justify-between items-center mb-2">
-                <div className="flex items-center gap-1.5 text-[9px] font-black text-slate-500 uppercase">
-                   <span className="text-slate-800">{s.fromStoreId}</span>
-                   <RefreshCw className="w-2.5 h-2.5 text-teal-500" />
-                   <span className="text-slate-800">{s.toStoreId}</span>
+          <div
+            key={idx}
+            className="group relative overflow-hidden rounded-xl border border-teal-100 bg-white p-3 shadow-sm"
+          >
+            <div className="mb-2 flex items-center justify-between">
+              <div className="flex items-center gap-1.5 text-[9px] font-black uppercase text-slate-500">
+                <span className="text-slate-800">{s.fromStoreId}</span>
+                <RefreshCw className="h-2.5 w-2.5 text-teal-500" />
+                <span className="text-slate-800">{s.toStoreId}</span>
+              </div>
+              <Badge
+                variant="outline"
+                className={`h-3.5 text-[7px] font-black uppercase ${s.urgency === 'high' ? 'border-rose-200 bg-rose-50 text-rose-600' : 'border-slate-200 text-slate-500'}`}
+              >
+                {s.urgency} Priority
+              </Badge>
+            </div>
+
+            <div className="flex items-end justify-between">
+              <div>
+                <div className="text-lg font-black leading-none text-slate-800">
+                  {s.suggestedQty} <span className="text-[10px] text-slate-400">PCS</span>
                 </div>
-                <Badge variant="outline" className={`text-[7px] font-black h-3.5 uppercase ${s.urgency === 'high' ? 'border-rose-200 text-rose-600 bg-rose-50' : 'border-slate-200 text-slate-500'}`}>
-                   {s.urgency} Priority
-                </Badge>
-             </div>
-             
-             <div className="flex items-end justify-between">
-                <div>
-                   <div className="text-lg font-black text-slate-800 leading-none">{s.suggestedQty} <span className="text-[10px] text-slate-400">PCS</span></div>
-                   <div className="text-[8px] font-bold text-teal-600 uppercase mt-1 flex items-center gap-1">
-                      <TrendingUp className="w-2.5 h-2.5" /> {s.reason.replace('_', ' ')}
-                   </div>
+                <div className="mt-1 flex items-center gap-1 text-[8px] font-bold uppercase text-teal-600">
+                  <TrendingUp className="h-2.5 w-2.5" /> {s.reason.replace('_', ' ')}
                 </div>
-                <button className="bg-teal-600 text-white text-[8px] font-black px-3 py-1.5 rounded-lg uppercase hover:bg-teal-700 shadow-sm transition-colors">
-                   Execute Transfer
-                </button>
-             </div>
+              </div>
+              <button className="rounded-lg bg-teal-600 px-3 py-1.5 text-[8px] font-black uppercase text-white shadow-sm transition-colors hover:bg-teal-700">
+                Execute Transfer
+              </button>
+            </div>
           </div>
         ))}
       </div>

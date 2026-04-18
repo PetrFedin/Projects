@@ -38,7 +38,8 @@ export class SmartTextileTelemetryEngine {
       if (data.estimatedWearHours < 500) {
         // Порвалось слишком быстро
         designRecommendation = `CRITICAL: Micro-tears detected after only ${data.estimatedWearHours} hours of wear. Recommend reinforcing seams with double-needle stitching and upgrading thread tensile strength for the next batch.`;
-        sustainabilityImpact = 'Negative: Premature failure leads to early disposal (landfill risk).';
+        sustainabilityImpact =
+          'Negative: Premature failure leads to early disposal (landfill risk).';
       } else {
         // Порвалось от старости
         designRecommendation = `Normal wear and tear detected after ${data.estimatedWearHours} hours. Consider offering repair kits or upcycling options to the customer.`;
@@ -60,7 +61,8 @@ export class SmartTextileTelemetryEngine {
       // Вещь носят постоянно, и она не рвется — это хит!
       durabilityScore = 100;
       designRecommendation = `Item is a massive success. Highly durable (${data.estimatedWearHours} hours, ${data.washCyclesDetected} washes) with zero defects. Recommend expanding this fabric blend to other product categories.`;
-      sustainabilityImpact = 'Highly Positive: Long lifecycle reduces overall carbon footprint per wear.';
+      sustainabilityImpact =
+        'Highly Positive: Long lifecycle reduces overall carbon footprint per wear.';
     } else if (data.estimatedWearHours < 10 && data.washCyclesDetected > 0) {
       // Постирали и больше не носят (возможно, села или стала колючей)
       durabilityScore -= 10;
@@ -72,7 +74,7 @@ export class SmartTextileTelemetryEngine {
       durabilityScore: Math.max(0, durabilityScore),
       designRecommendation,
       sustainabilityImpact,
-      reasoning: `Analyzed telemetry from batch ${data.batchId}: ${data.estimatedWearHours} hours worn, ${data.washCyclesDetected} washes. Durability score: ${Math.max(0, durabilityScore)}/100.`
+      reasoning: `Analyzed telemetry from batch ${data.batchId}: ${data.estimatedWearHours} hours worn, ${data.washCyclesDetected} washes. Durability score: ${Math.max(0, durabilityScore)}/100.`,
     };
   }
 }

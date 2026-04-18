@@ -36,13 +36,14 @@ function newApprovalId(): string {
 // State transitions
 // ---------------------------------------------------------------------------
 
-const VALID_TRANSITIONS: Record<Workshop2DossierLifecycleState, Workshop2DossierLifecycleState[]> = {
-  draft: ['handoff_ready'],
-  handoff_ready: ['sent_to_production', 'draft'],
-  sent_to_production: ['accepted', 'rework_requested'],
-  accepted: [],
-  rework_requested: ['draft'],
-};
+const VALID_TRANSITIONS: Record<Workshop2DossierLifecycleState, Workshop2DossierLifecycleState[]> =
+  {
+    draft: ['handoff_ready'],
+    handoff_ready: ['sent_to_production', 'draft'],
+    sent_to_production: ['accepted', 'rework_requested'],
+    accepted: [],
+    rework_requested: ['draft'],
+  };
 
 export function canTransition(
   from: Workshop2DossierLifecycleState,
@@ -59,21 +60,31 @@ export function getAvailableTransitions(
 
 export function getLifecycleStateLabel(state: Workshop2DossierLifecycleState): string {
   switch (state) {
-    case 'draft': return 'Черновик';
-    case 'handoff_ready': return 'Готово к передаче';
-    case 'sent_to_production': return 'Передано в производство';
-    case 'accepted': return 'Принято';
-    case 'rework_requested': return 'Возврат на доработку';
+    case 'draft':
+      return 'Черновик';
+    case 'handoff_ready':
+      return 'Готово к передаче';
+    case 'sent_to_production':
+      return 'Передано в производство';
+    case 'accepted':
+      return 'Принято';
+    case 'rework_requested':
+      return 'Возврат на доработку';
   }
 }
 
 export function getLifecycleStateBadgeClass(state: Workshop2DossierLifecycleState): string {
   switch (state) {
-    case 'draft': return 'bg-slate-100 text-slate-700 border-slate-200';
-    case 'handoff_ready': return 'bg-indigo-50 text-indigo-800 border-indigo-200';
-    case 'sent_to_production': return 'bg-amber-50 text-amber-800 border-amber-200';
-    case 'accepted': return 'bg-emerald-50 text-emerald-800 border-emerald-200';
-    case 'rework_requested': return 'bg-rose-50 text-rose-800 border-rose-200';
+    case 'draft':
+      return 'bg-slate-100 text-slate-700 border-slate-200';
+    case 'handoff_ready':
+      return 'bg-indigo-50 text-indigo-800 border-indigo-200';
+    case 'sent_to_production':
+      return 'bg-amber-50 text-amber-800 border-amber-200';
+    case 'accepted':
+      return 'bg-emerald-50 text-emerald-800 border-emerald-200';
+    case 'rework_requested':
+      return 'bg-rose-50 text-rose-800 border-rose-200';
   }
 }
 
@@ -179,9 +190,7 @@ export function getLatestApprovalBySection(
 // Revision history helpers
 // ---------------------------------------------------------------------------
 
-export function getRevisionHistory(
-  dossier: Workshop2DossierPhase1
-): Workshop2DossierRevision[] {
+export function getRevisionHistory(dossier: Workshop2DossierPhase1): Workshop2DossierRevision[] {
   return dossier.revisions ?? [];
 }
 

@@ -15,14 +15,18 @@ export default function BrandB2BBuyerApplicationsPage() {
   const links = getRelatedLinks('buyer-onboarding').map((l) => ({ label: l.label, href: l.href }));
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-4xl animate-in fade-in duration-700">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 duration-700 animate-in fade-in">
       <SectionInfoCard
         title="Анкета онбординга"
         description="Сбор данных о магазине при регистрации (Brandboom): гео, формат, оборот, категории."
         icon={UserPlus}
         iconBg="bg-indigo-100"
         iconColor="text-indigo-600"
-        badges={<Badge variant="outline" className="text-[9px]">Brandboom</Badge>}
+        badges={
+          <Badge variant="outline" className="text-[9px]">
+            Brandboom
+          </Badge>
+        }
       />
       <Card>
         <CardHeader>
@@ -30,9 +34,14 @@ export default function BrandB2BBuyerApplicationsPage() {
           <CardDescription>Новые заявки на партнёрство с заполненной анкетой.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
-          <p className="text-sm text-slate-600">Анкета собирает: название магазина, город, формат (мультибренд/монобренд), оборот, интересующие категории.</p>
+          <p className="text-sm text-slate-600">
+            Анкета собирает: название магазина, город, формат (мультибренд/монобренд), оборот,
+            интересующие категории.
+          </p>
           <Button variant="outline" size="sm" asChild>
-            <Link href={ROUTES.brand.financeRf}><FileText className="h-3 w-3 mr-1" /> Net terms / First order</Link>
+            <Link href={ROUTES.brand.financeRf}>
+              <FileText className="mr-1 h-3 w-3" /> Net terms / First order
+            </Link>
           </Button>
           <Button variant="outline" size="sm" asChild>
             <Link href={ROUTES.brand.tradeShows}>Выставки</Link>

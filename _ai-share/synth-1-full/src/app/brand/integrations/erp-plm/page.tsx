@@ -15,7 +15,7 @@ export default function BrandIntegrationsErpPlmPage() {
   const links = getRelatedLinks('1c-sync').map((l) => ({ label: l.label, href: l.href }));
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-4xl animate-in fade-in duration-700">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 duration-700 animate-in fade-in">
       <SectionInfoCard
         title="Синхронизация 1С (ERP, PLM)"
         description="Sellty, Compo: заказы, остатки, справочники. Двусторонняя синхронизация с 1С, Мой Склад."
@@ -24,8 +24,12 @@ export default function BrandIntegrationsErpPlmPage() {
         iconColor="text-emerald-600"
         badges={
           <>
-            <Badge variant="outline" className="text-[9px]">Sellty</Badge>
-            <Badge variant="outline" className="text-[9px]">Compo</Badge>
+            <Badge variant="outline" className="text-[9px]">
+              Sellty
+            </Badge>
+            <Badge variant="outline" className="text-[9px]">
+              Compo
+            </Badge>
           </>
         }
       />
@@ -35,16 +39,18 @@ export default function BrandIntegrationsErpPlmPage() {
           <CardDescription>1С:Предприятие, Мой Склад, обмен заказами и остатками.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-100">
+          <div className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50 p-3">
             <span className="font-medium">1С</span>
             <Badge className="bg-emerald-100 text-emerald-700">Подключено</Badge>
           </div>
-          <div className="flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-100">
+          <div className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50 p-3">
             <span className="font-medium">Мой Склад</span>
             <Badge variant="outline">Не настроено</Badge>
           </div>
           <Button variant="outline" size="sm" asChild>
-            <Link href={ROUTES.shop.b2bDealerCabinet}><Package className="h-3 w-3 mr-1" /> Личный кабинет дилера</Link>
+            <Link href={ROUTES.shop.b2bDealerCabinet}>
+              <Package className="mr-1 h-3 w-3" /> Личный кабинет дилера
+            </Link>
           </Button>
         </CardContent>
       </Card>

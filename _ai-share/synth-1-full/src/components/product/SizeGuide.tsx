@@ -19,11 +19,13 @@ export function SizeGuide() {
   return (
     <Card className="border-slate-100">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm flex items-center gap-2"><Ruler className="h-4 w-4" /> Таблица размеров (см)</CardTitle>
+        <CardTitle className="flex items-center gap-2 text-sm">
+          <Ruler className="h-4 w-4" /> Таблица размеров (см)
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm border-collapse">
+          <table className="w-full border-collapse text-left text-sm">
             <thead>
               <tr className="border-b border-slate-200">
                 <th className="py-2 pr-3 font-medium">Размер</th>
@@ -54,19 +56,33 @@ export function SizeGuide() {
 }
 
 /** Рекомендатор размера по меркам из профиля. */
-export function SizeRecommender({ recommendedSize, hasMeasurements }: { recommendedSize?: string; hasMeasurements?: boolean }) {
+export function SizeRecommender({
+  recommendedSize,
+  hasMeasurements,
+}: {
+  recommendedSize?: string;
+  hasMeasurements?: boolean;
+}) {
   return (
     <Card className="border-indigo-100 bg-indigo-50/50">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm flex items-center gap-2"><User className="h-4 w-4 text-indigo-600" /> Подбор размера</CardTitle>
+        <CardTitle className="flex items-center gap-2 text-sm">
+          <User className="h-4 w-4 text-indigo-600" /> Подбор размера
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
         {hasMeasurements && recommendedSize ? (
-          <p className="text-sm">По вашим меркам из профиля рекомендуем размер <strong>{recommendedSize}</strong>.</p>
+          <p className="text-sm">
+            По вашим меркам из профиля рекомендуем размер <strong>{recommendedSize}</strong>.
+          </p>
         ) : (
-          <p className="text-sm text-slate-600">Укажите мерки в профиле — мы подберём размер автоматически.</p>
+          <p className="text-sm text-slate-600">
+            Укажите мерки в профиле — мы подберём размер автоматически.
+          </p>
         )}
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.client.profile}>Мерки в профиле</Link></Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.client.profile}>Мерки в профиле</Link>
+        </Button>
       </CardContent>
     </Card>
   );

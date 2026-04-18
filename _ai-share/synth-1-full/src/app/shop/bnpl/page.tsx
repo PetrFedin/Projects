@@ -32,14 +32,19 @@ export default function ShopBnplPage() {
   }, []);
 
   return (
-    <div className="container max-w-4xl py-6 space-y-6 pb-24">
+    <div className="container max-w-4xl space-y-6 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Link href="/shop/orders">
-          <Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">POS BNPL Gateway</h1>
-          <p className="text-slate-500 text-sm">Оформление рассрочки на кассе. РФ: Тинькофф, Сбер и др. Связь с финансами, заказами и Compliance.</p>
+          <p className="text-sm text-slate-500">
+            Оформление рассрочки на кассе. РФ: Тинькофф, Сбер и др. Связь с финансами, заказами и
+            Compliance.
+          </p>
         </div>
       </div>
 
@@ -53,15 +58,27 @@ export default function ShopBnplPage() {
         </CardHeader>
         <CardContent className="space-y-2">
           {transactions.map((tx) => (
-            <div key={tx.id} className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            <div
+              key={tx.id}
+              className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
+            >
               <div>
-                <p className="text-sm font-medium">{tx.orderId} · {providerLabels[tx.provider]}</p>
+                <p className="text-sm font-medium">
+                  {tx.orderId} · {providerLabels[tx.provider]}
+                </p>
                 <p className="text-xs text-slate-500">{tx.amountRub.toLocaleString('ru')} ₽</p>
               </div>
-              <Badge variant={tx.status === 'approved' ? 'default' : 'outline'} className="text-[10px]">{statusLabels[tx.status]}</Badge>
+              <Badge
+                variant={tx.status === 'approved' ? 'default' : 'outline'}
+                className="text-[10px]"
+              >
+                {statusLabels[tx.status]}
+              </Badge>
             </div>
           ))}
-          <p className="text-xs text-slate-400 mt-3">API: BNPL_GATEWAY_API — офферы, заявка, статус. Compliance: 54-ФЗ, согласия.</p>
+          <p className="mt-3 text-xs text-slate-400">
+            API: BNPL_GATEWAY_API — офферы, заявка, статус. Compliance: 54-ФЗ, согласия.
+          </p>
         </CardContent>
       </Card>
 
@@ -74,7 +91,9 @@ export default function ShopBnplPage() {
           <ul className="flex flex-wrap gap-2">
             {links.map((l) => (
               <li key={l.href}>
-                <Button variant="outline" size="sm" className="text-xs" asChild><Link href={l.href}>{l.label}</Link></Button>
+                <Button variant="outline" size="sm" className="text-xs" asChild>
+                  <Link href={l.href}>{l.label}</Link>
+                </Button>
               </li>
             ))}
           </ul>

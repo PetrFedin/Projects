@@ -11,7 +11,16 @@ import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getAcademyLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { getCourseById } from '@/lib/education-data';
-import { ArrowLeft, Clock, Star, Users, PlayCircle, Video, FileText, ChevronRight } from 'lucide-react';
+import {
+  ArrowLeft,
+  Clock,
+  Star,
+  Users,
+  PlayCircle,
+  Video,
+  FileText,
+  ChevronRight,
+} from 'lucide-react';
 
 const LEVEL_LABELS: Record<string, string> = {
   beginner: 'Начальный',
@@ -37,7 +46,7 @@ export default function PlatformCourseDetailPage() {
   if (!course) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-slate-50/80 to-white">
-        <div className="container mx-auto px-4 py-12 max-w-3xl">
+        <div className="container mx-auto max-w-3xl px-4 py-12">
           <Button variant="ghost" size="icon" onClick={() => router.back()}>
             <ArrowLeft className="h-4 w-4" />
           </Button>
@@ -56,11 +65,13 @@ export default function PlatformCourseDetailPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50/80 to-white">
       <div className="border-b border-slate-200/60 bg-white/70 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-6 max-w-3xl">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="container mx-auto max-w-3xl px-4 py-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
               <Link href={ROUTES.brand.academyPlatform}>
-                <Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button>
+                <Button variant="ghost" size="icon">
+                  <ArrowLeft className="h-4 w-4" />
+                </Button>
               </Link>
               <AcademySegmentSwitcher active="platform" />
             </div>
@@ -68,10 +79,10 @@ export default function PlatformCourseDetailPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8 max-w-3xl space-y-8 pb-24">
+      <div className="container mx-auto max-w-3xl space-y-8 px-4 py-8 pb-24">
         <div className="flex flex-col gap-6">
           {course.thumbnail && (
-            <div className="aspect-video relative rounded-2xl overflow-hidden bg-slate-100">
+            <div className="relative aspect-video overflow-hidden rounded-2xl bg-slate-100">
               <Image
                 src={course.thumbnail}
                 alt=""
@@ -89,8 +100,8 @@ export default function PlatformCourseDetailPage() {
           )}
 
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">{course.title}</h1>
-            <p className="mt-2 text-slate-600 leading-relaxed">{course.description}</p>
+            <h1 className="text-2xl font-bold text-slate-900 sm:text-3xl">{course.title}</h1>
+            <p className="mt-2 leading-relaxed text-slate-600">{course.description}</p>
             <div className="mt-4 flex flex-wrap gap-3">
               <span className="flex items-center gap-1.5 text-sm text-slate-500">
                 <Clock className="h-4 w-4" /> {course.duration}
@@ -116,7 +127,7 @@ export default function PlatformCourseDetailPage() {
             )}
           </div>
 
-          <Button size="lg" className="rounded-xl gap-2 font-semibold w-full sm:w-auto">
+          <Button size="lg" className="w-full gap-2 rounded-xl font-semibold sm:w-auto">
             <PlayCircle className="h-5 w-5" /> Начать обучение
           </Button>
 
@@ -151,7 +162,7 @@ export default function PlatformCourseDetailPage() {
                     <a
                       key={i}
                       href={m.url}
-                      className="flex items-center justify-between p-3 rounded-xl border border-slate-200/80 hover:bg-slate-50 transition-colors"
+                      className="flex items-center justify-between rounded-xl border border-slate-200/80 p-3 transition-colors hover:bg-slate-50"
                     >
                       <div className="flex items-center gap-3">
                         {m.type === 'video' ? (
@@ -172,18 +183,19 @@ export default function PlatformCourseDetailPage() {
             </Card>
           )}
 
-          {(course as { relatedIds?: string[] }).relatedIds && (course as { relatedIds: string[] }).relatedIds.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              <span className="text-sm text-slate-500">Связанные материалы:</span>
-              {(course as { relatedIds: string[] }).relatedIds.map((rid) => (
-                <Link key={rid} href={ROUTES.brand.academyPlatformArticle(rid)}>
-                  <Badge variant="outline" className="hover:bg-indigo-50 cursor-pointer">
-                    {rid}
-                  </Badge>
-                </Link>
-              ))}
-            </div>
-          )}
+          {(course as { relatedIds?: string[] }).relatedIds &&
+            (course as { relatedIds: string[] }).relatedIds.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                <span className="text-sm text-slate-500">Связанные материалы:</span>
+                {(course as { relatedIds: string[] }).relatedIds.map((rid) => (
+                  <Link key={rid} href={ROUTES.brand.academyPlatformArticle(rid)}>
+                    <Badge variant="outline" className="cursor-pointer hover:bg-indigo-50">
+                      {rid}
+                    </Badge>
+                  </Link>
+                ))}
+              </div>
+            )}
         </div>
 
         <Button variant="outline" asChild>

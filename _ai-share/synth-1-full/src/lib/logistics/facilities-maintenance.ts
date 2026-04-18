@@ -37,7 +37,10 @@ export class FacilitiesMaintenanceEngine {
 
     // 1. Анализ систем кондиционирования (HVAC)
     if (data.type === 'hvac') {
-      if (data.errorCodes.includes('ERR_COMPRESSOR_FAIL') || (data.temperatureC && data.temperatureC > 35)) {
+      if (
+        data.errorCodes.includes('ERR_COMPRESSOR_FAIL') ||
+        (data.temperatureC && data.temperatureC > 35)
+      ) {
         // Критическая поломка: в магазине жарко, клиенты уходят
         priority = 'critical';
         action = 'dispatch_technician';
@@ -60,7 +63,10 @@ export class FacilitiesMaintenanceEngine {
 
     // 2. Анализ кассовых аппаратов (POS System)
     if (data.type === 'pos_system') {
-      if (data.errorCodes.includes('ERR_NETWORK_DOWN') || data.errorCodes.includes('ERR_PAYMENT_GATEWAY')) {
+      if (
+        data.errorCodes.includes('ERR_NETWORK_DOWN') ||
+        data.errorCodes.includes('ERR_PAYMENT_GATEWAY')
+      ) {
         // Магазин не может принимать деньги — это катастрофа
         priority = 'critical';
         action = 'dispatch_technician';
@@ -98,7 +104,7 @@ export class FacilitiesMaintenanceEngine {
       priority,
       action,
       estimatedCostUSD,
-      reasoning
+      reasoning,
     };
   }
 }

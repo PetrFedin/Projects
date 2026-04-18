@@ -157,24 +157,22 @@ function Workshop2ArticleDateFlip({
     return <span className="text-[9px] text-slate-400">Нет даты в Цехе 2</span>;
   }
   const canFlip =
-    updatedAtIso &&
-    updatedAtIso !== addedAtIso &&
-    updatedAtIso.localeCompare(addedAtIso) > 0;
+    updatedAtIso && updatedAtIso !== addedAtIso && updatedAtIso.localeCompare(addedAtIso) > 0;
   const showUpdated = canFlip && phase % 2 === 1;
   if (showUpdated && updatedAtIso) {
     return (
-      <span className="block text-[9px] text-slate-600 leading-tight">
+      <span className="block text-[9px] leading-tight text-slate-600">
         <span className="text-slate-400">Изменён</span>
-        <span className="block font-medium text-slate-700 tabular-nums">
+        <span className="block font-medium tabular-nums text-slate-700">
           {formatWorkshop2ArticleRowDateTime(updatedAtIso)}
         </span>
       </span>
     );
   }
   return (
-    <span className="block text-[9px] text-slate-600 leading-tight">
+    <span className="block text-[9px] leading-tight text-slate-600">
       <span className="text-slate-400">Добавлен</span>
-      <span className="block font-medium text-slate-700 tabular-nums">
+      <span className="block font-medium tabular-nums text-slate-700">
         {formatWorkshop2ArticleRowDateTime(addedAtIso)}
       </span>
     </span>
@@ -200,9 +198,7 @@ function filterWorkshop2CollectionsForGrid(
     }
     if (selectedSkus.size > 0) {
       const skuSet = new Set(
-        col.articleRows
-          .map((r) => normalizeLocalSkuCode(r.sku) || r.sku.trim())
-          .filter(Boolean)
+        col.articleRows.map((r) => normalizeLocalSkuCode(r.sku) || r.sku.trim()).filter(Boolean)
       );
       let hit = false;
       for (const s of selectedSkus) {
@@ -223,7 +219,8 @@ function runGlobalWorkshop2Search(
 ): { collectionId: string; collectionName: string; field: string; snippet: string }[] {
   const q = query.trim().toLowerCase();
   if (q.length < 2) return [];
-  const out: { collectionId: string; collectionName: string; field: string; snippet: string }[] = [];
+  const out: { collectionId: string; collectionName: string; field: string; snippet: string }[] =
+    [];
   const push = (collectionId: string, collectionName: string, field: string, snippet: string) => {
     out.push({ collectionId, collectionName, field, snippet });
   };
@@ -292,10 +289,7 @@ import {
   Workshop2CreateArticleDialog,
   type Workshop2EditArticlePayload,
 } from '@/components/brand/production/Workshop2CreateArticleDialog';
-import {
-  findHandbookLeafById,
-  getHandbookCategoryLeaves,
-} from '@/lib/production/category-catalog';
+import { findHandbookLeafById, getHandbookCategoryLeaves } from '@/lib/production/category-catalog';
 import type { Workshop2TzSignatoryBindings } from '@/lib/production/workshop2-dossier-phase1.types';
 import { loadWorkshop2Phase1DossierMap } from '@/lib/production/workshop2-phase1-dossier-storage';
 import {
@@ -406,13 +400,13 @@ function collectionCoverMonogram(id: string): string {
 
 function ArticleFacetsInline({ row }: { row: Workshop2ArticleRow }) {
   const sep = (
-    <span className="text-slate-300 mx-1.5 shrink-0" aria-hidden>
+    <span className="mx-1.5 shrink-0 text-slate-300" aria-hidden>
       ·
     </span>
   );
   return (
-    <div className="text-[10px] text-slate-600 w-full max-w-full overflow-x-auto [scrollbar-width:thin]">
-      <p className="whitespace-nowrap inline-block min-w-0">
+    <div className="w-full max-w-full overflow-x-auto text-[10px] text-slate-600 [scrollbar-width:thin]">
+      <p className="inline-block min-w-0 whitespace-nowrap">
         <span>Аудитория: {row.audienceLabel}</span>
         {sep}
         <span>Ур. 1: {row.categoryL1}</span>
@@ -465,12 +459,7 @@ function Workshop2ArticleFacetPopover({
 }) {
   const [open, setOpen] = useState(false);
   const sel = ensureFacetSelectionSet(selected);
-  const summary =
-    sel.size === 0
-      ? 'Все'
-      : sel.size === 1
-        ? [...sel][0]!
-        : `Выбрано: ${sel.size}`;
+  const summary = sel.size === 0 ? 'Все' : sel.size === 1 ? [...sel][0]! : `Выбрано: ${sel.size}`;
 
   const toggle = (opt: string) => {
     const n = new Set(sel);
@@ -481,7 +470,7 @@ function Workshop2ArticleFacetPopover({
 
   return (
     <div className="flex shrink-0 flex-col gap-0.5">
-      <span className="text-[9px] font-semibold uppercase tracking-wide text-slate-500 whitespace-nowrap">
+      <span className="whitespace-nowrap text-[9px] font-semibold uppercase tracking-wide text-slate-500">
         {label}
       </span>
       <Popover open={open} onOpenChange={setOpen}>
@@ -498,7 +487,7 @@ function Workshop2ArticleFacetPopover({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[min(100vw-2rem,18rem)] p-0" align="start">
-          <div className="max-h-64 overflow-y-auto p-2 space-y-1">
+          <div className="max-h-64 space-y-1 overflow-y-auto p-2">
             {options.length === 0 ? (
               <p className="px-2 py-2 text-[11px] text-slate-500">Нет значений.</p>
             ) : (
@@ -715,7 +704,10 @@ export function Workshop2TabContent({
       if (expanded) {
         appendWorkshop2Activity(`Список артикулов свёрнут · «${title}»`, createdByLabel);
       } else {
-        appendWorkshop2Activity(`Открыт список артикулов · «${title}» (${collectionId})`, createdByLabel);
+        appendWorkshop2Activity(
+          `Открыт список артикулов · «${title}» (${collectionId})`,
+          createdByLabel
+        );
       }
       replaceQuery((p) => {
         if (expanded) {
@@ -735,7 +727,10 @@ export function Workshop2TabContent({
   const openArticle = useCallback(
     (collectionId: string, row: { id: string; internalArticleCode?: string }) => {
       router.push(
-        workshop2ArticlePath(collectionId, workshop2ArticleUrlSegment(row.internalArticleCode, row.id))
+        workshop2ArticlePath(
+          collectionId,
+          workshop2ArticleUrlSegment(row.internalArticleCode, row.id)
+        )
       );
     },
     [router]
@@ -757,9 +752,10 @@ export function Workshop2TabContent({
   const [coverError, setCoverError] = useState<string | null>(null);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [historyEntries, setHistoryEntries] = useState(() => loadWorkshop2Activity());
-  const [articleDialogCol, setArticleDialogCol] = useState<{ id: string; displayName: string } | null>(
-    null
-  );
+  const [articleDialogCol, setArticleDialogCol] = useState<{
+    id: string;
+    displayName: string;
+  } | null>(null);
   const [articleSkuFilter, setArticleSkuFilter] = useState('');
   const [archiveConfirm, setArchiveConfirm] = useState<{
     id: string;
@@ -1000,7 +996,10 @@ export function Workshop2TabContent({
   const restoreOne = useCallback(
     (id: string) => {
       const col = archivedCollections.find((c) => c.id === id);
-      appendWorkshop2Activity(`Восстановлено · «${col?.displayName ?? id}» (${id})`, createdByLabel);
+      appendWorkshop2Activity(
+        `Восстановлено · «${col?.displayName ?? id}» (${id})`,
+        createdByLabel
+      );
       onRestoreCollection(id);
     },
     [archivedCollections, onRestoreCollection, createdByLabel]
@@ -1272,7 +1271,8 @@ export function Workshop2TabContent({
       const tb = b.addedAtIso ? new Date(b.addedAtIso).getTime() : 0;
       return tb - ta;
     });
-    const uniqSorted = (vals: string[]) => [...new Set(vals)].sort((a, b) => a.localeCompare(b, 'ru'));
+    const uniqSorted = (vals: string[]) =>
+      [...new Set(vals)].sort((a, b) => a.localeCompare(b, 'ru'));
     const audienceOpts = uniqSorted(
       open.articleRows.map((r) => r.audienceLabel?.trim()).filter((v): v is string => Boolean(v))
     );
@@ -1318,24 +1318,23 @@ export function Workshop2TabContent({
     const flowDoc = getSkuFlowDoc(open.id);
     const articleIds = rowsSorted.map((r) => r.id);
     return (
-      <div className="w-full mt-4 min-w-0">
+      <div className="mt-4 w-full min-w-0">
         <Card
           className={cn(
-            'border-indigo-100 bg-white w-full',
+            'w-full border-indigo-100 bg-white',
             open.panelAccentHex ? 'border-l-[5px]' : ''
           )}
-          style={
-            open.panelAccentHex
-              ? { borderLeftColor: open.panelAccentHex }
-              : undefined
-          }
+          style={open.panelAccentHex ? { borderLeftColor: open.panelAccentHex } : undefined}
         >
-          <CardHeader className="pb-2 space-y-0">
-            <div className="flex flex-col gap-2 min-w-0">
+          <CardHeader className="space-y-0 pb-2">
+            <div className="flex min-w-0 flex-col gap-2">
               <div className="min-w-0">
-                <CardTitle className="text-sm uppercase tracking-tight">Артикулы · {open.displayName}</CardTitle>
+                <CardTitle className="text-sm uppercase tracking-tight">
+                  Артикулы · {open.displayName}
+                </CardTitle>
                 <CardDescription className="text-xs">
-                  Готовность по этапам каталога; клик по столбцу подсвечивает артикулы, которые сейчас на этом этапе.
+                  Готовность по этапам каталога; клик по столбцу подсвечивает артикулы, которые
+                  сейчас на этом этапе.
                 </CardDescription>
               </div>
               <div
@@ -1343,115 +1342,117 @@ export function Workshop2TabContent({
                 onPointerDown={(e) => e.stopPropagation()}
                 onClick={(e) => e.stopPropagation()}
               >
+                <Workshop2ArticleFacetPopover
+                  label="Аудитория"
+                  title={WORKSHOP2_AUDIENCE_FILTER_TITLE}
+                  options={audienceOpts}
+                  selected={articleFacetAudience}
+                  onSelectedChange={setArticleFacetAudience}
+                  triggerId={`w2-art-aud-${open.id}`}
+                />
+                <Workshop2ArticleFacetPopover
+                  label="Ур. 1"
+                  title={WORKSHOP2_CAT_L1_FILTER_TITLE}
+                  options={l1Opts}
+                  selected={articleFacetL1}
+                  onSelectedChange={setArticleFacetL1}
+                  triggerId={`w2-art-l1-${open.id}`}
+                />
+                <div className="flex shrink-0 flex-nowrap items-end gap-x-2">
                   <Workshop2ArticleFacetPopover
-                    label="Аудитория"
-                    title={WORKSHOP2_AUDIENCE_FILTER_TITLE}
-                    options={audienceOpts}
-                    selected={articleFacetAudience}
-                    onSelectedChange={setArticleFacetAudience}
-                    triggerId={`w2-art-aud-${open.id}`}
+                    label="Ур. 2"
+                    title={WORKSHOP2_CAT_L2_FILTER_TITLE}
+                    options={l2Opts}
+                    selected={articleFacetL2}
+                    onSelectedChange={setArticleFacetL2}
+                    triggerId={`w2-art-l2-${open.id}`}
                   />
                   <Workshop2ArticleFacetPopover
-                    label="Ур. 1"
-                    title={WORKSHOP2_CAT_L1_FILTER_TITLE}
-                    options={l1Opts}
-                    selected={articleFacetL1}
-                    onSelectedChange={setArticleFacetL1}
-                    triggerId={`w2-art-l1-${open.id}`}
+                    label="Ур. 3"
+                    title={WORKSHOP2_CAT_L3_FILTER_TITLE}
+                    options={l3Opts}
+                    selected={articleFacetL3}
+                    onSelectedChange={setArticleFacetL3}
+                    triggerId={`w2-art-l3-${open.id}`}
                   />
-                  <div className="flex shrink-0 flex-nowrap items-end gap-x-2">
-                    <Workshop2ArticleFacetPopover
-                      label="Ур. 2"
-                      title={WORKSHOP2_CAT_L2_FILTER_TITLE}
-                      options={l2Opts}
-                      selected={articleFacetL2}
-                      onSelectedChange={setArticleFacetL2}
-                      triggerId={`w2-art-l2-${open.id}`}
-                    />
-                    <Workshop2ArticleFacetPopover
-                      label="Ур. 3"
-                      title={WORKSHOP2_CAT_L3_FILTER_TITLE}
-                      options={l3Opts}
-                      selected={articleFacetL3}
-                      onSelectedChange={setArticleFacetL3}
-                      triggerId={`w2-art-l3-${open.id}`}
-                    />
-                  </div>
-                  <div className="flex shrink-0 flex-col gap-0.5 justify-end">
-                    <span
-                      className="text-[9px] font-semibold uppercase tracking-wide text-slate-500 whitespace-nowrap leading-none h-[0.875rem] flex items-end"
-                      aria-hidden
-                    >
-                      {'\u00a0'}
-                    </span>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      className="h-9 shrink-0 whitespace-nowrap px-2 text-[9px] font-bold uppercase text-slate-700"
-                      onClick={() => {
-                        setArticleFacetAudience(new Set());
-                        setArticleFacetL1(new Set());
-                        setArticleFacetL2(new Set());
-                        setArticleFacetL3(new Set());
-                      }}
-                    >
-                      Сбросить фильтр
-                    </Button>
-                  </div>
-                  <div className="flex shrink-0 flex-col gap-0.5">
-                    <Label
-                      htmlFor={`w2-art-sort-${open.id}`}
-                      className="text-[9px] font-semibold uppercase tracking-wide text-slate-500 whitespace-nowrap"
-                    >
-                      Сортировка
-                    </Label>
-                    <select
-                      id={`w2-art-sort-${open.id}`}
-                      value={articleListSort}
-                      onChange={(e) => setArticleListSort(e.target.value === 'added' ? 'added' : 'sku')}
-                      className="h-9 w-[6.75rem] rounded-md border border-slate-200 bg-white px-1.5 text-[10px] font-semibold text-slate-700 cursor-pointer sm:w-[7.5rem]"
-                    >
-                      <option value="sku">SKU A→Я</option>
-                      <option value="added">Дата добавления</option>
-                    </select>
-                  </div>
+                </div>
+                <div className="flex shrink-0 flex-col justify-end gap-0.5">
+                  <span
+                    className="flex h-[0.875rem] items-end whitespace-nowrap text-[9px] font-semibold uppercase leading-none tracking-wide text-slate-500"
+                    aria-hidden
+                  >
+                    {'\u00a0'}
+                  </span>
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="h-9 shrink-0 text-[10px] font-bold uppercase gap-1"
+                    className="h-9 shrink-0 whitespace-nowrap px-2 text-[9px] font-bold uppercase text-slate-700"
                     onClick={() => {
-                      setBulkCol({ id: open.id, displayName: open.displayName });
-                      setBulkText('');
-                      setBulkOpen(true);
+                      setArticleFacetAudience(new Set());
+                      setArticleFacetL1(new Set());
+                      setArticleFacetL2(new Set());
+                      setArticleFacetL3(new Set());
                     }}
                   >
-                    <Upload className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                    Массово
+                    Сбросить фильтр
                   </Button>
-                  <Button
-                    type="button"
-                    size="sm"
-                    className="h-9 shrink-0 text-[10px] font-bold uppercase whitespace-nowrap"
-                    onClick={() => {
-                      setArticleEditTarget(null);
-                      setArticleDialogCol({ id: open.id, displayName: open.displayName });
-                    }}
+                </div>
+                <div className="flex shrink-0 flex-col gap-0.5">
+                  <Label
+                    htmlFor={`w2-art-sort-${open.id}`}
+                    className="whitespace-nowrap text-[9px] font-semibold uppercase tracking-wide text-slate-500"
                   >
-                    Создать артикул
-                  </Button>
+                    Сортировка
+                  </Label>
+                  <select
+                    id={`w2-art-sort-${open.id}`}
+                    value={articleListSort}
+                    onChange={(e) =>
+                      setArticleListSort(e.target.value === 'added' ? 'added' : 'sku')
+                    }
+                    className="h-9 w-[6.75rem] cursor-pointer rounded-md border border-slate-200 bg-white px-1.5 text-[10px] font-semibold text-slate-700 sm:w-[7.5rem]"
+                  >
+                    <option value="sku">SKU A→Я</option>
+                    <option value="added">Дата добавления</option>
+                  </select>
+                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-9 shrink-0 gap-1 text-[10px] font-bold uppercase"
+                  onClick={() => {
+                    setBulkCol({ id: open.id, displayName: open.displayName });
+                    setBulkText('');
+                    setBulkOpen(true);
+                  }}
+                >
+                  <Upload className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                  Массово
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  className="h-9 shrink-0 whitespace-nowrap text-[10px] font-bold uppercase"
+                  onClick={() => {
+                    setArticleEditTarget(null);
+                    setArticleDialogCol({ id: open.id, displayName: open.displayName });
+                  }}
+                >
+                  Создать артикул
+                </Button>
               </div>
             </div>
           </CardHeader>
-          <CardContent className="space-y-3 w-full min-w-0">
+          <CardContent className="w-full min-w-0 space-y-3">
             {nextStepsCollectionId === open.id ? (
               <div
                 className="rounded-lg border border-emerald-200 bg-emerald-50/90 px-3 py-2.5 text-[11px] text-emerald-950"
                 role="status"
               >
-                <p className="font-bold text-[12px] mb-1.5">Что дальше</p>
-                <ul className="list-disc pl-4 space-y-0.5 mb-2">
+                <p className="mb-1.5 text-[12px] font-bold">Что дальше</p>
+                <ul className="mb-2 list-disc space-y-0.5 pl-4">
                   <li>Добавьте первый артикул (кнопка выше).</li>
                   <li>При желании загрузите обложку карточки коллекции в списке слева.</li>
                   <li>Закрепите подборку гвоздиком, если она главная сейчас.</li>
@@ -1469,15 +1470,17 @@ export function Workshop2TabContent({
             ) : null}
             <div className="w-full min-w-0 space-y-2 rounded-lg border border-indigo-100 bg-indigo-50/50 px-3 py-2.5">
               <div className="flex w-full min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-                <span className="text-[11px] font-semibold text-slate-700 shrink-0">Общая готовность</span>
-                <span className="text-lg font-black tabular-nums text-indigo-900 leading-none shrink-0">
+                <span className="shrink-0 text-[11px] font-semibold text-slate-700">
+                  Общая готовность
+                </span>
+                <span className="shrink-0 text-lg font-black tabular-nums leading-none text-indigo-900">
                   {panelMetrics.progressPct}%
                 </span>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <button
                       type="button"
-                      className="rounded-full text-slate-400 hover:text-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 p-0.5 shrink-0"
+                      className="shrink-0 rounded-full p-0.5 text-slate-400 hover:text-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
                       aria-label="Как считается готовность"
                     >
                       <CircleAlert className="h-4 w-4" aria-hidden />
@@ -1525,12 +1528,15 @@ export function Workshop2TabContent({
                               </span>
                             </button>
                           </TooltipTrigger>
-                          <TooltipContent side="top" className="max-w-[260px] text-[11px] leading-snug">
+                          <TooltipContent
+                            side="top"
+                            className="max-w-[260px] text-[11px] leading-snug"
+                          >
                             <p className="font-semibold">{step?.title ?? sid}</p>
                             <p className="text-slate-600">
                               Закрыли этап: {done}/{n} арт.
                             </p>
-                            <p className="text-slate-500 mt-1">
+                            <p className="mt-1 text-slate-500">
                               Повторный клик снимает подсветку строк.
                             </p>
                           </TooltipContent>
@@ -1543,7 +1549,8 @@ export function Workshop2TabContent({
               {articlePanelStageFilter ? (
                 <p className="text-[10px] text-indigo-800/90">
                   Подсветка: артикулы, у которых по матрице текущий открытый этап — «
-                  {COLLECTION_STEP_BY_ID.get(articlePanelStageFilter)?.title ?? articlePanelStageFilter}
+                  {COLLECTION_STEP_BY_ID.get(articlePanelStageFilter)?.title ??
+                    articlePanelStageFilter}
                   ».
                 </p>
               ) : null}
@@ -1566,15 +1573,17 @@ export function Workshop2TabContent({
             ) : null}
 
             {rowsSorted.length === 0 ? (
-              <p className="text-sm text-slate-500 py-4 text-center">В подборке пока нет артикулов.</p>
+              <p className="py-4 text-center text-sm text-slate-500">
+                В подборке пока нет артикулов.
+              </p>
             ) : filteredRows.length === 0 ? (
-              <p className="text-sm text-slate-500 py-4 text-center">
+              <p className="py-4 text-center text-sm text-slate-500">
                 {facetFiltered.length === 0 && rowsSorted.length > 0
                   ? 'Нет артикулов по выбранным фильтрам аудитории и категорий.'
                   : 'Ничего не найдено.'}
               </p>
             ) : (
-              <ul className="divide-y divide-slate-100 rounded-xl border border-slate-100 overflow-hidden">
+              <ul className="divide-y divide-slate-100 overflow-hidden rounded-xl border border-slate-100">
                 {filteredRows.map((row) => {
                   const prog = getArticlePipelineProgress(open.id, row.id);
                   const stagesIdle = prog.total > 0 && prog.done === 0;
@@ -1585,8 +1594,7 @@ export function Workshop2TabContent({
                     WORKSHOP2_PIPELINE_STEP_IDS
                   );
                   const stageHighlight =
-                    articlePanelStageFilter !== null &&
-                    currentStepId === articlePanelStageFilter;
+                    articlePanelStageFilter !== null && currentStepId === articlePanelStageFilter;
                   const stageBucket = workshop2ArticleStageBucket(
                     flowDoc,
                     row.id,
@@ -1605,22 +1613,23 @@ export function Workshop2TabContent({
                         if (node) articleRowRefs.current.set(row.id, node);
                         else articleRowRefs.current.delete(row.id);
                       }}
-                      className="flex flex-row items-stretch gap-2 min-w-0"
+                      className="flex min-w-0 flex-row items-stretch gap-2"
                     >
                       <button
                         type="button"
                         className={cn(
-                          'min-w-0 min-h-0 flex-1 text-left px-4 py-3 transition-colors flex flex-row items-stretch justify-between gap-2 overflow-hidden',
+                          'flex min-h-0 min-w-0 flex-1 flex-row items-stretch justify-between gap-2 overflow-hidden px-4 py-3 text-left transition-colors',
                           'hover:bg-indigo-50/60 active:bg-indigo-100/70',
                           isHighlight && 'bg-amber-50/90 ring-2 ring-inset ring-amber-200/90',
-                          stageHighlight &&
-                            'bg-indigo-50/90 ring-2 ring-inset ring-indigo-300/80'
+                          stageHighlight && 'bg-indigo-50/90 ring-2 ring-inset ring-indigo-300/80'
                         )}
                         onClick={() => openArticle(open.id, row)}
                       >
                         <div className="min-w-0 flex-1 space-y-1">
                           <div className="flex flex-wrap items-center gap-2">
-                            <p className="font-mono text-[12px] font-bold text-slate-900">{row.sku}</p>
+                            <p className="font-mono text-[12px] font-bold text-slate-900">
+                              {row.sku}
+                            </p>
                             {isWorkshop2InternalArticleCodeValid(row.internalArticleCode) ? (
                               <span className="rounded border border-slate-200 bg-white px-1.5 py-0.5 font-mono text-[10px] font-semibold tabular-nums text-slate-600">
                                 id {row.internalArticleCode}
@@ -1629,14 +1638,14 @@ export function Workshop2TabContent({
                             {row.articleOrigin === 'new' ? (
                               <Badge
                                 variant="secondary"
-                                className="text-[8px] h-5 px-1.5 font-black uppercase bg-emerald-100 text-emerald-900 border-emerald-200"
+                                className="h-5 border-emerald-200 bg-emerald-100 px-1.5 text-[8px] font-black uppercase text-emerald-900"
                               >
                                 New
                               </Badge>
                             ) : row.articleOrigin === 'base' ? (
                               <Badge
                                 variant="outline"
-                                className="text-[8px] h-5 px-1.5 font-black uppercase border-slate-300 text-slate-700"
+                                className="h-5 border-slate-300 px-1.5 text-[8px] font-black uppercase text-slate-700"
                               >
                                 Base
                               </Badge>
@@ -1644,14 +1653,14 @@ export function Workshop2TabContent({
                             {stageBucket === 'not_started' ? (
                               <Badge
                                 variant="secondary"
-                                className="text-[8px] h-5 px-1.5 font-semibold normal-case bg-slate-100 text-slate-700 border-slate-200"
+                                className="h-5 border-slate-200 bg-slate-100 px-1.5 text-[8px] font-semibold normal-case text-slate-700"
                               >
                                 Ещё не начат
                               </Badge>
                             ) : (
                               <Badge
                                 variant="secondary"
-                                className="text-[8px] h-5 px-1.5 font-semibold normal-case bg-amber-50 text-amber-900 border-amber-200"
+                                className="h-5 border-amber-200 bg-amber-50 px-1.5 text-[8px] font-semibold normal-case text-amber-900"
                               >
                                 В работе
                               </Badge>
@@ -1667,14 +1676,14 @@ export function Workshop2TabContent({
                             ) : null}
                           </div>
                           <ArticleFacetsInline row={row} />
-                          <div className="min-[400px]:hidden w-full pt-1.5 mt-0.5 border-t border-slate-100/90">
+                          <div className="mt-0.5 w-full border-t border-slate-100/90 pt-1.5 min-[400px]:hidden">
                             <Workshop2ArticleDateFlip
                               addedAtIso={row.addedAtIso}
                               updatedAtIso={row.updatedAtIso}
                             />
                           </div>
                         </div>
-                        <div className="hidden min-[400px]:flex w-[6.75rem] shrink-0 flex-col justify-center border-l border-slate-100 px-2 text-right">
+                        <div className="hidden w-[6.75rem] shrink-0 flex-col justify-center border-l border-slate-100 px-2 text-right min-[400px]:flex">
                           <Workshop2ArticleDateFlip
                             addedAtIso={row.addedAtIso}
                             updatedAtIso={row.updatedAtIso}
@@ -1682,31 +1691,31 @@ export function Workshop2TabContent({
                         </div>
                         <div className="flex w-[7.5rem] min-w-[7rem] shrink-0 flex-col items-end justify-center gap-1.5 border-l border-slate-100 pl-2 pr-1">
                           {prog.total === 0 ? (
-                            <span className="text-[9px] font-semibold text-slate-500 text-right leading-tight break-words w-full">
+                            <span className="w-full break-words text-right text-[9px] font-semibold leading-tight text-slate-500">
                               Нет этапов
                             </span>
                           ) : stagesIdle ? (
-                            <span className="text-[9px] font-semibold text-slate-500 text-right leading-tight break-words w-full">
+                            <span className="w-full break-words text-right text-[9px] font-semibold leading-tight text-slate-500">
                               Этапы не начаты
                             </span>
                           ) : (
-                            <span className="text-lg font-black tabular-nums text-indigo-800 leading-none">
+                            <span className="text-lg font-black tabular-nums leading-none text-indigo-800">
                               {prog.pct}%
                             </span>
                           )}
                           <Progress value={prog.pct} className="h-1.5 w-full" />
-                          <span className="text-[8px] uppercase tracking-tighter text-slate-400 text-right leading-tight">
+                          <span className="text-right text-[8px] uppercase leading-tight tracking-tighter text-slate-400">
                             Этапы {prog.done}/{prog.total}
                           </span>
                         </div>
                       </button>
-                      <div className="flex w-[6rem] min-w-[6rem] shrink-0 flex-col gap-1 border-l border-slate-100 bg-slate-50/50 py-2 pl-2 pr-1 relative z-[1]">
+                      <div className="relative z-[1] flex w-[6rem] min-w-[6rem] shrink-0 flex-col gap-1 border-l border-slate-100 bg-slate-50/50 py-2 pl-2 pr-1">
                         <div className="flex flex-row items-center justify-end gap-0.5">
                           <Button
                             type="button"
                             variant="ghost"
                             size="icon"
-                            className="h-7 w-7 min-h-7 min-w-7 shrink-0 p-0 text-slate-600 hover:text-indigo-800"
+                            className="h-7 min-h-7 w-7 min-w-7 shrink-0 p-0 text-slate-600 hover:text-indigo-800"
                             aria-label="Заметки по артикулу"
                             title="Заметки по артикулу (локально в браузере)"
                             onClick={(e) => {
@@ -1728,7 +1737,7 @@ export function Workshop2TabContent({
                                 type="button"
                                 variant="ghost"
                                 size="icon"
-                                className="h-7 w-7 min-h-7 min-w-7 shrink-0 p-0 text-slate-600 hover:text-indigo-800"
+                                className="h-7 min-h-7 w-7 min-w-7 shrink-0 p-0 text-slate-600 hover:text-indigo-800"
                                 aria-label="Редактировать артикул"
                                 onClick={(e) => {
                                   e.preventDefault();
@@ -1767,7 +1776,7 @@ export function Workshop2TabContent({
                                   type="button"
                                   variant="ghost"
                                   size="icon"
-                                  className="h-7 w-7 min-h-7 min-w-7 shrink-0 p-0 text-red-600 hover:text-red-800 hover:bg-red-50"
+                                  className="h-7 min-h-7 w-7 min-w-7 shrink-0 p-0 text-red-600 hover:bg-red-50 hover:text-red-800"
                                   aria-label={`Удалить артикул ${row.sku} из подборки`}
                                   onClick={(e) => {
                                     e.preventDefault();
@@ -1818,7 +1827,8 @@ export function Workshop2TabContent({
                                 </Button>
                               </TooltipTrigger>
                               <TooltipContent side="left" className="max-w-[200px] text-[11px]">
-                                Зафиксировано в истории. Разбиение задач по этапам подключим в модуле изделия.
+                                Зафиксировано в истории. Разбиение задач по этапам подключим в
+                                модуле изделия.
                               </TooltipContent>
                             </Tooltip>
                             <Button
@@ -1853,1637 +1863,1710 @@ export function Workshop2TabContent({
   };
 
   const renderCollectionGrid = (cols: Workshop2CollectionListItem[], tab: 'active' | 'archive') => {
-    const filteredCols = filterWorkshop2CollectionsForGrid(cols, gridSelectedCollectionIds, gridSelectedSkus);
+    const filteredCols = filterWorkshop2CollectionsForGrid(
+      cols,
+      gridSelectedCollectionIds,
+      gridSelectedSkus
+    );
 
     return (
-    <div className="w-full min-w-0">
-      <div className="grid w-full min-w-0 grid-cols-1 gap-4 items-stretch min-[520px]:grid-cols-2 lg:grid-cols-4">
-        {filteredCols.map((col) => {
-          const metrics = metricsByCollectionId[col.id] ?? {
-            status: 'draft' as const,
-            progressPct: 0,
-            articleCount: 0,
-          };
-          const listOpen = w2col === col.id;
-          const fullCardTitle = `${col.displayName} · ${col.id}`;
-          return (
-            <div key={col.id} className="flex h-full min-h-0 min-w-0 w-full flex-col">
-              <Card
-                className={cn(
-                  'relative flex h-full min-h-[18rem] w-full flex-col overflow-hidden border-2 transition-all max-w-[21rem] mx-auto min-[520px]:max-w-full min-[520px]:mx-0',
-                  'focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-400/50 focus-within:ring-offset-2',
-                  listOpen
-                    ? 'border-indigo-400 bg-indigo-50/50 shadow-md ring-2 ring-indigo-200/70 ring-offset-1'
-                    : 'border-slate-100'
-                )}
-              >
-                {col.kind === 'user' || col.kind === 'ss27' || tab === 'active' ? (
-                  <div
-                    className="absolute left-1 top-1 z-[4] flex max-w-[calc(100%-0.75rem)] flex-wrap items-center gap-0.5"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {col.kind === 'user' || col.kind === 'ss27' ? (
-                      <Popover
-                        modal={false}
-                        open={openCollDescId === col.id}
-                        onOpenChange={(o) => {
-                          if (o) {
-                            setOpenCollDescId(col.id);
-                            if (col.kind === 'ss27') setCollDescDraft(col.description ?? '');
-                          } else {
-                            setOpenCollDescId(null);
-                          }
-                        }}
-                      >
-                        <PopoverTrigger asChild>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            className="h-6 w-6 shrink-0 rounded-md border border-slate-200/80 bg-white/95 shadow-sm hover:bg-white"
-                            aria-label="Описание коллекции"
-                            title="Описание коллекции"
-                          >
-                            <FileText className="h-3 w-3 text-slate-600" aria-hidden />
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent
-                          className="w-[min(100vw-2rem,18rem)] p-3 text-[11px]"
-                          align="start"
-                          side="bottom"
-                          sideOffset={6}
-                          onCloseAutoFocus={(e) => e.preventDefault()}
+      <div className="w-full min-w-0">
+        <div className="grid w-full min-w-0 grid-cols-1 items-stretch gap-4 min-[520px]:grid-cols-2 lg:grid-cols-4">
+          {filteredCols.map((col) => {
+            const metrics = metricsByCollectionId[col.id] ?? {
+              status: 'draft' as const,
+              progressPct: 0,
+              articleCount: 0,
+            };
+            const listOpen = w2col === col.id;
+            const fullCardTitle = `${col.displayName} · ${col.id}`;
+            return (
+              <div key={col.id} className="flex h-full min-h-0 w-full min-w-0 flex-col">
+                <Card
+                  className={cn(
+                    'relative mx-auto flex h-full min-h-[18rem] w-full max-w-[21rem] flex-col overflow-hidden border-2 transition-all min-[520px]:mx-0 min-[520px]:max-w-full',
+                    'focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-400/50 focus-within:ring-offset-2',
+                    listOpen
+                      ? 'border-indigo-400 bg-indigo-50/50 shadow-md ring-2 ring-indigo-200/70 ring-offset-1'
+                      : 'border-slate-100'
+                  )}
+                >
+                  {col.kind === 'user' || col.kind === 'ss27' || tab === 'active' ? (
+                    <div
+                      className="absolute left-1 top-1 z-[4] flex max-w-[calc(100%-0.75rem)] flex-wrap items-center gap-0.5"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {col.kind === 'user' || col.kind === 'ss27' ? (
+                        <Popover
+                          modal={false}
+                          open={openCollDescId === col.id}
+                          onOpenChange={(o) => {
+                            if (o) {
+                              setOpenCollDescId(col.id);
+                              if (col.kind === 'ss27') setCollDescDraft(col.description ?? '');
+                            } else {
+                              setOpenCollDescId(null);
+                            }
+                          }}
                         >
-                          <p className="font-semibold text-slate-900 mb-1.5">Описание</p>
-                          {col.kind === 'user' ? (
-                            <>
-                              <p className="text-slate-600 leading-relaxed text-[12px] whitespace-pre-wrap break-words">
-                                {col.description?.trim() ? col.description.trim() : 'Не заполнено.'}
-                              </p>
+                          <PopoverTrigger asChild>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              className="h-6 w-6 shrink-0 rounded-md border border-slate-200/80 bg-white/95 shadow-sm hover:bg-white"
+                              aria-label="Описание коллекции"
+                              title="Описание коллекции"
+                            >
+                              <FileText className="h-3 w-3 text-slate-600" aria-hidden />
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent
+                            className="w-[min(100vw-2rem,18rem)] p-3 text-[11px]"
+                            align="start"
+                            side="bottom"
+                            sideOffset={6}
+                            onCloseAutoFocus={(e) => e.preventDefault()}
+                          >
+                            <p className="mb-1.5 font-semibold text-slate-900">Описание</p>
+                            {col.kind === 'user' ? (
+                              <>
+                                <p className="whitespace-pre-wrap break-words text-[12px] leading-relaxed text-slate-600">
+                                  {col.description?.trim()
+                                    ? col.description.trim()
+                                    : 'Не заполнено.'}
+                                </p>
+                                <Button
+                                  type="button"
+                                  variant="link"
+                                  className="mt-2 h-auto p-0 text-[11px]"
+                                  onClick={() => {
+                                    setOpenCollDescId(null);
+                                    openUserCollectionEdit(col);
+                                  }}
+                                >
+                                  Изменить в форме
+                                </Button>
+                              </>
+                            ) : (
+                              <>
+                                <Label htmlFor={`w2-ss27-desc-${col.id}`} className="sr-only">
+                                  Текст описания
+                                </Label>
+                                <Textarea
+                                  id={`w2-ss27-desc-${col.id}`}
+                                  value={collDescDraft}
+                                  onChange={(e) => setCollDescDraft(e.target.value)}
+                                  rows={4}
+                                  placeholder="Кратко о подборке…"
+                                  className="mt-1 resize-none text-xs"
+                                  aria-label="Описание подборки SS27"
+                                />
+                                <div className="mt-2 flex justify-end gap-2">
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    className="h-8 text-[11px]"
+                                    onClick={() => setOpenCollDescId(null)}
+                                  >
+                                    Отмена
+                                  </Button>
+                                  <Button
+                                    type="button"
+                                    size="sm"
+                                    className="h-8 text-[11px]"
+                                    onClick={() => {
+                                      if (
+                                        onUpdateSs27Meta({
+                                          description: collDescDraft.trim(),
+                                        })
+                                      ) {
+                                        appendWorkshop2Activity(
+                                          `Описание подборки «${col.displayName}» (${col.id})`,
+                                          createdByLabel
+                                        );
+                                        setOpenCollDescId(null);
+                                      }
+                                    }}
+                                  >
+                                    Сохранить
+                                  </Button>
+                                </div>
+                              </>
+                            )}
+                          </PopoverContent>
+                        </Popover>
+                      ) : null}
+                      {col.kind === 'user' || col.kind === 'ss27' ? (
+                        <Popover
+                          open={openCollNoteId === col.id}
+                          onOpenChange={(o) => {
+                            if (o) {
+                              setCollNoteDraft(col.teamNote ?? '');
+                              setOpenCollNoteId(col.id);
+                            } else {
+                              setOpenCollNoteId(null);
+                            }
+                          }}
+                        >
+                          <PopoverTrigger asChild>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              className="h-6 w-6 shrink-0 rounded-md border border-slate-200/80 bg-white/95 shadow-sm hover:bg-white"
+                              aria-label="Заметка для команды"
+                              title="Заметка для команды"
+                            >
+                              <MessageSquare className="h-3 w-3 text-slate-600" aria-hidden />
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent
+                            className="w-[min(100vw-2rem,20rem)] p-3"
+                            align="start"
+                            side="bottom"
+                            sideOffset={6}
+                          >
+                            <p className="mb-1.5 text-[11px] font-semibold text-slate-900">
+                              Заметка для команды
+                            </p>
+                            <Textarea
+                              value={collNoteDraft}
+                              onChange={(e) => setCollNoteDraft(e.target.value)}
+                              rows={4}
+                              placeholder="Контекст, ссылки, кто отвечает…"
+                              className="resize-none text-xs"
+                              aria-label="Текст заметки"
+                            />
+                            <div className="mt-2 flex justify-end gap-2">
                               <Button
                                 type="button"
-                                variant="link"
-                                className="h-auto p-0 mt-2 text-[11px]"
-                                onClick={() => {
-                                  setOpenCollDescId(null);
-                                  openUserCollectionEdit(col);
-                                }}
+                                variant="outline"
+                                size="sm"
+                                className="h-8 text-[11px]"
+                                onClick={() => setOpenCollNoteId(null)}
                               >
-                                Изменить в форме
+                                Отмена
                               </Button>
-                            </>
-                          ) : (
-                            <>
-                              <Label htmlFor={`w2-ss27-desc-${col.id}`} className="sr-only">
-                                Текст описания
-                              </Label>
-                              <Textarea
-                                id={`w2-ss27-desc-${col.id}`}
-                                value={collDescDraft}
-                                onChange={(e) => setCollDescDraft(e.target.value)}
-                                rows={4}
-                                placeholder="Кратко о подборке…"
-                                className="text-xs resize-none mt-1"
-                                aria-label="Описание подборки SS27"
-                              />
-                              <div className="flex justify-end gap-2 mt-2">
-                                <Button
-                                  type="button"
-                                  variant="outline"
-                                  size="sm"
-                                  className="h-8 text-[11px]"
-                                  onClick={() => setOpenCollDescId(null)}
-                                >
-                                  Отмена
-                                </Button>
-                                <Button
-                                  type="button"
-                                  size="sm"
-                                  className="h-8 text-[11px]"
-                                  onClick={() => {
+                              <Button
+                                type="button"
+                                size="sm"
+                                className="h-8 text-[11px]"
+                                onClick={() => {
+                                  if (col.kind === 'user') {
+                                    const row = getUserCollectionRow(col.id);
+                                    if (!row) return;
                                     if (
-                                      onUpdateSs27Meta({
-                                        description: collDescDraft.trim(),
+                                      onUpdateUserCollection(col.id, {
+                                        name: row.name,
+                                        teamNote: collNoteDraft.trim(),
                                       })
                                     ) {
                                       appendWorkshop2Activity(
-                                        `Описание подборки «${col.displayName}» (${col.id})`,
+                                        `Заметка коллекции «${col.displayName}» (${col.id})`,
                                         createdByLabel
                                       );
-                                      setOpenCollDescId(null);
+                                      setOpenCollNoteId(null);
                                     }
-                                  }}
-                                >
-                                  Сохранить
-                                </Button>
-                              </div>
-                            </>
-                          )}
-                        </PopoverContent>
-                      </Popover>
-                    ) : null}
-                    {col.kind === 'user' || col.kind === 'ss27' ? (
-                      <Popover
-                        open={openCollNoteId === col.id}
-                        onOpenChange={(o) => {
-                          if (o) {
-                            setCollNoteDraft(col.teamNote ?? '');
-                            setOpenCollNoteId(col.id);
-                          } else {
-                            setOpenCollNoteId(null);
-                          }
-                        }}
-                      >
-                        <PopoverTrigger asChild>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            className="h-6 w-6 shrink-0 rounded-md border border-slate-200/80 bg-white/95 shadow-sm hover:bg-white"
-                            aria-label="Заметка для команды"
-                            title="Заметка для команды"
-                          >
-                            <MessageSquare className="h-3 w-3 text-slate-600" aria-hidden />
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent
-                          className="w-[min(100vw-2rem,20rem)] p-3"
-                          align="start"
-                          side="bottom"
-                          sideOffset={6}
-                        >
-                          <p className="text-[11px] font-semibold text-slate-900 mb-1.5">
-                            Заметка для команды
-                          </p>
-                          <Textarea
-                            value={collNoteDraft}
-                            onChange={(e) => setCollNoteDraft(e.target.value)}
-                            rows={4}
-                            placeholder="Контекст, ссылки, кто отвечает…"
-                            className="text-xs resize-none"
-                            aria-label="Текст заметки"
-                          />
-                          <div className="flex justify-end gap-2 mt-2">
+                                  } else if (col.kind === 'ss27') {
+                                    if (
+                                      onUpdateSs27Meta({
+                                        teamNote: collNoteDraft.trim(),
+                                      })
+                                    ) {
+                                      appendWorkshop2Activity(
+                                        `Заметка подборки «${col.displayName}» (${col.id})`,
+                                        createdByLabel
+                                      );
+                                      setOpenCollNoteId(null);
+                                    }
+                                  }
+                                }}
+                              >
+                                Сохранить
+                              </Button>
+                            </div>
+                          </PopoverContent>
+                        </Popover>
+                      ) : null}
+                      {col.kind === 'user' || col.kind === 'ss27' ? (
+                        <Tooltip>
+                          <TooltipTrigger asChild>
                             <Button
                               type="button"
-                              variant="outline"
-                              size="sm"
-                              className="h-8 text-[11px]"
-                              onClick={() => setOpenCollNoteId(null)}
-                            >
-                              Отмена
-                            </Button>
-                            <Button
-                              type="button"
-                              size="sm"
-                              className="h-8 text-[11px]"
-                              onClick={() => {
+                              variant="ghost"
+                              size="icon"
+                              className="h-6 w-6 shrink-0 rounded-md border border-slate-200/80 bg-white/95 shadow-sm hover:bg-white"
+                              aria-label="Редактировать коллекцию"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
                                 if (col.kind === 'user') {
-                                  const row = getUserCollectionRow(col.id);
-                                  if (!row) return;
-                                  if (
-                                    onUpdateUserCollection(col.id, {
-                                      name: row.name,
-                                      teamNote: collNoteDraft.trim(),
-                                    })
-                                  ) {
-                                    appendWorkshop2Activity(
-                                      `Заметка коллекции «${col.displayName}» (${col.id})`,
-                                      createdByLabel
-                                    );
-                                    setOpenCollNoteId(null);
-                                  }
-                                } else if (col.kind === 'ss27') {
-                                  if (
-                                    onUpdateSs27Meta({
-                                      teamNote: collNoteDraft.trim(),
-                                    })
-                                  ) {
-                                    appendWorkshop2Activity(
-                                      `Заметка подборки «${col.displayName}» (${col.id})`,
-                                      createdByLabel
-                                    );
-                                    setOpenCollNoteId(null);
-                                  }
+                                  openUserCollectionEdit(col);
+                                } else {
+                                  openSs27CollectionCardEdit(col);
                                 }
                               }}
                             >
-                              Сохранить
+                              <Pencil className="h-3 w-3 text-slate-600" aria-hidden />
                             </Button>
-                          </div>
-                        </PopoverContent>
-                      </Popover>
-                    ) : null}
-                    {col.kind === 'user' || col.kind === 'ss27' ? (
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            className="h-6 w-6 shrink-0 rounded-md border border-slate-200/80 bg-white/95 shadow-sm hover:bg-white"
-                            aria-label="Редактировать коллекцию"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              if (col.kind === 'user') {
-                                openUserCollectionEdit(col);
-                              } else {
-                                openSs27CollectionCardEdit(col);
-                              }
-                            }}
-                          >
-                            <Pencil className="h-3 w-3 text-slate-600" aria-hidden />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent side="bottom" className="max-w-[220px] text-[11px]">
-                          Редактировать название, обложку и поля коллекции
-                        </TooltipContent>
-                      </Tooltip>
-                    ) : null}
-                    {tab === 'active' ? (
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button
-                            type="button"
-                            variant={col.pinned ? 'secondary' : 'ghost'}
-                            size="icon"
-                            className={cn(
-                              'h-6 w-6 shrink-0 rounded-md border bg-white/95 shadow-sm hover:bg-white',
-                              col.pinned
-                                ? 'border-indigo-200 bg-indigo-50/90'
-                                : 'border-slate-200/80'
-                            )}
-                            aria-pressed={col.pinned}
-                            aria-label={col.pinned ? 'Снять закрепление' : 'Закрепить первой в списке'}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              onToggleCollectionPin(col.id, !col.pinned);
-                            }}
-                          >
-                            <Pin
+                          </TooltipTrigger>
+                          <TooltipContent side="bottom" className="max-w-[220px] text-[11px]">
+                            Редактировать название, обложку и поля коллекции
+                          </TooltipContent>
+                        </Tooltip>
+                      ) : null}
+                      {tab === 'active' ? (
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              type="button"
+                              variant={col.pinned ? 'secondary' : 'ghost'}
+                              size="icon"
                               className={cn(
-                                'h-3 w-3 motion-safe:transition-opacity',
+                                'h-6 w-6 shrink-0 rounded-md border bg-white/95 shadow-sm hover:bg-white',
                                 col.pinned
-                                  ? 'text-indigo-700 fill-indigo-200/70 motion-safe:animate-pulse'
-                                  : 'text-slate-400'
+                                  ? 'border-indigo-200 bg-indigo-50/90'
+                                  : 'border-slate-200/80'
                               )}
-                              aria-hidden
-                            />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent side="bottom" className="max-w-[260px] text-[11px] leading-snug">
-                          {col.pinned
-                            ? 'Снять гвоздик: карточка остаётся здесь. Новая коллекция или другой гвоздик окажутся выше.'
-                            : 'Закрепить: перенести на первое место. Кто нажат последним — тот сверху.'}
-                        </TooltipContent>
-                      </Tooltip>
-                    ) : null}
-                  </div>
-                ) : null}
-                {col.coverDataUrl ? (
-                  <div className="relative aspect-[16/10] w-full shrink-0 border-b border-slate-100 bg-slate-100">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={col.coverDataUrl}
-                      alt=""
-                      className="absolute inset-0 h-full w-full object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div
-                    className="relative flex aspect-[16/10] w-full shrink-0 items-center justify-center border-b border-slate-100 bg-gradient-to-br from-slate-100 via-indigo-50/80 to-slate-200/90"
-                    aria-hidden
+                              aria-pressed={col.pinned}
+                              aria-label={
+                                col.pinned ? 'Снять закрепление' : 'Закрепить первой в списке'
+                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onToggleCollectionPin(col.id, !col.pinned);
+                              }}
+                            >
+                              <Pin
+                                className={cn(
+                                  'h-3 w-3 motion-safe:transition-opacity',
+                                  col.pinned
+                                    ? 'fill-indigo-200/70 text-indigo-700 motion-safe:animate-pulse'
+                                    : 'text-slate-400'
+                                )}
+                                aria-hidden
+                              />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent
+                            side="bottom"
+                            className="max-w-[260px] text-[11px] leading-snug"
+                          >
+                            {col.pinned
+                              ? 'Снять гвоздик: карточка остаётся здесь. Новая коллекция или другой гвоздик окажутся выше.'
+                              : 'Закрепить: перенести на первое место. Кто нажат последним — тот сверху.'}
+                          </TooltipContent>
+                        </Tooltip>
+                      ) : null}
+                    </div>
+                  ) : null}
+                  {col.coverDataUrl ? (
+                    <div className="relative aspect-[16/10] w-full shrink-0 border-b border-slate-100 bg-slate-100">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={col.coverDataUrl}
+                        alt=""
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      className="relative flex aspect-[16/10] w-full shrink-0 items-center justify-center border-b border-slate-100 bg-gradient-to-br from-slate-100 via-indigo-50/80 to-slate-200/90"
+                      aria-hidden
+                    >
+                      <span className="font-mono text-2xl font-black tracking-tight text-indigo-900/25">
+                        {collectionCoverMonogram(col.id)}
+                      </span>
+                    </div>
+                  )}
+                  <Badge
+                    variant="outline"
+                    className={cn(
+                      'absolute right-2 top-2 z-[1] max-w-[min(10rem,calc(100%-4rem))] truncate text-[9px] font-bold',
+                      workshop2StatusBadgeClass(metrics.status)
+                    )}
                   >
-                    <span className="font-mono text-2xl font-black tracking-tight text-indigo-900/25">
-                      {collectionCoverMonogram(col.id)}
-                    </span>
-                  </div>
-                )}
-                <Badge
-                  variant="outline"
-                  className={cn(
-                    'absolute top-2 right-2 z-[1] max-w-[min(10rem,calc(100%-4rem))] truncate text-[9px] font-bold',
-                    workshop2StatusBadgeClass(metrics.status)
-                  )}
-                >
-                  {metrics.articleCount === 0
-                    ? workshop2StatusLabel('draft')
-                    : workshop2StatusLabel(metrics.status)}
-                </Badge>
-                <CardHeader
-                  className={cn(
-                    'flex min-h-0 flex-1 flex-col gap-2 pb-2 pt-9 px-1.5 text-left sm:gap-2.5',
-                    (col.kind === 'user' || col.kind === 'ss27') && 'pr-[1.375rem] sm:pr-6',
-                    (col.kind === 'user' || col.kind === 'ss27') && tab === 'active' && 'pl-[3.25rem]',
-                    (col.kind === 'user' || col.kind === 'ss27') && tab === 'archive' && 'pl-9',
-                    col.kind !== 'user' && col.kind !== 'ss27' && 'pr-6 sm:pr-8'
-                  )}
-                >
-                  <div className="flex min-h-[5.5rem] min-w-0 flex-1 flex-col justify-center gap-1">
-                    <div className="flex items-start gap-1 min-w-0">
+                    {metrics.articleCount === 0
+                      ? workshop2StatusLabel('draft')
+                      : workshop2StatusLabel(metrics.status)}
+                  </Badge>
+                  <CardHeader
+                    className={cn(
+                      'flex min-h-0 flex-1 flex-col gap-2 px-1.5 pb-2 pt-9 text-left sm:gap-2.5',
+                      (col.kind === 'user' || col.kind === 'ss27') && 'pr-[1.375rem] sm:pr-6',
+                      (col.kind === 'user' || col.kind === 'ss27') &&
+                        tab === 'active' &&
+                        'pl-[3.25rem]',
+                      (col.kind === 'user' || col.kind === 'ss27') && tab === 'archive' && 'pl-9',
+                      col.kind !== 'user' && col.kind !== 'ss27' && 'pr-6 sm:pr-8'
+                    )}
+                  >
+                    <div className="flex min-h-[5.5rem] min-w-0 flex-1 flex-col justify-center gap-1">
+                      <div className="flex min-w-0 items-start gap-1">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <CardTitle
+                              className="line-clamp-2 min-w-0 cursor-default text-left text-sm font-bold leading-snug text-slate-900"
+                              title={fullCardTitle}
+                            >
+                              {col.displayName}
+                            </CardTitle>
+                          </TooltipTrigger>
+                          <TooltipContent
+                            side="bottom"
+                            className="max-w-[280px] text-[11px] leading-snug"
+                          >
+                            <p className="font-semibold">{col.displayName}</p>
+                            <p className="mt-1 font-mono text-[10px] text-slate-500">{col.id}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <CardTitle
-                            className="line-clamp-2 min-w-0 cursor-default text-left text-sm font-bold leading-snug text-slate-900"
-                            title={fullCardTitle}
-                          >
-                            {col.displayName}
-                          </CardTitle>
+                          <p className="flex w-full min-w-0 flex-col gap-0.5 text-[10px] leading-tight text-slate-500">
+                            <span className="shrink-0 text-slate-400">Код коллекции</span>
+                            <span
+                              className="min-w-0 truncate font-mono text-slate-600"
+                              title={col.id}
+                            >
+                              {col.id}
+                            </span>
+                          </p>
                         </TooltipTrigger>
-                        <TooltipContent side="bottom" className="max-w-[280px] text-[11px] leading-snug">
-                          <p className="font-semibold">{col.displayName}</p>
-                          <p className="font-mono text-[10px] text-slate-500 mt-1">{col.id}</p>
+                        <TooltipContent side="bottom" className="max-w-[320px]">
+                          <span className="break-all font-mono text-[11px]">{col.id}</span>
                         </TooltipContent>
                       </Tooltip>
-                    </div>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <p className="flex w-full min-w-0 flex-col gap-0.5 text-[10px] text-slate-500 leading-tight">
-                          <span className="text-slate-400 shrink-0">Код коллекции</span>
-                          <span className="font-mono text-slate-600 truncate min-w-0" title={col.id}>
-                            {col.id}
-                          </span>
-                        </p>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom" className="max-w-[320px]">
-                        <span className="font-mono text-[11px] break-all">{col.id}</span>
-                      </TooltipContent>
-                    </Tooltip>
-                    <div className="min-w-0 w-full max-w-full space-y-0.5 pt-0.5">
-                      {col.cardTimestamps ? (
-                        <>
-                          <p
-                            className="text-[10px] leading-snug text-slate-700 break-words"
-                            title={`${col.cardTimestamps.createdCaption} ${col.cardTimestamps.createdValue}`}
-                          >
-                            <span className="text-slate-400">{col.cardTimestamps.createdCaption}</span>{' '}
-                            <span className="font-medium tabular-nums">{col.cardTimestamps.createdValue}</span>
-                          </p>
-                          {col.cardTimestamps.updatedCaption && col.cardTimestamps.updatedValue ? (
+                      <div className="w-full min-w-0 max-w-full space-y-0.5 pt-0.5">
+                        {col.cardTimestamps ? (
+                          <>
                             <p
-                              className="text-[10px] leading-snug text-slate-700 break-words"
-                              title={`${col.cardTimestamps.updatedCaption} ${col.cardTimestamps.updatedValue}`}
+                              className="break-words text-[10px] leading-snug text-slate-700"
+                              title={`${col.cardTimestamps.createdCaption} ${col.cardTimestamps.createdValue}`}
                             >
-                              <span className="text-slate-400">{col.cardTimestamps.updatedCaption}</span>{' '}
-                              <span className="font-medium tabular-nums">{col.cardTimestamps.updatedValue}</span>
-                            </p>
-                          ) : null}
-                        </>
-                      ) : (
-                        <span className="block text-[10px] leading-snug text-transparent select-none" aria-hidden>
-                          —
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex w-full min-w-0 shrink-0 flex-col gap-2 text-[11px] text-slate-600">
-                    {metrics.articleCount > 0 ? (
-                      <p className="shrink-0 leading-snug">Артикулов: {metrics.articleCount}</p>
-                    ) : null}
-                    <div className="flex min-h-[2.875rem] flex-col justify-end">
-                      {metrics.articleCount === 0 ? (
-                        <p className="text-[10px] text-slate-500 leading-snug">Нет артикулов.</p>
-                      ) : listOpen ? (
-                        <span className="block min-h-[2rem]" aria-hidden />
-                      ) : (
-                        <Fragment>
-                          <div className="flex w-full min-w-0 flex-row flex-nowrap items-center gap-2 text-[10px] text-slate-600">
-                            <span className="shrink-0 whitespace-nowrap font-semibold text-slate-700">
-                              Общая готовность
-                            </span>
-                            <Progress
-                              value={metrics.progressPct}
-                              className="h-2.5 min-w-0 flex-1 basis-0"
-                            />
-                            <div className="flex shrink-0 items-center gap-0.5">
-                              <span className="whitespace-nowrap font-black tabular-nums text-base text-indigo-900">
-                                {metrics.progressPct}%
+                              <span className="text-slate-400">
+                                {col.cardTimestamps.createdCaption}
+                              </span>{' '}
+                              <span className="font-medium tabular-nums">
+                                {col.cardTimestamps.createdValue}
                               </span>
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <button
-                                    type="button"
-                                    className="rounded-full p-0.5 text-slate-400 hover:text-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
-                                    aria-label="Как считается готовность"
-                                  >
-                                    <CircleAlert className="h-3.5 w-3.5" aria-hidden />
-                                  </button>
-                                </TooltipTrigger>
-                                <TooltipContent side="left" className="max-w-[260px] text-[11px] leading-snug">
-                                  {READINESS_HELP}
-                                </TooltipContent>
-                              </Tooltip>
-                            </div>
-                          </div>
-                          {(() => {
-                            const rollup = dossierRollupByCollectionId[col.id];
-                            if (!rollup || rollup.withDossierCount === 0) return null;
-                            return (
-                              <p className="mt-1 text-[9px] leading-snug text-slate-500">
-                                <span className="font-semibold text-slate-600">ТЗ (local):</span> ~{rollup.avgTzPct}% ·
-                                образец {rollup.readyForSampleCount}/{rollup.withDossierCount}
-                                {rollup.bomPinCount > 0 ? (
-                                  <span className="text-teal-700"> · BOM ref: {rollup.bomPinCount}</span>
-                                ) : null}
-                                {rollup.overdueSlaCount > 0 ? (
-                                  <span className="font-semibold text-rose-600">
-                                    {' '}
-                                    · SLA просрочено: {rollup.overdueSlaCount}
-                                  </span>
-                                ) : null}
-                                {rollup.weakApprovalsCount > 0 ? (
-                                  <span className="text-amber-800">
-                                    {' '}
-                                    · без подписей: {rollup.weakApprovalsCount} арт.
-                                  </span>
-                                ) : null}
+                            </p>
+                            {col.cardTimestamps.updatedCaption &&
+                            col.cardTimestamps.updatedValue ? (
+                              <p
+                                className="break-words text-[10px] leading-snug text-slate-700"
+                                title={`${col.cardTimestamps.updatedCaption} ${col.cardTimestamps.updatedValue}`}
+                              >
+                                <span className="text-slate-400">
+                                  {col.cardTimestamps.updatedCaption}
+                                </span>{' '}
+                                <span className="font-medium tabular-nums">
+                                  {col.cardTimestamps.updatedValue}
+                                </span>
                               </p>
-                            );
-                          })()}
-                        </Fragment>
+                            ) : null}
+                          </>
+                        ) : (
+                          <span
+                            className="block select-none text-[10px] leading-snug text-transparent"
+                            aria-hidden
+                          >
+                            —
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex w-full min-w-0 shrink-0 flex-col gap-2 text-[11px] text-slate-600">
+                      {metrics.articleCount > 0 ? (
+                        <p className="shrink-0 leading-snug">Артикулов: {metrics.articleCount}</p>
+                      ) : null}
+                      <div className="flex min-h-[2.875rem] flex-col justify-end">
+                        {metrics.articleCount === 0 ? (
+                          <p className="text-[10px] leading-snug text-slate-500">Нет артикулов.</p>
+                        ) : listOpen ? (
+                          <span className="block min-h-[2rem]" aria-hidden />
+                        ) : (
+                          <Fragment>
+                            <div className="flex w-full min-w-0 flex-row flex-nowrap items-center gap-2 text-[10px] text-slate-600">
+                              <span className="shrink-0 whitespace-nowrap font-semibold text-slate-700">
+                                Общая готовность
+                              </span>
+                              <Progress
+                                value={metrics.progressPct}
+                                className="h-2.5 min-w-0 flex-1 basis-0"
+                              />
+                              <div className="flex shrink-0 items-center gap-0.5">
+                                <span className="whitespace-nowrap text-base font-black tabular-nums text-indigo-900">
+                                  {metrics.progressPct}%
+                                </span>
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <button
+                                      type="button"
+                                      className="rounded-full p-0.5 text-slate-400 hover:text-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                                      aria-label="Как считается готовность"
+                                    >
+                                      <CircleAlert className="h-3.5 w-3.5" aria-hidden />
+                                    </button>
+                                  </TooltipTrigger>
+                                  <TooltipContent
+                                    side="left"
+                                    className="max-w-[260px] text-[11px] leading-snug"
+                                  >
+                                    {READINESS_HELP}
+                                  </TooltipContent>
+                                </Tooltip>
+                              </div>
+                            </div>
+                            {(() => {
+                              const rollup = dossierRollupByCollectionId[col.id];
+                              if (!rollup || rollup.withDossierCount === 0) return null;
+                              return (
+                                <p className="mt-1 text-[9px] leading-snug text-slate-500">
+                                  <span className="font-semibold text-slate-600">ТЗ (local):</span>{' '}
+                                  ~{rollup.avgTzPct}% · образец {rollup.readyForSampleCount}/
+                                  {rollup.withDossierCount}
+                                  {rollup.bomPinCount > 0 ? (
+                                    <span className="text-teal-700">
+                                      {' '}
+                                      · BOM ref: {rollup.bomPinCount}
+                                    </span>
+                                  ) : null}
+                                  {rollup.overdueSlaCount > 0 ? (
+                                    <span className="font-semibold text-rose-600">
+                                      {' '}
+                                      · SLA просрочено: {rollup.overdueSlaCount}
+                                    </span>
+                                  ) : null}
+                                  {rollup.weakApprovalsCount > 0 ? (
+                                    <span className="text-amber-800">
+                                      {' '}
+                                      · без подписей: {rollup.weakApprovalsCount} арт.
+                                    </span>
+                                  ) : null}
+                                </p>
+                              );
+                            })()}
+                          </Fragment>
+                        )}
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="mt-auto flex min-h-[4.75rem] shrink-0 flex-col items-center justify-end gap-1.5 px-1.5 pb-2.5 pt-0 sm:pb-3">
+                    <Button
+                      type="button"
+                      variant={listOpen ? 'secondary' : 'default'}
+                      size="sm"
+                      className="h-7 min-w-[9rem] max-w-[85%] px-4 text-[9px] font-black uppercase tracking-wide"
+                      onClick={() => selectCollection(col.id)}
+                    >
+                      {listOpen ? 'Свернуть список' : 'Выбрать коллекцию'}
+                    </Button>
+                    <div className="flex min-h-[1.375rem] w-full flex-col items-center justify-center">
+                      {tab === 'active' ? (
+                        <Button
+                          type="button"
+                          variant="link"
+                          className="h-auto px-2 py-0 text-[9px] font-normal text-slate-400 no-underline hover:text-slate-600"
+                          onClick={() =>
+                            setArchiveConfirm({
+                              id: col.id,
+                              displayName: col.displayName,
+                              isSs27: col.kind === 'ss27',
+                            })
+                          }
+                        >
+                          Убрать в архив
+                        </Button>
+                      ) : (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          className="h-6 px-2 text-[9px] text-indigo-700 hover:text-indigo-900"
+                          onClick={() => restoreOne(col.id)}
+                        >
+                          Восстановить
+                        </Button>
                       )}
                     </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="mt-auto flex min-h-[4.75rem] shrink-0 flex-col items-center justify-end gap-1.5 px-1.5 pb-2.5 pt-0 sm:pb-3">
-                  <Button
-                    type="button"
-                    variant={listOpen ? 'secondary' : 'default'}
-                    size="sm"
-                    className="h-7 min-w-[9rem] max-w-[85%] px-4 text-[9px] font-black uppercase tracking-wide"
-                    onClick={() => selectCollection(col.id)}
-                  >
-                    {listOpen ? 'Свернуть список' : 'Выбрать коллекцию'}
-                  </Button>
-                  <div className="flex min-h-[1.375rem] w-full flex-col items-center justify-center">
-                    {tab === 'active' ? (
-                      <Button
-                        type="button"
-                        variant="link"
-                        className="h-auto px-2 py-0 text-[9px] font-normal text-slate-400 no-underline hover:text-slate-600"
-                        onClick={() =>
-                          setArchiveConfirm({
-                            id: col.id,
-                            displayName: col.displayName,
-                            isSs27: col.kind === 'ss27',
-                          })
-                        }
-                      >
-                        Убрать в архив
-                      </Button>
-                    ) : (
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        className="h-6 px-2 text-[9px] text-indigo-700 hover:text-indigo-900"
-                        onClick={() => restoreOne(col.id)}
-                      >
-                        Восстановить
-                      </Button>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          );
-        })}
+                  </CardContent>
+                </Card>
+              </div>
+            );
+          })}
+        </div>
+        {renderArticlesPanel(cols)}
       </div>
-      {renderArticlesPanel(cols)}
-    </div>
     );
   };
 
   return (
     <TooltipProvider delayDuration={200}>
-    <div className="space-y-5">
-      <PageHeader
-        title="Цех 2"
-        description={PAGE_SUBTITLE}
-        className="mb-0 border-b border-slate-200/80 pb-4"
-        actions={
-          <div className="flex flex-wrap items-center justify-end gap-2">
-            <Tooltip>
-              <TooltipTrigger asChild>
+      <div className="space-y-5">
+        <PageHeader
+          title="Цех 2"
+          description={PAGE_SUBTITLE}
+          className="mb-0 border-b border-slate-200/80 pb-4"
+          actions={
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="h-9 w-9 shrink-0"
+                    aria-label="История действий"
+                    onClick={() => {
+                      setHistoryEntries(loadWorkshop2Activity());
+                      setHistoryOpen(true);
+                    }}
+                  >
+                    <History className="h-4 w-4" aria-hidden />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">История</TooltipContent>
+              </Tooltip>
+              {listTab === 'active' ? (
+                <Button
+                  type="button"
+                  size="sm"
+                  className="h-9 gap-1.5 text-[10px] font-black uppercase"
+                  onClick={() => setCreateOpen(true)}
+                >
+                  <Plus className="h-4 w-4" aria-hidden />
+                  Создать коллекцию
+                </Button>
+              ) : (
+                <span className="max-w-[14rem] text-[10px] leading-snug text-slate-500">
+                  Архив хранится в этом браузере.
+                </span>
+              )}
+            </div>
+          }
+        />
+
+        <details className="group rounded-lg border border-slate-200 bg-slate-50/80 shadow-sm">
+          <summary className="flex cursor-pointer list-none items-center gap-2 px-3 py-2.5 text-left text-xs font-semibold text-slate-800 [&::-webkit-details-marker]:hidden">
+            <ClipboardList className="h-4 w-4 shrink-0 text-indigo-600" aria-hidden />
+            <span>Пилот Цеха 2 — чеклист и обратная связь</span>
+            <ChevronDown className="ml-auto h-4 w-4 shrink-0 text-slate-400 transition group-open:rotate-180" />
+          </summary>
+          <div className="space-y-3 border-t border-slate-200 bg-white px-3 py-3 text-[11px] leading-snug text-slate-700">
+            <ol className="list-decimal space-y-1.5 pl-4">
+              <li>Создайте коллекцию и добавьте SKU — данные остаются в этом браузере.</li>
+              <li>Откройте артикул → ТЗ: заполните паспорт, SLA по ролям и материалы (BOM).</li>
+              <li>Поставьте метки на скетче; при необходимости привяжите ref к строке из досье.</li>
+              <li>Согласуйте цифровые подписи и скачайте PDF handoff для передачи в цех.</li>
+              <li>
+                Зафиксируйте замечания по пилоту — письмом или в переписке с командой продукта.
+              </li>
+            </ol>
+            <a
+              className="inline-flex items-center gap-1 font-semibold text-indigo-700 hover:underline"
+              href={`mailto:?subject=${encodeURIComponent('Пилот Цеха 2 — обратная связь')}&body=${encodeURIComponent('Коллекция / SKU:\n\nЧто сработало:\n\nЧто мешает:\n')}`}
+            >
+              Открыть шаблон письма (mailto)
+            </a>
+          </div>
+        </details>
+
+        <Tabs
+          value={listTab}
+          onValueChange={(v) => {
+            const t = v as 'active' | 'archive';
+            if (t !== listTab) {
+              appendWorkshop2Activity(
+                t === 'archive' ? 'Вкладка: Архив' : 'Вкладка: Активные',
+                createdByLabel
+              );
+            }
+            setListTab(t);
+          }}
+          className="w-full"
+        >
+          <div className="flex flex-wrap items-center gap-3">
+            <TabsList className="h-9">
+              <TabsTrigger value="active" className="px-3 text-xs">
+                Активные
+              </TabsTrigger>
+              <TabsTrigger value="archive" className="px-3 text-xs">
+                Архив
+              </TabsTrigger>
+            </TabsList>
+          </div>
+
+          <FilterToolbar className="mt-3 border-slate-200 bg-slate-50/70 p-2 sm:p-2.5">
+            <div className="flex w-full min-w-0 flex-wrap items-end gap-x-2 gap-y-2 sm:gap-x-2.5">
+              <div className="grid w-[min(100%,11.5rem)] min-w-0 shrink-0 gap-0.5 sm:w-[min(100%,12.5rem)]">
+                <span className="text-[8px] font-semibold uppercase leading-none tracking-wide text-slate-500">
+                  Фильтр по коллекции
+                </span>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      title="Подборки на этой вкладке. Остаются только карточки выбранных коллекций."
+                      className="h-9 w-full justify-between gap-1.5 px-2.5 text-left text-xs font-normal"
+                    >
+                      <span className="truncate text-slate-700">
+                        {collectionOptionsForGridFilter.length === 0
+                          ? 'Нет коллекций'
+                          : gridSelectedCollectionIds.size === 0
+                            ? 'Коллекции…'
+                            : `Выбрано: ${gridSelectedCollectionIds.size}`}
+                      </span>
+                      <ChevronDown className="h-3.5 w-3.5 shrink-0 text-slate-500" aria-hidden />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[min(100vw-2rem,26rem)] p-0" align="start">
+                    {collectionOptionsForGridFilter.length === 0 ? (
+                      <p className="p-3 text-[11px] text-slate-500">
+                        Нет коллекций на этой вкладке.
+                      </p>
+                    ) : (
+                      <div className="max-h-64 space-y-1 overflow-y-auto p-2">
+                        {collectionOptionsForGridFilter.map((opt, idx) => {
+                          const checkId = `w2-grid-col-${opt.id}-${idx}`;
+                          return (
+                            <div
+                              key={opt.id}
+                              className="flex w-full min-w-0 items-start gap-2 rounded-md py-1.5 pl-1 pr-0.5 hover:bg-slate-50"
+                            >
+                              <Checkbox
+                                id={checkId}
+                                checked={gridSelectedCollectionIds.has(opt.id)}
+                                onCheckedChange={() => {
+                                  setGridSelectedCollectionIds((prev) => {
+                                    const n = new Set(prev);
+                                    if (n.has(opt.id)) n.delete(opt.id);
+                                    else n.add(opt.id);
+                                    return n;
+                                  });
+                                }}
+                                className="mt-0.5 shrink-0"
+                              />
+                              <label
+                                htmlFor={checkId}
+                                className="min-w-0 flex-1 cursor-pointer text-left leading-snug"
+                              >
+                                <span className="block text-[11px] font-medium text-slate-900">
+                                  {opt.displayName}
+                                </span>
+                                <span className="mt-0.5 block font-mono text-[9px] text-slate-500">
+                                  {opt.id}
+                                </span>
+                              </label>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </PopoverContent>
+                </Popover>
+              </div>
+              <div className="grid w-[min(100%,11.5rem)] min-w-0 shrink-0 gap-0.5 sm:w-[min(100%,12.5rem)]">
+                <span className="text-[8px] font-semibold uppercase leading-none tracking-wide text-slate-500">
+                  Фильтр по артикулу
+                </span>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      title="Список из каталога заказа и локальных подборок. Остаются карточки коллекций, где есть выбранный артикул."
+                      className="h-9 w-full justify-between gap-1.5 px-2.5 text-left text-xs font-normal"
+                    >
+                      <span className="truncate text-slate-700">
+                        {skuCatalogForFilters.length === 0
+                          ? 'Нет в каталоге'
+                          : gridSelectedSkus.size === 0
+                            ? 'Артикулы…'
+                            : `Выбрано: ${gridSelectedSkus.size}`}
+                      </span>
+                      <ChevronDown className="h-3.5 w-3.5 shrink-0 text-slate-500" aria-hidden />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[min(100vw-2rem,26rem)] p-0" align="start">
+                    {skuCatalogForFilters.length === 0 ? (
+                      <p className="p-3 text-[11px] text-slate-500">
+                        В каталоге заказа пока нет артикулов для фильтра.
+                      </p>
+                    ) : (
+                      <div className="max-h-64 space-y-1 overflow-y-auto p-2">
+                        {skuCatalogForFilters.map((row, idx) => {
+                          const facetLine = [
+                            row.audienceLabel?.trim() || '—',
+                            `L1 ${row.categoryL1?.trim() || '—'}`,
+                            `L2 ${row.categoryL2?.trim() || '—'}`,
+                            `L3 ${row.categoryL3?.trim() || '—'}`,
+                          ].join(' · ');
+                          const checkId = `w2-grid-sku-${idx}`;
+                          return (
+                            <Tooltip key={row.skuNorm}>
+                              <TooltipTrigger asChild>
+                                <div className="flex w-full min-w-0 cursor-default items-start gap-2 rounded-md py-1.5 pl-1 pr-0.5 hover:bg-slate-50">
+                                  <Checkbox
+                                    id={checkId}
+                                    checked={gridSelectedSkus.has(row.skuNorm)}
+                                    onCheckedChange={() => {
+                                      setGridSelectedSkus((prev) => {
+                                        const n = new Set(prev);
+                                        if (n.has(row.skuNorm)) n.delete(row.skuNorm);
+                                        else n.add(row.skuNorm);
+                                        return n;
+                                      });
+                                    }}
+                                    className="mt-0.5 shrink-0"
+                                  />
+                                  <label
+                                    htmlFor={checkId}
+                                    className="min-w-0 flex-1 cursor-pointer text-left leading-snug"
+                                  >
+                                    <span className="block font-mono text-[11px] font-medium text-slate-900">
+                                      {row.skuLabel}
+                                    </span>
+                                    <span className="mt-0.5 block text-[9px] text-slate-500">
+                                      {facetLine}
+                                    </span>
+                                  </label>
+                                </div>
+                              </TooltipTrigger>
+                              <TooltipContent
+                                side="right"
+                                className="max-w-[min(92vw,260px)] border-slate-200 bg-white p-2 shadow-lg"
+                              >
+                                {row.thumb ? (
+                                  <div className="space-y-1.5">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                      src={row.thumb}
+                                      alt={row.skuLabel}
+                                      className="max-h-44 w-full max-w-[220px] rounded-md object-contain"
+                                    />
+                                    <p className="font-mono text-[10px] font-medium text-slate-800">
+                                      {row.skuLabel}
+                                    </p>
+                                    <p className="text-[9px] leading-snug text-slate-500">
+                                      {facetLine}
+                                    </p>
+                                  </div>
+                                ) : (
+                                  <div className="max-w-[220px] space-y-1">
+                                    <p className="text-[11px] text-slate-600">
+                                      Нет фото во вложениях позиции
+                                    </p>
+                                    <p className="font-mono text-[9px] text-slate-600">
+                                      {row.skuLabel}
+                                    </p>
+                                    <p className="text-[9px] leading-snug text-slate-500">
+                                      {facetLine}
+                                    </p>
+                                  </div>
+                                )}
+                              </TooltipContent>
+                            </Tooltip>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </PopoverContent>
+                </Popover>
+              </div>
+              <div className="grid w-[min(100%,11.5rem)] min-w-0 shrink-0 gap-0.5 sm:w-[min(100%,12.5rem)]">
+                <span className="text-[8px] font-semibold uppercase leading-none tracking-wide text-slate-500">
+                  Поиск по странице
+                </span>
                 <Button
                   type="button"
                   variant="outline"
-                  size="icon"
-                  className="h-9 w-9 shrink-0"
-                  aria-label="История действий"
+                  className="h-9 w-full gap-1.5 text-xs font-normal"
                   onClick={() => {
-                    setHistoryEntries(loadWorkshop2Activity());
-                    setHistoryOpen(true);
+                    setGlobalSearchQuery('');
+                    setGlobalSearchOpen(true);
                   }}
                 >
-                  <History className="h-4 w-4" aria-hidden />
+                  <Search className="h-3.5 w-3.5 shrink-0 text-slate-500" aria-hidden />
+                  Найти…
                 </Button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">История</TooltipContent>
-            </Tooltip>
-            {listTab === 'active' ? (
-              <Button
-                type="button"
-                size="sm"
-                className="h-9 gap-1.5 text-[10px] font-black uppercase"
-                onClick={() => setCreateOpen(true)}
-              >
-                <Plus className="h-4 w-4" aria-hidden />
-                Создать коллекцию
-              </Button>
-            ) : (
-              <span className="max-w-[14rem] text-[10px] leading-snug text-slate-500">
-                Архив хранится в этом браузере.
-              </span>
-            )}
-          </div>
-        }
-      />
-
-      <details className="group rounded-lg border border-slate-200 bg-slate-50/80 shadow-sm">
-        <summary className="flex cursor-pointer list-none items-center gap-2 px-3 py-2.5 text-left text-xs font-semibold text-slate-800 [&::-webkit-details-marker]:hidden">
-          <ClipboardList className="h-4 w-4 shrink-0 text-indigo-600" aria-hidden />
-          <span>Пилот Цеха 2 — чеклист и обратная связь</span>
-          <ChevronDown className="ml-auto h-4 w-4 shrink-0 text-slate-400 transition group-open:rotate-180" />
-        </summary>
-        <div className="space-y-3 border-t border-slate-200 bg-white px-3 py-3 text-[11px] leading-snug text-slate-700">
-          <ol className="list-decimal space-y-1.5 pl-4">
-            <li>Создайте коллекцию и добавьте SKU — данные остаются в этом браузере.</li>
-            <li>Откройте артикул → ТЗ: заполните паспорт, SLA по ролям и материалы (BOM).</li>
-            <li>Поставьте метки на скетче; при необходимости привяжите ref к строке из досье.</li>
-            <li>Согласуйте цифровые подписи и скачайте PDF handoff для передачи в цех.</li>
-            <li>Зафиксируйте замечания по пилоту — письмом или в переписке с командой продукта.</li>
-          </ol>
-          <a
-            className="inline-flex items-center gap-1 font-semibold text-indigo-700 hover:underline"
-            href={`mailto:?subject=${encodeURIComponent('Пилот Цеха 2 — обратная связь')}&body=${encodeURIComponent('Коллекция / SKU:\n\nЧто сработало:\n\nЧто мешает:\n')}`}
-          >
-            Открыть шаблон письма (mailto)
-          </a>
-        </div>
-      </details>
-
-      <Tabs
-        value={listTab}
-        onValueChange={(v) => {
-          const t = v as 'active' | 'archive';
-          if (t !== listTab) {
-            appendWorkshop2Activity(
-              t === 'archive' ? 'Вкладка: Архив' : 'Вкладка: Активные',
-              createdByLabel
-            );
-          }
-          setListTab(t);
-        }}
-        className="w-full"
-      >
-        <div className="flex flex-wrap items-center gap-3">
-          <TabsList className="h-9">
-            <TabsTrigger value="active" className="px-3 text-xs">
-              Активные
-            </TabsTrigger>
-            <TabsTrigger value="archive" className="px-3 text-xs">
-              Архив
-            </TabsTrigger>
-          </TabsList>
-        </div>
-
-        <FilterToolbar className="mt-3 border-slate-200 bg-slate-50/70 p-2 sm:p-2.5">
-          <div className="flex w-full min-w-0 flex-wrap items-end gap-x-2 gap-y-2 sm:gap-x-2.5">
-            <div className="grid min-w-0 w-[min(100%,11.5rem)] shrink-0 gap-0.5 sm:w-[min(100%,12.5rem)]">
-              <span className="text-[8px] font-semibold uppercase leading-none tracking-wide text-slate-500">
-                Фильтр по коллекции
-              </span>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    title="Подборки на этой вкладке. Остаются только карточки выбранных коллекций."
-                    className="h-9 w-full justify-between gap-1.5 px-2.5 text-left text-xs font-normal"
-                  >
-                    <span className="truncate text-slate-700">
-                      {collectionOptionsForGridFilter.length === 0
-                        ? 'Нет коллекций'
-                        : gridSelectedCollectionIds.size === 0
-                          ? 'Коллекции…'
-                          : `Выбрано: ${gridSelectedCollectionIds.size}`}
-                    </span>
-                    <ChevronDown className="h-3.5 w-3.5 shrink-0 text-slate-500" aria-hidden />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent
-                  className="w-[min(100vw-2rem,26rem)] p-0"
-                  align="start"
-                >
-                  {collectionOptionsForGridFilter.length === 0 ? (
-                    <p className="p-3 text-[11px] text-slate-500">Нет коллекций на этой вкладке.</p>
-                  ) : (
-                    <div className="max-h-64 overflow-y-auto p-2 space-y-1">
-                      {collectionOptionsForGridFilter.map((opt, idx) => {
-                        const checkId = `w2-grid-col-${opt.id}-${idx}`;
-                        return (
-                          <div
-                            key={opt.id}
-                            className="flex w-full min-w-0 items-start gap-2 rounded-md py-1.5 pl-1 pr-0.5 hover:bg-slate-50"
-                          >
-                            <Checkbox
-                              id={checkId}
-                              checked={gridSelectedCollectionIds.has(opt.id)}
-                              onCheckedChange={() => {
-                                setGridSelectedCollectionIds((prev) => {
-                                  const n = new Set(prev);
-                                  if (n.has(opt.id)) n.delete(opt.id);
-                                  else n.add(opt.id);
-                                  return n;
-                                });
-                              }}
-                              className="mt-0.5 shrink-0"
-                            />
-                            <label
-                              htmlFor={checkId}
-                              className="min-w-0 flex-1 cursor-pointer text-left leading-snug"
-                            >
-                              <span className="block text-[11px] font-medium text-slate-900">
-                                {opt.displayName}
-                              </span>
-                              <span className="mt-0.5 block font-mono text-[9px] text-slate-500">
-                                {opt.id}
-                              </span>
-                            </label>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </PopoverContent>
-              </Popover>
-            </div>
-            <div className="grid min-w-0 w-[min(100%,11.5rem)] shrink-0 gap-0.5 sm:w-[min(100%,12.5rem)]">
-              <span className="text-[8px] font-semibold uppercase leading-none tracking-wide text-slate-500">
-                Фильтр по артикулу
-              </span>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    title="Список из каталога заказа и локальных подборок. Остаются карточки коллекций, где есть выбранный артикул."
-                    className="h-9 w-full justify-between gap-1.5 px-2.5 text-left text-xs font-normal"
-                  >
-                    <span className="truncate text-slate-700">
-                      {skuCatalogForFilters.length === 0
-                        ? 'Нет в каталоге'
-                        : gridSelectedSkus.size === 0
-                          ? 'Артикулы…'
-                          : `Выбрано: ${gridSelectedSkus.size}`}
-                    </span>
-                    <ChevronDown className="h-3.5 w-3.5 shrink-0 text-slate-500" aria-hidden />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent
-                  className="w-[min(100vw-2rem,26rem)] p-0"
-                  align="start"
-                >
-                  {skuCatalogForFilters.length === 0 ? (
-                    <p className="p-3 text-[11px] text-slate-500">
-                      В каталоге заказа пока нет артикулов для фильтра.
-                    </p>
-                  ) : (
-                    <div className="max-h-64 overflow-y-auto p-2 space-y-1">
-                      {skuCatalogForFilters.map((row, idx) => {
-                        const facetLine = [
-                          row.audienceLabel?.trim() || '—',
-                          `L1 ${row.categoryL1?.trim() || '—'}`,
-                          `L2 ${row.categoryL2?.trim() || '—'}`,
-                          `L3 ${row.categoryL3?.trim() || '—'}`,
-                        ].join(' · ');
-                        const checkId = `w2-grid-sku-${idx}`;
-                        return (
-                          <Tooltip key={row.skuNorm}>
-                            <TooltipTrigger asChild>
-                              <div className="flex w-full min-w-0 cursor-default items-start gap-2 rounded-md py-1.5 pl-1 pr-0.5 hover:bg-slate-50">
-                                <Checkbox
-                                  id={checkId}
-                                  checked={gridSelectedSkus.has(row.skuNorm)}
-                                  onCheckedChange={() => {
-                                    setGridSelectedSkus((prev) => {
-                                      const n = new Set(prev);
-                                      if (n.has(row.skuNorm)) n.delete(row.skuNorm);
-                                      else n.add(row.skuNorm);
-                                      return n;
-                                    });
-                                  }}
-                                  className="mt-0.5 shrink-0"
-                                />
-                                <label
-                                  htmlFor={checkId}
-                                  className="min-w-0 flex-1 cursor-pointer text-left leading-snug"
-                                >
-                                  <span className="block font-mono text-[11px] font-medium text-slate-900">
-                                    {row.skuLabel}
-                                  </span>
-                                  <span className="mt-0.5 block text-[9px] text-slate-500">{facetLine}</span>
-                                </label>
-                              </div>
-                            </TooltipTrigger>
-                            <TooltipContent
-                              side="right"
-                              className="border-slate-200 bg-white p-2 shadow-lg max-w-[min(92vw,260px)]"
-                            >
-                              {row.thumb ? (
-                                <div className="space-y-1.5">
-                                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                                  <img
-                                    src={row.thumb}
-                                    alt={row.skuLabel}
-                                    className="max-h-44 w-full max-w-[220px] rounded-md object-contain"
-                                  />
-                                  <p className="font-mono text-[10px] font-medium text-slate-800">
-                                    {row.skuLabel}
-                                  </p>
-                                  <p className="text-[9px] leading-snug text-slate-500">{facetLine}</p>
-                                </div>
-                              ) : (
-                                <div className="space-y-1 max-w-[220px]">
-                                  <p className="text-[11px] text-slate-600">Нет фото во вложениях позиции</p>
-                                  <p className="font-mono text-[9px] text-slate-600">{row.skuLabel}</p>
-                                  <p className="text-[9px] leading-snug text-slate-500">{facetLine}</p>
-                                </div>
-                              )}
-                            </TooltipContent>
-                          </Tooltip>
-                        );
-                      })}
-                    </div>
-                  )}
-                </PopoverContent>
-              </Popover>
-            </div>
-            <div className="grid min-w-0 w-[min(100%,11.5rem)] shrink-0 gap-0.5 sm:w-[min(100%,12.5rem)]">
-              <span className="text-[8px] font-semibold uppercase leading-none tracking-wide text-slate-500">
-                Поиск по странице
-              </span>
+              </div>
               <Button
                 type="button"
                 variant="outline"
-                className="h-9 w-full gap-1.5 text-xs font-normal"
+                size="sm"
+                className="h-9 shrink-0 px-3 text-[10px] font-semibold"
                 onClick={() => {
-                  setGlobalSearchQuery('');
-                  setGlobalSearchOpen(true);
+                  setGridSelectedCollectionIds(new Set());
+                  setGridSelectedSkus(new Set());
                 }}
               >
-                <Search className="h-3.5 w-3.5 shrink-0 text-slate-500" aria-hidden />
-                Найти…
+                Сбросить фильтры
               </Button>
+              <div className="flex h-9 min-w-0 flex-1 basis-full items-center justify-end border-t border-slate-200/60 pt-2 sm:basis-auto sm:border-0 sm:pt-0">
+                <p className="whitespace-nowrap text-right text-[10px] text-slate-500">
+                  Показано{' '}
+                  <span className="font-semibold tabular-nums text-slate-800">
+                    {filteredCollectionsCount}/{collectionsForCurrentTab.length}
+                  </span>
+                </p>
+              </div>
             </div>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="h-9 shrink-0 px-3 text-[10px] font-semibold"
-              onClick={() => {
-                setGridSelectedCollectionIds(new Set());
-                setGridSelectedSkus(new Set());
-              }}
-            >
-              Сбросить фильтры
-            </Button>
-            <div className="flex h-9 min-w-0 flex-1 basis-full items-center justify-end border-t border-slate-200/60 pt-2 sm:basis-auto sm:border-0 sm:pt-0">
-              <p className="whitespace-nowrap text-right text-[10px] text-slate-500">
-                Показано{' '}
-                <span className="font-semibold tabular-nums text-slate-800">
-                  {filteredCollectionsCount}/{collectionsForCurrentTab.length}
-                </span>
+          </FilterToolbar>
+
+          <TabsContent value="active" className="mt-4">
+            {activeCollections.length === 0 ? (
+              <EmptyState
+                title="Нет активных коллекций"
+                description="Создайте подборку или восстановите запись из архива."
+              >
+                <Button
+                  type="button"
+                  size="sm"
+                  className="h-9 gap-1.5 text-[10px] font-black uppercase"
+                  onClick={() => setCreateOpen(true)}
+                >
+                  <Plus className="h-4 w-4" aria-hidden />
+                  Создать коллекцию
+                </Button>
+              </EmptyState>
+            ) : (
+              renderCollectionGrid(activeCollections, 'active')
+            )}
+          </TabsContent>
+
+          <TabsContent value="archive" className="mt-4">
+            {archivedCollections.length === 0 ? (
+              <EmptyState
+                title="В архиве пусто"
+                description="Переключитесь на активные коллекции или восстановите запись."
+              >
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="text-[10px] font-semibold"
+                  onClick={() => setListTab('active')}
+                >
+                  К активным
+                </Button>
+              </EmptyState>
+            ) : (
+              renderCollectionGrid(archivedCollections, 'archive')
+            )}
+          </TabsContent>
+        </Tabs>
+
+        <Dialog open={globalSearchOpen} onOpenChange={setGlobalSearchOpen}>
+          <DialogContent
+            className="flex max-h-[85vh] flex-col sm:max-w-lg"
+            aria-describedby="w2-glob-search-desc"
+          >
+            <DialogHeader>
+              <DialogTitle>Поиск по странице</DialogTitle>
+              <DialogDescription id="w2-glob-search-desc" className="text-left text-[11px]">
+                По названию и коду коллекции, SKU, названию артикула, комментарию и аудитории на
+                этой странице. Минимум 2 символа. Клик по строке откроет коллекцию.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-2">
+              <Input
+                value={globalSearchQuery}
+                onChange={(e) => setGlobalSearchQuery(e.target.value)}
+                placeholder="Например SS27 или пальто"
+                className="text-sm"
+                aria-label="Строка поиска"
+              />
+              <div className="max-h-[50vh] min-h-0 flex-1 overflow-y-auto rounded-md border border-slate-100 bg-slate-50/50">
+                {globalSearchQuery.trim().length < 2 ? (
+                  <p className="p-3 text-[11px] text-slate-500">Введите не менее двух символов.</p>
+                ) : globalSearchResults.length === 0 ? (
+                  <p className="p-3 text-[11px] text-slate-500">Совпадений нет.</p>
+                ) : (
+                  <ul className="divide-y divide-slate-100 text-[11px]">
+                    {globalSearchResults.map((r, idx) => (
+                      <li key={`${r.collectionId}-${r.field}-${idx}`}>
+                        <button
+                          type="button"
+                          className="w-full px-3 py-2 text-left transition-colors hover:bg-white"
+                          onClick={() => {
+                            setGlobalSearchOpen(false);
+                            replaceQuery((p) => {
+                              p.set(WORKSHOP2_COL_PARAM, r.collectionId);
+                              p.delete(WORKSHOP2_ART_PARAM);
+                              p.delete(WORKSHOP2_STEP_PARAM);
+                            });
+                          }}
+                        >
+                          <span className="font-semibold text-slate-900">{r.collectionName}</span>
+                          <span className="text-slate-500"> · {r.field}</span>
+                          <span className="mt-0.5 block truncate text-slate-600">{r.snippet}</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={() => setGlobalSearchOpen(false)}>
+                Закрыть
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog
+          open={createOpen}
+          onOpenChange={(open) => {
+            setCreateOpen(open);
+            if (!open) resetCreateDialog();
+          }}
+        >
+          <DialogContent
+            className="max-h-[90vh] overflow-y-auto sm:max-w-lg"
+            aria-describedby="workshop2-create-desc"
+          >
+            <DialogHeader>
+              <DialogTitle>Новая коллекция</DialogTitle>
+              <DialogDescription id="workshop2-create-desc">
+                Данные сохраняются локально в браузере.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-3 py-2">
+              <div className="grid gap-1.5">
+                <Label htmlFor="w2-new-name">Название</Label>
+                <Input
+                  id="w2-new-name"
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  placeholder="Например, SS28 Resort"
+                  className="text-sm"
+                />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="w2-new-code">Код коллекции (необязательно)</Label>
+                <Input
+                  id="w2-new-code"
+                  value={newCode}
+                  onChange={(e) => setNewCode(e.target.value)}
+                  placeholder="SS28-RESORT — если пусто, сгенерируем из названия"
+                  className="font-mono text-sm"
+                />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="w2-cover">Обложка карточки (необязательно)</Label>
+                <Input
+                  id="w2-cover"
+                  type="file"
+                  accept="image/*"
+                  className="cursor-pointer text-sm"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    setCoverError(null);
+                    if (!f) {
+                      setCoverFile(null);
+                      if (coverPreview) URL.revokeObjectURL(coverPreview);
+                      setCoverPreview(null);
+                      return;
+                    }
+                    if (f.size > 900_000) {
+                      setCoverError('Файл больше ~900 КБ — выберите изображение меньшего размера.');
+                      e.target.value = '';
+                      return;
+                    }
+                    setCoverFile(f);
+                    if (coverPreview) URL.revokeObjectURL(coverPreview);
+                    setCoverPreview(URL.createObjectURL(f));
+                  }}
+                />
+                {coverError ? <p className="text-[10px] text-red-600">{coverError}</p> : null}
+                {coverPreview ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={coverPreview}
+                    alt="Предпросмотр обложки"
+                    className="mt-1 max-h-28 w-full rounded-md border border-slate-200 object-cover"
+                  />
+                ) : null}
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="w2-new-desc">Описание (необязательно)</Label>
+                <Textarea
+                  id="w2-new-desc"
+                  value={newDesc}
+                  onChange={(e) => setNewDesc(e.target.value)}
+                  placeholder="Тема, канал, сроки…"
+                  rows={3}
+                  className="resize-none text-sm"
+                />
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] leading-snug text-slate-500">
+                  Канал: выберите значение из подсказок или введите свой.
+                </p>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:items-end">
+                  <div className="grid gap-1.5">
+                    <Label htmlFor="w2-new-tseason">Целевой сезон (необязательно)</Label>
+                    <Input
+                      id="w2-new-tseason"
+                      value={newTargetSeason}
+                      onChange={(e) => setNewTargetSeason(e.target.value)}
+                      placeholder="Напр. SS29"
+                      className="text-sm"
+                    />
+                  </div>
+                  <div className="grid gap-1.5">
+                    <Label htmlFor="w2-new-tch">Канал (необязательно)</Label>
+                    <Input
+                      id="w2-new-tch"
+                      list="w2-new-channel-datalist"
+                      value={newTargetChannel}
+                      onChange={(e) => setNewTargetChannel(e.target.value)}
+                      placeholder="Выберите из списка или введите канал…"
+                      className="text-sm"
+                      autoComplete="off"
+                    />
+                    <datalist id="w2-new-channel-datalist">
+                      {WORKSHOP2_TARGET_CHANNEL_SUGGESTIONS.map((c) => (
+                        <option key={c} value={c} />
+                      ))}
+                    </datalist>
+                  </div>
+                </div>
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="w2-new-drop">Дедлайн дропа (необязательно)</Label>
+                <Input
+                  id="w2-new-drop"
+                  type="datetime-local"
+                  value={newDropDeadline}
+                  onChange={(e) => setNewDropDeadline(e.target.value)}
+                  className="text-sm"
+                />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="w2-new-team">Заметка для команды (необязательно)</Label>
+                <Textarea
+                  id="w2-new-team"
+                  value={newTeamNote}
+                  onChange={(e) => setNewTeamNote(e.target.value)}
+                  placeholder="Контекст, ссылки, кто отвечает…"
+                  rows={2}
+                  className="resize-none text-sm"
+                />
+              </div>
+              <div className="flex flex-wrap items-center gap-3 rounded-md border border-slate-100 bg-slate-50/80 px-2 py-2">
+                <label className="flex cursor-pointer items-center gap-2 text-[11px] text-slate-700">
+                  <input
+                    type="checkbox"
+                    checked={newPanelAccentOn}
+                    onChange={(e) => setNewPanelAccentOn(e.target.checked)}
+                    className="rounded border-slate-300"
+                  />
+                  Метка цвета в панели артикулов
+                </label>
+                {newPanelAccentOn ? (
+                  <input
+                    type="color"
+                    value={newPanelAccent}
+                    onChange={(e) => setNewPanelAccent(e.target.value)}
+                    className="h-8 w-14 cursor-pointer rounded border border-slate-200 bg-white p-0.5"
+                    aria-label="Цвет метки"
+                  />
+                ) : null}
+              </div>
+              <p className="text-[10px] text-slate-500">
+                Автор: <strong className="text-slate-700">{createdByLabel}</strong> · время —
+                автоматически.
               </p>
             </div>
-          </div>
-        </FilterToolbar>
-
-        <TabsContent value="active" className="mt-4">
-          {activeCollections.length === 0 ? (
-            <EmptyState
-              title="Нет активных коллекций"
-              description="Создайте подборку или восстановите запись из архива."
-            >
+            <DialogFooter className="gap-2 sm:gap-0">
+              <Button type="button" variant="outline" onClick={() => setCreateOpen(false)}>
+                Отмена
+              </Button>
               <Button
                 type="button"
-                size="sm"
-                className="h-9 gap-1.5 text-[10px] font-black uppercase"
-                onClick={() => setCreateOpen(true)}
+                onClick={() => void submitNewCollection()}
+                disabled={!newName.trim() || !!coverError}
               >
-                <Plus className="h-4 w-4" aria-hidden />
-                Создать коллекцию
+                Сохранить
               </Button>
-            </EmptyState>
-          ) : (
-            renderCollectionGrid(activeCollections, 'active')
-          )}
-        </TabsContent>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
-        <TabsContent value="archive" className="mt-4">
-          {archivedCollections.length === 0 ? (
-            <EmptyState title="В архиве пусто" description="Переключитесь на активные коллекции или восстановите запись.">
+        <Dialog
+          open={editOpen}
+          onOpenChange={(open) => {
+            setEditOpen(open);
+            if (!open) resetEditDialog();
+          }}
+        >
+          <DialogContent
+            className="max-h-[90vh] overflow-y-auto sm:max-w-lg"
+            aria-describedby="workshop2-edit-desc"
+          >
+            <DialogHeader>
+              <DialogTitle>Редактировать коллекцию</DialogTitle>
+              <DialogDescription id="workshop2-edit-desc">
+                Изменения сохраняются локально в браузере. Код коллекции не меняется.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-3 py-2">
+              <div className="grid gap-1.5">
+                <Label htmlFor="w2-edit-name">Название</Label>
+                <Input
+                  id="w2-edit-name"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  placeholder="Название коллекции"
+                  className="text-sm"
+                />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="w2-edit-code">Код коллекции</Label>
+                <Input
+                  id="w2-edit-code"
+                  value={editCode}
+                  readOnly
+                  className="bg-slate-50 font-mono text-sm text-slate-600"
+                />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="w2-edit-cover">Обложка карточки</Label>
+                <Input
+                  id="w2-edit-cover"
+                  type="file"
+                  accept="image/*"
+                  className="cursor-pointer text-sm"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    setEditCoverError(null);
+                    if (!f) {
+                      setEditCoverFile(null);
+                      return;
+                    }
+                    if (f.size > 900_000) {
+                      setEditCoverError(
+                        'Файл больше ~900 КБ — выберите изображение меньшего размера.'
+                      );
+                      e.target.value = '';
+                      return;
+                    }
+                    setEditRemoveCover(false);
+                    setEditCoverFile(f);
+                  }}
+                />
+                {editCoverError ? (
+                  <p className="text-[10px] text-red-600">{editCoverError}</p>
+                ) : null}
+                <label className="inline-flex cursor-pointer items-center gap-2 text-[11px] text-slate-700">
+                  <input
+                    type="checkbox"
+                    checked={editRemoveCover}
+                    onChange={(e) => {
+                      setEditRemoveCover(e.target.checked);
+                      if (e.target.checked) setEditCoverFile(null);
+                    }}
+                    className="rounded border-slate-300"
+                  />
+                  Снять обложку
+                </label>
+                {!editRemoveCover && (editCoverPreview || editExistingCoverUrl) ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={editCoverPreview ?? editExistingCoverUrl ?? ''}
+                    alt="Предпросмотр обложки"
+                    className="mt-1 max-h-28 w-full rounded-md border border-slate-200 object-cover"
+                  />
+                ) : null}
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="w2-edit-desc">Описание (необязательно)</Label>
+                <Textarea
+                  id="w2-edit-desc"
+                  value={editDesc}
+                  onChange={(e) => setEditDesc(e.target.value)}
+                  placeholder="Тема, канал, сроки…"
+                  rows={3}
+                  className="resize-none text-sm"
+                />
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] leading-snug text-slate-500">
+                  Канал: выберите значение из подсказок или введите свой.
+                </p>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:items-end">
+                  <div className="grid gap-1.5">
+                    <Label htmlFor="w2-edit-tseason">Целевой сезон (необязательно)</Label>
+                    <Input
+                      id="w2-edit-tseason"
+                      value={editTargetSeason}
+                      onChange={(e) => setEditTargetSeason(e.target.value)}
+                      placeholder="Напр. SS29"
+                      className="text-sm"
+                    />
+                  </div>
+                  <div className="grid gap-1.5">
+                    <Label htmlFor="w2-edit-tch">Канал (необязательно)</Label>
+                    <Input
+                      id="w2-edit-tch"
+                      list="w2-edit-channel-datalist"
+                      value={editTargetChannel}
+                      onChange={(e) => setEditTargetChannel(e.target.value)}
+                      placeholder="Выберите из списка или введите канал…"
+                      className="text-sm"
+                      autoComplete="off"
+                    />
+                    <datalist id="w2-edit-channel-datalist">
+                      {WORKSHOP2_TARGET_CHANNEL_SUGGESTIONS.map((c) => (
+                        <option key={c} value={c} />
+                      ))}
+                    </datalist>
+                  </div>
+                </div>
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="w2-edit-drop">Дедлайн дропа (необязательно)</Label>
+                <Input
+                  id="w2-edit-drop"
+                  type="datetime-local"
+                  value={editDropDeadline}
+                  onChange={(e) => setEditDropDeadline(e.target.value)}
+                  className="text-sm"
+                />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="w2-edit-team">Заметка для команды (необязательно)</Label>
+                <Textarea
+                  id="w2-edit-team"
+                  value={editTeamNote}
+                  onChange={(e) => setEditTeamNote(e.target.value)}
+                  placeholder="Контекст, ссылки, кто отвечает…"
+                  rows={2}
+                  className="resize-none text-sm"
+                />
+              </div>
+              <div className="flex flex-wrap items-center gap-3 rounded-md border border-slate-100 bg-slate-50/80 px-2 py-2">
+                <label className="flex cursor-pointer items-center gap-2 text-[11px] text-slate-700">
+                  <input
+                    type="checkbox"
+                    checked={editPanelAccentOn}
+                    onChange={(e) => setEditPanelAccentOn(e.target.checked)}
+                    className="rounded border-slate-300"
+                  />
+                  Метка цвета в панели артикулов
+                </label>
+                {editPanelAccentOn ? (
+                  <input
+                    type="color"
+                    value={editPanelAccent}
+                    onChange={(e) => setEditPanelAccent(e.target.value)}
+                    className="h-8 w-14 cursor-pointer rounded border border-slate-200 bg-white p-0.5"
+                    aria-label="Цвет метки"
+                  />
+                ) : null}
+              </div>
+            </div>
+            <DialogFooter className="gap-2 sm:gap-0">
+              <Button type="button" variant="outline" onClick={() => setEditOpen(false)}>
+                Отмена
+              </Button>
               <Button
                 type="button"
-                variant="outline"
-                size="sm"
-                className="text-[10px] font-semibold"
-                onClick={() => setListTab('active')}
+                onClick={() => void submitEditUserCollection()}
+                disabled={!editName.trim() || !!editCoverError}
               >
-                К активным
+                Сохранить
               </Button>
-            </EmptyState>
-          ) : (
-            renderCollectionGrid(archivedCollections, 'archive')
-          )}
-        </TabsContent>
-      </Tabs>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
-      <Dialog open={globalSearchOpen} onOpenChange={setGlobalSearchOpen}>
-        <DialogContent className="sm:max-w-lg max-h-[85vh] flex flex-col" aria-describedby="w2-glob-search-desc">
-          <DialogHeader>
-            <DialogTitle>Поиск по странице</DialogTitle>
-            <DialogDescription id="w2-glob-search-desc" className="text-left text-[11px]">
-              По названию и коду коллекции, SKU, названию артикула, комментарию и аудитории на этой странице.
-              Минимум 2 символа. Клик по строке откроет коллекцию.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-2">
-            <Input
-              value={globalSearchQuery}
-              onChange={(e) => setGlobalSearchQuery(e.target.value)}
-              placeholder="Например SS27 или пальто"
-              className="text-sm"
-              aria-label="Строка поиска"
-            />
-            <div className="min-h-0 flex-1 max-h-[50vh] overflow-y-auto rounded-md border border-slate-100 bg-slate-50/50">
-              {globalSearchQuery.trim().length < 2 ? (
-                <p className="text-[11px] text-slate-500 p-3">Введите не менее двух символов.</p>
-              ) : globalSearchResults.length === 0 ? (
-                <p className="text-[11px] text-slate-500 p-3">Совпадений нет.</p>
+        <Dialog
+          open={!!articleNotesTarget}
+          onOpenChange={(open) => {
+            if (!open) setArticleNotesTarget(null);
+          }}
+        >
+          <DialogContent className="sm:max-w-md" aria-describedby="w2-art-notes-desc">
+            <DialogHeader>
+              <DialogTitle className="font-mono text-base">
+                Заметки по артикулу · {articleNotesTarget?.sku}
+              </DialogTitle>
+              <DialogDescription id="w2-art-notes-desc" className="text-left text-[11px]">
+                Текст для команды по этой позиции. Сохраняется локально в этом браузере.
+              </DialogDescription>
+            </DialogHeader>
+            {articleNotesTarget ? (
+              <div className="grid gap-3 py-1">
+                <div className="grid gap-1.5">
+                  <Label htmlFor="w2-art-notes-body">Заметка</Label>
+                  <Textarea
+                    id="w2-art-notes-body"
+                    value={articleNotesTarget.draft}
+                    onChange={(e) =>
+                      setArticleNotesTarget((prev) =>
+                        prev ? { ...prev, draft: e.target.value } : prev
+                      )
+                    }
+                    rows={6}
+                    className="resize-none text-sm"
+                    placeholder="Контекст, ссылки, напоминания…"
+                  />
+                </div>
+              </div>
+            ) : null}
+            <DialogFooter className="gap-2 sm:gap-0">
+              <Button type="button" variant="outline" onClick={() => setArticleNotesTarget(null)}>
+                Отмена
+              </Button>
+              <Button type="button" onClick={() => submitArticleNotes()}>
+                Сохранить
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog
+          open={bulkOpen}
+          onOpenChange={(o) => {
+            setBulkOpen(o);
+            if (!o) {
+              setBulkText('');
+              setBulkCol(null);
+            }
+          }}
+        >
+          <DialogContent
+            className="flex max-h-[90vh] flex-col sm:max-w-lg"
+            aria-describedby="w2-bulk-desc"
+          >
+            <DialogHeader>
+              <DialogTitle>Массовое добавление · {bulkCol?.displayName ?? ''}</DialogTitle>
+              <DialogDescription id="w2-bulk-desc" className="text-left text-[11px]">
+                Вставьте список SKU или «SKU;название» / через табуляцию / CSV. Дубликаты в тексте и
+                в коллекции отсеиваются. Категория по умолчанию — первая из справочника (можно
+                сменить в карточке артикула позже).
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid min-h-0 flex-1 gap-2">
+              <div className="space-y-2 rounded-md border border-slate-200 bg-white p-2.5 text-[10px]">
+                <p className="font-semibold text-slate-800">Файл для загрузки (CSV / TSV, UTF-8)</p>
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-[280px] border-collapse text-left text-[9px]">
+                    <thead>
+                      <tr className="border-b border-slate-200 bg-slate-50">
+                        <th className="p-1.5 font-semibold">Столбец</th>
+                        <th className="p-1.5 font-semibold">Что заполнять</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-slate-700">
+                      <tr className="border-b border-slate-100">
+                        <td className="p-1.5 align-top font-mono">A — SKU</td>
+                        <td className="p-1.5">Код артикула (обязательно)</td>
+                      </tr>
+                      <tr>
+                        <td className="p-1.5 align-top font-mono">B — name</td>
+                        <td className="p-1.5">Рабочее название (необязательно)</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p className="leading-snug text-slate-600">
+                  Первая строка может быть заголовком{' '}
+                  <code className="rounded bg-slate-100 px-1 font-mono">SKU name</code> — если в
+                  первом столбце нет кода SKU, строка будет пропущена. Разделитель: табуляция, «;»
+                  или «,».
+                </p>
+                <p className="text-slate-500">
+                  Пример строки данных:{' '}
+                  <code className="break-all rounded bg-slate-100 px-1 font-mono">
+                    SS28-TOP-01[таб]Лонгслив базовый
+                  </code>
+                </p>
+                <div>
+                  <Label htmlFor="w2-bulk-file" className="text-[10px] text-slate-500">
+                    Загрузить файл
+                  </Label>
+                  <Input
+                    id="w2-bulk-file"
+                    type="file"
+                    accept=".csv,.txt,text/csv,text/plain"
+                    className="mt-1 h-auto cursor-pointer py-1 text-[10px]"
+                    onChange={(ev) => {
+                      const f = ev.target.files?.[0];
+                      ev.target.value = '';
+                      if (!f) return;
+                      const reader = new FileReader();
+                      reader.onload = () => {
+                        setBulkText(typeof reader.result === 'string' ? reader.result : '');
+                      };
+                      reader.readAsText(f, 'UTF-8');
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  className="h-8 text-[10px]"
+                  onClick={() => {
+                    void navigator.clipboard.readText().then(
+                      (t) => setBulkText(t),
+                      () => {}
+                    );
+                  }}
+                >
+                  Вставить из буфера
+                </Button>
+              </div>
+              <Textarea
+                value={bulkText}
+                onChange={(e) => setBulkText(e.target.value)}
+                placeholder={'SS28-TST-01\nSS28-TST-02;Рабочее название'}
+                rows={8}
+                className="min-h-[140px] font-mono text-xs"
+                aria-label="Список SKU для импорта"
+              />
+              {(() => {
+                const preview = bulkText.trim() ? parseWorkshop2BulkPaste(bulkText) : [];
+                if (preview.length === 0) {
+                  return (
+                    <p className="text-[10px] text-slate-500">Предпросмотр появится после ввода.</p>
+                  );
+                }
+                return (
+                  <div className="max-h-40 overflow-y-auto rounded-md border border-slate-200 bg-slate-50/80 text-[10px]">
+                    <p className="border-b border-slate-200 px-2 py-1 font-semibold text-slate-700">
+                      К добавлению: {preview.length} поз. (дубли в тексте убраны)
+                    </p>
+                    <ul className="divide-y divide-slate-100">
+                      {preview.slice(0, 20).map((r) => (
+                        <li key={r.sku} className="flex gap-2 px-2 py-1">
+                          <span className="shrink-0 font-mono font-bold">{r.sku}</span>
+                          {r.name ? (
+                            <span className="truncate text-slate-600">{r.name}</span>
+                          ) : null}
+                        </li>
+                      ))}
+                    </ul>
+                    {preview.length > 20 ? (
+                      <p className="px-2 py-1 text-slate-500">… и ещё {preview.length - 20}</p>
+                    ) : null}
+                  </div>
+                );
+              })()}
+            </div>
+            <DialogFooter className="flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-0">
+              <Button type="button" variant="outline" onClick={() => setBulkOpen(false)}>
+                Отмена
+              </Button>
+              <Button
+                type="button"
+                disabled={!bulkCol || parseWorkshop2BulkPaste(bulkText).length === 0}
+                onClick={() => {
+                  if (!bulkCol) return;
+                  const parsed = parseWorkshop2BulkPaste(bulkText);
+                  if (parsed.length === 0) return;
+                  const r = onBulkAddWorkshop2Articles(bulkCol.id, parsed);
+                  appendWorkshop2Activity(
+                    `Массово добавлено в «${bulkCol.displayName}»: ${r.added} арт., пропущено дублей ${r.skippedDuplicates}`,
+                    createdByLabel
+                  );
+                  setBulkOpen(false);
+                  setBulkText('');
+                  setBulkCol(null);
+                }}
+              >
+                Добавить в коллекцию
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog
+          open={!!archiveConfirm}
+          onOpenChange={(o) => {
+            if (!o) setArchiveConfirm(null);
+          }}
+        >
+          <DialogContent className="sm:max-w-md" aria-describedby="w2-archive-desc">
+            <DialogHeader>
+              <DialogTitle>Убрать в архив?</DialogTitle>
+              <DialogDescription id="w2-archive-desc" className="space-y-2 text-left">
+                <span className="block">
+                  Коллекция «{archiveConfirm?.displayName ?? ''}» исчезнет из активных списков.
+                  Артикулы и данные сохранятся в этом браузере.
+                </span>
+                {archiveConfirm?.isSs27 ? (
+                  <span className="block text-[12px] text-amber-800/90">
+                    Это демо-подборка SS27: после архива она не будет закреплена первой на экране,
+                    пока не восстановите её из вкладки «Архив».
+                  </span>
+                ) : null}
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter className="flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-0">
+              <Button type="button" variant="outline" onClick={() => setArchiveConfirm(null)}>
+                Отмена
+              </Button>
+              <Button type="button" variant="default" onClick={confirmArchive}>
+                Убрать в архив
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={historyOpen} onOpenChange={setHistoryOpen}>
+          <DialogContent
+            className="flex max-h-[85vh] flex-col sm:max-w-lg"
+            aria-describedby="w2-history-desc"
+          >
+            <DialogHeader>
+              <DialogTitle>История</DialogTitle>
+              <DialogDescription id="w2-history-desc">
+                Создания, архив, восстановления, открытия списков и артикулов — локально в браузере.
+                У старых записей автор может быть не указан.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid shrink-0 gap-2 sm:grid-cols-2">
+              <div className="grid gap-1">
+                <Label htmlFor="w2-hist-from" className="text-[10px] text-slate-500">
+                  С даты
+                </Label>
+                <Input
+                  id="w2-hist-from"
+                  type="date"
+                  value={historyDateFrom}
+                  onChange={(e) => setHistoryDateFrom(e.target.value)}
+                  className="h-8 text-xs"
+                />
+              </div>
+              <div className="grid gap-1">
+                <Label htmlFor="w2-hist-to" className="text-[10px] text-slate-500">
+                  По дату
+                </Label>
+                <Input
+                  id="w2-hist-to"
+                  type="date"
+                  value={historyDateTo}
+                  onChange={(e) => setHistoryDateTo(e.target.value)}
+                  className="h-8 text-xs"
+                />
+              </div>
+              <div className="grid gap-1 sm:col-span-2">
+                <Label htmlFor="w2-hist-actor" className="text-[10px] text-slate-500">
+                  Автор
+                </Label>
+                <select
+                  id="w2-hist-actor"
+                  value={historyActorFilter}
+                  onChange={(e) => setHistoryActorFilter(e.target.value)}
+                  className="h-8 rounded-md border border-slate-200 bg-white px-2 text-xs"
+                >
+                  <option value="__all__">Все авторы</option>
+                  <option value="__no_actor__">Без автора (старые записи)</option>
+                  {historyActors.map((a) => (
+                    <option key={a} value={a}>
+                      {a}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="min-h-0 flex-1 overflow-y-auto rounded-md border border-slate-100 bg-slate-50/50">
+              {historyEntries.length === 0 ? (
+                <p className="p-4 text-center text-sm text-slate-500">Пока нет записей.</p>
+              ) : historyFiltered.length === 0 ? (
+                <p className="p-4 text-center text-sm text-slate-500">
+                  Нет записей по выбранным фильтрам.
+                </p>
               ) : (
                 <ul className="divide-y divide-slate-100 text-[11px]">
-                  {globalSearchResults.map((r, idx) => (
-                    <li key={`${r.collectionId}-${r.field}-${idx}`}>
-                      <button
-                        type="button"
-                        className="w-full text-left px-3 py-2 hover:bg-white transition-colors"
-                        onClick={() => {
-                          setGlobalSearchOpen(false);
-                          replaceQuery((p) => {
-                            p.set(WORKSHOP2_COL_PARAM, r.collectionId);
-                            p.delete(WORKSHOP2_ART_PARAM);
-                            p.delete(WORKSHOP2_STEP_PARAM);
-                          });
-                        }}
-                      >
-                        <span className="font-semibold text-slate-900">{r.collectionName}</span>
-                        <span className="text-slate-500"> · {r.field}</span>
-                        <span className="block text-slate-600 truncate mt-0.5">{r.snippet}</span>
-                      </button>
+                  {historyFiltered.map((e) => (
+                    <li key={e.id} className="px-3 py-2.5 leading-snug text-slate-800">
+                      <span className="mb-0.5 block text-[10px] tabular-nums text-slate-400">
+                        {new Date(e.at).toLocaleString('ru-RU', {
+                          day: '2-digit',
+                          month: '2-digit',
+                          year: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          second: '2-digit',
+                        })}
+                      </span>
+                      <span className="mb-0.5 block text-[10px] font-semibold text-indigo-700">
+                        {e.actor?.trim() ? e.actor : '—'}
+                      </span>
+                      {e.line}
                     </li>
                   ))}
                 </ul>
               )}
             </div>
-          </div>
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => setGlobalSearchOpen(false)}>
-              Закрыть
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog
-        open={createOpen}
-        onOpenChange={(open) => {
-          setCreateOpen(open);
-          if (!open) resetCreateDialog();
-        }}
-      >
-        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto" aria-describedby="workshop2-create-desc">
-          <DialogHeader>
-            <DialogTitle>Новая коллекция</DialogTitle>
-            <DialogDescription id="workshop2-create-desc">
-              Данные сохраняются локально в браузере.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-3 py-2">
-            <div className="grid gap-1.5">
-              <Label htmlFor="w2-new-name">Название</Label>
-              <Input
-                id="w2-new-name"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                placeholder="Например, SS28 Resort"
-                className="text-sm"
-              />
-            </div>
-            <div className="grid gap-1.5">
-              <Label htmlFor="w2-new-code">Код коллекции (необязательно)</Label>
-              <Input
-                id="w2-new-code"
-                value={newCode}
-                onChange={(e) => setNewCode(e.target.value)}
-                placeholder="SS28-RESORT — если пусто, сгенерируем из названия"
-                className="text-sm font-mono"
-              />
-            </div>
-            <div className="grid gap-1.5">
-              <Label htmlFor="w2-cover">Обложка карточки (необязательно)</Label>
-              <Input
-                id="w2-cover"
-                type="file"
-                accept="image/*"
-                className="text-sm cursor-pointer"
-                onChange={(e) => {
-                  const f = e.target.files?.[0];
-                  setCoverError(null);
-                  if (!f) {
-                    setCoverFile(null);
-                    if (coverPreview) URL.revokeObjectURL(coverPreview);
-                    setCoverPreview(null);
-                    return;
-                  }
-                  if (f.size > 900_000) {
-                    setCoverError('Файл больше ~900 КБ — выберите изображение меньшего размера.');
-                    e.target.value = '';
-                    return;
-                  }
-                  setCoverFile(f);
-                  if (coverPreview) URL.revokeObjectURL(coverPreview);
-                  setCoverPreview(URL.createObjectURL(f));
-                }}
-              />
-              {coverError ? <p className="text-[10px] text-red-600">{coverError}</p> : null}
-              {coverPreview ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={coverPreview}
-                  alt="Предпросмотр обложки"
-                  className="mt-1 max-h-28 w-full rounded-md border border-slate-200 object-cover"
-                />
-              ) : null}
-            </div>
-            <div className="grid gap-1.5">
-              <Label htmlFor="w2-new-desc">Описание (необязательно)</Label>
-              <Textarea
-                id="w2-new-desc"
-                value={newDesc}
-                onChange={(e) => setNewDesc(e.target.value)}
-                placeholder="Тема, канал, сроки…"
-                rows={3}
-                className="text-sm resize-none"
-              />
-            </div>
-            <div className="space-y-1">
-              <p className="text-[10px] leading-snug text-slate-500">
-                Канал: выберите значение из подсказок или введите свой.
-              </p>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:items-end">
-                <div className="grid gap-1.5">
-                  <Label htmlFor="w2-new-tseason">Целевой сезон (необязательно)</Label>
-                  <Input
-                    id="w2-new-tseason"
-                    value={newTargetSeason}
-                    onChange={(e) => setNewTargetSeason(e.target.value)}
-                    placeholder="Напр. SS29"
-                    className="text-sm"
-                  />
-                </div>
-                <div className="grid gap-1.5">
-                  <Label htmlFor="w2-new-tch">Канал (необязательно)</Label>
-                  <Input
-                    id="w2-new-tch"
-                    list="w2-new-channel-datalist"
-                    value={newTargetChannel}
-                    onChange={(e) => setNewTargetChannel(e.target.value)}
-                    placeholder="Выберите из списка или введите канал…"
-                    className="text-sm"
-                    autoComplete="off"
-                  />
-                  <datalist id="w2-new-channel-datalist">
-                    {WORKSHOP2_TARGET_CHANNEL_SUGGESTIONS.map((c) => (
-                      <option key={c} value={c} />
-                    ))}
-                  </datalist>
-                </div>
-              </div>
-            </div>
-            <div className="grid gap-1.5">
-              <Label htmlFor="w2-new-drop">Дедлайн дропа (необязательно)</Label>
-              <Input
-                id="w2-new-drop"
-                type="datetime-local"
-                value={newDropDeadline}
-                onChange={(e) => setNewDropDeadline(e.target.value)}
-                className="text-sm"
-              />
-            </div>
-            <div className="grid gap-1.5">
-              <Label htmlFor="w2-new-team">Заметка для команды (необязательно)</Label>
-              <Textarea
-                id="w2-new-team"
-                value={newTeamNote}
-                onChange={(e) => setNewTeamNote(e.target.value)}
-                placeholder="Контекст, ссылки, кто отвечает…"
-                rows={2}
-                className="text-sm resize-none"
-              />
-            </div>
-            <div className="flex flex-wrap items-center gap-3 rounded-md border border-slate-100 bg-slate-50/80 px-2 py-2">
-              <label className="flex items-center gap-2 text-[11px] text-slate-700 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={newPanelAccentOn}
-                  onChange={(e) => setNewPanelAccentOn(e.target.checked)}
-                  className="rounded border-slate-300"
-                />
-                Метка цвета в панели артикулов
-              </label>
-              {newPanelAccentOn ? (
-                <input
-                  type="color"
-                  value={newPanelAccent}
-                  onChange={(e) => setNewPanelAccent(e.target.value)}
-                  className="h-8 w-14 cursor-pointer rounded border border-slate-200 bg-white p-0.5"
-                  aria-label="Цвет метки"
-                />
-              ) : null}
-            </div>
-            <p className="text-[10px] text-slate-500">
-              Автор: <strong className="text-slate-700">{createdByLabel}</strong> · время — автоматически.
-            </p>
-          </div>
-          <DialogFooter className="gap-2 sm:gap-0">
-            <Button type="button" variant="outline" onClick={() => setCreateOpen(false)}>
-              Отмена
-            </Button>
-            <Button
-              type="button"
-              onClick={() => void submitNewCollection()}
-              disabled={!newName.trim() || !!coverError}
-            >
-              Сохранить
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog
-        open={editOpen}
-        onOpenChange={(open) => {
-          setEditOpen(open);
-          if (!open) resetEditDialog();
-        }}
-      >
-        <DialogContent
-          className="sm:max-w-lg max-h-[90vh] overflow-y-auto"
-          aria-describedby="workshop2-edit-desc"
-        >
-          <DialogHeader>
-            <DialogTitle>Редактировать коллекцию</DialogTitle>
-            <DialogDescription id="workshop2-edit-desc">
-              Изменения сохраняются локально в браузере. Код коллекции не меняется.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-3 py-2">
-            <div className="grid gap-1.5">
-              <Label htmlFor="w2-edit-name">Название</Label>
-              <Input
-                id="w2-edit-name"
-                value={editName}
-                onChange={(e) => setEditName(e.target.value)}
-                placeholder="Название коллекции"
-                className="text-sm"
-              />
-            </div>
-            <div className="grid gap-1.5">
-              <Label htmlFor="w2-edit-code">Код коллекции</Label>
-              <Input
-                id="w2-edit-code"
-                value={editCode}
-                readOnly
-                className="text-sm font-mono bg-slate-50 text-slate-600"
-              />
-            </div>
-            <div className="grid gap-1.5">
-              <Label htmlFor="w2-edit-cover">Обложка карточки</Label>
-              <Input
-                id="w2-edit-cover"
-                type="file"
-                accept="image/*"
-                className="text-sm cursor-pointer"
-                onChange={(e) => {
-                  const f = e.target.files?.[0];
-                  setEditCoverError(null);
-                  if (!f) {
-                    setEditCoverFile(null);
-                    return;
-                  }
-                  if (f.size > 900_000) {
-                    setEditCoverError('Файл больше ~900 КБ — выберите изображение меньшего размера.');
-                    e.target.value = '';
-                    return;
-                  }
-                  setEditRemoveCover(false);
-                  setEditCoverFile(f);
-                }}
-              />
-              {editCoverError ? <p className="text-[10px] text-red-600">{editCoverError}</p> : null}
-              <label className="inline-flex items-center gap-2 text-[11px] text-slate-700 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={editRemoveCover}
-                  onChange={(e) => {
-                    setEditRemoveCover(e.target.checked);
-                    if (e.target.checked) setEditCoverFile(null);
-                  }}
-                  className="rounded border-slate-300"
-                />
-                Снять обложку
-              </label>
-              {!editRemoveCover && (editCoverPreview || editExistingCoverUrl) ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={editCoverPreview ?? editExistingCoverUrl ?? ''}
-                  alt="Предпросмотр обложки"
-                  className="mt-1 max-h-28 w-full rounded-md border border-slate-200 object-cover"
-                />
-              ) : null}
-            </div>
-            <div className="grid gap-1.5">
-              <Label htmlFor="w2-edit-desc">Описание (необязательно)</Label>
-              <Textarea
-                id="w2-edit-desc"
-                value={editDesc}
-                onChange={(e) => setEditDesc(e.target.value)}
-                placeholder="Тема, канал, сроки…"
-                rows={3}
-                className="text-sm resize-none"
-              />
-            </div>
-            <div className="space-y-1">
-              <p className="text-[10px] leading-snug text-slate-500">
-                Канал: выберите значение из подсказок или введите свой.
-              </p>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:items-end">
-                <div className="grid gap-1.5">
-                  <Label htmlFor="w2-edit-tseason">Целевой сезон (необязательно)</Label>
-                  <Input
-                    id="w2-edit-tseason"
-                    value={editTargetSeason}
-                    onChange={(e) => setEditTargetSeason(e.target.value)}
-                    placeholder="Напр. SS29"
-                    className="text-sm"
-                  />
-                </div>
-                <div className="grid gap-1.5">
-                  <Label htmlFor="w2-edit-tch">Канал (необязательно)</Label>
-                  <Input
-                    id="w2-edit-tch"
-                    list="w2-edit-channel-datalist"
-                    value={editTargetChannel}
-                    onChange={(e) => setEditTargetChannel(e.target.value)}
-                    placeholder="Выберите из списка или введите канал…"
-                    className="text-sm"
-                    autoComplete="off"
-                  />
-                  <datalist id="w2-edit-channel-datalist">
-                    {WORKSHOP2_TARGET_CHANNEL_SUGGESTIONS.map((c) => (
-                      <option key={c} value={c} />
-                    ))}
-                  </datalist>
-                </div>
-              </div>
-            </div>
-            <div className="grid gap-1.5">
-              <Label htmlFor="w2-edit-drop">Дедлайн дропа (необязательно)</Label>
-              <Input
-                id="w2-edit-drop"
-                type="datetime-local"
-                value={editDropDeadline}
-                onChange={(e) => setEditDropDeadline(e.target.value)}
-                className="text-sm"
-              />
-            </div>
-            <div className="grid gap-1.5">
-              <Label htmlFor="w2-edit-team">Заметка для команды (необязательно)</Label>
-              <Textarea
-                id="w2-edit-team"
-                value={editTeamNote}
-                onChange={(e) => setEditTeamNote(e.target.value)}
-                placeholder="Контекст, ссылки, кто отвечает…"
-                rows={2}
-                className="text-sm resize-none"
-              />
-            </div>
-            <div className="flex flex-wrap items-center gap-3 rounded-md border border-slate-100 bg-slate-50/80 px-2 py-2">
-              <label className="flex items-center gap-2 text-[11px] text-slate-700 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={editPanelAccentOn}
-                  onChange={(e) => setEditPanelAccentOn(e.target.checked)}
-                  className="rounded border-slate-300"
-                />
-                Метка цвета в панели артикулов
-              </label>
-              {editPanelAccentOn ? (
-                <input
-                  type="color"
-                  value={editPanelAccent}
-                  onChange={(e) => setEditPanelAccent(e.target.value)}
-                  className="h-8 w-14 cursor-pointer rounded border border-slate-200 bg-white p-0.5"
-                  aria-label="Цвет метки"
-                />
-              ) : null}
-            </div>
-          </div>
-          <DialogFooter className="gap-2 sm:gap-0">
-            <Button type="button" variant="outline" onClick={() => setEditOpen(false)}>
-              Отмена
-            </Button>
-            <Button
-              type="button"
-              onClick={() => void submitEditUserCollection()}
-              disabled={!editName.trim() || !!editCoverError}
-            >
-              Сохранить
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog
-        open={!!articleNotesTarget}
-        onOpenChange={(open) => {
-          if (!open) setArticleNotesTarget(null);
-        }}
-      >
-        <DialogContent className="sm:max-w-md" aria-describedby="w2-art-notes-desc">
-          <DialogHeader>
-            <DialogTitle className="font-mono text-base">
-              Заметки по артикулу · {articleNotesTarget?.sku}
-            </DialogTitle>
-            <DialogDescription id="w2-art-notes-desc" className="text-left text-[11px]">
-              Текст для команды по этой позиции. Сохраняется локально в этом браузере.
-            </DialogDescription>
-          </DialogHeader>
-          {articleNotesTarget ? (
-            <div className="grid gap-3 py-1">
-              <div className="grid gap-1.5">
-                <Label htmlFor="w2-art-notes-body">Заметка</Label>
-                <Textarea
-                  id="w2-art-notes-body"
-                  value={articleNotesTarget.draft}
-                  onChange={(e) =>
-                    setArticleNotesTarget((prev) =>
-                      prev ? { ...prev, draft: e.target.value } : prev
-                    )
-                  }
-                  rows={6}
-                  className="text-sm resize-none"
-                  placeholder="Контекст, ссылки, напоминания…"
-                />
-              </div>
-            </div>
-          ) : null}
-          <DialogFooter className="gap-2 sm:gap-0">
-            <Button type="button" variant="outline" onClick={() => setArticleNotesTarget(null)}>
-              Отмена
-            </Button>
-            <Button type="button" onClick={() => submitArticleNotes()}>
-              Сохранить
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog
-        open={bulkOpen}
-        onOpenChange={(o) => {
-          setBulkOpen(o);
-          if (!o) {
-            setBulkText('');
-            setBulkCol(null);
-          }
-        }}
-      >
-        <DialogContent className="sm:max-w-lg max-h-[90vh] flex flex-col" aria-describedby="w2-bulk-desc">
-          <DialogHeader>
-            <DialogTitle>Массовое добавление · {bulkCol?.displayName ?? ''}</DialogTitle>
-            <DialogDescription id="w2-bulk-desc" className="text-left text-[11px]">
-              Вставьте список SKU или «SKU;название» / через табуляцию / CSV. Дубликаты в тексте и в коллекции
-              отсеиваются. Категория по умолчанию — первая из справочника (можно сменить в карточке артикула
-              позже).
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-2 flex-1 min-h-0">
-            <div className="rounded-md border border-slate-200 bg-white p-2.5 text-[10px] space-y-2">
-              <p className="font-semibold text-slate-800">Файл для загрузки (CSV / TSV, UTF-8)</p>
-              <div className="overflow-x-auto">
-                <table className="w-full min-w-[280px] text-left border-collapse text-[9px]">
-                  <thead>
-                    <tr className="border-b border-slate-200 bg-slate-50">
-                      <th className="p-1.5 font-semibold">Столбец</th>
-                      <th className="p-1.5 font-semibold">Что заполнять</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-slate-700">
-                    <tr className="border-b border-slate-100">
-                      <td className="p-1.5 font-mono align-top">A — SKU</td>
-                      <td className="p-1.5">Код артикула (обязательно)</td>
-                    </tr>
-                    <tr>
-                      <td className="p-1.5 font-mono align-top">B — name</td>
-                      <td className="p-1.5">Рабочее название (необязательно)</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <p className="text-slate-600 leading-snug">
-                Первая строка может быть заголовком{' '}
-                <code className="font-mono bg-slate-100 px-1 rounded">SKU	name</code> — если в первом столбце
-                нет кода SKU, строка будет пропущена. Разделитель: табуляция, «;» или «,».
-              </p>
-              <p className="text-slate-500">
-                Пример строки данных:{' '}
-                <code className="font-mono bg-slate-100 px-1 rounded break-all">
-                  SS28-TOP-01[таб]Лонгслив базовый
-                </code>
-              </p>
-              <div>
-                <Label htmlFor="w2-bulk-file" className="text-[10px] text-slate-500">
-                  Загрузить файл
-                </Label>
-                <Input
-                  id="w2-bulk-file"
-                  type="file"
-                  accept=".csv,.txt,text/csv,text/plain"
-                  className="text-[10px] mt-1 cursor-pointer h-auto py-1"
-                  onChange={(ev) => {
-                    const f = ev.target.files?.[0];
-                    ev.target.value = '';
-                    if (!f) return;
-                    const reader = new FileReader();
-                    reader.onload = () => {
-                      setBulkText(typeof reader.result === 'string' ? reader.result : '');
-                    };
-                    reader.readAsText(f, 'UTF-8');
-                  }}
-                />
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-2">
+            <DialogFooter className="gap-2 sm:justify-between sm:gap-0">
               <Button
                 type="button"
-                variant="secondary"
-                size="sm"
-                className="text-[10px] h-8"
+                variant="outline"
+                className="text-slate-600"
                 onClick={() => {
-                  void navigator.clipboard.readText().then(
-                    (t) => setBulkText(t),
-                    () => {}
-                  );
+                  clearWorkshop2Activity();
+                  setHistoryEntries([]);
                 }}
+                disabled={historyEntries.length === 0}
               >
-                Вставить из буфера
+                Очистить историю
               </Button>
-            </div>
-            <Textarea
-              value={bulkText}
-              onChange={(e) => setBulkText(e.target.value)}
-              placeholder={'SS28-TST-01\nSS28-TST-02;Рабочее название'}
-              rows={8}
-              className="font-mono text-xs min-h-[140px]"
-              aria-label="Список SKU для импорта"
-            />
-            {(() => {
-              const preview = bulkText.trim() ? parseWorkshop2BulkPaste(bulkText) : [];
-              if (preview.length === 0) {
-                return <p className="text-[10px] text-slate-500">Предпросмотр появится после ввода.</p>;
-              }
-              return (
-                <div className="rounded-md border border-slate-200 bg-slate-50/80 text-[10px] max-h-40 overflow-y-auto">
-                  <p className="px-2 py-1 font-semibold text-slate-700 border-b border-slate-200">
-                    К добавлению: {preview.length} поз. (дубли в тексте убраны)
-                  </p>
-                  <ul className="divide-y divide-slate-100">
-                    {preview.slice(0, 20).map((r) => (
-                      <li key={r.sku} className="px-2 py-1 flex gap-2">
-                        <span className="font-mono font-bold shrink-0">{r.sku}</span>
-                        {r.name ? <span className="text-slate-600 truncate">{r.name}</span> : null}
-                      </li>
-                    ))}
-                  </ul>
-                  {preview.length > 20 ? (
-                    <p className="px-2 py-1 text-slate-500">… и ещё {preview.length - 20}</p>
-                  ) : null}
-                </div>
-              );
-            })()}
-          </div>
-          <DialogFooter className="gap-2 sm:gap-0 flex-col-reverse sm:flex-row sm:justify-end">
-            <Button type="button" variant="outline" onClick={() => setBulkOpen(false)}>
-              Отмена
-            </Button>
-            <Button
-              type="button"
-              disabled={!bulkCol || parseWorkshop2BulkPaste(bulkText).length === 0}
-              onClick={() => {
-                if (!bulkCol) return;
-                const parsed = parseWorkshop2BulkPaste(bulkText);
-                if (parsed.length === 0) return;
-                const r = onBulkAddWorkshop2Articles(bulkCol.id, parsed);
-                appendWorkshop2Activity(
-                  `Массово добавлено в «${bulkCol.displayName}»: ${r.added} арт., пропущено дублей ${r.skippedDuplicates}`,
-                  createdByLabel
-                );
-                setBulkOpen(false);
-                setBulkText('');
-                setBulkCol(null);
-              }}
-            >
-              Добавить в коллекцию
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+              <Button type="button" onClick={() => setHistoryOpen(false)}>
+                Закрыть
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
-      <Dialog
-        open={!!archiveConfirm}
-        onOpenChange={(o) => {
-          if (!o) setArchiveConfirm(null);
-        }}
-      >
-        <DialogContent className="sm:max-w-md" aria-describedby="w2-archive-desc">
-          <DialogHeader>
-            <DialogTitle>Убрать в архив?</DialogTitle>
-            <DialogDescription id="w2-archive-desc" className="text-left space-y-2">
-              <span className="block">
-                Коллекция «{archiveConfirm?.displayName ?? ''}» исчезнет из активных списков. Артикулы и
-                данные сохранятся в этом браузере.
-              </span>
-              {archiveConfirm?.isSs27 ? (
-                <span className="block text-amber-800/90 text-[12px]">
-                  Это демо-подборка SS27: после архива она не будет закреплена первой на экране, пока не
-                  восстановите её из вкладки «Архив».
-                </span>
-              ) : null}
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="gap-2 sm:gap-0 sm:justify-end flex-col-reverse sm:flex-row">
-            <Button type="button" variant="outline" onClick={() => setArchiveConfirm(null)}>
-              Отмена
-            </Button>
-            <Button type="button" variant="default" onClick={confirmArchive}>
-              Убрать в архив
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={historyOpen} onOpenChange={setHistoryOpen}>
-        <DialogContent className="sm:max-w-lg max-h-[85vh] flex flex-col" aria-describedby="w2-history-desc">
-          <DialogHeader>
-            <DialogTitle>История</DialogTitle>
-            <DialogDescription id="w2-history-desc">
-              Создания, архив, восстановления, открытия списков и артикулов — локально в браузере. У старых
-              записей автор может быть не указан.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-2 sm:grid-cols-2 shrink-0">
-            <div className="grid gap-1">
-              <Label htmlFor="w2-hist-from" className="text-[10px] text-slate-500">
-                С даты
-              </Label>
-              <Input
-                id="w2-hist-from"
-                type="date"
-                value={historyDateFrom}
-                onChange={(e) => setHistoryDateFrom(e.target.value)}
-                className="h-8 text-xs"
-              />
-            </div>
-            <div className="grid gap-1">
-              <Label htmlFor="w2-hist-to" className="text-[10px] text-slate-500">
-                По дату
-              </Label>
-              <Input
-                id="w2-hist-to"
-                type="date"
-                value={historyDateTo}
-                onChange={(e) => setHistoryDateTo(e.target.value)}
-                className="h-8 text-xs"
-              />
-            </div>
-            <div className="grid gap-1 sm:col-span-2">
-              <Label htmlFor="w2-hist-actor" className="text-[10px] text-slate-500">
-                Автор
-              </Label>
-              <select
-                id="w2-hist-actor"
-                value={historyActorFilter}
-                onChange={(e) => setHistoryActorFilter(e.target.value)}
-                className="h-8 rounded-md border border-slate-200 bg-white px-2 text-xs"
-              >
-                <option value="__all__">Все авторы</option>
-                <option value="__no_actor__">Без автора (старые записи)</option>
-                {historyActors.map((a) => (
-                  <option key={a} value={a}>
-                    {a}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-          <div className="min-h-0 flex-1 overflow-y-auto rounded-md border border-slate-100 bg-slate-50/50">
-            {historyEntries.length === 0 ? (
-              <p className="text-sm text-slate-500 p-4 text-center">Пока нет записей.</p>
-            ) : historyFiltered.length === 0 ? (
-              <p className="text-sm text-slate-500 p-4 text-center">Нет записей по выбранным фильтрам.</p>
-            ) : (
-              <ul className="divide-y divide-slate-100 text-[11px]">
-                {historyFiltered.map((e) => (
-                  <li key={e.id} className="px-3 py-2.5 leading-snug text-slate-800">
-                    <span className="text-slate-400 tabular-nums block text-[10px] mb-0.5">
-                      {new Date(e.at).toLocaleString('ru-RU', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit',
-                      })}
-                    </span>
-                    <span className="text-[10px] text-indigo-700 font-semibold block mb-0.5">
-                      {e.actor?.trim() ? e.actor : '—'}
-                    </span>
-                    {e.line}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-          <DialogFooter className="gap-2 sm:gap-0 sm:justify-between">
-            <Button
-              type="button"
-              variant="outline"
-              className="text-slate-600"
-              onClick={() => {
-                clearWorkshop2Activity();
-                setHistoryEntries([]);
-              }}
-              disabled={historyEntries.length === 0}
-            >
-              Очистить историю
-            </Button>
-            <Button type="button" onClick={() => setHistoryOpen(false)}>
-              Закрыть
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <Workshop2CreateArticleDialog
-        open={!!articleDialogCol || !!articleEditTarget}
-        onOpenChange={(o) => {
-          if (!o) {
-            setArticleDialogCol(null);
-            setArticleEditTarget(null);
+        <Workshop2CreateArticleDialog
+          open={!!articleDialogCol || !!articleEditTarget}
+          onOpenChange={(o) => {
+            if (!o) {
+              setArticleDialogCol(null);
+              setArticleEditTarget(null);
+            }
+          }}
+          collectionId={articleDialogCol?.id ?? articleEditTarget?.collectionId ?? ''}
+          collectionDisplayName={
+            articleDialogCol?.displayName ?? articleEditTarget?.displayName ?? ''
           }
-        }}
-        collectionId={articleDialogCol?.id ?? articleEditTarget?.collectionId ?? ''}
-        collectionDisplayName={
-          articleDialogCol?.displayName ?? articleEditTarget?.displayName ?? ''
-        }
-        pickerLines={articlePickerLines}
-        onCommit={onCommitWorkshop2Article}
-        editArticle={
-          articleEditTarget
-            ? {
-                articleId: articleEditTarget.articleId,
-                sku: articleEditTarget.sku,
-                name: articleEditTarget.name,
-                comment: articleEditTarget.comment,
-                categoryLeafId: articleEditTarget.categoryLeafId,
-                workshopAttachments: articleEditTarget.workshopAttachments,
-              }
-            : null
-        }
-        onSaveEdit={(collectionId, articleId, data) =>
-          onPatchWorkshop2ArticleLine(collectionId, articleId, {
-            name: data.name,
-            workshopComment: data.workshopComment,
-            categoryLeafId: data.categoryLeafId,
-            workshopAttachments: data.workshopAttachments,
-          })
-        }
-        activityActorLabel={createdByLabel}
-      />
-    </div>
+          pickerLines={articlePickerLines}
+          onCommit={onCommitWorkshop2Article}
+          editArticle={
+            articleEditTarget
+              ? {
+                  articleId: articleEditTarget.articleId,
+                  sku: articleEditTarget.sku,
+                  name: articleEditTarget.name,
+                  comment: articleEditTarget.comment,
+                  categoryLeafId: articleEditTarget.categoryLeafId,
+                  workshopAttachments: articleEditTarget.workshopAttachments,
+                }
+              : null
+          }
+          onSaveEdit={(collectionId, articleId, data) =>
+            onPatchWorkshop2ArticleLine(collectionId, articleId, {
+              name: data.name,
+              workshopComment: data.workshopComment,
+              categoryLeafId: data.categoryLeafId,
+              workshopAttachments: data.workshopAttachments,
+            })
+          }
+          activityActorLabel={createdByLabel}
+        />
+      </div>
     </TooltipProvider>
   );
 }

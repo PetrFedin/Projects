@@ -28,7 +28,7 @@ export function EdoDocumentFlow() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-base">
           <FileText className="h-4 w-4" />
           ЭДО — документооборот
         </CardTitle>
@@ -39,11 +39,15 @@ export function EdoDocumentFlow() {
           {docs.map((doc) => (
             <div
               key={doc.id}
-              className="flex items-center justify-between p-3 rounded-lg border border-slate-100 hover:bg-slate-50"
+              className="flex items-center justify-between rounded-lg border border-slate-100 p-3 hover:bg-slate-50"
             >
               <div>
-                <p className="font-bold text-sm">{doc.type} {doc.id}</p>
-                <p className="text-[10px] text-slate-500">{doc.partner} · {doc.date}</p>
+                <p className="text-sm font-bold">
+                  {doc.type} {doc.id}
+                </p>
+                <p className="text-[10px] text-slate-500">
+                  {doc.partner} · {doc.date}
+                </p>
               </div>
               <div className="flex items-center gap-2">
                 <Badge
@@ -54,10 +58,19 @@ export function EdoDocumentFlow() {
                     doc.status === 'sent' && 'bg-slate-100 text-slate-600'
                   )}
                 >
-                  {doc.status === 'signed' ? 'Подписан' : doc.status === 'pending_sign' ? 'Ждёт подписи' : 'Отправлен'}
+                  {doc.status === 'signed'
+                    ? 'Подписан'
+                    : doc.status === 'pending_sign'
+                      ? 'Ждёт подписи'
+                      : 'Отправлен'}
                 </Badge>
                 {doc.status === 'pending_sign' && canEdit && (
-                  <Button size="sm" variant="outline" className="h-7 text-[9px]" onClick={() => handleSign(doc)}>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="h-7 text-[9px]"
+                    onClick={() => handleSign(doc)}
+                  >
                     Подписать
                   </Button>
                 )}

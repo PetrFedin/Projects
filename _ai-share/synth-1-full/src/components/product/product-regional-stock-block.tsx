@@ -8,31 +8,33 @@ import { getRegionalStocks } from '@/lib/fashion/local-logistics';
 
 export const ProductRegionalStockBlock: React.FC<{ product: Product }> = ({ product }) => {
   const stocks = getRegionalStocks(product);
-  
+
   return (
-    <Card className="p-4 border-2 border-sky-50 bg-sky-50/10 shadow-sm">
-      <div className="flex items-center justify-between mb-4">
+    <Card className="border-2 border-sky-50 bg-sky-50/10 p-4 shadow-sm">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Map className="w-4 h-4 text-sky-600" />
-          <h4 className="font-bold text-xs uppercase text-sky-700 tracking-tight">Региональные склады (РФ)</h4>
+          <Map className="h-4 w-4 text-sky-600" />
+          <h4 className="text-xs font-bold uppercase tracking-tight text-sky-700">
+            Региональные склады (РФ)
+          </h4>
         </div>
-        <div className="flex items-center gap-1 text-[9px] text-sky-500 font-black uppercase">
-          <Clock className="w-3 h-3" /> Real-time Sync
+        <div className="flex items-center gap-1 text-[9px] font-black uppercase text-sky-500">
+          <Clock className="h-3 w-3" /> Real-time Sync
         </div>
       </div>
 
       <div className="space-y-2.5">
         {stocks.map((stock, idx) => (
-          <div key={idx} className="flex items-center justify-between group">
+          <div key={idx} className="group flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-sky-400 group-hover:scale-125 transition-transform" />
+              <div className="h-1.5 w-1.5 rounded-full bg-sky-400 transition-transform group-hover:scale-125" />
               <div className="text-[11px] font-bold text-slate-600">{stock.warehouse}</div>
             </div>
             <div className="flex items-center gap-4">
-              <div className="text-[10px] text-slate-400 font-semibold">
+              <div className="text-[10px] font-semibold text-slate-400">
                 Доставка {stock.deliveryDays} дн.
               </div>
-              <div className="text-xs font-black text-slate-700 w-8 text-right">
+              <div className="w-8 text-right text-xs font-black text-slate-700">
                 {stock.quantity > 0 ? `${stock.quantity} шт.` : '0'}
               </div>
             </div>
@@ -40,12 +42,12 @@ export const ProductRegionalStockBlock: React.FC<{ product: Product }> = ({ prod
         ))}
       </div>
 
-      <div className="mt-4 pt-3 border-t border-sky-100 flex justify-between items-center">
-        <div className="flex items-center gap-1.5 text-[9px] text-slate-400 font-bold uppercase">
-          <Truck className="w-3 h-3" /> CDEK / Boxberry / PickPoint
+      <div className="mt-4 flex items-center justify-between border-t border-sky-100 pt-3">
+        <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase text-slate-400">
+          <Truck className="h-3 w-3" /> CDEK / Boxberry / PickPoint
         </div>
-        <div className="flex items-center gap-1 text-[9px] text-green-600 font-bold uppercase">
-          <ShieldCheck className="w-3 h-3" /> Insured Delivery
+        <div className="flex items-center gap-1 text-[9px] font-bold uppercase text-green-600">
+          <ShieldCheck className="h-3 w-3" /> Insured Delivery
         </div>
       </div>
     </Card>

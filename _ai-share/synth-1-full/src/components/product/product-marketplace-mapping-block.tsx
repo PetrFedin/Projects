@@ -9,16 +9,25 @@ import { getMarketplaceMapping } from '@/lib/fashion/marketplace-mapping';
 
 export const ProductMarketplaceMappingBlock: React.FC<{ product: Product }> = ({ product }) => {
   const m = getMarketplaceMapping(product);
-  
+
   return (
-    <Card className="p-4 border-2 border-slate-100 bg-slate-50/10">
-      <div className="flex items-center justify-between mb-4">
+    <Card className="border-2 border-slate-100 bg-slate-50/10 p-4">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Share2 className="w-4 h-4 text-purple-500" />
-          <h4 className="font-bold text-xs uppercase text-slate-600 tracking-tight">Marketplace Sync (MP)</h4>
+          <Share2 className="h-4 w-4 text-purple-500" />
+          <h4 className="text-xs font-bold uppercase tracking-tight text-slate-600">
+            Marketplace Sync (MP)
+          </h4>
         </div>
-        <Badge variant="outline" className={`text-[9px] font-black uppercase ${m.status === 'synced' ? 'bg-green-50 text-green-600 border-green-200' : 'bg-red-50 text-red-600 border-red-200'}`}>
-          {m.status === 'synced' ? <CheckCircle2 className="w-2.5 h-2.5 mr-1" /> : <AlertCircle className="w-2.5 h-2.5 mr-1" />}
+        <Badge
+          variant="outline"
+          className={`text-[9px] font-black uppercase ${m.status === 'synced' ? 'border-green-200 bg-green-50 text-green-600' : 'border-red-200 bg-red-50 text-red-600'}`}
+        >
+          {m.status === 'synced' ? (
+            <CheckCircle2 className="mr-1 h-2.5 w-2.5" />
+          ) : (
+            <AlertCircle className="mr-1 h-2.5 w-2.5" />
+          )}
           {m.status}
         </Badge>
       </div>
@@ -26,31 +35,33 @@ export const ProductMarketplaceMappingBlock: React.FC<{ product: Product }> = ({
       <div className="space-y-2.5">
         {m.wildberriesId && (
           <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground font-bold uppercase text-[10px]">Wildberries</span>
+            <span className="text-[10px] font-bold uppercase text-muted-foreground">
+              Wildberries
+            </span>
             <div className="flex items-center gap-1.5 font-mono text-slate-700">
-              {m.wildberriesId} <ExternalLink className="w-3 h-3 text-slate-300" />
+              {m.wildberriesId} <ExternalLink className="h-3 w-3 text-slate-300" />
             </div>
           </div>
         )}
         {m.ozonId && (
           <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground font-bold uppercase text-[10px]">Ozon</span>
+            <span className="text-[10px] font-bold uppercase text-muted-foreground">Ozon</span>
             <div className="flex items-center gap-1.5 font-mono text-slate-700">
-              {m.ozonId} <ExternalLink className="w-3 h-3 text-slate-300" />
+              {m.ozonId} <ExternalLink className="h-3 w-3 text-slate-300" />
             </div>
           </div>
         )}
         {m.lamodaId && (
           <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground font-bold uppercase text-[10px]">Lamoda</span>
+            <span className="text-[10px] font-bold uppercase text-muted-foreground">Lamoda</span>
             <div className="flex items-center gap-1.5 font-mono text-slate-700">
-              {m.lamodaId} <ExternalLink className="w-3 h-3 text-slate-300" />
+              {m.lamodaId} <ExternalLink className="h-3 w-3 text-slate-300" />
             </div>
           </div>
         )}
       </div>
 
-      <div className="mt-4 pt-3 border-t text-[9px] text-slate-400 font-bold uppercase flex justify-between items-center">
+      <div className="mt-4 flex items-center justify-between border-t pt-3 text-[9px] font-bold uppercase text-slate-400">
         <span>Last Feed Update: {m.lastFeedUpdate}</span>
         <span className="text-purple-600">Active Feed</span>
       </div>

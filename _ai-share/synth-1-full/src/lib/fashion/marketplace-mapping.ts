@@ -4,7 +4,7 @@ import type { MarketplaceMappingV1 } from './types';
 /** Синхронизация SKU с маркетплейсами РФ (WB, Ozon, Lamoda). */
 export function getMarketplaceMapping(product: Product): MarketplaceMappingV1 {
   const idPrefix = product.id.slice(0, 8);
-  
+
   return {
     sku: product.sku,
     wildberriesId: `WB-${idPrefix}`,

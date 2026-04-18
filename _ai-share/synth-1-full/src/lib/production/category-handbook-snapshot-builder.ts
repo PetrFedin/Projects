@@ -43,7 +43,12 @@ export function handbookAudienceCategoryPath(
   return `${l1} › ${l2} › ${l3}`;
 }
 
-function walk(node: CategoryNode, audience: Audience, ancestors: CategoryNode[], out: HandbookCategoryLeaf[]) {
+function walk(
+  node: CategoryNode,
+  audience: Audience,
+  ancestors: CategoryNode[],
+  out: HandbookCategoryLeaf[]
+) {
   const chain = [...ancestors, node];
   if (!node.children?.length) {
     const { l1, l2, l3 } = handbookL1L2L3FromChain(chain);

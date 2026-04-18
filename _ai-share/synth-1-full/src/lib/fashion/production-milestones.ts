@@ -37,6 +37,6 @@ export function getProductionMilestones(orderId: string): ProductionMilestoneV1[
       status: 'pending',
       dueDate: '2026-06-20',
       progressPercent: 0,
-    }
+    },
   ];
 }

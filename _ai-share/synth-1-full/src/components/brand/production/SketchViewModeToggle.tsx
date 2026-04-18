@@ -69,7 +69,9 @@ export function SketchViewModeToggle({
           type="button"
           className={cn(
             'inline-flex h-6 items-center gap-1 rounded-sm px-2 text-[10px] font-semibold transition-colors',
-            !floor ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-900'
+            !floor
+              ? 'bg-white text-slate-900 shadow-sm'
+              : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-900'
           )}
           aria-pressed={!floor}
           title="Редактирование меток, шаблоны, снимки"
@@ -82,7 +84,9 @@ export function SketchViewModeToggle({
           type="button"
           className={cn(
             'inline-flex h-6 items-center gap-1 rounded-sm px-2 text-[10px] font-semibold transition-colors',
-            floor ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-900'
+            floor
+              ? 'bg-white text-slate-900 shadow-sm'
+              : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-900'
           )}
           aria-pressed={floor}
           title="Только просмотр и экспорт; в ссылке будет ?sketchFloor=1"

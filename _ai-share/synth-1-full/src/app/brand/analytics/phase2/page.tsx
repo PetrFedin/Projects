@@ -32,7 +32,7 @@ export default function AnalyticsPhase2Page() {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Analytics Phase 2"
         description="ETL в fact_* / snapshot_*, buying analytics API, дашборды план/факт и закупки. Связь с финансами, Production, B2B заказами, 1С/Мой Склад."
@@ -43,50 +43,91 @@ export default function AnalyticsPhase2Page() {
       />
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <Link href={ROUTES.brand.analyticsBi}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+          <Link href={ROUTES.brand.analyticsBi}>
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          </Link>
           <h1 className="text-2xl font-bold uppercase">Analytics Phase 2</h1>
         </div>
-        <Button variant="outline" size="sm" disabled title="При подключении API"><Download className="h-4 w-4 mr-2" /> Импорт 1С/Мой Склад</Button>
+        <Button variant="outline" size="sm" disabled title="При подключении API">
+          <Download className="mr-2 h-4 w-4" /> Импорт 1С/Мой Склад
+        </Button>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2"><Database className="h-5 w-5" /> Fact-таблицы и снапшоты</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Database className="h-5 w-5" /> Fact-таблицы и снапшоты
+          </CardTitle>
           <CardDescription>ETL загрузки. При API — pipeline в fact_* и snapshot_*.</CardDescription>
         </CardHeader>
         <CardContent>
           <ul className="space-y-2">
             {factTables.map((t) => (
-              <li key={t.name} className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-lg bg-slate-50 border border-slate-100">
+              <li
+                key={t.name}
+                className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
+              >
                 <span className="font-mono text-sm">{t.name}</span>
                 <div className="flex items-center gap-2">
-                  <Badge variant="outline" className="text-[10px]">{kindLabels[t.kind]}</Badge>
-                  <span className="text-xs text-slate-500">{t.rowCount.toLocaleString()} строк · {t.lastLoadedAt?.slice(0, 16).replace('T', ' ')}</span>
+                  <Badge variant="outline" className="text-[10px]">
+                    {kindLabels[t.kind]}
+                  </Badge>
+                  <span className="text-xs text-slate-500">
+                    {t.rowCount.toLocaleString()} строк ·{' '}
+                    {t.lastLoadedAt?.slice(0, 16).replace('T', ' ')}
+                  </span>
                 </div>
               </li>
             ))}
           </ul>
-          <p className="text-xs text-slate-400 mt-3">API: ANALYTICS_PHASE2_API.factTables, snapshots.</p>
+          <p className="mt-3 text-xs text-slate-400">
+            API: ANALYTICS_PHASE2_API.factTables, snapshots.
+          </p>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2"><Layers className="h-5 w-5" /> Buying Analytics{buyingSummary ? ` — ${buyingSummary.periodKey}` : ''}</CardTitle>
-          <CardDescription>Закупки по партнёрам, план/факт. Дашборды при подключении API.</CardDescription>
+          <CardTitle className="flex items-center gap-2">
+            <Layers className="h-5 w-5" /> Buying Analytics
+            {buyingSummary ? ` — ${buyingSummary.periodKey}` : ''}
+          </CardTitle>
+          <CardDescription>
+            Закупки по партнёрам, план/факт. Дашборды при подключении API.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {buyingSummary && (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
-            <div><p className="text-xs text-slate-500">Заказано, ₽</p><p className="text-lg font-semibold">{buyingSummary.totalOrderedRub.toLocaleString('ru')}</p></div>
-            <div><p className="text-xs text-slate-500">Получено, ₽</p><p className="text-lg font-semibold">{buyingSummary.totalReceivedRub.toLocaleString('ru')}</p></div>
-            <div><p className="text-xs text-slate-500">Заказов</p><p className="text-lg font-semibold">{buyingSummary.orderCount}</p></div>
-          </div>
+            <div className="mb-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+              <div>
+                <p className="text-xs text-slate-500">Заказано, ₽</p>
+                <p className="text-lg font-semibold">
+                  {buyingSummary.totalOrderedRub.toLocaleString('ru')}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs text-slate-500">Получено, ₽</p>
+                <p className="text-lg font-semibold">
+                  {buyingSummary.totalReceivedRub.toLocaleString('ru')}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs text-slate-500">Заказов</p>
+                <p className="text-lg font-semibold">{buyingSummary.orderCount}</p>
+              </div>
+            </div>
           )}
-          <p className="text-xs text-slate-400">API: ANALYTICS_PHASE2_API.buyingSummary, dashboardPlanFact. Импорт: 1С, Мой Склад.</p>
+          <p className="text-xs text-slate-400">
+            API: ANALYTICS_PHASE2_API.buyingSummary, dashboardPlanFact. Импорт: 1С, Мой Склад.
+          </p>
         </CardContent>
       </Card>
-      <RelatedModulesBlock links={getAnalyticsPhase2Links()} title="Финансы, Production, B2B заказы, 1С/Мой Склад" />
+      <RelatedModulesBlock
+        links={getAnalyticsPhase2Links()}
+        title="Финансы, Production, B2B заказы, 1С/Мой Склад"
+      />
     </div>
   );
 }

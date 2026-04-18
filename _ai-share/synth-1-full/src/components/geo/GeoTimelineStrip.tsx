@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { Button } from "@/components/ui/button";
-import { Play, Pause } from "lucide-react";
-import { PeriodPreset, TimePoint } from "./geo.types";
+import * as React from 'react';
+import { Button } from '@/components/ui/button';
+import { Play, Pause } from 'lucide-react';
+import { PeriodPreset, TimePoint } from './geo.types';
 
 type Props = {
   period: PeriodPreset;
@@ -20,11 +20,11 @@ type Props = {
 };
 
 const PRESETS: { id: PeriodPreset; label: string }[] = [
-  { id: "7d", label: "7 дней" },
-  { id: "30d", label: "30 дней" },
-  { id: "90d", label: "90 дней" },
-  { id: "season", label: "Сезон" },
-  { id: "year", label: "Год" },
+  { id: '7d', label: '7 дней' },
+  { id: '30d', label: '30 дней' },
+  { id: '90d', label: '90 дней' },
+  { id: 'season', label: 'Сезон' },
+  { id: 'year', label: 'Год' },
 ];
 
 export function GeoTimelineStrip(props: Props) {
@@ -40,22 +40,22 @@ export function GeoTimelineStrip(props: Props) {
             size="icon"
             className="h-7 w-7 border-slate-600"
             onClick={onTogglePlay}
-            aria-label={isPlaying ? "Pause" : "Play"}
+            aria-label={isPlaying ? 'Pause' : 'Play'}
           >
-            {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
+            {isPlaying ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" />}
           </Button>
-          <span className="text-slate-300">{current?.label ?? "—"}</span>
+          <span className="text-slate-300">{current?.label ?? '—'}</span>
         </div>
 
         <div className="flex items-center gap-1">
-          {PRESETS.map(p => (
+          {PRESETS.map((p) => (
             <button
               key={p.id}
               onClick={() => onPeriodChange(p.id)}
-              className={`px-2 py-1 rounded-full border text-[11px] ${
+              className={`rounded-full border px-2 py-1 text-[11px] ${
                 period === p.id
-                  ? "border-cyan-400 bg-cyan-500/10 text-cyan-200"
-                  : "border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700"
+                  ? 'border-cyan-400 bg-cyan-500/10 text-cyan-200'
+                  : 'border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700'
               }`}
             >
               {p.label}
@@ -74,7 +74,7 @@ export function GeoTimelineStrip(props: Props) {
           onChange={(e) => onIndexChange(Number(e.target.value))}
           className="flex-1"
         />
-        <span>{points.length ? `${index + 1}/${points.length}` : "0/0"}</span>
+        <span>{points.length ? `${index + 1}/${points.length}` : '0/0'}</span>
       </div>
     </div>
   );

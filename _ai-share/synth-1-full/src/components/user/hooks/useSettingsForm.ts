@@ -16,7 +16,7 @@ export function useSettingsForm(user: UserProfile) {
   const { toast } = useToast();
   const [draft, setDraft] = useState<UserSettings>(() => readUserSettings());
   const [isSaving, setIsSaving] = useState(false);
-  
+
   const [changePwdOpen, setChangePwdOpen] = useState(false);
   const [resetPwdOpen, setResetPwdOpen] = useState(false);
   const [pwdCurrent, setPwdCurrent] = useState('');
@@ -48,9 +48,24 @@ export function useSettingsForm(user: UserProfile) {
   };
 
   return {
-    draft, setDraft, isSaving, save, updateDraft,
-    changePwdOpen, setChangePwdOpen, resetPwdOpen, setResetPwdOpen,
-    pwdCurrent, setPwdCurrent, pwdNext, setPwdNext, pwdNext2, setPwdNext2,
-    resetEmail, setResetEmail, isPreviewOpen, setIsPreviewOpen
+    draft,
+    setDraft,
+    isSaving,
+    save,
+    updateDraft,
+    changePwdOpen,
+    setChangePwdOpen,
+    resetPwdOpen,
+    setResetPwdOpen,
+    pwdCurrent,
+    setPwdCurrent,
+    pwdNext,
+    setPwdNext,
+    pwdNext2,
+    setPwdNext2,
+    resetEmail,
+    setResetEmail,
+    isPreviewOpen,
+    setIsPreviewOpen,
   };
 }

@@ -4,9 +4,24 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, QrCode, ShieldCheck, AlertCircle, Download, Send, ChevronRight } from 'lucide-react';
+import {
+  FileText,
+  QrCode,
+  ShieldCheck,
+  AlertCircle,
+  Download,
+  Send,
+  ChevronRight,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { EDODocument, ChestnyZNAKCode } from '@/lib/types/compliance';
 
@@ -33,7 +48,7 @@ export default function ComplianceDashboard() {
       status: 'signed',
       xmlUrl: '#',
       items: [],
-      operator: 'diadoc'
+      operator: 'diadoc',
     },
     {
       id: 'doc-102',
@@ -48,13 +63,13 @@ export default function ComplianceDashboard() {
       status: 'sent',
       xmlUrl: '#',
       items: [],
-      operator: 'diadoc'
-    }
+      operator: 'diadoc',
+    },
   ];
 
   return (
-    <div className="container mx-auto px-4 py-4 space-y-4 max-w-5xl animate-in fade-in duration-700 pb-24">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-3 border-b border-slate-100 pb-3">
+    <div className="container mx-auto max-w-5xl space-y-4 px-4 py-4 pb-24 duration-700 animate-in fade-in">
+      <div className="flex flex-col items-start justify-between gap-3 border-b border-slate-100 pb-3 md:flex-row md:items-end">
         <div className="space-y-0.5">
           <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
             <span>Admin</span>
@@ -62,71 +77,132 @@ export default function ComplianceDashboard() {
             <span className="text-slate-300">Regulatory Compliance</span>
           </div>
           <div className="flex items-center gap-2.5">
-            <h1 className="text-base font-bold font-headline tracking-tighter uppercase text-slate-900 leading-none">Security & Legal Hub 2.0</h1>
-            <Badge variant="outline" className="bg-indigo-50 text-indigo-600 border-indigo-100 font-bold text-[7px] px-1.5 h-4 gap-1 tracking-widest shadow-sm transition-all uppercase">
-               <span className="h-1.5 w-1.5 rounded-full bg-indigo-500 animate-pulse" /> EDO STATUS: SYNCED
+            <h1 className="font-headline text-base font-bold uppercase leading-none tracking-tighter text-slate-900">
+              Security & Legal Hub 2.0
+            </h1>
+            <Badge
+              variant="outline"
+              className="h-4 gap-1 border-indigo-100 bg-indigo-50 px-1.5 text-[7px] font-bold uppercase tracking-widest text-indigo-600 shadow-sm transition-all"
+            >
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-indigo-500" /> EDO STATUS:
+              SYNCED
             </Badge>
           </div>
         </div>
         <div className="flex items-center gap-2">
-           <Button variant="outline" className="h-8 px-3 rounded-lg border-slate-200 text-[9px] font-bold uppercase tracking-widest hover:bg-slate-50 transition-all shadow-sm">
-              <Download className="mr-1.5 h-3.5 w-3.5 text-slate-400" /> CRPT Manifest
-           </Button>
-           <Button className="h-8 px-4 rounded-lg bg-slate-900 text-white text-[9px] font-bold uppercase gap-1.5 hover:bg-indigo-600 transition-all shadow-lg border border-slate-900 tracking-widest">
-              <ShieldCheck className="h-3.5 w-3.5" /> Identity Verify
-           </Button>
+          <Button
+            variant="outline"
+            className="h-8 rounded-lg border-slate-200 px-3 text-[9px] font-bold uppercase tracking-widest shadow-sm transition-all hover:bg-slate-50"
+          >
+            <Download className="mr-1.5 h-3.5 w-3.5 text-slate-400" /> CRPT Manifest
+          </Button>
+          <Button className="h-8 gap-1.5 rounded-lg border border-slate-900 bg-slate-900 px-4 text-[9px] font-bold uppercase tracking-widest text-white shadow-lg transition-all hover:bg-indigo-600">
+            <ShieldCheck className="h-3.5 w-3.5" /> Identity Verify
+          </Button>
         </div>
       </div>
 
       <Tabs defaultValue="edo" className="w-full" onValueChange={setActiveTab}>
-        <TabsList className="bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-inner w-full max-w-[320px] mb-4">
-          <TabsTrigger value="edo" className="rounded-lg px-4 h-7 text-[9px] font-bold uppercase tracking-widest transition-all data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm data-[state=active]:border border-transparent flex-1">
-            <FileText className="h-3 w-3 mr-2" /> EDO Module
+        <TabsList className="mb-4 w-full max-w-[320px] rounded-xl border border-slate-200 bg-slate-100 p-1 shadow-inner">
+          <TabsTrigger
+            value="edo"
+            className="h-7 flex-1 rounded-lg border-transparent px-4 text-[9px] font-bold uppercase tracking-widest transition-all data-[state=active]:border data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
+          >
+            <FileText className="mr-2 h-3 w-3" /> EDO Module
           </TabsTrigger>
-          <TabsTrigger value="cz" className="rounded-lg px-4 h-7 text-[9px] font-bold uppercase tracking-widest transition-all data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm data-[state=active]:border border-transparent flex-1">
-            <QrCode className="h-3 w-3 mr-2" /> Chestny ZNAK
+          <TabsTrigger
+            value="cz"
+            className="h-7 flex-1 rounded-lg border-transparent px-4 text-[9px] font-bold uppercase tracking-widest transition-all data-[state=active]:border data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
+          >
+            <QrCode className="mr-2 h-3 w-3" /> Chestny ZNAK
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="edo" className="space-y-4 pt-0">
-          <Card className="border border-slate-100 rounded-xl bg-white overflow-hidden shadow-sm hover:border-indigo-100/50 transition-all">
-            <div className="p-4 border-b border-slate-50 bg-slate-50/50">
-              <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-900 leading-none">Document Ledger (Diadoc)</h3>
-              <p className="text-[8px] font-bold text-slate-400 uppercase tracking-widest mt-1 opacity-60">Legal Entity Verification & Transmission Pipeline</p>
+          <Card className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition-all hover:border-indigo-100/50">
+            <div className="border-b border-slate-50 bg-slate-50/50 p-4">
+              <h3 className="text-[10px] font-bold uppercase leading-none tracking-widest text-slate-900">
+                Document Ledger (Diadoc)
+              </h3>
+              <p className="mt-1 text-[8px] font-bold uppercase tracking-widest text-slate-400 opacity-60">
+                Legal Entity Verification & Transmission Pipeline
+              </p>
             </div>
             <Table>
               <TableHeader>
-                <TableRow className="bg-slate-50/50 hover:bg-slate-50/50 border-b border-slate-100">
-                  <TableHead className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] h-10 px-4">Entity Type</TableHead>
-                  <TableHead className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] h-10">Reference & Date</TableHead>
-                  <TableHead className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] h-10">Counterparty</TableHead>
-                  <TableHead className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] h-10">Magnitude (VAT Incl.)</TableHead>
-                  <TableHead className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] h-10 text-center">Status</TableHead>
-                  <TableHead className="text-right text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] h-10 px-4 w-24">Actions</TableHead>
+                <TableRow className="border-b border-slate-100 bg-slate-50/50 hover:bg-slate-50/50">
+                  <TableHead className="h-10 px-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                    Entity Type
+                  </TableHead>
+                  <TableHead className="h-10 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                    Reference & Date
+                  </TableHead>
+                  <TableHead className="h-10 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                    Counterparty
+                  </TableHead>
+                  <TableHead className="h-10 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                    Magnitude (VAT Incl.)
+                  </TableHead>
+                  <TableHead className="h-10 text-center text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                    Status
+                  </TableHead>
+                  <TableHead className="h-10 w-24 px-4 text-right text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                    Actions
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className="divide-y divide-slate-50">
-                {edoDocs.map(doc => (
-                  <TableRow key={doc.id} className="hover:bg-slate-50/50 transition-all group h-12">
-                    <TableCell className="px-4 font-bold text-[10px] uppercase text-indigo-600">{doc.type}</TableCell>
-                    <TableCell>
-                       <div className="flex flex-col">
-                         <span className="text-[11px] font-bold text-slate-900 uppercase tracking-tight">{doc.number}</span>
-                         <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest opacity-60">{doc.date}</span>
-                       </div>
+                {edoDocs.map((doc) => (
+                  <TableRow key={doc.id} className="group h-12 transition-all hover:bg-slate-50/50">
+                    <TableCell className="px-4 text-[10px] font-bold uppercase text-indigo-600">
+                      {doc.type}
                     </TableCell>
-                    <TableCell className="text-[10px] font-bold text-slate-600 uppercase tracking-tight">{doc.receiverId}</TableCell>
-                    <TableCell className="text-[11px] font-bold text-slate-900 tabular-nums italic tracking-tighter">{doc.totalAmount.toLocaleString()} ₽</TableCell>
+                    <TableCell>
+                      <div className="flex flex-col">
+                        <span className="text-[11px] font-bold uppercase tracking-tight text-slate-900">
+                          {doc.number}
+                        </span>
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 opacity-60">
+                          {doc.date}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-[10px] font-bold uppercase tracking-tight text-slate-600">
+                      {doc.receiverId}
+                    </TableCell>
+                    <TableCell className="text-[11px] font-bold italic tabular-nums tracking-tighter text-slate-900">
+                      {doc.totalAmount.toLocaleString()} ₽
+                    </TableCell>
                     <TableCell className="text-center">
-                      <Badge variant="outline" className={cn("text-[7px] font-bold px-1.5 h-3.5 rounded shadow-sm uppercase tracking-widest border transition-all", doc.status === 'signed' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-blue-50 text-blue-600 border-blue-100')}>
+                      <Badge
+                        variant="outline"
+                        className={cn(
+                          'h-3.5 rounded border px-1.5 text-[7px] font-bold uppercase tracking-widest shadow-sm transition-all',
+                          doc.status === 'signed'
+                            ? 'border-emerald-100 bg-emerald-50 text-emerald-600'
+                            : 'border-blue-100 bg-blue-50 text-blue-600'
+                        )}
+                      >
                         {doc.status}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-right px-4">
-                       <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-all">
-                          <Button size="icon" variant="ghost" className="h-7 w-7 rounded-lg hover:bg-slate-900 hover:text-white transition-all text-slate-400"><Download className="h-3.5 w-3.5" /></Button>
-                          <Button size="icon" variant="ghost" className="h-7 w-7 rounded-lg hover:bg-indigo-600 hover:text-white transition-all text-indigo-500"><Send className="h-3.5 w-3.5" /></Button>
-                       </div>
+                    <TableCell className="px-4 text-right">
+                      <div className="flex justify-end gap-1 opacity-0 transition-all group-hover:opacity-100">
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className="h-7 w-7 rounded-lg text-slate-400 transition-all hover:bg-slate-900 hover:text-white"
+                        >
+                          <Download className="h-3.5 w-3.5" />
+                        </Button>
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className="h-7 w-7 rounded-lg text-indigo-500 transition-all hover:bg-indigo-600 hover:text-white"
+                        >
+                          <Send className="h-3.5 w-3.5" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -136,64 +212,135 @@ export default function ComplianceDashboard() {
         </TabsContent>
 
         <TabsContent value="cz" className="space-y-4 pt-0">
-           <div className="grid md:grid-cols-3 gap-3">
-              {[
-                { label: "KIZ Inventory (Marking)", val: "12,450", sub: "Available via CRPT", color: "text-indigo-600", bg: "bg-indigo-50/50" },
-                { label: "Operational Circulation", val: "8,920", sub: "Active nodes", color: "text-slate-900", bg: "bg-slate-50/50" },
-                { label: "MTK Exceptions", val: "24", sub: "Attention required", color: "text-rose-600", bg: "bg-rose-50/50" },
-              ].map((m, i) => (
-                <Card key={i} className="border border-slate-100 shadow-sm bg-white p-4 group hover:border-indigo-100 transition-all rounded-xl relative overflow-hidden">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.15em] leading-none">{m.label}</span>
-                    {m.color === 'text-rose-600' && <AlertCircle className="h-3 w-3 text-rose-500 animate-pulse" />}
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <span className={cn("text-sm font-bold tracking-tighter tabular-nums uppercase leading-none", m.color)}>{m.val}</span>
-                  </div>
-                  <p className="text-[8px] font-bold text-slate-400 uppercase tracking-widest mt-2 opacity-60">{m.sub}</p>
-                </Card>
-              ))}
-           </div>
+          <div className="grid gap-3 md:grid-cols-3">
+            {[
+              {
+                label: 'KIZ Inventory (Marking)',
+                val: '12,450',
+                sub: 'Available via CRPT',
+                color: 'text-indigo-600',
+                bg: 'bg-indigo-50/50',
+              },
+              {
+                label: 'Operational Circulation',
+                val: '8,920',
+                sub: 'Active nodes',
+                color: 'text-slate-900',
+                bg: 'bg-slate-50/50',
+              },
+              {
+                label: 'MTK Exceptions',
+                val: '24',
+                sub: 'Attention required',
+                color: 'text-rose-600',
+                bg: 'bg-rose-50/50',
+              },
+            ].map((m, i) => (
+              <Card
+                key={i}
+                className="group relative overflow-hidden rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition-all hover:border-indigo-100"
+              >
+                <div className="mb-2 flex items-center justify-between">
+                  <span className="text-[9px] font-bold uppercase leading-none tracking-[0.15em] text-slate-400">
+                    {m.label}
+                  </span>
+                  {m.color === 'text-rose-600' && (
+                    <AlertCircle className="h-3 w-3 animate-pulse text-rose-500" />
+                  )}
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span
+                    className={cn(
+                      'text-sm font-bold uppercase tabular-nums leading-none tracking-tighter',
+                      m.color
+                    )}
+                  >
+                    {m.val}
+                  </span>
+                </div>
+                <p className="mt-2 text-[8px] font-bold uppercase tracking-widest text-slate-400 opacity-60">
+                  {m.sub}
+                </p>
+              </Card>
+            ))}
+          </div>
 
-           <Card className="border border-slate-100 rounded-xl bg-white overflow-hidden shadow-sm hover:border-indigo-100/50 transition-all">
-              <div className="p-4 border-b border-slate-50 bg-slate-50/50">
-                <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-900 leading-none">Serial Protocol (KIZ Orders)</h3>
-                <p className="text-[8px] font-bold text-slate-400 uppercase tracking-widest mt-1 opacity-60">Production Unit Tracking & GS1 Alignment</p>
-              </div>
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-slate-50/50 hover:bg-slate-50/50 border-b border-slate-100">
-                    <TableHead className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] h-10 px-4">Sequence ID</TableHead>
-                    <TableHead className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] h-10">Entity / GTIN</TableHead>
-                    <TableHead className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] h-10 text-right">Volume</TableHead>
-                    <TableHead className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] h-10">Timeline</TableHead>
-                    <TableHead className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] h-10 text-center">CRPT Status</TableHead>
-                    <TableHead className="text-right text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] h-10 px-4 w-24">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody className="divide-y divide-slate-50">
-                  <TableRow className="hover:bg-slate-50/50 transition-all group h-12">
-                    <TableCell className="px-4 font-mono text-[9px] font-bold text-slate-400">ORD-MARK-99821</TableCell>
-                    <TableCell>
-                       <div className="flex flex-col">
-                         <span className="text-[11px] font-bold text-slate-900 uppercase tracking-tight">Cotton T-Shirt Black</span>
-                         <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest opacity-60">GTIN: 4607123456789</span>
-                       </div>
-                    </TableCell>
-                    <TableCell className="text-right"><span className="text-[11px] font-bold text-slate-900 tabular-nums">500</span></TableCell>
-                    <TableCell><span className="text-[10px] font-bold text-slate-400 uppercase tabular-nums">2025-03-01</span></TableCell>
-                    <TableCell className="text-center">
-                       <Badge variant="outline" className="bg-emerald-50 text-emerald-600 border-emerald-100 text-[7px] font-bold px-1.5 h-3.5 rounded shadow-sm tracking-widest uppercase">Ready</Badge>
-                    </TableCell>
-                    <TableCell className="text-right px-4">
-                       <Button size="sm" variant="ghost" className="h-7 px-3 rounded-lg font-bold uppercase text-[8px] bg-slate-50 border border-slate-100 text-slate-500 hover:text-indigo-600 hover:bg-white transition-all shadow-inner tracking-widest group-hover:bg-white">
-                          <Download className="mr-1.5 h-3 w-3" /> Manifest PDF
-                       </Button>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-           </Card>
+          <Card className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition-all hover:border-indigo-100/50">
+            <div className="border-b border-slate-50 bg-slate-50/50 p-4">
+              <h3 className="text-[10px] font-bold uppercase leading-none tracking-widest text-slate-900">
+                Serial Protocol (KIZ Orders)
+              </h3>
+              <p className="mt-1 text-[8px] font-bold uppercase tracking-widest text-slate-400 opacity-60">
+                Production Unit Tracking & GS1 Alignment
+              </p>
+            </div>
+            <Table>
+              <TableHeader>
+                <TableRow className="border-b border-slate-100 bg-slate-50/50 hover:bg-slate-50/50">
+                  <TableHead className="h-10 px-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                    Sequence ID
+                  </TableHead>
+                  <TableHead className="h-10 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                    Entity / GTIN
+                  </TableHead>
+                  <TableHead className="h-10 text-right text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                    Volume
+                  </TableHead>
+                  <TableHead className="h-10 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                    Timeline
+                  </TableHead>
+                  <TableHead className="h-10 text-center text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                    CRPT Status
+                  </TableHead>
+                  <TableHead className="h-10 w-24 px-4 text-right text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                    Actions
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody className="divide-y divide-slate-50">
+                <TableRow className="group h-12 transition-all hover:bg-slate-50/50">
+                  <TableCell className="px-4 font-mono text-[9px] font-bold text-slate-400">
+                    ORD-MARK-99821
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex flex-col">
+                      <span className="text-[11px] font-bold uppercase tracking-tight text-slate-900">
+                        Cotton T-Shirt Black
+                      </span>
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 opacity-60">
+                        GTIN: 4607123456789
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <span className="text-[11px] font-bold tabular-nums text-slate-900">500</span>
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-[10px] font-bold uppercase tabular-nums text-slate-400">
+                      2025-03-01
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Badge
+                      variant="outline"
+                      className="h-3.5 rounded border-emerald-100 bg-emerald-50 px-1.5 text-[7px] font-bold uppercase tracking-widest text-emerald-600 shadow-sm"
+                    >
+                      Ready
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="px-4 text-right">
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="h-7 rounded-lg border border-slate-100 bg-slate-50 px-3 text-[8px] font-bold uppercase tracking-widest text-slate-500 shadow-inner transition-all hover:bg-white hover:text-indigo-600 group-hover:bg-white"
+                    >
+                      <Download className="mr-1.5 h-3 w-3" /> Manifest PDF
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

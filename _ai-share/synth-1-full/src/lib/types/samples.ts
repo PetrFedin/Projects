@@ -2,7 +2,14 @@
  * Sample Tracking & PR Control Types
  */
 
-export type SampleStatus = 'in_stock' | 'with_stylist' | 'in_editorial' | 'in_transit' | 'damaged' | 'lost' | 'archived';
+export type SampleStatus =
+  | 'in_stock'
+  | 'with_stylist'
+  | 'in_editorial'
+  | 'in_transit'
+  | 'damaged'
+  | 'lost'
+  | 'archived';
 
 export interface CollectionSample {
   id: string;

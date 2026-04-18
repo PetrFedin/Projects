@@ -13,11 +13,34 @@ export interface BIMetric {
 }
 
 export interface BIDashboardData {
-  production: { poCount: number; shippedCount: number; collectionsCount: number; avgLeadTime: number; bottleneckOrders: number };
-  b2b: { ordersCount: number; revenue: string; retailersCount: number; distributorsRevenue: string; collectionDrops: number };
+  production: {
+    poCount: number;
+    shippedCount: number;
+    collectionsCount: number;
+    avgLeadTime: number;
+    bottleneckOrders: number;
+  };
+  b2b: {
+    ordersCount: number;
+    revenue: string;
+    retailersCount: number;
+    distributorsRevenue: string;
+    collectionDrops: number;
+  };
   finance: { revenueMonth: string; pnl: string; cashFlow: string; escrowPending: string };
-  warehouse: { skuCount: number; totalUnits: number; reservedUnits: number; turnoverRate: string; deadStock: number };
-  platform: { marketroomRevenue: string; outletRevenue: string; preOrders: number; customerBase: number };
+  warehouse: {
+    skuCount: number;
+    totalUnits: number;
+    reservedUnits: number;
+    turnoverRate: string;
+    deadStock: number;
+  };
+  platform: {
+    marketroomRevenue: string;
+    outletRevenue: string;
+    preOrders: number;
+    customerBase: number;
+  };
   byChannel: { b2b: string; b2c: string; marketroom: string; outlet: string };
   topRetailers: { name: string; revenue: string; orders: number }[];
   byCollection: { name: string; revenue: string; sellThrough: string }[];
@@ -25,11 +48,44 @@ export interface BIDashboardData {
 
 export function buildBIDashboard(mock?: Partial<BIDashboardData>): BIDashboardData {
   const base: BIDashboardData = {
-    production: { poCount: 4, shippedCount: 3, collectionsCount: 12, avgLeadTime: 28, bottleneckOrders: 2, ...mock?.production },
-    b2b: { ordersCount: 7, revenue: '2.4M ₽', retailersCount: 24, distributorsRevenue: '1.8M ₽', collectionDrops: 5, ...mock?.b2b },
-    finance: { revenueMonth: '2.4M ₽', pnl: '+12%', cashFlow: '18 дн.', escrowPending: '450K ₽', ...mock?.finance },
-    warehouse: { skuCount: 3, totalUnits: 400, reservedUnits: 90, turnoverRate: '4.2x', deadStock: 12, ...mock?.warehouse },
-    platform: { marketroomRevenue: '380K ₽', outletRevenue: '120K ₽', preOrders: 84, customerBase: 2847, ...mock?.platform },
+    production: {
+      poCount: 4,
+      shippedCount: 3,
+      collectionsCount: 12,
+      avgLeadTime: 28,
+      bottleneckOrders: 2,
+      ...mock?.production,
+    },
+    b2b: {
+      ordersCount: 7,
+      revenue: '2.4M ₽',
+      retailersCount: 24,
+      distributorsRevenue: '1.8M ₽',
+      collectionDrops: 5,
+      ...mock?.b2b,
+    },
+    finance: {
+      revenueMonth: '2.4M ₽',
+      pnl: '+12%',
+      cashFlow: '18 дн.',
+      escrowPending: '450K ₽',
+      ...mock?.finance,
+    },
+    warehouse: {
+      skuCount: 3,
+      totalUnits: 400,
+      reservedUnits: 90,
+      turnoverRate: '4.2x',
+      deadStock: 12,
+      ...mock?.warehouse,
+    },
+    platform: {
+      marketroomRevenue: '380K ₽',
+      outletRevenue: '120K ₽',
+      preOrders: 84,
+      customerBase: 2847,
+      ...mock?.platform,
+    },
     byChannel: { b2b: '68%', b2c: '14%', marketroom: '12%', outlet: '6%', ...mock?.byChannel },
     topRetailers: [
       { name: 'ЦУМ', revenue: '2.1M ₽', orders: 12 },

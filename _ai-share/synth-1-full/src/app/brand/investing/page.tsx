@@ -11,8 +11,24 @@ import { getProductLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 
 const MOCK_DROPS = [
-  { id: 'd1', name: 'SS26 Drop 2', brand: 'Synth Brand', date: '15.04.2026', slots: 50, reserved: 12, minAmount: 50000 },
-  { id: 'd2', name: 'FW26 Early Bird', brand: 'Synth Brand', date: '01.08.2026', slots: 30, reserved: 8, minAmount: 100000 },
+  {
+    id: 'd1',
+    name: 'SS26 Drop 2',
+    brand: 'Synth Brand',
+    date: '15.04.2026',
+    slots: 50,
+    reserved: 12,
+    minAmount: 50000,
+  },
+  {
+    id: 'd2',
+    name: 'FW26 Early Bird',
+    brand: 'Synth Brand',
+    date: '01.08.2026',
+    slots: 30,
+    reserved: 8,
+    minAmount: 100000,
+  },
 ];
 
 export default function FashionInvestingPage() {
@@ -28,7 +44,7 @@ export default function FashionInvestingPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Fashion Social Investing"
         description="Инвестиции в дропы брендов: подписка на уведомления о старте, резерв слотов. Связь с предзаказами и B2B."
@@ -37,9 +53,15 @@ export default function FashionInvestingPage() {
         iconColor="text-emerald-600"
         badges={
           <>
-            <Badge variant="outline" className="text-[9px]">Дропы</Badge>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href="/brand/pre-orders">Предзаказы</Link></Button>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href="/brand/b2b-orders">B2B</Link></Button>
+            <Badge variant="outline" className="text-[9px]">
+              Дропы
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href="/brand/pre-orders">Предзаказы</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href="/brand/b2b-orders">B2B</Link>
+            </Button>
           </>
         }
       />
@@ -50,22 +72,39 @@ export default function FashionInvestingPage() {
           <CardTitle className="flex items-center gap-2">
             <Package className="h-5 w-5" /> Предстоящие дропы
           </CardTitle>
-          <CardDescription>Подпишитесь на уведомление о старте или оставьте заявку на участие</CardDescription>
+          <CardDescription>
+            Подпишитесь на уведомление о старте или оставьте заявку на участие
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <ul className="space-y-3">
             {MOCK_DROPS.map((d) => (
-              <li key={d.id} className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <li
+                key={d.id}
+                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4"
+              >
                 <div>
                   <p className="font-bold">{d.name}</p>
-                  <p className="text-[11px] text-slate-500">{d.brand} · <Calendar className="inline h-3 w-3" /> {d.date}</p>
-                  <p className="text-[10px] text-slate-500 mt-1">Слотов: {d.reserved}/{d.slots} · мин. сумма {d.minAmount.toLocaleString()} ₽</p>
+                  <p className="text-[11px] text-slate-500">
+                    {d.brand} · <Calendar className="inline h-3 w-3" /> {d.date}
+                  </p>
+                  <p className="mt-1 text-[10px] text-slate-500">
+                    Слотов: {d.reserved}/{d.slots} · мин. сумма {d.minAmount.toLocaleString()} ₽
+                  </p>
                 </div>
                 <div className="flex gap-2">
-                  <Button variant={subscribed.has(d.id) ? 'default' : 'outline'} size="sm" onClick={() => toggleNotify(d.id)} className="rounded-lg text-[10px] gap-1">
-                    <Bell className="h-3.5 w-3.5" /> {subscribed.has(d.id) ? 'Уведомление включено' : 'Уведомить о старте'}
+                  <Button
+                    variant={subscribed.has(d.id) ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => toggleNotify(d.id)}
+                    className="gap-1 rounded-lg text-[10px]"
+                  >
+                    <Bell className="h-3.5 w-3.5" />{' '}
+                    {subscribed.has(d.id) ? 'Уведомление включено' : 'Уведомить о старте'}
                   </Button>
-                  <Button size="sm" className="rounded-lg text-[10px]" asChild><Link href={`/brand/b2b-orders?drop=${d.id}`}>Участвовать</Link></Button>
+                  <Button size="sm" className="rounded-lg text-[10px]" asChild>
+                    <Link href={`/brand/b2b-orders?drop=${d.id}`}>Участвовать</Link>
+                  </Button>
                 </div>
               </li>
             ))}
@@ -74,9 +113,15 @@ export default function FashionInvestingPage() {
       </Card>
 
       <div className="flex flex-wrap gap-2">
-        <Button variant="outline" size="sm" asChild><Link href="/brand/pre-orders">Предзаказы</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href="/brand/b2b-orders">B2B Заказы</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href="/brand/finance">Финансы</Link></Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href="/brand/pre-orders">Предзаказы</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href="/brand/b2b-orders">B2B Заказы</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href="/brand/finance">Финансы</Link>
+        </Button>
       </div>
       <RelatedModulesBlock links={getProductLinks()} />
     </div>

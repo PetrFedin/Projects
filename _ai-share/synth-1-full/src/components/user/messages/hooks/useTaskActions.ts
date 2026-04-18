@@ -12,17 +12,17 @@ export function useTaskActions(
   const [taskStages, setTaskStages] = React.useState<Record<number, TaskStage[]>>({});
 
   const saveTask = (task: ChatMessage) => {
-    setMessages(prev => [...prev, task]);
+    setMessages((prev) => [...prev, task]);
     toast({ title: 'Задача создана' });
   };
 
   const updateTask = (task: ChatMessage) => {
-    setMessages(prev => prev.map(m => m.id === task.id ? task : m));
+    setMessages((prev) => prev.map((m) => (m.id === task.id ? task : m)));
     toast({ title: 'Задача обновлена' });
   };
 
   const setTaskStatus = (taskId: number, status: TaskStatus) => {
-    setMessages(prev => prev.map(m => m.id === taskId ? { ...m, status } : m));
+    setMessages((prev) => prev.map((m) => (m.id === taskId ? { ...m, status } : m)));
   };
 
   const createStage = (stage: TaskStage) => {
@@ -32,14 +32,17 @@ export function useTaskActions(
   const postTaskThread = (taskId: number, text: string) => {
     setTaskThreads((prev) => ({
       ...prev,
-      [taskId]: [...(prev[taskId] ?? []), {
-        id: `thr_${Date.now()}`,
-        taskId,
-        author: currentUser,
-        text,
-        createdAt: Date.now(),
-        kind: 'comment',
-      }]
+      [taskId]: [
+        ...(prev[taskId] ?? []),
+        {
+          id: `thr_${Date.now()}`,
+          taskId,
+          author: currentUser,
+          text,
+          createdAt: Date.now(),
+          kind: 'comment',
+        },
+      ],
     }));
   };
 
@@ -50,6 +53,6 @@ export function useTaskActions(
     updateTask,
     setTaskStatus,
     createStage,
-    postTaskThread
+    postTaskThread,
   };
 }

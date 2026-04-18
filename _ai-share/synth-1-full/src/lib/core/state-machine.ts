@@ -27,18 +27,24 @@ export class StateMachine<TState extends string> {
    * Выбрасывает ошибку, если переход запрещен графом или guard-функцией.
    */
   public transition(newState: TState, context?: any): void {
-    const validTransition = this.transitions.find(t => {
-      const isFromValid = Array.isArray(t.from) ? t.from.includes(this.currentState) : t.from === this.currentState;
+    const validTransition = this.transitions.find((t) => {
+      const isFromValid = Array.isArray(t.from)
+        ? t.from.includes(this.currentState)
+        : t.from === this.currentState;
       const isToValid = t.to === newState;
       return isFromValid && isToValid;
     });
 
     if (!validTransition) {
-      throw new Error(`[StateMachine] Invalid transition from '${this.currentState}' to '${newState}'.`);
+      throw new Error(
+        `[StateMachine] Invalid transition from '${this.currentState}' to '${newState}'.`
+      );
     }
 
     if (validTransition.guard && !validTransition.guard(context)) {
-      throw new Error(`[StateMachine] Transition to '${newState}' blocked by guard condition: ${validTransition.errorMessage || 'Condition failed'}.`);
+      throw new Error(
+        `[StateMachine] Transition to '${newState}' blocked by guard condition: ${validTransition.errorMessage || 'Condition failed'}.`
+      );
     }
 
     // Переход разрешен

@@ -9,7 +9,10 @@ import {
   articleControlInputFromArticleEntity,
   buildArticleControlOutput,
 } from '@/lib/control-adapters/article-control-output';
-import { buildOrderControlOutput, orderControlInputFromB2BOrder } from '@/lib/control-adapters/order-control-output';
+import {
+  buildOrderControlOutput,
+  orderControlInputFromB2BOrder,
+} from '@/lib/control-adapters/order-control-output';
 
 describe('derivation conventions (order + article)', () => {
   const asOfOrder = '2024-07-20T12:00:00.000Z';

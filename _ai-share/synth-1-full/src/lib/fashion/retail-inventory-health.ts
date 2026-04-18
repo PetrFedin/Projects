@@ -7,10 +7,10 @@ export function getRetailInventoryHealth(sku: string, storeId: string): RetailIn
   if (isNaN(seed)) seed = sku.length * 17;
   const onHand = 15 + (seed % 50);
   const minBuffer = 20;
-  
+
   let status: RetailInventoryHealthV1['status'] = 'healthy';
   let action = 'Maintain current display.';
-  
+
   if (onHand < minBuffer) {
     status = onHand < 5 ? 'critical' : 'at_risk';
     action = onHand < 5 ? 'Emergency restock required.' : 'Plan restock within 3 days.';

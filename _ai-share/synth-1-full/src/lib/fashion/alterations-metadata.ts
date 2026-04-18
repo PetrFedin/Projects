@@ -6,14 +6,15 @@ export function extractAlterationOffer(product: Product): AlterationOffer | null
   const a = product.attributes ?? {};
   const raw = a.alterationsAvailable ?? a.alterationAvailable ?? a.tailoring;
   const available =
-    raw === true ||
-    raw === 'true' ||
-    (typeof raw === 'string' && /^(yes|да|1)$/i.test(raw.trim()));
+    raw === true || raw === 'true' || (typeof raw === 'string' && /^(yes|да|1)$/i.test(raw.trim()));
   const listRaw = a.alterationServices ?? a.tailoringServices;
   const services: string[] = Array.isArray(listRaw)
     ? listRaw.map(String)
     : typeof listRaw === 'string'
-      ? listRaw.split(/[,;]/).map((s) => s.trim()).filter(Boolean)
+      ? listRaw
+          .split(/[,;]/)
+          .map((s) => s.trim())
+          .filter(Boolean)
       : [];
   const hem = a.hemServiceCm ?? a.maxHemCm;
   if (hem != null && String(hem).trim()) {

@@ -1,6 +1,14 @@
 import * as z from 'zod';
 
-export const relativeRoleEnum = z.enum(['husband', 'wife', 'son', 'daughter', 'father', 'mother', 'other']);
+export const relativeRoleEnum = z.enum([
+  'husband',
+  'wife',
+  'son',
+  'daughter',
+  'father',
+  'mother',
+  'other',
+]);
 export type RelativeRole = z.infer<typeof relativeRoleEnum>;
 
 export const measurementsSchema = z.object({
@@ -13,15 +21,33 @@ export const measurementsSchema = z.object({
   waist: z.preprocess((val) => (val === '' ? undefined : Number(val)), z.number().optional()),
   hips: z.preprocess((val) => (val === '' ? undefined : Number(val)), z.number().optional()),
   chest: z.preprocess((val) => (val === '' ? undefined : Number(val)), z.number().optional()),
-  shoulderWidth: z.preprocess((val) => (val === '' ? undefined : Number(val)), z.number().optional()),
-  sleeveLength: z.preprocess((val) => (val === '' ? undefined : Number(val)), z.number().optional()),
+  shoulderWidth: z.preprocess(
+    (val) => (val === '' ? undefined : Number(val)),
+    z.number().optional()
+  ),
+  sleeveLength: z.preprocess(
+    (val) => (val === '' ? undefined : Number(val)),
+    z.number().optional()
+  ),
   inseam: z.preprocess((val) => (val === '' ? undefined : Number(val)), z.number().optional()),
   neck: z.preprocess((val) => (val === '' ? undefined : Number(val)), z.number().optional()),
   torsoLength: z.preprocess((val) => (val === '' ? undefined : Number(val)), z.number().optional()),
-  armCircumference: z.preprocess((val) => (val === '' ? undefined : Number(val)), z.number().optional()),
-  thighCircumference: z.preprocess((val) => (val === '' ? undefined : Number(val)), z.number().optional()),
-  calfCircumference: z.preprocess((val) => (val === '' ? undefined : Number(val)), z.number().optional()),
-  ankleCircumference: z.preprocess((val) => (val === '' ? undefined : Number(val)), z.number().optional()),
+  armCircumference: z.preprocess(
+    (val) => (val === '' ? undefined : Number(val)),
+    z.number().optional()
+  ),
+  thighCircumference: z.preprocess(
+    (val) => (val === '' ? undefined : Number(val)),
+    z.number().optional()
+  ),
+  calfCircumference: z.preprocess(
+    (val) => (val === '' ? undefined : Number(val)),
+    z.number().optional()
+  ),
+  ankleCircumference: z.preprocess(
+    (val) => (val === '' ? undefined : Number(val)),
+    z.number().optional()
+  ),
   shoeSize: z.string().max(16).optional(),
   clothingSize: z.string().max(16).optional(),
   clothingSizeTop: z.string().max(16).optional(),
@@ -30,7 +56,10 @@ export const measurementsSchema = z.object({
   braSize: z.string().max(16).optional(),
   hatSize: z.string().max(16).optional(),
   ringSize: z.string().max(16).optional(),
-  wristCircumference: z.preprocess((val) => (val === '' ? undefined : Number(val)), z.number().optional()),
+  wristCircumference: z.preprocess(
+    (val) => (val === '' ? undefined : Number(val)),
+    z.number().optional()
+  ),
 });
 
 export const profileSchema = z.object({
@@ -45,10 +74,26 @@ export const profileSchema = z.object({
     .optional(),
   identity: z
     .object({
-      firstName: z.string().max(64).regex(/^[\p{L} ]+$/u, { message: 'Только буквы.' }).optional(),
-      lastName: z.string().max(64).regex(/^[\p{L} ]+$/u, { message: 'Только буквы.' }).optional(),
-      firstNameEn: z.string().max(64).regex(/^[A-Za-z]+$/, { message: 'Только латиница.' }).optional(),
-      lastNameEn: z.string().max(64).regex(/^[A-Za-z]+$/, { message: 'Только латиница.' }).optional(),
+      firstName: z
+        .string()
+        .max(64)
+        .regex(/^[\p{L} ]+$/u, { message: 'Только буквы.' })
+        .optional(),
+      lastName: z
+        .string()
+        .max(64)
+        .regex(/^[\p{L} ]+$/u, { message: 'Только буквы.' })
+        .optional(),
+      firstNameEn: z
+        .string()
+        .max(64)
+        .regex(/^[A-Za-z]+$/, { message: 'Только латиница.' })
+        .optional(),
+      lastNameEn: z
+        .string()
+        .max(64)
+        .regex(/^[A-Za-z]+$/, { message: 'Только латиница.' })
+        .optional(),
     })
     .optional(),
   personalInfo: z
@@ -110,7 +155,9 @@ export const profileSchema = z.object({
         value: z
           .string()
           .max(160)
-          .regex(/^[A-Za-z0-9@._:/-]+$/i, { message: 'Только латиница и допустимые символы (@ . _ - / :).' })
+          .regex(/^[A-Za-z0-9@._:/-]+$/i, {
+            message: 'Только латиница и допустимые символы (@ . _ - / :).',
+          })
           .optional(),
         synced: z.boolean().optional(),
         verified: z.boolean().optional(),
@@ -141,7 +188,10 @@ export const profileSchema = z.object({
   lifestyle: z
     .object({
       occupation: z.string().max(64).optional(),
-      age: z.preprocess((val) => (val === '' ? undefined : Number(val)), z.number().int().min(0).max(120).optional()),
+      age: z.preprocess(
+        (val) => (val === '' ? undefined : Number(val)),
+        z.number().int().min(0).max(120).optional()
+      ),
     })
     .optional(),
   measurements: measurementsSchema.optional(),
@@ -152,8 +202,14 @@ export const profileSchema = z.object({
       favoriteCategories: z.string().max(400).optional(),
       preferredMaterials: z.string().max(400).optional(),
       stylePersonality: z.string().max(64).optional(),
-      priceMin: z.preprocess((val) => (val === '' ? undefined : Number(val)), z.number().optional()),
-      priceMax: z.preprocess((val) => (val === '' ? undefined : Number(val)), z.number().optional()),
+      priceMin: z.preprocess(
+        (val) => (val === '' ? undefined : Number(val)),
+        z.number().optional()
+      ),
+      priceMax: z.preprocess(
+        (val) => (val === '' ? undefined : Number(val)),
+        z.number().optional()
+      ),
       forbiddenMaterials: z.string().optional(),
       forbiddenCategories: z.string().optional(),
     })

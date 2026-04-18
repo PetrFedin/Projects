@@ -30,13 +30,17 @@ export const ProfileProgress = ({ progress, isOpen, onToggle }: ProfileProgressP
           </div>
           <div className="flex items-center gap-2">
             <div className="text-xs font-semibold tabular-nums">{progress.current.percent}%</div>
-            {isOpen ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
+            {isOpen ? (
+              <ChevronUp className="h-4 w-4 text-muted-foreground" />
+            ) : (
+              <ChevronDown className="h-4 w-4 text-muted-foreground" />
+            )}
           </div>
         </div>
       </button>
 
       <div className="mt-3">
-        <div className="h-2.5 w-full rounded-full bg-gradient-to-r from-zinc-200 to-zinc-100 overflow-hidden">
+        <div className="h-2.5 w-full overflow-hidden rounded-full bg-gradient-to-r from-zinc-200 to-zinc-100">
           <div
             className="h-full rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500 transition-[width] duration-500 ease-out"
             style={{ width: `${progress.current.percent}%` }}
@@ -50,10 +54,10 @@ export const ProfileProgress = ({ progress, isOpen, onToggle }: ProfileProgressP
             {progress.current.items.map((it) => (
               <div key={it.key} className="flex items-center gap-2">
                 <span
-                  className={cn("h-2 w-2 rounded-full", it.done ? "bg-green-600" : "bg-red-500")}
+                  className={cn('h-2 w-2 rounded-full', it.done ? 'bg-green-600' : 'bg-red-500')}
                   aria-hidden
                 />
-                <span className={cn("min-w-0", it.done && "text-zinc-700")}>{it.label}</span>
+                <span className={cn('min-w-0', it.done && 'text-zinc-700')}>{it.label}</span>
               </div>
             ))}
           </div>

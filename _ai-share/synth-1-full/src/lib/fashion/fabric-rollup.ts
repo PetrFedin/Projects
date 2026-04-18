@@ -18,7 +18,16 @@ export function fabricRollupToCsv(rows: FabricRollupRow[]): string {
   const header = ['sku', 'name', 'color', 'season', 'composition', 'care_symbol_ids'];
   const lines = [header.join(',')];
   for (const r of rows) {
-    lines.push([r.sku, `"${r.name}"`, `"${r.color}"`, `"${r.season}"`, `"${r.compositionText}"`, `"${r.careIds}"`].join(','));
+    lines.push(
+      [
+        r.sku,
+        `"${r.name}"`,
+        `"${r.color}"`,
+        `"${r.season}"`,
+        `"${r.compositionText}"`,
+        `"${r.careIds}"`,
+      ].join(',')
+    );
   }
   return lines.join('\n');
 }

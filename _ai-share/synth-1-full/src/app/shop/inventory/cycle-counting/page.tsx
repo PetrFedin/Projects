@@ -25,14 +25,19 @@ export default function CycleCountingPage() {
   }, []);
 
   return (
-    <div className="container max-w-4xl py-6 space-y-6 pb-24">
+    <div className="container max-w-4xl space-y-6 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Link href="/shop/inventory">
-          <Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Inventory Cycle Counting</h1>
-          <p className="text-slate-500 text-sm">Инвентаризация склада через камеру смартфона (~15 мин). Связь со складом и маркировкой (Russian Layer).</p>
+          <p className="text-sm text-slate-500">
+            Инвентаризация склада через камеру смартфона (~15 мин). Связь со складом и маркировкой
+            (Russian Layer).
+          </p>
         </div>
       </div>
 
@@ -46,18 +51,31 @@ export default function CycleCountingPage() {
         </CardHeader>
         <CardContent className="space-y-2">
           {sessions.map((s) => (
-            <div key={s.id} className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            <div
+              key={s.id}
+              className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
+            >
               <div>
-                <p className="text-sm font-medium">Зона {s.zone} · {s.scannedCount} / {s.expectedCount}</p>
+                <p className="text-sm font-medium">
+                  Зона {s.zone} · {s.scannedCount} / {s.expectedCount}
+                </p>
                 <p className="text-xs text-slate-500">
                   {s.completedAt ? `Завершена в ${s.completedAt.slice(11, 16)}` : 'В процессе'}
                   {s.markingVerified && ' · КИЗ проверен'}
                 </p>
               </div>
-              <Badge variant={s.status === 'completed' ? 'default' : 'secondary'} className="text-[10px]">{statusLabels[s.status]}</Badge>
+              <Badge
+                variant={s.status === 'completed' ? 'default' : 'secondary'}
+                className="text-[10px]"
+              >
+                {statusLabels[s.status]}
+              </Badge>
             </div>
           ))}
-          <p className="text-xs text-slate-400 mt-3">API: CYCLE_COUNTING_API — старт сессии, сканирование, завершение. Russian Layer: маркировка.</p>
+          <p className="mt-3 text-xs text-slate-400">
+            API: CYCLE_COUNTING_API — старт сессии, сканирование, завершение. Russian Layer:
+            маркировка.
+          </p>
         </CardContent>
       </Card>
 
@@ -70,7 +88,9 @@ export default function CycleCountingPage() {
           <ul className="flex flex-wrap gap-2">
             {links.map((l) => (
               <li key={l.href}>
-                <Button variant="outline" size="sm" className="text-xs" asChild><Link href={l.href}>{l.label}</Link></Button>
+                <Button variant="outline" size="sm" className="text-xs" asChild>
+                  <Link href={l.href}>{l.label}</Link>
+                </Button>
               </li>
             ))}
           </ul>

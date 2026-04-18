@@ -9,7 +9,10 @@ import { getHRHubLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-const VacanciesContent = dynamic(() => import('@/app/brand/hr-hub/vacancies/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
+const VacanciesContent = dynamic(
+  () => import('@/app/brand/hr-hub/vacancies/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
+);
 
 const hrTabTriggerClass =
   'text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5';
@@ -17,9 +20,9 @@ const hrTabTriggerClass =
 export default function HRHubPage() {
   const [tab, setTab] = useState('hr-hub');
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <Tabs value={tab} onValueChange={setTab} className="space-y-4">
-        <TabsList className="bg-slate-100/80 border border-slate-200 h-9 px-1 gap-0.5 flex-wrap">
+        <TabsList className="h-9 flex-wrap gap-0.5 border border-slate-200 bg-slate-100/80 px-1">
           <TabsTrigger value="hr-hub" className={hrTabTriggerClass}>
             <Users className="h-3 w-3 shrink-0" /> HR Hub
           </TabsTrigger>
@@ -28,9 +31,9 @@ export default function HRHubPage() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="hr-hub" className="mt-0 space-y-6">
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid gap-4 md:grid-cols-2">
             <Link href="/brand/team">
-              <Card className="h-full rounded-xl border border-indigo-100 hover:border-indigo-200 transition-colors cursor-pointer">
+              <Card className="h-full cursor-pointer rounded-xl border border-indigo-100 transition-colors hover:border-indigo-200">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Users className="h-5 w-5" /> Команда
@@ -40,7 +43,7 @@ export default function HRHubPage() {
               </Card>
             </Link>
             <Link href="/shop/career">
-              <Card className="h-full rounded-xl border border-slate-100 hover:border-indigo-200 transition-colors cursor-pointer">
+              <Card className="h-full cursor-pointer rounded-xl border border-slate-100 transition-colors hover:border-indigo-200">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Briefcase className="h-5 w-5" /> Вакансии и резюме
@@ -50,7 +53,7 @@ export default function HRHubPage() {
               </Card>
             </Link>
             <Link href="/brand/academy">
-              <Card className="h-full rounded-xl border border-slate-100 hover:border-indigo-200 transition-colors cursor-pointer">
+              <Card className="h-full cursor-pointer rounded-xl border border-slate-100 transition-colors hover:border-indigo-200">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <GraduationCap className="h-5 w-5" /> Обучение
@@ -67,7 +70,9 @@ export default function HRHubPage() {
                 <CardDescription>Чеклисты для новых сотрудников</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-[11px] text-slate-500">Скоро: автоматизированные чеклисты онбординга</p>
+                <p className="text-[11px] text-slate-500">
+                  Скоро: автоматизированные чеклисты онбординга
+                </p>
               </CardContent>
             </Card>
           </div>

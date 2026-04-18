@@ -13,13 +13,29 @@ import { SectionInfoCard } from '@/components/brand/production/ProductionSection
 
 /** Last Call / Flash Deals для РФ: закрытый раздел ликвидации остатков для партнёров. Таймер, лимиты, рубль. */
 const MOCK_OFFERS = [
-  { id: '1', name: 'Парка Graphene, остаток', sku: 'CTP-26-001', qty: 24, price: '2 400 ₽', was: '4 800 ₽', endsAt: '2025-03-20' },
-  { id: '2', name: 'Свитер Merino', sku: 'CTP-26-002', qty: 12, price: '1 800 ₽', was: '3 600 ₽', endsAt: '2025-03-18' },
+  {
+    id: '1',
+    name: 'Парка Graphene, остаток',
+    sku: 'CTP-26-001',
+    qty: 24,
+    price: '2 400 ₽',
+    was: '4 800 ₽',
+    endsAt: '2025-03-20',
+  },
+  {
+    id: '2',
+    name: 'Свитер Merino',
+    sku: 'CTP-26-002',
+    qty: 12,
+    price: '1 800 ₽',
+    was: '3 600 ₽',
+    endsAt: '2025-03-18',
+  },
 ];
 
 export default function LastCallPage() {
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Last Call / Flash Deals"
         description="Закрытый раздел ликвидации остатков для партнёров. Ограниченные по времени офферы в рублях. Доступ только для одобренных ритейлеров."
@@ -28,15 +44,27 @@ export default function LastCallPage() {
         iconColor="text-amber-600"
         badges={
           <>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href={ROUTES.brand.retailers}>Партнёры</Link></Button>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href={ROUTES.brand.b2bOrders}>B2B Заказы</Link></Button>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href={ROUTES.brand.creditRisk}>Credit Risk</Link></Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.retailers}>Партнёры</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.b2bOrders}>B2B Заказы</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.creditRisk}>Credit Risk</Link>
+            </Button>
           </>
         }
       />
       <div className="flex items-center gap-3">
-        <Link href={ROUTES.brand.retailers}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
-        <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2"><Package className="h-6 w-6" /> Last Call</h1>
+        <Link href={ROUTES.brand.retailers}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
+        <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
+          <Package className="h-6 w-6" /> Last Call
+        </h1>
       </div>
 
       <Card>
@@ -47,10 +75,15 @@ export default function LastCallPage() {
         <CardContent>
           <ul className="space-y-4">
             {MOCK_OFFERS.map((o) => (
-              <li key={o.id} className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100">
+              <li
+                key={o.id}
+                className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-4"
+              >
                 <div>
                   <p className="font-medium">{o.name}</p>
-                  <p className="text-xs text-slate-500">{o.sku} · остаток {o.qty} шт.</p>
+                  <p className="text-xs text-slate-500">
+                    {o.sku} · остаток {o.qty} шт.
+                  </p>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-sm text-slate-400 line-through">{o.was}</span>

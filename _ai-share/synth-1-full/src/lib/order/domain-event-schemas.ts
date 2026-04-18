@@ -74,7 +74,9 @@ export type OrderShippedPayload = z.infer<typeof orderShippedPayloadSchema>;
 export type ProductionQcUpdatedPayload = z.infer<typeof productionQcUpdatedPayloadSchema>;
 export type InventoryCustomerReturnPayload = z.infer<typeof inventoryCustomerReturnPayloadSchema>;
 export type InventoryChannelTransferPayload = z.infer<typeof inventoryChannelTransferPayloadSchema>;
-export type InventoryReconciliationCompletedPayload = z.infer<typeof inventoryReconciliationCompletedPayloadSchema>;
+export type InventoryReconciliationCompletedPayload = z.infer<
+  typeof inventoryReconciliationCompletedPayloadSchema
+>;
 
 /** inventory.discrepancy_detected — отчёт сверки + detectedBy */
 export const inventoryDiscrepancyDetectedPayloadSchema = z.object({

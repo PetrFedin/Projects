@@ -37,4 +37,3 @@ export function setStoredAuthUser(nextUser: UserProfile) {
   updateUsersDb(nextUser);
   window.dispatchEvent(new Event('syntha:authUserUpdated'));
 }
-

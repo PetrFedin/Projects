@@ -17,10 +17,7 @@ import { Card, CardContent, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Workshop2Phase1DossierPanel } from '@/components/brand/production/Workshop2Phase1DossierPanel';
-import {
-  findHandbookLeafById,
-  getHandbookCategoryLeaves,
-} from '@/lib/production/category-catalog';
+import { findHandbookLeafById, getHandbookCategoryLeaves } from '@/lib/production/category-catalog';
 import {
   calculateDossierReadiness,
   type DossierSection,
@@ -61,7 +58,10 @@ import {
 import { cn } from '@/lib/utils';
 import type { Workshop2ArticleLinePatch } from '@/lib/production/local-collection-inventory';
 import type { Workshop2CollectionListItem } from '@/components/brand/production/Workshop2TabContent';
-import { ArticleWorkspaceProvider, useArticleWorkspace } from '@/components/brand/production/article-workspace-context';
+import {
+  ArticleWorkspaceProvider,
+  useArticleWorkspace,
+} from '@/components/brand/production/article-workspace-context';
 import { useAuth } from '@/providers/auth-provider';
 import { flushW2NextStepFeedbackToServer } from '@/lib/production/workshop2-dossier-metrics-ingest';
 import {
@@ -110,7 +110,10 @@ import {
   type Workshop2OverviewRouteStage,
   type Workshop2OverviewTab,
 } from '@/lib/production/workshop2-overview-model';
-import { visualReadinessProgress, visualReadinessHints } from '@/lib/production/workshop2-visual-excellence';
+import {
+  visualReadinessProgress,
+  visualReadinessHints,
+} from '@/lib/production/workshop2-visual-excellence';
 import { buildWorkshop2VisualGateItems } from '@/lib/production/workshop2-visual-section-warnings';
 import { isSketchFloorInSearch } from '@/lib/production/sketch-floor-url';
 import {
@@ -124,15 +127,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { SectionContainer } from '@/components/design-system';
 
-type MainTab =
-  | 'overview'
-  | 'tz'
-  | 'supply'
-  | 'fit'
-  | 'plan'
-  | 'release'
-  | 'qc'
-  | 'stock';
+type MainTab = 'overview' | 'tz' | 'supply' | 'fit' | 'plan' | 'release' | 'qc' | 'stock';
 
 const W2_PASSPORT_TZ_STAGE_DEFS: { id: Workshop2TzSignoffStageId; label: string }[] = [
   { id: 'tz', label: 'ТЗ' },
@@ -144,7 +139,9 @@ const W2_PASSPORT_TZ_STAGE_DEFS: { id: Workshop2TzSignoffStageId; label: string 
   { id: 'qc', label: 'ОТК' },
 ];
 
-const W2_PASSPORT_TZ_STAGE_ORDER: Workshop2TzSignoffStageId[] = W2_PASSPORT_TZ_STAGE_DEFS.map((d) => d.id);
+const W2_PASSPORT_TZ_STAGE_ORDER: Workshop2TzSignoffStageId[] = W2_PASSPORT_TZ_STAGE_DEFS.map(
+  (d) => d.id
+);
 
 function mainTabToSignoffStage(tab: MainTab): Workshop2TzSignoffStageId | null {
   switch (tab) {
@@ -199,7 +196,9 @@ function W2PassportTzStagesPick({
         </button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-[11rem] p-2.5" sideOffset={6}>
-        <p className="mb-2 text-[9px] font-bold uppercase tracking-wide text-slate-500">Этапы маршрута</p>
+        <p className="mb-2 text-[9px] font-bold uppercase tracking-wide text-slate-500">
+          Этапы маршрута
+        </p>
         <p className="mb-2 text-[9px] leading-snug text-slate-600">
           Снимите галочку — роль не участвует на этапе; включите снова, когда нужно.
         </p>
@@ -327,7 +326,7 @@ function PassportTzExtraAssigneeCard({
           title="Администратор модели карточки SKU: один на артикул, можно снять"
           aria-pressed={adminOn}
           className={cn(
-            'shrink-0 rounded border px-1 py-0.5 text-[8px] font-semibold transition whitespace-nowrap',
+            'shrink-0 whitespace-nowrap rounded border px-1 py-0.5 text-[8px] font-semibold transition',
             !exAssignee && 'cursor-not-allowed opacity-35',
             adminOn
               ? 'border-indigo-400 bg-indigo-100 text-indigo-900'
@@ -361,7 +360,9 @@ function Workshop2StageSignatoryStrip({
         className
       )}
     >
-      <p className="text-[9px] font-bold uppercase tracking-wider text-slate-500">Подпись на этапе</p>
+      <p className="text-[9px] font-bold uppercase tracking-wider text-slate-500">
+        Подпись на этапе
+      </p>
       <ul className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5">
         {signers.map((s) => (
           <li key={`${s.role}-${s.name}`}>
@@ -398,7 +399,13 @@ const WORKSHOP2_DEFAULT_TZ_SIGNOFF_REVOKERS: readonly string[] = [
   'Главный технолог',
 ];
 
-type StageUiStatus = 'not_started' | 'in_progress' | 'blocked' | 'ready_for_review' | 'approved' | 'handed_off';
+type StageUiStatus =
+  | 'not_started'
+  | 'in_progress'
+  | 'blocked'
+  | 'ready_for_review'
+  | 'approved'
+  | 'handed_off';
 
 // DossierSummary imported from dossier-readiness-engine
 
@@ -488,7 +495,10 @@ function getStatusClass(status: StageUiStatus): string {
 }
 
 /** Иконки этапов маршрута — тот же размер контейнера, что у «Следующий шаг» / обзорных карточек. */
-const W2_ROUTE_STAGE_TILE_ICONS: Record<Workshop2OverviewTab, ComponentType<{ className?: string }>> = {
+const W2_ROUTE_STAGE_TILE_ICONS: Record<
+  Workshop2OverviewTab,
+  ComponentType<{ className?: string }>
+> = {
   overview: LucideIcons.LayoutDashboard,
   tz: LucideIcons.FileBadge2,
   supply: LucideIcons.Package,
@@ -573,10 +583,10 @@ function Workshop2RouteStageTile({
       title={`Открыть этап «${title}»`}
       className={cn(
         W2_OVERVIEW_DECISION_ROW_MIN,
-        'flex h-full min-h-0 cursor-pointer flex-col justify-between gap-0.5 rounded-xl border p-2 text-left shadow-sm transition-all outline-none',
+        'flex h-full min-h-0 cursor-pointer flex-col justify-between gap-0.5 rounded-xl border p-2 text-left shadow-sm outline-none transition-all',
         'border-slate-200 bg-white hover:border-indigo-200 hover:bg-slate-50/90 hover:shadow-md',
         'focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2',
-        active && 'border-indigo-400 ring-1 ring-indigo-100 bg-indigo-50/50',
+        active && 'border-indigo-400 bg-indigo-50/50 ring-1 ring-indigo-100',
         done && 'border-emerald-100 bg-emerald-50/35',
         blocked && 'border-rose-200 bg-rose-50/35'
       )}
@@ -593,7 +603,9 @@ function Workshop2RouteStageTile({
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex min-w-0 items-center gap-1">
-            <h3 className="line-clamp-1 text-sm font-semibold leading-tight text-slate-900">{title}</h3>
+            <h3 className="line-clamp-1 text-sm font-semibold leading-tight text-slate-900">
+              {title}
+            </h3>
             <button
               type="button"
               className="relative z-10 shrink-0 rounded-full p-0.5 text-slate-400 transition-colors hover:bg-white/80 hover:text-indigo-600"
@@ -736,7 +748,9 @@ function Workshop2ArticleWorkspaceOverviewStats({
   const qc = bundle.qc ?? { batches: [] };
 
   const bomTotal = supply.lines.length;
-  const bomReady = supply.lines.filter((l) => l.status === 'at_factory' || l.status === 'consumed').length;
+  const bomReady = supply.lines.filter(
+    (l) => l.status === 'at_factory' || l.status === 'consumed'
+  ).length;
   const bomPct = bomTotal > 0 ? Math.round((bomReady / bomTotal) * 100) : 0;
 
   const opTotal = release.operations?.length ?? 0;
@@ -749,8 +763,12 @@ function Workshop2ArticleWorkspaceOverviewStats({
     return aql && b.majorDefects != null && b.majorDefects >= aql.rejectLimit;
   }).length;
 
-  const totalBomCost = supply.lines.reduce((acc, l) => acc + (l.qty || 0) * (l.costPerUnit || 0), 0);
-  const totalSewingCost = release.operations?.reduce((acc, o) => acc + (o.costPerUnit || 0), 0) ?? 0;
+  const totalBomCost = supply.lines.reduce(
+    (acc, l) => acc + (l.qty || 0) * (l.costPerUnit || 0),
+    0
+  );
+  const totalSewingCost =
+    release.operations?.reduce((acc, o) => acc + (o.costPerUnit || 0), 0) ?? 0;
   const factoryGatePrice = totalBomCost + totalSewingCost;
 
   const fitGold = bundle.fitGold;
@@ -762,8 +780,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
   const stockMovementsStarted = stockMovementCount > 0;
   const stockMovementsPct = stockMovementsStarted ? 100 : 0;
 
-  const hasRisk =
-    (bomTotal > 0 && bomPct < 50) || failedBatches > 0 || aqlRejects > 0;
+  const hasRisk = (bomTotal > 0 && bomPct < 50) || failedBatches > 0 || aqlRejects > 0;
 
   const riskDetail = [
     bomTotal > 0 && bomPct < 50 ? 'Низкая готовность материалов (BOM < 50%).' : '',
@@ -799,25 +816,21 @@ function Workshop2ArticleWorkspaceOverviewStats({
   const fgComplete = factoryGatePrice > 0 && bomComplete && opComplete;
 
   return (
-    <div
-      className={cn(
-        'grid gap-4',
-        hasRisk ? 'lg:grid-cols-2 lg:items-stretch' : ''
-      )}
-    >
+    <div className={cn('grid gap-4', hasRisk ? 'lg:grid-cols-2 lg:items-stretch' : '')}>
       <Card className="flex h-full min-h-0 flex-col border-slate-200 bg-white shadow-sm">
         <CardContent className="flex min-h-0 flex-1 flex-col gap-4 p-5">
           <div className="flex shrink-0 items-start gap-3">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
               <LucideIcons.LayoutDashboard className="h-4 w-4 shrink-0" aria-hidden />
-          </div>
+            </div>
             <div>
               <p className="text-base font-semibold text-slate-900">Операционные KPI</p>
               <p className="text-sm leading-snug text-slate-500">
-                Порядок плиток совпадает с типовым процессом: снабжение и посадка → выпуск и себестоимость → ОТК → склад
-            </p>
+                Порядок плиток совпадает с типовым процессом: снабжение и посадка → выпуск и
+                себестоимость → ОТК → склад
+              </p>
+            </div>
           </div>
-        </div>
           <div className="grid min-h-0 flex-1 grid-cols-2 gap-2">
             <div
               role="button"
@@ -834,7 +847,9 @@ function Workshop2ArticleWorkspaceOverviewStats({
                 W2_OVERVIEW_DECISION_ROW_MIN,
                 W2_OVERVIEW_KPI_TILE_INTERACTIVE,
                 'flex flex-col justify-between rounded-xl border px-3 py-2.5',
-                bomComplete ? 'border-emerald-100 bg-emerald-50/40' : 'border-slate-100 bg-slate-50/70'
+                bomComplete
+                  ? 'border-emerald-100 bg-emerald-50/40'
+                  : 'border-slate-100 bg-slate-50/70'
               )}
             >
               <div className="flex items-center justify-between gap-2">
@@ -846,7 +861,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
                     )}
                   >
                     <LucideIcons.Package className="h-3.5 w-3.5 shrink-0" aria-hidden />
-        </div>
+                  </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex min-w-0 items-center gap-1">
                       <h3 className="line-clamp-1 text-sm font-semibold leading-tight text-slate-900">
@@ -894,9 +909,9 @@ function Workshop2ArticleWorkspaceOverviewStats({
                   {bomComplete ? 'Секция закрыта' : 'Нужны данные в ТЗ'}
                 </span>
                 <span className="shrink-0 text-[10px] tabular-nums text-slate-500">
-            {bomReady}/{bomTotal} ед.
-          </span>
-        </div>
+                  {bomReady}/{bomTotal} ед.
+                </span>
+              </div>
             </div>
             <div
               role="button"
@@ -913,7 +928,9 @@ function Workshop2ArticleWorkspaceOverviewStats({
                 W2_OVERVIEW_DECISION_ROW_MIN,
                 W2_OVERVIEW_KPI_TILE_INTERACTIVE,
                 'flex flex-col justify-between rounded-xl border px-3 py-2.5',
-                fitApproved ? 'border-emerald-100 bg-emerald-50/40' : 'border-slate-100 bg-slate-50/70'
+                fitApproved
+                  ? 'border-emerald-100 bg-emerald-50/40'
+                  : 'border-slate-100 bg-slate-50/70'
               )}
             >
               <div className="flex items-center justify-between gap-2">
@@ -928,7 +945,9 @@ function Workshop2ArticleWorkspaceOverviewStats({
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex min-w-0 items-center gap-1">
-                      <h3 className="line-clamp-1 text-sm font-semibold leading-tight text-slate-900">Посадка</h3>
+                      <h3 className="line-clamp-1 text-sm font-semibold leading-tight text-slate-900">
+                        Посадка
+                      </h3>
                       <button
                         type="button"
                         className={W2_ROUTE_HELP_INFO_BTN_CLASS}
@@ -975,8 +994,8 @@ function Workshop2ArticleWorkspaceOverviewStats({
                 <span className="text-right text-[10px] tabular-nums text-slate-500">
                   {fitApproved ? '1/1 ед.' : fitCommentCount > 0 ? '1/2' : '0/2'}
                   {fitCommentCount > 0 ? ` · ${fitCommentCount} коммент.` : ''}
-          </span>
-        </div>
+                </span>
+              </div>
             </div>
             <div
               role="button"
@@ -993,7 +1012,9 @@ function Workshop2ArticleWorkspaceOverviewStats({
                 W2_OVERVIEW_DECISION_ROW_MIN,
                 W2_OVERVIEW_KPI_TILE_INTERACTIVE,
                 'flex flex-col justify-between rounded-xl border px-3 py-2.5',
-                opComplete ? 'border-emerald-100 bg-emerald-50/40' : 'border-slate-100 bg-slate-50/70'
+                opComplete
+                  ? 'border-emerald-100 bg-emerald-50/40'
+                  : 'border-slate-100 bg-slate-50/70'
               )}
             >
               <div className="flex items-center justify-between gap-2">
@@ -1008,7 +1029,9 @@ function Workshop2ArticleWorkspaceOverviewStats({
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex min-w-0 items-center gap-1">
-                      <h3 className="line-clamp-1 text-sm font-semibold leading-tight text-slate-900">Производство</h3>
+                      <h3 className="line-clamp-1 text-sm font-semibold leading-tight text-slate-900">
+                        Производство
+                      </h3>
                       <button
                         type="button"
                         className={W2_ROUTE_HELP_INFO_BTN_CLASS}
@@ -1051,9 +1074,9 @@ function Workshop2ArticleWorkspaceOverviewStats({
                   {opComplete ? 'Секция закрыта' : 'Нужны данные в ТЗ'}
                 </span>
                 <span className="shrink-0 text-[10px] tabular-nums text-slate-500">
-            {opDone}/{opTotal} опер.
-          </span>
-        </div>
+                  {opDone}/{opTotal} опер.
+                </span>
+              </div>
             </div>
             <div
               role="button"
@@ -1148,8 +1171,8 @@ function Workshop2ArticleWorkspaceOverviewStats({
                   title="Сумма BOM и пошива по данным вкладки «Выпуск»"
                 >
                   {factoryGatePrice.toLocaleString('ru-RU')}&nbsp;₽
-          </span>
-        </div>
+                </span>
+              </div>
             </div>
             <div
               role="button"
@@ -1166,7 +1189,9 @@ function Workshop2ArticleWorkspaceOverviewStats({
                 W2_OVERVIEW_DECISION_ROW_MIN,
                 W2_OVERVIEW_KPI_TILE_INTERACTIVE,
                 'flex flex-col justify-between rounded-xl border px-3 py-2.5',
-                qcOkVisual ? 'border-emerald-100 bg-emerald-50/40' : 'border-slate-100 bg-slate-50/70'
+                qcOkVisual
+                  ? 'border-emerald-100 bg-emerald-50/40'
+                  : 'border-slate-100 bg-slate-50/70'
               )}
             >
               <div className="flex items-center justify-between gap-2">
@@ -1228,8 +1253,8 @@ function Workshop2ArticleWorkspaceOverviewStats({
                   )}
                 >
                   {qcOkVisual ? 'Секция закрыта' : 'Нужны данные в ТЗ'}
-          </span>
-          <Badge
+                </span>
+                <Badge
                   variant="outline"
                   className={cn(
                     'h-5 shrink-0 px-1.5 text-[9px] font-bold',
@@ -1239,8 +1264,8 @@ function Workshop2ArticleWorkspaceOverviewStats({
                   )}
                 >
                   {aqlRejects + failedBatches} откл.
-          </Badge>
-        </div>
+                </Badge>
+              </div>
             </div>
             <div
               role="button"
@@ -1257,7 +1282,9 @@ function Workshop2ArticleWorkspaceOverviewStats({
                 W2_OVERVIEW_DECISION_ROW_MIN,
                 W2_OVERVIEW_KPI_TILE_INTERACTIVE,
                 'flex flex-col justify-between rounded-xl border px-3 py-2.5',
-                stockMovementsStarted ? 'border-emerald-100 bg-emerald-50/40' : 'border-slate-100 bg-slate-50/70'
+                stockMovementsStarted
+                  ? 'border-emerald-100 bg-emerald-50/40'
+                  : 'border-slate-100 bg-slate-50/70'
               )}
             >
               <div className="flex items-center justify-between gap-2">
@@ -1269,7 +1296,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
                     )}
                   >
                     <LucideIcons.Warehouse className="h-3.5 w-3.5 shrink-0" aria-hidden />
-        </div>
+                  </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex min-w-0 items-center gap-1">
                       <h3 className="line-clamp-1 text-sm font-semibold leading-tight text-slate-900">
@@ -1301,7 +1328,10 @@ function Workshop2ArticleWorkspaceOverviewStats({
                   {stockMovementsPct}%
                 </Badge>
               </div>
-              <W2OverviewThinProgressBar value={stockMovementsPct} complete={stockMovementsStarted} />
+              <W2OverviewThinProgressBar
+                value={stockMovementsPct}
+                complete={stockMovementsStarted}
+              />
               <div
                 className={cn(
                   'mt-1 flex items-end justify-between gap-2 border-t pt-1.5',
@@ -1350,7 +1380,9 @@ function Workshop2ArticleWorkspaceOverviewStats({
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex min-w-0 items-center gap-1">
-                      <h3 className="line-clamp-1 text-sm font-semibold leading-tight text-emerald-900">Nesting AI</h3>
+                      <h3 className="line-clamp-1 text-sm font-semibold leading-tight text-emerald-900">
+                        Nesting AI
+                      </h3>
                       <button
                         type="button"
                         className={W2_ROUTE_HELP_INFO_BTN_CLASS}
@@ -1413,7 +1445,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
                   {RiskStageIcon ? (
                     <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                       <RiskStageIcon className="h-3.5 w-3.5 shrink-0" aria-hidden />
-          </span>
+                    </span>
                   ) : null}
                   <div className="min-w-0 flex-1">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
@@ -1429,14 +1461,17 @@ function Workshop2ArticleWorkspaceOverviewStats({
                         className={cn('h-full', riskDetail ? 'bg-rose-500' : 'bg-rose-300/60')}
                         style={{ width: riskDetail ? '100%' : '40%' }}
                       />
-        </div>
-        </div>
-        </div>
+                    </div>
+                  </div>
+                </div>
                 <Button
                   type="button"
                   variant="outline"
                   size="sm"
-                  className={cn(W2_OVERVIEW_OPEN_BTN_CLASS, 'self-start whitespace-nowrap sm:self-center')}
+                  className={cn(
+                    W2_OVERVIEW_OPEN_BTN_CLASS,
+                    'self-start whitespace-nowrap sm:self-center'
+                  )}
                   onClick={() => openRiskTarget()}
                 >
                   Открыть &gt;
@@ -1445,7 +1480,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
               <div className="min-h-0 flex-1" aria-hidden />
             </div>
           </CardContent>
-      </Card>
+        </Card>
       ) : null}
     </div>
   );
@@ -1463,7 +1498,9 @@ function Workshop2OverviewDecisionSnapshot({
   className?: string;
 }) {
   return (
-    <Card className={cn('flex h-full min-h-0 flex-col border-slate-200 bg-white shadow-sm', className)}>
+    <Card
+      className={cn('flex h-full min-h-0 flex-col border-slate-200 bg-white shadow-sm', className)}
+    >
       <CardContent className="flex min-h-0 flex-1 flex-col gap-4 p-5">
         <div className="flex shrink-0 items-start gap-3">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
@@ -1472,11 +1509,12 @@ function Workshop2OverviewDecisionSnapshot({
           <div className="min-w-0 space-y-1">
             <h2 className="text-base font-semibold text-slate-900">Сводка решений</h2>
             <p className="text-sm leading-snug text-slate-500">
-              Каждый раздел ТЗ задаёт входные данные для следующего этапа маршрута — от досье до фабрики и ОТК.
+              Каждый раздел ТЗ задаёт входные данные для следующего этапа маршрута — от досье до
+              фабрики и ОТК.
             </p>
           </div>
         </div>
-        <div className="grid min-h-0 flex-1 grid-cols-2 gap-2 [grid-auto-rows:1fr] items-stretch">
+        <div className="grid min-h-0 flex-1 grid-cols-2 items-stretch gap-2 [grid-auto-rows:1fr]">
           {items.map((item) => {
             const Icon = W2_DECISION_SNAPSHOT_ICONS[item.dossierSection];
             const g = WORKSHOP2_DOSSIER_SECTION_GUIDANCE[item.dossierSection];
@@ -1515,7 +1553,9 @@ function Workshop2OverviewDecisionSnapshot({
                   </div>
                   <div className="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)_auto] items-center gap-1">
                     <div className="inline-flex min-w-0 items-center gap-0.5">
-                      <h3 className="min-w-0 truncate text-sm font-semibold leading-tight text-slate-900">{title}</h3>
+                      <h3 className="min-w-0 truncate text-sm font-semibold leading-tight text-slate-900">
+                        {title}
+                      </h3>
                       <button
                         type="button"
                         className={cn(W2_ROUTE_HELP_INFO_BTN_CLASS, 'shrink-0')}
@@ -1563,14 +1603,14 @@ function Workshop2OverviewDecisionSnapshot({
                     )}
                   >
                     {item.filled ? 'Завершено' : 'В работе'}
-            </span>
-          </div>
-          </div>
+                  </span>
+                </div>
+              </div>
             );
           })}
-          </div>
+        </div>
       </CardContent>
-        </Card>
+    </Card>
   );
 }
 
@@ -1584,7 +1624,9 @@ function Workshop2OverviewTopBlockers({
   className?: string;
 }) {
   return (
-    <Card className={cn('flex h-full min-h-0 flex-col border-slate-200 bg-white shadow-sm', className)}>
+    <Card
+      className={cn('flex h-full min-h-0 flex-col border-slate-200 bg-white shadow-sm', className)}
+    >
       <CardContent className="flex min-h-0 flex-1 flex-col gap-4 p-5">
         <div className="flex shrink-0 items-start gap-3">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-rose-50 text-rose-600">
@@ -1593,7 +1635,8 @@ function Workshop2OverviewTopBlockers({
           <div>
             <p className="text-base font-semibold text-slate-900">Ключевые блокеры</p>
             <p className="text-sm text-slate-500">
-              Критичные проблемы: что тормозит этапы маршрута и что нужно закрыть в ТЗ, прежде чем двигаться дальше.
+              Критичные проблемы: что тормозит этапы маршрута и что нужно закрыть в ТЗ, прежде чем
+              двигаться дальше.
             </p>
           </div>
         </div>
@@ -1606,50 +1649,59 @@ function Workshop2OverviewTopBlockers({
               )}
             >
               <p className="text-sm font-semibold text-emerald-900">Критичных блокеров нет.</p>
-              <p className="mt-0.5 text-xs leading-snug text-emerald-800">Можно двигать SKU по маршруту.</p>
-    </div>
+              <p className="mt-0.5 text-xs leading-snug text-emerald-800">
+                Можно двигать SKU по маршруту.
+              </p>
+            </div>
           ) : (
             <>
               {blockers.map((blocker) => {
                 const BlockStageIcon =
                   W2_ROUTE_STAGE_TILE_ICONS[blocker.stage as Workshop2OverviewTab];
                 return (
-                <div
-                  key={blocker.id}
-                  className={cn(
-                    W2_OVERVIEW_DECISION_ROW_MIN,
-                    'flex flex-col justify-center gap-2 rounded-xl border border-rose-100 bg-rose-50/70 px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between'
-                  )}
-                >
-                  <div className="flex min-w-0 flex-1 items-start gap-2">
-                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
-                      <BlockStageIcon className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                        {formatWorkshop2StageEyebrow(blocker.stageLabel, blocker.owner)}
-                      </p>
-                      <p className="mt-0.5 text-sm font-semibold leading-snug text-slate-900">{blocker.text}</p>
-                      <div className="mt-2 h-0.5 overflow-hidden rounded-full bg-rose-200/80">
-                        <div className="h-full w-full bg-rose-500" />
+                  <div
+                    key={blocker.id}
+                    className={cn(
+                      W2_OVERVIEW_DECISION_ROW_MIN,
+                      'flex flex-col justify-center gap-2 rounded-xl border border-rose-100 bg-rose-50/70 px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between'
+                    )}
+                  >
+                    <div className="flex min-w-0 flex-1 items-start gap-2">
+                      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                        <BlockStageIcon className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                          {formatWorkshop2StageEyebrow(blocker.stageLabel, blocker.owner)}
+                        </p>
+                        <p className="mt-0.5 text-sm font-semibold leading-snug text-slate-900">
+                          {blocker.text}
+                        </p>
+                        <div className="mt-2 h-0.5 overflow-hidden rounded-full bg-rose-200/80">
+                          <div className="h-full w-full bg-rose-500" />
+                        </div>
                       </div>
                     </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className={cn(
+                        W2_OVERVIEW_OPEN_BTN_CLASS,
+                        'self-start whitespace-nowrap sm:self-center'
+                      )}
+                      onClick={() =>
+                        onOpenTab(
+                          blocker.stage,
+                          blocker.dossierSection
+                            ? { dossierSection: blocker.dossierSection }
+                            : undefined
+                        )
+                      }
+                    >
+                      Открыть &gt;
+                    </Button>
                   </div>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className={cn(W2_OVERVIEW_OPEN_BTN_CLASS, 'self-start whitespace-nowrap sm:self-center')}
-                    onClick={() =>
-                      onOpenTab(
-                        blocker.stage,
-                        blocker.dossierSection ? { dossierSection: blocker.dossierSection } : undefined
-                      )
-                    }
-                  >
-                    Открыть &gt;
-                  </Button>
-                </div>
                 );
               })}
             </>
@@ -1669,7 +1721,7 @@ function Workshop2OverviewActionRail({
   onOpenTab: (tab: MainTab, opts?: OpenTabWithFlashOpts) => void;
 }) {
   return (
-    <div className="xl:sticky xl:top-4 self-start">
+    <div className="self-start xl:sticky xl:top-4">
       <Card className="border-slate-200 bg-white shadow-sm">
         <CardContent className="p-3">
           <div className="flex items-center justify-between gap-2">
@@ -1679,8 +1731,12 @@ function Workshop2OverviewActionRail({
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                  <p className="shrink-0 text-xs font-semibold leading-snug text-slate-900">{action.title}</p>
-                  <p className="min-w-0 flex-1 text-[11px] leading-snug text-slate-500">{action.reason}</p>
+                  <p className="shrink-0 text-xs font-semibold leading-snug text-slate-900">
+                    {action.title}
+                  </p>
+                  <p className="min-w-0 flex-1 text-[11px] leading-snug text-slate-500">
+                    {action.reason}
+                  </p>
                 </div>
               </div>
             </div>
@@ -1688,7 +1744,10 @@ function Workshop2OverviewActionRail({
               type="button"
               className={cn(W2_TZ_PASSPORT_CONTINUE_BTN_CLASS, 'shrink-0 whitespace-nowrap')}
               onClick={() =>
-                onOpenTab(action.tab, action.dossierSection ? { dossierSection: action.dossierSection } : undefined)
+                onOpenTab(
+                  action.tab,
+                  action.dossierSection ? { dossierSection: action.dossierSection } : undefined
+                )
               }
             >
               {action.buttonLabel}
@@ -1715,11 +1774,13 @@ function Workshop2ArticleContextRail({
 }) {
   const activeStage = stages.find((stage) => stage.id === activeTab) ?? stages[0]!;
   return (
-    <div className="space-y-4 xl:sticky xl:top-4 self-start">
+    <div className="space-y-4 self-start xl:sticky xl:top-4">
       <Card className="border-slate-200">
         <CardContent className="space-y-3 pt-4">
           <div>
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Следующее действие</p>
+            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+              Следующее действие
+            </p>
             <p className="mt-1 text-sm font-bold text-slate-900">{nextAction.title}</p>
             <p className="text-[11px] text-slate-500">{nextAction.reason}</p>
           </div>
@@ -1730,7 +1791,9 @@ function Workshop2ArticleContextRail({
             onClick={() =>
               onOpenTab(
                 nextAction.tab,
-                nextAction.dossierSection ? { dossierSection: nextAction.dossierSection } : undefined
+                nextAction.dossierSection
+                  ? { dossierSection: nextAction.dossierSection }
+                  : undefined
               )
             }
           >
@@ -1742,14 +1805,21 @@ function Workshop2ArticleContextRail({
       <Card className="border-slate-200">
         <CardContent className="space-y-3 pt-4">
           <div>
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Текущий этап</p>
+            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+              Текущий этап
+            </p>
             <p className="mt-1 text-sm font-bold text-slate-900">{activeStage.label}</p>
             <p className="text-[11px] text-slate-500">Ответственный: {activeStage.owner}</p>
           </div>
-          <Badge variant="outline" className={cn('h-5 text-[9px] font-bold', getStatusClass(activeStage.status))}>
+          <Badge
+            variant="outline"
+            className={cn('h-5 text-[9px] font-bold', getStatusClass(activeStage.status))}
+          >
             {getStatusLabel(activeStage.status)}
           </Badge>
-          {activeStage.blocker ? <p className="text-[11px] text-amber-700">{activeStage.blocker}</p> : null}
+          {activeStage.blocker ? (
+            <p className="text-[11px] text-amber-700">{activeStage.blocker}</p>
+          ) : null}
         </CardContent>
       </Card>
 
@@ -1757,11 +1827,16 @@ function Workshop2ArticleContextRail({
         <CardContent className="space-y-3 pt-4">
           <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Блокеры</p>
           {warnings.length === 0 ? (
-            <p className="text-[11px] text-emerald-700">Критичных блокеров для handoff не найдено.</p>
+            <p className="text-[11px] text-emerald-700">
+              Критичных блокеров для handoff не найдено.
+            </p>
           ) : (
             <ul className="space-y-2">
               {warnings.slice(0, 4).map((warning) => (
-                <li key={warning} className="rounded-md border border-amber-100 bg-amber-50/70 p-2 text-[11px] text-amber-900">
+                <li
+                  key={warning}
+                  className="rounded-md border border-amber-100 bg-amber-50/70 p-2 text-[11px] text-amber-900"
+                >
                   {warning}
                 </li>
               ))}
@@ -1833,7 +1908,11 @@ function Workshop2ArticleWorkspaceScreen({
   const tzSignoffRevokerLabels = useMemo(
     () =>
       Array.from(
-        new Set<string>([...WORKSHOP2_DEFAULT_TZ_SIGNOFF_REVOKERS, createdByLabel.trim()].filter((s) => s.length > 0))
+        new Set<string>(
+          [...WORKSHOP2_DEFAULT_TZ_SIGNOFF_REVOKERS, createdByLabel.trim()].filter(
+            (s) => s.length > 0
+          )
+        )
       ),
     [createdByLabel]
   );
@@ -1905,7 +1984,7 @@ function Workshop2ArticleWorkspaceScreen({
   const passportTzBindings = useMemo((): Workshop2TzSignatoryBindings => {
     const fromDossier = dossier?.tzSignatoryBindings;
     const fromLine = lineTzBindings;
-      return {
+    return {
       ...fromLine,
       ...fromDossier,
     };
@@ -1956,12 +2035,14 @@ function Workshop2ArticleWorkspaceScreen({
       items.push({ admin, kind: 'extra', ex, assignee });
     }
 
-    const admins = items.filter((i) => i.admin).sort((a, b) => {
-      if (a.kind === 'base' && b.kind === 'base') return rank(a.row.role) - rank(b.row.role);
-      if (a.kind === 'base') return -1;
-      if (b.kind === 'base') return 1;
-      return 0;
-    });
+    const admins = items
+      .filter((i) => i.admin)
+      .sort((a, b) => {
+        if (a.kind === 'base' && b.kind === 'base') return rank(a.row.role) - rank(b.row.role);
+        if (a.kind === 'base') return -1;
+        if (b.kind === 'base') return 1;
+        return 0;
+      });
     const non = items.filter((i) => !i.admin);
     const nonB = non
       .filter((i): i is Extract<Item, { kind: 'base' }> => i.kind === 'base')
@@ -1971,11 +2052,14 @@ function Workshop2ArticleWorkspaceScreen({
   }, [dossier?.passportProductionBrief?.articleCardOwnerName, passportTzBindings]);
 
   /** Снять исполнителя или удалить доп. роль крестиком может только администратор карточки SKU (ФИО в «Админ»). */
-  const articleCardAdministratorName = (dossier?.passportProductionBrief?.articleCardOwnerName ?? '').trim();
+  const articleCardAdministratorName = (
+    dossier?.passportProductionBrief?.articleCardOwnerName ?? ''
+  ).trim();
   const canRemovePassportTzRoleRows = useMemo(
     () =>
       Boolean(
-        articleCardAdministratorName && workshopTzLabelsMatch(createdByLabel, articleCardAdministratorName)
+        articleCardAdministratorName &&
+        workshopTzLabelsMatch(createdByLabel, articleCardAdministratorName)
       ),
     [articleCardAdministratorName, createdByLabel]
   );
@@ -2149,8 +2233,7 @@ function Workshop2ArticleWorkspaceScreen({
     [dossier]
   );
   const visualReadinessHintsOverview = useMemo(
-    () =>
-      visualReadinessHints(dossier ?? emptyWorkshop2DossierPhase1(), { sketchFloorInUrl }),
+    () => visualReadinessHints(dossier ?? emptyWorkshop2DossierPhase1(), { sketchFloorInUrl }),
     [dossier, sketchFloorInUrl]
   );
   const overviewVisualGateItems = useMemo(
@@ -2198,14 +2281,7 @@ function Workshop2ArticleWorkspaceScreen({
     if (buf.snapshotHash !== mlNavSeqRef.current.snapshotHash) {
       mlNavSeqRef.current = { snapshotHash: buf.snapshotHash, seq: 0 };
     }
-  }, [
-    article.id,
-    bundleSnapForMl,
-    collectionId,
-    dossier,
-    overviewModel,
-    warningsDigest,
-  ]);
+  }, [article.id, bundleSnapForMl, collectionId, dossier, overviewModel, warningsDigest]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -2250,7 +2326,9 @@ function Workshop2ArticleWorkspaceScreen({
   );
 
   const routeStageHelp =
-    routeStageHelpId !== null ? WORKSHOP2_ROUTE_STAGE_GUIDANCE[routeStageHelpId as Workshop2OverviewTab] : null;
+    routeStageHelpId !== null
+      ? WORKSHOP2_ROUTE_STAGE_GUIDANCE[routeStageHelpId as Workshop2OverviewTab]
+      : null;
   const dossierSectionHelp =
     dossierSectionHelpId !== null ? WORKSHOP2_DOSSIER_SECTION_GUIDANCE[dossierSectionHelpId] : null;
 
@@ -2340,13 +2418,19 @@ function Workshop2ArticleWorkspaceScreen({
     }));
   }, [dossier]);
 
-  const passportVisualSource: Workshop2PassportVisualSource = dossier?.passportVisualSource ?? 'sketch';
+  const passportVisualSource: Workshop2PassportVisualSource =
+    dossier?.passportVisualSource ?? 'sketch';
 
   const passportVisualSlides = useMemo(() => {
     if (passportVisualSource === 'reference') return passportReferenceSlides;
     if (passportVisualSource === 'generated') return passportGeneratedSlides;
     return passportSketchSlides;
-  }, [passportVisualSource, passportReferenceSlides, passportGeneratedSlides, passportSketchSlides]);
+  }, [
+    passportVisualSource,
+    passportReferenceSlides,
+    passportGeneratedSlides,
+    passportSketchSlides,
+  ]);
 
   const updatePassportVisualSource = useCallback(
     (next: Workshop2PassportVisualSource) => {
@@ -2588,7 +2672,8 @@ function Workshop2ArticleWorkspaceScreen({
                           onClick={(e) => {
                             e.stopPropagation();
                             setPassportVisualIndex(
-                              (i) => (i - 1 + passportVisualSlides.length) % passportVisualSlides.length
+                              (i) =>
+                                (i - 1 + passportVisualSlides.length) % passportVisualSlides.length
                             );
                           }}
                         >
@@ -2649,7 +2734,9 @@ function Workshop2ArticleWorkspaceScreen({
                     : 'Формат: 6 цифр от 100000. Номер присваивается при сохранении строки в инвентаре Цеха 2.'
                 }
               >
-                <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">Внутренний артикул</p>
+                <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
+                  Внутренний артикул
+                </p>
                 <p
                   className={cn(
                     'font-mono text-sm font-semibold tabular-nums',
@@ -2675,7 +2762,7 @@ function Workshop2ArticleWorkspaceScreen({
                       asChild
                       variant="ghost"
                       size="sm"
-                      className="h-7 gap-1.5 px-2 -ml-2 text-[10px] text-slate-500 hover:text-slate-900 hover:bg-slate-100"
+                      className="-ml-2 h-7 gap-1.5 px-2 text-[10px] text-slate-500 hover:bg-slate-100 hover:text-slate-900"
                     >
                       <Link href={listHref}>
                         <LucideIcons.ArrowLeft className="h-3 w-3 shrink-0" aria-hidden />
@@ -2683,7 +2770,7 @@ function Workshop2ArticleWorkspaceScreen({
                       </Link>
                     </Button>
                     <span className="text-slate-300">/</span>
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
                       Цифровой паспорт SKU
                     </span>
                   </div>
@@ -2693,7 +2780,7 @@ function Workshop2ArticleWorkspaceScreen({
                       <span className="font-mono text-indigo-600">{article.sku}</span>
                     </h1>
                     <div className="flex items-center gap-2">
-                      <LucideIcons.Tag className="w-3.5 h-3.5 text-slate-400" />
+                      <LucideIcons.Tag className="h-3.5 w-3.5 text-slate-400" />
                       <p className="text-sm font-bold text-slate-700">
                         {categoryPath || article.name}
                       </p>
@@ -2709,12 +2796,16 @@ function Workshop2ArticleWorkspaceScreen({
                           </span>
                           <Link
                             className="font-medium text-indigo-600 underline decoration-indigo-200 underline-offset-2 hover:text-indigo-800"
-                            href={workshop2ArticleHref(collectionId, workshop2ArticleUrlSegment(article.internalArticleCode, article.id), {
-                              w2step: '1',
-                              w2sec: 'visuals',
-                              w2pane: 'tz',
-                              hash: 'w2-visuals-hub',
-                            })}
+                            href={workshop2ArticleHref(
+                              collectionId,
+                              workshop2ArticleUrlSegment(article.internalArticleCode, article.id),
+                              {
+                                w2step: '1',
+                                w2sec: 'visuals',
+                                w2pane: 'tz',
+                                hash: 'w2-visuals-hub',
+                              }
+                            )}
                           >
                             Открыть в ТЗ
                           </Link>
@@ -2722,7 +2813,7 @@ function Workshop2ArticleWorkspaceScreen({
                       )}
                     </p>
                   </div>
-                    </div>
+                </div>
 
                 <div className="flex shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-slate-50/50">
                   <button
@@ -2731,7 +2822,9 @@ function Workshop2ArticleWorkspaceScreen({
                     className="flex min-w-[3.25rem] flex-col items-center justify-center gap-0.5 px-2 py-1.5 text-left transition-colors hover:bg-slate-100"
                     title="Прогресс маршрута по SKU"
                   >
-                    <span className="text-[8px] font-bold uppercase tracking-tight text-slate-500">Прогресс</span>
+                    <span className="text-[8px] font-bold uppercase tracking-tight text-slate-500">
+                      Прогресс
+                    </span>
                     <Badge
                       variant="outline"
                       className="h-4 border-indigo-200 bg-indigo-50 px-1 text-[8px] font-bold tabular-nums leading-none text-indigo-900"
@@ -2746,7 +2839,9 @@ function Workshop2ArticleWorkspaceScreen({
                     className="flex min-w-[3.25rem] flex-col items-center justify-center gap-0.5 px-2 py-1.5 text-left transition-colors hover:bg-slate-100"
                     title="Замечания по ТЗ"
                   >
-                    <span className="text-[8px] font-bold uppercase tracking-tight text-slate-500">Замечания</span>
+                    <span className="text-[8px] font-bold uppercase tracking-tight text-slate-500">
+                      Замечания
+                    </span>
                     <span
                       className={cn(
                         'text-sm font-black tabular-nums leading-none',
@@ -2756,13 +2851,16 @@ function Workshop2ArticleWorkspaceScreen({
                       {dossierSummary.warnings.length}
                     </span>
                   </button>
-                  </div>
                 </div>
+              </div>
 
               <div className="mt-4 flex flex-col gap-4 border-t border-slate-100 pt-4 lg:flex-row lg:items-start lg:justify-between lg:gap-6">
                 <div className="w-full max-w-[28rem] shrink-0 space-y-1.5 rounded-lg border border-slate-200 bg-white p-2 shadow-sm">
                   <p className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-slate-500">
-                    <LucideIcons.UserCheck className="h-3 w-3 shrink-0 text-indigo-600" aria-hidden />
+                    <LucideIcons.UserCheck
+                      className="h-3 w-3 shrink-0 text-indigo-600"
+                      aria-hidden
+                    />
                     Ответственные за подпись ТЗ
                   </p>
                   <div
@@ -2773,7 +2871,8 @@ function Workshop2ArticleWorkspaceScreen({
                       if (entry.kind === 'extra') {
                         const ex = entry.ex;
                         const exAssignee = ex.assigneeDisplayLabel?.trim() ?? '';
-                        const adm = dossier?.passportProductionBrief?.articleCardOwnerName?.trim() ?? '';
+                        const adm =
+                          dossier?.passportProductionBrief?.articleCardOwnerName?.trim() ?? '';
                         const extraRowIsCardAdmin = Boolean(
                           exAssignee && adm && workshopTzLabelsMatch(exAssignee, adm)
                         );
@@ -2796,14 +2895,18 @@ function Workshop2ArticleWorkspaceScreen({
                       }
                       const row = entry.row;
                       const assignee = passportTzBindings[row.valueKey]?.trim() ?? '';
-                      const adminName = dossier?.passportProductionBrief?.articleCardOwnerName?.trim() ?? '';
+                      const adminName =
+                        dossier?.passportProductionBrief?.articleCardOwnerName?.trim() ?? '';
                       const adminOn = Boolean(
                         assignee && adminName && workshopTzLabelsMatch(assignee, adminName)
                       );
                       const showClearBaseAssignee =
                         Boolean(assignee) && canRemovePassportTzRoleRows && !adminOn;
                       return (
-                        <div key={row.id} className="rounded-md border border-slate-100 bg-slate-50/50 p-1.5">
+                        <div
+                          key={row.id}
+                          className="rounded-md border border-slate-100 bg-slate-50/50 p-1.5"
+                        >
                           <div className="mb-1 flex min-w-0 items-center gap-1">
                             <Label
                               htmlFor={row.id}
@@ -2827,7 +2930,7 @@ function Workshop2ArticleWorkspaceScreen({
                             ) : (
                               <span className="inline-block h-4 w-4 shrink-0" aria-hidden />
                             )}
-                  </div>
+                          </div>
                           <div className="flex min-w-0 flex-nowrap items-center gap-1.5 overflow-x-auto">
                             <select
                               id={row.id}
@@ -2843,7 +2946,10 @@ function Workshop2ArticleWorkspaceScreen({
                             </select>
                             <W2PassportTzStagesPick
                               idPrefix={row.id}
-                              selectedIds={workshopTzSelectedStageIds(row.stages, W2_PASSPORT_TZ_STAGE_ORDER)}
+                              selectedIds={workshopTzSelectedStageIds(
+                                row.stages,
+                                W2_PASSPORT_TZ_STAGE_ORDER
+                              )}
                               onChange={(ids) => setRoleSignStagesBulk(row.role, ids)}
                             />
                             <button
@@ -2852,7 +2958,7 @@ function Workshop2ArticleWorkspaceScreen({
                               title="Администратор модели карточки SKU: один на артикул, можно снять"
                               aria-pressed={adminOn}
                               className={cn(
-                                'shrink-0 rounded border px-1 py-0.5 text-[8px] font-semibold transition whitespace-nowrap',
+                                'shrink-0 whitespace-nowrap rounded border px-1 py-0.5 text-[8px] font-semibold transition',
                                 !assignee && 'cursor-not-allowed opacity-35',
                                 adminOn
                                   ? 'border-indigo-400 bg-indigo-100 text-indigo-900'
@@ -2864,11 +2970,11 @@ function Workshop2ArticleWorkspaceScreen({
                             >
                               Админ
                             </button>
-                </div>
-              </div>
+                          </div>
+                        </div>
                       );
                     })}
-            </div>
+                  </div>
                   <div className="flex flex-col gap-1.5">
                     <div className="flex flex-wrap gap-1">
                       {WORKSHOP2_TZ_EXTRA_ROLE_PRESET_DEFS.map((p) => (
@@ -2895,14 +3001,14 @@ function Workshop2ArticleWorkspaceScreen({
                       + Своя роль
                     </Button>
                   </div>
-          </div>
+                </div>
 
                 <div className="flex flex-col items-stretch gap-1.5 sm:items-end lg:ml-auto lg:shrink-0">
-          <button
-            type="button"
+                  <button
+                    type="button"
                     onClick={() => setPassportHeaderDialog('sampleReadiness')}
-            className={cn(
-                      'h-6 max-w-full cursor-pointer justify-end border-2 px-3 text-right text-[10px] font-black leading-tight tracking-wide sm:ml-auto rounded-md transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2',
+                    className={cn(
+                      'h-6 max-w-full cursor-pointer justify-end rounded-md border-2 px-3 text-right text-[10px] font-black leading-tight tracking-wide transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 sm:ml-auto',
                       dossierSummary.readyForSample
                         ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
                         : 'border-amber-200 bg-amber-50 text-amber-800'
@@ -2912,12 +3018,12 @@ function Workshop2ArticleWorkspaceScreen({
                     {dossierSummary.readyForSample
                       ? 'Готово к образцу'
                       : 'Досье не готово к образцу'}
-          </button>
+                  </button>
                   <button
                     type="button"
                     onClick={() => setPassportHeaderDialog('lifecycleStatus')}
                     className={cn(
-                      'h-5 max-w-full cursor-pointer justify-end border text-right text-[9px] font-bold tracking-wide sm:ml-auto rounded-md px-2 transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-1',
+                      'h-5 max-w-full cursor-pointer justify-end rounded-md border px-2 text-right text-[9px] font-bold tracking-wide transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-1 sm:ml-auto',
                       getLifecycleStateBadgeClass(lifecycleState as 'draft')
                     )}
                     title="Нажмите — что означает статус жизненного цикла"
@@ -2932,25 +3038,27 @@ function Workshop2ArticleWorkspaceScreen({
                   >
                     <span className="inline-flex items-center gap-1">
                       <LucideIcons.Clock className="h-3 w-3 shrink-0" aria-hidden />
-                      <span className="border-b border-dashed border-slate-300 hover:border-slate-500">Обновлено</span>
-                        </span>
+                      <span className="border-b border-dashed border-slate-300 hover:border-slate-500">
+                        Обновлено
+                      </span>
+                    </span>
                     <span className="tabular-nums text-slate-500">
                       {passportUpdatedDisplay ?? 'нет данных'}
-                        </span>
+                    </span>
                   </button>
-                      </div>
-                      </div>
-                      </div>
-                    </div>
-              </CardContent>
-            </Card>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {mainTab === 'overview' ? (
         <>
           <div className="space-y-4">
             <Workshop2ArticleRouteStatusCard
               routeStages={routeStages}
-            activeTab={mainTab}
+              activeTab={mainTab}
               onOpenStage={(tab) => openTabWithFlash(tab)}
               onStageHelp={(tab) => setRouteStageHelpId(tab)}
             />
@@ -2961,8 +3069,12 @@ function Workshop2ArticleWorkspaceScreen({
                 onClick={() => openTabWithFlash('tz', { dossierSection: 'visuals' })}
               >
                 <div className="min-w-0">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Визуал</p>
-                  <p className="mt-0.5 truncate text-sm font-semibold text-slate-900">Готовность раздела (менеджер)</p>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    Визуал
+                  </p>
+                  <p className="mt-0.5 truncate text-sm font-semibold text-slate-900">
+                    Готовность раздела (менеджер)
+                  </p>
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
                   <div
@@ -2982,12 +3094,13 @@ function Workshop2ArticleWorkspaceScreen({
                       )}
                       style={{
                         width: `${Math.round(
-                          (100 * visualReadinessOverview.done) / Math.max(visualReadinessOverview.total, 1)
+                          (100 * visualReadinessOverview.done) /
+                            Math.max(visualReadinessOverview.total, 1)
                         )}%`,
                       }}
                     />
                   </div>
-                  <span className="tabular-nums text-sm font-bold text-slate-800">
+                  <span className="text-sm font-bold tabular-nums text-slate-800">
                     {visualReadinessOverview.done}/{visualReadinessOverview.total}
                   </span>
                 </div>
@@ -3002,20 +3115,23 @@ function Workshop2ArticleWorkspaceScreen({
                 </ul>
               ) : null}
             </div>
-            <Workshop2StageSignatoryStrip bindings={passportTzBindings} stage={mainTabToSignoffStage(mainTab)} />
+            <Workshop2StageSignatoryStrip
+              bindings={passportTzBindings}
+              stage={mainTabToSignoffStage(mainTab)}
+            />
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:items-stretch">
               <Workshop2OverviewDecisionSnapshot
                 items={overviewModel.decisionItems}
                 onOpenSectionHelp={(section) => setDossierSectionHelpId(section)}
                 onGoToTzSection={goToTzSection}
-                className="min-h-0 min-w-0 w-full"
+                className="min-h-0 w-full min-w-0"
               />
               <Workshop2OverviewTopBlockers
                 blockers={overviewModel.topBlockers}
                 onOpenTab={openTabWithFlash}
-                className="min-h-0 min-w-0 w-full"
-          />
-        </div>
+                className="min-h-0 w-full min-w-0"
+              />
+            </div>
           </div>
           <SectionContainer className="mt-4 space-y-4">
             <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_260px]">
@@ -3031,70 +3147,75 @@ function Workshop2ArticleWorkspaceScreen({
       ) : null}
 
       {mainTab === 'overview' ? null : mainTab === 'tz' ? (
-        <Workshop2DossierViewProvider profile={dossierViewProfile} setProfile={setDossierViewProfile}>
-        <div className="mt-4 space-y-4">
-          <Workshop2ArticleRouteStatusCard
-            routeStages={routeStages}
-            activeTab={mainTab}
-            onOpenStage={(tab) => openTabWithFlash(tab)}
-            onStageHelp={(tab) => setRouteStageHelpId(tab)}
-          />
-        <Card className="border-slate-200 bg-gradient-to-b from-slate-50/80 to-white">
-          <CardContent className="pt-6 pb-8">
-            <div className="mb-4 flex flex-wrap items-center justify-end gap-2 border-b border-slate-100 pb-3">
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                Режим ТЗ
-              </span>
-              <Workshop2DossierViewModeSelect />
-            </div>
-            <Workshop2Phase1DossierPanel
-              collectionId={collectionId}
-              articleId={article.id}
-                internalArticleCode={article.internalArticleCode}
-              articleSku={article.sku}
-              articleName={article.name}
-              categoryLeafId={categoryLeafId}
-              updatedByLabel={createdByLabel}
-                focusDossierSection={focusDossierSection}
-                flashDossier={dossierFlash}
-              variant={w2step === '3' ? 'phase3' : w2step === '2' ? 'phase2' : 'phase1'}
-                onNavigateToTab={openTabWithFlash}
-              onBack={w2step === '1' ? goOverview : undefined}
-              onPreviousStep={
-                w2step === '2'
-                  ? () => replaceStepQuery((p) => p.delete(WORKSHOP2_STEP_PARAM))
-                  : w2step === '3'
-                    ? () =>
-                        replaceStepQuery((p) => {
-                          p.set(WORKSHOP2_STEP_PARAM, '2');
-                        })
-                    : undefined
-              }
-              onContinueToNextStep={
-                w2step === '1'
-                  ? () =>
-                      replaceStepQuery((p) => {
-                        p.set(WORKSHOP2_STEP_PARAM, '2');
-                      })
-                  : undefined
-              }
-              onContinueToStep3={
-                w2step === '2'
-                  ? () =>
-                      replaceStepQuery((p) => {
-                        p.set(WORKSHOP2_STEP_PARAM, '3');
-                      })
-                  : undefined
-              }
-              onFinishWorkshop={w2step === '3' ? goOverview : undefined}
-              onPatchArticleLine={(patch) => onPatchWorkshop2ArticleLine(collectionId, article.id, patch)}
-                tzSignoffRevokerLabels={tzSignoffRevokerLabels}
-                tzDigitalSignoffCapabilities={WORKSHOP2_TZ_DIGITAL_SIGNOFF_DEFAULT_CAPABILITIES}
-                dossierHydrateKey={dossierHydrateKey}
+        <Workshop2DossierViewProvider
+          profile={dossierViewProfile}
+          setProfile={setDossierViewProfile}
+        >
+          <div className="mt-4 space-y-4">
+            <Workshop2ArticleRouteStatusCard
+              routeStages={routeStages}
+              activeTab={mainTab}
+              onOpenStage={(tab) => openTabWithFlash(tab)}
+              onStageHelp={(tab) => setRouteStageHelpId(tab)}
             />
-          </CardContent>
-        </Card>
-        </div>
+            <Card className="border-slate-200 bg-gradient-to-b from-slate-50/80 to-white">
+              <CardContent className="pb-8 pt-6">
+                <div className="mb-4 flex flex-wrap items-center justify-end gap-2 border-b border-slate-100 pb-3">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    Режим ТЗ
+                  </span>
+                  <Workshop2DossierViewModeSelect />
+                </div>
+                <Workshop2Phase1DossierPanel
+                  collectionId={collectionId}
+                  articleId={article.id}
+                  internalArticleCode={article.internalArticleCode}
+                  articleSku={article.sku}
+                  articleName={article.name}
+                  categoryLeafId={categoryLeafId}
+                  updatedByLabel={createdByLabel}
+                  focusDossierSection={focusDossierSection}
+                  flashDossier={dossierFlash}
+                  variant={w2step === '3' ? 'phase3' : w2step === '2' ? 'phase2' : 'phase1'}
+                  onNavigateToTab={openTabWithFlash}
+                  onBack={w2step === '1' ? goOverview : undefined}
+                  onPreviousStep={
+                    w2step === '2'
+                      ? () => replaceStepQuery((p) => p.delete(WORKSHOP2_STEP_PARAM))
+                      : w2step === '3'
+                        ? () =>
+                            replaceStepQuery((p) => {
+                              p.set(WORKSHOP2_STEP_PARAM, '2');
+                            })
+                        : undefined
+                  }
+                  onContinueToNextStep={
+                    w2step === '1'
+                      ? () =>
+                          replaceStepQuery((p) => {
+                            p.set(WORKSHOP2_STEP_PARAM, '2');
+                          })
+                      : undefined
+                  }
+                  onContinueToStep3={
+                    w2step === '2'
+                      ? () =>
+                          replaceStepQuery((p) => {
+                            p.set(WORKSHOP2_STEP_PARAM, '3');
+                          })
+                      : undefined
+                  }
+                  onFinishWorkshop={w2step === '3' ? goOverview : undefined}
+                  onPatchArticleLine={(patch) =>
+                    onPatchWorkshop2ArticleLine(collectionId, article.id, patch)
+                  }
+                  tzSignoffRevokerLabels={tzSignoffRevokerLabels}
+                  tzDigitalSignoffCapabilities={WORKSHOP2_TZ_DIGITAL_SIGNOFF_DEFAULT_CAPABILITIES}
+                  dossierHydrateKey={dossierHydrateKey}
+                />
+              </CardContent>
+            </Card>
+          </div>
         </Workshop2DossierViewProvider>
       ) : (
         <div className="mt-4 grid gap-4 xl:grid-cols-[minmax(0,1fr)_320px]">
@@ -3109,7 +3230,10 @@ function Workshop2ArticleWorkspaceScreen({
               tab={mainTab}
               flashSectionId={articleSectionFlashId}
             />
-            <Workshop2StageSignatoryStrip bindings={passportTzBindings} stage={mainTabToSignoffStage(mainTab)} />
+            <Workshop2StageSignatoryStrip
+              bindings={passportTzBindings}
+              stage={mainTabToSignoffStage(mainTab)}
+            />
           </div>
           <Workshop2ArticleContextRail
             stages={routeStages}
@@ -3143,21 +3267,27 @@ function Workshop2ArticleWorkspaceScreen({
           {passportHeaderDialog === 'progress' ? (
             <>
               <div className="flex flex-col space-y-1.5 text-center sm:text-left">
-                <h2 className="text-base font-semibold leading-none tracking-tight text-slate-900">Прогресс</h2>
+                <h2 className="text-base font-semibold leading-none tracking-tight text-slate-900">
+                  Прогресс
+                </h2>
                 <p className="text-sm text-slate-600">
                   Шаги маршрута SKU и заполнение разделов ТЗ (есть / нет данных).
                 </p>
               </div>
               <div className="mt-3 space-y-3 text-sm">
                 <div className="rounded-lg border border-slate-100 bg-slate-50/80 p-3">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Маршрут</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                    Маршрут
+                  </p>
                   <p className="mt-1 text-slate-800">
                     Выполнено шагов: {prog.done} из {prog.total} ({prog.pct}%).
                   </p>
                 </div>
                 <div className="rounded-lg border border-slate-100 bg-slate-50/80 p-3">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">ТЗ · разделы</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                      ТЗ · разделы
+                    </span>
                     <Badge
                       variant="outline"
                       className="h-5 shrink-0 border-indigo-200 bg-indigo-50 px-1.5 text-[9px] font-bold tabular-nums text-indigo-900"
@@ -3173,7 +3303,10 @@ function Workshop2ArticleWorkspaceScreen({
                   </div>
                   <ul className="mt-2 max-h-52 space-y-1.5 overflow-y-auto text-[11px] leading-snug">
                     {overviewModel.decisionItems.map((item) => (
-                      <li key={item.dossierSection} className="flex items-center justify-between gap-2">
+                      <li
+                        key={item.dossierSection}
+                        className="flex items-center justify-between gap-2"
+                      >
                         <span className="min-w-0 truncate text-slate-700">{item.label}</span>
                         <span
                           className={cn(
@@ -3192,7 +3325,9 @@ function Workshop2ArticleWorkspaceScreen({
           ) : passportHeaderDialog === 'warnings' ? (
             <>
               <div className="flex flex-col space-y-1.5 text-center sm:text-left">
-                <h2 className="text-base font-semibold leading-none tracking-tight text-slate-900">Замечания</h2>
+                <h2 className="text-base font-semibold leading-none tracking-tight text-slate-900">
+                  Замечания
+                </h2>
                 <p className="text-sm text-slate-600">
                   Список предупреждений из досье, влияющих на готовность ТЗ.
                 </p>
@@ -3218,27 +3353,37 @@ function Workshop2ArticleWorkspaceScreen({
                   Готовность к образцу
                 </h2>
                 <p className="text-sm text-slate-600">
-                  Это отдельно от статуса «Принято» в жизненном цикле: ниже — минимальный чеклист содержимого ТЗ. Зелёный
-                  бейдж «Готово к образцу» возможен только если все пункты выполнены и нет замечаний из списка движка
-                  готовности.
+                  Это отдельно от статуса «Принято» в жизненном цикле: ниже — минимальный чеклист
+                  содержимого ТЗ. Зелёный бейдж «Готово к образцу» возможен только если все пункты
+                  выполнены и нет замечаний из списка движка готовности.
                 </p>
               </div>
               <div className="mt-3 space-y-3 text-sm text-slate-800">
                 {lifecycleState === 'accepted' && !dossierSummary.readyForSample ? (
                   <div className="rounded-lg border border-amber-200 bg-amber-50/90 p-3 text-[11px] leading-snug text-amber-950">
-                    <p className="font-semibold">Почему «Принято», но досье «не готово к образцу»?</p>
+                    <p className="font-semibold">
+                      Почему «Принято», но досье «не готово к образцу»?
+                    </p>
                     <p className="mt-1.5">
-                      «Принято» означает, что в карточке зафиксирован этап приёмки сэмпла по жизненному циклу досье. Чеклист
-                      справа проверяет актуальное содержимое: визуал, материал, мерки, подписи и отсутствие предупреждений.
-                      После приёмки данные могли измениться, или сработало новое правило — тогда статусы расходятся.
+                      «Принято» означает, что в карточке зафиксирован этап приёмки сэмпла по
+                      жизненному циклу досье. Чеклист справа проверяет актуальное содержимое:
+                      визуал, материал, мерки, подписи и отсутствие предупреждений. После приёмки
+                      данные могли измениться, или сработало новое правило — тогда статусы
+                      расходятся.
                     </p>
                   </div>
                 ) : null}
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Минимум для «готово»</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                    Минимум для «готово»
+                  </p>
                   <ul className="mt-2 space-y-2 text-[11px] leading-snug">
                     <li className="flex gap-2">
-                      <span className={dossierSummary.visualsReady ? 'text-emerald-600' : 'text-amber-600'}>
+                      <span
+                        className={
+                          dossierSummary.visualsReady ? 'text-emerald-600' : 'text-amber-600'
+                        }
+                      >
                         {dossierSummary.visualsReady ? '✓' : '✗'}
                       </span>
                       <span>
@@ -3250,46 +3395,69 @@ function Workshop2ArticleWorkspaceScreen({
                       </span>
                     </li>
                     <li className="flex gap-2">
-                      <span className={dossierSummary.materialReady ? 'text-emerald-600' : 'text-amber-600'}>
+                      <span
+                        className={
+                          dossierSummary.materialReady ? 'text-emerald-600' : 'text-amber-600'
+                        }
+                      >
                         {dossierSummary.materialReady ? '✓' : '✗'}
                       </span>
                       <span>
                         <span className="font-semibold text-slate-800">Материал</span>
-                        <span className="text-slate-600"> — заполнен основной материал (атрибут mat).</span>
+                        <span className="text-slate-600">
+                          {' '}
+                          — заполнен основной материал (атрибут mat).
+                        </span>
                       </span>
                     </li>
                     <li className="flex gap-2">
-                      <span className={dossierSummary.measurementsReady ? 'text-emerald-600' : 'text-amber-600'}>
+                      <span
+                        className={
+                          dossierSummary.measurementsReady ? 'text-emerald-600' : 'text-amber-600'
+                        }
+                      >
                         {dossierSummary.measurementsReady ? '✓' : '✗'}
                       </span>
                       <span>
                         <span className="font-semibold text-slate-800">Размерный блок</span>
                         <span className="text-slate-600">
                           {' '}
-                          — выбрана размерная шкала и заполнен табель мер по размерам; при необходимости все мерки из
-                          справочника категории.
+                          — выбрана размерная шкала и заполнен табель мер по размерам; при
+                          необходимости все мерки из справочника категории.
                         </span>
                       </span>
                     </li>
                     <li className="flex gap-2">
-                      <span className={dossierSummary.approvalsReady ? 'text-emerald-600' : 'text-amber-600'}>
+                      <span
+                        className={
+                          dossierSummary.approvalsReady ? 'text-emerald-600' : 'text-amber-600'
+                        }
+                      >
                         {dossierSummary.approvalsReady ? '✓' : '✗'}
                       </span>
                       <span>
                         <span className="font-semibold text-slate-800">Подписи ТЗ</span>
                         <span className="text-slate-600">
                           {' '}
-                          — для всех ролей и дополнительных строк, у которых в паспорте отмечен этап «ТЗ», стоят цифровые
-                          подписи.
+                          — для всех ролей и дополнительных строк, у которых в паспорте отмечен этап
+                          «ТЗ», стоят цифровые подписи.
                         </span>
                       </span>
                     </li>
                     <li className="flex gap-2">
-                      <span className={dossierSummary.warnings.length === 0 ? 'text-emerald-600' : 'text-amber-600'}>
+                      <span
+                        className={
+                          dossierSummary.warnings.length === 0
+                            ? 'text-emerald-600'
+                            : 'text-amber-600'
+                        }
+                      >
                         {dossierSummary.warnings.length === 0 ? '✓' : '✗'}
                       </span>
                       <span>
-                        <span className="font-semibold text-slate-800">Без блокирующих замечаний</span>
+                        <span className="font-semibold text-slate-800">
+                          Без блокирующих замечаний
+                        </span>
                         <span className="text-slate-600">
                           {' '}
                           — нет предупреждений движка (несовпадение шкалы, пропуск мерок и т.д.).
@@ -3299,9 +3467,13 @@ function Workshop2ArticleWorkspaceScreen({
                   </ul>
                 </div>
                 <div className="rounded-lg border border-slate-100 bg-slate-50/80 p-3">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Текущие замечания</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                    Текущие замечания
+                  </p>
                   {dossierSummary.warnings.length === 0 ? (
-                    <p className="mt-1.5 text-[11px] text-slate-600">Нет — условие «без замечаний» выполнено.</p>
+                    <p className="mt-1.5 text-[11px] text-slate-600">
+                      Нет — условие «без замечаний» выполнено.
+                    </p>
                   ) : (
                     <ul className="mt-1.5 list-disc space-y-1 pl-4 text-[11px] text-slate-800">
                       {dossierSummary.warnings.map((w) => (
@@ -3328,7 +3500,8 @@ function Workshop2ArticleWorkspaceScreen({
                   Статус жизненного цикла
                 </h2>
                 <p className="text-sm text-slate-600">
-                  Отражает этап согласования и приёмки досье в процессе, а не автоматический пересчёт полей ТЗ.
+                  Отражает этап согласования и приёмки досье в процессе, а не автоматический
+                  пересчёт полей ТЗ.
                 </p>
               </div>
               <div className="mt-3 space-y-3 text-sm text-slate-800">
@@ -3340,28 +3513,27 @@ function Workshop2ArticleWorkspaceScreen({
                       : passportLifecycleStatusLabel}
                   </span>
                   {lifecycleState !== 'accepted' && lifecycleState !== 'rework_requested' ? (
-                    <>
-                      {' '}
-                      (детально: {getLifecycleStateLabel(lifecycleState)}).
-                    </>
+                    <> (детально: {getLifecycleStateLabel(lifecycleState)}).</>
                   ) : null}
                 </p>
                 <ul className="list-disc space-y-1.5 pl-4 text-[11px] leading-snug text-slate-700">
                   <li>
-                    <span className="font-medium text-slate-800">Черновик</span> — досье в работе, передачи ещё не
-                    фиксировались.
+                    <span className="font-medium text-slate-800">Черновик</span> — досье в работе,
+                    передачи ещё не фиксировались.
                   </li>
                   <li>
-                    <span className="font-medium text-slate-800">Готово к передаче / Передано в производство</span> —
-                    отмеченные вручную этапы согласования маршрута.
+                    <span className="font-medium text-slate-800">
+                      Готово к передаче / Передано в производство
+                    </span>{' '}
+                    — отмеченные вручную этапы согласования маршрута.
                   </li>
                   <li>
-                    <span className="font-medium text-slate-800">Принято</span> — зафиксирована приёмка сэмпла по
-                    процессу; не отменяет проверку актуального содержимого ТЗ.
+                    <span className="font-medium text-slate-800">Принято</span> — зафиксирована
+                    приёмка сэмпла по процессу; не отменяет проверку актуального содержимого ТЗ.
                   </li>
                   <li>
-                    <span className="font-medium text-slate-800">Возврат на доработку</span> — нужна правка перед
-                    следующей итерацией.
+                    <span className="font-medium text-slate-800">Возврат на доработку</span> — нужна
+                    правка перед следующей итерацией.
                   </li>
                 </ul>
                 <Button
@@ -3389,8 +3561,12 @@ function Workshop2ArticleWorkspaceScreen({
           {routeStageHelp ? (
             <>
               <DialogHeader>
-                <DialogTitle className="text-base text-slate-900">{routeStageHelp.headline}</DialogTitle>
-                <DialogDescription className="text-slate-600">{routeStageHelp.purpose}</DialogDescription>
+                <DialogTitle className="text-base text-slate-900">
+                  {routeStageHelp.headline}
+                </DialogTitle>
+                <DialogDescription className="text-slate-600">
+                  {routeStageHelp.purpose}
+                </DialogDescription>
               </DialogHeader>
               <div>
                 <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-slate-500">
@@ -3413,15 +3589,16 @@ function Workshop2ArticleWorkspaceScreen({
           if (!open) setDossierSectionHelpId(null);
         }}
       >
-        <DialogContent
-          ariaTitle={dossierSectionHelp?.headline ?? 'Секция ТЗ'}
-          className="max-w-md"
-        >
+        <DialogContent ariaTitle={dossierSectionHelp?.headline ?? 'Секция ТЗ'} className="max-w-md">
           {dossierSectionHelp && dossierSectionHelpId ? (
             <>
               <DialogHeader>
-                <DialogTitle className="text-base text-slate-900">{dossierSectionHelp.headline}</DialogTitle>
-                <DialogDescription className="text-slate-600">{dossierSectionHelp.purpose}</DialogDescription>
+                <DialogTitle className="text-base text-slate-900">
+                  {dossierSectionHelp.headline}
+                </DialogTitle>
+                <DialogDescription className="text-slate-600">
+                  {dossierSectionHelp.purpose}
+                </DialogDescription>
               </DialogHeader>
               <div>
                 <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-slate-500">
@@ -3469,13 +3646,16 @@ function Workshop2ArticleWorkspaceScreen({
           <DialogHeader>
             <DialogTitle className="text-base text-slate-900">История изменений</DialogTitle>
             <DialogDescription className="text-slate-600">
-              Данные производства артикула <span className="font-mono font-semibold text-slate-800">{article.sku}</span>
-              : журнал Цеха 2, сохранения ТЗ и правки строки коллекции (локально).
+              Данные производства артикула{' '}
+              <span className="font-mono font-semibold text-slate-800">{article.sku}</span>: журнал
+              Цеха 2, сохранения ТЗ и правки строки коллекции (локально).
             </DialogDescription>
           </DialogHeader>
           <div className="min-h-0 flex-1 overflow-y-auto py-2">
             {articleProductionHistory.length === 0 ? (
-              <p className="text-sm text-slate-500">Пока нет зафиксированных событий по этому SKU.</p>
+              <p className="text-sm text-slate-500">
+                Пока нет зафиксированных событий по этому SKU.
+              </p>
             ) : (
               <ul className="space-y-2.5 pr-1">
                 {articleProductionHistory.map((row) => (
@@ -3500,7 +3680,9 @@ function Workshop2ArticleWorkspaceScreen({
                         })}
                       </time>
                     </div>
-                    <p className="mt-1.5 text-[13px] font-semibold leading-snug text-slate-900">{row.summary}</p>
+                    <p className="mt-1.5 text-[13px] font-semibold leading-snug text-slate-900">
+                      {row.summary}
+                    </p>
                     {row.actor ? (
                       <p className="mt-1 text-[11px] text-slate-600">
                         <span className="font-medium text-slate-500">Кто:</span> {row.actor}
@@ -3512,7 +3694,12 @@ function Workshop2ArticleWorkspaceScreen({
             )}
           </div>
           <DialogFooter className="mt-2 border-t border-slate-100 pt-3 sm:justify-end">
-            <Button type="button" variant="outline" size="sm" onClick={() => setArticleHistoryOpen(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setArticleHistoryOpen(false)}
+            >
               Закрыть
             </Button>
           </DialogFooter>
@@ -3599,7 +3786,8 @@ export function Workshop2ArticleWorkspace({
 
   const dossierViewQueryKey = query.toString();
   const dossierViewProfile = useMemo(
-    () => resolveWorkshop2DossierViewFromWorkspaceUrl(query.get(WORKSHOP2_DOSSIER_VIEW_PARAM), role),
+    () =>
+      resolveWorkshop2DossierViewFromWorkspaceUrl(query.get(WORKSHOP2_DOSSIER_VIEW_PARAM), role),
     [dossierViewQueryKey, role]
   );
 
@@ -3608,7 +3796,7 @@ export function Workshop2ArticleWorkspace({
       const p = new URLSearchParams(query.toString());
       mutate(p);
       const q = p.toString();
-      router.replace(q ? `${pathname}?${q}` : pathname ?? '', { scroll: false });
+      router.replace(q ? `${pathname}?${q}` : (pathname ?? ''), { scroll: false });
     },
     [pathname, router, query]
   );

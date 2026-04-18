@@ -21,7 +21,7 @@ export default function PlatformArticleDetailPage() {
   if (!article) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-slate-50/80 to-white">
-        <div className="container mx-auto px-4 py-12 max-w-3xl">
+        <div className="container mx-auto max-w-3xl px-4 py-12">
           <Button variant="ghost" size="icon" onClick={() => router.back()}>
             <ArrowLeft className="h-4 w-4" />
           </Button>
@@ -54,11 +54,13 @@ export default function PlatformArticleDetailPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50/80 to-white">
       <div className="border-b border-slate-200/60 bg-white/70 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-6 max-w-3xl">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="container mx-auto max-w-3xl px-4 py-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
               <Link href={ROUTES.brand.academyPlatform}>
-                <Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button>
+                <Button variant="ghost" size="icon">
+                  <ArrowLeft className="h-4 w-4" />
+                </Button>
               </Link>
               <AcademySegmentSwitcher active="platform" />
             </div>
@@ -66,9 +68,9 @@ export default function PlatformArticleDetailPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8 max-w-3xl space-y-8 pb-24">
+      <div className="container mx-auto max-w-3xl space-y-8 px-4 py-8 pb-24">
         <article>
-          <div className="flex items-center gap-2 text-sm text-slate-500 mb-4">
+          <div className="mb-4 flex items-center gap-2 text-sm text-slate-500">
             <FileText className="h-4 w-4" />
             <span>База знаний</span>
             <span>·</span>
@@ -77,7 +79,7 @@ export default function PlatformArticleDetailPage() {
             <span>Обновлено {formatDate((article as { updatedAt?: string }).updatedAt ?? '')}</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">{article.title}</h1>
+          <h1 className="text-2xl font-bold text-slate-900 sm:text-3xl">{article.title}</h1>
 
           {(article as { authorName?: string }).authorName && (
             <p className="mt-2 text-sm text-slate-500">
@@ -86,8 +88,8 @@ export default function PlatformArticleDetailPage() {
           )}
 
           <Card className="mt-6 rounded-2xl border border-slate-200/80">
-            <CardContent className="p-6 prose prose-slate max-w-none">
-              <p className="text-slate-700 leading-relaxed text-base">
+            <CardContent className="prose prose-slate max-w-none p-6">
+              <p className="text-base leading-relaxed text-slate-700">
                 {(article as { content?: string }).content ?? article.excerpt}
               </p>
             </CardContent>
@@ -105,11 +107,11 @@ export default function PlatformArticleDetailPage() {
 
           {relatedCourses.length > 0 && (
             <div className="mt-8">
-              <h2 className="font-semibold text-slate-900 mb-3">Связанные курсы</h2>
+              <h2 className="mb-3 font-semibold text-slate-900">Связанные курсы</h2>
               <div className="space-y-2">
                 {relatedCourses.map((course) => (
                   <Link key={course.id} href={ROUTES.brand.academyPlatformCourse(course.id)}>
-                    <div className="flex items-center justify-between p-4 rounded-xl border border-slate-200/80 hover:border-indigo-200/60 hover:bg-indigo-50/30 transition-colors">
+                    <div className="flex items-center justify-between rounded-xl border border-slate-200/80 p-4 transition-colors hover:border-indigo-200/60 hover:bg-indigo-50/30">
                       <span className="font-medium text-slate-900">{course.title}</span>
                       <ArrowLeft className="h-4 w-4 rotate-180 text-slate-400" />
                     </div>

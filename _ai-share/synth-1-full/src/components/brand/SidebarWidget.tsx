@@ -5,13 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/providers/auth-provider';
 import { StickyNote, MessageSquare, Calendar, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
@@ -120,7 +114,7 @@ export function SidebarWidget() {
   const preview = notes.slice(0, 80) + (notes.length > 80 ? '…' : '');
 
   return (
-    <div className="border-t border-slate-100 bg-slate-50/50 shrink-0">
+    <div className="shrink-0 border-t border-slate-100 bg-slate-50/50">
       {/* Quick links */}
       <div className="flex items-center gap-0.5 p-1.5">
         <Sheet open={notesOpen} onOpenChange={setNotesOpen}>
@@ -128,7 +122,7 @@ export function SidebarWidget() {
             <Button
               variant="ghost"
               size="sm"
-              className="h-7 px-2 text-[9px] font-bold uppercase tracking-wider text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50 flex-1 justify-start gap-1"
+              className="h-7 flex-1 justify-start gap-1 px-2 text-[9px] font-bold uppercase tracking-wider text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-600"
             >
               <StickyNote className="h-3 w-3 shrink-0" />
               Заметки
@@ -142,7 +136,7 @@ export function SidebarWidget() {
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Записывайте идеи, напоминания..."
-              className="min-h-[200px] text-sm resize-none"
+              className="min-h-[200px] resize-none text-sm"
             />
           </SheetContent>
         </Sheet>
@@ -150,7 +144,7 @@ export function SidebarWidget() {
           <Button
             variant="ghost"
             size="sm"
-            className="h-7 px-2 text-[9px] font-bold uppercase tracking-wider text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50 flex-1 justify-start gap-1"
+            className="h-7 flex-1 justify-start gap-1 px-2 text-[9px] font-bold uppercase tracking-wider text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-600"
           >
             <MessageSquare className="h-3 w-3 shrink-0" />
             Чат
@@ -160,7 +154,7 @@ export function SidebarWidget() {
           <Button
             variant="ghost"
             size="sm"
-            className="h-7 px-2 text-[9px] font-bold uppercase tracking-wider text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50 flex-1 justify-start gap-1"
+            className="h-7 flex-1 justify-start gap-1 px-2 text-[9px] font-bold uppercase tracking-wider text-slate-600 hover:bg-indigo-50/50 hover:text-indigo-600"
           >
             <Calendar className="h-3 w-3 shrink-0" />
             Календарь
@@ -173,7 +167,7 @@ export function SidebarWidget() {
         <button
           type="button"
           onClick={() => setNotesOpen(true)}
-          className="w-full px-2 py-1.5 text-left text-[10px] text-slate-600 truncate hover:bg-slate-100/80 rounded mx-1 mb-1 transition-colors"
+          className="mx-1 mb-1 w-full truncate rounded px-2 py-1.5 text-left text-[10px] text-slate-600 transition-colors hover:bg-slate-100/80"
           title="Открыть заметки"
         >
           {preview}
@@ -182,39 +176,42 @@ export function SidebarWidget() {
 
       {/* Upcoming tasks */}
       <div className="px-2 pb-2">
-        <p className="text-[8px] font-black uppercase tracking-widest text-slate-400 mb-1 px-0.5">
+        <p className="mb-1 px-0.5 text-[8px] font-black uppercase tracking-widest text-slate-400">
           Ближайшее
         </p>
         <ScrollArea className="h-[72px]">
           <div className="space-y-0.5 pr-1">
             {upcoming.length === 0 ? (
-              <p className="text-[9px] text-slate-400 italic py-1">Нет событий</p>
+              <p className="py-1 text-[9px] italic text-slate-400">Нет событий</p>
             ) : (
               upcoming.map((item) => (
                 <Link
                   key={item.id}
                   href={item.href ?? ROUTES.brand.calendar}
                   className={cn(
-                    'flex items-center gap-1.5 px-1.5 py-1 rounded text-[9px] transition-colors group',
+                    'group flex items-center gap-1.5 rounded px-1.5 py-1 text-[9px] transition-colors',
                     item.needsAttention
-                      ? 'bg-amber-50/80 border border-amber-200/50'
+                      ? 'border border-amber-200/50 bg-amber-50/80'
                       : 'hover:bg-slate-100'
                   )}
                 >
                   {item.needsAttention && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0 animate-pulse" title="Требует внимания" />
+                    <span
+                      className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-amber-500"
+                      title="Требует внимания"
+                    />
                   )}
-                  <span className="truncate flex-1 text-slate-700 group-hover:text-indigo-600">
+                  <span className="flex-1 truncate text-slate-700 group-hover:text-indigo-600">
                     {item.title}
                   </span>
-                  <span className="text-[8px] text-slate-400 shrink-0">
+                  <span className="shrink-0 text-[8px] text-slate-400">
                     {isToday(parseISO(item.startAt))
                       ? format(parseISO(item.startAt), 'HH:mm')
                       : isTomorrow(parseISO(item.startAt))
                         ? 'завтра'
                         : format(parseISO(item.startAt), 'd.MM')}
                   </span>
-                  <ChevronRight className="h-2.5 w-2.5 text-slate-300 group-hover:text-indigo-500 shrink-0" />
+                  <ChevronRight className="h-2.5 w-2.5 shrink-0 text-slate-300 group-hover:text-indigo-500" />
                 </Link>
               ))
             )}

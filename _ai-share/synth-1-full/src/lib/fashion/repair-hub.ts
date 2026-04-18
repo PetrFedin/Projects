@@ -6,7 +6,12 @@ export function getRepairHubStatus(sku: string): RepairHubRequestV1 {
   let seed = parseInt(seedRaw, 10);
   if (isNaN(seed)) seed = sku.length * 11;
 
-  const issueTypes: RepairHubRequestV1['issueType'][] = ['stitch', 'zipper', 'lining', 'size_alteration'];
+  const issueTypes: RepairHubRequestV1['issueType'][] = [
+    'stitch',
+    'zipper',
+    'lining',
+    'size_alteration',
+  ];
   const statusTypes: RepairHubRequestV1['status'][] = ['received', 'in_repair', 'ready_for_pickup'];
 
   return {
@@ -37,6 +42,6 @@ export function getB2BRepairRequests(partnerId: string): B2BRepairRequestV1[] {
       type: 'repair',
       status: 'returned',
       trackingNumber: '7705-RU-BOX',
-    }
+    },
   ];
 }

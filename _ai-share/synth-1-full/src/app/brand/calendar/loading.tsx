@@ -5,15 +5,15 @@
  */
 export default function CalendarLoading() {
   return (
-    <div className="container mx-auto px-4 py-8 max-w-5xl animate-pulse">
-      <div className="h-6 bg-slate-200 rounded w-48 mb-4" />
-      <div className="h-10 bg-slate-100 rounded-lg w-full max-w-xs mb-6" />
-      <div className="grid grid-cols-7 gap-2 bg-slate-100 rounded-xl p-2">
+    <div className="container mx-auto max-w-5xl animate-pulse px-4 py-8">
+      <div className="mb-4 h-6 w-48 rounded bg-slate-200" />
+      <div className="mb-6 h-10 w-full max-w-xs rounded-lg bg-slate-100" />
+      <div className="grid grid-cols-7 gap-2 rounded-xl bg-slate-100 p-2">
         {Array.from({ length: 35 }).map((_, i) => (
-          <div key={i} className="h-16 bg-slate-200/60 rounded-lg" />
+          <div key={i} className="h-16 rounded-lg bg-slate-200/60" />
         ))}
       </div>
-      <p className="text-center text-sm text-slate-400 mt-6">Загрузка календаря…</p>
+      <p className="mt-6 text-center text-sm text-slate-400">Загрузка календаря…</p>
     </div>
   );
 }

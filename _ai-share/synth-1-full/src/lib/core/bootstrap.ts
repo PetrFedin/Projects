@@ -7,9 +7,9 @@ import { CognitiveNervousSystem } from './nervous-system';
  */
 export function bootstrapEnterpriseEcosystem() {
   console.log('[Bootstrap] Starting Enterprise Ecosystem...');
-  
+
   // Инициализация центральной нервной системы (Saga Manager)
   CognitiveNervousSystem.initialize();
-  
+
   console.log('[Bootstrap] Enterprise Ecosystem is fully operational.');
 }

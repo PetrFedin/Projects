@@ -3,7 +3,10 @@ import { aggregateW2DossierMetricsDedupLatest } from '@/lib/server/workshop2-dos
 import { readW2DossierMetricsUnified } from '@/lib/server/workshop2-dossier-metrics-backend';
 import { verifyW2DossierMetricsReadRequest } from '@/lib/server/workshop2-dossier-metrics-auth';
 import { applyW2MetricsTimeFilter } from '@/lib/server/workshop2-dossier-metrics-time';
-import { buildW2OpsAlerts, buildW2OpsDailySeries } from '@/lib/server/workshop2-dossier-metrics-ops';
+import {
+  buildW2OpsAlerts,
+  buildW2OpsDailySeries,
+} from '@/lib/server/workshop2-dossier-metrics-ops';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,9 +15,20 @@ export async function GET(request: Request) {
     return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 });
   }
   const { searchParams } = new URL(request.url);
-  const limit = Math.min(Math.max(parseInt(searchParams.get('limit') ?? '4000', 10) || 4000, 1), 5000);
-  const daysBack = Math.min(Math.max(parseInt(searchParams.get('daysBack') ?? '14', 10) || 14, 1), 90);
-  const colRaw = searchParams.get('collections')?.split(',').map((s) => s.trim()).filter(Boolean) ?? [];
+  const limit = Math.min(
+    Math.max(parseInt(searchParams.get('limit') ?? '4000', 10) || 4000, 1),
+    5000
+  );
+  const daysBack = Math.min(
+    Math.max(parseInt(searchParams.get('daysBack') ?? '14', 10) || 14, 1),
+    90
+  );
+  const colRaw =
+    searchParams
+      .get('collections')
+      ?.split(',')
+      .map((s) => s.trim())
+      .filter(Boolean) ?? [];
   const collectionFilter = colRaw.length > 0 ? new Set(colRaw) : undefined;
 
   try {

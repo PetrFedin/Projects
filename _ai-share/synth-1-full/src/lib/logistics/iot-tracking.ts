@@ -35,17 +35,20 @@ export class IoTTrackingEngine {
   /**
    * Обрабатывает скан с RFID-рамки (например, при погрузке в трак).
    */
-  public static processScan(scan: RFIDScanEvent, currentGrains: InventoryGrain[]): TrackingAnomaly | null {
+  public static processScan(
+    scan: RFIDScanEvent,
+    currentGrains: InventoryGrain[]
+  ): TrackingAnomaly | null {
     const grainId = this.tagToGrainMap.get(scan.rfidTag);
     if (!grainId) {
       return {
         type: 'missing_scan',
         severity: 'high',
-        message: `Unknown RFID tag scanned: ${scan.rfidTag} at ${scan.locationId}`
+        message: `Unknown RFID tag scanned: ${scan.rfidTag} at ${scan.locationId}`,
       };
     }
 
-    const grain = currentGrains.find(g => g.grainId === grainId);
+    const grain = currentGrains.find((g) => g.grainId === grainId);
     if (!grain) return null;
 
     // 1. Проверка локации (защита от отгрузки не туда)
@@ -54,9 +57,9 @@ export class IoTTrackingEngine {
       const anomaly: TrackingAnomaly = {
         type: 'wrong_location',
         severity: 'critical',
-        message: `Grain ${grainId} (${grain.sku}) scanned at ${scan.locationId}, but expected at ${grain.locationId}`
+        message: `Grain ${grainId} (${grain.sku}) scanned at ${scan.locationId}, but expected at ${grain.locationId}`,
       };
-      
+
       // Публикуем алерт в Control Layer
       void publishControlRiskAlert({
         aggregateId: grain.sku,
@@ -66,8 +69,8 @@ export class IoTTrackingEngine {
         payload: {
           riskLevel: 'critical',
           factors: [anomaly.message],
-          autoCreateInteraction: true
-        }
+          autoCreateInteraction: true,
+        },
       });
 
       return anomaly;
@@ -78,7 +81,7 @@ export class IoTTrackingEngine {
       return {
         type: 'temperature_breach',
         severity: 'high',
-        message: `Temperature breach detected for ${grain.sku}: ${scan.temperature}°C`
+        message: `Temperature breach detected for ${grain.sku}: ${scan.temperature}°C`,
       };
     }
 

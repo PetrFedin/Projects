@@ -84,54 +84,37 @@
       "name": "Сезонность",
       "type": "select",
       "sortOrder": 10,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "parameters": [
         {
           "parameterId": "season-ss",
           "label": "Весна–лето",
           "sortOrder": 0,
-          "aliases": [
-            "лето",
-            "spring summer"
-          ]
+          "aliases": ["лето", "spring summer"]
         },
         {
           "parameterId": "season-fw",
           "label": "Осень–зима",
           "sortOrder": 1,
-          "aliases": [
-            "зима",
-            "fall winter"
-          ]
+          "aliases": ["зима", "fall winter"]
         },
         {
           "parameterId": "season-cruise",
           "label": "Круиз",
           "sortOrder": 2,
-          "aliases": [
-            "круиз"
-          ]
+          "aliases": ["круиз"]
         },
         {
           "parameterId": "season-pf",
           "label": "Пре-осень",
           "sortOrder": 3,
-          "aliases": [
-            "pre fall"
-          ]
+          "aliases": ["pre fall"]
         },
         {
           "parameterId": "season-pre-spring",
           "label": "Пре-весна (pre-spring)",
           "sortOrder": 4,
-          "aliases": [
-            "pre spring",
-            "ранняя весна"
-          ]
+          "aliases": ["pre spring", "ранняя весна"]
         },
         {
           "parameterId": "season-capsule",
@@ -152,9 +135,7 @@
           "parameterId": "season-resort",
           "label": "Resort / курортная линия",
           "sortOrder": 8,
-          "aliases": [
-            "resort"
-          ]
+          "aliases": ["resort"]
         },
         {
           "parameterId": "season-permanent",
@@ -201,128 +182,91 @@
       "name": "Цвет",
       "type": "select",
       "sortOrder": 230,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "parameters": [
         {
           "parameterId": "color-black",
           "label": "Чёрный",
           "sortOrder": 0,
           "colorHex": "#1a1a1a",
-          "aliases": [
-            "black",
-            "черный"
-          ]
+          "aliases": ["black", "черный"]
         },
         {
           "parameterId": "color-white",
           "label": "Белый",
           "sortOrder": 1,
           "colorHex": "#f5f5f5",
-          "aliases": [
-            "white"
-          ]
+          "aliases": ["white"]
         },
         {
           "parameterId": "color-navy",
           "label": "Тёмно-синий",
           "sortOrder": 2,
           "colorHex": "#1e3a5f",
-          "aliases": [
-            "navy",
-            "синий"
-          ]
+          "aliases": ["navy", "синий"]
         },
         {
           "parameterId": "color-grey",
           "label": "Серый",
           "sortOrder": 3,
           "colorHex": "#9ca3af",
-          "aliases": [
-            "grey",
-            "gray"
-          ]
+          "aliases": ["grey", "gray"]
         },
         {
           "parameterId": "color-beige",
           "label": "Бежевый",
           "sortOrder": 4,
           "colorHex": "#d4c4b0",
-          "aliases": [
-            "beige"
-          ]
+          "aliases": ["beige"]
         },
         {
           "parameterId": "color-red",
           "label": "Красный",
           "sortOrder": 5,
           "colorHex": "#b91c1c",
-          "aliases": [
-            "red"
-          ]
+          "aliases": ["red"]
         },
         {
           "parameterId": "color-olive",
           "label": "Оливковый",
           "sortOrder": 6,
           "colorHex": "#5c6b3d",
-          "aliases": [
-            "olive"
-          ]
+          "aliases": ["olive"]
         },
         {
           "parameterId": "color-burgundy",
           "label": "Бордовый",
           "sortOrder": 7,
           "colorHex": "#722f37",
-          "aliases": [
-            "burgundy",
-            "бордо"
-          ]
+          "aliases": ["burgundy", "бордо"]
         },
         {
           "parameterId": "color-grad-sunset",
           "label": "Градиент закат",
           "sortOrder": 10,
           "gradientCss": "linear-gradient(135deg,#f97316 0%,#ec4899 50%,#6366f1 100%)",
-          "aliases": [
-            "закат",
-            "sunset"
-          ]
+          "aliases": ["закат", "sunset"]
         },
         {
           "parameterId": "color-grad-forest",
           "label": "Градиент лес",
           "sortOrder": 11,
           "gradientCss": "linear-gradient(90deg,#14532d 0%,#4ade80 50%,#166534 100%)",
-          "aliases": [
-            "лес",
-            "forest"
-          ]
+          "aliases": ["лес", "forest"]
         },
         {
           "parameterId": "color-grad-sea",
           "label": "Градиент море",
           "sortOrder": 12,
           "gradientCss": "linear-gradient(120deg,#0c4a6e 0%,#38bdf8 45%,#e0f2fe 100%)",
-          "aliases": [
-            "море",
-            "sea"
-          ]
+          "aliases": ["море", "sea"]
         }
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
       "uiPlaceholder": "Свой оттенок, пантон, комбинация…",
       "dossierSection": "visuals",
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ],
+      "passportApplicableLevels": ["l1", "l2", "l3"],
       "passportCommon": false
     },
     {
@@ -331,60 +275,43 @@
       "name": "Длина",
       "type": "select",
       "sortOrder": 0,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "parameters": [
         {
           "parameterId": "len-short",
           "label": "Короткое",
           "sortOrder": 0,
-          "aliases": [
-            "укороченное",
-            "short"
-          ]
+          "aliases": ["укороченное", "short"]
         },
         {
           "parameterId": "len-mid",
           "label": "Среднее / миди",
           "sortOrder": 1,
-          "aliases": [
-            "midi",
-            "средней длины"
-          ]
+          "aliases": ["midi", "средней длины"]
         },
         {
           "parameterId": "len-long",
           "label": "Длинное / макси",
           "sortOrder": 2,
-          "aliases": [
-            "макси",
-            "long"
-          ]
+          "aliases": ["макси", "long"]
         },
         {
           "parameterId": "len-micro",
           "label": "Микро / топ",
           "sortOrder": 3,
-          "aliases": [
-            "micro"
-          ]
+          "aliases": ["micro"]
         },
         {
           "parameterId": "len-asym",
           "label": "Асимметричная длина",
           "sortOrder": 4,
-          "aliases": [
-            "asymmetric"
-          ]
+          "aliases": ["asymmetric"]
         },
         {
           "parameterId": "len-cropped",
           "label": "Кроп",
           "sortOrder": 5,
-          "aliases": [
-            "cropped"
-          ]
+          "aliases": ["cropped"]
         }
       ],
       "allowFreeText": true,
@@ -392,11 +319,7 @@
       "uiPlaceholder": "Точная длина, см или описание",
       "dossierSection": "visuals",
       "passportCommon": false,
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ]
+      "passportApplicableLevels": ["l1", "l2", "l3"]
     },
     {
       "attributeId": "mat",
@@ -404,197 +327,139 @@
       "name": "Материал",
       "type": "multiselect",
       "sortOrder": 1,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "parameters": [
         {
           "parameterId": "mat-cotton",
           "label": "Хлопок",
           "sortOrder": 0,
-          "aliases": [
-            "cotton",
-            "хлопок"
-          ]
+          "aliases": ["cotton", "хлопок"]
         },
         {
           "parameterId": "mat-organic-cotton",
           "label": "Органический хлопок",
           "sortOrder": 1,
-          "aliases": [
-            "organic"
-          ]
+          "aliases": ["organic"]
         },
         {
           "parameterId": "mat-wool",
           "label": "Шерсть",
           "sortOrder": 2,
-          "aliases": [
-            "wool",
-            "шерсть"
-          ]
+          "aliases": ["wool", "шерсть"]
         },
         {
           "parameterId": "mat-merino",
           "label": "Меринос",
           "sortOrder": 3,
-          "aliases": [
-            "merino"
-          ]
+          "aliases": ["merino"]
         },
         {
           "parameterId": "mat-cashmere",
           "label": "Кашемир",
           "sortOrder": 4,
-          "aliases": [
-            "cashmere"
-          ]
+          "aliases": ["cashmere"]
         },
         {
           "parameterId": "mat-alpaca",
           "label": "Альпака",
           "sortOrder": 5,
-          "aliases": [
-            "alpaca"
-          ]
+          "aliases": ["alpaca"]
         },
         {
           "parameterId": "mat-mohair",
           "label": "Мохер",
           "sortOrder": 6,
-          "aliases": [
-            "mohair"
-          ]
+          "aliases": ["mohair"]
         },
         {
           "parameterId": "mat-angora",
           "label": "Ангора",
           "sortOrder": 7,
-          "aliases": [
-            "angora"
-          ]
+          "aliases": ["angora"]
         },
         {
           "parameterId": "mat-silk",
           "label": "Шёлк",
           "sortOrder": 8,
-          "aliases": [
-            "silk",
-            "шелк"
-          ]
+          "aliases": ["silk", "шелк"]
         },
         {
           "parameterId": "mat-linen",
           "label": "Лён",
           "sortOrder": 9,
-          "aliases": [
-            "linen",
-            "лен"
-          ]
+          "aliases": ["linen", "лен"]
         },
         {
           "parameterId": "mat-viscose",
           "label": "Вискоза",
           "sortOrder": 10,
-          "aliases": [
-            "viscose"
-          ]
+          "aliases": ["viscose"]
         },
         {
           "parameterId": "mat-modal",
           "label": "Модал",
           "sortOrder": 11,
-          "aliases": [
-            "modal"
-          ]
+          "aliases": ["modal"]
         },
         {
           "parameterId": "mat-tencel",
           "label": "Лиоцелл (Tencel)",
           "sortOrder": 12,
-          "aliases": [
-            "tencel",
-            "лиоцелл"
-          ]
+          "aliases": ["tencel", "лиоцелл"]
         },
         {
           "parameterId": "mat-polyester",
           "label": "Полиэстер",
           "sortOrder": 13,
-          "aliases": [
-            "pes",
-            "полиэстер"
-          ]
+          "aliases": ["pes", "полиэстер"]
         },
         {
           "parameterId": "mat-polyamide",
           "label": "Полиамид",
           "sortOrder": 14,
-          "aliases": [
-            "па",
-            "nylon"
-          ]
+          "aliases": ["па", "nylon"]
         },
         {
           "parameterId": "mat-elastane",
           "label": "Эластан / лайкра",
           "sortOrder": 15,
-          "aliases": [
-            "elastane",
-            "spandex",
-            "лайкра"
-          ]
+          "aliases": ["elastane", "spandex", "лайкра"]
         },
         {
           "parameterId": "mat-acrylic",
           "label": "Акрил",
           "sortOrder": 16,
-          "aliases": [
-            "acrylic"
-          ]
+          "aliases": ["acrylic"]
         },
         {
           "parameterId": "mat-down",
           "label": "Пух",
           "sortOrder": 17,
-          "aliases": [
-            "down",
-            "пух"
-          ]
+          "aliases": ["down", "пух"]
         },
         {
           "parameterId": "mat-feather",
           "label": "Перо",
           "sortOrder": 18,
-          "aliases": [
-            "feather"
-          ]
+          "aliases": ["feather"]
         },
         {
           "parameterId": "mat-leather",
           "label": "Натуральная кожа",
           "sortOrder": 19,
-          "aliases": [
-            "leather",
-            "кожа"
-          ]
+          "aliases": ["leather", "кожа"]
         },
         {
           "parameterId": "mat-suede",
           "label": "Замша натуральная",
           "sortOrder": 20,
-          "aliases": [
-            "suede"
-          ]
+          "aliases": ["suede"]
         },
         {
           "parameterId": "mat-faux-leather",
           "label": "Экокожа",
           "sortOrder": 21,
-          "aliases": [
-            "pu",
-            "экокожа"
-          ]
+          "aliases": ["pu", "экокожа"]
         },
         {
           "parameterId": "mat-faux-suede",
@@ -606,25 +471,19 @@
           "parameterId": "mat-fur-natural",
           "label": "Мех натуральный",
           "sortOrder": 23,
-          "aliases": [
-            "fur"
-          ]
+          "aliases": ["fur"]
         },
         {
           "parameterId": "mat-fur-faux",
           "label": "Мех искусственный",
           "sortOrder": 24,
-          "aliases": [
-            "экомех"
-          ]
+          "aliases": ["экомех"]
         },
         {
           "parameterId": "mat-nylon",
           "label": "Нейлон",
           "sortOrder": 25,
-          "aliases": [
-            "nylon"
-          ]
+          "aliases": ["nylon"]
         },
         {
           "parameterId": "mat-neoprene",
@@ -636,43 +495,31 @@
           "parameterId": "mat-fleece",
           "label": "Флис",
           "sortOrder": 27,
-          "aliases": [
-            "fleece"
-          ]
+          "aliases": ["fleece"]
         },
         {
           "parameterId": "mat-denim",
           "label": "Деним",
           "sortOrder": 28,
-          "aliases": [
-            "denim",
-            "джинс"
-          ]
+          "aliases": ["denim", "джинс"]
         },
         {
           "parameterId": "mat-tweed",
           "label": "Твид",
           "sortOrder": 29,
-          "aliases": [
-            "tweed"
-          ]
+          "aliases": ["tweed"]
         },
         {
           "parameterId": "mat-jersey",
           "label": "Трикотаж / джерси",
           "sortOrder": 30,
-          "aliases": [
-            "jersey"
-          ]
+          "aliases": ["jersey"]
         },
         {
           "parameterId": "mat-blend",
           "label": "Смесовая",
           "sortOrder": 31,
-          "aliases": [
-            "blend",
-            "смесь"
-          ]
+          "aliases": ["blend", "смесь"]
         }
       ],
       "allowFreeText": true,
@@ -685,11 +532,7 @@
       "name": "Состав",
       "type": "select",
       "sortOrder": 232,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "parameters": [
         {
           "parameterId": "comp-cotton100",
@@ -774,65 +617,49 @@
       "name": "Подошва",
       "type": "select",
       "sortOrder": 0,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "parameters": [
         {
           "parameterId": "sole-rubber",
           "label": "Резина",
           "sortOrder": 0,
-          "aliases": [
-            "rubber"
-          ]
+          "aliases": ["rubber"]
         },
         {
           "parameterId": "sole-eva",
           "label": "ЭВА",
           "sortOrder": 1,
-          "aliases": [
-            "eva"
-          ]
+          "aliases": ["eva"]
         },
         {
           "parameterId": "sole-pu",
           "label": "PU / полиуретан",
           "sortOrder": 2,
-          "aliases": [
-            "pu"
-          ]
+          "aliases": ["pu"]
         },
         {
           "parameterId": "sole-tpr",
           "label": "TPR / термопластичная резина",
           "sortOrder": 3,
-          "aliases": [
-            "tpr"
-          ]
+          "aliases": ["tpr"]
         },
         {
           "parameterId": "sole-leather",
           "label": "Кожа",
           "sortOrder": 4,
-          "aliases": [
-            "leather sole"
-          ]
+          "aliases": ["leather sole"]
         },
         {
           "parameterId": "sole-crepe",
           "label": "Креп",
           "sortOrder": 5,
-          "aliases": [
-            "crepe"
-          ]
+          "aliases": ["crepe"]
         },
         {
           "parameterId": "sole-combo",
           "label": "Комбинированная",
           "sortOrder": 6,
-          "aliases": [
-            "combo"
-          ]
+          "aliases": ["combo"]
         },
         {
           "parameterId": "sole-cleat",
@@ -850,9 +677,7 @@
           "parameterId": "sole-wedge",
           "label": "Танкетка",
           "sortOrder": 9,
-          "aliases": [
-            "wedge"
-          ]
+          "aliases": ["wedge"]
         }
       ],
       "allowFreeText": true,
@@ -865,165 +690,116 @@
       "name": "Тип сумки",
       "type": "select",
       "sortOrder": 0,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "uiInformationHint": "Соответствует строке размерной сетки сумок; при выборе подставляются ориентиры габаритов в блоке «Базовый размер» (если ячейки пустые). Категория 2–3 в справочнике сужает список типов.",
       "parameters": [
         {
           "parameterId": "bag-pt-mini",
           "label": "Мини / микро",
           "sortOrder": 0,
-          "aliases": [
-            "mini",
-            "micro"
-          ]
+          "aliases": ["mini", "micro"]
         },
         {
           "parameterId": "bag-pt-clutch",
           "label": "Клатч",
           "sortOrder": 1,
-          "aliases": [
-            "clutch"
-          ]
+          "aliases": ["clutch"]
         },
         {
           "parameterId": "bag-pt-crossbody",
           "label": "Кросс-боди",
           "sortOrder": 2,
-          "aliases": [
-            "crossbody"
-          ]
+          "aliases": ["crossbody"]
         },
         {
           "parameterId": "bag-pt-satchel",
           "label": "Саквояж",
           "sortOrder": 3,
-          "aliases": [
-            "satchel"
-          ]
+          "aliases": ["satchel"]
         },
         {
           "parameterId": "bag-pt-tote",
           "label": "Тоут",
           "sortOrder": 4,
-          "aliases": [
-            "tote",
-            "tot"
-          ]
+          "aliases": ["tote", "tot"]
         },
         {
           "parameterId": "bag-pt-shopper",
           "label": "Шоппер",
           "sortOrder": 5,
-          "aliases": [
-            "shopper"
-          ]
+          "aliases": ["shopper"]
         },
         {
           "parameterId": "bag-pt-hobo",
           "label": "Хобо",
           "sortOrder": 6,
-          "aliases": [
-            "hobo"
-          ]
+          "aliases": ["hobo"]
         },
         {
           "parameterId": "bag-pt-bucket",
           "label": "Сумка-ведро",
           "sortOrder": 7,
-          "aliases": [
-            "bucket"
-          ]
+          "aliases": ["bucket"]
         },
         {
           "parameterId": "bag-pt-backpack",
           "label": "Рюкзак",
           "sortOrder": 8,
-          "aliases": [
-            "backpack"
-          ]
+          "aliases": ["backpack"]
         },
         {
           "parameterId": "bag-pt-brief",
           "label": "Портфель / офисная",
           "sortOrder": 9,
-          "aliases": [
-            "brief",
-            "office"
-          ]
+          "aliases": ["brief", "office"]
         },
         {
           "parameterId": "bag-pt-belt",
           "label": "Поясная сумка",
           "sortOrder": 10,
-          "aliases": [
-            "belt",
-            "waist"
-          ]
+          "aliases": ["belt", "waist"]
         },
         {
           "parameterId": "bag-pt-sling",
           "label": "Слинг / моноремень",
           "sortOrder": 11,
-          "aliases": [
-            "sling"
-          ]
+          "aliases": ["sling"]
         },
         {
           "parameterId": "bag-pt-travel",
           "label": "Дорожная / дафл",
           "sortOrder": 12,
-          "aliases": [
-            "duffel",
-            "weekender"
-          ]
+          "aliases": ["duffel", "weekender"]
         },
         {
           "parameterId": "bag-pt-suitcase",
           "label": "Кабинный чемодан (жёсткий)",
           "sortOrder": 13,
-          "aliases": [
-            "suitcase",
-            "cabin"
-          ]
+          "aliases": ["suitcase", "cabin"]
         },
         {
           "parameterId": "bag-pt-vanity",
           "label": "Косметичка / бьюти-кейс",
           "sortOrder": 14,
-          "aliases": [
-            "vanity",
-            "cosmetic"
-          ]
+          "aliases": ["vanity", "cosmetic"]
         },
         {
           "parameterId": "bag-pt-laptop",
           "label": "Сумка для ноутбука",
           "sortOrder": 15,
-          "aliases": [
-            "laptop",
-            "tech"
-          ]
+          "aliases": ["laptop", "tech"]
         },
         {
           "parameterId": "bag-pt-gym",
           "label": "Спортивная сумка",
           "sortOrder": 16,
-          "aliases": [
-            "gym",
-            "sport"
-          ]
+          "aliases": ["gym", "sport"]
         },
         {
           "parameterId": "bag-pt-evening",
           "label": "Вечерняя (клатч / мини)",
           "sortOrder": 17,
-          "aliases": [
-            "evening"
-          ]
+          "aliases": ["evening"]
         }
       ],
       "allowFreeText": true,
@@ -1031,11 +807,7 @@
       "uiPlaceholder": "Уточнение типа текстом",
       "dossierSection": "visuals",
       "passportCommon": false,
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ]
+      "passportApplicableLevels": ["l1", "l2", "l3"]
     },
     {
       "attributeId": "sil",
@@ -1043,99 +815,73 @@
       "name": "Силуэт",
       "type": "select",
       "sortOrder": 0,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "parameters": [
         {
           "parameterId": "sil-a",
           "label": "А-силуэт",
           "sortOrder": 0,
-          "aliases": [
-            "a-line"
-          ]
+          "aliases": ["a-line"]
         },
         {
           "parameterId": "sil-straight",
           "label": "Прямой",
           "sortOrder": 1,
-          "aliases": [
-            "straight"
-          ]
+          "aliases": ["straight"]
         },
         {
           "parameterId": "sil-fitted",
           "label": "Приталенный",
           "sortOrder": 2,
-          "aliases": [
-            "fitted"
-          ]
+          "aliases": ["fitted"]
         },
         {
           "parameterId": "sil-oversized",
           "label": "Оверсайз",
           "sortOrder": 3,
-          "aliases": [
-            "oversized"
-          ]
+          "aliases": ["oversized"]
         },
         {
           "parameterId": "sil-empire",
           "label": "Ампир (высокая талия)",
           "sortOrder": 4,
-          "aliases": [
-            "empire"
-          ]
+          "aliases": ["empire"]
         },
         {
           "parameterId": "sil-mermaid",
           "label": "Русалка",
           "sortOrder": 5,
-          "aliases": [
-            "mermaid"
-          ]
+          "aliases": ["mermaid"]
         },
         {
           "parameterId": "sil-trapeze",
           "label": "Трапеция",
           "sortOrder": 6,
-          "aliases": [
-            "trapeze"
-          ]
+          "aliases": ["trapeze"]
         },
         {
           "parameterId": "sil-wrap",
           "label": "На запах",
           "sortOrder": 7,
-          "aliases": [
-            "wrap"
-          ]
+          "aliases": ["wrap"]
         },
         {
           "parameterId": "sil-shirt",
           "label": "Рубашечный",
           "sortOrder": 8,
-          "aliases": [
-            "shirt dress"
-          ]
+          "aliases": ["shirt dress"]
         },
         {
           "parameterId": "sil-shift",
           "label": "Прямое платье-карандаш",
           "sortOrder": 9,
-          "aliases": [
-            "shift"
-          ]
+          "aliases": ["shift"]
         }
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
       "dossierSection": "visuals",
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ],
+      "passportApplicableLevels": ["l1", "l2", "l3"],
       "passportCommon": false
     },
     {
@@ -1144,9 +890,7 @@
       "name": "Контрольная точка ОТК",
       "type": "select",
       "sortOrder": 248,
-      "workflowPhases": [
-        3
-      ],
+      "workflowPhases": [3],
       "parameters": [
         {
           "parameterId": "qc-lin-measure",
@@ -1207,9 +951,7 @@
       "name": "Упаковка готового изделия",
       "type": "select",
       "sortOrder": 247,
-      "workflowPhases": [
-        3
-      ],
+      "workflowPhases": [3],
       "parameters": [
         {
           "parameterId": "pack-poly-hanger",
@@ -1258,9 +1000,7 @@
       "name": "Фурнитура и крепёж",
       "type": "select",
       "sortOrder": 235,
-      "workflowPhases": [
-        2
-      ],
+      "workflowPhases": [2],
       "parameters": [
         {
           "parameterId": "trim-ykk5",
@@ -1321,9 +1061,7 @@
       "name": "Посадка, размеры и допуски",
       "type": "select",
       "sortOrder": 236,
-      "workflowPhases": [
-        2
-      ],
+      "workflowPhases": [2],
       "parameters": [
         {
           "parameterId": "fit-base-pattern",
@@ -1372,9 +1110,7 @@
       "name": "Нити и швейные операции",
       "type": "select",
       "sortOrder": 237,
-      "workflowPhases": [
-        2
-      ],
+      "workflowPhases": [2],
       "parameters": [
         {
           "parameterId": "th-coats-120",
@@ -1423,9 +1159,7 @@
       "name": "Дублирование и прокладка",
       "type": "select",
       "sortOrder": 238,
-      "workflowPhases": [
-        2
-      ],
+      "workflowPhases": [2],
       "parameters": [
         {
           "parameterId": "int-none",
@@ -1468,9 +1202,7 @@
       "name": "Обработка срезов и подгибы",
       "type": "select",
       "sortOrder": 239,
-      "workflowPhases": [
-        2
-      ],
+      "workflowPhases": [2],
       "parameters": [
         {
           "parameterId": "edge-overlock",
@@ -1513,9 +1245,7 @@
       "name": "Усадка и контрольная стирка",
       "type": "select",
       "sortOrder": 240,
-      "workflowPhases": [
-        2
-      ],
+      "workflowPhases": [2],
       "parameters": [
         {
           "parameterId": "wash-iso-6330",
@@ -1553,9 +1283,7 @@
       "name": "Базовый размер сэмпла / лекало",
       "type": "select",
       "sortOrder": 233,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "parameters": [
         {
           "parameterId": "sbs-xxs",
@@ -1615,97 +1343,73 @@
           "parameterId": "sbs-ft-35",
           "label": "EU 35",
           "sortOrder": 100,
-          "aliases": [
-            "35"
-          ]
+          "aliases": ["35"]
         },
         {
           "parameterId": "sbs-ft-36",
           "label": "EU 36",
           "sortOrder": 101,
-          "aliases": [
-            "36"
-          ]
+          "aliases": ["36"]
         },
         {
           "parameterId": "sbs-ft-37",
           "label": "EU 37",
           "sortOrder": 102,
-          "aliases": [
-            "37"
-          ]
+          "aliases": ["37"]
         },
         {
           "parameterId": "sbs-ft-38",
           "label": "EU 38",
           "sortOrder": 103,
-          "aliases": [
-            "38"
-          ]
+          "aliases": ["38"]
         },
         {
           "parameterId": "sbs-ft-39",
           "label": "EU 39",
           "sortOrder": 104,
-          "aliases": [
-            "39"
-          ]
+          "aliases": ["39"]
         },
         {
           "parameterId": "sbs-ft-40",
           "label": "EU 40",
           "sortOrder": 105,
-          "aliases": [
-            "40"
-          ]
+          "aliases": ["40"]
         },
         {
           "parameterId": "sbs-ft-41",
           "label": "EU 41",
           "sortOrder": 106,
-          "aliases": [
-            "41"
-          ]
+          "aliases": ["41"]
         },
         {
           "parameterId": "sbs-ft-42",
           "label": "EU 42",
           "sortOrder": 107,
-          "aliases": [
-            "42"
-          ]
+          "aliases": ["42"]
         },
         {
           "parameterId": "sbs-ft-43",
           "label": "EU 43",
           "sortOrder": 108,
-          "aliases": [
-            "43"
-          ]
+          "aliases": ["43"]
         },
         {
           "parameterId": "sbs-ft-44",
           "label": "EU 44",
           "sortOrder": 109,
-          "aliases": [
-            "44"
-          ]
+          "aliases": ["44"]
         },
         {
           "parameterId": "sbs-ft-45",
           "label": "EU 45",
           "sortOrder": 110,
-          "aliases": [
-            "45"
-          ]
+          "aliases": ["45"]
         },
         {
           "parameterId": "sbs-ft-46",
           "label": "EU 46",
           "sortOrder": 111,
-          "aliases": [
-            "46"
-          ]
+          "aliases": ["46"]
         },
         {
           "parameterId": "sbs-ft-brand",
@@ -1724,9 +1428,7 @@
       "name": "Техпак / лекала: ссылка и ревизия",
       "type": "select",
       "sortOrder": 234,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "parameters": [
         {
           "parameterId": "tp-plm",
@@ -1757,11 +1459,7 @@
       "allowMultipleDistinct": true,
       "uiPlaceholder": "URL, ревизия R1/R2, имя файла, контакт…",
       "dossierSection": "visuals",
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ],
+      "passportApplicableLevels": ["l1", "l2", "l3"],
       "passportCommon": false
     },
     {
@@ -1770,9 +1468,7 @@
       "name": "Спецоперации и декор",
       "type": "select",
       "sortOrder": 241,
-      "workflowPhases": [
-        2
-      ],
+      "workflowPhases": [2],
       "parameters": [
         {
           "parameterId": "dec-print",
@@ -1815,9 +1511,7 @@
       "name": "Маркировка на изделии (производство)",
       "type": "select",
       "sortOrder": 242,
-      "workflowPhases": [
-        2
-      ],
+      "workflowPhases": [2],
       "parameters": [
         {
           "parameterId": "opm-woven",
@@ -1855,9 +1549,7 @@
       "name": "Косметика сэмпла (внешний вид)",
       "type": "select",
       "sortOrder": 243,
-      "workflowPhases": [
-        2
-      ],
+      "workflowPhases": [2],
       "parameters": [
         {
           "parameterId": "sct-strict",
@@ -1894,9 +1586,7 @@
       "name": "Вложения к передаче сэмпла",
       "type": "select",
       "sortOrder": 244,
-      "workflowPhases": [
-        2
-      ],
+      "workflowPhases": [2],
       "parameters": [
         {
           "parameterId": "ssb-fabric",
@@ -1939,9 +1629,7 @@
       "name": "Технологическая последовательность",
       "type": "select",
       "sortOrder": 245,
-      "workflowPhases": [
-        2
-      ],
+      "workflowPhases": [2],
       "parameters": [
         {
           "parameterId": "osn-tp",
@@ -1972,9 +1660,7 @@
       "name": "Контроль до ОТК (предъявление)",
       "type": "select",
       "sortOrder": 246,
-      "workflowPhases": [
-        2
-      ],
+      "workflowPhases": [2],
       "parameters": [
         {
           "parameterId": "pqc-fit",
@@ -2011,9 +1697,7 @@
       "name": "Носок: открытость",
       "type": "select",
       "sortOrder": 1,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "requiredForPhase1": true,
       "parameters": [
         {
@@ -2046,11 +1730,7 @@
       "uiPlaceholder": "Или уточните формулировку для ТЗ…",
       "dossierSection": "visuals",
       "passportCommon": false,
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ]
+      "passportApplicableLevels": ["l1", "l2", "l3"]
     },
     {
       "attributeId": "shoe-heel-counter",
@@ -2058,9 +1738,7 @@
       "name": "Пятка: открытость",
       "type": "select",
       "sortOrder": 2,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "requiredForPhase1": true,
       "parameters": [
         {
@@ -2098,11 +1776,7 @@
       "allowMultipleDistinct": false,
       "dossierSection": "visuals",
       "passportCommon": false,
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ]
+      "passportApplicableLevels": ["l1", "l2", "l3"]
     },
     {
       "attributeId": "shoe-toe-shape",
@@ -2110,9 +1784,7 @@
       "name": "Форма носка",
       "type": "select",
       "sortOrder": 3,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "requiredForPhase1": true,
       "parameters": [
         {
@@ -2156,11 +1828,7 @@
       "allowMultipleDistinct": false,
       "dossierSection": "visuals",
       "passportCommon": false,
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ]
+      "passportApplicableLevels": ["l1", "l2", "l3"]
     },
     {
       "attributeId": "shoe-heel-shape",
@@ -2168,9 +1836,7 @@
       "name": "Форма каблука",
       "type": "select",
       "sortOrder": 4,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "requiredForPhase1": true,
       "parameters": [
         {
@@ -2226,11 +1892,7 @@
       "allowMultipleDistinct": false,
       "dossierSection": "visuals",
       "passportCommon": false,
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ]
+      "passportApplicableLevels": ["l1", "l2", "l3"]
     },
     {
       "attributeId": "shoe-closure",
@@ -2238,9 +1900,7 @@
       "name": "Застёжка / фиксация",
       "type": "multiselect",
       "sortOrder": 5,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "requiredForPhase1": true,
       "parameters": [
         {
@@ -2308,11 +1968,7 @@
       "allowMultipleDistinct": true,
       "dossierSection": "visuals",
       "passportCommon": false,
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ]
+      "passportApplicableLevels": ["l1", "l2", "l3"]
     },
     {
       "attributeId": "shoe-decoration",
@@ -2320,9 +1976,7 @@
       "name": "Декор обуви",
       "type": "multiselect",
       "sortOrder": 6,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "requiredForPhase1": true,
       "parameters": [
         {
@@ -2390,11 +2044,7 @@
       "allowMultipleDistinct": true,
       "dossierSection": "visuals",
       "passportCommon": false,
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ]
+      "passportApplicableLevels": ["l1", "l2", "l3"]
     },
     {
       "attributeId": "shoe-insole-material",
@@ -2402,9 +2052,7 @@
       "name": "Материал стельки",
       "type": "select",
       "sortOrder": 7,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "requiredForPhase1": true,
       "parameters": [
         {
@@ -2447,9 +2095,7 @@
       "name": "Тип стельки",
       "type": "select",
       "sortOrder": 8,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "requiredForPhase1": true,
       "parameters": [
         {
@@ -2498,9 +2144,7 @@
       "name": "Внутренняя отделка (подкладка)",
       "type": "select",
       "sortOrder": 9,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "requiredForPhase1": true,
       "parameters": [
         {
@@ -2549,9 +2193,7 @@
       "name": "Утеплитель / наполнитель",
       "type": "select",
       "sortOrder": 10,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "requiredForPhase1": true,
       "parameters": [
         {
@@ -2594,9 +2236,7 @@
       "name": "Высота голенища",
       "type": "select",
       "sortOrder": 11,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "requiredForPhase1": true,
       "parameters": [
         {
@@ -2641,11 +2281,7 @@
       "uiInformationHint": "Для туфель и кроссовок укажите «Не применимо».",
       "dossierSection": "visuals",
       "passportCommon": false,
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ]
+      "passportApplicableLevels": ["l1", "l2", "l3"]
     },
     {
       "attributeId": "shoe-purpose",
@@ -2653,9 +2289,7 @@
       "name": "Назначение",
       "type": "select",
       "sortOrder": 12,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "parameters": [
         {
           "parameterId": "spu-daily",
@@ -2709,9 +2343,7 @@
       "name": "Протектор / рисунок подошвы",
       "type": "select",
       "sortOrder": 13,
-      "workflowPhases": [
-        1
-      ],
+      "workflowPhases": [1],
       "requiredForPhase1": true,
       "parameters": [
         {
@@ -2744,11 +2376,7 @@
       "uiInformationHint": "Дополняет поле «Подошва» (материал и конструкция).",
       "dossierSection": "visuals",
       "passportCommon": false,
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ]
+      "passportApplicableLevels": ["l1", "l2", "l3"]
     },
     {
       "attributeId": "styleOccasionOptions",
@@ -3285,11 +2913,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "primaryColorFamilyOptions",
@@ -3451,17 +3075,9 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "dossierSection": "visuals",
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ],
+      "passportApplicableLevels": ["l1", "l2", "l3"],
       "passportCommon": false
     },
     {
@@ -3589,17 +3205,9 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "dossierSection": "visuals",
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ],
+      "passportApplicableLevels": ["l1", "l2", "l3"],
       "passportCommon": false
     },
     {
@@ -3662,11 +3270,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "fabricCompositionDetailClassOptions",
@@ -3708,11 +3312,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "careWashingClassOptions",
@@ -3784,11 +3384,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "countryOfOriginMarketOptions",
@@ -3950,11 +3546,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "certificationMarksOptions",
@@ -4031,11 +3623,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "packagingDimensionsClassOptions",
@@ -4087,11 +3675,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "customsHsDeclarationOptions",
@@ -4153,11 +3737,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "customsTnvedCodePrimary",
@@ -4168,11 +3748,7 @@
       "parameters": [],
       "allowFreeText": true,
       "allowMultipleDistinct": false,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "uiPlaceholder": "Например 6204420000 — только цифры, без пробелов",
       "uiInformationHint": "При комплекте, многослойном изделии или наборе заполните также второй и третий код ниже.",
       "dossierSection": "general"
@@ -4186,11 +3762,7 @@
       "parameters": [],
       "allowFreeText": true,
       "allowMultipleDistinct": false,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "uiPlaceholder": "10 знаков — комплект, второй слой, вторая часть набора",
       "dossierSection": "general"
     },
@@ -4203,11 +3775,7 @@
       "parameters": [],
       "allowFreeText": true,
       "allowMultipleDistinct": false,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "uiPlaceholder": "10 знаков — третья позиция в составе",
       "dossierSection": "general"
     },
@@ -4220,11 +3788,7 @@
       "parameters": [],
       "allowFreeText": true,
       "allowMultipleDistinct": false,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "uiPlaceholder": "Черновик/ориентир до согласования с таможней или логистикой",
       "dossierSection": "general"
     },
@@ -4237,11 +3801,7 @@
       "parameters": [],
       "allowFreeText": true,
       "allowMultipleDistinct": false,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "uiPlaceholder": "Финальное значение для декларации/отгрузки, когда уже известно",
       "dossierSection": "general"
     },
@@ -4254,11 +3814,7 @@
       "parameters": [],
       "allowFreeText": true,
       "allowMultipleDistinct": false,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "uiPlaceholder": "2–4 предложения: материал верха, доля, назначение, конструкция…",
       "uiInformationHint": "Чтобы через полгода не спорить с логистикой: кратко зафиксируйте, почему выбрана позиция классификатора.",
       "dossierSection": "general"
@@ -4272,11 +3828,7 @@
       "parameters": [],
       "allowFreeText": true,
       "allowMultipleDistinct": false,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "uiPlaceholder": "Код ОКПД 2 или ссылка на номенклатуру в ERP",
       "uiInformationHint": "Для договоров, тендеров и отчётности; не обязателен для всех категорий.",
       "dossierSection": "general"
@@ -4336,11 +3888,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "uiInformationHint": "Для маркировки и таможенных деклараций в РФ/ЕАЭС важно отличать страну производства и страну происхождения товара.",
       "dossierSection": "general"
     },
@@ -4449,11 +3997,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "uiInformationHint": "Перечень категорий меняется законодательно: используйте пресеты как ориентир и дополняйте комментарием.",
       "dossierSection": "general"
     },
@@ -4517,11 +4061,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "uiInformationHint": "Дополняет блок «Сертификаты и маркировки»: здесь ось именно ТР ЕАЭС и форма подтверждения.",
       "dossierSection": "general"
     },
@@ -4534,11 +4074,7 @@
       "parameters": [],
       "allowFreeText": true,
       "allowMultipleDistinct": false,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "uiPlaceholder": "Номер, срок, орган, приложение к ТЗ",
       "dossierSection": "general"
     },
@@ -4551,11 +4087,7 @@
       "parameters": [],
       "allowFreeText": true,
       "allowMultipleDistinct": false,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "uiPlaceholder": "Например: база — контракт от …, Incoterms FOB, детали в инвойсе",
       "uiInformationHint": "Обычно полная стоимость в контракте и инвойсе; в паспорте артикула достаточно ссылки на базу расчёта.",
       "dossierSection": "general"
@@ -4615,11 +4147,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "retiredFromWorkshop": true
     },
     {
@@ -4672,11 +4200,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "collectionSeasonTagOptions",
@@ -4723,11 +4247,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "retiredFromWorkshop": true
     },
     {
@@ -4780,11 +4300,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "insulationMaterialOptions",
@@ -4891,11 +4407,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "insulationLevelOptions",
@@ -4967,11 +4479,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "thermoTechOptions",
@@ -5018,11 +4526,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "clothingFitOptions",
@@ -5519,11 +5023,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "garmentLengthApparelOptions",
@@ -5685,18 +5185,10 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "dossierSection": "visuals",
       "passportCommon": false,
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ]
+      "passportApplicableLevels": ["l1", "l2", "l3"]
     },
     {
       "attributeId": "fabricWeightGsmPresetOptions",
@@ -5738,11 +5230,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "articleWeightPackagingClassOptions",
@@ -5789,11 +5277,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "customsProductGroupOptions",
@@ -5885,11 +5369,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "waistbandOptionsByCategory",
@@ -6656,11 +6136,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "fabricTextureOptions",
@@ -7597,18 +7073,10 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "dossierSection": "visuals",
       "passportCommon": false,
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ]
+      "passportApplicableLevels": ["l1", "l2", "l3"]
     },
     {
       "attributeId": "patternOptionsByCategory",
@@ -8020,18 +7488,10 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "dossierSection": "visuals",
       "passportCommon": false,
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ]
+      "passportApplicableLevels": ["l1", "l2", "l3"]
     },
     {
       "attributeId": "processingTechOptionsByCategory",
@@ -8958,11 +8418,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "backDetailOptionsByCategory",
@@ -9674,11 +9130,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "collarOptionsByCategory",
@@ -10045,11 +9497,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "combinationOptionsByCategory",
@@ -10861,11 +10309,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "cuffOptionsByCategory",
@@ -11437,11 +10881,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "decorOptionsByCategory",
@@ -12168,18 +11608,10 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "dossierSection": "visuals",
       "passportCommon": false,
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ]
+      "passportApplicableLevels": ["l1", "l2", "l3"]
     },
     {
       "attributeId": "draperyOptionsByCategory",
@@ -12961,18 +12393,10 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ],
+      "workflowPhases": [1, 2, 3],
       "dossierSection": "visuals",
       "passportCommon": false,
-      "passportApplicableLevels": [
-        "l1",
-        "l2",
-        "l3"
-      ]
+      "passportApplicableLevels": ["l1", "l2", "l3"]
     },
     {
       "attributeId": "fasteningOptionsByCategory",
@@ -13654,11 +13078,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "hardwareOptionsByCategory",
@@ -14620,11 +14040,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "hemFinishOptionsByCategory",
@@ -15506,11 +14922,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "hemTypeOptionsByCategory",
@@ -16152,11 +15564,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "liningOptionsByCategory",
@@ -16213,11 +15621,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "pocketOptions",
@@ -16254,11 +15658,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "reinforcementOptionsByCategory",
@@ -17085,11 +16485,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "seamOptionsByCategory",
@@ -17821,11 +17217,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "shoulderOptionsByCategory",
@@ -18592,11 +17984,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "sleeveOptionsByCategory",
@@ -18943,11 +18331,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "specialNeedsOptions",
@@ -19014,11 +18398,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "stitchingOptionsByCategory",
@@ -19645,11 +19025,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "transformationOptionsByCategory",
@@ -20351,11 +19727,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     },
     {
       "attributeId": "waistOptionsByCategory",
@@ -20772,11 +20144,7 @@
       ],
       "allowFreeText": true,
       "allowMultipleDistinct": true,
-      "workflowPhases": [
-        1,
-        2,
-        3
-      ]
+      "workflowPhases": [1, 2, 3]
     }
   ],
   "globalAttributeIds": [
@@ -20858,17 +20226,9 @@
       "shoe-outsole-tread",
       "shoe-purpose"
     ],
-    "kids-dresses-casual": [
-      "sil"
-    ],
-    "kids-outerwear-jacket": [
-      "len",
-      "mat"
-    ],
-    "kids-outerwear-parka": [
-      "len",
-      "mat"
-    ],
+    "kids-dresses-casual": ["sil"],
+    "kids-outerwear-jacket": ["len", "mat"],
+    "kids-outerwear-parka": ["len", "mat"],
     "kids-sandals-open": [
       "mat",
       "sole",
@@ -20988,22 +20348,10 @@
       "shoe-outsole-tread",
       "shoe-purpose"
     ],
-    "men-coats": [
-      "len",
-      "mat"
-    ],
-    "men-fur-coats-core": [
-      "len",
-      "mat"
-    ],
-    "men-fur-vests-core": [
-      "len",
-      "mat"
-    ],
-    "men-jackets": [
-      "len",
-      "mat"
-    ],
+    "men-coats": ["len", "mat"],
+    "men-fur-coats-core": ["len", "mat"],
+    "men-fur-vests-core": ["len", "mat"],
+    "men-jackets": ["len", "mat"],
     "men-loafers-classic": [
       "mat",
       "sole",
@@ -21021,10 +20369,7 @@
       "shoe-outsole-tread",
       "shoe-purpose"
     ],
-    "men-parkas": [
-      "len",
-      "mat"
-    ],
+    "men-parkas": ["len", "mat"],
     "men-sandals-open": [
       "mat",
       "sole",
@@ -21127,10 +20472,7 @@
       "shoe-outsole-tread",
       "shoe-purpose"
     ],
-    "unisex-jackets": [
-      "len",
-      "mat"
-    ],
+    "unisex-jackets": ["len", "mat"],
     "unisex-sneakers-lifestyle": [
       "mat",
       "sole",
@@ -21216,18 +20558,9 @@
       "shoe-outsole-tread",
       "shoe-purpose"
     ],
-    "women-coats": [
-      "len",
-      "mat"
-    ],
-    "women-dresses-casual": [
-      "sil",
-      "len"
-    ],
-    "women-dresses-evening": [
-      "sil",
-      "len"
-    ],
+    "women-coats": ["len", "mat"],
+    "women-dresses-casual": ["sil", "len"],
+    "women-dresses-evening": ["sil", "len"],
     "women-flats-ballet": [
       "mat",
       "sole",
@@ -21262,18 +20595,9 @@
       "shoe-outsole-tread",
       "shoe-purpose"
     ],
-    "women-fur-bolts-core": [
-      "len",
-      "mat"
-    ],
-    "women-fur-coats-core": [
-      "len",
-      "mat"
-    ],
-    "women-fur-vests-core": [
-      "len",
-      "mat"
-    ],
+    "women-fur-bolts-core": ["len", "mat"],
+    "women-fur-coats-core": ["len", "mat"],
+    "women-fur-vests-core": ["len", "mat"],
     "women-heels-classic": [
       "mat",
       "sole",
@@ -21308,10 +20632,7 @@
       "shoe-outsole-tread",
       "shoe-purpose"
     ],
-    "women-jackets": [
-      "len",
-      "mat"
-    ],
+    "women-jackets": ["len", "mat"],
     "women-sneakers-lifestyle": [
       "mat",
       "sole",
@@ -21386,71 +20707,43 @@
   "updatedAt": "2026-03-28T12:23:06.978Z",
   "parameterAllowlistByLeafId": {
     "catalog-bags-g0-l0": {
-      "bag-type": [
-        "bag-pt-tote"
-      ]
+      "bag-type": ["bag-pt-tote"]
     },
     "catalog-bags-g0-l1": {
-      "bag-type": [
-        "bag-pt-shopper"
-      ]
+      "bag-type": ["bag-pt-shopper"]
     },
     "catalog-bags-g0-l2": {
-      "bag-type": [
-        "bag-pt-crossbody"
-      ]
+      "bag-type": ["bag-pt-crossbody"]
     },
     "catalog-bags-g0-l3": {
-      "bag-type": [
-        "bag-pt-backpack"
-      ]
+      "bag-type": ["bag-pt-backpack"]
     },
     "catalog-bags-g0-l4": {
-      "bag-type": [
-        "bag-pt-clutch"
-      ]
+      "bag-type": ["bag-pt-clutch"]
     },
     "catalog-bags-g0-l5": {
-      "bag-type": [
-        "bag-pt-belt"
-      ]
+      "bag-type": ["bag-pt-belt"]
     },
     "catalog-bags-g1-l0": {
-      "bag-type": [
-        "bag-pt-evening",
-        "bag-pt-clutch",
-        "bag-pt-mini"
-      ]
+      "bag-type": ["bag-pt-evening", "bag-pt-clutch", "bag-pt-mini"]
     },
     "catalog-bags-g2-l0": {
-      "bag-type": [
-        "bag-pt-suitcase"
-      ]
+      "bag-type": ["bag-pt-suitcase"]
     },
     "catalog-bags-g3-l0": {
-      "bag-type": [
-        "bag-pt-laptop"
-      ]
+      "bag-type": ["bag-pt-laptop"]
     },
     "catalog-bags-g3-l1": {
-      "bag-type": [
-        "bag-pt-brief"
-      ]
+      "bag-type": ["bag-pt-brief"]
     },
     "catalog-bags-g4-l0": {
-      "bag-type": [
-        "bag-pt-gym"
-      ]
+      "bag-type": ["bag-pt-gym"]
     },
     "catalog-bags-g4-l1": {
-      "bag-type": [
-        "bag-pt-travel"
-      ]
+      "bag-type": ["bag-pt-travel"]
     },
     "catalog-bags-g5-l0": {
-      "bag-type": [
-        "bag-pt-vanity"
-      ]
+      "bag-type": ["bag-pt-vanity"]
     }
   }
 }

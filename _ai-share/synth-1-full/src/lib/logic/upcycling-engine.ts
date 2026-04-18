@@ -30,10 +30,11 @@ export class UpcyclingEngine {
   ): UpcyclingConcept | null {
     // 1. Оценка пригодности для апсайклинга
     // Если вещь из дешевого полиэстера, апсайклинг не окупится (проще сжечь/переработать)
-    const isPremiumMaterial = originalBom.some(m => 
-      m.materialName.toLowerCase().includes('denim') || 
-      m.materialName.toLowerCase().includes('leather') ||
-      m.materialName.toLowerCase().includes('wool')
+    const isPremiumMaterial = originalBom.some(
+      (m) =>
+        m.materialName.toLowerCase().includes('denim') ||
+        m.materialName.toLowerCase().includes('leather') ||
+        m.materialName.toLowerCase().includes('wool')
     );
 
     if (!isPremiumMaterial) {
@@ -71,10 +72,10 @@ export class UpcyclingEngine {
 
     // 3. Формирование нового BOM (Bill of Materials)
     // Мы берем старые материалы и помечаем их как "Upcycled"
-    const newBom: MaterialComponent[] = originalBom.map(m => ({
+    const newBom: MaterialComponent[] = originalBom.map((m) => ({
       ...m,
       materialName: `Upcycled ${m.materialName}`,
-      isRecycled: true
+      isRecycled: true,
     }));
 
     // Добавляем новую фурнитуру (например, нитки или молнию для сумки)
@@ -83,7 +84,7 @@ export class UpcyclingEngine {
       percentage: 5,
       originCountry: 'LOCAL',
       supplierId: 'internal-upcycling-lab',
-      isRecycled: false
+      isRecycled: false,
     });
 
     return {
@@ -93,7 +94,7 @@ export class UpcyclingEngine {
       newBillOfMaterials: newBom,
       estimatedUpcyclingCostUSD,
       projectedResaleValueUSD,
-      reasoning
+      reasoning,
     };
   }
 }

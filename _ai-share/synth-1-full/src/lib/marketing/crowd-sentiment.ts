@@ -56,7 +56,7 @@ export class CrowdSentimentEngine {
       topic: data.topic,
       viralPotentialScore: Number(viralPotentialScore.toFixed(3)),
       recommendedAction: action,
-      reasoning
+      reasoning,
     };
   }
 }

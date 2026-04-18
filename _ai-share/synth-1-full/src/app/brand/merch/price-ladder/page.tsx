@@ -4,7 +4,14 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Progress } from '@/components/ui/progress';
 import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
@@ -15,7 +22,7 @@ export default function PriceLadderPage() {
   const ladder = useMemo(() => buildPriceLadder(products), []);
 
   return (
-    <div className="container max-w-5xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -23,11 +30,13 @@ export default function PriceLadderPage() {
           </Link>
         </Button>
         <div>
-          <h1 className="text-xl font-bold flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-xl font-bold">
             <TrendingUp className="h-6 w-6" />
             Collection Price Ladder
           </h1>
-          <p className="text-sm text-muted-foreground">Визуализация ценовой архитектуры и плотности SKU.</p>
+          <p className="text-sm text-muted-foreground">
+            Визуализация ценовой архитектуры и плотности SKU.
+          </p>
         </div>
       </div>
 
@@ -45,10 +54,15 @@ export default function PriceLadderPage() {
                     <span>Distribution</span>
                     <span>{Math.round((bucket.skuCount / products.length) * 100)}%</span>
                   </div>
-                  <Progress value={(bucket.skuCount / products.length) * 100} className="h-2 bg-muted" />
+                  <Progress
+                    value={(bucket.skuCount / products.length) * 100}
+                    className="h-2 bg-muted"
+                  />
                 </div>
-                <div className="text-right min-w-[100px]">
-                  <p className="text-[10px] text-muted-foreground uppercase font-bold">Avg Margin</p>
+                <div className="min-w-[100px] text-right">
+                  <p className="text-[10px] font-bold uppercase text-muted-foreground">
+                    Avg Margin
+                  </p>
                   <p className="text-sm font-black text-emerald-600">{bucket.avgMargin}%</p>
                 </div>
               </div>
@@ -57,10 +71,11 @@ export default function PriceLadderPage() {
         ))}
       </div>
 
-      <div className="p-4 rounded-lg bg-blue-50 border border-blue-100 flex items-start gap-3">
-        <BarChart3 className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
-        <p className="text-xs text-blue-800 leading-relaxed italic">
-          Рекомендация: Плотность SKU в сегменте Premium низкая. Рассмотрите перенос части Core моделей в верхний ценовой диапазон через улучшение материалов (Up-selling).
+      <div className="flex items-start gap-3 rounded-lg border border-blue-100 bg-blue-50 p-4">
+        <BarChart3 className="mt-0.5 h-5 w-5 shrink-0 text-blue-600" />
+        <p className="text-xs italic leading-relaxed text-blue-800">
+          Рекомендация: Плотность SKU в сегменте Premium низкая. Рассмотрите перенос части Core
+          моделей в верхний ценовой диапазон через улучшение материалов (Up-selling).
         </p>
       </div>
     </div>

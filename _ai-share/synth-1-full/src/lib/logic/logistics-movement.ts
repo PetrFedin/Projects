@@ -1,4 +1,7 @@
-import { publishOrderShipmentCreated, publishProductionTransferCreated } from '../order/domain-event-factories';
+import {
+  publishOrderShipmentCreated,
+  publishProductionTransferCreated,
+} from '../order/domain-event-factories';
 
 /**
  * [Phase 2 — Inventory / Warehouse / Logistics architecture]
@@ -78,8 +81,8 @@ export function createMovementFromOrder(params: {
     metadata: {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      version: 1
-    }
+      version: 1,
+    },
   };
 
   void publishOrderShipmentCreated({
@@ -88,8 +91,8 @@ export function createMovementFromOrder(params: {
     payload: {
       movementId: movement.id,
       wholesaleOrderIds: params.wholesaleOrderIds ?? [],
-      items: params.items
-    }
+      items: params.items,
+    },
   });
 
   return movement;
@@ -119,8 +122,8 @@ export function createMovementFromCommitment(params: {
     metadata: {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      version: 1
-    }
+      version: 1,
+    },
   };
 
   void publishProductionTransferCreated({
@@ -129,8 +132,8 @@ export function createMovementFromCommitment(params: {
     payload: {
       movementId: movement.id,
       wholesaleOrderIds: params.wholesaleOrderIds ?? [],
-      items: params.items
-    }
+      items: params.items,
+    },
   });
 
   return movement;

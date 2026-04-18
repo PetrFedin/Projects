@@ -5,7 +5,7 @@ export function getSampleTraffic(sku: string): SampleTrafficV1 {
   const seedRaw = sku.split('-')[1] || '100';
   let seed = parseInt(seedRaw, 10);
   if (isNaN(seed)) seed = sku.length * 43;
-  
+
   return {
     sku,
     timesTouched: 45 + (seed % 100),

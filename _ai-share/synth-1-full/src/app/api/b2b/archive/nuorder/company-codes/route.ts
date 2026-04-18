@@ -10,10 +10,7 @@ import { nuorderServerGetCompanyCodes } from '@/lib/b2b/integrations/archive/nuo
 export async function GET() {
   const config = getNuOrderConfigFromEnv();
   if (!config) {
-    return NextResponse.json(
-      { error: 'NuOrder not configured', codes: [] },
-      { status: 200 }
-    );
+    return NextResponse.json({ error: 'NuOrder not configured', codes: [] }, { status: 200 });
   }
   try {
     const codes = await nuorderServerGetCompanyCodes(config);

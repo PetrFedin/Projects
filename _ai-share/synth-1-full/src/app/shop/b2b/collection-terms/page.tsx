@@ -17,28 +17,30 @@ const MOV_DEFAULT = 150_000; // минимальная сумма заказа (
 export default function B2BCollectionTermsPage() {
   const rules = getOrderRulesForPartner();
   const moqEntries = Object.entries(JOOR_MOQ_BY_PRODUCT);
-  const [priceLists, setPriceLists] = useState<{ slug: string; name: string; currency?: string }[]>([]);
+  const [priceLists, setPriceLists] = useState<{ slug: string; name: string; currency?: string }[]>(
+    []
+  );
 
   useEffect(() => {
     fetch('/api/b2b/integrations/price-lists')
-      .then((res) => res.ok ? res.json() : [])
+      .then((res) => (res.ok ? res.json() : []))
       .then((data) => setPriceLists(Array.isArray(data) ? data : []))
       .catch(() => {});
   }, []);
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
+    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
         <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
             <CalendarClock className="h-6 w-6" /> Условия по коллекциям
           </h1>
-          <p className="text-slate-500 text-sm mt-0.5">
+          <p className="mt-0.5 text-sm text-slate-500">
             NuOrder/JOOR: дедлайны заказа, MOQ по стилю, минимальная сумма заказа (MOV).
           </p>
         </div>
@@ -46,10 +48,12 @@ export default function B2BCollectionTermsPage() {
 
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="text-sm font-black uppercase flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
             <Package className="h-4 w-4" /> Минимум по стилю (MOQ)
           </CardTitle>
-          <CardDescription>Минимальное количество по артикулу. Ниже — заказ по позиции не пройдёт.</CardDescription>
+          <CardDescription>
+            Минимальное количество по артикулу. Ниже — заказ по позиции не пройдёт.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <ul className="space-y-2 text-sm">
@@ -69,7 +73,9 @@ export default function B2BCollectionTermsPage() {
 
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="text-sm font-black uppercase">Минимальная сумма заказа (MOV)</CardTitle>
+          <CardTitle className="text-sm font-black uppercase">
+            Минимальная сумма заказа (MOV)
+          </CardTitle>
           <CardDescription>Минимальная сумма одного заказа по бренду/коллекции.</CardDescription>
         </CardHeader>
         <CardContent>
@@ -81,7 +87,9 @@ export default function B2BCollectionTermsPage() {
               {Object.entries(rules.movByBrand).map(([brand, mov]) => (
                 <li key={brand} className="flex justify-between">
                   <span>{brand}</span>
-                  <span>{typeof mov === 'number' ? mov.toLocaleString('ru-RU') + ' ₽' : String(mov)}</span>
+                  <span>
+                    {typeof mov === 'number' ? mov.toLocaleString('ru-RU') + ' ₽' : String(mov)}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -92,13 +100,15 @@ export default function B2BCollectionTermsPage() {
       <Card className="mb-6">
         <CardHeader>
           <CardTitle className="text-sm font-black uppercase">Дедлайны и окна доставки</CardTitle>
-          <CardDescription>Дата отмены (cancel date) — до неё можно отменить или изменить заказ.</CardDescription>
+          <CardDescription>
+            Дата отмены (cancel date) — до неё можно отменить или изменить заказ.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
           {JOOR_DELIVERY_WINDOWS.map((w) => (
             <div key={w.id} className="rounded-lg bg-slate-50 px-3 py-2 text-sm">
               <span className="font-bold">{w.label}</span>
-              <span className="text-slate-500 ml-2">
+              <span className="ml-2 text-slate-500">
                 · отмена до {w.cancelDate} · отгрузка {w.startShipDate}–{w.completeShipDate}
               </span>
             </div>
@@ -109,17 +119,22 @@ export default function B2BCollectionTermsPage() {
       {priceLists.length > 0 && (
         <Card className="mb-6">
           <CardHeader>
-            <CardTitle className="text-sm font-black uppercase flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
               <Tag className="h-4 w-4" /> Прайс-листы (SparkLayer)
             </CardTitle>
-            <CardDescription>Доступные прайс-листы для расчёта цен в матрице заказа.</CardDescription>
+            <CardDescription>
+              Доступные прайс-листы для расчёта цен в матрице заказа.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <ul className="space-y-2 text-sm">
               {priceLists.map((pl) => (
                 <li key={pl.slug} className="flex justify-between rounded-lg bg-slate-50 px-3 py-2">
                   <span className="font-medium">{pl.name}</span>
-                  <span className="text-slate-500">{pl.slug}{pl.currency ? ` · ${pl.currency}` : ''}</span>
+                  <span className="text-slate-500">
+                    {pl.slug}
+                    {pl.currency ? ` · ${pl.currency}` : ''}
+                  </span>
                 </li>
               ))}
             </ul>

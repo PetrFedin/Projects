@@ -1,14 +1,21 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { COLOR_PALETTE } from '@/lib/color-palette';
 
 export default function ColorsPage() {
   return (
     <div className="container mx-auto px-4 py-4">
       <header className="mb-8">
-        <h1 className="text-sm md:text-base font-headline font-bold">Палитра цветов</h1>
+        <h1 className="font-headline text-sm font-bold md:text-base">Палитра цветов</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Стандартная палитра цветов для модной индустрии. HEX и Pantone.
         </p>

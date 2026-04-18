@@ -7,26 +7,26 @@ export interface ProductPassport {
   productId: string;
   sku: string;
   name: string;
-  
+
   // Sustainability & Origin
   originCountry: string;
   factoryName: string;
   factoryLocation: string;
-  composition: { material: string, percentage: number }[];
+  composition: { material: string; percentage: number }[];
   certifications: string[]; // ['GOTS', 'OEKO-TEX', 'EAC']
-  
+
   // Lifecycle
   manufactureDate: string;
   batchNumber: string;
   carbonFootprint: number; // in kg CO2
   waterUsage: number; // in liters
-  
+
   // Care & Circularity
   careInstructions: string[];
   repairGuideUrl?: string;
   recyclingInstructions: string;
   resaleEligible: boolean;
-  
+
   // Authenticity
   isAuthentic: boolean;
   blockchainHash?: string;

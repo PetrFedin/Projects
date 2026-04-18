@@ -9,9 +9,7 @@ export async function POST(request: Request) {
     if (!brandId || !linesheetId) {
       return NextResponse.json({ error: 'brandId and linesheetId required' }, { status: 400 });
     }
-    const expiresAt = expiresInDays
-      ? Date.now() + expiresInDays * 24 * 60 * 60 * 1000
-      : undefined;
+    const expiresAt = expiresInDays ? Date.now() + expiresInDays * 24 * 60 * 60 * 1000 : undefined;
     const link = generateEzOrderToken({
       brandId,
       linesheetId,

@@ -449,7 +449,10 @@ export async function publishUrgentGlobalAnomalyDetected(params: {
 }): Promise<void> {
   const parsed = systemGlobalAnomalyDetectedPayloadSchema.safeParse(params.payload);
   if (!parsed.success) {
-    console.error('[DomainEventFactories] Invalid system.global_anomaly_detected payload', parsed.error.flatten());
+    console.error(
+      '[DomainEventFactories] Invalid system.global_anomaly_detected payload',
+      parsed.error.flatten()
+    );
     return;
   }
   return eventBus.publishUrgent(

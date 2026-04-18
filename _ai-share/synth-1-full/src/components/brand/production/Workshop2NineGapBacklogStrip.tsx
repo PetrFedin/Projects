@@ -104,7 +104,7 @@ export function Workshop2NineGapBacklogStrip({
         </CollapsibleTrigger>
         {typeof sectionPct === 'number' ? (
           <span
-            className="shrink-0 tabular-nums text-[10px] font-semibold text-slate-600"
+            className="shrink-0 text-[10px] font-semibold tabular-nums text-slate-600"
             title="Готовность текущей вкладки ТЗ (атрибуты каталога и ворота секции, где применимо)"
           >
             Секция ≈ {Math.round(sectionPct)}%
@@ -116,9 +116,14 @@ export function Workshop2NineGapBacklogStrip({
           <>
             <p className="text-[10px] leading-snug text-slate-600">
               P0 — аудит критичных записей журнала и сжатый ТЗ: query{' '}
-              <span className="rounded bg-slate-100 px-0.5 font-mono text-[9px] text-slate-800">w2view</span>, корень панели с{' '}
-              <span className="rounded bg-slate-100 px-0.5 font-mono text-[9px] text-slate-800">data-w2-dossier-view</span>. P1
-              — внешняя read-only выдача:{' '}
+              <span className="rounded bg-slate-100 px-0.5 font-mono text-[9px] text-slate-800">
+                w2view
+              </span>
+              , корень панели с{' '}
+              <span className="rounded bg-slate-100 px-0.5 font-mono text-[9px] text-slate-800">
+                data-w2-dossier-view
+              </span>
+              . P1 — внешняя read-only выдача:{' '}
               <span className="rounded bg-slate-100 px-0.5 font-mono text-[9px] text-slate-800">
                 buildWorkshop2ExternalReadOnlyParams
               </span>
@@ -126,70 +131,110 @@ export function Workshop2NineGapBacklogStrip({
             </p>
             <p className="text-[10px] leading-snug text-slate-600">
               «Уже в коде» — как в строках списка; «Перейти к блоку» ведёт на якорь в паспорте.
-              {onDossierJump ? ' У пунктов с ссылкой «Перейти к блоку» открывается нужная вкладка ТЗ и якорь.' : null}
+              {onDossierJump
+                ? ' У пунктов с ссылкой «Перейти к блоку» открывается нужная вкладка ТЗ и якорь.'
+                : null}
             </p>
             <p className="text-[10px] leading-snug text-slate-500">
-              Якоря:{' '}
-              <span className="font-mono text-[9px] text-slate-700">#w2-passport-audit</span> ·{' '}
-              <span className="font-mono text-[9px] text-slate-700">#w2-passport-dense-view</span> (breadcrumb + w2view) ·{' '}
+              Якоря: <span className="font-mono text-[9px] text-slate-700">#w2-passport-audit</span>{' '}
+              · <span className="font-mono text-[9px] text-slate-700">#w2-passport-dense-view</span>{' '}
+              (breadcrumb + w2view) ·{' '}
               <span className="font-mono text-[9px] text-slate-700">#w2-passport-readonly</span>.
             </p>
           </>
         ) : stripTitle === 'Визуал · дорожная карта' ? (
           <>
             <p className="text-[10px] leading-snug text-slate-600">
-              Визуал / скетч: P0 — связь метка↔материал/QC (поля связи на «Визуале»), шаблоны master (якорь в «Конструкция»), канон
-              и журнал версий, handoff; P1 — печать и поверхности экспорта.
+              Визуал / скетч: P0 — связь метка↔материал/QC (поля связи на «Визуале»), шаблоны master
+              (якорь в «Конструкция»), канон и журнал версий, handoff; P1 — печать и поверхности
+              экспорта.
             </p>
             <p className="text-[10px] leading-snug text-slate-600">
               «Уже в коде» — см. строки пункта; «Ещё нет (P0)» — продуктовый пробел.
-              {onDossierJump ? ' У пунктов с ссылкой «Перейти к блоку» открывается нужная вкладка ТЗ и якорь.' : null}
+              {onDossierJump
+                ? ' У пунктов с ссылкой «Перейти к блоку» открывается нужная вкладка ТЗ и якорь.'
+                : null}
             </p>
             <p className="text-[10px] leading-snug text-slate-500">
               Якоря:{' '}
-              <span className="font-mono text-[9px] text-slate-700">#w2-visuals-sketch-link-fields</span> (вкладка «Визуал») ·{' '}
-              <span className="font-mono text-[9px] text-slate-700">#w2-visuals-sketch-templates</span> («Конструкция») ·{' '}
-              <span className="font-mono text-[9px] text-slate-700">#w2-visuals-canon-version</span> ·{' '}
-              <span className="font-mono text-[9px] text-slate-700">#w2-visuals-handoff</span> ·{' '}
-              <span className="font-mono text-[9px] text-slate-700">#w2-visuals-sketch-export-surfaces</span>.
+              <span className="font-mono text-[9px] text-slate-700">
+                #w2-visuals-sketch-link-fields
+              </span>{' '}
+              (вкладка «Визуал») ·{' '}
+              <span className="font-mono text-[9px] text-slate-700">
+                #w2-visuals-sketch-templates
+              </span>{' '}
+              («Конструкция») ·{' '}
+              <span className="font-mono text-[9px] text-slate-700">#w2-visuals-canon-version</span>{' '}
+              · <span className="font-mono text-[9px] text-slate-700">#w2-visuals-handoff</span> ·{' '}
+              <span className="font-mono text-[9px] text-slate-700">
+                #w2-visuals-sketch-export-surfaces
+              </span>
+              .
             </p>
           </>
         ) : stripTitle === 'Материалы · дорожная карта' ? (
           <>
             <p className="text-[10px] leading-snug text-slate-600">
-              Материалы / BOM: P0 — дельта к образцу/серии, фабричный CSV (колонки), альтернативы и статусы замен, комплаенс в хабе;
-              P1 — costing по lineRef и нормы/потери в черновиках снабжения и хабе.
+              Материалы / BOM: P0 — дельта к образцу/серии, фабричный CSV (колонки), альтернативы и
+              статусы замен, комплаенс в хабе; P1 — costing по lineRef и нормы/потери в черновиках
+              снабжения и хабе.
             </p>
             <p className="text-[10px] leading-snug text-slate-600">
               «Уже в коде» — см. строки пункта; «Ещё нет (P0)» — продуктовый пробел.
-              {onDossierJump ? ' У пунктов с ссылкой «Перейти к блоку» открывается нужная вкладка ТЗ и якорь.' : null}
+              {onDossierJump
+                ? ' У пунктов с ссылкой «Перейти к блоку» открывается нужная вкладка ТЗ и якорь.'
+                : null}
             </p>
             <p className="text-[10px] leading-snug text-slate-500">
               Якоря:{' '}
-              <span className="font-mono text-[9px] text-slate-700">#w2-material-sc-drafts-delta</span> ·{' '}
-              <span className="font-mono text-[9px] text-slate-700">#w2-material-bom-factory-export</span> ·{' '}
-              <span className="font-mono text-[9px] text-slate-700">#w2-material-sc-drafts-alts</span> ·{' '}
-              <span className="font-mono text-[9px] text-slate-700">#w2-material-compliance</span> ·{' '}
-              <span className="font-mono text-[9px] text-slate-700">#w2-material-sc-drafts-costing</span> ·{' '}
-              <span className="font-mono text-[9px] text-slate-700">#w2-material-bom-norms</span>.
+              <span className="font-mono text-[9px] text-slate-700">
+                #w2-material-sc-drafts-delta
+              </span>{' '}
+              ·{' '}
+              <span className="font-mono text-[9px] text-slate-700">
+                #w2-material-bom-factory-export
+              </span>{' '}
+              ·{' '}
+              <span className="font-mono text-[9px] text-slate-700">
+                #w2-material-sc-drafts-alts
+              </span>{' '}
+              · <span className="font-mono text-[9px] text-slate-700">#w2-material-compliance</span>{' '}
+              ·{' '}
+              <span className="font-mono text-[9px] text-slate-700">
+                #w2-material-sc-drafts-costing
+              </span>{' '}
+              · <span className="font-mono text-[9px] text-slate-700">#w2-material-bom-norms</span>.
             </p>
           </>
         ) : stripTitle === 'Конструктор · дорожная карта' ? (
           <>
             <p className="text-[10px] leading-snug text-slate-600">
-              Конструктор: P0 — один контур мерки ↔ mat/BOM ↔ узлы каталога и метки скетча (хаб «Табель мер»; в коде —{' '}
-              <span className="rounded bg-slate-100 px-0.5 font-mono text-[9px] text-slate-800">sectionReadiness</span>,{' '}
-              <span className="rounded bg-slate-100 px-0.5 font-mono text-[9px] text-slate-800">GROUP_TO_DOSSIER_SECTION</span>,{' '}
-              mat ↔ sketch ref); P1 — выгрузка узлов/ТК (маршруты вне экрана) и подпись секции.
+              Конструктор: P0 — один контур мерки ↔ mat/BOM ↔ узлы каталога и метки скетча (хаб
+              «Табель мер»; в коде —{' '}
+              <span className="rounded bg-slate-100 px-0.5 font-mono text-[9px] text-slate-800">
+                sectionReadiness
+              </span>
+              ,{' '}
+              <span className="rounded bg-slate-100 px-0.5 font-mono text-[9px] text-slate-800">
+                GROUP_TO_DOSSIER_SECTION
+              </span>
+              , mat ↔ sketch ref); P1 — выгрузка узлов/ТК (маршруты вне экрана) и подпись секции.
             </p>
             <p className="text-[10px] leading-snug text-slate-600">
               «Уже в коде» — см. строки пункта; «Ещё нет (P0)» — продуктовый пробел.
-              {onDossierJump ? ' У пунктов с ссылкой «Перейти к блоку» открывается нужная вкладка ТЗ и якорь.' : null}
+              {onDossierJump
+                ? ' У пунктов с ссылкой «Перейти к блоку» открывается нужная вкладка ТЗ и якорь.'
+                : null}
             </p>
             <p className="text-[10px] leading-snug text-slate-500">
               Якоря:{' '}
-              <span className="font-mono text-[9px] text-slate-700">#w2-construction-contour</span> ·{' '}
-              <span className="font-mono text-[9px] text-slate-700">#w2-construction-sketch-hub</span> (метки construction/qc) ·{' '}
+              <span className="font-mono text-[9px] text-slate-700">#w2-construction-contour</span>{' '}
+              ·{' '}
+              <span className="font-mono text-[9px] text-slate-700">
+                #w2-construction-sketch-hub
+              </span>{' '}
+              (метки construction/qc) ·{' '}
               <span className="font-mono text-[9px] text-slate-700">#w2-construction-export</span> ·{' '}
               <span className="font-mono text-[9px] text-slate-700">#w2-construction-signoff</span>.
             </p>
@@ -199,7 +244,9 @@ export function Workshop2NineGapBacklogStrip({
             {stripTitle?.startsWith('Паспорт')
               ? 'Паспорт: P0 — аудит журнала по критичным полям и сжатые режимы ТЗ (w2view, первичные секции, data-w2-dossier-view); P1 — внешняя read-only ссылка (factory + sketchFloor). «Уже в коде» — хелперы и блоки в хабе; «Перейти к блоку» ведёт на якорь в паспорте.'
               : 'Ниже — приоритизированный бэклог из кода репозитория. Закрытие пунктов поднимает зрелость маршрута SKU; часть уже опирается на существующие поля досье.'}{' '}
-            {onDossierJump ? 'У пунктов с ссылкой «Перейти к блоку» открывается нужная вкладка ТЗ и якорь.' : null}
+            {onDossierJump
+              ? 'У пунктов с ссылкой «Перейти к блоку» открывается нужная вкладка ТЗ и якорь.'
+              : null}
           </p>
         )}
         <ul className="space-y-2">
@@ -249,7 +296,9 @@ export function Workshop2NineGapBacklogStrip({
         </ul>
         {footer ? (
           <div className="mt-2 border-t border-slate-200/70 pt-2 text-[10px] text-slate-600">
-            <p className="mb-1.5 font-semibold uppercase tracking-wide text-slate-500">Связанные секции</p>
+            <p className="mb-1.5 font-semibold uppercase tracking-wide text-slate-500">
+              Связанные секции
+            </p>
             {footer}
           </div>
         ) : null}

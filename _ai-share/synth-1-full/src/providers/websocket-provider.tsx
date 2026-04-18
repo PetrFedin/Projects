@@ -57,11 +57,7 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
     enabled: !!process.env.NEXT_PUBLIC_WS_URL,
   });
 
-  return (
-    <WebSocketContext.Provider value={{ connected }}>
-      {children}
-    </WebSocketContext.Provider>
-  );
+  return <WebSocketContext.Provider value={{ connected }}>{children}</WebSocketContext.Provider>;
 }
 
 export function useWebSocketContext() {

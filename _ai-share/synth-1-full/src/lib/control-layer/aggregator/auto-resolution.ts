@@ -21,7 +21,9 @@ export class AutoResolutionService {
     const { action_id, action_type, entity_ref } = action;
     const timestamp = new Date().toISOString();
 
-    console.log(`[AutoResolution] AI Agent attempting to resolve ${action_id} (${action_type}) for ${entity_ref.entity_id}`);
+    console.log(
+      `[AutoResolution] AI Agent attempting to resolve ${action_id} (${action_type}) for ${entity_ref.entity_id}`
+    );
 
     // Логика авто-резолвинга
     switch (action_type) {
@@ -32,7 +34,12 @@ export class AutoResolutionService {
       case 'rework' as any:
         return this.resolveQCFailure(entity_ref);
       default:
-        return { action_id, status: 'failed', message: 'No AI capability defined for this action type', timestamp };
+        return {
+          action_id,
+          status: 'failed',
+          message: 'No AI capability defined for this action type',
+          timestamp,
+        };
     }
   }
 
@@ -42,12 +49,14 @@ export class AutoResolutionService {
   private static async resolveMetadata(entityRef: EntityRef): Promise<ResolutionResult> {
     // Имитация вызова LLM для генерации описания на основе других полей (состав, категория)
     const success = Math.random() > 0.1; // 90% success rate with AI
-    
+
     return {
       action_id: `auto-meta-${entityRef.entity_id}-${Date.now()}`,
       status: success ? 'resolved' : 'failed',
-      message: success ? 'AI successfully generated missing product description and tags' : 'AI requires more context (images/composition) to generate description',
-      timestamp: new Date().toISOString()
+      message: success
+        ? 'AI successfully generated missing product description and tags'
+        : 'AI requires more context (images/composition) to generate description',
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -57,12 +66,14 @@ export class AutoResolutionService {
   private static async resolveReconciliation(entityRef: EntityRef): Promise<ResolutionResult> {
     // Имитация проверки: если расхождение < 1%, списываем автоматически
     const isMinorDiscrepancy = Math.random() > 0.5;
-    
+
     return {
       action_id: `auto-recon-${entityRef.entity_id}-${Date.now()}`,
       status: isMinorDiscrepancy ? 'resolved' : 'failed',
-      message: isMinorDiscrepancy ? 'Discrepancy < 1%, automatically written off to shrinkage account' : 'Discrepancy exceeds auto-write-off threshold, manual audit required',
-      timestamp: new Date().toISOString()
+      message: isMinorDiscrepancy
+        ? 'Discrepancy < 1%, automatically written off to shrinkage account'
+        : 'Discrepancy exceeds auto-write-off threshold, manual audit required',
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -76,8 +87,10 @@ export class AutoResolutionService {
     return {
       action_id: `auto-qc-${entityRef.entity_id}-${Date.now()}`,
       status: 'resolved', // Мы всегда принимаем решение (маршрутизируем)
-      message: isReworkable ? 'QC AI Analysis: Defects are minor. Auto-routed to Rework Station A.' : 'QC AI Analysis: Defects are fatal. Auto-routed to Recycling/Discount channel.',
-      timestamp: new Date().toISOString()
+      message: isReworkable
+        ? 'QC AI Analysis: Defects are minor. Auto-routed to Rework Station A.'
+        : 'QC AI Analysis: Defects are fatal. Auto-routed to Recycling/Discount channel.',
+      timestamp: new Date().toISOString(),
     };
   }
 }

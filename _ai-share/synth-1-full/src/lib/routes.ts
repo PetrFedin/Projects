@@ -186,7 +186,8 @@ export const ROUTES = {
     /** Вкладка цеха на /brand/production (floorTab) */
     productionFloorTab: (tab: string) => `/brand/production?floorTab=${encodeURIComponent(tab)}`,
     /** Tech pack по id стиля (карточка артикула); для черновика можно передать new или SKU */
-    productionTechPackStyle: (styleId: string) => `/brand/production/tech-pack/${encodeURIComponent(styleId)}`,
+    productionTechPackStyle: (styleId: string) =>
+      `/brand/production/tech-pack/${encodeURIComponent(styleId)}`,
     suppliersRfq: '/brand/suppliers/rfq',
     kickstarter: '/brand/kickstarter',
     promotions: '/brand/promotions',

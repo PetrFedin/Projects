@@ -5,7 +5,20 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
-import { Trophy, Star, Zap, Target, Award, Gift, Crown, Flame, TrendingUp, Users, Share2, CheckCircle } from 'lucide-react';
+import {
+  Trophy,
+  Star,
+  Zap,
+  Target,
+  Award,
+  Gift,
+  Crown,
+  Flame,
+  TrendingUp,
+  Users,
+  Share2,
+  CheckCircle,
+} from 'lucide-react';
 import { useAuth } from '@/providers/auth-provider';
 import { useUIState } from '@/providers/ui-state';
 import { ordersRepository } from '@/lib/repositories';
@@ -71,12 +84,19 @@ export default function GamificationSystem() {
         setOrders(userOrders);
 
         // Calculate level
-        const totalPoints = (user.loyaltyPoints || 0) + userOrders.reduce((sum, o) => sum + Math.round(o.total / 100), 0);
+        const totalPoints =
+          (user.loyaltyPoints || 0) +
+          userOrders.reduce((sum, o) => sum + Math.round(o.total / 100), 0);
         const calculatedLevel = calculateLevel(totalPoints);
         setLevel(calculatedLevel);
 
         // Load achievements
-        const userAchievements = generateAchievements(userOrders, wishlist.length, lookboards.length, cart.length);
+        const userAchievements = generateAchievements(
+          userOrders,
+          wishlist.length,
+          lookboards.length,
+          cart.length
+        );
         setAchievements(userAchievements);
 
         // Load challenges
@@ -100,14 +120,14 @@ export default function GamificationSystem() {
     return (
       <Card>
         <CardContent className="pt-6">
-          <div className="text-center py-4">Загрузка системы геймификации...</div>
+          <div className="py-4 text-center">Загрузка системы геймификации...</div>
         </CardContent>
       </Card>
     );
   }
 
-  const unlockedAchievements = achievements.filter(a => a.unlocked).length;
-  const activeChallenges = challenges.filter(c => c.status === 'active').length;
+  const unlockedAchievements = achievements.filter((a) => a.unlocked).length;
+  const activeChallenges = challenges.filter((c) => c.status === 'active').length;
 
   return (
     <div className="space-y-6">
@@ -119,7 +139,8 @@ export default function GamificationSystem() {
             Ваш уровень: {level.name}
           </CardTitle>
           <CardDescription>
-            {level.points.toLocaleString('ru-RU')} баллов • До следующего уровня: {level.nextLevelPoints - level.points} баллов
+            {level.points.toLocaleString('ru-RU')} баллов • До следующего уровня:{' '}
+            {level.nextLevelPoints - level.points} баллов
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -139,7 +160,7 @@ export default function GamificationSystem() {
 
       {/* Streak */}
       {streak && streak.days > 0 && (
-        <Card className="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20 border-orange-200 dark:border-orange-800">
+        <Card className="border-orange-200 bg-gradient-to-r from-orange-50 to-red-50 dark:border-orange-800 dark:from-orange-950/20 dark:to-red-950/20">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Flame className="h-5 w-5 text-orange-600" />
@@ -157,7 +178,9 @@ export default function GamificationSystem() {
               </div>
               <div className="text-right">
                 <p className="text-sm font-medium">Следующая награда через</p>
-                <p className="text-sm font-bold text-orange-600">{streak.nextReward - streak.days} дней</p>
+                <p className="text-sm font-bold text-orange-600">
+                  {streak.nextReward - streak.days} дней
+                </p>
               </div>
             </div>
           </CardContent>
@@ -171,62 +194,65 @@ export default function GamificationSystem() {
             <Target className="h-5 w-5 text-accent" />
             Активные челленджи
           </CardTitle>
-          <CardDescription>
-            Выполняйте задания и получайте награды
-          </CardDescription>
+          <CardDescription>Выполняйте задания и получайте награды</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {challenges.filter(c => c.status === 'active').map((challenge) => (
-              <div
-                key={challenge.id}
-                className="p-4 rounded-lg border bg-muted/50"
-              >
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Badge variant="outline" className="text-xs">
-                        {challenge.type === 'daily' ? 'Ежедневный' :
-                         challenge.type === 'weekly' ? 'Еженедельный' :
-                         challenge.type === 'seasonal' ? 'Сезонный' : 'Специальный'}
-                      </Badge>
-                      <h4 className="font-semibold text-sm">{challenge.title}</h4>
+            {challenges
+              .filter((c) => c.status === 'active')
+              .map((challenge) => (
+                <div key={challenge.id} className="rounded-lg border bg-muted/50 p-4">
+                  <div className="mb-2 flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="mb-1 flex items-center gap-2">
+                        <Badge variant="outline" className="text-xs">
+                          {challenge.type === 'daily'
+                            ? 'Ежедневный'
+                            : challenge.type === 'weekly'
+                              ? 'Еженедельный'
+                              : challenge.type === 'seasonal'
+                                ? 'Сезонный'
+                                : 'Специальный'}
+                        </Badge>
+                        <h4 className="text-sm font-semibold">{challenge.title}</h4>
+                      </div>
+                      <p className="mb-2 text-sm text-muted-foreground">{challenge.description}</p>
+                      <Progress
+                        value={(challenge.progress / challenge.maxProgress) * 100}
+                        className="mb-2 h-2"
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        {challenge.progress} / {challenge.maxProgress}
+                      </p>
                     </div>
-                    <p className="text-sm text-muted-foreground mb-2">{challenge.description}</p>
-                    <Progress 
-                      value={(challenge.progress / challenge.maxProgress) * 100} 
-                      className="h-2 mb-2"
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      {challenge.progress} / {challenge.maxProgress}
-                    </p>
                   </div>
-                </div>
-                <div className="mt-3 pt-3 border-t flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Star className="h-4 w-4 text-yellow-600" />
-                    <span className="text-sm font-medium">{challenge.reward.points} баллов</span>
-                    {challenge.reward.discount && (
-                      <>
-                        <span className="text-muted-foreground">•</span>
-                        <Gift className="h-4 w-4 text-accent" />
-                        <span className="text-sm font-medium">{challenge.reward.discount}% скидка</span>
-                      </>
+                  <div className="mt-3 flex items-center justify-between border-t pt-3">
+                    <div className="flex items-center gap-2">
+                      <Star className="h-4 w-4 text-yellow-600" />
+                      <span className="text-sm font-medium">{challenge.reward.points} баллов</span>
+                      {challenge.reward.discount && (
+                        <>
+                          <span className="text-muted-foreground">•</span>
+                          <Gift className="h-4 w-4 text-accent" />
+                          <span className="text-sm font-medium">
+                            {challenge.reward.discount}% скидка
+                          </span>
+                        </>
+                      )}
+                    </div>
+                    {challenge.expiresAt && (
+                      <span className="text-xs text-muted-foreground">
+                        До {new Date(challenge.expiresAt).toLocaleDateString('ru-RU')}
+                      </span>
                     )}
                   </div>
-                  {challenge.expiresAt && (
-                    <span className="text-xs text-muted-foreground">
-                      До {new Date(challenge.expiresAt).toLocaleDateString('ru-RU')}
-                    </span>
-                  )}
                 </div>
-              </div>
-            ))}
+              ))}
             {activeChallenges === 0 && (
-              <div className="text-center py-4 text-muted-foreground">
-                <Target className="h-12 w-12 mx-auto mb-2 opacity-50" />
+              <div className="py-4 text-center text-muted-foreground">
+                <Target className="mx-auto mb-2 h-12 w-12 opacity-50" />
                 <p>Нет активных челленджей</p>
-                <p className="text-xs mt-1">Новые челленджи появятся скоро!</p>
+                <p className="mt-1 text-xs">Новые челленджи появятся скоро!</p>
               </div>
             )}
           </div>
@@ -245,27 +271,27 @@ export default function GamificationSystem() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
             {achievements.map((achievement) => (
               <div
                 key={achievement.id}
                 className={cn(
-                  "p-4 rounded-lg border text-center transition-all",
+                  'rounded-lg border p-4 text-center transition-all',
                   achievement.unlocked
-                    ? "bg-yellow-50 dark:bg-yellow-950/20 border-yellow-200 dark:border-yellow-800"
-                    : "bg-muted/50 border-border opacity-60"
+                    ? 'border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950/20'
+                    : 'border-border bg-muted/50 opacity-60'
                 )}
               >
-                <div className="text-base mb-2">{achievement.icon}</div>
-                <h4 className="font-semibold text-sm mb-1">{achievement.title}</h4>
-                <p className="text-xs text-muted-foreground mb-2">{achievement.description}</p>
+                <div className="mb-2 text-base">{achievement.icon}</div>
+                <h4 className="mb-1 text-sm font-semibold">{achievement.title}</h4>
+                <p className="mb-2 text-xs text-muted-foreground">{achievement.description}</p>
                 {!achievement.unlocked && (
                   <div className="mt-2">
-                    <Progress 
-                      value={(achievement.progress / achievement.maxProgress) * 100} 
+                    <Progress
+                      value={(achievement.progress / achievement.maxProgress) * 100}
                       className="h-1"
                     />
-                    <p className="text-xs text-muted-foreground mt-1">
+                    <p className="mt-1 text-xs text-muted-foreground">
                       {achievement.progress} / {achievement.maxProgress}
                     </p>
                   </div>
@@ -288,9 +314,7 @@ export default function GamificationSystem() {
             <TrendingUp className="h-5 w-5" />
             Рейтинг
           </CardTitle>
-          <CardDescription>
-            Ваше место среди других пользователей
-          </CardDescription>
+          <CardDescription>Ваше место среди других пользователей</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
@@ -298,35 +322,38 @@ export default function GamificationSystem() {
               <div
                 key={index}
                 className={cn(
-                  "flex items-center gap-3 p-3 rounded-lg",
-                  position === 2 ? "bg-accent/10 border-2 border-accent" : "bg-muted/50"
+                  'flex items-center gap-3 rounded-lg p-3',
+                  position === 2 ? 'border-2 border-accent bg-accent/10' : 'bg-muted/50'
                 )}
               >
-                <div className={cn(
-                  "w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm",
-                  position === 1 && "bg-yellow-500 text-white",
-                  position === 2 && "bg-accent text-accent-foreground",
-                  position === 3 && "bg-orange-500 text-white",
-                  position > 3 && "bg-muted"
-                )}>
+                <div
+                  className={cn(
+                    'flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold',
+                    position === 1 && 'bg-yellow-500 text-white',
+                    position === 2 && 'bg-accent text-accent-foreground',
+                    position === 3 && 'bg-orange-500 text-white',
+                    position > 3 && 'bg-muted'
+                  )}
+                >
                   {position === 1 ? '🥇' : position === 2 ? '🥈' : position === 3 ? '🥉' : position}
                 </div>
                 <div className="flex-1">
-                  <p className="font-medium text-sm">
+                  <p className="text-sm font-medium">
                     {position === 2 ? user.displayName : `Пользователь ${position}`}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {position === 2 ? level.points.toLocaleString('ru-RU') : (level.points + (position - 2) * 1000).toLocaleString('ru-RU')} баллов
+                    {position === 2
+                      ? level.points.toLocaleString('ru-RU')
+                      : (level.points + (position - 2) * 1000).toLocaleString('ru-RU')}{' '}
+                    баллов
                   </p>
                 </div>
-                {position === 2 && (
-                  <Badge variant="default">Вы</Badge>
-                )}
+                {position === 2 && <Badge variant="default">Вы</Badge>}
               </div>
             ))}
-            <Button variant="outline" className="w-full mt-4" asChild>
+            <Button variant="outline" className="mt-4 w-full" asChild>
               <Link href="/community?tab=leaderboard">
-                <Users className="h-4 w-4 mr-2" />
+                <Users className="mr-2 h-4 w-4" />
                 Посмотреть полный рейтинг
               </Link>
             </Button>
@@ -335,32 +362,30 @@ export default function GamificationSystem() {
       </Card>
 
       {/* Referral Program */}
-      <Card className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20 border-purple-200 dark:border-purple-800">
+      <Card className="border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50 dark:border-purple-800 dark:from-purple-950/20 dark:to-pink-950/20">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Share2 className="h-5 w-5 text-purple-600" />
             Реферальная программа
           </CardTitle>
-          <CardDescription>
-            Приглашайте друзей и получайте награды
-          </CardDescription>
+          <CardDescription>Приглашайте друзей и получайте награды</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
-              <div className="text-center p-4 rounded-lg bg-background/50">
+              <div className="rounded-lg bg-background/50 p-4 text-center">
                 <p className="text-sm font-bold text-purple-600">3</p>
-                <p className="text-xs text-muted-foreground mt-1">Приглашено друзей</p>
+                <p className="mt-1 text-xs text-muted-foreground">Приглашено друзей</p>
               </div>
-              <div className="text-center p-4 rounded-lg bg-background/50">
+              <div className="rounded-lg bg-background/50 p-4 text-center">
                 <p className="text-sm font-bold text-purple-600">1,500</p>
-                <p className="text-xs text-muted-foreground mt-1">Баллов заработано</p>
+                <p className="mt-1 text-xs text-muted-foreground">Баллов заработано</p>
               </div>
             </div>
-            <div className="p-4 rounded-lg bg-background/50">
-              <p className="text-sm font-medium mb-2">Ваша реферальная ссылка:</p>
+            <div className="rounded-lg bg-background/50 p-4">
+              <p className="mb-2 text-sm font-medium">Ваша реферальная ссылка:</p>
               <div className="flex items-center gap-2">
-                <code className="flex-1 p-2 bg-muted rounded text-xs">
+                <code className="flex-1 rounded bg-muted p-2 text-xs">
                   syntha.com/ref/{user.uid.slice(0, 8)}
                 </code>
                 <Button size="sm" variant="outline">
@@ -392,7 +417,12 @@ export default function GamificationSystem() {
 function calculateLevel(totalPoints: number): Level {
   const levels = [
     { level: 1, name: 'Новичок', points: 0, benefits: ['Базовые скидки', 'Доступ к каталогу'] },
-    { level: 2, name: 'Покупатель', points: 1000, benefits: ['Скидки 5%', 'Бесплатная доставка от 5000₽'] },
+    {
+      level: 2,
+      name: 'Покупатель',
+      points: 1000,
+      benefits: ['Скидки 5%', 'Бесплатная доставка от 5000₽'],
+    },
     { level: 3, name: 'Любитель', points: 5000, benefits: ['Скидки 7%', 'Приоритетная поддержка'] },
     { level: 4, name: 'Эксперт', points: 15000, benefits: ['Скидки 10%', 'Эксклюзивные товары'] },
     { level: 5, name: 'VIP', points: 50000, benefits: ['Скидки 15%', 'Персональный стилист'] },
@@ -406,9 +436,9 @@ function calculateLevel(totalPoints: number): Level {
     }
   }
 
-  const nextLevel = levels.find(l => l.level === currentLevel.level + 1);
+  const nextLevel = levels.find((l) => l.level === currentLevel.level + 1);
   const nextLevelPoints = nextLevel ? nextLevel.points : currentLevel.points * 2;
-  const progress = nextLevel 
+  const progress = nextLevel
     ? ((totalPoints - currentLevel.points) / (nextLevelPoints - currentLevel.points)) * 100
     : 100;
 
@@ -569,8 +599,3 @@ function calculateStreak(orders: Order[]): Streak {
 
   return { days, longestStreak, nextReward };
 }
-
-
-
-
-

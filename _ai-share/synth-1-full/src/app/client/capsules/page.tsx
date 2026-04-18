@@ -77,7 +77,12 @@ export default function ClientCapsulesPage() {
       }
       setName(exp.name);
       if (catalog.length) {
-        setSlots(resolveCapsuleSlots(catalog, exp.productIds.map((id) => id ?? undefined)));
+        setSlots(
+          resolveCapsuleSlots(
+            catalog,
+            exp.productIds.map((id) => id ?? undefined)
+          )
+        );
       }
       toast({ title: 'Импорт выполнен', description: 'Сохраните, чтобы записать в localStorage.' });
     } catch {
@@ -88,7 +93,7 @@ export default function ClientCapsulesPage() {
   const emptySlots = slots.filter((s) => !s).length;
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
@@ -97,11 +102,11 @@ export default function ClientCapsulesPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
+            <h1 className="flex items-center gap-2 text-xl font-bold">
               <Layers className="h-6 w-6" />
               Капсула / готовый лук
             </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
+            <p className="mt-0.5 text-sm text-muted-foreground">
               Три слота; экспорт v1 для бэкапа. API: позже POST /v1/client/capsules.
             </p>
           </div>
@@ -125,13 +130,15 @@ export default function ClientCapsulesPage() {
             <Label>Название</Label>
             <Input value={name} onChange={(e) => setName(e.target.value)} />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {[0, 1, 2].map((i) => (
-              <div key={i} className="rounded-lg border p-3 space-y-2 min-h-[140px]">
-                <p className="text-[10px] font-bold uppercase text-muted-foreground">Слот {i + 1}</p>
+              <div key={i} className="min-h-[140px] space-y-2 rounded-lg border p-3">
+                <p className="text-[10px] font-bold uppercase text-muted-foreground">
+                  Слот {i + 1}
+                </p>
                 {slots[i] ? (
                   <div className="space-y-2">
-                    <div className="relative aspect-square rounded-md overflow-hidden">
+                    <div className="relative aspect-square overflow-hidden rounded-md">
                       <Image
                         src={slots[i]!.images[0]?.url || '/placeholder.jpg'}
                         alt=""
@@ -140,8 +147,14 @@ export default function ClientCapsulesPage() {
                         sizes="120px"
                       />
                     </div>
-                    <p className="text-xs line-clamp-2">{slots[i]!.name}</p>
-                    <Button type="button" variant="ghost" size="sm" className="h-7 text-xs" onClick={() => clearSlot(i)}>
+                    <p className="line-clamp-2 text-xs">{slots[i]!.name}</p>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="h-7 text-xs"
+                      onClick={() => clearSlot(i)}
+                    >
                       Снять
                     </Button>
                   </div>
@@ -156,13 +169,18 @@ export default function ClientCapsulesPage() {
               Сохранить в браузер
             </Button>
             <Button type="button" variant="outline" size="sm" onClick={exportJson}>
-              <Download className="h-4 w-4 mr-2" />
+              <Download className="mr-2 h-4 w-4" />
               Экспорт JSON
             </Button>
             <label className="inline-flex cursor-pointer items-center justify-center rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent">
-              <Upload className="h-4 w-4 mr-2" />
+              <Upload className="mr-2 h-4 w-4" />
               Импорт JSON
-              <input type="file" accept="application/json,.json" className="sr-only" onChange={importJson} />
+              <input
+                type="file"
+                accept="application/json,.json"
+                className="sr-only"
+                onChange={importJson}
+              />
             </label>
           </div>
         </CardContent>
@@ -170,7 +188,7 @@ export default function ClientCapsulesPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-base">
             <Plus className="h-4 w-4" />
             Добавить из каталога
           </CardTitle>
@@ -179,21 +197,27 @@ export default function ClientCapsulesPage() {
           {catalog.length === 0 ? (
             <p className="text-sm text-muted-foreground">Нет товаров в демо-каталоге.</p>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 max-h-80 overflow-y-auto">
+            <div className="grid max-h-80 grid-cols-2 gap-2 overflow-y-auto sm:grid-cols-4">
               {catalog.map((p) => (
                 <button
                   key={p.id}
                   type="button"
-                  className="text-left rounded-md border p-1 hover:border-primary"
+                  className="rounded-md border p-1 text-left hover:border-primary"
                   onClick={() => {
                     const empty = slots.findIndex((s) => !s);
                     if (empty >= 0) pick(empty, p);
                   }}
                 >
-                  <div className="relative aspect-square rounded overflow-hidden">
-                    <Image src={p.images[0]?.url || '/placeholder.jpg'} alt="" fill className="object-cover" sizes="100px" />
+                  <div className="relative aspect-square overflow-hidden rounded">
+                    <Image
+                      src={p.images[0]?.url || '/placeholder.jpg'}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="100px"
+                    />
                   </div>
-                  <p className="text-[10px] mt-1 line-clamp-2">{p.name}</p>
+                  <p className="mt-1 line-clamp-2 text-[10px]">{p.name}</p>
                 </button>
               ))}
             </div>

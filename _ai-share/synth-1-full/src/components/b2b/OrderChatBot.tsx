@@ -19,7 +19,8 @@ export function OrderChatBot({ defaultCollapsed = true, className }: OrderChatBo
     {
       id: 'welcome',
       role: 'assistant',
-      content: 'Здравствуйте! Спросите про наличие, цены или статус заказа. Например: «Есть ли в наличии?», «Какие сроки поставки?»',
+      content:
+        'Здравствуйте! Спросите про наличие, цены или статус заказа. Например: «Есть ли в наличии?», «Какие сроки поставки?»',
       timestamp: new Date().toISOString(),
     },
   ]);
@@ -53,13 +54,8 @@ export function OrderChatBot({ defaultCollapsed = true, className }: OrderChatBo
 
   if (!open) {
     return (
-      <Button
-        variant="outline"
-        size="sm"
-        className={className}
-        onClick={() => setOpen(true)}
-      >
-        <MessageCircle className="h-4 w-4 mr-2" />
+      <Button variant="outline" size="sm" className={className} onClick={() => setOpen(true)}>
+        <MessageCircle className="mr-2 h-4 w-4" />
         AI-чат по заказам
       </Button>
     );
@@ -67,8 +63,8 @@ export function OrderChatBot({ defaultCollapsed = true, className }: OrderChatBo
 
   return (
     <Card className={className}>
-      <CardHeader className="py-2 px-3 flex flex-row items-center justify-between">
-        <CardTitle className="text-sm flex items-center gap-2">
+      <CardHeader className="flex flex-row items-center justify-between px-3 py-2">
+        <CardTitle className="flex items-center gap-2 text-sm">
           <MessageCircle className="h-4 w-4" />
           AI-чат по заказам
         </CardTitle>
@@ -77,11 +73,11 @@ export function OrderChatBot({ defaultCollapsed = true, className }: OrderChatBo
         </Button>
       </CardHeader>
       <CardContent className="p-2 pt-0">
-        <div className="h-48 overflow-y-auto space-y-2 mb-2">
+        <div className="mb-2 h-48 space-y-2 overflow-y-auto">
           {messages.map((m) => (
             <div
               key={m.id}
-              className={`text-xs rounded-lg px-2 py-1.5 max-w-[90%] ${m.role === 'user' ? 'ml-auto bg-indigo-100 text-indigo-900' : 'bg-slate-100 text-slate-800'}`}
+              className={`max-w-[90%] rounded-lg px-2 py-1.5 text-xs ${m.role === 'user' ? 'ml-auto bg-indigo-100 text-indigo-900' : 'bg-slate-100 text-slate-800'}`}
             >
               {m.content}
             </div>
@@ -91,7 +87,7 @@ export function OrderChatBot({ defaultCollapsed = true, className }: OrderChatBo
         <div className="flex gap-1">
           <Input
             placeholder="Наличие, цены, статус..."
-            className="text-sm h-8"
+            className="h-8 text-sm"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && send()}

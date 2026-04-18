@@ -25,37 +25,56 @@ export function LogisticsCostCalc({ onEstimate }: LogisticsCostCalcProps) {
 
   return (
     <Card className="rounded-xl border border-slate-100 shadow-sm">
-      <CardHeader className="py-2 px-4">
-        <CardTitle className="text-[10px] font-black uppercase flex items-center gap-2">
+      <CardHeader className="px-4 py-2">
+        <CardTitle className="flex items-center gap-2 text-[10px] font-black uppercase">
           <Truck className="h-4 w-4" /> Расчёт стоимости логистики
         </CardTitle>
       </CardHeader>
-      <CardContent className="px-4 pb-4 space-y-3">
+      <CardContent className="space-y-3 px-4 pb-4">
         <div className="grid grid-cols-2 gap-2">
           <div>
             <label className="text-[9px] font-bold uppercase text-slate-500">Вес (кг)</label>
-            <Input type="number" value={weight} onChange={(e) => setWeight(Number(e.target.value) || 0)} className="mt-1 h-8 text-[10px]" />
+            <Input
+              type="number"
+              value={weight}
+              onChange={(e) => setWeight(Number(e.target.value) || 0)}
+              className="mt-1 h-8 text-[10px]"
+            />
           </div>
           <div>
             <label className="text-[9px] font-bold uppercase text-slate-500">Объём (м³)</label>
-            <Input type="number" step={0.1} value={volume} onChange={(e) => setVolume(Number(e.target.value) || 0)} className="mt-1 h-8 text-[10px]" />
+            <Input
+              type="number"
+              step={0.1}
+              value={volume}
+              onChange={(e) => setVolume(Number(e.target.value) || 0)}
+              className="mt-1 h-8 text-[10px]"
+            />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2">
           <div>
             <label className="text-[9px] font-bold uppercase text-slate-500">Откуда</label>
-            <Input value={from} onChange={(e) => setFrom(e.target.value)} className="mt-1 h-8 text-[10px]" />
+            <Input
+              value={from}
+              onChange={(e) => setFrom(e.target.value)}
+              className="mt-1 h-8 text-[10px]"
+            />
           </div>
           <div>
             <label className="text-[9px] font-bold uppercase text-slate-500">Куда</label>
-            <Input value={to} onChange={(e) => setTo(e.target.value)} className="mt-1 h-8 text-[10px]" />
+            <Input
+              value={to}
+              onChange={(e) => setTo(e.target.value)}
+              className="mt-1 h-8 text-[10px]"
+            />
           </div>
         </div>
-        <Button size="sm" className="w-full h-8 text-[9px]" onClick={estimate}>
+        <Button size="sm" className="h-8 w-full text-[9px]" onClick={estimate}>
           Рассчитать
         </Button>
         {result !== null && (
-          <p className="text-[11px] font-bold text-indigo-600 text-center">
+          <p className="text-center text-[11px] font-bold text-indigo-600">
             ≈ {result.toLocaleString('ru-RU')} ₽
           </p>
         )}

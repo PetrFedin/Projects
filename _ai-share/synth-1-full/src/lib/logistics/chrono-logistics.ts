@@ -34,7 +34,9 @@ export class ChronoLogisticsEngine {
   public static dispatchTemporalShipment(request: ChronoDeliveryRequest): ChronoDeliveryResult {
     // [Phase 51] Math Hardening: Защита от NaN, отрицательной массы и бесконечных временных сдвигов
     const safeMassKg = Math.max(0.001, isNaN(request.massKg) ? 1 : request.massKg); // Масса не может быть 0 или отрицательной
-    const safeOffsetMinutes = isNaN(request.targetArrivalOffsetMinutes) ? 0 : request.targetArrivalOffsetMinutes;
+    const safeOffsetMinutes = isNaN(request.targetArrivalOffsetMinutes)
+      ? 0
+      : request.targetArrivalOffsetMinutes;
     // Ограничиваем сдвиг во времени (не более 1 года в прошлое или будущее, чтобы избежать переполнения)
     const boundedOffsetMinutes = Math.max(-525600, Math.min(525600, safeOffsetMinutes));
 
@@ -47,7 +49,8 @@ export class ChronoLogisticsEngine {
     // 1. Расчет энергозатрат (Антиматерия)
     // Чем дальше в прошлое (отрицательный offset) или быстрее в будущее, тем больше энергии
     const temporalShiftMinutes = Math.abs(boundedOffsetMinutes);
-    antimatterConsumedGrams = safeMassKg * temporalShiftMinutes * this.ANTIMATTER_PER_KG_PER_MINUTE_GRAMS;
+    antimatterConsumedGrams =
+      safeMassKg * temporalShiftMinutes * this.ANTIMATTER_PER_KG_PER_MINUTE_GRAMS;
 
     // 2. Проверка бюджета энергии
     if (antimatterConsumedGrams > request.maxAntimatterBudgetGrams) {
@@ -57,7 +60,7 @@ export class ChronoLogisticsEngine {
         timeDilationFactor: 1.0,
         antimatterConsumedGrams: 0,
         estimatedArrivalLocalTime: now.toISOString(),
-        reasoning: `CRITICAL: Temporal displacement requires ${antimatterConsumedGrams.toFixed(2)}g of antimatter, exceeding budget of ${request.maxAntimatterBudgetGrams}g. Delivery aborted.`
+        reasoning: `CRITICAL: Temporal displacement requires ${antimatterConsumedGrams.toFixed(2)}g of antimatter, exceeding budget of ${request.maxAntimatterBudgetGrams}g. Delivery aborted.`,
       };
     }
 
@@ -73,7 +76,7 @@ export class ChronoLogisticsEngine {
         timeDilationFactor: 0,
         antimatterConsumedGrams: 0,
         estimatedArrivalLocalTime: now.toISOString(),
-        reasoning
+        reasoning,
       };
     }
 
@@ -97,7 +100,7 @@ export class ChronoLogisticsEngine {
       timeDilationFactor,
       antimatterConsumedGrams,
       estimatedArrivalLocalTime: arrivalTime.toISOString(),
-      reasoning
+      reasoning,
     };
   }
 }

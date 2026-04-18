@@ -1,11 +1,20 @@
 import snapshot from './generated/category-handbook.snapshot.json';
-import type { CategoryHandbookSnapshot, HandbookCategoryLeaf } from './category-handbook-snapshot-builder';
+import type {
+  CategoryHandbookSnapshot,
+  HandbookCategoryLeaf,
+} from './category-handbook-snapshot-builder';
 import type { TaxonomyLeafAlias } from './category-leaf-production-types';
 import { resolveCanonicalLeafId, TAXONOMY_LEAF_ALIASES } from './category-taxonomy-aliases';
 
-export type { CategoryHandbookSnapshot, HandbookCategoryLeaf } from './category-handbook-snapshot-builder';
+export type {
+  CategoryHandbookSnapshot,
+  HandbookCategoryLeaf,
+} from './category-handbook-snapshot-builder';
 export type { TaxonomyLeafAlias } from './category-leaf-production-types';
-export { buildCategoryHandbookSnapshot, handbookAudienceCategoryPath } from './category-handbook-snapshot-builder';
+export {
+  buildCategoryHandbookSnapshot,
+  handbookAudienceCategoryPath,
+} from './category-handbook-snapshot-builder';
 
 const catalog = snapshot as CategoryHandbookSnapshot;
 const WORKSHOP2_FALLBACK_AUDIENCES = [

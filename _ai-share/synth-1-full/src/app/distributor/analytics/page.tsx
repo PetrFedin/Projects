@@ -2,13 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { StatCard } from '@/components/stat-card';
@@ -25,7 +19,10 @@ import {
 
 type Period = 'week' | 'month' | 'year';
 
-const periodStats: Record<Period, { revenue: string; revenueChange: string; avgOrder: string; topRegion: string; retailers: string }> = {
+const periodStats: Record<
+  Period,
+  { revenue: string; revenueChange: string; avgOrder: string; topRegion: string; retailers: string }
+> = {
   week: {
     revenue: '3,500,000 ₽',
     revenueChange: '+7.1% к прошлой неделе',
@@ -70,13 +67,13 @@ export default function DistributorAnalyticsPage() {
   const stats = periodStats[period];
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-6xl pb-24">
-      <header className="flex flex-col sm:flex-row justify-between sm:items-start gap-3 border-b border-slate-100 pb-4">
+    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
+      <header className="flex flex-col justify-between gap-3 border-b border-slate-100 pb-4 sm:flex-row sm:items-start">
         <div>
-          <h1 className="text-xl font-black uppercase tracking-tight flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-xl font-black uppercase tracking-tight">
             <TrendingUp className="h-6 w-6 text-indigo-600" /> Аналитика дистрибуции
           </h1>
-          <p className="text-sm text-slate-500 mt-1">
+          <p className="mt-1 text-sm text-slate-500">
             Региональный спрос, топ ритейлеров, динамика заказов и выручки.
           </p>
         </div>
@@ -116,13 +113,13 @@ export default function DistributorAnalyticsPage() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <DistributorSalesChart />
         </div>
         <Card className="rounded-xl border border-slate-100">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm">
               <BarChart3 className="h-4 w-4 text-indigo-600" /> Топ ритейлеров по объёму
             </CardTitle>
             <CardDescription>За выбранный период</CardDescription>
@@ -131,10 +128,10 @@ export default function DistributorAnalyticsPage() {
             {topRetailersByVolume.map((r, i) => (
               <div
                 key={r.name}
-                className="flex items-center justify-between py-2 border-b border-slate-50 last:border-0"
+                className="flex items-center justify-between border-b border-slate-50 py-2 last:border-0"
               >
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-bold text-slate-400 w-5">{i + 1}</span>
+                  <span className="w-5 text-[10px] font-bold text-slate-400">{i + 1}</span>
                   <span className="text-sm font-medium">{r.name}</span>
                 </div>
                 <div className="text-right">
@@ -147,10 +144,10 @@ export default function DistributorAnalyticsPage() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Card className="rounded-xl border border-slate-100">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm">
               <MapPin className="h-4 w-4 text-slate-600" /> Выручка по регионам
             </CardTitle>
             <CardDescription>Доля и рост к прошлому периоду</CardDescription>
@@ -159,9 +156,9 @@ export default function DistributorAnalyticsPage() {
             <ul className="space-y-3">
               {topRegions.map((r) => (
                 <li key={r.name} className="flex items-center justify-between gap-4">
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">{r.name}</p>
-                    <div className="h-2 mt-1 rounded-full bg-slate-100 overflow-hidden">
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium">{r.name}</p>
+                    <div className="mt-1 h-2 overflow-hidden rounded-full bg-slate-100">
                       <div
                         className="h-full rounded-full bg-indigo-500"
                         style={{ width: `${r.share}%` }}
@@ -170,7 +167,7 @@ export default function DistributorAnalyticsPage() {
                   </div>
                   <div className="shrink-0 text-right">
                     <p className="text-sm font-bold tabular-nums">{r.revenue}</p>
-                    <p className="text-[10px] text-emerald-600 font-medium">{r.growth}</p>
+                    <p className="text-[10px] font-medium text-emerald-600">{r.growth}</p>
                   </div>
                 </li>
               ))}
@@ -179,12 +176,12 @@ export default function DistributorAnalyticsPage() {
         </Card>
 
         <Card className="rounded-xl border border-slate-100">
-          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div>
               <CardTitle className="text-sm">Недавние заказы</CardTitle>
               <CardDescription>Последние B2B-заказы от ритейлеров</CardDescription>
             </div>
-            <Button variant="ghost" size="sm" className="text-[10px] h-7" asChild>
+            <Button variant="ghost" size="sm" className="h-7 text-[10px]" asChild>
               <Link href="/distributor/orders" className="gap-1">
                 Все заказы <ArrowRight className="h-3 w-3" />
               </Link>

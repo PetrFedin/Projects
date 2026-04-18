@@ -22,7 +22,8 @@ export function loadStyleQuizProfile(): StyleQuizProfileV1 | null {
       version: STYLE_QUIZ_VERSION,
       updatedAt: p.updatedAt ?? Date.now(),
       mood: p.mood === 'minimal' || p.mood === 'bold' || p.mood === 'classic' ? p.mood : 'classic',
-      silhouette: p.silhouette === 'fitted' || p.silhouette === 'relaxed' ? p.silhouette : 'relaxed',
+      silhouette:
+        p.silhouette === 'fitted' || p.silhouette === 'relaxed' ? p.silhouette : 'relaxed',
       palette: p.palette === 'neutral' || p.palette === 'bright' ? p.palette : 'neutral',
     };
   } catch {
@@ -30,7 +31,10 @@ export function loadStyleQuizProfile(): StyleQuizProfileV1 | null {
   }
 }
 
-export function saveStyleQuizProfile(profile: Omit<StyleQuizProfileV1, 'version' | 'updatedAt'> & Partial<Pick<StyleQuizProfileV1, 'updatedAt'>>) {
+export function saveStyleQuizProfile(
+  profile: Omit<StyleQuizProfileV1, 'version' | 'updatedAt'> &
+    Partial<Pick<StyleQuizProfileV1, 'updatedAt'>>
+) {
   if (typeof window === 'undefined') return;
   const full: StyleQuizProfileV1 = {
     version: STYLE_QUIZ_VERSION,

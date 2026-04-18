@@ -20,7 +20,7 @@ export function PaymentFlowCard({ orderId, amount, status, dueDate, onPay }: Pay
   return (
     <Card className="border border-slate-100">
       <CardHeader className="pb-2">
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <CardTitle className="text-sm font-bold">{orderId}</CardTitle>
           <Badge
             className={cn(
@@ -37,17 +37,17 @@ export function PaymentFlowCard({ orderId, amount, status, dueDate, onPay }: Pay
       <CardContent className="space-y-2">
         <p className="text-lg font-black">{amount}</p>
         {status === 'pending' && dueDate && (
-          <p className="text-[10px] text-slate-500 flex items-center gap-1">
+          <p className="flex items-center gap-1 text-[10px] text-slate-500">
             <Clock className="h-3 w-3" /> Оплата до {dueDate}
           </p>
         )}
         {status === 'pending' && (
           <Button size="sm" className="w-full" onClick={onPay}>
-            <CreditCard className="h-4 w-4 mr-2" /> Оплатить
+            <CreditCard className="mr-2 h-4 w-4" /> Оплатить
           </Button>
         )}
         {status === 'paid' && (
-          <div className="flex items-center gap-2 text-emerald-600 text-[10px] font-bold">
+          <div className="flex items-center gap-2 text-[10px] font-bold text-emerald-600">
             <CheckCircle2 className="h-4 w-4" /> Оплачено
           </div>
         )}

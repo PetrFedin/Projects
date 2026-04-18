@@ -75,7 +75,7 @@ export default function ShopB2BApplyPage() {
 
   if (sent && result) {
     return (
-      <div className="container mx-auto px-4 py-6 max-w-xl pb-24">
+      <div className="container mx-auto max-w-xl px-4 py-6 pb-24">
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2 text-emerald-600">
@@ -83,7 +83,8 @@ export default function ShopB2BApplyPage() {
               <CardTitle>Заявка отправлена</CardTitle>
             </div>
             <CardDescription>
-              Ваша заявка на партнёрство принята. После проверки брендом вы получите доступ к каталогу и B2B заказам.
+              Ваша заявка на партнёрство принята. После проверки брендом вы получите доступ к
+              каталогу и B2B заказам.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -91,9 +92,15 @@ export default function ShopB2BApplyPage() {
               Номер заявки: <strong>{result.id}</strong>. Статус: <strong>Ожидает</strong>.
             </p>
             <div className="flex flex-wrap gap-2">
-              <Button asChild><Link href={`${ROUTES.shop.b2bPartners}?tab=requests`}>Мои партнёры · Запросы</Link></Button>
-              <Button variant="outline" asChild><Link href={ROUTES.shop.b2bTradeShows}>Мои выставки</Link></Button>
-              <Button variant="outline" asChild><Link href={ROUTES.shop.b2b}>B2B Шоурум</Link></Button>
+              <Button asChild>
+                <Link href={`${ROUTES.shop.b2bPartners}?tab=requests`}>Мои партнёры · Запросы</Link>
+              </Button>
+              <Button variant="outline" asChild>
+                <Link href={ROUTES.shop.b2bTradeShows}>Мои выставки</Link>
+              </Button>
+              <Button variant="outline" asChild>
+                <Link href={ROUTES.shop.b2b}>B2B Шоурум</Link>
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -102,10 +109,16 @@ export default function ShopB2BApplyPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-6 max-w-xl pb-24">
-      <div className="flex items-center gap-3 mb-6">
-        <Link href={ROUTES.shop.b2b}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
-        <h1 className="text-2xl font-bold uppercase flex items-center gap-2"><UserPlus className="h-6 w-6" /> Подать заявку на партнёрство</h1>
+    <div className="container mx-auto max-w-xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
+        <Link href={ROUTES.shop.b2b}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
+        <h1 className="flex items-center gap-2 text-2xl font-bold uppercase">
+          <UserPlus className="h-6 w-6" /> Подать заявку на партнёрство
+        </h1>
       </div>
       <Card>
         <CardHeader>
@@ -114,67 +127,122 @@ export default function ShopB2BApplyPage() {
             JOOR-style: подайте заявку бренду для доступа к шоуруму, каталогу и оптовым заказам.
           </CardDescription>
           {form.brandName && (
-            <p className="text-sm font-medium text-indigo-600 mt-2">
+            <p className="mt-2 text-sm font-medium text-indigo-600">
               Заявка на доступ к бренду: <strong>{form.brandName}</strong>
             </p>
           )}
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="companyName">Компания *</Label>
-                <Input id="companyName" required value={form.companyName} onChange={e => setForm(f => ({ ...f, companyName: e.target.value }))} placeholder="ООО Ритейл" />
+                <Input
+                  id="companyName"
+                  required
+                  value={form.companyName}
+                  onChange={(e) => setForm((f) => ({ ...f, companyName: e.target.value }))}
+                  placeholder="ООО Ритейл"
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="contactName">Контактное лицо *</Label>
-                <Input id="contactName" required value={form.contactName} onChange={e => setForm(f => ({ ...f, contactName: e.target.value }))} placeholder="Иван Петров" />
+                <Input
+                  id="contactName"
+                  required
+                  value={form.contactName}
+                  onChange={(e) => setForm((f) => ({ ...f, contactName: e.target.value }))}
+                  placeholder="Иван Петров"
+                />
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="email">Email *</Label>
-                <Input id="email" type="email" required value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="buyer@store.ru" />
+                <Input
+                  id="email"
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                  placeholder="buyer@store.ru"
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="phone">Телефон</Label>
-                <Input id="phone" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="+7 495 …" />
+                <Input
+                  id="phone"
+                  value={form.phone}
+                  onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+                  placeholder="+7 495 …"
+                />
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="country">Страна *</Label>
-                <Input id="country" required value={form.country} onChange={e => setForm(f => ({ ...f, country: e.target.value }))} placeholder="Россия" />
+                <Input
+                  id="country"
+                  required
+                  value={form.country}
+                  onChange={(e) => setForm((f) => ({ ...f, country: e.target.value }))}
+                  placeholder="Россия"
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="city">Город</Label>
-                <Input id="city" value={form.city} onChange={e => setForm(f => ({ ...f, city: e.target.value }))} placeholder="Москва" />
+                <Input
+                  id="city"
+                  value={form.city}
+                  onChange={(e) => setForm((f) => ({ ...f, city: e.target.value }))}
+                  placeholder="Москва"
+                />
               </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="message">Сообщение бренду</Label>
-              <Input id="message" value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} placeholder="Кратко о вашем магазине и планах закупок" />
+              <Input
+                id="message"
+                value={form.message}
+                onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
+                placeholder="Кратко о вашем магазине и планах закупок"
+              />
             </div>
-            {(form.country || form.city) && (() => {
-              const conflict = checkExclusiveConflict(form.country, form.city || undefined);
-              return conflict.conflict ? (
-                <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 flex gap-3">
-                  <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-medium text-amber-900">Colect/Zedonk: в вашем регионе уже есть эксклюзивный партнёр</p>
-                    <p className="text-xs text-amber-700 mt-1">Партнёр: <strong>{conflict.existingPartnerName}</strong> ({conflict.region}). Заявка будет рассмотрена с учётом территорий — возможно, вам предложат другой формат сотрудничества.</p>
+            {(form.country || form.city) &&
+              (() => {
+                const conflict = checkExclusiveConflict(form.country, form.city || undefined);
+                return conflict.conflict ? (
+                  <div className="flex gap-3 rounded-lg border border-amber-200 bg-amber-50 p-4">
+                    <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
+                    <div>
+                      <p className="text-sm font-medium text-amber-900">
+                        Colect/Zedonk: в вашем регионе уже есть эксклюзивный партнёр
+                      </p>
+                      <p className="mt-1 text-xs text-amber-700">
+                        Партнёр: <strong>{conflict.existingPartnerName}</strong> ({conflict.region}
+                        ). Заявка будет рассмотрена с учётом территорий — возможно, вам предложат
+                        другой формат сотрудничества.
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ) : null;
-            })()}
+                ) : null;
+              })()}
             <div className="flex gap-2 pt-2">
-              <Button type="submit" disabled={loading}>{loading ? 'Отправка…' : 'Отправить заявку'}</Button>
-              <Button type="button" variant="outline" asChild><Link href={ROUTES.shop.b2b}>Отмена</Link></Button>
+              <Button type="submit" disabled={loading}>
+                {loading ? 'Отправка…' : 'Отправить заявку'}
+              </Button>
+              <Button type="button" variant="outline" asChild>
+                <Link href={ROUTES.shop.b2b}>Отмена</Link>
+              </Button>
             </div>
           </form>
         </CardContent>
       </Card>
-      <RelatedModulesBlock links={getShopB2BHubLinks()} title="Мои выставки, заказы, шоурум" className="mt-6" />
+      <RelatedModulesBlock
+        links={getShopB2BHubLinks()}
+        title="Мои выставки, заказы, шоурум"
+        className="mt-6"
+      />
     </div>
   );
 }

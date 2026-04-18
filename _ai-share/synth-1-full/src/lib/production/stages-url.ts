@@ -16,12 +16,20 @@ export const STAGES_SKU_PANEL_STEP_PARAM = 'stagesSkuPanel';
 /** Вкладка блока формы в панели этапа (с `stagesSkuPanel`); после открытия снимается из URL. */
 export const STAGES_SKU_PANEL_TAB_PARAM = 'stagesSkuPanelTab';
 /** Допустимые значения — совпадают с `StageFillEditTab` в чеклисте. */
-export const STAGES_SKU_PANEL_TAB_VALUES = ['process', 'people', 'costs', 'outputs', 'files'] as const;
+export const STAGES_SKU_PANEL_TAB_VALUES = [
+  'process',
+  'people',
+  'costs',
+  'outputs',
+  'files',
+] as const;
 export type StagesSkuPanelTab = (typeof STAGES_SKU_PANEL_TAB_VALUES)[number];
 
 export function parseStagesSkuPanelTab(raw: string | null | undefined): StagesSkuPanelTab | null {
   const t = raw?.trim() ?? '';
-  return (STAGES_SKU_PANEL_TAB_VALUES as readonly string[]).includes(t) ? (t as StagesSkuPanelTab) : null;
+  return (STAGES_SKU_PANEL_TAB_VALUES as readonly string[]).includes(t)
+    ? (t as StagesSkuPanelTab)
+    : null;
 }
 /** Фильтр матрицы этапов по значению phase из каталога (точное совпадение). */
 export const STAGES_MATRIX_PHASE_PARAM = 'stagesMatrixPhase';
@@ -95,7 +103,10 @@ export type StageTransitionPreserve = {
  * Собрать href модуля этапа с сохранением контекста коллекции и артикула.
  * Для вкладок цеха подмешивает floorTab.
  */
-export function buildStageTransitionHref(targetStep: CollectionStep, preserve: StageTransitionPreserve): string {
+export function buildStageTransitionHref(
+  targetStep: CollectionStep,
+  preserve: StageTransitionPreserve
+): string {
   const raw = targetStep.href ?? ROUTES.brand.production;
   let pathPart = raw;
   let existingSearch = '';
@@ -157,7 +168,10 @@ function normalizeSearchString(q: string): string {
   return q.startsWith('?') ? q.slice(1) : q;
 }
 
-export function applyBrandProductionStagesSearch(currentSearch: string, patch: BrandProductionStagesPatch): string {
+export function applyBrandProductionStagesSearch(
+  currentSearch: string,
+  patch: BrandProductionStagesPatch
+): string {
   const p = new URLSearchParams(normalizeSearchString(currentSearch));
   if ('floorTab' in patch) {
     const v = patch.floorTab;
@@ -208,7 +222,11 @@ export function applyBrandProductionStagesSearch(currentSearch: string, patch: B
 }
 
 /** Собрать href той же страницы с обновлённым контекстом этапов (сохраняет collectionId и прочие параметры). */
-export function buildBrandProductionStagesHref(pathname: string, currentSearch: string, patch: BrandProductionStagesPatch): string {
+export function buildBrandProductionStagesHref(
+  pathname: string,
+  currentSearch: string,
+  patch: BrandProductionStagesPatch
+): string {
   const q = applyBrandProductionStagesSearch(currentSearch, { floorTab: 'stages', ...patch });
   return q ? `${pathname}?${q}` : pathname;
 }

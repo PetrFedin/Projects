@@ -50,7 +50,7 @@ export function tradeCodeRowsToCsv(rows: TradeCodeRow[]): string {
         esc(r.eacMark),
         esc(r.origin),
         r.completeness,
-      ].join(','),
+      ].join(',')
     );
   }
   return lines.join('\n');

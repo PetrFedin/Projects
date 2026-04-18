@@ -54,7 +54,12 @@ export default function BudgetActualPage() {
         </Link>
         <div className="flex flex-wrap gap-2">
           {PERIODS.map((p) => (
-            <Button key={p} variant={period === p ? 'default' : 'outline'} size="sm" onClick={() => setPeriod(p)}>
+            <Button
+              key={p}
+              variant={period === p ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setPeriod(p)}
+            >
               {p}
             </Button>
           ))}
@@ -70,7 +75,15 @@ export default function BudgetActualPage() {
           <CardDescription>План и факт по категориям.</CardDescription>
         </CardHeader>
         <CardContent className="p-0 sm:p-0">
-          <DataTableContainer bordered={false} className="px-0" footer={<p className="px-4 pb-4 text-xs text-slate-400">API: listBudgetActualSnapshots(period).</p>}>
+          <DataTableContainer
+            bordered={false}
+            className="px-0"
+            footer={
+              <p className="px-4 pb-4 text-xs text-slate-400">
+                API: listBudgetActualSnapshots(period).
+              </p>
+            }
+          >
             {loading ? (
               <LoadingState rows={6} className="px-4 py-4" />
             ) : (
@@ -85,11 +98,16 @@ export default function BudgetActualPage() {
                 </thead>
                 <tbody>
                   {snapshots.map((s) => {
-                    const pct = s.plannedAmountRub > 0 ? Math.round((s.actualAmountRub / s.plannedAmountRub) * 100) : 0;
+                    const pct =
+                      s.plannedAmountRub > 0
+                        ? Math.round((s.actualAmountRub / s.plannedAmountRub) * 100)
+                        : 0;
                     const over = pct > 100;
                     return (
                       <tr key={s.id} className="border-b border-slate-100 hover:bg-slate-50/50">
-                        <td className="px-4 py-2.5 pr-4 font-medium text-slate-900">{s.categoryLabel}</td>
+                        <td className="px-4 py-2.5 pr-4 font-medium text-slate-900">
+                          {s.categoryLabel}
+                        </td>
                         <td className="px-4 py-2.5 pr-4 text-right tabular-nums text-slate-700">
                           {s.plannedAmountRub.toLocaleString('ru-RU')}
                         </td>

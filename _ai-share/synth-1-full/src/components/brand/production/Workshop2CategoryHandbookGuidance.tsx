@@ -34,13 +34,19 @@ export function Workshop2CategoryHandbookGuidance({ leaf, className }: Props) {
       )}
     >
       <p className="font-semibold text-slate-900">Подсказки по категории (справочник)</p>
-      <p className="mt-0.5 font-mono text-[9px] text-slate-500" title="Канонический leafId при сохранении">
+      <p
+        className="mt-0.5 font-mono text-[9px] text-slate-500"
+        title="Канонический leafId при сохранении"
+      >
         leafId: {canonicalLeafId}
       </p>
       <dl className="mt-2 grid gap-1.5">
         <div>
           <dt className="text-slate-500">Ед. учёта (по умолчанию)</dt>
-          <dd>{formatStockUnitRu(profile.stockUnitDefault)}{profile.stockUnitNotes ? ` · ${profile.stockUnitNotes}` : ''}</dd>
+          <dd>
+            {formatStockUnitRu(profile.stockUnitDefault)}
+            {profile.stockUnitNotes ? ` · ${profile.stockUnitNotes}` : ''}
+          </dd>
         </div>
         <div>
           <dt className="text-slate-500">Маршрут / шаблон этапов</dt>
@@ -93,7 +99,7 @@ export function Workshop2CategoryHandbookGuidance({ leaf, className }: Props) {
             <ul className="mt-0.5 space-y-0.5">
               {attachmentChecklist.map((item) => (
                 <li key={item.id} className="flex gap-1.5">
-                  <span className="text-slate-400 select-none" aria-hidden>
+                  <span className="select-none text-slate-400" aria-hidden>
                     ☐
                   </span>
                   <span>{item.label}</span>
@@ -105,7 +111,8 @@ export function Workshop2CategoryHandbookGuidance({ leaf, className }: Props) {
         <div>
           <dt className="text-slate-500">Этикетка: языки и блоки</dt>
           <dd className="text-slate-600">
-            {profile.labelLocalesDefault.join(', ') || '—'} · {profile.mandatoryLabelBlocks.join(', ')}
+            {profile.labelLocalesDefault.join(', ') || '—'} ·{' '}
+            {profile.mandatoryLabelBlocks.join(', ')}
           </dd>
         </div>
       </dl>

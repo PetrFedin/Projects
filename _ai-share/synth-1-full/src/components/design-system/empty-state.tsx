@@ -18,7 +18,9 @@ export function EmptyState({ title, description, icon, className, children }: Em
         className
       )}
     >
-      <div className="mb-3 text-slate-400">{icon ?? <Inbox className="h-10 w-10 stroke-[1.25]" />}</div>
+      <div className="mb-3 text-slate-400">
+        {icon ?? <Inbox className="h-10 w-10 stroke-[1.25]" />}
+      </div>
       <p className="text-sm font-semibold text-slate-900">{title}</p>
       {description ? <p className="mt-1 max-w-sm text-xs text-slate-500">{description}</p> : null}
       {children ? <div className="mt-4 flex flex-wrap justify-center gap-2">{children}</div> : null}

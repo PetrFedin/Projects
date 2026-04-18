@@ -21,35 +21,50 @@ export default function VideoConsultationPage() {
   const [selected, setSelected] = useState<string | null>(null);
 
   return (
-    <div className="container max-w-2xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
-        <Link href={ROUTES.shop.b2b}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+    <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
+        <Link href={ROUTES.shop.b2b}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
         <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2"><Video className="h-6 w-6" /> Видео-консультация</h1>
-          <p className="text-slate-500 text-sm mt-0.5">TSUM / Farfetch: слоты со стилистом или мерчандайзером. Zoom/Teams, напоминание перед встречей.</p>
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
+            <Video className="h-6 w-6" /> Видео-консультация
+          </h1>
+          <p className="mt-0.5 text-sm text-slate-500">
+            TSUM / Farfetch: слоты со стилистом или мерчандайзером. Zoom/Teams, напоминание перед
+            встречей.
+          </p>
         </div>
       </div>
 
       <Card className="mb-6">
         <CardHeader>
           <CardTitle>Доступные слоты</CardTitle>
-          <CardDescription>Выберите время — на почту придёт ссылка на звонок и напоминание</CardDescription>
+          <CardDescription>
+            Выберите время — на почту придёт ссылка на звонок и напоминание
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           {MOCK_SLOTS.map((slot) => (
             <div
               key={slot.id}
               onClick={() => setSelected(slot.id)}
-              className={`flex items-center justify-between p-4 rounded-lg border cursor-pointer transition-colors ${
-                selected === slot.id ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:bg-slate-50'
+              className={`flex cursor-pointer items-center justify-between rounded-lg border p-4 transition-colors ${
+                selected === slot.id
+                  ? 'border-indigo-500 bg-indigo-50'
+                  : 'border-slate-200 hover:bg-slate-50'
               }`}
             >
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-lg bg-slate-100 flex items-center justify-center">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100">
                   <Calendar className="h-5 w-5 text-slate-600" />
                 </div>
                 <div>
-                  <p className="font-medium">{slot.date} · {slot.time}</p>
+                  <p className="font-medium">
+                    {slot.date} · {slot.time}
+                  </p>
                   <p className="text-sm text-slate-500">{slot.expert}</p>
                 </div>
               </div>
@@ -62,15 +77,25 @@ export default function VideoConsultationPage() {
       {selected && (
         <div className="mb-6 flex gap-2">
           <Button>Забронировать</Button>
-          <Button variant="outline" onClick={() => setSelected(null)}>Отмена</Button>
+          <Button variant="outline" onClick={() => setSelected(null)}>
+            Отмена
+          </Button>
         </div>
       )}
 
-      <div className="flex gap-2 mb-6">
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bVipRoomBooking}>VIP Шоурум</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bTradeShows}>Выставки</Link></Button>
+      <div className="mb-6 flex gap-2">
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bVipRoomBooking}>VIP Шоурум</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bTradeShows}>Выставки</Link>
+        </Button>
       </div>
-      <RelatedModulesBlock links={getShopB2BHubLinks()} title="VIP шоурум, выставки, заказы" className="mt-6" />
+      <RelatedModulesBlock
+        links={getShopB2BHubLinks()}
+        title="VIP шоурум, выставки, заказы"
+        className="mt-6"
+      />
     </div>
   );
 }

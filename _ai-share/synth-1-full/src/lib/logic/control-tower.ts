@@ -37,18 +37,21 @@ export class SupplyChainControlTower {
     }
     if (status.averageOnTimeDeliveryPercent < 85) {
       topCriticalEvent = 'Systemic logistics delays detected across multiple regions.';
-      recommendedStrategicAction = 'Activate backup carriers and expedite critical shipments via air freight.';
+      recommendedStrategicAction =
+        'Activate backup carriers and expedite critical shipments via air freight.';
     }
 
     // 2. Оценка рисков и сбоев (Disruptions)
     if (status.criticalDisruptionsCount > 0) {
       healthScore -= status.criticalDisruptionsCount * 10;
       // Грубая оценка: каждый критический сбой ставит под угрозу 5% стоимости запасов
-      financialExposureUSD += (status.totalInventoryValueUSD * 0.05) * status.criticalDisruptionsCount;
-      
+      financialExposureUSD +=
+        status.totalInventoryValueUSD * 0.05 * status.criticalDisruptionsCount;
+
       if (!topCriticalEvent) {
         topCriticalEvent = `${status.criticalDisruptionsCount} critical node disruptions active (e.g., port closures, strikes).`;
-        recommendedStrategicAction = 'Convene emergency supply chain task force. Re-route inventory around affected nodes.';
+        recommendedStrategicAction =
+          'Convene emergency supply chain task force. Re-route inventory around affected nodes.';
       }
     }
 
@@ -56,16 +59,17 @@ export class SupplyChainControlTower {
     // Допустим, цель — не более 1000 тонн CO2 на каждый $1M запасов
     const carbonRatio = status.totalCarbonFootprintTons / (status.totalInventoryValueUSD / 1000000);
     let sustainabilityIndex = 100;
-    
+
     if (carbonRatio > 1000) {
       sustainabilityIndex -= (carbonRatio - 1000) / 10; // Штраф за превышение выбросов
     }
-    
+
     sustainabilityIndex = Math.max(0, Math.min(100, Math.round(sustainabilityIndex)));
 
     if (sustainabilityIndex < 50 && !topCriticalEvent) {
       topCriticalEvent = 'Carbon emissions exceeding corporate ESG targets.';
-      recommendedStrategicAction = 'Shift procurement to nearshore suppliers and purchase carbon offsets immediately.';
+      recommendedStrategicAction =
+        'Shift procurement to nearshore suppliers and purchase carbon offsets immediately.';
     }
 
     // Финализация Health Score
@@ -76,7 +80,7 @@ export class SupplyChainControlTower {
       financialExposureUSD: Math.round(financialExposureUSD),
       sustainabilityIndex,
       topCriticalEvent,
-      recommendedStrategicAction
+      recommendedStrategicAction,
     };
   }
 }

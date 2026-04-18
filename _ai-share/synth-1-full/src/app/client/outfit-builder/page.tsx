@@ -53,16 +53,20 @@ function OutfitBuilderInner() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Три слота</CardTitle>
-          <CardDescription>Классификация по названию/категории — задел под PIM-атрибут outfit_role.</CardDescription>
+          <CardDescription>
+            Классификация по названию/категории — задел под PIM-атрибут outfit_role.
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {[0, 1, 2].map((i) => (
-              <div key={i} className="rounded-lg border p-3 space-y-2 min-h-[160px]">
-                <p className="text-[10px] font-bold uppercase text-muted-foreground">Слот {i + 1}</p>
+              <div key={i} className="min-h-[160px] space-y-2 rounded-lg border p-3">
+                <p className="text-[10px] font-bold uppercase text-muted-foreground">
+                  Слот {i + 1}
+                </p>
                 {slots[i] ? (
                   <div className="space-y-2">
-                    <div className="relative aspect-square rounded-md overflow-hidden">
+                    <div className="relative aspect-square overflow-hidden rounded-md">
                       <Image
                         src={slots[i]!.images[0]?.url || '/placeholder.jpg'}
                         alt=""
@@ -71,11 +75,17 @@ function OutfitBuilderInner() {
                         sizes="120px"
                       />
                     </div>
-                    <p className="text-xs line-clamp-2">{slots[i]!.name}</p>
+                    <p className="line-clamp-2 text-xs">{slots[i]!.name}</p>
                     <Badge variant="outline" className="text-[9px]">
                       {inferFashionSlot(slots[i]!)}
                     </Badge>
-                    <Button type="button" variant="ghost" size="sm" className="h-7 text-xs" onClick={() => clearSlot(i)}>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="h-7 text-xs"
+                      onClick={() => clearSlot(i)}
+                    >
                       Снять
                     </Button>
                   </div>
@@ -90,7 +100,7 @@ function OutfitBuilderInner() {
 
       <Card className="border-violet-200/80 bg-violet-50/40">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-sm">
             <Sparkles className="h-4 w-4 text-violet-600" />
             Анализ образа
           </CardTitle>
@@ -117,21 +127,27 @@ function OutfitBuilderInner() {
           {catalog.length === 0 ? (
             <p className="text-sm text-muted-foreground">Нет данных.</p>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 max-h-96 overflow-y-auto">
+            <div className="grid max-h-96 grid-cols-2 gap-2 overflow-y-auto sm:grid-cols-4">
               {catalog.map((p) => (
                 <button
                   key={p.id}
                   type="button"
-                  className="text-left rounded-md border p-1 hover:border-primary"
+                  className="rounded-md border p-1 text-left hover:border-primary"
                   onClick={() => {
                     const empty = slots.findIndex((s) => !s);
                     if (empty >= 0) pick(empty, p);
                   }}
                 >
-                  <div className="relative aspect-square rounded overflow-hidden">
-                    <Image src={p.images[0]?.url || '/placeholder.jpg'} alt="" fill className="object-cover" sizes="100px" />
+                  <div className="relative aspect-square overflow-hidden rounded">
+                    <Image
+                      src={p.images[0]?.url || '/placeholder.jpg'}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="100px"
+                    />
                   </div>
-                  <p className="text-[10px] mt-1 line-clamp-2">{p.name}</p>
+                  <p className="mt-1 line-clamp-2 text-[10px]">{p.name}</p>
                 </button>
               ))}
             </div>
@@ -148,7 +164,7 @@ function OutfitBuilderInner() {
 
 export default function ClientOutfitBuilderPage() {
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
@@ -157,11 +173,11 @@ export default function ClientOutfitBuilderPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
+            <h1 className="flex items-center gap-2 text-xl font-bold">
               <Layers className="h-6 w-6" />
               Конструктор образа
             </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
+            <p className="mt-0.5 text-sm text-muted-foreground">
               Слоты + эвристика «дыр» в образе; связка с капсулами и визуальным поиском.
             </p>
           </div>

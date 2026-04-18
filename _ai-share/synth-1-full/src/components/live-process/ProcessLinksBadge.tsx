@@ -18,7 +18,7 @@ export function ProcessLinksBadge({ processLinks, sourceStageId }: ProcessLinksB
   if (links.length === 0) return null;
 
   return (
-    <div className="flex flex-wrap gap-1 mt-1">
+    <div className="mt-1 flex flex-wrap gap-1">
       {links.map((link) => {
         const targetDef = getLiveProcessDefinition(link.targetProcessId);
         return (
@@ -27,8 +27,7 @@ export function ProcessLinksBadge({ processLinks, sourceStageId }: ProcessLinksB
             href={processLiveUrl(link.targetProcessId)}
             className="inline-flex items-center gap-0.5 text-[10px] text-indigo-600 hover:text-indigo-700"
           >
-            <ArrowRight className="h-3 w-3" />
-            → {targetDef?.name ?? link.targetProcessId}
+            <ArrowRight className="h-3 w-3" />→ {targetDef?.name ?? link.targetProcessId}
           </Link>
         );
       })}

@@ -51,20 +51,19 @@ export function BrandSectionHeader({
       </SectionInfoCard>
       <div
         className={cn(
-          'flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest text-slate-400 mb-4',
+          'mb-4 flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest text-slate-400',
           breadcrumbClassName
         )}
       >
-        <Link
-          href={meta.groupHref}
-          className="hover:text-indigo-600 transition-colors"
-        >
+        <Link href={meta.groupHref} className="transition-colors hover:text-indigo-600">
           {meta.groupLabel}
         </Link>
         <ChevronRight className="h-3 w-3" />
         {meta.subsectionLabel ? (
           <>
-            <Link href={meta.sectionHref} className="hover:text-indigo-600 transition-colors">{meta.sectionLabel}</Link>
+            <Link href={meta.sectionHref} className="transition-colors hover:text-indigo-600">
+              {meta.sectionLabel}
+            </Link>
             <ChevronRight className="h-3 w-3" />
             <span className="text-indigo-600">{meta.subsectionLabel}</span>
           </>

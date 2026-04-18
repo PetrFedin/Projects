@@ -41,12 +41,11 @@ export default function BrandCollectionsNewPage() {
   };
 
   return (
-    <div className="container max-w-2xl mx-auto px-4 py-6 pb-24">
+    <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
       <div className="mb-4">
         <Button variant="ghost" size="sm" asChild>
           <Link href={ROUTES.brand.collections} className="inline-flex items-center gap-1 text-sm">
-            <ArrowLeft className="h-4 w-4" />
-            К списку коллекций
+            <ArrowLeft className="h-4 w-4" />К списку коллекций
           </Link>
         </Button>
       </div>
@@ -54,7 +53,8 @@ export default function BrandCollectionsNewPage() {
         <CardHeader>
           <CardTitle>Создать карточку коллекции</CardTitle>
           <CardDescription>
-            Заполните название, сезон и описание. Концепция и ДНК можно дописать в карточке коллекции.
+            Заполните название, сезон и описание. Концепция и ДНК можно дописать в карточке
+            коллекции.
           </CardDescription>
         </CardHeader>
         <CardContent>

@@ -3,9 +3,11 @@ import type { SeasonalMaterialFitV1 } from './types';
 
 /** Анализ сезонности материала в зависимости от плотности (GSM) и климата РФ. */
 export function analyzeSeasonalFit(product: Product): SeasonalMaterialFitV1 {
-  const isNatural = product.composition?.toLowerCase().includes('cotton') || product.composition?.toLowerCase().includes('wool');
+  const isNatural =
+    product.composition?.toLowerCase().includes('cotton') ||
+    product.composition?.toLowerCase().includes('wool');
   const gsm = product.category === 'Outerwear' ? 450 : product.category === 'Top' ? 180 : 250;
-  
+
   let range = '+10°C to +25°C';
   let score = 85;
   let advice = 'Optimal for current Central region weather.';

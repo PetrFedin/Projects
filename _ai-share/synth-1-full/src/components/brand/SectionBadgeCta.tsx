@@ -97,7 +97,9 @@ export function B2BOrdersApprovalBadges() {
   return (
     <>
       <SectionBadgeLink href={ROUTES.brand.b2bOrders}>B2B Заказы</SectionBadgeLink>
-      <SectionBadgeLink href={ROUTES.brand.orderApprovalWorkflow}>Согласование заказов</SectionBadgeLink>
+      <SectionBadgeLink href={ROUTES.brand.orderApprovalWorkflow}>
+        Согласование заказов
+      </SectionBadgeLink>
     </>
   );
 }

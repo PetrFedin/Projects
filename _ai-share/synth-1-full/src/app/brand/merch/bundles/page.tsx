@@ -4,7 +4,14 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
@@ -15,7 +22,7 @@ export default function BundlesManagementPage() {
   const bundles = useMemo(() => getAllBundles(products), []);
 
   return (
-    <div className="container max-w-5xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -23,7 +30,7 @@ export default function BundlesManagementPage() {
           </Link>
         </Button>
         <div>
-          <h1 className="text-xl font-bold flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-xl font-bold">
             <Sparkles className="h-6 w-6 text-primary" />
             Бандлы и сеты
           </h1>
@@ -44,7 +51,7 @@ export default function BundlesManagementPage() {
       </div>
 
       <div className="grid gap-4">
-        {bundles.map(b => (
+        {bundles.map((b) => (
           <Card key={b.id}>
             <CardHeader className="pb-2">
               <div className="flex items-start justify-between">
@@ -53,24 +60,25 @@ export default function BundlesManagementPage() {
                   <CardDescription className="text-xs">ID: {b.id}</CardDescription>
                 </div>
                 <Badge variant="outline" className="gap-1 border-primary/30 text-primary">
-                  <Percent className="h-3 w-3" />
-                  -{b.discountPct}%
+                  <Percent className="h-3 w-3" />-{b.discountPct}%
                 </Badge>
               </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 <div className="grid gap-2">
-                  <p className="text-[10px] font-semibold text-muted-foreground uppercase">Позиции в сете</p>
+                  <p className="text-[10px] font-semibold uppercase text-muted-foreground">
+                    Позиции в сете
+                  </p>
                   <div className="flex flex-wrap gap-2">
-                    {b.items.map(item => (
+                    {b.items.map((item) => (
                       <Badge key={item} variant="secondary" className="text-[10px] font-normal">
                         {item}
                       </Badge>
                     ))}
                   </div>
                 </div>
-                <div className="flex items-center gap-6 pt-2 border-t text-sm">
+                <div className="flex items-center gap-6 border-t pt-2 text-sm">
                   <div>
                     <p className="text-xs text-muted-foreground">Базовая сумма</p>
                     <p className="font-medium">{b.totalOriginal} ₽</p>

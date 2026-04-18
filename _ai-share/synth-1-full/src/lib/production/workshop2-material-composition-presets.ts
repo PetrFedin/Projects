@@ -44,7 +44,8 @@ function asCatalog(data: unknown): Workshop2MaterialCompositionPreset[] {
 }
 
 /** Статический каталог (импорт JSON). Замените на ответ API, когда появится бэкенд. */
-export const WORKSHOP2_MATERIAL_COMPOSITION_PRESETS_CATALOG: Workshop2MaterialCompositionPreset[] = asCatalog(rawCatalog);
+export const WORKSHOP2_MATERIAL_COMPOSITION_PRESETS_CATALOG: Workshop2MaterialCompositionPreset[] =
+  asCatalog(rawCatalog);
 
 /**
  * Заглушка под `GET …/material-composition-presets?leafId=…`.

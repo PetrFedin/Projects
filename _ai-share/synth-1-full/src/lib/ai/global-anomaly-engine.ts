@@ -21,16 +21,16 @@ export interface AnomalyReport {
  */
 export class GlobalAnomalyEngine {
   private static isInitialized = false;
-  
+
   // Mock ML model state
   private static eventFrequencies = new Map<string, number>();
   private static lastSeen = new Map<string, number>();
 
   public static initialize() {
     if (this.isInitialized) return;
-    
+
     console.log('[GlobalAnomalyEngine] Initializing Quantum-Inspired Anomaly Detection...');
-    
+
     // Подключаемся к шине событий напрямую
     eventBus.addGlobalInterceptor((event: DomainEvent) => {
       this.analyzeEvent(event);
@@ -51,7 +51,7 @@ export class GlobalAnomalyEngine {
 
     const now = Date.now();
     const eventType = (event as any).type || event.aggregateType;
-    
+
     // 1. Frequency Analysis
     const freq = (this.eventFrequencies.get(eventType) || 0) + 1;
     this.eventFrequencies.set(eventType, freq);
@@ -78,9 +78,10 @@ export class GlobalAnomalyEngine {
     }
 
     // Rare event anomaly (e.g., event hasn't happened in a long time)
-    if (freq < 5 && (now - lastTime) > 86400000) { // 1 day
-       score += 0.2;
-       patterns.push('rare_event_resurgence');
+    if (freq < 5 && now - lastTime > 86400000) {
+      // 1 day
+      score += 0.2;
+      patterns.push('rare_event_resurgence');
     }
 
     // [Phase 57] Math hardening
@@ -91,12 +92,14 @@ export class GlobalAnomalyEngine {
         eventId: event.eventId,
         aggregateType: event.aggregateType,
         anomalyScore: score,
-        confidence: Math.min(1.0, 0.85 + (Math.random() * 0.1)), // Mock ML confidence
+        confidence: Math.min(1.0, 0.85 + Math.random() * 0.1), // Mock ML confidence
         detectedPatterns: patterns,
-        recommendedAction: score > 0.8 ? 'quarantine' : 'investigate'
+        recommendedAction: score > 0.8 ? 'quarantine' : 'investigate',
       };
 
-      console.warn(`[GlobalAnomalyEngine] ANOMALY DETECTED in ${eventType}. Score: ${score.toFixed(2)}`);
+      console.warn(
+        `[GlobalAnomalyEngine] ANOMALY DETECTED in ${eventType}. Score: ${score.toFixed(2)}`
+      );
 
       void publishUrgentGlobalAnomalyDetected({
         aggregateId: event.aggregateId,

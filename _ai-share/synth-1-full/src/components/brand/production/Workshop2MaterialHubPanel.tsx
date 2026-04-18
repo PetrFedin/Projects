@@ -12,7 +12,10 @@ import type { Workshop2TzSignoffSectionKey } from '@/lib/production/workshop2-do
 import { W2_MATERIAL_SUBPAGE_ANCHORS } from '@/lib/production/workshop2-material-bom-check';
 import type { MaterialSketchBomStrip } from '@/lib/production/workshop2-material-bom-sketch-strip';
 import type { MaterialBomExportInput } from '@/lib/production/workshop2-material-bom-export';
-import { formatMaterialBomPlainText, formatMaterialBomTsv } from '@/lib/production/workshop2-material-bom-export';
+import {
+  formatMaterialBomPlainText,
+  formatMaterialBomTsv,
+} from '@/lib/production/workshop2-material-bom-export';
 import { useToast } from '@/hooks/use-toast';
 import {
   formatBomSampleDeltaGuidePlainText,
@@ -99,7 +102,10 @@ export function Workshop2MaterialHubPanel({
     if (typeof window !== 'undefined' && !localStorage.getItem(ONBOARD_LS)) setShowOnboard(true);
   }, []);
 
-  const matCaps = useMemo(() => workshop2DossierViewUiCaps(dossierViewProfile), [dossierViewProfile]);
+  const matCaps = useMemo(
+    () => workshop2DossierViewUiCaps(dossierViewProfile),
+    [dossierViewProfile]
+  );
 
   const showMaterialComplianceStrip = matCaps.materialComplianceStrip;
 
@@ -162,7 +168,10 @@ export function Workshop2MaterialHubPanel({
   const copyCostingHintsGuide = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(formatCostingHintsGuidePlainText());
-      toast({ title: 'Costing-шаблон в буфере', description: 'Поля строки для локальной таблицы без API.' });
+      toast({
+        title: 'Costing-шаблон в буфере',
+        description: 'Поля строки для локальной таблицы без API.',
+      });
     } catch {
       toast({ title: 'Не удалось скопировать', variant: 'destructive' });
     }
@@ -182,7 +191,10 @@ export function Workshop2MaterialHubPanel({
     const row = formatFactoryBomCsvHeaderRow(';');
     try {
       await navigator.clipboard.writeText(row);
-      toast({ title: 'Шапка CSV', description: 'Строка заголовков для фабричной таблицы (разделитель ;).' });
+      toast({
+        title: 'Шапка CSV',
+        description: 'Строка заголовков для фабричной таблицы (разделитель ;).',
+      });
     } catch {
       toast({ title: 'Не удалось скопировать', variant: 'destructive' });
     }
@@ -201,9 +213,16 @@ export function Workshop2MaterialHubPanel({
     const text = formatMaterialBomPlainText(bomExport);
     try {
       await navigator.clipboard.writeText(text);
-      toast({ title: 'BOM скопирован', description: 'Текст в буфере — можно вставить в Excel или чат.' });
+      toast({
+        title: 'BOM скопирован',
+        description: 'Текст в буфере — можно вставить в Excel или чат.',
+      });
     } catch {
-      toast({ title: 'Не удалось скопировать', description: 'Разрешите доступ к буферу или скачайте файл.', variant: 'destructive' });
+      toast({
+        title: 'Не удалось скопировать',
+        description: 'Разрешите доступ к буферу или скачайте файл.',
+        variant: 'destructive',
+      });
     }
   }, [bomExport, toast]);
 
@@ -211,9 +230,16 @@ export function Workshop2MaterialHubPanel({
     const tsv = `\ufeff${formatMaterialBomTsv(bomExport)}`;
     try {
       await navigator.clipboard.writeText(tsv);
-      toast({ title: 'TSV в буфере', description: 'Вставьте в Excel / Google Таблицы (UTF-8 BOM).' });
+      toast({
+        title: 'TSV в буфере',
+        description: 'Вставьте в Excel / Google Таблицы (UTF-8 BOM).',
+      });
     } catch {
-      toast({ title: 'Не удалось скопировать TSV', description: 'Скачайте файл .tsv.', variant: 'destructive' });
+      toast({
+        title: 'Не удалось скопировать TSV',
+        description: 'Скачайте файл .tsv.',
+        variant: 'destructive',
+      });
     }
   }, [bomExport, toast]);
 
@@ -255,15 +281,28 @@ export function Workshop2MaterialHubPanel({
           <div>
             <h3 className="text-sm font-semibold text-slate-900">Материалы для витрины</h3>
             <p className="mt-1 max-w-xl text-[11px] leading-snug text-slate-600">
-              Канон и состав без операционного шума: только читаемый BOM и ссылки на паспорт / визуал.
+              Канон и состав без операционного шума: только читаемый BOM и ссылки на паспорт /
+              визуал.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Button type="button" variant="outline" size="sm" className="h-8 text-[10px]" onClick={() => void copyBom()}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-8 text-[10px]"
+              onClick={() => void copyBom()}
+            >
               <LucideIcons.Copy className="mr-1 h-3.5 w-3.5" aria-hidden />
               Текст BOM
             </Button>
-            <Button type="button" variant="outline" size="sm" className="h-8 text-[10px]" onClick={() => void copyBomTsv()}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-8 text-[10px]"
+              onClick={() => void copyBomTsv()}
+            >
               <LucideIcons.Table className="mr-1 h-3.5 w-3.5" aria-hidden />
               TSV
             </Button>
@@ -271,12 +310,22 @@ export function Workshop2MaterialHubPanel({
         </div>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-[10px] font-semibold">
           {onJumpToPassportSection ? (
-            <Button type="button" variant="link" className="h-auto p-0 text-amber-900" onClick={onJumpToPassportSection}>
+            <Button
+              type="button"
+              variant="link"
+              className="h-auto p-0 text-amber-900"
+              onClick={onJumpToPassportSection}
+            >
               Паспорт →
             </Button>
           ) : null}
           {onJumpToVisualSection ? (
-            <Button type="button" variant="link" className="h-auto p-0 text-amber-900" onClick={onJumpToVisualSection}>
+            <Button
+              type="button"
+              variant="link"
+              className="h-auto p-0 text-amber-900"
+              onClick={onJumpToVisualSection}
+            >
               Канон и эскиз →
             </Button>
           ) : null}
@@ -293,7 +342,7 @@ export function Workshop2MaterialHubPanel({
                 <td className="py-2 pr-3 text-slate-800">{bomExport.productName}</td>
               </tr>
               <tr className="border-b border-slate-100">
-                <th className="py-2 pl-3 pr-2 text-left font-bold text-slate-500 align-top">Mat</th>
+                <th className="py-2 pl-3 pr-2 text-left align-top font-bold text-slate-500">Mat</th>
                 <td className="py-2 pr-3 text-slate-800">
                   {bomExport.matLines.length ? (
                     <ul className="list-inside list-disc space-y-0.5">
@@ -307,7 +356,9 @@ export function Workshop2MaterialHubPanel({
                 </td>
               </tr>
               <tr>
-                <th className="py-2 pl-3 pr-2 text-left font-bold text-slate-500 align-top">Состав</th>
+                <th className="py-2 pl-3 pr-2 text-left align-top font-bold text-slate-500">
+                  Состав
+                </th>
                 <td className="py-2 pr-3 text-slate-800">
                   {!bomExport.linkedComposition ? (
                     <span className="text-slate-500">Не связан с mat</span>
@@ -317,7 +368,7 @@ export function Workshop2MaterialHubPanel({
                     <ul className="space-y-0.5">
                       {bomExport.composition.map((r, i) => (
                         <li key={i}>
-                          {r.label}: <span className="tabular-nums font-semibold">{r.pct}%</span>
+                          {r.label}: <span className="font-semibold tabular-nums">{r.pct}%</span>
                         </li>
                       ))}
                       <li className="text-[10px] text-slate-500">Σ {sumPct}%</li>
@@ -365,47 +416,51 @@ export function Workshop2MaterialHubPanel({
                   ) : null}
                 </div>
                 <p className="mt-0.5 text-[10px] leading-snug text-slate-500">
-                  Mat, прогресс секции и блокеры — ниже всегда; дорожная карта и контекст категории — разверните
+                  Mat, прогресс секции и блокеры — ниже всегда; дорожная карта и контекст категории
+                  — разверните
                 </p>
               </div>
             </button>
           </CollapsibleTrigger>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button type="button" variant="outline" size="sm" className="h-8 gap-1 text-[10px]">
-              <LucideIcons.Users className="h-3.5 w-3.5" aria-hidden />
-              Роли
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-80 space-y-3 text-xs" align="end">
-            <div>
-              <p className="font-semibold text-violet-900">Дизайнер / бренд</p>
-              <p className="mt-1 leading-snug text-slate-600">
-                Согласуйте ощущение ткани с рефами; при смене материала обновите визуал и описание замысла.
-              </p>
-            </div>
-            <div>
-              <p className="font-semibold text-amber-900">Менеджер / продакт</p>
-              <p className="mt-1 leading-snug text-slate-600">
-                MOQ и сроки снабжения завязаны на зафиксированный BOM; закрывайте состав до передачи в образец.
-              </p>
-            </div>
-            <div>
-              <p className="font-semibold text-teal-900">Технолог / ОТК</p>
-              <p className="mt-1 leading-snug text-slate-600">
-                Исполнимость узлов и допуски по слоям проверяйте против скетча и конструкции после заполнения mat/BOM.
-              </p>
-            </div>
-            <div>
-              <p className="font-semibold text-orange-950">Цех и снабжение</p>
-              <p className="mt-1 leading-snug text-slate-600">
-                Блок «Нормы BOM» и шапка фабричного CSV — чтобы норма на изделие, единица и потери совпадали с выгрузкой
-                в производство.
-              </p>
-            </div>
-          </PopoverContent>
-        </Popover>
-      </div>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button type="button" variant="outline" size="sm" className="h-8 gap-1 text-[10px]">
+                <LucideIcons.Users className="h-3.5 w-3.5" aria-hidden />
+                Роли
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80 space-y-3 text-xs" align="end">
+              <div>
+                <p className="font-semibold text-violet-900">Дизайнер / бренд</p>
+                <p className="mt-1 leading-snug text-slate-600">
+                  Согласуйте ощущение ткани с рефами; при смене материала обновите визуал и описание
+                  замысла.
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold text-amber-900">Менеджер / продакт</p>
+                <p className="mt-1 leading-snug text-slate-600">
+                  MOQ и сроки снабжения завязаны на зафиксированный BOM; закрывайте состав до
+                  передачи в образец.
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold text-teal-900">Технолог / ОТК</p>
+                <p className="mt-1 leading-snug text-slate-600">
+                  Исполнимость узлов и допуски по слоям проверяйте против скетча и конструкции после
+                  заполнения mat/BOM.
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold text-orange-950">Цех и снабжение</p>
+                <p className="mt-1 leading-snug text-slate-600">
+                  Блок «Нормы BOM» и шапка фабричного CSV — чтобы норма на изделие, единица и потери
+                  совпадали с выгрузкой в производство.
+                </p>
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
 
         <CollapsibleContent className="space-y-4 overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
           <Workshop2NineGapBacklogStrip
@@ -416,7 +471,10 @@ export function Workshop2MaterialHubPanel({
             footer={nineGapFooter}
             onDossierJump={nineGapOnDossierJump}
           />
-          <Collapsible defaultOpen={false} className="w-full min-w-0 rounded-md border border-amber-100/90 bg-white/50 px-2 py-2">
+          <Collapsible
+            defaultOpen={false}
+            className="w-full min-w-0 rounded-md border border-amber-100/90 bg-white/50 px-2 py-2"
+          >
             <CollapsibleTrigger asChild>
               <button
                 type="button"
@@ -427,8 +485,9 @@ export function Workshop2MaterialHubPanel({
             </CollapsibleTrigger>
             <CollapsibleContent className="space-y-1.5 pt-1.5">
               <p className="text-[11px] leading-snug text-slate-600">
-                <span className="font-medium text-slate-800">Для маршрута SKU:</span> один контур сырья с визуалом и
-                конструкцией — снабжение и производство смотрят в те же строки, что и ТЗ-скетч.
+                <span className="font-medium text-slate-800">Для маршрута SKU:</span> один контур
+                сырья с визуалом и конструкцией — снабжение и производство смотрят в те же строки,
+                что и ТЗ-скетч.
               </p>
               {dossierViewProfile !== 'full' ? (
                 <p
@@ -438,7 +497,9 @@ export function Workshop2MaterialHubPanel({
                   {WORKSHOP2_DOSSIER_VIEW_HINTS[dossierViewProfile]}
                 </p>
               ) : null}
-              <p className="text-[10px] font-black uppercase tracking-widest text-amber-700">Категория: {l2Name}</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-amber-700">
+                Категория: {l2Name}
+              </p>
               <p className="text-[11px] leading-snug text-slate-700">{matHint}</p>
               {onJumpToPassportSection || onJumpToVisualSection ? (
                 <div className="flex flex-wrap gap-x-3 gap-y-0.5">
@@ -498,7 +559,10 @@ export function Workshop2MaterialHubPanel({
                   }}
                   className="mt-0.5"
                 />
-                <label htmlFor={`w2-mat-comp-${step.stepId}`} className="cursor-pointer leading-snug">
+                <label
+                  htmlFor={`w2-mat-comp-${step.stepId}`}
+                  className="cursor-pointer leading-snug"
+                >
                   {step.labelRu}
                 </label>
               </li>
@@ -521,7 +585,8 @@ export function Workshop2MaterialHubPanel({
                 Нормы BOM (цех / закупка / финмодель)
               </p>
               <p className="mt-1 leading-snug text-slate-700">
-                Перед серией согласуйте норму на изделие, единицу учёта и потери — те же поля, что в фабричном CSV.
+                Перед серией согласуйте норму на изделие, единицу учёта и потери — те же поля, что в
+                фабричном CSV.
               </p>
               <ul className="mt-1.5 list-inside list-disc space-y-0.5 text-[10px] text-slate-600">
                 {W2_BOM_PRODUCTION_NORM_FIELDS.map((f) => (
@@ -549,10 +614,12 @@ export function Workshop2MaterialHubPanel({
         >
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div className="min-w-0">
-              <p className="text-[9px] font-bold uppercase tracking-wide text-emerald-900">Costing по строке BOM</p>
+              <p className="text-[9px] font-bold uppercase tracking-wide text-emerald-900">
+                Costing по строке BOM
+              </p>
               <p className="mt-1 text-[10px] leading-snug text-emerald-900/90">
-                Локальная таблица или заметка к артикулу: сшивайте подсказки по <span className="font-mono">lineRef</span>{' '}
-                с основным BOM; отдельного API нет.
+                Локальная таблица или заметка к артикулу: сшивайте подсказки по{' '}
+                <span className="font-mono">lineRef</span> с основным BOM; отдельного API нет.
               </p>
               <ul className="mt-1.5 list-inside list-disc space-y-0.5 font-mono text-[9px] text-emerald-900/95">
                 {W2_BOM_COSTING_HINT_FIELDS.map((f) => (
@@ -586,8 +653,8 @@ export function Workshop2MaterialHubPanel({
                 Закупка и производство · дельта BOM
               </p>
               <p className="mt-1 text-[10px] leading-snug text-violet-900/90">
-                Три опорные точки сравнения строк: что в ТЗ, что сошлось на образце, что уходит в серию. Фиксируйте в
-                таблице или задаче — отдельного API нет.
+                Три опорные точки сравнения строк: что в ТЗ, что сошлось на образце, что уходит в
+                серию. Фиксируйте в таблице или задаче — отдельного API нет.
               </p>
               <ul className="mt-1.5 list-inside list-disc space-y-0.5 text-[10px] text-violet-900/85">
                 {(['tz_baseline', 'sample_actual', 'production_series'] as const).map((k) => (
@@ -606,10 +673,12 @@ export function Workshop2MaterialHubPanel({
             </Button>
           </div>
           <div className="border-t border-violet-200/70 pt-2">
-            <p className="text-[9px] font-bold uppercase tracking-wide text-violet-900">Согласование замен</p>
+            <p className="text-[9px] font-bold uppercase tracking-wide text-violet-900">
+              Согласование замен
+            </p>
             <p className="mt-1 text-[10px] leading-snug text-violet-900/90">
-              Переходы статуса альтернативы (предложена → согласована / отклонена / снята) — единая логика для снабжения и
-              комплаенса.
+              Переходы статуса альтернативы (предложена → согласована / отклонена / снята) — единая
+              логика для снабжения и комплаенса.
             </p>
             <ul className="mt-1.5 space-y-0.5 font-mono text-[9px] leading-relaxed text-violet-900/95">
               {(
@@ -632,7 +701,9 @@ export function Workshop2MaterialHubPanel({
         <div className="rounded-lg border border-indigo-200/80 bg-indigo-50/40 px-3 py-2 text-[11px] text-indigo-950">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div className="min-w-0">
-              <p className="text-[9px] font-bold uppercase tracking-wide text-indigo-900">С меток скетча (BOM-ref)</p>
+              <p className="text-[9px] font-bold uppercase tracking-wide text-indigo-900">
+                С меток скетча (BOM-ref)
+              </p>
               <p className="mt-1 font-mono text-[10px] leading-relaxed text-indigo-950/95">
                 {sketchLinkedBomRefs.slice(0, 12).join(' · ')}
                 {sketchLinkedBomRefs.length > 12 ? ` · +${sketchLinkedBomRefs.length - 12}` : ''}
@@ -708,7 +779,7 @@ export function Workshop2MaterialHubPanel({
 
       <div
         id="w2-material-bom-factory-export"
-        className="scroll-mt-24 flex flex-wrap gap-2 rounded-md border border-slate-200/80 bg-slate-50/40 px-2 py-2"
+        className="flex scroll-mt-24 flex-wrap gap-2 rounded-md border border-slate-200/80 bg-slate-50/40 px-2 py-2"
       >
         <Button
           type="button"
@@ -819,7 +890,9 @@ export function Workshop2MaterialHubPanel({
       <div className="rounded-lg border border-slate-200/90 bg-white/90 px-3 py-2.5">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="text-[11px] font-semibold text-slate-800">Прогресс секции «Материалы»</p>
-          <span className="tabular-nums text-[11px] font-bold text-amber-800">{model.combinedPct}%</span>
+          <span className="text-[11px] font-bold tabular-nums text-amber-800">
+            {model.combinedPct}%
+          </span>
         </div>
         <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-100">
           <div
@@ -886,7 +959,8 @@ export function Workshop2MaterialHubPanel({
         </div>
       ) : (
         <p className="rounded-lg border border-emerald-200/90 bg-emerald-50/80 px-3 py-2 text-[11px] font-medium text-emerald-950">
-          Контур BOM в этой секции закрыт — можно усилить проверку справочника и перейти к меркам или конструкции.
+          Контур BOM в этой секции закрыт — можно усилить проверку справочника и перейти к меркам
+          или конструкции.
         </p>
       )}
 
@@ -899,16 +973,27 @@ export function Workshop2MaterialHubPanel({
             <li>Заполните остальные поля секции (утеплитель, фурнитура и т.д.).</li>
             <li>Сверьте с визуалом и скетчем перед подписью ТЗ.</li>
           </ol>
-          <Button type="button" variant="outline" size="sm" className="mt-2 h-8 text-[10px]" onClick={dismissOnboard}>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="mt-2 h-8 text-[10px]"
+            onClick={dismissOnboard}
+          >
             Понятно, скрыть
           </Button>
         </div>
       ) : null}
 
       <p className="text-[10px] leading-snug text-slate-500">
-        Якоря: хаб <code className="rounded bg-slate-100 px-1">#{W2_MATERIAL_SUBPAGE_ANCHORS.hub}</code> · mat{' '}
-        <code className="rounded bg-slate-100 px-1">#{W2_MATERIAL_SUBPAGE_ANCHORS.mat}</code> · состав{' '}
-        <code className="rounded bg-slate-100 px-1">#{W2_MATERIAL_SUBPAGE_ANCHORS.composition}</code> · каталог{' '}
+        Якоря: хаб{' '}
+        <code className="rounded bg-slate-100 px-1">#{W2_MATERIAL_SUBPAGE_ANCHORS.hub}</code> · mat{' '}
+        <code className="rounded bg-slate-100 px-1">#{W2_MATERIAL_SUBPAGE_ANCHORS.mat}</code> ·
+        состав{' '}
+        <code className="rounded bg-slate-100 px-1">
+          #{W2_MATERIAL_SUBPAGE_ANCHORS.composition}
+        </code>{' '}
+        · каталог{' '}
         <code className="rounded bg-slate-100 px-1">#{W2_MATERIAL_SUBPAGE_ANCHORS.catalog}</code>
       </p>
     </div>

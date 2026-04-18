@@ -17,7 +17,13 @@ const MOCK_RFQS: RfqRequest[] = [
     buyerName: 'Сеть «Мода»',
     title: 'Запрос цен на джинсовую ткань',
     lines: [
-      { id: 'rl1', description: 'Деним 12 oz, индиго', quantity: 3000, unit: 'м', requestedDelivery: '2026-04-15' },
+      {
+        id: 'rl1',
+        description: 'Деним 12 oz, индиго',
+        quantity: 3000,
+        unit: 'м',
+        requestedDelivery: '2026-04-15',
+      },
     ],
     supplierIds: ['sup1', 'sup4'],
     status: 'quotes_received',
@@ -58,34 +64,53 @@ function StatusBadge({ status }: { status: RfqStatus }) {
 
 export default function RfqPage() {
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
-        <Link href={ROUTES.shop.b2b}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
+        <Link href={ROUTES.shop.b2b}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
         <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2"><FileSearch className="h-6 w-6" /> Запрос котировок (RFQ)</h1>
-          <p className="text-slate-500 text-sm mt-0.5">Alibaba/OroCommerce: отправьте запрос поставщикам — получите цены и условия</p>
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
+            <FileSearch className="h-6 w-6" /> Запрос котировок (RFQ)
+          </h1>
+          <p className="mt-0.5 text-sm text-slate-500">
+            Alibaba/OroCommerce: отправьте запрос поставщикам — получите цены и условия
+          </p>
         </div>
       </div>
 
       <Card className="mb-6">
         <CardHeader>
           <CardTitle>Мои запросы котировок</CardTitle>
-          <CardDescription>Создайте RFQ, выберите поставщиков и получите предложения</CardDescription>
+          <CardDescription>
+            Создайте RFQ, выберите поставщиков и получите предложения
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {MOCK_RFQS.map((r) => (
-            <div key={r.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-slate-200 gap-3">
+            <div
+              key={r.id}
+              className="flex flex-col justify-between gap-3 rounded-xl border border-slate-200 p-4 sm:flex-row sm:items-center"
+            >
               <div>
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex flex-wrap items-center gap-2">
                   <h3 className="font-semibold">{r.title}</h3>
                   <StatusBadge status={r.status} />
                 </div>
-                <p className="text-xs text-slate-500 mt-1">{r.lines.length} позиций · Дедлайн котировок: {r.quoteDeadline}</p>
+                <p className="mt-1 text-xs text-slate-500">
+                  {r.lines.length} позиций · Дедлайн котировок: {r.quoteDeadline}
+                </p>
               </div>
               <div className="flex gap-2">
-                <Button size="sm" variant="outline" asChild><Link href={`/shop/b2b/rfq/${r.id}`}>Подробнее</Link></Button>
+                <Button size="sm" variant="outline" asChild>
+                  <Link href={`/shop/b2b/rfq/${r.id}`}>Подробнее</Link>
+                </Button>
                 {r.status === 'quotes_received' && (
-                  <Button size="sm" asChild><Link href={`/shop/b2b/rfq/${r.id}/compare`}>Сравнить и выбрать</Link></Button>
+                  <Button size="sm" asChild>
+                    <Link href={`/shop/b2b/rfq/${r.id}/compare`}>Сравнить и выбрать</Link>
+                  </Button>
                 )}
               </div>
             </div>
@@ -94,8 +119,14 @@ export default function RfqPage() {
       </Card>
 
       <div className="flex gap-2">
-        <Button asChild><Link href="/shop/b2b/rfq/create"><Plus className="h-4 w-4 mr-2" /> Создать RFQ</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bSupplierDiscovery}>Найти поставщиков</Link></Button>
+        <Button asChild>
+          <Link href="/shop/b2b/rfq/create">
+            <Plus className="mr-2 h-4 w-4" /> Создать RFQ
+          </Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bSupplierDiscovery}>Найти поставщиков</Link>
+        </Button>
       </div>
     </div>
   );

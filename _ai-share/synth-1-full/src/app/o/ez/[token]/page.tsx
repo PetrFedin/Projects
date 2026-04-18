@@ -24,8 +24,8 @@ export default function EzOrderByLinkPage({ params }: { params: Promise<{ token:
 
   if (!payload) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
-        <Card className="max-w-md w-full border-amber-200 bg-amber-50/50">
+      <div className="flex min-h-screen items-center justify-center bg-slate-50 p-4">
+        <Card className="w-full max-w-md border-amber-200 bg-amber-50/50">
           <CardHeader>
             <div className="flex items-center gap-2 text-amber-700">
               <AlertCircle className="h-5 w-5" />
@@ -46,12 +46,14 @@ export default function EzOrderByLinkPage({ params }: { params: Promise<{ token:
   }
 
   const handleSubmit = () => {
-    const items = products.filter(p => (qtys[p.id] || 0) > 0).map(p => ({
-      productId: p.id,
-      size: p.sizes?.[0]?.name || 'M',
-      quantity: qtys[p.id] || 0,
-      price: p.price,
-    }));
+    const items = products
+      .filter((p) => (qtys[p.id] || 0) > 0)
+      .map((p) => ({
+        productId: p.id,
+        size: p.sizes?.[0]?.name || 'M',
+        quantity: qtys[p.id] || 0,
+        price: p.price,
+      }));
     if (items.length === 0) return;
     if (!email.trim()) {
       alert('Укажите email для подтверждения заказа');
@@ -62,15 +64,15 @@ export default function EzOrderByLinkPage({ params }: { params: Promise<{ token:
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4">
-      <div className="container max-w-2xl mx-auto">
-        <div className="flex items-center gap-2 mb-6">
-          <div className="h-10 w-10 rounded-xl bg-indigo-100 flex items-center justify-center">
+    <div className="min-h-screen bg-slate-50 px-4 py-8">
+      <div className="container mx-auto max-w-2xl">
+        <div className="mb-6 flex items-center gap-2">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100">
             <Zap className="h-5 w-5 text-indigo-600" />
           </div>
           <div>
             <h1 className="text-xl font-bold uppercase tracking-tight">EZ Order по ссылке</h1>
-            <p className="text-slate-500 text-sm">NuOrder: заказ без входа в платформу</p>
+            <p className="text-sm text-slate-500">NuOrder: заказ без входа в платформу</p>
           </div>
         </div>
 
@@ -83,37 +85,52 @@ export default function EzOrderByLinkPage({ params }: { params: Promise<{ token:
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button asChild><Link href="/">На главную</Link></Button>
+              <Button asChild>
+                <Link href="/">На главную</Link>
+              </Button>
             </CardContent>
           </Card>
         ) : (
           <Card>
             <CardHeader>
               <CardTitle>Лайншит FW26 — Core Collection</CardTitle>
-              <CardDescription>Выберите количество и укажите email для подтверждения</CardDescription>
-              <Badge variant="secondary" className="w-fit mt-2">Без регистрации</Badge>
+              <CardDescription>
+                Выберите количество и укажите email для подтверждения
+              </CardDescription>
+              <Badge variant="secondary" className="mt-2 w-fit">
+                Без регистрации
+              </Badge>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <label className="text-sm font-medium mb-1 block">Email для подтверждения</label>
+                <label className="mb-1 block text-sm font-medium">Email для подтверждения</label>
                 <Input
                   type="email"
                   placeholder="buyer@store.ru"
                   value={email}
-                  onChange={e => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="max-w-sm"
                 />
               </div>
               <ul className="space-y-3">
                 {products.map((p) => (
-                  <li key={p.id} className="flex items-center justify-between gap-4 p-3 rounded-xl bg-slate-50 border border-slate-100">
-                    <div className="flex items-center gap-3 min-w-0">
+                  <li
+                    key={p.id}
+                    className="flex items-center justify-between gap-4 rounded-xl border border-slate-100 bg-slate-50 p-3"
+                  >
+                    <div className="flex min-w-0 items-center gap-3">
                       {p.images?.[0]?.url && (
-                        <img src={p.images[0].url} alt="" className="h-12 w-12 rounded-lg object-cover shrink-0" />
+                        <img
+                          src={p.images[0].url}
+                          alt=""
+                          className="h-12 w-12 shrink-0 rounded-lg object-cover"
+                        />
                       )}
                       <div className="min-w-0">
-                        <p className="font-medium truncate text-sm">{p.name}</p>
-                        <p className="text-xs text-slate-500">{p.sku} · {p.price.toLocaleString('ru-RU')} ₽</p>
+                        <p className="truncate text-sm font-medium">{p.name}</p>
+                        <p className="text-xs text-slate-500">
+                          {p.sku} · {p.price.toLocaleString('ru-RU')} ₽
+                        </p>
                       </div>
                     </div>
                     <Input
@@ -121,17 +138,22 @@ export default function EzOrderByLinkPage({ params }: { params: Promise<{ token:
                       min={0}
                       className="w-20 text-center"
                       value={qtys[p.id] ?? ''}
-                      onChange={e => setQtys(prev => ({ ...prev, [p.id]: Math.max(0, parseInt(e.target.value, 10) || 0) }))}
+                      onChange={(e) =>
+                        setQtys((prev) => ({
+                          ...prev,
+                          [p.id]: Math.max(0, parseInt(e.target.value, 10) || 0),
+                        }))
+                      }
                     />
                   </li>
                 ))}
               </ul>
-              <div className="flex items-center justify-between pt-4 border-t">
+              <div className="flex items-center justify-between border-t pt-4">
                 <span className="text-sm font-medium">Итого: {totalUnits} ед.</span>
                 <span className="font-semibold">{totalAmount.toLocaleString('ru-RU')} ₽</span>
               </div>
               <Button className="w-full" onClick={handleSubmit} disabled={totalUnits === 0}>
-                <ShoppingBag className="h-4 w-4 mr-2" /> Отправить заказ
+                <ShoppingBag className="mr-2 h-4 w-4" /> Отправить заказ
               </Button>
             </CardContent>
           </Card>

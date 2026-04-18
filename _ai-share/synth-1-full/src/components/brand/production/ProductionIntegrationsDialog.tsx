@@ -34,10 +34,14 @@ export function ProductionIntegrationsDialog({
       const r = await fetch('/api/production/plm/import', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ provider: plmActive ?? 'gerber', rawXml: '<component id="F-001" name="Fabric" quantity="1.2" unit="м"/>' }),
+        body: JSON.stringify({
+          provider: plmActive ?? 'gerber',
+          rawXml: '<component id="F-001" name="Fabric" quantity="1.2" unit="м"/>',
+        }),
       });
       const d = await r.json();
-      if (d.success) toast({ title: 'PLM импорт', description: `BOM: ${d.bomItems?.length ?? 0} позиций` });
+      if (d.success)
+        toast({ title: 'PLM импорт', description: `BOM: ${d.bomItems?.length ?? 0} позиций` });
       else toast({ title: 'Ошибка', description: d.errors?.[0], variant: 'destructive' });
     } finally {
       setPlmImporting(false);
@@ -61,18 +65,16 @@ export function ProductionIntegrationsDialog({
   };
 
   const toggleTrigger = (id: string, channel: 'email' | 'push') => {
-    setTriggers(prev =>
-      prev.map(t =>
-        t.id === id ? { ...t, [channel]: !t[channel] } : t
-      )
-    );
+    setTriggers((prev) => prev.map((t) => (t.id === id ? { ...t, [channel]: !t[channel] } : t)));
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-lg font-black uppercase tracking-tighter">Интеграции</DialogTitle>
+          <DialogTitle className="text-lg font-black uppercase tracking-tighter">
+            Интеграции
+          </DialogTitle>
         </DialogHeader>
         <Tabs defaultValue="plm">
           <TabsList>
@@ -81,9 +83,11 @@ export function ProductionIntegrationsDialog({
             <TabsTrigger value="notifications">Уведомления</TabsTrigger>
           </TabsList>
           <TabsContent value="plm" className="space-y-4 pt-4">
-            <p className="text-[10px] font-bold uppercase text-slate-500">Gerber, CLO3D, Lectra — импорт BOM, градаций</p>
+            <p className="text-[10px] font-bold uppercase text-slate-500">
+              Gerber, CLO3D, Lectra — импорт BOM, градаций
+            </p>
             <div className="flex flex-wrap gap-2">
-              {PLM_PROVIDERS.map(p => (
+              {PLM_PROVIDERS.map((p) => (
                 <Badge
                   key={p}
                   variant={plmActive === p ? 'default' : 'outline'}
@@ -95,13 +99,15 @@ export function ProductionIntegrationsDialog({
               ))}
             </div>
             <Button onClick={handlePlmImport} disabled={plmImporting} className="gap-2">
-              <Upload className="w-4 h-4" /> Импорт BOM
+              <Upload className="h-4 w-4" /> Импорт BOM
             </Button>
           </TabsContent>
           <TabsContent value="erp" className="space-y-4 pt-4">
-            <p className="text-[10px] font-bold uppercase text-slate-500">1С, МойСклад, SAP — заказы, остатки, финансы</p>
+            <p className="text-[10px] font-bold uppercase text-slate-500">
+              1С, МойСклад, SAP — заказы, остатки, финансы
+            </p>
             <div className="flex flex-wrap gap-2">
-              {ERP_PROVIDERS.map(p => (
+              {ERP_PROVIDERS.map((p) => (
                 <Badge
                   key={p}
                   variant={erpActive === p ? 'default' : 'outline'}
@@ -113,25 +119,35 @@ export function ProductionIntegrationsDialog({
               ))}
             </div>
             <Button onClick={handleErpSync} disabled={erpSyncing} className="gap-2">
-              <RefreshCw className="w-4 h-4" /> Синхронизация
+              <RefreshCw className="h-4 w-4" /> Синхронизация
             </Button>
           </TabsContent>
           <TabsContent value="notifications" className="space-y-4 pt-4">
-            <p className="text-[10px] font-bold uppercase text-slate-500">Email и Push — триггеры</p>
+            <p className="text-[10px] font-bold uppercase text-slate-500">
+              Email и Push — триггеры
+            </p>
             <div className="space-y-3">
-              {triggers.map(t => (
-                <div key={t.id} className="flex items-center justify-between border rounded-lg p-3">
+              {triggers.map((t) => (
+                <div key={t.id} className="flex items-center justify-between rounded-lg border p-3">
                   <div>
                     <p className="text-sm font-bold">{t.label}</p>
                     <p className="text-[10px] text-slate-500">{t.description}</p>
                   </div>
                   <div className="flex gap-4">
-                    <label className="flex items-center gap-2 text-[10px] cursor-pointer">
-                      <input type="checkbox" checked={t.email} onChange={() => toggleTrigger(t.id, 'email')} />
+                    <label className="flex cursor-pointer items-center gap-2 text-[10px]">
+                      <input
+                        type="checkbox"
+                        checked={t.email}
+                        onChange={() => toggleTrigger(t.id, 'email')}
+                      />
                       Email
                     </label>
-                    <label className="flex items-center gap-2 text-[10px] cursor-pointer">
-                      <input type="checkbox" checked={t.push} onChange={() => toggleTrigger(t.id, 'push')} />
+                    <label className="flex cursor-pointer items-center gap-2 text-[10px]">
+                      <input
+                        type="checkbox"
+                        checked={t.push}
+                        onChange={() => toggleTrigger(t.id, 'push')}
+                      />
                       Push
                     </label>
                   </div>

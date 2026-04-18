@@ -26,21 +26,46 @@ export const PROFILE_MAIN_PAGES: Record<ProfileKey, string[]> = {
   factory: ['/factory'],
   manufacturer: ['/factory'],
   supplier: ['/factory'],
-  client: ['/client', '/client/wardrobe', '/client/try-before-you-buy', '/client/wishlist', '/client/catalog', '/client/passport', '/client/returns', '/client/gift-registry', '/client/scanner'],
+  client: [
+    '/client',
+    '/client/wardrobe',
+    '/client/try-before-you-buy',
+    '/client/wishlist',
+    '/client/catalog',
+    '/client/passport',
+    '/client/returns',
+    '/client/gift-registry',
+    '/client/scanner',
+  ],
 };
 
 /** Resource → основные маршруты (для поиска, breadcrumb) */
 export const RESOURCE_TO_ROUTES: Record<Resource, string[]> = {
   brand_profile: ['/brand', '/brand?group=profile'],
-  production: ['/brand/production', '/brand/production/operations', '/brand/factories', '/brand/materials'],
+  production: [
+    '/brand/production',
+    '/brand/production/operations',
+    '/brand/factories',
+    '/brand/materials',
+  ],
   b2b_orders: ['/brand/b2b-orders', '/brand/showroom', '/brand/b2b/linesheets', '/shop/b2b/orders'],
-  b2b_catalog: ['/brand/products', '/brand/collections', '/brand/products/matrix', '/shop/b2b/catalog'],
+  b2b_catalog: [
+    '/brand/products',
+    '/brand/collections',
+    '/brand/products/matrix',
+    '/shop/b2b/catalog',
+  ],
   warehouse: ['/brand/warehouse', '/brand/logistics', '/brand/inventory'],
   finance: ['/brand/finance', '/brand/pricing'],
   compliance: ['/brand/compliance', '/brand/documents', '/brand/disputes'],
   integrations: ['/brand/integrations'],
   team: ['/brand/team', '/brand/messages', '/brand/calendar', '/brand/tasks'],
-  analytics: ['/brand/analytics', '/brand/analytics-bi', '/brand/control-center', '/brand/dashboard'],
+  analytics: [
+    '/brand/analytics',
+    '/brand/analytics-bi',
+    '/brand/control-center',
+    '/brand/dashboard',
+  ],
   edo: ['/brand/documents', '/brand/compliance'],
   settings: ['/brand/settings', '/brand/security', '/brand/subscription'],
 };
@@ -98,12 +123,35 @@ export type HubKey = 'admin' | 'brand' | 'shop' | 'factory' | 'distributor' | 'c
 export function canAccessHub(role: string, hub: HubKey): boolean {
   if (role === 'admin') return true;
   switch (hub) {
-    case 'admin': return role === 'admin';
-    case 'brand': return ['brand', 'manufacturer', 'supplier', 'designer', 'technologist', 'production_manager', 'finance_manager', 'sales_rep', 'merchandiser'].includes(role);
-    case 'shop': return ['retailer', 'buyer', 'distributor', 'sales_rep', 'merchandiser'].includes(role);
-    case 'factory': return ['manufacturer', 'supplier', 'designer', 'technologist', 'production_manager'].includes(role);
-    case 'distributor': return role === 'distributor';
-    case 'client': return role === 'client';
-    default: return false;
+    case 'admin':
+      return role === 'admin';
+    case 'brand':
+      return [
+        'brand',
+        'manufacturer',
+        'supplier',
+        'designer',
+        'technologist',
+        'production_manager',
+        'finance_manager',
+        'sales_rep',
+        'merchandiser',
+      ].includes(role);
+    case 'shop':
+      return ['retailer', 'buyer', 'distributor', 'sales_rep', 'merchandiser'].includes(role);
+    case 'factory':
+      return [
+        'manufacturer',
+        'supplier',
+        'designer',
+        'technologist',
+        'production_manager',
+      ].includes(role);
+    case 'distributor':
+      return role === 'distributor';
+    case 'client':
+      return role === 'client';
+    default:
+      return false;
   }
 }

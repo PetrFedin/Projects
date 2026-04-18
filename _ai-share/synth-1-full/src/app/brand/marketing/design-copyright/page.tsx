@@ -12,14 +12,26 @@ import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 
 export default function DesignCopyrightPage() {
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Design Copyright AI"
         description="Глобальный мониторинг маркетплейсов на предмет появления визуальных копий моделей. Защита интеллектуальной собственности. Связь с IP Ledger, Products."
         icon={Shield}
         iconBg="bg-indigo-100"
         iconColor="text-indigo-600"
-        badges={<><Badge variant="outline" className="text-[9px]">AI</Badge><Badge variant="outline" className="text-[9px]">Маркетплейсы</Badge><Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href="/brand/ip-ledger">IP Ledger</Link></Button></>}
+        badges={
+          <>
+            <Badge variant="outline" className="text-[9px]">
+              AI
+            </Badge>
+            <Badge variant="outline" className="text-[9px]">
+              Маркетплейсы
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href="/brand/ip-ledger">IP Ledger</Link>
+            </Button>
+          </>
+        }
       />
       <h1 className="text-2xl font-bold uppercase">Design Copyright AI</h1>
       <Card className="rounded-xl border border-indigo-100 bg-indigo-50/30">
@@ -27,17 +39,21 @@ export default function DesignCopyrightPage() {
           <CardTitle className="flex items-center gap-2">
             <Search className="h-5 w-5" /> Мониторинг копий
           </CardTitle>
-          <CardDescription>Автоматический поиск визуально похожих моделей на Wildberries, Ozon, AliExpress и др.</CardDescription>
+          <CardDescription>
+            Автоматический поиск визуально похожих моделей на Wildberries, Ozon, AliExpress и др.
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center gap-3 p-4 rounded-xl bg-white border">
+          <div className="flex items-center gap-3 rounded-xl border bg-white p-4">
             <AlertTriangle className="h-10 w-10 text-amber-500" />
             <div>
               <p className="font-bold">Сканирование</p>
-              <p className="text-[11px] text-slate-500">Загрузите образцы для мониторинга. AI сравнивает с каталогами маркетплейсов.</p>
+              <p className="text-[11px] text-slate-500">
+                Загрузите образцы для мониторинга. AI сравнивает с каталогами маркетплейсов.
+              </p>
             </div>
           </div>
-          <p className="text-[10px] text-slate-400 mt-4">Скоро: интеграция с маркетплейсами</p>
+          <p className="mt-4 text-[10px] text-slate-400">Скоро: интеграция с маркетплейсами</p>
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getMarketingLinks()} />

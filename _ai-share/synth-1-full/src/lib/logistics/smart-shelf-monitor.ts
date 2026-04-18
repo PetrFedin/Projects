@@ -50,11 +50,12 @@ export class SmartShelfMonitor {
         // Товар есть в подсобке — отправляем задачу персоналу
         action = 'restock_from_backroom';
         quantityToMove = deficit;
-        
+
         // Оценка срочности (Urgency) на основе скорости продаж (Velocity)
         // Если товар продается быстро, а полка пустеет — это критично (упущенная выгода)
-        const hoursUntilEmpty = data.currentUnitsOnShelf / (data.historicalSalesVelocityPerHour || 1); // Защита от деления на ноль
-        
+        const hoursUntilEmpty =
+          data.currentUnitsOnShelf / (data.historicalSalesVelocityPerHour || 1); // Защита от деления на ноль
+
         if (hoursUntilEmpty < 2) {
           urgency = 'critical';
           reasoning = `Shelf fill rate is ${(fillRate * 100).toFixed(0)}%. Velocity is high (${data.historicalSalesVelocityPerHour} units/hr). Stockout expected in <2 hours. CRITICAL: Restock ${deficit} units from backroom immediately.`;
@@ -65,7 +66,6 @@ export class SmartShelfMonitor {
           urgency = 'medium';
           reasoning = `Shelf fill rate is ${(fillRate * 100).toFixed(0)}%. Restock ${deficit} units from backroom.`;
         }
-
       } else if (data.unitsInBackroom > 0) {
         // В подсобке есть товар, но меньше дефицита — выносим всё, что есть
         action = 'restock_from_backroom';
@@ -76,7 +76,7 @@ export class SmartShelfMonitor {
         // 3. Товара нет ни на полке, ни в подсобке — заказываем с РЦ (Distribution Center)
         action = 'order_from_dc';
         // Заказываем столько, чтобы заполнить полку + создать запас в подсобке (например, 2 полных полки)
-        quantityToMove = (data.shelfCapacity * 2) - data.currentUnitsOnShelf;
+        quantityToMove = data.shelfCapacity * 2 - data.currentUnitsOnShelf;
         urgency = 'critical';
         reasoning = `Shelf fill rate is ${(fillRate * 100).toFixed(0)}%. ZERO units in backroom. CRITICAL: Order ${quantityToMove} units from Distribution Center to prevent out-of-stock.`;
       }
@@ -86,8 +86,11 @@ export class SmartShelfMonitor {
 
       // [Phase 28] Интеграция с ESL (Electronic Shelf Labels) и Динамическим ценообразованием
       // Если полка полная, в подсобке много товара, а скорость продаж низкая — нужно снижать цену прямо на полке
-      if (fillRate > 0.8 && data.unitsInBackroom > data.shelfCapacity * 2 && data.historicalSalesVelocityPerHour < 0.5) {
-        
+      if (
+        fillRate > 0.8 &&
+        data.unitsInBackroom > data.shelfCapacity * 2 &&
+        data.historicalSalesVelocityPerHour < 0.5
+      ) {
         // Запрашиваем новую цену у Cognitive Pricing Engine
         const pricingDecision = CognitivePricingEngine.calculateOptimalPrice({
           sku: data.sku,
@@ -95,12 +98,12 @@ export class SmartShelfMonitor {
           competitorAveragePrice: 95,
           inventoryLevel: data.currentUnitsOnShelf + data.unitsInBackroom,
           daysUntilSeasonEnd: 30,
-          conversionRatePercent: 0.5 // Низкая конверсия
+          conversionRatePercent: 0.5, // Низкая конверсия
         });
 
         if (pricingDecision.strategy === 'clear_inventory') {
           reasoning += ` WARNING: Shelf is full, backroom is overstocked, and velocity is low. Triggering ESL (Electronic Shelf Label) markdown to $${pricingDecision.newPrice} (-${pricingDecision.priceChangePercent}%).`;
-          
+
           // Публикуем событие для обновления ценников в магазине
           void publishStoreEslPriceUpdated({
             aggregateId: data.storeId,
@@ -109,8 +112,8 @@ export class SmartShelfMonitor {
               sku: data.sku,
               shelfId: data.shelfId,
               newPrice: pricingDecision.newPrice,
-              oldPrice: 100
-            }
+              oldPrice: 100,
+            },
           });
         }
       }
@@ -123,7 +126,7 @@ export class SmartShelfMonitor {
       action,
       quantityToMove,
       urgency,
-      reasoning
+      reasoning,
     };
   }
 }

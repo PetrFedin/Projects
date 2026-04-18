@@ -5,16 +5,16 @@
  */
 
 export type ProductionParamKey =
-  | 'dimensions'      // габариты
-  | 'sizeScale'       // размерные шкалы EU/RU/INT
-  | 'sizes'           // размеры производства
-  | 'fittings'        // примерки
-  | 'samples'         // семплы
-  | 'deliveries'      // доставки
-  | 'payments'        // оплаты
-  | 'taxes'           // налоги
-  | 'materials'       // материалы
-  | 'trims';          // фурнитура
+  | 'dimensions' // габариты
+  | 'sizeScale' // размерные шкалы EU/RU/INT
+  | 'sizes' // размеры производства
+  | 'fittings' // примерки
+  | 'samples' // семплы
+  | 'deliveries' // доставки
+  | 'payments' // оплаты
+  | 'taxes' // налоги
+  | 'materials' // материалы
+  | 'trims'; // фурнитура
 
 export interface CategoryProductionParams {
   /** Категория L1 id (apparel, shoes, accessories, bags, headwear, fur) */
@@ -42,16 +42,33 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
     catL1Id: 'men-apparel',
     label: 'Одежда (мужская)',
     sizeScales: [
-      { id: 'EU', label: 'EU (EURO)', sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL'], rule: 'См. таблицу: EU 48–54 ↔ обхват груди' },
+      {
+        id: 'EU',
+        label: 'EU (EURO)',
+        sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL'],
+        rule: 'См. таблицу: EU 48–54 ↔ обхват груди',
+      },
       {
         id: 'RU',
         label: 'RU (полуобхват груди, см)',
         sizes: ['44', '46', '48', '50', '52', '54', '56', '58', '60'],
         rule: 'Номер ≈ ½ обхвата груди (см), шаг ~4 см по обхвату',
       },
-      { id: 'INT', label: 'International', sizes: ['0', '1', '2', '3', '4', '5', '6'], rule: 'Alpha / числовой ряд' },
+      {
+        id: 'INT',
+        label: 'International',
+        sizes: ['0', '1', '2', '3', '4', '5', '6'],
+        rule: 'Alpha / числовой ряд',
+      },
     ],
-    dimensions: ['Обхват груди', 'Обхват талии', 'Обхват бёдер', 'Длина изделия', 'Длина рукава', 'Обхват шеи'],
+    dimensions: [
+      'Обхват груди',
+      'Обхват талии',
+      'Обхват бёдер',
+      'Длина изделия',
+      'Длина рукава',
+      'Обхват шеи',
+    ],
     materialTypes: ['Ткань', 'Трикотаж', 'Смесовая', 'Кожа'],
     trims: ['Молнии', 'Пуговицы', 'Кнопки', 'Подкладка', 'Липучки'],
     fittingStages: ['Proto1', 'Proto2', 'Size Set', 'TOP', 'PP', 'PS'],
@@ -61,10 +78,22 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
     label: 'Одежда (женская)',
     sizeScales: [
       { id: 'EU', label: 'EU (EURO)', sizes: ['XS', 'S', 'M', 'L', 'XL'], rule: '+2см на размер' },
-      { id: 'RU', label: 'RU (ГОСТ)', sizes: ['42', '44', '46', '48', '50', '52'], rule: '+2см обхват' },
+      {
+        id: 'RU',
+        label: 'RU (ГОСТ)',
+        sizes: ['42', '44', '46', '48', '50', '52'],
+        rule: '+2см обхват',
+      },
       { id: 'INT', label: 'International', sizes: ['0', '1', '2', '3', '4'], rule: 'Alpha scale' },
     ],
-    dimensions: ['Обхват груди', 'Обхват талии', 'Обхват бёдер', 'Длина изделия', 'Длина рукава', 'Длина юбки/платья'],
+    dimensions: [
+      'Обхват груди',
+      'Обхват талии',
+      'Обхват бёдер',
+      'Длина изделия',
+      'Длина рукава',
+      'Длина юбки/платья',
+    ],
     materialTypes: ['Ткань', 'Трикотаж', 'Смесовая', 'Кружево', 'Шёлк'],
     trims: ['Молнии', 'Пуговицы', 'Кнопки', 'Подкладка', 'Крючки', 'Декоративная фурнитура'],
     fittingStages: ['Proto1', 'Proto2', 'Size Set', 'TOP', 'PP', 'PS'],
@@ -73,7 +102,12 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
     catL1Id: 'men-shoes',
     label: 'Обувь (мужская)',
     sizeScales: [
-      { id: 'EU', label: 'EU', sizes: ['40', '41', '42', '43', '44', '45', '46'], rule: '0.67см на размер' },
+      {
+        id: 'EU',
+        label: 'EU',
+        sizes: ['40', '41', '42', '43', '44', '45', '46'],
+        rule: '0.67см на размер',
+      },
       { id: 'RU', label: 'RU', sizes: ['39', '40', '41', '42', '43', '44'], rule: 'ГОСТ' },
       { id: 'UK', label: 'UK', sizes: ['7', '8', '9', '10', '11', '12'], rule: 'UK scale' },
     ],
@@ -86,7 +120,12 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
     catL1Id: 'women-shoes',
     label: 'Обувь (женская)',
     sizeScales: [
-      { id: 'EU', label: 'EU', sizes: ['35', '36', '37', '38', '39', '40', '41'], rule: '0.67см на размер' },
+      {
+        id: 'EU',
+        label: 'EU',
+        sizes: ['35', '36', '37', '38', '39', '40', '41'],
+        rule: '0.67см на размер',
+      },
       { id: 'RU', label: 'RU', sizes: ['34', '35', '36', '37', '38', '39'], rule: 'ГОСТ' },
     ],
     dimensions: ['Длина стопы', 'Ширина', 'Обхват подъёма', 'Высота каблука'],
@@ -98,10 +137,62 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
     catL1Id: 'kids-apparel',
     label: 'Одежда (детская, общая)',
     sizeScales: [
-      { id: 'KIDS_AGE', label: 'По возрасту', sizes: ['0-6м', '6-12м', '1-2г', '2-3г', '3-4г', '4-5г', '5-6г', '6-7г', '7-8г', '8-10г', '10-12г', '12-14г', '14-16г'], rule: 'По росту и возрасту' },
-      { id: 'KIDS_HEIGHT', label: 'По росту', sizes: ['74', '80', '86', '92', '98', '104', '110', '116', '122', '128', '134', '140', '146', '152', '158', '164', '170'], rule: 'см' },
-      { id: 'RU_CHILD', label: 'RU полуобхват груди (см)', sizes: ['30', '32', '34', '36', '38', '40', '42', '44', '46', '48', '50'], rule: 'Для 0–12 м чаще рост; полуобхват — с года по модели' },
-      { id: 'INT', label: 'International', sizes: ['0', '1', '2', '3', '4', '5', '6', '7', '8'], rule: 'По таблице бренда' },
+      {
+        id: 'KIDS_AGE',
+        label: 'По возрасту',
+        sizes: [
+          '0-6м',
+          '6-12м',
+          '1-2г',
+          '2-3г',
+          '3-4г',
+          '4-5г',
+          '5-6г',
+          '6-7г',
+          '7-8г',
+          '8-10г',
+          '10-12г',
+          '12-14г',
+          '14-16г',
+        ],
+        rule: 'По росту и возрасту',
+      },
+      {
+        id: 'KIDS_HEIGHT',
+        label: 'По росту',
+        sizes: [
+          '74',
+          '80',
+          '86',
+          '92',
+          '98',
+          '104',
+          '110',
+          '116',
+          '122',
+          '128',
+          '134',
+          '140',
+          '146',
+          '152',
+          '158',
+          '164',
+          '170',
+        ],
+        rule: 'см',
+      },
+      {
+        id: 'RU_CHILD',
+        label: 'RU полуобхват груди (см)',
+        sizes: ['30', '32', '34', '36', '38', '40', '42', '44', '46', '48', '50'],
+        rule: 'Для 0–12 м чаще рост; полуобхват — с года по модели',
+      },
+      {
+        id: 'INT',
+        label: 'International',
+        sizes: ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
+        rule: 'По таблице бренда',
+      },
     ],
     dimensions: [
       'Рост',
@@ -115,21 +206,65 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
     materialTypes: ['Хлопок', 'Трикотаж', 'Смесовая', 'Флис'],
     trims: ['Молнии', 'Пуговицы', 'Кнопки', 'Липучки', 'Безопасная фурнитура'],
     fittingStages: ['Proto', 'Size Set', 'TOP', 'PP'],
-    deliveryNotes: 'Для ТЗ по полу: мальчики — kids-apparel-boys, девочки — kids-apparel-girls (бёдра, юбки, брюки).',
+    deliveryNotes:
+      'Для ТЗ по полу: мальчики — kids-apparel-boys, девочки — kids-apparel-girls (бёдра, юбки, брюки).',
   },
   {
     catL1Id: 'kids-apparel-boys',
     label: 'Одежда (мальчики)',
     sizeScales: [
-      { id: 'KIDS_AGE', label: 'По возрасту', sizes: ['1-2г', '2-3г', '3-4г', '4-5г', '5-6г', '6-7г', '7-8г', '8-10г', '10-12г', '12-14г', '14-16г'], rule: 'По росту' },
-      { id: 'KIDS_HEIGHT', label: 'По росту', sizes: ['86', '92', '98', '104', '110', '116', '122', '128', '134', '140', '146', '152', '158', '164', '170'], rule: 'см' },
+      {
+        id: 'KIDS_AGE',
+        label: 'По возрасту',
+        sizes: [
+          '1-2г',
+          '2-3г',
+          '3-4г',
+          '4-5г',
+          '5-6г',
+          '6-7г',
+          '7-8г',
+          '8-10г',
+          '10-12г',
+          '12-14г',
+          '14-16г',
+        ],
+        rule: 'По росту',
+      },
+      {
+        id: 'KIDS_HEIGHT',
+        label: 'По росту',
+        sizes: [
+          '86',
+          '92',
+          '98',
+          '104',
+          '110',
+          '116',
+          '122',
+          '128',
+          '134',
+          '140',
+          '146',
+          '152',
+          '158',
+          '164',
+          '170',
+        ],
+        rule: 'см',
+      },
       {
         id: 'RU_CHILD',
         label: 'RU полуобхват груди (см, ориентир ГОСТ/школа)',
         sizes: ['30', '32', '34', '36', '38', '40', '42', '44', '46', '48'],
         rule: 'Номер ≈ ½ обхвата груди; шаг по коллекции в ТЗ',
       },
-      { id: 'INT', label: 'International (ростовой индекс)', sizes: ['0', '1', '2', '3', '4', '5', '6', '7', '8'], rule: 'Привязка к росту и возрасту — таблица бренда в ТЗ' },
+      {
+        id: 'INT',
+        label: 'International (ростовой индекс)',
+        sizes: ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
+        rule: 'Привязка к росту и возрасту — таблица бренда в ТЗ',
+      },
     ],
     dimensions: [
       'Рост',
@@ -153,15 +288,58 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
     catL1Id: 'kids-apparel-girls',
     label: 'Одежда (девочки)',
     sizeScales: [
-      { id: 'KIDS_AGE', label: 'По возрасту', sizes: ['1-2г', '2-3г', '3-4г', '4-5г', '5-6г', '6-7г', '7-8г', '8-10г', '10-12г', '12-14г', '14-16г'], rule: 'По росту' },
-      { id: 'KIDS_HEIGHT', label: 'По росту', sizes: ['86', '92', '98', '104', '110', '116', '122', '128', '134', '140', '146', '152', '158', '164', '170'], rule: 'см' },
+      {
+        id: 'KIDS_AGE',
+        label: 'По возрасту',
+        sizes: [
+          '1-2г',
+          '2-3г',
+          '3-4г',
+          '4-5г',
+          '5-6г',
+          '6-7г',
+          '7-8г',
+          '8-10г',
+          '10-12г',
+          '12-14г',
+          '14-16г',
+        ],
+        rule: 'По росту',
+      },
+      {
+        id: 'KIDS_HEIGHT',
+        label: 'По росту',
+        sizes: [
+          '86',
+          '92',
+          '98',
+          '104',
+          '110',
+          '116',
+          '122',
+          '128',
+          '134',
+          '140',
+          '146',
+          '152',
+          '158',
+          '164',
+          '170',
+        ],
+        rule: 'см',
+      },
       {
         id: 'RU_CHILD',
         label: 'RU полуобхват груди (см)',
         sizes: ['30', '32', '34', '36', '38', '40', '42', '44', '46', '48', '50'],
         rule: 'Номер ≈ ½ обхвата; у подростков возможен шаг по бюсту',
       },
-      { id: 'INT', label: 'International (ростовой индекс)', sizes: ['0', '1', '2', '3', '4', '5', '6', '7', '8'], rule: 'Привязка к росту — таблица бренда в ТЗ' },
+      {
+        id: 'INT',
+        label: 'International (ростовой индекс)',
+        sizes: ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
+        rule: 'Привязка к росту — таблица бренда в ТЗ',
+      },
     ],
     dimensions: [
       'Рост',
@@ -185,9 +363,62 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
     catL1Id: 'kids-shoes',
     label: 'Обувь (детская)',
     sizeScales: [
-      { id: 'EU_KIDS', label: 'EU детская', sizes: ['16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35'], rule: 'EU 16–19 — пинетки / первая обувь; далее общая детская колодка' },
-      { id: 'RU_KIDS', label: 'RU детская', sizes: ['16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27'], rule: 'ГОСТ' },
-      { id: 'UK_KIDS', label: 'UK детская', sizes: ['8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12', '12.5', '13', '1', '1.5', '2', '2.5', '3'], rule: 'Соответствие EU — по таблице перевода в ТЗ' },
+      {
+        id: 'EU_KIDS',
+        label: 'EU детская',
+        sizes: [
+          '16',
+          '17',
+          '18',
+          '19',
+          '20',
+          '21',
+          '22',
+          '23',
+          '24',
+          '25',
+          '26',
+          '27',
+          '28',
+          '29',
+          '30',
+          '31',
+          '32',
+          '33',
+          '34',
+          '35',
+        ],
+        rule: 'EU 16–19 — пинетки / первая обувь; далее общая детская колодка',
+      },
+      {
+        id: 'RU_KIDS',
+        label: 'RU детская',
+        sizes: ['16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27'],
+        rule: 'ГОСТ',
+      },
+      {
+        id: 'UK_KIDS',
+        label: 'UK детская',
+        sizes: [
+          '8',
+          '8.5',
+          '9',
+          '9.5',
+          '10',
+          '10.5',
+          '11',
+          '11.5',
+          '12',
+          '12.5',
+          '13',
+          '1',
+          '1.5',
+          '2',
+          '2.5',
+          '3',
+        ],
+        rule: 'Соответствие EU — по таблице перевода в ТЗ',
+      },
     ],
     dimensions: [
       'Длина стопы (мм)',
@@ -218,7 +449,12 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
     label: 'Сумки (женские)',
     sizeScales: [
       { id: 'ONE_SIZE', label: 'Один размер', sizes: ['OS'], rule: 'Габариты в см' },
-      { id: 'BAG_SM', label: 'Mini / Small / Medium / Large', sizes: ['Mini', 'Small', 'Medium', 'Large'], rule: 'По объёму' },
+      {
+        id: 'BAG_SM',
+        label: 'Mini / Small / Medium / Large',
+        sizes: ['Mini', 'Small', 'Medium', 'Large'],
+        rule: 'По объёму',
+      },
     ],
     dimensions: ['Длина', 'Ширина', 'Высота', 'Длина ручки', 'Длина ремня', 'Объём'],
     materialTypes: ['Кожа', 'Замша', 'Текстиль', 'Нейлон', 'Эко-кожа', 'Велюр'],
@@ -229,7 +465,12 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
     catL1Id: 'men-headwear',
     label: 'Головные уборы (мужские)',
     sizeScales: [
-      { id: 'HEAD_EU', label: 'Обхват головы', sizes: ['54', '55', '56', '57', '58', '59', '60'], rule: 'см' },
+      {
+        id: 'HEAD_EU',
+        label: 'Обхват головы',
+        sizes: ['54', '55', '56', '57', '58', '59', '60'],
+        rule: 'см',
+      },
       { id: 'SML', label: 'S / M / L', sizes: ['S', 'M', 'L'], rule: 'Alpha' },
     ],
     dimensions: ['Обхват головы', 'Глубина', 'Поля (для шляп)'],
@@ -241,7 +482,12 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
     catL1Id: 'women-headwear',
     label: 'Головные уборы (женские)',
     sizeScales: [
-      { id: 'HEAD_EU', label: 'Обхват головы', sizes: ['52', '53', '54', '55', '56', '57', '58'], rule: 'см' },
+      {
+        id: 'HEAD_EU',
+        label: 'Обхват головы',
+        sizes: ['52', '53', '54', '55', '56', '57', '58'],
+        rule: 'см',
+      },
       { id: 'SML', label: 'S / M / L', sizes: ['S', 'M', 'L'], rule: 'Alpha' },
     ],
     dimensions: ['Обхват головы', 'Глубина', 'Поля', 'Декоративные элементы'],
@@ -293,7 +539,12 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
     catL1Id: 'unisex-shoes',
     label: 'Обувь (унисекс)',
     sizeScales: [
-      { id: 'EU', label: 'EU', sizes: ['38', '39', '40', '41', '42', '43', '44', '45'], rule: '0.67см на размер' },
+      {
+        id: 'EU',
+        label: 'EU',
+        sizes: ['38', '39', '40', '41', '42', '43', '44', '45'],
+        rule: '0.67см на размер',
+      },
       { id: 'UK', label: 'UK', sizes: ['5', '6', '7', '8', '9', '10', '11'], rule: 'UK scale' },
     ],
     dimensions: ['Длина стопы', 'Ширина'],
@@ -304,9 +555,7 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
   {
     catL1Id: 'men-accessories',
     label: 'Аксессуары (мужские)',
-    sizeScales: [
-      { id: 'ONE_SIZE', label: 'Один размер', sizes: ['OS'], rule: '—' },
-    ],
+    sizeScales: [{ id: 'ONE_SIZE', label: 'Один размер', sizes: ['OS'], rule: '—' }],
     dimensions: [
       'Головные уборы: обхват головы, глубина купола, диаметр тульи, ширина полей, вес',
       'Перчатки: обхват ладони, длина перчатки, манжета, толщина материала',
@@ -326,9 +575,7 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
   {
     catL1Id: 'women-accessories',
     label: 'Аксессуары (женские)',
-    sizeScales: [
-      { id: 'ONE_SIZE', label: 'Один размер', sizes: ['OS'], rule: '—' },
-    ],
+    sizeScales: [{ id: 'ONE_SIZE', label: 'Один размер', sizes: ['OS'], rule: '—' }],
     dimensions: [
       'Головные уборы: обхват, глубина, поля, декор',
       'Перчатки: обхват ладони, длина, манжета',
@@ -350,7 +597,12 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
     label: 'Сумки и рюкзаки (детские)',
     sizeScales: [
       { id: 'ONE_SIZE', label: 'Один размер', sizes: ['OS'], rule: 'Габариты в см' },
-      { id: 'KIDS_BAG', label: 'XS / S / M / L', sizes: ['XS', 'S', 'M', 'L'], rule: 'По росту и объёму' },
+      {
+        id: 'KIDS_BAG',
+        label: 'XS / S / M / L',
+        sizes: ['XS', 'S', 'M', 'L'],
+        rule: 'По росту и объёму',
+      },
     ],
     dimensions: [
       'Мальчики (ранец, спорт, поясная): высота корпуса спинки, ширина основания; длина и ширина лямок; глубина; объём под учебники/формат А4; вес пустого',
@@ -366,7 +618,12 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
     label: 'Аксессуары (детские)',
     sizeScales: [
       { id: 'ONE_SIZE', label: 'Один размер', sizes: ['OS'], rule: '—' },
-      { id: 'KIDS_SML', label: 'XS / S / M / L', sizes: ['XS', 'S', 'M', 'L'], rule: 'По обхвату / длине' },
+      {
+        id: 'KIDS_SML',
+        label: 'XS / S / M / L',
+        sizes: ['XS', 'S', 'M', 'L'],
+        rule: 'По обхвату / длине',
+      },
       {
         id: 'INT',
         label: 'International (детская сетка)',
@@ -395,7 +652,12 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
     catL1Id: 'newborn-accessories',
     label: 'Аксессуары для новорождённых',
     sizeScales: [
-      { id: 'ONE_SIZE', label: 'Один размер / модель', sizes: ['OS'], rule: 'Габариты и объём в ТЗ' },
+      {
+        id: 'ONE_SIZE',
+        label: 'Один размер / модель',
+        sizes: ['OS'],
+        rule: 'Габариты и объём в ТЗ',
+      },
     ],
     dimensions: [
       'Длина',
@@ -407,7 +669,13 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
       'Вес изделия',
       'Длина ремня/лямок',
     ],
-    materialTypes: ['Пластик (BPA-free)', 'Силикон', 'Текстиль', 'Нержавеющая сталь', 'Полипропилен'],
+    materialTypes: [
+      'Пластик (BPA-free)',
+      'Силикон',
+      'Текстиль',
+      'Нержавеющая сталь',
+      'Полипропилен',
+    ],
     trims: ['Клапаны', 'Клапаны герметичные', 'Соски', 'Крепления на коляску'],
     fittingStages: ['Proto', 'Сертификация', 'Production'],
   },
@@ -418,13 +686,31 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
       {
         id: 'BEDDING',
         label: 'Постель (типовые названия)',
-        sizes: ['1 сп', '1,5 сп', '2 сп', 'Евро', 'Семейный', 'Детский 60×120', 'Детский 70×140', 'Детский 80×160'],
+        sizes: [
+          '1 сп',
+          '1,5 сп',
+          '2 сп',
+          'Евро',
+          'Семейный',
+          'Детский 60×120',
+          'Детский 70×140',
+          'Детский 80×160',
+        ],
         rule: 'Финальные мерки по матрасу и ГОСТ/рынку',
       },
       {
         id: 'PACK_HOME',
         label: 'Габариты упаковки / изделия (см)',
-        sizes: ['20×15×8', '30×25×12', '40×35×15', '50×40×20', '60×45×25', '80×55×30', '100×70×35', '120×80×8'],
+        sizes: [
+          '20×15×8',
+          '30×25×12',
+          '40×35×15',
+          '50×40×20',
+          '60×45×25',
+          '80×55×30',
+          '100×70×35',
+          '120×80×8',
+        ],
         rule: 'Длина × ширина × высота или диаметр × высота',
       },
       { id: 'ONE_SIZE', label: 'Модель / OS', sizes: ['OS'], rule: 'Полные габариты в ТЗ, см' },
@@ -439,8 +725,24 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
       'Длина шторной ленты / периметр карниза',
       'Шаг регулировки / ход механизма',
     ],
-    materialTypes: ['Хлопок', 'Лён', 'Микрофибра', 'Полиэстер', 'Бамбук', 'Керамика', 'Дерево', 'Металл'],
-    trims: ['Молнии', 'Люверсы', 'Петли', 'Наполнитель', 'Противоскользящая основа', 'Крепёж к стене'],
+    materialTypes: [
+      'Хлопок',
+      'Лён',
+      'Микрофибра',
+      'Полиэстер',
+      'Бамбук',
+      'Керамика',
+      'Дерево',
+      'Металл',
+    ],
+    trims: [
+      'Молнии',
+      'Люверсы',
+      'Петли',
+      'Наполнитель',
+      'Противоскользящая основа',
+      'Крепёж к стене',
+    ],
     fittingStages: ['Образец', 'Цветопроба', 'TOP', 'Партия'],
     deliveryNotes:
       'Упаковка: короб / ролл / пакет; вес брутто; штрихкод. Хрупкое — маркировка «осторожно» и тест на падение.',
@@ -454,14 +756,44 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
       {
         id: 'ML',
         label: 'Ёмкость (мл)',
-        sizes: ['5', '10', '15', '30', '50', '75', '100', '150', '200', '250', '400', '500', '750', '1000'],
+        sizes: [
+          '5',
+          '10',
+          '15',
+          '30',
+          '50',
+          '75',
+          '100',
+          '150',
+          '200',
+          '250',
+          '400',
+          '500',
+          '750',
+          '1000',
+        ],
         rule: 'Номинал на этикетке ± допуск в ТЗ',
       },
-      { id: 'G', label: 'Масса (г)', sizes: ['30', '50', '80', '100', '150', '200', '250', '500'], rule: 'Твёрдые бруски, глина, саше' },
+      {
+        id: 'G',
+        label: 'Масса (г)',
+        sizes: ['30', '50', '80', '100', '150', '200', '250', '500'],
+        rule: 'Твёрдые бруски, глина, саше',
+      },
       {
         id: 'PACK_CM',
         label: 'Габариты тары / упаковки (см)',
-        sizes: ['3×3×8', '4×4×10', '5×5×12', '6×6×14', '8×8×18', '10×10×22', '12×12×25', '15×8×20', '18×12×28'],
+        sizes: [
+          '3×3×8',
+          '4×4×10',
+          '5×5×12',
+          '6×6×14',
+          '8×8×18',
+          '10×10×22',
+          '12×12×25',
+          '15×8×20',
+          '18×12×28',
+        ],
         rule: 'Длина × ширина × высота типовых флаконов и коробов',
       },
     ],
@@ -483,6 +815,8 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
 ];
 
 /** Получить параметры производства по catLevel1Id (L1) */
-export function getProductionParamsByCategory(catL1Id: string): CategoryProductionParams | undefined {
-  return PRODUCTION_PARAMS_BY_CATEGORY.find(p => p.catL1Id === catL1Id);
+export function getProductionParamsByCategory(
+  catL1Id: string
+): CategoryProductionParams | undefined {
+  return PRODUCTION_PARAMS_BY_CATEGORY.find((p) => p.catL1Id === catL1Id);
 }

@@ -12,11 +12,11 @@ export function PaymentsPageContent() {
       <RegistryPageHeader
         title="Оплата и бонусы"
         leadPlain="Способы оплаты и бонусный счёт в одном операционном экране."
-        actions={(
+        actions={
           <Button variant="outline" size="sm" className="h-8" asChild>
             <Link href="/u?tab=profile">К профилю</Link>
           </Button>
-        )}
+        }
       />
 
       <div className="grid grid-cols-1 items-start gap-3 lg:grid-cols-3">

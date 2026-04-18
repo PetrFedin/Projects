@@ -261,12 +261,18 @@ import {
   removeSketchPinTemplate,
   resolveSketchPinTemplatePick,
 } from '@/lib/production/workshop2-sketch-pin-templates';
-import { appendSketchLabelSnapshot, restoreSketchLabelsSnapshot } from '@/lib/production/workshop2-sketch-snapshots';
+import {
+  appendSketchLabelSnapshot,
+  restoreSketchLabelsSnapshot,
+} from '@/lib/production/workshop2-sketch-snapshots';
 import { appendCategorySketchRevisionSnapshot } from '@/lib/production/sketch-plm-revisions';
 import { bomRefsUnionFromSketchSurfaces } from '@/lib/production/sketch-bom-integrity';
 import { sketchBomRefsMissingFromMatLines } from '@/lib/production/workshop2-mat-sketch-bom-crosscheck';
 import { mergeSketchMasterAuditLog } from '@/lib/production/sketch-annotation-audit';
-import { exportSketchVisualBundle, exportTzHandoffPdfOnly } from '@/lib/production/sketch-visual-bundle-export';
+import {
+  exportSketchVisualBundle,
+  exportTzHandoffPdfOnly,
+} from '@/lib/production/sketch-visual-bundle-export';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { type DossierSection } from '@/lib/production/dossier-readiness-engine';
 import {
@@ -297,7 +303,9 @@ function loadWorkshopAttrGroupUi(): { pinned: Set<string>; collapsed: Set<string
     if (v2) {
       const o = JSON.parse(v2) as { pinned?: unknown; collapsed?: unknown };
       const pinned =
-        Array.isArray(o.pinned) && o.pinned.every((x) => typeof x === 'string') ? (o.pinned as string[]) : [];
+        Array.isArray(o.pinned) && o.pinned.every((x) => typeof x === 'string')
+          ? (o.pinned as string[])
+          : [];
       const collapsed =
         Array.isArray(o.collapsed) && o.collapsed.every((x) => typeof x === 'string')
           ? (o.collapsed as string[])
@@ -374,8 +382,8 @@ function attributeDetailHintBody(attribute: AttributeCatalogAttribute): ReactNod
   if (!d && !u) {
     return (
       <p>
-        Поле «{attribute.name}»: выберите значение из справочника или введите текст, если поле это допускает. Подсказку для
-        команды можно задать в каталоге атрибутов.
+        Поле «{attribute.name}»: выберите значение из справочника или введите текст, если поле это
+        допускает. Подсказку для команды можно задать в каталоге атрибутов.
       </p>
     );
   }
@@ -409,7 +417,9 @@ function WorkshopInlineHintIcon({ label, children }: { label: string; children: 
 
 function WorkshopAttributeHintIcon({ attribute }: { attribute: AttributeCatalogAttribute }) {
   return (
-    <WorkshopInlineHintIcon label={attribute.name}>{attributeDetailHintBody(attribute)}</WorkshopInlineHintIcon>
+    <WorkshopInlineHintIcon label={attribute.name}>
+      {attributeDetailHintBody(attribute)}
+    </WorkshopInlineHintIcon>
   );
 }
 
@@ -419,10 +429,7 @@ const WORKSHOP_REQUIRED_BADGE_DONE_CLASS =
   'text-[9px] font-semibold text-emerald-900 bg-emerald-50 border border-emerald-200 rounded px-1.5 py-0.5';
 
 /** Подписи групп каталога, которые в UI совпадают с бейджем «Обязательный» (как на шаге 1). */
-const WORKSHOP_GROUP_LABEL_AMBER = new Set([
-  'Обязательно',
-  'Фаза 3 (не в форме фазы 1)',
-]);
+const WORKSHOP_GROUP_LABEL_AMBER = new Set(['Обязательно', 'Фаза 3 (не в форме фазы 1)']);
 
 /** Секция «Материалы»: состав + атрибуты каталога без второй полосы «МАТЕРИАЛЫ». */
 const WORKSHOP_MERGED_OUTERWEAR_MATERIAL_TAB_LABEL = 'Верхняя одежда · материалы';
@@ -478,7 +485,9 @@ const REDUNDANT_WHEN_MAT_COMPOSITION_LINKED = new Set([
   'fabricCompositionDetailClassOptions',
 ]);
 
-function formatDossierSignoffRu(meta: Workshop2DossierSignoffMeta | { by: string; at: string } | undefined): string | null {
+function formatDossierSignoffRu(
+  meta: Workshop2DossierSignoffMeta | { by: string; at: string } | undefined
+): string | null {
   if (!meta?.at) return null;
   try {
     const base = `${meta.by} · ${new Date(meta.at).toLocaleString('ru-RU')}`;
@@ -571,7 +580,12 @@ function WorkshopTzDigitalSignoffRow({
                 Подписано
               </span>
               {canRevoke ? (
-                <Button type="button" variant="outline" className="h-9 px-3 text-xs" onClick={onRevoke}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="h-9 px-3 text-xs"
+                  onClick={onRevoke}
+                >
                   Снять подпись
                 </Button>
               ) : (
@@ -638,13 +652,7 @@ function resolvedHandbookDisplayLabel(
 
   if (canon && (!st || st === parameterId)) return canon;
 
-  if (
-    canon &&
-    st &&
-    st !== canon &&
-    !/[а-яё]/i.test(st) &&
-    /^[a-z0-9,.\s/&+-]+$/i.test(st)
-  ) {
+  if (canon && st && st !== canon && !/[а-яё]/i.test(st) && /^[a-z0-9,.\s/&+-]+$/i.test(st)) {
     return canon;
   }
 
@@ -707,8 +715,7 @@ function HandbookMultiSelectPopover({
       ? options
       : options.filter(
           (o) =>
-            o.label.toLowerCase().includes(needle) ||
-            o.parameterId.toLowerCase().includes(needle)
+            o.label.toLowerCase().includes(needle) || o.parameterId.toLowerCase().includes(needle)
         );
 
   const onOpenChange = (next: boolean) => {
@@ -761,36 +768,44 @@ function HandbookMultiSelectPopover({
             autoFocus
           />
         </div>
-        <div className="max-h-64 overflow-y-auto p-2 space-y-1">
-          {maxSelections != null && Number.isFinite(maxSelections) && maxSelections >= 0 && atCap ? (
+        <div className="max-h-64 space-y-1 overflow-y-auto p-2">
+          {maxSelections != null &&
+          Number.isFinite(maxSelections) &&
+          maxSelections >= 0 &&
+          atCap ? (
             <p className="px-2 py-1.5 text-[10px] leading-snug text-slate-500">
-              Уже выбрано максимум размеров ({maxSelections}) по паспорту — снимите лишний, чтобы добавить другой.
+              Уже выбрано максимум размеров ({maxSelections}) по паспорту — снимите лишний, чтобы
+              добавить другой.
             </p>
           ) : null}
           {options.length === 0 ? (
             <p className="px-2 py-2 text-[11px] text-slate-500">Нет значений.</p>
           ) : filteredOptions.length === 0 ? (
-            <p className="px-2 py-2 text-[11px] text-slate-500">Ничего не найдено — измените запрос.</p>
+            <p className="px-2 py-2 text-[11px] text-slate-500">
+              Ничего не найдено — измените запрос.
+            </p>
           ) : (
             filteredOptions.map((o) => {
               const checked = selected.has(o.parameterId);
               const disableAdd = !checked && atCap;
               return (
-              <label
-                key={o.parameterId}
+                <label
+                  key={o.parameterId}
                   className={cn(
                     'flex items-start gap-2 rounded-md py-1.5 pl-1 pr-2',
-                    disableAdd ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:bg-slate-50'
+                    disableAdd
+                      ? 'cursor-not-allowed opacity-50'
+                      : 'cursor-pointer hover:bg-slate-50'
                   )}
-              >
-                <Checkbox
+                >
+                  <Checkbox
                     checked={checked}
                     disabled={disableAdd}
-                  onCheckedChange={() => toggle(o.parameterId)}
-                  className="mt-0.5 shrink-0"
-                />
-                <span className="text-xs leading-snug text-slate-800">{o.label}</span>
-              </label>
+                    onCheckedChange={() => toggle(o.parameterId)}
+                    className="mt-0.5 shrink-0"
+                  />
+                  <span className="text-xs leading-snug text-slate-800">{o.label}</span>
+                </label>
               );
             })
           )}
@@ -1195,7 +1210,11 @@ type Props = {
 
 import { Badge } from '@/components/ui/badge';
 
-const SECTIONS: { id: Workshop2TzSignoffSectionKey; label: string; icon: keyof typeof LucideIcons }[] = [
+const SECTIONS: {
+  id: Workshop2TzSignoffSectionKey;
+  label: string;
+  icon: keyof typeof LucideIcons;
+}[] = [
   { id: 'general', label: 'Паспорт', icon: 'Info' },
   { id: 'visuals', label: 'Визуал / Эскиз', icon: 'Image' },
   { id: 'material', label: 'Материалы (BOM)', icon: 'Layers' },
@@ -1248,7 +1267,11 @@ function formatTzLogTimestamp(at: string): string {
   }
 }
 
-function formatTzActionLogDetailRu(e: Workshop2TzActionLogEntry): { when: string; author: string; text: string } {
+function formatTzActionLogDetailRu(e: Workshop2TzActionLogEntry): {
+  when: string;
+  author: string;
+  text: string;
+} {
   const when = formatTzLogTimestamp(e.at);
   const author = e.by;
   if (e.action.type === 'dossier_edit') {
@@ -1364,7 +1387,10 @@ function getSectionWarnings(
   skuDraft: string,
   nameDraft: string,
   handbookWarnings: string[],
-  sectionReadiness: Record<DossierSection, { done: number; total: number; pct: number; status: string }>
+  sectionReadiness: Record<
+    DossierSection,
+    { done: number; total: number; pct: number; status: string }
+  >
 ): string[] {
   if (section === 'general') {
     const warnings: string[] = [];
@@ -1423,7 +1449,10 @@ function buildHandbookCheckSnapshot(
   skuDraft: string,
   nameDraft: string,
   handbookWarnings: string[],
-  sectionReadiness: Record<DossierSection, { done: number; total: number; pct: number; status: string }>,
+  sectionReadiness: Record<
+    DossierSection,
+    { done: number; total: number; pct: number; status: string }
+  >,
   scopeSection: DossierSection,
   checkAspects: { label: string; ok: boolean }[]
 ): HandbookCheckSnapshot {
@@ -1491,7 +1520,9 @@ function renderHandbookCheckReportBlock(
               >
                 {a.ok ? '✓' : '!'}
               </span>
-              <span className={cn(a.ok ? 'text-slate-700' : 'font-medium text-amber-900')}>{a.label}</span>
+              <span className={cn(a.ok ? 'text-slate-700' : 'font-medium text-amber-900')}>
+                {a.label}
+              </span>
             </li>
           ))}
         </ul>
@@ -1500,9 +1531,7 @@ function renderHandbookCheckReportBlock(
 
   const body = !hasAny ? (
     <p className="text-[11px] font-medium leading-snug text-emerald-700">
-      {aspectsTotal > 0
-        ? 'По перечисленным пунктам замечаний нет.'
-        : 'Расхождений не выявлено.'}
+      {aspectsTotal > 0 ? 'По перечисленным пунктам замечаний нет.' : 'Расхождений не выявлено.'}
     </p>
   ) : (
     <div className="space-y-2">
@@ -1613,8 +1642,7 @@ function renderHandbookCheckReportBlock(
         </>
       ) : (
         <p className="text-[10px] leading-snug text-slate-600">
-          {collapsedSummary}{' '}
-          <span className="text-slate-400">· {checkedAtLabel}</span>
+          {collapsedSummary} <span className="text-slate-400">· {checkedAtLabel}</span>
         </p>
       )}
     </div>
@@ -1627,7 +1655,10 @@ type BuildControlPointsCtx = {
   skuDraft: string;
   nameDraft: string;
   handbookWarnings: string[];
-  sectionReadiness: Record<DossierSection, { done: number; total: number; pct: number; status: string }>;
+  sectionReadiness: Record<
+    DossierSection,
+    { done: number; total: number; pct: number; status: string }
+  >;
   selectedAudienceLabel: string;
   hasAssignmentValue: (attributeId: string) => boolean;
 };
@@ -1679,9 +1710,15 @@ function buildSectionControlPoints(
       return [
         {
           label: 'Основной эскиз собран',
-          done: Boolean(dossier.categorySketchImageDataUrl || (dossier.categorySketchAnnotations?.length ?? 0) > 0),
+          done: Boolean(
+            dossier.categorySketchImageDataUrl ||
+            (dossier.categorySketchAnnotations?.length ?? 0) > 0
+          ),
         },
-        { label: 'Есть метки на скетче', done: (dossier.categorySketchAnnotations?.length ?? 0) > 0 },
+        {
+          label: 'Есть метки на скетче',
+          done: (dossier.categorySketchAnnotations?.length ?? 0) > 0,
+        },
         { label: 'Замысел в «Визуал»', done: Boolean(dossier.brandNotes?.trim()) },
         { label: 'Референсы добавлены', done: (dossier.visualReferences?.length ?? 0) > 0 },
       ];
@@ -1707,13 +1744,21 @@ function buildSectionControlPoints(
         { label: 'Базовый размер выбран', done: hasAssignmentValue('sampleBaseSize') },
         {
           label: 'Табель мер заполнен',
-          done: Boolean(dossier.sampleBasePerSizeDimensions && Object.keys(dossier.sampleBasePerSizeDimensions).length > 0),
+          done: Boolean(
+            dossier.sampleBasePerSizeDimensions &&
+            Object.keys(dossier.sampleBasePerSizeDimensions).length > 0
+          ),
         },
         {
           label: 'Нет критичных пропусков по меркам справочника',
-          done: !handbookWarnings.some((warning) => warning.includes('мерки') || warning.includes('Табель мер')),
+          done: !handbookWarnings.some(
+            (warning) => warning.includes('мерки') || warning.includes('Табель мер')
+          ),
         },
-        { label: 'Силуэт / посадка описаны', done: hasAssignmentValue('silh') || hasAssignmentValue('fit_type') },
+        {
+          label: 'Силуэт / посадка описаны',
+          done: hasAssignmentValue('silh') || hasAssignmentValue('fit_type'),
+        },
         {
           label: 'Ключевые узлы зафиксированы',
           done:
@@ -1744,7 +1789,10 @@ function DossierNavigator({
 }: {
   activeSection: Workshop2TzSignoffSectionKey;
   setActiveSection: (s: Workshop2TzSignoffSectionKey) => void;
-  sectionReadiness: Record<DossierSection, { done: number; total: number; pct: number; status: string }>;
+  sectionReadiness: Record<
+    DossierSection,
+    { done: number; total: number; pct: number; status: string }
+  >;
   /** Если задан — индикаторы по результату последней проверки «Проверить»; иначе без подсветки расхождений. */
   handbookCheckBySection: Record<DossierSection, string[]> | null;
   dossierViewProfile: Workshop2DossierViewProfile;
@@ -1780,17 +1828,19 @@ function DossierNavigator({
         }
         onClick={() => setActiveSection(s.id)}
         className={cn(
-          'grid w-full grid-cols-[auto_auto_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 px-3 py-2.5 rounded-xl text-left transition-all group relative',
+          'group relative grid w-full grid-cols-[auto_auto_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 rounded-xl px-3 py-2.5 text-left transition-all',
           activeSection === s.id
             ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-100'
-            : 'hover:bg-slate-50 text-slate-600 hover:text-slate-900',
-          !primaryForView && activeSection !== s.id && 'opacity-70 ring-1 ring-dashed ring-slate-200/70'
+            : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
+          !primaryForView &&
+            activeSection !== s.id &&
+            'ring-dashed opacity-70 ring-1 ring-slate-200/70'
         )}
       >
         {hasWarnings && activeSection !== s.id && (
-          <span className="absolute top-2 right-2 flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+          <span className="absolute right-2 top-2 flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"></span>
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-500"></span>
           </span>
         )}
         <span
@@ -1857,11 +1907,19 @@ function DossierNavigator({
   return (
     <nav className="flex flex-col gap-1">
       {primarySections.map((s) =>
-        renderSectionButton(s, dossierViewProfile === 'full' || isWorkshop2DossierViewPrimarySection(dossierViewProfile, s.id))
+        renderSectionButton(
+          s,
+          dossierViewProfile === 'full' ||
+            isWorkshop2DossierViewPrimarySection(dossierViewProfile, s.id)
+        )
       )}
       {secondarySections.length > 0 ? (
-        <Collapsible open={extraNavOpen} onOpenChange={setExtraNavOpen} className="rounded-xl border border-dashed border-slate-200/90 bg-slate-50/50">
-          <CollapsibleTrigger className="flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-[11px] font-semibold text-slate-600 hover:bg-slate-100/80 rounded-xl">
+        <Collapsible
+          open={extraNavOpen}
+          onOpenChange={setExtraNavOpen}
+          className="rounded-xl border border-dashed border-slate-200/90 bg-slate-50/50"
+        >
+          <CollapsibleTrigger className="flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2 text-left text-[11px] font-semibold text-slate-600 hover:bg-slate-100/80">
             <span>Дополнительные разделы ({secondarySections.length})</span>
             <LucideIcons.ChevronsUpDown className="h-4 w-4 shrink-0 opacity-70" aria-hidden />
           </CollapsibleTrigger>
@@ -1958,7 +2016,9 @@ function WorkshopNineGapRelatedFooterShell({
       {hint ? <p className="text-[9px] leading-snug text-slate-500">{hint}</p> : null}
       {gapCount > 0 ? (
         <div className="space-y-1.5 rounded-md border border-amber-300/80 bg-amber-50/65 px-2 py-1.5">
-          <p className="text-[9px] font-bold uppercase tracking-wide text-amber-950">Разрыв BOM ↔ скетч</p>
+          <p className="text-[9px] font-bold uppercase tracking-wide text-amber-950">
+            Разрыв BOM ↔ скетч
+          </p>
           <div className="flex flex-wrap gap-1.5">
             <Button
               type="button"
@@ -2013,8 +2073,8 @@ function WorkshopNineGapRelatedFooterShell({
             ) : null}
           </div>
           <p className="text-[9px] leading-snug text-amber-950/95">
-            <span className="font-semibold tabular-nums">{gapCount}</span> ref с меток или скетча не найдены в строках
-            mat: <span className="break-all font-mono text-[8px]">{preview}</span>
+            <span className="font-semibold tabular-nums">{gapCount}</span> ref с меток или скетча не
+            найдены в строках mat: <span className="break-all font-mono text-[8px]">{preview}</span>
             {more}
           </p>
         </div>
@@ -2073,7 +2133,11 @@ export function Workshop2Phase1DossierPanel({
       p === 'production' ||
       p === 'qc';
     const showDelta =
-      p === 'full' || p === 'supply' || p === 'technologist' || p === 'production' || p === 'manager';
+      p === 'full' ||
+      p === 'supply' ||
+      p === 'technologist' ||
+      p === 'production' ||
+      p === 'manager';
     const showCosting =
       p === 'full' || p === 'finance' || p === 'manager' || p === 'supply' || p === 'technologist';
     return showAlts || showDelta || showCosting;
@@ -2272,8 +2336,7 @@ export function Workshop2Phase1DossierPanel({
 
   /** Hash из списка визуала, но цель в DOM только на «Конструкция» (скетч и шаблоны master). */
   const visualHashTargetsConstructionOnly = useMemo(
-    () =>
-      new Set<string>([W2_VISUALS_SKETCH_ANCHOR_ID, W2_VISUAL_SUBPAGE_ANCHORS.sketchTemplates]),
+    () => new Set<string>([W2_VISUALS_SKETCH_ANCHOR_ID, W2_VISUAL_SUBPAGE_ANCHORS.sketchTemplates]),
     []
   );
 
@@ -2330,7 +2393,9 @@ export function Workshop2Phase1DossierPanel({
     []
   );
   const [activeMaterialSubNavId, setActiveMaterialSubNavId] = useState<string | null>(null);
-  const [materialPreSupplyExpanded, setMaterialPreSupplyExpanded] = useState(() => !showMaterialSupplyDraftsNav);
+  const [materialPreSupplyExpanded, setMaterialPreSupplyExpanded] = useState(
+    () => !showMaterialSupplyDraftsNav
+  );
 
   useEffect(() => {
     if (showMaterialSupplyDraftsNav) setMaterialPreSupplyExpanded(false);
@@ -2339,13 +2404,16 @@ export function Workshop2Phase1DossierPanel({
 
   useEffect(() => {
     materialPreSupplyNavExpandRef.current = (anchorId: string) => {
-      if (W2_MATERIAL_PRE_SUPPLY_COLLAPSE_SCROLL_IDS.has(anchorId)) setMaterialPreSupplyExpanded(true);
+      if (W2_MATERIAL_PRE_SUPPLY_COLLAPSE_SCROLL_IDS.has(anchorId))
+        setMaterialPreSupplyExpanded(true);
     };
   }, []);
 
   const [passportDriftLogDone, setPassportDriftLogDone] = useState(false);
   const [dossierMetricsTick, setDossierMetricsTick] = useState(0);
-  const [sketchVisualCatalogHighlightIds, setSketchVisualCatalogHighlightIds] = useState<string[]>([]);
+  const [sketchVisualCatalogHighlightIds, setSketchVisualCatalogHighlightIds] = useState<string[]>(
+    []
+  );
   const sketchVisualCatalogHighlightSet = useMemo(
     () => new Set(sketchVisualCatalogHighlightIds),
     [sketchVisualCatalogHighlightIds]
@@ -2551,7 +2619,9 @@ export function Workshop2Phase1DossierPanel({
   }, [flashDossier, activeSection]);
 
   /** Без чтения localStorage в initializer — иначе SSR и первый paint клиента расходятся. */
-  const [dossier, setDossierInternal] = useState<Workshop2DossierPhase1>(() => emptyWorkshop2DossierPhase1());
+  const [dossier, setDossierInternal] = useState<Workshop2DossierPhase1>(() =>
+    emptyWorkshop2DossierPhase1()
+  );
   const setDossier = useCallback(
     (u: React.SetStateAction<Workshop2DossierPhase1>) => {
       if (tzWriteDisabled) {
@@ -2602,7 +2672,9 @@ export function Workshop2Phase1DossierPanel({
   const [saveError, setSaveError] = useState<string | null>(null);
   const [tzHistoryOpen, setTzHistoryOpen] = useState(false);
   const [tzRevokeDeniedHint, setTzRevokeDeniedHint] = useState<string | null>(null);
-  const [handbookCheckSnapshot, setHandbookCheckSnapshot] = useState<HandbookCheckSnapshot | null>(null);
+  const [handbookCheckSnapshot, setHandbookCheckSnapshot] = useState<HandbookCheckSnapshot | null>(
+    null
+  );
   const [handbookCheckReportExpanded, setHandbookCheckReportExpanded] = useState(true);
   const [tzNotifyHighlightRowKey, setTzNotifyHighlightRowKey] = useState<string | null>(null);
   const [sketchWorkspaceTab, setSketchWorkspaceTab] = useState<'sketch' | 'sublevels'>('sketch');
@@ -2620,7 +2692,8 @@ export function Workshop2Phase1DossierPanel({
   const [orgSketchLibraryRevision, setOrgSketchLibraryRevision] = useState(0);
 
   const tzRevokersEffective = tzSignoffRevokerLabels ?? [];
-  const tzSignCaps = tzDigitalSignoffCapabilities ?? WORKSHOP2_TZ_DIGITAL_SIGNOFF_DEFAULT_CAPABILITIES;
+  const tzSignCaps =
+    tzDigitalSignoffCapabilities ?? WORKSHOP2_TZ_DIGITAL_SIGNOFF_DEFAULT_CAPABILITIES;
   const tzDigitalSignoffRows = useMemo(() => {
     const b = dossier.tzSignatoryBindings;
     const rows: {
@@ -2663,7 +2736,14 @@ export function Workshop2Phase1DossierPanel({
         signoff,
       });
     };
-    pushBase('designer', 'Дизайн', tzSignCaps.designer, b?.designerDisplayLabel, b?.designerSignStages, dossier.designerSignoff);
+    pushBase(
+      'designer',
+      'Дизайн',
+      tzSignCaps.designer,
+      b?.designerDisplayLabel,
+      b?.designerSignStages,
+      dossier.designerSignoff
+    );
     pushBase(
       'technologist',
       'Технолог',
@@ -2672,7 +2752,14 @@ export function Workshop2Phase1DossierPanel({
       b?.technologistSignStages,
       dossier.technologistSignoff
     );
-    pushBase('manager', 'Менеджер', tzSignCaps.manager, b?.managerDisplayLabel, b?.managerSignStages, dossier.managerSignoff);
+    pushBase(
+      'manager',
+      'Менеджер',
+      tzSignCaps.manager,
+      b?.managerDisplayLabel,
+      b?.managerSignStages,
+      dossier.managerSignoff
+    );
     for (const ex of workshopTzExtraRowsRequiringTzSignoff(b)) {
       const name = ex.assigneeDisplayLabel?.trim() ?? '';
       const hasAssignee = Boolean(name);
@@ -2731,36 +2818,42 @@ export function Workshop2Phase1DossierPanel({
     }
   }, []);
 
-  const toggleAttrGroupCollapsed = useCallback((groupName: string) => {
-    const key = `${activeSection}::${groupName}`;
-    setCollapsedAttrGroups((prevCollapsed) => {
-      const nextCollapsed = new Set(prevCollapsed);
-      if (nextCollapsed.has(key)) nextCollapsed.delete(key);
-      else nextCollapsed.add(key);
-      setPinnedAttrGroups((prevPinned) => {
-        if (prevPinned.has(key)) persistWorkshopAttrGroupUi(prevPinned, nextCollapsed);
-        return prevPinned;
-      });
-      return nextCollapsed;
-    });
-  }, [activeSection]);
-
-  const toggleAttrGroupPinned = useCallback((groupName: string) => {
-    const key = `${activeSection}::${groupName}`;
-    setPinnedAttrGroups((prevPinned) => {
-      const nextPinned = new Set(prevPinned);
-      const wasPinned = nextPinned.has(key);
-      if (wasPinned) nextPinned.delete(key);
-      else nextPinned.add(key);
+  const toggleAttrGroupCollapsed = useCallback(
+    (groupName: string) => {
+      const key = `${activeSection}::${groupName}`;
       setCollapsedAttrGroups((prevCollapsed) => {
         const nextCollapsed = new Set(prevCollapsed);
-        if (wasPinned) nextCollapsed.delete(key);
-        persistWorkshopAttrGroupUi(nextPinned, nextCollapsed);
+        if (nextCollapsed.has(key)) nextCollapsed.delete(key);
+        else nextCollapsed.add(key);
+        setPinnedAttrGroups((prevPinned) => {
+          if (prevPinned.has(key)) persistWorkshopAttrGroupUi(prevPinned, nextCollapsed);
+          return prevPinned;
+        });
         return nextCollapsed;
       });
-      return nextPinned;
-    });
-  }, [activeSection]);
+    },
+    [activeSection]
+  );
+
+  const toggleAttrGroupPinned = useCallback(
+    (groupName: string) => {
+      const key = `${activeSection}::${groupName}`;
+      setPinnedAttrGroups((prevPinned) => {
+        const nextPinned = new Set(prevPinned);
+        const wasPinned = nextPinned.has(key);
+        if (wasPinned) nextPinned.delete(key);
+        else nextPinned.add(key);
+        setCollapsedAttrGroups((prevCollapsed) => {
+          const nextCollapsed = new Set(prevCollapsed);
+          if (wasPinned) nextCollapsed.delete(key);
+          persistWorkshopAttrGroupUi(nextPinned, nextCollapsed);
+          return nextCollapsed;
+        });
+        return nextPinned;
+      });
+    },
+    [activeSection]
+  );
 
   useEffect(() => {
     const raw = getWorkshop2Phase1Dossier(collectionId, articleId) ?? emptyWorkshop2DossierPhase1();
@@ -2814,7 +2907,9 @@ export function Workshop2Phase1DossierPanel({
   useEffect(() => {
     if (typeof window === 'undefined') return;
     try {
-      setBranchLevelsDetailsOpen(localStorage.getItem(WORKSHOP_BRANCH_LEVELS_DETAILS_LS_KEY) === '1');
+      setBranchLevelsDetailsOpen(
+        localStorage.getItem(WORKSHOP_BRANCH_LEVELS_DETAILS_LS_KEY) === '1'
+      );
     } catch {
       /* ignore */
     }
@@ -2831,8 +2926,9 @@ export function Workshop2Phase1DossierPanel({
 
   const sketchWorkspaceStats = useMemo(() => {
     const leafId = currentLeaf.leafId;
-    const masterPins =
-      (dossier.categorySketchAnnotations ?? []).filter((a) => a.categoryLeafId === leafId).length;
+    const masterPins = (dossier.categorySketchAnnotations ?? []).filter(
+      (a) => a.categoryLeafId === leafId
+    ).length;
     const sh = normalizeSketchSheets(dossier.sketchSheets);
     const sheetCount = sh.length;
     const sheetPins = sh.reduce(
@@ -2846,7 +2942,12 @@ export function Workshop2Phase1DossierPanel({
       0
     );
     return { masterPins, sheetCount, sheetPins, sheetsWithImage, sublevelPins };
-  }, [currentLeaf.leafId, dossier.categorySketchAnnotations, dossier.sketchSheets, dossier.subcategorySketchSlots]);
+  }, [
+    currentLeaf.leafId,
+    dossier.categorySketchAnnotations,
+    dossier.sketchSheets,
+    dossier.subcategorySketchSlots,
+  ]);
 
   const passportCriticalAuditSummaries = useMemo(() => {
     const acc: string[] = [];
@@ -2856,7 +2957,10 @@ export function Workshop2Phase1DossierPanel({
     return [...new Set(filterPassportCriticalAuditLines(acc))];
   }, [dossier.tzActionLog]);
 
-  const dvCaps = useMemo(() => workshop2DossierViewUiCaps(dossierViewProfile), [dossierViewProfile]);
+  const dvCaps = useMemo(
+    () => workshop2DossierViewUiCaps(dossierViewProfile),
+    [dossierViewProfile]
+  );
   const showMaterialComplianceNav = dvCaps.materialComplianceStrip;
   const showMaterialBomNormsNav = dvCaps.materialBomNormsStrip;
   const showMaterialSupplyRouteNav = dvCaps.materialSupplyRouteStrip;
@@ -2880,7 +2984,9 @@ export function Workshop2Phase1DossierPanel({
 
   const sketchPinLinkAudit = useMemo(() => {
     const leafId = currentLeaf.leafId;
-    const master = (dossier.categorySketchAnnotations ?? []).filter((a) => a.categoryLeafId === leafId);
+    const master = (dossier.categorySketchAnnotations ?? []).filter(
+      (a) => a.categoryLeafId === leafId
+    );
     const sh = normalizeSketchSheets(dossier.sketchSheets);
     const sheetPins = sh.flatMap((s) => s.annotations.filter((a) => a.categoryLeafId === leafId));
     const pins = [...master, ...sheetPins];
@@ -2943,7 +3049,9 @@ export function Workshop2Phase1DossierPanel({
 
   const selectedAudienceId =
     dossier.selectedAudienceId ??
-    (audiences.some((a) => a.id === currentLeaf.audienceId) ? currentLeaf.audienceId : audiences[0]?.id ?? currentLeaf.audienceId);
+    (audiences.some((a) => a.id === currentLeaf.audienceId)
+      ? currentLeaf.audienceId
+      : (audiences[0]?.id ?? currentLeaf.audienceId));
   const effectiveAudienceId = useMemo(
     () => resolveWorkshop2EffectiveAudienceId(leaves, selectedAudienceId),
     [leaves, selectedAudienceId]
@@ -2997,7 +3105,8 @@ export function Workshop2Phase1DossierPanel({
       baseRowsPhase2.filter((r) => {
         const id = r.attribute.attributeId;
         if (linkedMatCompositionPhase2 && id === 'composition') return false;
-        if (linkedMatCompositionPhase2 && REDUNDANT_WHEN_MAT_COMPOSITION_LINKED.has(id)) return false;
+        if (linkedMatCompositionPhase2 && REDUNDANT_WHEN_MAT_COMPOSITION_LINKED.has(id))
+          return false;
         return true;
       }),
     [baseRowsPhase2, linkedMatCompositionPhase2]
@@ -3008,7 +3117,8 @@ export function Workshop2Phase1DossierPanel({
       baseRowsPhase3.filter((r) => {
         const id = r.attribute.attributeId;
         if (linkedMatCompositionPhase3 && id === 'composition') return false;
-        if (linkedMatCompositionPhase3 && REDUNDANT_WHEN_MAT_COMPOSITION_LINKED.has(id)) return false;
+        if (linkedMatCompositionPhase3 && REDUNDANT_WHEN_MAT_COMPOSITION_LINKED.has(id))
+          return false;
         return true;
       }),
     [baseRowsPhase3, linkedMatCompositionPhase3]
@@ -3024,10 +3134,7 @@ export function Workshop2Phase1DossierPanel({
     return out;
   }, [dossier.assignments, baseRows]);
 
-  const extraIds = useMemo(
-    () => [...new Set(inferredExtras)],
-    [inferredExtras]
-  );
+  const extraIds = useMemo(() => [...new Set(inferredExtras)], [inferredExtras]);
 
   const baseAttributeIdSet = useMemo(
     () => new Set(baseRows.map((r) => r.attribute.attributeId)),
@@ -3207,7 +3314,9 @@ export function Workshop2Phase1DossierPanel({
       const scale = prev.sampleSizeScaleId ?? defaultSizeScaleIdForLeaf(currentLeaf);
       const params = resolveSampleBaseSizeParametersForLeaf(attr, currentLeaf, scale);
       const allow = new Set(params.map((p) => p.parameterId));
-      const a = prev.assignments.find((x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize');
+      const a = prev.assignments.find(
+        (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
+      );
       if (!a) return prev;
       const { hbs, ft } = partitionHandbookAndFree(a);
       if (!hbs.length) return prev;
@@ -3219,9 +3328,7 @@ export function Workshop2Phase1DossierPanel({
       }));
       const cap = prev.passportProductionBrief?.moqTargetMaxPieces;
       const capped =
-        cap != null && Number.isFinite(cap) && cap >= 0
-          ? parts.slice(0, Math.floor(cap))
-          : parts;
+        cap != null && Number.isFinite(cap) && cap >= 0 ? parts.slice(0, Math.floor(cap)) : parts;
       return syncSampleBaseSizePartsAndPruneDims(prev, capped, ft?.text ?? '');
     });
   }, [currentLeaf.leafId, tzWriteDisabled]);
@@ -3235,7 +3342,9 @@ export function Workshop2Phase1DossierPanel({
     setDossierInternal((prev: Workshop2DossierPhase1) => {
       const allowed = resolveEffectiveParametersForLeaf(attr, currentLeaf);
       const allowSet = new Set(allowed.map((p) => p.parameterId));
-      const a = prev.assignments.find((x) => x.kind === 'canonical' && x.attributeId === 'bag-type');
+      const a = prev.assignments.find(
+        (x) => x.kind === 'canonical' && x.attributeId === 'bag-type'
+      );
       const { hbs, ft } = partitionHandbookAndFree(a);
       const ftText = ft?.text ?? '';
       if (hbs.length) {
@@ -3247,16 +3356,29 @@ export function Workshop2Phase1DossierPanel({
       }
       if (allowed.length === 1) {
         const p = allowed[0]!;
-        return upsertCanonicalDual(prev, 'bag-type', { parameterId: p.parameterId, displayLabel: p.label }, ftText);
+        return upsertCanonicalDual(
+          prev,
+          'bag-type',
+          { parameterId: p.parameterId, displayLabel: p.label },
+          ftText
+        );
       }
       return prev;
     });
-  }, [currentLeaf.leafId, currentLeaf.l1Name, currentLeaf.l2Name, currentLeaf.l3Name, tzWriteDisabled]);
+  }, [
+    currentLeaf.leafId,
+    currentLeaf.l1Name,
+    currentLeaf.l2Name,
+    currentLeaf.l3Name,
+    tzWriteDisabled,
+  ]);
 
   const matRequiredUnset = useMemo(() => {
     if (!isPhase1) return false;
     if (!leafPhase1Ids.includes('mat') || !matAttrDef?.requiredForPhase1) return false;
-    const matAssign = dossier.assignments.find((x) => x.kind === 'canonical' && x.attributeId === 'mat');
+    const matAssign = dossier.assignments.find(
+      (x) => x.kind === 'canonical' && x.attributeId === 'mat'
+    );
     const hbCount =
       matAssign?.values.filter((v) => v.valueSource === 'handbook_parameter').length ?? 0;
     return hbCount === 0;
@@ -3272,12 +3394,18 @@ export function Workshop2Phase1DossierPanel({
     const label = window.prompt('Подпись снимка (необязательно)', '')?.trim();
     setDossier((prev: Workshop2DossierPhase1) => {
       const lid = currentLeaf.leafId;
-      const masterPins = (prev.categorySketchAnnotations ?? []).filter((a) => a.categoryLeafId === lid).length;
+      const masterPins = (prev.categorySketchAnnotations ?? []).filter(
+        (a) => a.categoryLeafId === lid
+      ).length;
       const sheetPinsTotal = normalizeSketchSheets(prev.sketchSheets).reduce(
         (acc, s) => acc + s.annotations.filter((a) => a.categoryLeafId === lid).length,
         0
       );
-      const { dossier: next } = appendSketchLabelSnapshot(prev, updatedByLabel.slice(0, 200), label || undefined);
+      const { dossier: next } = appendSketchLabelSnapshot(
+        prev,
+        updatedByLabel.slice(0, 200),
+        label || undefined
+      );
       return pushTzActionLog(next, updatedByLabel, {
         type: 'sketch_labels_snapshot',
         label: label || undefined,
@@ -3332,7 +3460,10 @@ export function Workshop2Phase1DossierPanel({
         articlePageUrl: typeof window !== 'undefined' ? window.location.href : undefined,
         exportSurface: defaultSketchExportSurfaceForDossierView(dossierViewProfile),
       });
-      toast({ title: 'Скачан PDF', description: 'Паспорт визуала: общий скетч и листы одним файлом.' });
+      toast({
+        title: 'Скачан PDF',
+        description: 'Паспорт визуала: общий скетч и листы одним файлом.',
+      });
     } catch {
       toast({ title: 'Не удалось сформировать PDF', variant: 'destructive' });
     } finally {
@@ -3377,7 +3508,10 @@ export function Workshop2Phase1DossierPanel({
       });
       return;
     }
-    setDossier((p: Workshop2DossierPhase1) => appendSketchPinTemplate(p, { name, sourceLeafId: lid, annotations: anns }).dossier);
+    setDossier(
+      (p: Workshop2DossierPhase1) =>
+        appendSketchPinTemplate(p, { name, sourceLeafId: lid, annotations: anns }).dossier
+    );
     toast({ title: 'Шаблон сохранён', description: name });
   }, [currentLeaf.leafId, dossier.categorySketchAnnotations, setDossier, toast]);
 
@@ -3388,7 +3522,9 @@ export function Workshop2Phase1DossierPanel({
       const org = readOrgSketchPinTemplatesSync(collectionId);
       const t = resolveSketchPinTemplatePick(tid, dossier, org);
       if (!t) return;
-      setDossier((p: Workshop2DossierPhase1) => applySketchPinTemplateToMaster(p, t, currentLeaf.leafId, mode));
+      setDossier((p: Workshop2DossierPhase1) =>
+        applySketchPinTemplateToMaster(p, t, currentLeaf.leafId, mode)
+      );
       toast({
         title: mode === 'merge' ? 'Метки добавлены из шаблона' : 'Метки заменены шаблоном',
         description: t.name,
@@ -3468,7 +3604,9 @@ export function Workshop2Phase1DossierPanel({
     setSaveError(null);
     if (isPhase1) {
       if (leafPhase1Ids.includes('mat') && matAttrDef?.requiredForPhase1) {
-        const matAssign = dossier.assignments.find((x) => x.kind === 'canonical' && x.attributeId === 'mat');
+        const matAssign = dossier.assignments.find(
+          (x) => x.kind === 'canonical' && x.attributeId === 'mat'
+        );
         const hbCount =
           matAssign?.values.filter((v) => v.valueSource === 'handbook_parameter').length ?? 0;
         if (hbCount === 0) {
@@ -3490,7 +3628,9 @@ export function Workshop2Phase1DossierPanel({
     }
     if (isPhase2) {
       if (leafPhase2Ids.includes('mat') && matAttrDef?.requiredForPhase2) {
-        const matAssign = dossier.assignments.find((x) => x.kind === 'canonical' && x.attributeId === 'mat');
+        const matAssign = dossier.assignments.find(
+          (x) => x.kind === 'canonical' && x.attributeId === 'mat'
+        );
         const hbCount =
           matAssign?.values.filter((v) => v.valueSource === 'handbook_parameter').length ?? 0;
         if (hbCount === 0) {
@@ -3545,7 +3685,9 @@ export function Workshop2Phase1DossierPanel({
   const onSetHandbookParameters = useCallback(
     (attributeId: string, parts: { parameterId: string; displayLabel: string }[]) => {
       setDossier((prev: Workshop2DossierPhase1) => {
-        const a = prev.assignments.find((x) => x.kind === 'canonical' && x.attributeId === attributeId);
+        const a = prev.assignments.find(
+          (x) => x.kind === 'canonical' && x.attributeId === attributeId
+        );
         const { ft } = partitionHandbookAndFree(a);
         return upsertCanonicalMultiHandbookAndFree(prev, attributeId, parts, ft?.text ?? '');
       });
@@ -3557,7 +3699,9 @@ export function Workshop2Phase1DossierPanel({
   const onSetHandbookParametersWithColorBundleSync = useCallback(
     (attributeId: string, parts: { parameterId: string; displayLabel: string }[]) => {
       setDossier((prev: Workshop2DossierPhase1) => {
-        const a = prev.assignments.find((x) => x.kind === 'canonical' && x.attributeId === attributeId);
+        const a = prev.assignments.find(
+          (x) => x.kind === 'canonical' && x.attributeId === attributeId
+        );
         const { ft } = partitionHandbookAndFree(a);
         let next = upsertCanonicalMultiHandbookAndFree(prev, attributeId, parts, ft?.text ?? '');
 
@@ -3565,7 +3709,9 @@ export function Workshop2Phase1DossierPanel({
           const colorAttr = getAttributeById('color');
           if (colorAttr) {
             const effColor = resolveEffectiveParametersForLeaf(colorAttr, currentLeaf);
-            const cA = next.assignments.find((x) => x.kind === 'canonical' && x.attributeId === 'color');
+            const cA = next.assignments.find(
+              (x) => x.kind === 'canonical' && x.attributeId === 'color'
+            );
             const { hbs: chb, ft: cFt } = partitionHandbookAndFree(cA);
             if (chb.length === 0) {
               const labels = parts.map((p) => p.displayLabel);
@@ -3589,16 +3735,18 @@ export function Workshop2Phase1DossierPanel({
           const colorAttr = getAttributeById('color');
           if (colorAttr) {
             const effColor = resolveEffectiveParametersForLeaf(colorAttr, currentLeaf);
-            const hx =
-              normalizeCatalogHex(sel?.colorHex) ?? extractHex6(parts[0]!.displayLabel);
+            const hx = normalizeCatalogHex(sel?.colorHex) ?? extractHex6(parts[0]!.displayLabel);
             if (sel?.gradientCss?.trim()) {
               next = upsertCanonicalDual(next, 'color', null, sel.gradientCss.trim());
             } else if (hx) {
-              const match = effColor.find(
-                (ep) => normalizeCatalogHex(ep.colorHex) === hx
-              );
+              const match = effColor.find((ep) => normalizeCatalogHex(ep.colorHex) === hx);
               if (match) {
-                next = upsertCanonicalDual(next, 'color', { parameterId: match.parameterId, displayLabel: match.label }, '');
+                next = upsertCanonicalDual(
+                  next,
+                  'color',
+                  { parameterId: match.parameterId, displayLabel: match.label },
+                  ''
+                );
               } else {
                 next = upsertCanonicalDual(next, 'color', null, hx);
               }
@@ -3633,7 +3781,9 @@ export function Workshop2Phase1DossierPanel({
 
   const onFreeTextSide = useCallback((attributeId: string, text: string) => {
     setDossier((prev: Workshop2DossierPhase1) => {
-      const a = prev.assignments.find((x) => x.kind === 'canonical' && x.attributeId === attributeId);
+      const a = prev.assignments.find(
+        (x) => x.kind === 'canonical' && x.attributeId === attributeId
+      );
       const { hbs } = partitionHandbookAndFree(a);
       const parts = hbs.map((v) => ({
         parameterId: v.parameterId!,
@@ -3686,9 +3836,17 @@ export function Workshop2Phase1DossierPanel({
             l.l2Name === currentLeaf.l2Name &&
             l.l3Name === currentLeaf.l3Name
         ) ?? leaves.find((l) => l.audienceId === effective);
-      if (keepCurrentPath && keepCurrentPath.leafId !== currentLeaf.leafId) applyLeaf(keepCurrentPath.leafId);
+      if (keepCurrentPath && keepCurrentPath.leafId !== currentLeaf.leafId)
+        applyLeaf(keepCurrentPath.leafId);
     },
-    [applyLeaf, currentLeaf.leafId, currentLeaf.l1Name, currentLeaf.l2Name, currentLeaf.l3Name, leaves]
+    [
+      applyLeaf,
+      currentLeaf.leafId,
+      currentLeaf.l1Name,
+      currentLeaf.l2Name,
+      currentLeaf.l3Name,
+      leaves,
+    ]
   );
 
   const onL1Select = useCallback(
@@ -3734,7 +3892,10 @@ export function Workshop2Phase1DossierPanel({
       return;
     }
     setDossier((prev: Workshop2DossierPhase1) =>
-      pushTzActionLog(prev, updatedByLabel, { type: 'dossier_edit', summaries: [`SKU артикула: ${next}`] })
+      pushTzActionLog(prev, updatedByLabel, {
+        type: 'dossier_edit',
+        summaries: [`SKU артикула: ${next}`],
+      })
     );
   }, [articleSku, onPatchArticleLine, skuDraft, updatedByLabel]);
 
@@ -3754,13 +3915,20 @@ export function Workshop2Phase1DossierPanel({
     );
   }, [articleName, onPatchArticleLine, nameDraft, updatedByLabel]);
 
-  const applyMatRows = useCallback((rows: MatPctRow[]) => {
-    setDossier((prev: Workshop2DossierPhase1) => applyMatComposition(prev, rows, linkedMatComposition));
-  }, [linkedMatComposition]);
+  const applyMatRows = useCallback(
+    (rows: MatPctRow[]) => {
+      setDossier((prev: Workshop2DossierPhase1) =>
+        applyMatComposition(prev, rows, linkedMatComposition)
+      );
+    },
+    [linkedMatComposition]
+  );
 
   const applyMatSoloParts = useCallback(
     (parts: { parameterId: string; displayLabel: string }[]) => {
-      setDossier((prev: Workshop2DossierPhase1) => upsertCanonicalHandbookValues(prev, 'mat', parts));
+      setDossier((prev: Workshop2DossierPhase1) =>
+        upsertCanonicalHandbookValues(prev, 'mat', parts)
+      );
     },
     []
   );
@@ -3860,7 +4028,9 @@ export function Workshop2Phase1DossierPanel({
         <div className="space-y-3">
           <TechPackAttachmentsBlock
             attachments={dossier.techPackAttachments ?? []}
-            onChange={(next) => setDossier((p: Workshop2DossierPhase1) => ({ ...p, techPackAttachments: next }))}
+            onChange={(next) =>
+              setDossier((p: Workshop2DossierPhase1) => ({ ...p, techPackAttachments: next }))
+            }
           />
           {editor}
         </div>
@@ -3889,36 +4059,42 @@ export function Workshop2Phase1DossierPanel({
     const hideMaterialFlatGroupCrumb =
       activeSection === 'material' &&
       groupLabel &&
-      (groupLabel === 'Доп. атрибуты' || groupLabel === WORKSHOP_MERGED_OUTERWEAR_MATERIAL_TAB_LABEL);
+      (groupLabel === 'Доп. атрибуты' ||
+        groupLabel === WORKSHOP_MERGED_OUTERWEAR_MATERIAL_TAB_LABEL);
 
     const header = (
       <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0">
         {showRequired ? (
           <span
             className={cn(
-              isMissingRequired ? WORKSHOP_REQUIRED_BADGE_TODO_CLASS : WORKSHOP_REQUIRED_BADGE_DONE_CLASS,
+              isMissingRequired
+                ? WORKSHOP_REQUIRED_BADGE_TODO_CLASS
+                : WORKSHOP_REQUIRED_BADGE_DONE_CLASS,
               isMissingRequired && 'animate-pulse'
             )}
           >
             {isMissingRequired ? 'Заполните' : 'Обязательный'}
           </span>
         ) : null}
-        {frame === 'card' && groupLabel && groupLabel !== 'Паспорт' && !hideMaterialFlatGroupCrumb ? (
+        {frame === 'card' &&
+        groupLabel &&
+        groupLabel !== 'Паспорт' &&
+        !hideMaterialFlatGroupCrumb ? (
           <span
             className={cn(
               'text-[9px] font-semibold uppercase tracking-tight',
               groupLabel && WORKSHOP_GROUP_LABEL_AMBER.has(groupLabel)
                 ? 'text-orange-800'
                 : variant === 'base'
-                  ? 'text-slate-400 font-bold'
-                  : 'text-indigo-400 font-bold'
+                  ? 'font-bold text-slate-400'
+                  : 'font-bold text-indigo-400'
             )}
           >
             {groupLabel}
           </span>
         ) : null}
         <span className="inline-flex items-center gap-0.5">
-        <span className="text-sm font-semibold text-slate-900">{attribute.name}</span>
+          <span className="text-sm font-semibold text-slate-900">{attribute.name}</span>
           {showAttributeNameHintIcon ? <WorkshopAttributeHintIcon attribute={attribute} /> : null}
           {attributeIdsLinkedOnSketch.has(attribute.attributeId) ? (
             <Tooltip>
@@ -3957,9 +4133,11 @@ export function Workshop2Phase1DossierPanel({
         }
         key={attribute.attributeId}
         className={cn(
-          'scroll-mt-24 rounded-lg border p-3 space-y-2 transition-all',
+          'scroll-mt-24 space-y-2 rounded-lg border p-3 transition-all',
           variant === 'base'
-            ? isMissingRequired ? 'border-amber-200 bg-amber-50/30 ring-1 ring-amber-100' : 'border-slate-100 bg-slate-50/40'
+            ? isMissingRequired
+              ? 'border-amber-200 bg-amber-50/30 ring-1 ring-amber-100'
+              : 'border-slate-100 bg-slate-50/40'
             : 'border-indigo-100 bg-indigo-50/20',
           activeSection === 'visuals' &&
             sketchVisualCatalogHighlightSet.has(attribute.attributeId) &&
@@ -3967,8 +4145,10 @@ export function Workshop2Phase1DossierPanel({
         )}
       >
         {header}
-        {attribute.uiInformationHint && !showAttributeNameHintIcon && !suppressCatalogInlineDescriptions ? (
-          <p className="rounded-md border border-slate-100 bg-slate-50/80 py-1.5 px-2 text-[10px] leading-snug text-slate-600">
+        {attribute.uiInformationHint &&
+        !showAttributeNameHintIcon &&
+        !suppressCatalogInlineDescriptions ? (
+          <p className="rounded-md border border-slate-100 bg-slate-50/80 px-2 py-1.5 text-[10px] leading-snug text-slate-600">
             {attribute.uiInformationHint}
           </p>
         ) : null}
@@ -3977,7 +4157,11 @@ export function Workshop2Phase1DossierPanel({
     );
   };
 
-  const renderPhaseRow = (row: ResolvedPhase1AttributeRow, phase: '1' | '2' | '3', showAttributeNameHintIcon = false) => {
+  const renderPhaseRow = (
+    row: ResolvedPhase1AttributeRow,
+    phase: '1' | '2' | '3',
+    showAttributeNameHintIcon = false
+  ) => {
     if (row.attribute.attributeId === 'mat' && matAttrDef && matAttrForLeaf) {
       const linked =
         phase === '1'
@@ -3986,13 +4170,22 @@ export function Workshop2Phase1DossierPanel({
             ? linkedMatCompositionPhase2
             : linkedMatCompositionPhase3;
       const liKey =
-        phase === '1' ? 'mat-composition' : phase === '2' ? 'mat-composition-p2' : 'mat-composition-p3';
-      const matAssign = dossier.assignments.find((x) => x.kind === 'canonical' && x.attributeId === 'mat');
-      const matHbCount = matAssign?.values.filter((v) => v.valueSource === 'handbook_parameter').length ?? 0;
+        phase === '1'
+          ? 'mat-composition'
+          : phase === '2'
+            ? 'mat-composition-p2'
+            : 'mat-composition-p3';
+      const matAssign = dossier.assignments.find(
+        (x) => x.kind === 'canonical' && x.attributeId === 'mat'
+      );
+      const matHbCount =
+        matAssign?.values.filter((v) => v.valueSource === 'handbook_parameter').length ?? 0;
       const matUnset =
         (phase === '1' && matAttrDef.requiredForPhase1 && matHbCount === 0) ||
         (phase === '2' && matAttrDef.requiredForPhase2 && matHbCount === 0);
-      const matShowReq = (phase === '1' && matAttrDef.requiredForPhase1) || (phase === '2' && matAttrDef.requiredForPhase2);
+      const matShowReq =
+        (phase === '1' && matAttrDef.requiredForPhase1) ||
+        (phase === '2' && matAttrDef.requiredForPhase2);
       const matPctState = matCompositionPctState(dossier, matAttrForLeaf, linked);
       const matCompositionSumInvalid = linked && matPctState.invalid;
       const showMaterialIntroAndGuides = activeSection === 'material' && phase === '1';
@@ -4002,10 +4195,11 @@ export function Workshop2Phase1DossierPanel({
           key={liKey}
           id={showMaterialIntroAndGuides ? 'w2-material-required-section' : undefined}
           className={cn(
-            'rounded-lg border border-slate-100 bg-slate-50/40 p-3 space-y-2',
-            showMaterialIntroAndGuides && 'border-indigo-200/90 bg-gradient-to-b from-indigo-50/40 to-slate-50/30 shadow-sm',
+            'space-y-2 rounded-lg border border-slate-100 bg-slate-50/40 p-3',
+            showMaterialIntroAndGuides &&
+              'border-indigo-200/90 bg-gradient-to-b from-indigo-50/40 to-slate-50/30 shadow-sm',
             matCompositionSumInvalid &&
-              'ring-2 ring-amber-400/90 ring-offset-2 ring-offset-slate-50/80 shadow-sm'
+              'shadow-sm ring-2 ring-amber-400/90 ring-offset-2 ring-offset-slate-50/80'
           )}
         >
           {showMaterialIntroAndGuides ? (
@@ -4014,18 +4208,25 @@ export function Workshop2Phase1DossierPanel({
                 <LucideIcons.Layers className="h-5 w-5" aria-hidden />
               </div>
               <div className="min-w-0 space-y-1">
-                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-indigo-600">Раздел к заполнению</p>
+                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-indigo-600">
+                  Раздел к заполнению
+                </p>
                 <h3 className="text-sm font-bold tracking-tight text-slate-900">Материалы</h3>
                 <p className="text-[11px] leading-snug text-slate-600">
-                  Укажите материалы из справочника и доли в составе (при связке с composition — в сумме 100&nbsp;%). Далее
-                  заполните плотность полотна, температурный режим, утепление и уход — данные пойдут в BOM и на фабрику.
+                  Укажите материалы из справочника и доли в составе (при связке с composition — в
+                  сумме 100&nbsp;%). Далее заполните плотность полотна, температурный режим,
+                  утепление и уход — данные пойдут в BOM и на фабрику.
                 </p>
               </div>
             </div>
           ) : null}
           <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0">
             {matShowReq ? (
-              <span className={matUnset ? WORKSHOP_REQUIRED_BADGE_TODO_CLASS : WORKSHOP_REQUIRED_BADGE_DONE_CLASS}>
+              <span
+                className={
+                  matUnset ? WORKSHOP_REQUIRED_BADGE_TODO_CLASS : WORKSHOP_REQUIRED_BADGE_DONE_CLASS
+                }
+              >
                 {matUnset ? 'Заполните' : 'Обязательный'}
               </span>
             ) : null}
@@ -4034,13 +4235,14 @@ export function Workshop2Phase1DossierPanel({
               {showAttributeNameHintIcon ? (
                 <WorkshopInlineHintIcon label="Материал и состав">
                   <p>
-                    Укажите основной материал из справочника. Если включён состав — доли по строкам должны в сумме давать
-                    100%.
+                    Укажите основной материал из справочника. Если включён состав — доли по строкам
+                    должны в сумме давать 100%.
                   </p>
                   {currentLeaf.l2Name === 'Верхняя одежда' ? (
                     <p className="mt-2 border-t border-slate-200 pt-2">
-                      Для верхней одежды разведите shell, подклад, утеплитель и фурнитуру по разным строкам; типовые
-                      составы под категорию — быстрые кнопки ниже, когда список ещё пуст.
+                      Для верхней одежды разведите shell, подклад, утеплитель и фурнитуру по разным
+                      строкам; типовые составы под категорию — быстрые кнопки ниже, когда список ещё
+                      пуст.
                     </p>
                   ) : null}
                 </WorkshopInlineHintIcon>
@@ -4064,7 +4266,14 @@ export function Workshop2Phase1DossierPanel({
         </li>
       );
     }
-    return renderAttributeCard(row.attribute, row.group?.label, 'base', 'card', phase, showAttributeNameHintIcon);
+    return renderAttributeCard(
+      row.attribute,
+      row.group?.label,
+      'base',
+      'card',
+      phase,
+      showAttributeNameHintIcon
+    );
   };
 
   const sketchAttributeOptions = useMemo(
@@ -4080,12 +4289,12 @@ export function Workshop2Phase1DossierPanel({
   const sectionRowsCurrent = phaseRowsCurrent.filter(
     (row) => getSectionForAttr(row.attribute.attributeId, row.group?.groupId) === activeSection
   );
-  const extraRowsCurrent =
-    !isPhase1
-      ? []
-      : extraRows.filter(
-          ({ attribute }) => getSectionForAttr(attribute.attributeId, attribute.groupId) === activeSection
-        );
+  const extraRowsCurrent = !isPhase1
+    ? []
+    : extraRows.filter(
+        ({ attribute }) =>
+          getSectionForAttr(attribute.attributeId, attribute.groupId) === activeSection
+      );
 
   const sketchTechGaps = useMemo(
     () => workshop2SketchTechnologistGaps(dossier, currentLeaf.leafId),
@@ -4095,14 +4304,18 @@ export function Workshop2Phase1DossierPanel({
   const visualsCatalogAttributeIdsForSketch = useMemo(() => {
     const phaseRows = isPhase2 ? rowsToShowPhase2 : isPhase3 ? rowsToShowPhase3 : rowsToShow;
     const base = phaseRows
-      .filter((row) => getSectionForAttr(row.attribute.attributeId, row.group?.groupId) === 'visuals')
+      .filter(
+        (row) => getSectionForAttr(row.attribute.attributeId, row.group?.groupId) === 'visuals'
+      )
       .map((r) => r.attribute.attributeId);
-    const ex =
-      isPhase1
-        ? extraRows
-            .filter(({ attribute }) => getSectionForAttr(attribute.attributeId, attribute.groupId) === 'visuals')
-            .map((e) => e.attribute.attributeId)
-        : [];
+    const ex = isPhase1
+      ? extraRows
+          .filter(
+            ({ attribute }) =>
+              getSectionForAttr(attribute.attributeId, attribute.groupId) === 'visuals'
+          )
+          .map((e) => e.attribute.attributeId)
+      : [];
     return [...new Set([...base, ...ex])];
   }, [isPhase1, isPhase2, isPhase3, extraRows, rowsToShow, rowsToShowPhase2, rowsToShowPhase3]);
 
@@ -4132,7 +4345,12 @@ export function Workshop2Phase1DossierPanel({
         byId.set(x.attributeId, x);
         continue;
       }
-      const mergedPins = [...new Set([...(prev.sketchHighlightForPinTypes ?? []), ...(x.sketchHighlightForPinTypes ?? [])])];
+      const mergedPins = [
+        ...new Set([
+          ...(prev.sketchHighlightForPinTypes ?? []),
+          ...(x.sketchHighlightForPinTypes ?? []),
+        ]),
+      ];
       byId.set(x.attributeId, {
         attributeId: x.attributeId,
         sketchHighlightForPinTypes: mergedPins.length ? mergedPins : undefined,
@@ -4153,18 +4371,20 @@ export function Workshop2Phase1DossierPanel({
     () =>
       isPhase1
         ? extraRows.filter(
-            ({ attribute }) => getSectionForAttr(attribute.attributeId, attribute.groupId) === 'general'
+            ({ attribute }) =>
+              getSectionForAttr(attribute.attributeId, attribute.groupId) === 'general'
           )
         : [],
     [extraRows, isPhase1]
   );
 
-  const { startRows: generalPassportStartRows, preSampleRows: generalPassportPreSampleRows } = useMemo(
-    () => partitionGeneralPassportRows(generalRowsForPassport),
-    [generalRowsForPassport]
-  );
+  const { startRows: generalPassportStartRows, preSampleRows: generalPassportPreSampleRows } =
+    useMemo(() => partitionGeneralPassportRows(generalRowsForPassport), [generalRowsForPassport]);
 
-  const { startExtras: generalPassportStartExtras, preSampleExtras: generalPassportPreSampleExtras } = useMemo(
+  const {
+    startExtras: generalPassportStartExtras,
+    preSampleExtras: generalPassportPreSampleExtras,
+  } = useMemo(
     () => partitionGeneralPassportExtras(generalPassportExtraRows),
     [generalPassportExtraRows]
   );
@@ -4209,16 +4429,25 @@ export function Workshop2Phase1DossierPanel({
     const warnings: string[] = [];
     const hasVisuals = Boolean(
       dossier.categorySketchImageDataUrl ||
-        dossier.categorySketchAnnotations?.length ||
-        dossier.visualReferences?.length ||
-        dossier.brandNotes?.trim()
+      dossier.categorySketchAnnotations?.length ||
+      dossier.visualReferences?.length ||
+      dossier.brandNotes?.trim()
     );
-    if (!hasVisuals) warnings.push('Нет визуального замысла: добавьте основной эскиз, референсы или описание замысла.');
-    if (!dossier.sampleSizeScaleId) warnings.push(`Размерная шкала не выбрана. Для этой категории ожидается ${expectedScaleId}.`);
+    if (!hasVisuals)
+      warnings.push(
+        'Нет визуального замысла: добавьте основной эскиз, референсы или описание замысла.'
+      );
+    if (!dossier.sampleSizeScaleId)
+      warnings.push(`Размерная шкала не выбрана. Для этой категории ожидается ${expectedScaleId}.`);
     if (dossier.sampleSizeScaleId && dossier.sampleSizeScaleId !== expectedScaleId) {
-      warnings.push(`Текущая размерная шкала (${dossier.sampleSizeScaleId}) отличается от ожидаемой по справочнику (${expectedScaleId}).`);
+      warnings.push(
+        `Текущая размерная шкала (${dossier.sampleSizeScaleId}) отличается от ожидаемой по справочнику (${expectedScaleId}).`
+      );
     }
-    if (!dossier.sampleBasePerSizeDimensions || Object.keys(dossier.sampleBasePerSizeDimensions).length === 0) {
+    if (
+      !dossier.sampleBasePerSizeDimensions ||
+      Object.keys(dossier.sampleBasePerSizeDimensions).length === 0
+    ) {
       warnings.push('Табель мер пуст: для передачи в образец нужны размеры и габариты.');
     }
     if (dimensionLabels.length > 0 && dossier.sampleBasePerSizeDimensions) {
@@ -4229,10 +4458,15 @@ export function Workshop2Phase1DossierPanel({
         }
       }
       if (missingDimLabels.size > 0) {
-        warnings.push(`Не заполнены handbook-мерки: ${[...missingDimLabels].slice(0, 4).join(', ')}${missingDimLabels.size > 4 ? '…' : ''}.`);
+        warnings.push(
+          `Не заполнены handbook-мерки: ${[...missingDimLabels].slice(0, 4).join(', ')}${missingDimLabels.size > 4 ? '…' : ''}.`
+        );
       }
     }
-    if (leafPhase1Ids.includes('mat') && !dossier.assignments.some((a) => a.attributeId === 'mat' && a.values.length > 0)) {
+    if (
+      leafPhase1Ids.includes('mat') &&
+      !dossier.assignments.some((a) => a.attributeId === 'mat' && a.values.length > 0)
+    ) {
       warnings.push('Основной материал не подтвержден в ТЗ.');
     }
     const reqD = workshopTzSignoffRequiredForRole(dossier.tzSignatoryBindings, 'designer');
@@ -4243,7 +4477,9 @@ export function Workshop2Phase1DossierPanel({
     if (reqM && !dossier.isVerifiedByManager) warnings.push('Нет цифровой подписи менеджера.');
     for (const ex of workshopTzExtraRowsRequiringTzSignoff(dossier.tzSignatoryBindings)) {
       if (!dossier.extraTzSignoffsByRowId?.[ex.rowId]) {
-        warnings.push(`Нет цифровой подписи для роли «${ex.roleTitle?.trim() || 'Роль'}» (этап ТЗ).`);
+        warnings.push(
+          `Нет цифровой подписи для роли «${ex.roleTitle?.trim() || 'Роль'}» (этап ТЗ).`
+        );
       }
     }
     const cap = dossier.passportProductionBrief?.moqTargetMaxPieces;
@@ -4269,9 +4505,14 @@ export function Workshop2Phase1DossierPanel({
   const sectionReadiness = useMemo(() => {
     const values = Object.fromEntries(
       SECTIONS.map((section) => {
-        const completion = calculateWorkshopTzSectionCompletion(section.id, dossier, phaseRowsCurrent, {
-          tzPhase: currentPhase,
-        });
+        const completion = calculateWorkshopTzSectionCompletion(
+          section.id,
+          dossier,
+          phaseRowsCurrent,
+          {
+            tzPhase: currentPhase,
+          }
+        );
         const status = getWorkshopTzSectionStatusLabel(section.id, dossier, phaseRowsCurrent, {
           tzPhase: currentPhase,
         });
@@ -4347,8 +4588,11 @@ export function Workshop2Phase1DossierPanel({
         : currentPhase === '2'
           ? linkedMatCompositionPhase2
           : linkedMatCompositionPhase3;
-    const matAssign = dossier.assignments.find((x) => x.kind === 'canonical' && x.attributeId === 'mat');
-    const hbCount = matAssign?.values.filter((v) => v.valueSource === 'handbook_parameter').length ?? 0;
+    const matAssign = dossier.assignments.find(
+      (x) => x.kind === 'canonical' && x.attributeId === 'mat'
+    );
+    const hbCount =
+      matAssign?.values.filter((v) => v.valueSource === 'handbook_parameter').length ?? 0;
     let compSum: number | null = null;
     if (linkedMatForPhase) {
       const rows = parseMatRowsFromDossier(dossier, matLabelById);
@@ -4387,7 +4631,9 @@ export function Workshop2Phase1DossierPanel({
   );
 
   const materialBomExportInput = useMemo((): MaterialBomExportInput => {
-    const matAssign = dossier.assignments.find((x) => x.kind === 'canonical' && x.attributeId === 'mat');
+    const matAssign = dossier.assignments.find(
+      (x) => x.kind === 'canonical' && x.attributeId === 'mat'
+    );
     const matLines = (matAssign?.values ?? [])
       .filter((v) => v.valueSource === 'handbook_parameter')
       .map((v) => v.displayLabel.trim())
@@ -4459,7 +4705,10 @@ export function Workshop2Phase1DossierPanel({
   const selectedAudienceLabel =
     audiences.find((audience) => audience.id === selectedAudienceId)?.name ?? selectedAudienceId;
   const reqDesigner = workshopTzSignoffRequiredForRole(dossier.tzSignatoryBindings, 'designer');
-  const reqTechnologist = workshopTzSignoffRequiredForRole(dossier.tzSignatoryBindings, 'technologist');
+  const reqTechnologist = workshopTzSignoffRequiredForRole(
+    dossier.tzSignatoryBindings,
+    'technologist'
+  );
   const reqManager = workshopTzSignoffRequiredForRole(dossier.tzSignatoryBindings, 'manager');
   const extrasReqTzSignoff = workshopTzExtraRowsRequiringTzSignoff(dossier.tzSignatoryBindings);
   const approvalsDone =
@@ -4694,11 +4943,12 @@ export function Workshop2Phase1DossierPanel({
           const cur = { ...(prev.extraTzSignoffsByRowId ?? {}) };
           delete cur[rowId];
           const next = Object.keys(cur).length ? cur : undefined;
-          return pushTzActionLog(
-            { ...prev, extraTzSignoffsByRowId: next },
-            updatedByLabel,
-            { type: 'tz_extra_signoff', rowId, roleTitle: rt, set: false }
-          );
+          return pushTzActionLog({ ...prev, extraTzSignoffsByRowId: next }, updatedByLabel, {
+            type: 'tz_extra_signoff',
+            rowId,
+            roleTitle: rt,
+            set: false,
+          });
         });
       }
     },
@@ -4747,33 +4997,35 @@ export function Workshop2Phase1DossierPanel({
       currentLeaf,
       skuDraft,
       nameDraft,
-    handbookWarnings,
+      handbookWarnings,
       sectionReadiness,
       selectedAudienceLabel,
-    hasAssignmentValue,
+      hasAssignmentValue,
     }),
     [
       dossier,
       currentLeaf,
       skuDraft,
-    nameDraft,
+      nameDraft,
       handbookWarnings,
       sectionReadiness,
-    selectedAudienceLabel,
+      selectedAudienceLabel,
       hasAssignmentValue,
     ]
   );
 
   const runHandbookCheck = useCallback(() => {
-    const aspects = buildSectionControlPoints(activeSection, controlPointsCtx).map(({ label, done }) => ({
-      label,
-      ok: done,
-    }));
+    const aspects = buildSectionControlPoints(activeSection, controlPointsCtx).map(
+      ({ label, done }) => ({
+        label,
+        ok: done,
+      })
+    );
     setHandbookCheckSnapshot(
       buildHandbookCheckSnapshot(
         dossier,
         currentLeaf,
-    skuDraft,
+        skuDraft,
         nameDraft,
         handbookWarnings,
         sectionReadiness,
@@ -4858,14 +5110,19 @@ export function Workshop2Phase1DossierPanel({
       groupedBase[g].push(row);
     }
 
-    const groupedExtras: Record<string, { attribute: AttributeCatalogAttribute; groupLabel: string }[]> = {};
+    const groupedExtras: Record<
+      string,
+      { attribute: AttributeCatalogAttribute; groupLabel: string }[]
+    > = {};
     for (const ex of extras) {
       const g = catalogGroupKeyForExtra(ex);
       if (!groupedExtras[g]) groupedExtras[g] = [];
       groupedExtras[g].push(ex);
     }
 
-    const allGroupNames = Array.from(new Set([...Object.keys(groupedBase), ...Object.keys(groupedExtras)]));
+    const allGroupNames = Array.from(
+      new Set([...Object.keys(groupedBase), ...Object.keys(groupedExtras)])
+    );
 
     return (
       <div className="space-y-3">
@@ -4879,7 +5136,8 @@ export function Workshop2Phase1DossierPanel({
           /** В «Материалы» без подсекций «Доп. атрибуты» / «Верхняя одежда · материалы» — один общий блок сверху. */
           const hideMaterialSubsectionStripe =
             activeSection === 'material' &&
-            (groupName === WORKSHOP_MERGED_OUTERWEAR_MATERIAL_TAB_LABEL || groupName === 'Доп. атрибуты');
+            (groupName === WORKSHOP_MERGED_OUTERWEAR_MATERIAL_TAB_LABEL ||
+              groupName === 'Доп. атрибуты');
           const showGroupHeader =
             !hidePassportCatalogGroupHeader && !flatCatalogGroups && !hideMaterialSubsectionStripe;
           const contentCollapsed = flatCatalogGroups
@@ -4895,7 +5153,7 @@ export function Workshop2Phase1DossierPanel({
                     <span className="h-px min-w-[1rem] flex-1 bg-slate-100" />
                     <span className="shrink-0">{workshopGroupSectionTitle(groupName)}</span>
                     <span className="h-px min-w-[1rem] flex-1 bg-slate-100" />
-            </h3>
+                  </h3>
                   <div className="flex shrink-0 items-center gap-1">
                     <button
                       type="button"
@@ -4914,7 +5172,10 @@ export function Workshop2Phase1DossierPanel({
                       aria-pressed={isPinned}
                       aria-label={isPinned ? 'Открепить группу' : 'Закрепить группу'}
                     >
-                      <LucideIcons.Pin className={cn('h-3.5 w-3.5', isPinned && 'fill-current')} aria-hidden />
+                      <LucideIcons.Pin
+                        className={cn('h-3.5 w-3.5', isPinned && 'fill-current')}
+                        aria-hidden
+                      />
                     </button>
                     <button
                       type="button"
@@ -4945,7 +5206,9 @@ export function Workshop2Phase1DossierPanel({
                         : [];
                     const hasColorBundle = bundleOrdered.length > 0;
                     const restBase = hasColorBundle
-                      ? inGroup.filter((r) => !PASSPORT_COLOR_BUNDLE_IDS.has(r.attribute.attributeId))
+                      ? inGroup.filter(
+                          (r) => !PASSPORT_COLOR_BUNDLE_IDS.has(r.attribute.attributeId)
+                        )
                       : inGroup;
                     return (
                       <>
@@ -4959,7 +5222,8 @@ export function Workshop2Phase1DossierPanel({
                             patchColor={patchColor}
                             showAttributeHintIcons={showAttrHintIcons}
                             onSetHandbookParameters={(id, parts) =>
-                              id === 'primaryColorFamilyOptions' || id === 'colorReferenceSystemOptions'
+                              id === 'primaryColorFamilyOptions' ||
+                              id === 'colorReferenceSystemOptions'
                                 ? onSetHandbookParametersWithColorBundleSync(id, parts)
                                 : onSetHandbookParameters(id, parts)
                             }
@@ -4974,7 +5238,7 @@ export function Workshop2Phase1DossierPanel({
                               <li
                                 key={`${row.attribute.attributeId}-catalog-nav`}
                                 id={opts.materialCatalogAnchorAfterMat}
-                                className="scroll-mt-24 list-none !m-0 !mt-0 !mb-0 !h-0 !min-h-0 overflow-hidden border-0 !p-0"
+                                className="!m-0 !mb-0 !mt-0 !h-0 !min-h-0 scroll-mt-24 list-none overflow-hidden border-0 !p-0"
                                 aria-hidden
                               />
                             ) : null}
@@ -4983,12 +5247,19 @@ export function Workshop2Phase1DossierPanel({
                       </>
                     );
                   })()}
-              {groupedExtras[groupName]?.map(({ attribute, groupLabel }) =>
-                    renderAttributeCard(attribute, groupLabel, 'extra', 'card', phase, showAttrHintIcons)
+                  {groupedExtras[groupName]?.map(({ attribute, groupLabel }) =>
+                    renderAttributeCard(
+                      attribute,
+                      groupLabel,
+                      'extra',
+                      'card',
+                      phase,
+                      showAttrHintIcons
+                    )
+                  )}
+                </ul>
               )}
-            </ul>
-              )}
-          </div>
+            </div>
           );
         })}
       </div>
@@ -4997,14 +5268,19 @@ export function Workshop2Phase1DossierPanel({
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLSelectElement) return;
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement ||
+        e.target instanceof HTMLSelectElement
+      )
+        return;
       if (e.key === 'ArrowRight' && e.altKey) {
         e.preventDefault();
-        const idx = SECTIONS.findIndex(s => s.id === activeSection);
+        const idx = SECTIONS.findIndex((s) => s.id === activeSection);
         if (idx < SECTIONS.length - 1) setActiveSection(SECTIONS[idx + 1]!.id);
       } else if (e.key === 'ArrowLeft' && e.altKey) {
         e.preventDefault();
-        const idx = SECTIONS.findIndex(s => s.id === activeSection);
+        const idx = SECTIONS.findIndex((s) => s.id === activeSection);
         if (idx > 0) setActiveSection(SECTIONS[idx - 1]!.id);
       }
     };
@@ -5022,7 +5298,9 @@ export function Workshop2Phase1DossierPanel({
               onNavigate={(id) => {
                 setActivePassportSubNavId(id);
                 if (typeof document === 'undefined') return;
-                document.getElementById(id)?.scrollIntoView({ behavior: tzScrollBehavior, block: 'start' });
+                document
+                  .getElementById(id)
+                  ?.scrollIntoView({ behavior: tzScrollBehavior, block: 'start' });
               }}
               onJumpToPulse={() => {
                 document.getElementById('w2-dossier-role-pulse')?.scrollIntoView({
@@ -5051,13 +5329,15 @@ export function Workshop2Phase1DossierPanel({
               categoryPathLabel={currentLeaf.pathLabel}
               onNavigate={(id) => {
                 setActivePassportSubNavId(id);
-                document.getElementById(id)?.scrollIntoView({ behavior: tzScrollBehavior, block: 'start' });
+                document
+                  .getElementById(id)
+                  ?.scrollIntoView({ behavior: tzScrollBehavior, block: 'start' });
               }}
               showPostSignoffDrift={
                 Boolean(
                   dossier.isVerifiedByDesigner ||
-                    dossier.isVerifiedByTechnologist ||
-                    dossier.isVerifiedByManager
+                  dossier.isVerifiedByTechnologist ||
+                  dossier.isVerifiedByManager
                 ) && dossierUpdatedAfterLatestTzSignoff(dossier)
               }
               onLogPostSignoffReminder={appendPassportPostSignoffJournalNote}
@@ -5081,7 +5361,9 @@ export function Workshop2Phase1DossierPanel({
                 <WorkshopNineGapRelatedFooterShell
                   matSketchBomGapRefs={matSketchBomGapRefs}
                   onJumpMaterialHub={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
-                  onJumpSketch={() => jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)}
+                  onJumpSketch={() =>
+                    jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)
+                  }
                   onJumpMaterialMatTable={jumpToMaterialMatTable}
                   onJumpConstructionContour={jumpToConstructionContour}
                   onJumpQcRoute={onNavigateToTab ? jumpToQcArticleSection : undefined}
@@ -5128,7 +5410,9 @@ export function Workshop2Phase1DossierPanel({
                     variant="outline"
                     size="sm"
                     className="h-7 text-[10px]"
-                    onClick={() => jumpToTzSectionAnchor('general', W2_PASSPORT_SUBPAGE_ANCHORS.audit)}
+                    onClick={() =>
+                      jumpToTzSectionAnchor('general', W2_PASSPORT_SUBPAGE_ANCHORS.audit)
+                    }
                   >
                     Аудит
                   </Button>
@@ -5137,7 +5421,9 @@ export function Workshop2Phase1DossierPanel({
                     variant="outline"
                     size="sm"
                     className="h-7 text-[10px]"
-                    onClick={() => jumpToTzSectionAnchor('general', W2_PASSPORT_SUBPAGE_ANCHORS.denseView)}
+                    onClick={() =>
+                      jumpToTzSectionAnchor('general', W2_PASSPORT_SUBPAGE_ANCHORS.denseView)
+                    }
                   >
                     Режим ТЗ · w2view
                   </Button>
@@ -5146,7 +5432,9 @@ export function Workshop2Phase1DossierPanel({
                     variant="outline"
                     size="sm"
                     className="h-7 text-[10px]"
-                    onClick={() => jumpToTzSectionAnchor('general', W2_PASSPORT_SUBPAGE_ANCHORS.readOnly)}
+                    onClick={() =>
+                      jumpToTzSectionAnchor('general', W2_PASSPORT_SUBPAGE_ANCHORS.readOnly)
+                    }
                   >
                     Read-only
                   </Button>
@@ -5157,447 +5445,498 @@ export function Workshop2Phase1DossierPanel({
           </>
           {isPhase1 ? (
             <>
-            <Workshop2PassportAttributeReferenceBlock />
-            <div
-              id="w2-passport-identity"
-              className="scroll-mt-24 space-y-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
-            >
-              <div className="flex flex-wrap items-start justify-between gap-2 pb-1">
-                <div className="flex min-w-0 flex-1 items-start gap-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
-                    <LucideIcons.Fingerprint className="h-4 w-4 shrink-0" aria-hidden />
+              <Workshop2PassportAttributeReferenceBlock />
+              <div
+                id="w2-passport-identity"
+                className="scroll-mt-24 space-y-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
+              >
+                <div className="flex flex-wrap items-start justify-between gap-2 pb-1">
+                  <div className="flex min-w-0 flex-1 items-start gap-3">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
+                      <LucideIcons.Fingerprint className="h-4 w-4 shrink-0" aria-hidden />
+                    </div>
+                    <div className="min-w-0 flex-1 space-y-1">
+                      <h2 className="text-base font-semibold text-slate-900">Паспорт артикула</h2>
+                      <p className="text-xs leading-snug text-slate-500">
+                        <span className="font-medium text-slate-700">Для маршрута SKU:</span>{' '}
+                        опорные поля — аудитория, ветка L1–L3, артикул и название; от них строятся
+                        визуал, материалы, мерки и конструкция. Менять аудиторию или категорию после
+                        заполнения ТЗ стоит осознанно: часть значений справочника может устареть.
+                      </p>
+                    </div>
                   </div>
-                  <div className="min-w-0 flex-1 space-y-1">
-                    <h2 className="text-base font-semibold text-slate-900">Паспорт артикула</h2>
-                    <p className="text-xs leading-snug text-slate-500">
-                      <span className="font-medium text-slate-700">Для маршрута SKU:</span> опорные поля — аудитория,
-                      ветка L1–L3, артикул и название; от них строятся визуал, материалы, мерки и конструкция. Менять
-                      аудиторию или категорию после заполнения ТЗ стоит осознанно: часть значений справочника может
-                      устареть.
-                    </p>
+                  <Workshop2TzSectionRolesPopover section="passport" className="shrink-0" />
+                </div>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  <div className="space-y-1">
+                    <WorkshopLabelWithHint
+                      htmlFor="w2-p1-internal-code"
+                      hint={
+                        <>
+                          <p>
+                            Внутренний порядковый номер артикула в коллекции. Присваивается при
+                            создании строки и дальше не редактируется — удобно для ссылок в
+                            переписке и журналах.
+                          </p>
+                        </>
+                      }
+                    >
+                      Внутренний артикул
+                    </WorkshopLabelWithHint>
+                    <Input
+                      id="w2-p1-internal-code"
+                      readOnly
+                      value={
+                        isWorkshop2InternalArticleCodeValid(internalArticleCode)
+                          ? internalArticleCode
+                          : formatWorkshop2InternalArticleCodePlaceholder()
+                      }
+                      className="h-9 cursor-not-allowed bg-slate-50 font-mono text-sm text-slate-700"
+                      title="Номер присваивается автоматически при создании артикула в коллекции и не меняется"
+                      aria-readonly
+                    />
                   </div>
-                </div>
-                <Workshop2TzSectionRolesPopover section="passport" className="shrink-0" />
-              </div>
-              <div className="grid gap-2 sm:grid-cols-2">
-                <div className="space-y-1">
-                  <WorkshopLabelWithHint
-                    htmlFor="w2-p1-internal-code"
-                    hint={
-                      <>
-                        <p>
-                          Внутренний порядковый номер артикула в коллекции. Присваивается при создании строки и дальше не
-                          редактируется — удобно для ссылок в переписке и журналах.
-                        </p>
-                      </>
-                    }
-                  >
-                    Внутренний артикул
-                  </WorkshopLabelWithHint>
-                  <Input
-                    id="w2-p1-internal-code"
-                    readOnly
-                    value={
-                      isWorkshop2InternalArticleCodeValid(internalArticleCode)
-                        ? internalArticleCode
-                        : formatWorkshop2InternalArticleCodePlaceholder()
-                    }
-                    className="h-9 cursor-not-allowed bg-slate-50 font-mono text-sm text-slate-700"
-                    title="Номер присваивается автоматически при создании артикула в коллекции и не меняется"
-                    aria-readonly
-                  />
-              </div>
-                <div className="space-y-1">
-                  <WorkshopLabelWithHint
-                    htmlFor="w2-p1-sku"
-                    hint={
-                      <>
-                        <p>Публичный код модели: этикетки, заказы, интеграции. Сохраняется при выходе из поля (on blur).</p>
-                        <p className="text-slate-600">Держите SKU стабильным после запуска в производство или обмен данными.</p>
-                      </>
-                    }
-                  >
-                  Артикул (SKU)
-                  </WorkshopLabelWithHint>
-                <Input
-                  id="w2-p1-sku"
-                  value={skuDraft}
-                  onChange={(e) => setSkuDraft(e.target.value)}
-                  onBlur={commitSku}
-                  className="h-9 font-mono text-sm"
-                  spellCheck={false}
-                />
-              </div>
-                <div className="space-y-1">
-                  <WorkshopLabelWithHint
-                    hint={
-                      <>
-                        <p>Сегмент справочника (женская, мужская и т.д.): от него зависят доступные значения атрибутов.</p>
-                        <p className="text-slate-600">Смена аудитории может сузить или расширить списки в других секциях ТЗ.</p>
-                      </>
-                    }
-                  >
-                    Аудитория
-                  </WorkshopLabelWithHint>
-                  <select
-                    className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
-                    value={selectedAudienceId}
-                    onChange={(e) => onAudienceSelect(e.target.value)}
-                  >
-                    {audiences.map((a) => (
-                      <option key={a.id} value={a.id}>
-                        {a.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="space-y-1">
-                  <WorkshopLabelWithHint
-                    hint={
-                      <>
-                        <p>
-                          Раздел верхнего уровня в справочнике (например, «Одежда»). Задаёт базовые правила и набор атрибутов.
-                        </p>
-                      </>
-                    }
+                  <div className="space-y-1">
+                    <WorkshopLabelWithHint
+                      htmlFor="w2-p1-sku"
+                      hint={
+                        <>
+                          <p>
+                            Публичный код модели: этикетки, заказы, интеграции. Сохраняется при
+                            выходе из поля (on blur).
+                          </p>
+                          <p className="text-slate-600">
+                            Держите SKU стабильным после запуска в производство или обмен данными.
+                          </p>
+                        </>
+                      }
+                    >
+                      Артикул (SKU)
+                    </WorkshopLabelWithHint>
+                    <Input
+                      id="w2-p1-sku"
+                      value={skuDraft}
+                      onChange={(e) => setSkuDraft(e.target.value)}
+                      onBlur={commitSku}
+                      className="h-9 font-mono text-sm"
+                      spellCheck={false}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <WorkshopLabelWithHint
+                      hint={
+                        <>
+                          <p>
+                            Сегмент справочника (женская, мужская и т.д.): от него зависят доступные
+                            значения атрибутов.
+                          </p>
+                          <p className="text-slate-600">
+                            Смена аудитории может сузить или расширить списки в других секциях ТЗ.
+                          </p>
+                        </>
+                      }
+                    >
+                      Аудитория
+                    </WorkshopLabelWithHint>
+                    <select
+                      className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
+                      value={selectedAudienceId}
+                      onChange={(e) => onAudienceSelect(e.target.value)}
+                    >
+                      {audiences.map((a) => (
+                        <option key={a.id} value={a.id}>
+                          {a.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="space-y-1">
+                    <WorkshopLabelWithHint
+                      hint={
+                        <>
+                          <p>
+                            Раздел верхнего уровня в справочнике (например, «Одежда»). Задаёт
+                            базовые правила и набор атрибутов.
+                          </p>
+                        </>
+                      }
                     >
                       Раздел каталога (L1)
                     </WorkshopLabelWithHint>
-                  <select
-                    className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
-                    value={currentLeaf.l1Name}
-                    onChange={(e) => onL1Select(e.target.value)}
-                  >
-                    {l1Opts.map((o) => (
-                      <option key={o} value={o}>
-                        {o}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="grid grid-cols-1 gap-2 sm:col-span-2 sm:grid-cols-2">
-                <div className="space-y-1">
-                    <WorkshopLabelWithHint
-                      hint={
-                        <>
-                          <p>Группа внутри раздела (например, «Верхняя одежда»).</p>
-                          <p className="text-slate-600">От неё зависят варианты карточки модели (L3).</p>
-                        </>
-                      }
+                    <select
+                      className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
+                      value={currentLeaf.l1Name}
+                      onChange={(e) => onL1Select(e.target.value)}
                     >
-                      Подтип / группа (L2)
-                    </WorkshopLabelWithHint>
-                  <select
-                    className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
-                    value={currentLeaf.l2Name}
-                    onChange={(e) => onL2Select(e.target.value)}
-                  >
-                    {l2Opts.map((o) => (
-                      <option key={o} value={o}>
-                        {o}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="space-y-1">
-                    <WorkshopLabelWithHint
-                      hint={
-                        <>
-                          <p>Карточка модели в справочнике (например, «Пальто») — соответствует листу артикула.</p>
-                          <p className="text-slate-600">Если для ветки нет L3, в списке может быть один технический вариант.</p>
-                        </>
-                      }
-                    >
-                      Карточка модели в справочнике (L3)
-                    </WorkshopLabelWithHint>
-                  <select
-                    className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
-                    value={currentLeaf.l3Name}
-                    onChange={(e) => onL3Select(e.target.value)}
-                  >
-                    {l3Opts.map((o) => (
-                      <option key={o} value={o}>
-                        {o}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                </div>
-                <div className="space-y-1 sm:col-span-2">
-                  <WorkshopLabelWithHint
-                    htmlFor="w2-p1-desc"
-                    hint={
-                      <>
-                        <p>Человекочитаемое имя для команды: не путать с SKU. Сохраняется при выходе из поля.</p>
-                        <p className="text-slate-600">Используется в заголовках и сводках, пока нет финального маркетингового названия.</p>
-                      </>
-                    }
-                  >
-                    Рабочее название модели
-                  </WorkshopLabelWithHint>
-                  <Input
-                    id="w2-p1-desc"
-                    value={nameDraft}
-                    onChange={(e) => setNameDraft(e.target.value)}
-                    onBlur={commitName}
-                    className="h-9 text-sm"
-                    placeholder="Например: Пальто прямого силуэта с поясом"
-                  />
-                </div>
-                <div
-                  className="flex flex-wrap items-center gap-x-4 gap-y-2 sm:col-span-2"
-                  role="group"
-                  aria-label="Унисекс"
-                >
-                  <WorkshopLabelWithHint
-                    labelClassName="mb-0"
-                    hint={
-                      <>
-                        <p>Флаг паспорта: модель позиционируется как унисекс. Влияет на подсказки и контекст в блоках ТЗ.</p>
-                      </>
-                    }
-                  >
-                    Унисекс
-                  </WorkshopLabelWithHint>
-                  <div className="inline-flex shrink-0 rounded-md border border-slate-200 bg-slate-50/80 p-px">
-                    <button
-                      type="button"
-                      className={cn(
-                        'h-[1.4rem] min-w-[1.8rem] rounded-sm px-1.5 text-[10px] font-medium leading-none transition',
-                        !dossier.isUnisex
-                          ? 'bg-white text-slate-900 shadow-sm'
-                          : 'text-slate-500 hover:text-slate-800'
-                      )}
-                      onClick={() => setDossier((p: Workshop2DossierPhase1) => ({ ...p, isUnisex: false }))}
-                    >
-                      Нет
-                    </button>
-                    <button
-                      type="button"
-                      className={cn(
-                        'h-[1.4rem] min-w-[1.8rem] rounded-sm px-1.5 text-[10px] font-medium leading-none transition',
-                        dossier.isUnisex === true
-                          ? 'bg-white text-slate-900 shadow-sm'
-                          : 'text-slate-500 hover:text-slate-800'
-                      )}
-                      onClick={() => setDossier((p: Workshop2DossierPhase1) => ({ ...p, isUnisex: true }))}
-                    >
-                      Да
-                    </button>
-              </div>
-            </div>
-              </div>
-            </div>
-            <div
-              id="w2-passport-brief"
-              className="scroll-mt-24 space-y-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
-            >
-              <div className="grid gap-2 sm:grid-cols-2">
-                <div className="space-y-1">
-                  <WorkshopLabelWithHint
-                    htmlFor="w2-passport-sample-date"
-                    hint={
-                      <>
-                        <p>Когда ожидается готовность образца или пилотной партии — якорь для планирования и чеклиста.</p>
-                        <p className="text-slate-600">Учитывается в проверках готовности паспорта вместе с другими полями.</p>
-                      </>
-                    }
-                  >
-                    Целевая дата образца / пилота
-                  </WorkshopLabelWithHint>
-                  <Input
-                    id="w2-passport-sample-date"
-                    type="date"
-                    className="h-9 text-sm"
-                    value={dossier.passportProductionBrief?.targetSampleOrPilotDate ?? ''}
-                    onChange={(e) =>
-                      setDossier((p: Workshop2DossierPhase1) => ({
-                        ...p,
-                        passportProductionBrief: {
-                          ...(p.passportProductionBrief ?? {}),
-                          targetSampleOrPilotDate: e.target.value || undefined,
-                        },
-                      }))
-                    }
-                  />
-                </div>
-                <div className="space-y-1">
-                  <WorkshopLabelWithHint
-                    htmlFor="w2-passport-moq-max"
-                    hint={
-                      <>
-                        <p>
-                          Ограничивает, сколько размеров можно отметить в блоке «Базовый размер» → «Выбор из справочника», и
-                          верхнюю границу суммы по колонке «Кол-во, шт» в табеле мерок.
-                        </p>
-                        <p className="text-slate-600">
-                          Пустое поле — без лимита. Если уменьшить число, лишние размеры в справочнике отрежутся, табель и
-                          количества подстроятся.
-                        </p>
-                        <p className="text-slate-600">
-                          Следите, чтобы сумма «Кол-во, шт» по строкам не превышала это значение — иначе появится
-                          предупреждение в досье.
-                        </p>
-                      </>
-                    }
-                  >
-                    Кол-во образцов (размеров из справочника)
-                  </WorkshopLabelWithHint>
-                  <Input
-                    id="w2-passport-moq-max"
-                    type="number"
-                    min={0}
-                    step={1}
-                    className="h-9 text-sm"
-                    placeholder="Без лимита"
-                    value={
-                      dossier.passportProductionBrief?.moqTargetMaxPieces != null
-                        ? String(dossier.passportProductionBrief.moqTargetMaxPieces)
-                        : ''
-                    }
-                    onChange={(e) => {
-                      const raw = e.target.value.trim();
-                      setDossier((p: Workshop2DossierPhase1) => {
-                        const prevBrief = p.passportProductionBrief ?? {};
-                        if (raw === '') {
-                          return {
-                            ...p,
-                            passportProductionBrief: {
-                              ...prevBrief,
-                              moqTargetMaxPieces: undefined,
-                            },
-                          };
+                      {l1Opts.map((o) => (
+                        <option key={o} value={o}>
+                          {o}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="grid grid-cols-1 gap-2 sm:col-span-2 sm:grid-cols-2">
+                    <div className="space-y-1">
+                      <WorkshopLabelWithHint
+                        hint={
+                          <>
+                            <p>Группа внутри раздела (например, «Верхняя одежда»).</p>
+                            <p className="text-slate-600">
+                              От неё зависят варианты карточки модели (L3).
+                            </p>
+                          </>
                         }
-                        const num = Math.max(0, Math.floor(Number(raw)));
-                        if (!Number.isFinite(num)) return p;
-                        let next: Workshop2DossierPhase1 = {
+                      >
+                        Подтип / группа (L2)
+                      </WorkshopLabelWithHint>
+                      <select
+                        className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
+                        value={currentLeaf.l2Name}
+                        onChange={(e) => onL2Select(e.target.value)}
+                      >
+                        {l2Opts.map((o) => (
+                          <option key={o} value={o}>
+                            {o}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="space-y-1">
+                      <WorkshopLabelWithHint
+                        hint={
+                          <>
+                            <p>
+                              Карточка модели в справочнике (например, «Пальто») — соответствует
+                              листу артикула.
+                            </p>
+                            <p className="text-slate-600">
+                              Если для ветки нет L3, в списке может быть один технический вариант.
+                            </p>
+                          </>
+                        }
+                      >
+                        Карточка модели в справочнике (L3)
+                      </WorkshopLabelWithHint>
+                      <select
+                        className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
+                        value={currentLeaf.l3Name}
+                        onChange={(e) => onL3Select(e.target.value)}
+                      >
+                        {l3Opts.map((o) => (
+                          <option key={o} value={o}>
+                            {o}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="space-y-1 sm:col-span-2">
+                    <WorkshopLabelWithHint
+                      htmlFor="w2-p1-desc"
+                      hint={
+                        <>
+                          <p>
+                            Человекочитаемое имя для команды: не путать с SKU. Сохраняется при
+                            выходе из поля.
+                          </p>
+                          <p className="text-slate-600">
+                            Используется в заголовках и сводках, пока нет финального маркетингового
+                            названия.
+                          </p>
+                        </>
+                      }
+                    >
+                      Рабочее название модели
+                    </WorkshopLabelWithHint>
+                    <Input
+                      id="w2-p1-desc"
+                      value={nameDraft}
+                      onChange={(e) => setNameDraft(e.target.value)}
+                      onBlur={commitName}
+                      className="h-9 text-sm"
+                      placeholder="Например: Пальто прямого силуэта с поясом"
+                    />
+                  </div>
+                  <div
+                    className="flex flex-wrap items-center gap-x-4 gap-y-2 sm:col-span-2"
+                    role="group"
+                    aria-label="Унисекс"
+                  >
+                    <WorkshopLabelWithHint
+                      labelClassName="mb-0"
+                      hint={
+                        <>
+                          <p>
+                            Флаг паспорта: модель позиционируется как унисекс. Влияет на подсказки и
+                            контекст в блоках ТЗ.
+                          </p>
+                        </>
+                      }
+                    >
+                      Унисекс
+                    </WorkshopLabelWithHint>
+                    <div className="inline-flex shrink-0 rounded-md border border-slate-200 bg-slate-50/80 p-px">
+                      <button
+                        type="button"
+                        className={cn(
+                          'h-[1.4rem] min-w-[1.8rem] rounded-sm px-1.5 text-[10px] font-medium leading-none transition',
+                          !dossier.isUnisex
+                            ? 'bg-white text-slate-900 shadow-sm'
+                            : 'text-slate-500 hover:text-slate-800'
+                        )}
+                        onClick={() =>
+                          setDossier((p: Workshop2DossierPhase1) => ({ ...p, isUnisex: false }))
+                        }
+                      >
+                        Нет
+                      </button>
+                      <button
+                        type="button"
+                        className={cn(
+                          'h-[1.4rem] min-w-[1.8rem] rounded-sm px-1.5 text-[10px] font-medium leading-none transition',
+                          dossier.isUnisex === true
+                            ? 'bg-white text-slate-900 shadow-sm'
+                            : 'text-slate-500 hover:text-slate-800'
+                        )}
+                        onClick={() =>
+                          setDossier((p: Workshop2DossierPhase1) => ({ ...p, isUnisex: true }))
+                        }
+                      >
+                        Да
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                id="w2-passport-brief"
+                className="scroll-mt-24 space-y-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
+              >
+                <div className="grid gap-2 sm:grid-cols-2">
+                  <div className="space-y-1">
+                    <WorkshopLabelWithHint
+                      htmlFor="w2-passport-sample-date"
+                      hint={
+                        <>
+                          <p>
+                            Когда ожидается готовность образца или пилотной партии — якорь для
+                            планирования и чеклиста.
+                          </p>
+                          <p className="text-slate-600">
+                            Учитывается в проверках готовности паспорта вместе с другими полями.
+                          </p>
+                        </>
+                      }
+                    >
+                      Целевая дата образца / пилота
+                    </WorkshopLabelWithHint>
+                    <Input
+                      id="w2-passport-sample-date"
+                      type="date"
+                      className="h-9 text-sm"
+                      value={dossier.passportProductionBrief?.targetSampleOrPilotDate ?? ''}
+                      onChange={(e) =>
+                        setDossier((p: Workshop2DossierPhase1) => ({
                           ...p,
-                          passportProductionBrief: { ...prevBrief, moqTargetMaxPieces: num },
-                        };
-                        const sa = next.assignments.find(
-                          (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
-                        );
-                        const { hbs, ft } = partitionHandbookAndFree(sa);
-                        if (hbs.length > num) {
-                          const parts = hbs.slice(0, num).map((v) => ({
-                            parameterId: v.parameterId!,
-                            displayLabel: v.displayLabel ?? '',
-                          }));
-                          next = syncSampleBaseSizePartsAndPruneDims(next, parts, ft?.text ?? '');
-                        }
-                        return {
-                          ...next,
                           passportProductionBrief: {
-                            ...(next.passportProductionBrief ?? {}),
-                            moqTargetMaxPieces: num,
+                            ...(p.passportProductionBrief ?? {}),
+                            targetSampleOrPilotDate: e.target.value || undefined,
                           },
-                          sampleBasePerSizePieceQty: clampSampleBasePieceQtyToCap(
-                            next.sampleBasePerSizePieceQty,
-                            num
-                          ),
-                        };
-                      });
-                    }}
-                  />
-                </div>
-                <div className="space-y-1">
-                  <WorkshopLabelWithHint
-                    htmlFor="w2-passport-deadline-crit"
-                    hint={
-                      <>
-                        <p>
-                          «Жёсткий дедлайн» — срок нельзя сдвигать без согласования; «Гибкий ориентир» — допустимы корректировки.
-                        </p>
-                        <p className="text-slate-600">«Пока не определено» оставляет статус открытым до уточнения с брендом.</p>
-                      </>
-                    }
-                  >
-                    Критичность срока
-                  </WorkshopLabelWithHint>
-                  <select
-                    id="w2-passport-deadline-crit"
-                    className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
-                    value={dossier.passportProductionBrief?.deadlineCriticality ?? 'tbd'}
-                    onChange={(e) =>
-                      setDossier((p: Workshop2DossierPhase1) => ({
-                        ...p,
-                        passportProductionBrief: {
-                          ...(p.passportProductionBrief ?? {}),
-                          deadlineCriticality: e.target.value as Workshop2PassportDeadlineCriticality,
-                        },
-                      }))
-                    }
-                  >
-                    <option value="tbd">Пока не определено</option>
-                    <option value="hard">Жёсткий дедлайн</option>
-                    <option value="flexible">Гибкий ориентир</option>
-                  </select>
-                </div>
-                <div className="space-y-1">
-                  <WorkshopLabelWithHint
-                    htmlFor="w2-passport-launch"
-                    hint={
-                      <>
-                        <p>Где планируется шить: свой цех, КНП/подряд или смешанная схема — подсказка для маршрута и снабжения.</p>
-                        <p className="text-slate-600">Не определяет юридическую форму; при смене стратегии обновите значение.</p>
-                      </>
-                    }
-                  >
-                    Планируемый тип запуска
-                  </WorkshopLabelWithHint>
-                  <select
-                    id="w2-passport-launch"
-                    className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
-                    value={dossier.passportProductionBrief?.plannedLaunchType ?? 'undecided'}
-                    onChange={(e) =>
-                      setDossier((p: Workshop2DossierPhase1) => ({
-                        ...p,
-                        passportProductionBrief: {
-                          ...(p.passportProductionBrief ?? {}),
-                          plannedLaunchType: e.target.value as Workshop2PassportPlannedLaunchType,
-                        },
-                      }))
-                    }
-                  >
-                    <option value="undecided">Ещё не решено</option>
-                    <option value="own_floor">Своё производство</option>
-                    <option value="cmt">КНП / подряд</option>
-                    <option value="mixed">Смешанный</option>
-                  </select>
-                </div>
-                <div className="space-y-1 sm:col-span-2">
-                  <WorkshopLabelWithHint
-                    htmlFor="w2-passport-sewing-region"
-                    hint={
-                      <>
-                        <p>
-                          Свободный текст: где планируется пошив (регион, цех, КНП). Нужен для внутреннего планирования, не
-                          дублирует страну происхождения товара в комплаенсе.
-                        </p>
-                        <p className="text-slate-600">После фиксации фабрики уточните финальные поля в соответствующих шагах ТЗ.</p>
-                      </>
-                    }
-                  >
-                    Регион / контур пошива (план)
-                  </WorkshopLabelWithHint>
-                  <Textarea
-                    id="w2-passport-sewing-region"
-                    className="min-h-[56px] text-sm"
-                    placeholder="Например: Московская область, собственный цех; или Киргизия КНП — без смешения со страной происхождения товара в комплаенсе."
-                    value={dossier.passportProductionBrief?.sewingRegionPlanNote ?? ''}
-                    onChange={(e) =>
-                      setDossier((p: Workshop2DossierPhase1) => ({
-                        ...p,
-                        passportProductionBrief: {
-                          ...(p.passportProductionBrief ?? {}),
-                          sewingRegionPlanNote: e.target.value || undefined,
-                        },
-                      }))
-                    }
-                  />
+                        }))
+                      }
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <WorkshopLabelWithHint
+                      htmlFor="w2-passport-moq-max"
+                      hint={
+                        <>
+                          <p>
+                            Ограничивает, сколько размеров можно отметить в блоке «Базовый размер» →
+                            «Выбор из справочника», и верхнюю границу суммы по колонке «Кол-во, шт»
+                            в табеле мерок.
+                          </p>
+                          <p className="text-slate-600">
+                            Пустое поле — без лимита. Если уменьшить число, лишние размеры в
+                            справочнике отрежутся, табель и количества подстроятся.
+                          </p>
+                          <p className="text-slate-600">
+                            Следите, чтобы сумма «Кол-во, шт» по строкам не превышала это значение —
+                            иначе появится предупреждение в досье.
+                          </p>
+                        </>
+                      }
+                    >
+                      Кол-во образцов (размеров из справочника)
+                    </WorkshopLabelWithHint>
+                    <Input
+                      id="w2-passport-moq-max"
+                      type="number"
+                      min={0}
+                      step={1}
+                      className="h-9 text-sm"
+                      placeholder="Без лимита"
+                      value={
+                        dossier.passportProductionBrief?.moqTargetMaxPieces != null
+                          ? String(dossier.passportProductionBrief.moqTargetMaxPieces)
+                          : ''
+                      }
+                      onChange={(e) => {
+                        const raw = e.target.value.trim();
+                        setDossier((p: Workshop2DossierPhase1) => {
+                          const prevBrief = p.passportProductionBrief ?? {};
+                          if (raw === '') {
+                            return {
+                              ...p,
+                              passportProductionBrief: {
+                                ...prevBrief,
+                                moqTargetMaxPieces: undefined,
+                              },
+                            };
+                          }
+                          const num = Math.max(0, Math.floor(Number(raw)));
+                          if (!Number.isFinite(num)) return p;
+                          let next: Workshop2DossierPhase1 = {
+                            ...p,
+                            passportProductionBrief: { ...prevBrief, moqTargetMaxPieces: num },
+                          };
+                          const sa = next.assignments.find(
+                            (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
+                          );
+                          const { hbs, ft } = partitionHandbookAndFree(sa);
+                          if (hbs.length > num) {
+                            const parts = hbs.slice(0, num).map((v) => ({
+                              parameterId: v.parameterId!,
+                              displayLabel: v.displayLabel ?? '',
+                            }));
+                            next = syncSampleBaseSizePartsAndPruneDims(next, parts, ft?.text ?? '');
+                          }
+                          return {
+                            ...next,
+                            passportProductionBrief: {
+                              ...(next.passportProductionBrief ?? {}),
+                              moqTargetMaxPieces: num,
+                            },
+                            sampleBasePerSizePieceQty: clampSampleBasePieceQtyToCap(
+                              next.sampleBasePerSizePieceQty,
+                              num
+                            ),
+                          };
+                        });
+                      }}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <WorkshopLabelWithHint
+                      htmlFor="w2-passport-deadline-crit"
+                      hint={
+                        <>
+                          <p>
+                            «Жёсткий дедлайн» — срок нельзя сдвигать без согласования; «Гибкий
+                            ориентир» — допустимы корректировки.
+                          </p>
+                          <p className="text-slate-600">
+                            «Пока не определено» оставляет статус открытым до уточнения с брендом.
+                          </p>
+                        </>
+                      }
+                    >
+                      Критичность срока
+                    </WorkshopLabelWithHint>
+                    <select
+                      id="w2-passport-deadline-crit"
+                      className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
+                      value={dossier.passportProductionBrief?.deadlineCriticality ?? 'tbd'}
+                      onChange={(e) =>
+                        setDossier((p: Workshop2DossierPhase1) => ({
+                          ...p,
+                          passportProductionBrief: {
+                            ...(p.passportProductionBrief ?? {}),
+                            deadlineCriticality: e.target
+                              .value as Workshop2PassportDeadlineCriticality,
+                          },
+                        }))
+                      }
+                    >
+                      <option value="tbd">Пока не определено</option>
+                      <option value="hard">Жёсткий дедлайн</option>
+                      <option value="flexible">Гибкий ориентир</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1">
+                    <WorkshopLabelWithHint
+                      htmlFor="w2-passport-launch"
+                      hint={
+                        <>
+                          <p>
+                            Где планируется шить: свой цех, КНП/подряд или смешанная схема —
+                            подсказка для маршрута и снабжения.
+                          </p>
+                          <p className="text-slate-600">
+                            Не определяет юридическую форму; при смене стратегии обновите значение.
+                          </p>
+                        </>
+                      }
+                    >
+                      Планируемый тип запуска
+                    </WorkshopLabelWithHint>
+                    <select
+                      id="w2-passport-launch"
+                      className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
+                      value={dossier.passportProductionBrief?.plannedLaunchType ?? 'undecided'}
+                      onChange={(e) =>
+                        setDossier((p: Workshop2DossierPhase1) => ({
+                          ...p,
+                          passportProductionBrief: {
+                            ...(p.passportProductionBrief ?? {}),
+                            plannedLaunchType: e.target.value as Workshop2PassportPlannedLaunchType,
+                          },
+                        }))
+                      }
+                    >
+                      <option value="undecided">Ещё не решено</option>
+                      <option value="own_floor">Своё производство</option>
+                      <option value="cmt">КНП / подряд</option>
+                      <option value="mixed">Смешанный</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1 sm:col-span-2">
+                    <WorkshopLabelWithHint
+                      htmlFor="w2-passport-sewing-region"
+                      hint={
+                        <>
+                          <p>
+                            Свободный текст: где планируется пошив (регион, цех, КНП). Нужен для
+                            внутреннего планирования, не дублирует страну происхождения товара в
+                            комплаенсе.
+                          </p>
+                          <p className="text-slate-600">
+                            После фиксации фабрики уточните финальные поля в соответствующих шагах
+                            ТЗ.
+                          </p>
+                        </>
+                      }
+                    >
+                      Регион / контур пошива (план)
+                    </WorkshopLabelWithHint>
+                    <Textarea
+                      id="w2-passport-sewing-region"
+                      className="min-h-[56px] text-sm"
+                      placeholder="Например: Московская область, собственный цех; или Киргизия КНП — без смешения со страной происхождения товара в комплаенсе."
+                      value={dossier.passportProductionBrief?.sewingRegionPlanNote ?? ''}
+                      onChange={(e) =>
+                        setDossier((p: Workshop2DossierPhase1) => ({
+                          ...p,
+                          passportProductionBrief: {
+                            ...(p.passportProductionBrief ?? {}),
+                            sewingRegionPlanNote: e.target.value || undefined,
+                          },
+                        }))
+                      }
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
             </>
           ) : (
             <div
@@ -5607,17 +5946,22 @@ export function Workshop2Phase1DossierPanel({
               <p className="flex flex-wrap items-baseline gap-x-1">
                 <span
                   className={
-                    isPhase2 ? 'text-[9px] font-semibold text-orange-800' : 'text-[9px] font-semibold text-slate-600'
+                    isPhase2
+                      ? 'text-[9px] font-semibold text-orange-800'
+                      : 'text-[9px] font-semibold text-slate-600'
                   }
                 >
                   {isPhase2 ? 'Обязательный' : 'ОТК / приёмка'}
                 </span>
-                <span className="text-sm font-semibold text-slate-900">{isPhase2 ? 'Шаг 2' : 'Шаг 3'}</span>
+                <span className="text-sm font-semibold text-slate-900">
+                  {isPhase2 ? 'Шаг 2' : 'Шаг 3'}
+                </span>
               </p>
               <p className="font-mono text-sm font-semibold text-slate-800">{articleSku}</p>
               <p className="text-[10px] leading-snug text-slate-600">{currentLeaf.pathLabel}</p>
               <p className="text-[10px] leading-snug text-slate-500">
-                Полная идентификация и аудитория — на шаге 1 ТЗ; здесь дозаполнение полей паспорта для текущего шага.
+                Полная идентификация и аудитория — на шаге 1 ТЗ; здесь дозаполнение полей паспорта
+                для текущего шага.
               </p>
             </div>
           )}
@@ -5634,14 +5978,20 @@ export function Workshop2Phase1DossierPanel({
                   <div className="min-w-0 flex-1 space-y-1">
                     <h2 className="text-base font-semibold text-slate-900">Старт по каталогу</h2>
                     <p className="text-xs leading-snug text-slate-500">
-                      Обязательные поля справочника (сезон, цвет и др.) вне рынка и ТН ВЭД — та же рамка SKU для маршрута,
-                      что визуал и материалы. Заполните до перехода к визуалу и материалам.
+                      Обязательные поля справочника (сезон, цвет и др.) вне рынка и ТН ВЭД — та же
+                      рамка SKU для маршрута, что визуал и материалы. Заполните до перехода к
+                      визуалу и материалам.
                     </p>
                   </div>
                 </div>
-                {renderSectionRows(generalPassportStartRows, currentPhase, generalPassportStartExtras, {
-                  showAttributeNameHintIcons: true,
-                })}
+                {renderSectionRows(
+                  generalPassportStartRows,
+                  currentPhase,
+                  generalPassportStartExtras,
+                  {
+                    showAttributeNameHintIcons: true,
+                  }
+                )}
               </div>
               <div
                 id="w2-passport-market"
@@ -5652,16 +6002,24 @@ export function Workshop2Phase1DossierPanel({
                     <LucideIcons.Globe2 className="h-4 w-4 shrink-0" aria-hidden />
                   </div>
                   <div className="min-w-0 flex-1 space-y-1">
-                    <h2 className="text-base font-semibold text-slate-900">До образца: рынок и коды</h2>
+                    <h2 className="text-base font-semibold text-slate-900">
+                      До образца: рынок и коды
+                    </h2>
                     <p className="text-xs leading-snug text-slate-500">
-                      Поля для РФ и рынка (ТН ВЭД, штрихкод, группа для таможни и др.). Их можно дозаполнить позже, когда
-                      ясны силуэт и материал; на «готово к образцу» этот блок обычно не влияет.
+                      Поля для РФ и рынка (ТН ВЭД, штрихкод, группа для таможни и др.). Их можно
+                      дозаполнить позже, когда ясны силуэт и материал; на «готово к образцу» этот
+                      блок обычно не влияет.
                     </p>
                   </div>
                 </div>
-                {renderSectionRows(generalPassportPreSampleRows, currentPhase, generalPassportPreSampleExtras, {
-                  showAttributeNameHintIcons: true,
-                })}
+                {renderSectionRows(
+                  generalPassportPreSampleRows,
+                  currentPhase,
+                  generalPassportPreSampleExtras,
+                  {
+                    showAttributeNameHintIcons: true,
+                  }
+                )}
               </div>
             </>
           ) : (
@@ -5672,8 +6030,9 @@ export function Workshop2Phase1DossierPanel({
               >
                 <p className="text-sm font-semibold text-slate-900">Бриф до образца</p>
                 <p className="mt-1 text-xs leading-snug text-slate-600">
-                  Ответственный за карточку, тип запуска, целевая дата и критичность срока задаются на шаге 1 ТЗ. Ниже —
-                  поля каталога для шага {currentPhase}; переход к брифу открывает ту же страницу артикула.
+                  Ответственный за карточку, тип запуска, целевая дата и критичность срока задаются
+                  на шаге 1 ТЗ. Ниже — поля каталога для шага {currentPhase}; переход к брифу
+                  открывает ту же страницу артикула.
                 </p>
                 <Button asChild variant="outline" size="sm" className="mt-2 h-8 text-[10px]">
                   <Link href={passportStep1BriefHref}>Шаг 1 ТЗ → блок брифа</Link>
@@ -5690,13 +6049,19 @@ export function Workshop2Phase1DossierPanel({
                   <div className="min-w-0 flex-1 space-y-1">
                     <h2 className="text-base font-semibold text-slate-900">Старт по каталогу</h2>
                     <p className="text-xs leading-snug text-slate-500">
-                      Поля паспорта на шаге {currentPhase} ТЗ; обязательность совпадает с гейтом в хабе выше.
+                      Поля паспорта на шаге {currentPhase} ТЗ; обязательность совпадает с гейтом в
+                      хабе выше.
                     </p>
                   </div>
                 </div>
-                {renderSectionRows(generalPassportStartRows, currentPhase, generalPassportStartExtras, {
-                  showAttributeNameHintIcons: true,
-                })}
+                {renderSectionRows(
+                  generalPassportStartRows,
+                  currentPhase,
+                  generalPassportStartExtras,
+                  {
+                    showAttributeNameHintIcons: true,
+                  }
+                )}
               </div>
               <div
                 id="w2-passport-market"
@@ -5707,15 +6072,22 @@ export function Workshop2Phase1DossierPanel({
                     <LucideIcons.Globe2 className="h-4 w-4 shrink-0" aria-hidden />
                   </div>
                   <div className="min-w-0 flex-1 space-y-1">
-                    <h2 className="text-base font-semibold text-slate-900">До образца: рынок и коды</h2>
+                    <h2 className="text-base font-semibold text-slate-900">
+                      До образца: рынок и коды
+                    </h2>
                     <p className="text-xs leading-snug text-slate-500">
                       Дозаполните по мере приближения к образцу и отгрузке.
                     </p>
                   </div>
                 </div>
-                {renderSectionRows(generalPassportPreSampleRows, currentPhase, generalPassportPreSampleExtras, {
-                  showAttributeNameHintIcons: true,
-                })}
+                {renderSectionRows(
+                  generalPassportPreSampleRows,
+                  currentPhase,
+                  generalPassportPreSampleExtras,
+                  {
+                    showAttributeNameHintIcons: true,
+                  }
+                )}
               </div>
             </>
           )}
@@ -5724,10 +6096,14 @@ export function Workshop2Phase1DossierPanel({
     }
 
     if (activeSection === 'visuals') {
-      const mediaRefIdsForCanon = (dossier.visualReferences ?? []).filter(visualRefIsMediaPreview).map((r) => r.refId);
+      const mediaRefIdsForCanon = (dossier.visualReferences ?? [])
+        .filter(visualRefIsMediaPreview)
+        .map((r) => r.refId);
       const visualGateItemsForSection = buildWorkshop2VisualGateItems(dossier, currentLeaf);
       const hasAssign = (attributeId: string) =>
-        dossier.assignments.some((a) => a.attributeId === attributeId && (a.values?.length ?? 0) > 0);
+        dossier.assignments.some(
+          (a) => a.attributeId === attributeId && (a.values?.length ?? 0) > 0
+        );
       let visualCatalogFieldDone = 0;
       let visualCatalogFieldTotal = 0;
       for (const r of sectionRowsCurrent) {
@@ -5760,7 +6136,9 @@ export function Workshop2Phase1DossierPanel({
           if (typeof document === 'undefined') return;
           window.requestAnimationFrame(() => {
             window.requestAnimationFrame(() => {
-              document.getElementById(id)?.scrollIntoView({ behavior: tzScrollBehavior, block: 'start' });
+              document
+                .getElementById(id)
+                ?.scrollIntoView({ behavior: tzScrollBehavior, block: 'start' });
             });
           });
           return;
@@ -5826,7 +6204,9 @@ export function Workshop2Phase1DossierPanel({
                 <WorkshopNineGapRelatedFooterShell
                   matSketchBomGapRefs={matSketchBomGapRefs}
                   onJumpMaterialHub={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
-                  onJumpSketch={() => jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)}
+                  onJumpSketch={() =>
+                    jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)
+                  }
                   onJumpMaterialMatTable={jumpToMaterialMatTable}
                   onJumpConstructionContour={jumpToConstructionContour}
                   onJumpQcRoute={onNavigateToTab ? jumpToQcArticleSection : undefined}
@@ -5846,7 +6226,9 @@ export function Workshop2Phase1DossierPanel({
                     variant="outline"
                     size="sm"
                     className="h-7 text-[10px]"
-                    onClick={() => jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)}
+                    onClick={() =>
+                      jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)
+                    }
                   >
                     Скетч
                   </Button>
@@ -5882,7 +6264,9 @@ export function Workshop2Phase1DossierPanel({
                     variant="outline"
                     size="sm"
                     className="h-7 text-[10px]"
-                    onClick={() => jumpToTzSectionAnchor('visuals', W2_VISUAL_SUBPAGE_ANCHORS.sketchLinkFields)}
+                    onClick={() =>
+                      jumpToTzSectionAnchor('visuals', W2_VISUAL_SUBPAGE_ANCHORS.sketchLinkFields)
+                    }
                   >
                     Связь меток
                   </Button>
@@ -5892,7 +6276,10 @@ export function Workshop2Phase1DossierPanel({
                     size="sm"
                     className="h-7 text-[10px]"
                     onClick={() =>
-                      jumpToTzSectionAnchor('construction', W2_VISUAL_SUBPAGE_ANCHORS.sketchTemplates)
+                      jumpToTzSectionAnchor(
+                        'construction',
+                        W2_VISUAL_SUBPAGE_ANCHORS.sketchTemplates
+                      )
                     }
                   >
                     Шаблоны
@@ -5902,7 +6289,9 @@ export function Workshop2Phase1DossierPanel({
                     variant="outline"
                     size="sm"
                     className="h-7 text-[10px]"
-                    onClick={() => jumpToTzSectionAnchor('visuals', W2_VISUAL_SUBPAGE_ANCHORS.canonVersion)}
+                    onClick={() =>
+                      jumpToTzSectionAnchor('visuals', W2_VISUAL_SUBPAGE_ANCHORS.canonVersion)
+                    }
                   >
                     Канон
                   </Button>
@@ -5911,7 +6300,9 @@ export function Workshop2Phase1DossierPanel({
                     variant="outline"
                     size="sm"
                     className="h-7 text-[10px]"
-                    onClick={() => jumpToTzSectionAnchor('visuals', W2_VISUAL_SUBPAGE_ANCHORS.handoff)}
+                    onClick={() =>
+                      jumpToTzSectionAnchor('visuals', W2_VISUAL_SUBPAGE_ANCHORS.handoff)
+                    }
                   >
                     Handoff
                   </Button>
@@ -5921,7 +6312,10 @@ export function Workshop2Phase1DossierPanel({
                     size="sm"
                     className="h-7 text-[10px]"
                     onClick={() =>
-                      jumpToTzSectionAnchor('visuals', W2_VISUAL_SUBPAGE_ANCHORS.sketchExportSurfaces)
+                      jumpToTzSectionAnchor(
+                        'visuals',
+                        W2_VISUAL_SUBPAGE_ANCHORS.sketchExportSurfaces
+                      )
                     }
                   >
                     Печать / мерч-вид
@@ -5931,7 +6325,10 @@ export function Workshop2Phase1DossierPanel({
               nineGapOnDossierJump={jumpToTzSectionAnchor}
             />
           </div>
-          <div id="w2-visuals-attributes" className="scroll-mt-24 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+          <div
+            id="w2-visuals-attributes"
+            className="scroll-mt-24 rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+          >
             <div className="mb-3 flex items-start gap-3">
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-violet-50 text-violet-600">
                 <LucideIcons.Palette className="h-4 w-4 shrink-0" aria-hidden />
@@ -5939,13 +6336,14 @@ export function Workshop2Phase1DossierPanel({
               <div className="min-w-0 space-y-1">
                 <h2 className="text-base font-semibold text-slate-900">Визуальные оси каталога</h2>
                 <p className="text-sm leading-snug text-slate-600">
-                  <span className="font-medium text-slate-800">SKU · visuals:</span> набор полей листа от категории — здесь, у
-                  референсов; та же ось артикула, что и согласование выше. Редактор скетча — в «Конструкция» → «Табель мер: хаб
-                  ТЗ».
+                  <span className="font-medium text-slate-800">SKU · visuals:</span> набор полей
+                  листа от категории — здесь, у референсов; та же ось артикула, что и согласование
+                  выше. Редактор скетча — в «Конструкция» → «Табель мер: хаб ТЗ».
                 </p>
                 <p className="text-[11px] leading-snug text-slate-500">
-                  Скетч ↔ поля: <span className="font-mono">linkedAttributeId</span> на метке; подсветка по типу метки — матрица
-                  ТЗ + при необходимости <span className="font-mono">sketchHighlightForPinTypes</span> в JSON каталога.
+                  Скетч ↔ поля: <span className="font-mono">linkedAttributeId</span> на метке;
+                  подсветка по типу метки — матрица ТЗ + при необходимости{' '}
+                  <span className="font-mono">sketchHighlightForPinTypes</span> в JSON каталога.
                 </p>
               </div>
             </div>
@@ -5954,18 +6352,24 @@ export function Workshop2Phase1DossierPanel({
             })}
           </div>
           <div id="w2-visuals-refs" className="scroll-mt-24">
-          <VisualReferencesBlock
-            items={dossier.visualReferences ?? []}
-            onChange={(next) => setDossier((p: Workshop2DossierPhase1) => ({ ...p, visualReferences: next }))}
-            currentUserLabel={updatedByLabel}
-            threadAuthorLabel={
-              (dossier.passportProductionBrief?.articleCardOwnerName ?? '').trim() || updatedByLabel
-            }
-            canonicalMainPhotoRefId={dossier.canonicalMainPhotoRefId}
-            onSetCanonicalMainPhoto={(refId) =>
-              setDossier((p: Workshop2DossierPhase1) => ({ ...p, canonicalMainPhotoRefId: refId ?? undefined }))
-            }
-          />
+            <VisualReferencesBlock
+              items={dossier.visualReferences ?? []}
+              onChange={(next) =>
+                setDossier((p: Workshop2DossierPhase1) => ({ ...p, visualReferences: next }))
+              }
+              currentUserLabel={updatedByLabel}
+              threadAuthorLabel={
+                (dossier.passportProductionBrief?.articleCardOwnerName ?? '').trim() ||
+                updatedByLabel
+              }
+              canonicalMainPhotoRefId={dossier.canonicalMainPhotoRefId}
+              onSetCanonicalMainPhoto={(refId) =>
+                setDossier((p: Workshop2DossierPhase1) => ({
+                  ...p,
+                  canonicalMainPhotoRefId: refId ?? undefined,
+                }))
+              }
+            />
           </div>
           <div
             id="w2-visuals-sketch-moved-hint"
@@ -5978,15 +6382,15 @@ export function Workshop2Phase1DossierPanel({
               <div className="min-w-0 flex-1 space-y-1">
                 <p className="text-sm font-semibold text-slate-900">Скетч перенесён в контур ТЗ</p>
                 <p className="text-xs leading-snug text-slate-600">
-                  Редактор меток и листов — в «Конструкция» → разверните «Табель мер: хаб ТЗ» и прокрутите к блоку скетча (тот же
-                  якорь для переходов из материалов и «до 9»).
+                  Редактор меток и листов — в «Конструкция» → разверните «Табель мер: хаб ТЗ» и
+                  прокрутите к блоку скетча (тот же якорь для переходов из материалов и «до 9»).
                 </p>
                 <Button
                   type="button"
                   variant="secondary"
                   size="sm"
                   className="mt-1 h-8 text-[11px]"
-                  onClick={() => jumpToTzSectionAnchor("construction", W2_VISUALS_SKETCH_ANCHOR_ID)}
+                  onClick={() => jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)}
                 >
                   Открыть конструкцию → скетч
                 </Button>
@@ -6005,23 +6409,28 @@ export function Workshop2Phase1DossierPanel({
               <div className="min-w-0 flex-1 space-y-1">
                 <h2 className="text-base font-semibold text-slate-900">Дизайнерский замысел</h2>
                 <p className="text-sm leading-snug text-slate-500">
-                  Зафиксируйте образ для команды: что важно в силуэте, деталях и общем настроении — это подхватят посадка,
-                  производство и ОТК.
+                  Зафиксируйте образ для команды: что важно в силуэте, деталях и общем настроении —
+                  это подхватят посадка, производство и ОТК.
                 </p>
               </div>
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="w2-brand-manifesto" className="sr-only">
                 Текст дизайнерского замысла
-            </Label>
-            <Textarea
-              id="w2-brand-manifesto"
-              className="min-h-[92px] text-sm"
-              placeholder="Какой образ нужно защитить в посадке, производстве и ОТК."
-              value={dossier.brandNotes ?? ''}
-              onChange={(e) => setDossier((prev: Workshop2DossierPhase1) => ({ ...prev, brandNotes: e.target.value }))}
-            />
-          </div>
+              </Label>
+              <Textarea
+                id="w2-brand-manifesto"
+                className="min-h-[92px] text-sm"
+                placeholder="Какой образ нужно защитить в посадке, производстве и ОТК."
+                value={dossier.brandNotes ?? ''}
+                onChange={(e) =>
+                  setDossier((prev: Workshop2DossierPhase1) => ({
+                    ...prev,
+                    brandNotes: e.target.value,
+                  }))
+                }
+              />
+            </div>
             <div className="flex flex-wrap items-center justify-end gap-2 border-t border-slate-100 pt-3">
               <Button
                 type="button"
@@ -6039,13 +6448,16 @@ export function Workshop2Phase1DossierPanel({
 
     if (activeSection === 'material') {
       const l2 = currentLeaf.l2Name;
-      const matHint = l2 === 'Верхняя одежда'
-        ? 'Зафиксируйте основную ткань (shell), подкладку, утеплитель, дублирин и фурнитуру.'
-        : l2 === 'Платья и сарафаны'
-        ? 'Укажите основную ткань, подкладку (если есть) и фурнитуру (молния, пуговицы).'
-        : 'Материальная рамка для передачи в снабжение. Указывайте состав в процентах.';
+      const matHint =
+        l2 === 'Верхняя одежда'
+          ? 'Зафиксируйте основную ткань (shell), подкладку, утеплитель, дублирин и фурнитуру.'
+          : l2 === 'Платья и сарафаны'
+            ? 'Укажите основную ткань, подкладку (если есть) и фурнитуру (молния, пуговицы).'
+            : 'Материальная рамка для передачи в снабжение. Указывайте состав в процентах.';
       const materialMatRows = sectionRowsCurrent.filter((r) => r.attribute.attributeId === 'mat');
-      const materialCatalogRows = sectionRowsCurrent.filter((r) => r.attribute.attributeId !== 'mat');
+      const materialCatalogRows = sectionRowsCurrent.filter(
+        (r) => r.attribute.attributeId !== 'mat'
+      );
       const materialOuterwearUnified = l2 === 'Верхняя одежда';
       const materialUnifiedFieldRows = [...materialMatRows, ...materialCatalogRows];
       const materialFieldsBlocks = materialOuterwearUnified ? (
@@ -6070,7 +6482,9 @@ export function Workshop2Phase1DossierPanel({
         if (typeof document === 'undefined') return;
         window.requestAnimationFrame(() => {
           window.requestAnimationFrame(() => {
-            document.getElementById(id)?.scrollIntoView({ behavior: tzScrollBehavior, block: 'start' });
+            document
+              .getElementById(id)
+              ?.scrollIntoView({ behavior: tzScrollBehavior, block: 'start' });
           });
         });
       };
@@ -6112,7 +6526,8 @@ export function Workshop2Phase1DossierPanel({
               <div className="min-w-0 pr-2">
                 <p className="text-[11px] font-semibold text-amber-950">Материалы и BOM</p>
                 <p className="text-[10px] leading-snug text-slate-600">
-                  Хаб, комплаенс, нормы, mat и поля каталога — ниже блока «Снабжение · дельта · costing»
+                  Хаб, комплаенс, нормы, mat и поля каталога — ниже блока «Снабжение · дельта ·
+                  costing»
                 </p>
               </div>
               <LucideIcons.ChevronsUpDown className="h-4 w-4 shrink-0 text-slate-500" aria-hidden />
@@ -6129,7 +6544,9 @@ export function Workshop2Phase1DossierPanel({
                   onNavigate={scrollMaterialAnchor}
                   onOpenVisualSketch={openSketchFromMaterialHub}
                   tzWriteDisabled={tzWriteDisabled}
-                  onJumpToPassportSection={() => jumpToTzSectionAnchor('general', 'w2-passport-hub')}
+                  onJumpToPassportSection={() =>
+                    jumpToTzSectionAnchor('general', 'w2-passport-hub')
+                  }
                   onJumpToVisualSection={() => jumpToTzSectionAnchor('visuals', 'w2-visuals-hub')}
                   articleScopedKey={`${collectionId}:${articleId}`}
                   materialComplianceChecklist={dossier.materialComplianceChecklist}
@@ -6190,7 +6607,12 @@ export function Workshop2Phase1DossierPanel({
                         variant="outline"
                         size="sm"
                         className="h-7 text-[10px]"
-                        onClick={() => jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.supplyDrafts)}
+                        onClick={() =>
+                          jumpToTzSectionAnchor(
+                            'material',
+                            W2_MATERIAL_SUBPAGE_ANCHORS.supplyDrafts
+                          )
+                        }
                       >
                         Снабжение · черновики
                       </Button>
@@ -6200,7 +6622,10 @@ export function Workshop2Phase1DossierPanel({
                         size="sm"
                         className="h-7 text-[10px]"
                         onClick={() =>
-                          jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.supplyDraftsDelta)
+                          jumpToTzSectionAnchor(
+                            'material',
+                            W2_MATERIAL_SUBPAGE_ANCHORS.supplyDraftsDelta
+                          )
                         }
                       >
                         Дельта BOM
@@ -6210,7 +6635,12 @@ export function Workshop2Phase1DossierPanel({
                         variant="outline"
                         size="sm"
                         className="h-7 text-[10px]"
-                        onClick={() => jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.factoryExport)}
+                        onClick={() =>
+                          jumpToTzSectionAnchor(
+                            'material',
+                            W2_MATERIAL_SUBPAGE_ANCHORS.factoryExport
+                          )
+                        }
                       >
                         Фабрика CSV
                       </Button>
@@ -6220,7 +6650,10 @@ export function Workshop2Phase1DossierPanel({
                         size="sm"
                         className="h-7 text-[10px]"
                         onClick={() =>
-                          jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.supplyDraftsAlts)
+                          jumpToTzSectionAnchor(
+                            'material',
+                            W2_MATERIAL_SUBPAGE_ANCHORS.supplyDraftsAlts
+                          )
                         }
                       >
                         Альтернативы
@@ -6230,7 +6663,9 @@ export function Workshop2Phase1DossierPanel({
                         variant="outline"
                         size="sm"
                         className="h-7 text-[10px]"
-                        onClick={() => jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.compliance)}
+                        onClick={() =>
+                          jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.compliance)
+                        }
                       >
                         Комплаенс
                       </Button>
@@ -6240,7 +6675,10 @@ export function Workshop2Phase1DossierPanel({
                         size="sm"
                         className="h-7 text-[10px]"
                         onClick={() =>
-                          jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.supplyDraftsCosting)
+                          jumpToTzSectionAnchor(
+                            'material',
+                            W2_MATERIAL_SUBPAGE_ANCHORS.supplyDraftsCosting
+                          )
                         }
                       >
                         Costing
@@ -6250,7 +6688,9 @@ export function Workshop2Phase1DossierPanel({
                         variant="outline"
                         size="sm"
                         className="h-7 text-[10px]"
-                        onClick={() => jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.bomNorms)}
+                        onClick={() =>
+                          jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.bomNorms)
+                        }
                       >
                         Нормы BOM
                       </Button>
@@ -6262,14 +6702,20 @@ export function Workshop2Phase1DossierPanel({
               {dossierViewProfile === 'merch' ? (
                 <Collapsible
                   defaultOpen={false}
-                  className="scroll-mt-4 rounded-lg border border-slate-200 bg-slate-50/40 mx-1 sm:mx-2"
+                  className="mx-1 scroll-mt-4 rounded-lg border border-slate-200 bg-slate-50/40 sm:mx-2"
                 >
-                  <CollapsibleTrigger className="flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-[11px] font-semibold text-slate-800 hover:bg-slate-100/80 rounded-lg">
+                  <CollapsibleTrigger className="flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-[11px] font-semibold text-slate-800 hover:bg-slate-100/80">
                     <span>Полный каталог материалов ТЗ (редактирование атрибутов)</span>
-                    <LucideIcons.ChevronsUpDown className="h-4 w-4 shrink-0 opacity-60" aria-hidden />
+                    <LucideIcons.ChevronsUpDown
+                      className="h-4 w-4 shrink-0 opacity-60"
+                      aria-hidden
+                    />
                   </CollapsibleTrigger>
                   <CollapsibleContent>
-                    <div id="w2-material-fields" className="space-y-4 border-t border-slate-200/80 px-3 pb-3 pt-3">
+                    <div
+                      id="w2-material-fields"
+                      className="space-y-4 border-t border-slate-200/80 px-3 pb-3 pt-3"
+                    >
                       {materialFieldsBlocks}
                     </div>
                   </CollapsibleContent>
@@ -6287,32 +6733,36 @@ export function Workshop2Phase1DossierPanel({
 
     if (activeSection === 'construction') {
       const l2 = currentLeaf.l2Name;
-      const hint = l2 === 'Верхняя одежда'
-        ? 'Ключевое: воротник/лацкан, борт, рукав, подкладка, утеплитель, длина, карманы. Проверьте ТЗ-скетч.'
-        : l2 === 'Платья и сарафаны'
-        ? 'Ключевое: силуэт, вырез, талия, молния/застежка, шлица, длина. Зафиксируйте прилегание.'
-        : l2 === 'Брюки' || l2 === 'Джинсы'
-        ? 'Ключевое: пояс, посадка (слонка), карманы, шаговый шов, низ брючин.'
-        : l2 === 'Рубашки и блузы'
-        ? 'Ключевое: воротник, манжеты, планка, вытачки, тип застежки.'
-        : l2 === 'Юбки'
-        ? 'Ключевое: пояс, силуэт, застежка, длина, шлица.'
-        : l2 === 'Трикотаж'
-        ? 'Ключевое: тип вязки, горловина, манжеты, резинка, плотность полотна.'
-        : 'Конструктив, узлы и технический замысел без устных пояснений.';
+      const hint =
+        l2 === 'Верхняя одежда'
+          ? 'Ключевое: воротник/лацкан, борт, рукав, подкладка, утеплитель, длина, карманы. Проверьте ТЗ-скетч.'
+          : l2 === 'Платья и сарафаны'
+            ? 'Ключевое: силуэт, вырез, талия, молния/застежка, шлица, длина. Зафиксируйте прилегание.'
+            : l2 === 'Брюки' || l2 === 'Джинсы'
+              ? 'Ключевое: пояс, посадка (слонка), карманы, шаговый шов, низ брючин.'
+              : l2 === 'Рубашки и блузы'
+                ? 'Ключевое: воротник, манжеты, планка, вытачки, тип застежки.'
+                : l2 === 'Юбки'
+                  ? 'Ключевое: пояс, силуэт, застежка, длина, шлица.'
+                  : l2 === 'Трикотаж'
+                    ? 'Ключевое: тип вязки, горловина, манжеты, резинка, плотность полотна.'
+                    : 'Конструктив, узлы и технический замысел без устных пояснений.';
       return (
         <div id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.hub} className="scroll-mt-24 space-y-4">
           <div
             id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.contour}
             className="scroll-mt-24 rounded-lg border border-teal-200/85 bg-teal-50/45 px-3 py-2.5 text-[11px] text-teal-950 shadow-sm"
           >
-            <p className="text-[9px] font-black uppercase tracking-wide text-teal-900">Один контур: конструкция · мерки · BOM</p>
+            <p className="text-[9px] font-black uppercase tracking-wide text-teal-900">
+              Один контур: конструкция · мерки · BOM
+            </p>
             <p className="mt-1 leading-snug text-teal-950/90">
-              Слои и длины в узлах должны сходиться с таблицей мерок и строками mat. На этом контуре сходятся интересы
-              дизайна, технолога, снабжения, цеха и ОТК — кнопка «Роли» справа перечисляет, что важно каждой стороне. Технически:
-              готовность секций — <span className="font-mono text-[10px]">sectionReadiness</span>, маппинг групп каталога —{' '}
-              <span className="font-mono text-[10px]">GROUP_TO_DOSSIER_SECTION</span>; mat ↔ метки скетча смотрите в паспорте и
-              визуале.
+              Слои и длины в узлах должны сходиться с таблицей мерок и строками mat. На этом контуре
+              сходятся интересы дизайна, технолога, снабжения, цеха и ОТК — кнопка «Роли» справа
+              перечисляет, что важно каждой стороне. Технически: готовность секций —{' '}
+              <span className="font-mono text-[10px]">sectionReadiness</span>, маппинг групп
+              каталога — <span className="font-mono text-[10px]">GROUP_TO_DOSSIER_SECTION</span>;
+              mat ↔ метки скетча смотрите в паспорте и визуале.
             </p>
             <div className="mt-2 flex flex-wrap gap-1.5">
               <Button
@@ -6361,68 +6811,256 @@ export function Workshop2Phase1DossierPanel({
             {isPhase1 ? (
               <>
                 <div className="flex items-start gap-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
-                  <LucideIcons.Layers className="h-4 w-4 shrink-0" aria-hidden />
-                </div>
-                <div className="min-w-0 flex-1 space-y-1">
-                  <h2 className="text-base font-semibold text-slate-900">Скетчи</h2>
-                  <p className="text-sm leading-snug text-slate-600">
-                    Базовый путь: режим ТЗ/цех → метки на подложке. Расширенные действия — в «Дополнительно».
-                  </p>
-                  <div className="sticky top-2 z-20 mt-3 flex flex-col gap-1.5 rounded-lg border border-slate-200/90 bg-white p-1.5 shadow-sm sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
-                    <div className="flex w-fit max-w-full flex-wrap items-center gap-1 rounded-md border border-slate-200/90 bg-white px-1 py-0.5 shadow-sm">
-                      <SketchViewModeToggle
-                        floor={sketchViewFloor}
-                        onFloorChange={setSketchFloorMode}
-                        lockedToFloor={lockedSketchFloorOnly || tzWriteDisabled}
-                        onCopyFloorLink={copySketchFloorLink}
-                        className="border-0 bg-transparent shadow-none"
-                      />
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
+                    <LucideIcons.Layers className="h-4 w-4 shrink-0" aria-hidden />
+                  </div>
+                  <div className="min-w-0 flex-1 space-y-1">
+                    <h2 className="text-base font-semibold text-slate-900">Скетчи</h2>
+                    <p className="text-sm leading-snug text-slate-600">
+                      Базовый путь: режим ТЗ/цех → метки на подложке. Расширенные действия — в
+                      «Дополнительно».
+                    </p>
+                    <div className="sticky top-2 z-20 mt-3 flex flex-col gap-1.5 rounded-lg border border-slate-200/90 bg-white p-1.5 shadow-sm sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
+                      <div className="flex w-fit max-w-full flex-wrap items-center gap-1 rounded-md border border-slate-200/90 bg-white px-1 py-0.5 shadow-sm">
+                        <SketchViewModeToggle
+                          floor={sketchViewFloor}
+                          onFloorChange={setSketchFloorMode}
+                          lockedToFloor={lockedSketchFloorOnly || tzWriteDisabled}
+                          onCopyFloorLink={copySketchFloorLink}
+                          className="border-0 bg-transparent shadow-none"
+                        />
+                      </div>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="h-7 gap-1 border-slate-200 bg-white px-2 text-[10px] font-medium shadow-none"
+                          >
+                            <LucideIcons.Settings2 className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                            Дополнительно
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="start" className="w-56">
+                          <DropdownMenuItem onClick={() => setSketchPinLibraryOpen(true)}>
+                            <LucideIcons.Library className="mr-2 h-4 w-4" aria-hidden />
+                            Шаблоны и снимки
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={saveSketchLabelsSnapshot}>
+                            <LucideIcons.Camera className="mr-2 h-4 w-4" aria-hidden />
+                            Снимок меток
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            disabled={sketchBundleBusy}
+                            onClick={() => void exportSketchVisualBundleZip()}
+                          >
+                            <LucideIcons.FileArchive className="mr-2 h-4 w-4" aria-hidden />
+                            {sketchBundleBusy ? 'Архив…' : 'ZIP PNG + PDF'}
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                      <div className="flex flex-wrap items-center gap-1 sm:ml-auto">
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              className={cn(
+                                SKETCH_PHASE1_HELP_BUTTON_CLASS,
+                                'max-w-[11rem] text-slate-800'
+                              )}
+                            >
+                              <LucideIcons.CircleHelp
+                                className="h-3.5 w-3.5 shrink-0 text-indigo-600"
+                                aria-hidden
+                              />
+                              <span className="min-w-0">
+                                <span className="block text-[10px] font-semibold leading-tight">
+                                  Панель скетча
+                                </span>
+                                <span className="mt-0.5 block text-[8px] font-normal leading-tight text-slate-500">
+                                  режим, ссылка, шаблоны
+                                </span>
+                              </span>
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent
+                            align="end"
+                            className="max-h-[min(32rem,70vh)] w-[min(calc(100vw-1.5rem),24rem)] overflow-y-auto p-0"
+                            sideOffset={6}
+                          >
+                            <div className="border-b border-slate-100 bg-slate-50/80 px-4 py-3">
+                              <p className="text-sm font-semibold text-slate-900">
+                                Панель над скетчем
+                              </p>
+                              <p className="mt-1 text-xs leading-snug text-slate-600">
+                                Кнопки слева от вкладок «Скетч / Узлы ветки»: режим работы, ссылка
+                                для цеха, библиотека и дополнительные действия.
+                              </p>
+                            </div>
+                            <div className="space-y-4 p-4 text-xs leading-relaxed text-slate-700">
+                              <section>
+                                <p className="font-semibold text-slate-900">Режим · ТЗ</p>
+                                <p className="mt-1 text-slate-600">
+                                  Полное редактирование: ставите и правите метки, приоритеты, этапы,
+                                  связи с задачами по ветке каталога и полями ТЗ. Так готовят
+                                  материалы для согласований и передачи в производство.
+                                </p>
+                              </section>
+                              <section>
+                                <p className="font-semibold text-slate-900">Режим · Цех</p>
+                                <p className="mt-1 text-slate-600">
+                                  Просмотр для линии: крупные номера меток без правок, чтобы открыть
+                                  карточку на планшете или у машины и сразу видеть доску. Не
+                                  заменяет подписи и права в паспорте — только интерфейс скетча.
+                                </p>
+                              </section>
+                              <section>
+                                <p className="font-semibold text-slate-900">Ссылка цеха</p>
+                                <p className="mt-1 text-slate-600">
+                                  Копирует адрес этой страницы с параметром{' '}
+                                  <code className="rounded bg-slate-100 px-1 py-0.5 font-mono text-[10px]">
+                                    ?sketchFloor=1
+                                  </code>
+                                  . Получатель откроет тот же артикул уже в режиме цеха — без
+                                  ручного переключения «ТЗ / Цех».
+                                </p>
+                              </section>
+                              <section>
+                                <p className="font-semibold text-slate-900">Шаблоны и снимки</p>
+                                <p className="mt-1 text-slate-600">
+                                  Библиотека шаблонов меток и эталонных снимков: подставить набор
+                                  точек, сравнить подложку с фото, сохранить свой шаблон в досье или
+                                  в коллекции (если доступно).
+                                </p>
+                              </section>
+                              <section>
+                                <p className="font-semibold text-slate-900">Ещё</p>
+                                <p className="mt-1 text-slate-600">
+                                  Снимок меток в PNG и выгрузка ZIP с картинками и PDF для архива
+                                  или переписки. Библиотека шаблонов — только кнопка «Шаблоны и
+                                  снимки».
+                                </p>
+                              </section>
+                              <section>
+                                <p className="font-semibold text-slate-900">Только цех</p>
+                                <p className="mt-1 text-slate-600">
+                                  Если у роли нет прав на правки, вместо переключателя показывается
+                                  подсказка «Только цех» и остаётся доступна копия ссылки — разметку
+                                  меняют пользователи с доступом к ТЗ.
+                                </p>
+                              </section>
+                            </div>
+                          </PopoverContent>
+                        </Popover>
+                      </div>
                     </div>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          className="h-7 gap-1 border-slate-200 bg-white px-2 text-[10px] font-medium shadow-none"
-                        >
-                          <LucideIcons.Settings2 className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                          Дополнительно
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="start" className="w-56">
-                        <DropdownMenuItem onClick={() => setSketchPinLibraryOpen(true)}>
-                          <LucideIcons.Library className="mr-2 h-4 w-4" aria-hidden />
-                          Шаблоны и снимки
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={saveSketchLabelsSnapshot}>
-                          <LucideIcons.Camera className="mr-2 h-4 w-4" aria-hidden />
-                          Снимок меток
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          disabled={sketchBundleBusy}
-                          onClick={() => void exportSketchVisualBundleZip()}
-                        >
-                          <LucideIcons.FileArchive className="mr-2 h-4 w-4" aria-hidden />
-                          {sketchBundleBusy ? 'Архив…' : 'ZIP PNG + PDF'}
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                    <div className="flex flex-wrap items-center gap-1 sm:ml-auto">
+                  </div>
+                </div>
+                {sketchViewFloor ? (
+                  <p className="rounded-md border border-slate-200 bg-slate-50/90 px-3 py-2 text-[10px] leading-snug text-slate-700">
+                    <span className="font-semibold text-slate-800">Режим цеха:</span> ориентируйтесь
+                    на канон-скетч и эталон подложки на доске. Печать и QR — в «Дополнительно»;
+                    общий пакет для передачи — PDF из пульса или экспорт пакета визуала в блоке
+                    согласования.
+                  </p>
+                ) : sketchTechGaps.pinsWithoutAttrOrBom > 0 ||
+                  sketchTechGaps.criticalPinsWithoutDue > 0 ? (
+                  <div className="rounded-md border border-teal-200 bg-teal-50/85 px-3 py-2 text-[11px] leading-snug text-teal-950">
+                    <p className="font-semibold text-teal-900">Для технолога</p>
+                    <ul className="mt-1 list-disc pl-4">
+                      {sketchTechGaps.pinsWithoutAttrOrBom > 0 ? (
+                        <li>
+                          Меток без привязки к атрибуту или BOM:{' '}
+                          <span className="font-mono font-semibold">
+                            {sketchTechGaps.pinsWithoutAttrOrBom}
+                          </span>
+                        </li>
+                      ) : null}
+                      {sketchTechGaps.criticalPinsWithoutDue > 0 ? (
+                        <li>
+                          Критичных меток без срока:{' '}
+                          <span className="font-mono font-semibold">
+                            {sketchTechGaps.criticalPinsWithoutDue}
+                          </span>
+                        </li>
+                      ) : null}
+                    </ul>
+                  </div>
+                ) : null}
+                <Tabs
+                  value={sketchWorkspaceTab}
+                  onValueChange={(v) => setSketchWorkspaceTab(v as typeof sketchWorkspaceTab)}
+                  className="w-full"
+                >
+                  <div className="mb-2 flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-2">
+                    <TabsList className="grid h-auto min-h-8 w-full min-w-0 flex-1 grid-cols-1 gap-0.5 rounded-lg border border-slate-200 bg-slate-100 p-0.5 sm:grid-cols-2">
+                      <TabsTrigger
+                        value="sketch"
+                        className="min-h-8 justify-center rounded-md px-2 py-1 text-xs font-semibold text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-sm"
+                      >
+                        <span className="flex flex-wrap items-center justify-center gap-1.5">
+                          <span>Скетч</span>
+                          {sketchWorkspaceStats.masterPins > 0 ? (
+                            <Badge
+                              variant="secondary"
+                              className="h-4 min-w-4 border border-slate-200/80 bg-slate-100 px-1 text-[9px] font-bold tabular-nums"
+                              title="Меток на общей доске"
+                            >
+                              {sketchWorkspaceStats.masterPins}
+                            </Badge>
+                          ) : null}
+                          {sketchWorkspaceStats.sheetCount > 0 ? (
+                            <Badge
+                              variant="secondary"
+                              className="h-4 min-w-4 border border-slate-200/80 bg-slate-100 px-1 text-[9px] font-bold tabular-nums"
+                              title="Скетч-листов"
+                            >
+                              {sketchWorkspaceStats.sheetCount}л
+                            </Badge>
+                          ) : null}
+                        </span>
+                      </TabsTrigger>
+                      <TabsTrigger
+                        value="sublevels"
+                        className="min-h-8 justify-center rounded-md px-2 py-1 text-xs font-semibold text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-sm"
+                      >
+                        <span className="flex items-center justify-center gap-2">
+                          Узлы ветки
+                          {sketchWorkspaceStats.sublevelPins > 0 ? (
+                            <Badge
+                              variant="secondary"
+                              className="h-4 min-w-4 border border-slate-200/80 bg-slate-100 px-1 text-[9px] font-bold tabular-nums"
+                            >
+                              {sketchWorkspaceStats.sublevelPins}
+                            </Badge>
+                          ) : null}
+                        </span>
+                      </TabsTrigger>
+                    </TabsList>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
                           type="button"
                           variant="outline"
                           size="sm"
-                          className={cn(SKETCH_PHASE1_HELP_BUTTON_CLASS, 'max-w-[11rem] text-slate-800')}
+                          className={cn(
+                            SKETCH_PHASE1_HELP_BUTTON_CLASS,
+                            'max-w-[11rem] text-slate-800'
+                          )}
                         >
-                          <LucideIcons.CircleHelp className="h-3.5 w-3.5 shrink-0 text-indigo-600" aria-hidden />
+                          <LucideIcons.CircleHelp
+                            className="h-3.5 w-3.5 shrink-0 text-indigo-600"
+                            aria-hidden
+                          />
                           <span className="min-w-0">
-                            <span className="block text-[10px] font-semibold leading-tight">Панель скетча</span>
+                            <span className="block text-[10px] font-semibold leading-tight">
+                              Скетч и узлы ветки
+                            </span>
                             <span className="mt-0.5 block text-[8px] font-normal leading-tight text-slate-500">
-                              режим, ссылка, шаблоны
+                              как устроено
                             </span>
                           </span>
                         </Button>
@@ -6433,469 +7071,811 @@ export function Workshop2Phase1DossierPanel({
                         sideOffset={6}
                       >
                         <div className="border-b border-slate-100 bg-slate-50/80 px-4 py-3">
-                          <p className="text-sm font-semibold text-slate-900">Панель над скетчем</p>
+                          <p className="text-sm font-semibold text-slate-900">
+                            Две зоны: скетч артикула и узлы ветки
+                          </p>
                           <p className="mt-1 text-xs leading-snug text-slate-600">
-                            Кнопки слева от вкладок «Скетч / Узлы ветки»: режим работы, ссылка для цеха,
-                            библиотека и дополнительные действия.
+                            Во вкладке «Скетч» переключатель «Общий / Листы» и кнопка «Создать лист»
+                            — одна модель, разные доски. На основной вкладке бейджи: метки на общей
+                            доске и число листов.
                           </p>
                         </div>
                         <div className="space-y-4 p-4 text-xs leading-relaxed text-slate-700">
                           <section>
-                            <p className="font-semibold text-slate-900">Режим · ТЗ</p>
+                            <p className="font-semibold text-slate-900">Вкладка «Скетч»</p>
                             <p className="mt-1 text-slate-600">
-                              Полное редактирование: ставите и правите метки, приоритеты, этапы, связи с задачами по
-                              ветке каталога и полями ТЗ. Так готовят материалы для согласований и передачи в производство.
+                              <strong className="font-medium text-slate-800">Общий:</strong> главная
+                              доска — силуэт или фото изделия целиком, ключевые метки, экспорт и
+                              согласование.{' '}
+                              <strong className="font-medium text-slate-800">Листы:</strong>{' '}
+                              отдельные ракурсы (анфас, спина, деталь, фото) со своей подложкой и
+                              метками; «Создать лист» добавляет лист и переключает на ленту листов.
+                              Метки с общей доски можно копировать на лист и в слоты узлов ветки.
                             </p>
                           </section>
                           <section>
-                            <p className="font-semibold text-slate-900">Режим · Цех</p>
-                            <p className="mt-1 text-slate-600">
-                              Просмотр для линии: крупные номера меток без правок, чтобы открыть карточку на планшете или
-                              у машины и сразу видеть доску. Не заменяет подписи и права в паспорте — только интерфейс
-                              скетча.
+                            <p className="font-semibold text-slate-900">
+                              Узлы ветки — зачем и что делать
                             </p>
-                          </section>
-                          <section>
-                            <p className="font-semibold text-slate-900">Ссылка цеха</p>
                             <p className="mt-1 text-slate-600">
-                              Копирует адрес этой страницы с параметром{' '}
-                              <code className="rounded bg-slate-100 px-1 py-0.5 font-mono text-[10px]">
-                                ?sketchFloor=1
-                              </code>
-                              . Получатель откроет тот же артикул уже в режиме цеха — без ручного переключения «ТЗ /
-                              Цех».
+                              Три слота названы по{' '}
+                              <strong className="font-medium text-slate-800">роли узла</strong> в
+                              справочнике: <strong>Линия</strong> (весь раздел, напр. Одежда),{' '}
+                              <strong>Группа</strong> (подтип, напр. Верхняя одежда),{' '}
+                              <strong>Модель</strong> (карточка этого артикула, напр. Пальто). Это{' '}
+                              <strong>один путь к вашему SKU</strong>, не три артикула.
                             </p>
-                          </section>
-                          <section>
-                            <p className="font-semibold text-slate-900">Шаблоны и снимки</p>
-                            <p className="mt-1 text-slate-600">
-                              Библиотека шаблонов меток и эталонных снимков: подставить набор точек, сравнить подложку с
-                              фото, сохранить свой шаблон в досье или в коллекции (если доступно).
-                            </p>
-                          </section>
-                          <section>
-                            <p className="font-semibold text-slate-900">Ещё</p>
-                            <p className="mt-1 text-slate-600">
-                              Снимок меток в PNG и выгрузка ZIP с картинками и PDF для архива или переписки. Библиотека
-                              шаблонов — только кнопка «Шаблоны и снимки».
-                            </p>
-                          </section>
-                          <section>
-                            <p className="font-semibold text-slate-900">Только цех</p>
-                            <p className="mt-1 text-slate-600">
-                              Если у роли нет прав на правки, вместо переключателя показывается подсказка «Только цех» и
-                              остаётся доступна копия ссылки — разметку меняют пользователи с доступом к ТЗ.
+                            <p className="mt-1.5 text-slate-600">
+                              <strong className="font-medium text-slate-800">
+                                Чем отличается от вкладки «Скетч»:
+                              </strong>{' '}
+                              там — главная картинка и виды изделия. Здесь — отдельные мини-скетчи и
+                              блоки задач, если нужно формулировать требования{' '}
+                              <em>с разной ширины ветки</em> (на всю линию, на группу, на карточку)
+                              и наследовать текст с «Линия» → «Группа» → «Модель». Если вашему
+                              процессу это не нужно — слоты можно не заполнять.
                             </p>
                           </section>
                         </div>
                       </PopoverContent>
                     </Popover>
-                    </div>
                   </div>
-                </div>
-              </div>
-              {sketchViewFloor ? (
-                <p className="rounded-md border border-slate-200 bg-slate-50/90 px-3 py-2 text-[10px] leading-snug text-slate-700">
-                  <span className="font-semibold text-slate-800">Режим цеха:</span> ориентируйтесь на канон-скетч и эталон
-                  подложки на доске. Печать и QR — в «Дополнительно»; общий пакет для передачи — PDF из пульса или экспорт
-                  пакета визуала в блоке согласования.
-                </p>
-              ) : sketchTechGaps.pinsWithoutAttrOrBom > 0 || sketchTechGaps.criticalPinsWithoutDue > 0 ? (
-                <div className="rounded-md border border-teal-200 bg-teal-50/85 px-3 py-2 text-[11px] leading-snug text-teal-950">
-                  <p className="font-semibold text-teal-900">Для технолога</p>
-                  <ul className="mt-1 list-disc pl-4">
-                    {sketchTechGaps.pinsWithoutAttrOrBom > 0 ? (
-                      <li>
-                        Меток без привязки к атрибуту или BOM:{' '}
-                        <span className="font-mono font-semibold">{sketchTechGaps.pinsWithoutAttrOrBom}</span>
-                      </li>
-                    ) : null}
-                    {sketchTechGaps.criticalPinsWithoutDue > 0 ? (
-                      <li>
-                        Критичных меток без срока:{' '}
-                        <span className="font-mono font-semibold">{sketchTechGaps.criticalPinsWithoutDue}</span>
-                      </li>
-                    ) : null}
-                  </ul>
-                </div>
-              ) : null}
-              <Tabs
-                value={sketchWorkspaceTab}
-                onValueChange={(v) => setSketchWorkspaceTab(v as typeof sketchWorkspaceTab)}
-                className="w-full"
-              >
-                <div className="mb-2 flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-2">
-                  <TabsList className="grid h-auto min-h-8 w-full min-w-0 flex-1 grid-cols-1 gap-0.5 rounded-lg border border-slate-200 bg-slate-100 p-0.5 sm:grid-cols-2">
-                    <TabsTrigger
-                      value="sketch"
-                      className="min-h-8 justify-center rounded-md px-2 py-1 text-xs font-semibold text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-sm"
-                    >
-                      <span className="flex flex-wrap items-center justify-center gap-1.5">
-                        <span>Скетч</span>
-                        {sketchWorkspaceStats.masterPins > 0 ? (
-                          <Badge
-                            variant="secondary"
-                            className="h-4 min-w-4 border border-slate-200/80 bg-slate-100 px-1 text-[9px] font-bold tabular-nums"
-                            title="Меток на общей доске"
-                          >
-                            {sketchWorkspaceStats.masterPins}
-                          </Badge>
-                        ) : null}
-                        {sketchWorkspaceStats.sheetCount > 0 ? (
-                          <Badge
-                            variant="secondary"
-                            className="h-4 min-w-4 border border-slate-200/80 bg-slate-100 px-1 text-[9px] font-bold tabular-nums"
-                            title="Скетч-листов"
-                          >
-                            {sketchWorkspaceStats.sheetCount}л
-                          </Badge>
-                        ) : null}
-                      </span>
-                    </TabsTrigger>
-                    <TabsTrigger
-                      value="sublevels"
-                      className="min-h-8 justify-center rounded-md px-2 py-1 text-xs font-semibold text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-sm"
-                    >
-                      <span className="flex items-center justify-center gap-2">
-                        Узлы ветки
-                        {sketchWorkspaceStats.sublevelPins > 0 ? (
-                          <Badge
-                            variant="secondary"
-                            className="h-4 min-w-4 border border-slate-200/80 bg-slate-100 px-1 text-[9px] font-bold tabular-nums"
-                          >
-                            {sketchWorkspaceStats.sublevelPins}
-                          </Badge>
-                        ) : null}
-                      </span>
-                    </TabsTrigger>
-                  </TabsList>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className={cn(SKETCH_PHASE1_HELP_BUTTON_CLASS, 'max-w-[11rem] text-slate-800')}
+                  <TabsContent value="sketch" className="mt-0 outline-none focus-visible:ring-0">
+                    {sketchPinLinkAudit.length > 0 ? (
+                      <div
+                        className="mb-3 rounded-lg border border-amber-300/90 bg-amber-50/95 px-3 py-2 text-[11px] text-amber-950"
+                        role="status"
                       >
-                        <LucideIcons.CircleHelp className="h-3.5 w-3.5 shrink-0 text-indigo-600" aria-hidden />
-                        <span className="min-w-0">
-                          <span className="block text-[10px] font-semibold leading-tight">Скетч и узлы ветки</span>
-                          <span className="mt-0.5 block text-[8px] font-normal leading-tight text-slate-500">
-                            как устроено
-                          </span>
-                        </span>
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent
-                      align="end"
-                      className="max-h-[min(32rem,70vh)] w-[min(calc(100vw-1.5rem),24rem)] overflow-y-auto p-0"
-                      sideOffset={6}
-                    >
-                      <div className="border-b border-slate-100 bg-slate-50/80 px-4 py-3">
-                        <p className="text-sm font-semibold text-slate-900">Две зоны: скетч артикула и узлы ветки</p>
-                        <p className="mt-1 text-xs leading-snug text-slate-600">
-                          Во вкладке «Скетч» переключатель «Общий / Листы» и кнопка «Создать лист» — одна модель, разные
-                          доски. На основной вкладке бейджи: метки на общей доске и число листов.
+                        <p className="font-semibold">
+                          Связи меток (режим {dossierViewProfile}): заполните BOM / QC там, где
+                          требуется
                         </p>
+                        <ul className="mt-1 list-inside list-disc space-y-0.5">
+                          {sketchPinLinkAudit.slice(0, 8).map((row) => (
+                            <li key={row.id}>
+                              <span className="font-mono text-[10px]">{row.id.slice(0, 8)}…</span>{' '}
+                              {row.messages.join(' · ')}
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                      <div className="space-y-4 p-4 text-xs leading-relaxed text-slate-700">
-                        <section>
-                          <p className="font-semibold text-slate-900">Вкладка «Скетч»</p>
-                          <p className="mt-1 text-slate-600">
-                            <strong className="font-medium text-slate-800">Общий:</strong> главная доска — силуэт или фото
-                            изделия целиком, ключевые метки, экспорт и согласование.{' '}
-                            <strong className="font-medium text-slate-800">Листы:</strong> отдельные ракурсы (анфас, спина,
-                            деталь, фото) со своей подложкой и метками; «Создать лист» добавляет лист и переключает на
-                            ленту листов. Метки с общей доски можно копировать на лист и в слоты узлов ветки.
-                          </p>
-                        </section>
-                        <section>
-                          <p className="font-semibold text-slate-900">Узлы ветки — зачем и что делать</p>
-                          <p className="mt-1 text-slate-600">
-                            Три слота названы по <strong className="font-medium text-slate-800">роли узла</strong> в
-                            справочнике: <strong>Линия</strong> (весь раздел, напр. Одежда), <strong>Группа</strong>{' '}
-                            (подтип, напр. Верхняя одежда), <strong>Модель</strong> (карточка этого артикула, напр.
-                            Пальто). Это <strong>один путь к вашему SKU</strong>, не три артикула.
-                          </p>
-                          <p className="mt-1.5 text-slate-600">
-                            <strong className="font-medium text-slate-800">Чем отличается от вкладки «Скетч»:</strong>{' '}
-                            там — главная картинка и виды изделия. Здесь — отдельные мини-скетчи и блоки задач, если нужно
-                            формулировать требования <em>с разной ширины ветки</em> (на всю линию, на группу, на карточку)
-                            и наследовать текст с «Линия» → «Группа» → «Модель». Если вашему процессу это не нужно —
-                            слоты можно не заполнять.
-                          </p>
-                        </section>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                </div>
-                <TabsContent value="sketch" className="mt-0 outline-none focus-visible:ring-0">
-                  {sketchPinLinkAudit.length > 0 ? (
-                    <div
-                      className="mb-3 rounded-lg border border-amber-300/90 bg-amber-50/95 px-3 py-2 text-[11px] text-amber-950"
-                      role="status"
-                    >
-                      <p className="font-semibold">
-                        Связи меток (режим {dossierViewProfile}): заполните BOM / QC там, где требуется
-                      </p>
-                      <ul className="mt-1 list-inside list-disc space-y-0.5">
-                        {sketchPinLinkAudit.slice(0, 8).map((row) => (
-                          <li key={row.id}>
-                            <span className="font-mono text-[10px]">{row.id.slice(0, 8)}…</span>{' '}
-                            {row.messages.join(' · ')}
-                          </li>
+                    ) : null}
+                    {(
+                      [
+                        'full',
+                        'designer',
+                        'technologist',
+                        'supply',
+                        'production',
+                      ] as Workshop2DossierViewProfile[]
+                    ).includes(dossierViewProfile) ? (
+                      <div className="mb-3 flex flex-wrap items-center gap-1.5 rounded-lg border border-violet-100 bg-violet-50/50 px-2 py-2">
+                        <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-violet-800">
+                          Текст метки
+                        </span>
+                        {W2_SKETCH_PIN_TYPE_PRESETS.map((pr) => (
+                          <Button
+                            key={pr.annotationType}
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="h-7 px-2 text-[9px] capitalize"
+                            title={`Скопировать: ${pr.suggestedLabel}`}
+                            onClick={() => {
+                              void navigator.clipboard.writeText(pr.suggestedLabel).then(
+                                () =>
+                                  toast({
+                                    title: 'Текст в буфере',
+                                    description: 'Вставьте в новую метку на скетче.',
+                                  }),
+                                () =>
+                                  toast({ title: 'Не удалось скопировать', variant: 'destructive' })
+                              );
+                            }}
+                          >
+                            {pr.annotationType}
+                          </Button>
                         ))}
-                      </ul>
-                    </div>
-                  ) : null}
-                  {(
-                    [
-                      'full',
-                      'designer',
-                      'technologist',
-                      'supply',
-                      'production',
-                    ] as Workshop2DossierViewProfile[]
-                  ).includes(dossierViewProfile) ? (
-                    <div className="mb-3 flex flex-wrap items-center gap-1.5 rounded-lg border border-violet-100 bg-violet-50/50 px-2 py-2">
-                      <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-violet-800">
-                        Текст метки
-                      </span>
-                      {W2_SKETCH_PIN_TYPE_PRESETS.map((pr) => (
+                      </div>
+                    ) : null}
+                    <div className="mb-3 flex flex-col gap-2 border-b border-slate-100 pb-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <div
+                          className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-0.5"
+                          role="tablist"
+                          aria-label="Общий скетч или листы"
+                        >
+                          <button
+                            type="button"
+                            role="tab"
+                            aria-selected={sketchSurface === 'master'}
+                            className={cn(
+                              'rounded-md px-3 py-1.5 text-xs font-semibold transition-colors',
+                              sketchSurface === 'master'
+                                ? 'bg-white text-slate-900 shadow-sm'
+                                : 'text-slate-600 hover:text-slate-900'
+                            )}
+                            onClick={() => setSketchSurface('master')}
+                          >
+                            <span className="inline-flex items-center gap-1.5">
+                              Общий
+                              {sketchWorkspaceStats.masterPins > 0 ? (
+                                <Badge
+                                  variant="secondary"
+                                  className="h-4 min-w-4 border border-slate-200/80 bg-slate-100 px-1 text-[9px] font-bold tabular-nums"
+                                >
+                                  {sketchWorkspaceStats.masterPins}
+                                </Badge>
+                              ) : null}
+                            </span>
+                          </button>
+                          <button
+                            type="button"
+                            role="tab"
+                            aria-selected={sketchSurface === 'sheets'}
+                            className={cn(
+                              'rounded-md px-3 py-1.5 text-xs font-semibold transition-colors',
+                              sketchSurface === 'sheets'
+                                ? 'bg-white text-slate-900 shadow-sm'
+                                : 'text-slate-600 hover:text-slate-900'
+                            )}
+                            onClick={() => setSketchSurface('sheets')}
+                          >
+                            <span className="inline-flex items-center gap-1.5">
+                              Листы
+                              {sketchWorkspaceStats.sheetCount > 0 ? (
+                                <Badge
+                                  variant="secondary"
+                                  className="h-4 min-w-4 border border-slate-200/80 bg-slate-100 px-1 text-[9px] font-bold tabular-nums"
+                                >
+                                  {sketchWorkspaceStats.sheetCount}
+                                </Badge>
+                              ) : null}
+                            </span>
+                          </button>
+                        </div>
                         <Button
-                          key={pr.annotationType}
                           type="button"
                           variant="outline"
                           size="sm"
-                          className="h-7 px-2 text-[9px] capitalize"
-                          title={`Скопировать: ${pr.suggestedLabel}`}
-                          onClick={() => {
-                            void navigator.clipboard.writeText(pr.suggestedLabel).then(
-                              () =>
-                                toast({
-                                  title: 'Текст в буфере',
-                                  description: 'Вставьте в новую метку на скетче.',
-                                }),
-                              () => toast({ title: 'Не удалось скопировать', variant: 'destructive' })
-                            );
+                          className="h-8 gap-1 text-xs"
+                          disabled={
+                            sketchEditsLocked || normalizedSketchSheets.length >= MAX_SKETCH_SHEETS
+                          }
+                          title={
+                            normalizedSketchSheets.length >= MAX_SKETCH_SHEETS
+                              ? `Не более ${MAX_SKETCH_SHEETS} листов`
+                              : 'Добавить скетч-лист и перейти к листам'
+                          }
+                          onClick={appendSketchSheet}
+                        >
+                          <LucideIcons.Plus className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                          Создать лист
+                        </Button>
+                      </div>
+                      <p className="max-w-md text-[10px] leading-snug text-slate-500">
+                        Общий — главный вид модели; листы — дополнительные ракурсы и детали.
+                      </p>
+                    </div>
+                    {sketchSurface === 'master' ? (
+                      <>
+                        <div id="w2-visuals-sketch-templates" className="scroll-mt-24">
+                          <details className="mb-3 rounded-lg border border-slate-200 bg-slate-50/40">
+                            <summary className="cursor-pointer list-none px-3 py-2.5 text-xs font-medium text-slate-800 [&::-webkit-details-marker]:hidden">
+                              Дополнительно: шаблоны меток на общую доску
+                            </summary>
+                            <div className="flex flex-col gap-2 border-t border-slate-100 px-3 py-3 sm:flex-row sm:flex-wrap sm:items-center">
+                              <select
+                                className="h-9 min-w-[200px] flex-1 rounded-md border border-slate-200 bg-white px-2 text-sm disabled:opacity-60"
+                                value={sketchMasterTemplateId}
+                                disabled={sketchEditsLocked}
+                                onChange={(e) => setSketchMasterTemplateId(e.target.value)}
+                                aria-label="Выбор шаблона меток"
+                              >
+                                <option value="">Выберите шаблон…</option>
+                                {(dossier.sketchPinTemplates ?? []).length > 0 ? (
+                                  <optgroup label="В этом досье">
+                                    {(dossier.sketchPinTemplates ?? []).map((t) => (
+                                      <option key={`d:${t.templateId}`} value={`d:${t.templateId}`}>
+                                        {t.name} ({t.annotations.length} мет.
+                                        {t.viewKind
+                                          ? ` · ${SKETCH_SHEET_VIEW_LABELS[t.viewKind]}`
+                                          : ''}
+                                        )
+                                      </option>
+                                    ))}
+                                  </optgroup>
+                                ) : null}
+                                {orgSketchTemplatesList.length > 0 ? (
+                                  <optgroup label="Библиотека коллекции">
+                                    {orgSketchTemplatesList.map((t) => (
+                                      <option key={`o:${t.templateId}`} value={`o:${t.templateId}`}>
+                                        {t.name} ({t.annotations.length} мет.
+                                        {t.viewKind
+                                          ? ` · ${SKETCH_SHEET_VIEW_LABELS[t.viewKind]}`
+                                          : ''}
+                                        )
+                                      </option>
+                                    ))}
+                                  </optgroup>
+                                ) : null}
+                              </select>
+                              <div className="flex flex-wrap gap-1.5">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  className="h-8 text-xs"
+                                  disabled={!sketchMasterTemplateId || sketchEditsLocked}
+                                  onClick={() => applyMasterSketchPinTemplate('merge')}
+                                >
+                                  Добавить к доске
+                                </Button>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  className="h-8 text-xs"
+                                  disabled={!sketchMasterTemplateId || sketchEditsLocked}
+                                  onClick={() => applyMasterSketchPinTemplate('replace')}
+                                >
+                                  Заменить все метки
+                                </Button>
+                                <Button
+                                  type="button"
+                                  variant="secondary"
+                                  size="sm"
+                                  className="h-8 text-xs"
+                                  disabled={sketchEditsLocked}
+                                  onClick={saveMasterSketchPinTemplate}
+                                >
+                                  Сохранить в досье
+                                </Button>
+                                <Button
+                                  type="button"
+                                  variant="secondary"
+                                  size="sm"
+                                  className="h-8 text-xs"
+                                  disabled={sketchEditsLocked}
+                                  onClick={saveMasterSketchPinTemplateToOrg}
+                                >
+                                  В библиотеку
+                                </Button>
+                              </div>
+                            </div>
+                          </details>
+                        </div>
+                        <CategorySketchAnnotator
+                          currentLeaf={currentLeaf}
+                          imageDataUrl={dossier.categorySketchImageDataUrl}
+                          imageFileName={dossier.categorySketchImageFileName}
+                          annotations={dossier.categorySketchAnnotations ?? []}
+                          attributeOptions={sketchAttributeOptions}
+                          bomLinePickOptions={bomLinePickOptions}
+                          sketchContext={{
+                            audienceId: selectedAudienceId,
+                            audienceName: selectedAudienceLabel,
+                            isUnisex: dossier.isUnisex,
+                          }}
+                          onNavigateStage={(stage) => onNavigateToTab?.(stage)}
+                          onJumpToDossierSection={(sec) => setActiveSection(sec)}
+                          onNavigateRouteStage={(st) =>
+                            onNavigateToTab?.(SKETCH_ROUTE_STAGE_TO_WORKSPACE_TAB[st])
+                          }
+                          onPatch={(patch) =>
+                            setDossier((p: Workshop2DossierPhase1) => ({ ...p, ...patch }))
+                          }
+                          showPassportSectionHeader={false}
+                          pinTextSnippets={DEFAULT_MASTER_PIN_SNIPPETS}
+                          exportFileNameStem={`master-${skuDraft.replace(/[^a-zA-Z0-9а-яА-ЯёЁ._-]+/g, '-').slice(0, 48)}`}
+                          articleSku={skuDraft}
+                          viewMode={sketchEditsLocked ? 'floor' : 'edit'}
+                          subcategorySketchSlots={dossier.subcategorySketchSlots ?? []}
+                          categorySketchCompareOverlayDataUrl={
+                            dossier.categorySketchCompareOverlayDataUrl ?? undefined
+                          }
+                          categorySketchCompareOverlayFileName={
+                            dossier.categorySketchCompareOverlayFileName ?? undefined
+                          }
+                          categorySketchCompareOverlayOpacityPct={
+                            dossier.categorySketchCompareOverlayOpacityPct
+                          }
+                          categorySketchCompareOverlayScalePct={
+                            dossier.categorySketchCompareOverlayScalePct
+                          }
+                          categorySketchCompareOffsetXPct={dossier.categorySketchCompareOffsetXPct}
+                          categorySketchCompareOffsetYPct={dossier.categorySketchCompareOffsetYPct}
+                          sketchPropagatedDrafts={dossier.sketchPropagatedDrafts ?? []}
+                          auditActor={updatedByLabel}
+                          categorySketchRevisionLabel={dossier.categorySketchRevisionLabel}
+                          categorySketchFreezeUntilDate={dossier.categorySketchFreezeUntilDate}
+                          categorySketchProductionApproved={
+                            dossier.categorySketchProductionApproved
+                          }
+                          categorySketchCompliance={dossier.categorySketchCompliance}
+                          sketchBrandbookConstraints={dossier.sketchBrandbookConstraints}
+                          sketchMasterAnnotationAuditLog={
+                            dossier.sketchMasterAnnotationAuditLog ?? []
+                          }
+                          categorySketchRevisionSnapshots={
+                            dossier.categorySketchRevisionSnapshots ?? []
+                          }
+                          categorySketchSceneId={dossier.categorySketchSceneId}
+                          categorySketchSceneView={dossier.categorySketchSceneView}
+                          sketchMesDefectCatalog={dossier.sketchMesDefectCatalog}
+                          onAppendSketchRevisionSnapshot={() => {
+                            setDossier((p: Workshop2DossierPhase1) => {
+                              const next = appendCategorySketchRevisionSnapshot(p, {
+                                leafId: currentLeaf.leafId,
+                                by: updatedByLabel,
+                                revisionLabel: p.categorySketchRevisionLabel ?? 'snapshot',
+                                annotations: p.categorySketchAnnotations ?? [],
+                                compliance: p.categorySketchCompliance,
+                              });
+                              const snap = next.categorySketchRevisionSnapshots?.at(-1);
+                              const pinCount = snap?.annotations.length ?? 0;
+                              const audit = mergeSketchMasterAuditLog(
+                                next.sketchMasterAnnotationAuditLog ?? [],
+                                [
+                                  {
+                                    entryId:
+                                      typeof crypto !== 'undefined' && crypto.randomUUID
+                                        ? crypto.randomUUID()
+                                        : `e-${Date.now()}`,
+                                    at: new Date().toISOString(),
+                                    by: updatedByLabel,
+                                    annotationId: '__plm_snapshot__',
+                                    action: 'revision_snapshot',
+                                    summary: `Архив PLM: снимок «${p.categorySketchRevisionLabel ?? 'snapshot'}», ${pinCount} мет.`,
+                                  },
+                                ]
+                              );
+                              return { ...next, sketchMasterAnnotationAuditLog: audit };
+                            });
+                          }}
+                          sketchTasksPanel={
+                            <SubcategorySketchTasksRibbon
+                              currentLeaf={currentLeaf}
+                              dossier={dossier}
+                              articleSku={skuDraft}
+                              articleName={nameDraft}
+                              setDossier={setDossier}
+                              sketchContext={{
+                                audienceId: selectedAudienceId,
+                                audienceName: selectedAudienceLabel,
+                                isUnisex: dossier.isUnisex,
+                              }}
+                            />
+                          }
+                          onSavePinTemplateToDossier={saveMasterSketchPinTemplate}
+                          onSavePinTemplateToOrg={saveMasterSketchPinTemplateToOrg}
+                          visualCatalogAttributeIds={visualsCatalogAttributeIdsForSketch}
+                          visualCatalogSketchLinks={visualsCatalogSketchLinksForPins}
+                          onVisualCatalogSuggestFromSketch={onVisualCatalogSuggestFromSketch}
+                        />
+                      </>
+                    ) : (
+                      <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm">
+                        <CategorySketchSheetsBlock
+                          currentLeaf={currentLeaf}
+                          dossier={dossier}
+                          setDossier={setDossier}
+                          bomLinePickOptions={bomLinePickOptions}
+                          masterSketchAnnotations={dossier.categorySketchAnnotations ?? []}
+                          sketchContext={{
+                            audienceId: selectedAudienceId,
+                            audienceName: selectedAudienceLabel,
+                            isUnisex: dossier.isUnisex,
+                          }}
+                          articleSku={skuDraft}
+                          collectionId={collectionId}
+                          sketchOrgLibraryRevision={orgSketchLibraryRevision}
+                          onOrgSketchTemplatesMutated={() =>
+                            setOrgSketchLibraryRevision((n) => n + 1)
+                          }
+                          auditActor={updatedByLabel}
+                          sketchViewFloor={sketchEditsLocked}
+                          embeddedPicker={
+                            normalizedSketchSheets.length > 0
+                              ? {
+                                  activeSheetId:
+                                    sketchSheetPickerId ?? normalizedSketchSheets[0]!.sheetId,
+                                  onActiveSheetChange: setSketchSheetPickerId,
+                                }
+                              : undefined
+                          }
+                          onJumpToDossierSection={(sec) => setActiveSection(sec)}
+                          onNavigateRouteStage={(st) =>
+                            onNavigateToTab?.(SKETCH_ROUTE_STAGE_TO_WORKSPACE_TAB[st])
+                          }
+                          visualCatalogAttributeIds={visualsCatalogAttributeIdsForSketch}
+                          visualCatalogSketchLinks={visualsCatalogSketchLinksForPins}
+                          onVisualCatalogSuggestFromSketch={onVisualCatalogSuggestFromSketch}
+                        />
+                      </div>
+                    )}
+                  </TabsContent>
+                  <TabsContent value="sublevels" className="mt-0 outline-none focus-visible:ring-0">
+                    <div className="space-y-3">
+                      <div className="space-y-2 rounded-lg border border-zinc-200 bg-white p-2 shadow-sm">
+                        <p className="text-[10px] leading-snug text-zinc-600">
+                          <span className="font-semibold text-zinc-800">Артикул:</span>{' '}
+                          <span className="font-mono text-zinc-900">{skuDraft.trim() || '—'}</span>
+                          <span className="text-zinc-400"> · </span>
+                          <span className="font-semibold text-zinc-800">
+                            Аудитория каталога (L3):
+                          </span>{' '}
+                          <span className="text-zinc-900">{selectedAudienceLabel}</span>
+                          <span className="mt-0.5 block text-zinc-500">
+                            Название в паспорте — отдельное поле; формулировки вроде «мужское» там
+                            не меняют выбранную аудиторию листа.
+                          </span>
+                        </p>
+                        <p className="text-[10px] leading-snug text-zinc-700">
+                          <span className="font-semibold text-zinc-800">По умолчанию</span>{' '}
+                          редактируется слот{' '}
+                          <strong className="font-semibold text-zinc-900">
+                            «{BRANCH_CATALOG_SLOT_ROLE[3].label}»
+                          </strong>{' '}
+                          — требования и мини-скетч на уровне карточки артикула. Переключение на
+                          линию или группу — только если процессу нужна отдельная формулировка на
+                          весь раздел или подтип.
+                        </p>
+                        {subcategorySketchActiveLevel !== 3 ? (
+                          <p className="rounded-md border border-amber-200 bg-amber-50/80 px-2 py-1.5 text-[10px] text-amber-950">
+                            Сейчас открыт слот{' '}
+                            <strong>
+                              «{BRANCH_CATALOG_SLOT_ROLE[subcategorySketchActiveLevel].label}»
+                            </strong>
+                            . Вернуться к модели можно в блоке «Уровни ветки» ниже.
+                          </p>
+                        ) : null}
+                        <Collapsible
+                          open={branchLevelsDetailsOpen}
+                          onOpenChange={(open) => {
+                            setBranchLevelsDetailsOpen(open);
+                            if (typeof window === 'undefined') return;
+                            try {
+                              localStorage.setItem(
+                                WORKSHOP_BRANCH_LEVELS_DETAILS_LS_KEY,
+                                open ? '1' : '0'
+                              );
+                            } catch {
+                              /* ignore */
+                            }
                           }}
                         >
-                          {pr.annotationType}
-                        </Button>
-                      ))}
-                    </div>
-                  ) : null}
-                  <div className="mb-3 flex flex-col gap-2 border-b border-slate-100 pb-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <div
-                        className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-0.5"
-                        role="tablist"
-                        aria-label="Общий скетч или листы"
-                      >
-                        <button
-                          type="button"
-                          role="tab"
-                          aria-selected={sketchSurface === 'master'}
-                          className={cn(
-                            'rounded-md px-3 py-1.5 text-xs font-semibold transition-colors',
-                            sketchSurface === 'master'
-                              ? 'bg-white text-slate-900 shadow-sm'
-                              : 'text-slate-600 hover:text-slate-900'
-                          )}
-                          onClick={() => setSketchSurface('master')}
-                        >
-                          <span className="inline-flex items-center gap-1.5">
-                            Общий
-                            {sketchWorkspaceStats.masterPins > 0 ? (
-                              <Badge
-                                variant="secondary"
-                                className="h-4 min-w-4 border border-slate-200/80 bg-slate-100 px-1 text-[9px] font-bold tabular-nums"
-                              >
-                                {sketchWorkspaceStats.masterPins}
-                              </Badge>
-                            ) : null}
-                          </span>
-                        </button>
-                        <button
-                          type="button"
-                          role="tab"
-                          aria-selected={sketchSurface === 'sheets'}
-                          className={cn(
-                            'rounded-md px-3 py-1.5 text-xs font-semibold transition-colors',
-                            sketchSurface === 'sheets'
-                              ? 'bg-white text-slate-900 shadow-sm'
-                              : 'text-slate-600 hover:text-slate-900'
-                          )}
-                          onClick={() => setSketchSurface('sheets')}
-                        >
-                          <span className="inline-flex items-center gap-1.5">
-                            Листы
-                            {sketchWorkspaceStats.sheetCount > 0 ? (
-                              <Badge
-                                variant="secondary"
-                                className="h-4 min-w-4 border border-slate-200/80 bg-slate-100 px-1 text-[9px] font-bold tabular-nums"
-                              >
-                                {sketchWorkspaceStats.sheetCount}
-                              </Badge>
-                            ) : null}
-                          </span>
-                        </button>
+                          <CollapsibleTrigger asChild>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              className="h-8 w-full justify-between gap-2 text-left text-[10px] font-medium text-zinc-800 sm:w-auto sm:min-w-[16rem]"
+                              aria-expanded={branchLevelsDetailsOpen}
+                            >
+                              <span>Уровни ветки (линия · группа · модель)</span>
+                              <LucideIcons.ChevronDown
+                                className={cn(
+                                  'h-4 w-4 shrink-0 text-zinc-500 transition-transform',
+                                  branchLevelsDetailsOpen && 'rotate-180'
+                                )}
+                                aria-hidden
+                              />
+                            </Button>
+                          </CollapsibleTrigger>
+                          <CollapsibleContent className="space-y-2 overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                            <p className="pt-2 text-[10px] leading-snug text-zinc-600">
+                              Три слота совпадают с узлами пути в справочнике; текст и метки в
+                              каждом слоте раздельны. Наследование формулировок между слотами — в
+                              блоке задач справа («Принять оттуда»).
+                            </p>
+                            <div
+                              className="flex w-fit flex-wrap gap-0.5 rounded-md border border-zinc-100 bg-zinc-50/90 p-0.5"
+                              role="tablist"
+                              aria-label="Слот узла ветки"
+                            >
+                              {([1, 2, 3] as const).map((lv) => {
+                                const nodeName =
+                                  lv === 1
+                                    ? currentLeaf.l1Name
+                                    : lv === 2
+                                      ? currentLeaf.l2Name
+                                      : currentLeaf.l3Name;
+                                const role = BRANCH_CATALOG_SLOT_ROLE[lv];
+                                return (
+                                  <Button
+                                    key={lv}
+                                    type="button"
+                                    size="sm"
+                                    variant={
+                                      subcategorySketchActiveLevel === lv ? 'default' : 'ghost'
+                                    }
+                                    className={cn(
+                                      'h-7 shrink-0 px-2.5 text-[10px] font-semibold',
+                                      subcategorySketchActiveLevel === lv
+                                        ? 'shadow-sm'
+                                        : 'text-zinc-600'
+                                    )}
+                                    onClick={() => setSubcategorySketchActiveLevel(lv)}
+                                    title={`Узел ветки: ${nodeName}. ${role.hint}`}
+                                    aria-pressed={subcategorySketchActiveLevel === lv}
+                                  >
+                                    {role.label}
+                                  </Button>
+                                );
+                              })}
+                            </div>
+                          </CollapsibleContent>
+                        </Collapsible>
                       </div>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="h-8 gap-1 text-xs"
-                        disabled={sketchEditsLocked || normalizedSketchSheets.length >= MAX_SKETCH_SHEETS}
-                        title={
-                          normalizedSketchSheets.length >= MAX_SKETCH_SHEETS
-                            ? `Не более ${MAX_SKETCH_SHEETS} листов`
-                            : 'Добавить скетч-лист и перейти к листам'
-                        }
-                        onClick={appendSketchSheet}
-                      >
-                        <LucideIcons.Plus className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                        Создать лист
-                      </Button>
+                      <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm">
+                        <CategorySubcategorySketchesTzBlock
+                          currentLeaf={currentLeaf}
+                          dossier={dossier}
+                          articleSku={skuDraft}
+                          articleName={nameDraft}
+                          setDossier={setDossier}
+                          sketchContext={{
+                            audienceId: selectedAudienceId,
+                            audienceName: selectedAudienceLabel,
+                            isUnisex: dossier.isUnisex,
+                          }}
+                          masterSketchAnnotations={dossier.categorySketchAnnotations ?? []}
+                          activeLevel={subcategorySketchActiveLevel}
+                          sketchViewFloor={sketchEditsLocked}
+                        />
+                      </div>
                     </div>
-                    <p className="max-w-md text-[10px] leading-snug text-slate-500">
-                      Общий — главный вид модели; листы — дополнительные ракурсы и детали.
+                  </TabsContent>
+                </Tabs>
+              </>
+            ) : (
+              <>
+                <div className="flex items-start gap-3">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
+                    <LucideIcons.Pencil className="h-4 w-4 shrink-0" aria-hidden />
+                  </div>
+                  <div className="min-w-0 flex-1 space-y-1">
+                    <h2 className="text-base font-semibold text-slate-900">Скетч по категории</h2>
+                    <p className="text-sm leading-snug text-slate-500">
+                      Один силуэт на выбранную ветку каталога: отметьте узлы на скетче, привяжите
+                      метки к полям ТЗ.
                     </p>
-                  </div>
-                  {sketchSurface === 'master' ? (
-                    <>
-                  <div id="w2-visuals-sketch-templates" className="scroll-mt-24">
-                  <details className="mb-3 rounded-lg border border-slate-200 bg-slate-50/40">
-                    <summary className="cursor-pointer list-none px-3 py-2.5 text-xs font-medium text-slate-800 [&::-webkit-details-marker]:hidden">
-                      Дополнительно: шаблоны меток на общую доску
-                    </summary>
-                    <div className="flex flex-col gap-2 border-t border-slate-100 px-3 py-3 sm:flex-row sm:flex-wrap sm:items-center">
-                      <select
-                        className="h-9 min-w-[200px] flex-1 rounded-md border border-slate-200 bg-white px-2 text-sm disabled:opacity-60"
-                        value={sketchMasterTemplateId}
-                        disabled={sketchEditsLocked}
-                        onChange={(e) => setSketchMasterTemplateId(e.target.value)}
-                        aria-label="Выбор шаблона меток"
-                      >
-                        <option value="">Выберите шаблон…</option>
-                        {(dossier.sketchPinTemplates ?? []).length > 0 ? (
-                          <optgroup label="В этом досье">
-                            {(dossier.sketchPinTemplates ?? []).map((t) => (
-                              <option key={`d:${t.templateId}`} value={`d:${t.templateId}`}>
-                                {t.name} ({t.annotations.length} мет.
-                                {t.viewKind ? ` · ${SKETCH_SHEET_VIEW_LABELS[t.viewKind]}` : ''})
-                              </option>
-                            ))}
-                          </optgroup>
-                        ) : null}
-                        {orgSketchTemplatesList.length > 0 ? (
-                          <optgroup label="Библиотека коллекции">
-                            {orgSketchTemplatesList.map((t) => (
-                              <option key={`o:${t.templateId}`} value={`o:${t.templateId}`}>
-                                {t.name} ({t.annotations.length} мет.
-                                {t.viewKind ? ` · ${SKETCH_SHEET_VIEW_LABELS[t.viewKind]}` : ''})
-                              </option>
-                            ))}
-                          </optgroup>
-                        ) : null}
-                      </select>
-                      <div className="flex flex-wrap gap-1.5">
+                    <div className="flex flex-col gap-2 border-t border-slate-100 pt-2 sm:flex-row sm:flex-wrap sm:items-stretch">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <SketchViewModeToggle
+                          floor={sketchViewFloor}
+                          onFloorChange={setSketchFloorMode}
+                          lockedToFloor={lockedSketchFloorOnly || tzWriteDisabled}
+                          onCopyFloorLink={copySketchFloorLink}
+                        />
                         <Button
                           type="button"
                           variant="outline"
                           size="sm"
                           className="h-8 text-xs"
-                          disabled={!sketchMasterTemplateId || sketchEditsLocked}
-                          onClick={() => applyMasterSketchPinTemplate('merge')}
+                          onClick={saveSketchLabelsSnapshot}
                         >
-                          Добавить к доске
+                          Снимок меток
                         </Button>
                         <Button
                           type="button"
                           variant="outline"
                           size="sm"
                           className="h-8 text-xs"
-                          disabled={!sketchMasterTemplateId || sketchEditsLocked}
-                          onClick={() => applyMasterSketchPinTemplate('replace')}
+                          disabled={sketchBundleBusy}
+                          onClick={() => void exportSketchVisualBundleZip()}
                         >
-                          Заменить все метки
+                          {sketchBundleBusy ? 'Архив…' : 'ZIP: PNG + PDF'}
                         </Button>
                         <Button
                           type="button"
                           variant="secondary"
                           size="sm"
                           className="h-8 text-xs"
-                          disabled={sketchEditsLocked}
-                          onClick={saveMasterSketchPinTemplate}
+                          onClick={() => setSketchPinLibraryOpen(true)}
                         >
-                          Сохранить в досье
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="secondary"
-                          size="sm"
-                          className="h-8 text-xs"
-                          disabled={sketchEditsLocked}
-                          onClick={saveMasterSketchPinTemplateToOrg}
-                        >
-                          В библиотеку
+                          Снимки и шаблоны…
                         </Button>
                       </div>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="h-auto min-h-8 shrink-0 gap-2 px-3 py-2 text-left text-xs font-medium leading-snug text-slate-700 sm:max-w-[12rem]"
+                          >
+                            <LucideIcons.CircleHelp
+                              className="h-4 w-4 shrink-0 text-indigo-600"
+                              aria-hidden
+                            />
+                            <span>
+                              Панель скетча
+                              <span className="mt-0.5 block text-[10px] font-normal text-slate-500">
+                                как пользоваться
+                              </span>
+                            </span>
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent
+                          align="end"
+                          className="max-h-[min(32rem,70vh)] w-[min(calc(100vw-1.5rem),24rem)] overflow-y-auto p-0"
+                          sideOffset={6}
+                        >
+                          <div className="border-b border-slate-100 bg-slate-50/80 px-4 py-3">
+                            <p className="text-sm font-semibold text-slate-900">
+                              Панель над скетчем
+                            </p>
+                            <p className="mt-1 text-xs leading-snug text-slate-600">
+                              Те же смыслы, что и в фазе 1: режим ТЗ/цех, ссылка для цеха,
+                              библиотека и выгрузки.
+                            </p>
+                          </div>
+                          <div className="space-y-4 p-4 text-xs leading-relaxed text-slate-700">
+                            <section>
+                              <p className="font-semibold text-slate-900">Режим · ТЗ / Цех</p>
+                              <p className="mt-1 text-slate-600">
+                                ТЗ — правки меток; цех — только просмотр крупных номеров. Ссылка
+                                цеха копирует URL с{' '}
+                                <code className="rounded bg-slate-100 px-1 py-0.5 font-mono text-[10px]">
+                                  ?sketchFloor=1
+                                </code>
+                                .
+                              </p>
+                            </section>
+                            <section>
+                              <p className="font-semibold text-slate-900">Снимки и шаблоны</p>
+                              <p className="mt-1 text-slate-600">
+                                Открывает библиотеку шаблонов и эталонов. Снимок меток и ZIP —
+                                быстрый экспорт без меню «Ещё».
+                              </p>
+                            </section>
+                          </div>
+                        </PopoverContent>
+                      </Popover>
                     </div>
-                  </details>
                   </div>
-          <CategorySketchAnnotator
-            currentLeaf={currentLeaf}
-            imageDataUrl={dossier.categorySketchImageDataUrl}
-            imageFileName={dossier.categorySketchImageFileName}
-            annotations={dossier.categorySketchAnnotations ?? []}
-            attributeOptions={sketchAttributeOptions}
-            bomLinePickOptions={bomLinePickOptions}
-                    sketchContext={{
-                      audienceId: selectedAudienceId,
-                      audienceName: selectedAudienceLabel,
-                      isUnisex: dossier.isUnisex,
-                    }}
-            onNavigateStage={(stage) => onNavigateToTab?.(stage)}
-            onJumpToDossierSection={(sec) => setActiveSection(sec)}
-            onNavigateRouteStage={(st) => onNavigateToTab?.(SKETCH_ROUTE_STAGE_TO_WORKSPACE_TAB[st])}
-            onPatch={(patch) => setDossier((p: Workshop2DossierPhase1) => ({ ...p, ...patch }))}
-                    showPassportSectionHeader={false}
-                    pinTextSnippets={DEFAULT_MASTER_PIN_SNIPPETS}
-                    exportFileNameStem={`master-${skuDraft.replace(/[^a-zA-Z0-9а-яА-ЯёЁ._-]+/g, '-').slice(0, 48)}`}
-                    articleSku={skuDraft}
-                    viewMode={sketchEditsLocked ? 'floor' : 'edit'}
-                    subcategorySketchSlots={dossier.subcategorySketchSlots ?? []}
-                    categorySketchCompareOverlayDataUrl={dossier.categorySketchCompareOverlayDataUrl ?? undefined}
-                    categorySketchCompareOverlayFileName={dossier.categorySketchCompareOverlayFileName ?? undefined}
-                    categorySketchCompareOverlayOpacityPct={dossier.categorySketchCompareOverlayOpacityPct}
-                    categorySketchCompareOverlayScalePct={dossier.categorySketchCompareOverlayScalePct}
-                    categorySketchCompareOffsetXPct={dossier.categorySketchCompareOffsetXPct}
-                    categorySketchCompareOffsetYPct={dossier.categorySketchCompareOffsetYPct}
-                    sketchPropagatedDrafts={dossier.sketchPropagatedDrafts ?? []}
-                    auditActor={updatedByLabel}
-                    categorySketchRevisionLabel={dossier.categorySketchRevisionLabel}
-                    categorySketchFreezeUntilDate={dossier.categorySketchFreezeUntilDate}
-                    categorySketchProductionApproved={dossier.categorySketchProductionApproved}
-                    categorySketchCompliance={dossier.categorySketchCompliance}
-                    sketchBrandbookConstraints={dossier.sketchBrandbookConstraints}
-                    sketchMasterAnnotationAuditLog={dossier.sketchMasterAnnotationAuditLog ?? []}
-                    categorySketchRevisionSnapshots={dossier.categorySketchRevisionSnapshots ?? []}
-                    categorySketchSceneId={dossier.categorySketchSceneId}
-                    categorySketchSceneView={dossier.categorySketchSceneView}
-                    sketchMesDefectCatalog={dossier.sketchMesDefectCatalog}
-                    onAppendSketchRevisionSnapshot={() => {
-                      setDossier((p: Workshop2DossierPhase1) => {
-                        const next = appendCategorySketchRevisionSnapshot(p, {
-                          leafId: currentLeaf.leafId,
-                          by: updatedByLabel,
-                          revisionLabel: p.categorySketchRevisionLabel ?? 'snapshot',
-                          annotations: p.categorySketchAnnotations ?? [],
-                          compliance: p.categorySketchCompliance,
-                        });
-                        const snap = next.categorySketchRevisionSnapshots?.at(-1);
-                        const pinCount = snap?.annotations.length ?? 0;
-                        const audit = mergeSketchMasterAuditLog(next.sketchMasterAnnotationAuditLog ?? [], [
+                </div>
+                <div className="flex flex-col gap-2 rounded-lg border border-slate-100 bg-slate-50/60 p-2 sm:flex-row sm:flex-wrap sm:items-center">
+                  <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                    Шаблоны меток
+                  </span>
+                  <select
+                    className="h-9 min-w-[200px] flex-1 rounded-md border border-slate-200 bg-white px-2 text-sm disabled:opacity-60"
+                    value={sketchMasterTemplateId}
+                    disabled={sketchEditsLocked}
+                    onChange={(e) => setSketchMasterTemplateId(e.target.value)}
+                    aria-label="Выбор шаблона меток"
+                  >
+                    <option value="">— шаблон —</option>
+                    {(dossier.sketchPinTemplates ?? []).length > 0 ? (
+                      <optgroup label="Это досье">
+                        {(dossier.sketchPinTemplates ?? []).map((t) => (
+                          <option key={`d:${t.templateId}`} value={`d:${t.templateId}`}>
+                            {t.name} ({t.annotations.length} пин.)
+                          </option>
+                        ))}
+                      </optgroup>
+                    ) : null}
+                    {orgSketchTemplatesList.length > 0 ? (
+                      <optgroup label="Библиотека коллекции (браузер)">
+                        {orgSketchTemplatesList.map((t) => (
+                          <option key={`o:${t.templateId}`} value={`o:${t.templateId}`}>
+                            {t.name} ({t.annotations.length} пин.)
+                          </option>
+                        ))}
+                      </optgroup>
+                    ) : null}
+                  </select>
+                  <div className="flex flex-wrap gap-1.5">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-8 text-xs"
+                      disabled={!sketchMasterTemplateId || sketchEditsLocked}
+                      onClick={() => applyMasterSketchPinTemplate('merge')}
+                    >
+                      + К доске
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-8 text-xs"
+                      disabled={!sketchMasterTemplateId || sketchEditsLocked}
+                      onClick={() => applyMasterSketchPinTemplate('replace')}
+                    >
+                      Заменить
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      size="sm"
+                      className="h-8 text-xs"
+                      disabled={sketchEditsLocked}
+                      onClick={saveMasterSketchPinTemplate}
+                    >
+                      В досье
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      size="sm"
+                      className="h-8 text-xs"
+                      disabled={sketchEditsLocked}
+                      onClick={saveMasterSketchPinTemplateToOrg}
+                    >
+                      В коллекцию
+                    </Button>
+                  </div>
+                </div>
+                <CategorySketchAnnotator
+                  currentLeaf={currentLeaf}
+                  imageDataUrl={dossier.categorySketchImageDataUrl}
+                  imageFileName={dossier.categorySketchImageFileName}
+                  annotations={dossier.categorySketchAnnotations ?? []}
+                  attributeOptions={sketchAttributeOptions}
+                  sketchContext={{
+                    audienceId: selectedAudienceId,
+                    audienceName: selectedAudienceLabel,
+                    isUnisex: dossier.isUnisex,
+                  }}
+                  onNavigateStage={(stage) => onNavigateToTab?.(stage)}
+                  onJumpToDossierSection={(sec) => setActiveSection(sec)}
+                  onNavigateRouteStage={(st) =>
+                    onNavigateToTab?.(SKETCH_ROUTE_STAGE_TO_WORKSPACE_TAB[st])
+                  }
+                  onPatch={(patch) =>
+                    setDossier((p: Workshop2DossierPhase1) => ({ ...p, ...patch }))
+                  }
+                  showPassportSectionHeader={false}
+                  pinTextSnippets={DEFAULT_MASTER_PIN_SNIPPETS}
+                  exportFileNameStem={`master-${skuDraft.replace(/[^a-zA-Z0-9а-яА-ЯёЁ._-]+/g, '-').slice(0, 48)}`}
+                  articleSku={skuDraft}
+                  viewMode={sketchEditsLocked ? 'floor' : 'edit'}
+                  subcategorySketchSlots={dossier.subcategorySketchSlots ?? []}
+                  categorySketchCompareOverlayDataUrl={
+                    dossier.categorySketchCompareOverlayDataUrl ?? undefined
+                  }
+                  categorySketchCompareOverlayFileName={
+                    dossier.categorySketchCompareOverlayFileName ?? undefined
+                  }
+                  categorySketchCompareOverlayOpacityPct={
+                    dossier.categorySketchCompareOverlayOpacityPct
+                  }
+                  categorySketchCompareOverlayScalePct={
+                    dossier.categorySketchCompareOverlayScalePct
+                  }
+                  categorySketchCompareOffsetXPct={dossier.categorySketchCompareOffsetXPct}
+                  categorySketchCompareOffsetYPct={dossier.categorySketchCompareOffsetYPct}
+                  sketchPropagatedDrafts={dossier.sketchPropagatedDrafts ?? []}
+                  auditActor={updatedByLabel}
+                  categorySketchRevisionLabel={dossier.categorySketchRevisionLabel}
+                  categorySketchFreezeUntilDate={dossier.categorySketchFreezeUntilDate}
+                  categorySketchProductionApproved={dossier.categorySketchProductionApproved}
+                  categorySketchCompliance={dossier.categorySketchCompliance}
+                  sketchBrandbookConstraints={dossier.sketchBrandbookConstraints}
+                  sketchMasterAnnotationAuditLog={dossier.sketchMasterAnnotationAuditLog ?? []}
+                  categorySketchRevisionSnapshots={dossier.categorySketchRevisionSnapshots ?? []}
+                  categorySketchSceneId={dossier.categorySketchSceneId}
+                  categorySketchSceneView={dossier.categorySketchSceneView}
+                  sketchMesDefectCatalog={dossier.sketchMesDefectCatalog}
+                  onAppendSketchRevisionSnapshot={() => {
+                    setDossier((p: Workshop2DossierPhase1) => {
+                      const next = appendCategorySketchRevisionSnapshot(p, {
+                        leafId: currentLeaf.leafId,
+                        by: updatedByLabel,
+                        revisionLabel: p.categorySketchRevisionLabel ?? 'snapshot',
+                        annotations: p.categorySketchAnnotations ?? [],
+                        compliance: p.categorySketchCompliance,
+                      });
+                      const snap = next.categorySketchRevisionSnapshots?.at(-1);
+                      const pinCount = snap?.annotations.length ?? 0;
+                      const audit = mergeSketchMasterAuditLog(
+                        next.sketchMasterAnnotationAuditLog ?? [],
+                        [
                           {
                             entryId:
                               typeof crypto !== 'undefined' && crypto.randomUUID
@@ -6907,441 +7887,33 @@ export function Workshop2Phase1DossierPanel({
                             action: 'revision_snapshot',
                             summary: `Архив PLM: снимок «${p.categorySketchRevisionLabel ?? 'snapshot'}», ${pinCount} мет.`,
                           },
-                        ]);
-                        return { ...next, sketchMasterAnnotationAuditLog: audit };
-                      });
-                    }}
-                    sketchTasksPanel={
-                      <SubcategorySketchTasksRibbon
-                        currentLeaf={currentLeaf}
-                        dossier={dossier}
-                        articleSku={skuDraft}
-                        articleName={nameDraft}
-                        setDossier={setDossier}
-                        sketchContext={{
-                          audienceId: selectedAudienceId,
-                          audienceName: selectedAudienceLabel,
-                          isUnisex: dossier.isUnisex,
-                        }}
-                      />
-                    }
-                    onSavePinTemplateToDossier={saveMasterSketchPinTemplate}
-                    onSavePinTemplateToOrg={saveMasterSketchPinTemplateToOrg}
-                    visualCatalogAttributeIds={visualsCatalogAttributeIdsForSketch}
-                    visualCatalogSketchLinks={visualsCatalogSketchLinksForPins}
-                    onVisualCatalogSuggestFromSketch={onVisualCatalogSuggestFromSketch}
-                  />
-                    </>
-                  ) : (
-                    <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm">
-                      <CategorySketchSheetsBlock
-                        currentLeaf={currentLeaf}
-                        dossier={dossier}
-                        setDossier={setDossier}
-                        bomLinePickOptions={bomLinePickOptions}
-                        masterSketchAnnotations={dossier.categorySketchAnnotations ?? []}
-                        sketchContext={{
-                          audienceId: selectedAudienceId,
-                          audienceName: selectedAudienceLabel,
-                          isUnisex: dossier.isUnisex,
-                        }}
-                        articleSku={skuDraft}
-                        collectionId={collectionId}
-                        sketchOrgLibraryRevision={orgSketchLibraryRevision}
-                        onOrgSketchTemplatesMutated={() => setOrgSketchLibraryRevision((n) => n + 1)}
-                        auditActor={updatedByLabel}
-                        sketchViewFloor={sketchEditsLocked}
-                        embeddedPicker={
-                          normalizedSketchSheets.length > 0
-                            ? {
-                                activeSheetId: sketchSheetPickerId ?? normalizedSketchSheets[0]!.sheetId,
-                                onActiveSheetChange: setSketchSheetPickerId,
-                              }
-                            : undefined
-                        }
-                        onJumpToDossierSection={(sec) => setActiveSection(sec)}
-                        onNavigateRouteStage={(st) => onNavigateToTab?.(SKETCH_ROUTE_STAGE_TO_WORKSPACE_TAB[st])}
-                        visualCatalogAttributeIds={visualsCatalogAttributeIdsForSketch}
-                        visualCatalogSketchLinks={visualsCatalogSketchLinksForPins}
-                        onVisualCatalogSuggestFromSketch={onVisualCatalogSuggestFromSketch}
-                      />
-                    </div>
-                  )}
-                </TabsContent>
-                <TabsContent value="sublevels" className="mt-0 outline-none focus-visible:ring-0">
-                  <div className="space-y-3">
-                    <div className="space-y-2 rounded-lg border border-zinc-200 bg-white p-2 shadow-sm">
-                      <p className="text-[10px] leading-snug text-zinc-600">
-                        <span className="font-semibold text-zinc-800">Артикул:</span>{' '}
-                        <span className="font-mono text-zinc-900">{skuDraft.trim() || '—'}</span>
-                        <span className="text-zinc-400"> · </span>
-                        <span className="font-semibold text-zinc-800">Аудитория каталога (L3):</span>{' '}
-                        <span className="text-zinc-900">{selectedAudienceLabel}</span>
-                        <span className="mt-0.5 block text-zinc-500">
-                          Название в паспорте — отдельное поле; формулировки вроде «мужское» там не меняют выбранную
-                          аудиторию листа.
-                        </span>
-                      </p>
-                      <p className="text-[10px] leading-snug text-zinc-700">
-                        <span className="font-semibold text-zinc-800">По умолчанию</span> редактируется слот{' '}
-                        <strong className="font-semibold text-zinc-900">«{BRANCH_CATALOG_SLOT_ROLE[3].label}»</strong> — требования
-                        и мини-скетч на уровне карточки артикула. Переключение на линию или группу — только если процессу нужна
-                        отдельная формулировка на весь раздел или подтип.
-                      </p>
-                      {subcategorySketchActiveLevel !== 3 ? (
-                        <p className="rounded-md border border-amber-200 bg-amber-50/80 px-2 py-1.5 text-[10px] text-amber-950">
-                          Сейчас открыт слот{' '}
-                          <strong>«{BRANCH_CATALOG_SLOT_ROLE[subcategorySketchActiveLevel].label}»</strong>. Вернуться к модели
-                          можно в блоке «Уровни ветки» ниже.
-                        </p>
-                      ) : null}
-                      <Collapsible
-                        open={branchLevelsDetailsOpen}
-                        onOpenChange={(open) => {
-                          setBranchLevelsDetailsOpen(open);
-                          if (typeof window === 'undefined') return;
-                          try {
-                            localStorage.setItem(WORKSHOP_BRANCH_LEVELS_DETAILS_LS_KEY, open ? '1' : '0');
-                          } catch {
-                            /* ignore */
-                          }
-                        }}
-                      >
-                        <CollapsibleTrigger asChild>
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
-                            className="h-8 w-full justify-between gap-2 text-left text-[10px] font-medium text-zinc-800 sm:w-auto sm:min-w-[16rem]"
-                            aria-expanded={branchLevelsDetailsOpen}
-                          >
-                            <span>Уровни ветки (линия · группа · модель)</span>
-                            <LucideIcons.ChevronDown
-                              className={cn(
-                                'h-4 w-4 shrink-0 text-zinc-500 transition-transform',
-                                branchLevelsDetailsOpen && 'rotate-180'
-                              )}
-                              aria-hidden
-                            />
-                          </Button>
-                        </CollapsibleTrigger>
-                        <CollapsibleContent className="space-y-2 overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-                          <p className="pt-2 text-[10px] leading-snug text-zinc-600">
-                            Три слота совпадают с узлами пути в справочнике; текст и метки в каждом слоте раздельны. Наследование
-                            формулировок между слотами — в блоке задач справа («Принять оттуда»).
-                          </p>
-                          <div
-                            className="flex w-fit flex-wrap gap-0.5 rounded-md border border-zinc-100 bg-zinc-50/90 p-0.5"
-                            role="tablist"
-                            aria-label="Слот узла ветки"
-                          >
-                            {([1, 2, 3] as const).map((lv) => {
-                              const nodeName =
-                                lv === 1 ? currentLeaf.l1Name : lv === 2 ? currentLeaf.l2Name : currentLeaf.l3Name;
-                              const role = BRANCH_CATALOG_SLOT_ROLE[lv];
-                              return (
-                                <Button
-                                  key={lv}
-                                  type="button"
-                                  size="sm"
-                                  variant={subcategorySketchActiveLevel === lv ? 'default' : 'ghost'}
-                                  className={cn(
-                                    'h-7 shrink-0 px-2.5 text-[10px] font-semibold',
-                                    subcategorySketchActiveLevel === lv ? 'shadow-sm' : 'text-zinc-600'
-                                  )}
-                                  onClick={() => setSubcategorySketchActiveLevel(lv)}
-                                  title={`Узел ветки: ${nodeName}. ${role.hint}`}
-                                  aria-pressed={subcategorySketchActiveLevel === lv}
-                                >
-                                  {role.label}
-                                </Button>
-                              );
-                            })}
-                          </div>
-                        </CollapsibleContent>
-                      </Collapsible>
-                    </div>
-                    <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm">
-                      <CategorySubcategorySketchesTzBlock
-                        currentLeaf={currentLeaf}
-                        dossier={dossier}
-                        articleSku={skuDraft}
-                        articleName={nameDraft}
-                        setDossier={setDossier}
-                        sketchContext={{
-                          audienceId: selectedAudienceId,
-                          audienceName: selectedAudienceLabel,
-                          isUnisex: dossier.isUnisex,
-                        }}
-                        masterSketchAnnotations={dossier.categorySketchAnnotations ?? []}
-                        activeLevel={subcategorySketchActiveLevel}
-                        sketchViewFloor={sketchEditsLocked}
-                      />
-                    </div>
-                  </div>
-                </TabsContent>
-              </Tabs>
-              </>
-          ) : (
-              <>
-              <div className="flex items-start gap-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
-                  <LucideIcons.Pencil className="h-4 w-4 shrink-0" aria-hidden />
-                </div>
-                <div className="min-w-0 flex-1 space-y-1">
-                  <h2 className="text-base font-semibold text-slate-900">Скетч по категории</h2>
-                  <p className="text-sm leading-snug text-slate-500">
-                    Один силуэт на выбранную ветку каталога: отметьте узлы на скетче, привяжите метки к полям ТЗ.
-                  </p>
-                  <div className="flex flex-col gap-2 border-t border-slate-100 pt-2 sm:flex-row sm:flex-wrap sm:items-stretch">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <SketchViewModeToggle
-                        floor={sketchViewFloor}
-                        onFloorChange={setSketchFloorMode}
-                        lockedToFloor={lockedSketchFloorOnly || tzWriteDisabled}
-                        onCopyFloorLink={copySketchFloorLink}
-                      />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="h-8 text-xs"
-                        onClick={saveSketchLabelsSnapshot}
-                      >
-                        Снимок меток
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="h-8 text-xs"
-                        disabled={sketchBundleBusy}
-                        onClick={() => void exportSketchVisualBundleZip()}
-                      >
-                        {sketchBundleBusy ? 'Архив…' : 'ZIP: PNG + PDF'}
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="secondary"
-                        size="sm"
-                        className="h-8 text-xs"
-                        onClick={() => setSketchPinLibraryOpen(true)}
-                      >
-                        Снимки и шаблоны…
-                      </Button>
-                    </div>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          className="h-auto min-h-8 shrink-0 gap-2 px-3 py-2 text-left text-xs font-medium leading-snug text-slate-700 sm:max-w-[12rem]"
-                        >
-                          <LucideIcons.CircleHelp className="h-4 w-4 shrink-0 text-indigo-600" aria-hidden />
-                          <span>
-                            Панель скетча
-                            <span className="mt-0.5 block text-[10px] font-normal text-slate-500">как пользоваться</span>
-                          </span>
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent
-                        align="end"
-                        className="max-h-[min(32rem,70vh)] w-[min(calc(100vw-1.5rem),24rem)] overflow-y-auto p-0"
-                        sideOffset={6}
-                      >
-                        <div className="border-b border-slate-100 bg-slate-50/80 px-4 py-3">
-                          <p className="text-sm font-semibold text-slate-900">Панель над скетчем</p>
-                          <p className="mt-1 text-xs leading-snug text-slate-600">
-                            Те же смыслы, что и в фазе 1: режим ТЗ/цех, ссылка для цеха, библиотека и выгрузки.
-                          </p>
-                        </div>
-                        <div className="space-y-4 p-4 text-xs leading-relaxed text-slate-700">
-                          <section>
-                            <p className="font-semibold text-slate-900">Режим · ТЗ / Цех</p>
-                            <p className="mt-1 text-slate-600">
-                              ТЗ — правки меток; цех — только просмотр крупных номеров. Ссылка цеха копирует URL с{' '}
-                              <code className="rounded bg-slate-100 px-1 py-0.5 font-mono text-[10px]">
-                                ?sketchFloor=1
-                              </code>
-                              .
-                            </p>
-                          </section>
-                          <section>
-                            <p className="font-semibold text-slate-900">Снимки и шаблоны</p>
-                            <p className="mt-1 text-slate-600">
-                              Открывает библиотеку шаблонов и эталонов. Снимок меток и ZIP — быстрый экспорт без меню
-                              «Ещё».
-                            </p>
-                          </section>
-                        </div>
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col gap-2 rounded-lg border border-slate-100 bg-slate-50/60 p-2 sm:flex-row sm:flex-wrap sm:items-center">
-                <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-                  Шаблоны меток
-                </span>
-                <select
-                  className="h-9 min-w-[200px] flex-1 rounded-md border border-slate-200 bg-white px-2 text-sm disabled:opacity-60"
-                  value={sketchMasterTemplateId}
-                  disabled={sketchEditsLocked}
-                  onChange={(e) => setSketchMasterTemplateId(e.target.value)}
-                  aria-label="Выбор шаблона меток"
-                >
-                  <option value="">— шаблон —</option>
-                  {(dossier.sketchPinTemplates ?? []).length > 0 ? (
-                    <optgroup label="Это досье">
-                      {(dossier.sketchPinTemplates ?? []).map((t) => (
-                        <option key={`d:${t.templateId}`} value={`d:${t.templateId}`}>
-                          {t.name} ({t.annotations.length} пин.)
-                        </option>
-                      ))}
-                    </optgroup>
-          ) : null}
-                  {orgSketchTemplatesList.length > 0 ? (
-                    <optgroup label="Библиотека коллекции (браузер)">
-                      {orgSketchTemplatesList.map((t) => (
-                        <option key={`o:${t.templateId}`} value={`o:${t.templateId}`}>
-                          {t.name} ({t.annotations.length} пин.)
-                        </option>
-                      ))}
-                    </optgroup>
-                  ) : null}
-                </select>
-                <div className="flex flex-wrap gap-1.5">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-8 text-xs"
-                    disabled={!sketchMasterTemplateId || sketchEditsLocked}
-                    onClick={() => applyMasterSketchPinTemplate('merge')}
-                  >
-                    + К доске
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-8 text-xs"
-                    disabled={!sketchMasterTemplateId || sketchEditsLocked}
-                    onClick={() => applyMasterSketchPinTemplate('replace')}
-                  >
-                    Заменить
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    size="sm"
-                    className="h-8 text-xs"
-                    disabled={sketchEditsLocked}
-                    onClick={saveMasterSketchPinTemplate}
-                  >
-                    В досье
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    size="sm"
-                    className="h-8 text-xs"
-                    disabled={sketchEditsLocked}
-                    onClick={saveMasterSketchPinTemplateToOrg}
-                  >
-                    В коллекцию
-                  </Button>
-                </div>
-              </div>
-              <CategorySketchAnnotator
-                currentLeaf={currentLeaf}
-                imageDataUrl={dossier.categorySketchImageDataUrl}
-                imageFileName={dossier.categorySketchImageFileName}
-                annotations={dossier.categorySketchAnnotations ?? []}
-                attributeOptions={sketchAttributeOptions}
-                sketchContext={{
-                  audienceId: selectedAudienceId,
-                  audienceName: selectedAudienceLabel,
-                  isUnisex: dossier.isUnisex,
-                }}
-                onNavigateStage={(stage) => onNavigateToTab?.(stage)}
-                onJumpToDossierSection={(sec) => setActiveSection(sec)}
-                onNavigateRouteStage={(st) => onNavigateToTab?.(SKETCH_ROUTE_STAGE_TO_WORKSPACE_TAB[st])}
-                onPatch={(patch) => setDossier((p: Workshop2DossierPhase1) => ({ ...p, ...patch }))}
-                showPassportSectionHeader={false}
-                pinTextSnippets={DEFAULT_MASTER_PIN_SNIPPETS}
-                exportFileNameStem={`master-${skuDraft.replace(/[^a-zA-Z0-9а-яА-ЯёЁ._-]+/g, '-').slice(0, 48)}`}
-                articleSku={skuDraft}
-                viewMode={sketchEditsLocked ? 'floor' : 'edit'}
-                subcategorySketchSlots={dossier.subcategorySketchSlots ?? []}
-                categorySketchCompareOverlayDataUrl={dossier.categorySketchCompareOverlayDataUrl ?? undefined}
-                categorySketchCompareOverlayFileName={dossier.categorySketchCompareOverlayFileName ?? undefined}
-                categorySketchCompareOverlayOpacityPct={dossier.categorySketchCompareOverlayOpacityPct}
-                categorySketchCompareOverlayScalePct={dossier.categorySketchCompareOverlayScalePct}
-                categorySketchCompareOffsetXPct={dossier.categorySketchCompareOffsetXPct}
-                categorySketchCompareOffsetYPct={dossier.categorySketchCompareOffsetYPct}
-                sketchPropagatedDrafts={dossier.sketchPropagatedDrafts ?? []}
-                auditActor={updatedByLabel}
-                categorySketchRevisionLabel={dossier.categorySketchRevisionLabel}
-                categorySketchFreezeUntilDate={dossier.categorySketchFreezeUntilDate}
-                categorySketchProductionApproved={dossier.categorySketchProductionApproved}
-                categorySketchCompliance={dossier.categorySketchCompliance}
-                sketchBrandbookConstraints={dossier.sketchBrandbookConstraints}
-                sketchMasterAnnotationAuditLog={dossier.sketchMasterAnnotationAuditLog ?? []}
-                categorySketchRevisionSnapshots={dossier.categorySketchRevisionSnapshots ?? []}
-                categorySketchSceneId={dossier.categorySketchSceneId}
-                categorySketchSceneView={dossier.categorySketchSceneView}
-                sketchMesDefectCatalog={dossier.sketchMesDefectCatalog}
-                onAppendSketchRevisionSnapshot={() => {
-                  setDossier((p: Workshop2DossierPhase1) => {
-                    const next = appendCategorySketchRevisionSnapshot(p, {
-                      leafId: currentLeaf.leafId,
-                      by: updatedByLabel,
-                      revisionLabel: p.categorySketchRevisionLabel ?? 'snapshot',
-                      annotations: p.categorySketchAnnotations ?? [],
-                      compliance: p.categorySketchCompliance,
+                        ]
+                      );
+                      return { ...next, sketchMasterAnnotationAuditLog: audit };
                     });
-                    const snap = next.categorySketchRevisionSnapshots?.at(-1);
-                    const pinCount = snap?.annotations.length ?? 0;
-                    const audit = mergeSketchMasterAuditLog(next.sketchMasterAnnotationAuditLog ?? [], [
-                      {
-                        entryId:
-                          typeof crypto !== 'undefined' && crypto.randomUUID
-                            ? crypto.randomUUID()
-                            : `e-${Date.now()}`,
-                        at: new Date().toISOString(),
-                        by: updatedByLabel,
-                        annotationId: '__plm_snapshot__',
-                        action: 'revision_snapshot',
-                        summary: `Архив PLM: снимок «${p.categorySketchRevisionLabel ?? 'snapshot'}», ${pinCount} мет.`,
-                      },
-                    ]);
-                    return { ...next, sketchMasterAnnotationAuditLog: audit };
-                  });
-                }}
-                sketchTasksPanel={
-                  <SubcategorySketchTasksRibbon
-                    currentLeaf={currentLeaf}
-                    dossier={dossier}
-                    articleSku={skuDraft}
-                    articleName={nameDraft}
-                    setDossier={setDossier}
-                    sketchContext={{
-                      audienceId: selectedAudienceId,
-                      audienceName: selectedAudienceLabel,
-                      isUnisex: dossier.isUnisex,
-                    }}
-                  />
-                }
-                onSavePinTemplateToDossier={saveMasterSketchPinTemplate}
-                onSavePinTemplateToOrg={saveMasterSketchPinTemplateToOrg}
-                visualCatalogAttributeIds={visualsCatalogAttributeIdsForSketch}
-                visualCatalogSketchLinks={visualsCatalogSketchLinksForPins}
-                onVisualCatalogSuggestFromSketch={onVisualCatalogSuggestFromSketch}
-              />
+                  }}
+                  sketchTasksPanel={
+                    <SubcategorySketchTasksRibbon
+                      currentLeaf={currentLeaf}
+                      dossier={dossier}
+                      articleSku={skuDraft}
+                      articleName={nameDraft}
+                      setDossier={setDossier}
+                      sketchContext={{
+                        audienceId: selectedAudienceId,
+                        audienceName: selectedAudienceLabel,
+                        isUnisex: dossier.isUnisex,
+                      }}
+                    />
+                  }
+                  onSavePinTemplateToDossier={saveMasterSketchPinTemplate}
+                  onSavePinTemplateToOrg={saveMasterSketchPinTemplateToOrg}
+                  visualCatalogAttributeIds={visualsCatalogAttributeIdsForSketch}
+                  visualCatalogSketchLinks={visualsCatalogSketchLinksForPins}
+                  onVisualCatalogSuggestFromSketch={onVisualCatalogSuggestFromSketch}
+                />
               </>
-          )}
+            )}
           </div>
           <Collapsible
             open={constructionTzHubOpen}
@@ -7364,138 +7936,167 @@ export function Workshop2Phase1DossierPanel({
               </button>
             </CollapsibleTrigger>
             <CollapsibleContent className="space-y-4 overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-          <div className="flex flex-wrap items-start justify-between gap-2">
-            <div className="min-w-0 flex-1 rounded-lg border border-purple-100 bg-purple-50/30 px-3 py-2">
-              <p className="text-[10px] font-black uppercase tracking-widest text-purple-500">Конструктив: {l2}</p>
-              <p className="mt-1 text-[10px] leading-snug text-slate-600">
-                Узлы каталога ниже — зона дизайна и технолога; мерки и скетч связывают менеджера, снабжение, цех и ОТК с одним
-                артикулом. Подпись секции и выгрузка ТК закрывают контур для производства и комплаенса.
-              </p>
-              <p className="mt-1 text-[11px] leading-snug text-slate-700">{hint}</p>
-            </div>
-            <Workshop2TzSectionRolesPopover section="construction" className="shrink-0" />
-          </div>
-          <Workshop2NineGapBacklogStrip
-            backlogItems={W2_NINE_GAP_CONSTRUCTION_ROADMAP}
-            stripTitle="Конструктор · дорожная карта"
-            variant="purple"
-            sectionPct={sectionReadiness.construction.pct}
-            onDossierJump={jumpToTzSectionAnchor}
-            footer={
-              <WorkshopNineGapRelatedFooterShell
-                matSketchBomGapRefs={matSketchBomGapRefs}
-                onJumpMaterialHub={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
-                onJumpSketch={() => jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)}
-                onJumpMaterialMatTable={jumpToMaterialMatTable}
-                onJumpConstructionContour={jumpToConstructionContour}
-                onJumpQcRoute={onNavigateToTab ? jumpToQcArticleSection : undefined}
-                hint="Узлы каталога и метки скетча (construction / qc) согласуйте с мерки и строками mat."
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <div className="min-w-0 flex-1 rounded-lg border border-purple-100 bg-purple-50/30 px-3 py-2">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-purple-500">
+                    Конструктив: {l2}
+                  </p>
+                  <p className="mt-1 text-[10px] leading-snug text-slate-600">
+                    Узлы каталога ниже — зона дизайна и технолога; мерки и скетч связывают
+                    менеджера, снабжение, цех и ОТК с одним артикулом. Подпись секции и выгрузка ТК
+                    закрывают контур для производства и комплаенса.
+                  </p>
+                  <p className="mt-1 text-[11px] leading-snug text-slate-700">{hint}</p>
+                </div>
+                <Workshop2TzSectionRolesPopover section="construction" className="shrink-0" />
+              </div>
+              <Workshop2NineGapBacklogStrip
+                backlogItems={W2_NINE_GAP_CONSTRUCTION_ROADMAP}
+                stripTitle="Конструктор · дорожная карта"
+                variant="purple"
+                sectionPct={sectionReadiness.construction.pct}
+                onDossierJump={jumpToTzSectionAnchor}
+                footer={
+                  <WorkshopNineGapRelatedFooterShell
+                    matSketchBomGapRefs={matSketchBomGapRefs}
+                    onJumpMaterialHub={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
+                    onJumpSketch={() =>
+                      jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)
+                    }
+                    onJumpMaterialMatTable={jumpToMaterialMatTable}
+                    onJumpConstructionContour={jumpToConstructionContour}
+                    onJumpQcRoute={onNavigateToTab ? jumpToQcArticleSection : undefined}
+                    hint="Узлы каталога и метки скетча (construction / qc) согласуйте с мерки и строками mat."
+                  >
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-7 text-[10px]"
+                      onClick={() => jumpToTzSectionAnchor('general', 'w2-passport-hub')}
+                    >
+                      Паспорт
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-7 text-[10px]"
+                      onClick={() =>
+                        jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)
+                      }
+                    >
+                      Скетч
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-7 text-[10px]"
+                      onClick={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
+                    >
+                      BOM
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-7 text-[10px]"
+                      onClick={() =>
+                        jumpToTzSectionAnchor('construction', 'w2-measurements-fields')
+                      }
+                    >
+                      Мерки
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-7 text-[10px]"
+                      onClick={() =>
+                        jumpToTzSectionAnchor(
+                          'construction',
+                          W2_CONSTRUCTION_SUBPAGE_ANCHORS.contour
+                        )
+                      }
+                    >
+                      Контур
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-7 text-[10px]"
+                      onClick={() =>
+                        jumpToTzSectionAnchor(
+                          'construction',
+                          W2_CONSTRUCTION_SUBPAGE_ANCHORS.export
+                        )
+                      }
+                    >
+                      ТК / выгрузка
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-7 text-[10px]"
+                      onClick={() =>
+                        jumpToTzSectionAnchor(
+                          'construction',
+                          W2_CONSTRUCTION_SUBPAGE_ANCHORS.signoff
+                        )
+                      }
+                    >
+                      Подпись
+                    </Button>
+                  </WorkshopNineGapRelatedFooterShell>
+                }
+              />
+              <div
+                id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.export}
+                className="scroll-mt-24 rounded-lg border border-slate-200/90 bg-slate-50/80 px-3 py-2.5 text-[11px] text-slate-800 shadow-sm"
               >
+                <p className="text-[9px] font-black uppercase tracking-wide text-slate-600">
+                  Выгрузка узлов / ТК для цеха
+                </p>
+                <p className="mt-1 leading-snug text-slate-700">
+                  PDF листа узлов или табличная выгрузка техкарты подключаются маршрутами tech-pack
+                  и экспорта <span className="font-semibold">вне этого экрана</span> — здесь
+                  фиксируем согласованный контур данных для цеха.
+                </p>
+              </div>
+              <div
+                id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.signoff}
+                className="scroll-mt-24 rounded-lg border border-violet-200/85 bg-violet-50/50 px-3 py-2.5 text-[11px] text-violet-950 shadow-sm"
+              >
+                <p className="text-[9px] font-black uppercase tracking-wide text-violet-900">
+                  Подпись блока конструкции
+                </p>
+                <p className="mt-1 leading-snug text-violet-950/90">
+                  Те же мета подписей, что у прочих секций ТЗ (brand / tech): чекбоксы в липкой
+                  панели «Этап ТЗ» над полями при открытой вкладке «Конструкция».
+                </p>
                 <Button
                   type="button"
-                  variant="outline"
+                  variant="secondary"
                   size="sm"
-                  className="h-7 text-[10px]"
-                  onClick={() => jumpToTzSectionAnchor('general', 'w2-passport-hub')}
+                  className="mt-2 h-7 text-[10px]"
+                  onClick={() =>
+                    document.getElementById(W2_TZ_SECTION_STAGE_DOM_ID)?.scrollIntoView({
+                      behavior: tzScrollBehavior,
+                      block: 'start',
+                    })
+                  }
                 >
-                  Паспорт
+                  К панели этапа ТЗ
                 </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-7 text-[10px]"
-                  onClick={() => jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)}
-                >
-                  Скетч
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-7 text-[10px]"
-                  onClick={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
-                >
-                  BOM
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-7 text-[10px]"
-                  onClick={() => jumpToTzSectionAnchor('construction', 'w2-measurements-fields')}
-                >
-                  Мерки
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-7 text-[10px]"
-                  onClick={() => jumpToTzSectionAnchor('construction', W2_CONSTRUCTION_SUBPAGE_ANCHORS.contour)}
-                >
-                  Контур
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-7 text-[10px]"
-                  onClick={() => jumpToTzSectionAnchor('construction', W2_CONSTRUCTION_SUBPAGE_ANCHORS.export)}
-                >
-                  ТК / выгрузка
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-7 text-[10px]"
-                  onClick={() => jumpToTzSectionAnchor('construction', W2_CONSTRUCTION_SUBPAGE_ANCHORS.signoff)}
-                >
-                  Подпись
-                </Button>
-              </WorkshopNineGapRelatedFooterShell>
-            }
-          />
-          <div
-            id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.export}
-            className="scroll-mt-24 rounded-lg border border-slate-200/90 bg-slate-50/80 px-3 py-2.5 text-[11px] text-slate-800 shadow-sm"
-          >
-            <p className="text-[9px] font-black uppercase tracking-wide text-slate-600">Выгрузка узлов / ТК для цеха</p>
-            <p className="mt-1 leading-snug text-slate-700">
-              PDF листа узлов или табличная выгрузка техкарты подключаются маршрутами tech-pack и экспорта{' '}
-              <span className="font-semibold">вне этого экрана</span> — здесь фиксируем согласованный контур данных для цеха.
-            </p>
-          </div>
-          <div
-            id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.signoff}
-            className="scroll-mt-24 rounded-lg border border-violet-200/85 bg-violet-50/50 px-3 py-2.5 text-[11px] text-violet-950 shadow-sm"
-          >
-            <p className="text-[9px] font-black uppercase tracking-wide text-violet-900">Подпись блока конструкции</p>
-            <p className="mt-1 leading-snug text-violet-950/90">
-              Те же мета подписей, что у прочих секций ТЗ (brand / tech): чекбоксы в липкой панели «Этап ТЗ» над полями при
-              открытой вкладке «Конструкция».
-            </p>
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              className="mt-2 h-7 text-[10px]"
-              onClick={() =>
-                document.getElementById(W2_TZ_SECTION_STAGE_DOM_ID)?.scrollIntoView({
-                  behavior: tzScrollBehavior,
-                  block: 'start',
-                })
-              }
-            >
-              К панели этапа ТЗ
-            </Button>
-          </div>
+              </div>
             </CollapsibleContent>
           </Collapsible>
           <Collapsible
             defaultOpen={false}
-            className="scroll-mt-4 rounded-lg border border-slate-200 bg-slate-50/40 mx-1 sm:mx-2"
+            className="mx-1 scroll-mt-4 rounded-lg border border-slate-200 bg-slate-50/40 sm:mx-2"
           >
             <CollapsibleTrigger className="flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-[11px] font-semibold text-slate-800 hover:bg-slate-100/80">
               <span>Поля каталога: конструкция · мерки · доп. строки ТЗ</span>
@@ -7514,7 +8115,9 @@ export function Workshop2Phase1DossierPanel({
     return renderSectionRows(sectionRowsCurrent, currentPhase);
   })();
 
-  const internalArticleCodeDisplayForRibbon = isWorkshop2InternalArticleCodeValid(internalArticleCode)
+  const internalArticleCodeDisplayForRibbon = isWorkshop2InternalArticleCodeValid(
+    internalArticleCode
+  )
     ? internalArticleCode
     : formatWorkshop2InternalArticleCodePlaceholder();
 
@@ -7527,11 +8130,15 @@ export function Workshop2Phase1DossierPanel({
         className="rounded-lg border border-indigo-100/90 bg-indigo-50/40 px-3 py-2 text-[11px] text-slate-800 shadow-sm"
       >
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-          <span className="font-semibold tabular-nums text-indigo-950">SKU: {skuDraft.trim() || '—'}</span>
+          <span className="font-semibold tabular-nums text-indigo-950">
+            SKU: {skuDraft.trim() || '—'}
+          </span>
           <span className="text-slate-400" aria-hidden>
             ·
           </span>
-          <span className="font-mono text-[10px] text-slate-700">{internalArticleCodeDisplayForRibbon}</span>
+          <span className="font-mono text-[10px] text-slate-700">
+            {internalArticleCodeDisplayForRibbon}
+          </span>
           {(nameDraft || '').trim() ? (
             <>
               <span className="text-slate-400" aria-hidden>
@@ -7575,90 +8182,98 @@ export function Workshop2Phase1DossierPanel({
     ) : null;
 
   return (
-    <div
-      className="space-y-6 text-left w-full min-w-0"
-      data-w2-dossier-view={dossierViewProfile}
-    >
+    <div className="w-full min-w-0 space-y-6 text-left" data-w2-dossier-view={dossierViewProfile}>
       {/* Horizontal Breadcrumb Bar — первичные секции для w2view + переход «до 9» (паспорт-dense) */}
       <div id={W2_PASSPORT_SUBPAGE_ANCHORS.denseView} className="scroll-mt-24">
-      <div className="flex items-center gap-1 overflow-x-auto pb-1 scrollbar-thin">
-        {dossierNavPrimarySections.map((s, idx) => {
-          const rd = sectionReadiness[s.id];
-          const isActive = activeSection === s.id;
-          const isDone = rd.pct === 100;
-          const primaryForView =
-            dossierViewProfile === 'full' || isWorkshop2DossierViewPrimarySection(dossierViewProfile, s.id);
-          return (
-            <Fragment key={s.id}>
-              {idx > 0 && <LucideIcons.ChevronRight className="w-3 h-3 shrink-0 text-slate-300" />}
-              <button
-                type="button"
-                title={
-                  primaryForView
-                    ? undefined
-                    : 'Вторично для выбранного режима ТЗ — откройте при необходимости'
-                }
-                onClick={() => setActiveSection(s.id)}
-                className={cn(
-                  'flex items-center gap-1.5 shrink-0 rounded-full px-3 py-1.5 text-[10px] font-bold transition-all',
-                  isActive
-                    ? 'bg-indigo-600 text-white shadow-md'
-                    : isDone
-                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100'
-                    : 'bg-slate-50 text-slate-500 border border-slate-200 hover:bg-slate-100',
-                  !primaryForView && !isActive && 'opacity-65 ring-1 ring-dashed ring-slate-200/80'
+        <div className="scrollbar-thin flex items-center gap-1 overflow-x-auto pb-1">
+          {dossierNavPrimarySections.map((s, idx) => {
+            const rd = sectionReadiness[s.id];
+            const isActive = activeSection === s.id;
+            const isDone = rd.pct === 100;
+            const primaryForView =
+              dossierViewProfile === 'full' ||
+              isWorkshop2DossierViewPrimarySection(dossierViewProfile, s.id);
+            return (
+              <Fragment key={s.id}>
+                {idx > 0 && (
+                  <LucideIcons.ChevronRight className="h-3 w-3 shrink-0 text-slate-300" />
                 )}
-              >
-                {isDone && !isActive && <LucideIcons.Check className="w-3 h-3" />}
-                <span className="uppercase tracking-tight">{s.label}</span>
-                {!isActive && rd.pct > 0 && rd.pct < 100 && (
-                  <span className="text-[8px] font-black opacity-60">{rd.pct}%</span>
-                )}
-              </button>
-            </Fragment>
-          );
-        })}
-        {dossierNavSecondarySections.length > 0 ? (
-          <Fragment>
-            <LucideIcons.ChevronRight className="w-3 h-3 shrink-0 text-slate-300" />
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
+                <button
                   type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-7 shrink-0 gap-1 rounded-full px-2.5 text-[9px] font-bold uppercase"
+                  title={
+                    primaryForView
+                      ? undefined
+                      : 'Вторично для выбранного режима ТЗ — откройте при необходимости'
+                  }
+                  onClick={() => setActiveSection(s.id)}
+                  className={cn(
+                    'flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-bold transition-all',
+                    isActive
+                      ? 'bg-indigo-600 text-white shadow-md'
+                      : isDone
+                        ? 'border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                        : 'border border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100',
+                    !primaryForView &&
+                      !isActive &&
+                      'ring-dashed opacity-65 ring-1 ring-slate-200/80'
+                  )}
                 >
-                  Ещё ({dossierNavSecondarySections.length})
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent align="start" className="w-56 p-2">
-                <p className="mb-1.5 text-[9px] font-bold uppercase tracking-wide text-slate-500">Доп. разделы ТЗ</p>
-                <div className="flex flex-col gap-1">
-                  {dossierNavSecondarySections.map((s) => {
-                    const rd = sectionReadiness[s.id];
-                    const isActive = activeSection === s.id;
-                    return (
-                      <button
-                        key={s.id}
-                        type="button"
-                        onClick={() => setActiveSection(s.id)}
-                        className={cn(
-                          'rounded-md px-2 py-1.5 text-left text-[11px] font-semibold transition-colors',
-                          isActive ? 'bg-indigo-600 text-white' : 'bg-slate-50 text-slate-800 hover:bg-slate-100'
-                        )}
-                      >
-                        {s.label}
-                        <span className="ml-1 tabular-nums text-[10px] font-normal opacity-80">{rd.pct}%</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </PopoverContent>
-            </Popover>
-          </Fragment>
-        ) : null}
-      </div>
+                  {isDone && !isActive && <LucideIcons.Check className="h-3 w-3" />}
+                  <span className="uppercase tracking-tight">{s.label}</span>
+                  {!isActive && rd.pct > 0 && rd.pct < 100 && (
+                    <span className="text-[8px] font-black opacity-60">{rd.pct}%</span>
+                  )}
+                </button>
+              </Fragment>
+            );
+          })}
+          {dossierNavSecondarySections.length > 0 ? (
+            <Fragment>
+              <LucideIcons.ChevronRight className="h-3 w-3 shrink-0 text-slate-300" />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 shrink-0 gap-1 rounded-full px-2.5 text-[9px] font-bold uppercase"
+                  >
+                    Ещё ({dossierNavSecondarySections.length})
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent align="start" className="w-56 p-2">
+                  <p className="mb-1.5 text-[9px] font-bold uppercase tracking-wide text-slate-500">
+                    Доп. разделы ТЗ
+                  </p>
+                  <div className="flex flex-col gap-1">
+                    {dossierNavSecondarySections.map((s) => {
+                      const rd = sectionReadiness[s.id];
+                      const isActive = activeSection === s.id;
+                      return (
+                        <button
+                          key={s.id}
+                          type="button"
+                          onClick={() => setActiveSection(s.id)}
+                          className={cn(
+                            'rounded-md px-2 py-1.5 text-left text-[11px] font-semibold transition-colors',
+                            isActive
+                              ? 'bg-indigo-600 text-white'
+                              : 'bg-slate-50 text-slate-800 hover:bg-slate-100'
+                          )}
+                        >
+                          {s.label}
+                          <span className="ml-1 text-[10px] font-normal tabular-nums opacity-80">
+                            {rd.pct}%
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </Fragment>
+          ) : null}
+        </div>
       </div>
 
       {tzWriteDisabled ? (
@@ -7666,8 +8281,9 @@ export function Workshop2Phase1DossierPanel({
           className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-950"
           role="status"
         >
-          <span className="font-semibold">Только просмотр.</span>{' '}
-          У этой роли нет права «Редактировать производство» — изменения ТЗ и скетча не сохраняются; экспорт и печать по-прежнему доступны.
+          <span className="font-semibold">Только просмотр.</span> У этой роли нет права
+          «Редактировать производство» — изменения ТЗ и скетча не сохраняются; экспорт и печать
+          по-прежнему доступны.
         </div>
       ) : null}
 
@@ -7677,15 +8293,20 @@ export function Workshop2Phase1DossierPanel({
           role="note"
         >
           <span className="font-semibold">Режим просмотра:</span>{' '}
-          {WORKSHOP2_DOSSIER_VIEW_OPTIONS.find((o) => o.value === dossierViewProfile)?.label ?? dossierViewProfile}.{' '}
-          {WORKSHOP2_DOSSIER_VIEW_HINTS[dossierViewProfile]}
+          {WORKSHOP2_DOSSIER_VIEW_OPTIONS.find((o) => o.value === dossierViewProfile)?.label ??
+            dossierViewProfile}
+          . {WORKSHOP2_DOSSIER_VIEW_HINTS[dossierViewProfile]}
         </div>
       ) : null}
 
       {isPhase1 && dossierViewProfile === 'factory' ? (
         <div className="rounded-xl border-2 border-slate-300 bg-white px-4 py-3 shadow-sm">
-          <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Фабрика · с чего начать</p>
-          <p className="mt-1 text-xs text-slate-600">SKU → канон → эскиз → BOM без лишнего скролла.</p>
+          <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+            Фабрика · с чего начать
+          </p>
+          <p className="mt-1 text-xs text-slate-600">
+            SKU → канон → эскиз → BOM без лишнего скролла.
+          </p>
           <div className="mt-2 flex flex-wrap gap-2">
             <Button
               type="button"
@@ -7753,7 +8374,9 @@ export function Workshop2Phase1DossierPanel({
             onJumpToBrandNotes={() => {
               setActiveSection('visuals');
               queueMicrotask(() => {
-                document.getElementById('w2-attr-brandNotes')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                document
+                  .getElementById('w2-attr-brandNotes')
+                  ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
               });
             }}
             onExportHandoffPdf={exportHandoffPdfOnly}
@@ -7763,31 +8386,31 @@ export function Workshop2Phase1DossierPanel({
       ) : null}
 
       <div className="grid gap-4 xl:grid-cols-[220px_minmax(0,1fr)_300px]">
-        <aside className="space-y-4 xl:sticky xl:top-4 self-start">
+        <aside className="space-y-4 self-start xl:sticky xl:top-4">
           <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
             <div className="flex flex-wrap items-start justify-between gap-2 pb-1">
               <div className="flex min-w-0 flex-1 items-start gap-3">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
                   <LucideIcons.LayoutGrid className="h-4 w-4 shrink-0" aria-hidden />
-        </div>
+                </div>
                 <div className="min-w-0 space-y-1">
                   <h2 className="text-base font-semibold text-slate-900">Досье артикула</h2>
                   <p className="text-xs leading-snug text-slate-500">
-                    Разделы ТЗ и прогресс по маршруту SKU: от паспорта и визуала к материалам, меркам и подписям без лишних
-                    переходов.
+                    Разделы ТЗ и прогресс по маршруту SKU: от паспорта и визуала к материалам,
+                    меркам и подписям без лишних переходов.
                   </p>
                 </div>
               </div>
-            <Button
-              type="button"
-              variant="outline"
+              <Button
+                type="button"
+                variant="outline"
                 className="h-9 shrink-0 gap-1.5 px-3 text-xs"
                 onClick={() => setTzHistoryOpen(true)}
               >
                 <LucideIcons.History className="h-3.5 w-3.5 shrink-0" aria-hidden />
                 История действий
-            </Button>
-        </div>
+              </Button>
+            </div>
             <div className="mt-4">
               <DossierNavigator
                 activeSection={activeSection}
@@ -7801,14 +8424,18 @@ export function Workshop2Phase1DossierPanel({
             </div>
             {dossierViewProfile === 'factory' ? (
               <div className="mt-3 rounded-lg border border-purple-200/85 bg-purple-50/45 p-2.5">
-                <p className="text-[9px] font-black uppercase tracking-widest text-purple-800/90">Быстро · фабрика</p>
+                <p className="text-[9px] font-black uppercase tracking-widest text-purple-800/90">
+                  Быстро · фабрика
+                </p>
                 <div className="mt-1.5 flex flex-wrap gap-1">
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
                     className="h-7 border-purple-200 bg-white text-[10px] text-purple-950"
-                    onClick={() => jumpToTzSectionAnchor('construction', W2_CONSTRUCTION_SUBPAGE_ANCHORS.hub)}
+                    onClick={() =>
+                      jumpToTzSectionAnchor('construction', W2_CONSTRUCTION_SUBPAGE_ANCHORS.hub)
+                    }
                   >
                     Хаб конструкции
                   </Button>
@@ -7835,7 +8462,9 @@ export function Workshop2Phase1DossierPanel({
                     variant="outline"
                     size="sm"
                     className="h-7 border-purple-200 bg-white text-[10px] text-purple-950"
-                    onClick={() => jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.hub)}
+                    onClick={() =>
+                      jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.hub)
+                    }
                   >
                     BOM
                   </Button>
@@ -7844,14 +8473,18 @@ export function Workshop2Phase1DossierPanel({
             ) : null}
             {dossierViewProfile === 'finance' ? (
               <div className="mt-3 rounded-lg border border-emerald-200/85 bg-emerald-50/40 p-2.5">
-                <p className="text-[9px] font-black uppercase tracking-widest text-emerald-900/85">К образу · финансы</p>
+                <p className="text-[9px] font-black uppercase tracking-widest text-emerald-900/85">
+                  К образу · финансы
+                </p>
                 <div className="mt-1.5 flex flex-wrap gap-1">
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
                     className="h-7 border-emerald-200 bg-white text-[10px] text-emerald-950"
-                    onClick={() => jumpToTzSectionAnchor('visuals', W2_VISUAL_SUBPAGE_ANCHORS.canonVersion)}
+                    onClick={() =>
+                      jumpToTzSectionAnchor('visuals', W2_VISUAL_SUBPAGE_ANCHORS.canonVersion)
+                    }
                   >
                     Канон и версия
                   </Button>
@@ -7870,8 +8503,12 @@ export function Workshop2Phase1DossierPanel({
             <div className="mt-4 rounded-lg border border-slate-100 bg-slate-50/60 p-3">
               <div className="flex items-center justify-between gap-2">
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Готовность досье</p>
-                  <p className="mt-1 text-sm font-semibold text-slate-900">{overallReadinessPct}% по всем секциям</p>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    Готовность досье
+                  </p>
+                  <p className="mt-1 text-sm font-semibold text-slate-900">
+                    {overallReadinessPct}% по всем секциям
+                  </p>
                 </div>
                 <Badge
                   variant="outline"
@@ -7886,7 +8523,10 @@ export function Workshop2Phase1DossierPanel({
                 </Badge>
               </div>
               <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-100">
-                <div className="h-full rounded-full bg-indigo-500" style={{ width: `${overallReadinessPct}%` }} />
+                <div
+                  className="h-full rounded-full bg-indigo-500"
+                  style={{ width: `${overallReadinessPct}%` }}
+                />
               </div>
             </div>
           </div>
@@ -7905,7 +8545,9 @@ export function Workshop2Phase1DossierPanel({
               onJumpToVisualBrandNotes={() => {
                 setActiveSection('visuals');
                 queueMicrotask(() => {
-                  document.getElementById('w2-attr-brandNotes')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  document
+                    .getElementById('w2-attr-brandNotes')
+                    ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
               }}
             />
@@ -7923,7 +8565,8 @@ export function Workshop2Phase1DossierPanel({
             >
               <p className="min-w-0 leading-snug">
                 <span className="font-semibold">Вторичный раздел</span> для режима «
-                {WORKSHOP2_DOSSIER_VIEW_OPTIONS.find((o) => o.value === dossierViewProfile)?.label ?? dossierViewProfile}
+                {WORKSHOP2_DOSSIER_VIEW_OPTIONS.find((o) => o.value === dossierViewProfile)
+                  ?.label ?? dossierViewProfile}
                 ». Первичные:{' '}
                 {dossierNavPrimarySections.map((s) => SECTION_LABEL_BY_ID[s.id]).join(', ')}.
               </p>
@@ -7948,8 +8591,9 @@ export function Workshop2Phase1DossierPanel({
               <DialogHeader>
                 <DialogTitle>Снимки и шаблоны меток</DialogTitle>
                 <DialogDescription>
-                  Снимки — полная копия меток master и листов. Шаблоны в досье и в библиотеке коллекции (пока localStorage;
-                  позже — тот же контракт через API). QR для печати и PDF генерируется локально в браузере.
+                  Снимки — полная копия меток master и листов. Шаблоны в досье и в библиотеке
+                  коллекции (пока localStorage; позже — тот же контракт через API). QR для печати и
+                  PDF генерируется локально в браузере.
                 </DialogDescription>
               </DialogHeader>
               <Tabs defaultValue="snapshots" className="w-full">
@@ -7964,7 +8608,10 @@ export function Workshop2Phase1DossierPanel({
                     Коллекция
                   </TabsTrigger>
                 </TabsList>
-                <TabsContent value="snapshots" className="max-h-[50vh] space-y-2 overflow-y-auto pr-1">
+                <TabsContent
+                  value="snapshots"
+                  className="max-h-[50vh] space-y-2 overflow-y-auto pr-1"
+                >
                   {sketchSnapshotsNewestFirst.length >= 2 ? (
                     <div className="rounded-md border border-indigo-100 bg-indigo-50/50 p-2 text-[11px] text-slate-800">
                       <p className="font-medium text-indigo-900">Сравнить master между снимками</p>
@@ -8001,13 +8648,20 @@ export function Workshop2Phase1DossierPanel({
                           variant="secondary"
                           className="h-8 text-xs"
                           onClick={() => {
-                            const sa = sketchSnapshotsNewestFirst.find((x) => x.snapshotId === sketchSnapshotDiffA);
-                            const sb = sketchSnapshotsNewestFirst.find((x) => x.snapshotId === sketchSnapshotDiffB);
+                            const sa = sketchSnapshotsNewestFirst.find(
+                              (x) => x.snapshotId === sketchSnapshotDiffA
+                            );
+                            const sb = sketchSnapshotsNewestFirst.find(
+                              (x) => x.snapshotId === sketchSnapshotDiffB
+                            );
                             if (!sa || !sb) {
                               setSketchSnapshotDiffSummary('Выберите два разных снимка.');
                               return;
                             }
-                            const d = diffMasterSketchAnnotations(sa.masterAnnotations ?? [], sb.masterAnnotations ?? []);
+                            const d = diffMasterSketchAnnotations(
+                              sa.masterAnnotations ?? [],
+                              sb.masterAnnotations ?? []
+                            );
                             const lines = [
                               `Добавлено меток: ${d.addedIds.length}${d.addedIds.length ? ` (${d.addedIds.slice(0, 6).join(', ')}${d.addedIds.length > 6 ? '…' : ''})` : ''}`,
                               `Удалено меток: ${d.removedIds.length}${d.removedIds.length ? ` (${d.removedIds.slice(0, 6).join(', ')}${d.removedIds.length > 6 ? '…' : ''})` : ''}`,
@@ -8038,12 +8692,15 @@ export function Workshop2Phase1DossierPanel({
                         className="flex flex-wrap items-start justify-between gap-2 rounded-md border border-slate-200 bg-white p-2 text-sm"
                       >
                         <div className="min-w-0">
-                          <p className="font-medium text-slate-800">{snap.label?.trim() || 'Без подписи'}</p>
+                          <p className="font-medium text-slate-800">
+                            {snap.label?.trim() || 'Без подписи'}
+                          </p>
                           <p className="text-xs text-slate-500">
                             {formatTzLogTimestamp(snap.at)} · {snap.by}
                           </p>
                           <p className="text-[11px] text-slate-500">
-                            Master: {snap.masterAnnotations?.length ?? 0} · Листов в снимке: {snap.sheets?.length ?? 0}
+                            Master: {snap.masterAnnotations?.length ?? 0} · Листов в снимке:{' '}
+                            {snap.sheets?.length ?? 0}
                           </p>
                         </div>
                         <Button
@@ -8059,10 +8716,14 @@ export function Workshop2Phase1DossierPanel({
                     ))
                   )}
                 </TabsContent>
-                <TabsContent value="templates" className="max-h-[50vh] space-y-2 overflow-y-auto pr-1">
+                <TabsContent
+                  value="templates"
+                  className="max-h-[50vh] space-y-2 overflow-y-auto pr-1"
+                >
                   {(dossier.sketchPinTemplates ?? []).length === 0 ? (
                     <p className="text-sm text-slate-500">
-                      В досье нет шаблонов. Сохраните метки кнопкой «В досье» над доской или на скетч-листе.
+                      В досье нет шаблонов. Сохраните метки кнопкой «В досье» над доской или на
+                      скетч-листе.
                     </p>
                   ) : (
                     (dossier.sketchPinTemplates ?? []).map((t) => (
@@ -8090,12 +8751,18 @@ export function Workshop2Phase1DossierPanel({
                     ))
                   )}
                 </TabsContent>
-                <TabsContent value="collection" className="max-h-[50vh] space-y-2 overflow-y-auto pr-1">
+                <TabsContent
+                  value="collection"
+                  className="max-h-[50vh] space-y-2 overflow-y-auto pr-1"
+                >
                   {!String(collectionId ?? '').trim() ? (
-                    <p className="text-sm text-slate-500">Нет id коллекции — библиотека недоступна.</p>
+                    <p className="text-sm text-slate-500">
+                      Нет id коллекции — библиотека недоступна.
+                    </p>
                   ) : orgSketchTemplatesList.length === 0 ? (
                     <p className="text-sm text-slate-500">
-                      В этом браузере для коллекции пока нет шаблонов. Сохраните метки кнопкой «В коллекцию» над доской.
+                      В этом браузере для коллекции пока нет шаблонов. Сохраните метки кнопкой «В
+                      коллекцию» над доской.
                     </p>
                   ) : (
                     orgSketchTemplatesList.map((t) => (
@@ -8128,7 +8795,7 @@ export function Workshop2Phase1DossierPanel({
           </Dialog>
         </div>
 
-        <aside className="space-y-4 xl:sticky xl:top-4 self-start">
+        <aside className="space-y-4 self-start xl:sticky xl:top-4">
           <div className="space-y-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
             <div id="w2-tz-digital-signoffs" className="scroll-mt-24 space-y-3">
               <div className="flex items-start gap-3">
@@ -8138,19 +8805,23 @@ export function Workshop2Phase1DossierPanel({
                 <div className="min-w-0 space-y-1">
                   <h2 className="text-base font-semibold text-slate-900">Подтверждения ТЗ</h2>
                   <p className="text-sm leading-snug text-slate-500">
-                    Участники этапа «ТЗ» из паспорта: подпись и уведомление по строкам. Права ролей — в{' '}
-                    <Link href={ROUTES.brand.teamPermissions} className="font-medium text-indigo-600 underline">
+                    Участники этапа «ТЗ» из паспорта: подпись и уведомление по строкам. Права ролей
+                    — в{' '}
+                    <Link
+                      href={ROUTES.brand.teamPermissions}
+                      className="font-medium text-indigo-600 underline"
+                    >
                       Команда → права доступа
                     </Link>
                     ; снять подпись — только у допущенных руководителей.
-              </p>
-            </div>
-            </div>
-            <div className="space-y-2">
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-2">
                 {tzDigitalSignoffRows.length === 0 ? (
                   <p className="rounded-md border border-slate-100 bg-slate-50/60 px-3 py-2 text-[11px] text-slate-600">
-                    В паспорте нет участников на этапе «ТЗ»: отметьте этап у ролей и закрепите исполнителей в «Ответственные за
-                    подпись ТЗ».
+                    В паспорте нет участников на этапе «ТЗ»: отметьте этап у ролей и закрепите
+                    исполнителей в «Ответственные за подпись ТЗ».
                   </p>
                 ) : (
                   tzDigitalSignoffRows.map((row) => (
@@ -8181,7 +8852,6 @@ export function Workshop2Phase1DossierPanel({
                   })
                 : null}
             </div>
-
           </div>
         </aside>
       </div>
@@ -8194,11 +8864,18 @@ export function Workshop2Phase1DossierPanel({
               {dossier.updatedBy ? ` · ${dossier.updatedBy}` : ''}
             </span>
           ) : null}
-          {savedHint ? <span className="text-[11px] font-medium text-emerald-700">{savedHint}</span> : null}
-          {saveError ? <span className="text-[11px] font-medium text-red-600">{saveError}</span> : null}
+          {savedHint ? (
+            <span className="text-[11px] font-medium text-emerald-700">{savedHint}</span>
+          ) : null}
+          {saveError ? (
+            <span className="text-[11px] font-medium text-red-600">{saveError}</span>
+          ) : null}
         </div>
         {dossierMetricsFooterLine ? (
-          <span className="text-[9px] leading-snug text-slate-400" title="Локально в этом браузере, для оценки сессии">
+          <span
+            className="text-[9px] leading-snug text-slate-400"
+            title="Локально в этом браузере, для оценки сессии"
+          >
             {dossierMetricsFooterLine}
           </span>
         ) : null}
@@ -8208,34 +8885,39 @@ export function Workshop2Phase1DossierPanel({
       <div className="flex min-h-[2.25rem] flex-col gap-2 border-t border-slate-100 pt-3">
         <div className="flex w-full flex-wrap items-center gap-y-2">
           <div className="flex shrink-0 flex-wrap items-center gap-2">
-        {onBack ? (
-          <Button
-            type="button"
-            variant="outline"
-            onClick={onBack}
+            {onBack ? (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={onBack}
                 className="h-9 gap-1.5 px-3 text-xs"
-          >
-            <LucideIcons.ChevronLeft className="h-4 w-4 shrink-0 opacity-90" aria-hidden />
-            Назад
-          </Button>
-        ) : onPreviousStep ? (
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => onPreviousStep()}
+              >
+                <LucideIcons.ChevronLeft className="h-4 w-4 shrink-0 opacity-90" aria-hidden />
+                Назад
+              </Button>
+            ) : onPreviousStep ? (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => onPreviousStep()}
                 className="h-9 gap-1.5 px-3 text-xs"
-          >
-            <LucideIcons.ChevronLeft className="h-4 w-4 shrink-0 opacity-90" aria-hidden />
-            {isPhase3 ? 'Шаг 2' : 'Шаг 1'}
-          </Button>
-        ) : null}
-            <Button type="button" variant="secondary" onClick={saveDraft} className="h-9 gap-1.5 px-3 text-xs">
+              >
+                <LucideIcons.ChevronLeft className="h-4 w-4 shrink-0 opacity-90" aria-hidden />
+                {isPhase3 ? 'Шаг 2' : 'Шаг 1'}
+              </Button>
+            ) : null}
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={saveDraft}
+              className="h-9 gap-1.5 px-3 text-xs"
+            >
               Сохранить
             </Button>
           </div>
           <div className="flex min-w-0 flex-1 flex-wrap items-center justify-center gap-2 px-2">
-        <Button
-          type="button"
+            <Button
+              type="button"
               variant="outline"
               onClick={runHandbookCheck}
               className={cn(
@@ -8255,9 +8937,9 @@ export function Workshop2Phase1DossierPanel({
               ) : (
                 'Проверить'
               )}
-        </Button>
-        <Button
-          type="button"
+            </Button>
+            <Button
+              type="button"
               variant="outline"
               className={cn(
                 'h-9 text-xs font-semibold transition-colors',
@@ -8267,21 +8949,27 @@ export function Workshop2Phase1DossierPanel({
               )}
               title={allTzDigitalSignoffsDone ? 'Все подписи проставлены' : 'Перейти к подписям ТЗ'}
               onClick={() => {
-                document.getElementById('w2-tz-digital-signoffs')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                document
+                  .getElementById('w2-tz-digital-signoffs')
+                  ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
               }}
             >
               {allTzDigitalSignoffsDone ? (
                 <LucideIcons.FileCheck2 className="h-5 w-5 shrink-0" aria-hidden />
-          ) : (
-            <>
+              ) : (
+                <>
                   <LucideIcons.BadgeCheck className="h-3.5 w-3.5 shrink-0" aria-hidden />
                   Подписи
-            </>
-          )}
-        </Button>
-      </div>
+                </>
+              )}
+            </Button>
+          </div>
           <div className="ml-auto flex shrink-0 items-center">
-            <Button type="button" onClick={handleContinue} className="h-9 gap-1.5 px-3 text-xs font-medium">
+            <Button
+              type="button"
+              onClick={handleContinue}
+              className="h-9 gap-1.5 px-3 text-xs font-medium"
+            >
               {isPhase3 ? 'Готово >' : 'Следующее >'}
             </Button>
           </div>
@@ -8296,11 +8984,11 @@ export function Workshop2Phase1DossierPanel({
           <DialogHeader>
             <DialogTitle className="text-base">История действий</DialogTitle>
             <DialogDescription>
-              Подписи, подтверждения по секциям, сохранение досье и правки артикула (SKU, название, ветка каталога). Для
-              каждой записи указаны автор, дата и суть изменения.
+              Подписи, подтверждения по секциям, сохранение досье и правки артикула (SKU, название,
+              ветка каталога). Для каждой записи указаны автор, дата и суть изменения.
             </DialogDescription>
           </DialogHeader>
-          <div className="min-h-0 max-h-[58vh] space-y-2 overflow-y-auto pr-1">
+          <div className="max-h-[58vh] min-h-0 space-y-2 overflow-y-auto pr-1">
             {!dossier.tzActionLog?.length ? (
               <p className="text-sm text-slate-500">Пока нет записей.</p>
             ) : (
@@ -8339,18 +9027,22 @@ function MaterialSectionGuidesBeforeFields({ l2Name }: { l2Name?: string }) {
       role="region"
       aria-label="Подсказки к полям материалов"
     >
-      <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">Подсказки к полям ниже</p>
+      <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">
+        Подсказки к полям ниже
+      </p>
       <div className="space-y-3">
         <div>
           <p className="text-[11px] font-semibold text-slate-900">Плотность полотна (г/м²)</p>
           <p className="mt-1 rounded-r-md border-l-2 border-indigo-200 bg-indigo-50/35 py-1.5 pl-2 text-[10px] leading-snug text-slate-700">
-            Несколько тканей: укажите г/м² <span className="font-semibold">основного</span> полотна (наибольшая доля в
-            составе) или <span className="font-semibold">лицевой</span> ткани корпуса. Подклад и утеплитель — отдельные
-            строки в BOM; при необходимости добавьте плотность второго слоя в комментарии к строке материала.
+            Несколько тканей: укажите г/м² <span className="font-semibold">основного</span> полотна
+            (наибольшая доля в составе) или <span className="font-semibold">лицевой</span> ткани
+            корпуса. Подклад и утеплитель — отдельные строки в BOM; при необходимости добавьте
+            плотность второго слоя в комментарии к строке материала.
             {outer ? (
               <span className="mt-1 block text-indigo-900/90">
-                Для пуховиков и парок: здесь — плотность <span className="font-semibold">оболочки</span>; граммы
-                наполнителя и FP/down — в полях утеплителя и в строках BOM, согласованных со скетчем.
+                Для пуховиков и парок: здесь — плотность{' '}
+                <span className="font-semibold">оболочки</span>; граммы наполнителя и FP/down — в
+                полях утеплителя и в строках BOM, согласованных со скетчем.
               </span>
             ) : null}
           </p>
@@ -8358,8 +9050,8 @@ function MaterialSectionGuidesBeforeFields({ l2Name }: { l2Name?: string }) {
         <div>
           <p className="text-[11px] font-semibold text-slate-900">Температурный режим</p>
           <p className="mt-1 text-[10px] leading-snug text-slate-600">
-            Укажите целевой диапазон носки или класс по гайду бренда; согласуйте с утеплителем и сценарием использования
-            изделия.
+            Укажите целевой диапазон носки или класс по гайду бренда; согласуйте с утеплителем и
+            сценарием использования изделия.
           </p>
         </div>
         {outer ? (
@@ -8367,23 +9059,25 @@ function MaterialSectionGuidesBeforeFields({ l2Name }: { l2Name?: string }) {
             <div>
               <p className="text-[11px] font-semibold text-slate-900">Материал утеплителя</p>
               <p className="mt-1 rounded-r-md border-l-2 border-amber-200 bg-amber-50/40 py-1.5 pl-2 text-[10px] leading-snug text-slate-800">
-                Совместите с отдельной строкой «утеплитель» в справочнике материалов и при необходимости с меткой{' '}
-                <span className="font-semibold">material</span> на скетче — чтобы закупка и конструкция ссылались на одно
-                наименование.
+                Совместите с отдельной строкой «утеплитель» в справочнике материалов и при
+                необходимости с меткой <span className="font-semibold">material</span> на скетче —
+                чтобы закупка и конструкция ссылались на одно наименование.
               </p>
             </div>
             <div>
               <p className="text-[11px] font-semibold text-slate-900">Уровень утепления</p>
               <p className="mt-1 rounded-r-md border-l-2 border-amber-200 bg-amber-50/40 py-1.5 pl-2 text-[10px] leading-snug text-slate-800">
-                Уровень утепления согласуйте с сценарием носки (город / активный отдых) и с плотностью shell; при спорных
-                значениях зафиксируйте решение в комментарии к материалу или в техпаке.
+                Уровень утепления согласуйте с сценарием носки (город / активный отдых) и с
+                плотностью shell; при спорных значениях зафиксируйте решение в комментарии к
+                материалу или в техпаке.
               </p>
             </div>
             <div>
               <p className="text-[11px] font-semibold text-slate-900">Термо-технологии</p>
               <p className="mt-1 rounded-r-md border-l-2 border-teal-200 bg-teal-50/40 py-1.5 pl-2 text-[10px] leading-snug text-slate-800">
-                Мембраны, отражающие слои и маркетинговые названия — продублируйте исполнимые параметры (уход,
-                паропроницаемость, стирка) в BOM или вложении техпака, чтобы фабрика не гадала по бренду на вешалке.
+                Мембраны, отражающие слои и маркетинговые названия — продублируйте исполнимые
+                параметры (уход, паропроницаемость, стирка) в BOM или вложении техпака, чтобы
+                фабрика не гадала по бренду на вешалке.
               </p>
             </div>
           </>
@@ -8391,8 +9085,8 @@ function MaterialSectionGuidesBeforeFields({ l2Name }: { l2Name?: string }) {
         <div>
           <p className="text-[11px] font-semibold text-slate-900">Уход: стирка и обработка (ТЗ)</p>
           <p className="mt-1 text-[10px] leading-snug text-slate-600">
-            Зафиксируйте класс ухода и ограничения, совместимые с подобранными материалами; критичное продублируйте в BOM
-            или вложении техпака.
+            Зафиксируйте класс ухода и ограничения, совместимые с подобранными материалами;
+            критичное продублируйте в BOM или вложении техпака.
           </p>
         </div>
       </div>
@@ -8429,12 +9123,12 @@ function MaterialHandbookPicker({
       {open ? (
         <div className="rounded-lg border border-slate-200 bg-white p-2 shadow-sm">
           <Input
-            className="h-9 text-sm mb-2"
+            className="mb-2 h-9 text-sm"
             placeholder="Фильтр по названию…"
             value={q}
             onChange={(e) => setQ(e.target.value)}
           />
-          <div className="max-h-48 overflow-y-auto rounded-md border border-slate-100 divide-y divide-slate-100">
+          <div className="max-h-48 divide-y divide-slate-100 overflow-y-auto rounded-md border border-slate-100">
             {available.length === 0 ? (
               <p className="p-3 text-[11px] text-slate-500">
                 Нет позиций — измените фильтр или все материалы уже в строке состава.
@@ -8444,7 +9138,7 @@ function MaterialHandbookPicker({
                 <button
                   key={p.parameterId}
                   type="button"
-                  className="w-full text-left px-2 py-2 text-sm hover:bg-slate-50"
+                  className="w-full px-2 py-2 text-left text-sm hover:bg-slate-50"
                   onClick={() => {
                     onPick(p);
                     setQ('');
@@ -8508,7 +9202,9 @@ function MaterialPresetsStrip({
             onClick={() =>
               linkedComposition
                 ? onApplyLinked(preset.rows)
-                : onApplySolo(preset.rows.map((r) => ({ parameterId: r.parameterId, displayLabel: r.label })))
+                : onApplySolo(
+                    preset.rows.map((r) => ({ parameterId: r.parameterId, displayLabel: r.label }))
+                  )
             }
           >
             <LucideIcons.Sparkles className="mr-1 inline h-3 w-3 shrink-0" aria-hidden />
@@ -8611,27 +9307,33 @@ function MaterialCompositionBlock({
           onApplyLinked={() => {}}
         />
         <div>
-          <p className="text-[10px] font-semibold uppercase text-slate-500 mb-1.5">Выбранные материалы</p>
+          <p className="mb-1.5 text-[10px] font-semibold uppercase text-slate-500">
+            Выбранные материалы
+          </p>
           {selectedRows.length === 0 ? (
             <p className="text-[11px] text-slate-500">
-              Пока пусто — откройте «+ Добавить материал из справочника» выше или выберите типовой состав для категории.
+              Пока пусто — откройте «+ Добавить материал из справочника» выше или выберите типовой
+              состав для категории.
             </p>
           ) : (
             <div className="overflow-x-auto pb-1">
-              <div className="flex flex-nowrap sm:flex-wrap gap-2 items-stretch min-w-min">
+              <div className="flex min-w-min flex-nowrap items-stretch gap-2 sm:flex-wrap">
                 {selectedRows.map((p) => (
                   <div
                     key={p.parameterId}
-                    className="flex h-9 items-center gap-2 shrink-0 rounded-md border border-slate-200 bg-white px-2 text-sm"
+                    className="flex h-9 shrink-0 items-center gap-2 rounded-md border border-slate-200 bg-white px-2 text-sm"
                   >
-                    <span className="whitespace-nowrap max-w-[10rem] truncate leading-none" title={p.label}>
+                    <span
+                      className="max-w-[10rem] truncate whitespace-nowrap leading-none"
+                      title={p.label}
+                    >
                       {p.label}
                     </span>
                     <Button
                       type="button"
                       variant="ghost"
                       size="sm"
-                      className="h-9 w-9 p-0 text-sm text-red-600 shrink-0"
+                      className="h-9 w-9 shrink-0 p-0 text-sm text-red-600"
                       onClick={() => removeSolo(p.parameterId)}
                       aria-label={`Убрать ${p.label}`}
                     >
@@ -8651,7 +9353,10 @@ function MaterialCompositionBlock({
     () => parseMatRowsFromDossier(dossier, paramLabelById),
     [dossier, paramLabelById]
   );
-  const pctByPid = Object.fromEntries(rows.map((r) => [r.parameterId, r.pct])) as Record<string, number>;
+  const pctByPid = Object.fromEntries(rows.map((r) => [r.parameterId, r.pct])) as Record<
+    string,
+    number
+  >;
   const sum = rows.reduce((s, r) => s + r.pct, 0);
   const selectedIds = new Set(rows.map((r) => r.parameterId));
 
@@ -8703,7 +9408,9 @@ function MaterialCompositionBlock({
       />
 
       <div>
-        <p className="text-[10px] font-semibold uppercase text-slate-500 mb-1.5">Выбранные материалы</p>
+        <p className="mb-1.5 text-[10px] font-semibold uppercase text-slate-500">
+          Выбранные материалы
+        </p>
         {selectedRows.length === 0 ? (
           <p className="text-[11px] text-slate-500">
             Пока пусто — добавьте позиции из справочника
@@ -8711,21 +9418,21 @@ function MaterialCompositionBlock({
           </p>
         ) : (
           <div className="overflow-x-auto pb-1">
-            <div className="flex flex-nowrap sm:flex-wrap gap-2 items-center min-w-min">
+            <div className="flex min-w-min flex-nowrap items-center gap-2 sm:flex-wrap">
               {selectedRows.map((r) => (
                 <div
                   key={r.parameterId}
-                  className="flex h-9 items-center gap-1.5 shrink-0 rounded-md border border-slate-200 bg-white px-2"
+                  className="flex h-9 shrink-0 items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2"
                 >
                   <span
-                    className="text-sm whitespace-nowrap max-w-[9rem] sm:max-w-[11rem] truncate leading-none"
+                    className="max-w-[9rem] truncate whitespace-nowrap text-sm leading-none sm:max-w-[11rem]"
                     title={r.label}
                   >
                     {r.label}
                   </span>
                   <Input
                     className={cn(
-                      'h-9 w-12 text-sm px-1.5',
+                      'h-9 w-12 px-1.5 text-sm',
                       sum !== 100 && rows.length > 0 && 'border-amber-400 ring-1 ring-amber-200/80'
                     )}
                     inputMode="numeric"
@@ -8734,12 +9441,12 @@ function MaterialCompositionBlock({
                     aria-label={`Процент для ${r.label}`}
                     aria-invalid={sum !== 100 && rows.length > 0 ? true : undefined}
                   />
-                  <span className="text-xs text-slate-500 pr-0.5 leading-none">%</span>
+                  <span className="pr-0.5 text-xs leading-none text-slate-500">%</span>
                   <Button
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="h-9 w-9 p-0 text-sm text-red-600 shrink-0"
+                    className="h-9 w-9 shrink-0 p-0 text-sm text-red-600"
                     onClick={() => removeLinked(r.parameterId)}
                     aria-label={`Убрать ${r.label}`}
                   >
@@ -8757,8 +9464,8 @@ function MaterialCompositionBlock({
           role="alert"
         >
           <span className="font-semibold">Состав не сходится до 100%.</span> Сейчас сумма{' '}
-          <span className="font-bold tabular-nums">{sum}%</span> — поправьте доли до сохранения ТЗ (комплаенс, BOM,
-          экспорт).
+          <span className="font-bold tabular-nums">{sum}%</span> — поправьте доли до сохранения ТЗ
+          (комплаенс, BOM, экспорт).
         </div>
       ) : null}
       <p className={cn('text-xs font-medium', sum === 100 ? 'text-emerald-700' : 'text-amber-700')}>
@@ -8874,7 +9581,9 @@ function TechPackAttachmentsBlock({
                 </div>
                 <p className="text-[10px] text-slate-500">
                   {a.fileSize != null ? `${Math.round(a.fileSize / 1024)} KB` : ''}
-                  {!a.previewDataUrl ? ' · без сохранения содержимого (слишком большой или ошибка чтения)' : ''}
+                  {!a.previewDataUrl
+                    ? ' · без сохранения содержимого (слишком большой или ошибка чтения)'
+                    : ''}
                 </p>
                 <Input
                   className="h-8 text-xs"
@@ -8902,14 +9611,16 @@ function TechPackAttachmentsBlock({
             <Input
               type="file"
               multiple
-              className="h-9 w-full min-h-9 cursor-pointer border-0 bg-transparent px-0 py-0 text-sm leading-9 shadow-none file:mr-3 file:inline-flex file:h-9 file:items-center file:border-0 file:bg-transparent file:px-0 file:py-0 file:text-sm file:font-medium file:leading-9 file:text-slate-800"
+              className="h-9 min-h-9 w-full cursor-pointer border-0 bg-transparent px-0 py-0 text-sm leading-9 shadow-none file:mr-3 file:inline-flex file:h-9 file:items-center file:border-0 file:bg-transparent file:px-0 file:py-0 file:text-sm file:font-medium file:leading-9 file:text-slate-800"
               onChange={onPick}
             />
           </div>
           <p className="text-left text-[10px] text-slate-500">Слотов: {remaining}.</p>
         </div>
       ) : (
-        <p className="text-[11px] text-slate-500">Достигнут лимит {MAX_TECH_PACK_FILES} вложений.</p>
+        <p className="text-[11px] text-slate-500">
+          Достигнут лимит {MAX_TECH_PACK_FILES} вложений.
+        </p>
       )}
     </div>
   );
@@ -8980,7 +9691,9 @@ function VisualReferencesBlock({
   const [lightboxRefId, setLightboxRefId] = useState<string | null>(null);
   const [lightboxZoom, setLightboxZoom] = useState(1);
   /** Точка масштаба в координатах элемента img (px); null = центр. */
-  const [lightboxZoomFocusPx, setLightboxZoomFocusPx] = useState<{ x: number; y: number } | null>(null);
+  const [lightboxZoomFocusPx, setLightboxZoomFocusPx] = useState<{ x: number; y: number } | null>(
+    null
+  );
   /** После включения лупы следующий клик по фото задаёт фокус увеличения. */
   const [lightboxLoupeArmed, setLightboxLoupeArmed] = useState(false);
   const [refViewMode, setRefViewMode] = useState<'compact' | 'board'>('board');
@@ -8990,7 +9703,9 @@ function VisualReferencesBlock({
   const [refEditorTitle, setRefEditorTitle] = useState('');
   const [refEditorDesc, setRefEditorDesc] = useState('');
   const [refEditorUrl, setRefEditorUrl] = useState('');
-  const [refEditorTakeawayAspects, setRefEditorTakeawayAspects] = useState<Workshop2VisualRefTakeawayAspect[]>([]);
+  const [refEditorTakeawayAspects, setRefEditorTakeawayAspects] = useState<
+    Workshop2VisualRefTakeawayAspect[]
+  >([]);
   const [refEditorTakeawayNote, setRefEditorTakeawayNote] = useState('');
   const refEditorFileInputRef = useRef<HTMLInputElement>(null);
   /** Вся тёмная зона просмотра — колесо зума (ref после открытия диалога). */
@@ -9007,7 +9722,9 @@ function VisualReferencesBlock({
   }, [items]);
 
   const lightboxRef = lightboxRefId ? items.find((r) => r.refId === lightboxRefId) : undefined;
-  const lightboxMediaIndex = lightboxRefId ? mediaRefs.findIndex((r) => r.refId === lightboxRefId) : -1;
+  const lightboxMediaIndex = lightboxRefId
+    ? mediaRefs.findIndex((r) => r.refId === lightboxRefId)
+    : -1;
 
   const openLightbox = useCallback((id: string, opts?: { zoom?: number; armLoupe?: boolean }) => {
     setLightboxRefId(id);
@@ -9124,8 +9841,11 @@ function VisualReferencesBlock({
 
     if (file) {
       const ft = file.type?.trim() ?? '';
-      const looksImage = ft.startsWith('image/') || (!ft && /\.(jpe?g|png|gif|webp|bmp|heic|avif)$/i.test(file.name));
-      const looksVideo = ft.startsWith('video/') || (!ft && /\.(mp4|m4v|webm|mov|mkv|ogv)$/i.test(file.name));
+      const looksImage =
+        ft.startsWith('image/') ||
+        (!ft && /\.(jpe?g|png|gif|webp|bmp|heic|avif)$/i.test(file.name));
+      const looksVideo =
+        ft.startsWith('video/') || (!ft && /\.(mp4|m4v|webm|mov|mkv|ogv)$/i.test(file.name));
       if (!looksImage && !looksVideo) {
         toast({
           title: 'Неподдерживаемый тип',
@@ -9138,7 +9858,8 @@ function VisualReferencesBlock({
       if (!u) {
         toast({
           title: 'Файл не сохранён',
-          description: 'Слишком большой объём для локального досье. Сожмите файл или выберите другой.',
+          description:
+            'Слишком большой объём для локального досье. Сожмите файл или выберите другой.',
           variant: 'destructive',
         });
         return;
@@ -9170,7 +9891,9 @@ function VisualReferencesBlock({
       return;
     }
 
-    const takeawayAspects = refEditorTakeawayAspects.length ? [...new Set(refEditorTakeawayAspects)] : undefined;
+    const takeawayAspects = refEditorTakeawayAspects.length
+      ? [...new Set(refEditorTakeawayAspects)]
+      : undefined;
     const takeawayNote = refEditorTakeawayNote.trim() || undefined;
 
     const nextRow: Workshop2Phase1VisualReference = {
@@ -9315,11 +10038,13 @@ function VisualReferencesBlock({
         <div className="min-w-0 flex-1 space-y-1">
           <h2 className="text-base font-semibold text-slate-900">Референсы</h2>
           <p className="text-sm leading-snug text-slate-500">
-            До {MAX_VISUAL_REFERENCES} файлов; в карточке — что берёте с рефа. Звезда — канон; комментарии — в полноэкране.
+            До {MAX_VISUAL_REFERENCES} файлов; в карточке — что берёте с рефа. Звезда — канон;
+            комментарии — в полноэкране.
           </p>
           {openRefDiscussionCount > 0 ? (
             <p className="text-[11px] font-medium text-rose-700">
-              Открытых тредов по рефам: {openRefDiscussionCount} — закройте в просмотре или отметьте resolved.
+              Открытых тредов по рефам: {openRefDiscussionCount} — закройте в просмотре или отметьте
+              resolved.
             </p>
           ) : null}
         </div>
@@ -9327,7 +10052,9 @@ function VisualReferencesBlock({
 
       {items.length > 0 ? (
         <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
-          <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Вид сетки</span>
+          <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+            Вид сетки
+          </span>
           <Button
             type="button"
             variant={refViewMode === 'board' ? 'secondary' : 'outline'}
@@ -9354,10 +10081,18 @@ function VisualReferencesBlock({
       {items.length === 0 ? (
         <div className="space-y-2 border-t border-slate-100 pt-3">
           <p className="rounded-md border border-amber-200/90 bg-amber-50/85 px-3 py-2 text-[11px] leading-snug text-amber-950">
-            Без референсов не закрывается <span className="font-semibold">обязательный контур визуала</span> и проверка
-            «готово к образцу» по этому блоку. Добавьте хотя бы одно превью или ссылку с пояснением, что берёте с рефа.
+            Без референсов не закрывается{' '}
+            <span className="font-semibold">обязательный контур визуала</span> и проверка «готово к
+            образцу» по этому блоку. Добавьте хотя бы одно превью или ссылку с пояснением, что
+            берёте с рефа.
           </p>
-          <Button type="button" variant="outline" size="sm" className="h-8 shrink-0 text-xs" onClick={openRefEditorNew}>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-8 shrink-0 text-xs"
+            onClick={openRefEditorNew}
+          >
             + Референс
           </Button>
         </div>
@@ -9375,139 +10110,152 @@ function VisualReferencesBlock({
             const tileAspect = refViewMode === 'board' ? 'aspect-[4/3]' : 'aspect-square';
             if (visualRefIsMediaPreview(r)) {
               const isVideo = effectiveVisualRefMime(r).startsWith('video/');
-              const isMainPhoto = Boolean(canonicalMainPhotoRefId && canonicalMainPhotoRefId === r.refId);
+              const isMainPhoto = Boolean(
+                canonicalMainPhotoRefId && canonicalMainPhotoRefId === r.refId
+              );
               return (
                 <div key={r.refId} className="min-w-0">
                   <div className="relative min-w-0">
-                  <button
-                    type="button"
-                    className={cn(
-                      'group relative w-full overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm outline-none ring-indigo-400/60 transition hover:ring-2 focus-visible:ring-2',
-                      tileAspect,
-                      isMainPhoto && 'ring-2 ring-amber-400/80'
-                    )}
-                    onClick={() => openLightbox(r.refId)}
-                    aria-label={`Открыть референс: ${r.title || 'без названия'}`}
-                  >
-                    {isVideo ? (
-                      <video
-                        src={r.previewDataUrl!}
-                        className="h-full w-full object-cover transition group-hover:opacity-95"
-                        muted
-                        playsInline
-                        preload="metadata"
-                        aria-hidden
-                      />
-                    ) : (
-                      /* eslint-disable-next-line @next/next/no-img-element -- data URL из локального досье */
-                      <img
-                        src={r.previewDataUrl!}
-                        alt=""
-                        className="h-full w-full object-cover transition group-hover:opacity-95"
-                      />
-                    )}
-                    {isVideo ? (
-                      <span
-                        className="absolute left-1/2 top-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow-md"
-                        aria-hidden
+                    <button
+                      type="button"
+                      className={cn(
+                        'group relative w-full overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm outline-none ring-indigo-400/60 transition hover:ring-2 focus-visible:ring-2',
+                        tileAspect,
+                        isMainPhoto && 'ring-2 ring-amber-400/80'
+                      )}
+                      onClick={() => openLightbox(r.refId)}
+                      aria-label={`Открыть референс: ${r.title || 'без названия'}`}
+                    >
+                      {isVideo ? (
+                        <video
+                          src={r.previewDataUrl!}
+                          className="h-full w-full object-cover transition group-hover:opacity-95"
+                          muted
+                          playsInline
+                          preload="metadata"
+                          aria-hidden
+                        />
+                      ) : (
+                        /* eslint-disable-next-line @next/next/no-img-element -- data URL из локального досье */
+                        <img
+                          src={r.previewDataUrl!}
+                          alt=""
+                          className="h-full w-full object-cover transition group-hover:opacity-95"
+                        />
+                      )}
+                      {isVideo ? (
+                        <span
+                          className="absolute left-1/2 top-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow-md"
+                          aria-hidden
+                        >
+                          <LucideIcons.Play
+                            className="h-4 w-4 translate-x-px"
+                            fill="currentColor"
+                          />
+                        </span>
+                      ) : null}
+                      {hasComments ? (
+                        <span
+                          className="absolute bottom-0.5 left-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-white/95 text-indigo-600 shadow-sm ring-1 ring-indigo-200"
+                          title="Есть комментарии"
+                          aria-hidden
+                        >
+                          <LucideIcons.MessageCircle className="h-3 w-3" />
+                        </span>
+                      ) : null}
+                    </button>
+                    {onSetCanonicalMainPhoto && !isVideo ? (
+                      <button
+                        type="button"
+                        className="absolute left-6 top-0.5 z-10 flex h-5 w-5 items-center justify-center rounded bg-white/95 text-amber-600 shadow-sm ring-1 ring-amber-200/90 transition hover:bg-amber-50"
+                        title={isMainPhoto ? 'Снять «главное фото»' : 'Сделать главным фото модели'}
+                        aria-label={isMainPhoto ? 'Снять главное фото' : 'Главное фото модели'}
+                        aria-pressed={isMainPhoto}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          onSetCanonicalMainPhoto(isMainPhoto ? null : r.refId);
+                        }}
                       >
-                        <LucideIcons.Play className="h-4 w-4 translate-x-px" fill="currentColor" />
-                      </span>
+                        <LucideIcons.Star
+                          className={cn(
+                            'h-3.5 w-3.5',
+                            isMainPhoto && 'fill-amber-400 text-amber-600'
+                          )}
+                          aria-hidden
+                        />
+                      </button>
                     ) : null}
-                    {hasComments ? (
-                      <span
-                        className="absolute bottom-0.5 left-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-white/95 text-indigo-600 shadow-sm ring-1 ring-indigo-200"
-                        title="Есть комментарии"
-                        aria-hidden
+                    {!isVideo ? (
+                      <button
+                        type="button"
+                        className="absolute right-0.5 top-0.5 z-10 flex h-6 w-6 items-center justify-center rounded bg-white/95 text-indigo-700 shadow-sm ring-1 ring-indigo-200/80 transition hover:bg-indigo-50"
+                        title="Открыть окно: затем клик по фото для лупы"
+                        aria-label="Открыть просмотр с режимом лупы"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          openLightbox(r.refId, { armLoupe: true });
+                        }}
                       >
-                        <LucideIcons.MessageCircle className="h-3 w-3" />
-                      </span>
+                        <LucideIcons.ZoomIn className="h-3.5 w-3.5" aria-hidden />
+                      </button>
                     ) : null}
-                  </button>
-                  {onSetCanonicalMainPhoto && !isVideo ? (
+                    <div className="absolute bottom-0.5 right-0.5 z-10 flex gap-0.5">
+                      <button
+                        type="button"
+                        className="flex h-6 w-6 items-center justify-center rounded bg-white/95 text-slate-600 shadow-sm ring-1 ring-slate-200/80 transition hover:bg-slate-50 disabled:opacity-30"
+                        title="Сдвинуть раньше"
+                        aria-label="Сдвинуть раньше в списке"
+                        disabled={index <= 0}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          swapRefOrder(index, index - 1);
+                        }}
+                      >
+                        <LucideIcons.ChevronLeft className="h-3.5 w-3.5" aria-hidden />
+                      </button>
+                      <button
+                        type="button"
+                        className="flex h-6 w-6 items-center justify-center rounded bg-white/95 text-slate-600 shadow-sm ring-1 ring-slate-200/80 transition hover:bg-slate-50 disabled:opacity-30"
+                        title="Сдвинуть позже"
+                        aria-label="Сдвинуть позже в списке"
+                        disabled={index >= items.length - 1}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          swapRefOrder(index, index + 1);
+                        }}
+                      >
+                        <LucideIcons.ChevronRight className="h-3.5 w-3.5" aria-hidden />
+                      </button>
+                    </div>
                     <button
                       type="button"
-                      className="absolute left-6 top-0.5 z-10 flex h-5 w-5 items-center justify-center rounded bg-white/95 text-amber-600 shadow-sm ring-1 ring-amber-200/90 transition hover:bg-amber-50"
-                      title={isMainPhoto ? 'Снять «главное фото»' : 'Сделать главным фото модели'}
-                      aria-label={isMainPhoto ? 'Снять главное фото' : 'Главное фото модели'}
-                      aria-pressed={isMainPhoto}
+                      className="absolute left-0.5 top-0.5 z-10 flex h-5 w-5 items-center justify-center rounded bg-white/95 text-red-500 shadow-sm ring-1 ring-red-200/80 transition hover:bg-red-50 hover:text-red-700"
+                      title="Удалить референс"
+                      aria-label="Удалить референс"
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        onSetCanonicalMainPhoto(isMainPhoto ? null : r.refId);
+                        removeOne(r.refId);
                       }}
                     >
-                      <LucideIcons.Star
-                        className={cn('h-3.5 w-3.5', isMainPhoto && 'fill-amber-400 text-amber-600')}
-                        aria-hidden
-                      />
+                      <LucideIcons.X className="h-3 w-3" strokeWidth={2.5} aria-hidden />
                     </button>
-                  ) : null}
-                  {!isVideo ? (
-                    <button
-                      type="button"
-                      className="absolute right-0.5 top-0.5 z-10 flex h-6 w-6 items-center justify-center rounded bg-white/95 text-indigo-700 shadow-sm ring-1 ring-indigo-200/80 transition hover:bg-indigo-50"
-                      title="Открыть окно: затем клик по фото для лупы"
-                      aria-label="Открыть просмотр с режимом лупы"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        openLightbox(r.refId, { armLoupe: true });
-                      }}
-                    >
-                      <LucideIcons.ZoomIn className="h-3.5 w-3.5" aria-hidden />
-                    </button>
-                  ) : null}
-                  <div className="absolute bottom-0.5 right-0.5 z-10 flex gap-0.5">
-                    <button
-                      type="button"
-                      className="flex h-6 w-6 items-center justify-center rounded bg-white/95 text-slate-600 shadow-sm ring-1 ring-slate-200/80 transition hover:bg-slate-50 disabled:opacity-30"
-                      title="Сдвинуть раньше"
-                      aria-label="Сдвинуть раньше в списке"
-                      disabled={index <= 0}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        swapRefOrder(index, index - 1);
-                      }}
-                    >
-                      <LucideIcons.ChevronLeft className="h-3.5 w-3.5" aria-hidden />
-                    </button>
-                    <button
-                      type="button"
-                      className="flex h-6 w-6 items-center justify-center rounded bg-white/95 text-slate-600 shadow-sm ring-1 ring-slate-200/80 transition hover:bg-slate-50 disabled:opacity-30"
-                      title="Сдвинуть позже"
-                      aria-label="Сдвинуть позже в списке"
-                      disabled={index >= items.length - 1}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        swapRefOrder(index, index + 1);
-                      }}
-                    >
-                      <LucideIcons.ChevronRight className="h-3.5 w-3.5" aria-hidden />
-                    </button>
-                  </div>
-                  <button
-                    type="button"
-                    className="absolute left-0.5 top-0.5 z-10 flex h-5 w-5 items-center justify-center rounded bg-white/95 text-red-500 shadow-sm ring-1 ring-red-200/80 transition hover:bg-red-50 hover:text-red-700"
-                    title="Удалить референс"
-                    aria-label="Удалить референс"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      removeOne(r.refId);
-                    }}
-                  >
-                    <LucideIcons.X className="h-3 w-3" strokeWidth={2.5} aria-hidden />
-                  </button>
                   </div>
                   {(() => {
-                    const asp = (r.takeawayAspects ?? []).map((a) => VISUAL_REF_TAKEAWAY_LABELS[a]).join(' · ');
+                    const asp = (r.takeawayAspects ?? [])
+                      .map((a) => VISUAL_REF_TAKEAWAY_LABELS[a])
+                      .join(' · ');
                     const note = r.takeawayNote?.trim() ?? '';
                     if (!asp && !note) return null;
                     return (
-                      <p className="mt-1 line-clamp-2 text-[9px] leading-snug text-slate-600" title={note || asp}>
+                      <p
+                        className="mt-1 line-clamp-2 text-[9px] leading-snug text-slate-600"
+                        title={note || asp}
+                      >
                         {[asp, note].filter(Boolean).join(' — ')}
                       </p>
                     );
@@ -9579,8 +10327,10 @@ function VisualReferencesBlock({
             <button
               type="button"
               className={cn(
-                'flex w-full min-h-0 items-center justify-center rounded-md border border-dashed border-slate-300 bg-slate-50 text-lg font-bold leading-none text-slate-600 transition hover:bg-slate-100',
-                refViewMode === 'board' ? 'aspect-[4/3] max-h-[200px]' : 'aspect-square max-h-[120px]'
+                'flex min-h-0 w-full items-center justify-center rounded-md border border-dashed border-slate-300 bg-slate-50 text-lg font-bold leading-none text-slate-600 transition hover:bg-slate-100',
+                refViewMode === 'board'
+                  ? 'aspect-[4/3] max-h-[200px]'
+                  : 'aspect-square max-h-[120px]'
               )}
               onClick={openRefEditorNew}
               title="Добавить референс"
@@ -9609,7 +10359,10 @@ function VisualReferencesBlock({
         >
           {lightboxRef && lightboxRef.previewDataUrl && visualRefIsMediaPreview(lightboxRef) ? (
             <>
-              <div ref={lightboxWheelAreaRef} className="relative flex min-h-0 flex-1 flex-col bg-black/90">
+              <div
+                ref={lightboxWheelAreaRef}
+                className="relative flex min-h-0 flex-1 flex-col bg-black/90"
+              >
                 <button
                   type="button"
                   className="absolute left-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white transition hover:bg-black/70 disabled:opacity-25"
@@ -9673,7 +10426,8 @@ function VisualReferencesBlock({
                         size="icon"
                         className={cn(
                           'h-8 w-8 shrink-0 text-white hover:bg-white/10 hover:text-white',
-                          lightboxLoupeArmed && 'bg-amber-500/90 text-amber-950 hover:bg-amber-400 hover:text-amber-950'
+                          lightboxLoupeArmed &&
+                            'bg-amber-500/90 text-amber-950 hover:bg-amber-400 hover:text-amber-950'
                         )}
                         title="Лупа: клики по фото — точка увеличения. Повторное нажатие — снять режим и вернуть масштаб 100%"
                         aria-label="Режим лупы"
@@ -9704,13 +10458,14 @@ function VisualReferencesBlock({
                     </div>
                     {lightboxLoupeArmed ? (
                       <p className="absolute left-1/2 top-[3.25rem] z-20 max-w-[min(92vw,28rem)] -translate-x-1/2 rounded-md bg-amber-500/95 px-3 py-1.5 text-center text-[11px] font-medium leading-snug text-amber-950 shadow-md">
-                        Клик по фото — откуда увеличивать. Крупнее / мельче — только кнопки − / + или колесо. Повторно
-                        иконка лупы — выключить режим и сбросить масштаб.
+                        Клик по фото — откуда увеличивать. Крупнее / мельче — только кнопки − / +
+                        или колесо. Повторно иконка лупы — выключить режим и сбросить масштаб.
                       </p>
                     ) : (
                       <p className="absolute left-1/2 top-[3.25rem] z-20 max-w-[min(92vw,26rem)] -translate-x-1/2 rounded-md bg-black/55 px-2.5 py-1.5 text-center text-[10px] leading-snug text-white/90">
-                        <span className="font-semibold text-white">Масштаб:</span> − / + или колесо по тёмной области.
-                        Лупа — точка увеличения по клику; снова лупа — сброс вида.
+                        <span className="font-semibold text-white">Масштаб:</span> − / + или колесо
+                        по тёмной области. Лупа — точка увеличения по клику; снова лупа — сброс
+                        вида.
                       </p>
                     )}
                     <div
@@ -9727,7 +10482,8 @@ function VisualReferencesBlock({
                         role="presentation"
                         className={cn(
                           'max-h-[min(52vh,500px)] max-w-full select-none object-contain transition-transform duration-200 ease-out',
-                          lightboxLoupeArmed && 'cursor-crosshair ring-2 ring-amber-400/80 ring-offset-2 ring-offset-black/90'
+                          lightboxLoupeArmed &&
+                            'cursor-crosshair ring-2 ring-amber-400/80 ring-offset-2 ring-offset-black/90'
                         )}
                         style={{
                           transform: `scale(${lightboxZoom})`,
@@ -9738,7 +10494,11 @@ function VisualReferencesBlock({
                         onClick={(e) => {
                           if (!lightboxLoupeArmed) return;
                           e.preventDefault();
-                          const pt = visualRefImageClickToFocusPx(e.currentTarget, e.clientX, e.clientY);
+                          const pt = visualRefImageClickToFocusPx(
+                            e.currentTarget,
+                            e.clientX,
+                            e.clientY
+                          );
                           setLightboxZoomFocusPx(pt);
                         }}
                       />
@@ -9751,31 +10511,31 @@ function VisualReferencesBlock({
                   <p className="text-xs font-semibold text-slate-500">
                     {lightboxMediaIndex + 1} / {mediaRefs.length}
                   </p>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
                     className="h-8 text-xs text-red-600"
                     onClick={() => removeOne(lightboxRef.refId)}
-                >
+                  >
                     Удалить референс
-                </Button>
-              </div>
+                  </Button>
+                </div>
                 <Input
                   className="h-9 text-sm"
                   placeholder="Название"
                   value={lightboxRef.title}
                   onChange={(e) => update(lightboxRef.refId, { title: e.target.value })}
                 />
-              <Textarea
-                className="min-h-[56px] text-sm"
+                <Textarea
+                  className="min-h-[56px] text-sm"
                   placeholder="Что смотреть на референсе…"
                   value={lightboxRef.description ?? ''}
                   onChange={(e) => update(lightboxRef.refId, { description: e.target.value })}
-              />
-              <Input
+                />
+                <Input
                   className="h-9 text-sm"
-                type="url"
+                  type="url"
                   placeholder="Ссылка https://…"
                   value={lightboxRef.externalUrl ?? ''}
                   onChange={(e) => update(lightboxRef.refId, { externalUrl: e.target.value })}
@@ -9791,7 +10551,9 @@ function VisualReferencesBlock({
                 </div>
 
                 <div className="space-y-2 border-t border-slate-100 pt-3">
-                  <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">Обсуждение</p>
+                  <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+                    Обсуждение
+                  </p>
                   <div className="flex max-h-52 flex-col gap-2 overflow-y-auto rounded-lg border border-slate-100 bg-slate-50/80 p-2">
                     {sortedComments.length === 0 ? (
                       <p className="text-center text-[11px] text-slate-500">Пока нет сообщений.</p>
@@ -9799,8 +10561,12 @@ function VisualReferencesBlock({
                       sortedComments.map((c) => {
                         const isAuthorSide = visualRefSameUser(c.by, threadAuthorLabel);
                         const likes = (c.reactions ?? []).filter((x) => x.type === 'like').length;
-                        const dislikes = (c.reactions ?? []).filter((x) => x.type === 'dislike').length;
-                        const mine = (c.reactions ?? []).find((x) => visualRefSameUser(x.by, currentUserLabel));
+                        const dislikes = (c.reactions ?? []).filter(
+                          (x) => x.type === 'dislike'
+                        ).length;
+                        const mine = (c.reactions ?? []).find((x) =>
+                          visualRefSameUser(x.by, currentUserLabel)
+                        );
                         return (
                           <div
                             key={c.commentId}
@@ -9845,7 +10611,9 @@ function VisualReferencesBlock({
                                     ? 'bg-emerald-100 text-emerald-800'
                                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                 )}
-                                onClick={() => toggleReaction(lightboxRef.refId, c.commentId, 'like')}
+                                onClick={() =>
+                                  toggleReaction(lightboxRef.refId, c.commentId, 'like')
+                                }
                               >
                                 <LucideIcons.ThumbsUp className="h-3 w-3" />
                                 {likes || ''}
@@ -9858,7 +10626,9 @@ function VisualReferencesBlock({
                                     ? 'bg-rose-100 text-rose-800'
                                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                 )}
-                                onClick={() => toggleReaction(lightboxRef.refId, c.commentId, 'dislike')}
+                                onClick={() =>
+                                  toggleReaction(lightboxRef.refId, c.commentId, 'dislike')
+                                }
                               >
                                 <LucideIcons.ThumbsDown className="h-3 w-3" />
                                 {dislikes || ''}
@@ -9872,7 +10642,9 @@ function VisualReferencesBlock({
                                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                 )}
                                 aria-pressed={c.resolved === true}
-                                onClick={() => toggleCommentResolved(lightboxRef.refId, c.commentId)}
+                                onClick={() =>
+                                  toggleCommentResolved(lightboxRef.refId, c.commentId)
+                                }
                               >
                                 {c.resolved ? 'Решено' : 'Открыто'}
                               </button>
@@ -9889,14 +10661,18 @@ function VisualReferencesBlock({
                       value={draftComment}
                       onChange={(e) => setDraftComment(e.target.value)}
                     />
-                    <Button type="button" className="h-9 shrink-0 self-end text-xs" onClick={addComment}>
+                    <Button
+                      type="button"
+                      className="h-9 shrink-0 self-end text-xs"
+                      onClick={addComment}
+                    >
                       Отправить
                     </Button>
                   </div>
                 </div>
               </div>
             </>
-                  ) : null}
+          ) : null}
         </DialogContent>
       </Dialog>
 
@@ -9912,12 +10688,12 @@ function VisualReferencesBlock({
             <div className="flex items-start gap-3">
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
                 <LucideIcons.Images className="h-4 w-4 shrink-0" aria-hidden />
-                </div>
+              </div>
               <DialogHeader className="m-0 flex-1 space-y-1 p-0 text-left">
                 <DialogTitle>{refEditorId ? 'Референс' : 'Новый референс'}</DialogTitle>
                 <DialogDescription className="text-sm leading-snug">
-                  Название, пояснение и ссылка — по желанию; фото или видео дадут превью в сетке. Окно поверх страницы, как
-                  раньше.
+                  Название, пояснение и ссылка — по желанию; фото или видео дадут превью в сетке.
+                  Окно поверх страницы, как раньше.
                 </DialogDescription>
               </DialogHeader>
             </div>
@@ -9964,14 +10740,18 @@ function VisualReferencesBlock({
             <div className="space-y-2">
               <Label className="text-xs">Что берём с рефа</Label>
               <div className="flex flex-wrap gap-2">
-                {(Object.keys(VISUAL_REF_TAKEAWAY_LABELS) as Workshop2VisualRefTakeawayAspect[]).map((aspect) => {
+                {(
+                  Object.keys(VISUAL_REF_TAKEAWAY_LABELS) as Workshop2VisualRefTakeawayAspect[]
+                ).map((aspect) => {
                   const on = refEditorTakeawayAspects.includes(aspect);
                   return (
                     <label
                       key={aspect}
                       className={cn(
                         'flex cursor-pointer items-center gap-1.5 rounded-md border px-2 py-1 text-[11px] transition',
-                        on ? 'border-indigo-300 bg-indigo-50 text-indigo-900' : 'border-slate-200 bg-white text-slate-700'
+                        on
+                          ? 'border-indigo-300 bg-indigo-50 text-indigo-900'
+                          : 'border-slate-200 bg-white text-slate-700'
                       )}
                     >
                       <input
@@ -9980,7 +10760,9 @@ function VisualReferencesBlock({
                         checked={on}
                         onChange={() => {
                           setRefEditorTakeawayAspects((prev) =>
-                            prev.includes(aspect) ? prev.filter((x) => x !== aspect) : [...prev, aspect]
+                            prev.includes(aspect)
+                              ? prev.filter((x) => x !== aspect)
+                              : [...prev, aspect]
                           );
                         }}
                       />
@@ -10008,12 +10790,19 @@ function VisualReferencesBlock({
                 className="h-9 cursor-pointer text-xs"
               />
               {refEditorId ? (
-                <p className="text-[10px] text-slate-500">Оставьте поле пустым, чтобы сохранить текущий файл.</p>
-                ) : null}
-              </div>
+                <p className="text-[10px] text-slate-500">
+                  Оставьте поле пустым, чтобы сохранить текущий файл.
+                </p>
+              ) : null}
+            </div>
           </div>
           <DialogFooter className="border-t border-slate-100 px-4 py-3 sm:px-5">
-            <Button type="button" variant="outline" size="sm" onClick={() => setRefEditorOpen(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setRefEditorOpen(false)}
+            >
               Отмена
             </Button>
             <Button type="button" size="sm" onClick={() => void saveRefEditor()}>
@@ -10043,10 +10832,7 @@ function SampleBaseSizeBlock({
   tzWriteDisabled: boolean;
   onFreeTextSide: (attributeId: string, text: string) => void;
 }) {
-  const scaleRows = useMemo(
-    () => getWorkshopSampleSizeScaleOptions(currentLeaf),
-    [currentLeaf]
-  );
+  const scaleRows = useMemo(() => getWorkshopSampleSizeScaleOptions(currentLeaf), [currentLeaf]);
   const dimLabels = useMemo(() => getWorkshopDimensionLabels(currentLeaf), [currentLeaf]);
   const effectiveScaleId =
     dossier.sampleSizeScaleId ?? scaleRows[0]?.key ?? defaultSizeScaleIdForLeaf(currentLeaf);
@@ -10063,7 +10849,11 @@ function SampleBaseSizeBlock({
     () =>
       hbs.map((v) => ({
         parameterId: v.parameterId!,
-        displayLabel: resolvedHandbookDisplayLabel('sampleBaseSize', v.parameterId!, v.displayLabel),
+        displayLabel: resolvedHandbookDisplayLabel(
+          'sampleBaseSize',
+          v.parameterId!,
+          v.displayLabel
+        ),
       })),
     [sampleAssign]
   );
@@ -10119,7 +10909,12 @@ function SampleBaseSizeBlock({
           cellLooksLikeNumericRange(dimValue(part.parameterId, key, idx))
         )
       ),
-    [dimensionKeysAll, handbookParts, dossier.sampleBasePerSizeDimensions, dossier.sampleBaseDimensionOverrides]
+    [
+      dimensionKeysAll,
+      handbookParts,
+      dossier.sampleBasePerSizeDimensions,
+      dossier.sampleBaseDimensionOverrides,
+    ]
   );
 
   const moqCap = dossier.passportProductionBrief?.moqTargetMaxPieces;
@@ -10428,8 +11223,7 @@ function SampleBaseSizeBlock({
         return {
           ...p,
           sampleBaseHiddenDimensionKeys: nextHidden,
-          sampleBaseDimensionLabelOverrides:
-            Object.keys(nextOv).length > 0 ? nextOv : undefined,
+          sampleBaseDimensionLabelOverrides: Object.keys(nextOv).length > 0 ? nextOv : undefined,
           sampleBaseDimensionRangeKeys: nextRangeKeys.length ? nextRangeKeys : undefined,
           sampleBasePerSizeDimensionRanges: Object.keys(nextRangesRaw).length
             ? nextRangesRaw
@@ -10445,8 +11239,7 @@ function SampleBaseSizeBlock({
       return {
         ...p,
         sampleBaseHiddenDimensionKeys: nextHidden,
-        sampleBaseDimensionLabelOverrides:
-          Object.keys(nextOv).length > 0 ? nextOv : undefined,
+        sampleBaseDimensionLabelOverrides: Object.keys(nextOv).length > 0 ? nextOv : undefined,
         sampleBasePerSizeDimensions: Object.keys(nextPer).length ? nextPer : undefined,
         sampleBaseDimensionRangeKeys: nextRangeKeys.length ? nextRangeKeys : undefined,
         sampleBasePerSizeDimensionRanges: Object.keys(nextRangesRaw).length
@@ -10608,7 +11401,9 @@ function SampleBaseSizeBlock({
           </select>
         </div>
         <div className="min-w-0 flex-1 space-y-1">
-          <Label className="text-[10px] font-bold uppercase text-slate-400">Свой размер (через запятую)</Label>
+          <Label className="text-[10px] font-bold uppercase text-slate-400">
+            Свой размер (через запятую)
+          </Label>
           <Input
             className="h-9 w-full min-w-0 text-sm"
             value={freeStr}
@@ -10619,7 +11414,9 @@ function SampleBaseSizeBlock({
       </div>
 
       <div className="space-y-1.5">
-        <Label className="text-[10px] font-bold uppercase text-slate-400">Выбор из справочника</Label>
+        <Label className="text-[10px] font-bold uppercase text-slate-400">
+          Выбор из справочника
+        </Label>
         <HandbookMultiSelectPopover
           options={optList}
           parts={handbookParts}
@@ -10644,18 +11441,19 @@ function SampleBaseSizeBlock({
 
       {handbookParts.length > 0 ? (
         <p className="rounded-lg border border-slate-100 bg-slate-50/90 px-3 py-2 text-[11px] leading-snug text-slate-600">
-          Нужны мерки вне стандартного справочника (объём капюшона, шаг плеча бренда, длина по боковому шву и т.п.)? В
-          таблице ниже нажмите «+» справа от заголовков — добавьте колонку, задайте подпись и заполните значения по размерам.
-          Лишние стандартные мерки можно скрыть крестиком на колонке.
+          Нужны мерки вне стандартного справочника (объём капюшона, шаг плеча бренда, длина по
+          боковому шву и т.п.)? В таблице ниже нажмите «+» справа от заголовков — добавьте колонку,
+          задайте подпись и заполните значения по размерам. Лишние стандартные мерки можно скрыть
+          крестиком на колонке.
         </p>
       ) : null}
 
       {handbookParts.length > 0 && (visibleDimLabels.length > 0 || extras.length > 0) ? (
-        <div className="max-w-full min-w-0 rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
+        <div className="min-w-0 max-w-full rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
           {capActive && tablePieceSum > moqCap! ? (
             <p className="mx-1 mb-2 rounded-md border border-amber-200 bg-amber-50/90 px-2 py-1.5 text-[11px] text-amber-900">
-              Сумма «Кол-во, шт» ({tablePieceSum}) больше количества образцов в паспорте ({moqCap}). Уменьшите количества
-              или увеличьте лимит.
+              Сумма «Кол-во, шт» ({tablePieceSum}) больше количества образцов в паспорте ({moqCap}).
+              Уменьшите количества или увеличьте лимит.
             </p>
           ) : null}
           <div className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-slate-100 bg-slate-50/90 p-3 text-xs text-slate-700">
@@ -10669,17 +11467,19 @@ function SampleBaseSizeBlock({
                   }))
                 }
               />
-              <span className="font-bold uppercase tracking-widest text-[10px]">Диапазоны (мин–макс)</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest">
+                Диапазоны (мин–макс)
+              </span>
             </label>
             <div className="flex flex-wrap items-center gap-2">
               <Button
                 type="button"
                 variant="outline"
                 size="sm"
-                className="h-7 text-[10px] bg-white shadow-sm border-indigo-100 text-indigo-700 hover:bg-indigo-50"
+                className="h-7 border-indigo-100 bg-white text-[10px] text-indigo-700 shadow-sm hover:bg-indigo-50"
                 onClick={fillAllSuggestions}
               >
-                <LucideIcons.Sparkles className="w-3 h-3 mr-1" />
+                <LucideIcons.Sparkles className="mr-1 h-3 w-3" />
                 Заполнить по справочнику (EU)
               </Button>
               {rangeMode && (
@@ -10687,11 +11487,11 @@ function SampleBaseSizeBlock({
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="h-7 shrink-0 text-[10px] bg-white shadow-sm"
+                  className="h-7 shrink-0 bg-white text-[10px] shadow-sm"
                   disabled={dimsWithSuggestionRange.every((k) => rangeKeysSet.has(k))}
                   onClick={() => addAllSuggestedRangeDimensions()}
                 >
-                  <LucideIcons.Sparkles className="w-3 h-3 mr-1 text-indigo-500" />
+                  <LucideIcons.Sparkles className="mr-1 h-3 w-3 text-indigo-500" />
                   Все мерки с «число–число»
                 </Button>
               )}
@@ -10701,308 +11501,311 @@ function SampleBaseSizeBlock({
             <div className="min-w-max space-y-3 px-2">
               <div className="flex flex-nowrap items-end gap-x-2 gap-y-2 border-b border-slate-100 pb-2">
                 <div className="min-w-[5rem] max-w-[9rem] shrink-0 pb-2" aria-hidden>
-                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Размер</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    Размер
+                  </span>
                 </div>
-            {visibleDimLabels.map((canon) => {
-              const display =
-                dossier.sampleBaseDimensionLabelOverrides?.[canon] ?? canon;
-              const colRange = rangeMode && rangeKeysSet.has(canon);
-              return (
+                {visibleDimLabels.map((canon) => {
+                  const display = dossier.sampleBaseDimensionLabelOverrides?.[canon] ?? canon;
+                  const colRange = rangeMode && rangeKeysSet.has(canon);
+                  return (
+                    <div
+                      key={`hdr-${canon}`}
+                      className={cn('relative shrink-0', colRange ? 'w-[8.25rem]' : 'w-[5rem]')}
+                    >
+                      <button
+                        type="button"
+                        className="absolute -right-1 -top-1 z-[1] flex h-5 w-5 items-center justify-center rounded text-base leading-none text-red-600 hover:bg-red-50"
+                        aria-label={`Удалить колонку «${canon}»`}
+                        onClick={() => removeStandardDimension(canon)}
+                      >
+                        ×
+                      </button>
+                      <Input
+                        className="h-8 w-full px-1 pr-4 text-[9px] font-medium leading-tight text-slate-500"
+                        value={display}
+                        onChange={(e) => setStandardLabelOverride(canon, e.target.value)}
+                        aria-label="Подпись мерки"
+                      />
+                      {rangeMode ? (
+                        <label className="mt-1 flex cursor-pointer items-center gap-1">
+                          <Checkbox
+                            checked={rangeKeysSet.has(canon)}
+                            onCheckedChange={(c) => {
+                              if (c === true) enableRangeForDimensionKey(canon);
+                              else disableRangeForDimensionKey(canon);
+                            }}
+                            className="h-3 w-3"
+                          />
+                          <span className="text-[8px] leading-none text-slate-500">мин–макс</span>
+                        </label>
+                      ) : null}
+                    </div>
+                  );
+                })}
+                {extras.map((ex) => {
+                  const ek = extraDimStorageKey(ex.id);
+                  const colRange = rangeMode && rangeKeysSet.has(ek);
+                  return (
+                    <div
+                      key={ex.id}
+                      className={cn('relative shrink-0', colRange ? 'w-[8.25rem]' : 'w-[5.5rem]')}
+                    >
+                      <button
+                        type="button"
+                        className="absolute -right-1 -top-1 z-[1] flex h-5 w-5 items-center justify-center rounded text-base leading-none text-red-600 hover:bg-red-50"
+                        aria-label="Удалить мерку"
+                        onClick={() => removeExtraDimension(ex.id)}
+                      >
+                        ×
+                      </button>
+                      <Input
+                        className="h-8 w-full px-1 pr-4 text-[9px] font-medium leading-tight text-slate-500"
+                        value={ex.label}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          setDossier((p: Workshop2DossierPhase1) => ({
+                            ...p,
+                            sampleBaseExtraDimensions: (p.sampleBaseExtraDimensions ?? []).map(
+                              (x) => (x.id === ex.id ? { ...x, label: v } : x)
+                            ),
+                          }));
+                        }}
+                        aria-label="Подпись мерки"
+                      />
+                      {rangeMode ? (
+                        <label className="mt-1 flex cursor-pointer items-center gap-1">
+                          <Checkbox
+                            checked={rangeKeysSet.has(ek)}
+                            onCheckedChange={(c) => {
+                              if (c === true) enableRangeForDimensionKey(ek);
+                              else disableRangeForDimensionKey(ek);
+                            }}
+                            className="h-3 w-3"
+                          />
+                          <span className="text-[8px] leading-none text-slate-500">мин–макс</span>
+                        </label>
+                      ) : null}
+                    </div>
+                  );
+                })}
+                <div className="w-[4.5rem] shrink-0 pb-2">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    Кол-во, шт
+                  </span>
+                </div>
+                <div className="w-9 shrink-0" aria-hidden />
+              </div>
+              {handbookParts.map((part, idx) => (
                 <div
-                  key={`hdr-${canon}`}
-                  className={cn('relative shrink-0', colRange ? 'w-[8.25rem]' : 'w-[5rem]')}
+                  key={part.parameterId}
+                  className="flex flex-nowrap items-center gap-x-2 gap-y-2 border-b border-slate-100 pb-3 last:border-0 last:pb-0"
+                  aria-label={sizeLineForPart(part)}
                 >
-                  <button
-                    type="button"
-                    className="absolute -right-1 -top-1 z-[1] flex h-5 w-5 items-center justify-center rounded text-base leading-none text-red-600 hover:bg-red-50"
-                    aria-label={`Удалить колонку «${canon}»`}
-                    onClick={() => removeStandardDimension(canon)}
-                  >
-                    ×
-                  </button>
-                  <Input
-                    className="h-8 w-full px-1 pr-4 text-[9px] font-medium leading-tight text-slate-500"
-                    value={display}
-                    onChange={(e) => setStandardLabelOverride(canon, e.target.value)}
-                    aria-label="Подпись мерки"
-                  />
-                  {rangeMode ? (
-                    <label className="mt-1 flex cursor-pointer items-center gap-1">
-                      <Checkbox
-                        checked={rangeKeysSet.has(canon)}
-                        onCheckedChange={(c) => {
-                          if (c === true) enableRangeForDimensionKey(canon);
-                          else disableRangeForDimensionKey(canon);
-                        }}
-                        className="h-3 w-3"
-                      />
-                      <span className="text-[8px] leading-none text-slate-500">мин–макс</span>
-                    </label>
-                  ) : null}
-                </div>
-              );
-            })}
-            {extras.map((ex) => {
-              const ek = extraDimStorageKey(ex.id);
-              const colRange = rangeMode && rangeKeysSet.has(ek);
-              return (
-              <div key={ex.id} className={cn('relative shrink-0', colRange ? 'w-[8.25rem]' : 'w-[5.5rem]')}>
-                <button
-                  type="button"
-                  className="absolute -right-1 -top-1 z-[1] flex h-5 w-5 items-center justify-center rounded text-base leading-none text-red-600 hover:bg-red-50"
-                  aria-label="Удалить мерку"
-                  onClick={() => removeExtraDimension(ex.id)}
-                >
-                  ×
-                </button>
-                <Input
-                  className="h-8 w-full px-1 pr-4 text-[9px] font-medium leading-tight text-slate-500"
-                  value={ex.label}
-                  onChange={(e) => {
-                    const v = e.target.value;
-                    setDossier((p: Workshop2DossierPhase1) => ({
-                      ...p,
-                      sampleBaseExtraDimensions: (p.sampleBaseExtraDimensions ?? []).map((x) =>
-                        x.id === ex.id ? { ...x, label: v } : x
-                      ),
-                    }));
-                  }}
-                  aria-label="Подпись мерки"
-                />
-                {rangeMode ? (
-                  <label className="mt-1 flex cursor-pointer items-center gap-1">
-                    <Checkbox
-                      checked={rangeKeysSet.has(ek)}
-                      onCheckedChange={(c) => {
-                        if (c === true) enableRangeForDimensionKey(ek);
-                        else disableRangeForDimensionKey(ek);
-                      }}
-                      className="h-3 w-3"
+                  <div className="flex min-h-9 min-w-[4.5rem] max-w-[9rem] shrink-0 items-center">
+                    <span className="text-sm font-medium leading-snug text-slate-900">
+                      {sizeLineForPart(part)}
+                    </span>
+                  </div>
+                  {visibleDimLabels.map((canon) => {
+                    const aria = dossier.sampleBaseDimensionLabelOverrides?.[canon] ?? canon;
+                    const useRange = rangeMode && rangeKeysSet.has(canon);
+                    const rc = rangeForCell(part.parameterId, canon, idx);
+                    return (
+                      <div
+                        key={`${part.parameterId}-${canon}`}
+                        className={cn('shrink-0', useRange ? 'w-[8.25rem]' : 'w-[5rem]')}
+                      >
+                        {useRange ? (
+                          <div className="flex flex-col gap-0.5">
+                            <Input
+                              className="h-8 px-1.5 text-[10px]"
+                              inputMode="decimal"
+                              placeholder="мин"
+                              title={`${aria} — мин`}
+                              aria-label={`${aria}, мин`}
+                              value={rc.min}
+                              onChange={(e) =>
+                                patchRangeCell(part.parameterId, canon, 'min', e.target.value)
+                              }
+                            />
+                            <Input
+                              className="h-8 px-1.5 text-[10px]"
+                              inputMode="decimal"
+                              placeholder="макс"
+                              title={`${aria} — макс`}
+                              aria-label={`${aria}, макс`}
+                              value={rc.max}
+                              onChange={(e) =>
+                                patchRangeCell(part.parameterId, canon, 'max', e.target.value)
+                              }
+                            />
+                            <Input
+                              className="h-8 px-1.5 text-[10px]"
+                              inputMode="text"
+                              placeholder="номинал"
+                              title={`${aria} — номинал для артикула`}
+                              aria-label={`${aria}, номинал для артикула`}
+                              value={rc.nominal}
+                              onChange={(e) =>
+                                patchRangeCell(part.parameterId, canon, 'nominal', e.target.value)
+                              }
+                            />
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 px-1 text-[9px] text-slate-600"
+                              disabled={!midpointNominalSuggestion(rc.min, rc.max)}
+                              onClick={() => {
+                                const m = midpointNominalSuggestion(rc.min, rc.max);
+                                if (m) patchRangeCell(part.parameterId, canon, 'nominal', m);
+                              }}
+                            >
+                              середина
+                            </Button>
+                          </div>
+                        ) : (
+                          <Input
+                            className="h-9 px-2 text-xs"
+                            inputMode="decimal"
+                            placeholder="см"
+                            title={aria}
+                            aria-label={aria}
+                            value={dimValue(part.parameterId, canon, idx)}
+                            onChange={(e) => {
+                              const v = e.target.value;
+                              setDossier((p: Workshop2DossierPhase1) => ({
+                                ...p,
+                                sampleBasePerSizeDimensions: {
+                                  ...p.sampleBasePerSizeDimensions,
+                                  [part.parameterId]: {
+                                    ...(p.sampleBasePerSizeDimensions?.[part.parameterId] ?? {}),
+                                    [canon]: v,
+                                  },
+                                },
+                              }));
+                            }}
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
+                  {extras.map((ex) => {
+                    const ek = extraDimStorageKey(ex.id);
+                    const useRange = rangeMode && rangeKeysSet.has(ek);
+                    const rc = rangeForCell(part.parameterId, ek, idx);
+                    const ariaEx = ex.label.trim() || 'Доп. мерка';
+                    return (
+                      <div
+                        key={`${part.parameterId}-${ex.id}`}
+                        className={cn('shrink-0', useRange ? 'w-[8.25rem]' : 'w-[5.5rem]')}
+                      >
+                        {useRange ? (
+                          <div className="flex flex-col gap-0.5">
+                            <Input
+                              className="h-8 px-1.5 text-[10px]"
+                              inputMode="decimal"
+                              placeholder="мин"
+                              aria-label={`${ariaEx}, мин`}
+                              value={rc.min}
+                              onChange={(e) =>
+                                patchRangeCell(part.parameterId, ek, 'min', e.target.value)
+                              }
+                            />
+                            <Input
+                              className="h-8 px-1.5 text-[10px]"
+                              inputMode="decimal"
+                              placeholder="макс"
+                              aria-label={`${ariaEx}, макс`}
+                              value={rc.max}
+                              onChange={(e) =>
+                                patchRangeCell(part.parameterId, ek, 'max', e.target.value)
+                              }
+                            />
+                            <Input
+                              className="h-8 px-1.5 text-[10px]"
+                              inputMode="text"
+                              placeholder="номинал"
+                              aria-label={`${ariaEx}, номинал для артикула`}
+                              value={rc.nominal}
+                              onChange={(e) =>
+                                patchRangeCell(part.parameterId, ek, 'nominal', e.target.value)
+                              }
+                            />
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 px-1 text-[9px] text-slate-600"
+                              disabled={!midpointNominalSuggestion(rc.min, rc.max)}
+                              onClick={() => {
+                                const m = midpointNominalSuggestion(rc.min, rc.max);
+                                if (m) patchRangeCell(part.parameterId, ek, 'nominal', m);
+                              }}
+                            >
+                              середина
+                            </Button>
+                          </div>
+                        ) : (
+                          <Input
+                            className="h-9 px-2 text-xs"
+                            inputMode="decimal"
+                            placeholder="см"
+                            aria-label={ariaEx}
+                            value={dimValue(part.parameterId, ek, idx)}
+                            onChange={(e) => {
+                              const v = e.target.value;
+                              setDossier((p: Workshop2DossierPhase1) => ({
+                                ...p,
+                                sampleBasePerSizeDimensions: {
+                                  ...p.sampleBasePerSizeDimensions,
+                                  [part.parameterId]: {
+                                    ...(p.sampleBasePerSizeDimensions?.[part.parameterId] ?? {}),
+                                    [ek]: v,
+                                  },
+                                },
+                              }));
+                            }}
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
+                  <div className="w-[4.5rem] shrink-0">
+                    <Input
+                      className="h-9 px-1.5 text-center text-xs"
+                      inputMode="numeric"
+                      placeholder="—"
+                      aria-label={`Количество шт, ${sizeLineForPart(part)}`}
+                      title={
+                        capActive
+                          ? `Максимум для этой строки: ${maxPiecesForPid(part.parameterId) ?? 0}`
+                          : 'Лимит задаётся в паспорте: «Лимит шт по размерам»'
+                      }
+                      value={
+                        pieceQtyMap[part.parameterId] != null && pieceQtyMap[part.parameterId]! > 0
+                          ? String(pieceQtyMap[part.parameterId])
+                          : ''
+                      }
+                      onChange={(e) => patchPieceQty(part.parameterId, e.target.value)}
+                      min={0}
+                      max={maxPiecesForPid(part.parameterId)}
                     />
-                    <span className="text-[8px] leading-none text-slate-500">мин–макс</span>
-                  </label>
-                ) : null}
-              </div>
-            );
-            })}
-            <div className="w-[4.5rem] shrink-0 pb-2">
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                Кол-во, шт
-              </span>
-            </div>
-            <div className="w-9 shrink-0" aria-hidden />
-          </div>
-          {handbookParts.map((part, idx) => (
-            <div
-              key={part.parameterId}
-              className="flex flex-nowrap items-center gap-x-2 gap-y-2 border-b border-slate-100 pb-3 last:border-0 last:pb-0"
-              aria-label={sizeLineForPart(part)}
-            >
-              <div className="flex min-h-9 min-w-[4.5rem] max-w-[9rem] shrink-0 items-center">
-                <span className="text-sm font-medium text-slate-900 leading-snug">
-                  {sizeLineForPart(part)}
-                </span>
-              </div>
-              {visibleDimLabels.map((canon) => {
-                const aria =
-                  dossier.sampleBaseDimensionLabelOverrides?.[canon] ?? canon;
-                const useRange = rangeMode && rangeKeysSet.has(canon);
-                const rc = rangeForCell(part.parameterId, canon, idx);
-                return (
-                  <div
-                    key={`${part.parameterId}-${canon}`}
-                    className={cn('shrink-0', useRange ? 'w-[8.25rem]' : 'w-[5rem]')}
-                  >
-                    {useRange ? (
-                      <div className="flex flex-col gap-0.5">
-                        <Input
-                          className="h-8 px-1.5 text-[10px]"
-                          inputMode="decimal"
-                          placeholder="мин"
-                          title={`${aria} — мин`}
-                          aria-label={`${aria}, мин`}
-                          value={rc.min}
-                          onChange={(e) =>
-                            patchRangeCell(part.parameterId, canon, 'min', e.target.value)
-                          }
-                        />
-                        <Input
-                          className="h-8 px-1.5 text-[10px]"
-                          inputMode="decimal"
-                          placeholder="макс"
-                          title={`${aria} — макс`}
-                          aria-label={`${aria}, макс`}
-                          value={rc.max}
-                          onChange={(e) =>
-                            patchRangeCell(part.parameterId, canon, 'max', e.target.value)
-                          }
-                        />
-                        <Input
-                          className="h-8 px-1.5 text-[10px]"
-                          inputMode="text"
-                          placeholder="номинал"
-                          title={`${aria} — номинал для артикула`}
-                          aria-label={`${aria}, номинал для артикула`}
-                          value={rc.nominal}
-                          onChange={(e) =>
-                            patchRangeCell(part.parameterId, canon, 'nominal', e.target.value)
-                          }
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          className="h-6 px-1 text-[9px] text-slate-600"
-                          disabled={!midpointNominalSuggestion(rc.min, rc.max)}
-                          onClick={() => {
-                            const m = midpointNominalSuggestion(rc.min, rc.max);
-                            if (m) patchRangeCell(part.parameterId, canon, 'nominal', m);
-                          }}
-                        >
-                          середина
-                        </Button>
-                      </div>
-                    ) : (
-                      <Input
-                        className="h-9 px-2 text-xs"
-                        inputMode="decimal"
-                        placeholder="см"
-                        title={aria}
-                        aria-label={aria}
-                        value={dimValue(part.parameterId, canon, idx)}
-                        onChange={(e) => {
-                          const v = e.target.value;
-                          setDossier((p: Workshop2DossierPhase1) => ({
-                            ...p,
-                            sampleBasePerSizeDimensions: {
-                              ...p.sampleBasePerSizeDimensions,
-                              [part.parameterId]: {
-                                ...(p.sampleBasePerSizeDimensions?.[part.parameterId] ?? {}),
-                                [canon]: v,
-                              },
-                            },
-                          }));
-                        }}
-                      />
-                    )}
                   </div>
-                );
-              })}
-              {extras.map((ex) => {
-                const ek = extraDimStorageKey(ex.id);
-                const useRange = rangeMode && rangeKeysSet.has(ek);
-                const rc = rangeForCell(part.parameterId, ek, idx);
-                const ariaEx = ex.label.trim() || 'Доп. мерка';
-                return (
-                  <div
-                    key={`${part.parameterId}-${ex.id}`}
-                    className={cn('shrink-0', useRange ? 'w-[8.25rem]' : 'w-[5.5rem]')}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-9 w-9 shrink-0 p-0 text-lg font-medium leading-none"
+                    onClick={addExtraDimension}
+                    aria-label="Добавить мерку"
                   >
-                    {useRange ? (
-                      <div className="flex flex-col gap-0.5">
-                        <Input
-                          className="h-8 px-1.5 text-[10px]"
-                          inputMode="decimal"
-                          placeholder="мин"
-                          aria-label={`${ariaEx}, мин`}
-                          value={rc.min}
-                          onChange={(e) =>
-                            patchRangeCell(part.parameterId, ek, 'min', e.target.value)
-                          }
-                        />
-                        <Input
-                          className="h-8 px-1.5 text-[10px]"
-                          inputMode="decimal"
-                          placeholder="макс"
-                          aria-label={`${ariaEx}, макс`}
-                          value={rc.max}
-                          onChange={(e) =>
-                            patchRangeCell(part.parameterId, ek, 'max', e.target.value)
-                          }
-                        />
-                        <Input
-                          className="h-8 px-1.5 text-[10px]"
-                          inputMode="text"
-                          placeholder="номинал"
-                          aria-label={`${ariaEx}, номинал для артикула`}
-                          value={rc.nominal}
-                          onChange={(e) =>
-                            patchRangeCell(part.parameterId, ek, 'nominal', e.target.value)
-                          }
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          className="h-6 px-1 text-[9px] text-slate-600"
-                          disabled={!midpointNominalSuggestion(rc.min, rc.max)}
-                          onClick={() => {
-                            const m = midpointNominalSuggestion(rc.min, rc.max);
-                            if (m) patchRangeCell(part.parameterId, ek, 'nominal', m);
-                          }}
-                        >
-                          середина
-                        </Button>
-                      </div>
-                    ) : (
-                      <Input
-                        className="h-9 px-2 text-xs"
-                        inputMode="decimal"
-                        placeholder="см"
-                        aria-label={ariaEx}
-                        value={dimValue(part.parameterId, ek, idx)}
-                        onChange={(e) => {
-                          const v = e.target.value;
-                          setDossier((p: Workshop2DossierPhase1) => ({
-                            ...p,
-                            sampleBasePerSizeDimensions: {
-                              ...p.sampleBasePerSizeDimensions,
-                              [part.parameterId]: {
-                                ...(p.sampleBasePerSizeDimensions?.[part.parameterId] ?? {}),
-                                [ek]: v,
-                              },
-                            },
-                          }));
-                        }}
-                      />
-                    )}
-                  </div>
-                );
-              })}
-              <div className="w-[4.5rem] shrink-0">
-                <Input
-                  className="h-9 px-1.5 text-center text-xs"
-                  inputMode="numeric"
-                  placeholder="—"
-                  aria-label={`Количество шт, ${sizeLineForPart(part)}`}
-                  title={
-                    capActive
-                      ? `Максимум для этой строки: ${maxPiecesForPid(part.parameterId) ?? 0}`
-                      : 'Лимит задаётся в паспорте: «Лимит шт по размерам»'
-                  }
-                  value={
-                    pieceQtyMap[part.parameterId] != null && pieceQtyMap[part.parameterId]! > 0
-                      ? String(pieceQtyMap[part.parameterId])
-                      : ''
-                  }
-                  onChange={(e) => patchPieceQty(part.parameterId, e.target.value)}
-                  min={0}
-                  max={maxPiecesForPid(part.parameterId)}
-                />
-              </div>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="h-9 w-9 shrink-0 p-0 text-lg font-medium leading-none"
-                onClick={addExtraDimension}
-                aria-label="Добавить мерку"
-              >
-                +
-              </Button>
+                    +
+                  </Button>
+                </div>
+              ))}
             </div>
-          ))}
-          </div>
           </div>
         </div>
       ) : null}
@@ -11035,7 +11838,9 @@ function AttributeRowEditor({
     return <ColorAttributeRow attribute={attribute} dossier={dossier} patchColor={patchColor} />;
   }
 
-  const a = dossier.assignments.find((x) => x.kind === 'canonical' && x.attributeId === attribute.attributeId);
+  const a = dossier.assignments.find(
+    (x) => x.kind === 'canonical' && x.attributeId === attribute.attributeId
+  );
   const { hbs, ft } = partitionHandbookAndFree(a);
   const freeStr = ft?.text ?? '';
   const handbookParts = useMemo(() => {
@@ -11156,7 +11961,9 @@ function ColorAttributeRow({
   /** Сузить палитру по токенам из основной группы и референса (паспорт). */
   paletteCrossNeedles?: string[];
 }) {
-  const a = dossier.assignments.find((x) => x.kind === 'canonical' && x.attributeId === attribute.attributeId);
+  const a = dossier.assignments.find(
+    (x) => x.kind === 'canonical' && x.attributeId === attribute.attributeId
+  );
   const { hb, ft } = partitionValues(a);
   const currentPid = hb?.parameterId ?? '';
   const freeStr = ft?.text ?? '';
@@ -11203,7 +12010,10 @@ function ColorAttributeRow({
   const mergeFreeWithHex = (hex: string) => {
     setGradA(hex);
     setGradB(hex);
-    const without = freeStr.replace(/#([0-9A-Fa-f]{6})\b/gi, '').replace(/\s+/g, ' ').trim();
+    const without = freeStr
+      .replace(/#([0-9A-Fa-f]{6})\b/gi, '')
+      .replace(/\s+/g, ' ')
+      .trim();
     patchColor({ freeText: without ? `${hex} · ${without}` : hex });
   };
 
@@ -11212,14 +12022,17 @@ function ColorAttributeRow({
     : `linear-gradient(90deg, ${gradA}, ${gradB})`;
 
   const pickHandbook = (pid: string, label: string) => {
-    if (pid && label) patchColor({ handbook: { parameterId: pid, displayLabel: label }, freeText: '' });
+    if (pid && label)
+      patchColor({ handbook: { parameterId: pid, displayLabel: label }, freeText: '' });
     else patchColor({ handbook: null, freeText: '' });
   };
 
   const current = sorted.find((x) => x.parameterId === currentPid);
   const needle = palFilter.trim().toLowerCase();
   const activeCross =
-    !ignorePaletteCross && paletteCrossNeedles && paletteCrossNeedles.length > 0 ? paletteCrossNeedles : [];
+    !ignorePaletteCross && paletteCrossNeedles && paletteCrossNeedles.length > 0
+      ? paletteCrossNeedles
+      : [];
   const filteredPalette = sorted.filter((p) => {
     const lbNorm = normalizeRuColorMatch(p.label);
     const byName = !needle || lbNorm.includes(normalizeRuColorMatch(needle));
@@ -11285,7 +12098,9 @@ function ColorAttributeRow({
           embedded ? 'mb-4' : 'mb-6'
         )}
       >
-        <p className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'leading-tight text-indigo-950')}>Палитра и градиент</p>
+        <p className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'leading-tight text-indigo-950')}>
+          Палитра и градиент
+        </p>
         <Label
           className={cn(
             WORKSHOP_FIELD_LABEL_CLASS,
@@ -11296,26 +12111,28 @@ function ColorAttributeRow({
         </Label>
 
         <div className="min-w-0 overflow-hidden rounded-md border border-indigo-100 bg-white sm:self-start">
-        <button
-          type="button"
-          className="flex h-9 w-full items-center gap-2 px-2 text-left text-sm hover:bg-slate-50/80"
-          onClick={() => setPaletteOpen((o) => !o)}
-        >
-          <span
-            className="h-2.5 w-2.5 shrink-0 rounded-full border border-slate-200 shadow-sm"
-            style={summarySwatchStyle}
-          />
-          <span className="flex-1 min-w-0 truncate font-medium text-slate-800 leading-none">{summaryLabel}</span>
-          <span className="text-slate-400 text-[10px] shrink-0">{paletteOpen ? '▲' : '▼'}</span>
-        </button>
-        {paletteOpen ? (
-            <div className="border-t border-indigo-100/80 bg-indigo-50/20 p-2">
-            <Input
-                className="mb-2 h-9 border-indigo-100 text-sm"
-              placeholder="Фильтр по названию цвета…"
-              value={palFilter}
-              onChange={(e) => setPalFilter(e.target.value)}
+          <button
+            type="button"
+            className="flex h-9 w-full items-center gap-2 px-2 text-left text-sm hover:bg-slate-50/80"
+            onClick={() => setPaletteOpen((o) => !o)}
+          >
+            <span
+              className="h-2.5 w-2.5 shrink-0 rounded-full border border-slate-200 shadow-sm"
+              style={summarySwatchStyle}
             />
+            <span className="min-w-0 flex-1 truncate font-medium leading-none text-slate-800">
+              {summaryLabel}
+            </span>
+            <span className="shrink-0 text-[10px] text-slate-400">{paletteOpen ? '▲' : '▼'}</span>
+          </button>
+          {paletteOpen ? (
+            <div className="border-t border-indigo-100/80 bg-indigo-50/20 p-2">
+              <Input
+                className="mb-2 h-9 border-indigo-100 text-sm"
+                placeholder="Фильтр по названию цвета…"
+                value={palFilter}
+                onChange={(e) => setPalFilter(e.target.value)}
+              />
               {paletteCrossNeedles && paletteCrossNeedles.length > 0 ? (
                 <button
                   type="button"
@@ -11328,49 +12145,49 @@ function ColorAttributeRow({
                 </button>
               ) : null}
               <div className="max-h-52 divide-y divide-indigo-100/80 overflow-y-auto rounded-md border border-indigo-100 bg-white">
-              <button
-                type="button"
-                className="flex h-9 w-full items-center gap-2 px-2 text-left text-sm hover:bg-slate-50"
-                onClick={() => {
-                  pickHandbook('', '');
-                  setPaletteOpen(false);
-                  setPalFilter('');
-                }}
-              >
-                <span className="h-2.5 w-2.5 shrink-0 rounded-full border border-dashed border-slate-300 bg-slate-50" />
-                <span className="text-slate-500 leading-none">Не выбрано из справочника</span>
-              </button>
-              {filteredPalette.map((p) => (
                 <button
-                  key={p.parameterId}
                   type="button"
-                  className={cn(
-                    'flex h-9 w-full items-center gap-2 px-2 text-left text-sm hover:bg-slate-50',
-                    currentPid === p.parameterId && 'bg-indigo-50/80'
-                  )}
+                  className="flex h-9 w-full items-center gap-2 px-2 text-left text-sm hover:bg-slate-50"
                   onClick={() => {
-                    pickHandbook(p.parameterId, p.label);
+                    pickHandbook('', '');
                     setPaletteOpen(false);
                     setPalFilter('');
                   }}
                 >
-                  <span
-                    className="h-2.5 w-2.5 shrink-0 rounded-full border border-slate-200 shadow-inner"
-                    style={
-                      p.colorHex
-                        ? { backgroundColor: p.colorHex }
-                        : p.gradientCss
-                          ? { background: p.gradientCss }
-                          : { background: 'linear-gradient(135deg, #e2e8f0, #94a3b8)' }
-                    }
-                  />
-                  <span className="min-w-0 flex-1 truncate leading-none">{p.label}</span>
+                  <span className="h-2.5 w-2.5 shrink-0 rounded-full border border-dashed border-slate-300 bg-slate-50" />
+                  <span className="leading-none text-slate-500">Не выбрано из справочника</span>
                 </button>
-              ))}
+                {filteredPalette.map((p) => (
+                  <button
+                    key={p.parameterId}
+                    type="button"
+                    className={cn(
+                      'flex h-9 w-full items-center gap-2 px-2 text-left text-sm hover:bg-slate-50',
+                      currentPid === p.parameterId && 'bg-indigo-50/80'
+                    )}
+                    onClick={() => {
+                      pickHandbook(p.parameterId, p.label);
+                      setPaletteOpen(false);
+                      setPalFilter('');
+                    }}
+                  >
+                    <span
+                      className="h-2.5 w-2.5 shrink-0 rounded-full border border-slate-200 shadow-inner"
+                      style={
+                        p.colorHex
+                          ? { backgroundColor: p.colorHex }
+                          : p.gradientCss
+                            ? { background: p.gradientCss }
+                            : { background: 'linear-gradient(135deg, #e2e8f0, #94a3b8)' }
+                      }
+                    />
+                    <span className="min-w-0 flex-1 truncate leading-none">{p.label}</span>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        ) : null}
-      </div>
+          ) : null}
+        </div>
 
         <div
           className={cn(
@@ -11381,7 +12198,11 @@ function ColorAttributeRow({
             className="relative h-9 w-9 shrink-0 overflow-hidden rounded-md border border-slate-200 bg-white shadow-inner"
             title="Превью: при сохранённом градиенте показывается полоса; клик — выбор сплошного цвета"
           >
-            <div className="pointer-events-none absolute inset-0" style={shadeSwatchStyle} aria-hidden />
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={shadeSwatchStyle}
+              aria-hidden
+            />
             <input
               type="color"
               value={colorInputValue}
@@ -11497,7 +12318,10 @@ function WorkshopPassportColorBundle({
     }
   }
 
-  const paletteCrossNeedles = useMemo(() => collectColorBundlePaletteNeedles(dossier), [dossier.assignments]);
+  const paletteCrossNeedles = useMemo(
+    () => collectColorBundlePaletteNeedles(dossier),
+    [dossier.assignments]
+  );
 
   return (
     <li
@@ -11523,8 +12347,12 @@ function WorkshopPassportColorBundle({
         {primary ? (
           <div className="space-y-2 rounded-md border border-slate-100 bg-slate-50/40 p-3">
             <div className="flex items-center gap-1">
-              <Label className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-indigo-950')}>{primary.attribute.name}</Label>
-              {showAttributeHintIcons ? <WorkshopAttributeHintIcon attribute={primary.attribute} /> : null}
+              <Label className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-indigo-950')}>
+                {primary.attribute.name}
+              </Label>
+              {showAttributeHintIcons ? (
+                <WorkshopAttributeHintIcon attribute={primary.attribute} />
+              ) : null}
             </div>
             <AttributeRowEditor
               attribute={{
@@ -11541,8 +12369,12 @@ function WorkshopPassportColorBundle({
         {refRow ? (
           <div className="space-y-2 rounded-md border border-slate-100 bg-slate-50/40 p-3 pt-4">
             <div className="flex items-center gap-1">
-              <Label className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-indigo-950')}>{refRow.attribute.name}</Label>
-              {showAttributeHintIcons ? <WorkshopAttributeHintIcon attribute={refRow.attribute} /> : null}
+              <Label className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-indigo-950')}>
+                {refRow.attribute.name}
+              </Label>
+              {showAttributeHintIcons ? (
+                <WorkshopAttributeHintIcon attribute={refRow.attribute} />
+              ) : null}
             </div>
             <AttributeRowEditor
               attribute={{
@@ -11553,16 +12385,18 @@ function WorkshopPassportColorBundle({
               allowMultiHandbook={allowMultiHandbook}
               onSetHandbookParameters={onSetHandbookParameters}
               onFreeTextSide={onFreeTextSide}
-          />
-        </div>
+            />
+          </div>
         ) : null}
         {colorRow ? (
           <div className="space-y-2 border-t border-slate-100 pt-4">
             {showAttributeHintIcons ? (
               <div className="flex items-center gap-1">
-                <span className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-indigo-950')}>{colorRow.attribute.name}</span>
+                <span className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-indigo-950')}>
+                  {colorRow.attribute.name}
+                </span>
                 <WorkshopAttributeHintIcon attribute={colorRow.attribute} />
-      </div>
+              </div>
             ) : null}
             <ColorAttributeRow
               attribute={{
@@ -11574,7 +12408,7 @@ function WorkshopPassportColorBundle({
               embedded
               paletteCrossNeedles={paletteCrossNeedles}
             />
-    </div>
+          </div>
         ) : null}
       </div>
     </li>

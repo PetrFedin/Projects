@@ -1,4 +1,3 @@
-
 'use server';
 
 /**
@@ -9,16 +8,18 @@
  * - SummarizeProductReviewsOutput - The return type for the summarizeProductReviews function.
  */
 
-import {ai, withTokenAudit, truncateInput, summarizeList} from '@/ai/genkit';
-import {z} from 'genkit';
+import { ai, withTokenAudit, truncateInput, summarizeList } from '@/ai/genkit';
+import { z } from 'genkit';
 
 const SummarizeProductReviewsInputSchema = z.object({
-  reviews: z.array(
-    z.object({
-      text: z.string().describe('The text of the review.'),
-      rating: z.number().describe('The rating given in the review.'),
-    })
-  ).describe('An array of product reviews.'),
+  reviews: z
+    .array(
+      z.object({
+        text: z.string().describe('The text of the review.'),
+        rating: z.number().describe('The rating given in the review.'),
+      })
+    )
+    .describe('An array of product reviews.'),
 });
 
 export type SummarizeProductReviewsInput = z.infer<typeof SummarizeProductReviewsInputSchema>;
@@ -26,20 +27,26 @@ export type SummarizeProductReviewsInput = z.infer<typeof SummarizeProductReview
 const SummarizeProductReviewsOutputSchema = z.object({
   summary: z.string().describe('A concise one-paragraph summary of the general sentiment.'),
   pros: z.array(z.string()).describe('A list of key positive points mentioned by customers.'),
-  cons: z.array(z.string()).describe('A list of key negative points or cons mentioned by customers.'),
-  sentiment: z.enum(['В основном положительные', 'Смешанные', 'В основном отрицательные']).describe('The overall sentiment of the reviews.'),
+  cons: z
+    .array(z.string())
+    .describe('A list of key negative points or cons mentioned by customers.'),
+  sentiment: z
+    .enum(['В основном положительные', 'Смешанные', 'В основном отрицательные'])
+    .describe('The overall sentiment of the reviews.'),
 });
 
 export type SummarizeProductReviewsOutput = z.infer<typeof SummarizeProductReviewsOutputSchema>;
 
-export async function summarizeProductReviews(input: SummarizeProductReviewsInput): Promise<SummarizeProductReviewsOutput> {
+export async function summarizeProductReviews(
+  input: SummarizeProductReviewsInput
+): Promise<SummarizeProductReviewsOutput> {
   return withTokenAudit('summarizeProductReviews', input, (i) => summarizeProductReviewsFlow(i));
 }
 
 const prompt = ai.definePrompt({
   name: 'summarizeProductReviewsPrompt',
-  input: {schema: SummarizeProductReviewsInputSchema},
-  output: {schema: SummarizeProductReviewsOutputSchema},
+  input: { schema: SummarizeProductReviewsInputSchema },
+  output: { schema: SummarizeProductReviewsOutputSchema },
   config: {
     maxOutputTokens: 500,
     temperature: 0.3, // Lower temperature for more consistent analysis
@@ -66,16 +73,16 @@ const summarizeProductReviewsFlow = ai.defineFlow(
     inputSchema: SummarizeProductReviewsInputSchema,
     outputSchema: SummarizeProductReviewsOutputSchema,
   },
-  async input => {
+  async (input) => {
     // Token Economy: Limit to top 20 reviews and truncate each review text
     const optimizedInput = {
-      reviews: input.reviews.slice(0, 20).map(r => ({
+      reviews: input.reviews.slice(0, 20).map((r) => ({
         ...r,
-        text: truncateInput(r.text, 300)
-      }))
+        text: truncateInput(r.text, 300),
+      })),
     };
 
-    const {output} = await prompt(optimizedInput);
+    const { output } = await prompt(optimizedInput);
     return output!;
   }
 );

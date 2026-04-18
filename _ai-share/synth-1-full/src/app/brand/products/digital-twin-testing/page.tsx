@@ -30,7 +30,7 @@ const MOCK_CAMPAIGN: SampleTestingCampaign = {
 
 export default function DigitalTwinTestingPage() {
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Digital twin sample testing"
         description="Виртуальная примерка новых моделей на аватарах целевой аудитории для фидбека до производства. Связь с PIM, дизайном и Range Planner. При API — запуск кампаний, сбор лайков/дизлайков по сегментам."
@@ -39,15 +39,27 @@ export default function DigitalTwinTestingPage() {
         iconColor="text-violet-600"
         badges={
           <>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href="/brand/products">PIM</Link></Button>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href={ROUTES.brand.footwear360}>360° обувь</Link></Button>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href="/brand/range-planner">Range Planner</Link></Button>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href="/brand/planning">Планирование</Link></Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href="/brand/products">PIM</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.footwear360}>360° обувь</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href="/brand/range-planner">Range Planner</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href="/brand/planning">Планирование</Link>
+            </Button>
           </>
         }
       />
       <div className="flex items-center gap-3">
-        <Link href="/brand/products"><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+        <Link href="/brand/products">
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
         <h1 className="text-2xl font-bold uppercase">Digital twin sample testing</h1>
       </div>
 
@@ -56,34 +68,48 @@ export default function DigitalTwinTestingPage() {
           <CardTitle className="flex items-center gap-2">
             <Scan className="h-5 w-5" /> Кампания: {MOCK_CAMPAIGN.title}
           </CardTitle>
-          <CardDescription>Сегменты аватаров и сводка фидбека по моделям. До запуска в производство — корректировка ассортимента.</CardDescription>
+          <CardDescription>
+            Сегменты аватаров и сводка фидбека по моделям. До запуска в производство — корректировка
+            ассортимента.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <p className="text-[10px] uppercase text-slate-500 mb-2">Сегменты</p>
+            <p className="mb-2 text-[10px] uppercase text-slate-500">Сегменты</p>
             <ul className="flex flex-wrap gap-2">
               {MOCK_CAMPAIGN.segments.map((s) => (
-                <Badge key={s.id} variant="outline" className="text-[10px]">{s.name} · {s.avatarCount} аватаров</Badge>
+                <Badge key={s.id} variant="outline" className="text-[10px]">
+                  {s.name} · {s.avatarCount} аватаров
+                </Badge>
               ))}
             </ul>
           </div>
           {MOCK_CAMPAIGN.feedbackSummary && (
             <div>
-              <p className="text-[10px] uppercase text-slate-500 mb-2">Фидбек по моделям</p>
+              <p className="mb-2 text-[10px] uppercase text-slate-500">Фидбек по моделям</p>
               <ul className="space-y-2">
                 {MOCK_CAMPAIGN.feedbackSummary.map((f) => (
-                  <li key={f.skuId} className="flex items-center justify-between p-2 rounded-lg bg-slate-50">
+                  <li
+                    key={f.skuId}
+                    className="flex items-center justify-between rounded-lg bg-slate-50 p-2"
+                  >
                     <span className="font-mono text-sm">{f.skuId}</span>
                     <span className="flex items-center gap-3 text-sm">
-                      <span className="text-emerald-600 flex items-center gap-1"><ThumbsUp className="h-3.5 w-3.5" /> {f.likePct}%</span>
-                      <span className="text-red-600 flex items-center gap-1"><ThumbsDown className="h-3.5 w-3.5" /> {f.dislikePct}%</span>
+                      <span className="flex items-center gap-1 text-emerald-600">
+                        <ThumbsUp className="h-3.5 w-3.5" /> {f.likePct}%
+                      </span>
+                      <span className="flex items-center gap-1 text-red-600">
+                        <ThumbsDown className="h-3.5 w-3.5" /> {f.dislikePct}%
+                      </span>
                     </span>
                   </li>
                 ))}
               </ul>
             </div>
           )}
-          <p className="text-xs text-slate-400">API: DIGITAL_TWIN_TESTING_API — создание кампании, отправка на примерку, сбор фидбека.</p>
+          <p className="text-xs text-slate-400">
+            API: DIGITAL_TWIN_TESTING_API — создание кампании, отправка на примерку, сбор фидбека.
+          </p>
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getDigitalTwinTestingLinks()} />

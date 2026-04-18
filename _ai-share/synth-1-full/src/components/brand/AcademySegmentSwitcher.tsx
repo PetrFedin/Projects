@@ -14,14 +14,16 @@ interface AcademySegmentSwitcherProps {
 /** Два сегмента: Академия бренда и Академия платформы. B2B-стиль. */
 export function AcademySegmentSwitcher({ active, className }: AcademySegmentSwitcherProps) {
   return (
-    <div className={cn('inline-flex p-0.5 rounded-lg bg-slate-100 border border-slate-200', className)}>
+    <div
+      className={cn('inline-flex rounded-lg border border-slate-200 bg-slate-100 p-0.5', className)}
+    >
       <Link
         href={ROUTES.brand.academy}
         className={cn(
-          'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-colors',
+          'inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors',
           active === 'brand'
-            ? 'bg-white text-slate-900 shadow-sm border border-slate-200'
-            : 'text-slate-500 hover:text-slate-700 hover:bg-white/60'
+            ? 'border border-slate-200 bg-white text-slate-900 shadow-sm'
+            : 'text-slate-500 hover:bg-white/60 hover:text-slate-700'
         )}
       >
         <GraduationCap className="h-3.5 w-3.5" />
@@ -30,10 +32,10 @@ export function AcademySegmentSwitcher({ active, className }: AcademySegmentSwit
       <Link
         href={ROUTES.brand.academyPlatform}
         className={cn(
-          'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-colors',
+          'inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors',
           active === 'platform'
-            ? 'bg-white text-slate-900 shadow-sm border border-slate-200'
-            : 'text-slate-500 hover:text-slate-700 hover:bg-white/60'
+            ? 'border border-slate-200 bg-white text-slate-900 shadow-sm'
+            : 'text-slate-500 hover:bg-white/60 hover:text-slate-700'
         )}
       >
         <BookOpen className="h-3.5 w-3.5" />

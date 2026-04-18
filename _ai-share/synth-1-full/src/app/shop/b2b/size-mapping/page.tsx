@@ -20,19 +20,29 @@ const DEFAULT_GRID = [
 
 export default function SizeMappingPage() {
   return (
-    <div className="container max-w-3xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
-        <Link href={ROUTES.shop.b2b}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+    <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
+        <Link href={ROUTES.shop.b2b}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
         <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2"><Ruler className="h-6 w-6" /> Маппинг размеров</h1>
-          <p className="text-slate-500 text-sm mt-0.5">ASOS: размер бренда (EU) → размер ритейлера для маркетплейса и заказов.</p>
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
+            <Ruler className="h-6 w-6" /> Маппинг размеров
+          </h1>
+          <p className="mt-0.5 text-sm text-slate-500">
+            ASOS: размер бренда (EU) → размер ритейлера для маркетплейса и заказов.
+          </p>
         </div>
       </div>
 
       <Card>
         <CardHeader>
           <CardTitle>Сетка размеров (бренд → ритейл)</CardTitle>
-          <CardDescription>В заказе сохраняются brandSize и retailerSize для атрибуции.</CardDescription>
+          <CardDescription>
+            В заказе сохраняются brandSize и retailerSize для атрибуции.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -59,16 +69,29 @@ export default function SizeMappingPage() {
               </tbody>
             </table>
           </div>
-          <p className="text-xs text-slate-400 mt-3">При API — сохранение сетки по бренду/категории; в позиции заказа: brandSize, retailerSize.</p>
+          <p className="mt-3 text-xs text-slate-400">
+            При API — сохранение сетки по бренду/категории; в позиции заказа: brandSize,
+            retailerSize.
+          </p>
         </CardContent>
       </Card>
 
-      <div className="mt-6 flex gap-2 flex-wrap">
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bSizeFinder}>Подбор размера / Размерная сетка</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bOrders}>Заказы</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.client.profile}>Мерки в профиле</Link></Button>
+      <div className="mt-6 flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bSizeFinder}>Подбор размера / Размерная сетка</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bOrders}>Заказы</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.client.profile}>Мерки в профиле</Link>
+        </Button>
       </div>
-      <RelatedModulesBlock links={getShopB2BHubLinks()} title="Заказы, маржа, матрица" className="mt-6" />
+      <RelatedModulesBlock
+        links={getShopB2BHubLinks()}
+        title="Заказы, маржа, матрица"
+        className="mt-6"
+      />
     </div>
   );
 }

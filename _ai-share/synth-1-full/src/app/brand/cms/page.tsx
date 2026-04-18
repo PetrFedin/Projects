@@ -21,7 +21,7 @@ export default function CMSPage() {
 
   if (isStandaloneCmsRoute) {
     return (
-      <div className="flex items-center justify-center min-h-[200px] text-slate-500 text-sm">
+      <div className="flex min-h-[200px] items-center justify-center text-sm text-slate-500">
         Перенаправление в Content Factory…
       </div>
     );

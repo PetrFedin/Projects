@@ -12,7 +12,7 @@ import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 
 export default function ReadyMadeProductionPage() {
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Готовый товар — упрощённый flow"
         description="Товар уже произведён в другой стране. Минуем: сэмплы, PO, производство. Только: заведение коллекции, информация о товарах, настройка логистики и оплат."
@@ -21,8 +21,10 @@ export default function ReadyMadeProductionPage() {
         iconColor="text-amber-600"
         badges={
           <>
-            <Badge variant="outline" className="text-[9px]">Готовый товар</Badge>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild>
+            <Badge variant="outline" className="text-[9px]">
+              Готовый товар
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href="/brand/production">Production</Link>
             </Button>
           </>
@@ -30,13 +32,15 @@ export default function ReadyMadeProductionPage() {
       />
       <h1 className="text-2xl font-bold uppercase">Готовый товар</h1>
 
-      <div className="grid md:grid-cols-3 gap-4">
+      <div className="grid gap-4 md:grid-cols-3">
         <Card className="rounded-xl border border-amber-100">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Layers className="h-5 w-5" /> 1. Коллекция и артикулы
             </CardTitle>
-            <CardDescription>Создайте коллекцию и добавьте информацию о товарах (карточки)</CardDescription>
+            <CardDescription>
+              Создайте коллекцию и добавьте информацию о товарах (карточки)
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <Button variant="outline" size="sm" asChild>
@@ -81,10 +85,19 @@ export default function ReadyMadeProductionPage() {
         </CardHeader>
         <CardContent>
           <ul className="space-y-2 text-sm">
-            <li className="flex items-center gap-2"><Package className="h-4 w-4 text-emerald-500" /> Заведение коллекции (без PO и сэмплов)</li>
-            <li className="flex items-center gap-2"><Package className="h-4 w-4 text-emerald-500" /> Создание карточек товаров</li>
-            <li className="flex items-center gap-2"><Truck className="h-4 w-4 text-emerald-500" /> Настройка логистики (склады, доставка)</li>
-            <li className="flex items-center gap-2"><CreditCard className="h-4 w-4 text-emerald-500" /> Цены и условия оплаты</li>
+            <li className="flex items-center gap-2">
+              <Package className="h-4 w-4 text-emerald-500" /> Заведение коллекции (без PO и
+              сэмплов)
+            </li>
+            <li className="flex items-center gap-2">
+              <Package className="h-4 w-4 text-emerald-500" /> Создание карточек товаров
+            </li>
+            <li className="flex items-center gap-2">
+              <Truck className="h-4 w-4 text-emerald-500" /> Настройка логистики (склады, доставка)
+            </li>
+            <li className="flex items-center gap-2">
+              <CreditCard className="h-4 w-4 text-emerald-500" /> Цены и условия оплаты
+            </li>
           </ul>
         </CardContent>
       </Card>

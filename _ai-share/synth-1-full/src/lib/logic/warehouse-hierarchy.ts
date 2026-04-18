@@ -11,7 +11,7 @@ export interface WarehouseLocation {
   parentId?: string; // Для вложенности (склад -> зона -> ячейка)
   name: string;
   type: LocationType;
-  
+
   /** Свойства локации */
   properties: {
     isPickable: boolean;
@@ -38,24 +38,28 @@ export interface WarehouseLocation {
  * Возвращает полный путь локации (напр. "WH-01 > Zone-A > Bin-10").
  */
 export function getLocationPath(locationId: string, allLocations: WarehouseLocation[]): string {
-  const loc = allLocations.find(l => l.id === locationId);
+  const loc = allLocations.find((l) => l.id === locationId);
   if (!loc) return locationId;
-  
+
   if (loc.parentId) {
     return `${getLocationPath(loc.parentId, allLocations)} > ${loc.name}`;
   }
-  
+
   return loc.name;
 }
 
 /**
  * Проверяет, является ли локация частью (потомком) другой локации.
  */
-export function isDescendantOf(childId: string, parentId: string, allLocations: WarehouseLocation[]): boolean {
-  const child = allLocations.find(l => l.id === childId);
+export function isDescendantOf(
+  childId: string,
+  parentId: string,
+  allLocations: WarehouseLocation[]
+): boolean {
+  const child = allLocations.find((l) => l.id === childId);
   if (!child || !child.parentId) return false;
-  
+
   if (child.parentId === parentId) return true;
-  
+
   return isDescendantOf(child.parentId, parentId, allLocations);
 }

@@ -8,12 +8,19 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, ShoppingBag, Plus } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { getShoppableLooksByLookbookId, type ShoppableLookProduct } from '@/lib/ux/shoppable-lookbook';
+import {
+  getShoppableLooksByLookbookId,
+  type ShoppableLookProduct,
+} from '@/lib/ux/shoppable-lookbook';
 import { useB2BState } from '@/providers/b2b-state';
 import allProducts from '@/lib/products';
 
 /** JOOR: Shoppable Lookbook — заказ прямо из lookbook */
-export default function ShoppableLookbookPage({ params }: { params: Promise<{ lookbookId: string }> }) {
+export default function ShoppableLookbookPage({
+  params,
+}: {
+  params: Promise<{ lookbookId: string }>;
+}) {
   const { lookbookId } = use(params);
   const looks = getShoppableLooksByLookbookId(lookbookId);
   const [activeLookIndex, setActiveLookIndex] = useState(0);
@@ -24,7 +31,9 @@ export default function ShoppableLookbookPage({ params }: { params: Promise<{ lo
   const products = allProducts;
 
   const handleAddToCart = (prod: ShoppableLookProduct) => {
-    const fullProduct = products.find((p) => p.id === prod.productId || (p.sku ?? '').toUpperCase() === prod.sku.toUpperCase());
+    const fullProduct = products.find(
+      (p) => p.id === prod.productId || (p.sku ?? '').toUpperCase() === prod.sku.toUpperCase()
+    );
     const item = {
       id: fullProduct?.id ?? prod.productId,
       sku: prod.sku,
@@ -42,7 +51,7 @@ export default function ShoppableLookbookPage({ params }: { params: Promise<{ lo
 
   if (looks.length === 0) {
     return (
-      <div className="container max-w-2xl mx-auto px-4 py-12 text-center">
+      <div className="container mx-auto max-w-2xl px-4 py-12 text-center">
         <p className="text-slate-500">Лукбук не найден или в нём нет shoppable look'ов.</p>
         <Button variant="outline" className="mt-4" asChild>
           <Link href={ROUTES.shop.b2bShowroom}>В шоурум</Link>
@@ -52,20 +61,24 @@ export default function ShoppableLookbookPage({ params }: { params: Promise<{ lo
   }
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
+    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2bShowroom}>
-          <Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
         </Link>
         <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
             <ShoppingBag className="h-6 w-6" /> Shoppable Lookbook
           </h1>
-          <p className="text-slate-500 text-sm mt-0.5">JOOR: клик по продукту на look'е — добавление в заказ</p>
+          <p className="mt-0.5 text-sm text-slate-500">
+            JOOR: клик по продукту на look'е — добавление в заказ
+          </p>
         </div>
       </div>
 
-      <div className="flex gap-2 mb-4 overflow-x-auto">
+      <div className="mb-4 flex gap-2 overflow-x-auto">
         {looks.map((l, i) => (
           <Button
             key={l.id}
@@ -84,7 +97,7 @@ export default function ShoppableLookbookPage({ params }: { params: Promise<{ lo
             <CardTitle className="text-base">{activeLook.title}</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="relative aspect-[4/3] bg-slate-100 rounded-xl overflow-hidden">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-slate-100">
               <Image
                 src={activeLook.imageUrl}
                 alt={activeLook.title ?? 'Look'}
@@ -103,7 +116,10 @@ export default function ShoppableLookbookPage({ params }: { params: Promise<{ lo
             </div>
             <div className="mt-4 flex flex-wrap gap-2">
               {activeLook.products.map((p) => (
-                <div key={p.productId} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50 text-sm">
+                <div
+                  key={p.productId}
+                  className="flex items-center gap-2 rounded-lg bg-slate-50 px-3 py-2 text-sm"
+                >
                   <span className="font-medium">{p.name}</span>
                   <span className="text-slate-500">{p.price.toLocaleString('ru-RU')} ₽</span>
                   <Button
@@ -122,8 +138,12 @@ export default function ShoppableLookbookPage({ params }: { params: Promise<{ lo
       )}
 
       <div className="mt-6 flex gap-2">
-        <Button asChild><Link href={ROUTES.shop.b2bMatrix}>В матрицу заказа</Link></Button>
-        <Button variant="outline" asChild><Link href={ROUTES.shop.b2bShowroom}>Шоурум</Link></Button>
+        <Button asChild>
+          <Link href={ROUTES.shop.b2bMatrix}>В матрицу заказа</Link>
+        </Button>
+        <Button variant="outline" asChild>
+          <Link href={ROUTES.shop.b2bShowroom}>Шоурум</Link>
+        </Button>
       </div>
     </div>
   );
@@ -141,7 +161,7 @@ function Hotspot({
   return (
     <button
       type="button"
-      className="absolute w-8 h-8 rounded-full border-2 border-white bg-indigo-500/90 text-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
+      className="absolute flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-indigo-500/90 text-white shadow-lg transition-transform hover:scale-110"
       style={{ left: `${product.x}%`, top: `${product.y}%`, transform: 'translate(-50%, -50%)' }}
       onClick={onAdd}
       title={`${product.name} — ${product.price.toLocaleString('ru-RU')} ₽`}

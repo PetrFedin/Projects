@@ -3,7 +3,11 @@ import type { Workshop2Phase1CategorySketchAnnotation } from '@/lib/production/w
 export type SketchMasterAnnotationDiff = {
   addedIds: string[];
   removedIds: string[];
-  moved: { annotationId: string; before: { xPct: number; yPct: number }; after: { xPct: number; yPct: number } }[];
+  moved: {
+    annotationId: string;
+    before: { xPct: number; yPct: number };
+    after: { xPct: number; yPct: number };
+  }[];
   textChanged: { annotationId: string; before: string; after: string }[];
 };
 

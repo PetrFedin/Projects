@@ -40,37 +40,48 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const fetchFastApiProfile = useCallback(async (fallbackEmail?: string) => {
-    const email = fallbackEmail ?? (typeof window !== 'undefined' ? localStorage.getItem('syntha_last_email') : null);
-    if (!USE_FASTAPI) {
-      if (email) setSyntheticProfile(email);
-      return;
-    }
-
-    const PROFILE_TIMEOUT_MS = 4000;
-
-    try {
-      const controller = new AbortController();
-      const timeoutId = typeof window !== 'undefined' ? setTimeout(() => controller.abort(), PROFILE_TIMEOUT_MS) : undefined;
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1'}/profile/me`, {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('syntha_access_token')}` },
-        signal: controller.signal,
-      });
-      if (timeoutId) clearTimeout(timeoutId);
-
-      if (response.ok) {
-        const data = await response.json();
-        if (data?.data) {
-          setProfile(data.data);
-          return;
-        }
+  const fetchFastApiProfile = useCallback(
+    async (fallbackEmail?: string) => {
+      const email =
+        fallbackEmail ??
+        (typeof window !== 'undefined' ? localStorage.getItem('syntha_last_email') : null);
+      if (!USE_FASTAPI) {
+        if (email) setSyntheticProfile(email);
+        return;
       }
-    } catch (err: any) {
-      if (err?.name !== 'AbortError') console.warn('Failed to fetch FastAPI profile:', err);
-    }
-    if (email) setSyntheticProfile(email);
-  }, [setSyntheticProfile]);
+
+      const PROFILE_TIMEOUT_MS = 4000;
+
+      try {
+        const controller = new AbortController();
+        const timeoutId =
+          typeof window !== 'undefined'
+            ? setTimeout(() => controller.abort(), PROFILE_TIMEOUT_MS)
+            : undefined;
+
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1'}/profile/me`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.getItem('syntha_access_token')}` },
+            signal: controller.signal,
+          }
+        );
+        if (timeoutId) clearTimeout(timeoutId);
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data?.data) {
+            setProfile(data.data);
+            return;
+          }
+        }
+      } catch (err: any) {
+        if (err?.name !== 'AbortError') console.warn('Failed to fetch FastAPI profile:', err);
+      }
+      if (email) setSyntheticProfile(email);
+    },
+    [setSyntheticProfile]
+  );
 
   useEffect(() => {
     let mounted = true;
@@ -92,23 +103,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         let user = await authRepository.getCurrentUser();
         if (!mounted) return;
         setUser(user);
-        const token = typeof window !== 'undefined' ? localStorage.getItem('syntha_access_token') : null;
+        const token =
+          typeof window !== 'undefined' ? localStorage.getItem('syntha_access_token') : null;
 
         if (user && token) {
-          const email = (user as { email?: string })?.email ?? localStorage.getItem('syntha_last_email');
+          const email =
+            (user as { email?: string })?.email ?? localStorage.getItem('syntha_last_email');
           await fetchFastApiProfile(email ?? undefined);
         } else if (typeof window !== 'undefined') {
           const path = window.location.pathname;
           const search = window.location.search || '';
           const isSupplier = search.includes('role=supplier');
-          const email =
-            path.startsWith('/admin') ? 'admin@syntha.ai'
-            : path.startsWith('/brand') ? 'brand@syntha.ai'
-            : path.startsWith('/distributor') ? 'dist@syntha.ai'
-            : path.startsWith('/factory') ? (isSupplier ? 'supplier@syntha.ai' : 'factory@syntha.ai')
-            : path.startsWith('/client') ? 'elena.petrova@example.com'
-            : path.startsWith('/shop') ? 'shop@syntha.ai'
-            : null;
+          const email = path.startsWith('/admin')
+            ? 'admin@syntha.ai'
+            : path.startsWith('/brand')
+              ? 'brand@syntha.ai'
+              : path.startsWith('/distributor')
+                ? 'dist@syntha.ai'
+                : path.startsWith('/factory')
+                  ? isSupplier
+                    ? 'supplier@syntha.ai'
+                    : 'factory@syntha.ai'
+                  : path.startsWith('/client')
+                    ? 'elena.petrova@example.com'
+                    : path.startsWith('/shop')
+                      ? 'shop@syntha.ai'
+                      : null;
           if (email) {
             try {
               const u = await authRepository.signIn(email, 'password123');
@@ -120,7 +140,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               /* dev auto-login */
             }
           } else if (user) {
-            const email2 = (user as { email?: string })?.email ?? localStorage.getItem('syntha_last_email');
+            const email2 =
+              (user as { email?: string })?.email ?? localStorage.getItem('syntha_last_email');
             await fetchFastApiProfile(email2 ?? undefined);
           }
         }
@@ -135,7 +156,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (!mounted) return;
       setUser(user);
       if (user) {
-        const email = (user as { email?: string })?.email ?? localStorage.getItem('syntha_last_email');
+        const email =
+          (user as { email?: string })?.email ?? localStorage.getItem('syntha_last_email');
         void fetchFastApiProfile(email ?? undefined);
       } else {
         setProfile(null);
@@ -149,21 +171,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, [fetchFastApiProfile]);
 
-  const signIn = useCallback(async (email: string, password: string) => {
-    const userProfile = await authRepository.signIn(email, password);
-    setUser(userProfile);
-    if (typeof window !== 'undefined') localStorage.setItem('syntha_last_email', email);
-    setSyntheticProfile(email);
-    fetchFastApiProfile(email);
-    return userProfile;
-  }, [fetchFastApiProfile, setSyntheticProfile]);
+  const signIn = useCallback(
+    async (email: string, password: string) => {
+      const userProfile = await authRepository.signIn(email, password);
+      setUser(userProfile);
+      if (typeof window !== 'undefined') localStorage.setItem('syntha_last_email', email);
+      setSyntheticProfile(email);
+      fetchFastApiProfile(email);
+      return userProfile;
+    },
+    [fetchFastApiProfile, setSyntheticProfile]
+  );
 
-  const signUp = useCallback(async (email: string, password: string, displayName: string) => {
-    const userProfile = await authRepository.signUp(email, password, displayName);
-    setUser(userProfile);
-    await fetchFastApiProfile();
-    return userProfile;
-  }, [fetchFastApiProfile]);
+  const signUp = useCallback(
+    async (email: string, password: string, displayName: string) => {
+      const userProfile = await authRepository.signUp(email, password, displayName);
+      setUser(userProfile);
+      await fetchFastApiProfile();
+      return userProfile;
+    },
+    [fetchFastApiProfile]
+  );
 
   const signOut = useCallback(async () => {
     await authRepository.signOut();
@@ -179,7 +207,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signIn, signUp, signOut, updateProfile }}>
+    <AuthContext.Provider
+      value={{ user, profile, loading, signIn, signUp, signOut, updateProfile }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -192,4 +222,3 @@ export function useAuth() {
   }
   return context;
 }
-

@@ -243,9 +243,7 @@ function findApparelBodyGridRowByScaleSize(
   cat: 'women-apparel' | 'men-apparel',
   scaleId: string,
   token: string
-):
-  | { eu: string; alpha: string; chest: number; waist: number; hips: number }
-  | undefined {
+): { eu: string; alpha: string; chest: number; waist: number; hips: number } | undefined {
   const rows = bodyGridRows(cat);
   const t = token.trim();
   if (scaleId === 'EU') {

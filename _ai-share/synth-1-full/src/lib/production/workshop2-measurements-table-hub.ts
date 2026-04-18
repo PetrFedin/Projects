@@ -4,14 +4,17 @@
 
 import type { HandbookCategoryLeaf } from '@/lib/production/category-handbook-leaves';
 import { collectWorkshop2VisualSectionWarnings } from '@/lib/production/workshop2-visual-section-warnings';
-import type { Workshop2DossierPhase1, Workshop2Phase1AttributeAssignment } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2Phase1AttributeAssignment,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import { defaultSizeScaleIdForLeaf } from '@/lib/production/attribute-catalog';
 import { getWorkshopDimensionLabels } from '@/lib/production/workshop-size-handbook';
 
 function partitionHandbookAndFree(a: Workshop2Phase1AttributeAssignment | undefined) {
   const hbs =
     a?.values.filter(
-      (v): v is (typeof v & { parameterId: string }) =>
+      (v): v is typeof v & { parameterId: string } =>
         v.valueSource === 'handbook_parameter' && Boolean(v.parameterId)
     ) ?? [];
   const ft = a?.values.find((v) => v.valueSource === 'free_text');
@@ -81,20 +84,23 @@ export function buildWorkshop2MeasurementsHubChecks(
 ): Workshop2MeasurementsHubCheck[] {
   const expectedScaleId = defaultSizeScaleIdForLeaf(leaf);
   const dimensionLabels = getWorkshopDimensionLabels(leaf);
-  const assign = dossier.assignments.find((x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize');
+  const assign = dossier.assignments.find(
+    (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
+  );
   const { hbs, ft } = partitionHandbookAndFree(assign);
   const freeStr = ft?.text?.trim() ?? '';
   const hasSizeLine = hbs.length > 0 || Boolean(freeStr);
 
   const measurementsReady = Boolean(
     dossier.sampleSizeScaleId &&
-      dossier.sampleBasePerSizeDimensions &&
-      Object.keys(dossier.sampleBasePerSizeDimensions).length > 0
+    dossier.sampleBasePerSizeDimensions &&
+    Object.keys(dossier.sampleBasePerSizeDimensions).length > 0
   );
 
   const scaleMismatch =
-    Boolean(dossier.sampleSizeScaleId && expectedScaleId && dossier.sampleSizeScaleId !== expectedScaleId) ||
-    handbookWarnings.some((w) => w.includes('Размерная шкала') || w.includes('шкала'));
+    Boolean(
+      dossier.sampleSizeScaleId && expectedScaleId && dossier.sampleSizeScaleId !== expectedScaleId
+    ) || handbookWarnings.some((w) => w.includes('Размерная шкала') || w.includes('шкала'));
 
   let handbookColsComplete = true;
   if (dimensionLabels.length > 0 && dossier.sampleBasePerSizeDimensions && hbs.length > 0) {
@@ -137,7 +143,9 @@ export function buildWorkshop2MeasurementsHubChecks(
   const rangeKeys = new Set(dossier.sampleBaseDimensionRangeKeys ?? []);
   let rangeCellsOk = true;
   if (rangeMode && dossier.sampleBasePerSizeDimensions && hbs.length > 0) {
-    const visible = dimensionLabels.filter((d) => !dossier.sampleBaseHiddenDimensionKeys?.includes(d));
+    const visible = dimensionLabels.filter(
+      (d) => !dossier.sampleBaseHiddenDimensionKeys?.includes(d)
+    );
     outerR: for (const part of hbs) {
       const pid = part.parameterId;
       if (!pid) continue;
@@ -162,11 +170,17 @@ export function buildWorkshop2MeasurementsHubChecks(
     }
   }
 
-  const materialReady = dossier.assignments.some((a) => a.attributeId === 'mat' && a.values.length > 0);
+  const materialReady = dossier.assignments.some(
+    (a) => a.attributeId === 'mat' && a.values.length > 0
+  );
   const visualGateCount = collectWorkshop2VisualSectionWarnings(dossier, leaf).length;
 
   const handbookMeasureWarnings = handbookWarnings.filter(
-    (w) => w.includes('мерки') || w.includes('Табель мер') || w.includes('лимит') || w.includes('размерам')
+    (w) =>
+      w.includes('мерки') ||
+      w.includes('Табель мер') ||
+      w.includes('лимит') ||
+      w.includes('размерам')
   );
 
   return [

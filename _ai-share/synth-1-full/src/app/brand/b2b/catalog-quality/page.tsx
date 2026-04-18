@@ -10,11 +10,23 @@ import { validateProductsForB2B } from '@/lib/b2b/b2b-catalog-contract';
 import { B2B_FIELD_LABELS } from '@/lib/b2b/b2b-catalog-contract';
 import type { B2BRequiredFieldId } from '@/lib/b2b/b2b-catalog-contract';
 import products from '@/lib/products';
-import { CheckCircle2, AlertTriangle, FileText, Download, BarChart3, ArrowLeft } from 'lucide-react';
+import {
+  CheckCircle2,
+  AlertTriangle,
+  FileText,
+  Download,
+  BarChart3,
+  ArrowLeft,
+} from 'lucide-react';
 
 /** Экспорт SKU с ошибками в CSV (разделитель — точка с запятой, UTF-8 BOM для Excel). */
 function exportSkuErrorsToCsv(
-  skuErrors: { sku: string; productId: string; name: string; errors: { field: string; message: string }[] }[]
+  skuErrors: {
+    sku: string;
+    productId: string;
+    name: string;
+    errors: { field: string; message: string }[];
+  }[]
 ) {
   const header = 'SKU;Product ID;Name;Field;Message';
   const rows = skuErrors.flatMap((row) =>
@@ -80,7 +92,7 @@ export default function CatalogQualityPage() {
   }, []);
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 pb-24 space-y-6">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Link href={ROUTES.brand.contentSyndication}>
           <Button variant="ghost" size="icon">
@@ -88,11 +100,12 @@ export default function CatalogQualityPage() {
           </Button>
         </Link>
         <div>
-          <h1 className="text-xl font-bold uppercase tracking-tight flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-xl font-bold uppercase tracking-tight">
             <BarChart3 className="h-6 w-6" /> Качество каталога
           </h1>
-          <p className="text-sm text-slate-500 mt-1">
-            Обязательные поля для B2B (размерная сетка, состав, уход, EAN, медиа). Доля SKU без ошибок, список полей с проблемами, экспорт в CSV.
+          <p className="mt-1 text-sm text-slate-500">
+            Обязательные поля для B2B (размерная сетка, состав, уход, EAN, медиа). Доля SKU без
+            ошибок, список полей с проблемами, экспорт в CSV.
           </p>
         </div>
       </div>
@@ -100,7 +113,9 @@ export default function CatalogQualityPage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Фильтр по бренду</CardTitle>
-          <CardDescription>Оставить все бренды или выбрать один для оценки качества.</CardDescription>
+          <CardDescription>
+            Оставить все бренды или выбрать один для оценки качества.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
@@ -127,10 +142,10 @@ export default function CatalogQualityPage() {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-black uppercase tracking-tight flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase tracking-tight">
               <CheckCircle2 className="h-4 w-4 text-emerald-600" /> Без ошибок
             </CardTitle>
           </CardHeader>
@@ -141,7 +156,7 @@ export default function CatalogQualityPage() {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-black uppercase tracking-tight flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase tracking-tight">
               <AlertTriangle className="h-4 w-4 text-amber-600" /> С ошибками
             </CardTitle>
           </CardHeader>
@@ -152,7 +167,9 @@ export default function CatalogQualityPage() {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-black uppercase tracking-tight">Доля без ошибок</CardTitle>
+            <CardTitle className="text-sm font-black uppercase tracking-tight">
+              Доля без ошибок
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-black text-slate-900">{percentValid}%</p>
@@ -165,12 +182,17 @@ export default function CatalogQualityPage() {
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Поля с проблемами</CardTitle>
-            <CardDescription>По каким полям контракта B2B чаще всего есть ошибки (количество SKU).</CardDescription>
+            <CardDescription>
+              По каким полям контракта B2B чаще всего есть ошибки (количество SKU).
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <ul className="space-y-2">
               {fieldProblems.map(([fieldId, count]) => (
-                <li key={fieldId} className="flex items-center justify-between py-2 border-b border-slate-100 last:border-0">
+                <li
+                  key={fieldId}
+                  className="flex items-center justify-between border-b border-slate-100 py-2 last:border-0"
+                >
                   <span className="font-medium">
                     {B2B_FIELD_LABELS[fieldId as B2BRequiredFieldId] ?? fieldId}
                   </span>
@@ -187,37 +209,49 @@ export default function CatalogQualityPage() {
           <CardHeader>
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
-                <CardTitle className="text-base flex items-center gap-2 text-amber-800">
+                <CardTitle className="flex items-center gap-2 text-base text-amber-800">
                   <FileText className="h-4 w-4" /> SKU с ошибками
                 </CardTitle>
-                <CardDescription>Заполните обязательные поля в PIM: размерная сетка, состав, уход, EAN, главное фото.</CardDescription>
+                <CardDescription>
+                  Заполните обязательные поля в PIM: размерная сетка, состав, уход, EAN, главное
+                  фото.
+                </CardDescription>
               </div>
-              <Button variant="outline" size="sm" className="rounded-lg gap-2" onClick={handleExportCsv}>
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2 rounded-lg"
+                onClick={handleExportCsv}
+              >
                 <Download className="h-4 w-4" /> Экспорт в CSV
               </Button>
             </div>
           </CardHeader>
           <CardContent>
-            <div className="rounded-lg border border-slate-200 overflow-hidden">
+            <div className="overflow-hidden rounded-lg border border-slate-200">
               <table className="w-full text-sm">
                 <thead className="bg-slate-50">
                   <tr>
-                    <th className="text-left py-2 px-3 font-medium">SKU</th>
-                    <th className="text-left py-2 px-3 font-medium">Товар</th>
-                    <th className="text-left py-2 px-3 font-medium">Ошибки</th>
+                    <th className="px-3 py-2 text-left font-medium">SKU</th>
+                    <th className="px-3 py-2 text-left font-medium">Товар</th>
+                    <th className="px-3 py-2 text-left font-medium">Ошибки</th>
                   </tr>
                 </thead>
                 <tbody>
                   {skuErrors.map((row) => (
                     <tr key={row.productId} className="border-t border-slate-100">
-                      <td className="py-2 px-3 font-mono text-xs">{row.sku}</td>
-                      <td className="py-2 px-3 truncate max-w-[200px]">{row.name}</td>
-                      <td className="py-2 px-3">
+                      <td className="px-3 py-2 font-mono text-xs">{row.sku}</td>
+                      <td className="max-w-[200px] truncate px-3 py-2">{row.name}</td>
+                      <td className="px-3 py-2">
                         <ul className="space-y-0.5">
                           {row.errors.map((e) => (
-                            <li key={e.field} className="flex items-center gap-1.5 text-rose-700 text-xs">
+                            <li
+                              key={e.field}
+                              className="flex items-center gap-1.5 text-xs text-rose-700"
+                            >
                               <AlertTriangle className="h-3 w-3 shrink-0" />
-                              {B2B_FIELD_LABELS[e.field as B2BRequiredFieldId] ?? e.field}: {e.message}
+                              {B2B_FIELD_LABELS[e.field as B2BRequiredFieldId] ?? e.field}:{' '}
+                              {e.message}
                             </li>
                           ))}
                         </ul>
@@ -234,9 +268,13 @@ export default function CatalogQualityPage() {
       {skuErrors.length === 0 && total > 0 && (
         <Card className="border-emerald-100 bg-emerald-50/30">
           <CardContent className="py-8 text-center">
-            <CheckCircle2 className="h-12 w-12 text-emerald-600 mx-auto mb-2" />
-            <p className="font-medium text-emerald-800">Все SKU проходят валидацию контракта B2B.</p>
-            <p className="text-sm text-slate-600 mt-1">Размерная сетка, состав, уход, EAN и медиа заполнены.</p>
+            <CheckCircle2 className="mx-auto mb-2 h-12 w-12 text-emerald-600" />
+            <p className="font-medium text-emerald-800">
+              Все SKU проходят валидацию контракта B2B.
+            </p>
+            <p className="mt-1 text-sm text-slate-600">
+              Размерная сетка, состав, уход, EAN и медиа заполнены.
+            </p>
           </CardContent>
         </Card>
       )}

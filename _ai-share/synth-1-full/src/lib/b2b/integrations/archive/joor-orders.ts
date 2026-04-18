@@ -63,7 +63,7 @@ export async function joorFetchOrders(
     });
     if (!res.ok) return [];
     const data = (await res.json()) as { data?: JoorOrderRaw[]; orders?: JoorOrderRaw[] };
-    const orders: JoorOrderRaw[] = Array.isArray(data) ? data : data.data ?? data.orders ?? [];
+    const orders: JoorOrderRaw[] = Array.isArray(data) ? data : (data.data ?? data.orders ?? []);
     return orders.map((o) => ({
       id: String(o.id),
       source: 'joor' as const,

@@ -10,23 +10,23 @@
 
 При подключении API заменить моки на вызовы по указанным путям.
 
-| Модуль | Файл | Константа | Описание |
-|--------|------|-----------|----------|
-| Analytics Phase 2 | `analytics/phase2.ts` | `ANALYTICS_PHASE2_API` | ETL fact_* / snapshot_*, buying analytics, дашборды план/факт, импорт 1С/Мой Склад |
-| BOPIS | `bopis.ts` | (типы + моки в страницах) | Самовывоз, точки выдачи, маркировка (Честный ЗНАК), ЭДО |
-| Endless Aisle POS | `shop/endless-aisle-pos.ts` | `ENDLESS_AISLE_POS_API` | Заказ отсутствующего размера со склада из примерочной |
-| Ship-from-Store | `shop/ship-from-store.ts` | `SHIP_FROM_STORE_API` | Отправка онлайн-заказа из ближайшей точки |
-| Endless Stylist | `shop/endless-stylist.ts` | `ENDLESS_STYLIST_API` | Сборка образа на планшете продавца |
-| BNPL Gateway | `shop/bnpl-gateway.ts` | `BNPL_GATEWAY_API` | Рассрочка на кассе (Тинькофф, Сбер и др.) |
-| Cycle Counting | `shop/cycle-counting.ts` | `CYCLE_COUNTING_API` | Инвентаризация склада через камеру смартфона |
-| Local Inventory Ads | `shop/local-inventory-ads.ts` | `LOCAL_INVENTORY_ADS_API` | Передача наличия в Google / Yandex Maps |
-| Style-Me Upsell | `marketing/style-me-upsell.ts` | `STYLE_ME_UPSELL_API` | Персональные подборки в мессенджер после покупки |
-| Digital Wardrobe | `client/digital-wardrobe.ts` | `DIGITAL_WARDROBE_API` | Виртуальный шкаф + конструктор луков |
-| Try Before You Buy B2C | `client/try-before-you-buy-b2c.ts` | `TRY_BEFORE_YOU_BUY_B2C_API` | Примерка с холдированием средств |
-| Production (QC, Milestones, Subcontractor) | `production/*.ts`, `distributor/*.ts` | см. файлы | QC App, Milestones Video, Subcontractor Hub, Territory, Pre-Order Quota, Sub-Agent Commission |
-| Supplier RFQ | (в `supplier-rfq` или в brand) | — | Тендеры на ткань/фурнитуру |
-| Budget-Actual | `budget-actual.ts` | — | План vs Факт (рубли) |
-| Gift Registry | `gift-registry.ts` | — | Списки подарков |
+| Модуль                                     | Файл                                  | Константа                    | Описание                                                                                      |
+| ------------------------------------------ | ------------------------------------- | ---------------------------- | --------------------------------------------------------------------------------------------- |
+| Analytics Phase 2                          | `analytics/phase2.ts`                 | `ANALYTICS_PHASE2_API`       | ETL fact*\* / snapshot*\*, buying analytics, дашборды план/факт, импорт 1С/Мой Склад          |
+| BOPIS                                      | `bopis.ts`                            | (типы + моки в страницах)    | Самовывоз, точки выдачи, маркировка (Честный ЗНАК), ЭДО                                       |
+| Endless Aisle POS                          | `shop/endless-aisle-pos.ts`           | `ENDLESS_AISLE_POS_API`      | Заказ отсутствующего размера со склада из примерочной                                         |
+| Ship-from-Store                            | `shop/ship-from-store.ts`             | `SHIP_FROM_STORE_API`        | Отправка онлайн-заказа из ближайшей точки                                                     |
+| Endless Stylist                            | `shop/endless-stylist.ts`             | `ENDLESS_STYLIST_API`        | Сборка образа на планшете продавца                                                            |
+| BNPL Gateway                               | `shop/bnpl-gateway.ts`                | `BNPL_GATEWAY_API`           | Рассрочка на кассе (Тинькофф, Сбер и др.)                                                     |
+| Cycle Counting                             | `shop/cycle-counting.ts`              | `CYCLE_COUNTING_API`         | Инвентаризация склада через камеру смартфона                                                  |
+| Local Inventory Ads                        | `shop/local-inventory-ads.ts`         | `LOCAL_INVENTORY_ADS_API`    | Передача наличия в Google / Yandex Maps                                                       |
+| Style-Me Upsell                            | `marketing/style-me-upsell.ts`        | `STYLE_ME_UPSELL_API`        | Персональные подборки в мессенджер после покупки                                              |
+| Digital Wardrobe                           | `client/digital-wardrobe.ts`          | `DIGITAL_WARDROBE_API`       | Виртуальный шкаф + конструктор луков                                                          |
+| Try Before You Buy B2C                     | `client/try-before-you-buy-b2c.ts`    | `TRY_BEFORE_YOU_BUY_B2C_API` | Примерка с холдированием средств                                                              |
+| Production (QC, Milestones, Subcontractor) | `production/*.ts`, `distributor/*.ts` | см. файлы                    | QC App, Milestones Video, Subcontractor Hub, Territory, Pre-Order Quota, Sub-Agent Commission |
+| Supplier RFQ                               | (в `supplier-rfq` или в brand)        | —                            | Тендеры на ткань/фурнитуру                                                                    |
+| Budget-Actual                              | `budget-actual.ts`                    | —                            | План vs Факт (рубли)                                                                          |
+| Gift Registry                              | `gift-registry.ts`                    | —                            | Списки подарков                                                                               |
 
 ## Данные и навигация
 

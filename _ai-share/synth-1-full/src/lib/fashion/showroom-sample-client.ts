@@ -2,7 +2,9 @@
 
 import type { ShowroomSampleTagPayloadV1 } from '@/lib/fashion/showroom-sample-tag';
 
-export async function registerShowroomSampleTag(payload: ShowroomSampleTagPayloadV1): Promise<string> {
+export async function registerShowroomSampleTag(
+  payload: ShowroomSampleTagPayloadV1
+): Promise<string> {
   const r = await fetch('/api/showroom-sample', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

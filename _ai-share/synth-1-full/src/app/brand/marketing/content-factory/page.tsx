@@ -15,19 +15,25 @@ export default function BrandMarketingContentFactoryPage() {
   const links = getRelatedLinks('wiz-studio').map((l) => ({ label: l.label, href: l.href }));
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-4xl animate-in fade-in duration-700">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 duration-700 animate-in fade-in">
       <SectionInfoCard
         title="WizStudio / AI-каталог"
         description="Виртуальные съёмки и контент без фотосессии. Генерация образов по flat-фото, фоны, lifestyle."
         icon={Camera}
         iconBg="bg-amber-100"
         iconColor="text-amber-600"
-        badges={<Badge variant="outline" className="text-[9px]">WizCommerce</Badge>}
+        badges={
+          <Badge variant="outline" className="text-[9px]">
+            WizCommerce
+          </Badge>
+        }
       />
       <Card>
         <CardHeader>
           <CardTitle>AI-съёмка</CardTitle>
-          <CardDescription>Загрузите flat-фото — получите lifestyle, модели, разные фоны.</CardDescription>
+          <CardDescription>
+            Загрузите flat-фото — получите lifestyle, модели, разные фоны.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex items-center gap-2 text-sm text-slate-600">

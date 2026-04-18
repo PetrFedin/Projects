@@ -26,7 +26,11 @@ function toBase64Url(str: string): string {
   if (typeof btoa !== 'undefined') {
     return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   }
-  return Buffer.from(str, 'utf-8').toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return Buffer.from(str, 'utf-8')
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
 }
 function fromBase64Url(b64url: string): string {
   let b64 = b64url.replace(/-/g, '+').replace(/_/g, '/');
@@ -37,12 +41,15 @@ function fromBase64Url(b64url: string): string {
 
 /** Демо: генерация токена для EZ Order ссылки */
 export function generateEzOrderToken(payload: EzOrderLinkPayload): EzOrderLink {
-  const token = `ez_${toBase64Url(JSON.stringify({
-    ...payload,
-    _ts: Date.now(),
-    _r: Math.random().toString(36).slice(2),
-  }))}`;
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://syntha.example.com';
+  const token = `ez_${toBase64Url(
+    JSON.stringify({
+      ...payload,
+      _ts: Date.now(),
+      _r: Math.random().toString(36).slice(2),
+    })
+  )}`;
+  const baseUrl =
+    typeof window !== 'undefined' ? window.location.origin : 'https://syntha.example.com';
   return {
     token,
     url: `${baseUrl}/o/ez/${token}`,
@@ -52,7 +59,7 @@ export function generateEzOrderToken(payload: EzOrderLinkPayload): EzOrderLink {
 }
 
 /** Парсинг токена (работает в браузере и на сервере) */
-export function parseEzOrderToken(token: string): EzOrderLinkPayload & { _ts?: number } | null {
+export function parseEzOrderToken(token: string): (EzOrderLinkPayload & { _ts?: number }) | null {
   try {
     if (!token.startsWith('ez_')) return null;
     const raw = fromBase64Url(token.slice(3));

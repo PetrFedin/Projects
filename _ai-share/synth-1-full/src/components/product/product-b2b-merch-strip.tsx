@@ -19,8 +19,8 @@ export function ProductB2BMerchStrip({ product }: Props) {
 
   return (
     <div className="mt-3 flex flex-wrap items-center gap-2 rounded-lg border bg-muted/20 px-3 py-2 text-xs">
-      <Package className="h-4 w-4 text-muted-foreground shrink-0" />
-      <span className="text-muted-foreground font-medium">B2B / закупка:</span>
+      <Package className="h-4 w-4 shrink-0 text-muted-foreground" />
+      <span className="font-medium text-muted-foreground">B2B / закупка:</span>
       {r.moq != null && (
         <Badge variant="outline" className="font-mono text-[10px]">
           MOQ {r.moq}

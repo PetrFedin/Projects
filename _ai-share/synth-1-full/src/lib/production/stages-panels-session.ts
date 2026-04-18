@@ -23,7 +23,9 @@ function storageKey(collectionFlowKey: string): string {
   return `${PREFIX}${collectionFlowKey?.trim() || 'default'}`;
 }
 
-export function loadStagesPanelsSession(collectionFlowKey: string): Partial<StagesPanelsSessionState> | null {
+export function loadStagesPanelsSession(
+  collectionFlowKey: string
+): Partial<StagesPanelsSessionState> | null {
   if (typeof window === 'undefined') return null;
   try {
     const raw = sessionStorage.getItem(storageKey(collectionFlowKey));
@@ -35,7 +37,10 @@ export function loadStagesPanelsSession(collectionFlowKey: string): Partial<Stag
   }
 }
 
-export function saveStagesPanelsSession(collectionFlowKey: string, state: StagesPanelsSessionState): void {
+export function saveStagesPanelsSession(
+  collectionFlowKey: string,
+  state: StagesPanelsSessionState
+): void {
   if (typeof window === 'undefined') return;
   try {
     sessionStorage.setItem(storageKey(collectionFlowKey), JSON.stringify(state));

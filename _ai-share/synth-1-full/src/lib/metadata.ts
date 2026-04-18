@@ -11,24 +11,16 @@ interface GenerateMetadataOptions {
 
 const defaultMetadata = {
   title: 'Syntha OS — Операционная система для fashion индустрии',
-  description: 'Профессиональная B2B2C платформа для fashion брендов, магазинов и клиентов. AI-стилист, цифровой шоурум, аналитика и многое другое.',
+  description:
+    'Профессиональная B2B2C платформа для fashion брендов, магазинов и клиентов. AI-стилист, цифровой шоурум, аналитика и многое другое.',
   image: '/og-image.jpg',
   url: 'https://syntha.os',
 };
 
 export function generateMetadata(options: GenerateMetadataOptions = {}): Metadata {
-  const {
-    title,
-    description,
-    image,
-    url,
-    type = 'website',
-    noIndex = false,
-  } = options;
+  const { title, description, image, url, type = 'website', noIndex = false } = options;
 
-  const fullTitle = title 
-    ? `${title} | Syntha OS`
-    : defaultMetadata.title;
+  const fullTitle = title ? `${title} | Syntha OS` : defaultMetadata.title;
 
   const metaDescription = description || defaultMetadata.description;
   const metaImage = image || defaultMetadata.image;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { optimizeBlogText } from "@/ai/flows/optimize-blog-text";
+import { optimizeBlogText } from '@/ai/flows/optimize-blog-text';
 
 export function useAIActions(composerText: string, setComposerText: (t: string) => void) {
   const { toast } = useToast();
@@ -29,6 +29,6 @@ export function useAIActions(composerText: string, setComposerText: (t: string) 
     aiSuggestedText,
     showAiComparison,
     setShowAiComparison,
-    processAiCorrection
+    processAiCorrection,
   };
 }

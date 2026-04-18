@@ -32,9 +32,13 @@ export default function AssortmentHealthPage() {
             className="relative overflow-hidden border border-slate-200 p-5 shadow-sm transition-colors hover:border-emerald-200/80"
           >
             <div className="mb-5 flex items-center justify-between">
-              <h3 className="text-base font-semibold uppercase tracking-tight text-slate-900">{data.category}</h3>
+              <h3 className="text-base font-semibold uppercase tracking-tight text-slate-900">
+                {data.category}
+              </h3>
               <div className="text-right">
-                <div className="mb-0.5 text-[10px] font-bold uppercase text-slate-500">Health Score</div>
+                <div className="mb-0.5 text-[10px] font-bold uppercase text-slate-500">
+                  Health Score
+                </div>
                 <div className="text-2xl font-bold tabular-nums text-emerald-600">
                   {Math.round((data.colorBalance + data.sizeAvailability + data.marginHealth) / 3)}%
                 </div>
@@ -86,7 +90,9 @@ export default function AssortmentHealthPage() {
             </div>
 
             <div className="space-y-2">
-              <div className="text-[9px] font-bold uppercase tracking-widest text-slate-400">AI Merch Recommendations</div>
+              <div className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
+                AI Merch Recommendations
+              </div>
               {data.recommendations.map((rec, i) => (
                 <div
                   key={i}
@@ -109,10 +115,13 @@ export default function AssortmentHealthPage() {
           <ShieldCheck className="h-7 w-7 text-white" />
         </div>
         <div className="min-w-0 flex-1">
-          <h3 className="mb-1 text-lg font-semibold uppercase tracking-tight">Overall Collection Health: 84%</h3>
+          <h3 className="mb-1 text-lg font-semibold uppercase tracking-tight">
+            Overall Collection Health: 84%
+          </h3>
           <p className="max-w-2xl text-sm font-medium leading-relaxed text-emerald-50/95">
-            Ваша коллекция SS26 сбалансирована по маржинальности, однако в категории &quot;Top&quot; наблюдается дефицит
-            цветовой палитры. Рекомендуется добавить 2–3 ярких акцента для повышения CTR в онлайн-каналах.
+            Ваша коллекция SS26 сбалансирована по маржинальности, однако в категории &quot;Top&quot;
+            наблюдается дефицит цветовой палитры. Рекомендуется добавить 2–3 ярких акцента для
+            повышения CTR в онлайн-каналах.
           </p>
         </div>
         <Button className="h-11 w-full shrink-0 bg-white px-8 text-[10px] font-bold uppercase tracking-widest text-emerald-800 hover:bg-emerald-50 md:w-auto">

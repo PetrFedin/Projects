@@ -3,7 +3,14 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -56,7 +63,13 @@ export default function QuickOrderPage() {
     const params = new URLSearchParams({
       mode: 'quick',
       brand,
-      lines: JSON.stringify(validLines.map((l) => ({ style: l.styleNumber.trim(), size: l.size || 'M', qty: parseInt(l.qty, 10) }))),
+      lines: JSON.stringify(
+        validLines.map((l) => ({
+          style: l.styleNumber.trim(),
+          size: l.size || 'M',
+          qty: parseInt(l.qty, 10),
+        }))
+      ),
     });
     if (season) params.set('season', season);
     if (color) params.set('color', color);
@@ -64,26 +77,39 @@ export default function QuickOrderPage() {
   };
 
   return (
-    <div className="container max-w-3xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
-        <Link href={ROUTES.shop.b2bOrderMode}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+    <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
+        <Link href={ROUTES.shop.b2bOrderMode}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
         <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2"><Zap className="h-6 w-6" /> Быстрый заказ по артикулам</h1>
-          <p className="text-slate-500 text-sm mt-0.5">NuOrder/JOOR: введите артикулы стилей, размеры и количество — затем перейдите в матрицу для проверки и отправки.</p>
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
+            <Zap className="h-6 w-6" /> Быстрый заказ по артикулам
+          </h1>
+          <p className="mt-0.5 text-sm text-slate-500">
+            NuOrder/JOOR: введите артикулы стилей, размеры и количество — затем перейдите в матрицу
+            для проверки и отправки.
+          </p>
         </div>
       </div>
 
       <Card className="mb-6">
         <CardHeader>
           <CardTitle>Строки заказа</CardTitle>
-          <CardDescription>Стиль (артикул), размер и количество. Пустые строки и qty=0 не учитываются. В матрице заказа отображается ATS (доступно к продаже) по размеру; при превышении — предупреждение «недостаточно остатка».</CardDescription>
+          <CardDescription>
+            Стиль (артикул), размер и количество. Пустые строки и qty=0 не учитываются. В матрице
+            заказа отображается ATS (доступно к продаже) по размеру; при превышении — предупреждение
+            «недостаточно остатка».
+          </CardDescription>
           <div className="flex flex-wrap gap-2 pt-2">
             <div>
               <Label className="text-xs text-slate-500">Бренд</Label>
               <select
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
-                className="rounded-lg border border-slate-200 px-3 py-2 text-sm w-[180px] block mt-0.5"
+                className="mt-0.5 block w-[180px] rounded-lg border border-slate-200 px-3 py-2 text-sm"
               >
                 <option value="Syntha">Syntha</option>
                 <option value="A.P.C.">A.P.C.</option>
@@ -95,10 +121,12 @@ export default function QuickOrderPage() {
               <select
                 value={season}
                 onChange={(e) => setSeason(e.target.value)}
-                className="rounded-lg border border-slate-200 px-3 py-2 text-sm w-[140px] block mt-0.5"
+                className="mt-0.5 block w-[140px] rounded-lg border border-slate-200 px-3 py-2 text-sm"
               >
                 {SEASONS.map((s) => (
-                  <option key={s.value || 'all'} value={s.value}>{s.label}</option>
+                  <option key={s.value || 'all'} value={s.value}>
+                    {s.label}
+                  </option>
                 ))}
               </select>
             </div>
@@ -107,27 +135,31 @@ export default function QuickOrderPage() {
               <select
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
-                className="rounded-lg border border-slate-200 px-3 py-2 text-sm w-[140px] block mt-0.5"
+                className="mt-0.5 block w-[140px] rounded-lg border border-slate-200 px-3 py-2 text-sm"
               >
                 {COLORS.map((c) => (
-                  <option key={c.value || 'all'} value={c.value}>{c.label}</option>
+                  <option key={c.value || 'all'} value={c.value}>
+                    {c.label}
+                  </option>
                 ))}
               </select>
             </div>
             {(season || color) && (
-              <span className="text-xs text-slate-400 self-end pb-2">Фильтр: {[season, color].filter(Boolean).join(' · ') || '—'}</span>
+              <span className="self-end pb-2 text-xs text-slate-400">
+                Фильтр: {[season, color].filter(Boolean).join(' · ') || '—'}
+              </span>
             )}
           </div>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="grid grid-cols-[1fr_100px_80px_40px] gap-2 text-xs font-medium text-slate-500 uppercase">
+          <div className="grid grid-cols-[1fr_100px_80px_40px] gap-2 text-xs font-medium uppercase text-slate-500">
             <span>Артикул / стиль</span>
             <span>Размер</span>
             <span>Кол-во</span>
             <span></span>
           </div>
           {lines.map((line, i) => (
-            <div key={i} className="grid grid-cols-[1fr_100px_80px_40px] gap-2 items-center">
+            <div key={i} className="grid grid-cols-[1fr_100px_80px_40px] items-center gap-2">
               <Input
                 placeholder="CTP-26-001"
                 value={line.styleNumber}
@@ -137,11 +169,13 @@ export default function QuickOrderPage() {
               <select
                 value={line.size}
                 onChange={(e) => updateLine(i, 'size', e.target.value)}
-                className="rounded-md border border-slate-200 px-2 py-2 text-sm h-9"
+                className="h-9 rounded-md border border-slate-200 px-2 py-2 text-sm"
               >
                 <option value="">—</option>
                 {MOCK_SIZES.map((s) => (
-                  <option key={s} value={s}>{s}</option>
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
                 ))}
               </select>
               <Input
@@ -151,13 +185,20 @@ export default function QuickOrderPage() {
                 onChange={(e) => updateLine(i, 'qty', e.target.value)}
                 className="h-9"
               />
-              <Button type="button" variant="ghost" size="icon" className="h-9 w-9 text-slate-400" onClick={() => removeLine(i)} disabled={lines.length <= 1}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9 text-slate-400"
+                onClick={() => removeLine(i)}
+                disabled={lines.length <= 1}
+              >
                 <Trash2 className="h-4 w-4" />
               </Button>
             </div>
           ))}
           <Button type="button" variant="outline" size="sm" onClick={addLine} className="mt-2">
-            <Plus className="h-4 w-4 mr-2" /> Добавить строку
+            <Plus className="mr-2 h-4 w-4" /> Добавить строку
           </Button>
         </CardContent>
         <CardFooter className="flex justify-between">
@@ -168,10 +209,16 @@ export default function QuickOrderPage() {
         </CardFooter>
       </Card>
 
-      <div className="flex flex-wrap gap-2 mb-6">
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bCreateOrder}>Написание по коллекции</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bReorder}>Reorder из истории</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bEzOrder}>EZ Order</Link></Button>
+      <div className="mb-6 flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bCreateOrder}>Написание по коллекции</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bReorder}>Reorder из истории</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bEzOrder}>EZ Order</Link>
+        </Button>
       </div>
       <RelatedModulesBlock links={getShopB2BHubLinks()} title="Матрица, EZ Order, шаблоны" />
     </div>

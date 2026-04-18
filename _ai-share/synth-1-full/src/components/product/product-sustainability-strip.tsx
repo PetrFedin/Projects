@@ -24,7 +24,12 @@ export function ProductSustainabilityStrip({ product, className }: Props) {
   return (
     <div className={cn('mt-3 rounded-lg border p-3 text-sm', tierStyle[b.tier], className)}>
       <div className="flex flex-wrap items-center gap-2">
-        <Leaf className={cn('h-4 w-4', b.tier === 'high' ? 'text-emerald-600' : 'text-muted-foreground')} />
+        <Leaf
+          className={cn(
+            'h-4 w-4',
+            b.tier === 'high' ? 'text-emerald-600' : 'text-muted-foreground'
+          )}
+        />
         <span className="font-medium">Устойчивость (эвристика)</span>
         <Badge variant="secondary" className="font-mono text-xs">
           {b.score}/100
@@ -32,11 +37,14 @@ export function ProductSustainabilityStrip({ product, className }: Props) {
         <Badge variant="outline" className="text-[10px] capitalize">
           {b.tier}
         </Badge>
-        <Link href={ROUTES.client.sustainabilityExplorer} className="ml-auto text-[11px] underline text-muted-foreground hover:text-foreground">
+        <Link
+          href={ROUTES.client.sustainabilityExplorer}
+          className="ml-auto text-[11px] text-muted-foreground underline hover:text-foreground"
+        >
           Все товары по eco-сигналам
         </Link>
       </div>
-      <p className="text-xs text-muted-foreground mt-2 leading-snug">{b.summary}</p>
+      <p className="mt-2 text-xs leading-snug text-muted-foreground">{b.summary}</p>
     </div>
   );
 }

@@ -1,6 +1,13 @@
 /** Доменные типы fashion-слоя (композиция, уход, образ, палитра). */
 
-export type FashionSlot = 'top' | 'bottom' | 'dress' | 'outer' | 'footwear' | 'accessory' | 'unknown';
+export type FashionSlot =
+  | 'top'
+  | 'bottom'
+  | 'dress'
+  | 'outer'
+  | 'footwear'
+  | 'accessory'
+  | 'unknown';
 
 export type OutfitGapResult = {
   filled: FashionSlot[];
@@ -201,7 +208,14 @@ export type SizeMeasurementsV1 = {
   measurements: GarmentMeasurementV1[];
 };
 
-export type OccasionTag = 'office' | 'evening' | 'casual' | 'vacation' | 'sport' | 'wedding' | 'home';
+export type OccasionTag =
+  | 'office'
+  | 'evening'
+  | 'casual'
+  | 'vacation'
+  | 'sport'
+  | 'wedding'
+  | 'home';
 
 export type WaitlistEntryV1 = {
   sku: string;
@@ -302,7 +316,12 @@ export type InventoryTransferV1 = {
   reason: 'oos_prevention' | 'slow_mover_liquidation';
 };
 
-export type StyleArchetypeV1 = 'minimalist' | 'avant-garde' | 'classicist' | 'streetwear' | 'bohemian';
+export type StyleArchetypeV1 =
+  | 'minimalist'
+  | 'avant-garde'
+  | 'classicist'
+  | 'streetwear'
+  | 'bohemian';
 
 export type UserStyleProfileV1 = {
   archetype: StyleArchetypeV1;
@@ -676,7 +695,11 @@ export type BnplInstallmentV1 = {
 };
 
 export type RegionalStockV1 = {
-  warehouse: 'Central (Moscow)' | 'South (Krasnodar)' | 'Ural (Ekaterinburg)' | 'Siberia (Novosibirsk)';
+  warehouse:
+    | 'Central (Moscow)'
+    | 'South (Krasnodar)'
+    | 'Ural (Ekaterinburg)'
+    | 'Siberia (Novosibirsk)';
   quantity: number;
   deliveryDays: number;
   lastSync: string;
@@ -1812,7 +1835,11 @@ export type B2BReorderSuggestionV1 = {
   sku: string;
   suggestedQty: number;
   confidenceScore: number; // 0-100
-  reason: 'Low Stock in Central Hub' | 'High Velocity in Region' | 'Capsule Completion' | 'Trend Spike';
+  reason:
+    | 'Low Stock in Central Hub'
+    | 'High Velocity in Region'
+    | 'Capsule Completion'
+    | 'Trend Spike';
 };
 
 export type ShowroomSampleStatusV1 = {

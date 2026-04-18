@@ -5,10 +5,10 @@
  */
 
 export type BudgetCategory =
-  | 'procurement'   // закупки
-  | 'production'    // производство
-  | 'marketing'     // маркетинг
-  | 'logistics'     // логистика
+  | 'procurement' // закупки
+  | 'production' // производство
+  | 'marketing' // маркетинг
+  | 'logistics' // логистика
   | 'other';
 
 /** Срез план/факт по категории и периоду (РФ: рубли) */
@@ -17,16 +17,16 @@ export interface BudgetActualSnapshot {
   brandId?: string;
   /** Год, сезон или месяц */
   periodKey: string;
-  periodLabel: string;        // например "SS26", "2026 Q1"
+  periodLabel: string; // например "SS26", "2026 Q1"
   category: BudgetCategory;
-  categoryLabel: string;      // "Закупки", "Производство"
+  categoryLabel: string; // "Закупки", "Производство"
   plannedAmountRub: number;
   actualAmountRub: number;
   /** Контрагент (для детализации) */
   counterpartyId?: string;
   /** Статья бюджета (для детализации) */
   budgetLineId?: string;
-  updatedAt: string;         // ISO
+  updatedAt: string; // ISO
 }
 
 /** Эндпоинты для будущего API (без вызовов) */

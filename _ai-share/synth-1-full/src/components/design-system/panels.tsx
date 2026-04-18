@@ -31,7 +31,13 @@ export type PlanningPanelProps = {
 };
 
 /** Плотная панель планирования / бюджетов (Oracle-style). */
-export function PlanningPanel({ title, description, actions, className, children }: PlanningPanelProps) {
+export function PlanningPanel({
+  title,
+  description,
+  actions,
+  className,
+  children,
+}: PlanningPanelProps) {
   return (
     <div className={cn('rounded-xl border border-slate-200 bg-white p-4 shadow-sm', className)}>
       <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
@@ -49,7 +55,13 @@ export function PlanningPanel({ title, description, actions, className, children
 export type CommercePanelProps = PlanningPanelProps;
 
 /** Showroom / linesheet / wholesale блок (JOOR-style — чуть воздушнее). */
-export function CommercePanel({ title, description, actions, className, children }: CommercePanelProps) {
+export function CommercePanel({
+  title,
+  description,
+  actions,
+  className,
+  children,
+}: CommercePanelProps) {
   return (
     <div className={cn('rounded-xl border border-slate-200/90 bg-white p-5 shadow-sm', className)}>
       <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">

@@ -13,21 +13,23 @@ import { getShopB2BHubLinks } from '@/lib/data/entity-links';
 export default function B2BOrderDraftsPage() {
   const versions = getWorkingOrderVersions();
   const consolidated = getConsolidatedDraft();
-  const draftVersions = versions.filter((v) => v.status === 'draft' || v.status === 'pending_review');
+  const draftVersions = versions.filter(
+    (v) => v.status === 'draft' || v.status === 'pending_review'
+  );
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
+    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
         <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
             <FileEdit className="h-6 w-6" /> Черновики заказов
           </h1>
-          <p className="text-slate-500 text-sm mt-0.5">
+          <p className="mt-0.5 text-sm text-slate-500">
             JOOR: незавершённые заказы по коллекциям. Продолжить в матрице или Working Order.
           </p>
         </div>
@@ -37,10 +39,17 @@ export default function B2BOrderDraftsPage() {
         <Card className="mb-6">
           <CardHeader>
             <CardTitle className="text-sm font-black uppercase">Сводный черновик агента</CardTitle>
-            <CardDescription>Zedonk: один драфт по разным брендам. MOV/MOQ по бренду.</CardDescription>
+            <CardDescription>
+              Zedonk: один драфт по разным брендам. MOV/MOQ по бренду.
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <Button asChild variant="default" size="sm" className="rounded-lg font-black uppercase text-[10px]">
+            <Button
+              asChild
+              variant="default"
+              size="sm"
+              className="rounded-lg text-[10px] font-black uppercase"
+            >
               <Link href={ROUTES.shop.b2bAgentConsolidatedOrder}>Открыть сводный заказ</Link>
             </Button>
           </CardContent>
@@ -50,26 +59,36 @@ export default function B2BOrderDraftsPage() {
       <Card className="mb-6">
         <CardHeader>
           <CardTitle className="text-sm font-black uppercase">Working Order — черновики</CardTitle>
-          <CardDescription>Загруженные файлы в статусе черновик или на согласовании.</CardDescription>
+          <CardDescription>
+            Загруженные файлы в статусе черновик или на согласовании.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           {draftVersions.length === 0 ? (
-            <p className="text-slate-500 text-sm">Нет черновиков. Создайте заказ в матрице или загрузите Working Order.</p>
+            <p className="text-sm text-slate-500">
+              Нет черновиков. Создайте заказ в матрице или загрузите Working Order.
+            </p>
           ) : (
             draftVersions.slice(0, 10).map((v) => (
               <div
                 key={v.id}
-                className="flex items-center justify-between gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50/50"
+                className="flex items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50/50 p-4"
               >
                 <div>
                   <p className="font-bold text-slate-900">{v.fileName}</p>
                   <p className="text-xs text-slate-500">
-                    {new Date(v.createdAt).toLocaleDateString('ru-RU')} · {v.uploadedBy} · {v.status}
+                    {new Date(v.createdAt).toLocaleDateString('ru-RU')} · {v.uploadedBy} ·{' '}
+                    {v.status}
                   </p>
                 </div>
-                <Button variant="outline" size="sm" className="rounded-lg text-[10px] font-black uppercase" asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="rounded-lg text-[10px] font-black uppercase"
+                  asChild
+                >
                   <Link href={`${ROUTES.shop.b2bWorkingOrder}?version=${encodeURIComponent(v.id)}`}>
-                    Продолжить <ChevronRight className="h-3 w-3 ml-1" />
+                    Продолжить <ChevronRight className="ml-1 h-3 w-3" />
                   </Link>
                 </Button>
               </div>
@@ -78,14 +97,26 @@ export default function B2BOrderDraftsPage() {
         </CardContent>
       </Card>
 
-      <div className="flex flex-wrap gap-3 mb-6">
-        <Button asChild variant="default" className="rounded-xl font-black uppercase text-[10px] tracking-widest">
+      <div className="mb-6 flex flex-wrap gap-3">
+        <Button
+          asChild
+          variant="default"
+          className="rounded-xl text-[10px] font-black uppercase tracking-widest"
+        >
           <Link href={ROUTES.shop.b2bCreateOrder}>Создать заказ</Link>
         </Button>
-        <Button asChild variant="outline" className="rounded-xl font-black uppercase text-[10px] tracking-widest">
+        <Button
+          asChild
+          variant="outline"
+          className="rounded-xl text-[10px] font-black uppercase tracking-widest"
+        >
           <Link href={ROUTES.shop.b2bAiSmartOrder}>AI SmartOrder (PDF/email)</Link>
         </Button>
-        <Button asChild variant="outline" className="rounded-xl font-black uppercase text-[10px] tracking-widest">
+        <Button
+          asChild
+          variant="outline"
+          className="rounded-xl text-[10px] font-black uppercase tracking-widest"
+        >
           <Link href={ROUTES.shop.b2bWorkingOrder}>Working Order</Link>
         </Button>
       </div>

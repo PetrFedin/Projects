@@ -15,10 +15,7 @@ export function getVatRate(customerGroupId?: string): number {
   return isCustomerVatExempt(customerGroupId) ? 0 : VAT_RATE;
 }
 
-export function addVatIfApplicable(
-  amountWithoutVat: number,
-  customerGroupId?: string
-): number {
+export function addVatIfApplicable(amountWithoutVat: number, customerGroupId?: string): number {
   const rate = getVatRate(customerGroupId);
   return Math.round(amountWithoutVat * (1 + rate / 100));
 }

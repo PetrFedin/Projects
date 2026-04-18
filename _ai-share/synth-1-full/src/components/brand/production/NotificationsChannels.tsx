@@ -15,11 +15,17 @@ import {
   ShieldCheck,
   CreditCard,
   Package,
-  Clock
+  Clock,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-export type NotifyTrigger = 'sla_overdue' | 'qc_result' | 'po_amendment' | 'deadline' | 'payment_due' | 'sample_approved';
+export type NotifyTrigger =
+  | 'sla_overdue'
+  | 'qc_result'
+  | 'po_amendment'
+  | 'deadline'
+  | 'payment_due'
+  | 'sample_approved';
 
 interface ChannelConfig {
   email: boolean;
@@ -32,7 +38,7 @@ const TRIGGERS: { id: NotifyTrigger; label: string; icon: React.ElementType }[] 
   { id: 'po_amendment', label: 'Amendment PO', icon: Package },
   { id: 'deadline', label: 'Дедлайн сэмпла / PO', icon: AlertTriangle },
   { id: 'payment_due', label: 'Платёж к дате', icon: CreditCard },
-  { id: 'sample_approved', label: 'Сэмпл утверждён', icon: CheckCircle2 }
+  { id: 'sample_approved', label: 'Сэмпл утверждён', icon: CheckCircle2 },
 ];
 
 export interface NotificationsChannelsProps {
@@ -47,18 +53,26 @@ const DEFAULT_CONFIG: Record<NotifyTrigger, ChannelConfig> = {
   po_amendment: { email: true, push: true },
   deadline: { email: true, push: true },
   payment_due: { email: true, push: false },
-  sample_approved: { email: false, push: true }
+  sample_approved: { email: false, push: true },
 };
 
-export function NotificationsChannels({ onSave, onTestEmail, onTestPush }: NotificationsChannelsProps) {
+export function NotificationsChannels({
+  onSave,
+  onTestEmail,
+  onTestPush,
+}: NotificationsChannelsProps) {
   const [config, setConfig] = useState<Record<NotifyTrigger, ChannelConfig>>(DEFAULT_CONFIG);
   const [emailEnabled, setEmailEnabled] = useState(true);
   const [pushEnabled, setPushEnabled] = useState(true);
 
-  const handleChannelChange = (trigger: NotifyTrigger, channel: 'email' | 'push', value: boolean) => {
+  const handleChannelChange = (
+    trigger: NotifyTrigger,
+    channel: 'email' | 'push',
+    value: boolean
+  ) => {
     setConfig((prev) => ({
       ...prev,
-      [trigger]: { ...prev[trigger], [channel]: value }
+      [trigger]: { ...prev[trigger], [channel]: value },
     }));
   };
 
@@ -67,17 +81,17 @@ export function NotificationsChannels({ onSave, onTestEmail, onTestPush }: Notif
   };
 
   return (
-    <Card className="border border-slate-100 shadow-sm rounded-2xl overflow-hidden">
-      <CardHeader className="p-4 border-b border-slate-50 bg-slate-50/30">
+    <Card className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
+      <CardHeader className="border-b border-slate-50 bg-slate-50/30 p-4">
         <CardTitle className="text-[11px] font-black uppercase">Email и Push-уведомления</CardTitle>
         <CardDescription className="text-[9px]">
           Настройка каналов: SLA, QC, PO amendments, дедлайны — настраиваемые триггеры
         </CardDescription>
       </CardHeader>
-      <CardContent className="p-4 space-y-4">
-        <div className="flex gap-4 flex-wrap">
+      <CardContent className="space-y-4 p-4">
+        <div className="flex flex-wrap gap-4">
           <div className="flex items-center gap-2">
-            <Mail className="w-4 h-4 text-slate-500" />
+            <Mail className="h-4 w-4 text-slate-500" />
             <Label className="text-[10px] font-bold uppercase">Email</Label>
             <Switch checked={emailEnabled} onCheckedChange={setEmailEnabled} />
             {emailEnabled && (
@@ -87,7 +101,7 @@ export function NotificationsChannels({ onSave, onTestEmail, onTestPush }: Notif
             )}
           </div>
           <div className="flex items-center gap-2">
-            <Smartphone className="w-4 h-4 text-slate-500" />
+            <Smartphone className="h-4 w-4 text-slate-500" />
             <Label className="text-[10px] font-bold uppercase">Push</Label>
             <Switch checked={pushEnabled} onCheckedChange={setPushEnabled} />
             {pushEnabled && (
@@ -99,22 +113,24 @@ export function NotificationsChannels({ onSave, onTestEmail, onTestPush }: Notif
         </div>
 
         <div className="space-y-2">
-          <p className="text-[9px] font-black uppercase text-slate-500">Триггеры по типам событий</p>
+          <p className="text-[9px] font-black uppercase text-slate-500">
+            Триггеры по типам событий
+          </p>
           <div className="space-y-2">
             {TRIGGERS.map((t) => {
               const Icon = t.icon;
               return (
                 <div
                   key={t.id}
-                  className="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-slate-50 transition-colors"
+                  className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50/50 p-3 transition-colors hover:bg-slate-50"
                 >
                   <div className="flex items-center gap-2">
-                    <Icon className="w-4 h-4 text-indigo-500" />
+                    <Icon className="h-4 w-4 text-indigo-500" />
                     <span className="text-[10px] font-bold">{t.label}</span>
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1.5">
-                      <Mail className="w-3.5 h-3.5 text-slate-400" />
+                      <Mail className="h-3.5 w-3.5 text-slate-400" />
                       <Switch
                         checked={config[t.id].email}
                         onCheckedChange={(v) => handleChannelChange(t.id, 'email', v)}
@@ -122,7 +138,7 @@ export function NotificationsChannels({ onSave, onTestEmail, onTestPush }: Notif
                       />
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <Smartphone className="w-3.5 h-3.5 text-slate-400" />
+                      <Smartphone className="h-3.5 w-3.5 text-slate-400" />
                       <Switch
                         checked={config[t.id].push}
                         onCheckedChange={(v) => handleChannelChange(t.id, 'push', v)}
@@ -136,8 +152,12 @@ export function NotificationsChannels({ onSave, onTestEmail, onTestPush }: Notif
           </div>
         </div>
 
-        <Button size="sm" className="w-full h-9 text-[10px] font-bold uppercase" onClick={handleSave}>
-          <CheckCircle2 className="w-4 h-4 mr-2" /> Сохранить настройки
+        <Button
+          size="sm"
+          className="h-9 w-full text-[10px] font-bold uppercase"
+          onClick={handleSave}
+        >
+          <CheckCircle2 className="mr-2 h-4 w-4" /> Сохранить настройки
         </Button>
       </CardContent>
     </Card>

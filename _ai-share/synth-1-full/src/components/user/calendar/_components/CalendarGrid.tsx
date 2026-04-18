@@ -1,7 +1,15 @@
 import React from 'react';
-import { format, isSameDay, startOfWeek, addDays, startOfMonth, endOfMonth, isSameMonth } from "date-fns";
-import { ru } from "date-fns/locale";
-import { cn } from "@/lib/utils";
+import {
+  format,
+  isSameDay,
+  startOfWeek,
+  addDays,
+  startOfMonth,
+  endOfMonth,
+  isSameMonth,
+} from 'date-fns';
+import { ru } from 'date-fns/locale';
+import { cn } from '@/lib/utils';
 import { CalendarEvent } from '@/lib/types/calendar';
 import { layerColor, layerBorder } from '../constants';
 import { Lock, EyeOff, Sparkles, AlertCircle, CheckCircle2 } from 'lucide-react';
@@ -14,7 +22,13 @@ interface CalendarGridProps {
   onCellClick: (date: Date) => void;
 }
 
-export function CalendarGrid({ view, currentDate, events, onEventClick, onCellClick }: CalendarGridProps) {
+export function CalendarGrid({
+  view,
+  currentDate,
+  events,
+  onEventClick,
+  onCellClick,
+}: CalendarGridProps) {
   const renderMonthView = () => {
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(monthStart);
@@ -24,168 +38,177 @@ export function CalendarGrid({ view, currentDate, events, onEventClick, onCellCl
     const rows = [];
     let days = [];
     let day = startDate;
-    let formattedDate = "";
+    let formattedDate = '';
 
     // Generate grid 6 weeks to be safe or until end of month
     // Just a simple loop for 35-42 days
-    const totalDays = 42; 
-    
-    for (let i = 0; i < totalDays; i++) {
-        formattedDate = format(day, "d");
-        const cloneDay = day;
-        
-        const dayEvents = events.filter(e => isSameDay(new Date(e.startAt), day));
-        const isCurrentMonth = isSameMonth(day, monthStart);
-        const isToday = isSameDay(day, new Date());
+    const totalDays = 42;
 
-        days.push(
-            <div
-                key={day.toString()}
+    for (let i = 0; i < totalDays; i++) {
+      formattedDate = format(day, 'd');
+      const cloneDay = day;
+
+      const dayEvents = events.filter((e) => isSameDay(new Date(e.startAt), day));
+      const isCurrentMonth = isSameMonth(day, monthStart);
+      const isToday = isSameDay(day, new Date());
+
+      days.push(
+        <div
+          key={day.toString()}
+          className={cn(
+            'group relative min-h-[100px] cursor-pointer border p-1 transition-colors hover:bg-muted/20',
+            !isCurrentMonth && 'bg-muted/10 text-muted-foreground',
+            isToday && 'bg-accent/5'
+          )}
+          onClick={() => onCellClick(cloneDay)}
+        >
+          <div
+            className={cn('p-1 text-right text-xs font-medium', isToday && 'font-bold text-accent')}
+          >
+            {formattedDate}
+          </div>
+          <div className="mt-1 space-y-1">
+            {dayEvents.slice(0, 4).map((ev) => (
+              <div
+                key={ev.id}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEventClick(ev);
+                }}
                 className={cn(
-                    "min-h-[100px] border p-1 transition-colors hover:bg-muted/20 cursor-pointer relative group",
-                    !isCurrentMonth && "bg-muted/10 text-muted-foreground",
-                    isToday && "bg-accent/5"
+                  'mb-1 flex min-h-[32px] cursor-pointer flex-col justify-center gap-0.5 truncate rounded-md border-l-4 px-2 py-1 text-[10px] font-bold shadow-md transition-all hover:brightness-95',
+                  layerColor(ev.layer),
+                  layerBorder(ev.layer),
+                  'text-white'
                 )}
-                onClick={() => onCellClick(cloneDay)}
-            >
-                <div className={cn(
-                    "text-right text-xs p-1 font-medium",
-                    isToday && "text-accent font-bold"
-                )}>
-                    {formattedDate}
+              >
+                <div className="flex items-center gap-1">
+                  {ev.isMystery && <EyeOff className="h-2 w-2 shrink-0 opacity-80" />}
+                  {ev.importance === 'critical' && (
+                    <AlertCircle className="h-2 w-2 shrink-0 animate-pulse text-white" />
+                  )}
+                  {ev.isSpam && <span className="font-black text-white/80">SPAM:</span>}
+                  <span className="truncate leading-tight">{ev.title}</span>
                 </div>
-                <div className="space-y-1 mt-1">
-                    {dayEvents.slice(0, 4).map(ev => (
-                        <div
-                            key={ev.id}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onEventClick(ev);
-                            }}
-                            className={cn(
-                                "text-[10px] px-2 py-1 rounded-md truncate font-bold border-l-4 cursor-pointer hover:brightness-95 transition-all flex flex-col gap-0.5 shadow-md min-h-[32px] justify-center mb-1",
-                                layerColor(ev.layer),
-                                layerBorder(ev.layer),
-                                "text-white"
-                            )}
-                        >
-                            <div className="flex items-center gap-1">
-                                {ev.isMystery && <EyeOff className="h-2 w-2 shrink-0 opacity-80" />}
-                                {ev.importance === 'critical' && <AlertCircle className="h-2 w-2 shrink-0 text-white animate-pulse" />}
-                                {ev.isSpam && <span className="text-white/80 font-black">SPAM:</span>}
-                                <span className="truncate leading-tight">{ev.title}</span>
-                            </div>
-                            {ev.description && (
-                                <span className="text-[8px] font-medium text-white/90 truncate leading-none">
-                                    {ev.description}
-                                </span>
-                            )}
-                        </div>
-                    ))}
-                    {dayEvents.length > 4 && (
-                        <div className="text-[9px] text-center text-muted-foreground font-medium">
-                            Еще {dayEvents.length - 4}...
-                        </div>
-                    )}
-                </div>
-                {isToday && (
-                    <div className="absolute top-1 left-1 h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+                {ev.description && (
+                  <span className="truncate text-[8px] font-medium leading-none text-white/90">
+                    {ev.description}
+                  </span>
                 )}
-            </div>
-        );
-        day = addDays(day, 1);
+              </div>
+            ))}
+            {dayEvents.length > 4 && (
+              <div className="text-center text-[9px] font-medium text-muted-foreground">
+                Еще {dayEvents.length - 4}...
+              </div>
+            )}
+          </div>
+          {isToday && (
+            <div className="absolute left-1 top-1 h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
+          )}
+        </div>
+      );
+      day = addDays(day, 1);
     }
 
     // Chunk days into rows of 7
     const gridRows = [];
     for (let i = 0; i < days.length; i += 7) {
-        gridRows.push(
-            <div className="grid grid-cols-7" key={i}>
-                {days.slice(i, i + 7)}
-            </div>
-        );
+      gridRows.push(
+        <div className="grid grid-cols-7" key={i}>
+          {days.slice(i, i + 7)}
+        </div>
+      );
     }
 
     return (
-        <div className="border rounded-lg overflow-hidden bg-white shadow-sm">
-            <div className="grid grid-cols-7 border-b bg-muted/40">
-                {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'].map(d => (
-                    <div key={d} className="p-2 text-center text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                        {d}
-                    </div>
-                ))}
+      <div className="overflow-hidden rounded-lg border bg-white shadow-sm">
+        <div className="grid grid-cols-7 border-b bg-muted/40">
+          {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'].map((d) => (
+            <div
+              key={d}
+              className="p-2 text-center text-xs font-bold uppercase tracking-wider text-muted-foreground"
+            >
+              {d}
             </div>
-            {gridRows}
+          ))}
         </div>
+        {gridRows}
+      </div>
     );
   };
 
   const renderWeekView = () => {
     // Simplified week view
-    return (
-        <div className="p-3 text-center text-muted-foreground">
-            Недельный вид в разработке
-        </div>
-    );
+    return <div className="p-3 text-center text-muted-foreground">Недельный вид в разработке</div>;
   };
 
   const renderDayView = () => {
     // Simplified day view
-    return (
-        <div className="p-3 text-center text-muted-foreground">
-            Дневной вид в разработке
-        </div>
-    );
+    return <div className="p-3 text-center text-muted-foreground">Дневной вид в разработке</div>;
   };
 
   const renderListView = () => {
-    const sortedEvents = [...events].sort((a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime());
-    
+    const sortedEvents = [...events].sort(
+      (a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime()
+    );
+
     return (
-        <div className="space-y-2">
-            {sortedEvents.map(ev => (
-                <div 
-                    key={ev.id} 
-                    className="flex items-center gap-3 p-3 border rounded-lg hover:bg-muted/30 cursor-pointer transition-colors bg-white"
-                    onClick={() => onEventClick(ev)}
-                >
-                    <div className={cn("w-1 h-10 rounded-full", layerColor(ev.layer).replace('bg-', 'bg-'))} />
-                    <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                            <h4 className="font-bold text-sm truncate">{ev.title}</h4>
-                            {ev.isMystery && <Badge variant="secondary" className="text-[9px] h-4 px-1">Mystery</Badge>}
-                        </div>
-                        <p className="text-xs text-muted-foreground truncate">{ev.description}</p>
-                    </div>
-                    <div className="text-right text-xs text-muted-foreground shrink-0">
-                        <div>{format(new Date(ev.startAt), 'd MMM', { locale: ru })}</div>
-                        <div>{format(new Date(ev.startAt), 'HH:mm')}</div>
-                    </div>
-                </div>
-            ))}
-            {sortedEvents.length === 0 && (
-                <div className="p-4 text-center text-muted-foreground text-sm">
-                    Нет событий для отображения
-                </div>
-            )}
-        </div>
+      <div className="space-y-2">
+        {sortedEvents.map((ev) => (
+          <div
+            key={ev.id}
+            className="flex cursor-pointer items-center gap-3 rounded-lg border bg-white p-3 transition-colors hover:bg-muted/30"
+            onClick={() => onEventClick(ev)}
+          >
+            <div
+              className={cn('h-10 w-1 rounded-full', layerColor(ev.layer).replace('bg-', 'bg-'))}
+            />
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2">
+                <h4 className="truncate text-sm font-bold">{ev.title}</h4>
+                {ev.isMystery && (
+                  <Badge variant="secondary" className="h-4 px-1 text-[9px]">
+                    Mystery
+                  </Badge>
+                )}
+              </div>
+              <p className="truncate text-xs text-muted-foreground">{ev.description}</p>
+            </div>
+            <div className="shrink-0 text-right text-xs text-muted-foreground">
+              <div>{format(new Date(ev.startAt), 'd MMM', { locale: ru })}</div>
+              <div>{format(new Date(ev.startAt), 'HH:mm')}</div>
+            </div>
+          </div>
+        ))}
+        {sortedEvents.length === 0 && (
+          <div className="p-4 text-center text-sm text-muted-foreground">
+            Нет событий для отображения
+          </div>
+        )}
+      </div>
     );
   };
 
   return (
     <div className="flex-1">
-        {view === 'month' && renderMonthView()}
-        {view === 'week' && renderWeekView()}
-        {view === 'day' && renderDayView()}
-        {view === 'list' && renderListView()}
+      {view === 'month' && renderMonthView()}
+      {view === 'week' && renderWeekView()}
+      {view === 'day' && renderDayView()}
+      {view === 'list' && renderListView()}
     </div>
   );
 }
 
 function Badge({ children, variant, className }: any) {
-    return (
-        <span className={cn("inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2", className)}>
-            {children}
-        </span>
-    )
+  return (
+    <span
+      className={cn(
+        'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+        className
+      )}
+    >
+      {children}
+    </span>
+  );
 }

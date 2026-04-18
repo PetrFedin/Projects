@@ -20,7 +20,7 @@ function SkuAlternativesInner() {
   const anchor = useMemo(() => products.find((p) => p.sku === sku) ?? products[0], [sku]);
   const candidates = useMemo(
     () => (anchor ? findSubstituteCandidates(anchor, products, 12) : []),
-    [anchor],
+    [anchor]
   );
 
   if (!anchor) {
@@ -32,11 +32,15 @@ function SkuAlternativesInner() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Якорный SKU</CardTitle>
-          <CardDescription>Правила в <code className="text-[10px] bg-muted px-1 rounded">findSubstituteCandidates</code> — заготовка под API инвентаря.</CardDescription>
+          <CardDescription>
+            Правила в{' '}
+            <code className="rounded bg-muted px-1 text-[10px]">findSubstituteCandidates</code> —
+            заготовка под API инвентаря.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <select
-            className="flex h-10 w-full max-w-md rounded-md border border-input bg-background px-3 text-sm font-mono"
+            className="flex h-10 w-full max-w-md rounded-md border border-input bg-background px-3 font-mono text-sm"
             value={anchor.sku}
             onChange={(e) => setSku(e.target.value)}
           >
@@ -53,26 +57,36 @@ function SkuAlternativesInner() {
       </Card>
 
       <div>
-        <h2 className="text-sm font-semibold mb-3">Варианты ({candidates.length})</h2>
+        <h2 className="mb-3 text-sm font-semibold">Варианты ({candidates.length})</h2>
         {candidates.length === 0 ? (
-          <p className="text-sm text-muted-foreground border border-dashed rounded-lg p-6">Нет кандидатов по категории/бренду.</p>
+          <p className="rounded-lg border border-dashed p-6 text-sm text-muted-foreground">
+            Нет кандидатов по категории/бренду.
+          </p>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {candidates.map((c) => (
-              <Link key={c.productId} href={`/products/${c.slug}`} className="group rounded-lg border overflow-hidden bg-card">
+              <Link
+                key={c.productId}
+                href={`/products/${c.slug}`}
+                className="group overflow-hidden rounded-lg border bg-card"
+              >
                 <div className="relative aspect-[3/4]">
                   <Image
-                    src={products.find((p) => p.slug === c.slug)?.images[0]?.url || '/placeholder.jpg'}
+                    src={
+                      products.find((p) => p.slug === c.slug)?.images[0]?.url || '/placeholder.jpg'
+                    }
                     alt=""
                     fill
                     className="object-cover"
                     sizes="200px"
                   />
                 </div>
-                <div className="p-2 space-y-1">
-                  <p className="text-[10px] font-mono text-muted-foreground">{c.sku}</p>
-                  <p className="text-xs font-medium line-clamp-2 group-hover:text-primary">{c.name}</p>
-                  <p className="text-[10px] text-muted-foreground line-clamp-2">{c.reason}</p>
+                <div className="space-y-1 p-2">
+                  <p className="font-mono text-[10px] text-muted-foreground">{c.sku}</p>
+                  <p className="line-clamp-2 text-xs font-medium group-hover:text-primary">
+                    {c.name}
+                  </p>
+                  <p className="line-clamp-2 text-[10px] text-muted-foreground">{c.reason}</p>
                   <p className="text-[10px]">Цвет: {c.color}</p>
                 </div>
               </Link>
@@ -86,7 +100,7 @@ function SkuAlternativesInner() {
 
 export default function SkuAlternativesPage() {
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
@@ -95,11 +109,13 @@ export default function SkuAlternativesPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
+            <h1 className="flex items-center gap-2 text-xl font-bold">
               <Shuffle className="h-6 w-6" />
               Похожие SKU
             </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">Замены при OOS: бренд, категория, другой цвет. Query: ?sku=</p>
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              Замены при OOS: бренд, категория, другой цвет. Query: ?sku=
+            </p>
           </div>
         </div>
         <PlatformDataBanner />

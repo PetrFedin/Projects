@@ -1,19 +1,19 @@
 export type CisCode =
-  | "RU"
-  | "BY"
-  | "UA"
-  | "KZ"
-  | "AM"
-  | "AZ"
-  | "KG"
-  | "UZ"
-  | "TJ"
-  | "TM"
-  | "MD"
-  | "GE";
+  | 'RU'
+  | 'BY'
+  | 'UA'
+  | 'KZ'
+  | 'AM'
+  | 'AZ'
+  | 'KG'
+  | 'UZ'
+  | 'TJ'
+  | 'TM'
+  | 'MD'
+  | 'GE';
 
-export type PeriodPreset = "7d" | "30d" | "90d" | "season" | "year";
-export type Granularity = "week" | "month";
+export type PeriodPreset = '7d' | '30d' | '90d' | 'season' | 'year';
+export type Granularity = 'week' | 'month';
 
 export type CityPoint = {
   name: string;
@@ -30,8 +30,8 @@ export type CountryView = {
 };
 
 export type TimePoint = {
-  label: string;      // "Неделя 1"
-  date: string;       // ISO-like key: "2025-W01"
+  label: string; // "Неделя 1"
+  date: string; // ISO-like key: "2025-W01"
   viewersByCountry: Record<CisCode, number>;
 };
 

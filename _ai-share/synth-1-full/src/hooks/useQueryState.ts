@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { decodeQuery, encodeQuery } from "../lib/queryCodec";
+import * as React from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { decodeQuery, encodeQuery } from '../lib/queryCodec';
 
 type SetStateOptions = { replace?: boolean };
 
@@ -13,7 +13,10 @@ export function useQueryState<T extends Record<string, any>>(
   const pathname = usePathname();
   const sp = useSearchParams();
 
-  const state = React.useMemo(() => decodeQuery(defaults, new URLSearchParams(sp.toString())), [sp, defaults]);
+  const state = React.useMemo(
+    () => decodeQuery(defaults, new URLSearchParams(sp.toString())),
+    [sp, defaults]
+  );
 
   const setState = React.useCallback(
     (patch: Partial<T>, opts?: SetStateOptions) => {
@@ -30,4 +33,3 @@ export function useQueryState<T extends Record<string, any>>(
 
   return [state, setState, reset];
 }
-

@@ -29,12 +29,19 @@ export default function EndlessAislePage() {
   }, []);
 
   return (
-    <div className="container max-w-4xl py-6 space-y-6 pb-24">
+    <div className="container max-w-4xl space-y-6 py-6 pb-24">
       <div className="flex items-center gap-3">
-        <Link href="/shop/bopis"><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+        <Link href="/shop/bopis">
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Endless Aisle POS</h1>
-          <p className="text-slate-500 text-sm">Заказ отсутствующего размера со склада бренда из примерочной (планшет). Склад, каталог, BOPIS, заказы.</p>
+          <p className="text-sm text-slate-500">
+            Заказ отсутствующего размера со склада бренда из примерочной (планшет). Склад, каталог,
+            BOPIS, заказы.
+          </p>
         </div>
       </div>
 
@@ -44,19 +51,32 @@ export default function EndlessAislePage() {
             <ShoppingBag className="h-4 w-4 text-violet-600" />
             Запросы из примерочной
           </CardTitle>
-          <CardDescription>Товар в нужном размере под заказ со склада бренда, выдача в магазине (BOPIS).</CardDescription>
+          <CardDescription>
+            Товар в нужном размере под заказ со склада бренда, выдача в магазине (BOPIS).
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
           {requests.map((r) => (
-            <div key={r.id} className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            <div
+              key={r.id}
+              className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
+            >
               <div>
-                <p className="text-sm font-medium">{r.requestedSku} · размер {r.sizeRequested}</p>
-                <p className="text-xs text-slate-500">{r.orderId ? `Заказ ${r.orderId}` : 'Резерв'} · {statusLabels[r.status]}</p>
+                <p className="text-sm font-medium">
+                  {r.requestedSku} · размер {r.sizeRequested}
+                </p>
+                <p className="text-xs text-slate-500">
+                  {r.orderId ? `Заказ ${r.orderId}` : 'Резерв'} · {statusLabels[r.status]}
+                </p>
               </div>
-              <Badge variant="outline" className="text-[10px]">{statusLabels[r.status]}</Badge>
+              <Badge variant="outline" className="text-[10px]">
+                {statusLabels[r.status]}
+              </Badge>
             </div>
           ))}
-          <p className="text-xs text-slate-400 mt-3">API: ENDLESS_AISLE_POS_API — запрос с планшета, резерв со склада, BOPIS.</p>
+          <p className="mt-3 text-xs text-slate-400">
+            API: ENDLESS_AISLE_POS_API — запрос с планшета, резерв со склада, BOPIS.
+          </p>
         </CardContent>
       </Card>
 
@@ -68,7 +88,11 @@ export default function EndlessAislePage() {
         <CardContent>
           <ul className="flex flex-wrap gap-2">
             {links.map((l) => (
-              <li key={l.href}><Button variant="outline" size="sm" className="text-xs" asChild><Link href={l.href}>{l.label}</Link></Button></li>
+              <li key={l.href}>
+                <Button variant="outline" size="sm" className="text-xs" asChild>
+                  <Link href={l.href}>{l.label}</Link>
+                </Button>
+              </li>
             ))}
           </ul>
         </CardContent>

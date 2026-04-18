@@ -26,10 +26,13 @@ export default function AcademyStoresPage() {
 
   const collectionTrainings = useMemo(() => {
     const all = getCollectionTrainings();
-    const bySearch = !searchStores ? all : all.filter(
-      (t) => t.title.toLowerCase().includes(searchStores.toLowerCase()) ||
-        t.description.toLowerCase().includes(searchStores.toLowerCase())
-    );
+    const bySearch = !searchStores
+      ? all
+      : all.filter(
+          (t) =>
+            t.title.toLowerCase().includes(searchStores.toLowerCase()) ||
+            t.description.toLowerCase().includes(searchStores.toLowerCase())
+        );
     if (filterCollection === 'Все') return bySearch;
     return bySearch.filter((t) => t.collectionId === filterCollection);
   }, [searchStores, filterCollection]);
@@ -42,38 +45,40 @@ export default function AcademyStoresPage() {
           title="Обучение по коллекциям для магазинов"
           description="Product knowledge, мерчандайзинг и тренинги для партнёров."
         />
-      <WidgetCard
-        title="Тренинги"
-        description="Поиск и фильтрация по коллекциям"
-        actions={
-          <Button variant="outline" className="rounded-lg" asChild>
-            <Link href={ROUTES.brand.academyCollectionTrainingCreate} className="gap-2">
-              <Plus className="h-4 w-4" /> Добавить
-            </Link>
-          </Button>
-        }
-      >
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
+        <WidgetCard
+          title="Тренинги"
+          description="Поиск и фильтрация по коллекциям"
+          actions={
+            <Button variant="outline" className="rounded-lg" asChild>
+              <Link href={ROUTES.brand.academyCollectionTrainingCreate} className="gap-2">
+                <Plus className="h-4 w-4" /> Добавить
+              </Link>
+            </Button>
+          }
+        >
+          <div className="mb-6 flex flex-col gap-3 sm:flex-row">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
               <Input
                 placeholder="Поиск по тренингам..."
                 value={searchStores}
                 onChange={(e) => setSearchStores(e.target.value)}
-                className="pl-9 h-11 rounded-xl"
+                className="h-11 rounded-xl pl-9"
               />
             </div>
             <select
               value={filterCollection}
               onChange={(e) => setFilterCollection(e.target.value)}
-              className="rounded-xl border border-slate-200 px-3 py-2.5 text-sm min-w-[160px]"
+              className="min-w-[160px] rounded-xl border border-slate-200 px-3 py-2.5 text-sm"
             >
               <option value="Все">Все коллекции</option>
               {collectionIds.map((cid) => (
-                <option key={cid} value={cid}>{cid.toUpperCase()}</option>
+                <option key={cid} value={cid}>
+                  {cid.toUpperCase()}
+                </option>
               ))}
             </select>
-        </div>
+          </div>
           <div className="space-y-4">
             {collectionTrainings.length === 0 ? (
               <EmptyStateB2B
@@ -86,24 +91,32 @@ export default function AcademyStoresPage() {
                   </Button>
                 }
               />
-            ) : collectionTrainings.map((t) => (
-              <Link key={t.id} href={ROUTES.brand.academyCollectionTraining(t.id)}>
-                <div className="flex items-start justify-between p-5 rounded-xl border border-slate-200/80 hover:border-slate-300 hover:shadow-md transition-all cursor-pointer">
-                  <div>
-                    <p className="font-semibold text-slate-900">{t.title}</p>
-                    <p className="text-[11px] text-slate-500 mt-1">{t.description}</p>
-                    <div className="flex gap-2 mt-2">
-                      <Badge variant="outline" className="text-[9px]">{t.collectionName} · {t.season}</Badge>
-                      <Badge variant="secondary" className="text-[9px]"><Clock className="h-2.5 w-2.5 mr-0.5" /> {t.duration}</Badge>
-                      <Badge variant="secondary" className="text-[9px]">{t.modules} модулей</Badge>
+            ) : (
+              collectionTrainings.map((t) => (
+                <Link key={t.id} href={ROUTES.brand.academyCollectionTraining(t.id)}>
+                  <div className="flex cursor-pointer items-start justify-between rounded-xl border border-slate-200/80 p-5 transition-all hover:border-slate-300 hover:shadow-md">
+                    <div>
+                      <p className="font-semibold text-slate-900">{t.title}</p>
+                      <p className="mt-1 text-[11px] text-slate-500">{t.description}</p>
+                      <div className="mt-2 flex gap-2">
+                        <Badge variant="outline" className="text-[9px]">
+                          {t.collectionName} · {t.season}
+                        </Badge>
+                        <Badge variant="secondary" className="text-[9px]">
+                          <Clock className="mr-0.5 h-2.5 w-2.5" /> {t.duration}
+                        </Badge>
+                        <Badge variant="secondary" className="text-[9px]">
+                          {t.modules} модулей
+                        </Badge>
+                      </div>
                     </div>
+                    <ChevronRight className="h-4 w-4 shrink-0 text-slate-400" />
                   </div>
-                  <ChevronRight className="h-4 w-4 text-slate-400 shrink-0" />
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))
+            )}
           </div>
-      </WidgetCard>
+        </WidgetCard>
       </section>
 
       <RelatedModulesBlock links={getAcademyLinks()} />

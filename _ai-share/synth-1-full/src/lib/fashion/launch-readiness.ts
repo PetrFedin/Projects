@@ -4,7 +4,7 @@ import type { LaunchReadinessV1 } from './types';
 /** Готовность к запуску к праздникам/сезонам РФ. */
 export function getLaunchReadiness(product: Product): LaunchReadinessV1 {
   const month = new Date().getMonth();
-  
+
   // Определяем ближайший праздник
   let holiday: LaunchReadinessV1['targetHoliday'] = 'March 8';
   if (month >= 8 && month <= 11) holiday = 'New Year';

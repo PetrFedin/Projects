@@ -34,10 +34,14 @@ export default function AgentConsolidatedOrderPage() {
   const [addQty, setAddQty] = useState(6);
 
   const load = useCallback(() => setDraft(getConsolidatedDraft()), []);
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    load();
+  }, [load]);
 
   const productsByBrand = BRANDS.map((b) => {
-    const list = (products as any[]).filter((p: any) => (p.brand ?? '').toLowerCase().includes(b.name.toLowerCase()));
+    const list = (products as any[]).filter((p: any) =>
+      (p.brand ?? '').toLowerCase().includes(b.name.toLowerCase())
+    );
     return { brandId: b.id, brandName: b.name, products: list.slice(0, 8) };
   });
   const productsForAdd = productsByBrand.find((x) => x.brandId === addBrand)?.products ?? [];
@@ -63,48 +67,87 @@ export default function AgentConsolidatedOrderPage() {
   };
 
   const linesByBrand = draft
-    ? draft.lines.reduce((acc, line) => {
-        const key = line.brandId;
-        if (!acc[key]) acc[key] = [];
-        acc[key].push(line);
-        return acc;
-      }, {} as Record<string, ConsolidatedOrderLine[]>)
+    ? draft.lines.reduce(
+        (acc, line) => {
+          const key = line.brandId;
+          if (!acc[key]) acc[key] = [];
+          acc[key].push(line);
+          return acc;
+        },
+        {} as Record<string, ConsolidatedOrderLine[]>
+      )
     : {};
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
-        <Link href={ROUTES.shop.b2bAgentCabinet}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
+        <Link href={ROUTES.shop.b2bAgentCabinet}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
         <div>
           <h1 className="text-2xl font-bold uppercase tracking-tight">Мультибрендовый заказ</h1>
-          <p className="text-slate-500 text-sm mt-0.5">Корзина по нескольким брендам — для дистрибьюторов и агентов. Zedonk-style. MOV/MOQ по бренду.</p>
+          <p className="mt-0.5 text-sm text-slate-500">
+            Корзина по нескольким брендам — для дистрибьюторов и агентов. Zedonk-style. MOV/MOQ по
+            бренду.
+          </p>
         </div>
       </div>
 
       <Card className="mb-6">
         <CardHeader>
           <CardTitle className="text-base">Добавить позицию</CardTitle>
-          <CardDescription>Выберите бренд, товар и количество. Правила MOV/MOQ применяются по бренду.</CardDescription>
+          <CardDescription>
+            Выберите бренд, товар и количество. Правила MOV/MOQ применяются по бренду.
+          </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-wrap gap-3 items-end">
+        <CardContent className="flex flex-wrap items-end gap-3">
           <div>
-            <label className="text-xs font-medium text-slate-500 block mb-1">Бренд</label>
-            <select className="rounded-lg border px-3 py-2 text-sm" value={addBrand} onChange={(e) => { setAddBrand(e.target.value); setAddProductId(''); }}>
-              {BRANDS.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
+            <label className="mb-1 block text-xs font-medium text-slate-500">Бренд</label>
+            <select
+              className="rounded-lg border px-3 py-2 text-sm"
+              value={addBrand}
+              onChange={(e) => {
+                setAddBrand(e.target.value);
+                setAddProductId('');
+              }}
+            >
+              {BRANDS.map((b) => (
+                <option key={b.id} value={b.id}>
+                  {b.name}
+                </option>
+              ))}
             </select>
           </div>
           <div>
-            <label className="text-xs font-medium text-slate-500 block mb-1">Товар</label>
-            <select className="rounded-lg border px-3 py-2 text-sm min-w-[200px]" value={addProductId} onChange={(e) => setAddProductId(e.target.value)}>
+            <label className="mb-1 block text-xs font-medium text-slate-500">Товар</label>
+            <select
+              className="min-w-[200px] rounded-lg border px-3 py-2 text-sm"
+              value={addProductId}
+              onChange={(e) => setAddProductId(e.target.value)}
+            >
               <option value="">—</option>
-              {productsForAdd.map((p: any) => <option key={p.id} value={p.id}>{p.name ?? p.id} · {(p.price * 0.4).toFixed(0)} ₽</option>)}
+              {productsForAdd.map((p: any) => (
+                <option key={p.id} value={p.id}>
+                  {p.name ?? p.id} · {(p.price * 0.4).toFixed(0)} ₽
+                </option>
+              ))}
             </select>
           </div>
           <div>
-            <label className="text-xs font-medium text-slate-500 block mb-1">Кол-во</label>
-            <input type="number" min={1} className="rounded-lg border px-3 py-2 text-sm w-20" value={addQty} onChange={(e) => setAddQty(Number(e.target.value) || 1)} />
+            <label className="mb-1 block text-xs font-medium text-slate-500">Кол-во</label>
+            <input
+              type="number"
+              min={1}
+              className="w-20 rounded-lg border px-3 py-2 text-sm"
+              value={addQty}
+              onChange={(e) => setAddQty(Number(e.target.value) || 1)}
+            />
           </div>
-          <Button size="sm" onClick={handleAddLine} disabled={!addProductId}><Plus className="h-4 w-4 mr-1" /> Добавить</Button>
+          <Button size="sm" onClick={handleAddLine} disabled={!addProductId}>
+            <Plus className="mr-1 h-4 w-4" /> Добавить
+          </Button>
         </CardContent>
       </Card>
 
@@ -122,33 +165,49 @@ export default function AgentConsolidatedOrderPage() {
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-sm">{brandName}</CardTitle>
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-semibold">{(total?.amount ?? 0).toLocaleString('ru-RU')} ₽</span>
-                      <Badge variant={movOk ? 'default' : 'secondary'}>MOV {rules ? (rules.minOrderValue / 1000).toFixed(0) + 'k' : '—'}</Badge>
+                      <span className="text-sm font-semibold">
+                        {(total?.amount ?? 0).toLocaleString('ru-RU')} ₽
+                      </span>
+                      <Badge variant={movOk ? 'default' : 'secondary'}>
+                        MOV {rules ? (rules.minOrderValue / 1000).toFixed(0) + 'k' : '—'}
+                      </Badge>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-2">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="text-left text-slate-500 border-b">
+                      <tr className="border-b text-left text-slate-500">
                         <th className="pb-1">SKU</th>
                         <th className="pb-1">Товар</th>
                         <th className="pb-1 text-right">Кол-во</th>
                         <th className="pb-1 text-right">Цена</th>
                         <th className="pb-1 text-right">Сумма</th>
-                        <th className="pb-1 w-8"></th>
+                        <th className="w-8 pb-1"></th>
                       </tr>
                     </thead>
                     <tbody>
                       {lines.map((line) => (
                         <tr key={line.id} className="border-b border-slate-100">
                           <td className="py-1.5 font-mono text-xs">{line.sku}</td>
-                          <td className="py-1.5 truncate max-w-[180px]">{line.name}</td>
+                          <td className="max-w-[180px] truncate py-1.5">{line.name}</td>
                           <td className="py-1.5 text-right">{line.qty}</td>
-                          <td className="py-1.5 text-right">{line.unitPrice.toLocaleString('ru-RU')} ₽</td>
-                          <td className="py-1.5 text-right font-medium">{line.lineTotal.toLocaleString('ru-RU')} ₽</td>
+                          <td className="py-1.5 text-right">
+                            {line.unitPrice.toLocaleString('ru-RU')} ₽
+                          </td>
+                          <td className="py-1.5 text-right font-medium">
+                            {line.lineTotal.toLocaleString('ru-RU')} ₽
+                          </td>
                           <td className="py-1.5">
-                            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => { removeLineFromConsolidatedDraft(line.id); load(); }}>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8"
+                              onClick={() => {
+                                removeLineFromConsolidatedDraft(line.id);
+                                load();
+                              }}
+                            >
                               <Trash2 className="h-3.5 w-3.5 text-rose-500" />
                             </Button>
                           </td>
@@ -156,11 +215,25 @@ export default function AgentConsolidatedOrderPage() {
                       ))}
                     </tbody>
                   </table>
-                  <div className="pt-2 space-y-1">
+                  <div className="space-y-1 pt-2">
                     {preflight.map((item) => (
                       <div key={item.id} className="flex items-center gap-2 text-xs">
-                        {item.status === 'ok' ? <CheckCircle className="h-3.5 w-3.5 text-emerald-500" /> : <AlertTriangle className="h-3.5 w-3.5 text-amber-500" />}
-                        <span className={item.status === 'error' ? 'text-rose-600' : item.status === 'warning' ? 'text-amber-600' : 'text-slate-600'}>{item.message}</span>
+                        {item.status === 'ok' ? (
+                          <CheckCircle className="h-3.5 w-3.5 text-emerald-500" />
+                        ) : (
+                          <AlertTriangle className="h-3.5 w-3.5 text-amber-500" />
+                        )}
+                        <span
+                          className={
+                            item.status === 'error'
+                              ? 'text-rose-600'
+                              : item.status === 'warning'
+                                ? 'text-amber-600'
+                                : 'text-slate-600'
+                          }
+                        >
+                          {item.message}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -169,15 +242,27 @@ export default function AgentConsolidatedOrderPage() {
             );
           })}
 
-          <div className="flex gap-2 mt-4">
-            <Button variant="outline" size="sm" onClick={() => { clearConsolidatedDraft(); load(); }}>Очистить драфт</Button>
-            <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bAgentCabinet}>В кабинет агента</Link></Button>
+          <div className="mt-4 flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                clearConsolidatedDraft();
+                load();
+              }}
+            >
+              Очистить драфт
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link href={ROUTES.shop.b2bAgentCabinet}>В кабинет агента</Link>
+            </Button>
           </div>
         </>
       ) : (
         <Card>
-          <CardContent className="py-8 text-center text-slate-500 text-sm">
-            Драфт пуст. Добавьте позиции выше — по разным брендам. MOV и MOQ проверяются отдельно по каждому бренду.
+          <CardContent className="py-8 text-center text-sm text-slate-500">
+            Драфт пуст. Добавьте позиции выше — по разным брендам. MOV и MOQ проверяются отдельно по
+            каждому бренду.
           </CardContent>
         </Card>
       )}

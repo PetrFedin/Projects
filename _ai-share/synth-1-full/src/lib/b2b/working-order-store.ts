@@ -58,9 +58,12 @@ export function getWorkingOrderVersions(brandId?: string): WorkingOrderVersion[]
   return all; // при необходимости фильтр по brandId
 }
 
-export function addWorkingOrderVersion(
-  payload: { fileName: string; rows: WorkingOrderRow[]; uploadedBy: string; uploadedByUserId?: string }
-): WorkingOrderVersion {
+export function addWorkingOrderVersion(payload: {
+  fileName: string;
+  rows: WorkingOrderRow[];
+  uploadedBy: string;
+  uploadedByUserId?: string;
+}): WorkingOrderVersion {
   const versions = loadVersions();
   const version: WorkingOrderVersion = {
     id: `wo-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,

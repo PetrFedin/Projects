@@ -3,7 +3,10 @@
  * TODO: заменить на БД (Postgres, SQLite). Сейчас — чтение из определений.
  */
 import { NextResponse } from 'next/server';
-import { getAllLiveProcessIds, getLiveProcessDefinition } from '@/lib/live-process/process-definitions';
+import {
+  getAllLiveProcessIds,
+  getLiveProcessDefinition,
+} from '@/lib/live-process/process-definitions';
 import { PROCESS_TEMPLATES } from '@/lib/live-process/process-templates';
 
 export async function GET(request: Request) {
@@ -17,9 +20,7 @@ export async function GET(request: Request) {
     }
 
     const ids = getAllLiveProcessIds();
-    const processes = ids
-      .map((id) => getLiveProcessDefinition(id))
-      .filter(Boolean);
+    const processes = ids.map((id) => getLiveProcessDefinition(id)).filter(Boolean);
 
     return NextResponse.json(processes);
   } catch (e) {

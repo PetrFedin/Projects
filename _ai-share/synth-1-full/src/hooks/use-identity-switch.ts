@@ -17,16 +17,16 @@ export function useIdentitySwitch() {
     try {
       console.log('--- GLOBAL IDENTITY SWITCH START ---');
       console.log('Switching to:', { email, roleKey, organizationId });
-      
+
       toast({
-        title: "Переключение роли...",
+        title: 'Переключение роли...',
         description: `Вход как ${email}`,
       });
-      
+
       if (!email) {
         throw new Error('Email пользователя не указан');
       }
-      
+
       // 1. Sign in
       let newProfile;
       try {
@@ -36,18 +36,20 @@ export function useIdentitySwitch() {
         console.log('Sign in SUCCESS:', newProfile.displayName, newProfile.uid);
       } catch (signInErr: any) {
         console.error('Sign in FAILED:', signInErr);
-        throw new Error(`Ошибка входа для ${email}: ${signInErr.message || 'Неверный пароль или пользователь не найден'}`);
+        throw new Error(
+          `Ошибка входа для ${email}: ${signInErr.message || 'Неверный пароль или пользователь не найден'}`
+        );
       }
-      
+
       // 2. Organization context - only if explicitly provided and different
       if (organizationId && newProfile.activeOrganizationId !== organizationId) {
         const org = organizations[organizationId];
         if (org) {
           console.log('Updating organization to:', org.name);
           try {
-            newProfile = await updateProfile({ 
+            newProfile = await updateProfile({
               activeOrganizationId: organizationId,
-              partnerName: org.name
+              partnerName: org.name,
             });
           } catch (updateErr: any) {
             console.warn('Update profile failed, continuing with base profile:', updateErr);
@@ -65,48 +67,56 @@ export function useIdentitySwitch() {
 
       // 4. Determine target URL with robust fallbacks
       let targetUrl = '/u'; // Default to profile
-      
+
       // Determine effective role type
       const currentOrgId = organizationId || newProfile.activeOrganizationId || '';
       const targetOrg = currentOrgId ? organizations[currentOrgId] : undefined;
-      
+
       // Use roleKey as fallback if org data is missing
       let effectiveRole = roleKey;
-      
+
       if (!targetOrg) {
         console.warn(`Organization ${currentOrgId} not found, falling back to roleKey: ${roleKey}`);
         effectiveRole = roleKey;
       } else {
         effectiveRole = targetOrg.type;
       }
-      
+
       // Safety: check if effectiveRole is a valid role for mapping
-      const validRoles = ['admin', 'brand', 'shop', 'manufacturer', 'supplier', 'distributor', 'client'];
+      const validRoles = [
+        'admin',
+        'brand',
+        'shop',
+        'manufacturer',
+        'supplier',
+        'distributor',
+        'client',
+      ];
       if (!validRoles.includes(effectiveRole)) {
         effectiveRole = roleKey;
       }
-      
+
       console.log('Final Effective Role for Redirect:', effectiveRole);
 
       // Map roles to URLs (главные страницы профилей)
       const roleMap: Record<string, string> = {
-        'admin': '/admin',
-        'brand': '/brand',
-        'shop': '/shop',
-        'manufacturer': '/factory?role=manufacturer',
-        'supplier': '/factory?role=supplier',
-        'distributor': '/distributor',
+        admin: '/admin',
+        brand: '/brand',
+        shop: '/shop',
+        manufacturer: '/factory?role=manufacturer',
+        supplier: '/factory?role=supplier',
+        distributor: '/distributor',
         /** Личный кабинет покупателя — страница профиля /u */
-        'client': '/u',
+        client: '/u',
       };
 
       targetUrl = roleMap[effectiveRole] || '/u';
-      
+
       console.log('Identity switch SUCCESS. Final target:', targetUrl);
-      
+
       toast({
-        title: "Личность изменена",
-        description: `Вы вошли как ${newProfile.displayName}`
+        title: 'Личность изменена',
+        description: `Вы вошли как ${newProfile.displayName}`,
       });
 
       startTransition(() => {
@@ -115,9 +125,9 @@ export function useIdentitySwitch() {
     } catch (err: any) {
       console.error('Identity switch CRITICAL ERROR:', err);
       toast({
-        title: "Ошибка переключения",
+        title: 'Ошибка переключения',
         description: err.message || 'Неизвестная ошибка',
-        variant: "destructive"
+        variant: 'destructive',
       });
     }
   };

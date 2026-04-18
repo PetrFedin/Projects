@@ -9,7 +9,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 
 export function ComparisonBar() {
-  const { comparisonList, toggleComparisonItem, clearComparisonList, saveComparison, setIsComparisonOpen } = useUIState();
+  const {
+    comparisonList,
+    toggleComparisonItem,
+    clearComparisonList,
+    saveComparison,
+    setIsComparisonOpen,
+  } = useUIState();
   const [isSaving, setIsSaving] = React.useState(false);
 
   if (comparisonList.length === 0) return null;
@@ -20,38 +26,48 @@ export function ComparisonBar() {
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 100, opacity: 0 }}
-        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] w-full max-w-3xl px-4"
+        className="fixed bottom-8 left-1/2 z-[100] w-full max-w-3xl -translate-x-1/2 px-4"
       >
-        <div className="bg-slate-900/90 backdrop-blur-2xl border border-white/10 rounded-xl p-4 shadow-2xl shadow-indigo-500/20 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3 flex-1">
-            <div className="h-10 w-10 rounded-2xl bg-indigo-500/20 flex items-center justify-center">
+        <div className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-slate-900/90 p-4 shadow-2xl shadow-indigo-500/20 backdrop-blur-2xl">
+          <div className="flex flex-1 items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-500/20">
               <GitCompare className="h-5 w-5 text-indigo-400" />
             </div>
             <div className="hidden md:block">
-              <p className="text-[10px] font-black text-white/40 uppercase tracking-widest">Анализ сравнения</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-white/40">
+                Анализ сравнения
+              </p>
               <p className="text-xs font-medium text-white">{comparisonList.length} из 4 позиций</p>
             </div>
-            
-            <div className="flex items-center gap-2 overflow-x-auto custom-scrollbar-hidden py-1">
+
+            <div className="custom-scrollbar-hidden flex items-center gap-2 overflow-x-auto py-1">
               {comparisonList.map((product) => (
-                <div key={product.id} className="relative group shrink-0">
-                  <div className="h-12 w-12 rounded-xl bg-white/10 border border-white/10 overflow-hidden">
-                    <img 
-                      src={product.images?.[0]?.url || product.image || product.thumbnail || '/placeholder.jpg'} 
-                      alt={product.name} 
+                <div key={product.id} className="group relative shrink-0">
+                  <div className="h-12 w-12 overflow-hidden rounded-xl border border-white/10 bg-white/10">
+                    <img
+                      src={
+                        product.images?.[0]?.url ||
+                        product.image ||
+                        product.thumbnail ||
+                        '/placeholder.jpg'
+                      }
+                      alt={product.name}
                       className="h-full w-full object-cover"
                     />
                   </div>
                   <button
                     onClick={() => toggleComparisonItem(product as any)}
-                    className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-rose-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-white opacity-0 transition-opacity group-hover:opacity-100"
                   >
                     <X className="h-2.5 w-2.5" />
                   </button>
                 </div>
               ))}
               {Array.from({ length: 4 - comparisonList.length }).map((_, i) => (
-                <div key={`empty-${i}`} className="h-12 w-12 rounded-xl border border-dashed border-white/10 flex items-center justify-center shrink-0">
+                <div
+                  key={`empty-${i}`}
+                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-dashed border-white/10"
+                >
                   <div className="h-1.5 w-1.5 rounded-full bg-white/5" />
                 </div>
               ))}
@@ -59,16 +75,16 @@ export function ComparisonBar() {
           </div>
 
           <div className="flex items-center gap-3">
-            <Button 
+            <Button
               onClick={() => setIsComparisonOpen(true)}
-              className="bg-white text-slate-900 hover:bg-white/90 rounded-full px-8 h-10 text-[10px] font-black uppercase tracking-widest shadow-lg shadow-white/5"
+              className="h-10 rounded-full bg-white px-8 text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-lg shadow-white/5 hover:bg-white/90"
             >
               Сравнить
-              <ArrowRight className="h-3 w-3 ml-2" />
+              <ArrowRight className="ml-2 h-3 w-3" />
             </Button>
             <button
               onClick={clearComparisonList}
-              className="text-white/40 hover:text-white transition-colors p-2"
+              className="p-2 text-white/40 transition-colors hover:text-white"
               title="Очистить список"
             >
               <X className="h-4 w-4" />

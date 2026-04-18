@@ -1,4 +1,3 @@
-
 import type { Product, ProductImage } from './types';
 // Import from lib/products.ts which has many products with proper ProductImage structure
 // This file has full product data with images as objects
@@ -18,7 +17,13 @@ const allProductsData = [...libProducts, ...additionalProductsData];
 
 const allProducts: Product[] = (allProductsData as any[]).map((p, index) => {
   // If product already has proper structure (from lib/products.ts), use it as-is
-  if (p.images && Array.isArray(p.images) && p.images.length > 0 && typeof p.images[0] === 'object' && 'url' in p.images[0]) {
+  if (
+    p.images &&
+    Array.isArray(p.images) &&
+    p.images.length > 0 &&
+    typeof p.images[0] === 'object' &&
+    'url' in p.images[0]
+  ) {
     // Product already has proper ProductImage structure
     // Ensure all required fields are present
     return {
@@ -45,8 +50,8 @@ const allProducts: Product[] = (allProductsData as any[]).map((p, index) => {
       color: p.color || 'Unknown',
       season: p.season || '',
       tags: p.tags || [],
-      sizes: Array.isArray(p.sizes) 
-        ? p.sizes.map((s: string | { name: string }) => typeof s === 'string' ? { name: s } : s)
+      sizes: Array.isArray(p.sizes)
+        ? p.sizes.map((s: string | { name: string }) => (typeof s === 'string' ? { name: s } : s))
         : undefined,
       ...(p.rating !== undefined && { rating: p.rating }),
       ...(p.reviewCount !== undefined && { reviewCount: p.reviewCount }),
@@ -56,38 +61,39 @@ const allProducts: Product[] = (allProductsData as any[]).map((p, index) => {
   }
 
   // Transform images from string array to ProductImage array (for products from JSON)
-  const images: ProductImage[] = Array.isArray(p.images) && p.images.length > 0
-    ? p.images.map((img: string | ProductImage, imgIndex: number) => {
-        // If already an object with url property, use it
-        if (typeof img === 'object' && img !== null && 'url' in img) {
-          return {
-            id: (img as any).id || `${p.id}-img-${imgIndex}`,
-            url: (img as any).url,
-            alt: (img as any).alt || p.name || 'Product image',
-            hint: (img as any).hint || 'product image',
-            isCover: imgIndex === 0,
-          } as ProductImage;
-        }
-        // If string, convert to ProductImage object
-        if (typeof img === 'string') {
+  const images: ProductImage[] =
+    Array.isArray(p.images) && p.images.length > 0
+      ? p.images.map((img: string | ProductImage, imgIndex: number) => {
+          // If already an object with url property, use it
+          if (typeof img === 'object' && img !== null && 'url' in img) {
+            return {
+              id: (img as any).id || `${p.id}-img-${imgIndex}`,
+              url: (img as any).url,
+              alt: (img as any).alt || p.name || 'Product image',
+              hint: (img as any).hint || 'product image',
+              isCover: imgIndex === 0,
+            } as ProductImage;
+          }
+          // If string, convert to ProductImage object
+          if (typeof img === 'string') {
+            return {
+              id: `${p.id}-img-${imgIndex}`,
+              url: img,
+              alt: p.name || 'Product image',
+              hint: 'product image',
+              isCover: imgIndex === 0,
+            } as ProductImage;
+          }
+          // Fallback
           return {
             id: `${p.id}-img-${imgIndex}`,
-            url: img,
+            url: '/placeholder.jpg',
             alt: p.name || 'Product image',
             hint: 'product image',
             isCover: imgIndex === 0,
           } as ProductImage;
-        }
-        // Fallback
-        return {
-          id: `${p.id}-img-${imgIndex}`,
-          url: '/placeholder.jpg',
-          alt: p.name || 'Product image',
-          hint: 'product image',
-          isCover: imgIndex === 0,
-        } as ProductImage;
-      })
-    : [];
+        })
+      : [];
 
   // Map other fields for products from JSON
   return {
@@ -99,13 +105,18 @@ const allProducts: Product[] = (allProductsData as any[]).map((p, index) => {
     originalPrice: p.originalPrice,
     productionCost: p.productionCost,
     description: p.description || '',
-    images: images.length > 0 ? images : [{
-      id: `${p.id}-img-0`,
-      url: '/placeholder.jpg',
-      alt: p.name || 'Product image',
-      hint: 'product image',
-      isCover: true,
-    }],
+    images:
+      images.length > 0
+        ? images
+        : [
+            {
+              id: `${p.id}-img-0`,
+              url: '/placeholder.jpg',
+              alt: p.name || 'Product image',
+              hint: 'product image',
+              isCover: true,
+            },
+          ],
     category: p.category || '',
     sustainability: p.sustainability || [],
     outlet: p.outlet || false,
@@ -114,8 +125,8 @@ const allProducts: Product[] = (allProductsData as any[]).map((p, index) => {
     color: p.color || 'Unknown',
     season: p.season || '',
     tags: p.tags || [],
-    sizes: Array.isArray(p.sizes) 
-      ? p.sizes.map((s: string | { name: string }) => typeof s === 'string' ? { name: s } : s)
+    sizes: Array.isArray(p.sizes)
+      ? p.sizes.map((s: string | { name: string }) => (typeof s === 'string' ? { name: s } : s))
       : undefined,
     // Add other optional fields
     ...(p.rating !== undefined && { rating: p.rating }),
@@ -124,7 +135,6 @@ const allProducts: Product[] = (allProductsData as any[]).map((p, index) => {
     ...(p.isPromoted !== undefined && { isPromoted: p.isPromoted }),
   } as Product;
 });
-
 
 export const products: Product[] = allProducts;
 export default allProducts;

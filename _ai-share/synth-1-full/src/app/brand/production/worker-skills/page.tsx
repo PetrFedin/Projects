@@ -36,7 +36,7 @@ export default function WorkerSkillsPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-4xl pb-24">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Worker Skill Matrix"
         description="Уровни компетенций — floor-tab: worker-skills."
@@ -62,7 +62,7 @@ export default function WorkerSkillsPage() {
 
       <Card className="rounded-xl border border-slate-200 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-sm flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-sm">
             <Layers className="h-4 w-4" /> Сотрудники и компетенции
           </CardTitle>
           <CardDescription>Уровень 1–5 по операциям</CardDescription>
@@ -70,7 +70,10 @@ export default function WorkerSkillsPage() {
         <CardContent>
           <ul className="space-y-3">
             {data.workers.map((w, i) => (
-              <li key={w.id} className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <li
+                key={w.id}
+                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4"
+              >
                 <div>
                   <p className="font-bold">{w.name}</p>
                   <p className="text-[11px] text-slate-500">{w.operations.join(', ')}</p>

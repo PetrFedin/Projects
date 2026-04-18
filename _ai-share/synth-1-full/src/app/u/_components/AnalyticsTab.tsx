@@ -9,25 +9,25 @@ import { Analytics360Tab } from './Analytics360Tab';
 import AdvancedAnalytics from '@/components/user/advanced-analytics';
 
 interface AnalyticsTabProps {
-    user: any;
+  user: any;
 }
 
 export function AnalyticsTab({ user }: AnalyticsTabProps) {
-    return (
-        <TabsContent value="analytics" className="py-6 animate-in fade-in-50 duration-300">
-            <div className="space-y-6">
-                {/* Enhanced Data Visualization - Clear and comprehensive data */}
-                <EnhancedDataVisualization />
-                
-                {/* Automated Insights - AI-powered insights */}
-                <AutomatedInsightsPanel />
-                
-                {/* Predictive Analytics - Forecasts and Trends */}
-                <PredictiveAnalytics />
-                
-                <Analytics360Tab user={user} />
-                <AdvancedAnalytics />
-            </div>
-        </TabsContent>
-    );
+  return (
+    <TabsContent value="analytics" className="py-6 duration-300 animate-in fade-in-50">
+      <div className="space-y-6">
+        {/* Enhanced Data Visualization - Clear and comprehensive data */}
+        <EnhancedDataVisualization />
+
+        {/* Automated Insights - AI-powered insights */}
+        <AutomatedInsightsPanel />
+
+        {/* Predictive Analytics - Forecasts and Trends */}
+        <PredictiveAnalytics />
+
+        <Analytics360Tab user={user} />
+        <AdvancedAnalytics />
+      </div>
+    </TabsContent>
+  );
 }

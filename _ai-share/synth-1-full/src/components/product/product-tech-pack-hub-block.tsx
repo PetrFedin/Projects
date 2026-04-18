@@ -25,13 +25,16 @@ export function ProductTechPackHubBlock({ product }: Props) {
     a.download = `tech-pack-${product.sku}.json`;
     a.click();
     URL.revokeObjectURL(url);
-    toast({ title: 'Tech Pack экспортирован', description: 'JSON файл готов для загрузки в PLM / ERP.' });
+    toast({
+      title: 'Tech Pack экспортирован',
+      description: 'JSON файл готов для загрузки в PLM / ERP.',
+    });
   };
 
   return (
     <Card className="mt-4 border-violet-500/30 bg-violet-500/5">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-sm">
           <FileJson className="h-4 w-4 text-violet-600" />
           Tech Pack Data Hub
         </CardTitle>
@@ -41,37 +44,37 @@ export function ProductTechPackHubBlock({ product }: Props) {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-2">
-          <div className="p-2 rounded border bg-background space-y-1">
-            <p className="text-[10px] text-muted-foreground uppercase font-bold">Состав</p>
-            <p className="text-[11px] line-clamp-1">{techPack.composition}</p>
+          <div className="space-y-1 rounded border bg-background p-2">
+            <p className="text-[10px] font-bold uppercase text-muted-foreground">Состав</p>
+            <p className="line-clamp-1 text-[11px]">{techPack.composition}</p>
           </div>
-          <div className="p-2 rounded border bg-background space-y-1">
-            <p className="text-[10px] text-muted-foreground uppercase font-bold">Промеры</p>
+          <div className="space-y-1 rounded border bg-background p-2">
+            <p className="text-[10px] font-bold uppercase text-muted-foreground">Промеры</p>
             <p className="text-[11px]">{techPack.measurements.length} размеров</p>
           </div>
         </div>
 
         <div className="flex flex-wrap gap-1.5">
           {techPack.fabricSpec?.gsm && (
-            <Badge variant="outline" className="text-[9px] border-violet-200">
+            <Badge variant="outline" className="border-violet-200 text-[9px]">
               GSM: {techPack.fabricSpec.gsm}
             </Badge>
           )}
           {techPack.careSymbols.length > 0 && (
-            <Badge variant="outline" className="text-[9px] border-violet-200">
+            <Badge variant="outline" className="border-violet-200 text-[9px]">
               {techPack.careSymbols.length} символов ухода
             </Badge>
           )}
-          <Badge variant="outline" className="text-[9px] border-violet-200 text-violet-700">
-            <CheckCircle2 className="h-2 w-2 mr-1" />
+          <Badge variant="outline" className="border-violet-200 text-[9px] text-violet-700">
+            <CheckCircle2 className="mr-1 h-2 w-2" />
             GTIN/EAN ready
           </Badge>
         </div>
 
-        <Button 
-          variant="outline" 
-          size="sm" 
-          className="w-full text-xs gap-2 border-violet-400/50 hover:bg-violet-100"
+        <Button
+          variant="outline"
+          size="sm"
+          className="w-full gap-2 border-violet-400/50 text-xs hover:bg-violet-100"
           onClick={downloadJson}
         >
           <Download className="h-3 w-3" />

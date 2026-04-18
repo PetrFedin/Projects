@@ -22,12 +22,18 @@ export default function DigitalWardrobePage() {
   }, []);
 
   return (
-    <div className="container max-w-4xl py-6 space-y-6 pb-24">
+    <div className="container max-w-4xl space-y-6 py-6 pb-24">
       <div className="flex items-center gap-3">
-        <Link href={ROUTES.client.home}><Button variant="ghost" size="icon" aria-label="Назад"><ArrowLeft className="h-4 w-4" /></Button></Link>
+        <Link href={ROUTES.client.home}>
+          <Button variant="ghost" size="icon" aria-label="Назад">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Digital Wardrobe</h1>
-          <p className="text-slate-500 text-sm">Виртуальный шкаф купленного + конструктор луков. Заказы, Body Scan, каталог.</p>
+          <p className="text-sm text-slate-500">
+            Виртуальный шкаф купленного + конструктор луков. Заказы, Body Scan, каталог.
+          </p>
         </div>
       </div>
 
@@ -41,15 +47,24 @@ export default function DigitalWardrobePage() {
         </CardHeader>
         <CardContent className="space-y-2">
           {items.map((i) => (
-            <div key={i.id} className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            <div
+              key={i.id}
+              className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
+            >
               <div>
                 <p className="text-sm font-medium">{i.name}</p>
-                <p className="text-xs text-slate-500">{i.sku} · заказ {i.orderId}</p>
+                <p className="text-xs text-slate-500">
+                  {i.sku} · заказ {i.orderId}
+                </p>
               </div>
-              <Badge variant="outline" className="text-[10px]">{i.category}</Badge>
+              <Badge variant="outline" className="text-[10px]">
+                {i.category}
+              </Badge>
             </div>
           ))}
-          <p className="text-xs text-slate-400 mt-3">API: DIGITAL_WARDROBE_API — items, sync from orders, recommend.</p>
+          <p className="mt-3 text-xs text-slate-400">
+            API: DIGITAL_WARDROBE_API — items, sync from orders, recommend.
+          </p>
         </CardContent>
       </Card>
 
@@ -64,7 +79,7 @@ export default function DigitalWardrobePage() {
         <CardContent>
           <ul className="space-y-2">
             {looks.map((l) => (
-              <li key={l.id} className="p-3 rounded-lg bg-slate-50 border border-slate-100">
+              <li key={l.id} className="rounded-lg border border-slate-100 bg-slate-50 p-3">
                 <p className="text-sm font-medium">{l.name ?? 'Без названия'}</p>
                 <p className="text-xs text-slate-500">Вещей в образе: {l.itemIds.length}</p>
               </li>
@@ -81,7 +96,11 @@ export default function DigitalWardrobePage() {
         <CardContent>
           <ul className="flex flex-wrap gap-2">
             {links.map((l) => (
-              <li key={l.href}><Button variant="outline" size="sm" className="text-xs" asChild><Link href={l.href}>{l.label}</Link></Button></li>
+              <li key={l.href}>
+                <Button variant="outline" size="sm" className="text-xs" asChild>
+                  <Link href={l.href}>{l.label}</Link>
+                </Button>
+              </li>
             ))}
           </ul>
         </CardContent>

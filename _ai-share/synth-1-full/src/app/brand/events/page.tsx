@@ -9,7 +9,11 @@ import { Calendar, MapPin, ChevronRight } from 'lucide-react';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { ROUTES } from '@/lib/routes';
-import { ALL_CALENDAR_EVENTS, getUpcomingDeadlines, buildCalendarUrl } from '@/lib/data/calendar-events';
+import {
+  ALL_CALENDAR_EVENTS,
+  getUpcomingDeadlines,
+  buildCalendarUrl,
+} from '@/lib/data/calendar-events';
 import type { CalendarEvent } from '@/lib/data/calendar-events';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
@@ -29,7 +33,7 @@ export default function BrandEventsPage() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-6xl pb-24">
+    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="События"
         description="Мероприятия, показы, дедлайны. Полный календарь со всеми слоями — в разделе Календарь."
@@ -38,14 +42,16 @@ export default function BrandEventsPage() {
         iconColor="text-blue-600"
         badges={
           <>
-            <Badge variant="outline" className="text-[9px]">Мероприятия</Badge>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild>
+            <Badge variant="outline" className="text-[9px]">
+              Мероприятия
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href={buildCalendarUrl({ layers: 'events' })}>Открыть календарь</Link>
             </Button>
           </>
         }
       />
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h1 className="text-2xl font-bold uppercase">События</h1>
           <p className="text-sm text-slate-500">Мероприятия, показы, дедлайны</p>
@@ -60,30 +66,35 @@ export default function BrandEventsPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         <Card className="rounded-xl border border-slate-100">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm flex items-center justify-between">
+            <CardTitle className="flex items-center justify-between text-sm">
               Ближайшие мероприятия
-              <Badge variant="secondary" className="text-[10px]">{eventOnly.length}</Badge>
+              <Badge variant="secondary" className="text-[10px]">
+                {eventOnly.length}
+              </Badge>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
             {eventOnly.length === 0 ? (
-              <p className="text-slate-500 text-sm py-4">Нет событий в текущем периоде.</p>
+              <p className="py-4 text-sm text-slate-500">Нет событий в текущем периоде.</p>
             ) : (
               eventOnly.map((ev, i) => {
                 const date = new Date(YEAR, MONTH, ev.d);
                 return (
                   <Link
                     key={`${ev.d}-${ev.t}-${i}`}
-                    href={ev.href ?? buildCalendarUrl({ layers: 'events', date: format(date, 'yyyy-MM-dd') })}
+                    href={
+                      ev.href ??
+                      buildCalendarUrl({ layers: 'events', date: format(date, 'yyyy-MM-dd') })
+                    }
                     className={cn(
-                      'flex items-center gap-3 p-3 rounded-xl border transition-colors hover:border-indigo-200',
+                      'flex items-center gap-3 rounded-xl border p-3 transition-colors hover:border-indigo-200',
                       ev.c,
                       'border-transparent'
                     )}
                   >
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold truncate">{ev.t}</p>
-                      <div className="flex items-center gap-2 text-[11px] text-slate-500 mt-0.5">
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-semibold">{ev.t}</p>
+                      <div className="mt-0.5 flex items-center gap-2 text-[11px] text-slate-500">
                         <span>{format(date, 'd MMMM yyyy', { locale: ru })}</span>
                         {ev.location && (
                           <>
@@ -107,19 +118,19 @@ export default function BrandEventsPage() {
           </CardHeader>
           <CardContent className="space-y-2">
             {upcoming.length === 0 ? (
-              <p className="text-slate-500 text-sm py-4">Нет предстоящих дедлайнов.</p>
+              <p className="py-4 text-sm text-slate-500">Нет предстоящих дедлайнов.</p>
             ) : (
               upcoming.slice(0, 10).map((d, i) => (
                 <Link
                   key={`${d.d}-${d.t}-${i}`}
                   href={d.calendarHref ?? buildCalendarUrl({ layers: 'events' })}
                   className={cn(
-                    'flex items-center justify-between p-2.5 rounded-lg border text-sm transition-colors hover:opacity-90',
+                    'flex items-center justify-between rounded-lg border p-2.5 text-sm transition-colors hover:opacity-90',
                     d.color
                   )}
                 >
-                  <span className="font-medium truncate">{d.t}</span>
-                  <span className="text-[11px] shrink-0 ml-2">{d.d}</span>
+                  <span className="truncate font-medium">{d.t}</span>
+                  <span className="ml-2 shrink-0 text-[11px]">{d.d}</span>
                 </Link>
               ))
             )}

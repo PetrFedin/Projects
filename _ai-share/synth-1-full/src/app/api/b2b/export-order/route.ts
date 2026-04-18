@@ -19,7 +19,10 @@ export async function POST(request: Request) {
     }
     if (provider === 'nuorder' || provider === 'joor') {
       return NextResponse.json(
-        { success: false, error: 'JOOR/NuOrder в archive. Используйте platform или маркетплейсы РФ.' },
+        {
+          success: false,
+          error: 'JOOR/NuOrder в archive. Используйте platform или маркетплейсы РФ.',
+        },
         { status: 400 }
       );
     }

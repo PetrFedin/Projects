@@ -19,10 +19,17 @@ import {
 import { cn } from '@/lib/utils';
 
 function newDraftId(): string {
-  return typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `w2-${Date.now()}`;
+  return typeof crypto !== 'undefined' && crypto.randomUUID
+    ? crypto.randomUUID()
+    : `w2-${Date.now()}`;
 }
 
-const ALT_STATUS_OPTS: Workshop2MaterialAlternativeStatus[] = ['proposed', 'approved', 'rejected', 'superseded'];
+const ALT_STATUS_OPTS: Workshop2MaterialAlternativeStatus[] = [
+  'proposed',
+  'approved',
+  'rejected',
+  'superseded',
+];
 const DELTA_KIND_OPTS = ['tz_baseline', 'sample_actual', 'production_series'] as const;
 const DELTA_FIELD_OPTS = ['material', 'qty', 'supplier', 'color', 'other'] as const;
 
@@ -43,7 +50,9 @@ export function Workshop2DossierSupplyChainDraftsPanel({
 }: Props) {
   const showAlts = useMemo(
     () =>
-      ['full', 'supply', 'compliance', 'manager', 'technologist', 'production', 'qc'].includes(dossierViewProfile),
+      ['full', 'supply', 'compliance', 'manager', 'technologist', 'production', 'qc'].includes(
+        dossierViewProfile
+      ),
     [dossierViewProfile]
   );
   const showDelta = useMemo(
@@ -89,7 +98,9 @@ export function Workshop2DossierSupplyChainDraftsPanel({
     (altId: string) => {
       setDossier((prev) => ({
         ...prev,
-        materialAlternativeDrafts: (prev.materialAlternativeDrafts ?? []).filter((r) => r.altId !== altId),
+        materialAlternativeDrafts: (prev.materialAlternativeDrafts ?? []).filter(
+          (r) => r.altId !== altId
+        ),
       }));
     },
     [setDossier]
@@ -181,9 +192,9 @@ export function Workshop2DossierSupplyChainDraftsPanel({
         <div className="min-w-0 flex-1">
           <h3 className="text-sm font-semibold text-slate-900">Снабжение · дельта · costing</h3>
           <p className="text-[11px] leading-snug text-slate-600">
-            Черновики живут в объекте досье артикула (сохраняются вместе с ТЗ). Сшивка costing по последней записи на один
-            и тот же <span className="font-mono">lineRef</span> (как в строках mat/BOM): {costingMerged.size} уникальных
-            ref.
+            Черновики живут в объекте досье артикула (сохраняются вместе с ТЗ). Сшивка costing по
+            последней записи на один и тот же <span className="font-mono">lineRef</span> (как в
+            строках mat/BOM): {costingMerged.size} уникальных ref.
           </p>
         </div>
       </div>
@@ -194,7 +205,9 @@ export function Workshop2DossierSupplyChainDraftsPanel({
           className="scroll-mt-24 rounded-lg border border-white/80 bg-white/90 p-3 shadow-sm"
         >
           <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-            <p className="text-[10px] font-bold uppercase tracking-wide text-violet-900">Альтернативы материала / BOM</p>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-violet-900">
+              Альтернативы материала / BOM
+            </p>
             <Button
               type="button"
               size="sm"
@@ -260,7 +273,9 @@ export function Workshop2DossierSupplyChainDraftsPanel({
                           value={r.status}
                           disabled={ro}
                           onChange={(e) =>
-                            patchAlt(r.altId, { status: e.target.value as Workshop2MaterialAlternativeStatus })
+                            patchAlt(r.altId, {
+                              status: e.target.value as Workshop2MaterialAlternativeStatus,
+                            })
                           }
                         >
                           {ALT_STATUS_OPTS.map((s) => (
@@ -298,7 +313,9 @@ export function Workshop2DossierSupplyChainDraftsPanel({
           className="scroll-mt-24 rounded-lg border border-white/80 bg-white/90 p-3 shadow-sm"
         >
           <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-            <p className="text-[10px] font-bold uppercase tracking-wide text-violet-900">Дельта BOM</p>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-violet-900">
+              Дельта BOM
+            </p>
             <Button
               type="button"
               size="sm"
@@ -339,7 +356,9 @@ export function Workshop2DossierSupplyChainDraftsPanel({
                           value={r.kind}
                           disabled={ro}
                           onChange={(e) =>
-                            patchDelta(r.deltaId, { kind: e.target.value as Workshop2BomLineDeltaDraft['kind'] })
+                            patchDelta(r.deltaId, {
+                              kind: e.target.value as Workshop2BomLineDeltaDraft['kind'],
+                            })
                           }
                         >
                           {DELTA_KIND_OPTS.map((k) => (
@@ -363,7 +382,9 @@ export function Workshop2DossierSupplyChainDraftsPanel({
                           value={r.field}
                           disabled={ro}
                           onChange={(e) =>
-                            patchDelta(r.deltaId, { field: e.target.value as Workshop2BomLineDeltaDraft['field'] })
+                            patchDelta(r.deltaId, {
+                              field: e.target.value as Workshop2BomLineDeltaDraft['field'],
+                            })
                           }
                         >
                           {DELTA_FIELD_OPTS.map((f) => (
@@ -425,7 +446,9 @@ export function Workshop2DossierSupplyChainDraftsPanel({
           className="scroll-mt-24 rounded-lg border border-emerald-200/80 bg-emerald-50/40 p-3 shadow-sm"
         >
           <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-            <p className="text-[10px] font-bold uppercase tracking-wide text-emerald-900">Costing по lineRef</p>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-emerald-900">
+              Costing по lineRef
+            </p>
             <Button
               type="button"
               size="sm"
@@ -452,7 +475,8 @@ export function Workshop2DossierSupplyChainDraftsPanel({
                 {(dossier.bomLineCostingHints ?? []).length === 0 ? (
                   <tr>
                     <td colSpan={5} className="py-3 text-slate-600">
-                      Строки для локальной финмодели; дубликаты lineRef сшиваются при отображении счётчика выше.
+                      Строки для локальной финмодели; дубликаты lineRef сшиваются при отображении
+                      счётчика выше.
                     </td>
                   </tr>
                 ) : (

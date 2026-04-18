@@ -74,7 +74,7 @@ export function Workshop2PassportTzStickySubnav({
         ) : null}
         <span
           className={cn(
-            'tabular-nums normal-case',
+            'normal-case tabular-nums',
             gateOpenCount === 0 ? 'text-emerald-600' : 'text-amber-700'
           )}
         >
@@ -169,8 +169,7 @@ export function Workshop2PassportTzStickySubnav({
         onClick={onJumpToPulse}
         title="Пульс артикула: SLA по ролям, подписи ТЗ, PDF"
       >
-        <LucideIcons.Activity className="h-3.5 w-3.5 shrink-0" aria-hidden />
-        К пульсу / SLA
+        <LucideIcons.Activity className="h-3.5 w-3.5 shrink-0" aria-hidden />К пульсу / SLA
       </Button>
     </div>
   );

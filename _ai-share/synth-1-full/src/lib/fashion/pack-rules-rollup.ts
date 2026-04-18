@@ -20,7 +20,8 @@ export function buildPackRuleRow(product: Product): PackRuleRow {
     casePack,
     leadWeeks,
     incoterm: typeof a.incoterm === 'string' ? a.incoterm : '',
-    shipFrom: typeof a.shipFrom === 'string' ? a.shipFrom : typeof a.origin === 'string' ? a.origin : '',
+    shipFrom:
+      typeof a.shipFrom === 'string' ? a.shipFrom : typeof a.origin === 'string' ? a.origin : '',
   };
 }
 
@@ -37,7 +38,7 @@ export function packRulesToCsv(rows: PackRuleRow[]): string {
         r.leadWeeks ?? '',
         `"${r.incoterm.replace(/"/g, '""')}"`,
         `"${r.shipFrom.replace(/"/g, '""')}"`,
-      ].join(','),
+      ].join(',')
     );
   }
   return lines.join('\n');

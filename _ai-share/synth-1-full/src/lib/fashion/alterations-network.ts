@@ -17,6 +17,6 @@ export function getAlterationServices(product: Product): AlterationServiceV1[] {
       availableServices: ['taper', 'hem'],
       estimatedPrice: 1200,
       bookingUrl: '#',
-    }
+    },
   ];
 }

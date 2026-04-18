@@ -44,7 +44,7 @@ export function StatCard({
         )}
         <span className="text-2xl font-bold tabular-nums text-slate-900">{value}</span>
       </div>
-      <p className="mt-3 text-xs font-medium text-slate-500 uppercase tracking-wider leading-tight">
+      <p className="mt-3 text-xs font-medium uppercase leading-tight tracking-wider text-slate-500">
         {label}
       </p>
     </>

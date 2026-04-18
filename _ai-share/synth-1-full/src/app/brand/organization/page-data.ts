@@ -50,28 +50,20 @@ export const SECTION_META: Record<string, SectionMeta> = {
   onboarding: {
     description: 'Чек-лист первичной настройки организации.',
     purpose: 'Пошагово пройти обязательные шаги и выйти на полную готовность.',
-    functionality: [
-      'Профиль и юр.данные',
-      'Команда',
-      'Интеграции',
-      'ЭДО и маркировка',
-      'Подписка',
-    ],
+    functionality: ['Профиль и юр.данные', 'Команда', 'Интеграции', 'ЭДО и маркировка', 'Подписка'],
     importance: 8,
   },
   alerts: {
     description: 'Срочные действия и уведомления, требующие внимания.',
     purpose: 'Не пропустить истекающие сертификаты, незаполненные данные и сбои.',
-    functionality: [
-      'Истекающие сертификаты',
-      'Незаполненные данные профиля',
-      'Статус систем',
-    ],
+    functionality: ['Истекающие сертификаты', 'Незаполненные данные профиля', 'Статус систем'],
     importance: 9,
   },
   partners: {
-    description: 'Связи бренда с магазинами, производствами, поставщиками и дистрибуторами. Обзор экосистемы и прямая связь с заказами B2B, документами, задачами и возвратами на платформе.',
-    purpose: 'Видеть партнёров по типам, переходить в заказы с партнёрами, документы, задачи и возвраты — единая точка входа в партнёрские бизнес-процессы.',
+    description:
+      'Связи бренда с магазинами, производствами, поставщиками и дистрибуторами. Обзор экосистемы и прямая связь с заказами B2B, документами, задачами и возвратами на платформе.',
+    purpose:
+      'Видеть партнёров по типам, переходить в заказы с партнёрами, документы, задачи и возвраты — единая точка входа в партнёрские бизнес-процессы.',
     functionality: [
       'Сводка: всего партнёров, рост, требующие внимания, интеграции',
       'Производства, поставщики, магазины, дистрибуторы, интеграции',
@@ -102,25 +94,32 @@ export const SECTION_META: Record<string, SectionMeta> = {
 };
 
 /** Мета для подблоков «Требует внимания»: описание и ссылка «Детально» */
-export const ALERT_BLOCK_META: Record<string, { description: string; detailHref: string; title: string }> = {
+export const ALERT_BLOCK_META: Record<
+  string,
+  { description: string; detailHref: string; title: string }
+> = {
   certificates: {
     title: 'Истекающие сертификаты',
-    description: 'Сертификаты с истекающим сроком действия. Продлите или замените до истечения, чтобы не прерывать работу интеграций и соответствие требованиям.',
+    description:
+      'Сертификаты с истекающим сроком действия. Продлите или замените до истечения, чтобы не прерывать работу интеграций и соответствие требованиям.',
     detailHref: '/brand',
   },
   profile: {
     title: 'Незаполненные данные',
-    description: 'Обязательные поля профиля или Brand DNA не заполнены. Заполните для полноты карточки бренда и корректной работы систем.',
+    description:
+      'Обязательные поля профиля или Brand DNA не заполнены. Заполните для полноты карточки бренда и корректной работы систем.',
     detailHref: '/brand',
   },
   systems: {
     title: 'Системы',
-    description: 'Статус интеграций и внешних систем. При сбоях проверьте подключения и перейдите в раздел интеграций для диагностики.',
+    description:
+      'Статус интеграций и внешних систем. При сбоях проверьте подключения и перейдите в раздел интеграций для диагностики.',
     detailHref: '/brand/integrations',
   },
   tasks: {
     title: 'Задачи без исполнителя',
-    description: 'Задачи без назначенного ответственного. Назначьте исполнителя в разделе команды, чтобы не допустить просрочки.',
+    description:
+      'Задачи без назначенного ответственного. Назначьте исполнителя в разделе команды, чтобы не допустить просрочки.',
     detailHref: '/brand/team?tab=tasks',
   },
 };
@@ -243,16 +242,96 @@ export type RecentActivity = {
 
 /** Базовые события без даты; dayOffset = 0 сегодня, -1 вчера и т.д. */
 const RECENT_ACTIVITIES_BASE: Omit<RecentActivity, 'dateStr'> & { dayOffset: number }[] = [
-  { user: 'Анна К.', action: 'Обновила юридический адрес компании', time: '5 мин назад', type: 'profile', icon: Building2, participantId: 'anna', dayOffset: 0 },
-  { user: 'Игорь Д.', action: 'Добавил нового сотрудника (CFO)', time: '12 мин назад', type: 'team', icon: Users, participantId: 'igor', dayOffset: 0 },
-  { user: 'Мария С.', action: 'Подключила интеграцию с 1C:Предприятие', time: '25 мин назад', type: 'integration', icon: Zap, participantId: 'maria', dayOffset: 0 },
-  { user: 'Петр В.', action: 'Включил двухфакторную аутентификацию', time: '1ч назад', type: 'security', icon: ShieldCheck, participantId: 'petr', dayOffset: 0 },
-  { user: 'Система', action: 'Автоматическое продление подписки Elite', time: '2ч назад', type: 'billing', icon: CreditCard, participantId: 'system', dayOffset: 0 },
-  { user: 'Анна К.', action: 'Загрузила логотип бренда', time: 'вчера', type: 'profile', icon: Building2, participantId: 'anna', dayOffset: -1 },
-  { user: 'Игорь Д.', action: 'Создал задачу по интеграции', time: '2 дня назад', type: 'team', icon: Users, participantId: 'igor', dayOffset: -2 },
-  { user: 'Мария С.', action: 'Экспорт в 1С выполнен успешно', time: '3 дня назад', type: 'integration', icon: Zap, participantId: 'maria', dayOffset: -3 },
-  { user: 'Петр В.', action: 'Настроил 2FA для команды', time: '4 дня назад', type: 'security', icon: ShieldCheck, participantId: 'petr', dayOffset: -4 },
-  { user: 'Анна К.', action: 'Обновила контакты в профиле', time: '5 дней назад', type: 'profile', icon: Building2, participantId: 'anna', dayOffset: -5 },
+  {
+    user: 'Анна К.',
+    action: 'Обновила юридический адрес компании',
+    time: '5 мин назад',
+    type: 'profile',
+    icon: Building2,
+    participantId: 'anna',
+    dayOffset: 0,
+  },
+  {
+    user: 'Игорь Д.',
+    action: 'Добавил нового сотрудника (CFO)',
+    time: '12 мин назад',
+    type: 'team',
+    icon: Users,
+    participantId: 'igor',
+    dayOffset: 0,
+  },
+  {
+    user: 'Мария С.',
+    action: 'Подключила интеграцию с 1C:Предприятие',
+    time: '25 мин назад',
+    type: 'integration',
+    icon: Zap,
+    participantId: 'maria',
+    dayOffset: 0,
+  },
+  {
+    user: 'Петр В.',
+    action: 'Включил двухфакторную аутентификацию',
+    time: '1ч назад',
+    type: 'security',
+    icon: ShieldCheck,
+    participantId: 'petr',
+    dayOffset: 0,
+  },
+  {
+    user: 'Система',
+    action: 'Автоматическое продление подписки Elite',
+    time: '2ч назад',
+    type: 'billing',
+    icon: CreditCard,
+    participantId: 'system',
+    dayOffset: 0,
+  },
+  {
+    user: 'Анна К.',
+    action: 'Загрузила логотип бренда',
+    time: 'вчера',
+    type: 'profile',
+    icon: Building2,
+    participantId: 'anna',
+    dayOffset: -1,
+  },
+  {
+    user: 'Игорь Д.',
+    action: 'Создал задачу по интеграции',
+    time: '2 дня назад',
+    type: 'team',
+    icon: Users,
+    participantId: 'igor',
+    dayOffset: -2,
+  },
+  {
+    user: 'Мария С.',
+    action: 'Экспорт в 1С выполнен успешно',
+    time: '3 дня назад',
+    type: 'integration',
+    icon: Zap,
+    participantId: 'maria',
+    dayOffset: -3,
+  },
+  {
+    user: 'Петр В.',
+    action: 'Настроил 2FA для команды',
+    time: '4 дня назад',
+    type: 'security',
+    icon: ShieldCheck,
+    participantId: 'petr',
+    dayOffset: -4,
+  },
+  {
+    user: 'Анна К.',
+    action: 'Обновила контакты в профиле',
+    time: '5 дней назад',
+    type: 'profile',
+    icon: Building2,
+    participantId: 'anna',
+    dayOffset: -5,
+  },
 ];
 
 function toDateStr(d: Date): string {
@@ -363,9 +442,9 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
 export const HEALTH_LABEL_TO_ONBOARDING_KEY: Record<string, OnboardingStep['healthMetricKey']> = {
   'Полнота профиля': 'profile',
   'Активность команды': 'team',
-  'Интеграции': 'integrations',
+  Интеграции: 'integrations',
   'ЭДО и маркировка': 'compliance',
-  'Подписка': 'subscription',
+  Подписка: 'subscription',
 };
 
 export type HealthMetric = {
@@ -386,22 +465,114 @@ export type HealthMetric = {
 };
 
 export const HEALTH_METRICS: HealthMetric[] = [
-  { label: 'Полнота профиля', score: 92, color: 'bg-indigo-500', desc: 'Заполнены все обязательные поля', href: '/brand',
-    trend: 2, status: 'ok', details: { lastCheck: '11.03.2025', checklist: ['Юр. наименование', 'ИНН', 'Контакты', 'Logo'], tips: 'Добавьте Brand DNA для 100%' } },
-  { label: 'Безопасность', score: 88, color: 'bg-emerald-500', desc: '2FA активна, 0 уязвимостей', href: '/brand/security',
-    trend: 0, status: 'ok', details: { lastCheck: '11.03.2025', checklist: ['2FA включена', 'API-ключи ротированы', '0 активных сессий с риском'] } },
-  { label: 'Активность команды', score: 84, color: 'bg-blue-500', desc: '8 участников онлайн', href: '/brand/team',
-    trend: 5, status: 'ok', details: { lastCheck: '11.03.2025', checklist: ['8/24 онлайн', '14 задач за неделю', '5 комментариев'] } },
-  { label: 'Интеграции', score: 76, color: 'bg-amber-500', desc: '3 активных, 6 доступных', href: '/brand/integrations',
-    trend: -2, status: 'warning', details: { lastCheck: '10.03.2025', checklist: ['1С: активна', 'Diadoc: активна', 'Маркетплейсы: 1/3'], tips: 'Подключите Wildberries и Ozon' } },
-  { label: 'ЭДО и маркировка', score: 94, color: 'bg-emerald-500', desc: 'Честный ЗНАК, ЭДО настроены', href: '/brand/compliance',
-    trend: 1, status: 'ok', details: { lastCheck: '11.03.2025', checklist: ['ЭДО Diadoc', 'КИЗ синхронизированы', 'Нет просроченных УПД'] } },
-  { label: 'Подписка', score: 100, color: 'bg-emerald-500', desc: 'Elite активна до 01.06.2025', href: '/brand/subscription',
-    trend: 0, status: 'ok', details: { lastCheck: '11.03.2025', checklist: ['План Elite', 'Оплата до 01.06.2025', 'Все лимиты в норме'] } },
-  { label: 'Документы', score: 68, color: 'bg-amber-500', desc: '2 на подписи, 0 просроченных', href: '/brand/documents',
-    trend: -4, status: 'warning', details: { lastCheck: '10.03.2025', checklist: ['Подписано: 94%', 'На подписи: 2', 'Просроченных: 0'], tips: 'Подпишите договор #4521' } },
-  { label: 'Настройки', score: 78, color: 'bg-amber-500', desc: 'Конфигурация на 78%', href: '/brand/settings',
-    trend: 3, status: 'warning', details: { lastCheck: '09.03.2025', checklist: ['Часовой пояс', 'Валюта', 'Языки', 'Webhooks частично'], tips: 'Настройте webhooks для уведомлений' } },
+  {
+    label: 'Полнота профиля',
+    score: 92,
+    color: 'bg-indigo-500',
+    desc: 'Заполнены все обязательные поля',
+    href: '/brand',
+    trend: 2,
+    status: 'ok',
+    details: {
+      lastCheck: '11.03.2025',
+      checklist: ['Юр. наименование', 'ИНН', 'Контакты', 'Logo'],
+      tips: 'Добавьте Brand DNA для 100%',
+    },
+  },
+  {
+    label: 'Безопасность',
+    score: 88,
+    color: 'bg-emerald-500',
+    desc: '2FA активна, 0 уязвимостей',
+    href: '/brand/security',
+    trend: 0,
+    status: 'ok',
+    details: {
+      lastCheck: '11.03.2025',
+      checklist: ['2FA включена', 'API-ключи ротированы', '0 активных сессий с риском'],
+    },
+  },
+  {
+    label: 'Активность команды',
+    score: 84,
+    color: 'bg-blue-500',
+    desc: '8 участников онлайн',
+    href: '/brand/team',
+    trend: 5,
+    status: 'ok',
+    details: {
+      lastCheck: '11.03.2025',
+      checklist: ['8/24 онлайн', '14 задач за неделю', '5 комментариев'],
+    },
+  },
+  {
+    label: 'Интеграции',
+    score: 76,
+    color: 'bg-amber-500',
+    desc: '3 активных, 6 доступных',
+    href: '/brand/integrations',
+    trend: -2,
+    status: 'warning',
+    details: {
+      lastCheck: '10.03.2025',
+      checklist: ['1С: активна', 'Diadoc: активна', 'Маркетплейсы: 1/3'],
+      tips: 'Подключите Wildberries и Ozon',
+    },
+  },
+  {
+    label: 'ЭДО и маркировка',
+    score: 94,
+    color: 'bg-emerald-500',
+    desc: 'Честный ЗНАК, ЭДО настроены',
+    href: '/brand/compliance',
+    trend: 1,
+    status: 'ok',
+    details: {
+      lastCheck: '11.03.2025',
+      checklist: ['ЭДО Diadoc', 'КИЗ синхронизированы', 'Нет просроченных УПД'],
+    },
+  },
+  {
+    label: 'Подписка',
+    score: 100,
+    color: 'bg-emerald-500',
+    desc: 'Elite активна до 01.06.2025',
+    href: '/brand/subscription',
+    trend: 0,
+    status: 'ok',
+    details: {
+      lastCheck: '11.03.2025',
+      checklist: ['План Elite', 'Оплата до 01.06.2025', 'Все лимиты в норме'],
+    },
+  },
+  {
+    label: 'Документы',
+    score: 68,
+    color: 'bg-amber-500',
+    desc: '2 на подписи, 0 просроченных',
+    href: '/brand/documents',
+    trend: -4,
+    status: 'warning',
+    details: {
+      lastCheck: '10.03.2025',
+      checklist: ['Подписано: 94%', 'На подписи: 2', 'Просроченных: 0'],
+      tips: 'Подпишите договор #4521',
+    },
+  },
+  {
+    label: 'Настройки',
+    score: 78,
+    color: 'bg-amber-500',
+    desc: 'Конфигурация на 78%',
+    href: '/brand/settings',
+    trend: 3,
+    status: 'warning',
+    details: {
+      lastCheck: '09.03.2025',
+      checklist: ['Часовой пояс', 'Валюта', 'Языки', 'Webhooks частично'],
+      tips: 'Настройте webhooks для уведомлений',
+    },
+  },
 ];
 
 export type PartnerCountItem = {
@@ -446,7 +617,7 @@ export type PartnerCountItem = {
   detailMetrics?: { label: string; value: string; href?: string }[];
   /** Краткие подсказки «что проверить» в подсказке */
   tips?: string[];
-}
+};
 
 /** Ссылка на полный обзор экосистемы (отчёт, дашборд партнёров) */
 export const PARTNERS_ECOSYSTEM_OVERVIEW_HREF = '/brand/retailers';
@@ -476,12 +647,125 @@ export interface PartnerProcessItem {
   addLabel?: string;
 }
 export const PARTNER_BUSINESS_PROCESSES: PartnerProcessItem[] = [
-  { id: 'b2b-orders', label: 'Заказы B2B', href: '/brand/b2b-orders', count7d: 6, count30d: 24, changePct7d: 20, changePct30d: 33, sub: 'в работе', icon: ClipboardList, color: 'bg-blue-500', description: 'Заказы от партнёров: подтверждение, производство, отгрузка. Сводка по статусам за выбранный период.', tips: ['Подтверждайте заказы в срок', 'Следите за заказами в производстве'], addHref: '/brand/b2b-orders?action=new', addLabel: 'Создать заказ', detailMetrics: [{ label: 'На подтверждении', value: '3', href: '/brand/b2b-orders?status=pending' }, { label: 'В производстве', value: '5', href: '/brand/b2b-orders' }] },
-  { id: 'documents', label: 'Документы', href: '/brand/documents', count7d: 1, count30d: 2, changePct7d: 0, changePct30d: 100, sub: 'с партнёрами', icon: FileText, color: 'bg-slate-600', description: 'Договоры, спецификации, акты с партнёрами. Документы на подпись и истекающие в ближайшее время.', tips: ['Проверяйте срок действия договоров', 'Подписанные документы в ЭДО'], addHref: '/brand/documents?action=new', addLabel: 'Добавить', detailMetrics: [{ label: 'На подпись', value: '2', href: '/brand/documents?status=pending' }, { label: 'Истекают в 30 дн.', value: '5', href: '/brand/documents?expiring=30' }] },
-  { id: 'tasks', label: 'Задачи', href: '/brand/team?tab=tasks', count7d: 3, count30d: 8, changePct7d: 50, changePct30d: 14, sub: 'по партнёрам', icon: CheckSquare, color: 'bg-emerald-500', description: 'Открытые задачи, привязанные к партнёрам. Просроченные и с дедлайном в выбранном периоде.', tips: ['Назначайте ответственных', 'Закрывайте просроченные'], addHref: '/brand/team?tab=tasks&action=new', addLabel: 'Добавить задачу', detailMetrics: [{ label: 'Просрочено', value: '2', href: '/brand/team?tab=tasks&overdue=1' }, { label: 'Открытых', value: '8', href: '/brand/team?tab=tasks' }] },
-  { id: 'returns', label: 'Возвраты', href: '/brand/returns-claims', count7d: 2, count30d: 5, changePct7d: -20, changePct30d: 25, sub: 'от партнёров', icon: RotateCcw, color: 'bg-amber-500', description: 'Возвраты и рекламации от партнёров. Открытые заявки и инциденты качества за период.', tips: ['Обрабатывайте рекламации в срок', 'Фиксируйте причины возвратов'], addHref: '/brand/returns-claims?action=new', addLabel: 'Оформить возврат', detailMetrics: [{ label: 'Открытых возвратов', value: '5', href: '/brand/returns-claims' }, { label: 'Рекламаций за месяц', value: '2', href: '/brand/returns-claims' }] },
-  { id: 'shipments', label: 'Отгрузки', href: '/brand/b2b-orders', count7d: 4, count30d: 12, changePct7d: 33, changePct30d: 20, sub: 'к отгрузке', icon: Truck, color: 'bg-sky-500', description: 'Отгрузки партнёрам: в пути, к отгрузке, задержки. Данные за выбранный период.', tips: ['Отслеживайте трекинг', 'Планируйте отгрузки заранее'], addHref: '/brand/b2b-orders', addLabel: 'К отгрузке', detailMetrics: [{ label: 'В пути', value: '18', href: '/brand/logistics' }, { label: 'К отгрузке', value: '12', href: '/brand/b2b-orders' }] },
-  { id: 'auctions', label: 'Закупки', href: '/brand/auctions', count7d: 0, count30d: 0, sub: 'аукционы, поставщики', icon: ShoppingCart, color: 'bg-violet-500', description: 'Аукционы и закупки у поставщиков. Активные торги и приглашения.', tips: ['Проверяйте условия поставщиков', 'Сравнивайте предложения'], addHref: '/brand/auctions?action=new', addLabel: 'Создать аукцион', detailMetrics: [{ label: 'Активных аукционов', value: '0', href: '/brand/auctions' }] },
+  {
+    id: 'b2b-orders',
+    label: 'Заказы B2B',
+    href: '/brand/b2b-orders',
+    count7d: 6,
+    count30d: 24,
+    changePct7d: 20,
+    changePct30d: 33,
+    sub: 'в работе',
+    icon: ClipboardList,
+    color: 'bg-blue-500',
+    description:
+      'Заказы от партнёров: подтверждение, производство, отгрузка. Сводка по статусам за выбранный период.',
+    tips: ['Подтверждайте заказы в срок', 'Следите за заказами в производстве'],
+    addHref: '/brand/b2b-orders?action=new',
+    addLabel: 'Создать заказ',
+    detailMetrics: [
+      { label: 'На подтверждении', value: '3', href: '/brand/b2b-orders?status=pending' },
+      { label: 'В производстве', value: '5', href: '/brand/b2b-orders' },
+    ],
+  },
+  {
+    id: 'documents',
+    label: 'Документы',
+    href: '/brand/documents',
+    count7d: 1,
+    count30d: 2,
+    changePct7d: 0,
+    changePct30d: 100,
+    sub: 'с партнёрами',
+    icon: FileText,
+    color: 'bg-slate-600',
+    description:
+      'Договоры, спецификации, акты с партнёрами. Документы на подпись и истекающие в ближайшее время.',
+    tips: ['Проверяйте срок действия договоров', 'Подписанные документы в ЭДО'],
+    addHref: '/brand/documents?action=new',
+    addLabel: 'Добавить',
+    detailMetrics: [
+      { label: 'На подпись', value: '2', href: '/brand/documents?status=pending' },
+      { label: 'Истекают в 30 дн.', value: '5', href: '/brand/documents?expiring=30' },
+    ],
+  },
+  {
+    id: 'tasks',
+    label: 'Задачи',
+    href: '/brand/team?tab=tasks',
+    count7d: 3,
+    count30d: 8,
+    changePct7d: 50,
+    changePct30d: 14,
+    sub: 'по партнёрам',
+    icon: CheckSquare,
+    color: 'bg-emerald-500',
+    description:
+      'Открытые задачи, привязанные к партнёрам. Просроченные и с дедлайном в выбранном периоде.',
+    tips: ['Назначайте ответственных', 'Закрывайте просроченные'],
+    addHref: '/brand/team?tab=tasks&action=new',
+    addLabel: 'Добавить задачу',
+    detailMetrics: [
+      { label: 'Просрочено', value: '2', href: '/brand/team?tab=tasks&overdue=1' },
+      { label: 'Открытых', value: '8', href: '/brand/team?tab=tasks' },
+    ],
+  },
+  {
+    id: 'returns',
+    label: 'Возвраты',
+    href: '/brand/returns-claims',
+    count7d: 2,
+    count30d: 5,
+    changePct7d: -20,
+    changePct30d: 25,
+    sub: 'от партнёров',
+    icon: RotateCcw,
+    color: 'bg-amber-500',
+    description:
+      'Возвраты и рекламации от партнёров. Открытые заявки и инциденты качества за период.',
+    tips: ['Обрабатывайте рекламации в срок', 'Фиксируйте причины возвратов'],
+    addHref: '/brand/returns-claims?action=new',
+    addLabel: 'Оформить возврат',
+    detailMetrics: [
+      { label: 'Открытых возвратов', value: '5', href: '/brand/returns-claims' },
+      { label: 'Рекламаций за месяц', value: '2', href: '/brand/returns-claims' },
+    ],
+  },
+  {
+    id: 'shipments',
+    label: 'Отгрузки',
+    href: '/brand/b2b-orders',
+    count7d: 4,
+    count30d: 12,
+    changePct7d: 33,
+    changePct30d: 20,
+    sub: 'к отгрузке',
+    icon: Truck,
+    color: 'bg-sky-500',
+    description: 'Отгрузки партнёрам: в пути, к отгрузке, задержки. Данные за выбранный период.',
+    tips: ['Отслеживайте трекинг', 'Планируйте отгрузки заранее'],
+    addHref: '/brand/b2b-orders',
+    addLabel: 'К отгрузке',
+    detailMetrics: [
+      { label: 'В пути', value: '18', href: '/brand/logistics' },
+      { label: 'К отгрузке', value: '12', href: '/brand/b2b-orders' },
+    ],
+  },
+  {
+    id: 'auctions',
+    label: 'Закупки',
+    href: '/brand/auctions',
+    count7d: 0,
+    count30d: 0,
+    sub: 'аукционы, поставщики',
+    icon: ShoppingCart,
+    color: 'bg-violet-500',
+    description: 'Аукционы и закупки у поставщиков. Активные торги и приглашения.',
+    tips: ['Проверяйте условия поставщиков', 'Сравнивайте предложения'],
+    addHref: '/brand/auctions?action=new',
+    addLabel: 'Создать аукцион',
+    detailMetrics: [{ label: 'Активных аукционов', value: '0', href: '/brand/auctions' }],
+  },
 ];
 
 /** Короткие ссылки: где работать с партнёрами */
@@ -494,8 +778,16 @@ export const PARTNER_WORK_LINKS = [
 /** Табы секции «Партнёрская экосистема»: систематизация по смыслу */
 export const PARTNER_ECOSYSTEM_TABS = [
   { id: 'overview', label: 'Обзор', desc: 'Сводка и быстрые переходы' },
-  { id: 'by-type', label: 'Партнёры по типам', desc: 'Цепочка поставок, каналы продаж, интеграции' },
-  { id: 'processes', label: 'Процессы и области', desc: 'Контракты, финансы, качество, логистика, задачи, аналитика' },
+  {
+    id: 'by-type',
+    label: 'Партнёры по типам',
+    desc: 'Цепочка поставок, каналы продаж, интеграции',
+  },
+  {
+    id: 'processes',
+    label: 'Процессы и области',
+    desc: 'Контракты, финансы, качество, логистика, задачи, аналитика',
+  },
 ] as const;
 
 export const PARTNER_COUNTS: PartnerCountItem[] = [
@@ -526,7 +818,11 @@ export const PARTNER_COUNTS: PartnerCountItem[] = [
       { label: 'Новых за период', value: '1', href: '/brand/factories' },
       { label: 'Договоров', value: '8', href: '/brand/documents' },
     ],
-    tips: ['Сроки по контрактам', 'Контроль качества образцов', 'Загрузка производственных мощностей'],
+    tips: [
+      'Сроки по контрактам',
+      'Контроль качества образцов',
+      'Загрузка производственных мощностей',
+    ],
   },
   {
     id: 'suppliers',
@@ -554,7 +850,11 @@ export const PARTNER_COUNTS: PartnerCountItem[] = [
       { label: 'Новых за период', value: '3', href: '/brand/materials' },
       { label: 'Спецификаций', value: '24', href: '/brand/documents' },
     ],
-    tips: ['Актуальность сертификатов', 'Минимальные партии и сроки поставки', 'Резерв по критичным позициям'],
+    tips: [
+      'Актуальность сертификатов',
+      'Минимальные партии и сроки поставки',
+      'Резерв по критичным позициям',
+    ],
   },
   {
     id: 'retailers',
@@ -584,7 +884,11 @@ export const PARTNER_COUNTS: PartnerCountItem[] = [
       { label: 'Новых за период', value: '12', href: '/brand/retailers' },
       { label: 'Договоров активно', value: '142', href: '/brand/documents' },
     ],
-    tips: ['Условия оплаты и логистики по контрактам', 'Регулярность заказов и план выкупа', 'Возвраты и рекламации'],
+    tips: [
+      'Условия оплаты и логистики по контрактам',
+      'Регулярность заказов и план выкупа',
+      'Возвраты и рекламации',
+    ],
   },
   {
     id: 'distributors',
@@ -644,17 +948,40 @@ export const PARTNER_COUNTS: PartnerCountItem[] = [
 ];
 
 /** Описание виджета «Требуют внимания» для иконки вопроса */
-export const ATTENTION_WIDGET_DESCRIPTION = 'Партнёры с открытыми задачами, документами на подпись, просроченными платежами или требующие проверки. Число и список зависят от выбранного периода (7 или 30 дней).';
-export const ATTENTION_WIDGET_TIPS = ['Проверяйте партнёров на проверке', 'Закрывайте просроченные документы', 'Реагируйте на алерты по партнёрам'];
+export const ATTENTION_WIDGET_DESCRIPTION =
+  'Партнёры с открытыми задачами, документами на подпись, просроченными платежами или требующие проверки. Число и список зависят от выбранного периода (7 или 30 дней).';
+export const ATTENTION_WIDGET_TIPS = [
+  'Проверяйте партнёров на проверке',
+  'Закрывайте просроченные документы',
+  'Реагируйте на алерты по партнёрам',
+];
 
 /** Требуют внимания: количество и разбивка за период */
-export const ATTENTION_BY_PERIOD: Record<'7d' | '30d', { total: number; items: { label: string; value: string; href: string }[] }> = {
-  '7d': { total: 2, items: [{ label: 'Производства', value: '1', href: '/brand/factories?status=review' }, { label: 'Магазины', value: '1', href: '/brand/retailers?status=pending' }] },
-  '30d': { total: 4, items: [{ label: 'Производства', value: '1', href: '/brand/factories?status=review' }, { label: 'Магазины', value: '3', href: '/brand/retailers?status=pending' }] },
+export const ATTENTION_BY_PERIOD: Record<
+  '7d' | '30d',
+  { total: number; items: { label: string; value: string; href: string }[] }
+> = {
+  '7d': {
+    total: 2,
+    items: [
+      { label: 'Производства', value: '1', href: '/brand/factories?status=review' },
+      { label: 'Магазины', value: '1', href: '/brand/retailers?status=pending' },
+    ],
+  },
+  '30d': {
+    total: 4,
+    items: [
+      { label: 'Производства', value: '1', href: '/brand/factories?status=review' },
+      { label: 'Магазины', value: '3', href: '/brand/retailers?status=pending' },
+    ],
+  },
 };
 
 /** Рост числа партнёров по периодам (для виджета «Рост за период») */
-export const PARTNER_GROWTH_BY_PERIOD: Record<'7d' | '30d', { total: number; items: { label: string; value: string; href: string }[] }> = {
+export const PARTNER_GROWTH_BY_PERIOD: Record<
+  '7d' | '30d',
+  { total: number; items: { label: string; value: string; href: string }[] }
+> = {
   '7d': {
     total: 8,
     items: [
@@ -749,9 +1076,7 @@ export const PARTNER_ROLE_WIDGETS: Record<'supply' | 'sales' | 'platform', Partn
       { label: 'Активных', value: '3', href: '/brand/integrations' },
       { label: 'Доступно', value: '6', href: '/brand/integrations' },
     ],
-    actions: [
-      { label: 'Подключить интеграцию', href: '/brand/integrations' },
-    ],
+    actions: [{ label: 'Подключить интеграцию', href: '/brand/integrations' }],
     expandLabel: 'Типы интеграций',
     expandItems: [
       { label: '1С', href: '/brand/integrations' },
@@ -800,7 +1125,8 @@ export const PARTNER_ECOSYSTEM_BLOCKS: PartnerEcosystemBlock[] = [
     id: 'contracts-docs',
     title: 'Контракты и документы',
     titleLines: ['Контракты', 'и документы'],
-    description: 'Договоры, спецификации, акты с партнёрами. Срок действия, на подпись, истекающие.',
+    description:
+      'Договоры, спецификации, акты с партнёрами. Срок действия, на подпись, истекающие.',
     href: '/brand/documents',
     icon: FileText,
     color: 'bg-slate-600',

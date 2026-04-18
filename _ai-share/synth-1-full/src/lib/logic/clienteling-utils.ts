@@ -12,20 +12,38 @@ export function calculateCustomerLTV(profile: CustomerProfile): number {
 /**
  * AI Recommendation Engine for Clienteling
  */
-export async function getClientRecommendations(profile: CustomerProfile): Promise<RecommendationEngineResult> {
+export async function getClientRecommendations(
+  profile: CustomerProfile
+): Promise<RecommendationEngineResult> {
   // Имитация AI-анализа
-  await new Promise(resolve => setTimeout(resolve, 1500));
+  await new Promise((resolve) => setTimeout(resolve, 1500));
 
   const favorites = profile.favoriteCategories;
-  
+
   return {
     customerId: profile.id,
     suggestedProducts: [
-      { productId: 'p-1', name: 'Silk Blouse', reason: 'Matches previous purchase of Silk Trousers', score: 98 },
-      { productId: 'p-2', name: 'Wool Coat', reason: 'Fits your style preference for Oversized silhouettes', score: 92 },
-      { productId: 'p-3', name: 'Leather Bag', reason: 'Top trending accessory in your favorite category', score: 85 }
+      {
+        productId: 'p-1',
+        name: 'Silk Blouse',
+        reason: 'Matches previous purchase of Silk Trousers',
+        score: 98,
+      },
+      {
+        productId: 'p-2',
+        name: 'Wool Coat',
+        reason: 'Fits your style preference for Oversized silhouettes',
+        score: 92,
+      },
+      {
+        productId: 'p-3',
+        name: 'Leather Bag',
+        reason: 'Top trending accessory in your favorite category',
+        score: 85,
+      },
     ] as any,
-    styleInsight: "Клиент предпочитает натуральные ткани и свободный крой. Избегайте предложений из полиэстера."
+    styleInsight:
+      'Клиент предпочитает натуральные ткани и свободный крой. Избегайте предложений из полиэстера.',
   };
 }
 

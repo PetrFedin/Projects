@@ -32,7 +32,7 @@ export class NTierRiskEngine {
   private network: Map<string, SupplierNode>;
 
   constructor(nodes: SupplierNode[]) {
-    this.network = new Map(nodes.map(n => [n.id, n]));
+    this.network = new Map(nodes.map((n) => [n.id, n]));
   }
 
   /**
@@ -44,7 +44,7 @@ export class NTierRiskEngine {
     if (!rootNode) return [];
 
     const alerts: CascadingRiskAlert[] = [];
-    
+
     // Рекурсивный обход графа вверх по цепочке поставок
     const traverse = (currentNode: SupplierNode, currentDelay: number, probability: number) => {
       // Если дошли до Tier 1 (Фабрика, которая шьет для нас)
@@ -54,7 +54,7 @@ export class NTierRiskEngine {
           rootCauseNodeId: event.nodeId,
           probabilityOfDelay: probability,
           expectedDelayDays: currentDelay,
-          reasoning: `Disruption at Tier ${rootNode.tier} (${rootNode.name}) will cascade to Tier 1 (${currentNode.name}) with ${(probability * 100).toFixed(0)}% probability, causing ~${currentDelay} days delay.`
+          reasoning: `Disruption at Tier ${rootNode.tier} (${rootNode.name}) will cascade to Tier 1 (${currentNode.name}) with ${(probability * 100).toFixed(0)}% probability, causing ~${currentDelay} days delay.`,
         });
         return;
       }
@@ -67,7 +67,7 @@ export class NTierRiskEngine {
           // Но задержка может накапливаться (эффект хлыста)
           const newProbability = probability * 0.85; // 15% шанс, что следующий уровень компенсирует задержку
           const newDelay = Math.round(currentDelay * 1.1); // Эффект хлыста: задержка увеличивается на 10%
-          
+
           traverse(depNode, newDelay, newProbability);
         }
       }
@@ -76,7 +76,7 @@ export class NTierRiskEngine {
     // Начальная вероятность зависит от тяжести события
     let initialProbability = 0.5;
     if (event.severity === 'critical') initialProbability = 0.95;
-    if (event.severity === 'high') initialProbability = 0.80;
+    if (event.severity === 'high') initialProbability = 0.8;
 
     traverse(rootNode, event.estimatedDelayDays, initialProbability);
 

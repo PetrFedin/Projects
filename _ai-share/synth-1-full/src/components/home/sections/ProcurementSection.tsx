@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import React, { useState, useMemo } from "react";
-import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { 
-  ArrowRight, 
-  Clock, 
-  ShoppingBag, 
-  Sparkles, 
-  ChevronLeft, 
+import React, { useState, useMemo } from 'react';
+import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  ArrowRight,
+  Clock,
+  ShoppingBag,
+  Sparkles,
+  ChevronLeft,
   ChevronRight,
   Plus,
   FileText,
@@ -36,51 +36,62 @@ import {
   Truck,
   CreditCard,
   Globe,
-  Box
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+  Box,
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogFooter
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Send, Activity } from "lucide-react";
+  DialogFooter,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Send, Activity } from 'lucide-react';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
-import { type B2BRole } from "../_fixtures/b2b-data";
-import { useAuth } from "@/providers/auth-provider";
-import { useUIState } from "@/providers/ui-state";
-import { useB2BState } from "@/providers/b2b-state";
+} from '@/components/ui/carousel';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
+import { type B2BRole } from '../_fixtures/b2b-data';
+import { useAuth } from '@/providers/auth-provider';
+import { useUIState } from '@/providers/ui-state';
+import { useB2BState } from '@/providers/b2b-state';
 
-const ROLE_CONFIG: Record<B2BRole, { label: string; icon: any; color: string; basePath: string }> = {
-  admin: { label: "Администратор", icon: Shield, color: "text-indigo-500", basePath: "/admin" },
-  brand: { label: "Бренд", icon: Store, color: "text-emerald-500", basePath: "/brand" },
-  distributor: { label: "Дистрибьютор", icon: Briefcase, color: "text-blue-500", basePath: "/distributor" },
-  manufacturer: { label: "Производство", icon: Factory, color: "text-orange-500", basePath: "/factory" },
-  supplier: { label: "Поставщик", icon: Warehouse, color: "text-amber-500", basePath: "/factory" },
-  shop: { label: "Магазин", icon: ShoppingCart, color: "text-rose-500", basePath: "/shop" },
-};
+const ROLE_CONFIG: Record<B2BRole, { label: string; icon: any; color: string; basePath: string }> =
+  {
+    admin: { label: 'Администратор', icon: Shield, color: 'text-indigo-500', basePath: '/admin' },
+    brand: { label: 'Бренд', icon: Store, color: 'text-emerald-500', basePath: '/brand' },
+    distributor: {
+      label: 'Дистрибьютор',
+      icon: Briefcase,
+      color: 'text-blue-500',
+      basePath: '/distributor',
+    },
+    manufacturer: {
+      label: 'Производство',
+      icon: Factory,
+      color: 'text-orange-500',
+      basePath: '/factory',
+    },
+    supplier: {
+      label: 'Поставщик',
+      icon: Warehouse,
+      color: 'text-amber-500',
+      basePath: '/factory',
+    },
+    shop: { label: 'Магазин', icon: ShoppingCart, color: 'text-rose-500', basePath: '/shop' },
+  };
 
 function RoleIcons({ roles }: { roles?: B2BRole[] }) {
-  const displayRoles = roles || ["admin"];
+  const displayRoles = roles || ['admin'];
   return (
     <div className="flex items-center gap-1.5">
       <TooltipProvider>
@@ -90,11 +101,16 @@ function RoleIcons({ roles }: { roles?: B2BRole[] }) {
           return (
             <Tooltip key={role}>
               <TooltipTrigger asChild>
-                <div className={cn("p-1.5 rounded-lg bg-white/90 backdrop-blur-md shadow-sm border border-slate-100 transition-all hover:scale-110 cursor-help", config.color)}>
+                <div
+                  className={cn(
+                    'cursor-help rounded-lg border border-slate-100 bg-white/90 p-1.5 shadow-sm backdrop-blur-md transition-all hover:scale-110',
+                    config.color
+                  )}
+                >
                   <config.icon className="h-3 w-3" />
                 </div>
               </TooltipTrigger>
-              <TooltipContent className="bg-slate-900 text-white border-none p-2 rounded-lg shadow-2xl z-[100]">
+              <TooltipContent className="z-[100] rounded-lg border-none bg-slate-900 p-2 text-white shadow-2xl">
                 <p className="text-[10px] font-bold uppercase tracking-wide">{config.label}</p>
               </TooltipContent>
             </Tooltip>
@@ -130,14 +146,19 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
 
   const getProcurementLink = (title: string, defaultLink: string) => {
     const role = effectiveRole;
-    
+
     // Check if it's a collection (usually uppercase with year/season or specific titles)
-    const isCollection = title === title.toUpperCase() || title.includes('FW') || title.includes('SS') || title.includes('CAPSULE');
+    const isCollection =
+      title === title.toUpperCase() ||
+      title.includes('FW') ||
+      title.includes('SS') ||
+      title.includes('CAPSULE');
 
     if (role === 'admin') {
       if (title.includes('Коллекци') || isCollection) return '/admin/brands';
       if (title.includes('Заказ')) return '/admin/billing';
-      if (title.includes('Стратегия') || title.includes('Аналитик') || title.includes('Интеллект')) return '/admin/attributes';
+      if (title.includes('Стратегия') || title.includes('Аналитик') || title.includes('Интеллект'))
+        return '/admin/attributes';
       return '/admin/home';
     }
 
@@ -161,37 +182,40 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
 
     if (role === 'shop') {
       if (title.includes('Заказ') || title.includes('Закупк')) return '/shop/b2b/orders';
-      if (title.includes('Коллекци') || title.includes('Матриц') || isCollection) return defaultLink;
+      if (title.includes('Коллекци') || title.includes('Матриц') || isCollection)
+        return defaultLink;
       return '/shop/b2b';
     }
 
     return defaultLink;
   };
 
-  const [mainCategory, setMainCategory] = useState<"designers" | "retailers" | "distributor">("designers");
-  const [activeTab, setActiveTab] = useState<string>("collections");
+  const [mainCategory, setMainCategory] = useState<'designers' | 'retailers' | 'distributor'>(
+    'designers'
+  );
+  const [activeTab, setActiveTab] = useState<string>('collections');
 
-  if (viewRole !== "b2b" && viewRole !== "client") return null;
+  if (viewRole !== 'b2b' && viewRole !== 'client') return null;
 
   const getTabs = () => {
     switch (mainCategory) {
-      case "designers":
+      case 'designers':
         return [
-          { id: "collections", label: "Коллекции", icon: Layers },
-          { id: "orders", label: "Заказы", icon: FileText },
-          { id: "strategy", label: "Инструменты", icon: LineChart },
+          { id: 'collections', label: 'Коллекции', icon: Layers },
+          { id: 'orders', label: 'Заказы', icon: FileText },
+          { id: 'strategy', label: 'Инструменты', icon: LineChart },
         ];
-      case "retailers":
+      case 'retailers':
         return [
-          { id: "collections", label: "Коллекции", icon: Layers },
-          { id: "orders", label: "Заказы", icon: FileText },
-          { id: "tools", label: "Инструменты", icon: Zap },
+          { id: 'collections', label: 'Коллекции', icon: Layers },
+          { id: 'orders', label: 'Заказы', icon: FileText },
+          { id: 'tools', label: 'Инструменты', icon: Zap },
         ];
-      case "distributor":
+      case 'distributor':
         return [
-          { id: "strategy", label: "Стратегия", icon: Map },
-          { id: "orders", label: "Заказы", icon: FileText },
-          { id: "tools", label: "Инструменты", icon: Share2 },
+          { id: 'strategy', label: 'Стратегия', icon: Map },
+          { id: 'orders', label: 'Заказы', icon: FileText },
+          { id: 'tools', label: 'Инструменты', icon: Share2 },
         ];
       default:
         return [];
@@ -199,291 +223,295 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
   };
 
   const collections = [
-    { 
-      id: "c1", 
-      title: "URBAN NOMAD FW26", 
-      brand: "Syntha Lab", 
-      brandId: "syntha-lab",
-      count: 42, 
-      status: "Pre-order Open", 
-      delivery: "Июнь 2026", 
-      match: 98, 
-      matchReason: "Высокий спрос на технологичный минимализм в вашем регионе и идеальное попадание в ценовой сегмент вашей аудитории.",
-      img: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=800",
-      description: "Коллекция вдохновлена эстетикой современных мегаполисов и технологичным минимализмом. Мы используем мембранные ткани и адаптивный крой для максимального комфорта в движении.",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      designer: "Алексей Соколов",
-      founded: "2021, Москва",
+    {
+      id: 'c1',
+      title: 'URBAN NOMAD FW26',
+      brand: 'Syntha Lab',
+      brandId: 'syntha-lab',
+      count: 42,
+      status: 'Pre-order Open',
+      delivery: 'Июнь 2026',
+      match: 98,
+      matchReason:
+        'Высокий спрос на технологичный минимализм в вашем регионе и идеальное попадание в ценовой сегмент вашей аудитории.',
+      img: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=800',
+      description:
+        'Коллекция вдохновлена эстетикой современных мегаполисов и технологичным минимализмом. Мы используем мембранные ткани и адаптивный крой для максимального комфорта в движении.',
+      videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+      designer: 'Алексей Соколов',
+      founded: '2021, Москва',
       photoshoot: [
-        "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1200",
-        "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=1200",
-        "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1200"
+        'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1200',
+        'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=1200',
+        'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1200',
       ],
-      roles: ["admin", "brand", "distributor", "shop"]
+      roles: ['admin', 'brand', 'distributor', 'shop'],
     },
-    { 
-      id: "c3", 
-      title: "HERITAGE CAPSULE", 
-      brand: "Nordic Wool", 
-      brandId: "nordic-wool",
-      count: 15, 
-      status: "Pre-order Open", 
-      delivery: "Май 2026", 
-      match: 75, 
-      matchReason: "Бренд соответствует вашему профилю устойчивого развития, однако средний чек выше ваших обычных показателей на 15%.",
-      img: "https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?q=80&w=800",
-      description: "Переосмысление традиционного скандинавского трикотажа через призму устойчивого развития. 100% переработанная шерсть и ручная вязка.",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      designer: "Эрик Линдгрен",
-      founded: "2018, Стокгольм",
+    {
+      id: 'c3',
+      title: 'HERITAGE CAPSULE',
+      brand: 'Nordic Wool',
+      brandId: 'nordic-wool',
+      count: 15,
+      status: 'Pre-order Open',
+      delivery: 'Май 2026',
+      match: 75,
+      matchReason:
+        'Бренд соответствует вашему профилю устойчивого развития, однако средний чек выше ваших обычных показателей на 15%.',
+      img: 'https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?q=80&w=800',
+      description:
+        'Переосмысление традиционного скандинавского трикотажа через призму устойчивого развития. 100% переработанная шерсть и ручная вязка.',
+      videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+      designer: 'Эрик Линдгрен',
+      founded: '2018, Стокгольм',
       photoshoot: [
-        "https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?q=80&w=1200",
-        "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1200",
-        "https://images.unsplash.com/photo-1576871337622-98d48d1cf027?q=80&w=1200"
+        'https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?q=80&w=1200',
+        'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1200',
+        'https://images.unsplash.com/photo-1576871337622-98d48d1cf027?q=80&w=1200',
       ],
-      roles: ["admin", "brand", "distributor", "shop"]
+      roles: ['admin', 'brand', 'distributor', 'shop'],
     },
   ];
 
   const orders = [
-    { 
-      id: "o1", 
-      orderId: "#8821", 
-      brand: "Syntha Lab", 
-      brandId: "syntha-lab", 
-      collectionName: "URBAN NOMAD",
-      preliminaryTotal: "1,240,000 ₽", 
-      finalTotal: "1,180,000 ₽",
-      items: 24, 
-      status: "В работе", 
-      progress: 65, 
-      lastEdit: "2 часа назад", 
-      date: "12.01.2026",
-      season: "FW26",
-      placedBy: "Boutique Moscow",
-      img: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=800",
-      roles: ["admin", "brand", "distributor", "shop"]
+    {
+      id: 'o1',
+      orderId: '#8821',
+      brand: 'Syntha Lab',
+      brandId: 'syntha-lab',
+      collectionName: 'URBAN NOMAD',
+      preliminaryTotal: '1,240,000 ₽',
+      finalTotal: '1,180,000 ₽',
+      items: 24,
+      status: 'В работе',
+      progress: 65,
+      lastEdit: '2 часа назад',
+      date: '12.01.2026',
+      season: 'FW26',
+      placedBy: 'Boutique Moscow',
+      img: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=800',
+      roles: ['admin', 'brand', 'distributor', 'shop'],
     },
-    { 
-      id: "o2", 
-      orderId: "#8822", 
-      brand: "Nordic Wool", 
-      brandId: "nordic-wool", 
-      collectionName: "HERITAGE CAPSULE",
-      preliminaryTotal: "850,000 ₽", 
+    {
+      id: 'o2',
+      orderId: '#8822',
+      brand: 'Nordic Wool',
+      brandId: 'nordic-wool',
+      collectionName: 'HERITAGE CAPSULE',
+      preliminaryTotal: '850,000 ₽',
       finalTotal: null,
-      items: 12, 
-      status: "Черновик", 
-      progress: 40, 
-      lastEdit: "5 часов назад", 
-      date: "15.01.2026",
-      season: "SS26",
-      placedBy: "Nordic Concept Store",
-      img: "https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?q=80&w=800",
-      roles: ["admin", "brand", "distributor", "shop"]
+      items: 12,
+      status: 'Черновик',
+      progress: 40,
+      lastEdit: '5 часов назад',
+      date: '15.01.2026',
+      season: 'SS26',
+      placedBy: 'Nordic Concept Store',
+      img: 'https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?q=80&w=800',
+      roles: ['admin', 'brand', 'distributor', 'shop'],
     },
   ];
 
   const distributionTools = [
     {
-      id: "dt1",
-      label: "Портфель",
-      title: "Портфель брендов",
-      desc: "Аналитика доходности и потенциала текущих марок в портфеле дистрибьютора.",
-      action: "Анализ портфеля",
-      link: "/distributor/analytics",
-      roles: ["admin", "distributor", "brand"]
+      id: 'dt1',
+      label: 'Портфель',
+      title: 'Портфель брендов',
+      desc: 'Аналитика доходности и потенциала текущих марок в портфеле дистрибьютора.',
+      action: 'Анализ портфеля',
+      link: '/distributor/analytics',
+      roles: ['admin', 'distributor', 'brand'],
     },
     {
-      id: "dt2",
-      label: "Рынок",
-      title: "Анализ рынка",
-      desc: "Глубокая аналитика регионального спроса, трендов и ценового позиционирования.",
-      action: "Открыть отчет",
-      link: "/distributor/retailers",
-      roles: ["admin", "distributor", "brand"]
+      id: 'dt2',
+      label: 'Рынок',
+      title: 'Анализ рынка',
+      desc: 'Глубокая аналитика регионального спроса, трендов и ценового позиционирования.',
+      action: 'Открыть отчет',
+      link: '/distributor/retailers',
+      roles: ['admin', 'distributor', 'brand'],
     },
     {
-      id: "dt3",
-      label: "Права",
-      title: "Управление правами",
-      desc: "Защита территориальной эксклюзивности и контроль прав на представительство брендов.",
-      action: "Проверить статус",
-      link: "/distributor/contracts",
-      roles: ["admin", "distributor", "brand"]
+      id: 'dt3',
+      label: 'Права',
+      title: 'Управление правами',
+      desc: 'Защита территориальной эксклюзивности и контроль прав на представительство брендов.',
+      action: 'Проверить статус',
+      link: '/distributor/contracts',
+      roles: ['admin', 'distributor', 'brand'],
     },
     {
-      id: "dt4",
-      label: "Интеллект",
-      title: "Интеллект сети",
-      desc: "Скоринг надежности дилерской сети, анализ потенциала и сегментация партнеров.",
-      action: "Анализ дилеров",
-      link: "/distributor/retailers",
-      roles: ["admin", "distributor", "shop"]
+      id: 'dt4',
+      label: 'Интеллект',
+      title: 'Интеллект сети',
+      desc: 'Скоринг надежности дилерской сети, анализ потенциала и сегментация партнеров.',
+      action: 'Анализ дилеров',
+      link: '/distributor/retailers',
+      roles: ['admin', 'distributor', 'shop'],
     },
     {
-      id: "dt5",
-      label: "Риски",
-      title: "Управление рисками",
-      desc: "Автоматизированный контроль дебиторской задолженности и страхование сделок.",
-      action: "Настроить лимиты",
-      link: "/distributor/contracts",
-      roles: ["admin", "distributor", "brand"]
+      id: 'dt5',
+      label: 'Риски',
+      title: 'Управление рисками',
+      desc: 'Автоматизированный контроль дебиторской задолженности и страхование сделок.',
+      action: 'Настроить лимиты',
+      link: '/distributor/contracts',
+      roles: ['admin', 'distributor', 'brand'],
     },
     {
-      id: "dt6",
-      label: "Территории",
-      title: "Карта экспансии",
-      desc: "Визуализация карты присутствия и планирование выхода в новые регионы.",
-      action: "Открыть карту",
-      link: "/distributor/territory",
-      roles: ["admin", "distributor"]
-    }
+      id: 'dt6',
+      label: 'Территории',
+      title: 'Карта экспансии',
+      desc: 'Визуализация карты присутствия и планирование выхода в новые регионы.',
+      action: 'Открыть карту',
+      link: '/distributor/territory',
+      roles: ['admin', 'distributor'],
+    },
   ];
 
   const getInfoBlocks = () => {
     switch (mainCategory) {
-      case "designers":
+      case 'designers':
         return [
           {
             icon: Layers,
-            title: "Assortment Builder",
-            desc: "Визуальное планирование коллекций и автоматический расчет баланса матрицы по категориям.",
-            link: "/brand/planning",
-            roles: ["admin", "brand", "distributor"]
+            title: 'Assortment Builder',
+            desc: 'Визуальное планирование коллекций и автоматический расчет баланса матрицы по категориям.',
+            link: '/brand/planning',
+            roles: ['admin', 'brand', 'distributor'],
           },
           {
             icon: Box,
-            title: "Digital Swatch Library",
-            desc: "Оцифрованные свойства тканей для моментального импорта в 3D (CLO3D) и точных тех-пакетов.",
-            link: "/brand/materials",
-            roles: ["admin", "brand", "manufacturer", "supplier"]
+            title: 'Digital Swatch Library',
+            desc: 'Оцифрованные свойства тканей для моментального импорта в 3D (CLO3D) и точных тех-пакетов.',
+            link: '/brand/materials',
+            roles: ['admin', 'brand', 'manufacturer', 'supplier'],
           },
           {
             icon: Zap,
-            title: "IoT Factory Sync",
-            desc: "Прямое подключение к станкам для мониторинга выработки и качества в реальном времени.",
-            link: "/brand/production",
-            roles: ["admin", "brand", "manufacturer"]
+            title: 'IoT Factory Sync',
+            desc: 'Прямое подключение к станкам для мониторинга выработки и качества в реальном времени.',
+            link: '/brand/production',
+            roles: ['admin', 'brand', 'manufacturer'],
           },
           {
             icon: Sparkles,
-            title: "AI Lookbook Generator",
-            desc: "Автоматическое создание рекламных имиджей и контента для соцсетей на базе 3D-моделей.",
-            link: "/brand/media",
-            roles: ["admin", "brand"]
+            title: 'AI Lookbook Generator',
+            desc: 'Автоматическое создание рекламных имиджей и контента для соцсетей на базе 3D-моделей.',
+            link: '/brand/media',
+            roles: ['admin', 'brand'],
           },
           {
             icon: Target,
-            title: "Trend-to-Production",
-            desc: "Синхронизация планов пошива с актуальными трендами из соцсетей через AI-анализ.",
-            link: "/brand/analytics",
-            roles: ["admin", "brand", "manufacturer"]
+            title: 'Trend-to-Production',
+            desc: 'Синхронизация планов пошива с актуальными трендами из соцсетей через AI-анализ.',
+            link: '/brand/analytics',
+            roles: ['admin', 'brand', 'manufacturer'],
           },
           {
             icon: ShieldCheck,
-            title: "ESG Scorecard",
-            desc: "Автоматический расчет экологического следа и сертификация цепочки поставок (Transparency).",
-            link: "/brand/quality",
-            roles: ["admin", "brand", "manufacturer", "supplier"]
-          }
+            title: 'ESG Scorecard',
+            desc: 'Автоматический расчет экологического следа и сертификация цепочки поставок (Transparency).',
+            link: '/brand/quality',
+            roles: ['admin', 'brand', 'manufacturer', 'supplier'],
+          },
         ];
-      case "retailers":
+      case 'retailers':
         return [
           {
             icon: ShoppingBag,
-            title: "Retail API & VMI",
-            desc: "Автоматическое пополнение остатков в магазинах на основе данных о продажах в реальном времени.",
-            link: "/brand/b2b-orders",
-            roles: ["admin", "brand", "shop", "distributor"]
+            title: 'Retail API & VMI',
+            desc: 'Автоматическое пополнение остатков в магазинах на основе данных о продажах в реальном времени.',
+            link: '/brand/b2b-orders',
+            roles: ['admin', 'brand', 'shop', 'distributor'],
           },
           {
             icon: Globe,
-            title: "Dropshipping Hub",
-            desc: "Продажи без выкупа стока: магазин принимает заказ, бренд отгружает напрямую клиенту.",
-            link: "/shop/b2b/orders",
-            roles: ["admin", "brand", "shop"]
+            title: 'Dropshipping Hub',
+            desc: 'Продажи без выкупа стока: магазин принимает заказ, бренд отгружает напрямую клиенту.',
+            link: '/shop/b2b/orders',
+            roles: ['admin', 'brand', 'shop'],
           },
           {
             icon: CreditCard,
-            title: "B2B Wallet & Limits",
-            desc: "Кредитные лимиты, отсрочка платежа и автоматический расчет комиссий внутри сети.",
-            link: "/shop/finance",
-            roles: ["admin", "brand", "distributor", "shop"]
+            title: 'B2B Wallet & Limits',
+            desc: 'Кредитные лимиты, отсрочка платежа и автоматический расчет комиссий внутри сети.',
+            link: '/shop/finance',
+            roles: ['admin', 'brand', 'distributor', 'shop'],
           },
           {
             icon: Truck,
-            title: "Logistics Optimizer",
-            desc: "Алгоритм выбора лучшего перевозчика по скорости и цене для каждой посылки или партии.",
-            link: "/shop/inventory",
-            roles: ["admin", "brand", "distributor", "shop", "manufacturer"]
+            title: 'Logistics Optimizer',
+            desc: 'Алгоритм выбора лучшего перевозчика по скорости и цене для каждой посылки или партии.',
+            link: '/shop/inventory',
+            roles: ['admin', 'brand', 'distributor', 'shop', 'manufacturer'],
           },
           {
             icon: BarChart3,
-            title: "Pre-order Heatmap",
-            desc: "Карта регионального спроса на основе предзаказов для оптимизации распределения товара.",
-            link: "/shop/b2b/analytics",
-            roles: ["admin", "brand", "distributor"]
+            title: 'Pre-order Heatmap',
+            desc: 'Карта регионального спроса на основе предзаказов для оптимизации распределения товара.',
+            link: '/shop/b2b/analytics',
+            roles: ['admin', 'brand', 'distributor'],
           },
           {
             icon: ShieldCheck,
-            title: "Escrow Settlements",
-            desc: "Безопасные расчеты с заморозкой средств до подтверждения приемки цифровым ОТК.",
-            link: "/shop/b2b/contracts",
-            roles: ["admin", "brand", "manufacturer", "supplier", "distributor", "shop"]
-          }
+            title: 'Escrow Settlements',
+            desc: 'Безопасные расчеты с заморозкой средств до подтверждения приемки цифровым ОТК.',
+            link: '/shop/b2b/contracts',
+            roles: ['admin', 'brand', 'manufacturer', 'supplier', 'distributor', 'shop'],
+          },
         ];
-      case "distributor":
+      case 'distributor':
         return [
           {
             icon: Package,
-            title: "Агрегатор заказов",
-            desc: "Консолидация мелких заказов от дилеров в крупные пулы для работы с фабриками.",
-            link: "/distributor/orders",
-            roles: ["admin", "distributor", "manufacturer"]
+            title: 'Агрегатор заказов',
+            desc: 'Консолидация мелких заказов от дилеров в крупные пулы для работы с фабриками.',
+            link: '/distributor/orders',
+            roles: ['admin', 'distributor', 'manufacturer'],
           },
           {
             icon: Store,
-            title: "Цифровой шоурум",
-            desc: "Виртуальное пространство для презентации коллекций и проведения отборок.",
-            link: "/distributor/matrix",
-            roles: ["admin", "distributor", "brand", "shop"]
+            title: 'Цифровой шоурум',
+            desc: 'Виртуальное пространство для презентации коллекций и проведения отборок.',
+            link: '/distributor/matrix',
+            roles: ['admin', 'distributor', 'brand', 'shop'],
           },
           {
             icon: Globe2,
-            title: "Логистический центр",
-            desc: "Управление региональными складами, маршрутизация поставок и контроль возвратов.",
-            link: "/distributor/orders",
-            roles: ["admin", "distributor", "manufacturer"]
+            title: 'Логистический центр',
+            desc: 'Управление региональными складами, маршрутизация поставок и контроль возвратов.',
+            link: '/distributor/orders',
+            roles: ['admin', 'distributor', 'manufacturer'],
           },
           {
             icon: ShieldCheck,
-            title: "Локализация и контроль",
-            desc: "Автоматизация сертификации, маркировки и таможенной очистки для всей сети.",
-            link: "/distributor/contracts",
-            roles: ["admin", "distributor", "manufacturer", "brand"]
+            title: 'Локализация и контроль',
+            desc: 'Автоматизация сертификации, маркировки и таможенной очистки для всей сети.',
+            link: '/distributor/contracts',
+            roles: ['admin', 'distributor', 'manufacturer', 'brand'],
           },
           {
             icon: Users,
-            title: "Управление сетью (CRM)",
-            desc: "Инструменты для мониторинга активности дилеров и распределения лимитов.",
-            link: "/distributor/retailers",
-            roles: ["admin", "distributor", "shop"]
+            title: 'Управление сетью (CRM)',
+            desc: 'Инструменты для мониторинга активности дилеров и распределения лимитов.',
+            link: '/distributor/retailers',
+            roles: ['admin', 'distributor', 'shop'],
           },
           {
             icon: BarChart3,
-            title: "Финансовый модуль",
-            desc: "Управление дебиторской задолженностью дилеров и автоматизация взаиморасчетов.",
-            link: "/distributor/finance",
-            roles: ["admin", "distributor", "shop"]
+            title: 'Финансовый модуль',
+            desc: 'Управление дебиторской задолженностью дилеров и автоматизация взаиморасчетов.',
+            link: '/distributor/finance',
+            roles: ['admin', 'distributor', 'shop'],
           },
           {
             icon: Map,
-            title: "Шоурумы в регионах",
-            desc: "Поиск и бронирование физических площадок для презентации коллекций.",
-            link: "/distributor/showrooms",
-            roles: ["admin", "distributor", "brand", "shop"]
-          }
+            title: 'Шоурумы в регионах',
+            desc: 'Поиск и бронирование физических площадок для презентации коллекций.',
+            link: '/distributor/showrooms',
+            roles: ['admin', 'distributor', 'brand', 'shop'],
+          },
         ];
       default:
         return [];
@@ -495,50 +523,51 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
       id="PROCUREMENT_b2b"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.6 }}
-      className="section-spacing bg-transparent relative"
+      className="section-spacing relative bg-transparent"
     >
-      <div className="container mx-auto px-4 relative">
-        <Card className="bg-white border-none rounded-xl shadow-2xl shadow-slate-200/50 relative transition-all group min-h-[500px] flex flex-col border border-slate-100 overflow-hidden">
-          <CardContent className="p-3 relative z-10">
+      <div className="container relative mx-auto px-4">
+        <Card className="group relative flex min-h-[500px] flex-col overflow-hidden rounded-xl border border-none border-slate-100 bg-white shadow-2xl shadow-slate-200/50 transition-all">
+          <CardContent className="relative z-10 p-3">
             {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-6">
+            <div className="mb-6 flex flex-col justify-between gap-3 md:flex-row md:items-center">
               <div className="space-y-1">
                 <div className="flex items-center gap-3">
-                  <div className="h-8 w-8 rounded-xl bg-slate-900 flex items-center justify-center">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900">
                     <ShoppingBag className="h-4 w-4 text-white" />
                   </div>
-                  <Badge 
+                  <Badge
                     variant="outline"
-                    className="text-xs border-slate-200 text-slate-900 uppercase font-bold tracking-normal px-2 py-0.5"
+                    className="border-slate-200 px-2 py-0.5 text-xs font-bold uppercase tracking-normal text-slate-900"
                   >
                     PROCUREMENT_HUB_B2B
                   </Badge>
                 </div>
-                <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-tight text-slate-900 leading-tight">
+                <h2 className="text-2xl font-bold uppercase leading-tight tracking-tight text-slate-900 md:text-4xl">
                   ЗАКУПКИ <span className="text-indigo-600">&</span> ПРЕДЗАКАЗЫ
                 </h2>
-                <p className="text-slate-400 font-medium text-xs max-w-md">
-                  Управление оптовыми заказами, планирование коллекций и прямая связь с производителями.
+                <p className="max-w-md text-xs font-medium text-slate-400">
+                  Управление оптовыми заказами, планирование коллекций и прямая связь с
+                  производителями.
                 </p>
               </div>
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => {
-                    const el = document.getElementById("procurement-main-scroll");
-                    if (el) el.scrollBy({ left: -320, behavior: "smooth" });
+                    const el = document.getElementById('procurement-main-scroll');
+                    if (el) el.scrollBy({ left: -320, behavior: 'smooth' });
                   }}
-                  className="text-slate-400 hover:text-slate-900 transition-colors p-1"
+                  className="p-1 text-slate-400 transition-colors hover:text-slate-900"
                 >
                   <ArrowRight className="h-5 w-5 rotate-180" />
                 </button>
                 <button
                   onClick={() => {
-                    const el = document.getElementById("procurement-main-scroll");
-                    if (el) el.scrollBy({ left: 320, behavior: "smooth" });
+                    const el = document.getElementById('procurement-main-scroll');
+                    if (el) el.scrollBy({ left: 320, behavior: 'smooth' });
                   }}
-                  className="text-slate-400 hover:text-slate-900 transition-colors p-1"
+                  className="p-1 text-slate-400 transition-colors hover:text-slate-900"
                 >
                   <ArrowRight className="h-5 w-5" />
                 </button>
@@ -546,29 +575,29 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
             </div>
 
             {/* Tabs */}
-            <div className="flex flex-col gap-3 mb-8">
-              <div className="flex items-center gap-1.5 p-1 bg-slate-50 rounded-2xl border border-slate-100 w-fit shrink-0">
+            <div className="mb-8 flex flex-col gap-3">
+              <div className="flex w-fit shrink-0 items-center gap-1.5 rounded-2xl border border-slate-100 bg-slate-50 p-1">
                 <button
-                  onClick={() => { 
-                    setMainCategory("designers"); 
-                    setActiveTab("collections"); 
+                  onClick={() => {
+                    setMainCategory('designers');
+                    setActiveTab('collections');
                   }}
                   className={cn(
-                    "btn-tab min-w-[140px] gap-2",
-                    mainCategory === "designers" ? "btn-tab-active" : "btn-tab-inactive"
+                    'btn-tab min-w-[140px] gap-2',
+                    mainCategory === 'designers' ? 'btn-tab-active' : 'btn-tab-inactive'
                   )}
                 >
                   <Palette className="h-3 w-3" />
                   Дизайнеры
                 </button>
                 <button
-                  onClick={() => { 
-                    setMainCategory("retailers"); 
-                    setActiveTab("collections"); 
+                  onClick={() => {
+                    setMainCategory('retailers');
+                    setActiveTab('collections');
                   }}
                   className={cn(
-                    "btn-tab min-w-[140px] gap-2",
-                    mainCategory === "retailers" ? "btn-tab-active" : "btn-tab-inactive"
+                    'btn-tab min-w-[140px] gap-2',
+                    mainCategory === 'retailers' ? 'btn-tab-active' : 'btn-tab-inactive'
                   )}
                 >
                   <ShoppingBag className="h-3 w-3" />
@@ -576,12 +605,12 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                 </button>
                 <button
                   onClick={() => {
-                    setMainCategory("distributor");
-                    setActiveTab("strategy");
+                    setMainCategory('distributor');
+                    setActiveTab('strategy');
                   }}
                   className={cn(
-                    "btn-tab min-w-[140px] gap-2",
-                    mainCategory === "distributor" ? "btn-tab-active" : "btn-tab-inactive"
+                    'btn-tab min-w-[140px] gap-2',
+                    mainCategory === 'distributor' ? 'btn-tab-active' : 'btn-tab-inactive'
                   )}
                 >
                   <Share2 className="h-3 w-3" />
@@ -590,14 +619,14 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
               </div>
 
               {/* Thematic Tabs */}
-              <div className="flex items-center gap-1.5 p-1.5 bg-slate-50/50 rounded-2xl border border-slate-100/50 w-fit shrink-0">
+              <div className="flex w-fit shrink-0 items-center gap-1.5 rounded-2xl border border-slate-100/50 bg-slate-50/50 p-1.5">
                 {getTabs().map((tab) => (
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
                     className={cn(
-                      "btn-tab min-w-[120px] gap-2 px-5 py-2.5",
-                      activeTab === tab.id ? "btn-tab-active" : "btn-tab-inactive"
+                      'btn-tab min-w-[120px] gap-2 px-5 py-2.5',
+                      activeTab === tab.id ? 'btn-tab-active' : 'btn-tab-inactive'
                     )}
                   >
                     <tab.icon className="h-3 w-3" />
@@ -609,9 +638,9 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
 
             {/* Grid Content */}
             <div className="relative -mx-4 px-4">
-              <div 
+              <div
                 id="procurement-main-scroll"
-                className="flex overflow-x-auto pb-6 gap-3 custom-scrollbar snap-x snap-mandatory scroll-smooth"
+                className="custom-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-6"
               >
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -619,35 +648,49 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
-                    className="flex gap-3 w-full"
+                    className="flex w-full gap-3"
                   >
-                    {activeTab === "collections" ? (
+                    {activeTab === 'collections' ? (
                       collections.map((col) => (
-                        <motion.div key={col.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex-shrink-0 w-[320px] snap-start">
-                          <div className="bg-white rounded-xl border border-slate-100 p-4 shadow-xl group/col relative h-full flex flex-col hover:border-indigo-200 transition-colors">
-                            <div className="absolute top-4 right-6 z-30">
+                        <motion.div
+                          key={col.id}
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          className="w-[320px] flex-shrink-0 snap-start"
+                        >
+                          <div className="group/col relative flex h-full flex-col rounded-xl border border-slate-100 bg-white p-4 shadow-xl transition-colors hover:border-indigo-200">
+                            <div className="absolute right-6 top-4 z-30">
                               <RoleIcons roles={col.roles as B2BRole[]} />
                             </div>
-                            <div className="relative aspect-[4/3] mb-4 rounded-2xl overflow-hidden shadow-inner bg-slate-50">
-                              <img src={col.img} className="w-full h-full object-cover transition-transform duration-700 group-hover/col:scale-110" />
+                            <div className="relative mb-4 aspect-[4/3] overflow-hidden rounded-2xl bg-slate-50 shadow-inner">
+                              <img
+                                src={col.img}
+                                className="h-full w-full object-cover transition-transform duration-700 group-hover/col:scale-110"
+                              />
                               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                              <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-20">
-                                <Badge className="bg-indigo-600 text-white border-none font-bold text-[7px] uppercase px-2 py-0.5 shadow-lg">{col.status}</Badge>
+                              <div className="absolute left-3 top-3 z-20 flex flex-col gap-1.5">
+                                <Badge className="border-none bg-indigo-600 px-2 py-0.5 text-[7px] font-bold uppercase text-white shadow-lg">
+                                  {col.status}
+                                </Badge>
                               </div>
-                              
-                              {mainCategory === "retailers" && (
-                                <div className="absolute top-3 right-3 z-20">
+
+                              {mainCategory === 'retailers' && (
+                                <div className="absolute right-3 top-3 z-20">
                                   <TooltipProvider>
                                     <Tooltip>
                                       <TooltipTrigger asChild>
-                                        <Badge className="bg-white/90 backdrop-blur-md text-slate-900 border-none font-bold text-[10px] uppercase px-2 py-1 shadow-md cursor-help hover:bg-black hover:text-white transition-colors">
+                                        <Badge className="cursor-help border-none bg-white/90 px-2 py-1 text-[10px] font-bold uppercase text-slate-900 shadow-md backdrop-blur-md transition-colors hover:bg-black hover:text-white">
                                           {col.match}%
                                         </Badge>
                                       </TooltipTrigger>
-                                      <TooltipContent className="bg-slate-900 text-white border-none p-3 rounded-xl max-w-[200px]">
+                                      <TooltipContent className="max-w-[200px] rounded-xl border-none bg-slate-900 p-3 text-white">
                                         <div className="space-y-1.5">
-                                          <p className="text-[10px] font-bold uppercase tracking-wide text-indigo-400">Match Justification</p>
-                                          <p className="text-[10px] leading-relaxed font-medium">{col.matchReason}</p>
+                                          <p className="text-[10px] font-bold uppercase tracking-wide text-indigo-400">
+                                            Match Justification
+                                          </p>
+                                          <p className="text-[10px] font-medium leading-relaxed">
+                                            {col.matchReason}
+                                          </p>
                                         </div>
                                       </TooltipContent>
                                     </Tooltip>
@@ -657,9 +700,13 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                             </div>
                             <div className="flex-1 space-y-4">
                               <div>
-                                <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-wide mb-1">{col.brand}</p>
-                                <h3 className="text-base font-bold text-slate-900 uppercase tracking-tight leading-none mb-1.5">{col.title}</h3>
-                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wide flex items-center gap-2">
+                                <p className="mb-1 text-[10px] font-bold uppercase tracking-wide text-indigo-600">
+                                  {col.brand}
+                                </p>
+                                <h3 className="mb-1.5 text-base font-bold uppercase leading-none tracking-tight text-slate-900">
+                                  {col.title}
+                                </h3>
+                                <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wide text-slate-400">
                                   <Clock className="h-2.5 w-2.5" /> Отгрузка: {col.delivery}
                                 </p>
                               </div>
@@ -671,33 +718,45 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                       <Info className="h-2.5 w-2.5" /> Brand
                                     </Button>
                                   </DialogTrigger>
-                                  <DialogContent className="sm:max-w-[500px] bg-white border-none rounded-xl p-4">
+                                  <DialogContent className="rounded-xl border-none bg-white p-4 sm:max-w-[500px]">
                                     <DialogHeader>
-                                      <div className="flex items-center gap-3 mb-4">
-                                        <div className="h-10 w-10 rounded-xl bg-slate-900 flex items-center justify-center">
+                                      <div className="mb-4 flex items-center gap-3">
+                                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900">
                                           <ShoppingBag className="h-5 w-5 text-white" />
                                         </div>
-                                        <DialogTitle className="text-sm font-semibold uppercase tracking-tight">{col.brand}</DialogTitle>
+                                        <DialogTitle className="text-sm font-semibold uppercase tracking-tight">
+                                          {col.brand}
+                                        </DialogTitle>
                                       </div>
                                     </DialogHeader>
                                     <div className="space-y-6">
-                                      <div className="relative aspect-video rounded-2xl overflow-hidden">
-                                        <img src={col.img} className="w-full h-full object-cover" />
+                                      <div className="relative aspect-video overflow-hidden rounded-2xl">
+                                        <img src={col.img} className="h-full w-full object-cover" />
                                         <div className="absolute inset-0 bg-black/20" />
                                       </div>
                                       <div className="space-y-4">
-                                        <h4 className="text-[10px] font-bold uppercase tracking-wide text-indigo-600">Философия и ДНК</h4>
-                                        <p className="text-sm text-slate-600 leading-relaxed font-medium">
+                                        <h4 className="text-[10px] font-bold uppercase tracking-wide text-indigo-600">
+                                          Философия и ДНК
+                                        </h4>
+                                        <p className="text-sm font-medium leading-relaxed text-slate-600">
                                           {col.description}
                                         </p>
-                                        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-100">
+                                        <div className="grid grid-cols-2 gap-3 border-t border-slate-100 pt-4">
                                           <div>
-                                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1">Дизайнер</p>
-                                            <p className="text-xs font-bold uppercase text-slate-900">{col.designer}</p>
+                                            <p className="mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+                                              Дизайнер
+                                            </p>
+                                            <p className="text-xs font-bold uppercase text-slate-900">
+                                              {col.designer}
+                                            </p>
                                           </div>
                                           <div>
-                                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1">Основан</p>
-                                            <p className="text-xs font-bold uppercase text-slate-900">{col.founded}</p>
+                                            <p className="mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+                                              Основан
+                                            </p>
+                                            <p className="text-xs font-bold uppercase text-slate-900">
+                                              {col.founded}
+                                            </p>
                                           </div>
                                         </div>
                                       </div>
@@ -711,24 +770,28 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                       <Camera className="h-2.5 w-2.5" /> Lookbook
                                     </Button>
                                   </DialogTrigger>
-                                  <DialogContent className="sm:max-w-[900px] p-0 overflow-hidden bg-black border-none rounded-xl">
+                                  <DialogContent className="overflow-hidden rounded-xl border-none bg-black p-0 sm:max-w-[900px]">
                                     <DialogHeader className="sr-only">
                                       <DialogTitle>Лукбук коллекции {col.title}</DialogTitle>
                                     </DialogHeader>
-                                    <div className="relative w-full aspect-[16/10] group/modal">
-                                      <Carousel className="w-full h-full" opts={{ loop: true }}>
+                                    <div className="group/modal relative aspect-[16/10] w-full">
+                                      <Carousel className="h-full w-full" opts={{ loop: true }}>
                                         <CarouselContent className="h-full">
                                           {col.photoshoot.map((img, i) => (
                                             <CarouselItem key={i} className="h-full">
-                                              <div className="relative w-full h-full">
-                                                <img src={img} alt={`Lookbook ${i}`} className="w-full h-full object-cover" />
+                                              <div className="relative h-full w-full">
+                                                <img
+                                                  src={img}
+                                                  alt={`Lookbook ${i}`}
+                                                  className="h-full w-full object-cover"
+                                                />
                                               </div>
                                             </CarouselItem>
                                           ))}
                                         </CarouselContent>
-                                        <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-6 pointer-events-none z-30">
-                                          <CarouselPrevious className="static h-10 w-10 translate-x-0 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/10 text-white pointer-events-auto transition-all shadow-2xl" />
-                                          <CarouselNext className="static h-10 w-10 translate-x-0 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/10 text-white pointer-events-auto transition-all shadow-2xl" />
+                                        <div className="pointer-events-none absolute inset-y-0 left-0 right-0 z-30 flex items-center justify-between px-6">
+                                          <CarouselPrevious className="pointer-events-auto static h-10 w-10 translate-x-0 border border-white/10 bg-white/10 text-white shadow-2xl backdrop-blur-xl transition-all hover:bg-white/20" />
+                                          <CarouselNext className="pointer-events-auto static h-10 w-10 translate-x-0 border border-white/10 bg-white/10 text-white shadow-2xl backdrop-blur-xl transition-all hover:bg-white/20" />
                                         </div>
                                       </Carousel>
                                     </div>
@@ -741,17 +804,19 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                       <Play className="h-2.5 w-2.5" /> Video
                                     </Button>
                                   </DialogTrigger>
-                                  <DialogContent className="sm:max-w-[800px] p-0 overflow-hidden bg-black border-none rounded-xl">
+                                  <DialogContent className="overflow-hidden rounded-xl border-none bg-black p-0 sm:max-w-[800px]">
                                     <DialogHeader className="sr-only">
-                                      <DialogTitle>Видеопрезентация коллекции {col.title}</DialogTitle>
+                                      <DialogTitle>
+                                        Видеопрезентация коллекции {col.title}
+                                      </DialogTitle>
                                     </DialogHeader>
                                     <div className="relative aspect-video w-full">
-                                      <iframe 
-                                        className="absolute inset-0 w-full h-full" 
-                                        src={col.videoUrl} 
-                                        title="Brand Video" 
-                                        frameBorder="0" 
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                      <iframe
+                                        className="absolute inset-0 h-full w-full"
+                                        src={col.videoUrl}
+                                        title="Brand Video"
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                         allowFullScreen
                                       ></iframe>
                                     </div>
@@ -759,15 +824,19 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                 </Dialog>
                               </div>
 
-                              <div className="pt-4 border-t border-slate-50 flex items-center justify-between gap-3">
+                              <div className="flex items-center justify-between gap-3 border-t border-slate-50 pt-4">
                                 <div className="flex flex-col">
-                                  <span className="text-[7px] font-bold text-slate-400 uppercase tracking-wide leading-none mb-1">Доступно</span>
-                                  <span className="text-sm font-bold text-slate-900 tracking-tight">{col.count} SKU</span>
+                                  <span className="mb-1 text-[7px] font-bold uppercase leading-none tracking-wide text-slate-400">
+                                    Доступно
+                                  </span>
+                                  <span className="text-sm font-bold tracking-tight text-slate-900">
+                                    {col.count} SKU
+                                  </span>
                                 </div>
                                 {(() => {
                                   const isAccessGranted = col.roles?.includes(effectiveRole);
                                   return (
-                                    <Button 
+                                    <Button
                                       variant="outline"
                                       disabled={!isAccessGranted}
                                       onClick={() => {
@@ -775,26 +844,44 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                           if (viewRole === 'b2b') {
                                             addB2bActivityLog({
                                               type: 'linesheet_request',
-                                              actor: { id: 'retailer-1', name: 'Premium Store', type: 'retailer' },
-                                              target: { id: col.brandId, name: col.brand, type: 'brand' },
-                                              details: `Accessed linesheet for ${col.title}.`
+                                              actor: {
+                                                id: 'retailer-1',
+                                                name: 'Premium Store',
+                                                type: 'retailer',
+                                              },
+                                              target: {
+                                                id: col.brandId,
+                                                name: col.brand,
+                                                type: 'brand',
+                                              },
+                                              details: `Accessed linesheet for ${col.title}.`,
                                             });
                                           }
-                                          router.push(getProcurementLink(col.title, mainCategory === "designers" ? `/dashboard/brand/analytics/${col.brandId}` : `/shop/b2b/collections/${col.id}`));
+                                          router.push(
+                                            getProcurementLink(
+                                              col.title,
+                                              mainCategory === 'designers'
+                                                ? `/dashboard/brand/analytics/${col.brandId}`
+                                                : `/shop/b2b/collections/${col.id}`
+                                            )
+                                          );
                                         }
                                       }}
                                       className={cn(
-                                        "w-[160px] group/btn",
-                                        !isAccessGranted && "bg-slate-50 text-slate-300 border-slate-100 cursor-not-allowed"
+                                        'group/btn w-[160px]',
+                                        !isAccessGranted &&
+                                          'cursor-not-allowed border-slate-100 bg-slate-50 text-slate-300'
                                       )}
                                     >
                                       {isAccessGranted ? (
                                         <>
-                                          {mainCategory === "designers" ? "Настроить заказ" : "Открыть Line-list"} 
+                                          {mainCategory === 'designers'
+                                            ? 'Настроить заказ'
+                                            : 'Открыть Line-list'}
                                           <ArrowRight className="h-3 w-3 transition-transform group-hover/btn:translate-x-1" />
                                         </>
                                       ) : (
-                                        "Нет доступа"
+                                        'Нет доступа'
                                       )}
                                     </Button>
                                   );
@@ -804,239 +891,334 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                           </div>
                         </motion.div>
                       ))
-                    ) : activeTab === "orders" ? (
-                        <div className="w-full bg-white rounded-xl border border-slate-100 p-4 shadow-xl overflow-x-auto">
-                          <table className="w-full text-left border-collapse">
-                            <thead>
-                              <tr className="border-b border-slate-100">
-                                <th className="pb-4 text-[10px] font-bold uppercase tracking-wide text-slate-400">ID / Дата</th>
-                                <th className="pb-4 text-[10px] font-bold uppercase tracking-wide text-slate-400">Сезон</th>
-                                <th className="pb-4 text-[10px] font-bold uppercase tracking-wide text-slate-400">Бренд / Коллекция</th>
-                                <th className="pb-4 text-[10px] font-bold uppercase tracking-wide text-slate-400">Заказчик</th>
-                                {mainCategory === "distributor" && (
-                                  <th className="pb-4 text-[10px] font-bold uppercase tracking-wide text-slate-400">Узел дистрибуции</th>
+                    ) : activeTab === 'orders' ? (
+                      <div className="w-full overflow-x-auto rounded-xl border border-slate-100 bg-white p-4 shadow-xl">
+                        <table className="w-full border-collapse text-left">
+                          <thead>
+                            <tr className="border-b border-slate-100">
+                              <th className="pb-4 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+                                ID / Дата
+                              </th>
+                              <th className="pb-4 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+                                Сезон
+                              </th>
+                              <th className="pb-4 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+                                Бренд / Коллекция
+                              </th>
+                              <th className="pb-4 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+                                Заказчик
+                              </th>
+                              {mainCategory === 'distributor' && (
+                                <th className="pb-4 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+                                  Узел дистрибуции
+                                </th>
+                              )}
+                              <th className="pb-4 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+                                Сумма (Предв. / Финал)
+                              </th>
+                              <th className="pb-4 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+                                Статус
+                              </th>
+                              <th className="pb-4 text-right text-[10px] font-bold uppercase tracking-wide text-slate-400">
+                                Действие
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-50">
+                            {orders.map((order) => (
+                              <tr
+                                key={order.id}
+                                className={cn(
+                                  'group/row transition-colors',
+                                  mainCategory === 'distributor'
+                                    ? 'hover:bg-indigo-50/30'
+                                    : 'hover:bg-slate-50/50'
                                 )}
-                                <th className="pb-4 text-[10px] font-bold uppercase tracking-wide text-slate-400">Сумма (Предв. / Финал)</th>
-                                <th className="pb-4 text-[10px] font-bold uppercase tracking-wide text-slate-400">Статус</th>
-                                <th className="pb-4 text-[10px] font-bold uppercase tracking-wide text-slate-400 text-right">Действие</th>
-                              </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-50">
-                              {orders.map((order) => (
-                                <tr key={order.id} className={cn(
-                                  "group/row transition-colors",
-                                  mainCategory === "distributor" ? "hover:bg-indigo-50/30" : "hover:bg-slate-50/50"
-                                )}>
-                                  <td className="py-4">
-                                    <div className="flex flex-col">
-                                      <span className="font-bold text-slate-900 text-xs">{order.orderId}</span>
-                                      <span className="text-[10px] text-slate-400 font-medium">{order.date}</span>
+                              >
+                                <td className="py-4">
+                                  <div className="flex flex-col">
+                                    <span className="text-xs font-bold text-slate-900">
+                                      {order.orderId}
+                                    </span>
+                                    <span className="text-[10px] font-medium text-slate-400">
+                                      {order.date}
+                                    </span>
+                                  </div>
+                                </td>
+                                <td className="py-4">
+                                  <Badge
+                                    variant="outline"
+                                    className="rounded-lg border-slate-200 text-[10px] font-bold text-slate-600"
+                                  >
+                                    {order.season}
+                                  </Badge>
+                                </td>
+                                <td className="py-4">
+                                  <div className="relative flex flex-col">
+                                    <div className="absolute -top-1 right-0">
+                                      <RoleIcons roles={order.roles as B2BRole[]} />
                                     </div>
-                                  </td>
+                                    <span className="mb-1 text-[10px] font-bold uppercase leading-none tracking-wide text-indigo-600">
+                                      {order.brand}
+                                    </span>
+                                    <span className="text-xs font-bold uppercase tracking-tight text-slate-900">
+                                      {order.collectionName}
+                                    </span>
+                                  </div>
+                                </td>
+                                <td className="py-4">
+                                  <span className="text-xs font-bold uppercase tracking-tight text-slate-700">
+                                    {order.placedBy}
+                                  </span>
+                                </td>
+                                {mainCategory === 'distributor' && (
                                   <td className="py-4">
-                                    <Badge variant="outline" className="text-[10px] font-bold border-slate-200 text-slate-600 rounded-lg">{order.season}</Badge>
-                                  </td>
-                                  <td className="py-4">
-                                    <div className="flex flex-col relative">
-                                      <div className="absolute -top-1 right-0">
-                                        <RoleIcons roles={order.roles as B2BRole[]} />
+                                    <div className="flex items-center gap-2">
+                                      <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-indigo-500/10">
+                                        <Globe2 className="h-3 w-3 text-indigo-600" />
                                       </div>
-                                      <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-wide leading-none mb-1">{order.brand}</span>
-                                      <span className="text-xs font-bold text-slate-900 uppercase tracking-tight">{order.collectionName}</span>
-                                    </div>
-                                  </td>
-                                  <td className="py-4">
-                                    <span className="text-xs font-bold text-slate-700 uppercase tracking-tight">{order.placedBy}</span>
-                                  </td>
-                                  {mainCategory === "distributor" && (
-                                    <td className="py-4">
-                                      <div className="flex items-center gap-2">
-                                        <div className="h-6 w-6 rounded-lg bg-indigo-500/10 flex items-center justify-center">
-                                          <Globe2 className="h-3 w-3 text-indigo-600" />
-                                        </div>
-                                        <span className="text-[10px] font-bold uppercase text-indigo-600">HUB-Central</span>
-                                      </div>
-                                    </td>
-                                  )}
-                                  <td className="py-4">
-                                    <div className="flex flex-col">
-                                      <span className="text-xs font-bold text-slate-400 line-through decoration-slate-200">{order.preliminaryTotal}</span>
-                                      <span className="text-sm font-bold text-indigo-600 tracking-tight">
-                                        {order.finalTotal || "Ожидает финализации"}
+                                      <span className="text-[10px] font-bold uppercase text-indigo-600">
+                                        HUB-Central
                                       </span>
-                                      {(() => {
-                                        const neg = b2bNegotiations.find(n => n.orderId === order.orderId);
-                                        if (neg && neg.messages.length > 0) {
-                                          return (
-                                            <div className="flex items-center gap-1 mt-1">
-                                              <Activity className="h-2.5 w-2.5 text-amber-500 animate-pulse" />
-                                              <span className="text-[7px] font-bold uppercase text-amber-600">Переговоры: {neg.messages.length}</span>
-                                            </div>
-                                          );
-                                        }
-                                        return null;
-                                      })()}
                                     </div>
                                   </td>
-                                  <td className="py-4">
-                                    <Badge className={cn(
-                                      "border-none font-bold text-[10px] uppercase px-2 py-0.5",
-                                      order.status === "В работе" ? "bg-indigo-50 text-indigo-600" : "bg-slate-100 text-slate-400"
-                                    )}>
-                                      {order.status}
-                                    </Badge>
-                                  </td>
-                                  <td className="py-4 text-right">
+                                )}
+                                <td className="py-4">
+                                  <div className="flex flex-col">
+                                    <span className="text-xs font-bold text-slate-400 line-through decoration-slate-200">
+                                      {order.preliminaryTotal}
+                                    </span>
+                                    <span className="text-sm font-bold tracking-tight text-indigo-600">
+                                      {order.finalTotal || 'Ожидает финализации'}
+                                    </span>
                                     {(() => {
-                                      const isAccessGranted = order.roles?.includes(effectiveRole);
-                                      const negotiation = b2bNegotiations.find(n => n.orderId === order.orderId);
-                                      
-                                      return (
-                                        <div className="flex items-center justify-end gap-2">
-                                          <Dialog>
-                                            <DialogTrigger asChild>
-                                              <Button variant="outline" size="icon" className="h-8 w-8">
-                                                <Activity className="h-3.5 w-3.5" />
-                                              </Button>
-                                            </DialogTrigger>
-                                            <DialogContent className="sm:max-w-[450px] bg-white border-none rounded-xl p-0 overflow-hidden shadow-2xl">
-                                              <DialogHeader className="p-4 pb-4 bg-slate-50 border-b border-slate-100">
-                                                <div className="flex items-center gap-3">
-                                                  <div className="h-10 w-10 rounded-xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-200">
-                                                    <Activity className="h-5 w-5 text-white" />
-                                                  </div>
-                                                  <div>
-                                                    <DialogTitle className="text-base font-semibold uppercase tracking-tight">Переговоры по заказу</DialogTitle>
-                                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide mt-0.5">Order ID: {order.orderId} • {order.brand}</p>
-                                                  </div>
-                                                </div>
-                                              </DialogHeader>
-                                              
-                                              <div className="p-4 h-[300px] overflow-y-auto space-y-4 bg-white custom-scrollbar">
-                                                {negotiation?.messages.map((msg) => (
-                                                  <div key={msg.id} className={cn(
-                                                    "flex flex-col gap-1 max-w-[80%]",
-                                                    msg.sender.id === user?.uid ? "ml-auto items-end" : "items-start"
-                                                  )}>
-                                                    <div className={cn(
-                                                      "p-3 rounded-2xl text-xs font-medium leading-relaxed shadow-sm",
-                                                      msg.sender.id === user?.uid 
-                                                        ? "bg-indigo-600 text-white rounded-tr-none" 
-                                                        : "bg-slate-100 text-slate-700 rounded-tl-none"
-                                                    )}>
-                                                      {msg.text}
-                                                    </div>
-                                                    <span className="text-[10px] font-bold text-slate-300 uppercase tracking-wide px-1">
-                                                      {msg.sender.name} • {new Date(msg.timestamp).toLocaleTimeString()}
-                                                    </span>
-                                                  </div>
-                                                ))}
-                                                {(!negotiation || negotiation.messages.length === 0) && (
-                                                  <div className="h-full flex flex-col items-center justify-center text-center space-y-3 opacity-40">
-                                                    <Activity className="h-8 w-8 text-slate-300" />
-                                                    <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">История сообщений пуста</p>
-                                                  </div>
-                                                )}
-                                              </div>
-
-                                              <div className="p-4 bg-slate-50 border-t border-slate-100">
-                                                <div className="flex gap-2">
-                                                  <Input 
-                                                    placeholder="Введите сообщение..." 
-                                                    className="h-10 rounded-xl border-slate-200 bg-white text-xs font-medium focus-visible:ring-indigo-500"
-                                                    onKeyDown={(e) => {
-                                                      if (e.key === 'Enter') {
-                                                        const target = e.target as HTMLInputElement;
-                                                        if (target.value.trim()) {
-                                                          addNegotiationMessage(order.orderId, {
-                                                            type: 'message',
-                                                            sender: { id: user?.uid || 'user-1', name: user?.displayName || 'User', role: effectiveRole },
-                                                            text: target.value.trim()
-                                                          });
-                                                          target.value = '';
-                                                        }
-                                                      }
-                                                    }}
-                                                  />
-                                                  <Button size="icon" className="h-10 w-10 shrink-0">
-                                                    <Send className="h-4 w-4" />
-                                                  </Button>
-                                                </div>
-                                              </div>
-                                            </DialogContent>
-                                          </Dialog>
-
-                                          <Button 
-                                            variant="outline"
-                                            size="sm"
-                                            disabled={!isAccessGranted}
-                                            onClick={() => {
-                                              if (isAccessGranted) {
-                                                if (viewRole === 'b2b') {
-                                                  addB2bActivityLog({
-                                                    type: 'order_draft',
-                                                    actor: { id: 'retailer-1', name: 'Premium Store', type: 'retailer' },
-                                                    target: { id: order.orderId, name: `Order ${order.orderId}`, type: 'brand' },
-                                                    details: `Viewed order details for ${order.orderId}.`
-                                                  });
-                                                }
-                                                router.push(getProcurementLink('Заказ', mainCategory === "retailers" ? `/shop/b2b/orders/${order.id}` : `/dashboard/brand/${order.brandId}/orders/${order.id}`));
-                                              }
-                                            }}
-                                            className={cn(
-                                              "w-[120px] group/btn",
-                                              !isAccessGranted && "bg-slate-50 text-slate-300 border-slate-100 cursor-not-allowed"
-                                            )}
-                                          >
-                                            {isAccessGranted ? (
-                                              <>
-                                                {mainCategory === "retailers" ? "Продолжить" : "Детализация"}
-                                                <ArrowRight className="h-2.5 w-2.5 transition-transform group-hover/btn:translate-x-1" />
-                                              </>
-                                            ) : (
-                                              "Нет доступа"
-                                            )}
-                                          </Button>
-                                        </div>
+                                      const neg = b2bNegotiations.find(
+                                        (n) => n.orderId === order.orderId
                                       );
+                                      if (neg && neg.messages.length > 0) {
+                                        return (
+                                          <div className="mt-1 flex items-center gap-1">
+                                            <Activity className="h-2.5 w-2.5 animate-pulse text-amber-500" />
+                                            <span className="text-[7px] font-bold uppercase text-amber-600">
+                                              Переговоры: {neg.messages.length}
+                                            </span>
+                                          </div>
+                                        );
+                                      }
+                                      return null;
                                     })()}
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                    ) : activeTab === "strategy" && mainCategory === "distributor" ? (
+                                  </div>
+                                </td>
+                                <td className="py-4">
+                                  <Badge
+                                    className={cn(
+                                      'border-none px-2 py-0.5 text-[10px] font-bold uppercase',
+                                      order.status === 'В работе'
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'bg-slate-100 text-slate-400'
+                                    )}
+                                  >
+                                    {order.status}
+                                  </Badge>
+                                </td>
+                                <td className="py-4 text-right">
+                                  {(() => {
+                                    const isAccessGranted = order.roles?.includes(effectiveRole);
+                                    const negotiation = b2bNegotiations.find(
+                                      (n) => n.orderId === order.orderId
+                                    );
+
+                                    return (
+                                      <div className="flex items-center justify-end gap-2">
+                                        <Dialog>
+                                          <DialogTrigger asChild>
+                                            <Button
+                                              variant="outline"
+                                              size="icon"
+                                              className="h-8 w-8"
+                                            >
+                                              <Activity className="h-3.5 w-3.5" />
+                                            </Button>
+                                          </DialogTrigger>
+                                          <DialogContent className="overflow-hidden rounded-xl border-none bg-white p-0 shadow-2xl sm:max-w-[450px]">
+                                            <DialogHeader className="border-b border-slate-100 bg-slate-50 p-4 pb-4">
+                                              <div className="flex items-center gap-3">
+                                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 shadow-lg shadow-indigo-200">
+                                                  <Activity className="h-5 w-5 text-white" />
+                                                </div>
+                                                <div>
+                                                  <DialogTitle className="text-base font-semibold uppercase tracking-tight">
+                                                    Переговоры по заказу
+                                                  </DialogTitle>
+                                                  <p className="mt-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+                                                    Order ID: {order.orderId} • {order.brand}
+                                                  </p>
+                                                </div>
+                                              </div>
+                                            </DialogHeader>
+
+                                            <div className="custom-scrollbar h-[300px] space-y-4 overflow-y-auto bg-white p-4">
+                                              {negotiation?.messages.map((msg) => (
+                                                <div
+                                                  key={msg.id}
+                                                  className={cn(
+                                                    'flex max-w-[80%] flex-col gap-1',
+                                                    msg.sender.id === user?.uid
+                                                      ? 'ml-auto items-end'
+                                                      : 'items-start'
+                                                  )}
+                                                >
+                                                  <div
+                                                    className={cn(
+                                                      'rounded-2xl p-3 text-xs font-medium leading-relaxed shadow-sm',
+                                                      msg.sender.id === user?.uid
+                                                        ? 'rounded-tr-none bg-indigo-600 text-white'
+                                                        : 'rounded-tl-none bg-slate-100 text-slate-700'
+                                                    )}
+                                                  >
+                                                    {msg.text}
+                                                  </div>
+                                                  <span className="px-1 text-[10px] font-bold uppercase tracking-wide text-slate-300">
+                                                    {msg.sender.name} •{' '}
+                                                    {new Date(msg.timestamp).toLocaleTimeString()}
+                                                  </span>
+                                                </div>
+                                              ))}
+                                              {(!negotiation ||
+                                                negotiation.messages.length === 0) && (
+                                                <div className="flex h-full flex-col items-center justify-center space-y-3 text-center opacity-40">
+                                                  <Activity className="h-8 w-8 text-slate-300" />
+                                                  <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">
+                                                    История сообщений пуста
+                                                  </p>
+                                                </div>
+                                              )}
+                                            </div>
+
+                                            <div className="border-t border-slate-100 bg-slate-50 p-4">
+                                              <div className="flex gap-2">
+                                                <Input
+                                                  placeholder="Введите сообщение..."
+                                                  className="h-10 rounded-xl border-slate-200 bg-white text-xs font-medium focus-visible:ring-indigo-500"
+                                                  onKeyDown={(e) => {
+                                                    if (e.key === 'Enter') {
+                                                      const target = e.target as HTMLInputElement;
+                                                      if (target.value.trim()) {
+                                                        addNegotiationMessage(order.orderId, {
+                                                          type: 'message',
+                                                          sender: {
+                                                            id: user?.uid || 'user-1',
+                                                            name: user?.displayName || 'User',
+                                                            role: effectiveRole,
+                                                          },
+                                                          text: target.value.trim(),
+                                                        });
+                                                        target.value = '';
+                                                      }
+                                                    }
+                                                  }}
+                                                />
+                                                <Button size="icon" className="h-10 w-10 shrink-0">
+                                                  <Send className="h-4 w-4" />
+                                                </Button>
+                                              </div>
+                                            </div>
+                                          </DialogContent>
+                                        </Dialog>
+
+                                        <Button
+                                          variant="outline"
+                                          size="sm"
+                                          disabled={!isAccessGranted}
+                                          onClick={() => {
+                                            if (isAccessGranted) {
+                                              if (viewRole === 'b2b') {
+                                                addB2bActivityLog({
+                                                  type: 'order_draft',
+                                                  actor: {
+                                                    id: 'retailer-1',
+                                                    name: 'Premium Store',
+                                                    type: 'retailer',
+                                                  },
+                                                  target: {
+                                                    id: order.orderId,
+                                                    name: `Order ${order.orderId}`,
+                                                    type: 'brand',
+                                                  },
+                                                  details: `Viewed order details for ${order.orderId}.`,
+                                                });
+                                              }
+                                              router.push(
+                                                getProcurementLink(
+                                                  'Заказ',
+                                                  mainCategory === 'retailers'
+                                                    ? `/shop/b2b/orders/${order.id}`
+                                                    : `/dashboard/brand/${order.brandId}/orders/${order.id}`
+                                                )
+                                              );
+                                            }
+                                          }}
+                                          className={cn(
+                                            'group/btn w-[120px]',
+                                            !isAccessGranted &&
+                                              'cursor-not-allowed border-slate-100 bg-slate-50 text-slate-300'
+                                          )}
+                                        >
+                                          {isAccessGranted ? (
+                                            <>
+                                              {mainCategory === 'retailers'
+                                                ? 'Продолжить'
+                                                : 'Детализация'}
+                                              <ArrowRight className="h-2.5 w-2.5 transition-transform group-hover/btn:translate-x-1" />
+                                            </>
+                                          ) : (
+                                            'Нет доступа'
+                                          )}
+                                        </Button>
+                                      </div>
+                                    );
+                                  })()}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    ) : activeTab === 'strategy' && mainCategory === 'distributor' ? (
                       distributionTools.map((tool) => (
                         <motion.div
                           key={tool.id}
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
-                          className="flex-shrink-0 w-[280px] md:w-[320px] p-4 pb-3 rounded-3xl bg-slate-50 border border-slate-100 snap-start transition-all hover:border-slate-900/30 hover:shadow-xl hover:shadow-slate-200/50 flex flex-col group/card relative"
+                          className="group/card relative flex w-[280px] flex-shrink-0 snap-start flex-col rounded-3xl border border-slate-100 bg-slate-50 p-4 pb-3 transition-all hover:border-slate-900/30 hover:shadow-xl hover:shadow-slate-200/50 md:w-[320px]"
                         >
-                          <div className="absolute top-4 right-4 z-20">
+                          <div className="absolute right-4 top-4 z-20">
                             <RoleIcons roles={tool.roles as B2BRole[]} />
                           </div>
-                          <p className="text-[10px] font-bold uppercase text-slate-900 mb-2">
+                          <p className="mb-2 text-[10px] font-bold uppercase text-slate-900">
                             {tool.label}
                           </p>
-                          <h4 className="text-sm font-bold uppercase text-slate-900 mb-2 leading-tight">
+                          <h4 className="mb-2 text-sm font-bold uppercase leading-tight text-slate-900">
                             {tool.title}
                           </h4>
-                          <p className="text-xs text-slate-500 font-medium leading-relaxed mb-1">
+                          <p className="mb-1 text-xs font-medium leading-relaxed text-slate-500">
                             {tool.desc}
                           </p>
-                          <div className="mt-auto pt-2 border-t border-slate-100 flex items-center justify-center">
+                          <div className="mt-auto flex items-center justify-center border-t border-slate-100 pt-2">
                             {(() => {
                               const isAccessGranted = tool.roles?.includes(effectiveRole);
                               return (
                                 <Button
                                   variant="outline"
                                   disabled={!isAccessGranted}
-                                  onClick={() => isAccessGranted && router.push(getProcurementLink(tool.title, tool.link))}
+                                  onClick={() =>
+                                    isAccessGranted &&
+                                    router.push(getProcurementLink(tool.title, tool.link))
+                                  }
                                   className={cn(
-                                    "w-[180px] mx-auto group/btn",
-                                    !isAccessGranted && "bg-slate-50 text-slate-300 border-slate-100 cursor-not-allowed"
+                                    'group/btn mx-auto w-[180px]',
+                                    !isAccessGranted &&
+                                      'cursor-not-allowed border-slate-100 bg-slate-50 text-slate-300'
                                   )}
                                 >
                                   {isAccessGranted ? (
@@ -1045,7 +1227,7 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                                       <ArrowRight className="h-3 w-3 transition-transform group-hover/btn:translate-x-1" />
                                     </>
                                   ) : (
-                                    "Нет доступа"
+                                    'Нет доступа'
                                   )}
                                 </Button>
                               );
@@ -1056,48 +1238,52 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
                     ) : (
                       /* Strategy / Tools cards (Old Info Blocks) */
                       getInfoBlocks().map((item, idx) => (
-                        <motion.div 
+                        <motion.div
                           key={idx}
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
-                          className="flex-shrink-0 w-[280px] md:w-[320px] bg-slate-50 rounded-xl p-4 border border-slate-100 snap-start transition-all hover:border-slate-900/30 hover:shadow-xl hover:shadow-slate-200/50 flex flex-col group/info relative"
+                          className="group/info relative flex w-[280px] flex-shrink-0 snap-start flex-col rounded-xl border border-slate-100 bg-slate-50 p-4 transition-all hover:border-slate-900/30 hover:shadow-xl hover:shadow-slate-200/50 md:w-[320px]"
                         >
-                          <div className="absolute top-4 right-4 z-20">
+                          <div className="absolute right-4 top-4 z-20">
                             <RoleIcons roles={item.roles as B2BRole[]} />
                           </div>
-                          <div className="h-4 w-4 rounded-lg bg-white shadow-sm flex items-center justify-center mb-4 group-hover/info:bg-black transition-colors">
+                          <div className="mb-4 flex h-4 w-4 items-center justify-center rounded-lg bg-white shadow-sm transition-colors group-hover/info:bg-black">
                             <item.icon className="h-2 w-2 text-slate-400 group-hover/info:text-white" />
                           </div>
-                          <h4 className="text-sm font-bold uppercase text-slate-900 mb-2 leading-tight">
+                          <h4 className="mb-2 text-sm font-bold uppercase leading-tight text-slate-900">
                             {item.title}
                           </h4>
-                          <p className="text-xs text-slate-500 font-medium leading-relaxed mb-6">
+                          <p className="mb-6 text-xs font-medium leading-relaxed text-slate-500">
                             {item.desc}
                           </p>
-                          <div className="mt-auto pt-4 border-t border-slate-100 flex justify-center">
-                             {(() => {
-                               const isAccessGranted = item.roles?.includes(effectiveRole);
-                               return (
-                                 <Button 
-                                   variant="outline"
-                                   disabled={!isAccessGranted}
-                                   onClick={() => isAccessGranted && router.push(getProcurementLink(item.title, item.link || "#"))}
-                                   className={cn(
-                                     "w-[160px] group/btn",
-                                     !isAccessGranted && "bg-slate-50 text-slate-300 border-slate-100 cursor-not-allowed"
-                                   )}
-                                 >
-                                    {isAccessGranted ? (
-                                      <>
-                                        Подробнее
-                                        <ArrowRight className="h-3 w-3 transition-transform group-hover/btn:translate-x-1" />
-                                      </>
-                                    ) : (
-                                      "Нет доступа"
-                                    )}
-                                 </Button>
-                               );
-                             })()}
+                          <div className="mt-auto flex justify-center border-t border-slate-100 pt-4">
+                            {(() => {
+                              const isAccessGranted = item.roles?.includes(effectiveRole);
+                              return (
+                                <Button
+                                  variant="outline"
+                                  disabled={!isAccessGranted}
+                                  onClick={() =>
+                                    isAccessGranted &&
+                                    router.push(getProcurementLink(item.title, item.link || '#'))
+                                  }
+                                  className={cn(
+                                    'group/btn w-[160px]',
+                                    !isAccessGranted &&
+                                      'cursor-not-allowed border-slate-100 bg-slate-50 text-slate-300'
+                                  )}
+                                >
+                                  {isAccessGranted ? (
+                                    <>
+                                      Подробнее
+                                      <ArrowRight className="h-3 w-3 transition-transform group-hover/btn:translate-x-1" />
+                                    </>
+                                  ) : (
+                                    'Нет доступа'
+                                  )}
+                                </Button>
+                              );
+                            })()}
                           </div>
                         </motion.div>
                       ))
@@ -1107,44 +1293,54 @@ export function ProcurementSection({ viewRole, router }: ProcurementSectionProps
               </div>
             </div>
 
-            <Card className="bg-slate-900 border-none rounded-xl relative min-h-[300px] flex items-center shadow-2xl group/banner overflow-hidden mt-6">
-              <div className="absolute inset-0 opacity-40 transition-transform duration-1000 group-hover/banner:scale-105 rounded-xl overflow-hidden">
+            <Card className="group/banner relative mt-6 flex min-h-[300px] items-center overflow-hidden rounded-xl border-none bg-slate-900 shadow-2xl">
+              <div className="absolute inset-0 overflow-hidden rounded-xl opacity-40 transition-transform duration-1000 group-hover/banner:scale-105">
                 <img
                   src="https://images.unsplash.com/photo-1556740734-7f1a02d7350c?q=80&w=2000"
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                 />
               </div>
               <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent" />
-              <CardContent className="relative z-10 p-4 space-y-6 max-w-4xl text-white">
-                <div className="overflow-hidden whitespace-nowrap mb-4 py-2 border-y border-white/10 relative group/marquee">
-                  <motion.div 
-                    animate={{ x: ["0%", "-50%"] }} 
-                    transition={{ duration: 120, repeat: Infinity, ease: "linear" }} 
-                    className="flex items-center gap-3 w-fit"
+              <CardContent className="relative z-10 max-w-4xl space-y-6 p-4 text-white">
+                <div className="group/marquee relative mb-4 overflow-hidden whitespace-nowrap border-y border-white/10 py-2">
+                  <motion.div
+                    animate={{ x: ['0%', '-50%'] }}
+                    transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
+                    className="flex w-fit items-center gap-3"
                   >
                     {[1, 2].map((i) => (
-                      <div key={i} className="flex items-center gap-3 shrink-0">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-white/60">• Автоматизация закупок</span>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-white/60">• Прямые поставки</span>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-white/60">• Глобальный сорсинг</span>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-white/60">• Контроль качества</span>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-white/60">• Смарт-логистика</span>
+                      <div key={i} className="flex shrink-0 items-center gap-3">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-white/60">
+                          • Автоматизация закупок
+                        </span>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-white/60">
+                          • Прямые поставки
+                        </span>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-white/60">
+                          • Глобальный сорсинг
+                        </span>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-white/60">
+                          • Контроль качества
+                        </span>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-white/60">
+                          • Смарт-логистика
+                        </span>
                       </div>
                     ))}
                   </motion.div>
                 </div>
-                <h2 className="text-xl md:text-3xl font-bold uppercase tracking-tight leading-tight">
+                <h2 className="text-xl font-bold uppercase leading-tight tracking-tight md:text-3xl">
                   МАСШТАБИРУЙТЕ ВАШ БИЗНЕС
                 </h2>
-                <p className="text-slate-300 text-sm font-medium border-l-2 border-indigo-500/50 pl-6 whitespace-nowrap">
+                <p className="whitespace-nowrap border-l-2 border-indigo-500/50 pl-6 text-sm font-medium text-slate-300">
                   "Автоматизация закупок и прямой доступ к производствам."
                 </p>
               </CardContent>
             </Card>
           </CardContent>
-          
-          <div className="absolute bottom-8 right-10 flex items-center gap-2 opacity-20 hover:opacity-100 transition-opacity cursor-default z-20">
-            <div className="h-1 w-1 rounded-full bg-indigo-500 animate-pulse" />
+
+          <div className="absolute bottom-8 right-10 z-20 flex cursor-default items-center gap-2 opacity-20 transition-opacity hover:opacity-100">
+            <div className="h-1 w-1 animate-pulse rounded-full bg-indigo-500" />
             <span className="text-[10px] font-medium uppercase tracking-wide text-slate-400">
               PROCUREMENT_SYSTEM_v2.4
             </span>

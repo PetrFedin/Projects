@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogDescription, 
-  DialogHeader, 
-  DialogTitle, 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
   DialogTrigger,
-  DialogFooter
+  DialogFooter,
 } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import type { Product } from '@/lib/types';
@@ -27,13 +27,13 @@ export function ProductWaitlistAction({ product }: Props) {
 
   useEffect(() => {
     const list = loadWaitlist();
-    setInWaitlist(list.filter(e => e.sku === product.sku).map(e => e.size));
+    setInWaitlist(list.filter((e) => e.sku === product.sku).map((e) => e.size));
   }, [product.sku]);
 
   const handleAdd = () => {
     if (!selectedSize) return;
     const newList = addToWaitlist(product, selectedSize);
-    setInWaitlist(newList.filter(e => e.sku === product.sku).map(e => e.size));
+    setInWaitlist(newList.filter((e) => e.sku === product.sku).map((e) => e.size));
     setOpen(false);
     toast({
       title: 'Добавлено в лист ожидания',
@@ -45,7 +45,10 @@ export function ProductWaitlistAction({ product }: Props) {
     <div className="space-y-2">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline" className="w-full gap-2 border-primary/40 text-primary hover:bg-primary/5">
+          <Button
+            variant="outline"
+            className="w-full gap-2 border-primary/40 text-primary hover:bg-primary/5"
+          >
             <Bell className="h-4 w-4" />
             Узнать о наличии
           </Button>
@@ -59,17 +62,17 @@ export function ProductWaitlistAction({ product }: Props) {
           </DialogHeader>
           <div className="flex flex-wrap gap-2 py-4">
             {/* В демо показываем все размеры как доступные для ожидания */}
-            {['XS', 'S', 'M', 'L', 'XL', '36', '37', '38', '39', '40'].slice(0, 6).map(size => {
+            {['XS', 'S', 'M', 'L', 'XL', '36', '37', '38', '39', '40'].slice(0, 6).map((size) => {
               const isAdded = inWaitlist.includes(size);
               return (
                 <button
                   key={size}
                   onClick={() => !isAdded && setSelectedSize(size)}
-                  className={`h-10 w-12 rounded-md border text-sm flex items-center justify-center transition-colors ${
-                    isAdded 
-                      ? 'bg-muted border-muted text-muted-foreground cursor-default' 
-                      : selectedSize === size 
-                        ? 'border-primary bg-primary text-primary-foreground' 
+                  className={`flex h-10 w-12 items-center justify-center rounded-md border text-sm transition-colors ${
+                    isAdded
+                      ? 'cursor-default border-muted bg-muted text-muted-foreground'
+                      : selectedSize === size
+                        ? 'border-primary bg-primary text-primary-foreground'
                         : 'border-border hover:border-primary'
                   }`}
                 >
@@ -85,9 +88,9 @@ export function ProductWaitlistAction({ product }: Props) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      
+
       {inWaitlist.length > 0 && (
-        <p className="text-[10px] text-muted-foreground text-center">
+        <p className="text-center text-[10px] text-muted-foreground">
           Вы уже ждете размеры: <span className="font-medium">{inWaitlist.join(', ')}</span>
         </p>
       )}

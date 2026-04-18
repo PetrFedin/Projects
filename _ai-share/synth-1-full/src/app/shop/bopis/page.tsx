@@ -14,15 +14,20 @@ const MOCK_PICKUPS = [
 
 export default function ShopBopisPage() {
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-2xl pb-24">
-      <div className="flex items-center gap-3 flex-wrap">
-        <Link href={ROUTES.shop.home}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
-        <h1 className="text-2xl font-bold uppercase flex items-center gap-2">
+    <div className="container mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
+      <div className="flex flex-wrap items-center gap-3">
+        <Link href={ROUTES.shop.home}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
+        <h1 className="flex items-center gap-2 text-2xl font-bold uppercase">
           <Store className="h-6 w-6" /> BOPIS — выдача заказов
         </h1>
       </div>
       <p className="text-sm text-slate-500">
-        Заказы, оформленные онлайн и выбранные для самовывоза в этом магазине. Подтвердите выдачу или примите возврат.
+        Заказы, оформленные онлайн и выбранные для самовывоза в этом магазине. Подтвердите выдачу
+        или примите возврат.
       </p>
 
       <Card className="rounded-xl border border-slate-200 shadow-sm">
@@ -35,16 +40,26 @@ export default function ShopBopisPage() {
         <CardContent>
           <ul className="space-y-2">
             {MOCK_PICKUPS.map((p) => (
-              <li key={p.id} className="flex items-center justify-between gap-2 p-3 rounded-lg bg-slate-50 border border-slate-100">
+              <li
+                key={p.id}
+                className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
+              >
                 <div>
                   <p className="font-mono text-xs font-semibold">{p.orderId}</p>
-                  <p className="text-[11px] text-slate-500">{p.customer} · {p.items} поз.</p>
+                  <p className="text-[11px] text-slate-500">
+                    {p.customer} · {p.items} поз.
+                  </p>
                 </div>
-                <Badge variant={p.status === 'ready' ? 'default' : 'outline'} className="text-[9px]">
+                <Badge
+                  variant={p.status === 'ready' ? 'default' : 'outline'}
+                  className="text-[9px]"
+                >
                   {p.status === 'ready' ? 'Готов' : 'Ожидает'}
                 </Badge>
                 {p.status === 'ready' && (
-                  <Button size="sm" variant="outline" className="text-[10px] h-7">Выдать</Button>
+                  <Button size="sm" variant="outline" className="h-7 text-[10px]">
+                    Выдать
+                  </Button>
                 )}
               </li>
             ))}
@@ -67,7 +82,10 @@ export default function ShopBopisPage() {
       </Card>
 
       <p className="text-[11px] text-slate-500">
-        Управление со стороны бренда: <Link href={ROUTES.brand.bopis} className="text-indigo-600 hover:underline">BOPIS Hub</Link>
+        Управление со стороны бренда:{' '}
+        <Link href={ROUTES.brand.bopis} className="text-indigo-600 hover:underline">
+          BOPIS Hub
+        </Link>
       </p>
     </div>
   );

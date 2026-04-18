@@ -16,8 +16,25 @@ const MOCK_CAMPAIGNS: PreOrderQuotaCampaign[] = [
     createdAt: '2026-03-01T10:00:00Z',
     publishedAt: '2026-03-05T09:00:00Z',
     skuQuotas: [
-      { skuId: 'SKU-201', skuName: 'Парка Limited', totalUnits: 200, allocated: [{ distributorId: 'D01', units: 80, kpiScore: 92 }, { distributorId: 'D02', units: 60, kpiScore: 78 }, { distributorId: 'D03', units: 60, kpiScore: 65 }] },
-      { skuId: 'SKU-202', skuName: 'Куртка Urban', totalUnits: 150, allocated: [{ distributorId: 'D01', units: 70 }, { distributorId: 'D02', units: 80 }] },
+      {
+        skuId: 'SKU-201',
+        skuName: 'Парка Limited',
+        totalUnits: 200,
+        allocated: [
+          { distributorId: 'D01', units: 80, kpiScore: 92 },
+          { distributorId: 'D02', units: 60, kpiScore: 78 },
+          { distributorId: 'D03', units: 60, kpiScore: 65 },
+        ],
+      },
+      {
+        skuId: 'SKU-202',
+        skuName: 'Куртка Urban',
+        totalUnits: 150,
+        allocated: [
+          { distributorId: 'D01', units: 70 },
+          { distributorId: 'D02', units: 80 },
+        ],
+      },
     ],
   },
 ];

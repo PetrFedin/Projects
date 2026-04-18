@@ -183,17 +183,17 @@ export default function BrandProfilePage({ params }: BrandProfilePageProps) {
   if (loading && !isPreview) {
     return (
       <RegistryPageShell className="max-w-6xl py-4 md:py-4">
-        <header className="mb-12 flex flex-col md:flex-row items-center gap-3">
+        <header className="mb-12 flex flex-col items-center gap-3 md:flex-row">
           <Skeleton className="h-32 w-32 rounded-full" />
           <div className="space-y-3">
             <Skeleton className="h-10 w-64" />
             <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-3/4 mt-2" />
+            <Skeleton className="mt-2 h-4 w-3/4" />
           </div>
         </header>
         <div>
-          <Skeleton className="h-10 w-1/3 mx-auto mb-8" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          <Skeleton className="mx-auto mb-8 h-10 w-1/3" />
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {[...Array(8)].map((_, i) => (
               <Card key={i} className="h-[450px] w-full">
                 <Skeleton className="h-full w-full" />
@@ -213,10 +213,13 @@ export default function BrandProfilePage({ params }: BrandProfilePageProps) {
   }
 
   return (
-    <div key="brand-profile-root" className={cn(!isPreview && "container mx-auto px-6 md:px-12 py-4 md:py-4 max-w-6xl")}>
+    <div
+      key="brand-profile-root"
+      className={cn(!isPreview && 'container mx-auto max-w-6xl px-6 py-4 md:px-12 md:py-4')}
+    >
       {showFireworks && <Fireworks />}
-      
-      <BrandHeader 
+
+      <BrandHeader
         brand={brand}
         displaySettings={displaySettings}
         displayName={displayName}
@@ -240,134 +243,137 @@ export default function BrandProfilePage({ params }: BrandProfilePageProps) {
       />
 
       <Tabs defaultValue="about" value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="mb-8 bg-transparent p-0 flex gap-2 h-auto justify-start overflow-x-auto no-scrollbar pb-2">
-            <TabsTrigger 
-                value="about" 
-                className="rounded-xl h-9 px-6 text-[11px] font-black uppercase tracking-wider transition-all border border-slate-200 bg-white data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:border-black hover:bg-slate-50 text-slate-600 shadow-sm"
-            >
-                О бренде
-            </TabsTrigger>
-            <TabsTrigger 
-                value="products" 
-                className="rounded-xl h-9 px-6 text-[11px] font-black uppercase tracking-wider transition-all border border-slate-200 bg-white data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:border-black hover:bg-slate-50 text-slate-600 shadow-sm"
-            >
-                Ассортимент ({filteredProducts.length})
-            </TabsTrigger>
-            <TabsTrigger 
-                value="media" 
-                className="rounded-xl h-9 px-6 text-[11px] font-black uppercase tracking-wider transition-all border border-slate-200 bg-white data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:border-black hover:bg-slate-50 text-slate-600 shadow-sm"
-            >
-                Медиа
-            </TabsTrigger>
-            <TabsTrigger 
-                value="partnership" 
-                className="rounded-xl h-9 px-6 text-[11px] font-black uppercase tracking-wider transition-all border border-slate-200 bg-white data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:border-black hover:bg-slate-50 text-slate-600 shadow-sm"
-            >
-                Сотрудничество
-            </TabsTrigger>
-            <TabsTrigger 
-                value="passport" 
-                className="rounded-xl h-9 px-6 text-[11px] font-black uppercase tracking-wider transition-all border border-slate-200 bg-white data-[state=active]:bg-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:border-indigo-600 hover:bg-slate-50 text-indigo-600 shadow-sm"
-            >
-                Цифровой паспорт
-            </TabsTrigger>
+        <TabsList className="no-scrollbar mb-8 flex h-auto justify-start gap-2 overflow-x-auto bg-transparent p-0 pb-2">
+          <TabsTrigger
+            value="about"
+            className="h-9 rounded-xl border border-slate-200 bg-white px-6 text-[11px] font-black uppercase tracking-wider text-slate-600 shadow-sm transition-all hover:bg-slate-50 data-[state=active]:border-black data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg"
+          >
+            О бренде
+          </TabsTrigger>
+          <TabsTrigger
+            value="products"
+            className="h-9 rounded-xl border border-slate-200 bg-white px-6 text-[11px] font-black uppercase tracking-wider text-slate-600 shadow-sm transition-all hover:bg-slate-50 data-[state=active]:border-black data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg"
+          >
+            Ассортимент ({filteredProducts.length})
+          </TabsTrigger>
+          <TabsTrigger
+            value="media"
+            className="h-9 rounded-xl border border-slate-200 bg-white px-6 text-[11px] font-black uppercase tracking-wider text-slate-600 shadow-sm transition-all hover:bg-slate-50 data-[state=active]:border-black data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg"
+          >
+            Медиа
+          </TabsTrigger>
+          <TabsTrigger
+            value="partnership"
+            className="h-9 rounded-xl border border-slate-200 bg-white px-6 text-[11px] font-black uppercase tracking-wider text-slate-600 shadow-sm transition-all hover:bg-slate-50 data-[state=active]:border-black data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg"
+          >
+            Сотрудничество
+          </TabsTrigger>
+          <TabsTrigger
+            value="passport"
+            className="h-9 rounded-xl border border-slate-200 bg-white px-6 text-[11px] font-black uppercase tracking-wider text-indigo-600 shadow-sm transition-all hover:bg-slate-50 data-[state=active]:border-indigo-600 data-[state=active]:bg-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-lg"
+          >
+            Цифровой паспорт
+          </TabsTrigger>
         </TabsList>
-        
-        <AboutTab 
-            brand={brand}
-            storefrontSettings={storefrontSettings}
-            isTeamOpen={isTeamOpen}
-            setIsTeamOpen={setIsTeamOpen}
-            currentTeamIdx={currentTeamIdx}
-            setCurrentTeamIdx={setCurrentTeamIdx}
-            setIsRetailerMapOpen={setIsRetailerMapOpen}
-            setIsRetailerOpen={setIsRetailerOpen}
-            setIsShareLookOpen={setIsShareLookOpen}
+
+        <AboutTab
+          brand={brand}
+          storefrontSettings={storefrontSettings}
+          isTeamOpen={isTeamOpen}
+          setIsTeamOpen={setIsTeamOpen}
+          currentTeamIdx={currentTeamIdx}
+          setCurrentTeamIdx={setCurrentTeamIdx}
+          setIsRetailerMapOpen={setIsRetailerMapOpen}
+          setIsRetailerOpen={setIsRetailerOpen}
+          setIsShareLookOpen={setIsShareLookOpen}
         />
 
-        <ProductsTab 
-            activeTopCatalog={activeTopCatalog}
-            setActiveTopCatalog={setActiveTopCatalog}
-            setFilterOutlet={setFilterOutlet}
-            capsuleCollections={capsuleCollections}
-            activeCapsule={activeCapsule}
-            setActiveCapsule={setActiveCapsule}
-            filterAvailability={filterAvailability}
-            setFilterAvailability={setFilterAvailability}
-            activeTopAudience={activeTopAudience}
-            setActiveTopAudience={setActiveTopAudience}
-            setActiveAudience={setActiveAudience}
-            setFilterCategory={setFilterCategory}
-            setFilterAttributes={setFilterAttributes}
-            setFilterColor={setFilterColor}
-            setFilterSizes={setFilterSizes}
-            setSelectedSizeRow={setSelectedSizeRow}
-            isFilterSidebarOpen={isFilterSidebarOpen}
-            setIsFilterSidebarOpen={setIsFilterSidebarOpen}
-            activeAudience={activeAudience}
-            filterCategory={filterCategory}
-            categoriesData={categoriesData}
-            getAllowedCategories={[]}
-            filterColor={filterColor}
-            colorsData={colorsData}
-            selectedSizeRow={selectedSizeRow}
-            activeSizeChart={activeSizeChart}
-            measurementLabels={measurementLabels}
-            filterAttributes={filterAttributes}
-            attributesData={attributesData}
-            getAllowedAttributes={[]}
-            filteredProducts={filteredProducts}
-            viewMode={viewMode}
-            setViewMode={setViewMode}
-            setIsAiSizeDialogOpen={setIsAiSizeDialogOpen}
-            displayName={displayName}
+        <ProductsTab
+          activeTopCatalog={activeTopCatalog}
+          setActiveTopCatalog={setActiveTopCatalog}
+          setFilterOutlet={setFilterOutlet}
+          capsuleCollections={capsuleCollections}
+          activeCapsule={activeCapsule}
+          setActiveCapsule={setActiveCapsule}
+          filterAvailability={filterAvailability}
+          setFilterAvailability={setFilterAvailability}
+          activeTopAudience={activeTopAudience}
+          setActiveTopAudience={setActiveTopAudience}
+          setActiveAudience={setActiveAudience}
+          setFilterCategory={setFilterCategory}
+          setFilterAttributes={setFilterAttributes}
+          setFilterColor={setFilterColor}
+          setFilterSizes={setFilterSizes}
+          setSelectedSizeRow={setSelectedSizeRow}
+          isFilterSidebarOpen={isFilterSidebarOpen}
+          setIsFilterSidebarOpen={setIsFilterSidebarOpen}
+          activeAudience={activeAudience}
+          filterCategory={filterCategory}
+          categoriesData={categoriesData}
+          getAllowedCategories={[]}
+          filterColor={filterColor}
+          colorsData={colorsData}
+          selectedSizeRow={selectedSizeRow}
+          activeSizeChart={activeSizeChart}
+          measurementLabels={measurementLabels}
+          filterAttributes={filterAttributes}
+          attributesData={attributesData}
+          getAllowedAttributes={[]}
+          filteredProducts={filteredProducts}
+          viewMode={viewMode}
+          setViewMode={setViewMode}
+          setIsAiSizeDialogOpen={setIsAiSizeDialogOpen}
+          displayName={displayName}
         />
 
-        <MediaTab 
-            displayName={displayName}
-            mediaPeriod={mediaPeriod}
-            setMediaPeriod={setMediaPeriod}
-            selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
-            activeMediaTab={activeMediaTab}
-            setActiveMediaTab={setActiveMediaTab}
-            filteredMediaData={brandMediaData}
-            storyImages={[]}
-            handleOpenStory={handleOpenStory}
-            setSelectedEvent={setSelectedEvent}
-            setIsLivePlayerOpen={setIsLivePlayerOpen}
-            setIsLiveReminderOpen={setIsLiveReminderOpen}
-            handleEventRegistration={handleEventRegistration}
-            registeredEvents={registeredEvents}
-            setSelectedBlog={setSelectedBlog}
-            setSelectedSocial={setSelectedSocial}
-            setSelectedStoryVideo={setSelectedStoryVideo}
-            setSelectedMention={setSelectedMention}
-            setSelectedPress={setSelectedPress}
-            setIsPressKitOpen={setIsPressKitOpen}
-            toast={toast}
-            setB2bPartnerStatus={setB2bPartnerStatus}
+        <MediaTab
+          displayName={displayName}
+          mediaPeriod={mediaPeriod}
+          setMediaPeriod={setMediaPeriod}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          activeMediaTab={activeMediaTab}
+          setActiveMediaTab={setActiveMediaTab}
+          filteredMediaData={brandMediaData}
+          storyImages={[]}
+          handleOpenStory={handleOpenStory}
+          setSelectedEvent={setSelectedEvent}
+          setIsLivePlayerOpen={setIsLivePlayerOpen}
+          setIsLiveReminderOpen={setIsLiveReminderOpen}
+          handleEventRegistration={handleEventRegistration}
+          registeredEvents={registeredEvents}
+          setSelectedBlog={setSelectedBlog}
+          setSelectedSocial={setSelectedSocial}
+          setSelectedStoryVideo={setSelectedStoryVideo}
+          setSelectedMention={setSelectedMention}
+          setSelectedPress={setSelectedPress}
+          setIsPressKitOpen={setIsPressKitOpen}
+          toast={toast}
+          setB2bPartnerStatus={setB2bPartnerStatus}
         />
 
-        <PartnershipTab 
-            brand={brand}
-            displayName={displayName}
-            setMessageCategory={setMessageCategory}
-            setIsMessageDialogOpen={setIsMessageDialogOpen}
-            handleB2bRequest={handleB2bRequest}
-            sentB2bRequests={sentB2bRequests}
-            b2bPartnerStatus={b2bPartnerStatus}
-            setB2bPartnerStatus={setB2bPartnerStatus}
-            handleB2bRegistration={handleB2bRegistration}
-            toast={toast}
+        <PartnershipTab
+          brand={brand}
+          displayName={displayName}
+          setMessageCategory={setMessageCategory}
+          setIsMessageDialogOpen={setIsMessageDialogOpen}
+          handleB2bRequest={handleB2bRequest}
+          sentB2bRequests={sentB2bRequests}
+          b2bPartnerStatus={b2bPartnerStatus}
+          setB2bPartnerStatus={setB2bPartnerStatus}
+          handleB2bRegistration={handleB2bRegistration}
+          toast={toast}
         />
 
-        <div className="hidden data-[state=active]:block mt-8" data-state={activeTab === 'passport' ? 'active' : 'inactive'}>
-            <DigitalProductPassport />
+        <div
+          className="mt-8 hidden data-[state=active]:block"
+          data-state={activeTab === 'passport' ? 'active' : 'inactive'}
+        >
+          <DigitalProductPassport />
         </div>
       </Tabs>
 
-      <BrandDialogs 
+      <BrandDialogs
         brand={brand}
         displayName={displayName}
         user={user}
@@ -411,25 +417,29 @@ export default function BrandProfilePage({ params }: BrandProfilePageProps) {
       />
 
       {selectedStory && (
-        <StoryViewer 
-            story={selectedStory as ImagePlaceholder} 
-            isOpen={isStoryViewerOpen} 
-            onOpenChange={setIsStoryViewerOpen} 
-        />
-      )}
-      
-      {selectedEvent && (
-        <LivePlayer 
-            event={selectedEvent as ImagePlaceholder} 
-            isOpen={isLivePlayerOpen} 
-            onOpenChange={setIsLivePlayerOpen} 
-            isLive={true}
+        <StoryViewer
+          story={selectedStory as ImagePlaceholder}
+          isOpen={isStoryViewerOpen}
+          onOpenChange={setIsStoryViewerOpen}
         />
       )}
 
-      <RetailerDialog isOpen={isRetailerMapOpen} onOpenChange={setIsRetailerMapOpen} brandName={displayName} />
-      
-      <MessageDialog 
+      {selectedEvent && (
+        <LivePlayer
+          event={selectedEvent as ImagePlaceholder}
+          isOpen={isLivePlayerOpen}
+          onOpenChange={setIsLivePlayerOpen}
+          isLive={true}
+        />
+      )}
+
+      <RetailerDialog
+        isOpen={isRetailerMapOpen}
+        onOpenChange={setIsRetailerMapOpen}
+        brandName={displayName}
+      />
+
+      <MessageDialog
         isOpen={isMessageDialogOpen}
         onOpenChange={setIsMessageDialogOpen}
         messageCategory={messageCategory}
@@ -442,10 +452,10 @@ export default function BrandProfilePage({ params }: BrandProfilePageProps) {
       />
 
       {brandProducts.length > 0 && (
-        <ProductReviewsDialog 
-            product={brandProducts[0]} 
-            isOpen={isBrandReviewsOpen} 
-            onOpenChange={setIsBrandReviewsOpen} 
+        <ProductReviewsDialog
+          product={brandProducts[0]}
+          isOpen={isBrandReviewsOpen}
+          onOpenChange={setIsBrandReviewsOpen}
         />
       )}
     </div>

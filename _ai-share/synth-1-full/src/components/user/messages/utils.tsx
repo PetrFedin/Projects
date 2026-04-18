@@ -38,7 +38,7 @@ export function highlightText(text: string, q: string): React.ReactNode {
   return (
     <>
       {before}
-      <mark className="rounded px-1 bg-yellow-200 text-foreground">{mid}</mark>
+      <mark className="rounded bg-yellow-200 px-1 text-foreground">{mid}</mark>
       {after}
     </>
   );

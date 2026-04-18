@@ -17,7 +17,12 @@ const SECTION_LABELS: Record<PassportReferenceSection, string> = {
   construction: 'Конструкция (вкл. табель мер)',
 };
 
-const SECTION_ORDER: PassportReferenceSection[] = ['general', 'visuals', 'material', 'construction'];
+const SECTION_ORDER: PassportReferenceSection[] = [
+  'general',
+  'visuals',
+  'material',
+  'construction',
+];
 
 function levelsShort(levels: ('l1' | 'l2' | 'l3')[]): string {
   return levels.map((x) => x.toUpperCase()).join('·');
@@ -53,10 +58,12 @@ export function Workshop2PassportAttributeReferenceBlock() {
       {open ? (
         <div className="max-h-[min(70vh,560px)] space-y-4 overflow-y-auto border-t border-indigo-100/80 bg-white px-3 py-3 text-[11px]">
           <p className="leading-snug text-slate-600">
-            Канонический каталог (`attribute-catalog.instance.json`): какие поля относятся к разделам ТЗ и на каком
-            уровне ветки (линия L1, группа L2, карточка модели L3) их логично вести. «Общие» — регуляторика и глобальный
-            пул (ТН ВЭД, страны, маркировка, ключи из <span className="font-mono text-[10px]">globalAttributeIds</span>
-            ). Цвет и техпак в справочнике показаны в «Визуал»; в форме ТЗ секция поля по-прежнему из каталога/группы.
+            Канонический каталог (`attribute-catalog.instance.json`): какие поля относятся к
+            разделам ТЗ и на каком уровне ветки (линия L1, группа L2, карточка модели L3) их логично
+            вести. «Общие» — регуляторика и глобальный пул (ТН ВЭД, страны, маркировка, ключи из{' '}
+            <span className="font-mono text-[10px]">globalAttributeIds</span>
+            ). Цвет и техпак в справочнике показаны в «Визуал»; в форме ТЗ секция поля по-прежнему
+            из каталога/группы.
           </p>
           {SECTION_ORDER.map((sec) => {
             const list = grouped[sec];
@@ -66,7 +73,9 @@ export function Workshop2PassportAttributeReferenceBlock() {
                   <h4 className="border-b border-slate-100 pb-1 text-[11px] font-bold text-slate-800">
                     {SECTION_LABELS[sec]}
                   </h4>
-                  <p className="mt-1 text-[10px] text-slate-500">Нет атрибутов в фазе 1 для этой секции.</p>
+                  <p className="mt-1 text-[10px] text-slate-500">
+                    Нет атрибутов в фазе 1 для этой секции.
+                  </p>
                 </section>
               );
             }
@@ -89,17 +98,24 @@ export function Workshop2PassportAttributeReferenceBlock() {
                     </thead>
                     <tbody>
                       {list.map((row) => (
-                        <tr key={row.attributeId} className="border-b border-slate-50 last:border-0">
+                        <tr
+                          key={row.attributeId}
+                          className="border-b border-slate-50 last:border-0"
+                        >
                           <td className="py-1 pr-2 align-top">
                             <span className="font-medium text-slate-900">{row.name}</span>
-                            <span className="mt-0.5 block font-mono text-[9px] text-slate-500">{row.attributeId}</span>
+                            <span className="mt-0.5 block font-mono text-[9px] text-slate-500">
+                              {row.attributeId}
+                            </span>
                           </td>
                           <td className="py-1 pr-2 align-top text-slate-600">{row.groupId}</td>
                           <td className="py-1 pr-2 align-top">
                             <span
                               className={cn(
                                 'rounded px-1 py-0.5 font-medium',
-                                row.passportCommon ? 'bg-emerald-100 text-emerald-900' : 'bg-slate-100 text-slate-600'
+                                row.passportCommon
+                                  ? 'bg-emerald-100 text-emerald-900'
+                                  : 'bg-slate-100 text-slate-600'
                               )}
                             >
                               {row.passportCommon ? 'Да' : 'Нет'}
@@ -108,7 +124,9 @@ export function Workshop2PassportAttributeReferenceBlock() {
                           <td className="py-1 pr-2 align-top font-mono tabular-nums text-slate-800">
                             {levelsShort(row.applicableLevels)}
                           </td>
-                          <td className="py-1 align-top text-slate-700">{row.requiredForPhase1 ? 'Да' : '—'}</td>
+                          <td className="py-1 align-top text-slate-700">
+                            {row.requiredForPhase1 ? 'Да' : '—'}
+                          </td>
                         </tr>
                       ))}
                     </tbody>

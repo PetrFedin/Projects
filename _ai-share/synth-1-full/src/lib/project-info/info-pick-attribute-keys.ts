@@ -185,7 +185,11 @@ function addNewbornRequiredByL3(r: Set<string>, l2: string, l3: string): void {
 /**
  * Набор ключей опций для листа L1+L2 (+ L3 где учтён).
  */
-export function collectInfoPickAttributeKeys(l1Name: string, l2Name: string, l3Name: string): Set<string> {
+export function collectInfoPickAttributeKeys(
+  l1Name: string,
+  l2Name: string,
+  l3Name: string
+): Set<string> {
   const s = new Set<string>();
   const l1 = l1Name.trim();
   const l2 = l2Name.trim();
@@ -631,7 +635,9 @@ export function collectRequiredInfoPickAttributeKeys(
 
 export type InfoPickAttributeGroups = { requiredLabels: string[]; commonLabels: string[] };
 
-export function getInfoPickAttributeGroupsForLeaf(leaf: HandbookCategoryLeaf): InfoPickAttributeGroups {
+export function getInfoPickAttributeGroupsForLeaf(
+  leaf: HandbookCategoryLeaf
+): InfoPickAttributeGroups {
   const wanted = collectInfoPickAttributeKeys(leaf.l1Name, leaf.l2Name, leaf.l3Name);
   const requiredRaw = collectRequiredInfoPickAttributeKeys(leaf.l1Name, leaf.l2Name, leaf.l3Name);
   const requiredKeys = new Set([...requiredRaw].filter((k) => wanted.has(k)));

@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogDescription, 
-  DialogHeader, 
-  DialogTitle, 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
   DialogTrigger,
-  DialogFooter
+  DialogFooter,
 } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import type { Product } from '@/lib/types';
@@ -40,9 +40,12 @@ export function ProductLookbookAction({ product }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="w-full gap-2 text-xs border-violet-300 text-violet-700 hover:bg-violet-50">
-          <FolderPlus className="h-3.5 w-3.5" />
-          В проект лукбука
+        <Button
+          variant="outline"
+          size="sm"
+          className="w-full gap-2 border-violet-300 text-xs text-violet-700 hover:bg-violet-50"
+        >
+          <FolderPlus className="h-3.5 w-3.5" />В проект лукбука
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -53,21 +56,27 @@ export function ProductLookbookAction({ product }: Props) {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-2 py-4">
-          {projects.map(p => {
+          {projects.map((p) => {
             const isAdded = p.skus.includes(product.sku);
             return (
               <Button
                 key={p.id}
                 variant="ghost"
-                className={`justify-between h-auto py-3 px-4 border ${isAdded ? 'bg-violet-50 border-violet-200' : ''}`}
+                className={`h-auto justify-between border px-4 py-3 ${isAdded ? 'border-violet-200 bg-violet-50' : ''}`}
                 onClick={() => !isAdded && handleAdd(p.id, p.title)}
                 disabled={isAdded}
               >
                 <div className="text-left">
-                  <p className="font-medium text-sm">{p.title}</p>
-                  <p className="text-[10px] text-muted-foreground uppercase">{p.status} • {p.skus.length} SKU</p>
+                  <p className="text-sm font-medium">{p.title}</p>
+                  <p className="text-[10px] uppercase text-muted-foreground">
+                    {p.status} • {p.skus.length} SKU
+                  </p>
                 </div>
-                {isAdded ? <Check className="h-4 w-4 text-violet-600" /> : <Folder className="h-4 w-4 text-muted-foreground" />}
+                {isAdded ? (
+                  <Check className="h-4 w-4 text-violet-600" />
+                ) : (
+                  <Folder className="h-4 w-4 text-muted-foreground" />
+                )}
               </Button>
             );
           })}

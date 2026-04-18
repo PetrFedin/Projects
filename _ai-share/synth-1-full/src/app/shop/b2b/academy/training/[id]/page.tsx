@@ -18,34 +18,48 @@ export default function ShopTrainingDetailPage() {
 
   if (!training) {
     return (
-      <div className="container max-w-2xl mx-auto px-4 py-6">
-        <Button variant="ghost" size="icon" onClick={() => router.back()}><ArrowLeft className="h-4 w-4" /></Button>
-        <p className="text-slate-500 mt-4">Обучение не найдено</p>
-        <Button variant="outline" asChild className="mt-4"><Link href={ROUTES.shop.b2bAcademy}>В академию</Link></Button>
+      <div className="container mx-auto max-w-2xl px-4 py-6">
+        <Button variant="ghost" size="icon" onClick={() => router.back()}>
+          <ArrowLeft className="h-4 w-4" />
+        </Button>
+        <p className="mt-4 text-slate-500">Обучение не найдено</p>
+        <Button variant="outline" asChild className="mt-4">
+          <Link href={ROUTES.shop.b2bAcademy}>В академию</Link>
+        </Button>
       </div>
     );
   }
 
   return (
-    <div className="container max-w-2xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Link href={ROUTES.shop.b2bAcademy}>
-          <Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
         </Link>
         <div>
           <h1 className="text-2xl font-bold uppercase tracking-tight">{training.title}</h1>
-          <p className="text-sm text-slate-500">{training.collectionName} · {training.season}</p>
+          <p className="text-sm text-slate-500">
+            {training.collectionName} · {training.season}
+          </p>
         </div>
       </div>
 
       <Card className="rounded-xl border border-slate-100">
-        <CardContent className="pt-6 space-y-4">
+        <CardContent className="space-y-4 pt-6">
           <div className="flex flex-wrap gap-2">
-            <Badge variant="outline">{COLLECTION_TRAINING_TYPE_LABELS[training.type] ?? training.type}</Badge>
-            <Badge variant="secondary" className="text-[10px]"><Clock className="h-2.5 w-2.5 mr-1 inline" /> {training.duration}</Badge>
-            <Badge variant="secondary" className="text-[10px]"><BookOpen className="h-2.5 w-2.5 mr-1 inline" /> {training.modules} модулей</Badge>
+            <Badge variant="outline">
+              {COLLECTION_TRAINING_TYPE_LABELS[training.type] ?? training.type}
+            </Badge>
+            <Badge variant="secondary" className="text-[10px]">
+              <Clock className="mr-1 inline h-2.5 w-2.5" /> {training.duration}
+            </Badge>
+            <Badge variant="secondary" className="text-[10px]">
+              <BookOpen className="mr-1 inline h-2.5 w-2.5" /> {training.modules} модулей
+            </Badge>
           </div>
-          <p className="text-slate-700 leading-relaxed">{training.description}</p>
+          <p className="leading-relaxed text-slate-700">{training.description}</p>
         </CardContent>
       </Card>
 

@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState, type ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -32,7 +25,10 @@ import {
   resolveHandbookLeafId,
 } from '@/lib/production/category-catalog';
 import { appendWorkshop2Activity } from '@/lib/production/workshop2-activity-log';
-import type { LocalOrderLine, Workshop2ArticleCommit } from '@/lib/production/local-collection-inventory';
+import type {
+  LocalOrderLine,
+  Workshop2ArticleCommit,
+} from '@/lib/production/local-collection-inventory';
 import type {
   Workshop2TzSignatoryBindings,
   Workshop2TzSignatoryExtraRow,
@@ -276,8 +272,8 @@ export function Workshop2CreateArticleDialog({
     const q = catSearch.trim().toLowerCase();
     if (!q) return [];
     return leaves
-      .filter(l => l.audienceId === audienceId)
-      .filter(l => l.pathLabel.toLowerCase().includes(q))
+      .filter((l) => l.audienceId === audienceId)
+      .filter((l) => l.pathLabel.toLowerCase().includes(q))
       .slice(0, 10);
   }, [leaves, catSearch, audienceId]);
 
@@ -291,9 +287,7 @@ export function Workshop2CreateArticleDialog({
   );
   const l3Options = useMemo(
     () =>
-      l1Name && l2Name
-        ? handbookL3OptionsForAudience(leaves, audienceId, l1Name, l2Name)
-        : [],
+      l1Name && l2Name ? handbookL3OptionsForAudience(leaves, audienceId, l1Name, l2Name) : [],
     [leaves, audienceId, l1Name, l2Name]
   );
   const resolvedLeafId = useMemo(
@@ -352,9 +346,8 @@ export function Workshop2CreateArticleDialog({
       if (typeof p.tzTechnologist === 'string') setTzTechnologist(p.tzTechnologist);
       if (typeof p.tzManager === 'string') setTzManager(p.tzManager);
       if (Array.isArray(p.tzExtraRows)) {
-        const cleaned = p.tzExtraRows.filter(
-          (r): r is Workshop2TzSignatoryExtraRow =>
-            Boolean(r && typeof r.rowId === 'string' && typeof r.roleTitle === 'string')
+        const cleaned = p.tzExtraRows.filter((r): r is Workshop2TzSignatoryExtraRow =>
+          Boolean(r && typeof r.rowId === 'string' && typeof r.roleTitle === 'string')
         );
         setTzExtraRows(cleaned);
       } else {
@@ -557,8 +550,12 @@ export function Workshop2CreateArticleDialog({
             extraAssigneeRows: tzExtraRows.map((r) => ({
               rowId: r.rowId,
               roleTitle: (r.roleTitle ?? '').trim() || 'Роль',
-              ...(r.assigneeDisplayLabel?.trim() ? { assigneeDisplayLabel: r.assigneeDisplayLabel.trim() } : {}),
-              ...(r.signStages && Object.keys(r.signStages).length ? { signStages: { ...r.signStages } } : {}),
+              ...(r.assigneeDisplayLabel?.trim()
+                ? { assigneeDisplayLabel: r.assigneeDisplayLabel.trim() }
+                : {}),
+              ...(r.signStages && Object.keys(r.signStages).length
+                ? { signStages: { ...r.signStages } }
+                : {}),
             })),
           }
         : {}),
@@ -640,7 +637,10 @@ export function Workshop2CreateArticleDialog({
         if (!v) reset();
       }}
     >
-      <DialogContent className="sm:max-w-xl max-h-[90vh] overflow-y-auto" aria-describedby="w2-art-desc">
+      <DialogContent
+        className="max-h-[90vh] overflow-y-auto sm:max-w-xl"
+        aria-describedby="w2-art-desc"
+      >
         <DialogHeader>
           <DialogTitle>
             {isEdit
@@ -660,7 +660,7 @@ export function Workshop2CreateArticleDialog({
               type="button"
               size="sm"
               variant={mode === 'new' ? 'default' : 'outline'}
-              className="text-[10px] uppercase font-bold"
+              className="text-[10px] font-bold uppercase"
               onClick={() => setMode('new')}
             >
               Новый
@@ -669,7 +669,7 @@ export function Workshop2CreateArticleDialog({
               type="button"
               size="sm"
               variant={mode === 'base' ? 'default' : 'outline'}
-              className="text-[10px] uppercase font-bold"
+              className="text-[10px] font-bold uppercase"
               onClick={() => setMode('base')}
             >
               Из базы
@@ -702,9 +702,13 @@ export function Workshop2CreateArticleDialog({
               aria-label="Результаты поиска по базе артикулов"
             >
               {pickerLines.length === 0 ? (
-                <p className="text-[10px] text-slate-500 p-2">Пока нет сохранённых артикулов для выбора.</p>
+                <p className="p-2 text-[10px] text-slate-500">
+                  Пока нет сохранённых артикулов для выбора.
+                </p>
               ) : filteredBaseLines.length === 0 ? (
-                <p className="text-[10px] text-slate-500 p-2">Ничего не найдено — уточните запрос.</p>
+                <p className="p-2 text-[10px] text-slate-500">
+                  Ничего не найдено — уточните запрос.
+                </p>
               ) : (
                 <ul className="divide-y divide-slate-100">
                   {filteredBaseLines.map((l) => {
@@ -713,7 +717,7 @@ export function Workshop2CreateArticleDialog({
                       <li key={l.id}>
                         <button
                           type="button"
-                          className={`w-full text-left px-2 py-1.5 text-[11px] transition-colors ${
+                          className={`w-full px-2 py-1.5 text-left text-[11px] transition-colors ${
                             active ? 'bg-indigo-100 text-indigo-950' : 'hover:bg-white'
                           }`}
                           onClick={() => setBaseLineId(l.id)}
@@ -730,7 +734,7 @@ export function Workshop2CreateArticleDialog({
             {baseLineHandbookLeaf ? (
               <Workshop2CategoryHandbookGuidance leaf={baseLineHandbookLeaf} className="mt-2" />
             ) : baseLineId ? (
-              <p className="text-[10px] text-amber-800/90 mt-2">
+              <p className="mt-2 text-[10px] text-amber-800/90">
                 У выбранной строки нет сопоставления со справочником категорий (проверьте{' '}
                 <span className="font-mono">categoryLeafId</span>).
               </p>
@@ -738,8 +742,8 @@ export function Workshop2CreateArticleDialog({
           </div>
         ) : (
           <div className="grid gap-3">
-            <div className="flex flex-wrap gap-2 items-end">
-              <div className="grid gap-1 flex-1 min-w-[8rem]">
+            <div className="flex flex-wrap items-end gap-2">
+              <div className="grid min-w-[8rem] flex-1 gap-1">
                 <Label htmlFor="w2-art-sku">Код SKU</Label>
                 <Input
                   id="w2-art-sku"
@@ -753,17 +757,30 @@ export function Workshop2CreateArticleDialog({
                 />
               </div>
               {isEdit ? null : (
-                <Button type="button" variant="secondary" size="sm" className="h-9 text-[10px]" onClick={genSku}>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  className="h-9 text-[10px]"
+                  onClick={genSku}
+                >
                   Сгенерировать
                 </Button>
               )}
             </div>
             {!isEdit && !sku.trim() ? (
-              <p className="text-[10px] text-amber-800/90">Обязательно: укажите код SKU или нажмите «Сгенерировать».</p>
+              <p className="text-[10px] text-amber-800/90">
+                Обязательно: укажите код SKU или нажмите «Сгенерировать».
+              </p>
             ) : null}
             <div className="grid gap-1">
               <Label htmlFor="w2-art-name">Название (необязательно)</Label>
-              <Input id="w2-art-name" value={name} onChange={(e) => setName(e.target.value)} className="text-sm" />
+              <Input
+                id="w2-art-name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="text-sm"
+              />
             </div>
             <div className="grid gap-1">
               <Label htmlFor="w2-art-aud">Аудитория</Label>
@@ -795,7 +812,7 @@ export function Workshop2CreateArticleDialog({
                   value={catSearch}
                   onChange={(e) => setCatSearch(e.target.value)}
                   placeholder="Начните вводить: платья, пальто, брюки…"
-                  className="text-sm pr-8"
+                  className="pr-8 text-sm"
                   autoComplete="off"
                 />
                 {catSearch && (
@@ -809,13 +826,13 @@ export function Workshop2CreateArticleDialog({
                 )}
               </div>
               {filteredLeaves.length > 0 && (
-                <div className="mt-1 max-h-40 overflow-y-auto rounded-md border border-slate-200 bg-white shadow-lg z-50">
+                <div className="z-50 mt-1 max-h-40 overflow-y-auto rounded-md border border-slate-200 bg-white shadow-lg">
                   <ul className="divide-y divide-slate-100">
                     {filteredLeaves.map((l) => (
                       <li key={l.leafId}>
                         <button
                           type="button"
-                          className="w-full text-left px-3 py-2 text-xs hover:bg-indigo-50 transition-colors"
+                          className="w-full px-3 py-2 text-left text-xs transition-colors hover:bg-indigo-50"
                           onClick={() => {
                             setL1Name(l.l1Name);
                             setL2Name(l.l2Name);
@@ -823,7 +840,9 @@ export function Workshop2CreateArticleDialog({
                             setCatSearch('');
                           }}
                         >
-                          <span className="text-slate-400 font-medium">{l.l1Name} › {l.l2Name} › </span>
+                          <span className="font-medium text-slate-400">
+                            {l.l1Name} › {l.l2Name} ›{' '}
+                          </span>
                           <span className="font-bold text-slate-900">{l.l3Name}</span>
                         </button>
                       </li>
@@ -906,7 +925,9 @@ export function Workshop2CreateArticleDialog({
                 Обязательно: выберите аудиторию и три уровня категории (L1 → L2 → L3).
               </p>
             ) : null}
-            {resolvedLeaf ? <Workshop2CategoryHandbookGuidance leaf={resolvedLeaf} className="mt-1" /> : null}
+            {resolvedLeaf ? (
+              <Workshop2CategoryHandbookGuidance leaf={resolvedLeaf} className="mt-1" />
+            ) : null}
             <div className="grid gap-1">
               <Label htmlFor="w2-art-com">Комментарий</Label>
               <Textarea
@@ -914,22 +935,24 @@ export function Workshop2CreateArticleDialog({
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 rows={2}
-                className="text-sm resize-none"
+                className="resize-none text-sm"
                 placeholder="Уточнение задачи, референсы словами…"
               />
             </div>
             <div className="grid gap-1">
-              <Label htmlFor="w2-art-files">Файлы (мудборды, фото, до {ATTACH_MAX_FILES} шт.)</Label>
+              <Label htmlFor="w2-art-files">
+                Файлы (мудборды, фото, до {ATTACH_MAX_FILES} шт.)
+              </Label>
               <Input
                 id="w2-art-files"
                 type="file"
                 multiple
-                className="text-sm cursor-pointer"
+                className="cursor-pointer text-sm"
                 onChange={(ev) => void onFiles(ev)}
               />
               {attachError ? <p className="text-[10px] text-red-600">{attachError}</p> : null}
               {pendingFiles.length > 0 ? (
-                <ul className="text-[10px] text-slate-600 list-disc pl-4">
+                <ul className="list-disc pl-4 text-[10px] text-slate-600">
                   {pendingFiles.map((f) => (
                     <li key={f.name}>{f.name}</li>
                   ))}
@@ -944,9 +967,10 @@ export function Workshop2CreateArticleDialog({
             <div className="space-y-0.5">
               <p className="text-[11px] font-semibold text-indigo-950">Подписанты ТЗ по артикулу</p>
               <p className="text-[10px] leading-snug text-slate-600">
-                По желанию закрепите уровни цифровой подписи за конкретными людьми (команда бренда и партнёры).
-                Пустое значение — подписать может любой пользователь с соответствующим правом в{' '}
-                <span className="font-medium text-slate-700">Команда → права доступа</span>.
+                По желанию закрепите уровни цифровой подписи за конкретными людьми (команда бренда и
+                партнёры). Пустое значение — подписать может любой пользователь с соответствующим
+                правом в <span className="font-medium text-slate-700">Команда → права доступа</span>
+                .
               </p>
             </div>
             <div className="grid gap-2 sm:grid-cols-3 sm:gap-3">
@@ -986,9 +1010,10 @@ export function Workshop2CreateArticleDialog({
             </div>
             <div className="space-y-2 border-t border-indigo-100/80 pt-2">
               <p className="text-[10px] font-medium text-slate-600">
-                Дополнительные роли — те же данные, что в паспорте артикула; участие по этапам настраивается там.
-                Базовый минимум подписей ТЗ — дизайн, технолог, менеджер; продакт, снабжение, ОТК, маркировка и
-                производственный контакт добавляйте по необходимости (по умолчанию без отдельной подписи на этапе «ТЗ»).
+                Дополнительные роли — те же данные, что в паспорте артикула; участие по этапам
+                настраивается там. Базовый минимум подписей ТЗ — дизайн, технолог, менеджер;
+                продакт, снабжение, ОТК, маркировка и производственный контакт добавляйте по
+                необходимости (по умолчанию без отдельной подписи на этапе «ТЗ»).
               </p>
               <div className="flex flex-wrap gap-1">
                 {WORKSHOP2_TZ_EXTRA_ROLE_PRESET_DEFS.map((p) => (
@@ -1017,7 +1042,13 @@ export function Workshop2CreateArticleDialog({
                   />
                 ))}
               </div>
-              <Button type="button" variant="outline" size="sm" className="h-8 text-xs" onClick={addTzExtraRow}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-8 text-xs"
+                onClick={addTzExtraRow}
+              >
                 + Добавить роль
               </Button>
             </div>
@@ -1026,8 +1057,8 @@ export function Workshop2CreateArticleDialog({
 
         {!isEdit && duplicateSkuError ? (
           <p className="text-[11px] text-red-600" role="alert">
-            В этой коллекции уже есть артикул с таким SKU (после нормализации кода). Выберите другой код или
-            базовую позицию.
+            В этой коллекции уже есть артикул с таким SKU (после нормализации кода). Выберите другой
+            код или базовую позицию.
           </p>
         ) : null}
 

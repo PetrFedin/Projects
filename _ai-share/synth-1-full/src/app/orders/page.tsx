@@ -65,13 +65,13 @@ export default function OrdersPage() {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-base font-headline font-bold mb-8">Мои заказы</h1>
+      <div className="mx-auto max-w-4xl">
+        <h1 className="mb-8 font-headline text-base font-bold">Мои заказы</h1>
 
         {orders.length === 0 ? (
           <Card>
-            <CardContent className="pt-6 text-center py-12">
-              <p className="text-muted-foreground mb-4">У вас пока нет заказов</p>
+            <CardContent className="py-12 pt-6 text-center">
+              <p className="mb-4 text-muted-foreground">У вас пока нет заказов</p>
               <Button asChild>
                 <Link href="/">Начать покупки</Link>
               </Button>
@@ -82,23 +82,22 @@ export default function OrdersPage() {
             {orders.map((order) => {
               const statusInfo = statusConfig[order.status];
               return (
-                <Card key={order.id} className="hover:shadow-md transition-shadow">
+                <Card key={order.id} className="transition-shadow hover:shadow-md">
                   <CardContent className="pt-6">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <h3 className="font-semibold text-sm">
-                            Заказ #{order.id.split('-')[1]}
-                          </h3>
+                        <div className="mb-2 flex items-center gap-3">
+                          <h3 className="text-sm font-semibold">Заказ #{order.id.split('-')[1]}</h3>
                           <Badge className={cn('text-xs', statusInfo.color)}>
                             {statusInfo.label}
                           </Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-2">
+                        <p className="mb-2 text-sm text-muted-foreground">
                           {format(new Date(order.createdAt), 'd MMMM yyyy, HH:mm', { locale: ru })}
                         </p>
                         <p className="text-sm text-muted-foreground">
-                          {order.items.length} {order.items.length === 1 ? 'товар' : 'товаров'} • {order.total.toLocaleString('ru-RU')} ₽
+                          {order.items.length} {order.items.length === 1 ? 'товар' : 'товаров'} •{' '}
+                          {order.total.toLocaleString('ru-RU')} ₽
                         </p>
                       </div>
                       <Button variant="ghost" size="icon" asChild>
@@ -117,8 +116,3 @@ export default function OrdersPage() {
     </div>
   );
 }
-
-
-
-
-

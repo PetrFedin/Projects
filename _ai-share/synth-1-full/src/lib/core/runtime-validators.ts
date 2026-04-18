@@ -16,32 +16,34 @@ export const ReturnItemScanSchema = z.object({
     hasOriginalTags: z.boolean(),
     odorDetected: z.boolean(),
   }),
-  weightKg: z.number().nonnegative("Weight cannot be negative"), // Защита от отрицательного веса
-  expectedWeightKg: z.number().positive("Expected weight must be greater than zero"),
+  weightKg: z.number().nonnegative('Weight cannot be negative'), // Защита от отрицательного веса
+  expectedWeightKg: z.number().positive('Expected weight must be greater than zero'),
 });
 
 // 2. Валидация для Campaign Generator (Phase 33)
 export const OverstockContextSchema = z.object({
   sku: z.string().min(1),
   category: z.string().min(1),
-  inventoryUnits: z.number().int().nonnegative("Inventory cannot be negative"),
-  currentPriceUSD: z.number().nonnegative("Price cannot be negative"),
+  inventoryUnits: z.number().int().nonnegative('Inventory cannot be negative'),
+  currentPriceUSD: z.number().nonnegative('Price cannot be negative'),
   targetDemographic: z.enum(['gen_z', 'millennials', 'boomers']),
   localWeatherForecast: z.enum(['sunny', 'rainy', 'snowy']),
 });
 
 // 3. Валидация для Yield Management (Phase 29)
-export const PerishableInventorySchema = z.object({
-  sku: z.string().min(1),
-  shelfLifeDays: z.number().int().positive("Shelf life must be > 0"),
-  daysOnShelf: z.number().int().nonnegative("Days on shelf cannot be negative"),
-  currentPriceUSD: z.number().nonnegative("Price cannot be negative"),
-  inventoryUnits: z.number().int().nonnegative(),
-  historicalDailyVelocity: z.number().nonnegative(),
-}).refine(data => data.daysOnShelf <= data.shelfLifeDays, {
-  message: "Days on shelf cannot exceed total shelf life",
-  path: ["daysOnShelf"]
-});
+export const PerishableInventorySchema = z
+  .object({
+    sku: z.string().min(1),
+    shelfLifeDays: z.number().int().positive('Shelf life must be > 0'),
+    daysOnShelf: z.number().int().nonnegative('Days on shelf cannot be negative'),
+    currentPriceUSD: z.number().nonnegative('Price cannot be negative'),
+    inventoryUnits: z.number().int().nonnegative(),
+    historicalDailyVelocity: z.number().nonnegative(),
+  })
+  .refine((data) => data.daysOnShelf <= data.shelfLifeDays, {
+    message: 'Days on shelf cannot exceed total shelf life',
+    path: ['daysOnShelf'],
+  });
 
 // 4. Валидация для Smart Swap (Phase 29)
 export const StoreInventorySnapshotSchema = z.object({

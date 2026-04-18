@@ -5,7 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import type { HandbookCategoryLeaf } from '@/lib/production/category-handbook-leaves';
-import type { Workshop2DossierPhase1, Workshop2TzSignoffSectionKey } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2TzSignoffSectionKey,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import {
   buildWorkshop2MeasurementsHubChecks,
   WORKSHOP2_MEASUREMENTS_TABLE_ROLE_BLOCKS,
@@ -47,8 +50,8 @@ export function Workshop2MeasurementsTableHub({
             <div>
               <h3 className="text-sm font-bold text-slate-900">Табель мер: хаб ТЗ</h3>
               <p className="mt-0.5 text-[10px] leading-snug text-slate-600">
-                Единая таблица для образца, фабрики, fit и ОТК. Ниже — 10 контрольных пунктов и роли, которые на неё
-                опираются.
+                Единая таблица для образца, фабрики, fit и ОТК. Ниже — 10 контрольных пунктов и
+                роли, которые на неё опираются.
               </p>
             </div>
           </div>
@@ -58,7 +61,9 @@ export function Workshop2MeasurementsTableHub({
             {score.done}/{score.total} · {score.pct}%
           </span>
           {typeof constructionSectionPct === 'number' ? (
-            <span className="text-[9px] tabular-nums text-slate-500">Секция «Конструкция» ≈ {constructionSectionPct}%</span>
+            <span className="text-[9px] tabular-nums text-slate-500">
+              Секция «Конструкция» ≈ {constructionSectionPct}%
+            </span>
           ) : null}
           <Popover>
             <PopoverTrigger asChild>
@@ -74,12 +79,12 @@ export function Workshop2MeasurementsTableHub({
               </Button>
             </PopoverTrigger>
             <PopoverContent
-              className="w-[min(26rem,calc(100vw-1.5rem))] max-h-[min(32rem,70vh)] space-y-3 overflow-y-auto text-xs"
+              className="max-h-[min(32rem,70vh)] w-[min(26rem,calc(100vw-1.5rem))] space-y-3 overflow-y-auto text-xs"
               align="end"
             >
               <p className="text-[10px] font-semibold leading-snug text-slate-700">
-                Табель мер — источник правды по числам для всех этапов маршрута SKU. Каждая роль читает те же ячейки; правки
-                согласуйте через ТЗ и подписи секции.
+                Табель мер — источник правды по числам для всех этапов маршрута SKU. Каждая роль
+                читает те же ячейки; правки согласуйте через ТЗ и подписи секции.
               </p>
               {WORKSHOP2_MEASUREMENTS_TABLE_ROLE_BLOCKS.map((row) => (
                 <div key={row.title}>
@@ -98,18 +103,30 @@ export function Workshop2MeasurementsTableHub({
             key={c.id}
             className={cn(
               'flex gap-2 rounded-lg border px-2 py-1.5 text-[10px] leading-snug',
-              c.done ? 'border-emerald-200/90 bg-emerald-50/50 text-emerald-950' : 'border-slate-200/90 bg-white/80 text-slate-700'
+              c.done
+                ? 'border-emerald-200/90 bg-emerald-50/50 text-emerald-950'
+                : 'border-slate-200/90 bg-white/80 text-slate-700'
             )}
           >
             <span className="mt-0.5 shrink-0 font-black tabular-nums text-slate-400">{i + 1}.</span>
             <div className="min-w-0">
-              <span className={cn('font-semibold', c.done ? 'text-emerald-900' : 'text-slate-800')}>{c.label}</span>
-              {!c.done && c.hint ? <p className="mt-0.5 text-[9px] text-slate-500">{c.hint}</p> : null}
+              <span className={cn('font-semibold', c.done ? 'text-emerald-900' : 'text-slate-800')}>
+                {c.label}
+              </span>
+              {!c.done && c.hint ? (
+                <p className="mt-0.5 text-[9px] text-slate-500">{c.hint}</p>
+              ) : null}
             </div>
             {c.done ? (
-              <LucideIcons.Check className="ml-auto h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden />
+              <LucideIcons.Check
+                className="ml-auto h-3.5 w-3.5 shrink-0 text-emerald-600"
+                aria-hidden
+              />
             ) : (
-              <LucideIcons.Circle className="ml-auto h-3.5 w-3.5 shrink-0 text-slate-300" aria-hidden />
+              <LucideIcons.Circle
+                className="ml-auto h-3.5 w-3.5 shrink-0 text-slate-300"
+                aria-hidden
+              />
             )}
           </li>
         ))}

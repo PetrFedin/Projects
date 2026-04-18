@@ -1,22 +1,17 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Card, CardContent } from "@/components/ui/card";
+import * as React from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Card, CardContent } from '@/components/ui/card';
 
-import * as topojson from "topojson-client";
-import { geoMercator, geoPath, GeoProjection } from "d3-geo";
+import * as topojson from 'topojson-client';
+import { geoMercator, geoPath, GeoProjection } from 'd3-geo';
 
-import worldData from "@/data/world-topo.json"; // твой topojson (обязательно)
-import { CIS_VIEW_DATA } from "./geo.constants";
-import { CisCode, PeriodPreset, GeoAnalyticsResponse } from "./geo.types";
-import { heatColor, computeWeeklyInsights, minMaxForPoint } from "./geo.utils";
-import { GeoTimelineStrip } from "./GeoTimelineStrip";
+import worldData from '@/data/world-topo.json'; // твой topojson (обязательно)
+import { CIS_VIEW_DATA } from './geo.constants';
+import { CisCode, PeriodPreset, GeoAnalyticsResponse } from './geo.types';
+import { heatColor, computeWeeklyInsights, minMaxForPoint } from './geo.utils';
+import { GeoTimelineStrip } from './GeoTimelineStrip';
 
 type TooltipState = {
   x: number;
@@ -32,26 +27,26 @@ interface Props {
 
 // Mapping ISO A2 codes to Numeric ISO codes used in world-topo.json
 const CIS_ID_MAP: Record<CisCode, string> = {
-  RU: "643",
-  BY: "112",
-  UA: "804",
-  KZ: "398",
-  AM: "051",
-  AZ: "031",
-  KG: "417",
-  UZ: "860",
-  TJ: "762",
-  TM: "795",
-  MD: "498",
-  GE: "268",
+  RU: '643',
+  BY: '112',
+  UA: '804',
+  KZ: '398',
+  AM: '051',
+  AZ: '031',
+  KG: '417',
+  UZ: '860',
+  TJ: '762',
+  TM: '795',
+  MD: '498',
+  GE: '268',
 };
 
 export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
   const [hoverTooltip, setHoverTooltip] = React.useState<TooltipState>(null);
   const [cityTooltip, setCityTooltip] = React.useState<TooltipState>(null);
-  const [selectedCode, setSelectedCode] = React.useState<CisCode>("RU");
+  const [selectedCode, setSelectedCode] = React.useState<CisCode>('RU');
 
-  const [period, setPeriod] = React.useState<PeriodPreset>("90d");
+  const [period, setPeriod] = React.useState<PeriodPreset>('90d');
   const [isPlaying, setIsPlaying] = React.useState(false);
 
   const [data, setData] = React.useState<GeoAnalyticsResponse | null>(null);
@@ -62,7 +57,9 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
     let cancelled = false;
 
     async function load() {
-      const res = await fetch(`/api/geo/analytics?granularity=week&period=${period}`, { cache: "no-store" });
+      const res = await fetch(`/api/geo/analytics?granularity=week&period=${period}`, {
+        cache: 'no-store',
+      });
       const json = (await res.json()) as GeoAnalyticsResponse;
       if (cancelled) return;
       setData(json);
@@ -71,7 +68,9 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
     }
 
     load();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [period]);
 
   // 2) Play timeline
@@ -91,7 +90,7 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
   const prev = index > 0 ? points[index - 1] : null;
 
   const weeklyInsights = React.useMemo(() => {
-    if (!current) return "Нет данных.";
+    if (!current) return 'Нет данных.';
     return computeWeeklyInsights(prev, current);
   }, [prev, current]);
 
@@ -103,20 +102,14 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
   // 3) Topo -> features
   const countries = React.useMemo(() => {
     if (!worldData) return [];
-    const geo = topojson.feature(
-      worldData as any,
-      (worldData as any).objects.countries
-    ) as any;
+    const geo = topojson.feature(worldData as any, (worldData as any).objects.countries) as any;
 
     return geo.features as any[];
   }, []);
 
   const worldProjection: GeoProjection = React.useMemo(
     () =>
-      geoMercator().fitSize(
-        [800, 400],
-        { type: "FeatureCollection", features: countries } as any
-      ),
+      geoMercator().fitSize([800, 400], { type: 'FeatureCollection', features: countries } as any),
     [countries]
   );
 
@@ -129,10 +122,10 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
 
   const cisProjection: GeoProjection = React.useMemo(
     () =>
-      geoMercator().fitSize(
-        [420, 360],
-        { type: "FeatureCollection", features: cisFeatures } as any
-      ),
+      geoMercator().fitSize([420, 360], {
+        type: 'FeatureCollection',
+        features: cisFeatures,
+      } as any),
     [cisFeatures]
   );
 
@@ -159,10 +152,7 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
     return { ...base, viewers };
   }, [selectedCode, current]);
 
-  const handleCountryHover = (
-    e: React.MouseEvent<SVGPathElement>,
-    code: CisCode
-  ) => {
+  const handleCountryHover = (e: React.MouseEvent<SVGPathElement>, code: CisCode) => {
     const svg = e.currentTarget.ownerSVGElement;
     if (!svg) return;
     const bounds = svg.getBoundingClientRect();
@@ -171,7 +161,7 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
       x: e.clientX - bounds.left + 10,
       y: e.clientY - bounds.top + 10,
       label: CIS_VIEW_DATA[code]?.name ?? code,
-      sublabel: `Зрителей: ${getViewers(code).toLocaleString("ru-RU")}`,
+      sublabel: `Зрителей: ${getViewers(code).toLocaleString('ru-RU')}`,
     });
   };
 
@@ -188,7 +178,7 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
       x: e.clientX - bounds.left + 10,
       y: e.clientY - bounds.top + 10,
       label: city.name,
-      sublabel: `${countryName} · зрителей: ${city.viewers.toLocaleString("ru-RU")}`,
+      sublabel: `${countryName} · зрителей: ${city.viewers.toLocaleString('ru-RU')}`,
     });
   };
 
@@ -199,9 +189,9 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
           <DialogTitle>GeoAnalytics — мир + зум по СНГ</DialogTitle>
         </DialogHeader>
 
-        <div className="grid grid-cols-1 xl:grid-cols-[3fr,2fr] gap-3">
+        <div className="grid grid-cols-1 gap-3 xl:grid-cols-[3fr,2fr]">
           {/* LEFT: World + controls */}
-          <div className="rounded-xl bg-slate-900 text-slate-50 p-4 space-y-3">
+          <div className="space-y-3 rounded-xl bg-slate-900 p-4 text-slate-50">
             <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-300">
               <span>Мир: кликабельны Россия и страны СНГ</span>
               <span>Цвет = интенсивность аудитории (heatmap)</span>
@@ -209,35 +199,40 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
 
             <GeoTimelineStrip
               period={period}
-              onPeriodChange={(p) => { setPeriod(p); }}
+              onPeriodChange={(p) => {
+                setPeriod(p);
+              }}
               points={points}
               index={index}
-              onIndexChange={(i) => { setIndex(i); setIsPlaying(false); }}
+              onIndexChange={(i) => {
+                setIndex(i);
+                setIsPlaying(false);
+              }}
               isPlaying={isPlaying}
-              onTogglePlay={() => setIsPlaying(v => !v)}
+              onTogglePlay={() => setIsPlaying((v) => !v)}
             />
 
             <div className="text-xs text-slate-200">{weeklyInsights}</div>
 
-            <div className="relative w-full aspect-[2/1] overflow-hidden rounded-lg bg-slate-950">
-              <svg viewBox="0 0 800 400" className="w-full h-full" onMouseLeave={clearTooltips}>
+            <div className="relative aspect-[2/1] w-full overflow-hidden rounded-lg bg-slate-950">
+              <svg viewBox="0 0 800 400" className="h-full w-full" onMouseLeave={clearTooltips}>
                 {countries.map((f, idx) => {
                   const cisCode = getCisCodeFromId(f.id);
                   const isCis = !!cisCode;
 
                   const fill = isCis
                     ? heatColor(getViewers(cisCode), minViewers, maxViewers)
-                    : "#1f2937";
+                    : '#1f2937';
 
                   return (
                     <path
                       key={idx}
-                      d={worldPath(f) || ""}
+                      d={worldPath(f) || ''}
                       fill={fill}
                       opacity={isCis ? 0.92 : 0.35}
                       stroke="#020617"
                       strokeWidth={isCis ? 1 : 0.5}
-                      className={isCis ? "cursor-pointer transition-all hover:opacity-100" : ""}
+                      className={isCis ? 'cursor-pointer transition-all hover:opacity-100' : ''}
                       onMouseMove={isCis ? (e) => handleCountryHover(e, cisCode) : undefined}
                       onMouseEnter={isCis ? (e) => handleCountryHover(e, cisCode) : undefined}
                       onMouseLeave={isCis ? clearTooltips : undefined}
@@ -248,10 +243,10 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
 
                 {hoverTooltip && (
                   <foreignObject x={hoverTooltip.x} y={hoverTooltip.y} width={240} height={70}>
-                    <div className="bg-slate-900/95 text-xs text-slate-50 rounded-md px-3 py-2 shadow-lg border border-slate-700">
+                    <div className="rounded-md border border-slate-700 bg-slate-900/95 px-3 py-2 text-xs text-slate-50 shadow-lg">
                       <div className="font-semibold">{hoverTooltip.label}</div>
                       {hoverTooltip.sublabel && (
-                        <div className="text-slate-300 mt-0.5">{hoverTooltip.sublabel}</div>
+                        <div className="mt-0.5 text-slate-300">{hoverTooltip.sublabel}</div>
                       )}
                     </div>
                   </foreignObject>
@@ -263,11 +258,11 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
           {/* RIGHT: CIS zoom + cities */}
           <div className="space-y-4">
             <Card>
-              <CardContent className="p-4 space-y-3">
+              <CardContent className="space-y-3 p-4">
                 <div className="text-xs uppercase text-slate-400">Зум по СНГ</div>
 
-                <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg bg-slate-950">
-                  <svg viewBox="0 0 420 360" className="w-full h-full" onMouseLeave={clearTooltips}>
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-slate-950">
+                  <svg viewBox="0 0 420 360" className="h-full w-full" onMouseLeave={clearTooltips}>
                     {cisFeatures.map((f, idx) => {
                       const code = getCisCodeFromId(f.id)!;
                       const isSelected = selectedCode === code;
@@ -277,10 +272,10 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
                       return (
                         <path
                           key={idx}
-                          d={cisPath(f) || ""}
+                          d={cisPath(f) || ''}
                           fill={fill}
                           opacity={isSelected ? 1 : 0.86}
-                          stroke={isSelected ? "#fbbf24" : "#020617"}
+                          stroke={isSelected ? '#fbbf24' : '#020617'}
                           strokeWidth={isSelected ? 1.6 : 1}
                           className="cursor-pointer transition-all hover:opacity-100"
                           onMouseMove={(e) => handleCountryHover(e as any, code)}
@@ -307,25 +302,37 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
                             onMouseEnter={(e) => handleCityHover(e, city, selectedCountry.name)}
                             onMouseLeave={() => setCityTooltip(null)}
                           />
-                          <circle cx={cx} cy={cy} r={10} fill="none" stroke="#f97316" strokeWidth={1} opacity={0.35} />
+                          <circle
+                            cx={cx}
+                            cy={cy}
+                            r={10}
+                            fill="none"
+                            stroke="#f97316"
+                            strokeWidth={1}
+                            opacity={0.35}
+                          />
                         </g>
                       );
                     })}
 
                     {cityTooltip && (
                       <foreignObject x={cityTooltip.x} y={cityTooltip.y} width={280} height={70}>
-                        <div className="bg-slate-900/95 text-xs text-slate-50 rounded-md px-3 py-2 shadow-lg border border-amber-500/70">
+                        <div className="rounded-md border border-amber-500/70 bg-slate-900/95 px-3 py-2 text-xs text-slate-50 shadow-lg">
                           <div className="font-semibold">{cityTooltip.label}</div>
-                          {cityTooltip.sublabel && <div className="text-slate-200 mt-0.5">{cityTooltip.sublabel}</div>}
+                          {cityTooltip.sublabel && (
+                            <div className="mt-0.5 text-slate-200">{cityTooltip.sublabel}</div>
+                          )}
                         </div>
                       </foreignObject>
                     )}
 
                     {hoverTooltip && !cityTooltip && (
                       <foreignObject x={hoverTooltip.x} y={hoverTooltip.y} width={240} height={70}>
-                        <div className="bg-slate-900/95 text-xs text-slate-50 rounded-md px-3 py-2 shadow-lg border border-slate-700">
+                        <div className="rounded-md border border-slate-700 bg-slate-900/95 px-3 py-2 text-xs text-slate-50 shadow-lg">
                           <div className="font-semibold">{hoverTooltip.label}</div>
-                          {hoverTooltip.sublabel && <div className="text-slate-300 mt-0.5">{hoverTooltip.sublabel}</div>}
+                          {hoverTooltip.sublabel && (
+                            <div className="mt-0.5 text-slate-300">{hoverTooltip.sublabel}</div>
+                          )}
                         </div>
                       </foreignObject>
                     )}
@@ -335,19 +342,23 @@ export function GeoAnalyticsDialog({ open, onOpenChange }: Props) {
             </Card>
 
             <Card>
-              <CardContent className="p-4 space-y-2 text-sm text-slate-200">
+              <CardContent className="space-y-2 p-4 text-sm text-slate-200">
                 <div className="font-semibold">{selectedCountry.name}</div>
                 <div className="text-slate-300">
-                  Всего зрителей:{" "}
-                  <span className="font-mono">{selectedCountry.viewers.toLocaleString("ru-RU")}</span>
+                  Всего зрителей:{' '}
+                  <span className="font-mono">
+                    {selectedCountry.viewers.toLocaleString('ru-RU')}
+                  </span>
                 </div>
 
-                <div className="text-xs text-slate-400 mt-2 mb-1">Города (симуляция)</div>
+                <div className="mb-1 mt-2 text-xs text-slate-400">Города (симуляция)</div>
                 <ul className="space-y-1 text-sm">
                   {selectedCountry.cities.map((city) => (
                     <li key={city.name} className="flex items-center justify-between">
                       <span>{city.name}</span>
-                      <span className="font-mono text-slate-200">{city.viewers.toLocaleString("ru-RU")}</span>
+                      <span className="font-mono text-slate-200">
+                        {city.viewers.toLocaleString('ru-RU')}
+                      </span>
                     </li>
                   ))}
                 </ul>

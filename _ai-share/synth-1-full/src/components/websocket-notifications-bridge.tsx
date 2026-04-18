@@ -16,7 +16,8 @@ export function WebSocketNotificationsBridge() {
 
   const onEvent = (ev: { type: string; title: string; body?: string; href?: string }) => {
     if (ev.type === 'ping') return;
-    const type = (ev.type as 'order' | 'qc' | 'edo' | 'sla' | 'payment' | 'po' | 'system') || 'system';
+    const type =
+      (ev.type as 'order' | 'qc' | 'edo' | 'sla' | 'payment' | 'po' | 'system') || 'system';
     addRef.current({
       type,
       title: ev.title,

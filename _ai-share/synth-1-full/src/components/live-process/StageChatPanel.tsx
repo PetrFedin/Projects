@@ -9,11 +9,17 @@ interface StageChatPanelProps {
   stageId: string;
   comments: LiveProcessComment[];
   team: LiveProcessTeamMember[];
-  onAddComment: (body: string, mentions?: { userId: string; userName: string; match: string }[]) => void;
+  onAddComment: (
+    body: string,
+    mentions?: { userId: string; userName: string; match: string }[]
+  ) => void;
 }
 
 /** Парсинг @упоминаний в тексте */
-function parseMentions(text: string, team: LiveProcessTeamMember[]): { userId: string; userName: string; match: string }[] {
+function parseMentions(
+  text: string,
+  team: LiveProcessTeamMember[]
+): { userId: string; userName: string; match: string }[] {
   const mentions: { userId: string; userName: string; match: string }[] = [];
   team.forEach((m) => {
     if (text.includes(`@${m.name}`)) {
@@ -35,7 +41,7 @@ function CommentBody({ body, team }: { body: string; team: LiveProcessTeamMember
     if (idx !== -1) {
       result.push(remaining.slice(0, idx));
       result.push(
-        <span key={m.id} className="text-indigo-600 font-medium bg-indigo-50 px-0.5 rounded">
+        <span key={m.id} className="rounded bg-indigo-50 px-0.5 font-medium text-indigo-600">
           @{m.name}
         </span>
       );
@@ -47,12 +53,7 @@ function CommentBody({ body, team }: { body: string; team: LiveProcessTeamMember
   return <>{result.length ? result : body}</>;
 }
 
-export function StageChatPanel({
-  stageId,
-  comments,
-  team,
-  onAddComment,
-}: StageChatPanelProps) {
+export function StageChatPanel({ stageId, comments, team, onAddComment }: StageChatPanelProps) {
   const [newMessage, setNewMessage] = useState('');
   const [showMentionSuggest, setShowMentionSuggest] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -76,15 +77,15 @@ export function StageChatPanel({
       <div className="flex items-center gap-1 text-[10px] font-bold text-slate-600">
         <MessageSquare className="h-3 w-3" />
         Чат этапа
-        <span className="text-slate-400 font-normal">(@упоминания отправят уведомление)</span>
+        <span className="font-normal text-slate-400">(@упоминания отправят уведомление)</span>
       </div>
-      <ul className="space-y-1.5 max-h-32 overflow-y-auto">
+      <ul className="max-h-32 space-y-1.5 overflow-y-auto">
         {comments.map((c) => (
-          <li key={c.id} className="text-[11px] bg-white rounded border border-slate-100 p-2">
+          <li key={c.id} className="rounded border border-slate-100 bg-white p-2 text-[11px]">
             <span className="font-medium text-slate-700">{c.authorName}:</span>{' '}
             <CommentBody body={c.body} team={team} />
             {c.mentions?.length ? (
-              <span className="text-[9px] text-indigo-500 block mt-0.5">
+              <span className="mt-0.5 block text-[9px] text-indigo-500">
                 Упомянуты: {c.mentions.map((m) => m.userName).join(', ')}
               </span>
             ) : null}
@@ -116,12 +117,12 @@ export function StageChatPanel({
           </Button>
         </div>
         {showMentionSuggest && (
-          <div className="absolute top-full left-0 mt-1 w-48 rounded border bg-white shadow-lg z-10 py-1">
+          <div className="absolute left-0 top-full z-10 mt-1 w-48 rounded border bg-white py-1 shadow-lg">
             {team.map((m) => (
               <button
                 key={m.id}
                 type="button"
-                className="w-full text-left px-2 py-1 text-xs hover:bg-slate-50"
+                className="w-full px-2 py-1 text-left text-xs hover:bg-slate-50"
                 onClick={() => insertMention(m.name)}
               >
                 @{m.name}

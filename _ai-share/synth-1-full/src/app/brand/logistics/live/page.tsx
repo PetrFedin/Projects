@@ -5,10 +5,10 @@ import { Package, Clock, AlertTriangle } from 'lucide-react';
 
 export default function LogisticsLivePage() {
   return (
-    <div className="container mx-auto px-4 py-6 max-w-5xl space-y-4 pb-24">
+    <div className="container mx-auto max-w-5xl space-y-4 px-4 py-6 pb-24">
       <div>
         <h1 className="text-2xl font-bold uppercase tracking-tight">LIVE: Логистика</h1>
-        <p className="text-sm text-slate-500 mt-1">Real-time logistics monitoring dashboard</p>
+        <p className="mt-1 text-sm text-slate-500">Real-time logistics monitoring dashboard</p>
       </div>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <Card className="border-slate-200">
@@ -20,7 +20,7 @@ export default function LogisticsLivePage() {
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-black tabular-nums">142</p>
-            <p className="text-[10px] text-slate-500 mt-1">в пути сейчас</p>
+            <p className="mt-1 text-[10px] text-slate-500">в пути сейчас</p>
           </CardContent>
         </Card>
         <Card className="border-slate-200">
@@ -32,7 +32,7 @@ export default function LogisticsLivePage() {
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-black tabular-nums">2.4 дн</p>
-            <p className="text-[10px] text-slate-500 mt-1">по РФ, скользящее окно</p>
+            <p className="mt-1 text-[10px] text-slate-500">по РФ, скользящее окно</p>
           </CardContent>
         </Card>
         <Card className="border-slate-200 sm:col-span-2 lg:col-span-1">
@@ -44,7 +44,7 @@ export default function LogisticsLivePage() {
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-black tabular-nums text-amber-700">7</p>
-            <p className="text-[10px] text-slate-500 mt-1">требуют эскалации</p>
+            <p className="mt-1 text-[10px] text-slate-500">требуют эскалации</p>
           </CardContent>
         </Card>
       </div>

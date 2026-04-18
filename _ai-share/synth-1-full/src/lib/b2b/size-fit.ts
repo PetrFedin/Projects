@@ -22,7 +22,13 @@ export interface SizeChartEntry {
 }
 
 /** Сетка из маппинга размеров (EU → ритейл, обхваты в см). Диапазон ±2 см. */
-const DEFAULT_GRID_CM: { size: string; retailerSize: string; chest: number; waist: number; hips: number }[] = [
+const DEFAULT_GRID_CM: {
+  size: string;
+  retailerSize: string;
+  chest: number;
+  waist: number;
+  hips: number;
+}[] = [
   { size: 'EU 32', retailerSize: 'XXS', chest: 80, waist: 62, hips: 86 },
   { size: 'EU 34', retailerSize: 'XS', chest: 84, waist: 64, hips: 88 },
   { size: 'EU 36', retailerSize: 'S', chest: 88, waist: 68, hips: 92 },
@@ -33,7 +39,7 @@ const DEFAULT_GRID_CM: { size: string; retailerSize: string; chest: number; wais
 
 const RANGE_CM = 2;
 
-function toSizeChartEntry(row: typeof DEFAULT_GRID_CM[0]): SizeChartEntry {
+function toSizeChartEntry(row: (typeof DEFAULT_GRID_CM)[0]): SizeChartEntry {
   return {
     size: row.size,
     retailerSize: row.retailerSize,
@@ -100,7 +106,9 @@ export function getRecommendedSize(params: {
       source: 'measurements',
       message: `По вашим замерам: ${match.retailerSize ?? match.size}. Грудь ${params.chestCm}, талия ${params.waistCm}, бёдра ${params.hipsCm} см.`,
       sizeUpWarning: getSizeUpWarning(params.productId ?? '', brand, params.category),
-      sizeUpMessage: getSizeUpWarning(params.productId ?? '', brand, params.category) ? 'По отзывам часто берут на размер больше.' : undefined,
+      sizeUpMessage: getSizeUpWarning(params.productId ?? '', brand, params.category)
+        ? 'По отзывам часто берут на размер больше.'
+        : undefined,
     };
   }
 
@@ -113,7 +121,9 @@ export function getRecommendedSize(params: {
       source: 'height_weight',
       message: `По росту ${params.heightCm} см и весу ${params.weightKg} кг: рекомендуем ${entry?.retailerSize ?? size}.`,
       sizeUpWarning: getSizeUpWarning(params.productId ?? '', brand, params.category),
-      sizeUpMessage: getSizeUpWarning(params.productId ?? '', brand, params.category) ? 'Часто берут на размер больше.' : undefined,
+      sizeUpMessage: getSizeUpWarning(params.productId ?? '', brand, params.category)
+        ? 'Часто берут на размер больше.'
+        : undefined,
     };
   }
 
@@ -124,7 +134,9 @@ export function getRecommendedSize(params: {
     source: 'reviews',
     message: 'Укажите рост/вес или замеры для точного подбора. По отзывам чаще всего заказывают M.',
     sizeUpWarning: getSizeUpWarning(params.productId ?? '', brand, params.category),
-    sizeUpMessage: getSizeUpWarning(params.productId ?? '', brand, params.category) ? 'По отзывам часто берут на размер больше.' : undefined,
+    sizeUpMessage: getSizeUpWarning(params.productId ?? '', brand, params.category)
+      ? 'По отзывам часто берут на размер больше.'
+      : undefined,
   };
 }
 
@@ -143,7 +155,11 @@ function findBestMatchByMeasurements(
   scores.sort((a, b) => a.total - b.total);
   let idx = 0;
   if (preference === 'oversized' && scores.length > 1) idx = Math.min(1, scores.length - 1);
-  if (preference === 'slim' && scores.length > 1) idx = Math.max(0, scores.findIndex((s) => s.total <= 1));
+  if (preference === 'slim' && scores.length > 1)
+    idx = Math.max(
+      0,
+      scores.findIndex((s) => s.total <= 1)
+    );
   return scores[idx]?.entry ?? chart[0];
 }
 
@@ -154,7 +170,7 @@ function delta(value: number, min: number, max: number): number {
 }
 
 function sizeFromHeightWeight(heightCm: number, weightKg: number): string {
-  const bmi = weightKg / ((heightCm / 100) ** 2);
+  const bmi = weightKg / (heightCm / 100) ** 2;
   if (heightCm < 165 && weightKg < 60) return 'XS';
   if (heightCm < 170 && weightKg < 70) return 'S';
   if (heightCm < 178 && weightKg < 85) return 'M';
@@ -163,15 +179,29 @@ function sizeFromHeightWeight(heightCm: number, weightKg: number): string {
 }
 
 /** Мок: «часто берут на размер больше» по продукту/бренду/категории. */
-export function getSizeUpWarning(productId: string, brandIdOrName: string, category?: string): boolean | string {
+export function getSizeUpWarning(
+  productId: string,
+  brandIdOrName: string,
+  category?: string
+): boolean | string {
   const cat = (category ?? '').toLowerCase();
-  if (cat.includes('верхн') || cat.includes('пальто') || cat.includes('курт') || cat.includes('outerwear')) return true;
+  if (
+    cat.includes('верхн') ||
+    cat.includes('пальто') ||
+    cat.includes('курт') ||
+    cat.includes('outerwear')
+  )
+    return true;
   const hash = (productId + brandIdOrName).split('').reduce((a, c) => a + c.charCodeAt(0), 0);
   if (hash % 3 === 0) return true;
   return false;
 }
 
-export function getSizeUpWarningMessage(productId: string, brandIdOrName: string, category?: string): string | null {
+export function getSizeUpWarningMessage(
+  productId: string,
+  brandIdOrName: string,
+  category?: string
+): string | null {
   const w = getSizeUpWarning(productId, brandIdOrName, category);
   if (w === true) return 'По отзывам часто берут на размер больше.';
   if (typeof w === 'string') return w;

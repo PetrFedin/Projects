@@ -49,7 +49,10 @@ async function fetchErp<T>(path: string, options?: RequestInit): Promise<T> {
 }
 
 /** Connect ERP */
-export async function connectErp(type: ErpType, config: ErpConnectionConfig): Promise<ErpConnection> {
+export async function connectErp(
+  type: ErpType,
+  config: ErpConnectionConfig
+): Promise<ErpConnection> {
   try {
     const data = await fetchErp<ErpConnection>('/production/erp/connect', {
       method: 'POST',

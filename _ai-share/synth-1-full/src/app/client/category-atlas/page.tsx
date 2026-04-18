@@ -21,7 +21,7 @@ export default function CategoryAtlasPage() {
   }, [buckets, q]);
 
   return (
-    <div className="container max-w-3xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-3xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
@@ -30,12 +30,13 @@ export default function CategoryAtlasPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
+            <h1 className="flex items-center gap-2 text-xl font-bold">
               <FolderTree className="h-6 w-6" />
               Атлас категорий
             </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
-              Путь из category_group → category → subcategory. Тот же индекс можно отдать с API taxonomy.
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              Путь из category_group → category → subcategory. Тот же индекс можно отдать с API
+              taxonomy.
             </p>
           </div>
         </div>
@@ -45,19 +46,28 @@ export default function CategoryAtlasPage() {
       <Card>
         <CardHeader className="pb-2">
           <CardTitle className="text-base">Поиск</CardTitle>
-          <CardDescription>{buckets.length} уникальных веток · {products.length} SKU в индексе</CardDescription>
+          <CardDescription>
+            {buckets.length} уникальных веток · {products.length} SKU в индексе
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <Input placeholder="Фильтр по названию ветки…" value={q} onChange={(e) => setQ(e.target.value)} />
+          <Input
+            placeholder="Фильтр по названию ветки…"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+          />
         </CardContent>
       </Card>
 
       <ul className="space-y-2">
         {filtered.map((b) => (
-          <li key={b.path} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3 text-sm">
+          <li
+            key={b.path}
+            className="flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3 text-sm"
+          >
             <span className="font-medium leading-snug">{b.path}</span>
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="text-xs text-muted-foreground tabular-nums">{b.count} шт.</span>
+            <div className="flex shrink-0 items-center gap-2">
+              <span className="text-xs tabular-nums text-muted-foreground">{b.count} шт.</span>
               <Button variant="outline" size="sm" className="h-8 text-xs" asChild>
                 <Link href={`/products/${b.exampleSlug}`}>Пример</Link>
               </Button>

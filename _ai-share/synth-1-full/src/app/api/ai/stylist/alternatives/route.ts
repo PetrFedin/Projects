@@ -1,14 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getStylistProductPool } from "@/lib/ai-stylist";
+import { NextRequest, NextResponse } from 'next/server';
+import { getStylistProductPool } from '@/lib/ai-stylist';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const productId = searchParams.get("productId");
-  const category = searchParams.get("category");
-  const excludeIds = searchParams.get("excludeIds")?.split(",").filter(Boolean) ?? [];
+  const productId = searchParams.get('productId');
+  const category = searchParams.get('category');
+  const excludeIds = searchParams.get('excludeIds')?.split(',').filter(Boolean) ?? [];
 
   if (!productId || !category) {
-    return NextResponse.json({ error: "productId and category required" }, { status: 400 });
+    return NextResponse.json({ error: 'productId and category required' }, { status: 400 });
   }
 
   const pool = getStylistProductPool();
@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
       p.category === category &&
       p.id !== productId &&
       !excludeIds.includes(p.id) &&
-      p.brand !== "My Wardrobe"
+      p.brand !== 'My Wardrobe'
   );
 
   const scored = candidates.map((p) => {

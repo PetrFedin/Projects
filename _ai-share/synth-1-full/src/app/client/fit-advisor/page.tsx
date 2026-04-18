@@ -28,7 +28,10 @@ function FitAdvisorInner() {
   const [sku, setSku] = useState(initialSku);
 
   const prefs = useMemo(() => loadForYouPreferences(), []);
-  const advice = useMemo(() => buildFitAdvice(sku.trim() || products[0]?.sku || '', prefs), [sku, prefs]);
+  const advice = useMemo(
+    () => buildFitAdvice(sku.trim() || products[0]?.sku || '', prefs),
+    [sku, prefs]
+  );
   const product = products.find((p) => p.sku === sku.trim());
 
   return (
@@ -36,15 +39,23 @@ function FitAdvisorInner() {
       <Card className="md:col-span-2">
         <CardHeader>
           <CardTitle className="text-base">SKU</CardTitle>
-          <CardDescription>Голоса посадки с PDP (localStorage) + ваш размер из «Для вас».</CardDescription>
+          <CardDescription>
+            Голоса посадки с PDP (localStorage) + ваш размер из «Для вас».
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="sku">Артикул / SKU</Label>
-            <Input id="sku" value={sku} onChange={(e) => setSku(e.target.value)} className="font-mono text-sm" />
+            <Input
+              id="sku"
+              value={sku}
+              onChange={(e) => setSku(e.target.value)}
+              className="font-mono text-sm"
+            />
           </div>
           <p className="text-xs text-muted-foreground">
-            Базовый размер в профиле: <strong className="text-foreground">{prefs.sizeHint}</strong>. Изменить в{' '}
+            Базовый размер в профиле: <strong className="text-foreground">{prefs.sizeHint}</strong>.
+            Изменить в{' '}
             <Link href={ROUTES.client.forYou} className="underline">
               Для вас
             </Link>
@@ -63,7 +74,9 @@ function FitAdvisorInner() {
           <IconFor skew={advice.skew} />
           <div>
             <CardTitle className="text-base">{advice.headline}</CardTitle>
-            <CardDescription className="text-sm mt-2 leading-relaxed">{advice.detail}</CardDescription>
+            <CardDescription className="mt-2 text-sm leading-relaxed">
+              {advice.detail}
+            </CardDescription>
           </div>
         </CardHeader>
         <CardContent className="flex flex-wrap gap-2">
@@ -77,7 +90,7 @@ function FitAdvisorInner() {
 
 export default function ClientFitAdvisorPage() {
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
@@ -86,11 +99,11 @@ export default function ClientFitAdvisorPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
+            <h1 className="flex items-center gap-2 text-xl font-bold">
               <Ruler className="h-6 w-6" />
               Посадка и размер
             </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
+            <p className="mt-0.5 text-sm text-muted-foreground">
               Детерминированный совет до подключения size-ML и истории заказов.
             </p>
           </div>

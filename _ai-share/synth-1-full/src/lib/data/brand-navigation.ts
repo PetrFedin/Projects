@@ -1,41 +1,41 @@
 import { ROUTES, processLiveUrl } from '@/lib/routes';
 import { PRIMARY_LINK_VALUES, type SecondaryNavItem } from './brand-nav-priority';
 import {
-    Activity,
-    BarChart3,
-    Briefcase,
-    Building2,
-    Calculator,
-    Database,
-    DollarSign,
-    Cpu,
-    Factory,
-    FileSearch,
-    FileText,
-    Gavel,
-    Globe,
-    GraduationCap,
-    Image as ImageIcon,
-    Layers,
-    Layers2,
-    LayoutDashboard,
-    Megaphone,
-    Monitor,
-    Package,
-    PackageCheck,
-    QrCode,
-    Rocket,
-    Settings,
-    Shield,
-    ShoppingCart,
-    Sparkles,
-    Target,
-    Truck,
-    UserCircle,
-    Users,
-    Wallet,
-    Warehouse,
-    Zap,
+  Activity,
+  BarChart3,
+  Briefcase,
+  Building2,
+  Calculator,
+  Database,
+  DollarSign,
+  Cpu,
+  Factory,
+  FileSearch,
+  FileText,
+  Gavel,
+  Globe,
+  GraduationCap,
+  Image as ImageIcon,
+  Layers,
+  Layers2,
+  LayoutDashboard,
+  Megaphone,
+  Monitor,
+  Package,
+  PackageCheck,
+  QrCode,
+  Rocket,
+  Settings,
+  Shield,
+  ShoppingCart,
+  Sparkles,
+  Target,
+  Truck,
+  UserCircle,
+  Users,
+  Wallet,
+  Warehouse,
+  Zap,
 } from 'lucide-react';
 
 /** Группировки разделов — логические кластеры для визуальной организации навигации */
@@ -56,9 +56,27 @@ export const brandNavGroups = [
     icon: Building2,
     scope: 'shared',
     links: [
-      { label: 'Профиль', value: 'profile', icon: UserCircle, href: '/brand?group=profile&tab=brand', description: 'Профиль бренда, юр. данные, контакты' },
-      { label: 'Команда', value: 'team', icon: Users, href: ROUTES.brand.team, description: 'Участники, задачи, права, орг. структура' },
-      { label: 'Интеграции', value: 'integrations', icon: Zap, href: ROUTES.brand.integrations, description: 'Маркетплейсы, ERP, PLM, 1С, Webhooks, SSO' },
+      {
+        label: 'Профиль',
+        value: 'profile',
+        icon: UserCircle,
+        href: '/brand?group=profile&tab=brand',
+        description: 'Профиль бренда, юр. данные, контакты',
+      },
+      {
+        label: 'Команда',
+        value: 'team',
+        icon: Users,
+        href: ROUTES.brand.team,
+        description: 'Участники, задачи, права, орг. структура',
+      },
+      {
+        label: 'Интеграции',
+        value: 'integrations',
+        icon: Zap,
+        href: ROUTES.brand.integrations,
+        description: 'Маркетплейсы, ERP, PLM, 1С, Webhooks, SSO',
+      },
       {
         label: 'Документооборот и ЭДО',
         value: 'documents',
@@ -72,7 +90,13 @@ export const brandNavGroups = [
           { label: 'B2B', href: ROUTES.brand.b2bOrders, icon: Factory },
         ],
       },
-      { label: 'Настройки', value: 'settings', icon: Settings, href: ROUTES.brand.settings, description: 'Общие, безопасность, подписка' },
+      {
+        label: 'Настройки',
+        value: 'settings',
+        icon: Settings,
+        href: ROUTES.brand.settings,
+        description: 'Общие, безопасность, подписка',
+      },
       {
         label: 'Центр управления',
         value: 'dashboard',
@@ -89,7 +113,7 @@ export const brandNavGroups = [
           { label: 'B2B', href: ROUTES.brand.b2bOrders, icon: ShoppingCart },
         ],
       },
-    ]
+    ],
   },
 
   // ─── Кластер: Продукт ──────────────────────────────────────────
@@ -100,7 +124,13 @@ export const brandNavGroups = [
     icon: Layers,
     scope: 'shared',
     links: [
-      { label: 'Коллекции', value: 'collections', icon: Layers, href: ROUTES.brand.collections, description: 'Каталог коллекций, создание, архив' },
+      {
+        label: 'Коллекции',
+        value: 'collections',
+        icon: Layers,
+        href: ROUTES.brand.collections,
+        description: 'Каталог коллекций, создание, архив',
+      },
       {
         label: 'PIM-центр',
         value: 'pim',
@@ -117,7 +147,7 @@ export const brandNavGroups = [
           { label: 'Linesheets', href: ROUTES.brand.b2bLinesheets, icon: FileText },
         ],
       },
-    ]
+    ],
   },
 
   // ─── Кластер: Производство ─────────────────────────────────────
@@ -128,17 +158,22 @@ export const brandNavGroups = [
     icon: Factory,
     scope: 'shared',
     links: [
-      { label: 'Цех', value: 'shop-floor', icon: Factory, href: ROUTES.brand.production, description: 'Мониторинг линий, ОТК, утверждение эталона' },
+      {
+        label: 'Цех',
+        value: 'shop-floor',
+        icon: Factory,
+        href: ROUTES.brand.production,
+        description: 'Мониторинг линий, ОТК, утверждение эталона',
+      },
       {
         label: 'Цех 2',
         value: 'workshop2',
         icon: Layers2,
         href: ROUTES.brand.productionWorkshop2,
-        description: 'Коллекции и артикулы: /brand/production/workshop2. Сейчас в интерфейсе — SS27; новые коллекции сохраняются со сведениями «кто / когда».',
+        description:
+          'Коллекции и артикулы: /brand/production/workshop2. Сейчас в интерфейсе — SS27; новые коллекции сохраняются со сведениями «кто / когда».',
         iconColor: 'indigo',
-        quickActions: [
-          { label: 'Цех', href: ROUTES.brand.production, icon: Factory },
-        ],
+        quickActions: [{ label: 'Цех', href: ROUTES.brand.production, icon: Factory }],
       },
       {
         label: 'LIVE: от идеи до склада',
@@ -181,7 +216,7 @@ export const brandNavGroups = [
           { label: 'VMI', href: ROUTES.brand.vmi, icon: Warehouse },
         ],
       },
-    ]
+    ],
   },
   {
     id: 'logistics',
@@ -244,7 +279,7 @@ export const brandNavGroups = [
           { label: 'Production', href: ROUTES.brand.production, icon: Factory },
         ],
       },
-    ]
+    ],
   },
 
   // ─── Кластер: Продажи ──────────────────────────────────────────
@@ -286,8 +321,14 @@ export const brandNavGroups = [
           { label: 'Retailers', href: ROUTES.brand.retailers, icon: Users },
         ],
       },
-      { label: 'Заказы B2B', value: 'orders', icon: Package, href: ROUTES.brand.b2bOrders, description: 'Заказы, PO, отгрузки, согласование' },
-    ]
+      {
+        label: 'Заказы B2B',
+        value: 'orders',
+        icon: Package,
+        href: ROUTES.brand.b2bOrders,
+        description: 'Заказы, PO, отгрузки, согласование',
+      },
+    ],
   },
   {
     id: 'partners',
@@ -296,8 +337,20 @@ export const brandNavGroups = [
     icon: Users,
     scope: 'shared',
     links: [
-      { label: 'Партнёры', value: 'retailers', icon: Users, href: ROUTES.brand.retailers, description: 'Ритейлеры и дистрибьюторы' },
-      { label: 'Коммерческие условия', value: 'commercial', icon: DollarSign, href: ROUTES.brand.priceLists, description: 'Прайс-листы и группы клиентов' },
+      {
+        label: 'Партнёры',
+        value: 'retailers',
+        icon: Users,
+        href: ROUTES.brand.retailers,
+        description: 'Ритейлеры и дистрибьюторы',
+      },
+      {
+        label: 'Коммерческие условия',
+        value: 'commercial',
+        icon: DollarSign,
+        href: ROUTES.brand.priceLists,
+        description: 'Прайс-листы и группы клиентов',
+      },
       {
         label: 'CRM и лояльность',
         value: 'customer-intelligence',
@@ -324,7 +377,7 @@ export const brandNavGroups = [
           { label: 'B2B Orders', href: ROUTES.brand.b2bOrders, icon: Package },
         ],
       },
-    ]
+    ],
   },
   {
     id: 'marketing',
@@ -375,7 +428,7 @@ export const brandNavGroups = [
           { label: 'Showroom', href: ROUTES.brand.showroom, icon: Monitor },
         ],
       },
-    ]
+    ],
   },
 
   // ─── Кластер: Аналитика и инструменты ──────────────────────────
@@ -386,7 +439,13 @@ export const brandNavGroups = [
     icon: BarChart3,
     scope: 'shared',
     links: [
-      { label: 'Аналитика 360', value: 'analytics-360', icon: Target, href: ROUTES.brand.analytics360, description: 'Сквозная стратегическая аналитика' },
+      {
+        label: 'Аналитика 360',
+        value: 'analytics-360',
+        icon: Target,
+        href: ROUTES.brand.analytics360,
+        description: 'Сквозная стратегическая аналитика',
+      },
       {
         label: 'BI и отчёты',
         value: 'analytics-bi',
@@ -431,7 +490,13 @@ export const brandNavGroups = [
           { label: 'Finance', href: ROUTES.brand.finance, icon: DollarSign },
         ],
       },
-      { label: 'Ценообразование', value: 'ai-pricing', icon: Calculator, href: ROUTES.brand.pricing, description: 'AI инструмент для настройки цен и маржи' },
+      {
+        label: 'Ценообразование',
+        value: 'ai-pricing',
+        icon: Calculator,
+        href: ROUTES.brand.pricing,
+        description: 'AI инструмент для настройки цен и маржи',
+      },
       {
         label: 'Финансовый хаб',
         value: 'finance',
@@ -458,7 +523,7 @@ export const brandNavGroups = [
           { label: 'Compliance', href: ROUTES.brand.compliance, icon: Shield },
         ],
       },
-    ]
+    ],
   },
   {
     id: 'tools',
@@ -480,7 +545,13 @@ export const brandNavGroups = [
           { label: 'Planning', href: ROUTES.brand.planning, icon: Layers },
         ],
       },
-      { label: 'Академия', value: 'academy', icon: GraduationCap, href: ROUTES.brand.academy, description: 'Курсы, база знаний, материалы' },
+      {
+        label: 'Академия',
+        value: 'academy',
+        icon: GraduationCap,
+        href: ROUTES.brand.academy,
+        description: 'Курсы, база знаний, материалы',
+      },
       {
         label: 'HR-центр',
         value: 'hr-hub',
@@ -494,23 +565,26 @@ export const brandNavGroups = [
           { label: 'Академия', href: ROUTES.brand.academy, icon: GraduationCap },
         ],
       },
-    ]
+    ],
   },
 ];
 
-export const allBrandNavLinks = brandNavGroups.flatMap(group => group.links);
+export const allBrandNavLinks = brandNavGroups.flatMap((group) => group.links);
 
 /** Группы с только primary-пунктами (~25–35 видимых). */
 export function getPrimaryNavGroups(
   groups: typeof brandNavGroups,
   filter: (g: (typeof brandNavGroups)[number]) => boolean
 ) {
-  return groups.filter(filter).map(g => {
-    const primaryValues = PRIMARY_LINK_VALUES[g.id] ?? [];
-    const primaryLinks = g.links.filter(l => primaryValues.includes(l.value));
-    if (primaryLinks.length === 0) return null;
-    return { ...g, links: primaryLinks };
-  }).filter(Boolean) as (typeof brandNavGroups)[number][];
+  return groups
+    .filter(filter)
+    .map((g) => {
+      const primaryValues = PRIMARY_LINK_VALUES[g.id] ?? [];
+      const primaryLinks = g.links.filter((l) => primaryValues.includes(l.value));
+      if (primaryLinks.length === 0) return null;
+      return { ...g, links: primaryLinks };
+    })
+    .filter(Boolean) as (typeof brandNavGroups)[number][];
 }
 
 /** Второстепенные пункты для блока «Ещё», с указанием исходной группы. */
@@ -537,7 +611,7 @@ export function getSecondaryNavItems(
 
 /** Хаб группы — первый (главный) раздел группы */
 export function getGroupHub(groupId: string): { href: string; label: string } {
-  const group = brandNavGroups.find(g => g.id === groupId);
+  const group = brandNavGroups.find((g) => g.id === groupId);
   if (!group?.links?.length) return { href: ROUTES.brand.home, label: 'Brand' };
   const first = group.links[0];
   return { href: first.href, label: first.label };
@@ -555,7 +629,11 @@ export type BrandSectionMeta = {
   description: string;
   icon: (typeof brandNavGroups)[0]['links'][0]['icon'];
   iconColor?: 'indigo' | 'slate' | 'emerald' | 'amber' | 'rose' | 'blue';
-  quickActions?: Array<{ label: string; href: string; icon: (typeof brandNavGroups)[0]['links'][0]['icon'] }>;
+  quickActions?: Array<{
+    label: string;
+    href: string;
+    icon: (typeof brandNavGroups)[0]['links'][0]['icon'];
+  }>;
 };
 
 function pathFromHref(href: string): string {
@@ -563,28 +641,54 @@ function pathFromHref(href: string): string {
 }
 
 /** Метаданные раздела по pathname — единый источник для BrandSectionHeaderBlock и breadcrumb */
-export function getBrandSectionMeta(pathname: string, searchString?: string): BrandSectionMeta | null {
+export function getBrandSectionMeta(
+  pathname: string,
+  searchString?: string
+): BrandSectionMeta | null {
   const path = pathname.replace(/\/$/, '') || '/brand';
-  const flat: { href: string; pathOnly: string; link: typeof brandNavGroups[0]['links'][0]; group: typeof brandNavGroups[0]; subsection?: { href: string; label: string; value: string } }[] = [];
+  const flat: {
+    href: string;
+    pathOnly: string;
+    link: (typeof brandNavGroups)[0]['links'][0];
+    group: (typeof brandNavGroups)[0];
+    subsection?: { href: string; label: string; value: string };
+  }[] = [];
   for (const group of brandNavGroups) {
     for (const link of group.links) {
       const rawHref = link.href;
       flat.push({ href: rawHref, pathOnly: pathFromHref(rawHref), link, group });
-      const subsections = (link as { subsections?: { href: string; label: string; value: string }[] }).subsections;
+      const subsections = (
+        link as { subsections?: { href: string; label: string; value: string }[] }
+      ).subsections;
       if (subsections?.length) {
         for (const sub of subsections) {
-          flat.push({ href: sub.href, pathOnly: pathFromHref(sub.href), link, group, subsection: sub });
+          flat.push({
+            href: sub.href,
+            pathOnly: pathFromHref(sub.href),
+            link,
+            group,
+            subsection: sub,
+          });
         }
       }
     }
   }
   flat.sort((a, b) => b.pathOnly.length - a.pathOnly.length);
-  const matches: { link: typeof brandNavGroups[0]['links'][0]; group: typeof brandNavGroups[0]; subsection?: { href: string; label: string; value: string }; prefersSearch: boolean }[] = [];
+  const matches: {
+    link: (typeof brandNavGroups)[0]['links'][0];
+    group: (typeof brandNavGroups)[0];
+    subsection?: { href: string; label: string; value: string };
+    prefersSearch: boolean;
+  }[] = [];
   for (const { href, pathOnly, link, group, subsection } of flat) {
     const exact = path === pathOnly || path === pathFromHref(href);
     const nested = pathOnly !== '/brand' && path.startsWith(pathOnly + '/');
     if (exact || nested) {
-      const prefersSearch = !!(searchString && subsection?.href.includes('?') && subsection.href.includes(searchString));
+      const prefersSearch = !!(
+        searchString &&
+        subsection?.href.includes('?') &&
+        subsection.href.includes(searchString)
+      );
       matches.push({ link, group, subsection, prefersSearch });
     }
   }
@@ -592,7 +696,8 @@ export function getBrandSectionMeta(pathname: string, searchString?: string): Br
   if (best) {
     const { link, group, subsection } = best;
     const hub = getGroupHub(group.id);
-    const subsections = (link as { subsections?: { href: string; label: string; value: string }[] }).subsections;
+    const subsections = (link as { subsections?: { href: string; label: string; value: string }[] })
+      .subsections;
     let subsectionLabel: string | undefined;
     let subsectionHref: string | undefined;
     if (subsection) {
@@ -600,15 +705,18 @@ export function getBrandSectionMeta(pathname: string, searchString?: string): Br
       subsectionHref = subsection.href;
     } else if (subsections?.length) {
       const sub = searchString
-        ? subsections.find((s) => s.href.includes('?') && s.href.includes(searchString))
-        ?? subsections.find((s) => pathFromHref(s.href) === path)
+        ? (subsections.find((s) => s.href.includes('?') && s.href.includes(searchString)) ??
+          subsections.find((s) => pathFromHref(s.href) === path))
         : subsections.find((s) => pathFromHref(s.href) === path);
       if (sub) {
         subsectionLabel = sub.label;
         subsectionHref = sub.href;
       }
     }
-    const linkExt = link as { iconColor?: BrandSectionMeta['iconColor']; quickActions?: BrandSectionMeta['quickActions'] };
+    const linkExt = link as {
+      iconColor?: BrandSectionMeta['iconColor'];
+      quickActions?: BrandSectionMeta['quickActions'];
+    };
     return {
       groupId: group.id,
       groupLabel: group.label,

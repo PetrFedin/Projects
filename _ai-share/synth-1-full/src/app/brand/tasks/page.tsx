@@ -54,9 +54,9 @@ function BrandTasksPageInner() {
   const [newDue, setNewDue] = useState('');
   const [newProject, setNewProject] = useState('Production');
   /** Демо-задачи из матрицы не в localStorage — статусы храним в сессии, чтобы Kanban работал до перезагрузки */
-  const [demoTaskStatusOverrides, setDemoTaskStatusOverrides] = useState<Record<string, BrandTaskStatus>>(() =>
-    readDemoTaskStatusOverrides()
-  );
+  const [demoTaskStatusOverrides, setDemoTaskStatusOverrides] = useState<
+    Record<string, BrandTaskStatus>
+  >(() => readDemoTaskStatusOverrides());
 
   useEffect(() => {
     setTasks(loadBrandTasks());
@@ -121,9 +121,21 @@ function BrandTasksPageInner() {
 
   const columns = useMemo(
     () => [
-      { id: 'todo' as const, title: 'К выполнению', tasks: filteredTasks.filter((t) => t.status === 'todo') },
-      { id: 'in_progress' as const, title: 'В работе', tasks: filteredTasks.filter((t) => t.status === 'in_progress') },
-      { id: 'done' as const, title: 'Выполнено', tasks: filteredTasks.filter((t) => t.status === 'done') },
+      {
+        id: 'todo' as const,
+        title: 'К выполнению',
+        tasks: filteredTasks.filter((t) => t.status === 'todo'),
+      },
+      {
+        id: 'in_progress' as const,
+        title: 'В работе',
+        tasks: filteredTasks.filter((t) => t.status === 'in_progress'),
+      },
+      {
+        id: 'done' as const,
+        title: 'Выполнено',
+        tasks: filteredTasks.filter((t) => t.status === 'done'),
+      },
     ],
     [filteredTasks]
   );
@@ -168,7 +180,7 @@ function BrandTasksPageInner() {
   }, [newTitle, newAssignee, newDue, newProject]);
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-6xl pb-24">
+    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Задачи команды"
         description="Kanban с сохранением в localStorage (brand_tasks_kanban_v1). Позже тот же контракт — через ProductionDataPort → API."
@@ -180,78 +192,98 @@ function BrandTasksPageInner() {
             <Badge variant="outline" className="text-[9px]">
               Kanban · persist
             </Badge>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href="/brand/calendar?layers=tasks">Календарь задач</Link>
             </Button>
           </>
         }
       />
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h1 className="text-2xl font-bold uppercase">Задачи</h1>
-          <p className="text-sm text-slate-500">Создание, смена статуса и хранение на клиенте до бэкенда</p>
+          <p className="text-sm text-slate-500">
+            Создание, смена статуса и хранение на клиенте до бэкенда
+          </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto md:items-center">
+        <div className="flex w-full flex-col gap-2 sm:flex-row md:w-auto md:items-center">
           <Input
             value={listFilter}
             onChange={(e) => setListFilter(e.target.value)}
             placeholder="Поиск: артикул, заказ, сезон, этап…"
-            className="text-sm max-w-md"
+            className="max-w-md text-sm"
             aria-label="Фильтр задач по артикулу, заказу, сезону"
           />
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/brand/calendar?layers=tasks" className="gap-2">
-              <Calendar className="h-4 w-4" /> Календарь
-            </Link>
-          </Button>
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger asChild>
-              <Button size="sm" className="gap-2">
-                <Plus className="h-4 w-4" /> Новая задача
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-              <DialogHeader>
-                <DialogTitle>Новая задача</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-3 py-2">
-                <div>
-                  <Label className="text-xs">Название</Label>
-                  <Input value={newTitle} onChange={(e) => setNewTitle(e.target.value)} className="mt-1" placeholder="Что сделать" />
-                </div>
-                <div>
-                  <Label className="text-xs">Ответственный</Label>
-                  <Input value={newAssignee} onChange={(e) => setNewAssignee(e.target.value)} className="mt-1" />
-                </div>
-                <div>
-                  <Label className="text-xs">Срок</Label>
-                  <Input value={newDue} onChange={(e) => setNewDue(e.target.value)} className="mt-1" placeholder="Пт / 2026-04-01" />
-                </div>
-                <div>
-                  <Label className="text-xs">Проект</Label>
-                  <Input value={newProject} onChange={(e) => setNewProject(e.target.value)} className="mt-1" />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button variant="outline" onClick={() => setDialogOpen(false)}>
-                  Отмена
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/brand/calendar?layers=tasks" className="gap-2">
+                <Calendar className="h-4 w-4" /> Календарь
+              </Link>
+            </Button>
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger asChild>
+                <Button size="sm" className="gap-2">
+                  <Plus className="h-4 w-4" /> Новая задача
                 </Button>
-                <Button onClick={addTask} disabled={!newTitle.trim()}>
-                  Добавить
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </div>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Новая задача</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-3 py-2">
+                  <div>
+                    <Label className="text-xs">Название</Label>
+                    <Input
+                      value={newTitle}
+                      onChange={(e) => setNewTitle(e.target.value)}
+                      className="mt-1"
+                      placeholder="Что сделать"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-xs">Ответственный</Label>
+                    <Input
+                      value={newAssignee}
+                      onChange={(e) => setNewAssignee(e.target.value)}
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-xs">Срок</Label>
+                    <Input
+                      value={newDue}
+                      onChange={(e) => setNewDue(e.target.value)}
+                      className="mt-1"
+                      placeholder="Пт / 2026-04-01"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-xs">Проект</Label>
+                    <Input
+                      value={newProject}
+                      onChange={(e) => setNewProject(e.target.value)}
+                      className="mt-1"
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setDialogOpen(false)}>
+                    Отмена
+                  </Button>
+                  <Button onClick={addTask} disabled={!newTitle.trim()}>
+                    Добавить
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {columns.map((col) => (
           <Card key={col.id} className="rounded-xl border border-slate-100">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm flex items-center justify-between">
+              <CardTitle className="flex items-center justify-between text-sm">
                 {col.title}
                 <Badge variant="secondary" className="text-[10px]">
                   {col.tasks.length}
@@ -260,15 +292,15 @@ function BrandTasksPageInner() {
             </CardHeader>
             <CardContent className="space-y-2">
               {col.tasks.length === 0 ? (
-                <p className="text-[11px] text-slate-400 py-4">Нет задач</p>
+                <p className="py-4 text-[11px] text-slate-400">Нет задач</p>
               ) : (
                 col.tasks.map((t) => (
                   <div
                     key={t.id}
-                    className="p-3 rounded-lg border border-slate-100 bg-white space-y-2"
+                    className="space-y-2 rounded-lg border border-slate-100 bg-white p-3"
                   >
-                    <p className="font-medium text-sm">{t.title}</p>
-                    <div className="flex items-center gap-2 mt-1 text-[10px] text-slate-500">
+                    <p className="text-sm font-medium">{t.title}</p>
+                    <div className="mt-1 flex items-center gap-2 text-[10px] text-slate-500">
                       <span className="flex items-center gap-1">
                         <User className="h-3 w-3" /> {t.assignee}
                       </span>
@@ -313,7 +345,11 @@ function BrandTasksPageInner() {
 
 export default function BrandTasksPage() {
   return (
-    <Suspense fallback={<div className="container mx-auto px-4 py-10 text-sm text-slate-500">Загрузка…</div>}>
+    <Suspense
+      fallback={
+        <div className="container mx-auto px-4 py-10 text-sm text-slate-500">Загрузка…</div>
+      }
+    >
       <BrandTasksPageInner />
     </Suspense>
   );

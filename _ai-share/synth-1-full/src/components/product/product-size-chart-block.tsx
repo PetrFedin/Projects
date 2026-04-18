@@ -1,7 +1,14 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import type { Product } from '@/lib/types';
 import { parseSizeChartRows, sizeChartColumnOrder } from '@/lib/fashion/size-chart';
 import { Ruler } from 'lucide-react';
@@ -17,12 +24,13 @@ export function ProductSizeChartBlock({ product }: Props) {
   return (
     <Card className="mt-4 border-dashed">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-sm">
           <Ruler className="h-4 w-4" />
           Таблица мерок
         </CardTitle>
         <CardDescription className="text-xs">
-          Данные из <code className="bg-muted px-1 rounded">attributes.sizeChart</code> — готовый контракт для PIM → витрина.
+          Данные из <code className="rounded bg-muted px-1">attributes.sizeChart</code> — готовый
+          контракт для PIM → витрина.
         </CardDescription>
       </CardHeader>
       <CardContent className="overflow-x-auto">
@@ -30,7 +38,7 @@ export function ProductSizeChartBlock({ product }: Props) {
           <TableHeader>
             <TableRow>
               {cols.map((c) => (
-                <TableHead key={c} className="text-xs whitespace-nowrap capitalize">
+                <TableHead key={c} className="whitespace-nowrap text-xs capitalize">
                   {c.replace(/_/g, ' ')}
                 </TableHead>
               ))}
@@ -40,7 +48,7 @@ export function ProductSizeChartBlock({ product }: Props) {
             {rows.map((r, i) => (
               <TableRow key={i}>
                 {cols.map((c) => (
-                  <TableCell key={c} className="text-xs font-mono">
+                  <TableCell key={c} className="font-mono text-xs">
                     {r[c] ?? '—'}
                   </TableCell>
                 ))}

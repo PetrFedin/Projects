@@ -49,9 +49,9 @@ export function buildInventoryControlOutput(input: InventoryControlInput): Contr
         sku,
         diff: String(report.diff),
         severity: report.severity,
-        channel: report.channelId || 'all'
-      }
-    }
+        channel: report.channelId || 'all',
+      },
+    },
   ];
 
   // 3. Формируем следующий шаг (Next Action)
@@ -61,7 +61,7 @@ export function buildInventoryControlOutput(input: InventoryControlInput): Contr
     entity_ref: {
       entity_type: 'sku_balance',
       entity_id: sku,
-      label: `Reconcile stock for ${sku}`
+      label: `Reconcile stock for ${sku}`,
     },
     reason: reasons,
     owner: owner || { role: 'merchandiser' },
@@ -70,8 +70,8 @@ export function buildInventoryControlOutput(input: InventoryControlInput): Contr
     status: 'open',
     explainability: {
       rule_id: 'inventory_reconciliation',
-      inputs_hash: `merch:${report.merchQuantity}:ledger:${report.ledgerQuantity}`
-    }
+      inputs_hash: `merch:${report.merchQuantity}:ledger:${report.ledgerQuantity}`,
+    },
   };
 
   const output: ControlOutput = {
@@ -85,16 +85,16 @@ export function buildInventoryControlOutput(input: InventoryControlInput): Contr
     blocker_summary: {
       count: report.severity === 'critical' ? 1 : 0,
       highest_severity: report.severity === 'critical' ? 'critical' : 'info',
-      top_blocker_ids: report.severity === 'critical' ? ['CRITICAL_STOCK_MISMATCH'] : []
+      top_blocker_ids: report.severity === 'critical' ? ['CRITICAL_STOCK_MISMATCH'] : [],
     },
     readiness_summary: {
       dimensions: [
-        { 
-          key: 'stock_integrity', 
+        {
+          key: 'stock_integrity',
           state: report.diff === 0 ? 'ready' : 'not_ready',
-          gap_codes: report.diff !== 0 ? reasons : []
-        }
-      ]
+          gap_codes: report.diff !== 0 ? reasons : [],
+        },
+      ],
     },
     deadline_pressure: { level: 'none' },
     next_action,
@@ -105,6 +105,6 @@ export function buildInventoryControlOutput(input: InventoryControlInput): Contr
 
   const v = validateControlOutput(output);
   if (!v.ok) throw new Error(`Inventory ControlOutput validation failed: ${v.errors.join('; ')}`);
-  
+
   return output;
 }

@@ -42,7 +42,9 @@ export class MultiverseShardingEngine {
     // 1. Фильтрация узлов по уровню энтропии (Dimensional Stability)
     // Если реальность слишком сильно отклонилась (высокая энтропия),
     // ее нельзя хранить на узле с низким порогом стабильности, иначе данные коллапсируют.
-    const entropySafeNodes = availableNodes.filter(n => n.maxEntropyThreshold >= payload.entropyLevel);
+    const entropySafeNodes = availableNodes.filter(
+      (n) => n.maxEntropyThreshold >= payload.entropyLevel
+    );
 
     if (entropySafeNodes.length === 0) {
       status = 'entropy_overflow';
@@ -52,7 +54,9 @@ export class MultiverseShardingEngine {
 
     // 2. Поиск узла с достаточной емкостью (Capacity Check)
     // Сортируем узлы по доступному месту (жадный алгоритм)
-    const sortedNodes = entropySafeNodes.sort((a, b) => (b.capacityTb - b.usedTb) - (a.capacityTb - a.usedTb));
+    const sortedNodes = entropySafeNodes.sort(
+      (a, b) => b.capacityTb - b.usedTb - (a.capacityTb - a.usedTb)
+    );
 
     for (const node of sortedNodes) {
       const availableSpaceTb = node.capacityTb - node.usedTb;
@@ -60,10 +64,10 @@ export class MultiverseShardingEngine {
       if (availableSpaceTb >= payload.dataSizeTb) {
         status = 'allocated';
         assignedNodeId = node.nodeId;
-        
+
         // В реальности здесь было бы обновление состояния узла в БД
         node.usedTb += payload.dataSizeTb;
-        
+
         reasoning = `Timeline shard allocated to quantum node ${node.nodeId}. Space utilized: ${node.usedTb.toFixed(1)}/${node.capacityTb.toFixed(1)} TB. Entropy level (${(payload.entropyLevel * 100).toFixed(1)}%) safely contained. `;
         break;
       }
@@ -77,7 +81,7 @@ export class MultiverseShardingEngine {
       timelineId: payload.timelineId,
       assignedNodeId,
       status,
-      reasoning
+      reasoning,
     };
   }
 }

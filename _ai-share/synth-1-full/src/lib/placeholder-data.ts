@@ -1,4 +1,3 @@
-
 import type { Brand } from './types';
 import brandData from '@/lib/data/brands.json';
 

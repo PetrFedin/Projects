@@ -1,5 +1,5 @@
-import type { MarketplaceFilters } from "../types/filters";
-import { DEFAULT_FILTERS } from "../types/filters";
+import type { MarketplaceFilters } from '../types/filters';
+import { DEFAULT_FILTERS } from '../types/filters';
 
 export function normalizeFilters(input: Partial<MarketplaceFilters>): MarketplaceFilters {
   const f: any = { ...DEFAULT_FILTERS, ...input };
@@ -10,15 +10,39 @@ export function normalizeFilters(input: Partial<MarketplaceFilters>): Marketplac
 
   // numbers: undefined if NaN
   const numKeys = [
-    "wholesaleMin","wholesaleMax","retailMin","retailMax","discountMin","discountMax",
-    "stockMin","stockMax","ordersMin","ordersMax","unitsSoldMin","unitsSoldMax","revenueMin","revenueMax",
-    "gmMin","gmMax","sellThroughMin","sellThroughMax","returnsRateMin","returnsRateMax",
-    "stockCoverMin","stockCoverMax","conversionMin","conversionMax","leadTimeMin","leadTimeMax","moqMin","moqMax"
+    'wholesaleMin',
+    'wholesaleMax',
+    'retailMin',
+    'retailMax',
+    'discountMin',
+    'discountMax',
+    'stockMin',
+    'stockMax',
+    'ordersMin',
+    'ordersMax',
+    'unitsSoldMin',
+    'unitsSoldMax',
+    'revenueMin',
+    'revenueMax',
+    'gmMin',
+    'gmMax',
+    'sellThroughMin',
+    'sellThroughMax',
+    'returnsRateMin',
+    'returnsRateMax',
+    'stockCoverMin',
+    'stockCoverMax',
+    'conversionMin',
+    'conversionMax',
+    'leadTimeMin',
+    'leadTimeMax',
+    'moqMin',
+    'moqMax',
   ] as const;
 
   for (const k of numKeys) {
     const v = f[k];
-    if (v === "" || v === null || v === undefined) f[k] = undefined;
+    if (v === '' || v === null || v === undefined) f[k] = undefined;
     else {
       const n = Number(v);
       f[k] = Number.isFinite(n) ? n : undefined;
@@ -27,22 +51,54 @@ export function normalizeFilters(input: Partial<MarketplaceFilters>): Marketplac
 
   // arrays ensure
   const arrayKeys = [
-    "brandIds","retailerIds","supplierIds","marketplaceIds","countryOfOrigin",
-    "gender","categories","subcategories","material","color","sizeCurve","season","collection",
-    "productStatus","lifecycle","productionStage","compliance","sustainability"
+    'brandIds',
+    'retailerIds',
+    'supplierIds',
+    'marketplaceIds',
+    'countryOfOrigin',
+    'gender',
+    'categories',
+    'subcategories',
+    'material',
+    'color',
+    'sizeCurve',
+    'season',
+    'collection',
+    'productStatus',
+    'lifecycle',
+    'productionStage',
+    'compliance',
+    'sustainability',
   ] as const;
 
   for (const k of arrayKeys) {
-    f[k] = Array.isArray(f[k]) ? f[k] : typeof f[k] === "string" && f[k] ? f[k].split(",") : [];
+    f[k] = Array.isArray(f[k]) ? f[k] : typeof f[k] === 'string' && f[k] ? f[k].split(',') : [];
     f[k] = (f[k] as string[]).filter(Boolean);
   }
 
   // booleans
-  const boolKeys = ["inStockOnly","lowStock","slowMover","highReturnRisk","hasImages","hasVideo","has3d","hasSizeGuide","hasCertificates"] as const;
+  const boolKeys = [
+    'inStockOnly',
+    'lowStock',
+    'slowMover',
+    'highReturnRisk',
+    'hasImages',
+    'hasVideo',
+    'has3d',
+    'hasSizeGuide',
+    'hasCertificates',
+  ] as const;
   for (const k of boolKeys) f[k] = Boolean(f[k]);
 
   // dates simple sanitize (expect yyyy-mm-dd)
-  const dateKeys = ["createdFrom","createdTo","updatedFrom","updatedTo","deliveryFrom","deliveryTo"] as const;
+  const dateKeys = [
+    'createdFrom',
+    'createdTo',
+    'updatedFrom',
+    'updatedTo',
+    'deliveryFrom',
+    'deliveryTo',
+  ] as const;
   for (const k of dateKeys) {
     if (f[k] && !/^\d{4}-\d{2}-\d{2}$/.test(f[k])) f[k] = undefined;
   }
@@ -84,7 +140,7 @@ export function buildWhere(f: MarketplaceFilters) {
       stockCover: [f.stockCoverMin, f.stockCoverMax],
       conversion: [f.conversionMin, f.conversionMax],
       leadTime: [f.leadTimeMin, f.leadTimeMax],
-      moq: [f.moqMin, f.moqMax]
+      moq: [f.moqMin, f.moqMax],
     },
 
     flags: {
@@ -96,20 +152,19 @@ export function buildWhere(f: MarketplaceFilters) {
       hasVideo: f.hasVideo,
       has3d: f.has3d,
       hasSizeGuide: f.hasSizeGuide,
-      hasCertificates: f.hasCertificates
+      hasCertificates: f.hasCertificates,
     },
 
     dates: {
       created: [f.createdFrom, f.createdTo],
       updated: [f.updatedFrom, f.updatedTo],
-      delivery: [f.deliveryFrom, f.deliveryTo]
+      delivery: [f.deliveryFrom, f.deliveryTo],
     },
 
     production: {
       stage: f.productionStage,
       compliance: f.compliance,
-      sustainability: f.sustainability
-    }
+      sustainability: f.sustainability,
+    },
   };
 }
-

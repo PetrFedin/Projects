@@ -14,7 +14,7 @@ import { ROUTES } from '@/lib/routes';
 export default function B2BMarginCalculatorPage() {
   const [buyPrice, setBuyPrice] = useState(10000);
   const [sellPrice, setSellPrice] = useState(15000);
-  const margin = sellPrice > 0 ? ((sellPrice - buyPrice) / sellPrice * 100).toFixed(1) : '0';
+  const margin = sellPrice > 0 ? (((sellPrice - buyPrice) / sellPrice) * 100).toFixed(1) : '0';
 
   return (
     <B2BModulePage
@@ -27,18 +27,28 @@ export default function B2BMarginCalculatorPage() {
       <Card>
         <CardHeader>
           <CardTitle>Калькулятор маржи</CardTitle>
-          <CardDescription>Введите закупочную и розничную цену для расчёта маржинальности.</CardDescription>
+          <CardDescription>
+            Введите закупочную и розничную цену для расчёта маржинальности.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-2">
             <Label>Закупочная цена (₽)</Label>
-            <Input type="number" value={buyPrice} onChange={(e) => setBuyPrice(Number(e.target.value) || 0)} />
+            <Input
+              type="number"
+              value={buyPrice}
+              onChange={(e) => setBuyPrice(Number(e.target.value) || 0)}
+            />
           </div>
           <div className="grid gap-2">
             <Label>Розничная цена (₽)</Label>
-            <Input type="number" value={sellPrice} onChange={(e) => setSellPrice(Number(e.target.value) || 0)} />
+            <Input
+              type="number"
+              value={sellPrice}
+              onChange={(e) => setSellPrice(Number(e.target.value) || 0)}
+            />
           </div>
-          <div className="flex items-center gap-2 p-3 rounded-lg bg-slate-50 border border-slate-100">
+          <div className="flex items-center gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3">
             <Percent className="h-4 w-4 text-slate-500" />
             <span className="font-semibold">Маржа: {margin}%</span>
           </div>

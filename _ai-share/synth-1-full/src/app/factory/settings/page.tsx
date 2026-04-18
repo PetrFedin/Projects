@@ -1,8 +1,24 @@
 'use client';
 
 import React from 'react';
-import { Settings, Activity, Layout, MessageSquare, ShieldCheck, Bell, Factory, Warehouse } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import {
+  Settings,
+  Activity,
+  Layout,
+  MessageSquare,
+  ShieldCheck,
+  Bell,
+  Factory,
+  Warehouse,
+} from 'lucide-react';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardFooter,
+} from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -13,92 +29,123 @@ export default function FactorySettingsPage() {
   const { pulseMode, setPulseMode } = useUIState();
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-300">
+    <div className="space-y-6 duration-300 animate-in fade-in">
       <header className="space-y-2">
-        <h1 className="text-sm font-black uppercase tracking-tighter text-slate-900">Настройки производства</h1>
-        <p className="text-slate-400 font-medium max-w-2xl text-sm italic">
-           Конфигурация уведомлений, прав доступа и параметров визуализации процессов.
+        <h1 className="text-sm font-black uppercase tracking-tighter text-slate-900">
+          Настройки производства
+        </h1>
+        <p className="max-w-2xl text-sm font-medium italic text-slate-400">
+          Конфигурация уведомлений, прав доступа и параметров визуализации процессов.
         </p>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
-         <div className="lg:col-span-8 space-y-4">
-            <Card className="rounded-xl border-none shadow-2xl overflow-hidden bg-white">
-              <CardHeader className="p-3 pb-4 bg-indigo-600 text-white">
-                <div className="flex items-center gap-3">
-                   <Activity className="h-6 w-6 text-indigo-200" />
-                   <div>
-                      <CardTitle className="text-base font-black uppercase tracking-tight">Системный Пульс (Live Pulse)</CardTitle>
-                      <CardDescription className="text-indigo-100 italic">Настройте отображение активности смежных отделов и партнеров.</CardDescription>
-                   </div>
+      <div className="grid grid-cols-1 gap-3 lg:grid-cols-12">
+        <div className="space-y-4 lg:col-span-8">
+          <Card className="overflow-hidden rounded-xl border-none bg-white shadow-2xl">
+            <CardHeader className="bg-indigo-600 p-3 pb-4 text-white">
+              <div className="flex items-center gap-3">
+                <Activity className="h-6 w-6 text-indigo-200" />
+                <div>
+                  <CardTitle className="text-base font-black uppercase tracking-tight">
+                    Системный Пульс (Live Pulse)
+                  </CardTitle>
+                  <CardDescription className="italic text-indigo-100">
+                    Настройте отображение активности смежных отделов и партнеров.
+                  </CardDescription>
                 </div>
-              </CardHeader>
-              <CardContent className="p-3 space-y-10">
-                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 p-4 bg-slate-50 rounded-xl border border-slate-100">
-                    <div className="space-y-2">
-                       <Label className="text-[11px] font-black uppercase tracking-widest text-slate-900">Формат уведомлений</Label>
-                       <p className="text-xs text-slate-500 font-medium max-w-xs leading-relaxed">
-                          Для цеха рекомендуется «Бегущая строка», для офиса — «Всплывающие окна».
-                       </p>
-                    </div>
-                    
-                    <Tabs 
-                      defaultValue={pulseMode} 
-                      value={pulseMode} 
-                      onValueChange={(val) => setPulseMode(val as any)}
-                    >
-                       <TabsList className="bg-white p-1 rounded-2xl h-auto shadow-sm border border-slate-100">
-                          <TabsTrigger value="ticker" className="rounded-xl py-3 px-8 data-[state=active]:bg-indigo-600 data-[state=active]:text-white text-[10px] font-black uppercase gap-2 transition-all">
-                             <Layout className="h-3.5 w-3.5" /> Бегущая строка
-                          </TabsTrigger>
-                          <TabsTrigger value="floating" className="rounded-xl py-3 px-8 data-[state=active]:bg-indigo-600 data-[state=active]:text-white text-[10px] font-black uppercase gap-2 transition-all">
-                             <MessageSquare className="h-3.5 w-3.5" /> Всплывающие
-                          </TabsTrigger>
-                       </TabsList>
-                    </Tabs>
-                 </div>
-
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {[
-                      { icon: Bell, title: "Производственные алерты", desc: "Уведомления о поломках и задержках" },
-                      { icon: ShieldCheck, title: "Контроль доступа", desc: "Управление правами технологов" }
-                    ].map((item, i) => (
-                      <div key={i} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-slate-50 shadow-sm hover:shadow-md transition-all cursor-pointer">
-                         <div className="h-10 w-10 bg-slate-50 rounded-xl flex items-center justify-center">
-                            <item.icon className="h-5 w-5 text-slate-400" />
-                         </div>
-                         <div>
-                            <p className="text-[10px] font-black uppercase text-slate-900">{item.title}</p>
-                            <p className="text-[9px] text-slate-400 font-bold uppercase">{item.desc}</p>
-                         </div>
-                      </div>
-                    ))}
-                 </div>
-              </CardContent>
-              <CardFooter className="p-3 pt-0 flex justify-end">
-                 <Button className="h-10 px-12 bg-black text-white rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-2xl hover:scale-105 transition-transform">
-                    Сохранить изменения
-                 </Button>
-              </CardFooter>
-            </Card>
-         </div>
-
-         <div className="lg:col-span-4 space-y-6">
-            <Card className="rounded-xl border-none shadow-xl bg-slate-900 text-white p-4 space-y-6 relative overflow-hidden">
-               <div className="absolute top-0 right-0 p-4 opacity-10">
-                  <Factory className="h-32 w-32" />
-               </div>
-               <div className="relative z-10 space-y-4">
-                  <h4 className="text-base font-black uppercase tracking-tighter">IoT Станция</h4>
-                  <p className="text-xs text-slate-400 font-medium leading-relaxed">
-                     Ваш терминал подключен к основным производственным линиям. Все события синхронизируются с Global Pulse.
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-10 p-3">
+              <div className="flex flex-col items-start justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 p-4 md:flex-row md:items-center">
+                <div className="space-y-2">
+                  <Label className="text-[11px] font-black uppercase tracking-widest text-slate-900">
+                    Формат уведомлений
+                  </Label>
+                  <p className="max-w-xs text-xs font-medium leading-relaxed text-slate-500">
+                    Для цеха рекомендуется «Бегущая строка», для офиса — «Всплывающие окна».
                   </p>
-                  <Button variant="outline" className="w-full h-12 rounded-xl border-white/20 text-white hover:bg-white hover:text-slate-900 font-black uppercase text-[9px] tracking-widest">
-                     Тест связи
-                  </Button>
-               </div>
-            </Card>
-         </div>
+                </div>
+
+                <Tabs
+                  defaultValue={pulseMode}
+                  value={pulseMode}
+                  onValueChange={(val) => setPulseMode(val as any)}
+                >
+                  <TabsList className="h-auto rounded-2xl border border-slate-100 bg-white p-1 shadow-sm">
+                    <TabsTrigger
+                      value="ticker"
+                      className="gap-2 rounded-xl px-8 py-3 text-[10px] font-black uppercase transition-all data-[state=active]:bg-indigo-600 data-[state=active]:text-white"
+                    >
+                      <Layout className="h-3.5 w-3.5" /> Бегущая строка
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="floating"
+                      className="gap-2 rounded-xl px-8 py-3 text-[10px] font-black uppercase transition-all data-[state=active]:bg-indigo-600 data-[state=active]:text-white"
+                    >
+                      <MessageSquare className="h-3.5 w-3.5" /> Всплывающие
+                    </TabsTrigger>
+                  </TabsList>
+                </Tabs>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                {[
+                  {
+                    icon: Bell,
+                    title: 'Производственные алерты',
+                    desc: 'Уведомления о поломках и задержках',
+                  },
+                  {
+                    icon: ShieldCheck,
+                    title: 'Контроль доступа',
+                    desc: 'Управление правами технологов',
+                  },
+                ].map((item, i) => (
+                  <div
+                    key={i}
+                    className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-50 bg-white p-4 shadow-sm transition-all hover:shadow-md"
+                  >
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50">
+                      <item.icon className="h-5 w-5 text-slate-400" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-black uppercase text-slate-900">
+                        {item.title}
+                      </p>
+                      <p className="text-[9px] font-bold uppercase text-slate-400">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+            <CardFooter className="flex justify-end p-3 pt-0">
+              <Button className="h-10 rounded-2xl bg-black px-12 text-[10px] font-black uppercase tracking-widest text-white shadow-2xl transition-transform hover:scale-105">
+                Сохранить изменения
+              </Button>
+            </CardFooter>
+          </Card>
+        </div>
+
+        <div className="space-y-6 lg:col-span-4">
+          <Card className="relative space-y-6 overflow-hidden rounded-xl border-none bg-slate-900 p-4 text-white shadow-xl">
+            <div className="absolute right-0 top-0 p-4 opacity-10">
+              <Factory className="h-32 w-32" />
+            </div>
+            <div className="relative z-10 space-y-4">
+              <h4 className="text-base font-black uppercase tracking-tighter">IoT Станция</h4>
+              <p className="text-xs font-medium leading-relaxed text-slate-400">
+                Ваш терминал подключен к основным производственным линиям. Все события
+                синхронизируются с Global Pulse.
+              </p>
+              <Button
+                variant="outline"
+                className="h-12 w-full rounded-xl border-white/20 text-[9px] font-black uppercase tracking-widest text-white hover:bg-white hover:text-slate-900"
+              >
+                Тест связи
+              </Button>
+            </div>
+          </Card>
+        </div>
       </div>
     </div>
   );

@@ -24,14 +24,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (loading && HUB_AUTH_FULLSCREEN_SPINNER) {
     return (
-      <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-[#f8fafc]">
         <Loader2 className="h-8 w-8 animate-spin text-amber-600" />
       </div>
     );
   }
 
   const getCurrentLabel = () => {
-    const sorted = adminNavGroups.flatMap((g) => g.links).sort((a, b) => b.href.length - a.href.length);
+    const sorted = adminNavGroups
+      .flatMap((g) => g.links)
+      .sort((a, b) => b.href.length - a.href.length);
     const current = sorted.find((link) => {
       const p = (pathname || '').replace(/\/$/, '') || '/';
       const h = link.href.replace(/\/$/, '') || '/';
@@ -44,12 +46,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const activeLink = adminNavGroups
     .flatMap((g) => g.links)
-    .find((l) => pathname === l.href || (pathname || '').startsWith(l.href.replace(/\/$/, '') + '/'));
+    .find(
+      (l) => pathname === l.href || (pathname || '').startsWith(l.href.replace(/\/$/, '') + '/')
+    );
 
   return (
     <ErrorBoundary>
-      <div className="flex w-full bg-[#f8fafc] min-h-screen font-sans pb-12">
-        <aside className="hidden lg:flex lg:w-52 lg:shrink-0 lg:flex-col lg:fixed lg:top-24 lg:bottom-0 lg:left-0 lg:z-30 lg:border-r lg:border-slate-200 lg:bg-white lg:pt-4">
+      <div className="flex min-h-screen w-full bg-[#f8fafc] pb-12 font-sans">
+        <aside className="hidden lg:fixed lg:bottom-0 lg:left-0 lg:top-24 lg:z-30 lg:flex lg:w-52 lg:shrink-0 lg:flex-col lg:border-r lg:border-slate-200 lg:bg-white lg:pt-4">
           <HubSidebarHeader
             href="/admin"
             icon={Shield}
@@ -58,7 +62,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             badgeClass="bg-amber-50 text-amber-600"
             iconBgClass="bg-slate-900"
           />
-          <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
+          <div className="scrollbar-hide min-h-0 flex-1 overflow-y-auto">
             <HubSidebar
               groups={adminNavGroups}
               basePath="/admin"
@@ -69,8 +73,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </aside>
 
         <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-          <SheetContent side="left" className="w-72 p-0 gap-0 flex flex-col">
-            <div className="pt-12 pb-0 shrink-0">
+          <SheetContent side="left" className="flex w-72 flex-col gap-0 p-0">
+            <div className="shrink-0 pb-0 pt-12">
               <HubSidebarHeader
                 href="/admin"
                 icon={Shield}
@@ -80,10 +84,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 iconBgClass="bg-slate-900"
               />
             </div>
-            <div className="px-3 pb-2 border-b border-slate-100 shrink-0">
-              <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Навигация</p>
+            <div className="shrink-0 border-b border-slate-100 px-3 pb-2">
+              <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
+                Навигация
+              </p>
             </div>
-            <div className="flex-1 min-h-0 overflow-y-auto">
+            <div className="min-h-0 flex-1 overflow-y-auto">
               <HubSidebar
                 groups={adminNavGroups}
                 basePath="/admin"
@@ -95,26 +101,29 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </SheetContent>
         </Sheet>
 
-        <div className="flex-1 min-w-0 lg:pl-52">
-          <div className="pl-2 pr-4 lg:pl-3 lg:pr-6 pt-6 space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+        <div className="min-w-0 flex-1 lg:pl-52">
+          <div className="space-y-4 pl-2 pr-4 pt-6 lg:pl-3 lg:pr-6">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex min-w-0 items-center gap-2 sm:gap-3">
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="lg:hidden h-11 w-11 rounded-[4px] shrink-0 hover:bg-slate-100"
+                  className="h-11 w-11 shrink-0 rounded-[4px] hover:bg-slate-100 lg:hidden"
                   onClick={() => setSidebarOpen(true)}
                 >
                   <Menu className="h-5 w-5 text-slate-700" />
                 </Button>
-                <div className="h-11 w-11 rounded-[4px] bg-slate-900 flex items-center justify-center text-white shrink-0">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[4px] bg-slate-900 text-white">
                   <Shield className="h-5.5 w-5.5" />
                 </div>
-                <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                  <h1 className="text-sm sm:text-base font-black uppercase tracking-tighter leading-none text-slate-900 truncate">
+                <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+                  <h1 className="truncate text-sm font-black uppercase leading-none tracking-tighter text-slate-900 sm:text-base">
                     Админ-центр
                   </h1>
-                  <Badge variant="outline" className="text-[8px] font-bold border-amber-200 text-amber-700 capitalize shrink-0">
+                  <Badge
+                    variant="outline"
+                    className="shrink-0 border-amber-200 text-[8px] font-bold capitalize text-amber-700"
+                  >
                     {role}
                   </Badge>
                 </div>
@@ -123,17 +132,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
             <div className="flex items-center justify-between border-b border-slate-100 pb-4">
               <div className="flex items-center gap-3">
-                <div className="h-4 w-[2px] bg-amber-500 rounded-full" />
-                <h2 className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-900">{getCurrentLabel()}</h2>
+                <div className="h-4 w-[2px] rounded-full bg-amber-500" />
+                <h2 className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-900">
+                  {getCurrentLabel()}
+                </h2>
               </div>
               {activeLink && (
-                <Badge variant="outline" className="text-[9px] font-black uppercase border-slate-200 rounded-[2px]">
+                <Badge
+                  variant="outline"
+                  className="rounded-[2px] border-slate-200 text-[9px] font-black uppercase"
+                >
                   {activeLink.label}
                 </Badge>
               )}
             </div>
 
-            <main className="animate-in fade-in duration-300">
+            <main className="duration-300 animate-in fade-in">
               <ErrorBoundary>{children}</ErrorBoundary>
             </main>
           </div>

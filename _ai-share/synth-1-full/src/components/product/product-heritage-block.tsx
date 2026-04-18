@@ -13,7 +13,7 @@ export function ProductHeritageBlock({ product }: Props) {
   return (
     <Card className="mt-4 border-dashed bg-stone-50/50">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-sm">
           <History className="h-4 w-4 text-stone-600" />
           Product Heritage & Story
         </CardTitle>
@@ -25,29 +25,33 @@ export function ProductHeritageBlock({ product }: Props) {
         <div className="space-y-1">
           <p className="text-xs font-bold text-stone-800">{heritage.storyHeadline}</p>
           {heritage.artisanNote && (
-            <p className="text-[11px] text-stone-600 leading-relaxed italic border-l-2 border-stone-200 pl-3 py-0.5">
+            <p className="border-l-2 border-stone-200 py-0.5 pl-3 text-[11px] italic leading-relaxed text-stone-600">
               "{heritage.artisanNote}"
             </p>
           )}
         </div>
 
         {heritage.archiveReference && (
-          <div className="flex items-center gap-2 p-2 rounded bg-stone-100 border border-stone-200">
+          <div className="flex items-center gap-2 rounded border border-stone-200 bg-stone-100 p-2">
             <Anchor className="h-3.5 w-3.5 text-stone-500" />
-            <span className="text-[10px] font-medium text-stone-700 uppercase tracking-tight">
+            <span className="text-[10px] font-medium uppercase tracking-tight text-stone-700">
               Inspired by: {heritage.archiveReference}
             </span>
           </div>
         )}
 
-        <div className="pt-2 border-t border-stone-200 flex items-center gap-3">
+        <div className="flex items-center gap-3 border-t border-stone-200 pt-2">
           <div className="flex items-center gap-1">
-            <Heart className={`h-3 w-3 ${heritage.sustainabilityHigh ? 'text-emerald-600 fill-emerald-600' : 'text-stone-400'}`} />
-            <span className="text-[9px] text-stone-500 uppercase font-bold tracking-widest">
+            <Heart
+              className={`h-3 w-3 ${heritage.sustainabilityHigh ? 'fill-emerald-600 text-emerald-600' : 'text-stone-400'}`}
+            />
+            <span className="text-[9px] font-bold uppercase tracking-widest text-stone-500">
               {heritage.sustainabilityHigh ? 'High Impact Craft' : 'Artisan Quality'}
             </span>
           </div>
-          <span className="text-[9px] text-stone-400 font-mono">Archive ID: {product.sku.slice(0, 4)}-HIST</span>
+          <span className="font-mono text-[9px] text-stone-400">
+            Archive ID: {product.sku.slice(0, 4)}-HIST
+          </span>
         </div>
       </CardContent>
     </Card>

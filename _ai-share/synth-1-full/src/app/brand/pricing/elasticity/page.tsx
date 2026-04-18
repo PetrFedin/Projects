@@ -29,77 +29,127 @@ export default function PriceElasticityPage() {
     const newVolume = Math.max(1, Math.round(baseVolume * (1 + volumeChangePct / 100)));
     const revenueBefore = currentPrice * baseVolume;
     const revenueAfter = newPrice * newVolume;
-    const revenueChangePct = revenueBefore ? ((revenueAfter - revenueBefore) / revenueBefore) * 100 : 0;
+    const revenueChangePct = revenueBefore
+      ? ((revenueAfter - revenueBefore) / revenueBefore) * 100
+      : 0;
     return { newPrice, newVolume, volumeChangePct, revenueBefore, revenueAfter, revenueChangePct };
   }, [currentPrice, priceChangePct, baseVolume]);
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Price Elasticity Predictor"
         description="AI-прогноз влияния изменения цены на объём продаж. Эластичность по SKU, категориям, каналам. Связь с Finance, Pricing, Analytics."
         icon={TrendingUp}
         iconBg="bg-indigo-100"
         iconColor="text-indigo-600"
-        badges={<><Badge variant="outline" className="text-[9px]">AI</Badge><Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href="/brand/pricing">Pricing</Link></Button></>}
+        badges={
+          <>
+            <Badge variant="outline" className="text-[9px]">
+              AI
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href="/brand/pricing">Pricing</Link>
+            </Button>
+          </>
+        }
       />
       <h1 className="text-2xl font-bold uppercase">Price Elasticity Predictor</h1>
 
-      <Card className="rounded-xl border border-indigo-200 shadow-sm bg-white">
+      <Card className="rounded-xl border border-indigo-200 bg-white shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Percent className="h-5 w-5" /> Калькулятор «Что если»
           </CardTitle>
-          <CardDescription>Текущая цена и объём, изменение цены в % — прогноз объёма и выручки (эластичность ≈ -1.2)</CardDescription>
+          <CardDescription>
+            Текущая цена и объём, изменение цены в % — прогноз объёма и выручки (эластичность ≈
+            -1.2)
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid gap-4 md:grid-cols-3">
             <div>
-              <Label className="text-[10px] font-bold uppercase text-slate-500">Цена сейчас (₽)</Label>
-              <Input type="number" value={currentPrice} onChange={(e) => setCurrentPrice(Number(e.target.value) || 0)} className="mt-1 h-9" />
+              <Label className="text-[10px] font-bold uppercase text-slate-500">
+                Цена сейчас (₽)
+              </Label>
+              <Input
+                type="number"
+                value={currentPrice}
+                onChange={(e) => setCurrentPrice(Number(e.target.value) || 0)}
+                className="mt-1 h-9"
+              />
             </div>
             <div>
-              <Label className="text-[10px] font-bold uppercase text-slate-500">Изменение цены (%)</Label>
-              <Input type="number" value={priceChangePct} onChange={(e) => setPriceChangePct(Number(e.target.value) || 0)} className="mt-1 h-9" placeholder="10 или -15" />
+              <Label className="text-[10px] font-bold uppercase text-slate-500">
+                Изменение цены (%)
+              </Label>
+              <Input
+                type="number"
+                value={priceChangePct}
+                onChange={(e) => setPriceChangePct(Number(e.target.value) || 0)}
+                className="mt-1 h-9"
+                placeholder="10 или -15"
+              />
             </div>
             <div>
-              <Label className="text-[10px] font-bold uppercase text-slate-500">Объём продаж (ед.)</Label>
-              <Input type="number" value={baseVolume} onChange={(e) => setBaseVolume(Number(e.target.value) || 0)} className="mt-1 h-9" />
+              <Label className="text-[10px] font-bold uppercase text-slate-500">
+                Объём продаж (ед.)
+              </Label>
+              <Input
+                type="number"
+                value={baseVolume}
+                onChange={(e) => setBaseVolume(Number(e.target.value) || 0)}
+                className="mt-1 h-9"
+              />
             </div>
           </div>
-          <div className="p-4 rounded-xl bg-indigo-50/50 border border-indigo-100 grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+          <div className="grid grid-cols-2 gap-3 rounded-xl border border-indigo-100 bg-indigo-50/50 p-4 text-sm md:grid-cols-4">
             <div>
               <p className="text-[10px] font-bold uppercase text-slate-500">Новая цена</p>
-              <p className="font-black tabular-nums text-indigo-700">{result.newPrice.toLocaleString()} ₽</p>
+              <p className="font-black tabular-nums text-indigo-700">
+                {result.newPrice.toLocaleString()} ₽
+              </p>
             </div>
             <div>
               <p className="text-[10px] font-bold uppercase text-slate-500">Прогноз объёма</p>
-              <p className="font-black tabular-nums">{result.newVolume} ед. ({result.volumeChangePct >= 0 ? '+' : ''}{result.volumeChangePct.toFixed(1)}%)</p>
+              <p className="font-black tabular-nums">
+                {result.newVolume} ед. ({result.volumeChangePct >= 0 ? '+' : ''}
+                {result.volumeChangePct.toFixed(1)}%)
+              </p>
             </div>
             <div>
               <p className="text-[10px] font-bold uppercase text-slate-500">Выручка было</p>
-              <p className="font-black tabular-nums text-slate-700">{result.revenueBefore.toLocaleString()} ₽</p>
+              <p className="font-black tabular-nums text-slate-700">
+                {result.revenueBefore.toLocaleString()} ₽
+              </p>
             </div>
             <div>
               <p className="text-[10px] font-bold uppercase text-slate-500">Выручка станет</p>
-              <p className={`font-black tabular-nums ${result.revenueChangePct >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
-                {result.revenueAfter.toLocaleString()} ₽ ({result.revenueChangePct >= 0 ? '+' : ''}{result.revenueChangePct.toFixed(1)}%)
+              <p
+                className={`font-black tabular-nums ${result.revenueChangePct >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}
+              >
+                {result.revenueAfter.toLocaleString()} ₽ ({result.revenueChangePct >= 0 ? '+' : ''}
+                {result.revenueChangePct.toFixed(1)}%)
               </p>
             </div>
           </div>
         </CardContent>
       </Card>
 
-      <Card className="rounded-xl border border-slate-200 shadow-sm bg-white">
+      <Card className="rounded-xl border border-slate-200 bg-white shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <BarChart3 className="h-5 w-5" /> Эластичность по артикулам
           </CardTitle>
-          <CardDescription>Симуляция: как изменится объём продаж при изменении цены на ±10%, ±20%</CardDescription>
+          <CardDescription>
+            Симуляция: как изменится объём продаж при изменении цены на ±10%, ±20%
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-48 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500">
-            <p className="text-sm">График эластичности по артикулам (подключите данные из PIM / Analytics)</p>
+          <div className="flex h-48 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-500">
+            <p className="text-sm">
+              График эластичности по артикулам (подключите данные из PIM / Analytics)
+            </p>
           </div>
         </CardContent>
       </Card>

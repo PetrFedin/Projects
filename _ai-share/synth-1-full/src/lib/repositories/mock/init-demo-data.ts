@@ -40,20 +40,20 @@ export async function initializeDemoData(user: UserProfile) {
     }
 
     // Initialize wishlist with 4 items (filter out invalid products)
-    const wishlistProducts1 = products.slice(2, 6).filter(p => p && p.id);
+    const wishlistProducts1 = products.slice(2, 6).filter((p) => p && p.id);
     for (const product of wishlistProducts1) {
       await wishlistRepository.addItem(user.uid, product, 'default');
     }
 
     // Create a second wishlist collection
     const travelCollection = await wishlistRepository.addCollection(user.uid, 'Для путешествий');
-    const travelProducts = products.slice(6, 8).filter(p => p && p.id);
+    const travelProducts = products.slice(6, 8).filter((p) => p && p.id);
     for (const product of travelProducts) {
       await wishlistRepository.addItem(user.uid, product, travelCollection.id);
     }
 
     // Add more items to default wishlist for better demo
-    const wishlistProducts2 = products.slice(8, 12).filter(p => p && p.id);
+    const wishlistProducts2 = products.slice(8, 12).filter((p) => p && p.id);
     for (const product of wishlistProducts2) {
       await wishlistRepository.addItem(user.uid, product, 'default');
     }
@@ -126,10 +126,14 @@ export async function initializeDemoData(user: UserProfile) {
           postalCode: '101000',
           country: 'Россия',
         },
-        trackingNumber: config.status !== 'processing' ? `TRACK${Math.random().toString(36).substr(2, 6).toUpperCase()}` : undefined,
-        estimatedDelivery: config.status === 'shipped' 
-          ? new Date(orderDate.getTime() + 5 * 24 * 60 * 60 * 1000).toISOString()
-          : undefined,
+        trackingNumber:
+          config.status !== 'processing'
+            ? `TRACK${Math.random().toString(36).substr(2, 6).toUpperCase()}`
+            : undefined,
+        estimatedDelivery:
+          config.status === 'shipped'
+            ? new Date(orderDate.getTime() + 5 * 24 * 60 * 60 * 1000).toISOString()
+            : undefined,
       };
 
       // Use type assertion to call with custom date
@@ -146,4 +150,3 @@ export async function initializeDemoData(user: UserProfile) {
     console.error('Failed to initialize demo data:', error);
   }
 }
-

@@ -99,7 +99,7 @@ export function Workshop2VisualsTzStickySubnav({
         ) : null}
         <span
           className={cn(
-            'tabular-nums normal-case',
+            'normal-case tabular-nums',
             visualGateOpenCount === 0 ? 'text-emerald-600' : 'text-amber-700'
           )}
         >
@@ -115,7 +115,7 @@ export function Workshop2VisualsTzStickySubnav({
           navSuffix = (
             <span
               className={cn(
-                'ml-1 tabular-nums text-[9px] font-bold',
+                'ml-1 text-[9px] font-bold tabular-nums',
                 checklistDone >= checklistTotal ? 'text-emerald-600' : 'text-indigo-600'
               )}
             >
@@ -129,7 +129,7 @@ export function Workshop2VisualsTzStickySubnav({
           navSuffix = (
             <span
               className={cn(
-                'ml-1 tabular-nums text-[9px] font-bold',
+                'ml-1 text-[9px] font-bold tabular-nums',
                 checklistDone >= checklistTotal ? 'text-emerald-600' : 'text-indigo-600'
               )}
             >
@@ -141,7 +141,7 @@ export function Workshop2VisualsTzStickySubnav({
           navSuffix = (
             <span
               className={cn(
-                'ml-1 tabular-nums text-[9px] font-bold',
+                'ml-1 text-[9px] font-bold tabular-nums',
                 catalogFieldDone >= catalogFieldTotal ? 'text-emerald-600' : 'text-violet-600'
               )}
             >
@@ -154,8 +154,10 @@ export function Workshop2VisualsTzStickySubnav({
               ? `Референсов: ${referenceCount}${openRefThreadCount > 0 ? ` · открытых тредов: ${openRefThreadCount}` : ''}`
               : 'Референсов пока нет — для контура визуала нужен хотя бы один';
           navSuffix = (
-            <span className="ml-1 inline-flex items-center gap-0.5 tabular-nums text-[9px] font-bold">
-              <span className={cn(referenceCount > 0 ? 'text-emerald-600' : 'text-amber-600')}>{referenceCount}</span>
+            <span className="ml-1 inline-flex items-center gap-0.5 text-[9px] font-bold tabular-nums">
+              <span className={cn(referenceCount > 0 ? 'text-emerald-600' : 'text-amber-600')}>
+                {referenceCount}
+              </span>
               {openRefThreadCount > 0 ? (
                 <span className="text-rose-600" title="Рефы с незакрытыми комментариями">
                   ·{openRefThreadCount}т
@@ -168,7 +170,7 @@ export function Workshop2VisualsTzStickySubnav({
             ? `Подложка или метки: ${sketchPinTotal} меток${sketchHasSubstrate ? ', есть подложка' : ''}`
             : 'Нет подложки и меток на скетче — пункт контура не закрыт';
           navSuffix = (
-            <span className="ml-1 inline-flex items-center gap-0.5 tabular-nums text-[9px] font-bold">
+            <span className="ml-1 inline-flex items-center gap-0.5 text-[9px] font-bold tabular-nums">
               <span className={cn(sketchGateOk ? 'text-emerald-600' : 'text-amber-600')}>
                 {sketchPinTotal > 0 ? `${sketchPinTotal}м` : sketchHasSubstrate ? 'фон' : '—'}
               </span>
@@ -277,8 +279,7 @@ export function Workshop2VisualsTzStickySubnav({
           onClick={onJumpToPulse}
           title="Пульс артикула: SLA, подписи ТЗ"
         >
-          <LucideIcons.Activity className="h-3.5 w-3.5 shrink-0" aria-hidden />
-          К пульсу / SLA
+          <LucideIcons.Activity className="h-3.5 w-3.5 shrink-0" aria-hidden />К пульсу / SLA
         </Button>
       ) : null}
     </div>

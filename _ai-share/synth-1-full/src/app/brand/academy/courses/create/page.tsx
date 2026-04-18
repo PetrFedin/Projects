@@ -27,31 +27,37 @@ export default function CreateBrandCoursePage() {
         description="Собственные курсы и обучающие материалы: ДНК бренда, продукты, процессы. Связь с Академией, Team."
         actions={
           <>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href={ROUTES.brand.academy}>Академия бренда</Link></Button>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href={ROUTES.brand.academyPlatform}>Академия платформы</Link></Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.academy}>Академия бренда</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.academyPlatform}>Академия платформы</Link>
+            </Button>
           </>
         }
       >
-      <Card className="rounded-xl border border-dashed border-indigo-200 bg-indigo-50/20">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <BookOpen className="h-5 w-5" /> Конструктор курса
-          </CardTitle>
-          <CardDescription>
-            Модули, уроки, тесты, сертификация. Скоро: полный редактор курсов.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col items-center justify-center py-12 text-center">
-            <Plus className="h-12 w-12 text-indigo-400 mb-4" />
-            <p className="text-sm font-medium text-slate-600 mb-2">Редактор курсов в разработке</p>
-            <p className="text-[11px] text-slate-500 mb-4">Модули, видео, тесты, сертификаты</p>
-            <Button variant="outline" asChild>
-              <Link href={ROUTES.brand.academy}>← Назад в Академию</Link>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+        <Card className="rounded-xl border border-dashed border-indigo-200 bg-indigo-50/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <BookOpen className="h-5 w-5" /> Конструктор курса
+            </CardTitle>
+            <CardDescription>
+              Модули, уроки, тесты, сертификация. Скоро: полный редактор курсов.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <Plus className="mb-4 h-12 w-12 text-indigo-400" />
+              <p className="mb-2 text-sm font-medium text-slate-600">
+                Редактор курсов в разработке
+              </p>
+              <p className="mb-4 text-[11px] text-slate-500">Модули, видео, тесты, сертификаты</p>
+              <Button variant="outline" asChild>
+                <Link href={ROUTES.brand.academy}>← Назад в Академию</Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </WidgetCard>
       <RelatedModulesBlock links={getAcademyLinks()} />
     </div>

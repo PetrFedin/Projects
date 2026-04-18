@@ -93,7 +93,10 @@ export function getLookbookProjects(brandId?: string): LookbookProject[] {
 }
 
 /** Для байера: проекты, которые он может видеть (по invited или all) и которые ещё не истекли. */
-export function getVisibleLookbooksForPartner(partnerId: string, brandId?: string): LookbookProject[] {
+export function getVisibleLookbooksForPartner(
+  partnerId: string,
+  brandId?: string
+): LookbookProject[] {
   const now = new Date().toISOString();
   return getLookbookProjects(brandId).filter((p) => {
     if (p.visibleUntil < now) return false;
@@ -102,7 +105,9 @@ export function getVisibleLookbooksForPartner(partnerId: string, brandId?: strin
   });
 }
 
-export function addLookbookProject(project: Omit<LookbookProject, 'id' | 'createdAt'>): LookbookProject {
+export function addLookbookProject(
+  project: Omit<LookbookProject, 'id' | 'createdAt'>
+): LookbookProject {
   const projects = load();
   const newProject: LookbookProject = {
     ...project,
@@ -114,7 +119,10 @@ export function addLookbookProject(project: Omit<LookbookProject, 'id' | 'create
   return newProject;
 }
 
-export function updateLookbookProject(id: string, patch: Partial<LookbookProject>): LookbookProject | null {
+export function updateLookbookProject(
+  id: string,
+  patch: Partial<LookbookProject>
+): LookbookProject | null {
   const projects = load();
   const i = projects.findIndex((p) => p.id === id);
   if (i === -1) return null;

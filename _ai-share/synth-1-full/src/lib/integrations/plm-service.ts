@@ -54,7 +54,10 @@ async function fetchPlm<T>(path: string, options?: RequestInit): Promise<T> {
 }
 
 /** Connect PLM provider */
-export async function connectPlm(type: PlmType, config: PlmConnectionConfig): Promise<PlmConnection> {
+export async function connectPlm(
+  type: PlmType,
+  config: PlmConnectionConfig
+): Promise<PlmConnection> {
   try {
     const data = await fetchPlm<PlmConnection>('/production/plm/connect', {
       method: 'POST',
@@ -88,7 +91,10 @@ export async function syncPlm(type: PlmType): Promise<PlmSyncResult> {
 }
 
 /** Import BOM from PLM into collection */
-export async function importBomFromPlm(type: PlmType, collectionId: string): Promise<PlmBomImportResult> {
+export async function importBomFromPlm(
+  type: PlmType,
+  collectionId: string
+): Promise<PlmBomImportResult> {
   try {
     return await fetchPlm<PlmBomImportResult>('/production/plm/import', {
       method: 'POST',

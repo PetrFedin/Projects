@@ -28,7 +28,7 @@ export default function TerritoryProtectionPage() {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Territory Protection Logic"
         description="Блокировка заказов от магазинов вне эксклюзивного региона дистрибьютора. Связь с B2B заказами, партнёрами и квотами. При API — проверка при создании заказа."
@@ -38,7 +38,11 @@ export default function TerritoryProtectionPage() {
         badges={<B2BOrdersPartnersDistributorsBadges />}
       />
       <div className="flex items-center gap-3">
-        <Link href={ROUTES.brand.distributors}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+        <Link href={ROUTES.brand.distributors}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
         <h1 className="text-2xl font-bold uppercase">Territory Protection</h1>
       </div>
 
@@ -47,25 +51,42 @@ export default function TerritoryProtectionPage() {
           <CardTitle className="flex items-center gap-2">
             <ShieldAlert className="h-5 w-5" /> Правила по регионам
           </CardTitle>
-          <CardDescription>Заказы от ритейлеров вне указанных регионов блокируются или помечаются предупреждением.</CardDescription>
+          <CardDescription>
+            Заказы от ритейлеров вне указанных регионов блокируются или помечаются предупреждением.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <ul className="space-y-3">
             {rules.map((r) => (
-              <li key={r.id} className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+              <li
+                key={r.id}
+                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3"
+              >
                 <div>
                   <p className="font-medium">Дистрибьютор D01</p>
-                  <p className="text-xs text-slate-500">{r.regions.join(', ')} → {actionLabels[r.action]}</p>
+                  <p className="text-xs text-slate-500">
+                    {r.regions.join(', ')} → {actionLabels[r.action]}
+                  </p>
                 </div>
-                <Badge variant={r.action === 'block' ? 'destructive' : 'outline'} className="text-[10px]">{actionLabels[r.action]}</Badge>
+                <Badge
+                  variant={r.action === 'block' ? 'destructive' : 'outline'}
+                  className="text-[10px]"
+                >
+                  {actionLabels[r.action]}
+                </Badge>
               </li>
             ))}
           </ul>
-          <p className="text-xs text-slate-400 mt-3">API: TERRITORY_PROTECTION_API — правила, check при создании заказа.</p>
+          <p className="mt-3 text-xs text-slate-400">
+            API: TERRITORY_PROTECTION_API — правила, check при создании заказа.
+          </p>
         </CardContent>
       </Card>
       <B2BIntegrationStatusWidget settingsHref={ROUTES.brand.integrations} />
-      <RelatedModulesBlock links={getTerritoryProtectionLinks()} title="B2B заказы, партнёры, квоты" />
+      <RelatedModulesBlock
+        links={getTerritoryProtectionLinks()}
+        title="B2B заказы, партнёры, квоты"
+      />
     </div>
   );
 }

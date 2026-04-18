@@ -44,7 +44,7 @@ export class NanoHealingManager {
         estimatedTimeToRepairMins: 0,
         energyConsumedPercent: 0,
         customerNotification: 'Your garment is in perfect condition.',
-        reasoning: 'No damage detected.'
+        reasoning: 'No damage detected.',
       };
     }
 
@@ -53,7 +53,8 @@ export class NanoHealingManager {
       if (damage.type === 'micro_tear') {
         if (damage.severity > 0.8) {
           healingStatus = 'irreparable';
-          customerNotification = 'Severe tear detected. Nano-bots cannot fully repair this damage. Please visit a store for physical upcycling.';
+          customerNotification =
+            'Severe tear detected. Nano-bots cannot fully repair this damage. Please visit a store for physical upcycling.';
           reasoning += `Micro-tear severity (${damage.severity}) exceeds nano-bot bridging capacity. `;
           break; // Прерываем цикл, вещь не спасти нано-ботами
         } else {
@@ -80,7 +81,8 @@ export class NanoHealingManager {
       if (telemetry.batteryLevelPercent < energyConsumedPercent) {
         healingStatus = 'requires_external_energy';
         estimatedTimeToRepairMins = 0; // Ремонт откладывается
-        customerNotification = 'Self-healing paused due to low energy. Please wear the garment or place it on the kinetic charging hanger.';
+        customerNotification =
+          'Self-healing paused due to low energy. Please wear the garment or place it on the kinetic charging hanger.';
         reasoning += `Insufficient kinetic battery (${telemetry.batteryLevelPercent}% < ${energyConsumedPercent.toFixed(1)}%). Repair deferred. `;
       } else {
         customerNotification = `Self-healing initiated. Estimated completion in ${Math.round(estimatedTimeToRepairMins)} minutes.`;
@@ -94,7 +96,7 @@ export class NanoHealingManager {
       estimatedTimeToRepairMins: Math.round(estimatedTimeToRepairMins),
       energyConsumedPercent: Math.round(energyConsumedPercent),
       customerNotification,
-      reasoning
+      reasoning,
     };
   }
 }

@@ -6,10 +6,7 @@ import type { HandbookCategoryLeaf } from '@/lib/production/category-catalog';
 import type { CatalogAudienceFlags } from '@/lib/project-info/category-catalog-audience-flags';
 import { getProductionParamsByCategory } from '@/lib/data/production-params';
 
-export function productionParamIdsForCatalogFlags(
-  l1: string,
-  f: CatalogAudienceFlags
-): string[] {
+export function productionParamIdsForCatalogFlags(l1: string, f: CatalogAudienceFlags): string[] {
   const L = l1.trim();
   const ids = new Set<string>();
 
@@ -119,9 +116,7 @@ export function buildSizeHandbookCatalogRows(
 }
 
 export function formatParamIdsShort(ids: string[]): string {
-  return ids
-    .map((id) => getProductionParamsByCategory(id)?.label ?? id)
-    .join(' · ');
+  return ids.map((id) => getProductionParamsByCategory(id)?.label ?? id).join(' · ');
 }
 
 /** Строки, где задействована хотя бы одна детская аудитория (Мл/Дв/Нв). */

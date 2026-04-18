@@ -28,7 +28,12 @@ export interface SyndicationRunLog {
   successCount: number;
   errorCount: number;
   /** SKU с ошибками валидации (контракт B2B) */
-  skuErrors: { sku: string; productId: string; name: string; errors: { field: string; message: string }[] }[];
+  skuErrors: {
+    sku: string;
+    productId: string;
+    name: string;
+    errors: { field: string; message: string }[];
+  }[];
   /** Расписание следующего запуска (мок) */
   nextRunSchedule?: string;
 }
@@ -81,7 +86,7 @@ function getStoredLastSync(brandId?: string): string | null {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const data = JSON.parse(raw) as Record<string, string>;
-    return brandId ? data[brandId] ?? data['_global'] ?? null : data['_global'] ?? null;
+    return brandId ? (data[brandId] ?? data['_global'] ?? null) : (data['_global'] ?? null);
   } catch {
     return null;
   }
@@ -169,7 +174,11 @@ function setStoredValidSkus(productIds: string[], brandId?: string) {
 }
 
 /** Расписание синдикации (мок). */
-export function getSyndicationSchedule(brandId?: string): { cron: string; description: string; nextRun?: string } {
+export function getSyndicationSchedule(brandId?: string): {
+  cron: string;
+  description: string;
+  nextRun?: string;
+} {
   return {
     cron: '0 6 * * *',
     description: 'Ежедневно в 06:00 (мок)',
@@ -209,7 +218,8 @@ export function runSyndicationWithValidation(
   const log: SyndicationRunLog = {
     runAt: now,
     brandId,
-    status: skuErrors.length === 0 ? 'success' : skuErrors.length < products.length ? 'partial' : 'error',
+    status:
+      skuErrors.length === 0 ? 'success' : skuErrors.length < products.length ? 'partial' : 'error',
     totalProcessed: products.length,
     successCount: validSkus.length,
     errorCount: skuErrors.length,
@@ -239,9 +249,25 @@ function getContentChannelsForProduct(_p: Product): ContentChannelLink[] {
 }
 
 /** Мок: назначить продукту территории/каналы по индексу для проверки прав. При API — из PIM. */
-function mockProductVisibility(p: Product, index: number): { allowedTerritories?: string[]; allowedChannels?: B2BChannelId[] } {
-  const territoriesByIndex: string[][] = [['Moscow', 'Russia'], ['SPb', 'Russia'], ['Moscow', 'SPb', 'Russia'], [], ['Moscow'], ['SPb']];
-  const channelsByIndex: B2BChannelId[][] = [['wholesale', 'retail_a'], ['wholesale', 'retail_b'], ['wholesale', 'retail_a', 'retail_b'], [], ['outlet']];
+function mockProductVisibility(
+  p: Product,
+  index: number
+): { allowedTerritories?: string[]; allowedChannels?: B2BChannelId[] } {
+  const territoriesByIndex: string[][] = [
+    ['Moscow', 'Russia'],
+    ['SPb', 'Russia'],
+    ['Moscow', 'SPb', 'Russia'],
+    [],
+    ['Moscow'],
+    ['SPb'],
+  ];
+  const channelsByIndex: B2BChannelId[][] = [
+    ['wholesale', 'retail_a'],
+    ['wholesale', 'retail_b'],
+    ['wholesale', 'retail_a', 'retail_b'],
+    [],
+    ['outlet'],
+  ];
   const i = index % 6;
   return {
     allowedTerritories: (p as any).allowedTerritories ?? territoriesByIndex[i],
@@ -274,7 +300,8 @@ function productToSyndicatedItem(p: Product, index: number): SyndicatedCatalogIt
     capsule: (p as any).capsule ?? (p as any).collection ?? '',
     material: (p as any).material ?? (p as any).composition ?? '',
     color,
-    sustainability: (p as any).sustainability ?? (p as any).certifications ? 'Сертифицировано' : undefined,
+    sustainability:
+      ((p as any).sustainability ?? (p as any).certifications) ? 'Сертифицировано' : undefined,
     contentChannels: getContentChannelsForProduct(p),
     ...visibility,
   };

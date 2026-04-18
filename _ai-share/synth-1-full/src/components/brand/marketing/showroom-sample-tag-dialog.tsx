@@ -134,46 +134,64 @@ export function ShowroomSampleTagDialog({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         {trigger ?? (
-          <Button type="button" variant="outline" size="sm" className="gap-1.5 text-[10px] font-bold" disabled={disabled}>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="gap-1.5 text-[10px] font-bold"
+            disabled={disabled}
+          >
             <QrCode className="h-3.5 w-3.5" />
             Бирка QR / штрихкод
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="max-w-md print:shadow-none print:border-0">
+      <DialogContent className="max-w-md print:border-0 print:shadow-none">
         <DialogHeader className="print:hidden">
           <DialogTitle className="text-base">Бирка для шоурума</DialogTitle>
-          <DialogDescription className="text-xs text-left">
-            На сервер регистрируется короткий id: QR и штрихкод содержат только его; название и ТЗ подтягиваются по{' '}
-            <code className="text-[10px]">GET /api/showroom-sample/:id</code> при скане.
+          <DialogDescription className="text-left text-xs">
+            На сервер регистрируется короткий id: QR и штрихкод содержат только его; название и ТЗ
+            подтягиваются по <code className="text-[10px]">GET /api/showroom-sample/:id</code> при
+            скане.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="showroom-tag-print space-y-4 border border-slate-200 rounded-lg p-4 bg-white">
-          <div className="text-center space-y-1">
+        <div className="showroom-tag-print space-y-4 rounded-lg border border-slate-200 bg-white p-4">
+          <div className="space-y-1 text-center">
             <p className="text-sm font-bold text-slate-900">{payload.name}</p>
             <p className="text-[11px] text-slate-500">
               {payload.sku}
               {payload.sampleSize ? ` · ${payload.sampleSize}` : ''}
               {payload.color ? ` · ${payload.color}` : ''}
             </p>
-            <p className="text-[10px] text-slate-400 font-mono">Образец {payload.sampleId}</p>
+            <p className="font-mono text-[10px] text-slate-400">Образец {payload.sampleId}</p>
             {payload.internalArticleCode ? (
-              <p className="text-[10px] text-slate-500 font-mono">Внутр. артикул {payload.internalArticleCode}</p>
+              <p className="font-mono text-[10px] text-slate-500">
+                Внутр. артикул {payload.internalArticleCode}
+              </p>
             ) : null}
           </div>
 
           <div className="flex flex-col items-center gap-3">
             {regError ? (
-              <p className="text-xs text-rose-600 text-center print:hidden">
+              <p className="text-center text-xs text-rose-600 print:hidden">
                 Не удалось зарегистрировать бирку на сервере.
               </p>
             ) : null}
             {scanUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={qrImageUrlForText(scanUrl, 200)} alt="" width={200} height={200} className="rounded-md" />
+              <img
+                src={qrImageUrlForText(scanUrl, 200)}
+                alt=""
+                width={200}
+                height={200}
+                className="rounded-md"
+              />
             ) : (
-              <div className="h-[200px] w-[200px] bg-slate-100 animate-pulse rounded-md" aria-hidden />
+              <div
+                className="h-[200px] w-[200px] animate-pulse rounded-md bg-slate-100"
+                aria-hidden
+              />
             )}
             {registryId ? (
               <>
@@ -183,9 +201,11 @@ export function ShowroomSampleTagDialog({
                   alt=""
                   width={280}
                   height={100}
-                  className="max-w-full h-auto"
+                  className="h-auto max-w-full"
                 />
-                <p className="text-[10px] font-mono text-slate-600 break-all text-center px-2">{registryId}</p>
+                <p className="break-all px-2 text-center font-mono text-[10px] text-slate-600">
+                  {registryId}
+                </p>
               </>
             ) : !regError ? (
               <p className="text-[10px] text-slate-500 print:hidden">Регистрация id…</p>
@@ -198,7 +218,14 @@ export function ShowroomSampleTagDialog({
             <Printer className="h-4 w-4" />
             Печать бирки
           </Button>
-          <Button type="button" variant="outline" size="sm" className="gap-2" onClick={handleCopyLink} disabled={!scanUrl}>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            onClick={handleCopyLink}
+            disabled={!scanUrl}
+          >
             <Link2 className="h-4 w-4" />
             Копировать ссылку QR
           </Button>

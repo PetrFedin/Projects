@@ -32,11 +32,13 @@ export default function RenewalOfferLetterPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-10 max-w-3xl">
-      <div className="flex items-center justify-between gap-3 mb-6">
+    <div className="container mx-auto max-w-3xl px-4 py-10">
+      <div className="mb-6 flex items-center justify-between gap-3">
         <div>
-          <h1 className="text-base font-bold font-headline">Сообщение</h1>
-          <p className="text-sm text-muted-foreground">Письмо от Syntha с инструкцией по продлению.</p>
+          <h1 className="font-headline text-base font-bold">Сообщение</h1>
+          <p className="text-sm text-muted-foreground">
+            Письмо от Syntha с инструкцией по продлению.
+          </p>
         </div>
         <Button variant="outline" asChild>
           <Link href="/u?tab=profile">Назад в профиль</Link>
@@ -49,14 +51,15 @@ export default function RenewalOfferLetterPage() {
             <Mail className="h-5 w-5" />
             {title}
           </CardTitle>
-          <CardDescription>
-            От: Syntha • Кому: {user?.email || '—'}
-          </CardDescription>
+          <CardDescription>От: Syntha • Кому: {user?.email || '—'}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 text-sm">
           {!offer && (
             <>
-              <p>Сейчас для вашего аккаунта нет активного предложения. Вы можете продлить подписку в разделе лояльности.</p>
+              <p>
+                Сейчас для вашего аккаунта нет активного предложения. Вы можете продлить подписку в
+                разделе лояльности.
+              </p>
               <Button asChild>
                 <Link href="/loyalty?renew=1">Перейти к продлению</Link>
               </Button>
@@ -66,15 +69,17 @@ export default function RenewalOfferLetterPage() {
           {offer?.type === 'promo' && (
             <>
               <p>
-                Для вас доступно предложение: <strong>{offer.discountPercent}%</strong> на продление подписки.
+                Для вас доступно предложение: <strong>{offer.discountPercent}%</strong> на продление
+                подписки.
               </p>
-              <div className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-lg border p-4 bg-muted/30">
+              <div className="flex flex-col gap-3 rounded-lg border bg-muted/30 p-4 sm:flex-row sm:items-center">
                 <div className="flex-1">
                   <div className="text-xs text-muted-foreground">Промокод</div>
                   <div className="font-mono text-sm font-bold">{offer.code}</div>
                   {offer.expiresAt && (
-                    <div className="text-xs text-muted-foreground mt-1">
-                      Действует до {format(new Date(offer.expiresAt), 'd MMMM yyyy', { locale: ru })}
+                    <div className="mt-1 text-xs text-muted-foreground">
+                      Действует до{' '}
+                      {format(new Date(offer.expiresAt), 'd MMMM yyyy', { locale: ru })}
                     </div>
                   )}
                 </div>
@@ -83,7 +88,7 @@ export default function RenewalOfferLetterPage() {
                   Скопировать
                 </Button>
               </div>
-              <ol className="list-decimal pl-5 space-y-1">
+              <ol className="list-decimal space-y-1 pl-5">
                 <li>Нажмите «Перейти к продлению».</li>
                 <li>Вставьте промокод в поле оплаты и примените скидку.</li>
                 <li>Подтвердите продление.</li>
@@ -96,11 +101,13 @@ export default function RenewalOfferLetterPage() {
 
           {offer?.type === 'email' && (
             <>
-              <Badge variant="secondary" className="w-fit">Уникальное предложение</Badge>
+              <Badge variant="secondary" className="w-fit">
+                Уникальное предложение
+              </Badge>
               <p>Для вас подготовлено персональное предложение на продление подписки.</p>
-              <div className="rounded-lg border p-4 bg-muted/30">
-                <div className="text-xs text-muted-foreground mb-2">Инструкция</div>
-                <ol className="list-decimal pl-5 space-y-1">
+              <div className="rounded-lg border bg-muted/30 p-4">
+                <div className="mb-2 text-xs text-muted-foreground">Инструкция</div>
+                <ol className="list-decimal space-y-1 pl-5">
                   {offer.instructions.map((s, idx) => (
                     <li key={idx}>{s}</li>
                   ))}
@@ -116,4 +123,3 @@ export default function RenewalOfferLetterPage() {
     </div>
   );
 }
-

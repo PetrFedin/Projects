@@ -42,7 +42,11 @@ export class MultiverseSCMEngine {
     scenario: BranchingScenario
   ): RealityBranchResult {
     const newTimelineId = `branch-${scenario.scenarioName.replace(/\s+/g, '-').toLowerCase()}-${Date.now()}`;
-    let projectedState = { ...currentState, timelineId: newTimelineId, parentTimelineId: currentState.timelineId };
+    let projectedState = {
+      ...currentState,
+      timelineId: newTimelineId,
+      parentTimelineId: currentState.timelineId,
+    };
     let roiPercent = 0;
     let riskProbability = 0.1;
     let reasoning = `Branched from ${currentState.timelineId}. Simulated ${scenario.simulationMonths} months. `;
@@ -87,7 +91,10 @@ export class MultiverseSCMEngine {
     }
 
     // 4. Финальные корректировки и ограничения
-    projectedState.customerSatisfactionScore = Math.max(0, Math.min(100, projectedState.customerSatisfactionScore));
+    projectedState.customerSatisfactionScore = Math.max(
+      0,
+      Math.min(100, projectedState.customerSatisfactionScore)
+    );
     riskProbability = Math.max(0.01, Math.min(0.99, riskProbability));
 
     // Учет рисков в ROI (Expected Value)
@@ -99,23 +106,30 @@ export class MultiverseSCMEngine {
       projectedState,
       roiPercent: expectedRoi,
       riskProbability,
-      reasoning
+      reasoning,
     };
   }
 
   /**
    * Сливает (Merge) выбранную ветку реальности в основную, применяя стратегические изменения.
    */
-  public static mergeReality(mainTimeline: TimelineState, winningBranch: RealityBranchResult): TimelineState {
+  public static mergeReality(
+    mainTimeline: TimelineState,
+    winningBranch: RealityBranchResult
+  ): TimelineState {
     // В реальности здесь генерировался бы набор команд (Saga/Control Actions) для перестройки сети
     // (например, расторжение контрактов со старыми поставщиками, подписание новых, изменение цен)
-    console.log(`[MultiverseSCM] Merging branch ${winningBranch.timelineId} into Main Timeline ${mainTimeline.timelineId}.`);
-    console.log(`[MultiverseSCM] Expected ROI: ${winningBranch.roiPercent.toFixed(1)}%. Initiating structural metamorphosis...`);
-    
+    console.log(
+      `[MultiverseSCM] Merging branch ${winningBranch.timelineId} into Main Timeline ${mainTimeline.timelineId}.`
+    );
+    console.log(
+      `[MultiverseSCM] Expected ROI: ${winningBranch.roiPercent.toFixed(1)}%. Initiating structural metamorphosis...`
+    );
+
     return {
       ...winningBranch.projectedState,
       timelineId: mainTimeline.timelineId, // Сохраняем ID основной линии, но обновляем состояние
-      parentTimelineId: undefined // Это теперь корень
+      parentTimelineId: undefined, // Это теперь корень
     };
   }
 }

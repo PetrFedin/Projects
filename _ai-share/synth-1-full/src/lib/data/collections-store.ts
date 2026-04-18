@@ -44,7 +44,9 @@ export function getCollectionById(id: string): CollectionCard | undefined {
   return load().find((c) => c.id === id);
 }
 
-export function createCollection(data: Omit<CollectionCard, 'id' | 'createdAt' | 'updatedAt'>): CollectionCard {
+export function createCollection(
+  data: Omit<CollectionCard, 'id' | 'createdAt' | 'updatedAt'>
+): CollectionCard {
   const items = load();
   const id = `col-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
   const now = new Date().toISOString();
@@ -59,7 +61,10 @@ export function createCollection(data: Omit<CollectionCard, 'id' | 'createdAt' |
   return card;
 }
 
-export function updateCollection(id: string, data: Partial<Omit<CollectionCard, 'id' | 'createdAt'>>): CollectionCard | null {
+export function updateCollection(
+  id: string,
+  data: Partial<Omit<CollectionCard, 'id' | 'createdAt'>>
+): CollectionCard | null {
   const items = load();
   const idx = items.findIndex((c) => c.id === id);
   if (idx < 0) return null;

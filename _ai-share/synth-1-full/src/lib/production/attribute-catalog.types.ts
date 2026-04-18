@@ -44,7 +44,13 @@ export type AttributeCatalogAttribute = {
   /** Доп. текст для детальной подсказки в ТЗ (как у групп в каталоге). */
   descriptionHint?: string;
   /** Декларативная привязка к секции досье. Если не указано — определяется из groupId. */
-  dossierSection?: 'general' | 'visuals' | 'material' | 'measurements' | 'construction' | 'packaging';
+  dossierSection?:
+    | 'general'
+    | 'visuals'
+    | 'material'
+    | 'measurements'
+    | 'construction'
+    | 'packaging';
   /**
    * Типы меток скетча: при активной метке такого типа это поле (если секция «Визуал» на листе)
    * подсвечивается в блоке визуальных осей и попадает в быстрые ссылки в инспекторе метки.

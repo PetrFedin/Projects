@@ -69,7 +69,14 @@ export class CustomsClearanceEngine {
 
     // Если груз заблокирован, возвращаем результат сразу
     if (status === 'rejected_compliance') {
-      return { shipmentId: manifest.shipmentId, status, requiredDocuments, complianceFlags, estimatedClearanceDays, reasoning };
+      return {
+        shipmentId: manifest.shipmentId,
+        status,
+        requiredDocuments,
+        complianceFlags,
+        estimatedClearanceDays,
+        reasoning,
+      };
     }
 
     // 2. Проверка стоимости и пошлин (Документы)
@@ -103,7 +110,7 @@ export class CustomsClearanceEngine {
       requiredDocuments,
       complianceFlags,
       estimatedClearanceDays,
-      reasoning
+      reasoning,
     };
   }
 }

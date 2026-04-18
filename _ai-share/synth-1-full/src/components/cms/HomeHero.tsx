@@ -1,26 +1,33 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { Button } from "@/components/ui/button";
-import type { CmsHero } from "@/data/cms.home.default";
-import { useRouter } from "next/navigation";
+import * as React from 'react';
+import { Button } from '@/components/ui/button';
+import type { CmsHero } from '@/data/cms.home.default';
+import { useRouter } from 'next/navigation';
 
 export function HomeHero({ hero }: { hero: CmsHero }) {
   const router = useRouter();
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-slate-100 bg-[#fcfcfc] min-h-[400px] flex items-center shadow-2xl shadow-slate-200">
+    <div className="relative flex min-h-[400px] items-center overflow-hidden rounded-xl border border-slate-100 bg-[#fcfcfc] shadow-2xl shadow-slate-200">
       <div className="absolute inset-0 opacity-20">
-        <img src={hero.backgroundUrl || "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=2000"} alt="Hero bg" className="w-full h-full object-cover" />
+        <img
+          src={
+            hero.backgroundUrl ||
+            'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=2000'
+          }
+          alt="Hero bg"
+          className="h-full w-full object-cover"
+        />
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent" />
       </div>
 
-      <div className="relative p-4 md:p-16 w-full">
+      <div className="relative w-full p-4 md:p-16">
         <div className="max-w-2xl space-y-6">
-          <div className="text-sm md:text-base font-black text-white leading-[0.9] uppercase tracking-tighter font-headline">
+          <div className="font-headline text-sm font-black uppercase leading-[0.9] tracking-tighter text-white md:text-base">
             {hero.title}
           </div>
-          <div className="text-sm md:text-sm text-slate-400 font-medium leading-relaxed max-w-lg italic border-l-2 border-white/10 pl-6">
+          <div className="max-w-lg border-l-2 border-white/10 pl-6 text-sm font-medium italic leading-relaxed text-slate-400 md:text-sm">
             {hero.subtitle}
           </div>
 

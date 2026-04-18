@@ -35,7 +35,9 @@ export default function BrandB2BPassportPage() {
   const [notesDraft, setNotesDraft] = useState('');
 
   const refresh = useCallback(() => setState(loadPassportState()), []);
-  useEffect(() => { refresh(); }, [refresh]);
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
 
   useEffect(() => {
     if (state?.events?.length && !selectedEventId) setSelectedEventId(state.events[0].id);
@@ -61,16 +63,17 @@ export default function BrandB2BPassportPage() {
     setNotesDraft('');
   };
 
-  if (!state) return <div className="container py-8 text-center text-slate-500 text-sm">Загрузка…</div>;
+  if (!state)
+    return <div className="container py-8 text-center text-sm text-slate-500">Загрузка…</div>;
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 pb-24 space-y-6">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold uppercase tracking-tight flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-xl font-bold uppercase tracking-tight">
             <Calendar className="h-6 w-6" /> JOOR Passport — шоурум на выставке
           </h1>
-          <p className="text-sm text-slate-500 mt-1">
+          <p className="mt-1 text-sm text-slate-500">
             Расписание встреч, заметки по байеру, привязка заказов к слоту/событию.
           </p>
         </div>
@@ -81,7 +84,7 @@ export default function BrandB2BPassportPage() {
 
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-sm">
             <MapPin className="h-4 w-4" /> События
           </CardTitle>
           <CardDescription className="text-xs">Выберите выставку или шоурум.</CardDescription>
@@ -101,7 +104,7 @@ export default function BrandB2BPassportPage() {
             ))}
           </div>
           {selectedEvent && (
-            <p className="text-xs text-slate-500 mt-2">
+            <p className="mt-2 text-xs text-slate-500">
               {selectedEvent.startDate} – {selectedEvent.endDate} · {selectedEvent.type}
             </p>
           )}
@@ -110,11 +113,12 @@ export default function BrandB2BPassportPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-sm">
             <Users className="h-4 w-4" /> Встречи по слотам
           </CardTitle>
           <CardDescription className="text-xs">
-            Заметки по байеру видны только бренду. Заказы, привязанные к слоту, отображаются в заказах с eventId/slotId.
+            Заметки по байеру видны только бренду. Заказы, привязанные к слоту, отображаются в
+            заказах с eventId/slotId.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -125,7 +129,7 @@ export default function BrandB2BPassportPage() {
               const slot = slots.find((s) => s.id === m.slotId);
               const isEditing = editingNotesMeetingId === m.id;
               return (
-                <div key={m.id} className="rounded-xl border p-4 space-y-2">
+                <div key={m.id} className="space-y-2 rounded-xl border p-4">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div>
                       <span className="text-xs text-slate-500">{slot?.label ?? m.slotId}</span>
@@ -141,10 +145,18 @@ export default function BrandB2BPassportPage() {
                     Заметки по байеру:
                     {!isEditing ? (
                       <>
-                        <span className={m.brandNotes ? 'text-slate-800' : 'text-slate-400 italic'}>
+                        <span className={m.brandNotes ? 'text-slate-800' : 'italic text-slate-400'}>
                           {m.brandNotes || 'Нет'}
                         </span>
-                        <Button variant="ghost" size="sm" className="h-6 text-xs" onClick={() => { setEditingNotesMeetingId(m.id); setNotesDraft(m.brandNotes); }}>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-6 text-xs"
+                          onClick={() => {
+                            setEditingNotesMeetingId(m.id);
+                            setNotesDraft(m.brandNotes);
+                          }}
+                        >
                           Изменить
                         </Button>
                       </>
@@ -156,8 +168,24 @@ export default function BrandB2BPassportPage() {
                           className="min-h-[60px] text-xs"
                           placeholder="Заметки для внутреннего использования…"
                         />
-                        <Button size="sm" className="h-6 text-xs" onClick={() => handleSaveNotes(m.id)}>Сохранить</Button>
-                        <Button variant="ghost" size="sm" className="h-6 text-xs" onClick={() => { setEditingNotesMeetingId(null); setNotesDraft(''); }}>Отмена</Button>
+                        <Button
+                          size="sm"
+                          className="h-6 text-xs"
+                          onClick={() => handleSaveNotes(m.id)}
+                        >
+                          Сохранить
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-6 text-xs"
+                          onClick={() => {
+                            setEditingNotesMeetingId(null);
+                            setNotesDraft('');
+                          }}
+                        >
+                          Отмена
+                        </Button>
                       </>
                     )}
                   </div>
@@ -166,7 +194,11 @@ export default function BrandB2BPassportPage() {
                       <ShoppingBag className="h-3.5 w-3.5 text-slate-500" />
                       Заказы привязаны к слоту:
                       {m.orderIds.map((oid) => (
-                        <Link key={oid} href={`${ROUTES.shop.b2bOrders}/${oid}`} className="text-indigo-600 hover:underline font-mono">
+                        <Link
+                          key={oid}
+                          href={`${ROUTES.shop.b2bOrders}/${oid}`}
+                          className="font-mono text-indigo-600 hover:underline"
+                        >
                           {oid}
                         </Link>
                       ))}
@@ -181,7 +213,9 @@ export default function BrandB2BPassportPage() {
 
       <Card className="border-dashed">
         <CardContent className="py-3 text-xs text-slate-500">
-          Привязка заказа к слоту: в карточке заказа (байер или бренд) укажите eventId и passportSlotId — заказ появится в блоке «Заказы привязаны к слоту» для соответствующей встречи.
+          Привязка заказа к слоту: в карточке заказа (байер или бренд) укажите eventId и
+          passportSlotId — заказ появится в блоке «Заказы привязаны к слоту» для соответствующей
+          встречи.
         </CardContent>
       </Card>
     </div>

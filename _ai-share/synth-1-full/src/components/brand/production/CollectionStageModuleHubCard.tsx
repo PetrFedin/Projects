@@ -12,7 +12,10 @@ import {
   patchStepModuleFields,
   saveCollectionStageModules,
 } from '@/lib/production/collection-stage-modules-store';
-import { getFormFieldsForStep, hasSubstantiveModuleContent } from '@/lib/production/collection-step-form-fields';
+import {
+  getFormFieldsForStep,
+  hasSubstantiveModuleContent,
+} from '@/lib/production/collection-step-form-fields';
 import type { CollectionModuleSaveEvent } from '@/components/brand/production/CollectionStepModuleDialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -113,7 +116,8 @@ export function CollectionStageModuleHubCard({
       if (k === collectionFlowKey) refresh();
     };
     window.addEventListener(BRAND_COLLECTION_STAGE_MODULES_SAVED, h as EventListener);
-    return () => window.removeEventListener(BRAND_COLLECTION_STAGE_MODULES_SAVED, h as EventListener);
+    return () =>
+      window.removeEventListener(BRAND_COLLECTION_STAGE_MODULES_SAVED, h as EventListener);
   }, [collectionFlowKey, refresh]);
 
   const handleSave = () => {
@@ -153,12 +157,17 @@ export function CollectionStageModuleHubCard({
           <Icon className={cn('h-4 w-4 shrink-0', iconClassName)} aria-hidden />
           <CardTitle className="text-sm uppercase tracking-tight">{cardTitle}</CardTitle>
           {matrixStatus ? (
-            <Badge variant="outline" className="h-5 border-slate-200 text-[7px] font-bold uppercase">
+            <Badge
+              variant="outline"
+              className="h-5 border-slate-200 text-[7px] font-bold uppercase"
+            >
               {STATUS_RU[matrixStatus]}
             </Badge>
           ) : null}
           {substantive ? (
-            <Badge className="h-5 bg-emerald-600/90 text-[7px] font-bold uppercase">Черновик заполнен</Badge>
+            <Badge className="h-5 bg-emerald-600/90 text-[7px] font-bold uppercase">
+              Черновик заполнен
+            </Badge>
           ) : (
             <Badge variant="secondary" className="h-5 text-[7px] font-semibold text-slate-600">
               Синхрон с модулем этапа в ленте
@@ -166,11 +175,11 @@ export function CollectionStageModuleHubCard({
           )}
         </div>
         <CardDescription className="text-xs leading-relaxed">
-          Коллекция: <strong className="text-slate-800">{collectionLabel}</strong>. {cardHint} Этап в матрице:{' '}
-          <span className="font-mono text-[10px]">{stepId}</span>.
+          Коллекция: <strong className="text-slate-800">{collectionLabel}</strong>. {cardHint} Этап
+          в матрице: <span className="font-mono text-[10px]">{stepId}</span>.
         </CardDescription>
         {previewLine ? (
-          <p className="text-[11px] font-medium text-slate-700 pt-0.5 line-clamp-2">
+          <p className="line-clamp-2 pt-0.5 text-[11px] font-medium text-slate-700">
             Кратко: <span className="text-indigo-900">{previewLine}</span>
           </p>
         ) : null}
@@ -203,7 +212,13 @@ export function CollectionStageModuleHubCard({
                     </p>
                   </div>
                 ) : null}
-                <div className={cn(isGeneric ? 'rounded-lg border border-dashed border-slate-200/80 bg-slate-50/40 p-2' : '')}>
+                <div
+                  className={cn(
+                    isGeneric
+                      ? 'rounded-lg border border-dashed border-slate-200/80 bg-slate-50/40 p-2'
+                      : ''
+                  )}
+                >
                   <p className="mb-1 text-[9px] font-bold uppercase text-slate-400">{def.label}</p>
                   {def.type === 'textarea' ? (
                     <Textarea
@@ -231,7 +246,13 @@ export function CollectionStageModuleHubCard({
           <Button type="button" size="sm" className="h-9 text-xs" onClick={handleSave}>
             {saveLabel}
           </Button>
-          <Button type="button" variant="outline" size="sm" className="h-9 gap-1.5 text-[10px]" onClick={onOpenFullDialog}>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-9 gap-1.5 text-[10px]"
+            onClick={onOpenFullDialog}
+          >
             <LayoutPanelLeft className="h-3.5 w-3.5 shrink-0" aria-hidden />
             Вложения, история, согласование
           </Button>

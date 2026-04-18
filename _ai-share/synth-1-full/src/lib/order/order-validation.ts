@@ -8,7 +8,16 @@ import { calculateATP, InventoryGrain } from '../logic/inventory-ledger';
  */
 
 export interface OrderValidationError {
-  code: 'MOQ_NOT_MET' | 'PACK_RULE_VIOLATED' | 'INSUFFICIENT_ATP' | 'CURRENCY_MISMATCH' | 'PRICE_LIST_MISMATCH' | 'SHIP_WINDOW_VIOLATED' | 'TENANT_MISMATCH' | 'GATE_APPROVAL_MISSING' | 'GATE_REJECTED';
+  code:
+    | 'MOQ_NOT_MET'
+    | 'PACK_RULE_VIOLATED'
+    | 'INSUFFICIENT_ATP'
+    | 'CURRENCY_MISMATCH'
+    | 'PRICE_LIST_MISMATCH'
+    | 'SHIP_WINDOW_VIOLATED'
+    | 'TENANT_MISMATCH'
+    | 'GATE_APPROVAL_MISSING'
+    | 'GATE_REJECTED';
   message: string;
   sku?: string;
   expected?: string | number;
@@ -25,9 +34,9 @@ export interface OrderValidationResult {
  */
 export function validateOrderGates(order: OrderAggregate): OrderValidationResult {
   const errors: OrderValidationError[] = [];
-  
+
   // 1. Проверка ворот бренда (Brand Gate)
-  const brandGate = order.metadata.gates?.find(g => g.role === 'brand');
+  const brandGate = order.metadata.gates?.find((g) => g.role === 'brand');
   if (brandGate) {
     if (brandGate.status === 'rejected') {
       errors.push({
@@ -43,7 +52,7 @@ export function validateOrderGates(order: OrderAggregate): OrderValidationResult
   }
 
   // 2. Проверка ворот партнера/магазина (Partner Gate)
-  const partnerGate = order.metadata.gates?.find(g => g.role === 'shop');
+  const partnerGate = order.metadata.gates?.find((g) => g.role === 'shop');
   if (partnerGate) {
     if (partnerGate.status === 'rejected') {
       errors.push({
@@ -77,108 +86,108 @@ export function validateOrder(params: {
   const { order, inventoryGrains, moqRules, packRules, strictIsolation = true } = params;
   const errors: OrderValidationError[] = [];
 
-    // 0. Валидация ворот (Gates)
-    const gateResult = validateOrderGates(order);
-    if (!gateResult.isValid) {
-      errors.push(...gateResult.errors);
-    }
+  // 0. Валидация ворот (Gates)
+  const gateResult = validateOrderGates(order);
+  if (!gateResult.isValid) {
+    errors.push(...gateResult.errors);
+  }
 
-    // 0.1. Валидация условий (Terms)
-    if (order.terms.priceListId && order.terms.priceListId === 'expired') {
-      errors.push({
-        code: 'PRICE_LIST_MISMATCH',
-        message: `Price list ${order.terms.priceListId} is expired or invalid`,
-      });
-    }
+  // 0.1. Валидация условий (Terms)
+  if (order.terms.priceListId && order.terms.priceListId === 'expired') {
+    errors.push({
+      code: 'PRICE_LIST_MISMATCH',
+      message: `Price list ${order.terms.priceListId} is expired or invalid`,
+    });
+  }
 
-    if (order.context.shipWindowId && order.context.shipWindowId === 'closed') {
-      errors.push({
-        code: 'SHIP_WINDOW_VIOLATED',
-        message: `Ship window ${order.context.shipWindowId} is closed for new orders`,
-      });
-    }
+  if (order.context.shipWindowId && order.context.shipWindowId === 'closed') {
+    errors.push({
+      code: 'SHIP_WINDOW_VIOLATED',
+      message: `Ship window ${order.context.shipWindowId} is closed for new orders`,
+    });
+  }
 
-    // [Phase 2 Prod] Проверка наличия tenantId в строгом режиме
-    if (strictIsolation && !order.participants.tenantId) {
-      errors.push({
-        code: 'TENANT_MISMATCH',
-        message: `Order ${order.id} is missing mandatory tenantId for strict isolation`,
-      });
-    }
+  // [Phase 2 Prod] Проверка наличия tenantId в строгом режиме
+  if (strictIsolation && !order.participants.tenantId) {
+    errors.push({
+      code: 'TENANT_MISMATCH',
+      message: `Order ${order.id} is missing mandatory tenantId for strict isolation`,
+    });
+  }
 
-    // [Phase 2 Prod] Проверка соответствия tenantId участникам
-    if (strictIsolation && order.participants.tenantId) {
-      // [Phase 2 Prod] Глубокая проверка соответствия участников арендатору.
-      // В реальной системе используется справочник участников (Participant Registry).
-      const brandId = order.participants.brandId;
-      const buyerId = order.participants.buyerAccountId;
-      const tenantId = order.participants.tenantId;
+  // [Phase 2 Prod] Проверка соответствия tenantId участникам
+  if (strictIsolation && order.participants.tenantId) {
+    // [Phase 2 Prod] Глубокая проверка соответствия участников арендатору.
+    // В реальной системе используется справочник участников (Participant Registry).
+    const brandId = order.participants.brandId;
+    const buyerId = order.participants.buyerAccountId;
+    const tenantId = order.participants.tenantId;
 
-      // Демо-заглушка для проверки изоляции: brand-1 и shop-1 принадлежат tenant-1
-      if (tenantId === 'tenant-1') {
-        if (!brandId.includes('1') && brandId !== 'brand-demo') {
-          errors.push({
-            code: 'TENANT_MISMATCH',
-            message: `Brand ${brandId} does not belong to tenant ${tenantId}`,
-          });
-        }
-        if (!buyerId.includes('1') && buyerId !== 'shop-demo') {
-          errors.push({
-            code: 'TENANT_MISMATCH',
-            message: `Buyer ${buyerId} does not belong to tenant ${tenantId}`,
-          });
-        }
-      }
-    }
-
-    // 1. Валидация по каждой линии
-    for (const line of order.lines) {
-      const qty = line.quantity;
-      const sku = `${line.productId}:${line.size}`;
-  
-      // 1.1. MOQ (Minimum Order Quantity)
-      if (moqRules && moqRules[sku] && qty < moqRules[sku]) {
+    // Демо-заглушка для проверки изоляции: brand-1 и shop-1 принадлежат tenant-1
+    if (tenantId === 'tenant-1') {
+      if (!brandId.includes('1') && brandId !== 'brand-demo') {
         errors.push({
-          code: 'MOQ_NOT_MET',
-          message: `Quantity ${qty} for SKU ${sku} is below MOQ ${moqRules[sku]}`,
-          sku: sku,
-          expected: moqRules[sku],
-          actual: qty,
+          code: 'TENANT_MISMATCH',
+          message: `Brand ${brandId} does not belong to tenant ${tenantId}`,
         });
       }
-  
-      // 1.2. Pack Rules (кратность упаковки)
-      if (packRules && packRules[sku] && qty % packRules[sku] !== 0) {
+      if (!buyerId.includes('1') && buyerId !== 'shop-demo') {
         errors.push({
-          code: 'PACK_RULE_VIOLATED',
-          message: `Quantity ${qty} for SKU ${sku} must be a multiple of ${packRules[sku]}`,
-          sku: sku,
-          expected: packRules[sku],
-          actual: qty,
-        });
-      }
-  
-      // 1.3. ATP (Available to Promise)
-      const skuGrains = inventoryGrains.filter(g => g.sku === sku);
-      const atp = calculateATP({
-        grains: skuGrains,
-        channelId: order.mode === 'pre_order' ? 'b2b' : (order.mode === 'buy_now' ? 'retail' : 'b2b'), // Для buy_now проверяем retail сток
-        actorId: order.participants.buyerAccountId,
-        actorType: 'shop',
-        agreementId: order.context.agreementId,
-        strictIsolation, // Используем переданный флаг
-      });
-  
-      if (atp < qty) {
-        errors.push({
-          code: 'INSUFFICIENT_ATP',
-          message: `Insufficient stock for SKU ${sku}. ATP: ${atp}, requested: ${qty}`,
-          sku: sku,
-          expected: qty,
-          actual: atp,
+          code: 'TENANT_MISMATCH',
+          message: `Buyer ${buyerId} does not belong to tenant ${tenantId}`,
         });
       }
     }
+  }
+
+  // 1. Валидация по каждой линии
+  for (const line of order.lines) {
+    const qty = line.quantity;
+    const sku = `${line.productId}:${line.size}`;
+
+    // 1.1. MOQ (Minimum Order Quantity)
+    if (moqRules && moqRules[sku] && qty < moqRules[sku]) {
+      errors.push({
+        code: 'MOQ_NOT_MET',
+        message: `Quantity ${qty} for SKU ${sku} is below MOQ ${moqRules[sku]}`,
+        sku: sku,
+        expected: moqRules[sku],
+        actual: qty,
+      });
+    }
+
+    // 1.2. Pack Rules (кратность упаковки)
+    if (packRules && packRules[sku] && qty % packRules[sku] !== 0) {
+      errors.push({
+        code: 'PACK_RULE_VIOLATED',
+        message: `Quantity ${qty} for SKU ${sku} must be a multiple of ${packRules[sku]}`,
+        sku: sku,
+        expected: packRules[sku],
+        actual: qty,
+      });
+    }
+
+    // 1.3. ATP (Available to Promise)
+    const skuGrains = inventoryGrains.filter((g) => g.sku === sku);
+    const atp = calculateATP({
+      grains: skuGrains,
+      channelId: order.mode === 'pre_order' ? 'b2b' : order.mode === 'buy_now' ? 'retail' : 'b2b', // Для buy_now проверяем retail сток
+      actorId: order.participants.buyerAccountId,
+      actorType: 'shop',
+      agreementId: order.context.agreementId,
+      strictIsolation, // Используем переданный флаг
+    });
+
+    if (atp < qty) {
+      errors.push({
+        code: 'INSUFFICIENT_ATP',
+        message: `Insufficient stock for SKU ${sku}. ATP: ${atp}, requested: ${qty}`,
+        sku: sku,
+        expected: qty,
+        actual: atp,
+      });
+    }
+  }
 
   return {
     isValid: errors.length === 0,

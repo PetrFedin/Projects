@@ -4,13 +4,13 @@
  */
 
 export type MilestoneType =
-  | 'cutting_start'    // раскрой начат
-  | 'cutting_done'     // раскрой завершён
-  | 'assembly_start'   // сборка начата
-  | 'assembly_done'    // сборка завершена
-  | 'finishing'        // отделка
-  | 'final_qc'         // финальный ОК
-  | 'packed';          // упаковано
+  | 'cutting_start' // раскрой начат
+  | 'cutting_done' // раскрой завершён
+  | 'assembly_start' // сборка начата
+  | 'assembly_done' // сборка завершена
+  | 'finishing' // отделка
+  | 'final_qc' // финальный ОК
+  | 'packed'; // упаковано
 
 export type MilestoneStatus = 'pending' | 'video_uploaded' | 'approved' | 'rejected';
 
@@ -18,9 +18,9 @@ export interface MilestoneWithVideo {
   id: string;
   orderId: string;
   milestoneType: MilestoneType;
-  milestoneLabel: string;   // "Раскрой завершён"
+  milestoneLabel: string; // "Раскрой завершён"
   status: MilestoneStatus;
-  dueAt?: string;           // ISO
+  dueAt?: string; // ISO
   completedAt?: string;
   /** URL видео (при API — загрузка в Storage) */
   videoUrl?: string;

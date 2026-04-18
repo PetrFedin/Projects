@@ -42,13 +42,13 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const body = await request.json();
-  
+
   // Webhook для внешних систем
   console.log('Dashboard webhook triggered:', body);
-  
-  return NextResponse.json({ 
-    success: true, 
+
+  return NextResponse.json({
+    success: true,
     message: 'Webhook processed',
-    timestamp: new Date().toISOString() 
+    timestamp: new Date().toISOString(),
   });
 }

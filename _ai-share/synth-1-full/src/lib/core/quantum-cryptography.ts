@@ -26,7 +26,7 @@ export interface QkdResult {
  */
 export class QuantumCryptographyEngine {
   // Порог ошибок, выше которого считается, что канал прослушивается (теоретический предел ~11%)
-  private static readonly QBER_THRESHOLD_PERCENT = 11.0; 
+  private static readonly QBER_THRESHOLD_PERCENT = 11.0;
 
   /**
    * Пытается установить симметричный квантовый ключ между двумя узлами.
@@ -45,7 +45,7 @@ export class QuantumCryptographyEngine {
         sessionId: session.sessionId,
         status: 'channel_noise',
         effectiveBitrateBps: 0,
-        reasoning: `Signal attenuation too high (${(transmissionRate * 100).toFixed(2)}% received). Cannot establish reliable quantum link.`
+        reasoning: `Signal attenuation too high (${(transmissionRate * 100).toFixed(2)}% received). Cannot establish reliable quantum link.`,
       };
     }
 
@@ -58,12 +58,16 @@ export class QuantumCryptographyEngine {
       // Если QBER в норме, мы можем использовать Privacy Amplification и Error Correction
       // для создания абсолютно секретного ключа (Information-Theoretic Security)
       status = 'key_established';
-      
+
       // Генерируем моковый 256-битный ключ (в реальности это результат квантового просеивания)
-      symmetricKeyHex = Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
-      
+      symmetricKeyHex = Array.from({ length: 64 }, () =>
+        Math.floor(Math.random() * 16).toString(16)
+      ).join('');
+
       // Оставшиеся биты после коррекции ошибок формируют итоговый битрейт ключа
-      effectiveBitrateBps = Math.floor(session.photonsReceived * (1 - (session.errorRatePercent / 100)) * 0.5); // Упрощенная формула
+      effectiveBitrateBps = Math.floor(
+        session.photonsReceived * (1 - session.errorRatePercent / 100) * 0.5
+      ); // Упрощенная формула
 
       reasoning = `QBER (${session.errorRatePercent.toFixed(1)}%) is within safe limits. Information-theoretic secure symmetric key established. Ready for ${session.payloadType} transmission. `;
     }
@@ -73,7 +77,7 @@ export class QuantumCryptographyEngine {
       status,
       symmetricKeyHex,
       effectiveBitrateBps,
-      reasoning
+      reasoning,
     };
   }
 }

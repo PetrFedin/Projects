@@ -20,25 +20,35 @@ export default function B2BDealerCabinetPage() {
       <div className="grid gap-4 sm:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2"><FileText className="h-4 w-4" /> Документы</CardTitle>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <FileText className="h-4 w-4" /> Документы
+            </CardTitle>
             <CardDescription>Счета, накладные, акты, договоры.</CardDescription>
           </CardHeader>
           <CardContent>
-            <Button variant="outline" size="sm">Открыть</Button>
+            <Button variant="outline" size="sm">
+              Открыть
+            </Button>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2"><BarChart3 className="h-4 w-4" /> Аналитика</CardTitle>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <BarChart3 className="h-4 w-4" /> Аналитика
+            </CardTitle>
             <CardDescription>Продажи по брендам, топ SKU, sell-through.</CardDescription>
           </CardHeader>
           <CardContent>
-            <Button variant="outline" size="sm">Открыть</Button>
+            <Button variant="outline" size="sm">
+              Открыть
+            </Button>
           </CardContent>
         </Card>
       </div>
       <Button variant="outline" size="sm" asChild>
-        <Link href={ROUTES.shop.b2bScanner}><Smartphone className="h-3 w-3 mr-1" /> Sales App (мобильное)</Link>
+        <Link href={ROUTES.shop.b2bScanner}>
+          <Smartphone className="mr-1 h-3 w-3" /> Sales App (мобильное)
+        </Link>
       </Button>
     </B2BModulePage>
   );

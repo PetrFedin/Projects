@@ -4,7 +4,11 @@
  */
 
 import { COLLECTION_STEPS } from '@/lib/production/collection-steps-catalog';
-import { patchSkuStage, type CollectionSkuFlowDoc, type SkuStageDetail } from '@/lib/production/unified-sku-flow-store';
+import {
+  patchSkuStage,
+  type CollectionSkuFlowDoc,
+  type SkuStageDetail,
+} from '@/lib/production/unified-sku-flow-store';
 
 /** Минимальные поля под чеклист обязательных данных, чтобы демо не «перепрыгивало» этапы без заполнения. */
 const INVESTOR_DEMO_MINIMAL_PRE_MATERIALS: Partial<Record<string, Partial<SkuStageDetail>>> = {
@@ -44,7 +48,8 @@ export function investorDemoFlowIsPristine(
 ): boolean {
   if (skuIds.length !== INVESTOR_DEMO_ARTICLE_IDS.length) return false;
   const want = new Set(INVESTOR_DEMO_ARTICLE_IDS);
-  if (!skuIds.every((id) => want.has(id as (typeof INVESTOR_DEMO_ARTICLE_IDS)[number]))) return false;
+  if (!skuIds.every((id) => want.has(id as (typeof INVESTOR_DEMO_ARTICLE_IDS)[number])))
+    return false;
   for (const skuId of skuIds) {
     const entry = doc.skus[skuId];
     if (!entry) return false;

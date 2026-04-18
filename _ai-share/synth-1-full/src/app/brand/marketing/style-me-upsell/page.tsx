@@ -27,7 +27,7 @@ export default function StyleMeUpsellPage() {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Post-Purchase Style-Me Upsell"
         description="Персональные подборки в мессенджер через 2 дня после покупки. Связь с CRM, заказами и контентом. При API — триггер по событию заказа + шаблоны подборок."
@@ -37,7 +37,11 @@ export default function StyleMeUpsellPage() {
         badges={<StyleMeUpsellBadges />}
       />
       <div className="flex items-center gap-3">
-        <Link href="/brand/kickstarter"><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+        <Link href="/brand/kickstarter">
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
         <h1 className="text-2xl font-bold uppercase">Style-Me Upsell</h1>
       </div>
 
@@ -46,21 +50,35 @@ export default function StyleMeUpsellPage() {
           <CardTitle className="flex items-center gap-2">
             <Send className="h-5 w-5" /> Кампании подборок
           </CardTitle>
-          <CardDescription>Отправка персональных подборок в Telegram / WhatsApp через N дней после покупки.</CardDescription>
+          <CardDescription>
+            Отправка персональных подборок в Telegram / WhatsApp через N дней после покупки.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <ul className="space-y-3">
             {campaigns.map((c) => (
-              <li key={c.id} className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+              <li
+                key={c.id}
+                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3"
+              >
                 <div>
                   <p className="font-medium">{c.name}</p>
-                  <p className="text-xs text-slate-500">Через {c.daysAfterPurchase} дн. · {c.channel}</p>
+                  <p className="text-xs text-slate-500">
+                    Через {c.daysAfterPurchase} дн. · {c.channel}
+                  </p>
                 </div>
-                <Badge variant={c.status === 'active' ? 'default' : 'outline'} className="text-[10px]">{statusLabels[c.status]}</Badge>
+                <Badge
+                  variant={c.status === 'active' ? 'default' : 'outline'}
+                  className="text-[10px]"
+                >
+                  {statusLabels[c.status]}
+                </Badge>
               </li>
             ))}
           </ul>
-          <p className="text-xs text-slate-400 mt-3">API: STYLE_ME_UPSELL_API — кампании, триггер по заказу, шаблоны.</p>
+          <p className="mt-3 text-xs text-slate-400">
+            API: STYLE_ME_UPSELL_API — кампании, триггер по заказу, шаблоны.
+          </p>
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getStyleMeUpsellLinks()} title="CRM, заказы, контент" />

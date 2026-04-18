@@ -22,57 +22,75 @@ export function ProductWholesaleTierBlock({ product }: { product: Product }) {
   const limitUsage = Math.round((profile.unpaidInvoices / profile.creditLine) * 100);
 
   return (
-    <Card className="p-4 border-2 border-indigo-100 bg-indigo-50/5 shadow-sm my-4 relative overflow-hidden">
-      <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-         <Gem className="w-16 h-16 text-indigo-600" />
+    <Card className="relative my-4 overflow-hidden border-2 border-indigo-100 bg-indigo-50/5 p-4 shadow-sm">
+      <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-5">
+        <Gem className="h-16 w-16 text-indigo-600" />
       </div>
 
-      <div className="flex items-center justify-between mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-indigo-600">
-          <Gem className="w-4 h-4" />
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">Wholesale Partner Hub</h4>
+          <Gem className="h-4 w-4" />
+          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
+            Wholesale Partner Hub
+          </h4>
         </div>
-        <Badge className={`${tierColors[profile.tier]} border-none uppercase text-[8px] font-black px-2.5 h-5 shadow-lg`}>
+        <Badge
+          className={`${tierColors[profile.tier]} h-5 border-none px-2.5 text-[8px] font-black uppercase shadow-lg`}
+        >
           {profile.tier} Tier
         </Badge>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mb-6">
-         <div className="p-3 bg-white rounded-xl border border-indigo-100 shadow-sm">
-            <div className="text-[8px] font-black text-slate-400 uppercase mb-1 tracking-widest flex items-center gap-1.5">
-               <Wallet className="w-3 h-3" /> Credit Line
-            </div>
-            <div className="text-lg font-black text-slate-800 leading-none">{(profile.availableLimit / 1000000).toFixed(1)}M <span className="text-xs">₽</span></div>
-            <div className="text-[7px] font-bold text-slate-400 mt-1 uppercase">Limit: {(profile.creditLine / 1000000).toFixed(0)}M</div>
-         </div>
-         <div className="p-3 bg-white rounded-xl border border-indigo-100 shadow-sm">
-            <div className="text-[8px] font-black text-slate-400 uppercase mb-1 tracking-widest flex items-center gap-1.5">
-               <ShieldCheck className="w-3 h-3" /> Net Payment
-            </div>
-            <div className="text-lg font-black text-slate-800 leading-none">30 <span className="text-xs">DAYS</span></div>
-            <div className="text-[7px] font-bold text-emerald-600 mt-1 uppercase tracking-tight">Postpaid active</div>
-         </div>
+      <div className="mb-6 grid grid-cols-2 gap-4">
+        <div className="rounded-xl border border-indigo-100 bg-white p-3 shadow-sm">
+          <div className="mb-1 flex items-center gap-1.5 text-[8px] font-black uppercase tracking-widest text-slate-400">
+            <Wallet className="h-3 w-3" /> Credit Line
+          </div>
+          <div className="text-lg font-black leading-none text-slate-800">
+            {(profile.availableLimit / 1000000).toFixed(1)}M <span className="text-xs">₽</span>
+          </div>
+          <div className="mt-1 text-[7px] font-bold uppercase text-slate-400">
+            Limit: {(profile.creditLine / 1000000).toFixed(0)}M
+          </div>
+        </div>
+        <div className="rounded-xl border border-indigo-100 bg-white p-3 shadow-sm">
+          <div className="mb-1 flex items-center gap-1.5 text-[8px] font-black uppercase tracking-widest text-slate-400">
+            <ShieldCheck className="h-3 w-3" /> Net Payment
+          </div>
+          <div className="text-lg font-black leading-none text-slate-800">
+            30 <span className="text-xs">DAYS</span>
+          </div>
+          <div className="mt-1 text-[7px] font-bold uppercase tracking-tight text-emerald-600">
+            Postpaid active
+          </div>
+        </div>
       </div>
 
-      <div className="space-y-1.5 mb-6">
-         <div className="flex justify-between items-center text-[8px] font-black text-slate-500 uppercase tracking-widest">
-            <span>Credit Exposure</span>
-            <span className={limitUsage > 80 ? "text-rose-500" : "text-slate-400"}>{limitUsage}% Used</span>
-         </div>
-         <Progress value={limitUsage} className="h-1 bg-slate-100 fill-indigo-600" />
+      <div className="mb-6 space-y-1.5">
+        <div className="flex items-center justify-between text-[8px] font-black uppercase tracking-widest text-slate-500">
+          <span>Credit Exposure</span>
+          <span className={limitUsage > 80 ? 'text-rose-500' : 'text-slate-400'}>
+            {limitUsage}% Used
+          </span>
+        </div>
+        <Progress value={limitUsage} className="h-1 bg-slate-100 fill-indigo-600" />
       </div>
 
-      <div className="p-3 bg-indigo-600/5 rounded-xl border border-indigo-100 flex items-center justify-between group cursor-pointer hover:bg-indigo-600/10 transition-colors">
-         <div className="flex items-center gap-3">
-            <div className="p-2 bg-white rounded-lg border border-indigo-100 shadow-sm">
-               <FileText className="w-4 h-4 text-indigo-500" />
+      <div className="group flex cursor-pointer items-center justify-between rounded-xl border border-indigo-100 bg-indigo-600/5 p-3 transition-colors hover:bg-indigo-600/10">
+        <div className="flex items-center gap-3">
+          <div className="rounded-lg border border-indigo-100 bg-white p-2 shadow-sm">
+            <FileText className="h-4 w-4 text-indigo-500" />
+          </div>
+          <div>
+            <div className="text-[10px] font-black uppercase tracking-tighter text-slate-800">
+              B2B Loyalty Points
             </div>
-            <div>
-               <div className="text-[10px] font-black text-slate-800 uppercase tracking-tighter">B2B Loyalty Points</div>
-               <div className="text-sm font-black text-indigo-700">{profile.loyaltyPoints.toLocaleString()} PTS</div>
+            <div className="text-sm font-black text-indigo-700">
+              {profile.loyaltyPoints.toLocaleString()} PTS
             </div>
-         </div>
-         <ArrowRight className="w-4 h-4 text-indigo-300 group-hover:text-indigo-600 transition-colors" />
+          </div>
+        </div>
+        <ArrowRight className="h-4 w-4 text-indigo-300 transition-colors group-hover:text-indigo-600" />
       </div>
     </Card>
   );

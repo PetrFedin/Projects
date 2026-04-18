@@ -24,17 +24,15 @@ export function EmptyStateB2B({
   return (
     <div
       className={cn(
-        'flex flex-col items-center justify-center py-12 px-6 text-center rounded-xl border border-dashed border-slate-200 bg-slate-50/30',
+        'flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50/30 px-6 py-12 text-center',
         className
       )}
     >
-      <div className="h-12 w-12 rounded-xl flex items-center justify-center bg-slate-100 text-slate-400 mb-4">
+      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-slate-400">
         <Icon className="h-6 w-6" />
       </div>
       <p className="text-sm font-semibold text-slate-700">{title}</p>
-      {description && (
-        <p className="text-xs text-slate-500 mt-1 max-w-xs">{description}</p>
-      )}
+      {description && <p className="mt-1 max-w-xs text-xs text-slate-500">{description}</p>}
       {action && <div className="mt-4">{action}</div>}
     </div>
   );

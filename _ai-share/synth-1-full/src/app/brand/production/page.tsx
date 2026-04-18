@@ -44,30 +44,91 @@ import { ProductionFloorContextBar } from '@/components/brand/production/Product
 import { CollectionWorkshopStageChain } from '@/components/brand/production/CollectionWorkshopStageChain';
 import type { CollectionModuleSaveEvent } from '@/components/brand/production/CollectionStepModuleDialog';
 import { cn } from '@/lib/utils';
-import { CheckCircle2, CircleDot, Factory, ArrowRight, PlusCircle, BarChart3, Play, FileText, Package, ClipboardCheck, Truck, Search, Download, AlertCircle, ListTodo, ShoppingBag, ShieldCheck, Camera, Ruler, ListTree, Activity } from 'lucide-react';
+import {
+  CheckCircle2,
+  CircleDot,
+  Factory,
+  ArrowRight,
+  PlusCircle,
+  BarChart3,
+  Play,
+  FileText,
+  Package,
+  ClipboardCheck,
+  Truck,
+  Search,
+  Download,
+  AlertCircle,
+  ListTodo,
+  ShoppingBag,
+  ShieldCheck,
+  Camera,
+  Ruler,
+  ListTree,
+  Activity,
+} from 'lucide-react';
 
 const LiveProcessPageBody = dynamic(
   () => import('@/components/live-process/LiveProcessPageBody').then((m) => m.LiveProcessPageBody),
-  { ssr: false, loading: () => <div className="p-8 text-center text-slate-400 text-sm">Загрузка LIVE…</div> }
+  {
+    ssr: false,
+    loading: () => <div className="p-8 text-center text-sm text-slate-400">Загрузка LIVE…</div>,
+  }
 );
 
-const GoldSampleContent = dynamic(() => import('@/app/brand/production/gold-sample/page'), { ssr: false });
+const GoldSampleContent = dynamic(() => import('@/app/brand/production/gold-sample/page'), {
+  ssr: false,
+});
 const QcAppContent = dynamic(() => import('@/app/brand/production/qc-app/page'), { ssr: false });
-const ReadyMadeContent = dynamic(() => import('@/app/brand/production/ready-made/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const FitCommentsContent = dynamic(() => import('@/app/brand/production/fit-comments/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const GanttContent = dynamic(() => import('@/app/brand/production/gantt/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const DailyOutputContent = dynamic(() => import('@/app/brand/production/daily-output/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const WorkerSkillsContent = dynamic(() => import('@/app/brand/production/worker-skills/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const MilestonesVideoContent = dynamic(() => import('@/app/brand/production/milestones-video/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const SubcontractorContent = dynamic(() => import('@/app/brand/production/subcontractor/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const VmiContent = dynamic(() => import('@/app/brand/vmi/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const MaterialReservationContent = dynamic(() => import('@/app/brand/materials/reservation/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const ProductionLiveContent = dynamic(() => import('@/app/brand/production/operations/page').then(m => m.default), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
-const QualityLiveContent = dynamic(
-  () => import('@/components/brand/quality/BrandQualityDeskBody').then((m) => m.BrandQualityDeskBody),
+const ReadyMadeContent = dynamic(
+  () => import('@/app/brand/production/ready-made/page').then((m) => m.default),
   { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
 );
-const NestingContent = dynamic(() => import('@/app/brand/production/nesting/nesting-page-body').then((m) => m.NestingPageBody), { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> });
+const FitCommentsContent = dynamic(
+  () => import('@/app/brand/production/fit-comments/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
+);
+const GanttContent = dynamic(
+  () => import('@/app/brand/production/gantt/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
+);
+const DailyOutputContent = dynamic(
+  () => import('@/app/brand/production/daily-output/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
+);
+const WorkerSkillsContent = dynamic(
+  () => import('@/app/brand/production/worker-skills/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
+);
+const MilestonesVideoContent = dynamic(
+  () => import('@/app/brand/production/milestones-video/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
+);
+const SubcontractorContent = dynamic(
+  () => import('@/app/brand/production/subcontractor/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
+);
+const VmiContent = dynamic(() => import('@/app/brand/vmi/page').then((m) => m.default), {
+  ssr: false,
+  loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div>,
+});
+const MaterialReservationContent = dynamic(
+  () => import('@/app/brand/materials/reservation/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
+);
+const ProductionLiveContent = dynamic(
+  () => import('@/app/brand/production/operations/page').then((m) => m.default),
+  { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
+);
+const QualityLiveContent = dynamic(
+  () =>
+    import('@/components/brand/quality/BrandQualityDeskBody').then((m) => m.BrandQualityDeskBody),
+  { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
+);
+const NestingContent = dynamic(
+  () => import('@/app/brand/production/nesting/nesting-page-body').then((m) => m.NestingPageBody),
+  { ssr: false, loading: () => <div className="p-8 text-center text-slate-400">Загрузка...</div> }
+);
 import { JOOR_DELIVERY_WINDOWS } from '@/lib/b2b/joor-constants';
 import products from '@/lib/products';
 import { initialOrderItems } from '@/lib/order-data';
@@ -80,7 +141,10 @@ import {
   PRODUCTION_FLOOR_STEPS,
   type ProductionFloorTabId,
 } from '@/lib/production/floor-flow';
-import { deriveStagesArticleFacets, stagesArticleDisplayLabel } from '@/lib/production/stages-tab-facets';
+import {
+  deriveStagesArticleFacets,
+  stagesArticleDisplayLabel,
+} from '@/lib/production/stages-tab-facets';
 import {
   buildInvestorDemoFlowDoc,
   investorDemoFlowIsPristine,
@@ -154,16 +218,39 @@ export interface CollectionArticle {
   primaryOrderRef?: string;
 }
 
-
 /** Мок: список коллекций для провала — все, по которым велась или ведётся работа */
-const MOCK_COLLECTIONS: { id: string; name: string; status: 'draft' | 'in_progress' | 'done'; articleCount: number; progressPct: number }[] = [
+const MOCK_COLLECTIONS: {
+  id: string;
+  name: string;
+  status: 'draft' | 'in_progress' | 'done';
+  articleCount: number;
+  progressPct: number;
+}[] = [
   { id: '', name: 'По умолчанию', status: 'in_progress', articleCount: 3, progressPct: 45 },
-  { id: 'Investor', name: 'Демо для инвесторов', status: 'in_progress', articleCount: 3, progressPct: 52 },
+  {
+    id: 'Investor',
+    name: 'Демо для инвесторов',
+    status: 'in_progress',
+    articleCount: 3,
+    progressPct: 52,
+  },
   { id: 'New', name: 'Новая (черновик)', status: 'draft', articleCount: 0, progressPct: 0 },
-  { id: 'FW26-Main', name: 'FW26 Основная', status: 'in_progress', articleCount: 12, progressPct: 70 },
+  {
+    id: 'FW26-Main',
+    name: 'FW26 Основная',
+    status: 'in_progress',
+    articleCount: 12,
+    progressPct: 70,
+  },
   { id: 'SS27', name: 'SS27', status: 'in_progress', articleCount: 3, progressPct: 48 },
   { id: 'SS26', name: 'SS26', status: 'draft', articleCount: 5, progressPct: 20 },
-  { id: 'FW25-Archive', name: 'FW25 (завершена)', status: 'done', articleCount: 24, progressPct: 100 },
+  {
+    id: 'FW25-Archive',
+    name: 'FW25 (завершена)',
+    status: 'done',
+    articleCount: 24,
+    progressPct: 100,
+  },
 ];
 
 export default function BrandProductionCollectionFlowPage() {
@@ -174,7 +261,9 @@ export default function BrandProductionCollectionFlowPage() {
   const effectiveCollectionId = collectionIdFromQuery || 'default';
   /** Демо-коллекция Investor делит с «по умолчанию» один flow в localStorage (те же три SKU). */
   const collectionFlowKey =
-    !collectionIdFromQuery || collectionIdFromQuery === 'Investor' ? 'default' : collectionIdFromQuery;
+    !collectionIdFromQuery || collectionIdFromQuery === 'Investor'
+      ? 'default'
+      : collectionIdFromQuery;
 
   const [unifiedDoc, setUnifiedDoc] = useState<CollectionSkuFlowDoc>(() => ({ v: 1, skus: {} }));
   /** Один раз на collectionFlowKey: подставить демо-статусы для трёх инвесторских SKU, если пайплайн ещё «чистый». */
@@ -228,7 +317,10 @@ export default function BrandProductionCollectionFlowPage() {
     const p = new URLSearchParams(searchParams.toString());
     p.delete('floorTab');
     const q = p.toString();
-    router.replace(q ? `${ROUTES.brand.productionWorkshop2}?${q}` : ROUTES.brand.productionWorkshop2, { scroll: false });
+    router.replace(
+      q ? `${ROUTES.brand.productionWorkshop2}?${q}` : ROUTES.brand.productionWorkshop2,
+      { scroll: false }
+    );
   }, [router, searchParams]);
 
   const handleLiveContextCollectionChange = useCallback(
@@ -302,17 +394,20 @@ export default function BrandProductionCollectionFlowPage() {
 
   const pendingFocusLocalSkuRef = useRef<string | null>(null);
 
-  const pushUserCollection = useCallback((rawId: string, displayName: string) => {
-    const idRef = { current: '' };
-    setLocalInventory((prev) => {
-      const { inventory, id } = registerUserCollection(prev, rawId, displayName);
-      idRef.current = id;
-      return inventory;
-    });
-    queueMicrotask(() => {
-      router.push(`/brand/production?collectionId=${encodeURIComponent(idRef.current)}`);
-    });
-  }, [router]);
+  const pushUserCollection = useCallback(
+    (rawId: string, displayName: string) => {
+      const idRef = { current: '' };
+      setLocalInventory((prev) => {
+        const { inventory, id } = registerUserCollection(prev, rawId, displayName);
+        idRef.current = id;
+        return inventory;
+      });
+      queueMicrotask(() => {
+        router.push(`/brand/production?collectionId=${encodeURIComponent(idRef.current)}`);
+      });
+    },
+    [router]
+  );
 
   const handleCollectionChange = (value: string) => {
     if (value === '__new__') {
@@ -408,9 +503,13 @@ export default function BrandProductionCollectionFlowPage() {
     if (!cid) return;
     if (!localInventory.userCollections.some((c) => c.id === cid)) return;
     const toRemove = localInventory.articlesByCollection[cid] ?? [];
-    if (typeof window !== 'undefined' && !window.confirm(
-      `Удалить локальную коллекцию «${cid}» и все её артикулы (${toRemove.length} шт.)? Это действие нельзя отменить.`
-    )) return;
+    if (
+      typeof window !== 'undefined' &&
+      !window.confirm(
+        `Удалить локальную коллекцию «${cid}» и все её артикулы (${toRemove.length} шт.)? Это действие нельзя отменить.`
+      )
+    )
+      return;
     setLocalInventory((inv) => removeUserCollectionFromInventory(inv, cid));
     setUnifiedDoc((d) => {
       let next = d;
@@ -445,7 +544,10 @@ export default function BrandProductionCollectionFlowPage() {
     if (!parsed) return { ok: false as const, message: 'Файл не похож на валидный экспорт (v1).' };
     if (replaceAll) {
       setLocalInventory(parsed);
-      return { ok: true as const, message: 'Данные заменены целиком. Обновите при необходимости flow по коллекциям.' };
+      return {
+        ok: true as const,
+        message: 'Данные заменены целиком. Обновите при необходимости flow по коллекциям.',
+      };
     }
     setLocalInventory((base) => mergeImportInventories(base, parsed));
     return { ok: true as const, message: 'Импорт объединён с текущими черновиками.' };
@@ -481,29 +583,103 @@ export default function BrandProductionCollectionFlowPage() {
       const complete = new Date(w.completeShipDate);
       const cancel = w.cancelDate ? new Date(w.cancelDate) : undefined;
       const daysToStart = Math.round((start.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-      const daysToCancel = cancel ? Math.round((cancel.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)) : undefined;
+      const daysToCancel = cancel
+        ? Math.round((cancel.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+        : undefined;
       const isPast = complete.getTime() < today.getTime();
       const isActive = !isPast && start.getTime() <= today.getTime();
       const isUpcoming = !isPast && start.getTime() > today.getTime();
-      return { ...w, start, complete, cancel, daysToStart, daysToCancel, isPast, isActive, isUpcoming };
+      return {
+        ...w,
+        start,
+        complete,
+        cancel,
+        daysToStart,
+        daysToCancel,
+        isPast,
+        isActive,
+        isUpcoming,
+      };
     });
   }, [today.getTime()]);
 
   // Mock data for QC / milestones / subcontractor linked to PO-201/202 which use items from initialOrderItems.
   const mockQcInspections: QcInspection[] = [
-    { id: 'qc1', orderId: 'PO-201', aqlLevel: '2.5', status: 'passed', inspectedCount: 80, defectCount: 0, defects: [], inspectedAt: '2026-03-10T14:00:00Z' },
-    { id: 'qc2', orderId: 'PO-202', aqlLevel: '4.0', status: 'rework', inspectedCount: 120, defectCount: 3, defects: [{ id: 'd1', type: 'пятно', severity: 'major', position: 'спинка' }], inspectedAt: '2026-03-11T09:00:00Z' },
+    {
+      id: 'qc1',
+      orderId: 'PO-201',
+      aqlLevel: '2.5',
+      status: 'passed',
+      inspectedCount: 80,
+      defectCount: 0,
+      defects: [],
+      inspectedAt: '2026-03-10T14:00:00Z',
+    },
+    {
+      id: 'qc2',
+      orderId: 'PO-202',
+      aqlLevel: '4.0',
+      status: 'rework',
+      inspectedCount: 120,
+      defectCount: 3,
+      defects: [{ id: 'd1', type: 'пятно', severity: 'major', position: 'спинка' }],
+      inspectedAt: '2026-03-11T09:00:00Z',
+    },
   ] as any;
 
   const mockMilestones: MilestoneWithVideo[] = [
-    { id: 'm1', orderId: 'PO-201', milestoneType: 'cutting_done', milestoneLabel: 'Раскрой завершён', status: 'approved', completedAt: '2026-03-09T12:00:00Z', approvedAt: '2026-03-09T14:00:00Z' },
-    { id: 'm2', orderId: 'PO-201', milestoneType: 'assembly_done', milestoneLabel: 'Сборка завершена', status: 'video_uploaded', completedAt: '2026-03-10T18:00:00Z' },
-    { id: 'm3', orderId: 'PO-201', milestoneType: 'final_qc', milestoneLabel: 'Финальный ОК', status: 'pending' },
+    {
+      id: 'm1',
+      orderId: 'PO-201',
+      milestoneType: 'cutting_done',
+      milestoneLabel: 'Раскрой завершён',
+      status: 'approved',
+      completedAt: '2026-03-09T12:00:00Z',
+      approvedAt: '2026-03-09T14:00:00Z',
+    },
+    {
+      id: 'm2',
+      orderId: 'PO-201',
+      milestoneType: 'assembly_done',
+      milestoneLabel: 'Сборка завершена',
+      status: 'video_uploaded',
+      completedAt: '2026-03-10T18:00:00Z',
+    },
+    {
+      id: 'm3',
+      orderId: 'PO-201',
+      milestoneType: 'final_qc',
+      milestoneLabel: 'Финальный ОК',
+      status: 'pending',
+    },
   ];
 
   const mockSubOrders: SubcontractOrder[] = [
-    { id: 's1', subcontractorId: 'sc1', subcontractorName: 'Ателье «Стиль»', orderId: 'PO-201', workType: 'sewing', workTypeLabel: 'Пошив', quantity: 500, unit: 'шт', status: 'in_progress', requestedAt: '2026-03-05T10:00:00Z' },
-    { id: 's2', subcontractorId: 'sc2', subcontractorName: 'Раскройный цех №2', orderId: 'PO-202', workType: 'cutting', workTypeLabel: 'Раскрой', quantity: 1200, unit: 'шт', status: 'completed', requestedAt: '2026-03-01T08:00:00Z', completedAt: '2026-03-08T17:00:00Z' },
+    {
+      id: 's1',
+      subcontractorId: 'sc1',
+      subcontractorName: 'Ателье «Стиль»',
+      orderId: 'PO-201',
+      workType: 'sewing',
+      workTypeLabel: 'Пошив',
+      quantity: 500,
+      unit: 'шт',
+      status: 'in_progress',
+      requestedAt: '2026-03-05T10:00:00Z',
+    },
+    {
+      id: 's2',
+      subcontractorId: 'sc2',
+      subcontractorName: 'Раскройный цех №2',
+      orderId: 'PO-202',
+      workType: 'cutting',
+      workTypeLabel: 'Раскрой',
+      quantity: 1200,
+      unit: 'шт',
+      status: 'completed',
+      requestedAt: '2026-03-01T08:00:00Z',
+      completedAt: '2026-03-08T17:00:00Z',
+    },
   ];
 
   const qcSummary = useMemo(() => {
@@ -511,7 +687,9 @@ export default function BrandProductionCollectionFlowPage() {
     const inspections = mockQcInspections;
     const total = inspections.length;
     const passed = inspections.filter((i) => i.status === 'passed').length;
-    const withIssues = inspections.filter((i) => i.defectCount > 0 || i.status === 'rework' || i.status === 'rejected').length;
+    const withIssues = inspections.filter(
+      (i) => i.defectCount > 0 || i.status === 'rework' || i.status === 'rejected'
+    ).length;
     return { total, passed, withIssues };
   }, []);
 
@@ -594,7 +772,8 @@ export default function BrandProductionCollectionFlowPage() {
     const items = itemsForCollection as any[];
     return items.map((item, idx) => {
       const skuKey = String(item.id);
-      const currentStageId = getSkuDataGatedCurrentStepId(flowDocReady, skuKey, stepIdsCatalog) || stepIdsCatalog[0];
+      const currentStageId =
+        getSkuDataGatedCurrentStepId(flowDocReady, skuKey, stepIdsCatalog) || stepIdsCatalog[0];
       const qty = item.orderedQuantity ?? 30;
       const price = typeof item.price === 'number' ? item.price : (item.price ?? 0);
       const wholesalePrice = price * 0.4;
@@ -602,7 +781,8 @@ export default function BrandProductionCollectionFlowPage() {
       const skuStr = (item.sku ?? item.id) as string;
       const seasonStr = (item.season ?? facets.season ?? '') as string;
       const orderFromItem =
-        (item as { primaryOrderRef?: string; orderRef?: string; poNumber?: string }).primaryOrderRef ??
+        (item as { primaryOrderRef?: string; orderRef?: string; poNumber?: string })
+          .primaryOrderRef ??
         (item as { orderRef?: string }).orderRef ??
         (item as { poNumber?: string }).poNumber;
       return {
@@ -610,7 +790,9 @@ export default function BrandProductionCollectionFlowPage() {
         sku: skuStr,
         name: item.name ?? 'Без названия',
         currentStageId,
-        primaryOrderRef: orderFromItem ? String(orderFromItem) : derivePrimaryOrderRef(seasonStr, idx),
+        primaryOrderRef: orderFromItem
+          ? String(orderFromItem)
+          : derivePrimaryOrderRef(seasonStr, idx),
         forecastQty: qty,
         forecastRevenue: qty * wholesalePrice,
         deliveryWindowId: item.deliveryWindowId ?? 'drop1',
@@ -734,7 +916,9 @@ export default function BrandProductionCollectionFlowPage() {
     return map;
   }, []);
 
-  const collectionQuery = collectionIdFromQuery ? `?collectionId=${encodeURIComponent(collectionIdFromQuery)}` : '';
+  const collectionQuery = collectionIdFromQuery
+    ? `?collectionId=${encodeURIComponent(collectionIdFromQuery)}`
+    : '';
 
   const suppliesFloorHref = useMemo(
     () =>
@@ -779,22 +963,30 @@ export default function BrandProductionCollectionFlowPage() {
   }, [collectionIdFromQuery]);
 
   const b2bLinesheetsHref = useMemo(
-    () => (collectionQuery ? `${ROUTES.brand.b2bLinesheets}${collectionQuery}` : ROUTES.brand.b2bLinesheets),
+    () =>
+      collectionQuery
+        ? `${ROUTES.brand.b2bLinesheets}${collectionQuery}`
+        : ROUTES.brand.b2bLinesheets,
     [collectionQuery]
   );
 
   const factoriesHref = useMemo(
-    () => (collectionQuery ? `${ROUTES.brand.factories}${collectionQuery}` : ROUTES.brand.factories),
+    () =>
+      collectionQuery ? `${ROUTES.brand.factories}${collectionQuery}` : ROUTES.brand.factories,
     [collectionQuery]
   );
 
   const warehouseHref = useMemo(
-    () => (collectionQuery ? `${ROUTES.brand.warehouse}${collectionQuery}` : ROUTES.brand.warehouse),
+    () =>
+      collectionQuery ? `${ROUTES.brand.warehouse}${collectionQuery}` : ROUTES.brand.warehouse,
     [collectionQuery]
   );
 
   const b2bShipmentsHref = useMemo(
-    () => (collectionQuery ? `${ROUTES.brand.b2bShipments}${collectionQuery}` : ROUTES.brand.b2bShipments),
+    () =>
+      collectionQuery
+        ? `${ROUTES.brand.b2bShipments}${collectionQuery}`
+        : ROUTES.brand.b2bShipments,
     [collectionQuery]
   );
 
@@ -878,12 +1070,22 @@ export default function BrandProductionCollectionFlowPage() {
         return stageOrder.indexOf(a.currentStageId) - stageOrder.indexOf(b.currentStageId);
       }
       if (articleSortBy === 'drop') {
-        return (dropOrder.indexOf(a.deliveryWindowId || '') - dropOrder.indexOf(b.deliveryWindowId || '')) || a.sku.localeCompare(b.sku);
+        return (
+          dropOrder.indexOf(a.deliveryWindowId || '') -
+            dropOrder.indexOf(b.deliveryWindowId || '') || a.sku.localeCompare(b.sku)
+        );
       }
       return b.forecastRevenue - a.forecastRevenue;
     });
     return list;
-  }, [collectionArticles, articleSearch, articleFilterStage, articleFilterDrop, articleFocusNeedsAttention, articleSortBy]);
+  }, [
+    collectionArticles,
+    articleSearch,
+    articleFilterStage,
+    articleFilterDrop,
+    articleFocusNeedsAttention,
+    articleSortBy,
+  ]);
 
   const needsAttentionCount = useMemo(
     () => collectionArticles.filter((a) => !a.techPackDone || !a.poDone).length,
@@ -909,7 +1111,9 @@ export default function BrandProductionCollectionFlowPage() {
     ];
     const rows = displayedArticles.map((a) => {
       const step = COLLECTION_STEPS.find((s) => s.id === a.currentStageId);
-      const dropLabel = a.deliveryWindowId ? dropLabelById[a.deliveryWindowId] ?? a.deliveryWindowId : '';
+      const dropLabel = a.deliveryWindowId
+        ? (dropLabelById[a.deliveryWindowId] ?? a.deliveryWindowId)
+        : '';
       return [
         a.sku,
         a.season,
@@ -927,7 +1131,10 @@ export default function BrandProductionCollectionFlowPage() {
         a.ready ? 'Да' : 'Нет',
       ];
     });
-    const csv = [headers.join(';'), ...rows.map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(';'))].join('\n');
+    const csv = [
+      headers.join(';'),
+      ...rows.map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(';')),
+    ].join('\n');
     const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -945,7 +1152,13 @@ export default function BrandProductionCollectionFlowPage() {
     const noPo = collectionArticles.filter((a) => !a.poDone).length;
     const notReady = collectionArticles.filter((a) => !a.ready).length;
     if (collectionArticles.length === 0) {
-      items.push({ id: 'add', label: 'Добавить артикулы в коллекцию', count: 0, href: ROUTES.brand.products, done: false });
+      items.push({
+        id: 'add',
+        label: 'Добавить артикулы в коллекцию',
+        count: 0,
+        href: ROUTES.brand.products,
+        done: false,
+      });
     } else {
       if (noTechPack > 0) {
         items.push({
@@ -955,14 +1168,36 @@ export default function BrandProductionCollectionFlowPage() {
           href: `${ROUTES.brand.productionTechPackStyle('new')}${collectionQuery}`,
           done: false,
         });
-      }
-      else items.push({ id: 'tp', label: 'Tech Pack по всем артикулам готов', count: 0, done: true });
-      if (noSamples > 0) items.push({ id: 'sm', label: `Сэмплы / Gold Sample (${noSamples} арт.)`, count: noSamples, href: floorHref('sample'), done: false });
+      } else
+        items.push({ id: 'tp', label: 'Tech Pack по всем артикулам готов', count: 0, done: true });
+      if (noSamples > 0)
+        items.push({
+          id: 'sm',
+          label: `Сэмплы / Gold Sample (${noSamples} арт.)`,
+          count: noSamples,
+          href: floorHref('sample'),
+          done: false,
+        });
       else items.push({ id: 'sm', label: 'Сэмплы по всем артикулам готовы', count: 0, done: true });
-      if (noPo > 0) items.push({ id: 'po', label: `Выставить PO в производство (${noPo} арт.)`, count: noPo, href: floorHref('plan'), done: false });
+      if (noPo > 0)
+        items.push({
+          id: 'po',
+          label: `Выставить PO в производство (${noPo} арт.)`,
+          count: noPo,
+          href: floorHref('plan'),
+          done: false,
+        });
       else items.push({ id: 'po', label: 'PO по всем артикулам выставлены', count: 0, done: true });
-      if (notReady > 0) items.push({ id: 'ready', label: `Готовый товар на склад (${notReady} в процессе)`, count: notReady, href: floorHref('receipt'), done: false });
-      else items.push({ id: 'ready', label: 'Все артикулы приняты на склад', count: 0, done: true });
+      if (notReady > 0)
+        items.push({
+          id: 'ready',
+          label: `Готовый товар на склад (${notReady} в процессе)`,
+          count: notReady,
+          href: floorHref('receipt'),
+          done: false,
+        });
+      else
+        items.push({ id: 'ready', label: 'Все артикулы приняты на склад', count: 0, done: true });
     }
     return items;
   }, [collectionArticles, collectionQuery, floorHref]);
@@ -1084,33 +1319,35 @@ export default function BrandProductionCollectionFlowPage() {
   return (
     <div
       className={cn(
-        'container mx-auto px-4 py-6 pb-24 space-y-6',
+        'container mx-auto space-y-6 px-4 py-6 pb-24',
         tab === 'stages' ? 'max-w-7xl' : 'max-w-5xl'
       )}
     >
       <TooltipProvider delayDuration={280}>
         <Tabs value={tab} onValueChange={setTab} className="w-full">
-          <TabsList className="bg-slate-50 border border-slate-200 h-auto px-1 py-1 gap-1 overflow-x-auto flex-wrap justify-start">
+          <TabsList className="h-auto flex-wrap justify-start gap-1 overflow-x-auto border border-slate-200 bg-slate-50 px-1 py-1">
             <ProductionFloorTabWithHint
               tab="stages"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
-              className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5"
+              className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
             >
               <ListTree className="h-3.5 w-3.5 shrink-0" />
-              <span className="max-w-[9rem] leading-tight sm:whitespace-nowrap">Этапы и зависимости</span>
+              <span className="max-w-[9rem] leading-tight sm:whitespace-nowrap">
+                Этапы и зависимости
+              </span>
               {stagesFilterOn ? <StagesContextFilterPulseIcon /> : null}
             </ProductionFloorTabWithHint>
             <ProductionFloorTabWithHint
               tab="live"
-              className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5"
+              className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
             >
               <Activity className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">LIVE · схема</span>
             </ProductionFloorTabWithHint>
             <ProductionFloorTabWithHint
               tab="workshop"
-              className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5"
+              className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
             >
               <Factory className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">Коллекция</span>
@@ -1119,7 +1356,7 @@ export default function BrandProductionCollectionFlowPage() {
               tab="supplies"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
-              className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5"
+              className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
             >
               <Package className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">Снабжение</span>
@@ -1128,7 +1365,7 @@ export default function BrandProductionCollectionFlowPage() {
               tab="sample"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
-              className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5"
+              className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
             >
               <ShieldCheck className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">Эталон · fit</span>
@@ -1137,7 +1374,7 @@ export default function BrandProductionCollectionFlowPage() {
               tab="plan"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
-              className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5"
+              className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
             >
               <BarChart3 className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">План · PO</span>
@@ -1146,7 +1383,7 @@ export default function BrandProductionCollectionFlowPage() {
               tab="nesting"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
-              className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5"
+              className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
             >
               <Ruler className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">Nesting AI</span>
@@ -1155,7 +1392,7 @@ export default function BrandProductionCollectionFlowPage() {
               tab="launch"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
-              className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5"
+              className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
             >
               <Play className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">Выпуск</span>
@@ -1164,7 +1401,7 @@ export default function BrandProductionCollectionFlowPage() {
               tab="quality"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
-              className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5"
+              className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
             >
               <Camera className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">ОТК</span>
@@ -1173,7 +1410,7 @@ export default function BrandProductionCollectionFlowPage() {
               tab="receipt"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
-              className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5"
+              className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
             >
               <Truck className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">Склад</span>
@@ -1182,702 +1419,1117 @@ export default function BrandProductionCollectionFlowPage() {
               tab="ops"
               disabled={!articleContextValid}
               disabledHint={articleRequiredTabHint}
-              className="text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 gap-1.5"
+              className="h-7 gap-1.5 text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
             >
               <ClipboardCheck className="h-3.5 w-3.5 shrink-0" />
               <span className="whitespace-nowrap">Операции</span>
             </ProductionFloorTabWithHint>
           </TabsList>
 
-        <ProductionFloorContextBar
-          className="mt-3"
-          collectionLabel={collectionLabel}
-          collectionId={collectionIdFromQuery}
-          stagesSkuId={stagesSkuContextId}
-          stagesSkuLine={stagesSkuContextLine}
-          stagesStepId={stagesStepContextId}
-          stagesStepTitle={stagesStepContextTitle}
-          skuCatalogStageTitle={stagesSkuCatalogContext?.title}
-          skuCatalogStagePhase={stagesSkuCatalogContext?.phase}
-          skuCatalogPositionLabel={stagesSkuCatalogContext?.positionLabel}
-          fullPageUrl={productionFullPageUrl}
-          stagesTabHref={floorHref('stages')}
-          currentTab={tab}
-          currentTabTitle={getProductionFloorTabTitle(tab)}
-        />
-
-        <TabsContent value="stages" className="mt-4 space-y-6">
-          {tab === 'stages' && (
-            <StagesDependenciesTabContent
-              key={collectionFlowKey}
-              collectionArticles={collectionArticles}
-              flowDoc={flowDocReady}
-              steps={COLLECTION_STEPS}
-              collectionQuery={collectionQuery}
-              floorHref={floorHref}
-              mergeCollectionQuery={mergeCollectionQuery}
-              setUnifiedDoc={setUnifiedDoc}
-              getProductionFloorTabTitle={getProductionFloorTabTitle}
-              collectionFlowKey={collectionFlowKey}
-              localInventoryTools={
-                {
-                  collectionId: collectionIdFromQuery,
-                  totalArticlesInCollection: collectionArticles.length,
-                  localRemovableArticles,
-                  isUserDefinedCollection,
-                  onAddArticle: pushLocalArticle,
-                  onCreateCollection: pushUserCollection,
-                  onRemoveLocalArticle: removeLocalArticle,
-                  onRemoveUserCollection: removeCurrentUserCollection,
-                  onExportInventory: exportLocalInventory,
-                  onImportInventory: importLocalInventory,
-                  isSkuDuplicate: isLocalSkuDuplicate,
-                  onExportUnifiedFlow: exportUnifiedFlowJson,
-                } satisfies StagesLocalInventoryToolsInput
-              }
-            />
-          )}
-        </TabsContent>
-
-        <TabsContent value="live" className="mt-4 space-y-4">
-          {tab === 'live' && (
-            <LiveProcessPageBody
-              processId="production"
-              embedded
-              workshopCollectionId={collectionIdFromQuery}
-              onWorkshopCollectionChange={handleLiveContextCollectionChange}
-            />
-          )}
-        </TabsContent>
-
-        <TabsContent value="workshop" className="mt-4 space-y-6">
-      <Card className="border-indigo-200 bg-indigo-50/35">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm uppercase tracking-tight text-indigo-950">Единый производственный хаб</CardTitle>
-          <CardDescription className="text-xs leading-relaxed text-slate-700">
-            Сначала коллекция, затем артикул. Вкладки «Этапы», «Снабжение», «Эталон», «План», «Выпуск», «ОТК», «Склад» и «Операции» открываются только после выбора артикула в таблице ниже —{' '}
-            <strong className="text-slate-900">«В цех · процесс»</strong>. Вкладка «LIVE · схема» доступна без артикула (обзор по коллекции). Раздел готовых к продаже продуктов и B2B/B2C — отдельно позже.
-          </CardDescription>
-        </CardHeader>
-        {articleContextValid && stagesSkuContextLine ? (
-          <CardContent className="pt-0 flex flex-wrap items-center gap-2">
-            <Badge variant="secondary" className="text-[10px] font-semibold">
-              В работе: {stagesSkuContextLine}
-            </Badge>
-            <Button type="button" variant="outline" size="sm" className="h-7 text-[10px]" onClick={() => setTab('stages')}>
-              К этапам и модулям этого артикула
-            </Button>
-          </CardContent>
-        ) : null}
-      </Card>
-
-      {/* —— Мои коллекции: все, по которым велась или ведётся работа; провал в одну —— */}
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm uppercase tracking-tight flex items-center gap-2">
-            <Factory className="h-4 w-4" /> Работа по коллекциям
-          </CardTitle>
-          <CardDescription className="text-xs">
-            Выберите коллекцию. Дальше в таблице артикулов нажмите «В цех · процесс», чтобы вести полный контур производства по одному изделию за раз.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-            {workshopCollectionsDisplay.map((col) => {
-              const isCurrent = (col.id || 'default') === (collectionIdFromQuery || 'default');
-              const statusLabel = col.status === 'done' ? 'Завершена' : col.status === 'in_progress' ? 'В работе' : 'Черновик';
-              const statusClass = col.status === 'done' ? 'bg-emerald-100 text-emerald-800 border-emerald-200' : col.status === 'in_progress' ? 'bg-amber-100 text-amber-800 border-amber-200' : 'bg-slate-100 text-slate-600 border-slate-200';
-              return (
-                <Link key={col.id || 'default'} href={col.id === '' ? '/brand/production' : `/brand/production?collectionId=${encodeURIComponent(col.id)}`}>
-                  <Card className={cn('h-full transition-all hover:shadow-md border-2', isCurrent ? 'border-indigo-400 bg-indigo-50/50' : 'border-slate-100')}>
-                    <CardContent className="p-4">
-                      <p className="font-semibold text-slate-900 text-[12px] truncate">{col.name}</p>
-                      <Badge className={cn('mt-1.5 text-[9px] border', statusClass)}>{statusLabel}</Badge>
-                      <p className="text-[10px] text-slate-500 mt-2">Артикулов: <strong>{col.articleCount}</strong></p>
-                      <Progress value={col.progressPct} className="h-1.5 mt-1" />
-                      <p className="text-[9px] text-slate-400 mt-0.5">{col.progressPct}%</p>
-                      <p className={cn('mt-3 text-[10px] font-semibold text-center rounded-lg py-1.5', isCurrent ? 'bg-indigo-100 text-indigo-800' : 'bg-slate-100 text-slate-600')}>
-                        {isCurrent ? 'Открыта' : 'Открыть'}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </Link>
-              );
-            })}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* —— Инструменты производства: GANTT, отчёты смен, QC, компетенции, этапы с видео, субподряд, Nesting —— */}
-      <Card className="border-indigo-100 bg-indigo-50/30">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm uppercase tracking-tight flex items-center gap-2">
-            <ListTodo className="h-4 w-4" /> Инструменты производства
-          </CardTitle>
-          <CardDescription className="text-xs">
-            После выбора артикула («В цех · процесс») эти ссылки ведут в модули с тем же контекстом. Без артикула сначала откройте таблицу ниже.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-2">
-            <Button asChild variant="outline" size="sm" className="text-[10px] h-8">
-              <Link href={floorHref('plan')}>GANTT · план PO</Link>
-            </Button>
-            <Button asChild variant="outline" size="sm" className="text-[10px] h-8">
-              <Link href={floorHref('launch')}>Выпуск · смены</Link>
-            </Button>
-            <Button asChild variant="outline" size="sm" className="text-[10px] h-8">
-              <Link href={floorHref('quality')}>ОТК · мобильное</Link>
-            </Button>
-            <Button asChild variant="outline" size="sm" className="text-[10px] h-8">
-              <Link href={floorHref('supplies')}>VMI · бронь материалов</Link>
-            </Button>
-            <Button asChild variant="outline" size="sm" className="text-[10px] h-8">
-              <Link href={floorHref('nesting')}>Nesting AI · раскрой</Link>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* —— Поэтапная схема: одна коллекция проходит этапы 1→2→…→N; артикулы и быстрые действия — инструменты —— */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-sm uppercase tracking-tight">Поэтапная схема: от идеи до склада</CardTitle>
-          <CardDescription className="text-xs">
-            <strong>Что это:</strong> цепочка ниже — те же этапы и тот же порядок, что в матрице «Этапы и зависимости» (<code className="rounded bg-slate-100 px-1 text-[10px]">COLLECTION_STEPS</code>
-            ). Переход артикула к следующему шагу в работе определяется графом зависимостей (<code className="rounded bg-slate-100 px-1 text-[10px]">dependsOn</code>
-            ), а не только номером карточки. Выберите коллекцию выше (карточки «Работа по коллекциям»). По <strong>названию этапа</strong> — модуль: поля, вложения, журнал; «В модуль» — переход в экран этапа. В блоке <strong>«Артикулы коллекции»</strong> — таблица и текущий этап. <strong>«Быстрые действия»</strong> — добавление артикулов, прогноз, запуск.
-          </CardDescription>
-          <div className="flex flex-wrap gap-2 pt-2">
-            <Button asChild variant="outline" size="sm" className="text-[10px] h-8">
-              <Link href={floorHref('stages')}>Этапы и зависимости: матрица, статусы, ссылки →</Link>
-            </Button>
-            <Button asChild variant="outline" size="sm" className="text-[10px] h-8">
-              <Link href={processLiveUrl('production', effectiveCollectionId)}>LIVE process: ответственные, даты, календарь, обсуждения →</Link>
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-[11px] text-slate-600 rounded-lg bg-slate-50 p-3 border border-slate-100">
-            Текущая коллекция: <strong>{collectionLabel}</strong>. Прогресс по этапам: <strong>{completedCount}</strong> из {COLLECTION_STEPS.length} (этап считается «готово», когда все артикулы в коллекции закрыли этап). Детали по ответственным, деньгам и выходам — на вкладке «Этапы» в блоке «По артикулам».
-          </p>
-
-          <CollectionWorkshopStageChain
-            steps={COLLECTION_STEPS}
-            collectionFlowKey={collectionFlowKey}
-            collectionId={collectionIdFromQuery}
+          <ProductionFloorContextBar
+            className="mt-3"
             collectionLabel={collectionLabel}
-            pimCollectionHref={collectionQuery ? `${ROUTES.brand.products}${collectionQuery}` : ROUTES.brand.products}
-            workshopCollectionHref={collectionQuery ? `/brand/production${collectionQuery}` : '/brand/production'}
-            budgetActualHref={
-              collectionQuery ? `${ROUTES.brand.budgetActual}${collectionQuery}` : ROUTES.brand.budgetActual
-            }
-            materialsHref={collectionQuery ? `${ROUTES.brand.materials}${collectionQuery}` : ROUTES.brand.materials}
-            mediaHref={collectionQuery ? `${ROUTES.brand.media}${collectionQuery}` : ROUTES.brand.media}
-            techPackHref={
-              collectionQuery
-                ? `${ROUTES.brand.productionTechPackStyle('new')}${collectionQuery}`
-                : ROUTES.brand.productionTechPackStyle('new')
-            }
-            liveProcessHref={liveProcessHref}
-            suppliesFloorHref={suppliesFloorHref}
-            sampleFloorHref={sampleFloorHref}
-            workshopFloorTabHrefs={workshopFloorTabHrefs}
-            b2bLinesheetsHref={b2bLinesheetsHref}
-            factoriesHref={factoriesHref}
-            warehouseHref={warehouseHref}
-            b2bShipmentsHref={b2bShipmentsHref}
-            liveB2bHref={liveB2bHref}
-            esgHref={esgHref}
-            chainDeepLinkHrefs={chainDeepLinkHrefs}
-            articlesByStage={articlesByStage}
-            aggregateStatus={aggregateStatus}
-            onAfterModuleSave={handleCollectionModuleSaved}
-            hrefWithCollection={(step) => {
-              if (!step.href) return null;
-              return collectionQuery
-                ? `${step.href}${step.href.includes('?') ? '&' : '?'}${collectionQuery.slice(1)}`
-                : step.href;
-            }}
+            collectionId={collectionIdFromQuery}
+            stagesSkuId={stagesSkuContextId}
+            stagesSkuLine={stagesSkuContextLine}
+            stagesStepId={stagesStepContextId}
+            stagesStepTitle={stagesStepContextTitle}
+            skuCatalogStageTitle={stagesSkuCatalogContext?.title}
+            skuCatalogStagePhase={stagesSkuCatalogContext?.phase}
+            skuCatalogPositionLabel={stagesSkuCatalogContext?.positionLabel}
+            fullPageUrl={productionFullPageUrl}
+            stagesTabHref={floorHref('stages')}
+            currentTab={tab}
+            currentTabTitle={getProductionFloorTabTitle(tab)}
           />
 
-          <div className="flex flex-wrap items-center gap-2 text-[10px]">
-            <span className="text-slate-500">Текущая коллекция:</span>
-            <select
-              value={collectionIdFromQuery}
-              onChange={(e) => handleCollectionChange(e.target.value)}
-              className="rounded-lg border border-slate-200 px-2 py-1.5 text-[10px] bg-white"
-            >
-              <option value="">По умолчанию</option>
-              {collectionSelectOptions.map((opt) => (
-                <option key={opt} value={opt}>{opt}</option>
-              ))}
-              <option value="__new__">➕ Новая коллекция…</option>
-            </select>
-            <Button variant="ghost" size="sm" className="h-7 text-[10px]" onClick={() => router.push('/brand/production?collectionId=New')}>
-              Новая коллекция
-            </Button>
-            <span className="text-slate-400 ml-2">Прогресс: {progressPct}%</span>
-            <Progress value={progressPct} className="w-24 h-1.5 inline-block align-middle ml-1" />
-          </div>
+          <TabsContent value="stages" className="mt-4 space-y-6">
+            {tab === 'stages' && (
+              <StagesDependenciesTabContent
+                key={collectionFlowKey}
+                collectionArticles={collectionArticles}
+                flowDoc={flowDocReady}
+                steps={COLLECTION_STEPS}
+                collectionQuery={collectionQuery}
+                floorHref={floorHref}
+                mergeCollectionQuery={mergeCollectionQuery}
+                setUnifiedDoc={setUnifiedDoc}
+                getProductionFloorTabTitle={getProductionFloorTabTitle}
+                collectionFlowKey={collectionFlowKey}
+                localInventoryTools={
+                  {
+                    collectionId: collectionIdFromQuery,
+                    totalArticlesInCollection: collectionArticles.length,
+                    localRemovableArticles,
+                    isUserDefinedCollection,
+                    onAddArticle: pushLocalArticle,
+                    onCreateCollection: pushUserCollection,
+                    onRemoveLocalArticle: removeLocalArticle,
+                    onRemoveUserCollection: removeCurrentUserCollection,
+                    onExportInventory: exportLocalInventory,
+                    onImportInventory: importLocalInventory,
+                    isSkuDuplicate: isLocalSkuDuplicate,
+                    onExportUnifiedFlow: exportUnifiedFlowJson,
+                  } satisfies StagesLocalInventoryToolsInput
+                }
+              />
+            )}
+          </TabsContent>
 
-          <div className="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
-            <p className="text-[10px] font-bold text-slate-600 mb-2">Таймлайн дропов по коллекции</p>
-            <div className="space-y-2">
-              {dropsWithMeta.map((drop) => {
-                const stateLabel = drop.isPast ? 'Завершён' : drop.isActive ? 'В отгрузке' : 'Планируется';
-                const stats = dropStats[drop.id];
-                return (
-                  <div key={drop.id} className="flex items-center gap-3 text-[10px]">
-                    <span className="w-28 shrink-0">{drop.label.replace(/^Drop \d+: /, '')}</span>
-                    <span className={cn('font-medium', drop.isPast ? 'text-slate-500' : drop.isActive ? 'text-emerald-700' : 'text-amber-700')}>{stateLabel}</span>
-                    {stats && <span className="text-slate-500">Стилей: {stats.styles}, шт: {stats.qty}</span>}
-                    <Button asChild variant="ghost" size="xs" className="h-6 text-[9px] ml-auto">
-                      <Link href={`${ROUTES.brand.productionGantt}?window=${encodeURIComponent(drop.id)}${collectionIdFromQuery ? `&collectionId=${encodeURIComponent(collectionIdFromQuery)}` : ''}`}>PO по дропу →</Link>
-                    </Button>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          <TabsContent value="live" className="mt-4 space-y-4">
+            {tab === 'live' && (
+              <LiveProcessPageBody
+                processId="production"
+                embedded
+                workshopCollectionId={collectionIdFromQuery}
+                onWorkshopCollectionChange={handleLiveContextCollectionChange}
+              />
+            )}
+          </TabsContent>
 
-      {/* Быстрые действия: для выбранной выше коллекции — добавить артикулы, прогноз, запуск в производство */}
-      <div className="flex flex-wrap items-center gap-2 p-4 rounded-xl border border-indigo-100 bg-gradient-to-r from-indigo-50/80 to-white">
-        <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mr-2">Быстрые действия</span>
-        <span className="text-[10px] text-slate-500 hidden sm:inline">(для коллекции «{collectionLabel}»)</span>
-        <Button variant="outline" size="sm" className="h-9 text-[10px] font-bold uppercase gap-1.5" asChild>
-          <Link href={collectionIdFromQuery ? `${ROUTES.brand.products}?addToCollection=${encodeURIComponent(collectionIdFromQuery)}` : ROUTES.brand.products}>
-            <PlusCircle className="h-4 w-4" /> Добавить артикулы в коллекцию
-          </Link>
-        </Button>
-        <Button variant="outline" size="sm" className="h-9 text-[10px] font-bold uppercase gap-1.5" asChild>
-          <Link href={ROUTES.brand.analyticsBudgetActual ?? '/brand/analytics/budget-actual'}>
-            <BarChart3 className="h-4 w-4" /> Спрогнозировать коллекцию
-          </Link>
-        </Button>
-        <Button size="sm" className="h-9 text-[10px] font-bold uppercase gap-1.5 bg-slate-900 text-white hover:bg-slate-800" asChild>
-          <Link href={`${ROUTES.brand.productionGantt}${collectionIdFromQuery ? `?collectionId=${encodeURIComponent(collectionIdFromQuery)}` : ''}`}>
-            <Play className="h-4 w-4" /> Запустить в производство
-          </Link>
-        </Button>
-        <span className="text-[10px] text-slate-500 ml-2">
-          Артикулов в коллекции: <strong>{collectionArticles.length}</strong> · Прогноз: <strong>{totalForecastQty.toLocaleString('ru-RU')} шт</strong> · Выручка: <strong>{(totalForecastRevenue / 1_000_000).toFixed(1)} млн ₽</strong>
-        </span>
-        {collectionIdFromQuery && (
-          <Button variant="outline" size="sm" className="h-9 text-[10px] font-bold uppercase gap-1.5 ml-auto" asChild>
-            <Link href={`${ROUTES.shop.b2bOrders}?${collectionQuery ? collectionQuery.slice(1) + '&' : ''}view=collection`}>
-              <ShoppingBag className="h-4 w-4" /> B2B по коллекции
-            </Link>
-          </Button>
-        )}
-      </div>
+          <TabsContent value="workshop" className="mt-4 space-y-6">
+            <Card className="border-indigo-200 bg-indigo-50/35">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm uppercase tracking-tight text-indigo-950">
+                  Единый производственный хаб
+                </CardTitle>
+                <CardDescription className="text-xs leading-relaxed text-slate-700">
+                  Сначала коллекция, затем артикул. Вкладки «Этапы», «Снабжение», «Эталон», «План»,
+                  «Выпуск», «ОТК», «Склад» и «Операции» открываются только после выбора артикула в
+                  таблице ниже — <strong className="text-slate-900">«В цех · процесс»</strong>.
+                  Вкладка «LIVE · схема» доступна без артикула (обзор по коллекции). Раздел готовых
+                  к продаже продуктов и B2B/B2C — отдельно позже.
+                </CardDescription>
+              </CardHeader>
+              {articleContextValid && stagesSkuContextLine ? (
+                <CardContent className="flex flex-wrap items-center gap-2 pt-0">
+                  <Badge variant="secondary" className="text-[10px] font-semibold">
+                    В работе: {stagesSkuContextLine}
+                  </Badge>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() => setTab('stages')}
+                  >
+                    К этапам и модулям этого артикула
+                  </Button>
+                </CardContent>
+              ) : null}
+            </Card>
 
-      {/* Фокус: что сделать в первую очередь */}
-      {collectionArticles.length > 0 && (
-        <Card className="border-amber-100 bg-gradient-to-br from-amber-50/50 to-white">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm uppercase tracking-tight flex items-center gap-2">
-              <ListTodo className="h-4 w-4 text-amber-600" /> Что сделать по коллекции
-            </CardTitle>
-            <CardDescription className="text-xs">Чек-лист по статусам артикулов. Переход в нужный раздел по клику.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
-              {collectionChecklist.map((item) => (
-                <li key={item.id}>
-                  {item.href ? (
-                    <Link href={item.href} className={cn('flex items-center gap-2 rounded-lg border p-3 text-left transition-colors hover:bg-white', item.done ? 'border-emerald-200 bg-emerald-50/50' : 'border-amber-200 bg-white')}>
-                      {item.done ? <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" /> : <CircleDot className="h-4 w-4 text-amber-500 shrink-0" />}
-                      <span className={cn('text-[11px] font-medium', item.done ? 'text-emerald-800' : 'text-slate-800')}>{item.label}</span>
+            {/* —— Мои коллекции: все, по которым велась или ведётся работа; провал в одну —— */}
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="flex items-center gap-2 text-sm uppercase tracking-tight">
+                  <Factory className="h-4 w-4" /> Работа по коллекциям
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  Выберите коллекцию. Дальше в таблице артикулов нажмите «В цех · процесс», чтобы
+                  вести полный контур производства по одному изделию за раз.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+                  {workshopCollectionsDisplay.map((col) => {
+                    const isCurrent =
+                      (col.id || 'default') === (collectionIdFromQuery || 'default');
+                    const statusLabel =
+                      col.status === 'done'
+                        ? 'Завершена'
+                        : col.status === 'in_progress'
+                          ? 'В работе'
+                          : 'Черновик';
+                    const statusClass =
+                      col.status === 'done'
+                        ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
+                        : col.status === 'in_progress'
+                          ? 'bg-amber-100 text-amber-800 border-amber-200'
+                          : 'bg-slate-100 text-slate-600 border-slate-200';
+                    return (
+                      <Link
+                        key={col.id || 'default'}
+                        href={
+                          col.id === ''
+                            ? '/brand/production'
+                            : `/brand/production?collectionId=${encodeURIComponent(col.id)}`
+                        }
+                      >
+                        <Card
+                          className={cn(
+                            'h-full border-2 transition-all hover:shadow-md',
+                            isCurrent ? 'border-indigo-400 bg-indigo-50/50' : 'border-slate-100'
+                          )}
+                        >
+                          <CardContent className="p-4">
+                            <p className="truncate text-[12px] font-semibold text-slate-900">
+                              {col.name}
+                            </p>
+                            <Badge className={cn('mt-1.5 border text-[9px]', statusClass)}>
+                              {statusLabel}
+                            </Badge>
+                            <p className="mt-2 text-[10px] text-slate-500">
+                              Артикулов: <strong>{col.articleCount}</strong>
+                            </p>
+                            <Progress value={col.progressPct} className="mt-1 h-1.5" />
+                            <p className="mt-0.5 text-[9px] text-slate-400">{col.progressPct}%</p>
+                            <p
+                              className={cn(
+                                'mt-3 rounded-lg py-1.5 text-center text-[10px] font-semibold',
+                                isCurrent
+                                  ? 'bg-indigo-100 text-indigo-800'
+                                  : 'bg-slate-100 text-slate-600'
+                              )}
+                            >
+                              {isCurrent ? 'Открыта' : 'Открыть'}
+                            </p>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* —— Инструменты производства: GANTT, отчёты смен, QC, компетенции, этапы с видео, субподряд, Nesting —— */}
+            <Card className="border-indigo-100 bg-indigo-50/30">
+              <CardHeader className="pb-2">
+                <CardTitle className="flex items-center gap-2 text-sm uppercase tracking-tight">
+                  <ListTodo className="h-4 w-4" /> Инструменты производства
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  После выбора артикула («В цех · процесс») эти ссылки ведут в модули с тем же
+                  контекстом. Без артикула сначала откройте таблицу ниже.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-2">
+                  <Button asChild variant="outline" size="sm" className="h-8 text-[10px]">
+                    <Link href={floorHref('plan')}>GANTT · план PO</Link>
+                  </Button>
+                  <Button asChild variant="outline" size="sm" className="h-8 text-[10px]">
+                    <Link href={floorHref('launch')}>Выпуск · смены</Link>
+                  </Button>
+                  <Button asChild variant="outline" size="sm" className="h-8 text-[10px]">
+                    <Link href={floorHref('quality')}>ОТК · мобильное</Link>
+                  </Button>
+                  <Button asChild variant="outline" size="sm" className="h-8 text-[10px]">
+                    <Link href={floorHref('supplies')}>VMI · бронь материалов</Link>
+                  </Button>
+                  <Button asChild variant="outline" size="sm" className="h-8 text-[10px]">
+                    <Link href={floorHref('nesting')}>Nesting AI · раскрой</Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* —— Поэтапная схема: одна коллекция проходит этапы 1→2→…→N; артикулы и быстрые действия — инструменты —— */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm uppercase tracking-tight">
+                  Поэтапная схема: от идеи до склада
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  <strong>Что это:</strong> цепочка ниже — те же этапы и тот же порядок, что в
+                  матрице «Этапы и зависимости» (
+                  <code className="rounded bg-slate-100 px-1 text-[10px]">COLLECTION_STEPS</code>
+                  ). Переход артикула к следующему шагу в работе определяется графом зависимостей (
+                  <code className="rounded bg-slate-100 px-1 text-[10px]">dependsOn</code>
+                  ), а не только номером карточки. Выберите коллекцию выше (карточки «Работа по
+                  коллекциям»). По <strong>названию этапа</strong> — модуль: поля, вложения, журнал;
+                  «В модуль» — переход в экран этапа. В блоке <strong>«Артикулы коллекции»</strong>{' '}
+                  — таблица и текущий этап. <strong>«Быстрые действия»</strong> — добавление
+                  артикулов, прогноз, запуск.
+                </CardDescription>
+                <div className="flex flex-wrap gap-2 pt-2">
+                  <Button asChild variant="outline" size="sm" className="h-8 text-[10px]">
+                    <Link href={floorHref('stages')}>
+                      Этапы и зависимости: матрица, статусы, ссылки →
                     </Link>
-                  ) : (
-                    <div className={cn('flex items-center gap-2 rounded-lg border p-3', item.done ? 'border-emerald-200 bg-emerald-50/50' : 'border-slate-100 bg-slate-50/50')}>
-                      {item.done ? <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" /> : <CircleDot className="h-4 w-4 text-slate-400 shrink-0" />}
-                      <span className={cn('text-[11px] font-medium', item.done ? 'text-emerald-800' : 'text-slate-600')}>{item.label}</span>
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
-      )}
+                  </Button>
+                  <Button asChild variant="outline" size="sm" className="h-8 text-[10px]">
+                    <Link href={processLiveUrl('production', effectiveCollectionId)}>
+                      LIVE process: ответственные, даты, календарь, обсуждения →
+                    </Link>
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="rounded-lg border border-slate-100 bg-slate-50 p-3 text-[11px] text-slate-600">
+                  Текущая коллекция: <strong>{collectionLabel}</strong>. Прогресс по этапам:{' '}
+                  <strong>{completedCount}</strong> из {COLLECTION_STEPS.length} (этап считается
+                  «готово», когда все артикулы в коллекции закрыли этап). Детали по ответственным,
+                  деньгам и выходам — на вкладке «Этапы» в блоке «По артикулам».
+                </p>
 
-      {/* Карточки «Требуют внимания» */}
-      {collectionArticles.length > 0 && needsAttentionCount > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <Card className="border-amber-200 bg-amber-50/30 cursor-pointer hover:bg-amber-50/50 transition-colors" onClick={() => setArticleFocusNeedsAttention(true)}>
-            <CardContent className="p-4 flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-amber-100 flex items-center justify-center"><AlertCircle className="h-5 w-5 text-amber-600" /></div>
-              <div>
-                <p className="text-[10px] font-bold text-amber-800 uppercase tracking-widest">Требуют внимания</p>
-                <p className="text-lg font-black text-slate-900">{needsAttentionCount} артикулов</p>
-                <p className="text-[10px] text-slate-600">Без Tech Pack или без PO</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="border-slate-200">
-            <CardContent className="p-4 flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-slate-100 flex items-center justify-center"><FileText className="h-5 w-5 text-slate-600" /></div>
-              <div>
-                <p className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Без Tech Pack</p>
-                <p className="text-lg font-black text-slate-900">{articlesProgressSummary.total - articlesProgressSummary.withTechPack} арт.</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="border-slate-200">
-            <CardContent className="p-4 flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-indigo-100 flex items-center justify-center"><ClipboardCheck className="h-5 w-5 text-indigo-600" /></div>
-              <div>
-                <p className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Без PO</p>
-                <p className="text-lg font-black text-slate-900">{articlesProgressSummary.total - articlesProgressSummary.withPo} арт.</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+                <CollectionWorkshopStageChain
+                  steps={COLLECTION_STEPS}
+                  collectionFlowKey={collectionFlowKey}
+                  collectionId={collectionIdFromQuery}
+                  collectionLabel={collectionLabel}
+                  pimCollectionHref={
+                    collectionQuery
+                      ? `${ROUTES.brand.products}${collectionQuery}`
+                      : ROUTES.brand.products
+                  }
+                  workshopCollectionHref={
+                    collectionQuery ? `/brand/production${collectionQuery}` : '/brand/production'
+                  }
+                  budgetActualHref={
+                    collectionQuery
+                      ? `${ROUTES.brand.budgetActual}${collectionQuery}`
+                      : ROUTES.brand.budgetActual
+                  }
+                  materialsHref={
+                    collectionQuery
+                      ? `${ROUTES.brand.materials}${collectionQuery}`
+                      : ROUTES.brand.materials
+                  }
+                  mediaHref={
+                    collectionQuery ? `${ROUTES.brand.media}${collectionQuery}` : ROUTES.brand.media
+                  }
+                  techPackHref={
+                    collectionQuery
+                      ? `${ROUTES.brand.productionTechPackStyle('new')}${collectionQuery}`
+                      : ROUTES.brand.productionTechPackStyle('new')
+                  }
+                  liveProcessHref={liveProcessHref}
+                  suppliesFloorHref={suppliesFloorHref}
+                  sampleFloorHref={sampleFloorHref}
+                  workshopFloorTabHrefs={workshopFloorTabHrefs}
+                  b2bLinesheetsHref={b2bLinesheetsHref}
+                  factoriesHref={factoriesHref}
+                  warehouseHref={warehouseHref}
+                  b2bShipmentsHref={b2bShipmentsHref}
+                  liveB2bHref={liveB2bHref}
+                  esgHref={esgHref}
+                  chainDeepLinkHrefs={chainDeepLinkHrefs}
+                  articlesByStage={articlesByStage}
+                  aggregateStatus={aggregateStatus}
+                  onAfterModuleSave={handleCollectionModuleSaved}
+                  hrefWithCollection={(step) => {
+                    if (!step.href) return null;
+                    return collectionQuery
+                      ? `${step.href}${step.href.includes('?') ? '&' : '?'}${collectionQuery.slice(1)}`
+                      : step.href;
+                  }}
+                />
 
-      <Card>
-        <CardHeader>
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div>
-              <CardTitle className="text-sm uppercase tracking-tight">Артикулы коллекции</CardTitle>
-              <CardDescription className="text-xs mt-1">
-                Все артикулы коллекции «{collectionLabel}». Колонка «В цех · процесс» — вход в полный производственный контур по выбранному SKU (этапы, снабжение, эталон, выпуск и т.д.). Остальные иконки — быстрые внешние экраны.
-              </CardDescription>
+                <div className="flex flex-wrap items-center gap-2 text-[10px]">
+                  <span className="text-slate-500">Текущая коллекция:</span>
+                  <select
+                    value={collectionIdFromQuery}
+                    onChange={(e) => handleCollectionChange(e.target.value)}
+                    className="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[10px]"
+                  >
+                    <option value="">По умолчанию</option>
+                    {collectionSelectOptions.map((opt) => (
+                      <option key={opt} value={opt}>
+                        {opt}
+                      </option>
+                    ))}
+                    <option value="__new__">➕ Новая коллекция…</option>
+                  </select>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() => router.push('/brand/production?collectionId=New')}
+                  >
+                    Новая коллекция
+                  </Button>
+                  <span className="ml-2 text-slate-400">Прогресс: {progressPct}%</span>
+                  <Progress
+                    value={progressPct}
+                    className="ml-1 inline-block h-1.5 w-24 align-middle"
+                  />
+                </div>
+
+                <div className="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+                  <p className="mb-2 text-[10px] font-bold text-slate-600">
+                    Таймлайн дропов по коллекции
+                  </p>
+                  <div className="space-y-2">
+                    {dropsWithMeta.map((drop) => {
+                      const stateLabel = drop.isPast
+                        ? 'Завершён'
+                        : drop.isActive
+                          ? 'В отгрузке'
+                          : 'Планируется';
+                      const stats = dropStats[drop.id];
+                      return (
+                        <div key={drop.id} className="flex items-center gap-3 text-[10px]">
+                          <span className="w-28 shrink-0">
+                            {drop.label.replace(/^Drop \d+: /, '')}
+                          </span>
+                          <span
+                            className={cn(
+                              'font-medium',
+                              drop.isPast
+                                ? 'text-slate-500'
+                                : drop.isActive
+                                  ? 'text-emerald-700'
+                                  : 'text-amber-700'
+                            )}
+                          >
+                            {stateLabel}
+                          </span>
+                          {stats && (
+                            <span className="text-slate-500">
+                              Стилей: {stats.styles}, шт: {stats.qty}
+                            </span>
+                          )}
+                          <Button
+                            asChild
+                            variant="ghost"
+                            size="xs"
+                            className="ml-auto h-6 text-[9px]"
+                          >
+                            <Link
+                              href={`${ROUTES.brand.productionGantt}?window=${encodeURIComponent(drop.id)}${collectionIdFromQuery ? `&collectionId=${encodeURIComponent(collectionIdFromQuery)}` : ''}`}
+                            >
+                              PO по дропу →
+                            </Link>
+                          </Button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Быстрые действия: для выбранной выше коллекции — добавить артикулы, прогноз, запуск в производство */}
+            <div className="flex flex-wrap items-center gap-2 rounded-xl border border-indigo-100 bg-gradient-to-r from-indigo-50/80 to-white p-4">
+              <span className="mr-2 text-[10px] font-black uppercase tracking-widest text-slate-500">
+                Быстрые действия
+              </span>
+              <span className="hidden text-[10px] text-slate-500 sm:inline">
+                (для коллекции «{collectionLabel}»)
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-9 gap-1.5 text-[10px] font-bold uppercase"
+                asChild
+              >
+                <Link
+                  href={
+                    collectionIdFromQuery
+                      ? `${ROUTES.brand.products}?addToCollection=${encodeURIComponent(collectionIdFromQuery)}`
+                      : ROUTES.brand.products
+                  }
+                >
+                  <PlusCircle className="h-4 w-4" /> Добавить артикулы в коллекцию
+                </Link>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-9 gap-1.5 text-[10px] font-bold uppercase"
+                asChild
+              >
+                <Link href={ROUTES.brand.analyticsBudgetActual ?? '/brand/analytics/budget-actual'}>
+                  <BarChart3 className="h-4 w-4" /> Спрогнозировать коллекцию
+                </Link>
+              </Button>
+              <Button
+                size="sm"
+                className="h-9 gap-1.5 bg-slate-900 text-[10px] font-bold uppercase text-white hover:bg-slate-800"
+                asChild
+              >
+                <Link
+                  href={`${ROUTES.brand.productionGantt}${collectionIdFromQuery ? `?collectionId=${encodeURIComponent(collectionIdFromQuery)}` : ''}`}
+                >
+                  <Play className="h-4 w-4" /> Запустить в производство
+                </Link>
+              </Button>
+              <span className="ml-2 text-[10px] text-slate-500">
+                Артикулов в коллекции: <strong>{collectionArticles.length}</strong> · Прогноз:{' '}
+                <strong>{totalForecastQty.toLocaleString('ru-RU')} шт</strong> · Выручка:{' '}
+                <strong>{(totalForecastRevenue / 1_000_000).toFixed(1)} млн ₽</strong>
+              </span>
+              {collectionIdFromQuery && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="ml-auto h-9 gap-1.5 text-[10px] font-bold uppercase"
+                  asChild
+                >
+                  <Link
+                    href={`${ROUTES.shop.b2bOrders}?${collectionQuery ? collectionQuery.slice(1) + '&' : ''}view=collection`}
+                  >
+                    <ShoppingBag className="h-4 w-4" /> B2B по коллекции
+                  </Link>
+                </Button>
+              )}
             </div>
-            {articlesProgressSummary.total > 0 && (
-              <div className="flex flex-wrap gap-2 text-[10px]">
-                <Badge variant="outline" className="border-slate-200 text-slate-600">
-                  Tech Pack: {articlesProgressSummary.withTechPack}/{articlesProgressSummary.total}
-                </Badge>
-                <Badge variant="outline" className="border-slate-200 text-slate-600">
-                  Сэмплы: {articlesProgressSummary.withSamples}/{articlesProgressSummary.total}
-                </Badge>
-                <Badge variant="outline" className="border-indigo-200 text-indigo-700">
-                  PO: {articlesProgressSummary.withPo}/{articlesProgressSummary.total}
-                </Badge>
-                <Badge variant="outline" className="border-emerald-200 text-emerald-700">
-                  Готово: {articlesProgressSummary.ready}/{articlesProgressSummary.total}
-                </Badge>
+
+            {/* Фокус: что сделать в первую очередь */}
+            {collectionArticles.length > 0 && (
+              <Card className="border-amber-100 bg-gradient-to-br from-amber-50/50 to-white">
+                <CardHeader className="pb-2">
+                  <CardTitle className="flex items-center gap-2 text-sm uppercase tracking-tight">
+                    <ListTodo className="h-4 w-4 text-amber-600" /> Что сделать по коллекции
+                  </CardTitle>
+                  <CardDescription className="text-xs">
+                    Чек-лист по статусам артикулов. Переход в нужный раздел по клику.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                    {collectionChecklist.map((item) => (
+                      <li key={item.id}>
+                        {item.href ? (
+                          <Link
+                            href={item.href}
+                            className={cn(
+                              'flex items-center gap-2 rounded-lg border p-3 text-left transition-colors hover:bg-white',
+                              item.done
+                                ? 'border-emerald-200 bg-emerald-50/50'
+                                : 'border-amber-200 bg-white'
+                            )}
+                          >
+                            {item.done ? (
+                              <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
+                            ) : (
+                              <CircleDot className="h-4 w-4 shrink-0 text-amber-500" />
+                            )}
+                            <span
+                              className={cn(
+                                'text-[11px] font-medium',
+                                item.done ? 'text-emerald-800' : 'text-slate-800'
+                              )}
+                            >
+                              {item.label}
+                            </span>
+                          </Link>
+                        ) : (
+                          <div
+                            className={cn(
+                              'flex items-center gap-2 rounded-lg border p-3',
+                              item.done
+                                ? 'border-emerald-200 bg-emerald-50/50'
+                                : 'border-slate-100 bg-slate-50/50'
+                            )}
+                          >
+                            {item.done ? (
+                              <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
+                            ) : (
+                              <CircleDot className="h-4 w-4 shrink-0 text-slate-400" />
+                            )}
+                            <span
+                              className={cn(
+                                'text-[11px] font-medium',
+                                item.done ? 'text-emerald-800' : 'text-slate-600'
+                              )}
+                            >
+                              {item.label}
+                            </span>
+                          </div>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Карточки «Требуют внимания» */}
+            {collectionArticles.length > 0 && needsAttentionCount > 0 && (
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                <Card
+                  className="cursor-pointer border-amber-200 bg-amber-50/30 transition-colors hover:bg-amber-50/50"
+                  onClick={() => setArticleFocusNeedsAttention(true)}
+                >
+                  <CardContent className="flex items-center gap-3 p-4">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100">
+                      <AlertCircle className="h-5 w-5 text-amber-600" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-amber-800">
+                        Требуют внимания
+                      </p>
+                      <p className="text-lg font-black text-slate-900">
+                        {needsAttentionCount} артикулов
+                      </p>
+                      <p className="text-[10px] text-slate-600">Без Tech Pack или без PO</p>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card className="border-slate-200">
+                  <CardContent className="flex items-center gap-3 p-4">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100">
+                      <FileText className="h-5 w-5 text-slate-600" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-600">
+                        Без Tech Pack
+                      </p>
+                      <p className="text-lg font-black text-slate-900">
+                        {articlesProgressSummary.total - articlesProgressSummary.withTechPack} арт.
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card className="border-slate-200">
+                  <CardContent className="flex items-center gap-3 p-4">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100">
+                      <ClipboardCheck className="h-5 w-5 text-indigo-600" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-600">
+                        Без PO
+                      </p>
+                      <p className="text-lg font-black text-slate-900">
+                        {articlesProgressSummary.total - articlesProgressSummary.withPo} арт.
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             )}
-          </div>
-          {collectionArticles.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-slate-100 mt-3">
-              <div className="relative flex-1 min-w-[140px] max-w-[200px]">
-                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
-                <input
-                  type="text"
-                  placeholder="Поиск: артикул, сезон, категория, ткань…"
-                  value={articleSearch}
-                  onChange={(e) => setArticleSearch(e.target.value)}
-                  className="w-full h-8 pl-8 pr-2 rounded-lg border border-slate-200 text-[11px] bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                />
-              </div>
-              <select value={articleFilterStage} onChange={(e) => setArticleFilterStage(e.target.value)} className="h-8 rounded-lg border border-slate-200 text-[11px] px-2 bg-white">
-                <option value="">Все этапы</option>
-                {COLLECTION_STEPS.map((s) => (
-                  <option key={s.id} value={s.id}>{s.title}</option>
-                ))}
-              </select>
-              <select value={articleFilterDrop} onChange={(e) => setArticleFilterDrop(e.target.value)} className="h-8 rounded-lg border border-slate-200 text-[11px] px-2 bg-white">
-                <option value="">Все дропы</option>
-                {JOOR_DELIVERY_WINDOWS.map((w) => (
-                  <option key={w.id} value={w.id}>{w.label.replace(/^Drop \d+: /, '')}</option>
-                ))}
-              </select>
-              <select value={articleSortBy} onChange={(e) => setArticleSortBy(e.target.value as 'stage' | 'drop' | 'revenue')} className="h-8 rounded-lg border border-slate-200 text-[11px] px-2 bg-white">
-                <option value="stage">Сортировка: по этапу</option>
-                <option value="drop">Сортировка: по дропу</option>
-                <option value="revenue">Сортировка: по выручке</option>
-              </select>
-              <Button variant={articleFocusNeedsAttention ? 'default' : 'outline'} size="sm" className="h-8 text-[10px] gap-1" onClick={() => setArticleFocusNeedsAttention((v) => !v)}>
-                <AlertCircle className="h-3.5 w-3.5" /> Требуют внимания {needsAttentionCount > 0 && `(${needsAttentionCount})`}
-              </Button>
-              <Button variant="outline" size="sm" className="h-8 text-[10px] gap-1" onClick={exportArticlesCsv}>
-                <Download className="h-3.5 w-3.5" /> Экспорт CSV
+
+            <Card>
+              <CardHeader>
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <CardTitle className="text-sm uppercase tracking-tight">
+                      Артикулы коллекции
+                    </CardTitle>
+                    <CardDescription className="mt-1 text-xs">
+                      Все артикулы коллекции «{collectionLabel}». Колонка «В цех · процесс» — вход в
+                      полный производственный контур по выбранному SKU (этапы, снабжение, эталон,
+                      выпуск и т.д.). Остальные иконки — быстрые внешние экраны.
+                    </CardDescription>
+                  </div>
+                  {articlesProgressSummary.total > 0 && (
+                    <div className="flex flex-wrap gap-2 text-[10px]">
+                      <Badge variant="outline" className="border-slate-200 text-slate-600">
+                        Tech Pack: {articlesProgressSummary.withTechPack}/
+                        {articlesProgressSummary.total}
+                      </Badge>
+                      <Badge variant="outline" className="border-slate-200 text-slate-600">
+                        Сэмплы: {articlesProgressSummary.withSamples}/
+                        {articlesProgressSummary.total}
+                      </Badge>
+                      <Badge variant="outline" className="border-indigo-200 text-indigo-700">
+                        PO: {articlesProgressSummary.withPo}/{articlesProgressSummary.total}
+                      </Badge>
+                      <Badge variant="outline" className="border-emerald-200 text-emerald-700">
+                        Готово: {articlesProgressSummary.ready}/{articlesProgressSummary.total}
+                      </Badge>
+                    </div>
+                  )}
+                </div>
+                {collectionArticles.length > 0 && (
+                  <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
+                    <div className="relative min-w-[140px] max-w-[200px] flex-1">
+                      <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
+                      <input
+                        type="text"
+                        placeholder="Поиск: артикул, сезон, категория, ткань…"
+                        value={articleSearch}
+                        onChange={(e) => setArticleSearch(e.target.value)}
+                        className="h-8 w-full rounded-lg border border-slate-200 bg-white pl-8 pr-2 text-[11px] focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500"
+                      />
+                    </div>
+                    <select
+                      value={articleFilterStage}
+                      onChange={(e) => setArticleFilterStage(e.target.value)}
+                      className="h-8 rounded-lg border border-slate-200 bg-white px-2 text-[11px]"
+                    >
+                      <option value="">Все этапы</option>
+                      {COLLECTION_STEPS.map((s) => (
+                        <option key={s.id} value={s.id}>
+                          {s.title}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      value={articleFilterDrop}
+                      onChange={(e) => setArticleFilterDrop(e.target.value)}
+                      className="h-8 rounded-lg border border-slate-200 bg-white px-2 text-[11px]"
+                    >
+                      <option value="">Все дропы</option>
+                      {JOOR_DELIVERY_WINDOWS.map((w) => (
+                        <option key={w.id} value={w.id}>
+                          {w.label.replace(/^Drop \d+: /, '')}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      value={articleSortBy}
+                      onChange={(e) =>
+                        setArticleSortBy(e.target.value as 'stage' | 'drop' | 'revenue')
+                      }
+                      className="h-8 rounded-lg border border-slate-200 bg-white px-2 text-[11px]"
+                    >
+                      <option value="stage">Сортировка: по этапу</option>
+                      <option value="drop">Сортировка: по дропу</option>
+                      <option value="revenue">Сортировка: по выручке</option>
+                    </select>
+                    <Button
+                      variant={articleFocusNeedsAttention ? 'default' : 'outline'}
+                      size="sm"
+                      className="h-8 gap-1 text-[10px]"
+                      onClick={() => setArticleFocusNeedsAttention((v) => !v)}
+                    >
+                      <AlertCircle className="h-3.5 w-3.5" /> Требуют внимания{' '}
+                      {needsAttentionCount > 0 && `(${needsAttentionCount})`}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-8 gap-1 text-[10px]"
+                      onClick={exportArticlesCsv}
+                    >
+                      <Download className="h-3.5 w-3.5" /> Экспорт CSV
+                    </Button>
+                  </div>
+                )}
+              </CardHeader>
+              <CardContent className="overflow-x-auto">
+                <table className="w-full border-collapse text-left">
+                  <thead>
+                    <tr className="border-b border-slate-100 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                      <th className="pb-2 pr-4">Артикул</th>
+                      <th className="pb-2 pr-4">Сезон</th>
+                      <th className="min-w-[7rem] pb-2 pr-3">Производство</th>
+                      <th className="pb-2 pr-3">Дроп</th>
+                      <th className="pb-2 pr-4">Этап</th>
+                      <th className="pb-2 pr-4">Прогноз</th>
+                      <th className="pb-2 pr-2 text-center">Tech Pack</th>
+                      <th className="pb-2 pr-2 text-center">Сэмплы</th>
+                      <th className="pb-2 pr-2 text-center">PO</th>
+                      <th className="pb-2 pr-2 text-center">QC</th>
+                      <th className="pb-2 pr-2 text-center">Готово</th>
+                      <th className="min-w-[7.5rem] pb-2">В цех</th>
+                      <th className="pb-2">Ещё</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {displayedArticles.map((art) => {
+                      const step = COLLECTION_STEPS.find((s) => s.id === art.currentStageId);
+                      const dropLabel = art.deliveryWindowId
+                        ? (dropLabelById[art.deliveryWindowId] ?? art.deliveryWindowId)
+                        : '—';
+                      const ganttHref = `${ROUTES.brand.productionGantt}${collectionQuery}${collectionQuery ? '&' : '?'}sku=${encodeURIComponent(art.sku || art.id)}`;
+                      const readyMadeHref = `${ROUTES.brand.productionReadyMade}${collectionQuery}${collectionQuery ? '&' : '?'}sku=${encodeURIComponent(art.sku || art.id)}`;
+                      return (
+                        <tr
+                          key={art.id}
+                          className="border-b border-slate-50 transition-colors hover:bg-slate-50/50"
+                        >
+                          <td className="py-3 pr-4">
+                            <span className="font-mono text-[11px] font-bold text-slate-900">
+                              {art.sku}
+                            </span>
+                          </td>
+                          <td className="py-3 pr-4">
+                            <span className="text-[11px] font-medium text-slate-800">
+                              {art.season}
+                            </span>
+                          </td>
+                          <td className="py-3 pr-3 align-top">
+                            <span className="block max-w-[9rem] text-[10px] leading-snug text-slate-700">
+                              {art.productionSiteLabel}
+                            </span>
+                          </td>
+                          <td className="py-3 pr-3">
+                            <span className="text-[10px] text-slate-600">
+                              {dropLabel.replace(/^Drop \d+: /, '')}
+                            </span>
+                          </td>
+                          <td className="py-3 pr-4">
+                            <Badge variant="outline" className="border-slate-200 text-[9px]">
+                              {step?.title ?? art.currentStageId}
+                            </Badge>
+                          </td>
+                          <td className="py-3 pr-4 text-[11px] text-slate-700">
+                            {art.forecastQty.toLocaleString('ru-RU')} шт ·{' '}
+                            {(art.forecastRevenue / 1000).toFixed(0)}k ₽
+                          </td>
+                          <td className="py-3 pr-2 text-center">
+                            {art.techPackDone ? (
+                              <CheckCircle2 className="inline h-4 w-4 text-emerald-600" />
+                            ) : (
+                              <CircleDot className="inline h-4 w-4 text-amber-500" />
+                            )}
+                          </td>
+                          <td className="py-3 pr-2 text-center">
+                            {art.samplesDone ? (
+                              <CheckCircle2 className="inline h-4 w-4 text-emerald-600" />
+                            ) : (
+                              <CircleDot className="inline h-4 w-4 text-amber-500" />
+                            )}
+                          </td>
+                          <td className="py-3 pr-2 text-center">
+                            {art.poDone ? (
+                              <CheckCircle2 className="inline h-4 w-4 text-emerald-600" />
+                            ) : (
+                              <CircleDot className="inline h-4 w-4 text-amber-500" />
+                            )}
+                          </td>
+                          <td className="py-3 pr-2 text-center">
+                            {art.qcDone ? (
+                              <CheckCircle2 className="inline h-4 w-4 text-emerald-600" />
+                            ) : (
+                              <CircleDot className="inline h-4 w-4 text-amber-500" />
+                            )}
+                          </td>
+                          <td className="py-3 pr-2 text-center">
+                            {art.ready ? (
+                              <CheckCircle2 className="inline h-4 w-4 text-emerald-600" />
+                            ) : (
+                              <CircleDot className="inline h-4 w-4 text-slate-300" />
+                            )}
+                          </td>
+                          <td className="py-3 pr-2 align-middle">
+                            <Button
+                              type="button"
+                              variant="default"
+                              size="xs"
+                              className="h-7 bg-slate-900 px-2 text-[9px] font-black uppercase tracking-tight hover:bg-slate-800"
+                              title="Открыть этапы и модули цеха только для этого артикула"
+                              onClick={() => openArticleProductionHub(art.id)}
+                            >
+                              В цех · процесс
+                            </Button>
+                          </td>
+                          <td className="py-3">
+                            <div className="flex flex-wrap gap-1">
+                              <Button
+                                asChild
+                                variant="ghost"
+                                size="xs"
+                                className="h-6 px-2 text-[9px]"
+                                title="Tech Pack"
+                              >
+                                <Link
+                                  href={`/brand/production/tech-pack/${art.sku || art.id}${collectionQuery}`}
+                                >
+                                  <FileText className="h-3 w-3" />
+                                </Link>
+                              </Button>
+                              <Button
+                                asChild
+                                variant="ghost"
+                                size="xs"
+                                className="h-6 px-2 text-[9px]"
+                                title="Сэмплы"
+                              >
+                                <Link
+                                  href={`${ROUTES.brand.productionGoldSample}${collectionQuery}&sku=${encodeURIComponent(art.sku || art.id)}`}
+                                >
+                                  <Package className="h-3 w-3" />
+                                </Link>
+                              </Button>
+                              <Button
+                                asChild
+                                variant="ghost"
+                                size="xs"
+                                className="h-6 px-2 text-[9px]"
+                                title="PO"
+                              >
+                                <Link href={ganttHref}>
+                                  <ClipboardCheck className="h-3 w-3" />
+                                </Link>
+                              </Button>
+                              <Button
+                                asChild
+                                variant="ghost"
+                                size="xs"
+                                className="h-6 px-2 text-[9px]"
+                                title="Готовый товар"
+                              >
+                                <Link href={readyMadeHref}>
+                                  <Truck className="h-3 w-3" />
+                                </Link>
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+                {collectionArticles.length === 0 && (
+                  <div className="py-12 text-center text-sm text-slate-500">
+                    Нет артикулов в текущей коллекции. Выберите сезон выше или добавьте артикулы из
+                    раздела Продукты.
+                    <Button variant="outline" size="sm" className="ml-2 mt-3" asChild>
+                      <Link href={ROUTES.brand.products}>Перейти в Продукты</Link>
+                    </Button>
+                  </div>
+                )}
+                {collectionArticles.length > 0 && displayedArticles.length === 0 && (
+                  <div className="py-8 text-center text-sm text-slate-500">
+                    По фильтрам ничего не найдено. Сбросьте поиск или «Требуют внимания».
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="ml-2 mt-3"
+                      onClick={() => {
+                        setArticleSearch('');
+                        setArticleFilterStage('');
+                        setArticleFilterDrop('');
+                        setArticleFocusNeedsAttention(false);
+                      }}
+                    >
+                      Сбросить фильтры
+                    </Button>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm uppercase tracking-tight">
+                  Сводка по производству и риски по коллекции
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  QC, видео‑этапы и субподряд по текущей коллекции. Помогает увидеть, есть ли риски
+                  по качеству, срокам и выполнению работ.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="grid gap-3 text-[11px] md:grid-cols-3">
+                <div className="space-y-1 rounded-xl border border-slate-100 bg-slate-50/80 p-3">
+                  <p className="font-bold text-slate-800">QC инспекции</p>
+                  <p className="text-slate-600">
+                    Всего: <strong>{qcSummary.total}</strong>
+                  </p>
+                  <p className="text-emerald-700">
+                    Принято: <strong>{qcSummary.passed}</strong>
+                  </p>
+                  <p className={qcSummary.withIssues > 0 ? 'text-amber-700' : 'text-slate-500'}>
+                    С вопросами: <strong>{qcSummary.withIssues}</strong>
+                  </p>
+                </div>
+                <div className="space-y-1 rounded-xl border border-slate-100 bg-slate-50/80 p-3">
+                  <p className="font-bold text-slate-800">Видео‑этапы по PO</p>
+                  <p className="text-slate-600">
+                    Этапов: <strong>{milestonesSummary.total}</strong>
+                  </p>
+                  <p className="text-emerald-700">
+                    Утверждено: <strong>{milestonesSummary.approved}</strong>
+                  </p>
+                  <p
+                    className={milestonesSummary.pending > 0 ? 'text-amber-700' : 'text-slate-500'}
+                  >
+                    Ожидает: <strong>{milestonesSummary.pending}</strong>
+                  </p>
+                </div>
+                <div className="space-y-1 rounded-xl border border-slate-100 bg-slate-50/80 p-3">
+                  <p className="font-bold text-slate-800">Субподряд (заказы на сторону)</p>
+                  <p className="text-slate-600">
+                    Всего: <strong>{subcontractSummary.total}</strong>
+                  </p>
+                  <p className="text-emerald-700">
+                    Выполнено: <strong>{subcontractSummary.completed}</strong>
+                  </p>
+                  <p
+                    className={
+                      subcontractSummary.inProgress > 0 ? 'text-amber-700' : 'text-slate-500'
+                    }
+                  >
+                    В работе: <strong>{subcontractSummary.inProgress}</strong>
+                  </p>
+                </div>
+                <div
+                  className={cn(
+                    'mt-1 flex items-center gap-2 rounded-xl border p-3 md:col-span-3',
+                    hasRisks
+                      ? 'border-amber-300 bg-amber-50'
+                      : 'border-emerald-200 bg-emerald-50/80'
+                  )}
+                >
+                  <span
+                    className={cn(
+                      'h-2 w-2 rounded-full',
+                      hasRisks ? 'bg-amber-500' : 'bg-emerald-500'
+                    )}
+                  />
+                  <p className="text-[10px] text-slate-800">
+                    {hasRisks
+                      ? 'Есть риски по коллекции: проверьте инспекции QC, незавершённые видео‑этапы и сроки отмены PO по дропам.'
+                      : 'Критических рисков по коллекции не выявлено: QC пройден, ключевые этапы подтверждены, дропы в пределах дедлайнов.'}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+            <div className="flex flex-wrap gap-2">
+              <Button variant="outline" size="sm" className="text-xs" asChild>
+                <Link href={floorHref('ops')}>
+                  Операции: PO, BOM, QC, аудит (вкладка «Операции»)
+                </Link>
               </Button>
             </div>
-          )}
-        </CardHeader>
-        <CardContent className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="border-b border-slate-100 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                <th className="pb-2 pr-4">Артикул</th>
-                <th className="pb-2 pr-4">Сезон</th>
-                <th className="pb-2 pr-3 min-w-[7rem]">Производство</th>
-                <th className="pb-2 pr-3">Дроп</th>
-                <th className="pb-2 pr-4">Этап</th>
-                <th className="pb-2 pr-4">Прогноз</th>
-                <th className="pb-2 pr-2 text-center">Tech Pack</th>
-                <th className="pb-2 pr-2 text-center">Сэмплы</th>
-                <th className="pb-2 pr-2 text-center">PO</th>
-                <th className="pb-2 pr-2 text-center">QC</th>
-                <th className="pb-2 pr-2 text-center">Готово</th>
-                <th className="pb-2 min-w-[7.5rem]">В цех</th>
-                <th className="pb-2">Ещё</th>
-              </tr>
-            </thead>
-            <tbody>
-              {displayedArticles.map((art) => {
-                const step = COLLECTION_STEPS.find((s) => s.id === art.currentStageId);
-                const dropLabel = art.deliveryWindowId ? dropLabelById[art.deliveryWindowId] ?? art.deliveryWindowId : '—';
-                const ganttHref = `${ROUTES.brand.productionGantt}${collectionQuery}${collectionQuery ? '&' : '?'}sku=${encodeURIComponent(art.sku || art.id)}`;
-                const readyMadeHref = `${ROUTES.brand.productionReadyMade}${collectionQuery}${collectionQuery ? '&' : '?'}sku=${encodeURIComponent(art.sku || art.id)}`;
-                return (
-                  <tr key={art.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                    <td className="py-3 pr-4">
-                      <span className="font-mono text-[11px] font-bold text-slate-900">{art.sku}</span>
-                    </td>
-                    <td className="py-3 pr-4">
-                      <span className="text-[11px] font-medium text-slate-800">{art.season}</span>
-                    </td>
-                    <td className="py-3 pr-3 align-top">
-                      <span className="text-[10px] text-slate-700 leading-snug block max-w-[9rem]">{art.productionSiteLabel}</span>
-                    </td>
-                    <td className="py-3 pr-3">
-                      <span className="text-[10px] text-slate-600">{dropLabel.replace(/^Drop \d+: /, '')}</span>
-                    </td>
-                    <td className="py-3 pr-4">
-                      <Badge variant="outline" className="text-[9px] border-slate-200">{step?.title ?? art.currentStageId}</Badge>
-                    </td>
-                    <td className="py-3 pr-4 text-[11px] text-slate-700">
-                      {art.forecastQty.toLocaleString('ru-RU')} шт · {(art.forecastRevenue / 1000).toFixed(0)}k ₽
-                    </td>
-                    <td className="py-3 pr-2 text-center">
-                      {art.techPackDone ? <CheckCircle2 className="h-4 w-4 text-emerald-600 inline" /> : <CircleDot className="h-4 w-4 text-amber-500 inline" />}
-                    </td>
-                    <td className="py-3 pr-2 text-center">
-                      {art.samplesDone ? <CheckCircle2 className="h-4 w-4 text-emerald-600 inline" /> : <CircleDot className="h-4 w-4 text-amber-500 inline" />}
-                    </td>
-                    <td className="py-3 pr-2 text-center">
-                      {art.poDone ? <CheckCircle2 className="h-4 w-4 text-emerald-600 inline" /> : <CircleDot className="h-4 w-4 text-amber-500 inline" />}
-                    </td>
-                    <td className="py-3 pr-2 text-center">
-                      {art.qcDone ? <CheckCircle2 className="h-4 w-4 text-emerald-600 inline" /> : <CircleDot className="h-4 w-4 text-amber-500 inline" />}
-                    </td>
-                    <td className="py-3 pr-2 text-center">
-                      {art.ready ? <CheckCircle2 className="h-4 w-4 text-emerald-600 inline" /> : <CircleDot className="h-4 w-4 text-slate-300 inline" />}
-                    </td>
-                    <td className="py-3 pr-2 align-middle">
-                      <Button
-                        type="button"
-                        variant="default"
-                        size="xs"
-                        className="h-7 text-[9px] font-black uppercase tracking-tight px-2 bg-slate-900 hover:bg-slate-800"
-                        title="Открыть этапы и модули цеха только для этого артикула"
-                        onClick={() => openArticleProductionHub(art.id)}
-                      >
-                        В цех · процесс
-                      </Button>
-                    </td>
-                    <td className="py-3">
-                      <div className="flex flex-wrap gap-1">
-                        <Button asChild variant="ghost" size="xs" className="h-6 text-[9px] px-2" title="Tech Pack">
-                          <Link href={`/brand/production/tech-pack/${art.sku || art.id}${collectionQuery}`}><FileText className="h-3 w-3" /></Link>
-                        </Button>
-                        <Button asChild variant="ghost" size="xs" className="h-6 text-[9px] px-2" title="Сэмплы">
-                          <Link href={`${ROUTES.brand.productionGoldSample}${collectionQuery}&sku=${encodeURIComponent(art.sku || art.id)}`}><Package className="h-3 w-3" /></Link>
-                        </Button>
-                        <Button asChild variant="ghost" size="xs" className="h-6 text-[9px] px-2" title="PO">
-                          <Link href={ganttHref}><ClipboardCheck className="h-3 w-3" /></Link>
-                        </Button>
-                        <Button asChild variant="ghost" size="xs" className="h-6 text-[9px] px-2" title="Готовый товар">
-                          <Link href={readyMadeHref}><Truck className="h-3 w-3" /></Link>
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          {collectionArticles.length === 0 && (
-            <div className="py-12 text-center text-slate-500 text-sm">
-              Нет артикулов в текущей коллекции. Выберите сезон выше или добавьте артикулы из раздела Продукты.
-              <Button variant="outline" size="sm" className="mt-3 ml-2" asChild>
-                <Link href={ROUTES.brand.products}>Перейти в Продукты</Link>
-              </Button>
-            </div>
-          )}
-          {collectionArticles.length > 0 && displayedArticles.length === 0 && (
-            <div className="py-8 text-center text-slate-500 text-sm">
-              По фильтрам ничего не найдено. Сбросьте поиск или «Требуют внимания».
-              <Button variant="outline" size="sm" className="mt-3 ml-2" onClick={() => { setArticleSearch(''); setArticleFilterStage(''); setArticleFilterDrop(''); setArticleFocusNeedsAttention(false); }}>
-                Сбросить фильтры
-              </Button>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-sm uppercase tracking-tight">Сводка по производству и риски по коллекции</CardTitle>
-          <CardDescription className="text-xs">
-            QC, видео‑этапы и субподряд по текущей коллекции. Помогает увидеть, есть ли риски по качеству, срокам и выполнению работ.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-3 md:grid-cols-3 text-[11px]">
-          <div className="space-y-1 rounded-xl border border-slate-100 bg-slate-50/80 p-3">
-            <p className="font-bold text-slate-800">QC инспекции</p>
-            <p className="text-slate-600">Всего: <strong>{qcSummary.total}</strong></p>
-            <p className="text-emerald-700">Принято: <strong>{qcSummary.passed}</strong></p>
-            <p className={qcSummary.withIssues > 0 ? 'text-amber-700' : 'text-slate-500'}>
-              С вопросами: <strong>{qcSummary.withIssues}</strong>
-            </p>
-          </div>
-          <div className="space-y-1 rounded-xl border border-slate-100 bg-slate-50/80 p-3">
-            <p className="font-bold text-slate-800">Видео‑этапы по PO</p>
-            <p className="text-slate-600">Этапов: <strong>{milestonesSummary.total}</strong></p>
-            <p className="text-emerald-700">Утверждено: <strong>{milestonesSummary.approved}</strong></p>
-            <p className={milestonesSummary.pending > 0 ? 'text-amber-700' : 'text-slate-500'}>
-              Ожидает: <strong>{milestonesSummary.pending}</strong>
-            </p>
-          </div>
-          <div className="space-y-1 rounded-xl border border-slate-100 bg-slate-50/80 p-3">
-            <p className="font-bold text-slate-800">Субподряд (заказы на сторону)</p>
-            <p className="text-slate-600">Всего: <strong>{subcontractSummary.total}</strong></p>
-            <p className="text-emerald-700">Выполнено: <strong>{subcontractSummary.completed}</strong></p>
-            <p className={subcontractSummary.inProgress > 0 ? 'text-amber-700' : 'text-slate-500'}>
-              В работе: <strong>{subcontractSummary.inProgress}</strong>
-            </p>
-          </div>
-          <div className={cn('md:col-span-3 mt-1 rounded-xl border p-3 flex items-center gap-2', hasRisks ? 'border-amber-300 bg-amber-50' : 'border-emerald-200 bg-emerald-50/80')}>
-            <span className={cn('h-2 w-2 rounded-full', hasRisks ? 'bg-amber-500' : 'bg-emerald-500')} />
-            <p className="text-[10px] text-slate-800">
-              {hasRisks
-                ? 'Есть риски по коллекции: проверьте инспекции QC, незавершённые видео‑этапы и сроки отмены PO по дропам.'
-                : 'Критических рисков по коллекции не выявлено: QC пройден, ключевые этапы подтверждены, дропы в пределах дедлайнов.'}
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-      <div className="flex flex-wrap gap-2">
-        <Button variant="outline" size="sm" className="text-xs" asChild>
-          <Link href={floorHref('ops')}>Операции: PO, BOM, QC, аудит (вкладка «Операции»)</Link>
-        </Button>
-      </div>
-      <RelatedModulesBlock
-        links={getProductionLinks()}
-        title="Производство: QC, видео-этапы, субподрядчики, готовый товар"
-      />
-        </TabsContent>
+            <RelatedModulesBlock
+              links={getProductionLinks()}
+              title="Производство: QC, видео-этапы, субподрядчики, готовый товар"
+            />
+          </TabsContent>
 
-        <TabsContent value="supplies" className="mt-4">
-          {tab === 'supplies' && (
-            <Tabs value={suppliesSub} onValueChange={(v) => setSuppliesSub(v as 'vmi' | 'reservation')} className="w-full">
-              <TabsList className="mb-2 h-auto w-full flex-wrap justify-start gap-0.5 rounded-xl border border-slate-200 bg-slate-100 p-0.5">
-                <TabsTrigger value="vmi" className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                  Запасы (VMI)
-                </TabsTrigger>
-                <TabsTrigger value="reservation" className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                  Бронирование
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="vmi" className="mt-0">
-                {suppliesSub === 'vmi' && <VmiContent />}
-              </TabsContent>
-              <TabsContent value="reservation" className="mt-0">
-                {suppliesSub === 'reservation' && <MaterialReservationContent />}
-              </TabsContent>
-            </Tabs>
-          )}
-        </TabsContent>
+          <TabsContent value="supplies" className="mt-4">
+            {tab === 'supplies' && (
+              <Tabs
+                value={suppliesSub}
+                onValueChange={(v) => setSuppliesSub(v as 'vmi' | 'reservation')}
+                className="w-full"
+              >
+                <TabsList className="mb-2 h-auto w-full flex-wrap justify-start gap-0.5 rounded-xl border border-slate-200 bg-slate-100 p-0.5">
+                  <TabsTrigger
+                    value="vmi"
+                    className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                  >
+                    Запасы (VMI)
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="reservation"
+                    className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                  >
+                    Бронирование
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="vmi" className="mt-0">
+                  {suppliesSub === 'vmi' && <VmiContent />}
+                </TabsContent>
+                <TabsContent value="reservation" className="mt-0">
+                  {suppliesSub === 'reservation' && <MaterialReservationContent />}
+                </TabsContent>
+              </Tabs>
+            )}
+          </TabsContent>
 
-        <TabsContent value="sample" className="mt-4">
-          {tab === 'sample' && (
-            <Tabs value={sampleSub} onValueChange={(v) => setSampleSub(v as 'gold' | 'fit')} className="w-full">
-              <TabsList className="mb-2 h-auto w-full flex-wrap justify-start gap-0.5 rounded-xl border border-slate-200 bg-slate-100 p-0.5">
-                <TabsTrigger value="gold" className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                  Утверждение эталона
-                </TabsTrigger>
-                <TabsTrigger value="fit" className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                  Fit comments
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="gold" className="mt-0">
-                {sampleSub === 'gold' && <GoldSampleContent />}
-              </TabsContent>
-              <TabsContent value="fit" className="mt-0">
-                {sampleSub === 'fit' && <FitCommentsContent />}
-              </TabsContent>
-            </Tabs>
-          )}
-        </TabsContent>
+          <TabsContent value="sample" className="mt-4">
+            {tab === 'sample' && (
+              <Tabs
+                value={sampleSub}
+                onValueChange={(v) => setSampleSub(v as 'gold' | 'fit')}
+                className="w-full"
+              >
+                <TabsList className="mb-2 h-auto w-full flex-wrap justify-start gap-0.5 rounded-xl border border-slate-200 bg-slate-100 p-0.5">
+                  <TabsTrigger
+                    value="gold"
+                    className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                  >
+                    Утверждение эталона
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="fit"
+                    className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                  >
+                    Fit comments
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="gold" className="mt-0">
+                  {sampleSub === 'gold' && <GoldSampleContent />}
+                </TabsContent>
+                <TabsContent value="fit" className="mt-0">
+                  {sampleSub === 'fit' && <FitCommentsContent />}
+                </TabsContent>
+              </Tabs>
+            )}
+          </TabsContent>
 
-        <TabsContent value="plan" className="mt-4">
-          {tab === 'plan' && <GanttContent />}
-        </TabsContent>
+          <TabsContent value="plan" className="mt-4">
+            {tab === 'plan' && <GanttContent />}
+          </TabsContent>
 
-        <TabsContent value="nesting" className="mt-4">
-          {tab === 'nesting' && <NestingContent />}
-        </TabsContent>
+          <TabsContent value="nesting" className="mt-4">
+            {tab === 'nesting' && <NestingContent />}
+          </TabsContent>
 
-        <TabsContent value="launch" className="mt-4">
-          {tab === 'launch' && (
-            <Tabs value={launchSub} onValueChange={(v) => setLaunchSub(v as 'daily' | 'skills' | 'video' | 'sub')} className="w-full">
-              <TabsList className="mb-2 h-auto w-full flex-wrap justify-start gap-0.5 rounded-xl border border-slate-200 bg-slate-100 p-0.5">
-                <TabsTrigger value="daily" className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                  Ежедневный выпуск
-                </TabsTrigger>
-                <TabsTrigger value="skills" className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                  Матрица навыков
-                </TabsTrigger>
-                <TabsTrigger value="video" className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                  Видеоэтапы
-                </TabsTrigger>
-                <TabsTrigger value="sub" className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                  Субподрядчики
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="daily" className="mt-0">
-                {launchSub === 'daily' && <DailyOutputContent />}
-              </TabsContent>
-              <TabsContent value="skills" className="mt-0">
-                {launchSub === 'skills' && <WorkerSkillsContent />}
-              </TabsContent>
-              <TabsContent value="video" className="mt-0">
-                {launchSub === 'video' && <MilestonesVideoContent />}
-              </TabsContent>
-              <TabsContent value="sub" className="mt-0">
-                {launchSub === 'sub' && <SubcontractorContent />}
-              </TabsContent>
-            </Tabs>
-          )}
-        </TabsContent>
+          <TabsContent value="launch" className="mt-4">
+            {tab === 'launch' && (
+              <Tabs
+                value={launchSub}
+                onValueChange={(v) => setLaunchSub(v as 'daily' | 'skills' | 'video' | 'sub')}
+                className="w-full"
+              >
+                <TabsList className="mb-2 h-auto w-full flex-wrap justify-start gap-0.5 rounded-xl border border-slate-200 bg-slate-100 p-0.5">
+                  <TabsTrigger
+                    value="daily"
+                    className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                  >
+                    Ежедневный выпуск
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="skills"
+                    className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                  >
+                    Матрица навыков
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="video"
+                    className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                  >
+                    Видеоэтапы
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="sub"
+                    className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                  >
+                    Субподрядчики
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="daily" className="mt-0">
+                  {launchSub === 'daily' && <DailyOutputContent />}
+                </TabsContent>
+                <TabsContent value="skills" className="mt-0">
+                  {launchSub === 'skills' && <WorkerSkillsContent />}
+                </TabsContent>
+                <TabsContent value="video" className="mt-0">
+                  {launchSub === 'video' && <MilestonesVideoContent />}
+                </TabsContent>
+                <TabsContent value="sub" className="mt-0">
+                  {launchSub === 'sub' && <SubcontractorContent />}
+                </TabsContent>
+              </Tabs>
+            )}
+          </TabsContent>
 
-        <TabsContent value="quality" className="mt-4">
-          {tab === 'quality' && (
-            <Tabs value={qualitySub} onValueChange={(v) => setQualitySub(v as 'mobile' | 'desk')} className="w-full">
-              <TabsList className="mb-2 h-auto w-full flex-wrap justify-start gap-0.5 rounded-xl border border-slate-200 bg-slate-100 p-0.5">
-                <TabsTrigger value="mobile" className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                  Мобильный ОТК
-                </TabsTrigger>
-                <TabsTrigger value="desk" className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm">
-                  Рабочее место QC
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="mobile" className="mt-0">
-                {qualitySub === 'mobile' && <QcAppContent />}
-              </TabsContent>
-              <TabsContent value="desk" className="mt-0">
-                {qualitySub === 'desk' && <QualityLiveContent />}
-              </TabsContent>
-            </Tabs>
-          )}
-        </TabsContent>
+          <TabsContent value="quality" className="mt-4">
+            {tab === 'quality' && (
+              <Tabs
+                value={qualitySub}
+                onValueChange={(v) => setQualitySub(v as 'mobile' | 'desk')}
+                className="w-full"
+              >
+                <TabsList className="mb-2 h-auto w-full flex-wrap justify-start gap-0.5 rounded-xl border border-slate-200 bg-slate-100 p-0.5">
+                  <TabsTrigger
+                    value="mobile"
+                    className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                  >
+                    Мобильный ОТК
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="desk"
+                    className="rounded-lg text-[10px] font-bold uppercase tracking-widest data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                  >
+                    Рабочее место QC
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="mobile" className="mt-0">
+                  {qualitySub === 'mobile' && <QcAppContent />}
+                </TabsContent>
+                <TabsContent value="desk" className="mt-0">
+                  {qualitySub === 'desk' && <QualityLiveContent />}
+                </TabsContent>
+              </Tabs>
+            )}
+          </TabsContent>
 
-        <TabsContent value="receipt" className="mt-4">
-          {tab === 'receipt' && <ReadyMadeContent />}
-        </TabsContent>
+          <TabsContent value="receipt" className="mt-4">
+            {tab === 'receipt' && <ReadyMadeContent />}
+          </TabsContent>
 
-        <TabsContent value="ops" className="mt-4">
-          {tab === 'ops' && <ProductionLiveContent />}
-        </TabsContent>
+          <TabsContent value="ops" className="mt-4">
+            {tab === 'ops' && <ProductionLiveContent />}
+          </TabsContent>
         </Tabs>
       </TooltipProvider>
     </div>

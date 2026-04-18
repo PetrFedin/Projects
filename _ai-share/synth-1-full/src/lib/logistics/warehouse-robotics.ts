@@ -34,7 +34,7 @@ export class WarehouseFleetManager {
    */
   public static assignTasks(robots: AGVRobot[], tasks: PickingTask[]): FleetAssignment[] {
     const assignments: FleetAssignment[] = [];
-    const availableRobots = robots.filter(r => r.status === 'idle' && r.batteryLevel > 15); // Не берем разряженных
+    const availableRobots = robots.filter((r) => r.status === 'idle' && r.batteryLevel > 15); // Не берем разряженных
 
     // Сортируем задачи по приоритету (сначала экспресс)
     const sortedTasks = [...tasks].sort((a, b) => {
@@ -54,9 +54,10 @@ export class WarehouseFleetManager {
         const robot = availableRobots[i];
         if (robot.payloadCapacityKg >= task.weightKg) {
           // Вычисляем манхэттенское расстояние (складские ряды)
-          const distance = Math.abs(robot.currentLocation.x - task.shelfLocation.x) + 
-                           Math.abs(robot.currentLocation.y - task.shelfLocation.y);
-          
+          const distance =
+            Math.abs(robot.currentLocation.x - task.shelfLocation.x) +
+            Math.abs(robot.currentLocation.y - task.shelfLocation.y);
+
           if (distance < minDistance) {
             minDistance = distance;
             bestRobotIndex = i;
@@ -66,7 +67,7 @@ export class WarehouseFleetManager {
 
       if (bestRobotIndex !== -1) {
         const selectedRobot = availableRobots[bestRobotIndex];
-        
+
         // Вычисляем примерное время (допустим, 1 минута на единицу расстояния + 2 минуты на взятие товара)
         const estimatedTime = minDistance * 1 + 2;
 
@@ -74,7 +75,7 @@ export class WarehouseFleetManager {
           robotId: selectedRobot.robotId,
           taskId: task.taskId,
           estimatedTimeToCompleteMinutes: estimatedTime,
-          reasoning: `Assigned task ${task.taskId} to robot ${selectedRobot.robotId} (distance: ${minDistance}, battery: ${selectedRobot.batteryLevel}%).`
+          reasoning: `Assigned task ${task.taskId} to robot ${selectedRobot.robotId} (distance: ${minDistance}, battery: ${selectedRobot.batteryLevel}%).`,
         });
 
         // Удаляем робота из списка доступных

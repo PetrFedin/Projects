@@ -395,7 +395,10 @@ export function CollectionWorkshopStageChain({
             variant="violet"
             saveLabel="Сохранить B2B-презентацию коллекции"
             moduleLink={{ href: b2bLinesheetsHref, label: 'Лайншиты →' }}
-            moduleLinkExtra={{ href: chainDeepLinkHrefs.b2bLinesheetsCreate, label: 'Создать linesheet →' }}
+            moduleLinkExtra={{
+              href: chainDeepLinkHrefs.b2bLinesheetsCreate,
+              label: 'Создать linesheet →',
+            }}
           />
         </div>
       ) : null}
@@ -458,7 +461,10 @@ export function CollectionWorkshopStageChain({
             variant="rose"
             saveLabel="Сохранить операционный контур"
             moduleLink={{ href: workshopFloorTabHrefs.ops, label: 'Операции цеха →' }}
-            moduleLinkExtra={{ href: chainDeepLinkHrefs.productionOperations, label: 'Операции (страница) →' }}
+            moduleLinkExtra={{
+              href: chainDeepLinkHrefs.productionOperations,
+              label: 'Операции (страница) →',
+            }}
           />
         </div>
       ) : null}
@@ -500,7 +506,10 @@ export function CollectionWorkshopStageChain({
             variant="teal"
             saveLabel="Сохранить параметры раскроя"
             moduleLink={{ href: workshopFloorTabHrefs.nesting, label: 'Nesting (цех) →' }}
-            moduleLinkExtra={{ href: chainDeepLinkHrefs.productionNesting, label: 'Nesting (полная) →' }}
+            moduleLinkExtra={{
+              href: chainDeepLinkHrefs.productionNesting,
+              label: 'Nesting (полная) →',
+            }}
           />
         </div>
       ) : null}
@@ -563,7 +572,10 @@ export function CollectionWorkshopStageChain({
             variant="violet"
             saveLabel="Сохранить приёмку на склад"
             moduleLink={{ href: workshopFloorTabHrefs.receipt, label: 'Приёмка (цех) →' }}
-            moduleLinkExtra={{ href: chainDeepLinkHrefs.productionReadyMade, label: 'Готовый товар →' }}
+            moduleLinkExtra={{
+              href: chainDeepLinkHrefs.productionReadyMade,
+              label: 'Готовый товар →',
+            }}
           />
         </div>
       ) : null}
@@ -662,12 +674,21 @@ export function CollectionWorkshopStageChain({
                     артикулов: <strong>{count}</strong>
                   </p>
                   {st ? (
-                    <Badge variant="outline" className="mt-1 h-5 w-fit border-slate-200 text-[7px] font-bold uppercase leading-none">
+                    <Badge
+                      variant="outline"
+                      className="mt-1 h-5 w-fit border-slate-200 text-[7px] font-bold uppercase leading-none"
+                    >
                       {STATUS_RU[st]}
                     </Badge>
                   ) : null}
                   {href ? (
-                    <Button asChild variant="ghost" size="sm" className="mt-1.5 h-6 w-full px-1 text-[8px]" title={step.description}>
+                    <Button
+                      asChild
+                      variant="ghost"
+                      size="sm"
+                      className="mt-1.5 h-6 w-full px-1 text-[8px]"
+                      title={step.description}
+                    >
                       <Link href={href}>
                         В модуль <ArrowRight className="ml-0.5 inline h-2.5 w-2.5" />
                       </Link>
@@ -685,7 +706,8 @@ export function CollectionWorkshopStageChain({
         </div>
       </div>
       <p className="text-[10px] text-slate-500">
-        Карточки сверху — те же модули, что и этапы в ленте (полный контур до ESG). В ленте — вложения и журнал; ссылки — в цех, фабрики, склад, B2B, ESG и т.д.
+        Карточки сверху — те же модули, что и этапы в ленте (полный контур до ESG). В ленте —
+        вложения и журнал; ссылки — в цех, фабрики, склад, B2B, ESG и т.д.
       </p>
 
       <CollectionStepModuleDialog

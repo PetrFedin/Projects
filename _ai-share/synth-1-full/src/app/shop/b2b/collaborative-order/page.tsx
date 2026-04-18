@@ -20,7 +20,10 @@ export default function B2BCollaborativeOrderPage() {
       <Card>
         <CardHeader>
           <CardTitle>Совместный заказ</CardTitle>
-          <CardDescription>Пригласите коллег для совместного формирования заказа. Изменения синхронизируются в реальном времени.</CardDescription>
+          <CardDescription>
+            Пригласите коллег для совместного формирования заказа. Изменения синхронизируются в
+            реальном времени.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex items-center gap-2 text-sm text-slate-600">

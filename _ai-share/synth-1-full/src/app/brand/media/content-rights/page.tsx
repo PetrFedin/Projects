@@ -6,7 +6,14 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { PartnerDemoExportBar } from '@/components/brand/partner-demo-export-bar';
 import { ROUTES } from '@/lib/routes';
 import { PARTNER_DAM_POLICIES } from '@/lib/platform/partner-demo-data';
@@ -55,7 +62,7 @@ export default function DamContentRightsPage() {
   };
 
   return (
-    <div className="container max-w-3xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-3xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
@@ -64,12 +71,13 @@ export default function DamContentRightsPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
+            <h1 className="flex items-center gap-2 text-xl font-bold">
               <Shield className="h-6 w-6" />
               DAM: права и лицензии
             </h1>
             <p className="text-sm text-muted-foreground">
-              Переключатели + localStorage; демо-источник — <code className="text-[10px] bg-muted px-1 rounded">PARTNER_DAM_POLICIES</code>.
+              Переключатели + localStorage; демо-источник —{' '}
+              <code className="rounded bg-muted px-1 text-[10px]">PARTNER_DAM_POLICIES</code>.
             </p>
           </div>
         </div>
@@ -78,7 +86,7 @@ export default function DamContentRightsPage() {
 
       <Button variant="secondary" size="sm" asChild>
         <Link href={ROUTES.brand.media}>
-          <ImageIcon className="h-3.5 w-3.5 mr-2" />
+          <ImageIcon className="mr-2 h-3.5 w-3.5" />
           Media &amp; DAM
         </Link>
       </Button>
@@ -86,10 +94,12 @@ export default function DamContentRightsPage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Политики</CardTitle>
-          <CardDescription>Интеграция с Brand DAM и маркетплейсами; API — синхронизация флагов по tenant.</CardDescription>
+          <CardDescription>
+            Интеграция с Brand DAM и маркетплейсами; API — синхронизация флагов по tenant.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="hidden sm:block overflow-x-auto">
+          <div className="hidden overflow-x-auto sm:block">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -101,7 +111,7 @@ export default function DamContentRightsPage() {
               <TableBody>
                 {PARTNER_DAM_POLICIES.map((r) => (
                   <TableRow key={r.id}>
-                    <TableCell className="font-medium text-sm">{r.label}</TableCell>
+                    <TableCell className="text-sm font-medium">{r.label}</TableCell>
                     <TableCell className="text-xs text-muted-foreground">{r.scope}</TableCell>
                     <TableCell className="text-right">
                       <Switch
@@ -116,14 +126,17 @@ export default function DamContentRightsPage() {
             </Table>
           </div>
 
-          <div className="sm:hidden space-y-4">
+          <div className="space-y-4 sm:hidden">
             {PARTNER_DAM_POLICIES.map((r) => (
-              <div key={r.id} className="flex items-center justify-between gap-4 rounded-lg border p-3">
+              <div
+                key={r.id}
+                className="flex items-center justify-between gap-4 rounded-lg border p-3"
+              >
                 <div>
                   <Label htmlFor={`m-${r.id}`} className="text-sm">
                     {r.label}
                   </Label>
-                  <p className="text-[10px] text-muted-foreground mt-1">{r.scope}</p>
+                  <p className="mt-1 text-[10px] text-muted-foreground">{r.scope}</p>
                 </div>
                 <Switch
                   checked={enabledById ? enabledById[r.id] : r.enabled}

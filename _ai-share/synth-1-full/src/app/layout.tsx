@@ -46,15 +46,13 @@ const playfair = Playfair_Display({
   variable: '--font-logo',
 });
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ru" className={`${firaSans.variable} ${firaCode.variable} ${playfair.variable}`}>
       <body className={firaSans.className}>
-        <style dangerouslySetInnerHTML={{ __html: `
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
           @keyframes scan-line {
             0% { top: 0%; opacity: 0; }
             10% { opacity: 1; }
@@ -77,21 +75,23 @@ export default function RootLayout({
           .animate-pulse-subtle {
             animation: pulse-subtle 2s infinite ease-in-out;
           }
-        ` }} />
+        `,
+          }}
+        />
         <QueryProvider>
-        <AuthProvider>
-          <UIStateProvider>
-            <B2BStateProvider>
-              <BrandCenterProvider>
-              <NotificationsProvider>
-                <RealtimeIntegrationsLayout>
-                  <ClientLayout>{children}</ClientLayout>
-                </RealtimeIntegrationsLayout>
-              </NotificationsProvider>
-              </BrandCenterProvider>
-            </B2BStateProvider>
-          </UIStateProvider>
-        </AuthProvider>
+          <AuthProvider>
+            <UIStateProvider>
+              <B2BStateProvider>
+                <BrandCenterProvider>
+                  <NotificationsProvider>
+                    <RealtimeIntegrationsLayout>
+                      <ClientLayout>{children}</ClientLayout>
+                    </RealtimeIntegrationsLayout>
+                  </NotificationsProvider>
+                </BrandCenterProvider>
+              </B2BStateProvider>
+            </UIStateProvider>
+          </AuthProvider>
         </QueryProvider>
       </body>
     </html>

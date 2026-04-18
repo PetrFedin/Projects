@@ -23,25 +23,40 @@ export default function MultiCurrencyPage() {
   const converted = convertAmount(amount, fromCur, toCur);
 
   return (
-    <div className="container max-w-2xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
-        <Link href={ROUTES.shop.b2b}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+    <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
+        <Link href={ROUTES.shop.b2b}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
         <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2"><Coins className="h-6 w-6" /> Мультивалютность</h1>
-          <p className="text-slate-500 text-sm mt-0.5">B2B-Center: поддержка нескольких валют и курсов для заказов</p>
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
+            <Coins className="h-6 w-6" /> Мультивалютность
+          </h1>
+          <p className="mt-0.5 text-sm text-slate-500">
+            B2B-Center: поддержка нескольких валют и курсов для заказов
+          </p>
         </div>
       </div>
 
       <Card className="mb-6">
         <CardHeader>
           <CardTitle>Курсы валют к рублю</CardTitle>
-          <CardDescription>Демо: фиксированные курсы. В проде — интеграция с ЦБ РФ или внутренний справочник</CardDescription>
+          <CardDescription>
+            Демо: фиксированные курсы. В проде — интеграция с ЦБ РФ или внутренний справочник
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <ul className="space-y-2">
             {SUPPORTED_CURRENCIES.filter((c) => c.code !== 'RUB').map((c) => (
-              <li key={c.code} className="flex justify-between items-center py-2 border-b border-slate-100 last:border-0">
-                <span>{c.name} ({c.code})</span>
+              <li
+                key={c.code}
+                className="flex items-center justify-between border-b border-slate-100 py-2 last:border-0"
+              >
+                <span>
+                  {c.name} ({c.code})
+                </span>
                 <span className="font-mono">{DEMO_RATES_TO_RUB[c.code] ?? '—'} ₽</span>
               </li>
             ))}
@@ -51,13 +66,15 @@ export default function MultiCurrencyPage() {
 
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2"><ArrowRightLeft className="h-5 w-5" /> Конвертер</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <ArrowRightLeft className="h-5 w-5" /> Конвертер
+          </CardTitle>
           <CardDescription>Пересчёт суммы между валютами</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex flex-wrap items-end gap-4">
             <div>
-              <label className="text-xs text-slate-500 block mb-1">Сумма</label>
+              <label className="mb-1 block text-xs text-slate-500">Сумма</label>
               <Input
                 type="number"
                 min={0}
@@ -67,26 +84,30 @@ export default function MultiCurrencyPage() {
               />
             </div>
             <div>
-              <label className="text-xs text-slate-500 block mb-1">Из</label>
+              <label className="mb-1 block text-xs text-slate-500">Из</label>
               <select
-                className="h-10 rounded-md border px-3 w-24"
+                className="h-10 w-24 rounded-md border px-3"
                 value={fromCur}
                 onChange={(e) => setFromCur(e.target.value)}
               >
                 {SUPPORTED_CURRENCIES.map((c) => (
-                  <option key={c.code} value={c.code}>{c.code}</option>
+                  <option key={c.code} value={c.code}>
+                    {c.code}
+                  </option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="text-xs text-slate-500 block mb-1">В</label>
+              <label className="mb-1 block text-xs text-slate-500">В</label>
               <select
-                className="h-10 rounded-md border px-3 w-24"
+                className="h-10 w-24 rounded-md border px-3"
                 value={toCur}
                 onChange={(e) => setToCur(e.target.value)}
               >
                 {SUPPORTED_CURRENCIES.map((c) => (
-                  <option key={c.code} value={c.code}>{c.code}</option>
+                  <option key={c.code} value={c.code}>
+                    {c.code}
+                  </option>
                 ))}
               </select>
             </div>
@@ -98,7 +119,9 @@ export default function MultiCurrencyPage() {
       </Card>
 
       <div className="flex gap-2">
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2b}>B2B хаб</Link></Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2b}>B2B хаб</Link>
+        </Button>
       </div>
     </div>
   );

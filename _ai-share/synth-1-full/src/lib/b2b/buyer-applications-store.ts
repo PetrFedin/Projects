@@ -66,9 +66,28 @@ function seed(): BuyerApplicationsState {
       },
     ],
     audit: [
-      { id: 'aud-1', applicationId: 'app-1', at: new Date().toISOString(), action: 'submitted', userLabel: 'Система' },
-      { id: 'aud-2', applicationId: 'app-2', at: new Date(Date.now() - 86400000).toISOString(), action: 'submitted', userLabel: 'Система' },
-      { id: 'aud-3', applicationId: 'app-2', at: new Date(Date.now() - 3600000).toISOString(), action: 'under_review', userLabel: 'Мария (бренд)', comment: 'Проверяем территорию' },
+      {
+        id: 'aud-1',
+        applicationId: 'app-1',
+        at: new Date().toISOString(),
+        action: 'submitted',
+        userLabel: 'Система',
+      },
+      {
+        id: 'aud-2',
+        applicationId: 'app-2',
+        at: new Date(Date.now() - 86400000).toISOString(),
+        action: 'submitted',
+        userLabel: 'Система',
+      },
+      {
+        id: 'aud-3',
+        applicationId: 'app-2',
+        at: new Date(Date.now() - 3600000).toISOString(),
+        action: 'under_review',
+        userLabel: 'Мария (бренд)',
+        comment: 'Проверяем территорию',
+      },
     ],
   };
 }
@@ -146,7 +165,8 @@ export function setApplicationStatus(
   const state = loadBuyerApplicationsState();
   const app = state.applications.find((a) => a.id === applicationId);
   if (!app) return null;
-  const action = status === 'approved' ? 'approved' : status === 'rejected' ? 'rejected' : 'under_review';
+  const action =
+    status === 'approved' ? 'approved' : status === 'rejected' ? 'rejected' : 'under_review';
   const updated: BuyerApplicationWithBrand = {
     ...app,
     status,
@@ -170,10 +190,18 @@ export function setApplicationStatus(
   return next;
 }
 
-export function getApplicationsByBrand(brandId: string, state: BuyerApplicationsState): BuyerApplicationWithBrand[] {
+export function getApplicationsByBrand(
+  brandId: string,
+  state: BuyerApplicationsState
+): BuyerApplicationWithBrand[] {
   return state.applications.filter((a) => a.brandId === brandId || !brandId);
 }
 
-export function getAuditForApplication(applicationId: string, state: BuyerApplicationsState): BuyerApplicationAuditEntry[] {
-  return state.audit.filter((e) => e.applicationId === applicationId).sort((a, b) => b.at.localeCompare(a.at));
+export function getAuditForApplication(
+  applicationId: string,
+  state: BuyerApplicationsState
+): BuyerApplicationAuditEntry[] {
+  return state.audit
+    .filter((e) => e.applicationId === applicationId)
+    .sort((a, b) => b.at.localeCompare(a.at));
 }

@@ -26,7 +26,9 @@ export async function fetchEdoDocuments(config?: EdoOperatorConfig): Promise<EDO
   try {
     const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1';
     const res = await fetch(`${apiBase}/compliance/edo/documents`, {
-      headers: { Authorization: `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('syntha_access_token') : ''}` },
+      headers: {
+        Authorization: `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('syntha_access_token') : ''}`,
+      },
     });
     if (res.ok) {
       const json = await res.json();
@@ -39,7 +41,10 @@ export async function fetchEdoDocuments(config?: EdoOperatorConfig): Promise<EDO
   }
 }
 
-export async function signEdoDocument(docId: string | number, config?: EdoOperatorConfig): Promise<{ ok: boolean; error?: string }> {
+export async function signEdoDocument(
+  docId: string | number,
+  config?: EdoOperatorConfig
+): Promise<{ ok: boolean; error?: string }> {
   try {
     const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1';
     const res = await fetch(`${apiBase}/compliance/edo/${docId}/sign`, {

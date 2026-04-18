@@ -11,7 +11,12 @@ import { getB2BLinks } from '@/lib/data/entity-links';
 
 /** NuOrder: версии лайншита — Early Bird / VIP / Outlet / Stock Lot, разные каталоги и условия по сезону. */
 const VERSIONS = [
-  { id: 'early-bird', name: 'Early Bird', desc: 'Ранний доступ, особые условия для ключевых партнёров', icon: Zap },
+  {
+    id: 'early-bird',
+    name: 'Early Bird',
+    desc: 'Ранний доступ, особые условия для ключевых партнёров',
+    icon: Zap,
+  },
   { id: 'vip', name: 'VIP', desc: 'Расширенный ассортимент и приоритет отгрузки', icon: Star },
   { id: 'outlet', name: 'Outlet', desc: 'Ликвидация, уценённые позиции', icon: Tag },
   { id: 'stock-lot', name: 'Stock Lot', desc: 'Остатки со склада, лоты', icon: Package },
@@ -19,12 +24,21 @@ const VERSIONS = [
 
 export default function LinesheetVersionsPage() {
   return (
-    <div className="container max-w-3xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
-        <Link href={ROUTES.brand.b2bLinesheets}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+    <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
+        <Link href={ROUTES.brand.b2bLinesheets}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
         <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2"><Layers className="h-6 w-6" /> Версии лайншита</h1>
-          <p className="text-slate-500 text-sm mt-0.5">NuOrder: Early Bird, VIP, Outlet, Stock Lot — разные каталоги и условия по одному сезону.</p>
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
+            <Layers className="h-6 w-6" /> Версии лайншита
+          </h1>
+          <p className="mt-0.5 text-sm text-slate-500">
+            NuOrder: Early Bird, VIP, Outlet, Stock Lot — разные каталоги и условия по одному
+            сезону.
+          </p>
         </div>
       </div>
 
@@ -37,8 +51,12 @@ export default function LinesheetVersionsPage() {
           {VERSIONS.map((v) => {
             const Icon = v.icon;
             return (
-              <Link key={v.id} href={ROUTES.brand.b2bLinesheetsCreate} className="block p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/50 transition-colors">
-                <Icon className="h-8 w-8 text-indigo-600 mb-2" />
+              <Link
+                key={v.id}
+                href={ROUTES.brand.b2bLinesheetsCreate}
+                className="block rounded-xl border border-slate-200 p-4 transition-colors hover:border-indigo-300 hover:bg-indigo-50/50"
+              >
+                <Icon className="mb-2 h-8 w-8 text-indigo-600" />
                 <p className="font-medium">{v.name}</p>
                 <p className="text-xs text-slate-500">{v.desc}</p>
               </Link>
@@ -47,9 +65,13 @@ export default function LinesheetVersionsPage() {
         </CardContent>
       </Card>
 
-      <div className="flex gap-2 mb-6">
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.brand.b2bLinesheetCampaigns}>Кампании по лайншитам</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.brand.b2bLinesheets}>Все лайншиты</Link></Button>
+      <div className="mb-6 flex gap-2">
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.brand.b2bLinesheetCampaigns}>Кампании по лайншитам</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.brand.b2bLinesheets}>Все лайншиты</Link>
+        </Button>
       </div>
       <RelatedModulesBlock links={getB2BLinks()} title="Лайншиты, кампании, заказы" />
     </div>

@@ -23,7 +23,7 @@ export class CacheManager {
   ): Promise<T> {
     const cached = this.cache.get(key);
     const now = Date.now();
-    
+
     if (cached && cached.expiresAt > now) {
       // LRU: Перемещаем элемент в конец Map (самый недавно использованный)
       this.cache.delete(key);
@@ -34,7 +34,7 @@ export class CacheManager {
 
     console.log(`[CacheManager] MISS for key: ${key}. Computing...`);
     const result = await computeFn();
-    
+
     // LRU: Если достигли лимита, удаляем самый старый элемент (первый в Map)
     if (this.cache.size >= this.MAX_CACHE_SIZE) {
       this.evictOldest();
@@ -42,7 +42,7 @@ export class CacheManager {
 
     this.cache.set(key, {
       value: result,
-      expiresAt: now + ttlMs
+      expiresAt: now + ttlMs,
     });
 
     return result;
@@ -62,13 +62,15 @@ export class CacheManager {
         return; // Удалили просроченный, достаточно
       }
       // Map сохраняет порядок вставки. Первый элемент — самый старый (если не обновлялся)
-      if (!oldestKey) oldestKey = key; 
+      if (!oldestKey) oldestKey = key;
     }
 
     // Если просроченных нет, удаляем просто самый старый (LRU)
     if (oldestKey) {
       this.cache.delete(oldestKey);
-      console.warn(`[CacheManager] Memory bound reached (${this.MAX_CACHE_SIZE}). Evicted LRU key: ${oldestKey}`);
+      console.warn(
+        `[CacheManager] Memory bound reached (${this.MAX_CACHE_SIZE}). Evicted LRU key: ${oldestKey}`
+      );
     }
   }
 

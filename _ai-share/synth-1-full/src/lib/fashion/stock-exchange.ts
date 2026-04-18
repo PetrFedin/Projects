@@ -29,10 +29,10 @@ export function getStockExchangeOffers(sku?: string): StockExchangeV1[] {
       location: 'Krasnodar',
       pricePerUnit: 3800,
       status: 'negotiation',
-    }
+    },
   ];
 
-  return sku ? offers.filter(o => o.sku === sku) : offers;
+  return sku ? offers.filter((o) => o.sku === sku) : offers;
 }
 
 export function postToExchange(offer: Omit<StockExchangeV1, 'status'>): StockExchangeV1 {

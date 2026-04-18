@@ -13,7 +13,7 @@ export class FastApiAuthRepository implements AuthRepository {
   }
 
   private notifyListeners(user: UserProfile | null) {
-    this.listeners.forEach(callback => callback(user));
+    this.listeners.forEach((callback) => callback(user));
   }
 
   async updateCurrentUser(patch: Partial<UserProfile>): Promise<UserProfile> {
@@ -35,11 +35,14 @@ export class FastApiAuthRepository implements AuthRepository {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
 
-      const tokenResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1'}/auth/login/access-token`, {
-        method: 'POST',
-        body: formData,
-        signal: controller.signal,
-      });
+      const tokenResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1'}/auth/login/access-token`,
+        {
+          method: 'POST',
+          body: formData,
+          signal: controller.signal,
+        }
+      );
       clearTimeout(timeoutId);
 
       if (tokenResponse.ok) {

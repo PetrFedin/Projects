@@ -3,7 +3,11 @@
  * Для B2B-партнёров и инвесторов.
  */
 
-export function exportToCSV(data: Record<string, string | number>[], columns: { key: string; label: string }[], filename: string) {
+export function exportToCSV(
+  data: Record<string, string | number>[],
+  columns: { key: string; label: string }[],
+  filename: string
+) {
   const header = columns.map((c) => c.label).join(',');
   const rows = data.map((row) =>
     columns

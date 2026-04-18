@@ -49,12 +49,8 @@ export function buildMaterialCategoryNotes(l2Name: string): string[] {
     'Платья и сарафаны': [
       'Основная ткань и подклад — отдельные строки; фурнитура (молния, пуговицы) — в каталоге ниже.',
     ],
-    'Рубашки и блузы': [
-      'Для смесовых тканей доведите сумму % до 100 при связке состава.',
-    ],
-    'Трикотаж': [
-      'Уточните волокна (хлопок/вискоза/синтетика) — это влияет на усадку и ОТК.',
-    ],
+    'Рубашки и блузы': ['Для смесовых тканей доведите сумму % до 100 при связке состава.'],
+    Трикотаж: ['Уточните волокна (хлопок/вискоза/синтетика) — это влияет на усадку и ОТК.'],
   };
   const base = byL2[key] ?? [
     'Заполните обязательные поля каталога в этой секции — снабжение читает их как единый BOM.',
@@ -74,7 +70,11 @@ export function buildMaterialBomHubModel(input: BuildMaterialBomHubInput): Mater
     });
   }
 
-  if (input.linkedMatComposition && input.compositionPctSum !== null && input.compositionPctSum !== 100) {
+  if (
+    input.linkedMatComposition &&
+    input.compositionPctSum !== null &&
+    input.compositionPctSum !== 100
+  ) {
     gate.push({
       id: 'gate-comp',
       message: `Сумма процентов состава должна быть 100% (сейчас ${input.compositionPctSum}%).`,

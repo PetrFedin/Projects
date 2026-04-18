@@ -12,7 +12,7 @@ export interface OrderSyncState {
   orderId: string;
   provider: SyncProvider;
   status: SyncStatus;
-  
+
   /** Внешний идентификатор в системе провайдера */
   externalId?: string;
 
@@ -54,6 +54,6 @@ export function createSyncLog(syncState: OrderSyncState): Record<string, any> {
     status: syncState.status,
     externalId: syncState.externalId,
     hasError: !!syncState.error,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   };
 }

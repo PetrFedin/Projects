@@ -7,7 +7,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
@@ -37,14 +44,14 @@ export default function LoginPage() {
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!forgotPasswordEmail || !forgotPasswordEmail.includes('@')) {
-      toast({ title: "Неверный email", variant: "destructive" });
+      toast({ title: 'Неверный email', variant: 'destructive' });
       return;
     }
     // Simulation
     toast({
-      title: "Ссылка отправлена",
+      title: 'Ссылка отправлена',
       description: `Инструкции по восстановлению отправлены на ${forgotPasswordEmail}`,
-      className: "bg-black text-white"
+      className: 'bg-black text-white',
     });
     setIsForgotPassword(false);
   };
@@ -101,40 +108,45 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md overflow-hidden border-none shadow-2xl rounded-xl">
+    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+      <Card className="w-full max-w-md overflow-hidden rounded-xl border-none shadow-2xl">
         {isForgotPassword ? (
-          <div className="p-3 space-y-4 animate-in fade-in zoom-in-95 duration-500">
+          <div className="space-y-4 p-3 duration-500 animate-in fade-in zoom-in-95">
             <div className="space-y-2 text-center">
-              <div className="h-12 w-12 bg-indigo-50 rounded-xl flex items-center justify-center mx-auto mb-6">
+              <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50">
                 <Lock className="h-8 w-8 text-indigo-600" />
               </div>
               <h2 className="text-sm font-black uppercase tracking-tighter">Восстановление</h2>
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-relaxed">
+              <p className="text-[10px] font-bold uppercase leading-relaxed tracking-widest text-slate-400">
                 Введите ваш email для получения ссылки <br /> восстановления доступа к платформе
               </p>
             </div>
             <form onSubmit={handleForgotPassword} className="space-y-6">
               <div className="space-y-2">
-                <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Email адрес</Label>
+                <Label className="ml-1 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  Email адрес
+                </Label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300" />
-                  <Input 
-                    type="email" 
+                  <Mail className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-300" />
+                  <Input
+                    type="email"
                     value={forgotPasswordEmail}
                     onChange={(e) => setForgotPasswordEmail(e.target.value)}
                     placeholder="name@company.ai"
-                    className="h-10 rounded-2xl bg-slate-50 border-none font-bold pl-12 focus:ring-2 ring-indigo-500/20"
+                    className="h-10 rounded-2xl border-none bg-slate-50 pl-12 font-bold ring-indigo-500/20 focus:ring-2"
                   />
                 </div>
               </div>
-              <Button type="submit" className="w-full h-10 bg-black text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl transition-all hover:scale-[1.02] active:scale-95">
+              <Button
+                type="submit"
+                className="h-10 w-full rounded-2xl bg-black text-xs font-black uppercase tracking-widest text-white shadow-xl transition-all hover:scale-[1.02] active:scale-95"
+              >
                 Отправить ссылку
               </Button>
-              <button 
-                type="button" 
+              <button
+                type="button"
                 onClick={() => setIsForgotPassword(false)}
-                className="w-full text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors py-2"
+                className="w-full py-2 text-[10px] font-black uppercase tracking-widest text-slate-400 transition-colors hover:text-slate-600"
               >
                 Вернуться к входу
               </button>
@@ -142,15 +154,14 @@ export default function LoginPage() {
           </div>
         ) : (
           <>
-            <CardHeader className="pt-10 px-10 pb-4">
+            <CardHeader className="px-10 pb-4 pt-10">
               <CardTitle className="text-base font-black uppercase tracking-tighter text-slate-900">
                 {isSignUp ? 'Регистрация' : 'Вход'}
               </CardTitle>
-              <CardDescription className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2">
-                {isSignUp 
+              <CardDescription className="mt-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                {isSignUp
                   ? 'Создайте аккаунт для начала работы в Intel OS'
-                  : 'Войдите в свою учетную запись'
-                }
+                  : 'Войдите в свою учетную запись'}
               </CardDescription>
             </CardHeader>
             <CardContent className="px-10 pb-10">
@@ -162,9 +173,15 @@ export default function LoginPage() {
                       name="displayName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-[10px] font-black uppercase text-slate-400">Имя</FormLabel>
+                          <FormLabel className="text-[10px] font-black uppercase text-slate-400">
+                            Имя
+                          </FormLabel>
                           <FormControl>
-                            <Input placeholder="Иван Иванов" className="rounded-xl h-12 bg-slate-50 border-none font-bold" {...field} />
+                            <Input
+                              placeholder="Иван Иванов"
+                              className="h-12 rounded-xl border-none bg-slate-50 font-bold"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -175,9 +192,16 @@ export default function LoginPage() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-[10px] font-black uppercase text-slate-400">Email</FormLabel>
+                          <FormLabel className="text-[10px] font-black uppercase text-slate-400">
+                            Email
+                          </FormLabel>
                           <FormControl>
-                            <Input type="email" placeholder="email@example.com" className="rounded-xl h-12 bg-slate-50 border-none font-bold" {...field} />
+                            <Input
+                              type="email"
+                              placeholder="email@example.com"
+                              className="h-12 rounded-xl border-none bg-slate-50 font-bold"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -188,17 +212,24 @@ export default function LoginPage() {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-[10px] font-black uppercase text-slate-400">Пароль</FormLabel>
+                          <FormLabel className="text-[10px] font-black uppercase text-slate-400">
+                            Пароль
+                          </FormLabel>
                           <FormControl>
-                            <Input type="password" placeholder="••••••••" className="rounded-xl h-12 bg-slate-50 border-none font-bold" {...field} />
+                            <Input
+                              type="password"
+                              placeholder="••••••••"
+                              className="h-12 rounded-xl border-none bg-slate-50 font-bold"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                    <Button 
-                      type="submit" 
-                      className="w-full h-10 bg-black text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl mt-4" 
+                    <Button
+                      type="submit"
+                      className="mt-4 h-10 w-full rounded-2xl bg-black text-xs font-black uppercase tracking-widest text-white shadow-xl"
                       disabled={signupForm.formState.isSubmitting}
                     >
                       {signupForm.formState.isSubmitting && (
@@ -216,9 +247,16 @@ export default function LoginPage() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-[10px] font-black uppercase text-slate-400">Email</FormLabel>
+                          <FormLabel className="text-[10px] font-black uppercase text-slate-400">
+                            Email
+                          </FormLabel>
                           <FormControl>
-                            <Input type="email" placeholder="email@example.com" className="rounded-xl h-12 bg-slate-50 border-none font-bold" {...field} />
+                            <Input
+                              type="email"
+                              placeholder="email@example.com"
+                              className="h-12 rounded-xl border-none bg-slate-50 font-bold"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -230,25 +268,32 @@ export default function LoginPage() {
                       render={({ field }) => (
                         <FormItem>
                           <div className="flex items-center justify-between">
-                            <FormLabel className="text-[10px] font-black uppercase text-slate-400">Пароль</FormLabel>
+                            <FormLabel className="text-[10px] font-black uppercase text-slate-400">
+                              Пароль
+                            </FormLabel>
                             <button
                               type="button"
                               onClick={() => setIsForgotPassword(true)}
-                              className="text-[9px] font-black uppercase tracking-widest text-indigo-500 hover:text-indigo-600 transition-colors"
+                              className="text-[9px] font-black uppercase tracking-widest text-indigo-500 transition-colors hover:text-indigo-600"
                             >
                               Забыли пароль?
                             </button>
                           </div>
                           <FormControl>
-                            <Input type="password" placeholder="••••••••" className="rounded-xl h-12 bg-slate-50 border-none font-bold" {...field} />
+                            <Input
+                              type="password"
+                              placeholder="••••••••"
+                              className="h-12 rounded-xl border-none bg-slate-50 font-bold"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                    <Button 
-                      type="submit" 
-                      className="w-full h-10 bg-black text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl mt-4" 
+                    <Button
+                      type="submit"
+                      className="mt-4 h-10 w-full rounded-2xl bg-black text-xs font-black uppercase tracking-widest text-white shadow-xl"
                       disabled={loginForm.formState.isSubmitting}
                     >
                       {loginForm.formState.isSubmitting && (
@@ -259,24 +304,24 @@ export default function LoginPage() {
                   </form>
                 </Form>
               )}
-              
-              <div className="mt-8 text-center text-sm border-t border-slate-50 pt-6">
+
+              <div className="mt-8 border-t border-slate-50 pt-6 text-center text-sm">
                 {isSignUp ? (
-                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-tight">
+                  <p className="text-[11px] font-bold uppercase tracking-tight text-slate-400">
                     Уже есть аккаунт?{' '}
                     <button
                       onClick={() => setIsSignUp(false)}
-                      className="text-indigo-600 font-black hover:underline ml-1"
+                      className="ml-1 font-black text-indigo-600 hover:underline"
                     >
                       Войти
                     </button>
                   </p>
                 ) : (
-                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-tight">
+                  <p className="text-[11px] font-bold uppercase tracking-tight text-slate-400">
                     Нет аккаунта?{' '}
                     <button
                       onClick={() => setIsSignUp(true)}
-                      className="text-indigo-600 font-black hover:underline ml-1"
+                      className="ml-1 font-black text-indigo-600 hover:underline"
                     >
                       Зарегистрироваться
                     </button>
@@ -285,7 +330,10 @@ export default function LoginPage() {
               </div>
 
               <div className="mt-4 text-center">
-                <Link href="/" className="text-[9px] font-black uppercase tracking-widest text-slate-300 hover:text-slate-500 transition-colors">
+                <Link
+                  href="/"
+                  className="text-[9px] font-black uppercase tracking-widest text-slate-300 transition-colors hover:text-slate-500"
+                >
                   Вернуться на главную
                 </Link>
               </div>
@@ -296,8 +344,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
-
-
-
-

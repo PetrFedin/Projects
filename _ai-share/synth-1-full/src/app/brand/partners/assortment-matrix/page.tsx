@@ -3,7 +3,14 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { PartnerDemoExportBar } from '@/components/brand/partner-demo-export-bar';
 import { ROUTES } from '@/lib/routes';
@@ -12,7 +19,7 @@ import { ArrowLeft, Grid3x3, Factory, Plug } from 'lucide-react';
 
 export default function AssortmentMatrixPage() {
   return (
-    <div className="container max-w-5xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
@@ -21,13 +28,16 @@ export default function AssortmentMatrixPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
+            <h1 className="flex items-center gap-2 text-xl font-bold">
               <Grid3x3 className="h-6 w-6" />
               Совместная матрица ассортимента
             </h1>
             <p className="text-sm text-muted-foreground">
               Канал × SKU × цвет × размеры × статус × sell-through. Данные:{' '}
-              <code className="text-[10px] bg-muted px-1 rounded">lib/platform/partner-demo-data</code> → позже GET/PUT API.
+              <code className="rounded bg-muted px-1 text-[10px]">
+                lib/platform/partner-demo-data
+              </code>{' '}
+              → позже GET/PUT API.
             </p>
           </div>
         </div>
@@ -37,13 +47,13 @@ export default function AssortmentMatrixPage() {
       <div className="flex flex-wrap gap-2 text-[11px]">
         <Button variant="secondary" size="sm" asChild>
           <Link href={ROUTES.brand.production}>
-            <Factory className="h-3.5 w-3.5 mr-2" />
+            <Factory className="mr-2 h-3.5 w-3.5" />
             Production
           </Link>
         </Button>
         <Button variant="secondary" size="sm" asChild>
           <Link href={ROUTES.brand.integrations}>
-            <Plug className="h-3.5 w-3.5 mr-2" />
+            <Plug className="mr-2 h-3.5 w-3.5" />
             Интеграции
           </Link>
         </Button>
@@ -52,7 +62,9 @@ export default function AssortmentMatrixPage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Матрица</CardTitle>
-          <CardDescription>Одно окно правды для байера и бренда; в проде — права, версии и аудит.</CardDescription>
+          <CardDescription>
+            Одно окно правды для байера и бренда; в проде — права, версии и аудит.
+          </CardDescription>
         </CardHeader>
         <CardContent className="overflow-x-auto">
           <Table>
@@ -75,8 +87,10 @@ export default function AssortmentMatrixPage() {
                   <TableCell className="font-mono text-xs">{r.sku}</TableCell>
                   <TableCell>{r.color}</TableCell>
                   <TableCell>{r.sizes}</TableCell>
-                  <TableCell className="text-muted-foreground text-xs">{r.season ?? '—'}</TableCell>
-                  <TableCell className="text-muted-foreground text-xs whitespace-nowrap">{r.lastSync ?? '—'}</TableCell>
+                  <TableCell className="text-xs text-muted-foreground">{r.season ?? '—'}</TableCell>
+                  <TableCell className="whitespace-nowrap text-xs text-muted-foreground">
+                    {r.lastSync ?? '—'}
+                  </TableCell>
                   <TableCell>
                     <Badge variant="outline" className="text-[10px]">
                       {r.status}

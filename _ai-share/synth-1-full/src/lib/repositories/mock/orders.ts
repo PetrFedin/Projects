@@ -28,23 +28,27 @@ export class MockOrdersRepository implements OrdersRepository {
   private notifyListeners(userId: string, orders: Order[]) {
     const userListeners = this.listeners.get(userId);
     if (userListeners) {
-      userListeners.forEach(callback => callback(orders));
+      userListeners.forEach((callback) => callback(orders));
     }
   }
 
   async getOrders(userId: string): Promise<Order[]> {
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
     return this.getOrdersSync(userId);
   }
 
   async getOrderById(userId: string, orderId: string): Promise<Order | null> {
-    await new Promise(resolve => setTimeout(resolve, 50));
+    await new Promise((resolve) => setTimeout(resolve, 50));
     const orders = this.getOrdersSync(userId);
-    return orders.find(o => o.id === orderId) || null;
+    return orders.find((o) => o.id === orderId) || null;
   }
 
-  async createOrder(userId: string, orderData: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>, customCreatedAt?: string): Promise<Order> {
-    await new Promise(resolve => setTimeout(resolve, 500)); // Simulate processing
+  async createOrder(
+    userId: string,
+    orderData: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>,
+    customCreatedAt?: string
+  ): Promise<Order> {
+    await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate processing
 
     const orders = this.getOrdersSync(userId);
     const newOrder: Order = {
@@ -61,9 +65,9 @@ export class MockOrdersRepository implements OrdersRepository {
   }
 
   async updateOrderStatus(userId: string, orderId: string, status: Order['status']): Promise<void> {
-    await new Promise(resolve => setTimeout(resolve, 200));
+    await new Promise((resolve) => setTimeout(resolve, 200));
     const orders = this.getOrdersSync(userId);
-    const order = orders.find(o => o.id === orderId);
+    const order = orders.find((o) => o.id === orderId);
     if (order) {
       order.status = status;
       order.updatedAt = new Date().toISOString();
@@ -92,4 +96,3 @@ export class MockOrdersRepository implements OrdersRepository {
 }
 
 export const mockOrdersRepository = new MockOrdersRepository();
-

@@ -18,9 +18,13 @@ export function ClientNav() {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Клиентское меню" className="flex flex-wrap items-center gap-1 border-b border-slate-200 bg-slate-50/80 px-4 py-2">
+    <nav
+      aria-label="Клиентское меню"
+      className="flex flex-wrap items-center gap-1 border-b border-slate-200 bg-slate-50/80 px-4 py-2"
+    >
       {clientNavItems.map(({ label, href, icon: Icon }) => {
-        const isActive = pathname === href || (href !== ROUTES.client.home && pathname.startsWith(href));
+        const isActive =
+          pathname === href || (href !== ROUTES.client.home && pathname.startsWith(href));
         return (
           <Link
             key={href}

@@ -84,7 +84,7 @@ export class PredictiveWorkforceScheduler {
       recommendedStaffCount,
       staffingDelta,
       action,
-      reasoning
+      reasoning,
     };
   }
 }

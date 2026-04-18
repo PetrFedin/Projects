@@ -4,13 +4,13 @@
  */
 
 import type { AttributeCatalogAttribute } from '@/lib/production/attribute-catalog.types';
-import { getAttributeCatalog, getAttributeDossierSection, attributeInWorkflowPhase } from '@/lib/production/attribute-catalog';
+import {
+  getAttributeCatalog,
+  getAttributeDossierSection,
+  attributeInWorkflowPhase,
+} from '@/lib/production/attribute-catalog';
 
-export type PassportReferenceSection =
-  | 'general'
-  | 'visuals'
-  | 'material'
-  | 'construction';
+export type PassportReferenceSection = 'general' | 'visuals' | 'material' | 'construction';
 
 export type CatalogDepthLevel = 'l1' | 'l2' | 'l3';
 
@@ -34,11 +34,20 @@ const REFERENCE_SECTION_OVERRIDES: Partial<Record<string, PassportReferenceSecti
   clothingFitOptions: 'construction',
 };
 
-const REGULATORY_ID_PREFIXES = ['customs', 'countryOf', 'nationalMarking', 'productBarcode'] as const;
+const REGULATORY_ID_PREFIXES = [
+  'customs',
+  'countryOf',
+  'nationalMarking',
+  'productBarcode',
+] as const;
 
 function isRegulatoryCommonAttributeId(id: string): boolean {
   if (REGULATORY_ID_PREFIXES.some((p) => id.startsWith(p))) return true;
-  if (id === 'okpd2CodeNote' || id === 'certificationMarksOptions' || id === 'customsClassificationRationale') {
+  if (
+    id === 'okpd2CodeNote' ||
+    id === 'certificationMarksOptions' ||
+    id === 'customsClassificationRationale'
+  ) {
     return true;
   }
   return false;
@@ -57,12 +66,16 @@ function lineIdentityAttributeIds(): Set<string> {
 
 function normalizePassportSection(raw: string | undefined): PassportReferenceSection {
   if (!raw) return 'general';
-  if (raw === 'measurements' || raw === 'packaging') return raw === 'measurements' ? 'construction' : 'material';
-  if (raw === 'general' || raw === 'visuals' || raw === 'material' || raw === 'construction') return raw;
+  if (raw === 'measurements' || raw === 'packaging')
+    return raw === 'measurements' ? 'construction' : 'material';
+  if (raw === 'general' || raw === 'visuals' || raw === 'material' || raw === 'construction')
+    return raw;
   return 'general';
 }
 
-export function inferPassportReferenceSection(attr: AttributeCatalogAttribute): PassportReferenceSection {
+export function inferPassportReferenceSection(
+  attr: AttributeCatalogAttribute
+): PassportReferenceSection {
   const override = REFERENCE_SECTION_OVERRIDES[attr.attributeId];
   if (override) return override;
   if (attr.dossierSection) return normalizePassportSection(attr.dossierSection);
@@ -83,7 +96,10 @@ export function inferPassportApplicableLevels(
   return ['l3'];
 }
 
-export function inferPassportCommonFlag(attr: AttributeCatalogAttribute, globalIds: Set<string>): boolean {
+export function inferPassportCommonFlag(
+  attr: AttributeCatalogAttribute,
+  globalIds: Set<string>
+): boolean {
   if (typeof attr.passportCommon === 'boolean') return attr.passportCommon;
   if (isRegulatoryCommonAttributeId(attr.attributeId)) return true;
   return globalIds.has(attr.attributeId);
@@ -92,7 +108,9 @@ export function inferPassportCommonFlag(attr: AttributeCatalogAttribute, globalI
 /**
  * Все строки справочника для фазы 1 (атрибуты не retired, участвуют в workflow фазы 1).
  */
-export function buildPassportAttributeReferenceRows(phase: number = 1): PassportAttributeReferenceRow[] {
+export function buildPassportAttributeReferenceRows(
+  phase: number = 1
+): PassportAttributeReferenceRow[] {
   const cat = getAttributeCatalog();
   const globalIds = new Set(cat.globalAttributeIds ?? []);
   const rows: PassportAttributeReferenceRow[] = [];

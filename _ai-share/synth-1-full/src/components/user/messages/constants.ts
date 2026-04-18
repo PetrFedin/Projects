@@ -1,7 +1,21 @@
 import { UserRole } from '@/lib/types';
-import { 
-  ArrowDown, ArrowUp, AlertCircle, ShieldAlert,
-  LayoutGrid, MessageSquare as MessageSquareIcon, Star, Archive, Users, Handshake, Briefcase, Factory, Store, Shield, Package, Layers
+import {
+  ArrowDown,
+  ArrowUp,
+  AlertCircle,
+  ShieldAlert,
+  LayoutGrid,
+  MessageSquare as MessageSquareIcon,
+  Star,
+  Archive,
+  Users,
+  Handshake,
+  Briefcase,
+  Factory,
+  Store,
+  Shield,
+  Package,
+  Layers,
 } from 'lucide-react';
 import React from 'react';
 
@@ -23,8 +37,35 @@ export const ROLE_LABELS = {
 } satisfies Record<UserRole, string>;
 
 export const ROLE_PERMISSIONS = {
-  admin: ['all', 'admin', 'brand', 'distributor', 'supplier', 'manufacturer', 'shop', 'client', 'team', 'starred', 'archived'],
-  brand: ['all', 'admin', 'brand', 'distributor', 'supplier', 'manufacturer', 'shop', 'client', 'team', 'production', 'b2b_orders', 'collections', 'starred', 'archived'],
+  admin: [
+    'all',
+    'admin',
+    'brand',
+    'distributor',
+    'supplier',
+    'manufacturer',
+    'shop',
+    'client',
+    'team',
+    'starred',
+    'archived',
+  ],
+  brand: [
+    'all',
+    'admin',
+    'brand',
+    'distributor',
+    'supplier',
+    'manufacturer',
+    'shop',
+    'client',
+    'team',
+    'production',
+    'b2b_orders',
+    'collections',
+    'starred',
+    'archived',
+  ],
   client: ['all', 'admin', 'brand', 'shop', 'starred', 'archived'],
   shop: ['all', 'admin', 'brand', 'distributor', 'team', 'starred', 'archived', 'client'],
   distributor: ['all', 'admin', 'brand', 'shop', 'team', 'starred', 'archived'],
@@ -53,7 +94,11 @@ export const priorityConfig = {
   low: { label: 'Низкий', icon: ArrowDown, color: 'text-slate-400' },
   medium: { label: 'Средний', icon: ArrowUp, color: 'text-amber-500' },
   high: { label: 'Высокий', icon: AlertCircle, color: 'text-rose-500' },
-  critical: { label: 'Критический', icon: ShieldAlert, color: 'text-red-600 font-black animate-pulse' },
+  critical: {
+    label: 'Критический',
+    icon: ShieldAlert,
+    color: 'text-red-600 font-black animate-pulse',
+  },
 } satisfies Record<string, { label: string; icon: React.ElementType; color: string }>;
 
 export const statusConfig = {

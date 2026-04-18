@@ -3,7 +3,14 @@
 import React, { useState, useMemo } from 'react';
 import { Product } from '@/lib/types';
 import { MatrixCell, calculateMatrixTotals } from '@/lib/logic/matrix-order-utils';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useB2BState } from '@/providers/b2b-state';
@@ -26,8 +33,8 @@ export function MatrixOrderEntry({ product, onClose }: MatrixOrderEntryProps) {
 
   const handleQtyChange = (color: string, size: string, value: string) => {
     const qty = parseInt(value) || 0;
-    setCells(prev => {
-      const filtered = prev.filter(c => !(c.color === color && c.size === size));
+    setCells((prev) => {
+      const filtered = prev.filter((c) => !(c.color === color && c.size === size));
       if (qty <= 0) return filtered;
       return [...filtered, { color, size, quantity: qty }];
     });
@@ -36,42 +43,50 @@ export function MatrixOrderEntry({ product, onClose }: MatrixOrderEntryProps) {
   const totals = useMemo(() => calculateMatrixTotals(cells, product.price), [cells, product.price]);
 
   const handleAddAll = () => {
-    cells.forEach(cell => {
+    cells.forEach((cell) => {
       addB2bOrderItem(product, cell.size, cell.quantity);
     });
     onClose();
   };
 
   return (
-    <div className="space-y-6 p-4 bg-white rounded-lg border shadow-sm">
-      <div className="flex justify-between items-center">
+    <div className="space-y-6 rounded-lg border bg-white p-4 shadow-sm">
+      <div className="flex items-center justify-between">
         <div>
           <h3 className="text-sm font-bold">{product.name}</h3>
-          <p className="text-sm text-muted-foreground">Артикул: {product.id} | Цена: {product.price.toLocaleString()} ₽</p>
+          <p className="text-sm text-muted-foreground">
+            Артикул: {product.id} | Цена: {product.price.toLocaleString()} ₽
+          </p>
         </div>
         <div className="text-right">
-          <p className="text-sm font-medium">Итого единиц: <span className="text-primary">{totals.totalUnits}</span></p>
-          <p className="text-sm font-medium">Сумма: <span className="text-primary">{totals.totalAmount.toLocaleString()} ₽</span></p>
+          <p className="text-sm font-medium">
+            Итого единиц: <span className="text-primary">{totals.totalUnits}</span>
+          </p>
+          <p className="text-sm font-medium">
+            Сумма: <span className="text-primary">{totals.totalAmount.toLocaleString()} ₽</span>
+          </p>
         </div>
       </div>
 
-      <div className="overflow-x-auto border rounded-md">
+      <div className="overflow-x-auto rounded-md border">
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/50">
               <TableHead className="w-32">Цвет / Размер</TableHead>
-              {sizes.map(size => (
-                <TableHead key={size} className="text-center">{size}</TableHead>
+              {sizes.map((size) => (
+                <TableHead key={size} className="text-center">
+                  {size}
+                </TableHead>
               ))}
               <TableHead className="text-right font-bold">Итого</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {colors.map(color => (
+            {colors.map((color) => (
               <TableRow key={color}>
                 <TableCell className="font-medium">{color}</TableCell>
-                {sizes.map(size => {
-                  const cell = cells.find(c => c.color === color && c.size === size);
+                {sizes.map((size) => {
+                  const cell = cells.find((c) => c.color === color && c.size === size);
                   return (
                     <TableCell key={size} className="p-1">
                       <Input
@@ -95,7 +110,9 @@ export function MatrixOrderEntry({ product, onClose }: MatrixOrderEntryProps) {
       </div>
 
       <div className="flex justify-end gap-3 pt-2">
-        <Button variant="outline" onClick={onClose}>Отмена</Button>
+        <Button variant="outline" onClick={onClose}>
+          Отмена
+        </Button>
         <Button onClick={handleAddAll} disabled={totals.totalUnits === 0}>
           Добавить в корзину ({totals.totalUnits})
         </Button>

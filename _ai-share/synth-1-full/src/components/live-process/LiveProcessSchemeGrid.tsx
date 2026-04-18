@@ -2,7 +2,11 @@
 
 import { useState, useMemo } from 'react';
 import { LiveProcessSchemeStage } from './LiveProcessSchemeStage';
-import type { LiveProcessStageDef, LiveProcessStageRuntime, LiveProcessTeamMember } from '@/lib/live-process/types';
+import type {
+  LiveProcessStageDef,
+  LiveProcessStageRuntime,
+  LiveProcessTeamMember,
+} from '@/lib/live-process/types';
 
 const COLS = 4;
 const CARD_WIDTH = 240;
@@ -35,7 +39,12 @@ interface LiveProcessSchemeGridProps {
   team: LiveProcessTeamMember[];
   isBlocked: (stageId: string) => boolean;
   onUpdateRuntime: (stageId: string, patch: Partial<LiveProcessStageRuntime>) => void;
-  processLinks?: { sourceProcessId: string; sourceStageId: string; targetProcessId: string; targetStageId?: string }[];
+  processLinks?: {
+    sourceProcessId: string;
+    sourceStageId: string;
+    targetProcessId: string;
+    targetStageId?: string;
+  }[];
 }
 
 export function LiveProcessSchemeGrid({
@@ -78,16 +87,30 @@ export function LiveProcessSchemeGrid({
     <div className="relative" style={{ width: gridWidth, minHeight: gridHeight }}>
       {/* SVG слой с линиями связей */}
       <svg
-        className="absolute inset-0 pointer-events-none"
+        className="pointer-events-none absolute inset-0"
         width={gridWidth}
         height={gridHeight}
         style={{ overflow: 'visible' }}
       >
         <defs>
-          <marker id="arrow-highlight" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <marker
+            id="arrow-highlight"
+            markerWidth="8"
+            markerHeight="8"
+            refX="6"
+            refY="4"
+            orient="auto"
+          >
             <path d="M0,0 L8,4 L0,8 Z" fill="rgb(99 102 241)" />
           </marker>
-          <marker id="arrow-default" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <marker
+            id="arrow-default"
+            markerWidth="8"
+            markerHeight="8"
+            refX="6"
+            refY="4"
+            orient="auto"
+          >
             <path d="M0,0 L8,4 L0,8 Z" fill="rgb(148 163 184)" />
           </marker>
         </defs>
@@ -140,16 +163,16 @@ export function LiveProcessSchemeGrid({
               onMouseEnter={() => setHoveredStageId(stage.id)}
               onMouseLeave={() => setHoveredStageId(null)}
             >
-                <LiveProcessSchemeStage
-                  stage={stage}
-                  runtime={runtime}
-                  team={team}
-                  isBlocked={isBlocked(stage.id)}
-                  onUpdateRuntime={onUpdateRuntime}
-                  index={index}
-                  isHovered={hoveredStageId === stage.id}
-                  processLinks={processLinks}
-                />
+              <LiveProcessSchemeStage
+                stage={stage}
+                runtime={runtime}
+                team={team}
+                isBlocked={isBlocked(stage.id)}
+                onUpdateRuntime={onUpdateRuntime}
+                index={index}
+                isHovered={hoveredStageId === stage.id}
+                processLinks={processLinks}
+              />
             </div>
           );
         })}

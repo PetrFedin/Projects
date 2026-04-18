@@ -1,6 +1,14 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent, type MouseEvent } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type MouseEvent,
+} from 'react';
 import type { HandbookCategoryLeaf } from '@/lib/production/category-handbook-leaves';
 import { CategorySketchTemplateSvg } from '@/lib/production/category-sketch-template';
 import type { CategorySketchAnnotatorContext } from '@/components/brand/production/CategorySketchAnnotator';
@@ -133,7 +141,8 @@ export function CategorySubcategorySketchesTzBlock({
   const readOnly = sketchViewFloor;
   const level = coerceSubcategorySketchLevel(activeLevelRaw);
   const slotNodeName = useMemo(
-    () => (level === 1 ? currentLeaf.l1Name : level === 2 ? currentLeaf.l2Name : currentLeaf.l3Name),
+    () =>
+      level === 1 ? currentLeaf.l1Name : level === 2 ? currentLeaf.l2Name : currentLeaf.l3Name,
     [level, currentLeaf.l1Name, currentLeaf.l2Name, currentLeaf.l3Name]
   );
   const boardRef = useRef<HTMLDivElement>(null);
@@ -182,7 +191,8 @@ export function CategorySubcategorySketchesTzBlock({
 
   const pinCountByLevel = useMemo(() => {
     const count = (lv: 1 | 2 | 3) =>
-      slots.find((s) => s.level === lv)?.annotations.filter((a) => a.categoryLeafId === leafId).length ?? 0;
+      slots.find((s) => s.level === lv)?.annotations.filter((a) => a.categoryLeafId === leafId)
+        .length ?? 0;
     return { 1: count(1), 2: count(2), 3: count(3) };
   }, [leafId, slots]);
 
@@ -195,7 +205,11 @@ export function CategorySubcategorySketchesTzBlock({
     (level: 1 | 2 | 3, patch: Partial<Workshop2Phase1SubcategorySketchSlot>) => {
       setDossier((d) => ({
         ...d,
-        subcategorySketchSlots: patchSubcategorySketchSlot(d.subcategorySketchSlots ?? [], level, patch),
+        subcategorySketchSlots: patchSubcategorySketchSlot(
+          d.subcategorySketchSlots ?? [],
+          level,
+          patch
+        ),
       }));
     },
     [setDossier]
@@ -389,7 +403,11 @@ export function CategorySubcategorySketchesTzBlock({
     const sourceSlot = slots.find((slot) => slot.level === sourceLevel);
     if (!sourceSlot) return;
     const srcName =
-      sourceLevel === 1 ? currentLeaf.l1Name : sourceLevel === 2 ? currentLeaf.l2Name : currentLeaf.l3Name;
+      sourceLevel === 1
+        ? currentLeaf.l1Name
+        : sourceLevel === 2
+          ? currentLeaf.l2Name
+          : currentLeaf.l3Name;
     updateSlot(level, {
       productionTasks: {
         ...sourceSlot.productionTasks,
@@ -414,8 +432,16 @@ export function CategorySubcategorySketchesTzBlock({
       productionTasks: {
         ...activeSlot.productionTasks,
         watchAttention: lines.join('\n'),
-        linkedAnnotationIds: [...new Set([...(activeSlot.productionTasks.linkedAnnotationIds ?? []), annotation.annotationId])],
-        status: activeSlot.productionTasks.status === 'done' ? 'in_progress' : activeSlot.productionTasks.status,
+        linkedAnnotationIds: [
+          ...new Set([
+            ...(activeSlot.productionTasks.linkedAnnotationIds ?? []),
+            annotation.annotationId,
+          ]),
+        ],
+        status:
+          activeSlot.productionTasks.status === 'done'
+            ? 'in_progress'
+            : activeSlot.productionTasks.status,
       },
     });
   };
@@ -451,7 +477,9 @@ export function CategorySubcategorySketchesTzBlock({
     return (
       <>
         {visibleAnn.map((a, idx) => {
-          const inTaskBlock = activeSlot.productionTasks.linkedAnnotationIds?.includes(a.annotationId);
+          const inTaskBlock = activeSlot.productionTasks.linkedAnnotationIds?.includes(
+            a.annotationId
+          );
           return (
             <Tooltip key={a.annotationId} delayDuration={200}>
               <TooltipTrigger asChild>
@@ -485,11 +513,13 @@ export function CategorySubcategorySketchesTzBlock({
                   </p>
                   {inTaskBlock ? (
                     <p className="border-t border-slate-100 pt-1.5 text-[10px] font-medium text-indigo-800">
-                      Строка добавлена в «На что обратить внимание» (задачи слота «{activeBranchSlot.role.label}»).
+                      Строка добавлена в «На что обратить внимание» (задачи слота «
+                      {activeBranchSlot.role.label}»).
                     </p>
                   ) : (
                     <p className="border-t border-slate-100 pt-1.5 text-[10px] text-slate-500">
-                      Задачи слота — в колонке справа; «В задачу» переносит текст в «На что обратить внимание».
+                      Задачи слота — в колонке справа; «В задачу» переносит текст в «На что обратить
+                      внимание».
                     </p>
                   )}
                 </div>
@@ -526,7 +556,8 @@ export function CategorySubcategorySketchesTzBlock({
             disabled={visibleAnn.length >= MAX_ANNOTATIONS_PER_SLOT || readOnly}
             onClick={importMasterPinsToActiveLevel}
           >
-            Скопировать метки с «Общий» в слот «{activeBranchSlot.role.label}» ({masterPinsForLeaf.length})
+            Скопировать метки с «Общий» в слот «{activeBranchSlot.role.label}» (
+            {masterPinsForLeaf.length})
           </Button>
         ) : null}
         <div className="flex flex-wrap gap-2">
@@ -591,7 +622,9 @@ export function CategorySubcategorySketchesTzBlock({
                   key={a.annotationId}
                   className={cn(
                     'rounded-md border p-2 text-xs',
-                    activeAnnId === a.annotationId ? 'border-indigo-300 bg-indigo-50/40' : 'border-slate-100 bg-white'
+                    activeAnnId === a.annotationId
+                      ? 'border-indigo-300 bg-indigo-50/40'
+                      : 'border-slate-100 bg-white'
                   )}
                 >
                   <div className="mb-1 flex items-center justify-between gap-2">
@@ -651,87 +684,108 @@ export function CategorySubcategorySketchesTzBlock({
       ) : null}
       <div className="flex flex-col gap-3 lg:flex-row lg:items-start">
         <div className="min-w-0 flex-1 space-y-3">
-        <div
-          ref={boardRef}
-          role="region"
-          aria-label={
-            readOnly
-              ? `Мини-скетч: ${activeBranchSlot.role.label}`
-              : placeMode
-                ? `Мини-скетч: ${activeBranchSlot.role.label}, режим метки`
-                : `Мини-скетч: ${activeBranchSlot.role.label}. Нажмите на поле, чтобы открыть увеличенный вид.`
-          }
-          className={cn(
-            'relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-slate-200 bg-white',
-            placeMode && !readOnly && 'cursor-crosshair ring-2 ring-indigo-500 ring-offset-2',
-            !placeMode && !readOnly && 'cursor-zoom-in'
-          )}
-          onClick={readOnly ? undefined : onPreviewBoardClick}
-        >
-          {activeSlot.imageDataUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element -- data URL
-            <img src={activeSlot.imageDataUrl} alt="" className="h-full w-full object-contain pointer-events-none" />
-          ) : (
-            <CategorySketchTemplateSvg leaf={currentLeaf} sketchContext={sketchContext} className="h-full w-full pointer-events-none" />
-          )}
-          <AnnotationPinsLayer />
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          <input
-            ref={slotSketchFileInputRef}
-            type="file"
-            accept="image/*"
-            className="sr-only"
-            aria-hidden
-            tabIndex={-1}
-            disabled={readOnly}
-            onChange={(e) => void onPickImage(e)}
-          />
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-8 gap-1.5 text-xs"
-            disabled={readOnly}
-            title={readOnly ? 'В режиме цеха загрузка отключена' : 'Заменить типовой силуэт своим изображением'}
-            onClick={() => slotSketchFileInputRef.current?.click()}
+          <div
+            ref={boardRef}
+            role="region"
+            aria-label={
+              readOnly
+                ? `Мини-скетч: ${activeBranchSlot.role.label}`
+                : placeMode
+                  ? `Мини-скетч: ${activeBranchSlot.role.label}, режим метки`
+                  : `Мини-скетч: ${activeBranchSlot.role.label}. Нажмите на поле, чтобы открыть увеличенный вид.`
+            }
+            className={cn(
+              'relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-slate-200 bg-white',
+              placeMode && !readOnly && 'cursor-crosshair ring-2 ring-indigo-500 ring-offset-2',
+              !placeMode && !readOnly && 'cursor-zoom-in'
+            )}
+            onClick={readOnly ? undefined : onPreviewBoardClick}
           >
-            <Upload className="h-3.5 w-3.5 shrink-0" aria-hidden />
-            Загрузить свой скетч
-          </Button>
-          {activeSlot.imageFileName ? (
-            <>
-              <span className="max-w-[min(100%,14rem)] truncate text-[10px] text-slate-600" title={activeSlot.imageFileName}>
-                {activeSlot.imageFileName}
+            {activeSlot.imageDataUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element -- data URL
+              <img
+                src={activeSlot.imageDataUrl}
+                alt=""
+                className="pointer-events-none h-full w-full object-contain"
+              />
+            ) : (
+              <CategorySketchTemplateSvg
+                leaf={currentLeaf}
+                sketchContext={sketchContext}
+                className="pointer-events-none h-full w-full"
+              />
+            )}
+            <AnnotationPinsLayer />
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <input
+              ref={slotSketchFileInputRef}
+              type="file"
+              accept="image/*"
+              className="sr-only"
+              aria-hidden
+              tabIndex={-1}
+              disabled={readOnly}
+              onChange={(e) => void onPickImage(e)}
+            />
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-8 gap-1.5 text-xs"
+              disabled={readOnly}
+              title={
+                readOnly
+                  ? 'В режиме цеха загрузка отключена'
+                  : 'Заменить типовой силуэт своим изображением'
+              }
+              onClick={() => slotSketchFileInputRef.current?.click()}
+            >
+              <Upload className="h-3.5 w-3.5 shrink-0" aria-hidden />
+              Загрузить свой скетч
+            </Button>
+            {activeSlot.imageFileName ? (
+              <>
+                <span
+                  className="max-w-[min(100%,14rem)] truncate text-[10px] text-slate-600"
+                  title={activeSlot.imageFileName}
+                >
+                  {activeSlot.imageFileName}
+                </span>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 text-[10px] text-red-600"
+                  disabled={readOnly}
+                  onClick={clearImage}
+                >
+                  Сбросить подложку
+                </Button>
+              </>
+            ) : (
+              <span className="text-[10px] text-slate-500">
+                Без файла — на доске типовой силуэт по ветке каталога.
               </span>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="h-7 text-[10px] text-red-600"
-                disabled={readOnly}
-                onClick={clearImage}
-              >
-                Сбросить подложку
-              </Button>
-            </>
-          ) : (
-            <span className="text-[10px] text-slate-500">Без файла — на доске типовой силуэт по ветке каталога.</span>
-          )}
-        </div>
+            )}
+          </div>
 
           <AnnotationsPanel />
         </div>
 
-        <div className="min-w-0 w-full space-y-3 lg:w-[min(100%,380px)] lg:shrink-0">
+        <div className="w-full min-w-0 space-y-3 lg:w-[min(100%,380px)] lg:shrink-0">
           <div className="space-y-2 rounded-md border border-slate-100 bg-white/80 p-2">
-            <p className="text-[10px] font-bold uppercase text-slate-500">Задачи для производства</p>
+            <p className="text-[10px] font-bold uppercase text-slate-500">
+              Задачи для производства
+            </p>
             {activeTaskSourceLevel && activeSlot.productionTasks.inheritedFromLevel == null ? (
               <div className="rounded-md border border-amber-100 bg-amber-50/60 p-2 text-[10px] text-amber-900">
                 В слоте «
-                {branchSlotMetaByLevel.find((x) => x.level === activeTaskSourceLevel)?.role.label ?? '…'}» уже есть
-                текст задач. Можно подтянуть его в «{activeBranchSlot.role.label}» и править дальше.
+                {branchSlotMetaByLevel.find((x) => x.level === activeTaskSourceLevel)?.role.label ??
+                  '…'}
+                » уже есть текст задач. Можно подтянуть его в «{activeBranchSlot.role.label}» и
+                править дальше.
                 <div className="mt-2">
                   <Button
                     type="button"
@@ -822,7 +876,9 @@ export function CategorySubcategorySketchesTzBlock({
                   className="h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-[11px] disabled:opacity-60"
                   value={activeSlot.productionTasks.priority ?? 'normal'}
                   disabled={readOnly}
-                  onChange={(e) => setTaskField('priority', e.target.value as Workshop2ProductionTaskPriority)}
+                  onChange={(e) =>
+                    setTaskField('priority', e.target.value as Workshop2ProductionTaskPriority)
+                  }
                 >
                   <option value="critical">{TASK_PRIORITY_LABELS.critical}</option>
                   <option value="high">{TASK_PRIORITY_LABELS.high}</option>
@@ -835,7 +891,9 @@ export function CategorySubcategorySketchesTzBlock({
                   className="h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-[11px] disabled:opacity-60"
                   value={activeSlot.productionTasks.status ?? 'new'}
                   disabled={readOnly}
-                  onChange={(e) => setTaskField('status', e.target.value as Workshop2ProductionTaskStatus)}
+                  onChange={(e) =>
+                    setTaskField('status', e.target.value as Workshop2ProductionTaskStatus)
+                  }
                 >
                   <option value="new">{TASK_STATUS_LABELS.new}</option>
                   <option value="in_progress">{TASK_STATUS_LABELS.in_progress}</option>
@@ -849,7 +907,9 @@ export function CategorySubcategorySketchesTzBlock({
                   className="h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-[11px] disabled:opacity-60"
                   value={activeSlot.productionTasks.linkedStage ?? 'tz'}
                   disabled={readOnly}
-                  onChange={(e) => setTaskField('linkedStage', e.target.value as Workshop2ProductionTaskStage)}
+                  onChange={(e) =>
+                    setTaskField('linkedStage', e.target.value as Workshop2ProductionTaskStage)
+                  }
                 >
                   <option value="tz">{TASK_STAGE_LABELS.tz}</option>
                   <option value="supply">{TASK_STAGE_LABELS.supply}</option>
@@ -914,7 +974,9 @@ export function CategorySubcategorySketchesTzBlock({
 
           <div className="space-y-1.5">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <Label className="text-[10px] font-semibold text-slate-600">Сводка габаритов и атрибутов артикула</Label>
+              <Label className="text-[10px] font-semibold text-slate-600">
+                Сводка габаритов и атрибутов артикула
+              </Label>
               <Button
                 type="button"
                 size="sm"
@@ -928,7 +990,8 @@ export function CategorySubcategorySketchesTzBlock({
             </div>
             {activeSlot.attributesDimensionsSnapshotUpdatedAt ? (
               <p className="text-[9px] text-slate-400">
-                Обновлено: {new Date(activeSlot.attributesDimensionsSnapshotUpdatedAt).toLocaleString('ru-RU')}
+                Обновлено:{' '}
+                {new Date(activeSlot.attributesDimensionsSnapshotUpdatedAt).toLocaleString('ru-RU')}
               </p>
             ) : null}
             <Textarea
@@ -966,12 +1029,16 @@ export function CategorySubcategorySketchesTzBlock({
             >
               {activeSlot.imageDataUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element -- data URL
-                <img src={activeSlot.imageDataUrl} alt="" className="h-full w-full object-contain pointer-events-none" />
+                <img
+                  src={activeSlot.imageDataUrl}
+                  alt=""
+                  className="pointer-events-none h-full w-full object-contain"
+                />
               ) : (
                 <CategorySketchTemplateSvg
                   leaf={currentLeaf}
                   sketchContext={sketchContext}
-                  className="h-full w-full pointer-events-none"
+                  className="pointer-events-none h-full w-full"
                 />
               )}
               <AnnotationPinsLayer />

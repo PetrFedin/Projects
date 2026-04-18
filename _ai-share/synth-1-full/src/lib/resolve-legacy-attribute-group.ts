@@ -4,14 +4,18 @@ import type { CatalogLeafRow } from './catalog-flat-rows';
  * Сопоставляет лист каталога (L1–L3) с ключом объекта *ByCategory в product-attributes
  * (наследие «тип изделия в каталоге»), например «Платья и сарафаны», «Топы» / «Футболки».
  */
-export function resolveLegacyAttributeGroupKey(row: CatalogLeafRow, groupedKeys: string[]): string | null {
+export function resolveLegacyAttributeGroupKey(
+  row: CatalogLeafRow,
+  groupedKeys: string[]
+): string | null {
   const k = new Set(groupedKeys);
   if (k.size === 0) return null;
 
   // Вид спорта (обувь / спортодежда)
   if (k.has('Кроссовки') && row.l1 === 'Обувь' && row.l2 === 'Кроссовки') return 'Кроссовки';
   if (k.has('Спортивная') && row.l1 === 'Обувь' && row.l2 === 'Спортивная') return 'Спортивная';
-  if (k.has('Спортивная одежда') && row.l1 === 'Одежда' && row.l2 === 'Спортивная одежда') return 'Спортивная одежда';
+  if (k.has('Спортивная одежда') && row.l1 === 'Одежда' && row.l2 === 'Спортивная одежда')
+    return 'Спортивная одежда';
 
   if (row.l1 === 'Одежда') {
     const l2 = row.l2;
@@ -43,7 +47,7 @@ export type LegacySection = {
  */
 export function buildLegacySectionsForGroupedAttribute(
   rows: CatalogLeafRow[],
-  grouped: Record<string, unknown[]>,
+  grouped: Record<string, unknown[]>
 ): LegacySection[] {
   const keys = Object.keys(grouped);
   const map = new Map<string, CatalogLeafRow[]>();

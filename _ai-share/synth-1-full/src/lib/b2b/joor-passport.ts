@@ -57,13 +57,48 @@ function seed(): PassportState {
   const e2 = '2026-03-20';
   return {
     events: [
-      { id: 'ev-fw26', name: 'FW26 Виртуальная выставка', seasonCode: 'FW26', startDate: e1, endDate: e2, type: 'virtual' },
-      { id: 'ev-sh-rus', name: 'Шоурум Москва FW26', seasonCode: 'FW26', startDate: '2026-04-01', endDate: '2026-04-05', type: 'showroom' },
+      {
+        id: 'ev-fw26',
+        name: 'FW26 Виртуальная выставка',
+        seasonCode: 'FW26',
+        startDate: e1,
+        endDate: e2,
+        type: 'virtual',
+      },
+      {
+        id: 'ev-sh-rus',
+        name: 'Шоурум Москва FW26',
+        seasonCode: 'FW26',
+        startDate: '2026-04-01',
+        endDate: '2026-04-05',
+        type: 'showroom',
+      },
     ],
     slots: [
-      { id: 'slot-1', eventId: 'ev-fw26', startAt: `${e1}T10:00:00`, endAt: `${e1}T10:30:00`, label: '10:00–10:30', zone: 'A' },
-      { id: 'slot-2', eventId: 'ev-fw26', startAt: `${e1}T10:30:00`, endAt: `${e1}T11:00:00`, label: '10:30–11:00', zone: 'A' },
-      { id: 'slot-3', eventId: 'ev-fw26', startAt: `${e1}T11:00:00`, endAt: `${e1}T11:30:00`, label: '11:00–11:30', zone: 'A' },
+      {
+        id: 'slot-1',
+        eventId: 'ev-fw26',
+        startAt: `${e1}T10:00:00`,
+        endAt: `${e1}T10:30:00`,
+        label: '10:00–10:30',
+        zone: 'A',
+      },
+      {
+        id: 'slot-2',
+        eventId: 'ev-fw26',
+        startAt: `${e1}T10:30:00`,
+        endAt: `${e1}T11:00:00`,
+        label: '10:30–11:00',
+        zone: 'A',
+      },
+      {
+        id: 'slot-3',
+        eventId: 'ev-fw26',
+        startAt: `${e1}T11:00:00`,
+        endAt: `${e1}T11:30:00`,
+        label: '11:00–11:30',
+        zone: 'A',
+      },
     ],
     meetings: [
       {
@@ -116,7 +151,11 @@ export function savePassportState(state: PassportState): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
-export function updateMeetingNotes(state: PassportState, meetingId: string, brandNotes: string): PassportState {
+export function updateMeetingNotes(
+  state: PassportState,
+  meetingId: string,
+  brandNotes: string
+): PassportState {
   const next: PassportState = {
     ...state,
     meetings: state.meetings.map((m) =>
@@ -127,7 +166,11 @@ export function updateMeetingNotes(state: PassportState, meetingId: string, bran
   return next;
 }
 
-export function linkOrderToMeeting(state: PassportState, meetingId: string, orderId: string): PassportState {
+export function linkOrderToMeeting(
+  state: PassportState,
+  meetingId: string,
+  orderId: string
+): PassportState {
   const meeting = state.meetings.find((m) => m.id === meetingId);
   if (!meeting || meeting.orderIds.includes(orderId)) return state;
   const next: PassportState = {

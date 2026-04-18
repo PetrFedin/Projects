@@ -4,7 +4,14 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
@@ -15,7 +22,7 @@ export default function DemandForecastPage() {
   const rows = useMemo(() => buildDemandForecast(products), []);
 
   return (
-    <div className="container max-w-5xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -23,18 +30,19 @@ export default function DemandForecastPage() {
           </Link>
         </Button>
         <div>
-          <h1 className="text-xl font-bold flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-xl font-bold">
             <Bell className="h-6 w-6" />
             Упущенный спрос (Waitlist)
           </h1>
           <p className="text-sm text-muted-foreground">
-            Анализ запросов клиентов на отсутствующие размеры. Помогает планировать подсортировку (Re-order).
+            Анализ запросов клиентов на отсутствующие размеры. Помогает планировать подсортировку
+            (Re-order).
           </p>
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-3 gap-4">
-        <Card className="bg-primary/5 border-primary/20">
+      <div className="grid gap-4 sm:grid-cols-3">
+        <Card className="border-primary/20 bg-primary/5">
           <CardHeader className="py-3">
             <CardDescription className="text-xs">Всего запросов</CardDescription>
             <CardTitle className="text-2xl font-bold">
@@ -45,14 +53,15 @@ export default function DemandForecastPage() {
         <Card>
           <CardHeader className="py-3">
             <CardDescription className="text-xs">Топовый SKU</CardDescription>
-            <CardTitle className="text-base truncate">{rows[0]?.name}</CardTitle>
+            <CardTitle className="truncate text-base">{rows[0]?.name}</CardTitle>
           </CardHeader>
         </Card>
         <Card>
           <CardHeader className="py-3">
             <CardDescription className="text-xs">В тренде</CardDescription>
             <CardTitle className="text-2xl font-bold">
-              {rows.filter(r => r.trend === 'up').length} <span className="text-xs font-normal text-muted-foreground">модели</span>
+              {rows.filter((r) => r.trend === 'up').length}{' '}
+              <span className="text-xs font-normal text-muted-foreground">модели</span>
             </CardTitle>
           </CardHeader>
         </Card>
@@ -78,17 +87,15 @@ export default function DemandForecastPage() {
               {rows.map((r) => (
                 <TableRow key={`${r.sku}-${r.size}`}>
                   <TableCell className="max-w-[200px]">
-                    <p className="font-medium text-xs truncate">{r.name}</p>
+                    <p className="truncate text-xs font-medium">{r.name}</p>
                     <p className="font-mono text-[10px] text-muted-foreground">{r.sku}</p>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="outline" className="text-[10px] font-mono">
+                    <Badge variant="outline" className="font-mono text-[10px]">
                       {r.size}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-right font-bold text-sm">
-                    {r.waitlistCount}
-                  </TableCell>
+                  <TableCell className="text-right text-sm font-bold">{r.waitlistCount}</TableCell>
                   <TableCell className="text-center">
                     <div className="flex justify-center">
                       {r.trend === 'up' && <TrendingUp className="h-4 w-4 text-emerald-500" />}

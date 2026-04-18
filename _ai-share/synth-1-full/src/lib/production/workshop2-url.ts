@@ -54,7 +54,10 @@ export const WORKSHOP2_BASE_PATH = '/brand/production/workshop2';
 /**
  * Сегмент пути `/a/:segment`: при наличии валидного внутреннего номера — он (6 цифр), иначе стабильный id строки коллекции.
  */
-export function workshop2ArticleUrlSegment(internalArticleCode: string | undefined, lineId: string): string {
+export function workshop2ArticleUrlSegment(
+  internalArticleCode: string | undefined,
+  lineId: string
+): string {
   return isWorkshop2InternalArticleCodeValid(internalArticleCode) ? internalArticleCode : lineId;
 }
 
@@ -79,7 +82,9 @@ export type Workshop2ArticleHrefQuery = {
 };
 
 /** Только query-строка цеха 2 (без path/hash) — общая основа для `workshop2ArticleHref` и внешних билдеров. */
-export function workshop2ArticleHrefQueryToSearchParams(query: Workshop2ArticleHrefQuery): URLSearchParams {
+export function workshop2ArticleHrefQueryToSearchParams(
+  query: Workshop2ArticleHrefQuery
+): URLSearchParams {
   const sp = new URLSearchParams();
   if (query.w2view) sp.set(WORKSHOP2_DOSSIER_VIEW_PARAM, query.w2view);
   if (query.sketchFloor) sp.set(SKETCH_FLOOR_QUERY_PARAM, '1');

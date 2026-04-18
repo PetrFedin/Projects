@@ -5,19 +5,22 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { 
-  Users, Gift, Copy, CheckCircle2, Share2, Mail, MessageSquare,
-  TrendingUp, Award, Sparkles
+import {
+  Users,
+  Gift,
+  Copy,
+  CheckCircle2,
+  Share2,
+  Mail,
+  MessageSquare,
+  TrendingUp,
+  Award,
+  Sparkles,
 } from 'lucide-react';
 import { useAuth } from '@/providers/auth-provider';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface Referral {
   id: string;
@@ -40,8 +43,9 @@ export default function ReferralProgram() {
     if (!user) return;
 
     // Генерируем реферальный код на основе email
-    const code = user.email?.split('@')[0].toUpperCase().slice(0, 6) + 
-                 Math.random().toString(36).substring(2, 6).toUpperCase();
+    const code =
+      user.email?.split('@')[0].toUpperCase().slice(0, 6) +
+      Math.random().toString(36).substring(2, 6).toUpperCase();
     setReferralCode(code);
 
     // Загружаем рефералов из localStorage
@@ -54,17 +58,22 @@ export default function ReferralProgram() {
           firstPurchaseAt: item.firstPurchaseAt ? new Date(item.firstPurchaseAt) : undefined,
         }));
         setReferrals(parsed);
-        setTotalEarned(parsed.filter((r: Referral) => r.rewardEarned).reduce((sum: number, r: Referral) => sum + (r.rewardEarned || 0), 0));
-        setPendingRewards(parsed.filter((r: Referral) => r.status === 'completed' && !r.rewardEarned).length * 500);
+        setTotalEarned(
+          parsed
+            .filter((r: Referral) => r.rewardEarned)
+            .reduce((sum: number, r: Referral) => sum + (r.rewardEarned || 0), 0)
+        );
+        setPendingRewards(
+          parsed.filter((r: Referral) => r.status === 'completed' && !r.rewardEarned).length * 500
+        );
       } catch (e) {
         console.error('Failed to parse referrals:', e);
       }
     }
   }, [user]);
 
-  const referralLink = typeof window !== 'undefined' 
-    ? `${window.location.origin}/signup?ref=${referralCode}`
-    : '';
+  const referralLink =
+    typeof window !== 'undefined' ? `${window.location.origin}/signup?ref=${referralCode}` : '';
 
   const handleCopyCode = () => {
     navigator.clipboard.writeText(referralCode);
@@ -110,13 +119,13 @@ export default function ReferralProgram() {
   return (
     <div className="space-y-6">
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-bold">{referrals.length}</p>
-                <p className="text-xs text-muted-foreground mt-1">Приглашено друзей</p>
+                <p className="mt-1 text-xs text-muted-foreground">Приглашено друзей</p>
               </div>
               <Users className="h-8 w-8 text-muted-foreground opacity-50" />
             </div>
@@ -127,7 +136,7 @@ export default function ReferralProgram() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-bold">{totalEarned.toLocaleString('ru-RU')} ₽</p>
-                <p className="text-xs text-muted-foreground mt-1">Заработано баллов</p>
+                <p className="mt-1 text-xs text-muted-foreground">Заработано баллов</p>
               </div>
               <Award className="h-8 w-8 text-yellow-500 opacity-50" />
             </div>
@@ -138,7 +147,7 @@ export default function ReferralProgram() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-bold">{pendingRewards.toLocaleString('ru-RU')} ₽</p>
-                <p className="text-xs text-muted-foreground mt-1">Ожидает начисления</p>
+                <p className="mt-1 text-xs text-muted-foreground">Ожидает начисления</p>
               </div>
               <Gift className="h-8 w-8 text-green-500 opacity-50" />
             </div>
@@ -158,27 +167,23 @@ export default function ReferralProgram() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="p-4 rounded-lg border-2 border-dashed bg-muted/50">
+          <div className="rounded-lg border-2 border-dashed bg-muted/50 p-4">
             <div className="flex items-center justify-between gap-3">
               <div className="flex-1">
-                <p className="text-sm text-muted-foreground mb-2">Реферальный код</p>
-                <p className="text-sm font-mono font-bold">{referralCode}</p>
+                <p className="mb-2 text-sm text-muted-foreground">Реферальный код</p>
+                <p className="font-mono text-sm font-bold">{referralCode}</p>
               </div>
               <Button onClick={handleCopyCode} variant="outline">
-                <Copy className="h-4 w-4 mr-2" />
+                <Copy className="mr-2 h-4 w-4" />
                 Копировать
               </Button>
             </div>
           </div>
 
-          <div className="p-4 rounded-lg border bg-muted/50">
-            <p className="text-sm text-muted-foreground mb-2">Реферальная ссылка</p>
+          <div className="rounded-lg border bg-muted/50 p-4">
+            <p className="mb-2 text-sm text-muted-foreground">Реферальная ссылка</p>
             <div className="flex items-center gap-2">
-              <Input
-                value={referralLink}
-                readOnly
-                className="font-mono text-sm"
-              />
+              <Input value={referralLink} readOnly className="font-mono text-sm" />
               <Button onClick={handleCopyLink} variant="outline" size="icon">
                 <Copy className="h-4 w-4" />
               </Button>
@@ -187,20 +192,12 @@ export default function ReferralProgram() {
 
           {/* Share Buttons */}
           <div className="grid grid-cols-2 gap-2">
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => handleShare('email')}
-            >
-              <Mail className="h-4 w-4 mr-2" />
+            <Button variant="outline" className="w-full" onClick={() => handleShare('email')}>
+              <Mail className="mr-2 h-4 w-4" />
               Отправить email
             </Button>
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => handleShare('message')}
-            >
-              <MessageSquare className="h-4 w-4 mr-2" />
+            <Button variant="outline" className="w-full" onClick={() => handleShare('message')}>
+              <MessageSquare className="mr-2 h-4 w-4" />
               Поделиться
             </Button>
           </div>
@@ -216,30 +213,31 @@ export default function ReferralProgram() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid md:grid-cols-3 gap-3">
-            <div className="p-4 rounded-lg border">
-              <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center mb-3">
+          <div className="grid gap-3 md:grid-cols-3">
+            <div className="rounded-lg border p-4">
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-accent/10">
                 <span className="text-sm font-bold text-accent">1</span>
               </div>
-              <h4 className="font-semibold mb-2">Поделитесь кодом</h4>
+              <h4 className="mb-2 font-semibold">Поделитесь кодом</h4>
               <p className="text-sm text-muted-foreground">
-                Отправьте реферальную ссылку или код друзьям через email, сообщения или социальные сети
+                Отправьте реферальную ссылку или код друзьям через email, сообщения или социальные
+                сети
               </p>
             </div>
-            <div className="p-4 rounded-lg border">
-              <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center mb-3">
+            <div className="rounded-lg border p-4">
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-accent/10">
                 <span className="text-sm font-bold text-accent">2</span>
               </div>
-              <h4 className="font-semibold mb-2">Друг регистрируется</h4>
+              <h4 className="mb-2 font-semibold">Друг регистрируется</h4>
               <p className="text-sm text-muted-foreground">
                 Ваш друг регистрируется по вашей ссылке и получает скидку 500₽ на первый заказ
               </p>
             </div>
-            <div className="p-4 rounded-lg border">
-              <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center mb-3">
+            <div className="rounded-lg border p-4">
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-accent/10">
                 <span className="text-sm font-bold text-accent">3</span>
               </div>
-              <h4 className="font-semibold mb-2">Вы получаете бонус</h4>
+              <h4 className="mb-2 font-semibold">Вы получаете бонус</h4>
               <p className="text-sm text-muted-foreground">
                 После первой покупки друга вы получаете 500 баллов на свой счет
               </p>
@@ -258,20 +256,22 @@ export default function ReferralProgram() {
         </CardHeader>
         <CardContent>
           {referrals.length === 0 ? (
-            <div className="text-center py-4 text-muted-foreground">
-              <Users className="h-12 w-12 mx-auto mb-4 opacity-50" />
+            <div className="py-4 text-center text-muted-foreground">
+              <Users className="mx-auto mb-4 h-12 w-12 opacity-50" />
               <p>Пока никто не зарегистрировался по вашей ссылке</p>
-              <p className="text-sm mt-2">Поделитесь реферальным кодом с друзьями, чтобы начать зарабатывать бонусы</p>
+              <p className="mt-2 text-sm">
+                Поделитесь реферальным кодом с друзьями, чтобы начать зарабатывать бонусы
+              </p>
             </div>
           ) : (
             <div className="space-y-3">
               {referrals.map((referral) => (
                 <div
                   key={referral.id}
-                  className="flex items-center justify-between p-4 rounded-lg border"
+                  className="flex items-center justify-between rounded-lg border p-4"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
                       <span className="text-sm font-medium">
                         {referral.email.charAt(0).toUpperCase()}
                       </span>
@@ -287,7 +287,7 @@ export default function ReferralProgram() {
                   </div>
                   <div className="flex items-center gap-3">
                     {referral.rewardEarned && (
-                      <Badge variant="outline" className="text-green-600 border-green-500/20">
+                      <Badge variant="outline" className="border-green-500/20 text-green-600">
                         +{referral.rewardEarned} ₽
                       </Badge>
                     )}
@@ -296,8 +296,8 @@ export default function ReferralProgram() {
                         referral.status === 'rewarded'
                           ? 'default'
                           : referral.status === 'completed'
-                          ? 'secondary'
-                          : 'outline'
+                            ? 'secondary'
+                            : 'outline'
                       }
                     >
                       {referral.status === 'pending' && 'Ожидает'}
@@ -314,8 +314,3 @@ export default function ReferralProgram() {
     </div>
   );
 }
-
-
-
-
-

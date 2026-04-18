@@ -31,18 +31,18 @@ export interface ControlAction {
 export interface ControlOutput {
   entityId: string;
   entityType: 'order' | 'article' | 'commitment' | 'collection' | 'sample' | 'inventory';
-  
+
   /** Сводка готовности / здоровья */
   readinessScore: number; // 0-100
   status: 'healthy' | 'at_risk' | 'blocked';
-  
+
   /** Список активных блокеров (условие + ссылка) */
   blockers: Array<{
     code: ControlReasonCode;
     message: string;
     refEntityId?: string;
   }>;
-  
+
   /** Приоритетное следующее действие (derived + assigned) */
   nextAction?: ControlAction;
 
@@ -52,7 +52,7 @@ export interface ControlOutput {
     techPackUrl?: string;
     orderUrl?: string;
   };
-  
+
   /** Риски и предупреждения */
   risks: Array<{
     code: ControlReasonCode;
@@ -105,7 +105,7 @@ export function analyzePredictiveRisks(params: {
     factors.push({
       type: 'congestion',
       severity: (currentCongestion - 1) / 0.5,
-      message: 'High factory congestion may delay production'
+      message: 'High factory congestion may delay production',
     });
   }
 
@@ -115,7 +115,7 @@ export function analyzePredictiveRisks(params: {
     factors.push({
       type: 'stock_out',
       severity: (7 - daysToStockOut) / 7,
-      message: `Predicted stock-out in ${Math.ceil(daysToStockOut)} days`
+      message: `Predicted stock-out in ${Math.ceil(daysToStockOut)} days`,
     });
   }
 
@@ -126,7 +126,7 @@ export function analyzePredictiveRisks(params: {
       factors.push({
         type: 'lead_time',
         severity: Math.min(1, spread / 25),
-        message: `Lead time variability (${spread}d range) may delay commitments`
+        message: `Lead time variability (${spread}d range) may delay commitments`,
       });
     }
   }
@@ -216,9 +216,9 @@ export function aggregateInventoryControl(params: {
     currentB2CAllocated: atpB2C,
     availableB2BOnHand: atpB2B,
     b2cSalesVelocity: 10, // Мок-значение
-    b2bSalesVelocity: 5,  // Мок-значение
-    leadTimeDays: 7,      // Мок-значение
-    tenantId: tenantId
+    b2bSalesVelocity: 5, // Мок-значение
+    leadTimeDays: 7, // Мок-значение
+    tenantId: tenantId,
   });
 
   if (rebalance.action === 'allocate') {
@@ -226,7 +226,7 @@ export function aggregateInventoryControl(params: {
       code: CONTROL_REASON_CODES.INVENTORY_REBALANCE_REQUIRED,
       message: `Требуется ребалансировка для ${sku}: B2C сток (${atpB2C}) ниже порога (${safetyThreshold})`,
       severity: 'medium',
-      explainedBy: 'stock_allocation_logic'
+      explainedBy: 'stock_allocation_logic',
     });
     status = 'at_risk';
   }
@@ -236,17 +236,19 @@ export function aggregateInventoryControl(params: {
       code: CONTROL_REASON_CODES.STOCK_OUT,
       message: `Товар ${sku} полностью отсутствует на складе`,
       severity: 'high',
-      explainedBy: 'inventory_ledger'
+      explainedBy: 'inventory_ledger',
     });
     status = 'at_risk';
   }
 
-  const lockedGrains = grains.filter(g => g.sku === sku && g.isLocked && (!tenantId || g.tenantId === tenantId));
+  const lockedGrains = grains.filter(
+    (g) => g.sku === sku && g.isLocked && (!tenantId || g.tenantId === tenantId)
+  );
   if (lockedGrains.length > 0) {
     blockers.push({
       code: CONTROL_REASON_CODES.GRAIN_LOCKED,
       message: `Заблокировано ${lockedGrains.reduce((acc, g) => acc + g.quantity, 0)} единиц товара ${sku} из-за расхождений`,
-      refEntityId: lockedGrains[0].grainId
+      refEntityId: lockedGrains[0].grainId,
     });
     status = 'blocked';
   }
@@ -255,9 +257,9 @@ export function aggregateInventoryControl(params: {
   const predictiveFactors = analyzePredictiveRisks({
     entityId: sku,
     historicalLeadTimes: [7, 8, 10], // Мок
-    currentCongestion: 1.1,         // Мок
+    currentCongestion: 1.1, // Мок
     atp: atpB2C + atpB2B,
-    salesVelocity: 15               // Мок
+    salesVelocity: 15, // Мок
   });
 
   predictiveFactors.forEach((f) => {
@@ -268,7 +270,7 @@ export function aggregateInventoryControl(params: {
           : CONTROL_REASON_CODES.PREDICTIVE_DELAY_RISK,
       message: `[Predictive] ${f.message}`,
       severity: f.severity > 0.7 ? 'high' : 'medium',
-      explainedBy: 'predictive_risk_engine'
+      explainedBy: 'predictive_risk_engine',
     });
   });
 
@@ -282,23 +284,28 @@ export function aggregateInventoryControl(params: {
     predictiveRisks: predictiveFactors,
     metadata: {
       asOf: new Date().toISOString(),
-      version: 1
+      version: 1,
     },
-    nextAction: rebalance.action === 'allocate' ? {
-      id: `rebalance-${sku}`,
-      type: 'automated',
-      label: 'Выполнить ребалансировку стока',
-      ownerRole: 'system',
-      reasonCode: CONTROL_REASON_CODES.INVENTORY_REBALANCE_REQUIRED,
-      sourceEntityId: sku
-    } : (grains.some(g => g.sku === sku && g.isLocked) ? {
-      id: `resolve-lock-${sku}`,
-      type: 'manual',
-      label: 'Разрешить блокировку остатков (Investigation)',
-      ownerRole: 'warehouse_manager',
-      reasonCode: CONTROL_REASON_CODES.GRAIN_LOCKED,
-      sourceEntityId: sku
-    } : undefined)
+    nextAction:
+      rebalance.action === 'allocate'
+        ? {
+            id: `rebalance-${sku}`,
+            type: 'automated',
+            label: 'Выполнить ребалансировку стока',
+            ownerRole: 'system',
+            reasonCode: CONTROL_REASON_CODES.INVENTORY_REBALANCE_REQUIRED,
+            sourceEntityId: sku,
+          }
+        : grains.some((g) => g.sku === sku && g.isLocked)
+          ? {
+              id: `resolve-lock-${sku}`,
+              type: 'manual',
+              label: 'Разрешить блокировку остатков (Investigation)',
+              ownerRole: 'warehouse_manager',
+              reasonCode: CONTROL_REASON_CODES.GRAIN_LOCKED,
+              sourceEntityId: sku,
+            }
+          : undefined,
   };
 }
 
@@ -311,11 +318,11 @@ export function aggregateOrderControl(order: OrderAggregate): ControlOutput {
   let status: ControlOutput['status'] = 'healthy';
 
   if (order.projections.payment === 'overdue') {
-    risks.push({ 
-      code: CONTROL_REASON_CODES.PAYMENT_OVERDUE, 
-      message: 'Оплата просрочена', 
+    risks.push({
+      code: CONTROL_REASON_CODES.PAYMENT_OVERDUE,
+      message: 'Оплата просрочена',
       severity: 'high',
-      explainedBy: 'payment_projection'
+      explainedBy: 'payment_projection',
     });
     status = 'at_risk';
   }
@@ -333,16 +340,19 @@ export function aggregateOrderControl(order: OrderAggregate): ControlOutput {
     risks,
     metadata: {
       asOf: new Date().toISOString(),
-      version: 1
+      version: 1,
     },
-    nextAction: order.status === 'pending_approval' ? {
-      id: `approve-${order.id}`,
-      type: 'manual',
-      label: 'Согласовать заказ',
-      ownerRole: 'brand',
-      reasonCode: CONTROL_REASON_CODES.AWAITING_BRAND_APPROVAL,
-      sourceEntityId: order.id
-    } : undefined
+    nextAction:
+      order.status === 'pending_approval'
+        ? {
+            id: `approve-${order.id}`,
+            type: 'manual',
+            label: 'Согласовать заказ',
+            ownerRole: 'brand',
+            reasonCode: CONTROL_REASON_CODES.AWAITING_BRAND_APPROVAL,
+            sourceEntityId: order.id,
+          }
+        : undefined,
   };
 }
 
@@ -352,14 +362,14 @@ export function aggregateOrderControl(order: OrderAggregate): ControlOutput {
 export function aggregateCommitmentControl(commitment: ProductionCommitment): ControlOutput {
   const risks: ControlOutput['risks'] = [];
   const blockers: ControlOutput['blockers'] = [];
-  
+
   const isDelayed = commitment.dates.confirmed && new Date(commitment.dates.confirmed) < new Date();
   if (isDelayed && commitment.status !== 'completed') {
-    risks.push({ 
-      code: CONTROL_REASON_CODES.PRODUCTION_DELAY, 
-      message: 'Задержка производства', 
+    risks.push({
+      code: CONTROL_REASON_CODES.PRODUCTION_DELAY,
+      message: 'Задержка производства',
       severity: 'critical',
-      explainedBy: 'schedule_milestone'
+      explainedBy: 'schedule_milestone',
     });
   }
 
@@ -367,7 +377,7 @@ export function aggregateCommitmentControl(commitment: ProductionCommitment): Co
     blockers.push({
       code: CONTROL_REASON_CODES.QC_FAILED,
       message: 'Контроль качества не пройден',
-      refEntityId: commitment.id
+      refEntityId: commitment.id,
     });
   }
 
@@ -375,42 +385,50 @@ export function aggregateCommitmentControl(commitment: ProductionCommitment): Co
     entityId: commitment.id,
     entityType: 'commitment',
     readinessScore: commitment.status === 'completed' ? 100 : 70,
-    status: blockers.length > 0 ? 'blocked' : (risks.length > 0 ? 'at_risk' : 'healthy'),
+    status: blockers.length > 0 ? 'blocked' : risks.length > 0 ? 'at_risk' : 'healthy',
     blockers,
     risks,
     metadata: {
       asOf: new Date().toISOString(),
       version: 1,
-      commitmentId: commitment.id
+      commitmentId: commitment.id,
     },
-    nextAction: commitment.status === 'in_production' ? {
-      id: `ship-${commitment.id}`,
-      type: 'manual',
-      label: 'Зафиксировать отгрузку (Ex-Factory)',
-      ownerRole: 'factory',
-      reasonCode: CONTROL_REASON_CODES.PRODUCTION_COMPLETED,
-      sourceEntityId: commitment.id
-    } : (commitment.qc?.status === 'failed' ? {
-      id: `rework-${commitment.id}`,
-      type: 'manual',
-      label: 'Отправить на доработку',
-      ownerRole: 'production_manager',
-      reasonCode: CONTROL_REASON_CODES.REWORK_REQUIRED,
-      sourceEntityId: commitment.id
-    } : undefined)
+    nextAction:
+      commitment.status === 'in_production'
+        ? {
+            id: `ship-${commitment.id}`,
+            type: 'manual',
+            label: 'Зафиксировать отгрузку (Ex-Factory)',
+            ownerRole: 'factory',
+            reasonCode: CONTROL_REASON_CODES.PRODUCTION_COMPLETED,
+            sourceEntityId: commitment.id,
+          }
+        : commitment.qc?.status === 'failed'
+          ? {
+              id: `rework-${commitment.id}`,
+              type: 'manual',
+              label: 'Отправить на доработку',
+              ownerRole: 'production_manager',
+              reasonCode: CONTROL_REASON_CODES.REWORK_REQUIRED,
+              sourceEntityId: commitment.id,
+            }
+          : undefined,
   };
 }
 
 /**
  * Агрегирует состояние артикула в Control Output.
  */
-export function aggregateArticleControl(article: ArticleAggregate, samples: SampleAggregate[]): ControlOutput {
+export function aggregateArticleControl(
+  article: ArticleAggregate,
+  samples: SampleAggregate[]
+): ControlOutput {
   const readiness = calculateArticleReadiness(article, samples);
-  const risks: ControlOutput['risks'] = readiness.blockers.map(b => ({
+  const risks: ControlOutput['risks'] = readiness.blockers.map((b) => ({
     code: CONTROL_REASON_CODES.ARTICLE_BLOCKER,
     message: b,
     severity: 'critical',
-    explainedBy: 'article_readiness'
+    explainedBy: 'article_readiness',
   }));
 
   return {
@@ -418,61 +436,77 @@ export function aggregateArticleControl(article: ArticleAggregate, samples: Samp
     entityType: 'article',
     readinessScore: readiness.score,
     status: readiness.isReady ? 'healthy' : 'blocked',
-    blockers: readiness.blockers.map(b => ({
+    blockers: readiness.blockers.map((b) => ({
       code: CONTROL_REASON_CODES.ARTICLE_BLOCKER,
       message: b,
-      refEntityId: article.id
+      refEntityId: article.id,
     })),
     risks,
     metadata: {
       asOf: new Date().toISOString(),
-      version: 1
+      version: 1,
     },
-    links: article.externalReferences.workshop2Key ? {
-      dossierUrl: `/brand/production/workshop2?article=${article.id}`,
-      techPackUrl: `/brand/production/tech-pack?article=${article.id}`,
-    } : undefined,
-    nextAction: readiness.nextActions.length > 0 ? {
-      id: `fix-article-${article.id}`,
-      type: 'manual',
-      label: readiness.nextActions[0],
-      ownerRole: 'designer',
-      reasonCode: CONTROL_REASON_CODES.ARTICLE_INCOMPLETE,
-      sourceEntityId: article.id
-    } : undefined
+    links: article.externalReferences.workshop2Key
+      ? {
+          dossierUrl: `/brand/production/workshop2?article=${article.id}`,
+          techPackUrl: `/brand/production/tech-pack?article=${article.id}`,
+        }
+      : undefined,
+    nextAction:
+      readiness.nextActions.length > 0
+        ? {
+            id: `fix-article-${article.id}`,
+            type: 'manual',
+            label: readiness.nextActions[0],
+            ownerRole: 'designer',
+            reasonCode: CONTROL_REASON_CODES.ARTICLE_INCOMPLETE,
+            sourceEntityId: article.id,
+          }
+        : undefined,
   };
 }
 
 /**
  * Агрегирует состояние коллекции в Control Output.
  */
-export function aggregateCollectionControl(collection: CollectionAggregate, articles: ArticleAggregate[]): ControlOutput {
+export function aggregateCollectionControl(
+  collection: CollectionAggregate,
+  articles: ArticleAggregate[]
+): ControlOutput {
   const readiness = calculateCollectionReadiness(collection, articles);
-  const status = readiness.score === 100 ? 'healthy' : (readiness.score > 70 ? 'at_risk' : 'blocked');
+  const status = readiness.score === 100 ? 'healthy' : readiness.score > 70 ? 'at_risk' : 'blocked';
 
   return {
     entityId: collection.id,
     entityType: 'collection',
     readinessScore: readiness.score,
     status,
-    blockers: readiness.score < 100 ? [{
-      code: CONTROL_REASON_CODES.COLLECTION_NOT_READY,
-      message: `Не все артикулы готовы (${readiness.readyArticles}/${readiness.totalArticles})`,
-      refEntityId: collection.id
-    }] : [],
+    blockers:
+      readiness.score < 100
+        ? [
+            {
+              code: CONTROL_REASON_CODES.COLLECTION_NOT_READY,
+              message: `Не все артикулы готовы (${readiness.readyArticles}/${readiness.totalArticles})`,
+              refEntityId: collection.id,
+            },
+          ]
+        : [],
     risks: [],
     metadata: {
       asOf: new Date().toISOString(),
-      version: 1
+      version: 1,
     },
-    nextAction: readiness.score < 100 ? {
-      id: `finalize-collection-${collection.id}`,
-      type: 'manual',
-      label: 'Завершить подготовку артикулов',
-      ownerRole: 'merchandiser',
-      reasonCode: CONTROL_REASON_CODES.COLLECTION_NOT_READY,
-      sourceEntityId: collection.id
-    } : undefined
+    nextAction:
+      readiness.score < 100
+        ? {
+            id: `finalize-collection-${collection.id}`,
+            type: 'manual',
+            label: 'Завершить подготовку артикулов',
+            ownerRole: 'merchandiser',
+            reasonCode: CONTROL_REASON_CODES.COLLECTION_NOT_READY,
+            sourceEntityId: collection.id,
+          }
+        : undefined,
   };
 }
 
@@ -481,29 +515,37 @@ export function aggregateCollectionControl(collection: CollectionAggregate, arti
  */
 export function aggregateSampleControl(sample: SampleAggregate): ControlOutput {
   const isReady = isSampleReady(sample);
-  
+
   return {
     entityId: sample.id,
     entityType: 'sample',
     readinessScore: isReady ? 100 : 50,
-    status: isReady ? 'healthy' : (sample.status === 'rejected' ? 'blocked' : 'at_risk'),
-    blockers: sample.status === 'rejected' ? [{
-      code: CONTROL_REASON_CODES.SAMPLE_REJECTED,
-      message: 'Образец отклонен',
-      refEntityId: sample.id
-    }] : [],
+    status: isReady ? 'healthy' : sample.status === 'rejected' ? 'blocked' : 'at_risk',
+    blockers:
+      sample.status === 'rejected'
+        ? [
+            {
+              code: CONTROL_REASON_CODES.SAMPLE_REJECTED,
+              message: 'Образец отклонен',
+              refEntityId: sample.id,
+            },
+          ]
+        : [],
     risks: [],
     metadata: {
       asOf: new Date().toISOString(),
-      version: 1
+      version: 1,
     },
-    nextAction: !isReady ? {
-      id: `review-sample-${sample.id}`,
-      type: 'manual',
-      label: sample.status === 'received' ? 'Провести ревью образца' : 'Дождаться получения образца',
-      ownerRole: 'technologist',
-      reasonCode: CONTROL_REASON_CODES.SAMPLE_PENDING,
-      sourceEntityId: sample.id
-    } : undefined
+    nextAction: !isReady
+      ? {
+          id: `review-sample-${sample.id}`,
+          type: 'manual',
+          label:
+            sample.status === 'received' ? 'Провести ревью образца' : 'Дождаться получения образца',
+          ownerRole: 'technologist',
+          reasonCode: CONTROL_REASON_CODES.SAMPLE_PENDING,
+          sourceEntityId: sample.id,
+        }
+      : undefined,
   };
 }

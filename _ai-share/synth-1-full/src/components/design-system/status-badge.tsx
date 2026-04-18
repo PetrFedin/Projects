@@ -20,7 +20,10 @@ export type StatusBadgeProps = {
 
 export function StatusBadge({ children, tone = 'neutral', className }: StatusBadgeProps) {
   return (
-    <Badge variant="outline" className={cn('h-5 px-2 text-[10px] font-semibold', toneClass[tone], className)}>
+    <Badge
+      variant="outline"
+      className={cn('h-5 px-2 text-[10px] font-semibold', toneClass[tone], className)}
+    >
       {children}
     </Badge>
   );

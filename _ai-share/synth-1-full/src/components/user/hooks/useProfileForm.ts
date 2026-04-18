@@ -54,29 +54,47 @@ export function useProfileForm(user: UserProfile) {
           secondary: user.personalInfo?.addresses?.secondary || '',
         },
         phoneNumbers: (() => {
-          const list = (user.personalInfo?.phoneNumbers?.length
-            ? user.personalInfo.phoneNumbers
-            : [{ value: user.personalInfo?.phones?.primary || '', verified: !!user.personalInfo?.verification?.phone, primary: true }]) as any[];
+          const list = (
+            user.personalInfo?.phoneNumbers?.length
+              ? user.personalInfo.phoneNumbers
+              : [
+                  {
+                    value: user.personalInfo?.phones?.primary || '',
+                    verified: !!user.personalInfo?.verification?.phone,
+                    primary: true,
+                  },
+                ]
+          ) as any[];
           return list.sort((a, b) => (b.primary ? 1 : 0) - (a.primary ? 1 : 0));
         })(),
         emailAddresses: (() => {
-          const list = (user.personalInfo?.emailAddresses?.length
-            ? user.personalInfo.emailAddresses
-            : [{ value: user.personalInfo?.emails?.primary || user.email || '', verified: !!user.personalInfo?.verification?.email, primary: true }]) as any[];
+          const list = (
+            user.personalInfo?.emailAddresses?.length
+              ? user.personalInfo.emailAddresses
+              : [
+                  {
+                    value: user.personalInfo?.emails?.primary || user.email || '',
+                    verified: !!user.personalInfo?.verification?.email,
+                    primary: true,
+                  },
+                ]
+          ) as any[];
           return list.sort((a, b) => (b.primary ? 1 : 0) - (a.primary ? 1 : 0));
         })(),
         addressBook: (() => {
-          const list = (user.personalInfo?.addressBook?.length
-            ? user.personalInfo.addressBook
-            : [
-                {
-                  country: user.personalInfo?.country || '',
-                  postalCode: user.personalInfo?.postalCode || '',
-                  city: user.personalInfo?.city || '',
-                  address: user.personalInfo?.addresses?.primary || '',
-                  primary: true,
-                },
-              ]) as any[];
+          const list = (
+            user.personalInfo?.addressBook?.length
+              ? user.personalInfo.addressBook
+              : [
+                  {
+                    country: user.personalInfo?.country || '',
+                    postalCode: user.personalInfo?.postalCode || '',
+                    city: user.personalInfo?.city || '',
+                    address: user.personalInfo?.addresses?.primary || '',
+                    primary: true,
+                  },
+                ]
+          ) as any[];
           return list.sort((a, b) => (b.primary ? 1 : 0) - (a.primary ? 1 : 0));
         })(),
       },
@@ -94,7 +112,12 @@ export function useProfileForm(user: UserProfile) {
         while (base.length < 2) {
           const network = (base.length === 0 ? 'instagram' : 'telegram') as const;
           const v = (existing as any)[network];
-          base.push({ network, value: v?.value || '', synced: !!v?.synced, verified: !!v?.verified });
+          base.push({
+            network,
+            value: v?.value || '',
+            synced: !!v?.synced,
+            verified: !!v?.verified,
+          });
         }
         return base;
       })(),
@@ -106,33 +129,33 @@ export function useProfileForm(user: UserProfile) {
         age: user.lifestyle?.age ?? undefined,
       },
       measurements: {
-          height: user.measurements?.height || undefined,
-          weight: user.measurements?.weight || undefined,
-          footLength: user.measurements?.footLength || undefined,
-          footWidth: user.measurements?.footWidth || undefined,
-          bust: user.measurements?.bust || undefined,
-          underbust: user.measurements?.underbust || undefined,
-          waist: user.measurements?.waist || undefined,
-          hips: user.measurements?.hips || undefined,
-          chest: user.measurements?.chest || undefined,
-          shoulderWidth: user.measurements?.shoulderWidth || undefined,
-          sleeveLength: user.measurements?.sleeveLength || undefined,
-          inseam: user.measurements?.inseam || undefined,
-          neck: user.measurements?.neck || undefined,
-          torsoLength: user.measurements?.torsoLength || undefined,
-          armCircumference: user.measurements?.armCircumference || undefined,
-          thighCircumference: user.measurements?.thighCircumference || undefined,
-          calfCircumference: user.measurements?.calfCircumference || undefined,
-          ankleCircumference: user.measurements?.ankleCircumference || undefined,
-          shoeSize: user.measurements?.shoeSize || '',
-          clothingSize: user.measurements?.clothingSize || '',
-          clothingSizeTop: user.measurements?.clothingSizeTop || '',
-          clothingSizeBottom: user.measurements?.clothingSizeBottom || '',
-          underwearSize: user.measurements?.underwearSize || '',
-          braSize: user.measurements?.braSize || '',
-          hatSize: user.measurements?.hatSize || '',
-          ringSize: user.measurements?.ringSize || '',
-          wristCircumference: user.measurements?.wristCircumference || undefined,
+        height: user.measurements?.height || undefined,
+        weight: user.measurements?.weight || undefined,
+        footLength: user.measurements?.footLength || undefined,
+        footWidth: user.measurements?.footWidth || undefined,
+        bust: user.measurements?.bust || undefined,
+        underbust: user.measurements?.underbust || undefined,
+        waist: user.measurements?.waist || undefined,
+        hips: user.measurements?.hips || undefined,
+        chest: user.measurements?.chest || undefined,
+        shoulderWidth: user.measurements?.shoulderWidth || undefined,
+        sleeveLength: user.measurements?.sleeveLength || undefined,
+        inseam: user.measurements?.inseam || undefined,
+        neck: user.measurements?.neck || undefined,
+        torsoLength: user.measurements?.torsoLength || undefined,
+        armCircumference: user.measurements?.armCircumference || undefined,
+        thighCircumference: user.measurements?.thighCircumference || undefined,
+        calfCircumference: user.measurements?.calfCircumference || undefined,
+        ankleCircumference: user.measurements?.ankleCircumference || undefined,
+        shoeSize: user.measurements?.shoeSize || '',
+        clothingSize: user.measurements?.clothingSize || '',
+        clothingSizeTop: user.measurements?.clothingSizeTop || '',
+        clothingSizeBottom: user.measurements?.clothingSizeBottom || '',
+        underwearSize: user.measurements?.underwearSize || '',
+        braSize: user.measurements?.braSize || '',
+        hatSize: user.measurements?.hatSize || '',
+        ringSize: user.measurements?.ringSize || '',
+        wristCircumference: user.measurements?.wristCircumference || undefined,
       },
       preferences: {
         favoriteBrands: initialPrefs.favoriteBrands?.join(', ') || '',

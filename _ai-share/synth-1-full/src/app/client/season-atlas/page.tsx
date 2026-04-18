@@ -9,7 +9,11 @@ import { Badge } from '@/components/ui/badge';
 import { PlatformDataBanner } from '@/components/client/platform-data-banner';
 import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
-import { parseFashionSeasonLabel, seasonBucketKey, seasonBucketLabel } from '@/lib/fashion/season-parse';
+import {
+  parseFashionSeasonLabel,
+  seasonBucketKey,
+  seasonBucketLabel,
+} from '@/lib/fashion/season-parse';
 import { ArrowLeft, CalendarRange } from 'lucide-react';
 
 export default function SeasonAtlasPage() {
@@ -35,7 +39,7 @@ export default function SeasonAtlasPage() {
   }, [only]);
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
@@ -44,12 +48,13 @@ export default function SeasonAtlasPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
+            <h1 className="flex items-center gap-2 text-xl font-bold">
               <CalendarRange className="h-6 w-6" />
               Сезонный атлас
             </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
-              Корзины SS/FW + год и carryover из тегов. Парсер: <code className="text-[10px] bg-muted px-1 rounded">season-parse</code>.
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              Корзины SS/FW + год и carryover из тегов. Парсер:{' '}
+              <code className="rounded bg-muted px-1 text-[10px]">season-parse</code>.
             </p>
           </div>
         </div>
@@ -57,38 +62,60 @@ export default function SeasonAtlasPage() {
       </div>
 
       <div className="flex gap-2">
-        <Button size="sm" variant={only === 'all' ? 'default' : 'outline'} onClick={() => setOnly('all')}>
+        <Button
+          size="sm"
+          variant={only === 'all' ? 'default' : 'outline'}
+          onClick={() => setOnly('all')}
+        >
           Все сезоны
         </Button>
-        <Button size="sm" variant={only === 'carryover' ? 'default' : 'outline'} onClick={() => setOnly('carryover')}>
+        <Button
+          size="sm"
+          variant={only === 'carryover' ? 'default' : 'outline'}
+          onClick={() => setOnly('carryover')}
+        >
           Только carryover
         </Button>
       </div>
 
       <div className="space-y-8">
         {buckets.keys.length === 0 && (
-          <p className="text-sm text-muted-foreground border border-dashed rounded-lg p-8 text-center">Нет товаров в выбранном фильтре.</p>
+          <p className="rounded-lg border border-dashed p-8 text-center text-sm text-muted-foreground">
+            Нет товаров в выбранном фильтре.
+          </p>
         )}
         {buckets.keys.map((key) => {
           const list = buckets.m.get(key) ?? [];
           if (!list.length) return null;
           return (
             <div key={key}>
-              <div className="flex items-center gap-2 mb-3">
+              <div className="mb-3 flex items-center gap-2">
                 <h2 className="text-sm font-semibold">{seasonBucketLabel(key)}</h2>
                 <Badge variant="secondary">{list.length}</Badge>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                 {list.slice(0, 8).map((p) => {
                   const meta = parseFashionSeasonLabel(p.season, p.tags);
                   return (
-                    <Link key={p.id} href={`/products/${p.slug}`} className="group rounded-lg border overflow-hidden bg-card">
+                    <Link
+                      key={p.id}
+                      href={`/products/${p.slug}`}
+                      className="group overflow-hidden rounded-lg border bg-card"
+                    >
                       <div className="relative aspect-[3/4]">
-                        <Image src={p.images[0]?.url || '/placeholder.jpg'} alt="" fill className="object-cover" sizes="150px" />
+                        <Image
+                          src={p.images[0]?.url || '/placeholder.jpg'}
+                          alt=""
+                          fill
+                          className="object-cover"
+                          sizes="150px"
+                        />
                       </div>
-                      <div className="p-2 space-y-1">
-                        <p className="text-[11px] font-medium line-clamp-2 group-hover:text-primary">{p.name}</p>
-                        <p className="text-[9px] text-muted-foreground font-mono">{p.sku}</p>
+                      <div className="space-y-1 p-2">
+                        <p className="line-clamp-2 text-[11px] font-medium group-hover:text-primary">
+                          {p.name}
+                        </p>
+                        <p className="font-mono text-[9px] text-muted-foreground">{p.sku}</p>
                         {meta.isCarryover && (
                           <Badge variant="outline" className="text-[8px]">
                             carryover

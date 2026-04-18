@@ -16,10 +16,30 @@ export interface LinesheetCollection {
 }
 
 export const LINESHEET_COLLECTIONS: LinesheetCollection[] = [
-  { id: 'early-bird', name: 'Early Bird', description: 'Ранний доступ, ключевые партнёры', productTags: ['early-bird', 'core'] },
-  { id: 'vip', name: 'VIP', description: 'Расширенный ассортимент, приоритет', productTags: ['vip', 'premium', 'core'] },
-  { id: 'outlet', name: 'Outlet', description: 'Ликвидация, уценка', productTags: ['outlet', 'sale'] },
-  { id: 'stock-lot', name: 'Stock Lot', description: 'Остатки со склада', productTags: ['stock-lot', 'remainder'] },
+  {
+    id: 'early-bird',
+    name: 'Early Bird',
+    description: 'Ранний доступ, ключевые партнёры',
+    productTags: ['early-bird', 'core'],
+  },
+  {
+    id: 'vip',
+    name: 'VIP',
+    description: 'Расширенный ассортимент, приоритет',
+    productTags: ['vip', 'premium', 'core'],
+  },
+  {
+    id: 'outlet',
+    name: 'Outlet',
+    description: 'Ликвидация, уценка',
+    productTags: ['outlet', 'sale'],
+  },
+  {
+    id: 'stock-lot',
+    name: 'Stock Lot',
+    description: 'Остатки со склада',
+    productTags: ['stock-lot', 'remainder'],
+  },
   { id: 'all', name: 'Все', description: 'Полный каталог', productTags: [] },
 ];
 

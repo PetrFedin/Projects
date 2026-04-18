@@ -15,7 +15,7 @@ export default function BrandB2BTradeShowsPage() {
   const links = getRelatedLinks('trade-show').map((l) => ({ label: l.label, href: l.href }));
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-4xl animate-in fade-in duration-700">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 duration-700 animate-in fade-in">
       <SectionInfoCard
         title="Market Week / Trade Show"
         description="CPM, МФН и др. события. Календарь выставок, инвайты байерам, заказы с события."
@@ -24,8 +24,12 @@ export default function BrandB2BTradeShowsPage() {
         iconColor="text-amber-600"
         badges={
           <>
-            <Badge variant="outline" className="text-[9px]">JOOR</Badge>
-            <Badge variant="outline" className="text-[9px]">FashionGo</Badge>
+            <Badge variant="outline" className="text-[9px]">
+              JOOR
+            </Badge>
+            <Badge variant="outline" className="text-[9px]">
+              FashionGo
+            </Badge>
           </>
         }
       />
@@ -36,7 +40,7 @@ export default function BrandB2BTradeShowsPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-2 text-sm">
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-slate-50 border border-slate-100">
+            <div className="flex items-center gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3">
               <MapPin className="h-4 w-4 text-slate-400" />
               <span>CPM Moscow — 15–18.04.2026</span>
             </div>

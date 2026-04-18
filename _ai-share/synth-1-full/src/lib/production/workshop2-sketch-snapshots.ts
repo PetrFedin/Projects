@@ -57,7 +57,8 @@ export function restoreSketchLabelsSnapshot(
   });
   return {
     ...dossier,
-    categorySketchAnnotations: snapshot.masterAnnotations?.map((a) => ({ ...a })) ?? dossier.categorySketchAnnotations,
+    categorySketchAnnotations:
+      snapshot.masterAnnotations?.map((a) => ({ ...a })) ?? dossier.categorySketchAnnotations,
     sketchSheets: mergedSheets,
   };
 }

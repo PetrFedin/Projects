@@ -3,7 +3,10 @@
  * Состыкуется с `workshop2-dossier-view-infrastructure` и существующими полями досье.
  */
 
-import { W2_ARTICLE_SECTION_DOM, workshop2ArticleHrefQueryToSearchParams } from '@/lib/production/workshop2-url';
+import {
+  W2_ARTICLE_SECTION_DOM,
+  workshop2ArticleHrefQueryToSearchParams,
+} from '@/lib/production/workshop2-url';
 import { W2_MATERIAL_SUBPAGE_ANCHORS } from '@/lib/production/workshop2-material-bom-anchors';
 import { W2_CONSTRUCTION_SUBPAGE_ANCHORS } from '@/lib/production/workshop2-construction-dossier-anchors';
 import { W2_PASSPORT_SUBPAGE_ANCHORS } from '@/lib/production/workshop2-passport-check';
@@ -110,7 +113,11 @@ export const W2_NINE_GAP_BACKLOG: readonly W2NineGapBacklogItem[] = [
     area: 'sketch',
     priority: 'P0',
     title: 'Шаблоны меток и пресеты по типу',
-    infraReady: ['W2_SKETCH_PIN_TYPE_PRESETS', 'sketchPinTemplates в досье', 'sketch-org-templates-repository'],
+    infraReady: [
+      'W2_SKETCH_PIN_TYPE_PRESETS',
+      'sketchPinTemplates в досье',
+      'sketch-org-templates-repository',
+    ],
     productGapP0: [
       'Версионирование шаблонов по коллекции/бренду и принудительное применение пресета при смене типа метки на доске (сейчас — выбор вручную).',
     ],
@@ -121,7 +128,10 @@ export const W2_NINE_GAP_BACKLOG: readonly W2NineGapBacklogItem[] = [
     area: 'visual',
     priority: 'P0',
     title: 'Версии канона и журнал визуала',
-    infraReady: ['W2_VISUAL_VERSION_FIELD_CONTRACT', 'поля досье: visualVersionLog, canonicalMainSketchTarget'],
+    infraReady: [
+      'W2_VISUAL_VERSION_FIELD_CONTRACT',
+      'поля досье: visualVersionLog, canonicalMainSketchTarget',
+    ],
     productGapP0: [
       'Визуальное сравнение ревизий канона (не только текст журнала) и жёсткий гейт handoff при расхождении фото/скетч и подписи версии.',
     ],
@@ -132,7 +142,11 @@ export const W2_NINE_GAP_BACKLOG: readonly W2NineGapBacklogItem[] = [
     area: 'visual',
     priority: 'P0',
     title: 'Handoff визуала в ОТК / цех / снабжение',
-    infraReady: ['W2_VISUAL_HANDOFF_TARGETS', 'W2_VISUAL_HANDOFF_EXTENDED', 'getVisualHandoffTargetsForProfile'],
+    infraReady: [
+      'W2_VISUAL_HANDOFF_TARGETS',
+      'W2_VISUAL_HANDOFF_EXTENDED',
+      'getVisualHandoffTargetsForProfile',
+    ],
     productGapP0: [
       'Подтверждение получения handoff ролями (цех/ОТК/снабжение) в маршруте, а не только ссылка, JSON и печать.',
     ],
@@ -261,7 +275,8 @@ export const W2_NINE_GAP_VISUAL_SKETCH_ROADMAP_IDS = [
 export const W2_NINE_GAP_VISUAL_SKETCH_ROADMAP: readonly W2NineGapBacklogItem[] =
   W2_NINE_GAP_VISUAL_SKETCH_ROADMAP_IDS.map((id) => {
     const row = W2_NINE_GAP_BACKLOG.find((x) => x.id === id);
-    if (!row) throw new Error(`[W2_NINE_GAP_VISUAL_SKETCH_ROADMAP] missing backlog id: ${String(id)}`);
+    if (!row)
+      throw new Error(`[W2_NINE_GAP_VISUAL_SKETCH_ROADMAP] missing backlog id: ${String(id)}`);
     return row;
   });
 
@@ -281,7 +296,8 @@ export const W2_NINE_GAP_MATERIAL_BOM_ROADMAP_IDS = [
 export const W2_NINE_GAP_MATERIAL_BOM_ROADMAP: readonly W2NineGapBacklogItem[] =
   W2_NINE_GAP_MATERIAL_BOM_ROADMAP_IDS.map((id) => {
     const row = W2_NINE_GAP_BACKLOG.find((x) => x.id === id);
-    if (!row) throw new Error(`[W2_NINE_GAP_MATERIAL_BOM_ROADMAP] missing backlog id: ${String(id)}`);
+    if (!row)
+      throw new Error(`[W2_NINE_GAP_MATERIAL_BOM_ROADMAP] missing backlog id: ${String(id)}`);
     return row;
   });
 
@@ -299,7 +315,8 @@ export const W2_NINE_GAP_CONSTRUCTION_ROADMAP_IDS = [
 export const W2_NINE_GAP_CONSTRUCTION_ROADMAP: readonly W2NineGapBacklogItem[] =
   W2_NINE_GAP_CONSTRUCTION_ROADMAP_IDS.map((id) => {
     const row = W2_NINE_GAP_BACKLOG.find((x) => x.id === id);
-    if (!row) throw new Error(`[W2_NINE_GAP_CONSTRUCTION_ROADMAP] missing backlog id: ${String(id)}`);
+    if (!row)
+      throw new Error(`[W2_NINE_GAP_CONSTRUCTION_ROADMAP] missing backlog id: ${String(id)}`);
     return row;
   });
 
@@ -308,7 +325,9 @@ export function nineGapBacklogByArea(area: W2NineGapArea): readonly W2NineGapBac
 }
 
 /** Несколько областей (например визуал + эскиз) — P0 выше P1, порядок стабильный. */
-export function nineGapBacklogByAreas(areas: readonly W2NineGapArea[]): readonly W2NineGapBacklogItem[] {
+export function nineGapBacklogByAreas(
+  areas: readonly W2NineGapArea[]
+): readonly W2NineGapBacklogItem[] {
   const want = new Set(areas);
   const rows = W2_NINE_GAP_BACKLOG.filter((x) => want.has(x.area));
   return [...rows].sort((a, b) => {
@@ -347,7 +366,9 @@ export type Workshop2ExternalReadOnlyParamsInput = {
   w2pane?: 'overview' | 'tz' | 'supply' | 'fit' | 'plan' | 'release' | 'qc' | 'stock';
 };
 
-export function buildWorkshop2ExternalReadOnlyParams(input: Workshop2ExternalReadOnlyParamsInput): URLSearchParams {
+export function buildWorkshop2ExternalReadOnlyParams(
+  input: Workshop2ExternalReadOnlyParamsInput
+): URLSearchParams {
   return workshop2ArticleHrefQueryToSearchParams({
     w2view: input.view,
     sketchFloor: input.sketchFloor,
@@ -370,11 +391,13 @@ export const W2_VISUAL_VERSION_FIELD_CONTRACT = {
 // Production / technologist / qc: см. тесты `production handoff` и `getVisualHandoffTargetsForProfile`.
 // Отложено (визуал ↔ BOM по строке): см. шапку `workshop2-dossier-view-infrastructure.ts`.
 
-export type W2VisualHandoffExtended = W2VisualHandoffTarget | {
-  tab: 'supply';
-  domId: string;
-  label: string;
-};
+export type W2VisualHandoffExtended =
+  | W2VisualHandoffTarget
+  | {
+      tab: 'supply';
+      domId: string;
+      label: string;
+    };
 
 export const W2_VISUAL_HANDOFF_EXTENDED: readonly W2VisualHandoffExtended[] = [
   ...W2_VISUAL_HANDOFF_TARGETS,
@@ -385,7 +408,9 @@ export const W2_VISUAL_HANDOFF_EXTENDED: readonly W2VisualHandoffExtended[] = [
   },
 ];
 
-export function getVisualHandoffTargetsForProfile(profile: Workshop2DossierViewProfile): readonly W2VisualHandoffExtended[] {
+export function getVisualHandoffTargetsForProfile(
+  profile: Workshop2DossierViewProfile
+): readonly W2VisualHandoffExtended[] {
   switch (profile) {
     case 'supply':
       return W2_VISUAL_HANDOFF_EXTENDED;
@@ -438,7 +463,10 @@ export const W2_SKETCH_PIN_VISIBILITY_BY_SURFACE: Record<
 
 export type W2SketchPinLinkValidationMode = 'material' | 'qc' | 'strict';
 
-export type W2SketchPinLinkIssue = { code: 'missing_material_link' | 'missing_qc_link'; message: string };
+export type W2SketchPinLinkIssue = {
+  code: 'missing_material_link' | 'missing_qc_link';
+  message: string;
+};
 
 /**
  * Проверка «жёсткой» связи метки с материалом и/или QC (локально, до API).
@@ -447,13 +475,19 @@ export type W2SketchPinLinkIssue = { code: 'missing_material_link' | 'missing_qc
 export function validateSketchPinRequiredLinks(
   pin: Pick<
     Workshop2Phase1CategorySketchAnnotation,
-    'annotationType' | 'linkedBomLineRef' | 'linkedMaterialNote' | 'linkedQcZoneId' | 'mesDefectCode'
+    | 'annotationType'
+    | 'linkedBomLineRef'
+    | 'linkedMaterialNote'
+    | 'linkedQcZoneId'
+    | 'mesDefectCode'
   >,
   mode: W2SketchPinLinkValidationMode
 ): { ok: boolean; issues: W2SketchPinLinkIssue[] } {
   const issues: W2SketchPinLinkIssue[] = [];
   const t = pin.annotationType;
-  const hasMat = Boolean((pin.linkedBomLineRef ?? '').trim() || (pin.linkedMaterialNote ?? '').trim());
+  const hasMat = Boolean(
+    (pin.linkedBomLineRef ?? '').trim() || (pin.linkedMaterialNote ?? '').trim()
+  );
   const hasQc = Boolean((pin.linkedQcZoneId ?? '').trim() || (pin.mesDefectCode ?? '').trim());
 
   const needsMaterial = t === 'material' || t === 'hardware';
@@ -526,17 +560,20 @@ export function formatMaterialAlternativeStatusFlowPlainText(): string {
     'Альтернатива материала · допустимые переходы статуса (локально, до записи в API):',
     '',
   ];
-  (Object.entries(W2_MATERIAL_ALTERNATIVE_STATUS_FLOW) as [Workshop2MaterialAlternativeStatus, readonly Workshop2MaterialAlternativeStatus[]][]).forEach(
-    ([from, tos]) => {
-      const fromRu = W2_MATERIAL_ALT_STATUS_LABEL_RU[from];
-      if (tos.length === 0) {
-        lines.push(`· ${fromRu} — конечный статус`);
-      } else {
-        const dest = tos.map((t) => W2_MATERIAL_ALT_STATUS_LABEL_RU[t]).join(' · ');
-        lines.push(`· ${fromRu} → ${dest}`);
-      }
+  (
+    Object.entries(W2_MATERIAL_ALTERNATIVE_STATUS_FLOW) as [
+      Workshop2MaterialAlternativeStatus,
+      readonly Workshop2MaterialAlternativeStatus[],
+    ][]
+  ).forEach(([from, tos]) => {
+    const fromRu = W2_MATERIAL_ALT_STATUS_LABEL_RU[from];
+    if (tos.length === 0) {
+      lines.push(`· ${fromRu} — конечный статус`);
+    } else {
+      const dest = tos.map((t) => W2_MATERIAL_ALT_STATUS_LABEL_RU[t]).join(' · ');
+      lines.push(`· ${fromRu} → ${dest}`);
     }
-  );
+  });
   return lines.join('\n');
 }
 
@@ -585,7 +622,9 @@ export function formatFactoryBomCsvHeaderRow(delimiter: ',' | ';' = ','): string
 }
 
 /** Слияние costing-подсказок по одному lineRef (для локальных таблиц UI). */
-export function mergeCostingHintsByLineRef<T extends { lineRef: string }>(rows: T[]): Map<string, T> {
+export function mergeCostingHintsByLineRef<T extends { lineRef: string }>(
+  rows: T[]
+): Map<string, T> {
   const m = new Map<string, T>();
   for (const r of rows) {
     m.set(r.lineRef.trim(), r);

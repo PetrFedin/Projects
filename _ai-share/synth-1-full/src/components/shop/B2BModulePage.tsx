@@ -20,19 +20,37 @@ interface B2BModulePageProps {
   backHref?: string;
 }
 
-export function B2BModulePage({ title, description, moduleId, icon: Icon, phase, children, backHref = ROUTES.shop.b2b }: B2BModulePageProps) {
+export function B2BModulePage({
+  title,
+  description,
+  moduleId,
+  icon: Icon,
+  phase,
+  children,
+  backHref = ROUTES.shop.b2b,
+}: B2BModulePageProps) {
   const relatedLinks = getRelatedLinks(moduleId).map((l) => ({ label: l.label, href: l.href }));
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-4xl pb-24">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
-        <Link href={backHref}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+        <Link href={backHref}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-bold uppercase flex items-center gap-2"><Icon className="h-5 w-5" /> {title}</h1>
-            {phase && <Badge variant="outline" className="text-[9px]">Фаза {phase}</Badge>}
+            <h1 className="flex items-center gap-2 text-xl font-bold uppercase">
+              <Icon className="h-5 w-5" /> {title}
+            </h1>
+            {phase && (
+              <Badge variant="outline" className="text-[9px]">
+                Фаза {phase}
+              </Badge>
+            )}
           </div>
-          <p className="text-slate-500 text-sm mt-0.5">{description}</p>
+          <p className="mt-0.5 text-sm text-slate-500">{description}</p>
         </div>
       </div>
       {children}
@@ -40,8 +58,12 @@ export function B2BModulePage({ title, description, moduleId, icon: Icon, phase,
         <RelatedModulesBlock links={relatedLinks} title="Связанные модули" className="mt-6" />
       )}
       <div className="flex gap-2">
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2b}>B2B Hub</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bMatrix}>Матрица заказов</Link></Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2b}>B2B Hub</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bMatrix}>Матрица заказов</Link>
+        </Button>
       </div>
     </div>
   );

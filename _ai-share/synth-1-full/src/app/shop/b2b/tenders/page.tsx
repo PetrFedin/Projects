@@ -20,17 +20,25 @@ export default function B2BTendersPage() {
       <Card>
         <CardHeader>
           <CardTitle>Активные тендеры</CardTitle>
-          <CardDescription>Участие в закупочных торгах, запросы котировок, аукционы.</CardDescription>
+          <CardDescription>
+            Участие в закупочных торгах, запросы котировок, аукционы.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="grid gap-2 text-sm">
-            <p className="text-slate-600">Синхронизация с B2B-Center: просмотр тендеров, подача заявок, торги.</p>
-            <div className="flex gap-2 flex-wrap">
+            <p className="text-slate-600">
+              Синхронизация с B2B-Center: просмотр тендеров, подача заявок, торги.
+            </p>
+            <div className="flex flex-wrap gap-2">
               <Button size="sm" variant="outline" asChild>
-                <Link href={ROUTES.shop.b2bSupplierDiscovery}><Search className="h-3 w-3 mr-1" /> Поиск поставщиков</Link>
+                <Link href={ROUTES.shop.b2bSupplierDiscovery}>
+                  <Search className="mr-1 h-3 w-3" /> Поиск поставщиков
+                </Link>
               </Button>
               <Button size="sm" variant="outline" asChild>
-                <Link href={ROUTES.shop.b2bRfq}><FileText className="h-3 w-3 mr-1" /> RFQ</Link>
+                <Link href={ROUTES.shop.b2bRfq}>
+                  <FileText className="mr-1 h-3 w-3" /> RFQ
+                </Link>
               </Button>
             </div>
           </div>

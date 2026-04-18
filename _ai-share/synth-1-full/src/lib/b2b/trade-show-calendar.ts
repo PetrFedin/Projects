@@ -18,9 +18,33 @@ export interface TradeShowEvent {
 const STORAGE_KEY = 'b2b_trade_show_calendar_v1';
 
 const SEED: TradeShowEvent[] = [
-  { id: 'cpm-2026', name: 'CPM Collection Première Moscow', startDate: '2026-02-10', endDate: '2026-02-13', city: 'Москва', type: 'CPM', slug: 'cpm-feb-2026' },
-  { id: 'expo-2026', name: 'ExpoEcogir', startDate: '2026-03-15', endDate: '2026-03-17', city: 'Москва', type: 'ExpoEcogir', slug: 'expoecogir-2026' },
-  { id: 'mosshoes-2026', name: 'Mosshoes', startDate: '2026-09-01', endDate: '2026-09-04', city: 'Москва', type: 'Mosshoes', slug: 'mosshoes-2026' },
+  {
+    id: 'cpm-2026',
+    name: 'CPM Collection Première Moscow',
+    startDate: '2026-02-10',
+    endDate: '2026-02-13',
+    city: 'Москва',
+    type: 'CPM',
+    slug: 'cpm-feb-2026',
+  },
+  {
+    id: 'expo-2026',
+    name: 'ExpoEcogir',
+    startDate: '2026-03-15',
+    endDate: '2026-03-17',
+    city: 'Москва',
+    type: 'ExpoEcogir',
+    slug: 'expoecogir-2026',
+  },
+  {
+    id: 'mosshoes-2026',
+    name: 'Mosshoes',
+    startDate: '2026-09-01',
+    endDate: '2026-09-04',
+    city: 'Москва',
+    type: 'Mosshoes',
+    slug: 'mosshoes-2026',
+  },
 ];
 
 function load(): TradeShowEvent[] {
@@ -43,5 +67,7 @@ export function getTradeShowById(id: string): TradeShowEvent | undefined {
 
 export function getUpcomingEvents(asOfDate?: string): TradeShowEvent[] {
   const date = asOfDate ?? new Date().toISOString().slice(0, 10);
-  return load().filter((e) => e.endDate >= date).sort((a, b) => a.startDate.localeCompare(b.startDate));
+  return load()
+    .filter((e) => e.endDate >= date)
+    .sort((a, b) => a.startDate.localeCompare(b.startDate));
 }

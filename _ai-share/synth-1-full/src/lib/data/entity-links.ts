@@ -11,8 +11,7 @@ export type { EntityLink };
 function filterB2B(links: EntityLink[]): EntityLink[] {
   return links.filter(
     (l) =>
-      (l.href as string) !== ROUTES.brand.b2bOrders &&
-      (l.href as string) !== ROUTES.shop.b2bOrders
+      (l.href as string) !== ROUTES.brand.b2bOrders && (l.href as string) !== ROUTES.shop.b2bOrders
   );
 }
 

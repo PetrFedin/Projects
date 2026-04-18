@@ -22,7 +22,7 @@ interface RecentOrder {
 
 export function QuickReorderBar() {
   const [isExpanded, setIsExpanded] = useState(false);
-  
+
   // Mock data - последние заказанные товары
   const recentOrders: RecentOrder[] = [
     {
@@ -34,7 +34,7 @@ export function QuickReorderBar() {
       lastQuantity: 50,
       image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=100',
       price: 28500,
-      inStock: true
+      inStock: true,
     },
     {
       id: '2',
@@ -45,7 +45,7 @@ export function QuickReorderBar() {
       lastQuantity: 30,
       image: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?q=80&w=100',
       price: 15000,
-      inStock: true
+      inStock: true,
     },
     {
       id: '3',
@@ -56,7 +56,7 @@ export function QuickReorderBar() {
       lastQuantity: 100,
       image: 'https://images.unsplash.com/photo-1601924994987-69e26d50dc26?q=80&w=100',
       price: 8500,
-      inStock: false
+      inStock: false,
     },
     {
       id: '4',
@@ -67,37 +67,37 @@ export function QuickReorderBar() {
       lastQuantity: 75,
       image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=100',
       price: 12000,
-      inStock: true
-    }
+      inStock: true,
+    },
   ];
-  
+
   const handleReorder = (item: RecentOrder) => {
-    alert(`✅ Добавлено ${item.lastQuantity} шт. ${item.name} в корзину\n\nИтого: ${(item.price * item.lastQuantity).toLocaleString('ru-RU')} ₽`);
+    alert(
+      `✅ Добавлено ${item.lastQuantity} шт. ${item.name} в корзину\n\nИтого: ${(item.price * item.lastQuantity).toLocaleString('ru-RU')} ₽`
+    );
   };
-  
+
   return (
-    <Card className="sticky top-0 z-40 rounded-none border-x-0 border-t-0 border-b-2 border-indigo-100 shadow-lg bg-white/95 backdrop-blur-md">
+    <Card className="sticky top-0 z-40 rounded-none border-x-0 border-b-2 border-t-0 border-indigo-100 bg-white/95 shadow-lg backdrop-blur-md">
       <div className="container mx-auto px-4">
         <div className="flex items-center gap-3 py-3">
-          <div className="flex items-center gap-2 flex-shrink-0">
+          <div className="flex flex-shrink-0 items-center gap-2">
             <RotateCcw className="h-5 w-5 text-indigo-600" />
-            <span className="font-black uppercase text-sm text-slate-900">
-              Quick Reorder
-            </span>
-            <Badge className="bg-indigo-100 text-indigo-700 text-[7px] font-black uppercase border-none">
+            <span className="text-sm font-black uppercase text-slate-900">Quick Reorder</span>
+            <Badge className="border-none bg-indigo-100 text-[7px] font-black uppercase text-indigo-700">
               Last 30 Days
             </Badge>
           </div>
-          
-          <div className="flex-1 flex items-center gap-3 overflow-x-auto no-scrollbar">
+
+          <div className="no-scrollbar flex flex-1 items-center gap-3 overflow-x-auto">
             {recentOrders.slice(0, isExpanded ? 10 : 4).map((item) => (
               <div
                 key={item.id}
                 className={cn(
-                  "flex items-center gap-3 p-2 rounded-xl border-2 transition-all flex-shrink-0",
-                  item.inStock 
-                    ? "bg-slate-50 border-slate-200 hover:border-indigo-300" 
-                    : "bg-rose-50 border-rose-200"
+                  'flex flex-shrink-0 items-center gap-3 rounded-xl border-2 p-2 transition-all',
+                  item.inStock
+                    ? 'border-slate-200 bg-slate-50 hover:border-indigo-300'
+                    : 'border-rose-200 bg-rose-50'
                 )}
               >
                 <img
@@ -105,18 +105,22 @@ export function QuickReorderBar() {
                   alt={item.name}
                   className="h-12 w-12 rounded-lg object-cover"
                 />
-                
+
                 <div className="min-w-0">
-                  <h4 className="text-[10px] font-black uppercase text-slate-900 truncate leading-tight w-32">
+                  <h4 className="w-32 truncate text-[10px] font-black uppercase leading-tight text-slate-900">
                     {item.name}
                   </h4>
-                  <p className="text-[9px] text-slate-500 flex items-center gap-1">
+                  <p className="flex items-center gap-1 text-[9px] text-slate-500">
                     <Clock className="h-3 w-3" />
-                    {item.lastQuantity} шт • {new Date(item.lastOrderDate).toLocaleDateString('ru-RU', { month: 'short', day: 'numeric' })}
+                    {item.lastQuantity} шт •{' '}
+                    {new Date(item.lastOrderDate).toLocaleDateString('ru-RU', {
+                      month: 'short',
+                      day: 'numeric',
+                    })}
                   </p>
                 </div>
-                
-                <div className="flex items-center gap-1 flex-shrink-0">
+
+                <div className="flex flex-shrink-0 items-center gap-1">
                   <Button
                     size="sm"
                     variant="ghost"
@@ -127,35 +131,33 @@ export function QuickReorderBar() {
                       <Eye className="h-4 w-4" />
                     </Link>
                   </Button>
-                  
+
                   <Button
                     size="sm"
                     className={cn(
-                      "h-8 px-3 text-[8px] font-black uppercase rounded-lg",
-                      item.inStock 
-                        ? "bg-indigo-600 hover:bg-indigo-700" 
-                        : "bg-slate-400 cursor-not-allowed"
+                      'h-8 rounded-lg px-3 text-[8px] font-black uppercase',
+                      item.inStock
+                        ? 'bg-indigo-600 hover:bg-indigo-700'
+                        : 'cursor-not-allowed bg-slate-400'
                     )}
                     onClick={() => item.inStock && handleReorder(item)}
                     disabled={!item.inStock}
                   >
-                    <ShoppingCart className="h-3 w-3 mr-1" />
+                    <ShoppingCart className="mr-1 h-3 w-3" />
                     {item.inStock ? 'Reorder' : 'Out'}
                   </Button>
                 </div>
               </div>
             ))}
           </div>
-          
+
           <Button
             variant="outline"
             size="sm"
-            className="h-9 text-[8px] font-black uppercase flex-shrink-0 rounded-xl"
+            className="h-9 flex-shrink-0 rounded-xl text-[8px] font-black uppercase"
             asChild
           >
-            <Link href="/shop/b2b/orders">
-              All Orders
-            </Link>
+            <Link href="/shop/b2b/orders">All Orders</Link>
           </Button>
         </div>
       </div>

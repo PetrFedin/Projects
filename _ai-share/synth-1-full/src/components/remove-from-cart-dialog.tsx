@@ -9,8 +9,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import type { Product } from "@/lib/types";
+} from '@/components/ui/alert-dialog';
+import type { Product } from '@/lib/types';
 
 interface RemoveFromCartDialogProps {
   product: Product;
@@ -20,21 +20,33 @@ interface RemoveFromCartDialogProps {
   onConfirm: () => void;
 }
 
-export function RemoveFromCartDialog({ product, size, isOpen, onOpenChange, onConfirm }: RemoveFromCartDialogProps) {
+export function RemoveFromCartDialog({
+  product,
+  size,
+  isOpen,
+  onOpenChange,
+  onConfirm,
+}: RemoveFromCartDialogProps) {
   return (
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Удалить товар из корзины?</AlertDialogTitle>
           <AlertDialogDescription>
-            Вы уверены, что хотите удалить "{product.name}" в размере <span className="font-semibold">{size}</span> из вашей корзины?
+            Вы уверены, что хотите удалить "{product.name}" в размере{' '}
+            <span className="font-semibold">{size}</span> из вашей корзины?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Отмена</AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirm} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">Да, удалить</AlertDialogAction>
+          <AlertDialogAction
+            onClick={onConfirm}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+          >
+            Да, удалить
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }

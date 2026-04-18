@@ -15,7 +15,10 @@ export async function applyW2MetricsHotSourceRetentionAfterArchive(): Promise<{
   let redisCleared = false;
   let fileTruncated = false;
 
-  if (process.env.W2_METRICS_ARCHIVE_AFTER_SUCCESS_CLEAR_REDIS === '1' && getW2DossierMetricsUpstashConfig()) {
+  if (
+    process.env.W2_METRICS_ARCHIVE_AFTER_SUCCESS_CLEAR_REDIS === '1' &&
+    getW2DossierMetricsUpstashConfig()
+  ) {
     await upstashDeleteW2DossierMetricsList();
     redisCleared = true;
   }

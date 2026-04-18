@@ -79,14 +79,13 @@ export const mockOrderDetailJoors = {
   currency: 'RUB',
 };
 
-
 export const mockB2BOrders: B2BOrder[] = [
   {
-    order: "B2B-0013",
-    status: "Черновик",
-    shop: "Podium (Москва)",
-    brand: "Syntha",
-    amount: "0 ₽",
+    order: 'B2B-0013',
+    status: 'Черновик',
+    shop: 'Podium (Москва)',
+    brand: 'Syntha',
+    amount: '0 ₽',
     date: '2024-07-29',
     deliveryDate: '2024-09-20',
     orderMode: 'pre_order',
@@ -98,11 +97,11 @@ export const mockB2BOrders: B2BOrder[] = [
     paymentStatus: 'pending',
   },
   {
-    order: "B2B-0012",
-    status: "Зарезервировано",
-    shop: "Podium (Москва)",
-    brand: "Syntha",
-    amount: "750 000 ₽",
+    order: 'B2B-0012',
+    status: 'Зарезервировано',
+    shop: 'Podium (Москва)',
+    brand: 'Syntha',
+    amount: '750 000 ₽',
     date: '2024-07-20',
     deliveryDate: '2024-09-15',
     orderMode: 'buy_now',
@@ -113,11 +112,11 @@ export const mockB2BOrders: B2BOrder[] = [
     paidAmount: 300_000,
   },
   {
-    order: "B2B-0011",
-    status: "Требует внимания",
-    shop: "ЦУМ (Москва)",
-    brand: "A.P.C.",
-    amount: "1 200 000 ₽",
+    order: 'B2B-0011',
+    status: 'Требует внимания',
+    shop: 'ЦУМ (Москва)',
+    brand: 'A.P.C.',
+    amount: '1 200 000 ₽',
     date: '2024-07-15',
     deliveryDate: '2024-08-30',
     orderMode: 'reorder',
@@ -127,11 +126,11 @@ export const mockB2BOrders: B2BOrder[] = [
     paymentStatus: 'overdue',
   },
   {
-    order: "B2B-0010",
-    status: "Черновик",
-    shop: "Boutique No.7 (СПб)",
-    brand: "Acne Studios",
-    amount: "450 000 ₽",
+    order: 'B2B-0010',
+    status: 'Черновик',
+    shop: 'Boutique No.7 (СПб)',
+    brand: 'Acne Studios',
+    amount: '450 000 ₽',
     date: '2024-06-25',
     deliveryDate: '2024-08-10',
     orderMode: 'pre_order',
@@ -155,20 +154,43 @@ export const B2B_ORDER_STATUSES = [
   'Инвойс выписан',
 ] as const;
 
-export type B2BOrderStatusLabel = typeof B2B_ORDER_STATUSES[number];
+export type B2BOrderStatusLabel = (typeof B2B_ORDER_STATUSES)[number];
 
 export const orderStatusSteps = [
-    { status: "Черновик", date: "2024-07-28" },
-    { status: "На проверке", date: "2024-07-29" },
-    { status: "Согласован", date: "2024-08-01" },
-    { status: "В производстве", date: null },
-    { status: "Отгружен", date: null },
-    { status: "Доставлен", date: null },
+  { status: 'Черновик', date: '2024-07-28' },
+  { status: 'На проверке', date: '2024-07-29' },
+  { status: 'Согласован', date: '2024-08-01' },
+  { status: 'В производстве', date: null },
+  { status: 'Отгружен', date: null },
+  { status: 'Доставлен', date: null },
 ];
 
-export const mockChat: {user: string; text: string; time: string; attachedProduct?: Product, isSystem?: boolean}[] = [
-    { user: 'Система', text: 'Магазин "Podium" отправил заказ на согласование.', time: '14:25', isSystem: true},
-    { user: 'Анна (Syntha)', text: 'Елена, здравствуйте! Заказ B2B-0012 получен. Все позиции в наличии для производства. Сроки подтверждаем.', time: '14:30'},
-    { user: 'Вы', text: 'Анна, спасибо! Подскажите, сможем ли мы получить поставку до 15 сентября?', time: '14:32'},
-    { user: 'Анна (Syntha)', text: 'Да, конечно. Планируем отгрузку на 10 сентября, так что к 15-му все будет у вас.', time: '14:35'},
+export const mockChat: {
+  user: string;
+  text: string;
+  time: string;
+  attachedProduct?: Product;
+  isSystem?: boolean;
+}[] = [
+  {
+    user: 'Система',
+    text: 'Магазин "Podium" отправил заказ на согласование.',
+    time: '14:25',
+    isSystem: true,
+  },
+  {
+    user: 'Анна (Syntha)',
+    text: 'Елена, здравствуйте! Заказ B2B-0012 получен. Все позиции в наличии для производства. Сроки подтверждаем.',
+    time: '14:30',
+  },
+  {
+    user: 'Вы',
+    text: 'Анна, спасибо! Подскажите, сможем ли мы получить поставку до 15 сентября?',
+    time: '14:32',
+  },
+  {
+    user: 'Анна (Syntha)',
+    text: 'Да, конечно. Планируем отгрузку на 10 сентября, так что к 15-му все будет у вас.',
+    time: '14:35',
+  },
 ];

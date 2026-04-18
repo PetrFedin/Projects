@@ -27,7 +27,7 @@ export class SagaCoordinator {
    */
   public static async executeSaga(sagaId: string, steps: SagaStep[]): Promise<SagaExecutionResult> {
     console.log(`[SagaCoordinator] Starting Saga: ${sagaId} (${steps.length} steps)`);
-    
+
     const completedSteps: { step: SagaStep; result: any }[] = [];
 
     for (const step of steps) {
@@ -37,10 +37,14 @@ export class SagaCoordinator {
         completedSteps.push({ step, result });
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : String(error);
-        console.error(`[SagaCoordinator] Saga ${sagaId} FAILED at step '${step.name}': ${errorMessage}`);
-        
+        console.error(
+          `[SagaCoordinator] Saga ${sagaId} FAILED at step '${step.name}': ${errorMessage}`
+        );
+
         // Запуск компенсаций (Rollbacks) в обратном порядке
-        console.log(`[SagaCoordinator] Initiating compensation for ${completedSteps.length} completed steps...`);
+        console.log(
+          `[SagaCoordinator] Initiating compensation for ${completedSteps.length} completed steps...`
+        );
         let compensationSuccessful = true;
 
         for (let i = completedSteps.length - 1; i >= 0; i--) {
@@ -49,7 +53,10 @@ export class SagaCoordinator {
             console.log(`[SagaCoordinator] Compensating step: ${completedStep.name}`);
             await completedStep.compensate(result);
           } catch (compError) {
-            console.error(`[SagaCoordinator] CRITICAL: Compensation failed for step '${completedStep.name}'! Manual intervention required.`, compError);
+            console.error(
+              `[SagaCoordinator] CRITICAL: Compensation failed for step '${completedStep.name}'! Manual intervention required.`,
+              compError
+            );
             compensationSuccessful = false;
             // В реальной системе здесь отправляется алерт инженерам (PagerDuty)
           }
@@ -58,10 +65,10 @@ export class SagaCoordinator {
         return {
           sagaId,
           success: false,
-          completedSteps: completedSteps.map(s => s.step.name),
+          completedSteps: completedSteps.map((s) => s.step.name),
           failedStep: step.name,
           error: errorMessage,
-          compensationSuccessful
+          compensationSuccessful,
         };
       }
     }
@@ -70,8 +77,8 @@ export class SagaCoordinator {
     return {
       sagaId,
       success: true,
-      completedSteps: completedSteps.map(s => s.step.name),
-      compensationSuccessful: true // Не применялась
+      completedSteps: completedSteps.map((s) => s.step.name),
+      compensationSuccessful: true, // Не применялась
     };
   }
 }

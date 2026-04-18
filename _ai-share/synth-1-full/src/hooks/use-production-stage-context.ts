@@ -61,7 +61,8 @@ export function useProductionStageContext(): ProductionStageContextValue {
       if (k === collectionFlowKey) refreshFlowDoc();
     };
     window.addEventListener(BRAND_UNIFIED_SKU_FLOW_SAVED_EVENT, onSaved as EventListener);
-    return () => window.removeEventListener(BRAND_UNIFIED_SKU_FLOW_SAVED_EVENT, onSaved as EventListener);
+    return () =>
+      window.removeEventListener(BRAND_UNIFIED_SKU_FLOW_SAVED_EVENT, onSaved as EventListener);
   }, [collectionFlowKey, refreshFlowDoc]);
 
   const showFlowBanner = hasStageFlowTail(parsed);
@@ -93,7 +94,13 @@ export function useProductionStageContext(): ProductionStageContextValue {
         return next;
       });
     },
-    [canSetStageStatus, collectionFlowKey, parsed.resolvedArticleId, parsed.skuCode, parsed.stagesStep]
+    [
+      canSetStageStatus,
+      collectionFlowKey,
+      parsed.resolvedArticleId,
+      parsed.skuCode,
+      parsed.stagesStep,
+    ]
   );
 
   return {

@@ -37,7 +37,13 @@ export interface ProductsRepository {
 export interface CartRepository {
   getCart(userId: string): Promise<CartItem[]>;
   addItem(userId: string, item: CartItem): Promise<void>;
-  updateItem(userId: string, productId: string, size: string, quantity: number, color?: string): Promise<void>;
+  updateItem(
+    userId: string,
+    productId: string,
+    size: string,
+    quantity: number,
+    color?: string
+  ): Promise<void>;
   removeItem(userId: string, productId: string, size: string, color?: string): Promise<void>;
   clearCart(userId: string): Promise<void>;
   onCartChange(userId: string, callback: (items: CartItem[]) => void): () => void;
@@ -70,7 +76,10 @@ export interface OrdersRepository {
 
 // Payment Repository
 export interface PaymentRepository {
-  createPaymentIntent(amount: number, currency: string, metadata?: Record<string, any>): Promise<{ clientSecret: string; paymentIntentId: string }>;
+  createPaymentIntent(
+    amount: number,
+    currency: string,
+    metadata?: Record<string, any>
+  ): Promise<{ clientSecret: string; paymentIntentId: string }>;
   confirmPayment(paymentIntentId: string): Promise<{ success: boolean; orderId?: string }>;
 }
-

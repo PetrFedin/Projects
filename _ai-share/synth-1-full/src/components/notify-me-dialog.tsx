@@ -1,4 +1,3 @@
-
 'use client';
 
 import {
@@ -10,9 +9,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import type { Product } from "@/lib/types";
-import { format } from "date-fns";
+} from '@/components/ui/alert-dialog';
+import type { Product } from '@/lib/types';
+import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 
 interface NotifyMeDialogProps {
@@ -25,25 +24,30 @@ interface NotifyMeDialogProps {
   onConfirm: () => void;
 }
 
-export function NotifyMeDialog({ product, size, mode, preOrderDate, isOpen, onOpenChange, onConfirm }: NotifyMeDialogProps) {
+export function NotifyMeDialog({
+  product,
+  size,
+  mode,
+  preOrderDate,
+  isOpen,
+  onOpenChange,
+  onConfirm,
+}: NotifyMeDialogProps) {
   if (!size) return null;
 
   const isPreOrder = mode === 'pre_order';
-  const title = isPreOrder ? "Оформить предзаказ?" : "Сообщить о поступлении?";
-  const description = isPreOrder 
-    ? `Вы можете оформить предзаказ на товар "${product.name}" в размере ${size}. Ожидаемая дата поступления: ${preOrderDate ? format(new Date(preOrderDate), 'd MMMM yyyy', {locale: ru}) : 'неизвестно'}.`
+  const title = isPreOrder ? 'Оформить предзаказ?' : 'Сообщить о поступлении?';
+  const description = isPreOrder
+    ? `Вы можете оформить предзаказ на товар "${product.name}" в размере ${size}. Ожидаемая дата поступления: ${preOrderDate ? format(new Date(preOrderDate), 'd MMMM yyyy', { locale: ru }) : 'неизвестно'}.`
     : `Мы сообщим вам, когда товар "${product.name}" в размере ${size} снова появится в наличии.`;
-  const confirmText = isPreOrder ? "Да, оформить предзаказ" : "Да, сообщить";
-
+  const confirmText = isPreOrder ? 'Да, оформить предзаказ' : 'Да, сообщить';
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>
-            {description}
-          </AlertDialogDescription>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Нет, спасибо</AlertDialogCancel>
@@ -51,5 +55,5 @@ export function NotifyMeDialog({ product, size, mode, preOrderDate, isOpen, onOp
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }

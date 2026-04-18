@@ -39,11 +39,16 @@ export function GlassesVirtualTryOn({ initialGlassesUrl, className }: GlassesVir
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const glassesImgRef = useRef<HTMLImageElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
-  const landmarkerRef = useRef<{ detectForVideo: (source: HTMLCanvasElement, ts: number) => unknown; close: () => void } | null>(null);
+  const landmarkerRef = useRef<{
+    detectForVideo: (source: HTMLCanvasElement, ts: number) => unknown;
+    close: () => void;
+  } | null>(null);
   const rafRef = useRef<number>(0);
   const staticBitmapRef = useRef<ImageBitmap | null>(null);
 
-  const [status, setStatus] = useState<'idle' | 'loading-model' | 'ready' | 'running' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'loading-model' | 'ready' | 'running' | 'error'>(
+    'idle'
+  );
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [glassesUrl, setGlassesUrl] = useState(initialGlassesUrl || DEMO_GLASSES_DATA_URL);
   const [scaleMul, setScaleMul] = useState(2.35);
@@ -237,14 +242,22 @@ export function GlassesVirtualTryOn({ initialGlassesUrl, className }: GlassesVir
 
   return (
     <div className={cn('space-y-4', className)}>
-      <div className="relative overflow-hidden rounded-xl border bg-slate-950 aspect-[4/3] max-h-[min(72vh,520px)] mx-auto">
-        <video ref={videoRef} className="absolute opacity-0 pointer-events-none w-px h-px" playsInline muted />
+      <div className="relative mx-auto aspect-[4/3] max-h-[min(72vh,520px)] overflow-hidden rounded-xl border bg-slate-950">
+        <video
+          ref={videoRef}
+          className="pointer-events-none absolute h-px w-px opacity-0"
+          playsInline
+          muted
+        />
         <canvas
           ref={canvasRef}
-          className={cn('block w-full h-full object-contain bg-slate-900', mirror && '-scale-x-100')}
+          className={cn(
+            'block h-full w-full bg-slate-900 object-contain',
+            mirror && '-scale-x-100'
+          )}
         />
         {status === 'loading-model' && (
-          <div className="absolute inset-0 flex items-center justify-center gap-2 bg-slate-950/80 text-slate-200 text-sm">
+          <div className="absolute inset-0 flex items-center justify-center gap-2 bg-slate-950/80 text-sm text-slate-200">
             <Loader2 className="h-5 w-5 animate-spin" />
             Загрузка детектора лица…
           </div>
@@ -254,15 +267,26 @@ export function GlassesVirtualTryOn({ initialGlassesUrl, className }: GlassesVir
       {errorMsg && <p className="text-sm text-destructive">{errorMsg}</p>}
 
       <div className="flex flex-wrap gap-2">
-        <Button type="button" size="sm" onClick={startCamera} disabled={status === 'loading-model' || status === 'error'}>
-          <Camera className="h-4 w-4 mr-1.5" />
+        <Button
+          type="button"
+          size="sm"
+          onClick={startCamera}
+          disabled={status === 'loading-model' || status === 'error'}
+        >
+          <Camera className="mr-1.5 h-4 w-4" />
           Камера
         </Button>
-        <Button type="button" size="sm" variant="outline" onClick={stopCamera} disabled={status !== 'running'}>
-          <Square className="h-4 w-4 mr-1.5" />
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          onClick={stopCamera}
+          disabled={status !== 'running'}
+        >
+          <Square className="mr-1.5 h-4 w-4" />
           Стоп
         </Button>
-        <Label className="inline-flex items-center gap-2 cursor-pointer text-sm border rounded-md px-3 py-1.5 bg-background hover:bg-muted/50">
+        <Label className="inline-flex cursor-pointer items-center gap-2 rounded-md border bg-background px-3 py-1.5 text-sm hover:bg-muted/50">
           <Upload className="h-4 w-4" />
           Фото лица
           <input
@@ -272,7 +296,12 @@ export function GlassesVirtualTryOn({ initialGlassesUrl, className }: GlassesVir
             onChange={(e) => onUploadFile(e.target.files?.[0] ?? null)}
           />
         </Label>
-        <Button type="button" size="sm" variant={mirror ? 'secondary' : 'outline'} onClick={() => setMirror((m) => !m)}>
+        <Button
+          type="button"
+          size="sm"
+          variant={mirror ? 'secondary' : 'outline'}
+          onClick={() => setMirror((m) => !m)}
+        >
           Зеркало {mirror ? 'вкл' : 'выкл'}
         </Button>
       </div>
@@ -291,13 +320,20 @@ export function GlassesVirtualTryOn({ initialGlassesUrl, className }: GlassesVir
               if (v) setGlassesUrl(v);
             }}
           />
-          <Button type="button" variant="outline" size="sm" onClick={() => setGlassesUrl(DEMO_GLASSES_DATA_URL)}>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => setGlassesUrl(DEMO_GLASSES_DATA_URL)}
+          >
             Демо-оправа (SVG)
           </Button>
         </div>
         <div className="space-y-4">
           <div>
-            <Label className="text-xs text-muted-foreground">Масштаб к межзрачковому расстоянию ({scaleMul.toFixed(2)}×)</Label>
+            <Label className="text-xs text-muted-foreground">
+              Масштаб к межзрачковому расстоянию ({scaleMul.toFixed(2)}×)
+            </Label>
             <input
               type="range"
               min={1.6}
@@ -323,7 +359,7 @@ export function GlassesVirtualTryOn({ initialGlassesUrl, className }: GlassesVir
         </div>
       </div>
 
-      <p className="text-xs text-muted-foreground leading-relaxed">
+      <p className="text-xs leading-relaxed text-muted-foreground">
         Опора на{' '}
         <a
           className="underline hover:text-foreground"
@@ -333,8 +369,9 @@ export function GlassesVirtualTryOn({ initialGlassesUrl, className }: GlassesVir
         >
           MediaPipe Face Landmarker
         </a>
-        : по видео или фото находятся уголки глаз, по межзрачковому расстоянию масштабируется и поворачивается слой оправы.
-        Для бренда: выложите фронтальное изображение оправы с прозрачным фоном и передайте SKU URL в этот блок как опцию карточки товара.
+        : по видео или фото находятся уголки глаз, по межзрачковому расстоянию масштабируется и
+        поворачивается слой оправы. Для бренда: выложите фронтальное изображение оправы с прозрачным
+        фоном и передайте SKU URL в этот блок как опцию карточки товара.
       </p>
     </div>
   );

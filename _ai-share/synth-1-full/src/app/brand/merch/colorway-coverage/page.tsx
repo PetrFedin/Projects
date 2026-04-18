@@ -4,7 +4,14 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import { buildColorwayRollup, colorwayRollupToCsv } from '@/lib/fashion/colorway-rollup';
@@ -25,7 +32,7 @@ export default function ColorwayCoveragePage() {
   };
 
   return (
-    <div className="container max-w-5xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -33,12 +40,14 @@ export default function ColorwayCoveragePage() {
           </Link>
         </Button>
         <div>
-          <h1 className="text-xl font-bold flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-xl font-bold">
             <Palette className="h-6 w-6" />
             Цветовые ряды
           </h1>
           <p className="text-sm text-muted-foreground">
-            Сколько SKU на каждое значение <code className="text-[10px] bg-muted px-1 rounded">color</code> — для OTB и визуального баланса полки.
+            Сколько SKU на каждое значение{' '}
+            <code className="rounded bg-muted px-1 text-[10px]">color</code> — для OTB и визуального
+            баланса полки.
           </p>
         </div>
       </div>
@@ -74,8 +83,12 @@ export default function ColorwayCoveragePage() {
                 <TableRow key={r.displayColor}>
                   <TableCell className="font-medium">{r.displayColor}</TableCell>
                   <TableCell className="text-right font-mono text-xs">{r.skuCount}</TableCell>
-                  <TableCell className="text-xs text-muted-foreground max-w-[200px]">{r.categorySample}</TableCell>
-                  <TableCell className="text-xs text-muted-foreground max-w-[160px]">{r.seasonSample}</TableCell>
+                  <TableCell className="max-w-[200px] text-xs text-muted-foreground">
+                    {r.categorySample}
+                  </TableCell>
+                  <TableCell className="max-w-[160px] text-xs text-muted-foreground">
+                    {r.seasonSample}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -89,14 +89,14 @@ export default function ClientForYouPage() {
 
   if (!prefs) {
     return (
-      <div className="container max-w-4xl mx-auto px-4 py-12 text-sm text-muted-foreground">
+      <div className="container mx-auto max-w-4xl px-4 py-12 text-sm text-muted-foreground">
         Загрузка…
       </div>
     );
   }
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
@@ -105,23 +105,23 @@ export default function ClientForYouPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-xl font-bold flex flex-wrap items-center gap-2">
+            <h1 className="flex flex-wrap items-center gap-2 text-xl font-bold">
               <Sparkles className="h-6 w-6" />
               Для вас
               {quizBoost && (
-                <Badge variant="outline" className="text-[10px] font-normal gap-1">
+                <Badge variant="outline" className="gap-1 text-[10px] font-normal">
                   <Wand2 className="h-3 w-3" />
                   Квиз стиля
                 </Badge>
               )}
             </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
+            <p className="mt-0.5 text-sm text-muted-foreground">
               Локально — смещение по размеру и брендам; при сохранённом{' '}
               <Link href={ROUTES.client.styleQuiz} className="underline underline-offset-2">
                 квизе стиля
               </Link>{' '}
               порядок дополнительно ранжируется. API: POST{' '}
-              <code className="text-[10px] bg-muted px-1 rounded">/v1/client/for-you</code>.
+              <code className="rounded bg-muted px-1 text-[10px]">/v1/client/for-you</code>.
             </p>
           </div>
         </div>
@@ -133,7 +133,9 @@ export default function ClientForYouPage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Сигналы (демо-профиль)</CardTitle>
-          <CardDescription>Хранится в localStorage; позже подтянется из CRM / заказов.</CardDescription>
+          <CardDescription>
+            Хранится в localStorage; позже подтянется из CRM / заказов.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex flex-wrap gap-2">
@@ -142,7 +144,7 @@ export default function ClientForYouPage() {
               Частый размер
             </Badge>
           </div>
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="size">Размер</Label>
               <Input
@@ -154,7 +156,12 @@ export default function ClientForYouPage() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="brands">Бренды (через запятую)</Label>
-              <Input id="brands" value={brandsLine} onChange={(e) => setBrandsLine(e.target.value)} placeholder="Syntha Lab, Nordic Wool" />
+              <Input
+                id="brands"
+                value={brandsLine}
+                onChange={(e) => setBrandsLine(e.target.value)}
+                placeholder="Syntha Lab, Nordic Wool"
+              />
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -171,7 +178,7 @@ export default function ClientForYouPage() {
                 setBrandsLine(p.brandHints.join(', '));
               }}
             >
-              <RefreshCw className="h-4 w-4 mr-2" />
+              <RefreshCw className="mr-2 h-4 w-4" />
               Сбросить из storage
             </Button>
           </div>
@@ -185,19 +192,33 @@ export default function ClientForYouPage() {
         </CardHeader>
         <CardContent>
           {!loading && items.length === 0 ? (
-            <p className="text-sm text-muted-foreground border border-dashed rounded-lg p-8 text-center">
+            <p className="rounded-lg border border-dashed p-8 text-center text-sm text-muted-foreground">
               Каталог пуст или API вернул пустой ответ. Проверьте демо-данные или базовый URL API.
             </p>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               {items.map((p) => (
-                <Link key={p.productId} href={`/products/${p.slug}`} className="group rounded-lg border overflow-hidden">
+                <Link
+                  key={p.productId}
+                  href={`/products/${p.slug}`}
+                  className="group overflow-hidden rounded-lg border"
+                >
                   <div className="relative aspect-[3/4]">
-                    <Image src={p.imageUrl} alt={p.name} fill className="object-cover" sizes="200px" />
+                    <Image
+                      src={p.imageUrl}
+                      alt={p.name}
+                      fill
+                      className="object-cover"
+                      sizes="200px"
+                    />
                   </div>
-                  <div className="p-2 space-y-1">
-                    <p className="text-xs font-medium line-clamp-2 group-hover:text-primary">{p.name}</p>
-                    {p.reasonTag && <p className="text-[10px] text-muted-foreground">{p.reasonTag}</p>}
+                  <div className="space-y-1 p-2">
+                    <p className="line-clamp-2 text-xs font-medium group-hover:text-primary">
+                      {p.name}
+                    </p>
+                    {p.reasonTag && (
+                      <p className="text-[10px] text-muted-foreground">{p.reasonTag}</p>
+                    )}
                   </div>
                 </Link>
               ))}

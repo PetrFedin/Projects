@@ -24,7 +24,10 @@ export interface SmartOrderParseResult {
 }
 
 /** Демо: имитация парсинга. В проде — вызов API OCR + LLM или специализированного парсера PO. */
-export function parseOrderFromText(text: string, sourceType: 'pdf' | 'email'): SmartOrderParseResult {
+export function parseOrderFromText(
+  text: string,
+  sourceType: 'pdf' | 'email'
+): SmartOrderParseResult {
   const lines: SmartOrderParsedLine[] = [];
   const warnings: string[] = [];
   // Простая эвристика по строкам с числами (qty)

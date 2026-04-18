@@ -21,12 +21,12 @@ export function getAllSizeMeasurements(product: Product): SizeMeasurementsV1[] {
   if (!chart || typeof chart !== 'object') {
     // Demo fallback if no detailed chart
     if (!product.sizes || product.sizes.length === 0) return [];
-    return product.sizes.map(s => ({
+    return product.sizes.map((s) => ({
       size: s.name,
       measurements: [
         { label: 'Ширина изделия', value: 48 + (product.sizes?.indexOf(s) || 0) * 2, unit: 'см' },
         { label: 'Длина по спинке', value: 68 + (product.sizes?.indexOf(s) || 0) * 1, unit: 'см' },
-      ]
+      ],
     }));
   }
 

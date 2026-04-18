@@ -6,12 +6,7 @@ import { useMemo } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Package, Pencil, Save } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import {
   buildBackToStagesMatrixHref,
@@ -160,13 +155,17 @@ export function StageContextBar() {
                   </span>
                 ) : null}
                 {canSetStageStatus ? (
-                  <Badge variant="outline" className="h-5 border-slate-200 text-[9px] font-bold uppercase">
+                  <Badge
+                    variant="outline"
+                    className="h-5 border-slate-200 text-[9px] font-bold uppercase"
+                  >
                     Статус в матрице: {stepStatusRu(currentStepStatus)}
                   </Badge>
                 ) : null}
                 {canSetStageStatus && skuPoolMismatch ? (
                   <span className="text-amber-700">
-                    Этого артикула нет в текущем flow-документе коллекции — проверьте коллекцию или матрицу.
+                    Этого артикула нет в текущем flow-документе коллекции — проверьте коллекцию или
+                    матрицу.
                   </span>
                 ) : null}
               </div>
@@ -181,8 +180,7 @@ export function StageContextBar() {
               asChild
             >
               <Link href={backMatrixHref}>
-                <ArrowLeft className="mr-1.5 h-3.5 w-3.5" aria-hidden />
-                К этапам
+                <ArrowLeft className="mr-1.5 h-3.5 w-3.5" aria-hidden />К этапам
               </Link>
             </Button>
 
@@ -207,15 +205,24 @@ export function StageContextBar() {
                   Готово
                 </Button>
                 {prevHref ? (
-                  <Button variant="outline" size="sm" className="h-9 text-[10px] font-bold uppercase" asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-9 text-[10px] font-bold uppercase"
+                    asChild
+                  >
                     <Link href={prevHref}>
-                      <ChevronLeft className="mr-1 h-3.5 w-3.5" aria-hidden />
-                      К прошлому этапу
+                      <ChevronLeft className="mr-1 h-3.5 w-3.5" aria-hidden />К прошлому этапу
                     </Link>
                   </Button>
                 ) : null}
                 {nextHref ? (
-                  <Button variant="outline" size="sm" className="h-9 text-[10px] font-bold uppercase" asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-9 text-[10px] font-bold uppercase"
+                    asChild
+                  >
                     <Link href={nextHref}>
                       К следующему этапу
                       <ChevronRight className="ml-1 h-3.5 w-3.5" aria-hidden />
@@ -266,7 +273,8 @@ export function StageContextBar() {
                     </span>
                   </TooltipTrigger>
                   <TooltipContent side="bottom" className="max-w-[220px] text-[11px]">
-                    Сохранение полей модуля подключим к одной модели данных; статус этапа уже пишется в матрицу.
+                    Сохранение полей модуля подключим к одной модели данных; статус этапа уже
+                    пишется в матрицу.
                   </TooltipContent>
                 </Tooltip>
               </>
@@ -275,14 +283,15 @@ export function StageContextBar() {
         </div>
         {!parsed.stagesStep && showFlowBanner ? (
           <p className="mt-2 border-t border-indigo-100/80 pt-2 text-[10px] text-slate-500">
-            Откройте этап с доски производства — в URL появится <span className="font-mono">stagesStep</span>, и
-            здесь будут кнопки статуса.
+            Откройте этап с доски производства — в URL появится{' '}
+            <span className="font-mono">stagesStep</span>, и здесь будут кнопки статуса.
           </p>
         ) : null}
         {parsed.stagesStep && !parsed.resolvedArticleId ? (
           <p className="mt-2 border-t border-indigo-100/80 pt-2 text-[10px] text-amber-800">
-            В URL нет <span className="font-mono">stagesSku</span> / <span className="font-mono">productId</span> — выберите
-            артикул в матрице и перейдите «В модуль», чтобы менять статус этапа.
+            В URL нет <span className="font-mono">stagesSku</span> /{' '}
+            <span className="font-mono">productId</span> — выберите артикул в матрице и перейдите «В
+            модуль», чтобы менять статус этапа.
           </p>
         ) : null}
       </div>

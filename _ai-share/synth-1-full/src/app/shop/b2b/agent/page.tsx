@@ -14,7 +14,15 @@ import {
 } from '@/lib/b2b/agent-context';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import { UserCircle, Percent, FileText, ShoppingCart, ArrowLeft, BarChart3, Filter } from 'lucide-react';
+import {
+  UserCircle,
+  Percent,
+  FileText,
+  ShoppingCart,
+  ArrowLeft,
+  BarChart3,
+  Filter,
+} from 'lucide-react';
 import { ReplenishmentRecommendationsBlock } from '@/components/b2b/ReplenishmentRecommendationsBlock';
 
 export default function AgentCabinetPage() {
@@ -30,27 +38,43 @@ export default function AgentCabinetPage() {
     setSelectedId(brandId);
   };
 
-  const selected = selectedId ? brands.find((b) => b.id === selectedId) ?? brands[0] : brands[0];
-  const commission = selected ? getAgentCommissionForBrand(selected.id) : { percent: 0, amountYtd: 0 };
+  const selected = selectedId ? (brands.find((b) => b.id === selectedId) ?? brands[0]) : brands[0];
+  const commission = selected
+    ? getAgentCommissionForBrand(selected.id)
+    : { percent: 0, amountYtd: 0 };
 
   const totalRevenue = brands.reduce((s, b) => s + b.revenueYtd, 0);
-  const totalCommission = brands.reduce((s, b) => s + Math.round((b.revenueYtd * b.commissionPercent) / 100), 0);
+  const totalCommission = brands.reduce(
+    (s, b) => s + Math.round((b.revenueYtd * b.commissionPercent) / 100),
+    0
+  );
   const totalOrders = brands.reduce((s, b) => s + b.ordersCountYtd, 0);
 
   return (
-    <div className="container max-w-3xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
-        <Link href={ROUTES.shop.b2b}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+    <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
+        <Link href={ROUTES.shop.b2b}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
         <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2"><UserCircle className="h-6 w-6" /> Агентский кабинет</h1>
-          <p className="text-slate-500 text-sm mt-0.5">Zedonk: один логин, несколько брендов. Переключение контекста, комиссии и отчёты по брендам.</p>
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
+            <UserCircle className="h-6 w-6" /> Агентский кабинет
+          </h1>
+          <p className="mt-0.5 text-sm text-slate-500">
+            Zedonk: один логин, несколько брендов. Переключение контекста, комиссии и отчёты по
+            брендам.
+          </p>
         </div>
       </div>
 
       <Card className="mb-6">
         <CardHeader>
           <CardTitle className="text-base">Текущий бренд</CardTitle>
-          <CardDescription>Выберите бренд — заказы, отчёты и комиссии ниже считаются по нему.</CardDescription>
+          <CardDescription>
+            Выберите бренд — заказы, отчёты и комиссии ниже считаются по нему.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
@@ -70,18 +94,23 @@ export default function AgentCabinetPage() {
 
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base"><BarChart3 className="h-4 w-4" /> Сводный отчёт по брендам</CardTitle>
-          <CardDescription>Объём (выручка), комиссия и количество заказов по каждому бренду. Мультиканальность и мультибренд для агента.</CardDescription>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <BarChart3 className="h-4 w-4" /> Сводный отчёт по брендам
+          </CardTitle>
+          <CardDescription>
+            Объём (выручка), комиссия и количество заказов по каждому бренду. Мультиканальность и
+            мультибренд для агента.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-200">
-                  <th className="text-left py-2 font-medium">Бренд</th>
-                  <th className="text-right py-2 font-medium">Объём (выручка)</th>
-                  <th className="text-right py-2 font-medium">Комиссия</th>
-                  <th className="text-right py-2 font-medium">Заказов</th>
+                  <th className="py-2 text-left font-medium">Бренд</th>
+                  <th className="py-2 text-right font-medium">Объём (выручка)</th>
+                  <th className="py-2 text-right font-medium">Комиссия</th>
+                  <th className="py-2 text-right font-medium">Заказов</th>
                 </tr>
               </thead>
               <tbody>
@@ -90,7 +119,9 @@ export default function AgentCabinetPage() {
                   return (
                     <tr key={b.id} className="border-b border-slate-100">
                       <td className="py-2 font-medium">{b.name}</td>
-                      <td className="py-2 text-right">{(b.revenueYtd / 1_000_000).toFixed(2)} млн ₽</td>
+                      <td className="py-2 text-right">
+                        {(b.revenueYtd / 1_000_000).toFixed(2)} млн ₽
+                      </td>
                       <td className="py-2 text-right">{(comm.amountYtd / 1000).toFixed(0)}k ₽</td>
                       <td className="py-2 text-right">{b.ordersCountYtd}</td>
                     </tr>
@@ -112,7 +143,9 @@ export default function AgentCabinetPage() {
 
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base"><Filter className="h-4 w-4" /> Быстрые фильтры заказов по бренду</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Filter className="h-4 w-4" /> Быстрые фильтры заказов по бренду
+          </CardTitle>
           <CardDescription>Перейти к списку заказов с фильтром по бренду.</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-wrap gap-2">
@@ -133,24 +166,38 @@ export default function AgentCabinetPage() {
         <>
           <Card className="mb-6">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base"><Percent className="h-4 w-4" /> Комиссии · {selected.name}</CardTitle>
+              <CardTitle className="flex items-center gap-2 text-base">
+                <Percent className="h-4 w-4" /> Комиссии · {selected.name}
+              </CardTitle>
               <CardDescription>Мок: комиссия агента по выбранному бренду.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
-              <p className="text-sm">Ставка: <strong>{selected.commissionPercent}%</strong></p>
-              <p className="text-sm">Комиссия с выручки с начала года: <strong>{(commission.amountYtd / 1000).toFixed(0)}k ₽</strong></p>
-              <p className="text-xs text-slate-500">Выручка по бренду (YTD): {(selected.revenueYtd / 1_000_000).toFixed(2)} млн ₽ · Заказов: {selected.ordersCountYtd}</p>
+              <p className="text-sm">
+                Ставка: <strong>{selected.commissionPercent}%</strong>
+              </p>
+              <p className="text-sm">
+                Комиссия с выручки с начала года:{' '}
+                <strong>{(commission.amountYtd / 1000).toFixed(0)}k ₽</strong>
+              </p>
+              <p className="text-xs text-slate-500">
+                Выручка по бренду (YTD): {(selected.revenueYtd / 1_000_000).toFixed(2)} млн ₽ ·
+                Заказов: {selected.ordersCountYtd}
+              </p>
             </CardContent>
           </Card>
 
           <Card className="mb-6">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base"><FileText className="h-4 w-4" /> Отчёты по бренду</CardTitle>
+              <CardTitle className="flex items-center gap-2 text-base">
+                <FileText className="h-4 w-4" /> Отчёты по бренду
+              </CardTitle>
               <CardDescription>Ссылки на заказы и аналитику по {selected.name}.</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-wrap gap-2">
               <Button variant="outline" size="sm" asChild>
-                <Link href={`${ROUTES.shop.b2bOrders}?brand=${encodeURIComponent(selected.name)}`}>Заказы по бренду</Link>
+                <Link href={`${ROUTES.shop.b2bOrders}?brand=${encodeURIComponent(selected.name)}`}>
+                  Заказы по бренду
+                </Link>
               </Button>
               <Button variant="outline" size="sm" asChild>
                 <Link href={ROUTES.shop.b2bOrderAnalytics}>Аналитика заказов</Link>
@@ -166,11 +213,15 @@ export default function AgentCabinetPage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Сводный заказ агента</CardTitle>
-          <CardDescription>Один драфт с позициями по разным брендам. MOV/MOQ проверяются по каждому бренду.</CardDescription>
+          <CardDescription>
+            Один драфт с позициями по разным брендам. MOV/MOQ проверяются по каждому бренду.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Button asChild>
-            <Link href={ROUTES.shop.b2bAgentConsolidatedOrder}><ShoppingCart className="h-4 w-4 mr-2" /> Открыть сводный заказ</Link>
+            <Link href={ROUTES.shop.b2bAgentConsolidatedOrder}>
+              <ShoppingCart className="mr-2 h-4 w-4" /> Открыть сводный заказ
+            </Link>
           </Button>
         </CardContent>
       </Card>
@@ -180,10 +231,18 @@ export default function AgentCabinetPage() {
       </div>
 
       <div className="mt-4 flex gap-2">
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2b}>B2B</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bOrders}>Заказы</Link></Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2b}>B2B</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bOrders}>Заказы</Link>
+        </Button>
       </div>
-      <RelatedModulesBlock links={getShopB2BHubLinks()} title="Заказы, матрица, каталог" className="mt-6" />
+      <RelatedModulesBlock
+        links={getShopB2BHubLinks()}
+        title="Заказы, матрица, каталог"
+        className="mt-6"
+      />
     </div>
   );
 }

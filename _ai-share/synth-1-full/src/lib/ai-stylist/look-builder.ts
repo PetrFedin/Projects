@@ -11,18 +11,18 @@ import type {
   ProductCategory,
   Occasion,
   Season,
-} from "./types";
-import { 
-  scoreProduct, 
-  checkColorHarmony, 
-  explainPick, 
-  checkSilhouetteBalance, 
-  isAccentColor, 
-  existingPicksAreNeutral, 
+} from './types';
+import {
+  scoreProduct,
+  checkColorHarmony,
+  explainPick,
+  checkSilhouetteBalance,
+  isAccentColor,
+  existingPicksAreNeutral,
   isComplementaryTo,
-  getLongevityScore
-} from "./style-engine";
-import { LOOK_STRATEGIES } from "./strategies";
+  getLongevityScore,
+} from './style-engine';
+import { LOOK_STRATEGIES } from './strategies';
 
 export interface BuildContext {
   mood: string;
@@ -50,31 +50,25 @@ export interface PipelineStep {
 }
 
 /** Шаг 1: Фильтрация по гардеробу — помечаем категории, занятые гардеробом */
-function filterByWardrobeCategories(
-  pool: StylistProduct[],
-  ctx: BuildContext
-): StylistProduct[] {
+function filterByWardrobeCategories(pool: StylistProduct[], ctx: BuildContext): StylistProduct[] {
   return pool;
 }
 
 /** Шаг 2: Фильтрация по цветовой гармонии с гардеробом (не урезаем пул до пустоты) */
-function filterByColorHarmony(
-  pool: StylistProduct[],
-  ctx: BuildContext
-): StylistProduct[] {
+function filterByColorHarmony(pool: StylistProduct[], ctx: BuildContext): StylistProduct[] {
   if (ctx.wardrobe.length === 0) return pool;
 
   const filtered = pool.filter((p) =>
     checkColorHarmony(
       p,
       ctx.wardrobe,
-      ctx.palette as "Warm" | "Cool" | "Neutral" | "Monochrome" | "Vibrant" | undefined
+      ctx.palette as 'Warm' | 'Cool' | 'Neutral' | 'Monochrome' | 'Vibrant' | undefined
     )
   );
   return filtered.length > 0 ? filtered : pool;
 }
 
-/** 
+/**
  * Сборка одного образа по стратегии
  */
 export function buildSingleLook(
@@ -101,16 +95,12 @@ export function buildSingleLook(
       continue;
     }
 
-    let candidates = pool.filter(
-      (p) => p.category === cat && !strictlyExcludeIds.includes(p.id)
-    );
+    let candidates = pool.filter((p) => p.category === cat && !strictlyExcludeIds.includes(p.id));
 
     candidates = candidates.filter((p) => checkSilhouetteBalance(p, picks));
 
     if (!candidates.length) {
-      candidates = pool.filter(
-        (p) => p.category === cat && !strictlyExcludeIds.includes(p.id)
-      );
+      candidates = pool.filter((p) => p.category === cat && !strictlyExcludeIds.includes(p.id));
     }
 
     if (!candidates.length) continue;
@@ -118,11 +108,23 @@ export function buildSingleLook(
     const scored = candidates
       .map((p) => {
         let score = scoreProduct(p, {
-          mood: ctx.mood as "Minimal" | "Urban" | "Techwear" | "Classic" | "SportLuxe" | "AvantGarde",
+          mood: ctx.mood as
+            | 'Minimal'
+            | 'Urban'
+            | 'Techwear'
+            | 'Classic'
+            | 'SportLuxe'
+            | 'AvantGarde',
           occasion: ctx.occasion,
           season: ctx.season,
-          palette: ctx.palette as "Warm" | "Cool" | "Neutral" | "Monochrome" | "Vibrant" | undefined,
-          contrast: ctx.contrast as "High" | "Medium" | "Low" | undefined,
+          palette: ctx.palette as
+            | 'Warm'
+            | 'Cool'
+            | 'Neutral'
+            | 'Monochrome'
+            | 'Vibrant'
+            | undefined,
+          contrast: ctx.contrast as 'High' | 'Medium' | 'Low' | undefined,
           biasTags: strategy.biasTags,
           silhouetteRule: strategy.silhouetteRule,
           favoriteColors: ctx.preferences?.favoriteColors,
@@ -175,10 +177,22 @@ export function buildSingleLook(
       reason: explainPick(
         p,
         {
-          mood: ctx.mood as "Minimal" | "Urban" | "Techwear" | "Classic" | "SportLuxe" | "AvantGarde",
+          mood: ctx.mood as
+            | 'Minimal'
+            | 'Urban'
+            | 'Techwear'
+            | 'Classic'
+            | 'SportLuxe'
+            | 'AvantGarde',
           occasion: ctx.occasion,
-          palette: ctx.palette as "Warm" | "Cool" | "Neutral" | "Monochrome" | "Vibrant" | undefined,
-          contrast: ctx.contrast as "High" | "Medium" | "Low" | undefined,
+          palette: ctx.palette as
+            | 'Warm'
+            | 'Cool'
+            | 'Neutral'
+            | 'Monochrome'
+            | 'Vibrant'
+            | undefined,
+          contrast: ctx.contrast as 'High' | 'Medium' | 'Low' | undefined,
           biasTags: strategy.biasTags,
         },
         isFromWardrobe
@@ -195,11 +209,9 @@ export function buildSingleLook(
   const why = [
     `Синтезировано для категории ${ctx.audience}`,
     `Логика "${ctx.occasion}" + эстетика "${ctx.mood}"`,
-    ctx.palette ? `Выдержана ${ctx.palette.toLowerCase()} палитра` : "Свободное цветовое решение",
+    ctx.palette ? `Выдержана ${ctx.palette.toLowerCase()} палитра` : 'Свободное цветовое решение',
     ctx.contrast ? `Учтена ${ctx.contrast.toLowerCase()} контрастность` : null,
-    wardrobeItems.length > 0
-      ? `Интегрировано вещей из гардероба: ${wardrobeItems.length}`
-      : null,
+    wardrobeItems.length > 0 ? `Интегрировано вещей из гардероба: ${wardrobeItems.length}` : null,
   ].filter(Boolean) as string[];
 
   return {
@@ -215,10 +227,7 @@ export function buildSingleLook(
 }
 
 /** Формирование пула образов по pipeline */
-export function buildLooksPipeline(
-  pool: StylistProduct[],
-  ctx: BuildContext
-): StylistProduct[] {
+export function buildLooksPipeline(pool: StylistProduct[], ctx: BuildContext): StylistProduct[] {
   return [filterByWardrobeCategories, filterByColorHarmony].reduce(
     (acc, step) => step(acc, ctx),
     pool
@@ -226,10 +235,7 @@ export function buildLooksPipeline(
 }
 
 /** Генерация трёх образов с разными стратегиями */
-export function buildThreeLooks(
-  pool: StylistProduct[],
-  ctx: BuildContext
-): Look[] {
+export function buildThreeLooks(pool: StylistProduct[], ctx: BuildContext): Look[] {
   const filteredPool = buildLooksPipeline(pool, ctx);
 
   const looks: Look[] = [];
@@ -260,11 +266,7 @@ export function buildThreeLooks(
   return looks;
 }
 
-function getLookColors(
-  look: Look,
-  pool: StylistProduct[],
-  wardrobe: WardrobeItem[]
-): string[] {
+function getLookColors(look: Look, pool: StylistProduct[], wardrobe: WardrobeItem[]): string[] {
   const colors: string[] = [];
   for (const it of look.items) {
     const fromPool = pool.find((p) => p.id === it.productId);
@@ -281,12 +283,12 @@ function toStylistProduct(w: WardrobeItem, audience: string): StylistProduct {
   return {
     id: w.id,
     title: w.title,
-    brand: "My Wardrobe",
+    brand: 'My Wardrobe',
     category: w.category,
     price: 0,
-    color: w.color ?? "",
+    color: w.color ?? '',
     audience,
-    season: "All",
+    season: 'All',
     tags: w.tags,
     image: w.image,
   };

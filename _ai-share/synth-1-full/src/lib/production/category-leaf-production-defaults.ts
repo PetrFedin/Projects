@@ -22,7 +22,9 @@ function tnvedChapter(hint: string): ExternalClassifiers {
   return { tnvedEaEuChapterHint: hint };
 }
 
-export function deriveDefaultLeafProductionProfile(leaf: HandbookCategoryLeaf): LeafProductionProfile {
+export function deriveDefaultLeafProductionProfile(
+  leaf: HandbookCategoryLeaf
+): LeafProductionProfile {
   const l1 = leaf.l1Name.trim();
   const l2 = norm(leaf.l2Name);
   const l3 = norm(leaf.l3Name);
@@ -43,7 +45,11 @@ export function deriveDefaultLeafProductionProfile(leaf: HandbookCategoryLeaf): 
   if (l1 === 'Обувь' || l1 === 'Носочно-чулочные') {
     stockUnitDefault = 'pair';
     complianceTags.length = 0;
-    complianceTags.push('footwear_tr_ts_017', 'textile_light_industry_tr_ts_017', 'general_consumer');
+    complianceTags.push(
+      'footwear_tr_ts_017',
+      'textile_light_industry_tr_ts_017',
+      'general_consumer'
+    );
     externalClassifiers = tnvedChapter(l1 === 'Обувь' ? '64' : '61');
     mandatoryLabelBlocks.push('certification_marks', 'eac_mark');
   } else if (l1 === 'Одежда' || l1 === 'Головные уборы') {
@@ -62,7 +68,8 @@ export function deriveDefaultLeafProductionProfile(leaf: HandbookCategoryLeaf): 
       externalClassifiers = { tnvedEaEuChapterHint: '85' };
     }
   } else if (l1 === 'Красота и уход') {
-    stockUnitDefault = l2 === 'Парфюмерия' || l2 === 'Уход' || l2 === 'Косметика' ? 'volume_ml' : 'piece';
+    stockUnitDefault =
+      l2 === 'Парфюмерия' || l2 === 'Уход' || l2 === 'Косметика' ? 'volume_ml' : 'piece';
     complianceTags.length = 0;
     if (l2 === 'Парфюмерия') {
       complianceTags.push('perfumery_tr_ts_009', 'cosmetics_tr_ts_009', 'general_consumer');

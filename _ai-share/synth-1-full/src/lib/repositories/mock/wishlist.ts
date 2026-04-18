@@ -34,7 +34,7 @@ export class MockWishlistRepository implements WishlistRepository {
     }
     // Default collection
     const defaultCollections: WishlistCollection[] = [
-      { id: 'default', name: 'Основное', items: [] }
+      { id: 'default', name: 'Основное', items: [] },
     ];
     if (typeof window !== 'undefined') {
       localStorage.setItem(getCollectionsKey(userId), JSON.stringify(defaultCollections));
@@ -50,76 +50,76 @@ export class MockWishlistRepository implements WishlistRepository {
   private notifyListeners(userId: string, items: WishlistItem[]) {
     const userListeners = this.listeners.get(userId);
     if (userListeners) {
-      userListeners.forEach(callback => callback(items));
+      userListeners.forEach((callback) => callback(items));
     }
   }
 
   async getWishlist(userId: string): Promise<WishlistItem[]> {
-    await new Promise(resolve => setTimeout(resolve, 50));
+    await new Promise((resolve) => setTimeout(resolve, 50));
     return this.getWishlistSync(userId);
   }
 
   async getCollections(userId: string): Promise<WishlistCollection[]> {
-    await new Promise(resolve => setTimeout(resolve, 50));
+    await new Promise((resolve) => setTimeout(resolve, 50));
     return this.getCollectionsSync(userId);
   }
 
   async addItem(userId: string, product: Product, collectionId: string = 'default'): Promise<void> {
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
     // Validate product
     if (!product || !product.id) {
       console.error('Cannot add item to wishlist: product is missing or has no id', product);
       return;
     }
-    
+
     const wishlist = this.getWishlistSync(userId);
     const collections = this.getCollectionsSync(userId);
 
     // Check if already in wishlist
-    if (!wishlist.find(item => item.id === product.id)) {
+    if (!wishlist.find((item) => item.id === product.id)) {
       wishlist.push(product);
       this.saveWishlist(userId, wishlist);
     }
 
     // Add to collection
-    const collection = collections.find(c => c.id === collectionId);
-    if (collection && !collection.items.find(item => item.id === product.id)) {
+    const collection = collections.find((c) => c.id === collectionId);
+    if (collection && !collection.items.find((item) => item.id === product.id)) {
       collection.items.push(product);
       this.saveCollections(userId, collections);
     }
   }
 
   async removeItem(userId: string, productId: string, collectionId?: string): Promise<void> {
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
     const wishlist = this.getWishlistSync(userId);
-    const filtered = wishlist.filter(item => item.id !== productId);
+    const filtered = wishlist.filter((item) => item.id !== productId);
     this.saveWishlist(userId, filtered);
 
     if (collectionId) {
       const collections = this.getCollectionsSync(userId);
-      const collection = collections.find(c => c.id === collectionId);
+      const collection = collections.find((c) => c.id === collectionId);
       if (collection) {
-        collection.items = collection.items.filter(item => item.id !== productId);
+        collection.items = collection.items.filter((item) => item.id !== productId);
         this.saveCollections(userId, collections);
       }
     } else {
       // Remove from all collections
       const collections = this.getCollectionsSync(userId);
-      collections.forEach(collection => {
-        collection.items = collection.items.filter(item => item.id !== productId);
+      collections.forEach((collection) => {
+        collection.items = collection.items.filter((item) => item.id !== productId);
       });
       this.saveCollections(userId, collections);
     }
   }
 
   async addCollection(userId: string, name: string): Promise<WishlistCollection> {
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
     const collections = this.getCollectionsSync(userId);
     const newCollection: WishlistCollection = {
       id: `collection-${Date.now()}`,
       name,
-      items: []
+      items: [],
     };
     collections.push(newCollection);
     this.saveCollections(userId, collections);
@@ -147,4 +147,3 @@ export class MockWishlistRepository implements WishlistRepository {
 }
 
 export const mockWishlistRepository = new MockWishlistRepository();
-

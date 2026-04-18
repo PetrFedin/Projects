@@ -4,7 +4,7 @@ import type { DutyEstimateResult } from './types';
 export function estimateFashionImportDuty(
   amountRub: number,
   categoryHint: string,
-  _originCountry: string,
+  _originCountry: string
 ): DutyEstimateResult {
   const c = categoryHint.toLowerCase();
   let ratePct = 12;

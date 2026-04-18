@@ -4,7 +4,14 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
@@ -32,7 +39,7 @@ export default function TradeCodesPage() {
   };
 
   return (
-    <div className="container max-w-6xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -40,17 +47,19 @@ export default function TradeCodesPage() {
           </Link>
         </Button>
         <div>
-          <h1 className="text-xl font-bold flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-xl font-bold">
             <FileSpreadsheet className="h-6 w-6" />
             Таможня и маркировка
           </h1>
           <p className="text-sm text-muted-foreground">
-            Поля <code className="text-[10px] bg-muted px-1 rounded">hsCode</code>, <code className="text-[10px] bg-muted px-1 rounded">eac</code>, страна происхождения — заготовка под выгрузку в compliance и логистику.
+            Поля <code className="rounded bg-muted px-1 text-[10px]">hsCode</code>,{' '}
+            <code className="rounded bg-muted px-1 text-[10px]">eac</code>, страна происхождения —
+            заготовка под выгрузку в compliance и логистику.
           </p>
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 items-center">
+      <div className="flex flex-wrap items-center gap-2">
         <Button type="button" onClick={downloadCsv}>
           CSV по SKU
         </Button>
@@ -67,7 +76,7 @@ export default function TradeCodesPage() {
           <CardTitle className="text-base">Таблица</CardTitle>
           <CardDescription>{rows.length} строк</CardDescription>
         </CardHeader>
-        <CardContent className="overflow-x-auto max-h-[min(70vh,720px)] overflow-y-auto">
+        <CardContent className="max-h-[min(70vh,720px)] overflow-x-auto overflow-y-auto">
           <Table>
             <TableHeader>
               <TableRow>
@@ -82,9 +91,9 @@ export default function TradeCodesPage() {
             <TableBody>
               {rows.map((r) => (
                 <TableRow key={r.sku}>
-                  <TableCell className="font-mono text-xs whitespace-nowrap">{r.sku}</TableCell>
-                  <TableCell className="text-xs max-w-[180px]">
-                    <Link href={`/products/${r.slug}`} className="hover:underline line-clamp-2">
+                  <TableCell className="whitespace-nowrap font-mono text-xs">{r.sku}</TableCell>
+                  <TableCell className="max-w-[180px] text-xs">
+                    <Link href={`/products/${r.slug}`} className="line-clamp-2 hover:underline">
                       {r.name}
                     </Link>
                   </TableCell>
@@ -92,7 +101,16 @@ export default function TradeCodesPage() {
                   <TableCell className="text-xs">{r.eacMark || '—'}</TableCell>
                   <TableCell className="text-xs">{r.origin || '—'}</TableCell>
                   <TableCell>
-                    <Badge variant={r.completeness === 'full' ? 'default' : r.completeness === 'partial' ? 'secondary' : 'outline'} className="text-[10px]">
+                    <Badge
+                      variant={
+                        r.completeness === 'full'
+                          ? 'default'
+                          : r.completeness === 'partial'
+                            ? 'secondary'
+                            : 'outline'
+                      }
+                      className="text-[10px]"
+                    >
                       {r.completeness}
                     </Badge>
                   </TableCell>

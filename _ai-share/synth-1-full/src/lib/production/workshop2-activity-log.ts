@@ -39,7 +39,8 @@ export function loadWorkshop2Activity(): Workshop2ActivityEntry[] {
     if (p?.v !== 1 || !Array.isArray(p.entries)) return [];
     return p.entries
       .filter(
-        (e) => e && typeof e.id === 'string' && typeof e.line === 'string' && typeof e.at === 'string'
+        (e) =>
+          e && typeof e.id === 'string' && typeof e.line === 'string' && typeof e.at === 'string'
       )
       .map((e) => {
         const rec = e as Record<string, unknown>;
@@ -108,7 +109,8 @@ function activityMatchesArticle(
   const aid = articleId.trim();
   const sku = articleSku?.trim();
   if (e.articleId === aid && (!e.collectionId || e.collectionId === cid)) return true;
-  if (sku && e.line.includes(sku) && (e.line.includes('артикул') || e.line.includes('SKU'))) return true;
+  if (sku && e.line.includes(sku) && (e.line.includes('артикул') || e.line.includes('SKU')))
+    return true;
   return false;
 }
 
@@ -118,7 +120,9 @@ export function loadWorkshop2ArticleActivity(
   articleId: string,
   articleSku?: string
 ): Workshop2ActivityEntry[] {
-  return loadWorkshop2Activity().filter((e) => activityMatchesArticle(e, collectionId, articleId, articleSku));
+  return loadWorkshop2Activity().filter((e) =>
+    activityMatchesArticle(e, collectionId, articleId, articleSku)
+  );
 }
 
 /**

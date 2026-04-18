@@ -19,7 +19,13 @@ const STORAGE_KEY_SELECTED = 'b2b_agent_selected_brand_id';
 const AGENT_BRANDS: AgentBrand[] = [
   { id: 'syntha', name: 'Syntha', commissionPercent: 8, revenueYtd: 2_400_000, ordersCountYtd: 12 },
   { id: 'apc', name: 'A.P.C.', commissionPercent: 6, revenueYtd: 1_100_000, ordersCountYtd: 8 },
-  { id: 'acne', name: 'Acne Studios', commissionPercent: 7, revenueYtd: 850_000, ordersCountYtd: 5 },
+  {
+    id: 'acne',
+    name: 'Acne Studios',
+    commissionPercent: 7,
+    revenueYtd: 850_000,
+    ordersCountYtd: 5,
+  },
 ];
 
 export function getAgentBrands(): AgentBrand[] {
@@ -44,7 +50,10 @@ export function getSelectedAgentBrand(): AgentBrand | null {
 }
 
 /** Комиссия агента по выбранному бренду (мок). */
-export function getAgentCommissionForBrand(brandId: string): { percent: number; amountYtd: number } {
+export function getAgentCommissionForBrand(brandId: string): {
+  percent: number;
+  amountYtd: number;
+} {
   const brand = AGENT_BRANDS.find((b) => b.id === brandId);
   if (!brand) return { percent: 0, amountYtd: 0 };
   const amountYtd = Math.round((brand.revenueYtd * brand.commissionPercent) / 100);

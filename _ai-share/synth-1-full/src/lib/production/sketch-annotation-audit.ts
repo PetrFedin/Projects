@@ -57,8 +57,7 @@ export function buildAnnotationDiffAudit(
   for (const [id, oldA] of beforeMap) {
     const neu = afterMap.get(id);
     if (!neu) continue;
-    const moved =
-      Math.abs(oldA.xPct - neu.xPct) > 0.45 || Math.abs(oldA.yPct - neu.yPct) > 0.45;
+    const moved = Math.abs(oldA.xPct - neu.xPct) > 0.45 || Math.abs(oldA.yPct - neu.yPct) > 0.45;
     const textCh = (oldA.text ?? '').trim() !== (neu.text ?? '').trim();
     const bomCh =
       (oldA.linkedBomLineRef ?? '').trim() !== (neu.linkedBomLineRef ?? '').trim() ||

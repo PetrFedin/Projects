@@ -30,10 +30,15 @@ export default function BrandLookbookProjectsPage() {
   });
 
   const load = useCallback(() => setProjects(getLookbookProjects(BRAND_ID)), []);
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    load();
+  }, [load]);
 
   const handleAdd = () => {
-    const partnerIds = form.invitedPartnerIds.split(',').map((s) => s.trim()).filter(Boolean);
+    const partnerIds = form.invitedPartnerIds
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
     addLookbookProject({
       name: form.name || 'New Lookbook',
       brandId: BRAND_ID,
@@ -43,7 +48,13 @@ export default function BrandLookbookProjectsPage() {
       invitedPartnerIds: form.visibility === 'invited' ? partnerIds : [],
       visibleUntil: new Date(form.visibleUntil).toISOString(),
     });
-    setForm({ name: '', lookbookUrl: '/lookbooks/new.pdf', visibility: 'invited', invitedPartnerIds: 'podium, tsum', visibleUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10) });
+    setForm({
+      name: '',
+      lookbookUrl: '/lookbooks/new.pdf',
+      visibility: 'invited',
+      invitedPartnerIds: 'podium, tsum',
+      visibleUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+    });
     setShowForm(false);
     load();
   };
@@ -55,12 +66,12 @@ export default function BrandLookbookProjectsPage() {
 
   const now = new Date().toISOString();
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 pb-24 space-y-6">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <div>
-        <h1 className="text-xl font-bold uppercase tracking-tight flex items-center gap-2">
+        <h1 className="flex items-center gap-2 text-xl font-bold uppercase tracking-tight">
           <BookOpen className="h-6 w-6" /> Лукбуки как проекты
         </h1>
-        <p className="text-sm text-slate-500 mt-1">
+        <p className="mt-1 text-sm text-slate-500">
           Colect: права (кто видит, до какой даты), watermarked PDF, заказ из лукбука.
         </p>
       </div>
@@ -70,7 +81,9 @@ export default function BrandLookbookProjectsPage() {
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="text-base">Проекты лукбуков</CardTitle>
-              <CardDescription>Коллекция = проект: ссылка на лукбук, видимость и срок.</CardDescription>
+              <CardDescription>
+                Коллекция = проект: ссылка на лукбук, видимость и срок.
+              </CardDescription>
             </div>
             <Button size="sm" onClick={() => setShowForm((x) => !x)} className="gap-1">
               <Plus className="h-4 w-4" /> Новый
@@ -78,24 +91,52 @@ export default function BrandLookbookProjectsPage() {
           </div>
         </CardHeader>
         {showForm && (
-          <CardContent className="border-t border-slate-100 pt-4 space-y-3">
-            <input placeholder="Название" className="w-full rounded-lg border px-3 py-2 text-sm" value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} />
-            <input placeholder="URL лукбука / PDF" className="w-full rounded-lg border px-3 py-2 text-sm" value={form.lookbookUrl} onChange={(e) => setForm((f) => ({ ...f, lookbookUrl: e.target.value }))} />
-            <div className="flex gap-4 items-center">
+          <CardContent className="space-y-3 border-t border-slate-100 pt-4">
+            <input
+              placeholder="Название"
+              className="w-full rounded-lg border px-3 py-2 text-sm"
+              value={form.name}
+              onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+            />
+            <input
+              placeholder="URL лукбука / PDF"
+              className="w-full rounded-lg border px-3 py-2 text-sm"
+              value={form.lookbookUrl}
+              onChange={(e) => setForm((f) => ({ ...f, lookbookUrl: e.target.value }))}
+            />
+            <div className="flex items-center gap-4">
               <label className="text-sm">Кто видит:</label>
-              <select className="rounded-lg border px-3 py-2 text-sm" value={form.visibility} onChange={(e) => setForm((f) => ({ ...f, visibility: e.target.value as LookbookVisibility }))}>
+              <select
+                className="rounded-lg border px-3 py-2 text-sm"
+                value={form.visibility}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, visibility: e.target.value as LookbookVisibility }))
+                }
+              >
                 <option value="all">Все партнёры</option>
                 <option value="invited">Только приглашённые</option>
               </select>
               {form.visibility === 'invited' && (
-                <input placeholder="ID партнёров через запятую" className="flex-1 rounded-lg border px-3 py-2 text-sm" value={form.invitedPartnerIds} onChange={(e) => setForm((f) => ({ ...f, invitedPartnerIds: e.target.value }))} />
+                <input
+                  placeholder="ID партнёров через запятую"
+                  className="flex-1 rounded-lg border px-3 py-2 text-sm"
+                  value={form.invitedPartnerIds}
+                  onChange={(e) => setForm((f) => ({ ...f, invitedPartnerIds: e.target.value }))}
+                />
               )}
             </div>
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-2">
               <label className="text-sm">Виден до:</label>
-              <input type="date" className="rounded-lg border px-3 py-2 text-sm" value={form.visibleUntil} onChange={(e) => setForm((f) => ({ ...f, visibleUntil: e.target.value }))} />
+              <input
+                type="date"
+                className="rounded-lg border px-3 py-2 text-sm"
+                value={form.visibleUntil}
+                onChange={(e) => setForm((f) => ({ ...f, visibleUntil: e.target.value }))}
+              />
             </div>
-            <Button size="sm" onClick={handleAdd}>Добавить проект</Button>
+            <Button size="sm" onClick={handleAdd}>
+              Добавить проект
+            </Button>
           </CardContent>
         )}
         <CardContent className={showForm ? 'border-t border-slate-100' : ''}>
@@ -103,27 +144,52 @@ export default function BrandLookbookProjectsPage() {
             {projects.map((p) => {
               const expired = p.visibleUntil < now;
               return (
-                <li key={p.id} className="flex items-center justify-between p-3 rounded-lg border border-slate-200">
+                <li
+                  key={p.id}
+                  className="flex items-center justify-between rounded-lg border border-slate-200 p-3"
+                >
                   <div className="flex items-center gap-3">
                     <FileText className="h-5 w-5 text-slate-400" />
                     <div>
                       <p className="font-medium">{p.name}</p>
-                      <div className="flex items-center gap-2 mt-0.5 text-xs text-slate-500">
-                        {p.visibility === 'all' ? <><Eye className="h-3 w-3" /> Все</> : <><Lock className="h-3 w-3" /> Приглашённые</>}
-                        <span><Calendar className="h-3 w-3 inline mr-0.5" /> до {new Date(p.visibleUntil).toLocaleDateString('ru-RU')}</span>
+                      <div className="mt-0.5 flex items-center gap-2 text-xs text-slate-500">
+                        {p.visibility === 'all' ? (
+                          <>
+                            <Eye className="h-3 w-3" /> Все
+                          </>
+                        ) : (
+                          <>
+                            <Lock className="h-3 w-3" /> Приглашённые
+                          </>
+                        )}
+                        <span>
+                          <Calendar className="mr-0.5 inline h-3 w-3" /> до{' '}
+                          {new Date(p.visibleUntil).toLocaleDateString('ru-RU')}
+                        </span>
                         {expired && <Badge variant="secondary">Истёк</Badge>}
                       </div>
                     </div>
                   </div>
                   <div className="flex gap-2">
                     {!p.watermarkedPdfUrl && (
-                      <Button size="sm" variant="outline" onClick={() => setWatermarked(p.id)} className="gap-1">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setWatermarked(p.id)}
+                        className="gap-1"
+                      >
                         <Droplets className="h-3 w-3" /> Watermarked PDF
                       </Button>
                     )}
-                    {p.watermarkedPdfUrl && <Badge variant="outline" className="gap-1"><Droplets className="h-3 w-3" /> PDF с водяным знаком</Badge>}
+                    {p.watermarkedPdfUrl && (
+                      <Badge variant="outline" className="gap-1">
+                        <Droplets className="h-3 w-3" /> PDF с водяным знаком
+                      </Badge>
+                    )}
                     <Button size="sm" variant="outline" asChild>
-                      <a href={p.lookbookUrl} target="_blank" rel="noopener noreferrer">Открыть</a>
+                      <a href={p.lookbookUrl} target="_blank" rel="noopener noreferrer">
+                        Открыть
+                      </a>
                     </Button>
                   </div>
                 </li>
@@ -134,8 +200,12 @@ export default function BrandLookbookProjectsPage() {
       </Card>
 
       <div className="flex gap-2">
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.brand.b2bOrders}>Заказы B2B</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.brand.partnerMap}>Карта партнёров</Link></Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.brand.b2bOrders}>Заказы B2B</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.brand.partnerMap}>Карта партнёров</Link>
+        </Button>
       </div>
     </div>
   );

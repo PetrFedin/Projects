@@ -61,7 +61,12 @@ describe('workshop2-dossier-view-infrastructure', () => {
 
   it('qc profile: passport (general) is first primary section', () => {
     expect(WORKSHOP2_DOSSIER_VIEW_PRIMARY_SECTIONS.qc[0]).toBe('general');
-    expect(WORKSHOP2_DOSSIER_VIEW_PRIMARY_SECTIONS.qc).toEqual(['general', 'visuals', 'construction', 'material']);
+    expect(WORKSHOP2_DOSSIER_VIEW_PRIMARY_SECTIONS.qc).toEqual([
+      'general',
+      'visuals',
+      'construction',
+      'material',
+    ]);
   });
 
   it('workshop2DossierViewUiCaps parity: full enables all strips', () => {

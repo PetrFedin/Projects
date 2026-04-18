@@ -22,8 +22,8 @@ export default function KnowledgeArticlePage() {
 
   if (!article) {
     return (
-      <div className="container mx-auto px-4 py-6 max-w-2xl pb-24">
-        <div className="flex items-center gap-3 mb-6">
+      <div className="container mx-auto max-w-2xl px-4 py-6 pb-24">
+        <div className="mb-6 flex items-center gap-3">
           <Button variant="ghost" size="icon" onClick={() => router.back()}>
             <ArrowLeft className="h-4 w-4" />
           </Button>
@@ -37,47 +37,52 @@ export default function KnowledgeArticlePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-2xl pb-24">
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+    <div className="container mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex items-center gap-3">
           <Link href={ROUTES.brand.academy}>
-            <Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button>
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
           </Link>
           <div>
             <h1 className="text-2xl font-bold uppercase tracking-tight">{article.title}</h1>
-            <p className="text-sm text-slate-500">База знаний · {KNOWLEDGE_CATEGORY_LABELS[article.category] ?? article.category}</p>
+            <p className="text-sm text-slate-500">
+              База знаний · {KNOWLEDGE_CATEGORY_LABELS[article.category] ?? article.category}
+            </p>
           </div>
         </div>
         <AcademySegmentSwitcher active="brand" />
       </div>
 
-      <WidgetCard
-        title="База знаний"
-        description="Статьи для партнёров и клиентов."
-      >
-      <Card className="rounded-xl border border-slate-100">
-        <CardHeader className="pb-2">
-          <div className="flex flex-wrap gap-2">
-            <Badge variant="outline">{KNOWLEDGE_CATEGORY_LABELS[article.category] ?? article.category}</Badge>
-            {article.audience.map((aud) => (
-              <Badge key={aud} variant="secondary" className="text-[10px]">
-                {aud === 'partners' ? 'Партнёрам' : aud === 'clients' ? 'Клиентам' : 'Команде'}
+      <WidgetCard title="База знаний" description="Статьи для партнёров и клиентов.">
+        <Card className="rounded-xl border border-slate-100">
+          <CardHeader className="pb-2">
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="outline">
+                {KNOWLEDGE_CATEGORY_LABELS[article.category] ?? article.category}
               </Badge>
-            ))}
-            <span className="text-[11px] text-slate-500">Обновлено {article.updatedAt}</span>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-slate-700 leading-relaxed">{article.excerpt}</p>
-          {article.tags.length > 0 && (
-            <div className="flex gap-1 flex-wrap pt-2">
-              {article.tags.map((tag) => (
-                <Badge key={tag} variant="secondary" className="text-[9px]">{tag}</Badge>
+              {article.audience.map((aud) => (
+                <Badge key={aud} variant="secondary" className="text-[10px]">
+                  {aud === 'partners' ? 'Партнёрам' : aud === 'clients' ? 'Клиентам' : 'Команде'}
+                </Badge>
               ))}
+              <span className="text-[11px] text-slate-500">Обновлено {article.updatedAt}</span>
             </div>
-          )}
-        </CardContent>
-      </Card>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="leading-relaxed text-slate-700">{article.excerpt}</p>
+            {article.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1 pt-2">
+                {article.tags.map((tag) => (
+                  <Badge key={tag} variant="secondary" className="text-[9px]">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </WidgetCard>
 
       <Button variant="outline" asChild>

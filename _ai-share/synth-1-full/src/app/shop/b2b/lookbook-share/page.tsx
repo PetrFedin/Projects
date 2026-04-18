@@ -25,9 +25,10 @@ export default function LookbookSharePage() {
   const projects = getLookbookProjects();
   const project = id ? projects.find((p) => p.id === id) : null;
 
-  const shareLink = typeof window !== 'undefined'
-    ? `${window.location.origin}${ROUTES.shop.b2bLookbookShare}?id=${id}`
-    : '';
+  const shareLink =
+    typeof window !== 'undefined'
+      ? `${window.location.origin}${ROUTES.shop.b2bLookbookShare}?id=${id}`
+      : '';
 
   const handleCopy = useCallback(() => {
     if (typeof navigator !== 'undefined' && shareLink) {
@@ -38,18 +39,18 @@ export default function LookbookSharePage() {
   }, [shareLink]);
 
   return (
-    <div className="container max-w-xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
+    <div className="container mx-auto max-w-xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2bShowroom}>
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
         <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
             <Share2 className="h-6 w-6" /> Поделиться лукбуком / лайншитом
           </h1>
-          <p className="text-slate-500 text-sm mt-0.5">
+          <p className="mt-0.5 text-sm text-slate-500">
             Ссылка на просмотр лукбука. Срок действия и пароль (опционально).
           </p>
         </div>
@@ -59,18 +60,32 @@ export default function LookbookSharePage() {
         <Card>
           <CardHeader>
             <CardTitle className="text-base">{project.name}</CardTitle>
-            <CardDescription>{project.brandName} · доступ до {new Date(project.visibleUntil).toLocaleDateString('ru-RU')}</CardDescription>
+            <CardDescription>
+              {project.brandName} · доступ до{' '}
+              {new Date(project.visibleUntil).toLocaleDateString('ru-RU')}
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label>Ссылка для шаринга</Label>
               <div className="flex gap-2">
-                <Input readOnly value={shareLink} className="font-mono text-xs rounded-lg" />
-                <Button size="icon" variant="outline" className="rounded-lg shrink-0" onClick={handleCopy}>
-                  {copied ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
+                <Input readOnly value={shareLink} className="rounded-lg font-mono text-xs" />
+                <Button
+                  size="icon"
+                  variant="outline"
+                  className="shrink-0 rounded-lg"
+                  onClick={handleCopy}
+                >
+                  {copied ? (
+                    <Check className="h-4 w-4 text-emerald-600" />
+                  ) : (
+                    <Copy className="h-4 w-4" />
+                  )}
                 </Button>
               </div>
-              <p className="text-[10px] text-slate-500">Получатель откроет лукбук по этой ссылке (до даты видимости проекта).</p>
+              <p className="text-[10px] text-slate-500">
+                Получатель откроет лукбук по этой ссылке (до даты видимости проекта).
+              </p>
             </div>
 
             <div className="space-y-2">
@@ -81,7 +96,7 @@ export default function LookbookSharePage() {
                 max={90}
                 value={expiryDays}
                 onChange={(e) => setExpiryDays(Number(e.target.value) || 14)}
-                className="rounded-lg w-24"
+                className="w-24 rounded-lg"
               />
             </div>
 
@@ -93,7 +108,9 @@ export default function LookbookSharePage() {
                 onChange={(e) => setWithPassword(e.target.checked)}
                 className="rounded border-slate-300"
               />
-              <Label htmlFor="withPassword" className="text-sm font-medium">Защитить паролем</Label>
+              <Label htmlFor="withPassword" className="text-sm font-medium">
+                Защитить паролем
+              </Label>
             </div>
             {withPassword && (
               <div className="space-y-2">
@@ -110,7 +127,11 @@ export default function LookbookSharePage() {
 
             <div className="flex flex-wrap gap-2 pt-2">
               <Button asChild>
-                <a href={getWatermarkedPdfUrl(project.id)} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={getWatermarkedPdfUrl(project.id)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Скачать лайншит (PDF)
                 </a>
               </Button>
@@ -123,8 +144,11 @@ export default function LookbookSharePage() {
       ) : (
         <Card>
           <CardContent className="p-8 text-center">
-            <Link2 className="h-12 w-12 text-slate-300 mx-auto mb-3 block" />
-            <p className="text-slate-600 font-medium">Выберите лукбук в виртуальном шоуруме или в разделе «Лукбуки», затем нажмите «Поделиться лайншитом».</p>
+            <Link2 className="mx-auto mb-3 block h-12 w-12 text-slate-300" />
+            <p className="font-medium text-slate-600">
+              Выберите лукбук в виртуальном шоуруме или в разделе «Лукбуки», затем нажмите
+              «Поделиться лайншитом».
+            </p>
             <Button className="mt-4 rounded-xl" asChild>
               <Link href={ROUTES.shop.b2bShowroom}>Открыть виртуальный шоурум</Link>
             </Button>
@@ -133,10 +157,18 @@ export default function LookbookSharePage() {
       )}
 
       <div className="mt-6 flex gap-2">
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2bLookbooks}>Лукбуки</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.shop.b2b}>B2B</Link></Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2bLookbooks}>Лукбуки</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.shop.b2b}>B2B</Link>
+        </Button>
       </div>
-      <RelatedModulesBlock links={getShopB2BHubLinks()} title="Шоурум, лукбуки, заказы" className="mt-6" />
+      <RelatedModulesBlock
+        links={getShopB2BHubLinks()}
+        title="Шоурум, лукбуки, заказы"
+        className="mt-6"
+      />
     </div>
   );
 }

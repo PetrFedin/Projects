@@ -29,8 +29,8 @@ export function isNotifyableControlCandidate(params: {
   if (output.status === 'healthy' && output.risks.length === 0) return false;
 
   // 3. Проверка подавленных кодов (suppressedCodes)
-  const hasActiveRisks = output.risks.some(r => !prefs.suppressedCodes.includes(r.code));
-  
+  const hasActiveRisks = output.risks.some((r) => !prefs.suppressedCodes.includes(r.code));
+
   return hasActiveRisks || output.status === 'blocked';
 }
 
@@ -38,7 +38,10 @@ export function isNotifyableControlCandidate(params: {
  * Фильтрует риски в ControlOutput на основе предпочтений пользователя.
  * Mute / suppression = только видимость; доменная правда не меняется.
  */
-export function filterVisibleRisks(output: ControlOutput, prefs: ControlSignalPreference): ControlOutput['risks'] {
+export function filterVisibleRisks(
+  output: ControlOutput,
+  prefs: ControlSignalPreference
+): ControlOutput['risks'] {
   if (prefs.muteAll) return [];
-  return output.risks.filter(r => !prefs.suppressedCodes.includes(r.code));
+  return output.risks.filter((r) => !prefs.suppressedCodes.includes(r.code));
 }

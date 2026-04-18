@@ -129,7 +129,10 @@ function normalizeCatalogDossierSection(raw: string | undefined): DossierSection
   return undefined;
 }
 
-export function getWorkshopTzSectionForAttribute(attributeId: string, groupId?: string): DossierSection {
+export function getWorkshopTzSectionForAttribute(
+  attributeId: string,
+  groupId?: string
+): DossierSection {
   const catAttr = getAttributeById(attributeId);
   /** Только явное поле в JSON; устаревшие measurements/packaging сводим к construction/material. */
   const catalogSection = normalizeCatalogDossierSection(catAttr?.dossierSection);
@@ -184,7 +187,8 @@ export function calculateWorkshopTzSectionCompletion(
 
   if (section === 'visuals') {
     const attrRows = attributeRows.filter(
-      (r) => getWorkshopTzSectionForAttribute(r.attribute.attributeId, r.group?.groupId) === 'visuals'
+      (r) =>
+        getWorkshopTzSectionForAttribute(r.attribute.attributeId, r.group?.groupId) === 'visuals'
     );
     const attrDone = attrRows.filter((r) => {
       const assignment = dossier.assignments.find((a) => a.attributeId === r.attribute.attributeId);
@@ -193,9 +197,14 @@ export function calculateWorkshopTzSectionCompletion(
     const attrTotal = attrRows.length;
     const baseTotal = 2 + attrTotal;
     let done = attrDone;
-    if (dossier.categorySketchImageDataUrl || (dossier.categorySketchAnnotations?.length ?? 0) > 0) done++;
+    if (dossier.categorySketchImageDataUrl || (dossier.categorySketchAnnotations?.length ?? 0) > 0)
+      done++;
     if ((dossier.visualReferences?.length ?? 0) > 0) done++;
-    return { done, total: Math.max(baseTotal, 1), pct: Math.round((done / Math.max(baseTotal, 1)) * 100) };
+    return {
+      done,
+      total: Math.max(baseTotal, 1),
+      pct: Math.round((done / Math.max(baseTotal, 1)) * 100),
+    };
   }
 
   if (section === 'material') {

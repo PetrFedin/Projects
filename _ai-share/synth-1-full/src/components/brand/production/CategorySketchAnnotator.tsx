@@ -112,7 +112,10 @@ import {
   appendMasterPinLineToSlotWhatToDo,
   createAnnotationTaskLine,
 } from '@/lib/production/workshop2-tz-subcategory-sketches';
-import { buildAnnotationDiffAudit, mergeSketchMasterAuditLog } from '@/lib/production/sketch-annotation-audit';
+import {
+  buildAnnotationDiffAudit,
+  mergeSketchMasterAuditLog,
+} from '@/lib/production/sketch-annotation-audit';
 import {
   buildPropagatedDraftsFromAnnotationsOnly,
   mergePropagatedDrafts,
@@ -188,40 +191,232 @@ type SketchHotspotPreset = {
 
 const HOTSPOT_PRESETS_BY_KIND: Partial<Record<CategorySketchKind, SketchHotspotPreset[]>> = {
   apparel_outerwear: [
-    { id: 'collar', label: 'Воротник / лацкан', xPct: 50, yPct: 20, annotationType: 'construction', text: 'Проверьте форму воротника и лацкана.', priority: 'important' },
-    { id: 'shoulder', label: 'Плечо', xPct: 33, yPct: 28, annotationType: 'fit', text: 'Уточните посадку по плечу и баланс.', priority: 'important' },
-    { id: 'front', label: 'Борт / застежка', xPct: 50, yPct: 43, annotationType: 'construction', text: 'Зафиксируйте борт, застежку и линию центра переда.', priority: 'critical' },
-    { id: 'sleeve', label: 'Рукав', xPct: 22, yPct: 46, annotationType: 'construction', text: 'Проверьте форму рукава и свободу движения.', priority: 'important' },
-    { id: 'pocket', label: 'Карман', xPct: 37, yPct: 59, annotationType: 'construction', text: 'Уточните тип кармана и его уровень.', priority: 'important' },
-    { id: 'lining', label: 'Подкладка', xPct: 61, yPct: 63, annotationType: 'material', text: 'Проверьте подкладку, утеплитель или дублирование.', priority: 'note' },
-    { id: 'hem', label: 'Низ изделия', xPct: 50, yPct: 86, annotationType: 'qc', text: 'Проверьте низ, симметрию и длину изделия.', priority: 'important' },
+    {
+      id: 'collar',
+      label: 'Воротник / лацкан',
+      xPct: 50,
+      yPct: 20,
+      annotationType: 'construction',
+      text: 'Проверьте форму воротника и лацкана.',
+      priority: 'important',
+    },
+    {
+      id: 'shoulder',
+      label: 'Плечо',
+      xPct: 33,
+      yPct: 28,
+      annotationType: 'fit',
+      text: 'Уточните посадку по плечу и баланс.',
+      priority: 'important',
+    },
+    {
+      id: 'front',
+      label: 'Борт / застежка',
+      xPct: 50,
+      yPct: 43,
+      annotationType: 'construction',
+      text: 'Зафиксируйте борт, застежку и линию центра переда.',
+      priority: 'critical',
+    },
+    {
+      id: 'sleeve',
+      label: 'Рукав',
+      xPct: 22,
+      yPct: 46,
+      annotationType: 'construction',
+      text: 'Проверьте форму рукава и свободу движения.',
+      priority: 'important',
+    },
+    {
+      id: 'pocket',
+      label: 'Карман',
+      xPct: 37,
+      yPct: 59,
+      annotationType: 'construction',
+      text: 'Уточните тип кармана и его уровень.',
+      priority: 'important',
+    },
+    {
+      id: 'lining',
+      label: 'Подкладка',
+      xPct: 61,
+      yPct: 63,
+      annotationType: 'material',
+      text: 'Проверьте подкладку, утеплитель или дублирование.',
+      priority: 'note',
+    },
+    {
+      id: 'hem',
+      label: 'Низ изделия',
+      xPct: 50,
+      yPct: 86,
+      annotationType: 'qc',
+      text: 'Проверьте низ, симметрию и длину изделия.',
+      priority: 'important',
+    },
   ],
   apparel_dress: [
-    { id: 'neck', label: 'Горловина', xPct: 50, yPct: 22, annotationType: 'construction', text: 'Уточните форму выреза и обработку горловины.', priority: 'important' },
-    { id: 'waist', label: 'Линия талии', xPct: 50, yPct: 48, annotationType: 'fit', text: 'Зафиксируйте положение линии талии и прилегание.', priority: 'important' },
-    { id: 'closure', label: 'Молния / застежка', xPct: 62, yPct: 52, annotationType: 'construction', text: 'Укажите тип и длину молнии.', priority: 'critical' },
-    { id: 'hem', label: 'Низ / шлица', xPct: 50, yPct: 82, annotationType: 'finishing', text: 'Проверьте подгибку низа и наличие шлицы.', priority: 'note' },
+    {
+      id: 'neck',
+      label: 'Горловина',
+      xPct: 50,
+      yPct: 22,
+      annotationType: 'construction',
+      text: 'Уточните форму выреза и обработку горловины.',
+      priority: 'important',
+    },
+    {
+      id: 'waist',
+      label: 'Линия талии',
+      xPct: 50,
+      yPct: 48,
+      annotationType: 'fit',
+      text: 'Зафиксируйте положение линии талии и прилегание.',
+      priority: 'important',
+    },
+    {
+      id: 'closure',
+      label: 'Молния / застежка',
+      xPct: 62,
+      yPct: 52,
+      annotationType: 'construction',
+      text: 'Укажите тип и длину молнии.',
+      priority: 'critical',
+    },
+    {
+      id: 'hem',
+      label: 'Низ / шлица',
+      xPct: 50,
+      yPct: 82,
+      annotationType: 'finishing',
+      text: 'Проверьте подгибку низа и наличие шлицы.',
+      priority: 'note',
+    },
   ],
   apparel_pants: [
-    { id: 'waistband', label: 'Пояс', xPct: 50, yPct: 24, annotationType: 'construction', text: 'Проверьте ширину пояса и тип застежки.', priority: 'important' },
-    { id: 'rise', label: 'Посадка (слонка)', xPct: 50, yPct: 45, annotationType: 'fit', text: 'Уточните высоту посадки и баланс изделия.', priority: 'critical' },
-    { id: 'pocket', label: 'Карманы', xPct: 35, yPct: 35, annotationType: 'construction', text: 'Зафиксируйте тип и расположение карманов.', priority: 'important' },
-    { id: 'hem', label: 'Низ брючин', xPct: 35, yPct: 85, annotationType: 'finishing', text: 'Проверьте обработку низа брюк.', priority: 'note' },
+    {
+      id: 'waistband',
+      label: 'Пояс',
+      xPct: 50,
+      yPct: 24,
+      annotationType: 'construction',
+      text: 'Проверьте ширину пояса и тип застежки.',
+      priority: 'important',
+    },
+    {
+      id: 'rise',
+      label: 'Посадка (слонка)',
+      xPct: 50,
+      yPct: 45,
+      annotationType: 'fit',
+      text: 'Уточните высоту посадки и баланс изделия.',
+      priority: 'critical',
+    },
+    {
+      id: 'pocket',
+      label: 'Карманы',
+      xPct: 35,
+      yPct: 35,
+      annotationType: 'construction',
+      text: 'Зафиксируйте тип и расположение карманов.',
+      priority: 'important',
+    },
+    {
+      id: 'hem',
+      label: 'Низ брючин',
+      xPct: 35,
+      yPct: 85,
+      annotationType: 'finishing',
+      text: 'Проверьте обработку низа брюк.',
+      priority: 'note',
+    },
   ],
   apparel_shorts: [
-    { id: 'waistband', label: 'Пояс', xPct: 50, yPct: 22, annotationType: 'construction', text: 'Пояс / резинка / шнур: уточнить.', priority: 'important' },
-    { id: 'rise', label: 'Посадка', xPct: 50, yPct: 40, annotationType: 'fit', text: 'Высота посадки и длина шага.', priority: 'critical' },
-    { id: 'leg_opening', label: 'Низ шорт', xPct: 38, yPct: 68, annotationType: 'finishing', text: 'Ширина проймы шорта, подгиб или необработанный край.', priority: 'important' },
+    {
+      id: 'waistband',
+      label: 'Пояс',
+      xPct: 50,
+      yPct: 22,
+      annotationType: 'construction',
+      text: 'Пояс / резинка / шнур: уточнить.',
+      priority: 'important',
+    },
+    {
+      id: 'rise',
+      label: 'Посадка',
+      xPct: 50,
+      yPct: 40,
+      annotationType: 'fit',
+      text: 'Высота посадки и длина шага.',
+      priority: 'critical',
+    },
+    {
+      id: 'leg_opening',
+      label: 'Низ шорт',
+      xPct: 38,
+      yPct: 68,
+      annotationType: 'finishing',
+      text: 'Ширина проймы шорта, подгиб или необработанный край.',
+      priority: 'important',
+    },
   ],
   apparel_jumpsuit: [
-    { id: 'shoulder', label: 'Плечо / лямка', xPct: 28, yPct: 32, annotationType: 'fit', text: 'Ширина плеч, лямки, пройма.', priority: 'critical' },
-    { id: 'waist', label: 'Талия / резинка', xPct: 50, yPct: 48, annotationType: 'construction', text: 'Линия талии, молния, кнопки.', priority: 'important' },
-    { id: 'leg', label: 'Штанина', xPct: 38, yPct: 72, annotationType: 'construction', text: 'Длина шага, объём бёдер.', priority: 'important' },
+    {
+      id: 'shoulder',
+      label: 'Плечо / лямка',
+      xPct: 28,
+      yPct: 32,
+      annotationType: 'fit',
+      text: 'Ширина плеч, лямки, пройма.',
+      priority: 'critical',
+    },
+    {
+      id: 'waist',
+      label: 'Талия / резинка',
+      xPct: 50,
+      yPct: 48,
+      annotationType: 'construction',
+      text: 'Линия талии, молния, кнопки.',
+      priority: 'important',
+    },
+    {
+      id: 'leg',
+      label: 'Штанина',
+      xPct: 38,
+      yPct: 72,
+      annotationType: 'construction',
+      text: 'Длина шага, объём бёдер.',
+      priority: 'important',
+    },
   ],
   apparel_vest: [
-    { id: 'armhole', label: 'Пройма', xPct: 22, yPct: 42, annotationType: 'construction', text: 'Глубина и форма проймы.', priority: 'critical' },
-    { id: 'closure', label: 'Застёжка', xPct: 50, yPct: 52, annotationType: 'construction', text: 'Молния, пуговицы, кнопки.', priority: 'important' },
-    { id: 'hem', label: 'Низ жилета', xPct: 50, yPct: 78, annotationType: 'finishing', text: 'Длина по бедру / поясу.', priority: 'note' },
+    {
+      id: 'armhole',
+      label: 'Пройма',
+      xPct: 22,
+      yPct: 42,
+      annotationType: 'construction',
+      text: 'Глубина и форма проймы.',
+      priority: 'critical',
+    },
+    {
+      id: 'closure',
+      label: 'Застёжка',
+      xPct: 50,
+      yPct: 52,
+      annotationType: 'construction',
+      text: 'Молния, пуговицы, кнопки.',
+      priority: 'important',
+    },
+    {
+      id: 'hem',
+      label: 'Низ жилета',
+      xPct: 50,
+      yPct: 78,
+      annotationType: 'finishing',
+      text: 'Длина по бедру / поясу.',
+      priority: 'note',
+    },
   ],
 };
 
@@ -241,7 +436,9 @@ function readFileAsDataUrlLimited(file: File, maxChars: number): Promise<string 
   });
 }
 
-function normalizeAnnotation(annotation: Workshop2Phase1CategorySketchAnnotation): Workshop2Phase1CategorySketchAnnotation {
+function normalizeAnnotation(
+  annotation: Workshop2Phase1CategorySketchAnnotation
+): Workshop2Phase1CategorySketchAnnotation {
   return {
     ...annotation,
     annotationType: annotation.annotationType ?? 'construction',
@@ -339,9 +536,7 @@ function CategorySketchPinHoverCard({
         </p>
       ) : null}
       <p className="border-t border-slate-200 pt-1.5 text-slate-800">
-        {a.text?.trim()
-          ? a.text.trim()
-          : 'Описание не заполнено — добавьте текст в списке справа.'}
+        {a.text?.trim() ? a.text.trim() : 'Описание не заполнено — добавьте текст в списке справа.'}
       </p>
     </div>
   );
@@ -523,11 +718,14 @@ export function CategorySketchAnnotator(props: Props) {
   const [filterType, setFilterType] = useState<'all' | Workshop2SketchAnnotationType>('all');
   const [filterStage, setFilterStage] = useState<'all' | Workshop2SketchAnnotationStage>('all');
   /** Соответствует цвету пина на доске: критично / этап ОТК / остальные. */
-  const [filterPinVisual, setFilterPinVisual] = useState<'all' | 'critical' | 'qc' | 'other'>('all');
+  const [filterPinVisual, setFilterPinVisual] = useState<'all' | 'critical' | 'qc' | 'other'>(
+    'all'
+  );
   /** Какую группу пина ставить при следующем клике по доске в режиме «+ Метка». */
   const [nextPinPreset, setNextPinPreset] = useState<'critical' | 'qc' | 'other'>('other');
   /** Тип узла для следующей метки по клику на доске (не зона). */
-  const [nextAnnotationType, setNextAnnotationType] = useState<Workshop2SketchAnnotationType>('construction');
+  const [nextAnnotationType, setNextAnnotationType] =
+    useState<Workshop2SketchAnnotationType>('construction');
   const [aiExtraHints, setAiExtraHints] = useState('');
   const [aiCopied, setAiCopied] = useState(false);
   const [demoRefBusy, setDemoRefBusy] = useState(false);
@@ -612,7 +810,12 @@ export function CategorySketchAnnotator(props: Props) {
         audienceName: sketchContext?.audienceName,
         isUnisex: sketchContext?.isUnisex,
       }),
-    [currentLeaf.audienceId, sketchContext?.audienceId, sketchContext?.audienceName, sketchContext?.isUnisex]
+    [
+      currentLeaf.audienceId,
+      sketchContext?.audienceId,
+      sketchContext?.audienceName,
+      sketchContext?.isUnisex,
+    ]
   );
 
   /** Аудитория из паспорта/контекста + путь L1›L2›L3 (в `pathLabel` аудитория не зашита). */
@@ -707,7 +910,9 @@ export function CategorySketchAnnotator(props: Props) {
         });
       }
     } catch {
-      window.alert('Не удалось загрузить демо-изображение. Проверьте сеть или вставьте файл вручную.');
+      window.alert(
+        'Не удалось загрузить демо-изображение. Проверьте сеть или вставьте файл вручную.'
+      );
     } finally {
       setDemoRefBusy(false);
     }
@@ -786,12 +991,12 @@ export function CategorySketchAnnotator(props: Props) {
   ]);
 
   const handleAppendPropagatedDrafts = useCallback(() => {
-    const own = dataAnnotations.map(normalizeAnnotation).filter((a) => sketchPinBelongsToLeaf(a, leafId));
+    const own = dataAnnotations
+      .map(normalizeAnnotation)
+      .filter((a) => sketchPinBelongsToLeaf(a, leafId));
     const incoming = buildPropagatedDraftsFromAnnotationsOnly(own);
     if (incoming.length === 0) {
-      window.alert(
-        'Нет подходящих меток: тип «Посадка» или этап «Образец», либо тип/этап «ОТК».'
-      );
+      window.alert('Нет подходящих меток: тип «Посадка» или этап «Образец», либо тип/этап «ОТК».');
       return;
     }
     onPatch({
@@ -826,7 +1031,14 @@ export function CategorySketchAnnotator(props: Props) {
     });
     const n = norm.filter((a) => sketchPinBelongsToLeaf(a, leafId)).length;
     setLastExportSummary(`MES все: ${n} меток в выгрузке; поля согласованы с webhook критичных.`);
-  }, [articleSku, currentLeaf.pathLabel, dataAnnotations, exportFileNameStem, leafId, sketchMesDefectCatalog]);
+  }, [
+    articleSku,
+    currentLeaf.pathLabel,
+    dataAnnotations,
+    exportFileNameStem,
+    leafId,
+    sketchMesDefectCatalog,
+  ]);
 
   const handleMesQcCsv = useCallback(() => {
     const norm = dataAnnotations.map(normalizeAnnotation);
@@ -840,24 +1052,32 @@ export function CategorySketchAnnotator(props: Props) {
       onlyQcOrCritical: true,
     });
     setLastExportSummary('MES ОТК+крит.: только соответствующие метки; смена и BOM — в колонках.');
-  }, [articleSku, currentLeaf.pathLabel, dataAnnotations, exportFileNameStem, leafId, sketchMesDefectCatalog]);
+  }, [
+    articleSku,
+    currentLeaf.pathLabel,
+    dataAnnotations,
+    exportFileNameStem,
+    leafId,
+    sketchMesDefectCatalog,
+  ]);
 
   const handleCriticalWebhook = useCallback(async () => {
     const norm = dataAnnotations.map(normalizeAnnotation);
-    const criticalPins = norm.filter((a) => sketchPinBelongsToLeaf(a, leafId) && a.priority === 'critical');
-    const badShift = criticalPins.filter((a) => (a.mesShiftId ?? '').trim() && !isValidMesShiftId(a.mesShiftId));
+    const criticalPins = norm.filter(
+      (a) => sketchPinBelongsToLeaf(a, leafId) && a.priority === 'critical'
+    );
+    const badShift = criticalPins.filter(
+      (a) => (a.mesShiftId ?? '').trim() && !isValidMesShiftId(a.mesShiftId)
+    );
     if (badShift.length > 0) {
-      window.alert('Проверьте формат смены у критичных меток (допустимы буквы, цифры, пробел, дефис, дата).');
+      window.alert(
+        'Проверьте формат смены у критичных меток (допустимы буквы, цифры, пробел, дефис, дата).'
+      );
       return;
     }
     setWebhookBusy(true);
     try {
-      const payload = buildCriticalWebhookPayload(
-        currentLeaf.pathLabel,
-        articleSku,
-        leafId,
-        norm
-      );
+      const payload = buildCriticalWebhookPayload(currentLeaf.pathLabel, articleSku, leafId, norm);
       const r = await postCriticalPinsWebhook(payload);
       if (!r.ok) {
         window.alert(r.message ?? 'Не удалось отправить');
@@ -963,12 +1183,16 @@ export function CategorySketchAnnotator(props: Props) {
     }
     return {
       label: 'Черновик',
-      detail: sheetStorage ? 'Лист: статус в досье артикула' : 'Подпись производства не проставлена',
+      detail: sheetStorage
+        ? 'Лист: статус в досье артикула'
+        : 'Подпись производства не проставлена',
     };
   }, [sheetStorage, categorySketchFreezeUntilDate, categorySketchProductionApproved]);
 
   const pinVisualCounts = useMemo(() => {
-    const own = dataAnnotations.map(normalizeAnnotation).filter((a) => sketchPinBelongsToLeaf(a, leafId));
+    const own = dataAnnotations
+      .map(normalizeAnnotation)
+      .filter((a) => sketchPinBelongsToLeaf(a, leafId));
     let critical = 0;
     let qc = 0;
     let other = 0;
@@ -981,8 +1205,12 @@ export function CategorySketchAnnotator(props: Props) {
   }, [dataAnnotations, leafId, pinVisualMatch]);
 
   const counters = useMemo(() => {
-    const own = dataAnnotations.map(normalizeAnnotation).filter((a) => sketchPinBelongsToLeaf(a, leafId));
-    const linked = own.filter((a) => a.linkedAttributeId || a.linkedTaskId || a.linkedQcZoneId).length;
+    const own = dataAnnotations
+      .map(normalizeAnnotation)
+      .filter((a) => sketchPinBelongsToLeaf(a, leafId));
+    const linked = own.filter(
+      (a) => a.linkedAttributeId || a.linkedTaskId || a.linkedQcZoneId
+    ).length;
     return {
       total: own.length,
       critical: own.filter((a) => a.priority === 'critical').length,
@@ -992,10 +1220,7 @@ export function CategorySketchAnnotator(props: Props) {
     };
   }, [dataAnnotations, leafId]);
 
-  const hotspotPresets = useMemo(
-    () => HOTSPOT_PRESETS_BY_KIND[sketchKind] ?? [],
-    [sketchKind]
-  );
+  const hotspotPresets = useMemo(() => HOTSPOT_PRESETS_BY_KIND[sketchKind] ?? [], [sketchKind]);
 
   const setAnnotations = useCallback(
     (next: Workshop2Phase1CategorySketchAnnotation[]) => {
@@ -1009,7 +1234,10 @@ export function CategorySketchAnnotator(props: Props) {
       if (auditActor) {
         const diff = buildAnnotationDiffAudit(dataAnnotations, norm, leafId, auditActor);
         if (diff.length > 0) {
-          patch.sketchMasterAnnotationAuditLog = mergeSketchMasterAuditLog(sketchMasterAnnotationAuditLog, diff);
+          patch.sketchMasterAnnotationAuditLog = mergeSketchMasterAuditLog(
+            sketchMasterAnnotationAuditLog,
+            diff
+          );
         }
       }
       onPatch(patch);
@@ -1030,7 +1258,9 @@ export function CategorySketchAnnotator(props: Props) {
       id: string,
       patch:
         | Partial<Workshop2Phase1CategorySketchAnnotation>
-        | ((current: Workshop2Phase1CategorySketchAnnotation) => Partial<Workshop2Phase1CategorySketchAnnotation>)
+        | ((
+            current: Workshop2Phase1CategorySketchAnnotation
+          ) => Partial<Workshop2Phase1CategorySketchAnnotation>)
     ) => {
       setAnnotations(
         dataAnnotations.map((raw) => {
@@ -1096,7 +1326,9 @@ export function CategorySketchAnnotator(props: Props) {
   }, [activeId, placeMode, readOnly, updateAnnotation]);
 
   const applyLastPinStyleToNext = useCallback(() => {
-    const own = dataAnnotations.filter((a) => sketchPinBelongsToLeaf(a, leafId)).map(normalizeAnnotation);
+    const own = dataAnnotations
+      .filter((a) => sketchPinBelongsToLeaf(a, leafId))
+      .map(normalizeAnnotation);
     if (own.length === 0) return;
     const last = own[own.length - 1]!;
     if (last.priority === 'critical') setNextPinPreset('critical');
@@ -1278,7 +1510,9 @@ export function CategorySketchAnnotator(props: Props) {
   }, [dataAnnotations, leafId, readOnly, setAnnotations]);
 
   const handleExportPng = useCallback(async () => {
-    const own = dataAnnotations.filter((a) => sketchPinBelongsToLeaf(a, leafId)).map(normalizeAnnotation);
+    const own = dataAnnotations
+      .filter((a) => sketchPinBelongsToLeaf(a, leafId))
+      .map(normalizeAnnotation);
     const stem =
       exportFileNameStem?.trim() ||
       `sketch-${currentLeaf.leafId.replace(/[^a-zA-Z0-9_-]+/g, '-').slice(0, 32)}`;
@@ -1301,7 +1535,14 @@ export function CategorySketchAnnotator(props: Props) {
     } finally {
       setExportBusy(false);
     }
-  }, [currentLeaf.leafId, currentLeaf.pathLabel, dataAnnotations, exportFileNameStem, imageDataUrl, leafId]);
+  }, [
+    currentLeaf.leafId,
+    currentLeaf.pathLabel,
+    dataAnnotations,
+    exportFileNameStem,
+    imageDataUrl,
+    leafId,
+  ]);
 
   const onPickImage = async (e: ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0];
@@ -1458,7 +1699,9 @@ export function CategorySketchAnnotator(props: Props) {
           <div className="space-y-3 border-t border-slate-200 px-3 py-3">
             {!readOnly && !onboard.done ? (
               <div>
-                <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500">Чеклист</p>
+                <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                  Чеклист
+                </p>
                 <ul className="space-y-1">
                   {(
                     [
@@ -1470,9 +1713,15 @@ export function CategorySketchAnnotator(props: Props) {
                   ).map((row) => (
                     <li key={row.label} className="flex items-start gap-2">
                       {row.ok ? (
-                        <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden />
+                        <CheckCircle2
+                          className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600"
+                          aria-hidden
+                        />
                       ) : (
-                        <Circle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-400" aria-hidden />
+                        <Circle
+                          className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-400"
+                          aria-hidden
+                        />
                       )}
                       <span>{row.label}</span>
                     </li>
@@ -1488,26 +1737,32 @@ export function CategorySketchAnnotator(props: Props) {
               </div>
             ) : !readOnly ? (
               <p className="text-[10px] text-slate-600">
-                <span className="font-medium text-slate-800">Кратко:</span> цвет → «+ на доске» → клик по картинке → текст
-                справа.{' '}
-                <kbd className="rounded border border-slate-200 bg-white px-1 py-0.5 font-mono text-[9px]">Esc</kbd> —
-                выйти из режима клика.
+                <span className="font-medium text-slate-800">Кратко:</span> цвет → «+ на доске» →
+                клик по картинке → текст справа.{' '}
+                <kbd className="rounded border border-slate-200 bg-white px-1 py-0.5 font-mono text-[9px]">
+                  Esc
+                </kbd>{' '}
+                — выйти из режима клика.
               </p>
             ) : null}
             <ul className="list-disc space-y-1.5 pl-4 text-[10px] leading-snug">
               <li>
-                <span className="font-medium text-slate-900">Цвет кружка</span> — насколько срочно и для кого (критично,
-                ОТК, обычная заметка). Это не то же самое, что «тип узла» в списке ниже.
+                <span className="font-medium text-slate-900">Цвет кружка</span> — насколько срочно и
+                для кого (критично, ОТК, обычная заметка). Это не то же самое, что «тип узла» в
+                списке ниже.
               </li>
               <li>
-                <span className="font-medium text-slate-900">Тип узла</span> — что именно отмечаем (шов, фурнитура…).
+                <span className="font-medium text-slate-900">Тип узла</span> — что именно отмечаем
+                (шов, фурнитура…).
               </li>
               <li>
-                <span className="font-medium text-slate-900">Этап</span> — когда проверяем (ТЗ, образец, ОТК).
+                <span className="font-medium text-slate-900">Этап</span> — когда проверяем (ТЗ,
+                образец, ОТК).
               </li>
               <li>
-                <span className="font-medium text-slate-900">Задачи по глубине ветки</span> — связь метки с блоком
-                «линия / группа / карточка» на вкладке ветки (тот же SKU, разная гранулярность).
+                <span className="font-medium text-slate-900">Задачи по глубине ветки</span> — связь
+                метки с блоком «линия / группа / карточка» на вкладке ветки (тот же SKU, разная
+                гранулярность).
               </li>
             </ul>
           </div>
@@ -1563,7 +1818,9 @@ export function CategorySketchAnnotator(props: Props) {
                 placeholder="один id на виды"
                 value={sceneIdProp ?? ''}
                 disabled={readOnly}
-                onChange={(e) => onPatch({ categorySketchSceneId: e.target.value.trim() || undefined })}
+                onChange={(e) =>
+                  onPatch({ categorySketchSceneId: e.target.value.trim() || undefined })
+                }
               />
             </label>
             <label className="min-w-[10rem] space-y-0.5">
@@ -1593,328 +1850,371 @@ export function CategorySketchAnnotator(props: Props) {
 
       <div
         className={cn(
-          'grid gap-4 grid-cols-1',
+          'grid grid-cols-1 gap-4',
           !readOnly && 'lg:grid-cols-[minmax(0,6.5fr)_minmax(300px,3.5fr)] lg:items-start'
         )}
       >
         <div className="min-w-0 space-y-3">
           <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm">
-            <p className="mb-2 text-xs font-semibold text-zinc-900">Шаг 1 — поставить точку на картинке</p>
-          <div className="rounded-lg border border-zinc-100 bg-zinc-50/90 p-2.5">
-            <div className="mb-2 text-[10px] text-zinc-600">
-              Выберите цвет (важность), нажмите «+ на доске», затем клик по изображению ниже. Текст метки — справа.
-            </div>
-          <div className="flex flex-wrap items-center gap-2 rounded-md border border-zinc-200/80 bg-white px-2 py-1.5">
-            <span className="text-[9px] font-semibold uppercase tracking-wide text-zinc-500">Группа</span>
-            <div className="flex flex-wrap gap-1">
-              {(
-                [
-                  { key: 'critical' as const, dot: 'bg-rose-600', border: 'border-rose-300', activeBg: 'bg-rose-50' },
-                  { key: 'qc' as const, dot: 'bg-amber-600', border: 'border-amber-300', activeBg: 'bg-amber-50' },
-                  { key: 'other' as const, dot: 'bg-zinc-400', border: 'border-zinc-300', activeBg: 'bg-zinc-50' },
-                ] as const
-              ).map(({ key, dot, border, activeBg }) => (
-                <button
-                  key={key}
-                  type="button"
-                  className={cn(
-                    'inline-flex items-center gap-1 rounded border px-2 py-1 text-[10px] font-medium transition-colors',
-                    nextPinPreset === key
-                      ? cn(border, activeBg, 'text-zinc-900')
-                      : 'border-transparent bg-white text-zinc-600 hover:bg-zinc-100'
-                  )}
-                  aria-pressed={nextPinPreset === key}
-                  disabled={readOnly}
-                  onClick={() => setNextPinPreset(key)}
-                >
-                  <span className={cn('h-2 w-2 shrink-0 rounded-full', dot)} aria-hidden />
-                  {NEXT_PIN_PRESET_LABEL[key]}
-                </button>
-              ))}
-            </div>
-            <Button
-              type="button"
-              variant={placeMode ? 'default' : 'outline'}
-              size="sm"
-              className={cn(
-                'h-7 shrink-0 text-[10px]',
-                pinsOnLeaf.length === 0 && !placeMode && !readOnly && 'animate-pulse shadow-md'
-              )}
-              disabled={readOnly}
-              onClick={() => setPlaceMode((v) => !v)}
-              title={pinsOnLeaf.length === 0 ? 'Нажмите, затем кликните по подложке, чтобы поставить первую метку' : undefined}
-            >
-              {placeMode ? 'Клик…' : '+ на доске'}
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="h-7 shrink-0 text-[10px]"
-              disabled={readOnly}
-              onClick={applyLastPinStyleToNext}
-            >
-              Как у последней
-            </Button>
-            <label className="flex min-w-0 flex-wrap items-center gap-1.5 text-[10px] text-zinc-600">
-              <span className="shrink-0 font-semibold uppercase tracking-wide text-zinc-500">Тип узла</span>
-              <select
-                className="h-7 max-w-[11rem] rounded-md border border-zinc-200 bg-white px-1.5 text-[10px]"
-                value={nextAnnotationType}
-                disabled={readOnly}
-                onChange={(e) => setNextAnnotationType(e.target.value as Workshop2SketchAnnotationType)}
-                title="Используется при «+ на доске» и шаблонах текста без выбранной метки"
-              >
-                {Object.entries(TYPE_LABELS).map(([key, label]) => (
-                  <option key={key} value={key}>
-                    {label}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-          </div>
-
-          <details className="rounded-lg border border-slate-100 bg-white">
-            <summary className="cursor-pointer list-none px-2 py-2 text-[10px] font-medium text-slate-800 [&::-webkit-details-marker]:hidden">
-              Фильтр номеров справа (необязательно)
-            </summary>
-            <div className="space-y-1.5 border-t border-slate-100 p-2">
-            <div className="flex flex-wrap items-center gap-1.5">
-              <Filter className="h-3.5 w-3.5 shrink-0 text-amber-700" aria-hidden />
-              <span className="text-[10px] font-semibold text-slate-700">По цвету кружка</span>
-              <span
-                className="cursor-help text-[8px] font-normal normal-case text-slate-500"
-                title="Влияет на боковую панель и кнопки номеров; на подложке всегда видны все метки листа. Новая точка — блок «Группа» выше."
-              >
-                ⓘ
-              </span>
-            </div>
-            <p className="text-[9px] leading-snug text-slate-500">
-              По цвету пина, типу узла и этапу. «Все» / «Сбросить» — полный список справа; точки на картинке не скрываются.
-              Пресет новой метки — блок «Новая метка» выше.
+            <p className="mb-2 text-xs font-semibold text-zinc-900">
+              Шаг 1 — поставить точку на картинке
             </p>
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[9px] text-slate-600">
-              <button
-                type="button"
-                className={cn(
-                  'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 transition-colors',
-                  filterPinVisual === 'all' && filterType === 'all' && filterStage === 'all'
-                    ? 'border-zinc-400 bg-zinc-100 font-medium text-zinc-900'
-                    : 'border-transparent bg-transparent hover:bg-slate-100'
-                )}
-                aria-pressed={filterPinVisual === 'all' && filterType === 'all' && filterStage === 'all'}
-                title="Снять фильтры: полный список справа; на доске и так видны все метки листа"
-                onClick={() => {
-                  setFilterPinVisual('all');
-                  setFilterType('all');
-                  setFilterStage('all');
-                }}
-              >
-                Все
-                <span className="tabular-nums text-slate-400">({pinsOnLeaf.length})</span>
-              </button>
-              <button
-                type="button"
-                className={cn(
-                  'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 transition-colors',
-                  filterPinVisual === 'critical'
-                    ? 'border-rose-300 bg-rose-50 text-rose-900'
-                    : 'border-transparent bg-transparent hover:bg-slate-100'
-                )}
-                aria-pressed={filterPinVisual === 'critical'}
-                title="Только красное кольцо (приоритет «критично»). Ещё раз — режим «Все»."
-                onClick={() => setFilterPinVisual((v) => (v === 'critical' ? 'all' : 'critical'))}
-              >
-                <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-rose-600" aria-hidden />
-                критично
-                <span className="tabular-nums text-slate-400">({pinVisualCounts.critical})</span>
-              </button>
-              <button
-                type="button"
-                className={cn(
-                  'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 transition-colors',
-                  filterPinVisual === 'qc'
-                    ? 'border-amber-300 bg-amber-50 text-amber-950'
-                    : 'border-transparent bg-transparent hover:bg-slate-100'
-                )}
-                aria-pressed={filterPinVisual === 'qc'}
-                title="Только этап ОТК (янтарь). Ещё раз — «Все»."
-                onClick={() => setFilterPinVisual((v) => (v === 'qc' ? 'all' : 'qc'))}
-              >
-                <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-amber-600" aria-hidden />
-                этап ОТК
-                <span className="tabular-nums text-slate-400">({pinVisualCounts.qc})</span>
-              </button>
-              <button
-                type="button"
-                className={cn(
-                  'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 transition-colors',
-                  filterPinVisual === 'other'
-                    ? 'border-teal-300 bg-teal-50 text-teal-950'
-                    : 'border-transparent bg-transparent hover:bg-slate-100'
-                )}
-                aria-pressed={filterPinVisual === 'other'}
-                title="Остальные (серое кольцо). Ещё раз — «Все»."
-                onClick={() => setFilterPinVisual((v) => (v === 'other' ? 'all' : 'other'))}
-              >
-                <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-teal-600" aria-hidden />
-                остальные
-                <span className="tabular-nums text-slate-400">({pinVisualCounts.other})</span>
-              </button>
-              <button
-                type="button"
-                className="ml-0.5 text-[9px] font-medium text-slate-500 underline-offset-2 hover:underline"
-                disabled={
-                  filterPinVisual === 'all' &&
-                  filterType === 'all' &&
-                  filterStage === 'all' &&
-                  !placeMode &&
-                  nextPinPreset === 'other'
-                }
-                onClick={() => {
-                  setFilterPinVisual('all');
-                  setFilterType('all');
-                  setFilterStage('all');
-                  setPlaceMode(false);
-                  setNextPinPreset('other');
-                }}
-              >
-                Сбросить всё
-              </button>
+            <div className="rounded-lg border border-zinc-100 bg-zinc-50/90 p-2.5">
+              <div className="mb-2 text-[10px] text-zinc-600">
+                Выберите цвет (важность), нажмите «+ на доске», затем клик по изображению ниже.
+                Текст метки — справа.
+              </div>
+              <div className="flex flex-wrap items-center gap-2 rounded-md border border-zinc-200/80 bg-white px-2 py-1.5">
+                <span className="text-[9px] font-semibold uppercase tracking-wide text-zinc-500">
+                  Группа
+                </span>
+                <div className="flex flex-wrap gap-1">
+                  {(
+                    [
+                      {
+                        key: 'critical' as const,
+                        dot: 'bg-rose-600',
+                        border: 'border-rose-300',
+                        activeBg: 'bg-rose-50',
+                      },
+                      {
+                        key: 'qc' as const,
+                        dot: 'bg-amber-600',
+                        border: 'border-amber-300',
+                        activeBg: 'bg-amber-50',
+                      },
+                      {
+                        key: 'other' as const,
+                        dot: 'bg-zinc-400',
+                        border: 'border-zinc-300',
+                        activeBg: 'bg-zinc-50',
+                      },
+                    ] as const
+                  ).map(({ key, dot, border, activeBg }) => (
+                    <button
+                      key={key}
+                      type="button"
+                      className={cn(
+                        'inline-flex items-center gap-1 rounded border px-2 py-1 text-[10px] font-medium transition-colors',
+                        nextPinPreset === key
+                          ? cn(border, activeBg, 'text-zinc-900')
+                          : 'border-transparent bg-white text-zinc-600 hover:bg-zinc-100'
+                      )}
+                      aria-pressed={nextPinPreset === key}
+                      disabled={readOnly}
+                      onClick={() => setNextPinPreset(key)}
+                    >
+                      <span className={cn('h-2 w-2 shrink-0 rounded-full', dot)} aria-hidden />
+                      {NEXT_PIN_PRESET_LABEL[key]}
+                    </button>
+                  ))}
+                </div>
+                <Button
+                  type="button"
+                  variant={placeMode ? 'default' : 'outline'}
+                  size="sm"
+                  className={cn(
+                    'h-7 shrink-0 text-[10px]',
+                    pinsOnLeaf.length === 0 && !placeMode && !readOnly && 'animate-pulse shadow-md'
+                  )}
+                  disabled={readOnly}
+                  onClick={() => setPlaceMode((v) => !v)}
+                  title={
+                    pinsOnLeaf.length === 0
+                      ? 'Нажмите, затем кликните по подложке, чтобы поставить первую метку'
+                      : undefined
+                  }
+                >
+                  {placeMode ? 'Клик…' : '+ на доске'}
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 shrink-0 text-[10px]"
+                  disabled={readOnly}
+                  onClick={applyLastPinStyleToNext}
+                >
+                  Как у последней
+                </Button>
+                <label className="flex min-w-0 flex-wrap items-center gap-1.5 text-[10px] text-zinc-600">
+                  <span className="shrink-0 font-semibold uppercase tracking-wide text-zinc-500">
+                    Тип узла
+                  </span>
+                  <select
+                    className="h-7 max-w-[11rem] rounded-md border border-zinc-200 bg-white px-1.5 text-[10px]"
+                    value={nextAnnotationType}
+                    disabled={readOnly}
+                    onChange={(e) =>
+                      setNextAnnotationType(e.target.value as Workshop2SketchAnnotationType)
+                    }
+                    title="Используется при «+ на доске» и шаблонах текста без выбранной метки"
+                  >
+                    {Object.entries(TYPE_LABELS).map(([key, label]) => (
+                      <option key={key} value={key}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
             </div>
-            {hiddenByFilters ? (
-              <p className="rounded border border-amber-200 bg-amber-50/90 px-2 py-1.5 text-[9px] text-amber-950">
-                Фильтры не совпадают ни с одной из {pinsOnLeaf.length} меток на листе: список справа и номера подсвечены
-                приглушённо. На доске точки видны все; нажмите «Все» / «Сбросить всё», чтобы убрать несовпадение.
-              </p>
+
+            <details className="rounded-lg border border-slate-100 bg-white">
+              <summary className="cursor-pointer list-none px-2 py-2 text-[10px] font-medium text-slate-800 [&::-webkit-details-marker]:hidden">
+                Фильтр номеров справа (необязательно)
+              </summary>
+              <div className="space-y-1.5 border-t border-slate-100 p-2">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <Filter className="h-3.5 w-3.5 shrink-0 text-amber-700" aria-hidden />
+                  <span className="text-[10px] font-semibold text-slate-700">По цвету кружка</span>
+                  <span
+                    className="cursor-help text-[8px] font-normal normal-case text-slate-500"
+                    title="Влияет на боковую панель и кнопки номеров; на подложке всегда видны все метки листа. Новая точка — блок «Группа» выше."
+                  >
+                    ⓘ
+                  </span>
+                </div>
+                <p className="text-[9px] leading-snug text-slate-500">
+                  По цвету пина, типу узла и этапу. «Все» / «Сбросить» — полный список справа; точки
+                  на картинке не скрываются. Пресет новой метки — блок «Новая метка» выше.
+                </p>
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[9px] text-slate-600">
+                  <button
+                    type="button"
+                    className={cn(
+                      'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 transition-colors',
+                      filterPinVisual === 'all' && filterType === 'all' && filterStage === 'all'
+                        ? 'border-zinc-400 bg-zinc-100 font-medium text-zinc-900'
+                        : 'border-transparent bg-transparent hover:bg-slate-100'
+                    )}
+                    aria-pressed={
+                      filterPinVisual === 'all' && filterType === 'all' && filterStage === 'all'
+                    }
+                    title="Снять фильтры: полный список справа; на доске и так видны все метки листа"
+                    onClick={() => {
+                      setFilterPinVisual('all');
+                      setFilterType('all');
+                      setFilterStage('all');
+                    }}
+                  >
+                    Все
+                    <span className="tabular-nums text-slate-400">({pinsOnLeaf.length})</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={cn(
+                      'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 transition-colors',
+                      filterPinVisual === 'critical'
+                        ? 'border-rose-300 bg-rose-50 text-rose-900'
+                        : 'border-transparent bg-transparent hover:bg-slate-100'
+                    )}
+                    aria-pressed={filterPinVisual === 'critical'}
+                    title="Только красное кольцо (приоритет «критично»). Ещё раз — режим «Все»."
+                    onClick={() =>
+                      setFilterPinVisual((v) => (v === 'critical' ? 'all' : 'critical'))
+                    }
+                  >
+                    <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-rose-600" aria-hidden />
+                    критично
+                    <span className="tabular-nums text-slate-400">
+                      ({pinVisualCounts.critical})
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    className={cn(
+                      'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 transition-colors',
+                      filterPinVisual === 'qc'
+                        ? 'border-amber-300 bg-amber-50 text-amber-950'
+                        : 'border-transparent bg-transparent hover:bg-slate-100'
+                    )}
+                    aria-pressed={filterPinVisual === 'qc'}
+                    title="Только этап ОТК (янтарь). Ещё раз — «Все»."
+                    onClick={() => setFilterPinVisual((v) => (v === 'qc' ? 'all' : 'qc'))}
+                  >
+                    <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-amber-600" aria-hidden />
+                    этап ОТК
+                    <span className="tabular-nums text-slate-400">({pinVisualCounts.qc})</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={cn(
+                      'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 transition-colors',
+                      filterPinVisual === 'other'
+                        ? 'border-teal-300 bg-teal-50 text-teal-950'
+                        : 'border-transparent bg-transparent hover:bg-slate-100'
+                    )}
+                    aria-pressed={filterPinVisual === 'other'}
+                    title="Остальные (серое кольцо). Ещё раз — «Все»."
+                    onClick={() => setFilterPinVisual((v) => (v === 'other' ? 'all' : 'other'))}
+                  >
+                    <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-teal-600" aria-hidden />
+                    остальные
+                    <span className="tabular-nums text-slate-400">({pinVisualCounts.other})</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="ml-0.5 text-[9px] font-medium text-slate-500 underline-offset-2 hover:underline"
+                    disabled={
+                      filterPinVisual === 'all' &&
+                      filterType === 'all' &&
+                      filterStage === 'all' &&
+                      !placeMode &&
+                      nextPinPreset === 'other'
+                    }
+                    onClick={() => {
+                      setFilterPinVisual('all');
+                      setFilterType('all');
+                      setFilterStage('all');
+                      setPlaceMode(false);
+                      setNextPinPreset('other');
+                    }}
+                  >
+                    Сбросить всё
+                  </button>
+                </div>
+                {hiddenByFilters ? (
+                  <p className="rounded border border-amber-200 bg-amber-50/90 px-2 py-1.5 text-[9px] text-amber-950">
+                    Фильтры не совпадают ни с одной из {pinsOnLeaf.length} меток на листе: список
+                    справа и номера подсвечены приглушённо. На доске точки видны все; нажмите «Все»
+                    / «Сбросить всё», чтобы убрать несовпадение.
+                  </p>
+                ) : null}
+
+                <details className="rounded-lg border border-slate-100 bg-slate-50/80 p-2">
+                  <summary className="flex cursor-pointer list-none items-center gap-1.5 text-[10px] font-semibold text-slate-700 [&::-webkit-details-marker]:hidden">
+                    <LayoutGrid className="h-3.5 w-3.5 shrink-0 text-slate-600" aria-hidden />
+                    Доп. фильтр: тип узла и этап
+                    <span
+                      className="ml-auto cursor-help text-[8px] font-normal text-slate-500"
+                      title="Сужает список справа и номера меток; доска показывает все точки листа. Суммируется с цветовым фильтром выше."
+                    >
+                      ⓘ
+                    </span>
+                  </summary>
+                  <p className="mt-2 text-[9px] leading-snug text-slate-600">
+                    Это поля карточки метки (конструкция, материал… и ТЗ / образец / ОТК…). Вместе с
+                    цветовым фильтром выше сужает список справа и кнопки номеров; на подложке
+                    по‑прежнему отображаются все метки текущего листа.
+                  </p>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                    <label className="space-y-1">
+                      <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                        Тип узла
+                      </span>
+                      <select
+                        className="h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-[11px]"
+                        value={filterType}
+                        onChange={(e) => setFilterType(e.target.value as typeof filterType)}
+                      >
+                        <option value="all">Все типы</option>
+                        {Object.entries(TYPE_LABELS).map(([key, label]) => (
+                          <option key={key} value={key}>
+                            {label}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label className="space-y-1">
+                      <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                        Этап маршрута
+                      </span>
+                      <select
+                        className="h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-[11px]"
+                        value={filterStage}
+                        onChange={(e) => setFilterStage(e.target.value as typeof filterStage)}
+                      >
+                        <option value="all">Все этапы</option>
+                        {Object.entries(STAGE_LABELS).map(([key, label]) => (
+                          <option key={key} value={key}>
+                            {label}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  </div>
+                </details>
+              </div>
+            </details>
+
+            {hotspotPresets.length > 0 ? (
+              <details className="rounded-lg border border-teal-100 bg-teal-50/20">
+                <summary className="cursor-pointer list-none px-2 py-2 text-[10px] font-medium text-teal-950 [&::-webkit-details-marker]:hidden">
+                  Готовые точки по зонам (ускорение)
+                </summary>
+                <div className="flex flex-wrap gap-1.5 border-t border-teal-100 p-2">
+                  {hotspotPresets.map((preset) => (
+                    <Button
+                      key={preset.id}
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      className="h-7 text-[10px]"
+                      onClick={() => addPresetAnnotation(preset)}
+                    >
+                      + {preset.label}
+                    </Button>
+                  ))}
+                </div>
+              </details>
             ) : null}
 
-          <details className="rounded-lg border border-slate-100 bg-slate-50/80 p-2">
-            <summary className="flex cursor-pointer list-none items-center gap-1.5 text-[10px] font-semibold text-slate-700 [&::-webkit-details-marker]:hidden">
-              <LayoutGrid className="h-3.5 w-3.5 shrink-0 text-slate-600" aria-hidden />
-              Доп. фильтр: тип узла и этап
-              <span
-                className="ml-auto cursor-help text-[8px] font-normal text-slate-500"
-                title="Сужает список справа и номера меток; доска показывает все точки листа. Суммируется с цветовым фильтром выше."
-              >
-                ⓘ
-              </span>
-            </summary>
-            <p className="mt-2 text-[9px] leading-snug text-slate-600">
-              Это поля карточки метки (конструкция, материал… и ТЗ / образец / ОТК…). Вместе с цветовым фильтром выше
-              сужает список справа и кнопки номеров; на подложке по‑прежнему отображаются все метки текущего листа.
-            </p>
-            <div className="mt-2 grid gap-2 sm:grid-cols-2">
-              <label className="space-y-1">
-                <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Тип узла</span>
-                <select
-                  className="h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-[11px]"
-                  value={filterType}
-                  onChange={(e) => setFilterType(e.target.value as typeof filterType)}
-                >
-                  <option value="all">Все типы</option>
-                  {Object.entries(TYPE_LABELS).map(([key, label]) => (
-                    <option key={key} value={key}>
-                      {label}
-                    </option>
+            {pinTextSnippets.length > 0 ? (
+              <div className="rounded-lg border border-slate-200 bg-slate-50/80 p-2">
+                <p className="mb-1.5 text-[10px] font-medium text-slate-800">
+                  Готовые фразы в текст метки
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {pinTextSnippets.map((s) => (
+                    <Button
+                      key={s.id}
+                      type="button"
+                      size="sm"
+                      variant="secondary"
+                      className="h-7 text-[10px]"
+                      onClick={() => applyPinTextSnippet(s.text)}
+                    >
+                      {s.label}
+                    </Button>
                   ))}
-                </select>
-              </label>
-              <label className="space-y-1">
-                <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Этап маршрута</span>
-                <select
-                  className="h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-[11px]"
-                  value={filterStage}
-                  onChange={(e) => setFilterStage(e.target.value as typeof filterStage)}
-                >
-                  <option value="all">Все этапы</option>
-                  {Object.entries(STAGE_LABELS).map(([key, label]) => (
-                    <option key={key} value={key}>
-                      {label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-          </details>
-          </div>
-          </details>
-
-          {hotspotPresets.length > 0 ? (
-            <details className="rounded-lg border border-teal-100 bg-teal-50/20">
-              <summary className="cursor-pointer list-none px-2 py-2 text-[10px] font-medium text-teal-950 [&::-webkit-details-marker]:hidden">
-                Готовые точки по зонам (ускорение)
-              </summary>
-              <div className="flex flex-wrap gap-1.5 border-t border-teal-100 p-2">
-                {hotspotPresets.map((preset) => (
-                  <Button
-                    key={preset.id}
-                    type="button"
-                    size="sm"
-                    variant="outline"
-                    className="h-7 text-[10px]"
-                    onClick={() => addPresetAnnotation(preset)}
-                  >
-                    + {preset.label}
-                  </Button>
-                ))}
+                </div>
               </div>
-            </details>
-          ) : null}
+            ) : null}
 
-          {pinTextSnippets.length > 0 ? (
-            <div className="rounded-lg border border-slate-200 bg-slate-50/80 p-2">
-              <p className="mb-1.5 text-[10px] font-medium text-slate-800">Готовые фразы в текст метки</p>
-              <div className="flex flex-wrap gap-1.5">
-                {pinTextSnippets.map((s) => (
-                  <Button
-                    key={s.id}
-                    type="button"
-                    size="sm"
-                    variant="secondary"
-                    className="h-7 text-[10px]"
-                    onClick={() => applyPinTextSnippet(s.text)}
-                  >
-                    {s.label}
-                  </Button>
-                ))}
-              </div>
-            </div>
-          ) : null}
-
-          {!readOnly && !sheetStorage && (onSavePinTemplateToDossier || onSavePinTemplateToOrg) ? (
-            <details className="rounded-lg border border-emerald-200 bg-emerald-50/30">
-              <summary className="cursor-pointer list-none px-2 py-2 text-[10px] font-medium text-emerald-950 [&::-webkit-details-marker]:hidden">
-                Сохранить этот набор точек как шаблон
-              </summary>
-              <div className="flex flex-wrap gap-2 border-t border-emerald-100 p-2">
-                {onSavePinTemplateToDossier ? (
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant="default"
-                    className="h-8 gap-1 text-[10px]"
-                    onClick={onSavePinTemplateToDossier}
-                  >
-                    <Save className="h-3.5 w-3.5" />
-                    В досье
-                  </Button>
-                ) : null}
-                {onSavePinTemplateToOrg ? (
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant="outline"
-                    className="h-8 text-[10px]"
-                    onClick={onSavePinTemplateToOrg}
-                  >
-                    В библиотеку
-                  </Button>
-                ) : null}
-              </div>
-            </details>
-          ) : null}
+            {!readOnly &&
+            !sheetStorage &&
+            (onSavePinTemplateToDossier || onSavePinTemplateToOrg) ? (
+              <details className="rounded-lg border border-emerald-200 bg-emerald-50/30">
+                <summary className="cursor-pointer list-none px-2 py-2 text-[10px] font-medium text-emerald-950 [&::-webkit-details-marker]:hidden">
+                  Сохранить этот набор точек как шаблон
+                </summary>
+                <div className="flex flex-wrap gap-2 border-t border-emerald-100 p-2">
+                  {onSavePinTemplateToDossier ? (
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="default"
+                      className="h-8 gap-1 text-[10px]"
+                      onClick={onSavePinTemplateToDossier}
+                    >
+                      <Save className="h-3.5 w-3.5" />В досье
+                    </Button>
+                  ) : null}
+                  {onSavePinTemplateToOrg ? (
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      className="h-8 text-[10px]"
+                      onClick={onSavePinTemplateToOrg}
+                    >
+                      В библиотеку
+                    </Button>
+                  ) : null}
+                </div>
+              </details>
+            ) : null}
           </div>
 
           <div className="rounded-xl border border-zinc-200 bg-white p-2 shadow-sm">
@@ -1932,14 +2232,19 @@ export function CategorySketchAnnotator(props: Props) {
               >
                 {placeMode ? (
                   <div className="pointer-events-none absolute inset-x-3 top-3 z-10 rounded-md border border-teal-200 bg-white/90 px-2.5 py-1.5 text-[10px] font-medium text-teal-900 shadow-sm">
-                    Кружок: <span className="font-bold">{NEXT_PIN_PRESET_LABEL[nextPinPreset]}</span>. Кликните по
-                    картинке.
+                    Кружок:{' '}
+                    <span className="font-bold">{NEXT_PIN_PRESET_LABEL[nextPinPreset]}</span>.
+                    Кликните по картинке.
                   </div>
                 ) : null}
                 <div ref={templateLayerRef} className="absolute inset-0 h-full w-full">
                   {imageDataUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element -- data URL из досье
-                    <img src={imageDataUrl} alt="Подложка скетча" className="h-full w-full object-contain" />
+                    <img
+                      src={imageDataUrl}
+                      alt="Подложка скетча"
+                      className="h-full w-full object-contain"
+                    />
                   ) : (
                     <CategorySketchTemplateSvg
                       leaf={currentLeaf}
@@ -1975,7 +2280,8 @@ export function CategorySketchAnnotator(props: Props) {
                               ? 'border-amber-500 shadow-[0_0_0_1px_rgba(217,119,6,0.35)]'
                               : 'border-zinc-400',
                           activeId === a.annotationId && 'ring-2 ring-zinc-900 ring-offset-1',
-                          !visibleIds.has(a.annotationId) && 'opacity-55 ring-1 ring-dashed ring-slate-400'
+                          !visibleIds.has(a.annotationId) &&
+                            'ring-dashed opacity-55 ring-1 ring-slate-400'
                         )}
                         style={{ left: `${a.xPct}%`, top: `${a.yPct}%` }}
                         onClick={(ev) => {
@@ -2059,7 +2365,8 @@ export function CategorySketchAnnotator(props: Props) {
                         {demoRefBusy ? 'Загрузка…' : 'Демо: ИИ-референс'}
                       </Button>
                       <p className="text-[9px] leading-snug text-slate-500">
-                        Тестовое фото вместо ручной загрузки; в проде подключается ваша модель генерации.
+                        Тестовое фото вместо ручной загрузки; в проде подключается ваша модель
+                        генерации.
                       </p>
                     </div>
                   </details>
@@ -2080,7 +2387,8 @@ export function CategorySketchAnnotator(props: Props) {
                     </span>
                   </div>
                   <p className="text-[9px] leading-snug text-slate-600">
-                    Наложение поверх подложки (прошлая партия, референс). Подгонка масштаба и сдвига — слайдерами ниже.
+                    Наложение поверх подложки (прошлая партия, референс). Подгонка масштаба и сдвига
+                    — слайдерами ниже.
                   </p>
                   <Label htmlFor={sketchCompareInputId} className="text-[10px] text-slate-500">
                     {compareOverlayDataUrl ? 'Заменить эталон' : 'Файл эталона (jpg, png…)'}
@@ -2099,7 +2407,9 @@ export function CategorySketchAnnotator(props: Props) {
                         Прозрачность, масштаб и смещение по полю.
                       </p>
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-[9px] text-slate-600">Прозрачность: {compareOpacity}%</span>
+                        <span className="text-[9px] text-slate-600">
+                          Прозрачность: {compareOpacity}%
+                        </span>
                         <input
                           type="range"
                           min={15}
@@ -2108,12 +2418,16 @@ export function CategorySketchAnnotator(props: Props) {
                           disabled={readOnly}
                           className="h-2 w-[min(100%,12rem)] accent-teal-600"
                           onChange={(e) =>
-                            onPatch({ categorySketchCompareOverlayOpacityPct: Number(e.target.value) })
+                            onPatch({
+                              categorySketchCompareOverlayOpacityPct: Number(e.target.value),
+                            })
                           }
                         />
                       </div>
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-[9px] text-slate-600">Масштаб: {compareScalePct}%</span>
+                        <span className="text-[9px] text-slate-600">
+                          Масштаб: {compareScalePct}%
+                        </span>
                         <input
                           type="range"
                           min={40}
@@ -2122,12 +2436,16 @@ export function CategorySketchAnnotator(props: Props) {
                           disabled={readOnly}
                           className="h-2 w-[min(100%,10rem)] accent-teal-600"
                           onChange={(e) =>
-                            onPatch({ categorySketchCompareOverlayScalePct: Number(e.target.value) })
+                            onPatch({
+                              categorySketchCompareOverlayScalePct: Number(e.target.value),
+                            })
                           }
                         />
                       </div>
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-[9px] text-slate-600">Сдвиг X: {compareOffsetXPct}%</span>
+                        <span className="text-[9px] text-slate-600">
+                          Сдвиг X: {compareOffsetXPct}%
+                        </span>
                         <input
                           type="range"
                           min={-40}
@@ -2141,7 +2459,9 @@ export function CategorySketchAnnotator(props: Props) {
                         />
                       </div>
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-[9px] text-slate-600">Сдвиг Y: {compareOffsetYPct}%</span>
+                        <span className="text-[9px] text-slate-600">
+                          Сдвиг Y: {compareOffsetYPct}%
+                        </span>
                         <input
                           type="range"
                           min={-40}
@@ -2167,7 +2487,10 @@ export function CategorySketchAnnotator(props: Props) {
                     </div>
                   ) : null}
                   {compareOverlayFileName ? (
-                    <p className="truncate text-[9px] text-slate-500" title={compareOverlayFileName}>
+                    <p
+                      className="truncate text-[9px] text-slate-500"
+                      title={compareOverlayFileName}
+                    >
                       {compareOverlayFileName}
                     </p>
                   ) : null}
@@ -2202,31 +2525,35 @@ export function CategorySketchAnnotator(props: Props) {
               Черновики в углах поля (по желанию)
             </summary>
             <div className="space-y-2 border-t border-indigo-100 px-2 pb-2 pt-2">
-            <p className="text-[10px] leading-snug text-indigo-900/80">
-              До четырёх меток в углах с текущим цветом; лишнее удалите или сдвиньте.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <Button
-                type="button"
-                size="sm"
-                variant="outline"
-                className="h-7 text-[10px] border-indigo-200"
-                disabled={readOnly || dataAnnotations.filter((a) => sketchPinBelongsToLeaf(a, leafId)).length >= annotationLimit}
-                onClick={addDraftSuggestedPins}
-              >
-                + Черновики (4 точки)
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                variant="ghost"
-                className="h-7 text-[10px] text-red-700"
-                disabled={readOnly}
-                onClick={removeDraftSuggestedPins}
-              >
-                Убрать черновики
-              </Button>
-            </div>
+              <p className="text-[10px] leading-snug text-indigo-900/80">
+                До четырёх меток в углах с текущим цветом; лишнее удалите или сдвиньте.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  className="h-7 border-indigo-200 text-[10px]"
+                  disabled={
+                    readOnly ||
+                    dataAnnotations.filter((a) => sketchPinBelongsToLeaf(a, leafId)).length >=
+                      annotationLimit
+                  }
+                  onClick={addDraftSuggestedPins}
+                >
+                  + Черновики (4 точки)
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="ghost"
+                  className="h-7 text-[10px] text-red-700"
+                  disabled={readOnly}
+                  onClick={removeDraftSuggestedPins}
+                >
+                  Убрать черновики
+                </Button>
+              </div>
             </div>
           </details>
 
@@ -2235,382 +2562,438 @@ export function CategorySketchAnnotator(props: Props) {
               Печать, выгрузки, MES и ревизия (для отдела)
             </summary>
             <div className="border-t border-zinc-200 p-2">
-          <Tabs defaultValue="handoff" className="w-full">
-              <TabsList className="mb-2 flex h-auto min-h-9 w-full flex-wrap justify-start gap-0.5 rounded-md bg-white p-1">
-                <TabsTrigger value="handoff" className="px-2 py-1.5 text-[10px]">
-                  Документы и MES
-                </TabsTrigger>
-                {sketchTasksPanel ? (
-                  <TabsTrigger value="tasks" className="px-2 py-1.5 text-[10px]">
-                    Задачи L1→L3
+              <Tabs defaultValue="handoff" className="w-full">
+                <TabsList className="mb-2 flex h-auto min-h-9 w-full flex-wrap justify-start gap-0.5 rounded-md bg-white p-1">
+                  <TabsTrigger value="handoff" className="px-2 py-1.5 text-[10px]">
+                    Документы и MES
                   </TabsTrigger>
-                ) : null}
-              </TabsList>
-              <TabsContent value="handoff" className="mt-0 space-y-2 rounded-lg border border-zinc-200 bg-white p-2.5 text-[11px]">
-                <p className="text-[10px] font-semibold uppercase tracking-wide text-zinc-600">
-                  Ревизия · комплаенс · экспорт
-                </p>
-                <div className="grid gap-2 sm:grid-cols-2">
-                  <label className="space-y-0.5">
-                    <span className="text-[9px] font-semibold text-zinc-500">Ревизия скетча</span>
-                    <Input
-                      className="h-8 text-[11px]"
-                      value={categorySketchRevisionLabel ?? ''}
-                      disabled={readOnly}
-                      placeholder="A/B, номер"
-                      onChange={(e) => onPatch({ categorySketchRevisionLabel: e.target.value || undefined })}
-                    />
-                  </label>
-                  <label className="space-y-0.5">
-                    <span className="text-[9px] font-semibold text-zinc-500">Заморозка до</span>
-                    <Input
-                      type="date"
-                      className="h-8 text-[11px]"
-                      value={categorySketchFreezeUntilDate ?? ''}
-                      disabled={readOnly}
-                      onChange={(e) => onPatch({ categorySketchFreezeUntilDate: e.target.value || undefined })}
-                    />
-                  </label>
-                  <label className="space-y-0.5 sm:col-span-2">
-                    <span className="text-[9px] font-semibold text-zinc-500">Утверждённый референс</span>
-                    <Input
-                      className="h-8 text-[11px]"
-                      value={compliance.approvedReferenceUrl ?? ''}
-                      disabled={readOnly}
-                      onChange={(e) =>
-                        onPatch({
-                          categorySketchCompliance: { ...compliance, approvedReferenceUrl: e.target.value || undefined },
-                        })
-                      }
-                    />
-                  </label>
-                  <label className="space-y-0.5">
-                    <span className="text-[9px] font-semibold text-zinc-500">Версия лекал</span>
-                    <Input
-                      className="h-8 text-[11px]"
-                      value={compliance.patternPackVersion ?? ''}
-                      disabled={readOnly}
-                      onChange={(e) =>
-                        onPatch({
-                          categorySketchCompliance: { ...compliance, patternPackVersion: e.target.value || undefined },
-                        })
-                      }
-                    />
-                  </label>
-                  <label className="space-y-0.5">
-                    <span className="text-[9px] font-semibold text-zinc-500">Акт образца</span>
-                    <Input
-                      className="h-8 text-[11px]"
-                      value={compliance.sampleAcceptanceActRef ?? ''}
-                      disabled={readOnly}
-                      onChange={(e) =>
-                        onPatch({
-                          categorySketchCompliance: { ...compliance, sampleAcceptanceActRef: e.target.value || undefined },
-                        })
-                      }
-                    />
-                  </label>
-                </div>
-                <div className="flex flex-wrap items-center gap-2 border-t border-zinc-100 pt-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-8 text-[10px]"
-                    disabled={readOnly || !onAppendSketchRevisionSnapshot}
-                    onClick={() => onAppendSketchRevisionSnapshot?.()}
-                  >
-                    Снимок ревизии в архив
-                  </Button>
-                  {categorySketchRevisionSnapshots.length > 0 ? (
-                    <details className="max-w-full text-[10px] text-zinc-600">
-                      <summary className="cursor-pointer font-medium text-zinc-700">
-                        Архив ({categorySketchRevisionSnapshots.length})
-                      </summary>
-                      <ul className="mt-1 max-h-28 space-y-0.5 overflow-y-auto font-mono text-[9px]">
-                        {[...categorySketchRevisionSnapshots].reverse().slice(0, 12).map((s) => (
-                          <li key={s.snapshotId}>
-                            {s.revisionLabel} · {s.annotations.length} мет. · {s.by} ·{' '}
-                            {(() => {
-                              try {
-                                return new Date(s.at).toLocaleString('ru-RU');
-                              } catch {
-                                return s.at;
-                              }
-                            })()}
-                          </li>
-                        ))}
-                      </ul>
-                      {categorySketchRevisionSnapshots.length >= 2 ? (
-                        <div className="mt-2 space-y-2 rounded-md border border-zinc-200 bg-zinc-50/90 p-2 text-[9px] text-zinc-800">
-                          <p className="font-semibold text-zinc-900">Сравнение снимков A ↔ B</p>
-                          <div className="flex flex-wrap gap-2">
-                            <label className="flex flex-col gap-0.5">
-                              <span className="text-[8px] uppercase text-zinc-500">Снимок A</span>
-                              <select
-                                className="h-8 max-w-[14rem] rounded border border-zinc-200 bg-white px-1 text-[9px]"
-                                value={compareSnapIdA}
-                                onChange={(e) => setCompareSnapIdA(e.target.value)}
-                              >
-                                <option value="">—</option>
-                                {[...categorySketchRevisionSnapshots].reverse().map((s) => (
-                                  <option key={s.snapshotId} value={s.snapshotId}>
-                                    {s.revisionLabel} · {new Date(s.at).toLocaleDateString('ru-RU')}
-                                  </option>
-                                ))}
-                              </select>
-                            </label>
-                            <label className="flex flex-col gap-0.5">
-                              <span className="text-[8px] uppercase text-zinc-500">Снимок B</span>
-                              <select
-                                className="h-8 max-w-[14rem] rounded border border-zinc-200 bg-white px-1 text-[9px]"
-                                value={compareSnapIdB}
-                                onChange={(e) => setCompareSnapIdB(e.target.value)}
-                              >
-                                <option value="">—</option>
-                                {[...categorySketchRevisionSnapshots].reverse().map((s) => (
-                                  <option key={`b-${s.snapshotId}`} value={s.snapshotId}>
-                                    {s.revisionLabel} · {new Date(s.at).toLocaleDateString('ru-RU')}
-                                  </option>
-                                ))}
-                              </select>
-                            </label>
-                          </div>
-                          {revisionDiff ? (
-                            <div className="space-y-1 border-t border-zinc-200 pt-2 font-mono text-[8px] leading-snug">
-                              <p>
-                                Меток: {revisionDiff.countA} → {revisionDiff.countB}
-                                {revisionDiff.leafMismatch ? (
-                                  <span className="text-amber-700"> · разные ветки leafId</span>
-                                ) : null}
-                              </p>
-                              <p>+ {revisionDiff.addedIds.length} id · − {revisionDiff.removedIds.length} id</p>
-                              {revisionDiff.changed.length > 0 ? (
-                                <table className="w-full border-collapse text-left">
-                                  <thead>
-                                    <tr className="border-b border-zinc-200">
-                                      <th className="py-0.5 pr-1">annotationId</th>
-                                      <th className="py-0.5">изменения</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {revisionDiff.changed.slice(0, 24).map((row) => (
-                                      <tr key={row.annotationId} className="border-b border-zinc-100">
-                                        <td className="py-0.5 pr-1 align-top">{row.annotationId.slice(0, 10)}…</td>
-                                        <td className="py-0.5 align-top">
-                                          {row.diffs.map((d) => (
-                                            <span key={`${row.annotationId}-${d.field}`} className="mr-1 block">
-                                              {d.field}: {d.from} → {d.to}
-                                            </span>
-                                          ))}
-                                        </td>
-                                      </tr>
-                                    ))}
-                                  </tbody>
-                                </table>
-                              ) : (
-                                <p className="text-zinc-500">Поля priority / stage / BOM ref совпадают.</p>
-                              )}
-                            </div>
-                          ) : (
-                            <p className="text-zinc-500">Выберите два разных снимка.</p>
-                          )}
-                        </div>
-                      ) : null}
-                    </details>
+                  {sketchTasksPanel ? (
+                    <TabsTrigger value="tasks" className="px-2 py-1.5 text-[10px]">
+                      Задачи L1→L3
+                    </TabsTrigger>
                   ) : null}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    size="sm"
-                    className="h-8 text-[10px]"
-                    disabled={readOnly || !auditActor}
-                    onClick={() =>
-                      onPatch({
-                        categorySketchProductionApproved: {
-                          by: auditActor ?? '—',
-                          at: new Date().toISOString(),
-                        },
-                      })
-                    }
-                  >
-                    Утвердить для производства
-                  </Button>
-                </div>
-                <div className="flex flex-wrap gap-2 border-t border-zinc-100 pt-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-8 gap-1 text-[10px]"
-                    disabled={exportBusy}
-                    onClick={() => void handleExportPng()}
-                  >
-                    <ImageDown className="h-3.5 w-3.5" />
-                    PNG
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-8 gap-1 text-[10px]"
-                    onClick={() => {
-                      const norm = dataAnnotations
-                        .filter((a) => sketchPinBelongsToLeaf(a, leafId))
-                        .map(normalizeAnnotation);
-                      void (async () => {
-                        await openSketchA4Print({
-                          title: exportFileNameStem?.trim() || currentLeaf.pathLabel || 'Скетч',
-                          sku: (articleSku ?? exportFileNameStem ?? '—').trim(),
-                          pathLabel: currentLeaf.pathLabel,
-                          imageDataUrl: imageDataUrl ?? undefined,
-                          annotations: norm,
-                          leafId,
-                          pageUrl: typeof window !== 'undefined' ? window.location.href : undefined,
-                          sceneCaption: printSceneCaption?.trim() || masterPrintSceneCaption,
-                        });
-                      })();
-                    }}
-                  >
-                    <Printer className="h-3.5 w-3.5" />
-                    Печать А4
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-8 gap-1 text-[10px]"
-                    onClick={() => {
-                      const norm = dataAnnotations
-                        .filter((a) => sketchPinBelongsToLeaf(a, leafId))
-                        .map(normalizeAnnotation);
-                      void (async () => {
-                        await openSketchHandoffPackagePrint({
-                          title: exportFileNameStem?.trim() || currentLeaf.pathLabel || 'Скетч',
-                          sku: (articleSku ?? exportFileNameStem ?? '—').trim(),
-                          pathLabel: currentLeaf.pathLabel,
-                          revisionLabel: categorySketchRevisionLabel,
-                          freezeUntilDate: categorySketchFreezeUntilDate,
-                          productionApproved: categorySketchProductionApproved,
-                          compliance,
-                          imageDataUrl: imageDataUrl ?? undefined,
-                          annotations: norm,
-                          leafId,
-                          pageUrl: typeof window !== 'undefined' ? window.location.href : undefined,
-                          sceneCaption: printSceneCaption?.trim() || masterPrintSceneCaption,
-                          includePlmAppendix: true,
-                          threadExcerptLines: 2,
-                        });
-                      })();
-                    }}
-                  >
-                    <Printer className="h-3.5 w-3.5" />
-                    Лист в цех
-                  </Button>
-                </div>
-                <div className="flex flex-wrap gap-2 border-t border-zinc-100 pt-2">
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    size="sm"
-                    className="h-8 gap-1 text-[10px]"
-                    disabled={readOnly}
-                    onClick={handleAppendPropagatedDrafts}
-                  >
-                    <ClipboardList className="h-3.5 w-3.5" />
-                    В посадку / ОТК
-                  </Button>
-                  <Button type="button" variant="outline" size="sm" className="h-8 gap-1 text-[10px]" onClick={handleCriticalCsv}>
-                    <Download className="h-3.5 w-3.5" />
-                    CSV критич.
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-8 gap-1 text-[10px]"
-                    onClick={handleMesQualityCsv}
-                  >
-                    <Download className="h-3.5 w-3.5" />
-                    MES все
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-8 gap-1 text-[10px]"
-                    onClick={handleMesQcCsv}
-                  >
-                    <Download className="h-3.5 w-3.5" />
-                    MES ОТК+крит.
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-8 gap-1 text-[10px]"
-                    disabled={webhookBusy || readOnly}
-                    title={readOnly ? 'В режиме цеха отправка в MES отключена' : undefined}
-                    onClick={() => void handleCriticalWebhook()}
-                  >
-                    <Send className="h-3.5 w-3.5" />
-                    {webhookBusy ? '…' : 'В MES'}
-                  </Button>
-                </div>
-                {mesTopCodesOnBoard.length > 0 ? (
-                  <p className="text-[9px] leading-snug text-zinc-600">
-                    <span className="font-semibold text-zinc-700">Топ кодов MES на доске:</span>{' '}
-                    {mesTopCodesOnBoard
-                      .map(
-                        (x) =>
-                          `${x.code} (${x.count})`
-                      )
-                      .join(', ')}
+                </TabsList>
+                <TabsContent
+                  value="handoff"
+                  className="mt-0 space-y-2 rounded-lg border border-zinc-200 bg-white p-2.5 text-[11px]"
+                >
+                  <p className="text-[10px] font-semibold uppercase tracking-wide text-zinc-600">
+                    Ревизия · комплаенс · экспорт
                   </p>
-                ) : null}
-                {lastExportSummary ? (
-                  <p className="rounded border border-emerald-200 bg-emerald-50/80 px-2 py-1 text-[9px] text-emerald-950">
-                    Последний экспорт / отправка: {lastExportSummary}
-                  </p>
-                ) : null}
-                {sketchPropagatedDrafts.length > 0 ? (
-                  <ul className="max-h-32 space-y-1 overflow-y-auto border-t border-zinc-100 pt-2 text-[10px]">
-                    {sketchPropagatedDrafts.map((d) => (
-                      <li key={d.draftId} className="flex justify-between gap-2 border-b border-zinc-50 pb-1">
-                        <span className="min-w-0 text-zinc-700">
-                          <span className="font-semibold text-teal-800">{d.kind === 'fit' ? 'Посадка' : 'ОТК'}:</span>{' '}
-                          {d.text}
-                        </span>
-                        <Button type="button" variant="ghost" size="sm" className="h-6 shrink-0 text-[9px]" onClick={() => void navigator.clipboard.writeText(d.text)}>
-                          Копир.
-                        </Button>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-              </TabsContent>
-              {sketchTasksPanel ? (
-                <TabsContent value="tasks" className="mt-0 max-h-[min(85dvh,640px)] overflow-y-auto rounded-lg border border-zinc-200 bg-zinc-50/50 p-2">
-                  {sketchTasksPanel}
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    <label className="space-y-0.5">
+                      <span className="text-[9px] font-semibold text-zinc-500">Ревизия скетча</span>
+                      <Input
+                        className="h-8 text-[11px]"
+                        value={categorySketchRevisionLabel ?? ''}
+                        disabled={readOnly}
+                        placeholder="A/B, номер"
+                        onChange={(e) =>
+                          onPatch({ categorySketchRevisionLabel: e.target.value || undefined })
+                        }
+                      />
+                    </label>
+                    <label className="space-y-0.5">
+                      <span className="text-[9px] font-semibold text-zinc-500">Заморозка до</span>
+                      <Input
+                        type="date"
+                        className="h-8 text-[11px]"
+                        value={categorySketchFreezeUntilDate ?? ''}
+                        disabled={readOnly}
+                        onChange={(e) =>
+                          onPatch({ categorySketchFreezeUntilDate: e.target.value || undefined })
+                        }
+                      />
+                    </label>
+                    <label className="space-y-0.5 sm:col-span-2">
+                      <span className="text-[9px] font-semibold text-zinc-500">
+                        Утверждённый референс
+                      </span>
+                      <Input
+                        className="h-8 text-[11px]"
+                        value={compliance.approvedReferenceUrl ?? ''}
+                        disabled={readOnly}
+                        onChange={(e) =>
+                          onPatch({
+                            categorySketchCompliance: {
+                              ...compliance,
+                              approvedReferenceUrl: e.target.value || undefined,
+                            },
+                          })
+                        }
+                      />
+                    </label>
+                    <label className="space-y-0.5">
+                      <span className="text-[9px] font-semibold text-zinc-500">Версия лекал</span>
+                      <Input
+                        className="h-8 text-[11px]"
+                        value={compliance.patternPackVersion ?? ''}
+                        disabled={readOnly}
+                        onChange={(e) =>
+                          onPatch({
+                            categorySketchCompliance: {
+                              ...compliance,
+                              patternPackVersion: e.target.value || undefined,
+                            },
+                          })
+                        }
+                      />
+                    </label>
+                    <label className="space-y-0.5">
+                      <span className="text-[9px] font-semibold text-zinc-500">Акт образца</span>
+                      <Input
+                        className="h-8 text-[11px]"
+                        value={compliance.sampleAcceptanceActRef ?? ''}
+                        disabled={readOnly}
+                        onChange={(e) =>
+                          onPatch({
+                            categorySketchCompliance: {
+                              ...compliance,
+                              sampleAcceptanceActRef: e.target.value || undefined,
+                            },
+                          })
+                        }
+                      />
+                    </label>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2 border-t border-zinc-100 pt-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-8 text-[10px]"
+                      disabled={readOnly || !onAppendSketchRevisionSnapshot}
+                      onClick={() => onAppendSketchRevisionSnapshot?.()}
+                    >
+                      Снимок ревизии в архив
+                    </Button>
+                    {categorySketchRevisionSnapshots.length > 0 ? (
+                      <details className="max-w-full text-[10px] text-zinc-600">
+                        <summary className="cursor-pointer font-medium text-zinc-700">
+                          Архив ({categorySketchRevisionSnapshots.length})
+                        </summary>
+                        <ul className="mt-1 max-h-28 space-y-0.5 overflow-y-auto font-mono text-[9px]">
+                          {[...categorySketchRevisionSnapshots]
+                            .reverse()
+                            .slice(0, 12)
+                            .map((s) => (
+                              <li key={s.snapshotId}>
+                                {s.revisionLabel} · {s.annotations.length} мет. · {s.by} ·{' '}
+                                {(() => {
+                                  try {
+                                    return new Date(s.at).toLocaleString('ru-RU');
+                                  } catch {
+                                    return s.at;
+                                  }
+                                })()}
+                              </li>
+                            ))}
+                        </ul>
+                        {categorySketchRevisionSnapshots.length >= 2 ? (
+                          <div className="mt-2 space-y-2 rounded-md border border-zinc-200 bg-zinc-50/90 p-2 text-[9px] text-zinc-800">
+                            <p className="font-semibold text-zinc-900">Сравнение снимков A ↔ B</p>
+                            <div className="flex flex-wrap gap-2">
+                              <label className="flex flex-col gap-0.5">
+                                <span className="text-[8px] uppercase text-zinc-500">Снимок A</span>
+                                <select
+                                  className="h-8 max-w-[14rem] rounded border border-zinc-200 bg-white px-1 text-[9px]"
+                                  value={compareSnapIdA}
+                                  onChange={(e) => setCompareSnapIdA(e.target.value)}
+                                >
+                                  <option value="">—</option>
+                                  {[...categorySketchRevisionSnapshots].reverse().map((s) => (
+                                    <option key={s.snapshotId} value={s.snapshotId}>
+                                      {s.revisionLabel} ·{' '}
+                                      {new Date(s.at).toLocaleDateString('ru-RU')}
+                                    </option>
+                                  ))}
+                                </select>
+                              </label>
+                              <label className="flex flex-col gap-0.5">
+                                <span className="text-[8px] uppercase text-zinc-500">Снимок B</span>
+                                <select
+                                  className="h-8 max-w-[14rem] rounded border border-zinc-200 bg-white px-1 text-[9px]"
+                                  value={compareSnapIdB}
+                                  onChange={(e) => setCompareSnapIdB(e.target.value)}
+                                >
+                                  <option value="">—</option>
+                                  {[...categorySketchRevisionSnapshots].reverse().map((s) => (
+                                    <option key={`b-${s.snapshotId}`} value={s.snapshotId}>
+                                      {s.revisionLabel} ·{' '}
+                                      {new Date(s.at).toLocaleDateString('ru-RU')}
+                                    </option>
+                                  ))}
+                                </select>
+                              </label>
+                            </div>
+                            {revisionDiff ? (
+                              <div className="space-y-1 border-t border-zinc-200 pt-2 font-mono text-[8px] leading-snug">
+                                <p>
+                                  Меток: {revisionDiff.countA} → {revisionDiff.countB}
+                                  {revisionDiff.leafMismatch ? (
+                                    <span className="text-amber-700"> · разные ветки leafId</span>
+                                  ) : null}
+                                </p>
+                                <p>
+                                  + {revisionDiff.addedIds.length} id · −{' '}
+                                  {revisionDiff.removedIds.length} id
+                                </p>
+                                {revisionDiff.changed.length > 0 ? (
+                                  <table className="w-full border-collapse text-left">
+                                    <thead>
+                                      <tr className="border-b border-zinc-200">
+                                        <th className="py-0.5 pr-1">annotationId</th>
+                                        <th className="py-0.5">изменения</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {revisionDiff.changed.slice(0, 24).map((row) => (
+                                        <tr
+                                          key={row.annotationId}
+                                          className="border-b border-zinc-100"
+                                        >
+                                          <td className="py-0.5 pr-1 align-top">
+                                            {row.annotationId.slice(0, 10)}…
+                                          </td>
+                                          <td className="py-0.5 align-top">
+                                            {row.diffs.map((d) => (
+                                              <span
+                                                key={`${row.annotationId}-${d.field}`}
+                                                className="mr-1 block"
+                                              >
+                                                {d.field}: {d.from} → {d.to}
+                                              </span>
+                                            ))}
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </tbody>
+                                  </table>
+                                ) : (
+                                  <p className="text-zinc-500">
+                                    Поля priority / stage / BOM ref совпадают.
+                                  </p>
+                                )}
+                              </div>
+                            ) : (
+                              <p className="text-zinc-500">Выберите два разных снимка.</p>
+                            )}
+                          </div>
+                        ) : null}
+                      </details>
+                    ) : null}
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      size="sm"
+                      className="h-8 text-[10px]"
+                      disabled={readOnly || !auditActor}
+                      onClick={() =>
+                        onPatch({
+                          categorySketchProductionApproved: {
+                            by: auditActor ?? '—',
+                            at: new Date().toISOString(),
+                          },
+                        })
+                      }
+                    >
+                      Утвердить для производства
+                    </Button>
+                  </div>
+                  <div className="flex flex-wrap gap-2 border-t border-zinc-100 pt-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-8 gap-1 text-[10px]"
+                      disabled={exportBusy}
+                      onClick={() => void handleExportPng()}
+                    >
+                      <ImageDown className="h-3.5 w-3.5" />
+                      PNG
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-8 gap-1 text-[10px]"
+                      onClick={() => {
+                        const norm = dataAnnotations
+                          .filter((a) => sketchPinBelongsToLeaf(a, leafId))
+                          .map(normalizeAnnotation);
+                        void (async () => {
+                          await openSketchA4Print({
+                            title: exportFileNameStem?.trim() || currentLeaf.pathLabel || 'Скетч',
+                            sku: (articleSku ?? exportFileNameStem ?? '—').trim(),
+                            pathLabel: currentLeaf.pathLabel,
+                            imageDataUrl: imageDataUrl ?? undefined,
+                            annotations: norm,
+                            leafId,
+                            pageUrl:
+                              typeof window !== 'undefined' ? window.location.href : undefined,
+                            sceneCaption: printSceneCaption?.trim() || masterPrintSceneCaption,
+                          });
+                        })();
+                      }}
+                    >
+                      <Printer className="h-3.5 w-3.5" />
+                      Печать А4
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-8 gap-1 text-[10px]"
+                      onClick={() => {
+                        const norm = dataAnnotations
+                          .filter((a) => sketchPinBelongsToLeaf(a, leafId))
+                          .map(normalizeAnnotation);
+                        void (async () => {
+                          await openSketchHandoffPackagePrint({
+                            title: exportFileNameStem?.trim() || currentLeaf.pathLabel || 'Скетч',
+                            sku: (articleSku ?? exportFileNameStem ?? '—').trim(),
+                            pathLabel: currentLeaf.pathLabel,
+                            revisionLabel: categorySketchRevisionLabel,
+                            freezeUntilDate: categorySketchFreezeUntilDate,
+                            productionApproved: categorySketchProductionApproved,
+                            compliance,
+                            imageDataUrl: imageDataUrl ?? undefined,
+                            annotations: norm,
+                            leafId,
+                            pageUrl:
+                              typeof window !== 'undefined' ? window.location.href : undefined,
+                            sceneCaption: printSceneCaption?.trim() || masterPrintSceneCaption,
+                            includePlmAppendix: true,
+                            threadExcerptLines: 2,
+                          });
+                        })();
+                      }}
+                    >
+                      <Printer className="h-3.5 w-3.5" />
+                      Лист в цех
+                    </Button>
+                  </div>
+                  <div className="flex flex-wrap gap-2 border-t border-zinc-100 pt-2">
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      size="sm"
+                      className="h-8 gap-1 text-[10px]"
+                      disabled={readOnly}
+                      onClick={handleAppendPropagatedDrafts}
+                    >
+                      <ClipboardList className="h-3.5 w-3.5" />В посадку / ОТК
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-8 gap-1 text-[10px]"
+                      onClick={handleCriticalCsv}
+                    >
+                      <Download className="h-3.5 w-3.5" />
+                      CSV критич.
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-8 gap-1 text-[10px]"
+                      onClick={handleMesQualityCsv}
+                    >
+                      <Download className="h-3.5 w-3.5" />
+                      MES все
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-8 gap-1 text-[10px]"
+                      onClick={handleMesQcCsv}
+                    >
+                      <Download className="h-3.5 w-3.5" />
+                      MES ОТК+крит.
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-8 gap-1 text-[10px]"
+                      disabled={webhookBusy || readOnly}
+                      title={readOnly ? 'В режиме цеха отправка в MES отключена' : undefined}
+                      onClick={() => void handleCriticalWebhook()}
+                    >
+                      <Send className="h-3.5 w-3.5" />
+                      {webhookBusy ? '…' : 'В MES'}
+                    </Button>
+                  </div>
+                  {mesTopCodesOnBoard.length > 0 ? (
+                    <p className="text-[9px] leading-snug text-zinc-600">
+                      <span className="font-semibold text-zinc-700">Топ кодов MES на доске:</span>{' '}
+                      {mesTopCodesOnBoard.map((x) => `${x.code} (${x.count})`).join(', ')}
+                    </p>
+                  ) : null}
+                  {lastExportSummary ? (
+                    <p className="rounded border border-emerald-200 bg-emerald-50/80 px-2 py-1 text-[9px] text-emerald-950">
+                      Последний экспорт / отправка: {lastExportSummary}
+                    </p>
+                  ) : null}
+                  {sketchPropagatedDrafts.length > 0 ? (
+                    <ul className="max-h-32 space-y-1 overflow-y-auto border-t border-zinc-100 pt-2 text-[10px]">
+                      {sketchPropagatedDrafts.map((d) => (
+                        <li
+                          key={d.draftId}
+                          className="flex justify-between gap-2 border-b border-zinc-50 pb-1"
+                        >
+                          <span className="min-w-0 text-zinc-700">
+                            <span className="font-semibold text-teal-800">
+                              {d.kind === 'fit' ? 'Посадка' : 'ОТК'}:
+                            </span>{' '}
+                            {d.text}
+                          </span>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="h-6 shrink-0 text-[9px]"
+                            onClick={() => void navigator.clipboard.writeText(d.text)}
+                          >
+                            Копир.
+                          </Button>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
                 </TabsContent>
-              ) : null}
-            </Tabs>
+                {sketchTasksPanel ? (
+                  <TabsContent
+                    value="tasks"
+                    className="mt-0 max-h-[min(85dvh,640px)] overflow-y-auto rounded-lg border border-zinc-200 bg-zinc-50/50 p-2"
+                  >
+                    {sketchTasksPanel}
+                  </TabsContent>
+                ) : null}
+              </Tabs>
             </div>
           </details>
         </div>
 
-        <div className="min-w-0 flex flex-col gap-3 border-l border-zinc-200 pl-3 lg:sticky lg:top-4 lg:max-h-[calc(100dvh-5rem)] lg:self-start lg:overflow-y-auto lg:pl-4">
+        <div className="flex min-w-0 flex-col gap-3 border-l border-zinc-200 pl-3 lg:sticky lg:top-4 lg:max-h-[calc(100dvh-5rem)] lg:self-start lg:overflow-y-auto lg:pl-4">
           <div className="rounded-lg border border-slate-100 bg-white/80 p-2">
-            <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Быстрые действия</p>
+            <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+              Быстрые действия
+            </p>
             <div className="mt-2 flex flex-wrap gap-2">
               <Button
                 type="button"
                 size="sm"
                 variant="outline"
                 className="h-7 text-[10px]"
-                onClick={() => activeId && updateAnnotation(activeId, { stage: 'sample', status: 'in_progress' })}
+                onClick={() =>
+                  activeId && updateAnnotation(activeId, { stage: 'sample', status: 'in_progress' })
+                }
                 disabled={readOnly || !activeId}
               >
                 Пометить для посадки
@@ -2620,17 +3003,31 @@ export function CategorySketchAnnotator(props: Props) {
                 size="sm"
                 variant="outline"
                 className="h-7 text-[10px]"
-                onClick={() => activeId && updateAnnotation(activeId, { stage: 'qc', linkedQcZoneId: activeId })}
+                onClick={() =>
+                  activeId && updateAnnotation(activeId, { stage: 'qc', linkedQcZoneId: activeId })
+                }
                 disabled={readOnly || !activeId}
               >
                 Пометить для ОТК
               </Button>
               {onNavigateStage ? (
                 <>
-                  <Button type="button" size="sm" variant="ghost" className="h-7 text-[10px]" onClick={() => onNavigateStage('fit')}>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="ghost"
+                    className="h-7 text-[10px]"
+                    onClick={() => onNavigateStage('fit')}
+                  >
                     Открыть посадку
                   </Button>
-                  <Button type="button" size="sm" variant="ghost" className="h-7 text-[10px]" onClick={() => onNavigateStage('qc')}>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="ghost"
+                    className="h-7 text-[10px]"
+                    onClick={() => onNavigateStage('qc')}
+                  >
                     Открыть ОТК
                   </Button>
                 </>
@@ -2638,7 +3035,9 @@ export function CategorySketchAnnotator(props: Props) {
             </div>
           </div>
 
-          <p className="text-[10px] font-semibold uppercase tracking-wide text-zinc-600">Выбор метки</p>
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-zinc-600">
+            Выбор метки
+          </p>
           <div className="flex flex-wrap gap-1">
             {pinsOnLeaf.map((p, idx) => {
               const inFilter = visibleIds.has(p.annotationId);
@@ -2651,12 +3050,16 @@ export function CategorySketchAnnotator(props: Props) {
                     activeAnn?.annotationId === p.annotationId
                       ? 'border-zinc-900 bg-zinc-900 text-white'
                       : 'border-zinc-300 bg-white text-zinc-900 hover:bg-zinc-50',
-                    p.priority === 'critical' && activeAnn?.annotationId !== p.annotationId && 'border-rose-500',
+                    p.priority === 'critical' &&
+                      activeAnn?.annotationId !== p.annotationId &&
+                      'border-rose-500',
                     p.stage === 'qc' &&
                       p.priority !== 'critical' &&
                       activeAnn?.annotationId !== p.annotationId &&
                       'border-amber-500',
-                    !inFilter && activeAnn?.annotationId !== p.annotationId && 'border-dashed opacity-45'
+                    !inFilter &&
+                      activeAnn?.annotationId !== p.annotationId &&
+                      'border-dashed opacity-45'
                   )}
                   onClick={() => setActiveId(p.annotationId)}
                 >
@@ -2693,12 +3096,16 @@ export function CategorySketchAnnotator(props: Props) {
                   placeholder="Что показать в этой точке…"
                   value={activeAnn.text}
                   disabled={readOnly}
-                  onChange={(e) => updateAnnotation(activeAnn.annotationId, { text: e.target.value })}
+                  onChange={(e) =>
+                    updateAnnotation(activeAnn.annotationId, { text: e.target.value })
+                  }
                 />
               </label>
 
               <div className="space-y-1">
-                <span className="text-[9px] font-semibold uppercase text-zinc-500">Фото-доказательство</span>
+                <span className="text-[9px] font-semibold uppercase text-zinc-500">
+                  Фото-доказательство
+                </span>
                 <div className="flex flex-wrap items-end gap-2">
                   <Input
                     type="file"
@@ -2741,17 +3148,23 @@ export function CategorySketchAnnotator(props: Props) {
                     value={activeAnn.dueDate ?? ''}
                     disabled={readOnly}
                     onChange={(e) =>
-                      updateAnnotation(activeAnn.annotationId, { dueDate: e.target.value || undefined })
+                      updateAnnotation(activeAnn.annotationId, {
+                        dueDate: e.target.value || undefined,
+                      })
                     }
                   />
                 </label>
                 <label className="space-y-1">
-                  <span className="text-[9px] font-semibold uppercase text-zinc-500">Ответственный</span>
+                  <span className="text-[9px] font-semibold uppercase text-zinc-500">
+                    Ответственный
+                  </span>
                   <Input
                     className="h-8 text-[11px]"
                     value={activeAnn.owner ?? ''}
                     disabled={readOnly}
-                    onChange={(e) => updateAnnotation(activeAnn.annotationId, { owner: e.target.value })}
+                    onChange={(e) =>
+                      updateAnnotation(activeAnn.annotationId, { owner: e.target.value })
+                    }
                     placeholder="ФИО"
                   />
                 </label>
@@ -2759,7 +3172,9 @@ export function CategorySketchAnnotator(props: Props) {
 
               {attributeOptions.length > 0 ? (
                 <label className="block space-y-1">
-                  <span className="text-[9px] font-semibold uppercase text-zinc-500">Связь с атрибутом ТЗ</span>
+                  <span className="text-[9px] font-semibold uppercase text-zinc-500">
+                    Связь с атрибутом ТЗ
+                  </span>
                   <select
                     className="h-9 w-full rounded-md border border-zinc-200 bg-white px-2 text-[11px]"
                     value={activeAnn.linkedAttributeId ?? ''}
@@ -2796,7 +3211,9 @@ export function CategorySketchAnnotator(props: Props) {
 
               {taskSlotLabelOptions.length > 0 ? (
                 <label className="block space-y-1">
-                  <span className="text-[9px] font-semibold uppercase text-zinc-500">Задача подкатегории</span>
+                  <span className="text-[9px] font-semibold uppercase text-zinc-500">
+                    Задача подкатегории
+                  </span>
                   <select
                     className="h-9 w-full rounded-md border border-zinc-200 bg-white px-2 text-[11px]"
                     value={activeAnn.linkedTaskId ?? ''}
@@ -2807,7 +3224,9 @@ export function CategorySketchAnnotator(props: Props) {
                         : undefined
                     }
                     onChange={(e) =>
-                      updateAnnotation(activeAnn.annotationId, { linkedTaskId: e.target.value || undefined })
+                      updateAnnotation(activeAnn.annotationId, {
+                        linkedTaskId: e.target.value || undefined,
+                      })
                     }
                   >
                     <option value="">Не связана</option>
@@ -2880,31 +3299,38 @@ export function CategorySketchAnnotator(props: Props) {
                     }
                   }}
                 >
-                  <ArrowRight className="h-3 w-3" />
-                  К полю в ТЗ
+                  <ArrowRight className="h-3 w-3" />К полю в ТЗ
                 </button>
               ) : null}
 
               <div className="space-y-2 rounded-md border border-violet-100 bg-violet-50/50 p-2">
-                <span className="text-[9px] font-semibold uppercase text-violet-900">Раздел ТЗ и этап маршрута</span>
+                <span className="text-[9px] font-semibold uppercase text-violet-900">
+                  Раздел ТЗ и этап маршрута
+                </span>
                 <label className="block space-y-1">
-                  <span className="text-[9px] font-semibold uppercase text-zinc-500">Раздел досье (навигация)</span>
+                  <span className="text-[9px] font-semibold uppercase text-zinc-500">
+                    Раздел досье (навигация)
+                  </span>
                   <select
                     className="h-9 w-full rounded-md border border-zinc-200 bg-white px-2 text-[11px]"
                     value={normalizeLinkedTzPanelSectionForNav(activeAnn.linkedTzSectionKey) ?? ''}
                     disabled={readOnly}
                     onChange={(e) =>
                       updateAnnotation(activeAnn.annotationId, {
-                        linkedTzSectionKey: (e.target.value || undefined) as Workshop2TzPanelSectionId | undefined,
+                        linkedTzSectionKey: (e.target.value || undefined) as
+                          | Workshop2TzPanelSectionId
+                          | undefined,
                       })
                     }
                   >
                     <option value="">Не задан</option>
-                    {(Object.keys(TZ_PANEL_SECTION_LABELS) as Workshop2TzPanelSectionId[]).map((k) => (
-                      <option key={k} value={k}>
-                        {TZ_PANEL_SECTION_LABELS[k]}
-                      </option>
-                    ))}
+                    {(Object.keys(TZ_PANEL_SECTION_LABELS) as Workshop2TzPanelSectionId[]).map(
+                      (k) => (
+                        <option key={k} value={k}>
+                          {TZ_PANEL_SECTION_LABELS[k]}
+                        </option>
+                      )
+                    )}
                   </select>
                 </label>
                 {activeAnn.annotationType ? (
@@ -2912,7 +3338,9 @@ export function CategorySketchAnnotator(props: Props) {
                     <p className="text-[9px] font-bold uppercase tracking-wide text-violet-900">
                       Матрица: тип «{TYPE_LABELS[activeAnn.annotationType]}»
                     </p>
-                    <p className="mt-1 text-violet-900/95">{sketchTypeTzMatrixHint(activeAnn.annotationType)}</p>
+                    <p className="mt-1 text-violet-900/95">
+                      {sketchTypeTzMatrixHint(activeAnn.annotationType)}
+                    </p>
                     {(() => {
                       const rec = recommendedTzSectionForSketchType(activeAnn.annotationType);
                       if (!rec) return null;
@@ -2922,7 +3350,9 @@ export function CategorySketchAnnotator(props: Props) {
                         <>
                           <p className="mt-1 text-[9px] text-zinc-600">
                             Рекомендуемый раздел ТЗ:{' '}
-                            <span className="font-semibold text-zinc-800">{TZ_PANEL_SECTION_LABELS[rec]}</span>
+                            <span className="font-semibold text-zinc-800">
+                              {TZ_PANEL_SECTION_LABELS[rec]}
+                            </span>
                             {matches ? ' · совпадает с выбором' : ''}
                           </p>
                           {!readOnly && !matches ? (
@@ -2932,7 +3362,9 @@ export function CategorySketchAnnotator(props: Props) {
                               size="sm"
                               className="mt-1.5 h-7 w-full text-[9px]"
                               onClick={() =>
-                                updateAnnotation(activeAnn.annotationId, { linkedTzSectionKey: rec })
+                                updateAnnotation(activeAnn.annotationId, {
+                                  linkedTzSectionKey: rec,
+                                })
                               }
                             >
                               Подставить «{TZ_PANEL_SECTION_LABELS[rec]}»
@@ -2961,14 +3393,17 @@ export function CategorySketchAnnotator(props: Props) {
                               <Button
                                 key={o.id}
                                 type="button"
-                                variant={activeAnn.linkedAttributeId === o.id ? 'default' : 'outline'}
+                                variant={
+                                  activeAnn.linkedAttributeId === o.id ? 'default' : 'outline'
+                                }
                                 size="sm"
                                 className="h-7 max-w-full truncate px-2 text-[9px]"
                                 disabled={readOnly}
                                 title={o.id}
                                 onClick={() =>
                                   updateAnnotation(activeAnn.annotationId, {
-                                    linkedAttributeId: activeAnn.linkedAttributeId === o.id ? undefined : o.id,
+                                    linkedAttributeId:
+                                      activeAnn.linkedAttributeId === o.id ? undefined : o.id,
                                   })
                                 }
                               >
@@ -2996,14 +3431,18 @@ export function CategorySketchAnnotator(props: Props) {
                   </Button>
                 ) : null}
                 <label className="block space-y-1">
-                  <span className="text-[9px] font-semibold uppercase text-zinc-500">Этап маршрута SKU</span>
+                  <span className="text-[9px] font-semibold uppercase text-zinc-500">
+                    Этап маршрута SKU
+                  </span>
                   <select
                     className="h-9 w-full rounded-md border border-zinc-200 bg-white px-2 text-[11px]"
                     value={activeAnn.linkedRouteStageId ?? ''}
                     disabled={readOnly}
                     onChange={(e) =>
                       updateAnnotation(activeAnn.annotationId, {
-                        linkedRouteStageId: (e.target.value || undefined) as Workshop2TzSignoffStageId | undefined,
+                        linkedRouteStageId: (e.target.value || undefined) as
+                          | Workshop2TzSignoffStageId
+                          | undefined,
                       })
                     }
                   >
@@ -3059,31 +3498,39 @@ export function CategorySketchAnnotator(props: Props) {
                   </label>
                 ) : null}
                 <label className="space-y-1 sm:col-span-2">
-                  <span className="text-[9px] font-semibold uppercase text-emerald-900">BOM / PLM — ref строки</span>
+                  <span className="text-[9px] font-semibold uppercase text-emerald-900">
+                    BOM / PLM — ref строки
+                  </span>
                   <Input
                     className="h-8 text-[11px]"
                     placeholder="ID строки BOM, PIM, PLM…"
                     value={activeAnn.linkedBomLineRef ?? ''}
                     disabled={readOnly}
                     onChange={(e) =>
-                      updateAnnotation(activeAnn.annotationId, { linkedBomLineRef: e.target.value || undefined })
+                      updateAnnotation(activeAnn.annotationId, {
+                        linkedBomLineRef: e.target.value || undefined,
+                      })
                     }
                   />
                 </label>
                 <label className="space-y-1 sm:col-span-2">
-                  <span className="text-[9px] font-semibold text-emerald-900">Материал / узел (текст)</span>
+                  <span className="text-[9px] font-semibold text-emerald-900">
+                    Материал / узел (текст)
+                  </span>
                   <Input
                     className="h-8 text-[11px]"
                     placeholder="Ткань, фурнитура, узел…"
                     value={activeAnn.linkedMaterialNote ?? ''}
                     disabled={readOnly}
                     onChange={(e) =>
-                      updateAnnotation(activeAnn.annotationId, { linkedMaterialNote: e.target.value || undefined })
+                      updateAnnotation(activeAnn.annotationId, {
+                        linkedMaterialNote: e.target.value || undefined,
+                      })
                     }
                   />
                 </label>
                 {!sheetStorage ? (
-                  <p className="sm:col-span-2 text-[9px] leading-snug text-emerald-900/90">
+                  <p className="text-[9px] leading-snug text-emerald-900/90 sm:col-span-2">
                     {(() => {
                       const st = classifyBomLineRef(
                         activeAnn.linkedBomLineRef,
@@ -3104,7 +3551,9 @@ export function CategorySketchAnnotator(props: Props) {
 
               <div className="grid gap-2 rounded-md border border-amber-100 bg-amber-50/40 p-2 sm:grid-cols-2">
                 <div className="flex flex-wrap gap-1 sm:col-span-2">
-                  <span className="w-full text-[8px] font-semibold uppercase text-amber-900">Быстрая смена</span>
+                  <span className="w-full text-[8px] font-semibold uppercase text-amber-900">
+                    Быстрая смена
+                  </span>
                   {MES_SHIFT_PRESETS.map((p) => (
                     <Button
                       key={p.id}
@@ -3113,35 +3562,48 @@ export function CategorySketchAnnotator(props: Props) {
                       size="sm"
                       className="h-6 px-2 text-[9px]"
                       disabled={readOnly}
-                      onClick={() => updateAnnotation(activeAnn.annotationId, { mesShiftId: p.value })}
+                      onClick={() =>
+                        updateAnnotation(activeAnn.annotationId, { mesShiftId: p.value })
+                      }
                     >
                       {p.label}
                     </Button>
                   ))}
                 </div>
                 <label className="space-y-1">
-                  <span className="text-[9px] font-semibold text-amber-950">Смена / партия (MES)</span>
+                  <span className="text-[9px] font-semibold text-amber-950">
+                    Смена / партия (MES)
+                  </span>
                   <Input
                     className="h-8 text-[11px]"
                     placeholder="Смена А, 2026-04-01…"
                     value={activeAnn.mesShiftId ?? ''}
                     disabled={readOnly}
                     onChange={(e) =>
-                      updateAnnotation(activeAnn.annotationId, { mesShiftId: e.target.value || undefined })
+                      updateAnnotation(activeAnn.annotationId, {
+                        mesShiftId: e.target.value || undefined,
+                      })
                     }
                   />
-                  {(activeAnn.mesShiftId ?? '').trim() && !isValidMesShiftId(activeAnn.mesShiftId) ? (
-                    <span className="text-[8px] text-rose-700">Формат: буквы, цифры, пробел, дефис, дата.</span>
+                  {(activeAnn.mesShiftId ?? '').trim() &&
+                  !isValidMesShiftId(activeAnn.mesShiftId) ? (
+                    <span className="text-[8px] text-rose-700">
+                      Формат: буквы, цифры, пробел, дефис, дата.
+                    </span>
                   ) : null}
                 </label>
                 <label className="space-y-1">
-                  <span className="text-[9px] font-semibold text-amber-950">Код дефекта (иерархия)</span>
+                  <span className="text-[9px] font-semibold text-amber-950">
+                    Код дефекта (иерархия)
+                  </span>
                   <select
                     className="h-8 w-full rounded-md border border-zinc-200 bg-white px-2 text-[10px]"
                     value={activeAnn.mesDefectCode ?? ''}
                     disabled={readOnly}
                     onChange={(e) =>
-                      updateAnnotation(activeAnn.annotationId, { mesDefectCode: e.target.value || undefined })
+                      updateAnnotation(activeAnn.annotationId, {
+                        mesDefectCode: e.target.value || undefined,
+                      })
                     }
                   >
                     <option value="">—</option>
@@ -3153,7 +3615,7 @@ export function CategorySketchAnnotator(props: Props) {
                   </select>
                 </label>
                 {activeAnn.mesDefectCode?.trim() ? (
-                  <p className="sm:col-span-2 text-[9px] text-amber-950/90">
+                  <p className="text-[9px] text-amber-950/90 sm:col-span-2">
                     <span className="font-semibold">Цепочка:</span>{' '}
                     {defectBreadcrumbChain(mesDefectCatalogMerged, activeAnn.mesDefectCode)
                       .map((c) => `${c.code} (${c.label})`)
@@ -3183,7 +3645,9 @@ export function CategorySketchAnnotator(props: Props) {
               />
 
               <details className="rounded-md border border-zinc-100 bg-zinc-50/80 p-2 text-[11px]">
-                <summary className="cursor-pointer font-medium text-zinc-800">Тип, приоритет, этап, статус</summary>
+                <summary className="cursor-pointer font-medium text-zinc-800">
+                  Тип, приоритет, этап, статус
+                </summary>
                 <div className="mt-2 grid gap-2 sm:grid-cols-2">
                   <label className="space-y-1">
                     <span className="text-[9px] text-zinc-500">Тип</span>
@@ -3265,7 +3729,9 @@ export function CategorySketchAnnotator(props: Props) {
               </details>
 
               <details className="rounded-md border border-zinc-100 bg-zinc-50/80 p-2 text-[10px]">
-                <summary className="cursor-pointer font-medium text-zinc-800">Групповое редактирование</summary>
+                <summary className="cursor-pointer font-medium text-zinc-800">
+                  Групповое редактирование
+                </summary>
                 <div className="mt-2 space-y-2">
                   <div className="flex flex-wrap gap-1">
                     <Checkbox
@@ -3275,13 +3741,17 @@ export function CategorySketchAnnotator(props: Props) {
                       onCheckedChange={(v) => {
                         setBatchSelectedIds((ids) => {
                           if (v === true) {
-                            return ids.includes(activeAnn.annotationId) ? ids : [...ids, activeAnn.annotationId];
+                            return ids.includes(activeAnn.annotationId)
+                              ? ids
+                              : [...ids, activeAnn.annotationId];
                           }
                           return ids.filter((x) => x !== activeAnn.annotationId);
                         });
                       }}
                     />
-                    <span className="text-zinc-600">Включить текущую в группу ({batchSelectedIds.length})</span>
+                    <span className="text-zinc-600">
+                      Включить текущую в группу ({batchSelectedIds.length})
+                    </span>
                   </div>
                   <div className="flex flex-wrap gap-1">
                     {(['critical', 'important', 'note'] as const).map((p) => (
@@ -3324,7 +3794,9 @@ export function CategorySketchAnnotator(props: Props) {
         <summary className="flex cursor-pointer list-none items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-violet-700 [&::-webkit-details-marker]:hidden">
           <Sparkles className="h-3 w-3 shrink-0" aria-hidden />
           Дополнительно: промпт ИИ и брендбук
-          <span className="font-normal normal-case text-slate-500">— если пользуетесь Midjourney, Krea…</span>
+          <span className="font-normal normal-case text-slate-500">
+            — если пользуетесь Midjourney, Krea…
+          </span>
         </summary>
         <div className="mt-2 space-y-2 border-t border-violet-100/80 pt-2">
           <p className="text-[9px] leading-snug text-slate-600">
@@ -3347,7 +3819,7 @@ export function CategorySketchAnnotator(props: Props) {
               type="button"
               size="sm"
               variant="outline"
-              className="h-7 gap-1 text-[10px] border-violet-200"
+              className="h-7 gap-1 border-violet-200 text-[10px]"
               onClick={() => void copyAiPrompt()}
             >
               <Copy className="h-3 w-3" />
@@ -3384,9 +3856,12 @@ export function CategorySketchAnnotator(props: Props) {
               </Button>
             </div>
             <p className="mt-2 text-[9px] leading-snug text-slate-500">
-              Демо «ИИ-референс» и <code className="rounded bg-slate-100 px-0.5">requestCatalogImageGeneration</code> берут
-              тот же собранный текст (<code className="rounded bg-slate-100 px-0.5">aiPromptText</code>), включая брендбук
-              из досье. См. <code className="rounded bg-slate-100 px-0.5">catalog-image-gen.ts</code>.
+              Демо «ИИ-референс» и{' '}
+              <code className="rounded bg-slate-100 px-0.5">requestCatalogImageGeneration</code>{' '}
+              берут тот же собранный текст (
+              <code className="rounded bg-slate-100 px-0.5">aiPromptText</code>), включая брендбук
+              из досье. См.{' '}
+              <code className="rounded bg-slate-100 px-0.5">catalog-image-gen.ts</code>.
             </p>
           </details>
         </div>
@@ -3398,25 +3873,31 @@ export function CategorySketchAnnotator(props: Props) {
             Журнал изменений меток (последние {Math.min(15, sketchMasterAnnotationAuditLog.length)})
           </summary>
           <ul className="mt-2 max-h-40 space-y-1 overflow-y-auto text-slate-600">
-            {sketchMasterAnnotationAuditLog.slice(-15).reverse().map((e) => (
-              <li key={e.entryId} className="border-b border-slate-100 pb-1 font-mono text-[9px] leading-snug">
-                <span className="text-slate-400">
-                  {(() => {
-                    try {
-                      return new Date(e.at).toLocaleString('ru-RU');
-                    } catch {
-                      return e.at;
-                    }
-                  })()}
-                </span>{' '}
-                · {e.by} · {e.summary}
-                {e.annotationId && !e.annotationId.startsWith('__') ? (
-                  <span className="text-slate-400"> · {e.annotationId.slice(0, 8)}…</span>
-                ) : e.action === 'revision_snapshot' ? (
-                  <span className="text-slate-400"> · PLM</span>
-                ) : null}
-              </li>
-            ))}
+            {sketchMasterAnnotationAuditLog
+              .slice(-15)
+              .reverse()
+              .map((e) => (
+                <li
+                  key={e.entryId}
+                  className="border-b border-slate-100 pb-1 font-mono text-[9px] leading-snug"
+                >
+                  <span className="text-slate-400">
+                    {(() => {
+                      try {
+                        return new Date(e.at).toLocaleString('ru-RU');
+                      } catch {
+                        return e.at;
+                      }
+                    })()}
+                  </span>{' '}
+                  · {e.by} · {e.summary}
+                  {e.annotationId && !e.annotationId.startsWith('__') ? (
+                    <span className="text-slate-400"> · {e.annotationId.slice(0, 8)}…</span>
+                  ) : e.action === 'revision_snapshot' ? (
+                    <span className="text-slate-400"> · PLM</span>
+                  ) : null}
+                </li>
+              ))}
           </ul>
         </details>
       ) : null}
@@ -3439,7 +3920,10 @@ export function CategorySketchAnnotator(props: Props) {
               </p>
             </>
           ) : null}
-          <p className="truncate text-[11px] font-medium text-slate-700" title={sketchCatalogCaption}>
+          <p
+            className="truncate text-[11px] font-medium text-slate-700"
+            title={sketchCatalogCaption}
+          >
             {sketchCatalogCaption}
           </p>
         </div>
@@ -3453,7 +3937,7 @@ export function CategorySketchAnnotator(props: Props) {
             tabIndex={-1}
             onChange={(e) => void onPickImage(e)}
           />
-          <span className="rounded-full bg-white/80 px-2 py-1 text-[10px] font-bold text-slate-600 shadow-sm tabular-nums">
+          <span className="rounded-full bg-white/80 px-2 py-1 text-[10px] font-bold tabular-nums text-slate-600 shadow-sm">
             {counters.total} / {annotationLimit} меток
           </span>
           <span className="rounded-full bg-rose-50 px-2 py-1 text-[10px] font-bold text-rose-700">
@@ -3465,7 +3949,9 @@ export function CategorySketchAnnotator(props: Props) {
             size="sm"
             className="h-9 min-w-[9.5rem] flex-1 gap-1.5 text-xs sm:flex-initial"
             disabled={readOnly}
-            title={readOnly ? 'В режиме цеха загрузка отключена' : 'Заменить типовой силуэт своим фото'}
+            title={
+              readOnly ? 'В режиме цеха загрузка отключена' : 'Заменить типовой силуэт своим фото'
+            }
             onClick={() => previewSketchFileInputRef.current?.click()}
           >
             <Upload className="h-3.5 w-3.5 shrink-0" aria-hidden />
@@ -3495,12 +3981,20 @@ export function CategorySketchAnnotator(props: Props) {
         }}
         className="group block w-full cursor-pointer overflow-hidden rounded-lg border border-slate-200 bg-white text-left shadow-sm transition hover:border-teal-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2"
       >
-        <div className="relative aspect-[4/3] w-full min-h-[14rem] overflow-hidden bg-white sm:min-h-[min(56vh,32rem)]">
+        <div className="relative aspect-[4/3] min-h-[14rem] w-full overflow-hidden bg-white sm:min-h-[min(56vh,32rem)]">
           {imageDataUrl ? (
             // eslint-disable-next-line @next/next/no-img-element -- data URL из досье
-            <img src={imageDataUrl} alt="Подложка скетча" className="h-full w-full object-contain" />
+            <img
+              src={imageDataUrl}
+              alt="Подложка скетча"
+              className="h-full w-full object-contain"
+            />
           ) : (
-            <CategorySketchTemplateSvg leaf={currentLeaf} sketchContext={sketchContext} className="h-full w-full" />
+            <CategorySketchTemplateSvg
+              leaf={currentLeaf}
+              sketchContext={sketchContext}
+              className="h-full w-full"
+            />
           )}
           {dataAnnotations
             .map(normalizeAnnotation)
@@ -3536,19 +4030,24 @@ export function CategorySketchAnnotator(props: Props) {
                   className="border-slate-200 bg-white p-3 text-popover-foreground shadow-lg"
                 >
                   <CategorySketchPinHoverCard
-                  annotation={a}
-                  index={idx}
-                  attributeOptions={attributeOptions}
-                  taskSlotLabelById={taskSlotLabelById}
-                />
+                    annotation={a}
+                    index={idx}
+                    attributeOptions={attributeOptions}
+                    taskSlotLabelById={taskSlotLabelById}
+                  />
                 </TooltipContent>
               </Tooltip>
             ))}
           <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-center justify-between bg-gradient-to-t from-slate-900/70 to-transparent px-3 py-2 text-white">
-            <span className="truncate text-[10px] font-bold uppercase tracking-widest" title={sketchCatalogCaption}>
+            <span
+              className="truncate text-[10px] font-bold uppercase tracking-widest"
+              title={sketchCatalogCaption}
+            >
               {sketchCatalogCaption}
             </span>
-            <span className="shrink-0 text-[10px] opacity-90 group-hover:underline">Открыть редактор</span>
+            <span className="shrink-0 text-[10px] opacity-90 group-hover:underline">
+              Открыть редактор
+            </span>
           </div>
         </div>
       </div>

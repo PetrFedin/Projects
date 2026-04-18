@@ -38,14 +38,13 @@ export default function BrandIntegrationsNuorderPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          inventory: [
-            { sku: 'DEMO-SKU-01', qty: 50, pre_book_qty: 20, ats_qty: 30 },
-          ],
+          inventory: [{ sku: 'DEMO-SKU-01', qty: 50, pre_book_qty: 20, ats_qty: 30 }],
           overwrite: false,
         }),
       });
       const data = await res.json();
-      if (data.success) setInventoryMsg({ type: 'success', text: `Обработано: ${data.processed ?? 0}` });
+      if (data.success)
+        setInventoryMsg({ type: 'success', text: `Обработано: ${data.processed ?? 0}` });
       else setInventoryMsg({ type: 'error', text: data.error ?? 'Ошибка' });
     } catch (e) {
       setInventoryMsg({ type: 'error', text: e instanceof Error ? e.message : 'Ошибка запроса' });
@@ -114,18 +113,22 @@ export default function BrandIntegrationsNuorderPage() {
         }),
       });
       const data = await res.json();
-      if (data.success) setReplenishmentMsg({ type: 'success', text: `Обработано: ${data.processed ?? 0}` });
+      if (data.success)
+        setReplenishmentMsg({ type: 'success', text: `Обработано: ${data.processed ?? 0}` });
       else setReplenishmentMsg({ type: 'error', text: data.error ?? 'Ошибка' });
     } catch (e) {
-      setReplenishmentMsg({ type: 'error', text: e instanceof Error ? e.message : 'Ошибка запроса' });
+      setReplenishmentMsg({
+        type: 'error',
+        text: e instanceof Error ? e.message : 'Ошибка запроса',
+      });
     } finally {
       setReplenishmentLoading(false);
     }
   };
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
+    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.brand.integrations}>
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
@@ -133,7 +136,7 @@ export default function BrandIntegrationsNuorderPage() {
         </Link>
         <div>
           <h1 className="text-2xl font-bold uppercase tracking-tight">NuOrder</h1>
-          <p className="text-slate-500 text-sm mt-0.5">
+          <p className="mt-0.5 text-sm text-slate-500">
             Остатки (pre-book, ATS), отгрузки, amendments, replenishment. OAuth 1.0.
           </p>
         </div>
@@ -142,10 +145,12 @@ export default function BrandIntegrationsNuorderPage() {
       <div className="grid gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-black uppercase flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
               <Package className="h-4 w-4" /> Inventory — синхрон остатков
             </CardTitle>
-            <CardDescription>Pre-book и ATS (available to ship). Выгрузка из ERP в NuOrder.</CardDescription>
+            <CardDescription>
+              Pre-book и ATS (available to ship). Выгрузка из ERP в NuOrder.
+            </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-wrap items-center gap-3">
             <Button onClick={pushInventory} disabled={inventoryLoading}>
@@ -154,7 +159,11 @@ export default function BrandIntegrationsNuorderPage() {
             </Button>
             {inventoryMsg && (
               <span className={inventoryMsg.type === 'success' ? 'text-green-600' : 'text-red-600'}>
-                {inventoryMsg.type === 'success' ? <CheckCircle2 className="inline h-4 w-4 mr-1" /> : <AlertCircle className="inline h-4 w-4 mr-1" />}
+                {inventoryMsg.type === 'success' ? (
+                  <CheckCircle2 className="mr-1 inline h-4 w-4" />
+                ) : (
+                  <AlertCircle className="mr-1 inline h-4 w-4" />
+                )}
                 {inventoryMsg.text}
               </span>
             )}
@@ -163,7 +172,7 @@ export default function BrandIntegrationsNuorderPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-black uppercase flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
               <Truck className="h-4 w-4" /> Orders Shipments
             </CardTitle>
             <CardDescription>Отправка статусов отгрузок и трекинга в NuOrder.</CardDescription>
@@ -174,7 +183,7 @@ export default function BrandIntegrationsNuorderPage() {
               placeholder="Order ID"
               value={orderIdShipment}
               onChange={(e) => setOrderIdShipment(e.target.value)}
-              className="border rounded px-2 py-1.5 text-sm w-48"
+              className="w-48 rounded border px-2 py-1.5 text-sm"
             />
             <div className="flex flex-wrap items-center gap-3">
               <Button onClick={sendShipment} disabled={shipmentLoading}>
@@ -182,8 +191,14 @@ export default function BrandIntegrationsNuorderPage() {
                 Отправить отгрузку
               </Button>
               {shipmentMsg && (
-                <span className={shipmentMsg.type === 'success' ? 'text-green-600' : 'text-red-600'}>
-                  {shipmentMsg.type === 'success' ? <CheckCircle2 className="inline h-4 w-4 mr-1" /> : <AlertCircle className="inline h-4 w-4 mr-1" />}
+                <span
+                  className={shipmentMsg.type === 'success' ? 'text-green-600' : 'text-red-600'}
+                >
+                  {shipmentMsg.type === 'success' ? (
+                    <CheckCircle2 className="mr-1 inline h-4 w-4" />
+                  ) : (
+                    <AlertCircle className="mr-1 inline h-4 w-4" />
+                  )}
                   {shipmentMsg.text}
                 </span>
               )}
@@ -193,7 +208,7 @@ export default function BrandIntegrationsNuorderPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-black uppercase flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
               <FileEdit className="h-4 w-4" /> Orders Edits (amendments)
             </CardTitle>
             <CardDescription>Обновление заказов: изменение строк, отмена позиций.</CardDescription>
@@ -204,7 +219,7 @@ export default function BrandIntegrationsNuorderPage() {
               placeholder="Order ID"
               value={orderIdEdit}
               onChange={(e) => setOrderIdEdit(e.target.value)}
-              className="border rounded px-2 py-1.5 text-sm w-48"
+              className="w-48 rounded border px-2 py-1.5 text-sm"
             />
             <div className="flex flex-wrap items-center gap-3">
               <Button onClick={updateOrder} disabled={editLoading}>
@@ -213,7 +228,11 @@ export default function BrandIntegrationsNuorderPage() {
               </Button>
               {editMsg && (
                 <span className={editMsg.type === 'success' ? 'text-green-600' : 'text-red-600'}>
-                  {editMsg.type === 'success' ? <CheckCircle2 className="inline h-4 w-4 mr-1" /> : <AlertCircle className="inline h-4 w-4 mr-1" />}
+                  {editMsg.type === 'success' ? (
+                    <CheckCircle2 className="mr-1 inline h-4 w-4" />
+                  ) : (
+                    <AlertCircle className="mr-1 inline h-4 w-4" />
+                  )}
                   {editMsg.text}
                 </span>
               )}
@@ -223,7 +242,7 @@ export default function BrandIntegrationsNuorderPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-black uppercase flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
               <RotateCcw className="h-4 w-4" /> Replenishment
             </CardTitle>
             <CardDescription>Рекомендуемые к дозаказу позиции (опционально).</CardDescription>
@@ -234,8 +253,14 @@ export default function BrandIntegrationsNuorderPage() {
               Выгрузить replenishment
             </Button>
             {replenishmentMsg && (
-              <span className={replenishmentMsg.type === 'success' ? 'text-green-600' : 'text-red-600'}>
-                {replenishmentMsg.type === 'success' ? <CheckCircle2 className="inline h-4 w-4 mr-1" /> : <AlertCircle className="inline h-4 w-4 mr-1" />}
+              <span
+                className={replenishmentMsg.type === 'success' ? 'text-green-600' : 'text-red-600'}
+              >
+                {replenishmentMsg.type === 'success' ? (
+                  <CheckCircle2 className="mr-1 inline h-4 w-4" />
+                ) : (
+                  <AlertCircle className="mr-1 inline h-4 w-4" />
+                )}
                 {replenishmentMsg.text}
               </span>
             )}
@@ -245,22 +270,34 @@ export default function BrandIntegrationsNuorderPage() {
 
       <div className="mt-4 flex gap-2">
         <Link href={ROUTES.brand.b2bOrders}>
-          <Button variant="outline" size="sm">B2B заказы</Button>
+          <Button variant="outline" size="sm">
+            B2B заказы
+          </Button>
         </Link>
         <Link href={ROUTES.brand.integrationsJoor}>
-          <Button variant="ghost" size="sm">JOOR</Button>
+          <Button variant="ghost" size="sm">
+            JOOR
+          </Button>
         </Link>
         <Link href={ROUTES.brand.integrationsFashionCloud}>
-          <Button variant="ghost" size="sm">Fashion Cloud</Button>
+          <Button variant="ghost" size="sm">
+            Fashion Cloud
+          </Button>
         </Link>
         <Link href={ROUTES.brand.integrationsSparkLayer}>
-          <Button variant="ghost" size="sm">SparkLayer</Button>
+          <Button variant="ghost" size="sm">
+            SparkLayer
+          </Button>
         </Link>
         <Link href={ROUTES.brand.integrationsColect}>
-          <Button variant="ghost" size="sm">Colect</Button>
+          <Button variant="ghost" size="sm">
+            Colect
+          </Button>
         </Link>
         <Link href={ROUTES.brand.integrationsZedonk}>
-          <Button variant="ghost" size="sm">Zedonk</Button>
+          <Button variant="ghost" size="sm">
+            Zedonk
+          </Button>
         </Link>
       </div>
     </div>

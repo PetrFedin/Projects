@@ -57,11 +57,7 @@ function computeLayout(stages: LiveProcessStageDef[]) {
   return { positions, levels: sortedLevels };
 }
 
-export function ProcessGraphView({
-  stages,
-  runtimes,
-  onStageClick,
-}: ProcessGraphViewProps) {
+export function ProcessGraphView({ stages, runtimes, onStageClick }: ProcessGraphViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [dimensions, setDimensions] = useState({ width: 600, height: 400 });
@@ -69,7 +65,14 @@ export function ProcessGraphView({
   const { positions, levels } = useMemo(() => computeLayout(stages), [stages]);
 
   const connections = useMemo(() => {
-    const lines: { from: string; to: string; fromX: number; fromY: number; toX: number; toY: number }[] = [];
+    const lines: {
+      from: string;
+      to: string;
+      fromX: number;
+      fromY: number;
+      toX: number;
+      toY: number;
+    }[] = [];
     stages.forEach((stage) => {
       stage.dependsOn.forEach((depId) => {
         const fromPos = positions.get(depId);
@@ -107,7 +110,7 @@ export function ProcessGraphView({
     hoveredId ? from === hoveredId || to === hoveredId : false;
 
   return (
-    <div ref={containerRef} className="rounded-lg border bg-white overflow-auto">
+    <div ref={containerRef} className="overflow-auto rounded-lg border bg-white">
       <svg
         width={Math.max(dimensions.width, maxX)}
         height={Math.max(dimensions.height, maxY)}
@@ -117,7 +120,14 @@ export function ProcessGraphView({
           <marker id="graph-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
             <path d="M0,0 L8,4 L0,8 Z" fill="rgb(148 163 184)" />
           </marker>
-          <marker id="graph-arrow-hover" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <marker
+            id="graph-arrow-hover"
+            markerWidth="8"
+            markerHeight="8"
+            refX="6"
+            refY="4"
+            orient="auto"
+          >
             <path d="M0,0 L8,4 L0,8 Z" fill="rgb(99 102 241)" />
           </marker>
         </defs>
@@ -135,7 +145,7 @@ export function ProcessGraphView({
               strokeDasharray={highlighted ? 'none' : '4 4'}
               opacity={highlighted ? 1 : 0.6}
               markerEnd={highlighted ? 'url(#graph-arrow-hover)' : 'url(#graph-arrow)'}
-              className="transition-all duration-150 pointer-events-none"
+              className="pointer-events-none transition-all duration-150"
             />
           );
         })}
@@ -161,7 +171,13 @@ export function ProcessGraphView({
                 rx={8}
                 ry={8}
                 fill={isHovered ? 'rgb(238 242 255)' : 'white'}
-                stroke={status === 'done' ? 'rgb(34 197 94)' : status === 'in_progress' ? 'rgb(99 102 241)' : 'rgb(226 232 240)'}
+                stroke={
+                  status === 'done'
+                    ? 'rgb(34 197 94)'
+                    : status === 'in_progress'
+                      ? 'rgb(99 102 241)'
+                      : 'rgb(226 232 240)'
+                }
                 strokeWidth={isHovered ? 2 : 1}
                 className="transition-all"
               />
@@ -169,7 +185,7 @@ export function ProcessGraphView({
                 x={NODE_WIDTH / 2}
                 y={24}
                 textAnchor="middle"
-                className="fill-slate-800 text-xs font-medium pointer-events-none"
+                className="pointer-events-none fill-slate-800 text-xs font-medium"
               >
                 {stage.title.length > 18 ? stage.title.slice(0, 17) + '…' : stage.title}
               </text>
@@ -178,7 +194,7 @@ export function ProcessGraphView({
                 y={44}
                 textAnchor="middle"
                 className={cn(
-                  'text-[10px] pointer-events-none',
+                  'pointer-events-none text-[10px]',
                   status === 'done' && 'fill-emerald-600',
                   status === 'in_progress' && 'fill-indigo-600',
                   status === 'not_started' && 'fill-slate-400'

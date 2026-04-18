@@ -73,7 +73,10 @@ function norm(s: string): string {
  * Разрешена ли подпись от имени `actorLabel`, если закреплено за `designatedLabel`.
  * Пустое `designatedLabel` — без закрепления (достаточно права роли).
  */
-export function workshopTzSignerAllowed(actorLabel: string, designatedLabel?: string | null): boolean {
+export function workshopTzSignerAllowed(
+  actorLabel: string,
+  designatedLabel?: string | null
+): boolean {
   const d = designatedLabel?.trim();
   if (!d) return true;
   const a = norm(actorLabel);
@@ -107,16 +110,22 @@ export const WORKSHOP2_TZ_STAGE_LABEL_RU: Record<Workshop2TzSignoffStageId, stri
 };
 
 /** Текст про отмеченные в паспорте этапы для одной роли (глобальная цифровая подпись). */
-export function workshopTzRoleStageSummaryRu(flags: Workshop2TzPerRoleStageFlags | undefined): string {
+export function workshopTzRoleStageSummaryRu(
+  flags: Workshop2TzPerRoleStageFlags | undefined
+): string {
   const explicit = normalizeStageFlags(flags);
   if (!explicit) return 'все этапы';
-  const on = WORKSHOP2_TZ_SIGNOFF_STAGE_IDS.filter((id) => workshopTzParticipatesOnStage(flags, id));
+  const on = WORKSHOP2_TZ_SIGNOFF_STAGE_IDS.filter((id) =>
+    workshopTzParticipatesOnStage(flags, id)
+  );
   if (on.length === WORKSHOP2_TZ_SIGNOFF_STAGE_IDS.length) return 'все этапы';
   if (on.length === 0) return 'этапы сняты';
   return on.map((id) => WORKSHOP2_TZ_STAGE_LABEL_RU[id]).join(', ');
 }
 
-function normalizeStageFlags(f?: Workshop2TzPerRoleStageFlags | null): Workshop2TzPerRoleStageFlags | undefined {
+function normalizeStageFlags(
+  f?: Workshop2TzPerRoleStageFlags | null
+): Workshop2TzPerRoleStageFlags | undefined {
   if (!f || typeof f !== 'object') return undefined;
   const out: Workshop2TzPerRoleStageFlags = {};
   for (const k of WORKSHOP2_TZ_SIGNOFF_STAGE_IDS) {
@@ -170,7 +179,11 @@ export function workshopTzStageExpectedSigners(
 ): { role: string; name: string }[] {
   if (!bindings) return [];
   const out: { role: string; name: string }[] = [];
-  const push = (role: string, name: string | undefined, flags: Workshop2TzPerRoleStageFlags | undefined) => {
+  const push = (
+    role: string,
+    name: string | undefined,
+    flags: Workshop2TzPerRoleStageFlags | undefined
+  ) => {
     const n = name?.trim();
     if (!n) return;
     if (!workshopTzParticipatesOnStage(flags, stage)) return;
@@ -190,10 +203,22 @@ export function workshopTzStageExpectedSigners(
  * По умолчанию без участия в цифровой подписи на этапе «ТЗ» — включите этап в паспорте при необходимости.
  */
 export const WORKSHOP2_TZ_EXTRA_ROLE_PRESET_DEFS = [
-  { id: 'product', roleTitle: 'Продакт', signStages: { tz: false } as Workshop2TzPerRoleStageFlags },
-  { id: 'supply', roleTitle: 'Снабжение', signStages: { tz: false } as Workshop2TzPerRoleStageFlags },
+  {
+    id: 'product',
+    roleTitle: 'Продакт',
+    signStages: { tz: false } as Workshop2TzPerRoleStageFlags,
+  },
+  {
+    id: 'supply',
+    roleTitle: 'Снабжение',
+    signStages: { tz: false } as Workshop2TzPerRoleStageFlags,
+  },
   { id: 'qc', roleTitle: 'ОТК', signStages: { tz: false } as Workshop2TzPerRoleStageFlags },
-  { id: 'marking', roleTitle: 'Маркировка', signStages: { tz: false } as Workshop2TzPerRoleStageFlags },
+  {
+    id: 'marking',
+    roleTitle: 'Маркировка',
+    signStages: { tz: false } as Workshop2TzPerRoleStageFlags,
+  },
   {
     id: 'production_contact',
     roleTitle: 'Производственный контакт',
@@ -201,10 +226,14 @@ export const WORKSHOP2_TZ_EXTRA_ROLE_PRESET_DEFS = [
   },
 ] as const;
 
-export type Workshop2TzExtraRolePresetId = (typeof WORKSHOP2_TZ_EXTRA_ROLE_PRESET_DEFS)[number]['id'];
+export type Workshop2TzExtraRolePresetId =
+  (typeof WORKSHOP2_TZ_EXTRA_ROLE_PRESET_DEFS)[number]['id'];
 
 /** Кнопки в UI: короткая подпись; полное имя роли — в `roleTitle` строки досье. */
-export const WORKSHOP2_TZ_EXTRA_ROLE_PRESET_BUTTON_LABEL_RU: Record<Workshop2TzExtraRolePresetId, string> = {
+export const WORKSHOP2_TZ_EXTRA_ROLE_PRESET_BUTTON_LABEL_RU: Record<
+  Workshop2TzExtraRolePresetId,
+  string
+> = {
   product: 'Продакт',
   supply: 'Снабжение',
   qc: 'ОТК',
@@ -212,7 +241,9 @@ export const WORKSHOP2_TZ_EXTRA_ROLE_PRESET_BUTTON_LABEL_RU: Record<Workshop2TzE
   production_contact: 'Произв. контакт',
 };
 
-export function workshop2TzExtraRowFromPreset(presetId: Workshop2TzExtraRolePresetId): Workshop2TzSignatoryExtraRow {
+export function workshop2TzExtraRowFromPreset(
+  presetId: Workshop2TzExtraRolePresetId
+): Workshop2TzSignatoryExtraRow {
   const def = WORKSHOP2_TZ_EXTRA_ROLE_PRESET_DEFS.find((d) => d.id === presetId);
   if (!def) {
     throw new Error(`Unknown TZ extra role preset: ${String(presetId)}`);
@@ -224,7 +255,9 @@ export function workshop2TzExtraRowFromPreset(presetId: Workshop2TzExtraRolePres
   };
 }
 
-function normalizeExtraRows(rows?: Workshop2TzSignatoryExtraRow[] | null): Workshop2TzSignatoryExtraRow[] | undefined {
+function normalizeExtraRows(
+  rows?: Workshop2TzSignatoryExtraRow[] | null
+): Workshop2TzSignatoryExtraRow[] | undefined {
   if (!Array.isArray(rows) || !rows.length) return undefined;
   const out: Workshop2TzSignatoryExtraRow[] = [];
   for (const r of rows) {
@@ -273,7 +306,8 @@ export function normalizeWorkshopTzSignatoryBindings(
   if (!b) return undefined;
   const out: Workshop2TzSignatoryBindings = {};
   if (b.designerDisplayLabel?.trim()) out.designerDisplayLabel = b.designerDisplayLabel.trim();
-  if (b.technologistDisplayLabel?.trim()) out.technologistDisplayLabel = b.technologistDisplayLabel.trim();
+  if (b.technologistDisplayLabel?.trim())
+    out.technologistDisplayLabel = b.technologistDisplayLabel.trim();
   if (b.managerDisplayLabel?.trim()) out.managerDisplayLabel = b.managerDisplayLabel.trim();
   const ds = normalizeStageFlags(b.designerSignStages);
   const ts = normalizeStageFlags(b.technologistSignStages);

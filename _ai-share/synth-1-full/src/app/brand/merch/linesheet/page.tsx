@@ -4,7 +4,14 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
@@ -26,7 +33,7 @@ export default function LineSheetPage() {
   };
 
   return (
-    <div className="container max-w-6xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -34,7 +41,7 @@ export default function LineSheetPage() {
           </Link>
         </Button>
         <div>
-          <h1 className="text-xl font-bold flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-xl font-bold">
             <FileText className="h-6 w-6 text-violet-600" />
             Wholesale Line Sheet
           </h1>
@@ -58,9 +65,7 @@ export default function LineSheetPage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Коллекция</CardTitle>
-          <CardDescription>
-            {rows.length} SKU доступно для оптового заказа.
-          </CardDescription>
+          <CardDescription>{rows.length} SKU доступно для оптового заказа.</CardDescription>
         </CardHeader>
         <CardContent className="overflow-x-auto">
           <Table>
@@ -79,25 +84,33 @@ export default function LineSheetPage() {
                 <TableRow key={r.sku}>
                   <TableCell className="max-w-[200px]">
                     <div className="flex items-center gap-3">
-                      <div className="h-10 w-8 rounded border bg-muted shrink-0 overflow-hidden relative">
-                         {r.imageUrl && <img src={r.imageUrl} className="object-cover h-full w-full" />}
+                      <div className="relative h-10 w-8 shrink-0 overflow-hidden rounded border bg-muted">
+                        {r.imageUrl && (
+                          <img src={r.imageUrl} className="h-full w-full object-cover" />
+                        )}
                       </div>
                       <div className="min-w-0">
-                        <p className="font-medium text-xs truncate">{r.name}</p>
+                        <p className="truncate text-xs font-medium">{r.name}</p>
                         <p className="font-mono text-[10px] text-muted-foreground">{r.sku}</p>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="font-bold text-xs">{r.wholesalePrice.toLocaleString()}</TableCell>
-                  <TableCell className="text-xs text-muted-foreground">{r.price.toLocaleString()}</TableCell>
+                  <TableCell className="text-xs font-bold">
+                    {r.wholesalePrice.toLocaleString()}
+                  </TableCell>
+                  <TableCell className="text-xs text-muted-foreground">
+                    {r.price.toLocaleString()}
+                  </TableCell>
                   <TableCell>
-                    <Badge variant="outline" className="text-[10px] font-mono">
+                    <Badge variant="outline" className="font-mono text-[10px]">
                       {r.moq} шт
                     </Badge>
                   </TableCell>
                   <TableCell className="max-w-[200px]">
-                    <p className="text-[10px] truncate">{r.colors.join(', ')}</p>
-                    <p className="text-[9px] text-muted-foreground truncate uppercase">{r.sizes.join(', ')}</p>
+                    <p className="truncate text-[10px]">{r.colors.join(', ')}</p>
+                    <p className="truncate text-[9px] uppercase text-muted-foreground">
+                      {r.sizes.join(', ')}
+                    </p>
                   </TableCell>
                   <TableCell className="text-right">
                     <Button size="sm" variant="ghost" className="h-8 w-8 p-0">

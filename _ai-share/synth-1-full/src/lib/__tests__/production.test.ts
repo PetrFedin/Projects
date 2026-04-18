@@ -23,18 +23,17 @@ describe('Production validation', () => {
     });
 
     it('rejects duplicate name', () => {
-      const errors = validateCollectionStep1(
-        { name: 'Summer 2026', deadline: '' },
-        ['Summer 2026', 'Other']
-      );
+      const errors = validateCollectionStep1({ name: 'Summer 2026', deadline: '' }, [
+        'Summer 2026',
+        'Other',
+      ]);
       expect(errors.name).toBe('Коллекция с таким названием уже есть');
     });
 
     it('rejects duplicate name case-insensitive', () => {
-      const errors = validateCollectionStep1(
-        { name: 'summer 2026', deadline: '' },
-        ['Summer 2026']
-      );
+      const errors = validateCollectionStep1({ name: 'summer 2026', deadline: '' }, [
+        'Summer 2026',
+      ]);
       expect(errors.name).toBe('Коллекция с таким названием уже есть');
     });
 

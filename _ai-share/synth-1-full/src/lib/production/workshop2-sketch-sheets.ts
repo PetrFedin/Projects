@@ -34,7 +34,10 @@ export const DEFAULT_MASTER_PIN_SNIPPETS: SketchPinTextSnippet[] = [
 ];
 
 /** Шаблоны текста метки по типу листа. */
-export const SKETCH_PIN_SNIPPETS_BY_VIEW: Record<Workshop2SketchSheetViewKind, SketchPinTextSnippet[]> = {
+export const SKETCH_PIN_SNIPPETS_BY_VIEW: Record<
+  Workshop2SketchSheetViewKind,
+  SketchPinTextSnippet[]
+> = {
   front: [
     { id: 'f_center', label: 'Переда', text: 'Линия центра, борт, застёжка.' },
     { id: 'f_pocket', label: 'Карман', text: 'Тип и уровень кармана по ТЗ.' },
@@ -58,7 +61,11 @@ export const SKETCH_PIN_SNIPPETS_BY_VIEW: Record<Workshop2SketchSheetViewKind, S
     { id: 'fl_notch', label: 'Метки', text: 'Совмещение меток и надсечек.' },
   ],
   photo: [
-    { id: 'ph_color', label: 'Цвет / свет', text: 'Сверка оттенка с образцом при стандартном свете.' },
+    {
+      id: 'ph_color',
+      label: 'Цвет / свет',
+      text: 'Сверка оттенка с образцом при стандартном свете.',
+    },
     { id: 'ph_texture', label: 'Фактура', text: 'Соответствие фактуры материала ТЗ.' },
   ],
   other: [
@@ -71,7 +78,9 @@ function newUuid(): string {
   return crypto.randomUUID();
 }
 
-function normalizeAnnotation(a: Workshop2Phase1CategorySketchAnnotation): Workshop2Phase1CategorySketchAnnotation {
+function normalizeAnnotation(
+  a: Workshop2Phase1CategorySketchAnnotation
+): Workshop2Phase1CategorySketchAnnotation {
   return {
     ...a,
     annotationType: a.annotationType ?? 'construction',
@@ -88,7 +97,10 @@ export function normalizeSketchSheets(
   const out: Workshop2Phase1SketchSheet[] = [];
   for (const raw of sheets) {
     if (!raw || typeof raw !== 'object') continue;
-    const sheetId = typeof (raw as Workshop2Phase1SketchSheet).sheetId === 'string' ? (raw as Workshop2Phase1SketchSheet).sheetId : '';
+    const sheetId =
+      typeof (raw as Workshop2Phase1SketchSheet).sheetId === 'string'
+        ? (raw as Workshop2Phase1SketchSheet).sheetId
+        : '';
     if (!sheetId) continue;
     const annotations = Array.isArray((raw as Workshop2Phase1SketchSheet).annotations)
       ? (raw as Workshop2Phase1SketchSheet).annotations
@@ -103,8 +115,13 @@ export function normalizeSketchSheets(
     const wfOk = swf === 'draft' || swf === 'review' || swf === 'approved' ? swf : undefined;
     out.push({
       sheetId,
-      title: typeof (raw as Workshop2Phase1SketchSheet).title === 'string' ? (raw as Workshop2Phase1SketchSheet).title : undefined,
-      viewKind: (raw as Workshop2Phase1SketchSheet).viewKind as Workshop2SketchSheetViewKind | undefined,
+      title:
+        typeof (raw as Workshop2Phase1SketchSheet).title === 'string'
+          ? (raw as Workshop2Phase1SketchSheet).title
+          : undefined,
+      viewKind: (raw as Workshop2Phase1SketchSheet).viewKind as
+        | Workshop2SketchSheetViewKind
+        | undefined,
       imageDataUrl:
         typeof (raw as Workshop2Phase1SketchSheet).imageDataUrl === 'string'
           ? (raw as Workshop2Phase1SketchSheet).imageDataUrl
@@ -120,9 +137,13 @@ export function normalizeSketchSheets(
       sheetChecklist:
         sch && typeof sch === 'object'
           ? {
-              substrateConfirmed: Boolean((sch as { substrateConfirmed?: boolean }).substrateConfirmed),
+              substrateConfirmed: Boolean(
+                (sch as { substrateConfirmed?: boolean }).substrateConfirmed
+              ),
               qcPinsConfirmed: Boolean((sch as { qcPinsConfirmed?: boolean }).qcPinsConfirmed),
-              workshopTaskConfirmed: Boolean((sch as { workshopTaskConfirmed?: boolean }).workshopTaskConfirmed),
+              workshopTaskConfirmed: Boolean(
+                (sch as { workshopTaskConfirmed?: boolean }).workshopTaskConfirmed
+              ),
             }
           : undefined,
       referenceMotionVideoUrl:

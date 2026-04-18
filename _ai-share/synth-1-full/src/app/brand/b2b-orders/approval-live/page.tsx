@@ -5,10 +5,10 @@ import { ClipboardList, CheckCircle2, AlertOctagon } from 'lucide-react';
 
 export default function B2BApprovalLivePage() {
   return (
-    <div className="container mx-auto px-4 py-6 max-w-5xl space-y-4 pb-24">
+    <div className="container mx-auto max-w-5xl space-y-4 px-4 py-6 pb-24">
       <div>
         <h1 className="text-2xl font-bold uppercase tracking-tight">LIVE: Согласование</h1>
-        <p className="text-sm text-slate-500 mt-1">Real-time order approval workflow</p>
+        <p className="mt-1 text-sm text-slate-500">Real-time order approval workflow</p>
       </div>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <Card className="border-slate-200">
@@ -20,7 +20,7 @@ export default function B2BApprovalLivePage() {
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-black tabular-nums">14</p>
-            <p className="text-[10px] text-slate-500 mt-1">в очереди руководителя</p>
+            <p className="mt-1 text-[10px] text-slate-500">в очереди руководителя</p>
           </CardContent>
         </Card>
         <Card className="border-slate-200">
@@ -32,7 +32,7 @@ export default function B2BApprovalLivePage() {
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-black tabular-nums">31</p>
-            <p className="text-[10px] text-slate-500 mt-1">за сегодня</p>
+            <p className="mt-1 text-[10px] text-slate-500">за сегодня</p>
           </CardContent>
         </Card>
         <Card className="border-slate-200 sm:col-span-2 lg:col-span-1">
@@ -44,7 +44,7 @@ export default function B2BApprovalLivePage() {
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-black tabular-nums text-rose-700">3</p>
-            <p className="text-[10px] text-slate-500 mt-1">свыше лимита скидки</p>
+            <p className="mt-1 text-[10px] text-slate-500">свыше лимита скидки</p>
           </CardContent>
         </Card>
       </div>

@@ -7,7 +7,7 @@ export function calculateCustomsDuty(product: Product): CustomsDutyV1 {
   const priceEur = Math.round(product.price / eurRate);
   const weight = 0.5 + (product.price % 3); // Mock weight
   const thresholdEur = 200; // EAEU threshold for individuals
-  
+
   let duty = 0;
   if (priceEur > thresholdEur) {
     duty = (priceEur - thresholdEur) * 0.15; // 15% on the excess

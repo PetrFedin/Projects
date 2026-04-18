@@ -11,43 +11,75 @@ export function ProductProductionLeadTimeBlock({ product }: { product: Product }
   const leadTime = getProductionLeadTime(product.sku);
 
   return (
-    <Card className="p-4 border-2 border-slate-100 bg-slate-50/5 shadow-sm my-4 overflow-hidden relative">
-      <div className="flex items-center justify-between mb-4">
+    <Card className="relative my-4 overflow-hidden border-2 border-slate-100 bg-slate-50/5 p-4 shadow-sm">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-slate-600">
-          <Factory className="w-4 h-4" />
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">Production Lead Time Estimator</h4>
+          <Factory className="h-4 w-4" />
+          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
+            Production Lead Time Estimator
+          </h4>
         </div>
-        <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Global Sourcing Hub</div>
+        <div className="text-[8px] font-black uppercase tracking-widest text-slate-400">
+          Global Sourcing Hub
+        </div>
       </div>
 
-      <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm mb-6 text-center relative overflow-hidden">
-         <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500" />
-         <div className="text-[28px] font-black text-slate-800 leading-none">{leadTime.totalLeadDays}</div>
-         <div className="text-[9px] font-black text-slate-400 uppercase mt-1 tracking-widest">Total Cycle Days</div>
-         <div className="mt-2 text-[10px] font-bold text-indigo-600 flex items-center justify-center gap-1.5">
-            <Calendar className="w-3.5 h-3.5" /> Est. Launch: {leadTime.estimatedDeliveryDate}
-         </div>
+      <div className="relative mb-6 overflow-hidden rounded-2xl border border-slate-100 bg-white p-4 text-center shadow-sm">
+        <div className="absolute left-0 top-0 h-full w-1 bg-indigo-500" />
+        <div className="text-[28px] font-black leading-none text-slate-800">
+          {leadTime.totalLeadDays}
+        </div>
+        <div className="mt-1 text-[9px] font-black uppercase tracking-widest text-slate-400">
+          Total Cycle Days
+        </div>
+        <div className="mt-2 flex items-center justify-center gap-1.5 text-[10px] font-bold text-indigo-600">
+          <Calendar className="h-3.5 w-3.5" /> Est. Launch: {leadTime.estimatedDeliveryDate}
+        </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-2 mb-4">
-         {[
-           { icon: Scissors, label: 'Samples', days: leadTime.samplingDays, color: 'text-amber-500' },
-           { icon: Clock, label: 'Raw Mat', days: leadTime.rawMaterialLeadDays, color: 'text-indigo-500' },
-           { icon: Factory, label: 'Prod', days: leadTime.productionDays, color: 'text-emerald-500' },
-           { icon: Truck, label: 'Logistics', days: leadTime.logisticsDays, color: 'text-slate-500' },
-         ].map((step, i) => (
-           <div key={i} className="flex flex-col items-center">
-              <div className={`w-8 h-8 rounded-full bg-white border border-slate-100 shadow-sm flex items-center justify-center mb-1`}>
-                 <step.icon className={`w-4 h-4 ${step.color}`} />
-              </div>
-              <div className="text-[8px] font-black text-slate-800">{step.days}d</div>
-              <div className="text-[6px] font-black text-slate-400 uppercase text-center mt-0.5">{step.label}</div>
-           </div>
-         ))}
+      <div className="mb-4 grid grid-cols-4 gap-2">
+        {[
+          {
+            icon: Scissors,
+            label: 'Samples',
+            days: leadTime.samplingDays,
+            color: 'text-amber-500',
+          },
+          {
+            icon: Clock,
+            label: 'Raw Mat',
+            days: leadTime.rawMaterialLeadDays,
+            color: 'text-indigo-500',
+          },
+          {
+            icon: Factory,
+            label: 'Prod',
+            days: leadTime.productionDays,
+            color: 'text-emerald-500',
+          },
+          {
+            icon: Truck,
+            label: 'Logistics',
+            days: leadTime.logisticsDays,
+            color: 'text-slate-500',
+          },
+        ].map((step, i) => (
+          <div key={i} className="flex flex-col items-center">
+            <div
+              className={`mb-1 flex h-8 w-8 items-center justify-center rounded-full border border-slate-100 bg-white shadow-sm`}
+            >
+              <step.icon className={`h-4 w-4 ${step.color}`} />
+            </div>
+            <div className="text-[8px] font-black text-slate-800">{step.days}d</div>
+            <div className="mt-0.5 text-center text-[6px] font-black uppercase text-slate-400">
+              {step.label}
+            </div>
+          </div>
+        ))}
       </div>
 
-      <button className="w-full mt-2 h-9 bg-slate-100 hover:bg-slate-200 rounded-xl text-[9px] font-black uppercase text-slate-600 flex items-center justify-center gap-2 transition-colors">
-         Download Critical Path (Gantt) <ArrowRight className="w-3 h-3" />
+      <button className="mt-2 flex h-9 w-full items-center justify-center gap-2 rounded-xl bg-slate-100 text-[9px] font-black uppercase text-slate-600 transition-colors hover:bg-slate-200">
+        Download Critical Path (Gantt) <ArrowRight className="h-3 w-3" />
       </button>
     </Card>
   );

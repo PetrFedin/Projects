@@ -50,11 +50,11 @@ export function SectionHeader({
         className
       )}
     >
-      <div className={cn('flex items-start min-w-0', compact ? 'gap-2.5' : 'gap-4')}>
+      <div className={cn('flex min-w-0 items-start', compact ? 'gap-2.5' : 'gap-4')}>
         {Icon && (
           <div
             className={cn(
-              'flex items-center justify-center shrink-0 rounded-xl',
+              'flex shrink-0 items-center justify-center rounded-xl',
               compact ? 'h-8 w-8 rounded-lg' : 'h-10 w-10',
               ICON_STYLES[iconColor]
             )}
@@ -67,9 +67,9 @@ export function SectionHeader({
             className={cn(
               isB2b
                 ? compact
-                  ? 'text-sm sm:text-[15px] font-black uppercase tracking-tight text-slate-900 leading-tight'
-                  : 'text-base sm:text-lg font-black uppercase tracking-tight text-slate-900'
-                : 'text-xl sm:text-2xl font-bold text-slate-900 tracking-tight'
+                  ? 'text-sm font-black uppercase leading-tight tracking-tight text-slate-900 sm:text-[15px]'
+                  : 'text-base font-black uppercase tracking-tight text-slate-900 sm:text-lg'
+                : 'text-xl font-bold tracking-tight text-slate-900 sm:text-2xl'
             )}
           >
             {title}
@@ -81,8 +81,8 @@ export function SectionHeader({
                 compact ? 'mt-0.5 leading-snug' : 'mt-1 leading-relaxed',
                 isB2b
                   ? compact
-                    ? 'text-[10px] text-slate-500 font-medium'
-                    : 'text-[11px] text-slate-500 font-medium'
+                    ? 'text-[10px] font-medium text-slate-500'
+                    : 'text-[11px] font-medium text-slate-500'
                   : 'text-sm text-slate-600'
               )}
             >
@@ -90,7 +90,9 @@ export function SectionHeader({
             </p>
           )}
           {badges && (
-            <div className={cn('flex flex-wrap', compact ? 'gap-1.5 mt-2' : 'gap-2 mt-3')}>{badges}</div>
+            <div className={cn('flex flex-wrap', compact ? 'mt-2 gap-1.5' : 'mt-3 gap-2')}>
+              {badges}
+            </div>
           )}
         </div>
       </div>

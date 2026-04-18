@@ -32,16 +32,24 @@ export async function exportOrderToProvider(
   _provider: 'platform',
   _payload: unknown
 ): Promise<OrderExportResult> {
-  return { success: false, provider: 'platform', error: 'Экспорт: используйте платформу или маркетплейсы РФ' };
+  return {
+    success: false,
+    provider: 'platform',
+    error: 'Экспорт: используйте платформу или маркетплейсы РФ',
+  };
 }
 
 /** Прайс-листы — платформа. */
-export async function getPriceListsForOrder(): Promise<{ slug: string; name: string; currency?: string }[]> {
+export async function getPriceListsForOrder(): Promise<
+  { slug: string; name: string; currency?: string }[]
+> {
   return [];
 }
 
 /** Расчёт суммы — платформа. */
-export async function calculateOrderPricing(_request: unknown): Promise<{ total?: number; lines?: unknown[] }> {
+export async function calculateOrderPricing(
+  _request: unknown
+): Promise<{ total?: number; lines?: unknown[] }> {
   return { total: 0, lines: [] };
 }
 

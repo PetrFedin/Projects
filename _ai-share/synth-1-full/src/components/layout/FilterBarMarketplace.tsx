@@ -1,27 +1,27 @@
-"use client";
+'use client';
 
-import React from "react";
-import type { MarketplaceFilters } from "../../types/filters";
-import type { Facets } from "../../types/facets";
-import { Card } from "../ui/card";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { Select } from "../ui/select";
-import { Range } from "../ui/Range";
-import { DateRange } from "../ui/DateRange";
-import { cn } from "../../lib/cn";
-import { AsyncMultiSelect } from "../ui/AsyncMultiSelect";
+import React from 'react';
+import type { MarketplaceFilters } from '../../types/filters';
+import type { Facets } from '../../types/facets';
+import { Card } from '../ui/card';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { Select } from '../ui/select';
+import { Range } from '../ui/Range';
+import { DateRange } from '../ui/DateRange';
+import { cn } from '../../lib/cn';
+import { AsyncMultiSelect } from '../ui/AsyncMultiSelect';
 
 async function fetchFacets(filters: MarketplaceFilters): Promise<Facets> {
   const qs = new URLSearchParams();
   for (const [k, v] of Object.entries(filters as any)) {
-    if (Array.isArray(v) && v.length) qs.set(k, v.join(","));
-    else if (typeof v === "boolean" && v) qs.set(k, "1");
-    else if (v !== "" && v != null) qs.set(k, String(v));
+    if (Array.isArray(v) && v.length) qs.set(k, v.join(','));
+    else if (typeof v === 'boolean' && v) qs.set(k, '1');
+    else if (v !== '' && v != null) qs.set(k, String(v));
   }
 
-  const res = await fetch(`/api/facets?${qs.toString()}`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch facets");
+  const res = await fetch(`/api/facets?${qs.toString()}`, { cache: 'no-store' });
+  if (!res.ok) throw new Error('Failed to fetch facets');
   const json = await res.json();
   return json.facets as Facets;
 }
@@ -29,7 +29,7 @@ async function fetchFacets(filters: MarketplaceFilters): Promise<Facets> {
 export function FilterBarMarketplace({
   filters,
   setFilters,
-  reset
+  reset,
 }: {
   filters: MarketplaceFilters;
   setFilters: (patch: Partial<MarketplaceFilters>, opts?: { replace?: boolean }) => void;
@@ -40,7 +40,9 @@ export function FilterBarMarketplace({
 
   React.useEffect(() => {
     const t = setTimeout(() => {
-      fetchFacets(filters).then(setFacets).catch(() => setFacets(null));
+      fetchFacets(filters)
+        .then(setFacets)
+        .catch(() => setFacets(null));
     }, 200);
     return () => clearTimeout(t);
   }, [filters]);
@@ -49,7 +51,7 @@ export function FilterBarMarketplace({
     setFilters({ [k]: !(filters as any)[k], page: 1 } as any, { replace: true });
 
   return (
-    <Card className="p-3 space-y-4">
+    <Card className="space-y-4 p-3">
       <div className="flex flex-wrap items-center gap-3">
         <div className="w-[360px] max-w-full">
           <Input
@@ -63,27 +65,27 @@ export function FilterBarMarketplace({
           value={filters.currency}
           onChange={(v) => setFilters({ currency: v, page: 1 }, { replace: true })}
           options={[
-            { value: "USD", label: "USD" },
-            { value: "EUR", label: "EUR" },
-            { value: "GBP", label: "GBP" },
-            { value: "RUB", label: "RUB" }
+            { value: 'USD', label: 'USD' },
+            { value: 'EUR', label: 'EUR' },
+            { value: 'GBP', label: 'GBP' },
+            { value: 'RUB', label: 'RUB' },
           ]}
         />
 
         {[
-          ["inStockOnly", "In stock"],
-          ["lowStock", "Low stock"],
-          ["slowMover", "Slow mover"],
-          ["highReturnRisk", "Return risk"]
+          ['inStockOnly', 'In stock'],
+          ['lowStock', 'Low stock'],
+          ['slowMover', 'Slow mover'],
+          ['highReturnRisk', 'Return risk'],
         ].map(([k, label]) => (
           <button
             key={k}
             type="button"
             className={cn(
-              "h-10 px-3 rounded-md border text-sm",
+              'h-10 rounded-md border px-3 text-sm',
               (filters as any)[k]
-                ? "border-accent-primary bg-accent-soft text-text-primary"
-                : "border-border-default bg-bg-surface text-text-secondary"
+                ? 'border-accent-primary bg-accent-soft text-text-primary'
+                : 'border-border-default bg-bg-surface text-text-secondary'
             )}
             onClick={() => toggleBool(k as any)}
           >
@@ -92,19 +94,25 @@ export function FilterBarMarketplace({
         ))}
 
         <div className="ml-auto flex items-center gap-2">
-          <Button variant="secondary" onClick={() => setOpen(v => !v)}>{open ? "Hide filters" : "More filters"}</Button>
-          <Button variant="secondary" onClick={reset}>Reset</Button>
-          <Button variant="primary" onClick={() => setFilters({ page: 1 }, { replace: false })}>Apply</Button>
+          <Button variant="secondary" onClick={() => setOpen((v) => !v)}>
+            {open ? 'Hide filters' : 'More filters'}
+          </Button>
+          <Button variant="secondary" onClick={reset}>
+            Reset
+          </Button>
+          <Button variant="primary" onClick={() => setFilters({ page: 1 }, { replace: false })}>
+            Apply
+          </Button>
         </div>
       </div>
 
       {open && (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
           <AsyncMultiSelect
             type="brands"
             value={filters.brandIds}
             onChange={(v) => setFilters({ brandIds: v, page: 1 }, { replace: true })}
-            placeholder={`Brands${facets?.brand?.length ? ` (${facets.brand.reduce((a,b)=>a+b.count,0)})` : ""}`}
+            placeholder={`Brands${facets?.brand?.length ? ` (${facets.brand.reduce((a, b) => a + b.count, 0)})` : ''}`}
           />
           <AsyncMultiSelect
             type="retailers"
@@ -126,65 +134,91 @@ export function FilterBarMarketplace({
           />
 
           <div>
-            <div className="text-xs text-text-muted uppercase tracking-[0.06em] mb-1">Wholesale price</div>
+            <div className="text-text-muted mb-1 text-xs uppercase tracking-[0.06em]">
+              Wholesale price
+            </div>
             <Range
               min={filters.wholesaleMin}
               max={filters.wholesaleMax}
-              onChange={({ min, max }) => setFilters({ wholesaleMin: min, wholesaleMax: max, page: 1 }, { replace: true })}
+              onChange={({ min, max }) =>
+                setFilters({ wholesaleMin: min, wholesaleMax: max, page: 1 }, { replace: true })
+              }
             />
           </div>
 
           <div>
-            <div className="text-xs text-text-muted uppercase tracking-[0.06em] mb-1">Retail price</div>
+            <div className="text-text-muted mb-1 text-xs uppercase tracking-[0.06em]">
+              Retail price
+            </div>
             <Range
               min={filters.retailMin}
               max={filters.retailMax}
-              onChange={({ min, max }) => setFilters({ retailMin: min, retailMax: max, page: 1 }, { replace: true })}
+              onChange={({ min, max }) =>
+                setFilters({ retailMin: min, retailMax: max, page: 1 }, { replace: true })
+              }
             />
           </div>
 
           <div>
-            <div className="text-xs text-text-muted uppercase tracking-[0.06em] mb-1">GM %</div>
+            <div className="text-text-muted mb-1 text-xs uppercase tracking-[0.06em]">GM %</div>
             <Range
               min={filters.gmMin}
               max={filters.gmMax}
-              onChange={({ min, max }) => setFilters({ gmMin: min, gmMax: max, page: 1 }, { replace: true })}
+              onChange={({ min, max }) =>
+                setFilters({ gmMin: min, gmMax: max, page: 1 }, { replace: true })
+              }
             />
           </div>
 
           <div>
-            <div className="text-xs text-text-muted uppercase tracking-[0.06em] mb-1">Sell-through %</div>
+            <div className="text-text-muted mb-1 text-xs uppercase tracking-[0.06em]">
+              Sell-through %
+            </div>
             <Range
               min={filters.sellThroughMin}
               max={filters.sellThroughMax}
-              onChange={({ min, max }) => setFilters({ sellThroughMin: min, sellThroughMax: max, page: 1 }, { replace: true })}
+              onChange={({ min, max }) =>
+                setFilters({ sellThroughMin: min, sellThroughMax: max, page: 1 }, { replace: true })
+              }
             />
           </div>
 
           <div>
-            <div className="text-xs text-text-muted uppercase tracking-[0.06em] mb-1">Stock (units)</div>
+            <div className="text-text-muted mb-1 text-xs uppercase tracking-[0.06em]">
+              Stock (units)
+            </div>
             <Range
               min={filters.stockMin}
               max={filters.stockMax}
-              onChange={({ min, max }) => setFilters({ stockMin: min, stockMax: max, page: 1 }, { replace: true })}
+              onChange={({ min, max }) =>
+                setFilters({ stockMin: min, stockMax: max, page: 1 }, { replace: true })
+              }
             />
           </div>
 
           <div>
-            <div className="text-xs text-text-muted uppercase tracking-[0.06em] mb-1">Created date</div>
+            <div className="text-text-muted mb-1 text-xs uppercase tracking-[0.06em]">
+              Created date
+            </div>
             <DateRange
               from={filters.createdFrom}
               to={filters.createdTo}
-              onChange={({ from, to }) => setFilters({ createdFrom: from, createdTo: to, page: 1 }, { replace: true })}
+              onChange={({ from, to }) =>
+                setFilters({ createdFrom: from, createdTo: to, page: 1 }, { replace: true })
+              }
             />
           </div>
 
           <div>
-            <div className="text-xs text-text-muted uppercase tracking-[0.06em] mb-1">Delivery window</div>
+            <div className="text-text-muted mb-1 text-xs uppercase tracking-[0.06em]">
+              Delivery window
+            </div>
             <DateRange
               from={filters.deliveryFrom}
               to={filters.deliveryTo}
-              onChange={({ from, to }) => setFilters({ deliveryFrom: from, deliveryTo: to, page: 1 }, { replace: true })}
+              onChange={({ from, to }) =>
+                setFilters({ deliveryFrom: from, deliveryTo: to, page: 1 }, { replace: true })
+              }
             />
           </div>
         </div>
@@ -192,4 +226,3 @@ export function FilterBarMarketplace({
     </Card>
   );
 }
-

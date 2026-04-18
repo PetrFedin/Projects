@@ -6,13 +6,42 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
-import { LayoutGrid, Target, Sparkles, TrendingUp, TrendingDown, Package, CloudRain } from 'lucide-react';
+import {
+  LayoutGrid,
+  Target,
+  Sparkles,
+  TrendingUp,
+  TrendingDown,
+  Package,
+  CloudRain,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const CORE_TREND_NOVELTY = [
-  { id: 'core', label: 'Core', desc: 'Базовый ассортимент', targetMargin: 42, budget: 1200000, skuCount: 24 },
-  { id: 'trend', label: 'Trend', desc: 'Трендовые модели', targetMargin: 38, budget: 800000, skuCount: 16 },
-  { id: 'novelty', label: 'Novelty', desc: 'Новинки и лимиты', targetMargin: 35, budget: 400000, skuCount: 8 },
+  {
+    id: 'core',
+    label: 'Core',
+    desc: 'Базовый ассортимент',
+    targetMargin: 42,
+    budget: 1200000,
+    skuCount: 24,
+  },
+  {
+    id: 'trend',
+    label: 'Trend',
+    desc: 'Трендовые модели',
+    targetMargin: 38,
+    budget: 800000,
+    skuCount: 16,
+  },
+  {
+    id: 'novelty',
+    label: 'Novelty',
+    desc: 'Новинки и лимиты',
+    targetMargin: 35,
+    budget: 400000,
+    skuCount: 8,
+  },
 ];
 
 const MOCK_SIMULATOR = [
@@ -26,7 +55,7 @@ export default function RangePlannerPage() {
   const [season, setSeason] = useState('SS2026');
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Smart Range Planner & Assortment Simulator"
         description="Матрица ассортимента Core/Trend/Novelty с целевой маржой и бюджетом. Прогон коллекции через модель спроса — хиты и висляки до пошива."
@@ -35,15 +64,21 @@ export default function RangePlannerPage() {
         iconColor="text-indigo-600"
         badges={
           <>
-            <Badge variant="outline" className="text-[9px]">Merchandising</Badge>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild>
-              <Link href="/brand/merchandising"><LayoutGrid className="h-3 w-3 mr-1" /> Rack Planner</Link>
+            <Badge variant="outline" className="text-[9px]">
+              Merchandising
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href="/brand/merchandising">
+                <LayoutGrid className="mr-1 h-3 w-3" /> Rack Planner
+              </Link>
             </Button>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href="/brand/products">Products</Link>
             </Button>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild>
-              <Link href="/brand/weather-collections"><CloudRain className="h-3 w-3 mr-1" /> Weather-Driven</Link>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href="/brand/weather-collections">
+                <CloudRain className="mr-1 h-3 w-3" /> Weather-Driven
+              </Link>
             </Button>
           </>
         }
@@ -51,26 +86,43 @@ export default function RangePlannerPage() {
       <h1 className="text-2xl font-bold uppercase">Range Planner & Simulator</h1>
 
       {/* Smart Range Planner: Core / Trend / Novelty */}
-      <Card className="rounded-xl border border-slate-200 shadow-sm bg-white">
+      <Card className="rounded-xl border border-slate-200 bg-white shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Target className="h-5 w-5" /> Smart Range Planner
           </CardTitle>
-          <CardDescription>Матрица ассортимента с целевой маржой и планированием бюджета до дизайна. Сезон: {season}</CardDescription>
+          <CardDescription>
+            Матрица ассортимента с целевой маржой и планированием бюджета до дизайна. Сезон:{' '}
+            {season}
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex gap-2 mb-4">
+          <div className="mb-4 flex gap-2">
             {['SS2026', 'FW2025'].map((s) => (
-              <Button key={s} variant={season === s ? 'default' : 'outline'} size="sm" onClick={() => setSeason(s)} className="rounded-lg text-[10px] font-bold uppercase">
+              <Button
+                key={s}
+                variant={season === s ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setSeason(s)}
+                className="rounded-lg text-[10px] font-bold uppercase"
+              >
                 {s}
               </Button>
             ))}
           </div>
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid gap-4 md:grid-cols-3">
             {CORE_TREND_NOVELTY.map((row) => (
-              <Card key={row.id} className="rounded-xl border border-slate-200 bg-slate-50/50 overflow-hidden">
+              <Card
+                key={row.id}
+                className="overflow-hidden rounded-xl border border-slate-200 bg-slate-50/50"
+              >
                 <CardHeader className="pb-2">
-                  <Badge className="w-fit" variant={row.id === 'core' ? 'default' : row.id === 'trend' ? 'secondary' : 'outline'}>
+                  <Badge
+                    className="w-fit"
+                    variant={
+                      row.id === 'core' ? 'default' : row.id === 'trend' ? 'secondary' : 'outline'
+                    }
+                  >
                     {row.label}
                   </Badge>
                   <CardTitle className="text-sm">{row.desc}</CardTitle>
@@ -96,22 +148,29 @@ export default function RangePlannerPage() {
       </Card>
 
       {/* Assortment Simulator: hits / duds */}
-      <Card className="rounded-xl border border-slate-200 shadow-sm bg-white">
+      <Card className="rounded-xl border border-slate-200 bg-white shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Sparkles className="h-5 w-5" /> Assortment Simulator
           </CardTitle>
-          <CardDescription>Прогон коллекции через модель спроса. Выявление потенциальных хитов и висляков до пошива.</CardDescription>
+          <CardDescription>
+            Прогон коллекции через модель спроса. Выявление потенциальных хитов и висляков до
+            пошива.
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="rounded-lg border border-slate-200 overflow-hidden">
+          <div className="overflow-hidden rounded-lg border border-slate-200">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200">
-                  <th className="p-3 font-bold uppercase text-[10px] text-slate-500">Артикул</th>
-                  <th className="p-3 font-bold uppercase text-[10px] text-slate-500">Скор спроса</th>
-                  <th className="p-3 font-bold uppercase text-[10px] text-slate-500">Вердикт</th>
-                  <th className="p-3 font-bold uppercase text-[10px] text-slate-500">Рекомендация</th>
+                <tr className="border-b border-slate-200 bg-slate-50">
+                  <th className="p-3 text-[10px] font-bold uppercase text-slate-500">Артикул</th>
+                  <th className="p-3 text-[10px] font-bold uppercase text-slate-500">
+                    Скор спроса
+                  </th>
+                  <th className="p-3 text-[10px] font-bold uppercase text-slate-500">Вердикт</th>
+                  <th className="p-3 text-[10px] font-bold uppercase text-slate-500">
+                    Рекомендация
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -120,8 +179,18 @@ export default function RangePlannerPage() {
                     <td className="p-3 font-medium">{r.sku}</td>
                     <td className="p-3 tabular-nums">{r.score}</td>
                     <td className="p-3">
-                      <Badge className={cn(r.verdict === 'hit' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800')}>
-                        {r.verdict === 'hit' ? <TrendingUp className="h-3 w-3 inline mr-1" /> : <TrendingDown className="h-3 w-3 inline mr-1" />}
+                      <Badge
+                        className={cn(
+                          r.verdict === 'hit'
+                            ? 'bg-emerald-100 text-emerald-800'
+                            : 'bg-amber-100 text-amber-800'
+                        )}
+                      >
+                        {r.verdict === 'hit' ? (
+                          <TrendingUp className="mr-1 inline h-3 w-3" />
+                        ) : (
+                          <TrendingDown className="mr-1 inline h-3 w-3" />
+                        )}
                         {r.verdict === 'hit' ? 'Хит' : 'Висляк'}
                       </Badge>
                     </td>
@@ -131,13 +200,18 @@ export default function RangePlannerPage() {
               </tbody>
             </table>
           </div>
-          <p className="text-[10px] text-slate-400 mt-3">На основе исторических данных и AI-модели спроса. Подключите PIM и производство для актуализации.</p>
+          <p className="mt-3 text-[10px] text-slate-400">
+            На основе исторических данных и AI-модели спроса. Подключите PIM и производство для
+            актуализации.
+          </p>
         </CardContent>
       </Card>
 
       <div className="flex gap-2">
         <Button variant="outline" size="sm" asChild>
-          <Link href="/brand/merchandising"><Package className="h-4 w-4 mr-2" /> К Rack Planner</Link>
+          <Link href="/brand/merchandising">
+            <Package className="mr-2 h-4 w-4" /> К Rack Planner
+          </Link>
         </Button>
         <Button variant="outline" size="sm" asChild>
           <Link href="/brand/products/matrix">Матрица вариантов</Link>

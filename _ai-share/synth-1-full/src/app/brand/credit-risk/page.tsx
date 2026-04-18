@@ -19,7 +19,7 @@ const MOCK_PARTNERS = [
 
 export default function CreditRiskPage() {
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Credit Risk Scoring"
         description="JOOR-style: внутренний рейтинг надёжности ритейлеров. Лимиты, история платежей, автоматический пересчёт при задержках."
@@ -28,26 +28,44 @@ export default function CreditRiskPage() {
         iconColor="text-amber-600"
         badges={
           <>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href={ROUTES.brand.retailers}>Партнёры</Link></Button>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href={ROUTES.brand.b2bOrders}>B2B Заказы</Link></Button>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href={ROUTES.brand.buyerApplications}>Заявки байеров</Link></Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.retailers}>Партнёры</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.b2bOrders}>B2B Заказы</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href={ROUTES.brand.buyerApplications}>Заявки байеров</Link>
+            </Button>
           </>
         }
       />
       <div className="flex items-center gap-3">
-        <Link href={ROUTES.brand.retailers}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
-        <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2"><ShieldCheck className="h-6 w-6" /> Credit Risk</h1>
+        <Link href={ROUTES.brand.retailers}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
+        <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
+          <ShieldCheck className="h-6 w-6" /> Credit Risk
+        </h1>
       </div>
 
       <Card>
         <CardHeader>
           <CardTitle>Рейтинг партнёров</CardTitle>
-          <CardDescription>Скор и лимит по заявкам и истории оплат. При подключении API — обновление в реальном времени.</CardDescription>
+          <CardDescription>
+            Скор и лимит по заявкам и истории оплат. При подключении API — обновление в реальном
+            времени.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <ul className="space-y-3">
             {MOCK_PARTNERS.map((p) => (
-              <li key={p.id} className="flex items-center justify-between p-4 rounded-lg bg-slate-50 border border-slate-100">
+              <li
+                key={p.id}
+                className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50 p-4"
+              >
                 <div>
                   <p className="font-medium">{p.name}</p>
                   <p className="text-sm text-slate-500">Лимит: {p.limit}</p>
@@ -64,7 +82,10 @@ export default function CreditRiskPage() {
         </CardContent>
       </Card>
 
-      <RelatedModulesBlock links={getBuyerOnboardingLinks()} title="Заявки байеров, партнёры, B2B заказы, Territory" />
+      <RelatedModulesBlock
+        links={getBuyerOnboardingLinks()}
+        title="Заявки байеров, партнёры, B2B заказы, Territory"
+      />
     </div>
   );
 }

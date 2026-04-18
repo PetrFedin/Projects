@@ -15,12 +15,14 @@ const MOCK_RECOMMENDATIONS = [
 
 export default function StyleMePage() {
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
       <header>
-        <h1 className="text-xl font-black uppercase tracking-tight text-slate-900 flex items-center gap-2">
+        <h1 className="flex items-center gap-2 text-xl font-black uppercase tracking-tight text-slate-900">
           <Sparkles className="h-6 w-6 text-indigo-600" /> Style-Me: дополняем образ
         </h1>
-        <p className="text-sm text-slate-500 mt-1">Персональные подборки к вашей последней покупке</p>
+        <p className="mt-1 text-sm text-slate-500">
+          Персональные подборки к вашей последней покупке
+        </p>
       </header>
 
       <Card className="rounded-xl border border-indigo-100 bg-indigo-50/30">
@@ -30,13 +32,15 @@ export default function StyleMePage() {
         </CardHeader>
         <CardContent>
           <p className="font-bold">{MOCK_LAST_PURCHASE.name}</p>
-          <p className="text-[11px] text-slate-500">Заказ #{MOCK_LAST_PURCHASE.orderId} · {MOCK_LAST_PURCHASE.date}</p>
+          <p className="text-[11px] text-slate-500">
+            Заказ #{MOCK_LAST_PURCHASE.orderId} · {MOCK_LAST_PURCHASE.date}
+          </p>
         </CardContent>
       </Card>
 
       <Card className="rounded-xl border border-slate-200 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-sm flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-sm">
             <ShoppingBag className="h-4 w-4" /> Рекомендуем докупить
           </CardTitle>
           <CardDescription>Составят полный образ с вашей паркой</CardDescription>
@@ -44,15 +48,20 @@ export default function StyleMePage() {
         <CardContent>
           <ul className="space-y-3">
             {MOCK_RECOMMENDATIONS.map((r) => (
-              <li key={r.id} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
+              <li
+                key={r.id}
+                className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3"
+              >
                 <div>
-                  <p className="font-medium text-sm">{r.name}</p>
+                  <p className="text-sm font-medium">{r.name}</p>
                   <p className="text-[11px] text-slate-500">{r.reason}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-bold text-sm">{r.price}</span>
+                  <span className="text-sm font-bold">{r.price}</span>
                   <Button size="sm" variant="outline" className="rounded-lg text-[10px]" asChild>
-                    <Link href="/marketroom">В каталог <ArrowRight className="h-3 w-3 ml-1" /></Link>
+                    <Link href="/marketroom">
+                      В каталог <ArrowRight className="ml-1 h-3 w-3" />
+                    </Link>
                   </Button>
                 </div>
               </li>
@@ -62,9 +71,15 @@ export default function StyleMePage() {
       </Card>
 
       <div className="flex flex-wrap gap-2">
-        <Button variant="ghost" size="sm" asChild><Link href="/client">В кабинет</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href="/marketroom">Marketroom</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href="/u/wardrobe">Гардероб</Link></Button>
+        <Button variant="ghost" size="sm" asChild>
+          <Link href="/client">В кабинет</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href="/marketroom">Marketroom</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href="/u/wardrobe">Гардероб</Link>
+        </Button>
       </div>
     </div>
   );

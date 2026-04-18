@@ -6,8 +6,21 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { ArrowLeft, ChevronUp, ChevronDown, ExternalLink, Settings2, GanttChart, LayoutGrid, Columns3, GitBranch } from 'lucide-react';
-import { getLiveProcessDefinition, getAllLiveProcessIds } from '@/lib/live-process/process-definitions';
+import {
+  ArrowLeft,
+  ChevronUp,
+  ChevronDown,
+  ExternalLink,
+  Settings2,
+  GanttChart,
+  LayoutGrid,
+  Columns3,
+  GitBranch,
+} from 'lucide-react';
+import {
+  getLiveProcessDefinition,
+  getAllLiveProcessIds,
+} from '@/lib/live-process/process-definitions';
 import { getLiveProcessTeam } from '@/lib/live-process/mock-team';
 import { getInstancesForProcess } from '@/lib/live-process/mock-contexts';
 import { useLiveProcessRuntimeWithCalendar } from '@/lib/live-process/use-live-process-with-calendar';
@@ -57,7 +70,7 @@ export function LiveProcessPageBody({
   const urlContext = searchParams.get('context') ?? searchParams.get('contextId') ?? '';
   const workshopCtx = workshopCollectionId.trim();
   const contextId =
-    embedded && onWorkshopCollectionChange ? (workshopCtx || 'default') : (urlContext || 'default');
+    embedded && onWorkshopCollectionChange ? workshopCtx || 'default' : urlContext || 'default';
 
   const handleContextChange = (newContextId: string) => {
     if (embedded && onWorkshopCollectionChange) {
@@ -76,13 +89,18 @@ export function LiveProcessPageBody({
 
   const definition = useMemo(() => getLiveProcessDefinition(processId), [processId]);
   const team = useMemo(() => getLiveProcessTeam(), []);
-  const { runtimes, updateStageRuntime } = useLiveProcessRuntimeWithCalendar(processId, contextId || 'default');
+  const { runtimes, updateStageRuntime } = useLiveProcessRuntimeWithCalendar(
+    processId,
+    contextId || 'default'
+  );
 
   const completedCount = useMemo(() => {
     if (!definition) return 0;
     return definition.stages.filter((s) => runtimes[s.id]?.status === 'done').length;
   }, [definition, runtimes]);
-  const progressPct = definition ? Math.round((completedCount / definition.stages.length) * 100) : 0;
+  const progressPct = definition
+    ? Math.round((completedCount / definition.stages.length) * 100)
+    : 0;
 
   const [showDetailedView, setShowDetailedView] = useState(false);
   const [showSchemeEditor, setShowSchemeEditor] = useState(false);
@@ -115,9 +133,17 @@ export function LiveProcessPageBody({
       ) {
         return false;
       }
-      if (filters.dateFrom && rt.plannedEndAt && new Date(rt.plannedEndAt) < new Date(filters.dateFrom))
+      if (
+        filters.dateFrom &&
+        rt.plannedEndAt &&
+        new Date(rt.plannedEndAt) < new Date(filters.dateFrom)
+      )
         return false;
-      if (filters.dateTo && rt.plannedStartAt && new Date(rt.plannedStartAt) > new Date(filters.dateTo))
+      if (
+        filters.dateTo &&
+        rt.plannedStartAt &&
+        new Date(rt.plannedStartAt) > new Date(filters.dateTo)
+      )
         return false;
       return true;
     });
@@ -135,7 +161,7 @@ export function LiveProcessPageBody({
 
   if (!processId || !definition) {
     return (
-      <div className="container max-w-4xl mx-auto px-4 py-8">
+      <div className="container mx-auto max-w-4xl px-4 py-8">
         <Card>
           <CardHeader>
             <CardTitle>LIVE process</CardTitle>
@@ -144,7 +170,9 @@ export function LiveProcessPageBody({
           <CardContent className="flex flex-wrap gap-2">
             {getAllLiveProcessIds().map((id) => (
               <Link key={id} href={processLiveUrl(id)}>
-                <Button variant="outline" size="sm">{id}</Button>
+                <Button variant="outline" size="sm">
+                  {id}
+                </Button>
               </Link>
             ))}
           </CardContent>
@@ -154,10 +182,16 @@ export function LiveProcessPageBody({
   }
 
   return (
-    <div className={embedded ? 'max-w-6xl mx-auto px-0 py-2 pb-8 md:pb-6' : 'container max-w-6xl mx-auto px-4 py-6 pb-24 md:pb-8'}>
+    <div
+      className={
+        embedded
+          ? 'mx-auto max-w-6xl px-0 py-2 pb-8 md:pb-6'
+          : 'container mx-auto max-w-6xl px-4 py-6 pb-24 md:pb-8'
+      }
+    >
       {/* Header: mobile-friendly */}
-      <div className="flex flex-col gap-3 mb-6 md:flex-row md:items-center md:gap-4">
-        <div className="flex items-center gap-2 shrink-0">
+      <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:gap-4">
+        <div className="flex shrink-0 items-center gap-2">
           {!embedded ? (
             <Link href={ROUTES.brand.controlCenter ?? ROUTES.brand.home}>
               <Button variant="ghost" size="icon">
@@ -165,18 +199,18 @@ export function LiveProcessPageBody({
               </Button>
             </Link>
           ) : (
-            <Button variant="outline" size="sm" className="shrink-0 h-9" asChild>
+            <Button variant="outline" size="sm" className="h-9 shrink-0" asChild>
               <Link href={fullPageHref} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="h-3.5 w-3.5 sm:mr-1" />
                 <span className="hidden sm:inline">Отдельно</span>
               </Link>
             </Button>
           )}
-          <div className="flex-1 min-w-0">
-            <h1 className="text-xl md:text-2xl font-bold uppercase tracking-tight truncate">
+          <div className="min-w-0 flex-1">
+            <h1 className="truncate text-xl font-bold uppercase tracking-tight md:text-2xl">
               LIVE: {definition.name}
             </h1>
-            <p className="text-slate-500 text-xs md:text-sm mt-0.5 line-clamp-2">
+            <p className="mt-0.5 line-clamp-2 text-xs text-slate-500 md:text-sm">
               {embedded
                 ? `${definition.description} Контекст коллекции совпадает с выбором на вкладке «Коллекция», если задан.`
                 : definition.description}
@@ -195,10 +229,14 @@ export function LiveProcessPageBody({
             </div>
           )}
           <Link href={ROUTES.brand.team}>
-            <Button variant="outline" size="sm" className="hidden sm:inline-flex">Команда</Button>
+            <Button variant="outline" size="sm" className="hidden sm:inline-flex">
+              Команда
+            </Button>
           </Link>
           <Link href={ROUTES.brand.calendar}>
-            <Button variant="outline" size="sm">Календарь</Button>
+            <Button variant="outline" size="sm">
+              Календарь
+            </Button>
           </Link>
           <Button
             variant="outline"
@@ -212,8 +250,8 @@ export function LiveProcessPageBody({
       </div>
 
       {/* View switcher + Filters */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
-        <div className="flex rounded-lg border p-0.5 bg-slate-50">
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="flex rounded-lg border bg-slate-50 p-0.5">
           {[
             { id: 'grid' as ViewMode, icon: LayoutGrid, label: 'Схема' },
             { id: 'kanban' as ViewMode, icon: Columns3, label: 'Kanban' },
@@ -242,8 +280,8 @@ export function LiveProcessPageBody({
       </div>
 
       {showSchemeEditor && (
-        <div className="mb-6 p-4 border border-slate-200 rounded-lg bg-slate-50/50">
-          <h2 className="text-sm font-bold uppercase tracking-tight text-slate-700 mb-3">
+        <div className="mb-6 rounded-lg border border-slate-200 bg-slate-50/50 p-4">
+          <h2 className="mb-3 text-sm font-bold uppercase tracking-tight text-slate-700">
             Редактор этапов — создание/редактирование без деплоя
           </h2>
           <LiveProcessSchemeEditor
@@ -269,13 +307,19 @@ export function LiveProcessPageBody({
         </CardHeader>
         <CardContent className="space-y-2">
           <div className="flex items-center gap-3">
-            <Progress value={progressPct} className="flex-1 h-2" />
-            <span className="text-sm font-medium">{completedCount} из {definition.stages.length}</span>
+            <Progress value={progressPct} className="h-2 flex-1" />
+            <span className="text-sm font-medium">
+              {completedCount} из {definition.stages.length}
+            </span>
           </div>
-          <div className="flex flex-wrap gap-2 mt-2">
+          <div className="mt-2 flex flex-wrap gap-2">
             {getAllLiveProcessIds().map((id) => (
               <Link key={id} href={processLiveUrl(id, contextId)}>
-                <Button variant={id === processId ? 'default' : 'ghost'} size="sm" className="text-xs">
+                <Button
+                  variant={id === processId ? 'default' : 'ghost'}
+                  size="sm"
+                  className="text-xs"
+                >
                   {id}
                 </Button>
               </Link>
@@ -295,15 +339,15 @@ export function LiveProcessPageBody({
       <div className="mb-6">
         {viewMode === 'grid' && (
           <>
-            <h2 className="text-sm font-bold uppercase tracking-tight text-slate-700 mb-3">
+            <h2 className="mb-3 text-sm font-bold uppercase tracking-tight text-slate-700">
               Поэтапная схема: {definition.name}
               {filteredStages.length !== definition.stages.length && (
-                <span className="text-slate-500 font-normal ml-2">
+                <span className="ml-2 font-normal text-slate-500">
                   (показано {filteredStages.length} из {definition.stages.length})
                 </span>
               )}
             </h2>
-            <p className="text-xs text-slate-500 mb-4">
+            <p className="mb-4 text-xs text-slate-500">
               Выберите ответственных, даты. Наведите на блок — подсветятся связи.
             </p>
             <div className="overflow-x-auto pb-4">
@@ -320,10 +364,10 @@ export function LiveProcessPageBody({
         )}
         {viewMode === 'kanban' && (
           <>
-            <h2 className="text-sm font-bold uppercase tracking-tight text-slate-700 mb-3">
+            <h2 className="mb-3 text-sm font-bold uppercase tracking-tight text-slate-700">
               Kanban: этапы — колонки, карточки — инстансы
             </h2>
-            <p className="text-xs text-slate-500 mb-4">
+            <p className="mb-4 text-xs text-slate-500">
               Карточка инстанса в колонке текущего этапа. Клик — переход к инстансу.
             </p>
             <ProcessKanbanView
@@ -338,10 +382,10 @@ export function LiveProcessPageBody({
         )}
         {viewMode === 'gantt' && (
           <>
-            <h2 className="text-sm font-bold uppercase tracking-tight text-slate-700 mb-3">
+            <h2 className="mb-3 text-sm font-bold uppercase tracking-tight text-slate-700">
               Gantt: этапы по датам
             </h2>
-            <p className="text-xs text-slate-500 mb-4">
+            <p className="mb-4 text-xs text-slate-500">
               Все этапы инстансов. Даты синхронизируются с календарём.
             </p>
             <ProcessGanttView processId={processId} contextId={contextId || undefined} />
@@ -349,16 +393,13 @@ export function LiveProcessPageBody({
         )}
         {viewMode === 'graph' && (
           <>
-            <h2 className="text-sm font-bold uppercase tracking-tight text-slate-700 mb-3">
+            <h2 className="mb-3 text-sm font-bold uppercase tracking-tight text-slate-700">
               Граф: узлы — этапы, рёбра — зависимости
             </h2>
-            <p className="text-xs text-slate-500 mb-4">
+            <p className="mb-4 text-xs text-slate-500">
               Наведите на узел — подсветятся связи. Цвет: зелёный — готово, синий — в работе.
             </p>
-            <ProcessGraphView
-              stages={definition.stages}
-              runtimes={runtimes}
-            />
+            <ProcessGraphView stages={definition.stages} runtimes={runtimes} />
           </>
         )}
       </div>
@@ -370,11 +411,15 @@ export function LiveProcessPageBody({
           onClick={() => setShowDetailedView(!showDetailedView)}
           className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900"
         >
-          {showDetailedView ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          {showDetailedView ? (
+            <ChevronUp className="h-4 w-4" />
+          ) : (
+            <ChevronDown className="h-4 w-4" />
+          )}
           Подробный вид по этапам: доступ, участники обсуждения, комментарии, заметки, задачи
         </button>
         {showDetailedView && (
-          <div className="space-y-4 mt-4">
+          <div className="mt-4 space-y-4">
             {definition.stages.map((stage, index) => {
               const runtime = runtimes[stage.id];
               if (!runtime) return null;

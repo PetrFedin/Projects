@@ -19,14 +19,19 @@ export default function EndlessStylistTabletPage() {
   }, []);
 
   return (
-    <div className="container max-w-4xl py-6 space-y-6 pb-24">
+    <div className="container max-w-4xl space-y-6 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Link href="/shop/clienteling">
-          <Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Endless Stylist Tablet</h1>
-          <p className="text-slate-500 text-sm">Сборка полного образа из онлайн-каталога на планшете продавца. Связь с клиентингом, каталогом и заказами.</p>
+          <p className="text-sm text-slate-500">
+            Сборка полного образа из онлайн-каталога на планшете продавца. Связь с клиентингом,
+            каталогом и заказами.
+          </p>
         </div>
       </div>
 
@@ -40,15 +45,26 @@ export default function EndlessStylistTabletPage() {
         </CardHeader>
         <CardContent className="space-y-2">
           {looks.map((look) => (
-            <div key={look.id} className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            <div
+              key={look.id}
+              className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3"
+            >
               <div>
                 <p className="text-sm font-medium">{look.items.map((i) => i.name).join(' + ')}</p>
-                {look.customerId && <Badge variant="outline" className="text-[10px] mt-1">Клиент привязан</Badge>}
+                {look.customerId && (
+                  <Badge variant="outline" className="mt-1 text-[10px]">
+                    Клиент привязан
+                  </Badge>
+                )}
               </div>
-              <Button variant="outline" size="sm">Оформить заказ</Button>
+              <Button variant="outline" size="sm">
+                Оформить заказ
+              </Button>
             </div>
           ))}
-          <p className="text-xs text-slate-400 mt-3">API: ENDLESS_STYLIST_API — образы, каталог, создание заказа из образа.</p>
+          <p className="mt-3 text-xs text-slate-400">
+            API: ENDLESS_STYLIST_API — образы, каталог, создание заказа из образа.
+          </p>
         </CardContent>
       </Card>
 
@@ -61,7 +77,9 @@ export default function EndlessStylistTabletPage() {
           <ul className="flex flex-wrap gap-2">
             {links.map((l) => (
               <li key={l.href}>
-                <Button variant="outline" size="sm" className="text-xs" asChild><Link href={l.href}>{l.label}</Link></Button>
+                <Button variant="outline" size="sm" className="text-xs" asChild>
+                  <Link href={l.href}>{l.label}</Link>
+                </Button>
               </li>
             ))}
           </ul>

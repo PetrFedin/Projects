@@ -5,17 +5,17 @@ import { Scan, Target, Ruler } from 'lucide-react';
 
 export default function BodyScannerPage() {
   return (
-    <div className="space-y-4 max-w-5xl mx-auto">
+    <div className="mx-auto max-w-5xl space-y-4">
       <div>
         <h2 className="text-lg font-black uppercase tracking-tight">AI Сканер тела</h2>
-        <p className="text-sm text-muted-foreground font-medium mt-1">
+        <p className="mt-1 text-sm font-medium text-muted-foreground">
           3D-сканирование и рекомендации размеров на основе измерений.
         </p>
       </div>
-      <div className="grid md:grid-cols-3 gap-4">
+      <div className="grid gap-4 md:grid-cols-3">
         <Card className="rounded-xl border border-slate-100">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-black uppercase flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
               <Scan className="h-4 w-4 text-indigo-600" />
               Scans completed
             </CardTitle>
@@ -27,7 +27,7 @@ export default function BodyScannerPage() {
         </Card>
         <Card className="rounded-xl border border-slate-100">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-black uppercase flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
               <Target className="h-4 w-4 text-emerald-600" />
               Accuracy rate
             </CardTitle>
@@ -39,7 +39,7 @@ export default function BodyScannerPage() {
         </Card>
         <Card className="rounded-xl border border-slate-100">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-black uppercase flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
               <Ruler className="h-4 w-4 text-amber-600" />
               Size recommendations generated
             </CardTitle>

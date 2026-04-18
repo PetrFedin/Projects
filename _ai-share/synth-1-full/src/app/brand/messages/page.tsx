@@ -25,12 +25,54 @@ export default function BrandMessagesPage() {
         icon={MessageSquare}
         iconBg="bg-indigo-100"
         iconColor="text-indigo-600"
-        badges={<><Badge variant="outline" className="text-[9px]">Коммуникации</Badge><Button variant="outline" size="sm" className="text-[9px] h-7 ml-1" asChild><Link href="/brand/calendar?layers=tasks"><CheckCircle className="h-3 w-3 mr-1" /> Tasks</Link></Button><Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href="/brand/calendar"><Calendar className="h-3 w-3 mr-1" /> Calendar</Link></Button><Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href="/brand/calendar?layers=events">Events</Link></Button><Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href="/brand/team">Team</Link></Button><Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href="/brand/documents"><FileText className="h-3 w-3 mr-1" /> Documents</Link></Button><Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href="/brand/live"><Radio className="h-3 w-3 mr-1" /> Live</Link></Button><Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href="/brand/reviews"><Star className="h-3 w-3 mr-1" /> Reviews</Link></Button><Button variant="outline" size="sm" className="text-[9px] h-7" asChild><Link href="/brand/b2b-orders">B2B</Link></Button></>}
+        badges={
+          <>
+            <Badge variant="outline" className="text-[9px]">
+              Коммуникации
+            </Badge>
+            <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
+              <Link href="/brand/calendar?layers=tasks">
+                <CheckCircle className="mr-1 h-3 w-3" /> Tasks
+              </Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href="/brand/calendar">
+                <Calendar className="mr-1 h-3 w-3" /> Calendar
+              </Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href="/brand/calendar?layers=events">Events</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href="/brand/team">Team</Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href="/brand/documents">
+                <FileText className="mr-1 h-3 w-3" /> Documents
+              </Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href="/brand/live">
+                <Radio className="mr-1 h-3 w-3" /> Live
+              </Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href="/brand/reviews">
+                <Star className="mr-1 h-3 w-3" /> Reviews
+              </Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link href="/brand/b2b-orders">B2B</Link>
+            </Button>
+          </>
+        }
       />
-      <Suspense fallback={<div className="mx-4 p-6 text-sm text-slate-500">Загрузка сообщений…</div>}>
+      <Suspense
+        fallback={<div className="mx-4 p-6 text-sm text-slate-500">Загрузка сообщений…</div>}
+      >
         <MessagesPage initialRole="brand" />
       </Suspense>
-      <RelatedModulesBlock links={getCommLinks()} className="mt-6 mx-4" />
+      <RelatedModulesBlock links={getCommLinks()} className="mx-4 mt-6" />
     </div>
   );
 }

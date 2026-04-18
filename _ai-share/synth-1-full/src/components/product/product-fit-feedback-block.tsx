@@ -113,7 +113,8 @@ export function ProductFitFeedbackBlock({ productId, sku, brand }: Props) {
           </p>
         ) : (
           <p className="text-[10px] text-muted-foreground">
-            Показано демо-распределение; после голосования проценты считаются по вашим ответам для этого SKU.
+            Показано демо-распределение; после голосования проценты считаются по вашим ответам для
+            этого SKU.
           </p>
         )}
         <p className="text-[10px] text-muted-foreground">Ваш голос для {sku}:</p>
@@ -122,7 +123,7 @@ export function ProductFitFeedbackBlock({ productId, sku, brand }: Props) {
             type="button"
             size="sm"
             variant={vote === 'runs_small' ? 'default' : 'outline'}
-            className={cn('h-8 text-xs gap-1')}
+            className={cn('h-8 gap-1 text-xs')}
             onClick={() => save('runs_small')}
           >
             <ThumbsDown className="h-3.5 w-3.5" />
@@ -132,17 +133,16 @@ export function ProductFitFeedbackBlock({ productId, sku, brand }: Props) {
             type="button"
             size="sm"
             variant={vote === 'true_fit' ? 'default' : 'outline'}
-            className="h-8 text-xs gap-1"
+            className="h-8 gap-1 text-xs"
             onClick={() => save('true_fit')}
           >
-            <MinusCircle className="h-3.5 w-3.5" />
-            В размер
+            <MinusCircle className="h-3.5 w-3.5" />В размер
           </Button>
           <Button
             type="button"
             size="sm"
             variant={vote === 'runs_large' ? 'default' : 'outline'}
-            className="h-8 text-xs gap-1"
+            className="h-8 gap-1 text-xs"
             onClick={() => save('runs_large')}
           >
             <ThumbsUp className="h-3.5 w-3.5" />
@@ -150,7 +150,8 @@ export function ProductFitFeedbackBlock({ productId, sku, brand }: Props) {
           </Button>
         </div>
         <p className="text-[10px] text-muted-foreground">
-          Бренд: <span className="font-medium text-foreground">{brand}</span> — в проде агрегаты стыкуются с AI-подбором размера и отзывами.
+          Бренд: <span className="font-medium text-foreground">{brand}</span> — в проде агрегаты
+          стыкуются с AI-подбором размера и отзывами.
         </p>
       </CardContent>
     </Card>

@@ -5,9 +5,16 @@ import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { CheckCircle2, CircleDot, Clock } from 'lucide-react';
-import { useAllInstancesRuntimes, getCurrentStageForInstance } from '@/lib/live-process/use-all-instances-runtimes';
+import {
+  useAllInstancesRuntimes,
+  getCurrentStageForInstance,
+} from '@/lib/live-process/use-all-instances-runtimes';
 import { processLiveUrl } from '@/lib/routes';
-import type { LiveProcessStageDef, LiveProcessStageRuntime, LiveProcessTeamMember } from '@/lib/live-process/types';
+import type {
+  LiveProcessStageDef,
+  LiveProcessStageRuntime,
+  LiveProcessTeamMember,
+} from '@/lib/live-process/types';
 
 interface ProcessKanbanViewProps {
   processId: string;
@@ -43,22 +50,28 @@ function KanbanCard({
     <Link href={processLiveUrl(processId, contextId)}>
       <Card
         className={cn(
-          'p-3 cursor-pointer transition-all hover:shadow-md min-w-[180px]',
+          'min-w-[180px] cursor-pointer p-3 transition-all hover:shadow-md',
           isSelected ? 'ring-2 ring-indigo-500' : 'hover:border-indigo-300'
         )}
       >
-        <CardContent className="p-0 space-y-1">
-          <div className="font-medium text-sm truncate" title={contextLabel}>
+        <CardContent className="space-y-1 p-0">
+          <div className="truncate text-sm font-medium" title={contextLabel}>
             {contextLabel}
           </div>
           <div className="flex items-center gap-1.5 text-xs text-slate-500">
-            {runtime.status === 'done' && <CheckCircle2 className="h-3.5 w-3 text-emerald-500 shrink-0" />}
-            {runtime.status === 'in_progress' && <CircleDot className="h-3.5 w-3 text-indigo-500 shrink-0" />}
-            {runtime.status === 'not_started' && <Clock className="h-3.5 w-3 text-slate-400 shrink-0" />}
+            {runtime.status === 'done' && (
+              <CheckCircle2 className="h-3.5 w-3 shrink-0 text-emerald-500" />
+            )}
+            {runtime.status === 'in_progress' && (
+              <CircleDot className="h-3.5 w-3 shrink-0 text-indigo-500" />
+            )}
+            {runtime.status === 'not_started' && (
+              <Clock className="h-3.5 w-3 shrink-0 text-slate-400" />
+            )}
             <span className="truncate">{primary ?? '—'}</span>
           </div>
           {(runtime.plannedStartAt || runtime.plannedEndAt) && (
-            <div className="text-[10px] text-slate-400 truncate">
+            <div className="truncate text-[10px] text-slate-400">
               {runtime.plannedStartAt && new Date(runtime.plannedStartAt).toLocaleDateString('ru')}
               {runtime.plannedStartAt && runtime.plannedEndAt && ' — '}
               {runtime.plannedEndAt && new Date(runtime.plannedEndAt).toLocaleDateString('ru')}
@@ -81,14 +94,28 @@ export function ProcessKanbanView({
   const allRuntimes = useAllInstancesRuntimes(processId, refreshToken);
 
   const columns = useMemo(() => {
-    const byStage = new Map<string, { contextId: string; contextLabel: string; instanceId: string; runtimes: Record<string, LiveProcessStageRuntime> }[]>();
+    const byStage = new Map<
+      string,
+      {
+        contextId: string;
+        contextLabel: string;
+        instanceId: string;
+        runtimes: Record<string, LiveProcessStageRuntime>;
+      }[]
+    >();
     stages.forEach((s) => byStage.set(s.id, []));
 
     allRuntimes.forEach((val, ctxId) => {
       if (filterContextIds?.length && !filterContextIds.includes(ctxId)) return;
       const currentStageId = getCurrentStageForInstance(stages, val.runtimes);
       const list = byStage.get(currentStageId);
-      if (list) list.push({ contextId: val.contextId, contextLabel: val.contextLabel, instanceId: val.instanceId, runtimes: val.runtimes });
+      if (list)
+        list.push({
+          contextId: val.contextId,
+          contextLabel: val.contextLabel,
+          instanceId: val.instanceId,
+          runtimes: val.runtimes,
+        });
     });
 
     return stages.map((stage) => ({
@@ -98,24 +125,26 @@ export function ProcessKanbanView({
   }, [stages, allRuntimes]);
 
   return (
-    <div className="overflow-x-auto pb-4 -mx-1">
-      <div className="flex gap-4 min-w-max">
+    <div className="-mx-1 overflow-x-auto pb-4">
+      <div className="flex min-w-max gap-4">
         {columns.map(({ stage, cards }) => (
           <div
             key={stage.id}
-            className="flex-shrink-0 w-[220px] rounded-lg border bg-slate-50/50 p-2"
+            className="w-[220px] flex-shrink-0 rounded-lg border bg-slate-50/50 p-2"
           >
-            <div className="font-medium text-sm mb-2 flex items-center justify-between">
+            <div className="mb-2 flex items-center justify-between text-sm font-medium">
               <span className="truncate">{stage.title}</span>
-              <span className="text-slate-400 text-xs shrink-0 ml-1">{cards.length}</span>
+              <span className="ml-1 shrink-0 text-xs text-slate-400">{cards.length}</span>
             </div>
-            <div className="space-y-2 min-h-[60px]">
+            <div className="min-h-[60px] space-y-2">
               {cards.map((c) => (
                 <KanbanCard
                   key={c.contextId}
                   contextId={c.contextId}
                   contextLabel={c.contextLabel}
-                  runtime={c.runtimes[stage.id] ?? { status: 'not_started' } as LiveProcessStageRuntime}
+                  runtime={
+                    c.runtimes[stage.id] ?? ({ status: 'not_started' } as LiveProcessStageRuntime)
+                  }
                   stage={stage}
                   team={team}
                   processId={processId}

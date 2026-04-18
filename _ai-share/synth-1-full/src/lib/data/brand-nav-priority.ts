@@ -10,12 +10,27 @@ export const PRIMARY_LINK_VALUES: Record<string, string[]> = {
   b2b: ['showroom', 'linesheets', 'orders'],
   partners: ['retailers', 'commercial', 'customer-intelligence', 'disputes'],
   marketing: ['campaigns', 'samples', 'media'],
-  analytics: ['analytics-360', 'analytics-bi', 'budget-actual', 'ai-analytics', 'ai-pricing', 'finance', 'esg'],
+  analytics: [
+    'analytics-360',
+    'analytics-bi',
+    'budget-actual',
+    'ai-analytics',
+    'ai-pricing',
+    'finance',
+    'esg',
+  ],
   tools: ['ai-tools', 'academy', 'hr-hub'],
 };
 
 export type SecondaryNavItem = {
-  link: { label: string; value: string; href: string; icon: unknown; description?: string; subsections?: unknown[] };
+  link: {
+    label: string;
+    value: string;
+    href: string;
+    icon: unknown;
+    description?: string;
+    subsections?: unknown[];
+  };
   sourceGroupId: string;
   sourceGroupLabel: string;
 };

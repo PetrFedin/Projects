@@ -23,6 +23,6 @@ export function getShowroomAppointments(): ShowroomAppointmentV1[] {
       status: 'review',
       sampleStatus: 'in_transit',
       estimatedPreOrderValue: 2100000,
-    }
+    },
   ];
 }

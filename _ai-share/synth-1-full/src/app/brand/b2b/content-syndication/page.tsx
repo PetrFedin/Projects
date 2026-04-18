@@ -14,10 +14,25 @@ import {
 } from '@/lib/b2b/content-syndication';
 import { B2B_FIELD_LABELS } from '@/lib/b2b/b2b-catalog-contract';
 import products from '@/lib/products';
-import { Cloud, RefreshCw, Clock, AlertCircle, CheckCircle, FileWarning, Download } from 'lucide-react';
+import {
+  Cloud,
+  RefreshCw,
+  Clock,
+  AlertCircle,
+  CheckCircle,
+  FileWarning,
+  Download,
+} from 'lucide-react';
 
 /** Экспорт skuErrors в CSV (UTF-8 BOM, точка с запятой). */
-function exportSkuErrorsCsv(skuErrors: { sku: string; productId: string; name: string; errors: { field: string; message: string }[] }[]) {
+function exportSkuErrorsCsv(
+  skuErrors: {
+    sku: string;
+    productId: string;
+    name: string;
+    errors: { field: string; message: string }[];
+  }[]
+) {
   const header = 'SKU;Product ID;Name;Field;Message';
   const rows = skuErrors.flatMap((row) =>
     row.errors.map((e) => {
@@ -36,7 +51,14 @@ function exportSkuErrorsCsv(skuErrors: { sku: string; productId: string; name: s
 }
 
 /** Скачать log.skuErrors как JSON. */
-function exportSkuErrorsJson(skuErrors: { sku: string; productId: string; name: string; errors: { field: string; message: string }[] }[]) {
+function exportSkuErrorsJson(
+  skuErrors: {
+    sku: string;
+    productId: string;
+    name: string;
+    errors: { field: string; message: string }[];
+  }[]
+) {
   const blob = new Blob([JSON.stringify(skuErrors, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -75,23 +97,28 @@ export default function BrandContentSyndicationPage() {
   };
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 pb-24 space-y-6">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
       <div>
-        <h1 className="text-xl font-bold uppercase tracking-tight flex items-center gap-2">
+        <h1 className="flex items-center gap-2 text-xl font-bold uppercase tracking-tight">
           <Cloud className="h-6 w-6" /> Синдикация контента PIM → каталог байера
         </h1>
-        <p className="text-sm text-slate-500 mt-1">
-          Fashion Cloud: расписание выгрузки, валидация контракта B2B (размерная сетка, состав, уход, EAN, медиа), лог последней выгрузки и SKU с ошибками.
+        <p className="mt-1 text-sm text-slate-500">
+          Fashion Cloud: расписание выгрузки, валидация контракта B2B (размерная сетка, состав,
+          уход, EAN, медиа), лог последней выгрузки и SKU с ошибками.
         </p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base"><Clock className="h-4 w-4" /> Расписание синдикации</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Clock className="h-4 w-4" /> Расписание синдикации
+          </CardTitle>
           <CardDescription>Выгрузка в каталог байера по расписанию (мок).</CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
-          <p className="text-sm font-mono bg-slate-100 rounded px-2 py-1 inline-block">{schedule.cron}</p>
+          <p className="inline-block rounded bg-slate-100 px-2 py-1 font-mono text-sm">
+            {schedule.cron}
+          </p>
           <p className="text-sm text-slate-600">{schedule.description}</p>
           {schedule.nextRun && <p className="text-xs text-slate-500">{schedule.nextRun}</p>}
         </CardContent>
@@ -101,8 +128,12 @@ export default function BrandContentSyndicationPage() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="flex items-center gap-2 text-base">Лог последней выгрузки</CardTitle>
-              <CardDescription>Результат валидации контракта B2B перед публикацией в каталог.</CardDescription>
+              <CardTitle className="flex items-center gap-2 text-base">
+                Лог последней выгрузки
+              </CardTitle>
+              <CardDescription>
+                Результат валидации контракта B2B перед публикацией в каталог.
+              </CardDescription>
             </div>
             <Button onClick={handleRunSync} disabled={running} className="gap-2">
               <RefreshCw className={`h-4 w-4 ${running ? 'animate-spin' : ''}`} />
@@ -112,21 +143,45 @@ export default function BrandContentSyndicationPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           {!log ? (
-            <p className="text-sm text-slate-500">Выгрузка ещё не запускалась. Нажмите «Запустить выгрузку» для валидации и записи лога.</p>
+            <p className="text-sm text-slate-500">
+              Выгрузка ещё не запускалась. Нажмите «Запустить выгрузку» для валидации и записи лога.
+            </p>
           ) : (
             <>
               <div className="flex flex-wrap gap-3">
-                <span className="text-xs text-slate-500">Дата: {new Date(log.runAt).toLocaleString('ru-RU')}</span>
-                <Badge variant={log.status === 'success' ? 'default' : log.status === 'partial' ? 'secondary' : 'destructive'}>
-                  {log.status === 'success' ? 'Успех' : log.status === 'partial' ? 'Частично' : 'Ошибки'}
+                <span className="text-xs text-slate-500">
+                  Дата: {new Date(log.runAt).toLocaleString('ru-RU')}
+                </span>
+                <Badge
+                  variant={
+                    log.status === 'success'
+                      ? 'default'
+                      : log.status === 'partial'
+                        ? 'secondary'
+                        : 'destructive'
+                  }
+                >
+                  {log.status === 'success'
+                    ? 'Успех'
+                    : log.status === 'partial'
+                      ? 'Частично'
+                      : 'Ошибки'}
                 </Badge>
-                <span className="text-sm">Обработано: <strong>{log.totalProcessed}</strong></span>
-                <span className="text-sm text-emerald-600">Успешно: <strong>{log.successCount}</strong></span>
+                <span className="text-sm">
+                  Обработано: <strong>{log.totalProcessed}</strong>
+                </span>
+                <span className="text-sm text-emerald-600">
+                  Успешно: <strong>{log.successCount}</strong>
+                </span>
                 {log.errorCount > 0 && (
-                  <span className="text-sm text-rose-600">С ошибками: <strong>{log.errorCount}</strong></span>
+                  <span className="text-sm text-rose-600">
+                    С ошибками: <strong>{log.errorCount}</strong>
+                  </span>
                 )}
               </div>
-              {log.nextRunSchedule && <p className="text-xs text-slate-500">{log.nextRunSchedule}</p>}
+              {log.nextRunSchedule && (
+                <p className="text-xs text-slate-500">{log.nextRunSchedule}</p>
+              )}
             </>
           )}
         </CardContent>
@@ -140,39 +195,71 @@ export default function BrandContentSyndicationPage() {
                 <CardTitle className="flex items-center gap-2 text-base text-amber-800">
                   <FileWarning className="h-4 w-4" /> SKU с ошибками (PIM → каталог)
                 </CardTitle>
-                <CardDescription>Эти артикулы не прошли валидацию контракта B2B и не попали в каталог байера. Заполните обязательные поля: размерная сетка, состав, уход, EAN, главное фото. Справочники: <Link href={ROUTES.shop.b2bSizeFinder} className="font-semibold text-indigo-600 hover:underline">Подбор размера / размерная сетка</Link>, <Link href={ROUTES.shop.b2bSizeMapping} className="font-semibold text-indigo-600 hover:underline">маппинг размеров</Link>.</CardDescription>
+                <CardDescription>
+                  Эти артикулы не прошли валидацию контракта B2B и не попали в каталог байера.
+                  Заполните обязательные поля: размерная сетка, состав, уход, EAN, главное фото.
+                  Справочники:{' '}
+                  <Link
+                    href={ROUTES.shop.b2bSizeFinder}
+                    className="font-semibold text-indigo-600 hover:underline"
+                  >
+                    Подбор размера / размерная сетка
+                  </Link>
+                  ,{' '}
+                  <Link
+                    href={ROUTES.shop.b2bSizeMapping}
+                    className="font-semibold text-indigo-600 hover:underline"
+                  >
+                    маппинг размеров
+                  </Link>
+                  .
+                </CardDescription>
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm" className="gap-1.5" onClick={() => exportSkuErrorsCsv(log.skuErrors)}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-1.5"
+                  onClick={() => exportSkuErrorsCsv(log.skuErrors)}
+                >
                   <Download className="h-3.5 w-3.5" /> Экспорт ошибок CSV
                 </Button>
-                <Button variant="outline" size="sm" className="gap-1.5" onClick={() => exportSkuErrorsJson(log.skuErrors)}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-1.5"
+                  onClick={() => exportSkuErrorsJson(log.skuErrors)}
+                >
                   <Download className="h-3.5 w-3.5" /> Скачать JSON
                 </Button>
               </div>
             </div>
           </CardHeader>
           <CardContent>
-            <div className="rounded-lg border border-slate-200 overflow-hidden">
+            <div className="overflow-hidden rounded-lg border border-slate-200">
               <table className="w-full text-sm">
                 <thead className="bg-slate-50">
                   <tr>
-                    <th className="text-left py-2 px-3 font-medium">SKU</th>
-                    <th className="text-left py-2 px-3 font-medium">Товар</th>
-                    <th className="text-left py-2 px-3 font-medium">Ошибки</th>
+                    <th className="px-3 py-2 text-left font-medium">SKU</th>
+                    <th className="px-3 py-2 text-left font-medium">Товар</th>
+                    <th className="px-3 py-2 text-left font-medium">Ошибки</th>
                   </tr>
                 </thead>
                 <tbody>
                   {log.skuErrors.map((row) => (
                     <tr key={row.productId} className="border-t border-slate-100">
-                      <td className="py-2 px-3 font-mono text-xs">{row.sku}</td>
-                      <td className="py-2 px-3 truncate max-w-[200px]">{row.name}</td>
-                      <td className="py-2 px-3">
+                      <td className="px-3 py-2 font-mono text-xs">{row.sku}</td>
+                      <td className="max-w-[200px] truncate px-3 py-2">{row.name}</td>
+                      <td className="px-3 py-2">
                         <ul className="space-y-0.5">
                           {row.errors.map((e) => (
                             <li key={e.field} className="flex items-center gap-1.5 text-rose-700">
                               <AlertCircle className="h-3.5 w-3.5 shrink-0" />
-                              <span>{B2B_FIELD_LABELS[e.field as keyof typeof B2B_FIELD_LABELS] ?? e.field}: {e.message}</span>
+                              <span>
+                                {B2B_FIELD_LABELS[e.field as keyof typeof B2B_FIELD_LABELS] ??
+                                  e.field}
+                                : {e.message}
+                              </span>
                             </li>
                           ))}
                         </ul>
@@ -187,9 +274,15 @@ export default function BrandContentSyndicationPage() {
       )}
 
       <div className="flex flex-wrap gap-2">
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.brand.catalogQuality}>Качество каталога</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.brand.b2bOrders}>Заказы B2B</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.brand.products}>Товары PIM</Link></Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.brand.catalogQuality}>Качество каталога</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.brand.b2bOrders}>Заказы B2B</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.brand.products}>Товары PIM</Link>
+        </Button>
       </div>
     </div>
   );

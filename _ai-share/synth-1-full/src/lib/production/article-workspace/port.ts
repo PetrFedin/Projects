@@ -8,5 +8,8 @@ export interface ArticleWorkspaceDataPort {
   readonly mode: ArticleWorkspaceDataMode;
   loadBundle(ref: ArticleRef): Promise<ArticleWorkspaceBundle>;
   /** Частичное обновление: указанные ключи заменяют существующие снимки целиком. */
-  mergeBundle(ref: ArticleRef, patch: Partial<ArticleWorkspaceBundle>): Promise<ArticleWorkspaceBundle>;
+  mergeBundle(
+    ref: ArticleRef,
+    patch: Partial<ArticleWorkspaceBundle>
+  ): Promise<ArticleWorkspaceBundle>;
 }

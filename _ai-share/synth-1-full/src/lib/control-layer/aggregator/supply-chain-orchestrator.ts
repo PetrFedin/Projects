@@ -30,7 +30,9 @@ export class SupplyChainOrchestrator {
    */
   private async handleLowStock(event: StockLowEvent) {
     const { sku, currentAtp, threshold, suggestedReplenishment } = event.payload;
-    console.log(`[SupplyChainOrchestrator] Low stock detected for ${sku}. ATP: ${currentAtp}, Threshold: ${threshold}. Triggering replenishment...`);
+    console.log(
+      `[SupplyChainOrchestrator] Low stock detected for ${sku}. ATP: ${currentAtp}, Threshold: ${threshold}. Triggering replenishment...`
+    );
 
     // В реальной системе здесь был бы вызов сервиса создания ProductionCommitment
     // Пока просто логируем и создаем мок-агрегат
@@ -51,11 +53,13 @@ export class SupplyChainOrchestrator {
       metadata: {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        version: 1
-      }
+        version: 1,
+      },
     });
 
-    console.log(`[SupplyChainOrchestrator] Created replenishment draft ${draftId} for ${suggestedReplenishment} units of ${sku}`);
+    console.log(
+      `[SupplyChainOrchestrator] Created replenishment draft ${draftId} for ${suggestedReplenishment} units of ${sku}`
+    );
   }
 
   /**
@@ -67,20 +71,24 @@ export class SupplyChainOrchestrator {
     // 1. Если риск высокий и это заказ (order)
     if (output.risk === 'high' && output.entity_ref.entity_type === 'order') {
       // Пытаемся найти альтернативный сток (Omnichannel Re-routing)
-      const routingResult = OmnichannelRouter.findOptimalLocation({
-        sku: output.entity_ref.entity_id,
-        quantity: 1, // Имитация: 1 единица
-        customerCoordinates: { lat: 0, lng: 0 }, // Заглушка
-        actorId: 'system',
-        actorType: 'brand'
-      }, [], []); // В реальном приложении передаем локации и леджер
+      const routingResult = OmnichannelRouter.findOptimalLocation(
+        {
+          sku: output.entity_ref.entity_id,
+          quantity: 1, // Имитация: 1 единица
+          customerCoordinates: { lat: 0, lng: 0 }, // Заглушка
+          actorId: 'system',
+          actorType: 'brand',
+        },
+        [],
+        []
+      ); // В реальном приложении передаем локации и леджер
 
       if (routingResult.success && routingResult.locationId) {
         results.push({
           action: 'RE_ROUTE_ORDER',
           entity_id: output.entity_ref.entity_id,
           status: 'executed',
-          reason: `Re-routed to ${routingResult.locationId} due to high risk at original source`
+          reason: `Re-routed to ${routingResult.locationId} due to high risk at original source`,
         });
       }
     }
@@ -92,7 +100,7 @@ export class SupplyChainOrchestrator {
         action: 'ADJUST_ALLOCATION_QUOTA',
         entity_id: output.entityId || (output as any).entity_ref?.entity_id,
         status: 'executed',
-        reason: 'Reduced B2C quota to prioritize B2B fulfillment due to production delay'
+        reason: 'Reduced B2C quota to prioritize B2B fulfillment due to production delay',
       });
     }
 

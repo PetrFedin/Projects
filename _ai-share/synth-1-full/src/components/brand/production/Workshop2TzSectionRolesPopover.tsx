@@ -38,7 +38,11 @@ const SECTION_COPY: Record<
 };
 
 /** Полный набор ролей для вкладки «Конструкция» (узлы каталога + мерки + согласование со скетчем). */
-const CONSTRUCTION_SECTION_ROLE_BLOCKS: readonly { title: string; titleClass: string; body: string }[] = [
+const CONSTRUCTION_SECTION_ROLE_BLOCKS: readonly {
+  title: string;
+  titleClass: string;
+  body: string;
+}[] = [
   {
     title: 'Бренд-дизайнер',
     titleClass: 'text-violet-900',
@@ -103,16 +107,18 @@ export function Workshop2TzSectionRolesPopover({
           >
             <LucideIcons.Users className="h-3 w-3 shrink-0" aria-hidden />
             Роли
-            <span className="tabular-nums text-slate-500">· {CONSTRUCTION_SECTION_ROLE_BLOCKS.length}</span>
+            <span className="tabular-nums text-slate-500">
+              · {CONSTRUCTION_SECTION_ROLE_BLOCKS.length}
+            </span>
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          className="w-[min(26rem,calc(100vw-1.5rem))] max-h-[min(32rem,70vh)] space-y-3 overflow-y-auto text-xs"
+          className="max-h-[min(32rem,70vh)] w-[min(26rem,calc(100vw-1.5rem))] space-y-3 overflow-y-auto text-xs"
           align="end"
         >
           <p className="text-[10px] font-semibold leading-snug text-slate-700">
-            Конструкция — общий стол: поля узлов каталога, табель мер и согласование со скетчем. Ниже — типичные участники
-            маршрута SKU и что для них важно в этой вкладке.
+            Конструкция — общий стол: поля узлов каталога, табель мер и согласование со скетчем.
+            Ниже — типичные участники маршрута SKU и что для них важно в этой вкладке.
           </p>
           {CONSTRUCTION_SECTION_ROLE_BLOCKS.map((row) => (
             <div key={row.title}>

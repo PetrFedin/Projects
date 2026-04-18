@@ -5,7 +5,14 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import {
   FileSpreadsheet,
   ArrowLeft,
@@ -19,7 +26,13 @@ import {
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import { exportToCsv, type SalesByBrandRow, type TopSkuRow, type SellThroughRow, type PlanFactRow } from '@/lib/b2b/partner-reports-data';
+import {
+  exportToCsv,
+  type SalesByBrandRow,
+  type TopSkuRow,
+  type SellThroughRow,
+  type PlanFactRow,
+} from '@/lib/b2b/partner-reports-data';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { usePartnerReports } from '@/hooks/use-partner-reports';
@@ -39,14 +52,17 @@ export default function PartnerReportsPage() {
     setBrand(searchParams.get('brand') ?? '');
   }, [searchParams]);
   const filters = { season: season || undefined, brand: brand || undefined };
-  const { salesByBrand, topSku, sellThrough, planFact, loading, error, refetch } = usePartnerReports(filters);
+  const { salesByBrand, topSku, sellThrough, planFact, loading, error, refetch } =
+    usePartnerReports(filters);
 
   const updateUrl = (s: string, b: string) => {
     const p = new URLSearchParams();
     if (s) p.set('season', s);
     if (b) p.set('brand', b);
     const q = p.toString();
-    router.replace(q ? `${ROUTES.shop.b2bReports}?${q}` : ROUTES.shop.b2bReports, { scroll: false });
+    router.replace(q ? `${ROUTES.shop.b2bReports}?${q}` : ROUTES.shop.b2bReports, {
+      scroll: false,
+    });
   };
 
   const exportSalesByBrand = () => {
@@ -118,27 +134,75 @@ export default function PartnerReportsPage() {
   };
 
   const exportAll = () => {
-    exportToCsv<SalesByBrandRow>(salesByBrand, [{ key: 'brand', header: 'Бренд' }, { key: 'revenue', header: 'Выручка' }, { key: 'cost', header: 'Себестоимость' }, { key: 'margin', header: 'Маржа %' }, { key: 'units', header: 'Шт' }, { key: 'season', header: 'Сезон' }], 'partner-sales-by-brand.csv');
-    exportToCsv<TopSkuRow>(topSku, [{ key: 'sku', header: 'Артикул' }, { key: 'name', header: 'Наименование' }, { key: 'brand', header: 'Бренд' }, { key: 'category', header: 'Категория' }, { key: 'unitsSold', header: 'Продано шт' }, { key: 'revenue', header: 'Выручка' }, { key: 'sellThroughPct', header: 'Sell-through %' }, { key: 'season', header: 'Сезон' }], 'partner-top-sku.csv');
-    exportToCsv<SellThroughRow>(sellThrough, [{ key: 'sku', header: 'Артикул' }, { key: 'name', header: 'Наименование' }, { key: 'brand', header: 'Бренд' }, { key: 'purchased', header: 'Закуплено' }, { key: 'sold', header: 'Продано' }, { key: 'sellThroughPct', header: 'Sell-through %' }, { key: 'season', header: 'Сезон' }], 'partner-sell-through.csv');
-    exportToCsv<PlanFactRow>(planFact, [{ key: 'brand', header: 'Бренд' }, { key: 'season', header: 'Сезон' }, { key: 'planAmount', header: 'План ₽' }, { key: 'factAmount', header: 'Факт ₽' }, { key: 'planUnits', header: 'План шт' }, { key: 'factUnits', header: 'Факт шт' }, { key: 'fulfillmentPct', header: 'Выполнение %' }], 'partner-plan-fact.csv');
+    exportToCsv<SalesByBrandRow>(
+      salesByBrand,
+      [
+        { key: 'brand', header: 'Бренд' },
+        { key: 'revenue', header: 'Выручка' },
+        { key: 'cost', header: 'Себестоимость' },
+        { key: 'margin', header: 'Маржа %' },
+        { key: 'units', header: 'Шт' },
+        { key: 'season', header: 'Сезон' },
+      ],
+      'partner-sales-by-brand.csv'
+    );
+    exportToCsv<TopSkuRow>(
+      topSku,
+      [
+        { key: 'sku', header: 'Артикул' },
+        { key: 'name', header: 'Наименование' },
+        { key: 'brand', header: 'Бренд' },
+        { key: 'category', header: 'Категория' },
+        { key: 'unitsSold', header: 'Продано шт' },
+        { key: 'revenue', header: 'Выручка' },
+        { key: 'sellThroughPct', header: 'Sell-through %' },
+        { key: 'season', header: 'Сезон' },
+      ],
+      'partner-top-sku.csv'
+    );
+    exportToCsv<SellThroughRow>(
+      sellThrough,
+      [
+        { key: 'sku', header: 'Артикул' },
+        { key: 'name', header: 'Наименование' },
+        { key: 'brand', header: 'Бренд' },
+        { key: 'purchased', header: 'Закуплено' },
+        { key: 'sold', header: 'Продано' },
+        { key: 'sellThroughPct', header: 'Sell-through %' },
+        { key: 'season', header: 'Сезон' },
+      ],
+      'partner-sell-through.csv'
+    );
+    exportToCsv<PlanFactRow>(
+      planFact,
+      [
+        { key: 'brand', header: 'Бренд' },
+        { key: 'season', header: 'Сезон' },
+        { key: 'planAmount', header: 'План ₽' },
+        { key: 'factAmount', header: 'Факт ₽' },
+        { key: 'planUnits', header: 'План шт' },
+        { key: 'factUnits', header: 'Факт шт' },
+        { key: 'fulfillmentPct', header: 'Выполнение %' },
+      ],
+      'partner-plan-fact.csv'
+    );
     toast({ title: 'Экспорт', description: 'Все отчёты экспортированы в CSV (4 файла).' });
   };
 
   function TableSkeleton({ rows = 4 }: { rows?: number }) {
-  return (
-    <div className="space-y-2">
-      {Array.from({ length: rows }).map((_, i) => (
-        <div key={i} className="h-10 bg-slate-100 rounded animate-pulse" />
-      ))}
-    </div>
-  );
-}
+    return (
+      <div className="space-y-2">
+        {Array.from({ length: rows }).map((_, i) => (
+          <div key={i} className="h-10 animate-pulse rounded bg-slate-100" />
+        ))}
+      </div>
+    );
+  }
 
   return (
-    <div className="container max-w-5xl mx-auto px-4 py-6 pb-24">
-      <div className="flex flex-col gap-4 mb-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="container mx-auto max-w-5xl px-4 py-6 pb-24">
+      <div className="mb-6 flex flex-col gap-4">
+        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div className="flex items-center gap-3">
             <Link href={ROUTES.shop.b2b}>
               <Button variant="ghost" size="icon">
@@ -146,51 +210,78 @@ export default function PartnerReportsPage() {
               </Button>
             </Link>
             <div>
-              <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2">
+              <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
                 <BarChart3 className="h-6 w-6" /> Мои отчёты
               </h1>
-              <p className="text-slate-500 text-sm mt-0.5">
-                JOOR / FashioNexus: продажи по брендам, топ SKU, sell-through, план/факт закупок. Экспорт в CSV.
+              <p className="mt-0.5 text-sm text-slate-500">
+                JOOR / FashioNexus: продажи по брендам, топ SKU, sell-through, план/факт закупок.
+                Экспорт в CSV.
               </p>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <Button variant="outline" size="sm" className="gap-2 shrink-0" onClick={() => refetch()} disabled={loading}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="shrink-0 gap-2"
+              onClick={() => refetch()}
+              disabled={loading}
+            >
               <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} /> Обновить
             </Button>
-            <Button variant="outline" size="sm" className="gap-2 shrink-0" onClick={exportAll} disabled={loading}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="shrink-0 gap-2"
+              onClick={exportAll}
+              disabled={loading}
+            >
               <FileSpreadsheet className="h-4 w-4" /> Экспорт всех в CSV
             </Button>
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <label className="text-xs font-medium text-slate-500 uppercase">Сезон</label>
+          <label className="text-xs font-medium uppercase text-slate-500">Сезон</label>
           <select
             value={season}
-            onChange={(e) => { const v = e.target.value; setSeason(v); updateUrl(v, brand); }}
-            className="rounded-md border border-slate-200 px-3 py-1.5 text-sm bg-white"
+            onChange={(e) => {
+              const v = e.target.value;
+              setSeason(v);
+              updateUrl(v, brand);
+            }}
+            className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm"
           >
             <option value="">Все сезоны</option>
             {SEASON_OPTIONS.filter(Boolean).map((s) => (
-              <option key={s} value={s}>{s}</option>
+              <option key={s} value={s}>
+                {s}
+              </option>
             ))}
           </select>
-          <label className="text-xs font-medium text-slate-500 uppercase">Бренд</label>
+          <label className="text-xs font-medium uppercase text-slate-500">Бренд</label>
           <select
             value={brand}
-            onChange={(e) => { const v = e.target.value; setBrand(v); updateUrl(season, v); }}
-            className="rounded-md border border-slate-200 px-3 py-1.5 text-sm bg-white"
+            onChange={(e) => {
+              const v = e.target.value;
+              setBrand(v);
+              updateUrl(season, v);
+            }}
+            className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm"
           >
             <option value="">Все бренды</option>
             {BRAND_OPTIONS.filter(Boolean).map((b) => (
-              <option key={b} value={b}>{b}</option>
+              <option key={b} value={b}>
+                {b}
+              </option>
             ))}
           </select>
         </div>
         {error && (
-          <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-800 flex items-center justify-between">
+          <div className="flex items-center justify-between rounded-lg border border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-800">
             <span>{error}</span>
-            <Button variant="outline" size="sm" onClick={() => refetch()}>Повторить</Button>
+            <Button variant="outline" size="sm" onClick={() => refetch()}>
+              Повторить
+            </Button>
           </div>
         )}
       </div>
@@ -209,31 +300,39 @@ export default function PartnerReportsPage() {
           </Button>
         </CardHeader>
         <CardContent>
-          {loading ? <TableSkeleton rows={3} /> : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Бренд</TableHead>
-                <TableHead className="text-right">Выручка</TableHead>
-                <TableHead className="text-right">Себестоимость</TableHead>
-                <TableHead className="text-right">Маржа %</TableHead>
-                <TableHead className="text-right">Шт</TableHead>
-                <TableHead>Сезон</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {salesByBrand.map((r) => (
-                <TableRow key={r.brand}>
-                  <TableCell className="font-medium">{r.brand}</TableCell>
-                  <TableCell className="text-right tabular-nums">{r.revenue.toLocaleString('ru-RU')} ₽</TableCell>
-                  <TableCell className="text-right tabular-nums text-slate-500">{r.cost.toLocaleString('ru-RU')} ₽</TableCell>
-                  <TableCell className="text-right font-semibold text-emerald-600">{r.margin}%</TableCell>
-                  <TableCell className="text-right tabular-nums">{r.units}</TableCell>
-                  <TableCell>{r.season}</TableCell>
+          {loading ? (
+            <TableSkeleton rows={3} />
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Бренд</TableHead>
+                  <TableHead className="text-right">Выручка</TableHead>
+                  <TableHead className="text-right">Себестоимость</TableHead>
+                  <TableHead className="text-right">Маржа %</TableHead>
+                  <TableHead className="text-right">Шт</TableHead>
+                  <TableHead>Сезон</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {salesByBrand.map((r) => (
+                  <TableRow key={r.brand}>
+                    <TableCell className="font-medium">{r.brand}</TableCell>
+                    <TableCell className="text-right tabular-nums">
+                      {r.revenue.toLocaleString('ru-RU')} ₽
+                    </TableCell>
+                    <TableCell className="text-right tabular-nums text-slate-500">
+                      {r.cost.toLocaleString('ru-RU')} ₽
+                    </TableCell>
+                    <TableCell className="text-right font-semibold text-emerald-600">
+                      {r.margin}%
+                    </TableCell>
+                    <TableCell className="text-right tabular-nums">{r.units}</TableCell>
+                    <TableCell>{r.season}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           )}
         </CardContent>
       </Card>
@@ -252,35 +351,43 @@ export default function PartnerReportsPage() {
           </Button>
         </CardHeader>
         <CardContent>
-          {loading ? <TableSkeleton rows={6} /> : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Артикул</TableHead>
-                <TableHead>Наименование</TableHead>
-                <TableHead>Бренд</TableHead>
-                <TableHead>Категория</TableHead>
-                <TableHead className="text-right">Продано</TableHead>
-                <TableHead className="text-right">Выручка</TableHead>
-                <TableHead className="text-right">Sell-through %</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {topSku.map((r) => (
-                <TableRow key={r.sku}>
-                  <TableCell className="font-mono text-xs">{r.sku}</TableCell>
-                  <TableCell>{r.name}</TableCell>
-                  <TableCell>{r.brand}</TableCell>
-                  <TableCell className="text-slate-500">{r.category}</TableCell>
-                  <TableCell className="text-right tabular-nums">{r.unitsSold}</TableCell>
-                  <TableCell className="text-right tabular-nums">{r.revenue.toLocaleString('ru-RU')} ₽</TableCell>
-                  <TableCell className="text-right">
-                    <span className={r.sellThroughPct >= 80 ? 'text-emerald-600 font-medium' : ''}>{r.sellThroughPct}%</span>
-                  </TableCell>
+          {loading ? (
+            <TableSkeleton rows={6} />
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Артикул</TableHead>
+                  <TableHead>Наименование</TableHead>
+                  <TableHead>Бренд</TableHead>
+                  <TableHead>Категория</TableHead>
+                  <TableHead className="text-right">Продано</TableHead>
+                  <TableHead className="text-right">Выручка</TableHead>
+                  <TableHead className="text-right">Sell-through %</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {topSku.map((r) => (
+                  <TableRow key={r.sku}>
+                    <TableCell className="font-mono text-xs">{r.sku}</TableCell>
+                    <TableCell>{r.name}</TableCell>
+                    <TableCell>{r.brand}</TableCell>
+                    <TableCell className="text-slate-500">{r.category}</TableCell>
+                    <TableCell className="text-right tabular-nums">{r.unitsSold}</TableCell>
+                    <TableCell className="text-right tabular-nums">
+                      {r.revenue.toLocaleString('ru-RU')} ₽
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <span
+                        className={r.sellThroughPct >= 80 ? 'font-medium text-emerald-600' : ''}
+                      >
+                        {r.sellThroughPct}%
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           )}
         </CardContent>
       </Card>
@@ -297,38 +404,46 @@ export default function PartnerReportsPage() {
           </Button>
         </CardHeader>
         <CardContent>
-          {loading ? <TableSkeleton rows={5} /> : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Артикул</TableHead>
-                <TableHead>Наименование</TableHead>
-                <TableHead>Бренд</TableHead>
-                <TableHead className="text-right">Закуплено</TableHead>
-                <TableHead className="text-right">Продано</TableHead>
-                <TableHead className="text-right">Sell-through %</TableHead>
-                <TableHead>Сезон</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {sellThrough.map((r) => (
-                <TableRow key={r.sku}>
-                  <TableCell className="font-mono text-xs">{r.sku}</TableCell>
-                  <TableCell>{r.name}</TableCell>
-                  <TableCell>{r.brand}</TableCell>
-                  <TableCell className="text-right tabular-nums">{r.purchased}</TableCell>
-                  <TableCell className="text-right tabular-nums">{r.sold}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex items-center gap-2 justify-end">
-                      <Progress value={r.sellThroughPct} className="w-12 h-2" />
-                      <span className={r.sellThroughPct >= 80 ? 'text-emerald-600 font-medium' : 'tabular-nums'}>{r.sellThroughPct}%</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>{r.season}</TableCell>
+          {loading ? (
+            <TableSkeleton rows={5} />
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Артикул</TableHead>
+                  <TableHead>Наименование</TableHead>
+                  <TableHead>Бренд</TableHead>
+                  <TableHead className="text-right">Закуплено</TableHead>
+                  <TableHead className="text-right">Продано</TableHead>
+                  <TableHead className="text-right">Sell-through %</TableHead>
+                  <TableHead>Сезон</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {sellThrough.map((r) => (
+                  <TableRow key={r.sku}>
+                    <TableCell className="font-mono text-xs">{r.sku}</TableCell>
+                    <TableCell>{r.name}</TableCell>
+                    <TableCell>{r.brand}</TableCell>
+                    <TableCell className="text-right tabular-nums">{r.purchased}</TableCell>
+                    <TableCell className="text-right tabular-nums">{r.sold}</TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <Progress value={r.sellThroughPct} className="h-2 w-12" />
+                        <span
+                          className={
+                            r.sellThroughPct >= 80 ? 'font-medium text-emerald-600' : 'tabular-nums'
+                          }
+                        >
+                          {r.sellThroughPct}%
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell>{r.season}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           )}
         </CardContent>
       </Card>
@@ -347,43 +462,55 @@ export default function PartnerReportsPage() {
           </Button>
         </CardHeader>
         <CardContent>
-          {loading ? <TableSkeleton rows={3} /> : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Бренд</TableHead>
-                <TableHead>Сезон</TableHead>
-                <TableHead className="text-right">План ₽</TableHead>
-                <TableHead className="text-right">Факт ₽</TableHead>
-                <TableHead className="text-right">План шт</TableHead>
-                <TableHead className="text-right">Факт шт</TableHead>
-                <TableHead className="text-right">Выполнение %</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {planFact.map((r) => (
-                <TableRow key={`${r.brand}-${r.season}`}>
-                  <TableCell className="font-medium">{r.brand}</TableCell>
-                  <TableCell>{r.season}</TableCell>
-                  <TableCell className="text-right tabular-nums">{r.planAmount.toLocaleString('ru-RU')}</TableCell>
-                  <TableCell className="text-right tabular-nums">{r.factAmount.toLocaleString('ru-RU')}</TableCell>
-                  <TableCell className="text-right tabular-nums">{r.planUnits}</TableCell>
-                  <TableCell className="text-right tabular-nums">{r.factUnits}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex items-center gap-2 justify-end">
-                      <Progress value={r.fulfillmentPct} className="w-14 h-2" />
-                      <span className={r.fulfillmentPct >= 90 ? 'text-emerald-600 font-medium' : 'tabular-nums'}>{r.fulfillmentPct}%</span>
-                    </div>
-                  </TableCell>
+          {loading ? (
+            <TableSkeleton rows={3} />
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Бренд</TableHead>
+                  <TableHead>Сезон</TableHead>
+                  <TableHead className="text-right">План ₽</TableHead>
+                  <TableHead className="text-right">Факт ₽</TableHead>
+                  <TableHead className="text-right">План шт</TableHead>
+                  <TableHead className="text-right">Факт шт</TableHead>
+                  <TableHead className="text-right">Выполнение %</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {planFact.map((r) => (
+                  <TableRow key={`${r.brand}-${r.season}`}>
+                    <TableCell className="font-medium">{r.brand}</TableCell>
+                    <TableCell>{r.season}</TableCell>
+                    <TableCell className="text-right tabular-nums">
+                      {r.planAmount.toLocaleString('ru-RU')}
+                    </TableCell>
+                    <TableCell className="text-right tabular-nums">
+                      {r.factAmount.toLocaleString('ru-RU')}
+                    </TableCell>
+                    <TableCell className="text-right tabular-nums">{r.planUnits}</TableCell>
+                    <TableCell className="text-right tabular-nums">{r.factUnits}</TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <Progress value={r.fulfillmentPct} className="h-2 w-14" />
+                        <span
+                          className={
+                            r.fulfillmentPct >= 90 ? 'font-medium text-emerald-600' : 'tabular-nums'
+                          }
+                        >
+                          {r.fulfillmentPct}%
+                        </span>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           )}
         </CardContent>
       </Card>
 
-      <div className="flex flex-wrap gap-2 mt-4">
+      <div className="mt-4 flex flex-wrap gap-2">
         <Button variant="outline" size="sm" asChild>
           <Link href={ROUTES.shop.b2bOrderAnalytics}>Аналитика заказов</Link>
         </Button>
@@ -397,7 +524,11 @@ export default function PartnerReportsPage() {
           <Link href={ROUTES.shop.b2bOrders}>Мои заказы</Link>
         </Button>
       </div>
-      <RelatedModulesBlock links={getShopB2BHubLinks()} title="Заказы, аналитика, fulfillment" className="mt-6" />
+      <RelatedModulesBlock
+        links={getShopB2BHubLinks()}
+        title="Заказы, аналитика, fulfillment"
+        className="mt-6"
+      />
     </div>
   );
 }

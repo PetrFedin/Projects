@@ -47,8 +47,10 @@ export default function FactoryHubPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-500 mb-1">Обзор</h2>
-        <p className="text-slate-700 text-sm">
+        <h2 className="mb-1 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500">
+          Обзор
+        </h2>
+        <p className="text-sm text-slate-700">
           {isSupplier ? 'Поставки материалов для брендов. ' : 'Производство и цепочка поставок. '}
           Используйте навигацию слева для перехода в разделы.
         </p>
@@ -56,20 +58,29 @@ export default function FactoryHubPage() {
 
       <div className="grid gap-6 md:grid-cols-2">
         {sections.map((section) => (
-          <div key={section.title} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-            <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">{section.title}</h3>
+          <div
+            key={section.title}
+            className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
+          >
+            <h3 className="mb-3 text-[10px] font-black uppercase tracking-widest text-slate-400">
+              {section.title}
+            </h3>
             <ul className="space-y-1.5">
               {section.items.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="group flex items-center justify-between rounded-md px-2.5 py-2 text-[11px] font-bold uppercase tracking-wider text-slate-700 hover:bg-slate-50 transition-colors"
+                    className="group flex items-center justify-between rounded-md px-2.5 py-2 text-[11px] font-bold uppercase tracking-wider text-slate-700 transition-colors hover:bg-slate-50"
                   >
                     <div>
-                      <span className="group-hover:text-emerald-600 transition-colors">{item.label}</span>
-                      <p className="text-[9px] font-normal normal-case tracking-normal text-slate-400 mt-0.5">{item.desc}</p>
+                      <span className="transition-colors group-hover:text-emerald-600">
+                        {item.label}
+                      </span>
+                      <p className="mt-0.5 text-[9px] font-normal normal-case tracking-normal text-slate-400">
+                        {item.desc}
+                      </p>
                     </div>
-                    <ArrowUpRight className="h-3 w-3 text-slate-300 group-hover:text-emerald-500 shrink-0" />
+                    <ArrowUpRight className="h-3 w-3 shrink-0 text-slate-300 group-hover:text-emerald-500" />
                   </Link>
                 </li>
               ))}

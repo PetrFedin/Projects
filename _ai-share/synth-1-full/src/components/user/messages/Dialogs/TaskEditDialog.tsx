@@ -1,6 +1,11 @@
 import React from 'react';
-import { 
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -30,7 +35,7 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
   task,
   currentUser,
   participants,
-  onSave
+  onSave,
 }) => {
   const { toast } = useToast();
   const [text, setText] = React.useState('');
@@ -48,23 +53,32 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
     setAssignees((task.assignees ?? []) || []);
     setWidgetTags(task.widgetTags || []);
     setIsPrivate(task.isPrivate || false);
-    setSyncToCalendar((task.reminderData?.isSyncedWithCalendar) ?? false);
+    setSyncToCalendar(task.reminderData?.isSyncedWithCalendar ?? false);
     const d = task.deadline ? safeDate(task.deadline) : null;
-    setDeadline(d ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` : '');
+    setDeadline(
+      d
+        ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+        : ''
+    );
   }, [open, task]);
 
   if (!task) return null;
   const isAuthor = task.user === currentUser;
-  const canEdit = true; 
+  const canEdit = true;
 
   function toggleAssignee(name: string) {
     if (!canEdit) return;
-    setAssignees((prev) => (prev.includes(name) ? prev.filter((x) => x !== name) : [...prev, name]));
+    setAssignees((prev) =>
+      prev.includes(name) ? prev.filter((x) => x !== name) : [...prev, name]
+    );
   }
 
   function save() {
     if (!canEdit) {
-      toast({ title: 'Недостаточно прав', description: 'У вас нет прав для редактирования этой задачи.' });
+      toast({
+        title: 'Недостаточно прав',
+        description: 'У вас нет прав для редактирования этой задачи.',
+      });
       return;
     }
 
@@ -80,10 +94,26 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
     if (!Array.isArray(extensions)) extensions = [];
 
     if (prevDeadline && nextDeadline && nextDeadline.getTime() > prevDeadline.getTime()) {
-      extensions = [...extensions, { at: Date.now(), by: currentUser, from: prevDeadline.toISOString().slice(0, 10), to: nextDeadline.toISOString().slice(0, 10) }];
+      extensions = [
+        ...extensions,
+        {
+          at: Date.now(),
+          by: currentUser,
+          from: prevDeadline.toISOString().slice(0, 10),
+          to: nextDeadline.toISOString().slice(0, 10),
+        },
+      ];
     }
     if (!prevDeadline && nextDeadline) {
-      extensions = [...extensions, { at: Date.now(), by: currentUser, from: null, to: nextDeadline.toISOString().slice(0, 10) }];
+      extensions = [
+        ...extensions,
+        {
+          at: Date.now(),
+          by: currentUser,
+          from: null,
+          to: nextDeadline.toISOString().slice(0, 10),
+        },
+      ];
     }
 
     const next: ChatMessage = {
@@ -115,37 +145,45 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl bg-white rounded-none border border-zinc-200 shadow-2xl p-3">
-        <DialogHeader className="space-y-3 mb-8 border-b border-zinc-100 pb-6">
-          <DialogTitle className="text-base font-black tracking-tighter text-zinc-900 uppercase">
-            {task.id && typeof task.id === 'string' && task.id.startsWith('e_') ? 'NEW TASK' : 'EDIT TASK'}
+      <DialogContent className="max-w-2xl rounded-none border border-zinc-200 bg-white p-3 shadow-2xl">
+        <DialogHeader className="mb-8 space-y-3 border-b border-zinc-100 pb-6">
+          <DialogTitle className="text-base font-black uppercase tracking-tighter text-zinc-900">
+            {task.id && typeof task.id === 'string' && task.id.startsWith('e_')
+              ? 'NEW TASK'
+              : 'EDIT TASK'}
           </DialogTitle>
-          <DialogDescription className="text-zinc-400 font-black text-[10px] uppercase tracking-widest">
+          <DialogDescription className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
             {isAuthor ? 'OPERATIONAL PARAMETERS SETUP' : 'TASK VIEW MODE'}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-10">
           <div className="space-y-3">
-            <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">DESCRIPTION</Label>
-            <Textarea 
-              value={text} 
-              onChange={(e) => setText(e.target.value)} 
-              className="bg-[#FBFBFC] border-zinc-100 rounded-none min-h-[120px] font-bold text-xs p-4 focus:ring-black focus:border-black transition-all" 
+            <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">
+              DESCRIPTION
+            </Label>
+            <Textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              className="min-h-[120px] rounded-none border-zinc-100 bg-[#FBFBFC] p-4 text-xs font-bold transition-all focus:border-black focus:ring-black"
               placeholder="ENTER TASK REQUIREMENTS..."
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             <div className="space-y-4">
-              <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">PRIORITY</Label>
+              <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">
+                PRIORITY
+              </Label>
               <div className="flex gap-2">
                 {(['low', 'medium', 'high'] as TaskPriority[]).map((p) => (
                   <button
                     key={p}
                     className={cn(
-                      "flex-1 h-10 text-[9px] font-black uppercase tracking-widest transition-all border",
-                      priority === p ? "bg-black text-white border-black" : "bg-white border-zinc-200 text-zinc-400 hover:border-zinc-400"
+                      'h-10 flex-1 border text-[9px] font-black uppercase tracking-widest transition-all',
+                      priority === p
+                        ? 'border-black bg-black text-white'
+                        : 'border-zinc-200 bg-white text-zinc-400 hover:border-zinc-400'
                     )}
                     onClick={() => canEdit && setPriority(p)}
                     disabled={!canEdit}
@@ -157,20 +195,24 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
             </div>
 
             <div className="space-y-4">
-              <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">DEADLINE</Label>
+              <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">
+                DEADLINE
+              </Label>
               <Input
                 type="date"
                 value={deadline}
                 onChange={(e) => canEdit && setDeadline(e.target.value)}
-                className="bg-[#FBFBFC] border-zinc-100 rounded-none h-10 font-black text-[10px] px-4 tabular-nums uppercase"
+                className="h-10 rounded-none border-zinc-100 bg-[#FBFBFC] px-4 text-[10px] font-black uppercase tabular-nums"
                 disabled={!canEdit}
               />
             </div>
           </div>
 
           <div className="space-y-4">
-            <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">ANALYTICS & TOOLS (WIDGETS)</Label>
-            <div className="flex gap-2 flex-wrap">
+            <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">
+              ANALYTICS & TOOLS (WIDGETS)
+            </Label>
+            <div className="flex flex-wrap gap-2">
               {[
                 { id: 'production_timeline', label: 'PRODUCTION' },
                 { id: 'logistics_tracker', label: 'LOGISTICS' },
@@ -179,14 +221,21 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
                 { id: 'qc_summary', label: 'QUALITY' },
                 { id: 'contract_status', label: 'CONTRACTS' },
                 { id: 'risk_bar', label: 'RISK OS' },
-              ].map(w => (
+              ].map((w) => (
                 <button
                   key={w.id}
                   className={cn(
-                    "px-4 py-2 border rounded-none text-[8px] font-black uppercase tracking-widest transition-all",
-                    widgetTags.includes(w.id) ? "bg-zinc-900 text-white border-zinc-900" : "bg-white text-zinc-400 border-zinc-200 hover:border-zinc-400"
+                    'rounded-none border px-4 py-2 text-[8px] font-black uppercase tracking-widest transition-all',
+                    widgetTags.includes(w.id)
+                      ? 'border-zinc-900 bg-zinc-900 text-white'
+                      : 'border-zinc-200 bg-white text-zinc-400 hover:border-zinc-400'
                   )}
-                  onClick={() => canEdit && setWidgetTags(prev => prev.includes(w.id) ? prev.filter(x => x !== w.id) : [...prev, w.id])}
+                  onClick={() =>
+                    canEdit &&
+                    setWidgetTags((prev) =>
+                      prev.includes(w.id) ? prev.filter((x) => x !== w.id) : [...prev, w.id]
+                    )
+                  }
                 >
                   {w.label}
                 </button>
@@ -195,56 +244,85 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
           </div>
 
           <div className="space-y-4">
-            <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400 flex items-center gap-2">
+            <Label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">
               <Calendar className="h-3.5 w-3.5" />
               КАЛЕНДАРЬ
             </Label>
-            <div className="flex items-center justify-between p-4 bg-indigo-50/50 border border-indigo-100 rounded-lg">
+            <div className="flex items-center justify-between rounded-lg border border-indigo-100 bg-indigo-50/50 p-4">
               <div className="space-y-0.5">
-                <p className="text-[9px] font-black uppercase tracking-tight text-zinc-900">Синхронизировать с календарём</p>
-                <p className="text-[8px] text-zinc-500 font-bold">Задача появится в календаре (слой Tasks) с дедлайном</p>
+                <p className="text-[9px] font-black uppercase tracking-tight text-zinc-900">
+                  Синхронизировать с календарём
+                </p>
+                <p className="text-[8px] font-bold text-zinc-500">
+                  Задача появится в календаре (слой Tasks) с дедлайном
+                </p>
               </div>
-              <Switch checked={syncToCalendar} onCheckedChange={setSyncToCalendar} disabled={!canEdit} />
+              <Switch
+                checked={syncToCalendar}
+                onCheckedChange={setSyncToCalendar}
+                disabled={!canEdit}
+              />
             </div>
           </div>
 
           <div className="space-y-4">
-            <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400 flex items-center justify-between">
+            <Label className="flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">
               PRIVACY & VISIBILITY
               <div className="flex items-center gap-2">
-                {isPrivate ? <EyeOff className="h-3 w-3 text-rose-500" /> : <Eye className="h-3 w-3 text-emerald-500" />}
-                <span className={cn("text-[8px] font-black uppercase", isPrivate ? "text-rose-500" : "text-emerald-500")}>
+                {isPrivate ? (
+                  <EyeOff className="h-3 w-3 text-rose-500" />
+                ) : (
+                  <Eye className="h-3 w-3 text-emerald-500" />
+                )}
+                <span
+                  className={cn(
+                    'text-[8px] font-black uppercase',
+                    isPrivate ? 'text-rose-500' : 'text-emerald-500'
+                  )}
+                >
                   {isPrivate ? 'PRIVATE' : 'PUBLIC'}
                 </span>
               </div>
             </Label>
-            <div className="flex items-center justify-between p-4 bg-zinc-50 border border-zinc-100">
+            <div className="flex items-center justify-between border border-zinc-100 bg-zinc-50 p-4">
               <div className="space-y-0.5">
-                <p className="text-[9px] font-black uppercase tracking-tight text-zinc-900 italic">Режим личных задач</p>
-                <p className="text-[8px] text-zinc-400 font-bold uppercase">If enabled, this task will be visible only to you.</p>
+                <p className="text-[9px] font-black uppercase italic tracking-tight text-zinc-900">
+                  Режим личных задач
+                </p>
+                <p className="text-[8px] font-bold uppercase text-zinc-400">
+                  If enabled, this task will be visible only to you.
+                </p>
               </div>
               <Switch checked={isPrivate} onCheckedChange={setIsPrivate} disabled={!canEdit} />
             </div>
           </div>
 
           <div className="space-y-4">
-            <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">ASSIGNED TEAM</Label>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">
+              ASSIGNED TEAM
+            </Label>
+            <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
               {participants.map((p) => {
                 const active = assignees.includes(p.name);
                 return (
                   <button
                     key={p.id}
                     className={cn(
-                      "flex items-center gap-3 h-12 px-4 border transition-all text-left",
-                      active ? "bg-zinc-50 border-zinc-900 text-zinc-900" : "bg-white border-zinc-100 text-zinc-400 hover:border-zinc-300"
+                      'flex h-12 items-center gap-3 border px-4 text-left transition-all',
+                      active
+                        ? 'border-zinc-900 bg-zinc-50 text-zinc-900'
+                        : 'border-zinc-100 bg-white text-zinc-400 hover:border-zinc-300'
                     )}
                     onClick={() => canEdit && toggleAssignee(p.name)}
                     disabled={!canEdit}
                   >
-                    <div className="h-6 w-6 bg-zinc-100 text-[8px] font-black flex items-center justify-center uppercase">{p.name[0]}</div>
-                    <span className="text-[10px] font-black uppercase tracking-tighter">{p.name}</span>
-                    {active && <Check className="h-3 w-3 ml-auto text-black" />}
+                    <div className="flex h-6 w-6 items-center justify-center bg-zinc-100 text-[8px] font-black uppercase">
+                      {p.name[0]}
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-tighter">
+                      {p.name}
+                    </span>
+                    {active && <Check className="ml-auto h-3 w-3 text-black" />}
                   </button>
                 );
               })}
@@ -252,9 +330,20 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
           </div>
         </div>
 
-        <DialogFooter className="mt-12 pt-8 border-t border-zinc-100 gap-3">
-          <Button variant="ghost" onClick={() => onOpenChange(false)} className="rounded-none h-12 px-10 font-black text-[10px] uppercase text-slate-400 tracking-widest">CANCEL</Button>
-          <Button onClick={save} className="bg-zinc-900 text-white hover:bg-black rounded-none h-12 px-14 font-black text-[10px] uppercase tracking-[0.2rem] shadow-2xl">SAVE OPERATIONAL DATA</Button>
+        <DialogFooter className="mt-12 gap-3 border-t border-zinc-100 pt-8">
+          <Button
+            variant="ghost"
+            onClick={() => onOpenChange(false)}
+            className="h-12 rounded-none px-10 text-[10px] font-black uppercase tracking-widest text-slate-400"
+          >
+            CANCEL
+          </Button>
+          <Button
+            onClick={save}
+            className="h-12 rounded-none bg-zinc-900 px-14 text-[10px] font-black uppercase tracking-[0.2rem] text-white shadow-2xl hover:bg-black"
+          >
+            SAVE OPERATIONAL DATA
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

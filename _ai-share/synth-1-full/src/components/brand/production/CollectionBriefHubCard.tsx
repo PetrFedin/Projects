@@ -11,7 +11,10 @@ import {
   patchStepModuleFields,
   saveCollectionStageModules,
 } from '@/lib/production/collection-stage-modules-store';
-import { getFormFieldsForStep, hasSubstantiveModuleContent } from '@/lib/production/collection-step-form-fields';
+import {
+  getFormFieldsForStep,
+  hasSubstantiveModuleContent,
+} from '@/lib/production/collection-step-form-fields';
 import type { CollectionModuleSaveEvent } from '@/components/brand/production/CollectionStepModuleDialog';
 import type { HubModuleLink } from '@/components/brand/production/CollectionStageModuleHubCard';
 import { Badge } from '@/components/ui/badge';
@@ -77,7 +80,8 @@ export function CollectionBriefHubCard({
       if (k === collectionFlowKey) refresh();
     };
     window.addEventListener(BRAND_COLLECTION_STAGE_MODULES_SAVED, h as EventListener);
-    return () => window.removeEventListener(BRAND_COLLECTION_STAGE_MODULES_SAVED, h as EventListener);
+    return () =>
+      window.removeEventListener(BRAND_COLLECTION_STAGE_MODULES_SAVED, h as EventListener);
   }, [collectionFlowKey, refresh]);
 
   const handleSave = () => {
@@ -108,15 +112,22 @@ export function CollectionBriefHubCard({
     <Card className="border-amber-200/90 bg-gradient-to-r from-amber-50/40 via-white to-indigo-50/20 shadow-sm">
       <CardHeader className="space-y-1 pb-2">
         <div className="flex flex-wrap items-center gap-2">
-          <FileText className="h-4 w-4 text-amber-700 shrink-0" aria-hidden />
-          <CardTitle className="text-sm uppercase tracking-tight">Бриф коллекции (этап 1)</CardTitle>
+          <FileText className="h-4 w-4 shrink-0 text-amber-700" aria-hidden />
+          <CardTitle className="text-sm uppercase tracking-tight">
+            Бриф коллекции (этап 1)
+          </CardTitle>
           {matrixBriefStatus ? (
-            <Badge variant="outline" className="h-5 border-slate-200 text-[7px] font-bold uppercase">
+            <Badge
+              variant="outline"
+              className="h-5 border-slate-200 text-[7px] font-bold uppercase"
+            >
               {STATUS_RU[matrixBriefStatus]}
             </Badge>
           ) : null}
           {substantive ? (
-            <Badge className="h-5 bg-emerald-600/90 text-[7px] font-bold uppercase">Черновик заполнен</Badge>
+            <Badge className="h-5 bg-emerald-600/90 text-[7px] font-bold uppercase">
+              Черновик заполнен
+            </Badge>
           ) : (
             <Badge variant="secondary" className="h-5 text-[7px] font-semibold text-slate-600">
               Заполните бриф — тот же объект, что в модуле этапа
@@ -124,12 +135,15 @@ export function CollectionBriefHubCard({
           )}
         </div>
         <CardDescription className="text-xs leading-relaxed">
-          Коллекция: <strong className="text-slate-800">{collectionLabel}</strong>. Поля совпадают с модулем «Бриф коллекции и цели» в цепочке этапов ниже; сохранение —{' '}
-          <span className="font-mono text-[10px]">brand_collection_stage_modules</span> (демо). После первого содержательного сохранения этап{' '}
-          <span className="font-mono text-[10px]">brief</span> у всех SKU коллекции переходит в «в работе» в матрице.
+          Коллекция: <strong className="text-slate-800">{collectionLabel}</strong>. Поля совпадают с
+          модулем «Бриф коллекции и цели» в цепочке этапов ниже; сохранение —{' '}
+          <span className="font-mono text-[10px]">brand_collection_stage_modules</span> (демо).
+          После первого содержательного сохранения этап{' '}
+          <span className="font-mono text-[10px]">brief</span> у всех SKU коллекции переходит в «в
+          работе» в матрице.
         </CardDescription>
         {previewLine ? (
-          <p className="text-[11px] font-medium text-slate-700 pt-0.5">
+          <p className="pt-0.5 text-[11px] font-medium text-slate-700">
             Кратко: <span className="text-indigo-900">{previewLine}</span>
           </p>
         ) : null}
@@ -154,7 +168,11 @@ export function CollectionBriefHubCard({
           {fieldDefs.map((def) => (
             <div
               key={def.key}
-              className={cn(def.type === 'textarea' && (def.key === 'audience' || def.key === 'mood') ? 'md:col-span-2' : '')}
+              className={cn(
+                def.type === 'textarea' && (def.key === 'audience' || def.key === 'mood')
+                  ? 'md:col-span-2'
+                  : ''
+              )}
             >
               <p className="mb-1 text-[9px] font-bold uppercase text-slate-400">{def.label}</p>
               {def.type === 'textarea' ? (
@@ -181,7 +199,13 @@ export function CollectionBriefHubCard({
           <Button type="button" size="sm" className="h-9 text-xs" onClick={handleSave}>
             Сохранить бриф
           </Button>
-          <Button type="button" variant="outline" size="sm" className="h-9 gap-1.5 text-[10px]" onClick={onOpenFullDialog}>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-9 gap-1.5 text-[10px]"
+            onClick={onOpenFullDialog}
+          >
             <LayoutPanelLeft className="h-3.5 w-3.5 shrink-0" aria-hidden />
             Вложения, история, согласование
           </Button>

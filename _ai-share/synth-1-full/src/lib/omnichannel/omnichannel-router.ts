@@ -48,7 +48,7 @@ export class OmnichannelRouter {
         grains: ledgerGrains.filter((g) => g.locationId === loc.id && g.sku === sku),
         actorId,
         actorType,
-        channelId: loc.type === 'retail_store' ? 'retail' : undefined
+        channelId: loc.type === 'retail_store' ? 'retail' : undefined,
       });
       return atp >= quantity;
     });
@@ -59,26 +59,28 @@ export class OmnichannelRouter {
 
     // 2. Если есть предпочтительная локация и там есть сток — выбираем её
     if (request.preferredLocationId) {
-      const preferred = candidateLocations.find(l => l.id === request.preferredLocationId);
+      const preferred = candidateLocations.find((l) => l.id === request.preferredLocationId);
       if (preferred) {
-        return { 
-          success: true, 
+        return {
+          success: true,
           locationId: preferred.id,
           availableStock: calculateATP({
             grains: ledgerGrains.filter((g) => g.locationId === preferred.id && g.sku === sku),
             actorId,
-            actorType
-          })
+            actorType,
+          }),
         };
       }
     }
 
     // 3. Если указаны координаты клиента — ищем ближайшую
     if (customerCoordinates) {
-      const sortedByDistance = candidateLocations.map(loc => ({
-        loc,
-        distance: this.calculateDistance(customerCoordinates, loc.coordinates)
-      })).sort((a, b) => a.distance - b.distance);
+      const sortedByDistance = candidateLocations
+        .map((loc) => ({
+          loc,
+          distance: this.calculateDistance(customerCoordinates, loc.coordinates),
+        }))
+        .sort((a, b) => a.distance - b.distance);
 
       const nearest = sortedByDistance[0];
       return {
@@ -88,35 +90,41 @@ export class OmnichannelRouter {
         availableStock: calculateATP({
           grains: ledgerGrains.filter((g) => g.locationId === nearest.loc.id && g.sku === sku),
           actorId,
-          actorType
-        })
+          actorType,
+        }),
       };
     }
 
     // 4. Fallback: возвращаем первую доступную (обычно склад)
-    const fallback = candidateLocations.find(l => l.type === 'warehouse') || candidateLocations[0];
+    const fallback =
+      candidateLocations.find((l) => l.type === 'warehouse') || candidateLocations[0];
     return {
       success: true,
       locationId: fallback.id,
       availableStock: calculateATP({
         grains: ledgerGrains.filter((g) => g.locationId === fallback.id && g.sku === sku),
         actorId,
-        actorType
-      })
+        actorType,
+      }),
     };
   }
 
   /**
    * Формула гаверсинуса для расчета расстояния между точками.
    */
-  private static calculateDistance(p1: { lat: number; lng: number }, p2: { lat: number; lng: number }): number {
+  private static calculateDistance(
+    p1: { lat: number; lng: number },
+    p2: { lat: number; lng: number }
+  ): number {
     const R = 6371; // Радиус Земли в км
-    const dLat = (p2.lat - p1.lat) * Math.PI / 180;
-    const dLng = (p2.lng - p1.lng) * Math.PI / 180;
-    const a = 
+    const dLat = ((p2.lat - p1.lat) * Math.PI) / 180;
+    const dLng = ((p2.lng - p1.lng) * Math.PI) / 180;
+    const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(p1.lat * Math.PI / 180) * Math.cos(p2.lat * Math.PI / 180) * 
-      Math.sin(dLng / 2) * Math.sin(dLng / 2);
+      Math.cos((p1.lat * Math.PI) / 180) *
+        Math.cos((p2.lat * Math.PI) / 180) *
+        Math.sin(dLng / 2) *
+        Math.sin(dLng / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
   }

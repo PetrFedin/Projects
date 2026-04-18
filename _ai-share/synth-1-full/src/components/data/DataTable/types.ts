@@ -1,12 +1,12 @@
-import type { ColumnDef, VisibilityState, RowSelectionState } from "@tanstack/react-table";
+import type { ColumnDef, VisibilityState, RowSelectionState } from '@tanstack/react-table';
 
 export type DataTableColumn<T> = ColumnDef<T, any>;
 
-export type SortDir = "asc" | "desc" | "";
+export type SortDir = 'asc' | 'desc' | '';
 
 export type ServerQuery = {
   q?: string;
-  page: number;      // 1-based in URL
+  page: number; // 1-based in URL
   pageSize: number;
   sortBy?: string;
   sortDir?: SortDir;
@@ -28,10 +28,9 @@ export type DataTableProps<T> = {
   bulkActions?: Array<{
     label: string;
     onClick: (ids: string[]) => void;
-    tone?: "primary" | "secondary" | "danger";
+    tone?: 'primary' | 'secondary' | 'danger';
   }>;
   initialVisibility?: VisibilityState;
   stickyFirstColumn?: boolean;
   filterLabels?: Record<string, string>;
 };
-

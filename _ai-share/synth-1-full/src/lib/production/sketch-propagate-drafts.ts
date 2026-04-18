@@ -3,7 +3,10 @@ import type {
   Workshop2Phase1CategorySketchAnnotation,
   Workshop2SketchPropagatedDraft,
 } from '@/lib/production/workshop2-dossier-phase1.types';
-import { propagateAnnotationsToFit, propagateAnnotationsToQc } from '@/lib/production/sketch-link-model';
+import {
+  propagateAnnotationsToFit,
+  propagateAnnotationsToQc,
+} from '@/lib/production/sketch-link-model';
 
 /** То же, что `buildPropagatedDraftsFromSketch`, только по массиву меток (без полного досье). */
 export function buildPropagatedDraftsFromAnnotationsOnly(
@@ -18,7 +21,9 @@ export function buildPropagatedDraftsFromAnnotationsOnly(
 }
 
 /** Собирает черновики из текущих меток master-скетча (посадка / ОТК). */
-export function buildPropagatedDraftsFromSketch(dossier: Workshop2DossierPhase1): Workshop2SketchPropagatedDraft[] {
+export function buildPropagatedDraftsFromSketch(
+  dossier: Workshop2DossierPhase1
+): Workshop2SketchPropagatedDraft[] {
   const at = new Date().toISOString();
   const fit = propagateAnnotationsToFit(dossier).map(
     (x): Workshop2SketchPropagatedDraft => ({

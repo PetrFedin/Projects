@@ -37,8 +37,15 @@ export function LiveProcessSchemeEditor({
   preserveProcessIdOnTemplate = true,
 }: LiveProcessSchemeEditorProps) {
   const initialDef = getLiveProcessDefinition(processId);
-  const { definition, setDefinition, addStage, removeStage, renameStage, reorderStages, loadTemplate } =
-    useSchemeEditor(initialDef);
+  const {
+    definition,
+    setDefinition,
+    addStage,
+    removeStage,
+    renameStage,
+    reorderStages,
+    loadTemplate,
+  } = useSchemeEditor(initialDef);
 
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [editingStageId, setEditingStageId] = useState<string | null>(null);
@@ -95,7 +102,7 @@ export function LiveProcessSchemeEditor({
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" disabled={readOnly}>
                 Загрузить шаблон
-                <ChevronDown className="h-4 w-4 ml-1" />
+                <ChevronDown className="ml-1 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-64">
@@ -103,18 +110,24 @@ export function LiveProcessSchemeEditor({
               {PROCESS_TEMPLATES.map((t) => (
                 <DropdownMenuItem
                   key={t.id}
-                  onClick={() => loadTemplate(t.definition, preserveProcessIdOnTemplate ? processId : undefined)}
+                  onClick={() =>
+                    loadTemplate(t.definition, preserveProcessIdOnTemplate ? processId : undefined)
+                  }
                 >
                   {INDUSTRY_LABELS[t.industry]} → {BUSINESS_TYPE_LABELS[t.businessType]}
-                  <span className="text-slate-400 ml-1 text-[10px]">({t.definition.stages.length} этапов)</span>
+                  <span className="ml-1 text-[10px] text-slate-400">
+                    ({t.definition.stages.length} этапов)
+                  </span>
                 </DropdownMenuItem>
               ))}
               <DropdownMenuSeparator />
               <DropdownMenuLabel>Специальные</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => {
-                const t = getTemplateById('qc-with-branches');
-                if (t) loadTemplate(t, preserveProcessIdOnTemplate ? processId : undefined);
-              }}>
+              <DropdownMenuItem
+                onClick={() => {
+                  const t = getTemplateById('qc-with-branches');
+                  if (t) loadTemplate(t, preserveProcessIdOnTemplate ? processId : undefined);
+                }}
+              >
                 QC с ветвлениями (провал → исправление)
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -129,7 +142,7 @@ export function LiveProcessSchemeEditor({
             <h3 className="text-sm font-bold">Этапы схемы</h3>
             {!readOnly && (
               <Button size="sm" onClick={() => addStage()} disabled={!definition}>
-                <Plus className="h-4 w-4 mr-1" />
+                <Plus className="mr-1 h-4 w-4" />
                 Добавить этап
               </Button>
             )}
@@ -148,12 +161,12 @@ export function LiveProcessSchemeEditor({
                 onDragOver={handleDragOver}
                 onDrop={(e) => handleDrop(e, index)}
                 onDragEnd={() => setDraggedIndex(null)}
-                className={`flex items-center gap-2 p-2 rounded-lg border bg-white ${
+                className={`flex items-center gap-2 rounded-lg border bg-white p-2 ${
                   draggedIndex === index ? 'opacity-50' : ''
                 } ${!readOnly ? 'cursor-move' : ''}`}
               >
-                {!readOnly && <GripVertical className="h-4 w-4 text-slate-400 shrink-0" />}
-                <div className="flex-1 min-w-0">
+                {!readOnly && <GripVertical className="h-4 w-4 shrink-0 text-slate-400" />}
+                <div className="min-w-0 flex-1">
                   {editingStageId === stage.id ? (
                     <div className="flex gap-2">
                       <input
@@ -162,7 +175,7 @@ export function LiveProcessSchemeEditor({
                         onChange={(e) => setEditTitle(e.target.value)}
                         onBlur={confirmRename}
                         onKeyDown={(e) => e.key === 'Enter' && confirmRename()}
-                        className="h-8 text-sm rounded border border-slate-200 px-2 flex-1"
+                        className="h-8 flex-1 rounded border border-slate-200 px-2 text-sm"
                         autoFocus
                       />
                       <Button size="sm" variant="ghost" onClick={confirmRename}>
@@ -172,18 +185,22 @@ export function LiveProcessSchemeEditor({
                   ) : (
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-medium text-slate-400">#{index + 1}</span>
-                      <span className="text-sm font-medium truncate">{stage.title}</span>
+                      <span className="truncate text-sm font-medium">{stage.title}</span>
                       {stage.mandatory && (
-                        <span className="text-[10px] bg-amber-100 text-amber-700 px-1 rounded">обяз.</span>
+                        <span className="rounded bg-amber-100 px-1 text-[10px] text-amber-700">
+                          обяз.
+                        </span>
                       )}
                       {stage.sla?.maxDays && (
-                        <span className="text-[10px] text-slate-500">SLA: {stage.sla.maxDays} дн.</span>
+                        <span className="text-[10px] text-slate-500">
+                          SLA: {stage.sla.maxDays} дн.
+                        </span>
                       )}
                     </div>
                   )}
                 </div>
                 {!readOnly && (
-                  <div className="flex items-center gap-1 shrink-0">
+                  <div className="flex shrink-0 items-center gap-1">
                     <Button
                       variant="ghost"
                       size="icon"
@@ -205,7 +222,7 @@ export function LiveProcessSchemeEditor({
               </div>
             ))}
             {stages.length === 0 && (
-              <p className="text-sm text-slate-500 py-4 text-center">
+              <p className="py-4 text-center text-sm text-slate-500">
                 Нет этапов. Добавьте этап или загрузите шаблон.
               </p>
             )}

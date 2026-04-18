@@ -65,14 +65,14 @@ export class PredictiveShelfEngine {
       // Пополняем до полной вместимости полки
       quantityToRestock = state.capacityUnits - state.currentUnits;
       reasoning += `CRITICAL: Shelf will empty in ${hoursOfSupply.toFixed(1)} hours. Immediate restock of ${quantityToRestock} units required to prevent stockout.`;
-    } 
+    }
     // Если товара хватит на 2-6 часов — планируем пополнение (например, в конце смены)
     else if (hoursOfSupply < 6) {
       action = 'schedule_restock';
       urgencyLevel = 'medium';
       quantityToRestock = state.capacityUnits - state.currentUnits;
       reasoning += `Shelf will empty in ${hoursOfSupply.toFixed(1)} hours. Schedule restock of ${quantityToRestock} units during next staff round.`;
-    } 
+    }
     // Если товара хватит больше чем на 6 часов — ничего не делаем
     else {
       action = 'do_nothing';
@@ -87,7 +87,7 @@ export class PredictiveShelfEngine {
       action,
       quantityToRestock,
       urgencyLevel,
-      reasoning
+      reasoning,
     };
   }
 }

@@ -4,7 +4,10 @@ import { useCallback, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/providers/auth-provider';
 import { saveCalendarEvent } from '@/lib/collaboration/calendar-store';
-import { appendSketchPinComment, parseSketchPinAtMentions } from '@/lib/production/sketch-pin-thread-utils';
+import {
+  appendSketchPinComment,
+  parseSketchPinAtMentions,
+} from '@/lib/production/sketch-pin-thread-utils';
 import type { Workshop2SketchPinThreadComment } from '@/lib/production/workshop2-dossier-phase1.types';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -39,7 +42,9 @@ type Props = {
 };
 
 function newEventId(): string {
-  return typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `ev-${Date.now()}`;
+  return typeof crypto !== 'undefined' && crypto.randomUUID
+    ? crypto.randomUUID()
+    : `ev-${Date.now()}`;
 }
 
 export function SketchPinThreadPanel({
@@ -100,7 +105,9 @@ export function SketchPinThreadPanel({
       const end = new Date(start.getTime() + 60 * 60 * 1000);
       const pageUrl =
         sketchPageUrl?.trim() ||
-        (typeof window !== 'undefined' ? `${window.location.pathname}${window.location.search}` : '');
+        (typeof window !== 'undefined'
+          ? `${window.location.pathname}${window.location.search}`
+          : '');
       const event: CalendarEvent = {
         id: eventId,
         ownerId: uid,
@@ -124,11 +131,23 @@ export function SketchPinThreadPanel({
       saveCalendarEvent(uid, event);
       if (!readOnly) {
         onReplaceComments(
-          list.map((x) => (x.commentId === c.commentId ? { ...x, linkedCalendarEventId: eventId } : x))
+          list.map((x) =>
+            x.commentId === c.commentId ? { ...x, linkedCalendarEventId: eventId } : x
+          )
         );
       }
     },
-    [actorLabel, annotationId, list, onReplaceComments, pathLabel, readOnly, sku, sketchPageUrl, user]
+    [
+      actorLabel,
+      annotationId,
+      list,
+      onReplaceComments,
+      pathLabel,
+      readOnly,
+      sku,
+      sketchPageUrl,
+      user,
+    ]
   );
 
   const messagesHref = `${ROUTES.brand.messages}?context=sketch-pin&pin=${encodeURIComponent(annotationId)}`;
@@ -140,12 +159,18 @@ export function SketchPinThreadPanel({
         <div className="flex flex-wrap items-center gap-2">
           <p className="font-semibold uppercase tracking-wide text-indigo-900">Тред у метки</p>
           {threadResolved ? (
-            <span className="rounded bg-slate-200 px-1.5 py-0.5 text-[8px] font-medium text-slate-700">Решён</span>
+            <span className="rounded bg-slate-200 px-1.5 py-0.5 text-[8px] font-medium text-slate-700">
+              Решён
+            </span>
           ) : (
-            <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[8px] font-medium text-emerald-900">Открыт</span>
+            <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[8px] font-medium text-emerald-900">
+              Открыт
+            </span>
           )}
           {unreadCount > 0 ? (
-            <span className="rounded bg-amber-200 px-1.5 py-0.5 text-[8px] font-bold text-amber-950">{unreadCount} нов.</span>
+            <span className="rounded bg-amber-200 px-1.5 py-0.5 text-[8px] font-bold text-amber-950">
+              {unreadCount} нов.
+            </span>
           ) : null}
           {mentionPending > 0 ? (
             <span
@@ -168,19 +193,37 @@ export function SketchPinThreadPanel({
               {threadResolved ? 'Снова открыть' : 'Пометить решённым'}
             </Button>
           ) : null}
-          <Button type="button" variant="outline" size="sm" className="h-7 gap-1 px-2 text-[9px]" asChild>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-7 gap-1 px-2 text-[9px]"
+            asChild
+          >
             <Link href={messagesHref} target="_blank" rel="noreferrer">
               <MessageSquare className="h-3 w-3" aria-hidden />
               Чаты
             </Link>
           </Button>
-          <Button type="button" variant="outline" size="sm" className="h-7 gap-1 px-2 text-[9px]" asChild>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-7 gap-1 px-2 text-[9px]"
+            asChild
+          >
             <Link href={ROUTES.brand.calendar} target="_blank" rel="noreferrer">
               <Calendar className="h-3 w-3" aria-hidden />
               Календарь
             </Link>
           </Button>
-          <Button type="button" variant="outline" size="sm" className="h-7 gap-1 px-2 text-[9px]" asChild>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-7 gap-1 px-2 text-[9px]"
+            asChild
+          >
             <Link href={brandNotesHref} target="_blank" rel="noreferrer">
               <StickyNote className="h-3 w-3" aria-hidden />
               Заметки бренда
@@ -199,8 +242,8 @@ export function SketchPinThreadPanel({
       <p className="text-[9px] leading-snug text-indigo-950/80">
         Упоминания: <code className="rounded bg-white/80 px-0.5">@designer</code>{' '}
         <code className="rounded bg-white/80 px-0.5">@tech</code>{' '}
-        <code className="rounded bg-white/80 px-0.5">@manager</code> — для фильтра в чате; общие заметки по артикулу — поле
-        «Заметки бренда» или ссылка выше.
+        <code className="rounded bg-white/80 px-0.5">@manager</code> — для фильтра в чате; общие
+        заметки по артикулу — поле «Заметки бренда» или ссылка выше.
       </p>
       {!readOnly && onPatchThreadMeta ? (
         <Button
@@ -225,7 +268,10 @@ export function SketchPinThreadPanel({
           list.map((c) => {
             const mentions = c.mentions?.length ? c.mentions : parseSketchPinAtMentions(c.body);
             return (
-              <li key={c.commentId} className="rounded border border-white/60 bg-white/70 p-1.5 text-[9px] text-slate-800">
+              <li
+                key={c.commentId}
+                className="rounded border border-white/60 bg-white/70 p-1.5 text-[9px] text-slate-800"
+              >
                 <div className="flex flex-wrap items-center justify-between gap-1 font-mono text-[8px] text-slate-500">
                   <span>
                     {c.by} ·{' '}
@@ -245,8 +291,7 @@ export function SketchPinThreadPanel({
                         target="_blank"
                         rel="noreferrer"
                       >
-                        <ExternalLink className="h-2.5 w-2.5" aria-hidden />
-                        в календаре
+                        <ExternalLink className="h-2.5 w-2.5" aria-hidden />в календаре
                       </Link>
                     ) : (
                       <Button
@@ -279,7 +324,13 @@ export function SketchPinThreadPanel({
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
           />
-          <Button type="button" size="sm" className="h-7 text-[10px]" onClick={submit} disabled={!draft.trim()}>
+          <Button
+            type="button"
+            size="sm"
+            className="h-7 text-[10px]"
+            onClick={submit}
+            disabled={!draft.trim()}
+          >
             Добавить в тред
           </Button>
         </div>

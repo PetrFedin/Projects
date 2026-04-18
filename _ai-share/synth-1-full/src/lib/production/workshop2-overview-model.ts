@@ -169,19 +169,21 @@ function getAssignmentLabels(
   return [...new Set(labels)].slice(0, limit);
 }
 
-function buildDecisionItems(dossier: Workshop2DossierPhase1 | null): Workshop2OverviewDecisionItem[] {
+function buildDecisionItems(
+  dossier: Workshop2DossierPhase1 | null
+): Workshop2OverviewDecisionItem[] {
   const audienceFilled = Boolean(dossier?.selectedAudienceId);
   const intentFilled = Boolean(dossier?.brandNotes?.trim());
   const materialAttrIds = ['mat', 'composition', 'insulationMaterialOptions', 'thermoTechOptions'];
   const materialFilled = Boolean(
-    dossier?.assignments.some(
-      (a) => Boolean(a.attributeId && materialAttrIds.includes(a.attributeId) && a.values.length > 0)
+    dossier?.assignments.some((a) =>
+      Boolean(a.attributeId && materialAttrIds.includes(a.attributeId) && a.values.length > 0)
     )
   );
   const measurementsFilled = Boolean(
     dossier?.sampleSizeScaleId &&
-      dossier.sampleBasePerSizeDimensions &&
-      Object.keys(dossier.sampleBasePerSizeDimensions).length > 0
+    dossier.sampleBasePerSizeDimensions &&
+    Object.keys(dossier.sampleBasePerSizeDimensions).length > 0
   );
   const constructionAttrIds = [
     'silh',
@@ -232,10 +234,7 @@ function buildDecisionItems(dossier: Workshop2DossierPhase1 | null): Workshop2Ov
   ];
 }
 
-function pushUniqueBlocker(
-  target: Workshop2OverviewBlocker[],
-  blocker: Workshop2OverviewBlocker
-) {
+function pushUniqueBlocker(target: Workshop2OverviewBlocker[], blocker: Workshop2OverviewBlocker) {
   if (target.some((item) => item.stage === blocker.stage && item.text === blocker.text)) return;
   target.push(blocker);
 }
@@ -455,10 +454,7 @@ export const WORKSHOP2_DOSSIER_SECTION_GUIDANCE: Record<
     headline: 'Визуал и замысел',
     purpose:
       'Эталон «как должно выглядеть»: эскиз, референсы, акценты силуэта и стиля. Это общая опора для снабжения, конструктора, образца и контроля качества.',
-    essentials: [
-      'Эскиз и визуальные референсы',
-      'Описание образа и отличий от базовых моделей',
-    ],
+    essentials: ['Эскиз и визуальные референсы', 'Описание образа и отличий от базовых моделей'],
   },
   material: {
     headline: 'Материалы (BOM)',
@@ -521,7 +517,8 @@ export const WORKSHOP2_ROUTE_STAGE_GUIDANCE: Record<
   },
   supply: {
     headline: 'Снабжение · Закупка',
-    purpose: 'Перевести материальный замысел в исполнимый BOM: позиции, статусы, поставщики и сроки.',
+    purpose:
+      'Перевести материальный замысел в исполнимый BOM: позиции, статусы, поставщики и сроки.',
     essentials: [
       'Строки BOM по SKU',
       'Подтверждение поставок и статусов',
@@ -531,42 +528,27 @@ export const WORKSHOP2_ROUTE_STAGE_GUIDANCE: Record<
   fit: {
     headline: 'Эталон · посадка',
     purpose: 'Сверить образец с ТЗ и зафиксировать gold sample как эталон для серии.',
-    essentials: [
-      'Замеры и комментарии по посадке',
-      'Утверждение эталонного образца',
-    ],
+    essentials: ['Замеры и комментарии по посадке', 'Утверждение эталонного образца'],
   },
   plan: {
     headline: 'План · PO',
     purpose: 'Закрепить закупку и запуск: PO, даты, привязка к производству.',
-    essentials: [
-      'Черновики и подтверждённые PO',
-      'Синхронизация с выпуском',
-    ],
+    essentials: ['Черновики и подтверждённые PO', 'Синхронизация с выпуском'],
   },
   release: {
     headline: 'Выпуск',
     purpose: 'Описать и отслеживать производственный маршрут по SKU в цеху.',
-    essentials: [
-      'Техоперации и их статусы',
-      'Готовность к передаче в ОТК',
-    ],
+    essentials: ['Техоперации и их статусы', 'Готовность к передаче в ОТК'],
   },
   qc: {
     headline: 'ОТК',
     purpose: 'Контроль партий по качеству и допускам относительно ТЗ.',
-    essentials: [
-      'Партии и AQL',
-      'Брак, доработки, повторные проверки',
-    ],
+    essentials: ['Партии и AQL', 'Брак, доработки, повторные проверки'],
   },
   stock: {
     headline: 'Склад',
     purpose: 'Зафиксировать приёмку и движения готовой продукции по артикулу.',
-    essentials: [
-      'Приёмка и остатки',
-      'Блокировки к отгрузке при необходимости',
-    ],
+    essentials: ['Приёмка и остатки', 'Блокировки к отгрузке при необходимости'],
   },
 };
 

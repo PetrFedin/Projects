@@ -42,7 +42,7 @@ export async function joorGetPriceTypes(config?: JoorConfig | null): Promise<Joo
     });
     if (!res.ok) return [];
     const data = await res.json();
-    return Array.isArray(data) ? data : data.data ?? data.price_types ?? [];
+    return Array.isArray(data) ? data : (data.data ?? data.price_types ?? []);
   } catch {
     return [];
   }

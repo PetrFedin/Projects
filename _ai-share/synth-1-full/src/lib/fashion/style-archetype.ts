@@ -14,9 +14,9 @@ export function calculateStyleArchetype(products: Product[]): UserStyleProfileV1
   const colors = new Map<string, number>();
   const categories = new Map<string, number>();
 
-  products.forEach(p => {
+  products.forEach((p) => {
     const text = `${p.name} ${p.category} ${p.description}`.toLowerCase();
-    
+
     // Minimalist: base, clean, essential
     if (/миним|баз|clean|essential|basic|однотон/i.test(text)) counts.minimalist += 1;
     // Avant-garde: asymmetrical, unique, pattern, print
@@ -32,15 +32,23 @@ export function calculateStyleArchetype(products: Product[]): UserStyleProfileV1
     categories.set(p.category, (categories.get(p.category) || 0) + 1);
   });
 
-  const sorted = (Object.entries(counts) as [StyleArchetypeV1, number][]).sort((a, b) => b[1] - a[1]);
+  const sorted = (Object.entries(counts) as [StyleArchetypeV1, number][]).sort(
+    (a, b) => b[1] - a[1]
+  );
   const primary = sorted[0];
   const total = Object.values(counts).reduce((a, b) => a + b, 0) || 1;
 
   return {
     archetype: primary[0],
     confidence: Math.round((primary[1] / total) * 100),
-    topCategories: [...categories.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(e => e[0]),
-    colorPreferences: [...colors.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(e => e[0]),
+    topCategories: [...categories.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map((e) => e[0]),
+    colorPreferences: [...colors.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map((e) => e[0]),
   };
 }
 

@@ -13,7 +13,15 @@ import { CommunicationsUpcomingStrip } from '@/components/brand/communications/C
 import { demoCalendarEventsForProductionStage } from '@/lib/production/stages-comm-demo';
 
 /** Преобразовать LIVE process события в CalendarEvent */
-function mapLiveToCalendarEvent(e: { id: string; processId: string; contextId: string; stageId: string; title: string; startAt: string; endAt: string }): CalendarEvent {
+function mapLiveToCalendarEvent(e: {
+  id: string;
+  processId: string;
+  contextId: string;
+  stageId: string;
+  title: string;
+  startAt: string;
+  endAt: string;
+}): CalendarEvent {
   return {
     id: e.id,
     ownerId: 'live',
@@ -74,7 +82,7 @@ function BrandCalendarMain() {
   }, [liveEvents, collabEvents, stageDemoCalendar]);
 
   return (
-    <div className="container max-w-6xl mx-auto px-4 py-6 pb-24 space-y-6">
+    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
       <StyleCalendar
         initialRole="brand"
         variant="full"
@@ -93,7 +101,13 @@ export default function BrandCalendarPage() {
         <CommunicationsNavBar currentPath="/brand/calendar" />
         <CommunicationsUpcomingStrip />
       </div>
-      <Suspense fallback={<div className="container max-w-6xl mx-auto px-4 py-10 text-sm text-slate-500">Загрузка календаря…</div>}>
+      <Suspense
+        fallback={
+          <div className="container mx-auto max-w-6xl px-4 py-10 text-sm text-slate-500">
+            Загрузка календаря…
+          </div>
+        }
+      >
         <BrandCalendarMain />
       </Suspense>
     </div>

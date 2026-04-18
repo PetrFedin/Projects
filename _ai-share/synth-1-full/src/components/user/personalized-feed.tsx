@@ -100,20 +100,29 @@ export default function PersonalizedFeed() {
 
   const getIcon = (type: FeedItem['type']) => {
     switch (type) {
-      case 'sale': return <Gift className="h-4 w-4 text-red-600" />;
-      case 'new_collection': return <Sparkles className="h-4 w-4 text-purple-600" />;
-      case 'restock': return <Bell className="h-4 w-4 text-green-600" />;
-      case 'social': return <Users className="h-4 w-4 text-blue-600" />;
-      case 'event': return <Calendar className="h-4 w-4 text-orange-600" />;
-      case 'recommendation': return <TrendingUp className="h-4 w-4 text-accent" />;
+      case 'sale':
+        return <Gift className="h-4 w-4 text-red-600" />;
+      case 'new_collection':
+        return <Sparkles className="h-4 w-4 text-purple-600" />;
+      case 'restock':
+        return <Bell className="h-4 w-4 text-green-600" />;
+      case 'social':
+        return <Users className="h-4 w-4 text-blue-600" />;
+      case 'event':
+        return <Calendar className="h-4 w-4 text-orange-600" />;
+      case 'recommendation':
+        return <TrendingUp className="h-4 w-4 text-accent" />;
     }
   };
 
   const getPriorityColor = (priority: FeedItem['priority']) => {
     switch (priority) {
-      case 'high': return 'border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/20';
-      case 'medium': return 'border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20';
-      case 'low': return 'border-muted bg-muted/50';
+      case 'high':
+        return 'border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/20';
+      case 'medium':
+        return 'border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20';
+      case 'low':
+        return 'border-muted bg-muted/50';
     }
   };
 
@@ -124,33 +133,29 @@ export default function PersonalizedFeed() {
           <Sparkles className="h-5 w-5 text-accent" />
           Персональная лента
         </CardTitle>
-        <CardDescription>
-          Все важные обновления в одном месте
-        </CardDescription>
+        <CardDescription>Все важные обновления в одном месте</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
           {feedItems.map((item) => (
             <div
               key={item.id}
-              className={`p-4 rounded-lg border ${getPriorityColor(item.priority)} transition-all hover:shadow-md`}
+              className={`rounded-lg border p-4 ${getPriorityColor(item.priority)} transition-all hover:shadow-md`}
             >
               <div className="flex items-start gap-3">
-                <div className="mt-0.5">
-                  {getIcon(item.type)}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2 mb-1">
-                    <h4 className="font-semibold text-sm">{item.title}</h4>
-                    <Badge variant="outline" className="text-xs shrink-0">
+                <div className="mt-0.5">{getIcon(item.type)}</div>
+                <div className="min-w-0 flex-1">
+                  <div className="mb-1 flex items-start justify-between gap-2">
+                    <h4 className="text-sm font-semibold">{item.title}</h4>
+                    <Badge variant="outline" className="shrink-0 text-xs">
                       {format(new Date(item.timestamp), 'd MMM', { locale: ru })}
                     </Badge>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-2">{item.description}</p>
+                  <p className="mb-2 text-sm text-muted-foreground">{item.description}</p>
                   {item.action && item.actionLink && (
-                    <Button variant="link" size="sm" className="p-0 h-auto text-xs" asChild>
+                    <Button variant="link" size="sm" className="h-auto p-0 text-xs" asChild>
                       <Link href={item.actionLink}>
-                        {item.action} <ArrowRight className="h-3 w-3 ml-1" />
+                        {item.action} <ArrowRight className="ml-1 h-3 w-3" />
                       </Link>
                     </Button>
                   )}
@@ -159,17 +164,10 @@ export default function PersonalizedFeed() {
             </div>
           ))}
         </div>
-        <Button variant="outline" className="w-full mt-4" asChild>
-          <Link href="/feed">
-            Посмотреть всю ленту
-          </Link>
+        <Button variant="outline" className="mt-4 w-full" asChild>
+          <Link href="/feed">Посмотреть всю ленту</Link>
         </Button>
       </CardContent>
     </Card>
   );
 }
-
-
-
-
-

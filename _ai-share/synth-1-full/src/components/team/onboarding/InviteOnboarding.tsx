@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import { UserPlus, Mail, Shield, Copy, Check, Send, Sparkles, X, AlertCircle } from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
+import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/providers/auth-provider';
 import { INTERACTION_POLICY, PROCESS_FLOWS } from '@/lib/interaction-policy';
@@ -22,128 +22,170 @@ export function InviteOnboarding() {
 
   const myRole = (user?.roles?.[0] || 'brand') as UserRole;
   const allowedInteractionRoles = INTERACTION_POLICY[myRole] || [];
-  
-  const flowsForTarget = PROCESS_FLOWS.filter(f => f.participants.includes(targetProfileType));
+
+  const flowsForTarget = PROCESS_FLOWS.filter((f) => f.participants.includes(targetProfileType));
 
   const inviteLink = `https://syntha.os/invite/${Math.random().toString(36).substring(7)}`;
 
   const toggleFlow = (id: string) => {
-    setSelectedFlows(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]);
+    setSelectedFlows((prev) => (prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]));
   };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(inviteLink);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-    toast({ title: "Ссылка скопирована!" });
+    toast({ title: 'Ссылка скопирована!' });
   };
 
   const handleSend = () => {
     if (!email) return;
-    toast({ 
-      title: "Приглашение отправлено!",
-      description: `Участнику ${email} выслана инструкция по входу.`
+    toast({
+      title: 'Приглашение отправлено!',
+      description: `Участнику ${email} выслана инструкция по входу.`,
     });
     setEmail('');
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-4 animate-in fade-in zoom-in-95 duration-700">
-      <header className="text-center space-y-2">
-        <div className="h-12 w-12 bg-black rounded-[1.5rem] flex items-center justify-center mx-auto shadow-2xl mb-4">
+    <div className="mx-auto max-w-4xl space-y-4 duration-700 animate-in fade-in zoom-in-95">
+      <header className="space-y-2 text-center">
+        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-[1.5rem] bg-black shadow-2xl">
           <UserPlus className="h-8 w-8 text-white" />
         </div>
         <h2 className="text-base font-black uppercase tracking-tighter">Масштабирование Команды</h2>
-        <p className="text-sm text-slate-400 font-bold uppercase tracking-widest">Быстрый запуск и настройка участников профиля</p>
+        <p className="text-sm font-bold uppercase tracking-widest text-slate-400">
+          Быстрый запуск и настройка участников профиля
+        </p>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <Card className="border-none shadow-sm rounded-xl bg-white overflow-hidden">
-          <CardContent className="p-4 space-y-6">
-            <h3 className="text-sm font-black uppercase flex items-center gap-2">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        <Card className="overflow-hidden rounded-xl border-none bg-white shadow-sm">
+          <CardContent className="space-y-6 p-4">
+            <h3 className="flex items-center gap-2 text-sm font-black uppercase">
               <Mail className="h-5 w-5 text-indigo-600" />
               Пригласить по почте
             </h3>
             <div className="space-y-4">
               <div className="space-y-1.5">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Тип профиля для подключения</label>
+                <label className="ml-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  Тип профиля для подключения
+                </label>
                 <div className="flex flex-wrap gap-2">
-                  {allowedInteractionRoles.filter(r => r !== 'admin' && r !== 'b2b').map((r) => (
-                    <button
-                      key={r}
-                      onClick={() => setTargetProfileType(r)}
-                      className={cn(
-                        "px-3 py-1.5 rounded-xl text-[9px] font-black uppercase border-2 transition-all",
-                        targetProfileType === r ? "border-indigo-600 bg-indigo-50 text-indigo-600" : "border-slate-100 text-slate-400"
-                      )}
-                    >
-                      {r}
-                    </button>
-                  ))}
+                  {allowedInteractionRoles
+                    .filter((r) => r !== 'admin' && r !== 'b2b')
+                    .map((r) => (
+                      <button
+                        key={r}
+                        onClick={() => setTargetProfileType(r)}
+                        className={cn(
+                          'rounded-xl border-2 px-3 py-1.5 text-[9px] font-black uppercase transition-all',
+                          targetProfileType === r
+                            ? 'border-indigo-600 bg-indigo-50 text-indigo-600'
+                            : 'border-slate-100 text-slate-400'
+                        )}
+                      >
+                        {r}
+                      </button>
+                    ))}
                 </div>
               </div>
-              
+
               <div className="space-y-1.5">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Email участника или представителя</label>
-                <Input 
-                  placeholder="name@company.com" 
+                <label className="ml-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  Email участника или представителя
+                </label>
+                <Input
+                  placeholder="name@company.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-12 rounded-2xl bg-slate-50 border-none px-4 font-bold"
+                  className="h-12 rounded-2xl border-none bg-slate-50 px-4 font-bold"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Роль в системе</label>
+                <label className="ml-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  Роль в системе
+                </label>
                 <div className="grid grid-cols-2 gap-2">
                   {[
                     { id: 'admin', label: 'Admin', desc: 'Полный доступ' },
-                    { id: 'member', label: 'Member', desc: 'Работа с данными' }
+                    { id: 'member', label: 'Member', desc: 'Работа с данными' },
                   ].map((r) => (
                     <button
                       key={r.id}
                       onClick={() => setRole(r.id)}
                       className={cn(
-                        "p-4 rounded-2xl border-2 transition-all text-left group",
-                        role === r.id ? "border-indigo-600 bg-indigo-50" : "border-slate-100 hover:border-slate-200"
+                        'group rounded-2xl border-2 p-4 text-left transition-all',
+                        role === r.id
+                          ? 'border-indigo-600 bg-indigo-50'
+                          : 'border-slate-100 hover:border-slate-200'
                       )}
                     >
-                      <p className={cn("text-xs font-black uppercase", role === r.id ? "text-indigo-600" : "text-slate-900")}>{r.label}</p>
-                      <p className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter mt-1">{r.desc}</p>
+                      <p
+                        className={cn(
+                          'text-xs font-black uppercase',
+                          role === r.id ? 'text-indigo-600' : 'text-slate-900'
+                        )}
+                      >
+                        {r.label}
+                      </p>
+                      <p className="mt-1 text-[9px] font-bold uppercase tracking-tighter text-slate-400">
+                        {r.desc}
+                      </p>
                     </button>
                   ))}
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Назначение процессов (Flows)</label>
+                <label className="ml-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  Назначение процессов (Flows)
+                </label>
                 <div className="grid grid-cols-1 gap-2">
                   {flowsForTarget.map((f) => (
                     <button
                       key={f.id}
                       onClick={() => toggleFlow(f.id)}
                       className={cn(
-                        "flex items-center justify-between p-3 rounded-xl border-2 transition-all",
-                        selectedFlows.includes(f.id) ? "border-indigo-600 bg-indigo-50" : "border-slate-50 hover:border-slate-100"
+                        'flex items-center justify-between rounded-xl border-2 p-3 transition-all',
+                        selectedFlows.includes(f.id)
+                          ? 'border-indigo-600 bg-indigo-50'
+                          : 'border-slate-50 hover:border-slate-100'
                       )}
                     >
                       <div className="text-left">
-                        <p className={cn("text-[9px] font-black uppercase", selectedFlows.includes(f.id) ? "text-indigo-600" : "text-slate-900")}>{f.name}</p>
-                        <p className="text-[8px] text-slate-400 font-medium leading-tight mt-1">{f.description}</p>
+                        <p
+                          className={cn(
+                            'text-[9px] font-black uppercase',
+                            selectedFlows.includes(f.id) ? 'text-indigo-600' : 'text-slate-900'
+                          )}
+                        >
+                          {f.name}
+                        </p>
+                        <p className="mt-1 text-[8px] font-medium leading-tight text-slate-400">
+                          {f.description}
+                        </p>
                       </div>
-                      <div className={cn(
-                        "h-4 w-4 rounded-full border-2 flex items-center justify-center transition-all",
-                        selectedFlows.includes(f.id) ? "bg-indigo-600 border-indigo-600" : "border-slate-200"
-                      )}>
-                        {selectedFlows.includes(f.id) && <Check className="h-2 w-2 text-white stroke-[4]" />}
+                      <div
+                        className={cn(
+                          'flex h-4 w-4 items-center justify-center rounded-full border-2 transition-all',
+                          selectedFlows.includes(f.id)
+                            ? 'border-indigo-600 bg-indigo-600'
+                            : 'border-slate-200'
+                        )}
+                      >
+                        {selectedFlows.includes(f.id) && (
+                          <Check className="h-2 w-2 stroke-[4] text-white" />
+                        )}
                       </div>
                     </button>
                   ))}
                 </div>
               </div>
 
-              <Button 
+              <Button
                 onClick={handleSend}
                 disabled={!email}
-                className="w-full h-12 bg-black text-white rounded-2xl font-black uppercase tracking-widest hover:scale-[1.02] transition-transform"
+                className="h-12 w-full rounded-2xl bg-black font-black uppercase tracking-widest text-white transition-transform hover:scale-[1.02]"
               >
                 <Send className="mr-2 h-4 w-4" /> Отправить приглашение
               </Button>
@@ -151,12 +193,12 @@ export function InviteOnboarding() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-sm rounded-xl bg-slate-900 text-white overflow-hidden relative">
-          <div className="absolute top-0 right-0 p-4 opacity-10">
+        <Card className="relative overflow-hidden rounded-xl border-none bg-slate-900 text-white shadow-sm">
+          <div className="absolute right-0 top-0 p-4 opacity-10">
             <Sparkles className="h-32 w-32" />
           </div>
-          <CardContent className="p-4 space-y-6 relative z-10">
-            <h3 className="text-sm font-black uppercase flex items-center gap-2">
+          <CardContent className="relative z-10 space-y-6 p-4">
+            <h3 className="flex items-center gap-2 text-sm font-black uppercase">
               <Shield className="h-5 w-5 text-indigo-400" />
               Матрица Доступа
             </h3>
@@ -165,28 +207,46 @@ export function InviteOnboarding() {
                 { label: 'Управление PLM', enabled: true },
                 { label: 'Финансовая аналитика', enabled: role === 'admin' },
                 { label: 'Аудит действий', enabled: role === 'admin' },
-                { label: 'Управление командой', enabled: role === 'admin' }
+                { label: 'Управление командой', enabled: role === 'admin' },
               ].map((perm, i) => (
-                <div key={i} className="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/10">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-white/70">{perm.label}</span>
+                <div
+                  key={i}
+                  className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-3"
+                >
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-white/70">
+                    {perm.label}
+                  </span>
                   {perm.enabled ? (
-                    <div className="h-5 w-5 bg-green-500/20 rounded-full flex items-center justify-center">
-                      <Check className="h-3 w-3 text-green-400 stroke-[4]" />
+                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-green-500/20">
+                      <Check className="h-3 w-3 stroke-[4] text-green-400" />
                     </div>
                   ) : (
-                    <div className="h-5 w-5 bg-rose-500/20 rounded-full flex items-center justify-center">
-                      <X className="h-3 w-3 text-rose-400 stroke-[4]" />
+                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-rose-500/20">
+                      <X className="h-3 w-3 stroke-[4] text-rose-400" />
                     </div>
                   )}
                 </div>
               ))}
             </div>
-            <div className="pt-4 border-t border-white/10 space-y-3">
-              <p className="text-[10px] font-black uppercase tracking-widest text-white/40">Или скопируйте ссылку:</p>
-              <div className="flex items-center gap-2 p-2 bg-white/5 rounded-xl border border-white/10">
-                <span className="flex-1 text-[10px] font-mono text-white/60 truncate px-2">{inviteLink}</span>
-                <Button onClick={handleCopy} size="icon" variant="ghost" className="h-8 w-8 hover:bg-white/10">
-                  {copied ? <Check className="h-4 w-4 text-green-400" /> : <Copy className="h-4 w-4" />}
+            <div className="space-y-3 border-t border-white/10 pt-4">
+              <p className="text-[10px] font-black uppercase tracking-widest text-white/40">
+                Или скопируйте ссылку:
+              </p>
+              <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 p-2">
+                <span className="flex-1 truncate px-2 font-mono text-[10px] text-white/60">
+                  {inviteLink}
+                </span>
+                <Button
+                  onClick={handleCopy}
+                  size="icon"
+                  variant="ghost"
+                  className="h-8 w-8 hover:bg-white/10"
+                >
+                  {copied ? (
+                    <Check className="h-4 w-4 text-green-400" />
+                  ) : (
+                    <Copy className="h-4 w-4" />
+                  )}
                 </Button>
               </div>
             </div>

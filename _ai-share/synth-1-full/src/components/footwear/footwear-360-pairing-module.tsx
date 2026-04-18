@@ -72,20 +72,20 @@ export function Footwear360PairingModule({ bundle, pairingPresets, className }: 
       <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
         <Card className="overflow-hidden">
           <CardHeader className="pb-2">
-            <CardTitle className="text-base flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-base">
               <Footprints className="h-5 w-5" />
               360° и ракурсы
             </CardTitle>
             <CardDescription>
-              Ведите пальцем или мышью по кадру — круговой обзор. Колёсико мыши — шаг по ракурсам. Ниже — быстрый выбор вида
-              (подошва, сверху, сбоку).
+              Ведите пальцем или мышью по кадру — круговой обзор. Колёсико мыши — шаг по ракурсам.
+              Ниже — быстрый выбор вида (подошва, сверху, сбоку).
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div
               role="img"
               aria-label={`Ракурс: ${current?.label ?? ''}`}
-              className="relative aspect-square w-full max-w-xl mx-auto rounded-xl border bg-muted overflow-hidden touch-pan-y cursor-grab active:cursor-grabbing"
+              className="relative mx-auto aspect-square w-full max-w-xl cursor-grab touch-pan-y overflow-hidden rounded-xl border bg-muted active:cursor-grabbing"
               onPointerDown={onPointerDown}
               onPointerMove={onPointerMove}
               onPointerUp={onPointerUp}
@@ -97,29 +97,31 @@ export function Footwear360PairingModule({ bundle, pairingPresets, className }: 
                   src={current.imageUrl}
                   alt={current.label}
                   fill
-                  className="object-cover select-none pointer-events-none"
+                  className="pointer-events-none select-none object-cover"
                   sizes="(max-width: 768px) 100vw, 480px"
                   unoptimized
                   priority={idx === 0}
                 />
               )}
-              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-3 pt-10">
-                <p className="text-white text-sm font-semibold">{current?.label}</p>
-                <p className="text-white/80 text-xs">
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 pt-10">
+                <p className="text-sm font-semibold text-white">{current?.label}</p>
+                <p className="text-xs text-white/80">
                   {idx + 1} / {sorted.length} — ведите для вращения
                 </p>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-1.5 justify-center max-w-xl mx-auto">
+            <div className="mx-auto flex max-w-xl flex-wrap justify-center gap-1.5">
               {sorted.map((a, i) => (
                 <button
                   key={a.id}
                   type="button"
                   onClick={() => setIdx(i)}
                   className={cn(
-                    'rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide border transition-colors',
-                    i === idx ? 'bg-primary text-primary-foreground border-primary' : 'bg-background hover:bg-muted'
+                    'rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide transition-colors',
+                    i === idx
+                      ? 'border-primary bg-primary text-primary-foreground'
+                      : 'bg-background hover:bg-muted'
                   )}
                 >
                   {a.label}
@@ -127,7 +129,7 @@ export function Footwear360PairingModule({ bundle, pairingPresets, className }: 
               ))}
             </div>
 
-            <div className="max-w-xl mx-auto">
+            <div className="mx-auto max-w-xl">
               <Label className="text-xs text-muted-foreground">Быстрый скролл ракурса</Label>
               <input
                 type="range"
@@ -135,7 +137,7 @@ export function Footwear360PairingModule({ bundle, pairingPresets, className }: 
                 max={Math.max(0, sorted.length - 1)}
                 value={idx}
                 onChange={(e) => setIdx(Number(e.target.value))}
-                className="w-full mt-1 accent-foreground"
+                className="mt-1 w-full accent-foreground"
               />
             </div>
           </CardContent>
@@ -144,12 +146,12 @@ export function Footwear360PairingModule({ bundle, pairingPresets, className }: 
         <div className="space-y-4">
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm flex items-center gap-2">
-                <Shirt className="h-4 w-4" />
-                С чем носить
+              <CardTitle className="flex items-center gap-2 text-sm">
+                <Shirt className="h-4 w-4" />С чем носить
               </CardTitle>
               <CardDescription className="text-xs">
-                Вариации низа: цвет и материал. Превью — ориентир для байера и витрины (композит или лук).
+                Вариации низа: цвет и материал. Превью — ориентир для байера и витрины (композит или
+                лук).
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -160,16 +162,19 @@ export function Footwear360PairingModule({ bundle, pairingPresets, className }: 
                     type="button"
                     size="sm"
                     variant={pairingId === p.id ? 'default' : 'outline'}
-                    className="text-xs h-auto py-1.5 gap-2"
+                    className="h-auto gap-2 py-1.5 text-xs"
                     onClick={() => setPairingId(p.id)}
                   >
-                    <span className="h-3 w-3 rounded-full border border-white/30 shrink-0" style={{ backgroundColor: p.colorHex }} />
+                    <span
+                      className="h-3 w-3 shrink-0 rounded-full border border-white/30"
+                      style={{ backgroundColor: p.colorHex }}
+                    />
                     {p.label}
                   </Button>
                 ))}
               </div>
               {pairing && (
-                <div className="rounded-lg border bg-muted/40 p-3 space-y-2">
+                <div className="space-y-2 rounded-lg border bg-muted/40 p-3">
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-sm font-medium">{pairing.label}</span>
                     <Badge variant="secondary" className="text-[10px]">
@@ -180,10 +185,10 @@ export function Footwear360PairingModule({ bundle, pairingPresets, className }: 
                   <div className="flex items-center gap-2 text-xs">
                     <span className="text-muted-foreground">Цвет:</span>
                     <span className="font-medium">{pairing.colorName}</span>
-                    <code className="text-[10px] bg-muted px-1 rounded">{pairing.colorHex}</code>
+                    <code className="rounded bg-muted px-1 text-[10px]">{pairing.colorHex}</code>
                   </div>
                   {pairing.pairingPreviewUrl && (
-                    <div className="relative aspect-video w-full rounded-md overflow-hidden border mt-2">
+                    <div className="relative mt-2 aspect-video w-full overflow-hidden rounded-md border">
                       <Image
                         src={pairing.pairingPreviewUrl}
                         alt=""
@@ -203,39 +208,43 @@ export function Footwear360PairingModule({ bundle, pairingPresets, className }: 
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-base">
             <Scan className="h-5 w-5" />
             3D-сканирование и GLB
           </CardTitle>
           <CardDescription>
-            Студийный или мобильный пайплайн: фотограмметрия по кругу, LiDAR / Object Capture (iOS), сканер — затем mesh и
-            текстуры в DAM, выдача GLB для витрины и AR.
+            Студийный или мобильный пайплайн: фотограмметрия по кругу, LiDAR / Object Capture (iOS),
+            сканер — затем mesh и текстуры в DAM, выдача GLB для витрины и AR.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <ul className="text-sm text-muted-foreground space-y-2 list-disc pl-5">
+          <ul className="list-disc space-y-2 pl-5 text-sm text-muted-foreground">
             <li>
-              <strong className="text-foreground">Фотограмметрия:</strong> 24–36 кадров по окружности, ровный свет, без
-              бликов на лаке.
+              <strong className="text-foreground">Фотограмметрия:</strong> 24–36 кадров по
+              окружности, ровный свет, без бликов на лаке.
             </li>
             <li>
-              <strong className="text-foreground">Мобильный LiDAR:</strong> обход модели в приложении захвата — быстрый черновой
-              mesh.
+              <strong className="text-foreground">Мобильный LiDAR:</strong> обход модели в
+              приложении захвата — быстрый черновой mesh.
             </li>
             <li>
-              <strong className="text-foreground">Студия:</strong> таблица с маркерами, референсный подвес обуви — максимальная
-              точность подошвы и швов.
+              <strong className="text-foreground">Студия:</strong> таблица с маркерами, референсный
+              подвес обуви — максимальная точность подошвы и швов.
             </li>
           </ul>
           {bundle.scan && (
-            <div className="rounded-lg border p-3 text-sm flex flex-wrap gap-2 items-center">
+            <div className="flex flex-wrap items-center gap-2 rounded-lg border p-3 text-sm">
               <Badge variant="outline">{bundle.scan.source}</Badge>
-              {bundle.scan.capturedAt && <span className="text-muted-foreground">дата: {bundle.scan.capturedAt}</span>}
-              {bundle.scan.notes && <p className="w-full text-xs text-muted-foreground mt-1">{bundle.scan.notes}</p>}
+              {bundle.scan.capturedAt && (
+                <span className="text-muted-foreground">дата: {bundle.scan.capturedAt}</span>
+              )}
+              {bundle.scan.notes && (
+                <p className="mt-1 w-full text-xs text-muted-foreground">{bundle.scan.notes}</p>
+              )}
             </div>
           )}
           <div className="flex flex-wrap items-center gap-3">
-            <Label className="inline-flex items-center gap-2 cursor-pointer border rounded-lg px-4 py-2.5 bg-background hover:bg-muted/60 text-sm">
+            <Label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border bg-background px-4 py-2.5 text-sm hover:bg-muted/60">
               <Upload className="h-4 w-4" />
               Проверить GLB локально
               <input
@@ -244,14 +253,17 @@ export function Footwear360PairingModule({ bundle, pairingPresets, className }: 
                 className="sr-only"
                 onChange={(e) => {
                   const f = e.target.files?.[0];
-                  if (f) window.alert(`Выбран файл: ${f.name} — в проде загрузка в DAM и привязка к ${bundle.skuId}`);
+                  if (f)
+                    window.alert(
+                      `Выбран файл: ${f.name} — в проде загрузка в DAM и привязка к ${bundle.skuId}`
+                    );
                 }}
               />
             </Label>
             {bundle.model3dUrl && (
               <Button variant="outline" size="sm" asChild>
                 <a href={bundle.model3dUrl} target="_blank" rel="noreferrer">
-                  <Box className="h-4 w-4 mr-1" />
+                  <Box className="mr-1 h-4 w-4" />
                   Открыть GLB в DAM
                 </a>
               </Button>

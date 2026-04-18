@@ -46,22 +46,28 @@ export class QuantumSupplyChainOptimizer {
   ): OptimizedRoutePlan | null {
     // 1. Инициализация графа (Adjacency List)
     const graph = new Map<string, LogisticsEdge[]>();
-    nodes.forEach(n => graph.set(n.id, []));
-    edges.forEach(e => {
+    nodes.forEach((n) => graph.set(n.id, []));
+    edges.forEach((e) => {
       if (graph.has(e.fromNodeId)) {
         graph.get(e.fromNodeId)!.push(e);
       }
     });
 
     // 2. Поиск всех возможных путей от фабрик до магазинов (DFS)
-    const factories = nodes.filter(n => n.type === 'factory');
-    const stores = nodes.filter(n => n.type === 'store');
+    const factories = nodes.filter((n) => n.type === 'factory');
+    const stores = nodes.filter((n) => n.type === 'store');
     const allPaths: OptimizedRoutePlan[] = [];
 
-    const dfs = (currentNodeId: string, currentPath: string[], cost: number, time: number, carbon: number) => {
+    const dfs = (
+      currentNodeId: string,
+      currentPath: string[],
+      cost: number,
+      time: number,
+      carbon: number
+    ) => {
       currentPath.push(currentNodeId);
-      
-      const node = nodes.find(n => n.id === currentNodeId);
+
+      const node = nodes.find((n) => n.id === currentNodeId);
       if (node) cost += node.processingCostUSD * goal.totalUnitsToMove;
 
       if (node?.type === 'store') {
@@ -70,7 +76,7 @@ export class QuantumSupplyChainOptimizer {
           totalCostUSD: cost,
           totalTimeDays: time,
           totalCarbonKg: carbon,
-          reasoning: ''
+          reasoning: '',
         });
       } else {
         const neighbors = graph.get(currentNodeId) || [];
@@ -80,9 +86,9 @@ export class QuantumSupplyChainOptimizer {
             dfs(
               edge.toNodeId,
               currentPath,
-              cost + (edge.transportCostUSD * goal.totalUnitsToMove),
+              cost + edge.transportCostUSD * goal.totalUnitsToMove,
               time + edge.transitTimeDays,
-              carbon + (edge.carbonEmissionsKg * goal.totalUnitsToMove)
+              carbon + edge.carbonEmissionsKg * goal.totalUnitsToMove
             );
           }
         }
@@ -97,7 +103,7 @@ export class QuantumSupplyChainOptimizer {
     if (allPaths.length === 0) return null;
 
     // 3. Фильтрация по жестким ограничениям (SLA)
-    const validPaths = allPaths.filter(p => p.totalTimeDays <= goal.maxAcceptableDays);
+    const validPaths = allPaths.filter((p) => p.totalTimeDays <= goal.maxAcceptableDays);
     if (validPaths.length === 0) return null;
 
     // 4. Выбор лучшего пути в зависимости от приоритета (Objective Function)
@@ -106,15 +112,19 @@ export class QuantumSupplyChainOptimizer {
     for (const path of validPaths) {
       if (goal.priority === 'minimize_cost' && path.totalCostUSD < bestPath.totalCostUSD) {
         bestPath = path;
-      } else if (goal.priority === 'minimize_carbon' && path.totalCarbonKg < bestPath.totalCarbonKg) {
+      } else if (
+        goal.priority === 'minimize_carbon' &&
+        path.totalCarbonKg < bestPath.totalCarbonKg
+      ) {
         bestPath = path;
       } else if (goal.priority === 'minimize_time' && path.totalTimeDays < bestPath.totalTimeDays) {
         bestPath = path;
       }
     }
 
-    bestPath.reasoning = `Selected path ${bestPath.path.join(' -> ')} prioritizing ${goal.priority}. ` +
-                         `Total Cost: $${bestPath.totalCostUSD}, Time: ${bestPath.totalTimeDays} days, Carbon: ${bestPath.totalCarbonKg}kg.`;
+    bestPath.reasoning =
+      `Selected path ${bestPath.path.join(' -> ')} prioritizing ${goal.priority}. ` +
+      `Total Cost: $${bestPath.totalCostUSD}, Time: ${bestPath.totalTimeDays} days, Carbon: ${bestPath.totalCarbonKg}kg.`;
 
     return bestPath;
   }

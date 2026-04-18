@@ -26,14 +26,18 @@ export default function B2BSupplierDiscoveryPage() {
         <CardContent className="space-y-3">
           <div className="flex gap-2">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
               <Input placeholder="Поиск по названию, категории..." className="pl-9" />
             </div>
             <Button>Искать</Button>
           </div>
           <div className="flex gap-2 text-sm text-slate-600">
-            <span className="flex items-center gap-1"><MapPin className="h-3 w-3" /> Регион</span>
-            <span className="flex items-center gap-1"><Layers className="h-3 w-3" /> Категория</span>
+            <span className="flex items-center gap-1">
+              <MapPin className="h-3 w-3" /> Регион
+            </span>
+            <span className="flex items-center gap-1">
+              <Layers className="h-3 w-3" /> Категория
+            </span>
           </div>
           <Button variant="outline" size="sm" asChild>
             <Link href={ROUTES.shop.b2bTenders}>Тендеры B2B</Link>

@@ -13,19 +13,20 @@ export default function B2BTrackingPage() {
   const ordersWithTracking = mockB2BOrders.filter((o) => o.status !== 'Черновик').slice(0, 8);
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
+    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.shop.b2b}>
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
         <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
             <Truck className="h-6 w-6" /> Трекинг заказов
           </h1>
-          <p className="text-slate-500 text-sm mt-0.5">
-            Сквозной мониторинг отгрузок. JOOR ASN, статусы доставки и ссылки на трекинг перевозчика.
+          <p className="mt-0.5 text-sm text-slate-500">
+            Сквозной мониторинг отгрузок. JOOR ASN, статусы доставки и ссылки на трекинг
+            перевозчика.
           </p>
         </div>
       </div>
@@ -37,18 +38,27 @@ export default function B2BTrackingPage() {
         </CardHeader>
         <CardContent className="space-y-3">
           {ordersWithTracking.length === 0 ? (
-            <p className="text-slate-500 text-sm">Нет заказов с отгрузкой. После отгрузки здесь появится трекинг.</p>
+            <p className="text-sm text-slate-500">
+              Нет заказов с отгрузкой. После отгрузки здесь появится трекинг.
+            </p>
           ) : (
             ordersWithTracking.map((o) => (
               <div
                 key={o.order}
-                className="flex items-center justify-between gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50/50"
+                className="flex items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50/50 p-4"
               >
                 <div>
                   <p className="font-bold text-slate-900">{o.order}</p>
-                  <p className="text-xs text-slate-500">{o.brand} · {o.shop} · {o.deliveryDate}</p>
+                  <p className="text-xs text-slate-500">
+                    {o.brand} · {o.shop} · {o.deliveryDate}
+                  </p>
                 </div>
-                <Button variant="outline" size="sm" className="rounded-lg text-[10px] font-black uppercase" asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="rounded-lg text-[10px] font-black uppercase"
+                  asChild
+                >
                   <Link href={`${ROUTES.shop.b2bOrders}/${o.order}`}>Детали и трекинг</Link>
                 </Button>
               </div>

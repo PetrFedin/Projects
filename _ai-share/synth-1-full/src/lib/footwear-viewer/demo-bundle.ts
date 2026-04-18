@@ -18,7 +18,12 @@ export const DEMO_FOOTWEAR_BUNDLE: FootwearScanBundle = {
     { id: 'side_left', label: 'Слева', imageUrl: seed('shoe-side-l'), sequenceIndex: 2 },
     { id: 'back', label: 'Сзади', imageUrl: seed('shoe-back'), sequenceIndex: 3 },
     { id: 'side_right', label: 'Справа', imageUrl: seed('shoe-side-r'), sequenceIndex: 4 },
-    { id: 'three_quarter_right', label: '3/4 справа', imageUrl: seed('shoe-34r'), sequenceIndex: 5 },
+    {
+      id: 'three_quarter_right',
+      label: '3/4 справа',
+      imageUrl: seed('shoe-34r'),
+      sequenceIndex: 5,
+    },
     { id: 'top', label: 'Сверху', imageUrl: seed('shoe-top'), sequenceIndex: 6 },
     { id: 'sole', label: 'Подошва', imageUrl: seed('shoe-sole'), sequenceIndex: 7 },
   ],

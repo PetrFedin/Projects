@@ -8,8 +8,28 @@ import { SUB_AGENT_COMMISSION_API } from '@/lib/distributor/sub-agent-commission
 import type { CommissionRecord, SubAgent } from '@/lib/distributor/sub-agent-commission';
 
 const MOCK_RECORDS: CommissionRecord[] = [
-  { id: 'c1', subAgentId: 'sa1', subAgentName: 'Иванов П.С.', period: '2026-03', orderIds: ['ORD-101', 'ORD-102'], revenueRub: 450_000, commissionRub: 22_500, status: 'approved', commissionType: 'per_order' },
-  { id: 'c2', subAgentId: 'sa2', subAgentName: 'Петрова А.В.', period: '2026-03', orderIds: ['ORD-103'], revenueRub: 180_000, commissionRub: 9_000, status: 'pending', commissionType: 'per_line' },
+  {
+    id: 'c1',
+    subAgentId: 'sa1',
+    subAgentName: 'Иванов П.С.',
+    period: '2026-03',
+    orderIds: ['ORD-101', 'ORD-102'],
+    revenueRub: 450_000,
+    commissionRub: 22_500,
+    status: 'approved',
+    commissionType: 'per_order',
+  },
+  {
+    id: 'c2',
+    subAgentId: 'sa2',
+    subAgentName: 'Петрова А.В.',
+    period: '2026-03',
+    orderIds: ['ORD-103'],
+    revenueRub: 180_000,
+    commissionRub: 9_000,
+    status: 'pending',
+    commissionType: 'per_line',
+  },
 ];
 
 const MOCK_AGENTS: SubAgent[] = [

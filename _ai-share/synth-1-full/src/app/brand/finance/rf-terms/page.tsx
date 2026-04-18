@@ -15,7 +15,7 @@ export default function BrandFinanceRfTermsPage() {
   const netTermsLinks = getRelatedLinks('net-terms').map((l) => ({ label: l.label, href: l.href }));
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-4xl animate-in fade-in duration-700">
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 duration-700 animate-in fade-in">
       <SectionInfoCard
         title="Условия для РФ (Net terms, скидки)"
         description="Отсрочка платежа 30/60 дней для оптовиков (Faire), автоскидка на первый заказ, НДС."
@@ -24,16 +24,24 @@ export default function BrandFinanceRfTermsPage() {
         iconColor="text-indigo-600"
         badges={
           <>
-            <Badge variant="outline" className="text-[9px]">Net terms</Badge>
-            <Badge variant="outline" className="text-[9px]">First order</Badge>
+            <Badge variant="outline" className="text-[9px]">
+              Net terms
+            </Badge>
+            <Badge variant="outline" className="text-[9px]">
+              First order
+            </Badge>
           </>
         }
       />
       <div className="grid gap-4 sm:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2"><CreditCard className="h-4 w-4" /> Net terms / Отсрочка</CardTitle>
-            <CardDescription>30/60 дней для оптовиков. Кредитный лимит по партнёру.</CardDescription>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <CreditCard className="h-4 w-4" /> Net terms / Отсрочка
+            </CardTitle>
+            <CardDescription>
+              30/60 дней для оптовиков. Кредитный лимит по партнёру.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-slate-600">Настройка лимитов и сроков отсрочки платежа.</p>
@@ -44,8 +52,12 @@ export default function BrandFinanceRfTermsPage() {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2"><Gift className="h-4 w-4" /> First order discount</CardTitle>
-            <CardDescription>Автоматическая скидка на первый заказ нового партнёра.</CardDescription>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Gift className="h-4 w-4" /> First order discount
+            </CardTitle>
+            <CardDescription>
+              Автоматическая скидка на первый заказ нового партнёра.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-slate-600">Процент или фикс. скидка при первом заказе.</p>

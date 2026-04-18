@@ -42,7 +42,9 @@ export function Workshop2DossierNineClosureSummary({
       id="w2-dossier-nine-closure-summary"
       className="rounded-xl border border-slate-200 bg-gradient-to-br from-slate-50/90 to-white px-3 py-2.5 shadow-sm"
     >
-      <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Сводка контура (локально)</p>
+      <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+        Сводка контура (локально)
+      </p>
       <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-lg border border-slate-100 bg-white/90 px-2.5 py-2 text-[11px]">
           <p className="font-semibold text-slate-800">Паспорт</p>

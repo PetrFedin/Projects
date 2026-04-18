@@ -60,12 +60,13 @@ export function OnlineStorePickerDialog({
             Выбрать из участников платформы
           </DialogTitle>
           <DialogDescription>
-            Магазин получит запрос на подтверждение связи. После подтверждения синхронизация будет активна.
+            Магазин получит запрос на подтверждение связи. После подтверждения синхронизация будет
+            активна.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-3">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <Input
               placeholder="Поиск по названию, городу..."
               value={search}
@@ -73,9 +74,9 @@ export function OnlineStorePickerDialog({
               className="pl-9"
             />
           </div>
-          <div className="max-h-64 overflow-y-auto space-y-1 rounded-lg border border-slate-100 p-2">
+          <div className="max-h-64 space-y-1 overflow-y-auto rounded-lg border border-slate-100 p-2">
             {filtered.length === 0 ? (
-              <p className="text-sm text-slate-500 py-6 text-center">
+              <p className="py-6 text-center text-sm text-slate-500">
                 {excludeIds.length > 0 && !search
                   ? 'Все участники уже добавлены'
                   : 'Ничего не найдено'}
@@ -87,24 +88,30 @@ export function OnlineStorePickerDialog({
                   type="button"
                   onClick={() => handleSelect(shop)}
                   className={cn(
-                    'w-full flex items-center gap-3 p-3 rounded-lg text-left transition-colors',
-                    'hover:bg-slate-50 border border-transparent hover:border-slate-200'
+                    'flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors',
+                    'border border-transparent hover:border-slate-200 hover:bg-slate-50'
                   )}
                 >
-                  <div className="h-10 w-10 rounded-lg bg-slate-100 flex items-center justify-center overflow-hidden shrink-0">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-slate-100">
                     {shop.logoUrl ? (
-                      <Image src={shop.logoUrl} alt="" width={40} height={40} className="object-cover" />
+                      <Image
+                        src={shop.logoUrl}
+                        alt=""
+                        width={40}
+                        height={40}
+                        className="object-cover"
+                      />
                     ) : (
                       <Store className="h-5 w-5 text-slate-400" />
                     )}
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-slate-900 truncate">{shop.name}</p>
-                    <p className="text-xs text-slate-500 truncate">
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-semibold text-slate-900">{shop.name}</p>
+                    <p className="truncate text-xs text-slate-500">
                       {[shop.type, shop.city].filter(Boolean).join(' · ')}
                     </p>
                   </div>
-                  <Check className="h-4 w-4 text-indigo-600 shrink-0" />
+                  <Check className="h-4 w-4 shrink-0 text-indigo-600" />
                 </button>
               ))
             )}

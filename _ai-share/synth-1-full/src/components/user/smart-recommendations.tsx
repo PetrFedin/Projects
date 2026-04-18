@@ -60,14 +60,14 @@ export default function SmartRecommendations() {
     return (
       <Card>
         <CardContent className="pt-6">
-          <div className="text-center py-4">AI подбирает рекомендации...</div>
+          <div className="py-4 text-center">AI подбирает рекомендации...</div>
         </CardContent>
       </Card>
     );
   }
 
-  const highPriority = recommendations.filter(r => r.urgency === 'high');
-  const otherRecs = recommendations.filter(r => r.urgency !== 'high');
+  const highPriority = recommendations.filter((r) => r.urgency === 'high');
+  const otherRecs = recommendations.filter((r) => r.urgency !== 'high');
 
   return (
     <Card>
@@ -76,9 +76,7 @@ export default function SmartRecommendations() {
           <Sparkles className="h-5 w-5 text-accent" />
           Умные рекомендации
         </CardTitle>
-        <CardDescription>
-          Персональные предложения на основе ваших предпочтений
-        </CardDescription>
+        <CardDescription>Персональные предложения на основе ваших предпочтений</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -88,14 +86,14 @@ export default function SmartRecommendations() {
               {highPriority.map((rec) => (
                 <div
                   key={rec.id}
-                  className="p-4 rounded-lg border-2 border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/20"
+                  className="rounded-lg border-2 border-red-200 bg-red-50 p-4 dark:border-red-800 dark:bg-red-950/20"
                 >
                   <div className="flex items-start gap-3">
-                    <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+                    <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-600" />
                     <div className="flex-1">
-                      <div className="flex items-start justify-between mb-2">
+                      <div className="mb-2 flex items-start justify-between">
                         <div>
-                          <h4 className="font-semibold text-sm mb-1">{rec.title}</h4>
+                          <h4 className="mb-1 text-sm font-semibold">{rec.title}</h4>
                           <p className="text-sm text-muted-foreground">{rec.description}</p>
                         </div>
                         {rec.discount && (
@@ -107,7 +105,7 @@ export default function SmartRecommendations() {
                       {rec.productName && (
                         <div className="mt-3 flex items-center gap-3">
                           {rec.productImage && (
-                            <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-muted">
+                            <div className="relative h-12 w-12 overflow-hidden rounded-lg bg-muted">
                               <Image
                                 src={rec.productImage}
                                 alt={rec.productName}
@@ -118,7 +116,7 @@ export default function SmartRecommendations() {
                           )}
                           <div className="flex-1">
                             <p className="text-sm font-medium">{rec.productName}</p>
-                            <div className="flex items-center gap-2 mt-1">
+                            <div className="mt-1 flex items-center gap-2">
                               {rec.originalPrice && rec.price && (
                                 <>
                                   <span className="text-sm font-bold text-red-600">
@@ -133,13 +131,16 @@ export default function SmartRecommendations() {
                           </div>
                         </div>
                       )}
-                      <p className="text-xs text-muted-foreground mt-2">{rec.reason}</p>
+                      <p className="mt-2 text-xs text-muted-foreground">{rec.reason}</p>
                       <Button size="sm" className="mt-3 w-full" asChild>
                         <Link href={rec.actionLink}>
-                          {rec.type === 'price_drop' ? 'Купить со скидкой' :
-                           rec.type === 'restock' ? 'Посмотреть товар' :
-                           rec.type === 'complement' ? 'Добавить в корзину' :
-                           'Посмотреть рекомендацию'}
+                          {rec.type === 'price_drop'
+                            ? 'Купить со скидкой'
+                            : rec.type === 'restock'
+                              ? 'Посмотреть товар'
+                              : rec.type === 'complement'
+                                ? 'Добавить в корзину'
+                                : 'Посмотреть рекомендацию'}
                         </Link>
                       </Button>
                     </div>
@@ -155,29 +156,37 @@ export default function SmartRecommendations() {
               {otherRecs.map((rec) => (
                 <div
                   key={rec.id}
-                  className="p-4 rounded-lg border bg-muted/50 hover:bg-muted transition-colors"
+                  className="rounded-lg border bg-muted/50 p-4 transition-colors hover:bg-muted"
                 >
                   <div className="flex items-start gap-3">
-                    {rec.type === 'price_drop' && <Gift className="h-4 w-4 text-red-600 flex-shrink-0 mt-0.5" />}
-                    {rec.type === 'restock' && <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />}
-                    {rec.type === 'complement' && <Zap className="h-4 w-4 text-blue-600 flex-shrink-0 mt-0.5" />}
-                    {rec.type === 'trending' && <TrendingUp className="h-4 w-4 text-purple-600 flex-shrink-0 mt-0.5" />}
-                    {rec.type === 'personalized' && <Sparkles className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />}
+                    {rec.type === 'price_drop' && (
+                      <Gift className="mt-0.5 h-4 w-4 flex-shrink-0 text-red-600" />
+                    )}
+                    {rec.type === 'restock' && (
+                      <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-600" />
+                    )}
+                    {rec.type === 'complement' && (
+                      <Zap className="mt-0.5 h-4 w-4 flex-shrink-0 text-blue-600" />
+                    )}
+                    {rec.type === 'trending' && (
+                      <TrendingUp className="mt-0.5 h-4 w-4 flex-shrink-0 text-purple-600" />
+                    )}
+                    {rec.type === 'personalized' && (
+                      <Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-accent" />
+                    )}
                     <div className="flex-1">
-                      <div className="flex items-start justify-between mb-1">
-                        <h4 className="font-semibold text-sm">{rec.title}</h4>
+                      <div className="mb-1 flex items-start justify-between">
+                        <h4 className="text-sm font-semibold">{rec.title}</h4>
                         {rec.discount && (
                           <Badge variant="secondary" className="ml-2 text-xs">
                             -{rec.discount}%
                           </Badge>
                         )}
                       </div>
-                      <p className="text-sm text-muted-foreground mb-2">{rec.description}</p>
-                      <p className="text-xs text-muted-foreground mb-2">{rec.reason}</p>
-                      <Button variant="link" size="sm" className="p-0 h-auto text-xs" asChild>
-                        <Link href={rec.actionLink}>
-                          Посмотреть →
-                        </Link>
+                      <p className="mb-2 text-sm text-muted-foreground">{rec.description}</p>
+                      <p className="mb-2 text-xs text-muted-foreground">{rec.reason}</p>
+                      <Button variant="link" size="sm" className="h-auto p-0 text-xs" asChild>
+                        <Link href={rec.actionLink}>Посмотреть →</Link>
                       </Button>
                     </div>
                   </div>
@@ -187,8 +196,8 @@ export default function SmartRecommendations() {
           )}
 
           {recommendations.length === 0 && (
-            <div className="text-center py-4 text-muted-foreground">
-              <Sparkles className="h-12 w-12 mx-auto mb-2 opacity-50" />
+            <div className="py-4 text-center text-muted-foreground">
+              <Sparkles className="mx-auto mb-2 h-12 w-12 opacity-50" />
               <p>Нет активных рекомендаций</p>
             </div>
           )}
@@ -267,8 +276,3 @@ function generateSmartRecommendations(
 
   return recommendations;
 }
-
-
-
-
-

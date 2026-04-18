@@ -73,13 +73,15 @@ export function ProductionFloorContextBar({
       role="region"
       aria-label="Контекст производства"
     >
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-slate-700 min-w-0">
-        <span className="shrink-0 font-black uppercase tracking-wider text-slate-400">Контекст</span>
+      <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-slate-700">
+        <span className="shrink-0 font-black uppercase tracking-wider text-slate-400">
+          Контекст
+        </span>
         <span className="min-w-0">
           <span className="text-slate-500">Коллекция:</span>{' '}
           <strong className="text-slate-900">{collectionLabel}</strong>
           {collectionId ? (
-            <code className="ml-1 rounded bg-white/80 px-1 py-0.5 text-[9px] text-slate-600 border border-slate-100">
+            <code className="ml-1 rounded border border-slate-100 bg-white/80 px-1 py-0.5 text-[9px] text-slate-600">
               {collectionId}
             </code>
           ) : null}
@@ -90,28 +92,32 @@ export function ProductionFloorContextBar({
             <strong className="font-mono text-indigo-900">{stagesSkuLine ?? stagesSkuId}</strong>
           </span>
         ) : (
-          <span className="text-slate-400 border-l border-slate-200 pl-3">SKU в URL не задан</span>
+          <span className="border-l border-slate-200 pl-3 text-slate-400">SKU в URL не задан</span>
         )}
         {stagesStepId ? (
-          <span className="min-w-0 border-l border-slate-200 pl-3 max-w-[min(100%,14rem)] sm:max-w-xs">
+          <span className="min-w-0 max-w-[min(100%,14rem)] border-l border-slate-200 pl-3 sm:max-w-xs">
             <span className="text-slate-500">Этап (stagesStep):</span>{' '}
-            <strong className="text-slate-900 line-clamp-2">{stagesStepTitle ?? stagesStepId}</strong>
+            <strong className="line-clamp-2 text-slate-900">
+              {stagesStepTitle ?? stagesStepId}
+            </strong>
           </span>
         ) : null}
         {skuCatalogStageTitle ? (
-          <span className="min-w-0 border-l border-slate-200 pl-3 max-w-[min(100%,18rem)] sm:max-w-sm">
+          <span className="min-w-0 max-w-[min(100%,18rem)] border-l border-slate-200 pl-3 sm:max-w-sm">
             <span className="text-slate-500">В каталоге коллекции:</span>{' '}
             {skuCatalogStagePhase ? (
               <span className="text-slate-600">{skuCatalogStagePhase} · </span>
             ) : null}
-            <strong className="text-emerald-900 line-clamp-2">{skuCatalogStageTitle}</strong>
+            <strong className="line-clamp-2 text-emerald-900">{skuCatalogStageTitle}</strong>
             {skuCatalogPositionLabel ? (
-              <span className="ml-1 font-mono text-[9px] font-bold text-emerald-700/85">({skuCatalogPositionLabel})</span>
+              <span className="ml-1 font-mono text-[9px] font-bold text-emerald-700/85">
+                ({skuCatalogPositionLabel})
+              </span>
             ) : null}
           </span>
         ) : null}
       </div>
-      <div className="flex flex-wrap items-center gap-2 shrink-0">
+      <div className="flex shrink-0 flex-wrap items-center gap-2">
         <Button
           type="button"
           variant="outline"
@@ -130,13 +136,14 @@ export function ProductionFloorContextBar({
         {!onStages ? (
           <Link
             href={stagesTabHref}
-            className="inline-flex items-center gap-1 rounded-lg border border-indigo-200 bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-indigo-700 shadow-sm hover:bg-indigo-50 transition-colors"
+            className="inline-flex items-center gap-1 rounded-lg border border-indigo-200 bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-indigo-700 shadow-sm transition-colors hover:bg-indigo-50"
           >
-            <ListTree className="h-3 w-3 shrink-0" aria-hidden />
-            К этапам
+            <ListTree className="h-3 w-3 shrink-0" aria-hidden />К этапам
           </Link>
         ) : (
-          <span className="text-[9px] font-semibold uppercase tracking-wide text-emerald-700">Вы на этапах</span>
+          <span className="text-[9px] font-semibold uppercase tracking-wide text-emerald-700">
+            Вы на этапах
+          </span>
         )}
       </div>
     </div>

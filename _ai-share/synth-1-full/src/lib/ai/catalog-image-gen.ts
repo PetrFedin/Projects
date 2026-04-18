@@ -39,9 +39,13 @@ export function getCatalogImageTypeLabel(t: CatalogImageType): string {
  * Демо: задержка + Unsplash. В проде: задайте `NEXT_PUBLIC_CATALOG_IMAGE_GEN_URL` — POST JSON
  * `{ prompt, imageType, sku? }`, ответ `{ imageUrl?: string, jobId?: string, status, message? }`.
  */
-export async function requestCatalogImageGeneration(request: CatalogImageGenRequest): Promise<CatalogImageGenResult> {
+export async function requestCatalogImageGeneration(
+  request: CatalogImageGenRequest
+): Promise<CatalogImageGenResult> {
   const endpoint =
-    typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_CATALOG_IMAGE_GEN_URL?.trim() : undefined;
+    typeof process !== 'undefined'
+      ? process.env.NEXT_PUBLIC_CATALOG_IMAGE_GEN_URL?.trim()
+      : undefined;
   if (endpoint) {
     try {
       const res = await fetch(endpoint, {
@@ -79,7 +83,8 @@ export async function requestCatalogImageGeneration(request: CatalogImageGenRequ
         imageUrl: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800',
         jobId: `img-${Date.now()}`,
         status: 'done',
-        message: 'Демо: изображение-заглушка. Задайте NEXT_PUBLIC_CATALOG_IMAGE_GEN_URL для своего API.',
+        message:
+          'Демо: изображение-заглушка. Задайте NEXT_PUBLIC_CATALOG_IMAGE_GEN_URL для своего API.',
       });
     }, 1500);
   });

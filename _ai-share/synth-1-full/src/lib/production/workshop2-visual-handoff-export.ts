@@ -40,7 +40,9 @@ export type VisualHandoffQuickSummary = {
   canonicalPhotoAndSketchSet: boolean;
 };
 
-export function getVisualHandoffQuickSummary(dossier: Workshop2DossierPhase1): VisualHandoffQuickSummary {
+export function getVisualHandoffQuickSummary(
+  dossier: Workshop2DossierPhase1
+): VisualHandoffQuickSummary {
   const vr = visualReadinessProgress(dossier);
   let sheetPins = 0;
   for (const s of dossier.sketchSheets ?? []) {
@@ -59,7 +61,9 @@ export function getVisualHandoffQuickSummary(dossier: Workshop2DossierPhase1): V
       Boolean(dossier.designerIntent?.mood?.trim()) ||
       Boolean(dossier.designerIntent?.bullets?.some((b) => b.trim())) ||
       Boolean(dossier.brandNotes?.trim()),
-    canonicalPhotoAndSketchSet: Boolean(dossier.canonicalMainPhotoRefId && dossier.canonicalMainSketchTarget),
+    canonicalPhotoAndSketchSet: Boolean(
+      dossier.canonicalMainPhotoRefId && dossier.canonicalMainSketchTarget
+    ),
   };
 }
 
@@ -142,11 +146,13 @@ export function buildVisualHandoffPrintHtml(
   const sku = opts?.articleSku?.trim();
   const name = opts?.articleName?.trim();
   const gate = opts?.visualRouteGate;
-  const payload = buildVisualHandoffExportPayload(dossier, { articleSku: sku, visualRouteGate: gate });
+  const payload = buildVisualHandoffExportPayload(dossier, {
+    articleSku: sku,
+    visualRouteGate: gate,
+  });
   const checklist = dossier.visualReadinessChecklist ?? {};
   const checklistRows = VISUAL_READINESS_LABELS.map(
-    (row) =>
-      `<tr><td>${escHtml(row.label)}</td><td>${checklist[row.key] ? 'Да' : 'Нет'}</td></tr>`
+    (row) => `<tr><td>${escHtml(row.label)}</td><td>${checklist[row.key] ? 'Да' : 'Нет'}</td></tr>`
   ).join('');
   const intentBullets = (dossier.designerIntent?.bullets ?? [])
     .map((b) => b.trim())

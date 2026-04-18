@@ -1,14 +1,24 @@
-import { NextRequest, NextResponse } from "next/server";
-import { generateProductDescription } from "@/ai/flows/generate-product-description";
+import { NextRequest, NextResponse } from 'next/server';
+import { generateProductDescription } from '@/ai/flows/generate-product-description';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, brand, category, color, composition, tags, sustainability, existingDescription, includeSeo } = body;
+    const {
+      name,
+      brand,
+      category,
+      color,
+      composition,
+      tags,
+      sustainability,
+      existingDescription,
+      includeSeo,
+    } = body;
 
     if (!name || !brand || !category || !color) {
       return NextResponse.json(
-        { error: "name, brand, category, color are required" },
+        { error: 'name, brand, category, color are required' },
         { status: 400 }
       );
     }
@@ -27,12 +37,12 @@ export async function POST(req: NextRequest) {
       { includeSeo: !!includeSeo }
     );
 
-    if (typeof result === "string") {
+    if (typeof result === 'string') {
       return NextResponse.json({ description: result });
     }
     return NextResponse.json(result);
   } catch (e) {
-    console.error("[product-description] Failed:", e);
-    return NextResponse.json({ error: "Failed to generate description" }, { status: 500 });
+    console.error('[product-description] Failed:', e);
+    return NextResponse.json({ error: 'Failed to generate description' }, { status: 500 });
   }
 }

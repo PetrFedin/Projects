@@ -15,9 +15,7 @@ export function calculateAssortmentHealth(products: Product[]): AssortmentHealth
 
   // Simplified health score formula
   const overallScore = Math.round(
-    (avgCompleteness * 0.4) + 
-    (avgReadiness * 0.4) + 
-    (Math.max(0, 100 - overlapRows.length * 5) * 0.2)
+    avgCompleteness * 0.4 + avgReadiness * 0.4 + Math.max(0, 100 - overlapRows.length * 5) * 0.2
   );
 
   return {

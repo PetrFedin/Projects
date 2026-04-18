@@ -23,6 +23,6 @@ export function getAllocationGroups(): AllocationGroupV1[] {
       minAssortmentWidth: 10,
       maxOrderValuePerStore: 1500000,
       priority: 'low',
-    }
+    },
   ];
 }

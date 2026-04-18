@@ -13,7 +13,13 @@ export interface ReturnItemScan {
 
 export interface RoboticSortingDecision {
   rmaId: string;
-  destinationBin: 'restock_a_grade' | 'restock_b_grade' | 'laundry' | 'repair' | 'fraud_investigation' | 'recycle';
+  destinationBin:
+    | 'restock_a_grade'
+    | 'restock_b_grade'
+    | 'laundry'
+    | 'repair'
+    | 'fraud_investigation'
+    | 'recycle';
   refundAction: 'approve_full' | 'approve_partial' | 'deny';
   reasoning: string;
 }
@@ -37,12 +43,13 @@ export class RoboticReturnsProcessor {
     // 1. Проверка на фрод (Fraud Detection)
     // Если вес посылки сильно отличается от ожидаемого веса вещи (например, кирпич вместо куртки)
     const weightDifference = Math.abs(scan.weightKg - scan.expectedWeightKg);
-    if (weightDifference > scan.expectedWeightKg * 0.2) { // Разница больше 20%
+    if (weightDifference > scan.expectedWeightKg * 0.2) {
+      // Разница больше 20%
       return {
         rmaId: scan.rmaId,
         destinationBin: 'fraud_investigation',
         refundAction: 'deny',
-        reasoning: `CRITICAL: Weight mismatch. Expected ${scan.expectedWeightKg}kg, got ${scan.weightKg}kg. Suspected return fraud. Routing to manual investigation bin. Refund denied.`
+        reasoning: `CRITICAL: Weight mismatch. Expected ${scan.expectedWeightKg}kg, got ${scan.weightKg}kg. Suspected return fraud. Routing to manual investigation bin. Refund denied.`,
       };
     }
 
@@ -53,12 +60,14 @@ export class RoboticReturnsProcessor {
       // Идеальное состояние (A-Grade)
       destinationBin = 'restock_a_grade';
       refundAction = 'approve_full';
-      reasoning = 'Item is in pristine condition with original tags. Routing to A-Grade restock bin. Full refund approved.';
+      reasoning =
+        'Item is in pristine condition with original tags. Routing to A-Grade restock bin. Full refund approved.';
     } else if (!hasStains && !hasTears && !odorDetected && !hasOriginalTags) {
       // Хорошее состояние, но без бирок (B-Grade)
       destinationBin = 'restock_b_grade';
       refundAction = 'approve_full'; // По закону часто обязаны вернуть полностью, если нет следов носки
-      reasoning = 'Item is clean but missing original tags. Routing to B-Grade restock bin (for outlet/discount sales). Full refund approved.';
+      reasoning =
+        'Item is clean but missing original tags. Routing to B-Grade restock bin (for outlet/discount sales). Full refund approved.';
     } else if (hasStains || odorDetected) {
       // Грязная вещь или с запахом (Laundry)
       destinationBin = 'laundry';
@@ -69,14 +78,15 @@ export class RoboticReturnsProcessor {
       // В реальной системе AI оценивал бы размер дырки. Здесь упрощаем.
       destinationBin = 'repair';
       refundAction = 'deny'; // Клиент порвал вещь
-      reasoning = 'Item has physical tears/damage not present at shipping. Routing to repair bin. Refund denied due to customer damage.';
+      reasoning =
+        'Item has physical tears/damage not present at shipping. Routing to repair bin. Refund denied due to customer damage.';
     }
 
     return {
       rmaId: scan.rmaId,
       destinationBin,
       refundAction,
-      reasoning
+      reasoning,
     };
   }
 }

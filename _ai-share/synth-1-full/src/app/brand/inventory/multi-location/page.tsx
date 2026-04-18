@@ -16,14 +16,20 @@ export default function MultiLocationInventoryPage() {
   );
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
+    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.brand.warehouse}>
-          <Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
         </Link>
         <div>
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2"><MapPin className="h-6 w-6" /> Остатки по складам</h1>
-          <p className="text-slate-500 text-sm mt-0.5">Москва, СПб, регионы — остатки по локациям.</p>
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
+            <MapPin className="h-6 w-6" /> Остатки по складам
+          </h1>
+          <p className="mt-0.5 text-sm text-slate-500">
+            Москва, СПб, регионы — остатки по локациям.
+          </p>
         </div>
       </div>
 
@@ -34,8 +40,11 @@ export default function MultiLocationInventoryPage() {
         </CardHeader>
         <CardContent className="grid gap-4 sm:grid-cols-3">
           {locations.map((l) => (
-            <div key={l.id} className="flex items-center gap-3 p-4 rounded-xl border border-slate-200">
-              <div className="h-10 w-10 rounded-lg bg-indigo-50 flex items-center justify-center">
+            <div
+              key={l.id}
+              className="flex items-center gap-3 rounded-xl border border-slate-200 p-4"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-50">
                 <Package className="h-5 w-5 text-indigo-600" />
               </div>
               <div>
@@ -54,19 +63,21 @@ export default function MultiLocationInventoryPage() {
         </CardHeader>
         <CardContent>
           {stocks.length === 0 ? (
-            <div className="text-center py-8 text-slate-500 text-sm">
-              <Package className="h-12 w-12 mx-auto mb-3 opacity-40" />
+            <div className="py-8 text-center text-sm text-slate-500">
+              <Package className="mx-auto mb-3 h-12 w-12 opacity-40" />
               <p>Нет данных. Настройте синхронизацию с ERP.</p>
-              <Button variant="outline" size="sm" className="mt-3" asChild><Link href={ROUTES.brand.integrationsErpPlm}>ERP 1С / Мой Склад</Link></Button>
+              <Button variant="outline" size="sm" className="mt-3" asChild>
+                <Link href={ROUTES.brand.integrationsErpPlm}>ERP 1С / Мой Склад</Link>
+              </Button>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b">
-                    <th className="text-left py-2">SKU</th>
-                    <th className="text-left py-2">Локация</th>
-                    <th className="text-right py-2">Доступно</th>
+                    <th className="py-2 text-left">SKU</th>
+                    <th className="py-2 text-left">Локация</th>
+                    <th className="py-2 text-right">Доступно</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -74,7 +85,7 @@ export default function MultiLocationInventoryPage() {
                     <tr key={`${s.productId}-${s.locationId}`} className="border-b">
                       <td className="py-2 font-mono">{s.sku}</td>
                       <td className="py-2">{s.locationName}</td>
-                      <td className="text-right py-2 tabular-nums">{s.available}</td>
+                      <td className="py-2 text-right tabular-nums">{s.available}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -84,9 +95,13 @@ export default function MultiLocationInventoryPage() {
         </CardContent>
       </Card>
 
-      <div className="flex gap-2 mb-6">
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.brand.warehouse}>Склад</Link></Button>
-        <Button variant="outline" size="sm" asChild><Link href={ROUTES.brand.integrationsErpPlm}>ERP</Link></Button>
+      <div className="mb-6 flex gap-2">
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.brand.warehouse}>Склад</Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href={ROUTES.brand.integrationsErpPlm}>ERP</Link>
+        </Button>
       </div>
       <RelatedModulesBlock links={getProductionLinks()} title="Логистика" />
     </div>

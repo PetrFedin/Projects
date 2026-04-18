@@ -1,7 +1,6 @@
+'use client';
 
-"use client"
-
-import * as React from "react"
+import * as React from 'react';
 
 // A simple masonry-like layout component.
 // NOTE: This is not a true masonry layout, but it's good enough for this demo.
@@ -9,12 +8,12 @@ import * as React from "react"
 // or implement a more complex layout algorithm.
 
 type MasonryProps<T> = {
-  items: T[]
-  render: React.ComponentType<{ look: T; className?: string }>
-  columnWidth?: number
-  columnGutter?: number
-  className?: string
-}
+  items: T[];
+  render: React.ComponentType<{ look: T; className?: string }>;
+  columnWidth?: number;
+  columnGutter?: number;
+  className?: string;
+};
 
 export function Masonry<T extends { id: string }>({
   items,
@@ -24,7 +23,7 @@ export function Masonry<T extends { id: string }>({
   className,
 }: MasonryProps<T>) {
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const [numColumns, setNumColumns] = React.useState(3)
+  const [numColumns, setNumColumns] = React.useState(3);
 
   React.useEffect(() => {
     const handleResize = () => {
@@ -33,30 +32,30 @@ export function Masonry<T extends { id: string }>({
         const calculatedNumColumns = Math.max(
           1,
           Math.floor((containerWidth + columnGutter) / (columnWidth + columnGutter))
-        )
+        );
         setNumColumns(calculatedNumColumns);
       }
-    }
+    };
 
-    handleResize()
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [columnWidth, columnGutter])
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [columnWidth, columnGutter]);
 
-  const columns: T[][] = Array.from({ length: numColumns }, () => [])
+  const columns: T[][] = Array.from({ length: numColumns }, () => []);
   items.forEach((item, index) => {
-    columns[index % numColumns].push(item)
-  })
+    columns[index % numColumns].push(item);
+  });
 
   return (
     <div
       ref={containerRef}
       className={className}
       style={{
-        display: "grid",
+        display: 'grid',
         gridTemplateColumns: `repeat(${numColumns}, 1fr)`,
         gap: `${columnGutter}px`,
-        alignItems: 'start'
+        alignItems: 'start',
       }}
     >
       {columns.map((col, colIndex) => (
@@ -67,5 +66,5 @@ export function Masonry<T extends { id: string }>({
         </div>
       ))}
     </div>
-  )
+  );
 }

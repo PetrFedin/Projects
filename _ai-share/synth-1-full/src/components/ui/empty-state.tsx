@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
-import { LucideIcon } from "lucide-react";
-import { Button } from "./button";
+import { cn } from '@/lib/utils';
+import { LucideIcon } from 'lucide-react';
+import { Button } from './button';
 
 interface EmptyStateProps {
   icon: LucideIcon;
@@ -21,56 +21,50 @@ export function EmptyState({
   description,
   action,
   variant = 'default',
-  className
+  className,
 }: EmptyStateProps) {
   const variants = {
     default: {
       container: 'py-10 px-8',
       icon: 'h-12 w-12 mb-6',
       title: 'text-sm',
-      description: 'text-base'
+      description: 'text-base',
     },
     compact: {
       container: 'py-12 px-6',
       icon: 'h-12 w-12 mb-4',
       title: 'text-base',
-      description: 'text-sm'
+      description: 'text-sm',
     },
     illustrated: {
       container: 'py-24 px-8',
       icon: 'h-24 w-24 mb-8',
       title: 'text-base',
-      description: 'text-sm'
-    }
+      description: 'text-sm',
+    },
   };
 
   const v = variants[variant];
 
   return (
-    <div className={cn(
-      "flex flex-col items-center justify-center text-center",
-      v.container,
-      className
-    )}>
+    <div
+      className={cn(
+        'flex flex-col items-center justify-center text-center',
+        v.container,
+        className
+      )}
+    >
       {/* Icon with background */}
       <div className="relative mb-6">
-        <div className="absolute inset-0 bg-blue-500/10 rounded-full blur-2xl scale-150" />
-        <div className="relative bg-gradient-to-br from-slate-50 to-slate-100 p-4 rounded-3xl shadow-soft">
-          <Icon className={cn(v.icon, "text-slate-400")} />
+        <div className="absolute inset-0 scale-150 rounded-full bg-blue-500/10 blur-2xl" />
+        <div className="shadow-soft relative rounded-3xl bg-gradient-to-br from-slate-50 to-slate-100 p-4">
+          <Icon className={cn(v.icon, 'text-slate-400')} />
         </div>
       </div>
 
       {/* Content */}
-      <h3 className={cn(
-        "font-black tracking-tight text-slate-900 mb-3",
-        v.title
-      )}>
-        {title}
-      </h3>
-      <p className={cn(
-        "text-slate-500 max-w-md font-medium leading-relaxed mb-6",
-        v.description
-      )}>
+      <h3 className={cn('mb-3 font-black tracking-tight text-slate-900', v.title)}>{title}</h3>
+      <p className={cn('mb-6 max-w-md font-medium leading-relaxed text-slate-500', v.description)}>
         {description}
       </p>
 
@@ -78,7 +72,7 @@ export function EmptyState({
       {action && (
         <Button
           onClick={action.onClick}
-          className="premium-gradient text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all"
+          className="premium-gradient rounded-xl px-8 py-3 font-bold text-white shadow-lg transition-all hover:shadow-xl"
         >
           {action.icon && <action.icon className="mr-2 h-4 w-4" />}
           {action.label}

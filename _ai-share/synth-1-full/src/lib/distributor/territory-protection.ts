@@ -35,8 +35,20 @@ export async function listRules(): Promise<TerritoryRule[]> {
   await new Promise((r) => setTimeout(r, 200));
   const now = new Date().toISOString();
   return [
-    { id: 'tr1', distributorId: 'D01', regions: ['Москва', 'МО', 'ЦФО'], action: 'allow', updatedAt: now },
-    { id: 'tr2', distributorId: 'D02', regions: ['СПб', 'ЛО', 'СЗФО'], action: 'block', updatedAt: now },
+    {
+      id: 'tr1',
+      distributorId: 'D01',
+      regions: ['Москва', 'МО', 'ЦФО'],
+      action: 'allow',
+      updatedAt: now,
+    },
+    {
+      id: 'tr2',
+      distributorId: 'D02',
+      regions: ['СПб', 'ЛО', 'СЗФО'],
+      action: 'block',
+      updatedAt: now,
+    },
     { id: 'tr3', distributorId: 'D03', regions: ['ЮФО'], action: 'warning', updatedAt: now },
   ];
 }

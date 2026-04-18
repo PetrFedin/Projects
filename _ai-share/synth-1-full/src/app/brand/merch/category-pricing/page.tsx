@@ -4,10 +4,20 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
-import { buildCategoryPriceStats, categoryPriceStatsToCsv } from '@/lib/fashion/category-price-stats';
+import {
+  buildCategoryPriceStats,
+  categoryPriceStatsToCsv,
+} from '@/lib/fashion/category-price-stats';
 import { ArrowLeft, BarChart3 } from 'lucide-react';
 
 export default function CategoryPricingPage() {
@@ -25,7 +35,7 @@ export default function CategoryPricingPage() {
   };
 
   return (
-    <div className="container max-w-5xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -33,12 +43,13 @@ export default function CategoryPricingPage() {
           </Link>
         </Button>
         <div>
-          <h1 className="text-xl font-bold flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-xl font-bold">
             <BarChart3 className="h-6 w-6" />
             Цены по категориям
           </h1>
           <p className="text-sm text-muted-foreground">
-            Агрегаты по полю <code className="text-[10px] bg-muted px-1 rounded">category</code> демо-каталога — для прайс-гридов и отчётов мерча.
+            Агрегаты по полю <code className="rounded bg-muted px-1 text-[10px]">category</code>{' '}
+            демо-каталога — для прайс-гридов и отчётов мерча.
           </p>
         </div>
       </div>

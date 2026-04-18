@@ -15,4 +15,8 @@ export {
   type OrderExportResult,
 } from './b2b-integration-service';
 
-export { joorGetDeliveryWindows, isNuOrderConfigured, type JoorDeliveryWindow } from './joor-delivery-mocks';
+export {
+  joorGetDeliveryWindows,
+  isNuOrderConfigured,
+  type JoorDeliveryWindow,
+} from './joor-delivery-mocks';

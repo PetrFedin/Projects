@@ -4,7 +4,9 @@ import type { Workshop2Phase1CategorySketchAnnotation } from '@/lib/production/w
 
 const leaf = 'leaf-1';
 
-function ann(partial: Partial<Workshop2Phase1CategorySketchAnnotation>): Workshop2Phase1CategorySketchAnnotation {
+function ann(
+  partial: Partial<Workshop2Phase1CategorySketchAnnotation>
+): Workshop2Phase1CategorySketchAnnotation {
   return {
     annotationId: 'a1',
     categoryLeafId: leaf,
@@ -29,7 +31,10 @@ describe('filterSketchAnnotationsForExportSurface', () => {
   });
 
   it('workshop_floor keeps all', () => {
-    const list = [ann({ annotationId: '1', annotationType: 'material' }), ann({ annotationId: '2', annotationType: 'qc' })];
+    const list = [
+      ann({ annotationId: '1', annotationType: 'material' }),
+      ann({ annotationId: '2', annotationType: 'qc' }),
+    ];
     const out = filterSketchAnnotationsForExportSurface(list, leaf, 'workshop_floor');
     expect(out).toHaveLength(2);
   });

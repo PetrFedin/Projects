@@ -15,7 +15,7 @@ export default function PriceComparisonPage() {
   const [manualUrl, setManualUrl] = useState('');
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Парсинг цен и сравнение с рынком"
         description="Парсинг цен артикулов на платформе. Автоматическое сравнение с рынком (benchmark) или ручное — добавьте ссылку с другого сайта для сравнения."
@@ -24,9 +24,13 @@ export default function PriceComparisonPage() {
         iconColor="text-emerald-600"
         badges={
           <>
-            <Badge variant="outline" className="text-[9px]">Платформа</Badge>
-            <Badge variant="outline" className="text-[9px]">Рынок</Badge>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild>
+            <Badge variant="outline" className="text-[9px]">
+              Платформа
+            </Badge>
+            <Badge variant="outline" className="text-[9px]">
+              Рынок
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href="/brand/pricing">Pricing</Link>
             </Button>
           </>
@@ -34,14 +38,15 @@ export default function PriceComparisonPage() {
       />
       <h1 className="text-2xl font-bold uppercase">Сравнение цен</h1>
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid gap-6 md:grid-cols-2">
         <Card className="rounded-xl border border-emerald-100 bg-emerald-50/30">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <BarChart3 className="h-5 w-5" /> Автоматическое сравнение
             </CardTitle>
             <CardDescription>
-              Цены артикулов платформы автоматически сравниваются с анонимизированным рыночным бенчмарком
+              Цены артикулов платформы автоматически сравниваются с анонимизированным рыночным
+              бенчмарком
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -51,19 +56,27 @@ export default function PriceComparisonPage() {
                 { sku: 'SS26-JACKET-04', platform: '18 500 ₽', market: '19 200 ₽', diff: '-4%' },
                 { sku: 'AW25-DENIM-12', platform: '9 900 ₽', market: '10 100 ₽', diff: '-2%' },
               ].map((row, i) => (
-                <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-white border">
-                  <span className="font-medium text-sm">{row.sku}</span>
+                <div
+                  key={i}
+                  className="flex items-center justify-between rounded-lg border bg-white p-3"
+                >
+                  <span className="text-sm font-medium">{row.sku}</span>
                   <div className="flex items-center gap-3">
                     <span className="text-slate-600">{row.platform}</span>
-                    <span className="text-slate-400 text-[11px]">→ {row.market}</span>
-                    <Badge variant={row.diff.startsWith('+') ? 'secondary' : 'outline'} className="text-[10px]">
+                    <span className="text-[11px] text-slate-400">→ {row.market}</span>
+                    <Badge
+                      variant={row.diff.startsWith('+') ? 'secondary' : 'outline'}
+                      className="text-[10px]"
+                    >
                       {row.diff}
                     </Badge>
                   </div>
                 </div>
               ))}
             </div>
-            <Button variant="outline" size="sm">Обновить данные</Button>
+            <Button variant="outline" size="sm">
+              Обновить данные
+            </Button>
           </CardContent>
         </Card>
 
@@ -78,7 +91,9 @@ export default function PriceComparisonPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <label className="text-[11px] font-bold uppercase text-slate-500">URL для парсинга</label>
+              <label className="text-[11px] font-bold uppercase text-slate-500">
+                URL для парсинга
+              </label>
               <Input
                 value={manualUrl}
                 onChange={(e) => setManualUrl(e.target.value)}

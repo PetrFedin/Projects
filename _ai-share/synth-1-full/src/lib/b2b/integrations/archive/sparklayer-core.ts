@@ -11,11 +11,15 @@ import { isSparkLayerConfigured } from './sparklayer-pricing'; // same archive
 
 function getBase(): string {
   if (typeof process === 'undefined') return '';
-  return (process.env.NEXT_PUBLIC_SPARKLAYER_API_URL || process.env.SPARKLAYER_API_URL || '').replace(/\/$/, '');
+  return (
+    process.env.NEXT_PUBLIC_SPARKLAYER_API_URL ||
+    process.env.SPARKLAYER_API_URL ||
+    ''
+  ).replace(/\/$/, '');
 }
 
 function getAuthHeaders(): Record<string, string> {
-  const token = typeof process !== 'undefined' ? (process.env.SPARKLAYER_ACCESS_TOKEN || '') : '';
+  const token = typeof process !== 'undefined' ? process.env.SPARKLAYER_ACCESS_TOKEN || '' : '';
   return {
     Authorization: `Bearer ${token}`,
     'Content-Type': 'application/json',
@@ -26,7 +30,10 @@ function getAuthHeaders(): Record<string, string> {
 async function coreFetch<T>(path: string, options?: RequestInit): Promise<T> {
   const base = getBase();
   if (!base) return [] as T;
-  const res = await fetch(`${base}${path}`, { ...options, headers: { ...getAuthHeaders(), ...options?.headers } });
+  const res = await fetch(`${base}${path}`, {
+    ...options,
+    headers: { ...getAuthHeaders(), ...options?.headers },
+  });
   if (!res.ok) throw new Error(`SparkLayer ${path}: ${res.status}`);
   return res.json() as Promise<T>;
 }
@@ -41,14 +48,19 @@ export interface SparkLayerProduct {
   [key: string]: unknown;
 }
 
-export async function sparkLayerGetProducts(params?: { limit?: number; offset?: number }): Promise<SparkLayerProduct[]> {
+export async function sparkLayerGetProducts(params?: {
+  limit?: number;
+  offset?: number;
+}): Promise<SparkLayerProduct[]> {
   if (!isSparkLayerConfigured()) return [];
   try {
     const q = new URLSearchParams();
     if (params?.limit != null) q.set('limit', String(params.limit));
     if (params?.offset != null) q.set('offset', String(params.offset));
     const url = `/products${q.toString() ? `?${q.toString()}` : ''}`;
-    const data = await coreFetch<SparkLayerProduct[] | { items?: SparkLayerProduct[]; data?: SparkLayerProduct[] }>(url);
+    const data = await coreFetch<
+      SparkLayerProduct[] | { items?: SparkLayerProduct[]; data?: SparkLayerProduct[] }
+    >(url);
     if (Array.isArray(data)) return data;
     return data.items ?? data.data ?? [];
   } catch {
@@ -75,14 +87,19 @@ export interface SparkLayerCustomer {
   [key: string]: unknown;
 }
 
-export async function sparkLayerGetCustomers(params?: { limit?: number; offset?: number }): Promise<SparkLayerCustomer[]> {
+export async function sparkLayerGetCustomers(params?: {
+  limit?: number;
+  offset?: number;
+}): Promise<SparkLayerCustomer[]> {
   if (!isSparkLayerConfigured()) return [];
   try {
     const q = new URLSearchParams();
     if (params?.limit != null) q.set('limit', String(params.limit));
     if (params?.offset != null) q.set('offset', String(params.offset));
     const url = `/customers${q.toString() ? `?${q.toString()}` : ''}`;
-    const data = await coreFetch<SparkLayerCustomer[] | { items?: SparkLayerCustomer[]; data?: SparkLayerCustomer[] }>(url);
+    const data = await coreFetch<
+      SparkLayerCustomer[] | { items?: SparkLayerCustomer[]; data?: SparkLayerCustomer[] }
+    >(url);
     if (Array.isArray(data)) return data;
     return data.items ?? data.data ?? [];
   } catch {
@@ -126,7 +143,11 @@ export interface SparkLayerCreateOrderPayload {
   [key: string]: unknown;
 }
 
-export async function sparkLayerGetOrders(params?: { customerId?: string; status?: string; limit?: number }): Promise<SparkLayerOrder[]> {
+export async function sparkLayerGetOrders(params?: {
+  customerId?: string;
+  status?: string;
+  limit?: number;
+}): Promise<SparkLayerOrder[]> {
   if (!isSparkLayerConfigured()) return [];
   try {
     const q = new URLSearchParams();
@@ -134,7 +155,9 @@ export async function sparkLayerGetOrders(params?: { customerId?: string; status
     if (params?.status) q.set('status', params.status);
     if (params?.limit != null) q.set('limit', String(params.limit));
     const url = `/orders${q.toString() ? `?${q.toString()}` : ''}`;
-    const data = await coreFetch<SparkLayerOrder[] | { items?: SparkLayerOrder[]; data?: SparkLayerOrder[] }>(url);
+    const data = await coreFetch<
+      SparkLayerOrder[] | { items?: SparkLayerOrder[]; data?: SparkLayerOrder[] }
+    >(url);
     if (Array.isArray(data)) return data;
     return data.items ?? data.data ?? [];
   } catch {
@@ -142,7 +165,9 @@ export async function sparkLayerGetOrders(params?: { customerId?: string; status
   }
 }
 
-export async function sparkLayerCreateOrder(payload: SparkLayerCreateOrderPayload): Promise<{ success: boolean; orderId?: string; order?: SparkLayerOrder; error?: string }> {
+export async function sparkLayerCreateOrder(
+  payload: SparkLayerCreateOrderPayload
+): Promise<{ success: boolean; orderId?: string; order?: SparkLayerOrder; error?: string }> {
   if (!isSparkLayerConfigured()) return { success: false, error: 'SparkLayer not configured' };
   try {
     const order = await coreFetch<SparkLayerOrder>('/orders', {
@@ -185,7 +210,11 @@ export interface SparkLayerCreateQuotePayload {
   [key: string]: unknown;
 }
 
-export async function sparkLayerGetQuotes(params?: { customerId?: string; status?: string; limit?: number }): Promise<SparkLayerQuote[]> {
+export async function sparkLayerGetQuotes(params?: {
+  customerId?: string;
+  status?: string;
+  limit?: number;
+}): Promise<SparkLayerQuote[]> {
   if (!isSparkLayerConfigured()) return [];
   try {
     const q = new URLSearchParams();
@@ -193,7 +222,9 @@ export async function sparkLayerGetQuotes(params?: { customerId?: string; status
     if (params?.status) q.set('status', params.status);
     if (params?.limit != null) q.set('limit', String(params.limit));
     const url = `/quotes${q.toString() ? `?${q.toString()}` : ''}`;
-    const data = await coreFetch<SparkLayerQuote[] | { items?: SparkLayerQuote[]; data?: SparkLayerQuote[] }>(url);
+    const data = await coreFetch<
+      SparkLayerQuote[] | { items?: SparkLayerQuote[]; data?: SparkLayerQuote[] }
+    >(url);
     if (Array.isArray(data)) return data;
     return data.items ?? data.data ?? [];
   } catch {
@@ -201,7 +232,9 @@ export async function sparkLayerGetQuotes(params?: { customerId?: string; status
   }
 }
 
-export async function sparkLayerCreateQuote(payload: SparkLayerCreateQuotePayload): Promise<{ success: boolean; quoteId?: string; quote?: SparkLayerQuote; error?: string }> {
+export async function sparkLayerCreateQuote(
+  payload: SparkLayerCreateQuotePayload
+): Promise<{ success: boolean; quoteId?: string; quote?: SparkLayerQuote; error?: string }> {
   if (!isSparkLayerConfigured()) return { success: false, error: 'SparkLayer not configured' };
   try {
     const quote = await coreFetch<SparkLayerQuote>('/quotes', {
@@ -214,7 +247,10 @@ export async function sparkLayerCreateQuote(payload: SparkLayerCreateQuotePayloa
   }
 }
 
-export async function sparkLayerUpdateQuoteStatus(quoteId: string, status: string): Promise<{ success: boolean; quote?: SparkLayerQuote; error?: string }> {
+export async function sparkLayerUpdateQuoteStatus(
+  quoteId: string,
+  status: string
+): Promise<{ success: boolean; quote?: SparkLayerQuote; error?: string }> {
   if (!isSparkLayerConfigured()) return { success: false, error: 'SparkLayer not configured' };
   try {
     const quote = await coreFetch<SparkLayerQuote>(`/quotes/${encodeURIComponent(quoteId)}`, {
@@ -252,11 +288,18 @@ export interface SparkLayerDiscount {
   [key: string]: unknown;
 }
 
-export async function sparkLayerGetCustomerRules(customerId?: string): Promise<SparkLayerCustomerRule[]> {
+export async function sparkLayerGetCustomerRules(
+  customerId?: string
+): Promise<SparkLayerCustomerRule[]> {
   if (!isSparkLayerConfigured()) return [];
   try {
-    const url = customerId ? `/customer-rules?customerId=${encodeURIComponent(customerId)}` : '/customer-rules';
-    const data = await coreFetch<SparkLayerCustomerRule[] | { items?: SparkLayerCustomerRule[]; data?: SparkLayerCustomerRule[] }>(url);
+    const url = customerId
+      ? `/customer-rules?customerId=${encodeURIComponent(customerId)}`
+      : '/customer-rules';
+    const data = await coreFetch<
+      | SparkLayerCustomerRule[]
+      | { items?: SparkLayerCustomerRule[]; data?: SparkLayerCustomerRule[] }
+    >(url);
     if (Array.isArray(data)) return data;
     return data.items ?? data.data ?? [];
   } catch {
@@ -264,14 +307,19 @@ export async function sparkLayerGetCustomerRules(customerId?: string): Promise<S
   }
 }
 
-export async function sparkLayerGetDiscounts(params?: { customerId?: string; valid?: boolean }): Promise<SparkLayerDiscount[]> {
+export async function sparkLayerGetDiscounts(params?: {
+  customerId?: string;
+  valid?: boolean;
+}): Promise<SparkLayerDiscount[]> {
   if (!isSparkLayerConfigured()) return [];
   try {
     const q = new URLSearchParams();
     if (params?.customerId) q.set('customerId', params.customerId);
     if (params?.valid != null) q.set('valid', String(params.valid));
     const url = `/discounts${q.toString() ? `?${q.toString()}` : ''}`;
-    const data = await coreFetch<SparkLayerDiscount[] | { items?: SparkLayerDiscount[]; data?: SparkLayerDiscount[] }>(url);
+    const data = await coreFetch<
+      SparkLayerDiscount[] | { items?: SparkLayerDiscount[]; data?: SparkLayerDiscount[] }
+    >(url);
     if (Array.isArray(data)) return data;
     return data.items ?? data.data ?? [];
   } catch {

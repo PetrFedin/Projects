@@ -1,4 +1,3 @@
-
 export const sizeChartDataBoots: any[] = [];
 export const sizeChartDataFlats: any[] = [];
 export const sizeChartDataSandals: any[] = [];

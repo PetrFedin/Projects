@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useAuth } from "@/providers/auth-provider";
+import { useAuth } from '@/providers/auth-provider';
 import { FinancialHeader } from './_components/FinancialHeader';
 import { FinancialOverview } from './_components/FinancialOverview';
 import { ProfitLossStatement } from './_components/ProfitLossStatement';
@@ -14,7 +14,16 @@ import { PlatformCommissions } from './_components/PlatformCommissions';
 import { FintechHub } from './_components/FintechHub';
 import { FinancialSidebar } from './_components/FinancialSidebar';
 
-type FinancialView = 'overview' | 'pnl' | 'balance' | 'payroll' | 'inventory' | 'invoices' | 'platform_commissions' | 'expenses' | 'fintech';
+type FinancialView =
+  | 'overview'
+  | 'pnl'
+  | 'balance'
+  | 'payroll'
+  | 'inventory'
+  | 'invoices'
+  | 'platform_commissions'
+  | 'expenses'
+  | 'fintech';
 
 export function FinancialHub() {
   const { user } = useAuth();
@@ -25,9 +34,9 @@ export function FinancialHub() {
     <div className="space-y-10">
       <FinancialHeader activeView={activeView} setActiveView={setActiveView} isAdmin={isAdmin} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
+      <div className="grid grid-cols-1 gap-3 lg:grid-cols-12">
         {/* Main Content Area */}
-        <div className="lg:col-span-8 space-y-10">
+        <div className="space-y-10 lg:col-span-8">
           {activeView === 'overview' && <FinancialOverview />}
           {activeView === 'pnl' && <ProfitLossStatement />}
           {activeView === 'payroll' && <PayrollManagement />}

@@ -40,7 +40,7 @@ export default function ActivityTracker() {
       const generatedActivities: Activity[] = [];
 
       // Recent orders
-      userOrders.slice(0, 3).forEach(order => {
+      userOrders.slice(0, 3).forEach((order) => {
         generatedActivities.push({
           id: `order-${order.id}`,
           type: 'purchase',
@@ -106,30 +106,44 @@ export default function ActivityTracker() {
 
   const getActivityIcon = (type: Activity['type']) => {
     switch (type) {
-      case 'view': return <Eye className="h-4 w-4" />;
-      case 'wishlist': return <Heart className="h-4 w-4" />;
-      case 'cart': return <ShoppingBag className="h-4 w-4" />;
-      case 'purchase': return <ShoppingBag className="h-4 w-4" />;
-      case 'search': return <Search className="h-4 w-4" />;
-      case 'comparison': return <Filter className="h-4 w-4" />;
-      default: return <Clock className="h-4 w-4" />;
+      case 'view':
+        return <Eye className="h-4 w-4" />;
+      case 'wishlist':
+        return <Heart className="h-4 w-4" />;
+      case 'cart':
+        return <ShoppingBag className="h-4 w-4" />;
+      case 'purchase':
+        return <ShoppingBag className="h-4 w-4" />;
+      case 'search':
+        return <Search className="h-4 w-4" />;
+      case 'comparison':
+        return <Filter className="h-4 w-4" />;
+      default:
+        return <Clock className="h-4 w-4" />;
     }
   };
 
   const getActivityColor = (type: Activity['type']) => {
     switch (type) {
-      case 'purchase': return 'text-green-600 bg-green-100 dark:bg-green-950';
-      case 'cart': return 'text-blue-600 bg-blue-100 dark:bg-blue-950';
-      case 'wishlist': return 'text-pink-600 bg-pink-100 dark:bg-pink-950';
-      case 'view': return 'text-gray-600 bg-gray-100 dark:bg-gray-800';
-      case 'search': return 'text-purple-600 bg-purple-100 dark:bg-purple-950';
-      case 'comparison': return 'text-orange-600 bg-orange-100 dark:bg-orange-950';
-      default: return 'text-gray-600 bg-gray-100 dark:bg-gray-800';
+      case 'purchase':
+        return 'text-green-600 bg-green-100 dark:bg-green-950';
+      case 'cart':
+        return 'text-blue-600 bg-blue-100 dark:bg-blue-950';
+      case 'wishlist':
+        return 'text-pink-600 bg-pink-100 dark:bg-pink-950';
+      case 'view':
+        return 'text-gray-600 bg-gray-100 dark:bg-gray-800';
+      case 'search':
+        return 'text-purple-600 bg-purple-100 dark:bg-purple-950';
+      case 'comparison':
+        return 'text-orange-600 bg-orange-100 dark:bg-orange-950';
+      default:
+        return 'text-gray-600 bg-gray-100 dark:bg-gray-800';
     }
   };
 
   const activityStats = {
-    totalViews: activities.filter(a => a.type === 'view').length,
+    totalViews: activities.filter((a) => a.type === 'view').length,
     totalPurchases: orders.length,
     totalWishlist: wishlist.length,
     cartItems: cart.length,
@@ -144,76 +158,65 @@ export default function ActivityTracker() {
               <TrendingUp className="h-5 w-5" />
               Трекер активности
             </CardTitle>
-            <CardDescription>
-              Все ваши действия на платформе
-            </CardDescription>
+            <CardDescription>Все ваши действия на платформе</CardDescription>
           </div>
-          <Badge variant="outline">
-            {activities.length} действий
-          </Badge>
+          <Badge variant="outline">{activities.length} действий</Badge>
         </div>
       </CardHeader>
       <CardContent>
         {/* Stats */}
-        <div className="grid grid-cols-4 gap-3 mb-6">
-          <div className="text-center p-3 rounded-lg bg-muted">
+        <div className="mb-6 grid grid-cols-4 gap-3">
+          <div className="rounded-lg bg-muted p-3 text-center">
             <div className="text-sm font-bold">{activityStats.totalViews}</div>
             <div className="text-xs text-muted-foreground">Просмотров</div>
           </div>
-          <div className="text-center p-3 rounded-lg bg-muted">
+          <div className="rounded-lg bg-muted p-3 text-center">
             <div className="text-sm font-bold">{activityStats.totalPurchases}</div>
             <div className="text-xs text-muted-foreground">Покупок</div>
           </div>
-          <div className="text-center p-3 rounded-lg bg-muted">
+          <div className="rounded-lg bg-muted p-3 text-center">
             <div className="text-sm font-bold">{activityStats.totalWishlist}</div>
             <div className="text-xs text-muted-foreground">В избранном</div>
           </div>
-          <div className="text-center p-3 rounded-lg bg-muted">
+          <div className="rounded-lg bg-muted p-3 text-center">
             <div className="text-sm font-bold">{activityStats.cartItems}</div>
             <div className="text-xs text-muted-foreground">В корзине</div>
           </div>
         </div>
 
         {/* Activity List */}
-        <div className="space-y-3 max-h-96 overflow-y-auto">
+        <div className="max-h-96 space-y-3 overflow-y-auto">
           {activities.map((activity) => (
             <div
               key={activity.id}
-              className="flex items-start gap-3 p-3 rounded-lg border hover:bg-muted/50 transition-colors"
+              className="flex items-start gap-3 rounded-lg border p-3 transition-colors hover:bg-muted/50"
             >
-              <div className={cn("p-2 rounded-lg", getActivityColor(activity.type))}>
+              <div className={cn('rounded-lg p-2', getActivityColor(activity.type))}>
                 {getActivityIcon(activity.type)}
               </div>
-              <div className="flex-1 min-w-0">
+              <div className="min-w-0 flex-1">
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex-1">
-                    <p className="font-medium text-sm">{activity.title}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      {activity.description}
-                    </p>
+                    <p className="text-sm font-medium">{activity.title}</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">{activity.description}</p>
                   </div>
-                  <div className="text-xs text-muted-foreground whitespace-nowrap">
+                  <div className="whitespace-nowrap text-xs text-muted-foreground">
                     {formatDistanceToNow(activity.timestamp, { addSuffix: true, locale: ru })}
                   </div>
                 </div>
                 {activity.metadata?.orderId && (
-                  <Button variant="link" size="sm" className="mt-2 p-0 h-auto text-xs" asChild>
-                    <Link href={`/orders/${activity.metadata.orderId}`}>
-                      Посмотреть заказ →
-                    </Link>
+                  <Button variant="link" size="sm" className="mt-2 h-auto p-0 text-xs" asChild>
+                    <Link href={`/orders/${activity.metadata.orderId}`}>Посмотреть заказ →</Link>
                   </Button>
                 )}
               </div>
             </div>
           ))}
           {activities.length === 0 && (
-            <div className="text-center py-4 text-muted-foreground">
-              Пока нет активности
-            </div>
+            <div className="py-4 text-center text-muted-foreground">Пока нет активности</div>
           )}
         </div>
       </CardContent>
     </Card>
   );
 }
-

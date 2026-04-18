@@ -22,7 +22,8 @@ export const CATALOG_BRANDS: CatalogBrand[] = [
     id: 'brand_zara',
     slug: 'zara',
     name: 'Zara',
-    description: 'Испанский масс-маркет премиум-класса. Быстрая мода, обновление коллекций каждые 2 недели.',
+    description:
+      'Испанский масс-маркет премиум-класса. Быстрая мода, обновление коллекций каждые 2 недели.',
     segment: 'Mass Market Premium',
     countryOfOrigin: 'Испания',
     priceRange: [1990, 29990],
@@ -35,7 +36,8 @@ export const CATALOG_BRANDS: CatalogBrand[] = [
     id: 'brand_hm',
     slug: 'hm',
     name: 'H&M',
-    description: 'Шведский гигант. Демократичные цены, коллаборации с дизайнерами, устойчивая мода.',
+    description:
+      'Шведский гигант. Демократичные цены, коллаборации с дизайнерами, устойчивая мода.',
     segment: 'Mass Market',
     countryOfOrigin: 'Швеция',
     priceRange: [990, 14990],
@@ -119,7 +121,8 @@ export const CATALOG_BRANDS: CatalogBrand[] = [
     id: 'brand_12storeez',
     slug: '12-storeez',
     name: '12 Storeez',
-    description: 'Российский premium contemporary. Минимализм, качественные материалы, бежевая палитра.',
+    description:
+      'Российский premium contemporary. Минимализм, качественные материалы, бежевая палитра.',
     segment: 'Premium Contemporary',
     countryOfOrigin: 'Россия',
     priceRange: [4990, 39990],

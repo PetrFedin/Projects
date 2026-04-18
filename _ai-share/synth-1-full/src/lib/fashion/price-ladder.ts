@@ -10,8 +10,8 @@ export function buildPriceLadder(products: Product[] = []): PriceLadderBucketV1[
     { label: 'Luxury (> 20k)', min: 20000, max: Infinity },
   ];
 
-  return ranges.map(r => {
-    const items = (products || []).filter(p => p.price >= r.min && p.price < r.max);
+  return ranges.map((r) => {
+    const items = (products || []).filter((p) => p.price >= r.min && p.price < r.max);
     return {
       priceRange: r.label,
       skuCount: items.length,

@@ -31,7 +31,7 @@ export class ImmutableAuditTrail {
         payloadHash: '00000000000000000000000000000000',
         previousHash: '0',
         hash: '',
-        signature: 'system'
+        signature: 'system',
       };
       genesis.hash = this.calculateHash(genesis);
       this.chain.push(genesis);
@@ -63,13 +63,15 @@ export class ImmutableAuditTrail {
       payloadHash,
       previousHash: previousBlock.hash,
       hash: '',
-      signature: signerId
+      signature: signerId,
     };
 
     newRecord.hash = this.calculateHash(newRecord);
     this.chain.push(newRecord);
 
-    console.log(`[AuditTrail] Appended record #${newRecord.index} (${eventType}). Hash: ${newRecord.hash.substring(0, 8)}...`);
+    console.log(
+      `[AuditTrail] Appended record #${newRecord.index} (${eventType}). Hash: ${newRecord.hash.substring(0, 8)}...`
+    );
     return newRecord;
   }
 

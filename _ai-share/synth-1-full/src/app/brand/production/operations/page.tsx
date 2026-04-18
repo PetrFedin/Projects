@@ -68,13 +68,17 @@ export default function ProductionOperationsPage() {
 
   if (!state) {
     return (
-      <div className="container py-12 text-center text-slate-500 text-sm">Загрузка модели производства…</div>
+      <div className="container py-12 text-center text-sm text-slate-500">
+        Загрузка модели производства…
+      </div>
     );
   }
 
   const exportPoCsv = (poId: string) => {
     const rows = exportPOToCsvRows(state, poId);
-    const csv = rows.map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(';')).join('\n');
+    const csv = rows
+      .map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(';'))
+      .join('\n');
     const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -84,25 +88,27 @@ export default function ProductionOperationsPage() {
   };
 
   return (
-    <div className="container max-w-6xl mx-auto px-4 py-6 pb-24 space-y-6">
+    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold uppercase tracking-tight flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-xl font-bold uppercase tracking-tight">
             <Database className="h-6 w-6" /> Операции производства
           </h1>
-          <p className="text-sm text-slate-500 mt-1 max-w-2xl">
-            Единая модель без API: данные в localStorage в формате, готовом к замене на REST/GraphQL. Горизонтальные связи: коллекция → артикулы → BOM → PO → QC → склад/B2B. Вертикальные: этапы жизни артикула, аудит, роли.
+          <p className="mt-1 max-w-2xl text-sm text-slate-500">
+            Единая модель без API: данные в localStorage в формате, готовом к замене на
+            REST/GraphQL. Горизонтальные связи: коллекция → артикулы → BOM → PO → QC → склад/B2B.
+            Вертикальные: этапы жизни артикула, аудит, роли.
           </p>
         </div>
-        <div className="flex flex-wrap gap-2 items-center">
-          <span className="text-[10px] text-slate-500 uppercase">Роль (мок):</span>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-[10px] uppercase text-slate-500">Роль (мок):</span>
           <select
             value={state.currentRole}
             onChange={(e) => {
               const next = setCurrentRole(state, e.target.value as ProductionRole);
               setState(next);
             }}
-            className="rounded-lg border text-xs h-9 px-2"
+            className="h-9 rounded-lg border px-2 text-xs"
           >
             {(Object.keys(ROLE_LABELS) as ProductionRole[]).map((r) => (
               <option key={r} value={r}>
@@ -110,7 +116,12 @@ export default function ProductionOperationsPage() {
               </option>
             ))}
           </select>
-          <Button variant="outline" size="sm" className="h-9 text-xs gap-1" onClick={() => setState(resetBrandProductionToSeed())}>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-9 gap-1 text-xs"
+            onClick={() => setState(resetBrandProductionToSeed())}
+          >
             <RefreshCw className="h-3.5 w-3.5" /> Сброс к seed
           </Button>
           <Button variant="outline" size="sm" className="h-9 text-xs" asChild>
@@ -120,28 +131,48 @@ export default function ProductionOperationsPage() {
       </div>
 
       <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList className="flex flex-wrap h-auto gap-1 bg-slate-100 p-1">
-          <TabsTrigger value="overview" className="text-xs">Обзор и алерты</TabsTrigger>
-          <TabsTrigger value="articles" className="text-xs">Коллекции · артикулы</TabsTrigger>
-          <TabsTrigger value="po" className="text-xs">PO и фабрики</TabsTrigger>
-          <TabsTrigger value="bom" className="text-xs">BOM</TabsTrigger>
-          <TabsTrigger value="qc" className="text-xs">QC</TabsTrigger>
-          <TabsTrigger value="comms" className="text-xs">С фабрикой</TabsTrigger>
-          <TabsTrigger value="b2b" className="text-xs">B2B · склад</TabsTrigger>
-          <TabsTrigger value="integrations" className="text-xs">Интеграции</TabsTrigger>
-          <TabsTrigger value="audit" className="text-xs">Аудит</TabsTrigger>
+        <TabsList className="flex h-auto flex-wrap gap-1 bg-slate-100 p-1">
+          <TabsTrigger value="overview" className="text-xs">
+            Обзор и алерты
+          </TabsTrigger>
+          <TabsTrigger value="articles" className="text-xs">
+            Коллекции · артикулы
+          </TabsTrigger>
+          <TabsTrigger value="po" className="text-xs">
+            PO и фабрики
+          </TabsTrigger>
+          <TabsTrigger value="bom" className="text-xs">
+            BOM
+          </TabsTrigger>
+          <TabsTrigger value="qc" className="text-xs">
+            QC
+          </TabsTrigger>
+          <TabsTrigger value="comms" className="text-xs">
+            С фабрикой
+          </TabsTrigger>
+          <TabsTrigger value="b2b" className="text-xs">
+            B2B · склад
+          </TabsTrigger>
+          <TabsTrigger value="integrations" className="text-xs">
+            Интеграции
+          </TabsTrigger>
+          <TabsTrigger value="audit" className="text-xs">
+            Аудит
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid gap-4 md:grid-cols-2">
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-sm">
                   <AlertTriangle className="h-4 w-4 text-amber-500" /> Что горит
                 </CardTitle>
-                <CardDescription className="text-xs">Дедлайны, PO без подтверждения, материалы к раскрою, QC.</CardDescription>
+                <CardDescription className="text-xs">
+                  Дедлайны, PO без подтверждения, материалы к раскрою, QC.
+                </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-2 max-h-80 overflow-y-auto">
+              <CardContent className="max-h-80 space-y-2 overflow-y-auto">
                 {alerts.length === 0 ? (
                   <p className="text-xs text-slate-500">Нет критичных алертов по текущим данным.</p>
                 ) : (
@@ -156,9 +187,12 @@ export default function ProductionOperationsPage() {
                       )}
                     >
                       <p className="font-semibold">{a.title}</p>
-                      <p className="text-slate-600 mt-0.5">{a.detail}</p>
+                      <p className="mt-0.5 text-slate-600">{a.detail}</p>
                       {a.href && (
-                        <Link href={a.href} className="text-indigo-600 text-[10px] font-medium mt-1 inline-flex items-center gap-0.5">
+                        <Link
+                          href={a.href}
+                          className="mt-1 inline-flex items-center gap-0.5 text-[10px] font-medium text-indigo-600"
+                        >
                           Перейти <ArrowRight className="h-3 w-3" />
                         </Link>
                       )}
@@ -173,7 +207,7 @@ export default function ProductionOperationsPage() {
                 <select
                   value={selectedCollectionId}
                   onChange={(e) => setSelectedCollectionId(e.target.value)}
-                  className="mt-2 rounded-lg border text-xs h-8 px-2 max-w-xs"
+                  className="mt-2 h-8 max-w-xs rounded-lg border px-2 text-xs"
                 >
                   {state.collections.map((c) => (
                     <option key={c.id} value={c.id}>
@@ -182,11 +216,12 @@ export default function ProductionOperationsPage() {
                   ))}
                 </select>
               </CardHeader>
-              <CardContent className="text-xs space-y-3">
+              <CardContent className="space-y-3 text-xs">
                 {kpi && (
                   <>
                     <p>
-                      Артикулов: <strong>{kpi.totalArticles}</strong> · BOM заполнен: <strong>{kpi.bomPct}%</strong>
+                      Артикулов: <strong>{kpi.totalArticles}</strong> · BOM заполнен:{' '}
+                      <strong>{kpi.bomPct}%</strong>
                     </p>
                     {kpi.dropDeadline && (
                       <p className="text-slate-600">
@@ -217,7 +252,9 @@ export default function ProductionOperationsPage() {
             <CardHeader>
               <CardTitle className="text-sm">Артикулы и жизненный цикл</CardTitle>
               <CardDescription className="text-xs">
-                Правила: на этап PO — только после утверждения Gold Sample и этапа «Утверждение»; производство — после подтверждённого PO; склад — после успешного QC (блокировка при fail/rework с флагом отгрузки).
+                Правила: на этап PO — только после утверждения Gold Sample и этапа «Утверждение»;
+                производство — после подтверждённого PO; склад — после успешного QC (блокировка при
+                fail/rework с флагом отгрузки).
               </CardDescription>
             </CardHeader>
             <CardContent className="overflow-x-auto">
@@ -243,16 +280,22 @@ export default function ProductionOperationsPage() {
                         <td>{col?.code ?? art.collectionId}</td>
                         <td>{art.dropId}</td>
                         <td>
-                          <Badge variant="outline">{ARTICLE_LIFECYCLE_LABELS[art.lifecycleStage]}</Badge>
+                          <Badge variant="outline">
+                            {ARTICLE_LIFECYCLE_LABELS[art.lifecycleStage]}
+                          </Badge>
                         </td>
                         <td>{art.goldSampleApproved ? '✓' : '—'}</td>
                         <td>
                           {perm?.changeLifecycle ? (
                             <select
-                              className="rounded border text-[10px] h-7 max-w-[140px]"
+                              className="h-7 max-w-[140px] rounded border text-[10px]"
                               value={art.lifecycleStage}
                               onChange={(e) => {
-                                const r = setArticleLifecycleStage(state, art.id, e.target.value as ArticleLifecycleStage);
+                                const r = setArticleLifecycleStage(
+                                  state,
+                                  art.id,
+                                  e.target.value as ArticleLifecycleStage
+                                );
                                 if (r.ok) setState(r.state);
                                 else alert(r.error);
                               }}
@@ -279,11 +322,12 @@ export default function ProductionOperationsPage() {
         <TabsContent value="po" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-sm">
                 <Factory className="h-4 w-4" /> PO → коллекция → артикулы → размеры
               </CardTitle>
               <CardDescription className="text-xs">
-                Критический путь и риск срыва учитываются в алертах. Экспорт в Excel/CSV для фабрики (подготовка к ERP).
+                Критический путь и риск срыва учитываются в алертах. Экспорт в Excel/CSV для фабрики
+                (подготовка к ERP).
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -291,7 +335,7 @@ export default function ProductionOperationsPage() {
                 const fac = state.factories.find((f) => f.id === po.factoryId);
                 const col = state.collections.find((c) => c.id === po.collectionId);
                 return (
-                  <div key={po.id} className="rounded-xl border p-4 space-y-2">
+                  <div key={po.id} className="space-y-2 rounded-xl border p-4">
                     <div className="flex flex-wrap justify-between gap-2">
                       <div>
                         <span className="font-semibold">{po.code}</span>
@@ -303,8 +347,13 @@ export default function ProductionOperationsPage() {
                         )}
                       </div>
                       <div className="flex gap-2">
-                        <Button variant="outline" size="sm" className="h-8 text-[10px]" onClick={() => exportPoCsv(po.id)}>
-                          <Download className="h-3 w-3 mr-1" /> CSV для фабрики
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-8 text-[10px]"
+                          onClick={() => exportPoCsv(po.id)}
+                        >
+                          <Download className="mr-1 h-3 w-3" /> CSV для фабрики
                         </Button>
                         <Button variant="ghost" size="sm" className="h-8 text-[10px]" asChild>
                           <Link href={`${ROUTES.brand.productionGantt}?po=${po.id}`}>Gantt</Link>
@@ -314,12 +363,13 @@ export default function ProductionOperationsPage() {
                     <p className="text-xs text-slate-600">
                       {col?.name} · {fac?.name} · финиш пути: {po.criticalPathEnd ?? '—'}
                     </p>
-                    <ul className="text-xs space-y-1">
+                    <ul className="space-y-1 text-xs">
                       {po.lines.map((ln) => {
                         const a = state.articles.find((x) => x.id === ln.articleId);
                         return (
                           <li key={ln.id}>
-                            {a?.sku}: {Object.entries(ln.sizeBreakdown)
+                            {a?.sku}:{' '}
+                            {Object.entries(ln.sizeBreakdown)
                               .map(([s, q]) => `${s}:${q}`)
                               .join(', ')}{' '}
                             (всего {ln.totalQty})
@@ -329,7 +379,9 @@ export default function ProductionOperationsPage() {
                     </ul>
                     {typeof fac?.utilizationPct === 'number' && (
                       <div className="pt-2">
-                        <p className="text-[10px] text-slate-500 mb-1">Загрузка фабрики ~{fac.utilizationPct}%</p>
+                        <p className="mb-1 text-[10px] text-slate-500">
+                          Загрузка фабрики ~{fac.utilizationPct}%
+                        </p>
                         <Progress value={fac.utilizationPct} className="h-1.5" />
                       </div>
                     )}
@@ -343,11 +395,12 @@ export default function ProductionOperationsPage() {
         <TabsContent value="bom" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-sm">
                 <Package className="h-4 w-4" /> BOM по артикулу
               </CardTitle>
               <CardDescription className="text-xs">
-                Резерв, статус закупки, ETA до фабрики — горизонтальная связь с артикулом и раскроем.
+                Резерв, статус закупки, ETA до фабрики — горизонтальная связь с артикулом и
+                раскроем.
               </CardDescription>
             </CardHeader>
             <CardContent className="overflow-x-auto">
@@ -389,30 +442,36 @@ export default function ProductionOperationsPage() {
         <TabsContent value="qc" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-sm">
                 <ClipboardList className="h-4 w-4" /> QC: планы и инспекции
               </CardTitle>
               <CardDescription className="text-xs">
-                Блокировка отгрузки при fail/rework. Полевой сценарий: <Link href={ROUTES.brand.productionQcApp} className="text-indigo-600 underline">QC App</Link>.
+                Блокировка отгрузки при fail/rework. Полевой сценарий:{' '}
+                <Link href={ROUTES.brand.productionQcApp} className="text-indigo-600 underline">
+                  QC App
+                </Link>
+                .
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 text-xs">
               <div>
-                <p className="font-semibold mb-2">Планы</p>
+                <p className="mb-2 font-semibold">Планы</p>
                 <ul className="space-y-1">
                   {state.qcPlans.map((p) => (
                     <li key={p.id}>
-                      PO {p.poId} · {p.type} · {p.scheduledAt} · <Badge variant="outline">{p.status}</Badge>
+                      PO {p.poId} · {p.type} · {p.scheduledAt} ·{' '}
+                      <Badge variant="outline">{p.status}</Badge>
                     </li>
                   ))}
                 </ul>
               </div>
               <div>
-                <p className="font-semibold mb-2">Инспекции</p>
+                <p className="mb-2 font-semibold">Инспекции</p>
                 <ul className="space-y-2">
                   {state.qcInspections.map((i) => (
-                    <li key={i.id} className="border rounded-lg p-2">
-                      {i.result} · {i.inspectorLabel} · блок отгрузки: {i.blocksShipment ? 'да' : 'нет'} · {i.notes}
+                    <li key={i.id} className="rounded-lg border p-2">
+                      {i.result} · {i.inspectorLabel} · блок отгрузки:{' '}
+                      {i.blocksShipment ? 'да' : 'нет'} · {i.notes}
                     </li>
                   ))}
                 </ul>
@@ -424,22 +483,28 @@ export default function ProductionOperationsPage() {
         <TabsContent value="comms" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-sm">
                 <MessageSquare className="h-4 w-4" /> Треды с фабрикой
               </CardTitle>
-              <CardDescription className="text-xs">По артикулу и по PO: комментарии, версии техпака, вложения (URL). Уведомления — через API позже.</CardDescription>
+              <CardDescription className="text-xs">
+                По артикулу и по PO: комментарии, версии техпака, вложения (URL). Уведомления —
+                через API позже.
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {state.threads.map((th) => (
                 <div key={th.id} className="rounded-xl border p-3">
-                  <Badge className="text-[10px] mb-2">
+                  <Badge className="mb-2 text-[10px]">
                     {th.scope} · {th.scopeId}
                   </Badge>
-                  <ul className="text-xs space-y-2">
+                  <ul className="space-y-2 text-xs">
                     {th.messages.map((m) => (
                       <li key={m.id} className="border-l-2 border-indigo-200 pl-2">
-                        <span className="text-slate-500">{m.at}</span> · <strong>{m.authorLabel}</strong> ({m.authorRole})
-                        {m.techPackVersion && <span className="text-indigo-600"> · TP {m.techPackVersion}</span>}
+                        <span className="text-slate-500">{m.at}</span> ·{' '}
+                        <strong>{m.authorLabel}</strong> ({m.authorRole})
+                        {m.techPackVersion && (
+                          <span className="text-indigo-600"> · TP {m.techPackVersion}</span>
+                        )}
                         <p className="mt-0.5">{m.body}</p>
                       </li>
                     ))}
@@ -455,28 +520,32 @@ export default function ProductionOperationsPage() {
             <CardHeader>
               <CardTitle className="text-sm">B2B и склад</CardTitle>
               <CardDescription className="text-xs">
-                Готовность к лайншиту/pre-order, остатки готовой продукции, заказы B2B по коллекции (связь с артикулами).
+                Готовность к лайншиту/pre-order, остатки готовой продукции, заказы B2B по коллекции
+                (связь с артикулами).
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 text-xs">
               <div>
-                <p className="font-semibold mb-2">Артикулы</p>
+                <p className="mb-2 font-semibold">Артикулы</p>
                 <ul className="space-y-1">
                   {state.articles.map((a) => (
                     <li key={a.id}>
-                      {a.sku}: лайншит {a.linesheetReady ? '✓' : '—'} · готов к B2B {a.b2bReady ? '✓' : '—'} · остаток ГП{' '}
-                      <strong>{a.finishedGoodsQty}</strong>
+                      {a.sku}: лайншит {a.linesheetReady ? '✓' : '—'} · готов к B2B{' '}
+                      {a.b2bReady ? '✓' : '—'} · остаток ГП <strong>{a.finishedGoodsQty}</strong>
                     </li>
                   ))}
                 </ul>
               </div>
               <div>
-                <p className="font-semibold mb-2">Заказы B2B (рефы)</p>
+                <p className="mb-2 font-semibold">Заказы B2B (рефы)</p>
                 <ul className="space-y-1">
                   {state.b2bOrderRefs.map((o) => (
                     <li key={o.id}>
                       {o.orderRef}: {o.articleSku} × {o.qty} · {o.status}{' '}
-                      <Link href={`${ROUTES.shop.b2bOrders}?sku=${encodeURIComponent(o.articleSku)}`} className="text-indigo-600 ml-1">
+                      <Link
+                        href={`${ROUTES.shop.b2bOrders}?sku=${encodeURIComponent(o.articleSku)}`}
+                        className="ml-1 text-indigo-600"
+                      >
                         → заказы
                       </Link>
                     </li>
@@ -490,19 +559,22 @@ export default function ProductionOperationsPage() {
         <TabsContent value="integrations" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-sm">
                 <Plug className="h-4 w-4" /> Интеграции (настройка под API)
               </CardTitle>
               <CardDescription className="text-xs">
-                Webhook для статусов с фабрики, выгрузка в ERP. Сохраняется локально; бэкенд подставит URL и секреты.
+                Webhook для статусов с фабрики, выгрузка в ERP. Сохраняется локально; бэкенд
+                подставит URL и секреты.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3 text-xs max-w-lg">
+            <CardContent className="max-w-lg space-y-3 text-xs">
               <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   checked={state.integration.erpExportEnabled}
-                  onChange={(e) => setState(updateIntegrationConfig(state, { erpExportEnabled: e.target.checked }))}
+                  onChange={(e) =>
+                    setState(updateIntegrationConfig(state, { erpExportEnabled: e.target.checked }))
+                  }
                   disabled={!perm?.integration}
                 />
                 Экспорт в ERP включён
@@ -510,10 +582,15 @@ export default function ProductionOperationsPage() {
               <div>
                 <span className="text-slate-500">Тип ERP</span>
                 <select
-                  className="ml-2 rounded border h-8 px-2"
+                  className="ml-2 h-8 rounded border px-2"
                   value={state.integration.erpType ?? '1c'}
                   onChange={(e) =>
-                    perm?.integration && setState(updateIntegrationConfig(state, { erpType: e.target.value as '1c' | 'moy_sklad' | 'custom' }))
+                    perm?.integration &&
+                    setState(
+                      updateIntegrationConfig(state, {
+                        erpType: e.target.value as '1c' | 'moy_sklad' | 'custom',
+                      })
+                    )
                   }
                   disabled={!perm?.integration}
                 >
@@ -523,13 +600,14 @@ export default function ProductionOperationsPage() {
                 </select>
               </div>
               <div>
-                <span className="text-slate-500 block mb-1">Webhook URL (статусы фабрики)</span>
+                <span className="mb-1 block text-slate-500">Webhook URL (статусы фабрики)</span>
                 <input
-                  className="w-full rounded border h-9 px-2 text-xs"
+                  className="h-9 w-full rounded border px-2 text-xs"
                   placeholder="https://api.brand.com/webhooks/factory"
                   value={state.integration.webhookUrl ?? ''}
                   onChange={(e) =>
-                    perm?.integration && setState(updateIntegrationConfig(state, { webhookUrl: e.target.value }))
+                    perm?.integration &&
+                    setState(updateIntegrationConfig(state, { webhookUrl: e.target.value }))
                   }
                   disabled={!perm?.integration}
                 />
@@ -539,13 +617,20 @@ export default function ProductionOperationsPage() {
                   type="checkbox"
                   checked={state.integration.factoryStatusWebhookEnabled}
                   onChange={(e) =>
-                    perm?.integration && setState(updateIntegrationConfig(state, { factoryStatusWebhookEnabled: e.target.checked }))
+                    perm?.integration &&
+                    setState(
+                      updateIntegrationConfig(state, {
+                        factoryStatusWebhookEnabled: e.target.checked,
+                      })
+                    )
                   }
                   disabled={!perm?.integration}
                 />
                 Принимать push-статусы от фабрики
               </label>
-              {!perm?.integration && <p className="text-amber-600">Смените роль на «Админ» для редактирования.</p>}
+              {!perm?.integration && (
+                <p className="text-amber-600">Смените роль на «Админ» для редактирования.</p>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -553,15 +638,18 @@ export default function ProductionOperationsPage() {
         <TabsContent value="audit" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-sm">
                 <History className="h-4 w-4" /> История изменений
               </CardTitle>
-              <CardDescription className="text-xs">Кто и когда сдвинул этап / изменил настройки (под API — userId с сервера).</CardDescription>
+              <CardDescription className="text-xs">
+                Кто и когда сдвинул этап / изменил настройки (под API — userId с сервера).
+              </CardDescription>
             </CardHeader>
-            <CardContent className="max-h-96 overflow-y-auto text-xs space-y-2">
+            <CardContent className="max-h-96 space-y-2 overflow-y-auto text-xs">
               {state.auditLog.map((a) => (
                 <div key={a.id} className="border-b border-slate-100 pb-2">
-                  <span className="text-slate-500">{a.at}</span> · <strong>{a.userLabel}</strong> · {a.entityType} {a.entityId}
+                  <span className="text-slate-500">{a.at}</span> · <strong>{a.userLabel}</strong> ·{' '}
+                  {a.entityType} {a.entityId}
                   <br />
                   <span className="text-slate-600">
                     {a.action}
@@ -579,10 +667,11 @@ export default function ProductionOperationsPage() {
       </Tabs>
 
       <Card className="border-dashed">
-        <CardContent className="py-3 flex flex-wrap items-center gap-3 text-[10px] text-slate-500">
+        <CardContent className="flex flex-wrap items-center gap-3 py-3 text-[10px] text-slate-500">
           <Shield className="h-4 w-4" />
           <span>
-            Роли: дизайн / продакшн / закупки / мерчендайзинг — разные права на смену статусов и PO (см. переключатель роли). После API проверка на сервере.
+            Роли: дизайн / продакшн / закупки / мерчендайзинг — разные права на смену статусов и PO
+            (см. переключатель роли). После API проверка на сервере.
           </span>
         </CardContent>
       </Card>

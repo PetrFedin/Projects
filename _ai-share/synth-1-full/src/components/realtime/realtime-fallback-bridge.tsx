@@ -29,12 +29,22 @@ export function RealtimeFallbackBridge() {
           { headers }
         );
         if (!res.ok) return;
-        const data = (await res.json()) as { events?: Array<{ id: string; type: string; title: string; body?: string; href?: string }>; lastId?: string };
+        const data = (await res.json()) as {
+          events?: Array<{ id: string; type: string; title: string; body?: string; href?: string }>;
+          lastId?: string;
+        };
         const events = data.events ?? [];
         for (const ev of events) {
           if (ev.id) lastIdRef.current = ev.id;
           addRef.current({
-            type: (ev.type || 'system') as 'order' | 'qc' | 'edo' | 'sla' | 'payment' | 'po' | 'system',
+            type: (ev.type || 'system') as
+              | 'order'
+              | 'qc'
+              | 'edo'
+              | 'sla'
+              | 'payment'
+              | 'po'
+              | 'system',
             title: ev.title,
             body: ev.body,
             href: ev.href,

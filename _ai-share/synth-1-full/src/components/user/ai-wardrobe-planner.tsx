@@ -4,7 +4,15 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, MapPin, Sparkles, Shirt, TrendingUp, AlertCircle, CheckCircle } from 'lucide-react';
+import {
+  Calendar,
+  MapPin,
+  Sparkles,
+  Shirt,
+  TrendingUp,
+  AlertCircle,
+  CheckCircle,
+} from 'lucide-react';
 import { useAuth } from '@/providers/auth-provider';
 import { useUIState } from '@/providers/ui-state';
 import { ordersRepository } from '@/lib/repositories';
@@ -67,7 +75,7 @@ export default function AIWardrobePlanner() {
     return (
       <Card>
         <CardContent className="pt-6">
-          <div className="text-center py-4">AI планирует ваш гардероб...</div>
+          <div className="py-4 text-center">AI планирует ваш гардероб...</div>
         </CardContent>
       </Card>
     );
@@ -82,9 +90,7 @@ export default function AIWardrobePlanner() {
             <AlertCircle className="h-5 w-5 text-yellow-600" />
             Пробелы в гардеробе
           </CardTitle>
-          <CardDescription>
-            AI определил, чего не хватает для идеального гардероба
-          </CardDescription>
+          <CardDescription>AI определил, чего не хватает для идеального гардероба</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -92,31 +98,44 @@ export default function AIWardrobePlanner() {
               <div
                 key={index}
                 className={cn(
-                  "p-4 rounded-lg border",
-                  gap.priority === 'high' && "bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800",
-                  gap.priority === 'medium' && "bg-yellow-50 dark:bg-yellow-950/20 border-yellow-200 dark:border-yellow-800",
-                  gap.priority === 'low' && "bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800"
+                  'rounded-lg border p-4',
+                  gap.priority === 'high' &&
+                    'border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/20',
+                  gap.priority === 'medium' &&
+                    'border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950/20',
+                  gap.priority === 'low' &&
+                    'border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/20'
                 )}
               >
-                <div className="flex items-start justify-between mb-2">
+                <div className="mb-2 flex items-start justify-between">
                   <div>
-                    <div className="flex items-center gap-2 mb-1">
+                    <div className="mb-1 flex items-center gap-2">
                       <h4 className="font-semibold">{gap.category}</h4>
                       <Badge
-                        variant={gap.priority === 'high' ? 'destructive' : gap.priority === 'medium' ? 'default' : 'secondary'}
+                        variant={
+                          gap.priority === 'high'
+                            ? 'destructive'
+                            : gap.priority === 'medium'
+                              ? 'default'
+                              : 'secondary'
+                        }
                         className="text-xs"
                       >
-                        {gap.priority === 'high' ? 'Важно' : gap.priority === 'medium' ? 'Средне' : 'Низко'}
+                        {gap.priority === 'high'
+                          ? 'Важно'
+                          : gap.priority === 'medium'
+                            ? 'Средне'
+                            : 'Низко'}
                       </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground">{gap.reason}</p>
                   </div>
                 </div>
-                <div className="mt-3 pt-3 border-t">
-                  <p className="text-sm font-medium mb-1">Рекомендация AI:</p>
+                <div className="mt-3 border-t pt-3">
+                  <p className="mb-1 text-sm font-medium">Рекомендация AI:</p>
                   <p className="text-sm text-muted-foreground">{gap.recommendation}</p>
                   {gap.estimatedPrice && (
-                    <p className="text-xs text-muted-foreground mt-2">
+                    <p className="mt-2 text-xs text-muted-foreground">
                       Примерная стоимость: {gap.estimatedPrice.toLocaleString('ru-RU')} ₽
                     </p>
                   )}
@@ -129,8 +148,8 @@ export default function AIWardrobePlanner() {
               </div>
             ))}
             {gaps.length === 0 && (
-              <div className="text-center py-4 text-muted-foreground">
-                <CheckCircle className="h-12 w-12 mx-auto mb-2 text-green-600" />
+              <div className="py-4 text-center text-muted-foreground">
+                <CheckCircle className="mx-auto mb-2 h-12 w-12 text-green-600" />
                 <p>Ваш гардероб сбалансирован! AI не нашел критических пробелов.</p>
               </div>
             )}
@@ -145,9 +164,7 @@ export default function AIWardrobePlanner() {
             <Calendar className="h-5 w-5" />
             Образы для событий
           </CardTitle>
-          <CardDescription>
-            AI планирует ваши образы на основе календаря
-          </CardDescription>
+          <CardDescription>AI планирует ваши образы на основе календаря</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -155,27 +172,36 @@ export default function AIWardrobePlanner() {
               <div
                 key={index}
                 className={cn(
-                  "p-4 rounded-lg border",
-                  event.status === 'ready' && "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800",
-                  event.status === 'needs_items' && "bg-yellow-50 dark:bg-yellow-950/20 border-yellow-200 dark:border-yellow-800",
-                  event.status === 'missing' && "bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800"
+                  'rounded-lg border p-4',
+                  event.status === 'ready' &&
+                    'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/20',
+                  event.status === 'needs_items' &&
+                    'border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950/20',
+                  event.status === 'missing' &&
+                    'border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/20'
                 )}
               >
-                <div className="flex items-start justify-between mb-3">
+                <div className="mb-3 flex items-start justify-between">
                   <div>
-                    <div className="flex items-center gap-2 mb-1">
+                    <div className="mb-1 flex items-center gap-2">
                       <h4 className="font-semibold">{event.event}</h4>
                       <Badge
                         variant={
-                          event.status === 'ready' ? 'default' :
-                          event.status === 'needs_items' ? 'secondary' : 'destructive'
+                          event.status === 'ready'
+                            ? 'default'
+                            : event.status === 'needs_items'
+                              ? 'secondary'
+                              : 'destructive'
                         }
                       >
-                        {event.status === 'ready' ? 'Готов' :
-                         event.status === 'needs_items' ? 'Нужны дополнения' : 'Требует внимания'}
+                        {event.status === 'ready'
+                          ? 'Готов'
+                          : event.status === 'needs_items'
+                            ? 'Нужны дополнения'
+                            : 'Требует внимания'}
                       </Badge>
                     </div>
-                    <p className="text-sm text-muted-foreground flex items-center gap-1">
+                    <p className="flex items-center gap-1 text-sm text-muted-foreground">
                       <Calendar className="h-3 w-3" />
                       {format(new Date(event.date), 'd MMMM yyyy', { locale: ru })}
                     </p>
@@ -183,8 +209,8 @@ export default function AIWardrobePlanner() {
                 </div>
 
                 {event.aiRecommendation && (
-                  <div className="mb-3 p-3 bg-background rounded-lg">
-                    <p className="text-xs font-medium mb-1 flex items-center gap-1">
+                  <div className="mb-3 rounded-lg bg-background p-3">
+                    <p className="mb-1 flex items-center gap-1 text-xs font-medium">
                       <Sparkles className="h-3 w-3 text-accent" />
                       Рекомендация AI:
                     </p>
@@ -197,12 +223,16 @@ export default function AIWardrobePlanner() {
                     <div key={itemIndex} className="flex items-center gap-2 text-sm">
                       {item.status === 'have' && <CheckCircle className="h-4 w-4 text-green-600" />}
                       {item.status === 'need' && <AlertCircle className="h-4 w-4 text-red-600" />}
-                      {item.status === 'optional' && <Shirt className="h-4 w-4 text-muted-foreground" />}
-                      <span className={cn(
-                        item.status === 'have' && "text-green-700 dark:text-green-400",
-                        item.status === 'need' && "text-red-700 dark:text-red-400",
-                        item.status === 'optional' && "text-muted-foreground"
-                      )}>
+                      {item.status === 'optional' && (
+                        <Shirt className="h-4 w-4 text-muted-foreground" />
+                      )}
+                      <span
+                        className={cn(
+                          item.status === 'have' && 'text-green-700 dark:text-green-400',
+                          item.status === 'need' && 'text-red-700 dark:text-red-400',
+                          item.status === 'optional' && 'text-muted-foreground'
+                        )}
+                      >
                         {item.name}
                       </span>
                     </div>
@@ -212,7 +242,7 @@ export default function AIWardrobePlanner() {
                 {event.status !== 'ready' && (
                   <Button variant="outline" size="sm" className="mt-3 w-full" asChild>
                     <Link href="/search?ai_stylist=true">
-                      <Sparkles className="h-3 w-3 mr-2" />
+                      <Sparkles className="mr-2 h-3 w-3" />
                       Создать образ с AI
                     </Link>
                   </Button>
@@ -232,24 +262,24 @@ export default function AIWardrobePlanner() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <div className="text-center p-4 rounded-lg bg-muted">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+            <div className="rounded-lg bg-muted p-4 text-center">
               <p className="text-sm font-bold">{manualWardrobe.length}</p>
-              <p className="text-xs text-muted-foreground mt-1">В гардеробе</p>
+              <p className="mt-1 text-xs text-muted-foreground">В гардеробе</p>
             </div>
-            <div className="text-center p-4 rounded-lg bg-muted">
+            <div className="rounded-lg bg-muted p-4 text-center">
               <p className="text-sm font-bold">{wishlist.length}</p>
-              <p className="text-xs text-muted-foreground mt-1">В избранном</p>
+              <p className="mt-1 text-xs text-muted-foreground">В избранном</p>
             </div>
-            <div className="text-center p-4 rounded-lg bg-muted">
+            <div className="rounded-lg bg-muted p-4 text-center">
               <p className="text-sm font-bold">{orders.length}</p>
-              <p className="text-xs text-muted-foreground mt-1">Заказов</p>
+              <p className="mt-1 text-xs text-muted-foreground">Заказов</p>
             </div>
-            <div className="text-center p-4 rounded-lg bg-muted">
+            <div className="rounded-lg bg-muted p-4 text-center">
               <p className="text-sm font-bold text-accent">
                 {Math.round((manualWardrobe.length / Math.max(1, orders.length)) * 100)}%
               </p>
-              <p className="text-xs text-muted-foreground mt-1">Использование</p>
+              <p className="mt-1 text-xs text-muted-foreground">Использование</p>
             </div>
           </div>
         </CardContent>
@@ -260,11 +290,11 @@ export default function AIWardrobePlanner() {
 
 function analyzeWardrobeGaps(wardrobe: Product[], orders: Order[]): WardrobeGap[] {
   const gaps: WardrobeGap[] = [];
-  const categories = new Set(wardrobe.map(item => item.category));
+  const categories = new Set(wardrobe.map((item) => item.category));
   const allCategories = ['Платья', 'Верх', 'Низ', 'Обувь', 'Аксессуары', 'Верхняя одежда'];
 
   // Find missing essential categories
-  allCategories.forEach(category => {
+  allCategories.forEach((category) => {
     if (!categories.has(category)) {
       gaps.push({
         category,
@@ -282,7 +312,8 @@ function analyzeWardrobeGaps(wardrobe: Product[], orders: Order[]): WardrobeGap[
       category: 'Базовый гардероб',
       priority: 'high',
       reason: 'В гардеробе недостаточно базовых вещей',
-      recommendation: 'AI рекомендует начать с базовых вещей: белая рубашка, черные брюки, классические туфли.',
+      recommendation:
+        'AI рекомендует начать с базовых вещей: белая рубашка, черные брюки, классические туфли.',
       estimatedPrice: 20000,
     });
   }
@@ -303,14 +334,18 @@ function generateUpcomingEvents(wardrobe: Product[]): EventOutfit[] {
         { name: 'Туфли', status: wardrobe.length > 2 ? 'have' : 'need' },
         { name: 'Сумка', status: 'optional' },
       ],
-      aiRecommendation: 'Классический деловой стиль: темный костюм, светлая рубашка, классические туфли.',
+      aiRecommendation:
+        'Классический деловой стиль: темный костюм, светлая рубашка, классические туфли.',
     },
     {
       event: 'Романтический ужин',
       date: addDays(now, 14).toISOString(),
       status: wardrobe.length > 1 ? 'needs_items' : 'missing',
       items: [
-        { name: 'Платье', status: wardrobe.some(w => w.category.includes('Платье')) ? 'have' : 'need' },
+        {
+          name: 'Платье',
+          status: wardrobe.some((w) => w.category.includes('Платье')) ? 'have' : 'need',
+        },
         { name: 'Туфли на каблуке', status: 'optional' },
         { name: 'Клатч', status: 'optional' },
       ],
@@ -321,7 +356,10 @@ function generateUpcomingEvents(wardrobe: Product[]): EventOutfit[] {
       date: addDays(now, 21).toISOString(),
       status: 'needs_items',
       items: [
-        { name: 'Спортивная одежда', status: wardrobe.some(w => w.category.includes('Спорт')) ? 'have' : 'need' },
+        {
+          name: 'Спортивная одежда',
+          status: wardrobe.some((w) => w.category.includes('Спорт')) ? 'have' : 'need',
+        },
         { name: 'Кроссовки', status: 'optional' },
         { name: 'Куртка', status: 'optional' },
       ],

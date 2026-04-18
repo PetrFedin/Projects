@@ -6,7 +6,10 @@
 import { DEMO_DROPS } from '@/lib/demo-data';
 import { USE_FASTAPI } from '@/lib/syntha-api-mode';
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1').replace(/\/$/, '');
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1').replace(
+  /\/$/,
+  ''
+);
 
 function getAuthHeaders(): Record<string, string> {
   const token = typeof window !== 'undefined' ? localStorage.getItem('syntha_access_token') : null;
@@ -34,7 +37,9 @@ export interface CreateMerchandiseGridPayload {
   target_units: number;
 }
 
-export async function createDrop(payload: CreateDropPayload): Promise<{ id: number; status: string }> {
+export async function createDrop(
+  payload: CreateDropPayload
+): Promise<{ id: number; status: string }> {
   if (!USE_FASTAPI) {
     return { id: Date.now() % 1_000_000_000, status: 'local_demo' };
   }
@@ -54,7 +59,9 @@ export async function createDrop(payload: CreateDropPayload): Promise<{ id: numb
   return json.data ?? json;
 }
 
-export async function createColorStory(payload: CreateColorStoryPayload): Promise<{ id: number; collection_name: string }> {
+export async function createColorStory(
+  payload: CreateColorStoryPayload
+): Promise<{ id: number; collection_name: string }> {
   if (!USE_FASTAPI) {
     return { id: Date.now() % 1_000_000_000, collection_name: payload.collection_name };
   }
@@ -71,15 +78,21 @@ export async function createColorStory(payload: CreateColorStoryPayload): Promis
   return json.data ?? json;
 }
 
-export async function saveMerchandiseGrid(season: string, payload: CreateMerchandiseGridPayload): Promise<{ id: number; status: string }> {
+export async function saveMerchandiseGrid(
+  season: string,
+  payload: CreateMerchandiseGridPayload
+): Promise<{ id: number; status: string }> {
   if (!USE_FASTAPI) {
     return { id: 1, status: 'local_demo' };
   }
-  const res = await fetch(`${API_BASE}/collections/merchandise-grid/${encodeURIComponent(season)}`, {
-    method: 'POST',
-    headers: getAuthHeaders(),
-    body: JSON.stringify(payload),
-  });
+  const res = await fetch(
+    `${API_BASE}/collections/merchandise-grid/${encodeURIComponent(season)}`,
+    {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(payload),
+    }
+  );
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error(err.detail || `Failed to save merchandise grid: ${res.status}`);
@@ -88,7 +101,11 @@ export async function saveMerchandiseGrid(season: string, payload: CreateMerchan
   return json.data ?? json;
 }
 
-export async function getDrops(season?: string): Promise<Array<{ id: number; drop_name: string; season: string; status: string; scheduled_date: string }>> {
+export async function getDrops(
+  season?: string
+): Promise<
+  Array<{ id: number; drop_name: string; season: string; status: string; scheduled_date: string }>
+> {
   if (!USE_FASTAPI) {
     return getDemoDrops(season);
   }
@@ -104,7 +121,13 @@ export async function getDrops(season?: string): Promise<Array<{ id: number; dro
   }
 }
 
-function getDemoDrops(season?: string): Array<{ id: number; drop_name: string; season: string; status: string; scheduled_date: string }> {
+function getDemoDrops(season?: string): Array<{
+  id: number;
+  drop_name: string;
+  season: string;
+  status: string;
+  scheduled_date: string;
+}> {
   if (season) return DEMO_DROPS.filter((d) => d.season === season);
   return [...DEMO_DROPS];
 }

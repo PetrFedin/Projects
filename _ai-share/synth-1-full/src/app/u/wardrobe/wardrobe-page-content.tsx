@@ -37,7 +37,7 @@ export function WardrobePageContent() {
       <RegistryPageHeader
         title="Мой гардероб"
         leadPlain="Покупки Syntha и вещи, добавленные вручную, в одном рабочем контуре с AI-ассистентом."
-        actions={(
+        actions={
           <>
             <Button variant="outline" size="sm" className="h-8" asChild>
               <Link href="/u?tab=smart-wardrobe">AI Wardrobe</Link>
@@ -46,7 +46,7 @@ export function WardrobePageContent() {
               <Link href="/u?tab=looks">Lookboards</Link>
             </Button>
           </>
-        )}
+        }
       />
 
       <div className="mb-12">
@@ -65,7 +65,9 @@ export function WardrobePageContent() {
         <main className="lg:col-span-3">
           <Tabs defaultValue="purchased">
             <TabsList className="mb-6">
-              <TabsTrigger value="purchased">Покупки на Syntha ({purchasedProducts.length})</TabsTrigger>
+              <TabsTrigger value="purchased">
+                Покупки на Syntha ({purchasedProducts.length})
+              </TabsTrigger>
               <TabsTrigger value="added">Добавленные вручную ({manualWardrobe.length})</TabsTrigger>
             </TabsList>
             <TabsContent value="purchased">

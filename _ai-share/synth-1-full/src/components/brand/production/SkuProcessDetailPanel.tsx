@@ -4,7 +4,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import type { CollectionStep } from '@/lib/production/collection-steps-catalog';
 import type { ProductionFloorTabId } from '@/lib/production/floor-flow';
-import type { CollectionSkuFlowDoc, MatrixStepStatus, SkuStageDetail } from '@/lib/production/unified-sku-flow-store';
+import type {
+  CollectionSkuFlowDoc,
+  MatrixStepStatus,
+  SkuStageDetail,
+} from '@/lib/production/unified-sku-flow-store';
 import {
   evaluateStageDataFill,
   STAGE_FILL_EDIT_TAB_LABELS,
@@ -96,9 +100,12 @@ function workTabHrefForStep(
   collectionQuery?: string
 ): string | null {
   const collectionScoped =
-    Boolean(step.collectionScopedModuleNav) && mergeCollectionQuery && collectionQuery !== undefined;
+    Boolean(step.collectionScopedModuleNav) &&
+    mergeCollectionQuery &&
+    collectionQuery !== undefined;
   if (collectionScoped) {
-    if (step.productionFloorTab) return mergeCollectionQuery(floorHref(step.productionFloorTab), collectionQuery);
+    if (step.productionFloorTab)
+      return mergeCollectionQuery(floorHref(step.productionFloorTab), collectionQuery);
     if (step.href) return mergeCollectionQuery(step.href, collectionQuery);
     return null;
   }
@@ -115,7 +122,9 @@ function crossLinkHrefForStep(
   collectionQuery?: string
 ): string {
   const collectionScoped =
-    Boolean(step.collectionScopedModuleNav) && mergeCollectionQuery && collectionQuery !== undefined;
+    Boolean(step.collectionScopedModuleNav) &&
+    mergeCollectionQuery &&
+    collectionQuery !== undefined;
   if (collectionScoped) return mergeCollectionQuery(href, collectionQuery);
   return mergeModuleHref(href, step.id);
 }
@@ -197,7 +206,10 @@ export function SkuProcessDetailPanel({
   pendingOpenPanelTab,
   onConsumedOpenPanelRequest,
 }: Props) {
-  const [activeDetail, setActiveDetail] = useState<{ stepId: string; defaultTab: StageDialogTab } | null>(null);
+  const [activeDetail, setActiveDetail] = useState<{
+    stepId: string;
+    defaultTab: StageDialogTab;
+  } | null>(null);
   const [savePulseAt, setSavePulseAt] = useState<number | null>(null);
   const pendingHandledRef = useRef<string | null>(null);
   const entry = doc.skus[skuId];
@@ -242,7 +254,14 @@ export function SkuProcessDetailPanel({
       setActiveDetail({ stepId, defaultTab: tabForOpen });
     }
     onConsumedOpenPanelRequest?.();
-  }, [pendingOpenPanelStepId, pendingOpenPanelTab, entry, steps, currentStageId, onConsumedOpenPanelRequest]);
+  }, [
+    pendingOpenPanelStepId,
+    pendingOpenPanelTab,
+    entry,
+    steps,
+    currentStageId,
+    onConsumedOpenPanelRequest,
+  ]);
 
   const rows = useMemo(() => {
     return steps.map((st) => ({
@@ -255,7 +274,9 @@ export function SkuProcessDetailPanel({
 
   if (!entry) {
     return (
-      <p className="text-xs text-slate-500 py-4">Нет данных по артикулу в едином процессе — обновите страницу.</p>
+      <p className="py-4 text-xs text-slate-500">
+        Нет данных по артикулу в едином процессе — обновите страницу.
+      </p>
     );
   }
 
@@ -264,33 +285,42 @@ export function SkuProcessDetailPanel({
       <CardHeader className="pb-2">
         <CardTitle className="text-sm uppercase tracking-tight">Артикул: {skuLabel}</CardTitle>
         {/* div вместо CardDescription: внутри несколько <p>, а CardDescription рендерит <p> — недопустимая вложенность */}
-        <div className="text-[13px] text-muted-foreground text-xs space-y-1.5">
+        <div className="space-y-1.5 text-[13px] text-xs text-muted-foreground">
           <p className="leading-relaxed">
-            Сетка как на <strong className="text-slate-800">«Доске этапов»</strong> (4 колонки в ряд). В каждой колонке —{' '}
-            <strong className="text-slate-800">% заполнения</strong> и две кнопки: <strong className="text-slate-800">панель этапа</strong> (чеклист и правки в окне) и{' '}
-            <strong className="text-slate-800">таб этапа</strong> (модуль цеха / внешний экран с тем же контекстом коллекции).
+            Сетка как на <strong className="text-slate-800">«Доске этапов»</strong> (4 колонки в
+            ряд). В каждой колонке — <strong className="text-slate-800">% заполнения</strong> и две
+            кнопки: <strong className="text-slate-800">панель этапа</strong> (чеклист и правки в
+            окне) и <strong className="text-slate-800">таб этапа</strong> (модуль цеха / внешний
+            экран с тем же контекстом коллекции).
           </p>
           <p className="text-[10px] leading-relaxed text-slate-500">
-            Подвкладки <strong className="text-slate-700">Оперативка / Процесс / По артикулам</strong> переключайте в шапке блока «Контроль коллекции» выше — дублирующие
-            ссылки здесь убраны намеренно.
+            Подвкладки{' '}
+            <strong className="text-slate-700">Оперативка / Процесс / По артикулам</strong>{' '}
+            переключайте в шапке блока «Контроль коллекции» выше — дублирующие ссылки здесь убраны
+            намеренно.
           </p>
           <p className="text-[10px] leading-relaxed text-slate-500">
-            Все этапы из каталога коллекции представлены в сетке; для каждого заданы чеклисты (см. «Панель этапа»). Без API поля процесса сохраняются в браузере вместе с
-            матрицей этапов.
+            Все этапы из каталога коллекции представлены в сетке; для каждого заданы чеклисты (см.
+            «Панель этапа»). Без API поля процесса сохраняются в браузере вместе с матрицей этапов.
           </p>
           {savePulseAt ? (
-            <p className="text-[10px] text-emerald-700 font-semibold" key={savePulseAt}>
-              Записано локально ({new Date(savePulseAt).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}). Дальше — слой{' '}
-              <strong className="text-slate-700">ProductionDataPort</strong> / API.
+            <p className="text-[10px] font-semibold text-emerald-700" key={savePulseAt}>
+              Записано локально (
+              {new Date(savePulseAt).toLocaleTimeString('ru-RU', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+              })}
+              ). Дальше — слой <strong className="text-slate-700">ProductionDataPort</strong> / API.
             </p>
           ) : null}
         </div>
       </CardHeader>
-      <CardContent className="max-h-[min(78vh,720px)] space-y-3 overflow-y-auto -mx-1 px-1">
+      <CardContent className="-mx-1 max-h-[min(78vh,720px)] space-y-3 overflow-y-auto px-1">
         {boardRowChunks.map((chunk, rowIdx) => (
           <div
             key={`sku-board-${rowIdx}`}
-            className="grid grid-cols-2 md:grid-cols-4 items-stretch gap-0 rounded-xl border border-slate-200 bg-slate-50/80 min-h-[240px] overflow-hidden"
+            className="grid min-h-[240px] grid-cols-2 items-stretch gap-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-50/80 md:grid-cols-4"
           >
             {chunk.map(({ step, row }, colIdxInRow) => {
               const globalColIdx = rowIdx * SKU_BOARD_STAGES_PER_ROW + colIdxInRow;
@@ -300,7 +330,13 @@ export function SkuProcessDetailPanel({
               const expandable = skuStepExpandable(step, row, stepIdx, curIdx);
               const showLink = skuStepShowWorkLink(step, row, stepIdx, curIdx);
               const workHref = showLink
-                ? workTabHrefForStep(step, mergeModuleHref, floorHref, mergeCollectionQuery, collectionQuery)
+                ? workTabHrefForStep(
+                    step,
+                    mergeModuleHref,
+                    floorHref,
+                    mergeCollectionQuery,
+                    collectionQuery
+                  )
                 : null;
               const lockHint =
                 'Этап ещё не в контуре артикула. Плитки откроются после прохождения предыдущих шагов или для параллельных этапов каталога.';
@@ -322,7 +358,7 @@ export function SkuProcessDetailPanel({
                 <div
                   key={step.id}
                   className={cn(
-                    'min-w-0 flex flex-col border-l border-slate-200 bg-white/90 first:border-l-0 first:rounded-l-xl last:rounded-r-xl',
+                    'flex min-w-0 flex-col border-l border-slate-200 bg-white/90 first:rounded-l-xl first:border-l-0 last:rounded-r-xl',
                     isCurrentStage &&
                       'z-[1] border-emerald-200/90 shadow-[0_0_0_1px_rgba(16,185,129,0.08)] ring-2 ring-inset ring-emerald-500/45'
                   )}
@@ -338,7 +374,9 @@ export function SkuProcessDetailPanel({
                       <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">
                         Этап {globalColIdx + 1}
                       </p>
-                      <p className="line-clamp-2 text-[11px] font-bold leading-tight text-slate-900">{step.title}</p>
+                      <p className="line-clamp-2 text-[11px] font-bold leading-tight text-slate-900">
+                        {step.title}
+                      </p>
                     </div>
                     <div className="mt-1.5 flex flex-wrap items-center gap-1">
                       {expandable ? (
@@ -350,21 +388,32 @@ export function SkuProcessDetailPanel({
                           <Lock className="h-3 w-3 text-slate-400" aria-hidden />
                         </span>
                       )}
-                      <Badge variant="outline" className="h-5 border-slate-200 px-1.5 text-[8px] font-bold">
+                      <Badge
+                        variant="outline"
+                        className="h-5 border-slate-200 px-1.5 text-[8px] font-bold"
+                      >
                         {stLabel}
                       </Badge>
-                      <Badge variant="outline" className="h-5 border-slate-200 px-1 py-0 text-[8px]">
+                      <Badge
+                        variant="outline"
+                        className="h-5 border-slate-200 px-1 py-0 text-[8px]"
+                      >
                         {step.area}
                       </Badge>
                     </div>
                     <div className="mt-2 w-full space-y-1 border-t border-slate-100/90 pt-2">
                       <div className="flex items-center justify-between gap-1">
-                        <span className="text-[7px] font-bold uppercase tracking-wide text-slate-500">Данные</span>
-                        <span className="text-[10px] font-black tabular-nums text-indigo-700">{dataFill.percent}%</span>
+                        <span className="text-[7px] font-bold uppercase tracking-wide text-slate-500">
+                          Данные
+                        </span>
+                        <span className="text-[10px] font-black tabular-nums text-indigo-700">
+                          {dataFill.percent}%
+                        </span>
                       </div>
                       <StageDataFillBar percent={dataFill.percent} />
                       <p className="text-[7px] leading-tight text-slate-400">
-                        Обяз.: {dataFill.requiredFilled}/{dataFill.requiredTotal} · Доп.: {dataFill.optionalFilled}/{dataFill.optionalTotal}
+                        Обяз.: {dataFill.requiredFilled}/{dataFill.requiredTotal} · Доп.:{' '}
+                        {dataFill.optionalFilled}/{dataFill.optionalTotal}
                       </p>
                     </div>
                   </div>
@@ -376,7 +425,9 @@ export function SkuProcessDetailPanel({
                         variant="outline"
                         size="sm"
                         disabled={!expandable}
-                        title={expandable ? 'Окно: чеклист, поля этапа, журнал, вложения' : lockHint}
+                        title={
+                          expandable ? 'Окно: чеклист, поля этапа, журнал, вложения' : lockHint
+                        }
                         className="h-7 min-w-0 flex-1 gap-0.5 px-1.5 text-[8px] font-black uppercase tracking-wide"
                         onClick={() => openStageDialog('process')}
                       >
@@ -390,7 +441,10 @@ export function SkuProcessDetailPanel({
                           className="h-7 min-w-0 flex-1 gap-0.5 px-1.5 text-[8px] font-black uppercase tracking-wide"
                           asChild
                         >
-                          <Link href={workHref} title="Вкладка цеха или модуль этапа с контекстом коллекции">
+                          <Link
+                            href={workHref}
+                            title="Вкладка цеха или модуль этапа с контекстом коллекции"
+                          >
                             <ExternalLink className="h-3 w-3 shrink-0" aria-hidden />
                             Таб этапа
                           </Link>
@@ -398,7 +452,10 @@ export function SkuProcessDetailPanel({
                       ) : null}
                     </div>
                     {!workHref ? (
-                      <p className="text-center text-[7px] leading-tight text-slate-400 px-0.5" title={lockHint}>
+                      <p
+                        className="px-0.5 text-center text-[7px] leading-tight text-slate-400"
+                        title={lockHint}
+                      >
                         Прямой таб не задан — только панель
                       </p>
                     ) : null}
@@ -412,11 +469,17 @@ export function SkuProcessDetailPanel({
                           <button
                             key={t}
                             type="button"
-                            className="h-5 min-w-[1.1rem] rounded border border-slate-200 bg-white px-1 text-[7px] font-black text-slate-600 hover:bg-indigo-50 hover:border-indigo-200"
+                            className="h-5 min-w-[1.1rem] rounded border border-slate-200 bg-white px-1 text-[7px] font-black text-slate-600 hover:border-indigo-200 hover:bg-indigo-50"
                             title={`${STAGE_FILL_EDIT_TAB_LABELS[t]} — окно панели`}
                             onClick={() => openStageDialog(t)}
                           >
-                            {t === 'people' ? 'Л' : t === 'costs' ? '₽' : t === 'outputs' ? 'В' : 'Ф'}
+                            {t === 'people'
+                              ? 'Л'
+                              : t === 'costs'
+                                ? '₽'
+                                : t === 'outputs'
+                                  ? 'В'
+                                  : 'Ф'}
                           </button>
                         ))}
                       </div>
@@ -450,17 +513,21 @@ export function SkuProcessDetailPanel({
 }
 
 function StageAuditLogPanel({ row }: { row: SkuStageDetail }) {
-  if (!(row.auditLog?.length)) {
+  if (!row.auditLog?.length) {
     return (
       <p className="text-xs text-slate-500">
-        Записей пока нет. Правки полей ниже и действия в блоке ответственных добавляют строки в журнал.
+        Записей пока нет. Правки полей ниже и действия в блоке ответственных добавляют строки в
+        журнал.
       </p>
     );
   }
   return (
     <ul className="space-y-2">
       {[...(row.auditLog ?? [])].reverse().map((e, i) => (
-        <li key={`${e.at}-${i}`} className="rounded-lg border border-slate-100 bg-slate-50/80 px-3 py-2 text-xs">
+        <li
+          key={`${e.at}-${i}`}
+          className="rounded-lg border border-slate-100 bg-slate-50/80 px-3 py-2 text-xs"
+        >
           <p className="text-[10px] text-slate-400">
             {new Date(e.at).toLocaleString('ru-RU')}
             {e.by ? ` · ${e.by}` : ''}
@@ -529,17 +596,23 @@ function StageDetailEditorSection({
                 min={0}
                 value={row.delayDays ?? ''}
                 onChange={(e) =>
-                  onPatch(step.id, { delayDays: e.target.value ? Number(e.target.value) : undefined })
+                  onPatch(step.id, {
+                    delayDays: e.target.value ? Number(e.target.value) : undefined,
+                  })
                 }
               />
             </div>
           </div>
           <div>
-            <p className="mb-1 text-[9px] font-bold uppercase text-slate-400">Причина задержки / комментарий</p>
+            <p className="mb-1 text-[9px] font-bold uppercase text-slate-400">
+              Причина задержки / комментарий
+            </p>
             <Textarea
               className="min-h-[72px] text-xs"
               value={row.delayReason ?? row.notes ?? ''}
-              onChange={(e) => onPatch(step.id, { delayReason: e.target.value, notes: e.target.value })}
+              onChange={(e) =>
+                onPatch(step.id, { delayReason: e.target.value, notes: e.target.value })
+              }
             />
           </div>
         </div>
@@ -568,8 +641,9 @@ function StageDetailEditorSection({
             </div>
           </div>
           <div className="rounded-lg border border-slate-100 bg-slate-50/80 px-3 py-2 text-[10px] text-slate-600">
-            Если вы не ответственный за этап: зафиксируйте запрос в журнале и передайте ссылку в модуль — ответственный увидит данные в своём табе при открытии того же
-            артикула и коллекции (после появления API — push-уведомление).
+            Если вы не ответственный за этап: зафиксируйте запрос в журнале и передайте ссылку в
+            модуль — ответственный увидит данные в своём табе при открытии того же артикула и
+            коллекции (после появления API — push-уведомление).
           </div>
           <div className="flex flex-wrap gap-2">
             <Button
@@ -598,7 +672,8 @@ function StageDetailEditorSection({
               className="h-8 text-[10px]"
               onClick={() =>
                 onAppendAuditLine?.(step.id, {
-                  summary: 'Запрос согласования / комментарий ответственному зафиксирован (демо; далее — API и уведомления).',
+                  summary:
+                    'Запрос согласования / комментарий ответственному зафиксирован (демо; далее — API и уведомления).',
                   by: row.updatedBy,
                 })
               }
@@ -606,21 +681,37 @@ function StageDetailEditorSection({
               Запрос в журнал
             </Button>
           </div>
-          <ApprovalsEditor items={row.approvals ?? []} onChange={(approvals) => onPatch(step.id, { approvals })} />
+          <ApprovalsEditor
+            items={row.approvals ?? []}
+            onChange={(approvals) => onPatch(step.id, { approvals })}
+          />
         </div>
       );
     case 'costs':
-      return <CostLinesEditor lines={row.costLines ?? []} onChange={(costLines) => onPatch(step.id, { costLines })} />;
+      return (
+        <CostLinesEditor
+          lines={row.costLines ?? []}
+          onChange={(costLines) => onPatch(step.id, { costLines })}
+        />
+      );
     case 'outputs':
-      return <OutputsEditor outputs={row.outputs ?? []} onChange={(outputs) => onPatch(step.id, { outputs })} />;
+      return (
+        <OutputsEditor
+          outputs={row.outputs ?? []}
+          onChange={(outputs) => onPatch(step.id, { outputs })}
+        />
+      );
     case 'files':
       return (
         <div className="space-y-2">
           <p className="text-[10px] text-slate-500">
-            Пока нет загрузки файлов — опишите ссылки, ID в DAM или пути; позже сюда попадут вложения этапа.
+            Пока нет загрузки файлов — опишите ссылки, ID в DAM или пути; позже сюда попадут
+            вложения этапа.
           </p>
           <div>
-            <p className="mb-1 text-[9px] font-bold uppercase text-slate-400">Текстом (ссылки, артефакты)</p>
+            <p className="mb-1 text-[9px] font-bold uppercase text-slate-400">
+              Текстом (ссылки, артефакты)
+            </p>
             <Textarea
               className="min-h-[100px] text-xs"
               placeholder="https://… · файл в общем диске · номер образца…"
@@ -635,7 +726,9 @@ function StageDetailEditorSection({
   }
 }
 
-function sortStageFillEvaluationItems(items: readonly StageFillEvaluationItem[]): StageFillEvaluationItem[] {
+function sortStageFillEvaluationItems(
+  items: readonly StageFillEvaluationItem[]
+): StageFillEvaluationItem[] {
   const rank = (it: StageFillEvaluationItem) => {
     if (it.required && !it.filled) return 0;
     if (it.required && it.filled) return 1;
@@ -726,7 +819,13 @@ function SkuStageDetailDialog({
   }, [open, activeStepId, defaultTab, stepId]);
 
   const workHref = ctx
-    ? workTabHrefForStep(ctx.step, mergeModuleHref, floorHref, mergeCollectionQuery, collectionQuery)
+    ? workTabHrefForStep(
+        ctx.step,
+        mergeModuleHref,
+        floorHref,
+        mergeCollectionQuery,
+        collectionQuery
+      )
     : null;
 
   const copyModuleUrl = useCallback(() => {
@@ -741,7 +840,9 @@ function SkuStageDetailDialog({
         <DialogContent className="max-w-md" ariaTitle="Этап">
           <DialogHeader>
             <DialogTitle className="text-sm">Этап недоступен</DialogTitle>
-            <DialogDescription className="text-xs">Обновите список этапов или закройте окно.</DialogDescription>
+            <DialogDescription className="text-xs">
+              Обновите список этапов или закройте окно.
+            </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button type="button" size="sm" onClick={() => onOpenChange(false)}>
@@ -759,7 +860,9 @@ function SkuStageDetailDialog({
     visibleFillItems.find((it) => it.id === selectedItemId) ?? visibleFillItems[0] ?? null;
   const moduleAxis =
     step.externalAxisLabel ??
-    (step.productionFloorTab ? `Вкладка цеха «${step.productionFloorTab}»` : 'Модуль по ссылке этапа');
+    (step.productionFloorTab
+      ? `Вкладка цеха «${step.productionFloorTab}»`
+      : 'Модуль по ссылке этапа');
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -768,21 +871,30 @@ function SkuStageDetailDialog({
         ariaTitle={`${step.title} — ${skuLabel}`}
       >
         <DialogHeader className="space-y-1 border-b border-slate-100 px-4 pb-3 pt-4 text-left">
-          <DialogTitle className="text-base leading-snug pr-8">{step.title}</DialogTitle>
+          <DialogTitle className="pr-8 text-base leading-snug">{step.title}</DialogTitle>
           <DialogDescription className="text-xs leading-relaxed">
             Артикул <strong className="text-slate-800">{skuLabel}</strong>. Ниже подсветка:{' '}
-            <strong className="text-amber-800">обязательное не заполнено</strong>, <strong className="text-emerald-800">обязательное готово</strong>,{' '}
-            <strong className="text-slate-600">дополнительно пусто</strong>, <strong className="text-sky-800">дополнительно заполнено</strong>. Клик по строке подсвечивает её и
-            открывает форму ниже для заполнения и правок. Ось UI: <strong className="text-slate-800">{moduleAxis}</strong>. Сохранение без API — в{' '}
+            <strong className="text-amber-800">обязательное не заполнено</strong>,{' '}
+            <strong className="text-emerald-800">обязательное готово</strong>,{' '}
+            <strong className="text-slate-600">дополнительно пусто</strong>,{' '}
+            <strong className="text-sky-800">дополнительно заполнено</strong>. Клик по строке
+            подсвечивает её и открывает форму ниже для заполнения и правок. Ось UI:{' '}
+            <strong className="text-slate-800">{moduleAxis}</strong>. Сохранение без API — в{' '}
             <strong className="text-slate-800">localStorage</strong> (единый flow коллекции).
           </DialogDescription>
-          <p className="text-[11px] leading-snug text-slate-600 pt-1">{step.description}</p>
+          <p className="pt-1 text-[11px] leading-snug text-slate-600">{step.description}</p>
           {step.crossLinks?.length ? (
             <div className="flex flex-wrap gap-2 pt-1">
               {step.crossLinks.map((l) => (
                 <Link
                   key={`${l.label}-${l.href}`}
-                  href={crossLinkHrefForStep(step, l.href, mergeModuleHref, mergeCollectionQuery, collectionQuery)}
+                  href={crossLinkHrefForStep(
+                    step,
+                    l.href,
+                    mergeModuleHref,
+                    mergeCollectionQuery,
+                    collectionQuery
+                  )}
                   className="text-[10px] font-semibold text-indigo-600 hover:underline"
                   onClick={() => onOpenChange(false)}
                 >
@@ -796,34 +908,59 @@ function SkuStageDetailDialog({
         <div className="border-b border-indigo-100/80 bg-indigo-50/35 px-4 py-2.5">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="min-w-0">
-              <p className="text-[9px] font-black uppercase tracking-wide text-slate-600">Заполненность данных этапа</p>
-              <p className="text-[10px] text-slate-600 truncate" title={moduleAxis}>
+              <p className="text-[9px] font-black uppercase tracking-wide text-slate-600">
+                Заполненность данных этапа
+              </p>
+              <p className="truncate text-[10px] text-slate-600" title={moduleAxis}>
                 Чеклист под {moduleAxis}
               </p>
             </div>
-            <p className="text-xl font-black tabular-nums text-indigo-900 shrink-0">{fe.percent}%</p>
+            <p className="shrink-0 text-xl font-black tabular-nums text-indigo-900">
+              {fe.percent}%
+            </p>
           </div>
           <StageDataFillBar percent={fe.percent} className="mt-2" />
           <p className="mt-1 text-[9px] text-slate-500">
-            Обязательные: {fe.requiredFilled}/{fe.requiredTotal} · Дополнительные: {fe.optionalFilled}/{fe.optionalTotal} · Форма под списком соответствует выбранной
+            Обязательные: {fe.requiredFilled}/{fe.requiredTotal} · Дополнительные:{' '}
+            {fe.optionalFilled}/{fe.optionalTotal} · Форма под списком соответствует выбранной
             строке.
           </p>
           <div className="mt-2 flex flex-wrap gap-x-3 gap-y-0.5 text-[8px] text-slate-500">
             <span>
-              <span className="inline-block h-2 w-2 rounded-sm bg-amber-500 align-middle mr-1" aria-hidden /> обяз. пусто
+              <span
+                className="mr-1 inline-block h-2 w-2 rounded-sm bg-amber-500 align-middle"
+                aria-hidden
+              />{' '}
+              обяз. пусто
             </span>
             <span>
-              <span className="inline-block h-2 w-2 rounded-sm bg-emerald-500 align-middle mr-1" aria-hidden /> обяз. есть
+              <span
+                className="mr-1 inline-block h-2 w-2 rounded-sm bg-emerald-500 align-middle"
+                aria-hidden
+              />{' '}
+              обяз. есть
             </span>
             <span>
-              <span className="inline-block h-2 w-2 rounded-sm border border-dashed border-slate-400 bg-slate-100 align-middle mr-1" aria-hidden /> доп. пусто
+              <span
+                className="mr-1 inline-block h-2 w-2 rounded-sm border border-dashed border-slate-400 bg-slate-100 align-middle"
+                aria-hidden
+              />{' '}
+              доп. пусто
             </span>
             <span>
-              <span className="inline-block h-2 w-2 rounded-sm bg-sky-400 align-middle mr-1" aria-hidden /> доп. есть
+              <span
+                className="mr-1 inline-block h-2 w-2 rounded-sm bg-sky-400 align-middle"
+                aria-hidden
+              />{' '}
+              доп. есть
             </span>
           </div>
           {tabsPresent.length > 0 ? (
-            <div className="mt-2 flex flex-wrap gap-1" role="tablist" aria-label="Блок формы (фильтр чеклиста)">
+            <div
+              className="mt-2 flex flex-wrap gap-1"
+              role="tablist"
+              aria-label="Блок формы (фильтр чеклиста)"
+            >
               <button
                 type="button"
                 role="tab"
@@ -861,7 +998,9 @@ function SkuStageDetailDialog({
                     setBlockFilter(tabId);
                     setPanelMode('form');
                     setSelectedItemId((prev) => {
-                      const pool = sortStageFillEvaluationItems(sortedFillItems.filter((i) => i.editTab === tabId));
+                      const pool = sortStageFillEvaluationItems(
+                        sortedFillItems.filter((i) => i.editTab === tabId)
+                      );
                       if (prev && pool.some((i) => i.id === prev)) return prev;
                       return pool[0]?.id ?? null;
                     });
@@ -880,17 +1019,23 @@ function SkuStageDetailDialog({
               const tabLabel = STAGE_FILL_EDIT_TAB_LABELS[it.editTab];
               const rowStyle = cn(
                 'flex w-full gap-2 rounded-md px-2 py-2 text-left text-[10px] leading-snug transition-colors border border-transparent',
-                it.required && !it.filled && 'border-amber-300/90 bg-amber-50/95 ring-1 ring-amber-200/80',
+                it.required &&
+                  !it.filled &&
+                  'border-amber-300/90 bg-amber-50/95 ring-1 ring-amber-200/80',
                 it.required && it.filled && 'border-emerald-200/90 bg-emerald-50/70',
                 !it.required && !it.filled && 'border-dashed border-slate-300/80 bg-slate-50/80',
                 !it.required && it.filled && 'border-sky-200/80 bg-sky-50/50',
-                selectedItemId === it.id && panelMode === 'form' && 'ring-2 ring-indigo-400/85 ring-offset-1'
+                selectedItemId === it.id &&
+                  panelMode === 'form' &&
+                  'ring-2 ring-indigo-400/85 ring-offset-1'
               );
               const markClass = cn(
                 'flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-[11px] font-black leading-none',
                 it.required && !it.filled && 'bg-amber-200 text-amber-950',
                 it.required && it.filled && 'bg-emerald-500 text-white',
-                !it.required && !it.filled && 'border border-dashed border-slate-300 bg-white text-slate-400',
+                !it.required &&
+                  !it.filled &&
+                  'border border-dashed border-slate-300 bg-white text-slate-400',
                 !it.required && it.filled && 'bg-sky-500 text-white'
               );
               const markChar = it.filled ? '✓' : it.required ? '!' : '○';
@@ -910,13 +1055,26 @@ function SkuStageDetailDialog({
                     </span>
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-1">
-                        <span className={cn('font-semibold', it.required ? 'text-slate-900' : 'text-slate-700')}>{it.label}</span>
+                        <span
+                          className={cn(
+                            'font-semibold',
+                            it.required ? 'text-slate-900' : 'text-slate-700'
+                          )}
+                        >
+                          {it.label}
+                        </span>
                         {it.required ? (
-                          <Badge variant="outline" className="h-4 border-amber-300/70 bg-amber-50/50 px-1 text-[7px] font-bold text-amber-950">
+                          <Badge
+                            variant="outline"
+                            className="h-4 border-amber-300/70 bg-amber-50/50 px-1 text-[7px] font-bold text-amber-950"
+                          >
                             Обязательно
                           </Badge>
                         ) : (
-                          <Badge variant="outline" className="h-4 border-slate-200 bg-white px-1 text-[7px] font-semibold text-slate-600">
+                          <Badge
+                            variant="outline"
+                            className="h-4 border-slate-200 bg-white px-1 text-[7px] font-semibold text-slate-600"
+                          >
                             Дополнительно
                           </Badge>
                         )}
@@ -925,7 +1083,9 @@ function SkuStageDetailDialog({
                         Форма ниже — блок «{tabLabel}»
                       </p>
                       {it.moduleHint ? (
-                        <span className="mt-0.5 block text-[8px] text-slate-500">В модуле: {it.moduleHint}</span>
+                        <span className="mt-0.5 block text-[8px] text-slate-500">
+                          В модуле: {it.moduleHint}
+                        </span>
                       ) : null}
                     </div>
                   </button>
@@ -962,7 +1122,9 @@ function SkuStageDetailDialog({
             ) : selectedFillItem ? (
               <div className="space-y-3">
                 <div className="rounded-lg border border-indigo-100/80 bg-indigo-50/40 px-3 py-2">
-                  <p className="text-[10px] font-semibold text-slate-800">{selectedFillItem.label}</p>
+                  <p className="text-[10px] font-semibold text-slate-800">
+                    {selectedFillItem.label}
+                  </p>
                   <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[9px] text-indigo-800">
                     <span>Блок: {STAGE_FILL_EDIT_TAB_LABELS[selectedFillItem.editTab]}</span>
                     {selectedFillItem.required ? (
@@ -996,19 +1158,33 @@ function SkuStageDetailDialog({
           <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-wrap items-center gap-2">
               {workHref ? (
-                <Button type="button" variant="outline" size="sm" className="h-8 text-[10px] shrink-0" asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-8 shrink-0 text-[10px]"
+                  asChild
+                >
                   <Link href={workHref} onClick={() => onOpenChange(false)}>
                     К данным этапа в модуле →
                   </Link>
                 </Button>
               ) : (
-                <span className="text-[10px] text-slate-400">Прямой модуль в каталоге не задан — правки только здесь.</span>
+                <span className="text-[10px] text-slate-400">
+                  Прямой модуль в каталоге не задан — правки только здесь.
+                </span>
               )}
-              <p className="text-[10px] text-slate-500 min-w-0">
+              <p className="min-w-0 text-[10px] text-slate-500">
                 Сохранение — в объекте процесса (localStorage на демо-странице производства).
               </p>
             </div>
-            <Button type="button" variant="secondary" size="sm" className="h-8 text-xs shrink-0" onClick={() => onOpenChange(false)}>
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              className="h-8 shrink-0 text-xs"
+              onClick={() => onOpenChange(false)}
+            >
               Закрыть
             </Button>
           </div>
@@ -1033,10 +1209,16 @@ function CostLinesEditor({
   const del = (i: number) => onChange(lines.filter((_, j) => j !== i));
   return (
     <div>
-      <div className="flex items-center justify-between mb-1">
+      <div className="mb-1 flex items-center justify-between">
         <p className="text-[9px] font-bold uppercase text-slate-400">Затраты (₽)</p>
-        <Button type="button" variant="ghost" size="sm" className="h-7 text-[9px] px-2" onClick={add}>
-          <Plus className="h-3 w-3 mr-1" /> строка
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="h-7 px-2 text-[9px]"
+          onClick={add}
+        >
+          <Plus className="mr-1 h-3 w-3" /> строка
         </Button>
       </div>
       <div className="space-y-1.5">
@@ -1045,19 +1227,34 @@ function CostLinesEditor({
         ) : (
           lines.map((l, i) => (
             <div key={i} className="flex flex-wrap items-center gap-1.5">
-              <Input className="h-7 text-[10px] flex-1 min-w-[100px]" placeholder="Статья" value={l.label} onChange={(e) => upd(i, { label: e.target.value })} />
               <Input
-                className="h-7 text-[10px] w-24"
+                className="h-7 min-w-[100px] flex-1 text-[10px]"
+                placeholder="Статья"
+                value={l.label}
+                onChange={(e) => upd(i, { label: e.target.value })}
+              />
+              <Input
+                className="h-7 w-24 text-[10px]"
                 type="number"
                 placeholder="₽"
                 value={l.amountRub || ''}
                 onChange={(e) => upd(i, { amountRub: Number(e.target.value) || 0 })}
               />
-              <label className="flex items-center gap-1 text-[9px] text-slate-600 shrink-0">
-                <input type="checkbox" checked={!!l.paid} onChange={(e) => upd(i, { paid: e.target.checked })} />
+              <label className="flex shrink-0 items-center gap-1 text-[9px] text-slate-600">
+                <input
+                  type="checkbox"
+                  checked={!!l.paid}
+                  onChange={(e) => upd(i, { paid: e.target.checked })}
+                />
                 опл.
               </label>
-              <Button type="button" variant="ghost" size="icon" className="h-7 w-7 shrink-0" onClick={() => del(i)}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7 shrink-0"
+                onClick={() => del(i)}
+              >
                 <Trash2 className="h-3 w-3 text-slate-400" />
               </Button>
             </div>
@@ -1075,17 +1272,24 @@ function ApprovalsEditor({
   items: NonNullable<SkuStageDetail['approvals']>;
   onChange: (v: NonNullable<SkuStageDetail['approvals']>) => void;
 }) {
-  const add = () => onChange([...items, { role: '', name: '', at: new Date().toISOString().slice(0, 16) }]);
+  const add = () =>
+    onChange([...items, { role: '', name: '', at: new Date().toISOString().slice(0, 16) }]);
   const upd = (i: number, patch: Partial<(typeof items)[0]>) => {
     onChange(items.map((x, j) => (j === i ? { ...x, ...patch } : x)));
   };
   const del = (i: number) => onChange(items.filter((_, j) => j !== i));
   return (
     <div>
-      <div className="flex items-center justify-between mb-1">
+      <div className="mb-1 flex items-center justify-between">
         <p className="text-[9px] font-bold uppercase text-slate-400">Подтверждения</p>
-        <Button type="button" variant="ghost" size="sm" className="h-7 text-[9px] px-2" onClick={add}>
-          <Plus className="h-3 w-3 mr-1" /> запись
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="h-7 px-2 text-[9px]"
+          onClick={add}
+        >
+          <Plus className="mr-1 h-3 w-3" /> запись
         </Button>
       </div>
       {items.length === 0 ? (
@@ -1093,11 +1297,32 @@ function ApprovalsEditor({
       ) : (
         <div className="space-y-1.5">
           {items.map((a, i) => (
-            <div key={i} className="flex flex-wrap gap-1.5 items-center">
-              <Input className="h-7 text-[10px] w-28" placeholder="Роль" value={a.role} onChange={(e) => upd(i, { role: e.target.value })} />
-              <Input className="h-7 text-[10px] flex-1 min-w-[80px]" placeholder="ФИО" value={a.name} onChange={(e) => upd(i, { name: e.target.value })} />
-              <Input className="h-7 text-[10px] w-36" type="datetime-local" value={a.at} onChange={(e) => upd(i, { at: e.target.value })} />
-              <Button type="button" variant="ghost" size="icon" className="h-7 w-7" onClick={() => del(i)}>
+            <div key={i} className="flex flex-wrap items-center gap-1.5">
+              <Input
+                className="h-7 w-28 text-[10px]"
+                placeholder="Роль"
+                value={a.role}
+                onChange={(e) => upd(i, { role: e.target.value })}
+              />
+              <Input
+                className="h-7 min-w-[80px] flex-1 text-[10px]"
+                placeholder="ФИО"
+                value={a.name}
+                onChange={(e) => upd(i, { name: e.target.value })}
+              />
+              <Input
+                className="h-7 w-36 text-[10px]"
+                type="datetime-local"
+                value={a.at}
+                onChange={(e) => upd(i, { at: e.target.value })}
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7"
+                onClick={() => del(i)}
+              >
                 <Trash2 className="h-3 w-3 text-slate-400" />
               </Button>
             </div>
@@ -1122,10 +1347,18 @@ function OutputsEditor({
   const del = (i: number) => onChange(outputs.filter((_, j) => j !== i));
   return (
     <div>
-      <div className="flex items-center justify-between mb-1">
-        <p className="text-[9px] font-bold uppercase text-slate-400">Выходы (модель, акт, партия)</p>
-        <Button type="button" variant="ghost" size="sm" className="h-7 text-[9px] px-2" onClick={add}>
-          <Plus className="h-3 w-3 mr-1" /> строка
+      <div className="mb-1 flex items-center justify-between">
+        <p className="text-[9px] font-bold uppercase text-slate-400">
+          Выходы (модель, акт, партия)
+        </p>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="h-7 px-2 text-[9px]"
+          onClick={add}
+        >
+          <Plus className="mr-1 h-3 w-3" /> строка
         </Button>
       </div>
       {outputs.length === 0 ? (
@@ -1133,10 +1366,26 @@ function OutputsEditor({
       ) : (
         <div className="space-y-1.5">
           {outputs.map((o, i) => (
-            <div key={i} className="flex flex-wrap gap-1.5 items-center">
-              <Input className="h-7 text-[10px] w-32" placeholder="Тип" value={o.kind} onChange={(e) => upd(i, { kind: e.target.value })} />
-              <Input className="h-7 text-[10px] flex-1 min-w-[100px]" placeholder="Ссылка / ID / файл" value={o.ref} onChange={(e) => upd(i, { ref: e.target.value })} />
-              <Button type="button" variant="ghost" size="icon" className="h-7 w-7" onClick={() => del(i)}>
+            <div key={i} className="flex flex-wrap items-center gap-1.5">
+              <Input
+                className="h-7 w-32 text-[10px]"
+                placeholder="Тип"
+                value={o.kind}
+                onChange={(e) => upd(i, { kind: e.target.value })}
+              />
+              <Input
+                className="h-7 min-w-[100px] flex-1 text-[10px]"
+                placeholder="Ссылка / ID / файл"
+                value={o.ref}
+                onChange={(e) => upd(i, { ref: e.target.value })}
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7"
+                onClick={() => del(i)}
+              >
                 <Trash2 className="h-3 w-3 text-slate-400" />
               </Button>
             </div>

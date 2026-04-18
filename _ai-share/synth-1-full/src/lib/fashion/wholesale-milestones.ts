@@ -38,6 +38,6 @@ export function getWholesaleMilestones(orderId: string = 'PO-2026-001'): Wholesa
       status: 'pending',
       estimatedDate: '2026-05-20',
       riskFactor: 5,
-    }
+    },
   ];
 }

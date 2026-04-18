@@ -171,7 +171,9 @@ export function migrateWorkshop2InternalArticleCodes(inv: LocalCollectionInvento
   };
 }
 
-function takeNextInternalArticleCode(inv: LocalCollectionInventory): [string, LocalCollectionInventory] {
+function takeNextInternalArticleCode(
+  inv: LocalCollectionInventory
+): [string, LocalCollectionInventory] {
   let seq =
     typeof inv.workshop2NextInternalArticleSeq === 'number' &&
     inv.workshop2NextInternalArticleSeq >= INTERNAL_ARTICLE_CODE_MIN
@@ -195,15 +197,24 @@ export function loadLocalCollectionInventory(): LocalCollectionInventory {
     const raw = localStorage.getItem(LOCAL_COLLECTION_INVENTORY_STORAGE_KEY);
     if (!raw) return emptyLocalCollectionInventory();
     const p = JSON.parse(raw) as LocalCollectionInventory;
-    if (p?.v !== 1 || typeof p.articlesByCollection !== 'object' || p.articlesByCollection === null) {
+    if (
+      p?.v !== 1 ||
+      typeof p.articlesByCollection !== 'object' ||
+      p.articlesByCollection === null
+    ) {
       return emptyLocalCollectionInventory();
     }
     const base: LocalCollectionInventory = {
       v: 1,
       articlesByCollection: p.articlesByCollection,
       userCollections: Array.isArray(p.userCollections) ? p.userCollections : [],
-      archivedUserCollections: Array.isArray(p.archivedUserCollections) ? p.archivedUserCollections : [],
-      collectionCovers: typeof p.collectionCovers === 'object' && p.collectionCovers !== null ? p.collectionCovers : {},
+      archivedUserCollections: Array.isArray(p.archivedUserCollections)
+        ? p.archivedUserCollections
+        : [],
+      collectionCovers:
+        typeof p.collectionCovers === 'object' && p.collectionCovers !== null
+          ? p.collectionCovers
+          : {},
       archivedSystemCollectionIds: Array.isArray(p.archivedSystemCollectionIds)
         ? p.archivedSystemCollectionIds
         : [],
@@ -211,12 +222,14 @@ export function loadLocalCollectionInventory(): LocalCollectionInventory {
         ? p.workshop2ActiveOrder.filter((x): x is string => typeof x === 'string')
         : undefined,
       workshop2Pinned:
-        typeof p.workshop2Pinned === 'object' && p.workshop2Pinned !== null && !Array.isArray(p.workshop2Pinned)
+        typeof p.workshop2Pinned === 'object' &&
+        p.workshop2Pinned !== null &&
+        !Array.isArray(p.workshop2Pinned)
           ? (p.workshop2Pinned as Record<string, boolean>)
           : undefined,
       workshop2NextInternalArticleSeq:
-        typeof (p as { workshop2NextInternalArticleSeq?: unknown }).workshop2NextInternalArticleSeq ===
-          'number' &&
+        typeof (p as { workshop2NextInternalArticleSeq?: unknown })
+          .workshop2NextInternalArticleSeq === 'number' &&
         (p as { workshop2NextInternalArticleSeq: number }).workshop2NextInternalArticleSeq >=
           INTERNAL_ARTICLE_CODE_MIN
           ? (p as { workshop2NextInternalArticleSeq: number }).workshop2NextInternalArticleSeq
@@ -270,9 +283,13 @@ export function storageKeyForCollectionId(collectionIdFromQuery: string): string
 /** Активные коллекции в порядке по умолчанию: SS27 (если не в архиве), затем пользовательские по дате создания. */
 export function defaultWorkshop2ActiveIds(inv: LocalCollectionInventory): string[] {
   const ids: string[] = [];
-  const sysArchived = (inv.archivedSystemCollectionIds ?? []).includes(WORKSHOP2_SYSTEM_COLLECTION_ID);
+  const sysArchived = (inv.archivedSystemCollectionIds ?? []).includes(
+    WORKSHOP2_SYSTEM_COLLECTION_ID
+  );
   if (!sysArchived) ids.push(WORKSHOP2_SYSTEM_COLLECTION_ID);
-  const userSorted = [...inv.userCollections].sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+  const userSorted = [...inv.userCollections].sort((a, b) =>
+    a.createdAt.localeCompare(b.createdAt)
+  );
   for (const uc of userSorted) ids.push(uc.id);
   return ids;
 }
@@ -329,7 +346,10 @@ export function setWorkshop2CollectionPinned(
   return { ...inv, workshop2Pinned: pins, workshop2ActiveOrder: merged };
 }
 
-function stripWorkshop2OrderAndPin(inv: LocalCollectionInventory, collectionId: string): LocalCollectionInventory {
+function stripWorkshop2OrderAndPin(
+  inv: LocalCollectionInventory,
+  collectionId: string
+): LocalCollectionInventory {
   const id = collectionId.trim();
   const order = (inv.workshop2ActiveOrder ?? []).filter((x) => x !== id);
   const pins = { ...(inv.workshop2Pinned ?? {}) };
@@ -448,7 +468,10 @@ export type Workshop2UserCollectionUpdate = {
   coverDataUrl?: string | null;
 };
 
-function patchUserCollectionRow(row: UserCollectionRow, patch: Workshop2UserCollectionUpdate): UserCollectionRow {
+function patchUserCollectionRow(
+  row: UserCollectionRow,
+  patch: Workshop2UserCollectionUpdate
+): UserCollectionRow {
   const now = new Date().toISOString();
   const name = patch.name.trim() || row.name;
   const next: UserCollectionRow = { ...row, name, updatedAt: now };
@@ -508,7 +531,10 @@ export function updateWorkshop2UserCollection(
   const archIdx = arch.findIndex((c) => c.id === id);
   if (archIdx >= 0) {
     const archivedUserCollections = [...arch];
-    archivedUserCollections[archIdx] = patchUserCollectionRow(archivedUserCollections[archIdx], patch);
+    archivedUserCollections[archIdx] = patchUserCollectionRow(
+      archivedUserCollections[archIdx],
+      patch
+    );
     return applyCovers({ ...inv, archivedUserCollections });
   }
   return null;
@@ -560,7 +586,10 @@ export function updateWorkshop2Ss27Meta(
     if (t) base.teamNote = t;
     else delete base.teamNote;
   }
-  const optStr = (key: keyof NonNullable<LocalCollectionInventory['workshop2Ss27Meta']>, val: string | undefined) => {
+  const optStr = (
+    key: keyof NonNullable<LocalCollectionInventory['workshop2Ss27Meta']>,
+    val: string | undefined
+  ) => {
     if (val === undefined) return;
     const t = val.trim();
     if (t) (base as Record<string, string>)[key as string] = t;
@@ -641,13 +670,11 @@ function buildWorkshop2NewArticleLine(
   createdBy: string
 ): LocalOrderLine {
   const canonicalLeaf = resolveHandbookLeafId(commit.categoryLeafId.trim());
-  const leaf =
-    findHandbookLeafById(canonicalLeaf) ?? getHandbookCategoryLeaves()[0];
+  const leaf = findHandbookLeafById(canonicalLeaf) ?? getHandbookCategoryLeaves()[0];
   if (!leaf) throw new Error('handbook');
   const id = `local-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
   const sku =
-    normalizeLocalSkuCode(commit.sku) ||
-    `W2-${Date.now().toString(36).toUpperCase().slice(-10)}`;
+    normalizeLocalSkuCode(commit.sku) || `W2-${Date.now().toString(36).toUpperCase().slice(-10)}`;
   const season = collectionId.trim() || 'LOCAL';
   const tzB = normalizeWorkshopTzSignatoryBindings(commit.tzSignatoryBindings);
   return {
@@ -803,12 +830,17 @@ export function applyWorkshop2BulkNewArticles(
   let skippedDuplicates = 0;
   const addedIds: string[] = [];
   for (const row of rows) {
-    const r = applyWorkshop2ArticleCommitInner(next, collectionId, {
-      kind: 'new',
-      sku: row.sku,
-      categoryLeafId,
-      name: row.name?.trim() || undefined,
-    }, createdBy);
+    const r = applyWorkshop2ArticleCommitInner(
+      next,
+      collectionId,
+      {
+        kind: 'new',
+        sku: row.sku,
+        categoryLeafId,
+        name: row.name?.trim() || undefined,
+      },
+      createdBy
+    );
     if (!r.ok) {
       skippedDuplicates += 1;
       continue;
@@ -940,8 +972,16 @@ export function removeUserCollectionFromInventory(
   const { [id]: _removed, ...restArticles } = inv.articlesByCollection;
   const userCollections = inv.userCollections.filter((c) => c.id !== id);
   const archivedUserCollections = (inv.archivedUserCollections ?? []).filter((c) => c.id !== id);
-  const archivedSystemCollectionIds = (inv.archivedSystemCollectionIds ?? []).filter((x) => x !== id);
-  return { ...inv, articlesByCollection: restArticles, userCollections, archivedUserCollections, archivedSystemCollectionIds };
+  const archivedSystemCollectionIds = (inv.archivedSystemCollectionIds ?? []).filter(
+    (x) => x !== id
+  );
+  return {
+    ...inv,
+    articlesByCollection: restArticles,
+    userCollections,
+    archivedUserCollections,
+    archivedSystemCollectionIds,
+  };
 }
 
 /** Перенос пользовательской коллекции в архив (статьи по ключу id сохраняются для восстановления). */
@@ -999,7 +1039,9 @@ export function restoreWorkshop2Collection(
 ): LocalCollectionInventory | null {
   const id = collectionId.trim();
   if (id === WORKSHOP2_SYSTEM_COLLECTION_ID) {
-    const archivedSystemCollectionIds = (inv.archivedSystemCollectionIds ?? []).filter((x) => x !== id);
+    const archivedSystemCollectionIds = (inv.archivedSystemCollectionIds ?? []).filter(
+      (x) => x !== id
+    );
     return appendWorkshop2RestoredToActiveOrder({ ...inv, archivedSystemCollectionIds }, id);
   }
   const restored = restoreUserCollectionFromArchive(inv, id);
@@ -1009,13 +1051,19 @@ export function restoreWorkshop2Collection(
 export function parseInventoryImportJson(raw: string): LocalCollectionInventory | null {
   try {
     const p = JSON.parse(raw) as LocalCollectionInventory;
-    if (p?.v !== 1 || typeof p.articlesByCollection !== 'object' || p.articlesByCollection === null) return null;
+    if (p?.v !== 1 || typeof p.articlesByCollection !== 'object' || p.articlesByCollection === null)
+      return null;
     return {
       v: 1,
       articlesByCollection: p.articlesByCollection,
       userCollections: Array.isArray(p.userCollections) ? p.userCollections : [],
-      archivedUserCollections: Array.isArray(p.archivedUserCollections) ? p.archivedUserCollections : [],
-      collectionCovers: typeof p.collectionCovers === 'object' && p.collectionCovers !== null ? p.collectionCovers : {},
+      archivedUserCollections: Array.isArray(p.archivedUserCollections)
+        ? p.archivedUserCollections
+        : [],
+      collectionCovers:
+        typeof p.collectionCovers === 'object' && p.collectionCovers !== null
+          ? p.collectionCovers
+          : {},
       archivedSystemCollectionIds: Array.isArray(p.archivedSystemCollectionIds)
         ? p.archivedSystemCollectionIds
         : [],
@@ -1023,7 +1071,9 @@ export function parseInventoryImportJson(raw: string): LocalCollectionInventory 
         ? p.workshop2ActiveOrder.filter((x): x is string => typeof x === 'string')
         : undefined,
       workshop2Pinned:
-        typeof p.workshop2Pinned === 'object' && p.workshop2Pinned !== null && !Array.isArray(p.workshop2Pinned)
+        typeof p.workshop2Pinned === 'object' &&
+        p.workshop2Pinned !== null &&
+        !Array.isArray(p.workshop2Pinned)
           ? (p.workshop2Pinned as Record<string, boolean>)
           : undefined,
     };
@@ -1050,8 +1100,14 @@ export function mergeImportInventories(
   for (const c of incoming.userCollections) uc.set(c.id, c);
   const ar = new Map((base.archivedUserCollections ?? []).map((c) => [c.id, c]));
   for (const c of incoming.archivedUserCollections ?? []) ar.set(c.id, c);
-  const collectionCovers = { ...(base.collectionCovers ?? {}), ...(incoming.collectionCovers ?? {}) };
-  const sys = new Set([...(base.archivedSystemCollectionIds ?? []), ...(incoming.archivedSystemCollectionIds ?? [])]);
+  const collectionCovers = {
+    ...(base.collectionCovers ?? {}),
+    ...(incoming.collectionCovers ?? {}),
+  };
+  const sys = new Set([
+    ...(base.archivedSystemCollectionIds ?? []),
+    ...(incoming.archivedSystemCollectionIds ?? []),
+  ]);
   const workshop2Pinned = {
     ...(base.workshop2Pinned ?? {}),
     ...(incoming.workshop2Pinned ?? {}),

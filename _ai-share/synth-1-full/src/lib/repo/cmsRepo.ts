@@ -1,6 +1,6 @@
-import { DEFAULT_HOME_CMS, CmsHomeConfig } from "@/data/cms.home.default";
+import { DEFAULT_HOME_CMS, CmsHomeConfig } from '@/data/cms.home.default';
 
-const LS_KEY = "syntha_cms_home_v1";
+const LS_KEY = 'syntha_cms_home_v1';
 
 export interface CmsRepo {
   getHome(): Promise<CmsHomeConfig>;
@@ -10,7 +10,7 @@ export interface CmsRepo {
 
 export class MockCmsRepo implements CmsRepo {
   async getHome(): Promise<CmsHomeConfig> {
-    if (typeof window === "undefined") {
+    if (typeof window === 'undefined') {
       // SSR fallback
       return DEFAULT_HOME_CMS;
     }
@@ -25,14 +25,14 @@ export class MockCmsRepo implements CmsRepo {
 
   async saveHome(cfg: CmsHomeConfig): Promise<CmsHomeConfig> {
     const next: CmsHomeConfig = { ...cfg, updatedAtISO: new Date().toISOString() };
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       localStorage.setItem(LS_KEY, JSON.stringify(next));
     }
     return next;
   }
 
   async resetHome(): Promise<CmsHomeConfig> {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       localStorage.removeItem(LS_KEY);
     }
     return DEFAULT_HOME_CMS;

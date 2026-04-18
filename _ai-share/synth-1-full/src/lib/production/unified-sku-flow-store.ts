@@ -119,7 +119,10 @@ export function appendSkuStageAuditLine(
   if (!entry) return doc;
   const prev = entry.stages[stepId] ?? emptyStage();
   const at = new Date().toISOString();
-  const auditLog = [...(prev.auditLog ?? []).slice(-(MAX_AUDIT_ENTRIES - 1)), { at, by: line.by, summary: line.summary }];
+  const auditLog = [
+    ...(prev.auditLog ?? []).slice(-(MAX_AUDIT_ENTRIES - 1)),
+    { at, by: line.by, summary: line.summary },
+  ];
   const stages = {
     ...entry.stages,
     [stepId]: { ...prev, auditLog, updatedAt: at },
@@ -176,13 +179,19 @@ export function ensureSkuStages(
 }
 
 /** Убрать SKU из документа (удаление локального черновика, импорт-синк). */
-export function removeSkuFromUnifiedDoc(doc: CollectionSkuFlowDoc, skuId: string): CollectionSkuFlowDoc {
+export function removeSkuFromUnifiedDoc(
+  doc: CollectionSkuFlowDoc,
+  skuId: string
+): CollectionSkuFlowDoc {
   if (!doc.skus[skuId]) return doc;
   const { [skuId]: _removed, ...rest } = doc.skus;
   return { ...doc, skus: rest };
 }
 
-export function patchProductionProfile(doc: CollectionSkuFlowDoc, productionProfileId: string): CollectionSkuFlowDoc {
+export function patchProductionProfile(
+  doc: CollectionSkuFlowDoc,
+  productionProfileId: string
+): CollectionSkuFlowDoc {
   return { ...doc, productionProfileId };
 }
 
@@ -209,7 +218,10 @@ export function patchSkuStage(
 
   const summary = summarizeSkuStageChanges(prev, merged);
   if (summary) {
-    merged.auditLog = [...(merged.auditLog ?? []).slice(-(MAX_AUDIT_ENTRIES - 1)), { at: updatedAt, by: merged.updatedBy ?? prev.updatedBy, summary }];
+    merged.auditLog = [
+      ...(merged.auditLog ?? []).slice(-(MAX_AUDIT_ENTRIES - 1)),
+      { at: updatedAt, by: merged.updatedBy ?? prev.updatedBy, summary },
+    ];
   }
 
   const stages = {
@@ -243,7 +255,9 @@ export function aggregateStepStatusForSkus(
   stepId: string
 ): MatrixStepStatus {
   if (skuIds.length === 0) return 'not_started';
-  const statuses: SkuStageDetail['status'][] = skuIds.map((id) => doc.skus[id]?.stages[stepId]?.status ?? 'not_started');
+  const statuses: SkuStageDetail['status'][] = skuIds.map(
+    (id) => doc.skus[id]?.stages[stepId]?.status ?? 'not_started'
+  );
   if (statuses.every((s) => s === 'done' || s === 'skipped')) {
     if (statuses.some((s) => s === 'done')) return 'done';
     return 'not_started';
@@ -268,7 +282,11 @@ export function buildAggregateStatusMap(
 }
 
 /** Сколько артикулов закрыли этап (готово или пропуск) */
-export function aggregateSkuDoneCount(doc: CollectionSkuFlowDoc, skuIds: readonly string[], stepId: string): number {
+export function aggregateSkuDoneCount(
+  doc: CollectionSkuFlowDoc,
+  skuIds: readonly string[],
+  stepId: string
+): number {
   if (skuIds.length === 0) return 0;
   return skuIds.filter((id) => {
     const s = doc.skus[id]?.stages[stepId]?.status ?? 'not_started';
@@ -320,11 +338,7 @@ export function getSkuCurrentProcessStepId(
   return orderedStepIds[orderedStepIds.length - 1];
 }
 
-export function isSkuStepDone(
-  doc: CollectionSkuFlowDoc,
-  skuId: string,
-  stepId: string
-): boolean {
+export function isSkuStepDone(doc: CollectionSkuFlowDoc, skuId: string, stepId: string): boolean {
   const st = doc.skus[skuId]?.stages[stepId]?.status ?? 'not_started';
   return st === 'done' || st === 'skipped';
 }

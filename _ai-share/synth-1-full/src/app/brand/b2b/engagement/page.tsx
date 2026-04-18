@@ -12,61 +12,102 @@ import { getB2BLinks } from '@/lib/data/entity-links';
 
 /** Мок: визиты партнёров (шоурум, лайншит, лукбук). JOOR-style активность. */
 const MOCK_VISITS = [
-  { id: '1', partner: 'Podium (Москва)', type: 'showroom', at: '2025-03-10T14:00:00', duration: 45 },
+  {
+    id: '1',
+    partner: 'Podium (Москва)',
+    type: 'showroom',
+    at: '2025-03-10T14:00:00',
+    duration: 45,
+  },
   { id: '2', partner: 'ЦУМ (Москва)', type: 'linesheet', at: '2025-03-10T11:30:00', duration: 12 },
-  { id: '3', partner: 'Boutique No.7 (СПб)', type: 'lookbook', at: '2025-03-09T16:00:00', duration: 20 },
-  { id: '4', partner: 'Podium (Москва)', type: 'showroom', at: '2025-03-09T10:00:00', duration: 60 },
+  {
+    id: '3',
+    partner: 'Boutique No.7 (СПб)',
+    type: 'lookbook',
+    at: '2025-03-09T16:00:00',
+    duration: 20,
+  },
+  {
+    id: '4',
+    partner: 'Podium (Москва)',
+    type: 'showroom',
+    at: '2025-03-09T10:00:00',
+    duration: 60,
+  },
 ];
 
 /** Мок: активность (открыл кампанию, скачал PDF, добавил в заказ). NuOrder: кто открыл/заказал. */
 const MOCK_ACTIVITY = [
-  { id: 'a1', partner: 'Podium (Москва)', action: 'Открыл лайншит FW26', at: '2025-03-10T14:05:00' },
+  {
+    id: 'a1',
+    partner: 'Podium (Москва)',
+    action: 'Открыл лайншит FW26',
+    at: '2025-03-10T14:05:00',
+  },
   { id: 'a2', partner: 'ЦУМ (Москва)', action: 'Скачал PDF коллекции', at: '2025-03-10T11:35:00' },
-  { id: 'a3', partner: 'Boutique No.7 (СПб)', action: 'Добавил позиции в заказ', at: '2025-03-09T16:10:00' },
+  {
+    id: 'a3',
+    partner: 'Boutique No.7 (СПб)',
+    action: 'Добавил позиции в заказ',
+    at: '2025-03-09T16:10:00',
+  },
   { id: 'a4', partner: 'Podium (Москва)', action: 'Открыл лукбук SS26', at: '2025-03-09T10:15:00' },
 ];
 
 export default function BrandB2BEngagementPage() {
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 pb-24">
-      <div className="flex items-center gap-3 mb-6">
+    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.brand.b2bOrders}>
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
         <div className="flex-1">
-          <h1 className="text-2xl font-bold uppercase tracking-tight flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
             <Users className="h-6 w-6" /> Вовлечённость партнёров
           </h1>
-          <p className="text-slate-500 text-sm mt-0.5">
-            JOOR: визиты шоурума и лайншита, активность по кампаниям. NuOrder: кто открыл/заказал — связь с заказами и событиями.
+          <p className="mt-0.5 text-sm text-slate-500">
+            JOOR: визиты шоурума и лайншита, активность по кампаниям. NuOrder: кто открыл/заказал —
+            связь с заказами и событиями.
           </p>
         </div>
         <Link href={ROUTES.brand.integrationsJoor}>
-          <Button variant="outline" size="sm">JOOR</Button>
+          <Button variant="outline" size="sm">
+            JOOR
+          </Button>
         </Link>
         <Link href={ROUTES.brand.integrationsNuOrder}>
-          <Button variant="outline" size="sm">NuOrder</Button>
+          <Button variant="outline" size="sm">
+            NuOrder
+          </Button>
         </Link>
         <Link href={ROUTES.brand.integrationsFashionCloud}>
-          <Button variant="outline" size="sm">Fashion Cloud</Button>
+          <Button variant="outline" size="sm">
+            Fashion Cloud
+          </Button>
         </Link>
         <Link href={ROUTES.brand.integrationsSparkLayer}>
-          <Button variant="outline" size="sm">SparkLayer</Button>
+          <Button variant="outline" size="sm">
+            SparkLayer
+          </Button>
         </Link>
         <Link href={ROUTES.brand.integrationsColect}>
-          <Button variant="outline" size="sm">Colect</Button>
+          <Button variant="outline" size="sm">
+            Colect
+          </Button>
         </Link>
         <Link href={ROUTES.brand.integrationsZedonk}>
-          <Button variant="outline" size="sm">Zedonk</Button>
+          <Button variant="outline" size="sm">
+            Zedonk
+          </Button>
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-black uppercase flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
               <Eye className="h-4 w-4" /> Визиты за период
             </CardTitle>
             <CardDescription>Просмотры шоурума, лайншита, лукбука по партнёрам.</CardDescription>
@@ -78,7 +119,7 @@ export default function BrandB2BEngagementPage() {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-black uppercase flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
               <TrendingUp className="h-4 w-4" /> Активность
             </CardTitle>
             <CardDescription>Открытия кампаний, скачивания, добавления в заказ.</CardDescription>
@@ -93,15 +134,22 @@ export default function BrandB2BEngagementPage() {
       <Card className="mb-6">
         <CardHeader>
           <CardTitle className="text-sm font-black uppercase">Последние визиты</CardTitle>
-          <CardDescription>Партнёр, тип (шоурум/лайншит/лукбук), дата и длительность.</CardDescription>
+          <CardDescription>
+            Партнёр, тип (шоурум/лайншит/лукбук), дата и длительность.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <ul className="space-y-2">
             {MOCK_VISITS.map((v) => (
-              <li key={v.id} className="flex items-center justify-between py-2 border-b border-slate-100 last:border-0">
+              <li
+                key={v.id}
+                className="flex items-center justify-between border-b border-slate-100 py-2 last:border-0"
+              >
                 <div>
                   <span className="font-medium">{v.partner}</span>
-                  <Badge variant="secondary" className="ml-2 text-[9px]">{v.type}</Badge>
+                  <Badge variant="secondary" className="ml-2 text-[9px]">
+                    {v.type}
+                  </Badge>
                 </div>
                 <span className="text-xs text-slate-500">
                   {new Date(v.at).toLocaleString('ru-RU')} · {v.duration} мин
@@ -115,27 +163,34 @@ export default function BrandB2BEngagementPage() {
       <Card className="mb-6">
         <CardHeader>
           <CardTitle className="text-sm font-black uppercase">Активность по кампаниям</CardTitle>
-          <CardDescription>Кто открыл лайншит, скачал PDF, добавил в заказ — CTA к заказам и событиям.</CardDescription>
+          <CardDescription>
+            Кто открыл лайншит, скачал PDF, добавил в заказ — CTA к заказам и событиям.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <ul className="space-y-2">
             {MOCK_ACTIVITY.map((a) => (
-              <li key={a.id} className="flex items-center justify-between py-2 border-b border-slate-100 last:border-0">
+              <li
+                key={a.id}
+                className="flex items-center justify-between border-b border-slate-100 py-2 last:border-0"
+              >
                 <div>
                   <span className="font-medium">{a.partner}</span>
-                  <span className="ml-2 text-slate-600 text-sm">{a.action}</span>
+                  <span className="ml-2 text-sm text-slate-600">{a.action}</span>
                 </div>
-                <span className="text-xs text-slate-500">{new Date(a.at).toLocaleString('ru-RU')}</span>
+                <span className="text-xs text-slate-500">
+                  {new Date(a.at).toLocaleString('ru-RU')}
+                </span>
               </li>
             ))}
           </ul>
-          <div className="flex flex-wrap gap-2 mt-4">
-            <Button size="sm" className="rounded-lg gap-1.5" asChild>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Button size="sm" className="gap-1.5 rounded-lg" asChild>
               <Link href={ROUTES.brand.b2bOrders}>
                 <ShoppingCart className="h-3.5 w-3.5" /> Перейти к заказам
               </Link>
             </Button>
-            <Button variant="outline" size="sm" className="rounded-lg gap-1.5" asChild>
+            <Button variant="outline" size="sm" className="gap-1.5 rounded-lg" asChild>
               <Link href={ROUTES.brand.tradeShows}>
                 <Calendar className="h-3.5 w-3.5" /> Выставки и события
               </Link>

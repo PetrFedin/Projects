@@ -44,7 +44,7 @@ export class LastMileRoutingEngine {
 
     // 1. Проверяем возможность доставки Дроном (Drone Delivery)
     // Дроны идеальны для легких, срочных посылок на короткие расстояния
-    const canUseDrone = 
+    const canUseDrone =
       fleet.dronesAvailable > 0 &&
       task.weightKg <= fleet.droneMaxPayloadKg &&
       task.distanceKm <= fleet.droneRangeKm;
@@ -54,12 +54,18 @@ export class LastMileRoutingEngine {
       estimatedCostUSD = 2.5; // Электричество + амортизация
       carbonEmissionsKg = 0; // Нулевой выхлоп (Zero Emissions)
       reasoning = `Express order (${task.weightKg}kg, ${task.distanceKm}km) fits drone constraints. Assigned to autonomous drone. Zero emissions. Cost: $${estimatedCostUSD}.`;
-      return { orderId: task.orderId, assignedVehicle, estimatedCostUSD, carbonEmissionsKg, reasoning };
+      return {
+        orderId: task.orderId,
+        assignedVehicle,
+        estimatedCostUSD,
+        carbonEmissionsKg,
+        reasoning,
+      };
     }
 
     // 2. Проверяем возможность доставки Электромобилем (EV Van)
     // EV подходят для тяжелых посылок или дальних маршрутов
-    const canUseEV = 
+    const canUseEV =
       fleet.evAvailable > 0 &&
       task.weightKg <= fleet.evMaxPayloadKg &&
       task.distanceKm <= fleet.evRangeKm;
@@ -69,7 +75,13 @@ export class LastMileRoutingEngine {
       estimatedCostUSD = 5.0; // Дешевле стороннего курьера, но дороже дрона
       carbonEmissionsKg = 0; // Нулевой выхлоп
       reasoning = `Order (${task.weightKg}kg, ${task.distanceKm}km) assigned to Electric Van fleet. Zero emissions. Cost: $${estimatedCostUSD}.`;
-      return { orderId: task.orderId, assignedVehicle, estimatedCostUSD, carbonEmissionsKg, reasoning };
+      return {
+        orderId: task.orderId,
+        assignedVehicle,
+        estimatedCostUSD,
+        carbonEmissionsKg,
+        reasoning,
+      };
     }
 
     // 3. Если свой флот занят или не подходит (слишком далеко/тяжело)
@@ -85,7 +97,7 @@ export class LastMileRoutingEngine {
       assignedVehicle,
       estimatedCostUSD,
       carbonEmissionsKg,
-      reasoning
+      reasoning,
     };
   }
 }

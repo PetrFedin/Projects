@@ -3,14 +3,20 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { ENABLE_BACKEND_HTTP } from '@/lib/syntha-api-mode';
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1').replace(/\/$/, '');
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1').replace(
+  /\/$/,
+  ''
+);
 const FETCH_TIMEOUT_MS = 8000;
 
 /**
  * Хук для загрузки данных производства.
  * При `ENABLE_BACKEND_HTTP` — запрос к API, иначе сразу fallback (без сети и таймаутов).
  */
-export function useProductionData<T>(endpoint: string, fallback: T): { data: T; loading: boolean; error: string | null; refetch: () => void } {
+export function useProductionData<T>(
+  endpoint: string,
+  fallback: T
+): { data: T; loading: boolean; error: string | null; refetch: () => void } {
   const [data, setData] = useState<T>(fallback);
   const [loading, setLoading] = useState(() => ENABLE_BACKEND_HTTP);
   const [error, setError] = useState<string | null>(null);
@@ -39,7 +45,8 @@ export function useProductionData<T>(endpoint: string, fallback: T): { data: T; 
     queueMicrotask(() => {
       const doFetch = async () => {
         try {
-          const token = typeof window !== 'undefined' ? localStorage.getItem('syntha_access_token') : null;
+          const token =
+            typeof window !== 'undefined' ? localStorage.getItem('syntha_access_token') : null;
           const res = await fetch(`${API_BASE}${ep}`, {
             headers: token ? { Authorization: `Bearer ${token}` } : {},
             signal: ctrl.signal,

@@ -37,7 +37,8 @@ function hasNonEmptyString(value: unknown): boolean {
 function getComposition(p: Product): string | undefined {
   const c = (p as any).composition;
   if (typeof c === 'string') return c;
-  if (Array.isArray(c) && c.length > 0) return c.map((x: any) => `${x.material ?? x} ${x.percentage ?? ''}%`).join(', ');
+  if (Array.isArray(c) && c.length > 0)
+    return c.map((x: any) => `${x.material ?? x} ${x.percentage ?? ''}%`).join(', ');
   return undefined;
 }
 
@@ -50,7 +51,9 @@ function getSizeChart(p: Product): string | undefined {
 }
 
 function getEan(p: Product): string | undefined {
-  return (p as any).ean ?? (p as any).gtin ?? (p.attributes as any)?.ean ?? (p.attributes as any)?.gtin;
+  return (
+    (p as any).ean ?? (p as any).gtin ?? (p.attributes as any)?.ean ?? (p.attributes as any)?.gtin
+  );
 }
 
 /** Валидация продукта для публикации в B2B-каталог. */
@@ -85,10 +88,20 @@ export function validateProductForB2B(p: Product): B2BValidationResult {
 /** Валидация списка продуктов, возврат списка с ошибками по SKU. */
 export function validateProductsForB2B(products: Product[]): {
   validSkus: string[];
-  skuErrors: { sku: string; productId: string; name: string; errors: { field: B2BRequiredFieldId; message: string }[] }[];
+  skuErrors: {
+    sku: string;
+    productId: string;
+    name: string;
+    errors: { field: B2BRequiredFieldId; message: string }[];
+  }[];
 } {
   const validSkus: string[] = [];
-  const skuErrors: { sku: string; productId: string; name: string; errors: { field: B2BRequiredFieldId; message: string }[] }[] = [];
+  const skuErrors: {
+    sku: string;
+    productId: string;
+    name: string;
+    errors: { field: B2BRequiredFieldId; message: string }[];
+  }[] = [];
   products.forEach((p) => {
     const sku = (p as any).sku ?? p.id;
     const result = validateProductForB2B(p);

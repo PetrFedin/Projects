@@ -91,7 +91,11 @@ export function parseShowroomSampleBarcodeLine(line: string): ShowroomSampleTagP
   };
 }
 
-export function buildShowroomScanUrl(origin: string, pathname: string, payload: ShowroomSampleTagPayloadV1): string {
+export function buildShowroomScanUrl(
+  origin: string,
+  pathname: string,
+  payload: ShowroomSampleTagPayloadV1
+): string {
   const add = encodeShowroomTagPayload(payload);
   const u = new URL(pathname, origin);
   u.searchParams.set('add', add);
@@ -99,7 +103,11 @@ export function buildShowroomScanUrl(origin: string, pathname: string, payload: 
 }
 
 /** QR на сканер: только registry id (после регистрации на сервере). */
-export function buildShowroomScanUrlWithRegistryId(origin: string, pathname: string, registryId: string): string {
+export function buildShowroomScanUrlWithRegistryId(
+  origin: string,
+  pathname: string,
+  registryId: string
+): string {
   const u = new URL(pathname, origin);
   u.searchParams.set('sampleId', registryId.trim());
   return u.toString();

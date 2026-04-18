@@ -1,14 +1,14 @@
 'use client';
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { 
-  FlaskConical, 
-  CheckCircle2, 
-  AlertCircle, 
-  Zap, 
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  FlaskConical,
+  CheckCircle2,
+  AlertCircle,
+  Zap,
   ChevronRight,
   Download,
   ShieldCheck,
@@ -17,10 +17,10 @@ import {
   Wind,
   Settings2,
   FileSearch,
-  Maximize2
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
+  Maximize2,
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export function FabricLabTests() {
   const TESTS = [
@@ -31,56 +31,92 @@ export function FabricLabTests() {
   ];
 
   return (
-    <Card className="border border-slate-100 shadow-sm rounded-xl bg-white overflow-hidden h-full group">
-      <CardHeader className="p-4 border-b border-slate-50 bg-indigo-50/20 flex flex-row items-center justify-between">
+    <Card className="group h-full overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm">
+      <CardHeader className="flex flex-row items-center justify-between border-b border-slate-50 bg-indigo-50/20 p-4">
         <div className="space-y-0.5">
-          <CardTitle className="text-[11px] font-bold uppercase tracking-wider flex items-center gap-2 text-slate-900">
-            <FlaskConical className="w-4 h-4 text-indigo-600" />
+          <CardTitle className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-slate-900">
+            <FlaskConical className="h-4 w-4 text-indigo-600" />
             Лабораторные тесты полотна (Quality Lab)
           </CardTitle>
-          <p className="text-[10px] text-slate-400 font-medium uppercase tracking-tight">Протоколы испытаний и соответствие ТЗ.</p>
+          <p className="text-[10px] font-medium uppercase tracking-tight text-slate-400">
+            Протоколы испытаний и соответствие ТЗ.
+          </p>
         </div>
         <div className="flex gap-2">
-           <Button variant="ghost" size="icon" className="h-7 w-7 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-white shadow-sm border border-slate-100"><Download className="h-3.5 w-3.5" /></Button>
-           <Button variant="ghost" size="icon" className="h-7 w-7 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-white shadow-sm border border-slate-100"><FileSearch className="h-3.5 w-3.5" /></Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7 rounded-lg border border-slate-100 text-slate-400 shadow-sm hover:bg-white hover:text-indigo-600"
+          >
+            <Download className="h-3.5 w-3.5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7 rounded-lg border border-slate-100 text-slate-400 shadow-sm hover:bg-white hover:text-indigo-600"
+          >
+            <FileSearch className="h-3.5 w-3.5" />
+          </Button>
         </div>
       </CardHeader>
-      
-      <CardContent className="p-4 space-y-4">
+
+      <CardContent className="space-y-4 p-4">
         <div className="grid grid-cols-2 gap-3">
           {TESTS.map((test, i) => (
-            <div key={i} className={cn(
-              "p-3 rounded-xl border flex flex-col justify-between transition-all",
-              test.status === 'pass' ? "bg-slate-50 border-slate-100 hover:border-emerald-200" : "bg-amber-50 border-amber-100 hover:border-amber-200"
-            )}>
-               <div className="flex justify-between items-start mb-2">
-                 <div className={cn("p-1.5 rounded-lg", test.status === 'pass' ? "bg-emerald-50 text-emerald-600" : "bg-amber-100 text-amber-600")}>
-                    <test.icon className="h-3 w-3" />
-                 </div>
-                 {test.status === 'pass' ? <CheckCircle2 className="h-3 w-3 text-emerald-500" /> : <AlertCircle className="h-3 w-3 text-amber-500" />}
-               </div>
-               <div className="space-y-0.5">
-                 <p className="text-[9px] font-black uppercase text-slate-400 tracking-widest leading-none">{test.label}</p>
-                 <p className="text-xs font-black text-slate-900 tabular-nums">{test.value}</p>
-               </div>
+            <div
+              key={i}
+              className={cn(
+                'flex flex-col justify-between rounded-xl border p-3 transition-all',
+                test.status === 'pass'
+                  ? 'border-slate-100 bg-slate-50 hover:border-emerald-200'
+                  : 'border-amber-100 bg-amber-50 hover:border-amber-200'
+              )}
+            >
+              <div className="mb-2 flex items-start justify-between">
+                <div
+                  className={cn(
+                    'rounded-lg p-1.5',
+                    test.status === 'pass'
+                      ? 'bg-emerald-50 text-emerald-600'
+                      : 'bg-amber-100 text-amber-600'
+                  )}
+                >
+                  <test.icon className="h-3 w-3" />
+                </div>
+                {test.status === 'pass' ? (
+                  <CheckCircle2 className="h-3 w-3 text-emerald-500" />
+                ) : (
+                  <AlertCircle className="h-3 w-3 text-amber-500" />
+                )}
+              </div>
+              <div className="space-y-0.5">
+                <p className="text-[9px] font-black uppercase leading-none tracking-widest text-slate-400">
+                  {test.label}
+                </p>
+                <p className="text-xs font-black tabular-nums text-slate-900">{test.value}</p>
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="p-3 bg-slate-900 text-white rounded-xl space-y-2 relative overflow-hidden group/dark shadow-lg shadow-slate-200/50">
-           <div className="relative z-10 flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-indigo-400">
-              <Zap className="h-3 w-3 fill-indigo-400 animate-pulse" /> AI Lab Assistant
-           </div>
-           <p className="text-[9px] leading-relaxed text-slate-300 font-bold uppercase tracking-tight relative z-10">
-             Усадка в -1.5% выше стандартной нормы. Рекомендуется декатировка паром при 120°C перед раскроем.
-           </p>
-           <Button variant="ghost" className="w-full h-7 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-lg text-[8px] font-black uppercase tracking-[0.2em] transition-all shadow-md">
-             Печать ТЗ для цеха
-           </Button>
+        <div className="group/dark relative space-y-2 overflow-hidden rounded-xl bg-slate-900 p-3 text-white shadow-lg shadow-slate-200/50">
+          <div className="relative z-10 flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-indigo-400">
+            <Zap className="h-3 w-3 animate-pulse fill-indigo-400" /> AI Lab Assistant
+          </div>
+          <p className="relative z-10 text-[9px] font-bold uppercase leading-relaxed tracking-tight text-slate-300">
+            Усадка в -1.5% выше стандартной нормы. Рекомендуется декатировка паром при 120°C перед
+            раскроем.
+          </p>
+          <Button
+            variant="ghost"
+            className="h-7 w-full rounded-lg border border-white/20 bg-white/10 text-[8px] font-black uppercase tracking-[0.2em] text-white shadow-md transition-all hover:bg-white/20"
+          >
+            Печать ТЗ для цеха
+          </Button>
         </div>
 
-        <div className="flex items-center gap-2 text-[8px] font-bold text-slate-400 uppercase tracking-widest justify-center">
-           <ShieldCheck className="h-3 w-3 text-indigo-500" /> Лаборатория: SGS / Intertek (РФ)
+        <div className="flex items-center justify-center gap-2 text-[8px] font-bold uppercase tracking-widest text-slate-400">
+          <ShieldCheck className="h-3 w-3 text-indigo-500" /> Лаборатория: SGS / Intertek (РФ)
         </div>
       </CardContent>
     </Card>

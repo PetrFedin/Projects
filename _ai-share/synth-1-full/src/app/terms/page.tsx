@@ -1,9 +1,8 @@
-
 export default function TermsPage() {
   return (
     <div className="container mx-auto px-4 py-4 text-center">
-      <h1 className="text-sm font-bold font-headline">Условия использования</h1>
-      <p className="mt-4 text-sm text-muted-foreground max-w-2xl mx-auto">
+      <h1 className="font-headline text-sm font-bold">Условия использования</h1>
+      <p className="mx-auto mt-4 max-w-2xl text-sm text-muted-foreground">
         Правила и условия использования платформы Syntha.
       </p>
     </div>

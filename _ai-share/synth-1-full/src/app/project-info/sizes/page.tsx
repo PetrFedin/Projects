@@ -2,7 +2,14 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -37,7 +44,10 @@ import {
 } from '@/lib/apparel-bags-accessories-coverage';
 import { menFootwearCoverageRows, womenFootwearCoverageRows } from '@/lib/footwear-size-coverage';
 import { buildKidsHandbookCoverageRows } from '@/lib/kids-handbook-coverage';
-import { loadCatalogAudienceFlagMap, type CatalogAudienceFlags } from '@/lib/project-info/category-catalog-audience-flags';
+import {
+  loadCatalogAudienceFlagMap,
+  type CatalogAudienceFlags,
+} from '@/lib/project-info/category-catalog-audience-flags';
 import { sizeChartBagsHeaderOverlay, sizeChartHeaderDescriptions } from '@/lib/size-chart-headers';
 import {
   kidsAccessoryChartBlocks,
@@ -103,8 +113,12 @@ function SizeChartTable({
   if (loading) {
     return (
       <Card>
-        <CardHeader><CardTitle>{title}</CardTitle></CardHeader>
-        <CardContent><Skeleton className="h-40 w-full" /></CardContent>
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Skeleton className="h-40 w-full" />
+        </CardContent>
       </Card>
     );
   }
@@ -187,7 +201,9 @@ function ProductionParamsTable({
                 <TableHead key={s.id} className={colHead}>
                   <TooltipProvider>
                     <Tooltip>
-                      <TooltipTrigger className="text-left">{s.label} ({s.id})</TooltipTrigger>
+                      <TooltipTrigger className="text-left">
+                        {s.label} ({s.id})
+                      </TooltipTrigger>
                       <TooltipContent>
                         <p>Размерная шкала {s.label}</p>
                       </TooltipContent>
@@ -229,8 +245,7 @@ const accessoryCategories = [
   { title: 'Зонты', data: sizeChartDataUmbrellas },
 ];
 
-const getCat = (id: string) =>
-  PRODUCTION_PARAMS_BY_CATEGORY.find((c) => c.catL1Id === id)!;
+const getCat = (id: string) => PRODUCTION_PARAMS_BY_CATEGORY.find((c) => c.catL1Id === id)!;
 
 function CategoryMetadataCard({ catId }: { catId: string }) {
   const p = PRODUCTION_PARAMS_BY_CATEGORY.find((c) => c.catL1Id === catId);
@@ -307,7 +322,8 @@ function LifestyleSizesSection() {
   return (
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground">
-        Взрослая и универсальная линия по справочнику «Дом и стиль жизни» и «Красота и уход». Раздел «Детские» — только одежда, обувь, сумки и аксессуары.
+        Взрослая и универсальная линия по справочнику «Дом и стиль жизни» и «Красота и уход». Раздел
+        «Детские» — только одежда, обувь, сумки и аксессуары.
       </p>
       <Tabs defaultValue="home" className="space-y-6">
         <TabsList className="h-auto flex-wrap">
@@ -315,9 +331,15 @@ function LifestyleSizesSection() {
           <TabsTrigger value="beauty">Красота и уход</TabsTrigger>
         </TabsList>
         <TabsContent value="home" className="space-y-6">
-          <SizeChartTable data={sizeChartDataHomeTextileAdult} title="Текстиль дома — типовые габариты (см)" />
+          <SizeChartTable
+            data={sizeChartDataHomeTextileAdult}
+            title="Текстиль дома — типовые габариты (см)"
+          />
           <SizeChartTable data={sizeChartDataHomeDecor} title="Декор и хранение" />
-          <SizeChartTable data={sizeChartDataHomePets} title="Питомцы — одежда, лежанки, переноски, поводки" />
+          <SizeChartTable
+            data={sizeChartDataHomePets}
+            title="Питомцы — одежда, лежанки, переноски, поводки"
+          />
           <SizeChartTable data={sizeChartDataHomeGadgets} title="Lifestyle-гаджеты" />
           <ProductionParamsTable
             label="Дом и стиль жизни — размерные шкалы"
@@ -325,7 +347,10 @@ function LifestyleSizesSection() {
             wide
           />
           <CategoryMetadataCard catId="home-lifestyle" />
-          <RfTzChecklistCard title="Чеклист ТЗ для РФ: дом и текстиль" bullets={rfTzHomeLifestyleBullets} />
+          <RfTzChecklistCard
+            title="Чеклист ТЗ для РФ: дом и текстиль"
+            bullets={rfTzHomeLifestyleBullets}
+          />
         </TabsContent>
         <TabsContent value="beauty" className="space-y-6">
           <SizeChartTable data={sizeChartDataBeautyPerfume} title="Парфюмерия" />
@@ -337,7 +362,10 @@ function LifestyleSizesSection() {
             wide
           />
           <CategoryMetadataCard catId="beauty-care" />
-          <RfTzChecklistCard title="Чеклист ТЗ для РФ: косметика и уход" bullets={rfTzBeautyCareBullets} />
+          <RfTzChecklistCard
+            title="Чеклист ТЗ для РФ: косметика и уход"
+            bullets={rfTzBeautyCareBullets}
+          />
         </TabsContent>
       </Tabs>
     </div>
@@ -374,12 +402,21 @@ const catalogCoverageHeaderOverlay: Record<string, { title: string; tooltip: str
   catalogGroup: { title: 'Группы каталога', tooltip: 'Разделы L1 › L2 (и др. примечания)' },
   catalogLeaves: { title: 'Листы / подтипы', tooltip: 'L3 и примеры номенклатуры' },
   sizeTableTitle: { title: 'Таблица ниже', tooltip: 'Заголовок числового блока на странице' },
-  fetchKey: { title: 'Ключ данных', tooltip: 'Файл /data/size-chart-*.json, TS-модуль или id Цеха' },
+  fetchKey: {
+    title: 'Ключ данных',
+    tooltip: 'Файл /data/size-chart-*.json, TS-модуль или id Цеха',
+  },
   notes: { title: 'Примечания', tooltip: 'Источник сетки и уточнения к ТЗ' },
 };
 
 function catalogCoverageAsRows(
-  rows: { catalogGroup: string; catalogLeaves: string; sizeTableTitle: string; fetchKey: string; notes: string }[],
+  rows: {
+    catalogGroup: string;
+    catalogLeaves: string;
+    sizeTableTitle: string;
+    fetchKey: string;
+    notes: string;
+  }[]
 ): Record<string, string>[] {
   return rows.map((r) => ({
     catalogGroup: r.catalogGroup,
@@ -420,7 +457,6 @@ function KidsClothingStacked({
   summaryData: Record<string, string>[];
   coverageRows: Record<string, string>[];
 }) {
-
   if (audience === 'newborn') {
     return (
       <div className="space-y-6">
@@ -455,11 +491,26 @@ function KidsClothingStacked({
           headerOverlay={catalogCoverageHeaderOverlay}
         />
         <SizeChartTable data={summaryData} title={apparelTitle} />
-        <SizeChartTable data={asSizeRows(sizeChartDataKidsOuterwearBoys)} title="Верхняя одежда (мальчики)" />
-        <SizeChartTable data={asSizeRows(sizeChartDataKidsSuitsBoys)} title="Костюмы и жакеты (мальчики)" />
-        <SizeChartTable data={asSizeRows(sizeChartDataKidsShirtsTopsBoys)} title="Рубашки, поло, футболки (мальчики)" />
-        <SizeChartTable data={asSizeRows(sizeChartDataKidsBottomsBoys)} title="Брюки, джинсы, шорты (мальчики)" />
-        <SizeChartTable data={asSizeRows(sizeChartDataKidsKnitSportBoys)} title="Трикотаж и спорт (мальчики)" />
+        <SizeChartTable
+          data={asSizeRows(sizeChartDataKidsOuterwearBoys)}
+          title="Верхняя одежда (мальчики)"
+        />
+        <SizeChartTable
+          data={asSizeRows(sizeChartDataKidsSuitsBoys)}
+          title="Костюмы и жакеты (мальчики)"
+        />
+        <SizeChartTable
+          data={asSizeRows(sizeChartDataKidsShirtsTopsBoys)}
+          title="Рубашки, поло, футболки (мальчики)"
+        />
+        <SizeChartTable
+          data={asSizeRows(sizeChartDataKidsBottomsBoys)}
+          title="Брюки, джинсы, шорты (мальчики)"
+        />
+        <SizeChartTable
+          data={asSizeRows(sizeChartDataKidsKnitSportBoys)}
+          title="Трикотаж и спорт (мальчики)"
+        />
         <SizeChartTable
           data={asSizeRows(sizeChartDataKidsUnderwearPajamasBeachBoys)}
           title="Нижнее бельё, пижамы, пляж (мальчики)"
@@ -476,13 +527,31 @@ function KidsClothingStacked({
         headerOverlay={catalogCoverageHeaderOverlay}
       />
       <SizeChartTable data={summaryData} title={apparelTitle} />
-      <SizeChartTable data={asSizeRows(sizeChartDataKidsOuterwearGirls)} title="Верхняя одежда (девочки)" />
-      <SizeChartTable data={asSizeRows(sizeChartDataKidsSuitsGirls)} title="Костюмы и жакеты (девочки)" />
-      <SizeChartTable data={asSizeRows(sizeChartDataKidsDressesGirls)} title="Платья и сарафаны (девочки)" />
+      <SizeChartTable
+        data={asSizeRows(sizeChartDataKidsOuterwearGirls)}
+        title="Верхняя одежда (девочки)"
+      />
+      <SizeChartTable
+        data={asSizeRows(sizeChartDataKidsSuitsGirls)}
+        title="Костюмы и жакеты (девочки)"
+      />
+      <SizeChartTable
+        data={asSizeRows(sizeChartDataKidsDressesGirls)}
+        title="Платья и сарафаны (девочки)"
+      />
       <SizeChartTable data={asSizeRows(sizeChartDataKidsSkirtsGirls)} title="Юбки (девочки)" />
-      <SizeChartTable data={asSizeRows(sizeChartDataKidsShirtsTopsGirls)} title="Рубашки, поло, футболки (девочки)" />
-      <SizeChartTable data={asSizeRows(sizeChartDataKidsBottomsGirls)} title="Брюки, джинсы, шорты (девочки)" />
-      <SizeChartTable data={asSizeRows(sizeChartDataKidsKnitSportGirls)} title="Трикотаж и спорт (девочки)" />
+      <SizeChartTable
+        data={asSizeRows(sizeChartDataKidsShirtsTopsGirls)}
+        title="Рубашки, поло, футболки (девочки)"
+      />
+      <SizeChartTable
+        data={asSizeRows(sizeChartDataKidsBottomsGirls)}
+        title="Брюки, джинсы, шорты (девочки)"
+      />
+      <SizeChartTable
+        data={asSizeRows(sizeChartDataKidsKnitSportGirls)}
+        title="Трикотаж и спорт (девочки)"
+      />
       <SizeChartTable
         data={asSizeRows(sizeChartDataKidsUnderwearPajamasBeachGirls)}
         title="Нижнее бельё, пижамы, пляж (девочки)"
@@ -502,19 +571,19 @@ function KidsInnerTabs({
   const hbAudience = audience;
   const clothingCov = useMemo(
     () => catalogCoverageAsRows(buildKidsHandbookCoverageRows(hbAudience, 'clothing', flagMap)),
-    [hbAudience, flagMap],
+    [hbAudience, flagMap]
   );
   const shoesCov = useMemo(
     () => catalogCoverageAsRows(buildKidsHandbookCoverageRows(hbAudience, 'shoes', flagMap)),
-    [hbAudience, flagMap],
+    [hbAudience, flagMap]
   );
   const bagsCov = useMemo(
     () => catalogCoverageAsRows(buildKidsHandbookCoverageRows(hbAudience, 'bags', flagMap)),
-    [hbAudience, flagMap],
+    [hbAudience, flagMap]
   );
   const accCov = useMemo(
     () => catalogCoverageAsRows(buildKidsHandbookCoverageRows(hbAudience, 'accessories', flagMap)),
-    [hbAudience, flagMap],
+    [hbAudience, flagMap]
   );
 
   const apparelTitle =
@@ -558,7 +627,8 @@ function KidsInnerTabs({
         />
         {!isNb ? (
           <p className="text-xs text-muted-foreground">
-            Обувь, сумки, головные уборы и прочие аксессуары — одна сетка на мальчиков и девочек (отличается только одежда по бёдрам и нижним меркам).
+            Обувь, сумки, головные уборы и прочие аксессуары — одна сетка на мальчиков и девочек
+            (отличается только одежда по бёдрам и нижним меркам).
           </p>
         ) : null}
       </TabsContent>
@@ -643,7 +713,9 @@ function KidsInnerTabs({
         {isNb ? (
           <>
             <SizeChartTable
-              data={asSizeRows(sizeChartDataNewbornHeadwear as unknown as Record<string, unknown>[])}
+              data={asSizeRows(
+                sizeChartDataNewbornHeadwear as unknown as Record<string, unknown>[]
+              )}
               title="Шапочки (новорождённые) — ориентир обхвата головы"
             />
             <SizeChartTable
@@ -651,7 +723,8 @@ function KidsInnerTabs({
               title="Аксессуары для новорождённых — габариты и параметры (newborn-accessories)"
             />
             <p className="text-xs text-muted-foreground">
-              Универсальные «детские» шапки/перчатки ниже — с XS (≈9–12 м); для 0–9 м ориентируйтесь на таблицу обхвата выше.
+              Универсальные «детские» шапки/перчатки ниже — с XS (≈9–12 м); для 0–9 м ориентируйтесь
+              на таблицу обхвата выше.
             </p>
           </>
         ) : null}
@@ -662,7 +735,9 @@ function KidsInnerTabs({
 
 function KidsSizesSection() {
   const [audience, setAudience] = useState<KidsAudience>('boys');
-  const [flagMap, setFlagMap] = useState<Record<string, CatalogAudienceFlags>>(loadCatalogAudienceFlagMap);
+  const [flagMap, setFlagMap] = useState<Record<string, CatalogAudienceFlags>>(
+    loadCatalogAudienceFlagMap
+  );
   useEffect(() => {
     setFlagMap(loadCatalogAudienceFlagMap());
   }, []);
@@ -696,8 +771,33 @@ function KidsSizesSection() {
   );
 }
 
-const womenClothingKeys = ['outerwear', 'suits', 'dresses', 'skirts', 'shirts', 'tops', 'jeans', 'trousers', 'knitwear', 'lingerie', 'sportswear', 'beachwear', 'maternity', 'adaptive'];
-const menClothingKeys = ['outerwear', 'suits', 'shirts', 'tops', 'jeans', 'trousers', 'knitwear', 'lingerie', 'sportswear'];
+const womenClothingKeys = [
+  'outerwear',
+  'suits',
+  'dresses',
+  'skirts',
+  'shirts',
+  'tops',
+  'jeans',
+  'trousers',
+  'knitwear',
+  'lingerie',
+  'sportswear',
+  'beachwear',
+  'maternity',
+  'adaptive',
+];
+const menClothingKeys = [
+  'outerwear',
+  'suits',
+  'shirts',
+  'tops',
+  'jeans',
+  'trousers',
+  'knitwear',
+  'lingerie',
+  'sportswear',
+];
 const womenShoesKeys = ['shoes', 'boots', 'flats', 'sandals', 'sneakers', 'homeshoes'];
 const menShoesKeys = ['sneakers', 'boots', 'shoes', 'sandals', 'homeshoes'];
 
@@ -788,14 +888,16 @@ export default function SizesPage() {
   const [loading, setLoading] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    const keys = [...new Set([
-      ...womenClothingKeys,
-      ...menClothingKeys,
-      ...womenShoesKeys,
-      ...menShoesKeys,
-      'bags',
-      ...menSplitChartStateKeys,
-    ])];
+    const keys = [
+      ...new Set([
+        ...womenClothingKeys,
+        ...menClothingKeys,
+        ...womenShoesKeys,
+        ...menShoesKeys,
+        'bags',
+        ...menSplitChartStateKeys,
+      ]),
+    ];
     const fetchChart = async (key: string) => {
       setLoading((prev) => ({ ...prev, [key]: true }));
       try {
@@ -822,7 +924,9 @@ export default function SizesPage() {
     return (
       <div className="space-y-6">
         <SizeChartTable
-          data={catalogCoverageAsRows(gender === 'women' ? womenApparelCoverageRows : menApparelCoverageRows)}
+          data={catalogCoverageAsRows(
+            gender === 'women' ? womenApparelCoverageRows : menApparelCoverageRows
+          )}
           title={
             gender === 'women'
               ? 'Сводка: группы каталога одежды → числовые таблицы (женские)'
@@ -833,13 +937,7 @@ export default function SizesPage() {
         {keys.map((key) => {
           if (key === 'shirts') {
             const shirtData = gender === 'men' ? sizeChartDataShirtsMen : sizeChartDataShirtsWomen;
-            return (
-              <SizeChartTable
-                key={key}
-                data={shirtData}
-                title={titles[key]}
-              />
-            );
+            return <SizeChartTable key={key} data={shirtData} title={titles[key]} />;
           }
           const menChartDataKey: Partial<Record<string, string>> = {
             outerwear: 'outerwearMen',
@@ -850,23 +948,14 @@ export default function SizesPage() {
             knitwear: 'knitwearMen',
             sportswear: 'sportswearMen',
           };
-          const chartKey = gender === 'men' ? menChartDataKey[key] ?? key : key;
+          const chartKey = gender === 'men' ? (menChartDataKey[key] ?? key) : key;
           const data = chartData[chartKey];
           const isLoading = loading[chartKey];
           if (isLoading) {
-            return (
-              <SizeChartTable
-                key={key}
-                data={[]}
-                title={titles[key]}
-                loading
-              />
-            );
+            return <SizeChartTable key={key} data={[]} title={titles[key]} loading />;
           }
           if (data && data.length > 0) {
-            return (
-              <SizeChartTable key={key} data={data} title={titles[key]} />
-            );
+            return <SizeChartTable key={key} data={data} title={titles[key]} />;
           }
           return (
             <ProductionParamsTable
@@ -888,7 +977,9 @@ export default function SizesPage() {
     return (
       <div className="space-y-6">
         <SizeChartTable
-          data={catalogCoverageAsRows(gender === 'women' ? womenFootwearCoverageRows : menFootwearCoverageRows)}
+          data={catalogCoverageAsRows(
+            gender === 'women' ? womenFootwearCoverageRows : menFootwearCoverageRows
+          )}
           title={
             gender === 'women'
               ? 'Сводка: группы каталога обуви → числовые таблицы (женские)'
@@ -900,12 +991,7 @@ export default function SizesPage() {
           const data = chartData[key];
           if (data && data.length > 0) {
             return (
-              <SizeChartTable
-                key={key}
-                data={data}
-                title={titles[key]}
-                loading={loading[key]}
-              />
+              <SizeChartTable key={key} data={data} title={titles[key]} loading={loading[key]} />
             );
           }
           return (
@@ -923,9 +1009,11 @@ export default function SizesPage() {
   return (
     <div className="container mx-auto px-4 py-4">
       <header className="mb-8">
-        <h1 className="text-sm md:text-base font-headline font-bold">Размерные сетки</h1>
+        <h1 className="font-headline text-sm font-bold md:text-base">Размерные сетки</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Полные таблицы размерных сеток по гендеру и категориям. Вкладки «Женские» и «Мужские» — по колонкам аудитории <strong>Ж</strong> и <strong>М</strong> справочника категорий; «Детские» — сегментам <strong>Мл</strong>, <strong>Дв</strong>, <strong>Нв</strong>.
+          Полные таблицы размерных сеток по гендеру и категориям. Вкладки «Женские» и «Мужские» — по
+          колонкам аудитории <strong>Ж</strong> и <strong>М</strong> справочника категорий;
+          «Детские» — сегментам <strong>Мл</strong>, <strong>Дв</strong>, <strong>Нв</strong>.
         </p>
       </header>
 
@@ -941,10 +1029,22 @@ export default function SizesPage() {
         <TabsContent value="women" className="space-y-6">
           <Tabs defaultValue="clothing" className="space-y-6">
             <TabsList className="h-auto flex-wrap">
-              <TabsTrigger value="clothing"><Shirt className="mr-2 h-4 w-4" />Одежда</TabsTrigger>
-              <TabsTrigger value="shoes"><Footprints className="mr-2 h-4 w-4" />Обувь</TabsTrigger>
-              <TabsTrigger value="bags"><ShoppingBag className="mr-2 h-4 w-4" />Сумки</TabsTrigger>
-              <TabsTrigger value="accessories"><LandPlot className="mr-2 h-4 w-4" />Аксессуары</TabsTrigger>
+              <TabsTrigger value="clothing">
+                <Shirt className="mr-2 h-4 w-4" />
+                Одежда
+              </TabsTrigger>
+              <TabsTrigger value="shoes">
+                <Footprints className="mr-2 h-4 w-4" />
+                Обувь
+              </TabsTrigger>
+              <TabsTrigger value="bags">
+                <ShoppingBag className="mr-2 h-4 w-4" />
+                Сумки
+              </TabsTrigger>
+              <TabsTrigger value="accessories">
+                <LandPlot className="mr-2 h-4 w-4" />
+                Аксессуары
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="clothing" className="space-y-6">
               {renderClothingSection('women')}
@@ -974,7 +1074,8 @@ export default function SizesPage() {
             </TabsContent>
             <TabsContent value="accessories" className="space-y-6">
               <p className="text-xs text-muted-foreground">
-                Базовые таблицы ниже совпадают с мужской вкладкой; женские головные уборы, мех и сводная по Alpha — отдельными блоками, затем шкалы Цеха.
+                Базовые таблицы ниже совпадают с мужской вкладкой; женские головные уборы, мех и
+                сводная по Alpha — отдельными блоками, затем шкалы Цеха.
               </p>
               <SizeChartTable
                 data={catalogCoverageAsRows(womenAccessoriesCoverageRows)}
@@ -995,11 +1096,16 @@ export default function SizesPage() {
                 headerOverlay={headwearChartHeaderOverlay}
               />
               <SizeChartTable
-                data={asSizeRows(sizeChartDataHeadwearWomenStyleGuide as unknown as Record<string, unknown>[])}
+                data={asSizeRows(
+                  sizeChartDataHeadwearWomenStyleGuide as unknown as Record<string, unknown>[]
+                )}
                 title="Головные уборы (женские) — фасоны: доп. габариты к таблице размеров"
                 headerOverlay={headwearChartHeaderOverlay}
               />
-              <SizeChartTable data={asSizeRows(sizeChartDataFurWomen)} title="Меховые изделия (женские) — типовые мерки, см" />
+              <SizeChartTable
+                data={asSizeRows(sizeChartDataFurWomen)}
+                title="Меховые изделия (женские) — типовые мерки, см"
+              />
               <ProductionParamsTable
                 label="Женские головные уборы"
                 sizeScales={getCat('women-headwear').sizeScales}
@@ -1023,10 +1129,22 @@ export default function SizesPage() {
         <TabsContent value="men" className="space-y-6">
           <Tabs defaultValue="clothing" className="space-y-6">
             <TabsList className="h-auto flex-wrap">
-              <TabsTrigger value="clothing"><Shirt className="mr-2 h-4 w-4" />Одежда</TabsTrigger>
-              <TabsTrigger value="shoes"><Footprints className="mr-2 h-4 w-4" />Обувь</TabsTrigger>
-              <TabsTrigger value="bags"><ShoppingBag className="mr-2 h-4 w-4" />Сумки</TabsTrigger>
-              <TabsTrigger value="accessories"><LandPlot className="mr-2 h-4 w-4" />Аксессуары</TabsTrigger>
+              <TabsTrigger value="clothing">
+                <Shirt className="mr-2 h-4 w-4" />
+                Одежда
+              </TabsTrigger>
+              <TabsTrigger value="shoes">
+                <Footprints className="mr-2 h-4 w-4" />
+                Обувь
+              </TabsTrigger>
+              <TabsTrigger value="bags">
+                <ShoppingBag className="mr-2 h-4 w-4" />
+                Сумки
+              </TabsTrigger>
+              <TabsTrigger value="accessories">
+                <LandPlot className="mr-2 h-4 w-4" />
+                Аксессуары
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="clothing" className="space-y-6">
               {renderClothingSection('men')}
@@ -1056,7 +1174,8 @@ export default function SizesPage() {
             </TabsContent>
             <TabsContent value="accessories" className="space-y-6">
               <p className="text-xs text-muted-foreground">
-                Базовые таблицы совпадают с женской вкладкой; мужские шапки, мех и сводная Alpha — ниже, затем шкалы Цеха.
+                Базовые таблицы совпадают с женской вкладкой; мужские шапки, мех и сводная Alpha —
+                ниже, затем шкалы Цеха.
               </p>
               <SizeChartTable
                 data={catalogCoverageAsRows(menAccessoriesCoverageRows)}
@@ -1076,7 +1195,10 @@ export default function SizesPage() {
                 title="Головные уборы (мужские) — габариты по размеру"
                 headerOverlay={headwearChartHeaderOverlay}
               />
-              <SizeChartTable data={asSizeRows(sizeChartDataFurMen)} title="Меховые изделия (мужские) — типовые мерки, см" />
+              <SizeChartTable
+                data={asSizeRows(sizeChartDataFurMen)}
+                title="Меховые изделия (мужские) — типовые мерки, см"
+              />
               <ProductionParamsTable
                 label="Мужские головные уборы"
                 sizeScales={getCat('men-headwear').sizeScales}

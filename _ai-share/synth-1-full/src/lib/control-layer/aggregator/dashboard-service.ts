@@ -8,7 +8,7 @@ export interface DashboardMetrics {
   criticalBlockers: number;
   avgReadiness: number;
   pendingActions: number;
-  
+
   // [Phase 5] AI Automation & Financial Metrics
   aiResolvedBlockers: number;
   moneySavedByAi: number; // В валюте (USD)
@@ -18,7 +18,7 @@ export interface DashboardMetrics {
 /**
  * [Phase 3 — Real-time Control Dashboard Logic]
  * [Phase 5 — Hyper-Connected Ecosystem Metrics]
- * Агрегация метрик здоровья системы для дашборда бренда и партнера, 
+ * Агрегация метрик здоровья системы для дашборда бренда и партнера,
  * включая финансовую эффективность AI.
  */
 export class ControlDashboardService {
@@ -27,7 +27,7 @@ export class ControlDashboardService {
    */
   public static getGlobalMetrics(): DashboardMetrics {
     const allLatest = Array.from(controlStorage.getHistory('all')); // В реальной БД был бы запрос
-    
+
     // Имитация данных из хранилища для примера
     const metrics: DashboardMetrics = {
       totalEntities: 1250,
@@ -36,11 +36,11 @@ export class ControlDashboardService {
       criticalBlockers: 15,
       avgReadiness: 92.5,
       pendingActions: 45,
-      
+
       // [Phase 5] Имитация накопленных метрик от AutoResolutionService и SmartSwap
       aiResolvedBlockers: 342, // Количество блокеров, решенных без участия человека
       moneySavedByAi: 12500, // Сэкономлено на ручном труде (например, $35 за инцидент)
-      smartSwapProfit: 45800 // Дополнительная прибыль от вовремя переброшенного стока
+      smartSwapProfit: 45800, // Дополнительная прибыль от вовремя переброшенного стока
     };
 
     // В реальном приложении здесь был бы перебор по всем entityId

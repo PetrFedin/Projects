@@ -6,25 +6,25 @@ export interface LandedCostBreakdown {
   id: string;
   productId: string;
   currency: string;
-  
+
   // Production Costs
   fabricCost: number;
   cmtCost: number; // Cut, Make, Trim
   trimsCost: number;
   packagingCost: number;
-  
+
   // Logistics & Duties
   freightCost: number;
   dutyRate: number; // %
   calculatedDuty: number;
   insuranceCost: number;
   markingCost: number; // Честный ЗНАК etc.
-  
+
   // Operations
   overheadRate: number; // %
   calculatedOverhead: number;
   amortizationCost: number;
-  
+
   totalLandedCost: number;
   targetRetailPrice: number;
   targetMargin: number; // %

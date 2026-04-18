@@ -20,7 +20,10 @@ export class PredictiveRiskEngine {
   /**
    * Анализирует вероятность задержки или брака для конкретного обязательства.
    */
-  public static predict(commitment: ProductionCommitment, partner: ExecutionPartner): RiskPrediction {
+  public static predict(
+    commitment: ProductionCommitment,
+    partner: ExecutionPartner
+  ): RiskPrediction {
     const factors: string[] = [];
     let riskScore = 0; // 0-100
     let suggestedBuffer = 0;
@@ -58,7 +61,7 @@ export class PredictiveRiskEngine {
       predicted_risk,
       confidence: 0.85, // Имитация уверенности модели
       factors,
-      suggested_buffer_days: suggestedBuffer
+      suggested_buffer_days: suggestedBuffer,
     };
 
     // [Phase 3] Control-to-Interaction Loop: Авто-создание чата при высоком риске
@@ -71,8 +74,8 @@ export class PredictiveRiskEngine {
         payload: {
           riskLevel: predicted_risk,
           factors,
-          autoCreateInteraction: true
-        }
+          autoCreateInteraction: true,
+        },
       });
     }
 
@@ -82,13 +85,16 @@ export class PredictiveRiskEngine {
   /**
    * Обогащает ControlOutput прогностическими данными.
    */
-  public static augmentWithPredictions(output: ControlOutput, prediction: RiskPrediction): ControlOutput {
+  public static augmentWithPredictions(
+    output: ControlOutput,
+    prediction: RiskPrediction
+  ): ControlOutput {
     if (prediction.predicted_risk === 'high' && output.status !== 'at_risk') {
       output.status = 'at_risk';
-      output.risks?.push({ 
-        code: 'PREDICTIVE_RISK_ALERT' as any, 
+      output.risks?.push({
+        code: 'PREDICTIVE_RISK_ALERT' as any,
         message: `Predictive risk alert: ${prediction.factors.join(', ')}`,
-        severity: 'high'
+        severity: 'high',
       });
     }
     return output;

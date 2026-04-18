@@ -38,7 +38,10 @@ export function touchW2DossierSessionOpenedAt(collectionId: string, articleId: s
   }
 }
 
-export function getW2DossierSessionOpenedAtMs(collectionId: string, articleId: string): number | null {
+export function getW2DossierSessionOpenedAtMs(
+  collectionId: string,
+  articleId: string
+): number | null {
   if (typeof sessionStorage === 'undefined') return null;
   try {
     const raw = sessionStorage.getItem(SESS_OPEN_KEY);
@@ -59,7 +62,9 @@ function readPersistMap(): Record<string, PersistStat> {
     const raw = localStorage.getItem(PERSIST_KEY);
     if (!raw) return {};
     const p = JSON.parse(raw) as unknown;
-    return p && typeof p === 'object' && !Array.isArray(p) ? (p as Record<string, PersistStat>) : {};
+    return p && typeof p === 'object' && !Array.isArray(p)
+      ? (p as Record<string, PersistStat>)
+      : {};
   } catch {
     return {};
   }
@@ -82,7 +87,10 @@ export function recordW2DossierPersistSuccess(collectionId: string, articleId: s
   }
 }
 
-export function getW2DossierPersistStats(collectionId: string, articleId: string): PersistStat | null {
+export function getW2DossierPersistStats(
+  collectionId: string,
+  articleId: string
+): PersistStat | null {
   const map = readPersistMap();
   return map[articleKey(collectionId, articleId)] ?? null;
 }
@@ -129,13 +137,18 @@ function readContourMap(): Record<string, W2ContourMilestones> {
     const raw = localStorage.getItem(CONTOUR_KEY);
     if (!raw) return {};
     const p = JSON.parse(raw) as unknown;
-    return p && typeof p === 'object' && !Array.isArray(p) ? (p as Record<string, W2ContourMilestones>) : {};
+    return p && typeof p === 'object' && !Array.isArray(p)
+      ? (p as Record<string, W2ContourMilestones>)
+      : {};
   } catch {
     return {};
   }
 }
 
-export function getW2ContourMilestones(collectionId: string, articleId: string): W2ContourMilestones {
+export function getW2ContourMilestones(
+  collectionId: string,
+  articleId: string
+): W2ContourMilestones {
   return readContourMap()[articleKey(collectionId, articleId)] ?? {};
 }
 
@@ -190,7 +203,11 @@ export function maybeRecordW2TzSampleReady(
   return writeContourMilestones(k, { ...cur, tzSampleReadyAt: new Date().toISOString() });
 }
 
-function formatMilestoneDelta(openedMs: number | null, atIso: string | undefined, label: string): string | null {
+function formatMilestoneDelta(
+  openedMs: number | null,
+  atIso: string | undefined,
+  label: string
+): string | null {
   if (!openedMs || !atIso) return null;
   const at = Date.parse(atIso);
   if (!Number.isFinite(at)) return null;
@@ -218,7 +235,9 @@ export function formatW2DossierMetricsFooterLine(
     parts.push(`сохранений в браузер: ${persist.successCount}`);
     if (persist.lastSuccessAt) {
       try {
-        parts.push(`последн.: ${new Date(persist.lastSuccessAt).toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' })}`);
+        parts.push(
+          `последн.: ${new Date(persist.lastSuccessAt).toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' })}`
+        );
       } catch {
         parts.push('последн.: —');
       }

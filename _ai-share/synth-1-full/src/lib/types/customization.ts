@@ -1,12 +1,12 @@
-export type CustomOrderStatus = 
-  | 'draft' 
-  | 'configuration' 
-  | 'measurement' 
-  | 'payment_pending' 
-  | 'in_production' 
-  | 'quality_control' 
-  | 'ready_for_shipping' 
-  | 'shipped' 
+export type CustomOrderStatus =
+  | 'draft'
+  | 'configuration'
+  | 'measurement'
+  | 'payment_pending'
+  | 'in_production'
+  | 'quality_control'
+  | 'ready_for_shipping'
+  | 'shipped'
   | 'delivered';
 
 export interface CustomOption {

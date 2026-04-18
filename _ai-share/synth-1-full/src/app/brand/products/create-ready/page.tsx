@@ -14,7 +14,7 @@ import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 
 export default function CreateReadyProductPage() {
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="Создание карточки готового товара"
         description="Товар уже произведён — создайте карточку без привязки к производственному циклу. Детальное ведение: артикул, описание, фото, размеры, цены."
@@ -23,8 +23,10 @@ export default function CreateReadyProductPage() {
         iconColor="text-emerald-600"
         badges={
           <>
-            <Badge variant="outline" className="text-[9px]">Готовый товар</Badge>
-            <Button variant="outline" size="sm" className="text-[9px] h-7" asChild>
+            <Badge variant="outline" className="text-[9px]">
+              Готовый товар
+            </Badge>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href="/brand/products">PIM</Link>
             </Button>
           </>
@@ -42,7 +44,7 @@ export default function CreateReadyProductPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label>Артикул</Label>
               <Input placeholder="SS26-DRESS-01" />
@@ -58,7 +60,9 @@ export default function CreateReadyProductPage() {
           </div>
           <div className="flex gap-2">
             <Button>Создать карточку</Button>
-            <Button variant="outline" asChild><Link href="/brand/products">Отмена</Link></Button>
+            <Button variant="outline" asChild>
+              <Link href="/brand/products">Отмена</Link>
+            </Button>
           </div>
         </CardContent>
       </Card>

@@ -32,24 +32,22 @@ export function ProductCustomizationBlock({
   return (
     <Card className="border-amber-100 bg-amber-50/30">
       <CardHeader>
-        <CardTitle className="text-sm flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-sm">
           <ImagePlus className="h-4 w-4" />
           Product Customization
         </CardTitle>
-        <CardDescription>
-          RepSpark: логотипы, мокапы при оформлении заказа
-        </CardDescription>
+        <CardDescription>RepSpark: логотипы, мокапы при оформлении заказа</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {productName && (
-          <p className="text-xs text-slate-600 font-medium">{productName}</p>
-        )}
+        {productName && <p className="text-xs font-medium text-slate-600">{productName}</p>}
         {CUSTOMIZATION_OPTIONS.map((opt) => (
           <div key={opt.id} className="space-y-2">
             <div className="flex items-center justify-between">
               <Label className="text-sm">{opt.label}</Label>
               {opt.price != null && (
-                <Badge variant="secondary" className="text-[10px]">+{opt.price} ₽</Badge>
+                <Badge variant="secondary" className="text-[10px]">
+                  +{opt.price} ₽
+                </Badge>
               )}
             </div>
             {opt.requiresUpload ? (
@@ -64,7 +62,7 @@ export function ProductCustomizationBlock({
                   }}
                 />
                 {selected[opt.id] && (
-                  <span className="text-xs text-slate-500 self-center truncate max-w-[120px]">
+                  <span className="max-w-[120px] self-center truncate text-xs text-slate-500">
                     {selected[opt.id]?.name}
                   </span>
                 )}

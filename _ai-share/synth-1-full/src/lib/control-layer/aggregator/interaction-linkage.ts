@@ -42,7 +42,7 @@ export class InteractionLinkageService {
     const key = anchor.blocker_id || anchor.action_id || anchor.entity_ref.entity_id;
     const existing = this.anchors.get(key) || [];
     this.anchors.set(key, [...existing, anchor]);
-    
+
     console.log(`[InteractionLinkage] Linked ${anchor.interaction_type} to ${key}`);
   }
 
@@ -58,7 +58,7 @@ export class InteractionLinkageService {
    */
   public isUnderDiscussion(key: string): boolean {
     const anchors = this.anchors.get(key) || [];
-    return anchors.some(a => a.metadata.status === 'open');
+    return anchors.some((a) => a.metadata.status === 'open');
   }
 
   /**
@@ -67,7 +67,7 @@ export class InteractionLinkageService {
   private autoCreateChatForRisk(event: RiskAlertEvent) {
     const entityId = event.aggregateId;
     const riskLevel = event.payload.riskLevel;
-    
+
     // Проверяем, нет ли уже открытого чата по этому риску
     if (this.isUnderDiscussion(entityId)) {
       return;
@@ -79,17 +79,19 @@ export class InteractionLinkageService {
       blocker_id: `risk-${entityId}`,
       entity_ref: {
         entity_id: entityId,
-        entity_type: 'commitment'
+        entity_type: 'commitment',
       },
       metadata: {
         created_at: new Date().toISOString(),
         created_by: 'system',
-        status: 'open'
-      }
+        status: 'open',
+      },
     };
 
     this.linkInteraction(newChat);
-    console.log(`[InteractionLinkage] Auto-created chat ${newChat.interaction_id} for high risk on ${entityId}`);
+    console.log(
+      `[InteractionLinkage] Auto-created chat ${newChat.interaction_id} for high risk on ${entityId}`
+    );
   }
 }
 

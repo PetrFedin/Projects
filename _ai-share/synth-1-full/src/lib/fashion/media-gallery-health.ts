@@ -15,7 +15,9 @@ export function assessMediaGallery(product: Product): GalleryHealthResult {
   return { score, ok: issues.length === 0, issues };
 }
 
-export function galleryHealthToCsv(rows: { sku: string; slug: string; score: number; issues: string }[]): string {
+export function galleryHealthToCsv(
+  rows: { sku: string; slug: string; score: number; issues: string }[]
+): string {
   const h = ['sku', 'slug', 'gallery_score', 'issues'];
   const lines = [h.join(',')];
   for (const r of rows) {

@@ -34,7 +34,7 @@ export default function GanttProductionPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6 max-w-5xl pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <SectionInfoCard
         title="GANTT Production Scheduler"
         description="Клик по ячейке недели переключает загрузку линии. Сохранение — floor-tab: gantt."
@@ -44,10 +44,18 @@ export default function GanttProductionPage() {
         badges={<ProductionGanttDailyBadges />}
       />
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3 flex-wrap">
-          <Link href={ROUTES.brand.production}><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
+        <div className="flex flex-wrap items-center gap-3">
+          <Link href={ROUTES.brand.production}>
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          </Link>
           <h1 className="text-2xl font-bold uppercase">GANTT Production Scheduler</h1>
-          <Link href={ROUTES.brand.productionDailyOutput}><Button variant="outline" size="sm" className="gap-1"><ClipboardList className="h-4 w-4" /> Daily Output</Button></Link>
+          <Link href={ROUTES.brand.productionDailyOutput}>
+            <Button variant="outline" size="sm" className="gap-1">
+              <ClipboardList className="h-4 w-4" /> Daily Output
+            </Button>
+          </Link>
         </div>
         <Button
           size="sm"
@@ -74,9 +82,16 @@ export default function GanttProductionPage() {
             <table className="w-full border-collapse text-sm">
               <thead>
                 <tr className="border-b border-slate-200">
-                  <th className="text-left p-2 font-bold uppercase text-[10px] text-slate-500 w-32">Линия</th>
+                  <th className="w-32 p-2 text-left text-[10px] font-bold uppercase text-slate-500">
+                    Линия
+                  </th>
                   {weekLabels.map((w) => (
-                    <th key={w.key} className="p-2 text-center font-bold uppercase text-[10px] text-slate-500 min-w-[80px]">{w.label}</th>
+                    <th
+                      key={w.key}
+                      className="min-w-[80px] p-2 text-center text-[10px] font-bold uppercase text-slate-500"
+                    >
+                      {w.label}
+                    </th>
                   ))}
                 </tr>
               </thead>
@@ -84,8 +99,10 @@ export default function GanttProductionPage() {
                 {data.lines.map((line, lineIndex) => (
                   <tr key={line.lineId} className="border-b border-slate-100">
                     <td className="p-2">
-                      <p className="font-bold text-sm">{line.lineName}</p>
-                      <p className="text-[10px] text-slate-500">{line.orderIds.length ? line.orderIds.join(', ') : '—'}</p>
+                      <p className="text-sm font-bold">{line.lineName}</p>
+                      <p className="text-[10px] text-slate-500">
+                        {line.orderIds.length ? line.orderIds.join(', ') : '—'}
+                      </p>
                     </td>
                     {line.weeks.map((filled, wi) => (
                       <td key={wi} className="p-1">
@@ -94,7 +111,9 @@ export default function GanttProductionPage() {
                           onClick={() => toggleCell(lineIndex, wi)}
                           className={cn(
                             'h-8 w-full rounded-md transition-colors',
-                            filled ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-slate-100 hover:bg-slate-200'
+                            filled
+                              ? 'bg-indigo-500 hover:bg-indigo-600'
+                              : 'bg-slate-100 hover:bg-slate-200'
                           )}
                           aria-label={`Линия ${line.lineName}, неделя ${wi + 1}`}
                         />

@@ -7,7 +7,10 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
-import type { Workshop2PassportHubModel, WorkshopPassportTzPhase } from '@/lib/production/workshop2-passport-check';
+import type {
+  Workshop2PassportHubModel,
+  WorkshopPassportTzPhase,
+} from '@/lib/production/workshop2-passport-check';
 import type { Workshop2TzSignoffSectionKey } from '@/lib/production/workshop2-dossier-phase1.types';
 import {
   WORKSHOP2_DOSSIER_VIEW_HINTS,
@@ -146,16 +149,31 @@ export function Workshop2PassportHubPanel({
     ].filter(Boolean) as string[];
     try {
       await navigator.clipboard.writeText(lines.join('\n'));
-      toast({ title: 'Карточка в буфере', description: 'Можно вставить в Jira, почту или мессенджер.' });
+      toast({
+        title: 'Карточка в буфере',
+        description: 'Можно вставить в Jira, почту или мессенджер.',
+      });
     } catch {
       toast({ title: 'Не удалось скопировать', variant: 'destructive' });
     }
-  }, [categoryPathLabel, internalArticleCodeDisplay, model.combinedPct, model.preSamplePct, model.startPct, nameDraft, skuDraft, toast]);
+  }, [
+    categoryPathLabel,
+    internalArticleCodeDisplay,
+    model.combinedPct,
+    model.preSamplePct,
+    model.startPct,
+    nameDraft,
+    skuDraft,
+    toast,
+  ]);
 
   const doneCp = model.checkpoints.filter((c) => c.done).length;
   const totalCp = model.checkpoints.length;
 
-  const passCaps = useMemo(() => workshop2DossierViewUiCaps(dossierViewProfile), [dossierViewProfile]);
+  const passCaps = useMemo(
+    () => workshop2DossierViewUiCaps(dossierViewProfile),
+    [dossierViewProfile]
+  );
 
   const showMatSketchRibbon = useMemo(() => {
     return passCaps.passportSketchBomRefsRibbon && sketchLinkedBomRefs.length > 0;
@@ -196,88 +214,93 @@ export function Workshop2PassportHubPanel({
                   ) : null}
                 </div>
                 <p className="mt-0.5 text-[10px] leading-snug text-slate-500">
-                  Прогресс по блокам и гейты — ниже всегда; дорожная карта, аудит и справка — разверните
+                  Прогресс по блокам и гейты — ниже всегда; дорожная карта, аудит и справка —
+                  разверните
                 </p>
               </div>
             </button>
           </CollapsibleTrigger>
-        <div className="flex flex-wrap items-center gap-1.5">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-8 gap-1 text-[10px]"
-            onClick={() => void copySkuName()}
-          >
-            <LucideIcons.Copy className="h-3.5 w-3.5" aria-hidden />
-            SKU + название
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-8 gap-1 text-[10px]"
-            onClick={() => void copyCard()}
-          >
-            <LucideIcons.ClipboardList className="h-3.5 w-3.5" aria-hidden />
-            Карточка в буфер
-          </Button>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button type="button" variant="outline" size="sm" className="h-8 gap-1 text-[10px]">
-                <LucideIcons.Users className="h-3.5 w-3.5" aria-hidden />
-                Подсказки по ролям
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-80 space-y-3 text-xs" align="end">
-              <div>
-                <p className="font-semibold text-violet-900">Дизайнер / бренд</p>
-                <p className="mt-1 leading-snug text-slate-600">
-                  Закрепите аудиторию и карточку модели (L3), затем бриф и обязательные поля старта — чтобы визуал и
-                  материалы ссылались на ту же ветку каталога.
-                </p>
-              </div>
-              <div>
-                <p className="font-semibold text-amber-900">Менеджер</p>
-                <p className="mt-1 leading-snug text-slate-600">
-                  Даты, MOQ, ответственный и критичность срока — якорь для SLA и пульса; копируйте SKU в переписку одной
-                  кнопкой.
-                </p>
-              </div>
-              <div>
-                <p className="font-semibold text-teal-900">Технолог</p>
-                <p className="mt-1 leading-snug text-slate-600">
-                  Паспорт задаёт контекст изделия; исполнимость узлов и состава проверяйте в материалах, мерках и
-                  конструкции после закрытия стартовых полей.
-                </p>
-              </div>
-              <div>
-                <p className="font-semibold text-orange-950">Снабжение / PD</p>
-                <p className="mt-1 leading-snug text-slate-600">
-                  В материалах — BOM-ref со скетча, нормы, дельта к образцу и поток замен; в паспорте держите SKU и коды
-                  синхронно с закупкой.
-                </p>
-              </div>
-              <div>
-                <p className="font-semibold text-rose-900">ОТК</p>
-                <p className="mt-1 leading-snug text-slate-600">
-                  Критичный аудит паспорта и метки qc/construction на скетче должны сходиться; handoff из визуала ведёт на
-                  вкладку ОТК.
-                </p>
-              </div>
-              <div>
-                <p className="font-semibold text-slate-800">Производство</p>
-                <p className="mt-1 leading-snug text-slate-600">
-                  Режим цеха для скетча и блок норм BOM — чтобы строки сырья совпадали с тем, что уходит в раскрой.
-                </p>
-              </div>
-            </PopoverContent>
-          </Popover>
+          <div className="flex flex-wrap items-center gap-1.5">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-8 gap-1 text-[10px]"
+              onClick={() => void copySkuName()}
+            >
+              <LucideIcons.Copy className="h-3.5 w-3.5" aria-hidden />
+              SKU + название
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-8 gap-1 text-[10px]"
+              onClick={() => void copyCard()}
+            >
+              <LucideIcons.ClipboardList className="h-3.5 w-3.5" aria-hidden />
+              Карточка в буфер
+            </Button>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button type="button" variant="outline" size="sm" className="h-8 gap-1 text-[10px]">
+                  <LucideIcons.Users className="h-3.5 w-3.5" aria-hidden />
+                  Подсказки по ролям
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 space-y-3 text-xs" align="end">
+                <div>
+                  <p className="font-semibold text-violet-900">Дизайнер / бренд</p>
+                  <p className="mt-1 leading-snug text-slate-600">
+                    Закрепите аудиторию и карточку модели (L3), затем бриф и обязательные поля
+                    старта — чтобы визуал и материалы ссылались на ту же ветку каталога.
+                  </p>
+                </div>
+                <div>
+                  <p className="font-semibold text-amber-900">Менеджер</p>
+                  <p className="mt-1 leading-snug text-slate-600">
+                    Даты, MOQ, ответственный и критичность срока — якорь для SLA и пульса; копируйте
+                    SKU в переписку одной кнопкой.
+                  </p>
+                </div>
+                <div>
+                  <p className="font-semibold text-teal-900">Технолог</p>
+                  <p className="mt-1 leading-snug text-slate-600">
+                    Паспорт задаёт контекст изделия; исполнимость узлов и состава проверяйте в
+                    материалах, мерках и конструкции после закрытия стартовых полей.
+                  </p>
+                </div>
+                <div>
+                  <p className="font-semibold text-orange-950">Снабжение / PD</p>
+                  <p className="mt-1 leading-snug text-slate-600">
+                    В материалах — BOM-ref со скетча, нормы, дельта к образцу и поток замен; в
+                    паспорте держите SKU и коды синхронно с закупкой.
+                  </p>
+                </div>
+                <div>
+                  <p className="font-semibold text-rose-900">ОТК</p>
+                  <p className="mt-1 leading-snug text-slate-600">
+                    Критичный аудит паспорта и метки qc/construction на скетче должны сходиться;
+                    handoff из визуала ведёт на вкладку ОТК.
+                  </p>
+                </div>
+                <div>
+                  <p className="font-semibold text-slate-800">Производство</p>
+                  <p className="mt-1 leading-snug text-slate-600">
+                    Режим цеха для скетча и блок норм BOM — чтобы строки сырья совпадали с тем, что
+                    уходит в раскрой.
+                  </p>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
         </div>
-      </div>
 
         <CollapsibleContent className="space-y-4 overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-          <Collapsible defaultOpen={false} className="w-full min-w-0 rounded-md border border-indigo-100/80 bg-white/50 px-2 py-2">
+          <Collapsible
+            defaultOpen={false}
+            className="w-full min-w-0 rounded-md border border-indigo-100/80 bg-white/50 px-2 py-2"
+          >
             <CollapsibleTrigger asChild>
               <button
                 type="button"
@@ -288,7 +311,8 @@ export function Workshop2PassportHubPanel({
             </CollapsibleTrigger>
             <CollapsibleContent className="space-y-1.5 pt-1.5">
               <p className="text-[11px] leading-snug text-slate-600">
-                Одна ось для визуала, материалов и мерок: без расхождений в справочнике и сроках по коллекции.
+                Одна ось для визуала, материалов и мерок: без расхождений в справочнике и сроках по
+                коллекции.
               </p>
               {dossierViewProfile !== 'full' ? (
                 <p
@@ -325,224 +349,238 @@ export function Workshop2PassportHubPanel({
             </CollapsibleContent>
           </Collapsible>
 
-      <Workshop2NineGapBacklogStrip
-        areas={['passport']}
-        stripTitle="Паспорт · дорожная карта"
-        variant="indigo"
-        sectionPct={nineGapTzGeneralSectionPct ?? model.combinedPct}
-        footer={nineGapFooter}
-        onDossierJump={nineGapOnDossierJump}
-      />
+          <Workshop2NineGapBacklogStrip
+            areas={['passport']}
+            stripTitle="Паспорт · дорожная карта"
+            variant="indigo"
+            sectionPct={nineGapTzGeneralSectionPct ?? model.combinedPct}
+            footer={nineGapFooter}
+            onDossierJump={nineGapOnDossierJump}
+          />
 
-      {showPostSignoffDrift ? (
-        <div className="rounded-lg border border-amber-300/90 bg-amber-50/95 px-3 py-2.5 text-[11px] text-amber-950">
-          <p className="font-semibold">Досье менялось после подписи ТЗ</p>
-          <p className="mt-1 leading-snug">
-            Если правили паспорт, бриф или ключевые поля SKU — согласуйте повторное подтверждение подписей или зафиксируйте
-            версию в переписке.
-          </p>
-          {!pulseLoggedReminder ? (
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              className="mt-2 h-7 text-[10px]"
-              disabled={tzWriteDisabled}
-              onClick={() => {
-                onLogPostSignoffReminder();
-                onPulseLoggedReminder();
-              }}
-            >
-              Записать напоминание в журнал ТЗ
-            </Button>
-          ) : (
-            <p className="mt-2 text-[10px] text-amber-800/90">Напоминание уже добавлено в эту сессию.</p>
-          )}
-        </div>
-      ) : null}
-
-      <div
-        id="w2-passport-audit"
-        className={cn(
-          'scroll-mt-28 rounded-lg border px-3 py-2.5 text-[11px]',
-          auditRoleOk && passportCriticalAuditSummaries.length > 0
-            ? 'border-rose-200/90 bg-rose-50/90 text-rose-950'
-            : 'border-slate-200/90 bg-slate-50/80 text-slate-800'
-        )}
-      >
-        <p className="font-semibold">Аудит паспорта (фильтр журнала по критичным полям)</p>
-        {!auditRoleOk ? (
-          <p className="mt-1.5 leading-snug text-slate-600">
-            Сводка по ключевым словам{' '}
-            <span className="font-mono text-[10px] text-slate-500">W2_PASSPORT_AUDIT_SUMMARY_KEYWORDS</span> доступна в
-            режимах ТЗ: менеджер, комплаенс, технолог, финансы — переключите <span className="font-semibold">w2view</span>{' '}
-            в шапке артикула.
-          </p>
-        ) : passportCriticalAuditSummaries.length > 0 ? (
-          <>
-            <ul className="mt-1.5 list-inside list-disc space-y-0.5 leading-snug">
-              {passportCriticalAuditSummaries.slice(0, 8).map((line, i) => (
-                <li key={`${i}-${line.slice(0, 24)}`}>{line}</li>
-              ))}
-            </ul>
-            {passportCriticalAuditSummaries.length > 8 ? (
-              <p className="mt-1 text-[10px] text-rose-800/80">…и ещё строки в полной истории ТЗ.</p>
-            ) : null}
-          </>
-        ) : (
-          <p className="mt-1.5 leading-snug text-slate-600">
-            Сейчас нет строк журнала, совпадающих с фильтром критичных полей паспорта (
-            <span className="font-mono text-[10px]">filterPassportCriticalAuditLines</span>).
-          </p>
-        )}
-      </div>
-
-      <div
-        id="w2-passport-readonly"
-        className="scroll-mt-28 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-200 bg-slate-50/80 px-3 py-2 text-[11px] text-slate-700"
-      >
-        {readOnlyShareUrl ? (
-          <>
-            <p className="min-w-0 leading-snug">
-              <span className="font-semibold text-slate-800">Внешняя сторона:</span> ссылка с режимом фабрики и просмотром
-              скетча — для цеха или контрагента без редактирования (
-              <span className="font-mono text-[10px]">buildWorkshop2ExternalReadOnlyParams</span>).
-            </p>
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              className="h-7 shrink-0 gap-1 text-[10px]"
-              onClick={() => void copyReadOnlyLink()}
-            >
-              <LucideIcons.Link className="h-3.5 w-3.5" aria-hidden />
-              Копировать ссылку
-            </Button>
-          </>
-        ) : (
-          <p className="min-w-0 leading-snug text-slate-600">
-            <span className="font-semibold text-slate-800">Read-only выдача:</span> ссылка с{' '}
-            <span className="font-mono text-[10px]">w2view=factory</span> и полом скетча появляется, когда она сформирована
-            для артикула; при необходимости сформируйте из полного режима или проверьте права.
-          </p>
-        )}
-      </div>
-
-      {showMatSketchGapRibbon ? (
-        <div
-          id="w2-passport-mat-sketch-gap"
-          className="scroll-mt-28 rounded-lg border border-amber-300/90 bg-amber-50/95 px-3 py-2.5 text-[11px] text-amber-950"
-        >
-          <div className="flex flex-wrap items-start justify-between gap-2">
-            <div className="min-w-0">
-              <p className="font-semibold">Скетч ↔ mat: ref не найдены в строках материала</p>
-              <p className="mt-1 text-[10px] leading-snug text-amber-900/90">
-                Проверка по вхождению текста (без API). При необходимости поправьте mat или подписи на метках.
+          {showPostSignoffDrift ? (
+            <div className="rounded-lg border border-amber-300/90 bg-amber-50/95 px-3 py-2.5 text-[11px] text-amber-950">
+              <p className="font-semibold">Досье менялось после подписи ТЗ</p>
+              <p className="mt-1 leading-snug">
+                Если правили паспорт, бриф или ключевые поля SKU — согласуйте повторное
+                подтверждение подписей или зафиксируйте версию в переписке.
               </p>
-              <p className="mt-1.5 font-mono text-[10px] leading-relaxed">
-                {matSketchBomGapRefs.slice(0, 10).join(' · ')}
-                {matSketchBomGapRefs.length > 10 ? ` · +${matSketchBomGapRefs.length - 10}` : ''}
-              </p>
-            </div>
-            <div className="flex shrink-0 flex-wrap justify-end gap-1">
-              {onJumpToMaterialSection ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-7 text-[10px]"
-                  onClick={onJumpToMaterialSection}
-                >
-                  Материалы
-                </Button>
-              ) : null}
-              {onJumpToMaterialMatTable ? (
+              {!pulseLoggedReminder ? (
                 <Button
                   type="button"
                   variant="secondary"
                   size="sm"
-                  className="h-7 text-[10px]"
-                  onClick={onJumpToMaterialMatTable}
+                  className="mt-2 h-7 text-[10px]"
+                  disabled={tzWriteDisabled}
+                  onClick={() => {
+                    onLogPostSignoffReminder();
+                    onPulseLoggedReminder();
+                  }}
                 >
-                  Таблица mat
+                  Записать напоминание в журнал ТЗ
                 </Button>
-              ) : null}
-              {(onJumpToSketchLineRefs ?? onJumpToVisualSection) ? (
-                <Button
-                  type="button"
-                  variant="secondary"
-                  size="sm"
-                  className="h-7 text-[10px]"
-                  onClick={onJumpToSketchLineRefs ?? onJumpToVisualSection}
-                >
-                  Скетч · lineRef
-                </Button>
-              ) : null}
-              {onJumpToConstructionContour ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-7 text-[10px]"
-                  onClick={onJumpToConstructionContour}
-                >
-                  Конструкция
-                </Button>
-              ) : null}
-              {onJumpToQcRoute ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-7 text-[10px]"
-                  onClick={onJumpToQcRoute}
-                >
-                  ОТК
-                </Button>
-              ) : null}
+              ) : (
+                <p className="mt-2 text-[10px] text-amber-800/90">
+                  Напоминание уже добавлено в эту сессию.
+                </p>
+              )}
             </div>
+          ) : null}
+
+          <div
+            id="w2-passport-audit"
+            className={cn(
+              'scroll-mt-28 rounded-lg border px-3 py-2.5 text-[11px]',
+              auditRoleOk && passportCriticalAuditSummaries.length > 0
+                ? 'border-rose-200/90 bg-rose-50/90 text-rose-950'
+                : 'border-slate-200/90 bg-slate-50/80 text-slate-800'
+            )}
+          >
+            <p className="font-semibold">Аудит паспорта (фильтр журнала по критичным полям)</p>
+            {!auditRoleOk ? (
+              <p className="mt-1.5 leading-snug text-slate-600">
+                Сводка по ключевым словам{' '}
+                <span className="font-mono text-[10px] text-slate-500">
+                  W2_PASSPORT_AUDIT_SUMMARY_KEYWORDS
+                </span>{' '}
+                доступна в режимах ТЗ: менеджер, комплаенс, технолог, финансы — переключите{' '}
+                <span className="font-semibold">w2view</span> в шапке артикула.
+              </p>
+            ) : passportCriticalAuditSummaries.length > 0 ? (
+              <>
+                <ul className="mt-1.5 list-inside list-disc space-y-0.5 leading-snug">
+                  {passportCriticalAuditSummaries.slice(0, 8).map((line, i) => (
+                    <li key={`${i}-${line.slice(0, 24)}`}>{line}</li>
+                  ))}
+                </ul>
+                {passportCriticalAuditSummaries.length > 8 ? (
+                  <p className="mt-1 text-[10px] text-rose-800/80">
+                    …и ещё строки в полной истории ТЗ.
+                  </p>
+                ) : null}
+              </>
+            ) : (
+              <p className="mt-1.5 leading-snug text-slate-600">
+                Сейчас нет строк журнала, совпадающих с фильтром критичных полей паспорта (
+                <span className="font-mono text-[10px]">filterPassportCriticalAuditLines</span>).
+              </p>
+            )}
           </div>
-        </div>
-      ) : showMatSketchRibbon ? (
-        <div
-          id="w2-passport-sketch-bom-refs"
-          className="scroll-mt-28 rounded-lg border border-blue-200/85 bg-blue-50/55 px-3 py-2.5 text-[11px] text-blue-950 shadow-sm"
-        >
-          <div className="flex flex-wrap items-start justify-between gap-2">
-            <div className="min-w-0">
-              <p className="font-semibold">BOM-ref на скетче</p>
-              <p className="mt-1 font-mono text-[10px] leading-relaxed text-blue-950/95">
-                {sketchLinkedBomRefs.length} шт. · {sketchLinkedBomRefs.slice(0, 8).join(' · ')}
-                {sketchLinkedBomRefs.length > 8 ? '…' : ''}
-              </p>
-            </div>
-            <div className="flex shrink-0 flex-wrap gap-1">
-              {onJumpToVisualSection ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-7 text-[10px]"
-                  onClick={onJumpToVisualSection}
-                >
-                  Скетч →
-                </Button>
-              ) : null}
-              {onJumpToMaterialSection ? (
+
+          <div
+            id="w2-passport-readonly"
+            className="flex scroll-mt-28 flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-200 bg-slate-50/80 px-3 py-2 text-[11px] text-slate-700"
+          >
+            {readOnlyShareUrl ? (
+              <>
+                <p className="min-w-0 leading-snug">
+                  <span className="font-semibold text-slate-800">Внешняя сторона:</span> ссылка с
+                  режимом фабрики и просмотром скетча — для цеха или контрагента без редактирования
+                  (
+                  <span className="font-mono text-[10px]">
+                    buildWorkshop2ExternalReadOnlyParams
+                  </span>
+                  ).
+                </p>
                 <Button
                   type="button"
                   variant="secondary"
                   size="sm"
-                  className="h-7 text-[10px]"
-                  onClick={onJumpToMaterialSection}
+                  className="h-7 shrink-0 gap-1 text-[10px]"
+                  onClick={() => void copyReadOnlyLink()}
                 >
-                  Mat →
+                  <LucideIcons.Link className="h-3.5 w-3.5" aria-hidden />
+                  Копировать ссылку
                 </Button>
-              ) : null}
-            </div>
+              </>
+            ) : (
+              <p className="min-w-0 leading-snug text-slate-600">
+                <span className="font-semibold text-slate-800">Read-only выдача:</span> ссылка с{' '}
+                <span className="font-mono text-[10px]">w2view=factory</span> и полом скетча
+                появляется, когда она сформирована для артикула; при необходимости сформируйте из
+                полного режима или проверьте права.
+              </p>
+            )}
           </div>
-        </div>
-      ) : null}
+
+          {showMatSketchGapRibbon ? (
+            <div
+              id="w2-passport-mat-sketch-gap"
+              className="scroll-mt-28 rounded-lg border border-amber-300/90 bg-amber-50/95 px-3 py-2.5 text-[11px] text-amber-950"
+            >
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <div className="min-w-0">
+                  <p className="font-semibold">Скетч ↔ mat: ref не найдены в строках материала</p>
+                  <p className="mt-1 text-[10px] leading-snug text-amber-900/90">
+                    Проверка по вхождению текста (без API). При необходимости поправьте mat или
+                    подписи на метках.
+                  </p>
+                  <p className="mt-1.5 font-mono text-[10px] leading-relaxed">
+                    {matSketchBomGapRefs.slice(0, 10).join(' · ')}
+                    {matSketchBomGapRefs.length > 10
+                      ? ` · +${matSketchBomGapRefs.length - 10}`
+                      : ''}
+                  </p>
+                </div>
+                <div className="flex shrink-0 flex-wrap justify-end gap-1">
+                  {onJumpToMaterialSection ? (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-7 text-[10px]"
+                      onClick={onJumpToMaterialSection}
+                    >
+                      Материалы
+                    </Button>
+                  ) : null}
+                  {onJumpToMaterialMatTable ? (
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      size="sm"
+                      className="h-7 text-[10px]"
+                      onClick={onJumpToMaterialMatTable}
+                    >
+                      Таблица mat
+                    </Button>
+                  ) : null}
+                  {(onJumpToSketchLineRefs ?? onJumpToVisualSection) ? (
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      size="sm"
+                      className="h-7 text-[10px]"
+                      onClick={onJumpToSketchLineRefs ?? onJumpToVisualSection}
+                    >
+                      Скетч · lineRef
+                    </Button>
+                  ) : null}
+                  {onJumpToConstructionContour ? (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-7 text-[10px]"
+                      onClick={onJumpToConstructionContour}
+                    >
+                      Конструкция
+                    </Button>
+                  ) : null}
+                  {onJumpToQcRoute ? (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-7 text-[10px]"
+                      onClick={onJumpToQcRoute}
+                    >
+                      ОТК
+                    </Button>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          ) : showMatSketchRibbon ? (
+            <div
+              id="w2-passport-sketch-bom-refs"
+              className="scroll-mt-28 rounded-lg border border-blue-200/85 bg-blue-50/55 px-3 py-2.5 text-[11px] text-blue-950 shadow-sm"
+            >
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <div className="min-w-0">
+                  <p className="font-semibold">BOM-ref на скетче</p>
+                  <p className="mt-1 font-mono text-[10px] leading-relaxed text-blue-950/95">
+                    {sketchLinkedBomRefs.length} шт. · {sketchLinkedBomRefs.slice(0, 8).join(' · ')}
+                    {sketchLinkedBomRefs.length > 8 ? '…' : ''}
+                  </p>
+                </div>
+                <div className="flex shrink-0 flex-wrap gap-1">
+                  {onJumpToVisualSection ? (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-7 text-[10px]"
+                      onClick={onJumpToVisualSection}
+                    >
+                      Скетч →
+                    </Button>
+                  ) : null}
+                  {onJumpToMaterialSection ? (
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      size="sm"
+                      className="h-7 text-[10px]"
+                      onClick={onJumpToMaterialSection}
+                    >
+                      Mat →
+                    </Button>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          ) : null}
         </CollapsibleContent>
       </Collapsible>
 
@@ -551,14 +589,19 @@ export function Workshop2PassportHubPanel({
           <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">
             Паспорт для маршрута · {doneCp}/{totalCp} блоков
           </p>
-          <span className="tabular-nums text-[11px] font-semibold text-indigo-800">≈ {model.combinedPct}%</span>
+          <span className="text-[11px] font-semibold tabular-nums text-indigo-800">
+            ≈ {model.combinedPct}%
+          </span>
         </div>
         <p className="mt-1 text-[10px] leading-snug text-slate-500">
           Старт: {model.startPct}% · Рынок и коды: {model.preSamplePct}%
         </p>
         <ul className="mt-2 space-y-1.5">
           {model.checkpoints.map((c) => (
-            <li key={c.id} className="flex flex-wrap items-center justify-between gap-2 text-[11px]">
+            <li
+              key={c.id}
+              className="flex flex-wrap items-center justify-between gap-2 text-[11px]"
+            >
               <button
                 type="button"
                 className={cn(
@@ -606,7 +649,9 @@ export function Workshop2PassportHubPanel({
             ))}
           </ul>
           {model.gateItems.length > 5 ? (
-            <p className="mt-1 text-[9px] text-amber-800/85">+ ещё {model.gateItems.length - 5} пунктов в списке блокеров.</p>
+            <p className="mt-1 text-[9px] text-amber-800/85">
+              + ещё {model.gateItems.length - 5} пунктов в списке блокеров.
+            </p>
           ) : null}
         </div>
       ) : null}
@@ -657,7 +702,13 @@ export function Workshop2PassportHubPanel({
             <li>Старт по каталогу: обязательные поля справочника для этой ветки.</li>
             <li>Рынок и коды можно дозаполнять позже — они не должны блокировать старт визуала.</li>
           </ol>
-          <Button type="button" size="sm" variant="secondary" className="mt-2 h-7 text-[10px]" onClick={dismissOnboard}>
+          <Button
+            type="button"
+            size="sm"
+            variant="secondary"
+            className="mt-2 h-7 text-[10px]"
+            onClick={dismissOnboard}
+          >
             Понятно, не показывать
           </Button>
         </div>
@@ -672,9 +723,9 @@ export function Workshop2PassportHubPanel({
       )}
 
       <p className="text-[10px] leading-snug text-slate-500">
-        Локальное сохранение: досье хранится в браузере (localStorage). Тяжёлые фото в референсах и скетче могут не
-        сохраниться — сожмите файлы или выгрузите внешними ссылками; при ошибке квоты появится предупреждение у метки
-        времени сохранения.
+        Локальное сохранение: досье хранится в браузере (localStorage). Тяжёлые фото в референсах и
+        скетче могут не сохраниться — сожмите файлы или выгрузите внешними ссылками; при ошибке
+        квоты появится предупреждение у метки времени сохранения.
       </p>
     </div>
   );

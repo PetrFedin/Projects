@@ -12,13 +12,16 @@ export function parseMatRowsFromDossier(
   const fromMat: MatPctRow[] = [];
   for (const v of hbs) {
     if (!v.parameterId) continue;
-    const label = paramLabelById.get(v.parameterId) ?? v.displayLabel.replace(/\s+\d{1,3}%$/, '').trim();
+    const label =
+      paramLabelById.get(v.parameterId) ?? v.displayLabel.replace(/\s+\d{1,3}%$/, '').trim();
     const m = v.displayLabel.match(/\s(\d{1,3})%$/);
     const pct = m ? parseInt(m[1]!, 10) : 0;
     fromMat.push({ parameterId: v.parameterId, label, pct });
   }
   if (fromMat.length) return fromMat;
-  const ca = dossier.assignments.find((x) => x.kind === 'canonical' && x.attributeId === 'composition');
+  const ca = dossier.assignments.find(
+    (x) => x.kind === 'canonical' && x.attributeId === 'composition'
+  );
   const ft = ca?.values.find((x) => x.valueSource === 'free_text');
   const text = ft?.text?.trim();
   if (!text) return [];

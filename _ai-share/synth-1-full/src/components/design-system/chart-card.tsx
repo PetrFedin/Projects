@@ -14,7 +14,14 @@ export type ChartCardProps = {
 };
 
 /** Обёртка для Recharts: единые отступы и иерархия заголовка. */
-export function ChartCard({ title, description, footer, action, className, children }: ChartCardProps) {
+export function ChartCard({
+  title,
+  description,
+  footer,
+  action,
+  className,
+  children,
+}: ChartCardProps) {
   return (
     <Card className={cn('border-slate-200 shadow-sm', className)}>
       <CardHeader className="flex flex-row items-start justify-between space-y-0 p-4 pb-2">
@@ -26,7 +33,9 @@ export function ChartCard({ title, description, footer, action, className, child
       </CardHeader>
       <CardContent className="p-4 pt-0">{children}</CardContent>
       {footer ? (
-        <CardFooter className="border-t border-slate-100 px-4 py-2.5 text-xs text-slate-600">{footer}</CardFooter>
+        <CardFooter className="border-t border-slate-100 px-4 py-2.5 text-xs text-slate-600">
+          {footer}
+        </CardFooter>
       ) : null}
     </Card>
   );

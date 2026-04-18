@@ -115,9 +115,14 @@ export function isW2MetricsMintBearer(authHeader: string | null): boolean {
   return timingSafeStrEq(t, mint);
 }
 
-export async function resolveUidOrgFromPlatformBearer(bearer: string): Promise<{ uid: string; orgId: string } | null> {
+export async function resolveUidOrgFromPlatformBearer(
+  bearer: string
+): Promise<{ uid: string; orgId: string } | null> {
   if (process.env.NEXT_PUBLIC_USE_FASTAPI !== 'true') return null;
-  const base = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1').replace(/\/$/, '');
+  const base = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1').replace(
+    /\/$/,
+    ''
+  );
   try {
     const res = await fetch(`${base}/profile/me`, {
       headers: { Authorization: `Bearer ${bearer}`, Accept: 'application/json' },

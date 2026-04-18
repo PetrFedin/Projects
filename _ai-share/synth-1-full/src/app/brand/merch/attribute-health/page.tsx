@@ -4,7 +4,14 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
@@ -27,7 +34,7 @@ export default function AttributeHealthPage() {
   };
 
   return (
-    <div className="container max-w-5xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -35,20 +42,20 @@ export default function AttributeHealthPage() {
           </Link>
         </Button>
         <div>
-          <h1 className="text-xl font-bold flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-xl font-bold">
             <Stethoscope className="h-6 w-6" />
             Здоровье атрибутов SKU
           </h1>
           <p className="text-sm text-muted-foreground">
             8 проверок: идентификаторы, медиа, сезон, состав, eco-теги, явный уход. Источник:{' '}
-            <code className="text-[10px] bg-muted px-1 rounded">assessProductAttributeHealth</code>
+            <code className="rounded bg-muted px-1 text-[10px]">assessProductAttributeHealth</code>
           </p>
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 items-center">
+      <div className="flex flex-wrap items-center gap-2">
         <Button type="button" onClick={downloadCsv}>
-          <FileSpreadsheet className="h-4 w-4 mr-2" />
+          <FileSpreadsheet className="mr-2 h-4 w-4" />
           CSV по всем SKU
         </Button>
         <Badge variant="secondary">
@@ -62,9 +69,11 @@ export default function AttributeHealthPage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Таблица</CardTitle>
-          <CardDescription>Сортировка по умолчанию — как в каталоге; фильтры добавятся с API.</CardDescription>
+          <CardDescription>
+            Сортировка по умолчанию — как в каталоге; фильтры добавятся с API.
+          </CardDescription>
         </CardHeader>
-        <CardContent className="overflow-x-auto max-h-[480px] overflow-y-auto">
+        <CardContent className="max-h-[480px] overflow-x-auto overflow-y-auto">
           <Table>
             <TableHeader>
               <TableRow>
@@ -80,7 +89,9 @@ export default function AttributeHealthPage() {
                     <Link href={`/products/${r.slug}`} className="font-mono text-xs underline">
                       {r.sku}
                     </Link>
-                    <p className="text-[10px] text-muted-foreground line-clamp-1 max-w-[200px]">{r.name}</p>
+                    <p className="line-clamp-1 max-w-[200px] text-[10px] text-muted-foreground">
+                      {r.name}
+                    </p>
                   </TableCell>
                   <TableCell className="font-mono text-sm">{r.completeness}</TableCell>
                   <TableCell className="text-xs">

@@ -23,10 +23,13 @@ export default function AcademyKnowledgePage() {
 
   const knowledgeArticles = useMemo(() => {
     const all = getBrandKnowledgeArticles();
-    const bySearch = !searchKnowledge ? all : all.filter(
-      (a) => a.title.toLowerCase().includes(searchKnowledge.toLowerCase()) ||
-        a.excerpt.toLowerCase().includes(searchKnowledge.toLowerCase())
-    );
+    const bySearch = !searchKnowledge
+      ? all
+      : all.filter(
+          (a) =>
+            a.title.toLowerCase().includes(searchKnowledge.toLowerCase()) ||
+            a.excerpt.toLowerCase().includes(searchKnowledge.toLowerCase())
+        );
     if (filterCategory === 'Все') return bySearch;
     return bySearch.filter((a) => a.category === filterCategory);
   }, [searchKnowledge, filterCategory]);
@@ -39,38 +42,40 @@ export default function AcademyKnowledgePage() {
           title="База знаний бренда"
           description="Информация о бренде и сфере для партнёров и клиентов."
         />
-      <WidgetCard
-        title="Статьи базы знаний"
-        description="Поиск и фильтрация по категориям"
-        actions={
-          <Button variant="outline" className="rounded-lg" asChild>
-            <Link href={ROUTES.brand.academyKnowledgeCreate} className="gap-2">
-              <Plus className="h-4 w-4" /> Добавить
-            </Link>
-          </Button>
-        }
-      >
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-            <Input
-              placeholder="Поиск по статьям..."
-              value={searchKnowledge}
-              onChange={(e) => setSearchKnowledge(e.target.value)}
-              className="pl-9 h-11 rounded-xl border-slate-200"
-            />
+        <WidgetCard
+          title="Статьи базы знаний"
+          description="Поиск и фильтрация по категориям"
+          actions={
+            <Button variant="outline" className="rounded-lg" asChild>
+              <Link href={ROUTES.brand.academyKnowledgeCreate} className="gap-2">
+                <Plus className="h-4 w-4" /> Добавить
+              </Link>
+            </Button>
+          }
+        >
+          <div className="mb-6 flex flex-col gap-3 sm:flex-row">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Input
+                placeholder="Поиск по статьям..."
+                value={searchKnowledge}
+                onChange={(e) => setSearchKnowledge(e.target.value)}
+                className="h-11 rounded-xl border-slate-200 pl-9"
+              />
+            </div>
+            <select
+              value={filterCategory}
+              onChange={(e) => setFilterCategory(e.target.value)}
+              className="min-w-[160px] rounded-xl border border-slate-200 px-3 py-2.5 text-sm"
+            >
+              <option value="Все">Все категории</option>
+              {Object.entries(KNOWLEDGE_CATEGORY_LABELS).map(([k, v]) => (
+                <option key={k} value={k}>
+                  {v}
+                </option>
+              ))}
+            </select>
           </div>
-          <select
-            value={filterCategory}
-            onChange={(e) => setFilterCategory(e.target.value)}
-            className="rounded-xl border border-slate-200 px-3 py-2.5 text-sm min-w-[160px]"
-          >
-            <option value="Все">Все категории</option>
-            {Object.entries(KNOWLEDGE_CATEGORY_LABELS).map(([k, v]) => (
-              <option key={k} value={k}>{v}</option>
-            ))}
-          </select>
-        </div>
           <div className="space-y-3">
             {knowledgeArticles.length === 0 ? (
               <EmptyStateB2B
@@ -83,27 +88,35 @@ export default function AcademyKnowledgePage() {
                   </Button>
                 }
               />
-            ) : knowledgeArticles.map((a) => (
-              <Link key={a.id} href={ROUTES.brand.academyKnowledgeArticle(a.id)}>
-                <div className="flex items-start justify-between p-5 rounded-2xl border border-slate-200/80 hover:border-indigo-200/60 hover:shadow-md transition-all cursor-pointer">
-                  <div>
-                    <p className="font-semibold text-slate-900">{a.title}</p>
-                    <p className="text-[11px] text-slate-500 mt-1">{a.excerpt}</p>
-                    <div className="flex gap-2 mt-2">
-                      <Badge variant="outline" className="text-[9px]">{KNOWLEDGE_CATEGORY_LABELS[a.category] ?? a.category}</Badge>
-                      {a.audience.map((aud) => (
-                        <Badge key={aud} variant="secondary" className="text-[8px]">
-                          {aud === 'partners' ? 'Партнёрам' : aud === 'clients' ? 'Клиентам' : 'Команде'}
+            ) : (
+              knowledgeArticles.map((a) => (
+                <Link key={a.id} href={ROUTES.brand.academyKnowledgeArticle(a.id)}>
+                  <div className="flex cursor-pointer items-start justify-between rounded-2xl border border-slate-200/80 p-5 transition-all hover:border-indigo-200/60 hover:shadow-md">
+                    <div>
+                      <p className="font-semibold text-slate-900">{a.title}</p>
+                      <p className="mt-1 text-[11px] text-slate-500">{a.excerpt}</p>
+                      <div className="mt-2 flex gap-2">
+                        <Badge variant="outline" className="text-[9px]">
+                          {KNOWLEDGE_CATEGORY_LABELS[a.category] ?? a.category}
                         </Badge>
-                      ))}
+                        {a.audience.map((aud) => (
+                          <Badge key={aud} variant="secondary" className="text-[8px]">
+                            {aud === 'partners'
+                              ? 'Партнёрам'
+                              : aud === 'clients'
+                                ? 'Клиентам'
+                                : 'Команде'}
+                          </Badge>
+                        ))}
+                      </div>
                     </div>
+                    <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-slate-400" />
                   </div>
-                  <ChevronRight className="h-4 w-4 text-slate-400 shrink-0 mt-1" />
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))
+            )}
           </div>
-      </WidgetCard>
+        </WidgetCard>
       </section>
 
       <RelatedModulesBlock links={getAcademyLinks()} />

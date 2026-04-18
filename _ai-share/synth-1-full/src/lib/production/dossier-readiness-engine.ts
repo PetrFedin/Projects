@@ -8,7 +8,10 @@
  * Теперь оба компонента используют один и тот же расчёт.
  */
 
-import type { Workshop2DossierPhase1, Workshop2TzSignatoryBindings } from './workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2TzSignatoryBindings,
+} from './workshop2-dossier-phase1.types';
 import type { HandbookCategoryLeaf } from './category-handbook-snapshot-builder';
 import { defaultSizeScaleIdForLeaf, resolveAttributeIdsForLeaf } from './attribute-catalog';
 import { getWorkshopDimensionLabels } from './workshop-size-handbook';
@@ -101,7 +104,8 @@ export const SECTION_ROLES: Record<DossierSection, SectionRole> = {
       {
         tab: 'fit',
         label: 'Эталон · посадка',
-        dataContract: 'Sketch + annotations + brandNotes → fit reference image + pin-to-fit-issue mapping',
+        dataContract:
+          'Sketch + annotations + brandNotes → fit reference image + pin-to-fit-issue mapping',
       },
       {
         tab: 'qc',
@@ -135,7 +139,8 @@ export const SECTION_ROLES: Record<DossierSection, SectionRole> = {
       {
         tab: 'supply',
         label: 'Снабжение',
-        dataContract: 'Material assignments (parameterId + pct) → BOM draft lines with qty placeholders',
+        dataContract:
+          'Material assignments (parameterId + pct) → BOM draft lines with qty placeholders',
       },
       {
         tab: 'release',
@@ -148,7 +153,14 @@ export const SECTION_ROLES: Record<DossierSection, SectionRole> = {
         dataContract: 'Barcode + packaging dimensions → stock receiving card',
       },
     ],
-    summaryFields: ['primaryMaterial', 'compositionSummary', 'bomLineCount', 'hasBarcode', 'hasPackaging', 'hasLabeling'],
+    summaryFields: [
+      'primaryMaterial',
+      'compositionSummary',
+      'bomLineCount',
+      'hasBarcode',
+      'hasPackaging',
+      'hasLabeling',
+    ],
   },
   construction: {
     section: 'construction',
@@ -175,7 +187,8 @@ export const SECTION_ROLES: Record<DossierSection, SectionRole> = {
       {
         tab: 'fit',
         label: 'Эталон · посадка',
-        dataContract: 'Size scale + per-size dimensions → fit measurement card for sample verification',
+        dataContract:
+          'Size scale + per-size dimensions → fit measurement card for sample verification',
       },
       {
         tab: 'qc',
@@ -321,7 +334,11 @@ export function calculateDossierReadiness(
     Object.keys(dossier.sampleBasePerSizeDimensions).length > 0
   );
   if (!measurementsReady) warnings.push('Не заполнен размерный блок.');
-  if (dossier.sampleSizeScaleId && expectedScaleId && dossier.sampleSizeScaleId !== expectedScaleId) {
+  if (
+    dossier.sampleSizeScaleId &&
+    expectedScaleId &&
+    dossier.sampleSizeScaleId !== expectedScaleId
+  ) {
     warnings.push(`Размерная шкала отличается от ожидаемой (${expectedScaleId}).`);
   }
   if (dimensionLabels.length > 0 && dossier.sampleBasePerSizeDimensions) {
@@ -347,9 +364,9 @@ export function calculateDossierReadiness(
     Boolean(dossier.extraTzSignoffsByRowId?.[ex.rowId]);
   const approvalsReady = Boolean(
     (!reqD || dossier.isVerifiedByDesigner) &&
-      (!reqT || dossier.isVerifiedByTechnologist) &&
-      (!reqM || dossier.isVerifiedByManager) &&
-      extrasTz.every(extrasSigned)
+    (!reqT || dossier.isVerifiedByTechnologist) &&
+    (!reqM || dossier.isVerifiedByManager) &&
+    extrasTz.every(extrasSigned)
   );
   if (reqD && !dossier.isVerifiedByDesigner) warnings.push('Нет цифровой подписи дизайнера.');
   if (reqT && !dossier.isVerifiedByTechnologist) warnings.push('Нет цифровой подписи технолога.');
@@ -382,24 +399,35 @@ export function calculateDossierReadiness(
     if (s === 'general') {
       controlPoints.push(
         { label: 'Аудитория', done: Boolean(dossier.selectedAudienceId) },
-        { label: 'SKU', done: dossier.assignments.some((a) => a.attributeId === 'sku' && a.values.length > 0) || true },
-        { label: 'Категория', done: Boolean(leaf) },
+        {
+          label: 'SKU',
+          done:
+            dossier.assignments.some((a) => a.attributeId === 'sku' && a.values.length > 0) || true,
+        },
+        { label: 'Категория', done: Boolean(leaf) }
       );
     }
     if (s === 'visuals') {
       const vr = visualReadinessProgress(dossier);
       const intentDone = Boolean(
         (dossier.designerIntent?.bullets?.some((b) => b.trim()) ?? false) ||
-          (dossier.designerIntent?.mood?.trim() ?? '') ||
-          dossier.brandNotes?.trim()
+        (dossier.designerIntent?.mood?.trim() ?? '') ||
+        dossier.brandNotes?.trim()
       );
-      const phase1Ids = leaf?.leafId ? new Set(resolveAttributeIdsForLeaf(leaf.leafId, 1)) : new Set<string>();
+      const phase1Ids = leaf?.leafId
+        ? new Set(resolveAttributeIdsForLeaf(leaf.leafId, 1))
+        : new Set<string>();
       const assigned = (id: string) =>
         dossier.assignments.some((a) => a.attributeId === id && (a.values?.length ?? 0) > 0);
       controlPoints.push(
-        { label: 'Эскиз', done: Boolean(dossier.categorySketchImageDataUrl || dossier.categorySketchAnnotations?.length) },
+        {
+          label: 'Эскиз',
+          done: Boolean(
+            dossier.categorySketchImageDataUrl || dossier.categorySketchAnnotations?.length
+          ),
+        },
         { label: 'Референсы', done: Boolean(dossier.visualReferences?.length) },
-        { label: 'Замысел', done: intentDone },
+        { label: 'Замысел', done: intentDone }
       );
       if (phase1Ids.has('color')) {
         controlPoints.push({ label: 'Цвет (каталог)', done: assigned('color') });
@@ -412,18 +440,16 @@ export function calculateDossierReadiness(
         {
           label: 'Канон: фото + скетч',
           done: Boolean(dossier.canonicalMainPhotoRefId && dossier.canonicalMainSketchTarget),
-        },
+        }
       );
     }
     if (s === 'material') {
-      controlPoints.push(
-        { label: 'Основной материал', done: materialReady },
-      );
+      controlPoints.push({ label: 'Основной материал', done: materialReady });
     }
     if (s === 'construction') {
       controlPoints.push(
         { label: 'Размерная шкала', done: Boolean(dossier.sampleSizeScaleId) },
-        { label: 'Табель мер', done: measurementsReady },
+        { label: 'Табель мер', done: measurementsReady }
       );
     }
 
@@ -492,8 +518,12 @@ export function extractHandoffPackets(
   // material → supply: material brief (+ утеплитель / термо-технологии из той же секции)
   const matAssignment = dossier.assignments.find((a) => a.attributeId === 'mat');
   const compAssignment = dossier.assignments.find((a) => a.attributeId === 'composition');
-  const insulationMatAssignment = dossier.assignments.find((a) => a.attributeId === 'insulationMaterialOptions');
-  const thermoTechAssignment = dossier.assignments.find((a) => a.attributeId === 'thermoTechOptions');
+  const insulationMatAssignment = dossier.assignments.find(
+    (a) => a.attributeId === 'insulationMaterialOptions'
+  );
+  const thermoTechAssignment = dossier.assignments.find(
+    (a) => a.attributeId === 'thermoTechOptions'
+  );
   const mapHandbookParams = (assignment: typeof matAssignment | undefined) =>
     (assignment?.values ?? [])
       .filter((v) => v.valueSource === 'handbook_parameter')
@@ -510,7 +540,8 @@ export function extractHandoffPackets(
         composition:
           compAssignment?.values
             .filter((v) => v.valueSource === 'handbook_parameter')
-            .map((v) => ({ parameterId: v.parameterId, label: v.displayLabel, pct: v.number })) ?? [],
+            .map((v) => ({ parameterId: v.parameterId, label: v.displayLabel, pct: v.number })) ??
+          [],
         insulationMaterial: mapHandbookParams(insulationMatAssignment),
         thermoTech: mapHandbookParams(thermoTechAssignment),
       },
@@ -630,10 +661,7 @@ export function extractHandoffPackets(
   );
   if (pkgAttrs.length > 0) {
     const pkgData = Object.fromEntries(
-      pkgAttrs.map((a) => [
-        a.attributeId,
-        a.values.map((v) => v.displayLabel),
-      ])
+      pkgAttrs.map((a) => [a.attributeId, a.values.map((v) => v.displayLabel)])
     );
     packets.push({
       sourceSection: 'material',
@@ -672,9 +700,7 @@ export type AnnotationLink = {
   linkedQcCheckpointId?: string;
 };
 
-export function resolveAnnotationLinks(
-  dossier: Workshop2DossierPhase1
-): AnnotationLink[] {
+export function resolveAnnotationLinks(dossier: Workshop2DossierPhase1): AnnotationLink[] {
   return (dossier.categorySketchAnnotations ?? []).map((a) => ({
     annotationId: a.annotationId,
     linkedAttributeId: a.linkedAttributeId,
@@ -872,10 +898,7 @@ export function calculateArticleStageGates(
         'Цифровые подписи: дизайн, технология, менеджер',
       ],
       metGates: ds.readyForSample
-        ? [
-            'Все секции ТЗ заполнены',
-            'Цифровые подписи: дизайн, технология, менеджер',
-          ]
+        ? ['Все секции ТЗ заполнены', 'Цифровые подписи: дизайн, технология, менеджер']
         : [],
     },
     {
@@ -885,7 +908,12 @@ export function calculateArticleStageGates(
       status: ds.readyForSample ? 'approved' : ds.exists ? 'in_progress' : 'not_started',
       blocker: ds.warnings[0],
       pct: dossierReadiness.overall.pct,
-      gateRequirements: ['Визуал готов', 'Материалы подтверждены', 'Табель мер заполнен', 'Утверждения'],
+      gateRequirements: [
+        'Визуал готов',
+        'Материалы подтверждены',
+        'Табель мер заполнен',
+        'Утверждения',
+      ],
       metGates: [
         ...(ds.visualsReady ? ['Визуал готов'] : []),
         ...(ds.materialReady ? ['Материалы подтверждены'] : []),
@@ -899,11 +927,12 @@ export function calculateArticleStageGates(
       owner: 'Закупка',
       status: allSupplyReady ? 'approved' : supplyLines.length > 0 ? 'in_progress' : 'not_started',
       blocker: supplyLines.length === 0 ? 'Нет строк BOM.' : undefined,
-      pct: supplyLines.length > 0
-        ? Math.round(
-            (supplyLines.filter((l) => l.status !== 'draft').length / supplyLines.length) * 100
-          )
-        : 0,
+      pct:
+        supplyLines.length > 0
+          ? Math.round(
+              (supplyLines.filter((l) => l.status !== 'draft').length / supplyLines.length) * 100
+            )
+          : 0,
       gateRequirements: ['BOM сформирован', 'Все позиции заказаны/получены'],
       metGates: [
         ...(supplyLines.length > 0 ? ['BOM сформирован'] : []),
@@ -933,12 +962,14 @@ export function calculateArticleStageGates(
       owner: 'Производство',
       status: hasConfirmedPo ? 'approved' : poLines.length > 0 ? 'in_progress' : 'not_started',
       blocker: poLines.length === 0 ? 'Нет PO.' : undefined,
-      pct: poLines.length > 0
-        ? Math.round(
-            (poLines.filter((po) => po.status === 'confirmed' || po.status === 'closed').length /
-              poLines.length) * 100
-          )
-        : 0,
+      pct:
+        poLines.length > 0
+          ? Math.round(
+              (poLines.filter((po) => po.status === 'confirmed' || po.status === 'closed').length /
+                poLines.length) *
+                100
+            )
+          : 0,
       gateRequirements: ['PO создан', 'PO подтвержден'],
       metGates: [
         ...(poLines.length > 0 ? ['PO создан'] : []),
@@ -949,15 +980,10 @@ export function calculateArticleStageGates(
       stage: 'release',
       label: 'Выпуск',
       owner: 'Цех',
-      status: completedOps > 0
-        ? 'in_progress'
-        : operations.length > 0
-          ? 'in_progress'
-          : 'not_started',
+      status:
+        completedOps > 0 ? 'in_progress' : operations.length > 0 ? 'in_progress' : 'not_started',
       blocker: operations.length === 0 ? 'Нет техопераций.' : undefined,
-      pct: operations.length > 0
-        ? Math.round((completedOps / operations.length) * 100)
-        : 0,
+      pct: operations.length > 0 ? Math.round((completedOps / operations.length) * 100) : 0,
       gateRequirements: ['Техоперации запущены', 'Все операции завершены'],
       metGates: [
         ...(operations.length > 0 ? ['Техоперации запущены'] : []),
@@ -970,17 +996,16 @@ export function calculateArticleStageGates(
       stage: 'qc',
       label: 'ОТК',
       owner: 'QC',
-      status: failedBatches > 0
-        ? 'blocked'
-        : qcBatches.length > 0
-          ? passedBatches === qcBatches.length
-            ? 'approved'
-            : 'in_progress'
-          : 'not_started',
+      status:
+        failedBatches > 0
+          ? 'blocked'
+          : qcBatches.length > 0
+            ? passedBatches === qcBatches.length
+              ? 'approved'
+              : 'in_progress'
+            : 'not_started',
       blocker: failedBatches > 0 ? `${failedBatches} партий не прошли проверку.` : undefined,
-      pct: qcBatches.length > 0
-        ? Math.round((passedBatches / qcBatches.length) * 100)
-        : 0,
+      pct: qcBatches.length > 0 ? Math.round((passedBatches / qcBatches.length) * 100) : 0,
       gateRequirements: ['Партии на проверке', 'Все партии приняты'],
       metGates: [
         ...(qcBatches.length > 0 ? ['Партии на проверке'] : []),

@@ -4,12 +4,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { Workshop2CategoryHandbookGuidance } from '@/components/brand/production/Workshop2CategoryHandbookGuidance';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useCategoryCatalogChecks } from '@/components/project-info/CategoryCatalogCheckContext';
 import { CATALOG_AUDIENCE_COLUMNS } from '@/lib/project-info/category-catalog-audience-flags';
 import {
@@ -189,9 +184,17 @@ export function ProjectInfoCategoryHandbookFlatTable() {
             const route = prod.productionRouteTemplateId ?? '—';
             const mp = prod.marketplaceRefs.length;
             const langs = prod.labelLocalesDefault.join(',') || '—';
-            const bind = prod.attributeBinding === 'info_pick_matrix' ? 'IP' : prod.attributeBinding === 'hybrid' ? 'H' : 'узел';
+            const bind =
+              prod.attributeBinding === 'info_pick_matrix'
+                ? 'IP'
+                : prod.attributeBinding === 'hybrid'
+                  ? 'H'
+                  : 'узел';
             return (
-              <tr key={leaf.leafId} className="group border-b border-slate-100 hover:bg-slate-50/80">
+              <tr
+                key={leaf.leafId}
+                className="group border-b border-slate-100 hover:bg-slate-50/80"
+              >
                 <td
                   className={cn(
                     'sticky left-0 z-[1] bg-white px-2 py-1.5 text-slate-900',
@@ -220,7 +223,9 @@ export function ProjectInfoCategoryHandbookFlatTable() {
                   title={groups.requiredLabels.join(' · ')}
                 >
                   {groups.requiredLabels.length ? (
-                    <span className="line-clamp-4 sm:line-clamp-none">{groups.requiredLabels.join(' · ')}</span>
+                    <span className="line-clamp-4 sm:line-clamp-none">
+                      {groups.requiredLabels.join(' · ')}
+                    </span>
                   ) : (
                     <span className="text-slate-400">—</span>
                   )}
@@ -230,7 +235,9 @@ export function ProjectInfoCategoryHandbookFlatTable() {
                   title={groups.commonLabels.join(' · ')}
                 >
                   {groups.commonLabels.length ? (
-                    <span className="line-clamp-4 sm:line-clamp-none">{groups.commonLabels.join(' · ')}</span>
+                    <span className="line-clamp-4 sm:line-clamp-none">
+                      {groups.commonLabels.join(' · ')}
+                    </span>
                   ) : (
                     <span className="text-slate-400">—</span>
                   )}
@@ -245,7 +252,9 @@ export function ProjectInfoCategoryHandbookFlatTable() {
                   className="max-w-[7rem] border-l border-slate-100 px-1 py-1.5 align-top text-[9px] leading-tight text-slate-700"
                   title={prod.complianceTags.join(', ')}
                 >
-                  <span className="line-clamp-3">{formatComplianceSummary(prod.complianceTags)}</span>
+                  <span className="line-clamp-3">
+                    {formatComplianceSummary(prod.complianceTags)}
+                  </span>
                 </td>
                 <td className="border-l border-slate-100 px-1 py-1.5 text-center align-top text-[10px] text-slate-700">
                   {tn}
@@ -293,9 +302,7 @@ export function ProjectInfoCategoryHandbookFlatTable() {
                       size="icon"
                       className="h-7 w-7 shrink-0"
                       title={
-                        copiedLeafId === leaf.leafId
-                          ? 'Скопировано'
-                          : `Скопировать ${leaf.leafId}`
+                        copiedLeafId === leaf.leafId ? 'Скопировано' : `Скопировать ${leaf.leafId}`
                       }
                       aria-label={`Скопировать leafId ${leaf.leafId}`}
                       onClick={() => void copyLeafId(leaf.leafId)}
@@ -321,15 +328,21 @@ export function ProjectInfoCategoryHandbookFlatTable() {
         </tbody>
       </table>
 
-      <Dialog open={handbookDialogLeaf !== null} onOpenChange={(o) => !o && setHandbookDialogLeaf(null)}>
+      <Dialog
+        open={handbookDialogLeaf !== null}
+        onOpenChange={(o) => !o && setHandbookDialogLeaf(null)}
+      >
         <DialogContent className="max-h-[min(90vh,720px)] max-w-lg overflow-y-auto sm:max-w-xl">
           <DialogHeader>
-            <DialogTitle className="text-sm leading-tight pr-8">
+            <DialogTitle className="pr-8 text-sm leading-tight">
               {handbookDialogLeaf?.pathLabel ?? 'Справочник по листу'}
             </DialogTitle>
           </DialogHeader>
           {handbookDialogLeaf ? (
-            <Workshop2CategoryHandbookGuidance leaf={handbookDialogLeaf} className="border-0 bg-transparent p-0" />
+            <Workshop2CategoryHandbookGuidance
+              leaf={handbookDialogLeaf}
+              className="border-0 bg-transparent p-0"
+            />
           ) : null}
         </DialogContent>
       </Dialog>

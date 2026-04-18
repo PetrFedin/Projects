@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 interface SkeletonProps {
   variant?: 'text' | 'rectangular' | 'circular' | 'card';
@@ -8,34 +8,34 @@ interface SkeletonProps {
   rows?: number; // For text variant
 }
 
-export function Skeleton({ 
-  variant = 'rectangular', 
-  width, 
-  height, 
+export function Skeleton({
+  variant = 'rectangular',
+  width,
+  height,
   className,
-  rows = 1
+  rows = 1,
 }: SkeletonProps) {
   const variants = {
     text: 'h-4 rounded',
     rectangular: 'rounded-lg',
     circular: 'rounded-full',
-    card: 'rounded-2xl h-48'
+    card: 'rounded-2xl h-48',
   };
 
   if (variant === 'text' && rows > 1) {
     return (
-      <div className={cn("space-y-2", className)}>
+      <div className={cn('space-y-2', className)}>
         {Array.from({ length: rows }).map((_, i) => (
           <div
             key={i}
             className={cn(
-              "skeleton",
+              'skeleton',
               variants.text,
-              i === rows - 1 && "w-3/4" // Last row is shorter
+              i === rows - 1 && 'w-3/4' // Last row is shorter
             )}
             style={{
               width: width,
-              height: height || '1rem'
+              height: height || '1rem',
             }}
           />
         ))}
@@ -45,14 +45,10 @@ export function Skeleton({
 
   return (
     <div
-      className={cn(
-        "skeleton",
-        variants[variant],
-        className
-      )}
+      className={cn('skeleton', variants[variant], className)}
       style={{
         width: width || (variant === 'circular' ? height : '100%'),
-        height: height || (variant === 'text' ? '1rem' : '100%')
+        height: height || (variant === 'text' ? '1rem' : '100%'),
       }}
     />
   );
@@ -61,8 +57,8 @@ export function Skeleton({
 // Card skeleton component
 export function CardSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn("bg-white p-4 rounded-2xl border border-slate-100", className)}>
-      <div className="flex items-center gap-3 mb-4">
+    <div className={cn('rounded-2xl border border-slate-100 bg-white p-4', className)}>
+      <div className="mb-4 flex items-center gap-3">
         <Skeleton variant="circular" width={48} height={48} />
         <div className="flex-1">
           <Skeleton variant="text" width="40%" className="mb-2" />

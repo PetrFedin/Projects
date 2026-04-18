@@ -14,7 +14,10 @@ export interface ErpConnectorConfig {
   base?: string;
 }
 
-export async function syncErp(provider: ErpProvider, config: ErpConnectorConfig): Promise<{ ok: boolean; lastSync?: string; error?: string }> {
+export async function syncErp(
+  provider: ErpProvider,
+  config: ErpConnectorConfig
+): Promise<{ ok: boolean; lastSync?: string; error?: string }> {
   try {
     const res = await fetch(`${ERP_API}/sync`, {
       method: 'POST',
