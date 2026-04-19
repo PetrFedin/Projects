@@ -1,0 +1,34 @@
+# Semgrep OSS — статический анализ JS/TS/React для synth-1-full.
+# Монорепозиторий Projects: рабочая директория — _ai-share/synth-1-full
+name: Semgrep (synth-1-full)
+
+on:
+  push:
+    paths:
+      - '_ai-share/synth-1-full/**'
+      - '.github/workflows/semgrep-synth-1-full.yml'
+  pull_request:
+    paths:
+      - '_ai-share/synth-1-full/**'
+      - '.github/workflows/semgrep-synth-1-full.yml'
+
+permissions:
+  contents: read
+  
+concurrency:
+  group: semgrep-synth-1-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  semgrep:
+    name: semgrep scan
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
+    defaults:
+      run:
+        working-directory: _ai-share/synth-1-full
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Semgrep
+        run: semgrep scan --config auto --metrics=off

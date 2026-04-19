@@ -1,0 +1,39 @@
+---
+description: Узкие AI/инструментальные усилители для фронта — PR, CI, MCP, опционально UI-агенты
+alwaysApply: false
+---
+
+# Фронт + агентность — согласованный набор (не дублировать Cursor)
+
+Основной редактор: **Cursor**. Ниже — **дополнения**, не вторые IDE.
+
+## Pull Request (GitHub)
+
+- Выбрать **ровно один** бот ревью PR: **CodeRabbit** *или* **Greptile** (не оба — шум).
+  - CodeRabbit: дифф, настройка фокуса на `*.tsx`, стили, a11y.
+  - Greptile: контекст репозитория, «сломает ли соседей» при общих компонентах.
+- Установка: **GitHub App** в настройках org/repo, не зависимость в `package.json`.
+
+## CI / безопасность фронта
+
+- **Semgrep** в pipeline (XSS, опасный клиентский код, типичные React-паттерны) — cloud или self-hosted по политике. В монорепо Projects: `.github/workflows/semgrep-synth-1-full.yml` (скан из `_ai-share/synth-1-full`). Standalone-клон пакета: `_ai-share/synth-1-full/.github/workflows/semgrep.yml`. При шуме — `.semgrepignore` в **корне сканируемого пакета** (`_ai-share/synth-1-full/.semgrepignore` в монорепо) или сузить `--config` (например `p/typescript`).
+- Зависимости: **Snyk** *или* встроенный **Dependabot** — не обязательно дублировать оба code-SAST.
+
+## Документация (только если реально ведёте)
+
+- **Mintlify** или аналог — публичные/внутренние доки API/продукта.
+- **Storybook** (+ при необходимости визуальные тесты) — источник правды по UI для людей и агентов.
+
+## MCP в Cursor (лимит 1–2, иначе шум)
+
+- **Context7** (или эквивалент «актуальные доки библиотек») — меньше галлюцинаций по Next/React API.
+- **Figma / дизайн-MCP** — по задаче, если есть правила/макеты; стык дизайн → код.
+
+## Отдельные продукты (не в репозитории)
+
+- **v0** — быстрые куски UI; вмерживать вручную под каноны проекта.
+- **Onlook** — визуальный цикл Next+Tailwind только при **реально работающем** доступе: [Onlook Web](https://www.onlook.com) (waitlist/demo) **или** self-host по [developers](https://docs.onlook.com/developers). Импорт Next+Tailwind, правки без новых зависимостей в `package.json`, всё через git. **Если не запускается / нет доступа — не используем**, процесс остаётся на Cursor.
+
+## Пилот одной строкой
+
+`PR: Greptile или CodeRabbit` · `CI: Semgrep` · `deps: Snyk или Dependabot` · `MCP: Context7 + Figma по необходимости`
