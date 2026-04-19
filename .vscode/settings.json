@@ -9,7 +9,8 @@
     "**/*.log": true,
     "pw-demo/playwright-report": true,
     "pw-demo/test-results": true,
-    "pw-demo/screenshots": true
+    "pw-demo/screenshots": true,
+    "synth-1": true
   },
   "search.exclude": {
     "**/.next": true,
@@ -21,7 +22,8 @@
     "**/*.log": true,
     "pw-demo/playwright-report": true,
     "pw-demo/test-results": true,
-    "pw-demo/screenshots": true
+    "pw-demo/screenshots": true,
+    "synth-1": true
   },
   "files.watcherExclude": {
     "**/.next/**": true,
@@ -35,6 +37,7 @@
     "**/playwright-report/**": true,
     "**/test-results/**": true,
     "**/.eslintcache": true,
-    "**/.venv/**": true
+    "**/.venv/**": true,
+    "synth-1/**": true
   }
 }

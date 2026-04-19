@@ -15,12 +15,9 @@
 7. **Standardized Response**: `GenericResponse[T]`, `SynthBaseException`, Request ID middleware.
 8. **Integrations** (`app/integrations/`): Marketplace connectors (Shopify, Ozon, WB), C1C, CRPT.
 
-## Frontend (synth-1)
+## Frontend (канон: `_ai-share/synth-1-full`)
 
-1. **Unified Context**: `B2BStateProvider`, seamless data flow.
-2. **Repository Pattern**: Data abstraction via `/lib/repositories`.
-3. **Layered Design**: UI (React) → State (Context/Hooks) → Business Logic (Lib/Rules) → Data (Repositories).
-4. **AI**: Rule-based first, embeddings/search second, LLM for generation.
+Next.js 15 App Router, слои UI → hooks/lib → API routes / BFF. Политика путей: **`docs/MIGRATION_FULL_CUTOVER.md`**, **`_ai-share/synth-1-full/SOURCE_OF_TRUTH.md`**. Корневой каталог **`synth-1/`** в монорепо не используется; фрагменты в корневом **`src/`** (TS без приложения) — legacy, не источник правды.
 
 ## Shared Principles
 
