@@ -1,6 +1,8 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useSearchParamsNonNull } from '@/hooks/use-search-params-non-null';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState, Suspense } from 'react';
 import Image from 'next/image';
 import { useUIState } from '@/providers/ui-state';
@@ -19,43 +21,6 @@ import LoyaltyCard from '@/components/user/loyalty-card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import {
-  Edit,
-  User,
-  Settings,
-  Palette,
-  BarChart2,
-  Trophy,
-  Scale,
-  Shirt,
-  CreditCard,
-  Rocket,
-  Calendar,
-  ShoppingBag,
-  Heart,
-  Bell,
-  Zap,
-  Search,
-  Briefcase,
-  Truck,
-  MessageSquare,
-  Users,
-  TrendingDown,
-  Plus,
-  X,
-  Instagram,
-  Camera,
-  MoreHorizontal,
-  Sparkles,
-  Gift,
-  TrendingUp,
-  Gem,
-  Info,
-  ArrowRight,
-  Fingerprint,
-  Brain,
-  Clock,
-} from 'lucide-react';
 import {
   AreaChart,
   Area,
@@ -130,15 +95,23 @@ import { useToast } from '@/hooks/use-toast';
 import { Copy, Mail } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { RegistryPageShell } from '@/components/design-system';
 
+import { clientMeNuOrderShell } from '@/lib/ui/client-me-nuorder-shell';
 import { UserCabinetLayout } from './_components/UserCabinetLayout';
 import { UserCabinetTabsBar } from './_components/UserCabinetTabsBar';
 import { DashboardTab } from './_components/DashboardTab';
 import { MyLooksTab } from './_components/MyLooksTab';
 import { Analytics360Tab } from './_components/Analytics360Tab';
-import { ProfilePreferences } from './_components/ProfilePreferences';
 import { CareerTab } from './_components/CareerTab';
+import { ClientMeMainGroupStrip } from './_components/ClientMeMainGroupStrip';
+import {
+  parseClientMeTabParam,
+  sectionToGroup,
+  getSubTabsForGroup,
+  GROUP_DEFAULT_SECTION,
+  type ClientMeMainGroup,
+  type ClientMeSectionId,
+} from './_components/client-me-tab-model';
 
 // --- Helper Components for Recommendations ---
 
@@ -147,8 +120,9 @@ function UserProfileContent() {
   const { user, loading, signIn } = useAuth();
   const activity = useUserActivity();
   const { stats: orderStats } = useUserOrders();
+  const router = useRouter();
+  const pathname = usePathname() ?? '/client/me';
   const searchParams = useSearchParamsNonNull();
-  const defaultTab = searchParams.get('tab') || 'dashboard';
   const [userSettings, setUserSettings] = useState(() => readUserSettings());
   const [profileSubTab, setProfileSubTab] = useState<
     'profile' | 'familySync' | 'measurements' | 'productPrefs' | 'audit'
@@ -176,14 +150,27 @@ function UserProfileContent() {
     return () => window.removeEventListener(USER_SETTINGS_UPDATED_EVENT, sync);
   }, []);
 
-  // Calculate counts for tabs using unified activity hook
   const tabCounts = {
     looks: activity.lookboardsCount,
     wardrobe: activity.wishlistCount,
     preorders: (preOrders || []).length,
-    comparisons: 0, // Will be calculated
-    achievements: 0, // Will be calculated
+    comparisons: 0,
+    achievements: 0,
     payments: activity.loyaltyPoints,
+  };
+
+  const section = parseClientMeTabParam(searchParams.get('tab'));
+  const group = sectionToGroup(section);
+  const subTabs = getSubTabsForGroup(group, tabCounts);
+
+  const setSection = (s: ClientMeSectionId) => {
+    const next = new URLSearchParams(searchParams.toString());
+    next.set('tab', s);
+    router.replace(`${pathname}?${next.toString()}`, { scroll: false });
+  };
+
+  const setGroup = (g: ClientMeMainGroup) => {
+    setSection(GROUP_DEFAULT_SECTION[g]);
   };
 
   // Auto-login as full client if not logged in
@@ -268,6 +255,7 @@ function UserProfileContent() {
 
   return (
     <UserCabinetLayout
+      hideBreadcrumb
       title="Профиль клиента"
       description="Персональные данные, операционные вкладки и аналитика в едином рабочем контуре."
       actions={
@@ -281,42 +269,19 @@ function UserProfileContent() {
         </>
       }
     >
-      <Tabs defaultValue={defaultTab} className="w-full">
-        <UserCabinetTabsBar
-          scrollAreaTestId="user-cabinet-main-tabs"
-          tabs={[
-            { value: 'profile', icon: User, label: 'Профиль' },
-            { value: 'dashboard', icon: BarChart2, label: 'Обзор' },
-            {
-              value: 'smart-wardrobe',
-              icon: Sparkles,
-              label: 'ИИ-гардероб',
-              iconColor: 'text-accent-primary',
-            },
-            { value: 'looks', icon: Palette, label: 'Образы', count: tabCounts.looks },
-            { value: 'wardrobe', icon: Shirt, label: 'Гардероб', count: tabCounts.wardrobe },
-            { value: 'calendar', icon: Calendar, label: 'Планер' },
-            { value: 'preorders', icon: Rocket, label: 'Предзаказы', count: tabCounts.preorders },
-            { value: 'comparisons', icon: Scale, label: 'Сравнения', count: tabCounts.comparisons },
-            { value: 'achievements', icon: Trophy, label: 'Достижения' },
-            {
-              value: 'payments',
-              icon: CreditCard,
-              label: 'Финансы',
-              count: tabCounts.payments,
-              badgeVariant: 'default',
-            },
-            { value: 'analytics', icon: BarChart2, label: 'Аналитика' },
-            { value: 'tracking', icon: Truck, label: 'Логистика' },
-            { value: 'reviews', icon: MessageSquare, label: 'Отзывы' },
-            { value: 'referrals', icon: Users, label: 'Контакты' },
-            { value: 'career', icon: Briefcase, label: 'Карьера' },
-            { value: 'price-alerts', icon: TrendingDown, label: 'Рынок' },
-            { value: 'settings', icon: Settings, label: 'Настройки' },
-          ]}
-        />
+      <Tabs
+        value={section}
+        onValueChange={(v) => setSection(parseClientMeTabParam(v))}
+        className="w-full"
+      >
+        <div className="space-y-2">
+          <ClientMeMainGroupStrip activeGroup={group} onSelectGroup={setGroup} />
+          {subTabs ? (
+            <UserCabinetTabsBar scrollAreaTestId="user-cabinet-sub-tabs" tabs={subTabs} />
+          ) : null}
+        </div>
 
-        <TabsContent value="dashboard" className="py-2 duration-300 animate-in fade-in-50">
+        <TabsContent value="dashboard" className={cabinetSurface.clientMeTabContent}>
           <DashboardTab
             overviewSubTab={overviewSubTab}
             setOverviewSubTab={setOverviewSubTab}
@@ -333,76 +298,61 @@ function UserProfileContent() {
             orderStats={orderStats}
           />
         </TabsContent>
-        <TabsContent value="smart-wardrobe" className="py-6 duration-300 animate-in fade-in-50">
+        <TabsContent value="smart-wardrobe" className={cabinetSurface.clientMeTabContent}>
           <AIDashboard />
         </TabsContent>
-        <TabsContent value="looks" className="py-6 duration-300 animate-in fade-in-50">
+        <TabsContent value="looks" className={cabinetSurface.clientMeTabContent}>
           <MyLooksTab />
         </TabsContent>
-        <TabsContent value="wardrobe" className="py-6 duration-300 animate-in fade-in-50">
+        <TabsContent value="wardrobe" className={cabinetSurface.clientMeTabContent}>
           <WardrobePageContent />
         </TabsContent>
-        <TabsContent value="calendar" className="py-6 duration-300 animate-in fade-in-50">
+        <TabsContent value="calendar" className={cabinetSurface.clientMeTabContent}>
           <StyleCalendar />
         </TabsContent>
-        <TabsContent value="preorders" className="py-6 duration-300 animate-in fade-in-50">
+        <TabsContent value="preorders" className={cabinetSurface.clientMeTabContent}>
           <MyPreorders />
         </TabsContent>
-        <TabsContent value="comparisons" className="py-6 duration-300 animate-in fade-in-50">
+        <TabsContent value="comparisons" className={cabinetSurface.clientMeTabContent}>
           <SavedComparisons />
         </TabsContent>
-        <TabsContent value="achievements" className="py-6 duration-300 animate-in fade-in-50">
+        <TabsContent value="achievements" className={cabinetSurface.clientMeTabContent}>
           <UnifiedAchievements />
         </TabsContent>
-        <TabsContent value="payments" className="py-6 duration-300 animate-in fade-in-50">
+        <TabsContent value="payments" className={cabinetSurface.clientMeTabContent}>
           <PaymentsPageContent />
         </TabsContent>
-        <TabsContent value="profile" className="py-2 duration-300 animate-in fade-in-50">
+        <TabsContent value="profile" className={cabinetSurface.clientMeTabContent}>
           <div className="space-y-4">
             <Tabs value={profileSubTab} onValueChange={(v) => setProfileSubTab(v as any)}>
-              <TabsList className={cn(cabinetSurface.tabsList, 'w-full shadow-inner')}>
+              <TabsList className={cn(cabinetSurface.tabsList, 'w-full flex-wrap shadow-inner')}>
                 <TabsTrigger
                   value="profile"
-                  className={cn(
-                    cabinetSurface.tabsTrigger,
-                    'data-[state=active]:text-accent-primary h-7'
-                  )}
+                  className={cn(cabinetSurface.tabsTrigger, 'data-[state=active]:text-accent-primary')}
                 >
                   Основные данные
                 </TabsTrigger>
                 <TabsTrigger
                   value="measurements"
-                  className={cn(
-                    cabinetSurface.tabsTrigger,
-                    'data-[state=active]:text-accent-primary h-7'
-                  )}
+                  className={cn(cabinetSurface.tabsTrigger, 'data-[state=active]:text-accent-primary')}
                 >
                   Параметры
                 </TabsTrigger>
                 <TabsTrigger
                   value="familySync"
-                  className={cn(
-                    cabinetSurface.tabsTrigger,
-                    'data-[state=active]:text-accent-primary h-7'
-                  )}
+                  className={cn(cabinetSurface.tabsTrigger, 'data-[state=active]:text-accent-primary')}
                 >
                   Семья
                 </TabsTrigger>
                 <TabsTrigger
                   value="productPrefs"
-                  className={cn(
-                    cabinetSurface.tabsTrigger,
-                    'data-[state=active]:text-accent-primary h-7'
-                  )}
+                  className={cn(cabinetSurface.tabsTrigger, 'data-[state=active]:text-accent-primary')}
                 >
                   Предпочтения
                 </TabsTrigger>
                 <TabsTrigger
                   value="audit"
-                  className={cn(
-                    cabinetSurface.tabsTrigger,
-                    'data-[state=active]:text-accent-primary h-7'
-                  )}
+                  className={cn(cabinetSurface.tabsTrigger, 'data-[state=active]:text-accent-primary')}
                 >
                   История
                 </TabsTrigger>
@@ -412,10 +362,10 @@ function UserProfileContent() {
             {profileSubTab === 'profile' && (
               <div className="space-y-4">
                 <div className="duration-500 animate-in fade-in slide-in-from-top-4">
-                  <h2 className="text-xl font-black uppercase tracking-tight text-foreground md:text-2xl">
+                  <h2 className="text-xl font-black uppercase tracking-tight text-text-primary md:text-2xl">
                     Добро пожаловать, {displayUser?.displayName?.split(' ')[0] || 'Елена'}!
                   </h2>
-                  <p className="text-sm font-medium text-muted-foreground md:text-base">
+                  <p className="text-sm font-medium text-text-secondary md:text-base">
                     Рады видеть вас снова. Вот актуальное состояние вашего профиля.
                   </p>
                 </div>
@@ -426,37 +376,31 @@ function UserProfileContent() {
             <ProfileForm user={displayUser} section={profileSubTab} />
           </div>
         </TabsContent>
-        <TabsContent value="analytics" className="py-6 duration-300 animate-in fade-in-50">
-          <div className="space-y-6">
-            {/* Enhanced Data Visualization - Clear and comprehensive data */}
+        <TabsContent value="analytics" className={cabinetSurface.clientMeTabContent}>
+          <div className="space-y-4">
             <EnhancedDataVisualization />
-
-            {/* Automated Insights - AI-powered insights */}
             <AutomatedInsightsPanel />
-
-            {/* Predictive Analytics - Forecasts and Trends */}
             <PredictiveAnalytics />
-
             <Analytics360Tab user={displayUser} />
             <AdvancedAnalytics />
           </div>
         </TabsContent>
-        <TabsContent value="tracking" className="py-6 duration-300 animate-in fade-in-50">
+        <TabsContent value="tracking" className={cabinetSurface.clientMeTabContent}>
           <OrderTracking />
         </TabsContent>
-        <TabsContent value="reviews" className="py-6 duration-300 animate-in fade-in-50">
+        <TabsContent value="reviews" className={cabinetSurface.clientMeTabContent}>
           <MyReviews />
         </TabsContent>
-        <TabsContent value="referrals" className="py-6 duration-300 animate-in fade-in-50">
+        <TabsContent value="referrals" className={cabinetSurface.clientMeTabContent}>
           <ReferralProgram />
         </TabsContent>
-        <TabsContent value="career" className="py-2 duration-300 animate-in fade-in-50">
+        <TabsContent value="career" className={cabinetSurface.clientMeTabContent}>
           <CareerTab user={displayUser} />
         </TabsContent>
-        <TabsContent value="price-alerts" className="py-6 duration-300 animate-in fade-in-50">
+        <TabsContent value="price-alerts" className={cabinetSurface.clientMeTabContent}>
           <PriceAlerts />
         </TabsContent>
-        <TabsContent value="settings" className="py-6 duration-300 animate-in fade-in-50">
+        <TabsContent value="settings" className={cabinetSurface.clientMeTabContent}>
           <SettingsForm user={displayUser} />
         </TabsContent>
       </Tabs>
@@ -481,13 +425,15 @@ export default function UserProfilePage() {
 
 function ProfileSystemState({ title, description }: { title: string; description: string }) {
   return (
-    <RegistryPageShell className="max-w-5xl py-12">
-      <Card className="border-border-subtle bg-bg-surface shadow-sm">
-        <CardContent className="flex flex-col items-center gap-3 py-10 text-center">
-          <p className="text-text-primary text-base font-semibold">{title}</p>
-          <p className="text-text-secondary max-w-xl text-sm">{description}</p>
-        </CardContent>
-      </Card>
-    </RegistryPageShell>
+    <CabinetPageContent maxWidth="full" className="space-y-3 px-0 py-2 pb-16">
+      <div className={clientMeNuOrderShell.canvas} data-testid="client-me-nuorder-shell-loading">
+        <Card className="border-[#c5ccd6] bg-white shadow-none">
+          <CardContent className="flex flex-col items-center gap-2 py-8 text-center">
+            <p className="text-[#1a2433] text-base font-semibold">{title}</p>
+            <p className="max-w-xl text-sm text-[#5b6675]">{description}</p>
+          </CardContent>
+        </Card>
+      </div>
+    </CabinetPageContent>
   );
 }
