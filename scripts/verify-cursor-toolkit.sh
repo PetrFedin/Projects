@@ -39,7 +39,20 @@ echo "  mcp-server-git / mcp-server-fetch (pip):"
 pip3 show mcp-server-git mcp-server-fetch 2>/dev/null | grep -E '^Name:|^Version:' || echo "  (pip missing)"
 
 echo ""
-echo "==> 6. User MCP config"
+echo "==> 6. Project .cursor/mcp.json — без machine-local PATH (Semgrep)"
+if grep -qE '"/Users/|"/home/|"env".*"PATH".*Users' "$ROOT/.cursor/mcp.json" 2>/dev/null; then
+  echo "ERROR: machine-specific paths in $ROOT/.cursor/mcp.json"
+  exit 1
+fi
+if ! grep -q 'mcp-run-semgrep.sh' "$ROOT/.cursor/mcp.json" 2>/dev/null; then
+  echo "WARN: expected semgrep wrapper in .cursor/mcp.json"
+fi
+if [[ ! -x "$ROOT/scripts/mcp-run-semgrep.sh" ]]; then
+  echo "WARN: scripts/mcp-run-semgrep.sh not executable"
+fi
+
+echo ""
+echo "==> 7. User MCP config"
 if [[ -f "$HOME/.cursor/mcp.json" ]]; then
   python3 -c "import json; d=json.load(open('$HOME/.cursor/mcp.json')); print('servers:', list(d.get('mcpServers',{}).keys()))" 2>/dev/null || grep -o '"filesystem"\|"git"\|"fetch"\|"agent-browser"' "$HOME/.cursor/mcp.json" | sort -u
 else

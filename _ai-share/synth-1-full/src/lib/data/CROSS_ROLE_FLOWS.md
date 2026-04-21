@@ -155,6 +155,7 @@
 | Класс действия | Примеры в продукте | Как доказать изменение в рантайме | Сейчас в репозитории |
 |----------------|-------------------|-----------------------------------|----------------------|
 | **Submit / RPC** | Отправка формы, `POST` export | `waitForResponse` + assert тела/виджета результата | `b2b-create-order-platform-export-ui`, `b2b-export-order-api` |
+| **Статус заказа (бренд → общий read-model)** | `PATCH` v1 `/operational-orders/:id/status` (только brand), GET list/detail у shop | `PATCH` → `GET` detail/list с тем же `status` | `b2b-operational-orders-api` — `PATCH v1 status (brand) → GET detail+list (shop) show same status` |
 | **Сохранение поля (API)** | Operational note, internal note | `PATCH` → `GET` того же ресурса | `b2b-operational-orders-api` (два PATCH-теста) |
 | **Переход по связи** | Ссылка Brand→Shop инвентарь | `waitForURL` / assert `href` + видимость целевой страницы | `unified-ecosystem-smoke`, `shop-erp-analytics-strip` (сегменты) |
 | **Переключение среза аналитики** | Тот же layout, другой `data-testid` ссылки | Видимость полосы `shop-analytics-segment-nav` + пар ссылок | `shop-erp-analytics-strip` |
@@ -173,7 +174,7 @@
 |-------------------|-----------------|-------------------------|
 | Чаты / треды | — | E2E с двумя контекстами или контракт API сообщений |
 | Задачи / дедлайны (календарь) | — | Событие `calendar` + отображение у второй роли |
-| B2B заказ (создание → подтверждение) | operational orders list/detail, export API/UI, catalog | Подтверждение статуса «от бренда» в UI второй стороны |
+| B2B заказ (создание → подтверждение) | operational orders list/detail, export API/UI, catalog; **PATCH v1 status** (бренд) → тот же статус в GET у ритейлера (`b2b-operational-orders-api`) | Полное зеркалирование в **UI** второй стороны без API — по-прежнему пробел; сквозная проверка статуса на уровне **HTTP v1** закрыта |
 | Передача в производство | — | PO create + событие + экран фабрики |
 | Материалы / RFQ | — | RFQ flow |
 | Логистика / отгрузка | unified smoke (ссылки), ERP strip | Трекинг номера отправления кросс-роль |
